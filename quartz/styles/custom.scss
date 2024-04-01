@@ -1,3 +1,119 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// CSS is published in public/ 
+$fonts-dir: '/static/fonts'; 
+$font-formats: (
+  'truetype', 
+  'opentype'
+); // Supported font formats
+
+@mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none) {
+  @font-face {
+    font-family: $font-family;
+    // font-weight: $font-weight;
+    // font-style: $font-style;
+    font-optical-sizing: auto; 
+    font-feature-settings: $font-features; 
+
+    src: url('#{$fonts-dir}/#{$file-name}#{$ext}')
+  }
+}
+
+@include font-face('EB Garamond', 'EBGaramond-VariableFont_wght', '.ttf', "onum");
+@include font-face('EB Garamond SC', 'EBGaramondSC08-Regular', '.otf'); // Range ?
+@include font-face('FiraCode', 'FiraCode-VF', '.ttf');
+@include font-face('BadHandwriting', 'BadHandwriting', '.ttf'); 
+
+
+body, .published-container {
+  --font-monospace: "FiraCode", 'JetBrains Mono', 'Courier New', monospace;
+  --font-monospace-theme: "FiraCode", 'JetBrains Mono', 'Courier New', monospace;
+
+  --font-text-theme: 'EB Garamond', Garamond, serif;
+  --font-text: 'EB Garamond', Garamond, serif;
+  --font-text-sc: 'EB Garamond SC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
+  --font-text-swash: 'EB Garamond:+swsh', cursive;
+  --font-bad-handwriting: "BadHandwriting";
+
+  font-family: var(--font-text);
+  /* Use a '1' which doesn't look like an 'l' */
+  font-feature-settings: "cv11"; 
+}
+
+
+
+/* Headings should have full-height numbers */
+// TODO takes a while to load
+h1,
+h2,
+h3 {
+  font-feature-settings: "onum" 0, "lnum" 1;
+}
+
+/* Set monospace font for code blocks, inline code, etc. */
+code, pre {
+  font-family: var(--font-monospace);
+}
+
+/* Wrap links properly */
+a {
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+/* Allow inline emoji to resize with the text */
+.emoji {
+  max-width: 1em;
+  max-height: 1em;
+  width: auto;
+  height: auto;
+}
+
+/* Center the site name under the pond gif */
+.site-body-left-column-site-name {
+    text-align: center;
+}
+
+/* Specific elements and features */
+.gold-script {
+  font-family: var(--font-text-swash);
+  font-feature-settings: "swsh" 1;
+  color: light-dark(#DAA520, #FFD700); /* Gold */
+}
+
+
+.bad-handwriting {
+  font-family: var(--font-bad-handwriting);
+  text-align: center;
+  font-style: italic;
+  font-size: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.caption {
+  text-align: center;
+  color: light-dark(#666, #BEBEBE); /* dark grey */
+  font-style: normal;
+  font-size: 0.8em; /* smaller than the surrounding text */
+  margin-top: 0.5em; /* Space above the caption */
+  margin-bottom: 1em; /* Space below the caption */
+}
+
+/* Hide the "Powered by Obsidian Publish" footer */
+.site-footer a {
+  display: none;
+}
+
+.small-caps {
+  font-family: var(--font-text-sc);
+  color: inherit;
+  font-style: inherit;
+  -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
+}
+
+/* Remove the external link icon. */
+.external-icon {
+    display: none;
+}

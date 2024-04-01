@@ -1,7 +1,7 @@
 ---
 permalink: alignment-phd
+publish: "true"
 ---
-
 > [!note] Originally posted [on LessWrong](https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd) on June 30<sup>th</sup>, 2022.
 
 This post has been recorded as part of the LessWrong Curated Podcast, and can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).

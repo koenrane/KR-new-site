@@ -1,5 +1,6 @@
 ---
 permalink: bruce-wayne-and-the-cost-of-inaction
+publish: "true"
 ---
 
 > [!note] Originally posted [to LessWrong](https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction) on September 9<sup>th</sup>, 2022.

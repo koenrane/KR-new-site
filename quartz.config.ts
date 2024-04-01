@@ -19,7 +19,6 @@ const config: QuartzConfig = {
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "published", // What to display on listings
     theme: {
-      fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
         header: "EB Garamond",
@@ -65,18 +64,20 @@ const config: QuartzConfig = {
         keepBackground: false,
       }),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
-      Plugin.GitHubFlavoredMarkdown(),
+      // Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
     ],
-    filters: [Plugin.RemoveDrafts()],
+    filters: [Plugin.ExplicitPublish(),],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
       Plugin.FolderPage(),
-      Plugin.TagPage(),
+
+      // emits dedicated pages for each tag used in the content
+      Plugin.TagPage(), 
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,

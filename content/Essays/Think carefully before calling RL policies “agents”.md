@@ -1,5 +1,6 @@
 ---
 permalink: RL-trains-policies-not-agents
+publish: "true"
 ---
 
 > [!note] Originally posted [on LessWrong](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents) on June 1<sup>st</sup>, 2023.
