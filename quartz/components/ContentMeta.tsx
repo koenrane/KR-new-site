@@ -30,7 +30,9 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       const segments: (string | JSX.Element)[] = []
 
       if (fileData.dates) {
-        segments.push(formatDate(getDate(cfg, fileData)!, cfg.locale))
+        const formattedDate = formatDate(getDate(cfg, fileData)!, cfg.locale)
+        const dateStr = "Published on " + formattedDate
+        segments.push(dateStr)
       }
 
       // Display reading time if enabled

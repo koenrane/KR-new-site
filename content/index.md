@@ -1,6 +1,10 @@
 ---
-title: Welcome to Quartz
+permalink: welcome
+title: Welcome to the Pond
 ---
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+Hello! I’m TurnTrout, and this is my pond. Stay a while!
+
+![Koi fish swimming in a pond.](pond-gif.gif)
+
+> [!todo] To do: Fill out landing page
