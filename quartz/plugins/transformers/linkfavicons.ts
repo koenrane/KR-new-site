@@ -11,7 +11,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
             visit(tree, 'element', (node) => {
               if (
                 node.tagName === 'a' &&
-                node?.properties?.className.includes('external')
+                node?.properties?.className?.includes('external')
               ) {
                 const linkNode = node;
                 const url = new URL(linkNode.properties.href);

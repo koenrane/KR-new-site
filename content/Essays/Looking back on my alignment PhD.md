@@ -94,7 +94,7 @@ I did not feel ready, and I was not ready, and I should have done it anyways. Bu
 
 _Figured this out this spring. I’m not sure if I’ve fixed the general error yet._
 
-After I became more optimistic about alignment due to having a sharper understanding of the overall problem and of how human values formed to begin with, I also became more pessimistic about _other_ approaches, like IDA/ELK/RRM/AUP/\[anything else with a three-letter acronym\]. But my new understanding didn’t seem to present any _specific_ objections. So why did I suddenly feel worse about these older ideas?
+After I became more optimistic about alignment due to having a sharper understanding of the overall problem and of how human values formed to begin with, I also became more pessimistic about _other_ approaches, like IDA, ELK, RRM, AUP, or anything else with a three-letter acronym. But my new understanding didn’t seem to present any _specific_ objections. So why did I suddenly feel worse about these older ideas?
 
 I _suspect_ that part of the explanation is: I hadn’t wanted to admit how confused I was about alignment, and I (implicitly) clutched to “but it _could_ work”-style hopefulness. But now that I had a _different_ reason to hope, resting upon a more solid and mechanistic understanding, _now_ it was apparently emotionally safe for me to admit I didn’t have much hope at all for the older approaches. 
 
