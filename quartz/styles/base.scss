@@ -1,8 +1,7 @@
 @use "./variables.scss" as *;
 @use "./syntax.scss";
 @use "./callouts.scss";
-// @import "test";
-// @import "publish";
+@import "publish";
 
 html {
   scroll-behavior: smooth;
