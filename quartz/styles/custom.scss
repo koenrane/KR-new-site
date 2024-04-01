@@ -10,8 +10,6 @@ $font-formats: (
 @mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none) {
   @font-face {
     font-family: $font-family;
-    // font-weight: $font-weight;
-    // font-style: $font-style;
     font-optical-sizing: auto; 
     font-feature-settings: $font-features; 
 
@@ -19,8 +17,8 @@ $font-formats: (
   }
 }
 
-@include font-face('EB Garamond', 'EBGaramond-VariableFont_wght', '.ttf', "onum");
-@include font-face('EB Garamond SC', 'EBGaramondSC08-Regular', '.otf'); // Range ?
+@include font-face('EBGaramond', 'EBGaramond-VariableFont_wght', '.ttf', "onum");
+@include font-face('EBGaramondSC', 'EBGaramondSC08-Regular', '.otf'); 
 @include font-face('FiraCode', 'FiraCode-VF', '.ttf');
 @include font-face('BadHandwriting', 'BadHandwriting', '.ttf'); 
 
@@ -29,9 +27,9 @@ body, .published-container {
   --font-monospace: "FiraCode", 'JetBrains Mono', 'Courier New', monospace;
   --font-monospace-theme: "FiraCode", 'JetBrains Mono', 'Courier New', monospace;
 
-  --font-text-theme: 'EB Garamond', Garamond, serif;
-  --font-text: 'EB Garamond', Garamond, serif;
-  --font-text-sc: 'EB Garamond SC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
+  --font-text-theme: 'EBGaramond', Garamond, serif;
+  --font-text: 'EBGaramond', Garamond, serif;
+  --font-text-sc: 'EBGaramondSC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
   --font-text-swash: 'EB Garamond:+swsh', cursive;
   --font-bad-handwriting: "BadHandwriting";
 
@@ -99,11 +97,6 @@ a {
   font-size: 0.8em; /* smaller than the surrounding text */
   margin-top: 0.5em; /* Space above the caption */
   margin-bottom: 1em; /* Space below the caption */
-}
-
-/* Hide the "Powered by Obsidian Publish" footer */
-.site-footer a {
-  display: none;
 }
 
 .small-caps {
