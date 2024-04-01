@@ -11,13 +11,14 @@ $font-formats: (
   @font-face {
     font-family: $font-family;
     font-optical-sizing: auto; 
-    font-feature-settings: $font-features; 
+    font-feature-settings: "cv11" 1, "onum" 1;
 
     src: url('#{$fonts-dir}/#{$file-name}#{$ext}')
   }
 }
 
-@include font-face('EBGaramond', 'EBGaramond-VariableFont_wght', '.ttf', "onum");
+@include font-face('EBGaramond', 'EBGaramond08-Regular', '.otf');
+@include font-face('EBGaramondItalics', 'EBGaramond08-Italics', '.otf');
 @include font-face('EBGaramondSC', 'EBGaramondSC08-Regular', '.otf'); 
 @include font-face('FiraCode', 'FiraCode-VF', '.ttf');
 @include font-face('BadHandwriting', 'BadHandwriting', '.ttf'); 
@@ -29,16 +30,21 @@ body, .published-container {
 
   --font-text-theme: 'EBGaramond', Garamond, serif;
   --font-text: 'EBGaramond', Garamond, serif;
+  --font-text-italic: 'EBGaramondItalics', Garamond, serif;
+
   --font-text-sc: 'EBGaramondSC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
   --font-text-swash: 'EB Garamond:+swsh', cursive;
   --font-bad-handwriting: "BadHandwriting";
 
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
-  font-feature-settings: "cv11"; 
+  font-feature-settings: "cv11" 1, "onum" 1; 
 }
 
-
+em {
+  font-style: italic;
+  font-family: var(--font-text-italic);
+}
 
 /* Headings should have full-height numbers */
 // TODO takes a while to load
@@ -116,7 +122,8 @@ a {
 .favicon {
     width: .95em;
     height: .95em;
-    margin-right: 0.05em;
-    vertical-align: -100%;
+    margin-right: 0.02em;
+    vertical-align: -35%;
     filter: saturate(50%);
+    margin-bottom: -.07em;
 }

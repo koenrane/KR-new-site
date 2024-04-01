@@ -21,9 +21,6 @@ const config: QuartzConfig = {
     theme: {
       cdnCaching: true,
       typography: {
-        header: "EB Garamond",
-        body: "EB Garamond",
-        code: "Fira Code",
       },
       colors: {
         lightMode: {
