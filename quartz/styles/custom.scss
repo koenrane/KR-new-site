@@ -18,7 +18,7 @@ $font-formats: (
 }
 
 @include font-face('EBGaramond', 'EBGaramond08-Regular', '.otf');
-@include font-face('EBGaramondItalics', 'EBGaramond08-Italics', '.otf');
+@include font-face('EBGaramondItalic', 'EBGaramond08-Italic', '.otf');
 @include font-face('EBGaramondSC', 'EBGaramondSC08-Regular', '.otf'); 
 @include font-face('FiraCode', 'FiraCode-VF', '.ttf');
 @include font-face('BadHandwriting', 'BadHandwriting', '.ttf'); 
@@ -30,7 +30,7 @@ body, .published-container {
 
   --font-text-theme: 'EBGaramond', Garamond, serif;
   --font-text: 'EBGaramond', Garamond, serif;
-  --font-text-italic: 'EBGaramondItalics', Garamond, serif;
+  --font-text-italic: 'EBGaramondItalic', Garamond, serif;
 
   --font-text-sc: 'EBGaramondSC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
   --font-text-swash: 'EB Garamond:+swsh', cursive;
@@ -39,6 +39,10 @@ body, .published-container {
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings: "cv11" 1, "onum" 1; 
+
+  /* Text which is meant to be read thoroughly should
+   * have a shorter character limit to improve readability */
+   max-width: fit-content(60ch);
 }
 
 em {
@@ -47,7 +51,6 @@ em {
 }
 
 /* Headings should have full-height numbers */
-// TODO takes a while to load
 h1,
 h2,
 h3 {
@@ -65,6 +68,11 @@ a {
   word-break: break-word;
   font-weight: 500;
   hyphens: auto;
+  margin-top: 0em;
+}
+
+sup {
+  line-height: 0; // Don't push other lines away
 }
 
 /* Allow inline emoji to resize with the text */
@@ -126,4 +134,5 @@ a {
     vertical-align: -35%;
     filter: saturate(50%);
     margin-bottom: -.07em;
+    margin-top: -.07em;
 }
