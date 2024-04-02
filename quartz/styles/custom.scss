@@ -1,12 +1,9 @@
 @use "./base.scss";
+@use "./variables.scss" as *;
 @use "_table.scss";
 
 // CSS is published in public/ 
 $fonts-dir: '/static/fonts'; 
-$font-formats: (
-  'truetype', 
-  'opentype'
-); // Supported font formats
 
 @mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none) {
   @font-face {
@@ -41,9 +38,10 @@ body, .published-container {
   /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings: "cv11" 1, "onum" 1; 
 
+
   /* Text which is meant to be read thoroughly should
    * have a shorter character limit to improve readability */
-   max-width: fit-content(60ch);
+   // max-width: fit-content(60ch);
 }
 
 em {
@@ -56,11 +54,17 @@ h1,
 h2,
 h3 {
   font-feature-settings: "onum" 0, "lnum" 1;
+  color: var(--color-header);
 }
 
 /* Set monospace font for code blocks, inline code, etc. */
 code, pre {
   font-family: var(--font-monospace);
+}
+
+/* Center the site name under the pond gif */
+.page-title {
+    text-align: center;
 }
 
 /* Wrap links properly */
@@ -76,6 +80,16 @@ sup {
   line-height: 0; // Don't push other lines away
 }
 
+// The image in the title 
+@media all and (max-width: $fullPageWidth) {
+    .header-img {
+        margin-right: .9rem;
+        margin-left: .5rem;
+        width: 2em;
+        vertical-align: -100%;
+    }
+}
+
 /* Allow inline emoji to resize with the text */
 .emoji {
   max-width: 1em;
@@ -84,16 +98,15 @@ sup {
   height: auto;
 }
 
-/* Center the site name under the pond gif */
-.site-body-left-column-site-name {
-    text-align: center;
-}
 
 /* Specific elements and features */
 .gold-script {
   font-family: var(--font-text-swash);
   font-feature-settings: "swsh" 1;
   color: light-dark(#DAA520, #FFD700); /* Gold */
+
+  // Make it easier to see on light themes
+  -webkit-text-stroke: .2px light-dark(black, transparent);
 }
 
 
