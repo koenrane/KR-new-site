@@ -90,6 +90,7 @@ Gentle deceleration woke him from his thoughts. As father and son left the car, 
 
 They were home.
 
+![[fountain.webp]]
 # 2: The World is Messy
 
 Thomas and Bruce passed through carven mahogany doors into a warm, high-ceilinged room of pale marble floor. Opposite them burned a fireplace of hardwood mantel and brick hearth. Family legend held that its fire had burned uninterrupted through the last century. For his part, Thomas had never seen it darkened. 
