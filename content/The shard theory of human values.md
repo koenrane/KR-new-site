@@ -23,7 +23,8 @@ _Terminological note:_ We use “value” to mean _a contextual influence on d
 
 To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#app-b). The main downside is that the definition is relatively broad—most people wouldn’t list “donuts” among their “values.” To avoid this counter-intuitiveness, we would refer to a “donut shard” instead of a “donut value.” (“Shard” and associated terminology are defined in [section II](#shaping).)
 
-# <a id="1-assumptions"></a>I. Neuroscientific assumptions
+<a id="1-assumptions"></a>
+# I. Neuroscientific assumptions
 
 The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#app-c).)
 
@@ -35,7 +36,7 @@ Thus, we infer that [human values & biases are inaccessible to the genome](http
 >   
 > \[This leaves us with\] a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](ttps://www.readthesequences.com/Occams-Razor)where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](ttps://arbital.com/p/ontology_identification/)Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
 
-**Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is [constantly predicting,](ttps://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex)to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
+**Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is [constantly predicting](ttps://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex)to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
 
 In other words, the brain engages in self-supervised predictive learning: Predict what happens next, then see what actually happened, and update to do better next time.
 
@@ -49,7 +50,8 @@ _Definition._ Consider the context available to a circuit within the brain. Any
 
 _Summary._ Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: self-supervised predictive loss (we view this as building your world model; see [Appendix A](#app-a) and reward (we view this as building your values, as we are about to explore). 
 
-# <a id="shaping"></a>II. Reinforcement events shape human value shards
+<a id="shaping"></a>
+# II. Reinforcement events shape human value shards
 
 _This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for X.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language._
 
@@ -132,8 +134,8 @@ We think that people convergently learn obedience- and cooperation-shards which 
 We don’t pretend to have sufficient mastery of shard theory to _a priori_ quantitatively predict Milgram’s obedience rate. However, shard theory explains why people obey so strongly in this experimental setup, but not in most everyday situations: The presence of an authority figure and of an official-seeming experimental protocol. This may seem obvious, but remember that human behavior requires _a mechanistic explanation_. “Common sense” doesn’t cut it. “Cooperation- and obedience-shards more strongly activate in this situation because this situation is similar to historical reinforcement contexts” is a nontrivial retrodiction.
 
 Indeed, varying the contextual features [dramatically affected](https://www.tutor2u.net/psychology/reference/explanations-for-obedience-variations-of-milgram-1963) the percentage of people who administered “lethal” shocks:
+<table> <tr> <th class="title-cell">Variations on Milgram's experiment</th> <th class="title-cell">Obedience rate</th> </tr> <tr> <td>Someone else administered the shock.</td>  <td class="percentage-cell">92.5%</td> </tr> <tr> <td>Original experiment.</td> <td class="percentage-cell">65%</td> </tr> <tr> <td>The experiment took place in a run down building.</td> <td class="percentage-cell">48%</td> </tr> <tr> <td>The teacher and learner were in the same room.</td> <td class="percentage-cell">40%</td> </tr> <tr> <td>The teacher had to force the learners hand onto a shock plate.</td> <td class="percentage-cell">30%</td> </tr> <tr> <td>The experimenter gave instructions to the teacher over the phone.</td>  <td class="percentage-cell">21%</td> </tr> <tr> <td>The experimenter was replaced by another 'participant' in ordinary clothes.</td><td class="percentage-cell">20%</td> </tr> </table>
 
-![[Pasted image 20240401181313.png]]
 ## Sunflowers and timidity
 
 Consider the following claim: “People reliably become more timid when [surrounded by tall sunflowers.](ttps://i.imgur.com/Qo94MA9.png)They become easier to sell products to and ask favors from.” 
@@ -144,13 +146,15 @@ Therefore, the sunflower-timidity-shard was grown from… Hm. It wasn’t grown.
 
 Thus: Shard theory _does not explain everything_, because shards are grown from previous reinforcement events and previous thoughts. Shard theory constrains anticipation around actual observed human nature.
 
+---
+
 Optional exercise: Why might it feel _wrong_ to not look both ways before crossing the street, even if you have reliable information that the coast is clear?
 
-Optional exercise: Suppose that it's more emotionally difficult to kill a person face-to-face than from far away and out of sight. Explain via shard theory.[^11]
+Optional exercise: Suppose that it's more emotionally difficult to kill a person face-to-face, than from far away and out of sight. Explain via shard theory.[^11]
 
 ## We think that many biases are convergently produced artifacts of the human learning process & environment
 
-We think that simple reward circuitry leads to different cognition activating in different circumstances. Different circumstances can activate cognition that implements different values, and this can lead to inconsistent or biased behavior. We conjecture that many biases are convergent artifacts of the human training process and internal shard dynamics. People aren’t just randomly/hardcoded to be more or less “rational” in different situations.
+We think that simple reward circuitry leads to different cognition activating in different circumstances. Different circumstances can activate cognition that implements different values, and this can lead to inconsistent or biased behavior. We conjecture that many biases are convergent artifacts of the human training process and internal shard dynamics. People aren’t just randomly hardcoded to be more or less “rational” in different situations.
 
 ### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
 
@@ -168,9 +172,9 @@ Why are we hesitant to shift away from the course of action that we’re current
 2. Shards activate more strongly in concrete situations. Actually seeing a bear will activate self-preservation shards more strongly than simply imagining a bear. Thus, the concrete benefits of the current course of action will more easily activate shards than the abstract benefits of an imagined course of action. This can lead to overestimating the value of continuing the current activity relative to the value of other options.
 
 ### [Time inconsistency](https://en.wikipedia.org/wiki/Dynamic_inconsistency)
-A person might deliberately avoid passing through the sweets aisle in a supermarket in order to avoid temptation. This is a very strange thing to do, and it makes no sense from the perspective of an agent maximizing expected utility over quantities like "sweet food consumed" and "leisure time" and "health." Such an EU-maximizing agent would decide to buy sweets or not, but wouldn’t worry about entering the aisle itself. Avoiding temptation makes perfect sense under shard theory. 
+A person might deliberately avoid passing through the sweets aisle in a supermarket in order to avoid temptation. This is a very strange thing to do, and it makes no sense from the perspective of an agent maximizing expected utility over quantities like "sweet food consumed" and "leisure time" and "health." Such an EU-maximizing agent would decide to buy sweets or not, but wouldn’t worry about entering the aisle itself. 
 
-Shards are contextually activated, and the sweet-shard is most strongly activated when you can actually see sweets. We think that planning-capable shards are manipulating future contexts so as to prevent the full activation of your sweet shard.
+Avoiding temptation makes perfect sense under shard theory. Shards are contextually activated, and the sweet-shard is most strongly activated when you can actually see sweets. We think that planning-capable shards are manipulating future contexts so as to prevent the full activation of your sweet shard.
 
 Similarly, 
 
@@ -208,8 +212,8 @@ Working from three reasonable assumptions about how the brain works, shard theor
 
 _For shard theory discussion, join our [Discord server.](https://discord.gg/JNG2ZSKh28) Charles Foster wrote [Appendix C](#app-c). We thank David Udell, Peter Barnett, Raymond Arnold, Garrett Baker, Steve Byrnes, and Thomas Kwa for feedback on this finalized post. Many more people provided feedback on an earlier version._ 
 # Appendices
-
-## <a id="app-a"></a> Appendix A: The formation of the world model
+<a id="app-a"></a> 
+## Appendix A: The formation of the world model
 
 Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [section I](#1-assumptions)), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of. 
 
@@ -238,7 +242,9 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
 7. Learning continues, but we will stop here.
 
 In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8) hook into a reward circuit which focuses the learning on human faces. 
-## <a id="app-b"></a>Appendix B: Terminology
+
+<a id="app-b"></a>
+## Appendix B: Terminology
 
 ### Shards are not full subagents
 
@@ -246,7 +252,7 @@ In our conception, shards vary in their sophistication (e.g. _IF-THEN reflexes_ 
 
 ### “Values”
 
-We defined[^16] to be an algorithm with a contextually activated decision-making influence which increases the probability of e.g. deciding to hang out with that friend. Here are three extra considerations and clarifications.
+We defined [^16] "values" to be an algorithm with a contextually activated decision-making influence which increases the probability of e.g. deciding to hang out with that friend. Here are three extra considerations and clarifications.
 
 **Type-correctness.** We think that our definition is deeply appropriate in certain ways. Just because you value eating donuts, doesn’t mean you want to retain that pro-donut influence on your decision-making. This is what it means to _reflectively endorse_ a value shard—that the shards which reason about your shard composition, bid for the donut-shard to stick around. By the same logic, it makes total sense to want your values to change over time—the “reflective” parts of you want the shard composition in the future to be different from the present composition. (For example, many arachnophobes probably want to drop their fear of spiders.) Rather than humans being “weird” for wanting their values to change over time, we think it’s probably the default for smart agents meeting our learning-process assumptions ([section I](#1-assumptions)). 
 
@@ -282,7 +288,9 @@ Over the last several months, many people have read either a draft version of th
 3. “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
     1. We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
     2. Example insights include [Reward is not the optimization target](ttps://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target) and [Human values & biases are inaccessible to the genome.](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
-## <a id="app-c"></a>Appendix C: Evidence for neuroscience assumptions
+
+<a id="app-c"></a>
+## Appendix C: Evidence for neuroscience assumptions
 
 In [section I](#1-assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
 
