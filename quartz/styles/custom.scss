@@ -128,11 +128,11 @@ sup {
 
 /* Ensure favicons have appropriate properties. */ 
 .favicon {
-    width: .85em;
-    height: .85em;
-    margin-right: 0.02em;
-    vertical-align: -35%;
-    filter: saturate(50%);
+    width: .75em;
+    height: .75em;
+    margin-right: 0.25em;
+    vertical-align: 25%;
+    filter: saturate(40%);
     margin-bottom: -.07em;
     margin-top: -.07em;
 }

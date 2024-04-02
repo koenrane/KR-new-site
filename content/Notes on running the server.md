@@ -18,3 +18,5 @@ Most of these have sensible defaults but you can override them if you have a cus
 - `--push` or `--no-push`: whether to push updates to your GitHub fork of Quartz
 - `--pull` or `--no-pull`: whether to try and pull in any updates from your GitHub fork (i.e. from other devices) before pushing
 - [ ] 
+
+> https://www.imarc.com/blog/case-study-in-readable-typography
