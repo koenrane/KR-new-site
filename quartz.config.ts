@@ -67,6 +67,7 @@ const config: QuartzConfig = {
       Plugin.Description(),
       Plugin.AddFavicons(),
       Plugin.TagAcronyms(),
+      Plugin.LinkTextPunctuation(), 
     ],
     filters: [Plugin.ExplicitPublish(),],
     emitters: [

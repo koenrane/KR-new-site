@@ -11,3 +11,5 @@ private/
 replit.nix
 *~
 package-lock.json
+.bak
+*.bak

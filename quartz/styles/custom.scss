@@ -91,9 +91,7 @@ ol {
   li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     counter-increment: footnote; // Increment the footnote counter for each matching li
-display: flex; // This ensures the number and the text are in the same line
-align-items: baseline; // This aligns the text correctly with the number
-
+    display: flex; // This ensures the number and the text are in the same line
       
     &::before {
       content: counter(footnote) "."; // Display the counter followed by a period

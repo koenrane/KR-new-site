@@ -59,9 +59,9 @@ I still get anxious around disagreements with people I respect. I am still worki
 
 ### Too much deference, too little thinking for myself
 
-_I realized and started fixing this mistake_ [_this spring_](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)_. (Seeing a pattern?)_
+_I realized and started fixing this mistake_ [_this spring_.](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)_(Seeing a pattern?)_
 
-I filtered the world through a status lens. If I read a comment from a high-status person, I would gloss over confusing parts, because _I_ was probably the one reading it wrong. Sure, I would verbally agree that [modest epistemology](https://equilibriabook.com/inadequacy-and-modesty/) is unproductive. I just _happened_ to not think thoughts like “\[high-status person\]’s claim seems obviously dumb and wrong.” 
+I filtered the world through a status lens. If I read a comment from a high-status person, I would gloss over confusing parts, because _I_ was probably the one reading it wrong. Sure, I would verbally agree that [modest epistemology](https://equilibriabook.com/inadequacy-and-modesty/) is unproductive. I just _happened_ to not think thoughts like “\[high-status person\]’s claim seems obviously dumb and wrong.”
 
 Now I let myself think thoughts like that, and it’s great. For example, last week I was reading about Pavlov’s conditioning experiments with dogs. I read the following:
 
