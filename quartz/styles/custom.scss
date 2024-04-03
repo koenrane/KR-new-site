@@ -57,22 +57,48 @@ em {
   font-family: var(--font-text-italic);
 }
 
-// TODO lighter color for the 1.2. and then normal for 3, in 1.2.3
 ol {
-  counter-reset: section; /* Creates a new instance of the
-                             section counter with each ol
-                             element */
-  list-style-type: none;
-}
+  counter-reset: list; // Reset the list counter at the top-level ordered list
+  li {
+    counter-increment: list; // Increment the list counter for each list item
+    list-style-type: none; // Remove default list item numbering
+    
+    &::before {
+      font-feature-settings: "lnum"; // Use lining figures for all ordered list numbers
+      color: gray;
+      content: counters(list, ".") "."; // Display the list counter with periods
+        flex-shrink: 0; // Prevent the number from shrinking
+    margin-right: .5em;
+    }
+    
+    // Nested lists
+    ol {
+      counter-reset: sublist; // Each nested ordered list has its own sublist counter
+      li {
+        counter-increment: sublist; // Increment the sublist counter for nested list items
+        &::before {
+          content: counters(list, ".") "." counters(sublist, "."); // Display combined list and sublist counters for nested list items
+        }
+      }
+    }
+  }
+  
+  // This comes in an h2 right before the footnotes.
+  .footnote-label {
+    counter-reset: footnote;
+  }
 
-ol li::before {
-font-feature-settings: "onum" 0, "lnum" 1;
-  counter-increment: section; /* Increments only this instance
-                                            of the section counter */
-  content: counters(section, ".") ". "; /* Combines the values of all instances
-                                          of the section counter, separated
-                                          by a period */
-font-weight: heavier;
+  li[id^="user-content-fn-"] {
+    // Target li elements whose id attribute value starts with 'user-content-fn-'
+    counter-increment: footnote; // Increment the footnote counter for each matching li
+display: flex; // This ensures the number and the text are in the same line
+align-items: baseline; // This aligns the text correctly with the number
+
+      
+    &::before {
+      content: counter(footnote) "."; // Display the counter followed by a period
+    }
+  }
 }
 
 /* Headings should have full-height numbers */
