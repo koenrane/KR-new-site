@@ -43,6 +43,7 @@ body, .published-container {
   font-feature-settings: "cv11" 1, "onum" 1; 
 
 
+--color-callout: var(--tertiary);//light-dark(#000000, #7094b9); /* Gold */
   /* Text which is meant to be read thoroughly should
    * have a shorter character limit to improve readability */
    // max-width: fit-content(60ch);
@@ -88,7 +89,6 @@ code, pre {
 a {
   white-space: normal;
   word-break: break-word;
-  font-weight: 500;
   hyphens: auto;
   margin-top: 0em;
 }
@@ -105,6 +105,12 @@ sup {
         width: 2em;
         vertical-align: -100%;
     }
+}
+
+// Admonition formatting
+.callout[data-callout] {
+--color: var(--color-callout);
+    --bg: #44f3ff0d;
 }
 
 /* Center the site name under the pond gif */
