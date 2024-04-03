@@ -9,17 +9,19 @@
 // CSS is published in public/ 
 $fonts-dir: '/static/fonts'; 
 
-@mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none) {
+@mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none){
   @font-face {
     font-family: $font-family;
     font-optical-sizing: auto; 
-    font-feature-settings: "cv11" 1, "onum" 1;
+    font-feature-settings: $font-features;
 
     src: url('#{$fonts-dir}/#{$file-name}#{$ext}')
   }
 }
 
 @include font-face('EBGaramond', 'EBGaramond08-Regular', '.otf');
+@include font-face('EBGaramond12', 'EBGaramond12-Regular', '.otf');
+// @include font-face('EBGaramondVar', 'EBGaramond-VariableFont_wght', '.ttf');
 @include font-face('EBGaramondItalic', 'EBGaramond08-Italic', '.otf');
 @include font-face('EBGaramondSC', 'EBGaramondSC08-Regular', '.otf'); 
 @include font-face('FiraCode', 'FiraCode-VF', '.ttf');
@@ -33,6 +35,7 @@ body, .published-container {
   --font-text-theme: 'EBGaramond', Garamond, serif;
   --font-text: 'EBGaramond', Garamond, serif;
   --font-text-italic: 'EBGaramondItalic', Garamond, serif;
+--font-text-header: 'EBGaramond12', Garamond, serif;
 
   --font-text-sc: 'EBGaramondSC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
   --font-text-swash: 'EB Garamond:+swsh', cursive;
@@ -40,7 +43,7 @@ body, .published-container {
 
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
-  font-feature-settings: "cv11" 1, "onum" 1; 
+  font-feature-settings: "cv11" 1, "onum" 1;
 
 
 --color-callout: var(--tertiary);//light-dark(#000000, #7094b9); /* Gold */
@@ -78,6 +81,11 @@ h2,
 h3 {
   font-feature-settings: "onum" 0, "lnum" 1;
   color: var(--color-header);
+font-family: var(--font-text-header);
+
+& .small-caps {
+    font-weight: lighter;
+}
 }
 
 /* Set monospace font for code blocks, inline code, etc. */
@@ -157,9 +165,11 @@ sup {
 }
 
 .small-caps {
-  font-family: var(--font-text-sc);
+    font-family: var(--font-text-sc);
+  font-size: 1.1em; // 1.1x the inherited size
+
   color: inherit;
-  font-style: inherit;
+  text-transform: lowercase; 
   -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
 }
 
