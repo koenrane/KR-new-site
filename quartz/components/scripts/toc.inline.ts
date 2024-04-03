@@ -5,11 +5,12 @@ const observer = new IntersectionObserver((entries) => {
     const tocEntryElement = document.querySelector(`a[data-for="${slug}"]`)
     const windowHeight = entry.rootBounds?.height
     if (windowHeight && tocEntryElement) {
-      if (entry.boundingClientRect.y < windowHeight) {
-        tocEntryElement.classList.add("in-view")
-      } else {
-        tocEntryElement.classList.remove("in-view")
-      }
+      tocEntryElement.classList.add("in-view")
+      // if (entry.boundingClientRect.y < windowHeight) {
+      //   tocEntryElement.classList.add("in-view")
+      // } else {
+      //   tocEntryElement.classList.remove("in-view")
+      // }
     }
   }
 })

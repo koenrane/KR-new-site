@@ -2,6 +2,10 @@
 @use "./variables.scss" as *;
 @use "_table.scss";
 
+// @tailwind base;
+// @tailwind components;
+// @tailwind utilities;
+//
 // CSS is published in public/ 
 $fonts-dir: '/static/fonts'; 
 
@@ -49,6 +53,24 @@ em {
   font-family: var(--font-text-italic);
 }
 
+// TODO lighter color for the 1.2. and then normal for 3, in 1.2.3
+ol {
+  counter-reset: section; /* Creates a new instance of the
+                             section counter with each ol
+                             element */
+  list-style-type: none;
+}
+
+ol li::before {
+font-feature-settings: "onum" 0, "lnum" 1;
+  counter-increment: section; /* Increments only this instance
+                                            of the section counter */
+  content: counters(section, ".") ". "; /* Combines the values of all instances
+                                          of the section counter, separated
+                                          by a period */
+font-weight: heavier;
+}
+
 /* Headings should have full-height numbers */
 h1,
 h2,
@@ -60,11 +82,6 @@ h3 {
 /* Set monospace font for code blocks, inline code, etc. */
 code, pre {
   font-family: var(--font-monospace);
-}
-
-/* Center the site name under the pond gif */
-.page-title {
-    text-align: center;
 }
 
 /* Wrap links properly */
@@ -88,6 +105,11 @@ sup {
         width: 2em;
         vertical-align: -100%;
     }
+}
+
+/* Center the site name under the pond gif */
+.page-title {
+    text-align: center;
 }
 
 /* Allow inline emoji to resize with the text */
@@ -144,7 +166,7 @@ sup {
 .favicon {
     width: .75em;
     height: .75em;
-    margin-right: 0.25em;
+    margin-right: .15em;
     vertical-align: 25%;
     filter: saturate(40%);
     margin-bottom: -.07em;
