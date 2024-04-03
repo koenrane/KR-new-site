@@ -11,36 +11,31 @@
  * To use this plugin, include it in your Quartz configuration for plugins.
  * Make sure to handle the 'ignore class' logic based on your specific HTML structure.
  */
+
 import { QuartzTransformerPlugin } from '../types';
 import { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 import { h } from 'hastscript';
 
-// Helper function to check for ignore class in ancestors
-function hasIgnoreClassInAncestors(node, ignoreClasses) {
-  let ancestor = node;
-  while (ancestor) {
-    if (ancestor.type === 'element' && ancestor.properties.className) {
-      if (ignoreClasses.some(className => ancestor.properties.className.includes(className))) {
+// Helper function to check if an element has an ancestor with an ignore class
+const ignoreClasses = ['bad-handwriting', 'gold-script'];
+function hasIgnoreClassInAncestors(node) {
+  while (node) {
+    if (node.type === 'element' && node.properties.className) {
+      if (ignoreClasses.some(className => node.properties.className.includes(className))) {
         return true;
       }
     }
-    ancestor = ancestor.parent;
+    node = node.parent;
   }
   return false;
 }
 
 // Custom rehype plugin for tagging acronyms
 const rehypeTagAcronyms: Plugin = () => {
-  console.log("Plugin initialized."); // This should log when the plugin is initialized
   return (tree) => {
-    console.log("Plugin called."); // This should log when the plugin is called on an AST
-
     visit(tree, 'text', (node, index, parent) => {
-      console.log("Visiting a text node."); // This will log each time a text node is visited
-
-      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(parent, ['bad-handwriting', 'gold-script'])) {
-        console.log("Skipped a node due to being inside 'abbr' or having an ignored class.");
+      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(parent)) {
         return;
       }
 
@@ -50,21 +45,31 @@ const rehypeTagAcronyms: Plugin = () => {
         const fragment = [];
         let lastIndex = 0;
         matches.forEach(match => {
-          console.log("Acronym match: ", match); // This will log each time an acronym is matched
-          // ... rest of the matching and replacement logic
+          const index = node.value.indexOf(match, lastIndex);
+          if (index > lastIndex) {
+            fragment.push({ type: 'text', value: node.value.substring(lastIndex, index) });
+          }
+          fragment.push(
+            h('abbr.small-caps', match)
+          );
+          lastIndex = index + match.length;
         });
 
+        if (lastIndex < node.value.length) {
+          fragment.push({ type: 'text', value: node.value.substring(lastIndex) });
+        }
+
         // Replace the original text node with the new nodes
-        // ... replacement logic
-      } else {
-        console.log("No acronyms found in this node.");
+        if (parent.children && typeof index === 'number') {
+          parent.children.splice(index, 1, ...fragment);
+        }
       }
     });
   };
 };
 
 // The main Quartz plugin export
-export const TagAcronymsPlugin: QuartzTransformerPlugin = () => {
+export const TagAcronyms: QuartzTransformerPlugin = () => {
   return {
     name: 'TagAcronyms',
     htmlPlugins() {
@@ -72,4 +77,3 @@ export const TagAcronymsPlugin: QuartzTransformerPlugin = () => {
     },
   };
 };
-

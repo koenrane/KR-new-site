@@ -8,7 +8,6 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
       return [
         () => {
           return (tree) => {
-                        console.log("fav");
             visit(tree, 'element', (node) => {
               if (
                 node.tagName === 'a' &&

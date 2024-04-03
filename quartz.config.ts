@@ -66,6 +66,7 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.AddFavicons(),
+      Plugin.TagAcronyms(),
     ],
     filters: [Plugin.ExplicitPublish(),],
     emitters: [
