@@ -82,7 +82,7 @@ const config: QuartzConfig = {
       colors: {
         darkMode: {
           light: frappeColors['base'],
-        lightgray: frappeColors['overlay-1'],
+        lightgray: frappeColors['overlay-0'],
         gray: frappeColors['overlay-2'],
           darkgray: frappeColors["text"],
           dark: frappeColors["subtext-1"],
@@ -92,7 +92,7 @@ const config: QuartzConfig = {
         },
         lightMode: {
           light: latteColors['base'],
-        lightgray: latteColors['overlay-1'],
+        lightgray: latteColors['overlay-0'],
         gray: latteColors['overlay-2'],
           darkgray: latteColors["text"],
           dark: latteColors["subtext-1"],

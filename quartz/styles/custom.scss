@@ -39,7 +39,6 @@ body, .published-container {
   /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings: "cv11" 1, "onum" 1;
 
-
   // background-color: var(--dark);
 
   /* Text which is meant to be read thoroughly should
@@ -110,11 +109,12 @@ font-family: var(--font-text-header);
 /* Set monospace font for code blocks, inline code, etc. */
 code, pre {
   font-family: var(--font-monospace);
+  background: color-mix(in srgb, var(--lightgray) 30%, var(--light));
 }
 
 /* Wrap links properly */
 a {
-  color: color-mix(in srgb, inherit 60%, rgba(255, 255, 255, 0));
+    color: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
   white-space: normal;
   word-break: break-word;
   hyphens: auto;
@@ -201,7 +201,7 @@ sup {
 .favicon {
     width: .75em;
     height: .75em;
-    margin-right: .15em;
+    margin-right: .1em;
     vertical-align: 25%;
     filter: saturate(40%);
     margin-bottom: -.07em;

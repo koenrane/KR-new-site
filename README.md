@@ -1,6 +1,7 @@
 # Quartz v4
 
-Using `backstop.js` for visual regression testing. 
+Using `backstop.js` for visual regression testing.
+Color scheme based on [`catppuccin`](https://catppuccin.com/palette) palettes.
 
 > “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
 
