@@ -6,7 +6,7 @@
   flex-grow: 0.3;
 
   & > #search-icon {
-    background-color: var(--lightgray);
+    background-color: color-mix(in srgb, var(--lightgray) 30%, var(--light) 70%);
     border-radius: 4px;
     height: 2rem;
     display: flex;

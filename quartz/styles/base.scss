@@ -1,6 +1,13 @@
 @use "./variables.scss" as *;
 @use "./syntax.scss";
 @use "./callouts.scss";
+@use "./colors.scss";
+
+// Reassign colors b/c IDK where they're set
+:root {
+  --light: var(--sapphire);
+  --dark: var(--sapphire);
+}
 
 html {
   scroll-behavior: smooth;

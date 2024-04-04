@@ -1,12 +1,8 @@
 @use "./base.scss";
 @use "./variables.scss" as *;
 @use "_table.scss";
+@use "colors.scss";
 
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
-//
-// CSS is published in public/ 
 $fonts-dir: '/static/fonts'; 
 
 @mixin font-face($font-family, $file-name, $ext: '.ttf', $font-features: none){
@@ -21,12 +17,10 @@ $fonts-dir: '/static/fonts';
 
 @include font-face('EBGaramond', 'EBGaramond08-Regular', '.otf');
 @include font-face('EBGaramond12', 'EBGaramond12-Regular', '.otf');
-// @include font-face('EBGaramondVar', 'EBGaramond-VariableFont_wght', '.ttf');
 @include font-face('EBGaramondItalic', 'EBGaramond08-Italic', '.otf');
 @include font-face('EBGaramondSC', 'EBGaramondSC08-Regular', '.otf'); 
 @include font-face('FiraCode', 'FiraCode-VF', '.ttf');
 @include font-face('BadHandwriting', 'BadHandwriting', '.ttf'); 
-
 
 body, .published-container {
   --font-monospace: "FiraCode", 'JetBrains Mono', 'Courier New', monospace;
@@ -46,7 +40,8 @@ body, .published-container {
   font-feature-settings: "cv11" 1, "onum" 1;
 
 
---color-callout: var(--tertiary);//light-dark(#000000, #7094b9); /* Gold */
+  // background-color: var(--dark);
+
   /* Text which is meant to be read thoroughly should
    * have a shorter character limit to improve readability */
    // max-width: fit-content(60ch);
@@ -119,10 +114,16 @@ code, pre {
 
 /* Wrap links properly */
 a {
+  color: color-mix(in srgb, inherit 60%, rgba(255, 255, 255, 0));
   white-space: normal;
   word-break: break-word;
   hyphens: auto;
   margin-top: 0em;
+}
+
+a.data-footnote-backref {
+    height: .9em;
+    display: inline-block;
 }
 
 sup {
@@ -137,12 +138,6 @@ sup {
         width: 2em;
         vertical-align: -100%;
     }
-}
-
-// Admonition formatting
-.callout[data-callout] {
---color: var(--color-callout);
-    --bg: #44f3ff0d;
 }
 
 /* Center the site name under the pond gif */
@@ -181,7 +176,7 @@ sup {
 
 .caption {
   text-align: center;
-  color: light-dark(#666, #BEBEBE); /* dark grey */
+  color: var(--overlay-2);
   font-style: normal;
   font-size: 0.8em; /* smaller than the surrounding text */
   margin-top: 0.5em; /* Space above the caption */
