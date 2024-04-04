@@ -59,7 +59,7 @@ ol {
     
     &::before {
       font-feature-settings: "lnum"; // Use lining figures for all ordered list numbers
-      color: gray;
+      color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
         flex-shrink: 0; // Prevent the number from shrinking
     margin-right: .5em;
@@ -119,6 +119,10 @@ a {
   word-break: break-word;
   hyphens: auto;
   margin-top: 0em;
+
+& .small-caps {
+    font-weight: lighter;
+}
 }
 
 a.data-footnote-backref {
