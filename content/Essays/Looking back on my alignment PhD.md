@@ -9,7 +9,7 @@ This post has been recorded as part of the LessWrong Curated Podcast, and can be
 ---
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png)
- <p class="caption">My <a href="https://arxiv.org/pdf/2206.11831.pdf" class="external-link">dissertation</a>. It’s long, so if you’re going to read anything from it, read Chapter 0 (Introduction).</p>
+ <p class="caption">My <a href="https://arxiv.org/pdf/2206.11831.pdf" class="external-link">dissertation.</a> It’s long, so if you’re going to read anything from it, read Chapter 0 (Introduction).</p>
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I’m proud of what I accomplished during my PhD. That said, I’m going to first focus on mistakes I’ve made over the past four[^1] years.
 
@@ -150,7 +150,7 @@ I did these things eventually, though, and I’m proud of that.
 4. Research achievements:
     1. I think [_Reframing Impact_](https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW) correctly inferred our intuitions around what “impact” means, and also that sequence was beautiful and I loved making it.
     2. [My dissertation](https://arxiv.org/pdf/2206.11831.pdf) is also beautiful. I painstakingly wrote and formatted and edited it, even hiring a professional to help out. I fought to keep its tone focused on what matters: the sharp dangers of AGI.
-    3. I likewise poured myself into [_Optimal Policies Tend To Seek Power_](https://arxiv.org/abs/1912.01683), and its follow-up, [_Parametrically Retargetable Decision-Makers Tend To Seek Power_](https://arxiv.org/abs/2206.13477). 
+    3. I likewise poured myself into [_Optimal Policies Tend To Seek Power_](https://arxiv.org/abs/1912.01683) and its follow-up, [_Parametrically Retargetable Decision-Makers Tend To Seek Power_](https://arxiv.org/abs/2206.13477). 
         1. First, I had felt instrumental convergence should be provable and formally understandable. It was a mystery to me in 2019, and now it’s not.
         2. Second, I used to suck at writing academic papers, but I managed to get two NeurIPS spotlights by the end of my program. NeurIPS spotlights might not save the world, but that was tough and I did a good job with it.
     4. [Attainable utility preservation](https://arxiv.org/abs/1902.09725) is pointless for AGI alignment, but _damn_ is it cool that we could do unsupervised learning to get a reward function, preserve the agent’s ability to optimize that single random objective, and [_just get cautious behavior in complicated environments_](https://arxiv.org/abs/2006.06547)_._
