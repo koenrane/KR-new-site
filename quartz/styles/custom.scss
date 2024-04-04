@@ -125,9 +125,15 @@ a {
 }
 }
 
+// Ensure footnote return arrows have appropriately sized backgrounds
 a.data-footnote-backref {
     height: .9em;
     display: inline-block;
+}
+
+audio {
+  width: 85%;
+  border: 1px solid var(--lightgray);
 }
 
 sup {

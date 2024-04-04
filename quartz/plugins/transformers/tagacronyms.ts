@@ -21,8 +21,13 @@ import { h } from 'hastscript';
 const ignoreClasses = ['bad-handwriting', 'gold-script'];
 function hasIgnoreClassInAncestors(node) {
   while (node) {
+    // console.log(node);
+    // console.log(node.type);
     if (node.type === 'element' && node.properties.className) {
-      if (ignoreClasses.some(className => node.properties.className.includes(className))) {
+    console.log(node.properties.className);
+            console.log(ignoreClasses);
+            console.log(ignoreClasses.some(className => node.properties.className.includes(className)));
+      if (ignoreClasses.some(className => node.properties.className.includes(className))) { // TODO not working for PTSD
         return true;
       }
     }
@@ -35,7 +40,11 @@ function hasIgnoreClassInAncestors(node) {
 const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
     visit(tree, 'text', (node, index, parent) => {
-      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(parent)) {
+    if (node.value.includes('PTSD')) {
+                console.log(parent);
+                console.log(hasIgnoreClassInAncestors(node));
+            }
+      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(node)) {
         return;
       }
 

@@ -8,8 +8,7 @@ publish: "true"
 
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 
-![[batman.mp3]]
-
+<audio src="/static/batman.mp3" controls> </audio>
 # 1: Don’t Look Away
 
 “The man’s starving. That doesn’t change if you look away, Bruce.”
