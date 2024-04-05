@@ -17,7 +17,7 @@ Hand wrapped firmly around his son’s shoulder, Thomas Wayne directed his son�
 
 <div class="bad-handwriting">
 <b>Hungry</b> <br>
-<b>PTSD..No family</b><br>
+<b class="no-smallcaps">PTSD..No family</b><br>
 <it><b>Pl</b>ease help</it></br>
 </div>
 
@@ -57,7 +57,7 @@ Bruce nodded. The sun winked over the skyline, and the sky waxed purple. Darknes
 
 “It’s easy to let details like Oscar fade away. You might notice a broken flower pot the first time you walk by, but by the third pass, your mind forgets to notice. But Oscar isn’t a flower pot. He was someone’s son. He had dreams, and heroes, and toys.”
 
-The silver and black skyline glimmered against the velvet curtain sky. Silence overcame them for a moment, like the pause before a question’s answer. Thomas’ gaze meandered onto the nearest tower, which housed the main branch of Kingsley Bank. At the base were the letters _<span class="gold-script">KB</span>_, with the _<span class="gold-script">K</span>_’s branches intimately wrapped around the _<span class="gold-script">B</span>_. Gold flowered at their points of contact, giving the impression of illuminated calligraphy.
+The silver and black skyline glimmered against the velvet curtain sky. Silence overcame them for a moment, like the pause before a question’s answer. Thomas’ gaze meandered onto the nearest tower, which housed the main branch of Kingsley Bank. At the base were the letters _<span class="gold-script no-smallcaps">KB</span>_, with the _<span class="gold-script">K</span>_’s branches intimately wrapped around the _<span class="gold-script">B</span>_. Gold flowered at their points of contact, giving the impression of illuminated calligraphy.
 
 “Noticing is painful, Bruce, which is part of why I’m proud of you. Let yourself be happy, but never look away.”
 

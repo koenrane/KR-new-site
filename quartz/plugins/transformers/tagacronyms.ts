@@ -17,29 +17,11 @@ import { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 import { h } from 'hastscript';
 
-// Helper function to check if an element has an ancestor with an ignore class
-const ignoreClasses = ['bad-handwriting', 'gold-script'];
-function hasIgnoreClassInAncestors(node) {
-  while (node) {
-    if (node.type === 'element' && node.properties.className) {
-      if (ignoreClasses.some(className => node.properties.className.includes(className))) { 
-                console.log("Returning true on ", node);
-        return true;
-      }
-    }
-    node = node.parent;
-  }
-  return false;
-}
-
 // Custom rehype plugin for tagging acronyms
 const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
-        // First collect all text nodes 
-
     visit(tree, 'text', (node, index, parent) => {
-      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(parent)) {
-        console.log("Returning for ", node);
+      if (parent.tagName === 'abbr' || parent?.properties?.className?.includes("no-smallcaps")) {
         return;
       }
 
