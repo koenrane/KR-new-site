@@ -92,7 +92,7 @@ We’re pretty confident that the reward circuitry is not a complicated hard-cod
 
 The juice-shard formation story is simple and—if we did our job as authors—easy to understand. However, juice-consumption is hardly a prototypical human value. In this section, we’ll show how shard theory neatly explains a range of human behaviors and preferences. 
 
-As people, we have lots of intuitions about human behavior. However, intuitively obvious behaviors _still have to have mechanistic explanations_—such behaviors still have to be retrodicted by a correct theory of human value formation_._ While reading the following examples, try looking at human behavior with fresh eyes, as if you were seeing humans for the first time and wondering what kinds of learning processes would produce agents which behave in the ways described.     
+As people, we have lots of intuitions about human behavior. However, intuitively obvious behaviors _still have to have mechanistic explanations_—such behaviors still have to be retrodicted by a correct theory of human value formation. While reading the following examples, try looking at human behavior with fresh eyes, as if you were seeing humans for the first time and wondering what kinds of learning processes would produce agents which behave in the ways described.     
 
 ## Altruism is contextual
 

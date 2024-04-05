@@ -88,8 +88,7 @@ Sometimes, Thomas just wanted to wring the sickness out of Gotham with his bare 
 Gentle deceleration woke him from his thoughts. As father and son left the car, the soft tinkling and chattering of water greeted them, their large circular fountain carrying water through the mouths of four dolphins. Amid the four stood a man of marble. He faced the set sun, right hand safeguarding a book, left hand proudly holding aloft a great torch. From the lantern streamed water, refracting the starlight and sending it sparkling across the front of the manor.
 
 They were home.
-
-![[fountain.webp]]
+<img id="fade-img" src="./static/fountain.webp" width="auto" height="auto">
 # 2: The World is Messy
 
 Thomas and Bruce passed through carven mahogany doors into a warm, high-ceilinged room of pale marble floor. Opposite them burned a fireplace of hardwood mantel and brick hearth. Family legend held that its fire had burned uninterrupted through the last century. For his part, Thomas had never seen it darkened. 
@@ -230,7 +229,7 @@ His dad winked at his mom, and they both laughed at some joke which Bruce didn�
 
 They left the small opera room and entered the big outdoor room, which usually was beautiful and starry but was cloudy tonight. It was rather chilly for a summer night, if he thought about it. His dad looked around for their limo. Alfred had said he’d come pick them up. Maybe the opera had finished early. Bruce couldn’t possibly believe that _that_ was true.
 
-His dad had spotted something else, however. Some_one_ else, next to the building, another beggar. Bruce’s gaze was steady. He wanted to make his dad proud of how he didn’t look away. 
+His dad had spotted something else, however. Some<i>one </i> else, next to the building, another beggar. Bruce’s gaze was steady. He wanted to make his dad proud of how he didn’t look away. 
 
 The man was slumped against the opera house. It was too dark to really see him, but Bruce thought he had an empty jar next to him. That would be for any money people gave him. 
 
@@ -290,7 +289,7 @@ His dad looked like he was fighting to avoid falling asleep. “I love you, Bruc
 
 His eyes were closing. 
 
-“Don’t be afraid…”
+“Don’t <span style="font-size:smaller">be <span style="font-size:smaller">afraid…”</span></span>
 
 # 5: The Dream of Flight 
 
@@ -316,7 +315,7 @@ Bruce realized what was going to happen to him, eventually. What was going to ha
 
 Would anyone go out of their way to stop it? Bruce thought about the scared people outside the opera. Why hadn’t they done anything? Were they afraid of getting hurt? His mom hadn’t been afraid. Or maybe she had been, but she hadn’t let that stop her. 
 
-> _blonde hair grew red, **dark dark red**_
+> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--dark))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red, <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
 
 But the scared people still hadn’t helped, even after the crazy man had run away. They still hadn’t helped. 
 
@@ -384,18 +383,11 @@ Everything was just so unfair. What happened to his parents, what happened to Os
 
 His fingers curled and his eyes narrowed. He wanted to be strong. He wanted to change things so they weren’t so broken. He really, really wanted it, he wanted it so badly that it was hard to sit still, his heart felt like it was reaching out of his chest.
 
-He felt like something inside of him was settling down, making a choice, but he had no idea what. 
+No superheroes had come for him, and he knew that none would come. But Bruce could be whatever he wanted. _Bruce_ could become a superhero. He wasn’t like everyone else. Bruce would _act_.
 
 More soft flapping sounds from the well. Bruce heard the bats fly out into the night. This time, he didn’t scream. 
 
 Bruce again wondered what it would be like to be a bat, flapping through the night. Bats weren’t afraid of the dark, or of the cold, or of the unknown. They lived there.
-
----
-
-That night, Bruce dreamt of being a bat, of swooping in to save his parents. He dreamt of freedom, and of justice, and of purity. He dreamt of being whole. He dreamt of swooping in to protect Alfred, and Oscar, and Rachel, and all of the other good people he knew.
-
-Bruce woke up. No superheroes had come for him, and he knew that none would come. But Bruce could be whatever he wanted. _Bruce_ could become a superhero. He wasn’t like everyone else. Bruce would _act_.
-
 # 6: The Cost of Inaction
 
 Bruce stared at the man who had killed his parents twelve years ago. He stared at Joe Chill while Judge Faden rendered his verdict.

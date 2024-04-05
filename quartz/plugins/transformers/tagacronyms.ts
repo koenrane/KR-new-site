@@ -21,13 +21,9 @@ import { h } from 'hastscript';
 const ignoreClasses = ['bad-handwriting', 'gold-script'];
 function hasIgnoreClassInAncestors(node) {
   while (node) {
-    // console.log(node);
-    // console.log(node.type);
     if (node.type === 'element' && node.properties.className) {
-    console.log(node.properties.className);
-            console.log(ignoreClasses);
-            console.log(ignoreClasses.some(className => node.properties.className.includes(className)));
-      if (ignoreClasses.some(className => node.properties.className.includes(className))) { // TODO not working for PTSD
+      if (ignoreClasses.some(className => node.properties.className.includes(className))) { 
+                console.log("Returning true on ", node);
         return true;
       }
     }
@@ -39,12 +35,11 @@ function hasIgnoreClassInAncestors(node) {
 // Custom rehype plugin for tagging acronyms
 const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
+        // First collect all text nodes 
+
     visit(tree, 'text', (node, index, parent) => {
-    if (node.value.includes('PTSD')) {
-                console.log(parent);
-                console.log(hasIgnoreClassInAncestors(node));
-            }
-      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(node)) {
+      if (parent.tagName === 'abbr' || hasIgnoreClassInAncestors(parent)) {
+        console.log("Returning for ", node);
         return;
       }
 
