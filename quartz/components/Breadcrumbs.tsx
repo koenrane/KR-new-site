@@ -47,6 +47,7 @@ function formatCrumb(displayName: string, baseSlug: FullSlug, currentSlug: Simpl
   }
 }
 
+const disableBreadcrumbs = true
 export default ((opts?: Partial<BreadcrumbOptions>) => {
   // Merge options with defaults
   const options: BreadcrumbOptions = { ...defaultOptions, ...opts }
@@ -60,7 +61,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     displayClass,
   }: QuartzComponentProps) => {
     // Hide crumbs on root if enabled
-    if (options.hideOnRoot && fileData.slug === "index") {
+    if (disableBreadcrumbs || (options.hideOnRoot && fileData.slug === "index")) {
       return <></>
     }
 
