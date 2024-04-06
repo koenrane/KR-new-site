@@ -4,7 +4,7 @@ publish: "true"
 ---
 > [!note] Originally [posted](https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd) on June 30<sup>th</sup>, 2022.
 
-This post has been recorded as part of the LessWrong Curated Podcast, and can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).
+This post has been recorded as part of the LessWrong Curated Podcast. It can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).
 
 ---
 
@@ -12,7 +12,7 @@ This post has been recorded as part of the LessWrong Curated Podcast, and can be
   margin-right: auto; display: block">
  <p class="caption">My <a href="https://arxiv.org/pdf/2206.11831.pdf" class="external-link">dissertation.</a> It’s long, so if you’re going to read anything from it, read Chapter 0 (Introduction).</p>
 
-The funny thing about long periods of time is that they do, eventually, come to an end. I’m proud of what I accomplished during my PhD. That said, I’m going to first focus on mistakes I’ve made over the past four[^1] years.
+The funny thing about long periods of time is that they do, eventually, come to an end. I’m proud of what I accomplished during my PhD. That said, I’m going to first focus on mistakes I’ve made over the past four[^1] years. 
 
 # Mistakes
 
