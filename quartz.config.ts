@@ -125,7 +125,6 @@ const config: QuartzConfig = {
       Plugin.AddFavicons(),
       Plugin.TagAcronyms(),
       Plugin.LinkTextPunctuation(), 
-      // Plugin.ParseTwemoji(),
     ],
     filters: [Plugin.ExplicitPublish(),],
     emitters: [
