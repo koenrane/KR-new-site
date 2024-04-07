@@ -56,7 +56,7 @@ body,
 .center {
   max-width: 50rem;
   font-size: 1.4rem;
-  line-height: 2.1rem;
+  line-height: 2rem;
 }
 
 em {
@@ -65,10 +65,12 @@ em {
 }
 
 ol {
+  --li-margin: 4px; // Ensure list items are spaced more than just line-height
   counter-reset: list; // Reset the list counter at the top-level ordered list
   li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
+    margin-bottom: var(--li-margin);
 
     &::before {
       font-feature-settings: "lnum"; // Use lining figures for all ordered list numbers
@@ -85,6 +87,9 @@ ol {
         counter-increment: sublist; // Increment the sublist counter for nested list items
         &::before {
           content: counters(list, ".") "." counters(sublist, "."); // Display combined list and sublist counters for nested list items
+        }
+        &:first-child {
+          margin-top: var(--li-margin); // Remove top margin from the first nested list item
         }
       }
     }
@@ -272,6 +277,10 @@ img .fade-img:after {
   margin-bottom: -0.07em;
   margin-top: -0.07em;
 }
+
+// .favicon-span {
+//   white-space: nowrap;
+// }
 
 img.emoji {
   height: 1em;

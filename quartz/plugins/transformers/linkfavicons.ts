@@ -22,9 +22,30 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                     onerror: `console.error('Failed to load favicon for ${domain}'); this.remove();`,
                     class: "favicon",
                   },
+                  alt: "Favicon for " + domain,
                 }
 
-                linkNode.children.push(faviconImg)
+                // Extract the last word
+                const textContent = linkNode.children[0].value
+                if (textContent === undefined) {
+                  linkNode.children.push(faviconImg)
+                  return
+                }
+                const words = textContent.split(" ")
+                const lastWord = words.pop()
+
+                // Create a span for the last word and image
+                const span = {
+                  type: "element",
+                  tagName: "span",
+                  className: ["favicon-span"],
+                  properties: {},
+                  children: [{ type: "text", value: " " + lastWord }, faviconImg],
+                }
+
+                // Replace the original text with the span
+                linkNode.children[0].value = words.join(" ")
+                linkNode.children.push(span)
               }
             })
           }
