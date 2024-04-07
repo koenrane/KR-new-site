@@ -154,7 +154,7 @@ I did these things eventually, though, and I’m proud of that.
     3. I likewise poured myself into [_Optimal Policies Tend To Seek Power_](https://arxiv.org/abs/1912.01683) and its follow-up, [_Parametrically Retargetable Decision-Makers Tend To Seek Power_](https://arxiv.org/abs/2206.13477). 
         1. First, I had felt instrumental convergence should be provable and formally understandable. It was a mystery to me in 2019, and now it’s not.
         2. Second, I used to suck at writing academic papers, but I managed to get two NeurIPS spotlights by the end of my program. NeurIPS spotlights might not save the world, but that was tough and I did a good job with it.
-    4. [Attainable utility preservation](https://arxiv.org/abs/1902.09725) is pointless for AGI alignment, but _damn_ is it cool that we could do unsupervised learning to get a reward function, preserve the agent’s ability to optimize that single random objective, and [_just get cautious behavior in complicated environments_](https://arxiv.org/abs/2006.06547)_._
+    4. [Attainable utility preservation](https://arxiv.org/abs/1902.09725) is pointless for AGI alignment, but _damn_ is it cool that we could do unsupervised learning to get a reward function, preserve the agent’s ability to optimize that single random objective, and [_just get cautious behavior in complicated environments_](https://arxiv.org/abs/2006.06547).
 
 # Looking forward
 
@@ -163,5 +163,5 @@ Leaving Oregon was a bit sad, but coming to Berkeley is exciting. I’ll be star
 [Here's to winning](https://www.lesswrong.com/posts/Cf2zBkoocqcjnrNFD/emotionally-confronting-a-probably-doomed-world-against). 🥂
 
 [^1]: My PhD was six years long (it started in the fall of 2016). However, I’m not even going to critique the first two years, because that would make the “Mistakes” section far too long.
-[^2]: If you’re interested in reading about the theory now, see [this recent comment](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer?commentId=EfeMSnBvbvxjSQBc3). I’m currently putting together some prerequisite posts to bridge the inferential gap. (_Later published: The [shard theory of human values](https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values)._ ✅)
+[^2]: If you’re interested in reading about the theory now, see [this recent comment](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer?commentId=EfeMSnBvbvxjSQBc3). I’m currently putting together some prerequisite posts to bridge the inferential gap. _Later published: The [shard theory of human values.](https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values)_
 [^3]: Sometimes I feel the urge to defend myself _just a little more_, to which some part of me internally replies “are you serious, this defensibility thing again?! Are you _ever_ going to let me _actually think_?” I like that part of me a lot.

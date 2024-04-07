@@ -60,3 +60,7 @@
 
   --color-visited: color-mix(in srgb, var(--amaranth) 47%, var(--blue));
 }
+
+:root {
+  --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
+}

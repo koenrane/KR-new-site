@@ -103,6 +103,7 @@ ol {
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
+      color: color-mix(in srgb, var(--color-link) 70%, transparent);
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
       font-size: larger;
@@ -143,7 +144,7 @@ pre {
 
 /* Wrap links properly */
 a {
-  color: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
+  color: var(--color-link);
   white-space: normal;
   word-break: break-word;
   hyphens: auto;
