@@ -29,21 +29,32 @@ body, .published-container {
   --font-text-theme: 'EBGaramond', Garamond, serif;
   --font-text: 'EBGaramond', Garamond, serif;
   --font-text-italic: 'EBGaramondItalic', Garamond, serif;
---font-text-header: 'EBGaramond12', Garamond, serif;
+  --font-text-header: 'EBGaramond12', Garamond, serif;
 
   --font-text-sc: 'EBGaramondSC', 'EB Garamond:smcp', "Garamond SC", small-caps, serif;
   --font-text-swash: 'EB Garamond:+swsh', cursive;
   --font-bad-handwriting: "BadHandwriting";
 
+  // Font size -- from the LW style
+  --font-size-base: 13px;
+  --font-size-tiny: 0.7em;
+  --font-size-small: 0.75em;
+  --font-size-normal: 1em; 
+  --font-size-big: 1.4em;
+  --font-size-large: 1.8em;
+  font-size: 13px;
+
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings: "cv11" 1, "onum" 1;
 
-  // background-color: var(--dark);
+  
+}
 
-  /* Text which is meant to be read thoroughly should
-   * have a shorter character limit to improve readability */
-   // max-width: fit-content(60ch);
+.center {
+    max-width: 50rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
 }
 
 em {
@@ -122,6 +133,9 @@ a {
 
 & .small-caps {
     font-weight: lighter;
+}
+&:visited {
+    color: var(--color-visited);
 }
 }
 
@@ -208,12 +222,17 @@ img .fade-img:after {
 }
 
 .small-caps {
-    font-family: var(--font-text-sc);
+  font-family: var(--font-text-sc);
   font-size: 1.1em; // 1.1x the inherited size
 
-  color: inherit;
+  // color: inherit;
+  font-style: inherit;
   text-transform: lowercase; 
   -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
+
+  &:visited {
+    color: var(--color-visited);
+  }
 }
 
 /* Remove the external link icon. */

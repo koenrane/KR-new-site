@@ -25,6 +25,8 @@
   --base: #303446;
   --mantle: #292c3c;
   --crust: #232634;
+
+  --color-visited: color-mix(in srgb, var(--mauve) 50%, var(--blue));
 }
 
 // Catppuccin Latte 
@@ -32,7 +34,7 @@
   --rosewater: #dc8a78;
   --flamingo: #dd7878;
   --pink: #ea76cb;
-  --mauve: #8839ef;
+  --amaranth: #9F2B68; // I love this song by Nightwish
   --red: #d20f39;
   --maroon: #e64553;
   --peach: #fe640b;
@@ -55,4 +57,6 @@
   --base: #eff1f5;
   --mantle: #e6e9ef;
   --crust: #dce0e8;
+
+  --color-visited: color-mix(in srgb, var(--amaranth) 47%, var(--blue));
 }
