@@ -4,8 +4,8 @@ import { visit } from 'unist-util-visit';
 
 const prePunctuation = /([\(\”\“\"\[]*)/;
 const linkText = /\[([^\]]+)\]/g;
-const linkURL = /\(([^#]\S*?)\)/g; // Ignore internal links, don't advance to the next word
-const postPunctuation = /([\”\"\`\)\”\]\}\.\,\?:\!\”\;]+)/g;
+const linkURL = /\(([^#]\S*)\)/g; // Ignore internal links, don't advance to the next word
+const postPunctuation = /([\”\"\`\)\]\}\.\,\?:\!\;]*)/g;
 const preLinkRegex = new RegExp(`${prePunctuation.source}${linkText.source}${linkURL.source}`);
 const fullRegex = new RegExp(`${preLinkRegex.source}(?:${postPunctuation.source}|[\*_]{1,2}${postPunctuation.source}[\*_]{1,2})`, 'g');
 const replaceTemplate = "[$1$2$4$5]($3)";
