@@ -157,7 +157,7 @@ a {
       flex-direction: column;
     }
 
-    & .sidebar  {
+    & .sidebar {
       flex: 1;
       display: flex;
       flex-direction: column;
@@ -420,7 +420,7 @@ code {
 tbody,
 li,
 p {
-    line-height: calc($lineHeight + 0.2rem);
+  line-height: calc($lineHeight + 0.2rem);
 }
 
 .table-container {
@@ -525,4 +525,3 @@ ol.overflow {
   overflow-x: auto;
   overflow-y: hidden;
 }
-
