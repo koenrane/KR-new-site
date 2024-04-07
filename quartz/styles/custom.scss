@@ -16,6 +16,7 @@ $fonts-dir: "/static/fonts";
 }
 
 @include font-face("EBGaramond", "EBGaramond08-Regular", ".otf");
+@include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold", ".ttf");
 @include font-face("EBGaramond12", "EBGaramond12-Regular", ".otf");
 @include font-face("EBGaramondItalic", "EBGaramond08-Italic", ".otf");
 @include font-face("EBGaramondSC", "EBGaramondSC08-Regular", ".otf");
@@ -100,14 +101,16 @@ ol {
     display: flex; // This ensures the number and the text are in the same line
     font-size: smaller;
 
-    & a[role="anchor"] {
-      color: red;
-      font-size: 500px;
+    // Make the backref arrows look nice
+    & .data-footnote-backref {
+      background-color: transparent;
+      font-family: "DejaVuSerifCondensed-Bold", serif;
+      font-size: larger;
     }
 
     & p {
       // TODO fix this for fn 15
-      margin-bottom: 15px; /* Adjust the spacing as needed */
+      margin-bottom: 8px; /* Adjust the spacing as needed */
     }
 
     &::before {
@@ -156,13 +159,6 @@ a {
   &[role="anchor"] {
     background-color: transparent;
   }
-}
-
-// Ensure footnote return arrows have appropriately sized backgrounds
-a.data-footnote-backref {
-  height: 0.9em;
-  display: inline-block;
-  content: "⤴";
 }
 
 audio {

@@ -309,7 +309,7 @@ In [section I](#1-assumptions), we stated that shard theory makes three key neur
     3. Wolfram Schultz and colleagues [have found.](https://www.nature.com/articles/nn0898_304) that the signaling behavior of phasic dopamine in the mesocorticolimbic pathway mirrors that of a [TD error](https://link.springer.com/article/10.1007/BF00115009) (or reward prediction error). 
     4. In addition to finding _correlates_ of reinforcement learning signals in the brain, artificial manipulation of those signal correlates [(through optogenetic stimulation, for example)](https://www.sciencedirect.com/science/article/pii/S0092867416310753)produces the behavioral adjustments that would be predicted from their putative role in reinforcement learning.
 
-[^1]:  More precisely, we adopt Steve Byrnes’ stronger conjecture that the [_telencephelon and cerebellum_ are basically locally randomly initialized.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t)  
+[^1]:  More precisely, we adopt Steve Byrnes’ stronger conjecture that the [_telencephelon and cerebellum_ are basically locally randomly initialized.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t)
 
 [^2]:  There are non-synaptic ways to transmit information in the brain, including ephaptic transmission, gap junctions, and volume transmission. We also consider these to be part of a circuit’s mental context.
 
