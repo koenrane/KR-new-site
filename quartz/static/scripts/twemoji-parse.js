@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Perform the replacements on the HTML string
   bodyHTML = bodyHTML.replace(/↩/g, placeholder)
-  bodyHTML = twemoji.parse(bodyHTML, { callback: twemoji.convert.toImage })
+  twemoji.parse(bodyHTML)
   const regexPlaceholder = /__EMOJI_PLACEHOLDER__/g
   bodyHTML = bodyHTML.replace(regexPlaceholder, "⤴")
 
