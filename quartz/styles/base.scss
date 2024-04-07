@@ -79,7 +79,7 @@ a {
     background-color: var(--highlight);
     padding: 0 0.1rem;
     border-radius: 5px;
-    line-height: 1.4rem;
+    line-height: var(--lineHeight);
 
     &:has(> img) {
       background-color: none;
@@ -331,7 +331,7 @@ h6 {
 figure[data-rehype-pretty-code-figure] {
   margin: 0;
   position: relative;
-  line-height: 1.6rem;
+  line-height: 1.6rem; // TODO adjust? was originally relative to 1.4rem
   position: relative;
 
   & > [data-rehype-pretty-code-title] {
@@ -420,7 +420,7 @@ code {
 tbody,
 li,
 p {
-  line-height: 1.6rem;
+    line-height: calc($lineHeight + 0.2rem);
 }
 
 .table-container {
