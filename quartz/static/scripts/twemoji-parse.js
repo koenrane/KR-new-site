@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const placeholder = "__EMOJI_PLACEHOLDER__"
+  function replaceInTextNodes(element, search, replacement) {
+    for (let node of element.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        // Check if it's a text node
+        node.textContent = node.textContent.replace(search, replacement)
+      } else {
+        replaceInTextNodes(node, search, replacement) // Recurse into child elements
+      }
+    }
+  }
 
-  // Get the HTML content of the body
-  let bodyHTML = document.body.innerHTML
-
-  // Perform the replacements on the HTML string
-  bodyHTML = bodyHTML.replace(/↩/g, placeholder)
-  twemoji.parse(bodyHTML)
-  const regexPlaceholder = /__EMOJI_PLACEHOLDER__/g
-  bodyHTML = bodyHTML.replace(regexPlaceholder, "⤴")
-
-  // Update the body's HTML with the modified content
-  document.body.innerHTML = bodyHTML
+  replaceInTextNodes(document.body, /↩/g, "⤴")
+  twemoji.parse(document.body) // Apply Twemoji after the replacement
 })
