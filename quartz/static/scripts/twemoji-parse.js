@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  replaceInTextNodes(document.body, /↩/g, "⤴")
+  const placeholder = "__EMOJI_PLACEHOLDER__"
+  replaceInTextNodes(document.body, /↩/g, placeholder)
   twemoji.parse(document.body) // Apply Twemoji after the replacement
+  replaceInTextNodes(document.body, /__EMOJI_PLACEHOLDER__/g, "⤴")
 })
