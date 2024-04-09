@@ -13,7 +13,7 @@ Let's not forget the old, well-read post: [Dreams of AI Design](https://www.less
 > 
 > What he should do instead is refer to this main loop as `G0034`, and see if he can convince himself or anyone else that `G0034` implements some part of understanding. Or he could give it a name that reveals its intrinsic properties, like `NODE-NET-INTERSECTION-FINDER`, it being the substance of his theory that finding intersections in networks of nodes constitutes understanding...
 > 
-> **When you say (GOAL . . ), you can just feel the enormous power at your fingertips. It is, of course, an illusion.**[[1]](#fnvvs1fzi9nqr)
+> **When you say (GOAL . . ), you can just feel the enormous power at your fingertips. It is, of course, an illusion.**[^1]
 > 
 > Of course, Conniver has some glaring wishful primitives, too. Calling "multiple data bases" CONTEXTS was dumb. It implies that, say, sentence understanding in context is really easy in this system...
 
@@ -51,10 +51,4 @@ That doesn't stop them from distorting your thinking. At least in your private t
 
 See also: [Against most, but not all, AI risk analogies](https://www.lesswrong.com/posts/SnfjK9ALrzFJB8x7B/against-most-but-not-all-ai-risk-analogies).
 
-1. **[^](#fnrefvvs1fzi9nqr)**
-    
-    How many times has someone expressed "I'm worried about 'goal-directed optimizers', but I'm not sure what exactly they are, so I'm going to work on deconfusion."? There's something weird about this sentiment, don't you think? I can't quite put my finger on what, and I wanted to get this post out.
-    
-2. **[^](#fnref7j2buxvyx89)**
-    
-    Including myself, and I suspect basically every LW enthusiast interested in AI.
+[^1]:  How many times has someone expressed "I'm worried about 'goal-directed optimizers', but I'm not sure what exactly they are, so I'm going to work on deconfusion."? There's something weird about this sentiment, don't you think? I can't quite put my finger on what, and I wanted to get this post out.
