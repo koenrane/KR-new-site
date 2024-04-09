@@ -15,9 +15,7 @@ The most important takeaway from this essay is that the (prominent) counting arg
 ----
 Disclaimers:
 1. I am _not_ putting forward a positive argument for alignment being easy. I am pointing out the invalidity of existing arguments, and explaining the implications of rolling back those updates. 
-
 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning -> doom are weak. I undid those updates and am now more optimistic."
-
 3. I am not covering training setups where we purposefully train an AI to be agentic and autonomous. I just think it's _not_ plausible that we just keep scaling up networks, run pretraining + light RLHF, and then produce a schemer.[^RFLO]
 
 [^RFLO]: To stave off revisionism: Yes, I think that "scaling->doom" has historically been a real concern. No, people have not "always known" that the "real danger" was zero-sum self-play finetuning of foundation models and distillation of agentic-task-prompted autoGPT loops.
@@ -36,7 +34,7 @@ To be blunt, this is nonsense. I have long meditated on the nature of "reward fu
 
 [^support]:The strongest argument for reward-maximization which I'm aware of is: Human brains do RL and often care about some kind of tight reward-correlate, to some degree. Humans are like deep learning systems in some ways, and so that's evidence that "learning setups which work in reality" can come to care about their own training signals.
 
-[^RLauth]: But it _is_ true that RL authors have a convention of repeating “the point of RL is to train an agent to maximize reward…”.  [Littman, 1996](https://www.researchgate.net/publication/33697270_Algorithms_for_Sequential_Decision_Making) (p.6): “The \[RL] agent's actions need to serve some purpose: in theproblems I consider, their purpose is to maximize reward.”\
+[^RLauth]: But it _is_ true that RL authors have a convention of repeating “the point of RL is to train an agent to maximize reward…”.  [Littman, 1996](https://www.researchgate.net/publication/33697270_Algorithms_for_Sequential_Decision_Making) (p.6): “The \[RL] agent's actions need to serve some purpose: in theproblems I consider, their purpose is to maximize reward.”
 Did RL researchers in the 1990’s sit down and carefully analyze the inductive biases of PPO on huge 2026-era LLMs, conclude that PPO probably entrains LLMs which make decisions on the basis of their own reinforcement signal, and then decide to say “RL trains agents to maximize reward”? **Of course not.** My guess: [Control theorists in the 1950s (reasonably) talked about “minimizing cost”](https://en.wikipedia.org/wiki/Optimal_control) in their own problems, and so RL researchers by the ‘90s started saying “the point is to maximize reward”, and so Bostrom repeated this mantra in 2014. That’s where a bunch of concern about wireheading comes from.&#x20;
 
 After making a false claim, Bostrom goes on to dismiss RL approaches to creating useful, intelligent, aligned systems. But, as a point of further fact, RL approaches constitute humanity's _current best tools_ for aligning AI systems today! Those approaches are pretty awesome. No RLHF, then no GPT-4 (as we know it). 
@@ -47,19 +45,15 @@ I'm not trying to rag on Bostrom personally for making this mistake. Foundationa
 
 Unsurprisingly, if you have a lot of people speculating for years using confused ideas and incorrect assumptions, and they come up with a bunch of speculative problems to work on… If you later try to adapt those confused “problems” to the deep learning era, you’re in for a bad time. Even if you, dear reader, don’t agree with the original people (i.e. MIRI and Bostrom), and even if you aren’t presently working on the same things… The confusion has probably influenced what you’re working on. 
 
-I think that’s why some people take “[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)/deceptive alignment” so seriously, even though some of the technical arguments are unfounded.
+I think that’s why some people take “[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)"and "deceptive alignment” so seriously, even though some of the technical arguments are flatly unfounded.
 
 
 # Many arguments for doom are wrong
 
 Let me start by saying what existential vectors I _am_ worried about: 
-
 1. I’m worried about people turning AIs into agentic systems using scaffolding and other tricks, and then instructing the systems to complete large-scale projects.
-
 2. I’m worried about competitive pressure to automate decision-making in the economy. 
-
 3. I’m worried about misuse of AI by state actors.
-
 4. I’m worried about centralization of power and wealth in opaque non-human decision-making systems, and those who own the systems.[^Stella]
 [^Stella]: To quote Stella Biderman: "_Question:_ Why do you think an AI will try to take over the world? _Answer:_ Because I think some asshole will deliberately and specifically create one for that purpose. Zero claims about agency or malice or anything else on the part of the AI is required."
 
@@ -70,31 +64,29 @@ There are a million different arguments for doom. I can’t address them all, bu
 Much of my position is summarized by [my review](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities?commentId=B4poSMfRteggYWpv7) of Yudkowsky’s [AGI Ruin: A List of Lethalities](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/?commentId=B4poSMfRteggYWpv7): 
 
 > [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly[ vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
-
+>
 > While I agree with a few points on this list, I think this list is fundamentally misguided.[ The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
-
+>
 > I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that[ deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).) 
 
 In this essay, I'll address some of the arguments for “deceptive alignment” or “AI scheming.” And then I’m going to bullet-point a few other clusters of mistakes.
 
 # The counting argument for AI “scheming” provides \~0 evidence
 
-Nora Belrose and Quintin Pope have an excellent [upcoming post](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom) which they have given me permission to quote at length. I have lightly edited the following: 
-
+>[!quote] Quote from a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom) 
 > Most AI doom scenarios posit that future AIs will engage in **scheming**— planning to escape, gain power, and pursue ulterior motives while deceiving us into thinking they are aligned with our interests. The worry is that if a schemer escapes, it may seek world domination to ensure humans do not interfere with its plans, whatever they may be.
-
-> In this essay, we debunk the **counting argument**— a primary reason to think AIs might become schemers, according to a [recent report](https://arxiv.org/abs/2311.08379) by AI safety researcher [Joe Carlsmith](https://joecarlsmith.com/). It’s premised on the idea that schemers can have “a wide variety of goals,” while the motivations of a non-schemer must be benign or are otherwise more constrained. Since there are “more” possible schemers than non-schemers, the argument goes, we should expect training to produce schemers most of the time. In Carlsmith’s words:
-
-> 1. The non-schemer model classes, here, require fairly specific goals in order to get high reward.
-> 2. By contrast, the schemer model class is compatible with a very wide range of (beyond episode) goals, while still getting high reward…
-> 3. In this sense, there are “more” schemers that get high reward than there are non-schemers that do so.
-> 4. So, other things equal, we should expect SGD to select a schemer.
-> — _Scheming AIs_, page 17
-
+>
+> In this essay, we debunk the **counting argument**— a primary reason to think AIs might become schemers, according to a [recent report](https://arxiv.org/abs/2311.08379) by AI safety researcher [Joe Carlsmith](https://joecarlsmith.com/). It’s premised on the idea that schemers can have “a wide variety of goals,” while the motivations of a non-schemer must be benign or are otherwise more constrained. Since there are “more” possible schemers than non-schemers, the argument goes, we should expect training to produce schemers most of the time. In Carlsmith’s words (page 17 of the report):
+>
+>1. The non-schemer model classes, here, require fairly specific goals in order to get high reward.
+>2. By contrast, the schemer model class is compatible with a very wide range of (beyond episode) goals, while still getting high reward… 
+>3. In this sense, there are “more” schemers that get high reward than there are non-schemers that do so.
+>4. So, other things equal, we should expect SGD to select a schemer.
+>
 > We begin our critique by presenting a _structurally identical_ counting argument for the obviously false conclusion that neural networks should always memorize their training data, while failing to generalize to unseen data. Since the “generalization is impossible” argument actually has _stronger_ premises than those of the original “schemer” counting argument, this shows that naive counting arguments are generally unsound in this domain.
-
+>
 > We then diagnose the problem with both counting arguments: they are counting the wrong things. 
-
+>
 > ## The counting argument for extreme overfitting
 > The inference from “there are ‘more’ models with property X than without X” to “SGD likely produces a model with property X” clearly does not work in general. To see this, consider the structurally identical argument:
 > 1. Neural networks must implement fairly specific functions in order to generalize beyond their training data.
@@ -102,12 +94,13 @@ Nora Belrose and Quintin Pope have an excellent [upcoming post](https://www.less
 > 3. In this sense, there are “more” models that overfit than models that generalize.
 > 4. So, other things equal, we should expect SGD to select a model that overfits.
 > 
-> This argument isn’t a mere hypothetical. Prior to the rise of deep learning, a common assumption was that models with \[lots of parameters] would be doomed to overfit their training data. The popular 2006 textbook [_Pattern Recognition and Machine Learning_](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) uses a simple example from polynomial regression: there are infinitely many polynomials of order equal to or greater than the number of data points which interpolate the training data perfectly, and “almost all” such polynomials are terrible at extrapolating to unseen points.
-
-> ![](https://lh7-us.googleusercontent.com/e6uNV-jIevm4XOzUGOPQ7w9SwaAT5tcARBXMDYZOU-yhdWC0lr8dmJMinKzJzaYfh3T7EcvuqjSqywHL92NVt4i6kiTQyzDiyPahC4_SFlUgbBQnmQiFK5EP54mfIilRVax_eWp54zb_w2JBgygLIQg)
-
-> Let’s see what the overfitting argument predicts in a simple real-world example from [Caballero et al. (2022)](https://arxiv.org/abs/2210.14891), where a neural network is trained to solve 4-digit addition problems. There are $10,000^2 = 100,000,000$ possible pairs of input numbers, and $19,999$ possible sums, for a total of $19,999^{100,000,000} ≈ 1.10 \times 10^{430,100,828}$ possible input-output mappings. They used a training dataset of $992$ problems, so there are therefore $19,999^{100,000,000 - 992} ≈ 2.75 \times 10^{430,096,561}$ functions that achieve perfect training accuracy, and the proportion with greater than 50% test accuracy is literally too small to compute using standard high-precision math tools. **Hence, this counting argument predicts virtually all networks trained on this problem should massively overfit— contradicting the empirical result that networks _do_ generalize to the test set.**
-![](https://lh7-us.googleusercontent.com/h1TCjtjDM2rYb2Hy87i1MrMKsqY2SM4OTV6gKtYn6YJoMQc4xyLSFvHNr5dSCA26I4PE4LNS1OAMezuudY2wwBQD_MBnd8KFAKvyZTa5ozCaWgSaYs4NTp-qPtheOhOUqxmQqeGEVFikBx47kEsG7mg)
+> This argument isn’t a mere hypothetical. Prior to the rise of deep learning, a common assumption was that models with lots of parameters would be doomed to overfit their training data. The popular 2006 textbook [_Pattern Recognition and Machine Learning_](https://www.microsoft.com/en-us/research/uploads/prod/2006/01/Bishop-Pattern-Recognition-and-Machine-Learning-2006.pdf) uses a simple example from polynomial regression. There are infinitely many polynomials of order equal to or greater than the number of data points which interpolate the training data perfectly, and “almost all” such polynomials are terrible at extrapolating to unseen points.
+> 
+> <center> <img src="../Pasted-image-20240408192726.png" width="auto" height="auto" alt=""></center>
+>
+> Let’s see what the overfitting argument predicts in a simple real-world example from [Caballero et al. (2022)](https://arxiv.org/abs/2210.14891), where a neural network is trained to solve 4-digit addition problems. There are 10,000<sup>2</sup> = 100,000,000 possible pairs of input numbers, and 19,999 possible sums, for a total of 19,999<sup>100,000,000</sup> ≈ 1.1 × 10<sup>430,100,828</sup> possible input-output mappings. They used a training dataset of 992 problems, so there are therefore 19,999<sup>100,000,000 - 992</sup> ≈ 2.75 × 10<sup>430,096,561</sup>  functions that achieve perfect training accuracy.
+> 
+> The proportion with greater than 50% test accuracy is literally too small to compute using standard high-precision math tools. Hence, this counting argument predicts virtually all networks trained on this problem should massively overfit— contradicting the empirical result that networks _do_ generalize to the test set.
 
 We are not just comparing “counting schemers” to another similar-seeming argument (“counting memorizers”). The arguments not only have the same _logical structure_, but they also share the same _mechanism_: “Because most functions have property X, SGD will find something with X.” Therefore, by pointing out that the memorization argument fails, we see that _this structure of argument is not a sound way of predicting deep learning results_. 
 
@@ -118,7 +111,7 @@ This section doesn’t prove that scheming is impossible, it just dismantles a c
 [^count]: [Some](https://arxiv.org/abs/2006.15191) [evidence](https://openreview.net/forum?id=QC10RmRbZy9) suggests that “measure in parameter-space” is a good way of approximating P(SGD finds the given function). This supports the idea that “counting arguments over parameterizations” are far more appropriate than “counting arguments over functions.”
 
 ## Recovering the counting argument?
-I think a recovered argument will need to address (some close proxy of) "what volume of parameter-space leads to scheming vs not?", which is a much harder task than counting functions. You have to not just think about "what does this system do?", but "how many ways can this function be implemented?". (Don't forget to take into account the architecture's [internal symmetries](https://arxiv.org/pdf/2305.17017.pdf)!) 
+I think a recovered argument will need to address (some close proxy of) "what volume of parameter-space leads to scheming vs not?", which is a much harder task than counting functions. You have to not just think about "what does this system do?", but "how many ways can this function be implemented?". (Don't forget to take into account the architecture's [internal symmetries!)](https://arxiv.org/pdf/2305.17017.pdf) 
 
 **Turns out that it's kinda hard to zero-shot predict model generalization on unknown future architectures and tasks.** There are good reasons why there's a whole ML subfield which studies inductive biases and tries to understand how and why they work. 
 
@@ -126,47 +119,32 @@ If we _actually_ had the precision and maturity of understanding to predict this
 
 I lastly want to note that there is no reason that any particular argument need be recoverable. Sometimes intuitions are wrong, sometimes frames are wrong, sometimes an approach is just wrong.
 
-EDIT 3/5/24: In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with the Solomonoff prior over bitstrings. 
-
-If his counting arguments were supposed to be about parameterizations, I don't see how that's possible. For example, Evan [agrees with me](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom?commentId=2hGcdoMiFBkZnYAB7) that we don't "understand [the neural network parameter space] well enough to [make these arguments effectively]." So, Evan is welcome to claim that his arguments have been about parameterizations. I just don't believe that that's possible or valid.
-
-If his arguments have actually been about the Solomonoff prior, then I think that's totally irrelevant and even weaker than making a counting argument over functions. At least the counting argument over functions has something to do with neural networks.
-
-I expect him to respond to this post with some strongly-worded comment about how I've simply "misunderstood" the "real" counting arguments. I invite him, or any other proponents, to lay out arguments they find more promising. I will be happy to consider any additional arguments which proponents consider to be stronger. Until such a time that the "actually valid" arguments are actually shared, I consider the case closed.
-
-
+>[!warning] Warning
+>In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with the Solomonoff prior over bitstrings. 
+>
+> If his counting arguments were supposed to be about parameterizations, I don't see how that's possible. For example, Evan [agrees with me](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom?commentId=2hGcdoMiFBkZnYAB7) that we don't "understand [the neural network parameter space] well enough to [make these arguments effectively]." So, Evan is welcome to claim that his arguments have been about parameterizations. I just don't believe that that's possible or valid.
+> 
+> If his arguments have actually been about the Solomonoff prior, then I think that's totally irrelevant and even weaker than making a counting argument over functions. At least the counting argument over functions has something to do with neural networks.
+> 
+> I expect him to respond to this post with some strongly-worded comment about how I've simply "misunderstood" the "real" counting arguments. I invite him, or any other proponents, to lay out arguments they find more promising. I will be happy to consider any additional arguments which proponents consider to be stronger. Until such a time that the "actually valid" arguments are actually shared, I consider the case closed.
 ## The counting argument doesn't count
-
 Undo the update from the “counting argument”, however, and the probability of scheming plummets substantially. If we aren’t expecting scheming AIs, that transforms the threat model. We can rely more on experimental feedback loops on future AI; we don’t have to get worst-case interpretability on future networks; it becomes far easier to just use the AIs as tools which do things we ask. That doesn’t mean everything will be OK. But not having to handle scheming AI is a game-changer.
 
 # Other clusters of mistakes
 
 1. [Concerns and arguments which are based on suggestive names which lead to unjustified conclusions. People read too much into the English text next to the equations in a research paper.](https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names)
-
    1. If I want to consider whether a policy will care about its reinforcement signal, possibly the _worst goddamn thing I could call that signal_ is “reward”! __“Will the AI try to maximize reward?” How is anyone going to think neutrally about that question, without making inappropriate inferences from “rewarding things are desirable”?
-
-      1. (This isn’t alignment’s mistake, it’s bad terminology from RL.)
-
+	   1. (This isn’t alignment’s mistake, it’s bad terminology from RL.)
       2. I bet people would care a lot less about “reward hacking” if RL’s reinforcement signal hadn’t ever been called “reward.”
-
-   2. There are a lot more inappropriate / leading / unjustified terms, from “training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X” to “RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)” (And don’t even get me started on “[shoggoth](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence).”)
-
-   3. As scientists, we should use neutral, descriptive terms during our inquiries. 
-
+   3. There are a lot more inappropriate / leading / unjustified terms, from “training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X” to “RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)” (And don’t even get me started on “[shoggoth.”)](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence)
+   4. As scientists, we should use neutral, descriptive terms during our inquiries. 
 2. Making highly specific claims about the internal structure of future AI, after presenting very tiny amounts of evidence. 
-
    1. For example, “future AIs will probably have deceptively misaligned goals from training” is supposed to be supported by arguments like “training selects for goal-optimizers because they efficiently minimize loss.” This argument is so weak/vague/intuitive, I doubt it’s more than a single bit of evidence for the claim. 
-
    2. I think if you try to use this kind of argument to reason about generalization, _today_, you’re going to do a pretty poor job. 
-
 3. Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z).
-
    1. For example, “ML training is like evolution” or “future direct-reward-optimization reward hacking is like that OpenAI boat example today.”
-
    2. The probable cause of [the boat example](https://deepmindsafetyresearch.medium.com/specification-gaming-the-flip-side-of-ai-ingenuity-c85bdb0deeb4) (“we directly reinforced the boat for running in circles”) is _not_ the same as the speculated cause of certain kinds of future reward hacking (“misgeneralization”). 
-
       1. That is, suppose you’re worried about a future AI autonomously optimizing its own numerical reward signal. You probably aren’t worried because the AI was _directly historically reinforced for doing so_ (like in the boat example)—You’re probably worried because the AI decided to optimize the reward on its own (“misgeneralization”).
-
    3. In general: You can’t just put suggestive-looking gloss on one empirical phenomenon, call it the same name as a second thing, and then draw strong conclusions about the second thing!
 
 While it may seem like I’ve just pointed out a set of isolated problems, a wide range of threat models and alignment problems are downstream of the mistakes I pointed out. In my experience, I had to rederive a large part of my alignment worldview in order to root out these errors! 

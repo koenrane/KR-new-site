@@ -85,7 +85,7 @@ ol {
       color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
-      margin-right: 0.5em;
+      margin-right: 0.25em;
     }
 
     // Nested lists

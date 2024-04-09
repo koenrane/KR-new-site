@@ -23,14 +23,14 @@ export default {
     },
     backlinks: {
       title: "Backlinks",
-      noBacklinksFound: "No backlinks found",
+      noBacklinksFound: "No backlinks found.",
     },
     themeToggle: {
       lightMode: "Light mode",
       darkMode: "Dark mode",
     },
     explorer: {
-      title: "Explorer",
+      title: "Articles",
     },
     footer: {
       createdWith: "Created with",
@@ -54,6 +54,7 @@ export default {
       title: "Table of Contents",
     },
     contentMeta: {
+      authors: ({ authors }) => `Authors: ${authors}`,
       readingTime: ({ minutes }) => `${minutes} min read`,
     },
   },

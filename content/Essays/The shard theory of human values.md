@@ -1,8 +1,11 @@
 ---
 permalink: shard-theory
 publish: "true"
+authors: Quintin Pope and Alex Turner
+original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
+date_published: 9/3/22
 ---
-> [!note] [Originally posted](https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd) on September 3<sup>rd</sup>, 2022. 
+> [!note] [Originally posted]() on September 3<sup>rd</sup>, 2022. 
 
 
 **TL;DR:** We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry. 

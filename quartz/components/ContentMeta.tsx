@@ -28,11 +28,34 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
     if (text) {
       const segments: (string | JSX.Element)[] = []
+      const frontmatter = fileData.frontmatter
 
-      if (fileData.dates) {
-        const formattedDate = formatDate(getDate(cfg, fileData)!, cfg.locale)
-        const dateStr = "Published on " + formattedDate
-        segments.push(dateStr)
+      var authors = "Alex Turner"
+      if (frontmatter?.authors) {
+        authors = frontmatter?.authors
+      }
+      segments.push("By " + authors)
+
+      if (frontmatter?.original_url) {
+        var dateStr = ""
+        // TODO automate this for new posts
+        var publicationStr = "Published"
+        if (frontmatter?.date_published) {
+          publicationStr = "Originally published"
+          const formattedDate: Date = formatDate(new Date(frontmatter?.date_published))
+          dateStr = " on " + formattedDate
+        } else if (fileData.dates) {
+          const formattedDate: Date = formatDate(getDate(cfg, fileData)!, cfg.locale)
+          dateStr = " on " + formattedDate
+        }
+
+        publicationStr = (
+          <span>
+            <a href={frontmatter?.original_url}>{publicationStr}</a>
+            {dateStr}
+          </span>
+        )
+        segments.push(publicationStr)
       }
 
       // Display reading time if enabled
