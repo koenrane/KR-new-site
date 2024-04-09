@@ -11,7 +11,7 @@ const fullRegex = new RegExp(
   `${preLinkRegex.source}(?:${postPunctuation.source}|[\*_]{1,2}${postPunctuation.source}[\*_]{1,2})`,
   "g",
 )
-const replaceTemplate = "[$1$2$4$5]($3)"
+const replaceTemplate = "[$1$2$4$5]($3) "
 
 const remarkLinkPunctuation: Plugin = (text: string) => {
   return text.replaceAll(fullRegex, replaceTemplate)
