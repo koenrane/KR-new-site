@@ -62,10 +62,16 @@ export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
                   tagName: "center",
                   children: children,
                 })
-
-                // footnotesData.previousHr = parent?.children[index - 1]
               }
             })
+
+            if (!footnotesData.footnotesSectionFound) {
+              tree.children.push({
+                type: "element",
+                tagName: "center",
+                children: children,
+              })
+            }
           }
         },
       ]

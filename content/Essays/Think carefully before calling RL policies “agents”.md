@@ -1,10 +1,9 @@
 ---
 permalink: RL-trains-policies-not-agents
 publish: "true"
+original_url: https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents
+date_published: 6/1/23
 ---
-
-> [!note] Originally [posted](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents) on June 1<sup>st</sup>, 2023.
-
 <span class="first-letter">I</span> think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts “agents.” This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a “policy.” This name is standard, accurate, and neutral. 
 
 # Don’t assume the conclusion by calling a policy an “agent”
@@ -21,11 +20,13 @@ Of course, a policy could in fact be computed using internal planning (e.g. dept
 
 Throughout [my PhD in RL theory](https://turntrout.com/alignment-phd), I accepted the idea that RL tends to create agents, and supervised learning doesn’t. [Well-cited](https://arxiv.org/pdf/1312.5602.pdf) [papers](https://arxiv.org/abs/1912.06680) use the term “agents”, as do textbooks and [Wikipedia](https://en.wikipedia.org/wiki/Reinforcement_learning). I also hadn’t seen anyone give the pushback I give in this post. 
 
-__Question:__ Given a fixed architecture (e.g. a 48-layer decoder-only transformer), what kinds of learning processes are more likely to train policy networks which use internal planning? 
+> [!question]
+> Given a fixed architecture (e.g. a 48-layer decoder-only transformer), what kinds of learning processes are more likely to train policy networks which use internal planning? 
 
 If you’re like I was in early 2022, you might answer “RL trains agents.” _But why? In what ways do PPO’s weight updates tend to accumulate into agentic circuitry, while unsupervised pretraining on OpenWebText does not?_
 
-__Claim__: People are tempted to answer “RL” because the field adopted the “agent” terminology for reasons _unrelated to the above question_. Everyone keeps using the loaded terminology because no one questions it.
+> [!claim] 
+> People are tempted to answer “RL” because the field adopted the “agent” terminology for reasons _unrelated to the above question_. Everyone keeps using the loaded terminology because no one questions it.
 
 Let’s be clear. RL researchers _did not_ deliberate carefully about the inductive biases of deep learning, and then decide that a certain family of algorithms was especially likely to train agentic cognition. Researchers called policies “agents” as early as 1995, _before_ the era of deep learning (e.g. see [AI: A modern approach, 1st edition](https://en.wikipedia.org/wiki/Artificial_Intelligence:_A_Modern_Approach)).
 
