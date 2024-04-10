@@ -57,11 +57,8 @@ body,
     "onum" 1;
 }
 
-div {
-  & .explorer-content,
-  & .toc-content {
-    // line-height: 10em;
-  }
+.explorer {
+  font-size: 1.1rem;
 }
 
 .center {

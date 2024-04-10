@@ -82,10 +82,9 @@
     --callout-icon: var(--callout-icon-question);
   }
 
-  // TODO warning isnt working
   &[data-callout="warning"] {
-    --color: var(--orange);
-    // --color: #db8942;
+    // --color: var(--orange);
+    --color: #db8942;
     --border: #db894244;
     --bg: #db894210;
     --callout-icon: var(--callout-icon-warning);

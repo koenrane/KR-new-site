@@ -58,7 +58,7 @@ _Summary._ Under our assumptions, most of the human brain is locally randomly i
 # 2. Reinforcement events shape human value shards
 
 > [!warning] Disclaimer
-> This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for X.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language.
+> This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for drinking the juice.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language.
 
 Given the inaccessibility of world model concepts, how does the genetically hard-coded reward system dispense reward in the appropriate mental situations? For example, suppose you send a drunk text, and later feel embarrassed, and this triggers a penalty. How is that penalty calculated? By information inaccessibility and the absence of text messages in the ancestral environment, the genome _isn’t_ directly hard-coding a circuit which detects that you sent an embarrassing text and then penalizes you. Nonetheless, such embarrassment seems to trigger (negative) reinforcement events... and we don’t really understand how that works yet. 
 
