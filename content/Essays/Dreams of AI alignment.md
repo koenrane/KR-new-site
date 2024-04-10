@@ -22,7 +22,7 @@ Let's not forget the old, well-read post: [Dreams of AI Design](https://www.less
 Consider the following terms and phrases:
 
 - "LLMs are trained to predict/simulate"
-    - "LLMs are predictors" (and then [trying to argue the LLM only predicts human values instead of acting on them](https://www.lesswrong.com/posts/i5kijcjFJD6bn7dwq/evaluating-the-historical-value-misspecification-argument?commentId=AytgTwAwj8eGC8aSW)!)
+    - "LLMs are predictors" (and then [trying to argue the LLM only predicts human values instead of acting on them!](https://www.lesswrong.com/posts/i5kijcjFJD6bn7dwq/evaluating-the-historical-value-misspecification-argument?commentId=AytgTwAwj8eGC8aSW))
 - "Attention mechanism" (in self-attention)
 - "AIs are incentivized to" (when talking about the reward or loss functions, thus implicitly reversing the true causality; reward optimizes the AI, but AI probably won't optimize the reward)
 - "[Reward](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)" (implied to be an attractive quantity to the decision-maker)

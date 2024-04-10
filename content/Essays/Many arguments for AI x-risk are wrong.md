@@ -5,10 +5,8 @@ original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-f
 date_published: 3/4/2024
 tags: []
 ---
-
-_The following is a lightly edited version of a memo I wrote for a retreat. It was inspired by a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom). I think that my post covers important points not made by the published version of that post._
-
-_I'm also thankful for the dozens of interesting conversations and comments at the retreat._
+> [!note] Author's note
+> The following is a lightly edited version of a memo I wrote for a retreat. It was inspired by a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom). I think that my post covers important points not made by the published version of that post. I'm also thankful for the dozens of interesting conversations and comments at the retreat.
 
 I think that the AI alignment field is partially founded on fundamentally confused ideas. I’m worried about this because, right now, a range of lobbyists and concerned activists and researchers are in Washington making policy asks. Some of these policy proposals seem to be based on erroneous or unsound arguments.[^1]
 [^1]: To echo [the concerns of a few representatives in the U.S. Congress](https://science.house.gov/2023/12/science-committee-leaders-stress-importance-of-diligence-in-nist-ai-safety-research-funding): "The current state of the AI safety research field creates challenges for NIST as it navigates its leadership role on the issue. Findings within the community are often self-referential and lack the quality that comes from revision in response to critiques by subject matter experts."
@@ -26,9 +24,10 @@ Disclaimers:
 
 # Tracing back historical arguments
 
-In the next section, I'll discuss the counting argument. In this one, I want to demonstrate how often foundational alignment texts make crucial errors. Nick Bostrom's Superintelligence, for example:
+In the next section, I'll discuss the counting argument. In this one, I want to demonstrate how often foundational alignment texts make crucial errors. For example:
 
-> A range of different methods can be used to solve “reinforcement-learning problems,” but they typically involve creating a system that seeks to maximize a reward signal. This has an inherent tendency to produce the wireheading failure mode when the system becomes more intelligent. Reinforcement learning therefore looks unpromising. (p.253)
+> [!quote] Nick Bostrom's <span class="book-citation">Superintelligence</span>, page 253
+> A range of different methods can be used to solve “reinforcement-learning problems,” but they typically involve creating a system that seeks to maximize a reward signal. This has an inherent tendency to produce the wireheading failure mode when the system becomes more intelligent. Reinforcement learning therefore looks unpromising.
 
 To be blunt, this is nonsense. I have long meditated on the nature of "reward functions" during [my PhD in RL theory](https://arxiv.org/abs/2206.11831). [In the most useful and modern RL approaches, "reward" is a tool used to control the strength of parameter updates to the network.](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target)[^RL] It is simply _not true_ that "\[RL approaches] typically involve creating a system that seeks to maximize a reward signal." There is not a single case where we have used RL to train an artificial system which intentionally “seeks to maximize” reward.[^RLauth] Bostrom spends a few pages making this mistake at great length.[^support]
 [^RL]: Here’s a summary of the technical argument. The actual PPO+Adam update equations show that the "reward" is used to, basically, control the learning rate on each (state, action) datapoint. That's roughly[^rough] what the math says. We also have a bunch of examples of using this algorithm where the trained policy's behavior makes the reward number go up on its trajectories. Completely separately and with no empirical or theoretical justification given, RL papers have a convention of _including the English words_ "the point of RL is to train agents to maximize reward", which often gets further mutated into e.g. Bostrom's argument for wireheading ("they will probably seek to maximize reward"). That's simply unsupported by the data and so an outrageous claim.
@@ -146,8 +145,8 @@ Undo the update from the “counting argument”, however, and the probability o
    1. For example, “future AIs will probably have deceptively misaligned goals from training” is supposed to be supported by arguments like “training selects for goal-optimizers because they efficiently minimize loss.” This argument is so weak/vague/intuitive, I doubt it’s more than a single bit of evidence for the claim. 
    2. I think if you try to use this kind of argument to reason about generalization, _today_, you’re going to do a pretty poor job. 
 3. Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z).
-   1. For example, “ML training is like evolution” or “future direct-reward-optimization reward hacking is like that OpenAI boat example today.”
-   2. The probable cause of [the boat example](https://deepmindsafetyresearch.medium.com/specification-gaming-the-flip-side-of-ai-ingenuity-c85bdb0deeb4) (“we directly reinforced the boat for running in circles”) is _not_ the same as the speculated cause of certain kinds of future reward hacking (“misgeneralization”). 
+   1. For example, “ML training is like evolution” or “future direct-reward-optimization reward hacking is like that [OpenAI boat example](https://openai.com/research/faulty-reward-functions).”
+   2. The probable cause of the boat example (“we directly reinforced the boat for running in circles”) is _not_ the same as the speculated cause of certain kinds of future reward hacking (“misgeneralization”). 
 	   1. That is, suppose you’re worried about a future AI autonomously optimizing its own numerical reward signal. You probably aren’t worried because the AI was _directly historically reinforced for doing so_ (like in the boat example)—You’re probably worried because the AI decided to optimize the reward on its own (“misgeneralization”).
    3. In general: You can’t just put suggestive-looking gloss on one empirical phenomenon, call it the same name as a second thing, and then draw strong conclusions about the second thing!
 
