@@ -48,7 +48,7 @@ body,
   --font-size-large: 1.8em;
   font-size: 13px;
 
-  --ornament-size: 3.5rem;
+  --ornament-size: 4rem;
 
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
@@ -197,6 +197,7 @@ sup {
 }
 
 .text-ornament {
+  font-family: var(--font-text-header);
   font-size: var(--ornament-size);
   filter: saturate(90%); //drop-shadow(0 0 1.2px light-dark(transparent, white));
   color: var(--blue);
@@ -206,7 +207,7 @@ sup {
 .trout-ornament {
   // filter: light-dark(none, invert(1) brightness(75%) sepia(100) saturate(20) hue-rotate(180deg));
   filter: light-dark(none, invert(66%));
-  opacity: light-dark(0.6, 1);
+  opacity: light-dark(0.5, 1);
 }
 
 // The image in the title
