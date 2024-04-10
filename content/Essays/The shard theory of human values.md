@@ -5,9 +5,6 @@ authors: Quintin Pope and Alex Turner
 original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
 date_published: 9/3/22
 ---
-> [!note] [Originally posted]() on September 3<sup>rd</sup>, 2022. 
-
-
 **TL;DR:** We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry. 
 
 ---
@@ -18,16 +15,17 @@ Human values _look so strange and inexplicable_. How could those values be the 
 
 1. Details our working assumptions about the learning dynamics within the brain,
 2. Conjectures that reinforcement learning grows situational heuristics of increasing complexity, and
-3. Uses shard theory to explain several confusing / “irrational” quirks of human decision-making.
+3. Uses shard theory to explain several confusing or “irrational” quirks of human decision-making.
 
-_Terminological note:_ We use “value” to mean _a contextual influence on decision-making_. Examples:
-
-- Wanting to hang out with a friend.
-- Feeling an internal urge to give money to a homeless person.
-- Feeling an internal urge to text someone you have a crush on.
-- That tug you feel when you are hungry and pass by a donut. 
-
-To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#app-b). The main downside is that the definition is relatively broad—most people wouldn’t list “donuts” among their “values.” To avoid this counter-intuitiveness, we would refer to a “donut shard” instead of a “donut value.” (“Shard” and associated terminology are defined in [section 2](#shaping).)
+> [!note] Terminological clarification
+> 
+> We use “value” to mean _a contextual influence on decision-making_. Examples:
+> - Wanting to hang out with a friend.
+> - Feeling an internal urge to give money to a homeless person.
+> - Feeling an internal urge to text someone you have a crush on.
+> - That tug you feel when you are hungry and pass by a donut. 
+> 
+> To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#app-b). The main downside is that the definition is relatively broad—most people wouldn’t list “donuts” among their “values.” To avoid this counter-intuitiveness, we would refer to a “donut shard” instead of a “donut value.” (“Shard” and associated terminology are defined in [section 2](#shaping).)
 
 <a id="1-assumptions"></a>
 # 1. Neuroscientific assumptions
@@ -36,11 +34,11 @@ The shard theory of human values makes three main assumptions. We think each ass
 
 **Assumption 1: The cortex**[^1] **is basically (locally) randomly initialized.** According to this assumption, [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in) in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [Intro to brain-like-AGI safety: Learning from scratch in the brain.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in)
 
-Thus, we infer that [human values & biases are inaccessible to the genome:](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome) 
-
+Thus, we infer that 
+> [!quote]  [Human values & biases are inaccessible to the genome](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
 > It seems hard to scan a trained neural network and locate the AI’s learned “tree” abstraction. For very similar reasons, it seems intractable for the genome to scan a human brain and back out the “death” abstraction, which probably will not form at a predictable neural address. Therefore, we infer that the genome can’t _directly_ make us afraid of death by e.g. specifying circuitry which detects when we think about death and then makes us afraid. In turn, this implies that there are a _lot_ of values and biases which the genome cannot hardcode…  
 >   
-> \[This leaves us with\] a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor)where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](https://arbital.com/p/ontology_identification/)Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
+> This leaves us with a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor)where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](https://arbital.com/p/ontology_identification/)Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
 
 **Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex)to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
 
@@ -59,7 +57,8 @@ _Summary._ Under our assumptions, most of the human brain is locally randomly i
 <a id="shaping"></a>
 # 2. Reinforcement events shape human value shards
 
-_This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for X.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language._
+> [!warning] Disclaimer
+> This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for X.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language.
 
 Given the inaccessibility of world model concepts, how does the genetically hard-coded reward system dispense reward in the appropriate mental situations? For example, suppose you send a drunk text, and later feel embarrassed, and this triggers a penalty. How is that penalty calculated? By information inaccessibility and the absence of text messages in the ancestral environment, the genome _isn’t_ directly hard-coding a circuit which detects that you sent an embarrassing text and then penalizes you. Nonetheless, such embarrassment seems to trigger (negative) reinforcement events... and we don’t really understand how that works yet. 
 
@@ -98,9 +97,8 @@ The juice-shard formation story is simple and—if we did our job as authors—e
 As people, we have lots of intuitions about human behavior. However, intuitively obvious behaviors _still have to have mechanistic explanations_—such behaviors still have to be retrodicted by a correct theory of human value formation. While reading the following examples, try looking at human behavior with fresh eyes, as if you were seeing humans for the first time and wondering what kinds of learning processes would produce agents which behave in the ways described.     
 
 ## Altruism is contextual
-
-Consider Peter Singer’s [drowning child thought experiment:](https://www.opendemocracy.net/en/a-life-to-save-direct-action-on-poverty/)
-
+> [!quote] [A life to save: Direct action on poverty](https://www.opendemocracy.net/en/a-life-to-save-direct-action-on-poverty/)
+> 
 > Imagine you come across a small child who has fallen into a pond and is in danger of drowning. You know that you can easily and safely rescue him, but you are wearing an expensive pair of shoes that will be ruined if you do.
 
 Probably,[^9] most people would save the child, even at the cost of the shoes. However, few of those people donate an equivalent amount of money to save a child far away from them. Why do we care more about nearby visible strangers as opposed to distant strangers? 
@@ -113,9 +111,8 @@ This child-shard most strongly activates in contexts similar to the historical r
 
 Shard theory retrodicts that altruism tends to be biased towards nearby people (and also the ingroup), without positing complex, [information-inaccessibility-violating](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome) adaptations like the following:
 
+> [!quote] [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
 > We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way. 
-> 
-> — [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
 
 Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism)Probably not.
 
@@ -131,9 +128,8 @@ Since shards more strongly influence decisions in their historical reinforcement
 
 ## Milgram is also contextual
 
+> [!quote] [The Milgram Experiment](https://en.wikipedia.org/wiki/Milgram_experiment)
 > The Milgram experiment(s) on obedience to authority figures was a series of social psychology experiments conducted by Yale University psychologist Stanley Milgram. They measured the willingness of study participants, men in the age range of 20 to 50 from a diverse range of occupations with varying levels of education, to obey an authority figure who instructed them to perform acts conflicting with their personal conscience. Participants were led to believe that they were assisting an unrelated experiment, in which they had to administer electric shocks to a "learner". These fake electric shocks gradually increased to levels that would have been fatal had they been real.
-> 
-> — [The Milgram Experiment](https://en.wikipedia.org/wiki/Milgram_experiment)
 
 We think that people convergently learn obedience- and cooperation-shards which more strongly influence decisions in the presence of an authority figure, perhaps because of historical obedience-reinforcement events in the presence of teachers / parents. These shards strongly activate in this situation. 
 
@@ -163,9 +159,8 @@ We think that simple reward circuitry leads to different cognition activating in
 
 ### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
 
+> [!quote] [Dynamic inconsistency, Wikipedia](https://en.wikipedia.org/wiki/Dynamic_inconsistency) 
 > Humans have a tendency to mispredict their future [marginal utilities](https://en.wikipedia.org/wiki/Marginal_utility) by assuming that they will remain at present levels. This leads to inconsistency as marginal utilities (for example, tastes) change over time in a way that the individual did not expect. For example, when individuals are asked to choose between a piece of fruit and an unhealthy snack (such as a candy bar) for a future meal, the choice is strongly affected by their "current" level of hunger. 
-> 
-> — [Dynamic inconsistency, Wikipedia](https://en.wikipedia.org/wiki/Dynamic_inconsistency) 
 
 We believe that this is _not_ a misprediction of how tastes will change in the future. Many adults know perfectly well that they will later crave the candy bar. However, a satiated adult has a greater probability of choosing fruit for their later self, because their deliberative shards are more strongly activated than their craving-related shards. The current level of hunger strongly controls which food-related shards are activated. 
 

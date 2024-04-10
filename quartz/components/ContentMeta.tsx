@@ -51,7 +51,9 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
         publicationStr = (
           <span>
-            <a href={frontmatter?.original_url}>{publicationStr}</a>
+            <a href={frontmatter?.original_url} class="external">
+              {publicationStr}
+            </a>
             {dateStr}
           </span>
         )

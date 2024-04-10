@@ -1,14 +1,13 @@
 ---
 permalink: bruce-wayne-and-the-cost-of-inaction
 publish: "true"
+authors: Alex and Josh Turner
+original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+date_published: 9/9/2022
 ---
-
-> [!note] Originally posted [to LessWrong](https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction) on September 9<sup>th</sup>, 2022.
-> My brother and I wrote this first arc of a Batman fanfiction in the summer of 2020.
-
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
+<center><audio src="/static/batman.mp3" controls> </audio></center>
 
-<audio src="/static/batman.mp3" controls> </audio>
 # 1: Don’t Look Away
 
 “The man’s starving. That doesn’t change if you look away, Bruce.”
@@ -63,7 +62,7 @@ The silver and black skyline glimmered against the velvet curtain sky. Silence o
 
 ---
 
-Thomas and Bruce shared a quiet chauffeured ride back to Wayne Manor, Bruce peppering his father with questions about what such-and-such a worker was building, or why this-and-that restaurant had shuttered. Bruce grew quiet once they left downtown, leaving only the smooth hum of the drive. For the last half mile, the route lay exposed to the broad and deep blue of the lake; on their right ran the modest cliffs and hills which buttressed the limits of the city proper. A sliver of moon smiled sideways, and the stars twinkled.
+Thomas and Bruce shared a quiet chauffeured ride back to Wayne Manor, Bruce peppering his father with questions about what such-and-such a worker was building, or why this-and-that restaurant had shuttered. Bruce grew quiet once they left downtown, leaving only the smooth hum of the drive. For the last half mile, the route lay exposed to the broad and deep blue of the lake; on their right ran the modest cliffs and hills which buttressed the limits of the city proper. A sliver of moon smiled sideways, and the stars twinkled. <img src="/static/twinkling-stars.png" style="height:1em; width:1em; vertical-align:-19px; margin-top: -10px;filter: invert(100%); background-color: light-dark(darkgrey, transparent)" class="no-select">
 
 Face pensive, mind uneasy, Thomas looked out over the water and the photons which skipped and swam across its surface. That day’s meetings had disappointed.
 
@@ -87,8 +86,9 @@ Sometimes, Thomas just wanted to wring the sickness out of Gotham with his bare 
 
 Gentle deceleration woke him from his thoughts. As father and son left the car, the soft tinkling and chattering of water greeted them, their large circular fountain carrying water through the mouths of four dolphins. Amid the four stood a man of marble. He faced the set sun, right hand safeguarding a book, left hand proudly holding aloft a great torch. From the lantern streamed water, refracting the starlight and sending it sparkling across the front of the manor.
 
-They were home.
-<img id="fade-img" src="./static/fountain.webp" width="auto" height="auto">
+They were home.<br>
+<center><img id="fade-img" src="./static/fountain.webp" width="90%" height="auto" class="no-select"></center>
+
 # 2: The World is Messy
 
 Thomas and Bruce passed through carven mahogany doors into a warm, high-ceilinged room of pale marble floor. Opposite them burned a fireplace of hardwood mantel and brick hearth. Family legend held that its fire had burned uninterrupted through the last century. For his part, Thomas had never seen it darkened. 
