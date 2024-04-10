@@ -10,3 +10,6 @@ echo "1"
 #               16. **(garbage)** -> [^16]:
 perl -pe 's/([0-9]+)\. \*\*.*\)\*\*/\[\^\1\]: /g' $file >$file.tmp && mv $file.tmp $file
 # TODO there are two extra newlines still, but apparently obsidian doesn't care.
+
+# Ensure separation after hyperlinks
+sed -E 's/\)(\w)/\) $1/g' $file >$file.tmp && cp $file.tmp $file~ && mv $file.tmp $file

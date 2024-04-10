@@ -9,9 +9,9 @@ date_published: 9/3/22
 
 ---
 
-[We think that human value formation is extremely important for AI alignment.](https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about)We have empirically observed exactly one process which reliably produces agents which intrinsically care about certain objects in the real world, which reflect upon their values and change them over time, and which—at least some of the time, with non-negligible probability—care about each other. That process occurs millions of times each day, despite genetic variation, cultural differences, and disparity in life experiences. That process produced you and your values. 
+[We think that human value formation is extremely important for AI alignment.](https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about) We have empirically observed exactly one process which reliably produces agents which intrinsically care about certain objects in the real world, which reflect upon their values and change them over time, and which—at least some of the time, with non-negligible probability—care about each other. That process occurs millions of times each day, despite genetic variation, cultural differences, and disparity in life experiences. That process produced you and your values. 
 
-Human values _look so strange and inexplicable_. How could those values be the product of anything except hack after evolutionary [hack?](https://www.readthesequences.com/My-Naturalistic-Awakening)We think this is _not_ what happened. This post describes the shard theory account of human value formation, split into three sections:
+Human values _look so strange and inexplicable_. How could those values be the product of anything except hack after evolutionary [hack?](https://www.readthesequences.com/My-Naturalistic-Awakening) We think this is _not_ what happened. This post describes the shard theory account of human value formation, split into three sections:
 
 1. Details our working assumptions about the learning dynamics within the brain,
 2. Conjectures that reinforcement learning grows situational heuristics of increasing complexity, and
@@ -38,9 +38,9 @@ Thus, we infer that 
 > [!quote]  [Human values & biases are inaccessible to the genome](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
 > It seems hard to scan a trained neural network and locate the AI’s learned “tree” abstraction. For very similar reasons, it seems intractable for the genome to scan a human brain and back out the “death” abstraction, which probably will not form at a predictable neural address. Therefore, we infer that the genome can’t _directly_ make us afraid of death by e.g. specifying circuitry which detects when we think about death and then makes us afraid. In turn, this implies that there are a _lot_ of values and biases which the genome cannot hardcode…  
 >   
-> This leaves us with a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor)where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](https://arbital.com/p/ontology_identification/)Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
+> This leaves us with a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor) where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](https://arbital.com/p/ontology_identification/) Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
 
-**Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex)to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
+**Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex) to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
 
 In other words, the brain engages in self-supervised predictive learning: Predict what happens next, then see what actually happened, and update to do better next time.
 
@@ -114,7 +114,7 @@ Shard theory retrodicts that altruism tends to be biased towards nearby people (
 > [!quote] [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
 > We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way. 
 
-Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism)Probably not.
+Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism) Probably not.
 
 Under the shard theory view, it’s not that brains _can’t_ multiply, it’s that for most people, the altruism-shard is most strongly invoked in face-to-face, one-on-one interactions, because _those are the situations which have been most strongly touched by altruism-related reinforcement events_. Whatever the altruism-shard’s influence on decision-making, it doesn’t steer decision-making so as to produce a linear willingness-to-pay relationship.
 
@@ -140,7 +140,7 @@ Indeed, varying the contextual features [dramatically affected](https://www.tuto
 
 ## Sunflowers and timidity
 
-Consider the following claim: “People reliably become more timid when [surrounded by tall sunflowers.](https://i.imgur.com/Qo94MA9.png)They become easier to sell products to and ask favors from.” 
+Consider the following claim: “People reliably become more timid when [surrounded by tall sunflowers.](https://i.imgur.com/Qo94MA9.png) They become easier to sell products to and ask favors from.” 
 
 Let’s see if we can explain this with shard theory. Consider the mental context. The person knows there’s a sunflower near them. What historical reinforcement events pertain to this context? Well, the person probably has pleasant associations with sunflowers, perhaps spawned by aesthetic reinforcement events which reinforced thoughts like “go to the field where sunflowers grow” and “look at the sunflower.”
 
@@ -181,7 +181,7 @@ Similarly, 
 1. Which do you prefer, to be given 500 dollars today or 505 dollars tomorrow?
 2. Which do you prefer, to be given 500 dollars 365 days from now or 505 dollars 366 days from now?
 
-[In such situations, people tend to choose \$500 in (A) but \$505 in (B),](https://scholar.google.com/scholar?cluster=16878679720519238129&hl=en&as_sdt=0,5)which is inconsistent with exponentially-discounted-utility models of the value of money. To explain this observed behavioral regularity using shard theory, consider the historical reinforcement contexts around immediate and delayed gratification. If contexts involving short-term opportunities activate different shards than contexts involving long-term opportunities, then it’s unsurprising that a person might choose 500 dollars in (A) but 505 dollars in (B).[^12] 
+[In such situations, people tend to choose \$500 in (A) but \$505 in (B),](https://scholar.google.com/scholar?cluster=16878679720519238129&hl=en&as_sdt=0,5) which is inconsistent with exponentially-discounted-utility models of the value of money. To explain this observed behavioral regularity using shard theory, consider the historical reinforcement contexts around immediate and delayed gratification. If contexts involving short-term opportunities activate different shards than contexts involving long-term opportunities, then it’s unsurprising that a person might choose 500 dollars in (A) but 505 dollars in (B).[^12] 
 
 ### [Framing effect](https://thedecisionlab.com/biases/framing-effect)
 This is another bias that’s downstream of shards activating contextually. Asking the same question in different contexts can change which value-shards activate, and thus change how people answer the question. Consider also: [People are hesitant to drink from a cup labeled “poison”, even if they themselves were the one to put the label there.](https://psycnet.apa.org/record/1986-21988-001)
@@ -192,7 +192,7 @@ However, the cognitive biases literature is so large and heterogeneous that ther
 
 ## Why people can't enumerate all their values
 
-Shards being contextual also helps explain why [we can’t specify our full values.](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes)We can describe a moral theory that seems to capture our values in a given mental context, but it’s usually easy to find some counterexample to such a theory—some context or situation where the specified theory prescribes absurd behavior.
+Shards being contextual also helps explain why [we can’t specify our full values.](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes) We can describe a moral theory that seems to capture our values in a given mental context, but it’s usually easy to find some counterexample to such a theory—some context or situation where the specified theory prescribes absurd behavior.
 
 If shards implement your values, and shards activate situationally, your values will also be situational. Once you move away from the mental context / situation in which you came up with the moral theory, you might activate shards that the theory fails to capture. We think that this is why the static utility function framing is hard to operate for humans. 
 
@@ -237,11 +237,11 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
     2. This rule requires statefulness via short-term memory and some coarse summary of the object itself (small time-scale object permanence within a shallow world-model).
 6. Object permanence develops from the generalization of specific heuristics for predicting common objects, to an invariant scheme for handling objects and their relationship to the child. 
     1. Developmental milestones vary from baby to baby because it takes them a varying amount of time to learn certain keystone but convergent abstractions, such as self-models. 
-    2. Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf) as human babies reach them.
+    2. Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011) AnimBehav.pdf) as human babies reach them.
     3. The more abstractions are learned, the easier it is to lay down additional functionality. When we see a new model of car, we do not have to relearn our edge detectors or car-detectors. 
 7. Learning continues, but we will stop here.
 
-In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8) hook into a reward circuit which focuses the learning on human faces. 
+In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17) 30580-8) hook into a reward circuit which focuses the learning on human faces. 
 
 <a id="app-b"></a>
 ## Appendix B: Terminology
@@ -260,8 +260,8 @@ Furthermore, your _values_ do not reflect a _reflectively endorsed utility fu
 
 **Different shard compositions can produce similar urges.** If you feel an urge to approach nearby donuts, that indicates a range of possibilities: 
 
-- A donut shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
-- A _hedonic_ shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
+- A donut shard is firing to increase _P(eating the donut) _ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
+- A _hedonic_ shard is firing to increase _P(eating the donut) _ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
 - A _social_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
 - …
 
@@ -278,12 +278,12 @@ Over the last several months, many people have read either a draft version of th
     2. Typical shard theory questions: 
         1. “What is the mechanistic process by which a few people developed preferences over what happens [under different laws of physics?”](https://en.wikipedia.org/wiki/Multiverse#Level_IV:_Ultimate_ensemble)       
         2. “What is the mechanistic basis of certain shards (e.g. people respecting you) being ‘reflectively endorsed’, while other shards (e.g. avoiding spiders) can be consciously ‘planned around’ (e.g. going to exposure therapy so that you stop embarrassingly startling when you see a spider)?” _Thanks to Thane Ruthenis for this example._
-        3. “Why do humans have good [general alignment properties](https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties)like robustness to ontological shifts?”
+        3. “Why do humans have good [general alignment properties](https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties) like robustness to ontological shifts?”
 2. The shard paradigm/theory/frame of AI alignment analyzes the value formation processes which will occur in deep learning, and tries to figure out their properties. 
     1. Typical questions asked under this paradigm/frame: 
         1. “How can we predictably control the way in which a policy network generalizes? For example, under what training regimes and reinforcement schedules would [a CoinRun agent generalize](https://arxiv.org/abs/2105.14111) to pursuing coins instead of the right end of the level? What quantitative relationships and considerations govern this process?”
         2. “Will deep learning agents robustly and reliably navigate [ontological shifts?”](https://www.lesswrong.com/tag/ontological-crisis)    
-	2. This paradigm places a strong (and, we argue, [appropriate)](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about)emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense. 
+	2. This paradigm places a strong (and, we argue, [appropriate)](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about) emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense. 
     3. That said, alignment implications are out of scope for this post. We postpone discussion to future posts.
 3. “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
     1. We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
@@ -329,7 +329,7 @@ In [section 1](#assumptions), we stated that shard theory makes three key neuros
 
 [^11]:  “It’s easier to kill a distant and unseen victim” seems common-sensically true, but we couldn’t actually find citations. Therefore, we are flagging this as possibly wrong folk wisdom. We would be surprised if it were wrong. 
 
-[^12]:  Shard theory reasoning says that while humans might be [well-described as “hyperbolic discounters”,](https://en.wikipedia.org/wiki/Hyperbolic_discounting)the real mechanistic explanation is importantly different. People may well not be doing any explicitly represented discounting; instead, discounting may only convergently arise as a superficial regularity! This presents an obstacle to alignment schemes aiming to infer human preferences by assuming that people are _actually discounting_.
+[^12]:  Shard theory reasoning says that while humans might be [well-described as “hyperbolic discounters”,](https://en.wikipedia.org/wiki/Hyperbolic_discounting) the real mechanistic explanation is importantly different. People may well not be doing any explicitly represented discounting; instead, discounting may only convergently arise as a superficial regularity! This presents an obstacle to alignment schemes aiming to infer human preferences by assuming that people are _actually discounting_.
   
 [^13]:  We made this timeline up. We expect that we got many details wrong for a typical timeline, but the point is not the exact order. The point is to outline the kind of process by which the world model might arise _only_ from self-supervised learning.
    
