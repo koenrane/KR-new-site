@@ -121,9 +121,10 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.AddFavicons(),
       Plugin.TagAcronyms(),
       Plugin.LinkTextPunctuation(),
+      Plugin.AddFavicons(),
+      Plugin.TroutOrnamentHr(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [

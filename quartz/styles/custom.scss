@@ -47,6 +47,8 @@ body,
   --font-size-large: 1.8em;
   font-size: 13px;
 
+  --ornament-size: 3rem;
+
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings:
@@ -194,13 +196,27 @@ sup {
   line-height: 0; // Don't push other lines away
 }
 
+.text-ornament {
+  font-size: var(--ornament-size);
+  vertical-align: 0.75em;
+  filter: saturate(100%);
+  color: var(--blue);
+}
+
+.trout-ornament {
+  filter: invert(1) brightness(75%) sepia(100) saturate(20) hue-rotate(180deg);
+}
+
 // The image in the title
 // Always applied
 .header-img {
   filter: light-dark(saturate(85%), saturate(75%));
 }
-body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] .header-img {
-  filter: saturate(0%);
+// NOTE this will stop working if address moves TODO fix
+body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
+  & .header-img {
+    filter: saturate(0%);
+  }
 }
 // When screen is smaller
 @media all and (max-width: $fullPageWidth) {

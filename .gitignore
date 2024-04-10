@@ -15,3 +15,4 @@ package-lock.json
 *.bak
 backstop*
 prettierrc
+content/test page.md
