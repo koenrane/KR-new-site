@@ -199,12 +199,15 @@ sup {
 .text-ornament {
   font-size: var(--ornament-size);
   vertical-align: 0.75em;
-  filter: saturate(100%);
+  filter: saturate(90%); //drop-shadow(0 0 1.2px light-dark(transparent, white));
   color: var(--blue);
+  opacity: light-dark(0.7, 0.7);
 }
 
 .trout-ornament {
-  filter: invert(1) brightness(75%) sepia(100) saturate(20) hue-rotate(180deg);
+  // filter: light-dark(none, invert(1) brightness(75%) sepia(100) saturate(20) hue-rotate(180deg));
+  filter: light-dark(none, invert(66%));
+  opacity: light-dark(0.6, 1);
 }
 
 // The image in the title
