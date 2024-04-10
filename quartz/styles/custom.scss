@@ -195,6 +195,14 @@ sup {
 }
 
 // The image in the title
+// Always applied
+.header-img {
+  filter: light-dark(saturate(85%), saturate(75%));
+}
+body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] .header-img {
+  filter: saturate(0%);
+}
+// When screen is smaller
 @media all and (max-width: $fullPageWidth) {
   .header-img {
     margin-right: 0.9rem;
@@ -289,7 +297,7 @@ img .fade-img:after {
 .favicon {
   width: 0.65em;
   height: 0.65em;
-  // margin-right: 0.16em;
+  margin-right: 0.22em;
   vertical-align: 25%;
   filter: saturate(40%);
   margin-bottom: -0.07em;
