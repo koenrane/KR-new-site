@@ -22,7 +22,7 @@ $fonts-dir: "/static/fonts";
 @include font-face("EBGaramondSC", "EBGaramondSC08-Regular", ".otf");
 @include font-face("FiraCode", "FiraCode-VF", ".ttf");
 @include font-face("BadHandwriting", "BadHandwriting", ".ttf");
-@include font-face("Title", "Itim-Regular", ".ttf");
+// @include font-face("Title", "Itim-Regular", ".ttf");
 
 body,
 .published-container {
@@ -230,9 +230,9 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 /* Center the site name under the pond gif */
 .page-title {
-  font-family: "Title", cursive, sans-serif;
+  // font-family: "Title", cursive, sans-serif;
   font-feature-settings: "swsh" 1;
-  // font-family: var(--font-text-swash), cursive, sans-serif;
+  font-family: var(--font-text-swash), cursive, sans-serif;
 
   font-size: 2.5rem;
   text-align: center;
