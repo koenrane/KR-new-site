@@ -13,11 +13,10 @@ I think that the AI alignment field is partially founded on fundamentally confus
 
 The most important takeaway from this essay is that the (prominent) counting arguments for “deceptively aligned” or “scheming” AI provide \~0 evidence that pretraining + RLHF will eventually become intrinsically unsafe. That is, that even if we don't train AIs to achieve goals, they will be "deceptively aligned" anyways. This has important policy implications. 
 
-----
-Disclaimers:
-1. I am _not_ putting forward a positive argument for alignment being easy. I am pointing out the invalidity of existing arguments, and explaining the implications of rolling back those updates. 
-2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning -> doom are weak. I undid those updates and am now more optimistic."
-3. I am not covering training setups where we purposefully train an AI to be agentic and autonomous. I just think it's _not_ plausible that we just keep scaling up networks, run pretraining + light RLHF, and then produce a schemer.[^RFLO]
+> [!warning] Disclaimers
+> 1. I am _not_ putting forward a positive argument for alignment being easy. I am pointing out the invalidity of existing arguments, and explaining the implications of rolling back those updates. 
+> 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning -> doom are weak. I undid those updates and am now more optimistic."
+> 3. I am not covering training setups where we purposefully train an AI to be agentic and autonomous. I just think it's _not_ plausible that we just keep scaling up networks, run pretraining + light RLHF, and then produce a schemer.[^RFLO]
 
 [^RFLO]: To stave off revisionism: Yes, I think that "scaling->doom" has historically been a real concern. No, people have not "always known" that the "real danger" was zero-sum self-play finetuning of foundation models and distillation of agentic-task-prompted autoGPT loops.
  
@@ -78,12 +77,13 @@ In this essay, I'll address some of the arguments for “deceptive alignment” 
 >[!quote] Quote from a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom) 
 > Most AI doom scenarios posit that future AIs will engage in **scheming**— planning to escape, gain power, and pursue ulterior motives while deceiving us into thinking they are aligned with our interests. The worry is that if a schemer escapes, it may seek world domination to ensure humans do not interfere with its plans, whatever they may be.
 >
-> In this essay, we debunk the **counting argument**— a primary reason to think AIs might become schemers, according to a [recent report](https://arxiv.org/abs/2311.08379) by AI safety researcher [Joe Carlsmith](https://joecarlsmith.com/). It’s premised on the idea that schemers can have “a wide variety of goals,” while the motivations of a non-schemer must be benign or are otherwise more constrained. Since there are “more” possible schemers than non-schemers, the argument goes, we should expect training to produce schemers most of the time. In Carlsmith’s words (page 17 of the report):
->
->1. The non-schemer model classes, here, require fairly specific goals in order to get high reward.
->2. By contrast, the schemer model class is compatible with a very wide range of (beyond episode) goals, while still getting high reward… 
->3. In this sense, there are “more” schemers that get high reward than there are non-schemers that do so.
->4. So, other things equal, we should expect SGD to select a schemer.
+> In this essay, we debunk the **counting argument**— a primary reason to think AIs might become schemers, according to a [recent report](https://arxiv.org/abs/2311.08379) by AI safety researcher [Joe Carlsmith](https://joecarlsmith.com/). It’s premised on the idea that schemers can have “a wide variety of goals,” while the motivations of a non-schemer must be benign or are otherwise more constrained. Since there are “more” possible schemers than non-schemers, the argument goes, we should expect training to produce schemers most of the time. In Carlsmith’s words:
+> 
+> > [!quote] Quote from <span class="paper-citation"><a href="https://arxiv.org/abs/2311.08379">“Scheming AIs: Will AIs fake alignment during training in order to get power?”,</a></span> page 17
+> > 1. The non-schemer model classes, here, require fairly specific goals in order to get high reward.
+> > 2. By contrast, the schemer model class is compatible with a very wide range of (beyond episode) goals, while still getting high reward… 
+> > 3. In this sense, there are “more” schemers that get high reward than there are non-schemers that do so.
+> > 4. So, other things equal, we should expect SGD to select a schemer.
 >
 > We begin our critique by presenting a _structurally identical_ counting argument for the obviously false conclusion that neural networks should always memorize their training data, while failing to generalize to unseen data. Since the “generalization is impossible” argument actually has _stronger_ premises than those of the original “schemer” counting argument, this shows that naive counting arguments are generally unsound in this domain.
 >
@@ -133,28 +133,27 @@ I lastly want to note that there is no reason that any particular argument need 
 Undo the update from the “counting argument”, however, and the probability of scheming plummets substantially. If we aren’t expecting scheming AIs, that transforms the threat model. We can rely more on experimental feedback loops on future AI; we don’t have to get worst-case interpretability on future networks; it becomes far easier to just use the AIs as tools which do things we ask. That doesn’t mean everything will be OK. But not having to handle scheming AI is a game-changer.
 
 # Other clusters of mistakes
+> [!failure] [Using English names to draw technical conclusions about the named concepts.](https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names)
+> For example, if I want to consider whether a policy will care about its reinforcement signal, possibly the _worst goddamn thing I could call that signal_ is “reward”! “Will the AI try to maximize reward?” _How is anyone going to think neutrally about that question, without making inappropriate inferences from “rewarding things are desirable”?_ For example, I think that people would care a lot less about “reward hacking” if RL’s reinforcement signal hadn’t ever been called “reward.” (To be fair, this isn’t the fault of the alignment field in particular. "Reward" is bad terminology from RL.)
+> 
+> There are a lot more inappropriate, leading, or unjustified terms, from “training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X” to “RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)” (And don’t even get me started on “[shoggoth.”](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence)) As scientists, we should use neutral, descriptive terms during our inquiries. 
 
-1. [Concerns and arguments which are based on suggestive names which lead to unjustified conclusions. People read too much into the English text next to the equations in a research paper.](https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names)
-   1. If I want to consider whether a policy will care about its reinforcement signal, possibly the _worst goddamn thing I could call that signal_ is “reward”! 
-	   1. “Will the AI try to maximize reward?” _How is anyone going to think neutrally about that question, without making inappropriate inferences from “rewarding things are desirable”?_
-	   2. To be fair, this isn’t the fault of the alignment field in particular. "Reward" is bad terminology from RL.
-      2. I bet people would care a lot less about “reward hacking” if RL’s reinforcement signal hadn’t ever been called “reward.”
-   3. There are a lot more inappropriate / leading / unjustified terms, from “training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X” to “RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)” (And don’t even get me started on “[shoggoth.”)](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence)
-   4. As scientists, we should use neutral, descriptive terms during our inquiries. 
-2. Making highly specific claims about the internal structure of future AI, after presenting very tiny amounts of evidence. 
-   1. For example, “future AIs will probably have deceptively misaligned goals from training” is supposed to be supported by arguments like “training selects for goal-optimizers because they efficiently minimize loss.” This argument is so weak/vague/intuitive, I doubt it’s more than a single bit of evidence for the claim. 
-   2. I think if you try to use this kind of argument to reason about generalization, _today_, you’re going to do a pretty poor job. 
-3. Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z).
-   1. For example, “ML training is like evolution” or “future direct-reward-optimization reward hacking is like that [OpenAI boat example](https://openai.com/research/faulty-reward-functions).”
-   2. The probable cause of the boat example (“we directly reinforced the boat for running in circles”) is _not_ the same as the speculated cause of certain kinds of future reward hacking (“misgeneralization”). 
-	   1. That is, suppose you’re worried about a future AI autonomously optimizing its own numerical reward signal. You probably aren’t worried because the AI was _directly historically reinforced for doing so_ (like in the boat example)—You’re probably worried because the AI decided to optimize the reward on its own (“misgeneralization”).
-   3. In general: You can’t just put suggestive-looking gloss on one empirical phenomenon, call it the same name as a second thing, and then draw strong conclusions about the second thing!
+> [!failure] Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z). 
+> For example, “ML training is like evolution” or “future direct-reward-optimization reward hacking is like that [OpenAI boat example](https://openai.com/research/faulty-reward-functions).” The probable cause of the boat example (“we directly reinforced the boat for running in circles”) is _not_ the same as the speculated cause of certain kinds of future reward hacking (“misgeneralization”). 
+> 
+> That is, suppose you’re worried about a future AI autonomously optimizing its own numerical reward signal. You probably aren’t worried because the AI was _directly historically reinforced for doing so_ (like in the boat example)—You’re probably worried because the AI decided to optimize the reward on its own (“misgeneralization”). 
+> 
+> In general: You can’t just put suggestive-looking gloss on one empirical phenomenon, call it the same name as a second thing, and then draw strong conclusions about the second thing!
+
+> [!failure] Making highly specific claims about the internal structure of future AI, after presenting very tiny amounts of evidence. 
+> For example, “future AIs will probably have deceptively misaligned goals from training” is supposed to be supported by arguments like “training selects for goal-optimizers because they efficiently minimize loss.”[^reason-today] This argument is so weak, vague, and intuitive, I doubt it’s more than a single bit of evidence for the claim. 
+[^reason-today]: I think if you try to use this kind of argument to reason about generalization, _today_, you’re going to do a pretty poor job.
 
 While it may seem like I’ve just pointed out a set of isolated problems, a wide range of threat models and alignment problems are downstream of the mistakes I pointed out. In my experience, I had to rederive a large part of my alignment worldview in order to root out these errors! 
 
 For example, how much interpretability is nominally motivated by “being able to catch deception (in deceptively aligned systems)”? How many alignment techniques presuppose an AI being motivated by the training signal (e.g. AI Safety via Debate), or assuming that AIs cannot be trusted to train other AIs for fear of them coordinating against us? How many regulation proposals are driven by fear of the unintentional creation of goal-directed schemers? 
 
-I think it’s reasonable to still regulate/standardize “IF we observe [autonomous power-seeking], THEN we take [decisive and specific countermeasures].” I still think we should run evals and think of other ways to detect if pretrained models are scheming. But I don't think we should act or legislate as if that's some kind of probable conclusion.
+I think it’s reasonable to still regulate or standardize “IF we observe autonomous power-seeking, THEN we take decisive and specific countermeasures.” I still think we should run evals and think of other ways to detect if pretrained models are scheming. But I don't think we should act or legislate as if that's some kind of probable outcome.
 
 # Conclusion
 

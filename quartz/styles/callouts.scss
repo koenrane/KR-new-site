@@ -48,7 +48,8 @@
   &[data-callout="todo"] {
     // --color: #00b8d4;
     --color: var(--sky);
-    --border: #00b8d444;
+    --border-color: #00b8d444;
+    --border: color-mix(in srgb, --border-color, currentcolor 50%);
     --bg: #00b8d410;
     --callout-icon: var(--callout-icon-info);
   }

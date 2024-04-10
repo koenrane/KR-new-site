@@ -178,6 +178,7 @@ a {
   hyphens: auto;
   margin-top: 0em;
 
+  /* Apply visited style only to links outside of .callout-title divs */
   &:visited {
     color: var(--color-visited);
   }
@@ -185,6 +186,11 @@ a {
   &[role="anchor"] {
     background-color: transparent;
   }
+}
+
+// Ensure that links blend in well with the callout formatting
+.callout-title a {
+  color: color-mix(in srgb, var(--color-link), currentcolor 60%);
 }
 
 audio {
