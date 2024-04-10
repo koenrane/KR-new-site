@@ -22,6 +22,7 @@ $fonts-dir: "/static/fonts";
 @include font-face("EBGaramondSC", "EBGaramondSC08-Regular", ".otf");
 @include font-face("FiraCode", "FiraCode-VF", ".ttf");
 @include font-face("BadHandwriting", "BadHandwriting", ".ttf");
+@include font-face("Title", "Itim-Regular", ".ttf");
 
 body,
 .published-container {
@@ -47,7 +48,7 @@ body,
   --font-size-large: 1.8em;
   font-size: 13px;
 
-  --ornament-size: 3rem;
+  --ornament-size: 3.5rem;
 
   font-family: var(--font-text);
   /* Use a '1' which doesn't look like an 'l' */
@@ -198,7 +199,6 @@ sup {
 
 .text-ornament {
   font-size: var(--ornament-size);
-  vertical-align: 0.75em;
   filter: saturate(90%); //drop-shadow(0 0 1.2px light-dark(transparent, white));
   color: var(--blue);
   opacity: light-dark(0.7, 0.7);
@@ -221,6 +221,17 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
     filter: saturate(0%);
   }
 }
+
+/* Center the site name under the pond gif */
+.page-title {
+  font-family: "Title", cursive, sans-serif;
+  font-feature-settings: "swsh" 1;
+  // font-family: var(--font-text-swash), cursive, sans-serif;
+
+  font-size: 2.5rem;
+  text-align: center;
+}
+
 // When screen is smaller
 @media all and (max-width: $fullPageWidth) {
   .header-img {
@@ -229,11 +240,9 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
     width: 2em;
     vertical-align: -100%;
   }
-}
-
-/* Center the site name under the pond gif */
-.page-title {
-  text-align: center;
+  .page-title {
+    font-size: 2.2rem;
+  }
 }
 
 /* Allow inline emoji to resize with the text */

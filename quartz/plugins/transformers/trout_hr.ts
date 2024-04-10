@@ -12,7 +12,7 @@ const children = [
     tagName: "span",
     properties: {
       class: "text-ornament no-select",
-      style: "margin-right:0.3rem;",
+      style: "vertical-align:.75em;margin-right:0.3rem;",
     },
     children: [{ type: "text", value: "☙" }],
   },
@@ -31,7 +31,7 @@ const children = [
     tagName: "span",
     properties: {
       class: "text-ornament no-select",
-      style: "margin-left:0.5rem;",
+      style: "vertical-align:.65em;margin-left:0.5rem;",
     },
     children: [{ type: "text", value: "❧" }],
   },
