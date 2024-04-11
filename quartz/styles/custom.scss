@@ -3,7 +3,7 @@
 @use "_table.scss";
 @use "colors.scss";
 
-$fonts-dir: "/static/fonts";
+$fonts-dir: "/static/styles/fonts";
 
 @mixin font-face($font-family, $file-name, $ext: ".ttf", $font-features: none) {
   @font-face {
