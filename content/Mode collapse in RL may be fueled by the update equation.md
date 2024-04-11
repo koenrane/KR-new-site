@@ -164,8 +164,8 @@ However, Alex has a few intuitions anyways: 
 ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTDE doesn't mode collapse on a toy prisoner's dilemma learning task, but instead trains a mixed strategy. 
 
 We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [einhorn.michael1@gmail.com](mailto:einhorn.michael1@gmail.com) for any questions about the code.
-
-> [!idea] Author's note (April 11<sup>th</sup>, 2024)
+			
+> [!note] Author's note (April 11<sup>th</sup>, 2024)
 > In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex. 
 
 **Contributions:**
