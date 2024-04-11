@@ -183,6 +183,11 @@ a {
   &[role="anchor"] {
     background-color: transparent;
   }
+
+  &[href^="mailto:"] {
+    font-family: var(--font-monospace);
+    font-size: 0.75em;
+  }
 }
 
 // Ensure that links blend in well with the callout formatting

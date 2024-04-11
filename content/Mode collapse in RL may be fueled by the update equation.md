@@ -163,10 +163,10 @@ However, Alex has a few intuitions anyways: 
 
 ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTDE doesn't mode collapse on a toy prisoner's dilemma learning task, but instead trains a mixed strategy. 
 
-We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
-**April 11<sup>th</sup>**
+We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [einhorn.michael1@gmail.com](mailto:einhorn.michael1@gmail.com) for any questions about the code.
+
 > [!idea] Author's note (April 11<sup>th</sup>, 2024)
-> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290) of 2023, this direction no longer seems particularly promising to Alex. 
+> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex. 
 
 **Contributions:**
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
@@ -179,7 +179,7 @@ _Thanks to Connor Leahy, Evan Hubinger, Ulisse Mini, Nate Soares, Leo Gao, Garre
 1. The learning rate on $q^\pi$ should control the total amount of reinforcement from a single reward source.
 2. The at-convergence learned policy will, in our tabular setting, be invariant to constant shifts of the reward function and, when $\gamma=1$, to constant shifts of $q^\pi$’s initialization.
     1. However, perhaps decreasing rewards everywhere encourages exploration and increasing rewards encourages temporary mode collapse?
-    2. Multiplying all rewards by a positive scalar $c>0$ will extremize the policy probabilities in a rather simple way, by taking them to the $c$<sup>th</sup> power and then renormalizing. (IE a change in temperature for the softmax distribution.)
+    2. Multiplying all rewards by a positive scalar $c>0$ will extremize the policy probabilities in a rather simple way, by taking them to the $c$<sup>th</sup> power and then renormalizing. This is equivalent to a change in temperature for the softmax distribution.
 ## Reward matrix construction
 1.  The always-defect strategy is myopic, and the always-cooperate strategy is non-myopic.
    2.  The payoff matrix for the prisoner's dilemma was selected to have 0 sum, and to have equal discounted returns for all cooperate and all defect at a mean discount rate of 0.5. For example, the discount rate for equal discounted returns is 0.4523 starting from defect and 0.5477 starting from coop with a mean of 0.5.
