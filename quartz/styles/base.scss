@@ -65,6 +65,10 @@ ul,
   }
 }
 
+.katex {
+  font-size: 1em !important;
+} // Override minified katex styles
+
 strong {
   font-weight: $semiBoldWeight;
 }

@@ -24,15 +24,10 @@ export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
     externalResources() {
       if (engine === "katex") {
         return {
-          css: [
-            // base css
-            "/static/styles/katex.min.css",
-            // "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css",
-          ],
+          css: ["/static/styles/katex.min.css"],
           js: [
             {
-              // fix copy behaviour: https://github.com/KaTeX/KaTeX/blob/main/contrib/copy-tex/README.md
-              src: "/static/scripts/copy-tex.min.js",
+              src: "/static/scripts/katex.min.js",
               loadTime: "afterDOMReady",
               contentType: "external",
             },

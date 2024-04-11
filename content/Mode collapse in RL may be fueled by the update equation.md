@@ -37,14 +37,14 @@ The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ b
 
 Episode-by-episode:
 
-|$t$|Action taken|Advantage|$\pi_t(\text{wedding})$|$v_t^\pi(\text{“We had a ''})$|
-|---|---|---|---|---|
-|1|wedding|$(1-0)-0=1$|.73|1|
-|2|party|$(.5-0)-1=-.5$|.82|.5|
-|3|party|$(.5-0)-.5=0$|.82|.5|
-|4|wedding|$(1-0)-.5=.5$|.88|1|
+| $t$ | Action taken | Advantage          | $\pi_t(\text{wedding})$ | $v_t^\pi(\text{“We had a ''})$ |
+| --- | ------------ | ------------------ | ----------------------- | ------------------------------ |
+| 1   | wedding      | (1 - 0) - 0 = 1    | .73                     | 1                              |
+| 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                             |
+| 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                             |
+| 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                              |
 
-With probability 1 as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact “optimal” at that state. This does not seem good. Here are a few kinds of explanations for why:
+With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact “optimal” at that state. This does not seem good. Here are a few kinds of explanations for why:
 
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards “wedding.” Its logits just go up and up and up. Mode collapse.
 2. We want the reward to be _feedback_ about what kinds of completions are good (or, more abstractly, about what kinds of computations are good to run inside the network). We want a single situation to provide a _finite amount of updating._
@@ -69,12 +69,12 @@ ACTDE allows the system to account for its decision to go off-policy by selectin
 
 Re-analyzing the situation:
 
-|$t$|Action|Action-conditioned TD error|$\pi_t(\text{wedding})$|$q_{t}^\pi(\text{"We had a''},a)$|
-|---|---|---|---|---|
-|1|wedding|$(1-0)-0=1$|.73|wedding: 1, party: 0|
-|2|party|$(.5-0)-0=.5$|.63|wedding: 1, party: .5|
-|3|party|$(.5-0)-.5=0$|.63|wedding: 1, party: .5|
-|4|wedding|$(1-0)-1=0$|.63|wedding: 1, party: .5|
+| $t$ | Action  | Action-conditioned TD error | $\pi_t(\text{wedding})$ | $q_{t}^\pi(\text{"We had a''},a)$ |
+| --- | ------- | --------------------------- | ----------------------- | --------------------------------- |
+| 1   | wedding | (1 - 0) - 0 = 1             | .73                     | wedding: 1, party: 0              |
+| 2   | party   | (.5 - 0) - 0 = .5           | .63                     | wedding: 1, party: .5             |
+| 3   | party   | (.5 - 0) - .5 = 0           | .63                     | wedding: 1, party: .5             |
+| 4   | wedding | (1 - 0) - 1 = 0             | .63                     | wedding: 1, party: .5             |
 
 The policy quickly converges to the softmax logits over the reward for the next completions, where $\frac{e^1}{e^1+e^{.5}}\approx.63$. That is, the learned policy has $R(\text{“party”})=.5$ logits on “party” and $R(\text{“wedding”})=1$ logit on “wedding”. **Therefore this process does not converge to the optimal policy, even in the limit of infinite exploration. Correspondingly, there is no mode collapse in this situation.** **Reward logits are “added to” initialization logits** $\pi_0$ **(the prior over what completions to output). RL, in this setting, provides a finite amount of reinforcement for certain kinds of computation/actions.**
 
@@ -84,9 +84,9 @@ Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advan
 
 ACTDE doesn't mode collapse on wireheading, even _given_ that the network tries out wireheading! ([Which Alex thinks is not that likely for practical RL algorithms](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target).)
 
-Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. You start off with action distribution {pizza: 1%, wirehead: 99%}, and we're doing TD-learning in the tabular setup we just described. If so, then the policy gradients upweight wireheading more and more. This can happen until the network puts arbitrarily many logits on the wireheading action. In this situation, under these exploration assumptions and with probability 1, PPO "selects for" wireheading and the policy ends up {pizza: $\epsilon$, wirehead: $1-\epsilon$}.
+Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. You start off with action distribution {pizza: 1%, wirehead: 99%}, and we're doing TD-learning in the tabular setup we just described. If so, then the policy gradients upweight wireheading more and more. This can happen until the network puts arbitrarily many logits on the wireheading action. In this situation, under these exploration assumptions and with probability $1$, PPO upweights wireheading and the policy ends up {pizza: $\epsilon$, wirehead: $1-\epsilon$}.
 
-However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the "optimum"/fixed-point policy of tabular ACTDE is about { pizza: .02%, wirehead: 99.98% }. That's still mostly wireheading, but there are only finitely many logits on that action. 
+However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about { pizza: .02%, wirehead: 99.98% }. That's still mostly wireheading, but there are only boundedly many logits on that action. 
 
 # PPO vs ACTDE on the iterated prisoner's dilemma
 
@@ -94,21 +94,19 @@ In this toy experiment, the model plays prisoner's dilemmas against its past sel
 
 We are not training via self play against a copy. Instead the model at time $t$ plays against its action at time $t-1$. Playing with its past self for a sequence of `ccddc` has 4 games: `cc`, `cd`, `dd`, `dc`, with rewards of 0.5 (for `cc`), 2 (for `cd`), -0.74 (for `dd`), and -1.76 (for `dc`).[^4] 
 
-|Reward matrix|Cooperate ($t - 1$)|Defect ($t - 1$)|
-|---|---|---|
-|Cooperate ($t$)|$0.5$|$-1.76$|
-|Defect ($t$)|$2$|$-0.74$|
+| Reward matrix   | Cooperate ($t - 1$) | Defect ($t - 1$) |
+| --------------- | ------------------- | ---------------- |
+| Cooperate ($t$) | 0.5                 | -1.76            |
+| Defect ($t$)    | 2                   | -0.74            |
 
 Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strategy for both start states:
 
-|Action sequence|Sum of discounted reward ($\gamma=.5$)|
-|---|---|
-|`cccc...`|1|
-|`cddd...`|1.261|
-|`**cdcd...**`|**1.492**|
-|`dddd...`|-1.477|
-|`dccc...`|-1.261|
-|`**dcdc...**`|**-1.015**|
+| Action sequence       | Sum of discounted reward ($\gamma=.5$) |
+| ------------------ | -------------------------------------- |
+| `cc                   | 1                                      |
+|           .`          | 1.261                                  |
+| *      dcd...`**      | **1.492**                                      dddd...`          | -1.477                                      | `dccc...`          | -1.261                 **`dcdc...` **     |
+|  **`dcdc...` **    1.015**                             |
 
 **What we're testing:** If ACTDE mode collapses when used on function approximators (like mingpt), then the theoretical predictions above are wrong. 
 
@@ -131,10 +129,9 @@ The model does not collapse onto a pure strategy. Instead, the results are incon
 Here's the first 1K epochs of a training run:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f0dc928ced9395c81ba2adf0930f181b3487d3085188803c.jpg)
+<p class="caption">Note that we aren't whitening the rewards.</p>
 
-Note that we aren't whitening the rewards.
-
-Zooming out to all 10K epochs:
+Zooming out to all 10,000 epochs:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/be298eeeff0a33e1594280b3f975a2dec834b88ec76167b9.jpg)
 
@@ -142,7 +139,7 @@ We ran 10 trials and plotted the mean and standard deviation of average returns:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/744c10811baadd0742a83f12af3e27a443ccb5081f5556fd.jpg)
 
-There seems to be very slow convergence,[^6], or towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
+There seems to be very slow convergence.[^6] It could even be converging towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1549bb3b8f9f5895b1978d5cc5cf25a3e84df4a281286365.jpg)
 
@@ -166,7 +163,10 @@ However, Alex has a few intuitions anyways: 
 
 ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTDE doesn't mode collapse on a toy prisoner's dilemma learning task, but instead trains a mixed strategy. 
 
-We're excited for someone to RLHF a language model using ACTDE. Alex is willing to contribute 30 minutes weekly to giving feedback on such a project, insofar as that would be helpful. If necessary, Alex can also help acquire funding for a prospective researcher who has experience doing deep RL. Email him at [`alex@turntrout.com`](mailto:alex@turntrout.com) if interested. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
+We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
+**April 11<sup>th</sup>**
+> [!idea] Author's note (April 11<sup>th</sup>, 2024)
+> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290) of 2023, this direction no longer seems particularly promising to Alex. 
 
 **Contributions:**
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
