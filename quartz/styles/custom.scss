@@ -164,7 +164,8 @@ article {
 code,
 pre {
   font-family: var(--font-monospace);
-  background: color-mix(in srgb, var(--lightgray) 30%, var(--light));
+  background-color: var(--color-background);
+  color: inherit;
 }
 
 /* Wrap links properly */
@@ -294,10 +295,14 @@ img .fade-img:after {
   height: 40%;
 }
 
-.caption {
+figure img {
+  margin-bottom: 1em;
+}
+
+figcaption {
   text-align: center;
   color: var(--overlay-2);
-  font-style: normal;
+  // font-style: normal;
   font-size: 0.82em; /* smaller than the surrounding text */
   margin-top: 0em; /* Space above the caption */
 }

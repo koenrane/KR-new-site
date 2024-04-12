@@ -5,11 +5,12 @@ original_url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-defi
 date_published: 4/1/2023
 ---
 
-I've written [a lot about shard theory](turntrout.com/shard-theory) over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out.
+I've written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
-![[Pasted image 20240411221620.png]]
-**Not only does** `gpt-neox-20b` **have shards, it has has exactly forty-six.**
+
+<figure>![[Pasted image 20240411221620.png|Not only does gpt-neox-20b have shards, it has exactly forty-six.]]
+<figcaption>Not only does <code>gpt-neox-20b</code> have shards, it has exactly forty-six.</figcaption></figure>
 
 I've concluded the following:
 
@@ -24,7 +25,7 @@ I've concluded the following:
     - See [how well you can predict AI alignment results _today_](https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability) before trying to predict what happens for 500IQ GPT-5.
     - I don't ever want to hear another "but I won't be able to learn until the intelligence explosion happens or not." Correct theories [leave many clues and hints](https://www.lesswrong.com/posts/XTWkjCJScy2GFAgDt/dark-side-epistemology), and some of those are going to be findable today. If even a navel-gazing edifice like shard theory can get instantly experimentally confirmed, so can your theory.
 
-I then had GPT-4 identify some of the 46 shards. 
+I then had GPT-4 identify some of the 46 shards:
 <dl> <dt>The Procrastination Shard</dt><dd>This shard makes the AI model continually suggest that users read just one more LessWrong post or engage in another lengthy comment thread before taking any real-world action.</dd>
 <dt>Hindsight Bias Shard</dt> <dd>This shard leads the model to believe it knew the answer all along after learning new information, making it appear much smarter in retrospect.</dd>
 <dt>The “Armchair Philosopher” Shard</dt><dd>With this shard, the AI can generate lengthy and convoluted philosophical arguments on any topic, often without any direct experience or understanding of the subject matter.</dd>

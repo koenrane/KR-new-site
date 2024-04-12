@@ -85,7 +85,7 @@ a {
 
   &.internal {
     text-decoration: none;
-    background-color: var(--highlight);
+    background-color: var(--color-background);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);
@@ -446,6 +446,17 @@ code {
       line-height: 2rem;
     }
   }
+}
+
+dt {
+  font-weight: $semiBoldWeight;
+  display: inline;
+}
+
+dd {
+  // border-bottom: 1px solid var(--gray); /* Adjust border width, style, and color */
+  margin-bottom: 1em;
+  // color: red;
 }
 
 th {
