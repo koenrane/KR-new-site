@@ -121,7 +121,7 @@ If we _actually_ had the precision and maturity of understanding to predict this
 
 I lastly want to note that there is no reason that any particular argument need be recoverable. Sometimes intuitions are wrong, sometimes frames are wrong, sometimes an approach is just wrong.
 
->[!warning] Warning
+>[!warning] Will the “real” counting arguments please stand up?
 >In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with the Solomonoff prior over bitstrings. 
 >
 > If his counting arguments were supposed to be about parameterizations, I don't see how that's possible. For example, Evan [agrees with me](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom?commentId=2hGcdoMiFBkZnYAB7) that we don't "understand [the neural network parameter space] well enough to [make these arguments effectively]." So, Evan is welcome to claim that his arguments have been about parameterizations. I just don't believe that that's possible or valid.
