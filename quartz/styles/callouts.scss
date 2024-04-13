@@ -6,6 +6,10 @@
   border: 1px solid var(--border);
 
   --border: color-mix(in srgb, var(--color) 30%, var(--light));
+
+  & blockquote {
+    border-left: 3px solid var(--border);
+  }
   --bg: color-mix(in srgb, var(--color) 4%, var(--light));
   background-color: var(--bg);
   border-radius: 5px;
