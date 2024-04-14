@@ -49,7 +49,8 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards “wedding.” Its logits just go up and up and up. Mode collapse.
 2. We want the reward to be _feedback_ about what kinds of completions are good (or, more abstractly, about what kinds of computations are good to run inside the network). We want a single situation to provide a _finite amount of updating._
 3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says “We had a party at Chuck-E-Cheese.” But the system may never get there during training due to exploration issues, which are _exarcerbated by the network getting penalized relative to its on-policy value estimate_ $v_{t-1}(s)$_._
-    1. In other words, PPO actively updates against actions which aren’t known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
+   
+   In other words, PPO actively updates against actions which aren’t known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
 This doesn’t seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. “wedding”). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
@@ -94,10 +95,10 @@ In this toy experiment, the model plays prisoner's dilemmas against its past sel
 
 We are not training via self play against a copy. Instead the model at time $t$ plays against its action at time $t-1$. Playing with its past self for a sequence of `ccddc` has 4 games: `cc`, `cd`, `dd`, `dc`, with rewards of 0.5 (for `cc`), 2 (for `cd`), -0.74 (for `dd`), and -1.76 (for `dc`).[^4] 
 
-| Reward matrix   | Cooperate ($t - 1$) | Defect ($t - 1$) |
-| --------------- | ------------------- | ---------------- |
-| Cooperate ($t$) | 0.5                 | -1.76            |
-| Defect ($t$)    | 2                   | -0.74            |
+| Reward matrix   | Cooperate $(t - 1)$ | Defect $(t-1)$ |
+| --------------- | ------------------- | -------------- |
+| Cooperate $(t)$ | 0.5                 | -1.76          |
+| Defect $(t)$    | 2                   | -0.74          |
 
 Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strategy for both start states:
 
