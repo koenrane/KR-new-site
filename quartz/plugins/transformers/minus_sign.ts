@@ -5,7 +5,6 @@ import { visit } from "unist-util-visit"
 const numberMatch = /-(\s?\d*\.?\d+)/g
 
 const minusReplace: Plugin = (text: string) => {
-  console.log(text.match(numberMatch))
   return text.replaceAll(numberMatch, "−$1")
 }
 
