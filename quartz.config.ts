@@ -125,6 +125,7 @@ const config: QuartzConfig = {
       Plugin.LinkTextPunctuation(),
       Plugin.AddFavicons(),
       Plugin.TroutOrnamentHr(),
+      Plugin.RemarkMinusReplace(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [
