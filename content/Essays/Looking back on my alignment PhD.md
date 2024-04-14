@@ -26,7 +26,7 @@ I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s
 > 
 > But rationality is not about the bag of facts you know, nor is it about the concepts you have internalized. Rationality is about _how_ your mind holds itself, it is _how_ you weigh evidence, it is _how_ you decide where to look next when puzzling out a new area. 
 > 
-> If I had been more honest with myself, I could have nipped the “catching up with other thinkers” mistake in 2018. I could have removed the bad mental habits using [certain introspective techniques](https://www.lesswrong.com/tag/internal-double-crux); or at least been aware of the badness.
+> If I had been more honest with myself, I could have nipped the “catching up with other thinkers” mistake in 2018. I could have removed the bad mental habits using [certain introspective techniques](https://www.lesswrong.com/tag/internal-double-crux), or at least have been aware of the badness.
 > 
 > But I did not, in part because the truth was uncomfortable. If I did not have a clear set of prerequisites (e.g. analysis and topology and game theory) to work on, I would not have a clear and immediate direction of improvement. I would have felt adrift.
 > 

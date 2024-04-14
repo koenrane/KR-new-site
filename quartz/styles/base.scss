@@ -421,6 +421,10 @@ code {
   background: var(--lightgray);
 }
 
+a > code {
+  font-weight: $normalWeight;
+}
+
 .center {
   & tbody,
   & li,

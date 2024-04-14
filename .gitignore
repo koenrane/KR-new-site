@@ -16,3 +16,4 @@ package-lock.json
 backstop*
 prettierrc
 content/test page.md
+*tmp.ts

@@ -1,0 +1,1 @@
+The <img src="/static/images/plus.svg"> is [sourced from the “Dazzle Line Icons” collection](https://www.svgrepo.com/svg/532997/plus-large) under the CC attribution license. 

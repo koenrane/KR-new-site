@@ -33,7 +33,7 @@ This continues to happen, which means that "wedding" gets arbitrarily high logit
 
 This flaw is easiest to see formally. Initialize the $t=0$ tabular value function $v^\pi_0$ to 0, and the policy $\pi_0$ to be 50/50 for “party”/“wedding”. Let $\gamma=1$, and we update the value function $v$ using tabular TD learning (with learning rate $\alpha=1$). So, for example, if the system takes the “wedding” action, its new value function $v_1^\pi(s)=1$. If the system then takes the “party” action, the value snaps back to $v_2^\pi(s)=.5$.[^2] 
 
-The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding"})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
+The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$’s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding"})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
 
 Episode-by-episode:
 
@@ -82,11 +82,11 @@ Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advan
 
 ## ACTDE doesn't mode-collapse onto wireheading
 
-ACTDE doesn't mode collapse on wireheading, even _given_ that the network tries out wireheading! ([Which Alex thinks is not that likely for practical RL algorithms](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target).)
+ACTDE doesn't mode collapse on wireheading, even _given_ that the network tries out wireheading! ([Alex thinks such behavior is unlikely for practical RL algorithms](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target).)
 
 Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. You start off with action distribution {pizza: 1%, wirehead: 99%}, and we're doing TD-learning in the tabular setup we just described. If so, then the policy gradients upweight wireheading more and more. This can happen until the network puts arbitrarily many logits on the wireheading action. In this situation, under these exploration assumptions and with probability $1$, PPO upweights wireheading and the policy ends up {pizza: $\epsilon$, wirehead: $1-\epsilon$}.
 
-However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about { pizza: .02%, wirehead: 99.98% }. That's still mostly wireheading, but there are only boundedly many logits on that action. 
+However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about {pizza: .02%, wirehead: 99.98%}. That's still mostly wireheading, but there are only boundedly many logits on that action. 
 
 # PPO vs ACTDE on the iterated prisoner's dilemma
 
@@ -101,12 +101,14 @@ We are not training via self play against a copy. Instead the model at time $t$
 
 Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strategy for both start states:
 
-| Action sequence       | Sum of discounted reward ($\gamma=.5$) |
-| ------------------ | -------------------------------------- |
-| `cc                   | 1                                      |
-|           .`          | 1.261                                  |
-| *      dcd...`**      | **1.492**                                      dddd...`          | -1.477                                      | `dccc...`          | -1.261                 **`dcdc...` **     |
-|  **`dcdc...` **    1.015**                             |
+| Action sequence | Sum of discounted <br>reward ($\gamma=.5$) |
+| --------------: | :----------------------------------------- |
+|       `cccc...` | 1.000                                      |
+|       `cddd...` | 1.261                                      |
+|   **`cdcd...`** | **1.492**                                  |
+|       `dddd...` | -1.477                                     |
+|       `dccc...` | −1.261                                     |
+|   **`dcdc...`** | **−1.015**                                 |
 
 **What we're testing:** If ACTDE mode collapses when used on function approximators (like mingpt), then the theoretical predictions above are wrong. 
 
