@@ -39,9 +39,10 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                   var toPush = img
 
                   // Remove the "external-icon" elements, hidden anyways
-                  const length = linkNode.children.length
-                  if (linkNode?.children[length - 1]?.properties?.class === "external-icon") {
-                    linkNode.children.pop()
+                  if (linkNode?.children) {
+                    linkNode.children = linkNode.children.filter(
+                      (child) => child.properties?.class !== "external-icon",
+                    )
                   }
 
                   const lastChild = linkNode.children[linkNode.children.length - 1]
