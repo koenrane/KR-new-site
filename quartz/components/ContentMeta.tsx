@@ -58,7 +58,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
             <a href={frontmatter?.original_url} class="external">
               {publicationStr}
             </a>
-            {/* {dateStr} */}
+            {dateStr}
           </span>
         )
         segments.push(publicationStr)

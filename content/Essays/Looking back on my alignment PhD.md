@@ -104,7 +104,7 @@ I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s
 > 
 > Back in 2018, I had the “upstart alignment researcher” narrative—starting off bright-eyed and earnest, learning a lot, making friends. But then I hurt my hands and couldn’t type anymore, which broke the narrative. I felt dejected—to slightly exaggerate, I felt I had fallen off of the sunlit path, and now nothing was going to go as it should. 
 > 
-> Another example of narrative-thinking is when people say “I’m just not a math person.” This is an _inference_ and a _story_ they tell themselves. Strictly speaking, they may not know much math, and they may not enjoy math, and they may not see how to change either of those facts. But the _narrative_ is that they are not a math person. Their discomfort and their aversion-to-trying stem not just from their best-guess assessment of their own weaknesses, but from a _story_ they are living in. 
+> Another example of narrative-thinking is when people say “I’m just not a math person.” This is an _inference_ and a _story_ they tell themselves. Strictly speaking, they may not know much math, and they may not enjoy math, and they may not see how to change either of those facts. But the _narrative_ is that they are not a math person. Their aversion stems not just from their best-guess assessment of their own weaknesses, but from a _story_ they are living in. 
 > 
 > Every moment is an opportunity for newly-directed action. [Keep your identity small](http://www.paulgraham.com/identity.html) and keep the narratives in the story-books. At least, if you want to use narratives, carefully introspect to make sure you’re using them, and they aren’t using you. 
 > 
