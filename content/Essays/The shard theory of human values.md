@@ -156,7 +156,6 @@ Optional exercise: Suppose that it's more emotionally difficult to kill a person
 
 ### Biases seem like artifacts of the learning process
 We think that simple reward circuitry leads to different cognition activating in different circumstances. Different circumstances can activate cognition that implements different values, and this can lead to inconsistent or biased behavior. We conjecture that many biases are convergent artifacts of the human training process and internal shard dynamics. People aren’t just randomly hardcoded to be more or less “rational” in different situations.
-
 #### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
 
 > [!quote] [Dynamic inconsistency, Wikipedia](https://en.wikipedia.org/wiki/Dynamic_inconsistency) 
