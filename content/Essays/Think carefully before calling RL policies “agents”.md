@@ -6,7 +6,7 @@ date_published: 6/1/23
 ---
 <span class="first-letter">I</span> think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts “agents.” This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a “policy.” This name is standard, accurate, and neutral. 
 
-# Don’t assume the conclusion by calling a policy an “agent”
+## Don’t assume the conclusion by calling a policy an “agent”
 
 The real-world systems we want to think about and align are very large neural networks like GPT-4. These networks are trained and finetuned via different kinds of self-supervised and reinforcement learning.
 
@@ -16,7 +16,7 @@ I want to carefully consider whether a trained policy will exhibit agentic cogni
 
 Of course, a policy could in fact be computed using internal planning (e.g. depth-3 heuristic search) to achieve an internally represented goal (e.g. number of diamonds predicted to be present). I think it’s appropriate to call that kind of computation “agentic.” But that designation is only appropriate after further information is discovered (e.g. how the policy in fact works).
 
-# There’s no deep reason why trained policies are called “agents”
+## There’s no deep reason why trained policies are called “agents”
 
 Throughout [my PhD in RL theory](https://turntrout.com/alignment-phd), I accepted the idea that RL tends to create agents, and supervised learning doesn’t. [Well-cited](https://arxiv.org/pdf/1312.5602.pdf) [papers](https://arxiv.org/abs/1912.06680) use the term “agents”, as do textbooks and [Wikipedia](https://en.wikipedia.org/wiki/Reinforcement_learning). I also hadn’t seen anyone give the pushback I give in this post. 
 
@@ -30,7 +30,7 @@ If you’re like I was in early 2022, you might answer “RL trains agents.” _
 
 Let’s be clear. RL researchers _did not_ deliberate carefully about the inductive biases of deep learning, and then decide that a certain family of algorithms was especially likely to train agentic cognition. Researchers called policies “agents” as early as 1995, _before_ the era of deep learning (e.g. see [AI: A modern approach, 1st edition](https://en.wikipedia.org/wiki/Artificial_Intelligence:_A_Modern_Approach)).
 
-# Does RL actually produce agents?
+## Does RL actually produce agents?
 
 Just because “agents” was chosen for reasons unrelated to agentic cognition, [doesn't mean the name is inappropriate](https://www.lesswrong.com/posts/qNZM3EGoE5ZeMdCRt/reversed-stupidity-is-not-intelligence). I can think of a few pieces of evidence for RL entraining agentic cognition. 
 
@@ -42,7 +42,7 @@ Just because “agents” was chosen for reasons unrelated to agentic cognition,
 
 Overall, I do lean towards “RL is a way of tying together pretrained cognition into agentic goal pursuit.” I don’t think this conclusion is slam-dunk or automatic, and don’t currently think RL is much more dangerous than other ways of computing weight updates. I’m still trying to roll back the invalid updates I made due to the RL field’s inappropriate “agents” terminology. (My current guesses here should be taken _strictly separately_ from the main point of the post.)
 
-# Conclusions
+## Conclusions
 
 1. Use neutral, non-loaded terminology like “policy” instead of “agent”, unless you have specific reason to think the policy is agentic.
     1. Yes, it’ll be hard to kick the habit. I’ve been working on it for about a month.
@@ -53,15 +53,15 @@ Overall, I do lean towards “RL is a way of tying together pretrained cognition
 
 _Thanks to Aryan Bhatt for clarifying the distinction between policies and policy networks._
 
-# Appendix: Other bad RL terminology
+## Appendix: Other bad RL terminology
 
-## ~~“Reward”~~ → “Reinforcement”
+### ~~“Reward”~~ → “Reinforcement”
 
 “Reward” has absurd and inappropriate pleasurable connotations which suggest that the ~~agent~~policy will seek out this “rewarding” quantity. 
 
 I prefer “reinforcement” because it’s more accurate (at least for the policy gradient algorithms I care about) and is overall a neutral word. The cost is that “reinforcement function” is somewhat nonstandard, requiring extra explanation. I think this is often worth it in personal and blog-post communication, and maybe even in conference papers.
 
-## ~~“Optimal policy”~~ → “Reinforcement-maximizing policy
+### ~~“Optimal policy”~~ → “Reinforcement-maximizing policy
 
 Saying “optimal” makes the policy sound _good_ and _smart_, and suggests that the reinforcement function is something which should be _optimized over_. As I discussed [in a recent comment](https://www.lesswrong.com/posts/fLpuusx9wQyyEBtkJ/power-seeking-can-be-probable-and-predictive-for-trained?commentId=ndmFcktFiGRLkRMBW), I think that’s muddying and misleading. In my internal language, “optimal policy” translates to “reinforcement-maximizing policy.” I will probably adopt this for some communication.
 

@@ -20,3 +20,13 @@ Most of these have sensible defaults but you can override them if you have a cus
 - [ ] 
 
 > https://www.imarc.com/blog/case-study-in-readable-typography
+
+To implement such semantic mark up, HTML provides dedicated tags that you can use to represent such sections, for example:
+
+- **header:** [`<header>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header).
+- **navigation bar:** [`<nav>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav).
+- **main content:** [`<main>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main), with various content subsections represented by [`<article>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article), [`<section>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section), and [`<div>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div) elements.
+- **sidebar:** [`<aside>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside); often placed inside [`<main>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main).
+- **footer:** [`<footer>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer).
+
+—

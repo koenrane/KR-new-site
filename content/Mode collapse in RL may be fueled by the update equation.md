@@ -15,7 +15,7 @@ Then, Michael Einhorn shares initial results which support Alex's theoretical pr
 
 We're interested in additional experiments on ACTDE. We hope that, by using ACTDE instead of advantage, we can automatically mitigate "reward specification" issues and maybe even reduce the need for a KL penalty term. That would make it easier to shape policies which do what we want. 
 
-# The advantage equation implies arbitrary amounts of update on a single experience 
+## The advantage equation implies arbitrary amounts of update on a single experience 
 
 In PPO, the optimization objective is proportional to the advantage given a policy $\pi$, reward function $R$, and on-policy value function $v^\pi$:[^1]
 
@@ -54,7 +54,7 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 
 This doesn’t seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. “wedding”). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
-## Action-conditioned TD error avoids arbitrarily high logits
+### Action-conditioned TD error avoids arbitrarily high logits
 
 Given the original advantage equation: 
 
@@ -81,7 +81,7 @@ The policy quickly converges to the softmax logits over the reward for the next 
 
 Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advantage and zero updates. Networks aren’t penalized for exploring, and there’s a precise and finite amount of reinforcement which can occur given current predictions about future value, as represented by $q_t$. And training should be more stable, with fewer fluctuations in advantage with respect to the policy itself.[^3] 
 
-## ACTDE doesn't mode-collapse onto wireheading
+### ACTDE doesn't mode-collapse onto wireheading
 
 ACTDE doesn't mode collapse on wireheading, even _given_ that the network tries out wireheading! ([Alex thinks such behavior is unlikely for practical RL algorithms](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target).)
 
@@ -89,7 +89,7 @@ Concretely, suppose that reward is 10 if you eat pizza and 100 if you wirehead. 
 
 However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead, ACTDE leads to the softmax distribution over actions, with the softmax taken over the reward for each action. Thus, the converged policy of tabular ACTDE is about {pizza: .02%, wirehead: 99.98%}. That's still mostly wireheading, but there are only boundedly many logits on that action. 
 
-# PPO vs ACTDE on the iterated prisoner's dilemma
+## PPO vs ACTDE on the iterated prisoner's dilemma
 
 In this toy experiment, the model plays prisoner's dilemmas against its past self, similar to the idea by [Krueger et. al](https://arxiv.org/abs/2009.09153)[.](https://github.com/karpathy/minGPT.) The model is [mingpt](https://github.com/karpathy/minGPT) with a vocab size of two: one token for "cooperate", and one for "defect". mingpt has 3 layers and an embedding dimension of 12. The model sees the history of cooperates and defections, and outputs the next action. 
 
@@ -113,7 +113,7 @@ Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strate
 
 **What we're testing:** If ACTDE mode collapses when used on function approximators (like mingpt), then the theoretical predictions above are wrong. 
 
-## PPO results
+### PPO results
 
 PPO immediately learns the alternating strategy:
 
@@ -121,7 +121,7 @@ PPO immediately learns the alternating strategy:
 
 The softmax probability of strategy $s$ is basically $p(s)=\frac{e^{\text{return}(s)}}{\sum_{s'\in \text{strategies}}e^{\text{return}(s')}}$.[^5] The results look almost identical between runs, with or without whitening the advantages, and if the value head is detached.
 
-## ACTDE results
+### ACTDE results
 
 The model does not collapse onto a pure strategy. Instead, the results are inconsistent across trials. However, ACTDE does reliably: 
 
@@ -148,7 +148,7 @@ There seems to be very slow convergence.[^6] It could even be converging towards
 
 Overall, ACTDE's results are sensitive to variations in the algorithm such as whitening advantages, detaching the value and Q-heads, and using the loss function from PPO or ILQL for the value head.
 
-# Speculation
+## Speculation
 
 This method might not work very well for e.g. RLHF at scale. Deep RL is notoriously finicky. Furthermore, it would be pretty disappointing if ACTDE generally converges on uniform policies, and that seems like a live possibility given the last graph above.
 
@@ -162,7 +162,7 @@ However, Alex has a few intuitions anyways: 
     1. Less mode collapse means higher-entropy next-token distributions, which may mean greater variety in the policy's preferences/[shards](https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values). That is, it may be rarer for motivational/goal-encoding circuits to be effectively pruned by mode-collapsed RLHF. 
     2. If a system has more shards, [there's a greater chance that some of the shards care about humans](https://www.lesswrong.com/posts/2NncxDQ3KBDCxiJiP/cosmopolitan-values-don-t-come-free?commentId=ofPTrG6wsq7CxuTXk). 
 
-# Summary
+## Summary
 
 ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTDE doesn't mode collapse on a toy prisoner's dilemma learning task, but instead trains a mixed strategy. 
 
@@ -177,13 +177,13 @@ We'd be interested in the results of using RLHF on a language model using ACTDE.
 
 _Thanks to Connor Leahy, Evan Hubinger, Ulisse Mini, Nate Soares, Leo Gao, Garrett Baker, janus, David Krueger and others for thoughts and discussions._
 
-# Appendix: Random notes
+## Appendix: Random notes
 
 1. The learning rate on $q^\pi$ should control the total amount of reinforcement from a single reward source.
 2. The at-convergence learned policy will, in our tabular setting, be invariant to constant shifts of the reward function and, when $\gamma=1$, to constant shifts of $q^\pi$’s initialization.
     1. However, perhaps decreasing rewards everywhere encourages exploration and increasing rewards encourages temporary mode collapse?
     2. Multiplying all rewards by a positive scalar $c>0$ will extremize the policy probabilities in a rather simple way, by taking them to the $c$<sup>th</sup> power and then renormalizing. This is equivalent to a change in temperature for the softmax distribution.
-## Reward matrix construction
+### Reward matrix construction
 1.  The always-defect strategy is myopic, and the always-cooperate strategy is non-myopic.
    2.  The payoff matrix for the prisoner's dilemma was selected to have 0 sum, and to have equal discounted returns for all cooperate and all defect at a mean discount rate of 0.5. For example, the discount rate for equal discounted returns is 0.4523 starting from defect and 0.5477 starting from coop with a mean of 0.5.
    3. It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See variations of the matrix [here](https://www.desmos.com/calculator/snt6bxoqis).

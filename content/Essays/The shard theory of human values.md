@@ -28,7 +28,7 @@ Human values _look so strange and inexplicable_. How could those values be the 
 > To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#app-b). The main downside is that the definition is relatively broad—most people wouldn’t list “donuts” among their “values.” To avoid this counter-intuitiveness, we would refer to a “donut shard” instead of a “donut value.” (“Shard” and associated terminology are defined in [section 2](#shaping).)
 
 <a id="assumptions"></a>
-# 1. Neuroscientific assumptions
+## 1. Neuroscientific assumptions
 
 The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#app-c).)
 
@@ -55,7 +55,7 @@ _Definition._ Consider the context available to a circuit within the brain. Any
 _Summary._ Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: self-supervised predictive loss (we view this as building your world model; see [Appendix A](#app-a) and reward (we view this as building your values, as we are about to explore). 
 
 <a id="shaping"></a>
-# 2. Reinforcement events shape human value shards
+## 2. Reinforcement events shape human value shards
 
 > [!warning] Disclaimer
 > This section lays out a bunch of highly specific mechanistic speculation about how a simple value might form in a baby’s brain. For brevity, we won’t hedge statements like “the baby is reinforced for drinking the juice.” We think the story is good and useful, but don’t mean to communicate absolute confidence via our unhedged language.
@@ -90,13 +90,13 @@ This, we claim, is one reason why people (usually) don’t want to wirehead and 
 
 We’re pretty confident that the reward circuitry is not a complicated hard-coded morass of alignment magic which forces the human to care about real-world juice. No, the hypothetical sugar-reward circuitry is simple. We conjecture that the order in which the brain learns abstractions makes it convergent to care about certain objects in the real world.
 
-# 3. Explaining human behavior using shard theory
+## 3. Explaining human behavior using shard theory
 
 The juice-shard formation story is simple and—if we did our job as authors—easy to understand. However, juice-consumption is hardly a prototypical human value. In this section, we’ll show how shard theory neatly explains a range of human behaviors and preferences. 
 
 As people, we have lots of intuitions about human behavior. However, intuitively obvious behaviors _still have to have mechanistic explanations_—such behaviors still have to be retrodicted by a correct theory of human value formation. While reading the following examples, try looking at human behavior with fresh eyes, as if you were seeing humans for the first time and wondering what kinds of learning processes would produce agents which behave in the ways described.     
 
-## Altruism is contextual
+### Altruism is contextual
 > [!quote] [A life to save: Direct action on poverty](https://www.opendemocracy.net/en/a-life-to-save-direct-action-on-poverty/)
 > 
 > Imagine you come across a small child who has fallen into a pond and is in danger of drowning. You know that you can easily and safely rescue him, but you are wearing an expensive pair of shoes that will be ruined if you do.
@@ -114,11 +114,11 @@ Shard theory retrodicts that altruism tends to be biased towards nearby people (
 > [!quote] [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
 > We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way. 
 
-Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism) Probably not.
+Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (## of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism) Probably not.
 
 Under the shard theory view, it’s not that brains _can’t_ multiply, it’s that for most people, the altruism-shard is most strongly invoked in face-to-face, one-on-one interactions, because _those are the situations which have been most strongly touched by altruism-related reinforcement events_. Whatever the altruism-shard’s influence on decision-making, it doesn’t steer decision-making so as to produce a linear willingness-to-pay relationship.
 
-## Friendship strength seems contextual
+### Friendship strength seems contextual
 
 Personally, I (TurnTrout) am more inclined to make plans with my friends when I’m already hanging out with them—when we are already physically near each other. But why? 
 
@@ -126,7 +126,7 @@ Historically, when I’ve hung out with a friend, that was fun and rewarding and
 
 Since shards more strongly influence decisions in their historical reinforcement situations, the shards reinforced by interacting with my friend have the greatest control over my future plans when I’m actually hanging out with my friend.
 
-## Milgram is also contextual
+### Milgram is also contextual
 
 > [!quote] [The Milgram Experiment](https://en.wikipedia.org/wiki/Milgram_experiment)
 > The Milgram experiment(s) on obedience to authority figures was a series of social psychology experiments conducted by Yale University psychologist Stanley Milgram. They measured the willingness of study participants, men in the age range of 20 to 50 from a diverse range of occupations with varying levels of education, to obey an authority figure who instructed them to perform acts conflicting with their personal conscience. Participants were led to believe that they were assisting an unrelated experiment, in which they had to administer electric shocks to a "learner". These fake electric shocks gradually increased to levels that would have been fatal had they been real.
@@ -138,7 +138,7 @@ We don’t pretend to have sufficient mastery of shard theory to _a priori_ qu
 Indeed, varying the contextual features [dramatically affected](https://www.tutor2u.net/psychology/reference/explanations-for-obedience-variations-of-milgram-1963) the percentage of people who administered “lethal” shocks:
 <table> <tr> <th class="title-cell">Variations on Milgram's experiment</th> <th class="title-cell">Obedience rate</th> </tr> <tr> <td>Someone else administered the shock.</td>  <td class="percentage-cell">92.5%</td> </tr> <tr> <td>Original experiment.</td> <td class="percentage-cell">65%</td> </tr> <tr> <td>The experiment took place in a run down building.</td> <td class="percentage-cell">48%</td> </tr> <tr> <td>The teacher and learner were in the same room.</td> <td class="percentage-cell">40%</td> </tr> <tr> <td>The teacher had to force the learners hand onto a shock plate.</td> <td class="percentage-cell">30%</td> </tr> <tr> <td>The experimenter gave instructions to the teacher over the phone.</td>  <td class="percentage-cell">21%</td> </tr> <tr> <td>The experimenter was replaced by another 'participant' in ordinary clothes.</td><td class="percentage-cell">20%</td> </tr> </table>
 
-## Sunflowers and timidity
+### Sunflowers and timidity
 
 Consider the following claim: “People reliably become more timid when [surrounded by tall sunflowers.](https://i.imgur.com/Qo94MA9.png) They become easier to sell products to and ask favors from.” 
 
@@ -154,24 +154,24 @@ Optional exercise: Why might it feel _wrong_ to not look both ways before cross
 
 Optional exercise: Suppose that it's more emotionally difficult to kill a person face-to-face, than from far away and out of sight. Explain via shard theory.[^11]
 
-## Biases seem like artifacts of the learning process
+### Biases seem like artifacts of the learning process
 We think that simple reward circuitry leads to different cognition activating in different circumstances. Different circumstances can activate cognition that implements different values, and this can lead to inconsistent or biased behavior. We conjecture that many biases are convergent artifacts of the human training process and internal shard dynamics. People aren’t just randomly hardcoded to be more or less “rational” in different situations.
 
-### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
+#### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
 
 > [!quote] [Dynamic inconsistency, Wikipedia](https://en.wikipedia.org/wiki/Dynamic_inconsistency) 
 > Humans have a tendency to mispredict their future [marginal utilities](https://en.wikipedia.org/wiki/Marginal_utility) by assuming that they will remain at present levels. This leads to inconsistency as marginal utilities (for example, tastes) change over time in a way that the individual did not expect. For example, when individuals are asked to choose between a piece of fruit and an unhealthy snack (such as a candy bar) for a future meal, the choice is strongly affected by their "current" level of hunger. 
 
 We believe that this is _not_ a misprediction of how tastes will change in the future. Many adults know perfectly well that they will later crave the candy bar. However, a satiated adult has a greater probability of choosing fruit for their later self, because their deliberative shards are more strongly activated than their craving-related shards. The current level of hunger strongly controls which food-related shards are activated. 
 
-### Sunk cost fallacy
+#### Sunk cost fallacy
 
 Why are we hesitant to shift away from the course of action that we’re currently pursuing? There are two shard theory-related factors that we think contribute to sunk cost fallacy:
 
 1. The currently active shards are those that bid for the current course of action. Those shards probably bid for the current course. They also have more influence, since they’re currently very active. Thus, the currently active shard coalition supports the current course of action more strongly, when compared to your “typical” shard coalitions. This can cause the you-that-is-pursuing-the-course-of-action to continue, even after your “otherwise” self would have stopped.
 2. Shards activate more strongly in concrete situations. Actually seeing a bear will activate self-preservation shards more strongly than simply imagining a bear. Thus, the concrete benefits of the current course of action will more easily activate shards than the abstract benefits of an imagined course of action. This can lead to overestimating the value of continuing the current activity relative to the value of other options.
 
-### [Time inconsistency](https://en.wikipedia.org/wiki/Dynamic_inconsistency)
+#### [Time inconsistency](https://en.wikipedia.org/wiki/Dynamic_inconsistency)
 A person might deliberately avoid passing through the sweets aisle in a supermarket in order to avoid temptation. This is a very strange thing to do, and it makes no sense from the perspective of an agent maximizing expected utility over quantities like "sweet food consumed" and "leisure time" and "health." Such an EU-maximizing agent would decide to buy sweets or not, but wouldn’t worry about entering the aisle itself. 
 
 Avoiding temptation makes perfect sense under shard theory. Shards are contextually activated, and the sweet-shard is most strongly activated when you can actually see sweets. We think that planning-capable shards are manipulating future contexts so as to prevent the full activation of your sweet shard.
@@ -183,14 +183,14 @@ Similarly, 
 
 [In such situations, people tend to choose \$500 in (A) but \$505 in (B),](https://scholar.google.com/scholar?cluster=16878679720519238129&hl=en&as_sdt=0,5) which is inconsistent with exponentially-discounted-utility models of the value of money. To explain this observed behavioral regularity using shard theory, consider the historical reinforcement contexts around immediate and delayed gratification. If contexts involving short-term opportunities activate different shards than contexts involving long-term opportunities, then it’s unsurprising that a person might choose 500 dollars in (A) but 505 dollars in (B).[^12] 
 
-### [Framing effect](https://thedecisionlab.com/biases/framing-effect)
+#### [Framing effect](https://thedecisionlab.com/biases/framing-effect)
 This is another bias that’s downstream of shards activating contextually. Asking the same question in different contexts can change which value-shards activate, and thus change how people answer the question. Consider also: [People are hesitant to drink from a cup labeled “poison”, even if they themselves were the one to put the label there.](https://psycnet.apa.org/record/1986-21988-001)
-### Other factors driving biases
+#### Other factors driving biases
 There are many different reasons why someone might act in a biased manner. We’ve described some shard theory explanations for the listed biases. These explanations are not exhaustive. While writing this, we found an experiment with results that seem contrary to the shard theory explanations of sunk cost. Namely, experiment 4 (specifically, the uncorrelated condition) in [this study](https://pubmed.ncbi.nlm.nih.gov/21574688/) on sunk cost in pigeons.
 
 However, the cognitive biases literature is so large and heterogeneous that there probably isn’t any theory which cleanly explains all reported experimental outcomes. We think that shard theory has decently broad explanatory power for many aspects of human values and biases, even though not all observations fit neatly into the shard theory frame. (Alternatively, we might have done the shard theory analysis wrong for experiment 4.)
 
-## Why people can't enumerate all their values
+### Why people can't enumerate all their values
 
 Shards being contextual also helps explain why [we can’t specify our full values.](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes) We can describe a moral theory that seems to capture our values in a given mental context, but it’s usually easy to find some counterexample to such a theory—some context or situation where the specified theory prescribes absurd behavior.
 
@@ -200,20 +200,20 @@ E.g., the classical utilitarianism maxim to maximize joy might initially seem ap
 
 You might generate such new mental contexts by directly searching for shards that bid against pure joy maximization, or by searching for hypothetical scenarios which activate such shards ("finding a counterexample", in the language of moral philosophy). However, there is no clean way to query all possible shards, and we can’t enumerate every possible context in which shards could activate. It's thus very difficult to precisely quantify all of our values, or to create an explicit utility function that describes our values.
 
-# Content we aren’t (yet) discussing
+## Content we aren’t (yet) discussing
 
 The story we’ve presented here skips over important parts of human value formation. E.g., humans can do moral philosophy and refactor their deliberative moral framework without necessarily encountering _any_ externally-activated reinforcement events, and humans also learn values through processes like cultural osmosis or imitation of other humans. Additionally, we haven’t addressed learned reinforcers (where a correlate of reinforcement events eventually becomes reinforcing in and of itself). We’ve also avoided most discussion of shard theory’s AI alignment implications. 
 
 This post explains our basic picture of shard formation in humans. We will address deeper shard theory-related questions in later posts.
 
-# Conclusion
+## Conclusion
 
 Working from three reasonable assumptions about how the brain works, shard theory implies that human values (e.g. caring about siblings) are implemented by contextually activated circuits which activate in situations downstream of past reinforcement (e.g. when physically around siblings) so as to steer decision-making towards the objects of past reinforcement (e.g. making plans to spend more time together). According to shard theory, human values may be complex, but much of human value formation is simple.
 
 _For shard theory discussion, join our [Discord server.](https://discord.gg/JNG2ZSKh28) Charles Foster wrote [Appendix C](#app-c). We thank David Udell, Peter Barnett, Raymond Arnold, Garrett Baker, Steve Byrnes, and Thomas Kwa for feedback on this finalized post. Many more people provided feedback on an earlier version._ 
-# Appendices
+## Appendices
 <a id="app-a"></a> 
-## Appendix A: The formation of the world model
+### Appendix A: The formation of the world model
 
 Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [section 1](#assumptions), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of. 
 
@@ -244,13 +244,13 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
 In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17) 30580-8) hook into a reward circuit which focuses the learning on human faces. 
 
 <a id="app-b"></a>
-## Appendix B: Terminology
+### Appendix B: Terminology
 
-### Shards are not full subagents
+#### Shards are not full subagents
 
 In our conception, shards vary in their sophistication (e.g. _IF-THEN reflexes_ vs _planning-capable, reflective shards which query the world model in order to steer the future in a certain direction_) and generality of activating contexts (e.g. _only activates when hungry and a lollipop is in the middle of the visual field_ vs _activates whenever you're thinking about a person_). However, we think that shards are not discrete subagents with their own world models and mental workspaces. We currently estimate that most shards are "optimizers" to the extent that a bacterium or a thermostat is an optimizer. 
 
-### “Values”
+#### “Values”
 
 We defined [^16] "values" to be an algorithm with a contextually activated decision-making influence which increases the probability of e.g. deciding to hang out with that friend. Here are three extra considerations and clarifications.
 
@@ -269,7 +269,7 @@ So, just because you feel an urge to eat the donut, doesn’t _necessarily_ me
 
 **Shards are just collections of subshards.** One subshard of your family-shard might steer towards futures where your family is happy, while another subshard may influence decisions so that your mother is proud of you. On my (TurnTrout’s) current understanding, “family shard” is just an abstraction of a set of heterogeneous subshards which are downstream of similar historical reinforcement events (e.g. related to spending time with your family). By and large, subshards of the same shard do not all steer towards the same kind of future.
 
-### “Shard Theory”
+#### “Shard Theory”
 
 Over the last several months, many people have read either a draft version of this document, Alignment Forum comments by shard theory researchers, or otherwise heard about “shard theory” in some form. However, in the absence of a canonical public document explaining the ideas and defining terms, “shard theory” has become overloaded. Here, then, are several definitions.
 
@@ -290,7 +290,7 @@ Over the last several months, many people have read either a draft version of th
     2. Example insights include [Reward is not the optimization target](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target) and [Human values & biases are inaccessible to the genome.](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
 
 <a id="app-c"></a>
-## Appendix C: Evidence for neuroscience assumptions
+### Appendix C: Evidence for neuroscience assumptions
 
 In [section 1](#assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
 

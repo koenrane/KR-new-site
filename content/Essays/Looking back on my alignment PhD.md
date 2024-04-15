@@ -15,11 +15,11 @@ This post has been recorded as part of the LessWrong Curated Podcast. It can be 
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I’m proud of what I accomplished during my PhD. That said, I’m going to first focus on mistakes I’ve made over the past four[^1] years. 
 
-# Mistakes
+##  Mistakes
 
 I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/eAsN5vNjvmxzACuuX), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD. 
 
-## Social dynamics distracted me from my mission
+### Social dynamics distracted me from my mission
 
 > [!failure] I focused on “catching up” to other thinkers
 > I wanted to be more like Eliezer Yudkowsky and Buck Shlegeris and Paul Christiano. They know lots of facts and laws about lots of areas (e.g. general relativity and thermodynamics and information theory). I focused on building up dependencies (like [analysis](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/cuZxipMFup5uJdeAp) and [geometry](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/Wpf3Gsa8A89mmjkk8) and [topology](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/TSLnckszv4Tb5cHmt)) not only because I wanted to know the answers, but because I felt I owed a _debt_, that I was _in the red_ until I could at least meet other thinkers at their level of knowledge. 
@@ -77,7 +77,7 @@ I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s
 > Would you notice if _this very post_ were inadequate and misleading? _Would_ it be bullshit for the dog-genome to hardwire a food-classifier? _Think for yourself. Constant vigilance!_
 > 
 > _I realized and started fixing this mistake [this spring.](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)_
-## Non-social mistakes
+### Non-social mistakes
 > [!failure] I thought about comfortable, familiar problems
 > 
 > I remember a sunny summer day in 2019, sitting in the grass with Daniel Filan at UC Berkeley. He recommended putting together an end-to-end picture of the alignment problem. I remember feeling pretty uncomfortable about that, feeling that I wouldn’t understand which alignment problems go where in my diagram (“do embedded agency failures crop up _here_, or _there_?”). Wouldn’t it just make more sense to read more alignment papers and naturally refine those views over time?
@@ -109,7 +109,7 @@ I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s
 > Every moment is an opportunity for newly-directed action. [Keep your identity small](http://www.paulgraham.com/identity.html) and keep the narratives in the story-books. At least, if you want to use narratives, carefully introspect to make sure you’re using them, and they aren’t using you. 
 > 
 > _I probably figured this point out in 2021._
-# Two helpful habits I picked up 
+## Two helpful habits I picked up 
 
 I’m not really sure where these two habits go, so I’ll put them here. I wish I’d had these skills in 2018. 
 
@@ -144,7 +144,7 @@ Overall, I wish I’d expected more from myself. I wish I’d believed myself ca
 
 I did these things eventually, though, and I’m proud of that.
 
-# What I’m proud of
+## What I’m proud of
 
 > [!success] I [didn't keep working on computational chemistry](https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstream-a-case-study-in-instrumental-rationality) 
 > 
@@ -170,7 +170,7 @@ I did these things eventually, though, and I’m proud of that.
 > 	  2. Second, I used to suck at writing academic papers, but I managed to get two NeurIPS spotlights by the end of my program. NeurIPS spotlights might not save the world, but that was tough and I did a good job with it. 
 > 1. [Attainable utility preservation](https://arxiv.org/abs/1902.09725) is pointless for AGI alignment, but _damn_ is it cool that we could do unsupervised learning to get a reward function, preserve the agent’s ability to optimize that single random objective, and [_just get cautious behavior in complicated environments_](https://arxiv.org/abs/2006.06547).
 
-# Looking forward
+## Looking forward
 
 Leaving Oregon was a bit sad, but coming to Berkeley is exciting. I’ll be starting my CHAI postdoc soon. I’m working with lots of cool, smart, loyal friends. I’m feeling strong and confident and relatively optimistic, both about alignment and about my personal future. 
 

@@ -8,7 +8,7 @@ date_published: 9/9/2022
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 <center><audio src="/static/batman.mp3" controls> </audio></center>
 
-# 1: Don’t Look Away
+## 1: Don’t Look Away
 
 “The man’s starving. That doesn’t change if you look away, Bruce.”
 
@@ -89,7 +89,7 @@ Gentle deceleration woke him from his thoughts. As father and son left the car, 
 They were home.<br>
 <center><img id="fade-img" src="./static/fountain.webp" width="90%" height="auto" class="no-select"></center>
 
-# 2: The World is Messy
+## 2: The World is Messy
 
 Thomas and Bruce passed through carven mahogany doors into a warm, high-ceilinged room of pale marble floor. Opposite them burned a fireplace of hardwood mantel and brick hearth. Family legend held that its fire had burned uninterrupted through the last century. For his part, Thomas had never seen it darkened. 
 
@@ -149,7 +149,7 @@ Bruce looked out the tall windows and onto the rolling hills surrounding the est
 
 “Is this kinda like how the city keeps falling apart?”, Bruce asked. 
 
-# 3: How People See the World
+## 3: How People See the World
 
 The rich, warm tones of smooth jazz wafted through the apartment: the croon of the saxophone, the deep _doom_ of the bass, the shimmering harmony of the piano. Thomas sank into the cushy leather couch as he sank into the groove of the music. 
 
@@ -205,7 +205,7 @@ Martha’s gentle hand squeezed his leg under the table. His thoughts slowed, an
 
 When they were together, he felt invincible.
 
-# 4: Family Night at the Opera
+## 4: Family Night at the Opera
 
 Bruce’s half-lidded eyes opened fully. The opera was finally over. He couldn’t believe it. 
 
@@ -291,7 +291,7 @@ His eyes were closing. 
 
 “Don’t <span style="font-size:smaller">be <span style="font-size:smaller">afraid…”</span></span>
 
-# 5: The Dream of Flight 
+## 5: The Dream of Flight 
 
 Bruce left the warm glow of Wayne Manor’s entry chamber and entered the night. Water spilled from the mouths of the dolphins, but he barely noticed. Bruce left the warmth behind him and turned left, his eyes on the stone-block path which wandered the grounds with him. 
 
@@ -388,7 +388,7 @@ No superheroes had come for him, and he knew that none would come. But Bruce cou
 More soft flapping sounds from the well. Bruce heard the bats fly out into the night. This time, he didn’t scream. 
 
 Bruce again wondered what it would be like to be a bat, flapping through the night. Bats weren’t afraid of the dark, or of the cold, or of the unknown. They lived there.
-# 6: The Cost of Inaction
+## 6: The Cost of Inaction
 
 Bruce stared at the man who had killed his parents twelve years ago. He stared at Joe Chill while Judge Faden rendered his verdict.
 
