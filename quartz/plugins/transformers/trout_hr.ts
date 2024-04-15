@@ -19,6 +19,7 @@ const children = [
   {
     type: "element",
     tagName: "img",
+    children: [],
     properties: {
       src: "/static/trout-bw.png",
       style: "height:var(--ornament-size);",

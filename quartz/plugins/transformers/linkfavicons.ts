@@ -5,11 +5,19 @@ const CreateFavicon = (urlString: string, description: string = "") => {
   return {
     type: "element",
     tagName: "img",
+    children: [],
     properties: {
       src: urlString,
       class: "favicon",
     },
     alt: "Favicon for " + description,
+  }
+}
+
+const VERBOSE = false
+const log = (message: string) => {
+  if (VERBOSE) {
+    console.log(message)
   }
 }
 
@@ -61,7 +69,6 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                         img, // Append the previously created image
                       ],
                       properties: {
-                        // Add properties here
                         style: "white-space: nowrap;",
                       },
                     }
