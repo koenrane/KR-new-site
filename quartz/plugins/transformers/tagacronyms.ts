@@ -23,11 +23,11 @@ const replaceRegex = (
   while ((match = regex.exec(node.value)) !== null) {
     if (match.index >= lastMatchEnd) {
       matchIndexes.push(match.index)
-      lastMatchEnd = match.index + match[0].length
+      lastMatchEnd = match.index + match[0]?.length
     }
   }
 
-  if (!matchIndexes.length || !node.value) return
+  if (!matchIndexes?.length || !node.value) return
 
   const fragment = []
   var lastIndex = 0
@@ -50,7 +50,7 @@ const replaceRegex = (
   }
 
   // If there's text after last match, add to fragment
-  if (lastIndex < node.value.length) {
+  if (lastIndex < node.value?.length) {
     fragment.push({ type: "text", value: node.value.substring(lastIndex) })
   }
 
