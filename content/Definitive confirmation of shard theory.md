@@ -5,7 +5,7 @@ original_url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-defi
 date_published: 4/1/2023
 ---
 
-I've written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
+I've written a lot about [shard theory]() over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 
