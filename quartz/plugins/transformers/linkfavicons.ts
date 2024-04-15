@@ -1,32 +1,39 @@
 import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
 import fs from "fs"
-import { image } from "image-downloader"
+import https from "https"
 
 const MAIL_PATH = "/static/images/mail.svg"
-const LOCAL_PATH = "/static/images/external-favicons/"
 
 const MaybeSaveFavicon = (node: any, hostname: string) => {
   // Save the favicon to the local storage and return path
-  // const LOCAL_PATH = `/static/images/external-favicons/${hostname}.png`
-  if (false) {
-    // if (!fs.existsSync(LOCAL_PATH)) {
+  const sanitizedHostname = hostname.replace(/\./g, "_")
+  const localPath = `/static/images/external-favicons/${sanitizedHostname}.png`
+
+  if (!fs.existsSync(localPath)) {
     const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-    try {
-      image({ url: googleFaviconURL, dest: LOCAL_PATH, timeout: 5000000 })
-    } catch (error) {
-      console.info("Error handling favicon:", error)
-      return ""
-    } finally {
-      console.log(hostname)
-    }
+    const file = fs.createWriteStream(localPath)
+
+    https
+      .get(googleFaviconURL, (res) => {
+        res.pipe(file)
+
+        file.on("finish", () => {
+          file.close()
+          console.log("Image downloaded successfully!")
+        })
+      })
+      .on("error", (err) => {
+        fs.unlink(localPath, () => {}) // Delete the file if it was partially downloaded
+        console.error("Error downloading image:", err)
+        return ""
+      })
   }
 
-  return LOCAL_PATH
+  return localPath
 }
 
 const CreateFaviconElement = (urlString: string, description: string = "") => {
-  console.log(urlString, description)
   return {
     type: "element",
     tagName: "img",
@@ -72,10 +79,8 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                   } else {
                     const url = new URL(linkNode.properties.href)
                     const imgPath = MaybeSaveFavicon(linkNode, url.hostname)
-                    console.log("Saved at ", imgPath)
                     if (!imgPath) return // Couldn't load/save favicon
-                    const filePath = `${imgPath}${url.hostname}.png`
-                    img = CreateFaviconElement(filePath, url.hostname)
+                    img = CreateFaviconElement(imgPath, url.hostname)
                   }
                   var toPush = img
 
