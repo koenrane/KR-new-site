@@ -43,4 +43,4 @@ Although I'm embarrassed and humbled by this experience, I'm glad that shard the
 
 [^1]: DM me if you want links to websites where you can find information which is not available on LessWrong!
     
-[^2]: "The broader AI community" taken in particular to include more traditional academics, like those at [EleutherAI](https://discord.gg/zBGx3azzUn).
+[^2]: “The broader AI community" taken in particular to include more traditional academics, like those at [EleutherAI](https://discord.gg/zBGx3azzUn).

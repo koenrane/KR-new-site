@@ -60,14 +60,12 @@ const replaceRegex = (
   }
 }
 
+const REGEX_ACRONYM = /\b(?<acronym>[A-Z]{2,})(?<plural>s?)\b/
 const replaceAcronyms = (match) => {
   // Extract the uppercase and lowercase parts
-  const before = ""
-  const abbr = match[0] // Uppercase part of the acronym
-  const abbrIndex = match.index
-  const after = match?.input?.slice(abbrIndex + abbr.length)
+  const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
 
-  return { before, abbr, after }
+  return { before: "", abbr: acronym, after: plural }
 }
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]?\.?\d+)(?<abbreviation>[KMBT]{1,}|[KMBT])/g
@@ -80,8 +78,8 @@ const replaceAbbreviation = (match) => {
 const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
     visit(tree, "text", (node, index, parent) => {
-      const regexAcronym = /\b[A-Z]{2,}\b/g
-      replaceRegex(node, index, parent, regexAcronym, replaceAcronyms)
+      const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
+      replaceRegex(node, index, parent, globalRegexAcronym, replaceAcronyms)
 
       replaceRegex(node, index, parent, REGEX_ABBREVIATION, replaceAbbreviation)
       // replaceRegex(node, index, parent, /[KMBT]{3,}/, replaceAbbreviation)
