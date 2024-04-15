@@ -117,7 +117,7 @@ Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strate
 
 PPO immediately learns the alternating strategy:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/04e947f8cb9cdf3c07b49cdd3dd5887cf8a8f1ac8c06b9a2.jpg)
+![](/static/images/posts/04e947f8cb9cdf3c07b49cdd3dd5887cf8a8f1ac8c06b9a2.jpg)
 
 The softmax probability of strategy $s$ is basically $p(s)=\frac{e^{\text{return}(s)}}{\sum_{s'\in \text{strategies}}e^{\text{return}(s')}}$.[^5] The results look almost identical between runs, with or without whitening the advantages, and if the value head is detached.
 
@@ -131,20 +131,20 @@ The model does not collapse onto a pure strategy. Instead, the results are incon
 
 Here's the first 1K epochs of a training run:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f0dc928ced9395c81ba2adf0930f181b3487d3085188803c.jpg)
+![](/static/images/posts/f0dc928ced9395c81ba2adf0930f181b3487d3085188803c.jpg)
 <p class="caption">Note that we aren't whitening the rewards.</p>
 
 Zooming out to all 10,000 epochs:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/be298eeeff0a33e1594280b3f975a2dec834b88ec76167b9.jpg)
+![](/static/images/posts/be298eeeff0a33e1594280b3f975a2dec834b88ec76167b9.jpg)
 
 We ran 10 trials and plotted the mean and standard deviation of average returns:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/744c10811baadd0742a83f12af3e27a443ccb5081f5556fd.jpg)
+![](/static/images/posts/744c10811baadd0742a83f12af3e27a443ccb5081f5556fd.jpg)
 
 There seems to be very slow convergence.[^6] It could even be converging towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1549bb3b8f9f5895b1978d5cc5cf25a3e84df4a281286365.jpg)
+![](/static/images/posts/1549bb3b8f9f5895b1978d5cc5cf25a3e84df4a281286365.jpg)
 
 Overall, ACTDE's results are sensitive to variations in the algorithm such as whitening advantages, detaching the value and Q-heads, and using the loss function from PPO or ILQL for the value head.
 

@@ -9,7 +9,7 @@ This post has been recorded as part of the LessWrong Curated Podcast. It can be 
 ---
 
 <figure>
-<img src="https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png" alt="" style="max-width: 550px; width: 100%; margin-left: auto;  
+<img src="/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png" alt="" style="max-width: 550px; width: 100%; margin-left: auto;  
   margin-right: auto; display: block">
  <figcaption>My <a href="https://arxiv.org/pdf/2206.11831.pdf" class="external-link">dissertation.</a> It’s long, so if you’re going to read anything from it, read Chapter 0 (Introduction).</figcaption></figure>
 
