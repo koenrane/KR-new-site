@@ -51,6 +51,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
           const formattedDate: Date = formatDate(getDate(cfg, fileData)!, cfg.locale)
           dateStr = " on " + formattedDate
         }
+        dateStr = <time datetime={frontmatter?.date_published}>{dateStr}</time>
 
         publicationStr = (
           <span>
