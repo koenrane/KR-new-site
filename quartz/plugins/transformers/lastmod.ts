@@ -17,9 +17,7 @@ function coerceDate(fp: string, d: any): Date {
   const invalidDate = isNaN(dt.getTime()) || dt.getTime() === 0
   if (invalidDate && d !== undefined) {
     console.log(
-      chalk.yellow(
-        `\nWarning: found invalid date "${d}" in \`${fp}\`. Supported formats: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format`,
-      ),
+      `\nWarning: found invalid date "${d}" in \`${fp}\`. Supported formats: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format`,
     )
   }
 
@@ -54,7 +52,11 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options> | und
                 modified ||= file.data.frontmatter.lastmod as MaybeDate
                 modified ||= file.data.frontmatter.updated as MaybeDate
                 modified ||= file.data.frontmatter["last-modified"] as MaybeDate
-                published ||= file.data.frontmatter.publishDate as MaybeDate
+                const dateStr = file.data.frontmatter.date_published || undefined
+                const publishedTime = new Date(dateStr).getTime()
+                published ||=
+                  (new Date(file.data.frontmatter.date_published).getTime() as MaybeDate) ||
+                  undefined
               } else if (source === "git") {
                 if (!repo) {
                   // Get a reference to the main git repo.

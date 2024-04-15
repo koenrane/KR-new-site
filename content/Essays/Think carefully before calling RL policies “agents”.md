@@ -5,9 +5,7 @@ original_url: https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-
 date_published: 6/1/23
 ---
 <span class="first-letter">I</span> think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts “agents.” This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a “policy.” This name is standard, accurate, and neutral. 
-
 ## Don’t assume the conclusion by calling a policy an “agent”
-
 The real-world systems we want to think about and align are very large neural networks like GPT-4. These networks are trained and finetuned via different kinds of self-supervised and reinforcement learning.
 
 When a policy network is updated using a learning process, its parameters are changed via weight updates. Eventually, the process ends (assuming no online learning for simplicity). We are then left with a _policy network_ (e.g. GPT-4). To actually use the network, we need to use some _sampling procedure_ on its logits (e.g. nucleus sampling). Once we fix the _policy network_ and _sampling procedure_, we get a mapping from observations (e.g. sequences of embeddings, like those for [`I`,  `love`,  `dogs`]) to probability distributions over outputs (e.g. tokens). This mapping $\pi$ is the _policy_. 
@@ -17,7 +15,6 @@ I want to carefully consider whether a trained policy will exhibit agentic cogni
 Of course, a policy could in fact be computed using internal planning (e.g. depth-3 heuristic search) to achieve an internally represented goal (e.g. number of diamonds predicted to be present). I think it’s appropriate to call that kind of computation “agentic.” But that designation is only appropriate after further information is discovered (e.g. how the policy in fact works).
 
 ## There’s no deep reason why trained policies are called “agents”
-
 Throughout [my PhD in RL theory](https://turntrout.com/alignment-phd), I accepted the idea that RL tends to create agents, and supervised learning doesn’t. [Well-cited](https://arxiv.org/pdf/1312.5602.pdf) [papers](https://arxiv.org/abs/1912.06680) use the term “agents”, as do textbooks and [Wikipedia](https://en.wikipedia.org/wiki/Reinforcement_learning). I also hadn’t seen anyone give the pushback I give in this post. 
 
 > [!question]

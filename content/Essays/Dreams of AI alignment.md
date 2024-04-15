@@ -50,7 +50,7 @@ Consider the following terms and phrases:
 
 Some of these terms are useful. Some of the academic imports are necessary for successful communication. Some of the terms have real benefits. 
 
-That doesn't stop them from distorting your thinking. At least in your private thoughts, you can do better. You can replace "optimal" with "artifact equilibrated under policy update operations" or "set of sequential actions which have subjectively maximal expected utility relative to \[entity X\]’s imputed beliefs." One nice thing about brains is _these long sentences can compress into single concepts which you can instantly understand._
+That doesn't stop them from distorting your thinking. At least in your private thoughts, you can do better. You can replace "optimal" with "artifact equilibrated under policy update operations" or "subjectively maximal expected utility relative to \[entity X\]’s imputed beliefs." One nice thing about brains is _these long phrases can compress into single concepts which you can instantly understand._
 
 For years, bad habits have held back clear thinking in the AI alignment community. Let's do better.
 

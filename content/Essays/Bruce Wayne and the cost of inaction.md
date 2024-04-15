@@ -62,7 +62,7 @@ The silver and black skyline glimmered against the velvet curtain sky. Silence o
 
 ---
 
-Thomas and Bruce shared a quiet chauffeured ride back to Wayne Manor, Bruce peppering his father with questions about what such-and-such a worker was building, or why this-and-that restaurant had shuttered. Bruce grew quiet once they left downtown, leaving only the smooth hum of the drive. For the last half mile, the route lay exposed to the broad and deep blue of the lake; on their right ran the modest cliffs and hills which buttressed the limits of the city proper. A sliver of moon smiled sideways, and the stars twinkled. <img src="/static/twinkling-stars.png" style="height:1em; width:1em; vertical-align:-19px; margin-top: -10px;filter: invert(100%); background-color: light-dark(darkgrey, transparent)" class="no-select">
+Thomas and Bruce shared a quiet chauffeured ride back to Wayne Manor, Bruce peppering his father with questions about what such-and-such a worker was building, or why this-and-that restaurant had shuttered. Bruce grew quiet once they left downtown, leaving only the smooth hum of the drive. For the last half mile, the route lay exposed to the broad and deep blue of the lake; on their right ran the modest cliffs and hills which buttressed the limits of the city proper. A sliver of moon smiled sideways, and the stars twinkled. <img src="/static/twinkling-stars.png" style="height:1em; width:1em; vertical-align:-19px; margin-top:-10px;filter: invert(100%); background-color: light-dark(darkgrey, transparent)" class="no-select">
 
 Face pensive, mind uneasy, Thomas looked out over the water and the photons which skipped and swam across its surface. That day’s meetings had disappointed.
 
