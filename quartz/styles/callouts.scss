@@ -156,9 +156,13 @@
     background-color: var(--color);
     mask-image: var(--callout-icon);
     mask-size: var(--icon-size) var(--icon-size);
-    mask-position: center;
     mask-repeat: no-repeat;
     padding: 0.2rem 0;
+
+    // Align with the text
+    mask-position: none;
+    -webkit-mask-position: none;
+    -webkit-mask-position-y: 5px;
   }
 
   .callout-title-inner {
