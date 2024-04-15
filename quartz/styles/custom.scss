@@ -74,7 +74,7 @@ em {
 
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
-  li {
+  & li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
     margin-bottom: var(--li-margin);
@@ -84,6 +84,7 @@ ol {
       color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
+      display: inline;
       margin-right: 0.25em;
     }
 
@@ -214,7 +215,6 @@ sup {
 }
 
 .trout-ornament {
-  // filter: light-dark(none, invert(1) brightness(75%) sepia(100) saturate(20) hue-rotate(180deg));
   filter: light-dark(none, invert(66%));
   opacity: light-dark(0.5, 1);
 }
