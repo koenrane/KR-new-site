@@ -45,9 +45,10 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                   }
 
                   const lastChild = linkNode.children[linkNode.children.length - 1]
-                  if (lastChild && lastChild.type === "text") {
+                  if (lastChild && lastChild.type === "text" && lastChild.value) {
                     const textContent = lastChild.value
-                    const lastFourChars = textContent.slice(-4)
+                    const charsToRead = Math.min(4, textContent.length)
+                    const lastFourChars = textContent.slice(-1 * charsToRead)
                     lastChild.value = textContent.slice(0, -4)
 
                     // Create a new span
