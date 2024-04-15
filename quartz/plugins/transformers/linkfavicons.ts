@@ -1,7 +1,32 @@
 import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
+import fs from "fs"
+import { image } from "image-downloader"
 
-const CreateFavicon = (urlString: string, description: string = "") => {
+const MAIL_PATH = "/static/images/mail.svg"
+const LOCAL_PATH = "/static/images/external-favicons/"
+
+const MaybeSaveFavicon = (node: any, hostname: string) => {
+  // Save the favicon to the local storage and return path
+  // const LOCAL_PATH = `/static/images/external-favicons/${hostname}.png`
+  if (false) {
+    // if (!fs.existsSync(LOCAL_PATH)) {
+    const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
+    try {
+      image({ url: googleFaviconURL, dest: LOCAL_PATH, timeout: 5000000 })
+    } catch (error) {
+      console.info("Error handling favicon:", error)
+      return ""
+    } finally {
+      console.log(hostname)
+    }
+  }
+
+  return LOCAL_PATH
+}
+
+const CreateFaviconElement = (urlString: string, description: string = "") => {
+  console.log(urlString, description)
   return {
     type: "element",
     tagName: "img",
@@ -31,27 +56,28 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
             visit(tree, "element", (node) => {
               if (node.tagName === "a") {
                 const linkNode = node
+                // Remove the "external-icon" elements, hidden anyways
+                if (linkNode?.children) {
+                  linkNode.children = linkNode.children.filter(
+                    (child) => child.properties?.class !== "external-icon",
+                  )
+                }
 
                 const isMailTo = linkNode?.properties?.href?.startsWith("mailto:")
                 const isExternal = linkNode?.properties?.className?.includes("external")
                 if (isMailTo || isExternal) {
                   var img = ""
                   if (isMailTo) {
-                    const mailUrl = "/static/mail.svg"
-                    img = CreateFavicon(mailUrl, "email address")
+                    img = CreateFaviconElement(MAIL_PATH, "email address")
                   } else {
                     const url = new URL(linkNode.properties.href)
-                    const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${url.hostname}`
-                    img = CreateFavicon(faviconUrl, url.hostname)
+                    const imgPath = MaybeSaveFavicon(linkNode, url.hostname)
+                    console.log("Saved at ", imgPath)
+                    if (!imgPath) return // Couldn't load/save favicon
+                    const filePath = `${imgPath}${url.hostname}.png`
+                    img = CreateFaviconElement(filePath, url.hostname)
                   }
                   var toPush = img
-
-                  // Remove the "external-icon" elements, hidden anyways
-                  if (linkNode?.children) {
-                    linkNode.children = linkNode.children.filter(
-                      (child) => child.properties?.class !== "external-icon",
-                    )
-                  }
 
                   const lastChild = linkNode.children[linkNode.children.length - 1]
                   if (lastChild && lastChild.type === "text" && lastChild.value) {
