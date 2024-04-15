@@ -5,6 +5,9 @@ authors: Alex Turner and Michael Einhorn
 original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 date_published: 6/19/23
 ---
+> [!note] Author's note (April 2024)
+> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex. 
+
 **TL;DR:** We present an advantage variant which, in certain settings, does not train an optimal policy, but instead uses a fixed reward to update a policy a fixed amount from initialization. Non-tabular empirical results seem mixed: The policy doesn't mode-collapse, but has unclear convergence properties.
 
 **Summary:** Many policy gradient methods allow a network to extract arbitrarily many policy updates from a single kind of reinforcement event (e.g. for outputting tokens related to weddings). Alex proposes a slight modification to the advantage equation, called "action-conditioned TD error" (ACTDE). ACTDE ensures that the network doesn't converge to an "optimal" policy (these almost always put infinite logits on a single action). Instead, ACTDE updates the network by a fixed number of logits.
@@ -19,12 +22,11 @@ We're interested in additional experiments on ACTDE. We hope that, by using ACTD
 
 In PPO, the optimization objective is proportional to the advantage given a policy $\pi$, reward function $R$, and on-policy value function $v^\pi$:[^1]
 
-$$A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).$$
+$\begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}$
 
 Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{“We had a wedding”})=1$ and $R(\text{“We had a party”})=.5$. 
 
 The failure which happens is:
-
 1. The policy tries out the "wedding" action, receives strong reinforcement of $R=1$, and increasing logits on that action because its advantage was positive. The policy learns that its value is high ($v^\pi(s)=1$). 
 2. The policy eventually tries out the "party" action, receiving less reinforcement at $R=.5$, decreasing the logits on "party" (because its advantage was negative). The policy learns that the original state's value is low ($v^\pi(s)=.5$).
 3. The policy tries out "wedding" again, receives positive advantage relative to the low original state value. The logits go up on "wedding", and the value is once again high ($v^\pi(s)=1$).
@@ -45,12 +47,10 @@ Episode-by-episode:
 | 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                              |
 
 With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact “optimal” at that state. This does not seem good. Here are a few kinds of explanations for why:
-
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards “wedding.” Its logits just go up and up and up. Mode collapse.
 2. We want the reward to be _feedback_ about what kinds of completions are good (or, more abstractly, about what kinds of computations are good to run inside the network). We want a single situation to provide a _finite amount of updating._
-3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says “We had a party at Chuck-E-Cheese.” But the system may never get there during training due to exploration issues, which are _exarcerbated by the network getting penalized relative to its on-policy value estimate_ $v_{t-1}(s)$_._
-   
-   In other words, PPO actively updates against actions which aren’t known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
+3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says “We had a party at Chuck-E-Cheese.” But the system may never get there during training due to exploration issues, which are _exarcerbated by the network getting penalized relative to its on-policy value estimate_ $v_{t-1}(s)$.[^explore] 
+ [^explore]: In other words, PPO actively updates against actions which aren’t known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
 This doesn’t seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. “wedding”). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
@@ -154,13 +154,17 @@ This method might not work very well for e.g. RLHF at scale. Deep RL is notoriou
 
 However, Alex has a few intuitions anyways: 
 
-1. **Mitigating reward misspecification.** If the reward is really high in a situation which the policy can easily explore into during training, then that's bad and probably leads to distorted policies. 
-    1. However, under ACTDE, a single reward event (e.g. hypothetically, a maximal reward whenever "weddings" appears) should have less impact on the trained policy. 
-    2. For example, the Q-function can quickly learn to predict that a given string "I went to the barn" produces high reward, and then there isn't any more barn-related reinforcement. 
-    3. However, if barn-related generations are strongly rewarded in general, the model might still receive reinforcement for the hard-to-predict and diverse range of barn reward events.
-2. **Reducing mode collapse.** In the tabular bandit regime (explored above), ACTDE adds "reward logits" ($e^{R(s,a)}$) onto the initial policy logits ($\log \pi_0(s,a)$). Maybe this is true in general (but probably not). If so, then KL penalties might be less important for keeping the trained policy $\pi$ close to the initial policy $\pi_0$.
-    1. Less mode collapse means higher-entropy next-token distributions, which may mean greater variety in the policy's preferences/[shards](https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values). That is, it may be rarer for motivational/goal-encoding circuits to be effectively pruned by mode-collapsed RLHF. 
-    2. If a system has more shards, [there's a greater chance that some of the shards care about humans](https://www.lesswrong.com/posts/2NncxDQ3KBDCxiJiP/cosmopolitan-values-don-t-come-free?commentId=ofPTrG6wsq7CxuTXk). 
+### Mitigating reward misspecification 
+If the reward is really high in a situation which the policy can easily explore into during training, then that's bad and probably leads to distorted policies. 
+
+However, under ACTDE, a single reward event (e.g. hypothetically, a maximal reward whenever "weddings" appears) should have less impact on the trained policy. For example, the Q-function can quickly learn to predict that a given string "I went to the barn" produces high reward, and then there isn't any more barn-related reinforcement. 
+
+However, if barn-related generations are strongly rewarded in general, the model might still receive reinforcement for the hard-to-predict and diverse range of barn reward events.
+
+### Reducing mode collapse
+In the tabular bandit regime (explored above), ACTDE adds "reward logits" ($e^{R(s,a)}$) onto the initial policy logits ($\log \pi_0(s,a)$). Maybe this is true in general (but probably not). If so, then KL penalties might be less important for keeping the trained policy $\pi$ close to the initial policy $\pi_0$.
+
+Less mode collapse means higher-entropy next-token distributions, which may mean greater variety in the policy's preferences/[shards](https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values). That is, it may be rarer for motivational/goal-encoding circuits to be effectively pruned by mode-collapsed RLHF. If a system has more shards, [there's a greater chance that some of the shards care about humans](https://www.lesswrong.com/posts/2NncxDQ3KBDCxiJiP/cosmopolitan-values-don-t-come-free?commentId=ofPTrG6wsq7CxuTXk). 
 
 ## Summary
 
@@ -168,8 +172,6 @@ ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTD
 
 We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [einhorn.michael1@gmail.com](mailto:einhorn.michael1@gmail.com) for any questions about the code.
 			
-> [!note] Author's note (April 2024)
-> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex. 
 
 **Contributions:**
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
