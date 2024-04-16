@@ -3,8 +3,9 @@ import { QuartzTransformerPlugin } from "../types"
 import axios from "axios"
 import fs from "fs"
 
-const MAIL_PATH = "/Users/turntrout/Documents/quartz/quartz/static/images/mail.svg"
-const QUARTZ_FOLDER = "/Users/turntrout/Documents/quartz/quartz"
+const STATIC_RELATIVE_PATH = "quartz/static"
+const MAIL_PATH = `${STATIC_RELATIVE_PATH}/images/mail.svg`
+const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 
 function downloadImage(url, image_path) {
