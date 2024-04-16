@@ -2,14 +2,14 @@ import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
 import axios from "axios"
 import fs from "fs"
-import https from "https"
-import path from "path"
 
 const MAIL_PATH = "/Users/turntrout/Documents/quartz/quartz/static/images/mail.svg"
 const QUARTZ_FOLDER = "/Users/turntrout/Documents/quartz/quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 
 function downloadImage(url, image_path) {
+  let writeStream = fs.createWriteStream(image_path)
+
   axios({
     url,
     responseType: "stream",
@@ -18,12 +18,15 @@ function downloadImage(url, image_path) {
       (response) =>
         new Promise((resolve, reject) => {
           response.data
-            .pipe(fs.createWriteStream(image_path))
+            .pipe(writeStream)
             .on("finish", () => resolve())
             .on("error", (e) => reject(e))
         }),
     )
     .catch((error) => {})
+    .finally(() => {
+      writeStream.close()
+    })
 }
 
 async function MaybeSaveFavicon(hostname: string) {
@@ -41,7 +44,6 @@ async function MaybeSaveFavicon(hostname: string) {
         const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
         try {
           downloadImage(googleFaviconURL, localPath)
-          console.log("Resolved ", hostname)
           resolve(quartzPath)
         } catch (error) {
           console.log(error)
