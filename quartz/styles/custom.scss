@@ -22,8 +22,6 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramondSC", "EBGaramondSC08-Regular", ".otf");
 @include font-face("FiraCode", "FiraCode-VF", ".ttf");
 @include font-face("BadHandwriting", "BadHandwriting", ".ttf");
-@include font-face("Noto Color Emoji", "NotoColorEmoji-Regular", ".ttf");
-// @include font-face("Title", "Itim-Regular", ".ttf");
 
 body,
 .published-container {
@@ -34,7 +32,6 @@ body,
   --font-text: "EBGaramond", Garamond, serif;
   --font-text-italic: "EBGaramondItalic", Garamond, serif;
   --font-text-header: "EBGaramond12", Garamond, serif;
-  --font-emoji: "Noto Color Emoji", sans-serif;
 
   --font-text-sc: "EBGaramondSC", "EB Garamond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EB Garamond:+swsh", cursive;
@@ -258,9 +255,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 /* Allow inline emoji to resize with the text */
 .emoji {
-  // font-family: var(--font-emoji);
-  // font-weight: 400;
-  // font-style: normal;
   max-width: 1em;
   max-height: 1em;
   width: auto;
