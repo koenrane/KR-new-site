@@ -282,7 +282,7 @@ Over the last several months, many people have read either a draft version of th
     1. Typical questions asked under this paradigm/frame: 
         1. “How can we predictably control the way in which a policy network generalizes? For example, under what training regimes and reinforcement schedules would [a CoinRun agent generalize](https://arxiv.org/abs/2105.14111) to pursuing coins instead of the right end of the level? What quantitative relationships and considerations govern this process?”
         2. “Will deep learning agents robustly and reliably navigate [ontological shifts?”](https://www.lesswrong.com/tag/ontological-crisis)    
-	2. This paradigm places a strong (and, we argue, [appropriate)](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about) emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense. 
+	2. This paradigm places a strong (and, we argue, [appropriate](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about)) emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense. 
     3. That said, alignment implications are out of scope for this post. We postpone discussion to future posts.
 3. “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
     1. We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
