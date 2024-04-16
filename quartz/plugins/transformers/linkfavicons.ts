@@ -1,55 +1,57 @@
 import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
+import axios from "axios"
 import fs from "fs"
 import https from "https"
 import path from "path"
 
-const MAIL_PATH = "~/Documents/quartz/quartz/static/images/mail.svg"
+const MAIL_PATH = "/Users/turntrout/Documents/quartz/quartz/static/images/mail.svg"
+const QUARTZ_FOLDER = "/Users/turntrout/Documents/quartz/quartz"
+const FAVICON_FOLDER = "static/images/external-favicons"
 
-function downloadFileSync(url, destPath) {
-  const file = fs.createWriteStream(destPath)
-  const response = https.get(url)
-  response.pipe(file)
-
-  return new Promise((resolve, reject) => {
-    file.on("finish", () => {
-      file.close()
-      resolve()
-    })
-    response.on("error", (err) => {
-      fs.unlinkSync(destPath)
-      reject(err)
-    })
-    file.on("error", (err) => {
-      fs.unlinkSync(destPath)
-      reject(err)
-    })
+function downloadImage(url, image_path) {
+  axios({
+    url,
+    responseType: "stream",
   })
+    .then(
+      (response) =>
+        new Promise((resolve, reject) => {
+          response.data
+            .pipe(fs.createWriteStream(image_path))
+            .on("finish", () => resolve())
+            .on("error", (e) => reject(e))
+        }),
+    )
+    .catch((error) => {})
 }
-
-const QUARTZ_FOLDER = "~/Documents/quartz/quartz"
-const FAVICON_FOLDER = "/static/images/external-favicons"
 
 async function MaybeSaveFavicon(hostname: string) {
   return new Promise((resolve, reject) => {
     // Save the favicon to the local storage and return path
     const sanitizedHostname = hostname.replace(/\./g, "_")
-    const localPath = `${QUARTZ_FOLDER}/${sanitizedHostname}.png`
-    const quartzPath = `${FAVICON_FOLDER}/${sanitizedHostname}.png`
+    const localPath = `${QUARTZ_FOLDER}/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 
-    if (!fs.existsSync(localPath)) {
-      const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-      try {
-        downloadFileSync(googleFaviconURL, localPath)
+    const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+    fs.stat(localPath, function (err, stat) {
+      if (err === null) {
         resolve(quartzPath)
-      } catch (error) {
-        console.log(error)
-        console.error(`Failed to download favicon for ${hostname}`)
-        reject(null)
+      } else if (err.code === "ENOENT") {
+        // File doesn't exist
+        const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
+        try {
+          downloadImage(googleFaviconURL, localPath)
+          console.log("Resolved ", hostname)
+          resolve(quartzPath)
+        } catch (error) {
+          console.log(error)
+          console.error(`Failed to download favicon for ${hostname}`)
+          reject(null)
+        }
+      } else {
+        console.log(err)
       }
-    } else {
-      resolve(quartzPath)
-    }
+    })
   })
 }
 
@@ -63,13 +65,6 @@ const CreateFaviconElement = (urlString: string, description: string = "") => {
       class: "favicon",
     },
     alt: "Favicon for " + description,
-  }
-}
-
-const VERBOSE = false
-const log = (message: string) => {
-  if (VERBOSE) {
-    console.log(message)
   }
 }
 
@@ -93,16 +88,16 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                 const isMailTo = linkNode?.properties?.href?.startsWith("mailto:")
                 const isExternal = linkNode?.properties?.className?.includes("external")
                 if (isMailTo || isExternal) {
-                  var img = ""
+                  var imgElement = { children: [] }
                   if (isMailTo) {
-                    img = CreateFaviconElement(MAIL_PATH, "email address")
+                    imgElement = CreateFaviconElement(MAIL_PATH, "email address")
                   } else {
                     const url = new URL(linkNode.properties.href)
                     MaybeSaveFavicon(url.hostname)
                       .then(function (imgPath) {
-                        console.log(imgPath)
-                        img = CreateFaviconElement(imgPath, url.hostname)
-                        var toPush = img
+                        imgElement = CreateFaviconElement(imgPath, url.hostname)
+
+                        var toPush = imgElement
 
                         const lastChild = linkNode.children[linkNode.children.length - 1]
                         if (lastChild && lastChild.type === "text" && lastChild.value) {
@@ -117,7 +112,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                             tagName: "span",
                             children: [
                               { type: "text", value: lastFourChars },
-                              img, // Append the previously created image
+                              imgElement, // Append the previously created image
                             ],
                             properties: {
                               style: "white-space: nowrap;",
@@ -125,7 +120,6 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                           }
                         }
                         linkNode.children.push(toPush)
-                        console.log(toPush)
                       })
                       .catch((error) => {
                         console.error("Error downloading favicon:", error)

@@ -5,8 +5,7 @@
 .callout {
   border: 1px solid var(--border);
 
-  --border: color-mix(in srgb, var(--color) 30%, var(--light));
-
+  --border: color-mix(in srgb, var(--color) 25%, var(--light));
   & blockquote {
     border-left: 3px solid var(--border);
   }
