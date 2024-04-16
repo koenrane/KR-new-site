@@ -126,6 +126,7 @@ const config: QuartzConfig = {
       Plugin.AddFavicons(),
       Plugin.TroutOrnamentHr(),
       Plugin.RemarkMinusReplace(),
+      // Plugin.TagEmojiPlugin(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [
