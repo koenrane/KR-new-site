@@ -6,6 +6,9 @@ This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem
 
 # Smallcaps
 ABCDEFG a aFF af 
+
+AUP MIRI ELK NAFTA 
+
 100K K
 
 # Admonitions

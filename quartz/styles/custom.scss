@@ -15,13 +15,13 @@ $fonts-dir: "/static/styles/fonts";
   }
 }
 
-@include font-face("EBGaramond", "EBGaramond08-Regular", ".otf");
-@include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold", ".ttf");
-@include font-face("EBGaramond12", "EBGaramond12-Regular", ".otf");
-@include font-face("EBGaramondItalic", "EBGaramond08-Italic", ".otf");
-@include font-face("EBGaramondSC", "EBGaramondSC08-Regular", ".otf");
-@include font-face("FiraCode", "FiraCode-VF", ".ttf");
-@include font-face("BadHandwriting", "BadHandwriting", ".ttf");
+@include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
+@include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
+@include font-face("EBGaramond12", "subset-EBGaramond12-Regular", ".woff2");
+@include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
+@include font-face("EBGaramondSC", "subset-EBGaramondSC08-Regular", ".woff2");
+@include font-face("FiraCode", "firacode-vf", ".woff2");
+@include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
 
 body,
 .published-container {
@@ -189,11 +189,6 @@ a {
     font-family: var(--font-monospace);
     font-size: 0.75em;
   }
-}
-
-// Ensure that links blend in well with the callout formatting
-.callout-title a {
-  color: color-mix(in srgb, var(--color-link), currentcolor 60%);
 }
 
 audio {
