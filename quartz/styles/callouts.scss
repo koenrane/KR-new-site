@@ -139,9 +139,12 @@
   }
 
   & > .callout-title-inner > p {
-    // color: var(--color);
-    color: var(--dark);
     margin: 0;
+    color: var(--color);
+
+    & a {
+      color: inherit;
+    }
   }
 
   .callout-icon,

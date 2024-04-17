@@ -32,7 +32,8 @@ Human values _look so strange and inexplicable_. How could those values be the 
 
 The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#app-c).)
 
-**Assumption 1: The cortex**[^1] **is basically (locally) randomly initialized.** According to this assumption, [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in) in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [Intro to brain-like-AGI safety: Learning from scratch in the brain.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in)
+> [!abstract] Assumption 1: The cortex[^1] is basically (locally) randomly initialized.
+>  According to this assumption, [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in) in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [Intro to brain-like-AGI safety: Learning from scratch in the brain.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in)
 
 Thus, we infer that 
 > [!quote]  [Human values & biases are inaccessible to the genome](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
@@ -259,8 +260,8 @@ Furthermore, your _values_ do not reflect a _reflectively endorsed utility fu
 
 **Different shard compositions can produce similar urges.** If you feel an urge to approach nearby donuts, that indicates a range of possibilities: 
 
-- A donut shard is firing to increase _P(eating the donut) _ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
-- A _hedonic_ shard is firing to increase _P(eating the donut) _ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
+- A donut shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
+- A _hedonic_ shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
 - A _social_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
 - …
 

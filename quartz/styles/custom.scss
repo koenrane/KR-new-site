@@ -19,7 +19,7 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
 @include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
-@include font-face("EBGaramondSC", "subset-EBGaramondSC08-Regular", ".woff2");
+@include font-face("EBGaramondSC", "ebgaramondsc08-regular", ".woff2");
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 @include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
 
@@ -63,6 +63,9 @@ body,
   font-size: 1.4rem;
   text-align: center;
 
+  & a {
+    text-decoration: none;
+  }
   & .visited {
     color: inherit;
   }
@@ -184,13 +187,16 @@ a {
   hyphens: auto;
   margin-top: 0em;
 
-  /* Apply visited style only to links outside of .callout-title divs */
+  // After you visit a link, it becomes less important that it stands out
   &:visited {
-    color: var(--color-visited);
+    color: color-mix(in srgb, currentcolor 50%, var(--color-link));
   }
   // Don't have anchor links with box behind them
   &[role="anchor"] {
     background-color: transparent;
+  }
+
+  &[class="same-page-link"] {
   }
 
   &[href^="mailto:"] {
@@ -241,6 +247,7 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
   & a {
     color: inherit;
+    text-decoration: none;
   }
 
   @media all and (min-width: $fullPageWidth) {
@@ -290,20 +297,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   margin-bottom: 1em;
 }
 
-img .fade-img {
-  position: relative;
-}
-
-img .fade-img:after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-  height: 40%;
-}
-
 figure img {
   margin-bottom: 1em;
 }
@@ -327,11 +320,6 @@ figcaption {
   &:visited {
     color: var(--color-visited);
   }
-}
-
-/* Remove the external link icon. */
-.external-icon {
-  display: none;
 }
 
 .no-select {

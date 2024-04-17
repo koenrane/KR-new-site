@@ -96,9 +96,17 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                   )
                 }
 
+                const isInternalBody = linkNode?.properties?.href?.startsWith("#")
+
+                if (isInternalBody) {
+                  linkNode.properties.class = linkNode.properties.class + " same-page-link"
+                  return
+                }
+
                 const isMailTo = linkNode?.properties?.href?.startsWith("mailto:")
                 const isExternal = linkNode?.properties?.className?.includes("external")
-                if (isMailTo || isExternal) {
+                const isInternalDiffPage = linkNode?.properties?.href?.startsWith("/")
+                if (isMailTo || isExternal || isInternalDiffPage) {
                   var imgElement = { children: [] }
                   if (isMailTo) {
                     imgElement = CreateFaviconElement(MAIL_PATH, "email address")

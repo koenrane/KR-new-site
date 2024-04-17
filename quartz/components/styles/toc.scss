@@ -47,6 +47,7 @@ button#toc {
       margin-bottom: 6px;
     }
     & > li > a {
+      text-decoration: none;
       color: var(--dark);
       opacity: 0.35;
       transition:
