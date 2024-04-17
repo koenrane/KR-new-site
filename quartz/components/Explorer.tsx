@@ -81,14 +81,17 @@ export default ((userOpts?: Partial<Options>) => {
     displayClass,
     fileData,
   }: QuartzComponentProps) => {
-    constructFileTree(allFiles)
+    // constructFileTree(allFiles)
+    const pages = cfg.navbar.pages
     return (
       <div class={classNames(displayClass, "explorer")}>
-        <h2>{opts.title ?? i18n(cfg.locale).components.explorer.title}</h2>
         <div id="explorer-content">
           <ul class="overflow" id="explorer-ul">
-            <ExplorerNode node={fileTree} opts={opts} fileData={fileData} />
-            <li id="explorer-end" />
+            {pages.map((page) => (
+              <li key={page.slug}>
+                <a href={page.slug}>{page.title}</a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

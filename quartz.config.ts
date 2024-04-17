@@ -75,6 +75,14 @@ const config: QuartzConfig = {
     baseUrl: "turntrout.com",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "published", // What to display on listings
+    navbar: {
+      pages: [
+        { title: "About me", slug: "about" },
+        { title: "My research", slug: "research" },
+        { title: "Posts", slug: "posts" },
+        { title: "Contact me", slug: "contact" },
+      ],
+    },
     theme: {
       cdnCaching: true,
       typography: {},
