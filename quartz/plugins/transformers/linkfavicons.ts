@@ -30,8 +30,14 @@ function downloadImage(url, image_path) {
     })
 }
 
+var inDownloading = new Set() // Set of URLs being downloaded
 async function MaybeSaveFavicon(hostname: string) {
   return new Promise((resolve, reject) => {
+    if (inDownloading.has(hostname)) {
+      reject("Already downloading")
+    } else {
+      inDownloading.add(hostname)
+    }
     // Save the favicon to the local storage and return path
     const sanitizedHostname = hostname.replace(/\./g, "_")
     const localPath = `${QUARTZ_FOLDER}/${FAVICON_FOLDER}/${sanitizedHostname}.png`
@@ -39,6 +45,7 @@ async function MaybeSaveFavicon(hostname: string) {
     const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
     fs.stat(localPath, function (err, stat) {
       if (err === null) {
+        // Already exists
         resolve(quartzPath)
       } else if (err.code === "ENOENT") {
         // File doesn't exist
@@ -125,6 +132,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                         linkNode.children.push(toPush)
                       })
                       .catch((error) => {
+                        if (error === "Already downloading") return
                         console.error("Error downloading favicon:", error)
                       })
                   }

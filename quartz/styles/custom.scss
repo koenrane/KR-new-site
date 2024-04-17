@@ -347,9 +347,13 @@ figcaption {
 .book-citation {
   font-style: italic;
 }
-// .favicon-span {
-//   white-space: nowrap;
-// }
+
+.kofi-image {
+  height: 1.2em;
+  vertical-align: -1em;
+  margin-right: 0.15em;
+  filter: hue-rotate(200deg) opacity(0.6);
+}
 
 img.emoji {
   height: 1em;
