@@ -17,7 +17,7 @@ $fonts-dir: "/static/styles/fonts";
 
 @include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
-@include font-face("EBGaramond12", "subset-EBGaramond12-Regular", ".woff2");
+@include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
 @include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
 @include font-face("EBGaramondSC", "subset-EBGaramondSC08-Regular", ".woff2");
 @include font-face("FiraCode", "firacode-vf", ".woff2");
@@ -60,7 +60,7 @@ body,
 }
 
 .explorer {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   text-align: center;
 
   & .visited {
@@ -235,15 +235,18 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 /* Center the site name under the pond gif */
 .page-title {
-  margin-top: -1.4em;
   font-feature-settings: "swsh" 1;
   font-family: var(--font-text-swash), cursive, sans-serif;
-
-  color: var(--gray);
-  font-size: var(--font-size-h2);
   text-align: center;
+
   & a {
     color: inherit;
+  }
+
+  @media all and (min-width: $fullPageWidth) {
+    margin-top: -1.4em;
+    color: var(--gray);
+    font-size: var(--font-size-h2);
   }
 }
 

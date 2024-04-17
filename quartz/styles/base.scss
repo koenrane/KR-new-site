@@ -81,8 +81,9 @@ strong {
 }
 
 a {
-  font-weight: calc($normalWeight + 150);
-  text-decoration: none;
+  // font-weight: calc($normalWeight + 150);
+  // text-decoration: none;
+  text-decoration-thickness: 0.06em;
   transition: color 0.2s ease;
   color: var(--secondary);
 
@@ -91,8 +92,7 @@ a {
   }
 
   &.internal {
-    text-decoration: none;
-    background-color: var(--color-background);
+    // background-color: var(--color-background); TODO unsure what to do for within-page links
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);
