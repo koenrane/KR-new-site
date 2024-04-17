@@ -33,16 +33,17 @@ function downloadImage(url, image_path) {
 var inDownloading = new Set() // Set of URLs being downloaded
 async function MaybeSaveFavicon(hostname: string) {
   return new Promise((resolve, reject) => {
-    if (inDownloading.has(hostname)) {
-      reject("Already downloading")
-    } else {
-      inDownloading.add(hostname)
-    }
     // Save the favicon to the local storage and return path
     const sanitizedHostname = hostname.replace(/\./g, "_")
     const localPath = `${QUARTZ_FOLDER}/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 
     const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+
+    if (inDownloading.has(hostname)) {
+      resolve(quartzPath)
+    } else {
+      inDownloading.add(hostname)
+    }
     fs.stat(localPath, function (err, stat) {
       if (err === null) {
         // Already exists

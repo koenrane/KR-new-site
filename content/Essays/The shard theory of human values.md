@@ -236,11 +236,11 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
     2. This rule requires statefulness via short-term memory and some coarse summary of the object itself (small time-scale object permanence within a shallow world-model).
 6. Object permanence develops from the generalization of specific heuristics for predicting common objects, to an invariant scheme for handling objects and their relationship to the child. 
     1. Developmental milestones vary from baby to baby because it takes them a varying amount of time to learn certain keystone but convergent abstractions, such as self-models. 
-    2. Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011) AnimBehav.pdf) as human babies reach them.
+    2. Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf) as human babies reach them.
     3. The more abstractions are learned, the easier it is to lay down additional functionality. When we see a new model of car, we do not have to relearn our edge detectors or car-detectors. 
 7. Learning continues, but we will stop here.
 
-In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17) 30580-8) hook into a reward circuit which focuses the learning on human faces. 
+In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8) hook into a reward circuit which focuses the learning on human faces. 
 
 <a id="app-b"></a>
 ### Appendix B: Terminology
