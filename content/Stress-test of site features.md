@@ -23,11 +23,15 @@ This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem
 
 # Smallcaps
 
-> The **North American Free Trade Agreement** (**NAFTA** [/ˈnæftə/](https://en.wikipedia.org/wiki/Help:IPA/English "Help:IPA/English") [_NAF-tə_](https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key "Help:Pronunciation respelling key"); [Spanish](https://en.wikipedia.org/wiki/Spanish_language "Spanish language"): *Tratado de Libre Comercio de América del Norte*, **TLCAN**; [French](https://en.wikipedia.org/wiki/French_language "French language"): *Accord de libre-échange nord-américain*, **ALÉNA**) was an agreement signed by [Canada](https://en.wikipedia.org/wiki/Canada "Canada"), [Mexico](https://en.wikipedia.org/wiki/Mexico "Mexico"), and the [United States](https://en.wikipedia.org/wiki/United_States "United States") that created a trilateral [trade bloc](https://en.wikipedia.org/wiki/Trade_bloc "Trade bloc") in [North America.](https://en.wikipedia.org/wiki/North_America "North America") The agreement came into force on January 1, 1994, and superseded the 1988 [Canada–United States Free Trade Agreement](https://en.wikipedia.org/wiki/Canada%E2%80%93United_States_Free_Trade_Agreement "Canada–United States Free Trade Agreement") between the United States and Canada. The NAFTA trade bloc formed one of the largest trade blocs in the world by [gross domestic product.](https://en.wikipedia.org/wiki/Gross_domestic_product "Gross domestic product") — Wikipedia
+> The **North American Free Trade Agreement** (**NAFTA** [/ˈnæftə/](https://en.wikipedia.org/wiki/Help:IPA/English "Help:IPA/English") [_NAF-tə_](https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key "Help:Pronunciation respelling key"); [Spanish](https://en.wikipedia.org/wiki/Spanish_language "Spanish language"): *Tratado de Libre Comercio de América del Norte*, **TLCAN**; [French](https://en.wikipedia.org/wiki/French_language "French language"): *Accord de libre-échange nord-américain*, **ALÉNA**) was an agreement signed by [Canada](https://en.wikipedia.org/wiki/Canada "Canada"), [Mexico](https://en.wikipedia.org/wiki/Mexico "Mexico"), and the [United States](https://en.wikipedia.org/wiki/United_States "United States") that created a trilateral [trade bloc](https://en.wikipedia.org/wiki/Trade_bloc "Trade bloc") in [North America.](https://en.wikipedia.org/wiki/North_America "North America") The agreement came into force on January 1, 1994, and superseded the 1988 [Canada–United States Free Trade Agreement](https://en.wikipedia.org/wiki/Canada%E2%80%93United_States_Free_Trade_Agreement "Canada–United States Free Trade Agreement") between the United States and Canada. The NAFTA trade bloc formed one of the largest trade blocs in the world by [gross domestic product.](https://en.wikipedia.org/wiki/Gross_domestic_product "Gross domestic product") — Wikipedia
 
 AUP is a method for avoiding side effects.
 
-The CNN has 180M parameters. His house is 180km away; 180KM should look off.
+The CNN has 180M parameters. His house is 180KM away.[^smallcaps]
+
+1B1T 256KB 500B 500M 10K 1.1K, but the following shouldn't have a smallcaps suffix: "100t."
+
+[^smallcaps]: Here's another footnote!
 
 # Lists
 
@@ -36,6 +40,15 @@ Grocery list:
 1. Chicken feed
 2. Goose food
 3. Bananas
+	1. They can't be totally brown!
+	2. 
+
+Unordered lists: 
+- First level
+	- Second level
+		- Third level
+			- Fourth level (it's kinda cringe if lists get this deep, though)
+	- Second level
 
 > 1. Never use a metaphor, simile or other figure of speech which you are used to seeing in print.
 > 2. Never use a long word where a short one will do.
@@ -47,6 +60,7 @@ Grocery list:
 > 1. This is a list item.
 >    1. And now it's nested.
 >       1. And now it's double nested.
+> 		  1. :)
 > 1.
 
 # Admonitions
@@ -85,16 +99,6 @@ Grocery list:
 
 > [!success]
 
-# Lists
-
-1. hi
-2. bye
-3. The policy tries out the "wedding" action, receives strong reinforcement of , and increasing logits on that action because its advantage was positive. The policy learns that its value is high
-4. The policy eventually tries out the "party" action, receiving less reinforcement at  decreasing the logits on "party" (because its advantage was negative). The policy learns that the original state's value is low (
-5. The policy tries out "wedding" again, receives positive advantage relative to the low original state value. The logits go up on "wedding", and the value is once again high ().
-
 # Twemoji
 
 🪿😀😃😄😁😆😅😂🤣🥲🥹☺️😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳🙂‍↕️😏😒🙂‍↔️😞😔😟😕🙁☹️😣😖😫😩🥺😢😭😮‍💨😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🫣🤗🫡🤔🫢🤭🤫🤥😶😶‍🌫️😐😑😬🫨🫠🙄😯😦😧😮😲🥱😴🤤😪😵😵‍💫🫥🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👹👺🤡💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾
-
-<img src="/static/images/kofi-cup.png" class="kofi-image"> **Show thanks via a donation or a kind message**

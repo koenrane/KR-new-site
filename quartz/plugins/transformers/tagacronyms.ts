@@ -54,6 +54,7 @@ const replaceRegex = (
     fragment.push({ type: "text", value: node.value.substring(lastIndex) })
   }
 
+  console.log(fragment)
   // Replace the original text node with the new nodes
   if (parent.children && typeof index === "number") {
     parent.children.splice(index, 1, ...fragment)
@@ -61,6 +62,7 @@ const replaceRegex = (
 }
 
 const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{2,})(?<plural>s?)\b/
+const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 const replaceAcronyms = (match) => {
   // Extract the uppercase and lowercase parts
   const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
@@ -78,11 +80,10 @@ const replaceAbbreviation = (match) => {
 const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
     visit(tree, "text", (node, index, parent) => {
-      const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
       replaceRegex(node, index, parent, globalRegexAcronym, replaceAcronyms)
-
+    })
+    visit(tree, "text", (node, index, parent) => {
       replaceRegex(node, index, parent, REGEX_ABBREVIATION, replaceAbbreviation)
-      // replaceRegex(node, index, parent, /[KMBT]{3,}/, replaceAbbreviation)
     })
   }
 }
