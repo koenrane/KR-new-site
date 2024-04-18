@@ -2,16 +2,16 @@ import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
-const prePunctuation = /([\(\”\“\"\[]*)/
+const prePunctuation = /(?<pre>[\(\”\“\"\[]*)/
 const linkText = /\[([^\]]+)\]/
 const linkURL = /\(([^#]\S*)\)/ // Ignore internal links, don't advance to the next word
 const postPunctuation = /([\”\"\`\.\,\?\:\!\;]+)/
 const preLinkRegex = new RegExp(`${prePunctuation.source}${linkText.source}${linkURL.source}`)
 const fullRegex = new RegExp(
-  `${preLinkRegex.source}(?:${postPunctuation.source}|[\*_]{1,2}${postPunctuation.source}[\*_]{1,2})`,
+  `${preLinkRegex.source}(${postPunctuation.source}|[\*_]{1,2}${postPunctuation.source}[\*_]{1,2})`,
   "g",
 )
-const replaceTemplate = "[$1$2$4$5]($3) "
+const replaceTemplate = "[$1$2$4]($3) "
 
 const remarkLinkPunctuation: Plugin = (text: string) => {
   return text.replaceAll(fullRegex, replaceTemplate)
