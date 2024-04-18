@@ -60,7 +60,7 @@ const replaceRegex = (
   }
 }
 
-const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z]{2,})(?<plural>s?)\b/
+const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{2,})(?<plural>s?)\b/
 const replaceAcronyms = (match) => {
   // Extract the uppercase and lowercase parts
   const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
