@@ -99,7 +99,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                 const isInternalBody = linkNode?.properties?.href?.startsWith("#")
 
                 if (isInternalBody) {
-                  linkNode.properties.class = linkNode.properties.class + " same-page-link"
+                  linkNode.properties.className.push("same-page-link")
                   return
                 }
 

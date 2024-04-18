@@ -17,7 +17,7 @@ $fonts-dir: "/static/styles/fonts";
 
 @include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
-@include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
+@include font-face("EBGaramond12", "EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
 @include font-face("EBGaramondSC", "ebgaramondsc08-regular", ".woff2");
 @include font-face("FiraCode", "firacode-vf", ".woff2");
@@ -127,6 +127,7 @@ ol {
     // Make the backref arrows look nice
     & .data-footnote-backref {
       color: color-mix(in srgb, var(--color-link) 70%, transparent);
+      text-decoration: none;
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
       font-size: larger;
@@ -194,9 +195,6 @@ a {
   // Don't have anchor links with box behind them
   &[role="anchor"] {
     background-color: transparent;
-  }
-
-  &[class="same-page-link"] {
   }
 
   &[href^="mailto:"] {
