@@ -90,7 +90,7 @@ a {
   }
 
   &.same-page-link {
-    background-color: var(--color-background);
+    background-color: color-mix(in srgb, var(--color-background) 70%, transparent);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);

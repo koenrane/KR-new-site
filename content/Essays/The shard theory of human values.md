@@ -32,8 +32,8 @@ Human values _look so strange and inexplicable_. How could those values be the 
 
 The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#app-c).)
 
-> [!abstract] Assumption 1: The cortex[^1] is basically (locally) randomly initialized.
->  According to this assumption, [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in) in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [Intro to brain-like-AGI safety: Learning from scratch in the brain.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in)
+> [!abstract] Assumption 1: The cortex is basically (locally) randomly initialized.
+>  According to this assumption,[^1]  [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in) in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [Intro to brain-like-AGI safety: Learning from scratch in the brain.](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in)
 
 Thus, we infer that 
 > [!quote]  [Human values & biases are inaccessible to the genome](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
@@ -41,19 +41,22 @@ Thus, we infer that 
 >   
 > This leaves us with a huge puzzle. If we can’t say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor) where do biases come from? [How can the genome hook the human’s preferences into the human’s world model, when the genome doesn’t “know” what the world model will look like?](https://arbital.com/p/ontology_identification/) Why do people usually navigate ontological shifts properly, why don’t people want to wirehead, why do people almost always care about other people _if the genome can’t even write circuitry that detects and rewards thoughts about people_?”.
 
-**Assumption 2: The brain does self-supervised learning.** According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex) to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-long treatment of this assumption.)
+> [!abstract] Assumption 2: The brain does self-supervised learning 
+> According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex) to whether you’re about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-length treatment.)
+> 
+> In other words, the brain engages in self-supervised predictive learning: Predict what happens next, then see what actually happened, and update to do better next time.
 
-In other words, the brain engages in self-supervised predictive learning: Predict what happens next, then see what actually happened, and update to do better next time.
+> [!note] Definition: The *activating context* of a shard
+> 
+> Consider the context available to a circuit within the brain. Any given circuit is innervated by axons from different parts of the brain. These axons transmit information to the circuit. Therefore, whether a circuit fires is not primarily dependent on the external situation navigated by the human, or even what the person senses at a given point in time. A circuit fires depending on whether its inputs[^2]—the _mental context_—triggers it or not. This is the "activating context" of a shard.
 
----
+> [!abstract] Assumption 3: The brain does reinforcement learning. 
+> 
+> According to this assumption, the brain has a genetically [hard-coded reward system](https://www.alignmentforum.org/posts/hE56gYi5d68uux9oM/intro-to-brain-like-agi-safety-3-two-subsystems-learning-and) (implemented via certain hard-coded circuits in the brainstem and midbrain). In some[^3] fashion, the brain reinforces thoughts and mental subroutines which have led to reward, so that they will be more likely to fire in similar contexts in the future. We suspect that the “base” reinforcement learning algorithm is relatively crude, but that people reliably bootstrap up to smarter credit assignment.
 
-_Definition._ Consider the context available to a circuit within the brain. Any given circuit is innervated by axons from different parts of the brain. These axons transmit information to the circuit. Therefore, whether a circuit fires is not primarily dependent on the external situation navigated by the human, or even what the person senses at a given point in time. A circuit fires depending on whether its inputs[^2]—the _mental context_—triggers it or not. This is what the "context" of a shard refers to.
-
-**Assumption 3: The brain does reinforcement learning.** According to this assumption, the brain has a genetically [hard-coded reward system](https://www.alignmentforum.org/posts/hE56gYi5d68uux9oM/intro-to-brain-like-agi-safety-3-two-subsystems-learning-and) (implemented via certain hard-coded circuits in the brainstem and midbrain). In some[^3] fashion, the brain reinforces thoughts and mental subroutines which have led to reward, so that they will be more likely to fire in similar contexts in the future. We suspect that the “base” reinforcement learning algorithm is relatively crude, but that people reliably bootstrap up to smarter credit assignment.
-
----
-
-_Summary._ Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: self-supervised predictive loss (we view this as building your world model; see [Appendix A](#app-a) and reward (we view this as building your values, as we are about to explore). 
+_Summary:_ Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: 
+1. Self-supervised predictive loss (we view this as building your world model; see [Appendix A](#app-a)), and
+2. Reward (we view this as building your values, as we are about to explore). 
 
 <a id="shaping"></a>
 ## 2. Reinforcement events shape human value shards
@@ -115,7 +118,7 @@ Shard theory retrodicts that altruism tends to be biased towards nearby people (
 > [!quote] [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
 > We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way. 
 
-Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (## of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism) Probably not.
+Similarly, you may be familiar with [“scope insensitivity”:](https://en.wikipedia.org/wiki/Scope_neglect) that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people [“can’t multiply”?](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism) Probably not.
 
 Under the shard theory view, it’s not that brains _can’t_ multiply, it’s that for most people, the altruism-shard is most strongly invoked in face-to-face, one-on-one interactions, because _those are the situations which have been most strongly touched by altruism-related reinforcement events_. Whatever the altruism-shard’s influence on decision-making, it doesn’t steer decision-making so as to produce a linear willingness-to-pay relationship.
 
