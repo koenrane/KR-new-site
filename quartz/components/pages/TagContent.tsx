@@ -43,7 +43,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
         <article>
           <p>{content}</p>
         </article>
-        <p>{i18n(cfg.locale).pages.tagContent.totalTags({ count: tags.length })}</p>
+        {/* <p>{i18n(cfg.locale).pages.tagContent.totalTags({ count: tags.length })}</p> */}
         <div>
           {tags.map((tag) => {
             const pages = tagItemMap.get(tag)!
@@ -70,7 +70,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
                 {content && <p>{content}</p>}
                 <div class="page-listing">
                   <p>
-                    {i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })}
+                    {/* {i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })} */}
                     {pages.length > numPages && (
                       <>
                         {" "}

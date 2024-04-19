@@ -3,6 +3,10 @@ publish: "true"
 permalink: dreams-of-alignment
 original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
 date_published: 2/9/24
+tags:
+  - ai
+  - "#rationality"
+  - critique
 ---
 
 Let's not forget the old, well-read post: [Dreams of AI Design](https://www.lesswrong.com/posts/p7ftQ6acRkgo6hqHb/dreams-of-ai-design). In that essay, Eliezer correctly points out errors in imputing meaning to nonsense by using suggestive names to describe the nonsense. This error is very relevant to understanding the problems facing [LessWrong's](http://www.lesswrong.com) intellectual contributions. 

@@ -3,7 +3,9 @@ publish: "true"
 permalink: invalid-xrisk-arguments
 original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 date_published: 3/4/2024
-tags: []
+tags:
+  - ai
+  - critique
 ---
 
 > [!note] Author's note

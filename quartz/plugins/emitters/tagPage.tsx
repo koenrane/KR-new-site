@@ -20,8 +20,8 @@ import DepGraph from "../../depgraph"
 
 export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
   const opts: FullPageLayout = {
-    ...sharedPageComponents,
     ...defaultListPageLayout,
+    ...sharedPageComponents,
     pageBody: TagContent(),
     ...userOpts,
   }
