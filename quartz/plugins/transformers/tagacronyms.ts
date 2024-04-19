@@ -60,7 +60,8 @@ const replaceRegex = (
   }
 }
 
-const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,})(?<plural>s?)\b/
+// TODO come up with more elegant whitelist for e.g. "if"
+const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF)(?<plural>s?)\b/
 const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 const replaceAcronyms = (match) => {
   // Extract the uppercase and lowercase parts

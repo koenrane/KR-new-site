@@ -56,9 +56,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
 
             const root = contentPage?.htmlAst
             const content =
-              !root || root?.children.length === 0
-                ? contentPage?.description
-                : htmlToJsx(contentPage.filePath!, root)
+              !root || root?.children.length === 0 ? "" : htmlToJsx(contentPage.filePath!, root)
 
             return (
               <div>

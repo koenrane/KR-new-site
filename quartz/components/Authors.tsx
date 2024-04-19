@@ -5,13 +5,13 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
   if (fileData.frontmatter?.hide_metadata) {
     return null
   }
-
-  const title = fileData.frontmatter?.title
-  if (title) {
-    return <h1 class={classNames(displayClass, "article-title")}>{title}</h1>
-  } else {
-    return null
+  let authors = "Alex Turner"
+  if (fileData.frontmatter?.authors) {
+    authors = fileData.frontmatter?.authors
   }
+  authors = "By " + authors
+
+  return <p class="authors content-meta">{authors}</p>
 }
 
 ArticleTitle.css = `

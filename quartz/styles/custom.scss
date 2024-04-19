@@ -135,7 +135,6 @@ ol {
     }
 
     & p {
-      // TODO fix this for fn 15
       margin-bottom: 8px; /* Adjust the spacing as needed */
     }
 
@@ -349,6 +348,30 @@ figcaption {
   color: var(--gray);
   line-height: 0.1em;
   margin-top: 18%;
+}
+
+.right-sidebar {
+}
+
+.tags {
+  color: var(--gray);
+  list-style: none;
+  font-size: 0.9rem;
+  display: inline-block;
+
+  background-color: var(--color-background); /* Set the background color of the tags box */
+  padding: 0.5em 0.5em; /* Add padding to the tags box */
+  border-radius: 5px; /* Add rounded corners to the tags box */
+
+  & a {
+    color: var(--gray);
+  }
+}
+
+a.internal.tag-link {
+  font-family: var(--font-monospace);
+  font-size: 0.9em;
+  margin: 0 0.45rem;
 }
 
 img.emoji {

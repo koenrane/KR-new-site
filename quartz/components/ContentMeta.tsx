@@ -19,6 +19,7 @@ const defaultOptions: ContentMetaOptions = {
   showComma: true,
 }
 
+const DEFAULT_AUTHOR = "Alex Turner"
 export default ((opts?: Partial<ContentMetaOptions>) => {
   // Merge options with defaults
   const options: ContentMetaOptions = { ...defaultOptions, ...opts }
@@ -32,12 +33,6 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
     if (text) {
       const segments: (string | JSX.Element)[] = []
       const frontmatter = fileData.frontmatter
-
-      var authors = "Alex Turner"
-      if (frontmatter?.authors) {
-        authors = frontmatter?.authors
-      }
-      segments.push("By " + authors)
 
       if (frontmatter?.original_url) {
         var dateStr = ""
@@ -64,15 +59,14 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         segments.push(publicationStr)
       }
 
-      // Display reading time if enabled
-      if (options.showReadingTime) {
-        const { minutes, words: _words } = readingTime(text)
-        const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
-          minutes: Math.ceil(minutes),
-        })
-        segments.push(displayedTime)
-      }
-
+      // // Display reading time if enabled
+      // if (options.showReadingTime) {
+      //   const { minutes, words: _words } = readingTime(text)
+      //   const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
+      //     minutes: Math.ceil(minutes),
+      //   })
+      //   segments.push(displayedTime)
+      // }
       const segmentsElements = segments.map((segment) => <span>{segment}</span>)
 
       return (
