@@ -54,7 +54,6 @@ const replaceRegex = (
     fragment.push({ type: "text", value: node.value.substring(lastIndex) })
   }
 
-  console.log(fragment)
   // Replace the original text node with the new nodes
   if (parent.children && typeof index === "number") {
     parent.children.splice(index, 1, ...fragment)
