@@ -52,7 +52,6 @@ The CNN has 180M parameters. His house is 180KM away.[^smallcaps]
 # Lists
 
 Grocery list:
-
 1. Chicken feed
 2. Goose food
 3. Bananas
