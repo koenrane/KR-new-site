@@ -269,14 +269,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   }
 }
 
-/* Allow inline emoji to resize with the text */
-.emoji {
-  height: 1em;
-  width: 1em;
-  margin: 0 0.05em 0 0.1em;
-  vertical-align: -0.1em;
-}
-
 /* Specific elements and features */
 .gold-script {
   font-family: var(--font-text-swash);
@@ -345,6 +337,7 @@ figcaption {
   font-style: italic;
 }
 
+// NOTE not used in main site
 .kofi-image {
   height: 1.2em;
   vertical-align: -1em;
