@@ -345,6 +345,12 @@ figcaption {
   filter: hue-rotate(200deg) opacity(0.6);
 }
 
+.header-404 {
+  color: var(--gray);
+  line-height: 0.1em;
+  margin-top: 18%;
+}
+
 img.emoji {
   border-radius: 0; // Don't want to cut off corners
   height: 1em;
