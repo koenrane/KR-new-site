@@ -60,7 +60,7 @@ const replaceRegex = (
   }
 }
 
-const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{2,})(?<plural>s?)\b/
+const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,})(?<plural>s?)\b/
 const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 const replaceAcronyms = (match) => {
   // Extract the uppercase and lowercase parts
@@ -69,7 +69,7 @@ const replaceAcronyms = (match) => {
   return { before: "", abbr: acronym, after: plural }
 }
 
-const REGEX_ABBREVIATION = /(?<number>[\d\,]?\.?\d+)(?<abbreviation>[KMBT]{1,}|[KMBT])/g
+const REGEX_ABBREVIATION = /(?<number>[\d\,]?\.?\d+)(?<abbreviation>[A-Z]{1,}|[A-Z])/g
 const replaceAbbreviation = (match) => {
   // For now just chuck everything into abbr, including number
   return { before: "", abbr: match[0], after: "" }
