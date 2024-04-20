@@ -373,6 +373,7 @@ figcaption {
 }
 
 a.internal.tag-link {
+  white-space: nowrap;
   font-family: var(--font-monospace);
   font-size: 0.9em;
   margin: 0 0.45rem;

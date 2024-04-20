@@ -2,7 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 
 const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
-  if (fileData.frontmatter?.hide_metadata) {
+  if (fileData.frontmatter?.hide_title) {
     return null
   }
 

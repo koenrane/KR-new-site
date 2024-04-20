@@ -3,6 +3,7 @@ publish: "true"
 hide_authors: "true"
 toc: "false"
 hide_metadata: "true"
+hide_title: "false"
 ---
 Welcome, adventuring reader! 
 

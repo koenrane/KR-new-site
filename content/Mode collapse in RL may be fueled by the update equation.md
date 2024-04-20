@@ -5,7 +5,7 @@ authors: Alex Turner and Michael Einhorn
 original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 date_published: 6/19/23
 tags:
-  - ai
+  - AI
 ---
 > [!note] Author's note (April 2024)
 > In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex. 
