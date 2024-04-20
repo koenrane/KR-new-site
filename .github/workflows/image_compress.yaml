@@ -17,12 +17,12 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           # Filter for added/modified, but not deleted image files
-          files: |
-            ${{ join(
-              (github.event.changes.*.filename
-              | (?# Filters the filenames where the status is "A" or "M")
-              filter(
-                .value.status == 'A' || .value.status == 'M'
-              )
-              | .value.filename),
-              '\n') }}
+          # files: |
+          #   ${{ join(
+          #     (github.event.changes.*.filename
+          #     | (?# Filters the filenames where the status is "A" or "M")
+          #     filter(
+          #       .value.status == 'A' || .value.status == 'M'
+          #     )
+          #     | .value.filename),
+          #     '\n') }}
