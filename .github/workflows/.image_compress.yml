@@ -1,0 +1,21 @@
+name: Compress Images on Push
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    name: calibreapp/image-actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compress Images
+        uses: calibreapp/image-actions@main
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Filter for added/modified, but not deleted image files
+          files: |
+            ${{ join(fromJSON('["A","M"]').*contains(github.event.changes.*.status) && fromJSON(github.event.changes).*.filename, '\n') }}
