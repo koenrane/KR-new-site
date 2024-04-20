@@ -18,4 +18,11 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           # Filter for added/modified, but not deleted image files
           files: |
-            ${{ join(fromJSON('["A","M"]').*contains(github.event.changes.*.status) && fromJSON(github.event.changes).*.filename, '\n') }}
+            ${{ join(
+              (github.event.changes.*.filename
+              | (?# Filters the filenames where the status is "A" or "M")
+              filter(
+                .value.status == 'A' || .value.status == 'M'
+              )
+              | .value.filename),
+              '\n') }}
