@@ -1,0 +1,39 @@
+#!/bin/sh
+
+TEMP_DICT="/tmp/candidate_wordlist.txt"
+PERM_DICT=".wordlist.txt"
+
+alias SPELLCHECK="npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT"
+SPELLCHECK content/**.md
+
+# Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
+if [ $? -ne 0 ]; then
+	nvim $TEMP_DICT && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+	SPELLCHECK content/**.md
+	if [ $? -ne 0 ]; then
+		echo "Spellcheck failed"
+		exit 1
+	fi
+fi
+
+echo "Spellcheck passed"
+
+# Optimize any newly added or modified images which are staged
+for file in $(git diff --cached --name-only --diff-filter=ACM); do
+	if [[ "$file" =~ \.jpe?g$ ]]; then
+		echo "Compressing JPEG image: $file"
+		jpegoptim --max=80 "$file" --strip-all
+	elif [[ "$file" =~ \.png$ ]]; then
+		echo "Compressing PNG image: $file"
+		# Strip metadata
+		optipng -o7 "$file" -strip all
+	elif [[ "$file" =~ \.webp$ ]]; then
+		echo "Compressing WEBP image: $file"
+		cwebp -q 80 "$file" -o "$file"
+	elif [[ "$file" =~ \.gif$ ]]; then
+		echo "Compressing GIF image: $file"
+		# NOTE unsure if metadata stripped
+		gifsicle -O3 "$file" -o "$file" --colors 256
+	fi
+done
+exit 0
