@@ -6,7 +6,7 @@ on:
       - main
   push:
     branches:
-      - main
+      - [main, dev]
 
 jobs:
   build-and-test:
@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
+      - run: ls
       - run: npm ci
 
       - name: Check types and style
@@ -55,8 +55,8 @@ jobs:
           fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v3
-        with:
-          node-version: 18
+        # with:
+        # node-version: 18
       - name: Get package version
         run: node -p -e '`PACKAGE_VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
       - name: Create release tag
