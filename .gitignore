@@ -10,7 +10,6 @@ private/
 .replit
 replit.nix
 *~
-package-lock.json
 .bak
 *.bak
 backstop*
