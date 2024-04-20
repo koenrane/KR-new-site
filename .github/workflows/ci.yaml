@@ -5,8 +5,7 @@ on:
     branches:
       - main
   push:
-    branches:
-      - [main, dev]
+    branches: ["*"]
 
 jobs:
   build-and-test:
