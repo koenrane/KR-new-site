@@ -68,9 +68,7 @@ const config: QuartzConfig = {
     pageTitle: "The Pond",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "null", // No analytics
-    },
+    analytics: null,
     locale: "en-US",
     baseUrl: "turntrout.com",
     ignorePatterns: ["private", "templates", ".obsidian"],
@@ -85,7 +83,8 @@ const config: QuartzConfig = {
     },
     theme: {
       cdnCaching: true,
-      typography: {},
+      typography: { header: "", body: "", code: "" },
+      fontOrigin: "local",
       colors: {
         darkMode: {
           light: frappeColors["base"],

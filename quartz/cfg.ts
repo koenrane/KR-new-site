@@ -1,5 +1,4 @@
-import { ValidDateType } from "./components/Date"
-import { QuartzComponent } from "./components/types"
+import { ValidDateType } from "./components/Date" import { QuartzComponent } from "./components/types"
 import { ValidLocale } from "./i18n"
 import { PluginTypes } from "./plugins/types"
 import { Theme } from "./util/theme"
@@ -42,6 +41,8 @@ export interface GlobalConfiguration {
    *   Quartz will avoid using this as much as possible and use relative URLs most of the time
    */
   baseUrl?: string
+  /** Navigation sidebar configuration */
+  navbar: {}
   theme: Theme
   /**
    * Allow to translate the date in the language of your choice.
@@ -70,4 +71,4 @@ export interface FullPageLayout {
 }
 
 export type PageLayout = Pick<FullPageLayout, "beforeBody" | "left" | "right">
-export type SharedLayout = Pick<FullPageLayout, "head" | "header" | "footer">
+export type SharedLayout = Pick<FullPageLayout, "head" | "header" | "left" | "footer">
