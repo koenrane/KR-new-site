@@ -10,6 +10,9 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
     authors = fileData.frontmatter?.authors
   }
   authors = "By " + authors
+  if (fileData.frontmatter?.hide_authors) {
+    return ""
+  }
 
   return <p class="authors content-meta">{authors}</p>
 }

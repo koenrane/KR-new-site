@@ -20,7 +20,7 @@ const TableOfContents: QuartzComponent = ({
   displayClass,
   cfg,
 }: QuartzComponentProps) => {
-  if (!fileData.toc) {
+  if (!fileData.toc | (fileData.frontmatter?.toc === "false")) {
     return null
   }
 
