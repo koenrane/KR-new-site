@@ -16,11 +16,14 @@ const defaultOptions: SearchOptions = {
 export default ((userOpts?: Partial<SearchOptions>) => {
   const Search: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
     const opts = { ...defaultOptions, ...userOpts }
-    const searchPlaceholder = i18n(cfg.locale).components.search.searchBarPlaceholder
+    // This will be shown when the search is active
+    const searchPlaceholder = "Toggle search by pressing /"
     return (
       <div class={classNames(displayClass, "search")}>
         <div id="search-icon">
-          <p class="no-select">{i18n(cfg.locale).components.search.title}</p>
+          <p class="no-select" style="text-align:center">
+            Search (shortcut: <code>/</code>)
+          </p>
           <div></div>
           <svg
             tabIndex={0}
