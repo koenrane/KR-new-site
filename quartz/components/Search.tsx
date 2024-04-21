@@ -19,11 +19,9 @@ export default ((userOpts?: Partial<SearchOptions>) => {
     // This will be shown when the search is active
     const searchPlaceholder = "Toggle search by pressing /"
     return (
-      <div class={classNames(displayClass, "search")}>
+      <div class={classNames(displayClass, "search")} style="width:60%;align-self:center">
         <div id="search-icon">
-          <p class="no-select" style="text-align:center">
-            Search
-          </p>
+          <p class="no-select">Search</p>
           <div></div>
           <svg
             tabIndex={0}

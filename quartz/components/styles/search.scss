@@ -6,7 +6,7 @@
   flex-grow: 0.3;
 
   & > #search-icon {
-    background-color: color-mix(in srgb, var(--lightgray) 30%, var(--light) 70%);
+    background-color: color-mix(in srgb, var(--lightgray) 25%, var(--light));
     border-radius: 4px;
     height: 2rem;
     display: flex;
@@ -19,6 +19,8 @@
     }
 
     & > p {
+      font-size: 1.1rem;
+      color: var(--dark);
       display: inline;
       padding: 0 1rem;
     }
@@ -30,7 +32,7 @@
       margin: 0 0.5rem;
 
       .search-path {
-        stroke: var(--darkgray);
+        stroke: var(--dark);
         stroke-width: 2px;
         transition: stroke 0.5s ease;
       }
