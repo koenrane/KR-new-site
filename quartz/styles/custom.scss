@@ -252,6 +252,7 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   font-feature-settings: "swsh" 1;
   font-family: var(--font-text-swash), cursive, sans-serif;
   text-align: center;
+  color: var(--gray);
 
   & a {
     color: inherit;
@@ -260,7 +261,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
   @media all and (min-width: $fullPageWidth) {
     margin-top: -1.4em;
-    color: var(--gray);
     font-size: var(--font-size-h2);
   }
 }

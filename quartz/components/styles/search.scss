@@ -2,7 +2,8 @@
 
 .search {
   min-width: fit-content;
-  max-width: 14rem;
+  max-width: 30%;
+  align-self: center;
   flex-grow: 0.3;
 
   & > #search-icon {
@@ -20,7 +21,7 @@
 
     & > p {
       font-size: 1.1rem;
-      color: var(--dark);
+      color: var(--gray);
       display: inline;
       padding: 0 1rem;
     }
@@ -32,7 +33,7 @@
       margin: 0 0.5rem;
 
       .search-path {
-        stroke: var(--dark);
+        stroke: var(--gray);
         stroke-width: 2px;
         transition: stroke 0.5s ease;
       }

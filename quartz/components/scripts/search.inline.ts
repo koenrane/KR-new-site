@@ -143,6 +143,23 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
   return html.body
 }
 
+function updatePlaceholder() {
+  const searchBar = document.getElementById("search-bar")
+  const searchPlaceholderDesktop = "Toggle search by pressing /"
+  const searchPlaceholderMobile = "Search"
+
+  if (window.innerWidth > 1024) {
+    // TODO standardize to normal $fullWidth from css
+    searchBar.setAttribute("placeholder", searchPlaceholderDesktop)
+  } else {
+    searchBar.setAttribute("placeholder", searchPlaceholderMobile)
+  }
+}
+
+// Update the placeholder on load and on window resize
+window.addEventListener("load", updatePlaceholder)
+window.addEventListener("resize", updatePlaceholder)
+
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
   const data = await fetchData

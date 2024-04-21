@@ -16,10 +16,8 @@ const defaultOptions: SearchOptions = {
 export default ((userOpts?: Partial<SearchOptions>) => {
   const Search: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
     const opts = { ...defaultOptions, ...userOpts }
-    // This will be shown when the search is active
-    const searchPlaceholder = "Toggle search by pressing /"
     return (
-      <div class={classNames(displayClass, "search")} style="width:60%;align-self:center">
+      <div class={classNames(displayClass, "search")}>
         <div id="search-icon">
           <p class="no-select">Search</p>
           <div></div>
@@ -45,8 +43,8 @@ export default ((userOpts?: Partial<SearchOptions>) => {
               id="search-bar"
               name="search"
               type="text"
-              aria-label={searchPlaceholder}
-              placeholder={searchPlaceholder}
+              aria-label="Search"
+              placeholder="Search"
             />
             <div id="search-layout" data-preview={opts.enablePreview}></div>
           </div>
