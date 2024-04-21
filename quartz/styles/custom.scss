@@ -1,6 +1,6 @@
 @use "./base.scss";
 @use "./variables.scss" as *;
-@use "_table.scss";
+@use "table.scss";
 @use "colors.scss";
 
 $fonts-dir: "/static/styles/fonts";
