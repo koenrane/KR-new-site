@@ -221,15 +221,25 @@ sup {
 }
 
 .trout-ornament {
-  filter: light-dark(none, invert(66%));
+  // Override the darkmode filter for the trout -- TODO reexamine
+  filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
 
-// The image in the title
-// Always applied
-.header-img {
-  filter: light-dark(saturate(85%), saturate(75%));
+:root[saved-theme="dark"] img {
+  filter: grayscale(50%);
+
+  & .invert {
+    // TODO implement
+    filter: grayscale(50%) invert(100%) brightness(95%) hue-rotate(180deg);
+  }
 }
+
+// The image in the title
+.header-img {
+  filter: saturate(85%);
+}
+
 // NOTE this will stop working if address moves TODO fix
 body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   & .header-img {
@@ -365,7 +375,7 @@ figcaption {
   margin-top: 0;
 
   background-color: var(--color-background); /* Set the background color of the tags box */
-  padding: 0.5em 0.5em; /* Add padding to the tags box */
+  padding: 0.25em 0.25em; /* Add padding to the tags box */
   border-radius: 5px; /* Add rounded corners to the tags box */
 
   & a {

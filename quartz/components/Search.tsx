@@ -22,7 +22,7 @@ export default ((userOpts?: Partial<SearchOptions>) => {
       <div class={classNames(displayClass, "search")}>
         <div id="search-icon">
           <p class="no-select" style="text-align:center">
-            Search (shortcut: <code>/</code>)
+            Search
           </p>
           <div></div>
           <svg
