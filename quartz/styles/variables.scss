@@ -8,3 +8,7 @@ $boldWeight: 700;
 $semiBoldWeight: 600;
 $normalWeight: 400;
 $lineHeight: 1.8rem;
+$breakpoints: (
+  small: $mobileBreakpoint,
+  large: $tabletBreakpoint,
+);

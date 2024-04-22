@@ -2,21 +2,11 @@
 @use "./syntax.scss";
 @use "./callouts.scss";
 @use "./colors.scss";
-
-// Reassign colors b/c IDK where they're set
-:root {
-  --light: var(--sapphire);
-  --dark: var(--sapphire);
-
-  --font-size-h1: 2.8rem;
-  --font-size-h2: 2.1rem;
-  --font-size-h3: 1.7rem;
-  --font-size-h4-h6: 1.5rem;
-}
+@use "./sizing.scss";
 
 html {
   scroll-behavior: smooth;
-  text-size-adjust: none;
+  // text-size-adjust: none;
   overflow-x: hidden;
   width: 100vw;
 }
@@ -139,10 +129,6 @@ a {
   }
 
   & article {
-    // & > h1 {
-    //   font-size: 2rem;
-    // }
-
     & li:has(> input[type="checkbox"]) {
       list-style-type: none;
       padding-left: 0;
@@ -175,7 +161,6 @@ a {
       flex: 1;
       display: flex;
       flex-direction: column;
-      // gap: 2rem;
       top: 0;
       width: $sidePanelWidth;
       margin-top: $topSpacing;
@@ -281,7 +266,6 @@ h6,
 thead {
   font-family: var(--headerFont);
   color: var(--dark);
-  font-weight: revert;
   margin-bottom: 0;
 
   article > & > a[role="anchor"] {
@@ -296,6 +280,16 @@ h3,
 h4,
 h5,
 h6 {
+  font-feature-settings:
+    "onum" 0,
+    "lnum" 1;
+  color: var(--color-header);
+  font-family: var(--font-text-header);
+
+  & .small-caps {
+    font-weight: lighter;
+  }
+
   &[id] > a[href^="#"] {
     margin: 0 0.5rem;
     opacity: 0;
@@ -310,37 +304,10 @@ h6 {
   }
 }
 
-// // typography improvements
-// h1 {
-//   font-size: 1.75rem;
-//   margin-top: 2.25rem;
-//   margin-bottom: 1rem;
-// }
-//
-// h2 {
-//   font-size: 1.4rem;
-//   margin-top: 1.9rem;
-//   margin-bottom: 1rem;
-// }
-//
-// h3 {
-//   font-size: 1.12rem;
-//   margin-top: 1.62rem;
-//   margin-bottom: 1rem;
-// }
-//
-h4,
-h5,
-h6 {
-  font-size: var(--font-size-h4-h6);
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-
 figure[data-rehype-pretty-code-figure] {
   margin: 0;
   position: relative;
-  line-height: 1.6rem; // TODO adjust? was originally relative to 1.4rem
+  line-height: 1.6rem;
   position: relative;
 
   & > [data-rehype-pretty-code-title] {
@@ -430,14 +397,6 @@ a > code {
   font-weight: $normalWeight;
 }
 
-.center {
-  & tbody,
-  & li,
-  & p {
-    line-height: calc($lineHeight + 0.2rem);
-  }
-}
-
 .table-container {
   overflow-x: auto;
 
@@ -463,9 +422,7 @@ dt {
 }
 
 dd {
-  // border-bottom: 1px solid var(--gray); /* Adjust border width, style, and color */
   margin-bottom: 1em;
-  // color: red;
 }
 
 th {
