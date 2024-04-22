@@ -15,6 +15,7 @@
   @media screen and (max-width: $mobileBreakpoint) {
     --base-font-size: 20px;
   }
+  font-size: var(--base-font-size);
 }
 
 @function calculate-scale($steps) {
@@ -105,11 +106,6 @@ h5,
 h6,
 .h6 {
   font-size: var(--text-size-200);
-}
-
-p,
-.p {
-  font-size: var(--text-size-100);
 }
 
 // FONT SETUP

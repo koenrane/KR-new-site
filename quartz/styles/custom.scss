@@ -5,13 +5,9 @@
 
 :root {
   --font-bad-handwriting: "BadHandwriting";
-
-  --ornament-size: 4rem;
 }
 .explorer {
-  font-size: 1.4rem;
   text-align: center;
-  line-height: 1.9rem;
 
   & a {
     text-decoration: none;
@@ -21,12 +17,6 @@
   }
 }
 
-// .center {
-//   max-width: 50rem;
-//   font-size: 1.4rem;
-//   line-height: 2rem;
-// }
-//
 em {
   font-style: italic;
   font-family: var(--font-text-italic);
@@ -72,7 +62,6 @@ ol {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     counter-increment: footnote; // Increment the footnote counter for each matching li
     display: flex; // This ensures the number and the text are in the same line
-    font-size: smaller;
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -80,7 +69,6 @@ ol {
       text-decoration: none;
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
-      font-size: larger;
     }
 
     & p {
@@ -88,6 +76,7 @@ ol {
     }
 
     &::before {
+      font-size: var(--text-size-100); // TODO for some reason only affecting before?
       content: counter(footnote) "."; // Display the counter followed by a period
     }
   }
@@ -135,14 +124,15 @@ sup {
 
 .text-ornament {
   font-family: "EBGaramond12";
-  font-size: var(--ornament-size);
-  filter: saturate(90%); //drop-shadow(0 0 1.2px light-dark(transparent, white));
+  font-size: 3rem;
+  filter: saturate(90%);
   color: var(--blue);
   opacity: light-dark(0.7, 0.7);
 }
 
 .trout-ornament {
   // Override the darkmode filter for the trout -- TODO reexamine
+  width: 3rem;
   filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
@@ -170,7 +160,8 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 /* Center the site name under the pond gif */
 .page-title {
-  font-feature-settings: "swsh" 1;
+  // font-feature-settings: "swsh" 1;
+  // font-style: italic;
   font-family: var(--font-text-swash), cursive, sans-serif;
   text-align: center;
   color: var(--gray);
@@ -182,7 +173,7 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
   @media all and (min-width: $fullPageWidth) {
     margin-top: -1.4em;
-    font-size: var(--font-size-h2);
+    font-size: var(--text-size-500);
   }
 }
 
@@ -198,7 +189,7 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   }
   #page-title-text {
     vertical-align: -40%;
-    font-size: var(--font-size-h2);
+    font-size: var(--text-size-600);
   }
 }
 
@@ -236,7 +227,7 @@ figcaption {
   text-align: center;
   color: var(--overlay-2);
   // font-style: normal;
-  font-size: 0.82em; /* smaller than the surrounding text */
+  font-size: var(--text-size-90); /* smaller than the surrounding text */
   margin-top: 0em; /* Space above the caption */
 }
 

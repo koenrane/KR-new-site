@@ -20,7 +20,7 @@
     }
 
     & > p {
-      font-size: 1.1rem;
+      font-size: var(--text-size-100);
       color: var(--gray);
       display: inline;
       padding: 0 1rem;
@@ -81,7 +81,7 @@
         padding: 0.5em 1em;
         font-family: var(--bodyFont);
         color: var(--dark);
-        font-size: 1.1em;
+        // font-size: 1.1em;
         border: 1px solid var(--lightgray);
 
         &:focus {
