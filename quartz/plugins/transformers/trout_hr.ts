@@ -48,6 +48,14 @@ export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
             const footnotesData: FootnotesLocation = {
               footnotesSectionFound: false,
             }
+            const newNode = {
+              type: "element",
+              tagName: "div",
+              properties: {
+                style: "align-items:center;display:flex;justify-content:center;",
+              },
+              children: children,
+            }
 
             // Find the HR before the footnotes section
             visit(tree, "element", (node, index, parent) => {
@@ -58,20 +66,12 @@ export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
                 node.children[0].value.toLowerCase() === "footnotes"
               ) {
                 footnotesData.footnotesSectionFound = true
-                node.children.splice(0, 0, {
-                  type: "element",
-                  tagName: "center",
-                  children: children,
-                })
+                node.children.splice(0, 0, newNode)
               }
             })
 
             if (!footnotesData.footnotesSectionFound) {
-              tree.children.push({
-                type: "element",
-                tagName: "center",
-                children: children,
-              })
+              tree.children.push(newNode)
             }
           }
         },

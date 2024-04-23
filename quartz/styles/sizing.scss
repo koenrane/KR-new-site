@@ -1,0 +1,151 @@
+@use "./variables.scss" as *;
+
+:root {
+  --base-line-height: 1.4;
+  --scale-ratio: 1.2;
+}
+// Responsive font sizes
+:root {
+  @media screen and (min-width: $tabletBreakpoint) {
+    --base-font-size: 24px;
+  }
+  @media screen and (max-width: $tabletBreakpoint) {
+    --base-font-size: 22px;
+  }
+  @media screen and (max-width: $mobileBreakpoint) {
+    --base-font-size: 20px;
+  }
+  font-size: var(--base-font-size);
+}
+
+@function calculate-scale($steps) {
+  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
+}
+
+// Define font sizes using the scale
+:root {
+  --text-size-80: #{calculate-scale(-2)};
+  --text-size-90: #{calculate-scale(-1)};
+  --text-size-100: calc(var(--base-font-size));
+  --text-size-200: #{calculate-scale(1)};
+  --text-size-300: #{calculate-scale(1)};
+  --text-size-400: #{calculate-scale(1)};
+  --text-size-500: #{calculate-scale(2)};
+  --text-size-600: #{calculate-scale(3)};
+  --text-size-700: #{calculate-scale(4)};
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.022em;
+}
+
+// Directly using CSS variables in SCSS
+.text-size-80 {
+  font-size: var(--text-size-80);
+}
+.text-size-90 {
+  font-size: var(--text-size-90);
+}
+.text-size-100 {
+  font-size: var(--text-size-100);
+}
+.text-size-200 {
+  font-size: var(--text-size-200);
+}
+.text-size-300 {
+  font-size: var(--text-size-300);
+}
+.text-size-400 {
+  font-size: var(--text-size-400);
+}
+.text-size-500 {
+  font-size: var(--text-size-500);
+}
+.text-size-600 {
+  font-size: var(--text-size-600);
+}
+.text-size-700 {
+  font-size: var(--text-size-700);
+}
+
+h1,
+.h1 {
+  font-size: var(--text-size-700);
+}
+h2,
+.h2 {
+  font-size: var(--text-size-600);
+}
+h3,
+.h3 {
+  font-size: var(--text-size-500);
+}
+h4,
+.h4 {
+  font-size: var(--text-size-400);
+}
+h5,
+.h5 {
+  font-size: var(--text-size-300);
+}
+h6,
+.h6 {
+  font-size: var(--text-size-200);
+}
+
+// FONT SETUP
+$fonts-dir: "/static/styles/fonts";
+
+@mixin font-face($font-family, $file-name, $ext: ".ttf", $font-features: none) {
+  @font-face {
+    font-family: $font-family;
+    font-optical-sizing: auto;
+    font-feature-settings: $font-features;
+
+    src: url("#{$fonts-dir}/#{$file-name}#{$ext}");
+  }
+}
+
+@include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
+@include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
+@include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
+@include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
+@include font-face("EBGaramondSC", "ebgaramondsc08-regular", ".woff2");
+@include font-face("FiraCode", "firacode-vf", ".woff2");
+@include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
+
+body,
+.published-container {
+  --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
+  --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
+
+  --font-text-theme: "EBGaramond", Garamond, serif;
+  --font-text: "EBGaramond", Garamond, serif;
+  --font-text-italic: "EBGaramondItalic", Garamond, serif;
+  --font-text-header: "EBGaramond", Garamond, serif;
+
+  --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
+  --font-text-swash: "EBGaramond:+swsh", cursive;
+
+  line-height: var(--base-line-height);
+  font-family: var(--font-text);
+  /* Use a '1' which doesn't look like an 'l' */
+  font-feature-settings:
+    "cv11" 1,
+    "onum" 1;
+}

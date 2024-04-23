@@ -1,68 +1,13 @@
 @use "./base.scss";
 @use "./variables.scss" as *;
-@use "_table.scss";
+@use "table.scss";
 @use "colors.scss";
 
-$fonts-dir: "/static/styles/fonts";
-
-@mixin font-face($font-family, $file-name, $ext: ".ttf", $font-features: none) {
-  @font-face {
-    font-family: $font-family;
-    font-optical-sizing: auto;
-    font-feature-settings: $font-features;
-
-    src: url("#{$fonts-dir}/#{$file-name}#{$ext}");
-  }
-}
-
-@include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
-@include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
-@include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
-@include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");
-@include font-face("EBGaramondSC", "ebgaramondsc08-regular", ".woff2");
-@include font-face("FiraCode", "firacode-vf", ".woff2");
-@include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
-
-body,
-.published-container {
-  --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
-  --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
-
-  --font-text-theme: "EBGaramond", Garamond, serif;
-  --font-text: "EBGaramond", Garamond, serif;
-  --font-text-italic: "EBGaramondItalic", Garamond, serif;
-  --font-text-header: "EBGaramond12", Garamond, serif;
-
-  --font-text-sc: "EBGaramondSC", "EB Garamond:smcp", "Garamond SC", small-caps, serif;
-  --font-text-swash: "EB Garamond:+swsh", cursive;
+:root {
   --font-bad-handwriting: "BadHandwriting";
-
-  // Font size -- from the LW style
-  // TODO standardize fonts
-  --font-size-base: 13px;
-  --font-size-tiny: 0.7em;
-  --font-size-small: 0.75em;
-  --font-size-normal: 1em;
-  --font-size-big: 1.4em;
-  --font-size-large: 1.8em;
-  --font-size-h1: 2.8rem;
-  --font-size-h2: 2.1rem;
-  --font-size-h3: 1.7rem;
-  font-size: 13px;
-
-  --ornament-size: 4rem;
-
-  font-family: var(--font-text);
-  /* Use a '1' which doesn't look like an 'l' */
-  font-feature-settings:
-    "cv11" 1,
-    "onum" 1;
 }
-
 .explorer {
-  font-size: 1.4rem;
   text-align: center;
-  line-height: 1.9rem;
 
   & a {
     text-decoration: none;
@@ -70,12 +15,6 @@ body,
   & .visited {
     color: inherit;
   }
-}
-
-.center {
-  max-width: 50rem;
-  font-size: 1.4rem;
-  line-height: 2rem;
 }
 
 em {
@@ -123,7 +62,6 @@ ol {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     counter-increment: footnote; // Increment the footnote counter for each matching li
     display: flex; // This ensures the number and the text are in the same line
-    font-size: smaller;
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -131,7 +69,6 @@ ol {
       text-decoration: none;
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
-      font-size: larger;
     }
 
     & p {
@@ -139,36 +76,9 @@ ol {
     }
 
     &::before {
+      font-size: var(--text-size-100); // TODO for some reason only affecting before?
       content: counter(footnote) "."; // Display the counter followed by a period
     }
-  }
-}
-
-/* Headings should have full-height numbers */
-h1,
-h2,
-h3 {
-  font-feature-settings:
-    "onum" 0,
-    "lnum" 1;
-  color: var(--color-header);
-  font-family: var(--font-text-header);
-  line-height: 1em;
-
-  & .small-caps {
-    font-weight: lighter;
-  }
-}
-
-article {
-  & h1 {
-    font-size: var(--font-size-h1);
-  }
-  & h2 {
-    font-size: var(--font-size-h2);
-  }
-  & h3 {
-    font-size: var(--font-size-h3);
   }
 }
 
@@ -213,23 +123,34 @@ sup {
 }
 
 .text-ornament {
-  font-family: var(--font-text-header);
-  font-size: var(--ornament-size);
-  filter: saturate(90%); //drop-shadow(0 0 1.2px light-dark(transparent, white));
+  font-family: "EBGaramond12";
+  font-size: 3rem;
+  filter: saturate(90%);
   color: var(--blue);
   opacity: light-dark(0.7, 0.7);
 }
 
 .trout-ornament {
-  filter: light-dark(none, invert(66%));
+  // Override the darkmode filter for the trout -- TODO reexamine
+  width: 3rem;
+  filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
 
-// The image in the title
-// Always applied
-.header-img {
-  filter: light-dark(saturate(85%), saturate(75%));
+:root[saved-theme="dark"] img {
+  filter: grayscale(50%);
+
+  & .invert {
+    // TODO implement
+    filter: grayscale(50%) invert(100%) brightness(95%) hue-rotate(180deg);
+  }
 }
+
+// The image in the title
+.header-img {
+  filter: saturate(85%);
+}
+
 // NOTE this will stop working if address moves TODO fix
 body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   & .header-img {
@@ -239,9 +160,11 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 /* Center the site name under the pond gif */
 .page-title {
-  font-feature-settings: "swsh" 1;
+  // font-feature-settings: "swsh" 1;
+  // font-style: italic;
   font-family: var(--font-text-swash), cursive, sans-serif;
   text-align: center;
+  color: var(--gray);
 
   & a {
     color: inherit;
@@ -250,21 +173,23 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
   @media all and (min-width: $fullPageWidth) {
     margin-top: -1.4em;
-    color: var(--gray);
-    font-size: var(--font-size-h2);
+    font-size: var(--text-size-500);
   }
 }
 
 // When screen is smaller
 @media all and (max-width: $fullPageWidth) {
   .header-img {
-    margin-right: 0.9rem;
-    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     width: 2em;
-    vertical-align: -100%;
   }
   .page-title {
-    font-size: 2.2rem;
+    display: flex;
+    align-items: center;
+  }
+  #page-title-text {
+    vertical-align: -40%;
+    font-size: var(--text-size-600);
   }
 }
 
@@ -302,7 +227,7 @@ figcaption {
   text-align: center;
   color: var(--overlay-2);
   // font-style: normal;
-  font-size: 0.82em; /* smaller than the surrounding text */
+  font-size: var(--text-size-90); /* smaller than the surrounding text */
   margin-top: 0em; /* Space above the caption */
 }
 
@@ -336,7 +261,7 @@ figcaption {
   vertical-align: 25%;
   filter: saturate(40%);
   margin-bottom: -0.07em;
-  margin-top: -0.07em;
+  margin-top: -20%;
 }
 
 .book-citation {
@@ -360,12 +285,12 @@ figcaption {
 .tags {
   color: var(--gray);
   list-style: none;
-  font-size: 0.9rem;
+  font-size: var(--text-size-80);
   display: inline-block;
   margin-top: 0;
 
   background-color: var(--color-background); /* Set the background color of the tags box */
-  padding: 0.5em 0.5em; /* Add padding to the tags box */
+  padding: 0.25em 0.25em; /* Add padding to the tags box */
   border-radius: 5px; /* Add rounded corners to the tags box */
 
   & a {
@@ -376,7 +301,6 @@ figcaption {
 a.internal.tag-link {
   white-space: nowrap;
   font-family: var(--font-monospace);
-  font-size: 0.9em;
   margin: 0 0.45rem;
 }
 

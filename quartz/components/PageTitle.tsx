@@ -1,4 +1,5 @@
 import { pathToRoot } from "../util/path"
+import Darkmode from "./Darkmode"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
@@ -10,7 +11,9 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
     <h1 class={classNames(displayClass, "page-title")}>
       <img src={"../static/pond.gif"} class="header-img no-select"></img>
       <span>
-        <a href={baseDir}>{title}</a>
+        <a href={baseDir} id="page-title-text">
+          {title}
+        </a>
       </span>
     </h1>
   )

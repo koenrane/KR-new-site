@@ -13,9 +13,7 @@ authors: Alex Turner and Garrett Baker
 <video controls width="100%">
   <source src="https://pub-c1163bffee9f4c50ba3c9a13f0e9ac93.r2.dev/US%20presidents%20rate%20AI%20alignment%20agendas.mp4" type="video/mp4" />
 </video>
-
 The video is also [available on YouTube](https://youtu.be/02kbWY5mahQ).
-
 > [!warning] Disclaimer
 > 
 > None of the presidents fully represent my (TurnTrout's) views.
