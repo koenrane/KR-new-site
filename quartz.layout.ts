@@ -21,11 +21,11 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [Component.ArticleTitle(), Component.AuthorList()],
   left: [
+    Component.Darkmode(),
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.DesktopOnly(Component.Explorer()),
     Component.Search(),
-    Component.Darkmode(),
   ],
   right: [
     Component.ContentMeta(),

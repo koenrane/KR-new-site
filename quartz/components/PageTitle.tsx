@@ -1,4 +1,5 @@
 import { pathToRoot } from "../util/path"
+import Darkmode from "./Darkmode"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
