@@ -159,9 +159,7 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 }
 
 /* Center the site name under the pond gif */
-.page-title {
-  // font-feature-settings: "swsh" 1;
-  // font-style: italic;
+.page-title-text {
   font-family: var(--font-text-swash), cursive, sans-serif;
   text-align: center;
   color: var(--gray);
@@ -185,11 +183,10 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   }
   .page-title {
     display: flex;
-    align-items: center;
+    align-items: baseline;
   }
-  #page-title-text {
+  .page-title-text {
     vertical-align: -40%;
-    font-size: var(--text-size-600);
   }
 }
 

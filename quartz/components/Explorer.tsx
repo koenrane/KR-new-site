@@ -81,7 +81,6 @@ export default ((userOpts?: Partial<Options>) => {
     displayClass,
     fileData,
   }: QuartzComponentProps) => {
-    // constructFileTree(allFiles)
     const pages = cfg.navbar.pages
     return (
       <div class={classNames(displayClass, "explorer")}>
@@ -94,6 +93,21 @@ export default ((userOpts?: Partial<Options>) => {
             ))}
           </ul>
         </div>
+        <button class="hamburger mobile-only">
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav class="mobile-only menu">
+          <ul>
+            {pages.map((page) => (
+              <li key={page.slug}>
+                <a href={page.slug}>{page.title}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     )
   }
