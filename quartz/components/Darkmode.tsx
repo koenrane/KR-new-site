@@ -10,7 +10,7 @@ import { classNames } from "../util/lang"
 const Darkmode: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
   return (
     <span class={classNames(displayClass, "darkmode", "no-select")}>
-      <p class="description desktop-only">Dark mode</p>
+      <p class="description desktop-only hidden">Dark mode</p>
       <input class="toggle" id="darkmode-toggle" type="checkbox" tabIndex={-1} />
       <label id="toggle-label-light" for="darkmode-toggle" tabIndex={-1}>
         <svg
