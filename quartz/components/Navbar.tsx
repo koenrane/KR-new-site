@@ -1,14 +1,15 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import explorerStyle from "./styles/explorer.scss"
+import { pathToRoot } from "../util/path"
+import navbarStyle from "./styles/navbar.scss"
 
 // @ts-ignore
-import script from "./scripts/explorer.inline"
-import { ExplorerNode, FileNode, Options } from "./ExplorerNode"
+import script from "./scripts/navbar.inline"
+import { NavbarNode, FileNode, Options } from "./NavbarNode"
 import { QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
-// Options interface defined in `ExplorerNode` to avoid circular dependency
+// Options interface defined in `NavbarNode` to avoid circular dependency
 const defaultOptions = {
   folderClickBehavior: "collapse",
   folderDefaultState: "open",
@@ -19,7 +20,7 @@ const defaultOptions = {
   sortFn: (a, b) => {
     // Sort order: folders first, then files. Sort folders and files alphabetically
     if ((!a.file && !b.file) || (a.file && b.file)) {
-      // numeric: true: Whether numeric collation should be used, such that "1" < "2" < "10"
+      // numeric: true: Whether numeric collation ehould be used, such that "1" < "2" < "10"
       // sensitivity: "base": Only strings that differ in base letters compare as unequal. Examples: a ≠ b, a = á, a = A
       return a.displayName.localeCompare(b.displayName, undefined, {
         numeric: true,
@@ -56,7 +57,6 @@ export default ((userOpts?: Partial<Options>) => {
 
     // Execute all functions (sort, filter, map) that were provided (if none were provided, only default "sort" is applied)
     if (opts.order) {
-      // Order is important, use loop with index instead of order.map()
       for (let i = 0; i < opts.order.length; i++) {
         const functionName = opts.order[i]
         if (functionName === "map") {
@@ -75,17 +75,32 @@ export default ((userOpts?: Partial<Options>) => {
     jsonTree = JSON.stringify(folders)
   }
 
-  const Explorer: QuartzComponent = ({
+  const Navbar: QuartzComponent = ({
     cfg,
     allFiles,
     displayClass,
     fileData,
   }: QuartzComponentProps) => {
     const pages = cfg.navbar.pages
+
+    const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
+    const baseDir = pathToRoot(fileData.slug!)
+    const pageTitle = (
+      <div class={classNames(displayClass, "page-title")} style="margin:0">
+        <img src={"../static/pond.gif"} class="header-img no-select"></img>
+        <h2 class="page-title-text">
+          <a href={baseDir} id="page-title-text">
+            {title}
+          </a>
+        </h2>
+      </div>
+    )
+
     return (
-      <div class={classNames(displayClass, "explorer")}>
-        <div id="explorer-content">
-          <ul class="overflow" id="explorer-ul">
+      <div className={classNames(displayClass, "navbar")}>
+        <div id="navbar-content" className="desktop-only">
+          {pageTitle}
+          <ul className="overflow desktop-only" id="navbar-ul">
             {pages.map((page) => (
               <li key={page.slug}>
                 <a href={page.slug}>{page.title}</a>
@@ -93,26 +108,29 @@ export default ((userOpts?: Partial<Options>) => {
             ))}
           </ul>
         </div>
-        <button class="hamburger mobile-only">
+        <button className="hamburger mobile-only">
           <span />
           <span />
           <span />
         </button>
 
-        <nav class="mobile-only menu">
-          <ul>
-            {pages.map((page) => (
-              <li key={page.slug}>
-                <a href={page.slug}>{page.title}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className="mobile-only">
+          {pageTitle}
+          <nav className="mobile-only menu">
+            <ul className="overflow">
+              {pages.map((page) => (
+                <li key={page.slug}>
+                  <a href={page.slug}>{page.title}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
     )
   }
 
-  Explorer.css = explorerStyle
-  Explorer.afterDOMLoaded = script
-  return Explorer
+  Navbar.css = navbarStyle
+  Navbar.afterDOMLoaded = script
+  return Navbar
 }) satisfies QuartzComponentConstructor

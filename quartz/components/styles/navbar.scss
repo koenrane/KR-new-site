@@ -1,0 +1,83 @@
+@use "../../styles/variables.scss" as *;
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .desktop-only {
+    display: block; // visible on desktop by default
+  }
+
+  .mobile-only {
+    display: none; // hidden on mobile by default
+  }
+
+  @media (max-width: 768px) {
+    // Adjust this value based on your breakpoint needs
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .desktop-only {
+      display: none; // now hides on mobile
+    }
+
+    .mobile-only {
+      display: block; // now shows on mobile
+    }
+
+    #navbar-content {
+      display: none; // Assuming you want to hide the sidebar content on mobile
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.overflow {
+  list-style: none;
+  max-height: none;
+  transition: max-height 0.35s ease;
+  margin-top: 0.5rem;
+  margin: 0.08rem 0;
+  padding: 0;
+
+  & li > a {
+    color: var(--gray);
+  }
+}
+
+// The icon
+.hamburger {
+  display: block;
+  position: relative;
+  width: 2.6em;
+  height: 2em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  & span {
+    display: block;
+    height: 3px;
+    background-color: var(--gray);
+    margin-bottom: 5px;
+  }
+}
+
+.menu:has(> ul) {
+  @media all and (min-width: $tabletBreakpoint) {
+    display: none;
+  }
+  display: none;
+  position: absolute;
+  right: 10%;
+  transition: margin-top 0.35s ease;
+  background-color: transparent;
+  &.visible {
+    display: block;
+  }
+}

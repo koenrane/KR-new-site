@@ -155,14 +155,14 @@ export class FileNode {
   }
 }
 
-type ExplorerNodeProps = {
+type NavbarNodeProps = {
   node: FileNode
   opts: Options
   fileData: QuartzPluginData
   fullPath?: string
 }
 
-export function ExplorerNode({ node, opts, fullPath, fileData }: ExplorerNodeProps) {
+export function NavbarNode({ node, opts, fullPath, fileData }: NavbarNodeProps) {
   // Get options
   const folderBehavior = opts.folderClickBehavior
   const isDefaultOpen = opts.folderDefaultState === "open"
@@ -231,7 +231,7 @@ export function ExplorerNode({ node, opts, fullPath, fileData }: ExplorerNodePro
               data-folderul={folderPath}
             >
               {node.children.map((childNode, i) => (
-                <ExplorerNode
+                <NavbarNode
                   node={childNode}
                   key={i}
                   opts={opts}

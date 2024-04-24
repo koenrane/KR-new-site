@@ -9,7 +9,7 @@ import PageTitle from "./PageTitle"
 import ContentMeta from "./ContentMeta"
 import Spacer from "./Spacer"
 import TableOfContents from "./TableOfContents"
-import Explorer from "./Explorer"
+import Navbar from "./Navbar"
 import TagList from "./TagList"
 import Graph from "./Graph"
 import Backlinks from "./Backlinks"
@@ -19,7 +19,7 @@ import DesktopOnly from "./DesktopOnly"
 import MobileOnly from "./MobileOnly"
 import RecentNotes from "./RecentNotes"
 import Breadcrumbs from "./Breadcrumbs"
-import AuthorList from "./Authors.tsx"
+import AuthorList from "./Authors"
 
 export {
   ArticleTitle,
@@ -32,7 +32,7 @@ export {
   ContentMeta,
   Spacer,
   TableOfContents,
-  Explorer,
+  Navbar,
   TagList,
   Graph,
   Backlinks,

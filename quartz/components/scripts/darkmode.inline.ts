@@ -49,7 +49,6 @@ document.addEventListener("nav", () => {
   })
 
   window.addEventListener("load", function () {
-    console.log(descriptionParagraph)
     if (localStorage.getItem("overlayHidden") !== "true") {
       descriptionParagraph?.classList.remove("hidden")
     }
