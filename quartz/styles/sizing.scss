@@ -122,6 +122,7 @@ $fonts-dir: "/static/styles/fonts";
 }
 
 @include font-face("EBGaramond", "ebgaramond08-regular", ".woff2");
+// @include font-face("EBGaramond", "EBTest", ".otf");
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("EBGaramond12", "ebgaramond12-regular", ".woff2");
 @include font-face("EBGaramondItalic", "ebgaramond08-italics", ".woff2");

@@ -1,60 +1,49 @@
 @use "../../styles/variables.scss" as *;
 
-.navbar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.menu {
+  // Applies to all links in the navbar
+  & ul {
+    list-style: none;
+    max-height: none;
+    transition: max-height 0.35s ease;
+    margin-top: 0.5rem;
+    margin: 0.08rem 0;
+    padding: 0;
 
-  .desktop-only {
-    display: block; // visible on desktop by default
-  }
-
-  .mobile-only {
-    display: none; // hidden on mobile by default
-  }
-
-  @media (max-width: 768px) {
-    // Adjust this value based on your breakpoint needs
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    .desktop-only {
-      display: none; // now hides on mobile
-    }
-
-    .mobile-only {
-      display: block; // now shows on mobile
-    }
-
-    #navbar-content {
-      display: none; // Assuming you want to hide the sidebar content on mobile
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
+    & li > a {
+      color: var(--gray);
+      text-decoration: none;
     }
   }
-}
+  // Desktop
+  @media (min-width: $tabletBreakpoint) {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    height: 100%;
+  }
 
-.overflow {
-  list-style: none;
-  max-height: none;
-  transition: max-height 0.35s ease;
-  margin-top: 0.5rem;
-  margin: 0.08rem 0;
-  padding: 0;
+  @media (max-width: $tabletBreakpoint) {
+    position: absolute;
+    top: 2em;
+    text-align: right;
+    right: 1em;
+    transition: margin-top 0.35s ease;
+    background-color: transparent;
 
-  & li > a {
-    color: var(--gray);
+    display: none;
+    &.visible {
+      display: block;
+    }
   }
 }
 
 // The icon
 .hamburger {
-  display: block;
-  position: relative;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+
   width: 2.6em;
   height: 2em;
   background: transparent;
@@ -65,19 +54,5 @@
     height: 3px;
     background-color: var(--gray);
     margin-bottom: 5px;
-  }
-}
-
-.menu:has(> ul) {
-  @media all and (min-width: $tabletBreakpoint) {
-    display: none;
-  }
-  display: none;
-  position: absolute;
-  right: 10%;
-  transition: margin-top 0.35s ease;
-  background-color: transparent;
-  &.visible {
-    display: block;
   }
 }
