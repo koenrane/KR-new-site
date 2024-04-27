@@ -1,0 +1,28 @@
+---
+permalink: agi-is-complex
+publish: "false"
+tags:
+  - AI
+  - critique
+  - shard-theory
+---
+Many intuitions, like evolved modularity, or the hopes behind Stockfish or Cyc, I think these refuse the bitter lesson. The bitter lesson is the insight that learning the relevant features for a task from a large amount of data beats human-designed, hand-tailored algorithms. If you don't accept the bitter lesson, then, neural networks are a disaster; they are a mockery of the real AI that humanity could achieve. As seen by Nate Soares' claim that ["AI used to be real science"](https://www.lesswrong.com/posts/JcLhYQQADzTsAEaXd/ai-as-a-science-and-three-obstacles-to-alignment-strategies). This exemplifies the refusal of the bitter lesson.
+
+What does it look like to accept the bitter lesson? Let us first consider a relatively simple domain: the domain of chess, with a relatively limited action space, well-studied initial and endgames, and centuries of human thought bent on perfecting its art. In this domain, this is perhaps one of the most promising test beds for algorithmic intelligence. Algorithmic intelligence is the kind of design that a classical computer scientist might dream of. The kind of intelligence which you expand through by starting small, and gradually expanding the capabilities and efficiency of the learning system. Perhaps the system learns facts about the world which go into pre-allocated memory or fact slots, but overall, intelligence comes from the algorithm, and the algorithm comes from the designers.
+
+In this vision, something like Stockfish would reign supreme and scientific. Stockfish, at least before it incorporated machine learning and thereby admitted defeat, consisted of a range of expert-written algorithms heuristics informed by reams of historical statistics and experience with the game of chess. There would be a huge range of situationally activated heuristics, and subroutines and tactics, an explosion of complexity, all specified and tuned by hand and then refined by experience. So to speak, the coefficients in the equation would change, but the equation itself was written by humans.
+
+In comparison, AlphaZero and other machine learning systems have since blazed past the performance of Stockfish, with zero direct human expert input. They learn from self-play, and they learn an unknown, but powerful mixture of heuristics, which are then combined with a simple search algorithm over those heuristics. Although humans have supplied the search algorithm of Monte Carlo tree search, the important and brunt of the horsepower comes from the heuristics themselves, which are still capable of winning against highly ranked players, even when used without any search.
+
+My point is not “end-to-end learning wins.” It's more enlightening than that. One view of the nature of intelligence is that there's a simple algorithm and then you learn a bunch of facts about the world, and you can improve your algorithm or set of relatively small algorithms, and thereby do better and become more rational. The reason that people aren't very rational is that they only know approximations to the true or most expedient algorithms. But if you take the view that real-world action is inherently situational, inherently domain-specific, that although there are themes and decision-making heuristics which work themselves — like chess — demand domain-specific gut checks, and rules of thumb.
+
+One of the best things about shard theory is that it provides a short description of this claim. While there are useful planning sub-shards which can activate and be helpful across a wide range of situations, whether you're learning physics or if you're walking across the room, there isn't a single small arrangement of shards/circuits/algorithms which will unilaterally generalize across all these situations in a time-efficient manner. In reality, you learn a shattering of heuristics for each domain and a bundle of higher-level planning heuristics across domains, and then refine the shatterings over time. So while there might be natural abstractions, while there might be convergently learned pieces of machinery, the machinery itself is manifold, is bursting at the seams. Time efficient AGI is not simple and never will be simple. There is no simple algorithmic core for our reality, because our reality is complex. Any human hope to design an AI by hand is doomed. 
+
+On this view (to use an analogy!), developing an intelligence is more like growing a plant, and less like mathematically specifying its design. It would be most unwise (and boring) to grow the plant piece-by-piece via additive 3D printing, and quite silly to complain that gardeners are “less scientific.” (The gardeners are the ones who actually have functional plants, in this analogy.)
+
+There is no lunch which is cheaply bought in exchange for any relatively simple set of planning routines plugged into a dynamic fact database. There is no simple specification of human values or of anyone’s values, because that’s not the kind of thing that you get when you’re dealing with real-world action. Of course not. This fact isn’t some huge portent of doom for alignment because that’s never the thing we needed to begin with. We never needed “perfect matching of human values.” We never needed a simple description, but that's what we're used to as computer scientists. That's what we know how to verify and that's what we know how to search for. But if you relinquish that goal, you’re not lowering your standards. You're raising your eyes to meet reality.
+
+> [!todo]
+> - Ecological rationality
+> - Fill out article
+> - Rephrase shard insight

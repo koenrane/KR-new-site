@@ -115,7 +115,6 @@ a {
 
 audio {
   width: 85%;
-  border: light-dark(1px solid var(--lightgray), 0px);
 }
 
 sup {
@@ -146,32 +145,10 @@ sup {
   }
 }
 
-// The image in the title
-.header-img {
-  filter: saturate(85%);
-}
-
 // NOTE this will stop working if address moves TODO fix
 body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   & .header-img {
     filter: saturate(0%);
-  }
-}
-
-/* Center the site name under the pond gif */
-.page-title-text {
-  font-family: var(--font-text-swash), cursive, sans-serif;
-  text-align: center;
-  color: var(--gray);
-
-  & a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  @media all and (min-width: $fullPageWidth) {
-    margin-top: -1.4em;
-    font-size: var(--text-size-500);
   }
 }
 
@@ -207,6 +184,12 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   font-size: 1.5em;
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.elvish {
+  font-family: "Elvish";
+  // font-size: 1.2em;
+  // color: var(--gray);
 }
 
 figure img {

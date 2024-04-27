@@ -79,8 +79,9 @@
       & > input {
         box-sizing: border-box;
         padding: 0.5em 1em;
-        font-family: var(--bodyFont);
+        // font-family: var(--bodyFont);
         color: var(--dark);
+        font-size: var(--text-size-100);
         // font-size: 1.1em;
         border: 1px solid var(--lightgray);
 
@@ -183,8 +184,8 @@
 
             // normalize card props
             font-family: inherit;
-            font-size: 100%;
-            line-height: 1.15;
+            // font-size: 100%;
+            // line-height: 1.15;
             margin: 0;
             text-transform: none;
             text-align: left;
