@@ -25,6 +25,7 @@
 // Define font sizes using the scale
 :root {
   --text-size-80: #{calculate-scale(-2)};
+  --text-size-85: #{calculate-scale(-1.5)};
   --text-size-90: #{calculate-scale(-1)};
   --text-size-100: calc(var(--base-font-size));
   --text-size-200: #{calculate-scale(1)};

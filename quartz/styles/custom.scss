@@ -253,9 +253,11 @@ figcaption {
   font-size: var(--text-size-80);
   display: inline-block;
   margin-top: 0;
+  overflow-wrap: normal;
+  margin-bottom: 0px;
 
   background-color: var(--color-background); /* Set the background color of the tags box */
-  padding: 0.25em 0.25em; /* Add padding to the tags box */
+  padding: 0.25em 0em; /* Add padding to the tags box */
   border-radius: 5px; /* Add rounded corners to the tags box */
 
   & a {
@@ -263,8 +265,22 @@ figcaption {
   }
 }
 
+.content-meta {
+  & p {
+    color: var(--gray);
+    &:not(:first-child) {
+      font-size: var(--text-size-90);
+      margin: 0px;
+    }
+  }
+
+  & a {
+    color: var(--gray);
+  }
+}
+
 a.internal.tag-link {
-  white-space: nowrap;
+  // white-space: nowrap;
   font-family: var(--font-monospace);
   margin: 0 0.45rem;
 }
