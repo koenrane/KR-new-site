@@ -19,16 +19,6 @@ export default ((userOpts?: Partial<Options>) => {
 
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
     const baseDir = pathToRoot(fileData.slug!)
-    const pageTitle = (
-      <div class={classNames(displayClass, "page-title")}>
-        <img src={"../static/pond.gif"} class="header-img no-select"></img>
-        <h2 class="page-title-text">
-          <a href={baseDir} id="page-title-text">
-            {title}
-          </a>
-        </h2>
-      </div>
-    )
 
     const links = pages.map((page) => (
       <li key={page.slug}>
@@ -40,27 +30,20 @@ export default ((userOpts?: Partial<Options>) => {
         <ul>{links}</ul>
       </nav>
     )
-    // const pageLinksDesktop = (
-    //   <nav className="menu" id="desktop-nav">
-    //     <ul>{links}</ul>
-    //   </nav>
-    // )
     return (
       <div className={classNames(displayClass, "navbar")}>
-        {pageTitle}
-        {/* <div className="desktop-only"> */}
-        {/*   {pageLinks} */}
-        {/* </div> */}
+        <img src={"../static/pond.gif"} class="header-img no-select"></img>
+        <h2 class="page-title-text">
+          <a href={baseDir} id="page-title-text">
+            {title}
+          </a>
+        </h2>
         <button className="hamburger mobile-only">
           <span />
           <span />
           <span />
         </button>
         {pageLinks}
-
-        {/* <div className="mobile-only"> */}
-        {/*   {pageLinks} */}
-        {/* </div> */}
       </div>
     )
   }

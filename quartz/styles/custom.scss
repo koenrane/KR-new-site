@@ -152,21 +152,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   }
 }
 
-// When screen is smaller
-@media all and (max-width: $fullPageWidth) {
-  .header-img {
-    margin-right: 0.5rem;
-    width: 2em;
-  }
-  .page-title {
-    display: flex;
-    align-items: baseline;
-  }
-  .page-title-text {
-    vertical-align: -40%;
-  }
-}
-
 /* Specific elements and features */
 .gold-script {
   font-family: var(--font-text-swash);

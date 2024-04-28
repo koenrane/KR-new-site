@@ -38,13 +38,10 @@
   }
 }
 
-// The icon
+// The menu icon
 .hamburger {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-
-  width: 2.6em;
+  margin-left: auto;
+  width: 2.9em;
   height: 2em;
   background: transparent;
   border: none;
@@ -59,7 +56,7 @@
 
 /* Center the site name under the pond gif */
 .page-title-text {
-  font-family: var(--font-text-swash), cursive, sans-serif;
+  font-family: var(--font-text-italic), cursive, sans-serif;
   text-align: center;
   color: var(--gray);
 
@@ -68,13 +65,37 @@
     text-decoration: none;
   }
 
+  @media all and (max-width: $fullPageWidth) {
+    margin-bottom: 0em;
+    margin-top: 0.2em;
+  }
   @media all and (min-width: $fullPageWidth) {
-    margin-top: -1.4em;
+    margin-bottom: 0.4em;
+    margin-top: -1em;
     font-size: var(--text-size-500);
+  }
+}
+
+// When screen is smaller
+@media all and (max-width: $fullPageWidth) {
+  .header-img {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+    width: 2em;
+  }
+  .navbar {
+    display: flex;
+    align-items: center; /* This will vertically align the nav items */
+    width: 100%;
   }
 }
 
 // The image in the title
 .header-img {
   filter: saturate(85%);
+}
+.hidden {
+  transform: translateY(-100%); /* Hide the nav off screen */
+  transition: transform 0.3s ease-in-out;
 }
