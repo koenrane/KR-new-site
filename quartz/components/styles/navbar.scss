@@ -104,6 +104,13 @@
 .darkmode {
   display: inline;
   z-index: 998;
+
+  @media all and (min-width: $fullPageWidth) {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+  }
+
   position: absolute;
   left: 43%;
   top: 5%;
