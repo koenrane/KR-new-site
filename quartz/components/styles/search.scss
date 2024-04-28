@@ -1,6 +1,10 @@
 @use "../../styles/variables.scss" as *;
 
 .search {
+  @media all and (min-width: $fullPageWidth) {
+    display: none;
+  }
+  margin-top: 1em;
   min-width: fit-content;
   max-width: 40%;
   align-self: center;
@@ -79,8 +83,9 @@
       & > input {
         box-sizing: border-box;
         padding: 0.5em 1em;
-        font-family: var(--bodyFont);
+        font-family: var(--font-text);
         color: var(--dark);
+        font-size: var(--text-size-100);
         // font-size: 1.1em;
         border: 1px solid var(--lightgray);
 
@@ -173,6 +178,7 @@
 
           & .result-card {
             overflow: hidden;
+            text-decoration: none;
             padding: 1em;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -183,8 +189,8 @@
 
             // normalize card props
             font-family: inherit;
-            font-size: 100%;
-            line-height: 1.15;
+            // font-size: 100%;
+            // line-height: 1.15;
             margin: 0;
             text-transform: none;
             text-align: left;
@@ -194,7 +200,7 @@
             &:hover,
             &:focus,
             &.focus {
-              background: var(--lightgray);
+              background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
             }
 
             & > h3 {

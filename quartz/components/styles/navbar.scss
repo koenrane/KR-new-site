@@ -1,0 +1,176 @@
+@use "../../styles/variables.scss" as *;
+
+.menu {
+  // Applies to all links in the navbar
+  & ul {
+    list-style: none;
+    max-height: none;
+    transition: max-height 0.35s ease;
+    margin-top: 0.5rem;
+    margin: 0.08rem 0;
+    padding: 0;
+
+    & li > a {
+      color: var(--gray);
+      text-decoration: none;
+    }
+  }
+  // Desktop
+  @media (min-width: $fullPageWidth) {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  @media (max-width: $fullPageWidth) {
+    position: absolute;
+    top: 2em;
+    text-align: right;
+    right: 1em;
+    transition: margin-top 0.35s ease;
+    background-color: transparent;
+
+    display: none;
+    &.visible {
+      display: block;
+    }
+  }
+}
+
+// The menu icon
+.hamburger {
+  margin-left: auto;
+  width: 2.9em;
+  height: 2em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  & span {
+    display: block;
+    height: 3px;
+    background-color: var(--gray);
+    margin-bottom: 5px;
+  }
+}
+
+/* Center the site name under the pond gif */
+.page-title-text {
+  font-family: var(--font-text-italic), cursive, sans-serif;
+  text-align: center;
+  color: var(--gray);
+
+  & a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media all and (max-width: $fullPageWidth) {
+    margin-bottom: 0em;
+    margin-top: 0.2em;
+  }
+  @media all and (min-width: $fullPageWidth) {
+    margin-bottom: 0.4em;
+    margin-top: -1em;
+    font-size: var(--text-size-500);
+  }
+}
+
+// When screen is smaller
+@media all and (max-width: $fullPageWidth) {
+  .header-img {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+    width: 2em;
+  }
+  .navbar {
+    display: flex;
+    align-items: center; /* This will vertically align the nav items */
+    width: 100%;
+  }
+}
+
+// The image in the title
+.header-img {
+  filter: saturate(85%);
+}
+// .hidden {
+//   transform: translateY(-100%); /* Hide the nav off screen */
+//   transition: transform 0.3s ease-in-out;
+// }
+
+// DARKMODE
+.darkmode {
+  display: inline;
+  z-index: 998;
+
+  @media all and (min-width: $fullPageWidth) {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+  }
+
+  position: absolute;
+  left: 43%;
+  top: 5%;
+  margin: 0 10px;
+
+  & > .toggle {
+    display: none;
+    box-sizing: border-box;
+  }
+
+  & .description {
+    position: relative;
+    top: -28px;
+    left: 23.5px;
+    font-size: var(--text-size-80);
+    color: var(--gray);
+    transition: opacity 0.5s ease; /* TODO Add a transition for a smooth effect */
+
+    &.hidden {
+      opacity: 0;
+    }
+  }
+
+  & svg {
+    position: relative;
+    left: 68%;
+    transition: opacity 0.5s ease;
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    fill: var(--gray);
+    transition: opacity 0.1s ease;
+  }
+}
+
+:root[saved-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[saved-theme="light"] {
+  color-scheme: light;
+}
+
+:root[saved-theme="dark"] .toggle ~ label {
+  & > #dayIcon {
+    opacity: 0;
+  }
+  & > #nightIcon {
+    opacity: 1;
+  }
+}
+
+:root .toggle ~ label {
+  & > #dayIcon {
+    opacity: 1;
+  }
+  & > #nightIcon {
+    opacity: 0;
+  }
+}

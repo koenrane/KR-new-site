@@ -2,7 +2,7 @@
 @use "./syntax.scss";
 @use "./callouts.scss";
 @use "./colors.scss";
-@use "./sizing.scss";
+@use "./fonts.scss";
 
 html {
   scroll-behavior: smooth;
@@ -17,7 +17,7 @@ section {
   max-width: 100%;
   box-sizing: border-box;
   background-color: var(--light);
-  font-family: var(--bodyFont);
+  font-family: var(--font-text);
   color: var(--darkgray);
 }
 
@@ -163,6 +163,10 @@ a {
       flex-direction: column;
       top: 0;
       width: $sidePanelWidth;
+      &.right {
+        width: $rightWidth;
+      }
+
       margin-top: $topSpacing;
       box-sizing: border-box;
       padding: 0 4rem;
@@ -172,7 +176,7 @@ a {
         flex-direction: row;
         padding: 0;
         width: initial;
-        margin-top: 2rem;
+        margin-top: 0rem;
       }
     }
 
@@ -185,7 +189,8 @@ a {
     }
 
     & .sidebar.right {
-      right: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
+      right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
+      // right: 0px;
       flex-wrap: wrap;
       & > * {
         @media all and (max-width: $fullPageWidth) {
@@ -266,7 +271,7 @@ h6,
 thead {
   font-family: var(--headerFont);
   color: var(--dark);
-  margin-bottom: 0;
+  // margin-bottom: 0;
 
   article > & > a[role="anchor"] {
     color: var(--dark);
@@ -476,7 +481,6 @@ video {
 
 ul.overflow,
 ol.overflow {
-  max-height: 400;
   overflow-y: auto;
 
   // clearfix
