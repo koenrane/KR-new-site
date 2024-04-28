@@ -178,6 +178,7 @@
 
           & .result-card {
             overflow: hidden;
+            text-decoration: none;
             padding: 1em;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -199,7 +200,7 @@
             &:hover,
             &:focus,
             &.focus {
-              background: var(--lightgray);
+              background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
             }
 
             & > h3 {
