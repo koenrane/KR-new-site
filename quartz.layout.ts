@@ -6,7 +6,6 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   left: [
-    Component.Darkmode(),
     // Component.PageTitle(),
     // Component.MobileOnly(Component.Spacer()),
     Component.Navbar(),
@@ -21,7 +20,6 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [Component.ArticleTitle(), Component.AuthorList(), Component.TagList()],
   left: [
-    Component.Darkmode(),
     // Component.PageTitle(),
     // Component.MobileOnly(Component.Spacer()),
     Component.Navbar(),
@@ -37,6 +35,6 @@ export const defaultContentPageLayout: PageLayout = {
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.ArticleTitle()],
-  left: [Component.Darkmode(), Component.Navbar(), Component.Search()],
+  left: [Component.Navbar(), Component.Search()],
   right: [],
 }
