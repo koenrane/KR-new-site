@@ -13,6 +13,7 @@ html {
 
 body,
 section {
+  transition: background-color 0.2s ease; // For darkmode
   margin: 0;
   max-width: 100%;
   box-sizing: border-box;
