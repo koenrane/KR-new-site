@@ -17,6 +17,7 @@ const Backlinks: QuartzComponent = ({
   if (backlinkFiles.length > 0) {
     return (
       <div class={classNames(displayClass, "backlinks")}>
+        <hr />
         <h3>{i18n(cfg.locale).components.backlinks.title}</h3>
         <ul class="overflow">
           {backlinkFiles.map((f) => (

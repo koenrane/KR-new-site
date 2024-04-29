@@ -149,8 +149,11 @@ body,
 
   line-height: var(--base-line-height);
   font-family: var(--font-text);
-  /* Use a '1' which doesn't look like an 'l' */
   font-feature-settings:
+    "liga" 1,
     "cv11" 1,
-    "onum" 1;
+    "titl" 1;
+  font-variant-numeric: oldstyle-nums stacked-fractions;
+  // font-variant-ligatures: common-ligatures;
+  // font-variant-numeric: slashed-zero;
 }

@@ -290,9 +290,10 @@ h3,
 h4,
 h5,
 h6 {
+  // Oldstyle is too small for headers
   font-feature-settings:
-    "onum" 0,
-    "lnum" 1;
+    "lnum" 1,
+    "onum" 0;
   color: var(--color-header);
   font-family: var(--font-text-header);
 
