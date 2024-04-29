@@ -27,9 +27,18 @@
     padding: 0 1rem 1rem 1rem;
     font-weight: initial;
     font-style: initial;
-    line-height: normal;
+    line-height: var(--base-line-height);
     font-size: var(--text-size-90);
     font-family: var(--font-text);
+
+    & li::before {
+      font-variant-numeric: lining-nums;
+    }
+    & li[id^="user-content-fn-"]::before {
+      font-size: var(--text-size-90);
+      font-variant-numeric: oldstyle-nums;
+      font-feature-settings: "cv11" 1;
+    }
     border: 1px solid var(--lightgray);
     background-color: var(--light);
     border-radius: 5px;

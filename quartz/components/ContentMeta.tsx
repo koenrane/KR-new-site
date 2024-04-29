@@ -71,7 +71,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       const segmentsElements = segments.map((segment) => <p>{segment}</p>)
       return (
         <div class={classNames(displayClass, "content-meta")}>
-          <p>Metadata:</p>
+          <p>Metadata</p>
           {segmentsElements}
         </div>
       )
