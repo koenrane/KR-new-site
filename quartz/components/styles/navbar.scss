@@ -25,16 +25,17 @@
   }
 
   @media (max-width: $fullPageWidth) {
-    position: absolute;
-    top: 2em;
+    position: relative;
     text-align: right;
-    right: 1em;
-    transition: margin-top 0.35s ease;
     background-color: transparent;
 
     display: none;
     &.visible {
       display: block;
+    }
+
+    li {
+      background-color: var(--light);
     }
   }
 }
@@ -44,8 +45,10 @@
   align-items: center;
   margin-left: auto;
 }
+
 // The menu icon
 .hamburger {
+  vertical-align: bottom;
   width: 2.9em;
   height: 2em;
   background: transparent;
@@ -56,6 +59,19 @@
     height: 3px;
     background-color: var(--gray);
     margin-bottom: 5px;
+  }
+}
+
+span:has(.hamburger) {
+  position: relative;
+
+  ul {
+    position: absolute;
+    width: max-content;
+    right: 5px;
+    top: 0.5em;
+
+    backdrop-filter: blur(4px);
   }
 }
 

@@ -114,15 +114,18 @@ export default ((userOpts?: Partial<Options>) => {
           </a>
         </h2>
         <span className="mobile-only">{darkMode}</span>
-        <div id="header-right">
+        <div id="header-right" className="mobile-only">
           <span className="mobile-only">{searchHTML}</span>
-          <button className="hamburger mobile-only">
-            <span />
-            <span />
-            <span />
-          </button>
+          <span>
+            <button className="hamburger mobile-only">
+              <span />
+              <span />
+              <span />
+            </button>
+            <span className="mobile-only">{pageLinks}</span>
+          </span>
         </div>
-        {pageLinks}
+        <span className="desktop-only">{pageLinks}</span>
 
         <span className="desktop-only">{searchHTML}</span>
       </div>
