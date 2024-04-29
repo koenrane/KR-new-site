@@ -31,6 +31,15 @@
     font-size: var(--text-size-90);
     font-family: var(--font-text);
 
+    & h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: var(--dark);
+    }
+
     & li::before {
       font-variant-numeric: lining-nums;
     }
