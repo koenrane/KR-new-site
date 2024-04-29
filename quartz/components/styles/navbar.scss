@@ -38,6 +38,13 @@
     li {
       background-color: var(--light);
     }
+
+    ul {
+      position: absolute;
+      width: max-content;
+      right: 5px;
+      top: 0.5em;
+    }
   }
 }
 
@@ -65,13 +72,28 @@
 
 span:has(.hamburger) {
   position: relative;
+  left: 5px;
+}
 
-  ul {
-    position: absolute;
-    width: max-content;
-    right: 5px;
-    top: 0.5em;
-  }
+// Animation from hamburger to an X
+.x:nth-of-type(1) {
+  transition: all 100ms ease-in-out;
+  transform: rotate(-45deg);
+  transform-origin: top right;
+  width: 24px;
+}
+
+.x:nth-of-type(2) {
+  transition: all 100ms ease-in-out;
+  transform-origin: center;
+  width: 0;
+}
+
+.x:nth-of-type(3) {
+  transition: all 100ms ease-in-out;
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+  width: 24px;
 }
 
 /* Center the site name under the pond gif */

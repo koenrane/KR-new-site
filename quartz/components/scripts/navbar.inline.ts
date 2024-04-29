@@ -1,10 +1,13 @@
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
 
+let bars = document.querySelectorAll(".bar")
 hamburger?.addEventListener("click", () => {
   menu?.classList.toggle("visible")
+  bars.forEach((bar) => bar.classList.toggle("x")) // Hamburger animation
 })
 
+// Todo broken
 let lastScrollTop = 0 // Variable to keep track of last scroll position
 
 window.addEventListener(

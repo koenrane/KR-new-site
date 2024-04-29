@@ -118,9 +118,9 @@ export default ((userOpts?: Partial<Options>) => {
           <span className="mobile-only">{searchHTML}</span>
           <span>
             <button className="hamburger mobile-only">
-              <span />
-              <span />
-              <span />
+              <span className="bar" />
+              <span className="bar" />
+              <span className="bar" />
             </button>
             <span className="mobile-only">{pageLinks}</span>
           </span>
