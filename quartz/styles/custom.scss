@@ -30,7 +30,7 @@ ol {
     margin-bottom: var(--li-margin);
 
     &::before {
-      font-feature-settings: "lnum"; // Use lining figures for all ordered list numbers
+      font-variant-numeric: lining-nums;
       color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
