@@ -5,7 +5,7 @@ $sidePanelWidth: 380px;
 $rightWidth: 450px;
 $rightPanelBegins: 0px;
 $topSpacing: 2rem;
-$fullPageWidth: $pageWidth + 2 * $sidePanelWidth;
+$fullPageWidth: $pageWidth + 0.8 * ($sidePanelWidth + $rightWidth);
 $boldWeight: 700;
 $semiBoldWeight: 600;
 $normalWeight: 400;

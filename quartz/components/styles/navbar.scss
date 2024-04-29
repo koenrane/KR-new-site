@@ -6,13 +6,13 @@
   & ul {
     list-style: none;
     max-height: none;
-    transition: max-height 0.35s ease;
     margin-top: 0.5rem;
     margin: 0.08rem 0;
     padding: 0;
 
     & li > a {
       color: var(--gray);
+      transition: all 0.5s ease-out;
       text-decoration: none;
     }
   }
@@ -29,9 +29,10 @@
     text-align: right;
     background-color: transparent;
 
-    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
     &.visible {
-      display: block;
+      opacity: 1;
     }
 
     li {
@@ -70,8 +71,6 @@ span:has(.hamburger) {
     width: max-content;
     right: 5px;
     top: 0.5em;
-
-    backdrop-filter: blur(4px);
   }
 }
 
