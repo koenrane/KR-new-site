@@ -291,10 +291,7 @@ h4,
 h5,
 h6 {
   // Oldstyle is too small for headers
-  font-feature-settings:
-    inherit,
-    "lnum" 1,
-    "onum" 0;
+  font-variant-numeric: lining-nums;
   color: var(--color-header);
   font-family: var(--font-text-header);
 

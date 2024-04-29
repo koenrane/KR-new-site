@@ -149,11 +149,10 @@ body,
 
   line-height: var(--base-line-height);
   font-family: var(--font-text);
+  // --common-font-features: "liga" 1, "cv11" 1;
   font-feature-settings:
     "liga" 1,
-    "cv11" 1,
-    "titl" 1;
+    "cv11" 1;
   font-variant-numeric: oldstyle-nums stacked-fractions;
-  // font-variant-ligatures: common-ligatures;
   // font-variant-numeric: slashed-zero;
 }
