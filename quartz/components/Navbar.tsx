@@ -45,6 +45,43 @@ let darkMode = (
   </span>
 )
 
+const enablePreview = true
+const searchHTML = (
+  <div class="search">
+    <div id="search-icon">
+      <p class="no-select">Search</p>
+      <div></div>
+      <svg
+        tabIndex={0}
+        aria-labelledby="title desc"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 19.9 19.7"
+      >
+        <title id="title">Search</title>
+        <desc id="desc">Search</desc>
+        <g class="search-path" fill="none">
+          <path stroke-linecap="square" d="M18.5 18.3l-5.4-5.4" />
+          <circle cx="8" cy="8" r="7" />
+        </g>
+      </svg>
+    </div>
+    <div id="search-container">
+      <div id="search-space">
+        <input
+          autocomplete="off"
+          id="search-bar"
+          name="search"
+          type="text"
+          aria-label="Search"
+          placeholder="Search"
+        />
+        <div id="search-layout" data-preview={enablePreview}></div>
+      </div>
+    </div>
+  </div>
+)
+
 export default ((userOpts?: Partial<Options>) => {
   const Navbar: QuartzComponent = ({
     cfg,
@@ -77,12 +114,17 @@ export default ((userOpts?: Partial<Options>) => {
           </a>
         </h2>
         <span className="mobile-only">{darkMode}</span>
-        <button className="hamburger mobile-only">
-          <span />
-          <span />
-          <span />
-        </button>
+        <div id="header-right">
+          <span className="mobile-only">{searchHTML}</span>
+          <button className="hamburger mobile-only">
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
         {pageLinks}
+
+        <span className="desktop-only">{searchHTML}</span>
       </div>
     )
   }

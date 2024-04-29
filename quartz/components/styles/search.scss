@@ -1,14 +1,17 @@
 @use "../../styles/variables.scss" as *;
 
 .search {
+  margin-right: 0.5em;
   @media all and (min-width: $fullPageWidth) {
-    display: none;
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
   }
-  margin-top: 1em;
+
+  display: flex;
+  flex-grow: 0.3;
   min-width: fit-content;
   max-width: 40%;
-  align-self: center;
-  flex-grow: 0.3;
 
   & > #search-icon {
     background-color: color-mix(in srgb, var(--lightgray) 25%, var(--light));
@@ -109,7 +112,7 @@
           flex: 0 0 min(30%, 450px);
         }
 
-        @media all and (min-width: $tabletBreakpoint) {
+        @media all and (min-width: $mobileBreakpoint) {
           &[data-preview] {
             & .result-card > p.preview {
               display: none;
