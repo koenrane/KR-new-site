@@ -42,12 +42,28 @@ const emitThemeChangeEvent = (theme: "light" | "dark") => {
 
 // Darkmode handling
 document.addEventListener("nav", () => {
+  // Hide the description after the user has interacted with the toggle
+  const descriptionParagraph = document.querySelector(".darkmode > .description")
+
   const switchTheme = (e: Event) => {
     const newTheme = (e.target as HTMLInputElement)?.checked ? "dark" : "light"
     document.documentElement.setAttribute("saved-theme", newTheme)
     localStorage.setItem("theme", newTheme)
     emitThemeChangeEvent(newTheme)
+
+    // Toggle the label text
+    if (localStorage.getItem("usedToggle") !== "true") {
+      descriptionParagraph.classList.add("hidden")
+    }
+    // Prevent further clicks from having an effect
+    localStorage.setItem("usedToggle", "true")
   }
+
+  window.addEventListener("load", function () {
+    if (localStorage.getItem("usedToggle") !== "true") {
+      descriptionParagraph?.classList.remove("hidden")
+    }
+  })
 
   const themeChange = (e: MediaQueryListEvent) => {
     const newTheme = e.matches ? "dark" : "light"
@@ -69,20 +85,4 @@ document.addEventListener("nav", () => {
   const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
   colorSchemeMediaQuery.addEventListener("change", themeChange)
   window.addCleanup(() => colorSchemeMediaQuery.removeEventListener("change", themeChange))
-
-  // Hide the description after the user has interacted with the toggle
-  const descriptionParagraph = document.querySelector(".darkmode > .description")
-  toggleSwitch.addEventListener("click", function () {
-    descriptionParagraph.classList.add("hidden")
-
-    // Prevent further clicks from having an effect
-    toggleSwitch.removeEventListener("click", this)
-    localStorage.setItem("overlayHidden", "true")
-  })
-
-  window.addEventListener("load", function () {
-    if (localStorage.getItem("overlayHidden") !== "true") {
-      descriptionParagraph?.classList.remove("hidden")
-    }
-  })
 })

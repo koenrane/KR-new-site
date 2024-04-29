@@ -63,6 +63,9 @@
   & a {
     color: inherit;
     text-decoration: none;
+    &:visited {
+      color: inherit;
+    }
   }
 
   @media all and (max-width: $fullPageWidth) {
@@ -105,10 +108,8 @@
   display: inline;
   z-index: 998;
 
-  @media all and (min-width: $fullPageWidth) {
-    position: absolute;
-    right: 1em;
-    top: 1em;
+  @media all and (max-width: $fullPageWidth) {
+    position: relative;
   }
 
   position: absolute;
