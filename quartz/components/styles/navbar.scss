@@ -2,6 +2,7 @@
 @use "search.scss" as *;
 
 .menu {
+  order: 1;
   // Applies to all links in the navbar
   & ul {
     list-style: none;
@@ -48,12 +49,6 @@
   }
 }
 
-#header-right {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
 // The menu icon
 .hamburger {
   vertical-align: bottom;
@@ -68,11 +63,6 @@
     background-color: var(--gray);
     margin-bottom: 5px;
   }
-}
-
-span:has(.hamburger) {
-  position: relative;
-  left: 5px;
 }
 
 // Animation from hamburger to an X
@@ -121,16 +111,11 @@ span:has(.hamburger) {
   }
 }
 
-// When screen is smaller
-@media all and (max-width: $fullPageWidth) {
-  .header-img {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: 0.5rem;
-    width: 2em;
-  }
-  .navbar {
-    display: flex;
+.navbar {
+  display: flex;
+  flex-direction: column;
+  @media all and (max-width: $fullPageWidth) {
+    flex-direction: row;
     align-items: center; /* This will vertically align the nav items */
     width: 100%;
   }
@@ -139,11 +124,13 @@ span:has(.hamburger) {
 // The image in the title
 .header-img {
   filter: saturate(85%);
+  @media all and (max-width: $fullPageWidth) {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+    width: 2em;
+  }
 }
-// .hidden {
-//   transform: translateY(-100%); /* Hide the nav off screen */
-//   transition: transform 0.3s ease-in-out;
-// }
 
 // DARKMODE
 .darkmode {

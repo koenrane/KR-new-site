@@ -6,31 +6,7 @@ hamburger?.addEventListener("click", () => {
   menu?.classList.toggle("visible")
   bars.forEach((bar) => bar.classList.toggle("x")) // Hamburger animation
 })
-
-// Todo broken
-let lastScrollTop = 0 // Variable to keep track of last scroll position
-
-window.addEventListener(
-  "scroll",
-  function () {
-    let currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-    if (currentScroll > lastScrollTop) {
-      // Scrolling down
-      document.querySelector("nav").classList.add("hidden")
-    } else {
-      // Scrolling up
-      document.querySelector("nav").classList.remove("hidden")
-    }
-    if (currentScroll <= 0) {
-      // At the top of the page
-      document.querySelector("nav").classList.remove("hidden")
-    }
-
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll // For Mobile or negative scrolling
-  },
-  false,
-)
+// Darkmode handling
 
 const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
 const currentTheme = localStorage.getItem("theme") ?? userPref
@@ -43,7 +19,6 @@ const emitThemeChangeEvent = (theme: "light" | "dark") => {
   document.dispatchEvent(event)
 }
 
-// Darkmode handling
 document.addEventListener("nav", () => {
   // Hide the description after the user has interacted with the toggle
   const descriptionParagraph = document.querySelector(".darkmode > .description")
@@ -243,6 +218,7 @@ function updatePlaceholder() {
   const searchPlaceholderMobile = "Search"
 
   if (window.innerWidth > 1024) {
+    // TODO standardize with SCSS variable
     // TODO standardize to normal $fullWidth from css
     searchBar.setAttribute("placeholder", searchPlaceholderDesktop)
   } else {
@@ -569,6 +545,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   document.addEventListener("keydown", shortcutHandler)
   window.addCleanup(() => document.removeEventListener("keydown", shortcutHandler))
+  console.log(searchIcon)
   searchIcon?.addEventListener("click", () => showSearch("basic"))
   window.addCleanup(() => searchIcon?.removeEventListener("click", () => showSearch("basic")))
   searchBar?.addEventListener("input", onType)
