@@ -106,14 +106,13 @@ export default ((userOpts?: Partial<Options>) => {
     )
     return (
       <div className={classNames(displayClass, "navbar")}>
-        <span className="desktop-only">{darkMode}</span>
         <img src={"../static/pond.gif"} class="header-img no-select"></img>
         <h2 class="page-title-text">
           <a href={baseDir} id="page-title-text">
             {title}
           </a>
         </h2>
-        <span className="mobile-only">{darkMode}</span>
+        {darkMode}
         {searchHTML}
         <button className="hamburger mobile-only">
           <span className="bar" />
