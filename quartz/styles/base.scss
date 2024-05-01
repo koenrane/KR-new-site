@@ -81,7 +81,7 @@ a {
   }
 
   &.same-page-link {
-    background-color: color-mix(in srgb, var(--color-background) 70%, transparent);
+    background-color: color-mix(in srgb, gray 10%, transparent);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);
