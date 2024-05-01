@@ -1,7 +1,9 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import readingTime from "reading-time"
 import { classNames } from "../util/lang"
+import { i18n } from "../i18n"
 
-const Authors: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
+const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_metadata) {
     return null
   }
@@ -14,7 +16,20 @@ const Authors: QuartzComponent = ({ fileData, displayClass }: QuartzComponentPro
     return ""
   }
 
-  return <p class="authors content-meta">{authors}</p>
+  // Display reading time if enabled
+  const text = fileData.text
+  const { minutes, words: _words } = readingTime(text)
+  const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
+    minutes: Math.ceil(minutes),
+  })
+  authors = `${authors}`
+
+  return (
+    <p class="authors content-meta">
+      {authors} ({displayedTime})
+      <br />
+    </p>
+  )
 }
 
 Authors.css = `
