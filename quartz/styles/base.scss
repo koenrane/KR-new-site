@@ -76,6 +76,7 @@ a {
   transition: color 0.2s ease;
   color: var(--secondary);
 
+  // Ignore descendants of popover class
   &:hover {
     color: var(--tertiary) !important;
   }
