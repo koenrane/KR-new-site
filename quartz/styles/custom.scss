@@ -247,7 +247,7 @@ figcaption {
   margin-top: 18%;
 }
 
-ul.tags {
+.tags {
   color: var(--gray);
   list-style: none;
   font-size: var(--text-size-80);
@@ -261,22 +261,37 @@ ul.tags {
   background-color: var(--color-background); /* Set the background color of the tags box */
   border-radius: 5px; /* Add rounded corners to the tags box */
 
-  & a {
+  & a.tag-link {
+    color: var(--gray);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+hr {
+  margin: calc(3 * $baseMargin) 0;
+}
+
+.right {
+  & h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a {
     color: var(--gray);
   }
 }
 
 .content-meta {
-  & p {
-    color: var(--gray);
-    &:not(:first-child) {
-      font-size: var(--text-size-90);
-      margin: 0px;
-    }
-  }
-
-  & a {
-    color: var(--gray);
+  color: var(--gray);
+  & p:not(:first-child) {
+    font-size: var(--text-size-90);
+    margin: 0px;
   }
 }
 
@@ -284,6 +299,11 @@ a.internal.tag-link {
   font-family: var(--font-monospace);
   margin: 0 $baseMargin 0 0;
   font-size: var(--text-size-70);
+}
+
+.authors {
+  color: var(--gray);
+  margin-top: 0;
 }
 
 img.emoji {

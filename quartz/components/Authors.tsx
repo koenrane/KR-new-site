@@ -25,7 +25,7 @@ const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompone
   authors = `${authors}`
 
   return (
-    <p class="authors content-meta">
+    <p class="authors">
       {authors} ({displayedTime})
       <br />
     </p>

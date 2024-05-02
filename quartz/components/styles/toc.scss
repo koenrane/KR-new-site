@@ -1,5 +1,10 @@
+@use "../../styles/variables" as *;
 .toc-title {
-  color: var(--gray);
+  margin-top: 0;
+  margin-bottom: $baseMargin;
+  & a {
+    text-decoration: none;
+  }
 }
 
 button#toc {
@@ -19,7 +24,7 @@ button#toc {
   }
 
   & .fold {
-    margin-left: 0.5rem;
+    margin-left: $baseMargin;
     transition: transform 0.3s ease;
     opacity: 0.8;
   }
@@ -50,7 +55,7 @@ button#toc {
       // margin-bottom: 1px;
     }
     & > li > a {
-      padding-bottom: 0.5rem;
+      padding-bottom: $baseMargin;
       text-decoration: none;
       color: var(--dark);
       opacity: 0.35;

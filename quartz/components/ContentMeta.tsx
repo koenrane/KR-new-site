@@ -41,12 +41,7 @@ export default ((opts?) => {
       }
 
       const segmentsElements = segments.map((segment) => <p>{segment}</p>)
-      return (
-        <div class={classNames(displayClass, "content-meta")}>
-          <p>Metadata</p>
-          {segmentsElements}
-        </div>
-      )
+      return <div class={classNames(displayClass, "content-meta")}>{segmentsElements}</div>
     } else {
       return null
     }

@@ -9,6 +9,7 @@ const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentPro
     return (
       <>
         <div>
+          {/* <p style="margin: 0; font-size: var(--text-size-90)">Tags</p> */}
           <ul class={classNames(displayClass, "tags")}>
             {tags.map((tag) => {
               const linkDest = baseDir + `/tags/${slugTag(tag)}`

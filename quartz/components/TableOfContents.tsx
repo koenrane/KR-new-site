@@ -24,10 +24,15 @@ const TableOfContents: QuartzComponent = ({
     return null
   }
 
+  const title = fileData.frontmatter?.title
+
+  console.log(fileData)
   return (
     <div class={classNames(displayClass, "toc")}>
       <hr />
-      <p class="toc-title">{i18n(cfg.locale).components.tableOfContents.title}</p>
+      <h6 class="toc-title">
+        <a href="#">{title}</a>
+      </h6>
       <div id="toc-content">
         <ul class="overflow">
           {fileData.toc.map((tocEntry) => (
