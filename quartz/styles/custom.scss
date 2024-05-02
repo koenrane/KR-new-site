@@ -28,6 +28,7 @@ ol {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
     margin-bottom: var(--li-margin);
+    font-variant-numeric: lining-nums; // Use lining numbers for list items
 
     &::before {
       // font-variant-numeric: lining-nums;
