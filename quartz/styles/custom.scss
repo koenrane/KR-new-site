@@ -31,7 +31,6 @@ ol {
     font-variant-numeric: lining-nums; // Use lining numbers for list items
 
     &::before {
-      // font-variant-numeric: lining-nums;
       color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
@@ -88,7 +87,7 @@ code,
 pre {
   font-family: var(--font-monospace);
   background-color: var(--color-background);
-  color: inherit;
+  color: var(--dark);
 }
 
 /* Wrap links properly */
@@ -111,6 +110,21 @@ a {
   &[href^="mailto:"] {
     font-family: var(--font-monospace);
     font-size: 0.75em;
+  }
+
+  &[id^="user-content-fnref-"] {
+    text-decoration: none;
+  }
+}
+
+.page-listing {
+  & h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a {
+    text-decoration: none;
   }
 }
 
