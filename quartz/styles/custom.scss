@@ -30,12 +30,12 @@ ol {
     margin-bottom: var(--li-margin);
 
     &::before {
-      font-variant-numeric: lining-nums;
+      // font-variant-numeric: lining-nums;
       color: var(--gray);
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
       display: inline;
-      margin-right: 0.25em;
+      margin-right: calc(0.5 * $baseMargin);
     }
 
     // Nested lists
@@ -72,7 +72,7 @@ ol {
     }
 
     & p {
-      margin-bottom: 8px; /* Adjust the spacing as needed */
+      // margin-bottom: $baseMargin; /* Adjust the spacing as needed */
     }
 
     &::before {
@@ -247,17 +247,18 @@ figcaption {
   margin-top: 18%;
 }
 
-.tags {
+ul.tags {
   color: var(--gray);
   list-style: none;
   font-size: var(--text-size-80);
   display: inline-block;
   margin-top: 0;
+  padding: calc(0.75 * $baseMargin);
+  padding-right: $baseMargin;
   overflow-wrap: normal;
   margin-bottom: 0px;
 
   background-color: var(--color-background); /* Set the background color of the tags box */
-  padding: 0.25em 0em; /* Add padding to the tags box */
   border-radius: 5px; /* Add rounded corners to the tags box */
 
   & a {
@@ -280,9 +281,9 @@ figcaption {
 }
 
 a.internal.tag-link {
-  // white-space: nowrap;
   font-family: var(--font-monospace);
-  margin: 0 0.45rem;
+  margin: 0 $baseMargin 0 0;
+  font-size: var(--text-size-70);
 }
 
 img.emoji {

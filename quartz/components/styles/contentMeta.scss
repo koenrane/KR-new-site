@@ -1,5 +1,8 @@
+@use "../../styles/variables.scss" as *;
+
 .content-meta {
   margin-top: 0;
+  margin-bottom: $baseMargin;
   color: var(--gray);
 
   &[show-comma="true"] {
