@@ -545,7 +545,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   document.addEventListener("keydown", shortcutHandler)
   window.addCleanup(() => document.removeEventListener("keydown", shortcutHandler))
-  console.log(searchIcon)
   searchIcon?.addEventListener("click", () => showSearch("basic"))
   window.addCleanup(() => searchIcon?.removeEventListener("click", () => showSearch("basic")))
   searchBar?.addEventListener("input", onType)

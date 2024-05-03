@@ -86,6 +86,7 @@ async function mouseEnterHandler(
 
       elts.forEach((elt) => popoverInner.appendChild(elt))
   }
+  twemoji.parse(popoverInner)
 
   setPosition(popoverElement)
   link.appendChild(popoverElement)
