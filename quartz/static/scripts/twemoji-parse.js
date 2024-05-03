@@ -11,7 +11,7 @@ function replaceInTextNodes(element, search, replacement) {
   }
 }
 
-export function wrappedParseTwemoji(element) {
+function wrappedParseTwemoji(element) {
   replaceInTextNodes(element, /↩/g, placeholder)
   twemoji.parse(element)
   replaceInTextNodes(element, /__EMOJI_PLACEHOLDER__/g, "⤴")
