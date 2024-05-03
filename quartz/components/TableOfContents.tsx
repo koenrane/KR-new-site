@@ -20,13 +20,12 @@ const TableOfContents: QuartzComponent = ({
   displayClass,
   cfg,
 }: QuartzComponentProps) => {
-  if (!fileData.toc | (fileData.frontmatter?.toc === "false")) {
+  if (!fileData.toc || fileData.frontmatter?.toc === "false") {
     return null
   }
 
   const title = fileData.frontmatter?.title
 
-  console.log(fileData)
   return (
     <div class={classNames(displayClass, "toc")}>
       <hr />

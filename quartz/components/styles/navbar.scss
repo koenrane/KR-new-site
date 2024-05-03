@@ -30,10 +30,12 @@
     text-align: right;
     background-color: transparent;
 
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    // opacity: 0;
+    display: none;
+    // transition: opacity 0.5s ease; // TODO Transition has weird fade in when going from desktop to mobile zoom
     &.visible {
-      opacity: 1;
+      display: block;
+      // opacity: 1;
     }
 
     li {

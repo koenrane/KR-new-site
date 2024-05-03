@@ -34,6 +34,19 @@ button#toc {
   }
 }
 
+ul.overflow {
+}
+
+ul.overflow,
+ol.overflow {
+  overflow-y: auto;
+  margin-bottom: 0;
+
+  // clearfix
+  content: "";
+  clear: both;
+}
+
 #toc-content {
   list-style: none;
   overflow: visible;

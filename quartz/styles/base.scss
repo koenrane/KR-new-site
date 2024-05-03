@@ -480,19 +480,6 @@ video {
   flex: 1 1 auto;
 }
 
-ul.overflow,
-ol.overflow {
-  overflow-y: auto;
-
-  // clearfix
-  content: "";
-  clear: both;
-
-  & > li:last-of-type {
-    margin-bottom: 1em;
-  }
-}
-
 .transclude {
   ul {
     padding-left: 1rem;
