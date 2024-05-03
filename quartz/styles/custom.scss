@@ -65,8 +65,8 @@ ol {
 
   li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
-    counter-increment: footnote; // Increment the footnote counter for each matching li
     display: flex; // This ensures the number and the text are in the same line
+    counter-increment: footnote; // Increment the footnote counter for each matching li
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -76,10 +76,6 @@ ol {
       font-family: "DejaVuSerifCondensed-Bold", serif;
     }
 
-    & p {
-      // margin-bottom: $baseMargin; /* Adjust the spacing as needed */
-    }
-
     &::before {
       font-size: var(--text-size-100); // TODO for some reason only affecting before?
       content: counter(footnote) "."; // Display the counter followed by a period
@@ -87,6 +83,12 @@ ol {
   }
 }
 
+div.popover li[id^="user-content-fn-"] {
+  counter-increment: footnote-popover; // Increment the footnote counter for each matching li
+  &::before {
+    content: counter(footnote-popover) "."; // Display the counter followed by a period
+  }
+}
 /* Set monospace font for code blocks, inline code, etc. */
 code,
 pre {
