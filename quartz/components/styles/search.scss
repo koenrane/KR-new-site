@@ -3,7 +3,7 @@
 .search {
   @media all and (min-width: $fullPageWidth) {
     order: 2; // Goes below the page links
-    margin-top: 1em;
+    margin-top: calc(2 * $baseMargin);
     margin-left: auto;
     margin-right: auto;
   }
@@ -14,7 +14,8 @@
 
   display: flex;
   min-width: fit-content;
-  margin-right: 0.7em;
+  margin-right: $baseMargin;
+
   max-width: 40%;
 
   & > #search-icon {
@@ -34,14 +35,14 @@
       font-size: var(--text-size-90);
       color: var(--gray);
       display: inline;
-      padding: 0 1rem;
+      padding: 0 calc(2 * $baseMargin);
       margin-left: -0.4em;
     }
 
     & svg {
       cursor: pointer;
       width: 0.7em;
-      margin: 0 0.5rem;
+      margin: 0 $baseMargin;
 
       .search-path {
         stroke: var(--gray);
@@ -84,7 +85,7 @@
         box-shadow:
           0 14px 50px rgba(27, 33, 48, 0.12),
           0 10px 30px rgba(27, 33, 48, 0.16);
-        margin-bottom: 2em;
+        margin-bottom: calc(4 * $baseMargin);
       }
 
       & > input {

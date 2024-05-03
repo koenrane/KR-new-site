@@ -7,7 +7,7 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin-top: 0.5rem;
+    margin-top: $baseMargin;
     margin: 0.08rem 0;
     padding: 0;
 
@@ -104,11 +104,11 @@
 
   @media all and (max-width: $fullPageWidth) {
     margin-bottom: 0em;
-    margin-top: 0.2em;
+    margin-top: calc(0.5 * $baseMargin);
   }
   @media all and (min-width: $fullPageWidth) {
-    margin-bottom: 0.4em;
-    margin-top: -1em;
+    margin-bottom: $baseMargin;
+    margin-top: calc(-1 * $baseMargin);
     font-size: var(--text-size-500);
   }
 }
@@ -129,7 +129,7 @@
   @media all and (max-width: $fullPageWidth) {
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: 0.5rem;
+    margin-right: $baseMargin;
     width: 2em;
   }
 }
@@ -141,12 +141,12 @@
 
   @media all and (max-width: $fullPageWidth) {
     position: relative;
+    margin: 0 calc(-2 * $baseMargin);
   }
 
   position: absolute;
-  left: 43%;
+  left: 46%;
   top: 5%;
-  margin: 0.3em 10px;
 
   & > .toggle {
     display: none;
