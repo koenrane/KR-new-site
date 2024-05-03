@@ -9,12 +9,12 @@
   }
   @media all and (max-width: $fullPageWidth) {
     margin-left: auto;
-    // margin-right: 0.5em;
   }
 
   display: flex;
+  flex-direction: row-reverse;
   min-width: fit-content;
-  margin-right: $baseMargin;
+  margin-right: calc(2 * $baseMargin);
 
   max-width: 40%;
 
@@ -216,7 +216,7 @@
             }
 
             & > ul.tags {
-              margin-top: 0.45rem;
+              margin-top: $baseMargin;
               margin-bottom: 0;
             }
 
@@ -224,7 +224,7 @@
               border-radius: 8px;
               background-color: var(--highlight);
               padding: 0.2rem 0.4rem;
-              margin: 0 0.1rem;
+              margin: 0 calc(0.25 * $baseMargin);
               line-height: 1.4rem;
               font-weight: $boldWeight;
               color: var(--secondary);

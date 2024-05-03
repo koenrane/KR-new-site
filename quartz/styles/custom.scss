@@ -273,7 +273,8 @@ figcaption {
   font-size: var(--text-size-80);
   display: inline-block;
   margin-top: 0;
-  padding: calc(0.75 * $baseMargin);
+  padding: calc(0.5 * $baseMargin);
+  padding-left: $baseMargin;
   padding-right: $baseMargin;
   overflow-wrap: normal;
   margin-bottom: 0px;

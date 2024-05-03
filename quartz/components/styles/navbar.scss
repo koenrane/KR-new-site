@@ -53,9 +53,10 @@
 
 // The menu icon
 .hamburger {
-  vertical-align: bottom;
-  width: 2.9em;
+  vertical-align: center;
+  width: 2em;
   height: 2em;
+  padding: 0;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -141,7 +142,9 @@
 
   @media all and (max-width: $fullPageWidth) {
     position: relative;
-    margin: 0 calc(-2 * $baseMargin);
+    left: inherit;
+    top: inherit;
+    margin: 0 calc($baseMargin);
   }
 
   position: absolute;
