@@ -45,7 +45,6 @@
     }
     & li[id^="user-content-fn-"]::before {
       font-size: var(--text-size-90);
-      font-variant-numeric: oldstyle-nums;
       font-feature-settings: "cv11" 1;
     }
     border: 1px solid var(--lightgray);

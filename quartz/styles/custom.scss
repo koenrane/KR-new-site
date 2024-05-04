@@ -37,6 +37,7 @@ ol {
 
     &::before {
       color: var(--gray);
+      text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
       display: inline;
@@ -74,18 +75,15 @@ ol {
       text-decoration: none;
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
+      vertical-align: top;
     }
 
     &::before {
       vertical-align: baseline;
-      font-size: var(--text-size-100); // TODO for some reason only affecting before?
+      font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
   }
-}
-
-.data-footnote-backref {
-  vertical-align: top;
 }
 
 div.popover li[id^="user-content-fn-"] {
