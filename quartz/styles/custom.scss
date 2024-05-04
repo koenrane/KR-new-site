@@ -29,7 +29,7 @@ em {
 
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
-  & li {
+  & > li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
     margin-bottom: var(--li-margin);
@@ -86,12 +86,6 @@ ol {
   }
 }
 
-div.popover li[id^="user-content-fn-"] {
-  counter-increment: footnote-popover; // Increment the footnote counter for each matching li
-  &::before {
-    content: counter(footnote-popover) "."; // Display the counter followed by a period
-  }
-}
 /* Set monospace font for code blocks, inline code, etc. */
 code,
 pre {
@@ -198,8 +192,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 .elvish {
   font-family: "Elvish";
-  // font-size: 1.2em;
-  // color: var(--gray);
 }
 
 figure img {
