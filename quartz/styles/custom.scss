@@ -77,10 +77,15 @@ ol {
     }
 
     &::before {
+      vertical-align: baseline;
       font-size: var(--text-size-100); // TODO for some reason only affecting before?
       content: counter(footnote) "."; // Display the counter followed by a period
     }
   }
+}
+
+.data-footnote-backref {
+  vertical-align: top;
 }
 
 div.popover li[id^="user-content-fn-"] {
