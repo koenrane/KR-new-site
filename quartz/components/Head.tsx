@@ -20,6 +20,7 @@ export default (() => {
       <head>
         <title>{title}</title>
         <meta charSet="utf-8" />
+        <script src="/static/scripts/detect-dark-mode.js"></script>
         <script src="/static/scripts/twemoji.min.js"></script>
         <script src="/static/scripts/twemoji-parse.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

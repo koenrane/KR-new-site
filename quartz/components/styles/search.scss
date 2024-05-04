@@ -19,8 +19,9 @@
   max-width: 40%;
 
   & > #search-icon {
-    background-color: color-mix(in srgb, var(--lightgray) 25%, var(--light));
+    background-color: var(--color-background);
     border-radius: 4px;
+    // transition: background-color 0.3s ease-in-out;
     height: 1.6rem;
     display: flex;
     align-items: center;

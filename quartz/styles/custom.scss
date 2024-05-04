@@ -155,6 +155,12 @@ sup {
   opacity: light-dark(0.5, 1);
 }
 
+body {
+  transition:
+    background-color 0.8s ease,
+    color 0.8s ease;
+}
+
 :root[saved-theme="dark"] img {
   filter: grayscale(50%);
 
