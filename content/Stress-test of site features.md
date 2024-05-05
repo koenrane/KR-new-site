@@ -37,7 +37,8 @@ I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my
 - ("Don't do it," they said...)
 - "'There's a good boy' is what I tell my dog when he behaves."
 - "I never again want to hear 'I lost the game'."
-- I love  Bryan Adam's _Summer of '69_
+- I love  Bryan Adam's [_Summer of '69_](https://www.youtube.com/watch?v=eFjjO_lhf9c)[^69] 
+[^69]: Seriously, this song is a banger.
 
  In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply during code blocks: 
  - `results['column']` 

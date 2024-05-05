@@ -394,6 +394,19 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.classList.add("result-card")
     itemTile.id = slug
     itemTile.href = resolveUrl(slug).toString()
+
+    content = content.replaceAll(/↩/g, "⤴")
+    content = twemoji.parse(content, {
+      callback: function (icon, options, variant) {
+        console.log("icon", icon)
+        if (icon === "2934") {
+          // Ignore right-and-up arrow
+          return "" // Return an empty string to prevent replacement
+        }
+        return options.base + icon + options.ext // Default behavior
+      },
+    })
+
     itemTile.innerHTML = `${title}${htmlTags}${
       enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
     }`
@@ -467,6 +480,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     return contents
   }
 
+  // works on mobile but not on desktop
   async function displayPreview(el: HTMLElement | null) {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
@@ -476,6 +490,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     previewInner = document.createElement("div")
     previewInner.classList.add("preview-inner")
     previewInner.append(...innerDiv)
+    wrappedParseTwemoji(previewInner)
+
     preview.replaceChildren(previewInner)
 
     // scroll to longest

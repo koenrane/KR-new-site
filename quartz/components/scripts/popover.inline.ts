@@ -1,5 +1,4 @@
 import { computePosition, flip, inline, shift } from "@floating-ui/dom"
-// import { wrappedParseTwemoji } from "../../static/scripts/twemoji-parse.js"
 import { normalizeRelativeURLs } from "../../util/path"
 
 const p = new DOMParser()
