@@ -330,6 +330,17 @@ a.internal.tag-link {
   margin-top: 0;
 }
 
+img {
+  margin-top: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $baseMargin);
+}
+
+p > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 img.emoji {
   display: inline;
   border-radius: 0; // Don't want to cut off corners
