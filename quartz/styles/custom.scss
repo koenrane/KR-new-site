@@ -27,6 +27,13 @@ em {
   font-family: var(--font-text-italic);
 }
 
+ol,
+ul {
+  margin-block-start: calc(2 * $baseMargin);
+  margin-block-end: calc(2 * $baseMargin);
+  padding-inline-start: calc(3 * $baseMargin);
+}
+
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
   & > li {

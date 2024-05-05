@@ -16,21 +16,6 @@ This section's quotes are from Orwell’s [_Politics and the English Language_]
 
 “A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: What am I trying to say? What words will express it? What image or idiom will make it clearer? Is this image fresh enough to have an effect? And he will probably ask himself two more: Could I put it more shortly? Have I said anything that is avoidably ugly? But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.”  
 
-### Smart quotes
-I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
-- I said "hi there," but he couldn't hear me.
-- "Why don't you just tell him 'I love you'?"
-- ("Don't do it," they said...)
-- "'There's a good boy' is what I tell my dog when he behaves."
-- "I never again want to hear 'I lost the game'."
-- I love  Bryan Adam's _Summer of '69_
-
- In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply during code blocks: 
- - `results['column']` 
- - `'` and `"hi"` and `'hi'`
- - `print('honk!')`
- - `print("honk!")`
-## Blockquote
 With extra legroom, the quote becomes more readable:
 > A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: 
 > 1. What am I trying to say? 
@@ -45,14 +30,35 @@ With extra legroom, the quote becomes more readable:
 > But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.
 
 I thus remind myself: The reading experience will never be as important as the content, but it's still important.
+## Smart quotes
+I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
+- I said "hi there," but he couldn't hear me.
+- "Why don't you just tell him 'I love you'?"
+- ("Don't do it," they said...)
+- "'There's a good boy' is what I tell my dog when he behaves."
+- "I never again want to hear 'I lost the game'."
+- I love  Bryan Adam's _Summer of '69_
+
+ In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply during code blocks: 
+ - `results['column']` 
+ - `'` and `"hi"` and `'hi'`
+ - `print('honk!')`
+ - `print("honk!")`
 ## Admonition
 
 > [!quote] 
 >
 > A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
 
+#  Smart dash conversion
+[Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)  - contrary to popular practice - hyphens (-) and em-dashes (—)  are used in importantly different situations:
+
+> [!quote]  [How to Use Em Dashes (—), En Dashes (–) , and Hyphens (-)](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)
+> The em dash (—) can function like a comma, a colon, or parenthesis. Like commas and parentheses, em dashes set off extra information, such as examples, explanatory or descriptive phrases, or supplemental facts. Like a colon, an em dash introduces a clause that explains or expands upon something that precedes it.
+
+My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents clauses from being delimited by hyphens ("`I - like you - object`"). Instead, the build process renders "I - like you - object."
 # Smallcaps
-I wrote a plugin which applies an HTML transformation which detects acronyms ("HTML") and abbreviations ("100GB") and then tags them with the `small-caps` class. The CSS then styles the tagged elements in smallcaps. There are a lot of acronyms on my site, so it's very nice to not have to tag them manually!
+The build process detects acronyms ("HTML") and abbreviations ("100GB") and then tags them with the `small-caps` class. The CSS then styles the tagged elements in smallcaps. There are a lot of acronyms on my site, so it's very nice to not have to tag them manually!
 
 > [!quote] NAFTA, [Wikipedia](https://en.wikipedia.org/wiki/North_American_Free_Trade_Agreement)
 > The **North American Free Trade Agreement** (**NAFTA** [/ˈnæftə/](https://en.wikipedia.org/wiki/Help:IPA/English "Help:IPA/English") [_NAF-tə_](https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key "Help:Pronunciation respelling key"); [Spanish](https://en.wikipedia.org/wiki/Spanish_language "Spanish language"): *Tratado de Libre Comercio de América del Norte*, **TLCAN**; [French](https://en.wikipedia.org/wiki/French_language "French language"): *Accord de libre-échange nord-américain*, **ALÉNA**) was an agreement signed by [Canada](https://en.wikipedia.org/wiki/Canada "Canada"), [Mexico](https://en.wikipedia.org/wiki/Mexico "Mexico"), and the  [United States](https://en.wikipedia.org/wiki/United_States "United States") that created a trilateral [trade bloc](https://en.wikipedia.org/wiki/Trade_bloc "Trade bloc") in [North America.](https://en.wikipedia.org/wiki/North_America "North America") The agreement came into force on January 1, 1994, and superseded the 1988 [Canada–United States Free Trade Agreement](https://en.wikipedia.org/wiki/Canada%E2%80%93United_States_Free_Trade_Agreement "Canada–United States Free Trade Agreement") between the United States and Canada. The NAFTA trade bloc formed one of the largest trade blocs in the world by [gross domestic product.](https://en.wikipedia.org/wiki/Gross_domestic_product "Gross domestic product") — Wikipedia
@@ -92,8 +98,7 @@ Unordered lists:
 > 1. This is a list item.
 >    1. And now it's nested.
 >       1. And now it's double nested.
-> 		  1. :)
-> 1.
+> 1. Hopefully this is bullet number two!
 
 # Admonitions
 
