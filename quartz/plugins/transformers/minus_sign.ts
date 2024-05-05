@@ -1,6 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
-import { visit } from "unist-util-visit"
 
 const numberMatch = /(^|\s)\-(\s?\d*\.?\d+)/g
 

@@ -16,6 +16,20 @@ This section's quotes are from Orwell’s [_Politics and the English Language_]
 
 “A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: What am I trying to say? What words will express it? What image or idiom will make it clearer? Is this image fresh enough to have an effect? And he will probably ask himself two more: Could I put it more shortly? Have I said anything that is avoidably ugly? But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.”  
 
+### Smart quotes
+I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
+- I said "hi there," but he couldn't hear me.
+- "Why don't you just tell him 'I love you'?"
+- ("Don't do it," they said...)
+- "'There's a good boy' is what I tell my dog when he behaves."
+- "I never again want to hear 'I lost the game'."
+- I love  Bryan Adam's _Summer of '69_
+
+ In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply during code blocks: 
+ - `results['column']` 
+ - `'` and `"hi"` and `'hi'`
+ - `print('honk!')`
+ - `print("honk!")`
 ## Blockquote
 With extra legroom, the quote becomes more readable:
 > A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: 
