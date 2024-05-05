@@ -65,6 +65,10 @@
     display: none;
     backdrop-filter: blur(4px);
 
+    & li > p {
+      margin-block-start: 0;
+      margin-block-end: 0;
+    }
     &.active {
       display: inline-block;
     }
@@ -225,7 +229,6 @@
               border-radius: 8px;
               background-color: var(--highlight);
               padding: 0.2rem 0.4rem;
-              margin: 0 calc(0.25 * $baseMargin);
               line-height: 1.4rem;
               font-weight: $boldWeight;
               color: var(--secondary);
