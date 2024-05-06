@@ -62,12 +62,30 @@ ol.overflow {
     list-style: none;
     padding: 0;
     line-height: 1.05em;
-    & p {
+    margin-top: 0;
+
+    --text-indent-multiplier: -0.75;
+    & ul {
+      margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+      font-size: var(--text-size-85);
+      text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
+      border-left: 2px solid var(--lightergray);
+
+      & li {
+        padding-left: calc(0.75 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+      }
+    }
+    &:not(:first-child) {
+      margin-bottom: 0;
     }
 
     & > li {
-      border-left: 2px solid var(--lightergray);
       padding-bottom: calc(0.5 * $baseMargin);
+
+      &:last-child {
+        padding-bottom: 0;
+        margin-bottom: calc(0.5 * $baseMargin);
+      }
 
       & > a {
         text-decoration: none;
@@ -80,24 +98,6 @@ ol.overflow {
           opacity: 0.75;
         }
       }
-    }
-  }
-
-  --text-indent-multiple: -0.75;
-  & .depth-0 {
-    padding-left: calc(-1 * var(--text-indent-multiple) * $baseMargin);
-    border-left: none;
-  }
-
-  @for $i from 1 through 6 {
-    // Indent the text after first line
-    text-indent: calc(var(--text-indent-multiple) * $baseMargin);
-
-    // Position the left border closer to the li
-    & .depth-#{$i} {
-      font-size: var(--text-size-85);
-      padding-left: calc($baseMargin * 2 * #{$i} - 0.5 * $baseMargin);
-      margin-left: $baseMargin;
     }
   }
 }
