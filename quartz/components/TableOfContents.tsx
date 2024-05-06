@@ -15,6 +15,7 @@ const defaultOptions: Options = {
   layout: "modern",
 }
 
+let lastDepth = 0
 const TableOfContents: QuartzComponent = ({
   fileData,
   displayClass,
@@ -33,19 +34,43 @@ const TableOfContents: QuartzComponent = ({
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
-        <ul class="overflow">
-          {fileData.toc.map((tocEntry) => (
-            <li key={tocEntry.slug} class={`depth-${tocEntry.depth}`}>
-              <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-                {tocEntry.text}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <ul class="overflow">{addListItem(fileData.toc, 0)}</ul>
       </div>
     </div>
   )
 }
+
+function addListItem(remainingEntries, currentDepth) {
+  if (remainingEntries.length === 0) {
+    return ""
+  }
+
+  let result = []
+  while (remainingEntries.length > 0) {
+    const tocEntry = remainingEntries[0]
+
+    if (tocEntry.depth > currentDepth) {
+      // If the entry is deeper, start a new list
+      result.push(<ul>{addListItem(remainingEntries, tocEntry.depth)}</ul>)
+    } else if (tocEntry.depth < currentDepth) {
+      // If the entry is shallower, stop the recursion
+      break
+    } else {
+      // Process entries at the same depth
+      remainingEntries.shift()
+      const li = (
+        <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
+          <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
+            {tocEntry.text}
+          </a>
+        </li>
+      )
+      result.push(li)
+    }
+  }
+  return result
+}
+
 TableOfContents.css = modernStyle
 TableOfContents.afterDOMLoaded = script
 

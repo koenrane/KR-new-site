@@ -58,6 +58,9 @@ I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my
 > The em dash (—) can function like a comma, a colon, or parenthesis. Like commas and parentheses, em dashes set off extra information, such as examples, explanatory or descriptive phrases, or supplemental facts. Like a colon, an em dash introduces a clause that explains or expands upon something that precedes it.
 
 My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents clauses from being delimited by hyphens ("`I - like you - object`"). Instead, the build process renders "I - like you - object."
+# Section
+## Subsection
+### Subsubsection
 # Smallcaps
 The build process detects acronyms ("HTML") and abbreviations ("100GB") and then tags them with the `small-caps` class. The CSS then styles the tagged elements in smallcaps. There are a lot of acronyms on my site, so it's very nice to not have to tag them manually!
 

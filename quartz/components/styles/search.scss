@@ -95,12 +95,15 @@
 
       & > input {
         box-sizing: border-box;
-        padding: 0.5em 1em;
+        padding: $baseMargin calc(2 * $baseMargin);
         font-family: var(--font-text);
-        color: var(--dark);
         font-size: var(--text-size-100);
-        // font-size: 1.1em;
         border: 1px solid var(--lightgray);
+        color: var(--dark);
+
+        &::placeholder {
+          color: var(--dark);
+        }
 
         &:focus {
           outline: none;
