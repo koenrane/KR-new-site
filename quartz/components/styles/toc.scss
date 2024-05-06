@@ -57,6 +57,13 @@ ol.overflow {
       & > a {
         text-decoration: none;
         color: var(--gray);
+        transition: all 100ms ease-in-out;
+
+        // Navigation frame is within this section
+        &.active {
+          color: var(--dark);
+          font-weight: bold;
+        }
       }
     }
   }
