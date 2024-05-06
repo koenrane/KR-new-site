@@ -60,34 +60,38 @@ ol.overflow {
 
   & ul {
     list-style: none;
-    // margin: 0.5rem 0;
     padding: 0;
+    // line-height: var(--base-line-height);
     line-height: 1.2rem;
 
     & > li {
-      // margin-bottom: 1px;
-    }
-    & > li > a {
-      padding-bottom: $baseMargin;
-      text-decoration: none;
-      color: var(--dark);
-      opacity: 0.35;
-      transition:
-        0.5s ease opacity,
-        0.3s ease color;
-      &.in-view {
-        opacity: 0.75;
+      border-left: 2px solid var(--lightergray);
+
+      & > a {
+        padding-bottom: $baseMargin;
+        text-decoration: none;
+        color: var(--dark);
+        opacity: 0.35;
+        transition:
+          0.5s ease opacity,
+          0.3s ease color;
+        &.in-view {
+          opacity: 0.75;
+        }
       }
     }
   }
 
+  --text-indent-multiple: -0.75;
   & .depth-0 {
-    padding-left: 0;
+    padding-left: calc(-1 * var(--text-indent-multiple) * $baseMargin);
+    border-left: none;
   }
   @for $i from 1 through 6 {
+    text-indent: calc(var(--text-indent-multiple) * $baseMargin);
     & .depth-#{$i} {
       font-size: var(--text-size-85);
-      padding-left: calc(1rem * #{$i});
+      padding-left: calc($baseMargin * 2 * #{$i});
     }
   }
 }
