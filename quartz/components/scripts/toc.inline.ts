@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sections.forEach((section) => {
       const sectionTop = section.offsetTop
-      console.log(sectionTop)
       if (scrollY + 300 >= sectionTop) {
         currentSection = section.getAttribute("id")
       }
