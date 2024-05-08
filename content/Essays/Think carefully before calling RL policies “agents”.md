@@ -7,7 +7,7 @@ tags:
   - critique
   - AI
 ---
-**<span class="first-letter">I</span> think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts “agents.” This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a “policy.” This name is standard, accurate, and neutral. 
+I think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts “agents.” This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a “policy.” This name is standard, accurate, and neutral. 
 ## Don’t assume the conclusion by calling a policy an “agent”
 The real-world systems we want to think about and align are very large neural networks like GPT-4. These networks are trained and finetuned via different kinds of self-supervised and reinforcement learning.
 

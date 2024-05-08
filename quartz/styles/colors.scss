@@ -67,6 +67,7 @@
 
 :root {
   --color-background: color-mix(in srgb, var(--lightgray) 19%, var(--light));
+  --lightergray: color-mix(in srgb, transparent 70%, var(--lightgray));
 
   --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
 }

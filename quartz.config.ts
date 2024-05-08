@@ -128,11 +128,13 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
+      Plugin.HTMLFormattingImprovement(),
       Plugin.TagAcronyms(),
       Plugin.LinkTextPunctuation(),
       Plugin.AddFavicons(),
       Plugin.TroutOrnamentHr(),
       Plugin.RemarkMinusReplace(),
+      Plugin.TextFormattingImprovement(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [

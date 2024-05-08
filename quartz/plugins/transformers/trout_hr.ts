@@ -66,7 +66,7 @@ export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
                 node.children[0].value.toLowerCase() === "footnotes"
               ) {
                 footnotesData.footnotesSectionFound = true
-                node.children.splice(0, 0, newNode)
+                parent.children.splice(index, 0, newNode)
               }
             })
 

@@ -49,7 +49,7 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 2.25rem;
+  margin-top: calc(4 * $baseMargin);
   margin-bottom: 1rem;
   font-weight: 500;
   line-height: 1.15;
