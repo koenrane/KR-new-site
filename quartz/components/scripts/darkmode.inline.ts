@@ -17,20 +17,20 @@ document.addEventListener("nav", () => {
     emitThemeChangeEvent(newTheme)
   }
 
-  const themeChange = (e: MediaQueryListEvent) => {
-    const newTheme = e.matches ? "dark" : "light"
-    document.documentElement.setAttribute("saved-theme", newTheme)
-    localStorage.setItem("theme", newTheme)
-    toggleSwitch.checked = e.matches
-    emitThemeChangeEvent(newTheme)
-  }
-
   // Darkmode toggle
   const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
   toggleSwitch.addEventListener("change", switchTheme)
   window.addCleanup(() => toggleSwitch.removeEventListener("change", switchTheme))
   if (currentTheme === "dark") {
     toggleSwitch.checked = true
+  }
+
+  const themeChange = (e: MediaQueryListEvent) => {
+    const newTheme = e.matches ? "dark" : "light"
+    document.documentElement.setAttribute("saved-theme", newTheme)
+    localStorage.setItem("theme", newTheme)
+    toggleSwitch.checked = e.matches
+    emitThemeChangeEvent(newTheme)
   }
 
   // Listen for changes in prefers-color-scheme

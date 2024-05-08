@@ -28,7 +28,7 @@ li.section-li {
       flex-basis: 6em;
       opacity: 0.6;
       text-align: right;
-      padding-right: 0.5em;
+      padding-right: calc(1.5 * $baseMargin);
     }
   }
 }

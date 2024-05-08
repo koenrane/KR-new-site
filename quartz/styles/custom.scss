@@ -17,22 +17,34 @@
   }
 }
 
+.popover dl,
+.popover article {
+  color: var(--dark);
+}
+
 em {
   font-style: italic;
   font-family: var(--font-text-italic);
 }
 
+ol,
+ul {
+  margin-block-start: calc(2 * $baseMargin);
+  margin-block-end: calc(2 * $baseMargin);
+  padding-inline-start: calc(3 * $baseMargin);
+}
+
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
-  & li {
+  & > li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
     margin-bottom: var(--li-margin);
     font-variant-numeric: lining-nums; // Use lining numbers for list items
 
     &::before {
-      // font-variant-numeric: lining-nums;
       color: var(--gray);
+      text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
       flex-shrink: 0; // Prevent the number from shrinking
       display: inline;
@@ -61,8 +73,8 @@ ol {
 
   li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
-    counter-increment: footnote; // Increment the footnote counter for each matching li
     display: flex; // This ensures the number and the text are in the same line
+    counter-increment: footnote; // Increment the footnote counter for each matching li
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -70,14 +82,12 @@ ol {
       text-decoration: none;
       background-color: transparent;
       font-family: "DejaVuSerifCondensed-Bold", serif;
-    }
-
-    & p {
-      // margin-bottom: $baseMargin; /* Adjust the spacing as needed */
+      vertical-align: top;
     }
 
     &::before {
-      font-size: var(--text-size-100); // TODO for some reason only affecting before?
+      vertical-align: baseline;
+      font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
     }
   }
@@ -88,7 +98,7 @@ code,
 pre {
   font-family: var(--font-monospace);
   background-color: var(--color-background);
-  color: inherit;
+  color: var(--dark);
 }
 
 /* Wrap links properly */
@@ -111,6 +121,21 @@ a {
   &[href^="mailto:"] {
     font-family: var(--font-monospace);
     font-size: 0.75em;
+  }
+
+  &[id^="user-content-fnref-"] {
+    text-decoration: none;
+  }
+}
+
+.page-listing {
+  & h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a {
+    text-decoration: none;
   }
 }
 
@@ -135,6 +160,12 @@ sup {
   width: 3rem;
   filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
+}
+
+body {
+  transition:
+    background-color 0.8s ease,
+    color 0.8s ease;
 }
 
 :root[saved-theme="dark"] img {
@@ -174,8 +205,6 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
 
 .elvish {
   font-family: "Elvish";
-  // font-size: 1.2em;
-  // color: var(--gray);
 }
 
 figure img {
@@ -254,7 +283,8 @@ figcaption {
   font-size: var(--text-size-80);
   display: inline-block;
   margin-top: 0;
-  padding: calc(0.75 * $baseMargin);
+  padding: calc(0.5 * $baseMargin);
+  padding-left: $baseMargin;
   padding-right: $baseMargin;
   overflow-wrap: normal;
   margin-bottom: 0px;
@@ -305,6 +335,17 @@ a.internal.tag-link {
 .authors {
   color: var(--gray);
   margin-top: 0;
+}
+
+img {
+  margin-top: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $baseMargin);
+}
+
+p > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 img.emoji {

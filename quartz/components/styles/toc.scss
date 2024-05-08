@@ -7,31 +7,13 @@
   }
 }
 
-button#toc {
-  background-color: transparent;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  padding: 0;
-  color: var(--dark);
-  display: flex;
-  align-items: center;
+ul.overflow,
+ol.overflow {
+  overflow-y: auto;
+  margin-bottom: 0;
 
-  & h3 {
-    // font-size: var(--font-size-h3);
-    display: inline-block;
-    margin: 0;
-  }
-
-  & .fold {
-    margin-left: $baseMargin;
-    transition: transform 0.3s ease;
-    opacity: 0.8;
-  }
-
-  &.collapsed .fold {
-    transform: rotateZ(-90deg);
-  }
+  content: "";
+  clear: both;
 }
 
 #toc-content {
@@ -41,40 +23,48 @@ button#toc {
   transition: max-height 0.5s ease;
   position: relative;
   font-size: var(--text-size-90);
-  &.collapsed > .overflow::after {
-    opacity: 0;
-  }
 
   & ul {
     list-style: none;
-    // margin: 0.5rem 0;
     padding: 0;
-    line-height: 1.2rem;
+    line-height: 1.05em;
+    margin-top: 0;
 
-    & > li {
-      // margin-bottom: 1px;
-    }
-    & > li > a {
-      padding-bottom: $baseMargin;
-      text-decoration: none;
-      color: var(--dark);
-      opacity: 0.35;
-      transition:
-        0.5s ease opacity,
-        0.3s ease color;
-      &.in-view {
-        opacity: 0.75;
+    --text-indent-multiplier: -0.75;
+    & ul {
+      margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+      font-size: 0.913em; // approx sqrt(1/1.2), where 1.2 is scale factor
+      text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
+      border-left: 2px solid var(--lightergray);
+
+      & li {
+        padding-left: calc(0.75 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
       }
     }
-  }
+    &:not(:first-child) {
+      margin-bottom: 0;
+    }
 
-  & .depth-0 {
-    padding-left: 0;
-  }
-  @for $i from 1 through 6 {
-    & .depth-#{$i} {
-      font-size: var(--text-size-85);
-      padding-left: calc(1rem * #{$i});
+    & > li {
+      padding-bottom: calc(0.5 * $baseMargin);
+      overflow-y: visible;
+
+      &:last-child {
+        padding-bottom: 0;
+        margin-bottom: calc(0.5 * $baseMargin);
+      }
+
+      & > a {
+        text-decoration: none;
+        color: var(--gray);
+        transition: all 100ms ease-in-out;
+
+        // Navigation frame is within this section
+        &.active {
+          color: var(--dark);
+          font-weight: bold;
+        }
+      }
     }
   }
 }

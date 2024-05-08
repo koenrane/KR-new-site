@@ -7,7 +7,7 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin-top: 0.5rem;
+    margin-top: $baseMargin;
     margin: 0.08rem 0;
     padding: 0;
 
@@ -30,10 +30,12 @@
     text-align: right;
     background-color: transparent;
 
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    // opacity: 0;
+    display: none;
+    // transition: opacity 0.5s ease; // TODO Transition has weird fade in when going from desktop to mobile zoom
     &.visible {
-      opacity: 1;
+      display: block;
+      // opacity: 1;
     }
 
     li {
@@ -51,9 +53,10 @@
 
 // The menu icon
 .hamburger {
-  vertical-align: bottom;
-  width: 2.9em;
+  vertical-align: center;
+  width: 2em;
   height: 2em;
+  padding: 0;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -102,11 +105,11 @@
 
   @media all and (max-width: $fullPageWidth) {
     margin-bottom: 0em;
-    margin-top: 0.2em;
+    margin-top: calc(0.5 * $baseMargin);
   }
   @media all and (min-width: $fullPageWidth) {
-    margin-bottom: 0.4em;
-    margin-top: -1em;
+    margin-bottom: $baseMargin;
+    margin-top: calc(-1 * $baseMargin);
     font-size: var(--text-size-500);
   }
 }
@@ -127,7 +130,7 @@
   @media all and (max-width: $fullPageWidth) {
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: 0.5rem;
+    margin-right: $baseMargin;
     width: 2em;
   }
 }
@@ -139,12 +142,14 @@
 
   @media all and (max-width: $fullPageWidth) {
     position: relative;
+    left: inherit;
+    top: inherit;
+    margin: 0 calc($baseMargin);
   }
 
   position: absolute;
-  left: 43%;
+  left: 46%;
   top: 5%;
-  margin: 0.3em 10px;
 
   & > .toggle {
     display: none;
