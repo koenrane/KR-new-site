@@ -158,7 +158,8 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
       // see if this tok is prefixed by any search terms
       for (const searchTok of tokenizedTerms) {
         if (tok.toLowerCase().includes(searchTok.toLowerCase())) {
-          const regex = new RegExp(searchTok.toLowerCase(), "gi")
+          const sanitizedSearchTok = escapeRegExp(searchTok)
+          const regex = new RegExp(sanitizedSearchTok.toLowerCase(), "gi")
           return tok.replace(regex, `<span class="highlight">$&</span>`)
         }
       }
@@ -169,6 +170,10 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
   return `${startIndex === 0 ? "" : "..."}${slice}${
     endIndex === tokenizedText.length - 1 ? "" : "..."
   }`
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 }
 
 function highlightHTML(searchTerm: string, el: HTMLElement) {
@@ -185,8 +190,9 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
 
   const highlightTextNodes = (node: Node, term: string) => {
     if (node.nodeType === Node.TEXT_NODE) {
+      const sanitizedTerm = escapeRegExp(term)
       const nodeText = node.nodeValue ?? ""
-      const regex = new RegExp(term.toLowerCase(), "gi")
+      const regex = new RegExp(sanitizedTerm.toLowerCase(), "gi")
       const matches = nodeText.match(regex)
       if (!matches || matches.length === 0) return
       const spanContainer = document.createElement("span")
@@ -217,9 +223,8 @@ function updatePlaceholder() {
   const searchPlaceholderDesktop = "Toggle search by pressing /"
   const searchPlaceholderMobile = "Search"
 
-  if (window.innerWidth > 1024) {
-    // TODO standardize with SCSS variable
-    // TODO standardize to normal $fullWidth from css
+  if (window.innerWidth > 1000) {
+    // This is tablet width
     searchBar.setAttribute("placeholder", searchPlaceholderDesktop)
   } else {
     searchBar.setAttribute("placeholder", searchPlaceholderMobile)

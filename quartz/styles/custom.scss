@@ -34,6 +34,11 @@ ul {
   padding-inline-start: calc(3 * $baseMargin);
 }
 
+dd > ul:first-child,
+dd > ol:first-child {
+  margin-top: 0;
+}
+
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
   & > li {
