@@ -111,13 +111,13 @@ It was a beautiful summer. I found myself dreamily wandering the streets of Berk
 >   beyond the world were visions showed<br>
 >   forbid to those that dwell therein.<br>
 >
->   <span className="elvish" alt="This Elvish was added by Clamavi de Profundis.">A elbereth gilthoniel!</span> 
+>   <span className="elvish-italics" alt="This elvish-italics was added by Clamavi de Profundis.">A elbereth gilthoniel!</span> 
 > <br>
->   <span className="elvish">Silivren penna míriel</span>
+>   <span className="elvish-italics">Silivren penna míriel</span>
 > <br>
->   <span className="elvish">o menel aglar elenath</span>
+>   <span className="elvish-italics">o menel aglar elenath</span>
 > <br>
->   <span className="elvish">Gilthoniel, a! Elbereth!</span><br>
+>   <span className="elvish-italics">Gilthoniel, a! Elbereth!</span><br>
 >   <br>
 >   A ship then new they built for him<br>
 >   of mithril and of elven-glass<br>

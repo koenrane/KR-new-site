@@ -101,7 +101,6 @@ The CNN has 180M parameters. His house is 180KM away.[^smallcaps]
 >     <ul>
 >       <li>North Sindarin: <span className="elvish">hathol</span></li>
 >       <li>Quenya: <span className="elvish">pelekko</span> (Hooker notes the similarity of the Greek πέλεκυς pélekys: double-headed axe)</li>
->       <li>Khuzdul: <span className="elvish">bark</span>, pl. <span className="elvish">baruk</span></li>
 >     </ul>
 >   </dd>
 >   
