@@ -76,13 +76,59 @@ The CNN has 180M parameters. His house is 180KM away.[^smallcaps]
 [^smallcaps]: Here's a footnote![^nested]
 [^nested]: And a footnote created within another footnote!
 # Lists
+> [!quote] [List of weapons and armour in Middle-earth](https://en.wikipedia.org/wiki/List_of_weapons_and_armour_in_Middle-earth)
+> <dl>
+>   <dt>Sword</dt>
+>   <dd>
+>     <ul>
+>       <li>Noldorin Sindarin: <span className="elvish">magl</span>, <span className="elvish">magol</span></li>
+>       <li>North Sindarin: <span className="elvish">magor</span></li>
+>       <li>Quenya: <span className="elvish">makil</span>, <span className="elvish">macil</span></li>
+>       <li>Specific types of sword were named   <span className="elvish">lango</span> (broad sword), <span className="elvish">eket</span>, <span className="elvish">ecet</span> (short sword), and <span className="elvish">lhang</span> (cutlass, sword)</li>
+>     </ul>
+>   </dd>
+>   
+>   <dt>Dagger, knife</dt>
+>   <dd>
+>     <ul>
+>       <li>Noldorin Sindarin: <span className="elvish">sigil</span></li>
+>       <li>Quenya: <span className="elvish">cirma</span>, <span className="elvish">sicil</span></li>
+>     </ul>
+>   </dd>
+>   
+>   <dt>Axe</dt>
+>   <dd>
+>     <ul>
+>       <li>North Sindarin: <span className="elvish">hathol</span></li>
+>       <li>Quenya: <span className="elvish">pelekko</span> (Hooker notes the similarity of the Greek πέλεκυς pélekys: double-headed axe)</li>
+>       <li>Khuzdul: <span className="elvish">bark</span>, pl. <span className="elvish">baruk</span></li>
+>     </ul>
+>   </dd>
+>   
+>   <dt>Spear</dt>
+>   <dd>
+>     <ul>
+>       <li>Quenya: <span className="elvish">hatal</span> also <span className="elvish">nehte</span></li>
+>     </ul>
+>   </dd>
+>   
+>   <dt>Bow</dt>
+>   <dd>
+>     <ul>
+>       <li>Noldorin Sindarin: <span className="elvish">peng</span> also poetically <span className="elvish">cû</span> ("arch")</li>
+>       <li>Quenya: <span className="elvish">quinga</span></li>
+>     </ul>
+>   </dd>
+>   
+>   <dt>Arrow</dt>
+>   <dd>
+>     <ul>
+>       <li>Quenya: <span className="elvish">pilin</span>, pl. <span className="elvish">pilindi</span></li>
+>     </ul>
+>   </dd>
+> </dl>
 
-Grocery list:
-1. Chicken feed
-2. Goose food
-3. Bananas
-	1. They can't be totally brown!
-	2. 
+
 
 Unordered lists: 
 - First level

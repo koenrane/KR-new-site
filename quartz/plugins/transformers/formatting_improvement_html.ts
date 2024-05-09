@@ -3,11 +3,11 @@ import { visit } from "unist-util-visit"
 
 // Todo write unit tests
 function niceQuotes(text: string) {
-  text = text.replace(/(?=^|\b|[\(\[])[\"”](?=[^\s\)\.\,\!\?])/g, "“") // Quotes at the beginning of a word
+  text = text.replace(/(?<=^|\b|[\(\[])[\"”](?=[^\s\)\.\,\!\?])/g, "“") // Quotes at the beginning of a word
   text = text.replace(/([^\s\(])[\"“](?=[\s\)\.\,]|$)/g, "$1”") // Quotes at the end of a word
   text = text.replace(/([\s“])[\'’](?=\S)/g, "$1‘") // Quotes at the beginning of a word
-  text = text.replace(/(?=[^\s“])[\'‘](?=[\s]|\$)/g, "’") // Quotes at the end of a word
-  text = text.replace(/(?![\!\?])([’”])\./g, ".$1") // Periods inside quotes
+  text = text.replace(/(?<=[^\s“])[\'‘](?=[\s]|\$)/g, "’") // Quotes at the end of a word
+  text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
   return text
 }
