@@ -134,7 +134,7 @@ Thomas flashed a conspiratorial grin. “I certainly haven’t.” After a shall
 
 “So most changes make my room messier?”
 
-Thomas nodded. “Yes, and you have to put in effort to make things cleaner. This is called ‘The Second Law of Thermodynamics’, which is a big deal for physics, for biology, and, most importantly,” Thomas put on a serious face, “for cleaning messy rooms.”
+Thomas nodded. “Yes, and you have to put in effort to make things cleaner. This is called ‘The Second Law of Thermodynamics’, which is a big deal for physics, for biology, and, most importantly” - Thomas put on a serious face - “for cleaning messy rooms.”
 
 Bruce giggled at that. 
 

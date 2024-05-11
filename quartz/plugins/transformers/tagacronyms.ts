@@ -5,10 +5,10 @@ import { h } from "hastscript"
 
 const replaceRegex = (
   node: any,
-  index,
+  index: number,
   parent: any,
   regex: RegExp,
-  replaceFn: (match: string) => any,
+  replaceFn: (match: any) => any,
 ) => {
   // replaceFn returns an HTML element triplet, [text, abbr, text]
   if (parent.tagName === "abbr" || parent?.properties?.className?.includes("no-smallcaps")) {
@@ -18,8 +18,8 @@ const replaceRegex = (
   var lastIndex = 0
   let matchIndexes = []
   let lastMatchEnd = 0
+  let match
 
-  var match = ""
   while ((match = regex.exec(node.value)) !== null) {
     if (match.index >= lastMatchEnd) {
       matchIndexes.push(match.index)
@@ -62,27 +62,27 @@ const replaceRegex = (
 
 // TODO come up with more elegant whitelist for e.g. "if"
 const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF|TL;DR)(?<plural>s?)\b/
-const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
-const replaceAcronyms = (match) => {
+export const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
+const replaceAcronyms = (match: any) => {
   // Extract the uppercase and lowercase parts
   const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
 
   return { before: "", abbr: acronym, after: plural }
 }
 
-const REGEX_ABBREVIATION = /(?<number>[\d\,]?\.?\d+)(?<abbreviation>[A-Z]{1,}|[A-Z])/g
-const replaceAbbreviation = (match) => {
+export const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Za-z]{1,})/g
+const replaceAbbreviation = (match: any) => {
   // For now just chuck everything into abbr, including number
   return { before: "", abbr: match[0], after: "" }
 }
 
 // Custom Rehype plugin for tagging acronyms
-const rehypeTagAcronyms: Plugin = () => {
+export const rehypeTagAcronyms: Plugin = () => {
   return (tree) => {
-    visit(tree, "text", (node, index, parent) => {
+    visit(tree, "text", (node, index: number, parent) => {
       replaceRegex(node, index, parent, globalRegexAcronym, replaceAcronyms)
     })
-    visit(tree, "text", (node, index, parent) => {
+    visit(tree, "text", (node, index: number, parent) => {
       replaceRegex(node, index, parent, REGEX_ABBREVIATION, replaceAbbreviation)
     })
   }

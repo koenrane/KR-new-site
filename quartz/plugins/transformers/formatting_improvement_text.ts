@@ -1,14 +1,13 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 
-const footnoteRegex = /\. (\[\^.*?\])(?!:)/g
-const footnoteReplacement = ".$1"
-
-const fnNoSpaceAfter = /(\[\^(.*?)\])(?![\s\:])/g
+// Not followed by a colon (the footnote definition) or an opening parenthesis (md URL)
+const footnoteRegex = /\. (\[\^.*?\])(?![:\(\s])/g
+const footnoteReplacement = ".$1 "
 
 const footnoteEndOfSentence: Plugin = (text: string) => {
   let tighterText = text.replaceAll(footnoteRegex, footnoteReplacement)
-  tighterText = tighterText.replaceAll(fnNoSpaceAfter, "$1 ")
+
   return tighterText
 }
 
