@@ -62,7 +62,7 @@ const replaceRegex = (
 
 // TODO come up with more elegant whitelist for e.g. "if"
 const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF|TL;DR)(?<plural>s?)\b/
-const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
+export const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 const replaceAcronyms = (match: any) => {
   // Extract the uppercase and lowercase parts
   const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
@@ -70,7 +70,7 @@ const replaceAcronyms = (match: any) => {
   return { before: "", abbr: acronym, after: plural }
 }
 
-const REGEX_ABBREVIATION = /(?<number>[\d\,]?\.?\d+)(?<abbreviation>[A-Z]{1,}|[A-Z])/g
+export const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Za-z]{1,})/g
 const replaceAbbreviation = (match: any) => {
   // For now just chuck everything into abbr, including number
   return { before: "", abbr: match[0], after: "" }
