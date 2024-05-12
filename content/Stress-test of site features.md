@@ -40,7 +40,7 @@ I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my
 - I love  Bryan Adam's [_Summer of '69_](https://www.youtube.com/watch?v=eFjjO_lhf9c)[^69] 
 [^69]: Seriously, this song is a banger.
 
- In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply during code blocks: 
+ In fact, all of the bullet points were written so that the rules were violated. This page should still render them properly. However, this functionality should not apply within code blocks: 
  - `results['column']` 
  - `'` and `"hi"` and `'hi'`
  - `print('honk!')`
@@ -62,19 +62,17 @@ My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents cla
 ## Subsection
 ### Subsubsection
 # Smallcaps
-The build process detects acronyms ("HTML") and abbreviations ("100GB") and then tags them with the `small-caps` class. The CSS then styles the tagged elements in smallcaps. There are a lot of acronyms on my site, so it's very nice to not have to tag them manually!
+The build process detects acronyms ("HTML") and abbreviations ("100GB") and then tags them with the `small-caps` class. The CSS then styles the tagged elements in smallcaps. There are a lot of acronyms on my site, so it's very nice to not have to tag them manually![^smallcaps]
 
 > [!quote] NAFTA, [Wikipedia](https://en.wikipedia.org/wiki/North_American_Free_Trade_Agreement)
 > The **North American Free Trade Agreement** (**NAFTA** [/ˈnæftə/](https://en.wikipedia.org/wiki/Help:IPA/English "Help:IPA/English") [_NAF-tə_](https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key "Help:Pronunciation respelling key"); [Spanish](https://en.wikipedia.org/wiki/Spanish_language "Spanish language"): *Tratado de Libre Comercio de América del Norte*, **TLCAN**; [French](https://en.wikipedia.org/wiki/French_language "French language"): *Accord de libre-échange nord-américain*, **ALÉNA**) was an agreement signed by [Canada](https://en.wikipedia.org/wiki/Canada "Canada"), [Mexico](https://en.wikipedia.org/wiki/Mexico "Mexico"), and the  [United States](https://en.wikipedia.org/wiki/United_States "United States") that created a trilateral [trade bloc](https://en.wikipedia.org/wiki/Trade_bloc "Trade bloc") in [North America.](https://en.wikipedia.org/wiki/North_America "North America") The agreement came into force on January 1, 1994, and superseded the 1988 [Canada–United States Free Trade Agreement](https://en.wikipedia.org/wiki/Canada%E2%80%93United_States_Free_Trade_Agreement "Canada–United States Free Trade Agreement") between the United States and Canada. The NAFTA trade bloc formed one of the largest trade blocs in the world by [gross domestic product.](https://en.wikipedia.org/wiki/Gross_domestic_product "Gross domestic product") 
 
-AUP is a method for avoiding side effects.
-
-The CNN has 180M parameters. His house is 180KM away.[^smallcaps]
-
-1B1T 256KB 500B 500M 3,300.562K 10K 1.1K, but the following shouldn't have a smallcaps suffix: "100t."
-
 [^smallcaps]: Here's a footnote![^nested]
 [^nested]: And a footnote created within another footnote!
+## Font adjustments
+The site's font family is [EB Garamond](http://www.georgduffner.at/ebgaramond). However, as of April 2024, the font did not support slashed zeroes (the `zero` feature). The unslashed zeroes looked quite similar to the letter 'o.' Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals (such as '2', which only reach up to the x-height of lowercase letters). This meant that the italicized oldstyle '1' looked like a small uppercase 'I', which wasn't very pleasant to my eyes. 
+
+Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have notified the maintainer of the EB Garamond font. 😌
 # Lists
 > [!quote] [List of weapons and armour in Middle-earth](https://en.wikipedia.org/wiki/List_of_weapons_and_armour_in_Middle-earth)
 > <dl>
@@ -157,7 +155,9 @@ Unordered lists:
 
 > [!tip] [This dummy link should be colored according to the admonition type.](test-page)
 >
-> > What is above all needed is to let the meaning choose the word, and not the other way about. In prose, the worst thing one can do with words is to surrender to them. When you think of a concrete object, you think wordlessly, and then, if you want to describe the thing you have been visualising, you probably hunt about till you find the exact words that seem to fit it. When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning. Probably it is better to put off using words as long as possible and get one’s meanings as clear as one can through pictures and sensations. Afterward one can choose – not simply *accept* – the phrases that will best cover the meaning, and then switch round and decide what impression one’s words are likely to make on another person. This last effort of the mind cuts out all stale or mixed images, all prefabricated phrases, needless repetitions, and humbug and vagueness generally.
+> > What is above all needed is to let the meaning choose the word, and not the other way about. In prose, the worst thing one can do with words is to surrender to them. When you think of a concrete object, you think wordlessly, and then, if you want to describe the thing you have been visualising, you probably hunt about till you find the exact words that seem to fit it. When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning. 
+> > 
+> > Probably it is better to put off using words as long as possible and get one’s meanings as clear as one can through pictures and sensations. Afterward one can choose – not simply *accept* – the phrases that will best cover the meaning, and then switch round and decide what impression one’s words are likely to make on another person. This last effort of the mind cuts out all stale or mixed images, all prefabricated phrases, needless repetitions, and humbug and vagueness generally.
 >
 > Note how the left border is a muted shade of the admonition color.
 
