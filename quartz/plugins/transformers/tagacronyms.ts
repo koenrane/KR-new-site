@@ -70,7 +70,7 @@ const replaceAcronyms = (match: any) => {
   return { before: "", abbr: acronym, after: plural }
 }
 
-export const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Za-z]{1,})/g
+export const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
 const replaceAbbreviation = (match: any) => {
   // For now just chuck everything into abbr, including number
   return { before: "", abbr: match[0], after: "" }

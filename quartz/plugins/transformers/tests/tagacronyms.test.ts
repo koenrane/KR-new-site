@@ -23,7 +23,7 @@ describe("rehypeTagAcronyms", () => {
 // Check that eg 100km becomes <abbr>100km</abbr>
 describe("Abbreviations", () => {
   // Test: These should be wrapped in <abbr> tags
-  const textIn: Array<string> = ["10zB", ".1EXP", "10BTC", "100.0km", "5K"]
+  const textIn: Array<string> = ["10ZB", ".1EXP", "10BTC", "100.0KM", "5K"]
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
@@ -43,7 +43,7 @@ describe("Abbreviations", () => {
 
 describe("Acronyms", () => {
   // Test: These should be wrapped in <abbr> tags
-  const textIn: Array<string> = ["AUP", "FBI", "TL;DR", "CHAI"]
+  const textIn: Array<string> = ["AUP", "FBI", "TL;DR", "CHAI", "ALÉNA"]
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
