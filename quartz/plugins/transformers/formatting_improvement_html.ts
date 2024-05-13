@@ -13,9 +13,9 @@ function niceQuotes(text: string) {
 }
 
 function hyphenReplace(text: string) {
-  text = text.replaceAll(/(\w)?\s+[–—-]+\s+(\w)/g, "$1—$2")
-  text = text.replaceAll(/(\w)— (\w)/g, "$1—$2")
-  text = text.replaceAll(/(\w) —(\w)/g, "$1—$2") // Em dashes shouldn't have spaces around them
+  text = text.replaceAll(/(\S)?\s+[–—-]+\s+(\S)/g, "$1—$2")
+  text = text.replaceAll(/(\S)— (\S)/g, "$1—$2")
+  text = text.replaceAll(/(\S) —(\S)/g, "$1—$2") // Em dashes shouldn't have spaces around them
   return text
 }
 

@@ -47,6 +47,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>This is a - hyphen.</p>", "<p>This is a—hyphen.</p>"],
       ["<p>This is an — em dash.</p>", "<p>This is an—em dash.</p>"],
       ["<p>word — word</p>", "<p>word—word</p>"],
+      ["<p>e - “</p>", "<p>e—“</p>"],
       ["<p>word— word</p>", "<p>word—word</p>"],
       ["<p>word —word</p>", "<p>word—word</p>"],
     ])('should replace hyphens in "%s"', (input, expected) => {
@@ -64,4 +65,3 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 })
-
