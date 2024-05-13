@@ -158,7 +158,14 @@ body {
   font-feature-settings:
     "liga" 1,
     "cv11" 1;
+
   font-variant-numeric: oldstyle-nums stacked-fractions;
+
+  // Code should contain full-height numbers
+  & code,
+  & pre {
+    font-variant-numeric: lining-nums;
+  }
 }
 
 .elvish-italics {
