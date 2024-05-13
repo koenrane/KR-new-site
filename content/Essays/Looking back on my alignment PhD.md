@@ -6,9 +6,9 @@ date_published: 06/30/2022
 tags:
   - rationality
 ---
-This post has been recorded as part of the LessWrong Curated Podcast. It can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).
-
----
+> [!info] 
+> 
+> This post has been recorded as part of the LessWrong Curated Podcast. It can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).
 
 <figure>
 <img src="/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png" alt="" style="max-width: 550px; width: 100%; margin-left: auto;  
@@ -17,6 +17,8 @@ This post has been recorded as part of the LessWrong Curated Podcast. It can be 
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I’m proud of what I accomplished during my PhD. That said, I’m going to first focus on mistakes I’ve made over the past four[^1] years. 
 
+![[Pasted image 20240512205303.png]]
+<figcaption>Before my thesis defense -- thinking about what I'd done to advance alignment research, and if it would be enough.</figcaption>
 ##  Mistakes
 
 I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/eAsN5vNjvmxzACuuX), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD. 
