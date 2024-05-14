@@ -39,6 +39,19 @@ function isInsideCode(node: any) {
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
+      // Wrap fn in span so that multiple <p> elements can be used
+      if (node?.properties?.id?.includes("user-content-fn-")) {
+        const newSpan = {
+          type: "element",
+          tagName: "span",
+          properties: {
+            className: ["footnote"],
+          },
+          children: node.children,
+        }
+        node.children = [newSpan]
+      }
+
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
         node.value = niceQuotes(node.value)

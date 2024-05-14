@@ -90,6 +90,10 @@ ol {
       vertical-align: top;
     }
 
+    & p:first-child {
+      margin-top: 0; // Remove top margin from the first paragraph in the footnote
+    }
+
     &::before {
       vertical-align: baseline;
       font-size: var(--text-size-100);
