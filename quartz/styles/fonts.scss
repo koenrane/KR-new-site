@@ -159,7 +159,7 @@ body {
     "liga" 1,
     "cv11" 1;
 
-  font-variant-numeric: oldstyle-nums stacked-fractions;
+  font-variant-numeric: oldstyle-nums;
 
   // Code should contain full-height numbers
   & code,
@@ -170,4 +170,13 @@ body {
 
 .elvish-italics {
   font-family: "ElvishItalic";
+}
+
+.fraction {
+  font-variant-numeric: stacked-fractions;
+  font-feature-settings: "frac" 1;
+  line-height: normal;
+  font-size: 1.2rem;
+  font-family: "EBGaramond12";
+  vertical-align: -10%;
 }

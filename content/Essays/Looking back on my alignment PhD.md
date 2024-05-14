@@ -19,6 +19,7 @@ The funny thing about long periods of time is that they do, eventually, come to 
 
 ![[Pasted image 20240512205303.png]]
 <figcaption>Before my thesis defense -- thinking about what I'd done to advance alignment research, and if it would be enough.</figcaption>
+
 ##  Mistakes
 
 I think I [got significantly smarter in 2018–2019](https://www.lesswrong.com/s/KGYLvTqFiFE2CpHfJ/p/eAsN5vNjvmxzACuuX), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD. 

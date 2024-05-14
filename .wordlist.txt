@@ -315,3 +315,10 @@ TurnTrout
 webpage
 Subsubsection
 armour
+2x
+Garamond
+Hisham
+Karim
+OpenType
+oldstyle
+unslashed

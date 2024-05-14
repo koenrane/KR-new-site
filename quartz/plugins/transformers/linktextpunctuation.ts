@@ -18,7 +18,7 @@ const fullRegex = new RegExp(
 )
 const replaceTemplate = "[$1$2$4$5]($3)"
 
-const remarkLinkPunctuation: Plugin = (text: string) => {
+const remarkLinkPunctuation: any = (text: string) => {
   return text.replaceAll(fullRegex, replaceTemplate)
 }
 

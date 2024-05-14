@@ -1,4 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
+import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
@@ -19,6 +20,11 @@ function hyphenReplace(text: string) {
   return text
 }
 
+const fractionRegex = new RegExp(
+  `(?<!\/)(${numberRegex.source})\/(${numberRegex.source})(?!\/)`,
+  "g",
+)
+
 function isInsideCode(node: any) {
   let ancestor = node
   while (ancestor) {
@@ -37,6 +43,24 @@ export const improveFormatting: Plugin = () => {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
         node.value = niceQuotes(node.value)
         node.value = hyphenReplace(node.value)
+
+        replaceRegex(
+          node,
+          index,
+          parent,
+          fractionRegex,
+          (match: any) => {
+            return {
+              before: "",
+              replacedMatch: match[0],
+              after: "",
+            }
+          },
+          (nd: any, idx: any, prnt: any) => {
+            return prnt?.properties?.className?.includes("fraction")
+          },
+          "span.fraction",
+        )
       }
     })
   }

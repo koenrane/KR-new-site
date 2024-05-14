@@ -73,6 +73,13 @@ The build process detects acronyms ("HTML") and abbreviations ("100GB") and then
 The site's font family is [EB Garamond](http://www.georgduffner.at/ebgaramond). However, as of April 2024, the font did not support slashed zeroes (the `zero` feature). The unslashed zeroes looked quite similar to the letter 'o.' Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals (such as '2', which only reach up to the x-height of lowercase letters). This meant that the italicized oldstyle '1' looked like a small uppercase 'I', which wasn't very pleasant to my eyes. 
 
 Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have notified the maintainer of the EB Garamond font. 😌
+
+## Automatic fraction display
+> 99 1/2% of websites don't render fractions properly. 
+> -- Albert Einstein
+
+I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. 4/5 readers agree with this choice.
+- Multiplication sign conversion makes multipliers exactly 2x as pleasant to read. See also: 5/4x.
 # Lists
 > [!quote] [List of weapons and armour in Middle-earth](https://en.wikipedia.org/wiki/List_of_weapons_and_armour_in_Middle-earth)
 > <dl>
