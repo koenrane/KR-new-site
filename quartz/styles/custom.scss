@@ -107,8 +107,9 @@ code,
 pre {
   font-family: var(--font-monospace);
 
-  background-color: var(--color-background);
-  color: var(--dark);
+  background-color: transparent;
+  color: inherit;
+  font-size: 0.81em;
 }
 
 /* Wrap links properly */
@@ -357,6 +358,9 @@ img {
   width: 87.5%;
   margin-top: calc(2 * $baseMargin);
   margin-bottom: calc(2 * $baseMargin);
+}
+[saved-theme="light"] img {
+  mix-blend-mode: multiply;
 }
 
 p > img {

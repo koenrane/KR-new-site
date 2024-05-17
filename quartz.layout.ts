@@ -20,9 +20,9 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Navbar(),
   ],
   right: [
-    Component.ContentMeta(),
-    Component.TagList(),
     Component.DesktopOnly(Component.TableOfContents()),
+    Component.TagList(),
+    Component.ContentMeta(),
     Component.Backlinks(),
   ],
 }

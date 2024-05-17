@@ -393,12 +393,8 @@ pre {
 }
 
 code {
-  font-size: var(--text-size-80);
-  color: var(--dark);
   font-family: var(--codeFont);
-  border-radius: 5px;
-  padding: 0.1rem 0.2rem;
-  background: var(--lightgray);
+  vertical-align: baseline;
 }
 
 a > code {

@@ -29,13 +29,13 @@ const TableOfContents: QuartzComponent = ({
 
   return (
     <div class={classNames(displayClass, "toc")}>
-      <hr />
       <h6 class="toc-title">
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
         <ul class="overflow">{addListItem(fileData.toc, 0)}</ul>
       </div>
+      <hr />
     </div>
   )
 }
