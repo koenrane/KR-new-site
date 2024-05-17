@@ -1,5 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
+import { formatTag } from "./TagList"
 
 const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_title) {
@@ -10,7 +11,7 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
   if (title) {
     let htmlContent = <h1 class={classNames(displayClass, "article-title")}>{title}</h1>
     if (title.match("Tag: ")) {
-      const tagText = title.split("Tag: ")[1]
+      const tagText = formatTag(title.split("Tag: ")[1])
       htmlContent = (
         <h1 class={classNames(displayClass, "article-title")}>
           Tag: <span style="font-family:var(--font-monospace); font-size: smaller">{tagText}</span>

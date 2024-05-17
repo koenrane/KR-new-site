@@ -292,23 +292,29 @@ figcaption {
   list-style: none;
   font-size: var(--text-size-80);
   display: inline-block;
-  margin-top: 0;
-  padding: calc(0.5 * $baseMargin);
-  padding-left: $baseMargin;
+  margin-top: $baseMargin;
+  padding-left: 0;
   padding-right: $baseMargin;
   overflow-wrap: normal;
   margin-bottom: 0px;
 
-  background-color: var(--color-background); /* Set the background color of the tags box */
-  border-radius: 5px; /* Add rounded corners to the tags box */
-
   & a.tag-link {
     color: var(--gray);
+    border-radius: 5px; /* Add rounded corners to the tags box */
 
-    &:last-child {
-      margin-right: 0;
-    }
+    line-height: 1rem;
+    padding: 0;
+    padding-top: initial;
+    padding-bottom: initial;
+    background-color: transparent;
+    display: block;
   }
+}
+
+.page-listing a.tag-link {
+  background-color: var(--color-background); /* Set the background color of the tags box */
+  padding: calc(0.5 * $baseMargin);
+  display: inline;
 }
 
 hr {

@@ -1,6 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import style from "../styles/listPage.scss"
 import { PageList } from "../PageList"
+import { formatTag } from "../TagList"
 import { FullSlug, getAllSegmentPrefixes, simplifySlug } from "../../util/path"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { Root } from "hast"
@@ -28,12 +29,13 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
       : htmlToJsx(fileData.filePath!, tree)
   const cssClasses: string[] = fileData.frontmatter?.cssclasses ?? []
   const classes = ["popover-hint", ...cssClasses].join(" ")
+  const processedTag = formatTag(tag)
   if (tag === "/") {
     const tags = [
       ...new Set(
-        allFiles.flatMap((data) => data.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes),
+        allFiles.flatMap((data) => data.frontmatter?.tags?.flatMap(getAllSegmentPrefixes)),
       ),
-    ].sort((a, b) => a.localeCompare(b))
+    ]
     const tagItemMap: Map<string, QuartzPluginData[]> = new Map()
     for (const tag of tags) {
       tagItemMap.set(tag, allPagesWithTag(tag))
@@ -43,7 +45,6 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
         <article>
           <p>{content}</p>
         </article>
-        {/* <p>{i18n(cfg.locale).pages.tagContent.totalTags({ count: tags.length })}</p> */}
         <div>
           {tags.map((tag) => {
             const pages = tagItemMap.get(tag)!
@@ -64,13 +65,12 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
               <div>
                 <h2>
                   <a class="internal tag-link" href={`../tags/${tag}`}>
-                    {tag}
+                    {processedTag}
                   </a>
                 </h2>
                 {content && <p>{content}</p>}
                 <div class="page-listing">
                   <p>
-                    {/* {i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })} */}
                     {pages.length > numPages && (
                       <>
                         {" "}
