@@ -6,8 +6,6 @@
   top: 7px;
   // Applies to all links in the navbar
   & ul {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    clip-path: inset(0px 0px -15px -15px);
     list-style: none;
     max-height: none;
     margin-top: $baseMargin;
@@ -46,6 +44,8 @@
 
     ul {
       position: absolute;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      clip-path: inset(0px 0px -15px -15px);
       width: max-content;
       right: 0px;
       top: 0.72em;
@@ -119,11 +119,6 @@
 }
 
 .navbar {
-  &.shadow {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  }
-
-  clip-path: inset(0px 0px -1500px 0px);
   display: flex;
   flex-direction: column;
   @media all and (max-width: $fullPageWidth) {
@@ -133,6 +128,13 @@
     position: fixed;
     top: 0;
     vertical-align: bottom;
+    transition: opacity 0.3s ease;
+    background-color: var(--light);
+    z-index: 990;
+    &.shadow {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      clip-path: inset(0px 0px -1500px 0px);
+    }
 
     &.hide {
       top: -100px;
@@ -141,9 +143,6 @@
   }
 
   position: relative;
-  transition: opacity 0.3s ease;
-  background-color: var(--light);
-  z-index: 990;
 }
 
 // The image in the title
