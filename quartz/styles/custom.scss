@@ -148,6 +148,18 @@ a {
   h6 a {
     text-decoration: none;
   }
+
+  & .section-li {
+    padding-bottom: calc(2 * $baseMargin);
+    &:not(:first-child) {
+      padding-top: calc(2 * $baseMargin);
+      border-top: 1px solid var(--lightgray);
+    }
+    & a.tag-link {
+      margin-right: $baseMargin;
+      display: inline;
+    }
+  }
 }
 
 audio {
@@ -291,7 +303,6 @@ figcaption {
 .tags {
   color: var(--gray);
   list-style: none;
-  font-size: var(--text-size-80);
   display: inline-block;
   margin-top: $baseMargin;
   padding-left: 0;
@@ -312,12 +323,6 @@ figcaption {
   }
 }
 
-.page-listing a.tag-link {
-  background-color: var(--color-background); /* Set the background color of the tags box */
-  padding: calc(0.5 * $baseMargin);
-  display: inline;
-}
-
 hr {
   margin: calc(3 * $baseMargin) 0;
 }
@@ -333,20 +338,16 @@ hr {
   a {
     color: var(--gray);
   }
-}
 
-.content-meta {
-  color: var(--gray);
-  & p:not(:first-child) {
+  & p,
+  a {
     font-size: var(--text-size-90);
-    margin: 0px;
   }
 }
 
 a.internal.tag-link {
   font-family: var(--font-monospace);
-  margin: 0 $baseMargin 0 0;
-  font-size: var(--text-size-70);
+  font-size: 0.71em;
 }
 
 .authors {

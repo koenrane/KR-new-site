@@ -6,11 +6,8 @@ export const formatTag = (tag: string): string => {
   // Ensure input is a string (using optional chaining for safety)
   tag = tag?.replace(/-/g, " ").toLowerCase() ?? ""
 
-  // Capitalize the first letter, but only if there are characters
-  tag = tag.length > 0 ? tag.charAt(0).toUpperCase() + tag.slice(1) : ""
-
   // Handle special case for "ai" (case-insensitive)
-  if (tag.toLowerCase() === "ai") {
+  if (tag === "ai") {
     return "AI"
   }
 
