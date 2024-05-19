@@ -135,8 +135,11 @@
 
 @media all and (max-width: $fullPageWidth) {
   #quartz-body > #navbar-container {
+    transition:
+      top 0.3s ease,
+      opacity 0.3s ease;
     position: sticky;
-    z-index: 10;
+    z-index: 910;
     &.shadow {
       // This is light-theme mode
       box-shadow: 0 2px 4px 0px rgba(#5c5f77, 0.1);
@@ -154,21 +157,16 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  position: relative;
 
   @media all and (max-width: $fullPageWidth) {
     flex-direction: row;
-    align-items: center; /* This will vertically align the nav items */
     width: 100%;
-    top: 0;
-    vertical-align: bottom;
-    transition: top 0.3s ease;
     background-color: var(--light);
   }
 }
 :root[saved-theme="dark"] .shadow {
   @media all and (max-width: $fullPageWidth) {
-    box-shadow: 0 4px 4px 0 #5c5f7752;
+    box-shadow: 0 7px 4px 0 #5c5f7752;
     clip-path: inset(0px 0px -1500px 0px);
   }
 }

@@ -154,6 +154,7 @@ a {
 
   & > #quartz-body {
     width: 100%;
+    overflow-x: clip;
     display: flex;
     @media all and (max-width: $fullPageWidth) {
       flex-direction: column;
@@ -175,9 +176,9 @@ a {
       position: fixed;
       @media all and (max-width: $fullPageWidth) {
         position: initial;
-        flex-direction: row;
+        flex-direction: column;
+        max-width: 100vw;
         padding: 0;
-        width: initial;
         margin-top: 0rem;
       }
     }
