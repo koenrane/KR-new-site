@@ -135,6 +135,7 @@
 
 @media all and (max-width: $fullPageWidth) {
   #quartz-body > #navbar-container {
+    width: 100%;
     transition:
       top 0.3s ease,
       opacity 0.3s ease;
@@ -185,7 +186,7 @@
 // DARKMODE
 .darkmode {
   display: inline;
-  z-index: 998;
+  z-index: 3;
 
   @media all and (max-width: $fullPageWidth) {
     position: relative;

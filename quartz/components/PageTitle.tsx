@@ -9,7 +9,9 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
 
   return (
     <div class={classNames(displayClass, "page-title")}>
-      <img src={"../static/pond.gif"} class="header-img no-select"></img>
+      <a href={baseDir}>
+        <img src={"../static/pond.gif"} class="header-img no-select"></img>
+      </a>
       <h2 class="page-title-text">
         <a href={baseDir} id="page-title-text">
           {title}
