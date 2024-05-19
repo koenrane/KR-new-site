@@ -3,7 +3,7 @@
 
 .menu {
   order: 1;
-  top: 7px;
+  top: 5px;
   // Applies to all links in the navbar
   & ul {
     list-style: none;
@@ -33,7 +33,6 @@
     background-color: transparent;
 
     display: none;
-    // transition: opacity 0.5s ease; // TODO Transition has weird fade in when going from desktop to mobile zoom
     &.visible {
       display: block;
     }
@@ -56,11 +55,12 @@
 // The menu icon
 .hamburger {
   vertical-align: center;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   padding: 0;
-  margin-right: calc(1.5 * $baseMargin);
-  margin-left: calc(1.5 * $baseMargin);
+  padding-left: $baseMargin;
+  padding-right: $baseMargin;
+  margin-left: calc(1 * $baseMargin);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -72,11 +72,10 @@
   }
 }
 
-// Animation from hamburger to an X
 .x:nth-of-type(1) {
   transition: all 100ms ease-in-out;
-  transform: rotate(-45deg);
-  transform-origin: top right;
+  transform: rotate(45deg);
+  transform-origin: top left;
   width: 24px;
 }
 
@@ -88,8 +87,8 @@
 
 .x:nth-of-type(3) {
   transition: all 100ms ease-in-out;
-  transform: rotate(45deg);
-  transform-origin: bottom right;
+  transform: rotate(-45deg);
+  transform-origin: bottom left;
   width: 24px;
 }
 
@@ -118,21 +117,30 @@
   }
 }
 
+#navbar-left {
+  display: flex;
+  align-items: center;
+}
+
 .navbar {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
+  position: relative;
+
   @media all and (max-width: $fullPageWidth) {
     flex-direction: row;
     align-items: center; /* This will vertically align the nav items */
-    width: $pageWidth;
+    width: calc(min(1px + $pageWidth, 96%));
     position: fixed;
     top: 0;
     vertical-align: bottom;
-    transition: opacity 0.3s ease;
+    transition: top 0.3s ease;
     background-color: var(--light);
     z-index: 990;
     &.shadow {
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      // This is light-theme mode
+      box-shadow: 0 2px 4px -10px rgba(#5c5f77, 0.1);
       clip-path: inset(0px 0px -1500px 0px);
     }
 
@@ -141,8 +149,12 @@
       opacity: 0;
     }
   }
-
-  position: relative;
+}
+:root[saved-theme="dark"] .navbar .shadow {
+  @media all and (max-width: $fullPageWidth) {
+    box-shadow: 0 4px 4px 0 #5c5f7752;
+    clip-path: inset(0px 0px -1500px 0px);
+  }
 }
 
 // The image in the title
@@ -183,7 +195,7 @@
     left: 23.5px;
     font-size: var(--text-size-80);
     color: var(--gray);
-    transition: opacity 0.5s ease; /* TODO Add a transition for a smooth effect */
+    transition: opacity 0.5s ease;
 
     &.hidden {
       opacity: 0;

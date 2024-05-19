@@ -106,20 +106,24 @@ export default ((userOpts?: Partial<Options>) => {
     )
     return (
       <div className={classNames(displayClass, "navbar")}>
-        <img src={"../static/pond.gif"} class="header-img no-select"></img>
-        <h2 class="page-title-text">
-          <a href={baseDir} id="page-title-text">
-            {title}
-          </a>
-        </h2>
-        {darkMode}
-        {searchHTML}
-        <button className="hamburger mobile-only">
-          <span className="bar" />
-          <span className="bar" />
-          <span className="bar" />
-        </button>
-        {pageLinks}
+        <div id="navbar-left">
+          <img src={"../static/pond.gif"} class="header-img no-select"></img>
+          <h2 class="page-title-text">
+            <a href={baseDir} id="page-title-text">
+              {title}
+            </a>
+          </h2>
+          {darkMode}
+        </div>
+        <div id="navbar-right">
+          {searchHTML}
+          <button className="hamburger mobile-only">
+            <span className="bar" />
+            <span className="bar" />
+            <span className="bar" />
+          </button>
+          {pageLinks}
+        </div>
       </div>
     )
   }

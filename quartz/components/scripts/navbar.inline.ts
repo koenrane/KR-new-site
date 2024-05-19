@@ -614,11 +614,8 @@ window.onscroll = function () {
   }
 
   if (prevScrollPos >= currentScrollPos) {
-    // navbar.style.opacity = "100%"
-
     navbar.classList.remove("hide")
   } else {
-    // navbar.style.opacity = "0"
     navbar.classList.add("hide")
   }
   prevScrollPos = currentScrollPos

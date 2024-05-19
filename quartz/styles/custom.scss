@@ -240,6 +240,13 @@ article > p > img {
   margin-right: auto;
   display: block;
 }
+.article-title {
+  margin: 2rem 0 0 0;
+
+  @media all and (max-width: $fullPageWidth) {
+    margin-top: 3rem;
+  }
+}
 
 figcaption {
   text-align: center;

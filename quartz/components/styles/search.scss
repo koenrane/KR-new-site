@@ -1,22 +1,22 @@
 @use "../../styles/variables.scss" as *;
 
+#navbar-right {
+  @media all and (max-width: $fullPageWidth) {
+    display: flex;
+    align-items: center;
+  }
+}
 .search {
   @media all and (min-width: $fullPageWidth) {
-    order: 2; // Goes below the page links
+    order: 3; // Goes below the page links
     margin-top: calc(2 * $baseMargin);
     margin-left: auto;
     margin-right: auto;
-  }
-  @media all and (max-width: $fullPageWidth) {
-    margin-left: auto;
   }
 
   display: flex;
   flex-direction: row-reverse;
   min-width: fit-content;
-  // margin-right: calc(1.5 * $baseMargin);
-
-  max-width: 40%;
 
   & > #search-icon {
     background-color: var(--color-background);

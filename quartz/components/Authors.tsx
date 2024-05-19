@@ -32,10 +32,4 @@ const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompone
   )
 }
 
-Authors.css = `
-.article-title {
-  margin: 2rem 0 0 0;
-}
-`
-
 export default (() => Authors) satisfies QuartzComponentConstructor
