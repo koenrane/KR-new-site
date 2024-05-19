@@ -266,6 +266,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   function hideSearch() {
     container?.classList.remove("active")
+    document.body.classList.remove("no-mix-blend-mode") // Remove class when search is closed
     if (searchBar) {
       searchBar.value = "" // clear the input when we dismiss the search
     }
@@ -291,6 +292,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       sidebar.style.zIndex = "1"
     }
     container?.classList.add("active")
+    document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
     searchBar?.focus()
   }
 

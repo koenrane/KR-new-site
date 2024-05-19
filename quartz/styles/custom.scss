@@ -371,6 +371,10 @@ img {
   mix-blend-mode: multiply;
 }
 
+[saved-theme="light"] body.no-mix-blend-mode img {
+  mix-blend-mode: normal;
+}
+
 p > img {
   display: block;
   margin-left: auto;
