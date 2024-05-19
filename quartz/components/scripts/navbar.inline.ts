@@ -1,3 +1,5 @@
+import { wrapWithoutTransition } from "./util"
+
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
 
@@ -23,7 +25,7 @@ document.addEventListener("nav", () => {
   // Hide the description after the user has interacted with the toggle
   const descriptionParagraph = document.querySelector(".darkmode > .description")
 
-  const switchTheme = (e: Event) => {
+  let switchTheme = (e: Event) => {
     const newTheme = (e.target as HTMLInputElement)?.checked ? "dark" : "light"
     document.documentElement.setAttribute("saved-theme", newTheme)
     localStorage.setItem("theme", newTheme)
@@ -36,6 +38,7 @@ document.addEventListener("nav", () => {
     // Prevent further clicks from having an effect
     localStorage.setItem("usedToggle", "true")
   }
+  switchTheme = wrapWithoutTransition(switchTheme)
 
   window.addEventListener("load", function () {
     if (localStorage.getItem("usedToggle") !== "true") {
@@ -43,13 +46,14 @@ document.addEventListener("nav", () => {
     }
   })
 
-  const themeChange = (e: MediaQueryListEvent) => {
+  let themeChange = (e: MediaQueryListEvent) => {
     const newTheme = e.matches ? "dark" : "light"
     document.documentElement.setAttribute("saved-theme", newTheme)
     localStorage.setItem("theme", newTheme)
     toggleSwitch.checked = e.matches
     emitThemeChangeEvent(newTheme)
   }
+  themeChange = wrapWithoutTransition(themeChange)
 
   // Darkmode toggle
   const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement

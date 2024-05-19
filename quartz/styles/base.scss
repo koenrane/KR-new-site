@@ -11,9 +11,11 @@ html {
   width: 100vw;
 }
 
+body * {
+  transition: background-color 0.9s ease; // For darkmode
+}
 body,
 section {
-  transition: background-color 0.2s ease; // For darkmode
   margin: 0;
   max-width: 100%;
   box-sizing: border-box;
