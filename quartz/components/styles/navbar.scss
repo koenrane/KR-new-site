@@ -140,7 +140,7 @@
     z-index: 990;
     &.shadow {
       // This is light-theme mode
-      box-shadow: 0 2px 4px -10px rgba(#5c5f77, 0.1);
+      box-shadow: 0 2px 4px 0px rgba(#5c5f77, 0.1);
       clip-path: inset(0px 0px -1500px 0px);
     }
 
