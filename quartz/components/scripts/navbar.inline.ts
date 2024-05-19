@@ -603,7 +603,7 @@ let prevScrollPos = window.pageYOffset
 
 window.onscroll = function () {
   const currentScrollPos = window.pageYOffset
-  const navbar = document.querySelector(".navbar") // Select the navbar element
+  const navbar = document.querySelector("#navbar-container") // Select the navbar element
 
   if (!navbar) return // Check if navbar exists (for safety)
 
