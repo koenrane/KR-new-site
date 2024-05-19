@@ -346,8 +346,7 @@ hr {
     color: var(--gray);
   }
 
-  & p,
-  a {
+  & .content-meta {
     font-size: var(--text-size-90);
   }
 }

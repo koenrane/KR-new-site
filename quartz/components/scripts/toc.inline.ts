@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     navLinks.forEach((link) => {
       link.classList.remove("active")
-      if (currentSection && link.href.endsWith(currentSection)) {
+      const slug = link?.href.split("#")[1]
+      if (currentSection && slug === currentSection) {
         link.classList.add("active")
       }
     })
