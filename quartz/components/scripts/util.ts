@@ -35,11 +35,11 @@ export const withoutTransition = (action: () => void) => {
   clearTimeout(timeoutEnable)
 
   const style = document.createElement("style")
-  style.textContent = `
+  style.textContent = `body * {
      -webkit-transition: none !important;
      -moz-transition: none !important;
      -o-transition: none !important;
-     -ms-transition: none !important;   * {
+     -ms-transition: none !important;   
       transition: none !important;
     }
   `
