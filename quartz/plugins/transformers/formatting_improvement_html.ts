@@ -20,7 +20,10 @@ function hyphenReplace(text: string) {
   return text
 }
 
-const fractionRegex = new RegExp(`\b(${numberRegex.source})\/(${numberRegex.source})\b`, "g")
+const fractionRegex = new RegExp(
+  `(?<![\w\/]|${numberRegex.source})(${numberRegex.source})\/(${numberRegex.source})(?!${numberRegex.source})(?=[^\w\/]|$)`,
+  "g",
+)
 
 function isInsideCode(node: any) {
   let ancestor = node
