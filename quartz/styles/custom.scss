@@ -80,6 +80,7 @@ ol {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     display: flex; // This ensures the number and the text are in the same line
     counter-increment: footnote; // Increment the footnote counter for each matching li
+    margin-bottom: $baseMargin; // Add a bottom margin to the list items
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -92,6 +93,9 @@ ol {
 
     & p:first-child {
       margin-top: 0; // Remove top margin from the first paragraph in the footnote
+    }
+    & p:last-child {
+      margin-bottom: 0; // Remove top margin from the first paragraph in the footnote
     }
 
     &::before {
