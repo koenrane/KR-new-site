@@ -78,7 +78,7 @@ Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to ad
 > 99 1/2% of websites don't render fractions properly. 
 > -- Albert Einstein
 
-I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. 4/5 readers agree with this choice.
+I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. 4/5 readers agree with this choice. But e.g. 01/01/2000 should not be fractionated.
 - Multiplication sign conversion makes multipliers exactly 2x as pleasant to read. See also: 5/4x.
 # Lists
 > [!quote] [List of weapons and armour in Middle-earth](https://en.wikipedia.org/wiki/List_of_weapons_and_armour_in_Middle-earth)
