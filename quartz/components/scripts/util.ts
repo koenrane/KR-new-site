@@ -75,7 +75,6 @@ export function wrapWithoutTransition<T extends (...args: any[]) => any>(
   return (...args) => {
     let result!: ReturnType<T>
     document.documentElement.classList.add("temporary-transition")
-    void document.documentElement.offsetHeight
 
     withoutTransition(() => {
       result = func(...args)
