@@ -21,7 +21,7 @@ describe("HTMLFormattingImprovement", () => {
         "<p>“This is a quote...” he trailed off.</p>",
       ],
       ['<p>She said, "This is a quote."</p>', "<p>She said, “This is a quote.”</p>"],
-      ['<p>"Hello." -- Mary</p>', "<p>“Hello.”—Mary</p>"],
+      ['<p>"Hello." -- Mary</p>', "<p>“Hello.” — Mary</p>"],
       ['<p>"Hello." (Mary)</p>', "<p>“Hello.” (Mary)</p>"],
       ["<p>He said, 'Hi'</p>", "<p>He said, ‘Hi’</p>"],
       [
@@ -50,6 +50,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>e - “</p>", "<p>e—“</p>"],
       ["<p>word— word</p>", "<p>word—word</p>"],
       ["<p>word —word</p>", "<p>word—word</p>"],
+      ['<p>"Quote." - Me</p>', "<p>“Quote.” — Me</p>"],
     ])('should replace hyphens in "%s"', (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
