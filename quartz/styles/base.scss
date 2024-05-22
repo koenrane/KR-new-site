@@ -10,10 +10,6 @@ html {
   overflow-x: hidden;
   width: 100vw;
 }
-
-body * {
-  transition: background-color 0.9s ease; // For darkmode
-}
 body,
 section {
   margin: 0;
@@ -75,7 +71,6 @@ strong {
 
 a {
   text-decoration-thickness: 0.06em;
-  transition: color 0.2s ease;
   color: var(--secondary);
 
   // Ignore descendants of popover class
@@ -264,7 +259,6 @@ blockquote {
   margin: calc(2 * $baseMargin) 0;
   border-left: 3px solid var(--gray);
   padding-left: calc(2 * $baseMargin);
-  transition: border-color 0.2s ease;
 }
 
 h1,
@@ -305,7 +299,6 @@ h6 {
   &[id] > a[href^="#"] {
     margin: 0 $baseMargin;
     opacity: 0;
-    transition: opacity 0.2s ease;
     transform: translateY(-0.1rem);
     font-family: var(--codeFont);
     user-select: none;

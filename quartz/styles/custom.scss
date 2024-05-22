@@ -185,10 +185,11 @@ sup {
   opacity: light-dark(0.5, 1);
 }
 
-body {
+.temporary-transition * {
   transition:
-    background-color 0.8s ease,
-    color 0.8s ease;
+    background-color 1s ease,
+    border-color 1s ease,
+    color 1s ease !important;
 }
 
 :root[saved-theme="dark"] img {

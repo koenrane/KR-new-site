@@ -1,20 +1,23 @@
 export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: () => void) {
   if (!outsideContainer) return
-  function click(this: HTMLElement, e: HTMLElementEventMap["click"]) {
-    if (e.target !== this) return
+
+  function click(e: MouseEvent) {
+    if (e.target !== outsideContainer) return
     e.preventDefault()
     cb()
   }
 
-  function esc(e: HTMLElementEventMap["keydown"]) {
-    if (!e.key.startsWith("Esc")) return
-    e.preventDefault()
-    cb()
+  function esc(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      e.preventDefault()
+      cb()
+    }
   }
 
-  outsideContainer?.addEventListener("click", click)
-  window.addCleanup(() => outsideContainer?.removeEventListener("click", click))
-  document.addEventListener("keydown", esc)
+  outsideContainer.addEventListener("click", click)
+  window.addEventListener("keydown", esc)
+
+  window.addCleanup(() => outsideContainer.removeEventListener("click", click))
   window.addCleanup(() => document.removeEventListener("keydown", esc))
 }
 
@@ -24,52 +27,45 @@ export function removeAllChildren(node: HTMLElement) {
   }
 }
 
-let timeoutAction
-let timeoutEnable
+let timeoutAction: number
+let timeoutEnable: number
 
-// Perform a task without any css transitions
-export const withoutTransition = (action: () => any) => {
-  // Clear fallback timeouts
+export const withoutTransition = (action: () => void) => {
   clearTimeout(timeoutAction)
   clearTimeout(timeoutEnable)
 
-  // Create style element to disable transitions
   const style = document.createElement("style")
-  const css = document.createTextNode(`* {
-     -webkit-transition: .9s ease !important;
-     -moz-transition: .9s ease !important;
-     -o-transition: .9s ease !important;
-     -ms-transition: .9s ease !important;
-     transition: .9s ease !important;
-  }`)
-  style.appendChild(css)
+  style.textContent = `
+     -webkit-transition: none !important;
+     -moz-transition: none !important;
+     -o-transition: none !important;
+     -ms-transition: none !important;   * {
+      transition: none !important;
+    }
+  `
 
-  // Functions to insert and remove style element
-  const disable = () => document.head.appendChild(style)
-  const enable = () => document.head.removeChild(style)
+  const disableTransitions = () => document.head.appendChild(style)
+  const enableTransitions = () => document.head.removeChild(style)
 
-  // Best method, getComputedStyle forces browser to repaint
   if (typeof window.getComputedStyle !== "undefined") {
-    disable()
+    disableTransitions()
     action()
-    window.getComputedStyle(style).opacity
-    enable()
+    window.getComputedStyle(style).opacity // Force reflow
+    enableTransitions()
     return
   }
 
-  // Better method, requestAnimationFrame processes function before next repaint
   if (typeof window.requestAnimationFrame !== "undefined") {
-    disable()
+    disableTransitions()
     action()
-    window.requestAnimationFrame(enable)
+    window.requestAnimationFrame(enableTransitions)
     return
   }
 
-  // Fallback
-  disable()
-  timeoutAction = setTimeout(() => {
+  disableTransitions()
+  timeoutAction = window.setTimeout(() => {
     action()
-    timeoutEnable = setTimeout(enable, 120)
+    timeoutEnable = window.setTimeout(enableTransitions, 120)
   }, 120)
 }
 
@@ -77,10 +73,16 @@ export function wrapWithoutTransition<T extends (...args: any[]) => any>(
   func: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
   return (...args) => {
-    let result: ReturnType<T>
+    let result!: ReturnType<T>
+    document.documentElement.classList.add("temporary-transition")
+    void document.documentElement.offsetHeight
+
     withoutTransition(() => {
       result = func(...args)
     })
+    setTimeout(() => {
+      document.documentElement.classList.remove("temporary-transition")
+    }, 1000)
     return result
   }
 }
