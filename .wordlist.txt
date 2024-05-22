@@ -322,3 +322,4 @@ Karim
 OpenType
 oldstyle
 unslashed
+fractionated
