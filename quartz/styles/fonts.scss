@@ -196,11 +196,12 @@ article > p:first-of-type {
     font-family: "EBGaramondInitialsF2"; /* Replace with your decorative font family */
   }
   &::first-letter {
+    text-transform: uppercase;
+    font-style: normal;
     float: left;
     pointer-events: none; /* Ensure it doesn't interfere with user interactions */
     color: var(--lightgray);
     font-size: 4em;
-    z-index: 100;
     line-height: 1;
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF1";
