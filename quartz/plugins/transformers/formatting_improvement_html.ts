@@ -1,3 +1,4 @@
+import { start } from "repl"
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
@@ -15,7 +16,7 @@ function niceQuotes(text: string) {
 
 function hyphenReplace(text: string) {
   // Create a regex for dashes surrounded by spaces
-  const surroundedDash = new RegExp(`\\s+[–—-]+\\s+`, "g")
+  const surroundedDash = new RegExp(`(?:\\s+|^)[–—-]+\\s+`, "g")
 
   // Replace surrounded dashes with em dash
   text = text.replace(surroundedDash, "—")
@@ -26,8 +27,11 @@ function hyphenReplace(text: string) {
   // Remove spaces around em dashes
   text = text.replace(spacesAroundEM, "—")
 
-  const postQuoteOrSentenceEnd = /([.!?"”])\s*—\s*/g
-  text = text.replace(postQuoteOrSentenceEnd, "$1 — ")
+  const postQuote = /([.!?"”])\s*—\s*/g
+  text = text.replace(postQuote, "$1 — ")
+
+  const startOfLine = /^\s*—\s*/g
+  text = text.replace(startOfLine, "— ")
 
   return text
 }

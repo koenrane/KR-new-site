@@ -51,6 +51,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>word— word</p>", "<p>word—word</p>"],
       ["<p>word —word</p>", "<p>word—word</p>"],
       ['<p>"Quote." - Me</p>', "<p>“Quote.” — Me</p>"],
+      ["<p>- Me</p>", "<p>— Me</p>"], // Don't delete space after dash at the start of a line
     ])('should replace hyphens in "%s"', (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
