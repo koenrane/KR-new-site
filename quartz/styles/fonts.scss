@@ -131,6 +131,9 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
 @include font-face("EBGaramond", "newEBGaramond/EBGaramond08-Regular", ".otf");
+@include font-face("EBGaramondInitials", "newEBGaramond/EBGaramond-Initials", ".otf");
+@include font-face("EBGaramondInitialsF1", "newEBGaramond/EBGaramond-InitialsF1", ".otf");
+@include font-face("EBGaramondInitialsF2", "newEBGaramond/EBGaramond-InitialsF2", ".otf");
 @include font-face("EBGaramondItalic", "newEBGaramond/EBGaramond08-Italic", ".otf");
 @include font-face("EBGaramond12", "newEBGaramond/EBGaramond12-Regular", ".otf");
 @include font-face("EBGaramond12Italic", "newEBGaramond/EBGaramond12-Regular", ".otf");
@@ -179,4 +182,30 @@ body {
   font-size: 1.2rem;
   font-family: "EBGaramond12";
   vertical-align: -10%;
+}
+
+article > p:first-of-type {
+  position: relative;
+  &::before {
+    content: attr(data-first-letter);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 4em;
+    line-height: 1;
+    font-family: "EBGaramondInitialsF2"; /* Replace with your decorative font family */
+  }
+  &::first-letter {
+    float: left;
+    pointer-events: none; /* Ensure it doesn't interfere with user interactions */
+    color: var(--lightgray);
+    font-size: 4em;
+    z-index: 100;
+    line-height: 1;
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF1";
+  }
+  &::first-line {
+    font-family: "EBGaramondSC";
+  }
 }
