@@ -1,4 +1,3 @@
-// Function to update the first paragraph
 function updateFirstParagraph() {
   const paragraphs = document.querySelectorAll("article > p:first-of-type")
   paragraphs.forEach((paragraph) => {
@@ -6,6 +5,7 @@ function updateFirstParagraph() {
     paragraph.setAttribute("data-first-letter", firstLetter)
   })
 }
+
 document.addEventListener("DOMContentLoaded", function () {
   // Call the function initially to set the attribute on page load
   updateFirstParagraph()

@@ -11,6 +11,8 @@ async function mouseEnterHandler(
     return
   }
 
+  console.log(link)
+
   async function setPosition(popoverElement: HTMLElement) {
     const { x, y } = await computePosition(link, popoverElement, {
       middleware: [inline({ x: clientX, y: clientY }), shift(), flip()],
@@ -33,7 +35,7 @@ async function mouseEnterHandler(
   thisUrl.hash = ""
   thisUrl.search = ""
   const targetUrl = new URL(link.href)
-  const hash = targetUrl.hash
+  let hash = targetUrl.hash
   targetUrl.hash = ""
   targetUrl.search = ""
 
@@ -80,6 +82,14 @@ async function mouseEnterHandler(
     default:
       const contents = await response.text()
       const html = p.parseFromString(contents, "text/html")
+
+      // Modify id attributes so they don't mess up anchor jumps
+      html.querySelectorAll("body *").forEach((footnote) => {
+        const existingId = footnote.getAttribute("id")
+        if (existingId) {
+          footnote.setAttribute("id", `${existingId}-popover`)
+        }
+      })
       normalizeRelativeURLs(html, targetUrl)
       const elts = [...html.getElementsByClassName("popover-hint")]
       if (elts.length === 0) return
@@ -92,6 +102,7 @@ async function mouseEnterHandler(
   link.appendChild(popoverElement)
 
   if (hash !== "") {
+    hash += "-popover"
     const heading = popoverInner.querySelector(hash) as HTMLElement | null
     if (heading) {
       // leave ~12px of buffer when scrolling to a heading
