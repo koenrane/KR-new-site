@@ -191,22 +191,23 @@ article > p:first-of-type {
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 4em;
+    font-size: 4rem;
     line-height: 1;
-    font-family: "EBGaramondInitialsF2"; /* Replace with your decorative font family */
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF2";
   }
   &::first-letter {
     text-transform: uppercase;
-    font-style: normal;
+    font-style: normal !important;
     float: left;
     pointer-events: none; /* Ensure it doesn't interfere with user interactions */
     color: var(--lightgray);
-    font-size: 4em;
+    font-size: 4rem;
     line-height: 1;
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF1";
   }
   &::first-line {
-    font-family: "EBGaramondSC";
+    font-family: "EBGaramondSC" !important;
   }
 }
