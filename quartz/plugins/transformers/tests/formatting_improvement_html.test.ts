@@ -28,6 +28,7 @@ describe("HTMLFormattingImprovement", () => {
         '<p>"I am" so "tired" of "these" "quotes".</p>',
         "<p>“I am” so “tired” of “these” “quotes.”</p>",
       ],
+      ['<p>"world model";</p>', "<p>“world model”;</p>"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
