@@ -481,6 +481,10 @@ video {
   }
 }
 
+.katex {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
