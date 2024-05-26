@@ -7,7 +7,7 @@ CURRENT_BRANCH=$(git symbolic-ref --short head)
 if [[ $CURRENT_BRANCH = "main" ]]; then
 	npm run test
 	result=$?
-	if ! $?; then
+	if [[ $? -ne 0 ]]; then
 		echo "Failed unit tests. Not pushing!" >&2
 		exit 1
 	fi
@@ -18,7 +18,7 @@ TEMP_DICT="/tmp/candidate_wordlist.txt"
 PERM_DICT=".wordlist.txt"
 
 alias SPELLCHECK="npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT"
-SPELLCHECK content/**.md
+SPELLCHECK content/**.md !content/drafts/**/*.md
 
 # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
 if [ $? -ne 0 ]; then
