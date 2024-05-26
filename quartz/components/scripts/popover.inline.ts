@@ -11,8 +11,6 @@ async function mouseEnterHandler(
     return
   }
 
-  console.log(link)
-
   async function setPosition(popoverElement: HTMLElement) {
     const { x, y } = await computePosition(link, popoverElement, {
       middleware: [inline({ x: clientX, y: clientY }), shift(), flip()],
@@ -82,14 +80,22 @@ async function mouseEnterHandler(
     default:
       const contents = await response.text()
       const html = p.parseFromString(contents, "text/html")
+      const appendToAttr = (element: Element, attrName: string, toAppend: string) => {
+        const attr = element.getAttribute(attrName)
+        if (attr) {
+          element.setAttribute(attrName, `${attr}${toAppend}`)
+        }
+      }
 
       // Modify id attributes so they don't mess up anchor jumps
       html.querySelectorAll("body *").forEach((footnote) => {
-        const existingId = footnote.getAttribute("id")
-        if (existingId) {
-          footnote.setAttribute("id", `${existingId}-popover`)
-        }
+        appendToAttr(footnote, "id", "-popover")
       })
+      // We want same page links clicked within the popover to move the popover window instead of the main window
+      html.querySelectorAll("body a.same-page-link").forEach((link) => {
+        appendToAttr(link, "href", "-popover")
+      })
+
       normalizeRelativeURLs(html, targetUrl)
       const elts = [...html.getElementsByClassName("popover-hint")]
       if (elts.length === 0) return
