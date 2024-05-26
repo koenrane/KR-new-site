@@ -123,21 +123,16 @@ $fonts-dir: "/static/styles/fonts";
   }
 }
 
-// @include font-face("EBGaramond", "EBGaramond/ebgaramond08-regular", ".woff2");
-// @include font-face("EBGaramondItalic", "EBGaramond/ebgaramond08-italic", ".woff2");
-// @include font-face("EBGaramond12", "EBGaramond/ebgaramond12-regular", ".woff2");
-// @include font-face("EBGaramond12Italic", "EBGaramond/ebgaramond12-regular", ".woff2");
-// @include font-face("EBGaramondSC", "EBGaramond/ebgaramondsc08-regular", ".woff2");
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
-@include font-face("EBGaramond", "newEBGaramond/EBGaramond08-Regular", ".otf");
-@include font-face("EBGaramondInitials", "newEBGaramond/EBGaramond-Initials", ".otf");
-@include font-face("EBGaramondInitialsF1", "newEBGaramond/EBGaramond-InitialsF1", ".otf");
-@include font-face("EBGaramondInitialsF2", "newEBGaramond/EBGaramond-InitialsF2", ".otf");
-@include font-face("EBGaramondItalic", "newEBGaramond/EBGaramond08-Italic", ".otf");
-@include font-face("EBGaramond12", "newEBGaramond/EBGaramond12-Regular", ".otf");
-@include font-face("EBGaramond12Italic", "newEBGaramond/EBGaramond12-Regular", ".otf");
-@include font-face("EBGaramondSC", "newEBGaramond/EBGaramondsc08-Regular", ".otf");
+@include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".otf");
+@include font-face("EBGaramondInitials", "EBGaramond/EBGaramond-Initials", ".otf");
+@include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".otf");
+@include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".otf");
+@include font-face("EBGaramondItalic", "EBGaramond/EBGaramond08-Italic", ".otf");
+@include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".otf");
+@include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".otf");
+@include font-face("EBGaramondSC", "EBGaramond/EBGaramondsc08-Regular", ".otf");
 // Less commonly used
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");

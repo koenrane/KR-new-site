@@ -166,8 +166,8 @@ a {
       width: $sidePanelWidth;
       &.right {
         width: $rightWidth;
-        overflow-y: auto;
-        overflow-x: hidden;
+        // overflow-y: auto;
+        // overflow-x: hidden;
         padding-right: 2rem;
       }
 
