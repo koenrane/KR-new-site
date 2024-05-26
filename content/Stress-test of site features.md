@@ -52,7 +52,7 @@ I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my
 > A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
 
 #  Smart dash conversion
-[Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)  - contrary to popular practice - hyphens (-) and em-dashes (—)  are used in importantly different situations:
+[Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)  - contrary to popular practice - hyphens (-) and em-dashes (—)  be used in importantly different situations:
 
 > [!quote]  [How to Use Em Dashes (—), En Dashes (–) , and Hyphens (-)](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)
 > The em dash (—) can function like a comma, a colon, or parenthesis. Like commas and parentheses, em dashes set off extra information, such as examples, explanatory or descriptive phrases, or supplemental facts. Like a colon, an em dash introduces a clause that explains or expands upon something that precedes it.
@@ -78,7 +78,7 @@ Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to ad
 > 99 1/2% of websites don't render fractions properly. 
 > -- Albert Einstein
 
-I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. 4/5 readers agree with this choice. But e.g. 01/01/2000 should not be rendered as fractions.
+I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. People are 2/3 water, but "01/01/2000" should not be rendered as a fraction.
 - Multiplication sign conversion makes multipliers exactly 2x as pleasant to read. See also: 5/4x.
 # Lists
 > [!quote] [List of weapons and armour in Middle-earth](https://en.wikipedia.org/wiki/List_of_weapons_and_armour_in_Middle-earth)
