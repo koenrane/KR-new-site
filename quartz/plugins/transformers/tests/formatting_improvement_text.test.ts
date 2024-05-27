@@ -15,6 +15,33 @@ describe("TextFormattingImprovement Plugin", () => {
     })
   })
 
+  describe("YAML Header Handling", () => {
+    it("ignores YAML header and processes content correctly", () => {
+      const input = `
+---
+title: My Document
+author: John Doe
+---
+
+This is the main content of the document. It has a footnote.[^1]
+And some hyphens-to-be-ignored.
+This text is 3x larger.`
+
+      const expectedOutput = `
+---
+title: My Document
+author: John Doe
+---
+
+This is the main content of the document. It has a footnote.[^1]
+And some hyphens-to-be-ignored.
+This text is 3× larger.`
+
+      const result = processtext(input)
+      expect(result).toBe(expectedOutput)
+    })
+  })
+
   describe("Multiplication Sign Replacement", () => {
     it.each([
       ["I have 3x apples and 5x oranges.", "I have 3× apples and 5× oranges."],

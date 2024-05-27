@@ -1,6 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
 import { numberRegex } from "./utils"
-import { Plugin } from "unified"
 
 // Not followed by a colon (the footnote definition) or an opening parenthesis (md URL)
 const footnoteRegex = /\. (\[\^.*?\])(?![:\(\s])/g
@@ -35,11 +34,21 @@ function hyphenReplace(text: string) {
 }
 
 export const formattingImprovement = (text: string) => {
-  let newText = footnoteEndOfSentence(text)
+  const yamlHeaderMatch = text.match(/^\s*---\n(.*?)\n---\n/s)
+  let yamlHeader = ""
+  let content = text
 
-  newText = newText.replaceAll(new RegExp(`(${numberRegex.source})x\\b`, "g"), "$1×") // Multiplication sign
-  newText = hyphenReplace(newText)
-  return newText
+  if (yamlHeaderMatch) {
+    yamlHeader = yamlHeaderMatch[0]
+    content = text.substring(yamlHeader.length)
+  }
+
+  // Format the content (non-YAML part)
+  let newContent = footnoteEndOfSentence(content)
+  newContent = hyphenReplace(newContent)
+  newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})x\\b`, "g"), "$1×")
+
+  return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
 
 export const TextFormattingImprovement: QuartzTransformerPlugin = () => {
