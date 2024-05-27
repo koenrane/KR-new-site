@@ -14,27 +14,6 @@ function niceQuotes(text: string) {
   return text
 }
 
-function hyphenReplace(text: string) {
-  // Create a regex for dashes surrounded by spaces
-  const surroundedDash = new RegExp(`(?:\\s+|^)[–—-]+\\s+`, "g")
-
-  // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, "—")
-
-  // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
-  const spacesAroundEM = new RegExp(`\\s*—\\s*`, "g")
-
-  // Remove spaces around em dashes
-  text = text.replace(spacesAroundEM, "—")
-
-  const postQuote = /([.!?"”])\s*—\s*/g
-  text = text.replace(postQuote, "$1 — ")
-
-  const startOfLine = /^\s*—\s*/g
-  text = text.replace(startOfLine, "— ")
-
-  return text
-}
 const fractionRegex = new RegExp(
   `(?<![\w\/]|${numberRegex.source})(${numberRegex.source})\/(${numberRegex.source})(?!${numberRegex.source})(?=[^\w\/]|$)`,
   "g",
@@ -70,7 +49,6 @@ export const improveFormatting: Plugin = () => {
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
         node.value = niceQuotes(node.value)
-        node.value = hyphenReplace(node.value)
 
         replaceRegex(
           node,

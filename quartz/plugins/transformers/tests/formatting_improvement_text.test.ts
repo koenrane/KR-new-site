@@ -25,7 +25,7 @@ describe("TextFormattingImprovement Plugin", () => {
       ["0.001x is small.", "0.001× is small."], // Small numbers
       ["There's a 2x4 in the garage.", "There's a 2x4 in the garage."], // No replacement within words
       ["I have 2x apples and 1.5x oranges.", "I have 2× apples and 1.5× oranges."], // Combined cases
-      ["<p>This is 3x larger.</p>", "<p>This is 3× larger.</p>"], // HTML context
+      ["This is 3x larger.", "This is 3× larger."], // HTML context
     ])("correctly handles '%s'", (input, expected) => {
       const result = processtext(input)
       expect(result).toBe(expected)
@@ -34,6 +34,22 @@ describe("TextFormattingImprovement Plugin", () => {
       const input = "The word 'box' should not be changed."
       const result = processtext(input)
       expect(result).toBe(input) // No change expected
+    })
+  })
+
+  describe("Hyphens", () => {
+    it.each([
+      ["This is a - hyphen.", "This is a—hyphen."],
+      ["This is an — em dash.", "This is an—em dash."],
+      ["word — word", "word—word"],
+      ["e - “", "e—“"],
+      ["word— word", "word—word"],
+      ["word —word", "word—word"],
+      ['" - Me', '" — Me'],
+      ["- Me", "— Me"], // Don't delete space after dash at the start of a line
+    ])('should replace hyphens in "%s"', (input, expected) => {
+      const processedHtml = processtext(input)
+      expect(processedHtml).toBe(expected)
     })
   })
 })
