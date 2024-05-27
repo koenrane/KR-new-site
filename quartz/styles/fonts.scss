@@ -132,7 +132,7 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramondItalic", "EBGaramond/EBGaramond08-Italic", ".otf");
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".otf");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".otf");
-@include font-face("EBGaramondSC", "EBGaramond/EBGaramondsc08-Regular", ".otf");
+@include font-face("EBGaramondSC", "EBGaramond/EBGaramondSC08-Regular", ".otf");
 // Less commonly used
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
@@ -201,6 +201,7 @@ article > p:first-of-type {
     line-height: 1;
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF1";
+    font-weight: 500 !important;
   }
   &::first-line {
     font-family: "EBGaramondSC" !important;
