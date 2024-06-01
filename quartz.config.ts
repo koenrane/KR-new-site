@@ -111,6 +111,7 @@ const config: QuartzConfig = {
   },
   plugins: {
     transformers: [
+      Plugin.EmphasisRender(),
       Plugin.FrontMatter(),
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
