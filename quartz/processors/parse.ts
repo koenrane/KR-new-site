@@ -18,21 +18,15 @@ export type QuartzProcessor = Processor<MDRoot, MDRoot, HTMLRoot>
 export function createProcessor(ctx: BuildCtx): QuartzProcessor {
   const transformers = ctx.cfg.plugins.transformers
 
-  return (
-    unified()
-      // base Markdown -> MD AST
-      .use(remarkParse)
-      // MD AST -> MD AST transforms
-      .use(
-        transformers
-          .filter((p) => p.markdownPlugins)
-          .flatMap((plugin) => plugin.markdownPlugins!(ctx)),
-      )
-      // MD AST -> HTML AST
-      .use(remarkRehype, { allowDangerousHtml: true })
-      // HTML AST -> HTML AST transforms
-      .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
-  )
+  return unified()
+    .use(remarkParse)
+    .use(
+      transformers
+        .filter((p) => p.markdownPlugins)
+        .flatMap((plugin) => plugin.markdownPlugins!(ctx)),
+    )
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
 }
 
 function* chunks<T>(arr: T[], n: number) {

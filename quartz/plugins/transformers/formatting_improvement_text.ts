@@ -46,7 +46,7 @@ export const formattingImprovement = (text: string) => {
   // Format the content (non-YAML part)
   let newContent = footnoteEndOfSentence(content)
   newContent = hyphenReplace(newContent)
-  newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})x\\b`, "g"), "$1×")
+  newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }

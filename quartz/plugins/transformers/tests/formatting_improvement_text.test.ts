@@ -48,6 +48,7 @@ This text is 3× larger.`
       ["The word 'box' should not be changed.", "The word 'box' should not be changed."],
       ["-5x is negative.", "-5× is negative."], // Negative numbers
       ["3.14x pi is fun.", "3.14× pi is fun."], // Decimals
+      ["5*5 area", "5×5 area"], // Asterisk
       ["12345x is a big number.", "12345× is a big number."], // Large numbers
       ["0.001x is small.", "0.001× is small."], // Small numbers
       ["There's a 2x4 in the garage.", "There's a 2x4 in the garage."], // No replacement within words

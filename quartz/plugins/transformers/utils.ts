@@ -1,5 +1,10 @@
 import { h } from "hastscript"
 
+export const urlRegex = new RegExp(
+  /(https?:\/\/)?(?<domain>([\da-z\.-]+)\.([a-z\.]{2,6}))(?<path>[\/\?\=\w\.\(\)\-]+)/,
+  "g",
+)
+
 export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
 export const replaceRegex = (
   node: any,

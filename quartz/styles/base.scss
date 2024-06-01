@@ -61,10 +61,9 @@ ul,
 } // Override minified katex styles
 
 // For math blocks, set to flex to allow centering
-p:has(> .katex:only-child) {
-  display: flex;
-}
-
+// p:has(> :only-child.katex:not(:empty)) {
+//   display: flex;
+// }
 strong {
   font-weight: $semiBoldWeight;
 }

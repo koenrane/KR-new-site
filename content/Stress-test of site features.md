@@ -4,7 +4,6 @@ publish: "true"
 tags:
   - website
 ---
-
 This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 # Quotations
 > Perhaps one did not want to be loved so much as to be understood. 
