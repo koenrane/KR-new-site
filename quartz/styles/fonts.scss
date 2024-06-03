@@ -204,7 +204,13 @@ article > p:first-of-type {
     font-family: "EBGaramondInitialsF1";
     font-weight: 500 !important;
   }
+
   &::first-line {
     font-family: "EBGaramondSC" !important;
+  }
+
+  // Disallow italic font overrides of the smallcaps font
+  & * {
+    font-family: inherit !important;
   }
 }
