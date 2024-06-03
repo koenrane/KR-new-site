@@ -168,7 +168,8 @@ See the [documentation](https://quartz.jzhao.xyz) for how to get started.
     // get a preferred link resolution strategy
     linkResolutionStrategy = exitIfCancel(
       await select({
-        message: "Choose how Quartz should resolve links in your content. This should match Obsidian's link format. You can change this later in \`quartz.config.ts\`.",
+        message:
+          "Choose how Quartz should resolve links in your content. This should match Obsidian's link format. You can change this later in `quartz.config.ts`.",
         options: [
           {
             value: "shortest",
