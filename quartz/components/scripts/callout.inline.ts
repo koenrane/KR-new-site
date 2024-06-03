@@ -24,7 +24,7 @@ function toggleCallout(this: HTMLElement) {
 
 function setupCallout() {
   const collapsible = document.getElementsByClassName(
-    `callout is-collapsible`,
+    "callout is-collapsible",
   ) as HTMLCollectionOf<HTMLElement>
   for (const div of collapsible) {
     const title = div.firstElementChild
