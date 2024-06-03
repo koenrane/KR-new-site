@@ -425,7 +425,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
               const remainingText = remainingLines.join("\n")
 
               const match = firstLine.match(calloutRegex)
-              if (match && match.input) {
+              if (match?.input) {
                 const [calloutDirective, typeString, collapseChar] = match
                 const calloutType = canonicalizeCallout(typeString.toLowerCase())
                 const collapse = collapseChar === "+" || collapseChar === "-"
@@ -529,7 +529,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                 const nextChild = parent?.children.at(index! + 2) as Element
                 if (nextChild && nextChild.tagName === "p") {
                   const text = nextChild.children.at(0) as Literal
-                  if (text && text.value && text.type === "text") {
+                  if (text?.value && text.type === "text") {
                     const matches = text.value.match(blockReferenceRegex)
                     if (matches && matches.length >= 1) {
                       parent!.children.splice(index! + 2, 1)
@@ -547,7 +547,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                 }
               } else if (inlineTagTypes.has(node.tagName)) {
                 const last = node.children.at(-1) as Literal
-                if (last && last.value && typeof last.value === "string") {
+                if (last?.value && typeof last.value === "string") {
                   const matches = last.value.match(blockReferenceRegex)
                   if (matches && matches.length >= 1) {
                     last.value = last.value.slice(0, -matches[0].length)
