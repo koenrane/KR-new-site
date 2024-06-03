@@ -200,7 +200,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
           const fp = rawFp ?? ""
           const anchor = rawHeader?.trim().replace(/^#+/, "")
-          const blockRef = Boolean(anchor?.startsWith("^")) ? "^" : ""
+          const blockRef = (anchor?.startsWith("^")) ? "^" : ""
           const displayAnchor = anchor ? `#${blockRef}${slugAnchor(anchor)}` : ""
           const displayAlias = rawAlias ?? rawHeader?.replace("#", "|") ?? ""
           const embedDisplay = value.startsWith("!") ? "!" : ""
