@@ -44,7 +44,7 @@ async function MaybeSaveFavicon(hostname: string) {
     } else {
       inDownloading.add(hostname)
     }
-    fs.stat(localPath, function (err, stat) {
+    fs.stat(localPath, async function (err, stat) {
       if (err === null) {
         // Already exists
         resolve(quartzPath)
