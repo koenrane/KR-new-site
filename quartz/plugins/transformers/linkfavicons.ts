@@ -66,7 +66,7 @@ async function MaybeSaveFavicon(hostname: string) {
   })
 }
 
-const CreateFaviconElement = (urlString: string, description: string = "") => {
+const CreateFaviconElement = (urlString: string, description = "") => {
   return {
     type: "element",
     tagName: "img",
