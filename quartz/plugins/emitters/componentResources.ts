@@ -187,7 +187,7 @@ export const ComponentResources: QuartzEmitterPlugin = () => {
             fetch(url)
               .then((res) => {
                 if (!res.ok) {
-                  throw new Error(`Failed to fetch font`)
+                  throw new Error("Failed to fetch font")
                 }
                 return res.arrayBuffer()
               })

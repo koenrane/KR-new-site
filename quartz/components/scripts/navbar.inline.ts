@@ -87,7 +87,7 @@ interface Item {
 // Can be expanded with things like "term" in the future
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
-let currentSearchTerm: string = ""
+let currentSearchTerm = ""
 const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/)
 let index = new FlexSearch.Document<Item>({
   charset: "latin:extra",
@@ -164,7 +164,7 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
         if (tok.toLowerCase().includes(searchTok.toLowerCase())) {
           const sanitizedSearchTok = escapeRegExp(searchTok)
           const regex = new RegExp(sanitizedSearchTok.toLowerCase(), "gi")
-          return tok.replace(regex, `<span class="highlight">$&</span>`)
+          return tok.replace(regex, '<span class="highlight">$&</span>')
         }
       }
       return tok
@@ -400,7 +400,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   }
 
   const resultToHTML = ({ slug, title, content, tags }: Item) => {
-    const htmlTags = tags.length > 0 ? `<ul class="tags">${tags.join("")}</ul>` : ``
+    const htmlTags = tags.length > 0 ? `<ul class="tags">${tags.join("")}</ul>` : ""
     const itemTile = document.createElement("a")
     itemTile.classList.add("result-card")
     itemTile.id = slug
