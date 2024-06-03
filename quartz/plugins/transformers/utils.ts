@@ -8,7 +8,7 @@ export const replaceRegex = (
   regex: RegExp,
   replaceFn: (match: any) => any, // replaceFn returns an HTML element triplet, [text, abbr, text]
   ignorePredicate: (nd: any, idx: any, prnt: any) => boolean = () => false,
-  newNodeStyle: string = "abbr.small-caps",
+  newNodeStyle = "abbr.small-caps",
 ) => {
   if (ignorePredicate(node, index, parent)) {
     return

@@ -43,7 +43,7 @@ const cleanupFns: Set<(...args: any[]) => void> = new Set()
 window.addCleanup = (fn) => cleanupFns.add(fn)
 
 let p: DOMParser
-async function navigate(url: URL, isBack: boolean = false) {
+async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
   const contents = await fetch(`${url}`)
     .then((res) => {
