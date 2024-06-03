@@ -7,6 +7,7 @@ date_published: 9/3/22
 tags:
   - shard-theory
 ---
+
 **TL;DR:** We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry.
 
 ---
@@ -29,6 +30,7 @@ Human values *look so strange and inexplicable*. How could those values be the 
 > - That tug you feel when you are hungry and pass by a donut.
 >
 > To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#appendix-b-terminology). The main downside is that the definition is relatively broad—most people wouldn’t list “donuts” among their “values.” To avoid this counter-intuitiveness, we would refer to a “donut shard” instead of a “donut value.” (“Shard” and associated terminology are defined in [section 2](#shaping).)
+
 ## 1. Neuroscientific assumptions
 
 The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#appendix-c-evidence-for-neuroscience-assumptions).)
@@ -87,7 +89,7 @@ While all of this is happening, many different shards of value are also growing,
 
 The planner has to decide on a coherent plan of action. That is, micro-incoherences (turn towards juice, but then turn back towards a friendly adult, but then turn back towards the juice, ad nauseum) should generally be penalized away.[^7] Somehow, the plan has to be coherent, integrating several conflicting shards. We find it useful to view this integrative process as a kind of “bidding.” For example, when the juice-shard activates, the shard fires in a way which would have historically increased the probability of executing plans which led to juice pouches. We’ll say that the juice-shard is *bidding* for plans which involve juice consumption (according to the world model), and perhaps bidding against plans without juice consumption.
 
-Importantly, however, the juice-shard is shaped to bid for plans which the world model predicts actually lead to *juice being consumed*, and not necessarily for plans which lead to *sugar-reward-circuit activation***.** You might wonder: “Why wouldn’t the shard learn to value reward circuit activation?”. The *effect* of drinking juice is that the baby's credit assignment reinforces the computations which were causally responsible for producing the situation in which the hardcoded sugar-reward circuitry fired.
+Importantly, however, the juice-shard is shaped to bid for plans which the world model predicts actually lead to *juice being consumed*, and not necessarily for plans which lead to \*sugar-reward-circuit activation**\*.** You might wonder: “Why wouldn’t the shard learn to value reward circuit activation?”. The *effect* of drinking juice is that the baby's credit assignment reinforces the computations which were causally responsible for producing the situation in which the hardcoded sugar-reward circuitry fired.
 
 But *what* is reinforced? The *content* of the responsible computations includes a sequence of heuristics and decisions, one of which involved the juice pouch abstraction in the world model. Those are the circuits which actually get reinforced and become more likely to fire in the future. Therefore, the juice-heuristics get reinforced. The heuristics coalesce into a so-called shard of value as they query the world model and planner to implement increasingly complex multi-step plans.
 
@@ -259,10 +261,13 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
 7. Learning continues, but we will stop here.
 
 In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](<https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8>) hook into a reward circuit which focuses the learning on human faces.
+
 ### Appendix B: Terminology
+
 #### Shards are not full subagents
 
 In our conception, shards vary in their sophistication (e.g. _IF-THEN reflexes_ vs _planning-capable, reflective shards which query the world model in order to steer the future in a certain direction_) and generality of activating contexts (e.g. _only activates when hungry and a lollipop is in the middle of the visual field_ vs _activates whenever you're thinking about a person_). However, we think that shards are not discrete subagents with their own world models and mental workspaces. We currently estimate that most shards are "optimizers" to the extent that a bacterium or a thermostat is an optimizer.
+
 #### “Values”
 
 We defined [^16] "values" to be an algorithm with a contextually activated decision-making influence which increases the probability of e.g. deciding to hang out with that friend. Here are three extra considerations and clarifications.
@@ -281,6 +286,7 @@ Furthermore, your *values* do not reflect a *reflectively endorsed utility fu
 So, just because you feel an urge to eat the donut, doesn’t *necessarily* mean you have a donut shard or that you “value” donuts under our definition. (But you probably do.)
 
 **Shards are just collections of subshards.** One subshard of your family-shard might steer towards futures where your family is happy, while another subshard may influence decisions so that your mother is proud of you. On my (TurnTrout’s) current understanding, “family shard” is just an abstraction of a set of heterogeneous subshards which are downstream of similar historical reinforcement events (e.g. related to spending time with your family). By and large, subshards of the same shard do not all steer towards the same kind of future.
+
 #### “Shard Theory”
 
 Over the last several months, many people have read either a draft version of this document, Alignment Forum comments by shard theory researchers, or otherwise heard about “shard theory” in some form. However, in the absence of a canonical public document explaining the ideas and defining terms, “shard theory” has become overloaded. Here, then, are several definitions.
@@ -300,6 +306,7 @@ Over the last several months, many people have read either a draft version of th
 3. “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
    1. We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
    2. Example insights include [Reward is not the optimization target](https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target) and [Human values & biases are inaccessible to the genome.](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
+
 ### Appendix C: Evidence for neuroscience assumptions
 
 In [section 1](#assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
@@ -331,6 +338,6 @@ In [section 1](#assumptions), we stated that shard theory makes three key neuros
 [^12]: Shard theory reasoning says that while humans might be [well-described as “hyperbolic discounters”,](https://en.wikipedia.org/wiki/Hyperbolic_discounting) the real mechanistic explanation is importantly different. People may well not be doing any explicitly represented discounting; instead, discounting may only convergently arise as a superficial regularity! This presents an obstacle to alignment schemes aiming to infer human preferences by assuming that people are *actually discounting*.
 [^13]: We made this timeline up. We expect that we got many details wrong for a typical timeline, but the point is not the exact order. The point is to outline the kind of process by which the world model might arise *only* from self-supervised learning.
 [^14]: For simplicity, we start the analysis at birth. There is probably embryonic self-supervised learning as well. We don’t think it matters for this section.
-[^15]: <span>Interesting but presently unimportant: My (TurnTrout)’s current guess is that given certain hard-coded wiring (e.g. where the optic nerve projects), the functional areas of the brain comprise the robust, convergent solution to: How should the brain organize cognitive labor to [minimize the large metabolic costs of information transport](https://www.pdcnet.org/theoria/content/theoria_2019_0034_0001_0089_0110) (and, later, decision-making latency). This explains why [learning a new language produces a new Broca’s area](https://archive.nytimes.com/www.nytimes.com/library/magazine/millennium/m3/hall-blakeslee.html) close to the original, and it explains why [rewiring ferrets’ retinal projections into the auditory cortex seems to grow a visual cortex there instead.](https://www.nature.com/articles/35009043)(Jacob Cannell [posited a similar explanation](https://www.lesswrong.com/posts/9Yc7Pp7szcjPgPsjf/the-brain-as-a-universal-learning-machine?commentId=ckXKdtJKPtLqfZS4M) in 2015.) <br><br>The actual function of each functional area is overdetermined by the convergent usefulness of e.g. visual processing or language processing. Convergence builds upon convergence to produce reliable but slightly-varied specialization of cognitive labor across people’s brains. That is, people learn edge detectors because they’re useful, and people’s brains put them in V1 in order to minimize the costs of transferring information.  <br><br>Furthermore, this process compounds upon itself. Initially there were weak functional convergences, and then mutations finetuned regional learning hyperparameters and connectome topology to better suit those weak functional convergences, and then the convergences sharpened, and so on. We later found that [Voss et al.’s *Branch Specialization*](https://distill.pub/2020/circuits/branch-specialization/) made a similar conjecture about the functional areas.</span>
-[^16]: I (TurnTrout) don’t know whether philosophers have already considered this definition (nor do I think that’s important to our arguments here). A few minutes of searching didn’t return any such definition, but please let me know if it already exists!
-
+[^15]:
+    <span>Interesting but presently unimportant: My (TurnTrout)’s current guess is that given certain hard-coded wiring (e.g. where the optic nerve projects), the functional areas of the brain comprise the robust, convergent solution to: How should the brain organize cognitive labor to [minimize the large metabolic costs of information transport](https://www.pdcnet.org/theoria/content/theoria_2019_0034_0001_0089_0110) (and, later, decision-making latency). This explains why [learning a new language produces a new Broca’s area](https://archive.nytimes.com/www.nytimes.com/library/magazine/millennium/m3/hall-blakeslee.html) close to the original, and it explains why [rewiring ferrets’ retinal projections into the auditory cortex seems to grow a visual cortex there instead.](https://www.nature.com/articles/35009043)(Jacob Cannell [posited a similar explanation](https://www.lesswrong.com/posts/9Yc7Pp7szcjPgPsjf/the-brain-as-a-universal-learning-machine?commentId=ckXKdtJKPtLqfZS4M) in 2015.) <br><br>The actual function of each functional area is overdetermined by the convergent usefulness of e.g. visual processing or language processing. Convergence builds upon convergence to produce reliable but slightly-varied specialization of cognitive labor across people’s brains. That is, people learn edge detectors because they’re useful, and people’s brains put them in V1 in order to minimize the costs of transferring information.  <br><br>Furthermore, this process compounds upon itself. Initially there were weak functional convergences, and then mutations finetuned regional learning hyperparameters and connectome topology to better suit those weak functional convergences, and then the convergences sharpened, and so on. We later found that [Voss et al.’s *Branch Specialization*](https://distill.pub/2020/circuits/branch-specialization/) made a similar conjecture about the functional areas.</span>
+    [^16]: I (TurnTrout) don’t know whether philosophers have already considered this definition (nor do I think that’s important to our arguments here). A few minutes of searching didn’t return any such definition, but please let me know if it already exists!

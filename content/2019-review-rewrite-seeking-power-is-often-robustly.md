@@ -99,4 +99,3 @@ No matter how you cut it, the relationship just isn’t true in general. Instead
 <hr>
 
 If you want to leave a comment, please don't do it here: leave it on [the original post](https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-robustly-instrumental-in-mdps).
-
