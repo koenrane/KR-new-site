@@ -168,7 +168,7 @@ See the [documentation](https://quartz.jzhao.xyz) for how to get started.
     // get a preferred link resolution strategy
     linkResolutionStrategy = exitIfCancel(
       await select({
-        message: `Choose how Quartz should resolve links in your content. This should match Obsidian's link format. You can change this later in \`quartz.config.ts\`.`,
+        message: "Choose how Quartz should resolve links in your content. This should match Obsidian's link format. You can change this later in \`quartz.config.ts\`.",
         options: [
           {
             value: "shortest",
@@ -199,7 +199,7 @@ See the [documentation](https://quartz.jzhao.xyz) for how to get started.
 
   // setup remote
   execSync(
-    `git remote show upstream || git remote add upstream https://github.com/jackyzha0/quartz.git`,
+    "git remote show upstream || git remote add upstream https://github.com/jackyzha0/quartz.git",
     { stdio: "ignore" },
   )
 
@@ -440,7 +440,7 @@ export async function handleUpdate(argv) {
   console.log(chalk.bgGreen.black(`\n Quartz v${version} \n`))
   console.log("Backing up your content")
   execSync(
-    `git remote show upstream || git remote add upstream https://github.com/jackyzha0/quartz.git`,
+    "git remote show upstream || git remote add upstream https://github.com/jackyzha0/quartz.git",
   )
   await stashContentFolder(contentFolder)
   console.log(
