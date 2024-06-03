@@ -1,0 +1,22 @@
+version = 1
+
+test_patterns = ["**test.js"]
+
+[[analyzers]]
+name = "test-coverage"
+
+[[analyzers]]
+name = "shell"
+
+[[analyzers]]
+name = "javascript"
+
+  [analyzers.meta]
+  environment = [
+    "jest",
+    "nodejs",
+    "browser"
+  ]
+
+[[transformers]]
+name = "prettier"
