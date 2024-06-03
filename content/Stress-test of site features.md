@@ -9,13 +9,7 @@ This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem
 > Perhaps one did not want to be loved so much as to be understood. 
 > 
 > — Orwell, _1984_
-
-This section's quotes are from Orwell’s [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/).
 ## Inline
-
-“A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: What am I trying to say? What words will express it? What image or idiom will make it clearer? Is this image fresh enough to have an effect? And he will probably ask himself two more: Could I put it more shortly? Have I said anything that is avoidably ugly? But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.”  
-
-With extra legroom, the quote becomes more readable:
 > A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: 
 > 1. What am I trying to say? 
 > 2. What words will express it? 
@@ -27,6 +21,8 @@ With extra legroom, the quote becomes more readable:
 > 2. Have I said anything that is avoidably ugly? 
 > 
 > But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.
+> 
+> -- Orwell’s [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/)
 
 I thus remind myself: The reading experience will never be as important as the content, but it's still important.
 ## Smart quotes
