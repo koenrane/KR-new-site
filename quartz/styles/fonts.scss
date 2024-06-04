@@ -180,10 +180,12 @@ body {
   vertical-align: -10%;
 }
 
-article > p:first-of-type {
+article > p:first-of-type,
+.preview-inner > p:not(.authors):first-of-type {
   position: relative;
   &::before {
     content: attr(data-first-letter);
+    text-transform: uppercase;
     position: absolute;
     top: 0;
     left: 0;
@@ -212,5 +214,8 @@ article > p:first-of-type {
   // Disallow italic font overrides of the smallcaps font
   & * {
     font-family: inherit !important;
+  }
+  & .small-caps {
+    font-family: "EBGaramondSC" !important;
   }
 }
