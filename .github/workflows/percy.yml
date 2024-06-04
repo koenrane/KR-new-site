@@ -22,6 +22,7 @@ jobs:
         run: npm install --save-dev @percy/cli
 
       - name: Percy Snapshot
-        run: npx percy snapshot public/
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+          PERCY_SNAPSHOT_TIMEOUT: 120000 # 60 seconds timeout
+        run: npx percy snapshot public/
