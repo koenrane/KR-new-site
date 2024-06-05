@@ -22,7 +22,7 @@ SPELLCHECK content/**.md !content/drafts/**/*.md
 
 # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
 if [ $? -ne 0 ]; then
-	nvim $TEMP_DICT && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+	nvim $TEMP_DICT --cmd 'echom "Delete invalid words which should not be added to the dictionary."' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
 	SPELLCHECK content/**.md
 	if [ $? -ne 0 ]; then
 		echo "Spellcheck failed"
@@ -54,4 +54,31 @@ for file in $(git diff --cached --name-only --diff-filter=ACM); do
 		gifsicle -O3 "$file" -o "$file" --colors 256
 	fi
 done
+
+npx backstop test --config=backstop.cjs
+
+# Check if the test failed
+if [[ $? -ne 0 ]]; then
+	echo "Visual regression test failed. Review the report:"
+
+	# Open the BackstopJS report (replace with your actual command)
+	open backstop/backstop_data/html_report/index.html &
+
+	# Wait for user to review (you can customize the message)
+	read -n 1 -s -r -p "Press any key to continue when finished reviewing..." </dev/tty
+
+	# Prompt for approval
+	read -p "Do you approve the changes? (y/N): " answer </dev/tty
+
+	# Update references if approved
+	if [[ "$answer" == "y" ]]; then
+		npx backstop approve --config=backstop.cjs
+		echo "Reference screenshots updated."
+	else
+		echo "Changes rejected. Test failure remains."
+	fi
+else
+	echo "Visual regression test passed!"
+fi
+
 exit 0
