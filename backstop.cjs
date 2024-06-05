@@ -18,11 +18,6 @@ module.exports = {
       width: 1920,
       height: 1080,
     },
-    {
-      label: "4K",
-      width: 4096,
-      height: 2160,
-    },
   ],
   scenarios: scenarios,
   onReadyScript: "puppet/onReady.cjs",
