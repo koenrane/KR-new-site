@@ -23,4 +23,13 @@ module.exports = [
     misMatchThreshold: 0.01,
     requireSameDimensions: true,
   },
+  {
+    label: "Searching for stress-test",
+    url: "http://localhost:8080/",
+    referenceUrl: "",
+    delay: 500,
+    misMatchThreshold: 0.01,
+    onReadyScript: "puppet/searchOnReady.cjs",
+    requireSameDimensions: true,
+  },
 ]
