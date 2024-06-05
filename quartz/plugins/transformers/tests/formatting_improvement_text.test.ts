@@ -75,6 +75,7 @@ This text is 3× larger.`
       ["word —word", "word—word"],
       ['" - Me', '" — Me'],
       ["- Me", "— Me"], // Don't delete space after dash at the start of a line
+      ["\n---\n", "\n---\n"], // Retain horizontal rules
     ])('should replace hyphens in "%s"', (input, expected) => {
       const processedHtml = processtext(input)
       expect(processedHtml).toBe(expected)
