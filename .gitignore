@@ -12,7 +12,7 @@ replit.nix
 *~
 .bak
 *.bak
-backstop/backstop_data/bitmaps_test
+backstop/backstop_data/bitmaps*
 backstop/backstop_data/html_report
 prettierrc
 content/test page.md
