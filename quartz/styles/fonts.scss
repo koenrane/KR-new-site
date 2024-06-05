@@ -194,6 +194,7 @@ article > p:first-of-type,
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF2";
   }
+
   &::first-letter {
     text-transform: uppercase;
     font-style: normal !important;
@@ -218,4 +219,10 @@ article > p:first-of-type,
   & .small-caps {
     font-family: "EBGaramondSC" !important;
   }
+}
+
+// By default, "F" is off-center
+article > p[data-first-letter="f"]::before,
+article > p[data-first-letter="F"]::before {
+  padding-left: 0.025em;
 }
