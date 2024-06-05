@@ -64,9 +64,6 @@ if [[ $? -ne 0 ]]; then
 	# Open the BackstopJS report (replace with your actual command)
 	open backstop/backstop_data/html_report/index.html &
 
-	# Wait for user to review (you can customize the message)
-	read -n 1 -s -r -p "Press any key to continue when finished reviewing..." </dev/tty
-
 	# Prompt for approval
 	read -p "Do you approve the changes? (y/N): " answer </dev/tty
 
