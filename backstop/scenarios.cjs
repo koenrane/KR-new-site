@@ -8,6 +8,16 @@ module.exports = [
     requireSameDimensions: true,
   },
   {
+    label: "Dark mode",
+    url: "http://localhost:8080",
+    referenceUrl: "",
+    delay: 500,
+    onReadyScript: "puppet/dmOnReady.cjs",
+    misMatchThreshold: 0.01,
+    requireSameDimensions: true,
+    postInteractionWait: 1000,
+  },
+  {
     label: "Stress test of site features",
     url: "http://localhost:8080/Stress-test-of-site-features",
     referenceUrl: "",
