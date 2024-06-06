@@ -151,7 +151,7 @@ a {
 
   & > #quartz-body {
     width: 100%;
-    overflow-x: clip;
+    overflow-x: visible;
     display: flex;
     @media all and (max-width: $fullPageWidth) {
       flex-direction: column;
@@ -273,10 +273,20 @@ h6,
 thead {
   font-family: var(--headerFont);
   color: var(--dark);
+  position: relative; // For anchor links
 
-  article > & > a[role="anchor"] {
+  article & > a[role="anchor"] {
     color: var(--dark);
     background-color: transparent;
+
+    @media all and (min-width: $marginsBegin) {
+      position: absolute;
+      left: -1.75rem;
+      top: 0;
+    }
+    .popover & {
+      display: none;
+    }
   }
 
   & a {
