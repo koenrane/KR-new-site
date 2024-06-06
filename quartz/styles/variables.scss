@@ -7,7 +7,7 @@ $rightPanelBegins: 0px;
 
 $marginsBegin: 825px; // When the body starts having side margins
 $topSpacing: 2rem;
-$fullPageWidth: $pageWidth + 0.8 * ($sidePanelWidth + $rightWidth);
+$fullPageWidth: $pageWidth + $sidePanelWidth + $rightWidth;
 $baseMargin: 0.5rem;
 $boldWeight: 700;
 $semiBoldWeight: 600;

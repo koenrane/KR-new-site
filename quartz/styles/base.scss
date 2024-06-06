@@ -276,7 +276,7 @@ thead {
   position: relative; // For anchor links
 
   article & > a[role="anchor"] {
-    color: var(--dark);
+    color: var(--lightgray);
     background-color: transparent;
 
     @media all and (min-width: $marginsBegin) {
