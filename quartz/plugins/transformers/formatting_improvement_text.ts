@@ -24,7 +24,7 @@ function hyphenReplace(text: string) {
   // Remove spaces around em dashes
   text = text.replace(spacesAroundEM, "—")
 
-  const postQuote = /([.!?"”])\s*—\s*/g
+  const postQuote = /([.!?]["”])\s*—\s*/g
   text = text.replace(postQuote, "$1 — ")
 
   const startOfLine = /^\s*—\s*/g

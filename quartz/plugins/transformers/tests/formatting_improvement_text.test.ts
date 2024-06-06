@@ -73,12 +73,13 @@ This text is 3× larger.`
       ["e - “", "e—“"],
       ["word— word", "word—word"],
       ["word —word", "word—word"],
-      ['" - Me', '" — Me'],
+      ['"I love dogs." - Me', '"I love dogs." — Me'],
       ["- Me", "— Me"], // Don't delete space after dash at the start of a line
       ["\n---\n", "\n---\n"], // Retain horizontal rules
+      ["emphasis” —", "emphasis”—"], // small quotations should not retain space
     ])('should replace hyphens in "%s"', (input, expected) => {
-      const processedHtml = processtext(input)
-      expect(processedHtml).toBe(expected)
+      const result = processtext(input)
+      expect(result).toBe(expected)
     })
   })
 })
