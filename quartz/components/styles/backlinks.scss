@@ -1,3 +1,4 @@
+@use "../../styles/variables" as *;
 .backlinks {
   position: relative;
   color: var(--gray);
@@ -14,6 +15,8 @@
     margin: 0.5rem 0;
 
     & > li {
+      padding-left: calc(0.5 * $baseMargin);
+      text-indent: calc(-0.5 * $baseMargin);
       & > a {
         background-color: transparent;
         color: var(--gray);

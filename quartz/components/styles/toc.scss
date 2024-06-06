@@ -24,17 +24,20 @@ ol.overflow {
   position: relative;
   font-size: var(--text-size-90);
 
+  & > ul {
+    padding-left: $baseMargin !important;
+  }
   & ul {
+    --text-indent-multiplier: -0.75;
     list-style: none;
     padding: 0;
     line-height: 1.05em;
     margin-top: 0;
 
-    --text-indent-multiplier: -0.75;
+    text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
     & ul {
       margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
       font-size: 0.913em; // approx sqrt(1/1.2), where 1.2 is scale factor
-      text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
       border-left: 2px solid var(--lightergray);
 
       & li {
