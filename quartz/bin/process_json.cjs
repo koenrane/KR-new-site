@@ -1,37 +1,52 @@
-const turnDown = require("turndown");
-var gfm = turndownPluginGfm.gfm;
-var tables = turndownPluginGfm.tables;
-var strikethrough = turndownPluginGfm.strikethrough;
-turndownService.use([tables, strikethrough, gfm]);
+const turnDown = require("turndown")
+var turnDownPluginGfm = require("turndown-plugin-gfm")
+var gfm = turnDownPluginGfm.gfm
 
-var turndownService = new turnDown({ headingStyle: "atx" });
-const fs = require("fs");
+var turndownService = new turnDown({ headingStyle: "atx", emDelimiter: "_" })
+turndownService.use([gfm])
+turndownService.addRule("subscript", {
+  filter: ["sub"],
+  replacement: function (content) {
+    return "<sub>" + content + "</sub>"
+  },
+})
+turndownService.addRule("emphasis", {
+  filter: ["em"],
+  replacement: function (content) {
+    return "" + content + "</sub>"
+  },
+})
 
-const filePath = "/tmp/all_posts.json";
+const fs = require("fs")
+
+const filePath = "/tmp/response (1).json"
 
 fs.readFile(filePath, "utf-8", (err, data) => {
   if (err) {
-    console.error("Error reading file:", err);
-    return;
+    console.error("Error reading file:", err)
+    return
   }
 
-  let jsonData;
+  let jsonData
   try {
-    jsonData = JSON.parse(data);
-    // const initialData = jsonData.copy();
-    for (let datum in jsonData) {
-      datum.contents.markdown = turndownService.turndown(datum.contents.html);
+    jsonData = JSON.parse(data)
+    let dataObj = jsonData.data.posts.results
+    for (let dataIndex in dataObj) {
+      datum = dataObj[dataIndex]
+      if (datum.contents?.html) {
+        datum.contents.markdown = turndownService.turndown(datum.contents.html)
+      }
     }
   } catch (parseErr) {
-    console.error("Error parsing JSON:", parseErr);
-    return;
+    console.error("Error parsing JSON:", parseErr)
+    return
   }
 
-  fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
+  fs.writeFile("all_posts_md.json", JSON.stringify(jsonData, null, 2), (err) => {
     if (err) {
-      console.error("Error writing file:", err);
+      console.error("Error writing file:", err)
     } else {
-      console.log("JSON file updated successfully!");
+      console.log("JSON file updated successfully!")
     }
-  });
-});
+  })
+})
