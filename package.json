@@ -127,6 +127,8 @@
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.11.2",
+    "turndown": "^7.2.0",
+    "turndown-plugin-gfm": "^1.0.2",
     "typescript": "^5.4.5",
     "typi": "^3.2.0",
     "wrangler": "^3.58.0"
