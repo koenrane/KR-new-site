@@ -10,10 +10,27 @@ turndownService.addRule("subscript", {
     return "<sub>" + content + "</sub>"
   },
 })
-turndownService.addRule("emphasis", {
-  filter: ["em"],
-  replacement: function (content) {
-    return "" + content + "</sub>"
+
+turndownService.addRule("math", {
+  filter: function (node, options) {
+    return node.nodeName === "span" && node.getAttribute("class").includes("mjx-math")
+  },
+  replacement: function (content, node) {
+    console.log("$" + node.getAttribute("aria-label") + "$")
+    return "$" + node.getAttribute("aria-label") + "$"
+  },
+})
+
+turndownService.addRule("mathIgnoreStyling", {
+  filter: function (node, options) {
+    return (
+      node.nodeName === "span" &&
+      !node.getAttribute("class").includes("mjx-math") &&
+      node.getAttribute("class").toLowerCase().includes("mjx")
+    )
+  },
+  replacement: function () {
+    return ""
   },
 })
 
@@ -42,7 +59,7 @@ fs.readFile(filePath, "utf-8", (err, data) => {
     return
   }
 
-  fs.writeFile("all_posts_md.json", JSON.stringify(jsonData, null, 2), (err) => {
+  fs.writeFile("/tmp/all_posts_md.json", JSON.stringify(jsonData, null, 2), (err) => {
     if (err) {
       console.error("Error writing file:", err)
     } else {
