@@ -1,12 +1,15 @@
 function updateFirstParagraph() {
   const paragraphs = document.querySelectorAll("article > p:first-of-type")
   paragraphs.forEach((paragraph) => {
-    const firstLetter = paragraph.textContent.trim().charAt(0)
+    const firstLetter = paragraph.textContent.charAt(0)
     paragraph.setAttribute("data-first-letter", firstLetter)
 
-    const secondLetter = paragraph.textContent.trim().charAt(1)
+    // If the first letter is an apostrophe, add a space before it
+    const secondLetter = paragraph.textContent.charAt(1)
     if (secondLetter === "'" || secondLetter === "’") {
-      paragraph.textContent = firstLetter + " " + paragraph.textContent.trim().slice(1)
+      // Find the second letter's text node
+      let secondLetterNode = paragraph.firstChild
+      secondLetterNode.textContent = firstLetter + " " + secondLetterNode.textContent.slice(1)
     }
   })
 }
