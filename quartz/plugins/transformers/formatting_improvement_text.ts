@@ -13,10 +13,10 @@ const footnoteEndOfSentence = (text: string) => {
 
 function hyphenReplace(text: string) {
   // Create a regex for dashes surrounded by spaces
-  const surroundedDash = new RegExp("(?: +|^)[~–—-]+ +", "g")
+  const surroundedDash = new RegExp("(\\S(?: +)|^)[~–—-]+ +", "g")
 
   // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, "—")
+  text = text.replace(surroundedDash, "$1—")
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(" *— *", "g")

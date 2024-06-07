@@ -77,6 +77,7 @@ This text is 3× larger.`
       ["- Me", "— Me"], // Don't delete space after dash at the start of a line
       ["\n---\n", "\n---\n"], // Retain horizontal rules
       ["emphasis” —", "emphasis”—"], // small quotations should not retain space
+      ["- First level\n - Second level", "— First level\n - Second level"], // Don't replace hyphens in lists, first is ok
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = processtext(input)
       expect(result).toBe(expected)
