@@ -629,5 +629,4 @@ const scrollDisplayUpdate = () => {
 
 ;["scroll", "touchmove"].forEach((event: string) => {
   window.addEventListener(event, scrollDisplayUpdate)
-  window.addCleanup(() => window.removeEventListener(event, scrollDisplayUpdate))
 })
