@@ -22,7 +22,7 @@ SPELLCHECK content/**.md !content/drafts/**/*.md
 
 # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
 if [ $? -ne 0 ]; then
-	nvim $TEMP_DICT --cmd 'echom "Delete invalid words which should not be added to the dictionary."' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
 	SPELLCHECK content/**.md
 	if [ $? -ne 0 ]; then
 		echo "Spellcheck failed"
@@ -73,6 +73,7 @@ if [[ $? -ne 0 ]]; then
 		echo "Reference screenshots updated."
 	else
 		echo "Changes rejected. Test failure remains."
+		exit 1
 	fi
 else
 	echo "Visual regression test passed!"
