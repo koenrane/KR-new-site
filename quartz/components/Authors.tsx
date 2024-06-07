@@ -25,10 +25,12 @@ const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompone
   authors = `${authors}`
 
   return (
-    <p class="authors">
-      {authors} ({displayedTime})
-      <br />
-    </p>
+    <span>
+      <p class="authors">
+        {authors} ({displayedTime})
+        <br />
+      </p>
+    </span>
   )
 }
 

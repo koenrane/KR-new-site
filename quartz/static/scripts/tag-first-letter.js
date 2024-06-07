@@ -3,6 +3,11 @@ function updateFirstParagraph() {
   paragraphs.forEach((paragraph) => {
     const firstLetter = paragraph.textContent.trim().charAt(0)
     paragraph.setAttribute("data-first-letter", firstLetter)
+
+    const secondLetter = paragraph.textContent.trim().charAt(1)
+    if (secondLetter === "'" || secondLetter === "’") {
+      paragraph.textContent = firstLetter + " " + paragraph.textContent.trim().slice(1)
+    }
   })
 }
 

@@ -180,8 +180,7 @@ body {
   vertical-align: -10%;
 }
 
-article > p:first-of-type,
-.preview-inner > p:not(.authors):first-of-type {
+article > p:first-of-type {
   position: relative;
   &::before {
     content: attr(data-first-letter);

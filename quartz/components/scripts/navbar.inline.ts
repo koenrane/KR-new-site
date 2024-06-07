@@ -498,7 +498,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     const innerDiv = await fetchContent(slug).then((contents) =>
       contents.flatMap((el) => [...highlightHTML(currentSearchTerm, el as HTMLElement).children]),
     )
-    previewInner = document.createElement("div")
+    previewInner = document.createElement("article" as "div")
     previewInner.classList.add("preview-inner")
     previewInner.append(...innerDiv)
     wrappedParseTwemoji(previewInner)
