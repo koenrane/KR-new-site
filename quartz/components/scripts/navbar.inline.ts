@@ -607,13 +607,13 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
 // Scrolling navbar handling
 let prevScrollPos = window.pageYOffset
 
-window.onscroll = function () {
+const scrollDisplayUpdate = () => {
   const currentScrollPos = window.pageYOffset
   const navbar = document.querySelector("#navbar-container") // Select the navbar element
 
   if (!navbar) return // Check if navbar exists (for safety)
 
-  if (currentScrollPos > 0) {
+  if (currentScrollPos > 5) {
     navbar.classList.add("shadow") // Add the 'shadow' class when scrolled down
   } else {
     navbar.classList.remove("shadow") // Remove the 'shadow' class when at the top
@@ -626,3 +626,8 @@ window.onscroll = function () {
   }
   prevScrollPos = currentScrollPos
 }
+
+;["scroll", "touchmove"].forEach((event: string) => {
+  window.addEventListener(event, scrollDisplayUpdate)
+  window.addCleanup(() => window.removeEventListener(event, scrollDisplayUpdate))
+})
