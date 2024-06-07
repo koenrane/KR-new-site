@@ -5,11 +5,8 @@ import { classNames } from "../util/lang"
 export const formatTag = (tag: string): string => {
   // Ensure input is a string (using optional chaining for safety)
   tag = tag?.replace(/-/g, " ").toLowerCase() ?? ""
-
-  // Handle special case for "ai" (case-insensitive)
-  if (tag === "ai") {
-    return "AI"
-  }
+  tag = tag?.replaceAll("ai", "AI")
+  tag = tag?.replaceAll("power seeking", "power-seeking")
 
   return tag
 }
@@ -23,7 +20,7 @@ export const getTags = (fileData: any) => {
 const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   // Sort by string lenth, descending
   let tags = getTags(fileData)
-  const baseDir = pathToRoot(fileData.slug!)
+  const baseDir = pathToRoot(fileData.slug!) // TODO possibly problematic
   if (tags && tags.length > 0) {
     return (
       <>
