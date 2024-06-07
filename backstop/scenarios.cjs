@@ -26,6 +26,14 @@ module.exports = [
     requireSameDimensions: true,
   },
   {
+    label: "Tag page",
+    url: "http://localhost:8080/tags/",
+    referenceUrl: "",
+    delay: 500,
+    misMatchThreshold: 0.01,
+    requireSameDimensions: true,
+  },
+  {
     label: "Shard theory",
     url: "http://localhost:8080/Essays/The-shard-theory-of-human-values",
     referenceUrl: "",
