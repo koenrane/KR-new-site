@@ -48,8 +48,8 @@ let darkMode = (
 const enablePreview = true
 const searchHTML = (
   <div class="search">
-    <div id="search-icon">
-      <p class="no-select">Search</p>
+    <div class="no-select" id="search-icon">
+      <p>Search</p>
       <div></div>
       <svg
         tabIndex={0}
