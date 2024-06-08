@@ -1,0 +1,24 @@
+@use "../../styles/variables.scss" as *;
+#not-found-div {
+  display: flex;
+  @media (max-width: $fullPageWidth) {
+    justify-content: center;
+  }
+
+  & h1 {
+    color: var(--gray);
+    line-height: 0.1em;
+  }
+
+  & p {
+    max-width: max-content;
+    text-align-last: justify;
+  }
+}
+
+img#trout-reading {
+  max-width: 40%;
+  @media (max-width: $tabletBreakpoint) {
+    max-width: 30%;
+  }
+}
