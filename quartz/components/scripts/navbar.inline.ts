@@ -619,9 +619,10 @@ const scrollDisplayUpdate = () => {
     navbar.classList.remove("shadow") // Remove the 'shadow' class when at the top
   }
 
-  if (prevScrollPos >= currentScrollPos) {
+  const tolerance = 10
+  if (prevScrollPos >= currentScrollPos + tolerance) {
     navbar.classList.remove("hide")
-  } else {
+  } else if (prevScrollPos <= currentScrollPos - tolerance) {
     navbar.classList.add("hide")
   }
   prevScrollPos = currentScrollPos
