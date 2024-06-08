@@ -409,7 +409,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     content = content.replaceAll(/↩/g, "⤴")
     content = twemoji.parse(content, {
       callback: function (icon, options, variant) {
-        console.log("icon", icon)
         if (icon === "2934") {
           // Ignore right-and-up arrow
           return "" // Return an empty string to prevent replacement
@@ -604,30 +603,44 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
   return await Promise.all(promises)
 }
 
-// Scrolling navbar handling
-let prevScrollPos = window.pageYOffset
+// Scrolling navbar
+let prevScrollPos = window.scrollY
+let isScrollingDown = false
+let timeoutId: NodeJS.Timeout | null = null
 
 const scrollDisplayUpdate = () => {
-  const currentScrollPos = window.pageYOffset
-  const navbar = document.querySelector("#navbar-container") // Select the navbar element
+  const currentScrollPos = window.scrollY
 
-  if (!navbar) return // Check if navbar exists (for safety)
+  const navbar = document.querySelector("#navbar-container")
+  if (!navbar) return
+  navbar.classList.toggle("shadow", currentScrollPos > 5)
 
-  if (currentScrollPos > 5) {
-    navbar.classList.add("shadow") // Add the 'shadow' class when scrolled down
-  } else {
-    navbar.classList.remove("shadow") // Remove the 'shadow' class when at the top
-  }
-
-  if (prevScrollPos >= currentScrollPos || currentScrollPos <= 5) {
+  // Immediate update when reaching the top (within a small threshold)
+  if (currentScrollPos <= 5) {
     navbar.classList.remove("hide")
   } else {
-    navbar.classList.add("hide")
+    // Determine scroll direction
+    isScrollingDown = currentScrollPos > prevScrollPos
+
+    // Hide immediately on downward scroll, show immediately on upward scroll
+    if (isScrollingDown) {
+      navbar.classList.add("hide")
+    } else {
+      navbar.classList.remove("hide")
+    }
+
+    // Throttled update for shadow
+    if (!timeoutId) {
+      timeoutId = setTimeout(() => {
+        timeoutId = null // Reset throttle
+      }, 250)
+    }
   }
+
   prevScrollPos = currentScrollPos
 }
-const throttledNavbarTransition = throttle(scrollDisplayUpdate, 250)
 
+// Event listeners
 ;["scroll", "touchmove"].forEach((event: string) => {
-  window.addEventListener(event, throttledNavbarTransition)
+  window.addEventListener(event, scrollDisplayUpdate)
 })
