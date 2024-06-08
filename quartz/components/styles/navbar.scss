@@ -92,6 +92,22 @@
   width: 24px;
 }
 
+@media all and (max-width: $mobileBreakpoint) {
+  .page-title-text,
+  .darkmode svg {
+    font-size: 5vw !important;
+  }
+
+  .hamburger span {
+    height: 2.5px;
+  }
+}
+@media all and (max-width: $tabletBreakpoint) {
+  .search > #search-icon > p {
+    padding: 0;
+    padding-left: calc(2 * $baseMargin);
+  }
+}
 /* Center the site name under the pond gif */
 .page-title-text {
   font-family: var(--font-text-italic), cursive, sans-serif;
@@ -179,7 +195,7 @@
     margin-top: 0;
     margin-bottom: 0;
     margin-right: $baseMargin;
-    width: 2em;
+    width: 2.5em;
   }
 }
 
