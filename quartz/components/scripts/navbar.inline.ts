@@ -606,12 +606,14 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
 
 // Scrolling navbar handling
 let prevScrollPos = window.pageYOffset
+let isAnimating = false
 
 const scrollDisplayUpdate = () => {
   const currentScrollPos = window.pageYOffset
   const navbar = document.querySelector("#navbar-container") // Select the navbar element
 
   if (!navbar) return // Check if navbar exists (for safety)
+  if (isAnimating) return
 
   if (currentScrollPos > 5) {
     navbar.classList.add("shadow") // Add the 'shadow' class when scrolled down
@@ -619,11 +621,23 @@ const scrollDisplayUpdate = () => {
     navbar.classList.remove("shadow") // Remove the 'shadow' class when at the top
   }
 
-  const tolerance = 10
-  if (prevScrollPos >= currentScrollPos + tolerance) {
+  if (prevScrollPos >= currentScrollPos) {
     navbar.classList.remove("hide")
-  } else if (prevScrollPos <= currentScrollPos - tolerance) {
+  } else {
     navbar.classList.add("hide")
+
+    // Set animation flag to true
+    isAnimating = true
+    console.log("hide")
+
+    // Listen for animation end (or transitionend for CSS transitions)
+    navbar.addEventListener(
+      "transitionend",
+      () => {
+        isAnimating = false
+      },
+      { once: true },
+    ) // Remove listener after one execution
   }
   prevScrollPos = currentScrollPos
 }

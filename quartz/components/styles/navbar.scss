@@ -93,9 +93,13 @@
 }
 
 @media all and (max-width: $mobileBreakpoint) {
-  .page-title-text,
-  .darkmode svg {
-    font-size: 5vw !important;
+  .page-title-text {
+    font-size: 6vw !important;
+  }
+
+  .darkmode label svg {
+    width: 15px;
+    height: 15px;
   }
 
   .hamburger span {
