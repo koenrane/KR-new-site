@@ -1,4 +1,4 @@
-import { wrapWithoutTransition } from "./util"
+import { wrapWithoutTransition, throttle } from "./util"
 
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
@@ -606,14 +606,12 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
 
 // Scrolling navbar handling
 let prevScrollPos = window.pageYOffset
-let isAnimating = false
 
 const scrollDisplayUpdate = () => {
   const currentScrollPos = window.pageYOffset
   const navbar = document.querySelector("#navbar-container") // Select the navbar element
 
   if (!navbar) return // Check if navbar exists (for safety)
-  if (isAnimating) return
 
   if (currentScrollPos > 5) {
     navbar.classList.add("shadow") // Add the 'shadow' class when scrolled down
@@ -625,23 +623,11 @@ const scrollDisplayUpdate = () => {
     navbar.classList.remove("hide")
   } else {
     navbar.classList.add("hide")
-
-    // Set animation flag to true
-    isAnimating = true
-    console.log("hide")
-
-    // Listen for animation end (or transitionend for CSS transitions)
-    navbar.addEventListener(
-      "transitionend",
-      () => {
-        isAnimating = false
-      },
-      { once: true },
-    ) // Remove listener after one execution
   }
   prevScrollPos = currentScrollPos
 }
+const throttledNavbarTransition = throttle(scrollDisplayUpdate, 300)
 
 ;["scroll", "touchmove"].forEach((event: string) => {
-  window.addEventListener(event, scrollDisplayUpdate)
+  window.addEventListener(event, throttledNavbarTransition)
 })

@@ -1,3 +1,15 @@
+export function throttle(func, delay) {
+  let timeout = null
+  return () => {
+    if (!timeout) {
+      func()
+      timeout = setTimeout(() => {
+        timeout = null
+      }, delay)
+    }
+  }
+}
+
 export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: () => void) {
   if (!outsideContainer) return
 
