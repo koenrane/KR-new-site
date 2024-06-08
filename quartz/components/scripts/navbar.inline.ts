@@ -626,7 +626,7 @@ const scrollDisplayUpdate = () => {
   }
   prevScrollPos = currentScrollPos
 }
-const throttledNavbarTransition = throttle(scrollDisplayUpdate, 300)
+const throttledNavbarTransition = throttle(scrollDisplayUpdate, 250)
 
 ;["scroll", "touchmove"].forEach((event: string) => {
   window.addEventListener(event, throttledNavbarTransition)
