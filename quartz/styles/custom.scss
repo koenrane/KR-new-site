@@ -310,9 +310,10 @@ figcaption {
     h3,
     h4,
     h5,
-    h6 {
+    h6,
+    p {
       margin-top: 0;
-      margin-bottom: $baseMargin;
+      margin-bottom: 0;
     }
   }
   & .content {
@@ -336,9 +337,10 @@ svg.fold-icon {
   height: var(--icon-size);
   fill: var(--gray); /* Set the default color here */
   transition: transform 0.2s ease-out; /* Add a smooth transition */
+  transform: rotate(-90deg); /* Initial 90-degree rotation */
 
   &[aria-expanded="true"] {
-    transform: rotate(180deg); /* Rotate 180 degrees when expanded */
+    transform: rotate(0deg); /* Rotate 180 degrees when expanded */
   }
 }
 
@@ -386,6 +388,7 @@ hr {
 
   & .content-meta {
     font-size: var(--text-size-90);
+    margin-bottom: 0;
   }
 }
 

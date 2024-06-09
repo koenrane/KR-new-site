@@ -19,7 +19,7 @@ const Backlinks: QuartzComponent = ({
     return (
       <div class="collapsible" id="backlinks">
         <div class={`collapsible-title ${classNames(displayClass, "backlinks")}`}>
-          <h5>{i18n(cfg.locale).components.backlinks.title}</h5>
+          <p>{i18n(cfg.locale).components.backlinks.title}</p>
           <svg
             class="fold-icon"
             xmlns="http://www.w3.org/2000/svg"

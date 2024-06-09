@@ -238,6 +238,10 @@ function updatePlaceholder() {
 // Update the placeholder on load and on window resize
 window.addEventListener("load", updatePlaceholder)
 window.addEventListener("resize", updatePlaceholder)
+// window.addCleanup(() => {
+//   window.removeEventListener("load", updatePlaceholder)
+//   window.removeEventListener("resize", updatePlaceholder)
+// })
 
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
