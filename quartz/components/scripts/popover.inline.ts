@@ -88,11 +88,15 @@ async function mouseEnterHandler(
       }
 
       // Modify id attributes so they don't mess up anchor jumps
-      html.querySelectorAll("body *").forEach((footnote) => {
-        appendToAttr(footnote, "id", "-popover")
+      html.querySelectorAll("body *").forEach((elt) => {
+        const id = elt.getAttribute("id")
+        if (!id) return
+        const newId = /^[0-9]/.test(id) ? "_" + id : id
+        elt.setAttribute("id", newId + "-popover")
       })
       // We want same page links clicked within the popover to move the popover window instead of the main window
       html.querySelectorAll("body a.same-page-link").forEach((link) => {
+        link.href = escapeLeadingIdNumber(link.href)
         appendToAttr(link, "href", "-popover")
       })
 
@@ -109,12 +113,21 @@ async function mouseEnterHandler(
 
   if (hash !== "") {
     hash += "-popover"
+    hash = escapeLeadingIdNumber(hash)
     const heading = popoverInner.querySelector(hash) as HTMLElement | null
     if (heading) {
       // leave ~12px of buffer when scrolling to a heading
       popoverInner.scroll({ top: heading.offsetTop - 12, behavior: "instant" })
     }
   }
+}
+
+// Not all IDs are valid - can't start with digit
+function escapeLeadingIdNumber(headingText) {
+  // Escape numbers at the start
+  const escapedId = headingText.replace(/\#(\d+)/, "#_$1")
+
+  return escapedId
 }
 
 document.addEventListener("nav", () => {

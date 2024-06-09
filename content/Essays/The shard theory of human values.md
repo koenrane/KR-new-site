@@ -234,7 +234,7 @@ _For shard theory discussion, join our [Discord server.](https://discord.gg/JNG
 
 ### Appendix A: The formation of the world model
 
-Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [section 1](#assumptions), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of.
+Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [section 1](#_1-neuroscientific-assumptions), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of.
 
 Therefore, to understand why human values empirically coalesce around the world model, we will sketch a detailed picture of how the world model might form. We think that self-supervised learning (item 2 in [section 1](#1-neuroscientific-assumptions)) produces your world model.
 
@@ -309,7 +309,7 @@ Over the last several months, many people have read either a draft version of th
 
 ### Appendix C: Evidence for neuroscience assumptions
 
-In [section 1](#assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
+In [section 1](#_1-neuroscientific-assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
 
 1. The cortex is basically locally randomly initialized.
    1. Steve Byrnes [has already written](https://www.lesswrong.com/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_5_Evidence_on_whether_the_telencephalon___cerebellum_learn_from_scratch) about several lines of evidence that suggest the telencephalon (which includes the cerebral cortex) & cerebellum learn primarily from scratch. We recommend his writing as an entrypoint into that literature.
