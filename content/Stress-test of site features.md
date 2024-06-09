@@ -4,10 +4,6 @@ publish: "true"
 tags:
   - website
 ---
-
-> [!idea]- Test
-> dfdsa
-
 This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 # Quotations
 

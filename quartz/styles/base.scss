@@ -153,6 +153,10 @@ a {
     width: 100%;
     overflow-x: visible;
     display: flex;
+
+    @media all and (max-width: $marginsBegin) {
+      overflow-x: hidden;
+    }
     @media all and (max-width: $fullPageWidth) {
       flex-direction: column;
     }
