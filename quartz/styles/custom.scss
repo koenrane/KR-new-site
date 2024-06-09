@@ -411,8 +411,14 @@ img {
   mix-blend-mode: multiply;
 }
 
-[saved-theme="light"] body.no-mix-blend-mode img {
-  mix-blend-mode: normal;
+[saved-theme="light"] body.no-mix-blend-mode {
+  & img {
+    mix-blend-mode: normal;
+  }
+
+  & #search-layout img {
+    mix-blend-mode: multiply;
+  }
 }
 
 p > img {
