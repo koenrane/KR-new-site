@@ -24,10 +24,14 @@ const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompone
   })
   authors = `${authors}`
 
+  const hideTime = fileData.frontmatter?.hide_reading_time
+  let displayString = authors
+  if (!hideTime) displayString += ` | ${displayedTime}`
+
   return (
     <span>
       <p class="authors">
-        {authors} ({displayedTime})
+        {displayString}
         <br />
       </p>
     </span>

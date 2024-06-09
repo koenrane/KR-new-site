@@ -62,17 +62,17 @@ export default {
         let timeString = ""
 
         if (hours > 0) {
-          timeString += `${hours}h` // Add hours (with plural if needed)
+          timeString += `${hours} hour` // Add hours (with plural if needed)
           if (remainingMinutes > 0) {
             // timeString += " and " // Add separator if we also have minutes
           }
         }
 
         if (remainingMinutes > 0) {
-          timeString += `${remainingMinutes}m` // Add minutes
+          timeString += `${remainingMinutes} minute` // Add minutes
         }
 
-        return timeString + " read time"
+        return timeString + " read"
       },
     },
   },
