@@ -4,13 +4,18 @@ publish: "true"
 tags:
   - website
 ---
+
+> [!idea]- Test
+> dfdsa
+
 This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 # Quotations
 
 > Perhaps one did not want to be loved so much as to be understood.
 >
 > — Orwell, _1984_
-## Inline
+<hr/>
+
 > A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus: 
 > 1. What am I trying to say? 
 > 2. What words will express it? 

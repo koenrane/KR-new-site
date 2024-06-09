@@ -30,7 +30,7 @@ function downloadImage(url, image_path) {
     })
 }
 
-var inDownloading = new Set() // Set of URLs being downloaded
+let inDownloading = new Set() // Set of URLs being downloaded
 async function MaybeSaveFavicon(hostname: string) {
   return new Promise((resolve, reject) => {
     // Save the favicon to the local storage and return path
@@ -107,7 +107,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                 const isExternal = linkNode?.properties?.className?.includes("external")
                 const isInternalDiffPage = linkNode?.properties?.href?.startsWith("/")
                 if (isMailTo || isExternal || isInternalDiffPage) {
-                  var imgElement = { children: [] }
+                  let imgElement = { children: [] }
                   if (isMailTo) {
                     imgElement = CreateFaviconElement(MAIL_PATH, "email address")
                   } else {
@@ -116,7 +116,7 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                       .then(function (imgPath) {
                         imgElement = CreateFaviconElement(imgPath, url.hostname)
 
-                        var toPush = imgElement
+                        let toPush = imgElement
 
                         const lastChild = linkNode.children[linkNode.children.length - 1]
                         if (lastChild && lastChild.type === "text" && lastChild.value) {
