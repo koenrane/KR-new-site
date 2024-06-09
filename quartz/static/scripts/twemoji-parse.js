@@ -18,5 +18,6 @@ function wrappedParseTwemoji(element) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  setTimeOut(100)
   wrappedParseTwemoji(document.body)
 })
