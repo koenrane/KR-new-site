@@ -2,8 +2,8 @@ import { QuartzTransformerPlugin } from "../types"
 import { numberRegex } from "./utils"
 
 // Not followed by a colon (the footnote definition) or an opening parenthesis (md URL)
-const footnoteRegex = /\. (\[\^.*?\])(?![:\(\s])/g
-const footnoteReplacement = ".$1 "
+const footnoteRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
+const footnoteReplacement = "$1$2 "
 
 const footnoteEndOfSentence = (text: string) => {
   let tighterText = text.replaceAll(footnoteRegex, footnoteReplacement)

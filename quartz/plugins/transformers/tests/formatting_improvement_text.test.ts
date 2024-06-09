@@ -7,11 +7,15 @@ function processtext(inputtext: string): string {
 
 describe("TextFormattingImprovement Plugin", () => {
   describe("Footnote Formatting", () => {
-    it("correctly formats footnotes at the end of a sentence", () => {
-      // const input = "This sentence has a footnote.[^1] Another sentence.";
-      // const expected = "This sentence has a footnote.[^1] Another sentence.";
-      // const result = processtext(input);
-      // expect(result).toBe(expected);
+    it.each([
+      [
+        "This sentence has a footnote.[^1] Another sentence.",
+        "This sentence has a footnote.[^1] Another sentence.",
+      ],
+      ['defined [^16] "values" to', 'defined[^16] "values" to'],
+    ])("Correctly formats footnotes.", (input: string, expected: string): void => {
+      const result = processtext(input)
+      expect(result).toBe(expected)
     })
   })
 
