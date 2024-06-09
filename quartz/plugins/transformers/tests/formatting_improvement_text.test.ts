@@ -78,6 +78,7 @@ This text is 3× larger.`
       ["\n---\n", "\n---\n"], // Retain horizontal rules
       ["emphasis” —", "emphasis”—"], // small quotations should not retain space
       ["- First level\n - Second level", "— First level\n - Second level"], // Don't replace hyphens in lists, first is ok
+      ["> - First level", "> - First level"], // Quoted unordered lists should not be changed
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = processtext(input)
       expect(result).toBe(expected)
