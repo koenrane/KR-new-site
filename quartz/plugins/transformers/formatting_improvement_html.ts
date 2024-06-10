@@ -3,13 +3,35 @@ import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
-function niceQuotes(text: string) {
+export function niceQuotes(text: string) {
   text = text.replace(/(?<=^|\b|\s|[\(\[])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
   text = text.replace(/([^\s\(])[\"“](?=[\s\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
   text = text.replace(/([\s“])[\'’](?=\S)/g, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
+  return text
+}
+
+export function hyphenReplace(text: string) {
+  // Create a regex for dashes surrounded by spaces
+  const surroundedDash = new RegExp("([^\\s>](?: +)|^)[~–—-]+ +", "g")
+
+  // Replace surrounded dashes with em dash
+  text = text.replace(surroundedDash, "$1—")
+
+  // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
+  const spacesAroundEM = new RegExp(" *— *", "g")
+
+  // Remove spaces around em dashes
+  text = text.replace(spacesAroundEM, "—")
+
+  const postQuote = /([.!?]["”])\s*—\s*/g
+  text = text.replace(postQuote, "$1 — ")
+
+  const startOfLine = /^\s*—\s*/g
+  text = text.replace(startOfLine, "— ")
+
   return text
 }
 
@@ -47,6 +69,7 @@ export const improveFormatting: Plugin = () => {
 
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
+        node.value = hyphenReplace(node.value)
         node.value = niceQuotes(node.value)
 
         replaceRegex(
