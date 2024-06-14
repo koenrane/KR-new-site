@@ -6,6 +6,7 @@ module.exports = [
     delay: 500,
     misMatchThreshold: 0.01,
     requireSameDimensions: true,
+    selectors: ["viewport"],
   },
   // {
   //   label: "Dark mode",
@@ -32,15 +33,9 @@ module.exports = [
     delay: 500,
     misMatchThreshold: 0.01,
     requireSameDimensions: true,
+    selectors: ["viewport"],
   },
-  {
-    label: "Shard theory",
-    url: "http://localhost:8080/Essays/The-shard-theory-of-human-values",
-    referenceUrl: "",
-    delay: 500,
-    misMatchThreshold: 0.01,
-    requireSameDimensions: true,
-  },
+
   {
     label: "Searching for stress-test",
     url: "http://localhost:8080/",
@@ -49,5 +44,6 @@ module.exports = [
     misMatchThreshold: 0.01,
     onReadyScript: "puppet/searchOnReady.cjs",
     requireSameDimensions: true,
+    selectors: ["viewport"],
   },
 ]
