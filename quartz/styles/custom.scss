@@ -32,6 +32,7 @@ ul {
   margin-block-start: calc(2 * $baseMargin);
   margin-block-end: calc(2 * $baseMargin);
   padding-left: calc(3 * $baseMargin);
+  // padding-inline-start: calc(3 * $baseMargin);
 }
 
 dd > ul:first-child,
@@ -52,6 +53,7 @@ ol {
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
       margin-right: calc(0.5 * $baseMargin);
+      flex-shrink: 0;
     }
 
     // Nested lists

@@ -212,9 +212,10 @@ article > p:first-of-type {
   }
 
   // Disallow italic font overrides of the smallcaps font
-  & * {
+  & em, b, strong {
     font-family: inherit !important;
   }
+
   & .small-caps {
     font-family: "EBGaramondSC" !important;
   }
