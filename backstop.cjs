@@ -21,6 +21,7 @@ module.exports = {
   ],
   scenarios: scenarios,
   onReadyScript: "puppet/onReady.cjs",
+  onBeforeScript: "puppet/onBefore.cjs",
   paths: {
     bitmaps_reference: "backstop/backstop_data/bitmaps_reference",
     bitmaps_test: "backstop/backstop_data/bitmaps_test",

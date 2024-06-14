@@ -2,7 +2,7 @@
 const clickAndHoverHelper = require("./clickAndHoverHelper.cjs")
 
 module.exports = async (page, scenario, vp) => {
-  await page.waitForSelector("body", { timeout: 30000 })
+  await page.waitForSelector("body", { timeout: 5000 })
   clickAndHoverHelper(page, scenario)
 
   // Add a delay to wait for a specific frame -- synchronize GIFs
