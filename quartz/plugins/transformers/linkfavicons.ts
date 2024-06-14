@@ -1,5 +1,4 @@
 import { visit } from "unist-util-visit"
-import { QuartzTransformerPlugin } from "../types"
 import axios from "axios"
 import fs from "fs"
 
@@ -8,59 +7,63 @@ const MAIL_PATH = `${STATIC_RELATIVE_PATH}/images/mail.svg`
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 
-function downloadImage(url, image_path) {
+async function downloadImage(url: string, image_path: string): Promise<boolean> {
   let writeStream = fs.createWriteStream(image_path)
 
-  axios({
-    url,
-    responseType: "stream",
-  })
-    .then(
-      (response) =>
-        new Promise((resolve, reject) => {
-          response.data
-            .pipe(writeStream)
-            .on("finish", () => resolve())
-            .on("error", (e) => reject(e))
-        }),
-    )
-    .catch((error) => {})
-    .finally(() => {
-      writeStream.close()
+  try {
+    const response = await axios({
+      url,
+      responseType: "stream",
+      validateStatus: function (status) {
+        return status < 500 // Resolve only if the status code is less than 500
+      },
     })
+
+    // Check if the response status is 404
+    if (response.status === 404) {
+      console.error(`Favicon not found at ${url}`)
+      writeStream.close()
+      return false
+    }
+
+    await new Promise((resolve, reject) => {
+      response.data.pipe(writeStream).on("finish", resolve).on("error", reject)
+    })
+    return true
+  } catch (error) {
+    console.error(`Failed to download image from ${url}`, error)
+    writeStream.close()
+    return false
+  }
 }
 
-let inDownloading = new Set() // Set of URLs being downloaded
 async function MaybeSaveFavicon(hostname: string) {
   return new Promise((resolve, reject) => {
     // Save the favicon to the local storage and return path
+    if (hostname === "localhost") {
+      hostname = "www.turntrout.com"
+    }
     const sanitizedHostname = hostname.replace(/\./g, "_")
     const localPath = `${QUARTZ_FOLDER}/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 
     const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 
-    if (inDownloading.has(hostname)) {
-      resolve(quartzPath)
-    } else {
-      inDownloading.add(hostname)
-    }
-    fs.stat(localPath, async function (err, stat) {
+    fs.stat(localPath, async function (err) {
       if (err === null) {
         // Already exists
         resolve(quartzPath)
       } else if (err.code === "ENOENT") {
         // File doesn't exist
         const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-        try {
-          downloadImage(googleFaviconURL, localPath)
+        const downloaded = await downloadImage(googleFaviconURL, localPath)
+        if (downloaded) {
           resolve(quartzPath)
-        } catch (error) {
-          console.log(error)
-          console.error(`Failed to download favicon for ${hostname}`)
+        } else {
           reject(null)
         }
       } else {
         console.log(err)
+        reject(null)
       }
     })
   })
@@ -79,7 +82,7 @@ const CreateFaviconElement = (urlString: string, description = "") => {
   }
 }
 
-export const AddFavicons: QuartzTransformerPlugin = () => {
+export const AddFavicons = () => {
   return {
     name: "AddFavicons",
     htmlPlugins() {
@@ -96,24 +99,33 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                   )
                 }
 
-                const isInternalBody = linkNode?.properties?.href?.startsWith("#")
-
+                let href = linkNode?.properties?.href
+                const isInternalBody = href?.startsWith("#")
                 if (isInternalBody) {
                   linkNode.properties.className.push("same-page-link")
-                  return
                 }
 
-                const isMailTo = linkNode?.properties?.href?.startsWith("mailto:")
-                const isExternal = linkNode?.properties?.className?.includes("external")
-                const isInternalDiffPage = linkNode?.properties?.href?.startsWith("/")
-                if (isMailTo || isExternal || isInternalDiffPage) {
+                const notSamePage = !linkNode?.properties?.className?.includes("same-page-link")
+                const isImage =
+                  href?.endsWith(".png") || href?.endsWith(".jpg") || href?.endsWith(".jpeg")
+                if (notSamePage && !isImage) {
                   let imgElement = { children: [] }
+                  const isMailTo = href?.startsWith("mailto:")
                   if (isMailTo) {
                     imgElement = CreateFaviconElement(MAIL_PATH, "email address")
-                  } else {
-                    const url = new URL(linkNode.properties.href)
-                    MaybeSaveFavicon(url.hostname)
-                      .then(function (imgPath) {
+                  } else if (href) {
+                    if (href.startsWith("./")) {
+                      // Relative link
+                      href = href.slice(2)
+                      href = "https://www.turntrout.com/" + href
+                    } else if (href.startsWith("..")) {
+                      return
+                    }
+
+                    console.log("href", href)
+                    const url = new URL(href)
+                    MaybeSaveFavicon(url.hostname).then(function (imgPath) {
+                      if (imgPath !== null) {
                         imgElement = CreateFaviconElement(imgPath, url.hostname)
 
                         let toPush = imgElement
@@ -139,11 +151,8 @@ export const AddFavicons: QuartzTransformerPlugin = () => {
                           }
                         }
                         linkNode.children.push(toPush)
-                      })
-                      .catch((error) => {
-                        if (error === "Already downloading") return
-                        console.error("Error downloading favicon:", error)
-                      })
+                      }
+                    })
                   }
                 }
               }

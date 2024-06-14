@@ -13,6 +13,7 @@ function replaceInTextNodes(element, search, replacement) {
 
 function wrappedParseTwemoji(element) {
   replaceInTextNodes(element, /↩/g, placeholder)
+  //@ts-expect-error twemoji is not defined
   twemoji.parse(element)
   replaceInTextNodes(element, /__EMOJI_PLACEHOLDER__/g, "⤴")
 }
