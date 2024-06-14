@@ -37,14 +37,18 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
   }
 }
 
-async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
+export function GetQuartzPath(hostname: string): string {
   if (hostname === "localhost") {
     hostname = "www.turntrout.com"
   }
 
   const sanitizedHostname = hostname.replace(/\./g, "_")
-  const localPath = path.join(QUARTZ_FOLDER, FAVICON_FOLDER, `${sanitizedHostname}.png`)
-  const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+  return `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+}
+
+async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
+  const quartzPath = GetQuartzPath(hostname)
+  const localPath = path.join(QUARTZ_FOLDER, quartzPath)
 
   try {
     await fs.promises.stat(localPath) // Use fs.promises for Promise-based stat
@@ -63,7 +67,7 @@ async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
   }
 }
 
-const CreateFaviconElement = (urlString: string, description = "") => {
+export const CreateFaviconElement = (urlString: string, description = "") => {
   return {
     type: "element",
     tagName: "img",
@@ -118,35 +122,9 @@ export const AddFavicons = () => {
                     }
 
                     const url = new URL(href)
-                    MaybeSaveFavicon(url.hostname).then(function (imgPath) {
-                      if (imgPath !== null) {
-                        imgElement = CreateFaviconElement(imgPath, url.hostname)
-
-                        let toPush = imgElement
-
-                        const lastChild = linkNode.children[linkNode.children.length - 1]
-                        if (lastChild && lastChild.type === "text" && lastChild.value) {
-                          const textContent = lastChild.value
-                          const charsToRead = Math.min(4, textContent.length)
-                          const lastFourChars = textContent.slice(-1 * charsToRead)
-                          lastChild.value = textContent.slice(0, -4)
-
-                          // Create a new span
-                          toPush = {
-                            type: "element",
-                            tagName: "span",
-                            children: [
-                              { type: "text", value: lastFourChars },
-                              imgElement, // Append the previously created image
-                            ],
-                            properties: {
-                              style: "white-space: nowrap;",
-                            },
-                          }
-                        }
-                        linkNode.children.push(toPush)
-                      }
-                    })
+                    MaybeSaveFavicon(url.hostname).then((imgPath) =>
+                      insertFavicon(imgPath, linkNode, url),
+                    )
                   }
                 }
               }
@@ -155,5 +133,35 @@ export const AddFavicons = () => {
         },
       ]
     },
+  }
+}
+
+function insertFavicon(imgPath, node, url: URL) {
+  if (imgPath !== null) {
+    const imgElement = CreateFaviconElement(imgPath, url.hostname)
+
+    let toPush = imgElement
+
+    const lastChild = node.children[node.children.length - 1]
+    if (lastChild && lastChild.type === "text" && lastChild.value) {
+      const textContent = lastChild.value
+      const charsToRead = Math.min(4, textContent.length)
+      const lastFourChars = textContent.slice(-1 * charsToRead)
+      lastChild.value = textContent.slice(0, -4)
+
+      // Create a new span
+      toPush = {
+        type: "element",
+        tagName: "span",
+        children: [
+          { type: "text", value: lastFourChars },
+          imgElement, // Append the previously created image
+        ],
+        properties: {
+          style: "white-space: nowrap;",
+        },
+      }
+    }
+    node.children.push(toPush)
   }
 }
