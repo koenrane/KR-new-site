@@ -1,5 +1,6 @@
 import { visit } from "unist-util-visit"
 import axios from "axios"
+import { Node } from "unist"
 import path from "path"
 import fs from "fs"
 
@@ -10,37 +11,28 @@ const FAVICON_FOLDER = "static/images/external-favicons"
 
 async function downloadImage(url: string, image_path: string): Promise<boolean> {
   try {
-    const response = await axios({
-      url,
-      method: "GET",
-      responseType: "stream", // Stream the image data
-    })
+    const file = await fs.open(image_path, "wx")
 
-    // Check if the request was successful (status 200)
-    if (response.status !== 200) {
-      console.error(`Failed to download image from ${url}. Status: ${response.status}`)
-      return false
-    }
+    return new Promise((resolve) => {
+      get(url, (response) => {
+        if (response.statusCode !== 200) {
+          console.error(`Failed to download: ${url} (Status ${response.statusCode})`)
+          resolve(false)
+          return
+        }
 
-    return new Promise((resolve, reject) => {
-      const writeStream = fs.createWriteStream(image_path)
-
-      response.data.pipe(writeStream)
-
-      writeStream.on("finish", () => {
-        writeStream.close()
-        resolve(true) // Image download succeeded
-      })
-
-      writeStream.on("error", (error) => {
-        writeStream.close()
-        fs.unlink(image_path, () => {}) // Delete the partial file
-        console.error(`Error downloading image from ${url}:`, error)
-        reject(false) // Image download failed
+        response.pipe(file)
+        file.on("finish", () => {
+          file.close()
+          resolve(true)
+        })
+      }).on("error", (err) => {
+        console.error(`Error downloading: ${url}`)
+        fs.unlink(image_path) // Cleanup
+        resolve(false)
       })
     })
-  } catch (error) {
-    console.error(`Error fetching image from ${url}:`, error)
+  } catch (err) {
     return false
   }
 }
@@ -66,7 +58,7 @@ async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
       }
     }
 
-    console.error(`Error handling favicon for ${hostname}:`, err)
+    console.error(`Error handling favicon for ${hostname}`)
     return null // Indicate failure
   }
 }
@@ -116,6 +108,7 @@ export const AddFavicons = () => {
                   if (isMailTo) {
                     imgElement = CreateFaviconElement(MAIL_PATH, "email address")
                   } else if (href) {
+                    // Handle before attempting to create URL
                     if (href.startsWith("./")) {
                       // Relative link
                       href = href.slice(2)
