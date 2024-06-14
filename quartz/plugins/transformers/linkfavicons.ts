@@ -1,5 +1,6 @@
 import { visit } from "unist-util-visit"
 import axios from "axios"
+import path from "path"
 import fs from "fs"
 
 const STATIC_RELATIVE_PATH = "quartz/static"
@@ -8,65 +9,66 @@ const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 
 async function downloadImage(url: string, image_path: string): Promise<boolean> {
-  let writeStream = fs.createWriteStream(image_path)
-
   try {
     const response = await axios({
       url,
-      responseType: "stream",
-      validateStatus: function (status) {
-        return status < 500 // Resolve only if the status code is less than 500
-      },
+      method: "GET",
+      responseType: "stream", // Stream the image data
     })
 
-    // Check if the response status is 404
-    if (response.status === 404) {
-      console.error(`Favicon not found at ${url}`)
-      writeStream.close()
+    // Check if the request was successful (status 200)
+    if (response.status !== 200) {
+      console.error(`Failed to download image from ${url}. Status: ${response.status}`)
       return false
     }
 
-    await new Promise((resolve, reject) => {
-      response.data.pipe(writeStream).on("finish", resolve).on("error", reject)
+    return new Promise((resolve, reject) => {
+      const writeStream = fs.createWriteStream(image_path)
+
+      response.data.pipe(writeStream)
+
+      writeStream.on("finish", () => {
+        writeStream.close()
+        resolve(true) // Image download succeeded
+      })
+
+      writeStream.on("error", (error) => {
+        writeStream.close()
+        fs.unlink(image_path, () => {}) // Delete the partial file
+        console.error(`Error downloading image from ${url}:`, error)
+        reject(false) // Image download failed
+      })
     })
-    return true
   } catch (error) {
-    console.error(`Failed to download image from ${url}`, error)
-    writeStream.close()
+    console.error(`Error fetching image from ${url}:`, error)
     return false
   }
 }
 
-async function MaybeSaveFavicon(hostname: string) {
-  return new Promise((resolve, reject) => {
-    // Save the favicon to the local storage and return path
-    if (hostname === "localhost") {
-      hostname = "www.turntrout.com"
-    }
-    const sanitizedHostname = hostname.replace(/\./g, "_")
-    const localPath = `${QUARTZ_FOLDER}/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
+  if (hostname === "localhost") {
+    hostname = "www.turntrout.com"
+  }
 
-    const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
+  const sanitizedHostname = hostname.replace(/\./g, "_")
+  const localPath = path.join(QUARTZ_FOLDER, FAVICON_FOLDER, `${sanitizedHostname}.png`)
+  const quartzPath = `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 
-    fs.stat(localPath, async function (err) {
-      if (err === null) {
-        // Already exists
-        resolve(quartzPath)
-      } else if (err.code === "ENOENT") {
-        // File doesn't exist
-        const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-        const downloaded = await downloadImage(googleFaviconURL, localPath)
-        if (downloaded) {
-          resolve(quartzPath)
-        } else {
-          reject(null)
-        }
-      } else {
-        console.log(err)
-        reject(null)
+  try {
+    await fs.promises.stat(localPath) // Use fs.promises for Promise-based stat
+    return quartzPath // Favicon already exists
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      // File doesn't exist
+      const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
+      if (await downloadImage(googleFaviconURL, localPath)) {
+        return quartzPath
       }
-    })
-  })
+    }
+
+    console.error(`Error handling favicon for ${hostname}:`, err)
+    return null // Indicate failure
+  }
 }
 
 const CreateFaviconElement = (urlString: string, description = "") => {
@@ -122,7 +124,6 @@ export const AddFavicons = () => {
                       return
                     }
 
-                    console.log("href", href)
                     const url = new URL(href)
                     MaybeSaveFavicon(url.hostname).then(function (imgPath) {
                       if (imgPath !== null) {
