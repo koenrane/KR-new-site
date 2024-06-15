@@ -9,12 +9,12 @@ module.exports = async (page, scenario, vp) => {
 
   // Wait for search to be ready
   await page.waitForSelector("input#search-bar")
-  await page.evaluate(() => {
-    const searchBar = document.querySelector("input#search-bar")
-    console.log(searchBar)
-    searchBar.click()
-  })
-  // await page.click("input#search-bar")
-  // console.log("search bar clicked")
+  // await page.evaluate(() => {
+  //   const searchBar = document.querySelector("input#search-bar")
+  //   console.log(searchBar)
+  //   searchBar.click()
+  // })
+  await page.click("input#search-bar")
+  console.log("search bar clicked")
   await page.type("input#search-bar", "Lorem Ipsum")
 }

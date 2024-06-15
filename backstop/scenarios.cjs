@@ -1,7 +1,7 @@
 module.exports = [
   {
     label: "Homepage",
-    url: "/public/index.html",
+    url: "http://localhost:8080/index.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.01,
@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     label: "Dark mode",
-    url: "/public/index.html",
+    url: "http://localhost:8080/index.html",
     referenceUrl: "",
     delay: 500,
     onBeforeScript: "puppet/onBeforeDark.cjs",
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     label: "Stress test of site features",
-    url: "/public/Stress-test-of-site-features.html",
+    url: "http://localhost:8080/Stress-test-of-site-features.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.01,
@@ -27,7 +27,7 @@ module.exports = [
   },
   {
     label: "ToC highlighting",
-    url: "/public/Stress-test-of-site-features.html",
+    url: "http://localhost:8080/Stress-test-of-site-features.html",
     referenceUrl: "",
     selectors: [".toc"],
     viewports: [
@@ -43,7 +43,7 @@ module.exports = [
   },
   {
     label: "Tag page",
-    url: "/public/tags/index.html",
+    url: "http://localhost:8080/tags/index.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.01,
@@ -52,7 +52,7 @@ module.exports = [
   },
   {
     label: "404",
-    url: "/public/404.html",
+    url: "http://localhost:8080/404.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.01,
@@ -61,7 +61,7 @@ module.exports = [
   },
   {
     label: "Searching for stress-test",
-    url: "/public/Stress-test-of-site-features.html",
+    url: "http://localhost:8080/Stress-test-of-site-features.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.01,

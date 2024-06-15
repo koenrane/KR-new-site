@@ -15,12 +15,7 @@ const defaultOptions: Options = {
   layout: "modern",
 }
 
-let lastDepth = 0
-const TableOfContents: QuartzComponent = ({
-  fileData,
-  displayClass,
-  cfg,
-}: QuartzComponentProps) => {
+const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
     return null
   }
