@@ -108,7 +108,15 @@ export default ((userOpts?: Partial<Options>) => {
       <div className={classNames(displayClass, "navbar")}>
         <div id="navbar-left">
           {/* <a href={baseDir}> */}
-          <video autoPlay loop muted playsInline id="header-video" class="header-img no-select">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            id="header-video"
+            class="header-img no-select"
+            alt=""
+          >
             <source src="/static/pond.webm" type="video/webm"></source>
           </video>
           {}
@@ -121,7 +129,7 @@ export default ((userOpts?: Partial<Options>) => {
         </div>
         <div id="navbar-right">
           {searchHTML}
-          <button className="hamburger mobile-only">
+          <button className="hamburger mobile-only" alt="Opens menu for key site links.">
             <span className="bar" />
             <span className="bar" />
             <span className="bar" />

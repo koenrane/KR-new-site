@@ -76,7 +76,7 @@ export const CreateFaviconElement = (urlString: string, description = "") => {
       src: urlString,
       class: "favicon",
     },
-    alt: "Favicon for " + description,
+    alt: description,
   }
 }
 
@@ -110,7 +110,7 @@ export const AddFavicons = () => {
                   let imgElement = { children: [] }
                   const isMailTo = href?.startsWith("mailto:")
                   if (isMailTo) {
-                    imgElement = CreateFaviconElement(MAIL_PATH, "email address")
+                    imgElement = CreateFaviconElement(MAIL_PATH)
                   } else if (href) {
                     // Handle before attempting to create URL
                     if (href.startsWith("./")) {
@@ -138,7 +138,7 @@ export const AddFavicons = () => {
 
 function insertFavicon(imgPath, node, url: URL) {
   if (imgPath !== null) {
-    const imgElement = CreateFaviconElement(imgPath, url.hostname)
+    const imgElement = CreateFaviconElement(imgPath)
 
     let toPush = imgElement
 

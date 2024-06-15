@@ -21,7 +21,7 @@ const children = [
     tagName: "img",
     children: [],
     properties: {
-      src: "/static/trout-bw.png",
+      src: "/static/trout-bw.svg",
       style: "height:var(--ornament-size);",
       alt: "Black and white trout",
       class: "no-select trout-ornament",
