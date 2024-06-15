@@ -1,6 +1,7 @@
 import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
+import { CreateFaviconElement, GetQuartzPath } from "../plugins/transformers/linkfavicons"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
@@ -29,14 +30,19 @@ export default ((opts?) => {
         }
         dateStr = <time datetime={frontmatter?.date_published}>{dateStr}</time>
 
+        const originalURL = new URL(frontmatter?.original_url)
+        const quartzPath = GetQuartzPath(originalURL.hostname)
+
         publicationStr = (
           <span className="publication-str">
             <a href={frontmatter?.original_url} class="external">
               {publicationStr}
             </a>
+            <img src={quartzPath} class="favicon" alt={"Favicon for " + originalURL.hostname} />
             {dateStr}
           </span>
         )
+
         segments.push(publicationStr)
       }
 

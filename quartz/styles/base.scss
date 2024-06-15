@@ -468,10 +468,10 @@ img {
 blockquote > p:first-of-type {
   margin-top: 0;
 }
-p > img + em {
-  display: block;
-  transform: translateY(calc(-2 * $baseMargin));
-}
+// p > img + em {
+//   display: block;
+//   transform: translateY(calc(-2 * $baseMargin));
+// }
 
 hr {
   width: 100%;

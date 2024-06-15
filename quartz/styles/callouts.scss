@@ -169,6 +169,7 @@
 
   .callout-title-inner {
     font-weight: $semiBoldWeight;
+    font-variant-numeric: lining-nums;
 
     & a {
       font-weight: inherit;

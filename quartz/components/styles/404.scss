@@ -1,5 +1,6 @@
 @use "../../styles/variables.scss" as *;
-#not-found-div {
+#not-found-div,
+#not-found-div-popover {
   display: flex;
   @media (max-width: $fullPageWidth) {
     justify-content: center;
@@ -21,4 +22,9 @@ img#trout-reading {
   @media (max-width: $tabletBreakpoint) {
     max-width: 30%;
   }
+}
+
+img#trout-reading-popover {
+  max-width: 6em;
+  margin-left: calc(3 * $baseMargin);
 }

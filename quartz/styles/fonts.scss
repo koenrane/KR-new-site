@@ -54,6 +54,10 @@ h6,
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.022em;
+
+  & .popover {
+    letter-spacing: initial;
+  }
 }
 
 // Directly using CSS variables in SCSS
@@ -212,9 +216,12 @@ article > p:first-of-type {
   }
 
   // Disallow italic font overrides of the smallcaps font
-  & * {
+  & em,
+  b,
+  strong {
     font-family: inherit !important;
   }
+
   & .small-caps {
     font-family: "EBGaramondSC" !important;
   }

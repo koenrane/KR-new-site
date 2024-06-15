@@ -49,7 +49,7 @@ fs.readFile(filePath, "utf-8", (err, data) => {
     jsonData = JSON.parse(data)
     let dataObj = jsonData.data.posts.results
     for (let dataIndex in dataObj) {
-      datum = dataObj[dataIndex]
+      let datum = dataObj[dataIndex]
       if (datum.contents?.html) {
         datum.contents.markdown = turndownService.turndown(datum.contents.html)
       }

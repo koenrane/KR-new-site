@@ -2,7 +2,7 @@ import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
-const prePunctuation = /([\(\”\“\"\[]*)/ // group 1
+const prePunctuation = /([\“\"]*)/ // group 1
 const linkText = /\[([^\]]+)\]/ // group 2
 
 // Group 3:
@@ -18,7 +18,7 @@ const fullRegex = new RegExp(
 )
 const replaceTemplate = "[$1$2$4$5]($3)"
 
-const remarkLinkPunctuation: any = (text: string) => {
+export const remarkLinkPunctuation: any = (text: string) => {
   return text.replaceAll(fullRegex, replaceTemplate)
 }
 
