@@ -124,6 +124,7 @@ $fonts-dir: "/static/styles/fonts";
     font-feature-settings: $font-features;
 
     src: url("#{$fonts-dir}/#{$file-name}#{$ext}");
+    font-display: swap;
   }
 }
 
