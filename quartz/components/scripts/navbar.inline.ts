@@ -267,7 +267,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   function hideSearch() {
     container?.classList.remove("active")
-    // document.removeEventListener("scroll", preventDefault)
+    document.removeEventListener("wheel", preventDefault)
     document.body.classList.remove("no-mix-blend-mode") // Remove class when search is closed
     if (searchBar) {
       searchBar.value = "" // clear the input when we dismiss the search
@@ -304,7 +304,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     updatePlaceholder()
 
     hideShadowIfSearchFocus()
-    // document.addEventListener("scroll", preventDefault)
+    document.addEventListener("wheel", preventDefault, { passive: false })
   }
 
   let currentHover: HTMLInputElement | null = null
