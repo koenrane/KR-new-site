@@ -4,13 +4,18 @@ import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 export function niceQuotes(text: string) {
-  text = text.replace(/(?<=^|\b|\s|[\(\[])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
-  text = text.replace(/([^\s\(])[\"“](?=[\s\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
+  text = text.replace(/(?<=^|\b|\s|[\(\/\[])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
+  text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
   text = text.replace(/([\s“])[\'’](?=\S)/g, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
   return text
+}
+
+// Give extra breathing room to slashes
+export function fullWidthSlashes(text: string): string {
+  return text.replace(/\//g, "／")
 }
 
 export function hyphenReplace(text: string) {
@@ -70,7 +75,6 @@ export const improveFormatting: Plugin = () => {
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
         node.value = hyphenReplace(node.value)
-        node.value = niceQuotes(node.value)
 
         replaceRegex(
           node,
@@ -89,6 +93,13 @@ export const improveFormatting: Plugin = () => {
           },
           "span.fraction",
         )
+
+        node.value = niceQuotes(node.value)
+
+        // Don't replace slashes in fractions, but give breathing room to others
+        if (!parent.properties?.className?.includes("fraction")) {
+          node.value = fullWidthSlashes(node.value)
+        }
       }
     })
   }
