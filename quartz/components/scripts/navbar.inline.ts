@@ -283,6 +283,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     }
 
     searchType = "basic" // reset search type after closing
+
+    // Since the shadow class is removed when search is up, enable if appropriate
+    toggleShadowNavbar()
   }
 
   // Prevent scrolling when search is open
@@ -299,6 +302,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
     searchBar?.focus()
     updatePlaceholder()
+
+    hideShadowIfSearchFocus()
     // document.addEventListener("scroll", preventDefault)
   }
 
@@ -610,15 +615,30 @@ let prevScrollPos = window.scrollY
 let isScrollingDown = false
 let timeoutId: NodeJS.Timeout | null = null
 
+function toggleShadowNavbar() {
+  const navbar = document.querySelector("#navbar-container")
+  if (!navbar) return
+  navbar.classList.toggle("shadow", window.scrollY > 5)
+}
+
+function hideShadowIfSearchFocus() {
+  const searchContainer = document.getElementById("search-container")
+  if (searchContainer?.classList.contains("active")) {
+    const navbar = document.querySelector("#navbar-container")
+    navbar?.classList.remove("shadow")
+  }
+}
+
 const scrollDisplayUpdate = () => {
   const currentScrollPos = window.scrollY
 
   const navbar = document.querySelector("#navbar-container")
   if (!navbar) return
 
+  toggleShadowNavbar()
+
   // Don't show shadow when search bar is focused
-  const searchBar = document.querySelector("#search-bar")
-  if (!searchBar) navbar.classList.toggle("shadow", currentScrollPos > 5)
+  hideShadowIfSearchFocus()
 
   // Immediate update when reaching the top (within a small threshold)
   if (currentScrollPos <= 5) {
