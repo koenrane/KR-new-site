@@ -97,6 +97,7 @@ Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to ad
 I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. People are 2/3 water, but "01/01/2000" should not be rendered as a fraction.
 
 - Multiplication sign conversion makes multipliers exactly 2x as pleasant to read. See also: 5/4x.
+- Full-width slashes are used for separators like "cat" / "dog."
 
 # Lists
 

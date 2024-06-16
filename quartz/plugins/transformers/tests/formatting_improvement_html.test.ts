@@ -1,4 +1,9 @@
-import { hyphenReplace, niceQuotes, improveFormatting } from "../formatting_improvement_html" // Adjust import path as needed
+import {
+  hyphenReplace,
+  niceQuotes,
+  improveFormatting,
+  fullWidthSlashes,
+} from "../formatting_improvement_html" // Adjust import path as needed
 import { rehype } from "rehype"
 
 function testHtmlFormattingImprovement(inputHTML: string) {
@@ -37,6 +42,16 @@ describe("HTMLFormattingImprovement", () => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(input)
     })
+  })
+
+  describe("Full-width slashes", () => {
+    it.each([["'cat' / 'dog'", "'cat'／'dog'"]])(
+      "should replace / with ／ in %s",
+      (input: string, expected: string) => {
+        const processedHtml = fullWidthSlashes(input)
+        expect(processedHtml).toBe(expected)
+      },
+    )
   })
 
   describe("Non-breaking spaces", () => {

@@ -131,6 +131,7 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
+@include font-face("EBGaramondVar", "EBGaramond/EBGaramond-VariableFont_wght", ".ttf");
 @include font-face("EBGaramondInitials", "EBGaramond/EBGaramond-Initials", ".woff2");
 @include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
 @include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
@@ -153,6 +154,7 @@ body {
   --font-text: "EBGaramond", Garamond, serif;
   --font-text-italic: "EBGaramondItalic", "EBGaramond";
   --font-text-header: "EBGaramond", Garamond, serif;
+  --font-text-bold: "EBGaramondVar", serif;
 
   --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
@@ -170,6 +172,11 @@ body {
   & pre {
     font-variant-numeric: lining-nums;
   }
+}
+
+b,
+strong {
+  // font-family: var(--font-text-bold);
 }
 
 .elvish-italics {
