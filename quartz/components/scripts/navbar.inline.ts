@@ -267,7 +267,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   function hideSearch() {
     container?.classList.remove("active")
-    document.removeEventListener("wheel", preventDefault)
     document.body.classList.remove("no-mix-blend-mode") // Remove class when search is closed
     if (searchBar) {
       searchBar.value = "" // clear the input when we dismiss the search
@@ -285,11 +284,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     searchType = "basic" // reset search type after closing
   }
 
-  // Prevent scrolling when search is open
-  function preventDefault(e: Event) {
-    e.preventDefault()
-  }
-
   function showSearch(searchTypeNew: SearchType) {
     searchType = searchTypeNew
     if (sidebar) {
@@ -299,8 +293,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
     searchBar?.focus()
     updatePlaceholder()
-
-    document.addEventListener("wheel", preventDefault, { passive: false })
   }
 
   let currentHover: HTMLInputElement | null = null
@@ -497,6 +489,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   async function displayPreview(el: HTMLElement | null) {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
+    const content = await fetchContent(slug)
+    console.log(content)
     const innerDiv = await fetchContent(slug).then((contents) =>
       contents.flatMap((el) => [...highlightHTML(currentSearchTerm, el as HTMLElement).children]),
     )
