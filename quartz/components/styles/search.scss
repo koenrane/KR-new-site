@@ -34,7 +34,7 @@
 
     & > p {
       font-size: var(--text-size-90);
-      color: var(--gray);
+      color: color-mix(in srgb, var(--gray) 75%, var(--dark));
       display: inline;
       padding: 0 calc(2 * $baseMargin);
       margin-left: -0.4em;

@@ -131,7 +131,6 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
-@include font-face("EBGaramondVar", "EBGaramond/EBGaramond-VariableFont_wght", ".ttf");
 @include font-face("EBGaramondInitials", "EBGaramond/EBGaramond-Initials", ".woff2");
 @include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
 @include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
@@ -154,7 +153,6 @@ body {
   --font-text: "EBGaramond", Garamond, serif;
   --font-text-italic: "EBGaramondItalic", "EBGaramond";
   --font-text-header: "EBGaramond", Garamond, serif;
-  --font-text-bold: "EBGaramondVar", serif;
 
   --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
@@ -174,9 +172,24 @@ body {
   }
 }
 
+// The fonts don't actually support a bold enough font weight, so simulate using text stroke
 b,
-strong {
-  // font-family: var(--font-text-bold);
+strong,
+dt,
+.callout-title {
+  --webkit-width: 0.01px;
+  -webkit-text-stroke: var(--webkit-width) var(--dark);
+
+  --shadow-width: 0.01px;
+
+  // TODO check how it looks in firefox
+  @supports not (-webkit-text-stroke: var(--shadow-width) var(--dark)) {
+    text-shadow:
+      calc(-1 * var(--shadow-width)) calc(-1 * var(--shadow-width)) 0 var(--dark),
+      var(--shadow-width) calc(-1 * var(--shadow-width)) 0 var(--dark),
+      calc(-1 * var(--shadow-width)) var(--shadow-width) 0 var(--dark),
+      var(--shadow-width) var(--shadow-width) 0 var(--dark);
+  }
 }
 
 .elvish-italics {
