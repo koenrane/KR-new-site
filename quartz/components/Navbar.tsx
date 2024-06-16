@@ -68,6 +68,24 @@ const searchHTML = (
   </div>
 )
 
+const searchInterface = (
+  <div class="search">
+    <div id="search-container">
+      <div id="search-space">
+        <input
+          autocomplete="off"
+          id="search-bar"
+          name="search"
+          type="text"
+          aria-label="Search"
+          placeholder="Search"
+        />
+        <div id="search-layout" data-preview={true}></div>
+      </div>
+    </div>
+  </div>
+)
+
 export default ((userOpts?: Partial<Options>) => {
   const Navbar: QuartzComponent = ({
     cfg,
@@ -91,38 +109,41 @@ export default ((userOpts?: Partial<Options>) => {
       </nav>
     )
     return (
-      <div className={classNames(displayClass, "navbar")}>
-        <div id="navbar-left">
-          {/* <a href={baseDir}> */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            id="header-video"
-            class="header-img no-select"
-            alt=""
-          >
-            <source src="/static/pond.webm" type="video/webm"></source>
-          </video>
-          {}
-          <h2 class="page-title-text">
-            <a href={baseDir} id="page-title-text">
-              {title}
-            </a>
-          </h2>
-          {darkMode}
+      <>
+        <div id="navbar" className={classNames(displayClass, "navbar")}>
+          <div id="navbar-left">
+            {/* <a href={baseDir}> */}
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              id="header-video"
+              class="header-img no-select"
+              alt=""
+            >
+              <source src="/static/pond.webm" type="video/webm"></source>
+            </video>
+            {}
+            <h2 class="page-title-text">
+              <a href={baseDir} id="page-title-text">
+                {title}
+              </a>
+            </h2>
+            {darkMode}
+          </div>
+          <div id="navbar-right">
+            {searchHTML}
+            <button className="hamburger mobile-only" alt="Opens menu for key site links.">
+              <span className="bar" />
+              <span className="bar" />
+              <span className="bar" />
+            </button>
+            {pageLinks}
+          </div>
         </div>
-        <div id="navbar-right">
-          {searchHTML}
-          <button className="hamburger mobile-only" alt="Opens menu for key site links.">
-            <span className="bar" />
-            <span className="bar" />
-            <span className="bar" />
-          </button>
-          {pageLinks}
-        </div>
-      </div>
+        {searchInterface}
+      </>
     )
   }
 

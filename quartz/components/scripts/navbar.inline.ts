@@ -286,8 +286,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   function showSearch(searchTypeNew: SearchType) {
     searchType = searchTypeNew
-    if (sidebar) {
-      sidebar.style.zIndex = "1"
+    const navbar = document.getElementById("navbar")
+    if (navbar) {
+      navbar.style.zIndex = "1"
     }
     container?.classList.add("active")
     document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
@@ -605,7 +606,7 @@ let isScrollingDown = false
 let timeoutId: NodeJS.Timeout | null = null
 
 function toggleShadowNavbar() {
-  const navbar = document.querySelector("#navbar-container")
+  const navbar = document.querySelector("#navbar")
   if (!navbar) return
   navbar.classList.toggle("shadow", window.scrollY > 5)
 }
@@ -613,7 +614,7 @@ function toggleShadowNavbar() {
 const scrollDisplayUpdate = () => {
   const currentScrollPos = window.scrollY
 
-  const navbar = document.querySelector("#navbar-container")
+  const navbar = document.querySelector("#navbar")
   if (!navbar) return
 
   toggleShadowNavbar()
