@@ -283,9 +283,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     }
 
     searchType = "basic" // reset search type after closing
-
-    // Since the shadow class is removed when search is up, enable if appropriate
-    toggleShadowNavbar()
   }
 
   // Prevent scrolling when search is open
@@ -303,7 +300,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     searchBar?.focus()
     updatePlaceholder()
 
-    hideShadowIfSearchFocus()
     document.addEventListener("wheel", preventDefault, { passive: false })
   }
 
@@ -621,14 +617,6 @@ function toggleShadowNavbar() {
   navbar.classList.toggle("shadow", window.scrollY > 5)
 }
 
-function hideShadowIfSearchFocus() {
-  const searchContainer = document.getElementById("search-container")
-  if (searchContainer?.classList.contains("active")) {
-    const navbar = document.querySelector("#navbar-container")
-    navbar?.classList.remove("shadow")
-  }
-}
-
 const scrollDisplayUpdate = () => {
   const currentScrollPos = window.scrollY
 
@@ -636,9 +624,6 @@ const scrollDisplayUpdate = () => {
   if (!navbar) return
 
   toggleShadowNavbar()
-
-  // Don't show shadow when search bar is focused
-  hideShadowIfSearchFocus()
 
   // Immediate update when reaching the top (within a small threshold)
   if (currentScrollPos <= 5) {

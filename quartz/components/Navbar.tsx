@@ -45,7 +45,6 @@ let darkMode = (
   </span>
 )
 
-const enablePreview = true
 const searchHTML = (
   <div class="search">
     <div class="no-select" id="search-icon">
@@ -65,19 +64,6 @@ const searchHTML = (
           <circle cx="8" cy="8" r="7" />
         </g>
       </svg>
-    </div>
-    <div id="search-container">
-      <div id="search-space">
-        <input
-          autocomplete="off"
-          id="search-bar"
-          name="search"
-          type="text"
-          aria-label="Search"
-          placeholder="Search"
-        />
-        <div id="search-layout" data-preview={enablePreview}></div>
-      </div>
     </div>
   </div>
 )

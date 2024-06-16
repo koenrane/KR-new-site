@@ -4,7 +4,31 @@ import clipboardStyle from "./styles/clipboard.scss"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const Body: QuartzComponent = ({ children }: QuartzComponentProps) => {
-  return <div id="quartz-body">{children}</div>
+  const searchInterface = (
+    <div class="search">
+      <div id="search-container">
+        <div id="search-space">
+          <input
+            autocomplete="off"
+            id="search-bar"
+            name="search"
+            type="text"
+            aria-label="Search"
+            placeholder="Search"
+          />
+          <div id="search-layout" data-preview={true}></div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // The children are the three main sections of the page: left, center, and right bars
+  return (
+    <div id="quartz-body">
+      {children}
+      {searchInterface}
+    </div>
+  )
 }
 
 Body.afterDOMLoaded = clipboardScript
