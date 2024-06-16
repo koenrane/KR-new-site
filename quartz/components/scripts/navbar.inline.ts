@@ -412,7 +412,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       },
     })
 
-    itemTile.innerHTML = `${title}${htmlTags}${
+    itemTile.innerHTML = `<h3>${title}</h3>${htmlTags}${
       enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
     }`
     itemTile.addEventListener("click", (event) => {
@@ -490,7 +490,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
     const content = await fetchContent(slug)
-    console.log(content)
     const innerDiv = await fetchContent(slug).then((contents) =>
       contents.flatMap((el) => [...highlightHTML(currentSearchTerm, el as HTMLElement).children]),
     )
