@@ -1,4 +1,4 @@
-import { wrapWithoutTransition, throttle } from "./util"
+import { wrapWithoutTransition } from "./util"
 
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
@@ -8,8 +8,8 @@ hamburger?.addEventListener("click", () => {
   menu?.classList.toggle("visible")
   bars.forEach((bar) => bar.classList.toggle("x")) // Hamburger animation
 })
-// Darkmode handling
 
+// Darkmode handling
 const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
 const currentTheme = localStorage.getItem("theme") ?? userPref
 document.documentElement.setAttribute("saved-theme", currentTheme)
@@ -158,7 +158,7 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
   }
 
   const slice = tokenizedText
-    .map((tok) => {
+    .map((tok: string): string => {
       // see if this tok is prefixed by any search terms
       for (const searchTok of tokenizedTerms) {
         if (tok.toLowerCase().includes(searchTok.toLowerCase())) {
@@ -176,8 +176,8 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
   }`
 }
 
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+function escapeRegExp(text: string) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 }
 
 function highlightHTML(searchTerm: string, el: HTMLElement) {
@@ -228,20 +228,13 @@ function updatePlaceholder() {
   const searchPlaceholderMobile = "Search"
 
   if (window.innerWidth > 1000) {
+    // TODO come with better test
     // This is tablet width
-    searchBar.setAttribute("placeholder", searchPlaceholderDesktop)
+    searchBar?.setAttribute("placeholder", searchPlaceholderDesktop)
   } else {
-    searchBar.setAttribute("placeholder", searchPlaceholderMobile)
+    searchBar?.setAttribute("placeholder", searchPlaceholderMobile)
   }
 }
-
-// Update the placeholder on load and on window resize
-window.addEventListener("load", updatePlaceholder)
-window.addEventListener("resize", updatePlaceholder)
-// window.addCleanup(() => {
-//   window.removeEventListener("load", updatePlaceholder)
-//   window.removeEventListener("resize", updatePlaceholder)
-// })
 
 document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
@@ -274,12 +267,10 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   function hideSearch() {
     container?.classList.remove("active")
+    // document.removeEventListener("scroll", preventDefault)
     document.body.classList.remove("no-mix-blend-mode") // Remove class when search is closed
     if (searchBar) {
       searchBar.value = "" // clear the input when we dismiss the search
-    }
-    if (sidebar) {
-      // sidebar.style.zIndex = "unset"
     }
     if (results) {
       removeAllChildren(results)
@@ -294,6 +285,11 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     searchType = "basic" // reset search type after closing
   }
 
+  // Prevent scrolling when search is open
+  function preventDefault(e: Event) {
+    e.preventDefault()
+  }
+
   function showSearch(searchTypeNew: SearchType) {
     searchType = searchTypeNew
     if (sidebar) {
@@ -302,6 +298,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     container?.classList.add("active")
     document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
     searchBar?.focus()
+    updatePlaceholder()
+    // document.addEventListener("scroll", preventDefault)
   }
 
   let currentHover: HTMLInputElement | null = null
@@ -617,7 +615,10 @@ const scrollDisplayUpdate = () => {
 
   const navbar = document.querySelector("#navbar-container")
   if (!navbar) return
-  navbar.classList.toggle("shadow", currentScrollPos > 5)
+
+  // Don't show shadow when search bar is focused
+  const searchBar = document.querySelector("#search-bar")
+  if (!searchBar) navbar.classList.toggle("shadow", currentScrollPos > 5)
 
   // Immediate update when reaching the top (within a small threshold)
   if (currentScrollPos <= 5) {
