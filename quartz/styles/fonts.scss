@@ -212,6 +212,7 @@ dt,
 
 article > p:first-of-type {
   position: relative;
+  z-index: -1; // Let it go behind search
   &::before {
     content: attr(data-first-letter);
     text-transform: uppercase;

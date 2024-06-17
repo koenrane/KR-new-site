@@ -303,7 +303,7 @@ figcaption,
 }
 
 /* Ensure favicons have appropriate properties. */
-.favicon {
+img.favicon {
   width: 0.65rem;
   height: 0.65rem;
   margin-right: auto;
@@ -439,12 +439,18 @@ img {
   mix-blend-mode: multiply;
 }
 
-[saved-theme="light"] body.no-mix-blend-mode {
-  & img {
+body.no-mix-blend-mode {
+  & img,
+  & video,
+  & svg {
     mix-blend-mode: normal;
   }
+  & img.favicon {
+    filter: none;
+  }
 
-  & #search-layout img {
+  & #search-layout img,
+  & #search-layout video {
     mix-blend-mode: multiply;
   }
 }

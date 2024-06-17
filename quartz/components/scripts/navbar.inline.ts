@@ -413,7 +413,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       },
     })
 
-    itemTile.innerHTML = `<h3>${title}</h3>${htmlTags}${
+    itemTile.innerHTML = `<span class="h4">${title}</span>${htmlTags}${
       enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
     }`
     itemTile.addEventListener("click", (event) => {
