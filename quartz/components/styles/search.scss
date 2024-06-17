@@ -179,6 +179,10 @@
           overflow-y: auto;
           padding: 0 2rem;
 
+          & article > p:first-of-type {
+            z-index: auto;
+          }
+
           & .preview-inner {
             margin: 0 auto;
             width: min($pageWidth, 100%);
