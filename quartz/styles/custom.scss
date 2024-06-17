@@ -449,9 +449,15 @@ body.no-mix-blend-mode {
     filter: none;
   }
 
-  & #search-layout img,
-  & #search-layout video {
-    mix-blend-mode: multiply;
+  & #search-layout {
+    & img,
+    video,
+    svg {
+      mix-blend-mode: multiply;
+    }
+    & img.favicon {
+      filter: saturate(40%);
+    }
   }
 }
 
