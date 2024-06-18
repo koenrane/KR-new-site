@@ -440,9 +440,8 @@ img {
 }
 
 // Ordering the z stacks
-.center,
-.right {
-  z-index: -1;
+#left-sidebar {
+  z-index: 1;
 }
 
 body.no-mix-blend-mode {
