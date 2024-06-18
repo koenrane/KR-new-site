@@ -45,7 +45,9 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
       const slugs: FullSlug[] = aliases.map((alias) => path.posix.join(dir, alias) as FullSlug)
       const permalink = file.data.frontmatter?.permalink
       if (typeof permalink === "string") {
-        slugs.push(permalink as FullSlug)
+        // slugs.push(permalink as FullSlug)
+        slugs.push(file.data.slug as FullSlug)
+        file.data.slug = permalink as FullSlug
       }
 
       for (let slug of slugs) {
