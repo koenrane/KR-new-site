@@ -46,7 +46,7 @@ let darkMode = (
 )
 
 const searchHTML = (
-  <div class="search">
+  <div class="search" alt="Menu search bar">
     <div class="no-select" id="search-icon">
       <p>Search</p>
       <div></div>
@@ -69,7 +69,7 @@ const searchHTML = (
 )
 
 const searchInterface = (
-  <div class="search">
+  <div class="search" alt="Displays search results.">
     <div id="search-container">
       <div id="search-space">
         <input
@@ -134,6 +134,7 @@ export default ((userOpts?: Partial<Options>) => {
           </div>
           <div id="navbar-right">
             {searchHTML}
+            {searchInterface}
             <button className="hamburger mobile-only" alt="Opens menu for key site links.">
               <span className="bar" />
               <span className="bar" />
@@ -142,7 +143,6 @@ export default ((userOpts?: Partial<Options>) => {
             {pageLinks}
           </div>
         </div>
-        {searchInterface}
       </>
     )
   }

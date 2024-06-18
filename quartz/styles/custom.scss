@@ -439,14 +439,17 @@ img {
   mix-blend-mode: multiply;
 }
 
+// Ordering the z stacks
+.center,
+.right {
+  z-index: -1;
+}
+
 body.no-mix-blend-mode {
   & img,
   & video,
   & svg {
     mix-blend-mode: normal;
-  }
-  & img.favicon {
-    filter: none;
   }
 
   & #search-layout {
@@ -454,9 +457,6 @@ body.no-mix-blend-mode {
     video,
     svg {
       mix-blend-mode: multiply;
-    }
-    & img.favicon {
-      filter: saturate(40%);
     }
   }
 }
