@@ -1,9 +1,8 @@
 const turnDown = require("turndown")
-var turnDownPluginGfm = require("turndown-plugin-gfm")
-var gfm = turnDownPluginGfm.gfm
+let turnDownPluginGfm = require("turndown-plugin-gfm")
+let gfm = turnDownPluginGfm.gfm
 
-var turndownService = new turnDown({ headingStyle: "atx", emDelimiter: "_" })
-turndownService = turndownService.use([gfm])
+let turndownService = new turnDown({ headingStyle: "atx", emDelimiter: "_" }).use([gfm])
 turndownService.addRule("subscript", {
   filter: ["sub"],
   replacement: function (content) {
@@ -11,36 +10,31 @@ turndownService.addRule("subscript", {
   },
 })
 
-turndownService.addRule("removeMath", {
-  filter: ["span"],
-  replacement: function (content, node) {
-    if (node.nodeName.toLowerCase() === "style" && node.getAttribute("class").includes("mjx")) {
-      // Remove the span content
-      return ""
-    }
-    return content
-  },
-})
-
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
-    return node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx-chtml")
+    return (
+      (node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx")) ||
+      node.nodeName === "STYLE"
+    )
   },
   replacement: function (content, node) {
-    let delimiter = "$"
-    if (node.getAttribute("class").includes("MJXc-display")) {
-      delimiter = "$$"
-    }
+    const className = node.getAttribute("class")
+    if (className?.includes("mjx-chtml")) {
+      let delimiter = "$"
+      // See if the math is block-level
+      if (className.includes("MJXc-display")) {
+        delimiter = "$$"
+      }
 
-    const firstChild = node?.firstChild
-    if (firstChild?.getAttribute("class").includes("mjx-math")) {
-      return delimiter + firstChild.getAttribute("aria-label") + delimiter
+      return delimiter + node.firstChild.getAttribute("aria-label") + delimiter
+    } else {
+      console.log(className)
+      return ""
     }
   },
 })
 
 const fs = require("fs")
-const { delimiter } = require("path")
 
 const filePath = "/Users/turntrout/Documents/response-new.json"
 
