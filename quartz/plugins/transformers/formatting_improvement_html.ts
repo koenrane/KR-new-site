@@ -4,7 +4,7 @@ import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 export function niceQuotes(text: string) {
-  text = text.replace(/(?<=^|\b|\s|[\(\/\[])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
+  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
   text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
   text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
