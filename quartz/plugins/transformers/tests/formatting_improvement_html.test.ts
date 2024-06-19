@@ -29,6 +29,7 @@ describe("HTMLFormattingImprovement", () => {
       ['"I am" so "tired" of "these" "quotes".', "“I am” so “tired” of “these” “quotes.”"],
       ['"world model";', "“world model”;"],
       ['"party"/"wedding."', "“party”/“wedding.”"],
+      ["'s", "’s"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
