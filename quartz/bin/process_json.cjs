@@ -11,7 +11,7 @@ turndownService.addRule("subscript", {
   },
 })
 
-turndownService.addRule("span", {
+turndownService.addRule("removeMath", {
   filter: ["span"],
   replacement: function (content, node) {
     if (node.nodeName.toLowerCase() === "style" && node.getAttribute("class").includes("mjx")) {
@@ -24,14 +24,23 @@ turndownService.addRule("span", {
 
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
-    return node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx-math")
+    return node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx-chtml")
   },
   replacement: function (content, node) {
-    return "$" + node.getAttribute("aria-label") + "$"
+    let delimiter = "$"
+    if (node.getAttribute("class").includes("MJXc-display")) {
+      delimiter = "$$"
+    }
+
+    const firstChild = node?.firstChild
+    if (firstChild?.getAttribute("class").includes("mjx-math")) {
+      return delimiter + firstChild.getAttribute("aria-label") + delimiter
+    }
   },
 })
 
 const fs = require("fs")
+const { delimiter } = require("path")
 
 const filePath = "/Users/turntrout/Documents/response-new.json"
 
