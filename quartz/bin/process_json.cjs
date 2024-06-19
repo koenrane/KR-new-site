@@ -11,33 +11,23 @@ turndownService.addRule("subscript", {
   },
 })
 
+turndownService.addRule("span", {
+  filter: ["span"],
+  replacement: function (content, node) {
+    if (node.nodeName.toLowerCase() === "style" && node.getAttribute("class").includes("mjx")) {
+      // Remove the span content
+      return ""
+    }
+    return content
+  },
+})
+
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
     return node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx-math")
   },
   replacement: function (content, node) {
     return "$" + node.getAttribute("aria-label") + "$"
-  },
-})
-
-turndownService = turndownService.addRule("removeMath", {
-  filter: function (node) {
-    if (
-      node.nodeName?.toLowerCase() === "style" ||
-      node.nodeName?.toLowerCase() === "span" ||
-      node?.className.includes("mjx") //&&
-      // !node.getAttribute("class")?.includes("mjx-math") &&
-      // node.getAttribute("class")?.toLowerCase()?.includes("mjx")
-    ) {
-      // console.log(node.nodeName)
-      return true
-    }
-  },
-  replacement: function (content, node) {
-    // console.log(content)
-    node.textContent = ""
-    node.innerHTML = ""
-    return ""
   },
 })
 
