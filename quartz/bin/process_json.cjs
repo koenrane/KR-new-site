@@ -12,23 +12,21 @@ turndownService.addRule("subscript", {
 
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
-    return (
-      (node.nodeName === "SPAN" && node.getAttribute("class")?.includes("mjx")) ||
-      node.nodeName === "STYLE"
-    )
+    return node.getAttribute("class")?.includes("mjx") || node.nodeName === "STYLE"
   },
   replacement: function (content, node) {
     const className = node.getAttribute("class")
     if (className?.includes("mjx-chtml")) {
-      let delimiter = "$"
+      let openDelimiter = "$"
+      let closeDelimiter = "$"
       // See if the math is block-level
       if (className.includes("MJXc-display")) {
-        delimiter = "$$"
+        openDelimiter = "$$\n" // Quartz requires newlines for block equations
+        closeDelimiter = "\n$$"
       }
 
-      return delimiter + node.firstChild.getAttribute("aria-label") + delimiter
+      return openDelimiter + node.firstChild.getAttribute("aria-label") + closeDelimiter
     } else {
-      console.log(className)
       return ""
     }
   },
