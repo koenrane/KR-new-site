@@ -4,6 +4,12 @@ export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
 )
 
+const linkText = /\[([^\]]+)\]/ // group 2
+
+// Group 3:
+const linkURL = /\(([^#].*?)\)/ // Ignore internal links, capture as little as possible
+export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
+
 export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
 export const replaceRegex = (
   node: any,

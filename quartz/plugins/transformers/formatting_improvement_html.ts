@@ -26,7 +26,7 @@ export function fullWidthSlashes(text: string): string {
 
 export function hyphenReplace(text: string) {
   // Create a regex for dashes surrounded by spaces
-  const surroundedDash = new RegExp("([^\\s>](?: +)|^)[~–—-]+ +", "g")
+  const surroundedDash = new RegExp("([^\\s>]|^) *[~–—-]+ +", "g")
 
   // Replace surrounded dashes with em dash
   text = text.replace(surroundedDash, "$1—")

@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { numberRegex } from "./utils"
+import { numberRegex, mdLinkRegex } from "./utils"
 
 // Not followed by a colon (the footnote definition) or an opening parenthesis (md URL)
 const footnoteRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
@@ -9,6 +9,14 @@ const footnoteEndOfSentence = (text: string) => {
   let tighterText = text.replaceAll(footnoteRegex, footnoteReplacement)
 
   return tighterText
+}
+
+const concentrateEmphasisAroundLinks = (text: string): string => {
+  const emphRegex = new RegExp(
+    `(?<emph>[*_]+)(?<whitespace1>\\s*)(?<url>${mdLinkRegex.source})(?<whitespace2>\\s*)(\\k<emph>)`,
+    "gm",
+  )
+  return text.replace(emphRegex, "$<whitespace1>$<emph>$<url>$<emph>$<whitespace2>")
 }
 
 export const formattingImprovement = (text: string) => {
@@ -25,6 +33,8 @@ export const formattingImprovement = (text: string) => {
   let newContent = footnoteEndOfSentence(content)
   // Pretty multiplication for 3x, 4x, etc.
   newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
+  newContent = concentrateEmphasisAroundLinks(newContent)
+  newContent = newContent.replace(" ,", ",")
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
