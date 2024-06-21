@@ -621,16 +621,16 @@ const scrollDisplayUpdate = () => {
 
   // Immediate update when reaching the top (within a small threshold)
   if (currentScrollPos <= 5) {
-    navbar.classList.remove("hide")
+    navbar.classList.remove("hide-above-screen")
   } else {
     // Determine scroll direction
     isScrollingDown = currentScrollPos > prevScrollPos
 
     // Hide immediately on downward scroll, show immediately on upward scroll
     if (isScrollingDown) {
-      navbar.classList.add("hide")
+      navbar.classList.add("hide-above-screen")
     } else {
-      navbar.classList.remove("hide")
+      navbar.classList.remove("hide-above-screen")
     }
 
     // Throttled update for shadow

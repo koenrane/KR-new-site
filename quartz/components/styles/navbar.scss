@@ -168,11 +168,10 @@
       box-shadow: 0 2px 4px 0px rgba(#5c5f77, 0.1);
       clip-path: inset(0px 0px -1500px 0px);
     }
-
-    &.hide {
-      top: -100px;
-      opacity: 0;
-    }
+  }
+  .hide-above-screen {
+    top: -100px;
+    opacity: 0;
   }
 }
 
