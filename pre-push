@@ -4,13 +4,16 @@
 
 CURRENT_BRANCH=$(git symbolic-ref --short head)
 
-if [[ $CURRENT_BRANCH = "main" ]]; then
-	npm run test
-	result=$?
-	if [[ $? -ne 0 ]]; then
-		echo "Failed unit tests. Not pushing!" >&2
-		exit 1
-	fi
+if [[ $CURRENT_BRANCH != "main" ]]; then
+	exit 0
+fi
+
+# Run unit tests
+npm run test
+result=$?
+if [[ $? -ne 0 ]]; then
+	echo "Failed unit tests. Not pushing!" >&2
+	exit 1
 fi
 
 # Run spellcheck on all markdown files
@@ -55,10 +58,16 @@ for file in $(git diff --cached --name-only --diff-filter=ACM); do
 	fi
 done
 
+npx quartz build --serve &
+SERVER_PID=$! # Store the server's process ID
+sleep 4
+
 npx backstop test --config=backstop.cjs
+TEST_STATUS=$?
+kill -TERM $SERVER_PID # Kill the server
 
 # Check if the test failed
-if [[ $? -ne 0 ]]; then
+if [[ "$TEST_STATUS" -ne 0 ]]; then
 	echo "Visual regression test failed. Review the report:"
 
 	# Open the BackstopJS report (replace with your actual command)
