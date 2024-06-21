@@ -156,8 +156,6 @@
 @media all and (max-width: $fullPageWidth) {
   #quartz-body > #left-sidebar {
     width: 100%;
-  }
-  #quartz-body #navbar {
     transition:
       top 0.3s ease,
       opacity 0.3s ease;
