@@ -187,19 +187,20 @@ a {
       }
     }
 
-    & .sidebar.left {
+    & #left-sidebar {
       @media all and (max-width: $fullPageWidth) {
         gap: 0;
         align-items: center;
+        width: $pageWidth;
+        position: fixed;
       }
       @media all and (min-width: $fullPageWidth) {
         left: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
       }
     }
 
-    & .sidebar.right {
+    & #right-sidebar {
       right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
-      // right: 0px;
       flex-wrap: wrap;
       & > * {
         @media all and (max-width: $fullPageWidth) {
