@@ -192,6 +192,9 @@ a {
         gap: 0;
         align-items: center;
       }
+      @media all and (min-width: $fullPageWidth) {
+        left: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
+      }
     }
 
     & .sidebar.right {
