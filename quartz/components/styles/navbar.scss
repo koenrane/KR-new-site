@@ -132,7 +132,7 @@
   }
   @media all and (min-width: $fullPageWidth) {
     margin-bottom: $baseMargin;
-    margin-top: calc(-1 * $baseMargin);
+    margin-top: 0;
     font-size: var(--text-size-500);
   }
 }
