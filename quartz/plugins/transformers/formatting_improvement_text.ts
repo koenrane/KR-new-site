@@ -34,7 +34,7 @@ export const formattingImprovement = (text: string) => {
   // Pretty multiplication for 3x, 4x, etc.
   newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
   newContent = concentrateEmphasisAroundLinks(newContent)
-  newContent = newContent.replace(" ,", ",")
+  newContent = newContent.replace(/ *\,/g, ",")
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
