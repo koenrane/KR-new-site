@@ -35,7 +35,7 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   )
 }
 
-function addListItem(remainingEntries, currentDepth) {
+function addListItem(remainingEntries, currentDepth: number) {
   if (remainingEntries.length === 0) {
     return ""
   }
@@ -53,7 +53,7 @@ function addListItem(remainingEntries, currentDepth) {
     } else {
       // Process entries at the same depth
       remainingEntries.shift()
-      const li = (
+      let li = (
         <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
           <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
             {tocEntry.text}

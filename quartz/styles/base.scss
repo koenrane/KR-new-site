@@ -163,7 +163,6 @@ a {
 
     & .sidebar {
       flex: 1;
-      display: flex;
       flex-direction: column;
       top: 0;
       width: $sidePanelWidth;
@@ -188,6 +187,7 @@ a {
     }
 
     & #left-sidebar {
+      display: flex;
       @media all and (max-width: $fullPageWidth) {
         gap: 0;
         align-items: center;
@@ -201,6 +201,8 @@ a {
 
     & #right-sidebar {
       right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
+      height: 96vh; // Leave room for bottom of ContentMeta
+      overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
       & > * {
         @media all and (max-width: $fullPageWidth) {
