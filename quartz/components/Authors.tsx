@@ -26,7 +26,7 @@ const Authors: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompone
 
   const hideTime = fileData.frontmatter?.hide_reading_time
   let displayString = authors
-  if (!hideTime) displayString += ` | ${displayedTime}`
+  if (!hideTime) displayString += `  ／ ${displayedTime}`
 
   return (
     <span>
