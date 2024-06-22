@@ -19,6 +19,16 @@ describe("TextFormattingImprovement Plugin", () => {
     })
   })
 
+  describe("Comma spacing", () => {
+    it.each([
+      ["  ,", ","],
+      ["Hi, he said", "Hi, he said"],
+    ])("Removes spaces before commas.", (input: string, expected: string): void => {
+      const result = processtext(input)
+      expect(result).toBe(expected)
+    })
+  })
+
   describe("YAML Header Handling", () => {
     it("ignores YAML header and processes content correctly", () => {
       const input = `
