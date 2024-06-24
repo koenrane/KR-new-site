@@ -10,6 +10,15 @@ turndownService.addRule("subscript", {
   },
 })
 
+turndownService.addRule("table linebreak", {
+  filter: ["table"],
+  replacement: function (content) {
+    const newlinePattern = /(?<=\|)(?: (?:\n)?\n)(.*?)(?:\n\n )(?=\|)/g
+    content = content.replaceAll(newlinePattern, "$1")
+    return content.trim().replaceAll("(?=[^\\s|]) ?\n", "<br/>")
+  },
+})
+
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
     return node.getAttribute("class")?.includes("mjx") || node.nodeName === "STYLE"
