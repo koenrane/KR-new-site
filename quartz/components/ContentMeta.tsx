@@ -17,9 +17,9 @@ export default ((opts?) => {
       const frontmatter = fileData.frontmatter
 
       if (frontmatter?.original_url) {
-        var dateStr = ""
+        let dateStr = ""
         // TODO automate this for new posts
-        var publicationStr = "Published"
+        let publicationStr = "Published"
         if (frontmatter?.date_published) {
           publicationStr = "Originally published"
           const formattedDate: Date = formatDate(new Date(frontmatter?.date_published))
@@ -47,7 +47,11 @@ export default ((opts?) => {
       }
 
       const segmentsElements = segments.map((segment) => <p>{segment}</p>)
-      return <div class={classNames(displayClass, "content-meta")}>{segmentsElements}</div>
+      return (
+        <div id="content-meta" class={classNames(displayClass)}>
+          {segmentsElements}
+        </div>
+      )
     } else {
       return null
     }

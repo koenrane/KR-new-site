@@ -23,14 +23,13 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   const title = fileData.frontmatter?.title
 
   return (
-    <div class={classNames(displayClass, "toc")}>
+    <div id="table-of-contents" class={classNames(displayClass)}>
       <h6 class="toc-title">
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
         <ul class="overflow">{addListItem(fileData.toc, 0)}</ul>
       </div>
-      <hr />
     </div>
   )
 }
