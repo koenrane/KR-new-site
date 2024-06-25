@@ -4,6 +4,8 @@ publish: "true"
 hide_metadata: "true"
 title: The Pond
 hide_title: "true"
+aliases:
+  - "index"
 ---
 
 Hello! I'm TurnTrout, and this is my pond. Stay a while! _The Pond_ gathers my writings on topics including AI, self-improvement, and living a good life.
@@ -13,4 +15,5 @@ The earliest content dates back to January 2018. Over the years, I've built up a
 I also enjoy writing more personal content and sharing a bit [[about me]]. While my blog's [previous home ](http://www.lesswrong.com/user/turntrout) made "TurnTrout" a familiar name to some folks, only a narrow part of me got to shine through.
 
 <video autoplay="" loop="" muted="" playsinline=""><source src="/static/pond-calming.webm" type="video/webm">
+
 > </video>
