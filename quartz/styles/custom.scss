@@ -195,6 +195,7 @@ sup {
     border-color 1s ease-in-out !important;
 }
 
+:root[saved-theme="dark"] video,
 :root[saved-theme="dark"] img {
   filter: grayscale(50%);
 
