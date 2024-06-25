@@ -1,7 +1,8 @@
 import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
-import { CreateFaviconElement, GetQuartzPath } from "../plugins/transformers/linkfavicons"
+import { TagList } from "./TagList"
+import { GetQuartzPath } from "../plugins/transformers/linkfavicons"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
@@ -10,10 +11,12 @@ export default ((opts?) => {
     if (fileData.frontmatter?.hide_metadata) {
       return null
     }
+
     const text = fileData.text
 
     if (text) {
-      const segments: (string | JSX.Element)[] = []
+      const tags: Element = TagList({ cfg, fileData, displayClass: "tags" })
+      const segments: (string | JSX.Element)[] = [tags]
       const frontmatter = fileData.frontmatter
 
       if (frontmatter?.original_url) {

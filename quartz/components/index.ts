@@ -9,7 +9,6 @@ import ContentMeta from "./ContentMeta"
 import Spacer from "./Spacer"
 import TableOfContents from "./TableOfContents"
 import Navbar from "./Navbar"
-import TagList from "./TagList"
 import Graph from "./Graph"
 import Backlinks from "./Backlinks"
 import Footer from "./Footer"
@@ -30,7 +29,6 @@ export {
   Spacer,
   TableOfContents,
   Navbar,
-  TagList,
   Graph,
   Backlinks,
   Footer,

@@ -21,7 +21,6 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   right: [
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.TagList(),
     Component.ContentMeta(),
     Component.Backlinks(),
   ],

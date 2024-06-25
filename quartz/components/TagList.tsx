@@ -17,25 +17,23 @@ export const getTags = (fileData: any) => {
   return tags.sort((a: string, b: string) => b.length - a.length)
 }
 
-const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
+export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   // Sort by string lenth, descending
   let tags = getTags(fileData)
   const baseDir = pathToRoot(fileData.slug!) // TODO possibly problematic
   if (tags && tags.length > 0) {
     return (
       <>
-        <div>
-          <ul class={classNames(displayClass, "tags")}>
-            {tags.map((tag: any) => {
-              const linkDest = baseDir + `/tags/${slugTag(tag)}`
-              return (
-                <a href={linkDest} class="internal tag-link">
-                  {tag}
-                </a>
-              )
-            })}
-          </ul>
-        </div>
+        <ul class={classNames(displayClass, "tags")}>
+          {tags.map((tag: any) => {
+            const linkDest = baseDir + `/tags/${slugTag(tag)}`
+            return (
+              <a href={linkDest} class="internal tag-link">
+                {tag}
+              </a>
+            )
+          })}
+        </ul>
       </>
     )
   } else {
