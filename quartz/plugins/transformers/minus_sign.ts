@@ -7,9 +7,9 @@ const minusReplace: Plugin = (text: string) => {
   return text.replaceAll(numberMatch, "$1−$2")
 }
 
-export const RemarkMinusReplace: QuartzTransformerPlugin = () => {
+export const MinusReplaceTransform: QuartzTransformerPlugin = () => {
   return {
-    name: "remarkMinusReplace",
+    name: "MinusReplace",
     textTransform(_ctx, src) {
       if (src instanceof Buffer) {
         src = src.toString()
