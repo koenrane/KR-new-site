@@ -234,8 +234,22 @@ body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
   font-family: "Elvish";
 }
 
-figure img {
-  margin-bottom: 1em;
+figure,
+.subfigure {
+  margin-inline-start: $baseMargin;
+  margin-inline-end: $baseMargin;
+  margin-block-start: $baseMargin;
+  margin-block-end: $baseMargin;
+
+  & img {
+    margin-bottom: calc(0.5 * $baseMargin);
+    width: 100%;
+  }
+
+  & + figure {
+    margin-top: calc(3 * $baseMargin);
+  }
+  flex: 1 1 0px;
 }
 
 // Article images should be centered
@@ -421,7 +435,7 @@ a.internal.tag-link {
 
 img {
   width: 87.5%;
-  margin-top: calc(2 * $baseMargin);
+  // margin-top: calc(2 * $baseMargin);
   margin-bottom: calc(2 * $baseMargin);
   &.inline-img {
     display: inline;
