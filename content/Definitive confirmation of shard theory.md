@@ -13,7 +13,7 @@ I've written a lot about [[shard theory]] over the last year. I've poured dozens
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 
-<figure>![[static/images/posts/46shards.png|Not only does gpt-neox-20b have shards, it has exactly forty-six.]]
+<figure>![[static/images/posts/46shards.avif|Not only does gpt-neox-20b have shards, it has exactly forty-six.]]
 <figcaption>Not only does <code>gpt-neox-20b</code> have shards, it has exactly forty-six.</figcaption></figure>
 
 I've concluded the following:

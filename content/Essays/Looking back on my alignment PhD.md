@@ -12,13 +12,14 @@ tags:
 > This post has been recorded as part of the LessWrong Curated Podcast. It can be listened to on [Spotify](https://open.spotify.com/episode/5UY1LrzUakTbs8LsL0ld1s?si=adfa86cec2c4409a), [Apple Podcasts](https://podcasts.apple.com/us/podcast/looking-back-on-my-alignment-phd-by-turntrout/id1630783021?i=1000569310113), and [Libsyn](https://sites.libsyn.com/421877/looking-back-on-my-alignment-phd).
 
 <figure>
-<img src="/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png" alt="" style="max-width: 550px; width: 100%; margin-left: auto;  
+<img src="/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif" alt="" style="max-width: 550px; width: 100%; margin-left: auto;  
   margin-right: auto; display: block">
  <figcaption>My <a href="https://arxiv.org/pdf/2206.11831.pdf" class="external-link">dissertation.</a> It's long, so if you're going to read anything from it, read Chapter 0 (Introduction).</figcaption></figure>
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I'm proud of what I accomplished during my PhD. That said, I'm going to first focus on mistakes I've made over the past four[^1] years.
 
-![[Pasted image 20240512205303.png]]
+![](../Attachments/phdReflection.avif)
+![](/Attachments/phdReflection.avif)
 
 <figcaption>Before my thesis defense -- thinking about what I'd done to advance alignment research, and if it would be enough.</figcaption>
 
