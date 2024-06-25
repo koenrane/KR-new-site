@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(toc)
   // Check if both ToC and content exist and have children
   if (toc && content && toc.children.length > 0 && content.children.length > 0) {
-    const hr = document.createElement("hr")
+    let hr = document.createElement("hr")
+    hr.className = "desktop-only"
     toc.after(hr) // Insert the <hr> after the ToC
   }
 })
