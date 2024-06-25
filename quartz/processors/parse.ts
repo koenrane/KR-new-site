@@ -13,7 +13,6 @@ import workerpool, { Promise as WorkerPromise } from "workerpool"
 import { QuartzLogger } from "../util/log"
 import { trace } from "../util/trace"
 import { BuildCtx } from "../util/ctx"
-import rehypeFigure from "@microflash/rehype-figure" // Auto create figures from images
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
 
 export type QuartzProcessor = Processor<MDRoot, MDRoot, HTMLRoot>
@@ -29,7 +28,6 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
     )
     .use(remarkDefinitionList)
     .use(remarkRehype, { allowDangerousHtml: true, handlers: defListHastHandlers })
-    .use(rehypeFigure)
     .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
 }
 

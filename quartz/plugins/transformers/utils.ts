@@ -1,12 +1,22 @@
 import { h } from "hastscript"
+import path from "path"
+import { execSync } from "child_process"
+
+// For CWD
+export const findGitRoot = () => {
+  try {
+    return execSync("git rev-parse --show-toplevel").toString().trim()
+  } catch (error) {
+    console.error(`Error finding Git root: ${error}`)
+    return null // Or throw an error, depending on your preference
+  }
+}
 
 export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
 )
 
-const linkText = /\[([^\]]+)\]/ // group 2
-
-// Group 3:
+const linkText = /\[([^\]]+)\]/
 const linkURL = /\(([^#].*?)\)/ // Ignore internal links, capture as little as possible
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 

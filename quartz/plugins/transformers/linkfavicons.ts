@@ -1,8 +1,31 @@
 import { visit } from "unist-util-visit"
-import axios from "axios"
-import { Node } from "unist"
 import path from "path"
+import { findGitRoot } from "./utils"
 import fs from "fs"
+import winston from "winston"
+import DailyRotateFile from "winston-daily-rotate-file"
+
+const gitRoot = findGitRoot()
+const logDir = path.join(gitRoot, ".logs")
+//
+// Create the log directory if it doesn't exist
+if (!fs.existsSync(logDir)) {
+  fs.mkdirSync(logDir, { recursive: true }) // 'recursive: true' creates parent folders if needed
+}
+
+winston.transports.DailyRotateFile = DailyRotateFile
+const logger = winston.createLogger({
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+  transports: [
+    new winston.transports.DailyRotateFile({
+      filename: path.join(logDir, "error-%DATE%.log"),
+      datePattern: "YYYY-MM-DD",
+      zippedArchive: true,
+      maxSize: "20m",
+      maxFiles: "14d",
+    }),
+  ],
+})
 
 const STATIC_RELATIVE_PATH = "quartz/static"
 const MAIL_PATH = `${STATIC_RELATIVE_PATH}/images/mail.svg`
@@ -16,7 +39,7 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
     return new Promise((resolve) => {
       get(url, (response) => {
         if (response.statusCode !== 200) {
-          console.error(`Failed to download: ${url} (Status ${response.statusCode})`)
+          logger.warn(`Failed to download: ${url} (Status ${response.statusCode})`)
           resolve(false)
           return
         }
@@ -27,7 +50,7 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
           resolve(true)
         })
       }).on("error", (err) => {
-        console.error(`Error downloading: ${url}`)
+        logger.warn(`Failed to download ${url}`)
         fs.unlink(image_path) // Cleanup
         resolve(false)
       })
@@ -62,7 +85,7 @@ async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
       }
     }
 
-    console.error(`Error handling favicon for ${hostname}`)
+    logger.warn(`No favicon found for ${hostname}`)
     return null // Indicate failure
   }
 }
