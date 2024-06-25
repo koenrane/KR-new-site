@@ -39,7 +39,7 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
     return new Promise((resolve) => {
       get(url, (response) => {
         if (response.statusCode !== 200) {
-          logger.warn(`Failed to download: ${url} (Status ${response.statusCode})`)
+          logger.info(`Failed to download: ${url} (Status ${response.statusCode})`)
           resolve(false)
           return
         }
@@ -50,7 +50,7 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
           resolve(true)
         })
       }).on("error", (err) => {
-        logger.warn(`Failed to download ${url}`)
+        logger.info(`Failed to download ${url}`)
         fs.unlink(image_path) // Cleanup
         resolve(false)
       })
@@ -85,7 +85,7 @@ async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
       }
     }
 
-    logger.warn(`No favicon found for ${hostname}`)
+    logger.info(`No favicon found for ${hostname}`)
     return null // Indicate failure
   }
 }
