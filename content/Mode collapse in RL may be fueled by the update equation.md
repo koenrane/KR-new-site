@@ -39,7 +39,7 @@ This continues to happen, which means that "wedding" gets arbitrarily high logit
 
 This flaw is easiest to see formally. Initialize the $t=0$ tabular value function $v^\pi_0$ to 0, and the policy $\pi_0$ to be 50/50 for “party”/“wedding”. Let $\gamma=1$, and we update the value function $v$ using tabular TD learning (with learning rate $\alpha=1$). So, for example, if the system takes the “wedding” action, its new value function $v_1^\pi(s)=1$. If the system then takes the “party” action, the value snaps back to $v_2^\pi(s)=.5$.[^2]
 
-The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$’s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding"})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
+The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding"})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
 
 Episode-by-episode:
 
@@ -55,9 +55,9 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards “wedding.” Its logits just go up and up and up. Mode collapse.
 2. We want the reward to be _feedback_ about what kinds of completions are good (or, more abstractly, about what kinds of computations are good to run inside the network). We want a single situation to provide a _finite amount of updating._
 3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says “We had a party at Chuck-E-Cheese.” But the system may never get there during training due to exploration issues, which are *exarcerbated by the network getting penalized relative to its on-policy value estimate* $v_{t-1}(s)$.[^explore]
-   [^explore]: In other words, PPO actively updates against actions which aren’t known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
+   [^explore]: In other words, PPO actively updates against actions which aren't known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
-This doesn’t seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. “wedding”). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
+This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. “wedding”). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
 ### Action-conditioned TD error avoids arbitrarily high logits
 
@@ -65,13 +65,13 @@ Given the original advantage equation:
 
 $$A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s),$$
 
-replace the last term’s baseline to account for the taken action:
+replace the last term's baseline to account for the taken action:
 
 $$A_*^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi(s')\right]-q^\pi(s,a).$$
 
 We call this “**action-conditioned TD error**” (ACTDE).
 
-ACTDE allows the system to account for its decision to go off-policy by selecting a new action $a$ which isn’t the usual recommendation $a' \sim \pi(s)$. Philosophically, Alex wanted to mimic reward prediction error. The network taking a different action is not surprising to the network, so the optimization term should account for the action taken (i.e. by using $q^\pi(s,a)$).
+ACTDE allows the system to account for its decision to go off-policy by selecting a new action $a$ which isn't the usual recommendation $a' \sim \pi(s)$. Philosophically, Alex wanted to mimic reward prediction error. The network taking a different action is not surprising to the network, so the optimization term should account for the action taken (i.e. by using $q^\pi(s,a)$).
 
 Re-analyzing the situation:
 
@@ -84,7 +84,7 @@ Re-analyzing the situation:
 
 The policy quickly converges to the softmax logits over the reward for the next completions, where $\frac{e^1}{e^1+e^{.5}}\approx.63$. That is, the learned policy has $R(\text{“party”})=.5$ logits on “party” and $R(\text{“wedding”})=1$ logit on “wedding”. **Therefore this process does not converge to the optimal policy, even in the limit of infinite exploration. Correspondingly, there is no mode collapse in this situation.** **Reward logits are “added to” initialization logits** $\pi_0$ **(the prior over what completions to output). RL, in this setting, provides a finite amount of reinforcement for certain kinds of computation/actions.**
 
-Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advantage and zero updates. Networks aren’t penalized for exploring, and there’s a precise and finite amount of reinforcement which can occur given current predictions about future value, as represented by $q_t$. And training should be more stable, with fewer fluctuations in advantage with respect to the policy itself.[^3]
+Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advantage and zero updates. Networks aren't penalized for exploring, and there's a precise and finite amount of reinforcement which can occur given current predictions about future value, as represented by $q_t$. And training should be more stable, with fewer fluctuations in advantage with respect to the policy itself.[^3]
 
 ### ACTDE doesn't mode-collapse onto wireheading
 
@@ -190,7 +190,7 @@ _Thanks to Connor Leahy, Evan Hubinger, Ulisse Mini, Nate Soares, Leo Gao, Garre
 ## Appendix: Random notes
 
 1. The learning rate on $q^\pi$ should control the total amount of reinforcement from a single reward source.
-2. The at-convergence learned policy will, in our tabular setting, be invariant to constant shifts of the reward function and, when $\gamma=1$, to constant shifts of $q^\pi$’s initialization.
+2. The at-convergence learned policy will, in our tabular setting, be invariant to constant shifts of the reward function and, when $\gamma=1$, to constant shifts of $q^\pi$'s initialization.
    1. However, perhaps decreasing rewards everywhere encourages exploration and increasing rewards encourages temporary mode collapse?
    2. Multiplying all rewards by a positive scalar $c>0$ will extremize the policy probabilities in a rather simple way, by taking them to the $c$<sup>th</sup> power and then renormalizing. This is equivalent to a change in temperature for the softmax distribution.
 
@@ -201,7 +201,7 @@ _Thanks to Connor Leahy, Evan Hubinger, Ulisse Mini, Nate Soares, Leo Gao, Garre
 3.  It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See variations of the matrix [here](https://www.desmos.com/calculator/snt6bxoqis).
 
 [^1]: This advantage equation, as given, can also be called the "TD error."
-[^2]: Alex thinks that using a fixed learning rate $0<\alpha<1$ shouldn’t fix PPO's "infinite logit update issue", but a decaying learning rate schedule probably does. This isn't that surprising, and he doesn't think it fixes the deeper potential issue with fluctuating value baselines.
+[^2]: Alex thinks that using a fixed learning rate $0<\alpha<1$ shouldn't fix PPO's "infinite logit update issue", but a decaying learning rate schedule probably does. This isn't that surprising, and he doesn't think it fixes the deeper potential issue with fluctuating value baselines.
 [^3]: Although Alex hasn't analyzed the sequential tabular setting — possibly infinite logit updating can still happen there?
 [^4]: Note that the `cd` and `dc` always come in pairs except for at most 1 extra.
 [^5]: $\text{return}(s)$ averages strategy $s$'s return over the first state being cooperate `c` and being defect `d`.

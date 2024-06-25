@@ -6,7 +6,7 @@ title: The Pond
 hide_title: "true"
 ---
 
-Hello! I’m TurnTrout, and this is my pond. Stay a while! _The Pond_ gathers my writings on topics including AI, self-improvement, and living a good life.
+Hello! I'm TurnTrout, and this is my pond. Stay a while! _The Pond_ gathers my writings on topics including AI, self-improvement, and living a good life.
 
 The earliest content dates back to January 2018. Over the years, I've built up a web of ideas and philosophies. I even endorse some of them still! I love [[My research]], and I hope you love it too.
 

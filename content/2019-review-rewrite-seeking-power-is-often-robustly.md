@@ -40,15 +40,15 @@ Here's my review, which I also [posted as a comment](https://www.lesswrong.com/p
 
 One year later, I remain excited about this post, from its ideas, to its formalisms, to its implications. I think it helps us formally understand [part of the difficulty of the alignment problem](https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW/p/w6BtMqKRLxG9bNLMr). This formalization of power and the [_Attainable Utility Landscape_](https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW/p/fj8eyc7QzqCaB8Wgm) have together given me a [novel frame for understanding alignment and corrigibility](/non-obstruction-a-simple-concept-motivating-corrigibility).
 
-Since last December, I’ve spent several hundred hours expanding the formal results and rewriting [the paper](https://arxiv.org/pdf/1912.01683.pdf); I’ve generalized the theorems, added rigor, and taken great pains to spell out what the theorems do and do not imply. For example, the main paper is 9 pages long; in Appendix B, I further dedicated _3.5 pages_ to exploring the nuances of the formal definition of ‘power-seeking’ (Definition 6.1).
+Since last December, I've spent several hundred hours expanding the formal results and rewriting [the paper](https://arxiv.org/pdf/1912.01683.pdf); I've generalized the theorems, added rigor, and taken great pains to spell out what the theorems do and do not imply. For example, the main paper is 9 pages long; in Appendix B, I further dedicated _3.5 pages_ to exploring the nuances of the formal definition of ‘power-seeking' (Definition 6.1).
 
-However, there are a few things I wish I’d gotten right the first time around. Therefore, I’ve restructured and rewritten much of the post. Let’s walk through some of the changes.
+However, there are a few things I wish I'd gotten right the first time around. Therefore, I've restructured and rewritten much of the post. Let's walk through some of the changes.
 
-## ‘Instrumentally convergent’ replaced by ‘robustly instrumental’
+## ‘Instrumentally convergent' replaced by ‘robustly instrumental'
 
 [Like](/math-that-clicks-look-for-two-way-correspondences) [many](/what-counts-as-defection) good things, this terminological shift was prompted by a critique from Andrew Critch.
 
-Roughly speaking, this work considered an action to be ‘instrumentally convergent’ if it’s very probably optimal, with respect to a probability distribution on a set of reward functions. For the formal definition, see Definition 5.8 in the paper.
+Roughly speaking, this work considered an action to be ‘instrumentally convergent' if it's very probably optimal, with respect to a probability distribution on a set of reward functions. For the formal definition, see Definition 5.8 in the paper.
 
 This definition is natural. You can even find it echoed by Tony Zador in the [_Debate on Instrumental Convergence_](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell):
 
@@ -56,11 +56,11 @@ This definition is natural. You can even find it echoed by Tony Zador in the [_D
 
 (Zador uses “set of scenarios” instead of “set of reward functions”, but he is implicitly reasoning: “with respect to my beliefs about what kind of objective functions we will implement and what states the agent will confront in deployment, I predict that deadly actions have a negligible probability of being optimal.”)
 
-While discussing this definition of ‘instrumental convergence’, Andrew asked me: “what, exactly, is doing the _converging_? There is no limiting process. Optimal policies just _are_.”
+While discussing this definition of ‘instrumental convergence', Andrew asked me: “what, exactly, is doing the _converging_? There is no limiting process. Optimal policies just _are_.”
 
-It would be more appropriate to say that an action is ‘instrumentally robust’ instead of ‘instrumentally convergent’: the instrumentality is _robust_ to the choice of goal. However, I found this to be ambiguous: ‘instrumentally robust’ could be read as “the agent is being robust for instrumental reasons.”
+It would be more appropriate to say that an action is ‘instrumentally robust' instead of ‘instrumentally convergent': the instrumentality is _robust_ to the choice of goal. However, I found this to be ambiguous: ‘instrumentally robust' could be read as “the agent is being robust for instrumental reasons.”
 
-I settled on ‘robustly instrumental’, rewriting the paper’s introduction as follows:
+I settled on ‘robustly instrumental', rewriting the paper's introduction as follows:
 
 > [!quote]
 >
@@ -70,31 +70,31 @@ I settled on ‘robustly instrumental’, rewriting the paper’s introduction a
 >
 > Some authors have suggested that _gaining power over the environment_ is a robustly instrumental behavior pattern on which learning agents generally converge as they tend towards optimality. If so, robust instrumentality presents a safety concern for the alignment of advanced reinforcement learning systems with human society: such systems might seek to gain power over humans as part of their environment. For example, Marvin Minsky imagined that an agent tasked with proving the Riemann hypothesis might rationally turn the planet into computational resources.
 
-This choice is not costless: many are already acclimated to the existing ‘instrumental convergence.’ It even has [its own Wikipedia page](https://en.wikipedia.org/wiki/Instrumental_convergence). Nonetheless, if there ever were a time to make the shift, that time would be now.
+This choice is not costless: many are already acclimated to the existing ‘instrumental convergence.' It even has [its own Wikipedia page](https://en.wikipedia.org/wiki/Instrumental_convergence). Nonetheless, if there ever were a time to make the shift, that time would be now.
 
 ## Qualification of Claims
 
-The original post claimed that “optimal policies tend to seek power”, _period_. This was partially based on a result which I’d incorrectly interpreted. Vanessa Kosoy and Rohin Shah pointed out this error to me, and I quickly amended the original post and [posted a follow-up explanation](/clarifying-power-seeking-and-instrumental-convergence).
+The original post claimed that “optimal policies tend to seek power”, _period_. This was partially based on a result which I'd incorrectly interpreted. Vanessa Kosoy and Rohin Shah pointed out this error to me, and I quickly amended the original post and [posted a follow-up explanation](/clarifying-power-seeking-and-instrumental-convergence).
 
-At the time, I’d wondered whether this was still true in general via some other result. The answer is ‘no’: it _isn’t_ always more probable for optimal policies to navigate towards states which give them more control over the future. Here’s a surprising counterexample which doesn’t even depend on my formalization of ‘power.’
+At the time, I'd wondered whether this was still true in general via some other result. The answer is ‘no': it _isn't_ always more probable for optimal policies to navigate towards states which give them more control over the future. Here's a surprising counterexample which doesn't even depend on my formalization of ‘power.'
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/6e57042283c8eb981b2be10d266bfcf804d06653cfc04809.png)
 
-The paths are one-directional; the agent can’t go back from **3** to **1**. The agent starts at **1**. Under a certain state reward distribution, the vast majority of agents go _up_ to **2**.
+The paths are one-directional; the agent can't go back from **3** to **1**. The agent starts at **1**. Under a certain state reward distribution, the vast majority of agents go _up_ to **2**.
 
-However, any reasonable notion of ‘power’ must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [the paper](https://arxiv.org/pdf/1912.01683.pdf).
+However, any reasonable notion of ‘power' must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [the paper](https://arxiv.org/pdf/1912.01683.pdf).
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/0cabde68e0eb61a5bb325beab9ddd645139198303d6ae308.png)
 
 When reward is IID across states according to the quadratic CDF $F(x) := x^2$ on the unit interval, then with respect to reward functions drawn from this distribution, going _up_ has about a 91% chance of being optimal when the discount rate $\gamma = .12$.
 
-If you’re curious, this happens because this quadratic reward distribution has negative skew. When computing the optimality probability of the _up_ trajectory, we’re checking whether it maximizes discounted return. Therefore, the probability that _up_ is optimal is
+If you're curious, this happens because this quadratic reward distribution has negative skew. When computing the optimality probability of the _up_ trajectory, we're checking whether it maximizes discounted return. Therefore, the probability that _up_ is optimal is
 
 $\mathbb{P}_{R\sim\mathcal{D}}\left(R(\textbf{2})\geq \max\left((1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{5}),   (1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{6})\right)\right).$
 
 Weighted averages of IID draws from a left-skew distribution will look more Gaussian and therefore have fewer large outliers than the left-skew distribution does. Thus, going _right_ will have a lower optimality probability.
 
-No matter how you cut it, the relationship just isn’t true in general. Instead, [the post](https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-provably-instrumentally-convergent-in) now sketches sufficient conditions under which power-seeking behavior is more probably optimal – conditions which are proven in the paper.
+No matter how you cut it, the relationship just isn't true in general. Instead, [the post](https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-provably-instrumentally-convergent-in) now sketches sufficient conditions under which power-seeking behavior is more probably optimal – conditions which are proven in the paper.
 
 <hr>
 

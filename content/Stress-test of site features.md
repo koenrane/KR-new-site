@@ -5,7 +5,7 @@ tags:
   - website
 ---
 
-This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
+This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 
 # Quotations
 
@@ -29,7 +29,7 @@ This page is inspired by Gwern Branwen’s [Lorem Ipsum](https://gwern.net/lorem
 >
 > But you are not obliged to go to all this trouble. You can shirk it by simply throwing your mind open and letting the ready-made phrases come crowding in.
 >
-> -- Orwell’s [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/)
+> -- Orwell's [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/)
 
 I thus remind myself: The reading experience will never be as important as the content, but it's still important.
 
@@ -187,7 +187,7 @@ Unordered lists:
 >
 > > What is above all needed is to let the meaning choose the word, and not the other way about. In prose, the worst thing one can do with words is to surrender to them. When you think of a concrete object, you think wordlessly, and then, if you want to describe the thing you have been visualising, you probably hunt about till you find the exact words that seem to fit it. When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning.
 > >
-> > Probably it is better to put off using words as long as possible and get one’s meanings as clear as one can through pictures and sensations. Afterward one can choose – not simply *accept* – the phrases that will best cover the meaning, and then switch round and decide what impression one’s words are likely to make on another person. This last effort of the mind cuts out all stale or mixed images, all prefabricated phrases, needless repetitions, and humbug and vagueness generally.
+> > Probably it is better to put off using words as long as possible and get one's meanings as clear as one can through pictures and sensations. Afterward one can choose – not simply *accept* – the phrases that will best cover the meaning, and then switch round and decide what impression one's words are likely to make on another person. This last effort of the mind cuts out all stale or mixed images, all prefabricated phrases, needless repetitions, and humbug and vagueness generally.
 >
 > Note how the left border is a muted shade of the admonition color.
 
