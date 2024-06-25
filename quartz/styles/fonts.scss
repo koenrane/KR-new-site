@@ -178,7 +178,7 @@ strong,
 dt,
 .callout-title {
   --webkit-width: 0.01px;
-  -webkit-text-stroke: var(--webkit-width) var(--dark);
+  -webkit-text-stroke: var(--webkit-width) inherit;
 
   --shadow-width: 0.01px;
 
