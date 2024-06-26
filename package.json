@@ -34,6 +34,8 @@
     "quartz": "./quartz/bootstrap-cli.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/credential-provider-ini": "^3.598.0",
     "@clack/prompts": "^0.7.0",
     "@floating-ui/dom": "^1.6.5",
     "@napi-rs/simple-git": "0.1.16",
@@ -44,6 +46,7 @@
     "chokidar": "^3.6.0",
     "cli-spinner": "^0.2.10",
     "d3": "^7.8.5",
+    "dotenv": "^16.4.5",
     "emoji-regex": "^10.3.0",
     "esbuild-sass-plugin": "^2.16.1",
     "fast-url-parser": "^1.1.3",
