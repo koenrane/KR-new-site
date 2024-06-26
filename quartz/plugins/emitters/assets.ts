@@ -8,6 +8,11 @@ import fs from "fs"
 import { glob } from "../../util/glob"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 import { Argv } from "../../util/ctx"
+import { exec } from "child_process"
+import util from "util"
+
+// Promisify exec for easier async/await usage
+const execAsync = util.promisify(exec)
 
 const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   // glob all non MD files in content folder and copy it over
@@ -69,6 +74,7 @@ export const Assets: QuartzEmitterPlugin = () => {
           // Update references in Markdown/HTML files
           const r2Url = `${r2BaseUrl}/${r2Key}`
           await updateReferences(argv.directory, fp, r2Url)
+          await fs.promises.rm(src)
 
           res.push(r2Url as FilePath)
         } else {
@@ -88,11 +94,19 @@ export const Assets: QuartzEmitterPlugin = () => {
 }
 
 async function updateReferences(directory: string, localPath: string, r2Url: string) {
-  const files = await glob("**/*.{md,html}", directory)
-  for (const file of files) {
-    let content = await fs.promises.readFile(file, "utf-8")
-    const relativePath = path.relative(path.dirname(file), localPath).replace(/\\/g, "/")
-    content = content.replace(new RegExp(relativePath, "g"), r2Url)
-    await fs.promises.writeFile(file, content)
+  const files = await glob("**/*.md", directory)
+  const relativePath = path.relative(path.dirname(directory), localPath).replace(/\\/g, "/")
+  // Escape the filenames and prepare them for the shell command
+  const escapedFiles = files.map((file) => `'${directory}/${file.replace(/'/g, "'\\''")}'`)
+  const base = path.basename(localPath)
+  for (const file of escapedFiles) {
+    const sedCommand = `sed -i '' -E 's|([\"\(]).*${base}([\"\\)])|\\1${r2Url}\\2|g' ${file}`
+    console.log(`Executing: ${sedCommand}`)
+
+    try {
+      await execAsync(sedCommand)
+    } catch (error) {
+      console.error("Error updating references with sed:", error)
+    }
   }
 }
