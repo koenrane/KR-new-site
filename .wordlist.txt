@@ -473,3 +473,7 @@ underdetermined
 ungameable
 unnaturality
 ventralis
+2-20x
+AVIF
+JPEGs
+PNGs

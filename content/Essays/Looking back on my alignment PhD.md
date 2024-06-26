@@ -18,8 +18,8 @@ tags:
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I'm proud of what I accomplished during my PhD. That said, I'm going to first focus on mistakes I've made over the past four[^1] years.
 
-![](../https://turntrout.com/assets/https://turntrout.com/assets/https://turntrout.com/assets/https://turntrout.com/assets/Attachments/phdReflection.avif)
-![](/https://turntrout.com/assets/https://turntrout.com/assets/https://turntrout.com/assets/https://turntrout.com/assets/Attachments/phdReflection.avif)
+![]TEST
+![]TEST
 
 <figcaption>Before my thesis defense -- thinking about what I'd done to advance alignment research, and if it would be enough.</figcaption>
 

@@ -185,6 +185,7 @@ sup {
 .trout-ornament {
   // Override the darkmode filter for the trout -- TODO reexamine
   width: 3rem;
+  margin-top: calc(2 * $baseMargin);
   filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
@@ -450,7 +451,8 @@ img {
     margin-right: 0.025rem;
     margin-bottom: 0.1rem;
   }
-  .callout &:not(.favicon) {
+  .callout &:not(.favicon),
+  dd & {
     width: 100%;
   }
 }

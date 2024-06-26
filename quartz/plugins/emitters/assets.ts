@@ -95,16 +95,15 @@ export const Assets: QuartzEmitterPlugin = () => {
 
 async function updateReferences(directory: string, localPath: string, r2Url: string) {
   const files = await glob("**/*.md", directory)
-  const relativePath = path.relative(path.dirname(directory), localPath).replace(/\\/g, "/")
   // Escape the filenames and prepare them for the shell command
   const escapedFiles = files.map((file) => `'${directory}/${file.replace(/'/g, "'\\''")}'`)
   const base = path.basename(localPath)
   for (const file of escapedFiles) {
-    const sedCommand = `sed -i '' -E 's|([\"\(]).*${base}([\"\\)])|\\1${r2Url}\\2|g' ${file}`
-    console.log(`Executing: ${sedCommand}`)
+    // TODO fix
+    const sedCommand = `sed -i '' 's|([\"\(]).*?${base}([\"\)])|\\1${r2Url}\\2|g' ${file}`
 
     try {
-      await execAsync(sedCommand)
+      // await execAsync(sedCommand)
     } catch (error) {
       console.error("Error updating references with sed:", error)
     }
