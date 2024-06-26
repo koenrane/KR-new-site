@@ -4,22 +4,28 @@ publish: '"true"'
 permalink: date-me
 title: I’m that “other fish in the sea”
 ---
+
 <img style="mix-blend-mode: normal; width:60%;max-width:60%;margin-top:0rem;margin-bottom:0rem;" src="https://turntrout.com/assets/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
-Most people call me "TurnTrout", but you can call me "Alex". I want to let you in a bit, to let you see a different facet of me than I usually present online. 
+Most people call me "TurnTrout", but you can call me "Alex". I want to let you in a bit, to let you see a different facet of me than I usually present online.
 
-[Once upon a time](), I was born in '94. Now, I'm a research scientist on [Google DeepMind's]() scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.  
+[Once upon a time](), I was born in '94. Now, I'm a research scientist on [Google DeepMind's]() scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner]  I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
-[^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years. 
+I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
+[^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
+
 # How compatible are we?
+
 ## Possible dealbreakers
-1. I probably (70%) will want kids within the next 5 years. 
+
+1. I probably (70%) will want kids within the next 5 years.
 2. Ethical non-monogamy is important to me.
 3. I've historically been interested in cis women.
 
 ## What I appreciate in a partner
+
 This isn't a list of _demands_ or anything, just ingredients for a good relationship with me:
+
 - Trustworthiness, high empathy, and emotional maturity
 - Intellect/wits/sharpness
 - We can talk for hours about nothing
@@ -28,14 +34,15 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
 - Non-avoidant attachment style
 - Reasonably physically fit
 - The kind of girl who would have refused to obey in [the Milgram experiment](https://en.wikipedia.org/wiki/Milgram_experiment) 🥰 [^ethical]
-- Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30PM and we have an early morning the next day... 
+- Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30PM and we have an early morning the next day...
 - Some dispositional _je ne sais quoi_ which makes me feel at ease  
-[^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
-# About me 
+  [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
-I'm kind, conscientious, and very ready to admit mistakes - maybe I'm _too_ ready, to be honest! Speaking of "honest", I'm also an extremely honest person. I haven't always lived as ethically or as honestly as I would now have preferred, and I'm surely going to make more mistakes, but _god damn_ if I'm not going to live this one life well. 
+# About me
 
-If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies." 
+I'm kind, conscientious, and very ready to admit mistakes - maybe I'm _too_ ready, to be honest! Speaking of "honest", I'm also an extremely honest person. I haven't always lived as ethically or as honestly as I would now have preferred, and I'm surely going to make more mistakes, but _god damn_ if I'm not going to live this one life well.
+
+If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies."
 
 On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a girlfriend coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her. (I decided to scrap the plan where they would climb up a 30-foot ladder into my bedroom, though. 😔)
 
@@ -48,16 +55,17 @@ On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elab
 <figcaption>At my thesis defense in 2022.</figcaption>
 </figure>
 
-I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_. 
+I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
-I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two]() [papers]() in the top AI conference. 
+I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two]() [papers]() in the top AI conference.
 
-I'm somewhat more anxious than I'd like, especially of late. This surprises people who don't know me very well, as I have a confident aura and disposition - especially in professional contexts. I am, in fact, confident and self-assured in many ways. My work ethic has the dual side of "feels personal responsibility and blameworthiness for nearly every negative thing in his life." 
+I'm somewhat more anxious than I'd like, especially of late. This surprises people who don't know me very well, as I have a confident aura and disposition - especially in professional contexts. I am, in fact, confident and self-assured in many ways. My work ethic has the dual side of "feels personal responsibility and blameworthiness for nearly every negative thing in his life."
 
 ## Personal life
-That said, I've become a bit less research-focused recently. At the end of 2023, I realized that I just... wasn't viscerally enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks! 
 
-I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. 
+That said, I've become a bit less research-focused recently. At the end of 2023, I realized that I just... wasn't viscerally enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks!
+
+I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative.
 
 When I was younger, I wasn't very social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are very precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
 
@@ -66,19 +74,20 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 	<figcaption>Sometimes, part of me wishes I could meet and deeply understand each and every person here. Each pinhead of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
 </figure>
 
-So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well). I am pretty goofy if I trust and feel comfy around someone. 
+So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well). I am pretty goofy if I trust and feel comfy around someone.
 
-# What I like doing 
-I like doing a lot of things! 
+# What I like doing
+
+I like doing a lot of things!
 
 Dancing
 : I like salsa and waltz. I'm learning west-coast swing. I can vibe to almost anything, though! Let's dance to some bangers maybe?
 
 AI-fueled house parties
-: I like bringing a ton of my friends together in my 2BR apartment. To commemorate such an occasion, I personalize a nametag for each of them! The tag has their name and then a picture of them. Only, the picture is tailored to the theme of the party:
+: I like bringing a ton of my friends together in my 2BR apartment. To commemorate such an occasion, I personalize a name tag for each of them! The tag has their name and then a picture of them. Only, the picture is tailored to the theme of the party:
 
 <figure>
-<figcaption><b>The <em>gigachad</em> house party</b>: MidJourney v3 interpolating my image with gigachad's in order to create a "gigachad Alex" to go on the nametag.</figcaption>
+<figcaption><b>The <em>gigachad</em> house party</b>: MidJourney v3 interpolating my image with gigachad's in order to create a "gigachad Alex" to go on the name tag.</figcaption>
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
@@ -95,7 +104,6 @@ AI-fueled house parties
 </div>
 </div>
 </figure>
-
 
 <figure>
 <figcaption><b>The <em>house</em> house party</b>: Each of my friends has their own spirit and vibe! I made them houses which capture their <em>essences</em>.</figcaption>
@@ -118,7 +126,7 @@ AI-fueled house parties
 </figure>
 
 Design & art
-: I designed [[this website]], for example! 
+: I designed [[this website]], for example!
 : While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [[Reframing Impact]]
 : ![The title card for the series. A cute robot plays around with blocks.](https://turntrout.com/assets/Attachments/reframingImpact.avif)
 : ![A recreation of the iconic](https://turntrout.com/assets/Attachments/balrog.avif)
@@ -136,4 +144,5 @@ Reading textbooks
 OK, I've written enough! Get to know me if you want to know more. 🪿
 
 # Contact
-If you think we might be compatible, email me at [dating@turntrout.com](mailto:dating@turntrout.com)!  (You can just say hello and a paragraph about yourself, no pressure to send an elaborate message.)
+
+If you think we might be compatible, email me at [dating@turntrout.com](mailto:dating@turntrout.com)! (You can just say hello and a paragraph about yourself, no pressure to send an elaborate message.)
