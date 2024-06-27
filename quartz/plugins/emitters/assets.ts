@@ -31,7 +31,7 @@ const r2Client = new S3Client({
 })
 
 const r2BucketName = "turntrout"
-const r2BaseUrl = "https://turntrout.com"
+const r2BaseUrl = "https://assets.turntrout.com"
 
 export const Assets: QuartzEmitterPlugin = () => {
   return {
@@ -53,13 +53,7 @@ export const Assets: QuartzEmitterPlugin = () => {
         if ([".png", ".jpg", ".avif", ".jpeg", ".gif", ".svg", ".webp"].includes(ext)) {
           // Upload image to R2
           const fileContent = await fs.promises.readFile(src)
-          const r2Key = `assets/${fp}`
-          const newCommand = new PutObjectCommand({
-            Bucket: r2BucketName,
-            Key: r2Key,
-            Body: fileContent,
-            ContentType: `image/${ext.slice(1)}`,
-          })
+          const r2Key = fp
 
           await r2Client.send(
             new PutObjectCommand({
