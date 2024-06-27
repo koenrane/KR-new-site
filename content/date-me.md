@@ -6,7 +6,8 @@ title: I’m that “other fish in the sea”
 authors: Alex
 ---
 
-<img style="mix-blend-mode: normal; width:60%;max-width:60%;margin-top:0rem;margin-bottom:0rem;" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
+
+<img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
 Many people call me "TurnTrout", but you can call me "Alex". I want to let you in a bit, to let you see a different facet of me than I usually present online.
 

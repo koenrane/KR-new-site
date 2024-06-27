@@ -497,3 +497,17 @@ img.emoji {
   margin: 0 0.05em 0 0.1em;
   vertical-align: -0.1em;
 }
+
+#alex-rainbow-date-me {
+  mix-blend-mode: normal;
+  width: 60%;
+  max-width: 60%;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+
+  // Take up full width on mobile
+  @media all and (max-width: $mobileBreakpoint) {
+    width: 100%;
+    max-width: 100%;
+  }
+}
