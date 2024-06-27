@@ -12,7 +12,9 @@ Many people call me "TurnTrout", but you can call me "Alex". I want to let you i
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕 (And by "best friend", I mean "wife.")
+I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕 
+
+(And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
 
 # How compatible are we?
