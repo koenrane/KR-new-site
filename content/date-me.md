@@ -5,7 +5,7 @@ permalink: date-me
 title: I’m that “other fish in the sea”
 ---
 
-<img style="mix-blend-mode: normal; width:60%;max-width:60%;margin-top:0rem;margin-bottom:0rem;" src="https://assets.turntrout.com/assets/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
+<img style="mix-blend-mode: normal; width:60%;max-width:60%;margin-top:0rem;margin-bottom:0rem;" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
 Most people call me "TurnTrout", but you can call me "Alex". I want to let you in a bit, to let you see a different facet of me than I usually present online.
 
@@ -51,7 +51,7 @@ On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elab
 ## Professional life
 
 <figure class="float-right">
-<img  src="https://assets.turntrout.com/assets/Attachments/thesisDefense.avif" alt="At my thesis defense."/>
+<img  src="https://assets.turntrout.com/Attachments/thesisDefense.avif" alt="At my thesis defense."/>
 <figcaption>At my thesis defense in 2022.</figcaption>
 </figure>
 
@@ -70,7 +70,7 @@ I think I'd jive well with someone more spontaneous and daring, since I tend to 
 When I was younger, I wasn't very social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are very precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
 
 <figure>
-	<img src="https://assets.turntrout.com/assets/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
+	<img src="https://assets.turntrout.com/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
 	<figcaption>Sometimes, part of me wishes I could meet and deeply understand each and every person here. Each pinhead of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
 </figure>
 
@@ -91,15 +91,15 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/preGCAlex.avif" alt="Me smiling in an orange shirt."/>
+<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" alt="Me smiling in an orange shirt."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/gigachad.avif"     style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="The popular 'gigachad' meme image."/>
+<img src="https://assets.turntrout.com/Attachments/gigachad.avif"     style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="The popular 'gigachad' meme image."/>
 <figcaption>(b) Gigachad</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/GCAlex.avif"style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="A picture of me with my features exaggerated to resemble gigachad's."/>
+<img src="https://assets.turntrout.com/Attachments/GCAlex.avif"style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="A picture of me with my features exaggerated to resemble gigachad's."/>
 <figcaption>(c) Gigachad Alex</figcaption>
 </div>
 </div>
@@ -110,15 +110,15 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/rivendellHouse.avif" alt="An AI image of a house which is reminiscent of Rivendell."/>
+<img src="https://assets.turntrout.com/Attachments/rivendellHouse.avif" alt="An AI image of a house which is reminiscent of Rivendell."/>
 <figcaption>(a) Tolkienesque</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/severeManor.avif" alt="A grim manor at night-time."/>
+<img src="https://assets.turntrout.com/Attachments/severeManor.avif" alt="A grim manor at night-time."/>
 <figcaption>(b) Grimdark</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/assets/Attachments/marioHouse.avif" alt="A Mario-esque house."/>
+<img src="https://assets.turntrout.com/Attachments/marioHouse.avif" alt="A Mario-esque house."/>
 <figcaption>(c) Mario</figcaption>
 </div>
 </div>
@@ -128,9 +128,9 @@ AI-fueled house parties
 Design & art
 : I designed [[this website]], for example!
 : While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [[Reframing Impact]]
-: ![The title card for the series. A cute robot plays around with blocks.](https://assets.turntrout.com/assets/Attachments/reframingImpact.avif)
-: ![A recreation of the iconic](https://assets.turntrout.com/assets/Attachments/balrog.avif)
-: ![I hand-illustrated Bag End from the Shire, with the help of a reference.](https://assets.turntrout.com/assets/Attachments/hobbitImpactHouse.avif)
+: ![The title card for the series. A cute robot plays around with blocks.](https://assets.turntrout.com/Attachments/reframingImpact.avif)
+: ![A recreation of the iconic](https://assets.turntrout.com/Attachments/balrog.avif)
+: ![I hand-illustrated Bag End from the Shire, with the help of a reference.](https://assets.turntrout.com/Attachments/hobbitImpactHouse.avif)
 
 Writing
 : I have this website called [turntrout.com](/) ...
