@@ -29,7 +29,7 @@ eval "$find_command" | while read -r image_path; do
 	echo "Converted: $image_path -> $avif_path"
 
 	# Update references (only in .md, .html, and .txt files)
-	find "$CONTENT_DIR" \( -iname "*.md" -o -iname "*.html" -o -iname "*.txt" \) -type f -exec sed -i '' "s|$filename|$avif_filename|g" {} +
+	find "$CONTENT_DIR" -iname "*.md" -type f -exec sed -i '' "s|$filename|$avif_filename|g" {} +
 	echo "Updated references to: $avif_filename"
 
 done

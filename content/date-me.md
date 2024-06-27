@@ -58,7 +58,7 @@ On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elab
 
 I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
-I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two](https://arxiv.org/abs/1912.01683) [papers](https://arxiv.org/abs/2206.13477) in atop AI conference.
+I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two](https://arxiv.org/abs/1912.01683) [papers](https://arxiv.org/abs/2206.13477) in a top AI conference.
 
 I'm somewhat more anxious than I'd like, especially of late. This surprises people who don't know me very well, as I have a confident aura and disposition - especially in professional contexts. I am, in fact, confident and self-assured in many ways. My work ethic has the dual side of "feels personal responsibility and blameworthiness for nearly every negative thing in his life."
 
