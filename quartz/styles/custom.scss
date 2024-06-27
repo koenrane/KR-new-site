@@ -287,17 +287,16 @@ figcaption,
 
 .float-right {
   margin-top: $baseMargin;
-  & img {
+  & img,
+  img.float-right {
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
-  @media all and (min-width: $mobileBreakpoint) {
-    float: right;
-    margin-left: calc(2 * $baseMargin);
-    margin-right: calc(2 * $baseMargin);
-    max-width: 45%;
-  }
+  float: right;
+  margin-left: calc(2 * $baseMargin);
+  margin-right: calc(2 * $baseMargin);
+  max-width: 45%;
 }
 
 .small-caps {
@@ -496,4 +495,12 @@ img.emoji {
   width: 1em;
   margin: 0 0.05em 0 0.1em;
   vertical-align: -0.1em;
+}
+
+#alex-rainbow-date-me {
+  mix-blend-mode: normal;
+  width: 60%;
+  max-width: 60%;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
 }
