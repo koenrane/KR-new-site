@@ -29,7 +29,7 @@ module.exports = [
     label: "ToC highlighting",
     url: "http://localhost:8080/test-page.html",
     referenceUrl: "",
-    selectors: [".toc"],
+    selectors: ["#table-of-contents"],
     viewports: [
       {
         label: "1080p",
