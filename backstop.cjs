@@ -29,7 +29,7 @@ module.exports = {
     html_report: "backstop/backstop_data/html_report",
     ci_report: "backstop/backstop_data/ci_report",
   },
-  report: ["browser"],
+  report: [],
   engine: "puppeteer",
   engineOptions: {
     args: ["--no-sandbox"],

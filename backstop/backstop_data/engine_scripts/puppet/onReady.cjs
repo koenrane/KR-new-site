@@ -2,7 +2,7 @@
 const clickAndHoverHelper = require("./clickAndHoverHelper.cjs")
 
 module.exports = async (page, scenario) => {
-  await page.waitForSelector("body", { timeout: 5000 })
+  await page.waitForSelector("body", { timeout: 500 })
   clickAndHoverHelper(page, scenario)
 
   await page.waitForSelector("#header-video") // TODO kinda hacky
@@ -15,5 +15,13 @@ module.exports = async (page, scenario) => {
         img.style.visibility = "hidden"
       }
     })
+  })
+
+  // Prevent logging spam
+  page.on("console", (msg) => {
+    if (msg.text().includes("JSHandle:BackstopTools")) {
+      return
+    }
+    console.log(msg.text())
   })
 }

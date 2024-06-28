@@ -21,6 +21,7 @@ module.exports = [
     label: "Stress test of site features",
     url: "http://localhost:8080/test-page.html",
     referenceUrl: "",
+    readySelector: "#table-of-contents",
     delay: 500,
     misMatchThreshold: 0.01,
     requireSameDimensions: true,
@@ -30,6 +31,7 @@ module.exports = [
     url: "http://localhost:8080/test-page.html",
     referenceUrl: "",
     selectors: ["#table-of-contents"],
+    readySelector: "#table-of-contents",
     viewports: [
       {
         label: "1080p",
@@ -66,6 +68,7 @@ module.exports = [
     delay: 500,
     misMatchThreshold: 0.01,
     onReadyScript: "puppet/searchOnReady.cjs",
+    readySelector: "#table-of-contents",
     requireSameDimensions: true,
     selectors: ["viewport"],
   },
