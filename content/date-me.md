@@ -20,12 +20,6 @@ I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethica
 
 # How compatible are we?
 
-## Possible dealbreakers
-
-1. I probably (70%) will want kids within the next 5 years.
-2. Ethical non-monogamy is important to me.
-3. I've historically been interested in cis women.
-
 ## What I appreciate in a partner
 
 This isn't a list of _demands_ or anything, just ingredients for a good relationship with me:
@@ -41,6 +35,11 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
 - Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30PM and we have an early morning the next day...
 - Some dispositional _je ne sais quoi_ which makes me feel at ease  
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
+## Possible dealbreakers
+1. I probably (70%) will want kids within the next 5 years.
+2. Ethical non-monogamy is important to me.
+3. I've historically been interested in cis women.
+
 
 # About me
 
