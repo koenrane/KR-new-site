@@ -8,8 +8,6 @@ import fs from "fs"
 import { glob } from "../../util/glob"
 import { Argv } from "../../util/ctx"
 
-import { getR2Client, uploadPathToR2, uploadFileTypes } from "./util"
-
 const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   // glob all non MD files in content folder and copy it over
   return await glob("**", argv.directory, [
@@ -19,6 +17,7 @@ const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   ])
 }
 
+const assetExtensions = ["webm", "mp4", "png", "jpg", "jpeg"]
 export const Assets: QuartzEmitterPlugin = () => {
   return {
     name: "Assets",
@@ -46,7 +45,9 @@ export const Assets: QuartzEmitterPlugin = () => {
       for (const fp of fps) {
         const ext = path.extname(fp).toLowerCase()
         const src = joinSegments(argv.directory, fp) as FilePath
-        console.warn("There's an asset file in contents:", src)
+        if (!assetExtensions.includes(ext)) {
+          console.warn("There's an asset file in contents:", src)
+        }
 
         const name = (slugifyFilePath(fp as FilePath, true) + ext) as FilePath
         const dest = joinSegments(assetsPath, name) as FilePath
