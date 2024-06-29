@@ -36,3 +36,4 @@ coverage
 *.mov
 *.mkv
 *.mp3
+*test.md
