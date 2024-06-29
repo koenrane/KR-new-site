@@ -1,5 +1,22 @@
 #!/bin/bash
 
+process_file() {
+	local file="$1"
+	local base_name_no_ext=$(basename "${file%.*}")
+
+	if [[ "$file" == *".gif" ]]; then
+		# For GIF files: Replace <img> tags with <video> tags
+		sed -i.bak -e '
+            s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline><source src="\1.webm" \2 type="video/webm"></video>|g
+        ' "$file"
+	else
+		# For other files: Replace Markdown image syntax with <video> tags
+		sed -i.bak -e 's|('$base_name_no_ext')\.(mp4|mov)|\1.webm|g' "$file"
+	fi
+}
+
+export -f process_file
+
 # Configuration
 QUALITY=50 # Set desired AVIF quality
 WEBSITE_DIR="/Users/turntrout/Downloads/turntrout.com"
@@ -36,7 +53,7 @@ convert_and_update_video() {
 	base_name_no_ext="${base%.*}"
 
 	# Update references in markdown and TSX files
-	find "$WEBSITE_DIR/content" "$WEBSITE_DIR/quartz" \( -iname "*.md" -o -iname "*.tsx" \) -exec sed -i.bak -E "s|<img src=[\"']?($base_name_no_ext)\.($file_extension)[\"']?([^>]*)>|<video autoplay loop muted playsinline><source src=\"\1.webm\" \3 type=\"video/webm\"></video>|g" {} \;
+	find "$WEBSITE_DIR/content" "$WEBSITE_DIR/quartz" \( -iname "*.md" -o -iname "*.tsx" \) -exec bash -c 'process_file "$1"' _ {} \;
 }
 
 # Get the filename from the command-line argument
