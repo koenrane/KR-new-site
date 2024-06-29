@@ -29,11 +29,12 @@ export const Static: QuartzEmitterPlugin = () => ({
   async emit({ argv, cfg }, _content, _resources): Promise<FilePath[]> {
     const staticPath = joinSegments(QUARTZ, "static")
     const fps = await glob("**", staticPath, cfg.configuration.ignorePatterns)
+
     const client = getR2Client()
     for (const fp of fps) {
       const ext = path.extname(fp).toLowerCase()
       if (uploadFileTypes.includes(ext)) {
-        await uploadPathToR2(client, staticPath, fp)
+        await uploadPathToR2(client, "static", fp)
       }
     }
 

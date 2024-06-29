@@ -1,7 +1,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 import { glob } from "../../util/glob"
 import dotenv from "dotenv"
-import { FilePath, joinSegments } from "../../util/path"
+import { FilePath, joinSegments, QUARTZ } from "../../util/path"
 import path from "path"
 import fs from "fs"
 import { replaceInFile } from "replace-in-file"
@@ -24,24 +24,30 @@ export function getR2Client() {
   })
 }
 
-export async function uploadPathToR2(client, dir: string, r2Key: string) {
-  const src = joinSegments(dir, r2Key) as FilePath
+export async function uploadPathToR2(client, dir: string, fp: string) {
+  const src = joinSegments(QUARTZ, dir, fp) as FilePath
+  const key = path.join(dir, fp)
   const fileContent = await fs.promises.readFile(src)
   const ext = path.extname(src).toLowerCase()
 
   await client.send(
     new PutObjectCommand({
       Bucket: r2BucketName,
-      Key: r2Key,
+      Key: key,
       Body: fileContent,
       ContentType: `image/${ext.slice(1)}`,
     }),
   )
-  console.log(`Uploaded ${r2Key} to R2`)
+  console.log(`Uploaded ${key} to R2`)
 
   // Update references in Markdown/HTML files
-  const r2Url = `${r2BaseUrl}/${r2Key}`
-  await updateReferences(dir, r2Key, r2Url)
+  /* dir: quartz/static/images
+   * fp: images/kofi-cover.avif
+   * r2Url: https://assets.turntrout.com/images/kofi-cover.avif
+   */
+  console.log(`key: ${key}`)
+  const r2Url = `${r2BaseUrl}/${key}`
+  await updateReferences(dir, key, r2Url)
   await fs.promises.rm(src)
 
   return r2Url
@@ -61,6 +67,7 @@ export function getTargetRegex(r2Url: string): string {
 async function updateReferences(directory: string, localPath: string, r2Url: string) {
   const files = await glob("**/*.md", directory, [])
   const base = path.basename(localPath)
+  console.log(`Updating references from ${localPath} to ${r2Url}`)
 
   const options = {
     files: files.map((file) => path.join(directory, file)),
