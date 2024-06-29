@@ -16,7 +16,11 @@ const execAsync = util.promisify(exec)
 
 const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   // glob all non MD files in content folder and copy it over
-  return await glob("**", argv.directory, ["**/*.md", ...cfg.configuration.ignorePatterns])
+  return await glob("**", argv.directory, [
+    "**/*.md",
+    "**/*.md~",
+    ...cfg.configuration.ignorePatterns,
+  ])
 }
 const endpoint = `https://${process.env.S3_ENDPOINT_ID_TURNTROUT_MEDIA}.r2.cloudflarestorage.com`
 
@@ -32,6 +36,7 @@ const r2Client = new S3Client({
 
 const r2BucketName = "turntrout"
 const r2BaseUrl = "https://assets.turntrout.com"
+const imageFileTypes = [".png", ".jpg", ".avif", ".jpeg", ".gif", ".svg", ".webp"]
 
 export const Assets: QuartzEmitterPlugin = () => {
   return {
@@ -46,11 +51,12 @@ export const Assets: QuartzEmitterPlugin = () => {
       const assetsPath = argv.output
       const fps = await filesToCopy(argv, cfg)
       const res: FilePath[] = []
+      console.log(fps)
       for (const fp of fps) {
         const ext = path.extname(fp).toLowerCase()
         const src = joinSegments(argv.directory, fp) as FilePath
 
-        if ([".png", ".jpg", ".avif", ".jpeg", ".gif", ".svg", ".webp"].includes(ext)) {
+        if (imageFileTypes.includes(ext)) {
           // Upload image to R2
           const fileContent = await fs.promises.readFile(src)
           const r2Key = fp
@@ -87,19 +93,25 @@ export const Assets: QuartzEmitterPlugin = () => {
   }
 }
 
+function escapeRegExp(string: string): string {
+  return string.replace(/[.*+?^${}()|[\]\\\/]/g, "\\$&")
+}
+
+import { replaceInFile } from "replace-in-file"
 async function updateReferences(directory: string, localPath: string, r2Url: string) {
   const files = await glob("**/*.md", directory)
-  // Escape the filenames and prepare them for the shell command
-  const escapedFiles = files.map((file) => `'${directory}/${file.replace(/'/g, "'\\''")}'`)
   const base = path.basename(localPath)
-  for (const file of escapedFiles) {
-    // TODO fix
-    const sedCommand = `sed -i '' 's|([\"\(]).*?${base}([\"\)])|\\1${r2Url}\\2|g' ${file}`
+  const escapedBase = escapeRegExp(base)
 
-    try {
-      // await execAsync(sedCommand)
-    } catch (error) {
-      console.error("Error updating references with sed:", error)
-    }
+  const options = {
+    files: files.map((file) => path.join(directory, file)),
+    from: new RegExp(`(["(])[^"]*?${escapedBase}([^"]*?["|)])`, "g"),
+    to: `$1${r2Url}$2`,
+  }
+
+  try {
+    await replaceInFile(options)
+  } catch (error) {
+    console.error("Error occurred:", error)
   }
 }
