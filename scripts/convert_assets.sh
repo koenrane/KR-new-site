@@ -63,11 +63,12 @@ convert_asset() {
 	if [ "$remove_originals" = true ] && [ -f "$output_file" ]; then
 		rm "$input_file"
 	fi
+
+	echo "\033[32mProcessed $file\033[0m" # Print in green
 }
 
 # Traverse through all files in the current directory and subdirectories
 find quartz/static -type f | while read -r file; do
 	convert_asset "$file"
 
-	# echo "\033[32mProcessed $file\033[0m" # Print in green
 done
