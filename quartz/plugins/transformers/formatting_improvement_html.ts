@@ -103,7 +103,7 @@ export const improveFormatting: Plugin = () => {
         node.value = niceQuotes(node.value)
 
         // Don't replace slashes in fractions, but give breathing room to others
-        if (!parent.properties?.className?.includes("fraction")) {
+        if (!parent.properties?.className?.includes("fraction") && parent?.tagName !== "a") {
           node.value = fullWidthSlashes(node.value)
         }
       }
