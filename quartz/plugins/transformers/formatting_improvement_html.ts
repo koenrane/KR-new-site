@@ -21,7 +21,7 @@ export function niceQuotes(text: string) {
 
 // Give extra breathing room to slashes
 export function fullWidthSlashes(text: string): string {
-  return text.replace(/([^\d]) ?\/ ?([^\d])/g, "$1／$2")
+  return text.replace(/(?<=[^\d\/]) ?\/(?!=\/) ?(?=[^\d])(?!\/)/g, "／")
 }
 
 export function hyphenReplace(text: string) {

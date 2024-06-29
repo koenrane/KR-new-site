@@ -17,7 +17,7 @@ const filesToCopy = async (argv: Argv, cfg: QuartzConfig) => {
   ])
 }
 
-const assetExtensions = ["webm", "mp4", "png", "jpg", "jpeg"]
+const assetExtensions = ["webm", "mp4", "png", "jpg", "jpeg", "svg"]
 export const Assets: QuartzEmitterPlugin = () => {
   return {
     name: "Assets",
@@ -45,7 +45,7 @@ export const Assets: QuartzEmitterPlugin = () => {
       for (const fp of fps) {
         const ext = path.extname(fp).toLowerCase()
         const src = joinSegments(argv.directory, fp) as FilePath
-        if (!assetExtensions.includes(ext)) {
+        if (assetExtensions.includes(ext)) {
           console.warn("There's an asset file in contents:", src)
         }
 

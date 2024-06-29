@@ -47,13 +47,13 @@ describe("HTMLFormattingImprovement", () => {
   })
 
   describe("Full-width slashes", () => {
-    it.each([["'cat' / 'dog'", "'cat'／'dog'"]])(
-      "should replace / with ／ in %s",
-      (input: string, expected: string) => {
-        const processedHtml = fullWidthSlashes(input)
-        expect(processedHtml).toBe(expected)
-      },
-    )
+    it.each([
+      ["'cat' / 'dog'", "'cat'／'dog'"],
+      ["https://dog", "https://dog"],
+    ])("should replace / with ／ in %s", (input: string, expected: string) => {
+      const processedHtml = fullWidthSlashes(input)
+      expect(processedHtml).toBe(expected)
+    })
   })
 
   describe("Non-breaking spaces", () => {

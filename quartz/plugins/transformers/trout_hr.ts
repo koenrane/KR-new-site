@@ -21,7 +21,7 @@ const children = [
     tagName: "img",
     children: [],
     properties: {
-      src: "/static/trout-bw.svg",
+      src: "https://assets.turntrout.com/static/trout-bw.svg",
       style: "height:var(--ornament-size);",
       alt: "Black and white trout",
       class: "no-select trout-ornament",
