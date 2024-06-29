@@ -87,4 +87,7 @@ else
 	echo "Visual regression test passed!"
 fi
 
+# If references updated and files deleted, then commit the changes
+gac "Uploaded assets to r2 and updated references."
+
 exit 0
