@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-WEBSITE_DIR="~/Downloads/turntrout.com"
+WEBSITE_DIR="$HOME/Downloads/turntrout.com"
 
 sanitize_filename() {
 	local filename="$1"
