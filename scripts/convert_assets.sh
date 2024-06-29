@@ -66,10 +66,8 @@ convert_asset() {
 }
 
 # Traverse through all files in the current directory and subdirectories
-pushd ~/Downloads/turntrout.com
 find quartz/static -type f | while read -r file; do
 	convert_asset "$file"
 
-	echo "\033[32mProcessed $file\033[0m" # Print in green
+	# echo "\033[32mProcessed $file\033[0m" # Print in green
 done
-popd

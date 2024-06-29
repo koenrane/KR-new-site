@@ -64,4 +64,4 @@ if [ -z "$source_path" ] || [ -z "$target_path" ]; then
 fi
 
 # Call the function to update references
-update_references "$image_path"
+update_references "$source_path" "$target_path"
