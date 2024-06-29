@@ -3,6 +3,7 @@
 # Check that unit tests pass
 
 CURRENT_BRANCH=$(git symbolic-ref --short head)
+GIT_ROOT=$(git rev-parse --show-toplevel)
 
 if [[ $CURRENT_BRANCH != "main" ]]; then
 	exit 0
@@ -39,6 +40,10 @@ fi
 
 echo "Spellcheck passed"
 
+# Convert images to AVIF format
+# Will then automatically be uploaded to R2 by the upcoming build step
+sh "$GIT_ROOT"/quartz/bin/convert_to_avif.sh
+
 # Optimize any newly added or modified images which are staged
 for file in $(git diff --cached --name-only --diff-filter=ACM); do
 	if [[ "$file" =~ \.jpe?g$ ]]; then
@@ -58,13 +63,24 @@ for file in $(git diff --cached --name-only --diff-filter=ACM); do
 	fi
 done
 
-npx quartz build --serve &
-SERVER_PID=$! # Store the server's process ID
-sleep 4
+SERVER_STARTED=false
+if ! nc -z localhost 8080; then
+	npx quartz build --serve &
+	SERVER_PID=$! # Store the server's process ID
+	SERVER_STARTED=true
+	# Wait for the server to be ready
+	while ! nc -z localhost 8080; do
+		sleep 0.1 # Check every 100ms
+	done
 
-npx backstop test --config=backstop.cjs
+	echo "Quartz server is ready!"
+fi
+
+sh "$GIT_ROOT/scripts/run_backstop.sh"
 TEST_STATUS=$?
-kill -TERM $SERVER_PID # Kill the server
+if $SERVER_STARTED; then
+	kill -TERM $SERVER_PID # Kill the server
+fi
 
 # Check if the test failed
 if [[ "$TEST_STATUS" -ne 0 ]]; then
