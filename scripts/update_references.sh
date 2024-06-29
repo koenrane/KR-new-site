@@ -19,7 +19,7 @@ update_references() {
 
 	# Input validation
 	if ! [ -f "$source_path" ]; then
-		echo "Error: Source file '$source_path' not found."
+		echo "Error: Source file '$source_path' not found." >>/dev/stderr
 		return 1
 	fi
 
