@@ -26,16 +26,14 @@ convert_and_update_video() {
 	file_name_no_ext="${input_file%.*}"
 
 	# Two-Pass Encoding for Optimal Quality
-	ffmpeg -i "$input_file" -n -c:v libvpx-vp9 -crf 23 -b:v 800k -pass 1 -loglevel error -an -f null /dev/null
-	ffmpeg -i "$input_file" -n -c:v libvpx-vp9 -crf 23 -b:v 800k -pass 2 -auto-alt-ref 1 -lag-in-frames 25 -row-mt 1 -movflags faststart -vf scale=-2:720 -loglevel error -an "$file_name_no_ext.webm"
+	ffmpeg -i "$input_file" -n -c:v libvpx-vp9 -crf 23 -b:v 800k -pass 1 -loglevel error -an -f null /dev/null -loglevel fatal
+	ffmpeg -i "$input_file" -n -c:v libvpx-vp9 -crf 23 -b:v 800k -pass 2 -auto-alt-ref 1 -lag-in-frames 25 -row-mt 1 -movflags faststart -vf scale=-2:720 -loglevel fatal -an "$file_name_no_ext.webm"
 
 	base=$(basename "$input_file")
 	base_name_no_ext="${base%.*}"
 
 	# Update references in markdown and TSX files
-	find "$WEBSITE_DIR/content" "$WEBSITE_DIR/quartz" \( -iname "*.md" -o -iname "*.tsx" \) -exec sed -i "" "s|<img src={?\"\($base_name_no_ext\).($file_extension)\"?}\([^>]*\)>|<video autoplay loop muted playsinline><source src=\"\1.webm\" \2 type=\"video/webm\"></video>|g" {} \;
-
-	echo "Converted $input_file to $file_name_no_ext.webm"
+	find "$WEBSITE_DIR/content" "$WEBSITE_DIR/quartz" \( -iname "*.md" -o -iname "*.tsx" \) -exec sed -i.bak "s|<img src={?\"\($base_name_no_ext\).($file_extension)\"?}\([^>]*\)>|<video autoplay loop muted playsinline><source src=\"\1.webm\" \2 type=\"video/webm\"></video>|g" {} \;
 }
 
 # Get the filename from the command-line argument

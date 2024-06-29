@@ -32,7 +32,7 @@ update_references() {
 	new_filename=$(sanitize_filename "$new_filename")
 
 	# Update references in files within the content directory
-	find "$WEBSITE_DIR/content" -iname "*.md" -o -iname "*.html" -o -iname "*.txt" -type f -exec sed -i '' "s/$original_filename/$new_filename/g" {} +
+	find "$WEBSITE_DIR/content" -iname "*.md" -o -iname "*.html" -o -iname "*.txt" -type f -exec sed -i.bak "s/$original_filename/$new_filename/g" {} +
 	echo "Updated references to: $new_filename"
 }
 

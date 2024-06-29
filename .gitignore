@@ -9,9 +9,12 @@ tsconfig.tsbuildinfo
 private/
 .replit
 replit.nix
+
+# Backups
 *~
-.bak
 *.bak
+**/.!*
+
 backstop/backstop_data/bitmaps*
 backstop/backstop_data/html_report
 prettierrc
@@ -37,3 +40,4 @@ coverage
 *.mkv
 *.mp3
 *test.md
+

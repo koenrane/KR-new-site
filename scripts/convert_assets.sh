@@ -29,6 +29,9 @@ convert_asset() {
 	*.jpg | *.jpeg | *.png)
 		sh scripts/convert_to_avif.sh "$input_file"
 
+		if [ $? -ne 0 ]; then
+			return 1
+		fi
 		output_file="${input_file%.*}.avif"
 		sh scripts/update_references.sh --source "$input_file" --target "$output_file"
 		;;
@@ -63,8 +66,10 @@ convert_asset() {
 }
 
 # Traverse through all files in the current directory and subdirectories
+pushd ~/Downloads/turntrout.com
 find quartz/static -type f | while read -r file; do
 	convert_asset "$file"
 
 	echo "\033[32mProcessed $file\033[0m" # Print in green
 done
+popd

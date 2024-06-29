@@ -26,7 +26,7 @@ convert_to_avif() {
 	# Check if AVIF already exists
 	if [ -f "$avif_path" ]; then
 		echo "AVIF file '$avif_path' already exists. Skipping conversion."
-		return 0
+		return 1
 	fi
 
 	# Convert with ImageMagick
