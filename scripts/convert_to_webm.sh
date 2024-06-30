@@ -32,6 +32,11 @@ convert_and_update_video() {
 	output_file="$file_name_no_ext.webm"
 	ffmpeg -i "$input_file" -y -c:v libvpx-vp9 -c:a libopus -crf 21 -b:v 0 -pass 2 -auto-alt-ref 1 -lag-in-frames 25 -nostdin -row-mt 1 -movflags faststart -vf scale=-2:720 -loglevel fatal "$output_file" --
 
+	if [ ! $? -eq 0 ]; then
+		echo "Error: Failed to convert '$input_file'." >&2
+		return 1
+	fi
+
 	base=$(basename "$input_file")
 	base_name_no_ext="${base%.*}"
 
