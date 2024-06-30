@@ -206,8 +206,8 @@ sup {
   }
 }
 
-// NOTE this will stop working if address moves TODO fix
-body[data-slug="Essays/Bruce-Wayne-and-the-cost-of-inaction"] {
+// note this will stop working if address moves todo fix
+body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
   & .header-img {
     filter: saturate(0%);
   }
@@ -275,6 +275,11 @@ article > p > img {
 img,
 figcaption {
   margin-top: 0em; /* Space above the caption */
+}
+
+figcaption {
+  position: relative;
+  z-index: 1; // Be above the image
 }
 
 img,
