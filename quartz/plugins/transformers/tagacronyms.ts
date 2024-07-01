@@ -4,9 +4,9 @@ import { replaceRegex } from "./utils"
 
 import { visit } from "unist-util-visit"
 // Custom Rehype plugin for tagging acronyms
-const ignoreAcronym = (node: any, index: any, parent: any) => {
+const ignoreAcronym = (node, index, parent: any) => {
   let status = parent?.properties?.className?.includes("no-smallcaps")
-  status = status || parent?.tagName === "abbr"
+  status = status || parent?.tagName === "abbr" || "code" === parent?.tagName
   return status
 }
 
