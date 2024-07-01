@@ -171,9 +171,6 @@ hr.desktop-only {
       width: $sidePanelWidth;
       &.right {
         width: $rightWidth;
-        // overflow-y: auto;
-        // overflow-x: hidden;
-        // padding-right: 2rem;
       }
 
       margin-top: $topSpacing;
@@ -435,6 +432,7 @@ a > code {
   .footnote & {
     margin-left: $baseMargin;
     margin-right: $baseMargin;
+    font-size: var(--font-size-90);
   }
 }
 
@@ -453,12 +451,12 @@ dd {
 
 th {
   text-align: left;
-  padding: 0.4rem 0.7rem;
+  padding: $baseMargin calc(1.5 * $baseMargin);
   border-bottom: 2px solid var(--gray);
 }
 
 td {
-  padding: 0.2rem 0.7rem;
+  padding: calc(0.5 * $baseMargin) calc(1.5 * $baseMargin);
 }
 
 tr {

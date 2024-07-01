@@ -10,6 +10,7 @@ turndownService.addRule("subscript", {
   },
 })
 
+// By default, newlines break table rows. Replace with <br>
 turndownService.addRule("table linebreak", {
   filter: ["table"],
   replacement: function (content) {
@@ -22,10 +23,27 @@ turndownService.addRule("table linebreak", {
     if (content.startsWith("<br/>")) {
       content = content.substring(5)
     }
-    if (content.includes("<br/>")) {
-      console.log(content)
-      console.log("\n")
+
+    // Some tables have 1 column for a "header", and then the real columns.
+    // Detect if there is an imbalance, and make a different kind of title.
+    const headerRow = content.split("\n")[0]
+    const headerColumns = headerRow.split("|").length
+
+    if (headerColumns === 3) {
+      let rows = content.split("\n")
+      for (let i = 1; i < rows.length; i++) {
+        const rowColumns = rows[i].split("|").length
+        if (rowColumns > headerColumns) {
+          // Get rid of the header row
+          rows = rows.slice(i)
+          break
+        }
+      }
+
+      const headerContent = headerRow.split("|")[1]
+      content = "\n\n" + rows.join("\n") + "\n" + `<figcaption>${headerContent}</figcaption>`
     }
+
     return content
   },
 })
