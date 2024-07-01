@@ -430,16 +430,16 @@ a > code {
     margin: calc(2 * $baseMargin);
     padding: calc(3 * $baseMargin);
     border-collapse: collapse;
-
-    th,
-    td {
-      min-width: 75px;
-    }
-
-    & > * {
-      line-height: 2rem;
-    }
   }
+
+  .footnote & {
+    margin-left: $baseMargin;
+    margin-right: $baseMargin;
+  }
+}
+
+.table-container:first-child > table {
+  margin-top: $baseMargin;
 }
 
 dt {
