@@ -167,7 +167,8 @@ body {
 
   // Code should contain full-height numbers
   & code,
-  & pre {
+  & pre,
+  & .full-size-numbers {
     font-variant-numeric: lining-nums;
   }
 }

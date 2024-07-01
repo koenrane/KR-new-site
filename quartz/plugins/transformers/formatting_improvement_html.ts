@@ -46,6 +46,27 @@ export function hyphenReplace(text: string) {
   return text
 }
 
+export const fullSizeNumbers = (node, index, parent) => {
+  const pattern = /([+\-−])?(\d{1,2})(\.\d)?/g
+  replaceRegex(
+    node,
+    index,
+    parent,
+    pattern,
+    (match: any) => {
+      return {
+        before: "",
+        replacedMatch: match[0],
+        after: "",
+      }
+    },
+    (nd: any, idx: any, prnt: any) => {
+      return prnt?.properties?.className?.includes("full-size-numbers")
+    },
+    "span.full-size-numbers",
+  )
+}
+
 const fractionRegex = new RegExp(
   `(?<![\w\/]|${numberRegex.source})(${numberRegex.source})\/(${numberRegex.source})(?!${numberRegex.source})(?=[^\w\/]|$)`,
   "g",
@@ -106,6 +127,9 @@ export const improveFormatting: Plugin = () => {
         if (!parent.properties?.className?.includes("fraction") && parent?.tagName !== "a") {
           node.value = fullWidthSlashes(node.value)
         }
+
+        // Full size numbers
+        fullSizeNumbers(node, index, parent)
       }
     })
   }
