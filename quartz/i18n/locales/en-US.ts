@@ -2,15 +2,15 @@ import { Translation } from "./definition"
 
 export default {
   propertyDefaults: {
-    title: "Untitled",
-    description: "No description provided",
+    title: "The Pond",
+    description: "Writings about doing good, thinking well, and living happily.",
   },
   components: {
     callout: {
       note: "Note",
       abstract: "Abstract",
       info: "Info",
-      todo: "Todo",
+      todo: "To-do",
       tip: "Tip",
       success: "Success",
       question: "Question",
@@ -82,7 +82,7 @@ export default {
       lastFewNotes: ({ count }) => `Last ${count} notes`,
     },
     error: {
-      title: "Not Found",
+      title: "Not found",
       notFound: "Either this page is private or doesn't exist.",
     },
     folderContent: {
