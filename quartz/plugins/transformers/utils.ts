@@ -1,4 +1,5 @@
 import { h } from "hastscript"
+import path from "path"
 import { execSync } from "child_process"
 
 // For CWD
@@ -19,7 +20,7 @@ const linkText = /\[([^\]]+)\]/
 const linkURL = /\(([^#].*?)\)/ // Ignore internal links, capture as little as possible
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 
-export const numberRegex = /[+\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
+export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
 export const replaceRegex = (
   node: any,
   index: any,
