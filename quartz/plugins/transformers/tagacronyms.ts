@@ -18,7 +18,7 @@ export const rehypeTagAcronyms: Plugin = () => {
   const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
 
   return (tree) => {
-    visit(tree, "text", (node, index, parent) => {
+    visit(tree, "text", (node: any, index: any, parent: any) => {
       replaceRegex(
         node,
         index,
@@ -34,7 +34,7 @@ export const rehypeTagAcronyms: Plugin = () => {
       )
     })
 
-    visit(tree, "text", (node, index, parent) => {
+    visit(tree, "text", (node: any, index: any, parent: any) => {
       replaceRegex(
         node,
         index,
