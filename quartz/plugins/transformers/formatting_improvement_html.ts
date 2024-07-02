@@ -25,13 +25,6 @@ export function fullWidthSlashes(text: string): string {
 }
 
 export function hyphenReplace(text: string) {
-  // There are a few spots where I go: "X" - "Y" TODO fix
-  const quotedRegex = /(“.*?”)/g
-  const quoteMinusQuote = new RegExp(`${quotedRegex} - ${quotedRegex}`, "g")
-  text = text.replaceAll(quoteMinusQuote, "$1 − $2")
-
-  // TODO "A- or B-coded individuals" --- shouldn't transform
-
   // Create a regex for dashes surrounded by spaces
   const surroundedDash = new RegExp("([^\\s>]|^) *[~–—-]+ +", "g")
 
@@ -54,7 +47,7 @@ export function hyphenReplace(text: string) {
 }
 
 export const fullSizeNumbers = (node, index, parent) => {
-  const pattern = /([+−])?(\d{1,2})(\.\d)?(?!,\d)\b/g // TODO write tests
+  const pattern = /([+\-−])?(\d{1,2})(\.\d)?/g
   replaceRegex(
     node,
     index,
