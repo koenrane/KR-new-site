@@ -119,7 +119,7 @@ export default ((userOpts?: Partial<Options>) => {
               muted
               playsInline
               id="header-video"
-              class="header-img no-select"
+              class="header-img no-select no-vsc"
               alt=""
             >
               <source src="/static/pond.webm" type="video/webm"></source>

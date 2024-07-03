@@ -196,17 +196,20 @@ sup {
     border-color 1s ease-in-out !important;
 }
 
+// Hide video speed controller
+.vsc-controller:has(+ video.no-vsc) {
+  display: none;
+}
+
 :root[saved-theme="dark"] video,
 :root[saved-theme="dark"] img {
   filter: grayscale(50%);
 
   & .invert {
-    // TODO implement
     filter: grayscale(50%) invert(100%) brightness(95%) hue-rotate(180deg);
   }
 }
 
-// note this will stop working if address moves todo fix
 body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
   & .header-img {
     filter: saturate(0%);

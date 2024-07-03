@@ -10,7 +10,14 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
   return (
     <div class={classNames(displayClass, "page-title")}>
       <a href={baseDir}>
-        <video autoPlay loop muted playsInline id="header-video" class="header-img no-select">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          id="header-video"
+          class="header-img no-select no-vsc"
+        >
           <source src="/static/pond.webm" type="video/webm"></source>
         </video>
       </a>
