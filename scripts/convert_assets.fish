@@ -1,28 +1,30 @@
 #!/usr/bin/env fish
 
 # Initialize argparse
-argparse 'r/remove_originals' 's/strip_metadata' -- $argv
+argparse r/remove_originals s/strip_metadata -- $argv
 
 # Function to handle conversion and optimization of a single file
 function convert_asset
     set input_file $argv[1]
+    set input_extension (string split -m1 -r "." $input_file)[-1]
     set output_file
 
-    switch $input_file
-        case '*.jpg' '*.jpeg' '*.png'
+    switch $input_extension
+        case jpg jpeg png
             sh scripts/convert_to_avif.sh $input_file
             if test $status -ne 0
                 return 1
             end
             set output_file (string replace -r '\.[^.]+$' '.avif' $input_file)
+            echo $output_file
             fish scripts/update_references.fish --source $input_file --target $output_file
 
-        case '*.gif' '*.mp4' '*.mov'
+        case gif mp4 mov
             set output_file (string replace -r '\.[^.]+$' '.webm' $input_file)
             sh scripts/convert_to_webm.sh $input_file
             # Has its own reference replacement
 
-        case '*.flac'
+        case flac
             # Example: Audio Compression (FLAC to Opus)
             # set output_file (string replace -r '\.[^.]+$' '.opus' $input_file)
             # ffmpeg -i $input_file $output_file
@@ -50,4 +52,3 @@ end
 find quartz/static -type f | while read -l file
     convert_asset $file
 end
-

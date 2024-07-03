@@ -4,7 +4,7 @@ source "$WEBSITE_DIR"/scripts/upload_to_r2.fish # Import the get_r2_key function
 
 # Function to sanitize filenames 
 function sanitize_filename
-    string replace -ar '[\\$&*?]' '\\$0' $argv[1]
+    string replace -ar '[\/$&*?<>|]' "\\$0" $argv[1]
 end
 
 # Function to update references 
@@ -26,9 +26,9 @@ function update_references
     set new_filename (sanitize_filename "$target_path")
 
     # Update references 
-    find "$WEBSITE_DIR/content" -iname "*.md" -o -iname "*.html" -o -iname "*.txt" -type f | while read file
-        sed -i.bak -e "s|$original_filename|$new_filename|g" $file
-    end
+    echo "Looking for $original_filename in $WEBSITE_DIR/content/**md"
+    echo (grep "$original_filename" $WEBSITE_DIR/content/**md)
+    sed -i.bak -e "s|$original_filename|$new_filename|g" (find "$WEBSITE_DIR/content" -iname "*.md" -o -iname "*.html" -o -iname "*.txt" -type f )
     echo "Updated references to: $new_filename"
 end
 
