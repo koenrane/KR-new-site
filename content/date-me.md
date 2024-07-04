@@ -120,7 +120,6 @@ Meditation
 Reading textbooks
 : [Yes](./set-theory-textbook-review) [this](./linear-algebra-textbook-review) [is](./first-analysis-textbook-review) [a](./statistics-textbook-review) [real](./second-analysis-textbook-review) [thing](./functional-analysis-textbook-review) [I](./economics-textbook-review) [do](./logic-textbook-review) [for](./ordinary-differential-equations-textbook-review) [fun](./RL-textbook-review) [sometimes.](./topology-textbook-review)
 
-OK, I've written enough! Get to know me if you want to know more. 🪿
 
 # How compatible are we?
 
@@ -152,6 +151,8 @@ If this sounds like a nice potential connection, I'd love to:
 1. Take you dancing 💃, or
 2. Have a sunset picnic and eat blueberries, or
 3. Spend a lazy Sunday morning watching the stream run by the [Hidden Cafe](https://www.thehiddencafe.life/).
+
+OK, I've written enough! Get to know me if you want to know more. 🪿
 
 # Contact
 
