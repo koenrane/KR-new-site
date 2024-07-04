@@ -4,7 +4,7 @@ source "$WEBSITE_DIR"/scripts/upload_to_r2.fish # Import the get_r2_key function
 
 # Function to sanitize filenames 
 function sanitize_filename
-    string replace -ar '[\\$&*?]' '\\$0' $argv[1]
+    string replace -ar '[\\$&*?]' "\\$0" $argv[1]
 end
 
 # Function to update references 

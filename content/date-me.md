@@ -38,11 +38,9 @@ I'm very hard-working. In 2017, in the second year of [my computer science PhD](
 
 I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two](https://arxiv.org/abs/1912.01683) [papers](https://arxiv.org/abs/2206.13477) in a top AI conference.
 
-I'm somewhat more anxious than I'd like, especially of late. This surprises people who don't know me very well, as I have a confident aura and disposition - especially in professional contexts. I am, in fact, confident and self-assured in many ways. My work ethic has the dual side of "feels personal responsibility and blameworthiness for nearly every negative thing in his life."
-
 ## Personal life
 
-That said, I've become a bit less research-focused recently. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks!
+That said, I've become a bit less research-focused recently. Somewhat relatedly, I've become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks.
 
 I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative.
 
@@ -50,7 +48,7 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 
 <figure>
 	<img src="https://assets.turntrout.com/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
-	<figcaption>Sometimes, part of me wishes I could meet and deeply understand each and every person here. Each pinhead of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
+	<figcaption>Part of me wishes I could meet and deeply understand each and every person here. Each pinpoint of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
 </figure>
 
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well). I am pretty goofy if I trust and feel comfy around someone.
