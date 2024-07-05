@@ -1,8 +1,7 @@
 #!/usr/bin/env fish
 
 set current_dir (dirname (status filename))
-set temp_dir $current_dir/temp_files
-mkdir $temp_dir
+set -l temp_dir (mkdtemp -d)
 
 source $current_dir/../convert_assets.fish
 

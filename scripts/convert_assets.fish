@@ -17,7 +17,6 @@ function convert_asset
             end
             set output_file (string replace -r '\.[^.]+$' '.avif' $input_file)
 
-            echo "Output file: $output_file"
             fish scripts/update_references.fish --source $input_file --target $output_file
 
         case gif mp4 mov

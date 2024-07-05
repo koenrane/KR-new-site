@@ -7,8 +7,9 @@ set R2_BASE_URL "https://assets.turntrout.com"
 argparse r/remove_originals -- $argv #remove originals can be set anywhere in the arguments
 
 function get_r2_key
+    # Remove the path up to and including 'quartz/' to get the R2 key. Also remove leading '/'
     set -l filepath $argv[1]
-    set -l r2_key (string replace -r '.*quartz/' '' $filepath)
+    set -l r2_key (string replace -r '.*quartz/' '' $filepath | string replace -r '^/' '')
     echo $r2_key
 end
 
@@ -28,11 +29,12 @@ function upload_to_r2
     echo "Uploading $file to R2 with key: $r2_key"
     set upload_target "r2:$R2_BUCKET_NAME/$r2_key"
 
-    rclone copyto $file $upload_target
+    #rclone copyto $file $upload_target
 
     # Construct the full R2 URL
     set r2_url "$R2_BASE_URL/$r2_key"
 
+    echo "Changing \"$file\" references to $r2_url."
     fish $GIT_ROOT/scripts/update_references.fish --source "$file" --target "$r2_url"
 
     # If the "remove_originals" flag is set, remove the original file
