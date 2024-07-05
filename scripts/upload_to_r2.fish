@@ -1,8 +1,7 @@
 #!/usr/bin/env fish
 
-set GIT_ROOT (git rev-parse --show-toplevel)
-set R2_BUCKET_NAME turntrout
-set R2_BASE_URL "https://assets.turntrout.com"
+set -l file_dir (dirname (status -f))
+source $file_dir/utils.fish
 
 # Parse arguments
 argparse r/remove_originals v/verbose -- $argv
@@ -15,12 +14,6 @@ end
 set verbose 0
 if set -q _flag_verbose
     set verbose 1
-end
-
-function get_r2_key
-    set -l filepath $argv[1]
-    set -l r2_key (string replace -r '.*quartz/' '' $filepath | string replace -r '^/' '')
-    echo $r2_key
 end
 
 function upload_to_r2
@@ -54,16 +47,18 @@ function upload_to_r2
     end
 end
 
-# Main execution
-if test (count $argv) -eq 0
-    echo "Error: No file specified for upload"
-    exit 1
-end
+# Check if this script is the main program or being sourced
+if test "$argv" = (status -f)
+    if test (count $argv) -eq 0
+        echo "Error: No file specified for upload"
+        exit 1
+    end
 
-set FILE_TO_UPLOAD $argv[-1]
-if test -f "$FILE_TO_UPLOAD"
-    upload_to_r2 $FILE_TO_UPLOAD
-else
-    echo "File not found: $FILE_TO_UPLOAD"
-    exit 1
+    set FILE_TO_UPLOAD $argv[-1]
+    if test -f "$FILE_TO_UPLOAD"
+        upload_to_r2 $FILE_TO_UPLOAD
+    else
+        echo "File not found: $FILE_TO_UPLOAD"
+        exit 1
+    end
 end

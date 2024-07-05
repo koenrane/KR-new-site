@@ -1,16 +1,13 @@
 #!/usr/bin/env fish
-#set -x # Debugging output
-set GIT_ROOT (git rev-parse --show-toplevel)
-set R2_BASE_URL "https://assets.turntrout.com" # TODO consolidate in one place
 
-source "$GIT_ROOT"/scripts/upload_to_r2.fish # Import the get_r2_key function 
+set -l file_dir (dirname (status -f))
+source $file_dir/utils.fish
+source $file_dir/upload_to_r2.fish # Import the get_r2_key function 
 
 # Function to sanitize filenames 
 function sanitize_filename
     echo "$argv[1]" | sed -E "s#[\\\$&*.?/|]#\\\&#g"
 end
-
-# TODO test
 
 # Function to update references 
 function update_references
@@ -19,7 +16,7 @@ function update_references
 
     # Input validation
     if test ! -f "$source_path"
-        echo "Error: Source file '$source_path' not found." >&2
+        echo "Error: Source file '$source_path' not found. Not updating references to it." >&2
         return 1
     end
 
@@ -36,9 +33,11 @@ function update_references
     perl -i.bak -pe "s|(?<!$escaped_base_url)(?<=\")[^\"]*$original_filename|$new_filename|g" $files_to_update
 end
 
+# Check if this script is the main program or being sourced
+if test "$argv" = (status -f)
+    # Parse command-line flags
+    argparse 'source=+' 'target=+' -- $argv
 
-# Parse command-line flags 
-argparse 'source=+' 'target=+' -- $argv
-
-# Call the function to update references
-update_references $_flag_source $_flag_target
+    # Call the function to update references
+    update_references $_flag_source $_flag_target
+end
