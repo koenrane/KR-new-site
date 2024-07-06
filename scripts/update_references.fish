@@ -3,6 +3,7 @@
 set -l file_dir (dirname (status -f))
 source $file_dir/utils.fish
 
+# TODO move to utils
 function sanitize_filename
     echo "$argv[1]" | sed -E "s#[\\\$&*.?/|]#\\\&#g"
 end

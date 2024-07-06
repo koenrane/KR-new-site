@@ -1,6 +1,6 @@
 set GIT_ROOT (git rev-parse --show-toplevel)
 
-set R2_BASE_URL "https://assets.turntrout.com" # TODO consolidate in one place
+set R2_BASE_URL "https://assets.turntrout.com"
 set R2_BUCKET_NAME turntrout
 
 function get_r2_key
