@@ -43,24 +43,26 @@ end
     echo (cat $filepath)
 ) = "![image]($R2_BASE_URL/new_image.jpg)"
 
-## Test update_references function with non-existent source file
-#@test "update_references handles non-existent source file" (
-#    setup
-#
-#    update_references "$GIT_ROOT/content/non_existent.md" "new_image.jpg" 2> /dev/null
-#    test $status -eq 1
-#)
-#
-## Test update_references function with multiple occurrences
-#@test "update_references updates multiple occurrences" (
-#    setup
-#    echo "![image1]($R2_BASE_URL/old_image.jpg) ![image2]($R2_BASE_URL/old_image.jpg)" > $GIT_ROOT/content/test.md
-#
-#    update_references "$GIT_ROOT/content/test.md" "new_image.jpg"
-#    set result (grep -c "new_image.jpg" $GIT_ROOT/content/test.md)
-#    test $result -eq 2
-#)
-#
+# Test update_references function with non-existent source file
+@test "update_references handles non-existent source file" (
+    setup
+
+    update_references "$GIT_ROOT/content/non_existent.md" "new_image.jpg" 2> /dev/null
+    echo $status
+) = 1
+
+# Test update_references function with multiple occurrences
+@test "update_references updates multiple occurrences" (
+    setup
+    set -l filepath "$GIT_ROOT/content/test.md"
+    set -l image_path "$GIT_ROOT/quartz/old_image.jpg"
+    mktemp $image_path > /dev/null
+    echo "![image1]($R2_BASE_URL/old_image.jpg) ![image2]($R2_BASE_URL/old_image.jpg)" > $filepath
+
+    update_references $image_path "new_image.jpg"
+    echo (grep -o "new_image.jpg" $filepath | wc -l | string trim) # Count occurrences of new_image.jpg
+) = 2
+
 ## Test update_references function with no matches
 #@test "update_references handles no matches gracefully" (
 #    setup

@@ -3,13 +3,23 @@
 set -l file_dir (dirname (status -f))
 source $file_dir/utils.fish
 
-# Function to sanitize filenames 
 function sanitize_filename
     echo "$argv[1]" | sed -E "s#[\\\$&*.?/|]#\\\&#g"
 end
 
-# Function to update references 
 function update_references
+    # Function to update references to a file in the content directory
+    # Arguments:
+    #  $1: Source file path, string. The source file must exist.
+    #    After leading .*quartz and then leading / are removed, the rest is used as the key.
+    #    For example, if the source file path is ..quartz/test.jpg, then the key is test.jpg. 
+    #  $2: Target file path, string. References to source will be updated to $R2_BASE_URL/$2.
+    #   For example, if the target file path is test.jpg and $R2_BASE_URL (defined in utils.fish) is test.com, 
+    #    then the references to source will be updated to test.com/test.jpg.
+    # Returns:
+    #  None
+    # Side-effects:
+    #  Updates references to the source file in $GIT_ROOT/content/**md files.
     set source_path $argv[1]
     set target_path $argv[2]
 
@@ -37,5 +47,4 @@ end
 # Parse command-line flags
 argparse 'source=+' 'target=+' -- $argv
 
-# Call the function to update references
 update_references $_flag_source $_flag_target
