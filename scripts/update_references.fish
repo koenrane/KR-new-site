@@ -16,12 +16,24 @@ function update_references
     #  $2: Target file path, string. References to source will be updated to $R2_BASE_URL/$2.
     #   For example, if the target file path is test.jpg and $R2_BASE_URL (defined in utils.fish) is test.com, 
     #    then the references to source will be updated to test.com/test.jpg.
+    #  $3: Content directory, string. The directory where the content files are stored. 
+    #   The content directory must exist. Default is $GIT_ROOT/content.
     # Returns:
     #  None
     # Side-effects:
     #  Updates references to the source file in $GIT_ROOT/content/**md files.
     set source_path $argv[1]
     set target_path $argv[2]
+
+    if set -q argv[3]
+        set content_dir $argv[3]
+    else
+        set content_dir $GIT_ROOT/content
+    end
+    if test ! -d "$content_dir"
+        echo "Error: Content directory '$content_dir' not found. Not updating references." >&2
+        return 1
+    end
 
     # Input validation
     if test ! -f "$source_path"
@@ -39,12 +51,13 @@ function update_references
     set replacement $escaped_base_url$new_filename
 
     # Update references 
-    set -l files_to_update (find "$GIT_ROOT/content" -iname "*.md" -type f)
-    #echo (set_color red)"s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]]*$original_filename|$new_filename|g" (set_color normal)
+    #echo (set_color red)$content_dir(set_color normal)
+    set -l files_to_update (find "$content_dir" -iname "*.md" -type f)
+    #echo (set_color red)"s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]]*$original_filename|$replacement|g" (set_color normal)
     perl -i.bak -pe "s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]*$original_filename|$replacement|g" $files_to_update
 end
 
 # Parse command-line flags
-argparse 'source=+' 'target=+' -- $argv
+argparse 'source=' 'target=' 'content_dir=?' -- $argv
 
-update_references $_flag_source $_flag_target
+update_references $_flag_source $_flag_target $_flag_content_dir
