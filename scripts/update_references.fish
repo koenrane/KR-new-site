@@ -9,7 +9,7 @@ function sanitize_filename
 end
 
 function update_references
-    # Function to update references to a file in the content directory
+    # Function to update references to an (image) file in the content directory
     # Arguments:
     #  $1: Source file path, string. The source file must exist.
     #    After leading .*quartz and then leading / are removed, the rest is used as the key.

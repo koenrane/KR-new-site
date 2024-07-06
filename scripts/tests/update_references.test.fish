@@ -47,6 +47,18 @@ end
     echo (cat $filepath)
 ) = "![image]($R2_BASE_URL/new_image.jpg)"
 
+# Test update_references function with HTML reference
+@test "update_references updates HTML src" (
+    setup
+    set -l filepath "$temp_dir/content/test.md"
+    set -l image_path "$temp_dir/$temp_img"
+    echo "<img src=\"old_image.jpg\"> abc" > $filepath
+
+    update_references $image_path "new_image.jpg" $temp_dir/content
+    echo (cat $filepath)
+) = "<img src=\"$R2_BASE_URL/new_image.jpg\"> abc"
+
+
 # Test update_references function with non-existent source file
 @test "update_references handles non-existent source file" (
     setup
