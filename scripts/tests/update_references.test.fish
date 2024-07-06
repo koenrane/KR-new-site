@@ -98,10 +98,11 @@ end
     echo (cat $temp_dir/content/test.md)
 ) = "![image]($R2_BASE_URL/new_image.jpg)"
 
-## Test handling of filenames with spaces
-#@test "script handles filenames with spaces" (
-#    setup
-#    echo "![image]($R2_BASE_URL/old image.jpg)" > $temp_dir/content/test.md
-#    update_references "$temp_dir/content/test.md" "new image.jpg"
-#    grep -q "![image]($R2_BASE_URL/new image.jpg)" $temp_dir/content/test.md
-#)
+# Test handling of filenames with spaces
+@test "script handles filenames with spaces" (
+    setup
+    mktemp $temp_dir/old\ image.jpg > /dev/null
+    echo "![image]($R2_BASE_URL/old image.jpg)" > $temp_dir/content/test.md
+    update_references "old image.jpg" "new image.jpg" $temp_dir/content
+    echo (cat $temp_dir/content/test.md)
+) = "![image]($R2_BASE_URL/new image.jpg)"
