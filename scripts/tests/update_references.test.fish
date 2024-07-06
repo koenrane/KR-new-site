@@ -63,6 +63,22 @@ end
     echo (grep -o "new_image.jpg" $filepath | wc -l | string trim) # Count occurrences of new_image.jpg
 ) = 2
 
+# Test update_references function with multiple files
+@test "update_references updates multiple files" (
+    setup
+    mktemp $GIT_ROOT/content/test_dir -d > /dev/null
+    mktemp $GIT_ROOT/content/test_dir/test2.md > /dev/null
+    set -l filepaths "$GIT_ROOT/content/test.md" "$GIT_ROOT/content/test_dir/test2.md"
+    set -l image_path "$GIT_ROOT/quartz/old_image.jpg"
+    mktemp $image_path > /dev/null
+    for filepath in $filepaths 
+        echo "![image1]($R2_BASE_URL/old_image.jpg) ![image2]($R2_BASE_URL/old_image.jpg)" > $filepath
+    end
+
+    update_references $image_path "new_image.jpg"
+    echo (grep -o "new_image.jpg" $filepaths | wc -l | string trim) # Count occurrences of new_image.jpg
+) = 4
+
 ## Test update_references function with no matches
 #@test "update_references handles no matches gracefully" (
 #    setup
