@@ -2,19 +2,22 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/../utils.fish
-source $file_dir/../update_references.fish
+set -l references_file $file_dir/../update_references.fish
+source $references_file 2>/dev/null
 
 function setup
     set -g temp_dir (mktemp -d)
     cd $temp_dir
     mkdir -p content
-    echo "Test content" >content/test.md
+    mkdir -p quartz
+    echo "Test content" >./content/test.md
     set -g GIT_ROOT $temp_dir
+    trap teardown EXIT
 end
 
 # Teardown function to clean up after tests
 function teardown
-    rm -rf $temp_dir
+    command rm -rf $temp_dir
 end
 
 # Test sanitize_filename function
@@ -23,23 +26,29 @@ end
     echo $result
 ) = 'file\$with\&special\*\.chars\?\/\|'
 
-## Test update_references function with valid inputs
-#@test "update_references updates markdown files correctly" (
-#    setup
-#    echo "![image]($R2_BASE_URL/old_image.jpg)" > $GIT_ROOT/content/test.md
-#
-#    update_references "$GIT_ROOT/content/test.md" "new_image.jpg"
-#    grep -q "![image]($R2_BASE_URL/new_image.jpg)" $GIT_ROOT/content/test.md
-#    teardown
-#)
-#
+
+# Test update_references function with valid inputs
+# Note: Extra echo statements will mess up syntax of @test
+@test "update_references updates markdown files correctly" (
+    setup
+    set -l filepath "$GIT_ROOT/content/test.md"
+    set -l image_path "$GIT_ROOT/quartz/old_image.jpg"
+    set -l original_content "![image]($R2_BASE_URL/quartz/old_image.jpg)"
+    mktemp $image_path > /dev/null
+
+    echo $original_content > $filepath
+
+    update_references "quartz/old_image.jpg" "new_image.jpg"
+    set result (grep -q "![image]($R2_BASE_URL/new_image.jpg)" $filepath)
+    echo (cat $filepath)
+) = "![image]($R2_BASE_URL/new_image.jpg)"
+
 ## Test update_references function with non-existent source file
 #@test "update_references handles non-existent source file" (
 #    setup
 #
-#    update_references "$GIT_ROOT/content/non_existent.md" "new_image.jpg"
+#    update_references "$GIT_ROOT/content/non_existent.md" "new_image.jpg" 2> /dev/null
 #    test $status -eq 1
-#    teardown
 #)
 #
 ## Test update_references function with multiple occurrences
@@ -50,7 +59,6 @@ end
 #    update_references "$GIT_ROOT/content/test.md" "new_image.jpg"
 #    set result (grep -c "new_image.jpg" $GIT_ROOT/content/test.md)
 #    test $result -eq 2
-#    teardown
 #)
 #
 ## Test update_references function with no matches
@@ -60,16 +68,14 @@ end
 #
 #    update_references "$GIT_ROOT/content/test.md" "new_image.jpg"
 #    grep -q "No matches here" $GIT_ROOT/content/test.md
-#    teardown
 #)
 #
 ## Test command-line flag parsing
 #@test "script parses command-line flags correctly" (
 #    setup
 #    echo "![image]($R2_BASE_URL/old_image.jpg)" > $GIT_ROOT/content/test.md
-#    ./your_script.fish --source="$GIT_ROOT/content/test.md" --target="new_image.jpg"
+#    fish $references_file --source="$GIT_ROOT/content/test.md" --target="new_image.jpg"
 #    grep -q "![image]($R2_BASE_URL/new_image.jpg)" $GIT_ROOT/content/test.md
-#    teardown
 #)
 #
 ## Test handling of filenames with spaces
@@ -78,5 +84,4 @@ end
 #    echo "![image]($R2_BASE_URL/old image.jpg)" > $GIT_ROOT/content/test.md
 #    update_references "$GIT_ROOT/content/test.md" "new image.jpg"
 #    grep -q "![image]($R2_BASE_URL/new image.jpg)" $GIT_ROOT/content/test.md
-#    teardown
 #)

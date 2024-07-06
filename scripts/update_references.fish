@@ -2,7 +2,6 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/utils.fish
-source $file_dir/upload_to_r2.fish # Import the get_r2_key function 
 
 # Function to sanitize filenames 
 function sanitize_filename
@@ -27,17 +26,16 @@ function update_references
     set original_filename (sanitize_filename "$original_filename")
     set new_filename (sanitize_filename "$target_path")
     set escaped_base_url (sanitize_filename "$R2_BASE_URL/")
+    set replacement $escaped_base_url$new_filename
 
     # Update references 
     set -l files_to_update (find "$GIT_ROOT/content" -iname "*.md" -type f)
-    perl -i.bak -pe "s|(?<!$escaped_base_url)(?<=\")[^\"]*$original_filename|$new_filename|g" $files_to_update
+    #echo (set_color red)"s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]]*$original_filename|$new_filename|g" (set_color normal)
+    perl -i.bak -pe "s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]*$original_filename|$replacement|g" $files_to_update
 end
 
-# Check if this script is the main program or being sourced
-if test "$argv" = (status -f)
-    # Parse command-line flags
-    argparse 'source=+' 'target=+' -- $argv
+# Parse command-line flags
+argparse 'source=+' 'target=+' -- $argv
 
-    # Call the function to update references
-    update_references $_flag_source $_flag_target
-end
+# Call the function to update references
+update_references $_flag_source $_flag_target

@@ -47,18 +47,15 @@ function upload_to_r2
     end
 end
 
-# Check if this script is the main program or being sourced
-if test "$argv" = (status -f)
-    if test (count $argv) -eq 0
-        echo "Error: No file specified for upload"
-        exit 1
-    end
+if test (count $argv) -eq 0
+    echo "Error: No file specified for upload"
+    exit 1
+end
 
-    set FILE_TO_UPLOAD $argv[-1]
-    if test -f "$FILE_TO_UPLOAD"
-        upload_to_r2 $FILE_TO_UPLOAD
-    else
-        echo "File not found: $FILE_TO_UPLOAD"
-        exit 1
-    end
+set FILE_TO_UPLOAD $argv[-1]
+if test -f "$FILE_TO_UPLOAD"
+    upload_to_r2 $FILE_TO_UPLOAD
+else
+    echo "File not found: $FILE_TO_UPLOAD"
+    exit 1
 end
