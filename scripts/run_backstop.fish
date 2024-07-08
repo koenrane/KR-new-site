@@ -17,7 +17,7 @@ if test $pipestatus[1] -ne 0
         echo (set_color green) "Reference screenshots updated." (set_color normal)
     else
         echo (set_color red) "Changes rejected. Test failure remains." (set_color normal) >&2
-        exit 1
+        return 1
     end
 else
     echo (set_color green) "Visual regression test passed!" (set_color normal)

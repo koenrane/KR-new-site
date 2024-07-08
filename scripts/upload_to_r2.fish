@@ -31,13 +31,11 @@ function upload_to_r2
     set upload_target "r2:$R2_BUCKET_NAME/$r2_key"
     #rclone copyto $file $upload_target
 
-    set r2_url "$R2_BASE_URL/$r2_key"
-
     if test $verbose -eq 1
-        echo "Changing \"$file\" references to $r2_url"
+        echo "Changing \"$file\" references to $R2_BASE_URL/$r2_key"
     end
 
-    fish $GIT_ROOT/scripts/update_references.fish --source "$file" --target "$r2_url"
+    fish $GIT_ROOT/scripts/update_references.fish --source "$file" --target "$r2_key"
 
     if set -q _flag_remove_originals
         if test $verbose -eq 1
