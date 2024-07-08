@@ -22,12 +22,7 @@ function convert_asset
         case gif mp4 mov
             set output_file (string replace -r '\.[^.]+$' '.webm' $input_file)
             sh scripts/convert_to_webm.sh $input_file
-            # Has its own reference replacement
-
-        case flac
-            # Example: Audio Compression (FLAC to Opus)
-            # set output_file (string replace -r '\.[^.]+$' '.opus' $input_file)
-            # ffmpeg -i $input_file $output_file
+            # Has its own reference replacement TODO test?
 
         case *
             return 0
