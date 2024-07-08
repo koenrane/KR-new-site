@@ -1,15 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env fish
 
-# Ignore spam outputs
+# Ignore specific output lines
 backstop test --color=always | grep -vE "(JSHandle|Close Browser)"
 
-# Capture the exit status of the backstop test
-test_status=$?
-
-# Check if the tests failed
-if [ $test_status -ne 0 ]; then
-	read -p "Tests failed. Do you want to view the report? (y/N): " response
-	if [ "$response" == "y" ]; then
-		backstop openReport
-	fi
-fi
+# Check if tests failed
+if test $pipestatus[1] -ne 0
+    read -l -P "Tests failed. Do you want to view the report? (y/N): " response
+    if test "$response" = y
+        backstop openReport
+    end
+end
