@@ -1,13 +1,12 @@
 #!/usr/bin/env fish
 
 # Ignore specific output lines
-#backstop test --color=always | grep -vE "(JSHandle|Close Browser)"
-false | true
+backstop test --color=always | grep -vE "(JSHandle|Close Browser)"
 
 # Check if tests failed
 if test $pipestatus[1] -ne 0
-    #echo (set_color red) "Tests failed. Review the report:" (set_color normal) >&2
-    #open backstop/backstop_data/html_report/index.html
+    echo (set_color red) "Tests failed. Review the report:" (set_color normal) >&2
+    open backstop/backstop_data/html_report/index.html
 
     # Prompt for approval
     read -l -P 'Do you approve the changes? (y/N) ' answer
