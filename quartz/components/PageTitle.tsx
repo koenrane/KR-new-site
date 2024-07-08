@@ -18,7 +18,7 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
           id="header-video"
           class="header-img no-select no-vsc"
         >
-          <source src="/static/pond.webm" type="video/webm"></source>
+          <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
         </video>
       </a>
       <h2 class="page-title-text">

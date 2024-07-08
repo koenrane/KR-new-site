@@ -16,7 +16,7 @@ export default (() => {
 
     const iconPath = joinSegments(baseDir, "static/images/turntrout-favicons/favicon-64x64.png")
     const permalink = fileData.permalink || url.href
-    const siteImage = joinSegments("https://assets.turntrout.com/pond.webm")
+    const siteImage = joinSegments("https://assets.turntrout.com/static/pond.webm")
 
     return (
       <head>

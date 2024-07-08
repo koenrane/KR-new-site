@@ -14,6 +14,6 @@ The earliest content dates back to January 2018. Over the years, I've built up a
 
 I also enjoy writing more personal content and sharing a bit [[about me]]. While my blog's [previous home ](http://www.lesswrong.com/user/turntrout) made "TurnTrout" a familiar name to some folks, only a narrow part of me got to shine through.
 
-<video autoplay="" loop="" muted="" playsinline=""><source src="/static/pond-calming.webm" class="no-vsc" type="video/webm">
+<video autoplay="" loop="" muted="" playsinline=""><source src="https://assets.turntrout.com/static/pond-calming.webm" class="no-vsc" type="video/webm">
 
 > </video>
