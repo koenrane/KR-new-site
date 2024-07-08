@@ -1,33 +1,46 @@
 #!/bin/sh
 
+function cleanup {
+    git stash pop
+    if $SERVER_STARTED; then
+        kill -TERM $SERVER_PID
+    fi
+}
+
 set -e
 
-# Check that unit tests pass
-
 CURRENT_BRANCH=$(git symbolic-ref --short head)
-GIT_ROOT=$(git rev-parse --show-toplevel)
-cd "$GIT_ROOT"
+SERVER_STARED=false
 
 if [[ $CURRENT_BRANCH != "main" ]]; then
 	exit 0
 fi
 
-# Run unit tests
+GIT_ROOT=$(git rev-parse --show-toplevel)
+cd "$GIT_ROOT"
+
+# Stash any changes, because we will auto-commit later
+git stash push --include-untracked
+trap 'cleanup' EXIT
+
+# Check that unit tests pass
+# Run jest tests
 npm run test
+# Run fish tests
+fish -c "fishtape \"$GIT_ROOT\"/scripts/tests/update_references.test.fish"
 
 # Run spellcheck on all markdown files
 TEMP_DICT="/tmp/candidate_wordlist.txt"
 PERM_DICT=".wordlist.txt"
 
 set +e # Temporarily allow errors
-alias SPELLCHECK="npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT"
-SPELLCHECK content/**.md !content/drafts/**/*.md
+npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
 
 # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
 if [ $? -ne 0 ]; then
 	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
 	set -e # Re-enable errors
-	SPELLCHECK content/**.md
+	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
 
 	# Amend the commit with the updated dictionary
 	git add $PERM_DICT
@@ -36,11 +49,10 @@ fi
 echo "\033[0;32mSpellcheck passed\033[0m" # In green
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
-sh "$GIT_ROOT"/scripts/convert_assets.sh --remove_originals --strip_metadata
+fish "$GIT_ROOT"/scripts/convert_assets.fish --remove_originals --strip_metadata
 
-# Will then automatically be uploaded to R2 by the upcoming build step
-types_to_check="ico,svg,avif,webm"
-find "$GIT_ROOT"/quartz/static -type f -name "*.$types_to_check" -exec "$GIT_ROOT"/scripts/upload_to_r2.sh {} \;
+TYPES_TO_CHECK="ico,svg,avif,webm"
+find "$GIT_ROOT"/quartz/static -type f -name "*.$TYPES_TO_CHECK" -exec "$GIT_ROOT"/scripts/upload_to_r2.sh {} --remove_originals \;
 
 SERVER_STARTED=false
 if ! nc -z localhost 8080; then
@@ -56,36 +68,14 @@ if ! nc -z localhost 8080; then
 fi
 
 set +e
-sh "$GIT_ROOT/scripts/run_backstop.sh"
+fish "$GIT_ROOT/scripts/run_backstop.fish"
+
 TEST_STATUS=$?
-if $SERVER_STARTED; then
-	kill -TERM $SERVER_PID # Kill the server
-fi
-
-# Check if the test failed
-if [[ "$TEST_STATUS" -ne 0 ]]; then
-	echo "Visual regression test failed. Review the report:"
-
-	# Open the BackstopJS report (replace with your actual command)
-	open backstop/backstop_data/html_report/index.html &
-
-	# Prompt for approval
-	read -p "Do you approve the changes? (y/N): " answer </dev/tty
-
-	# Update references if approved
-	if [[ "$answer" == "y" ]]; then
-		npx backstop approve --config=backstop.cjs
-		echo "Reference screenshots updated."
-	else
-		echo "Changes rejected. Test failure remains."
-		exit 1
-	fi
-else
-	echo "Visual regression test passed!"
+if [ $TEST_STATUS -ne 0 ]; then
+	exit $TEST_STATUS
 fi
 
 # If references updated and files deleted, then commit the changes
 git add -A
+# Prompt the user to review the changes
 git commit -m "Uploaded assets to r2 and updated references."
-
-exit 0
