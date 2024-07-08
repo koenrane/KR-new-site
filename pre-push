@@ -56,7 +56,7 @@ find "$GIT_ROOT"/quartz/static -type f -name "*.$TYPES_TO_CHECK" -exec "$GIT_ROO
 
 SERVER_STARTED=false
 if ! nc -z localhost 8080; then
-	npx quartz build --serve &
+	npx quartz build --serve --quiet &
 	SERVER_PID=$! # Store the server's process ID
 	SERVER_STARTED=true
 	# Wait for the server to be ready
@@ -64,7 +64,7 @@ if ! nc -z localhost 8080; then
 		sleep 0.1 # Check every 100ms
 	done
 
-	echo "Quartz server is ready!"
+	echo "Started quartz server."
 fi
 
 set +e
