@@ -44,6 +44,6 @@ function convert_asset
 end
 
 # Traverse through all files in the specified directory and subdirectories
-find quartz/static -type f | while read -l file
+find quartz/static -type f ! -name '.DS_STORE' | while read -l file
     convert_asset $file
 end
