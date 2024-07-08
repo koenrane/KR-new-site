@@ -42,7 +42,6 @@ export const Assets: QuartzEmitterPlugin = () => {
       const assetsPath = argv.output
       const fps = await filesToCopy(argv, cfg)
       const res: FilePath[] = []
-      const r2Client = getR2Client()
       for (const fp of fps) {
         const ext = path.extname(fp).toLowerCase()
         const src = joinSegments(argv.directory, fp) as FilePath
@@ -50,18 +49,12 @@ export const Assets: QuartzEmitterPlugin = () => {
           console.warn("There's an asset file in contents:", src)
         }
 
-        if (uploadFileTypes.includes(ext)) {
-          const r2Url = uploadPathToR2(r2Client, argv.directory, fp)
-          res.push(r2Url as FilePath)
-        } else {
-          // Handle non-image files as before
-          const name = (slugifyFilePath(fp as FilePath, true) + ext) as FilePath
-          const dest = joinSegments(assetsPath, name) as FilePath
-          const dir = path.dirname(dest) as FilePath
-          await fs.promises.mkdir(dir, { recursive: true })
-          await fs.promises.copyFile(src, dest)
-          res.push(dest)
-        }
+        const name = (slugifyFilePath(fp as FilePath, true) + ext) as FilePath
+        const dest = joinSegments(assetsPath, name) as FilePath
+        const dir = path.dirname(dest) as FilePath
+        await fs.promises.mkdir(dir, { recursive: true })
+        await fs.promises.copyFile(src, dest)
+        res.push(dest)
       }
 
       return res
