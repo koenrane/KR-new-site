@@ -8,3 +8,7 @@ function get_r2_key
     set -l r2_key (string replace -r '.*quartz/' '' $filepath | string replace -r '^/' '')
     echo $r2_key
 end
+
+function find_asset_referencing_files
+    find quartz/{components,plugins/emitters} content -type f \( -iname "*.ts" -o -iname "*.tsx" -o -iname "*.js" -o -iname "*.jsx" -o -iname "*.scss" -o -iname "*.md" \) ! -iname "*.!*!*" | grep -v ".obsidian"
+end

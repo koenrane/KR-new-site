@@ -58,6 +58,7 @@ convert_and_update_video() {
 	export -f process_file
 
 	# Update references in markdown and TSX files
+	# TODO update to fish util
 	find "$WEBSITE_DIR/content" "$WEBSITE_DIR/quartz" \( -iname "*.md" -o -iname "*.tsx" \) -exec bash -c 'process_file "$1" '"$base" _ {} \;
 }
 
