@@ -12,9 +12,9 @@ set -e
 CURRENT_BRANCH=$(git symbolic-ref --short head)
 SERVER_STARED=false
 
-if [[ $CURRENT_BRANCH != "main" ]]; then
-	exit 0
-fi
+# if [[ $CURRENT_BRANCH != "main" ]]; then
+# 	exit 0
+# fi
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
@@ -46,6 +46,8 @@ if [ $? -ne 0 ]; then
 	git add $PERM_DICT
 	git commit --amend --no-edit
 fi
+set -e 
+
 echo "\033[0;32mSpellcheck passed\033[0m" # In green
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
@@ -56,7 +58,7 @@ find "$GIT_ROOT"/quartz/static -type f -name "*.$TYPES_TO_CHECK" -exec "$GIT_ROO
 
 SERVER_STARTED=false
 if ! nc -z localhost 8080; then
-	npx quartz build --serve --quiet &
+	npx quartz build --serve >/dev/null &
 	SERVER_PID=$! # Store the server's process ID
 	SERVER_STARTED=true
 	# Wait for the server to be ready
@@ -67,6 +69,15 @@ if ! nc -z localhost 8080; then
 	echo "Started quartz server."
 fi
 
+# Check that all internal links on the served site are valid
+linkchecker http://localhost:8080 --no-status --ignore-url=/static
+# Check that all external assets (presumably hosted on Cloudflare R2) are valid
+ASSET_REFERENCING_FILES=$(fish `source "$GIT_ROOT/scripts/utils.fish" && find_asset_referencing_files`)
+echo $ASSET_REFERENCING_FILES # TODO check image files 
+# linkchecker --check-extern --ignore-urls="(?!.*\.(png|jpe?g|gif|webp|webm|svg|mp3|mp4)$).*" http://localhost:8080
+
+
+# Run visual regression testing
 set +e
 fish "$GIT_ROOT/scripts/run_backstop.fish"
 
