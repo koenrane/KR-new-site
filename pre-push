@@ -1,7 +1,9 @@
 #!/bin/sh
 
 function cleanup {
-    git stash pop
+    if [[ $STASHED_CHANGES -eq 1 ]]; then
+        git stash pop
+    fi
     if $SERVER_STARTED; then
         kill -TERM $SERVER_PID
     fi
@@ -20,7 +22,11 @@ GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
 # Stash any changes, because we will auto-commit later
+PREV_NUM_STASHES=$(git stash list | wc -l)
 git stash push --include-untracked
+# Check if anything was stashed
+STASHED_CHANGES=$([[ $(git stash list | wc -l) -gt $PREV_NUM_STASHES ]] && echo 1 || echo 0)
+
 trap 'cleanup' EXIT
 
 # Check that unit tests pass
