@@ -133,11 +133,6 @@ a {
     background-color: transparent;
   }
 
-  &[href^="mailto:"] {
-    font-family: var(--font-monospace);
-    font-size: 0.75em;
-  }
-
   &[id^="user-content-fnref-"] {
     text-decoration: none;
   }

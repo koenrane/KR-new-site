@@ -23,7 +23,7 @@ I'm kind, conscientious, and very ready to admit mistakes - maybe I'm _too_ read
 
 If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies."
 
-On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a girlfriend coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
+On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a partner who coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
 
 [^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum-I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
 
@@ -104,7 +104,7 @@ AI-fueled house parties
 
 Design & art
 : I designed [this website](/), for example!
-: While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [[Reframing Impact]]:
+: While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [Reframing Impact](/reframing-impact):
 : ![The title card for the series. A cute robot plays around with blocks.](https://assets.turntrout.com/Attachments/reframingImpact.avif)
 : ![A recreation of the iconic](https://assets.turntrout.com/Attachments/balrog.avif)
 : ![I hand-illustrated Bag End from the Shire, with the help of a reference.](https://assets.turntrout.com/Attachments/hobbitImpactHouse.avif)
@@ -144,7 +144,7 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
 If this sounds like a nice potential connection, I'd love to:
-<img src="/" alt="A beautiful orange sunset over the Bay skyline." class="float-right" style="filter: saturate(50%);"/>
+<img src="https://assets.turntrout.com/static/images/posts/berkeley-sunset.avif" alt="A beautiful orange sunset over the Bay skyline." class="float-right" style="filter: saturate(50%); margin-top: 1rem; width: 80%;"/>
 
 1. Take you dancing 💃, or
 2. Have a sunset picnic and eat blueberries, or

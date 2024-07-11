@@ -48,7 +48,7 @@ convert_and_update_video() {
 		if [[ "$base" == *".gif" ]]; then
 			# For GIF files: Replace <img> tags with <video> tags
 			sed -i.bak -E '
-                s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline><source src="\1.webm" \2 type="video/webm"></video>|g
+                s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline src="\1.webm" \2 type="video/webm"/>|g
             ' "$file"
 		else
 			sed -i.bak -E 's/'"$base_name_no_ext"'\.(mp4|mov|MP4|MOV)(.*video\/)mp4/'"$base_name_no_ext"'.webm\2webm/gi' "$file"
