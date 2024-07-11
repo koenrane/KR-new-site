@@ -78,7 +78,7 @@ const config: QuartzConfig = {
         { title: "About me", slug: "about" },
         { title: "My research", slug: "research" },
         { title: "Posts", slug: "posts" },
-        { title: "Contact me", slug: "contact" },
+        { title: "Contact me", slug: "about#contact-me" },
       ],
     },
     theme: {
