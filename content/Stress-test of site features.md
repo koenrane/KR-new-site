@@ -67,6 +67,7 @@ In fact, all of the bullet points were written so that the rules were violated. 
 My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents clauses from being delimited by hyphens ("`I - like you - object`"). Instead, the build process renders "I - like you - object."
 
 # Section
+Test of [mail favicon](mailto:throwaway@turntrout.com) - the `svg` should be floating next to the URL.
 
 ## Subsection
 

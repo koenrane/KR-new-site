@@ -27,8 +27,7 @@ const logger = winston.createLogger({
   ],
 })
 
-const STATIC_RELATIVE_PATH = "quartz/static"
-const MAIL_PATH = `${STATIC_RELATIVE_PATH}/images/mail.svg`
+const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 
@@ -129,26 +128,24 @@ export const AddFavicons = () => {
                 const notSamePage = !linkNode?.properties?.className?.includes("same-page-link")
                 const isImage =
                   href?.endsWith(".png") || href?.endsWith(".jpg") || href?.endsWith(".jpeg")
-                if (notSamePage && !isImage) {
-                  let imgElement = { children: [] }
-                  const isMailTo = href?.startsWith("mailto:")
-                  if (isMailTo) {
-                    imgElement = CreateFaviconElement(MAIL_PATH)
-                  } else if (href) {
-                    // Handle before attempting to create URL
-                    if (href.startsWith("./")) {
-                      // Relative link
-                      href = href.slice(2)
-                      href = "https://www.turntrout.com/" + href
-                    } else if (href.startsWith("..")) {
-                      return
-                    }
-
-                    const url = new URL(href)
-                    MaybeSaveFavicon(url.hostname).then((imgPath) =>
-                      insertFavicon(imgPath, linkNode, url),
-                    )
+                if (notSamePage && !isImage && href) {
+                  // Handle before attempting to create URL
+                  if (href.startsWith("./")) {
+                    // Relative link
+                    href = href.slice(2)
+                    href = "https://www.turntrout.com/" + href
+                  } else if (href.startsWith("..")) {
+                    return
                   }
+
+                  const url = new URL(href)
+                  MaybeSaveFavicon(url.hostname).then((imgPath) => {
+                    let path = imgPath
+                    if (href.startsWith("mailto:")) {
+                      path = MAIL_PATH
+                    }
+                    insertFavicon(path, linkNode, url)
+                  })
                 }
               }
             })
@@ -159,7 +156,7 @@ export const AddFavicons = () => {
   }
 }
 
-function insertFavicon(imgPath, node, url: URL) {
+function insertFavicon(imgPath: any, node: any, _url: URL) {
   if (imgPath !== null) {
     const imgElement = CreateFaviconElement(imgPath)
 
