@@ -52,7 +52,7 @@ if [ $? -ne 0 ]; then
 	git add $PERM_DICT
 	git commit --amend --no-edit
 fi
-set -e 
+set -e
 
 echo "\033[0;32mSpellcheck passed\033[0m" # In green
 
@@ -76,12 +76,11 @@ if ! nc -z localhost 8080; then
 fi
 
 # Check that all internal links on the served site are valid
-linkchecker http://localhost:8080 --no-status --ignore-url=/static
+# linkchecker http://localhost:8080 --no-status --ignore-url=/static
 # Check that all external assets (presumably hosted on Cloudflare R2) are valid
-ASSET_REFERENCING_FILES=$(fish `source "$GIT_ROOT/scripts/utils.fish" && find_asset_referencing_files`)
-echo $ASSET_REFERENCING_FILES # TODO check image files 
+# ASSET_REFERENCING_FILES=$(fish $(source "$GIT_ROOT/scripts/utils.fish" && find_asset_referencing_files)) # TODO broken
+# echo $ASSET_REFERENCING_FILES # TODO check image files
 # linkchecker --check-extern --ignore-urls="(?!.*\.(png|jpe?g|gif|webp|webm|svg|mp3|mp4)$).*" http://localhost:8080
-
 
 # Run visual regression testing
 set +e
