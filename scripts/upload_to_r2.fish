@@ -4,7 +4,7 @@ set -l file_dir (dirname (status -f))
 source $file_dir/utils.fish
 
 # Parse arguments
-argparse r/remove_originals v/verbose -- $argv
+argparse r/remove-originals v/verbose -- $argv
 or begin
     echo "Error: Failed to parse arguments"
     exit 1

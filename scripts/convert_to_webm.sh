@@ -11,8 +11,7 @@ convert_and_update_video() {
 
 	# Input validation
 	if [[ ! -f "$input_file" ]]; then
-		echo "Error: Input file '$input_file' not found." >&2 # Redirect error message to stderr
-		return 1
+		echo "Error: Input file '$input_file' not found." >&2 # Redirect error message to stderr return 1
 	fi
 
 	file_extension="${input_file##*.}"
@@ -48,7 +47,7 @@ convert_and_update_video() {
 		if [[ "$base" == *".gif" ]]; then
 			# For GIF files: Replace <img> tags with <video> tags
 			sed -i.bak -E '
-                s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline src="\1.webm" \2 type="video/webm"/>|g
+                s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline src="\1.webm" \2 type="video/webm"><source src="\1.webm\"><\/video>|g
             ' "$file"
 		else # TODO debug
 			sed -i.bak -E 's/'"$base_name_no_ext"'\.(mp4|mov|MP4|MOV)(.*video\/)mp4/'"$base_name_no_ext"'.webm\2webm/gi' "$file"
