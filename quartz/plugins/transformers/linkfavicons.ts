@@ -44,24 +44,37 @@ const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 import { pipeline } from "stream/promises" // For streamlined stream handling
 
-async function downloadImage(url: string, image_path: string): Promise<boolean> {
+export async function downloadImage(
+  url: string,
+  imagePath: string,
+  maxRedirects = 5,
+  currentRedirect = 0,
+): Promise<boolean> {
   try {
     const response = await fetch(url)
+
+    if (response.status >= 300 && response.status < 400 && currentRedirect < maxRedirects) {
+      const newUrl = response.headers.get("location")
+      if (newUrl) {
+        return downloadImage(newUrl, imagePath, maxRedirects, currentRedirect + 1)
+      } else {
+        logger.info(`Redirect found but no location header for ${url}`)
+        return false
+      }
+    }
 
     if (!response.ok) {
       logger.info(`Failed to download: ${url} (Status ${response.status})`)
       return false
     }
 
-    const fileStream = fs.createWriteStream(image_path)
-
-    // Use pipeline to handle streams efficiently
+    const fileStream = fs.createWriteStream(imagePath)
     await pipeline(response.body as any, fileStream)
 
     return true
   } catch (err) {
     logger.info(`Failed to download: ${url}\nEncountered ${err}`)
-    fs.unlink(image_path, () => {}) // Attempt to clean up (ignore errors)
+    fs.unlink(imagePath, () => {}) // Attempt to clean up (ignore errors)
     return false
   }
 }

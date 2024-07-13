@@ -50,7 +50,7 @@ convert_and_update_video() {
 			sed -i.bak -E '
                 s|<img src=[\"'\'']\?('$base_name_no_ext')\.gif[\"'\'']\?([^>]*)>|<video autoplay loop muted playsinline src="\1.webm" \2 type="video/webm"/>|g
             ' "$file"
-		else
+		else # TODO debug
 			sed -i.bak -E 's/'"$base_name_no_ext"'\.(mp4|mov|MP4|MOV)(.*video\/)mp4/'"$base_name_no_ext"'.webm\2webm/gi' "$file"
 		fi
 	}
