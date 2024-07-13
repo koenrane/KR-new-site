@@ -6,8 +6,12 @@ import winston from "winston"
 import DailyRotateFile from "winston-daily-rotate-file"
 
 const gitRoot = findGitRoot()
+
+if (!gitRoot) {
+  throw new Error("Git root not found.")
+}
 const logDir = path.join(gitRoot, ".logs")
-//
+
 // Create the log directory if it doesn't exist
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true }) // 'recursive: true' creates parent folders if needed
@@ -27,34 +31,29 @@ const logger = winston.createLogger({
   ],
 })
 
-const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
+export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
+import { pipeline } from "stream/promises" // For streamlined stream handling
 
 async function downloadImage(url: string, image_path: string): Promise<boolean> {
   try {
-    const file = await fs.open(image_path, "wx")
+    const response = await fetch(url)
 
-    return new Promise((resolve) => {
-      get(url, (response) => {
-        if (response.statusCode !== 200) {
-          logger.info(`Failed to download: ${url} (Status ${response.statusCode})`)
-          resolve(false)
-          return
-        }
+    if (!response.ok) {
+      logger.info(`Failed to download: ${url} (Status ${response.status})`)
+      return false
+    }
 
-        response.pipe(file)
-        file.on("finish", () => {
-          file.close()
-          resolve(true)
-        })
-      }).on("error", (err) => {
-        logger.info(`Failed to download ${url}`)
-        fs.unlink(image_path) // Cleanup
-        resolve(false)
-      })
-    })
+    const fileStream = fs.createWriteStream(image_path)
+
+    // Use pipeline to handle streams efficiently
+    await pipeline(response.body as any, fileStream)
+
+    return true
   } catch (err) {
+    logger.info(`Failed to download: ${url} - ${err}`)
+    fs.unlink(image_path, () => {}) // Attempt to clean up (ignore errors)
     return false
   }
 }
@@ -68,7 +67,7 @@ export function GetQuartzPath(hostname: string): string {
   return `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 }
 
-async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
+export async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
   const quartzPath = GetQuartzPath(hostname)
   const localPath = path.join(QUARTZ_FOLDER, quartzPath)
 
@@ -76,7 +75,7 @@ async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
     await fs.promises.stat(localPath) // Use fs.promises for Promise-based stat
     return quartzPath // Favicon already exists
   } catch (err) {
-    if (err.code === "ENOENT") {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
       // File doesn't exist
       const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
       if (await downloadImage(googleFaviconURL, localPath)) {
@@ -108,14 +107,14 @@ export const AddFavicons = () => {
     htmlPlugins() {
       return [
         () => {
-          return (tree) => {
+          return (tree: any) => {
             visit(tree, "element", (node) => {
               if (node.tagName === "a") {
                 const linkNode = node
                 // Remove the "external-icon" elements, hidden anyways
                 if (linkNode?.children && linkNode.children.length > 0) {
                   linkNode.children = linkNode.children.filter(
-                    (child) => child.properties?.class !== "external-icon",
+                    (child: any) => child.properties?.class !== "external-icon",
                   )
                 }
 
@@ -156,11 +155,9 @@ export const AddFavicons = () => {
   }
 }
 
-function insertFavicon(imgPath: any, node: any, _url: URL) {
+export function insertFavicon(imgPath: any, node: any, _url: URL) {
   if (imgPath !== null) {
     const imgElement = CreateFaviconElement(imgPath)
-
-    let toPush = imgElement
 
     const lastChild = node.children[node.children.length - 1]
     if (lastChild && lastChild.type === "text" && lastChild.value) {
@@ -170,18 +167,20 @@ function insertFavicon(imgPath: any, node: any, _url: URL) {
       lastChild.value = textContent.slice(0, -4)
 
       // Create a new span
-      toPush = {
+      const span = {
         type: "element",
         tagName: "span",
         children: [
           { type: "text", value: lastFourChars },
-          imgElement, // Append the previously created image
+          imgElement, // Assuming imgElement is correctly typed
         ],
         properties: {
           style: "white-space: nowrap;",
         },
       }
+      node.children.push(span)
+    } else {
+      node.children.push(imgElement)
     }
-    node.children.push(toPush)
   }
 }
