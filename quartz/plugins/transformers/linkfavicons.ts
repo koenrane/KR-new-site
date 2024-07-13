@@ -3,6 +3,7 @@ import path from "path"
 import { findGitRoot } from "./utils"
 import fs from "fs"
 import winston from "winston"
+import { format } from "winston"
 import DailyRotateFile from "winston-daily-rotate-file"
 
 const gitRoot = findGitRoot()
@@ -17,12 +18,19 @@ if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true }) // 'recursive: true' creates parent folders if needed
 }
 
+const timezoned = () => {
+  return new Date().toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles", // Use the correct IANA time zone name
+    timeZoneName: "short", // Include the time zone abbreviation
+  })
+}
 winston.transports.DailyRotateFile = DailyRotateFile
 const logger = winston.createLogger({
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+  format: format.combine(format.timestamp({ format: timezoned }), format.prettyPrint()),
+
   transports: [
     new winston.transports.DailyRotateFile({
-      filename: path.join(logDir, "error-%DATE%.log"),
+      filename: path.join(logDir, "faviconErrors.log"),
       datePattern: "YYYY-MM-DD",
       zippedArchive: true,
       maxSize: "20m",
@@ -52,7 +60,7 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
 
     return true
   } catch (err) {
-    logger.info(`Failed to download: ${url} - ${err}`)
+    logger.info(`Failed to download: ${url}\nEncountered ${err}`)
     fs.unlink(image_path, () => {}) // Attempt to clean up (ignore errors)
     return false
   }
@@ -60,9 +68,12 @@ async function downloadImage(url: string, image_path: string): Promise<boolean> 
 
 export function GetQuartzPath(hostname: string): string {
   if (hostname === "localhost") {
-    hostname = "www.turntrout.com"
+    hostname = "turntrout.com"
   }
 
+  if (hostname.startsWith("www.")) {
+    hostname = hostname.slice(4)
+  }
   const sanitizedHostname = hostname.replace(/\./g, "_")
   return `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 }
@@ -101,61 +112,51 @@ export const CreateFaviconElement = (urlString: string, description = "") => {
   }
 }
 
-export const AddFavicons = () => {
-  return {
-    name: "AddFavicons",
-    htmlPlugins() {
-      return [
-        () => {
-          return (tree: any) => {
-            visit(tree, "element", (node) => {
-              if (node.tagName === "a") {
-                const linkNode = node
-                // Remove the "external-icon" elements, hidden anyways
-                if (linkNode?.children && linkNode.children.length > 0) {
-                  linkNode.children = linkNode.children.filter(
-                    (child: any) => child.properties?.class !== "external-icon",
-                  )
-                }
+export const ModifyNode = (node: any) => {
+  if (node.tagName === "a") {
+    // Remove the "external-icon" elements, hidden anyways
+    if (node?.children && node.children.length > 0) {
+      node.children = node.children.filter(
+        (child: any) => child.properties?.class !== "external-icon",
+      )
+    }
 
-                let href = linkNode?.properties?.href
-                const isInternalBody = href?.startsWith("#")
-                if (isInternalBody) {
-                  linkNode.properties.className.push("same-page-link")
-                }
+    let href = node?.properties?.href
+    if (href?.startsWith("mailto:")) {
+      insertFavicon(MAIL_PATH, node)
+      return
+    }
 
-                const notSamePage = !linkNode?.properties?.className?.includes("same-page-link")
-                const isImage =
-                  href?.endsWith(".png") || href?.endsWith(".jpg") || href?.endsWith(".jpeg")
-                if (notSamePage && !isImage && href) {
-                  // Handle before attempting to create URL
-                  if (href.startsWith("./")) {
-                    // Relative link
-                    href = href.slice(2)
-                    href = "https://www.turntrout.com/" + href
-                  } else if (href.startsWith("..")) {
-                    return
-                  }
+    const isInternalBody = href?.startsWith("#")
+    if (isInternalBody) {
+      node.properties.className.push("same-page-link")
+    }
 
-                  const url = new URL(href)
-                  MaybeSaveFavicon(url.hostname).then((imgPath) => {
-                    let path = imgPath
-                    if (href.startsWith("mailto:")) {
-                      path = MAIL_PATH
-                    }
-                    insertFavicon(path, linkNode, url)
-                  })
-                }
-              }
-            })
-          }
-        },
-      ]
-    },
+    const notSamePage = !node?.properties?.className?.includes("same-page-link")
+    const isAsset = href?.endsWith(".png") || href?.endsWith(".jpg") || href?.endsWith(".jpeg")
+    // href?.startsWith("assets.turntrout.com")
+    if (notSamePage && !isAsset && href) {
+      // Handle before attempting to create URL
+      if (href.startsWith("./")) {
+        // Relative link
+        href = href.slice(2)
+        href = "https://www.turntrout.com/" + href
+      } else if (href.startsWith("..")) {
+        return
+      }
+
+      const url = new URL(href)
+      MaybeSaveFavicon(url.hostname).then((imgPath) => {
+        let path = imgPath
+        if (imgPath?.includes("mail")) {
+        }
+        insertFavicon(path, node) // node looks fine, so does path
+      })
+    }
   }
 }
 
-export function insertFavicon(imgPath: any, node: any, _url: URL) {
+export function insertFavicon(imgPath: any, node: any) {
   if (imgPath !== null) {
     const imgElement = CreateFaviconElement(imgPath)
 
@@ -182,5 +183,22 @@ export function insertFavicon(imgPath: any, node: any, _url: URL) {
     } else {
       node.children.push(imgElement)
     }
+  }
+}
+
+export const AddFavicons = () => {
+  return {
+    name: "AddFavicons",
+    htmlPlugins() {
+      return [
+        () => {
+          return (tree: any) => {
+            visit(tree, "element", (node) => {
+              ModifyNode(node)
+            })
+          }
+        },
+      ]
+    },
   }
 }

@@ -2,7 +2,7 @@ import {
   GetQuartzPath,
   MaybeSaveFavicon,
   CreateFaviconElement,
-  AddFavicons,
+  ModifyNode,
   MAIL_PATH,
   insertFavicon,
 } from "./linkfavicons"
@@ -16,24 +16,23 @@ fetchMock.enableMocks()
 describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
   })
 
   describe("MaybeSaveFavicon", () => {
     it.each([
-      ["www.existing.com", true, "/static/images/external-favicons/www_existing_com.png"],
-      ["www.new.com", true, "/static/images/external-favicons/www_new_com.png"],
+      ["www.existing.com", true, "/static/images/external-favicons/existing_com.png"],
       ["www.fail.com", false, null],
     ])(
       "should handle favicon download for %s",
-      async (hostname, downloadSuccess, expectedResult) => {
-        const mockStat = jest.fn((downloadSuccess) => {
+      async (hostname: string, downloadSuccess: boolean, expectedResult: string | null) => {
+        jest.spyOn(fs.promises, "stat" as any).mockImplementation(() => {
           if (downloadSuccess) {
-            return { isFile: () => true }
+            return Promise.resolve({ isFile: () => true })
           } else {
-            throw { code: "ENOENT" }
+            return Promise.reject({ code: "ENOENT" })
           }
         })
-        fs.promises.stat = mockStat as any
 
         fetchMock.mockResolvedValue({
           ok: downloadSuccess,
@@ -48,8 +47,8 @@ describe("Favicon Utilities", () => {
 
   describe("GetQuartzPath", () => {
     it.each([
-      ["www.example.com", "/static/images/external-favicons/www_example_com.png"],
-      ["localhost", "/static/images/external-favicons/www_turntrout_com.png"],
+      ["www.example.com", "/static/images/external-favicons/example_com.png"],
+      ["localhost", "/static/images/external-favicons/turntrout_com.png"],
       ["subdomain.example.org", "/static/images/external-favicons/subdomain_example_org.png"],
     ])("should return the correct favicon path for %s", (hostname, expectedPath) => {
       expect(GetQuartzPath(hostname)).toBe(expectedPath)
@@ -81,8 +80,7 @@ describe("Favicon Utilities", () => {
       ["/valid/path.png", true],
     ])("should insert favicon correctly when imgPath is %s", (imgPath, shouldInsert) => {
       const node = { children: [] }
-      const url = new URL("https://www.example.com")
-      insertFavicon(imgPath, node, url)
+      insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
   })
@@ -98,14 +96,7 @@ describe("Favicon Utilities", () => {
         children: [],
       }
 
-      fetchMock.mockResolvedValue({
-        ok: true,
-        status: 200,
-      } as any)
-
-      // Call the function under test (which indirectly uses MAIL_PATH)
-      AddFavicons().htmlPlugins()[0]()(node)
-
+      ModifyNode(node)
       expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
     })
   })
