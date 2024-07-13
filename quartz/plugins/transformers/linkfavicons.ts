@@ -1,67 +1,17 @@
 import { visit } from "unist-util-visit"
 import path from "path"
-import { findGitRoot } from "./utils"
+import { followRedirects } from "./utils"
+import { createLogger } from "./logger_utils"
 import fs from "fs"
-import winston from "winston"
-import { format } from "winston"
-import DailyRotateFile from "winston-daily-rotate-file"
-
-const gitRoot = findGitRoot()
-
-if (!gitRoot) {
-  throw new Error("Git root not found.")
-}
-const logDir = path.join(gitRoot, ".logs")
-
-// Create the log directory if it doesn't exist
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir, { recursive: true }) // 'recursive: true' creates parent folders if needed
-}
-
-const timezoned = () => {
-  return new Date().toLocaleString("en-US", {
-    timeZone: "America/Los_Angeles", // Use the correct IANA time zone name
-    timeZoneName: "short", // Include the time zone abbreviation
-  })
-}
-winston.transports.DailyRotateFile = DailyRotateFile
-const logger = winston.createLogger({
-  format: format.combine(format.timestamp({ format: timezoned }), format.prettyPrint()),
-
-  transports: [
-    new winston.transports.DailyRotateFile({
-      filename: path.join(logDir, "faviconErrors.log"),
-      datePattern: "YYYY-MM-DD",
-      zippedArchive: true,
-      maxSize: "20m",
-      maxFiles: "14d",
-    }),
-  ],
-})
-
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 import { pipeline } from "stream/promises" // For streamlined stream handling
 
-export async function downloadImage(
-  url: string,
-  imagePath: string,
-  maxRedirects = 5,
-  currentRedirect = 0,
-): Promise<boolean> {
+const logger = createLogger("linkfavicons")
+export async function downloadImage(url: string, imagePath: string): Promise<boolean> {
   try {
     const response = await fetch(url)
-
-    if (response.status >= 300 && response.status < 400 && currentRedirect < maxRedirects) {
-      const newUrl = response.headers.get("location")
-      if (newUrl) {
-        return downloadImage(newUrl, imagePath, maxRedirects, currentRedirect + 1)
-      } else {
-        logger.info(`Redirect found but no location header for ${url}`)
-        return false
-      }
-    }
 
     if (!response.ok) {
       logger.info(`Failed to download: ${url} (Status ${response.status})`)
@@ -158,13 +108,26 @@ export const ModifyNode = (node: any) => {
         return
       }
 
-      const url = new URL(href)
-      MaybeSaveFavicon(url.hostname).then((imgPath) => {
-        let path = imgPath
-        if (imgPath?.includes("mail")) {
-        }
-        insertFavicon(path, node) // node looks fine, so does path
-      })
+      processURL(href)
+    }
+  }
+
+  async function processURL(href: string) {
+    try {
+      const finalURL = await followRedirects(new URL(href))
+
+      const imgPath = await MaybeSaveFavicon(finalURL.hostname) // Use the final URL here
+
+      let path
+      if (!imgPath || imgPath.includes("mail")) {
+        path = "/images/default_favicon.png" // Set a default favicon if needed
+      } else {
+        path = imgPath
+      }
+
+      insertFavicon(path, node)
+    } catch (error) {
+      console.error("Error processing URL:", error) // Proper error handling
     }
   }
 }

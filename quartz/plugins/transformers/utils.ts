@@ -1,16 +1,5 @@
 import { h } from "hastscript"
-import path from "path"
-import { execSync } from "child_process"
-
-// For CWD
-export const findGitRoot = () => {
-  try {
-    return execSync("git rev-parse --show-toplevel").toString().trim()
-  } catch (error) {
-    console.error(`Error finding Git root: ${error}`)
-    return null // Or throw an error, depending on your preference
-  }
-}
+import { createLogger } from "./logger_utils"
 
 export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
@@ -77,4 +66,32 @@ export const replaceRegex = (
   if (parent.children && typeof index === "number") {
     parent.children.splice(index, 1, ...fragment)
   }
+}
+
+var logger = createLogger("utils")
+export async function followRedirects(url: URL, maxRedirects = 10) {
+  let currentUrl = url
+  let redirectCount = 0
+
+  while (redirectCount < maxRedirects) {
+    try {
+      const response = await fetch(currentUrl, { method: "HEAD", redirect: "manual" })
+
+      if (response.status >= 300 && response.status < 400) {
+        const location = response.headers.get("location")
+        if (!location) {
+          throw new Error("Redirect location not found")
+        }
+        currentUrl = new URL(location, currentUrl)
+        redirectCount++
+      } else {
+        return currentUrl // Final URL reached
+      }
+    } catch (error) {
+      logger.info("Error following redirect:", error)
+      return currentUrl // Return the last successful URL
+    }
+  }
+
+  throw new Error("Max redirects reached")
 }
