@@ -3,6 +3,7 @@ import path from "path"
 import { followRedirects } from "./utils"
 import { createLogger } from "./logger_utils"
 import fs from "fs"
+
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
