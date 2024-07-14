@@ -13,7 +13,8 @@ if set -q _flag_strip_metadata
     set -g strip_metadata true
 end
 
-source ./update_references.fish
+set -l FILE_DIR (dirname (status -f))
+source $FILE_DIR/update_references.fish
 
 # Function to handle conversion and optimization of a single file
 function convert_asset
@@ -23,13 +24,14 @@ function convert_asset
 
     switch $input_ext
         case jpg jpeg png
-            sh scripts/convert_to_avif.sh $input_file
+            fish scripts/convert_to_avif.fish $input_file
             set -l output_file (string replace -r '\.[^.]+$' '.avif' $input_file)
             update_references source=$input_file target=$output_file
 
         case gif mp4 mov
             set -l output_file (string replace -r '\.[^.]+$' '.webm' $input_file)
-            if not sh scripts/convert_to_webm.sh $input_file
+            fish $FILE_DIR/convert_to_webm.fish "$input_file"
+            if test $status -ne 0
                 echo "Failed to convert $input_file to WebM" >&2
                 return 1
             end
