@@ -15,10 +15,14 @@
 }
 
 .popover {
-  z-index: 999;
+  z-index: 1;
   position: absolute;
   overflow: visible;
-  padding: 1rem;
+  padding: calc(2 * $baseMargin);
+
+  & #not-found-div-popover {
+    margin-top: calc($baseMargin);
+  }
 
   & > .popover-inner {
     position: relative;
