@@ -1,12 +1,7 @@
 #!/usr/bin/env fish
 
-set -l file_dir (dirname (status -f))
+set file_dir (dirname (status -f))
 source $file_dir/utils.fish
-
-# TODO move to utils
-function sanitize_filename
-    echo "$argv[1]" | sed -E "s#[\\\$&*.?/|]#\\\&#g"
-end
 
 function update_references
     # Function to update references to an (image) file in the content directory
@@ -23,14 +18,10 @@ function update_references
     #  None
     # Side-effects:
     #  Updates references to the source file in $GIT_ROOT/content/**md files.
-    set source_path $argv[1]
-    set target_path $argv[2]
+    set -l source_path $argv[1]
+    set -l target_path $argv[2]
+    set -g content_dir $argv[3]
 
-    if set -q argv[3]
-        set content_dir $argv[3]
-    else
-        set content_dir $GIT_ROOT/content
-    end
     if test ! -d "$content_dir"
         echo "Error: Content directory '$content_dir' not found. Not updating references." >&2
         return 1
@@ -67,4 +58,7 @@ end
 # Parse commandine flags
 argparse 'source=' 'target=' 'content_dir=?' -- $argv
 
+if ! set -q _flag_content_dir
+    set -l _flag_content_dir $GIT_ROOT/content
+end
 update_references $_flag_source $_flag_target $_flag_content_dir
