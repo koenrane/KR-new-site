@@ -2,7 +2,7 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/../utils.fish
-set -l references_file $file_dir/../update_references.fish
+set -g references_file $file_dir/../update_references.fish
 source $references_file 2>/dev/null
 
 function setup
@@ -27,8 +27,7 @@ end
 
 # Test sanitize_filename function
 @test "sanitize_filename handles special characters" (
-    set result (sanitize_filename 'file$with&special*.chars?/|')
-    echo $result
+    echo (sanitize_filename 'file$with&special*.chars?/|')
 ) = 'file\$with\&special\*\.chars\?\/\|'
 
 

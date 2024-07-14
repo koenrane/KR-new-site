@@ -43,7 +43,7 @@ function update_references
     end
 
     # Get original and new filenames
-    set original_filename (get_r2_key "$source_path")
+    set original_filename (get_r2_key $source_path)
 
     # Sanitize filenames
     set original_filename (sanitize_filename "$original_filename")
@@ -58,13 +58,13 @@ end
 function perl_references
     set -l original_pattern $argv[1]
     set -l replacement $argv[2]
-    set -l content_dir $argv[3]
-    set -l files_to_update (find "$content_dir" -iname "*.md" -type f)
+    set -l content_directory $argv[3]
+    set -l files_to_update (find "$content_directory" -iname "*.md" -type f)
 
     perl -i.bak -pe "s|$original_pattern|$replacement|g" $files_to_update
 end
 
-# Parse command-line flags
+# Parse commandine flags
 argparse 'source=' 'target=' 'content_dir=?' -- $argv
 
 update_references $_flag_source $_flag_target $_flag_content_dir

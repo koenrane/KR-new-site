@@ -8,6 +8,7 @@ function get_r2_key
     string replace -r '.*quartz/' '' $filepath | string replace -r '^/' ''
 end
 
+# TODO not yet working or tested 
 function find_asset_referencing_files
     find $GIT_ROOT/quartz/{components,plugins/emitters} $GIT_ROOT/content -type f \( -iname "*.ts" -o -iname "*.tsx" -o -iname "*.js" -o -iname "*.jsx" -o -iname "*.scss" -o -iname "*.md" \) ! -iname "*.!*!*" | grep -v ".obsidian"
 end
