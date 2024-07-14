@@ -492,3 +492,4 @@ Ko-fi
 Reddit
 TURNTROUT
 ko-fi
+favicon

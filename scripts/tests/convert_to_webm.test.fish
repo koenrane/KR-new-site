@@ -2,6 +2,7 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/../utils.fish
+source $file_dir/test_utils.fish
 set -l references_file $file_dir/../update_references.fish
 source $references_file 2>/dev/null
 

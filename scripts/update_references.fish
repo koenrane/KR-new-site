@@ -51,11 +51,17 @@ function update_references
     set escaped_base_url (sanitize_filename "$R2_BASE_URL/")
     set replacement $escaped_base_url$new_filename
 
-    # Update references 
-    #echo (set_color red)$content_dir(set_color normal)
+    set original "(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]*$original_filename"
+    perl_references $original $replacement $content_dir
+end
+
+function perl_references
+    set -l original_pattern $argv[1]
+    set -l replacement $argv[2]
+    set -l content_dir $argv[3]
     set -l files_to_update (find "$content_dir" -iname "*.md" -type f)
-    #echo (set_color red)"s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]]*$original_filename|$replacement|g" (set_color normal)
-    perl -i.bak -pe "s|(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]*$original_filename|$replacement|g" $files_to_update
+
+    perl -i.bak -pe "s|$original_pattern|$replacement|g" $files_to_update
 end
 
 # Parse command-line flags
