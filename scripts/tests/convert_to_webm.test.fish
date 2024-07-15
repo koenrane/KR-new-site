@@ -25,41 +25,29 @@ function get_filename
     echo $argv[1] | string split / | tail -1
 end
 
-@test "convert_and_update_video converts MP4 to WebM" (
-    setup
+for ext in $ALLOWED_EXTENSIONS # From convert_to_webm.fish
+    @test "convert_and_update_video converts $ext to WebM" (
+        setup
 
-    create_test_video "test.mp4"
-    convert_and_update_video "test.mp4"
+        create_test_video "test.$ext"
+        convert_and_update_video "test.$ext"
 
-    if test $status -eq 1
-        echo "Conversion failed. FFmpeg output:"
-    end
+        # Check file exists and is non-empty
+        if ! test -s "test.webm"
+            echo "File does not exist or is empty"
+        end
+        
+        set -l old_size (stat -f%z "test.$ext")
+        set -l new_size (stat -f%z "test.webm")
+        # Check that new size is less than half of old size
+        if  test $new_size -gt (math $old_size / 2)
+            echo "New size is not less than half of old size"
+        end
 
-    # Check file exists and is non-empty
-    if ! test -s "test.webm"
-        echo 1
-    end
-    
-    set -l old_size (stat -f%z "test.mp4")
-    set -l new_size (stat -f%z "test.webm")
-    # Check that new size is less than half of old size
-    if  test $new_size -gt (math $old_size / 2)
-        echo 1
-    end
+        echo 0
+    ) = 0
+end
 
-    echo 0
-) = 0
-
-#@test "convert_and_update_video converts MOV to WebM" (
-#    setup
-#    set -l input_file "test.mov"
-#    create_test_video $input_file
-#
-#    convert_and_update_video $input_file
-#
-#    test -f "test.webm"; and file "test.webm" | string match -q "*WebM*"
-#    echo $status
-#) = 0
 #
 #@test "convert_and_update_video converts GIF to WebM" (
 #    setup

@@ -2,7 +2,7 @@
 
 # Configuration
 set -g QUALITY 21
-set -g ALLOWED_EXTENSIONS gif mov mp4 avi # Space-separated list
+set -g ALLOWED_EXTENSIONS gif mov mp4 avi mpeg # Space-separated list
 
 # Function to convert and update a single video
 function convert_and_update_video
@@ -23,14 +23,10 @@ function convert_and_update_video
         echo "Warning: Skipping '$input_file'. Only $ALLOWED_EXTENSIONS are supported." >&2
         return 0
     end
-    if test $file_extension = mp4
-        set -g encoding libvpx-vp9
-    else
-        set -g encoding mpeg4 # TODO change to libx265
-    end
 
     # Two-Pass Encoding for Optimal Quality (overwrites)
-    ffmpeg -i "$input_file" -y -c:v $encoding -crf $QUALITY -b:v 0 -pass 1 -loglevel fatal -an -f null /dev/null >/dev/null # Redirect stderr to stdout for suppression
+    set -l encoding libvpx-vp9
+    ffmpeg -i "$input_file" -y -c:v $encoding -crf $QUALITY -b:v 0 -pass 1 -loglevel fatal -an -f null /dev/null >/dev/null
 
     # Second pass
     set -l output_file "$file_name_no_ext.webm"
