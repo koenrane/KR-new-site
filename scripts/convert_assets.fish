@@ -14,6 +14,7 @@ if set -q _flag_strip_metadata
 end
 
 set -l FILE_DIR (dirname (status -f))
+source $FILE_DIR/convert_to_webm.fish
 source $FILE_DIR/update_references.fish
 
 # Function to handle conversion and optimization of a single file
@@ -28,7 +29,7 @@ function convert_asset
             set -l output_file (string replace -r '\.[^.]+$' '.avif' $input_file)
             update_references source=$input_file target=$output_file
 
-        case gif mp4 mov
+        case $ALLOWED_EXTENSIONS # Handled in
             set -l output_file (string replace -r '\.[^.]+$' '.webm' $input_file)
             fish $FILE_DIR/convert_to_webm.fish "$input_file"
             if test $status -ne 0
