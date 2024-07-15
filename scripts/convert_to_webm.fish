@@ -20,8 +20,8 @@ function convert_and_update_video
 
     # File type check
     if not contains $file_extension $ALLOWED_EXTENSIONS
-        echo "Warning: Skipping '$input_file'. Only $ALLOWED_EXTENSIONS are supported." >&2
-        return 0
+        echo "Skipping '$input_file'. Only $ALLOWED_EXTENSIONS are supported." >&2
+        return 1
     end
 
     # Two-Pass Encoding for Optimal Quality (overwrites)
