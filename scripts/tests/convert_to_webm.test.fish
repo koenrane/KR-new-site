@@ -17,7 +17,7 @@ end
 function create_test_video
     set -l filename $argv[1]
 
-    ffmpeg -f lavfi -i rgbtestsrc -t 1 $filename
+    ffmpeg -f lavfi -i rgbtestsrc -t 1 $filename >/dev/null 2>&1
 end
 
 # Helper to extract filename from path 
@@ -28,21 +28,26 @@ end
 @test "convert_and_update_video converts MP4 to WebM" (
     setup
 
-    set -l input_file "test.mp4"
-    create_test_video $input_file 
-    convert_and_update_video $input_file
+    create_test_video "test.mp4"
+    convert_and_update_video "test.mp4"
 
     if test $status -eq 1
         echo "Conversion failed. FFmpeg output:"
     end
 
-    set -l filename_without_ext (get_filename $input_file | string replace -r '\..*$' '')
-
-    if test -s "$filename_without_ext.webm"
-        echo 0
-    else
+    # Check file exists and is non-empty
+    if ! test -s "test.webm"
         echo 1
     end
+    
+    set -l old_size (stat -f%z "test.mp4")
+    set -l new_size (stat -f%z "test.webm")
+    # Check that new size is less than half of old size
+    if  test $new_size -gt (math $old_size / 2)
+        echo 1
+    end
+
+    echo 0
 ) = 0
 
 #@test "convert_and_update_video converts MOV to WebM" (
