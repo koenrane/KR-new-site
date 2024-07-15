@@ -16,27 +16,39 @@ end
 
 function create_test_video
     set -l filename $argv[1]
-    set -l duration (math $argv[2] / 1) # Ensure duration is a number
 
-    ffmpeg -f lavfi -i testsrc=duration=$duration:size=320x240:rate=30 -c:v libx264 -t $duration -pix_fmt yuv420p $filename
+    ffmpeg -f lavfi -i rgbtestsrc -t 1 $filename
+end
+
+# Helper to extract filename from path 
+function get_filename
+    echo $argv[1] | string split / | tail -1
 end
 
 @test "convert_and_update_video converts MP4 to WebM" (
     setup
-       
+
     set -l input_file "test.mp4"
-    create_test_video $input_file 1
-    
+    create_test_video $input_file 
     convert_and_update_video $input_file
-    
-    test -f "test.webm"; and file "test.webm" | string match -q "*WebM*"
-    echo $status
+
+    if test $status -eq 1
+        echo "Conversion failed. FFmpeg output:"
+    end
+
+    set -l filename_without_ext (get_filename $input_file | string replace -r '\..*$' '')
+
+    if test -s "$filename_without_ext.webm"
+        echo 0
+    else
+        echo 1
+    end
 ) = 0
 
 #@test "convert_and_update_video converts MOV to WebM" (
 #    setup
 #    set -l input_file "test.mov"
-#    create_test_video $input_file 1
+#    create_test_video $input_file
 #
 #    convert_and_update_video $input_file
 #

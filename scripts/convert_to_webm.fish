@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # Configuration
-set -g QUALITY 50
+set -g QUALITY 21
 set -g ALLOWED_EXTENSIONS gif mov mp4 avi # Space-separated list
 
 # Function to convert and update a single video
@@ -16,25 +16,25 @@ function convert_and_update_video
     end
 
     set -l file_extension (string split -r '.' $input_file)[-1]
-    set -l file_name_no_ext (string replace -r -f '.' $input_file)
+    set -l file_name_no_ext (string split -r '.' $input_file)[-2]
 
     # File type check
     if not contains $file_extension $ALLOWED_EXTENSIONS
-        echo "Warning: Skipping '$input_file'. Only GIF, MOV, MP4, and AVI are supported." >&2
+        echo "Warning: Skipping '$input_file'. Only $ALLOWED_EXTENSIONS are supported." >&2
         return 0
     end
     if test $file_extension = mp4
         set -g encoding libvpx-vp9
     else
-        set -g encoding mpeg4
+        set -g encoding mpeg4 # TODO change to libx265
     end
 
     # Two-Pass Encoding for Optimal Quality (overwrites)
-    ffmpeg -i "$input_file" -y -c:v $encoding -crf 21 -b:v 0 -pass 1 -loglevel fatal -an -f null /dev/null >/dev/null ^&1 # Redirect stderr to stdout for suppression
+    ffmpeg -i "$input_file" -y -c:v $encoding -crf $QUALITY -b:v 0 -pass 1 -loglevel fatal -an -f null /dev/null >/dev/null # Redirect stderr to stdout for suppression
 
     # Second pass
     set -l output_file "$file_name_no_ext.webm"
-    ffmpeg -i "$input_file" -y -c:v $encoding -c:a libopus -crf 21 -b:v 0 -pass 2 -auto-alt-ref 1 -lag-in-frames 25 -row-mt 1 -movflags faststart -vf scale=-2:720 -loglevel fatal "$output_file" >/dev/null ^&1
+    ffmpeg -i $input_file -y -c:v $encoding -c:a libopus -crf $QUALITY -b:v 0 -pass 2 -auto-alt-ref 1 -row-mt 1 -loglevel fatal -movflags faststart $output_file >/dev/null
 
     if test $status -ne 0
         echo "Error: Failed to convert '$input_file'." >&2
