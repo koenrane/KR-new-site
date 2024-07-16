@@ -2,6 +2,7 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/../convert_to_webm.fish
+source $file_dir/../utils.fish
 
 function setup
     set -g temp_dir (mktemp -d)
@@ -12,12 +13,6 @@ end
 function teardown
     cd -
     command rm -rf $temp_dir
-end
-
-function create_test_video
-    set -l filename $argv[1]
-
-    ffmpeg -f lavfi -i rgbtestsrc -t 1 $filename >/dev/null 2>&1
 end
 
 function convert_video

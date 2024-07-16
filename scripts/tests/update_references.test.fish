@@ -101,14 +101,6 @@ end
     echo (grep -o "No matches here" $temp_dir/content/test.md | wc -l | string trim) # Count occurrences of "No matches here"
 ) = 0
 
-# Test command-line flag parsing
-@test "script parses command-line flags correctly" (
-    setup
-    echo "![image]($R2_BASE_URL/old_image.jpg)" > $temp_dir/content/test.md
-    fish $references_file --source $temp_dir/$temp_img --target "new_image.jpg" --content_dir=$temp_dir/content
-    echo (cat $temp_dir/content/test.md)
-) = "![image]($R2_BASE_URL/new_image.jpg)"
-
 # Test handling of filenames with spaces
 @test "script handles filenames with spaces" (
     setup

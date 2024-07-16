@@ -5,7 +5,6 @@ set -g QUALITY 50 # Set desired AVIF quality
 
 # Function to convert an image to AVIF
 function convert_to_avif
-
     set -l image_path $argv[1] # Get the image path from the argument
 
     # Input validation

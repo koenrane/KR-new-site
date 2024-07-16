@@ -13,7 +13,7 @@ function update_references
     #   For example, if the target file path is test.jpg and $R2_BASE_URL (defined in utils.fish) is test.com, 
     #    then the references to source will be updated to test.com/test.jpg.
     #  $3: Content directory, string. The directory where the content files are stored. 
-    #   The content directory must exist. Default is $GIT_ROOT/content.
+    #   The content directory must exist. 
     # Returns:
     #  None
     # Side-effects:
@@ -58,7 +58,9 @@ end
 # Parse commandine flags
 argparse 'source=' 'target=' 'content_dir=?' -- $argv
 
-if ! set -q _flag_content_dir
-    set -l _flag_content_dir $GIT_ROOT/content
+if status --is-interactive
+    if ! set -q _flag_content_dir
+        set -g _flag_content_dir $GIT_ROOT/content
+    end
+    update_references $_flag_source $_flag_target $_flag_content_dir
 end
-update_references $_flag_source $_flag_target $_flag_content_dir

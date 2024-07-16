@@ -2,6 +2,7 @@
 
 set -l file_dir (dirname (status -f))
 source $file_dir/../convert_to_avif.fish
+source $file_dir/../utils.fish
 
 function setup
     set -g temp_dir (mktemp -d)
@@ -11,12 +12,6 @@ end
 
 function teardown
     command rm -rf $temp_dir
-end
-
-function create_test_image
-    set -l filename $argv[1]
-    set -l size $argv[2]
-    magick -size $size xc:white $filename
 end
 
 @test "convert_to_avif converts JPG to AVIF" (
