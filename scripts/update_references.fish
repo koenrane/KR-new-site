@@ -7,10 +7,8 @@ function update_references
     # Function to update references to an (image) file in the content directory
     # Arguments:
     #  $1: Source file path, string. The source file must exist.
-    #    After leading .*quartz and then leading / are removed, the rest is used as the key.
-    #    For example, if the source file path is ..quartz/test.jpg, then the key is test.jpg. 
-    #  $2: Target file path, string. References to source will be updated to $R2_BASE_URL/$2.
-    #   For example, if the target file path is test.jpg and $R2_BASE_URL (defined in utils.fish) is test.com, 
+    #  $2: Target file path, string. 
+    #   For example, if the target file path is test.com/test.jpg
     #    then the references to source will be updated to test.com/test.jpg.
     #  $3: Content directory, string. The directory where the content files are stored. 
     #   The content directory must exist. 
@@ -27,30 +25,22 @@ function update_references
         return 1
     end
 
-    # Input validation
-    if test ! -f "$source_path"
-        echo "Error: Source file '$source_path' not found. Not updating references to it." >&2
-        return 1
-    end
-
     # Get original and new filenames
-    set original_filename (get_r2_key $source_path)
+    set sanitized_source_path (sanitize_filename "$source_path")
+    set sanitized_target_path (sanitize_filename "$target_path")
+    #set escaped_base_url (sanitize_filename "$R2_BASE_URL/")
 
-    # Sanitize filenames
-    set original_filename (sanitize_filename "$original_filename")
-    set new_filename (sanitize_filename "$target_path")
-    set escaped_base_url (sanitize_filename "$R2_BASE_URL/")
-    set replacement $escaped_base_url$new_filename
-
-    set original "(?<!$escaped_base_url)(?<=[\"\(])[^\"\)]*$original_filename"
-    perl_references $original $replacement $content_dir
+    #set original "(?<=[\"\(])(?<URL>[^\"\)]*)$sanitized_source_path"
+    #echo "Updating references from $original to $replacement in $content_dir..."
+    perl_references $sanitized_source_path $sanitized_target_path $content_dir
 end
 
 function perl_references
     set -l original_pattern $argv[1]
     set -l replacement $argv[2]
     set -l content_directory $argv[3]
-    set -l files_to_update (find "$content_directory" -iname "*.md" -type f)
+    set -l files_to_update (find $content_directory -iname "*.md" -type f)
+    #echo (set_color green) "Updating references from $original_pattern to $replacement" (set_color normal)
 
     perl -i.bak -pe "s|$original_pattern|$replacement|g" $files_to_update
 end

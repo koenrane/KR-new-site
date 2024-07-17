@@ -16,3 +16,8 @@ source $file_dir/../utils.fish
     set -l result (get_r2_key 'secret-document-folder/files/text.doc')
     echo $result
 ) = 'secret-document-folder/files/text.doc'
+
+# Test sanitize_filename function
+@test "sanitize_filename handles special characters" (
+    echo (sanitize_filename 'file$with&special*.chars?/|')
+) = 'file\$with\&special\*\.chars\?\/\|'
