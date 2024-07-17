@@ -29,7 +29,9 @@ function convert_asset
         case jpg jpeg png
             convert_to_avif $input_file
             set -l output_file (replace_extension $input_file avif)
-            update_references $input_file $output_file "$GIT_ROOT/content"
+
+            set -l modified_input_filename (get_r2_key $input_file)
+            update_references $modified_input_filename $output_file "$GIT_ROOT/content"
 
         case $ALLOWED_EXTENSIONS # Handled in
             set -l output_file (replace_extension $input_file webm)

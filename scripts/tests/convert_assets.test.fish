@@ -47,13 +47,13 @@ end
 
     # Check that the avif file exists and has nonzero size
     if not test -s quartz/static/image.avif
-        echo 1
+      echo "image.avif does not exist or is empty"
     end
 
-    echo (cat content/text.md)
+    #echo (cat content/text.md)
     set -l is_edited (cat content/text.md | grep -o "image.avif" | wc -l)
-    if test $is_edited != 1
-        echo 1
+    if not test $is_edited -eq 1
+      echo "image.avif is not referenced in text.md"
     end
 
     echo 0
