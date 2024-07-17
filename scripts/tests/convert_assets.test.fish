@@ -4,11 +4,7 @@ set -l file_dir (dirname (status -f))
 source $file_dir/../convert_assets.fish
 source $file_dir/utils.fish
 
-set -g CASED_ALLOWED_EXTENSIONS
-for ext in $ALLOWED_EXTENSIONS
-    set -l all_caps (echo $ext | tr '[:lower:]' '[:upper:]')
-    set -g CASED_ALLOWED_EXTENSIONS $CASED_ALLOWED_EXTENSIONS $ext $all_caps
-end
+set -g IMAGE_EXTENSIONS jpg png jpeg
 
 function setup
     set -g temp_dir (mktemp -d)
@@ -23,11 +19,11 @@ function setup
     mkdir scripts
     mkdir content
 
-    for image_ext in jpg
-        create_test_image quartz/static/image.$image_ext 32
+    for ext in $IMAGE_EXTENSIONS
+        create_test_image quartz/static/asset.$ext 32
     end
-    for video_ext in mp4 mov mkv
-        create_test_video quartz/static/video.$video_ext
+    for ext in $ALLOWED_EXTENSIONS # Video extensions
+        create_test_video quartz/static/asset.$ext
     end
     touch quartz/static/unsupported.txt
 
@@ -41,20 +37,21 @@ function teardown
     command rm -rf $temp_dir
 end
 
-@test "converts images to AVIF with correct references" ( 
-    setup
-    convert_asset quartz/static/image.jpg 
+for ext in $IMAGE_EXTENSIONS
+    @test "converts $ext images to AVIF with correct references" ( 
+      setup
+      convert_asset quartz/static/asset.$ext
 
-    # Check that the avif file exists and has nonzero size
-    if not test -s quartz/static/image.avif
-      echo "image.avif does not exist or is empty"
-    end
+      # Check that the avif file exists and has nonzero size
+      if not test -s quartz/static/asset.avif
+        echo "asset.avif does not exist or is empty"
+      end
 
-    #echo (cat content/text.md)
-    set -l is_edited (cat content/text.md | grep -o "image.avif" | wc -l)
-    if not test $is_edited -eq 1
-      echo "image.avif is not referenced in text.md"
-    end
+      set -l is_edited (cat content/text.md | grep -o "asset.avif" | wc -l)
+      if not test $is_edited -eq 1
+        echo "asset.avif is not referenced in text.md"
+      end
 
-    echo 0
-) = 0
+      echo 0
+  ) = 0
+end
