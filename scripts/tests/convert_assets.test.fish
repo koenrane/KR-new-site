@@ -5,6 +5,7 @@ source $file_dir/../convert_assets.fish
 source $file_dir/utils.fish
 
 set -g IMAGE_EXTENSIONS jpg png jpeg
+set -g VIDEO_EXTENSIONS $ALLOWED_EXTENSIONS
 
 function setup
     set -g temp_dir (mktemp -d)
@@ -21,6 +22,7 @@ function setup
 
     for ext in $IMAGE_EXTENSIONS
         create_test_image quartz/static/asset.$ext 32
+        echo "![Image](quartz/static/asset.$ext)" >>content/text.md
     end
     for ext in $ALLOWED_EXTENSIONS # Video extensions
         create_test_video quartz/static/asset.$ext
@@ -28,7 +30,6 @@ function setup
     touch quartz/static/unsupported.txt
 
     for file in (ls quartz/static)
-        echo "[](static/$file)" >>content/text.md
     end
 end
 
@@ -55,3 +56,25 @@ for ext in $IMAGE_EXTENSIONS
       echo 0
   ) = 0
 end
+#
+#for ext in $VIDEO_EXTENSIONS
+#    @test "converts $ext videos to WebM with correct references" ( 
+#      setup
+#      convert_asset quartz/static/asset.$ext
+#
+#      # Check that the webm file exists and has nonzero size
+#      if not test -s quartz/static/asset.webm
+#        echo "asset.webm does not exist or is empty"
+#      end
+#
+#      set_color red 
+#      cat content/text.md 
+#     set_color normal
+#
+#      set -l is_edited (cat content/text.md | grep -o "asset.webm" | wc -l)
+#      if not test $is_edited -eq 1
+#        echo "asset.webm is not referenced in text.md"
+#      end
+#      echo 0
+#    ) = 0
+#end

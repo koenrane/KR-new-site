@@ -30,12 +30,13 @@ function convert_asset
             convert_to_avif $input_file
             set -l output_file (replace_extension $input_file avif)
 
-            set -l modified_input_filename (get_r2_key $input_file)
-            update_references $modified_input_filename $output_file "$GIT_ROOT/content"
+
+            #set -l modified_input_filename (get_r2_key $input_file)
+            update_references $input_file $output_file "$GIT_ROOT/content"
 
         case $ALLOWED_EXTENSIONS # Handled in
             set -l output_file (replace_extension $input_file webm)
-            convert_to_webm "$input_file"
+            convert_and_update_video $input_file
             if test $status -ne 0
                 echo "Failed to convert $input_file to WebM" >&2
                 return 1
@@ -46,12 +47,15 @@ function convert_asset
 
             # If replacing a gif, we need to tag the video element
             if test $input_ext = gif
-                set -l original "<img src=[\"'\'']\?($base_name_no_ext)\.gif[\"'\'']\?([^>]*)>"
-                set -l replacement "<video autoplay loop muted playsinline src=\"\1.webm\" \2 type=\"video/webm\"><source src=\"\1.webm\"><\/video>"
+                set -g original_pattern "(?:\[\]\(([^\)]*)$base_name_no_ext\.gif\)()"
+                set -g original_pattern "$original_pattern|\[\[([^\]]*)$base_name_no_ext\.gif\]\]()"
+                set -g original_pattern "$original_pattern|\"([^\"]*)$base_name_no_ext\.gif\"([^>]*)>)"
+                #echo $original_pattern
+                set -g replacement "<video autoplay loop muted playsinline src=\"\1$base_name_no_ext.webm\"\2 type=\"video/webm\"><source src=\"$base_name_no_ext\1.webm\"><\/video>"
             else
                 # TODO fix this 
-                set -l original "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
-                set -l replacement "$base_name_no_ext.webm\2webm"
+                set -g original "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
+                set -g replacement "$base_name_no_ext.webm\2webm"
             end
 
             replace_references $original $replacement "$GIT_ROOT/content"
@@ -62,9 +66,9 @@ function convert_asset
 
     # Strip Metadata (If --strip-metadata flag is provided)
     if test $strip_metadata = true
-        if not exiftool -all= $output_file
-            echo "Failed to strip metadata from $output_file" >&2
-        end
+        #if not test (exiftool -all) = $output_file # TODO check 
+        #    echo "Failed to strip metadata from $output_file" >&2
+        #end
     end
 
     # Remove Original File (If --remove-originals flag is provided)
@@ -76,7 +80,7 @@ function convert_asset
 end
 
 # Traverse through all files in the specified directory and subdirectories
-if status is-interactive
+if status --is-interactive
     find $GIT_ROOT/quartz/static -type f ! -name '.DS_Store' | while read -l file
         convert_asset $file
     end
