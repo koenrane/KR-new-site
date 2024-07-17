@@ -5,7 +5,6 @@ source $file_dir/../convert_assets.fish
 source $file_dir/utils.fish
 
 set -g IMAGE_EXTENSIONS jpg png jpeg
-set -g VIDEO_EXTENSIONS $ALLOWED_EXTENSIONS
 
 function setup
     set -g temp_dir (mktemp -d)
@@ -22,15 +21,20 @@ function setup
 
     for ext in $IMAGE_EXTENSIONS
         create_test_image quartz/static/asset.$ext 32
-        echo "![Image](quartz/static/asset.$ext)" >>content/text.md
+        echo -n "![](quartz/static/asset.$ext)" >>content/image_text.md
     end
-    for ext in $ALLOWED_EXTENSIONS # Video extensions
+    for ext in $VIDEO_EXTENSIONS_TO_CONVERT # Video extensions
         create_test_video quartz/static/asset.$ext
-    end
-    touch quartz/static/unsupported.txt
+        echo -n "![](quartz/static/asset.$ext)" >>content/$ext.md
+        echo -n "[[quartz/static/asset.$ext]]" >>content/$ext.md
+        if not test $ext = gif
+            echo -n "<video src=\"quartz/static/asset.$ext\" alt=\"shrek\"/>" >>content/$ext.md
+        end
 
-    for file in (ls quartz/static)
     end
+    echo -n "<img src=\"quartz/static/asset.gif\" alt=\"shrek\">" >>content/gif.md
+
+    touch quartz/static/unsupported.txt
 end
 
 function teardown
@@ -41,40 +45,51 @@ end
 for ext in $IMAGE_EXTENSIONS
     @test "converts $ext images to AVIF with correct references" ( 
       setup
-      convert_asset quartz/static/asset.$ext
+      convert_asset quartz/static/asset.$ext 
 
       # Check that the avif file exists and has nonzero size
       if not test -s quartz/static/asset.avif
         echo "asset.avif does not exist or is empty"
       end
 
-      set -l is_edited (cat content/text.md | grep -o "asset.avif" | wc -l)
+      set -l is_edited (cat content/image_text.md | grep -o "asset.avif" | wc -l)
       if not test $is_edited -eq 1
-        echo "asset.avif is not referenced in text.md"
+        echo "asset.avif is not referenced in image_text.md"
       end
 
       echo 0
   ) = 0
 end
-#
-#for ext in $VIDEO_EXTENSIONS
+
+# Gif conversion test
+set -g target_output '<video autoplay loop muted playsinline src="quartz/static/asset.webm" type="video/webm"><source src="quartz/static/asset.webm"></video>'
+set -g target_output_with_alt '<video autoplay loop muted playsinline src="quartz/static/asset.webm" alt="shrek" type="video/webm"><source src="quartz/static/asset.webm"></video>'
+set -g repeated_target "$target_output$target_output$target_output_with_alt"
+@test "converts GIF files to WebM with correct references" ( 
+  setup
+  convert_asset quartz/static/asset.gif
+
+  # Check that the webm file exists and has nonzero size
+  if not test -s quartz/static/asset.webm
+    echo "asset.webm does not exist or is empty"
+  end
+
+  set -l output (cat content/gif.md | string replace -a '\n' '')
+  echo $output
+) = $repeated_target
+
+#for ext in $VIDEO_EXTENSIONS_TO_CONVERT
 #    @test "converts $ext videos to WebM with correct references" ( 
 #      setup
 #      convert_asset quartz/static/asset.$ext
-#
 #      # Check that the webm file exists and has nonzero size
 #      if not test -s quartz/static/asset.webm
 #        echo "asset.webm does not exist or is empty"
 #      end
-#
-#      set_color red 
-#      cat content/text.md 
-#     set_color normal
-#
-#      set -l is_edited (cat content/text.md | grep -o "asset.webm" | wc -l)
+#      set -l is_edited (cat content/$ext.md | grep -o "asset.webm" | wc -l)
 #      if not test $is_edited -eq 1
-#        echo "asset.webm is not referenced in text.md"
+#        echo "asset.webm is not referenced in $ext.md"
 #      end
 #      echo 0
-#    ) = 0
+#  ) = 0
 #end

@@ -38,8 +38,12 @@ function perl_references
     set -l replacement $argv[2]
     set -l content_directory $argv[3]
     set -l files_to_update (find $content_directory -iname "*.md" -type f)
+    #set_color green
+    #echo $original_pattern
+    #set_color normal
 
-    perl -i.bak -pe "s|$original_pattern|$replacement|g" $files_to_update
+
+    perl -i.bak -pe "s#$original_pattern#$replacement#g" $files_to_update
 end
 
 # Parse commandine flags

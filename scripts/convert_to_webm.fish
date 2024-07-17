@@ -2,7 +2,7 @@
 
 # Configuration
 set -g QUALITY 21
-set -g ALLOWED_EXTENSIONS gif mov mp4 avi mpeg # Space-separated list
+set -g VIDEO_EXTENSIONS_TO_CONVERT gif mov mp4 avi mpeg # Space-separated list
 
 # Function to convert and update a single video
 function convert_and_update_video
@@ -19,8 +19,8 @@ function convert_and_update_video
     set -l file_name_no_ext (string split -r '.' $input_file)[-2]
 
     # File type check
-    if not contains $file_extension $ALLOWED_EXTENSIONS
-        echo "Skipping '$input_file'. Only $ALLOWED_EXTENSIONS are supported." >&2
+    if not contains $file_extension $VIDEO_EXTENSIONS_TO_CONVERT
+        echo "Skipping '$input_file'. Only $VIDEO_EXTENSIONS_TO_CONVERT are supported." >&2
         return 1
     end
 

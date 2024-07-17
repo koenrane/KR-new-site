@@ -30,11 +30,9 @@ function convert_asset
             convert_to_avif $input_file
             set -l output_file (replace_extension $input_file avif)
 
-
-            #set -l modified_input_filename (get_r2_key $input_file)
             update_references $input_file $output_file "$GIT_ROOT/content"
 
-        case $ALLOWED_EXTENSIONS # Handled in
+        case $VIDEO_EXTENSIONS_TO_CONVERT
             set -l output_file (replace_extension $input_file webm)
             convert_and_update_video $input_file
             if test $status -ne 0
@@ -47,18 +45,21 @@ function convert_asset
 
             # If replacing a gif, we need to tag the video element
             if test $input_ext = gif
-                set -g original_pattern "(?:\[\]\(([^\)]*)$base_name_no_ext\.gif\)()"
-                set -g original_pattern "$original_pattern|\[\[([^\]]*)$base_name_no_ext\.gif\]\]()"
-                set -g original_pattern "$original_pattern|\"([^\"]*)$base_name_no_ext\.gif\"([^>]*)>)"
-                #echo $original_pattern
-                set -g replacement "<video autoplay loop muted playsinline src=\"\1$base_name_no_ext.webm\"\2 type=\"video/webm\"><source src=\"$base_name_no_ext\1.webm\"><\/video>"
+                # TODO add support for alt-text?
+                set -g original_pattern "\!?\[\]\((?<link>[^\)]*)$base_name_no_ext\.gif\)"
+                set -g original_pattern "$original_pattern|\[\[(?<link>[^\]]*)$base_name_no_ext\.gif\]\]"
+                set -g original_pattern "$original_pattern|<img (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.gif\"(?<tagInfo>[^>]*)\/?>"
+                set -g replacement_pattern "<video autoplay loop muted playsinline src=\"\$+{link}$base_name_no_ext.webm\"\$+{earlyTagInfo}\$+{tagInfo} type=\"video/webm\"><source src=\"\$+{link}$base_name_no_ext.webm\"></video>"
+                #echo (set_color green) "Replacing references to $original_pattern with $replacement_pattern in $GIT_ROOT/content" (set_color normal)
             else
                 # TODO fix this 
-                set -g original "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
-                set -g replacement "$base_name_no_ext.webm\2webm"
+                set -g original_pattern "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
+                set -g replacement_pattern "$base_name_no_ext.webm\2webm"
             end
 
-            replace_references $original $replacement "$GIT_ROOT/content"
+            #echo "Replacing references to $original_pattern with $replacement_pattern in $GIT_ROOT/content"
+
+            perl_references $original_pattern $replacement_pattern "$GIT_ROOT/content"
 
         case '*'
             return 0

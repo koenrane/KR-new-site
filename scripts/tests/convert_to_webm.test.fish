@@ -38,7 +38,7 @@ function convert_video
     echo 0
 end
 
-for ext in $ALLOWED_EXTENSIONS # From convert_to_webm.fish
+for ext in $VIDEO_EXTENSIONS_TO_CONVERT # From convert_to_webm.fish
     @test "convert_and_update_video converts $ext to WebM" (
         setup
         convert_video "test" $ext
