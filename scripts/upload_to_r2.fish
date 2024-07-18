@@ -5,7 +5,7 @@ source $file_dir/update_references.fish
 source $file_dir/utils.fish
 
 # Parse arguments
-argparse r/remove-originals v/verbose run_script -- $argv
+argparse r/remove_originals v/verbose run_script -- $argv
 or begin
     echo "Error: Failed to parse arguments"
     exit 1

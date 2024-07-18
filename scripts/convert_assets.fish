@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # Initialize argparse
-argparse r/remove-originals s/strip-metadata run_script -- $argv
+argparse r/remove_originals s/strip_metadata run_script -- $argv
 
 # Set boolean variables based on provided flags
 set -g remove_originals false
@@ -34,7 +34,7 @@ function convert_asset
             convert_to_avif $input_file
             set -g output_file (replace_extension $input_file avif)
 
-            update_references $input_file $output_file "$GIT_ROOT/content"
+            update_references (basename $input_file)"\.$input_ext" (basename $input_file)"\.avif" "$GIT_ROOT/content"
 
         case $VIDEO_EXTENSIONS_TO_CONVERT
             set -g output_file (replace_extension $input_file webm)
@@ -49,7 +49,7 @@ function convert_asset
 
             # If replacing a gif, we need to tag the video element
             set -g original_pattern "\!?\[\]\((?<link>[^\)]*)$base_name_no_ext\.$input_ext\)"
-            set -g original_pattern "$original_pattern|\[\[(?<link>[^\]]*)$base_name_no_ext\.$input_ext\]\]"
+            set -g original_pattern "$original_pattern|\!?\[\[(?<link>[^\]]*)$base_name_no_ext\.$input_ext\]\]"
             if test $input_ext = gif
                 # TODO add support for alt-text?
                 set -g original_pattern "$original_pattern|<img (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.gif\"(?<tagInfo>[^>]*)\/?>"
@@ -65,7 +65,7 @@ function convert_asset
             return 0
     end
 
-    # Strip Metadata (If --strip-metadata flag is provided)
+    # Strip Metadata (If --strip_metadata flag is provided)
     if test $strip_metadata = true
         # Use exiftool to remove metadata
         exiftool -all= $output_file >/dev/null 2>&1
@@ -76,7 +76,7 @@ function convert_asset
         end
     end
 
-    # Remove Original File (If --remove-originals flag is provided)
+    # Remove Original File (If --remove_originals flag is provided)
     if test "$remove_originals" = true
         if not tp $input_file
             echo "Failed to remove original file $input_file" >&2

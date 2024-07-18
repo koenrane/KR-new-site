@@ -33,6 +33,7 @@ coverage
 # *.avif
 # *.gif
 # *.webp
+*.avif_original
 
 # *.webm
 # *.mp4

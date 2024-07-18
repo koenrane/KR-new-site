@@ -102,7 +102,7 @@ for ext in $VIDEO_EXTENSIONS_TO_CONVERT
 end
 
 # Test removal of original files
-@test "removes original files when --remove-originals flag is set" (
+@test "removes original files when --remove_originals flag is set" (
   setup
   set -g remove_originals true
   convert_asset quartz/static/asset.jpg
