@@ -69,7 +69,7 @@ if test (count $argv) -eq 0
     exit 1
 end
 
-if $run_script
+if set -q _flag_run_script
     set -l FILE_TO_UPLOAD $argv[-1]
     if test -f "$FILE_TO_UPLOAD"
         upload_to_r2 $FILE_TO_UPLOAD
