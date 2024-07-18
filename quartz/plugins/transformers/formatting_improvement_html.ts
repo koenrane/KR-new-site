@@ -3,12 +3,43 @@ import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
+function quotesInSmallString(text: string) {
+  const numDoubleQuotes = text.match(/["]/g)
+  // If two, replace with nice quotes
+  if (numDoubleQuotes) {
+    if (numDoubleQuotes.length === 2) {
+      let newText = text.replace(/"/, "“")
+      newText = newText.replace(/"/, "”")
+      return newText
+    } else {
+      // This gambles that we're inside a closing slice, not an opening one
+      return text.replace(/"/g, "”")
+    }
+  }
+  const numSingleQuotes = text.match(/[']/g)
+  if (numSingleQuotes) {
+    if (numSingleQuotes.length === 2) {
+      let newText = text.replace(/'/, "‘")
+      newText = newText.replace(/'/, "’")
+      return newText
+    } else {
+      return text.replace(/'/g, "’")
+    }
+  }
+  return text
+}
+
 export function niceQuotes(text: string) {
+  // Generally these are short strings, so we can just do a simple replace
+  if (text.length < 5) {
+    return quotesInSmallString(text)
+  }
+
   // If element ends with a quote, it's probably beginning a quote for another element
   // E.g "$B=4$" has the first quote at the end of its <p> element
   text = text.replace(/(?<=\s|^)[\"”]$/gm, "“")
 
-  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"”](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
+  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
   text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
   text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
