@@ -494,3 +494,13 @@ TURNTROUT
 ko-fi
 favicon
 self-stimulator
+AUP's
+MELBO
+SafeLife
+Spawners
+Stavrianos
+Subfigure
+gridworld
+spawners
+stochastically
+unpenalized
