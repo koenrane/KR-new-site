@@ -131,7 +131,6 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
-@include font-face("EBGaramondInitials", "EBGaramond/EBGaramond-Initials", ".woff2");
 @include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
 @include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
 @include font-face("EBGaramondItalic", "EBGaramond/EBGaramond08-Italic", ".woff2");
