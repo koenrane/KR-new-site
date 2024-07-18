@@ -8,6 +8,7 @@ tags:
   - fiction
   - rationality
 ---
+
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 
 <center><audio src="https://assets.turntrout.com/batman.mp3" controls> </audio></center>
@@ -92,7 +93,7 @@ Gentle deceleration woke him from his thoughts. As father and son left the car, 
 
 They were home.<br>
 
-<center><img id="fade-img" src="./static/images/posts/fountain.webp" width="90%" height="auto" class="no-select"></center>
+<center><img id="fade-img" src="https://assets.turntrout.com/static/images/posts/fountain.webp" width="90%" height="auto" class="no-select"></center>
 
 ## 2: The World is Messy
 
