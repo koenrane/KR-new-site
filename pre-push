@@ -57,10 +57,10 @@ set -e
 echo "\033[0;32mSpellcheck passed\033[0m" # In green
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
-fish "$GIT_ROOT"/scripts/convert_assets.fish --remove-originals --strip-metadata --run_script
+fish "$GIT_ROOT"/scripts/convert_assets.fish --remove_originals --strip_metadata --run_script
 
 TYPES_TO_CHECK="svg,avif,webm"
-find "$GIT_ROOT/quartz/static" -type f -name "*.$TYPES_TO_CHECK" -exec bash -c "fish \"$GIT_ROOT/scripts/upload_to_r2.fish\" \"$0\" --remove-originals --run_script" {} \;
+find "$GIT_ROOT/quartz/static" -type f -name "*.$TYPES_TO_CHECK" -exec bash -c "fish \"$GIT_ROOT/scripts/upload_to_r2.fish\" \"$0\" --remove_originals --run_script" {} \;
 
 
 SERVER_STARTED=false
