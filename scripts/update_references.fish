@@ -43,9 +43,9 @@ function perl_references
 end
 
 # Parse commandine flags
-argparse 'source=' 'target=' 'content_dir=?' -- $argv
+argparse 'source=' 'target=' 'run_script=' 'content_dir=?' -- $argv
 
-if status --is-interactive
+if $_flag_run_script
     if ! set -q _flag_content_dir
         set -g _flag_content_dir $GIT_ROOT/content
     end

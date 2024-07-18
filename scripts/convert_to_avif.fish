@@ -1,5 +1,11 @@
 #!/usr/bin/env fish
 
+argparse "run_script=" -- $argv
+set -g run_script false
+if set -q _flag_run_script
+    set -g run_script true
+end
+
 # Configuration
 set -g QUALITY 50 # Set desired AVIF quality
 
@@ -37,7 +43,7 @@ function convert_to_avif
 end
 
 # Get the filename from the command-line argument
-if status --is-interactive
+if $run_script
     if set -q $argv[1]
         convert_to_avif $argv[1]
     else

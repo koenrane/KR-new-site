@@ -1,16 +1,20 @@
 #!/usr/bin/env fish
 
 # Initialize argparse
-argparse r/remove-originals s/strip-metadata -- $argv
+argparse r/remove-originals s/strip-metadata "run_script=" -- $argv
 
 # Set boolean variables based on provided flags
 set -g remove_originals false
 set -g strip_metadata false
+set -g run_script false
 if set -q _flag_remove_originals
     set -g remove_originals true
 end
 if set -q _flag_strip_metadata
     set -g strip_metadata true
+end
+if set -q _flag_run_script
+    set -g run_script true
 end
 
 set -l FILE_DIR (dirname (status -f))
@@ -81,7 +85,7 @@ function convert_asset
 end
 
 # Traverse through all files in the specified directory and subdirectories
-if status --is-interactive
+if $run_script
     find $GIT_ROOT/quartz/static -type f ! -name '.DS_Store' | while read -l file
         convert_asset $file
     end

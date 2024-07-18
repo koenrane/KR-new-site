@@ -5,7 +5,7 @@ source $file_dir/update_references.fish
 source $file_dir/utils.fish
 
 # Parse arguments
-argparse r/remove-originals v/verbose -- $argv
+argparse r/remove-originals v/verbose run_script -- $argv
 or begin
     echo "Error: Failed to parse arguments"
     exit 1
@@ -62,7 +62,7 @@ if test (count $argv) -eq 0
     exit 1
 end
 
-if status --is-interactive
+if $_flag_run_script
     set -l FILE_TO_UPLOAD $argv[-1]
     if test -f "$FILE_TO_UPLOAD"
         upload_to_r2 $FILE_TO_UPLOAD

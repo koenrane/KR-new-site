@@ -1,5 +1,11 @@
 #!/usr/bin/env fish
 
+argparse "run_script=" -- $argv
+set -g run_script false
+if set -q _flag_run_script
+    set -g run_script true
+end
+
 # Configuration
 set -g QUALITY 21
 set -g VIDEO_EXTENSIONS_TO_CONVERT gif mov mp4 avi mpeg # Space-separated list
@@ -39,7 +45,7 @@ function convert_and_update_video
 end
 
 # Get filename from command-line argument
-if status --is-interactive
+if $run_script
     if set -q $argv[1]
         convert_and_update_video $argv[1]
     else
