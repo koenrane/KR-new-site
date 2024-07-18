@@ -74,22 +74,29 @@ set -g repeated_target "$target_output$target_output$target_output_with_alt"
     echo "asset.webm does not exist or is empty"
   end
 
-  set -l output (cat content/gif.md | string replace -a '\n' '')
+  set -l output (cat content/gif.md)
   echo $output
 ) = $repeated_target
 
-#for ext in $VIDEO_EXTENSIONS_TO_CONVERT
-#    @test "converts $ext videos to WebM with correct references" ( 
-#      setup
-#      convert_asset quartz/static/asset.$ext
-#      # Check that the webm file exists and has nonzero size
-#      if not test -s quartz/static/asset.webm
-#        echo "asset.webm does not exist or is empty"
-#      end
-#      set -l is_edited (cat content/$ext.md | grep -o "asset.webm" | wc -l)
-#      if not test $is_edited -eq 1
-#        echo "asset.webm is not referenced in $ext.md"
-#      end
-#      echo 0
-#  ) = 0
-#end
+set -l target_non_gif '<video src="quartz/static/asset.webm" type="video/webm"/>'
+set -l target_non_gif_alt '<video src="quartz/static/asset.webm" type="video/webm" alt="shrek"/>'
+for ext in $VIDEO_EXTENSIONS_TO_CONVERT
+    if test $ext = gif
+        continue
+    end
+    set -l video_test_output $target_non_gif$target_non_gif$target_non_gif_alt
+    @test "converts $ext videos to WebM with correct references" ( 
+      setup
+      convert_asset quartz/static/asset.$ext
+
+      # Check that the webm file exists and has nonzero size
+      if not test -s quartz/static/asset.webm
+        echo "asset.webm does not exist or is empty"
+      end
+
+
+  set -l output (cat content/$ext.md)
+  echo $output
+
+  ) = $video_test_output
+end

@@ -44,20 +44,16 @@ function convert_asset
             set -l base_name_no_ext (string replace -r '\.[^.]*$' '' "$base")
 
             # If replacing a gif, we need to tag the video element
+            set -g original_pattern "\!?\[\]\((?<link>[^\)]*)$base_name_no_ext\.$input_ext\)"
+            set -g original_pattern "$original_pattern|\[\[(?<link>[^\]]*)$base_name_no_ext\.$input_ext\]\]"
             if test $input_ext = gif
                 # TODO add support for alt-text?
-                set -g original_pattern "\!?\[\]\((?<link>[^\)]*)$base_name_no_ext\.gif\)"
-                set -g original_pattern "$original_pattern|\[\[(?<link>[^\]]*)$base_name_no_ext\.gif\]\]"
                 set -g original_pattern "$original_pattern|<img (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.gif\"(?<tagInfo>[^>]*)\/?>"
                 set -g replacement_pattern "<video autoplay loop muted playsinline src=\"\$+{link}$base_name_no_ext.webm\"\$+{earlyTagInfo}\$+{tagInfo} type=\"video/webm\"><source src=\"\$+{link}$base_name_no_ext.webm\"></video>"
-                #echo (set_color green) "Replacing references to $original_pattern with $replacement_pattern in $GIT_ROOT/content" (set_color normal)
             else
-                # TODO fix this 
-                set -g original_pattern "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
-                set -g replacement_pattern "$base_name_no_ext.webm\2webm"
+                set -g original_pattern "$original_pattern|<video (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.$input_ext\"(?<tagInfo>.*)(?:type=\"video/$input_ext\")?(?<endVideoTagInfo>[^>]*(?=/))\/?>"
+                set -g replacement_pattern "<video src=\"\$+{link}$base_name_no_ext.webm\"\$+{earlyTagInfo} type=\"video/webm\"\$+{tagInfo}\$+{endVideoTagInfo}/>"
             end
-
-            #echo "Replacing references to $original_pattern with $replacement_pattern in $GIT_ROOT/content"
 
             perl_references $original_pattern $replacement_pattern "$GIT_ROOT/content"
 
