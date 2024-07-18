@@ -469,8 +469,9 @@ tr {
 img {
   max-width: 100%;
   border-radius: 5px;
-  margin: calc(2 * baseMargin) 0;
+  margin: calc(2 * $baseMargin) 0;
 }
+
 blockquote > p:first-of-type {
   margin-top: 0;
 }
