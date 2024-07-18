@@ -14,7 +14,7 @@ export default (() => {
     const path = url.pathname as FullSlug
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
 
-    const iconPath = joinSegments(baseDir, "static/images/turntrout-favicons/favicon.ico")
+    const iconPath = joinSegments(baseDir, "static/images/favicon.ico")
     const permalink = fileData.permalink || url.href
     const siteImage = joinSegments("https://assets.turntrout.com/static/pond.webm")
 

@@ -15,7 +15,7 @@ const NotFound: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
         </div>
 
         <img
-          src="/static/images/turntrout-art-transparent.png"
+          src="https://assets.turntrout.com/static/images/turntrout-art-transparent.avif"
           id="trout-reading"
           class="no-select"
         ></img>

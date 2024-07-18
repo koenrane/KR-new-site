@@ -27,18 +27,18 @@ coverage
 .logs
 
 # Media files
-*.png
-*.jpg
-*.jpeg
-*.avif
-*.gif
-*.webp
+# *.png
+# *.jpg
+# *.jpeg
+# *.avif
+# *.gif
+# *.webp
 
-*.webm
-*.mp4
-*.mov
-*.mkv
-*.mp3
+# *.webm
+# *.mp4
+# *.mov
+# *.mkv
+# *.mp3
 *test.md
 
 content/drafts
