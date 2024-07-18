@@ -43,7 +43,7 @@ function perl_references
 end
 
 # Parse commandine flags
-argparse 'source=' 'target=' 'run_script=' 'content_dir=?' -- $argv
+argparse 'source=' 'target=' 'run_script=?' 'content_dir=?' -- $argv
 
 if set -q $_flag_run_script
     if ! set -q _flag_content_dir

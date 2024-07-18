@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # Initialize argparse
-argparse r/remove-originals s/strip-metadata "run_script=" -- $argv
+argparse r/remove-originals s/strip-metadata "run_script" -- $argv
 
 # Set boolean variables based on provided flags
 set -g remove_originals false

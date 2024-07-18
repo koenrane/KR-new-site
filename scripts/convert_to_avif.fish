@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-argparse "run_script=" -- $argv
+argparse run_script -- $argv
 set -g run_script false
 if set -q _flag_run_script
     set -g run_script true
