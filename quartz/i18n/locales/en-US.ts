@@ -64,7 +64,7 @@ export default {
         if (hours > 0) {
           timeString += `${hours} hour` // Add hours (with plural if needed)
           if (remainingMinutes > 0) {
-            // timeString += " and " // Add separator if we also have minutes
+            timeString += " " // Add separator if we also have minutes
           }
         }
 

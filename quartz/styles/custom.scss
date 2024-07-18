@@ -335,7 +335,8 @@ img.favicon {
   margin-top: -20%;
   mix-blend-mode: normal !important;
 
-  &[src$="mail.svg"] {
+  &[src$="mail.svg"],
+  &[src$="turntrout_com.ico"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(30%) sepia(13%) saturate(1034%) hue-rotate(196deg) brightness(90%) contrast(84%);
     :root[saved-theme="dark"] & {

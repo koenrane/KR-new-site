@@ -5,3 +5,5 @@ Pre-push hooks (local):
 - Check for for repeated words
 - Automatic lossless compression of media files
 - Automatic metadata stripping from media files
+
+turntrout.com © 2024 by Alexander Turner is licensed under CC BY-SA 4.0.

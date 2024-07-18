@@ -4,32 +4,38 @@
 argparse r/remove-originals s/strip-metadata -- $argv
 
 # Set boolean variables based on provided flags
-set remove_originals false
-set strip_metadata false
+set -g remove_originals false
+set -g strip_metadata false
 if set -q _flag_remove_originals
-    set remove_originals true
+    set -g remove_originals true
 end
 if set -q _flag_strip_metadata
-    set strip_metadata true
+    set -g strip_metadata true
 end
 
-source ./update_references.fish
+set -l FILE_DIR (dirname (status -f))
+source $FILE_DIR/convert_to_webm.fish
+source $FILE_DIR/convert_to_avif.fish
+source $FILE_DIR/utils.fish
+source $FILE_DIR/update_references.fish
 
 # Function to handle conversion and optimization of a single file
 function convert_asset
-    set input_file $argv[1]
-    set input_ext (string replace -r '^.+\.' '' $input_file)
-    set output_file ""
+    set -l input_file $argv[1]
+    set -l input_ext (string replace -r '^.+\.' '' $input_file)
+    set -g output_file ""
 
     switch $input_ext
         case jpg jpeg png
-            sh scripts/convert_to_avif.sh $input_file
-            set output_file (string replace -r '\.[^.]+$' '.avif' $input_file)
-            update_references source=$input_file target=$output_file
+            convert_to_avif $input_file
+            set -g output_file (replace_extension $input_file avif)
 
-        case gif mp4 mov
-            set output_file (string replace -r '\.[^.]+$' '.webm' $input_file)
-            if not sh scripts/convert_to_webm.sh $input_file
+            update_references $input_file $output_file "$GIT_ROOT/content"
+
+        case $VIDEO_EXTENSIONS_TO_CONVERT
+            set -g output_file (replace_extension $input_file webm)
+            convert_and_update_video $input_file
+            if test $status -ne 0
                 echo "Failed to convert $input_file to WebM" >&2
                 return 1
             end
@@ -37,22 +43,31 @@ function convert_asset
             set -l base (basename "$input_file")
             set -l base_name_no_ext (string replace -r '\.[^.]*$' '' "$base")
 
-            if test $input_ext -eq gif
-                set -l original "<img src=[\"'\'']\?($base_name_no_ext)\.gif[\"'\'']\?([^>]*)>"
-                set -l replacement "<video autoplay loop muted playsinline src=\"\1.webm\" \2 type=\"video/webm\"><source src=\"\1.webm\"><\/video>"
+            # If replacing a gif, we need to tag the video element
+            set -g original_pattern "\!?\[\]\((?<link>[^\)]*)$base_name_no_ext\.$input_ext\)"
+            set -g original_pattern "$original_pattern|\[\[(?<link>[^\]]*)$base_name_no_ext\.$input_ext\]\]"
+            if test $input_ext = gif
+                # TODO add support for alt-text?
+                set -g original_pattern "$original_pattern|<img (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.gif\"(?<tagInfo>[^>]*)\/?>"
+                set -g replacement_pattern "<video autoplay loop muted playsinline src=\"\$+{link}$base_name_no_ext.webm\"\$+{earlyTagInfo}\$+{tagInfo} type=\"video/webm\"><source src=\"\$+{link}$base_name_no_ext.webm\"></video>"
             else
-                set -l original "$base_name_no_ext\.(mp4|mov|MP4|MOV)(.*video\/)mp4"
-                set -l replacement "$base_name_no_ext.webm\2webm"
+                set -g original_pattern "$original_pattern|<video (?<earlyTagInfo>[^>]*)src=\"(?<link>[^\"]*)$base_name_no_ext\.$input_ext\"(?<tagInfo>.*)(?:type=\"video/$input_ext\")?(?<endVideoTagInfo>[^>]*(?=/))\/?>"
+                set -g replacement_pattern "<video src=\"\$+{link}$base_name_no_ext.webm\"\$+{earlyTagInfo} type=\"video/webm\"\$+{tagInfo}\$+{endVideoTagInfo}/>"
             end
 
-            replace_references $original $replacement "$GIT_ROOT/content"
+            perl_references $original_pattern $replacement_pattern "$GIT_ROOT/content"
+
         case '*'
             return 0
     end
 
     # Strip Metadata (If --strip-metadata flag is provided)
-    if test "$strip_metadata" = true
-        if not exiftool -all= $output_file
+    if test $strip_metadata = true
+        # Use exiftool to remove metadata
+        exiftool -all= $output_file >/dev/null 2>&1
+
+        # Verify if metadata removal was successful
+        if test $status -ne 0
             echo "Failed to strip metadata from $output_file" >&2
         end
     end
@@ -63,13 +78,11 @@ function convert_asset
             echo "Failed to remove original file $input_file" >&2
         end
     end
-
-    set_color green
-    echo "Processed $input_file"
-    set_color normal
 end
 
 # Traverse through all files in the specified directory and subdirectories
-find quartz/static -type f ! -name '.DS_Store' | while read -l file
-    convert_asset $file
+if status --is-interactive
+    find $GIT_ROOT/quartz/static -type f ! -name '.DS_Store' | while read -l file
+        convert_asset $file
+    end
 end
