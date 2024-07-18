@@ -100,3 +100,46 @@ for ext in $VIDEO_EXTENSIONS_TO_CONVERT
 
   ) = $video_test_output
 end
+
+# Test removal of original files
+@test "removes original files when --remove-originals flag is set" (
+  setup
+  set -g remove_originals true
+  convert_asset quartz/static/asset.jpg
+
+  test ! -f quartz/static/asset.jpg
+  echo $status
+) = 0
+
+# Test stripping metadata
+@test "strips metadata when --strip-metadata flag is set" (
+  setup
+  
+  # Create a dummy image with EXIF data
+  set -l dummy_image quartz/static/asset_with_exif.jpg
+  create_test_image $dummy_image 32
+  exiftool -Artist="Test Artist" -Copyright="Test Copyright" $dummy_image >/dev/null 2>&1 
+  
+  # Verify EXIF data exists
+  set -l exifdata_before (exiftool $dummy_image | grep -c "Test Artist")
+  if ! test $exifdata_before -gt 0
+    echo "EXIF data not found on dummy image"
+  end
+
+  # Convert with metadata stripping
+  set -g strip_metadata true
+  convert_asset $dummy_image
+
+  # Verify EXIF data is gone
+  set -l exifdata_after (exiftool quartz/static/asset_with_exif.avif | grep -c "Test Artist")
+  test $exifdata_after -eq 0
+  echo $status
+) = 0
+
+# Test handling of unsupported file types
+@test "ignores unsupported file types" (
+  setup
+  convert_asset quartz/static/unsupported.txt
+  test -f quartz/static/unsupported.txt # should not be deleted
+  echo $status
+) = 0

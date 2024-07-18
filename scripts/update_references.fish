@@ -29,7 +29,6 @@ function update_references
     set sanitized_source_path (sanitize_filename "$source_path")
     set sanitized_target_path (sanitize_filename "$target_path")
 
-    #echo "Updating references from $original to $replacement in $content_dir..."
     perl_references $sanitized_source_path $sanitized_target_path $content_dir
 end
 
@@ -38,9 +37,6 @@ function perl_references
     set -l replacement $argv[2]
     set -l content_directory $argv[3]
     set -l files_to_update (find $content_directory -iname "*.md" -type f)
-    #set_color green
-    #echo $original_pattern
-    #set_color normal
 
 
     perl -i.bak -pe "s#$original_pattern#$replacement#g" $files_to_update

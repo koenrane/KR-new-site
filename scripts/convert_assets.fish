@@ -23,17 +23,17 @@ source $FILE_DIR/update_references.fish
 function convert_asset
     set -l input_file $argv[1]
     set -l input_ext (string replace -r '^.+\.' '' $input_file)
-    set -l output_file ""
+    set -g output_file ""
 
     switch $input_ext
         case jpg jpeg png
             convert_to_avif $input_file
-            set -l output_file (replace_extension $input_file avif)
+            set -g output_file (replace_extension $input_file avif)
 
             update_references $input_file $output_file "$GIT_ROOT/content"
 
         case $VIDEO_EXTENSIONS_TO_CONVERT
-            set -l output_file (replace_extension $input_file webm)
+            set -g output_file (replace_extension $input_file webm)
             convert_and_update_video $input_file
             if test $status -ne 0
                 echo "Failed to convert $input_file to WebM" >&2
@@ -63,9 +63,13 @@ function convert_asset
 
     # Strip Metadata (If --strip-metadata flag is provided)
     if test $strip_metadata = true
-        #if not test (exiftool -all) = $output_file # TODO check 
-        #    echo "Failed to strip metadata from $output_file" >&2
-        #end
+        # Use exiftool to remove metadata
+        exiftool -all= $output_file >/dev/null 2>&1
+
+        # Verify if metadata removal was successful
+        if test $status -ne 0
+            echo "Failed to strip metadata from $output_file" >&2
+        end
     end
 
     # Remove Original File (If --remove-originals flag is provided)
