@@ -43,10 +43,21 @@ function perl_references
 end
 
 # Parse commandine flags
-argparse 'source=' 'target=' 'run_script=?' 'content_dir=?' -- $argv
+argparse 'source=' 'target=' run_script 'content_dir=?' -- $argv
 
-if set -q $_flag_run_script
-    if ! set -q _flag_content_dir
+# Set boolean variables based on provided flags
+set -g content_dir false
+set -g run_script false
+if set -q _flag_content_dir
+    set -g content_dir true
+end
+if set -q _flag_run_script
+    set -g run_script true
+end
+
+
+if $run_script
+    if not $content_dir
         set -g _flag_content_dir $GIT_ROOT/content
     end
     update_references $_flag_source $_flag_target $_flag_content_dir

@@ -64,3 +64,9 @@ end
     setup
     convert_video "test file" "mp4"
 ) = 0
+
+set -l dotted_filepath "/Users/turntrout/Downloads/turntrout.com/quartz/static/images/posts/append_spawn_trajectories.mp4"
+@test "convert_and_update_video handles filenames with dots" (
+    setup
+    convert_video $dotted_filepath "mp4"
+) = 0

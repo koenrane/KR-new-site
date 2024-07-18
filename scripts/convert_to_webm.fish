@@ -21,8 +21,14 @@ function convert_and_update_video
         return 1
     end
 
-    set -l file_extension (string split -r '.' $input_file)[-1]
-    set -l file_name_no_ext (string split -r '.' $input_file)[-2]
+    set -l file_extension (path extension $input_file)
+    set -l file_name_no_ext (path change-extension '' $input_file)
+    set -l file_name_only (path basename $file_name_no_ext)
+    set -l dir_path (path dirname $input_file)
+
+    # Remove the leading dot from the extension
+    set -l file_extension (string replace -r '^\\.' '' $file_extension)
+
 
     # File type check
     if not contains $file_extension $VIDEO_EXTENSIONS_TO_CONVERT

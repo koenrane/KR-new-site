@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # Initialize argparse
-argparse r/remove-originals s/strip-metadata "run_script" -- $argv
+argparse r/remove-originals s/strip-metadata run_script -- $argv
 
 # Set boolean variables based on provided flags
 set -g remove_originals false
@@ -18,10 +18,10 @@ if set -q _flag_run_script
 end
 
 set -l FILE_DIR (dirname (status -f))
-source $FILE_DIR/convert_to_webm.fish
-source $FILE_DIR/convert_to_avif.fish
+source $FILE_DIR/convert_to_webm.fish 2>/dev/null
+source $FILE_DIR/convert_to_avif.fish 2>/dev/null
 source $FILE_DIR/utils.fish
-source $FILE_DIR/update_references.fish
+source $FILE_DIR/update_references.fish 2>/dev/null
 
 # Function to handle conversion and optimization of a single file
 function convert_asset
