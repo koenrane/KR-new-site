@@ -90,6 +90,10 @@ describe("HTMLFormattingImprovement", () => {
       ["word —word", "word—word"],
       ['"I love dogs." - Me', '"I love dogs." — Me'],
       ["- Me", "— Me"], // Don't delete space after dash at the start of a line
+      [
+        "—such behaviors still have to be retrodicted",
+        "—such behaviors still have to be retrodicted",
+      ], // Don't delete space after dash at the start of a line
       ["\n---\n", "\n---\n"], // Retain horizontal rules
       ["emphasis” —", "emphasis”—"], // small quotations should not retain space
       ["- First level\n - Second level", "— First level\n - Second level"], // Don't replace hyphens in lists, first is ok

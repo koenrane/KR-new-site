@@ -40,8 +40,8 @@ export function hyphenReplace(text: string) {
   const postQuote = /([.!?]["”])\s*—\s*/g
   text = text.replace(postQuote, "$1 — ")
 
-  const startOfLine = /^\s*—\s*/g
-  text = text.replace(startOfLine, "— ")
+  const startOfLine = /^\s*—\s*([A-Z0-9])/g
+  text = text.replace(startOfLine, "— $1")
 
   return text
 }
