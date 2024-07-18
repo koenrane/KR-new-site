@@ -23,6 +23,13 @@ if set -q _flag_remove_originals
     set -g remove_originals 1
 end
 
+# Check for verbose flag
+set -g run_script 0
+if set -q _flag_run_script
+    set -g run_script 1
+end
+
+
 
 function upload_to_r2
     set -l file $argv[1]
@@ -62,7 +69,7 @@ if test (count $argv) -eq 0
     exit 1
 end
 
-if $_flag_run_script
+if $run_script
     set -l FILE_TO_UPLOAD $argv[-1]
     if test -f "$FILE_TO_UPLOAD"
         upload_to_r2 $FILE_TO_UPLOAD

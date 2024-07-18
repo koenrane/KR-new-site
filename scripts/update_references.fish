@@ -45,7 +45,7 @@ end
 # Parse commandine flags
 argparse 'source=' 'target=' 'run_script=' 'content_dir=?' -- $argv
 
-if $_flag_run_script
+if set -q $_flag_run_script
     if ! set -q _flag_content_dir
         set -g _flag_content_dir $GIT_ROOT/content
     end
