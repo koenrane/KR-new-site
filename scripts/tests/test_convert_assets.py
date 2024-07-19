@@ -1,7 +1,6 @@
 import unittest.mock as mock  # Import the mock module
 import pytest
-import argparse
-from pathlib import Path
+import pathlib
 import compress
 import convert_assets
 from . import utils
@@ -54,7 +53,7 @@ def convert_asset_mocks():
     ) as mock_compress_video, mock.patch(
         "subprocess.run"
     ) as mock_run, mock.patch(
-        "Path.unlink"
+        "pathlib.Path.unlink"
     ) as mock_unlink:
         yield mock_compress_image, mock_compress_video, mock_run, mock_unlink
 
@@ -65,9 +64,11 @@ def convert_asset_mocks():
 @pytest.mark.parametrize("ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_image_conversion(ext: str, setup_test_env, convert_asset_mocks):
     mock_compress_image, _, _, _ = convert_asset_mocks
-    asset_path = Path(setup_test_env) / "quartz/static" / f"asset.{ext}"
+    asset_path = (
+        pathlib.Path(setup_test_env) / "quartz/static" / f"asset.{ext}"
+    )
     avif_path = asset_path.with_suffix(".avif")
-    content_path = Path(setup_test_env) / "content" / "image_text.md"
+    content_path = pathlib.Path(setup_test_env) / "content" / "image_text.md"
 
     convert_assets.convert_asset(asset_path)
 
@@ -81,9 +82,13 @@ def test_image_conversion(ext: str, setup_test_env, convert_asset_mocks):
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 def test_video_conversion(ext: str, setup_test_env, convert_asset_mocks):
     _, mock_compress_video, _, _ = convert_asset_mocks
-    asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset.{ext}"
-    webm_path: Path = asset_path.with_suffix(".webm")
-    content_path: Path = Path(setup_test_env) / "content" / f"{ext}.md"
+    asset_path: pathlib.Path = (
+        pathlib.Path(setup_test_env) / "quartz/static" / f"asset.{ext}"
+    )
+    webm_path: pathlib.Path = asset_path.with_suffix(".webm")
+    content_path: pathlib.Path = (
+        pathlib.Path(setup_test_env) / "content" / f"{ext}.md"
+    )
 
     convert_assets.convert_asset(asset_path)
 
@@ -114,10 +119,11 @@ def test_video_conversion(ext: str, setup_test_env, convert_asset_mocks):
 
 def test_remove_original_files(setup_test_env, convert_asset_mocks):
     mock_compress_image, _, _, mock_unlink = convert_asset_mocks
-    convert_assets.args = argparse.Namespace(remove_originals=True)
-    asset_path = Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
+    asset_path = (
+        pathlib.Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
+    )
 
-    convert_assets.convert_asset(asset_path)
+    convert_assets.convert_asset(asset_path, remove_originals=True)
 
     mock_compress_image.assert_called_once_with(asset_path)
     mock_unlink.assert_called_once()  # Verify that unlink was called
@@ -125,10 +131,9 @@ def test_remove_original_files(setup_test_env, convert_asset_mocks):
 
 def test_strip_metadata(setup_test_env, convert_asset_mocks):
     _, _, mock_run, _ = convert_asset_mocks
-    convert_assets.args = argparse.Namespace(strip_metadata=True)
 
-    dummy_image: Path = (
-        Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
+    dummy_image: pathlib.Path = (
+        pathlib.Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
     )
     utils.create_test_image(dummy_image, "32x32")
 
@@ -147,7 +152,7 @@ def test_strip_metadata(setup_test_env, convert_asset_mocks):
         )
 
     # Convert the image to AVIF
-    convert_assets.convert_asset(dummy_image)
+    convert_assets.convert_asset(dummy_image, strip_metadata=True)
 
     # Verify exiftool was called with the correct arguments
     mock_run.assert_called_once_with(
@@ -169,7 +174,8 @@ def test_strip_metadata(setup_test_env, convert_asset_mocks):
 
 
 def test_ignores_unsupported_file_types(setup_test_env):
-    asset_path = Path(setup_test_env) / "quartz/static/unsupported.txt"
+    asset_path = pathlib.Path(setup_test_env) / "quartz/static/unsupported.txt"
 
-    convert_assets.convert_asset(asset_path)
-    assert asset_path.exists()
+    with pytest.raises(ValueError):
+        convert_assets.convert_asset(asset_path)
+    assert asset_path.exists()  # Don't delete
