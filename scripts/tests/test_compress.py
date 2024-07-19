@@ -32,16 +32,6 @@ def create_test_video(path: Path) -> None:
     )
 
 
-# --- Pytest Fixtures ---
-
-
-@pytest.fixture()
-def temp_dir():
-    """Creates a temporary directory and cleans up afterwards."""
-    with tempfile.TemporaryDirectory() as dir_path:
-        yield Path(dir_path)
-
-
 # --- Image Tests ---
 
 

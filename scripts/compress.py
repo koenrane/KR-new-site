@@ -3,10 +3,10 @@ import argparse
 import sys
 import subprocess
 from pathlib import Path
-from typing import Sequence
+from typing import Collection
 
 QUALITY: int = 21  # Default quality
-ALLOWED_IMAGE_EXTENSIONS: Sequence[str] = (".jpg", ".jpeg", ".png")
+ALLOWED_IMAGE_EXTENSIONS: Collection[str] = (".jpg", ".jpeg", ".png")
 
 
 def image(image_path: Path, quality: int = QUALITY) -> None:
@@ -44,7 +44,7 @@ def image(image_path: Path, quality: int = QUALITY) -> None:
         raise RuntimeError(f"Error during conversion: {e}") from e
 
 
-VIDEO_EXTENSIONS_TO_CONVERT: Sequence[str] = (
+VIDEO_EXTENSIONS_TO_CONVERT: Collection[str] = (
     "gif",
     "mov",
     "mp4",
@@ -153,18 +153,7 @@ if __name__ == "__main__":
         default=QUALITY,
         help="Quality (0-100)",
     )
-    parser.add_argument(
-        "--run_script",
-        action="store_true",
-        help="Run the script directly.",
-    )
+
     args: argparse.Namespace = parser.parse_args()
 
-    if args.run_script:
-        image(args.path, args.quality)
-    else:
-        print(
-            "This script is designed to be run directly. Please use the --run_script flag.",
-            file=sys.stderr,
-        )
-        raise SystemExit(1)  # Indicate an error exit
+    image(args.path, args.quality)
