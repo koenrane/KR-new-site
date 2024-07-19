@@ -1,4 +1,4 @@
-from .. import convert_to_avif  # Absolute import
+from .. import compress
 import subprocess
 import pytest
 import tempfile
@@ -35,7 +35,7 @@ def test_convert_jpg_to_avif(temp_dir: Path) -> None:
     stderr_capture = StringIO()
     sys.stderr = stderr_capture
 
-    convert_to_avif.compress(input_file)
+    compress.image(input_file)
 
     avif_file = input_file.with_suffix(".avif")
     assert avif_file.exists()
@@ -45,20 +45,7 @@ def test_convert_jpg_to_avif(temp_dir: Path) -> None:
     assert "AVIF" in output
 
 
-def test_convert_png_to_avif(temp_dir: Path) -> None:
-    input_file = temp_dir / "test.png"
-    create_test_image(input_file, "32x32")
-
-    stderr_capture = StringIO()
-    sys.stderr = stderr_capture
-
-    convert_to_avif.compress(input_file)
-
-    avif_file = input_file.with_suffix(".avif")
-    assert avif_file.exists()
-
-
-@pytest.mark.parametrize("image_ext", ["jpg", "png", "jpeg"])
+@pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_avif_file_size_reduction(temp_dir: Path, image_ext: str) -> None:
     """Assert that AVIF files are less than the size of originals."""
     input_file = temp_dir / f"test.{image_ext}"
@@ -66,7 +53,7 @@ def test_avif_file_size_reduction(temp_dir: Path, image_ext: str) -> None:
     original_size = input_file.stat().st_size
 
     # Convert to AVIF
-    convert_to_avif.compress(input_file)
+    compress.image(input_file)
     avif_file = input_file.with_suffix(".avif")
     assert avif_file.exists()  # Check if AVIF file was created
 
@@ -81,7 +68,15 @@ def test_convert_avif_fails_with_non_existent_file(temp_dir: Path) -> None:
     input_file = temp_dir / "non_existent_file.jpg"
 
     with pytest.raises(FileNotFoundError):
-        convert_to_avif.compress(input_file)
+        compress.image(input_file)
+
+
+def test_convert_avif_fails_with_invalid_extension(temp_dir: Path) -> None:
+    input_file = temp_dir / "fakefile.fake"
+    input_file.touch()
+
+    with pytest.raises(ValueError):
+        compress.image(input_file)
 
 
 def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
@@ -93,7 +88,7 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
     stderr_capture = StringIO()
     sys.stderr = stderr_capture
 
-    convert_to_avif.compress(input_file)
+    compress.image(input_file)
     sys.stderr = sys.__stderr__
 
     assert "Skipping conversion" in stderr_capture.getvalue()

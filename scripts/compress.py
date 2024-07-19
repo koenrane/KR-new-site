@@ -3,18 +3,24 @@ import argparse
 import sys
 import subprocess
 from pathlib import Path
+from typing import Sequence
+
+ALLOWED_IMAGE_EXTENSIONS: Sequence[str] = (".jpg", ".jpeg", ".png")
 
 
-def compress(image_path: Path, quality: int = 21) -> None:
+def image(image_path: Path, quality: int = 21) -> None:
     """Converts an image to AVIF format using ImageMagick.
 
     Args:
         image_path: The path to the image file.
         quality: The AVIF quality (0-100). Lower is better but slower.
     """
-
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
+    if not image_path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
+        raise ValueError(
+            f"Error: Unsupported file type '{image_path.suffix}'."
+        )
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
@@ -59,7 +65,7 @@ if __name__ == "__main__":
     args: argparse.Namespace = parser.parse_args()
 
     if args.run_script:
-        compress(args.image_path, args.quality)
+        image(args.image_path, args.quality)
     else:
         print(
             "This script is designed to be run directly. Please use the --run_script flag.",
