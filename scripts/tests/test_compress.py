@@ -1,7 +1,7 @@
 from .. import compress
 import pytest
 from pathlib import Path
-import utils
+from . import utils
 import sys
 from io import StringIO
 

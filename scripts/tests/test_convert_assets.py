@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 import compress
 import convert_assets
-import utils
+from . import utils
 import subprocess
 
 
