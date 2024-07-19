@@ -14,6 +14,24 @@ def create_test_image(path: Path, size: str) -> None:
     subprocess.run(["magick", "-size", size, "xc:red", str(path)])
 
 
+def create_test_video(path: Path) -> None:
+    subprocess.run(
+        [
+            "ffmpeg",  # The command-line tool for video processing.
+            "-f",
+            "lavfi",  # Use the `lavfi` input format, which allows generating a test video from filters.
+            "-i",
+            "rgbtestsrc",  # The input is a test video source:
+            #  * `rgbtestsrc`: Built-in color pattern test video generator.
+            "-t",
+            "1",  # Limit the duration of the test video to 1 second.
+            str(path),  # Output file path for the generated video.
+        ],
+        stdout=subprocess.DEVNULL,  # Redirect standard output to /dev/null
+        stderr=subprocess.DEVNULL,  # Redirect standard error to /dev/null
+    )
+
+
 # --- Pytest Fixtures ---
 
 
@@ -24,25 +42,7 @@ def temp_dir():
         yield Path(dir_path)
 
 
-# --- Tests ---
-
-
-def test_convert_jpg_to_avif(temp_dir: Path) -> None:
-    input_file = temp_dir / "test.jpg"
-    create_test_image(input_file, "100x100")
-
-    # Capture stderr for checking later
-    stderr_capture = StringIO()
-    sys.stderr = stderr_capture
-
-    compress.image(input_file)
-
-    avif_file = input_file.with_suffix(".avif")
-    assert avif_file.exists()
-
-    # Check if AVIF file was created
-    output = subprocess.check_output(["file", avif_file]).decode()
-    assert "AVIF" in output
+# --- Image Tests ---
 
 
 @pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
@@ -80,8 +80,8 @@ def test_convert_avif_fails_with_invalid_extension(temp_dir: Path) -> None:
 
 
 def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
-    input_file = temp_dir / "test.jpg"
-    avif_file = input_file.with_suffix(".avif")
+    input_file: Path = temp_dir / "test.jpg"
+    avif_file: Path = input_file.with_suffix(".avif")
     create_test_image(input_file, "100x100")
     avif_file.touch()
 
@@ -92,3 +92,21 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
     sys.stderr = sys.__stderr__
 
     assert "Skipping conversion" in stderr_capture.getvalue()
+
+
+# --- Video Tests ---
+
+
+@pytest.mark.parametrize("video_ext", compress.VIDEO_EXTENSIONS_TO_CONVERT)
+def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
+    input_file: Path = temp_dir / f"test.{video_ext}"
+    create_test_video(input_file)
+    original_size: int = input_file.stat().st_size
+
+    compress.video(input_file)
+
+    webm_file: Path = input_file.with_suffix(".webm")
+    assert webm_file.exists()  # Check if WebM file was created
+    assert (
+        webm_file.stat().st_size < original_size
+    )  # Check if WebM file is smaller
