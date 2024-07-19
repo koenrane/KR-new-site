@@ -133,8 +133,7 @@ def video(video_path: Path, quality: int = QUALITY) -> None:
         )
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error during conversion: {e}") from e
-    finally:
-        # Cleanup after both passes
+    finally:  # Cleanup after both passes
         log_file: Path = Path("ffmpeg2pass-0.log")
         if log_file.exists():
             log_file.unlink()  # Delete the log file
