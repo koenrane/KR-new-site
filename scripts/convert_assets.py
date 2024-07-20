@@ -21,10 +21,16 @@ def get_git_root() -> Path | None:
     )
 
 
+def _content_files() -> tuple[Path, ...]:
+    root = get_git_root()
+    repo = git.Repo(root)
+    files = tuple((root / "content").rglob("*.md")) if root else []
+    return tuple(filter(lambda file: not file in repo.ignored(file), files))
+
+
 R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
 R2_BUCKET_NAME: str = "turntrout"
 GIT_ROOT = get_git_root()
-CONTENT_FILES = list((GIT_ROOT / "content").rglob("*.md")) if GIT_ROOT else []
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
@@ -77,6 +83,22 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     return original_pattern, replacement_pattern
 
 
+def _path_relative_to_quartz(input_file: Path) -> Path:
+    try:
+        # Find the 'quartz' directory in the path
+        quartz_dir = next(
+            parent for parent in input_file.parents if parent.name == "quartz"
+        )
+        # Get the path relative to quartz/static
+        return input_file.relative_to(quartz_dir.parent)
+    except StopIteration:
+        raise ValueError("The path must be within a 'quartz' directory.")
+    except ValueError:
+        raise ValueError(
+            "The path must be within the 'static' subdirectory of 'quartz'."
+        )
+
+
 # Function to handle conversion and optimization of a single file
 def convert_asset(
     input_file: Path,
@@ -93,15 +115,14 @@ def convert_asset(
     """
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
-    if not "quartz/static" in str(input_file):
-        raise ValueError("The path must address quartz/static.")
+    relative_path: Path = _path_relative_to_quartz(input_file)
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         output_file = input_file.with_suffix(".avif")
         compress.image(input_file)
 
-        original_pattern = str(input_file)
-        replacement_pattern = str(output_file)
+        original_pattern = rf"{relative_path}"
+        replacement_pattern = rf"{relative_path.with_suffix('.avif')}"
         print(original_pattern)
         print(replacement_pattern)
 
@@ -116,7 +137,7 @@ def convert_asset(
             f"Error: Unsupported file type '{input_file.suffix}'."
         )
 
-    for md_file in CONTENT_FILES:
+    for md_file in _content_files():
         with open(md_file, "r") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
@@ -156,7 +177,5 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    repo = git.Repo(GIT_ROOT)
-    for file in (GIT_ROOT / "content").glob("**.md"):
-        if not file in repo.ignored(file):
-            convert_asset(file, args.remove_originals, args.strip_metadata)
+    for file in _content_files():
+        convert_asset(file, args.remove_originals, args.strip_metadata)
