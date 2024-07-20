@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from typing import Optional
 import compress
 import subprocess
 from pathlib import Path, PurePath
@@ -21,16 +22,21 @@ def get_git_root() -> Path | None:
     )
 
 
-def _content_files() -> tuple[Path, ...]:
-    root = get_git_root()
-    repo = git.Repo(root)
-    files = tuple((root / "content").rglob("*.md")) if root else []
-    return tuple(filter(lambda file: not file in repo.ignored(file), files))
+def _content_files(replacement_dir: Optional[Path] = None) -> tuple[Path, ...]:
+    if replacement_dir:
+        files = tuple(replacement_dir.rglob("*.md"))
+        return tuple(filter(lambda file: file.is_file(), files))
+    else:
+        root = get_git_root()
+        repo = git.Repo(root)
+        files = tuple((root / "content").rglob("*.md")) if root else tuple()
+        return tuple(
+            filter(lambda file: not file in repo.ignored(file), files)
+        )
 
 
 R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
 R2_BUCKET_NAME: str = "turntrout"
-GIT_ROOT = get_git_root()
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
@@ -89,14 +95,19 @@ def _path_relative_to_quartz(input_file: Path) -> Path:
         quartz_dir = next(
             parent for parent in input_file.parents if parent.name == "quartz"
         )
-        # Get the path relative to quartz/static
+        # Check if the path is within the 'static' subdirectory
+        if not any(
+            parent.name == "static"
+            for parent in input_file.parents
+            if parent != quartz_dir
+        ):
+            raise ValueError(
+                "The path must be within the 'static' subdirectory of 'quartz'."
+            )
+        # Get the path relative to quartz
         return input_file.relative_to(quartz_dir.parent)
     except StopIteration:
         raise ValueError("The path must be within a 'quartz' directory.")
-    except ValueError:
-        raise ValueError(
-            "The path must be within the 'static' subdirectory of 'quartz'."
-        )
 
 
 # Function to handle conversion and optimization of a single file
@@ -104,6 +115,7 @@ def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
     strip_metadata: bool = False,
+    replacement_dir: Optional[Path] = None,
 ) -> None:
     """Converts an image or video to a more efficient format. Replaces
     references in markdown files.
@@ -115,16 +127,19 @@ def convert_asset(
     """
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
+    if replacement_dir and not replacement_dir.is_dir():
+        raise NotADirectoryError(
+            f"Error: Directory '{replacement_dir}' not found."
+        )
+
     relative_path: Path = _path_relative_to_quartz(input_file)
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         output_file = input_file.with_suffix(".avif")
         compress.image(input_file)
 
-        original_pattern = rf"{relative_path}"
-        replacement_pattern = rf"{relative_path.with_suffix('.avif')}"
-        print(original_pattern)
-        print(replacement_pattern)
+        original_pattern = re.escape(str(relative_path))
+        replacement_pattern = str(relative_path.with_suffix(".avif"))
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         output_file = input_file.with_suffix(".webm")
@@ -137,7 +152,7 @@ def convert_asset(
             f"Error: Unsupported file type '{input_file.suffix}'."
         )
 
-    for md_file in _content_files():
+    for md_file in _content_files(replacement_dir=replacement_dir):
         with open(md_file, "r") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
@@ -158,9 +173,6 @@ def convert_asset(
 
 
 if __name__ == "__main__":
-    if not GIT_ROOT:
-        raise RuntimeError("Error: Not in a Git repository.")
-
     # Argument Parsing
     parser = argparse.ArgumentParser()
     parser.add_argument(

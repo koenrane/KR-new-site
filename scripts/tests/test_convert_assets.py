@@ -1,6 +1,6 @@
 import unittest.mock as mock  # Import the mock module
 import pytest
-import pathlib
+from pathlib import Path
 import compress
 import convert_assets
 from . import utils
@@ -21,7 +21,7 @@ def setup_test_env(tmp_path):
         utils.create_test_image(
             tmp_path / "quartz/static" / f"asset{ext}", "32x32"
         )
-        (tmp_path / "content" / "image_text.md").write_text(
+        (tmp_path / "content" / f"{ext.lstrip('.')}.md").write_text(
             f"![](quartz/static/asset{ext})\n"
         )
 
@@ -44,6 +44,7 @@ def setup_test_env(tmp_path):
     (tmp_path / "quartz/static/unsupported.txt").touch()
     # Create file outside of quartz/static
     (tmp_path / "file.png").touch()
+    (tmp_path / "quartz" / "file.png").touch()
 
     yield tmp_path  # Return the temporary directory path
 
@@ -51,15 +52,36 @@ def setup_test_env(tmp_path):
 # --- Tests ---
 
 
+def test_git_root_is_ancestor():
+    # Get the current file's directory (i.e. of this file)
+    current_file_path = Path(__file__).resolve()
+
+    # Get the Git root
+    git_root = convert_assets.get_git_root()
+
+    # Check if git_root is not None
+    assert git_root is not None, "Git root should not be None"
+
+    # Check if git_root is an ancestor of the current file
+    assert current_file_path.is_relative_to(
+        git_root
+    ), f"Git root {git_root} should be an ancestor of {current_file_path}"
+
+
 @pytest.mark.parametrize("ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_image_conversion(ext: str, setup_test_env):
-    asset_path = pathlib.Path(setup_test_env) / "quartz/static" / f"asset{ext}"
-    avif_path = asset_path.with_suffix(".avif")
-    content_path = pathlib.Path(setup_test_env) / "content" / "image_text.md"
+    test_dir = Path(setup_test_env)
+    asset_path: Path = test_dir / "quartz/static" / f"asset{ext}"
+    avif_path: Path = asset_path.with_suffix(".avif")
+    content_path = Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
 
-    convert_assets.convert_asset(asset_path)
+    convert_assets.convert_asset(
+        asset_path, replacement_dir=test_dir / "content"
+    )
 
     assert avif_path.exists()  # Check if AVIF file was created
+
+    # Check that name conversion occurred
     with open(content_path, "r") as f:
         file_content = f.read()
     assert avif_path.name in file_content
@@ -68,12 +90,12 @@ def test_image_conversion(ext: str, setup_test_env):
 
 # @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 # def test_video_conversion(ext: str, setup_test_env):
-#     asset_path: pathlib.Path = (
-#         pathlib.Path(setup_test_env) / "quartz/static" / f"asset{ext}"
+#     asset_path: Path = (
+#         Path(setup_test_env) / "quartz/static" / f"asset{ext}"
 #     )
-#     webm_path: pathlib.Path = asset_path.with_suffix(".webm")
-#     content_path: pathlib.Path = (
-#         pathlib.Path(setup_test_env) / "content" / f"{ext}.md"
+#     webm_path: Path = asset_path.with_suffix(".webm")
+#     content_path: Path = (
+#         Path(setup_test_env) / "content" / f"{ext}.md"
 #     )
 
 #     convert_assets.convert_asset(asset_path)
@@ -103,17 +125,20 @@ def test_image_conversion(ext: str, setup_test_env):
 
 
 def test_remove_original_files(setup_test_env):
-    asset_path = (
-        pathlib.Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
-    )
+    asset_path = Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
+    assert asset_path.exists()
 
-    convert_assets.convert_asset(asset_path, remove_originals=True)
+    convert_assets.convert_asset(
+        asset_path,
+        remove_originals=True,
+        replacement_dir=Path(setup_test_env),
+    )
     assert not asset_path.exists()
 
 
 def test_strip_metadata(setup_test_env):
-    dummy_image: pathlib.Path = (
-        pathlib.Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
+    dummy_image: Path = (
+        Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
     )
     utils.create_test_image(dummy_image, "32x32")
 
@@ -132,7 +157,9 @@ def test_strip_metadata(setup_test_env):
         )
 
     # Convert the image to AVIF
-    convert_assets.convert_asset(dummy_image, strip_metadata=True)
+    convert_assets.convert_asset(
+        dummy_image, strip_metadata=True, replacement_dir=Path(setup_test_env)
+    )
 
     # Read the output of exiftool on the AVIF file and assert that no EXIF data is present
     with mock.patch("subprocess.check_output") as mock_check_output:
@@ -147,7 +174,7 @@ def test_strip_metadata(setup_test_env):
 
 
 def test_ignores_unsupported_file_types(setup_test_env):
-    asset_path = pathlib.Path(setup_test_env) / "quartz/static/unsupported.txt"
+    asset_path = Path(setup_test_env) / "quartz/static/unsupported.txt"
 
     with pytest.raises(ValueError):
         convert_assets.convert_asset(asset_path)
@@ -155,9 +182,7 @@ def test_ignores_unsupported_file_types(setup_test_env):
 
 def test_file_not_found(setup_test_env):
     # Create a path to a non-existent file
-    non_existent_file = (
-        pathlib.Path(setup_test_env) / "quartz/static/non_existent.jpg"
-    )
+    non_existent_file = Path(setup_test_env) / "quartz/static/non_existent.jpg"
 
     # Ensure the file doesn't actually exist
     assert not non_existent_file.exists()
@@ -168,14 +193,56 @@ def test_file_not_found(setup_test_env):
 
 
 def test_ignores_non_quartz_path(setup_test_env):
-    asset_path = pathlib.Path(setup_test_env) / "file.png"
+    asset_path = Path(setup_test_env) / "file.png"
 
     with pytest.raises(ValueError, match="quartz.*directory"):
         convert_assets.convert_asset(asset_path)
 
 
 def test_ignores_non_static_path(setup_test_env):
-    asset_path = pathlib.Path(setup_test_env) / "quartz" / "file.png"
+    asset_path = Path(setup_test_env) / "quartz" / "file.png"
 
     with pytest.raises(ValueError, match="static.*subdirectory"):
         convert_assets.convert_asset(asset_path)
+
+
+import pytest
+from pathlib import Path
+
+
+@pytest.mark.parametrize(
+    "input_path,expected_output",
+    [
+        (
+            "/home/user/projects/quartz/static/images/test.jpg",
+            "quartz/static/images/test.jpg",
+        ),
+        (
+            "/home/user/quartz/projects/quartz/static/css/style.css",
+            "quartz/static/css/style.css",
+        ),
+        ("/quartz/static/js/script.js", "quartz/static/js/script.js"),
+    ],
+)
+def test_valid_paths(input_path, expected_output):
+    assert convert_assets._path_relative_to_quartz(Path(input_path)) == Path(
+        expected_output
+    )
+
+
+@pytest.mark.parametrize(
+    "input_path,error_message",
+    [
+        (
+            "/home/user/projects/other/file.txt",
+            "The path must be within a 'quartz' directory.",
+        ),
+        (
+            "/home/user/projects/quartz/other/file.txt",
+            "The path must be within the 'static' subdirectory of 'quartz'.",
+        ),
+    ],
+)
+def test_invalid_paths(input_path, error_message):
+    with pytest.raises(ValueError, match=error_message):
+        convert_assets._path_relative_to_quartz(Path(input_path))
