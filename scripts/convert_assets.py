@@ -5,34 +5,7 @@ import compress
 import subprocess
 from pathlib import Path, PurePath
 import re
-import git
-
-# pyright: reportPrivateImportUsage = false
-
-
-def get_git_root() -> Path | None:
-    """Returns the absolute path to the top-level directory of the Git repository."""
-    completed_process = subprocess.run(
-        ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
-    )
-    return (
-        Path(completed_process.stdout.strip())
-        if completed_process.returncode == 0
-        else None
-    )
-
-
-def _content_files(replacement_dir: Optional[Path] = None) -> tuple[Path, ...]:
-    if replacement_dir:
-        files = tuple(replacement_dir.rglob("*.md"))
-        return tuple(filter(lambda file: file.is_file(), files))
-    else:
-        root = get_git_root()
-        repo = git.Repo(root)
-        files = tuple((root / "content").rglob("*.md")) if root else tuple()
-        return tuple(
-            filter(lambda file: not file in repo.ignored(file), files)
-        )
+import utils as script_utils
 
 
 R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
@@ -89,27 +62,6 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     return original_pattern, replacement_pattern
 
 
-def _path_relative_to_quartz(input_file: Path) -> Path:
-    try:
-        # Find the 'quartz' directory in the path
-        quartz_dir = next(
-            parent for parent in input_file.parents if parent.name == "quartz"
-        )
-        # Check if the path is within the 'static' subdirectory
-        if not any(
-            parent.name == "static"
-            for parent in input_file.parents
-            if parent != quartz_dir
-        ):
-            raise ValueError(
-                "The path must be within the 'static' subdirectory of 'quartz'."
-            )
-        # Get the path relative to quartz
-        return input_file.relative_to(quartz_dir.parent)
-    except StopIteration:
-        raise ValueError("The path must be within a 'quartz' directory.")
-
-
 # Function to handle conversion and optimization of a single file
 def convert_asset(
     input_file: Path,
@@ -132,7 +84,7 @@ def convert_asset(
             f"Error: Directory '{replacement_dir}' not found."
         )
 
-    relative_path: Path = _path_relative_to_quartz(input_file)
+    relative_path: Path = script_utils.path_relative_to_quartz(input_file)
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         output_file = input_file.with_suffix(".avif")
@@ -152,7 +104,9 @@ def convert_asset(
             f"Error: Unsupported file type '{input_file.suffix}'."
         )
 
-    for md_file in _content_files(replacement_dir=replacement_dir):
+    for md_file in script_utils.get_files(
+        replacement_dir, filetypes_to_match=(".md",)
+    ):
         with open(md_file, "r") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
@@ -167,13 +121,11 @@ def convert_asset(
             stderr=subprocess.DEVNULL,
         )
 
-    # Remove Original
     if remove_originals:
-        input_file.unlink()  # Safely remove the original file
+        input_file.unlink()
 
 
 if __name__ == "__main__":
-    # Argument Parsing
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-r",
@@ -189,5 +141,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    for file in _content_files():
-        convert_asset(file, args.remove_originals, args.strip_metadata)
+    for asset in script_utils.get_files(
+        filetypes_to_match=compress.ALLOWED_EXTENSIONS
+    ):
+        convert_asset(asset, args.remove_originals, args.strip_metadata)

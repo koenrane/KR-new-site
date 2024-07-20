@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import shutil
-import sys
+import utils as script_utils
 import argparse
 import subprocess
 from pathlib import Path, PurePath
@@ -41,7 +41,8 @@ def upload_and_move(
         raise ValueError("Error: File path does not contain 'quartz/'.")
     if not file_path.is_file():
         raise FileNotFoundError(f"Error: File not found: {file_path}")
-    r2_key: str = _get_r2_key(file_path)
+    relative_path = script_utils.path_relative_to_quartz(file_path)
+    r2_key: str = _get_r2_key(relative_path)
 
     if verbose:
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
@@ -57,7 +58,9 @@ def upload_and_move(
     if verbose:
         print(f'Changing "{file_path}" references to {R2_BASE_URL / r2_key}')
 
-    # update_references(file, R2_BASE_URL / r2_key)
+    # Update references in markdown files TODO finish
+
+    # (file_path, R2_BASE_URL / r2_key)
 
     if move_to_dir:
         if verbose:

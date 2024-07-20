@@ -52,6 +52,10 @@ ALLOWED_VIDEO_EXTENSIONS: Collection[str] = (
     ".mpeg",
 )
 
+ALLOWED_EXTENSIONS: Collection[str] = (
+    ALLOWED_IMAGE_EXTENSIONS + ALLOWED_VIDEO_EXTENSIONS
+)
+
 
 def video(video_path: Path, quality: int = QUALITY) -> None:
     """Converts a video to WebM format using ffmpeg.
