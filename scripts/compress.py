@@ -45,11 +45,11 @@ def image(image_path: Path, quality: int = QUALITY) -> None:
 
 
 ALLOWED_VIDEO_EXTENSIONS: Collection[str] = (
-    "gif",
-    "mov",
-    "mp4",
-    "avi",
-    "mpeg",
+    ".gif",
+    ".mov",
+    ".mp4",
+    ".avi",
+    ".mpeg",
 )
 
 
@@ -63,11 +63,9 @@ def video(video_path: Path, quality: int = QUALITY) -> None:
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
-    file_extension: str = video_path.suffix.lstrip(".")
-
-    if file_extension not in ALLOWED_VIDEO_EXTENSIONS:
+    if video_path.suffix not in ALLOWED_VIDEO_EXTENSIONS:
         raise ValueError(
-            f"Error: Unsupported file type '{file_extension}'. Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
+            f"Error: Unsupported file type '{video_path.suffix}'. Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
         )
 
     webm_path: Path = video_path.with_suffix(".webm")

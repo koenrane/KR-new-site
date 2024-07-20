@@ -5,16 +5,14 @@ from . import utils
 import sys
 from io import StringIO
 
-# --- Helper Functions ---
-
-
 # --- Image Tests ---
 
 
 @pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_avif_file_size_reduction(temp_dir: Path, image_ext: str) -> None:
     """Assert that AVIF files are less than the size of originals."""
-    input_file = temp_dir / f"test.{image_ext}"
+    input_file = temp_dir / f"test{image_ext}"
+    print(input_file)
     utils.create_test_image(input_file, "100x100")
     original_size = input_file.stat().st_size
 
@@ -65,7 +63,7 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
 
 @pytest.mark.parametrize("video_ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
-    input_file: Path = temp_dir / f"test.{video_ext}"
+    input_file: Path = temp_dir / f"test{video_ext}"
     utils.create_test_video(input_file)
     original_size: int = input_file.stat().st_size
 
