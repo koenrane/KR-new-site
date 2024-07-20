@@ -3,7 +3,8 @@ import pytest
 from pathlib import Path
 import compress
 import convert_assets
-from . import utils
+from . import utils as test_utils
+from .. import utils as script_utils
 import subprocess
 
 
@@ -18,7 +19,7 @@ def setup_test_env(tmp_path):
 
     # Create image assets for testing and add reference to markdown file
     for ext in compress.ALLOWED_IMAGE_EXTENSIONS:
-        utils.create_test_image(
+        test_utils.create_test_image(
             tmp_path / "quartz/static" / f"asset{ext}", "32x32"
         )
         (tmp_path / "content" / f"{ext.lstrip('.')}.md").write_text(
@@ -27,7 +28,9 @@ def setup_test_env(tmp_path):
 
     # Create video assets for testing and add references to markdown files
     for ext in compress.ALLOWED_VIDEO_EXTENSIONS:
-        utils.create_test_video(tmp_path / "quartz/static" / f"asset{ext}")
+        test_utils.create_test_video(
+            tmp_path / "quartz/static" / f"asset{ext}"
+        )
         with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "w") as file:
             file.write(f"![](quartz/static/asset{ext})\n")
             file.write(f"[[quartz/static/asset{ext}]]\n")
@@ -52,22 +55,6 @@ def setup_test_env(tmp_path):
 # --- Tests ---
 
 
-def test_git_root_is_ancestor():
-    # Get the current file's directory (i.e. of this file)
-    current_file_path = Path(__file__).resolve()
-
-    # Get the Git root
-    git_root = convert_assets.get_git_root()
-
-    # Check if git_root is not None
-    assert git_root is not None, "Git root should not be None"
-
-    # Check if git_root is an ancestor of the current file
-    assert current_file_path.is_relative_to(
-        git_root
-    ), f"Git root {git_root} should be an ancestor of {current_file_path}"
-
-
 @pytest.mark.parametrize("ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_image_conversion(ext: str, setup_test_env):
     test_dir = Path(setup_test_env)
@@ -88,6 +75,7 @@ def test_image_conversion(ext: str, setup_test_env):
     assert asset_path.exists()
 
 
+# TODO finish these
 # @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 # def test_video_conversion(ext: str, setup_test_env):
 #     asset_path: Path = (
@@ -140,7 +128,7 @@ def test_strip_metadata(setup_test_env):
     dummy_image: Path = (
         Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
     )
-    utils.create_test_image(dummy_image, "32x32")
+    test_utils.create_test_image(dummy_image, "32x32")
 
     # Simulate adding metadata using exiftool
     with mock.patch("subprocess.run") as mock_exiftool:
@@ -225,7 +213,7 @@ from pathlib import Path
     ],
 )
 def test_valid_paths(input_path, expected_output):
-    assert convert_assets._path_relative_to_quartz(Path(input_path)) == Path(
+    assert script_utils.path_relative_to_quartz(Path(input_path)) == Path(
         expected_output
     )
 
@@ -245,4 +233,4 @@ def test_valid_paths(input_path, expected_output):
 )
 def test_invalid_paths(input_path, error_message):
     with pytest.raises(ValueError, match=error_message):
-        convert_assets._path_relative_to_quartz(Path(input_path))
+        script_utils.path_relative_to_quartz(Path(input_path))
