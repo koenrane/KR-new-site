@@ -93,7 +93,6 @@ def convert_asset(
     """
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
-
     if not "quartz/static" in str(input_file):
         raise ValueError("The path must address quartz/static.")
 

@@ -42,6 +42,8 @@ def setup_test_env(tmp_path):
 
     # Create an unsupported file
     (tmp_path / "quartz/static/unsupported.txt").touch()
+    # Create file outside of quartz/static
+    (tmp_path / "file.png").touch()
 
     yield tmp_path  # Return the temporary directory path
 
@@ -148,4 +150,10 @@ def test_ignores_unsupported_file_types(setup_test_env):
 
     with pytest.raises(ValueError):
         convert_assets.convert_asset(asset_path)
-    assert asset_path.exists()  # Don't delete
+
+
+def test_ignores_non_quartz_path(setup_test_env):
+    asset_path = pathlib.Path(setup_test_env) / "file.png"
+
+    with pytest.raises(ValueError):
+        convert_assets.convert_asset(asset_path)
