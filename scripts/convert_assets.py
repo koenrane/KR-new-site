@@ -3,7 +3,7 @@ import argparse
 from typing import Optional
 import compress
 import subprocess
-from pathlib import Path, PurePath
+from pathlib import Path
 import re
 import git
 
@@ -33,10 +33,6 @@ def _content_files(replacement_dir: Optional[Path] = None) -> tuple[Path, ...]:
         return tuple(
             filter(lambda file: not file in repo.ignored(file), files)
         )
-
-
-R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
-R2_BUCKET_NAME: str = "turntrout"
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
