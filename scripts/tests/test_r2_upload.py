@@ -5,6 +5,9 @@ import subprocess
 from .. import r2_upload
 
 
+# Fixtures
+
+
 @pytest.fixture()
 def r2_cleanup():
     uploaded_files = []
@@ -14,6 +17,9 @@ def r2_cleanup():
             ["rclone", "delete", f"r2:{r2_upload.R2_BUCKET_NAME}/{file}"],
             check=True,
         )
+
+
+# Tests
 
 
 def test_upload_to_r2_success(temp_dir, r2_cleanup):
@@ -107,3 +113,32 @@ def test_main_function(temp_dir, capsys, args: list[str], expected_exception):
                 r2_upload.main()
         else:
             r2_upload.main()
+
+
+def test_verbose_output(temp_dir, capsys):
+    file_path = temp_dir / "quartz" / "static" / "test_verbose.jpg"
+    file_path.parent.mkdir(parents=True)
+    file_path.touch()
+
+    with patch("subprocess.run"):  # Mock subprocess.run to avoid actual upload
+        r2_upload.upload_and_move(
+            file_path, verbose=True, move_to_dir=temp_dir
+        )
+
+    captured = capsys.readouterr()
+    assert f"Uploading {file_path}" in captured.out
+    assert "Changing" in captured.out
+    assert "Moving original file" in captured.out
+
+
+def test_main_function_success(temp_dir, capsys):
+    file_path = temp_dir / "quartz" / "static" / "test_main.jpg"
+    file_path.parent.mkdir(parents=True)
+    file_path.touch()
+
+    with patch("sys.argv", ["r2_upload.py", str(file_path)]):
+        with patch("r2_upload.upload_and_move"):  # Mock to avoid actual upload
+            r2_upload.main()
+
+    captured = capsys.readouterr()
+    assert "Error" not in captured.out  # No error message should be printed

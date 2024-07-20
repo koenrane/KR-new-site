@@ -7,7 +7,6 @@ from pathlib import Path, PurePath
 import re
 from typing import Optional
 
-# Constants
 R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
 R2_BUCKET_NAME: str = "turntrout"
 R2_MEDIA_DIR: Path = Path("$HOME/Downloads/website-media-r2")
@@ -81,15 +80,11 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.file.is_file():
-        try:
-            upload_and_move(
-                args.file,
-                verbose=args.verbose,
-                move_to_dir=args.move_to_dir,
-            )
-        except Exception as e:
-            print(f"Error: {e}")
-            sys.exit(1)
+        upload_and_move(
+            args.file,
+            verbose=args.verbose,
+            move_to_dir=args.move_to_dir,
+        )
     else:
         raise FileNotFoundError(f"Error: File not found: {args.file}")
 
