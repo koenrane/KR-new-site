@@ -29,38 +29,49 @@ CONTENT_FILES = list((GIT_ROOT / "content").rglob("*.md")) if GIT_ROOT else []
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
     """Returns the original and replacement patterns for video files."""
-    # Create patterns for markdown link types: ![](link), [[link]],
-    # and <img> or <video> tags
-    link_pattern: str = rf"(?P<link>[^\)]*)"
-    # ![](link)
+    # Function to create unique named capture groups for different link patterns
+    link_pattern_fn = lambda tag: rf"(?P<link_{tag}>[^\)]*)"
+
+    # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern}{input_file.stem}\.{input_file.suffix}\)"
+        rf"\!?\[\]\({link_pattern_fn('parens')}{input_file.stem}\.{input_file.suffix}\)"
     )
 
-    # [[link]]
+    # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern}{input_file.stem}\.{input_file.suffix}\]\]"
+        rf"\!?\[\[{link_pattern_fn('brackets')}{input_file.stem}\.{input_file.suffix}\]\]"
     )
 
-    if input_file.suffix == ".gif":  # Handle GIFs differently
+    # Link pattern for HTML tags
+    tag_link_pattern: str = link_pattern_fn("tag")
+
+    if input_file.suffix == ".gif":
+        # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
-            rf'<img (?P<earlyTagInfo>[^>]*)src="{link_pattern}{input_file.stem}\.gif"(?P<tagInfo>[^>]*)\/?>'
+            rf'<img (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}\.gif"(?P<tagInfo>[^>]*)\/?>'
         )
     else:
+        # Pattern for <video> tags (used for other video formats)
         tag_pattern: str = (
-            rf'<video (?P<earlyTagInfo>[^>]*)src="{link_pattern}{input_file.stem}\.{input_file.suffix}"(?P<tagInfo>.*)(?:type="video/{input_file.suffix}")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>'
+            rf'<video (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}\.{input_file.suffix}"(?P<tagInfo>.*)(?:type="video/{input_file.suffix}")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>'
         )
 
+    # Combine all patterns into one, separated by '|' (OR)
     original_pattern: str = (
         rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
     )
+
+    # Combine all possible link capture groups
+    all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
+
+    # Convert to .webm video
     if input_file.suffix == ".gif":
         replacement_pattern: str = (
-            rf'<video autoplay loop muted playsinline src="\g<link>{input_file.stem}.webm"\g<earlyTagInfo>\g<tagInfo> type="video/webm"><source src="\g<link>{input_file.stem}.webm"></video>'
+            rf'<video autoplay loop muted playsinline src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo>\g<tagInfo> type="video/webm"><source src="{all_links}{input_file.stem}.webm"></video>'
         )
     else:
         replacement_pattern: str = (
-            rf'<video src="\g<link>{input_file.stem}.webm"\g<earlyTagInfo> type="video/webm"\g<tagInfo>\g<endVideoTagInfo/>'
+            rf'<video src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo> type="video/webm"\g<tagInfo>\g<endVideoTagInfo>/>'
         )
 
     return original_pattern, replacement_pattern
@@ -83,12 +94,17 @@ def convert_asset(
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
+    if not "quartz/static" in str(input_file):
+        raise ValueError("The path must address quartz/static.")
+
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         output_file = input_file.with_suffix(".avif")
         compress.image(input_file)
 
         original_pattern = str(input_file)
         replacement_pattern = str(output_file)
+        print(original_pattern)
+        print(replacement_pattern)
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         output_file = input_file.with_suffix(".webm")
@@ -118,7 +134,7 @@ def convert_asset(
 
     # Remove Original
     if remove_originals:
-        output_file.unlink()  # Safely remove the original file
+        input_file.unlink()  # Safely remove the original file
 
 
 if __name__ == "__main__":
