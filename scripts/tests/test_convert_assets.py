@@ -76,40 +76,40 @@ def test_image_conversion(ext: str, setup_test_env):
 
 
 # TODO finish these
-# @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
-# def test_video_conversion(ext: str, setup_test_env):
-#     asset_path: Path = (
-#         Path(setup_test_env) / "quartz/static" / f"asset{ext}"
-#     )
-#     webm_path: Path = asset_path.with_suffix(".webm")
-#     content_path: Path = (
-#         Path(setup_test_env) / "content" / f"{ext}.md"
-#     )
+@pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
+def test_video_conversion(ext: str, setup_test_env):
+    asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset{ext}"
+    webm_path: Path = asset_path.with_suffix(".webm")
+    content_path: Path = (
+        Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
+    )
 
-#     convert_assets.convert_asset(asset_path)
+    convert_assets.convert_asset(
+        asset_path, replacement_dir=Path(setup_test_env)
+    )
 
-#     assert webm_path.exists()
-#     with open(content_path, "r") as f:
-#         file_content: str = f.read()
+    assert webm_path.exists()
+    with open(content_path, "r") as f:
+        file_content: str = f.read()
 
-#     if ext == "gif":
-#         assert (
-#             '<video autoplay loop muted playsinline src="quartz/static/asset.webm" type="video/webm"><source src="quartz/static/asset.webm"></video>'
-#             in file_content
-#         )
-#         assert (
-#             '<video autoplay loop muted playsinline src="quartz/static/asset.webm" alt="shrek" type="video/webm"><source src="quartz/static/asset.webm"></video>'
-#             in file_content
-#         )
-#     else:
-#         assert (
-#             '<video src="quartz/static/asset.webm" type="video/webm"/>'
-#             in file_content
-#         )
-#         assert (
-#             '<video src="quartz/static/asset.webm" type="video/webm" alt="shrek"/>'
-#             in file_content
-#         )
+    if ext == ".gif":
+        assert (
+            '<video autoplay loop muted playsinline src="quartz/static/asset.webm" type="video/webm"><source src="quartz/static/asset.webm"></video>'
+            in file_content
+        )
+        assert (
+            '<video autoplay loop muted playsinline src="quartz/static/asset.webm" alt="shrek" type="video/webm"><source src="quartz/static/asset.webm"></video>'
+            in file_content
+        )
+    else:
+        assert (
+            '<video src="quartz/static/asset.webm" type="video/webm"/>'
+            in file_content
+        )
+        assert (
+            '<video src="quartz/static/asset.webm" type="video/webm" alt="shrek"/>'
+            in file_content
+        )
 
 
 def test_remove_original_files(setup_test_env):
