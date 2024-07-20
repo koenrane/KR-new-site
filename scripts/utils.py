@@ -34,21 +34,21 @@ def get_files(
         tuple[Path, ...]: A tuple of all matching files in the content directory of the
             Git repository. Filters out ignored files if a Git repository is found.
     """
-    filetype_pattern: str = f"*.({'|'.join(filetypes_to_match)})"
-    if replacement_dir:
-        files = tuple(replacement_dir.rglob(filetype_pattern))
-        return tuple(filter(lambda file: file.is_file(), files))
-    else:
+    repo = None
+    if not replacement_dir:
         root = get_git_root()
+        if not root:
+            raise FileNotFoundError("No Git repository found.")
         repo = git.Repo(root)
-        files = (
-            tuple((root / "content").rglob(filetype_pattern))
-            if root
-            else tuple()
-        )
-        return tuple(
+        replacement_dir = root / "content"
+    files = []
+    for filetype in filetypes_to_match:
+        files.extend(replacement_dir.rglob(f"*.{filetype}"))
+    if repo:
+        files = list(
             filter(lambda file: not file in repo.ignored(file), files)
         )
+    return tuple(files)
 
 
 def path_relative_to_quartz(input_file: Path) -> Path:
