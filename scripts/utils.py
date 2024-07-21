@@ -21,6 +21,7 @@ def get_git_root() -> Path | None:
 def get_files(
     replacement_dir: Optional[Path] = None,
     filetypes_to_match: Collection[str] = ("md",),
+    use_git_ignore: bool = True,
 ) -> tuple[Path, ...]:
     """Returns a tuple of all files in the content directory of the Git
     repository.
@@ -34,20 +35,19 @@ def get_files(
         tuple[Path, ...]: A tuple of all matching files in the content directory of the
             Git repository. Filters out ignored files if a Git repository is found.
     """
-    repo = None
-    if not replacement_dir:
-        root = get_git_root()
-        if not root:
-            raise FileNotFoundError("No Git repository found.")
-        repo = git.Repo(root)
-        replacement_dir = root / "content"
     files = []
-    for filetype in filetypes_to_match:
-        files.extend(replacement_dir.rglob(f"*.{filetype}"))
-    if repo:
-        files = list(
-            filter(lambda file: not file in repo.ignored(file), files)
-        )
+    if replacement_dir is not None:
+        for filetype in filetypes_to_match:
+            files.extend(replacement_dir.rglob(f"*.{filetype}"))
+        if use_git_ignore:
+            try:
+                root = get_git_root()
+                repo = git.Repo(root)
+                files = list(
+                    filter(lambda file: not file in repo.ignored(file), files)
+                )
+            except git.GitCommandError:
+                pass  # Ignore errors
     return tuple(files)
 
 

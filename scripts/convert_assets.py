@@ -142,6 +142,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     for asset in script_utils.get_files(
-        filetypes_to_match=compress.ALLOWED_EXTENSIONS
+        filetypes_to_match=compress.ALLOWED_EXTENSIONS,
     ):
         convert_asset(asset, args.remove_originals, args.strip_metadata)
