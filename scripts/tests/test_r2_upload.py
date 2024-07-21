@@ -171,12 +171,8 @@ def test_verbose_output(temp_dir, capsys):
     assert "Moving original file" in captured.out
 
 
-def test_main_function_success(temp_dir, capsys):
-    file_path = temp_dir / "quartz" / "static" / "test_main.jpg"
-    file_path.parent.mkdir(parents=True)
-    file_path.touch()
-
-    with patch("sys.argv", ["r2_upload.py", str(file_path)]):
+def test_main_function_success(test_files, capsys):
+    with patch("sys.argv", ["r2_upload.py", str(test_files[0])]):
         with patch("r2_upload.upload_and_move"):  # Mock to avoid actual upload
             r2_upload.main()
 

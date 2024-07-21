@@ -90,6 +90,7 @@ def main() -> None:
         "-m",
         "--move-to-dir",
         type=Path,
+        default=None,
         help="Move file to directory after upload",
     )
     parser.add_argument(
