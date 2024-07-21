@@ -19,6 +19,43 @@ def r2_cleanup():
         )
 
 
+@pytest.fixture
+def test_files(temp_dir):
+    quartz_dir = temp_dir / "quartz"
+    content_dir = quartz_dir / "content"
+    static_dir = quartz_dir / "static"
+    content_dir.mkdir(parents=True)
+    static_dir.mkdir(parents=True)
+
+    test_image = static_dir / "test.jpg"
+    test_image.touch()
+
+    md_files = [
+        (
+            content_dir / "test1.md",
+            "Here's an image: ![](quartz/static/test.jpg)",
+        ),
+        (
+            content_dir / "test2.md",
+            "Multiple images: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)",
+        ),
+        (
+            content_dir / "patterns.md",
+            """
+        Standard: ![](quartz/static/test.jpg)
+        Multiple: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)
+        No match: ![](quartz/static/other.jpg)
+        Inline: This is an inline ![](quartz/static/test.jpg) image.
+        """,
+        ),
+    ]
+
+    for file_path, content in md_files:
+        file_path.write_text(content)
+
+    return test_image, content_dir, md_files
+
+
 # Tests
 
 
@@ -106,6 +143,7 @@ def test_main_function(temp_dir, capsys, args: list[str], expected_exception):
             arg.replace("quartz/static/test.jpg", str(file_path))
             for arg in args
         ]
+        args = ["--replacement-dir", str(temp_dir)] + args
 
     with patch("sys.argv", ["r2_upload.py"] + args):
         if expected_exception:
@@ -122,7 +160,9 @@ def test_verbose_output(temp_dir, capsys):
 
     with patch("subprocess.run"):  # Mock subprocess.run to avoid actual upload
         r2_upload.upload_and_move(
-            file_path, verbose=True, move_to_dir=temp_dir
+            file_path,
+            verbose=True,
+            move_to_dir=temp_dir,
         )
 
     captured = capsys.readouterr()
@@ -142,3 +182,62 @@ def test_main_function_success(temp_dir, capsys):
 
     captured = capsys.readouterr()
     assert "Error" not in captured.out  # No error message should be printed
+
+
+def _assert_file_uploaded(file_key):
+    assert subprocess.run(
+        ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/{file_key}"],
+        capture_output=True,
+        text=True,
+    ).stdout
+
+
+def test_upload_and_move(test_files, temp_dir, r2_cleanup):
+    test_image, content_dir, md_files = test_files
+    move_to_dir = temp_dir / "moved"
+    move_to_dir.mkdir()
+
+    r2_upload.upload_and_move(
+        test_image,
+        replacement_dir=content_dir,
+        move_to_dir=move_to_dir,
+    )
+    r2_cleanup.append("static/test.jpg")
+
+    _assert_file_uploaded("static/test.jpg")
+    assert (move_to_dir / "test.jpg").exists()
+    assert not test_image.exists()
+
+    expected_contents = [
+        "Here's an image: ![](https://assets.turntrout.com/static/test.jpg)",
+        "Multiple images: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)",
+        """
+        Standard: ![](https://assets.turntrout.com/static/test.jpg)
+        Multiple: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)
+        No match: ![](quartz/static/other.jpg)
+        Inline: This is an inline ![](https://assets.turntrout.com/static/test.jpg) image.
+        """,
+    ]
+
+    for (file_path, _), expected_content in zip(md_files, expected_contents):
+        assert file_path.read_text().strip() == expected_content.strip()
+
+
+def test_upload_and_move_no_replacement(test_files, temp_dir, r2_cleanup):
+    test_image, _, md_files = test_files
+    move_to_dir = temp_dir / "moved"
+    move_to_dir.mkdir()
+    empty_dir = temp_dir / "empty"
+    empty_dir.mkdir()
+
+    r2_upload.upload_and_move(
+        test_image, replacement_dir=empty_dir, move_to_dir=move_to_dir
+    )
+    r2_cleanup.append("static/test.jpg")
+
+    _assert_file_uploaded("static/test.jpg")
+    assert (move_to_dir / "test.jpg").exists()
+    assert not test_image.exists()
+
+    for file_path, original_content in md_files:
+        assert file_path.read_text().strip() == original_content.strip()
