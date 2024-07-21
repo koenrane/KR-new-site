@@ -3,9 +3,9 @@ import shutil
 import utils as script_utils
 import argparse
 import subprocess
-from pathlib import Path, PurePath
+from pathlib import Path
 import re
-from typing import Optional
+from typing import Optional, Sequence
 
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
@@ -56,17 +56,20 @@ def upload_and_move(
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}")
 
+    # Update references in markdown files
+    relative_original_path: Path = script_utils.path_relative_to_quartz(
+        file_path
+    )
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
     if verbose:
-        print(f'Changing "{file_path}" references to {r2_address}')
-
-    # Update references in markdown files
-    replacement_path: Path = script_utils.path_relative_to_quartz(file_path)
-    for text_file_path in script_utils.get_files(replacement_dir, ("md",)):
+        print(
+            f'Changing "{relative_original_path}" references to "{r2_address}"'
+        )
+    for text_file_path in script_utils.get_files(replacement_dir, (".md",)):
         with open(text_file_path, "r") as f:
             file_content: str = f.read()
         new_content: str = re.sub(
-            str(replacement_path), r2_address, file_content
+            str(relative_original_path), r2_address, file_content
         )
         with open(text_file_path, "w") as f:
             f.write(new_content)
@@ -96,17 +99,40 @@ def main() -> None:
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Enable verbose output"
     )
-    parser.add_argument("file", type=Path, help="File to upload")
+    parser.add_argument(
+        "-a",
+        "--all-asset-dir",  # TODO clarify name
+        type=Path,
+        default=None,
+        help="Upload all files of specified types to the given asset directory",
+    )
+    parser.add_argument(
+        "-t",
+        "--filetypes",
+        nargs="+",
+        default=(".webm", ".svg", ".avif"),
+        help="File types to upload when using --all (default: .webm .svg .avif)",
+    )
+    parser.add_argument("file", type=Path, nargs="?", help="File to upload")
     args = parser.parse_args()
 
-    if args.file.is_file():
+    if args.all_asset_dir:
+        files_to_upload: Sequence[Path] = script_utils.get_files(
+            args.all_asset_dir,
+            args.filetypes,
+        )
+    elif args.file:
+        files_to_upload: Sequence[Path] = [args.file]
+    else:
+        parser.error("Either --all-asset-dir or a file must be specified")
+
+    for file_to_upload in files_to_upload:
         upload_and_move(
-            args.file,
+            file_to_upload,
             verbose=args.verbose,
+            replacement_dir=args.replacement_dir,
             move_to_dir=args.move_to_dir,
         )
-    else:
-        raise FileNotFoundError(f"Error: File not found: {args.file}")
 
 
 if __name__ == "__main__":

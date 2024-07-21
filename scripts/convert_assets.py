@@ -105,7 +105,7 @@ def convert_asset(
         )
 
     for md_file in script_utils.get_files(
-        replacement_dir, filetypes_to_match=("md",)
+        replacement_dir, filetypes_to_match=(".md",)
     ):
         with open(md_file, "r") as file:
             content = file.read()
