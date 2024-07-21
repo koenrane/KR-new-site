@@ -1,8 +1,8 @@
 import unittest.mock as mock  # Import the mock module
 import pytest
 from pathlib import Path
-import compress
-import convert_assets
+from .. import compress
+from .. import convert_assets
 from . import utils as test_utils
 from .. import utils as script_utils
 import subprocess
