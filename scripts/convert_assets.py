@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 import argparse
-from os import replace
 from typing import Optional
-import compress
 import subprocess
 from pathlib import Path
 import re
-import utils as script_utils
+
+try:
+    from . import compress
+    from . import utils as script_utils
+except ImportError:
+    import compress
+    import utils as script_utils
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
@@ -129,13 +133,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-r",
-        "--remove_originals",
+        "--remove-originals",
         action="store_true",
         help="Remove original files after conversion",
     )
     parser.add_argument(
         "-s",
-        "--strip_metadata",
+        "--strip-metadata",
         action="store_true",
         help="Strip metadata from converted files",
     )

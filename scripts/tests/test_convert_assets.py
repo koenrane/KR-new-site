@@ -1,8 +1,8 @@
 import unittest.mock as mock  # Import the mock module
 import pytest
 from pathlib import Path
-import compress
-import convert_assets
+from .. import compress
+from .. import convert_assets
 from . import utils as test_utils
 from .. import utils as script_utils
 import subprocess
@@ -193,10 +193,6 @@ def test_ignores_non_static_path(setup_test_env):
 
     with pytest.raises(ValueError, match="static.*subdirectory"):
         convert_assets.convert_asset(asset_path)
-
-
-import pytest
-from pathlib import Path
 
 
 @pytest.mark.parametrize(
