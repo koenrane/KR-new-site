@@ -195,10 +195,6 @@ def test_ignores_non_static_path(setup_test_env):
         convert_assets.convert_asset(asset_path)
 
 
-import pytest
-from pathlib import Path
-
-
 @pytest.mark.parametrize(
     "input_path,expected_output",
     [
