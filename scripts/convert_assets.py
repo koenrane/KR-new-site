@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-from os import replace
 from typing import Optional
 import compress
 import subprocess

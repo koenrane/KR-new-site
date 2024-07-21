@@ -1,7 +1,7 @@
 import pytest
 import subprocess
 from pathlib import Path
-from typing import Optional, Collection
+from typing import Optional
 from .. import utils as script_utils
 
 # pyright: reportPrivateImportUsage = false
