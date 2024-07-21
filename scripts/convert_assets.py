@@ -30,7 +30,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
-            rf"<img (?P<earlyTagInfo>[^>]*)src=\"{tag_link_pattern}{input_file.stem}gif\"(?P<tagInfo>[^>]*)\/?>"
+            rf'<img (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}\.gif"(?P<tagInfo>[^>]*)\/?>'
         )
     else:
         # Pattern for <video> tags (used for other video formats)
@@ -55,8 +55,9 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         replacement_pattern: str = (
             rf'<video src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo> type="video/webm"\g<tagInfo>\g<endVideoTagInfo>/>'
         )
-    print(f"Original pattern: {original_pattern}\n")
-    print(f"Replacement pattern: {replacement_pattern}\n")
+    if input_file.suffix == ".gif":
+        print(f"Original pattern: {original_pattern}\n")
+        print(f"Replacement pattern: {replacement_pattern}\n")
 
     return original_pattern, replacement_pattern
 

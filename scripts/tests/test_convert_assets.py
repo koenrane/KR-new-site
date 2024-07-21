@@ -31,17 +31,17 @@ def setup_test_env(tmp_path):
         test_utils.create_test_video(
             tmp_path / "quartz/static" / f"asset{ext}"
         )
-        with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "w") as file:
+        with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "a") as file:
             file.write(f"![](quartz/static/asset{ext})\n")
             file.write(f"[[quartz/static/asset{ext}]]\n")
-            if ext != "gif":
+            if ext != ".gif":
                 file.write(
                     f'<video src="quartz/static/asset{ext}" alt="shrek"/>\n'
                 )
 
     # Special handling for GIF file in markdown
-    with open(tmp_path / "content" / "gif.md", "w") as file:
-        file.write('<img src="quartz/static/asset.gif" alt="shrek">\n')
+    with open(tmp_path / "content" / "gif.md", "a") as file:
+        file.write('<img src="quartz/static/asset.gif" alt="shrek">')
 
     # Create an unsupported file
     (tmp_path / "quartz/static/unsupported.txt").touch()
@@ -75,7 +75,6 @@ def test_image_conversion(ext: str, setup_test_env):
     assert asset_path.exists()
 
 
-# TODO finish these
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 def test_video_conversion(ext: str, setup_test_env):
     asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset{ext}"
@@ -83,6 +82,8 @@ def test_video_conversion(ext: str, setup_test_env):
     content_path: Path = (
         Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
     )
+    with open(content_path, "r") as f:
+        file_content: str = f.read()
 
     convert_assets.convert_asset(
         asset_path, replacement_dir=Path(setup_test_env)
