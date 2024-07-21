@@ -2,7 +2,7 @@
 
 function cleanup {
     if [[ $STASHED_CHANGES -eq 1 ]]; then
-        git stash pop
+        git stash pop >>/dev/null
     fi
     if $SERVER_STARTED; then
         kill -TERM $SERVER_PID
@@ -23,7 +23,7 @@ cd "$GIT_ROOT"
 
 # Stash any changes, because we will auto-commit later
 PREV_NUM_STASHES=$(git stash list | wc -l)
-git stash push --include-untracked
+git stash push --include-untracked >>/dev/null
 # Check if anything was stashed
 STASHED_CHANGES=$([[ $(git stash list | wc -l) -gt $PREV_NUM_STASHES ]] && echo 1 || echo 0)
 
@@ -32,8 +32,6 @@ trap 'cleanup' EXIT
 # Check that unit tests pass
 # Run jest tests
 npm run test
-# Run fish tests
-fish -c "fishtape \"$GIT_ROOT\"/scripts/**.test.fish"
 
 # Run spellcheck on all markdown files
 TEMP_DICT="/tmp/candidate_wordlist.txt"
@@ -56,11 +54,12 @@ set -e
 
 echo "\033[0;32mSpellcheck passed\033[0m" # In green
 
+# Check that conversion+uploading tests pass
+python -m pytest "$GIT_ROOT"/scripts/tests
 # Convert images to AVIF format, mp4s to webm, and remove metadata
-fish "$GIT_ROOT"/scripts/convert_assets.fish --remove_originals --strip_metadata --run_script
-
-TYPES_TO_CHECK="svg,avif,webm"
-find "$GIT_ROOT/quartz/static" -type f -name "*.$TYPES_TO_CHECK" -exec bash -c "fish \"$GIT_ROOT/scripts/upload_to_r2.fish\" \"$0\" --remove_originals --run_script" {} \;
+python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata
+# Upload assets to R2 bucket
+python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$GIT_ROOT"/../website-media-r2/static --replacement-dir "$GIT_ROOT"/content --all-asset-dir "$GIT_ROOT"/quartz/static
 
 
 SERVER_STARTED=false
