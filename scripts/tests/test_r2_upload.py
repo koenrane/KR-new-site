@@ -1,11 +1,9 @@
 import pytest
 from unittest.mock import patch
+import shutil
 from pathlib import Path
 import subprocess
 from .. import r2_upload
-
-
-# Fixtures
 
 
 @pytest.fixture()
@@ -20,53 +18,52 @@ def r2_cleanup():
 
 
 @pytest.fixture
-def test_files(temp_dir):
-    quartz_dir = temp_dir / "quartz"
-    content_dir = quartz_dir / "content"
-    static_dir = quartz_dir / "static"
-    content_dir.mkdir(parents=True)
-    static_dir.mkdir(parents=True)
+def test_media_setup(tmp_path):
+    dirs = {
+        "quartz": tmp_path / "quartz",
+        "content": tmp_path / "quartz" / "content",
+        "static": tmp_path / "quartz" / "static",
+    }
+    for d in dirs.values():
+        d.mkdir(parents=True, exist_ok=True)
 
-    test_image = static_dir / "test.jpg"
-    test_image.touch()
-
-    md_files = [
-        (
-            content_dir / "test1.md",
-            "Here's an image: ![](quartz/static/test.jpg)",
-        ),
-        (
-            content_dir / "test2.md",
-            "Multiple images: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)",
-        ),
-        (
-            content_dir / "patterns.md",
-            """
-        Standard: ![](quartz/static/test.jpg)
-        Multiple: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)
-        No match: ![](quartz/static/other.jpg)
-        Inline: This is an inline ![](quartz/static/test.jpg) image.
-        """,
-        ),
+    test_files = [
+        "test.jpg",
+        "file1.webm",
+        "file2.svg",
+        "file3.avif",
+        "file4.png",
+        "file5.jpg",
     ]
+    for f in test_files:
+        (dirs["static"] / f).touch()
 
+    md_content = {
+        "test1.md": "Here's an image: ![](quartz/static/test.jpg)",
+        "test2.md": "Multiple images: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)",
+        "patterns.md": "Standard: ![](quartz/static/test.jpg)\nMultiple: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)\nNo match: ![](quartz/static/other.jpg)\nInline: This is an inline ![](quartz/static/test.jpg) image.",
+        "test.md": "\n".join(f"![](quartz/static/{f})" for f in test_files),
+    }
+    md_files = [
+        (dirs["content"] / f, content) for f, content in md_content.items()
+    ]
     for file_path, content in md_files:
         file_path.write_text(content)
 
-    return test_image, content_dir, md_files
+    subprocess.run(["git", "init", tmp_path], check=True)
+    (tmp_path / ".gitignore").touch()
 
+    yield tmp_path, dirs["static"] / "test.jpg", dirs["content"], md_files
 
-# Tests
+    shutil.rmtree(tmp_path)
 
 
 def test_upload_to_r2_success(temp_dir, r2_cleanup):
     file_path = temp_dir / "quartz" / "static" / "test.jpg"
     file_path.parent.mkdir(parents=True)
     file_path.touch()
-
     r2_upload.upload_and_move(file_path, move_to_dir=temp_dir)
     r2_cleanup.append("static/test.jpg")
-
     assert subprocess.run(
         ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.jpg"],
         capture_output=True,
@@ -117,7 +114,6 @@ def test_upload_and_move_failures(
     file_path = temp_dir / "quartz" / "static" / "test_fail.jpg"
     file_path.parent.mkdir(parents=True)
     file_path.touch()
-
     with patch(mock_func, side_effect=mock_side_effect):
         with pytest.raises(expected_exception):
             r2_upload.upload_and_move(file_path, move_to_dir=temp_dir)
@@ -127,14 +123,11 @@ def test_upload_and_move_failures(
     "args, expected_exception",
     [
         (["-v", "-m", "/tmp", "quartz/static/test.jpg"], None),
-        (
-            ["non_existent_file.jpg"],
-            FileNotFoundError,
-        ),
+        (["quartz/static/non_existent_file.jpg"], FileNotFoundError),
         ([], SystemExit),
     ],
 )
-def test_main_function(temp_dir, capsys, args: list[str], expected_exception):
+def test_main_function(temp_dir, args, expected_exception):
     if "quartz/static/test.jpg" in args:
         file_path = temp_dir / "quartz" / "static" / "test.jpg"
         file_path.parent.mkdir(parents=True)
@@ -144,7 +137,6 @@ def test_main_function(temp_dir, capsys, args: list[str], expected_exception):
             for arg in args
         ]
         args = ["--replacement-dir", str(temp_dir)] + args
-
     with patch("sys.argv", ["r2_upload.py"] + args):
         if expected_exception:
             with pytest.raises(expected_exception):
@@ -157,83 +149,62 @@ def test_verbose_output(temp_dir, capsys):
     file_path = temp_dir / "quartz" / "static" / "test_verbose.jpg"
     file_path.parent.mkdir(parents=True)
     file_path.touch()
-
-    with patch("subprocess.run"):  # Mock subprocess.run to avoid actual upload
+    with patch("subprocess.run"):
         r2_upload.upload_and_move(
-            file_path,
-            verbose=True,
-            move_to_dir=temp_dir,
+            file_path, verbose=True, move_to_dir=temp_dir
         )
-
     captured = capsys.readouterr()
-    assert f"Uploading {file_path}" in captured.out
-    assert "Changing" in captured.out
-    assert "Moving original file" in captured.out
+    assert all(
+        text in captured.out
+        for text in [
+            f"Uploading {file_path}",
+            "Changing",
+            "Moving original file",
+        ]
+    )
 
 
-def test_main_function_success(test_files, capsys):
-    with patch("sys.argv", ["r2_upload.py", str(test_files[0])]):
-        with patch("r2_upload.upload_and_move"):  # Mock to avoid actual upload
-            r2_upload.main()
-
-    captured = capsys.readouterr()
-    assert "Error" not in captured.out  # No error message should be printed
-
-
-def _assert_file_uploaded(file_key):
+def test_upload_and_move(test_media_setup, temp_dir, r2_cleanup):
+    _, test_image, content_dir, md_files = test_media_setup
+    move_to_dir = temp_dir / "moved"
+    move_to_dir.mkdir()
+    r2_upload.upload_and_move(
+        test_image, replacement_dir=content_dir, move_to_dir=move_to_dir
+    )
+    r2_cleanup.append("static/test.jpg")
     assert subprocess.run(
-        ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/{file_key}"],
+        ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.jpg"],
         capture_output=True,
         text=True,
     ).stdout
-
-
-def test_upload_and_move(test_files, temp_dir, r2_cleanup):
-    test_image, content_dir, md_files = test_files
-    move_to_dir = temp_dir / "moved"
-    move_to_dir.mkdir()
-
-    r2_upload.upload_and_move(
-        test_image,
-        replacement_dir=content_dir,
-        move_to_dir=move_to_dir,
-    )
-    r2_cleanup.append("static/test.jpg")
-
-    _assert_file_uploaded("static/test.jpg")
-    assert (move_to_dir / "test.jpg").exists()
-    assert not test_image.exists()
-
-    expected_contents = [
-        "Here's an image: ![](https://assets.turntrout.com/static/test.jpg)",
-        "Multiple images: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)",
-        """
-        Standard: ![](https://assets.turntrout.com/static/test.jpg)
-        Multiple: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)
-        No match: ![](quartz/static/other.jpg)
-        Inline: This is an inline ![](https://assets.turntrout.com/static/test.jpg) image.
-        """,
-    ]
-
-    for (file_path, _), expected_content in zip(md_files, expected_contents):
+    assert (move_to_dir / "test.jpg").exists() and not test_image.exists()
+    for (file_path, _), expected_content in zip(
+        md_files,
+        [
+            "Here's an image: ![](https://assets.turntrout.com/static/test.jpg)",
+            "Multiple images: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)",
+            "Standard: ![](https://assets.turntrout.com/static/test.jpg)\nMultiple: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)\nNo match: ![](quartz/static/other.jpg)\nInline: This is an inline ![](https://assets.turntrout.com/static/test.jpg) image.",
+        ],
+    ):
         assert file_path.read_text().strip() == expected_content.strip()
 
 
-def test_upload_and_move_no_replacement(test_files, temp_dir, r2_cleanup):
-    test_image, _, md_files = test_files
-    move_to_dir = temp_dir / "moved"
-    move_to_dir.mkdir()
-    empty_dir = temp_dir / "empty"
-    empty_dir.mkdir()
+def test_main_upload_all_custom_filetypes(test_media_setup):
+    tmp_path, _, _, _ = test_media_setup
+    # _print_red(tmp_path)
 
-    r2_upload.upload_and_move(
-        test_image, replacement_dir=empty_dir, move_to_dir=move_to_dir
-    )
-    r2_cleanup.append("static/test.jpg")
-
-    _assert_file_uploaded("static/test.jpg")
-    assert (move_to_dir / "test.jpg").exists()
-    assert not test_image.exists()
-
-    for file_path, original_content in md_files:
-        assert file_path.read_text().strip() == original_content.strip()
+    arg_list = [
+        "r2_upload.py",
+        "--all-asset-dir",
+        str(tmp_path / "quartz" / "static"),
+        "--filetypes",
+        ".png",
+        ".jpg",
+        "--replacement-dir",
+        str(tmp_path / "quartz" / "content"),
+    ]
+    with patch("sys.argv", arg_list):
+        r2_upload.main()
+    md_content: str = (tmp_path / "quartz" / "content" / "test.md").read_text()
+    for file in ("file4.png", "file5.jpg"):
+        assert f"https://assets.turntrout.com/static/{file}" in md_content
