@@ -20,29 +20,45 @@ describe("Favicon Utilities", () => {
   })
 
   describe("MaybeSaveFavicon", () => {
-    it.each([
-      ["www.existing.com", true, "/static/images/external-favicons/existing_com.png"],
-      ["www.fail.com", false, null],
-    ])(
-      "should handle favicon download for %s",
-      async (hostname: string, downloadSuccess: boolean, expectedResult: string | null) => {
-        jest.spyOn(fs.promises, "stat" as any).mockImplementation(() => {
-          if (downloadSuccess) {
-            return Promise.resolve({ isFile: () => true })
-          } else {
-            return Promise.reject({ code: "ENOENT" })
-          }
-        })
+    const hostname = "example.com"
+    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
+    const pngPath = "/static/images/external-favicons/example_com.png"
 
-        fetchMock.mockResolvedValue({
-          ok: downloadSuccess,
-          status: downloadSuccess ? 200 : 404,
-        } as any)
+    beforeEach(() => {
+      jest.clearAllMocks()
+      fetchMock.resetMocks()
+    })
 
-        const result = await MaybeSaveFavicon(hostname)
-        expect(result).toBe(expectedResult)
-      },
-    )
+    const mockFetchAndFs = (
+      avifStatus: number,
+      localPngExists: boolean,
+      googleStatus: number = 200,
+    ) => {
+      fetchMock
+        .mockResponseOnce("", { status: avifStatus })
+        .mockResponseOnce("", { status: googleStatus })
+      jest
+        .spyOn(fs.promises, "stat")
+        .mockImplementation(() =>
+          localPngExists ? Promise.resolve({} as fs.Stats) : Promise.reject({ code: "ENOENT" }),
+        )
+    }
+
+    it.each<[string, number, boolean, string | null, number?]>([
+      ["AVIF exists", 200, false, avifUrl],
+      ["Local PNG exists", 404, true, pngPath],
+      ["Download from Google", 404, false, pngPath],
+      ["All attempts fail", 404, false, null, 404],
+    ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
+      mockFetchAndFs(avifStatus, localPngExists, googleStatus)
+      expect(await MaybeSaveFavicon(hostname)).toBe(expected)
+    })
+
+    it("handles network errors during AVIF check", async () => {
+      fetchMock.mockReject(new Error("Network error"))
+      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+      expect(await MaybeSaveFavicon(hostname)).toBe(pngPath)
+    })
   })
 
   describe("GetQuartzPath", () => {

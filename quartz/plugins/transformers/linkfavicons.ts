@@ -43,23 +43,36 @@ export function GetQuartzPath(hostname: string): string {
 }
 
 export async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
-  const quartzPath = GetQuartzPath(hostname)
-  const localPath = path.join(QUARTZ_FOLDER, quartzPath)
+  const quartzPngPath = GetQuartzPath(hostname)
+  const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
+
+  // Construct URL for AVIF on assets.turntrout.com
+  const assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
 
   try {
-    await fs.promises.stat(localPath) // Use fs.promises for Promise-based stat
-    return quartzPath // Favicon already exists
+    // Check if AVIF exists on assets.turntrout.com
+    const response = await fetch(assetAvifURL, { method: "HEAD" })
+    if (response.ok) {
+      return assetAvifURL
+    }
+  } catch (err) {
+    logger.info(`Error checking AVIF on assets.turntrout.com: ${err}`)
+  }
+
+  try {
+    // Then try local PNG
+    await fs.promises.stat(localPngPath)
+    return quartzPngPath
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
-      // File doesn't exist
+      // Neither AVIF nor PNG exists, download as PNG
       const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-      if (await downloadImage(googleFaviconURL, localPath)) {
-        return quartzPath
+      if (await downloadImage(googleFaviconURL, localPngPath)) {
+        return quartzPngPath
       }
     }
-
     logger.info(`No favicon found for ${hostname}`)
-    return null // Indicate failure
+    return null
   }
 }
 
@@ -120,8 +133,8 @@ export const ModifyNode = (node: any) => {
       const imgPath = await MaybeSaveFavicon(finalURL.hostname) // Use the final URL here
 
       let path
-      if (!imgPath || imgPath.includes("mail")) {
-        path = "/images/default_favicon.png" // Set a default favicon if needed
+      if (!imgPath) {
+        path = "https://assets.turntrout.com/static/images/default_favicon.png" // Set a default favicon if needed
       } else {
         path = imgPath
       }
