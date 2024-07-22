@@ -334,12 +334,16 @@ img.favicon {
   margin-top: -20%;
   mix-blend-mode: normal !important;
 
+  &[src$="mail.svg"] {
+    margin-left: calc(0.3 * $baseMargin);
+  }
   &[src$="mail.svg"],
   &[src$="turntrout_com.ico"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
-    filter: invert(30%) sepia(13%) saturate(1034%) hue-rotate(196deg) brightness(90%) contrast(84%);
+    filter: invert(27%) sepia(10%) saturate(1460%) hue-rotate(196deg) brightness(99%) contrast(82%);
     :root[saved-theme="dark"] & {
-      filter: invert(83%) sepia(9%) saturate(802%) hue-rotate(191deg) brightness(98%) contrast(96%);
+      filter: invert(91%) sepia(6%) saturate(4418%) hue-rotate(185deg) brightness(100%)
+        contrast(92%);
     }
   }
 }

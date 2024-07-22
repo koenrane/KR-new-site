@@ -90,8 +90,8 @@ const config: QuartzConfig = {
           light: frappeColors["base"],
           lightgray: frappeColors["overlay-0"],
           gray: frappeColors["overlay-2"],
-          darkgray: frappeColors["text"],
-          dark: frappeColors["subtext-1"],
+          darkgray: frappeColors["subtext-1"],
+          dark: frappeColors["text"],
           secondary: frappeColors["blue"],
           tertiary: frappeColors["sky"],
           highlight: "#949cbb30", // frappeColors["overlay-2"] at 20% opacity
@@ -100,8 +100,8 @@ const config: QuartzConfig = {
           light: latteColors["base"],
           lightgray: latteColors["overlay-0"],
           gray: latteColors["overlay-2"],
-          darkgray: latteColors["text"],
-          dark: latteColors["subtext-1"],
+          darkgray: latteColors["subtext-1"],
+          dark: latteColors["text"],
           secondary: latteColors["blue"],
           tertiary: latteColors["sky"],
           highlight: "#7c7f9324", // latteColors["overlay-2"] at 20% opacity
