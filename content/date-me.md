@@ -68,7 +68,7 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" alt="Me smiling in an orange shirt."/>
+<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="Me smiling in an orange shirt."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">
