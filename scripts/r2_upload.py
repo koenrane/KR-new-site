@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 import shutil
-import utils as script_utils
 import argparse
 import subprocess
 from pathlib import Path
 import re
 from typing import Optional, Sequence
+
+try:
+    from . import utils as script_utils
+except ImportError:
+    import utils as script_utils
 
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
