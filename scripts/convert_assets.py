@@ -147,9 +147,19 @@ if __name__ == "__main__":
         action="store_true",
         help="Strip metadata from converted files",
     )
+    parser.add_argument(
+        "-d",
+        "--dir-to-search",
+        help="Directory to search for markdown files",
+    )
     args = parser.parse_args()
+    args.dir_to_search = (
+        Path(args.dir_to_search) if args.dir_to_search else None
+    )
 
     for asset in script_utils.get_files(
+        dir_to_search=args.dir_to_search,
         filetypes_to_match=compress.ALLOWED_EXTENSIONS,
     ):
+        print(asset)
         convert_asset(asset, args.remove_originals, args.strip_metadata)
