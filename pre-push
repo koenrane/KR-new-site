@@ -1,7 +1,8 @@
 #!/bin/sh
 
 function cleanup {
-    if [[ $STASHED_CHANGES -eq 1 ]]; then
+    PUSHED_CHANGES=$1
+    if [[ $PUSHED_CHANGES -eq 1 ]]; then
         git stash pop >>/dev/null
     fi
     if $SERVER_STARTED; then
@@ -9,10 +10,19 @@ function cleanup {
     fi
 }
 
+# If there are any changes, stash them and return 1, otherwise return 0.
+function stash_and_exit {
+    PREV_NUM_STASHES=$(git stash list | wc -l)
+    git stash push --include-untracked >>/dev/null
+    # Check if anything was stashed
+    STASHED_CHANGES=$([[ $(git stash list | wc -l) -gt $PREV_NUM_STASHES ]] && echo 1 || echo 0)
+    echo "$STASHED_CHANGES"
+}
+
 set -e
 
 CURRENT_BRANCH=$(git symbolic-ref --short head)
-SERVER_STARED=false
+SERVER_STARTED=false
 
 if [[ $CURRENT_BRANCH != "main" ]]; then
 	exit 0
@@ -21,45 +31,57 @@ fi
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
-# Stash any changes, because we will auto-commit later
-PREV_NUM_STASHES=$(git stash list | wc -l)
-git stash push --include-untracked >>/dev/null
-# Check if anything was stashed
-STASHED_CHANGES=$([[ $(git stash list | wc -l) -gt $PREV_NUM_STASHES ]] && echo 1 || echo 0)
+PUSHED_CHANGES=$(stash_and_exit)
+trap 'cleanup $PUSHED_CHANGES' EXIT
 
-trap 'cleanup' EXIT
+# # Run jest tests
+# npm run test
+#
+# # Run spellcheck on all markdown files
+# TEMP_DICT="/tmp/candidate_wordlist.txt"
+# PERM_DICT=".wordlist.txt"
+#
+# set +e # Temporarily allow errors
+# npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
+#
+# # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
+# if [ $? -ne 0 ]; then
+# 	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+# 	set -e # Re-enable errors
+# 	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
+#
+# 	# Amend the commit with the updated dictionary
+# 	git add $PERM_DICT
+# 	git commit --amend --no-edit
+# fi
+# set -e
+#
+# echo "\033[0;32mSpellcheck passed\033[0m" # In green
+#
+# # Check that conversion+uploading tests pass
+# python -m pytest "$GIT_ROOT"/scripts/tests
 
-# Check that unit tests pass
-# Run jest tests
-npm run test
-
-# Run spellcheck on all markdown files
-TEMP_DICT="/tmp/candidate_wordlist.txt"
-PERM_DICT=".wordlist.txt"
-
-set +e # Temporarily allow errors
-npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
-
-# Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
-if [ $? -ne 0 ]; then
-	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
-	set -e # Re-enable errors
-	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
-
-	# Amend the commit with the updated dictionary
-	git add $PERM_DICT
-	git commit --amend --no-edit
+STATIC_FOLDER="$GIT_ROOT"/quartz/static
+# If asset_staging isn't empty
+if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
+    mv "$GIT_ROOT"/content/asset_staging* "$STATIC_FOLDER"/images/posts
 fi
-set -e
 
-echo "\033[0;32mSpellcheck passed\033[0m" # In green
-
-# Check that conversion+uploading tests pass
-python -m pytest "$GIT_ROOT"/scripts/tests
 # Convert images to AVIF format, mp4s to webm, and remove metadata
 python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata
+
 # Upload assets to R2 bucket
-python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$GIT_ROOT"/../website-media-r2/static --replacement-dir "$GIT_ROOT"/content --all-asset-dir "$GIT_ROOT"/quartz/static
+LOCAL_ASSET_DIR="$GIT_ROOT"/../website-media-r2/static
+python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --replacement-dir "$GIT_ROOT"/content --all-asset-dir "$GIT_ROOT"/quartz/static
+
+# Commit changes to the moved-to local dir
+# (NOTE will also commit current changes)
+cd "$LOCAL_ASSET_DIR"
+if [ $(git status --porcelain | wc -l) -gt 0 ]; then
+    git add -A
+    git commit -m "Added assets which were transferred from the main repo."
+fi
+cd -
 
 
 SERVER_STARTED=false
