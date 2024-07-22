@@ -64,16 +64,22 @@ def upload_and_move(
     relative_original_path: Path = script_utils.path_relative_to_quartz(
         file_path
     )
+    # References start with 'static', generally
+    relative_subpath: Path = Path(
+        *relative_original_path.parts[
+            relative_original_path.parts.index("static") :
+        ]
+    )
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
     if verbose:
-        print(
-            f'Changing "{relative_original_path}" references to "{r2_address}"'
-        )
+        print(f'Changing "{relative_subpath}" references to "{r2_address}"')
     for text_file_path in script_utils.get_files(replacement_dir, (".md",)):
         with open(text_file_path, "r") as f:
             file_content: str = f.read()
         new_content: str = re.sub(
-            str(relative_original_path), r2_address, file_content
+            rf"{str(relative_subpath)}|{str(relative_original_path)}",
+            r2_address,
+            file_content,
         )
         with open(text_file_path, "w") as f:
             f.write(new_content)
