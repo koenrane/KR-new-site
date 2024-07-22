@@ -28,7 +28,7 @@ coverage
 .logs
 
 # Media files
-# *.png
+*external-favicons*.png
 # *.jpg
 # *.jpeg
 # *.avif
