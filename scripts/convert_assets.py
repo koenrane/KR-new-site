@@ -55,17 +55,14 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
     # Convert to .webm video
-    if input_file.suffix == ".gif":
-        replacement_pattern: str = (
-            rf'<video autoplay loop muted playsinline src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo>\g<tagInfo> type="video/webm"><source src="{all_links}{input_file.stem}.webm"></video>'
-        )
-    else:
-        replacement_pattern: str = (
-            rf'<video src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo> type="video/webm"\g<tagInfo>\g<endVideoTagInfo>/>'
-        )
-    if input_file.suffix == ".gif":
-        print(f"Original pattern: {original_pattern}\n")
-        print(f"Replacement pattern: {replacement_pattern}\n")
+    video_tags: str = (
+        "autoplay loop muted playsinline "
+        if input_file.suffix == ".gif"
+        else ""
+    )
+    replacement_pattern: str = (
+        rf'<video {video_tags}src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo>\g<tagInfo> type="video/webm"><source src="{all_links}{input_file.stem}.webm" type="video/webm"></video>'
+    )
 
     return original_pattern, replacement_pattern
 

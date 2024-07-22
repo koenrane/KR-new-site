@@ -93,22 +93,10 @@ def test_video_conversion(ext: str, setup_test_env):
     with open(content_path, "r") as f:
         file_content: str = f.read()
 
-    if ext == ".gif":
+    video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
+    for alt_tag in ("", 'alt="shrek" '):  # The original-tag had an alt
         assert (
-            '<video autoplay loop muted playsinline src="quartz/static/asset.webm" type="video/webm"><source src="quartz/static/asset.webm"></video>'
-            in file_content
-        )
-        assert (
-            '<video autoplay loop muted playsinline src="quartz/static/asset.webm" alt="shrek" type="video/webm"><source src="quartz/static/asset.webm"></video>'
-            in file_content
-        )
-    else:
-        assert (
-            '<video src="quartz/static/asset.webm" type="video/webm"/>'
-            in file_content
-        )
-        assert (
-            '<video src="quartz/static/asset.webm" type="video/webm" alt="shrek"/>'
+            f'<video {video_tags}src="quartz/static/asset.webm" {alt_tag}type="video/webm"><source src="quartz/static/asset.webm" type="video/webm"></video>'
             in file_content
         )
 
