@@ -108,7 +108,7 @@
 
   &[data-callout="goose"],
   &[data-callout="quote"] {
-    --color: color-mix(in srgb, var(--light) 15%, var(--darkgray));
+    --color: color-mix(in srgb, var(--light) 15%, var(--dark));
     --callout-icon: var(--callout-icon-quote);
   }
 

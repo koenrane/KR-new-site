@@ -111,7 +111,6 @@ export const ModifyNode = (node: any) => {
 
     const notSamePage = !node?.properties?.className?.includes("same-page-link")
     const isAsset = href?.endsWith(".png") || href?.endsWith(".jpg") || href?.endsWith(".jpeg")
-    // href?.startsWith("assets.turntrout.com")
     if (notSamePage && !isAsset && href) {
       // Handle before attempting to create URL
       if (href.startsWith("./")) {
