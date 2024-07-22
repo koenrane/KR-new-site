@@ -68,15 +68,15 @@ AI-fueled house parties
 <div style="display:flex; justify-content: center; ">
 
 <div class="subfigure">
-<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="Me smiling in an orange shirt."/>
+<img src="https://assets.turntrout.com/Attachments/preGCAlex.avif" style="width: 218px; height: 30vh; object-fit: cover; object-position: top;" alt="Me smiling in an orange shirt."/>
 <figcaption>(a) Alex</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/Attachments/gigachad.avif"     style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="The popular 'gigachad' meme image."/>
+<img src="https://assets.turntrout.com/Attachments/gigachad.avif"     style="width: 218px; height: 30vh; object-fit: cover; object-position: top;" alt="The popular 'gigachad' meme image."/>
 <figcaption>(b) Gigachad</figcaption>
 </div>
 <div class="subfigure">
-<img src="https://assets.turntrout.com/Attachments/GCAlex.avif"style="width: 218px; height: 224px; object-fit: cover; object-position: top;" alt="A picture of me with my features exaggerated to resemble gigachad's."/>
+<img src="https://assets.turntrout.com/Attachments/GCAlex.avif"style="width: 218px; height: 30vh; object-fit: cover; object-position: top;" alt="A picture of me with my features exaggerated to resemble gigachad's."/>
 <figcaption>(c) Gigachad Alex</figcaption>
 </div>
 </div>
