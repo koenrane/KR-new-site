@@ -29,6 +29,7 @@ coverage
 
 # Media files
 *external-favicons*.png
+content/asset_staging/*
 # *.jpg
 # *.jpeg
 # *.avif
