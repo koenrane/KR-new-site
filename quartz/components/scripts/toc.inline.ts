@@ -5,14 +5,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function onScroll() {
     let currentSection = ""
 
-    sections.forEach((section) => {
+    sections.forEach((section: any) => {
       const sectionTop = section.offsetTop
       if (scrollY + 300 >= sectionTop) {
         currentSection = section.getAttribute("id")
       }
     })
 
-    navLinks.forEach((link) => {
+    navLinks.forEach((link: any) => {
       link.classList.remove("active")
       const slug = link?.href.split("#")[1]
       if (currentSection && slug === currentSection) {
