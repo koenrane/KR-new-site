@@ -10,6 +10,15 @@ const FAVICON_FOLDER = "static/images/external-favicons"
 import { pipeline } from "stream/promises" // For streamlined stream handling
 
 const logger = createLogger("linkfavicons")
+
+/**
+ * Downloads an image from a specified URL and saves it to the given file path.
+ *
+ * @param {string} url - The URL of the image to download.
+ * @param {string} imagePath - The local file path where the image should be saved.
+ * @returns {Promise<boolean>} A promise that resolves to `true` if the download is successful, `false` otherwise.
+ * @throws {Error} If there is an error during the download process.
+ */
 export async function downloadImage(url: string, imagePath: string): Promise<boolean> {
   try {
     const response = await fetch(url)
@@ -30,6 +39,12 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
   }
 }
 
+/**
+ * Generates a standardized path for storing favicons based on the given hostname.
+ *
+ * @param {string} hostname - The hostname for which to generate the favicon path.
+ * @returns {string} The generated favicon path.
+ */
 export function GetQuartzPath(hostname: string): string {
   if (hostname === "localhost") {
     hostname = "turntrout.com"
@@ -42,6 +57,12 @@ export function GetQuartzPath(hostname: string): string {
   return `/${FAVICON_FOLDER}/${sanitizedHostname}.png`
 }
 
+/**
+ * Attempts to find or download a favicon for the given hostname.
+ *
+ * @param {string} hostname - The hostname for which to find the favicon.
+ * @returns {Promise<string|null>} A promise that resolves to the path of the favicon if found or downloaded, or `null` if not found.
+ */
 export async function MaybeSaveFavicon(hostname: string): Promise<string | null> {
   const quartzPngPath = GetQuartzPath(hostname)
   const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
@@ -76,6 +97,13 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string | null>
   }
 }
 
+/**
+ * Creates an image element (<img>) representing a favicon.
+ *
+ * @param {string} urlString - The URL of the favicon image.
+ * @param {string} [description=''] - An optional description for the favicon.
+ * @returns {Object} An object representing the favicon image element.
+ */
 export const CreateFaviconElement = (urlString: string, description = "") => {
   return {
     type: "element",
@@ -89,6 +117,11 @@ export const CreateFaviconElement = (urlString: string, description = "") => {
   }
 }
 
+/**
+ * Modifies HTML link (<a>) elements, potentially adding favicons and performing additional cleanup and URL processing.
+ *
+ * @param {Object} node - The HTML element node (expected to be an <a> tag) to modify.
+ */
 export const ModifyNode = (node: any) => {
   if (node.tagName === "a") {
     // Remove the "external-icon" elements, hidden anyways
@@ -145,6 +178,12 @@ export const ModifyNode = (node: any) => {
   }
 }
 
+/**
+ * Inserts a favicon image element into a given HTML element node.
+ *
+ * @param {string} imgPath - The path to the favicon image.
+ * @param {Object} node - The HTML element node where the favicon should be inserted.
+ */
 export function insertFavicon(imgPath: any, node: any) {
   if (imgPath !== null) {
     const imgElement = CreateFaviconElement(imgPath)
@@ -175,6 +214,11 @@ export function insertFavicon(imgPath: any, node: any) {
   }
 }
 
+/**
+ * Creates a Rehype plugin that adds favicons to anchor elements in HTML documents.
+ *
+ * @returns {Object} A Rehype plugin object.
+ */
 export const AddFavicons = () => {
   return {
     name: "AddFavicons",
