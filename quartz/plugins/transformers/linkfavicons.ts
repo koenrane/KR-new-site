@@ -1,5 +1,4 @@
 import { visit } from "unist-util-visit"
-import { followRedirects } from "./utils"
 import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import { pipeline } from "stream/promises"
@@ -125,6 +124,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 export interface FaviconNode {
   type: string
   tagName: string
+  children: any[]
   properties: {
     src: string
     class: string
@@ -145,6 +145,7 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
   return {
     type: "element",
     tagName: "img",
+    children: [],
     properties: {
       src: urlString,
       class: "favicon",
@@ -239,9 +240,9 @@ export async function ModifyNode(node: any): Promise<void> {
       return
     }
     try {
-      logger.info(`Following redirects for ${href}`)
-      const finalURL = await followRedirects(new URL(href))
+      let finalURL = new URL(href)
       logger.info(`Final URL: ${finalURL.href}`)
+
       const imgPath = await MaybeSaveFavicon(finalURL.hostname)
       logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
       insertFavicon(imgPath, node)
@@ -278,7 +279,6 @@ export const AddFavicons = () => {
             logger.info(`Processing ${nodesToProcess.length} nodes`)
             await Promise.all(nodesToProcess.map(ModifyNode))
             logger.info("Finished processing favicons")
-            return tree
           }
         },
       ]

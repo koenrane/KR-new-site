@@ -90,6 +90,7 @@ describe("Favicon Utilities", () => {
       expect(element).toEqual({
         type: "element",
         tagName: "img",
+        children: [],
         properties: {
           src: urlString,
           class: "favicon",
@@ -124,7 +125,10 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "tent" },
-              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+              { type: "element", tagName: "img",
+                children: [],
+                 properties: { src: imgPath, class: "favicon" } 
+              }
             ]
           });
         });
@@ -140,7 +144,7 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "1234" },
-              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+              { type: "element", tagName: "img", children: [], properties: { src: imgPath, class: "favicon" } }
             ]
           });
         });
@@ -157,7 +161,7 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "dium" },
-              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+              { type: "element", tagName: "img", children: [], properties: { src: imgPath, class: "favicon" } }
             ]
           });
         });
@@ -170,6 +174,7 @@ describe("Favicon Utilities", () => {
           expect(node.children[1]).toMatchObject({
             type: "element",
             tagName: "img",
+            children: [],
             properties: { src: imgPath, class: "favicon" }
           });
         });
