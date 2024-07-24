@@ -21,7 +21,7 @@ describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
-    
+
     // Reset the cache
     urlCache.clear()
     for (const [key, value] of createUrlCache()) {
@@ -109,76 +109,80 @@ describe("Favicon Utilities", () => {
       insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
-    
+
     describe("span creation", () => {
-        const imgPath = "/test/favicon.png";
-        
-        it("should create a span with the last 4 characters and favicon for long text", () => {
-          const node = { children: [{ type: "text", value: "Long text content" }] };
-          insertFavicon(imgPath, node);
-          
-          expect(node.children.length).toBe(2);
-          expect(node.children[0]).toEqual({ type: "text", value: "Long text con" });
-          expect(node.children[1]).toMatchObject({
-            type: "element",
-            tagName: "span",
-            properties: { style: "white-space: nowrap;" },
-            children: [
-              { type: "text", value: "tent" },
-              CreateFaviconElement(imgPath) // TODO user insertFavicon
-            ]
-          });
-        });
-    
-        it("should create a span with all characters and favicon for short text", () => {
-          const node = { children: [{ type: "text", value: "1234" }] };
-          insertFavicon(imgPath, node);
-          
-          expect(node.children.length).toBe(1);
-          expect(node.children[0]).toMatchObject({
-            type: "element",
-            tagName: "span",
-            properties: { style: "white-space: nowrap;" },
-            children: [
-              { type: "text", value: "1234" },
-              CreateFaviconElement(imgPath)
-            ]
-          });
-        });
-    
-        it("should create a span with up to 4 characters for medium-length text", () => {
-          const node = { children: [{ type: "text", value: "Medium" }] };
-          insertFavicon(imgPath, node);
-          
-          expect(node.children.length).toBe(2);
-          expect(node.children[0]).toEqual({ type: "text", value: "Me" });
-          expect(node.children[1]).toMatchObject({
-            type: "element",
-            tagName: "span",
-            properties: { style: "white-space: nowrap;" },
-            children: [
-              { type: "text", value: "dium" },
-              CreateFaviconElement(imgPath)
-            ]
-          });
-        });
-    
-        it("should not create a span for nodes without text content", () => {
-          const node = { children: [{ type: "element", tagName: "div" }] };
-          insertFavicon(imgPath, node);
-          
-          expect(node.children.length).toBe(2);
-          expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath));
-        });
-    
-        it("should handle empty text nodes correctly", () => {
-          const node = { children: [{ type: "text", value: "" }] };
-          insertFavicon(imgPath, node);
-          
-          expect(node.children.length).toBe(2);
-          expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath));
-        });
-      });
+      const imgPath = "/test/favicon.png"
+
+      it("should create a span with the last 4 characters and favicon for long text", () => {
+        const node = { children: [{ type: "text", value: "Long text content" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[0]).toEqual({ type: "text", value: "Long text con" })
+        expect(node.children[1]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [
+            { type: "text", value: "tent" },
+            CreateFaviconElement(imgPath), // TODO user insertFavicon
+          ],
+        })
+      })
+
+      it("should create a span with all characters and favicon for short text", () => {
+        const node = { children: [{ type: "text", value: "1234" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(1)
+        expect(node.children[0]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [{ type: "text", value: "1234" }, CreateFaviconElement(imgPath)],
+        })
+      })
+
+      it("should create a span with up to 4 characters for medium-length text", () => {
+        const node = { children: [{ type: "text", value: "Medium" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[0]).toEqual({ type: "text", value: "Me" })
+        expect(node.children[1]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [{ type: "text", value: "dium" }, CreateFaviconElement(imgPath)],
+        })
+      })
+
+      it("should not create a span for nodes without text content", () => {
+        const node = { children: [{ type: "element", tagName: "div" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath))
+      })
+
+      it("should handle empty text nodes correctly", () => {
+        const node = { children: [{ type: "text", value: "" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath))
+      })
+
+      it("Should not replace children with [span] if more than one child", () => {
+        const node = document.createElement("p")
+        node.innerHTML =
+          'My email is <a href="mailto:alex@turntrout.com" class="external"><code>alex@turntrout.com</code>.</a>'
+
+        insertFavicon(MAIL_PATH, node)
+
+        console.log(node)
+      })
+    })
   })
 
   describe("ModifyNode", () => {
@@ -205,37 +209,35 @@ describe("Favicon Utilities", () => {
       } else {
         expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
       }
-    }
-    )
+    })
   })
 
-  
   describe("MaybeSaveFavicon with caching", () => {
-    const hostname = "example.com";
-    const quartzPngPath = "/static/images/external-favicons/example_com.png";
-    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif";
-  
+    const hostname = "example.com"
+    const quartzPngPath = "/static/images/external-favicons/example_com.png"
+    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
+
     beforeEach(() => {
-      jest.clearAllMocks();
-      fetchMock.resetMocks();
+      jest.clearAllMocks()
+      fetchMock.resetMocks()
       urlCache.clear()
-    urlCache.set = jest.fn(urlCache.set)
-    urlCache.get = jest.fn(urlCache.get)
-  })
+      urlCache.set = jest.fn(urlCache.set)
+      urlCache.get = jest.fn(urlCache.get)
+    })
 
-  it("should cache AVIF URL when found", async () => {
-    fetchMock.mockResponseOnce("", { status: 200 })
-    const result = await MaybeSaveFavicon(hostname)
-    expect(result).toBe(avifUrl)
-    expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
-  })
+    it("should cache AVIF URL when found", async () => {
+      fetchMock.mockResponseOnce("", { status: 200 })
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(avifUrl)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
+    })
 
-  it("should cache PNG path when local file exists", async () => {
-    fetchMock.mockResponseOnce("", { status: 404 })
-    jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
-    const result = await MaybeSaveFavicon(hostname)
-    expect(result).toBe(quartzPngPath)
-    expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
+    it("should cache PNG path when local file exists", async () => {
+      fetchMock.mockResponseOnce("", { status: 404 })
+      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(quartzPngPath)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
+    })
   })
-
-  })})
+})

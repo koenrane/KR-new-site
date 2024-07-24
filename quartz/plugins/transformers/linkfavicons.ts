@@ -8,14 +8,15 @@ import path from "path"
 const logger = createLogger("linkfavicons")
 
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
-export const TURNTROUT_FAVICON_PATH = "https://assets.turntrout.com/static/images/trout_favicon.png"
+export const TURNTROUT_FAVICON_PATH =
+  "https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = "https://assets.turntrout.com/static/images/default_favicon.png"
 
 /**
  * Downloads an image from a given URL and saves it to the specified local path.
- * 
+ *
  * @param url - The URL of the image to download.
  * @param imagePath - The local file path where the image should be saved.
  * @returns A Promise that resolves to true if the download was successful, false otherwise.
@@ -45,7 +46,7 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
 
 /**
  * Generates a Quartz-compatible path for a given hostname.
- * 
+ *
  * @param hostname - The hostname to generate the path for.
  * @returns A string representing the Quartz path for the favicon.
  */
@@ -60,17 +61,15 @@ export function GetQuartzPath(hostname: string): string {
   return path
 }
 
-const defaultCache = new Map<string, string>([
-  [TURNTROUT_FAVICON_PATH, TURNTROUT_FAVICON_PATH],
-])
+const defaultCache = new Map<string, string>([[TURNTROUT_FAVICON_PATH, TURNTROUT_FAVICON_PATH]])
 export function createUrlCache(): Map<string, string> {
-  return new Map(defaultCache);
+  return new Map(defaultCache)
 }
-export let urlCache = createUrlCache();
+export let urlCache = createUrlCache()
 
 /**
  * Attempts to find or save a favicon for a given hostname.
- * 
+ *
  * @param hostname - The hostname to find or save the favicon for.
  * @returns A Promise that resolves to the path of the favicon (local or remote).
  */
@@ -81,7 +80,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   if (urlCache.has(quartzPngPath)) {
     logger.info(`Returning cached favicon for ${hostname}`)
     return urlCache.get(quartzPngPath) as string
-  } 
+  }
 
   const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
   const assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
@@ -134,7 +133,7 @@ export interface FaviconNode {
 
 /**
  * Creates a favicon element (img tag) with the given URL and description.
- * 
+ *
  * @param urlString - The URL of the favicon image.
  * @param description - The alt text for the favicon (default: "", so
  * that favicons are treated as decoration by screen readers).
@@ -156,14 +155,14 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
 
 /**
  * Inserts a favicon image into a node's children.
- * 
+ *
  * @param imgPath - The path to the favicon image.
  * @param node - The node to insert the favicon into.
  */
 export function insertFavicon(imgPath: string | null, node: any): void {
   logger.debug(`Inserting favicon: ${imgPath}`)
   if (imgPath === null) {
-    logger.debug('No favicon to insert')
+    logger.debug("No favicon to insert")
     return
   }
 
@@ -185,29 +184,31 @@ export function insertFavicon(imgPath: string | null, node: any): void {
         style: "white-space: nowrap;",
       },
     }
-    if (lastFourChars === textContent) { 
-      logger.debug('Replacing entire text with span')
+    // If the text content is the same as the last four characters,
+    // replace the text with the span so we don't have an extra (empty) text node.
+    if (lastFourChars === textContent && node.children.length === 1) {
+      logger.debug("Replacing entire text with span")
       node.children = [span]
     } else {
-      logger.debug('Appending span to existing text')
+      logger.debug("Appending span to existing text")
       node.children.push(span)
     }
   } else {
-    logger.debug('Appending favicon directly to node')
+    logger.debug("Appending favicon directly to node")
     node.children.push(imgElement)
   }
 }
 
 /**
  * Modifies a node by processing its href and inserting a favicon if applicable.
- * 
+ *
  * @param node - The node to modify.
  * @returns A Promise that resolves when the modification is complete.
  */
 export async function ModifyNode(node: any): Promise<void> {
   logger.info(`Modifying node: ${node.tagName}`)
   if (node.tagName !== "a" || !node.properties.href) {
-    logger.debug('Node is not an anchor or has no href, skipping')
+    logger.debug("Node is not an anchor or has no href, skipping")
     return
   }
 
@@ -215,14 +216,14 @@ export async function ModifyNode(node: any): Promise<void> {
   logger.debug(`Processing href: ${href}`)
 
   if (href.startsWith("mailto:")) {
-    logger.info('Inserting mail icon for mailto link')
+    logger.info("Inserting mail icon for mailto link")
     insertFavicon(MAIL_PATH, node)
     return
   }
 
   const isInternalBody = href.startsWith("#")
-  if (isInternalBody) { 
-    logger.info('Adding same-page-link class to internal link')
+  if (isInternalBody) {
+    logger.info("Adding same-page-link class to internal link")
     node.properties.className = [...(node.properties.className || []), "same-page-link"]
     return
   }
@@ -232,11 +233,11 @@ export async function ModifyNode(node: any): Promise<void> {
 
   if (!samePage && !isAsset) {
     if (href.startsWith("./")) {
-      logger.debug('Converting relative link to absolute')
+      logger.debug("Converting relative link to absolute")
       href = href.slice(2)
       href = "https://www.turntrout.com/" + href
     } else if (href.startsWith("..")) {
-      logger.debug('Skipping parent directory link')
+      logger.debug("Skipping parent directory link")
       return
     }
     try {
@@ -256,7 +257,7 @@ export async function ModifyNode(node: any): Promise<void> {
 
 /**
  * Creates a plugin that adds favicons to anchor tags in the HTML tree.
- * 
+ *
  * @returns An object representing the plugin configuration.
  */
 export const AddFavicons = () => {
@@ -275,7 +276,7 @@ export const AddFavicons = () => {
                 nodesToProcess.push(node)
               }
             })
-        
+
             logger.info(`Processing ${nodesToProcess.length} nodes`)
             await Promise.all(nodesToProcess.map(ModifyNode))
             logger.info("Finished processing favicons")
