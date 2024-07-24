@@ -197,6 +197,8 @@ describe("Favicon Utilities", () => {
 
         insertFavicon(MAIL_PATH, node)
 
+        // If a span were inserted, there would be 3 children (text,
+        // link, span)
         expect(node.children.length).toBe(4)
         expect(node.children[3]).toMatchObject(CreateFaviconElement(MAIL_PATH))
       })
