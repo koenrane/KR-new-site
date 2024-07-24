@@ -100,8 +100,84 @@ describe("Favicon Utilities", () => {
       insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
-
-    // TODO check the creation of span elements
+    
+    describe("span creation", () => {
+        const imgPath = "/test/favicon.png";
+        
+        it("should create a span with the last 4 characters and favicon for long text", () => {
+          const node = { children: [{ type: "text", value: "Long text content" }] };
+          insertFavicon(imgPath, node);
+          
+          expect(node.children.length).toBe(2);
+          expect(node.children[0]).toEqual({ type: "text", value: "Long text con" });
+          expect(node.children[1]).toMatchObject({
+            type: "element",
+            tagName: "span",
+            properties: { style: "white-space: nowrap;" },
+            children: [
+              { type: "text", value: "tent" },
+              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+            ]
+          });
+        });
+    
+        it("should create a span with all characters and favicon for short text", () => {
+          const node = { children: [{ type: "text", value: "1234" }] };
+          insertFavicon(imgPath, node);
+          
+          expect(node.children.length).toBe(1);
+          expect(node.children[0]).toMatchObject({
+            type: "element",
+            tagName: "span",
+            properties: { style: "white-space: nowrap;" },
+            children: [
+              { type: "text", value: "1234" },
+              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+            ]
+          });
+        });
+    
+        it("should create a span with up to 4 characters for medium-length text", () => {
+          const node = { children: [{ type: "text", value: "Medium" }] };
+          insertFavicon(imgPath, node);
+          
+          expect(node.children.length).toBe(2);
+          expect(node.children[0]).toEqual({ type: "text", value: "Me" });
+          expect(node.children[1]).toMatchObject({
+            type: "element",
+            tagName: "span",
+            properties: { style: "white-space: nowrap;" },
+            children: [
+              { type: "text", value: "dium" },
+              { type: "element", tagName: "img", properties: { src: imgPath, class: "favicon" } }
+            ]
+          });
+        });
+    
+        it("should not create a span for nodes without text content", () => {
+          const node = { children: [{ type: "element", tagName: "div" }] };
+          insertFavicon(imgPath, node);
+          
+          expect(node.children.length).toBe(2);
+          expect(node.children[1]).toMatchObject({
+            type: "element",
+            tagName: "img",
+            properties: { src: imgPath, class: "favicon" }
+          });
+        });
+    
+        it("should handle empty text nodes correctly", () => {
+          const node = { children: [{ type: "text", value: "" }] };
+          insertFavicon(imgPath, node);
+          
+          expect(node.children.length).toBe(2);
+          expect(node.children[1]).toMatchObject({
+            type: "element",
+            tagName: "img",
+            properties: { src: imgPath, class: "favicon" }
+          });
+        });
+      });
   })
 
   describe("ModifyNode", () => {

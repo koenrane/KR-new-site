@@ -129,7 +129,11 @@ export function insertFavicon(imgPath: string | null, node: any): void {
         style: "white-space: nowrap;",
       },
     }
-    node.children.push(span)
+    if (lastFourChars === textContent) { 
+      node.children = [span]
+    } else {
+      node.children.push(span)
+    }
   } else {
     node.children.push(imgElement)
   }
@@ -174,7 +178,6 @@ export async function ModifyNode(node: any): Promise<void> {
     } catch (error) {
       logger.error(`Error processing URL ${href}: ${error}`)
     }
-    console.log(node.children)
   }
 }
 
