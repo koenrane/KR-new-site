@@ -508,3 +508,7 @@ video {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+.center {
+  z-index: -1; // Behind navbar etc
+}
