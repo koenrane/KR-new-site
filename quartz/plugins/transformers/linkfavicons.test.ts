@@ -6,6 +6,8 @@ import {
   MAIL_PATH,
   DEFAULT_PATH,
   TURNTROUT_FAVICON_PATH,
+  urlCache,
+  createUrlCache,
   insertFavicon,
 } from "./linkfavicons"
 import { jest } from "@jest/globals"
@@ -19,6 +21,12 @@ describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
+    
+    // Reset the cache
+    urlCache.clear()
+    for (const [key, value] of createUrlCache()) {
+      urlCache.set(key, value)
+    }
   })
 
   describe("MaybeSaveFavicon", () => {
@@ -206,4 +214,34 @@ describe("Favicon Utilities", () => {
     }
     )
   })
-})
+
+  
+  describe("MaybeSaveFavicon with caching", () => {
+    const hostname = "example.com";
+    const quartzPngPath = "/static/images/external-favicons/example_com.png";
+    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif";
+  
+    beforeEach(() => {
+      jest.clearAllMocks();
+      fetchMock.resetMocks();
+      urlCache.clear()
+    urlCache.set = jest.fn(urlCache.set)
+    urlCache.get = jest.fn(urlCache.get)
+  })
+
+  it("should cache AVIF URL when found", async () => {
+    fetchMock.mockResponseOnce("", { status: 200 })
+    const result = await MaybeSaveFavicon(hostname)
+    expect(result).toBe(avifUrl)
+    expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
+  })
+
+  it("should cache PNG path when local file exists", async () => {
+    fetchMock.mockResponseOnce("", { status: 404 })
+    jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+    const result = await MaybeSaveFavicon(hostname)
+    expect(result).toBe(quartzPngPath)
+    expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
+  })
+
+  })})
