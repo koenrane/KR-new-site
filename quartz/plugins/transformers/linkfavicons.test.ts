@@ -94,7 +94,7 @@ describe("Favicon Utilities", () => {
         properties: {
           src: urlString,
           class: "favicon",
-        alt: description,
+          alt: description,
         },
       })
     })
@@ -125,10 +125,7 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "tent" },
-              { type: "element", tagName: "img",
-                children: [],
-                 properties: { src: imgPath, class: "favicon" } 
-              }
+              CreateFaviconElement(imgPath) // TODO user insertFavicon
             ]
           });
         });
@@ -144,7 +141,7 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "1234" },
-              { type: "element", tagName: "img", children: [], properties: { src: imgPath, class: "favicon" } }
+              CreateFaviconElement(imgPath)
             ]
           });
         });
@@ -161,7 +158,7 @@ describe("Favicon Utilities", () => {
             properties: { style: "white-space: nowrap;" },
             children: [
               { type: "text", value: "dium" },
-              { type: "element", tagName: "img", children: [], properties: { src: imgPath, class: "favicon" } }
+              CreateFaviconElement(imgPath)
             ]
           });
         });
@@ -171,12 +168,7 @@ describe("Favicon Utilities", () => {
           insertFavicon(imgPath, node);
           
           expect(node.children.length).toBe(2);
-          expect(node.children[1]).toMatchObject({
-            type: "element",
-            tagName: "img",
-            children: [],
-            properties: { src: imgPath, class: "favicon" }
-          });
+          expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath));
         });
     
         it("should handle empty text nodes correctly", () => {
@@ -184,11 +176,7 @@ describe("Favicon Utilities", () => {
           insertFavicon(imgPath, node);
           
           expect(node.children.length).toBe(2);
-          expect(node.children[1]).toMatchObject({
-            type: "element",
-            tagName: "img",
-            properties: { src: imgPath, class: "favicon" }
-          });
+          expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath));
         });
       });
   })
