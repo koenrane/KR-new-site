@@ -189,6 +189,7 @@ describe("Favicon Utilities", () => {
       ["https://unknown.org", DEFAULT_PATH],
       ["./shard-theory", TURNTROUT_FAVICON_PATH],
       ["../shard-theory", null],
+      ["#test", null],
       ["mailto:test@example.com", MAIL_PATH],
       ["mailto:another@domain.org", MAIL_PATH],
     ])("should insert favicon for %s", async (href, expectedPath) => {
