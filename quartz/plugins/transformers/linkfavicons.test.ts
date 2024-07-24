@@ -4,6 +4,10 @@ import {
   CreateFaviconElement,
   ModifyNode,
   MAIL_PATH,
+  DEFAULT_PATH,
+  TURNTROUT_FAVICON_PATH,
+  urlCache,
+  createUrlCache,
   insertFavicon,
 } from "./linkfavicons"
 import { jest } from "@jest/globals"
@@ -17,6 +21,12 @@ describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
+
+    // Reset the cache
+    urlCache.clear()
+    for (const [key, value] of createUrlCache()) {
+      urlCache.set(key, value)
+    }
   })
 
   describe("MaybeSaveFavicon", () => {
@@ -48,7 +58,7 @@ describe("Favicon Utilities", () => {
       ["AVIF exists", 200, false, avifUrl],
       ["Local PNG exists", 404, true, pngPath],
       ["Download from Google", 404, false, pngPath],
-      ["All attempts fail", 404, false, null, 404],
+      ["All attempts fail", 404, false, DEFAULT_PATH, 404],
     ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
@@ -64,7 +74,7 @@ describe("Favicon Utilities", () => {
   describe("GetQuartzPath", () => {
     it.each([
       ["www.example.com", "/static/images/external-favicons/example_com.png"],
-      ["localhost", "/static/images/external-favicons/turntrout_com.png"],
+      ["localhost", TURNTROUT_FAVICON_PATH],
       ["subdomain.example.org", "/static/images/external-favicons/subdomain_example_org.png"],
     ])("should return the correct favicon path for %s", (hostname, expectedPath) => {
       expect(GetQuartzPath(hostname)).toBe(expectedPath)
@@ -84,8 +94,8 @@ describe("Favicon Utilities", () => {
         properties: {
           src: urlString,
           class: "favicon",
+          alt: description,
         },
-        alt: description,
       })
     })
   })
@@ -99,21 +109,155 @@ describe("Favicon Utilities", () => {
       insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
+
+    describe("span creation", () => {
+      const imgPath = "/test/favicon.png"
+
+      it("should create a span with the last 4 characters and favicon for long text", () => {
+        const node = { children: [{ type: "text", value: "Long text content" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[0]).toEqual({ type: "text", value: "Long text con" })
+        expect(node.children[1]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [
+            { type: "text", value: "tent" },
+            CreateFaviconElement(imgPath), // TODO user insertFavicon
+          ],
+        })
+      })
+
+      it("should create a span with all characters and favicon for short text", () => {
+        const node = { children: [{ type: "text", value: "1234" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(1)
+        expect(node.children[0]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [{ type: "text", value: "1234" }, CreateFaviconElement(imgPath)],
+        })
+      })
+
+      it("should create a span with up to 4 characters for medium-length text", () => {
+        const node = { children: [{ type: "text", value: "Medium" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[0]).toEqual({ type: "text", value: "Me" })
+        expect(node.children[1]).toMatchObject({
+          type: "element",
+          tagName: "span",
+          properties: { style: "white-space: nowrap;" },
+          children: [{ type: "text", value: "dium" }, CreateFaviconElement(imgPath)],
+        })
+      })
+
+      it("should not create a span for nodes without text content", () => {
+        const node = { children: [{ type: "element", tagName: "div" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath))
+      })
+
+      it("should handle empty text nodes correctly", () => {
+        const node = { children: [{ type: "text", value: "" }] }
+        insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        expect(node.children[1]).toMatchObject(CreateFaviconElement(imgPath))
+      })
+
+      it("Should not replace children with [span] if more than one child", () => {
+        const node = {
+          tag: "p",
+          children: [
+            "My email is ",
+            {
+              tag: "a",
+              attributes: {
+                href: "mailto:alex@turntrout.com",
+                class: "external",
+              },
+              children: [
+                {
+                  tag: "code",
+                  children: ["alex@turntrout.com"],
+                },
+              ],
+            },
+            ".",
+          ],
+        }
+
+        insertFavicon(MAIL_PATH, node)
+
+        // If a span were inserted, there would be 3 children (text,
+        // link, span)
+        expect(node.children.length).toBe(4)
+        expect(node.children[3]).toMatchObject(CreateFaviconElement(MAIL_PATH))
+      })
+    })
   })
 
-  describe("MAIL_PATH", () => {
+  describe("ModifyNode", () => {
     it.each([
+      // ["https://example.com",
+      // "/static/images/external-favicons/example_com.png"], //Have yet
+      // to do integration test
+      // TODO create test checking that imgPath===DEFAULT_PATH is skipped
+      ["./shard-theory", TURNTROUT_FAVICON_PATH],
+      ["../shard-theory", null],
+      ["#test", null],
       ["mailto:test@example.com", MAIL_PATH],
       ["mailto:another@domain.org", MAIL_PATH],
-    ])("should use MAIL_PATH for mailto links", async (href, expectedPath) => {
+    ])("should insert favicon for %s", async (href, expectedPath) => {
       const node = {
         tagName: "a",
         properties: { href },
         children: [],
       }
 
-      ModifyNode(node)
-      expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
+      await ModifyNode(node)
+      if (expectedPath === null) {
+        expect(node.children.length).toBe(0)
+      } else {
+        expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
+      }
+    })
+  })
+
+  describe("MaybeSaveFavicon with caching", () => {
+    const hostname = "example.com"
+    const quartzPngPath = "/static/images/external-favicons/example_com.png"
+    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      fetchMock.resetMocks()
+      urlCache.clear()
+      urlCache.set = jest.fn(urlCache.set)
+      urlCache.get = jest.fn(urlCache.get)
+    })
+
+    it("should cache AVIF URL when found", async () => {
+      fetchMock.mockResponseOnce("", { status: 200 })
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(avifUrl)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
+    })
+
+    it("should cache PNG path when local file exists", async () => {
+      fetchMock.mockResponseOnce("", { status: 404 })
+      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(quartzPngPath)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
     })
   })
 })

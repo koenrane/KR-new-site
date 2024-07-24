@@ -338,7 +338,7 @@ img.favicon {
     margin-left: calc(0.3 * $baseMargin);
   }
   &[src$="mail.svg"],
-  &[src$="turntrout_com.ico"] {
+  &[src$="favicon.ico"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%) sepia(10%) saturate(1460%) hue-rotate(196deg) brightness(99%) contrast(82%);
     :root[saved-theme="dark"] & {
