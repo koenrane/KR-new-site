@@ -174,13 +174,31 @@ describe("Favicon Utilities", () => {
       })
 
       it("Should not replace children with [span] if more than one child", () => {
-        const node = document.createElement("p")
-        node.innerHTML =
-          'My email is <a href="mailto:alex@turntrout.com" class="external"><code>alex@turntrout.com</code>.</a>'
+        const node = {
+          tag: "p",
+          children: [
+            "My email is ",
+            {
+              tag: "a",
+              attributes: {
+                href: "mailto:alex@turntrout.com",
+                class: "external",
+              },
+              children: [
+                {
+                  tag: "code",
+                  children: ["alex@turntrout.com"],
+                },
+              ],
+            },
+            ".",
+          ],
+        }
 
         insertFavicon(MAIL_PATH, node)
 
-        console.log(node)
+        expect(node.children.length).toBe(4)
+        expect(node.children[3]).toMatchObject(CreateFaviconElement(MAIL_PATH))
       })
     })
   })
