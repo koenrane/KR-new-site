@@ -128,6 +128,7 @@ export interface FaviconNode {
     src: string
     class: string
     alt: string
+    style?: string
   }
 }
 
@@ -172,6 +173,11 @@ export function insertFavicon(imgPath: string | null, node: any): void {
   if (lastChild && lastChild.type === "text" && lastChild.value) {
     logger.debug(`Last child is text: "${lastChild.value}"`)
     const textContent = lastChild.value
+    const toSpace = ["!", "?", "|", "]"] // Glyphs where top-right corner occupied
+    if (toSpace.includes(textContent.at(-1))) {
+      imgElement.properties.style = "margin-left: 0.05rem;"
+    }
+
     const charsToRead = Math.min(4, textContent.length)
     const lastFourChars = textContent.slice(-charsToRead)
     lastChild.value = textContent.slice(0, -charsToRead)
