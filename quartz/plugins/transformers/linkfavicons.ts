@@ -12,7 +12,7 @@ export const TURNTROUT_FAVICON_PATH =
   "https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
-export const DEFAULT_PATH = "https://assets.turntrout.com/static/images/default_favicon.png"
+export const DEFAULT_PATH = ""
 
 /**
  * Downloads an image from a given URL and saves it to the specified local path.
@@ -245,6 +245,10 @@ export async function ModifyNode(node: any): Promise<void> {
       logger.info(`Final URL: ${finalURL.href}`)
 
       const imgPath = await MaybeSaveFavicon(finalURL.hostname)
+
+      // TODO improve semantics on handling no-favicon case
+      if (imgPath === DEFAULT_PATH) return // No favicon to insert
+
       logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
       insertFavicon(imgPath, node)
     } catch (error) {

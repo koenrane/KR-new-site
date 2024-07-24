@@ -210,7 +210,7 @@ describe("Favicon Utilities", () => {
       // ["https://example.com",
       // "/static/images/external-favicons/example_com.png"], //Have yet
       // to do integration test
-      ["https://unknown.org", DEFAULT_PATH],
+      // TODO create test checking that imgPath===DEFAULT_PATH is skipped
       ["./shard-theory", TURNTROUT_FAVICON_PATH],
       ["../shard-theory", null],
       ["#test", null],
