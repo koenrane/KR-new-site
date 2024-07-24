@@ -13,10 +13,6 @@ except ImportError:
     import utils as script_utils
 
 
-R2_BASE_URL: PurePath = PurePath("https://assets.turntrout.com")
-R2_BUCKET_NAME: str = "turntrout"
-
-
 def _video_patterns(input_file: Path) -> tuple[str, str]:
     """Returns the original and replacement patterns for video files."""
     # Function to create unique named capture groups for different link patterns
