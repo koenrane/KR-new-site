@@ -165,12 +165,11 @@ export async function ModifyNode(node: any): Promise<void> {
 
   if (!samePage && !isAsset) {
       if (href.startsWith("./")) {
-          // Relative link
-          href = href.slice(2)
-          href = "https://www.turntrout.com/" + href
-        } else if (href.startsWith("..")) {
-          return
-        }
+        href = href.slice(2) // Relative link
+        href = "https://www.turntrout.com/" + href
+      } else if (href.startsWith("..")) {
+        return
+      }
     try {
       const finalURL = await followRedirects(new URL(href))
       const imgPath = await MaybeSaveFavicon(finalURL.hostname)
