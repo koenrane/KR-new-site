@@ -11,7 +11,7 @@ export const findGitRoot = () => {
     return execSync("git rev-parse --show-toplevel").toString().trim()
   } catch (error) {
     console.error(`Error finding Git root: ${error}`)
-    return null // Or throw an error, depending on your preference
+    return null 
   }
 }
 const gitRoot = findGitRoot()

@@ -4,6 +4,8 @@ import {
   CreateFaviconElement,
   ModifyNode,
   MAIL_PATH,
+  DEFAULT_PATH,
+  TURNTROUT_FAVICON_PATH,
   insertFavicon,
 } from "./linkfavicons"
 import { jest } from "@jest/globals"
@@ -48,7 +50,7 @@ describe("Favicon Utilities", () => {
       ["AVIF exists", 200, false, avifUrl],
       ["Local PNG exists", 404, true, pngPath],
       ["Download from Google", 404, false, pngPath],
-      ["All attempts fail", 404, false, null, 404],
+      ["All attempts fail", 404, false, DEFAULT_PATH, 404],
     ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
@@ -64,7 +66,7 @@ describe("Favicon Utilities", () => {
   describe("GetQuartzPath", () => {
     it.each([
       ["www.example.com", "/static/images/external-favicons/example_com.png"],
-      ["localhost", "/static/images/external-favicons/turntrout_com.png"],
+      ["localhost", TURNTROUT_FAVICON_PATH],
       ["subdomain.example.org", "/static/images/external-favicons/subdomain_example_org.png"],
     ])("should return the correct favicon path for %s", (hostname, expectedPath) => {
       expect(GetQuartzPath(hostname)).toBe(expectedPath)
@@ -80,12 +82,11 @@ describe("Favicon Utilities", () => {
       expect(element).toEqual({
         type: "element",
         tagName: "img",
-        children: [],
         properties: {
           src: urlString,
           class: "favicon",
-        },
         alt: description,
+        },
       })
     })
   })
@@ -99,21 +100,34 @@ describe("Favicon Utilities", () => {
       insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
+
+    // TODO check the creation of span elements
   })
 
-  describe("MAIL_PATH", () => {
+  describe("ModifyNode", () => {
     it.each([
+      // ["https://example.com",
+      // "/static/images/external-favicons/example_com.png"], //Have yet
+      // to do integration test
+      ["https://unknown.org", DEFAULT_PATH],
+      ["./shard-theory", TURNTROUT_FAVICON_PATH],
+      ["../shard-theory", null],
       ["mailto:test@example.com", MAIL_PATH],
       ["mailto:another@domain.org", MAIL_PATH],
-    ])("should use MAIL_PATH for mailto links", async (href, expectedPath) => {
+    ])("should insert favicon for %s", async (href, expectedPath) => {
       const node = {
         tagName: "a",
         properties: { href },
         children: [],
       }
 
-      ModifyNode(node)
-      expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
-    })
+      await ModifyNode(node)
+      if (expectedPath === null) {
+        expect(node.children.length).toBe(0)
+      } else {
+        expect(node.children[0]).toHaveProperty("properties.src", expectedPath)
+      }
+    }
+    )
   })
 })
