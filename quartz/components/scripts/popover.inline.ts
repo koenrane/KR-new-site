@@ -7,6 +7,7 @@ async function mouseEnterHandler(
   { clientX, clientY }: { clientX: number; clientY: number },
 ) {
   const link = this
+  const parentOfPopover = document.getElementById("quartz-root")
   if (link.dataset.noPopover === "true") {
     return
   }
@@ -22,11 +23,11 @@ async function mouseEnterHandler(
   }
 
   const hasAlreadyBeenFetched = () =>
-    [...link.children].some((child) => child.classList.contains("popover"))
+    [...parentOfPopover.children].some((child) => child.classList.contains("popover"))
 
   // dont refetch if there's already a popover
   if (hasAlreadyBeenFetched()) {
-    return setPosition(link.lastChild as HTMLElement)
+    return
   }
 
   const thisUrl = new URL(document.location.href)
@@ -50,7 +51,7 @@ async function mouseEnterHandler(
   const [contentType] = response.headers.get("Content-Type")!.split(";")
   const [contentTypeCategory, typeInfo] = contentType.split("/")
 
-  const popoverElement = document.createElement("div")
+  let popoverElement = document.createElement("div")
   popoverElement.classList.add("popover")
   const popoverInner = document.createElement("div")
   popoverInner.classList.add("popover-inner")
@@ -109,7 +110,58 @@ async function mouseEnterHandler(
   wrappedParseTwemoji(popoverInner)
 
   setPosition(popoverElement)
-  link.appendChild(popoverElement)
+  parentOfPopover.prepend(popoverElement)
+
+  let isMouseOverLink = false
+  let isMouseOverPopover = false
+
+  const removePopover = () => {
+    popoverElement.classList.remove("visible")
+
+    // Short delay to allow other mouse events to fire
+    setTimeout(() => {
+      if (!isMouseOverLink && !isMouseOverPopover) {
+        popoverElement.remove()
+      }
+    }, 300) // Wait until animation finishes
+  }
+
+  const showPopover = () => {
+    popoverElement.classList.add("popover-visible")
+  }
+
+  link.addEventListener("mouseenter", () => {
+    isMouseOverLink = true
+    showPopover()
+  })
+
+  link.addEventListener("mouseleave", () => {
+    isMouseOverLink = false
+    removePopover()
+  })
+
+  popoverElement.addEventListener("mouseenter", () => {
+    isMouseOverPopover = true
+  })
+
+  popoverElement.addEventListener("mouseleave", () => {
+    isMouseOverPopover = false
+    removePopover()
+  })
+  showPopover()
+
+  // Cleanup function to remove event listeners
+  const cleanup = () => {
+    link.removeEventListener("mouseenter", showPopover)
+    link.removeEventListener("mouseleave", removePopover)
+    popoverElement.removeEventListener("mouseenter", () => {
+      isMouseOverPopover = true
+    })
+    popoverElement.removeEventListener("mouseleave", () => {
+      isMouseOverPopover = false
+      removePopover()
+    })
+  }
 
   if (hash !== "") {
     hash += "-popover"
@@ -120,10 +172,12 @@ async function mouseEnterHandler(
       popoverInner.scroll({ top: heading.offsetTop - 12, behavior: "instant" })
     }
   }
+
+  return cleanup
 }
 
 // Not all IDs are valid - can't start with digit
-function escapeLeadingIdNumber(headingText) {
+function escapeLeadingIdNumber(headingText: string) {
   // Escape numbers at the start
   const escapedId = headingText.replace(/\#(\d+)/, "#_$1")
 
@@ -133,7 +187,17 @@ function escapeLeadingIdNumber(headingText) {
 document.addEventListener("nav", () => {
   const links = [...document.getElementsByClassName("internal")] as HTMLLinkElement[]
   for (const link of links) {
-    link.addEventListener("mouseenter", mouseEnterHandler)
-    window.addCleanup(() => link.removeEventListener("mouseenter", mouseEnterHandler))
+    let cleanup: (() => void) | undefined
+
+    const handleMouseEnter = async (event: MouseEvent) => {
+      if (cleanup) cleanup() // Remove previous listeners if any
+      cleanup = await mouseEnterHandler.call(link, event)
+    }
+
+    link.addEventListener("mouseenter", handleMouseEnter)
+    window.addCleanup(() => {
+      link.removeEventListener("mouseenter", handleMouseEnter)
+      if (cleanup) cleanup()
+    })
   }
 })

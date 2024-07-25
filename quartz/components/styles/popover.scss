@@ -118,8 +118,8 @@
   }
 }
 
-a:hover .popover,
-.popover:hover {
+// The initial animation is more complicated and is handled via JS
+.popover-visible {
   animation: dropin 0.3s ease;
   animation-fill-mode: forwards;
   animation-delay: 0.2s;

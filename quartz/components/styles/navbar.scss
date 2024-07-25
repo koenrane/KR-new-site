@@ -279,3 +279,10 @@
     opacity: 0;
   }
 }
+
+#nav-searchbar {
+  @media all and (min-width: $fullPageWidth) {
+    order: 2; // Search bar comes after other links
+    margin-top: $baseMargin;
+  }
+}
