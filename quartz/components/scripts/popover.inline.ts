@@ -116,17 +116,18 @@ async function mouseEnterHandler(
   let isMouseOverPopover = false
 
   const removePopover = () => {
+    popoverElement.classList.remove("visible")
+
     // Short delay to allow other mouse events to fire
     setTimeout(() => {
       if (!isMouseOverLink && !isMouseOverPopover) {
         popoverElement.remove()
       }
-    }, 500)
+    }, 300) // Wait until animation finishes
   }
 
   const showPopover = () => {
-    popoverElement.style.visibility = "visible"
-    popoverElement.style.opacity = "1"
+    popoverElement.classList.add("popover-visible")
   }
 
   link.addEventListener("mouseenter", () => {
