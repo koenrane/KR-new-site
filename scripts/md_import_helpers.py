@@ -9,6 +9,10 @@ username_dict = {
     "woog": "Alice Rigg",
 }
 
+hash_to_slugs = {
+    "iCfdcxiyr2Kj8m8mT": "the-shard-theory-of-human-values"
+}  # technically, Quintin is first author on this one
+
 permalink_conversion = {
     "many-arguments-for-ai-x-risk-are-wrong": "invalid-ai-risk-arguments",
     "dreams-of-ai-alignment-the-danger-of-suggestive-names": "danger-of-suggestive-terminology",

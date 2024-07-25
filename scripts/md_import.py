@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
+from typing import Any
 import html
+import regex as re
 from urllib.parse import unquote
 import os
 import re
@@ -15,14 +17,6 @@ print(f"{num_posts=}")
 results = data["data"]["posts"]["results"]
 
 
-def maybe_add_tag(tag: str):
-    if tag in helpers.delete_tags:
-        return
-    if tag in helpers.tag_rename_dict:
-        return helpers.tag_rename_dict[tag]
-    return tag
-
-
 def strip_referral_url(url: str) -> str:
     prefix = "https://www.lesswrong.com/out?url="
     if not url.startswith(prefix):
@@ -31,8 +25,6 @@ def strip_referral_url(url: str) -> str:
     target_url = unquote(target_url)  # eg %3A to :
     return target_url
 
-
-from typing import Any
 
 pairs = (
     ("permalink", "slug"),
@@ -187,18 +179,13 @@ def parse_latex(md: str) -> str:
     return md
 
 
-hash_to_slugs = {
-    "iCfdcxiyr2Kj8m8mT": "the-shard-theory-of-human-values"
-}  # technically, Quintin is first author on this one
-
 # Get all hashes
 for post in results:
     if not post["contents"]:
         continue
     current_hash = post["pageUrl"].split("/")[-2]
-    hash_to_slugs[current_hash] = post["slug"]
+    helpers.hash_to_slugs[current_hash] = post["slug"]
 
-import regex as re
 
 md_url_pattern = re.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
 
@@ -214,7 +201,7 @@ def _get_urls(md: str) -> list[str]:
 
 # Turn links to my LW posts into internal links
 def remove_prefix_before_slug(url: str) -> str:
-    for hash, slug in hash_to_slugs.items():
+    for hash, slug in helpers.hash_to_slugs.items():
         lw_regex = re.compile(
             f"(?:lesswrong|alignmentforum).*?{hash}(\#(.*?))?"
         )
@@ -355,9 +342,7 @@ def process_markdown(post: dict[str, Any]) -> str:
     # Standardize "eg" and "ie"
     md = re.sub(r"\be.?g.?\b", "e.g.", md, flags=re.IGNORECASE)
     md = re.sub(r"\bi.?e.?\b", "i.e.", md, flags=re.IGNORECASE)
-    md = re.sub(
-        r"\.\.", ".", md
-    )  # Might have created extra periods TODO this is going to be horrible on ellipses, replace
+    # TODO check that double periods are ok now
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
