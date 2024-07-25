@@ -46,7 +46,7 @@ let darkMode = (
 )
 
 const searchHTML = (
-  <div class="search" alt="Menu search bar">
+  <div class="search" id="nav-searchbar" alt="Menu search bar">
     <div class="no-select" id="search-icon">
       <p>Search</p>
       <div></div>
@@ -68,28 +68,10 @@ const searchHTML = (
   </div>
 )
 
-const searchInterface = (
-  <div class="search" alt="Displays search results.">
-    <div id="search-container">
-      <div id="search-space">
-        <input
-          autocomplete="off"
-          id="search-bar"
-          name="search"
-          type="text"
-          aria-label="Search"
-          placeholder="Search"
-        />
-        <div id="search-layout" data-preview={true}></div>
-      </div>
-    </div>
-  </div>
-)
-
 export default ((userOpts?: Partial<Options>) => {
   const Navbar: QuartzComponent = ({
     cfg,
-    allFiles,
+    _allFiles,
     displayClass,
     fileData,
   }: QuartzComponentProps) => {
@@ -112,7 +94,6 @@ export default ((userOpts?: Partial<Options>) => {
       <>
         <div id="navbar" className={classNames(displayClass, "navbar")}>
           <div id="navbar-left">
-            {/* <a href={baseDir}> */}
             <video
               autoPlay
               loop
@@ -122,7 +103,10 @@ export default ((userOpts?: Partial<Options>) => {
               class="header-img no-select no-vsc"
               alt=""
             >
-              <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
+              <source
+                src="https://assets.turntrout.com/static/pond.webm"
+                type="video/webm"
+              ></source>
             </video>
             {}
             <h2 class="page-title-text">
@@ -134,7 +118,6 @@ export default ((userOpts?: Partial<Options>) => {
           </div>
           <div id="navbar-right">
             {searchHTML}
-            {searchInterface}
             <button className="hamburger mobile-only" alt="Opens menu for key site links.">
               <span className="bar" />
               <span className="bar" />
