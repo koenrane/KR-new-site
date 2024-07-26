@@ -2,7 +2,11 @@ const turnDown = require("turndown")
 let turnDownPluginGfm = require("turndown-plugin-gfm")
 let gfm = turnDownPluginGfm.gfm
 
-let turndownService = new turnDown({ headingStyle: "atx", emDelimiter: "_" }).use([gfm])
+let turndownService = new turnDown({
+  headingStyle: "atx",
+  emDelimiter: "*",
+  strongDelimiter: "__",
+}).use([gfm])
 turndownService.addRule("subscript", {
   filter: ["sub"],
   replacement: function (content) {
