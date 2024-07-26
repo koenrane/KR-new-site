@@ -259,7 +259,6 @@ replacement = {
     "\xa0": " ",  # NBSP to normal space
     r"\* \* \*": "<hr/>",  # Fix horizontal rules
     r"\<\|endoftext\|\>": "<endoftext>",
-    #  "Position 0": "0",
 }
 
 
@@ -319,8 +318,10 @@ def remove_warning(md: str) -> str:
 
 def process_markdown(post: dict[str, Any]) -> str:
     md = post["contents"]["markdown"]
-    print(md)
     md = manual_replace(md)
+
+    # Not enough newlines before A: in inner/outer
+    md = regex.sub(r"\n(?=\*\*A:\*\*)", r"\n\n", md)
     md = remove_warning(md)  # Warning on power-seeking posts
     md = html.unescape(md)
 
@@ -355,8 +356,12 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = regex.sub(rf"{times_regex_nums}|{coeff_regex}", r"\1×\2", md)
 
     # Delete extra spaces around bullets
-    md = regex.sub(r"( *\*.*\n) *\n( *\*.*\n)(?: *\n)?", r"\1\2", md)
-    # Get rid of lines before list start
+    bulleted_line = r" *\*(?!\*).*\n"
+    md = regex.sub(
+        rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md
+    )
+    print(md)
+    # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
 
     # Get rid of extraneous e.g. erroneously spaced emphasis "_test _"
