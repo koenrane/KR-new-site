@@ -344,9 +344,8 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = replace_urls_in_markdown(md)
 
     # Standardize "eg" and "ie"
-    md = regex.sub(r"\be.?g.?\b", "e.g.", md, flags=regex.IGNORECASE)
-    md = regex.sub(r"\bi.?e.?\b", "i.e.", md, flags=regex.IGNORECASE)
-    # TODO check that double periods are ok now
+    md = regex.sub(r"\b(?!e\.g\.)e.?g.?\b", "e.g.", md, flags=regex.IGNORECASE)
+    md = regex.sub(r"\b(?!i\.e\.)i.?e.?\b", "i.e.", md, flags=regex.IGNORECASE)
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
