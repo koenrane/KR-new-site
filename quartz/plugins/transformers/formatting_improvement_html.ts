@@ -36,6 +36,7 @@ paragraph, while preserving the structure of the paragraph.
      transform(stripChar(textContent)) as a sanity check, ensuring
      transform is invariant to our choice of character.
   */
+// TODO add option to ignore eg code blocks by passing in a predicate
 export function transformParagraph(node: Element, transform: (input: string) => string): void {
   if (node.tagName !== "p") {
     throw new Error("Node must be a paragraph element; got " + node.tagName)
@@ -44,10 +45,11 @@ export function transformParagraph(node: Element, transform: (input: string) => 
   const textNodes = flattenTextNodes(node)
 
   // Append markerChar and concatenate
-  const originalContent = textNodes.map((n) => n.value + markerChar).join("")
+  const originalContent = textNodes.map((n) => n.value).join("")
+  const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
   // Apply transformation
-  const transformedContent = transform(originalContent)
+  const transformedContent = transform(markedContent)
 
   // Split and overwrite. Last fragment is always empty because strings end with markerChar
   const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
@@ -64,52 +66,27 @@ export function transformParagraph(node: Element, transform: (input: string) => 
   const newContent = flattenTextNodes(node)
     .map((n) => n.value)
     .join("")
-  if (newContent !== transform(originalContent.replace(new RegExp(markerChar, "g"), ""))) {
-    // console.log("Transformed fragments:", transformedFragments)
-    // console.log("Text nodes:", textNodes)
-    // console.log("New content:", newContent)
-    // console.log("Target content:", transform(originalContent.replace(markerChar, "")))
-    throw new Error("Transform is not invariant to private character")
+  if (newContent !== transform(originalContent)) {
+    throw new Error(
+      `Transformed original content (${transform(originalContent)}) is not invariant to private character (newContent=${newContent})`,
+    )
   }
-}
-
-function quotesInSmallString(text: string) {
-  const numDoubleQuotes = text.match(/["]/g)
-  // If two, replace with nice quotes
-  if (numDoubleQuotes) {
-    if (numDoubleQuotes.length === 2) {
-      let newText = text.replace(/"/, "“")
-      newText = newText.replace(/"/, "”")
-      return newText
-    } else {
-      // This gambles that we're inside a closing slice, not an opening one
-      return text.replace(/"/g, "”")
-    }
-  }
-  const numSingleQuotes = text.match(/[']/g)
-  if (numSingleQuotes) {
-    if (numSingleQuotes.length === 2) {
-      let newText = text.replace(/'/, "‘")
-      newText = newText.replace(/'/, "’")
-      return newText
-    } else {
-      return text.replace(/'/g, "’")
-    }
-  }
-  return text
+  // console.log("Transformed fragments:", transformedFragments)
+  // console.log("Text nodes:", textNodes)
+  // console.log("New content:", newContent)
+  // console.log("Target content:", transform(originalContent))
 }
 
 export function niceQuotes(text: string) {
-  // Generally these are short strings, so we can just do a simple replace
-  if (text.length < 5) {
-    return quotesInSmallString(text)
-  }
-
+  console.log(text)
   text = smartquotes(text)
+  // In some situations, smartquotes adds ″ instead of “
+  text = text.replace(/″/g, "“")
   text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
+  console.log(text)
   return text
 }
 
@@ -194,11 +171,17 @@ export const improveFormatting: Plugin = () => {
           "span.fraction",
         )
 
-        node.value = niceQuotes(node.value)
+        if (parent.tagName === "p") {
+          transformParagraph(parent, niceQuotes)
 
-        // Don't replace slashes in fractions, but give breathing room to others
-        if (!parent.properties?.className?.includes("fraction") && parent?.tagName !== "a") {
-          node.value = fullWidthSlashes(node.value)
+          // Don't replace slashes in fractions, but give breathing room
+          // to others
+          const slashPredicate = (par: any) => {
+            return !par.properties?.className?.includes("fraction") && par?.tagName !== "a"
+          }
+          if (slashPredicate(parent)) {
+            transformParagraph(parent, fullWidthSlashes) //, slashPredicate)
+          }
         }
       }
     })
