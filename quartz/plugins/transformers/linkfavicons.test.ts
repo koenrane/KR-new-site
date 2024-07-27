@@ -10,6 +10,7 @@ import {
   urlCache,
   createUrlCache,
   insertFavicon,
+  markerChar,
 } from "./linkfavicons"
 import { jest } from "@jest/globals"
 jest.mock("fs")
@@ -275,14 +276,15 @@ describe("Favicon Utilities", () => {
       }
     }
 
+    const capitalize = (str: string) => str.toUpperCase()
     it.each([
-      ["HI", 1],
-      // ["r231o dsa;", 3],
-    ])("should perform trivial replacements", (target: string, numChildren: number) => {
-      const node = _getParagraphNode(numChildren)
-      transformParagraph(node, (_str) => target)
+      ["r231o dsa;", 1],
+      ["hi", 3],
+    ])("should capitalize while respecting the marker", (before: string, numChildren: number) => {
+      const node = _getParagraphNode(numChildren, before)
+      transformParagraph(node, capitalize)
 
-      const targetNode = _getParagraphNode(numChildren, target)
+      const targetNode = _getParagraphNode(numChildren, capitalize(before))
       expect(node).toEqual(targetNode)
     })
   })

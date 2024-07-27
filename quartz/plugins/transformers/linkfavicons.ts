@@ -197,14 +197,10 @@ export function transformParagraph(node: Element, transform: (input: string) => 
   // Apply transformation
   const transformedContent = transform(originalContent)
 
-  // Split and overwrite
-  const transformedFragments = transformedContent.split(markerChar)
+  // Split and overwrite. Last fragment is always empty because strings end with markerChar
+  const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
 
   if (transformedFragments.length !== textNodes.length) {
-    console.error("Original content:", originalContent)
-    console.error("Transformed content:", transformedContent)
-    console.log("Transformed fragments:", transformedFragments)
-    console.log("Text nodes:", textNodes)
     throw new Error("Transformation altered the number of text nodes")
   }
 
@@ -217,6 +213,10 @@ export function transformParagraph(node: Element, transform: (input: string) => 
     .map((n) => n.value)
     .join("")
   if (newContent !== transform(originalContent.replace(new RegExp(markerChar, "g"), ""))) {
+    console.log("Transformed fragments:", transformedFragments)
+    console.log("Text nodes:", textNodes)
+    console.log("New content:", newContent)
+    console.log("Target content:", transform(originalContent.replace(markerChar, "")))
     throw new Error("Transform is not invariant to private character")
   }
 }
