@@ -258,12 +258,9 @@ replacement = {
     "\xa0": " ",  # NBSP to normal space
     r"\* \* \*": "<hr/>",  # Fix horizontal rules
     r"\<\|endoftext\|\>": "<endoftext>",
-<<<<<<< Updated upstream
-=======
     '" wedding"': "“ wedding”",  # Smart quotes have trouble with this one
     '" "': "“ ”",  # For wedding vector minus space
     "Position 0": "Pos. 0",  # For GPT2 post
->>>>>>> Stashed changes
 }
 
 

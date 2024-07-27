@@ -1,4 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
+import smartquotes from "smartquotes"
 import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
@@ -35,15 +36,8 @@ export function niceQuotes(text: string) {
     return quotesInSmallString(text)
   }
 
-  // If element ends with a quote, it's probably beginning a quote for another element
-  // E.g "$B=4$" has the first quote at the end of its <p> element
-  text = text.replace(/(?<=\s|^)[\"”]$/gm, "“")
-
-  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
-  text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
+  text = smartquotes(text)
   text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
-  text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
-  text = text.replace(/^\'/g, "’") // Apostrophe at beginning of element
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
@@ -125,7 +119,7 @@ export const improveFormatting: Plugin = () => {
               after: "",
             }
           },
-          (nd: any, idx: any, prnt: any) => {
+          (_nd: any, _idx: any, prnt: any) => {
             return prnt?.properties?.className?.includes("fraction")
           },
           "span.fraction",
