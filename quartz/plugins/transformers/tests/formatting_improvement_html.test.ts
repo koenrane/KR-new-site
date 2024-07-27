@@ -1,8 +1,11 @@
+import { format } from "path"
 import {
   hyphenReplace,
   niceQuotes,
   improveFormatting,
   fullWidthSlashes,
+  transformParagraph,
+  markerChar,
 } from "../formatting_improvement_html" // Adjust import path as needed
 import { rehype } from "rehype"
 
@@ -103,6 +106,31 @@ describe("HTMLFormattingImprovement", () => {
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
+    })
+  })
+
+  describe("transformParagraph", () => {
+    function _getParagraphNode(numChildren: number, value: string = "Hello, world!"): any {
+      return {
+        type: "element",
+        tagName: "p",
+        children: Array.from({ length: numChildren }, () => ({
+          type: "text",
+          value: value,
+        })),
+      }
+    }
+
+    const capitalize = (str: string) => str.toUpperCase()
+    it.each([
+      ["r231o dsa;", 1],
+      ["hi", 3],
+    ])("should capitalize while respecting the marker", (before: string, numChildren: number) => {
+      const node = _getParagraphNode(numChildren, before)
+      transformParagraph(node, capitalize)
+
+      const targetNode = _getParagraphNode(numChildren, capitalize(before))
+      expect(node).toEqual(targetNode)
     })
   })
 })

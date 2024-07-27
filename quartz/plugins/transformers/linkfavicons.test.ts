@@ -1,7 +1,6 @@
 import {
   GetQuartzPath,
   MaybeSaveFavicon,
-  transformParagraph,
   CreateFaviconElement,
   ModifyNode,
   MAIL_PATH,
@@ -10,7 +9,6 @@ import {
   urlCache,
   createUrlCache,
   insertFavicon,
-  markerChar,
 } from "./linkfavicons"
 import { jest } from "@jest/globals"
 jest.mock("fs")
@@ -261,31 +259,6 @@ describe("Favicon Utilities", () => {
       const result = await MaybeSaveFavicon(hostname)
       expect(result).toBe(quartzPngPath)
       expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
-    })
-  })
-
-  describe("transformParagraph", () => {
-    function _getParagraphNode(numChildren: number, value: string = "Hello, world!"): any {
-      return {
-        type: "element",
-        tagName: "p",
-        children: Array.from({ length: numChildren }, () => ({
-          type: "text",
-          value: value,
-        })),
-      }
-    }
-
-    const capitalize = (str: string) => str.toUpperCase()
-    it.each([
-      ["r231o dsa;", 1],
-      ["hi", 3],
-    ])("should capitalize while respecting the marker", (before: string, numChildren: number) => {
-      const node = _getParagraphNode(numChildren, before)
-      transformParagraph(node, capitalize)
-
-      const targetNode = _getParagraphNode(numChildren, capitalize(before))
-      expect(node).toEqual(targetNode)
     })
   })
 })
