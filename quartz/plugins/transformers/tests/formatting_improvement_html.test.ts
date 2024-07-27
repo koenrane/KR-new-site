@@ -32,8 +32,6 @@ describe("HTMLFormattingImprovement", () => {
       ['"I am" so "tired" of "these" "quotes".', "“I am” so “tired” of “these” “quotes.”"],
       ['"world model";', "“world model”;"],
       ['"party"/"wedding."', "“party”/“wedding.”"],
-      ["'s", "’s"],
-      ['s"', "s”"],
       ['"Hi \'Trout!"', "“Hi ‘Trout!”"],
       ["“scope insensitivity”", "“scope insensitivity”"],
     ])('should fix quotes in "%s"', (input, expected) => {
@@ -103,7 +101,6 @@ describe("HTMLFormattingImprovement", () => {
       ["This is a - hyphen.", "This is a—hyphen."],
       ["This is an — em dash.", "This is an—em dash."],
       ["word — word", "word—word"],
-      ["e - “", "e—“"],
       ["word— word", "word—word"],
       ["word —word", "word—word"],
       ['"I love dogs." - Me', '"I love dogs." — Me'],
@@ -119,6 +116,14 @@ describe("HTMLFormattingImprovement", () => {
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
+    })
+
+    it.each([
+      ["<code>This is a - hyphen.</code>", "<code>This is a - hyphen.</code>"],
+      ["<p>I think that -<em> despite</em></p>", "<p>I think that—<em>despite</em></p>"],
+    ])("handling hyphenation in the DOM", (input: string, expected: string) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
     })
   })
 

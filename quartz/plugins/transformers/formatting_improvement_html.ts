@@ -18,6 +18,7 @@ export function flattenTextNodes(node: any): Text[] {
 }
 
 export const markerChar: string = "\uE000"
+const chr = markerChar
 /* Sometimes I want to transform the text content of a paragraph (e.g.
 by adding smart quotes). But that paragraph might contain multiple child
 elements. If I transform each of the child elements individually, the
@@ -46,6 +47,7 @@ export function transformParagraph(node: Element, transform: (input: string) => 
 
   // Append markerChar and concatenate
   const originalContent = textNodes.map((n) => n.value).join("")
+  // TODO is first node not getting a marker?
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
   // Apply transformation
@@ -78,7 +80,6 @@ export function transformParagraph(node: Element, transform: (input: string) => 
 }
 
 export function niceQuotes(text: string) {
-  console.log(text)
   text = smartquotes(text)
   // In some situations, smartquotes adds ″ instead of “
   text = text.replace(/″/g, "“")
@@ -86,7 +87,6 @@ export function niceQuotes(text: string) {
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
-  console.log(text)
   return text
 }
 
@@ -96,23 +96,31 @@ export function fullWidthSlashes(text: string): string {
 }
 
 export function hyphenReplace(text: string) {
-  // Create a regex for dashes surrounded by spaces
-  const surroundedDash = new RegExp("([^\\s>]|^) *[~–—-]+ +", "g")
+  // Handle dashes with potential spaces and optional marker character
+  const surroundedDash = new RegExp(
+    `(?<before>[^\\s>]|^)[ ]*(?<markerBefore>${chr}?)[ ]*[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    "g",
+  )
 
   // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, "$1—")
+  text = text.replace(surroundedDash, `$<before>$<markerBefore>—$<markerAfter>`)
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
-  const spacesAroundEM = new RegExp(" *— *", "g")
+  const spacesAroundEM = new RegExp(
+    `[ ]*(?<markerBefore>${chr}?)[ ]*—[ ]*(?<markerAfter>${chr}?)[ ]*`,
+    "g",
+  )
 
   // Remove spaces around em dashes
-  text = text.replace(spacesAroundEM, "—")
+  text = text.replace(spacesAroundEM, "$<markerBefore>—$<markerAfter>")
 
-  const postQuote = /([.!?]["”])\s*—\s*/g
-  text = text.replace(postQuote, "$1 — ")
+  // Handle special case after quotation marks
+  const postQuote = new RegExp(`(?<quote>[.!?]${chr}?['"’”]${chr}?)${spacesAroundEM.source}`, "g")
+  text = text.replace(postQuote, "$<quote> $<markerBefore>—$<markerAfter> ")
 
-  const startOfLine = /^\s*—\s*([A-Z0-9])/g
-  text = text.replace(startOfLine, "— $1")
+  // Handle em dashes at the start of a line
+  const startOfLine = new RegExp(`^${spacesAroundEM.source}(?<after>[A-Z0-9])`, "g")
+  text = text.replace(startOfLine, "$<markerBefore>—$<markerAfter> $<after>")
 
   return text
 }
@@ -151,7 +159,9 @@ export const improveFormatting: Plugin = () => {
 
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
-        node.value = hyphenReplace(node.value)
+        if (parent.tagName === "p") {
+          transformParagraph(parent, hyphenReplace)
+        }
 
         replaceRegex(
           node,
@@ -180,7 +190,7 @@ export const improveFormatting: Plugin = () => {
             return !par.properties?.className?.includes("fraction") && par?.tagName !== "a"
           }
           if (slashPredicate(parent)) {
-            transformParagraph(parent, fullWidthSlashes) //, slashPredicate)
+            transformParagraph(parent, fullWidthSlashes)
           }
         }
       }
