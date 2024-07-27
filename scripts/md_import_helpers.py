@@ -10,7 +10,7 @@ username_dict = {
 }
 
 hash_to_slugs = {
-    "iCfdcxiyr2Kj8m8mT": "the-shard-theory-of-human-values"
+    "iCfdcxiyr2Kj8m8mT": "shard-theory"
 }  # technically, Quintin is first author on this one
 
 permalink_conversion = {
