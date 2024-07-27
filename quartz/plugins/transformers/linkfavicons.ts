@@ -1,5 +1,6 @@
 import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
+import { Element, Text, Node, Parent } from "hast"
 import { Readable } from "stream"
 import { pipeline } from "stream/promises"
 import fs from "fs"
@@ -151,6 +152,72 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
       class: "favicon",
       alt: description,
     },
+  }
+}
+function flattenTextNodes(node: any): Text[] {
+  if (node.type === "text") {
+    return [node]
+  }
+  if (node.type === "element" && "children" in node) {
+    return node.children.flatMap((child: any) => flattenTextNodes(child as Node))
+  }
+  // Handle other node types (like comments) by returning an empty array
+  return []
+}
+
+export const markerChar: string = "\uE000"
+/* Sometimes I want to transform the text content of a paragraph (e.g.
+by adding smart quotes). But that paragraph might contain multiple child
+elements. If I transform each of the child elements individually, the
+transformation might fail or be mangled. For example, consider the
+literal string "<em>foo</em>" The transformers will see '"', 'foo', and
+'"'. It's then impossible to know how to transform the quotes.
+
+This function allows applying transformations to the text content of a
+paragraph, while preserving the structure of the paragraph. 
+  1. Append a private-use unicode char to end of each child's text content.  
+  2. Take text content of the whole paragraph and apply
+     transform to it
+  3. Split the transformed text content by the unicode char, putting
+     each fragment back into the corresponding child node. 
+  4. Assert that stripChar(transform(textContentWithChar)) =
+     transform(stripChar(textContent)) as a sanity check, ensuring
+     transform is invariant to our choice of character.
+  */
+export function transformParagraph(node: Element, transform: (input: string) => string): void {
+  if (node.tagName !== "p") {
+    throw new Error("Node must be a paragraph element; got " + node.tagName)
+  }
+
+  const textNodes = flattenTextNodes(node)
+
+  // Append markerChar and concatenate
+  const originalContent = textNodes.map((n) => n.value + markerChar).join("")
+
+  // Apply transformation
+  const transformedContent = transform(originalContent)
+
+  // Split and overwrite
+  const transformedFragments = transformedContent.split(markerChar)
+
+  if (transformedFragments.length !== textNodes.length) {
+    console.error("Original content:", originalContent)
+    console.error("Transformed content:", transformedContent)
+    console.log("Transformed fragments:", transformedFragments)
+    console.log("Text nodes:", textNodes)
+    throw new Error("Transformation altered the number of text nodes")
+  }
+
+  textNodes.forEach((node, index) => {
+    node.value = transformedFragments[index]
+  })
+
+  // Sanity check
+  const newContent = flattenTextNodes(node)
+    .map((n) => n.value)
+    .join("")
+  if (newContent !== transform(originalContent.replace(new RegExp(markerChar, "g"), ""))) {
+    throw new Error("Transform is not invariant to private character")
   }
 }
 
