@@ -159,7 +159,7 @@ def fix_footnotes(text: str) -> str:
 def parse_latex(md: str) -> str:
     # Turn into block mode if it should be display math
     md = regex.sub(
-        r"(?:[^\$]|$)\$\\begin\{(align|equation)\}",
+        r"(?:[^\$]|^)\$\\begin\{(align|equation)\}",
         r"$$\\begin{\1}",
         md,
         flags=regex.MULTILINE,
@@ -172,9 +172,9 @@ def parse_latex(md: str) -> str:
     )
 
     # Add newline after the beginning of display math
-    md = regex.sub(r"(\$\$)([^\n])", r"\1\n\2", md, flags=regex.MULTILINE)
+    md = regex.sub(r"(?<=\$\$)(?=[^\n])", r"\n", md, flags=regex.MULTILINE)
     # Add newline before the end of display math
-    md = regex.sub(r"([^\n])(\$\$)", r"\1\n\2", md, flags=regex.MULTILINE)
+    md = regex.sub(r"(?<=[^\n])(?=\$\$)", r"\n", md, flags=regex.MULTILINE)
 
     # # Have proper newlines for equations
     md = regex.sub(r"([^\\])\\(?=$)", r"\1\\\\", md, flags=regex.MULTILINE)
@@ -206,7 +206,7 @@ def _get_urls(md: str) -> list[str]:
 def remove_prefix_before_slug(url: str) -> str:
     for hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            f"(?:lesswrong|alignmentforum).*?{hash}(\#(.*?))?"
+            rf"(?:lesswrong|alignmentforum).*?{hash}(\#(.*?))?"
         )
 
         # Capture anchor information after the slug (if present)
@@ -242,11 +242,10 @@ replacement = {
     "Hoffmann,Ruettler,Nieder(2011) AnimBehav.pdf": "Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf",
     "is_in": "is _in",
     "<em>openai.com/o</em>penai-five/": "openai.com/openai-five/",
-    "\(<em>h</em>ttps://": "(https://",
+    r"\(<em>h</em>ttps://": "(https://",
     "茂": "ï",
     "": "",  # TODO reinsert this thing showing up before double 'f'. was problem in original IC post
     "◻️": "∎",  # Official end of proof symbol
-    #  "◻": "∎",
     "lesserwrong.com": "lesswrong.com",
     # Latex substitutions
     r"\\DeclareMathOperator\*?{\\argmax}{arg\\,max}": "",
@@ -271,11 +270,10 @@ def manual_replace(md: str) -> str:
 def move_citation_to_quote_admonition(md: str) -> str:
     # Move link attribution to beginning
     start_adm_pattern = r"> \[!quote\]\s*"
-    body_pattern = r"(?P<body>(?:>.*\n)+)"  # Main part of the quote
+    body_pattern = r"(?P<body>(?:>.*\n)+?)"  # Main part of the quote
     line_break_pattern = r"(?:>\s*)*"
 
-    pre_citation_pattern = r"> *[~-—–]+[ _\*]*"
-
+    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*"
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     url_pattern = r"\((?P<url>[^#].*?)\)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
@@ -293,6 +291,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
     target = r"> [!quote] [\g<linktext>](\g<url>)\n\g<body>"
     md = regex.sub(pattern, target, md)
 
+    # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well
     # move normal attribution to beginning
     pattern = (
         start_adm_pattern
@@ -305,8 +304,8 @@ def move_citation_to_quote_admonition(md: str) -> str:
     target = r"> [!quote] \g<citationtext>\n\g<body>"
     md = regex.sub(pattern, target, md)
 
-    # Remove trailing "> " quote line if needed
-    md = regex.sub(r"^> *\n([^>])", r"\1", md, flags=regex.MULTILINE)
+    # Strip a trailing newline if needed
+    md = md.rstrip("\n")
     return md
 
 
@@ -328,7 +327,7 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = fix_footnotes(md)
 
     # unescape the new lines
-    newlined = md.replace("\\\\", "\\").replace("\\([\[\]\(\)-])", "\\1")
+    newlined = md.replace("\\\\", "\\").replace(r"\\([\[\]\(\)-])", "\\1")
     # fix the lists to not have extra newlines
     single_line_li_md = regex.sub(r"\n\n(\s*)(\d\.|\*) ", r"\n\1\2 ", newlined)
     # make the block quotes contiguous
@@ -345,8 +344,12 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = replace_urls_in_markdown(md)
 
     # Standardize "eg" and "ie"
-    md = regex.sub(r"\b(?!e\.g\.)e.?g.?\b", "e.g.", md, flags=regex.IGNORECASE)
-    md = regex.sub(r"\b(?!i\.e\.)i.?e.?\b", "i.e.", md, flags=regex.IGNORECASE)
+    md = regex.sub(
+        r"\b(?!e\.g\.)e\.?g\.?\b", "e.g.", md, flags=regex.IGNORECASE
+    )
+    md = regex.sub(
+        r"\b(?!i\.e\.)i\.?e\.?\b", "i.e.", md, flags=regex.IGNORECASE
+    )
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
@@ -360,7 +363,6 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = regex.sub(
         rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md
     )
-    print(md)
     # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
 
@@ -420,7 +422,7 @@ if __name__ == "__main__":
 
     output_filename = f"{post['slug']}.md"
     with open(
-        Path("..", "content", output_filename), "w", encoding="utf-8"
+        Path("..", "content", "drafts", output_filename), "w", encoding="utf-8"
     ) as f:
         f.write(md)
 
