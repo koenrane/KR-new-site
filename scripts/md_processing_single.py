@@ -258,6 +258,7 @@ replacement = {
     "\xa0": " ",  # NBSP to normal space
     r"\* \* \*": "<hr/>",  # Fix horizontal rules
     r"\<\|endoftext\|\>": "<endoftext>",
+    '" wedding"-" "': "“ wedding”-“ ”",  # Smart quotes have trouble with this one
 }
 
 
