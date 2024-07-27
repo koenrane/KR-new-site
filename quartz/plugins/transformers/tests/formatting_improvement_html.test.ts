@@ -34,6 +34,10 @@ describe("HTMLFormattingImprovement", () => {
       ['"party"/"wedding."', "“party”/“wedding.”"],
       ['"Hi \'Trout!"', "“Hi ‘Trout!”"],
       ["“scope insensitivity”", "“scope insensitivity”"],
+      [
+        "strategy s's return is good, even as d's return is bad",
+        "strategy s’s return is good, even as d’s return is bad",
+      ],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -52,6 +56,7 @@ describe("HTMLFormattingImprovement", () => {
 
     it.each([
       ['<p>"<em>This</em>"</p>', "<p>“<em>This</em>”</p>"],
+      ['<p><em>"T<b>hi"</b>s</em></p>', "<p><em>“T<b>hi”</b>s</em></p>"],
       [
         '<p>"This quote should change" <code>Test</code></p>',
         "<p>“This quote should change” <code>Test</code></p>",

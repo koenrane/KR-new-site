@@ -6,12 +6,15 @@ import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 
 // TODO test
-export function flattenTextNodes(node: any): Text[] {
+export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): Text[] {
+  if (ignoreNode(node)) {
+    return []
+  }
   if (node.type === "text") {
     return [node]
   }
   if (node.type === "element" && "children" in node) {
-    return node.children.flatMap((child: any) => flattenTextNodes(child as Node))
+    return node.children.flatMap((child: any) => flattenTextNodes(child as Node, ignoreNode))
   }
   // Handle other node types (like comments) by returning an empty array
   return []
@@ -37,20 +40,22 @@ paragraph, while preserving the structure of the paragraph.
      transform(stripChar(textContent)) as a sanity check, ensuring
      transform is invariant to our choice of character.
   */
-// TODO add option to ignore eg code blocks by passing in a predicate
-export function transformParagraph(node: Element, transform: (input: string) => string): void {
+export function transformParagraph(
+  node: Element,
+  transform: (input: string) => string,
+  ignoreNodeFn: (input: Node) => boolean = () => false,
+): void {
   if (node.tagName !== "p") {
     throw new Error("Node must be a paragraph element; got " + node.tagName)
   }
 
-  const textNodes = flattenTextNodes(node)
+  const textNodes = flattenTextNodes(node, ignoreNodeFn)
 
   // Append markerChar and concatenate
   const originalContent = textNodes.map((n) => n.value).join("")
   // TODO is first node not getting a marker?
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
-  // Apply transformation
   const transformedContent = transform(markedContent)
 
   // Split and overwrite. Last fragment is always empty because strings end with markerChar
@@ -64,8 +69,8 @@ export function transformParagraph(node: Element, transform: (input: string) => 
     node.value = transformedFragments[index]
   })
 
-  // Sanity check
-  const newContent = flattenTextNodes(node)
+  // Check that the transformation is invariant to our choice of character
+  const newContent = flattenTextNodes(node, ignoreNodeFn)
     .map((n) => n.value)
     .join("")
   if (newContent !== transform(originalContent)) {
@@ -73,16 +78,13 @@ export function transformParagraph(node: Element, transform: (input: string) => 
       `Transformed original content (${transform(originalContent)}) is not invariant to private character (newContent=${newContent})`,
     )
   }
-  // console.log("Transformed fragments:", transformedFragments)
-  // console.log("Text nodes:", textNodes)
-  // console.log("New content:", newContent)
-  // console.log("Target content:", transform(originalContent))
 }
 
 export function niceQuotes(text: string) {
   text = smartquotes(text)
   // In some situations, smartquotes adds ″ instead of “
   text = text.replace(/″/g, "“")
+  // TODO convert to be compatible with chr
   text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
@@ -141,6 +143,8 @@ function isInsideCode(node: any) {
   return false
 }
 
+const isCode = (node: any) => node.tagName === "code"
+
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
@@ -157,11 +161,13 @@ export const improveFormatting: Plugin = () => {
         node.children = [newSpan]
       }
 
+      if (node.tagName === "p") {
+        transformParagraph(node, hyphenReplace, isCode)
+      }
+
+      // A direct transform, instead of on the children of a <p> element
       if (node.type === "text" && node.value && !isInsideCode(parent)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
-        if (parent.tagName === "p") {
-          transformParagraph(parent, hyphenReplace)
-        }
 
         replaceRegex(
           node,
@@ -180,18 +186,18 @@ export const improveFormatting: Plugin = () => {
           },
           "span.fraction",
         )
+      }
+      if (node.tagName === "p") {
+        transformParagraph(node, niceQuotes, isCode)
+        // TODO check Dyck-1 compliant
 
-        if (parent.tagName === "p") {
-          transformParagraph(parent, niceQuotes)
-
-          // Don't replace slashes in fractions, but give breathing room
-          // to others
-          const slashPredicate = (par: any) => {
-            return !par.properties?.className?.includes("fraction") && par?.tagName !== "a"
-          }
-          if (slashPredicate(parent)) {
-            transformParagraph(parent, fullWidthSlashes)
-          }
+        // Don't replace slashes in fractions, but give breathing room
+        // to others
+        const slashPredicate = (n: any) => {
+          return !n.properties?.className?.includes("fraction") && n?.tagName !== "a"
+        }
+        if (slashPredicate(node)) {
+          transformParagraph(node, fullWidthSlashes, isCode)
         }
       }
     })
