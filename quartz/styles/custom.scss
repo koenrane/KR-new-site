@@ -484,9 +484,9 @@ body.no-mix-blend-mode {
   }
 
   & #search-layout {
-    & img,
-    video,
-    svg {
+    [saved-theme="light"] & img,
+    [saved-theme="light"] & video,
+    [saved-theme="light"] & svg {
       mix-blend-mode: multiply;
     }
   }
