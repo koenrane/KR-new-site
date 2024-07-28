@@ -266,6 +266,7 @@ replacement = {
     "Position 0": "Pos. 0",  # For GPT2 post
     r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
     "2019/2020": "2019 & 2020",
+    "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
 }
 
 
@@ -353,10 +354,10 @@ def process_markdown(post: dict[str, Any]) -> str:
 
     # Standardize "eg" and "ie"
     md = regex.sub(
-        r"\b(?!e\.g\.)e\.?g\.?\b", "e.g.", md, flags=regex.IGNORECASE
+        r"\b(?!e\.g\.)e\.?g\.?,?\b", "e.g.", md, flags=regex.IGNORECASE
     )
     md = regex.sub(
-        r"\b(?!i\.e\.)i\.?e\.?\b", "i.e.", md, flags=regex.IGNORECASE
+        r"\b(?!i\.e\.)i\.?e\.?,?\b", "i.e.", md, flags=regex.IGNORECASE
     )
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
@@ -395,7 +396,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         raise ValueError("Error: Incorrect number of arguments")
 
-    title_substring = sys.argv[1].lower()
+    title_substring = sys.argv[1]
 
     with open("/tmp/all_posts_md.json", "r") as f:
         data = json.load(f)
@@ -403,7 +404,7 @@ if __name__ == "__main__":
     results = data["data"]["posts"]["results"]
 
     matching_posts = [
-        post for post in results if title_substring in post["title"].lower()
+        post for post in results if title_substring in post["title"]
     ]
 
     if len(matching_posts) == 0:
