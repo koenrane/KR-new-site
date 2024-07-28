@@ -139,6 +139,8 @@ def add_quartz_metadata(meta: dict[str, Any]) -> dict[str, Any]:
     # Format into desired string
     formatted_date = dt.strftime("%m/%d/%Y")
     meta["date_published"] = formatted_date
+
+    meta["original_url"] = meta["lw-page-url"]
     return meta
 
 
@@ -213,7 +215,6 @@ for post in results:
     helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[
         post["slug"]
     ]
-    # TODO check this
 
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
