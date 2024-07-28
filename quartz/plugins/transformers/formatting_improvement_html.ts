@@ -111,13 +111,21 @@ export function fullWidthSlashes(text: string): string {
 
 export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
+  const preDash = new RegExp(
+    `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+)`,
+  )
   const surroundedDash = new RegExp(
-    `(?<before>[^\\s>]|^)[ ]*(?<markerBefore>${chr}?)[ ]*[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<before>[^\\s>]|^)${preDash.source}[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
 
+  console.log(surroundedDash)
   // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, `$<before>$<markerBefore>—$<markerAfter>`)
+  text = text.replace(
+    surroundedDash,
+    `$<before>$<markerBeforeOne>$<markerBeforeTwo>—$<markerAfter>`,
+  )
+  text = text.replace(/^- /gm, "— ") // Handle dashes at the start of a line
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(

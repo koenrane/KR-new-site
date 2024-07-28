@@ -38,6 +38,7 @@ describe("HTMLFormattingImprovement", () => {
         "strategy s's return is good, even as d's return is bad",
         "strategy s’s return is good, even as d’s return is bad",
       ],
+      ["He wanted 'power.'", "He wanted ‘power.’"], // Test end of line
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -132,6 +133,7 @@ describe("HTMLFormattingImprovement", () => {
         "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
         "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
       ], // Don't condense em dashes right after ellipses
+      ["a browser- or OS-specific fashion", "a browser- or OS-specific fashion"], // Retain hyphen in compound words
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
