@@ -134,6 +134,7 @@ const config: QuartzConfig = {
       Plugin.TagAcronyms(),
       Plugin.LinkTextPunctuation(),
       Plugin.AddFavicons(),
+      Plugin.Twemoji(),
       Plugin.TroutOrnamentHr(),
     ],
     filters: [Plugin.ExplicitPublish()],
