@@ -75,6 +75,10 @@ export function transformParagraph(
     .map((n) => n.value)
     .join("")
   if (newContent !== transform(originalContent)) {
+    console.log("Original content:", originalContent)
+    console.log("Transformed content:", newContent)
+    console.log("Transformed original content:", transform(originalContent))
+
     throw new Error(
       `Transformed original content (${transform(originalContent)}) is not invariant to private character (newContent=${newContent})`,
     )
@@ -83,10 +87,13 @@ export function transformParagraph(
 
 export function niceQuotes(text: string) {
   text = smartquotes(text)
+
   // In some situations, smartquotes adds ″ instead of “
   text = text.replace(/″/g, "“")
-  // TODO convert to be compatible with chr
-  text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
+
+  // at the beginning of a word
+  const quoteRegex = new RegExp(`(?<before>[^\\w\\d${chr}])['’](?!s\\s)(?=\\S)`, "g")
+  text = text.replace(quoteRegex, "$<before>‘")
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
