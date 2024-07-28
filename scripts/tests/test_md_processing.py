@@ -45,11 +45,19 @@ def test_strip_referral_url():
 
 
 def test_get_metadata():
-    metadata = md_process.get_metadata(sample_post)
+    metadata = md_process.get_lw_metadata(sample_post)
     assert metadata["title"] == '"Sample Post"'
     assert metadata["permalink"] == "/posts/sample-post"
     assert metadata["publish"] == "true"
     assert "AI" in metadata["tags"]
+
+
+def test_timestamp_formatting():
+    timestamp = "2023-01-01T00:00:00Z"
+    formatted_metadata = md_process.add_quartz_metadata(
+        {"lw-posted-at": timestamp}
+    )
+    assert formatted_metadata["date_published"] == "01/01/2023"
 
 
 def test_metadata_to_yaml():
@@ -88,7 +96,7 @@ def test_remove_prefix_before_slug():
 
 def test_replace_urls_in_markdown():
     md = "Check out [this post](https://www.lesswrong.com/posts/abcdef123456/sample-post)"
-    replaced = md_process.replace_urls_in_markdown(md)
+    replaced = md_process.replace_urls(md)
     assert replaced == "Check out [this post](/sample-post)"
 
 

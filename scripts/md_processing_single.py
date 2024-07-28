@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 import json
 import sys
 from pathlib import Path
 from typing import Any
 import html
-
-# import regex as re
-import regex
 from urllib.parse import unquote
+import regex
 
 try:
     from . import md_import_helpers as helpers
@@ -51,18 +50,18 @@ pairs = (
 )
 
 
-def get_metadata(post: dict[str, Any]) -> dict:
-    metadata = dict((key, post[val]) for (key, val) in pairs)
-    metadata["permalink"] = helpers.permalink_conversion[post["slug"]]
+def get_lw_metadata(post_info: dict[str, Any]) -> dict:
+    metadata = dict((key, post_info[val]) for (key, val) in pairs)
+    metadata["permalink"] = helpers.permalink_conversion[post_info["slug"]]
 
     metadata["publish"] = (
         "true" if not metadata["lw-was-draft-post"] else "false"
     )
 
-    title = post["title"].replace('"', "'")
+    title = post_info["title"].replace('"', "'")
     metadata["title"] = f'"{title}"'  # Escape in case of colons
-    if "contents" in post and (post["contents"]):
-        metadata["lw-latest-edit"] = post["contents"]["editedAt"]
+    if "contents" in post_info and (post_info["contents"]):
+        metadata["lw-latest-edit"] = post_info["contents"]["editedAt"]
         metadata["lw-is-linkpost"] = not (
             metadata["lw-page-url"] == metadata["lw-linkpost-url"]
         )
@@ -71,9 +70,9 @@ def get_metadata(post: dict[str, Any]) -> dict:
                 metadata["lw-linkpost-url"]
             )
 
-    if "coauthors" in post and post["coauthors"]:
+    if "coauthors" in post_info and post_info["coauthors"]:
         authors = ["Alex Turner"]
-        for coauthor in post["coauthors"]:
+        for coauthor in post_info["coauthors"]:
             display_name = coauthor["displayName"]
             if display_name in helpers.username_dict:
                 display_name = helpers.username_dict[display_name]
@@ -86,9 +85,10 @@ def get_metadata(post: dict[str, Any]) -> dict:
             author_str = authors[0]
         metadata["authors"] = author_str
 
-    metadata["tags"] = [entry["name"] for entry in post["tags"]]
-    to_keep = lambda x: x in helpers.keep_tags
-    metadata["tags"] = set(filter(to_keep, metadata["tags"]))
+    metadata["tags"] = [entry["name"] for entry in post_info["tags"]]
+    metadata["tags"] = set(
+        filter(lambda x: x in helpers.keep_tags, metadata["tags"])
+    )
     metadata["tags"] = list(
         map(
             lambda tag: (
@@ -104,25 +104,42 @@ def get_metadata(post: dict[str, Any]) -> dict:
     if not metadata["tags"]:
         print(f"ALERT: {metadata['title']} has no tags\n")
 
-    metadata["aliases"] = [post["slug"]]
-    if "podcastEpisode" in post and (episode := post["podcastEpisode"]):
+    metadata["aliases"] = [post_info["slug"]]
+    if "podcastEpisode" in post_info and (
+        episode := post_info["podcastEpisode"]
+    ):
         metadata["lw-podcast-link"] = episode["episodeLink"]
-    if "sequence" in post and (sequence := post["sequence"]):
+    if "sequence" in post_info and (sequence := post_info["sequence"]):
         metadata["lw-sequence-title"] = sequence["title"]
         metadata["lw-sequence-image-grid"] = sequence["gridImageId"]
         metadata["lw-sequence-image-banner"] = sequence["bannerImageId"]
 
     for order in ("prev", "next"):
-        if post[f"{order}Post"]:
-            metadata[f"{order}-post-slug"] = post[f"{order}Post"]["slug"]
+        if post_info[f"{order}Post"]:
+            metadata[f"{order}-post-slug"] = post_info[f"{order}Post"]["slug"]
 
-    if "reviewWinner" in post and (review_info := post["reviewWinner"]):
+    if "reviewWinner" in post_info and (
+        review_info := post_info["reviewWinner"]
+    ):
         metadata["lw-review-art"] = review_info["reviewWinnerArt"]
         metadata["lw-review-competitor-count"] = review_info["competitorCount"]
         metadata["lw-review-year"] = review_info["reviewYear"]
         metadata["lw-review-ranking"] = review_info["reviewRanking"]
         metadata["lw-review-category"] = review_info["category"]
     return metadata
+
+
+def add_quartz_metadata(meta: dict[str, Any]) -> dict[str, Any]:
+    publication_timestamp: str = meta["lw-posted-at"]
+    # Parse the timestamp (Z indicates UTC timezone)
+    dt = datetime.fromisoformat(
+        publication_timestamp[:-1]
+    )  # Remove the trailing 'Z'
+
+    # Format into desired string
+    formatted_date = dt.strftime("%m/%d/%Y")
+    meta["date_published"] = formatted_date
+    return meta
 
 
 def _entry_to_yaml(key: str, val: Any) -> str:
@@ -138,9 +155,9 @@ def _entry_to_yaml(key: str, val: Any) -> str:
     return yaml
 
 
-def metadata_to_yaml(metadata: dict[str, Any]) -> str:
+def metadata_to_yaml(meta: dict[str, Any]) -> str:
     yaml = "---\n"
-    for key, val in metadata.items():
+    for key, val in meta.items():
         yaml += _entry_to_yaml(key, val)
     yaml += "---\n"
     return yaml
@@ -156,30 +173,36 @@ def fix_footnotes(text: str) -> str:
     return regex.sub(r"\)(\w)", r") \1", text)
 
 
-def parse_latex(md: str) -> str:
+def parse_latex(markdown: str) -> str:
     # Turn into block mode if it should be display math
-    md = regex.sub(
+    markdown = regex.sub(
         r"(?:[^\$]|^)\$\\begin\{(align|equation)\}",
         r"$$\\begin{\1}",
-        md,
+        markdown,
         flags=regex.MULTILINE,
     )
-    md = regex.sub(
+    markdown = regex.sub(
         r"\\end\{(align|equation)\} *\$(?!\$)",
         r"\\end{\1}$$",
-        md,
+        markdown,
         flags=regex.MULTILINE,
     )
 
     # Add newline after the beginning of display math
-    md = regex.sub(r"(?<=\$\$)(?=[^\n])", r"\n", md, flags=regex.MULTILINE)
+    markdown = regex.sub(
+        r"(?<=\$\$)(?=[^\n])", r"\n", markdown, flags=regex.MULTILINE
+    )
     # Add newline before the end of display math
-    md = regex.sub(r"(?<=[^\n])(?=\$\$)", r"\n", md, flags=regex.MULTILINE)
+    markdown = regex.sub(
+        r"(?<=[^\n])(?=\$\$)", r"\n", markdown, flags=regex.MULTILINE
+    )
 
     # # Have proper newlines for equations
-    md = regex.sub(r"([^\\])\\(?=$)", r"\1\\\\", md, flags=regex.MULTILINE)
+    markdown = regex.sub(
+        r"([^\\])\\(?=$)", r"\1\\\\", markdown, flags=regex.MULTILINE
+    )
 
-    return md
+    return markdown
 
 
 # Get all hashes
@@ -196,9 +219,9 @@ for post in results:
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
 
 
-def _get_urls(md: str) -> list[str]:
+def _get_urls(markdown: str) -> list[str]:
     urls = []
-    for re_match in md_url_pattern.finditer(md):
+    for re_match in md_url_pattern.finditer(markdown):
         _, _, url = re_match.groups()
         urls.append(url)
 
@@ -224,14 +247,14 @@ def remove_prefix_before_slug(url: str) -> str:
     return url  # Return the original URL if no slug match
 
 
-def replace_urls_in_markdown(md: str) -> str:
-    urls: list[str] = _get_urls(md)
+def replace_urls(markdown: str) -> str:
+    urls: list[str] = _get_urls(markdown)
     for url in urls:
         if "commentId=" in url:
             continue  # Skip comments
         sanitized_url: str = remove_prefix_before_slug(url)
-        md = md.replace(url, sanitized_url)
-    return md
+        markdown = markdown.replace(url, sanitized_url)
+    return markdown
 
 
 # regex_not_in_code = r"\`{1,3}.*?\`{1,3}(*SKIP)(*FAIL)|"
@@ -318,14 +341,14 @@ def move_citation_to_quote_admonition(md: str) -> str:
     return md
 
 
-def remove_warning(md: str) -> str:
-    return md.split(
+def remove_warning(markdown: str) -> str:
+    return markdown.split(
         "moved away from optimal policies and treated reward functions more realistically.**\n"
     )[-1]
 
 
-def process_markdown(post: dict[str, Any]) -> str:
-    md = post["contents"]["markdown"]
+def process_markdown(post_info: dict[str, Any]) -> str:
+    md = post_info["contents"]["markdown"]
     md = manual_replace(md)
 
     # Not enough newlines before A: in inner/outer
@@ -350,7 +373,7 @@ def process_markdown(post: dict[str, Any]) -> str:
     md = move_citation_to_quote_admonition(md)
 
     # Make links to posts relative, now target turntrout.com
-    md = replace_urls_in_markdown(md)
+    md = replace_urls(md)
 
     # Standardize "eg" and "ie"
     md = regex.sub(
@@ -424,7 +447,8 @@ if __name__ == "__main__":
     if not post["contents"]:
         raise ValueError("Error: Post has no contents")
 
-    metadata = get_metadata(post)
+    metadata = get_lw_metadata(post)
+    metadata = add_quartz_metadata(metadata)
     yaml = metadata_to_yaml(metadata)
     post_md = process_markdown(post)
     md = yaml + post_md
