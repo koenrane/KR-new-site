@@ -305,6 +305,7 @@ figcaption,
   font-style: inherit;
   text-transform: lowercase;
   -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
+  font-feature-settings: "smcp" on;
 
   &:visited {
     color: var(--color-visited);
