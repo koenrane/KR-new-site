@@ -265,6 +265,7 @@ replacement = {
     '" "': "“ ”",  # For wedding vector minus space
     "Position 0": "Pos. 0",  # For GPT2 post
     r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
+    "2019/2020": "2019 & 2020",
 }
 
 
@@ -280,7 +281,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
     body_pattern = r"(?P<body>(?:>.*\n)+?)"  # Main part of the quote
     line_break_pattern = r"(?:>\s*)*"
 
-    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*"
+    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     url_pattern = r"\((?P<url>[^#].*?)\)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
@@ -295,7 +296,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
         + post_citation_pattern
     )
 
-    target = r"> [!quote] [\g<linktext>](\g<url>)\n\g<body>"
+    target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
     md = regex.sub(pattern, target, md)
 
     # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well

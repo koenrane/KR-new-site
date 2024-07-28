@@ -98,19 +98,40 @@ def test_manual_replace():
     assert "IFF" in replaced
 
 
-def test_move_citation_to_quote_admonition():
-    md = (
-        "> [!quote]\n"
-        "> This is a quote\n"
-        ">\n"  # Extra newline for clarity
-        "> -- [Author](https://example.com)"
-    )
+boring_admonition_initial = (
+    "> [!quote]\n"
+    "> This is a quote\n"
+    ">\n"  # Extra newline for clarity
+    "> -- [Author](https://example.com)"
+)
+
+boring_admonition_target = (
+    "> [!quote] [Author](https://example.com)\n> This is a quote"
+)
+
+breakfast_initial = """> [!quote]
+>
+> Wait, what?
+>
+> ~ AllAmericanBreakfast, [_The Multi-Tower Study
+Strategy_](https://www.lesswrong.com/posts/HZuAT2sGbDbasdjy5/the-multi-tower-study-strategy)"""
+
+breakfast_target: str = """> [!quote] AllAmericanBreakfast, [The Multi-Tower Study
+Strategy](https://www.lesswrong.com/posts/HZuAT2sGbDbasdjy5/the-multi-tower-study-strategy)
+>
+> Wait, what?"""
+
+
+@pytest.mark.parametrize(
+    "md,expected",
+    [
+        (boring_admonition_initial, boring_admonition_target),
+        (breakfast_initial, breakfast_target),
+    ],
+)
+def test_move_citation_to_quote_admonition(md: str, expected: str) -> None:
     moved = md_process.move_citation_to_quote_admonition(md)
 
-    print(moved)
-    expected = "> [!quote] [Author](https://example.com)\n" "> This is a quote"
-
-    print(expected)
     assert moved == expected
 
 
