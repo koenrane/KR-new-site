@@ -1,5 +1,4 @@
 import { QuartzTransformerPlugin } from "../types"
-import { toHtml } from "hast-util-to-html"
 import smartquotes from "smartquotes"
 import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
@@ -75,10 +74,6 @@ export function transformParagraph(
     .map((n) => n.value)
     .join("")
   if (newContent !== transform(originalContent)) {
-    console.log("Original content:", originalContent)
-    console.log("Transformed content:", newContent)
-    console.log("Transformed original content:", transform(originalContent))
-
     throw new Error(
       `Transformed original content (${transform(originalContent)}) is not invariant to private character (newContent=${newContent})`,
     )

@@ -15,7 +15,7 @@ const currentTheme = localStorage.getItem("theme") ?? userPref
 document.documentElement.setAttribute("saved-theme", currentTheme)
 
 const emitThemeChangeEvent = (theme: "light" | "dark") => {
-  const event: CustomEventMap["themechange"] = new CustomEvent("themechange", {
+  const event: CustomEvent = new CustomEvent("themechange", {
     detail: { theme },
   })
   document.dispatchEvent(event)
@@ -32,7 +32,7 @@ document.addEventListener("nav", () => {
     emitThemeChangeEvent(newTheme)
 
     // Toggle the label text
-    if (localStorage.getItem("usedToggle") !== "true") {
+    if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
       descriptionParagraph.classList.add("hidden")
     }
     // Prevent further clicks from having an effect
@@ -240,7 +240,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
   const data = await fetchData
   const container = document.getElementById("search-container")
-  const sidebar = container?.closest(".sidebar") as HTMLElement
   const searchIcon = document.getElementById("search-icon")
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
   const searchLayout = document.getElementById("search-layout")
@@ -404,7 +403,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
     content = content.replaceAll(/↩/g, "⤴")
     content = twemoji.parse(content, {
-      callback: function (icon, options, variant) {
+      // TODO use wrappedParseTwemoji?
+      callback: function (icon: any, options: any, _variant: any) {
         if (icon === "2934") {
           // Ignore right-and-up arrow
           return "" // Return an empty string to prevent replacement

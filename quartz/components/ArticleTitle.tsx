@@ -1,14 +1,16 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { formatTag } from "./TagList"
-import { formatTitle } from "./utils"
+import { formatTitle } from "./component_utils"
 
 const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_title) {
     return null
   }
-
-  let title = formatTitle(fileData.frontmatter?.title || "")
+  if (fileData.frontmatter?.title) {
+    fileData.frontmatter.title = formatTitle(fileData.frontmatter.title)
+  }
+  const title = fileData.frontmatter?.title
 
   if (title) {
     let htmlContent = <h1 class={classNames(displayClass, "article-title")}>{title}</h1>

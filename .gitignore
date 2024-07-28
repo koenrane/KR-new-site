@@ -45,3 +45,4 @@ content/asset_staging/*
 *test.md
 
 content/drafts
+**.vscode
