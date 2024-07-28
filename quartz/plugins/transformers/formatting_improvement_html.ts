@@ -92,7 +92,7 @@ export function niceQuotes(text: string) {
   text = text.replace(/″/g, "“")
 
   // at the beginning of a word
-  const quoteRegex = new RegExp(`(?<before>[^\\w\\d${chr}])['’](?!s\\s)(?=\\S)`, "g")
+  const quoteRegex = new RegExp(`(?<before>\\s${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
   text = text.replace(quoteRegex, "$<before>‘")
   text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
   text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
@@ -119,7 +119,6 @@ export function hyphenReplace(text: string) {
     "g",
   )
 
-  console.log(surroundedDash)
   // Replace surrounded dashes with em dash
   text = text.replace(
     surroundedDash,
