@@ -14,7 +14,7 @@ I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://
 
 I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
 
-(And by "best friend", I mean "wife.")
+(And by "best friend", I mean "wife.”)
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
 
 # About me

@@ -1,5 +1,6 @@
 import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
+import { Element, Text, Node, Parent } from "hast"
 import { Readable } from "stream"
 import { pipeline } from "stream/promises"
 import fs from "fs"

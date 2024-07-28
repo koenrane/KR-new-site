@@ -2,10 +2,12 @@ import { i18n } from "../i18n"
 import { FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { formatTitle } from "./component_utils"
 
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
-    const title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+    let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+    title = formatTitle(title)
     const description =
       fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
     const { css, js } = externalResources
@@ -24,8 +26,6 @@ export default (() => {
         <meta charSet="utf-8" />
         <script src="/static/scripts/detect-dark-mode.js"></script>
         <script src="/static/scripts/tag-first-letter.js"></script>
-        <script src="/static/scripts/twemoji.min.js"></script>
-        <script src="/static/scripts/twemoji-parse.js"></script>
         <script src="/static/scripts/collapsible-listeners.js"></script>
         <script src="/static/scripts/DOMContentLoaded.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

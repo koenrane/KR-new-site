@@ -305,6 +305,7 @@ figcaption,
   font-style: inherit;
   text-transform: lowercase;
   -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
+  font-feature-settings: "smcp" on;
 
   &:visited {
     color: var(--color-visited);
@@ -486,9 +487,9 @@ body.no-mix-blend-mode {
   }
 
   & #search-layout {
-    & img,
-    video,
-    svg {
+    [saved-theme="light"] & img,
+    [saved-theme="light"] & video,
+    [saved-theme="light"] & svg {
       mix-blend-mode: multiply;
     }
   }

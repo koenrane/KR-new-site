@@ -1,8 +1,11 @@
+import { format } from "path"
 import {
   hyphenReplace,
   niceQuotes,
   improveFormatting,
   fullWidthSlashes,
+  transformParagraph,
+  markerChar,
 } from "../formatting_improvement_html" // Adjust import path as needed
 import { rehype } from "rehype"
 
@@ -29,10 +32,13 @@ describe("HTMLFormattingImprovement", () => {
       ['"I am" so "tired" of "these" "quotes".', "“I am” so “tired” of “these” “quotes.”"],
       ['"world model";', "“world model”;"],
       ['"party"/"wedding."', "“party”/“wedding.”"],
-      ["'s", "’s"],
-      ['s"', "s”"],
+      ['"Hi \'Trout!"', "“Hi ‘Trout!”"],
       ["“scope insensitivity”", "“scope insensitivity”"],
-      ["milder than ”", "milder than “"],
+      [
+        "strategy s's return is good, even as d's return is bad",
+        "strategy s’s return is good, even as d’s return is bad",
+      ],
+      ["He wanted 'power.'", "He wanted ‘power.’"], // Test end of line
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -42,9 +48,33 @@ describe("HTMLFormattingImprovement", () => {
       ["<code>'This quote should not change'</code>"],
       ['<code>"This quote should not change"</code>'],
       ["<code>5 - 3</code>"],
+      ["<p><code>5 - 3</code></p>"],
+      ["<p>I have ’s lying around</p>"],
+      ['<p><code>"This quote should not change"</code></p>'],
     ])("should not change quotes inside <code>", (input: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(input)
+    })
+
+    it.each([
+      ['<p>"<em>This</em>"</p>', "<p>“<em>This</em>”</p>"],
+      ['<p><em>"T<b>hi"</b>s</em></p>', "<p><em>“T<b>hi”</b>s</em></p>"],
+      [
+        '<p>"This quote should change" <code>Test</code></p>',
+        "<p>“This quote should change” <code>Test</code></p>",
+      ],
+    ])("should change quotes outside <code>", (input: string, target: string) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(target)
+    })
+
+    const mathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
+
+    const targetMathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>’s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
+
+    it("should handle apostrophe right after math mode", () => {
+      const processedHtml = testHtmlFormattingImprovement(mathHTML)
+      expect(processedHtml).toBe(targetMathHTML)
     })
   })
 
@@ -87,7 +117,6 @@ describe("HTMLFormattingImprovement", () => {
       ["This is a - hyphen.", "This is a—hyphen."],
       ["This is an — em dash.", "This is an—em dash."],
       ["word — word", "word—word"],
-      ["e - “", "e—“"],
       ["word— word", "word—word"],
       ["word —word", "word—word"],
       ['"I love dogs." - Me', '"I love dogs." — Me'],
@@ -100,9 +129,47 @@ describe("HTMLFormattingImprovement", () => {
       ["emphasis” —", "emphasis”—"], // small quotations should not retain space
       ["- First level\n - Second level", "— First level\n - Second level"], // Don't replace hyphens in lists, first is ok
       ["> - First level", "> - First level"], // Quoted unordered lists should not be changed
+      [
+        "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
+        "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
+      ], // Don't condense em dashes right after ellipses
+      ["a browser- or OS-specific fashion", "a browser- or OS-specific fashion"], // Retain hyphen in compound words
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
+    })
+
+    it.each([
+      ["<code>This is a - hyphen.</code>", "<code>This is a - hyphen.</code>"],
+      ["<p>I think that -<em> despite</em></p>", "<p>I think that—<em>despite</em></p>"],
+    ])("handling hyphenation in the DOM", (input: string, expected: string) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
+    })
+  })
+
+  describe("transformParagraph", () => {
+    function _getParagraphNode(numChildren: number, value: string = "Hello, world!"): any {
+      return {
+        type: "element",
+        tagName: "p",
+        children: Array.from({ length: numChildren }, () => ({
+          type: "text",
+          value: value,
+        })),
+      }
+    }
+
+    const capitalize = (str: string) => str.toUpperCase()
+    it.each([
+      ["r231o dsa;", 1],
+      ["hi", 3],
+    ])("should capitalize while respecting the marker", (before: string, numChildren: number) => {
+      const node = _getParagraphNode(numChildren, before)
+      transformParagraph(node, capitalize)
+
+      const targetNode = _getParagraphNode(numChildren, capitalize(before))
+      expect(node).toEqual(targetNode)
     })
   })
 })

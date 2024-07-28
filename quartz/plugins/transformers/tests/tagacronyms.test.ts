@@ -60,4 +60,13 @@ describe("Acronyms", () => {
       expect(processedHtml).toBe(`<p>${text}</p>`)
     })
   }
+
+  const romanNumerals: Array<string> = ["III", "VII", "MXC", "XIVIL"]
+  for (const numeral of romanNumerals) {
+    it(`should not wrap ${numeral} in <abbr> tags`, () => {
+      const input = `<p>${numeral}</p>`
+      const processedHtml: string = testTagAcronymsHTML(input)
+      expect(processedHtml).toBe(input)
+    })
+  }
 })

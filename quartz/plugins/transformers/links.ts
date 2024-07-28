@@ -8,7 +8,6 @@ import {
   simplifySlug,
   splitAnchor,
   transformLink,
-  joinSegments,
 } from "../../util/path"
 import path from "path"
 import { visit } from "unist-util-visit"
@@ -41,7 +40,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
       return [
         () => {
           return (tree: Root, file) => {
-            const curSlug = simplifySlug(file.data.slug!)
+            const curSlug = simplifySlug(file.data.slug! as FullSlug)
             const outgoing: Set<SimpleSlug> = new Set()
 
             const transformOptions: TransformOptions = {
@@ -101,7 +100,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#"))
                 if (isInternal) {
                   dest = node.properties.href = transformLink(
-                    file.data.slug!,
+                    file.data.slug! as FullSlug,
                     dest,
                     transformOptions,
                   )
@@ -147,7 +146,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 if (!isAbsoluteUrl(node.properties.src)) {
                   let dest = node.properties.src as RelativeURL
                   dest = node.properties.src = transformLink(
-                    file.data.slug!,
+                    file.data.slug! as FullSlug,
                     dest,
                     transformOptions,
                   )

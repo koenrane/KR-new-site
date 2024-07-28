@@ -12,7 +12,8 @@ const ignoreAcronym = (_node: any, _index: any, parent: any) => {
 
 export const rehypeTagAcronyms: Plugin = () => {
   // TODO come up with more elegant whitelist for e.g. "if"
-  const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF|TL;DR|IL)(?<plural>s?)\b/
+  const REGEX_ACRONYM =
+    /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF|TL;DR|IL)(?<plural>s?)\b/
   const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 
   const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g

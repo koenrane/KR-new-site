@@ -53,10 +53,8 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options> | und
                 modified ||= file.data.frontmatter.updated as MaybeDate
                 modified ||= file.data.frontmatter["last-modified"] as MaybeDate
                 const dateStr = file.data.frontmatter.date_published || undefined
-                const publishedTime = new Date(dateStr).getTime()
-                published ||=
-                  (new Date(file.data.frontmatter.date_published).getTime() as MaybeDate) ||
-                  undefined
+                // const publishedTime = new Date(dateStr).getTime()
+                published ||= (new Date(dateStr).getTime() as MaybeDate) || undefined
               } else if (source === "git") {
                 if (!repo) {
                   // Get a reference to the main git repo.
