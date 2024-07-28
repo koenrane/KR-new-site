@@ -122,7 +122,7 @@ export function hyphenReplace(text: string) {
   text = text.replace(spacesAroundEM, "$<markerBefore>—$<markerAfter>")
 
   // Handle special case after quotation marks
-  const postQuote = new RegExp(`(?<quote>[.!?]${chr}?['"’”]${chr}?)${spacesAroundEM.source}`, "g")
+  const postQuote = new RegExp(`(?<quote>[.!?]${chr}?['"’”]${chr}?|…)${spacesAroundEM.source}`, "g")
   text = text.replace(postQuote, "$<quote> $<markerBefore>—$<markerAfter> ")
 
   // Handle em dashes at the start of a line

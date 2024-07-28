@@ -127,6 +127,10 @@ describe("HTMLFormattingImprovement", () => {
       ["emphasis” —", "emphasis”—"], // small quotations should not retain space
       ["- First level\n - Second level", "— First level\n - Second level"], // Don't replace hyphens in lists, first is ok
       ["> - First level", "> - First level"], // Quoted unordered lists should not be changed
+      [
+        "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
+        "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
+      ], // Don't condense em dashes right after ellipses
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
