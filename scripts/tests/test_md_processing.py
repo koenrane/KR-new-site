@@ -16,8 +16,10 @@ sample_post = {
     "af": False,
     "debate": False,
     "pageUrl": "https://www.lesswrong.com/posts/abcdef123456",
+    "lw-page-url": "https://www.lesswrong.com/posts/abcdef123456",
     "linkUrl": "https://www.lesswrong.com/out?url=https%3A%2F%2Fexample.com",
     "question": False,
+    "lw-posted-at": "2023-01-01T00:00:00Z",
     "postedAt": "2023-01-01T00:00:00Z",
     "modifiedAt": "2023-01-02T00:00:00Z",
     "curatedDate": None,
@@ -55,7 +57,10 @@ def test_get_metadata():
 def test_timestamp_formatting():
     timestamp = "2023-01-01T00:00:00Z"
     formatted_metadata = md_process.add_quartz_metadata(
-        {"lw-posted-at": timestamp}
+        {
+            "lw-posted-at": timestamp,
+            "lw-page-url": "https://www.lesswrong.com/posts/abcdef123456",
+        }
     )
     assert formatted_metadata["date_published"] == "01/01/2023"
 
@@ -86,12 +91,8 @@ def test_parse_latex():
 
 
 def test_remove_prefix_before_slug():
-    with patch(
-        "md_processing_single.helpers.hash_to_slugs",
-        {"abcdef123456": "sample-post"},
-    ):
-        url = "https://www.lesswrong.com/posts/abcdef123456/sample-post"
-        assert md_process.remove_prefix_before_slug(url) == "/sample-post)"
+    url = "https://www.lesswrong.com/posts/abcdef123456/sample-post"
+    assert md_process.remove_prefix_before_slug(url) == "/sample-post)"
 
 
 def test_replace_urls_in_markdown():
