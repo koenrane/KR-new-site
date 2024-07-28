@@ -1,10 +1,9 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Plugin } from "unified"
 
 const numberMatch = /(^|\s)\-(\s?\d*\.?\d+)/g
 
-const minusReplace: Plugin = (text: string) => {
-  return text.replaceAll(numberMatch, "$1−$2")
+const minusReplace = (text: string) => {
+  return text.replace(numberMatch, "$1−$2")
 }
 
 export const MinusReplaceTransform: QuartzTransformerPlugin = () => {

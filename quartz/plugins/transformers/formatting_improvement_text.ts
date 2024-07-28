@@ -6,7 +6,7 @@ const footnoteRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
 const footnoteReplacement = "$1$2 "
 
 const footnoteEndOfSentence = (text: string) => {
-  let tighterText = text.replaceAll(footnoteRegex, footnoteReplacement)
+  let tighterText = text.replace(footnoteRegex, footnoteReplacement)
 
   return tighterText
 }
@@ -32,7 +32,7 @@ export const formattingImprovement = (text: string) => {
   // Format the content (non-YAML part)
   let newContent = footnoteEndOfSentence(content)
   // Pretty multiplication for 3x, 4x, etc.
-  newContent = newContent.replaceAll(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
+  newContent = newContent.replace(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = newContent.replace(/ *\,/g, ",")
 

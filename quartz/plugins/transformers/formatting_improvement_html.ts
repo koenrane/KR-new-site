@@ -1,4 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
+import { toHtml } from "hast-util-to-html"
 import smartquotes from "smartquotes"
 import { replaceRegex, numberRegex } from "./utils"
 import { Plugin } from "unified"
@@ -33,12 +34,12 @@ This function allows applying transformations to the text content of a
 paragraph, while preserving the structure of the paragraph. 
   1. Append a private-use unicode char to end of each child's text content.  
   2. Take text content of the whole paragraph and apply
-     transform to it
+    transform to it
   3. Split the transformed text content by the unicode char, putting
-     each fragment back into the corresponding child node. 
+    each fragment back into the corresponding child node. 
   4. Assert that stripChar(transform(textContentWithChar)) =
-     transform(stripChar(textContent)) as a sanity check, ensuring
-     transform is invariant to our choice of character.
+    transform(stripChar(textContent)) as a sanity check, ensuring
+    transform is invariant to our choice of character.
   */
 export function transformParagraph(
   node: Element,
@@ -50,9 +51,9 @@ export function transformParagraph(
   }
 
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
+  const originalContent = textNodes.map((n) => n.value).join("")
 
   // Append markerChar and concatenate
-  const originalContent = textNodes.map((n) => n.value).join("")
   // TODO is first node not getting a marker?
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
@@ -92,9 +93,13 @@ export function niceQuotes(text: string) {
   return text
 }
 
-// Give extra breathing room to slashes
+// Give extra breathing room to slashes with full-width slashes
 export function fullWidthSlashes(text: string): string {
-  return text.replace(/(?<=[^\d\/]) ?\/(?!=\/) ?(?=[^\d])(?!\/)/g, "／")
+  const slashRegex = new RegExp(
+    `(?<![\\d\/])(${chr}?)[ ]?(${chr}?)\/(${chr}?)[ ]?(${chr}?)(?=[^\\d\/])`,
+    "g",
+  )
+  return text.replace(slashRegex, "$1$2／$3$4")
 }
 
 export function hyphenReplace(text: string) {
@@ -143,7 +148,9 @@ function isInsideCode(node: any) {
   return false
 }
 
-const isCode = (node: any) => node.tagName === "code"
+function isCode(node: any): boolean {
+  return node.tagName === "code"
+}
 
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
