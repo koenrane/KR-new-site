@@ -402,17 +402,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.href = resolveUrl(slug).toString()
 
     content = content.replaceAll(/↩/g, "⤴")
-    content = twemoji.parse(content, {
-      // TODO use wrappedParseTwemoji?
-      callback: function (icon: any, options: any, _variant: any) {
-        if (icon === "2934") {
-          // Ignore right-and-up arrow
-          return "" // Return an empty string to prevent replacement
-        }
-        return options.base + icon + options.ext // Default behavior
-      },
-    })
-
     itemTile.innerHTML = `<span class="h4">${title}</span>${htmlTags}${
       enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
     }`
@@ -497,7 +486,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     previewInner = document.createElement("article" as "div")
     previewInner.classList.add("preview-inner")
     previewInner.append(...innerDiv)
-    wrappedParseTwemoji(previewInner)
 
     preview.replaceChildren(previewInner)
 
