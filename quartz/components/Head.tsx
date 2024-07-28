@@ -26,8 +26,6 @@ export default (() => {
         <meta charSet="utf-8" />
         <script src="/static/scripts/detect-dark-mode.js"></script>
         <script src="/static/scripts/tag-first-letter.js"></script>
-        <script src="/static/scripts/twemoji.min.js"></script>
-        <script src="/static/scripts/twemoji-parse.js"></script>
         <script src="/static/scripts/collapsible-listeners.js"></script>
         <script src="/static/scripts/DOMContentLoaded.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

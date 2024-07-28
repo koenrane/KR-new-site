@@ -15,13 +15,18 @@ export const Twemoji = () => {
             let content = node.value.replace(/↩/g, placeholder)
 
             // Parse emojis
-            const parsed = twemoji.parse(content, {
+            let parsed = twemoji.parse(content, {
               folder: "svg",
               ext: ".svg",
               callback: (icon, options) => {
                 return `https://assets.turntrout.com/twemoji/${icon}${options.ext}`
               },
             })
+            // Goose twemoji is not good
+            const toReplace = ["1fabf"]
+            for (const emoji of toReplace) {
+              parsed = parsed.replace(`twemoji/${emoji}.svg`, `twemoji/replacements/${emoji}.svg`)
+            }
 
             if (parsed !== content) {
               // Create an array to hold the new nodes
