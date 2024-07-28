@@ -187,7 +187,10 @@ for post in results:
     if not post["contents"]:
         continue
     current_hash = post["pageUrl"].split("/")[-2]
-    helpers.hash_to_slugs[current_hash] = post["slug"]
+    helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[
+        post["slug"]
+    ]
+    # TODO check this
 
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
@@ -204,9 +207,9 @@ def _get_urls(md: str) -> list[str]:
 
 # Turn links to my LW posts into internal links
 def remove_prefix_before_slug(url: str) -> str:
-    for hash, slug in helpers.hash_to_slugs.items():
+    for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?{hash}(\#(.*?))?"
+            rf"(?:lesswrong|alignmentforum).*?{website_hash}(\#(.*?))?"
         )
 
         # Capture anchor information after the slug (if present)
@@ -215,7 +218,7 @@ def remove_prefix_before_slug(url: str) -> str:
             anchor = (
                 re_match.group(2) or ""
             )  # Extract the anchor part (e.g., "#section-title")
-            url = f"/{slug}#{anchor}" if anchor else f"/{slug})"
+            url = f"/{slug}#{anchor})" if anchor else f"/{slug})"
             return url
 
     return url  # Return the original URL if no slug match
@@ -261,6 +264,7 @@ replacement = {
     '" wedding"': "“ wedding”",  # Smart quotes have trouble with this one
     '" "': "“ ”",  # For wedding vector minus space
     "Position 0": "Pos. 0",  # For GPT2 post
+    r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
 }
 
 
