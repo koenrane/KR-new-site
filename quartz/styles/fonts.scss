@@ -192,6 +192,7 @@ dt,
 
   & .small-caps {
     text-shadow: none;
+    font-weight: 500; // Otherwise too strong
     -webkit-text-stroke: 0;
   }
 }
