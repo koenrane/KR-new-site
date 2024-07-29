@@ -34,32 +34,32 @@ cd "$GIT_ROOT"
 PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
-# # Run jest tests
-# npm run test
-#
-# # Run spellcheck on all markdown files
-# TEMP_DICT="/tmp/candidate_wordlist.txt"
-# PERM_DICT=".wordlist.txt"
-#
-# set +e # Temporarily allow errors
-# npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
-#
-# # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
-# if [ $? -ne 0 ]; then
-# 	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
-# 	set -e # Re-enable errors
-# 	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
-#
-# 	# Amend the commit with the updated dictionary
-# 	git add $PERM_DICT
-# 	git commit --amend --no-edit
-# fi
-# set -e
-#
-# echo "\033[0;32mSpellcheck passed\033[0m" # In green
-#
-# # Check that conversion+uploading tests pass
-# python -m pytest "$GIT_ROOT"/scripts/tests
+# Run jest tests
+npm run test
+
+# Run spellcheck on all markdown files
+TEMP_DICT="/tmp/candidate_wordlist.txt"
+PERM_DICT=".wordlist.txt"
+
+set +e # Temporarily allow errors
+npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
+
+# Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
+if [ $? -ne 0 ]; then
+	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+	set -e # Re-enable errors
+	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
+
+	# Amend the commit with the updated dictionary
+	git add $PERM_DICT
+	git commit --amend --no-edit
+fi
+set -e
+
+echo "\033[0;32mSpellcheck passed\033[0m" # In green
+
+# Check that conversion+uploading tests pass
+python -m pytest "$GIT_ROOT"/scripts/tests
 
 STATIC_FOLDER="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
@@ -101,7 +101,7 @@ fi
 # linkchecker http://localhost:8080 --no-status --ignore-url=/static
 # Check that all external assets (presumably hosted on Cloudflare R2) are valid
 # ASSET_REFERENCING_FILES=$(fish $(source "$GIT_ROOT/scripts/utils.fish" && find_asset_referencing_files)) # TODO broken
-# echo $ASSET_REFERENCING_FILES # TODO check image files
+# echo $ASSET_REFERENCING_FILES # TODO check image files -- use python?
 # linkchecker --check-extern --ignore-urls="(?!.*\.(png|jpe?g|gif|webp|webm|svg|mp3|mp4)$).*" http://localhost:8080
 
 # Run visual regression testing
@@ -109,8 +109,20 @@ set +e
 fish "$GIT_ROOT/scripts/run_backstop.fish"
 
 TEST_STATUS=$?
-if [ $TEST_STATUS -ne 0 ]; then
-	exit $TEST_STATUS
+# Check if the test failed
+if [[ "$TEST_STATUS" -ne 0 ]]; then
+    echo "Visual regression test failed. Review the report:"
+    open backstop/backstop_data/html_report/index.html &
+    # Prompt for approval
+    read -p "Do you approve the changes? (y/N): " answer </dev/tty
+    # Update references if approved
+    if [[ "$answer" = "y" ]]; then
+        npx backstop approve --config=backstop.cjs
+        echo "Reference screenshots updated."
+    else
+        echo "Changes rejected. Test failure remains."
+        exit 1
+    fi
 fi
 
 # Exit if no changes were made
