@@ -55,6 +55,7 @@ ul,
 }
 
 .katex {
+  color: inherit;
   font-size: 1em !important;
   margin-left: auto; // Center katex
   margin-right: auto;
@@ -467,7 +468,8 @@ tr {
 }
 
 img {
-  max-width: 100%;
+  max-width: 87.5%;
+  width: auto;
   border-radius: 5px;
   margin: calc(2 * $baseMargin) 0;
 }
