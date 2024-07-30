@@ -200,6 +200,9 @@ sup {
 :root[saved-theme="dark"] img {
   filter: grayscale(50%);
 
+  &.favicon {
+    filter: saturate(0%);
+  }
   & .invert {
     filter: grayscale(50%) invert(100%) brightness(95%) hue-rotate(180deg);
   }
@@ -320,14 +323,15 @@ img.favicon {
   height: 0.65rem;
   margin-right: auto;
   vertical-align: 25%;
-  filter: saturate(40%);
+  filter: saturate(0%);
   margin-bottom: -0.07em;
   margin-top: -20%;
   mix-blend-mode: normal !important;
 
   &[src$="mail.svg"] {
-    margin-left: calc(0.3 * $baseMargin);
+    // margin-left: calc(0.3 * $baseMargin);
   }
+
   &[src$="mail.svg"],
   &[src$="favicon.ico"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
