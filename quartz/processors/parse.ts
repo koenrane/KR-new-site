@@ -14,6 +14,7 @@ import { QuartzLogger } from "../util/log"
 import { trace } from "../util/trace"
 import { BuildCtx } from "../util/ctx"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
+const remarkCaptions = (await import("remark-captions")).default
 
 export type QuartzProcessor = Processor<MDRoot, MDRoot, HTMLRoot>
 export function createProcessor(ctx: BuildCtx): QuartzProcessor {
@@ -27,6 +28,7 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
         .flatMap((plugin) => plugin.markdownPlugins!(ctx)),
     )
     .use(remarkDefinitionList)
+    .use(remarkCaptions)
     .use(remarkRehype, { allowDangerousHtml: true, handlers: defListHastHandlers })
     .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
 }
