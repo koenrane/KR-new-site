@@ -10,6 +10,42 @@ turndownService.addRule("subscript", {
   },
 })
 
+// Retain captions for figures
+turndownService.addRule("figure", {
+  filter: "figure",
+  replacement: function (content, node) {
+    // Extract the image (if present) and caption
+    const img = node.querySelector("img")
+    const figcaption = node.querySelector("figcaption")
+
+    let markdown = ""
+
+    // Process the image
+    if (img) {
+      const src = img.getAttribute("src") || ""
+      const alt = img.getAttribute("alt") || ""
+      markdown += `![${alt}](${src})\n`
+    }
+
+    // Process the caption
+    if (figcaption) {
+      const captionHTML = figcaption.innerHTML
+      let captionText = turndownService.turndown(captionHTML)
+      captionText = captionText.replace(/\\n\\n/g, "\n")
+      console.log(figcaption) // Replace looks good but still not working
+
+      markdown += `Figure: ${captionText}\n`
+    }
+
+    // If there's no image or caption, just return the content
+    if (!markdown) {
+      return content
+    }
+
+    return markdown.trim()
+  },
+})
+
 // By default, newlines break table rows. Replace with <br>
 turndownService.addRule("table linebreak", {
   filter: ["table"],
