@@ -82,27 +82,29 @@ export function transformParagraph(
 
 export function niceQuotes(text: string) {
   // Double quotes
-  const beginningDouble = `(?<=^|\\b|\\s|[\\(/\[-])["”]`
-  text = text.replace(new RegExp(beginningDouble, "gm"), "“")
+  const beginningDouble = new RegExp(
+    `(?<=^|\\b|\\s|[\\(\\/\[\\-])(${chr}?)["](?=[^\\s\\)\\—\\-\\.\\,\\!\\?])`,
+    "gm",
+  )
+  text = text.replace(beginningDouble, "$1“")
 
-  const endingDouble = `([^\s\\(])["“](?=\\s|\\/|\\)|\\.|\\,|\\;|$)`
+  const endingDouble = `([^\\s\\(])["“](?=[\\s\\/\\)\\.\\,\\;]|$)`
+  // TODO add test for elements in this case
   text = text.replace(new RegExp(endingDouble, "g"), "$1”")
 
   // Single quotes
-  const beginningSingle = `(\\s|“)['’](?=\\S)`
+  const beginningSingle = `((?:^|[\\s“])${chr}?)['’](?=\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
-  const endingSingle = `(?<=[^\s“])['‘](?=\\s|\\$|$)`
-  text = text.replace(new RegExp(endingSingle, "gm"), "’")
+  const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=s?(?:\\s|$))`
+  text = text.replace(new RegExp(endingSingle, "gm"), "$1’")
 
-  const apostropheAtStart = `^'`
-  text = text.replace(new RegExp(apostropheAtStart, "g"), "’")
+  // Beginnig of word abbreviations
+  const quoteRegex = new RegExp(`(?<before>(?:\\s|^)${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
+  text = text.replace(quoteRegex, "$<before>‘")
 
-  // at the beginning of a word
-  // const quoteRegex = new RegExp(`(?<before>\\s${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
-  // text = text.replace(quoteRegex, "$<before>‘")
-  // text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
-  // text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
+  text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
+  text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
   return text
 }
