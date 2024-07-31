@@ -4,7 +4,7 @@ import {
   improveFormatting,
   fullWidthSlashes,
   transformParagraph,
-  markerChar,
+  assertSmartQuotesMatch,
 } from "../formatting_improvement_html" // Adjust import path as needed
 import { rehype } from "rehype"
 
@@ -168,6 +168,43 @@ describe("HTMLFormattingImprovement", () => {
 
       const targetNode = _getParagraphNode(numChildren, capitalize(before))
       expect(node).toEqual(targetNode)
+    })
+  })
+})
+
+// Testing smartquotes balance checker
+
+describe("assertSmartQuotesMatch", () => {
+  it("should not throw for an empty string", () => {
+    expect(() => assertSmartQuotesMatch("")).not.toThrow()
+  })
+
+  it("should not throw for correctly matched quotes", () => {
+    const validStrings = [
+      "“This is a valid string”",
+      "“Nested quotes: “Inside” work too”",
+      "“Multiple sentences work too”. “So does this”",
+      "Other punctuation is fine: “Hello,” she said.",
+    ]
+
+    validStrings.forEach((str) => {
+      expect(() => assertSmartQuotesMatch(str)).not.toThrow()
+    })
+  })
+
+  it("should throw for mismatched opening quotes", () => {
+    const invalidStrings = ["“This is missing an end quote", "“Nested “quotes” that are incorrect"]
+
+    invalidStrings.forEach((str) => {
+      expect(() => assertSmartQuotesMatch(str)).toThrowErrorMatchingSnapshot()
+    })
+  })
+
+  it("should throw for mismatched closing quotes", () => {
+    const invalidStrings = ["This has a random ending quote”", "“More” nested mismatches”"]
+
+    invalidStrings.forEach((str) => {
+      expect(() => assertSmartQuotesMatch(str)).toThrowErrorMatchingSnapshot()
     })
   })
 })

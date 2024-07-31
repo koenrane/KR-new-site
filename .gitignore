@@ -46,3 +46,4 @@ content/asset_staging/*
 
 content/drafts
 **.vscode
+*__snapshots__

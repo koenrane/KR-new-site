@@ -21,18 +21,17 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): T
 }
 
 export function assertSmartQuotesMatch(input: string) {
-  if (!input || input.length === 0) {
-    return
-  }
-  const stack = []
+  if (!input) return
 
-  for (let i = 0; i < input.length; i++) {
-    const char = input[i]
-    if (char === "“") {
-      if (stack.length > 0 && stack[stack.length - 1] === "”") {
-        stack.pop() // Closing quote, pop matching open quote
+  const quoteMap: Record<string, string> = { "”": "“", "“": "”" }
+  const stack: string[] = []
+
+  for (const char of input) {
+    if (char in quoteMap) {
+      if (stack.length > 0 && quoteMap[stack[stack.length - 1]] === char) {
+        stack.pop()
       } else {
-        stack.push(char) // Opening quote, push onto stack
+        stack.push(char)
       }
     }
   }
