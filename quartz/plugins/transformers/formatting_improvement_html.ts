@@ -1,5 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, numberRegex } from "./utils"
+import assert from "assert"
 import { Plugin } from "unified"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
@@ -17,6 +18,26 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): T
   }
   // Handle other node types (like comments) by returning an empty array
   return []
+}
+
+export function assertSmartQuotesMatch(input: string) {
+  if (!input || input.length === 0) {
+    return
+  }
+  const stack = []
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i]
+    if (char === "“") {
+      if (stack.length > 0 && stack[stack.length - 1] === "”") {
+        stack.pop() // Closing quote, pop matching open quote
+      } else {
+        stack.push(char) // Opening quote, push onto stack
+      }
+    }
+  }
+
+  assert.strictEqual(stack.length, 0, `Mismatched quotes in ${input}`)
 }
 
 export const markerChar: string = "\uE000"
@@ -222,7 +243,7 @@ export const improveFormatting: Plugin = () => {
       }
       if (node.tagName === "p") {
         transformParagraph(node, niceQuotes, isCode)
-        // TODO check Dyck-1 compliant
+        assertSmartQuotesMatch(node.textContent)
 
         // Don't replace slashes in fractions, but give breathing room
         // to others
