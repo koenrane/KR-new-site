@@ -88,7 +88,7 @@ export function niceQuotes(text: string) {
   )
   text = text.replace(beginningDouble, "$1“")
 
-  const endingDouble = `([^\\s\\(])["“](?=[\\s\\/\\)\\.\\,\\;]|$)`
+  const endingDouble = `([^\\s\\(]${chr}?)["“](?=[\\s\\/\\)\\.\\,\\;]|$)`
   // TODO add test for elements in this case
   text = text.replace(new RegExp(endingDouble, "g"), "$1”")
 
@@ -99,12 +99,12 @@ export function niceQuotes(text: string) {
   const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=s?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "$1’")
 
-  // Beginnig of word abbreviations
+  // Beginning of word abbreviations
   const quoteRegex = new RegExp(`(?<before>(?:\\s|^)${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
   text = text.replace(quoteRegex, "$<before>‘")
 
-  text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
-  text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
+  text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1") // Periods inside quotes
+  text = text.replace(new RegExp(`,(${chr}?[”’])`, "g"), "$1,") // Commas outside of quotes
 
   return text
 }
