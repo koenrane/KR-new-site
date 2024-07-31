@@ -81,16 +81,20 @@ export function transformParagraph(
 }
 
 export function niceQuotes(text: string) {
-  text = smartquotes(text)
+  // Double quotes (old)
+  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
+  text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
 
-  // In some situations, smartquotes adds ″ instead of “
-  text = text.replace(/″/g, "“")
+  // Single quotes (old)
+  text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
+  text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
+  text = text.replace(/^\'/g, "’") // Apostrophe at beginning of elements
 
   // at the beginning of a word
-  const quoteRegex = new RegExp(`(?<before>\\s${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
-  text = text.replace(quoteRegex, "$<before>‘")
-  text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
-  text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
+  // const quoteRegex = new RegExp(`(?<before>\\s${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
+  // text = text.replace(quoteRegex, "$<before>‘")
+  // text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
+  // text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
 
   return text
 }
