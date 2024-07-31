@@ -72,7 +72,6 @@ export function transformParagraph(
   const originalContent = textNodes.map((n) => n.value).join("")
 
   // Append markerChar and concatenate
-  // TODO is first node not getting a marker?
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
   const transformedContent = transform(markedContent)
@@ -117,17 +116,12 @@ export function niceQuotes(text: string) {
   const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=s?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "$1’")
 
-  // If element ends with a quote, it's probably beginning a quote for another element
-  // E.g "$B=4$" has the first quote at the end of its <p> element
-  text = text.replace(/(?<=\s|^)[\"”]$/gm, "“")
+  // Beginning of word abbreviations
+  const quoteRegex = new RegExp(`(?<before>(?:\\s|^)${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
+  text = text.replace(quoteRegex, "$<before>‘")
 
-  text = text.replace(/(?<=^|\b|\s|[\(\/\[-])[\"](?=[^\s\)\—\-\.\,\!\?])/gm, "“") // Quotes at the beginning of a word
-  text = text.replace(/([^\s\(])[\"“](?=[\s\/\)\.\,\;]|$)/g, "$1”") // Quotes at the end of a word
-  text = text.replace(/([\s“])[\'’](?=\S)/gm, "$1‘") // Quotes at the beginning of a word
-  text = text.replace(/(?<=[^\s“])[\'‘](?=\s|\$|$)/gm, "’") // Quotes at the end of a word
-  text = text.replace(/^\'/g, "’") // Apostrophe at beginning of element
-  text = text.replace(/(?<![\!\?])([’”])\./g, ".$1") // Periods inside quotes
-  text = text.replace(/,([”’])/g, "$1,") // Commas outside of quotes
+  text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1") // Periods inside quotes
+  text = text.replace(new RegExp(`,(${chr}?[”’])`, "g"), "$1,") // Commas outside of quotes
 
   return text
 }
