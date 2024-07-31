@@ -1,5 +1,4 @@
 import pytest
-from unittest.mock import patch
 
 # Import the functions you want to test
 from .. import md_processing_single as md_process

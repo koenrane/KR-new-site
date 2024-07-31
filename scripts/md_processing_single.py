@@ -306,6 +306,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
     body_pattern = r"(?P<body>(?:>.*\n)+?)"  # Main part of the quote
     line_break_pattern = r"(?:>\s*)*"
 
+    # TODO check that prelink works
     pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     url_pattern = r"\((?P<url>[^#].*?)\)"
