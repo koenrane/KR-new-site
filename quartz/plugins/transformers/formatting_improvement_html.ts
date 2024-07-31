@@ -82,7 +82,7 @@ export function transformParagraph(
 
 export function niceQuotes(text: string) {
   // Double quotes
-  const beginningDouble = `(?<=^|\\b|\\s|[\\(/\[-])["]`
+  const beginningDouble = `(?<=^|\\b|\\s|[\\(/\[-])["”]`
   text = text.replace(new RegExp(beginningDouble, "gm"), "“")
 
   const endingDouble = `([^\s\\(])["“](?=\\s|\\/|\\)|\\.|\\,|\\;|$)`
