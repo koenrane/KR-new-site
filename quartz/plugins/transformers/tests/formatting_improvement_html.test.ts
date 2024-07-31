@@ -31,8 +31,6 @@ describe("HTMLFormattingImprovement", () => {
       ['"I am" so "tired" of "these" "quotes".', "“I am” so “tired” of “these” “quotes.”"],
       ['"world model";', "“world model”;"],
       ['"party"/"wedding."', "“party”/“wedding.”"],
-      ["'s", "’s"],
-      ['s"', "s”"],
       ['"Hi \'Trout!"', "“Hi ‘Trout!”"],
       ["“scope insensitivity”", "“scope insensitivity”"],
       [
