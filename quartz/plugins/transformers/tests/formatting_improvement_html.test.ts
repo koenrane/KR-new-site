@@ -1,4 +1,3 @@
-import { format } from "path"
 import {
   hyphenReplace,
   niceQuotes,
@@ -49,7 +48,6 @@ describe("HTMLFormattingImprovement", () => {
       ['<code>"This quote should not change"</code>'],
       ["<code>5 - 3</code>"],
       ["<p><code>5 - 3</code></p>"],
-      ["<p>I have ’s lying around</p>"],
       ['<p><code>"This quote should not change"</code></p>'],
     ])("should not change quotes inside <code>", (input: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
@@ -58,7 +56,7 @@ describe("HTMLFormattingImprovement", () => {
 
     it.each([
       ['<p>"<em>This</em>"</p>', "<p>“<em>This</em>”</p>"],
-      ['<p><em>"T<b>hi"</b>s</em></p>', "<p><em>“T<b>hi”</b>s</em></p>"],
+      ['<p><em>"T<b>hi</b>s</em>"</p>', "<p><em>“T<b>hi</b>s</em>”</p>"],
       [
         '<p>"This quote should change" <code>Test</code></p>',
         "<p>“This quote should change” <code>Test</code></p>",

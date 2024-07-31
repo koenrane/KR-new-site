@@ -88,8 +88,7 @@ export function niceQuotes(text: string) {
   )
   text = text.replace(beginningDouble, "$1“")
 
-  const endingDouble = `([^\\s\\(]${chr}?)["“](?=[\\s\\/\\)\\.\\,\\;]|$)`
-  // TODO add test for elements in this case
+  const endingDouble = `([^\\s\\(]${chr}?)["“](?=${chr}?[\\s\\/\\)\\.\\,\\;]|${chr}?$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”")
 
   // Single quotes
