@@ -8,7 +8,6 @@ tags:
   - fiction
   - rationality
 ---
-
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 
 <center><audio src="https://assets.turntrout.com/batman.mp3" controls> </audio></center>
@@ -51,13 +50,13 @@ Thomas blinked. The musical conversation of a happy couple drifted by. The sun c
 
 “Why not?”, Bruce asked earnestly, legs swinging lazily under the bench, feet grazing the tips of the grass.
 
-“Why not?”, Thomas echoed softly. “Problems are hard. To land on the moon, we had to understand mathematics, and physics, and ten thousand details besides. To stop viruses, we had to understand our own bodies so well that we could teach them to attack the virus before it could hurt us. If you want to change the world, you have to understand it first.
+“Why not?”, Thomas echoed softly. “Problems are hard. To land on the moon, we had to understand mathematics, and physics, and ten thousand details besides. To stop viruses, we had to understand our own bodies so well that we could teach them to attack the virus before it could hurt us. If you want to change the world, you have to understand it first.”
 
 “Even though we employ many skilled people, I can't just cut a check for ‘fixing everything.' If people get hurt and never heal, we need to understand why. Then, we need to change the system in just the right way, so that the problem goes away and never comes back. That's hard work, and there are many problems.”
 
 Bruce nodded. The sun winked over the skyline, and the sky waxed purple. Darkness would soon be upon them.
 
-“Some people use this as an excuse. Since they can't solve everything, they won't try to solve anything.
+“Some people use this as an excuse. Since they can't solve everything, they won't try to solve anything.”
 
 “It's easy to let details like Oscar fade away. You might notice a broken flower pot the first time you walk by, but by the third pass, your mind forgets to notice. But Oscar isn't a flower pot. He was someone's son. He had dreams, and heroes, and toys.”
 
@@ -121,7 +120,7 @@ The boy thought. Thomas liked turning Bruce's childish remarks into lessons—he
 
 “_I_ don't like cleaning because… it's boring. Usually I want to be doing other things. But that can't be why the world doesn't clean itself—the world doesn't want anything, it just follows rules. I don't know what the answer is, though.”
 
-Thomas smiled. “That's a good starting thought. Let's think about the train our family built for the city. Imagine something breaks, and the engineer says she's going to try random things until the train works again.
+Thomas smiled. “That's a good starting thought. Let's think about the train our family built for the city. Imagine something breaks, and the engineer says she's going to try random things until the train works again.”
 
 “Obviously, that's probably not going to work, because the train is complicated. There are many ways for the train *not* to work, and only a few ways for the train *to* work. Every improvement is a change, but not every change is an improvement.”
 
@@ -141,9 +140,9 @@ Thomas nodded. “Yes, and you have to put in effort to make things cleaner. Thi
 
 Bruce giggled at that.
 
-“We'll need to learn more physics before I can tell you the math, but it basically says that the universe gets messier over time.  In a sense, you have to work to clean things up.
+“We'll need to learn more physics before I can tell you the math, but it basically says that the universe gets messier over time.  In a sense, you have to work to clean things up.”
 
-“This is important for how your body works. Your body is like… a computer, only it's so complicated that biologists have only *just begun* to figure out the wiring and code.
+“This is important for how your body works. Your body is like… a computer, only it's so complicated that biologists have only *just begun* to figure out the wiring and code.”
 
 “The cells of your body are highly ordered. To make sure they're running the right program, your cells have to catalyze the right chemical reactions in the right proportions, at the right times, in response to all sorts of situations. Your genes lay out an exacting recipe for all of this, but the real complexity comes from your brain. Your brain is way more complex than a train. Do you remember what I mean by ‘complex', Bruce?”
 
@@ -179,7 +178,7 @@ Sophia was quick to chastise her husband. “Honey, be nice—the *roast* isn'
 
 As he sat down with his wife, Thomas said, “Congratulations, Sophia. I heard about your promotion. To be frank, I'm surprised the city council appointed you—don't they prefer yes-men and -women?”
 
-She laughed. “You have to understand, Thomas, that people don't see the world as it is. They see what they want to see, they read what they want to read, and they hear what they want to hear. It's not like I *lied* to them, but rather… I put my best foot forward. I'd agree with them on costless and unimportant things, and when I had to go against them, it was subtle. Non-confrontational. They got a good impression, even though they might've hesitated if they took a closer look.
+She laughed. “You have to understand, Thomas, that people don't see the world as it is. They see what they want to see, they read what they want to read, and they hear what they want to hear. It's not like I *lied* to them, but rather… I put my best foot forward. I'd agree with them on costless and unimportant things, and when I had to go against them, it was subtle. Non-confrontational. They got a good impression, even though they might've hesitated if they took a closer look.”
 
 “They wanted to see me as agreeing with them, and so that's what they saw in their new city administrator.”
 
@@ -223,7 +222,7 @@ His dad instantly scolded him: “_Bruce!_ How dare you speak that way to your m
 
 Bruce somehow giggled and rolled his eyes at the same time.
 
-Lips pursed, Martha closed the theater door behind her. “Bruce, when I was a little girl, my parents took me to the opera all the time. They were even crueler than I am, you see. At the time, I resolved to never inflict this upon my *own* children, but…
+Lips pursed, Martha closed the theater door behind her. “Bruce, when I was a little girl, my parents took me to the opera all the time. They were even crueler than I am, you see. At the time, I resolved to never inflict this upon my *own* children, but…”
 
 “As you get older, you realize how special these moments are. Even if they're a bit… snoozy, sometimes.”
 
@@ -403,11 +402,11 @@ Bruce stared at the man who had killed his parents twelve years ago. He stared a
 
 Bruce stood straight and tall, composing his thoughts. While this had been an unusual arrangement—soliciting a statement from a criminal's victim in public court—Bruce figured he might as well make the best of the opportunity. He'd prepared for long enough. It was time to act.
 
-“Thank you, Your Honor. I now understand that Mr. Chill suffered a psychotic break. He believed that my father was kneeling down to strangle him. I understand Mr. Chill's actions, but I do not forgive them.
+“Thank you, Your Honor. I now understand that Mr. Chill suffered a psychotic break. He believed that my father was kneeling down to strangle him. I understand Mr. Chill's actions, but I do not forgive them.”
 
 “My father taught me that character is the difference between your *incentives* and your *actions*. For too long, Gotham has kicked the can down the road. For too long, Gotham has allowed weakness to fester, from its decrepit infrastructure to its crumbling moral character. The costs of inaction must eventually be paid. I paid some of those costs as an eight-year-old boy in front of an opera house.
 
-“I agree that Mr. Chill deserves clemency for his help cleaning up the streets, but I do not celebrate it. I've always held myself responsible for how I affect the world. Even if I couldn't tell what was real and what wasn't—I deem that I would still hold myself responsible for my actions. If I knew I suffered psychotic breaks, perhaps I wouldn't carry a knife with me.
+“I agree that Mr. Chill deserves clemency for his help cleaning up the streets, but I do not celebrate it. I've always held myself responsible for how I affect the world. Even if I couldn't tell what was real and what wasn't—I deem that I would still hold myself responsible for my actions. If I knew I suffered psychotic breaks, perhaps I wouldn't carry a knife with me.”
 
 “I understand Mr. Chill's actions, but I do not forgive them.”
 

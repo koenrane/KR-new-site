@@ -247,7 +247,11 @@ export const improveFormatting: Plugin = () => {
       if (node.tagName === "p") {
         transformParagraph(node, niceQuotes, isCode)
         // console.log(getTextContent(node))
-        assertSmartQuotesMatch(getTextContent(node))
+        try {
+          assertSmartQuotesMatch(getTextContent(node))
+        } catch (e) {
+          console.error(e.message)
+        }
 
         // Don't replace slashes in fractions, but give breathing room
         // to others

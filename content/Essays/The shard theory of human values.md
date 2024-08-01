@@ -7,7 +7,6 @@ date_published: 9/3/22
 tags:
   - shard-theory
 ---
-
 **TL;DR:** We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry.
 
 ---
@@ -43,7 +42,7 @@ Thus, we infer that
 > [!quote]  [Human values & biases are inaccessible to the genome](https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome)
 > It seems hard to scan a trained neural network and locate the AI's learned “tree” abstraction. For very similar reasons, it seems intractable for the genome to scan a human brain and back out the “death” abstraction, which probably will not form at a predictable neural address. Therefore, we infer that the genome can't *directly* make us afraid of death by e.g. specifying circuitry which detects when we think about death and then makes us afraid. In turn, this implies that there are a *lot* of values and biases which the genome cannot hardcode…
 >
-> This leaves us with a huge puzzle. If we can't say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor) where do biases come from? [How can the genome hook the human's preferences into the human's world model, when the genome doesn't “know” what the world model will look like?](https://arbital.com/p/ontology_identification/) Why do people usually navigate ontological shifts properly, why don't people want to wirehead, why do people almost always care about other people *if the genome can't even write circuitry that detects and rewards thoughts about people*?”.
+> This leaves us with a huge puzzle. If we can't say [“the hardwired circuitry down the street did it”,](https://www.readthesequences.com/Occams-Razor) where do biases come from? [How can the genome hook the human's preferences into the human's world model, when the genome doesn't “know” what the world model will look like?](https://arbital.com/p/ontology_identification/) Why do people usually navigate ontological shifts properly, why don't people want to wirehead, why do people almost always care about other people *if the genome can't even write circuitry that detects and rewards thoughts about people*?
 
 > [!abstract] Assumption 2: The brain does self-supervised learning 
 > According to this assumption, the brain is  [constantly predicting](https://en.wikipedia.org/wiki/Memory-prediction_framework) what it will next experience and think, from whether a [V1 neuron will detect an edge](<https://med.libretexts.org/Bookshelves/Pharmacology_and_Neuroscience/Book%3A_Computational_Cognitive_Neuroscience_(O'Reilly_and_Munakata)/06%3A_Preception_and_Attention/6.03%3A_Oriented_Edge_Detectors_in_Primary_Visual_Cortex>) to whether you're about to recognize your friend Bill (which grounds out as predicting the activations of higher-level cortical representations). (See [_On Intelligence_](https://en.wikipedia.org/wiki/On_Intelligence) for a book-length treatment.)
