@@ -75,10 +75,10 @@ export function transformParagraph(
     throw new Error("Node must be a paragraph element; got " + node.tagName)
   }
 
-  const textNodes = flattenTextNodes(node, ignoreNodeFn)
-  const originalContent = getTextContent(node, ignoreNodeFn)
+  const originalContent = getTextContent(node)
 
   // Append markerChar and concatenate
+  const textNodes = flattenTextNodes(node, () => false)
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
   const transformedContent = transform(markedContent)
@@ -90,14 +90,20 @@ export function transformParagraph(
     throw new Error("Transformation altered the number of text nodes")
   }
 
-  textNodes.forEach((node, index) => {
-    node.value = transformedFragments[index]
+  textNodes.forEach((n, index) => {
+    // Apparently TS doesn't know about this relationship
+    // Only update e.g. non-code nodes
+    console.log(transformedFragments[index])
+    if (!ignoreNodeFn(n as unknown as Node)) {
+      if (transformedFragments[index].includes("should not change")) {
+      }
+      n.value = transformedFragments[index]
+    }
   })
+  // TODO text could get dropped?
 
   // Check that the transformation is invariant to our choice of character
-  const newContent = flattenTextNodes(node, ignoreNodeFn)
-    .map((n) => n.value)
-    .join("")
+  const newContent = getTextContent(node)
   if (newContent !== transform(originalContent)) {
     throw new Error(
       `Transformed original content (${transform(originalContent)}) is not invariant to private character (newContent=${newContent})`,
@@ -115,6 +121,7 @@ export function niceQuotes(text: string) {
 
   const endingDouble = `([^\\s\\(]${chr}?)["“](${chr}?)(?=[\\s\\/\\)\\.\\,\\;—]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
+
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["“](${chr}?)$`, "g"), "”$1")
 
@@ -125,15 +132,10 @@ export function niceQuotes(text: string) {
   const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=${chr}?s?${chr}?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "$1’")
 
-  // Beginning of word abbreviations
-  const quoteRegex = new RegExp(
-    `(?<before>(?:\\s|^)${chr}?)['’](?!${chr}?s${chr}?\\s|${chr}?$)(?=${chr}?\\S)`,
-    "g",
-  )
-  text = text.replace(quoteRegex, "$<before>‘")
-
-  text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1") // Periods inside quotes
-  text = text.replace(new RegExp(`,(${chr}?[”’])`, "g"), "$1,") // Commas outside of quotes
+  // Periods inside quotes
+  text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1")
+  // Commas outside of quotes
+  text = text.replace(new RegExp(`,(${chr}?[”’])`, "g"), "$1,")
 
   return text
 }
