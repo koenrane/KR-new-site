@@ -39,7 +39,7 @@ This continues to happen, which means that "wedding" gets arbitrarily high logit
 
 This flaw is easiest to see formally. Initialize the $t=0$ tabular value function $v^\pi_0$ to 0, and the policy $\pi_0$ to be 50/50 for “party”/“wedding”. Let $\gamma=1$, and we update the value function $v$ using tabular TD learning (with learning rate $\alpha=1$). So, for example, if the system takes the “wedding” action, its new value function $v_1^\pi(s)=1$. If the system then takes the “party” action, the value snaps back to $v_2^\pi(s)=.5$.[^2]
 
-The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding"})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
+The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{“ wedding”})=.5$ and advantage $A^{\pi_0}(s,\text{“ wedding”})=1$, then $\pi_1(s,\text{“ wedding”})=.73$.
 
 Episode-by-episode:
 

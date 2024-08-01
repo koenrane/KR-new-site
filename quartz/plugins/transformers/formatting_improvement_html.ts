@@ -108,16 +108,18 @@ export function transformParagraph(
 export function niceQuotes(text: string) {
   // Double quotes
   const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\[\\-])(${chr}?)["](?=[^\\s\\)\\—\\-\\.\\,\\!\\?])`,
+    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-\\.\\,\\!\\?${chr}])`,
     "gm",
   )
-  text = text.replace(beginningDouble, "$1“")
+  text = text.replace(beginningDouble, "$1“$2")
 
-  const endingDouble = `([^\\s\\(]${chr}?)["“](?=${chr}?[\\s\\/\\)\\.\\,\\;]|${chr}?$)`
-  text = text.replace(new RegExp(endingDouble, "g"), "$1”")
+  const endingDouble = `([^\\s\\(]${chr}?)["“](${chr}?)(?=[\\s\\/\\)\\.\\,\\;—]|$)`
+  text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
+  // If end of line, replace with right double quote
+  text = text.replace(new RegExp(`["“](${chr}?)$`, "g"), "”$1")
 
   // Single quotes
-  const beginningSingle = `((?:^|[\\s“])${chr}?)['’](?=\\S)`
+  const beginningSingle = `((?:^|[\\s“])${chr}?)['’](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=${chr}?s?${chr}?(?:\\s|$))`
@@ -182,6 +184,8 @@ export function hyphenReplace(text: string) {
   return text
 }
 
+// A fraction is a number followed by a slash and another number. There
+// are a few checks to avoid false positives like dates (1/1/2001).
 const fractionRegex = new RegExp(
   `(?<![\w\/]|${numberRegex.source})(${numberRegex.source})\/(${numberRegex.source})(?!${numberRegex.source})(?=[^\w\/]|$)`,
   "g",
@@ -239,7 +243,8 @@ export const improveFormatting: Plugin = () => {
             }
           },
           (_nd: any, _idx: any, prnt: any) => {
-            return prnt?.properties?.className?.includes("fraction")
+            const className = prnt?.properties?.className
+            return className?.includes("fraction") || className?.includes("no-fraction")
           },
           "span.fraction",
         )
@@ -250,7 +255,7 @@ export const improveFormatting: Plugin = () => {
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e) {
-          console.error(e.message)
+          // console.error(e.message)
         }
 
         // Don't replace slashes in fractions, but give breathing room

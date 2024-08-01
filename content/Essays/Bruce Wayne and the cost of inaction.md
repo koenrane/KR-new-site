@@ -404,7 +404,7 @@ Bruce stood straight and tall, composing his thoughts. While this had been an un
 
 “Thank you, Your Honor. I now understand that Mr. Chill suffered a psychotic break. He believed that my father was kneeling down to strangle him. I understand Mr. Chill's actions, but I do not forgive them.”
 
-“My father taught me that character is the difference between your *incentives* and your *actions*. For too long, Gotham has kicked the can down the road. For too long, Gotham has allowed weakness to fester, from its decrepit infrastructure to its crumbling moral character. The costs of inaction must eventually be paid. I paid some of those costs as an eight-year-old boy in front of an opera house.
+“My father taught me that character is the difference between your *incentives* and your *actions*. For too long, Gotham has kicked the can down the road. For too long, Gotham has allowed weakness to fester, from its decrepit infrastructure to its crumbling moral character. The costs of inaction must eventually be paid. I paid some of those costs as an eight-year-old boy in front of an opera house.”
 
 “I agree that Mr. Chill deserves clemency for his help cleaning up the streets, but I do not celebrate it. I've always held myself responsible for how I affect the world. Even if I couldn't tell what was real and what wasn't—I deem that I would still hold myself responsible for my actions. If I knew I suffered psychotic breaks, perhaps I wouldn't carry a knife with me.”
 

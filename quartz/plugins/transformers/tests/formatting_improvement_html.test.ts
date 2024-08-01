@@ -61,6 +61,7 @@ describe("HTMLFormattingImprovement", () => {
         '<p>"This quote should change" <code>Test</code></p>',
         "<p>“This quote should change” <code>Test</code></p>",
       ],
+      ['<p>"Bush did because"—</p>', "<p>“Bush did because”—</p>"],
     ])("should change quotes outside <code>", (input: string, target: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(target)
