@@ -20,6 +20,13 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): T
   return []
 }
 
+// TODO test
+function getTextContent(node: Element, ignoreNodeFn: (n: Node) => boolean = () => false): string {
+  return flattenTextNodes(node, ignoreNodeFn)
+    .map((n) => n.value)
+    .join("")
+}
+
 export function assertSmartQuotesMatch(input: string) {
   if (!input) return
 
@@ -69,7 +76,7 @@ export function transformParagraph(
   }
 
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
-  const originalContent = textNodes.map((n) => n.value).join("")
+  const originalContent = getTextContent(node, ignoreNodeFn)
 
   // Append markerChar and concatenate
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
@@ -113,11 +120,14 @@ export function niceQuotes(text: string) {
   const beginningSingle = `((?:^|[\\s“])${chr}?)['’](?=\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
-  const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=s?(?:\\s|$))`
+  const endingSingle = `(?<=[^\\s“])(${chr}?)['‘](?=${chr}?s?${chr}?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "$1’")
 
   // Beginning of word abbreviations
-  const quoteRegex = new RegExp(`(?<before>(?:\\s|^)${chr}?)['’](?!s\\s|${chr}$)(?=\\S)`, "g")
+  const quoteRegex = new RegExp(
+    `(?<before>(?:\\s|^)${chr}?)['’](?!${chr}?s${chr}?\\s|${chr}?$)(?=${chr}?\\S)`,
+    "g",
+  )
   text = text.replace(quoteRegex, "$<before>‘")
 
   text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1") // Periods inside quotes
@@ -236,7 +246,8 @@ export const improveFormatting: Plugin = () => {
       }
       if (node.tagName === "p") {
         transformParagraph(node, niceQuotes, isCode)
-        assertSmartQuotesMatch(node.textContent)
+        // console.log(getTextContent(node))
+        assertSmartQuotesMatch(getTextContent(node))
 
         // Don't replace slashes in fractions, but give breathing room
         // to others
