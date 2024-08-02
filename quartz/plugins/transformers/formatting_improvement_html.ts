@@ -100,23 +100,25 @@ export function transformParagraph(
 export function niceQuotes(text: string) {
   // Double quotes
   const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-\\.\\,\\!\\?${chr}])`,
+    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-\\.\\,\\!\\?${chr}\;\/])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
 
-  const endingDouble = `([^\\s\\(])["“](${chr}?)(?=[\\s\\/\\)\\.\\,\\;—]|$)`
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s\\/\\)\\.\\,\\;—]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
 
   // If end of line, replace with right double quote
-  text = text.replace(new RegExp(`["“](${chr}?)$`, "g"), "”$1")
+  text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
 
   // Single quotes
-  const beginningSingle = `((?:^|[\\s“])${chr}?)['’](?=${chr}?\\S)`
-  text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
-
-  const endingSingle = `(?<=[^\\s“])['‘](?=${chr}?(?:s${chr}?)?(?:\\s|$))`
+  const endingSingle = `(?<=[^\\s“])['](?=${chr}?(?:s${chr}?)?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
+  const beginningSingle = `((?:^|[\\s“])${chr}?)['](?=${chr}?\\S)`
+  if (text.includes("bone")) {
+    console.log(text)
+  }
+  text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   // Periods inside quotes
   text = text.replace(new RegExp(`(?<![\\!\\?])(${chr}?[’”])\\.`, "g"), ".$1")
