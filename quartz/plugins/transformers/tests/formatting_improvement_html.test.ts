@@ -38,6 +38,10 @@ describe("HTMLFormattingImprovement", () => {
         "strategy s’s return is good, even as d’s return is bad",
       ],
       ["He wanted 'power.'", "He wanted ‘power.’"], // Test end of line
+      [
+        '"how many ways can this function be implemented?".',
+        "“how many ways can this function be implemented?”.",
+      ],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
