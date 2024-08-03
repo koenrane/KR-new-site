@@ -15,7 +15,7 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
           loop
           muted
           playsInline
-          id="header-video"
+          id="header-video-small"
           class="header-img no-select no-vsc"
         >
           <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>

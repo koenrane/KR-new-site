@@ -1,6 +1,5 @@
 import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
-import { Element, Text, Node, Parent } from "hast"
 import { Readable } from "stream"
 import { pipeline } from "stream/promises"
 import fs from "fs"
@@ -95,7 +94,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
       return assetAvifURL
     }
   } catch (err) {
-    logger.info(`Error checking AVIF on assets.turntrout.com: ${err}`)
+    logger.error(`Error checking AVIF on ${assetAvifURL}. ${err}`)
   }
 
   logger.debug(`Checking for local PNG at ${localPngPath}`)
