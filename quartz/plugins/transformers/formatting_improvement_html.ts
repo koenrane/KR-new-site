@@ -98,7 +98,7 @@ export function transformParagraph(
 }
 
 export function niceQuotes(text: string) {
-  // Double quotes
+  // Double quotes //
   const beginningDouble = new RegExp(
     `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};\/.])`,
     "gm",
@@ -111,7 +111,7 @@ export function niceQuotes(text: string) {
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
 
-  // Single quotes
+  // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
   const endingSingle = `(?<=[^\\s“])['](?=${chr}?(?:s${chr}?)?(?:\\s|$))`
@@ -120,6 +120,7 @@ export function niceQuotes(text: string) {
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-z])`
   text = text.replace(new RegExp(contraction, "gm"), "’")
 
+  // Beginning single quotes
   const beginningSingle = `((?:^|[\\s“])${chr}?)['](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
