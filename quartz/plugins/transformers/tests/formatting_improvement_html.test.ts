@@ -3,7 +3,7 @@ import {
   niceQuotes,
   improveFormatting,
   fullWidthSlashes,
-  transformParagraph,
+  transformElement,
   assertSmartQuotesMatch,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
@@ -47,6 +47,8 @@ describe("HTMLFormattingImprovement", () => {
       ["I'd", "I’d"],
       ["I don't'nt want to go", "I don’t’nt want to go"],
       ['with "scope insensitivity":', "with “scope insensitivity”:"],
+      ['("the best")', "(“the best”)"],
+      ['"\'sup"', "“‘sup”"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -175,7 +177,7 @@ describe("HTMLFormattingImprovement", () => {
       ["hi", 3],
     ])("should capitalize while respecting the marker", (before: string, numChildren: number) => {
       const node = _getParagraphNode(numChildren, before)
-      transformParagraph(node, capitalize)
+      transformElement(node, capitalize)
 
       const targetNode = _getParagraphNode(numChildren, capitalize(before))
       expect(node).toEqual(targetNode)

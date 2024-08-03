@@ -74,15 +74,14 @@ paragraph, while preserving the structure of the paragraph.
   NOTE/TODO this function is, in practice, called multiple times on the same
   node via its parent paragraphs. Beware non-idempotent transforms.
   */
-export function transformParagraph(
+export function transformElement(
   node: Element,
   transform: (input: string) => string,
   ignoreNodeFn: (input: Element) => boolean = () => false,
 ): void {
-  if (node.tagName !== "p") {
-    throw new Error("Node must be a paragraph element; got " + node.tagName)
+  if (!node.children) {
+    throw new Error("Node has no children")
   }
-
   // Append markerChar and concatenate all text nodes
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
@@ -102,31 +101,39 @@ export function transformParagraph(
 }
 
 export function niceQuotes(text: string) {
-  // Double quotes //
-  const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.])`,
-    "gm",
-  )
-  text = text.replace(beginningDouble, "$1“$2")
-
-  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—:\\-!?]|$)`
-  text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
-
-  // If end of line, replace with right double quote
-  text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
+  // Due to how latex renders quotes, we need to convert “ to `` and ”
+  // to ''. This means we need to process the single quotes first, so
+  // that the aforementioned double quotes don't get caught by the
+  // single quotes
 
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
-  const endingSingle = `(?<=[^\\s“])['](?=${chr}?(?:s${chr}?)?(?:\\s|$))`
+  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-z])`
   text = text.replace(new RegExp(contraction, "gm"), "’")
 
   // Beginning single quotes
-  const beginningSingle = `((?:^|[\\s“])${chr}?)['](?=${chr}?\\S)`
+  const beginningSingle = `((?:^|[\\s“"])${chr}?)['](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
+
+  const beginningDouble = new RegExp(
+    `(?<=^|\\b|\\s|[\\(\\/\\[\\{\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.\\}])`,
+    "gm",
+  )
+  text = text.replace(beginningDouble, "$1“$2")
+  // Open quote after brace (generally in math mode)
+  text = text.replace(new RegExp(`(?<=\\{)(${chr}? )?["]`, "g"), "$1“")
+
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—:\\-\\}!?]|$)`
+  text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
+
+  // If end of line, replace with right double quote
+  text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
+  // // If closing quote followed by brace, generally in math mode
+  // text = text.replace(new RegExp(`["](${chr}?\s*${chr}?\\})`, "g"), "”$1")
 
   // Periods inside quotes
   text = text.replace(new RegExp(`(?<![!?])(${chr}?[’”])\\.`, "g"), ".$1")
@@ -212,6 +219,10 @@ function isMath(node: Element): boolean {
   return (node?.properties?.className as String)?.includes("katex")
 }
 
+function isTextClass(node: Element): boolean {
+  return (node?.properties?.className as String)?.includes("text")
+}
+
 function isFootnote(node: Element) {
   return (node?.properties?.href as String)?.includes("user-content-fn-")
 }
@@ -255,12 +266,12 @@ export const improveFormatting: Plugin = () => {
           "span.fraction",
         )
       }
-      if (node.tagName === "p") {
+      if (["p", "ol", "ul"].includes(node.tagName)) {
         function toSkip(n: Element): boolean {
-          return isCode(n) || isFootnote(n) || hasAncestor(n, isMath)
+          return isCode(n) || isFootnote(n) || (hasAncestor(n, isMath) && !isTextClass(n))
         }
-        transformParagraph(node, hyphenReplace, toSkip)
-        transformParagraph(node, niceQuotes, toSkip)
+        transformElement(node, hyphenReplace, toSkip)
+        transformElement(node, niceQuotes, toSkip)
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: any) {
@@ -273,7 +284,7 @@ export const improveFormatting: Plugin = () => {
           return !n.properties?.className?.includes("fraction") && n?.tagName !== "a"
         }
         if (slashPredicate(node)) {
-          transformParagraph(node, fullWidthSlashes, toSkip)
+          transformElement(node, fullWidthSlashes, toSkip)
         }
       }
     })
