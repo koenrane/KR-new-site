@@ -205,8 +205,9 @@ hr.desktop-only {
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
-      & > * {
-        @media all and (max-width: $fullPageWidth) {
+      @media all and (max-width: $fullPageWidth) {
+        left: 0;
+        & > * {
           flex: 1;
           min-width: 140px;
         }
