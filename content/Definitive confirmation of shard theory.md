@@ -33,7 +33,7 @@ I then had GPT-4 identify some of the 46 shards:
 
 <dl> <dt>The Procrastination Shard</dt><dd>This shard makes the AI model continually suggest that users read just one more LessWrong post or engage in another lengthy comment thread before taking any real-world action.</dd>
 <dt>Hindsight Bias Shard</dt> <dd>This shard leads the model to believe it knew the answer all along after learning new information, making it appear much smarter in retrospect.</dd>
-<dt>The “Armchair Philosopher” Shard</dt><dd>With this shard, the AI can generate lengthy and convoluted philosophical arguments on any topic, often without any direct experience or understanding of the subject matter.</dd>
+<dt>The "Armchair Philosopher" Shard</dt><dd>With this shard, the AI can generate lengthy and convoluted philosophical arguments on any topic, often without any direct experience or understanding of the subject matter.</dd>
 <dt>Argumentative Shard</dt><dd>A shard that compels the model to challenge every statement and belief, regardless of how trivial or uncontroversial it may be.</dd>
 <dt>Trolley Problem Shard</dt><dd>This shard makes the model obsess over hypothetical moral dilemmas and ethical conundrums, while ignoring more practical and immediate concerns.</dd>
 <dt>The Existential Dread Shard</dt><dd>This shard causes the AI to frequently bring up the potential risks of AI alignment and existential catastrophes, even when discussing unrelated topics.</dd>
@@ -47,4 +47,4 @@ I'm pleasantly surprised that <code>gpt-neox-20b</code> shares values which I (a
 Although I'm embarrassed and humbled by this experience, I'm glad that shard theory is true. Here's to—next time—only taking three months before running the first experiment! 🥂
 
 [^1]: DM me if you want links to websites where you can find information which is not available on LessWrong!
-[^2]: “The broader AI community" taken in particular to include more traditional academics, like those at [EleutherAI](https://discord.gg/zBGx3azzUn).
+[^2]: "The broader AI community" taken in particular to include more traditional academics, like those at [EleutherAI](https://discord.gg/zBGx3azzUn).
