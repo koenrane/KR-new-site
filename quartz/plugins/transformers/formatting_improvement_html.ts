@@ -7,8 +7,7 @@ import { visit } from "unist-util-visit"
 
 // TODO test
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
-  // Skip footnotes
-  if (ignoreNode(node) || node?.properties?.href?.includes("user-content-fn-")) {
+  if (ignoreNode(node)) {
     return []
   }
   if (node.type === "text") {
@@ -109,7 +108,7 @@ export function niceQuotes(text: string) {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
-  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.]|$))`
+  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-z])`
@@ -154,27 +153,31 @@ export function fullWidthSlashes(text: string): string {
 
 export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
+  //  Being right after chr is a sufficient condition for being an em
+  //  dash, as it indicates the start of a new line
   const preDash = new RegExp(
-    `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+)`,
+    `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`,
   )
+  // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
-    `(?<before>[^\\s>]|^)${preDash.source}[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<before>[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
 
   // Replace surrounded dashes with em dash
   text = text.replace(
     surroundedDash,
-    `$<before>$<markerBeforeOne>$<markerBeforeTwo>—$<markerAfter>`,
+    `$<before>$<markerBeforeOne>$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`,
   )
-  text = text.replace(/^[-]+ /gm, "— ") // Handle dashes at the start of a line
+  // Handle dashes at the start of a line
+  text = text.replace(new RegExp(`^(${chr})?[-]+ `, "gm"), "$1— ")
+  console.log(text)
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(
-    `[ ]*(?<markerBefore>${chr}?)[ ]*—[ ]*(?<markerAfter>${chr}?)[ ]*`,
+    `(?<markerBefore>${chr}?)[ ]*—[ ]*(?<markerAfter>${chr}?)[ ]*`,
     "g",
   )
-
   // Remove spaces around em dashes
   text = text.replace(spacesAroundEM, "$<markerBefore>—$<markerAfter>")
 
@@ -183,7 +186,7 @@ export function hyphenReplace(text: string) {
   text = text.replace(postQuote, "$<quote> $<markerBefore>—$<markerAfter> ")
 
   // Handle em dashes at the start of a line
-  const startOfLine = new RegExp(`^${spacesAroundEM.source}(?<after>[A-Z0-9])`, "g")
+  const startOfLine = new RegExp(`^${spacesAroundEM.source}(?<after>[A-Z0-9])`, "gm")
   text = text.replace(startOfLine, "$<markerBefore>—$<markerAfter> $<after>")
 
   return text
@@ -267,9 +270,13 @@ export const improveFormatting: Plugin = () => {
           "span.fraction",
         )
       }
-      if (["p", "ol", "ul"].includes(node.tagName)) {
+
+      // Parent-less nodes are the root of the article
+      if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {
-          return isCode(n) || isFootnote(n) || (hasAncestor(n, isMath) && !isTextClass(n))
+          return (
+            hasAncestor(n, isCode) || isFootnote(n) || (hasAncestor(n, isMath) && !isTextClass(n))
+          )
         }
         transformElement(node, hyphenReplace, toSkip)
         transformElement(node, niceQuotes, toSkip)
