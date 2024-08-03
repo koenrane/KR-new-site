@@ -14,6 +14,14 @@ module.exports = async (page, scenario) => {
       if (hideMediaTypes.some((ext) => src.endsWith(ext))) {
         img.style.visibility = "hidden"
       }
+      // Backstop doesn't support AVIF for some reason
+      if (src.endsWith(".avif")) {
+        if (img?.src) {
+          img.src = src.replace(".avif", ".png")
+        } else {
+          img.children[0].src = src.replace(".avif", ".png")
+        }
+      }
     })
   })
 
