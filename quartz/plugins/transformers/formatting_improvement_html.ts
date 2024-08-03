@@ -100,11 +100,6 @@ export function transformElement(
 }
 
 export function niceQuotes(text: string) {
-  // Due to how latex renders quotes, we need to convert “ to `` and ”
-  // to ''. This means we need to process the single quotes first, so
-  // that the aforementioned double quotes don't get caught by the
-  // single quotes
-
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
@@ -155,9 +150,6 @@ export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
-  if (text.includes("einforcement-maximizing")) {
-    console.log("Before", text)
-  }
   const preDash = new RegExp(
     `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`,
   )

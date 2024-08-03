@@ -76,7 +76,7 @@ describe("HTMLFormattingImprovement", () => {
     })
 
     const originalHeader =
-      '<h3 id="optimal-policy--reinforcement-maximizing-policy">"Optimal policy" → "Reinforcement-maximizing policy"</h3>'
+      '<h3 id="optimal-policy--reinforcement-maximizing-policy"><del>"Optimal policy"</del> → "Reinforcement-maximizing policy"</h3>'
     const targetHeader =
       '<h3 id="optimal-policy--reinforcement-maximizing-policy"><del>“Optimal policy”</del> → “Reinforcement-maximizing policy”</h3>'
     it("should handle quotes in headers", () => {
