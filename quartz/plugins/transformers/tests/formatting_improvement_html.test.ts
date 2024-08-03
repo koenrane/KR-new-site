@@ -1,6 +1,8 @@
 import {
   hyphenReplace,
   niceQuotes,
+  getTextContent,
+  flattenTextNodes,
   improveFormatting,
   fullWidthSlashes,
   transformElement,
@@ -219,6 +221,96 @@ describe("assertSmartQuotesMatch", () => {
 
     invalidStrings.forEach((str) => {
       expect(() => assertSmartQuotesMatch(str)).toThrowErrorMatchingSnapshot()
+    })
+  })
+})
+
+describe("flattenTextNodes and getTextContent", () => {
+  const ignoreNone = () => false
+  const ignoreCode = (n: any) => n.tagName === "code"
+
+  const testNodes = {
+    empty: {},
+    simple: { type: "text", value: "Hello, world!" },
+    nested: {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "text", value: "This is " },
+        { type: "element", tagName: "em", children: [{ type: "text", value: "emphasized" }] },
+        { type: "text", value: " text." },
+      ],
+    },
+    withCode: {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "text", value: "This is " },
+        { type: "element", tagName: "code", children: [{ type: "text", value: "ignored" }] },
+        { type: "text", value: " text." },
+      ],
+    },
+    emptyAndComment: {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "element", tagName: "span", children: [] },
+        { type: "comment", value: "This is a comment" },
+      ],
+    },
+    deeplyNested: {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "text", value: "Level 1 " },
+        {
+          type: "element",
+          tagName: "span",
+          children: [
+            { type: "text", value: "Level 2 " },
+            {
+              type: "element",
+              tagName: "em",
+              children: [{ type: "text", value: "Level 3" }],
+            },
+          ],
+        },
+        { type: "text", value: " End" },
+      ],
+    },
+  }
+
+  describe("flattenTextNodes", () => {
+    it("should handle various node structures", () => {
+      expect(flattenTextNodes(testNodes.empty, ignoreNone)).toEqual([])
+      expect(flattenTextNodes(testNodes.simple, ignoreNone)).toEqual([testNodes.simple])
+      expect(flattenTextNodes(testNodes.nested, ignoreNone)).toEqual([
+        { type: "text", value: "This is " },
+        { type: "text", value: "emphasized" },
+        { type: "text", value: " text." },
+      ])
+      expect(flattenTextNodes(testNodes.withCode, ignoreCode)).toEqual([
+        { type: "text", value: "This is " },
+        { type: "text", value: " text." },
+      ])
+      expect(flattenTextNodes(testNodes.emptyAndComment, ignoreNone)).toEqual([])
+      expect(flattenTextNodes(testNodes.deeplyNested, ignoreNone)).toEqual([
+        { type: "text", value: "Level 1 " },
+        { type: "text", value: "Level 2 " },
+        { type: "text", value: "Level 3" },
+        { type: "text", value: " End" },
+      ])
+    })
+  })
+
+  describe("getTextContent", () => {
+    it("should handle various node structures", () => {
+      expect(getTextContent(testNodes.empty as any)).toBe("")
+      expect(getTextContent(testNodes.simple as any)).toBe("Hello, world!")
+      expect(getTextContent(testNodes.nested as any)).toBe("This is emphasized text.")
+      expect(getTextContent(testNodes.withCode as any, ignoreCode)).toBe("This is  text.")
+      expect(getTextContent(testNodes.emptyAndComment as any)).toBe("")
+      expect(getTextContent(testNodes.deeplyNested as any)).toBe("Level 1 Level 2 Level 3 End")
     })
   })
 })

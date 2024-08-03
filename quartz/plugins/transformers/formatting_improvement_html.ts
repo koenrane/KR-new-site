@@ -5,7 +5,6 @@ import { Plugin } from "unified"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 
-// TODO test
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
   if (ignoreNode(node)) {
     return []
@@ -21,8 +20,7 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean)
   return []
 }
 
-// TODO test
-function getTextContent(
+export function getTextContent(
   node: Element,
   ignoreNodeFn: (n: Element) => boolean = () => false,
 ): string {
