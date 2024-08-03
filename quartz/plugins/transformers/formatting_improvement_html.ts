@@ -272,10 +272,16 @@ export const improveFormatting: Plugin = () => {
         }
         transformElement(node, hyphenReplace, toSkip)
         transformElement(node, niceQuotes, toSkip)
+
+        let notMatching = false
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: any) {
+          notMatching = true
           console.error(e.message)
+        }
+        if (notMatching) {
+          console.error("Some double quotes are not matched.")
         }
 
         // Don't replace slashes in fractions, but give breathing room
