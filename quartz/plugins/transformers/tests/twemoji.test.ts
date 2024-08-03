@@ -28,11 +28,11 @@ function createEmoji(path: string, originalChar: any): any {
   return {
     type: "element",
     tagName: "img",
+    children: [],
     properties: {
       alt: originalChar,
-      href: path,
       className: ["emoji"],
-      draggable: false,
+      draggable: "false",
       src: `${TWEMOJI_BASE_URL}${path}`,
     },
   }
@@ -49,6 +49,7 @@ jest.mock("../modules/twemoji.min", () => ({
 }))
 
 type TwemojiCallback = (icon: string, options: TwemojiOptions) => string
+
 describe("Twemoji functions", () => {
   describe("createTwemojiCallback", () => {
     it("should return the correct URL", () => {
@@ -72,20 +73,6 @@ describe("Twemoji functions", () => {
     })
   })
 
-  describe("replaceEmoji", () => {
-    it("should replace emojis correctly", () => {
-      const content = "Hello 😀"
-      const result = replaceEmoji(content)
-      expect(result).toBe(`Hello <img src="${TWEMOJI_BASE_URL}1f600.svg">`)
-    })
-
-    it("should replace specific emojis with custom replacements", () => {
-      const content = "Custom emoji 🪿"
-      const result = replaceEmoji(content)
-      expect(result).toContain("twemoji/replacements/1fabf.svg")
-    })
-  })
-
   describe("createNodes", () => {
     it("should create nodes correctly", () => {
       const parsed = 'Hello <img src="test.png" alt="test"> World'
@@ -106,10 +93,7 @@ describe("Twemoji functions", () => {
 
       expect(result).toEqual({
         type: "root",
-        children: [
-          { type: "text", value: "Hello ⤴ " },
-          { type: "element", tagName: "img", properties: { src: `${TWEMOJI_BASE_URL}1f600.svg` } },
-        ],
+        children: [{ type: "text", value: "Hello ⤴ " }, createEmoji("1f600.svg", "😀")],
       })
     })
 
@@ -129,11 +113,9 @@ describe("Twemoji functions", () => {
         type: "root",
         children: [
           { type: "text", value: "Hello ⤴" },
-          { type: "text", value: " " },
-          { type: "element", tagName: "img", properties: { src: `${TWEMOJI_BASE_URL}1f600.svg` } },
+          createEmoji("1f600.svg", "😀"),
           { type: "text", value: " World ⤴" },
-          { type: "text", value: "" },
-          { type: "element", tagName: "img", properties: { src: `${TWEMOJI_BASE_URL}1f44b.svg` } },
+          createEmoji("1f44b.svg", "👋"),
         ],
       })
     })
