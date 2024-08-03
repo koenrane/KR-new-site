@@ -105,7 +105,7 @@ export function niceQuotes(text: string) {
   )
   text = text.replace(beginningDouble, "$1“$2")
 
-  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—]|$)`
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—!?]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
 
   // If end of line, replace with right double quote
@@ -116,6 +116,9 @@ export function niceQuotes(text: string) {
   // happens in a broader range of situations, including e.g. 'sup)
   const endingSingle = `(?<=[^\\s“])['](?=${chr}?(?:s${chr}?)?(?:\\s|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
+  // Contractions are sandwiched between two letters
+  const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-z])`
+  text = text.replace(new RegExp(contraction, "gm"), "’")
 
   const beginningSingle = `((?:^|[\\s“])${chr}?)['](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
