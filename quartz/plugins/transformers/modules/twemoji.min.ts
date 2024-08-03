@@ -1,3 +1,4 @@
+// @ts-nocheck
 export var twemoji =
   (function () /*! Copyright Twitter Inc. and other contributors. Licensed under MIT */ {
     "use strict"
