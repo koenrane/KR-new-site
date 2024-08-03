@@ -25,9 +25,11 @@ We're interested in additional experiments on ACTDE. We hope that, by using ACTD
 
 In PPO, the optimization objective is proportional to the advantage given a policy $\pi$, reward function $R$, and on-policy value function $v^\pi$:[^1]
 
-$$\begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}$$
+$$
+\begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}
+$$
 
-Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{"We had a wedding"})=1$ and $R(\text{"We had a party"})=.5$.
+Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{“We had a wedding”})=1$ and $R(\text{"We had a party"})=.5$.
 
 The failure which happens is:
 
@@ -63,11 +65,15 @@ This doesn't seem limited to tabular TD-learning, or PPO in more realistic domai
 
 Given the original advantage equation:
 
-$$A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s),$$
+$$
+A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s),
+$$
 
 replace the last term's baseline to account for the taken action:
 
-$$A_*^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi(s')\right]-q^\pi(s,a).$$
+$$
+A_*^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi(s')\right]-q^\pi(s,a).
+$$
 
 We call this "**action-conditioned TD error**" (ACTDE).
 
@@ -96,7 +102,7 @@ However, ACTDE does not lead to arbitrarily many logits on wireheading. Instead,
 
 ## PPO vs ACTDE on the iterated prisoner's dilemma
 
-In this toy experiment, the model plays prisoner's dilemmas against its past self, similar to the idea by [Krueger et al.](https://arxiv.org/abs/2009.09153)[.](https://github.com/karpathy/minGPT.) The model is [mingpt](https://github.com/karpathy/minGPT) with a vocab size of two: one token for "cooperate", and one for "defect". mingpt has 3 layers and an embedding dimension of 12. The model sees the history of cooperates and defections, and outputs the next action.
+In this toy experiment, the model plays prisoner's dilemmas against its past self, similar to the idea by [Krueger et al.](https://arxiv.org/abs/2009.09153) The model is [mingpt](https://github.com/karpathy/minGPT) with a vocab size of two: one token for "cooperate", and one for "defect". mingpt has 3 layers and an embedding dimension of 12. The model sees the history of cooperates and defections, and outputs the next action.
 
 We are not training via self play against a copy. Instead the model at time $t$ plays against its action at time $t-1$. Playing with its past self for a sequence of `ccddc` has 4 games: `cc`, `cd`, `dd`, `dc`, with rewards of 0.5 (for `cc`), 2 (for `cd`), -0.74 (for `dd`), and -1.76 (for `dc`).[^4]
 
@@ -178,12 +184,12 @@ Less mode collapse means higher-entropy next-token distributions, which may mean
 
 ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTDE doesn't mode collapse on a toy prisoner's dilemma learning task, but instead trains a mixed strategy.
 
-We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [einhorn.michael1@gmail.com](mailto:einhorn.michael1@gmail.com) for any questions about the code.
+We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
 
 **Contributions:**
 
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
-- Michael implemented and tested PPO, and ACTDE on both prisoner's dilemmas and text adventure games. Code is available at [`trl_textworld`](https://github.com/MichaelEinhorn/trl-textworld)[^8].
+- Michael implemented and tested PPO, and ACTDE on both prisoner's dilemmas and text adventure games. Code is available at [`trl_textworld`.](https://github.com/MichaelEinhorn/trl-textworld)[^8]
 
 _Thanks to Connor Leahy, Evan Hubinger, Ulisse Mini, Nate Soares, Leo Gao, Garrett Baker, janus, David Krueger and others for thoughts and discussions._
 
