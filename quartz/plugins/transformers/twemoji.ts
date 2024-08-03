@@ -51,10 +51,7 @@ function createNodes(parsed: string): (Text | Element)[] {
   const parts = parsed.split(/<img.*?>/g)
   const matches = parsed.match(/<img.*?>/g) || []
 
-  parts.forEach((part, i) => {
-    if (part) {
-      newNodes.push({ type: "text", value: part.replace(PLACEHOLDER, EMOJI_REPLACEMENT) })
-    }
+  parts.forEach((_part, i) => {
     if (matches[i]) {
       const properties = parseAttributes(matches[i])
       newNodes.push(h("img", properties))
@@ -73,14 +70,22 @@ export const Twemoji = (): {
     htmlPlugins() {
       return [
         () => (tree: Node) => {
+          visit(tree, "text", (node: Text) => {
+            node.value = node.value.replace(/↩/g, PLACEHOLDER)
+          })
+
           visit(tree, "text", (node: Text, index: number, parent: Parent) => {
-            const content = node.value.replace(/↩/g, PLACEHOLDER)
+            const content = node.value
             const parsed = replaceEmojis(content)
 
             if (parsed !== content) {
               const newNodes = createNodes(parsed)
               parent.children.splice(index, 1, ...newNodes)
             }
+          })
+
+          visit(tree, "text", (node: Text) => {
+            node.value = node.value.replace(PLACEHOLDER, EMOJI_REPLACEMENT)
           })
         },
       ]
