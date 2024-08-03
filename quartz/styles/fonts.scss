@@ -189,7 +189,8 @@ dt,
       calc(-1 * var(--shadow-width)) var(--shadow-width) 0 var(--dark),
       var(--shadow-width) var(--shadow-width) 0 var(--dark);
   }
-
+}
+.callout > p {
   & .small-caps {
     text-shadow: none;
     font-weight: 500; // Otherwise too strong
