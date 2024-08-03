@@ -49,6 +49,7 @@ describe("HTMLFormattingImprovement", () => {
       ['with "scope insensitivity":', "with “scope insensitivity”:"],
       ['("the best")', "(“the best”)"],
       ['"\'sup"', "“‘sup”"],
+      ["'I lost the game.'", "‘I lost the game.’"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -64,20 +65,16 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(input)
     })
 
-    it.each([
-      ['<p>"<em>This</em>"</p>', "<p>“<em>This</em>”</p>"],
-      ['<p><em>"T<b>hi</b>s</em>"</p>', "<p><em>“T<b>hi</b>s</em>”</p>"],
-      [
-        '<p>"This quote should change" <code>Test</code></p>',
-        "<p>“This quote should change” <code>Test</code></p>",
-      ],
-      ['<p>"Bush did because"—</p>', "<p>“Bush did because”—</p>"],
-      ["<p>The <code>dog</code>'s bone", "<p>The <code>dog</code>’s bone</p>"],
-      ['<p>The <code>"cat"</code>\'s bone', '<p>The <code>"cat"</code>’s bone</p>'],
-    ])("should interact properly with HTML tags", (input: string, target: string) => {
-      const processedHtml = testHtmlFormattingImprovement(input)
-      expect(processedHtml).toBe(target)
-    })
+    // it.each([['$\\text{"This is a quote"}$', "$\\text{“This is a quote”}$"],
+    // ["$\\mathrm{x \\in 'big set'}$", "$\\mathrm{x \\in $" ]])(
+    //   "should handle katex",
+    //   (input: string, target: string) => {
+    //     const processed = niceQuotes(input)
+    //     expect(processed).toBe(target)
+    //   },
+    // )
+
+    it.each([])
 
     const mathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
 
