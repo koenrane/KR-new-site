@@ -6,6 +6,7 @@ date_published: 6/1/23
 tags:
   - critique
   - AI
+title: Think carefully before calling RL policies "agents"
 ---
 
 I think agentic systems represent most of AI extinction risk. I want to think clearly about what training procedures produce agentic systems. Unfortunately, the field of reinforcement learning has a convention of calling its trained artifacts "agents." This terminology is loaded and inappropriate for my purposes. I advocate instead calling the trained system a "policy." This name is standard, accurate, and neutral.
@@ -65,7 +66,7 @@ _Thanks to Aryan Bhatt for clarifying the distinction between policies and polic
 
 I prefer "reinforcement" because it's more accurate (at least for the policy gradient algorithms I care about) and is overall a neutral word. The cost is that "reinforcement function" is somewhat nonstandard, requiring extra explanation. I think this is often worth it in personal and blog-post communication, and maybe even in conference papers.
 
-### ~~"Optimal policy"~~ → "Reinforcement-maximizing policy
+### ~~"Optimal policy"~~ → "Reinforcement-maximizing policy"
 
 Saying "optimal" makes the policy sound _good_ and _smart_, and suggests that the reinforcement function is something which should be _optimized over_. As I discussed [in a recent comment](https://www.lesswrong.com/posts/fLpuusx9wQyyEBtkJ/power-seeking-can-be-probable-and-predictive-for-trained?commentId=ndmFcktFiGRLkRMBW), I think that's muddying and misleading. In my internal language, "optimal policy" translates to "reinforcement-maximizing policy." I will probably adopt this for some communication.
 

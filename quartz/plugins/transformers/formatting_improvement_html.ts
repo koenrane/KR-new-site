@@ -155,6 +155,9 @@ export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
+  if (text.includes("einforcement-maximizing")) {
+    console.log("Before", text)
+  }
   const preDash = new RegExp(
     `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`,
   )
@@ -171,7 +174,6 @@ export function hyphenReplace(text: string) {
   )
   // Handle dashes at the start of a line
   text = text.replace(new RegExp(`^(${chr})?[-]+ `, "gm"), "$1— ")
-  console.log(text)
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(

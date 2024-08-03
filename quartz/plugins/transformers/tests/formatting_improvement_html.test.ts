@@ -66,15 +66,6 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(input)
     })
 
-    // it.each([['$\\text{"This is a quote"}$', "$\\text{“This is a quote”}$"],
-    // ["$\\mathrm{x \\in 'big set'}$", "$\\mathrm{x \\in $" ]])(
-    //   "should handle katex",
-    //   (input: string, target: string) => {
-    //     const processed = niceQuotes(input)
-    //     expect(processed).toBe(target)
-    //   },
-    // )
-
     const mathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
 
     const targetMathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>’s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
@@ -82,6 +73,15 @@ describe("HTMLFormattingImprovement", () => {
     it("should handle apostrophe right after math mode", () => {
       const processedHtml = testHtmlFormattingImprovement(mathHTML)
       expect(processedHtml).toBe(targetMathHTML)
+    })
+
+    const originalHeader =
+      '<h3 id="optimal-policy--reinforcement-maximizing-policy">"Optimal policy" → "Reinforcement-maximizing policy"</h3>'
+    const targetHeader =
+      '<h3 id="optimal-policy--reinforcement-maximizing-policy"><del>“Optimal policy”</del> → “Reinforcement-maximizing policy”</h3>'
+    it("should handle quotes in headers", () => {
+      const processedHtml = testHtmlFormattingImprovement(originalHeader)
+      expect(processedHtml).toBe(targetHeader)
     })
   })
 

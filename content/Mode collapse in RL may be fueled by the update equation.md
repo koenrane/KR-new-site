@@ -29,7 +29,7 @@ $$
 \begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}
 $$
 
-Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{“We had a wedding”})=1$ and $R(\text{"We had a party"})=.5$.
+Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{“We had a wedding”})=1$ and $R(\text{``We had a party''})=.5$.
 
 The failure which happens is:
 
@@ -41,16 +41,16 @@ This continues to happen, which means that "wedding" gets arbitrarily high logit
 
 This flaw is easiest to see formally. Initialize the $t=0$ tabular value function $v^\pi_0$ to 0, and the policy $\pi_0$ to be 50/50 for "party"/"wedding". Let $\gamma=1$, and we update the value function $v$ using tabular TD learning (with learning rate $\alpha=1$). So, for example, if the system takes the "wedding" action, its new value function $v_1^\pi(s)=1$. If the system then takes the "party" action, the value snaps back to $v_2^\pi(s)=.5$.[^2]
 
-The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{" wedding"})=.5$ and advantage $A^{\pi_0}(s,\text{" wedding"})=1$, then $\pi_1(s,\text{" wedding"})=.73$.
+The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ becomes $n$ bits more probable under $\pi$ (i.e. we add $n$ to $\pi$'s logits on $a$). So, if $\pi_0(s,\text{`` wedding''})=.5$ and advantage $A^{\pi_0}(s,\text{`` wedding''})=1$, then $\pi_1(s,\text{`` wedding''})=.73$.
 
 Episode-by-episode:
 
-| $t$ | Action taken | Advantage          | $\pi_t(\text{wedding})$ | $v_t^\pi(\text{"We had a ''})$ |
-| --- | ------------ | ------------------ | ----------------------- | ------------------------------ |
-| 1   | wedding      | (1 - 0) - 0 = 1    | .73                     | 1                              |
-| 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                             |
-| 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                             |
-| 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                              |
+| $t$ | Action taken | Advantage          | $\pi_t(\text{wedding})$ | $v_t^\pi(\text{``We had a ''})$ |
+| --- | ------------ | ------------------ | ----------------------- | ------------------------------- |
+| 1   | wedding      | (1 - 0) - 0 = 1    | .73                     | 1                               |
+| 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                              |
+| 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                              |
+| 4   | wedding      | (1 - 0) - .5 = .5  | .88                     | 1                               |
 
 With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might think this is good, since wedding is in fact "optimal" at that state. This does not seem good. Here are a few kinds of explanations for why:
 
@@ -81,14 +81,14 @@ ACTDE allows the system to account for its decision to go off-policy by selectin
 
 Re-analyzing the situation:
 
-| $t$ | Action  | Action-conditioned TD error | $\pi_t(\text{wedding})$ | $q_{t}^\pi(\text{"We had a''},a)$ |
-| --- | ------- | --------------------------- | ----------------------- | --------------------------------- |
-| 1   | wedding | (1 - 0) - 0 = 1             | .73                     | wedding: 1, party: 0              |
-| 2   | party   | (.5 - 0) - 0 = .5           | .63                     | wedding: 1, party: .5             |
-| 3   | party   | (.5 - 0) - .5 = 0           | .63                     | wedding: 1, party: .5             |
-| 4   | wedding | (1 - 0) - 1 = 0             | .63                     | wedding: 1, party: .5             |
+| $t$ | Action  | Action-conditioned TD error | $\pi_t(\text{wedding})$ | $q_{t}^\pi(\text{``We had a''},a)$ |
+| --- | ------- | --------------------------- | ----------------------- | ---------------------------------- |
+| 1   | wedding | (1 - 0) - 0 = 1             | .73                     | wedding: 1, party: 0               |
+| 2   | party   | (.5 - 0) - 0 = .5           | .63                     | wedding: 1, party: .5              |
+| 3   | party   | (.5 - 0) - .5 = 0           | .63                     | wedding: 1, party: .5              |
+| 4   | wedding | (1 - 0) - 1 = 0             | .63                     | wedding: 1, party: .5              |
 
-The policy quickly converges to the softmax logits over the reward for the next completions, where $\frac{e^1}{e^1+e^{.5}}\approx.63$. That is, the learned policy has $R(\text{"party"})=.5$ logits on "party" and $R(\text{"wedding"})=1$ logit on "wedding". **Therefore this process does not converge to the optimal policy, even in the limit of infinite exploration. Correspondingly, there is no mode collapse in this situation.** **Reward logits are "added to" initialization logits** $\pi_0$ **(the prior over what completions to output). RL, in this setting, provides a finite amount of reinforcement for certain kinds of computation/actions.**
+The policy quickly converges to the softmax logits over the reward for the next completions, where $\frac{e^1}{e^1+e^{.5}}\approx.63$. That is, the learned policy has $R(\text{``party''})=.5$ logits on "party" and $R(\text{``wedding''})=1$ logit on "wedding". **Therefore this process does not converge to the optimal policy, even in the limit of infinite exploration. Correspondingly, there is no mode collapse in this situation.** **Reward logits are "added to" initialization logits** $\pi_0$ **(the prior over what completions to output). RL, in this setting, provides a finite amount of reinforcement for certain kinds of computation/actions.**
 
 Furthermore, self-consistent, Bellman-backed-up Q-functions will have zero advantage and zero updates. Networks aren't penalized for exploring, and there's a precise and finite amount of reinforcement which can occur given current predictions about future value, as represented by $q_t$. And training should be more stable, with fewer fluctuations in advantage with respect to the policy itself.[^3]
 

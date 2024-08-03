@@ -10,7 +10,7 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 
 > Perhaps one did not want to be loved so much as to be understood.
 >
-> — Orwell, _1984_
+> -- Orwell, _1984_
 
 <hr/>
 
