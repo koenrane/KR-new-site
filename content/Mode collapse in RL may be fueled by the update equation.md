@@ -25,7 +25,7 @@ We're interested in additional experiments on ACTDE. We hope that, by using ACTD
 
 In PPO, the optimization objective is proportional to the advantage given a policy $\pi$, reward function $R$, and on-policy value function $v^\pi$:[^1]
 
-$\begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}$
+$$\begin{aligned}A^\pi(s, a):=\mathbb{E}_{s^{\prime} \sim T(s,a)}\left[R\left(s, a, s^{\prime}\right)+\gamma v^\pi\left(s^{\prime}\right)\right]-v^\pi(s).\end{aligned}$$
 
 Alex thinks this equation is actually pretty messed up, although it looked decent at first. The problem is that this advantage can oscillate forever. To explain, let's consider a simple bandit problem—one state ("We had a") and two actions ("wedding" and "party") with rewards $R(\text{"We had a wedding"})=1$ and $R(\text{"We had a party"})=.5$.
 

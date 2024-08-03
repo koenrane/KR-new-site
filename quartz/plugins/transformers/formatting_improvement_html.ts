@@ -6,8 +6,9 @@ import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 
 // TODO test
-export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): Text[] {
-  if (ignoreNode(node)) {
+export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
+  // Skip footnotes
+  if (ignoreNode(node) || node?.properties?.href?.includes("user-content-fn-")) {
     return []
   }
   if (node.type === "text") {
@@ -22,7 +23,10 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Node) => boolean): T
 }
 
 // TODO test
-function getTextContent(node: Element, ignoreNodeFn: (n: Node) => boolean = () => false): string {
+function getTextContent(
+  node: Element,
+  ignoreNodeFn: (n: Element) => boolean = () => false,
+): string {
   return flattenTextNodes(node, ignoreNodeFn)
     .map((n) => n.value)
     .join("")
@@ -73,7 +77,7 @@ paragraph, while preserving the structure of the paragraph.
 export function transformParagraph(
   node: Element,
   transform: (input: string) => string,
-  ignoreNodeFn: (input: Node) => boolean = () => false,
+  ignoreNodeFn: (input: Element) => boolean = () => false,
 ): void {
   if (node.tagName !== "p") {
     throw new Error("Node must be a paragraph element; got " + node.tagName)
@@ -100,12 +104,12 @@ export function transformParagraph(
 export function niceQuotes(text: string) {
   // Double quotes //
   const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};\/.])`,
+    `(?<=^|\\b|\\s|[\\(\\/\\[\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
 
-  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—!?]|$)`
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—:\\-!?]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
 
   // If end of line, replace with right double quote
@@ -185,10 +189,14 @@ const fractionRegex = new RegExp(
   "g",
 )
 
-function isInsideCode(node: any) {
+// Node-skipping predicates //
+/**
+ *  Check for ancestors satisfying certain criteria
+ */
+function hasAncestor(node: any, ancestorPredicate: (anc: Element) => boolean): boolean {
   let ancestor = node
   while (ancestor) {
-    if (ancestor.tagName === "code") {
+    if (ancestorPredicate(ancestor)) {
       return true
     }
     ancestor = ancestor.parent
@@ -196,8 +204,16 @@ function isInsideCode(node: any) {
   return false
 }
 
-function isCode(node: any): boolean {
+function isCode(node: Element): boolean {
   return node.tagName === "code"
+}
+
+function isMath(node: Element): boolean {
+  return (node?.properties?.className as String)?.includes("katex")
+}
+
+function isFootnote(node: Element) {
+  return (node?.properties?.href as String)?.includes("user-content-fn-")
 }
 
 export const improveFormatting: Plugin = () => {
@@ -216,12 +232,8 @@ export const improveFormatting: Plugin = () => {
         node.children = [newSpan]
       }
 
-      if (node.tagName === "p") {
-        transformParagraph(node, hyphenReplace, isCode)
-      }
-
       // A direct transform, instead of on the children of a <p> element
-      if (node.type === "text" && node.value && !isInsideCode(parent)) {
+      if (node.type === "text" && node.value && !hasAncestor(parent, isCode)) {
         node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
 
         replaceRegex(
@@ -244,7 +256,11 @@ export const improveFormatting: Plugin = () => {
         )
       }
       if (node.tagName === "p") {
-        transformParagraph(node, niceQuotes, isCode)
+        function toSkip(n: Element): boolean {
+          return isCode(n) || isFootnote(n) || hasAncestor(n, isMath)
+        }
+        transformParagraph(node, hyphenReplace, toSkip)
+        transformParagraph(node, niceQuotes, toSkip)
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: any) {
@@ -257,7 +273,7 @@ export const improveFormatting: Plugin = () => {
           return !n.properties?.className?.includes("fraction") && n?.tagName !== "a"
         }
         if (slashPredicate(node)) {
-          transformParagraph(node, fullWidthSlashes, isCode)
+          transformParagraph(node, fullWidthSlashes, toSkip)
         }
       }
     })

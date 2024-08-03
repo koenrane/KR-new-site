@@ -46,6 +46,7 @@ describe("HTMLFormattingImprovement", () => {
       ["can't multiply\"?", "can’t multiply”?"],
       ["I'd", "I’d"],
       ["I don't'nt want to go", "I don’t’nt want to go"],
+      ['with "scope insensitivity":', "with “scope insensitivity”:"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)

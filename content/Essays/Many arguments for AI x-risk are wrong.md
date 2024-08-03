@@ -48,7 +48,7 @@ I'm not trying to rag on Bostrom personally for making this mistake. Foundationa
 
 Unsurprisingly, if you have a lot of people speculating for years using confused ideas and incorrect assumptions, and they come up with a bunch of speculative problems to work on… If you later try to adapt those confused "problems" to the deep learning era, you're in for a bad time. Even if you, dear reader, don't agree with the original people (i.e. MIRI and Bostrom), and even if you aren't presently working on the same things… The confusion has probably influenced what you're working on.
 
-I think that's why some people take "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)"and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
+I think that's why some people take "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)" and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
 
 ## Many arguments for doom are wrong
 
