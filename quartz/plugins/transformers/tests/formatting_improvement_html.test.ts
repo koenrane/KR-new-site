@@ -42,6 +42,7 @@ describe("HTMLFormattingImprovement", () => {
         '"how many ways can this function be implemented?".',
         "“how many ways can this function be implemented?”.",
       ],
+      ['SSL.")', "SSL.”)"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)

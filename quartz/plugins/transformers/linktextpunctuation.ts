@@ -1,6 +1,4 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Plugin } from "unified"
-import { visit } from "unist-util-visit"
 import { mdLinkRegex } from "./utils"
 
 const prePunctuation = /([\“\"]*)/ // group 1
