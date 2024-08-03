@@ -73,62 +73,125 @@ describe("Twemoji functions", () => {
     })
   })
 
+  function createEmoji(path: string, originalChar: string): any {
+    if (!path.endsWith(".svg")) {
+      throw new Error("Only SVGs are supported")
+    }
+    return {
+      type: "element",
+      tagName: "img",
+      children: [],
+      properties: {
+        alt: originalChar,
+        className: ["emoji"],
+        draggable: "false",
+        src: `${TWEMOJI_BASE_URL}${path}`,
+      },
+    }
+  }
+
   describe("createNodes", () => {
+    it("should handle a string with no emojis", () => {
+      const input = "Hello, world!"
+      const result = createNodes(input)
+      expect(result).toEqual([{ type: "text", value: "Hello, world!" }])
+    })
+
+    it("should handle a string with a single emoji", () => {
+      const input = `Hello! <img class="emoji" draggable="false" alt="👋" src="${TWEMOJI_BASE_URL}1f44b.svg">`
+      const result = createNodes(input)
+      expect(result).toEqual([{ type: "text", value: "Hello! " }, createEmoji("1f44b.svg", "👋")])
+    })
+
+    it("should handle a string with multiple emojis", () => {
+      const input = `Hello! <img class="emoji" draggable="false" alt="👋" src="${TWEMOJI_BASE_URL}1f44b.svg"> How are you? <img class="emoji" draggable="false" alt="😊" src="${TWEMOJI_BASE_URL}1f60a.svg">`
+      const result = createNodes(input)
+      expect(result).toEqual([
+        { type: "text", value: "Hello! " },
+        createEmoji("1f44b.svg", "👋"),
+        { type: "text", value: " How are you? " },
+        createEmoji("1f60a.svg", "😊"),
+      ])
+    })
+
+    it("should handle a string starting with an emoji", () => {
+      const input = `<img class="emoji" draggable="false" alt="👋" src="${TWEMOJI_BASE_URL}1f44b.svg"> Hello!`
+      const result = createNodes(input)
+      expect(result).toEqual([createEmoji("1f44b.svg", "👋"), { type: "text", value: " Hello!" }])
+    })
+
+    it("should handle a string ending with an emoji", () => {
+      const input = `Goodbye! <img class="emoji" draggable="false" alt="👋" src="${TWEMOJI_BASE_URL}1f44b.svg">`
+      const result = createNodes(input)
+      expect(result).toEqual([{ type: "text", value: "Goodbye! " }, createEmoji("1f44b.svg", "👋")])
+    })
+
+    it("should handle a string with only emojis", () => {
+      const input = `<img class="emoji" draggable="false" alt="👋" src="${TWEMOJI_BASE_URL}1f44b.svg"><img class="emoji" draggable="false" alt="😊" src="${TWEMOJI_BASE_URL}1f60a.svg">`
+      const result = createNodes(input)
+      expect(result).toEqual([createEmoji("1f44b.svg", "👋"), createEmoji("1f60a.svg", "😊")])
+    })
+
+    it("should handle an empty string", () => {
+      const input = ""
+      const result = createNodes(input)
+      expect(result).toEqual([])
+    })
+
     it("should create nodes correctly", () => {
       const parsed = 'Hello <img src="test.png" alt="test"> World'
       const result = createNodes(parsed)
-      expect(result).toHaveLength(1)
-      expect(result[0]).toEqual(h("img", { src: "test.png", alt: "test" }))
+      expect(result).toHaveLength(3)
+      expect(result[1]).toEqual(h("img", { src: "test.png", alt: "test" }))
+    })
+  })
+})
+
+describe("processTree", () => {
+  it("should replace placeholders and emojis correctly", () => {
+    const mockTree: CustomNode = {
+      type: "root",
+      children: [{ type: "text", value: "Hello ↩ 😀" }],
+    }
+
+    const result = processTree(mockTree as Node) as CustomNode
+
+    expect(result).toEqual({
+      type: "root",
+      children: [{ type: "text", value: "Hello ⤴ " }, createEmoji("1f600.svg", "😀")],
     })
   })
 
-  describe("processTree", () => {
-    it("should replace placeholders and emojis correctly", () => {
-      const mockTree: CustomNode = {
-        type: "root",
-        children: [{ type: "text", value: "Hello ↩ 😀" }],
-      }
+  it("should handle multiple text nodes and emojis", () => {
+    const mockTree: CustomNode = {
+      type: "root",
+      children: [
+        { type: "text", value: "Hello ↩" },
+        { type: "text", value: "😀 World ↩" },
+        { type: "text", value: "👋" },
+      ],
+    }
 
-      const result = processTree(mockTree as Node) as CustomNode
+    const result = processTree(mockTree as Node) as CustomNode
 
-      expect(result).toEqual({
-        type: "root",
-        children: [{ type: "text", value: "Hello ⤴ " }, createEmoji("1f600.svg", "😀")],
-      })
+    expect(result).toEqual({
+      type: "root",
+      children: [
+        { type: "text", value: "Hello ⤴" },
+        createEmoji("1f600.svg", "😀"),
+        { type: "text", value: " World ⤴" },
+        createEmoji("1f44b.svg", "👋"),
+      ],
     })
+  })
+  it("should not modify nodes without emojis or placeholders", () => {
+    const mockTree: CustomNode = {
+      type: "root",
+      children: [{ type: "text", value: "Hello World" }],
+    }
 
-    it("should handle multiple text nodes and emojis", () => {
-      const mockTree: CustomNode = {
-        type: "root",
-        children: [
-          { type: "text", value: "Hello ↩" },
-          { type: "text", value: "😀 World ↩" },
-          { type: "text", value: "👋" },
-        ],
-      }
+    const result = processTree(mockTree as Node) as CustomNode
 
-      const result = processTree(mockTree as Node) as CustomNode
-
-      expect(result).toEqual({
-        type: "root",
-        children: [
-          { type: "text", value: "Hello ⤴" },
-          createEmoji("1f600.svg", "😀"),
-          { type: "text", value: " World ⤴" },
-          createEmoji("1f44b.svg", "👋"),
-        ],
-      })
-    })
-
-    it("should not modify nodes without emojis or placeholders", () => {
-      const mockTree: CustomNode = {
-        type: "root",
-        children: [{ type: "text", value: "Hello World" }],
-      }
-
-      const result = processTree(mockTree as Node) as CustomNode
-
-      expect(result).toEqual(mockTree)
-    })
+    expect(result).toEqual(mockTree)
   })
 })

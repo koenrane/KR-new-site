@@ -51,12 +51,19 @@ export function createNodes(parsed: string): (Text | Element)[] {
   const parts = parsed.split(/<img.*?>/g)
   const matches = parsed.match(/<img.*?>/g) || []
 
-  parts.forEach((_part, i) => {
-    if (matches[i]) {
-      const properties = parseAttributes(matches[i])
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i]
+    const match = matches[i]
+
+    if (part) {
+      newNodes.push({ type: "text", value: part } as Text)
+    }
+
+    if (match) {
+      const properties = parseAttributes(match)
       newNodes.push(h("img", properties))
     }
-  })
+  }
 
   return newNodes
 }
@@ -66,13 +73,17 @@ export function processTree(tree: Node): Node {
     node.value = node.value.replaceAll(/↩/g, PLACEHOLDER)
   })
 
-  visit(tree, "text", (node: Text, index: number, parent: Parent) => {
+  visit(tree, "text", (node: Text, _index: number, parent: any) => {
     const content = node.value
     const parsed = replaceEmoji(content)
 
     if (parsed !== content) {
-      const newNodes = createNodes(parsed)
-      parent.children.splice(index, 1, ...newNodes)
+      const nodes = createNodes(parsed)
+      parent.children = [
+        ...parent.children.slice(0, _index),
+        ...nodes,
+        ...parent.children.slice(_index + 1),
+      ]
     }
   })
 
