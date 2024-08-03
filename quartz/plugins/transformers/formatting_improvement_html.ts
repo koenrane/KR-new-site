@@ -167,7 +167,7 @@ export function hyphenReplace(text: string) {
     surroundedDash,
     `$<before>$<markerBeforeOne>$<markerBeforeTwo>—$<markerAfter>`,
   )
-  text = text.replace(/^- /gm, "— ") // Handle dashes at the start of a line
+  text = text.replace(/^[-]+ /gm, "— ") // Handle dashes at the start of a line
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(
@@ -227,6 +227,7 @@ function isFootnote(node: Element) {
   return (node?.properties?.href as String)?.includes("user-content-fn-")
 }
 
+// Main function //
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
