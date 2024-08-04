@@ -65,7 +65,7 @@ python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
 STATIC_FOLDER="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
 if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
-    mv "$GIT_ROOT"/content/asset_staging* "$STATIC_FOLDER"/images/posts
+    mv "$GIT_ROOT"/content/asset_staging/* "$STATIC_FOLDER"/images/posts
 fi
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
