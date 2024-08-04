@@ -13,7 +13,6 @@ import {
 import { jest } from "@jest/globals"
 jest.mock("fs")
 import fs from "fs"
-import { get } from "http"
 
 import fetchMock from "jest-fetch-mock"
 fetchMock.enableMocks()
