@@ -75,6 +75,7 @@ export function transformElement(
   node: Element,
   transform: (input: string) => string,
   ignoreNodeFn: (input: Element) => boolean = () => false,
+  checkTransformInvariance: any = true,
 ): void {
   if (!node.children) {
     throw new Error("Node has no children")
@@ -95,6 +96,12 @@ export function transformElement(
   textNodes.forEach((n, index) => {
     n.value = transformedFragments[index]
   })
+
+  if (checkTransformInvariance) {
+    const strippedContent = markedContent.replaceAll(markerChar, "")
+    const strippedTransformed = transformedContent.replaceAll(markerChar, "")
+    assert.strictEqual(transform(strippedContent), strippedTransformed)
+  }
 }
 
 export function niceQuotes(text: string) {
@@ -271,7 +278,7 @@ export const improveFormatting: Plugin = () => {
           )
         }
         transformElement(node, hyphenReplace, toSkip)
-        transformElement(node, niceQuotes, toSkip)
+        transformElement(node, niceQuotes, toSkip, false)
 
         let notMatching = false
         try {
