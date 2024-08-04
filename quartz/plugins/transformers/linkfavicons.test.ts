@@ -1,3 +1,5 @@
+import { jest } from "@jest/globals"
+
 import {
   GetQuartzPath,
   MaybeSaveFavicon,
@@ -10,9 +12,12 @@ import {
   createUrlCache,
   insertFavicon,
 } from "./linkfavicons"
-import { jest } from "@jest/globals"
+
 jest.mock("fs")
 import fs from "fs"
+
+jest.mock("stream/promises")
+import streamPromises from "stream/promises"
 
 import fetchMock from "jest-fetch-mock"
 fetchMock.enableMocks()
@@ -21,6 +26,7 @@ describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
+    jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
 
     // Reset the cache
     urlCache.clear()
