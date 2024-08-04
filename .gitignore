@@ -29,7 +29,7 @@ coverage
 
 # Media files
 quartz/static/images/external-favicons/*.png
-content/asset_staging/*
+# content/asset_staging/*
 # *.jpg
 # *.jpeg
 # *.avif
