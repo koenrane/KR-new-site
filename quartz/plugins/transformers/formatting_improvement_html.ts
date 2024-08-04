@@ -171,6 +171,8 @@ export function hyphenReplace(text: string) {
   )
   // Handle dashes at the start of a line
   text = text.replace(new RegExp(`^(${chr})?[-]+ `, "gm"), "$1— ")
+  // Handle lines joined by chr
+  // text = text.replace(new RegExp(`(?<=${chr})[-]+ `, "g"), "—")
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(
@@ -277,7 +279,7 @@ export const improveFormatting: Plugin = () => {
             hasAncestor(n, isCode) || isFootnote(n) || (hasAncestor(n, isMath) && !isTextClass(n))
           )
         }
-        transformElement(node, hyphenReplace, toSkip)
+        transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
 
         let notMatching = false
