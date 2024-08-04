@@ -237,6 +237,10 @@ hr.desktop-only {
   }
 }
 
+.center {
+  z-index: -1;
+}
+
 input[type="checkbox"] {
   transform: translateY(2px);
   color: var(--secondary);
