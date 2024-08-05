@@ -42,7 +42,7 @@ def upload_and_move(
         RuntimeError: If the rclone command fails.
         FileNotFoundError: If the original file cannot be moved.
     """
-    if not "quartz/" in str(file_path):
+    if "quartz/" not in str(file_path):
         raise ValueError("Error: File path does not contain 'quartz/'.")
     if not file_path.is_file():
         raise FileNotFoundError(f"Error: File not found: {file_path}")
@@ -58,7 +58,7 @@ def upload_and_move(
             ["rclone", "copyto", str(file_path), upload_target], check=True
         )
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Failed to upload file to R2: {e}")
+        raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
     # Update references in markdown files
     relative_original_path: Path = script_utils.path_relative_to_quartz(
@@ -74,14 +74,14 @@ def upload_and_move(
     if verbose:
         print(f'Changing "{relative_subpath}" references to "{r2_address}"')
     for text_file_path in script_utils.get_files(replacement_dir, (".md",)):
-        with open(text_file_path, "r") as f:
+        with open(text_file_path, "r", encoding="utf-8") as f:
             file_content: str = f.read()
         new_content: str = re.sub(
             rf"{str(relative_subpath)}|{str(relative_original_path)}",
             r2_address,
             file_content,
         )
-        with open(text_file_path, "w") as f:
+        with open(text_file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
 
     if move_to_dir:
