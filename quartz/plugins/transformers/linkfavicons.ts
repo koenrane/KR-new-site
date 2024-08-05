@@ -25,18 +25,21 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
   try {
     const response = await fetch(url)
-    if (!response.ok || !response.body) {
+    const contents = await response.text()
+    if (!response.ok || !contents) {
       logger.warn(`Failed to fetch image: ${url}. Status: ${response.status}`)
       return false
     }
+
     const fileStream = fs.createWriteStream(imagePath)
     const bodyStream = Readable.from(response.body as unknown as AsyncIterable<Uint8Array>)
 
+    console.log(pipeline)
     await pipeline(bodyStream, fileStream)
     logger.info(`Successfully downloaded image to ${imagePath}`)
     return true
   } catch (err) {
-    logger.error(`Failed to download: ${url}\nEncountered ${err}`)
+    logger.error(`Failed to download: ${url}. Encountered ${err}`)
     fs.promises.unlink(imagePath).catch((unlinkErr) => {
       logger.error(`Failed to delete incomplete download: ${unlinkErr}`)
     })
@@ -87,7 +90,9 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
+    // TODO check if working; seems to be downloading a bunch of old ones
     const avifResponse = await fetch(assetAvifURL, { method: "HEAD" })
+    console.log(avifResponse)
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)

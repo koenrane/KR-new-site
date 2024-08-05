@@ -1,4 +1,7 @@
 import { jest } from "@jest/globals"
+import fsExtra from "fs-extra"
+import path from "path"
+import os from "os"
 
 import {
   GetQuartzPath,
@@ -7,6 +10,7 @@ import {
   ModifyNode,
   MAIL_PATH,
   DEFAULT_PATH,
+  downloadImage,
   TURNTROUT_FAVICON_PATH,
   urlCache,
   createUrlCache,
@@ -50,9 +54,18 @@ describe("Favicon Utilities", () => {
       localPngExists: boolean,
       googleStatus: number = 200,
     ) => {
+      let responseBodyAVIF = ""
+      if (avifStatus === 200) {
+        responseBodyAVIF = "Mock image content"
+      }
+      let responseBodyGoogle = ""
+      if (googleStatus === 200) {
+        responseBodyGoogle = "Mock image content"
+      }
+
       fetchMock
-        .mockResponseOnce("", { status: avifStatus })
-        .mockResponseOnce("", { status: googleStatus })
+        .mockResponseOnce(responseBodyAVIF, { status: avifStatus })
+        .mockResponseOnce(responseBodyGoogle, { status: googleStatus })
       jest
         .spyOn(fs.promises, "stat")
         .mockImplementation(() =>
@@ -246,7 +259,6 @@ describe("Favicon Utilities", () => {
     beforeEach(() => {
       jest.clearAllMocks()
       fetchMock.resetMocks()
-      urlCache.clear()
       urlCache.set = jest.fn(urlCache.set)
       urlCache.get = jest.fn(urlCache.get)
     })
@@ -265,5 +277,76 @@ describe("Favicon Utilities", () => {
       expect(result).toBe(quartzPngPath)
       expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
     })
+  })
+})
+
+describe("downloadImage", () => {
+  let tempDir: string
+
+  beforeEach(async () => {
+    // Create a temporary directory for each test
+    jest.clearAllMocks()
+    fetchMock.resetMocks()
+    tempDir = await fsExtra.mkdtemp(path.join(os.tmpdir(), "download-test-"))
+  })
+
+  afterEach(async () => {
+    // Clean up the temporary directory after each test
+    await fsExtra.remove(tempDir)
+  })
+
+  const runTest = async (
+    mockResponse: Response | Error,
+    expectedResult: boolean,
+    expectedFileContent?: string,
+  ) => {
+    const url = "https://example.com/image.png"
+    const imagePath = path.join(tempDir, "image.png")
+
+    if (mockResponse instanceof Error) {
+      fetchMock.mockReject(mockResponse)
+    } else {
+      const body = String(mockResponse.body) || ""
+      fetchMock.mockResponseOnce(body, { status: mockResponse.status })
+    }
+
+    const result = await downloadImage(url, imagePath)
+
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    expect(global.fetch).toHaveBeenCalledWith(url)
+    expect(result).toBe(expectedResult)
+
+    if (expectedFileContent !== undefined) {
+      const fileExists = await fsExtra.pathExists(imagePath)
+      expect(fileExists).toBe(true)
+      if (fileExists) {
+        const content = await fsExtra.readFile(imagePath, "utf-8")
+        expect(content).toBe(expectedFileContent)
+      }
+    } else {
+      const fileExists = await fsExtra.pathExists(imagePath)
+      expect(fileExists).toBe(false)
+    }
+  }
+
+  it("should download image successfully", async () => {
+    const mockContent = "mock image content"
+    const mockResponse = new Response(mockContent, { status: 200 })
+    await runTest(mockResponse, true, mockContent)
+  })
+
+  it("should return false if fetch response is not ok", async () => {
+    const mockResponse = new Response("", { status: 404 })
+    await runTest(mockResponse, false)
+  })
+
+  it("should return false if fetch response has no body", async () => {
+    const mockResponse = new Response("", { status: 200 })
+    await runTest(mockResponse, false)
+  })
+
+  it("should handle fetch errors", async () => {
+    const mockError = new Error("Network error")
+    await runTest(mockError, false)
   })
 })
