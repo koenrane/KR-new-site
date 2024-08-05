@@ -34,7 +34,6 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
     const fileStream = fs.createWriteStream(imagePath)
     const bodyStream = Readable.from(response.body as unknown as AsyncIterable<Uint8Array>)
 
-    console.log(pipeline)
     await pipeline(bodyStream, fileStream)
     logger.info(`Successfully downloaded image to ${imagePath}`)
     return true
@@ -90,9 +89,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
-    // TODO check if working; seems to be downloading a bunch of old ones
     const avifResponse = await fetch(assetAvifURL, { method: "HEAD" })
-    console.log(avifResponse)
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
