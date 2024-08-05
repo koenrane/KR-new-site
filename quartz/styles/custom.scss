@@ -530,8 +530,13 @@ img.emoji {
 
 #alex-rainbow-date-me {
   mix-blend-mode: normal;
-  width: 60%;
+  width: calc(min(60%, 50vw));
   max-width: 60%;
   margin-top: 0rem;
   margin-bottom: 0rem;
+
+  @media all and (max-width: $mobileBreakpoint) {
+    margin-right: 0;
+    margin-left: $baseMargin;
+  }
 }
