@@ -33,23 +33,26 @@ export function parseAttributes(imgTag: string): Record<string, string> {
 }
 
 export function replaceEmoji(content: string): string {
-  let parsed = twemoji.parse(content, {
+  let twemojiContent = twemoji.parse(content, {
     folder: "svg",
     ext: ".svg",
     callback: createTwemojiCallback,
   } as TwemojiOptions)
 
   EMOJIS_TO_REPLACE.forEach((emoji) => {
-    parsed = parsed.replace(`twemoji/${emoji}.svg`, `twemoji/replacements/${emoji}.svg`)
+    twemojiContent = twemojiContent.replace(
+      `twemoji/${emoji}.svg`,
+      `twemoji/replacements/${emoji}.svg`,
+    )
   })
 
-  return parsed
+  return twemojiContent
 }
 
-export function createNodes(parsed: string): (Text | Element)[] {
+export function createNodes(twemojiContent: string): (Text | Element)[] {
   const newNodes: (Text | Element)[] = []
-  const parts = parsed.split(/<img.*?>/g)
-  const matches = parsed.match(/<img.*?>/g) || []
+  const parts = twemojiContent.split(/<img.*?>/g)
+  const matches = twemojiContent.match(/<img.*?>/g) || []
 
   for (let i = 0; i < parts.length; i++) {
     const part = parts[i]
@@ -68,28 +71,31 @@ export function createNodes(parsed: string): (Text | Element)[] {
   return newNodes
 }
 
+export function replaceEmojiConvertArrows(content: string): string {
+  let twemojiContent = content
+  twemojiContent = twemojiContent.replaceAll(/↩/g, PLACEHOLDER)
+  twemojiContent = replaceEmoji(twemojiContent)
+  return twemojiContent.replaceAll(new RegExp(PLACEHOLDER, "g"), EMOJI_REPLACEMENT)
+}
+
 export function processTree(tree: Node): Node {
-  visit(tree, "text", (node: Text) => {
-    node.value = node.value.replaceAll(/↩/g, PLACEHOLDER)
-  })
+  visit(
+    tree,
+    "text",
+    (node: Text, _index: number, parent: any) => {
+      const twemojiContent = replaceEmojiConvertArrows(node.value)
 
-  visit(tree, "text", (node: Text, _index: number, parent: any) => {
-    const content = node.value
-    const parsed = replaceEmoji(content)
-
-    if (parsed !== content) {
-      const nodes = createNodes(parsed)
-      parent.children = [
-        ...parent.children.slice(0, _index),
-        ...nodes,
-        ...parent.children.slice(_index + 1),
-      ]
-    }
-  })
-
-  visit(tree, "text", (node: Text) => {
-    node.value = node.value.replaceAll(new RegExp(PLACEHOLDER, "g"), EMOJI_REPLACEMENT)
-  })
+      if (twemojiContent !== node.value) {
+        const nodes = createNodes(twemojiContent)
+        parent.children = [
+          ...parent.children.slice(0, _index),
+          ...nodes,
+          ...parent.children.slice(_index + 1),
+        ]
+      }
+    },
+    true, // Reverse so that we don't re-visit newly created text nodes
+  )
 
   return tree
 }

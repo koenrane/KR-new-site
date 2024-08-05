@@ -1,4 +1,5 @@
 import { wrapWithoutTransition } from "./util"
+import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
@@ -401,8 +402,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.id = slug
     itemTile.href = resolveUrl(slug).toString()
 
-    content = content.replaceAll(/↩/g, "⤴")
-    itemTile.innerHTML = `<span class="h4">${title}</span>${htmlTags}${
+    content = replaceEmojiConvertArrows(content)
+    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
       enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
     }`
     itemTile.addEventListener("click", (event) => {
