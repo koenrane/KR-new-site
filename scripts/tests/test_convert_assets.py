@@ -22,9 +22,12 @@ def setup_test_env(tmp_path):
         test_utils.create_test_image(
             tmp_path / "quartz/static" / f"asset{ext}", "32x32"
         )
-        (tmp_path / "content" / f"{ext.lstrip('.')}.md").write_text(
-            f"![](quartz/static/asset{ext})\n"
-        )
+
+        to_write = f"![](quartz/static/asset{ext})\n"
+        to_write += f"[[static/asset{ext}]]\n"
+        to_write += f'<img src="asset{ext}" alt="shrek"/>\n'
+        markdown_file = tmp_path / "content" / f"{ext.lstrip('.')}.md"
+        markdown_file.write_text(to_write)
 
     # Create video assets for testing and add references to markdown files
     for ext in compress.ALLOWED_VIDEO_EXTENSIONS:
@@ -33,7 +36,7 @@ def setup_test_env(tmp_path):
         )
         with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "a") as file:
             file.write(f"![](quartz/static/asset{ext})\n")
-            file.write(f"[[quartz/static/asset{ext}]]\n")
+            file.write(f"[[static/asset{ext}]]\n")
             if ext != ".gif":
                 file.write(
                     f'<video src="quartz/static/asset{ext}" alt="shrek"/>\n'
@@ -71,8 +74,12 @@ def test_image_conversion(ext: str, setup_test_env):
     # Check that name conversion occurred
     with open(content_path, "r") as f:
         file_content = f.read()
-    assert avif_path.name in file_content
     assert asset_path.exists()
+
+    target_content: str = "![](quartz/static/asset.avif)\n"
+    target_content += "[[quartz/static/asset.avif]]\n"
+    target_content += '<img src="quartz/static/asset.avif" alt="shrek"/>\n'
+    assert file_content == target_content
 
 
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import argparse
 from typing import Optional
 import subprocess
@@ -63,6 +64,23 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     return original_pattern, replacement_pattern
 
 
+# def exactly_one_file_exists(input_file: Path) -> bool:
+#     """
+#     Checks if exactly one file exists as a descendant of the current working directory.
+
+# Returns:
+#     True if exactly one file is found, False otherwise.
+# """
+# exists = False
+# for _, _, files in os.walk(Path.cwd()):
+#     for file in files:
+#         if file == input_file:
+#             exists = True
+#         elif file.name == input_file.name and file != input_file:
+#             return False  # More than one file found
+# return exists
+
+
 # Function to handle conversion and optimization of a single file
 def convert_asset(
     input_file: Path,
@@ -86,13 +104,25 @@ def convert_asset(
         )
 
     relative_path: Path = script_utils.path_relative_to_quartz(input_file)
+    output_file: Path = relative_path.with_suffix(".avif")
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
-        output_file = input_file.with_suffix(".avif")
         compress.image(input_file)
 
-        original_pattern = re.escape(str(relative_path))
-        replacement_pattern = str(relative_path.with_suffix(".avif"))
+        # Accomodate for different markdown image syntaxes
+        patterns = []
+        for open_char, pre_close in (
+            ('"', '[^"]'),
+            (r"\(", r"[^\)]"),
+            (r"\[\[", r"(?:.(?!\]\]))"),
+        ):
+            patterns.append(
+                rf"(?<={open_char}){pre_close}*{re.escape(input_file.name)}"
+            )
+
+        original_pattern = "|".join(patterns)
+        new_target = str(output_file)
+        replacement_pattern = new_target
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         output_file = input_file.with_suffix(".webm")
