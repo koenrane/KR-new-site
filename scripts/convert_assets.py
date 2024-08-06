@@ -88,16 +88,30 @@ def convert_asset(
     strip_metadata: bool = False,
     replacement_dir: Optional[Path] = None,
 ) -> None:
-    """Converts an image or video to a more efficient format. Replaces
+    """
+    Converts an image or video to a more efficient format. Replaces
     references in markdown files.
 
     Args:
         input_file: The path to the file to convert.
         remove_originals: Whether to remove the original file.
-        strip_metadata: Whether to strip metadata from the converted file.
+        strip_metadata: Whether to strip metadata from the converted
+        file.
+        replacement_dir: The directory to search for markdown files
+    Side-effects:
+        - Converts the input file to a more efficient format.
+        - Replaces references to the input file in markdown files.
+        - Optionally removes the original file.
+        - Optionally strips metadata from the converted file.
+    Errors:
+        - FileNotFoundError: If the input file does not exist.
+        - NotADirectoryError: If the replacement directory does not exist.
+        - ValueError: If the input file is not an image or video.
     """
+
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
+
     if replacement_dir and not replacement_dir.is_dir():
         raise NotADirectoryError(
             f"Error: Directory '{replacement_dir}' not found."
@@ -138,18 +152,18 @@ def convert_asset(
     for md_file in script_utils.get_files(
         replacement_dir, filetypes_to_match=(".md",)
     ):
-        with open(md_file, "r") as file:
+        with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
-        with open(md_file, "w") as file:
+        with open(md_file, "w", encoding="utf-8") as file:
             file.write(content)
 
-    # Strip Metadata
     if strip_metadata:
         subprocess.run(
             ["exiftool", "-all=", str(output_file)],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
+            check=True,
         )
 
     if remove_originals:

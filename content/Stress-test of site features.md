@@ -63,7 +63,7 @@ In fact, all of the bullet points were written so that the rules were violated. 
 | Lower | text  |
 Table: The [`remark-captions`](npmjs.com/package/remark-captions) Node package makes it easy to add captions.
 
-![[generated-goose.png|Sample image of a majestic goose.]]
+![[goose-majestic.png|Sample image of a majestic goose.]]
 Figure: The most majestic animal known to humanity.
 
 # Smart dash conversion
