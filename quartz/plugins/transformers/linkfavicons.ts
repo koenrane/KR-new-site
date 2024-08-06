@@ -28,7 +28,6 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
     const contents = await response.text()
     if (!response.ok) {
       logger.warn(`Failed to fetch image: ${url}. Status: ${response.status}`)
-      console.log("FETCH RESPONSE NOT OK")
       return false
     }
     if (!contents) {
@@ -95,7 +94,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
     const avifResponse = await fetch(assetAvifURL, { method: "HEAD" })
-    console.log(quartzPngPath)
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)

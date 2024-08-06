@@ -25,7 +25,7 @@ import fs from "fs"
 jest.mock("stream/promises")
 import streamPromises from "stream/promises"
 
-beforeAll(() => {
+beforeAll(async () => {
   jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
   jest.spyOn(fs, "createWriteStream").mockReturnValue(new PassThrough() as any)
 })
@@ -44,9 +44,12 @@ describe("Favicon Utilities", () => {
   })
 
   describe("MaybeSaveFavicon", () => {
+    afterEach(async () => {
+      fs.unlink("quartz/static/images/external-favicons/example_com.png", () => {})
+    })
+
     const hostname = "example.com"
     const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
-    const pngPath = "/static/images/external-favicons/example_com.png"
 
     const mockFetchAndFs = (
       avifStatus: number,
@@ -69,6 +72,7 @@ describe("Favicon Utilities", () => {
         .spyOn(global, "fetch")
         .mockResolvedValueOnce(AVIFResponse)
         .mockResolvedValueOnce(googleResponse)
+
       jest
         .spyOn(fs.promises, "stat")
         .mockImplementation(() =>
@@ -78,18 +82,26 @@ describe("Favicon Utilities", () => {
 
     it.each<[string, number, boolean, string | null, number?]>([
       ["AVIF exists", 200, false, avifUrl],
-      ["Local PNG exists", 404, true, pngPath],
-      ["Download from Google", 404, false, pngPath],
       ["All attempts fail", 404, false, DEFAULT_PATH, 404],
     ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
     })
 
+    it.each<[string, number, boolean]>([
+      ["Local PNG exists", 404, true],
+      ["Download PNG from Google", 404, false],
+    ])("%s", async (_, avifStatus, localPngExists) => {
+      const expected = GetQuartzPath(hostname)
+      mockFetchAndFs(avifStatus, localPngExists)
+      expect(await MaybeSaveFavicon(hostname)).toBe(expected)
+    })
+
     it("handles network errors during AVIF check", async () => {
+      const expected = GetQuartzPath(hostname)
       jest.spyOn(global, "fetch").mockRejectedValue(new Error("Network error"))
       jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
-      expect(await MaybeSaveFavicon(hostname)).toBe(pngPath)
+      expect(await MaybeSaveFavicon(hostname)).toBe(expected)
     })
   })
 
