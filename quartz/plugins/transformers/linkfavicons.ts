@@ -37,7 +37,7 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
     }
 
     const fileStream = fs.createWriteStream(imagePath)
-    const bodyStream = Readable.from(response.body as unknown as AsyncIterable<Uint8Array>)
+    const bodyStream = Readable.from(contents as unknown as AsyncIterable<Uint8Array>)
 
     await pipeline(bodyStream, fileStream)
     logger.info(`Successfully downloaded image to ${imagePath}`)

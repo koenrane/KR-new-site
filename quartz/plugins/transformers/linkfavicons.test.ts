@@ -1,4 +1,4 @@
-import { jest, test } from "@jest/globals"
+import { jest } from "@jest/globals"
 import { PassThrough } from "stream"
 
 import fsExtra from "fs-extra"
@@ -25,15 +25,13 @@ import fs from "fs"
 jest.mock("stream/promises")
 import streamPromises from "stream/promises"
 
-import fetchMock from "jest-fetch-mock"
-
 beforeAll(() => {
+  jest.restoreAllMocks()
   jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
   jest.spyOn(fs, "createWriteStream").mockReturnValue(new PassThrough() as any)
 })
 afterAll(() => {
   jest.clearAllMocks()
-  fetchMock.resetMocks()
 })
 
 describe("Favicon Utilities", () => {
@@ -62,6 +60,7 @@ describe("Favicon Utilities", () => {
         responseBodyAVIF = "Mock image content"
       }
       const AVIFResponse = new Response(responseBodyAVIF, { status: avifStatus })
+
       let responseBodyGoogle = ""
       if (googleStatus === 200) {
         responseBodyGoogle = "Mock image content"
@@ -80,10 +79,10 @@ describe("Favicon Utilities", () => {
     }
 
     it.each<[string, number, boolean, string | null, number?]>([
-      ["AVIF exists", 200, false, avifUrl],
-      // ["Local PNG exists", 404, true, pngPath],
-      // ["Download from Google", 404, false, pngPath],
-      // ["All attempts fail", 404, false, DEFAULT_PATH, 404],
+      // ["AVIF exists", 200, false, avifUrl],
+      ["Local PNG exists", 404, true, pngPath],
+      //   ["Download from Google", 404, false, pngPath],
+      //   ["All attempts fail", 404, false, DEFAULT_PATH, 404],
     ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
@@ -257,31 +256,31 @@ describe("Favicon Utilities", () => {
   //   })
   // })
 
-  // describe("MaybeSaveFavicon with caching", () => {
-  //   const hostname = "example.com"
-  //   const quartzPngPath = "/static/images/external-favicons/example_com.png"
-  //   const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
+  describe("MaybeSaveFavicon with caching", () => {
+    const hostname = "example.com"
+    const quartzPngPath = "/static/images/external-favicons/example_com.png"
+    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
 
-  //   beforeEach(() => {
-  //     urlCache.set = jest.fn(urlCache.set)
-  //     urlCache.get = jest.fn(urlCache.get)
-  //   })
+    beforeEach(() => {
+      urlCache.set = jest.fn(urlCache.set)
+      urlCache.get = jest.fn(urlCache.get)
+    })
 
-  //   it("should cache AVIF URL when found", async () => {
-  //     jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("test", { status: 200 }))
-  //     const result = await MaybeSaveFavicon(hostname)
-  //     expect(result).toBe(avifUrl)
-  //     expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
-  //   })
+    it("should cache AVIF URL when found", async () => {
+      jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("test", { status: 200 }))
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(avifUrl)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
+    })
 
-  //   it("should cache PNG path when local file exists", async () => {
-  //     jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 404 }))
-  //     jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
-  //     const result = await MaybeSaveFavicon(hostname)
-  //     expect(result).toBe(quartzPngPath)
-  //     expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
-  //   })
-  // })
+    it("should cache PNG path when local file exists", async () => {
+      jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 404 }))
+      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(quartzPngPath)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
+    })
+  })
 
   describe("downloadImage", () => {
     let tempDir: string
@@ -305,7 +304,7 @@ describe("Favicon Utilities", () => {
       const imagePath = path.join(tempDir, "image.png")
 
       if (mockResponse instanceof Error) {
-        fetchMock.mockReject(mockResponse)
+        jest.spyOn(global, "fetch").mockRejectedValue(mockResponse)
       } else {
         jest.spyOn(global, "fetch").mockResolvedValue(mockResponse)
         // Create a write stream at the given temp directory
@@ -331,25 +330,25 @@ describe("Favicon Utilities", () => {
       }
     }
 
-    // it("should download image successfully", async () => {
-    //   const mockContent = "Mock image content"
-    //   const mockResponse = new Response(mockContent, { status: 200 })
-    //   await runTest(mockResponse, true, mockContent)
-    // })
+    it("should download image successfully", async () => {
+      const mockContent = "Mock image content"
+      const mockResponse = new Response(mockContent, { status: 200 })
+      await runTest(mockResponse, true, mockContent)
+    })
 
     it("should return false if fetch response is not ok", async () => {
       const mockResponse = new Response("Mock image content", { status: 404 })
       await runTest(mockResponse, false)
     })
 
-    // it("should return false if fetch response has no body", async () => {
-    //   const mockResponse = new Response("", { status: 200 })
-    //   await runTest(mockResponse, false)
-    // })
+    it("should return false if fetch response has no body", async () => {
+      const mockResponse = new Response("", { status: 200 })
+      await runTest(mockResponse, false)
+    })
 
-    // it("should handle fetch errors", async () => {
-    //   const mockError = new Error("Network error")
-    //   await runTest(mockError, false)
-    // })
+    it("should handle fetch errors", async () => {
+      const mockError = new Error("Network error")
+      await runTest(mockError, false)
+    })
   })
 })
