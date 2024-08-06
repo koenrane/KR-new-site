@@ -26,15 +26,19 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
   try {
     const response = await fetch(url)
     const contents = await response.text()
-    if (!response.ok || !contents) {
+    if (!response.ok) {
       logger.warn(`Failed to fetch image: ${url}. Status: ${response.status}`)
       return false
     }
+    if (!contents) {
+      logger.warn(`Failed to fetch image: ${url}. Empty response`)
+      return false
+    }
 
-    // const fileStream = fs.createWriteStream(imagePath)
+    const fileStream = fs.createWriteStream(imagePath)
     const bodyStream = Readable.from(response.body as unknown as AsyncIterable<Uint8Array>)
 
-    // await pipeline(bodyStream, fileStream)
+    await pipeline(bodyStream, fileStream)
     logger.info(`Successfully downloaded image to ${imagePath}`)
     return true
   } catch (err) {

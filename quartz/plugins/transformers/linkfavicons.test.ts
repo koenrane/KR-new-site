@@ -1,4 +1,6 @@
 import { jest } from "@jest/globals"
+import { PassThrough } from "stream"
+
 import fsExtra from "fs-extra"
 import path from "path"
 import os from "os"
@@ -24,16 +26,16 @@ jest.mock("stream/promises")
 import streamPromises from "stream/promises"
 
 import fetchMock from "jest-fetch-mock"
-fetchMock.enableMocks()
 
 beforeAll(() => {
   jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
-  jest.spyOn(fs, "createWriteStream").mockReturnValue({ on: jest.fn() } as any)
+  jest.spyOn(fs, "createWriteStream").mockReturnValue(new PassThrough() as any)
 })
 afterAll(() => {
   jest.clearAllMocks()
   fetchMock.resetMocks()
 })
+
 describe("Favicon Utilities", () => {
   beforeEach(() => {
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
@@ -305,8 +307,10 @@ describe("downloadImage", () => {
     if (mockResponse instanceof Error) {
       fetchMock.mockReject(mockResponse)
     } else {
-      const body = String(mockResponse.body) || ""
-      fetchMock.mockResponseOnce(body, { status: mockResponse.status })
+      console.log(mockResponse)
+      jest.spyOn(global, "fetch").mockResolvedValueOnce(mockResponse)
+      // Create a write stream at the given temp directory
+      jest.spyOn(fs, "createWriteStream").mockReturnValue(fsExtra.createWriteStream(imagePath))
     }
 
     const result = await downloadImage(url, imagePath)
@@ -317,6 +321,7 @@ describe("downloadImage", () => {
 
     if (expectedFileContent !== undefined) {
       const fileExists = await fsExtra.pathExists(imagePath)
+      console.log(imagePath)
       expect(fileExists).toBe(true)
       if (fileExists) {
         const content = await fsExtra.readFile(imagePath, "utf-8")
