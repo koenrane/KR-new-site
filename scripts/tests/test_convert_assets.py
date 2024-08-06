@@ -23,9 +23,9 @@ def setup_test_env(tmp_path):
             tmp_path / "quartz/static" / f"asset{ext}", "32x32"
         )
 
-        to_write = f"![](quartz/static/asset{ext})\n"
-        to_write += f"[[quartz/static/asset{ext}]]\n"
-        to_write += f'<img src="quartz/static/asset{ext}" alt="shrek"/>\n'
+        to_write = f"![](static/asset{ext})\n"
+        to_write += f"[[static/asset{ext}]]\n"
+        to_write += f'<img src="static/asset{ext}" alt="shrek"/>\n'
         markdown_file = tmp_path / "content" / f"{ext.lstrip('.')}.md"
         markdown_file.write_text(to_write)
 
@@ -35,16 +35,14 @@ def setup_test_env(tmp_path):
             tmp_path / "quartz/static" / f"asset{ext}"
         )
         with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "a") as file:
-            file.write(f"![](quartz/static/asset{ext})\n")
+            file.write(f"![](static/asset{ext})\n")
             file.write(f"[[static/asset{ext}]]\n")
             if ext != ".gif":
-                file.write(
-                    f'<video src="quartz/static/asset{ext}" alt="shrek"/>\n'
-                )
+                file.write(f'<video src="static/asset{ext}" alt="shrek"/>\n')
 
     # Special handling for GIF file in markdown
     with open(tmp_path / "content" / "gif.md", "a") as file:
-        file.write('<img src="quartz/static/asset.gif" alt="shrek">')
+        file.write('<img src="static/asset.gif" alt="shrek">')
 
     # Create an unsupported file
     (tmp_path / "quartz/static/unsupported.txt").touch()
@@ -76,9 +74,9 @@ def test_image_conversion(ext: str, setup_test_env):
         file_content = f.read()
     assert asset_path.exists()
 
-    target_content: str = "![](quartz/static/asset.avif)\n"
-    target_content += "[[quartz/static/asset.avif]]\n"
-    target_content += '<img src="quartz/static/asset.avif" alt="shrek"/>\n'
+    target_content: str = "![](static/asset.avif)\n"
+    target_content += "[[static/asset.avif]]\n"
+    target_content += '<img src="static/asset.avif" alt="shrek"/>\n'
     assert file_content == target_content
 
 
@@ -103,7 +101,7 @@ def test_video_conversion(ext: str, setup_test_env):
     video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
     for alt_tag in ("", 'alt="shrek" '):  # The original-tag had an alt
         assert (
-            f'<video {video_tags}src="quartz/static/asset.webm" {alt_tag}type="video/webm"><source src="quartz/static/asset.webm" type="video/webm"></video>'
+            f'<video {video_tags}src="static/asset.webm" {alt_tag}type="video/webm"><source src="static/asset.webm" type="video/webm"></video>'
             in file_content
         )
 

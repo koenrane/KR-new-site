@@ -81,7 +81,8 @@ def convert_asset(
         replacement_dir: The directory to search for markdown files
     Side-effects:
         - Converts the input file to a more efficient format.
-        - Replaces references to the input file in markdown files.
+        - Replaces references to the input file in markdown files,
+          assuming they start with static/.
         - Optionally removes the original file.
         - Optionally strips metadata from the converted file.
     Errors:
@@ -99,10 +100,10 @@ def convert_asset(
         )
 
     relative_path = script_utils.path_relative_to_quartz(input_file)
-    pattern_file = input_file
-    if "quartz/static" in str(input_file):
-        pattern_file = relative_path
-    output_file: Path = relative_path.with_suffix(".avif")
+
+    # The file to search for in markdown files
+    pattern_file = relative_path.relative_to("quartz")
+    output_file: Path = pattern_file.with_suffix(".avif")
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         compress.image(input_file)
