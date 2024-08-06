@@ -98,13 +98,16 @@ def convert_asset(
             f"Error: Directory '{replacement_dir}' not found."
         )
 
-    relative_path: Path = script_utils.path_relative_to_quartz(input_file)
+    relative_path = script_utils.path_relative_to_quartz(input_file)
+    pattern_file = input_file
+    if "quartz/static" in str(input_file):
+        pattern_file = relative_path
     output_file: Path = relative_path.with_suffix(".avif")
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         compress.image(input_file)
-        original_pattern = re.escape(str(input_file))
-        replacement_pattern = str(input_file.with_suffix(".avif"))
+        original_pattern = re.escape(str(pattern_file))
+        replacement_pattern = str(output_file)
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         output_file = input_file.with_suffix(".webm")
@@ -166,5 +169,4 @@ if __name__ == "__main__":
         dir_to_search=args.dir_to_search,
         filetypes_to_match=compress.ALLOWED_EXTENSIONS,
     ):
-        print(asset)
         convert_asset(asset, args.remove_originals, args.strip_metadata)

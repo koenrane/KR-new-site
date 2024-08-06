@@ -24,8 +24,8 @@ def setup_test_env(tmp_path):
         )
 
         to_write = f"![](quartz/static/asset{ext})\n"
-        to_write += f"[[static/asset{ext}]]\n"
-        to_write += f'<img src="asset{ext}" alt="shrek"/>\n'
+        to_write += f"[[quartz/static/asset{ext}]]\n"
+        to_write += f'<img src="quartz/static/asset{ext}" alt="shrek"/>\n'
         markdown_file = tmp_path / "content" / f"{ext.lstrip('.')}.md"
         markdown_file.write_text(to_write)
 
