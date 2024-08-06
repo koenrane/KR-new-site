@@ -26,11 +26,17 @@ import streamPromises from "stream/promises"
 import fetchMock from "jest-fetch-mock"
 fetchMock.enableMocks()
 
+beforeAll(() => {
+  jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
+  jest.spyOn(fs, "createWriteStream").mockReturnValue({ on: jest.fn() } as any)
+})
+afterAll(() => {
+  jest.clearAllMocks()
+  fetchMock.resetMocks()
+})
 describe("Favicon Utilities", () => {
   beforeEach(() => {
-    jest.clearAllMocks()
     jest.spyOn(fs.promises, "stat").mockRejectedValue({ code: "ENOENT" })
-    jest.spyOn(streamPromises, "pipeline").mockResolvedValue()
 
     // Reset the cache
     urlCache.clear()
@@ -43,11 +49,6 @@ describe("Favicon Utilities", () => {
     const hostname = "example.com"
     const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
     const pngPath = "/static/images/external-favicons/example_com.png"
-
-    beforeEach(() => {
-      jest.clearAllMocks()
-      fetchMock.resetMocks()
-    })
 
     const mockFetchAndFs = (
       avifStatus: number,
@@ -82,6 +83,8 @@ describe("Favicon Utilities", () => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
     })
+    // Bad test: avifStatus=404, localPngExists=false,
+    // expected=DEFAULT_PATH, googleStatus=200
 
     it("handles network errors during AVIF check", async () => {
       fetchMock.mockReject(new Error("Network error"))
@@ -257,8 +260,6 @@ describe("Favicon Utilities", () => {
     const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
 
     beforeEach(() => {
-      jest.clearAllMocks()
-      fetchMock.resetMocks()
       urlCache.set = jest.fn(urlCache.set)
       urlCache.get = jest.fn(urlCache.get)
     })
@@ -285,8 +286,6 @@ describe("downloadImage", () => {
 
   beforeEach(async () => {
     // Create a temporary directory for each test
-    jest.clearAllMocks()
-    fetchMock.resetMocks()
     tempDir = await fsExtra.mkdtemp(path.join(os.tmpdir(), "download-test-"))
   })
 

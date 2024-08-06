@@ -31,10 +31,10 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
       return false
     }
 
-    const fileStream = fs.createWriteStream(imagePath)
+    // const fileStream = fs.createWriteStream(imagePath)
     const bodyStream = Readable.from(response.body as unknown as AsyncIterable<Uint8Array>)
 
-    await pipeline(bodyStream, fileStream)
+    // await pipeline(bodyStream, fileStream)
     logger.info(`Successfully downloaded image to ${imagePath}`)
     return true
   } catch (err) {
