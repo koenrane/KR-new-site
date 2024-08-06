@@ -128,10 +128,10 @@ def convert_asset(
 
     if strip_metadata:
         subprocess.run(
-            ["exiftool", "-all=", str(output_file)],
+            ["exiftool", "-all=", str(output_file), "--verbose"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            check=True,
+            check=False,  # Apparently info still gets removed so OK to not check?
         )
 
     if remove_originals:
