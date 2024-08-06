@@ -137,7 +137,8 @@ def test_strip_metadata(setup_test_env):
                 "-Artist=Test Artist",
                 "-Copyright=Test Copyright",
                 str(dummy_image),
-            ]
+            ],
+            check=True,
         )
 
     # Convert the image to AVIF
