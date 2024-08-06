@@ -264,12 +264,12 @@ describe("Favicon Utilities", () => {
       urlCache.get = jest.fn(urlCache.get)
     })
 
-    // it("should cache AVIF URL when found", async () => {
-    //   jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("test", { status: 200 }))
-    //   const result = await MaybeSaveFavicon(hostname)
-    //   expect(result).toBe(avifUrl)
-    //   expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
-    // })
+    it("should cache AVIF URL when found", async () => {
+      jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("test", { status: 200 }))
+      const result = await MaybeSaveFavicon(hostname)
+      expect(result).toBe(avifUrl)
+      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
+    })
 
     it("should cache PNG path when local file exists", async () => {
       jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 404 }))
