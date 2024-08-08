@@ -58,13 +58,16 @@ In fact, all of the bullet points were written so that the rules were violated. 
 > A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
 
 # Markdown captions for tables and figures
+
+The [`remark-captions`](npmjs.com/package/remark-captions) package makes it easy to add captions. I modified the package to allow the inclusion of hypertext within captions:
+![[https://assets.turntrout.com/static/images/posts/goose-majestic.avif|Sample image of a majestic goose.]]
+Figure: The most _majestic_ animal known to humanity.
+
+I have yet to implement the caption functionality for tables.
+
 | Left  | Right |
 | :---: | :---: |
 | Lower | text  |
-Table: The [`remark-captions`](npmjs.com/package/remark-captions) Node package makes it easy to add captions.
-
-![[https://assets.turntrout.com/static/images/posts/goose-majestic.avif|Sample image of a majestic goose.]]
-Figure: The most majestic animal known to humanity.
 
 # Smart dash conversion
 
