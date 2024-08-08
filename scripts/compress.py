@@ -5,7 +5,7 @@ import subprocess
 from pathlib import Path
 from typing import Collection
 
-QUALITY: int = 21  # Default quality
+QUALITY: int = 56  # Default quality (higher is larger file size but better quality)
 ALLOWED_IMAGE_EXTENSIONS: Collection[str] = (".jpg", ".jpeg", ".png")
 
 
@@ -19,9 +19,7 @@ def image(image_path: Path, quality: int = QUALITY) -> None:
     if not image_path.is_file():
         raise FileNotFoundError(f"Error: File '{image_path}' not found.")
     if not image_path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
-        raise ValueError(
-            f"Error: Unsupported file type '{image_path.suffix}'."
-        )
+        raise ValueError(f"Error: Unsupported file type '{image_path.suffix}'.")
 
     avif_path: Path = image_path.with_suffix(".avif")
     if avif_path.exists():
@@ -145,9 +143,7 @@ if __name__ == "__main__":
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
         description="Compress the asset."
     )
-    parser.add_argument(
-        "path", type=Path, help="Path to the file to compress."
-    )
+    parser.add_argument("path", type=Path, help="Path to the file to compress.")
     parser.add_argument(
         "-q",
         "--quality",
