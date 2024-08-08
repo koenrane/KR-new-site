@@ -64,7 +64,7 @@ def test_image_conversion(ext: str, setup_test_env):
     content_path = Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
 
     convert_assets.convert_asset(
-        asset_path, replacement_dir=test_dir / "content"
+        asset_path, md_replacement_dir=test_dir / "content"
     )
 
     assert avif_path.exists()  # Check if AVIF file was created
@@ -91,7 +91,7 @@ def test_video_conversion(ext: str, setup_test_env):
         file_content: str = f.read()
 
     convert_assets.convert_asset(
-        asset_path, replacement_dir=Path(setup_test_env)
+        asset_path, md_replacement_dir=Path(setup_test_env)
     )
 
     assert webm_path.exists()
@@ -113,7 +113,7 @@ def test_remove_original_files(setup_test_env):
     convert_assets.convert_asset(
         asset_path,
         remove_originals=True,
-        replacement_dir=Path(setup_test_env),
+        md_replacement_dir=Path(setup_test_env),
     )
     assert not asset_path.exists()
 
@@ -141,7 +141,9 @@ def test_strip_metadata(setup_test_env):
 
     # Convert the image to AVIF
     convert_assets.convert_asset(
-        dummy_image, strip_metadata=True, replacement_dir=Path(setup_test_env)
+        dummy_image,
+        strip_metadata=True,
+        md_replacement_dir=Path(setup_test_env),
     )
 
     # Read the output of exiftool on the AVIF file and assert that no EXIF data is present

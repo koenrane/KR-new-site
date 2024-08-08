@@ -67,7 +67,7 @@ def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
     strip_metadata: bool = False,
-    replacement_dir: Optional[Path] = None,
+    md_replacement_dir: Optional[Path] = Path("content/"),
 ) -> None:
     """
     Converts an image or video to a more efficient format. Replaces
@@ -94,9 +94,9 @@ def convert_asset(
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
-    if replacement_dir and not replacement_dir.is_dir():
+    if md_replacement_dir and not md_replacement_dir.is_dir():
         raise NotADirectoryError(
-            f"Error: Directory '{replacement_dir}' not found."
+            f"Error: Directory '{md_replacement_dir}' not found."
         )
 
     relative_path = script_utils.path_relative_to_quartz(input_file)
@@ -107,7 +107,7 @@ def convert_asset(
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         compress.image(input_file)
-        original_pattern = re.escape(str(pattern_file))
+        original_pattern = rf"(?:\./)?{re.escape(str(pattern_file))}"
         replacement_pattern = str(output_file)
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
@@ -122,7 +122,7 @@ def convert_asset(
         )
 
     for md_file in script_utils.get_files(
-        replacement_dir, filetypes_to_match=(".md",)
+        dir_to_search=md_replacement_dir, filetypes_to_match=(".md",)
     ):
         with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
@@ -158,16 +158,21 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-d",
-        "--dir-to-search",
-        help="Directory to search for markdown files",
+        "--asset-directory",
+        help="Directory containing assets to convert",
     )
     args = parser.parse_args()
-    args.dir_to_search = (
-        Path(args.dir_to_search) if args.dir_to_search else None
+    args.asset_directory = (
+        Path(args.asset_directory) if args.asset_directory else None
     )
 
     for asset in script_utils.get_files(
-        dir_to_search=args.dir_to_search,
+        dir_to_search=args.asset_directory,
         filetypes_to_match=compress.ALLOWED_EXTENSIONS,
     ):
-        convert_asset(asset, args.remove_originals, args.strip_metadata)
+        convert_asset(
+            asset,
+            remove_originals=args.remove_originals,
+            strip_metadata=args.strip_metadata,
+            md_replacement_dir=Path("content/"),
+        )
