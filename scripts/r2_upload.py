@@ -16,7 +16,7 @@ R2_BUCKET_NAME: str = "turntrout"
 R2_MEDIA_DIR: Path = Path("$HOME/Downloads/website-media-r2")
 
 
-def _get_r2_key(filepath: Path) -> str:
+def get_r2_key(filepath: Path) -> str:
     # Convert Path to string and remove everything up to and including 'quartz/'
     key = re.sub(r".*quartz/", "", str(filepath))
     # Remove leading '/' if present
@@ -47,7 +47,7 @@ def upload_and_move(
     if not file_path.is_file():
         raise FileNotFoundError(f"Error: File not found: {file_path}")
     relative_path = script_utils.path_relative_to_quartz(file_path)
-    r2_key: str = _get_r2_key(relative_path)
+    r2_key: str = get_r2_key(relative_path)
 
     if verbose:
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
@@ -76,8 +76,12 @@ def upload_and_move(
     for text_file_path in script_utils.get_files(replacement_dir, (".md",)):
         with open(text_file_path, "r", encoding="utf-8") as f:
             file_content: str = f.read()
+
+        # Check original_path because it's longer than subpath
+        escaped_original_path: str = re.escape(str(relative_original_path))
+        escaped_relative_subpath: str = re.escape(str(relative_subpath))
         new_content: str = re.sub(
-            rf"{str(relative_subpath)}|{str(relative_original_path)}",
+            rf"(?:\./)?(?:{escaped_original_path}|{escaped_relative_subpath})",
             r2_address,
             file_content,
         )

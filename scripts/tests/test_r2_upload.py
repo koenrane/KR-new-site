@@ -8,6 +8,7 @@ from .. import r2_upload
 
 @pytest.fixture()
 def r2_cleanup():
+    """Fixture to clean up uploaded files on R2 after each test."""
     uploaded_files = []
     yield uploaded_files
     for file in uploaded_files:
@@ -19,6 +20,12 @@ def r2_cleanup():
 
 @pytest.fixture
 def test_media_setup(tmp_path):
+    """
+    Fixture to set up a temporary test environment with:
+        - A Quartz project structure (content, static directories).
+        - Markdown files with image references.
+        - Git initialization to simulate a real project.
+    """
     dirs = {
         "quartz": tmp_path / "quartz",
         "content": tmp_path / "quartz" / "content",
@@ -41,6 +48,7 @@ def test_media_setup(tmp_path):
     md_content = {
         "test1.md": "Here's an image: ![](quartz/static/test.jpg)",
         "test2.md": "Multiple images: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)",
+        "test3.md": "Here's a path which starts with a dot: ![](./static/test.jpg)",
         "patterns.md": "Standard: ![](quartz/static/test.jpg)\nMultiple: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)\nNo match: ![](quartz/static/other.jpg)\nInline: This is an inline ![](quartz/static/test.jpg) image.",
         "test.md": "\n".join(f"![](quartz/static/{f})" for f in test_files),
     }
@@ -59,6 +67,7 @@ def test_media_setup(tmp_path):
 
 
 def test_upload_to_r2_success(temp_dir, r2_cleanup):
+    """Test uploading a file to R2."""
     file_path = temp_dir / "quartz" / "static" / "test.jpg"
     file_path.parent.mkdir(parents=True)
     file_path.touch()
@@ -68,6 +77,7 @@ def test_upload_to_r2_success(temp_dir, r2_cleanup):
         ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.jpg"],
         capture_output=True,
         text=True,
+        check=True,
     ).stdout
     assert (temp_dir / "test.jpg").exists()
 
@@ -82,7 +92,7 @@ def test_upload_to_r2_success(temp_dir, r2_cleanup):
     ],
 )
 def test_get_r2_key(input_path, expected_key):
-    assert r2_upload._get_r2_key(Path(input_path)) == expected_key
+    assert r2_upload.get_r2_key(Path(input_path)) == expected_key
 
 
 @pytest.mark.parametrize(
@@ -176,6 +186,7 @@ def test_upload_and_move(test_media_setup, temp_dir, r2_cleanup):
         ["rclone", "ls", f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.jpg"],
         capture_output=True,
         text=True,
+        check=True,
     ).stdout
     assert (move_to_dir / "test.jpg").exists() and not test_image.exists()
     for (file_path, _), expected_content in zip(
@@ -183,6 +194,7 @@ def test_upload_and_move(test_media_setup, temp_dir, r2_cleanup):
         [
             "Here's an image: ![](https://assets.turntrout.com/static/test.jpg)",
             "Multiple images: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)",
+            "Here's a path which starts with a dot: ![](https://assets.turntrout.com/static/test.jpg)",
             "Standard: ![](https://assets.turntrout.com/static/test.jpg)\nMultiple: ![](https://assets.turntrout.com/static/test.jpg) ![](https://assets.turntrout.com/static/test.jpg)\nNo match: ![](quartz/static/other.jpg)\nInline: This is an inline ![](https://assets.turntrout.com/static/test.jpg) image.",
         ],
     ):
@@ -191,7 +203,6 @@ def test_upload_and_move(test_media_setup, temp_dir, r2_cleanup):
 
 def test_main_upload_all_custom_filetypes(test_media_setup):
     tmp_path, _, _, _ = test_media_setup
-    # _print_red(tmp_path)
 
     arg_list = [
         "r2_upload.py",
