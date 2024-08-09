@@ -176,26 +176,7 @@ b,
 strong,
 dt,
 .callout-title {
-  --webkit-width: 0.01px;
-  -webkit-text-stroke: var(--webkit-width) inherit;
-
-  --shadow-width: 0.01px;
-
-  // TODO check how it looks in firefox
-  @supports not (-webkit-text-stroke: var(--shadow-width) var(--dark)) {
-    text-shadow:
-      calc(-1 * var(--shadow-width)) calc(-1 * var(--shadow-width)) 0 var(--dark),
-      var(--shadow-width) calc(-1 * var(--shadow-width)) 0 var(--dark),
-      calc(-1 * var(--shadow-width)) var(--shadow-width) 0 var(--dark),
-      var(--shadow-width) var(--shadow-width) 0 var(--dark);
-  }
-}
-.callout > p {
-  & .small-caps {
-    text-shadow: none;
-    font-weight: 500; // Otherwise too strong
-    -webkit-text-stroke: 0;
-  }
+  text-shadow: 0 0 0.01px currentColor;
 }
 
 .elvish-italics {
