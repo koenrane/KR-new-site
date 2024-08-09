@@ -169,6 +169,14 @@ export function hyphenReplace(text: string) {
     surroundedDash,
     `$<before>$<markerBeforeOne>$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`,
   )
+
+  // "Since--as you know" should be "Since—as you know"
+  const multipleDashInWords = new RegExp(
+    `(?<=[A-Za-z\d])(?<markerBefore>${chr}?)[~–—\-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\d])`,
+    "g",
+  )
+  text = text.replace(multipleDashInWords, "$<markerBefore>—$<markerAfter>")
+
   // Handle dashes at the start of a line
   text = text.replace(new RegExp(`^(${chr})?[-]+ `, "gm"), "$1— ")
   // Handle lines joined by chr

@@ -144,6 +144,7 @@ describe("HTMLFormattingImprovement", () => {
         "reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)",
       ], // Don't condense em dashes right after ellipses
       ["a browser- or OS-specific fashion", "a browser- or OS-specific fashion"], // Retain hyphen in compound words
+      ["since--as you know", "since—as you know"], // Replace double+ hyphens in words with em dash
     ])('should replace hyphens in "%s"', (input, expected) => {
       const result = hyphenReplace(input)
       expect(result).toBe(expected)
