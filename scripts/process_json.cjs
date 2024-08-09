@@ -32,7 +32,6 @@ turndownService.addRule("figure", {
       const captionHTML = figcaption.innerHTML
       let captionText = turndownService.turndown(captionHTML)
       captionText = captionText.replace(/\\n\\n/g, "\n")
-      console.log(figcaption) // Replace looks good but still not working
 
       markdown += `Figure: ${captionText}\n`
     }

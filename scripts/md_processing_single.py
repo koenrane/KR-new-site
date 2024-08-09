@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import subprocess
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any
@@ -13,9 +15,15 @@ try:
 except ImportError:
     import md_import_helpers as helpers
 
-with open("/tmp/all_posts_md.json", "r") as f:
-    data = json.load(f)
 
+def read_maybe_generate_json() -> dict:
+    if not os.path.exists("/tmp/all_posts_md.json"):
+        subprocess.run(["node", "process_json.cjs"], check=True)
+    with open("/tmp/all_posts_md.json", "r") as f:
+        return json.load(f)
+
+
+data = read_maybe_generate_json()
 results = data["data"]["posts"]["results"]
 
 
@@ -54,9 +62,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     metadata = dict((key, post_info[val]) for (key, val) in pairs)
     metadata["permalink"] = helpers.permalink_conversion[post_info["slug"]]
 
-    metadata["publish"] = (
-        "true" if not metadata["lw-was-draft-post"] else "false"
-    )
+    metadata["publish"] = "true" if not metadata["lw-was-draft-post"] else "false"
 
     title = post_info["title"].replace('"', "'")
     metadata["title"] = f'"{title}"'  # Escape in case of colons
@@ -86,15 +92,11 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["authors"] = author_str
 
     metadata["tags"] = [entry["name"] for entry in post_info["tags"]]
-    metadata["tags"] = set(
-        filter(lambda x: x in helpers.keep_tags, metadata["tags"])
-    )
+    metadata["tags"] = set(filter(lambda x: x in helpers.keep_tags, metadata["tags"]))
     metadata["tags"] = list(
         map(
             lambda tag: (
-                helpers.tag_rename_dict[tag]
-                if tag in helpers.tag_rename_dict
-                else tag
+                helpers.tag_rename_dict[tag] if tag in helpers.tag_rename_dict else tag
             ),
             metadata["tags"],
         )
@@ -105,9 +107,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         print(f"ALERT: {metadata['title']} has no tags\n")
 
     metadata["aliases"] = [post_info["slug"]]
-    if "podcastEpisode" in post_info and (
-        episode := post_info["podcastEpisode"]
-    ):
+    if "podcastEpisode" in post_info and (episode := post_info["podcastEpisode"]):
         metadata["lw-podcast-link"] = episode["episodeLink"]
     if "sequence" in post_info and (sequence := post_info["sequence"]):
         metadata["lw-sequence-title"] = sequence["title"]
@@ -118,9 +118,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         if post_info[f"{order}Post"]:
             metadata[f"{order}-post-slug"] = post_info[f"{order}Post"]["slug"]
 
-    if "reviewWinner" in post_info and (
-        review_info := post_info["reviewWinner"]
-    ):
+    if "reviewWinner" in post_info and (review_info := post_info["reviewWinner"]):
         metadata["lw-review-art"] = review_info["reviewWinnerArt"]
         metadata["lw-review-competitor-count"] = review_info["competitorCount"]
         metadata["lw-review-year"] = review_info["reviewYear"]
@@ -132,9 +130,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
 def add_quartz_metadata(meta: dict[str, Any]) -> dict[str, Any]:
     publication_timestamp: str = meta["lw-posted-at"]
     # Parse the timestamp (Z indicates UTC timezone)
-    dt = datetime.fromisoformat(
-        publication_timestamp[:-1]
-    )  # Remove the trailing 'Z'
+    dt = datetime.fromisoformat(publication_timestamp[:-1])  # Remove the trailing 'Z'
 
     # Format into desired string
     formatted_date = dt.strftime("%m/%d/%Y")
@@ -191,18 +187,12 @@ def parse_latex(markdown: str) -> str:
     )
 
     # Add newline after the beginning of display math
-    markdown = regex.sub(
-        r"(?<=\$\$)(?=[^\n])", r"\n", markdown, flags=regex.MULTILINE
-    )
+    markdown = regex.sub(r"(?<=\$\$)(?=[^\n])", r"\n", markdown, flags=regex.MULTILINE)
     # Add newline before the end of display math
-    markdown = regex.sub(
-        r"(?<=[^\n])(?=\$\$)", r"\n", markdown, flags=regex.MULTILINE
-    )
+    markdown = regex.sub(r"(?<=[^\n])(?=\$\$)", r"\n", markdown, flags=regex.MULTILINE)
 
     # # Have proper newlines for equations
-    markdown = regex.sub(
-        r"([^\\])\\(?=$)", r"\1\\\\", markdown, flags=regex.MULTILINE
-    )
+    markdown = regex.sub(r"([^\\])\\(?=$)", r"\1\\\\", markdown, flags=regex.MULTILINE)
 
     return markdown
 
@@ -212,9 +202,7 @@ for post in results:
     if not post["contents"]:
         continue
     current_hash = post["pageUrl"].split("/")[-2]
-    helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[
-        post["slug"]
-    ]
+    helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[post["slug"]]
 
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
@@ -283,7 +271,7 @@ replacement = {
     r"\biff\b": "IFF",
     r"_\._": r"\.",  # Delete this annoying failure to italicize
     "\xa0": " ",  # NBSP to normal space
-    r"\* \* \*": "<hr/>",  # Fix horizontal rules
+    r"\* \* \*": "<hr/>\n",  # Fix horizontal rules
     r"\<\|endoftext\|\>": "<endoftext>",
     '" wedding"': "“ wedding”",  # Smart quotes have trouble with this one
     '" "': "“ ”",  # For wedding vector minus space
@@ -378,25 +366,21 @@ def process_markdown(post_info: dict[str, Any]) -> str:
     md = replace_urls(md)
 
     # Standardize "eg" and "ie"
-    md = regex.sub(
-        r"\b(?!e\.g\.)e\.?g\.?,?\b", "e.g.", md, flags=regex.IGNORECASE
-    )
-    md = regex.sub(
-        r"\b(?!i\.e\.)i\.?e\.?,?\b", "i.e.", md, flags=regex.IGNORECASE
-    )
+    md = regex.sub(r"\b(?!e\.g\.)e\.?g\.?,?\b", "e.g.", md, flags=regex.IGNORECASE)
+    md = regex.sub(r"\b(?!i\.e\.)i\.?e\.?,?\b", "i.e.", md, flags=regex.IGNORECASE)
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
     times_sign_regex = r"\s*?(?:\*|\\times)\s*?"
-    times_regex_nums = rf"(?:\\\()?({number_regex}|n){times_sign_regex}({number_regex}|n)(?:\\\))?"
+    times_regex_nums = (
+        rf"(?:\\\()?({number_regex}|n){times_sign_regex}({number_regex}|n)(?:\\\))?"
+    )
     coeff_regex = rf"(coeff){times_sign_regex}(\w+)"
     md = regex.sub(rf"{times_regex_nums}|{coeff_regex}", r"\1×\2", md)
 
     # Delete extra spaces around bullets
     bulleted_line = r" *\*(?!\*).*\n"
-    md = regex.sub(
-        rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md
-    )
+    md = regex.sub(rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md)
     # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
 
@@ -408,9 +392,7 @@ def process_markdown(post_info: dict[str, Any]) -> str:
     # TODO footnote conversion
     # TODO color conversion -- actually do in JS/CSS
     # single-line $ $ to $$ $$
-    md = regex.sub(
-        r"^ *\$([^\$].*[^\$])\$ *$", r"$$\1$$", md, flags=regex.MULTILINE
-    )
+    md = regex.sub(r"^ *\$([^\$].*[^\$])\$ *$", r"$$\1$$", md, flags=regex.MULTILINE)
 
     md = parse_latex(md)
 
@@ -423,23 +405,17 @@ if __name__ == "__main__":
 
     title_substring = sys.argv[1]
 
-    with open("/tmp/all_posts_md.json", "r") as f:
-        data = json.load(f)
-
+    data = read_maybe_generate_json()
     results = data["data"]["posts"]["results"]
 
-    matching_posts = [
-        post for post in results if title_substring in post["title"]
-    ]
+    matching_posts = [post for post in results if title_substring in post["title"]]
 
     if len(matching_posts) == 0:
         raise FileNotFoundError(
             f"Error: No posts found with title containing '{title_substring}'"
         )
     elif len(matching_posts) > 1:
-        print(
-            f"Error: Multiple posts found with title containing '{title_substring}':"
-        )
+        print(f"Error: Multiple posts found with title containing '{title_substring}':")
         for post in matching_posts:
             print(f"- {post['title']}")
         sys.exit(1)
