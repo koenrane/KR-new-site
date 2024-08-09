@@ -59,7 +59,8 @@ In fact, all of the bullet points were written so that the rules were violated. 
 
 # Markdown captions for tables and figures
 
-The [`remark-captions`](npmjs.com/package/remark-captions) package makes it easy to add captions. I modified the package to allow the inclusion of hypertext within captions:
+The [`remark-captions`](https://npmjs.com/package/remark-captions) package makes it easy to add captions. I modified the package to allow the inclusion of hypertext within captions:
+
 ![[https://assets.turntrout.com/static/images/posts/goose-majestic.avif|Sample image of a majestic goose.]]
 Figure: The most _majestic_ animal known to humanity.
 
