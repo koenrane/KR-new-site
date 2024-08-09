@@ -34,14 +34,15 @@ export default ((opts?) => {
         dateStr = <time datetime={frontmatter?.date_published}>{dateStr}</time>
 
         const originalURL = new URL(frontmatter?.original_url)
-        const quartzPath = GetQuartzPath(originalURL.hostname)
+        const quartzPath = "https://assets.turntrout.com" + GetQuartzPath(originalURL.hostname)
+        const avifPath = quartzPath.replace(".png", ".avif")
 
         publicationStr = (
           <span className="publication-str">
             <a href={frontmatter?.original_url} class="external">
               {publicationStr}
             </a>
-            <img src={quartzPath} class="favicon" alt={"Favicon for " + originalURL.hostname} />
+            <img src={avifPath} class="favicon" alt="" />
             {dateStr}
           </span>
         )
