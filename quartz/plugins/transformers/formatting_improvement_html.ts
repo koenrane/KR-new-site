@@ -145,10 +145,10 @@ export function niceQuotes(text: string) {
 // Give extra breathing room to slashes with full-width slashes
 export function fullWidthSlashes(text: string): string {
   const slashRegex = new RegExp(
-    `(?<![\\d\/])(${chr}?)[ ]?(${chr}?)\/(${chr}?)[ ]?(${chr}?)(?=[^\\d\/])`,
+    `(?<![\\d\/])(${chr}?)[ ](${chr}?)\/(${chr}?)[ ](${chr}?)(?=[^\\d\/])`,
     "g",
   )
-  return text.replace(slashRegex, "$1$2／$3$4")
+  return text.replace(slashRegex, "$1$2 ／$3$4")
 }
 
 export function hyphenReplace(text: string) {

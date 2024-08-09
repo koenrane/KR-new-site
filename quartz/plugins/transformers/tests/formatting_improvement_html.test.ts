@@ -89,7 +89,7 @@ describe("HTMLFormattingImprovement", () => {
 
   describe("Full-width slashes", () => {
     it.each([
-      ["'cat' / 'dog'", "'cat'／'dog'"],
+      ["'cat' / 'dog'", "'cat' ／'dog'"],
       ["https://dog", "https://dog"],
     ])("should replace / with ／ in %s", (input: string, expected: string) => {
       const processedHtml = fullWidthSlashes(input)
