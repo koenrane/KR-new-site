@@ -310,9 +310,12 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+#toc-content li {
   // Oldstyle is too small for headers
-  font-variant-numeric: lining-nums;
+  &::first-letter {
+    font-variant-numeric: lining-nums;
+  }
   // color: var(--color-header);
   font-family: var(--font-text-header);
 
