@@ -1,9 +1,9 @@
 import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, numberRegex, fractionRegex } from "./utils"
+import { replaceRegex, fractionRegex } from "./utils"
 import assert from "assert"
-import { Plugin } from "unified"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
+import { Plugin } from "unified"
 
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
   if (ignoreNode(node)) {
@@ -77,7 +77,7 @@ export function transformElement(
   ignoreNodeFn: (input: Element) => boolean = () => false,
   checkTransformInvariance: any = true,
 ): void {
-  if (!node.children) {
+  if (!node?.children) {
     throw new Error("Node has no children")
   }
   // Append markerChar and concatenate all text nodes
@@ -179,8 +179,6 @@ export function hyphenReplace(text: string) {
 
   // Handle dashes at the start of a line
   text = text.replace(new RegExp(`^(${chr})?[-]+ `, "gm"), "$1— ")
-  // Handle lines joined by chr
-  // text = text.replace(new RegExp(`(?<=${chr})[-]+ `, "g"), "—")
 
   // Create a regex for spaces around em dashes, allowing for optional spaces around the em dash
   const spacesAroundEM = new RegExp(
@@ -198,6 +196,15 @@ export function hyphenReplace(text: string) {
   const startOfLine = new RegExp(`^${spacesAroundEM.source}(?<after>[A-Z0-9])`, "gm")
   text = text.replace(startOfLine, "$<markerBefore>—$<markerAfter> $<after>")
 
+  return text
+}
+
+export function applyTextTransforms(text: string): string {
+  text = text.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = niceQuotes(text)
+  text = fullWidthSlashes(text)
+  text = hyphenReplace(text)
+  assertSmartQuotesMatch(text)
   return text
 }
 

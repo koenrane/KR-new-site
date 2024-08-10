@@ -3,6 +3,7 @@ import { Root } from "mdast"
 import { visit } from "unist-util-visit"
 import { toString } from "mdast-util-to-string"
 import Slugger from "github-slugger"
+import { applyTextTransforms } from "./formatting_improvement_html"
 
 export interface Options {
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6
@@ -42,7 +43,8 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
               let highestDepth: number = opts.maxDepth
               visit(tree, "heading", (node) => {
                 if (node.depth <= opts.maxDepth) {
-                  const text = toString(node)
+                  let text = applyTextTransforms(toString(node))
+
                   highestDepth = Math.min(highestDepth, node.depth)
                   toc.push({
                     depth: node.depth,
