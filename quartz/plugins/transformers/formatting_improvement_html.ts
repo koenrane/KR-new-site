@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, numberRegex } from "./utils"
+import { replaceRegex, numberRegex, fractionRegex } from "./utils"
 import assert from "assert"
 import { Plugin } from "unified"
 import { Element, Text } from "hast"
@@ -200,13 +200,6 @@ export function hyphenReplace(text: string) {
 
   return text
 }
-
-// A fraction is a number followed by a slash and another number. There
-// are a few checks to avoid false positives like dates (1/1/2001).
-const fractionRegex = new RegExp(
-  `(?<![\w\/]|${numberRegex.source})(${numberRegex.source})\/(${numberRegex.source})(?!${numberRegex.source})(?=[^\w\/]|$)`,
-  "g",
-)
 
 // Node-skipping predicates //
 /**
