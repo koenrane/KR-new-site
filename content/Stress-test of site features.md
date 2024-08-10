@@ -79,11 +79,9 @@ I have yet to implement the caption functionality for tables.
 
 My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents clauses from being delimited by hyphens ("`I - like you - object`"). Instead, the build process renders "I - like you - object."
 
-# Section
+# SMALLCAPS appear in the table of contents
+## As do "smart quotes"
 Test of [mail favicon](mailto:throwaway@turntrout.com) - the `svg` should be floating next to the URL.
-
-## Subsection
-
 ### Subsubsection
 
 # Smallcaps
@@ -238,6 +236,4 @@ I prefer the flat style of Twitter emoji. This also unifies UX across devices, a
 
 🪿😀😃😄😁😆😅😂🤣🥲🥹☺️😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳🙂‍↕️😏😒🙂‍↔️😞😔😟😕🙁☹️😣😖😫😩🥺😢😭😮‍💨😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🫣🤗🫡🤔🫢🤭🤫🤥😶😶‍🌫️😐😑😬🫨🫠🙄😯😦😧😮😲🥱😴🤤😪😵😵‍💫🫥🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👹👺🤡💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾
 
-# SMALLCAPS appear in the table of contents
-## As do "smart quotes"
 

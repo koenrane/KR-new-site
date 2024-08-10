@@ -52,10 +52,17 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
       remainingEntries.shift()
       const entryParent: Parent = processSCInTocEntry(tocEntry)
       const children = entryParent.children.map(elementToJsx)
+
+      // Unsure why I can't just use children directly in the jsx below
+      let childElts: JSX.Element[] = []
+      for (let i = 0; i < children.length; i++) {
+        childElts.push(children[i])
+      }
+
       let li = (
         <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
           <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-            {children}
+            {childElts}
           </a>
         </li>
       )
