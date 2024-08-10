@@ -53,6 +53,7 @@ describe("HTMLFormattingImprovement", () => {
       ['"\'sup"', "“‘sup”"],
       ["'the best',", "‘the best’,"],
       ["'I lost the game.'", "‘I lost the game.’"],
+      ["I hate you.'\"", "I hate you.’”"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)

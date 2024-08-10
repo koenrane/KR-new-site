@@ -131,8 +131,8 @@ export function niceQuotes(text: string) {
 
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
-  // // If closing quote followed by brace, generally in math mode
-  // text = text.replace(new RegExp(`["](${chr}?\s*${chr}?\\})`, "g"), "”$1")
+  // If single quote has a right double quote after it, replace with right single and then double
+  text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
 
   // Periods inside quotes
   text = text.replace(new RegExp(`(?<![!?])(${chr}?[’”])\\.`, "g"), ".$1")
