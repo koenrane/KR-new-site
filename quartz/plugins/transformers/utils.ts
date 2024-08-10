@@ -26,11 +26,11 @@ export const replaceRegex = (
   ignorePredicate: (nd: any, idx: any, prnt: any) => boolean = () => false,
   newNodeStyle = "abbr.small-caps",
 ) => {
-  if (ignorePredicate(node, index, parent)) {
+  if (ignorePredicate(node, index, parent) || !node?.value) {
     return
   }
 
-  var lastIndex = 0
+  let lastIndex = 0
   let matchIndexes = []
   let lastMatchEnd = 0
   let match
@@ -45,7 +45,7 @@ export const replaceRegex = (
   if (!matchIndexes?.length || !node.value) return
 
   const fragment = []
-  var lastIndex = 0
+  lastIndex = 0
 
   for (const index of matchIndexes) {
     // If there's text before the match, add it to the fragment
@@ -75,7 +75,7 @@ export const replaceRegex = (
   }
 }
 
-var logger = createLogger("utils")
+let logger = createLogger("utils")
 export async function followRedirects(url: URL, maxRedirects = 10) {
   let currentUrl = url
   let redirectCount = 0

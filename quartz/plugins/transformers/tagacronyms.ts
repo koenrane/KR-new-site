@@ -1,25 +1,24 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { replaceRegex } from "./utils"
+import { Node, Parent } from "unist"
 
 import { visit } from "unist-util-visit"
 // Custom Rehype plugin for tagging acronyms
-const ignoreAcronym = (_node: any, _index: any, parent: any) => {
+const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
   let status = parent?.properties?.className?.includes("no-smallcaps")
   status = status || parent?.tagName === "abbr" || "code" === parent?.tagName
   return status
 }
 
+// TODO come up with more elegant whitelist for e.g. "if"
 const REGEX_ACRONYM =
   /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>IF|TL;DR|IL|GPT-?2-XL|[A-Z\u00C0-\u00DC]{3,})(?<plural>s?)\b/
 const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
 
-export function replaceSCInNode(node: any, index: any, parent: any): void {
-  if (node?.value?.includes("GPT-3")) {
-    console.log(node)
-  }
+export function replaceSCInNode(node: Node, index: number, parent: Parent): void {
   replaceRegex(
     node,
     index,
@@ -47,8 +46,6 @@ export function replaceSCInNode(node: any, index: any, parent: any): void {
 }
 
 export const rehypeTagAcronyms: Plugin = () => {
-  // TODO come up with more elegant whitelist for e.g. "if"
-
   return (tree) => {
     visit(tree, "text", replaceSCInNode)
   }
