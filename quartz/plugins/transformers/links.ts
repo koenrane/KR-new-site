@@ -57,7 +57,11 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
               ) {
                 let dest = node.properties.href as RelativeURL
                 const classes = (node.properties.className ?? []) as string[]
-                const isExternal = isAbsoluteUrl(dest)
+                const listToCheck = ["#", ".", "/", "mailto"] // Add any other prefixes you want to check
+
+                const isExternal = !listToCheck.some((prefix) => dest.startsWith(prefix))
+
+                console.log(dest, "is external: ", isExternal)
                 classes.push(isExternal ? "external" : "internal")
 
                 if (isExternal && opts.externalLinkIcon) {
@@ -97,7 +101,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 }
 
                 // don't process external links or intra-document anchors
-                const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#"))
+                const isInternal = !(isExternal || dest.startsWith("#"))
                 if (isInternal) {
                   dest = node.properties.href = transformLink(
                     file.data.slug! as FullSlug,
@@ -143,6 +147,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                   node.properties.loading = "lazy"
                 }
 
+                // TODO leaving this be, but might need to be updated along with isExternal
                 if (!isAbsoluteUrl(node.properties.src)) {
                   let dest = node.properties.src as RelativeURL
                   dest = node.properties.src = transformLink(
