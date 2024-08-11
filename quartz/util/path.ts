@@ -289,7 +289,6 @@ function _addRelativeToStart(s: string): string {
 
   if (!s.startsWith(".")) {
     s = joinSegments(".", s)
-    console.log(s)
   }
 
   return s

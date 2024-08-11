@@ -108,7 +108,6 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#") || isExternal)
 
                 if (isInternal) {
-                  console.log("isInternal:", dest)
                   dest = node.properties.href = transformLink(
                     file.data.slug! as FullSlug,
                     dest,
@@ -131,10 +130,6 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                   node.properties["data-slug"] = full
                 }
 
-                if (dest.includes("dungeon")) {
-                  console.log("dest:", dest)
-                  console.log("isExternal:", node)
-                }
                 // rewrite link internals if prettylinks is on
                 if (
                   opts.prettyLinks &&
