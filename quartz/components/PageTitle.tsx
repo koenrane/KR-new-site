@@ -15,10 +15,15 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
           loop
           muted
           playsInline
-          id="header-video-small"
+          id="header-video"
           class="header-img no-select no-vsc"
+          alt=""
         >
-          <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
+          <source src="/static/pond.mp4" type="video/mp4"></source>
+          {/* <source */}
+          {/*   src="https://assets.turntrout.com/static/pond.webm" */}
+          {/*   type="video/webm" */}
+          {/* ></source> */}
         </video>
       </a>
       <h2 class="page-title-text">

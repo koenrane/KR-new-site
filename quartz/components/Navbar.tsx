@@ -95,18 +95,19 @@ export default ((userOpts?: Partial<Options>) => {
         <div id="navbar" className={classNames(displayClass, "navbar")}>
           <div id="navbar-left">
             <video
-              autoPlay
-              loop
-              muted
               playsInline
+              autoPlay
+              muted
+              loop
               id="header-video"
               class="header-img no-select no-vsc"
               alt=""
             >
-              <source
-                src="https://assets.turntrout.com/static/pond.webm"
-                type="video/webm"
-              ></source>
+              <source src="/static/pond.mp4" type="video/mp4"></source>
+              {/* <source */}
+              {/*   src="https://assets.turntrout.com/static/pond.webm" */}
+              {/*   type="video/webm" */}
+              {/* ></source> */}
             </video>
             {}
             <h2 class="page-title-text">
