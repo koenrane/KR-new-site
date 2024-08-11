@@ -83,19 +83,19 @@ This text is 3× larger.`
 describe("editAdmonition", () => {
   it('should replace a basic "edit" command with the admonition', () => {
     const input = "edit 08-10-2023: This is some edited text."
-    const expected = "> [!info] Edited 08-10-2023\n> This is some edited text."
+    const expected = "> [!info] Edited on 08-10-2023\n> This is some edited text."
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it('should replace a basic "eta" command with the admonition', () => {
     const input = "eta 8/10/2023: Updated information here."
-    const expected = "> [!info] Edited 8/10/2023\n> Updated information here."
+    const expected = "> [!info] Edited on 8/10/2023\n> Updated information here."
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it("should be case-insensitive", () => {
     const input = "Edit 06-15-2023: Some case-insensitive text."
-    const expected = "> [!info] Edited 06-15-2023\n> Some case-insensitive text."
+    const expected = "> [!info] Edited on 06-15-2023\n> Some case-insensitive text."
     expect(editAdmonition(input)).toBe(expected)
   })
 

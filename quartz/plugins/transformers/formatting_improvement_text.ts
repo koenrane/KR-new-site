@@ -11,10 +11,10 @@ const footnoteEndOfSentence = (text: string) => {
   return tighterText
 }
 
-const editPattern = /^(edit|eta)\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?: (?<text>.*)/im
-const editAdmonitionPattern = "> [!info] Edited $<date>\n> $<text>"
+const editPattern = /^(edit|eta)\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?: (?<text>.*)/gim
+const editAdmonitionPattern = "> [!info] Edited on $<date>\n> $<text>"
 export function editAdmonition(text: string): string {
-  text = text.replace(editPattern, editAdmonitionPattern)
+  text = text.replaceAll(editPattern, editAdmonitionPattern)
   return text
 }
 
@@ -42,6 +42,8 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = newContent.replace(/ *\,/g, ",")
+
+  newContent = editAdmonition(newContent)
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
