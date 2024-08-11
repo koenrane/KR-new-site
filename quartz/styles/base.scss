@@ -6,7 +6,6 @@
 
 html {
   scroll-behavior: smooth;
-  // text-size-adjust: none;
   overflow-x: hidden;
   width: 100vw;
 }
@@ -18,6 +17,25 @@ section {
   background-color: var(--light);
   font-family: var(--font-text);
   color: var(--darkgray);
+}
+
+/* Define the scrollbar style */
+body,
+right {
+  scrollbar-color: var(--lightergray) var(--light);
+}
+
+.right::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Define the thumb style */
+.right::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: var(--lightergray);
+  border-radius: 5px;
 }
 
 .text-highlight {
@@ -61,10 +79,6 @@ ul,
   margin-right: auto;
 } // Override minified katex styles
 
-// For math blocks, set to flex to allow centering
-// p:has(> :only-child.katex:not(:empty)) {
-//   display: flex;
-// }
 strong {
   font-weight: $semiBoldWeight;
 }

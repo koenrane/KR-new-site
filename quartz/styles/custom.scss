@@ -259,6 +259,7 @@ figure,
 
 .article-title {
   margin: 2rem 0 0 0;
+  font-variant-numeric: lining-nums;
 
   @media all and (max-width: $fullPageWidth) {
     margin-top: $baseMargin;
