@@ -1,4 +1,8 @@
-import { formattingImprovement, editAdmonition } from "../formatting_improvement_text"
+import {
+  formattingImprovement,
+  editAdmonition,
+  noteAdmonition,
+} from "../formatting_improvement_text"
 
 // Test Helper Function (adapted from your existing code)
 function processtext(inputtext: string): string {
@@ -102,5 +106,35 @@ describe("editAdmonition", () => {
   it("should not modify text without the edit/eta command", () => {
     const input = "This is some regular text without an edit command."
     expect(editAdmonition(input)).toBe(input)
+  })
+})
+
+describe("noteAdmonition", () => {
+  it('should handle multiple "note:" occurrences', () => {
+    const input = "note: First note.\nSome other text.\nnote: Second note."
+    const expected = "> [!note]\n > First note.\nSome other text.\n> [!note]\n > Second note."
+    expect(noteAdmonition(input)).toBe(expected)
+  })
+
+  it("should be case-insensitive", () => {
+    const input = "NOTE: This is a case-insensitive note."
+    const expected = "> [!note]\n > This is a case-insensitive note."
+    expect(noteAdmonition(input)).toBe(expected)
+  })
+
+  it('should not modify text without the "note:" prefix', () => {
+    const input = "This is some regular text without a note."
+    expect(noteAdmonition(input)).toBe(input)
+  })
+
+  it('should handle "note:" at the beginning of a line', () => {
+    const input = "Some text.\nnote: A note at the start of a line."
+    const expected = "Some text.\n> [!note]\n > A note at the start of a line."
+    expect(noteAdmonition(input)).toBe(expected)
+  })
+
+  it('should not handle "note:" at the end of a line', () => {
+    const input = "Some text. note: A note at the end of a line."
+    expect(noteAdmonition(input)).toBe(input)
   })
 })

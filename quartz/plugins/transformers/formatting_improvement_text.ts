@@ -18,6 +18,11 @@ export function editAdmonition(text: string): string {
   return text
 }
 
+const notePattern = /^note: (?<text>.*)/gim
+export function noteAdmonition(text: string): string {
+  return text.replaceAll(notePattern, "> [!note]\n > $<text>")
+}
+
 const concentrateEmphasisAroundLinks = (text: string): string => {
   const emphRegex = new RegExp(
     `(?<emph>[*_]+)(?<whitespace1>\\s*)(?<url>${mdLinkRegex.source})(?<whitespace2>\\s*)(\\k<emph>)`,
@@ -44,6 +49,7 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *\,/g, ",")
 
   newContent = editAdmonition(newContent)
+  newContent = noteAdmonition(newContent)
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
