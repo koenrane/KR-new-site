@@ -58,6 +58,9 @@ pairs = (
 )
 
 
+MARKDOWN_WARNING = "moved away from optimal policies and treated reward functions more realistically.**\n"
+
+
 def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     metadata = dict((key, post_info[val]) for (key, val) in pairs)
     metadata["permalink"] = helpers.permalink_conversion[post_info["slug"]]
@@ -124,6 +127,10 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["lw-review-year"] = review_info["reviewYear"]
         metadata["lw-review-ranking"] = review_info["reviewRanking"]
         metadata["lw-review-category"] = review_info["category"]
+
+    if MARKDOWN_WARNING in post_info["contents"]["markdown"]:
+        metadata["lw-power-seeking-warning"] = True
+
     return metadata
 
 
@@ -215,6 +222,25 @@ def _get_urls(markdown: str) -> list[str]:
         urls.append(url)
 
     return urls
+
+
+# $+5$ -> +5
+# Fix strong vs b
+# Fix 9/11 -> narrow fraction activating context
+# 11 in headings
+# Escape dollar signs
+# talk about weddings constantly " lose last space
+# dmodel norm space issue
+# people getting hurt table
+# balance table col widths
+# wedding ". turn into wedding”. (smart quotes)
+# n. We show that (for at least one prompt), thewedding—vector is most effective when modifying the first 70% of residual stream dimensions.
+# anchor imports
+# full width images
+# turn katex into unicode for toc
+# " weddings" -> “ weddings”
+# Newline after table and figure captions
+# I love dogs repetition in rendered doc but not md
 
 
 # Turn links to my LW posts into internal links
@@ -332,9 +358,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
 
 def remove_warning(markdown: str) -> str:
-    return markdown.split(
-        "moved away from optimal policies and treated reward functions more realistically.**\n"
-    )[-1]
+    return markdown.split(MARKDOWN_WARNING)[-1]
 
 
 def process_markdown(post_info: dict[str, Any]) -> str:
@@ -366,8 +390,11 @@ def process_markdown(post_info: dict[str, Any]) -> str:
     md = replace_urls(md)
 
     # Standardize "eg" and "ie"
-    md = regex.sub(r"\b(?!e\.g\.)e\.?g\.?,?\b", "e.g.", md, flags=regex.IGNORECASE)
-    md = regex.sub(r"\b(?!i\.e\.)i\.?e\.?,?\b", "i.e.", md, flags=regex.IGNORECASE)
+    md = regex.sub(r"\b(?!e\.g\.)e\.?g\.?\b", "e.g.", md, flags=regex.IGNORECASE)
+    md = regex.sub(r"\b(?!i\.e\.)i\.?e\.?\b", "i.e.", md, flags=regex.IGNORECASE)
+    md = regex.sub(
+        r"(e\.g|i\.e)\.,", r"\1.", md
+    )  # Remove comma after e.g. or i.e., handling extra spaces
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
