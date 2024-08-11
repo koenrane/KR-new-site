@@ -18,9 +18,10 @@ export function editAdmonition(text: string): string {
   return text
 }
 
-const notePattern = /^note: (?<text>.*)/gim
+const notePattern = /^\s*(?<emph1>[\*_]*)note: (?<text>.*)(?<emph2>[\*_]*)/gim
 export function noteAdmonition(text: string): string {
-  return text.replaceAll(notePattern, "> [!note]\n > $<text>")
+  text = text.replaceAll(notePattern, "\n> [!note]\n>\n> $1$2$3")
+  return text
 }
 
 const concentrateEmphasisAroundLinks = (text: string): string => {

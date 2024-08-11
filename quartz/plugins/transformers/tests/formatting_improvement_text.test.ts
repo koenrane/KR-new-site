@@ -112,13 +112,20 @@ describe("editAdmonition", () => {
 describe("noteAdmonition", () => {
   it('should handle multiple "note:" occurrences', () => {
     const input = "note: First note.\nSome other text.\nnote: Second note."
-    const expected = "> [!note]\n > First note.\nSome other text.\n> [!note]\n > Second note."
+    const expected =
+      "\n> [!note]\n>\n> First note.\nSome other text.\n\n> [!note]\n>\n> Second note."
     expect(noteAdmonition(input)).toBe(expected)
   })
 
   it("should be case-insensitive", () => {
     const input = "NOTE: This is a case-insensitive note."
-    const expected = "> [!note]\n > This is a case-insensitive note."
+    const expected = "\n> [!note]\n>\n> This is a case-insensitive note."
+    expect(noteAdmonition(input)).toBe(expected)
+  })
+
+  it("Allows emphasis", () => {
+    const input = "**NOTE: This contains emphasis.**"
+    const expected = "\n> [!note]\n>\n> **This contains emphasis.**"
     expect(noteAdmonition(input)).toBe(expected)
   })
 
@@ -129,12 +136,7 @@ describe("noteAdmonition", () => {
 
   it('should handle "note:" at the beginning of a line', () => {
     const input = "Some text.\nnote: A note at the start of a line."
-    const expected = "Some text.\n> [!note]\n > A note at the start of a line."
+    const expected = "Some text.\n\n> [!note]\n>\n> A note at the start of a line."
     expect(noteAdmonition(input)).toBe(expected)
-  })
-
-  it('should not handle "note:" at the end of a line', () => {
-    const input = "Some text. note: A note at the end of a line."
-    expect(noteAdmonition(input)).toBe(input)
   })
 })

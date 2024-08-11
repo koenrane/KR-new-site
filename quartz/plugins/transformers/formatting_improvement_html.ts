@@ -295,7 +295,7 @@ export const improveFormatting: Plugin = () => {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: any) {
           notMatching = true
-          console.error(e.message)
+          // console.error(e.message)
         }
         if (notMatching) {
           console.error("Some double quotes are not matched.")
