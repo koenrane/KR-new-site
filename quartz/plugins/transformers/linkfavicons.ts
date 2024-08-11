@@ -31,48 +31,36 @@ export class DownloadError extends Error {
  */
 export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
-  try {
-    const response = await fetch(url)
-    if (!response.ok) {
-      throw new DownloadError(`Failed to fetch image: ${url}. Status: ${response.status}`)
-    }
-
-    const contentType = response.headers.get("content-type")
-    if (!contentType || !contentType.startsWith("image/")) {
-      throw new DownloadError(
-        `URL does not point to an image: ${url}. Content-Type: ${contentType}`,
-      )
-    }
-
-    const contentLength = response.headers.get("content-length")
-    if (contentLength && parseInt(contentLength, 10) === 0) {
-      throw new DownloadError(`Empty image file: ${url}`)
-    }
-
-    if (!response.body) {
-      throw new DownloadError(`No response body: ${url}`)
-    }
-
-    const body = Readable.fromWeb(response.body as any)
-    await writeFile(imagePath, body)
-
-    const stats = await fs.promises.stat(imagePath)
-    if (stats.size === 0) {
-      await fs.promises.unlink(imagePath)
-      throw new DownloadError(`Downloaded file is empty: ${imagePath}`)
-    }
-
-    logger.info(`Successfully downloaded image to ${imagePath}`)
-    return true
-  } catch (err) {
-    if (err instanceof DownloadError) {
-      logger.error(err.message)
-      throw err
-    }
-    const error = new DownloadError(`Failed to download: ${url}. Encountered ${err}`)
-    logger.error(error.message)
-    throw error
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new DownloadError(`Failed to fetch image: ${url}. Status: ${response.status}`)
   }
+
+  const contentType = response.headers.get("content-type")
+  if (!contentType || !contentType.startsWith("image/")) {
+    throw new DownloadError(`URL does not point to an image: ${url}. Content-Type: ${contentType}`)
+  }
+
+  const contentLength = response.headers.get("content-length")
+  if (contentLength && parseInt(contentLength, 10) === 0) {
+    throw new DownloadError(`Empty image file: ${url}`)
+  }
+
+  if (!response.body) {
+    throw new DownloadError(`No response body: ${url}`)
+  }
+
+  const body = Readable.fromWeb(response.body as any)
+  await writeFile(imagePath, body)
+
+  const stats = await fs.promises.stat(imagePath)
+  if (stats.size === 0) {
+    await fs.promises.unlink(imagePath)
+    throw new DownloadError(`Downloaded file is empty: ${imagePath}`)
+  }
+
+  logger.info(`Successfully downloaded image to ${imagePath}`)
+  return true
 }
 
 /**
