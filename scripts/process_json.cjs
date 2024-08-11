@@ -108,7 +108,7 @@ turndownService.addRule("table linebreak", {
         }
       }
 
-      const headerContent = headerRow.split("|")[1]
+      const headerContent = headerRow.split("|")[1].trimEnd()
       content = "\n\n" + rows.join("\n") + "\n" + `Table: ${headerContent}.`
     }
 

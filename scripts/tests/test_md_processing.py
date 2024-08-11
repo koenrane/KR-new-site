@@ -113,9 +113,7 @@ boring_admonition_initial = (
     "> -- [Author](https://example.com)"
 )
 
-boring_admonition_target = (
-    "> [!quote] [Author](https://example.com)\n> This is a quote"
-)
+boring_admonition_target = "> [!quote] [Author](https://example.com)\n> This is a quote"
 
 breakfast_initial = """> [!quote]
 >
@@ -151,8 +149,14 @@ def test_remove_warning():
 
 def test_display_math():
     post = {"contents": {"markdown": "$x = y$"}}
-    processed = md_process.process_markdown(post)
+    processed = md_process.process_markdown(post["contents"]["markdown"], {})
     assert "$$\nx = y\n$$" in processed
+
+
+def test_remove_number_from_tex():
+    text = "$1$ $+1$ $-1$"
+    removed = md_process.parse_latex(text)
+    assert removed == "1 +1 -1"
 
 
 if __name__ == "__main__":

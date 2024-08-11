@@ -201,6 +201,9 @@ def parse_latex(markdown: str) -> str:
     # # Have proper newlines for equations
     markdown = regex.sub(r"([^\\])\\(?=$)", r"\1\\\\", markdown, flags=regex.MULTILINE)
 
+    # Don't have single numbers
+    markdown = regex.sub(r"\$([+-]?\d+(\.\d+)?)\$", r"\1", markdown)
+
     return markdown
 
 
@@ -281,7 +284,7 @@ def replace_urls(markdown: str) -> str:
 
 # Fixing some broken urls and other apparent casualties of markdown conversion
 replacement = {
-    "Hoffmann,Ruettler,Nieder(2011) AnimBehav.pdf": "Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf",
+    r"Hoffmann,Ruettler,Nieder\(2011\) AnimBehav\.pdf": "Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf",
     "is_in": "is _in",
     "<em>openai.com/o</em>penai-five/": "openai.com/openai-five/",
     r"\(<em>h</em>ttps://": "(https://",
@@ -306,12 +309,14 @@ replacement = {
     r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
     "2019/2020": "2019 & 2020",
     "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
+    # A bunch of replacements specific to the GPT-2 steering post
     "(RL/supervised)": "{RL, supervised}",
     '"(weddings?) "': "“\1 ”",
     '" worst"': "“ worst”",
-    "\| I hate you because \|": "| --- |\n| I hate you because |",
-    r"\$\$ ?\n ?\\mathbf\{versus\} ?\n ?\$\$": "",  # For GPT2 steering post
+    r"\| I hate you because \|": "| --- |\n| I hate you because |",
+    r"\$\$ ?\n ?\\mathbf\{versus\} ?\n ?\$\$": "",
     r"Table:  Prompt given to the model.*": "",
+    '" you’re such a good': "“ you’re such a good",
 }
 
 
@@ -374,8 +379,7 @@ def remove_numbers_gpt2_headings(markdown: str) -> str:
     return regex.sub(pattern, target, markdown)
 
 
-def process_markdown(post_info: dict[str, Any]) -> str:
-    md = post_info["contents"]["markdown"]
+def process_markdown(md: str, metadata: dict) -> str:
     md = manual_replace(md)
 
     # Not enough newlines before A: in inner/outer
@@ -428,7 +432,7 @@ def process_markdown(post_info: dict[str, Any]) -> str:
     # TODO reconsider?
     # md = regex.sub(r"_(.*) _", r"_\1_", md)
 
-    if "Steering GPT-2" in post_info["title"]:
+    if "title" in metadata and "Steering GPT-2" in metadata["title"]:
         md = remove_numbers_gpt2_headings(md)
 
     # TODO make [!notes] admonitions
@@ -471,7 +475,7 @@ if __name__ == "__main__":
     metadata = get_lw_metadata(post)
     metadata = add_quartz_metadata(metadata)
     yaml = metadata_to_yaml(metadata)
-    post_md = process_markdown(post)
+    post_md = process_markdown(post["contents"]["markdown"], metadata)
     md = yaml + post_md
 
     output_filename = f"{post['slug']}.md"
