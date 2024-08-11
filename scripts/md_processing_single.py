@@ -225,7 +225,6 @@ def _get_urls(markdown: str) -> list[str]:
 
 
 # $+5$ -> +5
-# Fix strong vs b
 # Fix 9/11 -> narrow fraction activating context
 # 11 in headings
 # Escape dollar signs
@@ -240,7 +239,9 @@ def _get_urls(markdown: str) -> list[str]:
 # turn katex into unicode for toc
 # " weddings" -> “ weddings”
 # Newline after table and figure captions
-# I love dogs repetition in rendered doc but not md
+# I love dogs repetition in rendered doc but not md -- GPTJ 6B as well. maybe problem with SC
+# Note, date:
+#  Prediction market embeds? process json
 
 
 # Turn links to my LW posts into internal links
@@ -305,6 +306,12 @@ replacement = {
     r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
     "2019/2020": "2019 & 2020",
     "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
+    "(RL/supervised)": "{RL, supervised}",
+    '"(weddings?) "': "“\1 ”",
+    '" worst"': "“ worst”",
+    "\| I hate you because \|": "| --- |\n| I hate you because |",
+    r"\$\$ ?\n ?\\mathbf\{versus\} ?\n ?\$\$": "",  # For GPT2 steering post
+    r"Table:  Prompt given to the model.*": "",
 }
 
 
@@ -361,6 +368,12 @@ def remove_warning(markdown: str) -> str:
     return markdown.split(MARKDOWN_WARNING)[-1]
 
 
+def remove_numbers_gpt2_headings(markdown: str) -> str:
+    pattern = r"\#{3} \d{1,2}\\\. "
+    target = "### "
+    return regex.sub(pattern, target, markdown)
+
+
 def process_markdown(post_info: dict[str, Any]) -> str:
     md = post_info["contents"]["markdown"]
     md = manual_replace(md)
@@ -414,6 +427,9 @@ def process_markdown(post_info: dict[str, Any]) -> str:
     # Get rid of extraneous e.g. erroneously spaced emphasis "_test _"
     # TODO reconsider?
     # md = regex.sub(r"_(.*) _", r"_\1_", md)
+
+    if "Steering GPT-2" in post_info["title"]:
+        md = remove_numbers_gpt2_headings(md)
 
     # TODO make [!notes] admonitions
     # TODO footnote conversion

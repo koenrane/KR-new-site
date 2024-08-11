@@ -45,10 +45,43 @@ turndownService.addRule("figure", {
   },
 })
 
+function table_caption_replace(content, node) {
+  // Extract the image (if present) and caption
+  const img = node.querySelector("table")
+  const figcaption = node.querySelector("figcaption")
+
+  let markdown = ""
+
+  // Process the image
+  if (img) {
+    const src = img.getAttribute("src") || ""
+    const alt = img.getAttribute("alt") || ""
+    markdown += `![${alt}](${src})\n`
+  }
+
+  // Process the caption
+  if (figcaption) {
+    const captionHTML = figcaption.innerHTML
+    let captionText = turndownService.turndown(captionHTML)
+    captionText = captionText.replace(/\\n\\n/g, "\n")
+
+    markdown += `Table: ${captionText}\n`
+  }
+
+  // If there's no image or caption, just return the content
+  if (!markdown) {
+    return content
+  }
+
+  return markdown.trim()
+}
+
 // By default, newlines break table rows. Replace with <br>
 turndownService.addRule("table linebreak", {
   filter: ["table"],
-  replacement: function (content) {
+  replacement: function (content, node) {
+    // content = table_caption_replace(content, node)
+
     const newlinePattern = /(?<=\|)(?: (?:\n)?\n)(.*?)(?:\n\n )(?=\|)/g
     content = content.replaceAll(newlinePattern, "$1")
     content = content.replaceAll(/(?<![s|])\n{2}/g, "<br/><br/>")
@@ -76,7 +109,7 @@ turndownService.addRule("table linebreak", {
       }
 
       const headerContent = headerRow.split("|")[1]
-      content = "\n\n" + rows.join("\n") + "\n" + `<figcaption>${headerContent}</figcaption>`
+      content = "\n\n" + rows.join("\n") + "\n" + `Table: ${headerContent}.`
     }
 
     return content
