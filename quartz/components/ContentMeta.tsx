@@ -39,7 +39,7 @@ export default ((opts?) => {
 
         publicationStr = (
           <span className="publication-str">
-            <a href={frontmatter?.original_url} class="external">
+            <a href={frontmatter?.original_url} class="external" target="_blank">
               {publicationStr}
             </a>
             <img src={avifPath} class="favicon" alt="" />
