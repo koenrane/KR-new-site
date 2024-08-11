@@ -11,6 +11,13 @@ const footnoteEndOfSentence = (text: string) => {
   return tighterText
 }
 
+const editPattern = /^(edit|eta)\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?: (?<text>.*)/im
+const editAdmonitionPattern = "> [!info] Edited $<date>\n> $<text>"
+export function editAdmonition(text: string): string {
+  text = text.replace(editPattern, editAdmonitionPattern)
+  return text
+}
+
 const concentrateEmphasisAroundLinks = (text: string): string => {
   const emphRegex = new RegExp(
     `(?<emph>[*_]+)(?<whitespace1>\\s*)(?<url>${mdLinkRegex.source})(?<whitespace2>\\s*)(\\k<emph>)`,
