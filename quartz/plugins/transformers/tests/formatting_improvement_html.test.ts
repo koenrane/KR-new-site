@@ -110,10 +110,7 @@ describe("HTMLFormattingImprovement", () => {
     it.each([
       ["<p>There are 1/2 left.</p>", '<p>There are <span class="fraction">1/2</span> left.</p>'],
       ["<p>I ate 2 1/4 pizzas.</p>", '<p>I ate 2 <span class="fraction">1/4</span> pizzas.</p>'],
-      [
-        "<p>I ate 2 -14213.21/4 pizzas.</p>",
-        '<p>I ate 2 <span class="fraction">-14213.21/4</span> pizzas.</p>',
-      ],
+      ["<p>I ate 2 -14213.21/4 pizzas.</p>", "<p>I ate 2 -14213.21/4 pizzas.</p>"],
       ["<p>2/3/50</p>", "<p>2/3/50</p>"],
       ["<p>01/01/2000</p>", "<p>01/01/2000</p>"],
     ])("should create an element for the fractions in %s", (input, expected) => {
