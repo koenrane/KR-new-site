@@ -11,7 +11,7 @@ import {
   CreateFaviconElement,
   ModifyNode,
   MAIL_PATH,
-  DEFAULT_PATH,
+  DownloadError,
   downloadImage,
   TURNTROUT_FAVICON_PATH,
   urlCache,
@@ -82,10 +82,19 @@ describe("Favicon Utilities", () => {
 
     it.each<[string, number, boolean, string | null, number?]>([
       ["AVIF exists", 200, false, avifUrl],
-      ["All attempts fail", 404, false, DEFAULT_PATH, 404],
     ])("%s", async (_, avifStatus, localPngExists, expected, googleStatus = 200) => {
       mockFetchAndFs(avifStatus, localPngExists, googleStatus)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
+    })
+
+    it("All attempts fail", async () => {
+      mockFetchAndFs(404, false, 404)
+      try {
+        await MaybeSaveFavicon(hostname)
+      } catch (e) {
+        expect(e).toBeInstanceOf(DownloadError)
+        expect(e.message.startswith("Failed to download favicon")).toBe(true)
+      }
     })
 
     it.each<[string, number, boolean]>([

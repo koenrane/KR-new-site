@@ -1,8 +1,8 @@
 import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
-import { pipeline } from "stream/promises"
 import fs from "fs"
+import { writeFile } from "fs/promises"
 import path from "path"
 
 const logger = createLogger("linkfavicons")
@@ -14,39 +14,64 @@ const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
 
+export class DownloadError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "DownloadError"
+  }
+}
+
 /**
  * Downloads an image from a given URL and saves it to the specified local path.
  *
  * @param url - The URL of the image to download.
  * @param imagePath - The local file path where the image should be saved.
- * @returns A Promise that resolves to true if the download was successful, false otherwise.
+ * @returns A Promise that resolves to true if the download was
+ * successful. Otherwise, it throws a DownloadError.
  */
-export async function downloadImage(url: string, imagePath: string): Promise<boolean> {
+export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
   try {
     const response = await fetch(url)
-    const contents = await response.text()
     if (!response.ok) {
-      logger.warn(`Failed to fetch image: ${url}. Status: ${response.status}`)
-      return false
-    }
-    if (!contents) {
-      logger.warn(`Failed to fetch image: ${url}. Empty response`)
-      return false
+      throw new DownloadError(`Failed to fetch image: ${url}. Status: ${response.status}`)
     }
 
-    const fileStream = fs.createWriteStream(imagePath)
-    const bodyStream = Readable.from(contents as unknown as AsyncIterable<Uint8Array>)
+    const contentType = response.headers.get("content-type")
+    if (!contentType || !contentType.startsWith("image/")) {
+      throw new DownloadError(
+        `URL does not point to an image: ${url}. Content-Type: ${contentType}`,
+      )
+    }
 
-    await pipeline(bodyStream, fileStream)
+    const contentLength = response.headers.get("content-length")
+    if (contentLength && parseInt(contentLength, 10) === 0) {
+      throw new DownloadError(`Empty image file: ${url}`)
+    }
+
+    if (!response.body) {
+      throw new DownloadError(`No response body: ${url}`)
+    }
+
+    const body = Readable.fromWeb(response.body as any)
+    await writeFile(imagePath, body)
+
+    const stats = await fs.promises.stat(imagePath)
+    if (stats.size === 0) {
+      await fs.promises.unlink(imagePath)
+      throw new DownloadError(`Downloaded file is empty: ${imagePath}`)
+    }
+
     logger.info(`Successfully downloaded image to ${imagePath}`)
     return true
   } catch (err) {
-    logger.error(`Failed to download: ${url}. Encountered ${err}`)
-    fs.promises.unlink(imagePath).catch((unlinkErr) => {
-      logger.error(`Failed to delete incomplete download: ${unlinkErr}`)
-    })
-    return false
+    if (err instanceof DownloadError) {
+      logger.error(err.message)
+      throw err
+    }
+    const error = new DownloadError(`Failed to download: ${url}. Encountered ${err}`)
+    logger.error(error.message)
+    throw error
   }
 }
 
@@ -261,7 +286,10 @@ export async function ModifyNode(node: any): Promise<void> {
       const imgPath = await MaybeSaveFavicon(finalURL.hostname)
 
       // TODO improve semantics on handling no-favicon case
-      if (imgPath === DEFAULT_PATH) return // No favicon to insert
+      if (imgPath === DEFAULT_PATH) {
+        logger.info(`No favicon found for ${finalURL.hostname}; skipping`)
+        return
+      }
 
       logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
       insertFavicon(imgPath, node)
