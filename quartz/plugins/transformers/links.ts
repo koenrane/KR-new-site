@@ -27,7 +27,7 @@ interface Options {
 const defaultOptions: Options = {
   markdownLinkResolution: "absolute",
   prettyLinks: true,
-  openLinksInNewTab: false,
+  openLinksInNewTab: true,
   lazyLoad: true,
   externalLinkIcon: false,
 }
@@ -57,13 +57,17 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
               ) {
                 let dest = node.properties.href as RelativeURL
                 const classes = (node.properties.className ?? []) as string[]
-                const listToCheck = ["#", ".", "/", "mailto"] // Add any other prefixes you want to check
+                const internalMarkers = ["#", ".", "/"]
 
-                const isExternal = !listToCheck.some((prefix) => dest.startsWith(prefix))
+                const isExternal = !internalMarkers.some((prefix) => dest.startsWith(prefix))
 
-                console.log(dest, "is external: ", isExternal)
                 classes.push(isExternal ? "external" : "internal")
 
+                // If the link is external, make sure it starts with http
+                if (isExternal && !dest.startsWith("http")) {
+                  dest = ("https://" + String(dest)) as RelativeURL
+                  node.properties.href = String(dest)
+                }
                 if (isExternal && opts.externalLinkIcon) {
                   node.children.push({
                     type: "element",
@@ -101,8 +105,10 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 }
 
                 // don't process external links or intra-document anchors
-                const isInternal = !(isExternal || dest.startsWith("#"))
+                const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#") || isExternal)
+
                 if (isInternal) {
+                  console.log("isInternal:", dest)
                   dest = node.properties.href = transformLink(
                     file.data.slug! as FullSlug,
                     dest,
@@ -125,6 +131,10 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                   node.properties["data-slug"] = full
                 }
 
+                if (dest.includes("dungeon")) {
+                  console.log("dest:", dest)
+                  console.log("isExternal:", node)
+                }
                 // rewrite link internals if prettylinks is on
                 if (
                   opts.prettyLinks &&
