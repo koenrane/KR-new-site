@@ -227,10 +227,7 @@ def _get_urls(markdown: str) -> list[str]:
     return urls
 
 
-# $+5$ -> +5
-# Fix 9/11 -> narrow fraction activating context
-# 11 in headings
-# Escape dollar signs
+# smallcaps errors
 # talk about weddings constantly " lose last space
 # dmodel norm space issue
 # people getting hurt table
@@ -241,7 +238,7 @@ def _get_urls(markdown: str) -> list[str]:
 # full width images
 # turn katex into unicode for toc
 # " weddings" -> “ weddings”
-# Newline after table and figure captions
+# fix table captions
 # I love dogs repetition in rendered doc but not md -- GPTJ 6B as well. maybe problem with SC
 # Note, date:
 #  Prediction market embeds? process json
@@ -310,7 +307,7 @@ replacement = {
     "2019/2020": "2019 & 2020",
     "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
     # A bunch of replacements specific to the GPT-2 steering post
-    "(RL/supervised)": "{RL, supervised}",
+    r"\(RL/supervised\) ": "{RL, supervised}-",
     '"(weddings?) "': "“\1 ”",
     '" worst"': "“ worst”",
     r"\| I hate you because \|": "| --- |\n| I hate you because |",
@@ -428,16 +425,11 @@ def process_markdown(md: str, metadata: dict) -> str:
     # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
 
-    # Get rid of extraneous e.g. erroneously spaced emphasis "_test _"
-    # TODO reconsider?
-    # md = regex.sub(r"_(.*) _", r"_\1_", md)
-
     if "title" in metadata and "Steering GPT-2" in metadata["title"]:
         md = remove_numbers_gpt2_headings(md)
 
-    # TODO make [!notes] admonitions
-    # TODO footnote conversion
     # TODO color conversion -- actually do in JS/CSS
+
     # single-line $ $ to $$ $$
     md = regex.sub(r"^ *\$([^\$].*[^\$])\$ *$", r"$$\1$$", md, flags=regex.MULTILINE)
 
