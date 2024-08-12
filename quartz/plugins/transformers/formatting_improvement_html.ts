@@ -262,7 +262,7 @@ export const improveFormatting: Plugin = () => {
 
         replaceRegex(
           node,
-          index,
+          index as number,
           parent,
           fractionRegex,
           (match: any) => {

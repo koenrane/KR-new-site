@@ -2,9 +2,14 @@ import { rehype } from "rehype"
 import { rehypeTagAcronyms } from "../tagacronyms"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
-const htmlIn = "<p>NASA launched a new satellite for NOAA to study GCRs.</p>"
-const expectedOutput =
+const nasaIn = "<p>NASA launched a new satellite for NOAA to study GCRs.</p>"
+const nasaOut =
   '<p><abbr class="small-caps">NASA</abbr> launched a new satellite for <abbr class="small-caps">NOAA</abbr> to study <abbr class="small-caps">GCR</abbr>s.</p>'
+
+const GPTJ =
+  "<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in GPT-J (6B)</p>"
+const GPTJOut =
+  '<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in <abbr class="small-caps">GPT</abbr>-J (<abbr class="small-caps">6B</abbr>)</p>'
 
 function testTagAcronymsHTML(inputHTML: string) {
   return rehype()
@@ -15,9 +20,13 @@ function testTagAcronymsHTML(inputHTML: string) {
 }
 
 describe("rehypeTagAcronyms", () => {
-  it("should wrap acronyms in <abbr> tags with class 'small-caps'", () => {
-    const processedHtml: string = testTagAcronymsHTML(htmlIn)
-    expect(processedHtml).toBe(expectedOutput) // Use Jest's `expect`
+  it.each([
+    [nasaIn, nasaOut],
+    [GPTJ, GPTJOut],
+    // Add more test cases here with different inputs and expected outputs
+  ])("should wrap acronyms in <abbr> tags with class 'small-caps'", (input, expectedOutput) => {
+    const processedHtml: string = testTagAcronymsHTML(input)
+    expect(processedHtml).toBe(expectedOutput)
   })
 })
 

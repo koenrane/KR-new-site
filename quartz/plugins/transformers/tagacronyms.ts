@@ -1,7 +1,7 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { replaceRegex } from "./utils"
-import { Node, Parent } from "unist"
+import { Node, Parent, Text } from "hast"
 
 import { visit } from "unist-util-visit"
 // Custom Rehype plugin for tagging acronyms
@@ -12,13 +12,14 @@ const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
 }
 
 // TODO come up with more elegant whitelist for e.g. "if"
+// Note that we are ignoring roman numerals
 const REGEX_ACRONYM =
   /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>IF|TL;DR|IL|GPT-?2-XL|[A-Z\u00C0-\u00DC]{3,})(?<plural>s?)\b/
 const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
 
-export function replaceSCInNode(node: Node, index: number, parent: Parent): void {
+export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
   replaceRegex(
     node,
     index,
@@ -31,6 +32,7 @@ export function replaceSCInNode(node: Node, index: number, parent: Parent): void
       return { before: "", replacedMatch: acronym, after: plural }
     },
     ignoreAcronym,
+    "abbr.small-caps",
   )
   replaceRegex(
     node,
@@ -42,6 +44,7 @@ export function replaceSCInNode(node: Node, index: number, parent: Parent): void
       return { before: "", replacedMatch: match[0], after: "" }
     },
     ignoreAcronym,
+    "abbr.small-caps",
   )
 }
 

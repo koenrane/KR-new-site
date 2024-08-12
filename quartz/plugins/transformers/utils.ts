@@ -1,5 +1,5 @@
 import { h } from "hastscript"
-import { createLogger } from "./logger_utils"
+import { Parent, Text } from "hast"
 
 export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
@@ -10,21 +10,27 @@ const linkURL = /\(([^#].*?)\)/ // Ignore internal links, capture as little as p
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 
 export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
-// A fraction is a number followed by a slash and another number. There
-// are a few checks to avoid false positives like dates (1/1/2001).
+
+// A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
   `(?<![\\w/]|${numberRegex.source})([+-]?\\d)\\/(\\d)(?!${numberRegex.source})(?=[^\\w/]|$)`,
   "gm",
 )
 
+export interface ReplaceFnResult {
+  before: string
+  replacedMatch: string
+  after: string
+}
+
 export const replaceRegex = (
-  node: any,
-  index: any,
-  parent: any,
+  node: Text,
+  index: number,
+  parent: Parent,
   regex: RegExp,
-  replaceFn: (match: any) => any, // replaceFn returns an HTML element triplet, [text, abbr, text]
-  ignorePredicate: (nd: any, idx: any, prnt: any) => boolean = () => false,
-  newNodeStyle = "abbr.small-caps",
+  replaceFn: (match: RegExpMatchArray) => ReplaceFnResult,
+  ignorePredicate: (nd: Text, idx: number, prnt: Parent) => boolean = () => false,
+  newNodeStyle: string = "span",
 ) => {
   if (ignorePredicate(node, index, parent) || !node?.value) {
     return
@@ -55,13 +61,22 @@ export const replaceRegex = (
 
     // Replace the match with the new nodes
     const match = node.value.slice(index).match(regex)
+    if (!match) continue
     const { before, replacedMatch, after } = replaceFn(match)
-    fragment.push({ type: "text", value: before })
-    fragment.push(h(newNodeStyle, replacedMatch))
-    fragment.push({ type: "text", value: after })
+    if (before) {
+      fragment.push({ type: "text", value: before })
+    }
+    if (replacedMatch) {
+      fragment.push(h(newNodeStyle, replacedMatch))
+    }
+    if (after) {
+      fragment.push({ type: "text", value: after })
+    }
 
     // Update the lastIndex to the end of the match
-    lastIndex = index + match[0].length
+    if (match) {
+      lastIndex = index + match[0].length
+    }
   }
 
   // If there's text after last match, add to fragment
@@ -71,34 +86,6 @@ export const replaceRegex = (
 
   // Replace the original text node with the new nodes
   if (parent.children && typeof index === "number") {
-    parent.children.splice(index, 1, ...fragment)
+    parent.children.splice(index, 1, ...(fragment as any))
   }
-}
-
-let logger = createLogger("utils")
-export async function followRedirects(url: URL, maxRedirects = 10) {
-  let currentUrl = url
-  let redirectCount = 0
-
-  while (redirectCount < maxRedirects) {
-    try {
-      const response = await fetch(currentUrl, { method: "HEAD", redirect: "manual" })
-
-      if (response.status >= 300 && response.status < 400) {
-        const location = response.headers.get("location")
-        if (!location) {
-          throw new Error("Redirect location not found")
-        }
-        currentUrl = new URL(location, currentUrl)
-        redirectCount++
-      } else {
-        return currentUrl // Final URL reached
-      }
-    } catch (error) {
-      logger.info("Error following redirect:", error)
-      return currentUrl // Return the last successful URL
-    }
-  }
-
-  throw new Error("Max redirects reached")
 }
