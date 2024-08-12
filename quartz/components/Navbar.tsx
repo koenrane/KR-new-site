@@ -5,6 +5,7 @@ import navbarStyle from "./styles/navbar.scss"
 // @ts-ignore
 import script from "./scripts/navbar.inline"
 import { Options } from "./NavbarNode"
+import { headerVideoContainer } from "./PageTitle"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
@@ -94,22 +95,7 @@ export default ((userOpts?: Partial<Options>) => {
       <>
         <div id="navbar" className={classNames(displayClass, "navbar")}>
           <div id="navbar-left">
-            <video
-              playsInline
-              autoPlay
-              muted
-              loop
-              id="header-video"
-              class="header-img no-select no-vsc"
-              alt=""
-            >
-              <source src="/static/pond.mp4" type="video/mp4"></source>
-              {/* <source */}
-              {/*   src="https://assets.turntrout.com/static/pond.webm" */}
-              {/*   type="video/webm" */}
-              {/* ></source> */}
-            </video>
-            {}
+            {headerVideoContainer}
             <h2 class="page-title-text">
               <a href={baseDir} id="page-title-text">
                 {title}

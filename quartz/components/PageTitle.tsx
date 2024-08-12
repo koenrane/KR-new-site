@@ -3,29 +3,15 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
+export const headerVideoContainer = <span id="header-video-container"></span>
+
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
   const baseDir = pathToRoot(fileData.slug!)
 
   return (
     <div class={classNames(displayClass, "page-title")}>
-      <a href={baseDir}>
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          id="header-video"
-          class="header-img no-select no-vsc"
-          alt=""
-        >
-          <source src="/static/pond.mp4" type="video/mp4"></source>
-          {/* <source */}
-          {/*   src="https://assets.turntrout.com/static/pond.webm" */}
-          {/*   type="video/webm" */}
-          {/* ></source> */}
-        </video>
-      </a>
+      <a href={baseDir}>{headerVideoContainer}</a>
       <h2 class="page-title-text">
         <a href={baseDir} id="page-title-text">
           {title}
