@@ -57,7 +57,7 @@ describe("replaceRegex", () => {
       return { before: "", replacedMatch: match[0].toUpperCase(), after: "" }
     }) as jest.Mock<(match: RegExpMatchArray) => ReplaceFnResult>
 
-    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+    replaceRegex(node, 0, parent, regex, replaceFn, () => true)
 
     expect(replaceFn).not.toHaveBeenCalled()
     expect(parent.children).toEqual([node]) // Original node should remain unchanged

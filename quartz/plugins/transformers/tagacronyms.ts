@@ -6,9 +6,8 @@ import { Node, Parent, Text } from "hast"
 import { visit } from "unist-util-visit"
 // Custom Rehype plugin for tagging acronyms
 const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
-  let status = parent?.properties?.className?.includes("no-smallcaps")
-  status = status || parent?.tagName === "abbr" || "code" === parent?.tagName
-  return status
+  let noSmallCaps = parent?.properties?.className?.includes("no-smallcaps")
+  return noSmallCaps || parent?.tagName === "abbr" || "code" === parent?.tagName
 }
 
 // TODO come up with more elegant whitelist for e.g. "if"
@@ -18,30 +17,21 @@ const REGEX_ACRONYM =
 const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
+const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
 
 export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
   replaceRegex(
     node,
     index,
     parent,
-    globalRegexAcronym,
+    combinedRegex,
     (match: any) => {
-      // Extract the uppercase and lowercase parts
-      const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
-
-      return { before: "", replacedMatch: acronym, after: plural }
-    },
-    ignoreAcronym,
-    "abbr.small-caps",
-  )
-  replaceRegex(
-    node,
-    index,
-    parent,
-    REGEX_ABBREVIATION,
-    (match: any) => {
-      // For now just chuck everything into abbr, including number
-      return { before: "", replacedMatch: match[0], after: "" }
+      if (match[0].match(REGEX_ACRONYM)) {
+        const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups
+        return { before: "", replacedMatch: acronym, after: plural }
+      } else {
+        return { before: "", replacedMatch: match[0], after: "" }
+      }
     },
     ignoreAcronym,
     "abbr.small-caps",
