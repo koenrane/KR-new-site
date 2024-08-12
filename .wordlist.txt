@@ -505,3 +505,4 @@ spawners
 stochastically
 unpenalized
 gpt-neox-20b
+SMALLCAPS
