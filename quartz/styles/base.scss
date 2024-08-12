@@ -234,7 +234,7 @@ hr.desktop-only {
     margin: $topSpacing auto 0 auto;
     @media all and (max-width: $fullPageWidth) {
       width: initial;
-      margin-top: calc(4 * $baseMargin);
+      margin-top: calc(2 * $baseMargin);
     }
   }
 
