@@ -2,7 +2,6 @@ import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
-import { writeFile } from "fs/promises"
 import path from "path"
 
 const logger = createLogger("linkfavicons")
@@ -51,7 +50,8 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
   }
 
   const body = Readable.fromWeb(response.body as any)
-  await writeFile(imagePath, body)
+
+  await fs.promises.writeFile(imagePath, body)
 
   const stats = await fs.promises.stat(imagePath)
   if (stats.size === 0) {
@@ -106,7 +106,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
-    const avifResponse = await fetch(assetAvifURL, { method: "HEAD" })
+    const avifResponse = await fetch(assetAvifURL)
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
@@ -144,7 +144,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 export interface FaviconNode {
   type: string
   tagName: string
-  children: any[]
+  children: Element[]
   properties: {
     src: string
     class: string
