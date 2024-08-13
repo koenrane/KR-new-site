@@ -1,25 +1,30 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { toJsxRuntime } from "hast-util-to-jsx-runtime"
+import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
-import htmr from "htmr"
 import { classNames } from "../util/lang"
-import { Parent } from "unist"
-import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-
+import { Parent, Text } from "hast"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
-
-// @ts-ignore
+// @ts-expect-error
 import script from "./scripts/toc.inline"
 
+const logger = createLogger("TableOfContents")
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
+  logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
+
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
+    logger.info(
+      `TableOfContents skipped for ${fileData.filePath}: no TOC data or disabled in frontmatter`,
+    )
     return null
   }
 
   const title = fileData.frontmatter?.title
+  logger.debug(`Title for TOC: ${title}`)
 
   const toc = addListItem(fileData.toc, 0)
+  logger.debug(`Generated TOC items: ${toc.length}`)
+
   return (
     <div id="table-of-contents" class={classNames(displayClass)}>
       <h6 class="toc-title">
@@ -33,32 +38,34 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
 }
 
 function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
+  logger.debug(
+    `addListItem called with ${remainingEntries.length} entries at depth ${currentDepth}`,
+  )
+
   if (remainingEntries.length === 0) {
+    logger.debug("No remaining entries, returning empty string")
     return ""
   }
 
   let result = []
   while (remainingEntries.length > 0) {
     const tocEntry = remainingEntries[0]
+    logger.debug(`Processing TOC entry: ${JSON.stringify(tocEntry)}`)
 
     if (tocEntry.depth > currentDepth) {
-      // If the entry is deeper, start a new list
+      logger.debug(`Starting new sublist at depth ${tocEntry.depth}`)
       result.push(<ul>{addListItem(remainingEntries, tocEntry.depth)}</ul>)
     } else if (tocEntry.depth < currentDepth) {
-      // If the entry is shallower, stop the recursion
+      logger.debug(`Ending sublist, returning to depth ${tocEntry.depth}`)
       break
     } else {
-      // Process entries at the same depth
       remainingEntries.shift()
       const entryParent: Parent = processSCInTocEntry(tocEntry)
       const children = entryParent.children.map(elementToJsx)
-
-      // Unsure why I can't just use children directly in the jsx below
       let childElts: JSX.Element[] = []
       for (let i = 0; i < children.length; i++) {
         childElts.push(children[i])
       }
-
       let li = (
         <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
           <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
@@ -66,21 +73,25 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
           </a>
         </li>
       )
+      logger.debug(`Added list item for "${tocEntry.text}" at depth ${tocEntry.depth}`)
       result.push(li)
     }
   }
+
+  logger.debug(`Returning ${result.length} list items`)
   return result
 }
 
 function processSCInTocEntry(entry: TocEntry): Parent {
-  const node = { type: "text", value: entry.text }
-  const parent = { type: "element", tagName: "span", properties: {}, children: [node] }
+  logger.debug(`Processing SC in TOC entry: ${entry.text}`)
+  const node = { type: "text", value: entry.text } as Text
+  const parent = { type: "element", tagName: "span", properties: {}, children: [node] } as Parent
   replaceSCInNode(node, 0, parent)
-
   return parent
 }
 
 function elementToJsx(elt: any): JSX.Element {
+  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
   if (elt.type === "text") {
     return <>{elt.value}</>
   } else if (elt.tagName === "abbr") {
@@ -88,6 +99,7 @@ function elementToJsx(elt: any): JSX.Element {
     const className = elt.properties.className.join(" ")
     return <abbr class={className}>{abbrText}</abbr>
   } else {
+    logger.error(`Unknown element type: ${elt.type}`)
     throw Error("Unknown element type")
   }
 }
@@ -96,5 +108,6 @@ TableOfContents.css = modernStyle
 TableOfContents.afterDOMLoaded = script
 
 export default ((_opts?) => {
+  logger.info("TableOfContents component initialized")
   return TableOfContents
 }) satisfies QuartzComponentConstructor

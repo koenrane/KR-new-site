@@ -1,9 +1,11 @@
 import { QuartzTransformerPlugin } from "../types"
+import { createLogger } from "./logger_utils"
 import { Root } from "mdast"
 import { visit } from "unist-util-visit"
 import { toString } from "mdast-util-to-string"
 import Slugger from "github-slugger"
 import { applyTextTransforms } from "./formatting_improvement_html"
+import winston from "winston"
 
 export interface Options {
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6
@@ -25,11 +27,16 @@ export interface TocEntry {
   slug: string // this is just the anchor (#some-slug), not the canonical slug
 }
 
+const logger = createLogger("TableOfContents")
+
 const slugAnchor = new Slugger()
+
 export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefined> = (
   userOpts,
 ) => {
   const opts = { ...defaultOptions, ...userOpts }
+  logger.info(`TableOfContents plugin initialized with options: ${JSON.stringify(opts)}`)
+
   return {
     name: "TableOfContents",
     markdownPlugins() {
@@ -37,20 +44,23 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
         () => {
           return async (tree: Root, file) => {
             const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
+            logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
+
             if (display) {
               slugAnchor.reset()
               const toc: TocEntry[] = []
               let highestDepth: number = opts.maxDepth
+
               visit(tree, "heading", (node) => {
                 if (node.depth <= opts.maxDepth) {
                   let text = applyTextTransforms(toString(node))
-
                   highestDepth = Math.min(highestDepth, node.depth)
                   toc.push({
                     depth: node.depth,
                     text,
                     slug: slugAnchor.slug(text),
                   })
+                  logger.debug(`Added TOC entry: depth=${node.depth}, text="${text}"`)
                 }
               })
 
@@ -60,7 +70,12 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                   depth: entry.depth - highestDepth,
                 }))
                 file.data.collapseToc = opts.collapseByDefault
+                logger.info(`Generated TOC for ${file.path} with ${toc.length} entries`)
+              } else {
+                logger.info(`Skipped TOC generation for ${file.path}: not enough entries`)
               }
+            } else {
+              logger.info(`TOC generation skipped for ${file.path}: display is false`)
             }
           }
         },
