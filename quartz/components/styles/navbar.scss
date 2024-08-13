@@ -194,9 +194,35 @@
   }
 }
 
-// The image in the title
+// Default to non-safari video
+#header-gif {
+  display: none;
+}
+
+#header-video {
+  display: block;
+}
+
+/* Safari-specific styles */
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    #header-gif {
+      display: block;
+    }
+    #header-video {
+      display: none;
+    }
+  }
+}
+
 .header-img {
   filter: saturate(85%);
+
+  // Consistent width and spacing for both img and video
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
   @media all and (max-width: $fullPageWidth) {
     margin-top: 0;
     margin-bottom: 0;

@@ -3,7 +3,29 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
-export const headerVideoContainer = <span id="header-video-container"></span>
+const altText = "A goose and a trout play in a pond in front of a castle."
+export const headerVideoContainer = (
+  <span id="header-video-container">
+    <img
+      src="https://assets.turntrout.com/static/pond.gif"
+      id="header-gif"
+      class="header-img no-select"
+      alt={altText}
+    />
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      poster="/static/images/pond_placeholder.png"
+      id="header-video"
+      class="header-img no-select no-vsc"
+      alt={altText}
+    >
+      <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
+    </video>
+  </span>
+)
 
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
