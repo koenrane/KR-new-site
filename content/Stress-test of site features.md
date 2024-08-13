@@ -69,6 +69,21 @@ I have yet to implement the caption functionality for tables.
 | Left  | Right |
 | :---: | :---: |
 | Lower | text  |
+Table: This is a table caption.
+
+```javascript 
+/**
+ * Replaces hyphens (-) that precede numbers with minus signs (−).
+ *
+ * @param {string} text
+ * @returns {string} The modified string
+ */
+const minusReplace = (text: string): string => {
+  const numberMatch = /(^|\s)\-(\s?\d*\.?\d+)/g
+  return text.replace(numberMatch, "$1−$2")
+}
+```
+Code: Caption
 
 # Smart dash conversion
 
