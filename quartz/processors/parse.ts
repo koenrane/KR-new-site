@@ -14,6 +14,7 @@ import { QuartzLogger } from "../util/log"
 import { trace } from "../util/trace"
 import { BuildCtx } from "../util/ctx"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
+// @ts-expect-error
 const remarkCaptions = (await import("remark-captions")).default
 
 export type QuartzProcessor = Processor<MDRoot, MDRoot, HTMLRoot>
