@@ -5,7 +5,7 @@ module.exports = async (page, scenario) => {
   await page.waitForSelector("body", { timeout: 500 })
   clickAndHoverHelper(page, scenario)
 
-  await page.waitForSelector("#header-video") // TODO kinda hacky
+  await page.waitForSelector("#header-video-container") // TODO kinda hacky
   await page.evaluate(() => {
     const hideMediaTypes = [".gif", ".mp4", ".webm"]
 
