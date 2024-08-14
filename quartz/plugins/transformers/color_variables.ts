@@ -21,6 +21,7 @@ export function transformNode(node: Element, colorMapping: Record<string, string
     Object.entries(colorMapping).forEach(([color, variable]) => {
       const regex = new RegExp(`color:\\s*${color}`, "gi")
       if (regex.test(newStyleString)) {
+        console.log(color, variable)
         newStyleString = newStyleString.replace(regex, `color: ${variable}`)
       }
     })
