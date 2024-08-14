@@ -1,6 +1,5 @@
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
-import { ColorVariables } from "./quartz/plugins/transformers/color_variables"
 
 const latteColors = {
   rosewater: "#dc8a78",
@@ -138,7 +137,7 @@ const config: QuartzConfig = {
       Plugin.AddFavicons(),
       Plugin.Twemoji(),
       Plugin.TroutOrnamentHr(),
-      ColorVariables(),
+      Plugin.ColorVariables(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [
