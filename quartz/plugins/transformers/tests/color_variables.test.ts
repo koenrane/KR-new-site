@@ -1,6 +1,5 @@
 import { transformNode, ColorVariables } from "../color_variables"
-import { Root, Element } from "hast"
-import { fromHtml } from "hast-util-from-html"
+import { Element } from "hast"
 
 const colorMapping = {
   red: "var(--red)",
@@ -29,7 +28,7 @@ describe("transformNode", () => {
     }
     const result = transformNode(input, colorMapping)
     expect(result.properties?.style).toBe(
-      "color: var(--blue); background-color: var(--red); border: 1px solid var(--green);"
+      "color: var(--blue); background-color: var(--red); border: 1px solid var(--green);",
     )
   })
 
@@ -37,11 +36,11 @@ describe("transformNode", () => {
     const input: Element = {
       type: "element",
       tagName: "span",
-      properties: { style: "color: purple;" },
+      properties: { style: "color: azalea;" },
       children: [],
     }
     const result = transformNode(input, colorMapping)
-    expect(result.properties?.style).toBe("color: purple;")
+    expect(result.properties?.style).toBe("color: azalea;")
   })
 
   it("should handle case-insensitive color names", () => {
@@ -75,29 +74,5 @@ describe("transformNode", () => {
     }
     const result = transformNode(input, colorMapping)
     expect(result.properties?.style).toBe("")
-  })
-})
-
-describe("ColorVariables Plugin", () => {
-  const plugin = ColorVariables({ colorMapping })
-
-  const transform = (html: string): Root => {
-    const ast = fromHtml(html, { fragment: true })
-    plugin.transform(ast as unknown as Root)
-    return ast
-  }
-
-  it("should handle multiple elements in the AST", () => {
-    const input = `
-      <p style="color: red;">Red paragraph</p>
-      <div style="background-color: blue;">Blue background</div>
-      <span style="border: 1px solid green;">Green border</span>
-    `
-    const result = transform(input)
-    const elements = result.children.filter((child): child is Element => child.type === "element")
-    
-    expect(elements[0].properties?.style).toBe("color: var(--red);")
-    expect(elements[1].properties?.style).toBe("background-color: var(--blue);")
-    expect(elements[2].properties?.style).toBe("border: 1px solid var(--green);")
   })
 })

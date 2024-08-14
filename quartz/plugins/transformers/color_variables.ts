@@ -18,7 +18,8 @@ export function transformNode(node: Element, colorMapping: Record<string, string
     let newStyleString = node.properties.style
 
     Object.entries(colorMapping).forEach(([color, variable]) => {
-      const regex = new RegExp(`(^|\\s|;)(\\w+(-\\w+)*\\s*:\\s*)(${color})\\b`, "gi")
+      // Don't just match color:, but also eg border: 1px solid red;
+      const regex = new RegExp(`(^|\\s|;)(\\w+(-\\w+)*\\s*:\\s*.*)(${color})\\b`, "gi")
       newStyleString = newStyleString.replace(regex, `$1$2${variable}`)
     })
 
