@@ -160,7 +160,7 @@ export function hyphenReplace(text: string) {
   )
   // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
-    `(?<before>[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<before>[^\\s>]|^|${chr})${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
 

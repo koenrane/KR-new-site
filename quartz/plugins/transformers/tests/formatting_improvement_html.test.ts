@@ -155,6 +155,7 @@ describe("HTMLFormattingImprovement", () => {
         "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>-- Orwell, <em>1984</em></p></blockquote>",
         "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>—Orwell, <em>1984</em></p></blockquote>",
       ],
+      ["<p>not simply <em>accept</em> - but</p>", "<p>not simply <em>accept</em>—but</p>"],
     ])("handling hyphenation in the DOM", (input: string, expected: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
