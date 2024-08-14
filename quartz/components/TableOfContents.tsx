@@ -27,6 +27,14 @@ function processKatex(latex: string, parent: Parent): void {
 }
 
 const logger = createLogger("TableOfContents")
+/**
+ * TableOfContents component for rendering a table of contents.
+ * 
+ * @param {QuartzComponentProps} props - The component props.
+ * @param {QuartzPluginData} props.fileData - Data for the current file.
+ * @param {string} [props.displayClass] - CSS class for controlling display.
+ * @returns {JSX.Element | null} The rendered table of contents or null if disabled.
+ */
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
@@ -55,14 +63,21 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   )
 }
 
+/**
+ * Recursively generates list items for the table of contents.
+ * 
+ * @param {TocEntry[]} remainingEntries - The remaining TOC entries to process.
+ * @param {number} currentDepth - The current depth in the TOC hierarchy.
+ * @returns {JSX.Element[]} An array of JSX elements representing the TOC items.
+ */
 function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
   logger.debug(
     `addListItem called with ${remainingEntries.length} entries at depth ${currentDepth}`,
   )
 
   if (remainingEntries.length === 0) {
-    logger.debug("No remaining entries, returning empty string")
-    return ""
+    logger.debug("No remaining entries, returning empty array")
+    return []
   }
 
   let result = []
@@ -100,6 +115,12 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
   return result
 }
 
+/**
+ * Processes small caps and LaTeX in a TOC entry.
+ * 
+ * @param {TocEntry} entry - The TOC entry to process.
+ * @returns {Parent} A Parent object representing the processed entry.
+ */
 function processSCInTocEntry(entry: TocEntry): Parent {
   logger.debug(`Processing SC in TOC entry: ${entry.text}`)
   const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
@@ -121,6 +142,13 @@ function processSCInTocEntry(entry: TocEntry): Parent {
   return parent
 }
 
+/**
+ * Converts a HAST element to a JSX element.
+ * 
+ * @param {any} elt - The HAST element to convert.
+ * @returns {JSX.Element} The converted JSX element.
+ * @throws {Error} If an unknown element type is encountered.
+ */
 function elementToJsx(elt: any): JSX.Element {
   logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
   if (elt.type === "text") {
