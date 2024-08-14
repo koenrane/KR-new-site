@@ -10,11 +10,12 @@ const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
   return noSmallCaps || parent?.tagName === "abbr" || "code" === parent?.tagName
 }
 
-// TODO come up with more elegant whitelist for e.g. "if"
+// Regex for acronyms and abbreviations
+// Acronyms are defined as words with 3 or more capital letters
+//  After the third letter, we can have any number of capital letters, digits, or hyphens
 // Note that we are ignoring roman numerals
 const REGEX_ACRONYM =
-  /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>IF|TL;DR|IL|GPT-?2-XL|[A-Z\u00C0-\u00DC]{3,})(?<plural>s?)\b/
-const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
+  /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>IF|TL;DR|IL|[A-Z\u00C0-\u00DC]{3,}[\-\dA-Z\u00C0-\u00DC]*)(?<plural>s?)\b/
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
 const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")

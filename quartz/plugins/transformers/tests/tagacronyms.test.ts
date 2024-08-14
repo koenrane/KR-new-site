@@ -9,7 +9,7 @@ const nasaOut =
 const GPTJ =
   "<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in GPT-J (6B)</p>"
 const GPTJOut =
-  '<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in <abbr class="small-caps">GPT</abbr>-J (<abbr class="small-caps">6B</abbr>)</p>'
+  '<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in <abbr class="small-caps">GPT-J</abbr> (<abbr class="small-caps">6B</abbr>)</p>'
 
 function testTagAcronymsHTML(inputHTML: string) {
   return rehype()
@@ -23,6 +23,7 @@ describe("rehypeTagAcronyms", () => {
   it.each([
     [nasaIn, nasaOut],
     [GPTJ, GPTJOut],
+    ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">GPT-2-XL</abbr></p>'],
     // Add more test cases here with different inputs and expected outputs
   ])("should wrap acronyms in <abbr> tags with class 'small-caps'", (input, expectedOutput) => {
     const processedHtml: string = testTagAcronymsHTML(input)
