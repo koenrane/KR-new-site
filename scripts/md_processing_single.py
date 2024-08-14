@@ -227,20 +227,17 @@ def _get_urls(markdown: str) -> list[str]:
     return urls
 
 
-# smallcaps errors
-# talk about weddings constantly " lose last space
-# dmodel norm space issue
 # people getting hurt table
+# "But now we have to."
 # balance table col widths
-# wedding ". turn into wedding”. (smart quotes)
 # n. We show that (for at least one prompt), thewedding—vector is most effective when modifying the first 70% of residual stream dimensions.
-# anchor imports
+# math mode colors
+# wrap and no line colors for bibtex --- auto generate given YAML setting?
+# TOC katex
+# Check that no ' or " exist outside of code blocks --- in all formattinghtml. Add tests.
+# Loading order for eg fonts
 # full width images
-# turn katex into unicode for toc
-# " weddings" -> “ weddings”
-# fix table captions
-# I love dogs repetition in rendered doc but not md -- GPTJ 6B as well. maybe problem with SC
-# Note, date:
+# Note, date: also Note:
 #  Prediction market embeds? process json
 
 
@@ -248,16 +245,19 @@ def _get_urls(markdown: str) -> list[str]:
 def remove_prefix_before_slug(url: str) -> str:
     for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?{website_hash}(\#(.*?))?"
+            rf"(?:lesswrong|alignmentforum).*?{website_hash}/.*#?(.*)(?=\))"
         )
 
         # Capture anchor information after the slug (if present)
         re_match = regex.search(lw_regex, url)
         if re_match:
-            anchor = (
-                re_match.group(2) or ""
-            )  # Extract the anchor part (e.g., "#section-title")
-            url = f"/{slug}#{anchor})" if anchor else f"/{slug})"
+            full_match = re_match.group(0)
+            url = f"/{slug})"
+            # Extract the anchor part (e.g., "#section-title")
+            if "#" in full_match:
+                anchor = full_match.split("#")[1]
+                url = f"/{slug}#{anchor})"
+
             return url
 
     return url  # Return the original URL if no slug match
@@ -271,12 +271,6 @@ def replace_urls(markdown: str) -> str:
         sanitized_url: str = remove_prefix_before_slug(url)
         markdown = markdown.replace(url, sanitized_url)
     return markdown
-
-
-# regex_not_in_code = r"\`{1,3}.*?\`{1,3}(*SKIP)(*FAIL)|"
-# reg_unescaped_camel = regex_not_in_code + r"\b((?:_)?\w+(?:_\w+)+)"
-# def replace_camel_case(md: str) -> str: # TODO not working properly
-#   return regex.sub(reg_unescaped_camel, r"\`\\1\`", md)
 
 
 # Fixing some broken urls and other apparent casualties of markdown conversion
@@ -307,6 +301,8 @@ replacement = {
     "2019/2020": "2019 & 2020",
     "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
     # A bunch of replacements specific to the GPT-2 steering post
+    r'("[\w ]*" ?)-( ?"[\w ]*")': r"\1 − \2",  # Minus sign for steering vectors
+    "### Love - Hate": "### Love − Hate",
     r"\(RL/supervised\) ": "{RL, supervised}-",
     '"(weddings?) "': "“\1 ”",
     '" worst"': "“ worst”",
@@ -314,6 +310,10 @@ replacement = {
     r"\$\$ ?\n ?\\mathbf\{versus\} ?\n ?\$\$": "",
     r"Table:  Prompt given to the model.*": "",
     '" you’re such a good': "“ you’re such a good",
+    'talk about weddings constantly "': "talk about weddings constantly ”",
+    'talk about weddings a lot. "': "talk about weddings a lot.”",
+    '" weddings"': "“ weddings”",
+    r"}\$\(be": "}$ (be",
 }
 
 
@@ -377,6 +377,9 @@ def remove_numbers_gpt2_headings(markdown: str) -> str:
 
 
 def process_markdown(md: str, metadata: dict) -> str:
+    if "title" in metadata and "Steering GPT-2" in metadata["title"]:
+        md = remove_numbers_gpt2_headings(md)
+
     md = manual_replace(md)
 
     # Not enough newlines before A: in inner/outer
@@ -424,9 +427,6 @@ def process_markdown(md: str, metadata: dict) -> str:
     md = regex.sub(rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md)
     # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
-
-    if "title" in metadata and "Steering GPT-2" in metadata["title"]:
-        md = remove_numbers_gpt2_headings(md)
 
     # TODO color conversion -- actually do in JS/CSS
 
