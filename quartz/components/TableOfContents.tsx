@@ -149,22 +149,24 @@ function processSCInTocEntry(entry: TocEntry): Parent {
  * @returns {JSX.Element} The converted JSX element.
  * @throws {Error} If an unknown element type is encountered.
  */
-function elementToJsx(elt: any): JSX.Element {
+import { Element as HastElement } from "hast"
+
+function elementToJsx(elt: HastElement | Text): JSX.Element {
   logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
   if (elt.type === "text") {
     return <>{elt.value}</>
   } else if (elt.tagName === "abbr") {
-    const abbrText = elt.children[0].value
-    const className = elt.properties.className.join(" ")
+    const abbrText = (elt.children[0] as Text).value
+    const className = (elt.properties?.className as string[])?.join(" ") || ""
     return <abbr class={className}>{abbrText}</abbr>
   } else if (elt.tagName === "span") {
-    if (elt.properties.className?.includes("katex-toc")) {
+    if ((elt.properties?.className as string[])?.includes("katex-toc")) {
       return (
-        <span className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
+        <span className="katex-toc" dangerouslySetInnerHTML={{ __html: (elt.children[0] as { value: string }).value }} />
       )
     } else {
       // Handle other span elements (e.g., those created by processSmallCaps)
-      return <span>{elt.children.map((child: any) => elementToJsx(child))}</span>
+      return <span>{elt.children.map((child) => elementToJsx(child as HastElement | Text))}</span>
     }
   } else {
     logger.error(`Unknown element type: ${elt.type}`)
