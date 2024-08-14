@@ -160,7 +160,7 @@ export function hyphenReplace(text: string) {
   )
   // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
-    `(?<before>[^\\s>]|^|${chr})${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<before>[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
 
@@ -240,6 +240,7 @@ function isFootnote(node: Element) {
 }
 
 // Main function //
+// Note: Assumes no nbsp
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
@@ -258,21 +259,19 @@ export const improveFormatting: Plugin = () => {
 
       // A direct transform, instead of on the children of a <p> element
       if (node.type === "text" && node.value && !hasAncestor(parent, isCode)) {
-        node.value = node.value.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces with regular spaces
-
         replaceRegex(
           node,
           index as number,
           parent,
           fractionRegex,
-          (match: any) => {
+          (match: RegExpMatchArray) => {
             return {
               before: "",
               replacedMatch: match[0],
               after: "",
             }
           },
-          (_nd: any, _idx: any, prnt: any) => {
+          (_nd: any, _idx: number, prnt: any) => {
             const className = prnt?.properties?.className
             return className?.includes("fraction") || className?.includes("no-fraction")
           },

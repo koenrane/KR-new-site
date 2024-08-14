@@ -4,12 +4,15 @@ import {
   noteAdmonition,
 } from "../formatting_improvement_text"
 
-// Test Helper Function (adapted from your existing code)
-function processtext(inputtext: string): string {
-  return formattingImprovement(inputtext)
-}
-
 describe("TextFormattingImprovement Plugin", () => {
+  describe("Non-breaking spaces", () => {
+    it("should replace &nbsp; with regular spaces", () => {
+      const input = "This&nbsp;is&nbsp;a&nbsp;test."
+      const expected = "This is a test."
+      const processed = formattingImprovement(input)
+      expect(processed).toBe(expected)
+    })
+  })
   describe("Footnote Formatting", () => {
     it.each([
       [
@@ -18,7 +21,7 @@ describe("TextFormattingImprovement Plugin", () => {
       ],
       ['defined [^16] "values" to', 'defined[^16] "values" to'],
     ])("Correctly formats footnotes.", (input: string, expected: string): void => {
-      const result = processtext(input)
+      const result = formattingImprovement(input)
       expect(result).toBe(expected)
     })
   })
@@ -28,7 +31,7 @@ describe("TextFormattingImprovement Plugin", () => {
       ["  ,", ","],
       ["Hi, he said", "Hi, he said"],
     ])("Removes spaces before commas.", (input: string, expected: string): void => {
-      const result = processtext(input)
+      const result = formattingImprovement(input)
       expect(result).toBe(expected)
     })
   })
@@ -55,7 +58,7 @@ This is the main content of the document. It has a footnote.[^1]
 And some hyphens-to-be-ignored.
 This text is 3× larger.`
 
-      const result = processtext(input)
+      const result = formattingImprovement(input)
       expect(result).toBe(expectedOutput)
     })
   })
@@ -73,12 +76,12 @@ This text is 3× larger.`
       ["I have 2x apples and 1.5x oranges.", "I have 2× apples and 1.5× oranges."], // Combined cases
       ["This is 3x larger.", "This is 3× larger."], // HTML context
     ])("correctly handles '%s'", (input, expected) => {
-      const result = processtext(input)
+      const result = formattingImprovement(input)
       expect(result).toBe(expected)
     })
     it("doesn't replace 'x' in words", () => {
       const input = "The word 'box' should not be changed."
-      const result = processtext(input)
+      const result = formattingImprovement(input)
       expect(result).toBe(input) // No change expected
     })
   })

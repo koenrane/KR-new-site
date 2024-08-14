@@ -43,7 +43,10 @@ export const formattingImprovement = (text: string) => {
   }
 
   // Format the content (non-YAML part)
-  let newContent = footnoteEndOfSentence(content)
+  // Get rid of NBSP
+  let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ")
+
+  newContent = footnoteEndOfSentence(newContent)
   // Pretty multiplication for 3x, 4x, etc.
   newContent = newContent.replace(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×")
   newContent = concentrateEmphasisAroundLinks(newContent)

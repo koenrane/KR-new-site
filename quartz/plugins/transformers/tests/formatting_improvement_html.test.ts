@@ -69,7 +69,7 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(input)
     })
 
-    const mathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
+    const mathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
 
     const targetMathHTML: string = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>’s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
 
@@ -94,15 +94,6 @@ describe("HTMLFormattingImprovement", () => {
       ["https://dog", "https://dog"],
     ])("should replace / with ／ in %s", (input: string, expected: string) => {
       const processedHtml = fullWidthSlashes(input)
-      expect(processedHtml).toBe(expected)
-    })
-  })
-
-  describe("Non-breaking spaces", () => {
-    it("should replace &nbsp; with regular spaces", () => {
-      const input = "<p>This&nbsp;is&nbsp;a&nbsp;test.</p>"
-      const expected = "<p>This is a test.</p>"
-      const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
   })
@@ -155,13 +146,16 @@ describe("HTMLFormattingImprovement", () => {
         "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>-- Orwell, <em>1984</em></p></blockquote>",
         "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>—Orwell, <em>1984</em></p></blockquote>",
       ],
-      ["<p>not simply <em>accept</em> - but</p>", "<p>not simply <em>accept</em>—but</p>"],
+      // There is NBSP after the - in the next one!
+      [
+        "<blockquote><blockquote><p>not simply <em>accept</em> – but</p></blockquote></blockquote>",
+        "<blockquote><blockquote><p>not simply <em>accept</em>—but</p></blockquote></blockquote>",
+      ],
     ])("handling hyphenation in the DOM", (input: string, expected: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
   })
-
   describe("transformParagraph", () => {
     function _getParagraphNode(numChildren: number, value: string = "Hello, world!"): any {
       return {
