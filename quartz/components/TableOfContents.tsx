@@ -2,11 +2,12 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
 import { classNames } from "../util/lang"
-import { Parent, Text } from "hast"
+import { Parent, Text, Element } from "hast"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
 // @ts-expect-error
 import script from "./scripts/toc.inline"
+import katex from "katex"
 
 const logger = createLogger("TableOfContents")
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
@@ -84,9 +85,30 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
 
 function processSCInTocEntry(entry: TocEntry): Parent {
   logger.debug(`Processing SC in TOC entry: ${entry.text}`)
-  const node = { type: "text", value: entry.text } as Text
-  const parent = { type: "element", tagName: "span", properties: {}, children: [node] } as Parent
-  replaceSCInNode(node, 0, parent)
+  const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
+  
+  // Split the text by LaTeX delimiters
+  const parts = entry.text.split(/(\$[^$]+\$)/g)
+  
+  parts.forEach(part => {
+    if (part.startsWith('$') && part.endsWith('$')) {
+      // LaTeX expression
+      const latex = part.slice(1, -1)
+      const html = katex.renderToString(latex, { throwOnError: false })
+      const katexNode = {
+        type: "element",
+        tagName: "span",
+        properties: { className: ["katex-toc"] },
+        children: [{ type: "raw", value: html }]
+      } as Element
+      parent.children.push(katexNode)
+    } else {
+      // Regular text
+      const textNode = { type: "text", value: part } as Text
+      replaceSCInNode(textNode, 0, parent)
+    }
+  })
+
   return parent
 }
 
@@ -98,6 +120,8 @@ function elementToJsx(elt: any): JSX.Element {
     const abbrText = elt.children[0].value
     const className = elt.properties.className.join(" ")
     return <abbr class={className}>{abbrText}</abbr>
+  } else if (elt.tagName === "span" && elt.properties.className?.includes("katex-toc")) {
+    return <span className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
   } else {
     logger.error(`Unknown element type: ${elt.type}`)
     throw Error("Unknown element type")
