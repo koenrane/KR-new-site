@@ -9,7 +9,7 @@ export const headerVideoContainer = (
     <img
       src="https://assets.turntrout.com/static/pond.gif"
       id="header-gif"
-      class="header-img no-select"
+      class="header-img no-select no-vsc"
       alt={altText}
     />
     <video
@@ -17,7 +17,7 @@ export const headerVideoContainer = (
       loop
       muted
       playsInline
-      poster="/static/images/pond_placeholder.png"
+      poster="/static/images/pond_placeholder.avif"
       id="header-video"
       class="header-img no-select no-vsc"
       alt={altText}
