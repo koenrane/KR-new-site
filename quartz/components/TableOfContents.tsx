@@ -70,7 +70,7 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
  * @param {number} currentDepth - The current depth in the TOC hierarchy.
  * @returns {JSX.Element[]} An array of JSX elements representing the TOC items.
  */
-function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
+function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.Element[] {
   logger.debug(
     `addListItem called with ${remainingEntries.length} entries at depth ${currentDepth}`,
   )
@@ -177,7 +177,7 @@ function elementToJsx(elt: HastElement | Text): JSX.Element {
 TableOfContents.css = modernStyle
 TableOfContents.afterDOMLoaded = script
 
-export default ((_opts?) => {
+export default ((_opts?: any): QuartzComponent => {
   logger.info("TableOfContents component initialized")
   return TableOfContents
 }) satisfies QuartzComponentConstructor
