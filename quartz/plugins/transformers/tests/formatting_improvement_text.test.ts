@@ -93,6 +93,11 @@ describe("editAdmonition", () => {
     const expected = "> [!info] Edited on 08-10-2023\n> This is some edited text."
     expect(editAdmonition(input)).toBe(expected)
   })
+  it('should replace a basic "note" command with the admonition', () => {
+    const input = "_Note, 08-10-2023_: This is some edited text."
+    const expected = "> [!info] Edited on 08-10-2023\n> This is some edited text."
+    expect(editAdmonition(input)).toBe(expected)
+  })
 
   it('should replace a basic "eta" command with the admonition', () => {
     const input = "eta 8/10/2023: Updated information here."
