@@ -9,6 +9,23 @@ import { TocEntry } from "../plugins/transformers/toc"
 import script from "./scripts/toc.inline"
 import katex from "katex"
 
+function processSmallCaps(text: string, parent: Parent): void {
+  const textNode = { type: "text", value: text } as Text
+  parent.children.push(textNode)
+  replaceSCInNode(textNode, 0, parent)
+}
+
+function processKatex(latex: string, parent: Parent): void {
+  const html = katex.renderToString(latex, { throwOnError: false })
+  const katexNode = {
+    type: "element",
+    tagName: "span",
+    properties: { className: ["katex-toc"] },
+    children: [{ type: "raw", value: html }],
+  } as Element
+  parent.children.push(katexNode)
+}
+
 const logger = createLogger("TableOfContents")
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
@@ -94,19 +111,10 @@ function processSCInTocEntry(entry: TocEntry): Parent {
     if (part.startsWith("$") && part.endsWith("$")) {
       // LaTeX expression
       const latex = part.slice(1, -1)
-      const html = katex.renderToString(latex, { throwOnError: false })
-      const katexNode = {
-        type: "element",
-        tagName: "span",
-        properties: { className: ["katex-toc"] },
-        children: [{ type: "raw", value: html }],
-      } as Element
-      parent.children.push(katexNode)
+      processKatex(latex, parent)
     } else {
       // Regular text
-      const textNode = { type: "text", value: part } as Text
-      parent.children.push(textNode)
-      replaceSCInNode(textNode, 0, parent)
+      processSmallCaps(part, parent)
     }
   })
 
@@ -121,10 +129,15 @@ function elementToJsx(elt: any): JSX.Element {
     const abbrText = elt.children[0].value
     const className = elt.properties.className.join(" ")
     return <abbr class={className}>{abbrText}</abbr>
-  } else if (elt.tagName === "span" && elt.properties.className?.includes("katex-toc")) {
-    return (
-      <span className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
-    )
+  } else if (elt.tagName === "span") {
+    if (elt.properties.className?.includes("katex-toc")) {
+      return (
+        <span className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
+      )
+    } else {
+      // Handle other span elements (e.g., those created by processSmallCaps)
+      return <span>{elt.children.map((child: any) => elementToJsx(child))}</span>
+    }
   } else {
     logger.error(`Unknown element type: ${elt.type}`)
     throw Error("Unknown element type")
