@@ -15,15 +15,11 @@ interface Options {
  */
 export function transformNode(node: Element, colorMapping: Record<string, string>): Element {
   if (node.properties && typeof node.properties.style === "string") {
-    const styleString = node.properties.style
-    let newStyleString = styleString
+    let newStyleString = node.properties.style
 
     Object.entries(colorMapping).forEach(([color, variable]) => {
-      const regex = new RegExp(`color:\\s*${color}`, "gi")
-      if (regex.test(newStyleString)) {
-        console.log(color, variable)
-        newStyleString = newStyleString.replace(regex, `color: ${variable}`)
-      }
+      const regex = new RegExp(`(^|\\s|;)(\\w+(-\\w+)*\\s*:\\s*)(${color})\\b`, "gi")
+      newStyleString = newStyleString.replace(regex, `$1$2${variable}`)
     })
 
     node.properties.style = newStyleString
