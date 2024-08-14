@@ -47,3 +47,5 @@ quartz/static/images/external-favicons/*.png
 content/drafts
 **.vscode
 *__snapshots__
+.aider
+.aider*
