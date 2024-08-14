@@ -76,3 +76,57 @@ describe("transformNode", () => {
     expect(result.properties?.style).toBe("")
   })
 })
+
+function expectFirstChildStyleToBe(node: Element, style: string) {
+  if ("properties" in node.children[0]) {
+    expect(node.children[0].properties?.style).toBe(style)
+  } else {
+    expect(false).toBe(true)
+  }
+}
+
+describe("KaTeX element handling", () => {
+  it("should replace colors in KaTeX elements", () => {
+    const input: Element = {
+      type: "element",
+      tagName: "span",
+      properties: { className: ["katex"] },
+      children: [
+        {
+          type: "element",
+          tagName: "span",
+          properties: { style: "color: red;" },
+          children: [],
+        },
+      ],
+    }
+    const result = transformNode(input, colorMapping)
+    expectFirstChildStyleToBe(result, "color: var(--red);")
+  })
+
+  it("should handle nested KaTeX elements", () => {
+    const input: Element = {
+      type: "element",
+      tagName: "span",
+      properties: { className: ["katex"] },
+      children: [
+        {
+          type: "element",
+          tagName: "span",
+          properties: { style: "color: blue;" },
+          children: [
+            {
+              type: "element",
+              tagName: "span",
+              properties: { style: "background-color: green;" },
+              children: [],
+            },
+          ],
+        },
+      ],
+    }
+    const result = transformNode(input, colorMapping)
+    expectFirstChildStyleToBe(result, "color: var(--blue);")
+    expectFirstChildStyleToBe(result.children[0] as Element, "background-color: var(--green);")
+  })
+})
