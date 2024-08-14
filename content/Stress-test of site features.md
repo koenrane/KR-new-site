@@ -32,7 +32,11 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 
 I thus remind myself: The reading experience will never be as important as the content, but it's still important.
 
-## Smart quotes
+# $\KaTeX$ math mode
+- [x] Table of contents
+- [ ] Coloring to my color scheme --- set default colors
+
+# Smart quotes
 
 I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
 
@@ -50,21 +54,13 @@ In fact, all of the bullet points were written so that the rules were violated. 
 - `'` and `"hi"` and `'hi'`
 - `print('honk!')`
 - `print("honk!")`
-
-## Admonition
-
-> [!quote]
->
-> A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
-
 # Markdown captions for tables and figures
 
-The [`remark-captions`](https://npmjs.com/package/remark-captions) package makes it easy to add captions. I modified the package to allow the inclusion of hypertext within captions:
+The [`remark-captions`](https://npmjs.com/package/remark-captions) package makes it easy to add captions. 
 
 ![[https://assets.turntrout.com/static/images/posts/goose-majestic.avif|Sample image of a majestic goose.]]
 Figure: The most _majestic_ animal known to humanity.
 
-I have yet to implement the caption functionality for tables.
 
 | Left  | Right |
 | :---: | :---: |
@@ -238,6 +234,7 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 > [!bug]
 
 > [!quote]
+> A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
 
 > [!example]
 
