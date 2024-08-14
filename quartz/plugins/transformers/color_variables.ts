@@ -8,6 +8,29 @@ interface Options {
 }
 
 /**
+ * Transforms color names in inline styles to CSS variables for a single node
+ * @param node - The HAST Element node to transform
+ * @param colorMapping - The mapping of color names to CSS variables
+ * @returns The transformed node
+ */
+export function transformNode(node: Element, colorMapping: Record<string, string>): Element {
+  if (node.properties && typeof node.properties.style === "string") {
+    const styleString = node.properties.style
+    let newStyleString = styleString
+
+    Object.entries(colorMapping).forEach(([color, variable]) => {
+      const regex = new RegExp(`color:\\s*${color}`, "gi")
+      if (regex.test(newStyleString)) {
+        newStyleString = newStyleString.replace(regex, `color: ${variable}`)
+      }
+    })
+
+    node.properties.style = newStyleString
+  }
+  return node
+}
+
+/**
  * Transforms color names in inline styles to CSS variables
  * @param opts - Options for the transformer
  * @returns A QuartzTransformerPlugin that replaces color names with CSS variables
@@ -23,15 +46,7 @@ export const ColorVariables: QuartzTransformerPlugin<Options> = (opts) => {
     name: "ColorVariables",
     transform(ast: Root) {
       visit(ast, "element", (node: Element) => {
-        if (node.properties && typeof node.properties.style === "string") {
-          const styleString = node.properties.style
-          Object.entries(colorMapping).forEach(([color, variable]) => {
-            const regex = new RegExp(`color:\\s*${color}`, "gi")
-            if (regex.test(styleString)) {
-              node.properties.style = styleString.replace(regex, `color: ${variable}`)
-            }
-          })
-        }
+        transformNode(node, colorMapping)
       })
     },
   }
