@@ -2,10 +2,9 @@ import { QuartzTransformerPlugin } from "../types"
 import { createLogger } from "./logger_utils"
 import { Root } from "mdast"
 import { visit } from "unist-util-visit"
-import { toString } from "mdast-util-to-string"
 import Slugger from "github-slugger"
 import { applyTextTransforms } from "./formatting_improvement_html"
-import winston from "winston"
+import { Node } from "hast"
 
 export interface Options {
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6
@@ -31,6 +30,16 @@ const logger = createLogger("TableOfContents")
 
 const slugAnchor = new Slugger()
 
+function customToString(node: Node): string {
+  if ((node.type === "inlineMath" || node.type === "math") && "value" in node) {
+    return node.type === "inlineMath" ? `$${node.value}$` : `$$${node.value}$$`
+  }
+  if ("children" in node) {
+    return (node.children as Node[]).map(customToString).join("")
+  }
+  return "value" in node ? String(node.value) : ""
+}
+
 export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefined> = (
   userOpts,
 ) => {
@@ -53,7 +62,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
 
               visit(tree, "heading", (node) => {
                 if (node.depth <= opts.maxDepth) {
-                  let text = applyTextTransforms(toString(node))
+                  let text = applyTextTransforms(customToString(node))
                   highestDepth = Math.min(highestDepth, node.depth)
                   toc.push({
                     depth: node.depth,
