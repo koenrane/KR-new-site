@@ -27,12 +27,12 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   logger.debug(`Generated TOC items: ${toc.length}`)
 
   return (
-    <div id="table-of-contents" class={classNames(displayClass)}>
-      <h6 class="toc-title">
+    <div id="table-of-contents" className={classNames(displayClass)}>
+      <h6 className="toc-title">
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
-        <ul class="overflow">{toc}</ul>
+        <ul className="overflow">{toc}</ul>
       </div>
     </div>
   )
@@ -55,22 +55,18 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number) {
 
     if (tocEntry.depth > currentDepth) {
       logger.debug(`Starting new sublist at depth ${tocEntry.depth}`)
-      result.push(<ul>{addListItem(remainingEntries, tocEntry.depth)}</ul>)
+      result.push(<ul key={`sublist-${tocEntry.slug}`}>{addListItem(remainingEntries, tocEntry.depth)}</ul>)
     } else if (tocEntry.depth < currentDepth) {
       logger.debug(`Ending sublist, returning to depth ${tocEntry.depth}`)
       break
     } else {
       remainingEntries.shift()
       const entryParent: Parent = processSCInTocEntry(tocEntry)
-      const children = entryParent.children.map(elementToJsx)
-      let childElts: JSX.Element[] = []
-      for (let i = 0; i < children.length; i++) {
-        childElts.push(children[i])
-      }
-      let li = (
+      const children = entryParent.children.map((child, index) => elementToJsx(child, index))
+      const li = (
         <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
           <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-            {childElts}
+            {children}
           </a>
         </li>
       )
@@ -112,16 +108,16 @@ function processSCInTocEntry(entry: TocEntry): Parent {
   return parent
 }
 
-function elementToJsx(elt: any): JSX.Element {
+function elementToJsx(elt: any, index: number): JSX.Element {
   logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
   if (elt.type === "text") {
-    return <>{elt.value}</>
+    return <React.Fragment key={index}>{elt.value}</React.Fragment>
   } else if (elt.tagName === "abbr") {
     const abbrText = elt.children[0].value
-    const className = elt.properties.className.join(" ")
-    return <abbr class={className}>{abbrText}</abbr>
+    const className = Array.isArray(elt.properties.className) ? elt.properties.className.join(" ") : elt.properties.className
+    return <abbr key={index} className={className}>{abbrText}</abbr>
   } else if (elt.tagName === "span" && elt.properties.className?.includes("katex-toc")) {
-    return <span className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
+    return <span key={index} className="katex-toc" dangerouslySetInnerHTML={{ __html: elt.children[0].value }} />
   } else {
     logger.error(`Unknown element type: ${elt.type}`)
     throw Error("Unknown element type")
