@@ -27,14 +27,8 @@ export const transformElement = (
   element: Element,
   colorMapping: Record<string, string>,
 ): Element => {
-  if (element.properties) {
-    if (typeof element.properties.style === "string") {
-      element.properties.style = transformStyle(element.properties.style, colorMapping)
-    }
-    if (typeof element.properties.mathcolor === "string") {
-      console.log(element)
-      element.properties.style = transformStyle(element.properties.mathcolor, colorMapping)
-    }
+  if (element.properties && typeof element.properties.style === "string") {
+    element.properties.style = transformStyle(element.properties.style, colorMapping)
   }
   element.children.forEach((child) => {
     if (child.type === "element") {
