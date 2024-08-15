@@ -14,31 +14,35 @@ interface Options {
  * @returns The transformed node
  */
 export function transformNode(node: Element, colorMapping: Record<string, string>): Element {
-  // Transform inline styles
-  if (node.properties && typeof node.properties.style === "string") {
-    let newStyleString = node.properties.style
-
+  const transformStyle = (style: string): string => {
+    let newStyle = style
     Object.entries(colorMapping).forEach(([color, variable]) => {
-      const regex = new RegExp(`(^|\\s|;)(\\w+(-\\w+)*\\s*:\\s*.*)(${color})\\b`, "gi")
-      newStyleString = newStyleString.replace(regex, `$1$2${variable}`)
+      const regex = new RegExp(`(^|\\s|;|:)(${color})\\b`, "gi")
+      newStyle = newStyle.replace(regex, `$1${variable}`)
     })
-
-    node.properties.style = newStyleString
+    return newStyle
   }
 
-  // Transform KaTeX elements
-  const className = node.properties?.className
-  if (node.tagName === "span" && typeof className === "string" && className.includes("katex")) {
-    visit(node, "element", (child: Element) => {
-      if (child.properties && child.properties.style) {
-        let newStyle = child.properties.style as string
-        Object.entries(colorMapping).forEach(([color, variable]) => {
-          const regex = new RegExp(`(^|\\s|;)(\\w+(-\\w+)*\\s*:\\s*.*)(${color})\\b`, "gi")
-          newStyle = newStyle.replace(regex, `$1$2${variable}`)
-        })
-        child.properties.style = newStyle
+  // Transform inline styles
+  if (node.properties && typeof node.properties.style === "string") {
+    node.properties.style = transformStyle(node.properties.style)
+  }
+
+  // Transform KaTeX elements and their children
+  const transformKaTeX = (element: Element) => {
+    if (element.properties && typeof element.properties.style === "string") {
+      element.properties.style = transformStyle(element.properties.style)
+    }
+    element.children.forEach((child) => {
+      if (child.type === "element") {
+        transformKaTeX(child)
       }
     })
+  }
+
+  const className = node.properties.className
+  if (node.tagName === "span" && typeof className === "string" && className.includes("katex")) {
+    transformKaTeX(node)
   }
 
   return node
