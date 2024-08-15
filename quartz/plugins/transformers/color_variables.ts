@@ -26,10 +26,22 @@ export const transformElement = (
   element: Element,
   colorMapping: Record<string, string>,
 ): Element => {
-  if (element.properties && typeof element.properties.style === "string") {
+  if (typeof element?.properties?.style === "string") {
     element.properties.style = transformStyle(element.properties.style, colorMapping)
   }
   return element
+}
+
+function innerFunc() {
+  return (ast: Root) => {
+    const colorMapping = {
+      red: "var(--red)",
+      blue: "var(--blue)",
+    }
+    visit(ast, "element", (node: Element) => {
+      transformElement(node, colorMapping)
+    })
+  }
 }
 
 /**
@@ -37,19 +49,11 @@ export const transformElement = (
  * @param opts - Options for the transformer
  * @returns A QuartzTransformerPlugin that replaces color names with CSS variables
  */
-export const ColorVariables: QuartzTransformerPlugin<Options> = (opts) => {
-  const colorMapping = opts?.colorMapping ?? {
-    red: "var(--red)",
-    blue: "var(--blue)",
-    // Add more color mappings as needed
-  }
-
+export const ColorVariables: QuartzTransformerPlugin<Options> = (_opts) => {
   return {
     name: "ColorVariables",
-    transform(ast: Root) {
-      visit(ast, "element", (node: Element) => {
-        transformElement(node, colorMapping)
-      })
+    htmlPlugins() {
+      return [innerFunc]
     },
   }
 }

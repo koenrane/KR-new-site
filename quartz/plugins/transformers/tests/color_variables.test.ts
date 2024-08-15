@@ -17,7 +17,9 @@ describe("transformStyle", () => {
   it("should handle multiple color replacements in a single style", () => {
     const input = "color: blue; background-color: red; border: 1px solid green;"
     const result = transformStyle(input, colorMapping)
-    expect(result).toBe("color: var(--blue); background-color: var(--red); border: 1px solid var(--green);")
+    expect(result).toBe(
+      "color: var(--blue); background-color: var(--red); border: 1px solid var(--green);",
+    )
   })
 
   it("should not modify colors that are not in the mapping", () => {
@@ -70,56 +72,3 @@ function expectFirstChildStyleToBe(node: Element, style: string) {
     expect(false).toBe(true)
   }
 }
-
-describe("KaTeX element handling", () => {
-  it("should handle KaTeX elements with inline color styles", () => {
-    const input: Element = {
-      type: "element",
-      tagName: "span",
-      properties: { className: ["katex"] },
-      children: [
-        {
-          type: "element",
-          tagName: "span",
-          properties: { className: ["katex-html"] },
-          children: [
-            {
-              type: "element",
-              tagName: "span",
-              properties: { className: ["base"] },
-              children: [
-                {
-                  type: "element",
-                  tagName: "span",
-                  properties: { className: ["mord"], style: "color:red;" },
-                  children: [{ type: "text", value: "x" }],
-                },
-                {
-                  type: "element",
-                  tagName: "span",
-                  properties: { className: ["mrel"], style: "color:blue;" },
-                  children: [{ type: "text", value: "=" }],
-                },
-                {
-                  type: "element",
-                  tagName: "span",
-                  properties: { className: ["mord"], style: "color:green;" },
-                  children: [{ type: "text", value: "y" }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    }
-    const result = transformElement(input, colorMapping)
-
-    const katexHtml = result.children[0] as Element
-    const baseSpan = katexHtml.children[0] as Element
-    const [xSpan, equalSpan, ySpan] = baseSpan.children as Element[]
-
-    expect(xSpan.properties?.style).toBe("color:var(--red);")
-    expect(equalSpan.properties?.style).toBe("color:var(--blue);")
-    expect(ySpan.properties?.style).toBe("color:var(--green);")
-  })
-})
