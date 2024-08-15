@@ -1,4 +1,4 @@
-import { transformNode, ColorVariables } from "../color_variables"
+import { transformElement, ColorVariables } from "../color_variables"
 import { Element } from "hast"
 
 const colorMapping = {
@@ -7,7 +7,7 @@ const colorMapping = {
   green: "var(--green)",
 }
 
-describe("transformNode", () => {
+describe("transformElement", () => {
   it("should replace color names with CSS variables in inline styles", () => {
     const input: Element = {
       type: "element",
@@ -15,7 +15,7 @@ describe("transformNode", () => {
       properties: { style: "color: red;" },
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBe("color: var(--red);")
   })
 
@@ -26,7 +26,7 @@ describe("transformNode", () => {
       properties: { style: "color: blue; background-color: red; border: 1px solid green;" },
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBe(
       "color: var(--blue); background-color: var(--red); border: 1px solid var(--green);",
     )
@@ -39,7 +39,7 @@ describe("transformNode", () => {
       properties: { style: "color: azalea;" },
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBe("color: azalea;")
   })
 
@@ -50,7 +50,7 @@ describe("transformNode", () => {
       properties: { style: "color: RED;" },
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBe("color: var(--red);")
   })
 
@@ -61,7 +61,7 @@ describe("transformNode", () => {
       properties: {},
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBeUndefined()
   })
 
@@ -72,7 +72,7 @@ describe("transformNode", () => {
       properties: { style: "" },
       children: [],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     expect(result.properties?.style).toBe("")
   })
 })
@@ -114,7 +114,7 @@ describe("KaTeX element handling", () => {
         },
       ],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
     const katexHtml = result.children[0] as Element
     const baseSpan = katexHtml.children[0] as Element
     expectFirstChildStyleToBe(baseSpan, "color: var(--red);")
@@ -175,7 +175,7 @@ describe("KaTeX element handling", () => {
         },
       ],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
 
     // Check MathML part
     const mathmlPart = result.children[0] as Element
@@ -230,7 +230,7 @@ describe("KaTeX element handling", () => {
         },
       ],
     }
-    const result = transformNode(input, colorMapping)
+    const result = transformElement(input, colorMapping)
 
     const katexHtml = result.children[0] as Element
     const baseSpan = katexHtml.children[0] as Element

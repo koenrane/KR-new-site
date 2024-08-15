@@ -7,42 +7,39 @@ interface Options {
   colorMapping: Record<string, string>
 }
 
+const transformStyle = (style: string, colorMapping: Record<string, string>): string => {
+  let newStyle = style
+  Object.entries(colorMapping).forEach(([color, variable]) => {
+    const regex = new RegExp(`(^|\\s|;|:)(${color})\\b`, "gi")
+    newStyle = newStyle.replace(regex, `$1${variable}`)
+  })
+  return newStyle
+}
+
 /**
  * Transforms color names in inline styles and KaTeX elements to CSS variables for a single node
  * @param node - The HAST Element node to transform
  * @param colorMapping - The mapping of color names to CSS variables
  * @returns The transformed node
  */
-export function transformNode(node: Element, colorMapping: Record<string, string>): Element {
-  const transformStyle = (style: string): string => {
-    let newStyle = style
-    Object.entries(colorMapping).forEach(([color, variable]) => {
-      const regex = new RegExp(`(^|\\s|;|:)(${color})\\b`, "gi")
-      newStyle = newStyle.replace(regex, `$1${variable}`)
-    })
-    return newStyle
-  }
-
-  const transformElement = (element: Element) => {
-    if (element.properties) {
-      if (typeof element.properties.style === "string") {
-        element.properties.style = transformStyle(element.properties.style)
-      }
-      if (typeof element.properties.mathcolor === "string") {
-        element.properties.mathcolor = transformStyle(element.properties.mathcolor)
-      }
+export const transformElement = (
+  element: Element,
+  colorMapping: Record<string, string>,
+): Element => {
+  if (element.properties && typeof element.properties.style === "string") {
+    if (typeof element.properties.style === "string") {
+      element.properties.style = transformStyle(element.properties.style, colorMapping)
     }
-    element.children.forEach((child) => {
-      if (child.type === "element") {
-        transformElement(child)
-      }
-    })
+    if (typeof element.properties.mathcolor === "string") {
+      element.properties.style = transformStyle(element.properties.style, colorMapping)
+    }
   }
-
-  // Transform the node and all its children
-  transformElement(node)
-
-  return node
+  element.children.forEach((child) => {
+    if (child.type === "element") {
+      transformElement(child, colorMapping)
+    }
+  })
+  return element
 }
 
 /**
@@ -61,7 +58,7 @@ export const ColorVariables: QuartzTransformerPlugin<Options> = (opts) => {
     name: "ColorVariables",
     transform(ast: Root) {
       visit(ast, "element", (node: Element) => {
-        transformNode(node, colorMapping)
+        transformElement(node, colorMapping)
       })
     },
   }
