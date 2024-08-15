@@ -10,8 +10,9 @@ interface Options {
 export const transformStyle = (style: string, colorMapping: Record<string, string>): string => {
   let newStyle = style
   Object.entries(colorMapping).forEach(([color, variable]) => {
-    const regex = new RegExp(`(^|\\s|;|:)(${color})\\b`, "gi")
-    newStyle = newStyle.replace(regex, `$1${variable}`)
+    const regex = new RegExp(`\\b${color}\\b`, "gi")
+    console.log(regex, style, variable)
+    newStyle = newStyle.replace(regex, `${variable}`)
   })
   return newStyle
 }
@@ -26,12 +27,13 @@ export const transformElement = (
   element: Element,
   colorMapping: Record<string, string>,
 ): Element => {
-  if (element.properties && typeof element.properties.style === "string") {
+  if (element.properties) {
     if (typeof element.properties.style === "string") {
       element.properties.style = transformStyle(element.properties.style, colorMapping)
     }
     if (typeof element.properties.mathcolor === "string") {
-      element.properties.style = transformStyle(element.properties.style, colorMapping)
+      console.log(element)
+      element.properties.style = transformStyle(element.properties.mathcolor, colorMapping)
     }
   }
   element.children.forEach((child) => {
