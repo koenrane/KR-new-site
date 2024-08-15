@@ -24,8 +24,13 @@ export function transformNode(node: Element, colorMapping: Record<string, string
   }
 
   const transformElement = (element: Element) => {
-    if (element.properties && typeof element.properties.style === "string") {
-      element.properties.style = transformStyle(element.properties.style)
+    if (element.properties) {
+      if (typeof element.properties.style === "string") {
+        element.properties.style = transformStyle(element.properties.style)
+      }
+      if (typeof element.properties.mathcolor === "string") {
+        element.properties.mathcolor = transformStyle(element.properties.mathcolor)
+      }
     }
     element.children.forEach((child) => {
       if (child.type === "element") {

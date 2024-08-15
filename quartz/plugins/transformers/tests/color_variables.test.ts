@@ -181,7 +181,8 @@ describe("KaTeX element handling", () => {
     const mathmlPart = result.children[0] as Element
     const semantics = mathmlPart.children[0] as Element
     const mrow = semantics.children[0] as Element
-    expectFirstChildStyleToBe(mrow, "color: var(--blue);")
+    const mstyle = mrow.children[0] as Element
+    expect(mstyle.properties?.mathcolor).toBe("var(--blue)")
 
     // Check HTML part
     const htmlPart = result.children[1] as Element
