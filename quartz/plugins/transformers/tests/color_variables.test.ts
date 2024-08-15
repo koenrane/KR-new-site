@@ -115,7 +115,9 @@ describe("KaTeX element handling", () => {
       ],
     }
     const result = transformNode(input, colorMapping)
-    expect((result.children[0] as Element).children[0].properties?.style).toBe("color: var(--red);")
+    const katexHtml = result.children[0] as Element
+    const baseSpan = katexHtml.children[0] as Element
+    expectFirstChildStyleToBe(baseSpan, "color: var(--red);")
   })
 
   it("should handle nested KaTeX elements with MathML", () => {
@@ -132,10 +134,12 @@ describe("KaTeX element handling", () => {
             {
               type: "element",
               tagName: "semantics",
+              properties: {},
               children: [
                 {
                   type: "element",
                   tagName: "mrow",
+                  properties: {},
                   children: [
                     {
                       type: "element",
@@ -172,15 +176,16 @@ describe("KaTeX element handling", () => {
       ],
     }
     const result = transformNode(input, colorMapping)
-    
+
     // Check MathML part
     const mathmlPart = result.children[0] as Element
-    const mstyle = mathmlPart.children[0].children[0].children[0] as Element
-    expect(mstyle.properties?.mathcolor).toBe("var(--blue)")
-    
+    const semantics = mathmlPart.children[0] as Element
+    const mrow = semantics.children[0] as Element
+    expectFirstChildStyleToBe(mrow, "color: var(--blue);")
+
     // Check HTML part
     const htmlPart = result.children[1] as Element
-    const coloredSpan = htmlPart.children[0].children[0] as Element
-    expect(coloredSpan.properties?.style).toBe("color: var(--blue);")
+    const baseSpan = htmlPart.children[0] as Element
+    expectFirstChildStyleToBe(baseSpan, "color: var(--blue);")
   })
 })
