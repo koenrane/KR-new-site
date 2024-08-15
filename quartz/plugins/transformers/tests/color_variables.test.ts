@@ -95,16 +95,30 @@ describe("KaTeX element handling", () => {
         {
           type: "element",
           tagName: "span",
-          properties: { style: "color: red;" },
-          children: [],
+          properties: { className: ["katex-html"] },
+          children: [
+            {
+              type: "element",
+              tagName: "span",
+              properties: { className: ["base"] },
+              children: [
+                {
+                  type: "element",
+                  tagName: "span",
+                  properties: { className: ["mord"], style: "color: red;" },
+                  children: [{ type: "text", value: "x" }],
+                },
+              ],
+            },
+          ],
         },
       ],
     }
     const result = transformNode(input, colorMapping)
-    expectFirstChildStyleToBe(result, "color: var(--red);")
+    expect((result.children[0] as Element).children[0].properties?.style).toBe("color: var(--red);")
   })
 
-  it("should handle nested KaTeX elements", () => {
+  it("should handle nested KaTeX elements with MathML", () => {
     const input: Element = {
       type: "element",
       tagName: "span",
@@ -112,21 +126,61 @@ describe("KaTeX element handling", () => {
       children: [
         {
           type: "element",
+          tagName: "math",
+          properties: { xmlns: "http://www.w3.org/1998/Math/MathML" },
+          children: [
+            {
+              type: "element",
+              tagName: "semantics",
+              children: [
+                {
+                  type: "element",
+                  tagName: "mrow",
+                  children: [
+                    {
+                      type: "element",
+                      tagName: "mstyle",
+                      properties: { mathcolor: "blue" },
+                      children: [{ type: "text", value: "x" }],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: "element",
           tagName: "span",
-          properties: { style: "color: blue;" },
+          properties: { className: ["katex-html"] },
           children: [
             {
               type: "element",
               tagName: "span",
-              properties: { style: "background-color: green;" },
-              children: [],
+              properties: { className: ["base"] },
+              children: [
+                {
+                  type: "element",
+                  tagName: "span",
+                  properties: { className: ["mord"], style: "color: blue;" },
+                  children: [{ type: "text", value: "x" }],
+                },
+              ],
             },
           ],
         },
       ],
     }
     const result = transformNode(input, colorMapping)
-    expectFirstChildStyleToBe(result, "color: var(--blue);")
-    expectFirstChildStyleToBe(result.children[0] as Element, "background-color: var(--green);")
+    
+    // Check MathML part
+    const mathmlPart = result.children[0] as Element
+    const mstyle = mathmlPart.children[0].children[0].children[0] as Element
+    expect(mstyle.properties?.mathcolor).toBe("var(--blue)")
+    
+    // Check HTML part
+    const htmlPart = result.children[1] as Element
+    const coloredSpan = htmlPart.children[0].children[0] as Element
+    expect(coloredSpan.properties?.style).toBe("color: var(--blue);")
   })
 })
