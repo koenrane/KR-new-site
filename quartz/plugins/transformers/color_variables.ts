@@ -8,34 +8,15 @@ interface Options {
 }
 
 const colorMapping: Record<string, string> = {
-  rosewater: "var(--rosewater)",
-  flamingo: "var(--flamingo)",
   pink: "var(--pink)",
-  mauve: "var(--mauve)",
   red: "var(--red)",
-  maroon: "var(--maroon)",
-  peach: "var(--peach)",
   yellow: "var(--yellow)",
   green: "var(--green)",
   teal: "var(--teal)",
   sky: "var(--sky)",
-  sapphire: "var(--sapphire)",
   blue: "var(--blue)",
   lavender: "var(--lavender)",
-  text: "var(--text)",
-  "subtext-1": "var(--subtext-1)",
-  "subtext-0": "var(--subtext-0)",
-  "overlay-2": "var(--overlay-2)",
-  "overlay-1": "var(--overlay-1)",
-  "overlay-0": "var(--overlay-0)",
-  "surface-2": "var(--surface-2)",
-  "surface-1": "var(--surface-1)",
-  "surface-0": "var(--surface-0)",
-  base: "var(--base)",
-  mantle: "var(--mantle)",
-  crust: "var(--crust)",
   purple: "var(--purple)",
-  amaranth: "var(--amaranth)",
   orange: "var(--orange)",
 }
 
@@ -66,10 +47,6 @@ export const transformElement = (
 
 function innerFunc() {
   return (ast: Root) => {
-    const colorMapping = {
-      red: "var(--red)",
-      blue: "var(--blue)",
-    }
     visit(ast, "element", (node: Element) => {
       transformElement(node, colorMapping)
     })
