@@ -23,27 +23,19 @@ export function transformNode(node: Element, colorMapping: Record<string, string
     return newStyle
   }
 
-  // Transform inline styles
-  if (node.properties && typeof node.properties.style === "string") {
-    node.properties.style = transformStyle(node.properties.style)
-  }
-
-  // Transform KaTeX elements and their children
-  const transformKaTeX = (element: Element) => {
+  const transformElement = (element: Element) => {
     if (element.properties && typeof element.properties.style === "string") {
       element.properties.style = transformStyle(element.properties.style)
     }
     element.children.forEach((child) => {
       if (child.type === "element") {
-        transformKaTeX(child)
+        transformElement(child)
       }
     })
   }
 
-  const className = node.properties.className
-  if (node.tagName === "span" && typeof className === "string" && className.includes("katex")) {
-    transformKaTeX(node)
-  }
+  // Transform the node and all its children
+  transformElement(node)
 
   return node
 }
