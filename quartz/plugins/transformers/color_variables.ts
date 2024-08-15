@@ -11,7 +11,6 @@ export const transformStyle = (style: string, colorMapping: Record<string, strin
   let newStyle = style
   Object.entries(colorMapping).forEach(([color, variable]) => {
     const regex = new RegExp(`\\b${color}\\b`, "gi")
-    console.log(regex, style, variable)
     newStyle = newStyle.replace(regex, `${variable}`)
   })
   return newStyle
@@ -30,11 +29,6 @@ export const transformElement = (
   if (element.properties && typeof element.properties.style === "string") {
     element.properties.style = transformStyle(element.properties.style, colorMapping)
   }
-  element.children.forEach((child) => {
-    if (child.type === "element") {
-      transformElement(child, colorMapping)
-    }
-  })
   return element
 }
 
