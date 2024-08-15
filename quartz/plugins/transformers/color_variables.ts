@@ -7,7 +7,7 @@ interface Options {
   colorMapping: Record<string, string>
 }
 
-const transformStyle = (style: string, colorMapping: Record<string, string>): string => {
+export const transformStyle = (style: string, colorMapping: Record<string, string>): string => {
   let newStyle = style
   Object.entries(colorMapping).forEach(([color, variable]) => {
     const regex = new RegExp(`(^|\\s|;|:)(${color})\\b`, "gi")
