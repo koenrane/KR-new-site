@@ -3,6 +3,7 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
+import { promisify } from "util"
 
 const logger = createLogger("linkfavicons")
 
@@ -12,6 +13,7 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
+const FAVICON_URLS_FILE = ".faviconUrls.txt"
 
 export class DownloadError extends Error {
   constructor(message: string) {
@@ -86,6 +88,32 @@ export function createUrlCache(): Map<string, string> {
 }
 export let urlCache = createUrlCache()
 
+async function readFaviconUrls(): Promise<Map<string, string>> {
+  try {
+    const data = await fs.promises.readFile(FAVICON_URLS_FILE, 'utf8');
+    const lines = data.split('\n');
+    const urlMap = new Map<string, string>();
+    for (const line of lines) {
+      const [basename, url] = line.split(',');
+      if (basename && url) {
+        urlMap.set(basename, url);
+      }
+    }
+    return urlMap;
+  } catch (error) {
+    logger.warn(`Error reading favicon URLs file: ${error}`);
+    return new Map<string, string>();
+  }
+}
+
+async function writeFaviconUrl(basename: string, url: string): Promise<void> {
+  try {
+    await fs.promises.appendFile(FAVICON_URLS_FILE, `${basename},${url}\n`);
+  } catch (error) {
+    logger.error(`Error writing to favicon URLs file: ${error}`);
+  }
+}
+
 /**
  * Attempts to find or save a favicon for a given hostname.
  *
@@ -103,6 +131,15 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
   const assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
+  const basename = path.basename(assetAvifURL)
+
+  const faviconUrls = await readFaviconUrls()
+  if (faviconUrls.has(basename)) {
+    const cachedUrl = faviconUrls.get(basename)!
+    logger.info(`Returning cached AVIF URL for ${hostname}: ${cachedUrl}`)
+    urlCache.set(quartzPngPath, cachedUrl)
+    return cachedUrl
+  }
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
@@ -110,6 +147,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
+      await writeFaviconUrl(basename, assetAvifURL)
       return assetAvifURL
     } else {
       logger.info(`No AVIF found for ${hostname}`)
