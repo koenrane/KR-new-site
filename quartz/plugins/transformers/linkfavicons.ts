@@ -3,7 +3,6 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
-import { promisify } from "util"
 
 const logger = createLogger("linkfavicons")
 
@@ -13,7 +12,7 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
-const FAVICON_URLS_FILE = ".faviconUrls.txt"
+const FAVICON_URLS_FILE = "quartz/static/plugins/transformers/.faviconUrls.txt"
 
 export class DownloadError extends Error {
   constructor(message: string) {
@@ -29,6 +28,13 @@ export class DownloadError extends Error {
  * @param imagePath - The local file path where the image should be saved.
  * @returns A Promise that resolves to true if the download was
  * successful. Otherwise, it throws a DownloadError.
+ */
+/**
+ * Downloads an image from a given URL and saves it to the specified local path.
+ *
+ * @param url - The URL of the image to download.
+ * @param imagePath - The local file path where the image should be saved.
+ * @returns A Promise that resolves to true if the download was successful. Otherwise, it throws a DownloadError.
  */
 export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
@@ -71,6 +77,12 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
  * @param hostname - The hostname to generate the path for.
  * @returns A string representing the Quartz path for the favicon.
  */
+/**
+ * Generates a Quartz-compatible path for a given hostname.
+ *
+ * @param hostname - The hostname to generate the path for.
+ * @returns A string representing the Quartz path for the favicon.
+ */
 export function GetQuartzPath(hostname: string): string {
   logger.debug(`Generating Quartz path for hostname: ${hostname}`)
   hostname = hostname === "localhost" ? "turntrout.com" : hostname.replace(/^www\./, "")
@@ -83,37 +95,60 @@ export function GetQuartzPath(hostname: string): string {
 }
 
 const defaultCache = new Map<string, string>([[TURNTROUT_FAVICON_PATH, TURNTROUT_FAVICON_PATH]])
+/**
+ * Creates and returns a new URL cache with default values.
+ *
+ * @returns A new Map object initialized with default cache entries.
+ */
 export function createUrlCache(): Map<string, string> {
   return new Map(defaultCache)
 }
 export let urlCache = createUrlCache()
 
+/**
+ * Reads favicon URLs from the FAVICON_URLS_FILE and returns them as a Map.
+ *
+ * @returns A Promise that resolves to a Map of basename to URL strings.
+ */
 async function readFaviconUrls(): Promise<Map<string, string>> {
   try {
-    const data = await fs.promises.readFile(FAVICON_URLS_FILE, 'utf8');
-    const lines = data.split('\n');
-    const urlMap = new Map<string, string>();
+    const data = await fs.promises.readFile(FAVICON_URLS_FILE, "utf8")
+    const lines = data.split("\n")
+    const urlMap = new Map<string, string>()
     for (const line of lines) {
-      const [basename, url] = line.split(',');
+      const [basename, url] = line.split(",")
       if (basename && url) {
-        urlMap.set(basename, url);
+        urlMap.set(basename, url)
       }
     }
-    return urlMap;
+    return urlMap
   } catch (error) {
-    logger.warn(`Error reading favicon URLs file: ${error}`);
-    return new Map<string, string>();
+    logger.warn(`Error reading favicon URLs file: ${error}`)
+    return new Map<string, string>()
   }
 }
 
+/**
+ * Writes a new favicon URL entry to the FAVICON_URLS_FILE.
+ *
+ * @param basename - The basename of the favicon file.
+ * @param url - The URL of the favicon.
+ * @returns A Promise that resolves when the write operation is complete.
+ */
 async function writeFaviconUrl(basename: string, url: string): Promise<void> {
   try {
-    await fs.promises.appendFile(FAVICON_URLS_FILE, `${basename},${url}\n`);
+    await fs.promises.appendFile(FAVICON_URLS_FILE, `${basename},${url}\n`)
   } catch (error) {
-    logger.error(`Error writing to favicon URLs file: ${error}`);
+    logger.error(`Error writing to favicon URLs file: ${error}`)
   }
 }
 
+/**
+ * Attempts to find or save a favicon for a given hostname.
+ *
+ * @param hostname - The hostname to find or save the favicon for.
+ * @returns A Promise that resolves to the path of the favicon (local or remote).
+ */
 /**
  * Attempts to find or save a favicon for a given hostname.
  *
@@ -199,6 +234,13 @@ export interface FaviconNode {
  * that favicons are treated as decoration by screen readers).
  * @returns An object representing the favicon element.
  */
+/**
+ * Creates a favicon element (img tag) with the given URL and description.
+ *
+ * @param urlString - The URL of the favicon image.
+ * @param description - The alt text for the favicon (default: "", so that favicons are treated as decoration by screen readers).
+ * @returns An object representing the favicon element.
+ */
 export function CreateFaviconElement(urlString: string, description = ""): FaviconNode {
   logger.debug(`Creating favicon element with URL: ${urlString}`)
   return {
@@ -213,6 +255,12 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
   }
 }
 
+/**
+ * Inserts a favicon image into a node's children.
+ *
+ * @param imgPath - The path to the favicon image.
+ * @param node - The node to insert the favicon into.
+ */
 /**
  * Inserts a favicon image into a node's children.
  *
@@ -264,6 +312,12 @@ export function insertFavicon(imgPath: string | null, node: any): void {
   }
 }
 
+/**
+ * Modifies a node by processing its href and inserting a favicon if applicable.
+ *
+ * @param node - The node to modify.
+ * @returns A Promise that resolves when the modification is complete.
+ */
 /**
  * Modifies a node by processing its href and inserting a favicon if applicable.
  *
@@ -327,6 +381,11 @@ export async function ModifyNode(node: any): Promise<void> {
   }
 }
 
+/**
+ * Creates a plugin that adds favicons to anchor tags in the HTML tree.
+ *
+ * @returns An object representing the plugin configuration.
+ */
 /**
  * Creates a plugin that adds favicons to anchor tags in the HTML tree.
  *
