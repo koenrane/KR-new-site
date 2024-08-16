@@ -59,6 +59,14 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(expected)
     })
 
+    it.each([['<p><br>"Unicorn"<br></p>', "<p><br>“Unicorn”<br></p>"]])(
+      "should handle quotes in DOM",
+      (input, expected) => {
+        const processedHtml = testHtmlFormattingImprovement(input)
+        expect(processedHtml).toBe(expected)
+      },
+    )
+
     it.each([
       ["<code>'This quote should not change'</code>"],
       ["<p><code>5 - 3</code></p>"],

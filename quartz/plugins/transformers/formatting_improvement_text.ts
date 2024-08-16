@@ -11,7 +11,8 @@ const footnoteEndOfSentence = (text: string) => {
   return tighterText
 }
 
-const editPattern = /^(edit|eta)\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?: (?<text>.*)/gim
+const editPattern =
+  /^\s*(?<emph1>[\*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?(?<emph2>[\*_]*:[\*_]*) (?<text>.*)/gim
 const editAdmonitionPattern = "> [!info] Edited on $<date>\n> $<text>"
 export function editAdmonition(text: string): string {
   text = text.replaceAll(editPattern, editAdmonitionPattern)

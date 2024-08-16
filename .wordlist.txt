@@ -506,3 +506,5 @@ stochastically
 unpenalized
 gpt-neox-20b
 SMALLCAPS
+KaTeX
+bolding

@@ -17,7 +17,7 @@ const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
 const REGEX_ACRONYM =
   /(?:\b|^)(?![ICLVXM]{3,}\b)(?<acronym>IF|TL;DR|IL|[A-Z\u00C0-\u00DC]{3,}[\-\dA-Z\u00C0-\u00DC]*)(?<plural>s?)\b/
 
-const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
+const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/g
 const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
 
 export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
@@ -31,7 +31,7 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups
         return { before: "", replacedMatch: acronym, after: plural }
       } else {
-        return { before: "", replacedMatch: match[0], after: "" }
+        return { before: "", replacedMatch: match[0].toUpperCase(), after: "" }
       }
     },
     ignoreAcronym,

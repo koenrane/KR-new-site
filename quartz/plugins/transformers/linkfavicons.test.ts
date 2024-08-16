@@ -233,13 +233,13 @@ describe("Favicon Utilities", () => {
             {
               tag: "a",
               attributes: {
-                href: "mailto:alex@turntrout.com",
+                href: "https://mailto:throwaway@turntrout.com",
                 class: "external",
               },
               children: [
                 {
                   tag: "code",
-                  children: ["alex@turntrout.com"],
+                  children: ["throwaway@turntrout.com"],
                 },
               ],
             },

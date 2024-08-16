@@ -34,11 +34,11 @@ describe("rehypeTagAcronyms", () => {
 // Check that eg 100km becomes <abbr>100km</abbr>
 describe("Abbreviations", () => {
   // Test: These should be wrapped in <abbr> tags
-  const textIn: Array<string> = ["10ZB", ".1EXP", "10BTC", "100.0KM", "5K"]
+  const textIn: Array<string> = ["10ZB", ".1EXP", "10BTC", "100.0KM", "5K", "5k"]
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
-      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text}</abbr></p>`)
+      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text.toUpperCase()}</abbr></p>`)
     })
   }
 

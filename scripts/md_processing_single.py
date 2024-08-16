@@ -230,10 +230,12 @@ def _get_urls(markdown: str) -> list[str]:
 # people getting hurt table
 # "But now we have to."
 # balance table col widths
-# n. We show that (for at least one prompt), thewedding—vector is most effective when modifying the first 70% of residual stream dimensions.
+# mail favicon on stress test
+# color dictionary rehype for style
+#  “fdsajl; fs”—(spaces) vector.
 # math mode colors
+# 0.994
 # wrap and no line colors for bibtex --- auto generate given YAML setting?
-# TOC katex
 # Check that no ' or " exist outside of code blocks --- in all formattinghtml. Add tests.
 # Loading order for eg fonts
 # full width images
@@ -294,14 +296,21 @@ replacement = {
     "\xa0": " ",  # NBSP to normal space
     r"\* \* \*": "<hr/>\n",  # Fix horizontal rules
     r"\<\|endoftext\|\>": "<endoftext>",
-    '" wedding"': "“ wedding”",  # Smart quotes have trouble with this one
-    '" "': "“ ”",  # For wedding vector minus space
-    "Position 0": "Pos. 0",  # For GPT2 post
-    r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
     "2019/2020": "2019 & 2020",
     "_ [_Anki_](https://apps.ankiweb.net/) _.": "[Anki](https://apps.ankiweb.net/).",
+    r"^Table: ": "\nTable: ",  # Ensure that captions aren't folded into a new table row
     # A bunch of replacements specific to the GPT-2 steering post
     r'("[\w ]*" ?)-( ?"[\w ]*")': r"\1 − \2",  # Minus sign for steering vectors
+    '" wedding"': "“ wedding”",  # Smart quotes have trouble with this one
+    r' 9/11 because" -': " 9/11 because” −",  # Minus sign for steering vectors
+    '" +"': "“ ”",  # For wedding vector minus space
+    "Position 0": "Pos. 0",  # For GPT2 post
+    'say goose +"': "say goose ”",
+    '" +anger': "“ anger",
+    r"`\\-": r"` −",  # Space for inline code in GPT2 post
+    r"(−|\\-)`": r"− `",  # Space for inline code in GPT2 post
+    r"\*\*Prompt given to the model\*\*": "Prompt given to the model",
+    "is as of": "as of",
     "### Love - Hate": "### Love − Hate",
     r"\(RL/supervised\) ": "{RL, supervised}-",
     '"(weddings?) "': "“\1 ”",
@@ -435,6 +444,7 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     md = parse_latex(md)
 
+    print(md)
     return md
 
 

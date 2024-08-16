@@ -53,6 +53,7 @@ turndownService.addRule("table linebreak", {
     content = content.replaceAll(newlinePattern, "$1")
     content = content.replaceAll(/(?<![s|])\n{2}/g, "<br/><br/>")
     content = content.replaceAll(/(?<![s|])\n/g, "<br/>")
+    console.log(content)
 
     // No <br/> at the start
     if (content.startsWith("<br/>")) {
@@ -76,7 +77,7 @@ turndownService.addRule("table linebreak", {
       }
 
       const headerContent = headerRow.split("|")[1].trimEnd()
-      content = "\n\n" + rows.join("\n") + "\n" + `Table: ${headerContent}.`
+      content = "\n\n" + rows.join("\n") + "\n\n" + `Table: ${headerContent}.`
     }
 
     return content

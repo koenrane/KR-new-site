@@ -5,11 +5,11 @@
 .callout {
   border: 1px solid var(--border);
 
-  --border: color-mix(in srgb, var(--color) 25%, var(--light));
+  --border: color-mix(in srgb, var(--color) 60%, var(--base));
   & blockquote {
     border-left: 3px solid var(--border);
   }
-  --bg: color-mix(in srgb, var(--color) 4%, var(--light));
+  --bg: color-mix(in srgb, var(--color) 4%, var(--base));
   background-color: var(--bg);
   border-radius: 5px;
   padding: 0 1rem;
@@ -39,18 +39,18 @@
   --callout-icon-fold: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
 
   &[data-callout] {
-    --color: var(--blue);
+    --color: color-mix(in srgb, var(--blue) 70%, var(--dark));
     --callout-icon: var(--callout-icon-note);
   }
 
   &[data-callout="abstract"] {
-    --color: var(--teal);
+    --color: color-mix(in srgb, var(--teal) 70%, var(--dark));
     --callout-icon: var(--callout-icon-abstract);
   }
 
   &[data-callout="info"],
   &[data-callout="todo"] {
-    --color: var(--sky);
+    --color: color-mix(in srgb, var(--sky) 60%, var(--dark));
     --callout-icon: var(--callout-icon-info);
   }
 
@@ -59,36 +59,36 @@
   }
 
   &[data-callout="tip"] {
-    --color: var(--teal);
+    --color: color-mix(in srgb, var(--teal) 70%, var(--dark));
     --callout-icon: var(--callout-icon-tip);
   }
 
   &[data-callout="success"] {
-    --color: var(--green);
+    --color: color-mix(in srgb, var(--green) 70%, var(--dark));
     --callout-icon: var(--callout-icon-success);
   }
 
   &[data-callout="question"] {
-    --color: var(--yellow);
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-question);
   }
 
   &[data-callout="idea"] {
-    --color: var(--yellow);
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-idea);
   }
 
   &[data-callout="warning"] {
-    --color: var(--orange);
-    --bg: color-mix(in srgb, var(--color) 5%, var(--light));
+    --color: color-mix(in srgb, var(--orange) 60%, var(--dark));
+    --bg: color-mix(in srgb, var(--color) 10%, var(--base));
     --callout-icon: var(--callout-icon-warning);
   }
 
   &[data-callout="failure"],
   &[data-callout="danger"],
   &[data-callout="bug"] {
-    --color: var(--red);
-    --bg: color-mix(in srgb, var(--color) 7%, var(--light));
+    --color: color-mix(in srgb, var(--red) 70%, var(--dark));
+    --bg: color-mix(in srgb, var(--color) 10%, var(--base));
     --callout-icon: var(--callout-icon-failure);
   }
 
@@ -101,15 +101,28 @@
   }
 
   &[data-callout="example"] {
-    --color: color-mix(in srgb, var(--purple) 85%, black);
-    --bg: color-mix(in srgb, var(--color) 7%, var(--light));
+    --color: color-mix(in srgb, var(--purple) 70%, var(--dark));
+    --bg: color-mix(in srgb, var(--color) 10%, var(--base));
     --callout-icon: var(--callout-icon-example);
   }
 
   &[data-callout="goose"],
   &[data-callout="quote"] {
-    --color: color-mix(in srgb, var(--light) 15%, var(--dark));
+    --color: color-mix(in srgb, var(--base) 15%, var(--dark));
     --callout-icon: var(--callout-icon-quote);
+  }
+
+  :root[saved-theme="dark"] & {
+    &[data-callout="abstract"],
+    &[data-callout="tip"] {
+      --color: color-mix(in srgb, var(--teal) 85%, var(--base));
+    }
+
+    &[data-callout="failure"],
+    &[data-callout="danger"],
+    &[data-callout="bug"] {
+      --border: color-mix(in srgb, var(--color) 70%, var(--base));
+    }
   }
 
   &[data-callout="quote"] .callout-icon {
