@@ -18,12 +18,29 @@ const colorMapping: Record<string, string> = {
   lavender: "var(--lavender)",
   purple: "var(--purple)",
   orange: "var(--orange)",
+  // Shiki code block colors
+  "#D73A49": "var(--red)",
+  "#F97583": "var(--orange)",
+  "#6F42C1": "var(--purple)",
+  "#B392F0": "var(--lavender)",
+  "#005CC5": "var(--blue)",
+  "#79B8FF": "var(--sky)",
+  "#24292E": "var(--dark)",
+  "#E1E4E8": "var(--dark)",
+  "#6A737D": "var(--gray)",
+  "#032F62": "color-mix(in srgb, var(--blue), var(--dark) 70%)",
+  "#9ECBFF": "var(--sky)",
+  "#DBEDFF": "var(--dark)",
+  "#85E89D": "var(--green)",
+  "#22863A": "var(--green)",
+  "#FFAB70": "var(--orange)",
+  "#E36209": "var(--orange)",
 }
 
 export const transformStyle = (style: string, colorMapping: Record<string, string>): string => {
   let newStyle = style
   Object.entries(colorMapping).forEach(([color, variable]) => {
-    const regex = new RegExp(`\\b${color}\\b`, "gi")
+    const regex = new RegExp(`${color}\\b`, "gi")
     newStyle = newStyle.replace(regex, variable)
   })
   return newStyle
