@@ -30,12 +30,9 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 >
 > -- Orwell's [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/)
 
-I thus remind myself: The reading experience will never be as important as the content, but it's still important.
-
 # $\KaTeX$ math mode
-- [x] Table of contents
-- [ ] Coloring to my color scheme --- set default colors
 
+Math coloring is automatically translated to accord with site styling: ${\color{red}x}={\color{blue}y}$. I mean, seriously, who wants to read text that looks like <em><span style="color:#ff0000;">this</span></em>? 🤡
 # Smart quotes
 
 I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
@@ -65,7 +62,8 @@ Figure: The most _majestic_ animal known to humanity.
 | Left  | Right |
 | :---: | :---: |
 | Lower | text  |
-Table: This is a table caption.
+
+Table: This is a table caption. *Emphasis* and **bolding** are preserved.
 
 ```typescript 
 /**
@@ -80,7 +78,6 @@ const minusReplace = (text: string): string => {
 }
 ```
 Code: Part of [my website processing pipeline](https://github.com/alexander-turner/TurnTrout.com/blob/main/quartz/plugins/transformers/minus_sign.ts).
-
 # Smart dash conversion
 
 [Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use) - contrary to popular practice - hyphens (-) and em-dashes (—) be used in importantly different situations:
