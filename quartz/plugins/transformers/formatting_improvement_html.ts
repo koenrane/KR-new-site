@@ -119,14 +119,15 @@ export function niceQuotes(text: string) {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\\[\\{\\\-\—])(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.\\}])`,
+    `(?<=^|\\b|\\s|[\\(\\/\\[\\{\\\-\—]|${chr})(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.\\}])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
   // Open quote after brace (generally in math mode)
   text = text.replace(new RegExp(`(?<=\\{)(${chr}? )?["]`, "g"), "$1“")
 
-  const endingDouble = `([^\\s\\(])["](${chr}?)(?=[\\s/\\).,;—:\\-\\}!?]|$)`
+  // note: Allowing 2 chrs in a row
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=${chr}|[\\s/\\).,;—:\\-\\}!?]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
 
   // If end of line, replace with right double quote

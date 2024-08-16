@@ -137,6 +137,7 @@ const config: QuartzConfig = {
       Plugin.AddFavicons(),
       Plugin.Twemoji(),
       Plugin.TroutOrnamentHr(),
+      Plugin.ColorVariables(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [
