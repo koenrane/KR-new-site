@@ -5,7 +5,7 @@
 .callout {
   border: 1px solid var(--border);
 
-  --border: color-mix(in srgb, var(--color) 25%, var(--base));
+  --border: color-mix(in srgb, var(--color) 60%, var(--base));
   & blockquote {
     border-left: 3px solid var(--border);
   }
@@ -113,13 +113,15 @@
   }
 
   :root[saved-theme="dark"] & {
-    &[data-callout="abstract"] {
+    &[data-callout="abstract"],
+    &[data-callout="tip"] {
       --color: color-mix(in srgb, var(--teal) 85%, var(--base));
     }
 
-    &[data-callout="example"] {
-      --color: color-mix(in srgb, var(--purple) 95%, var(--base));
-      --border: color-mix(in srgb, var(--color) 50%, var(--base));
+    &[data-callout="failure"],
+    &[data-callout="danger"],
+    &[data-callout="bug"] {
+      --border: color-mix(in srgb, var(--color) 70%, var(--base));
     }
   }
 
