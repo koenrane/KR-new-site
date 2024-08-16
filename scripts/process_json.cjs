@@ -33,7 +33,7 @@ turndownService.addRule("figure", {
       let captionText = turndownService.turndown(captionHTML)
       captionText = captionText.replace(/\\n\\n/g, "\n")
 
-      markdown += `Figure: ${captionText}\n`
+      markdown += `<br/>Figure: ${captionText}\n`
     }
 
     // If there's no image or caption, just return the content
@@ -77,7 +77,7 @@ turndownService.addRule("table linebreak", {
       }
 
       const headerContent = headerRow.split("|")[1].trimEnd()
-      content = "\n\n" + rows.join("\n") + "\n\n" + `Table: ${headerContent}.`
+      content = "\n\n" + rows.join("\n") + "<br/>" + `Table: ${headerContent}.`
     }
 
     return content

@@ -230,10 +230,7 @@ def _get_urls(markdown: str) -> list[str]:
 # people getting hurt table
 # "But now we have to."
 # balance table col widths
-# mail favicon on stress test
-# color dictionary rehype for style
 #  “fdsajl; fs”—(spaces) vector.
-# math mode colors
 # 0.994
 # wrap and no line colors for bibtex --- auto generate given YAML setting?
 # Check that no ' or " exist outside of code blocks --- in all formattinghtml. Add tests.
@@ -323,6 +320,10 @@ replacement = {
     'talk about weddings a lot. "': "talk about weddings a lot.”",
     '" weddings"': "“ weddings”",
     r"}\$\(be": "}$ (be",
+    "experimens": "experiment",
+    r"Pos\\b": "Pos.",
+    r"Coeff\\b": "Coeff.",
+    r"ReLu": "ReLU",
 }
 
 

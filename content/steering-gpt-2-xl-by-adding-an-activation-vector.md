@@ -1149,7 +1149,7 @@ _Note, 6/21/23:_ The activation addition technique used to be called "algebraic 
     
 [^26]: Note that if we had used "I think you're" instead of "I think you're a", _neither_ the 0$\to$20 nor the 2$\to$20 vectors would have shown much effect. By contrast, the usual 20$\to$20 steering vector works in both situations. Thus, even if layers 0 and 1 help a bit, they aren't producing nearly as stable of an effect as contributed by layers 2 to 19.
     
-[^27]: We ran the "fraction of residual stream" experiment before the random-vector experimens. The random-vector results make it less surprising that "just chop off half the dimensions" doesn't ruin outputs. But the random-vector result still doesn't predict a smooth relationship between (% of dimensions modified) and (weddingness of output).
+[^27]: We ran the "fraction of residual stream" experiment before the random-vector experiment. The random-vector results make it less surprising that "just chop off half the dimensions" doesn't ruin outputs. But the random-vector result still doesn't predict a smooth relationship between (% of dimensions modified) and (weddingness of output).
     
 [^28]: To count "wedding related words", we counted: "wedding", "weddings", "wed", "marry", "married", "marriage", "bride", "groom", and "honeymoon".
     
