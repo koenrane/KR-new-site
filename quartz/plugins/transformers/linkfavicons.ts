@@ -242,7 +242,7 @@ export async function ModifyNode(node: any): Promise<void> {
   let href = node.properties.href
   logger.debug(`Processing href: ${href}`)
 
-  if (href.startsWith("mailto:")) {
+  if (href.includes("mailto:")) {
     logger.info("Inserting mail icon for mailto link")
     insertFavicon(MAIL_PATH, node)
     return
