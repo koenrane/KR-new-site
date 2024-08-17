@@ -278,6 +278,75 @@ describe("downloadImage", () => {
   afterEach(async () => {
     await fsExtra.remove(tempDir)
   })
+
+  const runTest = async (
+    mockResponse: Response | Error,
+    expectedResult: boolean,
+    expectedFileContent?: string,
+  ) => {
+    const url = "https://example.com/image.png"
+    const imagePath = path.join(tempDir, "image.png")
+
+    if (mockResponse instanceof Error) {
+      jest.spyOn(global, "fetch").mockRejectedValueOnce(mockResponse)
+    } else {
+      jest.spyOn(global, "fetch").mockResolvedValueOnce(mockResponse)
+      jest.spyOn(fs, "createWriteStream").mockReturnValue(fsExtra.createWriteStream(imagePath))
+    }
+
+    if (expectedResult) {
+      await expect(downloadImage(url, imagePath)).resolves.not.toThrow()
+    } else {
+      await expect(downloadImage(url, imagePath)).rejects.toThrow()
+    }
+
+    expect(global.fetch).toHaveBeenCalledTimes(1)
+    expect(global.fetch).toHaveBeenCalledWith(url)
+
+    if (expectedFileContent !== undefined) {
+      const fileExists = await fsExtra.pathExists(imagePath)
+      expect(fileExists).toBe(true)
+      if (fileExists) {
+        const content = await fsExtra.readFile(imagePath, "utf-8")
+        expect(content).toBe(expectedFileContent)
+      }
+    } else {
+      const fileExists = await fsExtra.pathExists(imagePath)
+      expect(fileExists).toBe(false)
+    }
+  }
+
+  it("should download image successfully", async () => {
+    const mockContent = "Mock image content"
+    const mockResponse = new Response(mockContent, {
+      status: 200,
+      headers: { "Content-Type": "image/png" },
+    })
+    await runTest(mockResponse, true, mockContent)
+  })
+
+  it("should throw if fetch response is not ok", async () => {
+    const mockResponse = new Response("Mock image content", {
+      status: 404,
+      headers: { "Content-Type": "image/png" },
+    })
+    await runTest(mockResponse, false)
+  })
+
+  it("should throw if fetch response has no body", async () => {
+    const mockResponse = new Response("", { status: 200, headers: { "Content-Type": "image/png" } })
+    await runTest(mockResponse, false)
+  })
+
+  it("should throw if header is wrong", async () => {
+    const mockResponse = new Response("Fake", { status: 200, headers: { "Content-Type": "txt" } })
+    await runTest(mockResponse, false)
+  })
+
+  it("should handle fetch errors", async () => {
+    const mockError = new Error("Network error")
+    await runTest(mockError, false)
+  })
 })
 
 describe("writeCacheToFile", () => {
