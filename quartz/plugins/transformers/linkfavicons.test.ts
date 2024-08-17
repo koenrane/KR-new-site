@@ -42,7 +42,7 @@ describe("File Cache via faviconUrls.txt", () => {
 
   beforeEach(() => {
     jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFaviconUrls)
-    jest.spyOn(fs.promises, "appendFile").mockResolvedValue(undefined)
+    jest.spyOn(fs.promises, "appendFile").mockImplementation(() => Promise.resolve())
     urlCache.clear()
   })
 
@@ -67,6 +67,10 @@ describe("File Cache via faviconUrls.txt", () => {
     expect(fs.promises.appendFile).toHaveBeenCalledWith(
       FAVICON_URLS_FILE,
       expect.stringContaining("newsite_com")
+    )
+    expect(fs.promises.appendFile).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining("https://assets.turntrout.com")
     )
   })
 
