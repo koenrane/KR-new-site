@@ -18,12 +18,10 @@ import {
   insertFavicon,
 } from "./linkfavicons"
 
-// Mock readFaviconUrls and writeFaviconUrl
-jest.mock("./linkfavicons", () => ({
-  ...jest.requireActual("./linkfavicons"),
-  readFaviconUrls: jest.fn().mockResolvedValue(new Map()),
-  writeFaviconUrl: jest.fn().mockResolvedValue(undefined),
-}))
+import * as linkfavicons from "./linkfavicons"
+
+jest.spyOn(linkfavicons, "readFaviconUrls").mockResolvedValue(new Map())
+jest.spyOn(linkfavicons, "writeFaviconUrl").mockResolvedValue(undefined)
 
 jest.mock("fs")
 import fs from "fs"
