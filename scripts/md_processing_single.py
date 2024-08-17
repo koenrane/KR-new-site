@@ -5,7 +5,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 import html
 from urllib.parse import unquote
 import regex
@@ -263,12 +263,23 @@ def remove_prefix_before_slug(url: str) -> str:
     return url  # Return the original URL if no slug match
 
 
-def replace_urls(markdown: str) -> str:
+def get_slug(url: str) -> Optional[str]:
+    if "/" in url and "#" in url:
+        return url.split("/")[1].split("#")[0]
+    else:
+        return None
+
+
+def replace_urls(markdown: str, current_slug: str = "") -> str:
     urls: list[str] = _get_urls(markdown)
     for url in urls:
         if "commentId=" in url:
             continue  # Skip comments
         sanitized_url: str = remove_prefix_before_slug(url)
+        if (
+            get_slug(sanitized_url) == current_slug
+        ):  # Site represents same-page anchors this way
+            sanitized_url = "#" + sanitized_url.split("#")[1]
         markdown = markdown.replace(url, sanitized_url)
     return markdown
 
