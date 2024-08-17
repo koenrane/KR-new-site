@@ -26,7 +26,8 @@ async function mouseEnterHandler(
     })
 
     // Calculate the left position to align with the sidebar's right edge
-    const left = Math.min(x, rightEdge - popoverElement.offsetWidth)
+    // Ensure the popover is not offscreen to the left
+    const left = Math.max(10, Math.min(x, rightEdge - popoverElement.offsetWidth))
 
     Object.assign(popoverElement.style, {
       left: `${left}px`,
