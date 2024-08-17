@@ -36,8 +36,9 @@ beforeEach(() => {
 // Mock file caching
 jest.mock("./linkfavicons", () => {
   const originalModule = jest.requireActual("./linkfavicons")
+  console.log(typeof originalModule)
   return {
-    ...originalModule,
+    // ...(originalModule as any),
     urlCache: new Map(),
   }
 })
@@ -163,10 +164,7 @@ describe("Favicon Utilities", () => {
           type: "element",
           tagName: "span",
           properties: { style: "white-space: nowrap;" },
-          children: [
-            { type: "text", value: "tent" },
-            CreateFaviconElement(imgPath),
-          ],
+          children: [{ type: "text", value: "tent" }, CreateFaviconElement(imgPath)],
         })
       })
 
