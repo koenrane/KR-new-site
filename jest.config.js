@@ -3,6 +3,7 @@
  * https://jestjs.io/docs/configuration
  */
 
+/** @type {import('jest').Config} */
 const config = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -100,7 +101,7 @@ const config = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: "ts-jest/presets/default-esm",
+  preset: "ts-jest",
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -173,19 +174,16 @@ const config = {
   // testRunner: "jest-circus/runner",
 
   // A map from regular expressions to paths to transformers
-  extensionsToTreatAsEsm: [".ts"], // Add this line if you are using Typescript.
+  extensionsToTreatAsEsm: [".ts"],
   transform: {
-    "^.+\\.tsx?$": [
-      "ts-jest",
-      {
-        useESM: true,
-        tsconfig: "tsconfig.json", // Ensure you specify the path to your tsconfig if needed
-      },
-    ],
+    "^.+\\.tsx?$": ["ts-jest", { useESM: true }],
   },
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
+  testEnvironment: "node",
+  testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
