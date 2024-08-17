@@ -18,10 +18,13 @@ import {
   urlCache,
   insertFavicon,
   readFaviconUrls,
+  writeCacheToFile,
+  FAVICON_URLS_FILE,
 } from "./linkfavicons"
 
 jest.mock("fs")
 import fs from "fs"
+import { Readable } from "stream"
 
 jest.mock("stream/promises")
 
@@ -274,6 +277,86 @@ describe("downloadImage", () => {
 
   afterEach(async () => {
     await fsExtra.remove(tempDir)
+  })
+
+  // ... existing tests ...
+})
+
+describe("writeCacheToFile", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+    urlCache.clear()
+  })
+
+  it("should write the urlCache to file", () => {
+    const mockWriteFileSync = jest.spyOn(fs, "writeFileSync").mockImplementation()
+    urlCache.set("example.com", "https://example.com/favicon.ico")
+    urlCache.set("test.com", "https://test.com/favicon.png")
+
+    writeCacheToFile()
+
+    expect(mockWriteFileSync).toHaveBeenCalledWith(
+      FAVICON_URLS_FILE,
+      "example.com,https://example.com/favicon.ico\ntest.com,https://test.com/favicon.png"
+    )
+  })
+
+  it("should write an empty string if urlCache is empty", () => {
+    const mockWriteFileSync = jest.spyOn(fs, "writeFileSync").mockImplementation()
+
+    writeCacheToFile()
+
+    expect(mockWriteFileSync).toHaveBeenCalledWith(FAVICON_URLS_FILE, "")
+  })
+})
+
+describe("readFaviconUrls", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
+  it("should read favicon URLs from file and return a Map", async () => {
+    const mockFileContent = "example.com,https://example.com/favicon.ico\ntest.com,https://test.com/favicon.png"
+    jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFileContent)
+
+    const result = await readFaviconUrls()
+
+    expect(result).toBeInstanceOf(Map)
+    expect(result.size).toBe(2)
+    expect(result.get("example.com")).toBe("https://example.com/favicon.ico")
+    expect(result.get("test.com")).toBe("https://test.com/favicon.png")
+  })
+
+  it("should return an empty Map if the file is empty", async () => {
+    jest.spyOn(fs.promises, "readFile").mockResolvedValue("")
+
+    const result = await readFaviconUrls()
+
+    expect(result).toBeInstanceOf(Map)
+    expect(result.size).toBe(0)
+  })
+
+  it("should handle file read errors and return an empty Map", async () => {
+    jest.spyOn(fs.promises, "readFile").mockRejectedValue(new Error("File read error"))
+    const mockWarn = jest.spyOn(console, "warn").mockImplementation()
+
+    const result = await readFaviconUrls()
+
+    expect(result).toBeInstanceOf(Map)
+    expect(result.size).toBe(0)
+    expect(mockWarn).toHaveBeenCalledWith(expect.stringContaining("Error reading favicon URLs file"))
+  })
+
+  it("should ignore invalid lines in the file", async () => {
+    const mockFileContent = "example.com,https://example.com/favicon.ico\ninvalid_line\ntest.com,https://test.com/favicon.png"
+    jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFileContent)
+
+    const result = await readFaviconUrls()
+
+    expect(result).toBeInstanceOf(Map)
+    expect(result.size).toBe(2)
+    expect(result.get("example.com")).toBe("https://example.com/favicon.ico")
+    expect(result.get("test.com")).toBe("https://test.com/favicon.png")
   })
 
   const runTest = async (
