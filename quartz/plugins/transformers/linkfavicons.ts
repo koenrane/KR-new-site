@@ -78,12 +78,6 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
  * @param hostname - The hostname to generate the path for.
  * @returns A string representing the Quartz path for the favicon.
  */
-/**
- * Generates a Quartz-compatible path for a given hostname.
- *
- * @param hostname - The hostname to generate the path for.
- * @returns A string representing the Quartz path for the favicon.
- */
 export function GetQuartzPath(hostname: string): string {
   logger.debug(`Generating Quartz path for hostname: ${hostname}`)
   hostname = hostname === "localhost" ? "turntrout.com" : hostname.replace(/^www\./, "")
@@ -144,12 +138,6 @@ async function writeFaviconUrl(basename: string, url: string): Promise<void> {
   }
 }
 
-/**
- * Attempts to find or save a favicon for a given hostname.
- *
- * @param hostname - The hostname to find or save the favicon for.
- * @returns A Promise that resolves to the path of the favicon (local or remote).
- */
 /**
  * Attempts to find or save a favicon for a given hostname.
  *
@@ -269,12 +257,6 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
  * @param imgPath - The path to the favicon image.
  * @param node - The node to insert the favicon into.
  */
-/**
- * Inserts a favicon image into a node's children.
- *
- * @param imgPath - The path to the favicon image.
- * @param node - The node to insert the favicon into.
- */
 export function insertFavicon(imgPath: string | null, node: any): void {
   logger.debug(`Inserting favicon: ${imgPath}`)
   if (imgPath === null) {
@@ -320,12 +302,6 @@ export function insertFavicon(imgPath: string | null, node: any): void {
   }
 }
 
-/**
- * Modifies a node by processing its href and inserting a favicon if applicable.
- *
- * @param node - The node to modify.
- * @returns A Promise that resolves when the modification is complete.
- */
 /**
  * Modifies a node by processing its href and inserting a favicon if applicable.
  *
