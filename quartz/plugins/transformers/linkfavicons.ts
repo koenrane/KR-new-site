@@ -144,13 +144,15 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   }
 
   const faviconUrls = await readFaviconUrls()
+  console.log(faviconUrls)
   console.log(`[MaybeSaveFavicon] Favicon URLs read from file`)
 
-  if (faviconUrls.has(path.basename(quartzAvifPath))) {
-    const cachedUrl = faviconUrls.get(quartzPngPath)!
-    console.log(`[MaybeSaveFavicon] Returning cached AVIF URL for ${hostname}`)
+  const quartzAvifBasename = path.basename(quartzAvifPath)
+  if (faviconUrls.has(quartzAvifBasename)) {
+    const cachedUrl = faviconUrls.get(quartzAvifBasename)!
+    console.log(`[MaybeSaveFavicon] Returning cached AVIF URL ${cachedUrl} for ${hostname}`)
     logger.info(`Returning cached AVIF URL for ${hostname}: ${cachedUrl}`)
-    urlCache.set(quartzPngPath, cachedUrl)
+    urlCache.set(quartzAvifBasename, cachedUrl)
     return cachedUrl
   }
 
