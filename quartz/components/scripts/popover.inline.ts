@@ -13,11 +13,23 @@ async function mouseEnterHandler(
   }
 
   async function setPosition(popoverElement: HTMLElement) {
+    const sidebar = document.querySelector(".sidebar") as HTMLElement
+    const sidebarRect = sidebar ? sidebar.getBoundingClientRect() : null
+    const rightEdge = sidebarRect ? sidebarRect.right : 300 // fallback value if sidebar not found
+
     const { x, y } = await computePosition(link, popoverElement, {
-      middleware: [inline({ x: clientX, y: clientY }), shift(), flip()],
+      middleware: [
+        inline({ x: clientX, y: clientY }),
+        shift({ padding: 10 }), // Add some padding to avoid sticking to the edge
+        flip(),
+      ],
     })
+
+    // Calculate the left position to align with the sidebar's right edge
+    const left = Math.min(x, rightEdge - popoverElement.offsetWidth)
+
     Object.assign(popoverElement.style, {
-      left: `${x}px`,
+      left: `${left}px`,
       top: `${y}px`,
     })
   }
