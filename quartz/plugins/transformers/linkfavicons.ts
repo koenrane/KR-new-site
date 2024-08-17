@@ -164,17 +164,19 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     return urlCache.get(quartzPngPath) as string
   }
 
-  const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
-  const assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
-  const basename = path.basename(assetAvifURL)
-
   const faviconUrls = await readFaviconUrls()
-  if (faviconUrls.has(basename)) {
-    const cachedUrl = faviconUrls.get(basename)!
+  if (faviconUrls.has(quartzPngPath)) {
+    const cachedUrl = faviconUrls.get(quartzPngPath)!
     logger.info(`Returning cached AVIF URL for ${hostname}: ${cachedUrl}`)
     urlCache.set(quartzPngPath, cachedUrl)
     return cachedUrl
   }
+
+  let assetAvifURL = quartzPngPath
+  if (!quartzPngPath.startsWith("http")) {
+    assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
+  }
+  const basename = path.basename(assetAvifURL)
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
@@ -191,6 +193,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     logger.error(`Error checking AVIF on ${assetAvifURL}. ${err}`)
   }
 
+  const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
   logger.debug(`Checking for local PNG at ${localPngPath}`)
   try {
     await fs.promises.stat(localPngPath)

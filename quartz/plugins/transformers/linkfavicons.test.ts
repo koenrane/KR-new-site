@@ -127,6 +127,8 @@ describe("Favicon Utilities", () => {
     it.each([
       ["www.example.com", "/static/images/external-favicons/example_com.png"],
       ["localhost", TURNTROUT_FAVICON_PATH],
+      ["turntrout.com", TURNTROUT_FAVICON_PATH],
+      ["https://turntrout.com", TURNTROUT_FAVICON_PATH],
       ["subdomain.example.org", "/static/images/external-favicons/subdomain_example_org.png"],
     ])("should return the correct favicon path for %s", (hostname, expectedPath) => {
       expect(GetQuartzPath(hostname)).toBe(expectedPath)
