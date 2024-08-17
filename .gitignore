@@ -49,3 +49,4 @@ content/drafts
 *__snapshots__
 .aider
 .aider*
+*.faviconUrls.txt

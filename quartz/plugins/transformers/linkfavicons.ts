@@ -3,7 +3,6 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
-
 const logger = createLogger("linkfavicons")
 
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
@@ -12,7 +11,8 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
-
+export const FAVICON_URLS_FILE =
+  "/Users/turntrout/Downloads/turntrout.com/quartz/plugins/transformers/.faviconUrls.txt"
 export class DownloadError extends Error {
   constructor(message: string) {
     super(message)
@@ -25,12 +25,12 @@ export class DownloadError extends Error {
  *
  * @param url - The URL of the image to download.
  * @param imagePath - The local file path where the image should be saved.
- * @returns A Promise that resolves to true if the download was
- * successful. Otherwise, it throws a DownloadError.
+ * @returns A Promise that resolves to true if the download was successful. Otherwise, it throws a DownloadError.
  */
 export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
   const response = await fetch(url)
+
   if (!response.ok) {
     throw new DownloadError(`Failed to fetch image: ${url}. Status: ${response.status}`)
   }
@@ -54,6 +54,7 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
   await fs.promises.writeFile(imagePath, body)
 
   const stats = await fs.promises.stat(imagePath)
+
   if (stats.size === 0) {
     await fs.promises.unlink(imagePath)
     throw new DownloadError(`Downloaded file is empty: ${imagePath}`)
@@ -85,6 +86,45 @@ export function createUrlCache(): Map<string, string> {
   return new Map(defaultCache)
 }
 export let urlCache = createUrlCache()
+const faviconUrls = await readFaviconUrls()
+for (const [basename, url] of faviconUrls) {
+  if (!urlCache.has(basename)) {
+    urlCache.set(basename, url)
+  }
+}
+
+/**
+ * Writes the favicon cache to the FAVICON_URLS_FILE.
+ */
+export function writeCacheToFile(): void {
+  const data = Array.from(urlCache.entries())
+    .map(([key, value]) => `${key},${value}`)
+    .join("\n")
+  fs.writeFileSync(FAVICON_URLS_FILE, data)
+}
+
+/**
+ * Reads favicon URLs from the FAVICON_URLS_FILE and returns them as a Map.
+ *
+ * @returns A Promise that resolves to a Map of basename to URL strings.
+ */
+export async function readFaviconUrls(): Promise<Map<string, string>> {
+  try {
+    const data = await fs.promises.readFile(FAVICON_URLS_FILE, "utf8")
+    const lines = data.split("\n")
+    const urlMap = new Map<string, string>()
+    for (const line of lines) {
+      const [basename, url] = line.split(",")
+      if (basename && url) {
+        urlMap.set(basename, url)
+      }
+    }
+    return urlMap
+  } catch (error) {
+    logger.warn(`Error reading favicon URLs file: ${error}`)
+    return new Map<string, string>()
+  }
+}
 
 /**
  * Attempts to find or save a favicon for a given hostname.
@@ -95,49 +135,52 @@ export let urlCache = createUrlCache()
 export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   logger.info(`Attempting to find or save favicon for ${hostname}`)
 
-  const quartzPngPath = GetQuartzPath(hostname)
-  if (urlCache.has(quartzPngPath)) {
+  const faviconPath = GetQuartzPath(hostname)
+
+  // Check cache first
+  if (urlCache.has(faviconPath)) {
     logger.info(`Returning cached favicon for ${hostname}`)
-    return urlCache.get(quartzPngPath) as string
+    return urlCache.get(faviconPath) as string
   }
 
-  const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
-  const assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
+  // Check for AVIF version
+  const avifPath = faviconPath.replace(".png", ".avif")
+  const avifUrl = avifPath.startsWith("http") ? avifPath : `https://assets.turntrout.com${avifPath}`
 
-  logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
-    const avifResponse = await fetch(assetAvifURL)
+    const avifResponse = await fetch(avifUrl)
     if (avifResponse.ok) {
-      logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
-      urlCache.set(quartzPngPath, assetAvifURL)
-      return assetAvifURL
-    } else {
-      logger.info(`No AVIF found for ${hostname}`)
+      logger.info(`AVIF found for ${hostname}: ${avifUrl}`)
+      urlCache.set(faviconPath, avifUrl)
+      return avifUrl
     }
   } catch (err) {
-    logger.error(`Error checking AVIF on ${assetAvifURL}. ${err}`)
+    logger.error(`Error checking AVIF on ${avifUrl}. ${err}`)
   }
 
-  logger.debug(`Checking for local PNG at ${localPngPath}`)
+  // Check for local PNG
+  const localPngPath = path.join(QUARTZ_FOLDER, faviconPath)
   try {
     await fs.promises.stat(localPngPath)
-    logger.info(`Local PNG found for ${hostname}: ${quartzPngPath}`)
-    urlCache.set(quartzPngPath, quartzPngPath)
-    return quartzPngPath
+    logger.info(`Local PNG found for ${hostname}: ${faviconPath}`)
+    urlCache.set(faviconPath, faviconPath)
+    return faviconPath
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      // Try to download from Google
       const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
       logger.info(`Attempting to download favicon from Google: ${googleFaviconURL}`)
       if (await downloadImage(googleFaviconURL, localPngPath)) {
         logger.info(`Successfully downloaded favicon for ${hostname}`)
-        urlCache.set(quartzPngPath, quartzPngPath)
-        return quartzPngPath
+        urlCache.set(faviconPath, faviconPath)
+        return faviconPath
       }
     }
   }
 
-  logger.warn(`Failed to find or download favicon for ${hostname}, using default`)
-  urlCache.set(quartzPngPath, DEFAULT_PATH)
+  // If all else fails, use default
+  logger.debug(`Failed to find or download favicon for ${hostname}, using default`)
+  urlCache.set(faviconPath, DEFAULT_PATH)
   return DEFAULT_PATH
 }
 
@@ -157,8 +200,7 @@ export interface FaviconNode {
  * Creates a favicon element (img tag) with the given URL and description.
  *
  * @param urlString - The URL of the favicon image.
- * @param description - The alt text for the favicon (default: "", so
- * that favicons are treated as decoration by screen readers).
+ * @param description - The alt text for the favicon (default: "", so that favicons are treated as decoration by screen readers).
  * @returns An object representing the favicon element.
  */
 export function CreateFaviconElement(urlString: string, description = ""): FaviconNode {
@@ -314,6 +356,8 @@ export const AddFavicons = () => {
             logger.info(`Processing ${nodesToProcess.length} nodes`)
             await Promise.all(nodesToProcess.map(ModifyNode))
             logger.info("Finished processing favicons")
+
+            writeCacheToFile()
           }
         },
       ]
