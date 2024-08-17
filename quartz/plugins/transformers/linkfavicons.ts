@@ -25,14 +25,6 @@ export class DownloadError extends Error {
  *
  * @param url - The URL of the image to download.
  * @param imagePath - The local file path where the image should be saved.
- * @returns A Promise that resolves to true if the download was
- * successful. Otherwise, it throws a DownloadError.
- */
-/**
- * Downloads an image from a given URL and saves it to the specified local path.
- *
- * @param url - The URL of the image to download.
- * @param imagePath - The local file path where the image should be saved.
  * @returns A Promise that resolves to true if the download was successful. Otherwise, it throws a DownloadError.
  */
 export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
@@ -222,14 +214,6 @@ export interface FaviconNode {
   }
 }
 
-/**
- * Creates a favicon element (img tag) with the given URL and description.
- *
- * @param urlString - The URL of the favicon image.
- * @param description - The alt text for the favicon (default: "", so
- * that favicons are treated as decoration by screen readers).
- * @returns An object representing the favicon element.
- */
 /**
  * Creates a favicon element (img tag) with the given URL and description.
  *
