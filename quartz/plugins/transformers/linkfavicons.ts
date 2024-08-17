@@ -29,8 +29,8 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
-export const FAVICON_URLS_FILE = "quartz/static/plugins/transformers/.faviconUrls.txt"
-
+const FAVICON_URLS_FILE =
+  "/Users/turntrout/Downloads/turntrout.com/quartz/plugins/transformers/.faviconUrls.txt"
 export class DownloadError extends Error {
   constructor(message: string) {
     super(message)
@@ -190,6 +190,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   logger.info(`Attempting to find or save favicon for ${hostname}`)
 
   const quartzPngPath = GetQuartzPath(hostname)
+  const quartzAvifPath = quartzPngPath.replace(".png", ".avif")
   if (urlCache.has(quartzPngPath)) {
     logger.info(`Returning cached favicon for ${hostname}`)
     return urlCache.get(quartzPngPath) as string
@@ -200,7 +201,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   const endReadFaviconUrls = performance.now()
   recordPerf("read_favicon_urls", endReadFaviconUrls - startReadFaviconUrls)
 
-  if (faviconUrls.has(quartzPngPath)) {
+  if (faviconUrls.has(path.basename(quartzAvifPath))) {
     const cachedUrl = faviconUrls.get(quartzPngPath)!
     logger.info(`Returning cached AVIF URL for ${hostname}: ${cachedUrl}`)
     urlCache.set(quartzPngPath, cachedUrl)
