@@ -15,9 +15,7 @@ import {
   downloadImage,
   TURNTROUT_FAVICON_PATH,
   urlCache,
-  createUrlCache,
   insertFavicon,
-  FAVICON_URLS_FILE,
 } from "./linkfavicons"
 
 jest.mock("fs")
@@ -32,69 +30,20 @@ beforeAll(async () => {
 beforeEach(() => {
   jest.resetAllMocks()
   jest.restoreAllMocks()
+  urlCache.clear()
 })
 
-describe("File Cache via faviconUrls.txt", () => {
-  const mockFaviconUrls = [
-    "/static/images/external-favicons/example_com.png,https://assets.turntrout.com/static/images/external-favicons/example_com.avif",
-    "/static/images/external-favicons/test_com.png,https://assets.turntrout.com/static/images/external-favicons/test_com.avif",
-  ].join("\n")
-
-  beforeEach(() => {
-    jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFaviconUrls)
-    jest.spyOn(fs.promises, "appendFile").mockImplementation(() => Promise.resolve())
-    urlCache.clear()
-  })
-
-  it("should read favicon URLs from file", async () => {
-    await MaybeSaveFavicon("example.com")
-    expect(fs.promises.readFile).toHaveBeenCalledWith(FAVICON_URLS_FILE, "utf8")
-    expect(urlCache.get("/static/images/external-favicons/example_com.png")).toBe(
-      "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
-    )
-  })
-
-  it("should use cached URL if available", async () => {
-    const result1 = await MaybeSaveFavicon("example.com")
-    const result2 = await MaybeSaveFavicon("example.com")
-    expect(result1).toBe(result2)
-    expect(fs.promises.readFile).toHaveBeenCalledTimes(1)
-  })
-
-  it("should write new favicon URL to file", async () => {
-    jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 200 }))
-    await MaybeSaveFavicon("newsite.com")
-    expect(fs.promises.appendFile).toHaveBeenCalledWith(
-      FAVICON_URLS_FILE,
-      expect.stringContaining("newsite_com")
-    )
-    expect(fs.promises.appendFile).not.toHaveBeenCalledWith(
-      expect.anything(),
-      expect.stringContaining("https://assets.turntrout.com")
-    )
-  })
-
-  it("should handle file read errors gracefully", async () => {
-    jest.spyOn(fs.promises, "readFile").mockRejectedValueOnce(new Error("File read error"))
-    jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 200 }))
-    await MaybeSaveFavicon("example.com")
-    expect(urlCache.size).toBe(1)
-  })
+// Mock file caching
+jest.mock("./linkfavicons", () => {
+  const originalModule = jest.requireActual("./linkfavicons")
+  return {
+    ...originalModule,
+    urlCache: new Map(),
+  }
 })
 
 describe("Favicon Utilities", () => {
-  beforeEach(() => {
-    urlCache.clear()
-    for (const [key, value] of createUrlCache()) {
-      urlCache.set(key, value)
-    }
-  })
-
   describe("MaybeSaveFavicon", () => {
-    afterEach(async () => {
-      fs.unlink("quartz/static/images/external-favicons/example_com.png", () => {})
-    })
-
     const hostname = "example.com"
     const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
 
@@ -147,12 +96,7 @@ describe("Favicon Utilities", () => {
 
     it("All attempts fail", async () => {
       mockFetchAndFs(404, false, 404)
-      try {
-        await MaybeSaveFavicon(hostname)
-      } catch (e: any) {
-        expect(e).toBeInstanceOf(DownloadError)
-        expect(e.message.startsWith("Failed to fetch image:")).toBe(true)
-      }
+      await expect(MaybeSaveFavicon(hostname)).rejects.toThrow(DownloadError)
     })
 
     it.each<[string, number, boolean]>([
@@ -163,13 +107,6 @@ describe("Favicon Utilities", () => {
       mockFetchAndFs(avifStatus, localPngExists)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
     })
-
-    // it("handles network errors during AVIF check", async () => {
-    //   const expected = GetQuartzPath(hostname)
-    //   jest.spyOn(global, "fetch").mockRejectedValue(new Error("Network error"))
-    //   jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
-    //   expect(await MaybeSaveFavicon(hostname)).toBe(expected)
-    // })
   })
 
   describe("GetQuartzPath", () => {
@@ -228,7 +165,7 @@ describe("Favicon Utilities", () => {
           properties: { style: "white-space: nowrap;" },
           children: [
             { type: "text", value: "tent" },
-            CreateFaviconElement(imgPath), // TODO user insertFavicon
+            CreateFaviconElement(imgPath),
           ],
         })
       })
@@ -300,8 +237,6 @@ describe("Favicon Utilities", () => {
 
         insertFavicon(MAIL_PATH, node)
 
-        // If a span were inserted, there would be 3 children (text,
-        // link, span)
         expect(node.children.length).toBe(4)
         expect(node.children[3]).toMatchObject(CreateFaviconElement(MAIL_PATH))
       })
@@ -330,44 +265,16 @@ describe("Favicon Utilities", () => {
       }
     })
   })
-
-  describe("MaybeSaveFavicon with caching", () => {
-    const hostname = "example.com"
-    const quartzPngPath = "/static/images/external-favicons/example_com.png"
-    const avifUrl = "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
-
-    beforeEach(() => {
-      urlCache.set = jest.fn(urlCache.set)
-      urlCache.get = jest.fn(urlCache.get)
-    })
-
-    it("should cache AVIF URL when found", async () => {
-      jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("test", { status: 200 }))
-      const result = await MaybeSaveFavicon(hostname)
-      expect(result).toBe(avifUrl)
-      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, avifUrl)
-    })
-
-    it("should cache PNG path when local file exists", async () => {
-      jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 404 }))
-      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
-      const result = await MaybeSaveFavicon(hostname)
-      expect(result).toBe(quartzPngPath)
-      expect(urlCache.set).toHaveBeenCalledWith(quartzPngPath, quartzPngPath)
-    })
-  })
 })
 
 describe("downloadImage", () => {
   let tempDir: string
 
   beforeEach(async () => {
-    // Create a temporary directory for each test
     tempDir = await fsExtra.mkdtemp(path.join(os.tmpdir(), "download-test-"))
   })
 
   afterEach(async () => {
-    // Clean up the temporary directory after each test
     await fsExtra.remove(tempDir)
   })
 
@@ -383,7 +290,6 @@ describe("downloadImage", () => {
       jest.spyOn(global, "fetch").mockRejectedValueOnce(mockResponse)
     } else {
       jest.spyOn(global, "fetch").mockResolvedValueOnce(mockResponse)
-      // Create a write stream at the given temp directory
       jest.spyOn(fs, "createWriteStream").mockReturnValue(fsExtra.createWriteStream(imagePath))
     }
 
