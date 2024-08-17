@@ -92,7 +92,6 @@ for (const [basename, url] of faviconUrls) {
     urlCache.set(basename, url)
   }
 }
-console.log(urlCache)
 
 /**
  * Writes the favicon cache to the FAVICON_URLS_FILE.
@@ -134,18 +133,14 @@ export async function readFaviconUrls(): Promise<Map<string, string>> {
  * @returns A Promise that resolves to the path of the favicon (local or remote).
  */
 export async function MaybeSaveFavicon(hostname: string): Promise<string> {
-  console.log(`[MaybeSaveFavicon] Starting process for hostname: ${hostname}`)
   logger.info(`Attempting to find or save favicon for ${hostname}`)
 
   const quartzPngPath = GetQuartzPath(hostname)
   const quartzAvifPath = quartzPngPath.replace(".png", ".avif")
   if (urlCache.has(quartzPngPath)) {
-    console.log(`[MaybeSaveFavicon] Returning cached favicon for ${hostname}`)
     logger.info(`Returning cached favicon for ${hostname}`)
     return urlCache.get(quartzPngPath) as string
   }
-
-  console.log(`[MaybeSaveFavicon] Favicon URLs read from file`)
 
   const quartzAvifBasename = path.basename(quartzAvifPath)
   if (faviconUrls.has(quartzAvifBasename)) {
@@ -160,42 +155,34 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
   }
 
-  console.log(`[MaybeSaveFavicon] Checking for AVIF at ${assetAvifURL}`)
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
     const avifResponse = await fetch(assetAvifURL)
 
     if (avifResponse.ok) {
-      console.log(`[MaybeSaveFavicon] AVIF found for ${hostname}`)
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
       return assetAvifURL
     } else {
-      console.log(`[MaybeSaveFavicon] No AVIF found for ${hostname}`)
       logger.info(`No AVIF found for ${hostname}`)
     }
   } catch (err) {
-    console.log(`[MaybeSaveFavicon] Error checking AVIF: ${err}`)
     logger.error(`Error checking AVIF on ${assetAvifURL}. ${err}`)
   }
 
   const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
-  console.log(`[MaybeSaveFavicon] Checking for local PNG at ${localPngPath}`)
   logger.debug(`Checking for local PNG at ${localPngPath}`)
   try {
     await fs.promises.stat(localPngPath)
 
-    console.log(`[MaybeSaveFavicon] Local PNG found for ${hostname}`)
     logger.info(`Local PNG found for ${hostname}: ${quartzPngPath}`)
     urlCache.set(quartzPngPath, quartzPngPath)
     return quartzPngPath
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
       const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
-      console.log(`[MaybeSaveFavicon] Attempting to download favicon from Google`)
       logger.info(`Attempting to download favicon from Google: ${googleFaviconURL}`)
       if (await downloadImage(googleFaviconURL, localPngPath)) {
-        console.log(`[MaybeSaveFavicon] Successfully downloaded favicon from Google`)
         logger.info(`Successfully downloaded favicon for ${hostname}`)
         urlCache.set(quartzPngPath, quartzPngPath)
         return quartzPngPath
@@ -203,7 +190,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     }
   }
 
-  console.log(`[MaybeSaveFavicon] Failed to find or download favicon, using default`)
   logger.warn(`Failed to find or download favicon for ${hostname}, using default`)
   urlCache.set(quartzPngPath, DEFAULT_PATH)
   return DEFAULT_PATH
