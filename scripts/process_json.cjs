@@ -53,7 +53,6 @@ turndownService.addRule("table linebreak", {
     content = content.replaceAll(newlinePattern, "$1")
     content = content.replaceAll(/(?<![s|])\n{2}/g, "<br/><br/>")
     content = content.replaceAll(/(?<![s|])\n/g, "<br/>")
-    console.log(content)
 
     // No <br/> at the start
     if (content.startsWith("<br/>")) {
