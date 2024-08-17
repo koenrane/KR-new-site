@@ -12,7 +12,7 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
-const FAVICON_URLS_FILE = "quartz/static/plugins/transformers/.faviconUrls.txt"
+export const FAVICON_URLS_FILE = "quartz/static/plugins/transformers/.faviconUrls.txt"
 
 export class DownloadError extends Error {
   constructor(message: string) {

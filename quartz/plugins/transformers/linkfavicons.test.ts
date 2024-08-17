@@ -17,6 +17,7 @@ import {
   urlCache,
   createUrlCache,
   insertFavicon,
+  FAVICON_URLS_FILE,
 } from "./linkfavicons"
 
 jest.mock("fs")
@@ -31,6 +32,50 @@ beforeAll(async () => {
 beforeEach(() => {
   jest.resetAllMocks()
   jest.restoreAllMocks()
+})
+
+describe("File Cache via faviconUrls.txt", () => {
+  const mockFaviconUrls = [
+    "/static/images/external-favicons/example_com.png,https://assets.turntrout.com/static/images/external-favicons/example_com.avif",
+    "/static/images/external-favicons/test_com.png,https://assets.turntrout.com/static/images/external-favicons/test_com.avif",
+  ].join("\n")
+
+  beforeEach(() => {
+    jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFaviconUrls)
+    jest.spyOn(fs.promises, "appendFile").mockResolvedValue(undefined)
+    urlCache.clear()
+  })
+
+  it("should read favicon URLs from file", async () => {
+    await MaybeSaveFavicon("example.com")
+    expect(fs.promises.readFile).toHaveBeenCalledWith(FAVICON_URLS_FILE, "utf8")
+    expect(urlCache.get("/static/images/external-favicons/example_com.png")).toBe(
+      "https://assets.turntrout.com/static/images/external-favicons/example_com.avif"
+    )
+  })
+
+  it("should use cached URL if available", async () => {
+    const result1 = await MaybeSaveFavicon("example.com")
+    const result2 = await MaybeSaveFavicon("example.com")
+    expect(result1).toBe(result2)
+    expect(fs.promises.readFile).toHaveBeenCalledTimes(1)
+  })
+
+  it("should write new favicon URL to file", async () => {
+    jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 200 }))
+    await MaybeSaveFavicon("newsite.com")
+    expect(fs.promises.appendFile).toHaveBeenCalledWith(
+      FAVICON_URLS_FILE,
+      expect.stringContaining("newsite_com")
+    )
+  })
+
+  it("should handle file read errors gracefully", async () => {
+    jest.spyOn(fs.promises, "readFile").mockRejectedValueOnce(new Error("File read error"))
+    jest.spyOn(global, "fetch").mockResolvedValueOnce(new Response("", { status: 200 }))
+    await MaybeSaveFavicon("example.com")
+    expect(urlCache.size).toBe(1)
+  })
 })
 
 describe("Favicon Utilities", () => {
