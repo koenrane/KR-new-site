@@ -3,6 +3,8 @@ import smartypants from "remark-smartypants"
 import { QuartzTransformerPlugin } from "../types"
 import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import { visit } from "unist-util-visit"
+import { toString } from "hast-util-to-string"
 
 export interface Options {
   enableSmartyPants: boolean
@@ -12,6 +14,20 @@ export interface Options {
 const defaultOptions: Options = {
   enableSmartyPants: true,
   linkHeadings: true,
+}
+
+// Custom function to replace apostrophes with underscores in anchor links
+const replaceApostrophesInAnchors = () => {
+  return (tree: any) => {
+    visit(tree, 'element', (node) => {
+      if (node.tagName === 'a' && node.properties && node.properties.href) {
+        const href = node.properties.href as string
+        if (href.startsWith('#')) {
+          node.properties.href = href.replace(/'/g, '_')
+        }
+      }
+    })
+  }
 }
 
 export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | undefined> = (
@@ -27,6 +43,7 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
       if (opts.linkHeadings) {
         return [
           rehypeSlug,
+          replaceApostrophesInAnchors(),
           [
             rehypeAutolinkHeadings,
             {
