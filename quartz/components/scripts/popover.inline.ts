@@ -12,6 +12,12 @@ async function mouseEnterHandler(
     return
   }
 
+  // Remove any existing popover
+  const existingPopover = document.querySelector(".popover")
+  if (existingPopover) {
+    existingPopover.remove()
+  }
+
   async function setPosition(popoverElement: HTMLElement) {
     const sidebar = document.querySelector(".sidebar") as HTMLElement
     const sidebarRect = sidebar ? sidebar.getBoundingClientRect() : null
