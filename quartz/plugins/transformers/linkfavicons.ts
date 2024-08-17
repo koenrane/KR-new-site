@@ -298,39 +298,35 @@ export async function ModifyNode(node: any): Promise<void> {
   const samePage = node.properties.className?.includes("same-page-link")
   const isAsset = /\.(png|jpg|jpeg)$/.test(href)
 
-  if (samePage) {
-    logger.debug(`Skipping favicon insertion for same-page link: ${href}`)
+  if (samePage || isAsset) {
+    logger.debug(`Skipping favicon insertion for same-page link or asset: ${href}`)
     return
   }
 
-  if (!isAsset) {
-    if (href.startsWith("./")) {
-      logger.debug("Converting relative link to absolute")
-      href = href.slice(2)
-      href = "https://www.turntrout.com/" + href
-    } else if (href.startsWith("..")) {
-      logger.debug("Skipping parent directory link")
+  if (href.startsWith("./")) {
+    logger.debug("Converting relative link to absolute")
+    href = href.slice(2)
+    href = "https://www.turntrout.com/" + href
+  } else if (href.startsWith("..")) {
+    logger.debug("Skipping parent directory link")
+    return
+  }
+  try {
+    let finalURL = new URL(href)
+    logger.info(`Final URL: ${finalURL.href}`)
+
+    const imgPath = await MaybeSaveFavicon(finalURL.hostname)
+
+    // TODO improve semantics on handling no-favicon case
+    if (imgPath === DEFAULT_PATH) {
+      logger.info(`No favicon found for ${finalURL.hostname}; skipping`)
       return
     }
-    try {
-      let finalURL = new URL(href)
-      logger.info(`Final URL: ${finalURL.href}`)
 
-      const imgPath = await MaybeSaveFavicon(finalURL.hostname)
-
-      // TODO improve semantics on handling no-favicon case
-      if (imgPath === DEFAULT_PATH) {
-        logger.info(`No favicon found for ${finalURL.hostname}; skipping`)
-        return
-      }
-
-      logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
-      insertFavicon(imgPath, node)
-    } catch (error) {
-      logger.error(`Error processing URL ${href}: ${error}`)
-    }
-  } else {
-    logger.debug(`Skipping favicon insertion for same-page link or asset: ${href}`)
+    logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
+    insertFavicon(imgPath, node)
+  } catch (error) {
+    logger.error(`Error processing URL ${href}: ${error}`)
   }
 }
 
