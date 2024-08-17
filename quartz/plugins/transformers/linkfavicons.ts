@@ -86,13 +86,30 @@ export function createUrlCache(): Map<string, string> {
   return new Map(defaultCache)
 }
 export let urlCache = createUrlCache()
+const faviconUrls = await readFaviconUrls()
+for (const [basename, url] of faviconUrls) {
+  if (!urlCache.has(basename)) {
+    urlCache.set(basename, url)
+  }
+}
+console.log(urlCache)
+
+/**
+ * Writes the favicon cache to the FAVICON_URLS_FILE.
+ */
+export function writeCacheToFile(): void {
+  const data = Array.from(urlCache.entries())
+    .map(([key, value]) => `${key},${value}`)
+    .join("\n")
+  fs.writeFileSync(FAVICON_URLS_FILE, data)
+}
 
 /**
  * Reads favicon URLs from the FAVICON_URLS_FILE and returns them as a Map.
  *
  * @returns A Promise that resolves to a Map of basename to URL strings.
  */
-async function readFaviconUrls(): Promise<Map<string, string>> {
+export async function readFaviconUrls(): Promise<Map<string, string>> {
   try {
     const data = await fs.promises.readFile(FAVICON_URLS_FILE, "utf8")
     const lines = data.split("\n")
@@ -107,21 +124,6 @@ async function readFaviconUrls(): Promise<Map<string, string>> {
   } catch (error) {
     logger.warn(`Error reading favicon URLs file: ${error}`)
     return new Map<string, string>()
-  }
-}
-
-/**
- * Writes a new favicon URL entry to the FAVICON_URLS_FILE.
- *
- * @param basename - The basename of the favicon file.
- * @param url - The URL of the favicon.
- * @returns A Promise that resolves when the write operation is complete.
- */
-async function writeFaviconUrl(basename: string, url: string): Promise<void> {
-  try {
-    await fs.promises.appendFile(FAVICON_URLS_FILE, `${basename},${url}\n`)
-  } catch (error) {
-    logger.error(`Error writing to favicon URLs file: ${error}`)
   }
 }
 
@@ -143,14 +145,11 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     return urlCache.get(quartzPngPath) as string
   }
 
-  const faviconUrls = await readFaviconUrls()
-  console.log(faviconUrls)
   console.log(`[MaybeSaveFavicon] Favicon URLs read from file`)
 
   const quartzAvifBasename = path.basename(quartzAvifPath)
   if (faviconUrls.has(quartzAvifBasename)) {
     const cachedUrl = faviconUrls.get(quartzAvifBasename)!
-    console.log(`[MaybeSaveFavicon] Returning cached AVIF URL ${cachedUrl} for ${hostname}`)
     logger.info(`Returning cached AVIF URL for ${hostname}: ${cachedUrl}`)
     urlCache.set(quartzAvifBasename, cachedUrl)
     return cachedUrl
@@ -160,7 +159,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   if (!quartzPngPath.startsWith("http")) {
     assetAvifURL = `https://assets.turntrout.com${quartzPngPath.replace(".png", ".avif")}`
   }
-  const basename = path.basename(assetAvifURL)
 
   console.log(`[MaybeSaveFavicon] Checking for AVIF at ${assetAvifURL}`)
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
@@ -171,7 +169,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
       console.log(`[MaybeSaveFavicon] AVIF found for ${hostname}`)
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
-      await writeFaviconUrl(basename, assetAvifURL)
       return assetAvifURL
     } else {
       console.log(`[MaybeSaveFavicon] No AVIF found for ${hostname}`)
@@ -384,6 +381,8 @@ export const AddFavicons = () => {
             logger.info(`Processing ${nodesToProcess.length} nodes`)
             await Promise.all(nodesToProcess.map(ModifyNode))
             logger.info("Finished processing favicons")
+
+            writeCacheToFile()
           }
         },
       ]

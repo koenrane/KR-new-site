@@ -1,5 +1,6 @@
 import { jest } from "@jest/globals"
 import { PassThrough } from "stream"
+import { Module } from "module"
 
 import fsExtra from "fs-extra"
 import path from "path"
@@ -16,12 +17,8 @@ import {
   TURNTROUT_FAVICON_PATH,
   urlCache,
   insertFavicon,
+  readFaviconUrls,
 } from "./linkfavicons"
-
-import * as linkfavicons from "./linkfavicons"
-
-jest.spyOn(linkfavicons, "readFaviconUrls").mockResolvedValue(new Map())
-jest.spyOn(linkfavicons, "writeFaviconUrl").mockResolvedValue(undefined)
 
 jest.mock("fs")
 import fs from "fs"
@@ -38,12 +35,10 @@ beforeEach(() => {
   urlCache.clear()
 })
 
-// Mock file caching
 jest.mock("./linkfavicons", () => {
-  const originalModule = jest.requireActual("./linkfavicons")
-  console.log(typeof originalModule)
+  const actual = jest.requireActual("./linkfavicons")
   return {
-    // ...(originalModule as any),
+    ...(actual as any),
     urlCache: new Map(),
   }
 })
