@@ -82,11 +82,6 @@ export function GetQuartzPath(hostname: string): string {
 }
 
 const defaultCache = new Map<string, string>([[TURNTROUT_FAVICON_PATH, TURNTROUT_FAVICON_PATH]])
-/**
- * Creates and returns a new URL cache with default values.
- *
- * @returns A new Map object initialized with default cache entries.
- */
 export function createUrlCache(): Map<string, string> {
   return new Map(defaultCache)
 }
@@ -349,11 +344,6 @@ export async function ModifyNode(node: any): Promise<void> {
   }
 }
 
-/**
- * Creates a plugin that adds favicons to anchor tags in the HTML tree.
- *
- * @returns An object representing the plugin configuration.
- */
 /**
  * Creates a plugin that adds favicons to anchor tags in the HTML tree.
  *
