@@ -292,6 +292,12 @@ export async function ModifyNode(node: any): Promise<void> {
 
   const isInternalBody = href.startsWith("#")
   if (isInternalBody) {
+    // Append same-page-link to class list
+    if (node.properties.className) {
+      node.properties.className.push("same-page-link")
+    } else {
+      node.properties.className = ["same-page-link"]
+    }
     return
   }
 
