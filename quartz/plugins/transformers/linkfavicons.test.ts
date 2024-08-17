@@ -1,6 +1,5 @@
 import { jest } from "@jest/globals"
 import { PassThrough } from "stream"
-import { Module } from "module"
 
 import fsExtra from "fs-extra"
 import path from "path"
@@ -24,7 +23,6 @@ import {
 
 jest.mock("fs")
 import fs from "fs"
-import { Readable } from "stream"
 
 jest.mock("stream/promises")
 
@@ -32,10 +30,16 @@ beforeAll(async () => {
   jest.spyOn(fs, "createWriteStream").mockReturnValue(new PassThrough() as any)
 })
 
-beforeEach(() => {
+let tempDir: string
+beforeEach(async () => {
+  tempDir = await fsExtra.mkdtemp(path.join(os.tmpdir(), "linkfavicons-test-"))
   jest.resetAllMocks()
   jest.restoreAllMocks()
   urlCache.clear()
+})
+
+afterEach(async () => {
+  await fsExtra.remove(tempDir)
 })
 
 jest.mock("./linkfavicons", () => {
@@ -269,16 +273,6 @@ describe("Favicon Utilities", () => {
 })
 
 describe("downloadImage", () => {
-  let tempDir: string
-
-  beforeEach(async () => {
-    tempDir = await fsExtra.mkdtemp(path.join(os.tmpdir(), "download-test-"))
-  })
-
-  afterEach(async () => {
-    await fsExtra.remove(tempDir)
-  })
-
   const runTest = async (
     mockResponse: Response | Error,
     expectedResult: boolean,
@@ -353,8 +347,8 @@ describe("writeCacheToFile", () => {
   beforeEach(() => {
     jest.resetAllMocks()
     urlCache.clear()
+    jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
   })
-  const mockWriteFileSync = jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
 
   it("should write the urlCache to file", () => {
     urlCache.set("example.com", "https://example.com/favicon.ico")
@@ -362,7 +356,7 @@ describe("writeCacheToFile", () => {
 
     writeCacheToFile()
 
-    expect(mockWriteFileSync).toHaveBeenCalledWith(
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
       FAVICON_URLS_FILE,
       "example.com,https://example.com/favicon.ico\ntest.com,https://test.com/favicon.png",
     )
@@ -371,7 +365,7 @@ describe("writeCacheToFile", () => {
   it("should write an empty string if urlCache is empty", () => {
     writeCacheToFile()
 
-    expect(mockWriteFileSync).toHaveBeenCalledWith(FAVICON_URLS_FILE, "")
+    expect(fs.writeFileSync).toHaveBeenCalledWith(FAVICON_URLS_FILE, "")
   })
 })
 
