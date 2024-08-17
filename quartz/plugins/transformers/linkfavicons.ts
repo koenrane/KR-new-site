@@ -3,25 +3,7 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
-import { performance } from "perf_hooks"
-
 const logger = createLogger("linkfavicons")
-
-const perfMetrics: { [key: string]: number } = {}
-
-function recordPerf(operation: string, duration: number) {
-  if (!perfMetrics[operation]) {
-    perfMetrics[operation] = 0
-  }
-  perfMetrics[operation] += duration
-}
-
-function logPerfMetrics() {
-  logger.info("Performance Metrics:")
-  for (const [operation, duration] of Object.entries(perfMetrics)) {
-    logger.info(`${operation}: ${duration.toFixed(2)}ms`)
-  }
-}
 
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
 export const TURNTROUT_FAVICON_PATH =
@@ -55,10 +37,7 @@ export class DownloadError extends Error {
  */
 export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
-  const startFetch = performance.now()
   const response = await fetch(url)
-  const endFetch = performance.now()
-  recordPerf("fetch", endFetch - startFetch)
 
   if (!response.ok) {
     throw new DownloadError(`Failed to fetch image: ${url}. Status: ${response.status}`)
@@ -80,21 +59,12 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
 
   const body = Readable.fromWeb(response.body as any)
 
-  const startWrite = performance.now()
   await fs.promises.writeFile(imagePath, body)
-  const endWrite = performance.now()
-  recordPerf("fs_write", endWrite - startWrite)
 
-  const startStat = performance.now()
   const stats = await fs.promises.stat(imagePath)
-  const endStat = performance.now()
-  recordPerf("fs_stat", endStat - startStat)
 
   if (stats.size === 0) {
-    const startUnlink = performance.now()
     await fs.promises.unlink(imagePath)
-    const endUnlink = performance.now()
-    recordPerf("fs_unlink", endUnlink - startUnlink)
     throw new DownloadError(`Downloaded file is empty: ${imagePath}`)
   }
 
@@ -196,10 +166,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
     return urlCache.get(quartzPngPath) as string
   }
 
-  const startReadFaviconUrls = performance.now()
   const faviconUrls = await readFaviconUrls()
-  const endReadFaviconUrls = performance.now()
-  recordPerf("read_favicon_urls", endReadFaviconUrls - startReadFaviconUrls)
 
   if (faviconUrls.has(path.basename(quartzAvifPath))) {
     const cachedUrl = faviconUrls.get(quartzPngPath)!
@@ -216,18 +183,12 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   logger.debug(`Checking for AVIF at ${assetAvifURL}`)
   try {
-    const startFetchAvif = performance.now()
     const avifResponse = await fetch(assetAvifURL)
-    const endFetchAvif = performance.now()
-    recordPerf("fetch_avif", endFetchAvif - startFetchAvif)
 
     if (avifResponse.ok) {
       logger.info(`AVIF found for ${hostname}: ${assetAvifURL}`)
       urlCache.set(quartzPngPath, assetAvifURL)
-      const startWriteFaviconUrl = performance.now()
       await writeFaviconUrl(basename, assetAvifURL)
-      const endWriteFaviconUrl = performance.now()
-      recordPerf("write_favicon_url", endWriteFaviconUrl - startWriteFaviconUrl)
       return assetAvifURL
     } else {
       logger.info(`No AVIF found for ${hostname}`)
@@ -239,10 +200,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   const localPngPath = path.join(QUARTZ_FOLDER, quartzPngPath)
   logger.debug(`Checking for local PNG at ${localPngPath}`)
   try {
-    const startStatPng = performance.now()
     await fs.promises.stat(localPngPath)
-    const endStatPng = performance.now()
-    recordPerf("fs_stat_png", endStatPng - startStatPng)
 
     logger.info(`Local PNG found for ${hostname}: ${quartzPngPath}`)
     urlCache.set(quartzPngPath, quartzPngPath)
@@ -461,7 +419,6 @@ export const AddFavicons = () => {
             logger.info(`Processing ${nodesToProcess.length} nodes`)
             await Promise.all(nodesToProcess.map(ModifyNode))
             logger.info("Finished processing favicons")
-            logPerfMetrics()
           }
         },
       ]
