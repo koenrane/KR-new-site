@@ -145,7 +145,7 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   // Check for AVIF version
   const avifPath = faviconPath.replace(".png", ".avif")
-  const avifUrl = `https://assets.turntrout.com${avifPath}`
+  const avifUrl = avifPath.startsWith("http") ? avifPath : `https://assets.turntrout.com${avifPath}`
 
   try {
     const avifResponse = await fetch(avifUrl)
