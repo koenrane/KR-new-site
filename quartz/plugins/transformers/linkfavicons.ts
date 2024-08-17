@@ -298,7 +298,12 @@ export async function ModifyNode(node: any): Promise<void> {
   const samePage = node.properties.className?.includes("same-page-link")
   const isAsset = /\.(png|jpg|jpeg)$/.test(href)
 
-  if (!samePage && !isAsset) {
+  if (samePage) {
+    logger.debug(`Skipping favicon insertion for same-page link: ${href}`)
+    return
+  }
+
+  if (!isAsset) {
     if (href.startsWith("./")) {
       logger.debug("Converting relative link to absolute")
       href = href.slice(2)
