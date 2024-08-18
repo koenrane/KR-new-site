@@ -2,17 +2,33 @@ import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
 import { transformElement, markerChar } from "./formatting_improvement_html"
 
-const prePunctuation = /([\“\"]*)/ // group 1
+const prePunctuation = /(?<prePunct>[\“\"]*)/
 
 // If the punctuation is found, it is captured
-const postPunctuation = /(?:([\”\"\`\.\,\?\:\!\;]+))?/
-// Contains group 4, duplicated to 5 later
-const preLinkRegex = new RegExp(`${prePunctuation.source}${mdLinkRegex.source}`)
+let postPunctuation, postReplaceTemplate
+
+for (const surrounding of ["", "_", "\\*\\*", "\\*", "__"]) {
+  const surroundingTag = surrounding.replaceAll("\\", "").replaceAll("*", "A").replaceAll("_", "U")
+  const tempRegex = new RegExp(
+    `${surrounding}(?<postPunct${surroundingTag}>[\”\"\`\.\,\?\:\!\;]+)?${surrounding}`,
+    "g",
+  )
+  if (postPunctuation) {
+    postPunctuation = new RegExp(`${postPunctuation.source}|${tempRegex.source}`)
+    postReplaceTemplate = `${postReplaceTemplate}$<postPunct${surroundingTag}>`
+  } else {
+    postPunctuation = tempRegex
+    postReplaceTemplate = `$<postPunct${surroundingTag}>`
+  }
+}
+const preLinkRegex = new RegExp(
+  `${prePunctuation.source}(?<mark1>${markerChar}?)${mdLinkRegex.source}`,
+)
 const fullRegex = new RegExp(
-  `${preLinkRegex.source}(?:${postPunctuation.source}|[\*_]{1,2}${postPunctuation.source}[\*_]{1,2})`,
+  `${preLinkRegex.source}(?<mark2>${markerChar}?)(?:${postPunctuation!.source})`,
   "g",
 )
-const replaceTemplate = "[$1$2$4$5]($3)"
+const replaceTemplate = `[$<prePunct>$<mark1>$<linkText>${postReplaceTemplate}]($<linkURL>)$<mark2>`
 
 export const applyLinkPunctuation = (text: string): string => {
   return text.replace(fullRegex, replaceTemplate)

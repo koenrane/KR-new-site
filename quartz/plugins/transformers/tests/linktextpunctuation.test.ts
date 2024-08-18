@@ -46,7 +46,7 @@ describe("applyLinkPunctuation function", () => {
   describe("Handles private use character", () => {
     it("correctly processes links with private use character", () => {
       const input = `[Link${markerChar}](https://example.com).${markerChar} [Another${markerChar} Link](https://example2.com)${markerChar},`
-      const expected = `[Link.${markerChar}](https://example.com) [Another${markerChar} Link,](https://example2.com)${markerChar}`
+      const expected = `[Link${markerChar}.](https://example.com)${markerChar} [Another${markerChar} Link,](https://example2.com)${markerChar}`
       const result = applyLinkPunctuation(input)
       expect(result).toBe(expected)
     })
