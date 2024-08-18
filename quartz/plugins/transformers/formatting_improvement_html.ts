@@ -258,7 +258,7 @@ const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
 /**
  * Moves punctuation inside links
  */
-export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+export const applyLinkPunctuation = (node: Element, index: number | undefined, parent: any) => {
   if (node.tagName === "a" && index !== undefined && parent.children[index + 1]) {
     const nextNode = parent.children[index + 1]
     if (nextNode.type === "text" || nextNode.tagName === "em" || nextNode.tagName === "strong") {
