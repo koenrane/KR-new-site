@@ -245,6 +245,10 @@ describe("applyLinkPunctuation function", () => {
         `<p> [Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365).</p>`,
         `<p> [Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</p>`,
       ],
+      [
+        `<p> <em>[Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</em> .</p>`,
+        `<p> <em>[Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</em></p>`,
+      ],
     ])(
       `correctly processes links with private use character`,
       (input: string, expected: string) => {
@@ -280,8 +284,8 @@ describe("applyLinkPunctuation function", () => {
         `[Link${markerChar}.](https://example.com)${markerChar} [Another${markerChar} Link,](https://example2.com)${markerChar}`,
       ],
       [
-        ` _[Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}.`,
-        ` _[Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}`,
+        ` [Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}.`,
+        ` [Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}`,
       ],
     ])(
       "correctly processes links with private use character",

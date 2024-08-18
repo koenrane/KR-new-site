@@ -90,8 +90,6 @@ export function transformElement(
   const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
 
   if (transformedFragments.length !== textNodes.length) {
-    console.log("transformedFragments", transformedFragments)
-    console.log("textNodes", textNodes)
     throw new Error("Transformation altered the number of text nodes")
   }
 
@@ -222,7 +220,6 @@ export function applyTextTransforms(text: string): string {
 }
 
 const prePunctuation = /(?<prePunct>[\"\"]*)/
-
 // If the punctuation is found, it is captured
 let postPunctuation, postReplaceTemplate
 
@@ -244,28 +241,13 @@ const preLinkRegex = new RegExp(
   `${prePunctuation.source}(?<mark1>${markerChar}?)${mdLinkRegex.source}`,
 )
 const fullRegex = new RegExp(
-  `${preLinkRegex.source}(?<mark2>${markerChar}?)(?:${postPunctuation!.source})`,
+  `${preLinkRegex.source}(?<mark2>${markerChar}?)\\s?(?:${postPunctuation!.source})`,
   "g",
 )
-const replaceTemplate = `[$<prePunct>$<mark1>$<linkText>${postReplaceTemplate}]($<linkURL>)$<mark2>`
+const replaceTemplate = `$<mark1>[$<prePunct>$<linkText>${postReplaceTemplate}]($<linkURL>)$<mark2>`
 
 export const applyLinkPunctuation = (text: string): string => {
   return text.replace(fullRegex, replaceTemplate)
-}
-
-export const remarkLinkPunctuation = (node: Node) => {
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node.textContent || ""
-    const newText = applyLinkPunctuation(text)
-    if (text !== newText) {
-      node.textContent = newText
-    }
-  } else if (node.nodeType === Node.ELEMENT_NODE) {
-    const element = node as HTMLElement
-    for (const childNode of Array.from(element.childNodes)) {
-      remarkLinkPunctuation(childNode)
-    }
-  }
 }
 
 // Node-skipping predicates //
@@ -349,6 +331,8 @@ export const improveFormatting: Plugin = () => {
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
         transformElement(node, enDashNumberRange, toSkip, true)
+        // TODO should be able to check transform invariance here; fails on corrigibility post so might be failing
+        transformElement(node, applyLinkPunctuation, toSkip, true)
 
         let notMatching = false
         try {
