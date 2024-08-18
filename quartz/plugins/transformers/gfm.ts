@@ -1,10 +1,13 @@
+import GithubSlugger from "github-slugger"
+import { headingRank } from "hast-util-heading-rank"
+import { toString } from "hast-util-to-string"
+import { visit } from "unist-util-visit"
+
 import remarkGfm from "remark-gfm"
 import smartypants from "remark-smartypants"
 import { QuartzTransformerPlugin } from "../types"
-import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import { visit } from "unist-util-visit"
-import { toString } from "hast-util-to-string"
+import { Root, Element } from "hast"
 
 export interface Options {
   enableSmartyPants: boolean
@@ -14,20 +17,6 @@ export interface Options {
 const defaultOptions: Options = {
   enableSmartyPants: true,
   linkHeadings: true,
-}
-
-// Custom function to replace apostrophes with underscores in anchor links
-const replaceApostrophesInAnchors = () => {
-  return (tree: any) => {
-    visit(tree, 'element', (node) => {
-      if (node.tagName === 'a' && node.properties && node.properties.href) {
-        const href = node.properties.href as string
-        if (href.startsWith('#')) {
-          node.properties.href = href.replace(/'/g, '_')
-        }
-      }
-    })
-  }
 }
 
 export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | undefined> = (
@@ -42,8 +31,7 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
     htmlPlugins() {
       if (opts.linkHeadings) {
         return [
-          rehypeSlug,
-          replaceApostrophesInAnchors(),
+          slugFunction,
           [
             rehypeAutolinkHeadings,
             {
@@ -93,5 +81,39 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
         return []
       }
     },
+  }
+}
+
+// Slight misalignment between this and LessWrong slugger behavior
+//  For compatibility, preserve certain characters in the slug
+const slugger = new GithubSlugger()
+
+export function preprocessSlug(headerText: string): string {
+  const charsToConvert = ["'", "’"]
+
+  let protoSlug = headerText
+  for (const char of charsToConvert) {
+    protoSlug = protoSlug.replace(new RegExp(char, "g"), "_")
+  }
+  return protoSlug
+}
+
+/**
+ * Add `id`s to headings.
+ *
+ * @returns
+ *   Transform.
+ */
+export function slugFunction() {
+  return function (tree: Root) {
+    slugger.reset()
+
+    visit(tree, "element", function (node: Element) {
+      if (headingRank(node) && !node.properties.id) {
+        const protoSlug = preprocessSlug(toString(node))
+        console.log(protoSlug)
+        node.properties.id = slugger.slug(protoSlug)
+      }
+    })
   }
 }

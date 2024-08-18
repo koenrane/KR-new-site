@@ -254,7 +254,17 @@ def remove_prefix_before_slug(url: str) -> str:
             url = f"/{slug})"
             # Extract the anchor part (e.g., "#section-title")
             if "#" in full_match:
-                anchor = full_match.split("#")[1].replace("_", "-")
+                # Lesswrong slugger is different than mine; convert.
+                anchor_replacements = {
+                    "_": "-",
+                    "'": "",
+                    "--": "-",
+                }
+                anchor = full_match.split("#")[1]
+                if "Related" in anchor:
+                    print(re_match)
+                for before, after in anchor_replacements.items():
+                    anchor = anchor.replace(before, after)
                 anchor = anchor.replace("--", "-")  # Error for eg appendices
                 url = f"/{slug}#{anchor})"
 
@@ -336,6 +346,7 @@ replacement = {
     r"Pos\\b": "Pos.",
     r"Coeff\\b": "Coeff.",
     r"ReLu": "ReLU",
+    r"Appendix__Related_work": "Appendix_1_Related_Work",
 }
 
 
@@ -457,7 +468,7 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     md = parse_latex(md)
 
-    print(md)
+    # print(md)
     return md
 
 
