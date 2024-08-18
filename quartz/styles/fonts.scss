@@ -194,6 +194,7 @@ dt,
 
 article > p:first-of-type {
   position: relative;
+  min-height: 4.2rem; // Vertical room for first letter pseudo-element
   &::before {
     content: attr(data-first-letter);
     text-transform: uppercase;
