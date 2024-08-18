@@ -36,7 +36,7 @@ export const remarkLinkPunctuation = (node: Node) => {
 export const LinkTextPunctuation: QuartzTransformerPlugin = () => {
   return {
     name: "LinkTextPunctuation",
-    htmlTransform(_ctx, html) {
+    htmlTransform(_ctx: any, html: any) {
       return transformElement(html, applyLinkPunctuation)
     },
   }
