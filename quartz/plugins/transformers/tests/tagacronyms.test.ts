@@ -24,7 +24,7 @@ describe("rehypeTagAcronyms", () => {
     [nasaIn, nasaOut],
     [GPTJ, GPTJOut],
     ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">GPT-2-XL</abbr></p>'],
-    // Add more test cases here with different inputs and expected outputs
+    ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">MIRI</abbr>-relevant math</p>'],
   ])("should wrap acronyms in <abbr> tags with class 'small-caps'", (input, expectedOutput) => {
     const processedHtml: string = testTagAcronymsHTML(input)
     expect(processedHtml).toBe(expectedOutput)
