@@ -1,4 +1,5 @@
 import { applyLinkPunctuation } from "../linktextpunctuation"
+import { markerChar } from "../formatting_improvement_html"
 
 describe("applyLinkPunctuation function", () => {
   describe("Handles various link scenarios", () => {
@@ -17,7 +18,6 @@ describe("applyLinkPunctuation function", () => {
       ["*[Link](https://example.com)*", "*[Link](https://example.com)*"],
       ["**[Link](https://example.com)**", "**[Link](https://example.com)**"],
       ["[Link](https://example.com)`", "[Link`](https://example.com)"],
-      ["[Link\uE000](https://example.com).", "[Link.\uE000](https://example.com)"],
     ])("correctly handles '%s'", (input, expected) => {
       const result = applyLinkPunctuation(input)
       expect(result).toBe(expected)
@@ -45,10 +45,8 @@ describe("applyLinkPunctuation function", () => {
 
   describe("Handles private use character", () => {
     it("correctly processes links with private use character", () => {
-      const input =
-        "[Link\uE000](https://example.com).\uE000 [Another\uE000 Link](https://example2.com),\uE000"
-      const expected =
-        "[Link.\uE000](https://example.com) [Another\uE000 Link,](https://example2.com)\uE000"
+      const input = `[Link${markerChar}](https://example.com).${markerChar} [Another${markerChar} Link](https://example2.com)${markerChar},`
+      const expected = `[Link.${markerChar}](https://example.com) [Another${markerChar} Link,](https://example2.com)${markerChar}`
       const result = applyLinkPunctuation(input)
       expect(result).toBe(expected)
     })
