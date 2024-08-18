@@ -9,7 +9,7 @@ import {
   assertSmartQuotesMatch,
   enDashNumberRange,
   applyLinkPunctuation,
-  markerChar
+  markerChar,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 
@@ -237,6 +237,21 @@ describe("applyLinkPunctuation function", () => {
       const result = applyLinkPunctuation(input)
       expect(result).toBe(expected)
     })
+  })
+
+  describe("End-to-end HTML formatting improvement", () => {
+    it.each([
+      [
+        `<p> [Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365).</p>`,
+        `<p> [Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</p>`,
+      ],
+    ])(
+      `correctly processes links with private use character`,
+      (input: string, expected: string) => {
+        const processedHtml = testHtmlFormattingImprovement(input)
+        expect(processedHtml).toBe(expected)
+      },
+    )
   })
 
   describe("Handles multiple links in a single string", () => {

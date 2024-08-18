@@ -90,6 +90,8 @@ export function transformElement(
   const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
 
   if (transformedFragments.length !== textNodes.length) {
+    console.log("transformedFragments", transformedFragments)
+    console.log("textNodes", textNodes)
     throw new Error("Transformation altered the number of text nodes")
   }
 
@@ -346,6 +348,7 @@ export const improveFormatting: Plugin = () => {
         }
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
+        transformElement(node, enDashNumberRange, toSkip, true)
 
         let notMatching = false
         try {
@@ -376,9 +379,6 @@ export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
     name: "htmlFormattingImprovement",
     htmlPlugins() {
       return [improveFormatting]
-    },
-    htmlTransform(ctx: any, html: any) {
-      return transformElement(html, applyLinkPunctuation)
     },
   }
 }
