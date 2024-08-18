@@ -194,13 +194,23 @@ def parse_latex(markdown: str) -> str:
         flags=regex.MULTILINE,
     )
 
+    # Have proper newlines for equations in display mode
+    display_math_pattern = r"(?<=\$\$)(.*?)(?=\$\$)"  # Capture content within $$ ... $$
+    inner_slash_pattern = (
+        r"(?<!\\)\\(?=\s)"  # Match single \ not preceded or followed by another \
+    )
+
+    def _replace_inner(match):
+        return match.group(0).replace("\\", "\\\\")
+
+    markdown = regex.sub(
+        inner_slash_pattern, _replace_inner, markdown, flags=regex.DOTALL
+    )
+
     # Add newline after the beginning of display math
     markdown = regex.sub(r"(?<=\$\$)(?=[^\n])", r"\n", markdown, flags=regex.MULTILINE)
     # Add newline before the end of display math
     markdown = regex.sub(r"(?<=[^\n])(?=\$\$)", r"\n", markdown, flags=regex.MULTILINE)
-
-    # # Have proper newlines for equations
-    markdown = regex.sub(r"([^\\])\\(?=$)", r"\1\\\\", markdown, flags=regex.MULTILINE)
 
     # Don't have single numbers
     markdown = regex.sub(r"\$([+-]?\d+(\.\d+)?)\$", r"\1", markdown)
@@ -299,6 +309,7 @@ replacement = {
     "lesserwrong.com": "lesswrong.com",
     # Latex substitutions
     r"\\DeclareMathOperator\*?{\\argmax}{arg\\,max}": "",
+    r"\\DeclareMathOperator\*?{\\argmin}{arg\\,min}": "",
     r"\\DeclareMathOperator\*?{\\min}{min\\,min}": "",
     # Dead links need redirect
     "https://i.stack.imgur.com": "https://i.sstatic.net",
