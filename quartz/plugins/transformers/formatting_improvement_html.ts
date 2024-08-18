@@ -253,30 +253,52 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
-const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
+const ACCEPTED_PUNCTUATION = [".", ",", "?", ":", "!", ";"]
+const TEXT_LIKE_TAGS = ["em", "strong", "b"]
+
+function getTextNodeCousin(node: Element): Text | null {
+  let current: any = node
+
+  while (current) {
+    let sibling = current.nextSibling
+
+    while (sibling) {
+      console.log(sibling)
+      if (sibling.type === "text") {
+        return sibling
+      }
+      if (sibling.type === "element" && TEXT_LIKE_TAGS.includes(sibling.tagName)) {
+        // If it's a text-like element, return its first child (assuming it's text)
+        return sibling.children[0] as Text
+      }
+      sibling = sibling.nextSibling
+    }
+
+    if (!current.parent) break
+    current = current.parent
+  }
+
+  return null
+}
 
 /**
  * Moves punctuation inside links
  */
 export const applyLinkPunctuation = (node: Element, index: number | undefined, parent: any) => {
-  if (node.tagName === "a" && index !== undefined && parent.children[index + 1]) {
-    const nextNode = parent.children[index + 1]
-    if (nextNode.type === "text" || nextNode.tagName === "em" || nextNode.tagName === "strong") {
-      const text = nextNode.type === "text" ? nextNode.value : nextNode.children[0].value
-      if (text && acceptedPunctuation.includes(text[0])) {
-        // Move punctuation into the link
-        const punctuation = text[0]
-        if (node.children[0].type === "text") {
-          node.children[0].value += punctuation
-        } else {
-          node.children.push({ type: "text", value: punctuation })
-        }
-        if (text.length > 1) {
-          nextNode.value = text.slice(1)
-        } else {
-          parent.children.splice(index + 1, 1)
-        }
-      }
+  if (node.tagName === "a") {
+    // Search up the DOM for an ancestor which is followed by a text node
+    const maybeNodeWithPunctuation = getTextNodeCousin(parent)
+    console.log(maybeNodeWithPunctuation)
+    // If the next node is a text node and starts with punctuation, move it inside the link
+    if (
+      maybeNodeWithPunctuation &&
+      ACCEPTED_PUNCTUATION.includes(maybeNodeWithPunctuation.value.charAt(0))
+    ) {
+      const punctToMove: string = maybeNodeWithPunctuation.value.charAt(0)
+      maybeNodeWithPunctuation.value = maybeNodeWithPunctuation.value.slice(1) // Remove the punctuation
+
+      // Move the punctuation inside the link
+      console.log(node)
     }
   }
 }
@@ -356,6 +378,7 @@ export const improveFormatting: Plugin = () => {
         )
       }
 
+      visit(node, "element", applyLinkPunctuation)
       // Parent-less nodes are the root of the article
       if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {
@@ -366,8 +389,6 @@ export const improveFormatting: Plugin = () => {
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
         transformElement(node, enDashNumberRange, toSkip, true)
-        // TODO should be able to check transform invariance here; fails on corrigibility post so might be failing
-        visit(node, "element", applyLinkPunctuation)
 
         let notMatching = false
         try {
