@@ -154,7 +154,7 @@ function processHtmlAst(htmlAst: any, parent: Parent): void {
       const newElement = {
         type: 'element',
         tagName: node.tagName,
-        properties: node.properties,
+        properties: { ...node.properties },
         children: []
       } as Element
       parent.children.push(newElement)
