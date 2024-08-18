@@ -131,7 +131,6 @@ const config: QuartzConfig = {
       Plugin.Description(),
       Plugin.MinusReplaceTransform(),
       Plugin.TextFormattingImprovement(),
-      Plugin.LinkTextPunctuation(),
       Plugin.HTMLFormattingImprovement(),
       Plugin.TagAcronyms(),
       Plugin.AddFavicons(),
