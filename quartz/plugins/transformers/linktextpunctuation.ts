@@ -1,5 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
+import { transformElement } from "./formatting_improvement_html"
 
 const prePunctuation = /([\“\"]*)/ // group 1
 
@@ -13,18 +14,21 @@ const fullRegex = new RegExp(
 )
 const replaceTemplate = "[$1$2$4$5]($3)"
 
-export const remarkLinkPunctuation: any = (text: string) => {
-  return text.replaceAll(fullRegex, replaceTemplate)
+export const remarkLinkPunctuation = (element: HTMLElement) => {
+  if (element.nodeType === Node.TEXT_NODE) {
+    const text = element.textContent || ""
+    const newText = text.replace(fullRegex, replaceTemplate)
+    if (text !== newText) {
+      element.textContent = newText
+    }
+  }
 }
 
 export const LinkTextPunctuation: QuartzTransformerPlugin = () => {
   return {
     name: "LinkTextPunctuation",
-    textTransform(_ctx, src) {
-      if (src instanceof Buffer) {
-        src = src.toString()
-      }
-      return remarkLinkPunctuation(src)
+    htmlTransform(_ctx, html) {
+      return transformElement(html, remarkLinkPunctuation)
     },
   }
 }
