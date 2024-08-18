@@ -1,12 +1,18 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
-import { Text, Strong, Parent, PhrasingContent } from "mdast"
+import { Text, Strong, Emphasis, Parent, PhrasingContent } from "mdast"
 
 // TODO test
 // Function to process a single text node and convert **bold** syntax to strong nodes
-export const boldNode = (node: Text, index: number | undefined, parent: Parent | null) => {
-  const regex = /\*\*(.*?)\*\*/g
+export const formatNode = (
+  node: Text,
+  index: number | undefined,
+  parent: Parent | null,
+  regex: RegExp,
+  tag: string,
+) => {
+  if (!["em", "strong"].includes(tag)) throw new Error("Invalid tag")
   if (regex.test(node.value)) {
     const newNodes: PhrasingContent[] = []
     let lastIndex = 0
@@ -22,10 +28,11 @@ export const boldNode = (node: Text, index: number | undefined, parent: Parent |
       }
 
       // Add the matched content as a strong (bold) node
+
       newNodes.push({
-        type: "strong",
+        type: tag,
         children: [{ type: "text", value: content } as Text],
-      } as Strong)
+      } as any)
 
       lastIndex = offset + fullMatch.length
       return fullMatch // This return is not used, it's just to satisfy TypeScript
@@ -46,18 +53,29 @@ export const boldNode = (node: Text, index: number | undefined, parent: Parent |
   }
 }
 
-const replaceAsterisksBold: Plugin = () => {
+const convertEmphasisHelper: Plugin = () => {
   return (tree: any) => {
-    visit(tree, "text", boldNode)
+    const boldRegex = new RegExp("\\*\\*(.*?)\\*\\*", "g")
+    const italicRegex = new RegExp("_(.*?)_", "g")
+    for (const pair of [
+      ["strong", boldRegex],
+      ["em", italicRegex],
+    ]) {
+      const tagName = pair[0]
+      const regex = pair[1]
+      visit(tree, "text", (node: Text, index: number | undefined, parent: Parent | null) => {
+        formatNode(node, index, parent, regex as RegExp, tagName as string)
+      })
+    }
   }
 }
 
 // Define the Quartz transformer plugin
-export const ReplaceAsterisksBold: QuartzTransformerPlugin = () => {
+export const ConvertEmphasis: QuartzTransformerPlugin = () => {
   return {
     name: "ReplaceAsterisksBold",
     htmlPlugins() {
-      return [replaceAsterisksBold]
+      return [convertEmphasisHelper]
     },
   }
 }

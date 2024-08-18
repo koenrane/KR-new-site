@@ -125,7 +125,7 @@ const config: QuartzConfig = {
       }),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true }),
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
-      Plugin.ReplaceAsterisksBold(),
+      Plugin.ConvertEmphasis(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
