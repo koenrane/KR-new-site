@@ -170,6 +170,11 @@ def fix_footnotes(text: str) -> str:
     # Footnote content replacement (from LW format)
     text = regex.sub(r"(\d+)\.\s*\*{2}\[\^\]\(.*?\)\*{2}\s*", r"[^\1]: ", text)
 
+    # Footnote (manual latex) --- convert end fnref first
+    text = regex.sub(r"^\s*\$(\^\d+)\$", r"[\1]:", text, flags=regex.MULTILINE)
+    # Footnote (manual latex, in text)
+    text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
+
     # Ensure separation after hyperlinks
     return regex.sub(r"\)(\w)", r") \1", text)
 
@@ -443,7 +448,7 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     md = parse_latex(md)
 
-    # print(md)
+    print(md)
     return md
 
 
@@ -493,7 +498,9 @@ if __name__ == "__main__":
         md = yaml + post_md
 
         output_filename = f"{post['slug']}.md"
-        with open(Path("..", "content", output_filename), "w", encoding="utf-8") as f:
+        with open(
+            Path("..", "content", "import", output_filename), "w", encoding="utf-8"
+        ) as f:
             f.write(md)
 
         print(f"Processed post: {post['title']}")
