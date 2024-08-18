@@ -1,3 +1,9 @@
+/**
+ * This file implements the TableOfContents component for Quartz.
+ * It renders a table of contents based on the headings in the current page,
+ * supporting small caps and LaTeX rendering.
+ */
+
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
@@ -10,12 +16,22 @@ import script from "./scripts/toc.inline"
 import katex from "katex"
 import { fromHtml } from "hast-util-from-html"
 
+/**
+ * Processes small caps in the given text and adds it to the parent node.
+ * @param text - The text to process.
+ * @param parent - The parent node to add the processed text to.
+ */
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
   replaceSCInNode(textNode, 0, parent)
 }
 
+/**
+ * Processes LaTeX content and adds it to the parent node as a KaTeX-rendered span.
+ * @param latex - The LaTeX content to process.
+ * @param parent - The parent node to add the processed LaTeX to.
+ */
 function processKatex(latex: string, parent: Parent): void {
   const html = katex.renderToString(latex, { throwOnError: false })
   const katexNode = {
@@ -31,10 +47,10 @@ const logger = createLogger("TableOfContents")
 /**
  * TableOfContents component for rendering a table of contents.
  *
- * @param {QuartzComponentProps} props - The component props.
- * @param {QuartzPluginData} props.fileData - Data for the current file.
- * @param {string} [props.displayClass] - CSS class for controlling display.
- * @returns {JSX.Element | null} The rendered table of contents or null if disabled.
+ * @param props - The component props.
+ * @param props.fileData - Data for the current file.
+ * @param props.displayClass - CSS class for controlling display.
+ * @returns The rendered table of contents or null if disabled.
  */
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
@@ -67,9 +83,9 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
 /**
  * Recursively generates list items for the table of contents.
  *
- * @param {TocEntry[]} remainingEntries - The remaining TOC entries to process.
- * @param {number} currentDepth - The current depth in the TOC hierarchy.
- * @returns {JSX.Element[]} An array of JSX elements representing the TOC items.
+ * @param remainingEntries - The remaining TOC entries to process.
+ * @param currentDepth - The current depth in the TOC hierarchy.
+ * @returns An array of JSX elements representing the TOC items.
  */
 function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.Element[] {
   logger.debug(
@@ -81,7 +97,7 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.El
     return []
   }
 
-  let result = []
+  let result: JSX.Element[] = []
   while (remainingEntries.length > 0) {
     const tocEntry = remainingEntries[0]
     logger.debug(`Processing TOC entry: ${JSON.stringify(tocEntry)}`)
@@ -98,10 +114,6 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.El
       remainingEntries.shift()
       const entryParent: Parent = processTocEntry(tocEntry)
       const children = entryParent.children.map(elementToJsx)
-      let childElts: JSX.Element[] = []
-      for (let i = 0; i < children.length; i++) {
-        childElts.push(children[i])
-      }
       let li = (
         <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
           <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
@@ -121,8 +133,8 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.El
 /**
  * Processes small caps and LaTeX in a TOC entry.
  *
- * @param {TocEntry} entry - The TOC entry to process.
- * @returns {Parent} A Parent object representing the processed entry.
+ * @param entry - The TOC entry to process.
+ * @returns A Parent object representing the processed entry.
  */
 function processTocEntry(entry: TocEntry): Parent {
   logger.debug(`Processing TOC entry: ${entry.text}`)
@@ -146,6 +158,12 @@ function processTocEntry(entry: TocEntry): Parent {
   return parent
 }
 
+/**
+ * Processes the HTML AST, handling text nodes and elements recursively.
+ *
+ * @param htmlAst - The HTML AST to process.
+ * @param parent - The parent node to add processed nodes to.
+ */
 function processHtmlAst(htmlAst: any, parent: Parent): void {
   htmlAst.children.forEach((node: any) => {
     if (node.type === 'text') {
@@ -166,11 +184,9 @@ function processHtmlAst(htmlAst: any, parent: Parent): void {
 /**
  * Converts a HAST element to a JSX element.
  *
- * @param {any} elt - The HAST element to convert.
- * @returns {JSX.Element} The converted JSX element.
- * @throws {Error} If an unknown element type is encountered.
+ * @param elt - The HAST element to convert.
+ * @returns The converted JSX element.
  */
-
 function elementToJsx(elt: RootContent): JSX.Element {
   logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
 
@@ -181,7 +197,7 @@ function elementToJsx(elt: RootContent): JSX.Element {
       if (elt.tagName === "abbr") {
         const abbrText = (elt.children[0] as Text).value
         const className = (elt.properties?.className as string[])?.join(" ") || ""
-        return <abbr class={className}>{abbrText}</abbr>
+        return <abbr className={className}>{abbrText}</abbr>
       } else if (elt.tagName === "span") {
         if ((elt.properties?.className as string[])?.includes("katex-toc")) {
           return (
@@ -195,20 +211,22 @@ function elementToJsx(elt: RootContent): JSX.Element {
           return <span>{elt.children.map(elementToJsx)}</span>
         }
       }
-    // Add more cases here as needed for other element types you expect
+      // Add more cases here as needed for other element types you expect
+      break
 
     case "comment":
-      return <></>
-
     case "doctype":
-      // Handle doctype if necessary, often ignored in JSX rendering
+      // These types are typically ignored in JSX rendering
       return <></>
 
     default:
       // Gracefully handle unexpected node types
       logger.warn(`Unexpected node type encountered: ${elt.type}`)
-      return <></> // Or you could throw an error here if you want to be strict
+      return <></>
   }
+
+  // This should never be reached due to the switch cases, but TypeScript requires it
+  return <></>
 }
 
 TableOfContents.css = modernStyle
