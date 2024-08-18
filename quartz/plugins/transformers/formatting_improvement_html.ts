@@ -221,30 +221,26 @@ export function applyTextTransforms(text: string): string {
 
 const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
 
-export const applyLinkPunctuation = () => {
-  return (tree: any) => {
-    visit(tree, 'element', (node, index, parent) => {
-      if (node.tagName === 'a' && index !== undefined && parent.children[index + 1]) {
-        const nextNode = parent.children[index + 1]
-        if (nextNode.type === 'text' || nextNode.tagName === 'em' || nextNode.tagName === 'strong') {
-          const text = nextNode.type === 'text' ? nextNode.value : nextNode.children[0].value
-          if (text && acceptedPunctuation.includes(text[0])) {
-            // Move punctuation into the link
-            const punctuation = text[0]
-            if (node.children[0].type === 'text') {
-              node.children[0].value += punctuation
-            } else {
-              node.children.push({ type: 'text', value: punctuation })
-            }
-            if (text.length > 1) {
-              nextNode.value = text.slice(1)
-            } else {
-              parent.children.splice(index + 1, 1)
-            }
-          }
+export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+  if (node.tagName === 'a' && index !== undefined && parent.children[index + 1]) {
+    const nextNode = parent.children[index + 1]
+    if (nextNode.type === 'text' || nextNode.tagName === 'em' || nextNode.tagName === 'strong') {
+      const text = nextNode.type === 'text' ? nextNode.value : nextNode.children[0].value
+      if (text && acceptedPunctuation.includes(text[0])) {
+        // Move punctuation into the link
+        const punctuation = text[0]
+        if (node.children[0].type === 'text') {
+          node.children[0].value += punctuation
+        } else {
+          node.children.push({ type: 'text', value: punctuation })
+        }
+        if (text.length > 1) {
+          nextNode.value = text.slice(1)
+        } else {
+          parent.children.splice(index + 1, 1)
         }
       }
-    })
+    }
   }
 }
 
@@ -330,7 +326,7 @@ export const improveFormatting: Plugin = () => {
         transformElement(node, niceQuotes, toSkip, false)
         transformElement(node, enDashNumberRange, toSkip, true)
         // TODO should be able to check transform invariance here; fails on corrigibility post so might be failing
-        applyLinkPunctuation()(node)
+        visit(node, 'element', applyLinkPunctuation)
 
         let notMatching = false
         try {
