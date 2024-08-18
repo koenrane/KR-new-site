@@ -216,57 +216,24 @@ describe("HTMLFormattingImprovement", () => {
   })
 })
 
-describe("applyLinkPunctuation function", () => {
-  describe("Handles various link scenarios", () => {
-    it.each([
-      [
-        '<p><a href="https://example.com">Link</a>.</p>',
-        '<p><a href="https://example.com">Link.</a></p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>,</p>',
-        '<p><a href="https://example.com">Link,</a></p>',
-      ],
-      [
-        '<p>"<a href="https://example.com">Link</a>"</p>',
-        '<p><a href="https://example.com">"Link"</a></p>',
-      ],
-      [
-        '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>',
-        '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>!</p>',
-        '<p><a href="https://example.com">Link!</a></p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>?</p>',
-        '<p><a href="https://example.com">Link?</a></p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>;</p>',
-        '<p><a href="https://example.com">Link;</a></p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>:</p>',
-        '<p><a href="https://example.com">Link:</a></p>',
-      ],
-      [
-        '<p><em><a href="https://example.com">Link</a></em></p>',
-        '<p><em><a href="https://example.com">Link</a></em></p>',
-      ],
-      [
-        '<p><strong><a href="https://example.com">Link</a></strong></p>',
-        '<p><strong><a href="https://example.com">Link</a></strong></p>',
-      ],
-      [
-        '<p><a href="https://example.com">Link</a>`</p>',
-        '<p><a href="https://example.com">Link`</a></p>',
-      ],
-    ])("correctly handles '%s'", (input, expected) => {
-      const processedHtml = testHtmlFormattingImprovement(input)
-      expect(processedHtml).toBe(expected)
-    })
+describe("applyLinkPunctuation", () => {
+  const linkScenarios = [
+    ['<p><a href="https://example.com">Link</a>.</p>', '<p><a href="https://example.com">Link.</a></p>'],
+    ['<p><a href="https://example.com">Link</a>,</p>', '<p><a href="https://example.com">Link,</a></p>'],
+    ['<p>"<a href="https://example.com">Link</a>"</p>', '<p><a href="https://example.com">"Link"</a></p>'],
+    ['<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>', '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>'],
+    ['<p><a href="https://example.com">Link</a>!</p>', '<p><a href="https://example.com">Link!</a></p>'],
+    ['<p><a href="https://example.com">Link</a>?</p>', '<p><a href="https://example.com">Link?</a></p>'],
+    ['<p><a href="https://example.com">Link</a>;</p>', '<p><a href="https://example.com">Link;</a></p>'],
+    ['<p><a href="https://example.com">Link</a>:</p>', '<p><a href="https://example.com">Link:</a></p>'],
+    ['<p><em><a href="https://example.com">Link</a></em></p>', '<p><em><a href="https://example.com">Link</a></em></p>'],
+    ['<p><strong><a href="https://example.com">Link</a></strong></p>', '<p><strong><a href="https://example.com">Link</a></strong></p>'],
+    ['<p><a href="https://example.com">Link</a>`</p>', '<p><a href="https://example.com">Link`</a></p>'],
+  ]
+
+  it.each(linkScenarios)("correctly handles link punctuation", (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
   })
 
   describe("End-to-end HTML formatting improvement", () => {
