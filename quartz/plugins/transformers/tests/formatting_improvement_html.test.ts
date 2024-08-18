@@ -325,6 +325,69 @@ describe("assertSmartQuotesMatch", () => {
   })
 })
 
+describe("getTextNodeCousin", () => {
+  it("should return null for a node without siblings or cousins", () => {
+    const node = {
+      type: "element",
+      tagName: "p",
+      children: [{ type: "text", value: "Hello" }],
+    }
+    expect(getTextNodeCousin(node as Element)).toBeNull()
+  })
+
+  it("should find the next text node sibling", () => {
+    const node = {
+      type: "element",
+      tagName: "p",
+      children: [
+        { type: "element", tagName: "span", children: [{ type: "text", value: "Hello" }] },
+        { type: "text", value: " World" },
+      ],
+    }
+    const result = getTextNodeCousin(node.children[0] as Element)
+    expect(result).toEqual({ type: "text", value: " World" })
+  })
+
+  it("should find the next text node cousin", () => {
+    const node = {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "element", tagName: "p", children: [{ type: "text", value: "Hello" }] },
+        { type: "text", value: " World" },
+      ],
+    }
+    const result = getTextNodeCousin(node.children[0] as Element)
+    expect(result).toEqual({ type: "text", value: " World" })
+  })
+
+  it("should return the first child of a text-like element", () => {
+    const node = {
+      type: "element",
+      tagName: "p",
+      children: [
+        { type: "element", tagName: "span", children: [{ type: "text", value: "Hello" }] },
+        { type: "element", tagName: "em", children: [{ type: "text", value: " World" }] },
+      ],
+    }
+    const result = getTextNodeCousin(node.children[0] as Element)
+    expect(result).toEqual({ type: "text", value: " World" })
+  })
+
+  it("should return null if no text node cousin is found", () => {
+    const node = {
+      type: "element",
+      tagName: "div",
+      children: [
+        { type: "element", tagName: "p", children: [{ type: "text", value: "Hello" }] },
+        { type: "element", tagName: "img", properties: { src: "image.jpg" } },
+      ],
+    }
+    const result = getTextNodeCousin(node.children[0] as Element)
+    expect(result).toBeNull()
+  })
+})
+
 describe("flattenTextNodes and getTextContent", () => {
   const ignoreNone = () => false
   const ignoreCode = (n: any) => n.tagName === "code"
