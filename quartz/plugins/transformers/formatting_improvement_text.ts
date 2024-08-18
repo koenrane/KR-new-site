@@ -35,6 +35,11 @@ export function editAdmonition(text: string): string {
   return text
 }
 
+// Wrap e.g. header "# 10" in lining nums
+export function wrapLeadingHeaderNumbers(text: string): string {
+  return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
+}
+
 // Regular expression for note patterns
 const notePattern = /^\s*(?<emph1>[\*_]*)note: (?<text>.*)(?<emph2>[\*_]*)/gim
 
@@ -85,6 +90,7 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *\,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
+  newContent = wrapLeadingHeaderNumbers(newContent)
 
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
