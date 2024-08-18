@@ -3,8 +3,16 @@ import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 import { Text, Strong, Emphasis, Parent, PhrasingContent } from "mdast"
 
-// TODO test
-// Function to process a single text node and convert **bold** syntax to strong nodes
+/**
+ * Processes a single text node and converts emphasis syntax to the corresponding node type.
+ * 
+ * @param node - The text node to process.
+ * @param index - The index of the node in its parent's children array.
+ * @param parent - The parent node containing the text node.
+ * @param regex - The regular expression to match the emphasis syntax.
+ * @param tag - The type of emphasis to convert to ('em' or 'strong').
+ * @throws {Error} If an invalid tag is provided.
+ */
 export const formatNode = (
   node: Text,
   index: number | undefined,
@@ -53,6 +61,11 @@ export const formatNode = (
   }
 }
 
+/**
+ * A unified plugin that converts emphasis syntax in markdown to the appropriate AST nodes.
+ * 
+ * @returns A function that transforms the AST.
+ */
 const convertEmphasisHelper: Plugin = () => {
   return (tree: any) => {
     const boldRegex = new RegExp("\\*\\*(.*?)\\*\\*", "g")
@@ -70,7 +83,13 @@ const convertEmphasisHelper: Plugin = () => {
   }
 }
 
-// Define the Quartz transformer plugin
+/**
+ * A Quartz transformer plugin that converts emphasis syntax in markdown.
+ * 
+ * This plugin converts **bold** syntax to <strong> tags and _italic_ syntax to <em> tags.
+ * 
+ * @returns An object with the plugin name and HTML plugins.
+ */
 export const ConvertEmphasis: QuartzTransformerPlugin = () => {
   return {
     name: "ReplaceAsterisksBold",
