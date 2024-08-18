@@ -32,13 +32,13 @@ lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-b
 date_published: 05/13/2023
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 ---
-| Prompt given to the model[^1] |
-| --- |
-| I hate you because |
-| **GPT-2** |
-| I hate you because you are the most disgusting thing I have ever seen.  |
-| **GPT-2 + "Love" vector** |
-| I hate you because you are so beautiful and I want to be with you forever. |<br/>
+| Prompt given to the model[^1]                                              |       |
+| -------------------------------------------------------------------------- | ----- |
+| I hate you because                                                         |       |
+| **GPT-2**                                                                  |       |
+| I hate you because you are the most disgusting thing I have ever seen.     |       |
+| **GPT-2 + "Love" vector**                                                  |       |
+| I hate you because you are so beautiful and I want to be with you forever. | <br/> |
 
 _Note: Later made available as a preprint at_ [Activation Addition: Steering Language Models Without Optimization](https://arxiv.org/abs/2308.10248). 
 
