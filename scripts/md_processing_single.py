@@ -389,16 +389,7 @@ def remove_warning(markdown: str) -> str:
     return markdown.split(MARKDOWN_WARNING)[-1]
 
 
-def remove_numbers_gpt2_headings(markdown: str) -> str:
-    pattern = r"\#{3} \d{1,2}\\\. "
-    target = "### "
-    return regex.sub(pattern, target, markdown)
-
-
 def process_markdown(md: str, metadata: dict) -> str:
-    if "title" in metadata and "Steering GPT-2" in metadata["title"]:
-        md = remove_numbers_gpt2_headings(md)
-
     md = manual_replace(md)
 
     # Not enough newlines before A: in inner/outer

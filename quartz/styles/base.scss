@@ -327,7 +327,8 @@ h5,
 h6,
 #toc-content li {
   // Oldstyle is too small for headers
-  &::first-letter {
+  &::first-letter,
+  & span {
     font-variant-numeric: lining-nums;
   }
   // color: var(--color-header);
