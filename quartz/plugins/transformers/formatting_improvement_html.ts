@@ -7,8 +7,6 @@ import { Plugin } from "unified"
 
 /**
  * Flattens text nodes in an element tree
- * @param node - The node to flatten
- * @param ignoreNode - Function to determine if a node should be ignored
  * @returns An array of Text nodes
  */
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
@@ -28,8 +26,6 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean)
 
 /**
  * Extracts text content from an element
- * @param node - The element to extract text from
- * @param ignoreNodeFn - Function to determine if a node should be ignored
  * @returns The extracted text content
  */
 export function getTextContent(
@@ -43,7 +39,6 @@ export function getTextContent(
 
 /**
  * Checks for matching smart quotes
- * @param input - The string to check
  * @throws An error if quotes are mismatched
  */
 export function assertSmartQuotesMatch(input: string): void {
@@ -90,10 +85,6 @@ paragraph, while preserving the structure of the paragraph.
   */
 /**
  * Applies transformations to element text content
- * @param node - The element to transform
- * @param transform - The transformation function
- * @param ignoreNodeFn - Function to determine if a node should be ignored
- * @param checkTransformInvariance - Whether to check transform invariance
  */
 export function transformElement(
   node: Element,
@@ -130,7 +121,6 @@ export function transformElement(
 
 /**
  * Replaces quotes with smart quotes
- * @param text - The text to transform
  * @returns The text with smart quotes
  */
 export function niceQuotes(text: string) {
@@ -175,7 +165,6 @@ export function niceQuotes(text: string) {
 // Give extra breathing room to slashes with full-width slashes
 /**
  * Replaces slashes with full-width slashes
- * @param text - The text to transform
  * @returns The text with full-width slashes
  */
 export function fullWidthSlashes(text: string): string {
@@ -190,7 +179,6 @@ export function fullWidthSlashes(text: string): string {
 //  Allows for page numbers in the form "p.206-207"
 /**
  * Replaces hyphens with en dashes in number ranges
- * @param text - The text to transform
  * @returns The text with en dashes in number ranges
  */
 export function enDashNumberRange(text: string): string {
@@ -199,7 +187,6 @@ export function enDashNumberRange(text: string): string {
 
 /**
  * Replaces various dash types with appropriate alternatives
- * @param text - The text to transform
  * @returns The text with improved dash usage
  */
 export function hyphenReplace(text: string) {
@@ -255,7 +242,6 @@ export function hyphenReplace(text: string) {
 // Not used in the plugin, but useful for other purposes
 /**
  * Applies multiple text transformations
- * @param text - The text to transform
  * @returns The transformed text
  */
 export function applyTextTransforms(text: string): string {
@@ -272,9 +258,6 @@ const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
 
 /**
  * Moves punctuation inside links
- * @param node - The node to process
- * @param index - The index of the node
- * @param parent - The parent of the node
  */
 export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
   if (node.tagName === 'a' && index !== undefined && parent.children[index + 1]) {
