@@ -6,25 +6,11 @@ import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
 
 /**
- * This file contains functions for improving HTML formatting, including:
- * 
- * - flattenTextNodes: Flattens text nodes in an element tree
- * - getTextContent: Extracts text content from an element
- * - assertSmartQuotesMatch: Checks for matching smart quotes
- * - transformElement: Applies transformations to element text content
- * - niceQuotes: Replaces quotes with smart quotes
- * - fullWidthSlashes: Replaces slashes with full-width slashes
- * - enDashNumberRange: Replaces hyphens with en dashes in number ranges
- * - hyphenReplace: Replaces various dash types with appropriate alternatives
- * - applyTextTransforms: Applies multiple text transformations
- * - applyLinkPunctuation: Moves punctuation inside links
- * - improveFormatting: Main plugin function for applying formatting improvements
- * - HTMLFormattingImprovement: QuartzTransformerPlugin for HTML formatting
- *
- * The file also includes utility functions for checking element ancestors
- * and skipping certain elements during transformations.
+ * Flattens text nodes in an element tree
+ * @param node - The node to flatten
+ * @param ignoreNode - Function to determine if a node should be ignored
+ * @returns An array of Text nodes
  */
-
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
   if (ignoreNode(node)) {
     return []
@@ -40,6 +26,12 @@ export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean)
   return []
 }
 
+/**
+ * Extracts text content from an element
+ * @param node - The element to extract text from
+ * @param ignoreNodeFn - Function to determine if a node should be ignored
+ * @returns The extracted text content
+ */
 export function getTextContent(
   node: Element,
   ignoreNodeFn: (n: Element) => boolean = () => false,
@@ -49,6 +41,11 @@ export function getTextContent(
     .join("")
 }
 
+/**
+ * Checks for matching smart quotes
+ * @param input - The string to check
+ * @throws An error if quotes are mismatched
+ */
 export function assertSmartQuotesMatch(input: string): void {
   if (!input) return
 
@@ -91,6 +88,13 @@ paragraph, while preserving the structure of the paragraph.
   NOTE/TODO this function is, in practice, called multiple times on the same
   node via its parent paragraphs. Beware non-idempotent transforms.
   */
+/**
+ * Applies transformations to element text content
+ * @param node - The element to transform
+ * @param transform - The transformation function
+ * @param ignoreNodeFn - Function to determine if a node should be ignored
+ * @param checkTransformInvariance - Whether to check transform invariance
+ */
 export function transformElement(
   node: Element,
   transform: (input: string) => string,
@@ -124,6 +128,11 @@ export function transformElement(
   }
 }
 
+/**
+ * Replaces quotes with smart quotes
+ * @param text - The text to transform
+ * @returns The text with smart quotes
+ */
 export function niceQuotes(text: string) {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
@@ -164,6 +173,11 @@ export function niceQuotes(text: string) {
 }
 
 // Give extra breathing room to slashes with full-width slashes
+/**
+ * Replaces slashes with full-width slashes
+ * @param text - The text to transform
+ * @returns The text with full-width slashes
+ */
 export function fullWidthSlashes(text: string): string {
   const slashRegex = new RegExp(
     `(?<![\\d\/])(${chr}?)[ ](${chr}?)\/(${chr}?)[ ](${chr}?)(?=[^\\d\/])`,
@@ -174,10 +188,20 @@ export function fullWidthSlashes(text: string): string {
 
 // Number ranges should use en dashes, not hyphens.
 //  Allows for page numbers in the form "p.206-207"
+/**
+ * Replaces hyphens with en dashes in number ranges
+ * @param text - The text to transform
+ * @returns The text with en dashes in number ranges
+ */
 export function enDashNumberRange(text: string): string {
   return text.replace(new RegExp(`\\b((?:p\.?)?\\d+${chr}?)-(${chr}?\\d+)\\b`, "g"), "$1–$2")
 }
 
+/**
+ * Replaces various dash types with appropriate alternatives
+ * @param text - The text to transform
+ * @returns The text with improved dash usage
+ */
 export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
   //  Being right after chr is a sufficient condition for being an em
@@ -229,6 +253,11 @@ export function hyphenReplace(text: string) {
 }
 
 // Not used in the plugin, but useful for other purposes
+/**
+ * Applies multiple text transformations
+ * @param text - The text to transform
+ * @returns The transformed text
+ */
 export function applyTextTransforms(text: string): string {
   text = text.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces
   text = niceQuotes(text)
@@ -241,6 +270,12 @@ export function applyTextTransforms(text: string): string {
 
 const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
 
+/**
+ * Moves punctuation inside links
+ * @param node - The node to process
+ * @param index - The index of the node
+ * @param parent - The parent of the node
+ */
 export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
   if (node.tagName === 'a' && index !== undefined && parent.children[index + 1]) {
     const nextNode = parent.children[index + 1]
@@ -297,6 +332,10 @@ function isFootnote(node: Element) {
 
 // Main function //
 // Note: Assumes no nbsp
+/**
+ * Main plugin function for applying formatting improvements
+ * @returns A unified plugin
+ */
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
@@ -372,6 +411,10 @@ export const improveFormatting: Plugin = () => {
   }
 }
 
+/**
+ * QuartzTransformerPlugin for HTML formatting
+ * @returns A QuartzTransformerPlugin
+ */
 export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
   return {
     name: "htmlFormattingImprovement",
