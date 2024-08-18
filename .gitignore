@@ -50,3 +50,4 @@ content/drafts
 .aider
 .aider*
 *.faviconUrls.txt
+content/import/*

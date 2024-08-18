@@ -171,7 +171,7 @@ def fix_footnotes(text: str) -> str:
     text = regex.sub(r"(\d+)\.\s*\*{2}\[\^\]\(.*?\)\*{2}\s*", r"[^\1]: ", text)
 
     # Footnote (manual latex) --- convert end fnref first
-    text = regex.sub(r"^\s*\$(\^\d+)\$", r"[\1]:", text, flags=regex.MULTILINE)
+    text = regex.sub(r"^\s*\$(\^\d+)\$", "\n" + r"[\1]:", text, flags=regex.MULTILINE)
     # Footnote (manual latex, in text)
     text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
 
@@ -292,7 +292,7 @@ replacement = {
     "<em>openai.com/o</em>penai-five/": "openai.com/openai-five/",
     r"\(<em>h</em>ttps://": "(https://",
     "茂": "ï",
-    "": "",  # TODO reinsert this thing showing up before double 'f'. was problem in original IC post
+    "": "",  # TODO reinsert this thing showing up before double 'f'. was problem in original IC post
     "◻️": "∎",  # Official end of proof symbol
     "lesserwrong.com": "lesswrong.com",
     # Latex substitutions
