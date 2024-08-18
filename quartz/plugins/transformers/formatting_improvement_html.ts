@@ -152,6 +152,12 @@ export function fullWidthSlashes(text: string): string {
   return text.replace(slashRegex, "$1$2 ／$3$4")
 }
 
+// Number ranges should use en dashes, not hyphens.
+//  Allows for page numbers in the form "p.206-207"
+export function enDashNumberRange(text: string): string {
+  return text.replace(new RegExp(`\\b((?:p\.?)?\\d+${chr}?)-(${chr}?\\d+)\\b`, "g"), "$1–$2")
+}
+
 export function hyphenReplace(text: string) {
   // Handle dashes with potential spaces and optional marker character
   //  Being right after chr is a sufficient condition for being an em
@@ -197,9 +203,12 @@ export function hyphenReplace(text: string) {
   const startOfLine = new RegExp(`^${spacesAroundEM.source}(?<after>[A-Z0-9])`, "gm")
   text = text.replace(startOfLine, "$<markerBefore>—$<markerAfter> $<after>")
 
+  text = enDashNumberRange(text)
+
   return text
 }
 
+// Not used in the plugin, but useful for other purposes
 export function applyTextTransforms(text: string): string {
   text = text.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces
   text = niceQuotes(text)

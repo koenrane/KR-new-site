@@ -7,6 +7,7 @@ import {
   fullWidthSlashes,
   transformElement,
   assertSmartQuotesMatch,
+  enDashNumberRange,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 
@@ -159,6 +160,9 @@ describe("HTMLFormattingImprovement", () => {
         "<blockquote><blockquote><p>not simply <em>accept</em> – but</p></blockquote></blockquote>",
         "<blockquote><blockquote><p>not simply <em>accept</em>—but</p></blockquote></blockquote>",
       ],
+      // Handle en dash number ranges
+      ["<p>1-2</p>", "<p>1–2</p>"],
+      ["<p>p1-2</p>", "<p>p1–2</p>"], // Page range
     ])("handling hyphenation in the DOM", (input: string, expected: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
@@ -186,6 +190,26 @@ describe("HTMLFormattingImprovement", () => {
 
       const targetNode = _getParagraphNode(numChildren, capitalize(before))
       expect(node).toEqual(targetNode)
+    })
+  })
+
+  describe("Number Range", () => {
+    it.each([
+      ["1-2", "1–2"],
+      ["10-20", "10–20"],
+      ["100-200", "100–200"],
+      ["1000-2000", "1000–2000"],
+      ["1-2 and 3-4", "1–2 and 3–4"],
+      ["from 5-10 to 15-20", "from 5–10 to 15–20"],
+      ["1-2-3", "1–2-3"], // Only replace the first hyphen
+      ["a-b", "a-b"], // Don't replace non-numeric ranges
+      ["1a-2b", "1a-2b"], // Don't replace if not purely numeric
+      ["1 - 2", "1 - 2"], // Don't replace if there are spaces
+      ["a1-2b", "a1-2b"], // Don't replace if not purely numeric
+      ["p. 206-207)", "p. 206–207)"], // ) should close out a word boundary
+    ])('should replace hyphens with en dashes in number ranges: "%s"', (input, expected) => {
+      const result = enDashNumberRange(input)
+      expect(result).toBe(expected)
     })
   })
 })
