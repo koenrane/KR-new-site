@@ -8,6 +8,7 @@ import { TocEntry } from "../plugins/transformers/toc"
 // @ts-expect-error
 import script from "./scripts/toc.inline"
 import katex from "katex"
+import { fromHtml } from "hast-util-from-html"
 
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
@@ -124,7 +125,7 @@ function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.El
  * @returns {Parent} A Parent object representing the processed entry.
  */
 function processTocEntry(entry: TocEntry): Parent {
-  logger.debug(`Processing SC in TOC entry: ${entry.text}`)
+  logger.debug(`Processing TOC entry: ${entry.text}`)
   const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
 
   // Split the text by LaTeX delimiters
@@ -136,12 +137,30 @@ function processTocEntry(entry: TocEntry): Parent {
       const latex = part.slice(1, -1)
       processKatex(latex, parent)
     } else {
-      // Regular text
-      processSmallCaps(part, parent)
+      // Parse as HTML and process
+      const htmlAst = fromHtml(part, { fragment: true })
+      processHtmlAst(htmlAst, parent)
     }
   })
 
   return parent
+}
+
+function processHtmlAst(htmlAst: any, parent: Parent): void {
+  htmlAst.children.forEach((node: any) => {
+    if (node.type === 'text') {
+      processSmallCaps(node.value, parent)
+    } else if (node.type === 'element') {
+      const newElement = {
+        type: 'element',
+        tagName: node.tagName,
+        properties: node.properties,
+        children: []
+      } as Element
+      parent.children.push(newElement)
+      processHtmlAst(node, newElement)
+    }
+  })
 }
 
 /**
