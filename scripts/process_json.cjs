@@ -14,6 +14,7 @@ turndownService.addRule("subscript", {
 turndownService.addRule("figure", {
   filter: "figure",
   replacement: function (content, node) {
+    console.log(content)
     // Extract the image (if present) and caption
     const img = node.querySelector("img")
     const figcaption = node.querySelector("figcaption")
