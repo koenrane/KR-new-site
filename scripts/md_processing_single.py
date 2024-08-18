@@ -351,6 +351,9 @@ replacement = {
     r"Coeff\\b": "Coeff.",
     r"ReLu": "ReLU",
     r"Appendix__Related_work": "Appendix_1_Related_Work",
+    # Other posts
+    r"d̴iv̢erge͏nc̸e͟": "<span class='corrupted'>divergence</span>",
+    r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
 }
 
 
@@ -368,24 +371,27 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
     # TODO check that prelink works
     pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
+
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
-    url_pattern = r"\((?P<url>[^#].*?)\)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
+    url_pattern = r"\((?P<url>[^#].*?)\)"
+    md_url_pattern = link_pattern + url_pattern
+
     post_citation_pattern = r"[ _\*]*"
+
     pattern = (
         start_adm_pattern
         + body_pattern
         + line_break_pattern
         + pre_citation_pattern
-        + link_pattern
-        + url_pattern
+        + md_url_pattern
         + post_citation_pattern
     )
-
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
     md = regex.sub(pattern, target, md)
 
     # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well
+    #  TODO problem with some quotes
     # move normal attribution to beginning
     pattern = (
         start_adm_pattern
