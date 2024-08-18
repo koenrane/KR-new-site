@@ -4,16 +4,17 @@ import concurrent.futures
 from urllib.parse import urlparse
 from pathlib import Path
 
+
 def run_linkchecker(url):
     result = subprocess.run(
-        ["linkchecker", "--check-extern", "--recursion-level=1", "--output=json", url],
-        capture_output=True,
-        text=True
+        ["linkchecker", "--output=json", url], capture_output=True, text=True
     )
     return json.loads(result.stdout)
 
+
 def is_internal_link(url, base_url):
     return urlparse(url).netloc == urlparse(base_url).netloc or not urlparse(url).netloc
+
 
 def check_links(base_url):
     results = run_linkchecker(base_url)
@@ -25,18 +26,20 @@ def check_links(base_url):
 
     return internal_errors
 
+
 def main():
     base_url = "http://localhost:8080"  # Replace with your local development server URL
-    
+
     print(f"Checking internal links for {base_url}")
     errors = check_links(base_url)
-    
+
     if errors:
         print("Internal link errors found:")
         for error in errors:
             print(f"- {error['url']}: {error['info']}")
     else:
         print("No internal link errors found.")
+
 
 if __name__ == "__main__":
     main()
