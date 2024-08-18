@@ -219,38 +219,68 @@ describe("HTMLFormattingImprovement", () => {
 describe("applyLinkPunctuation function", () => {
   describe("Handles various link scenarios", () => {
     it.each([
-      ["[Link](https://example.com).", "[Link.](https://example.com)"],
-      ["[Link](https://example.com),", "[Link,](https://example.com)"],
-      ['"[Link](https://example.com)"', '["Link"](https://example.com)'],
       [
-        "([Google Scholar](https://scholar.google.com/citations?user=thAHiVcAAAAJ))",
-        "([Google Scholar](https://scholar.google.com/citations?user=thAHiVcAAAAJ))",
+        '<p><a href="https://example.com">Link</a>.</p>',
+        '<p><a href="https://example.com">Link.</a></p>',
       ],
-      ["[Link](https://example.com)!", "[Link!](https://example.com)"],
-      ["[Link](https://example.com)?", "[Link?](https://example.com)"],
-      ["[Link](https://example.com);", "[Link;](https://example.com)"],
-      ["[Link](https://example.com):", "[Link:](https://example.com)"],
-      ["*[Link](https://example.com)*", "*[Link](https://example.com)*"],
-      ["**[Link](https://example.com)**", "**[Link](https://example.com)**"],
-      ["[Link](https://example.com)`", "[Link`](https://example.com)"],
+      [
+        '<p><a href="https://example.com">Link</a>,</p>',
+        '<p><a href="https://example.com">Link,</a></p>',
+      ],
+      [
+        '<p>"<a href="https://example.com">Link</a>"</p>',
+        '<p><a href="https://example.com">"Link"</a></p>',
+      ],
+      [
+        '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>',
+        '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>',
+      ],
+      [
+        '<p><a href="https://example.com">Link</a>!</p>',
+        '<p><a href="https://example.com">Link!</a></p>',
+      ],
+      [
+        '<p><a href="https://example.com">Link</a>?</p>',
+        '<p><a href="https://example.com">Link?</a></p>',
+      ],
+      [
+        '<p><a href="https://example.com">Link</a>;</p>',
+        '<p><a href="https://example.com">Link;</a></p>',
+      ],
+      [
+        '<p><a href="https://example.com">Link</a>:</p>',
+        '<p><a href="https://example.com">Link:</a></p>',
+      ],
+      [
+        '<p><em><a href="https://example.com">Link</a></em></p>',
+        '<p><em><a href="https://example.com">Link</a></em></p>',
+      ],
+      [
+        '<p><strong><a href="https://example.com">Link</a></strong></p>',
+        '<p><strong><a href="https://example.com">Link</a></strong></p>',
+      ],
+      [
+        '<p><a href="https://example.com">Link</a>`</p>',
+        '<p><a href="https://example.com">Link`</a></p>',
+      ],
     ])("correctly handles '%s'", (input, expected) => {
-      const result = applyLinkPunctuation(input)
-      expect(result).toBe(expected)
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
     })
   })
 
   describe("End-to-end HTML formatting improvement", () => {
     it.each([
       [
-        `<p> [Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365).</p>`,
-        `<p> [Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</p>`,
+        '<p><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions</a>.</p>',
+        '<p><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions.</a></p>',
       ],
       [
-        `<p> <em>[Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</em> .</p>`,
-        `<p> <em>[Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)</em></p>`,
+        '<p><em><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions</a></em>.</p>',
+        '<p><em><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions.</a></em></p>',
       ],
     ])(
-      `correctly processes links with private use character`,
+      `correctly processes links`,
       (input: string, expected: string) => {
         const processedHtml = testHtmlFormattingImprovement(input)
         expect(processedHtml).toBe(expected)
@@ -261,39 +291,20 @@ describe("applyLinkPunctuation function", () => {
   describe("Handles multiple links in a single string", () => {
     it("processes multiple links correctly", () => {
       const input =
-        "Check out [Link1](https://example1.com), and then [Link2](https://example2.com)!"
+        '<p>Check out <a href="https://example1.com">Link1</a>, and then <a href="https://example2.com">Link2</a>!</p>'
       const expected =
-        "Check out [Link1,](https://example1.com) and then [Link2!](https://example2.com)"
-      const result = applyLinkPunctuation(input)
-      expect(result).toBe(expected)
+        '<p>Check out <a href="https://example1.com">Link1,</a> and then <a href="https://example2.com">Link2!</a></p>'
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
     })
   })
 
   describe("Doesn't modify non-link text", () => {
     it("leaves regular text unchanged", () => {
-      const input = "This is a regular sentence without any links."
-      const result = applyLinkPunctuation(input)
-      expect(result).toBe(input)
+      const input = "<p>This is a regular sentence without any links.</p>"
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(input)
     })
-  })
-
-  describe("Handles private use character", () => {
-    it.each([
-      [
-        `[Link${markerChar}](https://example.com).${markerChar} [Another${markerChar} Link](https://example2.com)${markerChar},`,
-        `[Link${markerChar}.](https://example.com)${markerChar} [Another${markerChar} Link,](https://example2.com)${markerChar}`,
-      ],
-      [
-        ` [Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}.`,
-        ` [Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}`,
-      ],
-    ])(
-      "correctly processes links with private use character",
-      (input: string, expected: string) => {
-        const result = applyLinkPunctuation(input)
-        expect(result).toBe(expected)
-      },
-    )
   })
 })
 
