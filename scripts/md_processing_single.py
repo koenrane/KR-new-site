@@ -502,9 +502,7 @@ if __name__ == "__main__":
         md = yaml + post_md
 
         output_filename = f"{post['slug']}.md"
-        with open(
-            Path("..", "content", "imports", output_filename), "w", encoding="utf-8"
-        ) as f:
+        with open(Path("..", "content", output_filename), "w", encoding="utf-8") as f:
             f.write(md)
 
         print(f"Processed post: {post['title']}")

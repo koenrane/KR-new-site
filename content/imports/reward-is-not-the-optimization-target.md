@@ -22,9 +22,9 @@ title: "Reward is not the optimization target"
 lw-latest-edit: 2023-09-18T16:54:05.078Z
 lw-is-linkpost: "false"
 tags: 
-  - "Reinforcement-Learning"
-  - "AI"
   - "Shard-Theory"
+  - "AI"
+  - "Reinforcement-Learning"
 aliases: 
   - "reward-is-not-the-optimization-target"
 date_published: 07/25/2022
