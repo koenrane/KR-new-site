@@ -10,16 +10,10 @@ turndownService.addRule("subscript", {
   },
 })
 
-// Retain captions for figures and preserve media class
+// Retain captions for figures
 turndownService.addRule("figure", {
   filter: "figure",
   replacement: function (content, node) {
-    // Check if the figure has the "media" class
-    if (node.classList.contains("media")) {
-      // Preserve the entire HTML for figures with the "media" class
-      return node.outerHTML;
-    }
-
     // Extract the image (if present) and caption
     const img = node.querySelector("img")
     const figcaption = node.querySelector("figcaption")

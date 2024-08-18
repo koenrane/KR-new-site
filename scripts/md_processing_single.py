@@ -232,11 +232,9 @@ def _get_urls(markdown: str) -> list[str]:
 # balance table col widths
 #  “fdsajl; fs”—(spaces) vector.
 # 0.994
-# wrap and no line colors for bibtex --- auto generate given YAML setting?
 # Check that no ' or " exist outside of code blocks --- in all formattinghtml. Add tests.
 # Loading order for eg fonts
 # full width images
-# Note, date: also Note:
 #  Prediction market embeds? process json
 
 
@@ -460,8 +458,6 @@ def process_markdown(md: str, metadata: dict) -> str:
     md = regex.sub(rf"({bulleted_line}) *\n({bulleted_line})(?: *\n)?", r"\1\2", md)
     # Get rid of lines before list start \n\n**A-Outer:**
     md = regex.sub(r"\n *\n( *\*(?: .*)?\n)", r"\n\1", md)
-
-    # TODO color conversion -- actually do in JS/CSS
 
     # single-line $ $ to $$ $$
     md = regex.sub(r"^ *\$([^\$].*[^\$])\$ *$", r"$$\1$$", md, flags=regex.MULTILINE)
