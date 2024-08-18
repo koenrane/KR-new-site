@@ -23,10 +23,6 @@ def read_maybe_generate_json() -> dict:
         return json.load(f)
 
 
-data = read_maybe_generate_json()
-results = data["data"]["posts"]["results"]
-
-
 def strip_referral_url(url: str) -> str:
     prefix = "https://www.lesswrong.com/out?url="
     if not url.startswith(prefix):
@@ -205,14 +201,6 @@ def parse_latex(markdown: str) -> str:
     markdown = regex.sub(r"\$([+-]?\d+(\.\d+)?)\$", r"\1", markdown)
 
     return markdown
-
-
-# Get all hashes
-for post in results:
-    if not post["contents"]:
-        continue
-    current_hash = post["pageUrl"].split("/")[-2]
-    helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[post["slug"]]
 
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
@@ -477,34 +465,46 @@ if __name__ == "__main__":
     data = read_maybe_generate_json()
     results = data["data"]["posts"]["results"]
 
-    matching_posts = [post for post in results if title_substring in post["title"]]
+    # Get all hashes
+    for post in results:
+        if not post["contents"]:
+            continue
+        current_hash = post["pageUrl"].split("/")[-2]
+        helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[post["slug"]]
 
-    if len(matching_posts) == 0:
-        raise FileNotFoundError(
-            f"Error: No posts found with title containing '{title_substring}'"
-        )
-    elif len(matching_posts) > 1:
-        print(f"Error: Multiple posts found with title containing '{title_substring}':")
-        for post in matching_posts:
-            print(f"- {post['title']}")
-        sys.exit(1)
+    if title_substring == "all":
+        posts_to_generate = results
+    else:
 
-    post = matching_posts[0]
+        matching_posts = [post for post in results if title_substring in post["title"]]
 
-    if not post["contents"]:
-        raise ValueError("Error: Post has no contents")
+        if len(matching_posts) == 0:
+            raise FileNotFoundError(
+                f"Error: No posts found with title containing '{title_substring}'"
+            )
+        elif len(matching_posts) > 1:
+            print(
+                f"Error: Multiple posts found with title containing '{title_substring}':"
+            )
+            for post in matching_posts:
+                print(f"- {post['title']}")
+            sys.exit(1)
 
-    metadata = get_lw_metadata(post)
-    metadata = add_quartz_metadata(metadata)
-    yaml = metadata_to_yaml(metadata)
-    post_md = process_markdown(post["contents"]["markdown"], metadata)
-    md = yaml + post_md
+        posts_to_generate = [matching_posts[0]]
 
-    output_filename = f"{post['slug']}.md"
-    with open(
-        Path("..", "content", "drafts", output_filename), "w", encoding="utf-8"
-    ) as f:
-        f.write(md)
+    for post in posts_to_generate:
+        if not post["contents"]:
+            continue
+        metadata = get_lw_metadata(post)
+        metadata = add_quartz_metadata(metadata)
+        yaml = metadata_to_yaml(metadata)
+        post_md = process_markdown(post["contents"]["markdown"], metadata)
+        md = yaml + post_md
 
-    print(f"Processed post: {post['title']}")
-    print(f"Output written to: {output_filename}")
+        output_filename = f"{post['slug']}.md"
+        with open(
+            Path("..", "content", "imports", output_filename), "w", encoding="utf-8"
+        ) as f:
+            f.write(md)
+
+        print(f"Processed post: {post['title']}")

@@ -111,7 +111,6 @@ export function slugFunction() {
     visit(tree, "element", function (node: Element) {
       if (headingRank(node) && !node.properties.id) {
         const protoSlug = preprocessSlug(toString(node))
-        console.log(protoSlug)
         node.properties.id = slugger.slug(protoSlug)
       }
     })
