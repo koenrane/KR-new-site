@@ -219,35 +219,33 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
-const prePunctuation = /(?<prePunct>[\"\"]*)/
-// If the punctuation is found, it is captured
-let postPunctuation, postReplaceTemplate
+const acceptedPunctuation = [".", ",", "?", ":", "!", ";"]
 
-for (const surrounding of ["", "_", "\\*\\*", "\\*", "__"]) {
-  const surroundingTag = surrounding.replaceAll("\\", "").replaceAll("*", "A").replaceAll("_", "U")
-  const tempRegex = new RegExp(
-    `${surrounding}(?<postPunct${surroundingTag}>[\"\"\`\.\,\?\:\!\;]+)?${surrounding}`,
-    "g",
-  )
-  if (postPunctuation) {
-    postPunctuation = new RegExp(`${postPunctuation.source}|${tempRegex.source}`)
-    postReplaceTemplate = `${postReplaceTemplate}$<postPunct${surroundingTag}>`
-  } else {
-    postPunctuation = tempRegex
-    postReplaceTemplate = `$<postPunct${surroundingTag}>`
+export const applyLinkPunctuation = () => {
+  return (tree: any) => {
+    visit(tree, 'element', (node, index, parent) => {
+      if (node.tagName === 'a' && index !== undefined && parent.children[index + 1]) {
+        const nextNode = parent.children[index + 1]
+        if (nextNode.type === 'text' || nextNode.tagName === 'em' || nextNode.tagName === 'strong') {
+          const text = nextNode.type === 'text' ? nextNode.value : nextNode.children[0].value
+          if (text && acceptedPunctuation.includes(text[0])) {
+            // Move punctuation into the link
+            const punctuation = text[0]
+            if (node.children[0].type === 'text') {
+              node.children[0].value += punctuation
+            } else {
+              node.children.push({ type: 'text', value: punctuation })
+            }
+            if (text.length > 1) {
+              nextNode.value = text.slice(1)
+            } else {
+              parent.children.splice(index + 1, 1)
+            }
+          }
+        }
+      }
+    })
   }
-}
-const preLinkRegex = new RegExp(
-  `${prePunctuation.source}(?<mark1>${markerChar}?)${mdLinkRegex.source}`,
-)
-const fullRegex = new RegExp(
-  `${preLinkRegex.source}(?<mark2>${markerChar}?)\\s?(?:${postPunctuation!.source})`,
-  "g",
-)
-const replaceTemplate = `$<mark1>[$<prePunct>$<linkText>${postReplaceTemplate}]($<linkURL>)$<mark2>`
-
-export const applyLinkPunctuation = (text: string): string => {
-  return text.replace(fullRegex, replaceTemplate)
 }
 
 // Node-skipping predicates //
@@ -332,7 +330,7 @@ export const improveFormatting: Plugin = () => {
         transformElement(node, niceQuotes, toSkip, false)
         transformElement(node, enDashNumberRange, toSkip, true)
         // TODO should be able to check transform invariance here; fails on corrigibility post so might be failing
-        transformElement(node, applyLinkPunctuation, toSkip, true)
+        applyLinkPunctuation()(node)
 
         let notMatching = false
         try {
