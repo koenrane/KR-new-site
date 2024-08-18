@@ -14,12 +14,17 @@ const fullRegex = new RegExp(
 )
 const replaceTemplate = "[$1$2$4$5]($3)"
 
-export const remarkLinkPunctuation = (element: HTMLElement) => {
-  if (element.nodeType === Node.TEXT_NODE) {
-    const text = element.textContent || ""
+export const remarkLinkPunctuation = (node: Node) => {
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node.textContent || ""
     const newText = text.replace(fullRegex, replaceTemplate)
     if (text !== newText) {
-      element.textContent = newText
+      node.textContent = newText
+    }
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    const element = node as HTMLElement
+    for (const childNode of Array.from(element.childNodes)) {
+      remarkLinkPunctuation(childNode)
     }
   }
 }
