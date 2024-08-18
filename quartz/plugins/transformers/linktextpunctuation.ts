@@ -14,10 +14,14 @@ const fullRegex = new RegExp(
 )
 const replaceTemplate = "[$1$2$4$5]($3)"
 
+export const applyLinkPunctuation = (text: string): string => {
+  return text.replace(fullRegex, replaceTemplate)
+}
+
 export const remarkLinkPunctuation = (node: Node) => {
   if (node.nodeType === Node.TEXT_NODE) {
     const text = node.textContent || ""
-    const newText = text.replace(fullRegex, replaceTemplate)
+    const newText = applyLinkPunctuation(text)
     if (text !== newText) {
       node.textContent = newText
     }
@@ -33,7 +37,7 @@ export const LinkTextPunctuation: QuartzTransformerPlugin = () => {
   return {
     name: "LinkTextPunctuation",
     htmlTransform(_ctx, html) {
-      return transformElement(html, remarkLinkPunctuation)
+      return transformElement(html, applyLinkPunctuation)
     },
   }
 }
