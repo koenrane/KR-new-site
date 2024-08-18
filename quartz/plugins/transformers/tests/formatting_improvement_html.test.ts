@@ -217,19 +217,23 @@ describe("HTMLFormattingImprovement", () => {
 })
 
 describe("applyLinkPunctuation", () => {
-  const linkScenarios = [
-    ['<p><a href="https://example.com">Link</a>.</p>', '<p><a href="https://example.com">Link.</a></p>'],
-    ['<p><a href="https://example.com">Link</a>,</p>', '<p><a href="https://example.com">Link,</a></p>'],
+  const punctuationMarks = [".", ",", "!", "?", ";", ":", "`"]
+  const specialCases = [
     ['<p>"<a href="https://example.com">Link</a>"</p>', '<p><a href="https://example.com">"Link"</a></p>'],
     ['<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>', '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>'],
-    ['<p><a href="https://example.com">Link</a>!</p>', '<p><a href="https://example.com">Link!</a></p>'],
-    ['<p><a href="https://example.com">Link</a>?</p>', '<p><a href="https://example.com">Link?</a></p>'],
-    ['<p><a href="https://example.com">Link</a>;</p>', '<p><a href="https://example.com">Link;</a></p>'],
-    ['<p><a href="https://example.com">Link</a>:</p>', '<p><a href="https://example.com">Link:</a></p>'],
     ['<p><em><a href="https://example.com">Link</a></em></p>', '<p><em><a href="https://example.com">Link</a></em></p>'],
     ['<p><strong><a href="https://example.com">Link</a></strong></p>', '<p><strong><a href="https://example.com">Link</a></strong></p>'],
-    ['<p><a href="https://example.com">Link</a>`</p>', '<p><a href="https://example.com">Link`</a></p>'],
   ]
+
+  const generateLinkScenarios = () => {
+    const basicScenarios = punctuationMarks.map(mark => [
+      `<p><a href="https://example.com">Link</a>${mark}</p>`,
+      `<p><a href="https://example.com">Link${mark}</a></p>`
+    ])
+    return [...basicScenarios, ...specialCases]
+  }
+
+  const linkScenarios = generateLinkScenarios()
 
   it.each(linkScenarios)("correctly handles link punctuation", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
