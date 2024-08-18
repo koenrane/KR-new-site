@@ -44,11 +44,21 @@ describe("applyLinkPunctuation function", () => {
   })
 
   describe("Handles private use character", () => {
-    it("correctly processes links with private use character", () => {
-      const input = `[Link${markerChar}](https://example.com).${markerChar} [Another${markerChar} Link](https://example2.com)${markerChar},`
-      const expected = `[Link${markerChar}.](https://example.com)${markerChar} [Another${markerChar} Link,](https://example2.com)${markerChar}`
-      const result = applyLinkPunctuation(input)
-      expect(result).toBe(expected)
-    })
+    it.each([
+      [
+        `[Link${markerChar}](https://example.com).${markerChar} [Another${markerChar} Link](https://example2.com)${markerChar},`,
+        `[Link${markerChar}.](https://example.com)${markerChar} [Another${markerChar} Link,](https://example2.com)${markerChar}`,
+      ],
+      [
+        ` _[Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}.`,
+        ` _[Algorithms to Live By: The Computer Science of Human Decisions.](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)${markerChar}`,
+      ],
+    ])(
+      "correctly processes links with private use character",
+      (input: string, expected: string) => {
+        const result = applyLinkPunctuation(input)
+        expect(result).toBe(expected)
+      },
+    )
   })
 })
