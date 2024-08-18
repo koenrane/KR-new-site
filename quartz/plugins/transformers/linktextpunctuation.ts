@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
-import { transformElement } from "./formatting_improvement_html"
+import { transformElement, markerChar } from "./formatting_improvement_html"
 
 const prePunctuation = /([\“\"]*)/ // group 1
 
