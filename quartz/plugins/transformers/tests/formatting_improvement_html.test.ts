@@ -10,6 +10,8 @@ import {
   enDashNumberRange,
   applyLinkPunctuation,
   markerChar,
+  Element,
+  Text
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 
@@ -327,21 +329,28 @@ describe("assertSmartQuotesMatch", () => {
 
 describe("getTextNodeCousin", () => {
   it("should return null for a node without siblings or cousins", () => {
-    const node = {
+    const node: Element = {
       type: "element",
       tagName: "p",
-      children: [{ type: "text", value: "Hello" }],
+      properties: {},
+      children: [{ type: "text", value: "Hello" } as Text],
     }
-    expect(getTextNodeCousin(node as Element)).toBeNull()
+    expect(getTextNodeCousin(node)).toBeNull()
   })
 
   it("should find the next text node sibling", () => {
-    const node = {
+    const node: Element = {
       type: "element",
       tagName: "p",
+      properties: {},
       children: [
-        { type: "element", tagName: "span", children: [{ type: "text", value: "Hello" }] },
-        { type: "text", value: " World" },
+        {
+          type: "element",
+          tagName: "span",
+          properties: {},
+          children: [{ type: "text", value: "Hello" } as Text],
+        } as Element,
+        { type: "text", value: " World" } as Text,
       ],
     }
     const result = getTextNodeCousin(node.children[0] as Element)
@@ -349,12 +358,18 @@ describe("getTextNodeCousin", () => {
   })
 
   it("should find the next text node cousin", () => {
-    const node = {
+    const node: Element = {
       type: "element",
       tagName: "div",
+      properties: {},
       children: [
-        { type: "element", tagName: "p", children: [{ type: "text", value: "Hello" }] },
-        { type: "text", value: " World" },
+        {
+          type: "element",
+          tagName: "p",
+          properties: {},
+          children: [{ type: "text", value: "Hello" } as Text],
+        } as Element,
+        { type: "text", value: " World" } as Text,
       ],
     }
     const result = getTextNodeCousin(node.children[0] as Element)
@@ -362,12 +377,23 @@ describe("getTextNodeCousin", () => {
   })
 
   it("should return the first child of a text-like element", () => {
-    const node = {
+    const node: Element = {
       type: "element",
       tagName: "p",
+      properties: {},
       children: [
-        { type: "element", tagName: "span", children: [{ type: "text", value: "Hello" }] },
-        { type: "element", tagName: "em", children: [{ type: "text", value: " World" }] },
+        {
+          type: "element",
+          tagName: "span",
+          properties: {},
+          children: [{ type: "text", value: "Hello" } as Text],
+        } as Element,
+        {
+          type: "element",
+          tagName: "em",
+          properties: {},
+          children: [{ type: "text", value: " World" } as Text],
+        } as Element,
       ],
     }
     const result = getTextNodeCousin(node.children[0] as Element)
@@ -375,12 +401,23 @@ describe("getTextNodeCousin", () => {
   })
 
   it("should return null if no text node cousin is found", () => {
-    const node = {
+    const node: Element = {
       type: "element",
       tagName: "div",
+      properties: {},
       children: [
-        { type: "element", tagName: "p", children: [{ type: "text", value: "Hello" }] },
-        { type: "element", tagName: "img", properties: { src: "image.jpg" } },
+        {
+          type: "element",
+          tagName: "p",
+          properties: {},
+          children: [{ type: "text", value: "Hello" } as Text],
+        } as Element,
+        {
+          type: "element",
+          tagName: "img",
+          properties: { src: "image.jpg" },
+          children: [],
+        } as Element,
       ],
     }
     const result = getTextNodeCousin(node.children[0] as Element)
