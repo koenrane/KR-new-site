@@ -333,10 +333,6 @@ img.favicon {
   margin-top: -20%;
   mix-blend-mode: normal !important;
 
-  &[src$="mail.svg"] {
-    // margin-left: calc(0.3 * $baseMargin);
-  }
-
   &[src$="mail.svg"],
   &[src$="favicon.ico"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
@@ -344,6 +340,12 @@ img.favicon {
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) saturate(4418%) hue-rotate(185deg) brightness(100%)
         contrast(92%);
+    }
+  }
+
+  &[src$="arbital_com.avif"] {
+    :root[saved-theme="light"] & {
+      filter: brightness(0.3);
     }
   }
 }
