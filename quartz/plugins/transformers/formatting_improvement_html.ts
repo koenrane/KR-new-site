@@ -5,6 +5,26 @@ import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
 
+/**
+ * This file contains functions for improving HTML formatting, including:
+ * 
+ * - flattenTextNodes: Flattens text nodes in an element tree
+ * - getTextContent: Extracts text content from an element
+ * - assertSmartQuotesMatch: Checks for matching smart quotes
+ * - transformElement: Applies transformations to element text content
+ * - niceQuotes: Replaces quotes with smart quotes
+ * - fullWidthSlashes: Replaces slashes with full-width slashes
+ * - enDashNumberRange: Replaces hyphens with en dashes in number ranges
+ * - hyphenReplace: Replaces various dash types with appropriate alternatives
+ * - applyTextTransforms: Applies multiple text transformations
+ * - applyLinkPunctuation: Moves punctuation inside links
+ * - improveFormatting: Main plugin function for applying formatting improvements
+ * - HTMLFormattingImprovement: QuartzTransformerPlugin for HTML formatting
+ *
+ * The file also includes utility functions for checking element ancestors
+ * and skipping certain elements during transformations.
+ */
+
 export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
   if (ignoreNode(node)) {
     return []
