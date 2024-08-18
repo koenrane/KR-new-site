@@ -141,3 +141,6 @@ if [ $(git status --porcelain | wc -l) -gt 0 ]; then
     # Prompt the user to review the changes
     git commit -m "Uploaded assets to r2 and updated references."
 fi
+
+# Make sure that all internal links are valid
+linkchecker "$GIT_ROOT"/public/**html
