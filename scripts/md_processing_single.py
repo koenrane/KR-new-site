@@ -292,7 +292,9 @@ replacement = {
     "<em>openai.com/o</em>penai-five/": "openai.com/openai-five/",
     r"\(<em>h</em>ttps://": "(https://",
     "茂": "ï",
-    "": "",  # TODO reinsert this thing showing up before double 'f'. was problem in original IC post
+    # Weird invisible unicode which act as spaces
+    "": "",
+    "": "",  # This is a form feed character, which is a whitespace character
     "◻️": "∎",  # Official end of proof symbol
     "lesserwrong.com": "lesswrong.com",
     # Latex substitutions
