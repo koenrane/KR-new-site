@@ -8,7 +8,7 @@ import {
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
-  applyLinkPunctuation,
+  neqConversion,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 import { Element, Text } from "hast"
@@ -119,6 +119,16 @@ describe("HTMLFormattingImprovement", () => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
+  })
+
+  describe("NEQ Conversion", () => {
+    it.each([["<p>There are 1 != 2 left.</p>", "<p>There are 1 ≠ 2 left.</p>"]])(
+      "should replace != with ≠ in %s",
+      (input: string, expected: string) => {
+        const result = neqConversion(input)
+        expect(result).toBe(expected)
+      },
+    )
   })
 
   describe("Hyphens", () => {

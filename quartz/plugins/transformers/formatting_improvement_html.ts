@@ -313,6 +313,10 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
   textNode.value = textNode.value.slice(1) // Remove the first char
 }
 
+export function neqConversion(text: string): string {
+  return text.replace(/!=/g, "≠")
+}
+
 // Node-skipping predicates //
 /**
  *  Check for ancestors satisfying certain criteria
@@ -399,6 +403,7 @@ export const improveFormatting: Plugin = () => {
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
         transformElement(node, enDashNumberRange, toSkip, true)
+        transformElement(node, neqConversion, toSkip, true)
 
         let notMatching = false
         try {
