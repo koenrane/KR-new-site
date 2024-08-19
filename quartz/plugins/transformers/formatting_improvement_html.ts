@@ -260,11 +260,7 @@ const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
  * Moves punctuation inside links
  */
 export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
-  if (!index || !parent) {
-    for (let i = 0; i < node?.children?.length; i++) {
-      const child = node.children[i]
-      applyLinkPunctuation(child, i, node)
-    }
+  if (index === undefined || !parent) {
     return
   }
 
@@ -288,15 +284,11 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
   }
 
   if (!textNode || !textNode.value) {
-    // console.error("No text node found for link", linkNode)
     return
   }
 
   const firstChar = textNode.value.charAt(0)
   if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
-
-  console.log("linkNode", linkNode)
-  console.log("firstChar", firstChar)
 
   linkNode.children[0].value = linkNode.children[0].value + firstChar
   textNode.value = textNode.value.slice(1) // Remove the first char
