@@ -9,11 +9,9 @@ import {
   assertSmartQuotesMatch,
   enDashNumberRange,
   applyLinkPunctuation,
-  markerChar,
-  Element,
-  Text
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
+import { Element, Text } from "hast"
 
 function testHtmlFormattingImprovement(inputHTML: string) {
   return rehype()
@@ -324,104 +322,6 @@ describe("assertSmartQuotesMatch", () => {
     invalidStrings.forEach((str) => {
       expect(() => assertSmartQuotesMatch(str)).toThrowErrorMatchingSnapshot()
     })
-  })
-})
-
-describe("getTextNodeCousin", () => {
-  it("should return null for a node without siblings or cousins", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "p",
-      properties: {},
-      children: [{ type: "text", value: "Hello" } as Text],
-    }
-    expect(getTextNodeCousin(node)).toBeNull()
-  })
-
-  it("should find the next text node sibling", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "p",
-      properties: {},
-      children: [
-        {
-          type: "element",
-          tagName: "span",
-          properties: {},
-          children: [{ type: "text", value: "Hello" } as Text],
-        } as Element,
-        { type: "text", value: " World" } as Text,
-      ],
-    }
-    const result = getTextNodeCousin(node.children[0] as Element)
-    expect(result).toEqual({ type: "text", value: " World" })
-  })
-
-  it("should find the next text node cousin", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "div",
-      properties: {},
-      children: [
-        {
-          type: "element",
-          tagName: "p",
-          properties: {},
-          children: [{ type: "text", value: "Hello" } as Text],
-        } as Element,
-        { type: "text", value: " World" } as Text,
-      ],
-    }
-    const result = getTextNodeCousin(node.children[0] as Element)
-    expect(result).toEqual({ type: "text", value: " World" })
-  })
-
-  it("should return the first child of a text-like element", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "p",
-      properties: {},
-      children: [
-        {
-          type: "element",
-          tagName: "span",
-          properties: {},
-          children: [{ type: "text", value: "Hello" } as Text],
-        } as Element,
-        {
-          type: "element",
-          tagName: "em",
-          properties: {},
-          children: [{ type: "text", value: " World" } as Text],
-        } as Element,
-      ],
-    }
-    const result = getTextNodeCousin(node.children[0] as Element)
-    expect(result).toEqual({ type: "text", value: " World" })
-  })
-
-  it("should return null if no text node cousin is found", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "div",
-      properties: {},
-      children: [
-        {
-          type: "element",
-          tagName: "p",
-          properties: {},
-          children: [{ type: "text", value: "Hello" } as Text],
-        } as Element,
-        {
-          type: "element",
-          tagName: "img",
-          properties: { src: "image.jpg" },
-          children: [],
-        } as Element,
-      ],
-    }
-    const result = getTextNodeCousin(node.children[0] as Element)
-    expect(result).toBeNull()
   })
 })
 
