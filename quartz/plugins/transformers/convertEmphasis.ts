@@ -1,11 +1,11 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
-import { Text, Strong, Emphasis, Parent, PhrasingContent } from "mdast"
+import { Text, Parent, PhrasingContent } from "mdast"
 
 /**
  * Processes a single text node and converts emphasis syntax to the corresponding node type.
- * 
+ *
  * @param node - The text node to process.
  * @param index - The index of the node in its parent's children array.
  * @param parent - The parent node containing the text node.
@@ -35,10 +35,9 @@ export const formatNode = (
         } as Text)
       }
 
-      // Add the matched content as a strong (bold) node
-
       newNodes.push({
-        type: tag,
+        type: "element",
+        tagName: tag,
         children: [{ type: "text", value: content } as Text],
       } as any)
 
@@ -63,7 +62,7 @@ export const formatNode = (
 
 /**
  * A unified plugin that converts emphasis syntax in markdown to the appropriate AST nodes.
- * 
+ *
  * @returns A function that transforms the AST.
  */
 const convertEmphasisHelper: Plugin = () => {
@@ -85,9 +84,9 @@ const convertEmphasisHelper: Plugin = () => {
 
 /**
  * A Quartz transformer plugin that converts emphasis syntax in markdown.
- * 
+ *
  * This plugin converts **bold** syntax to <strong> tags and _italic_ syntax to <em> tags.
- * 
+ *
  * @returns An object with the plugin name and HTML plugins.
  */
 export const ConvertEmphasis: QuartzTransformerPlugin = () => {

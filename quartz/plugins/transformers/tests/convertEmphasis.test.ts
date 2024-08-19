@@ -12,7 +12,8 @@ describe("formatNode", () => {
     expect(parent.children).toHaveLength(3)
     expect(parent.children[0]).toEqual({ type: "text", value: "This is " })
     expect(parent.children[1]).toEqual({
-      type: "strong",
+      tagName: "strong",
+      type: "element",
       children: [{ type: "text", value: "bold" }],
     })
     expect(parent.children[2]).toEqual({ type: "text", value: " text" })
@@ -28,7 +29,8 @@ describe("formatNode", () => {
     expect(parent.children).toHaveLength(3)
     expect(parent.children[0]).toEqual({ type: "text", value: "This is " })
     expect(parent.children[1]).toEqual({
-      type: "em",
+      tagName: "em",
+      type: "element",
       children: [{ type: "text", value: "italic" }],
     })
     expect(parent.children[2]).toEqual({ type: "text", value: " text" })
@@ -43,12 +45,14 @@ describe("formatNode", () => {
 
     expect(parent.children).toHaveLength(3)
     expect(parent.children[0]).toEqual({
-      type: "strong",
+      tagName: "strong",
+      type: "element",
       children: [{ type: "text", value: "Bold" }],
     })
     expect(parent.children[1]).toEqual({ type: "text", value: " and " })
     expect(parent.children[2]).toEqual({
-      type: "strong",
+      tagName: "strong",
+      type: "element",
       children: [{ type: "text", value: "more bold" }],
     })
   })
@@ -85,12 +89,14 @@ describe("formatNode", () => {
 
     expect(parent.children).toHaveLength(3)
     expect(parent.children[0]).toEqual({
-      type: "em",
+      tagName: "em",
+      type: "element",
       children: [{ type: "text", value: "We finally hit the" }],
     })
     expect(parent.children[1]).toEqual({ type: "text", value: " good stuff" })
     expect(parent.children[2]).toEqual({
-      type: "em",
+      tagName: "em",
+      type: "element",
       children: [
         {
           type: "text",
