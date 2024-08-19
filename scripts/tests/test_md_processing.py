@@ -127,12 +127,38 @@ Strategy](https://www.lesswrong.com/posts/HZuAT2sGbDbasdjy5/the-multi-tower-stud
 >
 > Wait, what?"""
 
+plain_text_citation_initial = """> [!quote]
+> This is a quote with a plain text citation.
+> -- John Doe"""
+
+plain_text_citation_target = """> [!quote] John Doe
+> This is a quote with a plain text citation."""
+
+multi_line_citation_initial = """> [!quote]
+> This is a multi-line quote.
+> It has two lines.
+> -- Jane Doe, [_Some Book_](https://example.com/book)"""
+
+multi_line_citation_target = """> [!quote] Jane Doe, [Some Book](https://example.com/book)
+> This is a multi-line quote.
+> It has two lines."""
+
+citation_with_extra_text_initial = """> [!quote]
+> Another quote here.
+> -- Alice, Bob, and Charlie (2023) in _Some Journal_"""
+
+citation_with_extra_text_target = """> [!quote] Alice, Bob, and Charlie (2023) in _Some Journal_
+> Another quote here."""
+
 
 @pytest.mark.parametrize(
     "md,expected",
     [
         (boring_admonition_initial, boring_admonition_target),
         (breakfast_initial, breakfast_target),
+        (plain_text_citation_initial, plain_text_citation_target),
+        (multi_line_citation_initial, multi_line_citation_target),
+        (citation_with_extra_text_initial, citation_with_extra_text_target),
     ],
 )
 def test_move_citation_to_quote_admonition(md: str, expected: str) -> None:

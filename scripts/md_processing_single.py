@@ -370,12 +370,12 @@ def get_quote_patterns():
     start_adm_pattern = r"> \[!quote\]\s*"
     body_pattern = r"(?P<body>(?:>.*\n)+?)"
     line_break_pattern = r"(?:>\s*)*"
-    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
+    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\[]*)"
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
     url_pattern = r"\((?P<url>[^#].*?)\)"
     md_url_pattern = link_pattern + url_pattern
-    post_citation_pattern = r"[\s_\*]*\s*$"
+    post_citation_pattern = r"(?P<postCitation>.*)$"
 
     return {
         "start_adm": start_adm_pattern,
@@ -385,6 +385,7 @@ def get_quote_patterns():
         "md_url": md_url_pattern,
         "post_citation": post_citation_pattern,
     }
+
 
 def process_linked_citations(md: str, patterns: dict) -> str:
     """
@@ -398,8 +399,10 @@ def process_linked_citations(md: str, patterns: dict) -> str:
         + patterns["md_url"]
         + patterns["post_citation"]
     )
-    target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
+    target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\g<postCitation>\n\g<body>"
+    print(pattern, target)
     return regex.sub(pattern, target, md)
+
 
 def process_plain_text_citations(md: str, patterns: dict) -> str:
     """
@@ -410,11 +413,11 @@ def process_plain_text_citations(md: str, patterns: dict) -> str:
         + patterns["body"]
         + patterns["line_break"]
         + patterns["pre_citation"]
-        + r"(?P<citationtext>.*?)"
         + patterns["post_citation"]
     )
-    target = r"> [!quote] \g<citationtext>\n\g<body>"
+    target = r"> [!quote] \g<prelink>\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
+
 
 def move_citation_to_quote_admonition(md: str) -> str:
     """
@@ -445,6 +448,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > This is a quote.
     """
     patterns = get_quote_patterns()
+    print(md)
     md = process_linked_citations(md, patterns)
     md = process_plain_text_citations(md, patterns)
     return md.rstrip("\n")
