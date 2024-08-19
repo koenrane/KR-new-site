@@ -154,9 +154,8 @@ linked_citation_on_last_line_initial = """> [!quote]
 > This is a quote with a linked citation on the last line.
 > [Author Name](https://example.com)"""
 
-linked_citation_on_last_line_target = """> [!quote]
-> This is a quote with a linked citation on the last line.
-> -- [Author Name](https://example.com)"""
+linked_citation_on_last_line_target = """> [!quote] [Author Name](https://example.com)
+> This is a quote with a linked citation on the last line."""
 
 
 @pytest.mark.parametrize(

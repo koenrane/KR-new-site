@@ -400,7 +400,6 @@ def process_linked_citations(md: str, patterns: dict) -> str:
         + patterns["post_citation"]
     )
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\g<postCitation>\n\g<body>"
-    print(pattern, target)
     return regex.sub(pattern, target, md)
 
 
@@ -449,16 +448,12 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > This is a quote.
     """
     patterns = get_quote_patterns()
-    print(md)
 
     # New check for linked citations on the last line
     md_url_regex = r"\[(?P<linktext>[^\]]+)\]\((?P<url>[^\)]+)\)"
-    last_line_pattern = rf"^>\s*([\w,-_]*{md_url_regex})\s*$"
-    
-    def transform_last_line(match):
-        return f"> -- {match.group(1)}"
-    
-    md = regex.sub(last_line_pattern, transform_last_line, md, flags=regex.MULTILINE)
+    last_line_pattern = rf"^>\s*(?P<lastLine>[\w,-_]*{md_url_regex})\s*$"
+
+    md = regex.sub(last_line_pattern, r"> -- \1", md, flags=regex.MULTILINE)
 
     md = process_linked_citations(md, patterns)
     md = process_plain_text_citations(md, patterns)
