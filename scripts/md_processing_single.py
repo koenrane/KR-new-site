@@ -245,7 +245,7 @@ def _get_urls(markdown: str) -> list[str]:
 def remove_prefix_before_slug(url: str) -> str:
     for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?{website_hash}/.*#?(.*)(?=\))"
+            rf"(?:lesswrong|alignmentforum).*?/{website_hash}/.*#?(.*)(?=\))"
         )
 
         # Capture anchor information after the slug (if present)

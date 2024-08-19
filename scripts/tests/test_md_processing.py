@@ -90,7 +90,7 @@ def test_parse_latex():
 
 
 def test_remove_prefix_before_slug():
-    url = "https://www.lesswrong.com/posts/abcdef123456/sample-post"
+    url = "https://www.lesswrong.com/posts/abcdef123456/sample-post)"
     assert md_process.remove_prefix_before_slug(url) == "/sample-post)"
 
 
