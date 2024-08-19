@@ -157,6 +157,12 @@ linked_citation_on_last_line_initial = """> [!quote]
 linked_citation_on_last_line_target = """> [!quote] [Author Name](https://example.com)
 > This is a quote with a linked citation on the last line."""
 
+wikipedia_citation_initial = """> [!quote]
+> This is a quote with a Wikipedia citation.
+> Sample, [Wikipedia](https://en.wikipedia.org/wiki/Example)"""
+wiki_citation_target = """> [!quote] Sample, [Wikipedia](https://en.wikipedia.org/wiki/Example)
+> This is a quote with a Wikipedia citation."""
+
 
 @pytest.mark.parametrize(
     "md,expected",
@@ -167,6 +173,7 @@ linked_citation_on_last_line_target = """> [!quote] [Author Name](https://exampl
         (multi_line_citation_initial, multi_line_citation_target),
         (citation_with_extra_text_initial, citation_with_extra_text_target),
         (linked_citation_on_last_line_initial, linked_citation_on_last_line_target),
+        (wikipedia_citation_initial, wiki_citation_target),
     ],
 )
 def test_move_citation_to_quote_admonition(md: str, expected: str) -> None:

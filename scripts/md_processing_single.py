@@ -262,8 +262,6 @@ def remove_prefix_before_slug(url: str) -> str:
                     "--": "-",
                 }
                 anchor = full_match.split("#")[1]
-                if "Related" in anchor:
-                    print(re_match)
                 for before, after in anchor_replacements.items():
                     anchor = anchor.replace(before, after)
                 anchor = anchor.replace("--", "-")  # Error for eg appendices
@@ -447,12 +445,9 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > [!quote] [Author Name](https://example.com)
         > This is a quote.
     """
+    # Check for linked citations on the last line
     patterns = get_quote_patterns()
-
-    # New check for linked citations on the last line
-    md_url_regex = r"\[(?P<linktext>[^\]]+)\]\((?P<url>[^\)]+)\)"
-    last_line_pattern = rf"^>\s*(?P<lastLine>[\w,-_]*{md_url_regex})\s*$"
-
+    last_line_pattern = rf"^> *(?P<lastLine>[\w, ]*{patterns['md_url']}[ _\*]*)$"
     md = regex.sub(last_line_pattern, r"> -- \1", md, flags=regex.MULTILINE)
 
     md = process_linked_citations(md, patterns)
