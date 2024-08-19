@@ -391,22 +391,27 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > [!quote] [Author Name](https://example.com)
         > This is a quote.
     """
-    # Move link attribution to beginning
+    # Pattern to match the start of a quote admonition
     start_adm_pattern = r"> \[!quote\]\s*"
-    body_pattern = r"(?P<body>(?:>.*\n)+?)"  # Main part of the quote
+    # Pattern to capture the main body of the quote
+    body_pattern = r"(?P<body>(?:>.*\n)+?)"
+    # Pattern to match potential line breaks between quote body and citation
     line_break_pattern = r"(?:>\s*)*"
 
     # TODO check that prelink works
+    # Pattern to match the citation prefix (e.g., "-- " or "- ")
     pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
 
+    # Patterns for linked citations
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
     url_pattern = r"\((?P<url>[^#].*?)\)"
     md_url_pattern = link_pattern + url_pattern
 
+    # Pattern to match any trailing whitespace or formatting after the citation
     post_citation_pattern = r"[\s_\*]*\s*$"
 
-    # Pattern for quotes with linked citations
+    # Complete pattern for quotes with linked citations
     pattern = (
         start_adm_pattern
         + body_pattern
@@ -415,7 +420,9 @@ def move_citation_to_quote_admonition(md: str) -> str:
         + md_url_pattern
         + post_citation_pattern
     )
+    # Target format for reformatted quotes with linked citations
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
+    # Apply the substitution for linked citations
     md = regex.sub(pattern, target, md)
 
     # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well
@@ -426,11 +433,13 @@ def move_citation_to_quote_admonition(md: str) -> str:
         + body_pattern
         + line_break_pattern
         + pre_citation_pattern
-        + r"(?P<citationtext>.*?)"
+        + r"(?P<citationtext>.*?)"  # Capture any text as citation
         + post_citation_pattern
     )
 
+    # Target format for reformatted quotes with plain text citations
     target = r"> [!quote] \g<citationtext>\n\g<body>"
+    # Apply the substitution for plain text citations
     md = regex.sub(pattern, target, md, flags=regex.MULTILINE)
 
     # Strip a trailing newline if needed
