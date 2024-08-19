@@ -71,5 +71,32 @@ describe("formatNode", () => {
 
     expect(() => formatNode(node, 0, parent, regex, "invalid")).toThrow("Invalid tag")
   })
-  // TODO make a test for "_We finally hit the_ good stuff_: value-function approximators and stochastic-/semi-gradient methods._"
+
+  it("should handle nested and adjacent emphasis correctly", () => {
+    const node: Text = {
+      type: "text",
+      value:
+        "_We finally hit the_ good stuff_: value-function approximators and stochastic-/semi-gradient methods._",
+    }
+    const parent: Parent = { type: "paragraph", children: [node] }
+    const italicRegex = /_(.*?)_/g
+
+    formatNode(node, 0, parent, italicRegex, "em")
+
+    expect(parent.children).toHaveLength(3)
+    expect(parent.children[0]).toEqual({
+      type: "em",
+      children: [{ type: "text", value: "We finally hit the" }],
+    })
+    expect(parent.children[1]).toEqual({ type: "text", value: " good stuff" })
+    expect(parent.children[2]).toEqual({
+      type: "em",
+      children: [
+        {
+          type: "text",
+          value: ": value-function approximators and stochastic-/semi-gradient methods.",
+        },
+      ],
+    })
+  })
 })
