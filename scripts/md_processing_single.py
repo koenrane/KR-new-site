@@ -364,6 +364,33 @@ def manual_replace(md: str) -> str:
 
 
 def move_citation_to_quote_admonition(md: str) -> str:
+    """
+    Move citation information in quote admonitions to the beginning of the quote.
+
+    This function processes Markdown text to reformat quote admonitions by moving
+    citation information (like author names or source links) from the end of the
+    quote to the beginning, right after the "[!quote]" tag.
+
+    The function handles two main cases:
+    1. Quotes with linked citations (e.g., "[Author Name](link)")
+    2. Quotes with plain text citations
+
+    Args:
+        md (str): The input Markdown text to process.
+
+    Returns:
+        str: The processed Markdown text with reformatted quote admonitions.
+
+    Example:
+        Input:
+        > [!quote]
+        > This is a quote.
+        > -- [Author Name](https://example.com)
+
+        Output:
+        > [!quote] [Author Name](https://example.com)
+        > This is a quote.
+    """
     # Move link attribution to beginning
     start_adm_pattern = r"> \[!quote\]\s*"
     body_pattern = r"(?P<body>(?:>.*\n)+?)"  # Main part of the quote
@@ -379,7 +406,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
     post_citation_pattern = r"[\s_\*]*\s*$"
 
-    # This pattern 
+    # Pattern for quotes with linked citations
     pattern = (
         start_adm_pattern
         + body_pattern
@@ -393,7 +420,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
     # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well
     #  TODO problem with some quotes
-    # move normal attribution to beginning
+    # Pattern for quotes with plain text citations
     pattern = (
         start_adm_pattern
         + body_pattern
@@ -402,7 +429,6 @@ def move_citation_to_quote_admonition(md: str) -> str:
         + r"(?P<citationtext>.*?)"
         + post_citation_pattern
     )
-    alternate_attribution_pattern = 
 
     target = r"> [!quote] \g<citationtext>\n\g<body>"
     md = regex.sub(pattern, target, md, flags=regex.MULTILINE)
