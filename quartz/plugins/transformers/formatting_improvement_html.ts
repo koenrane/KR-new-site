@@ -274,6 +274,13 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
     return // No link nearby
   }
 
+  // Check for quotation marks before the link
+  let prevNode = parent.children[index - 1]
+  if (prevNode?.type === "text" && prevNode.value.endsWith("“")) {
+    prevNode.value = prevNode.value.slice(0, -1)
+    linkNode.children[0].value = "“" + linkNode.children[0].value
+  }
+
   const sibling = parent.children[index + 1]
 
   let textNode
