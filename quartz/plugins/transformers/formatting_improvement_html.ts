@@ -255,16 +255,27 @@ export function applyTextTransforms(text: string): string {
 
 const ACCEPTED_PUNCTUATION = [".", ",", "?", ":", "!", ";", "”", "`"]
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
-
 /**
- * Moves punctuation inside links
+ * Moves punctuation inside links and handles quotation marks before links.
+ *
+ * @param node - The current node being processed
+ * @param index - The index of the current node in its parent's children array
+ * @param parent - The parent node of the current node
+ *
+ * This function performs the following steps:
+ * 1. Validates input parameters
+ * 2. Identifies the link node
+ * 3. Handles quotation marks before the link
+ * 4. Identifies the text node after the link
+ * 5. Moves acceptable punctuation from after the link to inside it
  */
 export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+  // Step 1: Validate input parameters
   if (index === undefined || !parent) {
     return
   }
 
-  // If link nearby, then update
+  // Step 2: Identify the link node
   let linkNode
   if (node?.tagName === "a") {
     linkNode = node
@@ -274,15 +285,15 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
     return // No link nearby
   }
 
-  // Check for quotation marks before the link
+  // Step 3: Handle quotation marks before the link
   let prevNode = parent.children[index - 1]
   if (prevNode?.type === "text" && prevNode.value.endsWith("“")) {
     prevNode.value = prevNode.value.slice(0, -1)
     linkNode.children[0].value = "“" + linkNode.children[0].value
   }
 
+  // Step 4: Identify the text node after the link
   const sibling = parent.children[index + 1]
-
   let textNode
   if (sibling?.type === "text") {
     textNode = sibling
@@ -294,6 +305,7 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
     return
   }
 
+  // Step 5: Move acceptable punctuation from after the link to inside it
   const firstChar = textNode.value.charAt(0)
   if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
 
