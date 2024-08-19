@@ -190,7 +190,8 @@ hr.desktop-only {
 
       margin-top: $topSpacing;
       box-sizing: border-box;
-      padding: 0 4rem;
+
+      padding: 0 calc(8 * $baseMargin);
       position: fixed;
       @media all and (max-width: $fullPageWidth) {
         position: relative;
@@ -203,6 +204,7 @@ hr.desktop-only {
 
     & #left-sidebar {
       display: flex;
+      margin-right: calc(6 * $baseMargin);
       @media all and (max-width: $fullPageWidth) {
         gap: 0;
         align-items: center;
@@ -215,6 +217,8 @@ hr.desktop-only {
     }
 
     & #right-sidebar {
+      padding-right: calc(2 * $baseMargin); // Make more space for ToC
+
       right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
