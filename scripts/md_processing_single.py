@@ -427,9 +427,10 @@ def move_citation_to_quote_admonition(md: str) -> str:
     citation information (like author names or source links) from the end of the
     quote to the beginning, right after the "[!quote]" tag.
 
-    The function handles two main cases:
-    1. Quotes with linked citations (e.g., "[Author Name](link)")
-    2. Quotes with plain text citations
+    The function handles three main cases:
+    1. Quotes with linked citations at the end (e.g., "[Author Name](link)")
+    2. Quotes with plain text citations at the end
+    3. Quotes with linked citations on the last line (transformed to "> -- [Author Name](link)")
 
     Args:
         md (str): The input Markdown text to process.
@@ -449,6 +450,16 @@ def move_citation_to_quote_admonition(md: str) -> str:
     """
     patterns = get_quote_patterns()
     print(md)
+
+    # New check for linked citations on the last line
+    md_url_regex = r"\[(?P<linktext>[^\]]+)\]\((?P<url>[^\)]+)\)"
+    last_line_pattern = rf"^>\s*([\w,-_]*{md_url_regex})\s*$"
+    
+    def transform_last_line(match):
+        return f"> -- {match.group(1)}"
+    
+    md = regex.sub(last_line_pattern, transform_last_line, md, flags=regex.MULTILINE)
+
     md = process_linked_citations(md, patterns)
     md = process_plain_text_citations(md, patterns)
     return md.rstrip("\n")
