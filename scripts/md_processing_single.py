@@ -363,6 +363,59 @@ def manual_replace(md: str) -> str:
     return md
 
 
+def get_quote_patterns():
+    """
+    Define and return patterns used for quote admonition processing.
+    """
+    start_adm_pattern = r"> \[!quote\]\s*"
+    body_pattern = r"(?P<body>(?:>.*\n)+?)"
+    line_break_pattern = r"(?:>\s*)*"
+    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
+    link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
+    link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
+    url_pattern = r"\((?P<url>[^#].*?)\)"
+    md_url_pattern = link_pattern + url_pattern
+    post_citation_pattern = r"[\s_\*]*\s*$"
+
+    return {
+        "start_adm": start_adm_pattern,
+        "body": body_pattern,
+        "line_break": line_break_pattern,
+        "pre_citation": pre_citation_pattern,
+        "md_url": md_url_pattern,
+        "post_citation": post_citation_pattern,
+    }
+
+def process_linked_citations(md: str, patterns: dict) -> str:
+    """
+    Process quotes with linked citations.
+    """
+    pattern = (
+        patterns["start_adm"]
+        + patterns["body"]
+        + patterns["line_break"]
+        + patterns["pre_citation"]
+        + patterns["md_url"]
+        + patterns["post_citation"]
+    )
+    target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
+    return regex.sub(pattern, target, md)
+
+def process_plain_text_citations(md: str, patterns: dict) -> str:
+    """
+    Process quotes with plain text citations.
+    """
+    pattern = (
+        patterns["start_adm"]
+        + patterns["body"]
+        + patterns["line_break"]
+        + patterns["pre_citation"]
+        + r"(?P<citationtext>.*?)"
+        + patterns["post_citation"]
+    )
+    target = r"> [!quote] \g<citationtext>\n\g<body>"
+    return regex.sub(pattern, target, md, flags=regex.MULTILINE)
+
 def move_citation_to_quote_admonition(md: str) -> str:
     """
     Move citation information in quote admonitions to the beginning of the quote.
@@ -391,60 +444,10 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > [!quote] [Author Name](https://example.com)
         > This is a quote.
     """
-    # Pattern to match the start of a quote admonition
-    start_adm_pattern = r"> \[!quote\]\s*"
-    # Pattern to capture the main body of the quote
-    body_pattern = r"(?P<body>(?:>.*\n)+?)"
-    # Pattern to match potential line breaks between quote body and citation
-    line_break_pattern = r"(?:>\s*)*"
-
-    # TODO check that prelink works
-    # Pattern to match the citation prefix (e.g., "-- " or "- ")
-    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\]]*)"
-
-    # Patterns for linked citations
-    link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
-    link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
-    url_pattern = r"\((?P<url>[^#].*?)\)"
-    md_url_pattern = link_pattern + url_pattern
-
-    # Pattern to match any trailing whitespace or formatting after the citation
-    post_citation_pattern = r"[\s_\*]*\s*$"
-
-    # Complete pattern for quotes with linked citations
-    pattern = (
-        start_adm_pattern
-        + body_pattern
-        + line_break_pattern
-        + pre_citation_pattern
-        + md_url_pattern
-        + post_citation_pattern
-    )
-    # Target format for reformatted quotes with linked citations
-    target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\n\g<body>"
-    # Apply the substitution for linked citations
-    md = regex.sub(pattern, target, md)
-
-    # TODO incorporate "> [Non-adversarial principle, Arbital](link)" as well
-    #  TODO problem with some quotes
-    # Pattern for quotes with plain text citations
-    pattern = (
-        start_adm_pattern
-        + body_pattern
-        + line_break_pattern
-        + pre_citation_pattern
-        + r"(?P<citationtext>.*?)"  # Capture any text as citation
-        + post_citation_pattern
-    )
-
-    # Target format for reformatted quotes with plain text citations
-    target = r"> [!quote] \g<citationtext>\n\g<body>"
-    # Apply the substitution for plain text citations
-    md = regex.sub(pattern, target, md, flags=regex.MULTILINE)
-
-    # Strip a trailing newline if needed
-    md = md.rstrip("\n")
-    return md
+    patterns = get_quote_patterns()
+    md = process_linked_citations(md, patterns)
+    md = process_plain_text_citations(md, patterns)
+    return md.rstrip("\n")
 
 
 def remove_warning(markdown: str) -> str:
