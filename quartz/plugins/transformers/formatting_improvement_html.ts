@@ -253,54 +253,53 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
-const ACCEPTED_PUNCTUATION = [".", ",", "?", ":", "!", ";"]
-const TEXT_LIKE_TAGS = ["em", "strong", "b"]
-
-function getTextNodeCousin(node: Element): Text | null {
-  let current: any = node
-
-  while (current) {
-    let sibling = current.nextSibling
-
-    while (sibling) {
-      console.log(sibling)
-      if (sibling.type === "text") {
-        return sibling
-      }
-      if (sibling.type === "element" && TEXT_LIKE_TAGS.includes(sibling.tagName)) {
-        // If it's a text-like element, return its first child (assuming it's text)
-        return sibling.children[0] as Text
-      }
-      sibling = sibling.nextSibling
-    }
-
-    if (!current.parent) break
-    current = current.parent
-  }
-
-  return null
-}
+const ACCEPTED_PUNCTUATION = [".", ",", "?", ":", "!", ";", "”", "`"]
+const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
 
 /**
  * Moves punctuation inside links
  */
-export const applyLinkPunctuation = (node: Element, index: number | undefined, parent: any) => {
-  if (node.tagName === "a") {
-    // Search up the DOM for an ancestor which is followed by a text node
-    const maybeNodeWithPunctuation = getTextNodeCousin(parent)
-    console.log(maybeNodeWithPunctuation)
-    // If the next node is a text node and starts with punctuation, move it inside the link
-    if (
-      maybeNodeWithPunctuation &&
-      ACCEPTED_PUNCTUATION.includes(maybeNodeWithPunctuation.value.charAt(0))
-    ) {
-      const punctToMove: string = maybeNodeWithPunctuation.value.charAt(0)
-      maybeNodeWithPunctuation.value = maybeNodeWithPunctuation.value.slice(1) // Remove the punctuation
-
-      // Move the punctuation inside the link
-      console.log(node)
+export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+  if (!index || !parent) {
+    for (let i = 0; i < node?.children?.length; i++) {
+      const child = node.children[i]
+      applyLinkPunctuation(child, i, node)
     }
+    return
   }
+
+  // If link nearby, then update
+  let linkNode
+  if (node?.tagName === "a") {
+    linkNode = node
+  } else if (node?.children && node.children[node.children.length - 1]?.tagName === "a") {
+    linkNode = node.children[node.children.length - 1]
+  } else {
+    return // No link nearby
+  }
+
+  const sibling = parent.children[index + 1]
+
+  let textNode
+  if (sibling?.type === "text") {
+    textNode = sibling
+  } else if (TEXT_LIKE_TAGS.includes(sibling?.tagName)) {
+    textNode = sibling.children[0]
+  }
+
+  if (!textNode || !textNode.value) {
+    // console.error("No text node found for link", linkNode)
+    return
+  }
+
+  const firstChar = textNode.value.charAt(0)
+  if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
+
+  console.log("linkNode", linkNode)
+  console.log("firstChar", firstChar)
+
+  linkNode.children[0].value = linkNode.children[0].value + firstChar
+  textNode.value = textNode.value.slice(1) // Remove the first char
 }
 
 // Node-skipping predicates //
@@ -378,7 +377,7 @@ export const improveFormatting: Plugin = () => {
         )
       }
 
-      visit(node, "element", applyLinkPunctuation)
+      applyLinkPunctuation(node, index, parent)
       // Parent-less nodes are the root of the article
       if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {
