@@ -377,8 +377,9 @@ def move_citation_to_quote_admonition(md: str) -> str:
     url_pattern = r"\((?P<url>[^#].*?)\)"
     md_url_pattern = link_pattern + url_pattern
 
-    post_citation_pattern = r"[ _\*]*"
+    post_citation_pattern = r"[\s_\*]*\s*$"
 
+    # This pattern 
     pattern = (
         start_adm_pattern
         + body_pattern
@@ -398,11 +399,13 @@ def move_citation_to_quote_admonition(md: str) -> str:
         + body_pattern
         + line_break_pattern
         + pre_citation_pattern
-        + r"(?P<citationtext>[\w\,\-_\. ]+)"
+        + r"(?P<citationtext>.*?)"
         + post_citation_pattern
     )
+    alternate_attribution_pattern = 
+
     target = r"> [!quote] \g<citationtext>\n\g<body>"
-    md = regex.sub(pattern, target, md)
+    md = regex.sub(pattern, target, md, flags=regex.MULTILINE)
 
     # Strip a trailing newline if needed
     md = md.rstrip("\n")
