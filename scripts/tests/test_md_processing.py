@@ -150,6 +150,14 @@ citation_with_extra_text_initial = """> [!quote]
 citation_with_extra_text_target = """> [!quote] Alice, Bob, and Charlie (2023) in _Some Journal_
 > Another quote here."""
 
+linked_citation_on_last_line_initial = """> [!quote]
+> This is a quote with a linked citation on the last line.
+> [Author Name](https://example.com)"""
+
+linked_citation_on_last_line_target = """> [!quote]
+> This is a quote with a linked citation on the last line.
+> -- [Author Name](https://example.com)"""
+
 
 @pytest.mark.parametrize(
     "md,expected",
@@ -159,6 +167,7 @@ citation_with_extra_text_target = """> [!quote] Alice, Bob, and Charlie (2023) i
         (plain_text_citation_initial, plain_text_citation_target),
         (multi_line_citation_initial, multi_line_citation_target),
         (citation_with_extra_text_initial, citation_with_extra_text_target),
+        (linked_citation_on_last_line_initial, linked_citation_on_last_line_target),
     ],
 )
 def test_move_citation_to_quote_admonition(md: str, expected: str) -> None:
