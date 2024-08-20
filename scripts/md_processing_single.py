@@ -373,6 +373,7 @@ replacement = {
     # Other posts
     r"d̴iv̢erge͏nc̸e͟": "<span class='corrupted'>divergence</span>",
     r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
+    r"https://openai\.com/content/images/2017/05/image4\.gif": "./static/images/mujoco-right.gif",  # Dead link in satisficer post
     r"^#+ Footnotes": "",  # Remove these sections
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
 }
