@@ -19,10 +19,6 @@ async function mouseEnterHandler(
   }
 
   async function setPosition(popoverElement: HTMLElement) {
-    const sidebar = document.querySelector(".sidebar") as HTMLElement
-    const sidebarRect = sidebar ? sidebar.getBoundingClientRect() : null
-    const rightEdge = sidebarRect ? sidebarRect.right : 300 // fallback value if sidebar not found
-
     const { x, y } = await computePosition(link, popoverElement, {
       middleware: [
         inline({ x: clientX, y: clientY }),
@@ -31,9 +27,24 @@ async function mouseEnterHandler(
       ],
     })
 
-    // Calculate the left position to align with the sidebar's right edge
+    const leftSidebar = document.querySelector("#left-sidebar") as HTMLElement
+    const leftSidebarRect = leftSidebar ? leftSidebar.getBoundingClientRect() : null
+    const sidebarRightEdge = leftSidebarRect ? leftSidebarRect.right : 300 // fallback value if leftSidebar not found
+
+    const center = document.querySelector(".center") as HTMLElement
+
+    // Assume within .center or #left-sidebar
+    let referenceEdge = sidebarRightEdge
+    // If within right sidebar
+    if (link.closest("#right-sidebar")) {
+      const centerRect = center ? center.getBoundingClientRect() : null
+      const centerRightEdge = centerRect ? centerRect.right : 300 // Should this fallback value be different?
+      referenceEdge = centerRightEdge
+    }
+
+    // Calculate the left position to align with the leftSidebar's right edge
     // Ensure the popover is not offscreen to the left
-    const left = Math.max(10, Math.min(x, rightEdge - popoverElement.offsetWidth))
+    const left = Math.max(10, Math.min(x, referenceEdge - popoverElement.offsetWidth))
 
     Object.assign(popoverElement.style, {
       left: `${left}px`,
