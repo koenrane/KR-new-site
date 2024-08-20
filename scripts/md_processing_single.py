@@ -171,9 +171,30 @@ def fix_footnotes(text: str) -> str:
     text = regex.sub(r"(\d+)\.\s*\*{2}\[\^\]\(.*?\)\*{2}\s*", r"[^\1]: ", text)
 
     # Footnote (manual latex) --- convert end fnref first
-    text = regex.sub(r"^\s*\$(\^\d+)\$", "\n" + r"[\1]:", text, flags=regex.MULTILINE)
+    text = regex.sub(
+        r"^\s*\$(\^(?:\d+))\$",
+        "\n" + r"[\1]:",
+        text,
+        flags=regex.MULTILINE,
+    )
     # Footnote (manual latex, in text)
     text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
+
+    # Footnotes with semantic tags --- end fnref
+    fn_text = "(?:FOOTNOTE|FN):?"
+    text = regex.sub(
+        rf"^\s*\**{fn_text} *([\w., ]+)\**",
+        "\n" + r"[^\1]:",
+        text,
+        flags=regex.MULTILINE | regex.IGNORECASE,
+    )
+    # $^{\text{FN: retarget}}$
+    text = regex.sub(
+        r"\$\^{?\\text{" + fn_text + " ([\w., ]+)}}?\$",
+        "\n" + r"[^\1]",
+        text,
+        flags=regex.MULTILINE | regex.IGNORECASE,
+    )
 
     # Ensure separation after hyperlinks
     return regex.sub(r"\)(\w)", r") \1", text)
@@ -352,6 +373,7 @@ replacement = {
     # Other posts
     r"d̴iv̢erge͏nc̸e͟": "<span class='corrupted'>divergence</span>",
     r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
+    r"#+ Footnotes": "",  # Remove these sections
 }
 
 
