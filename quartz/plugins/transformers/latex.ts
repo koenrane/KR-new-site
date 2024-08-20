@@ -31,6 +31,7 @@ const macros = {
   "\\prob": "\\Prb_{#1}\\prn{#2}",
   "\\lone": "\\left \\lVert#1\\right \\rVert_1",
   "\\linfty": "\\left \\lVert#1\\right \\rVert_\\infty",
+  "#": "\\#",
 }
 
 export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
