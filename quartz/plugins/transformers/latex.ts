@@ -6,6 +6,32 @@ import { QuartzTransformerPlugin } from "../types"
 interface Options {
   renderEngine: "katex" | "mathjax"
 }
+const macros = {
+  "\\abs": "\\left|#1\\right|",
+  "\\prn": "\\left(#1\\right)",
+  "\\brx": "\\left[#1\\right]",
+  "\\set": "\\left\\{#1\\right\\}",
+  "\\defeq": "\\coloneqq",
+  "\\eqdef": "\\eqqcolon",
+  "\\x": "\\mathbf{x}",
+  "\\av": "\\mathbf{a}",
+  "\\bv": "\\mathbf{b}",
+  "\\cv": "\\mathbf{c}",
+  "\\reals": "\\mathbb{R}",
+  "\\argmax": "\\operatorname*{arg\\,max}",
+  "\\argsup": "\\operatorname*{arg\\,sup}",
+  "\\unitvec": "\\mathbf{e}_{#1}",
+  "\\St": "\\mathcal{S}",
+  "\\A": "\\mathcal{A}",
+  "\\rf": "\\mathbf{r}",
+  "\\uf": "\\mathbf{u}",
+  "\\rewardSpace": "\\reals^{\\St}",
+  "\\rewardVS": "\\reals^{\\abs{\\St}}",
+  "\\Prb": "\\mathbb{P}",
+  "\\prob": "\\Prb_{#1}\\prn{#2}",
+  "\\lone": "\\left \\lVert#1\\right \\rVert_1",
+  "\\linfty": "\\left \\lVert#1\\right \\rVert_\\infty",
+}
 
 export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
   const engine = opts?.renderEngine ?? "katex"
@@ -16,7 +42,7 @@ export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
     },
     htmlPlugins() {
       if (engine === "katex") {
-        return [[rehypeKatex, { output: "html" }]]
+        return [[rehypeKatex, { strict: false, trust: true, macros: macros }]]
       } else {
         return [rehypeMathjax]
       }
