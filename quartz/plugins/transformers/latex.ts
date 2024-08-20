@@ -30,6 +30,7 @@ const macros = {
   "\\Prb": "\\mathbb{P}",
   "\\prob": "\\Prb_{#1}\\prn{#2}",
   "\\lone": "\\left \\lVert#1\\right \\rVert_1",
+  "\\ltwo": "\\left \\lVert#1\\right \\rVert_2",
   "\\linfty": "\\left \\lVert#1\\right \\rVert_\\infty",
   "#": "\\#",
 }
