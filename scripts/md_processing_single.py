@@ -164,6 +164,7 @@ def metadata_to_yaml(meta: dict[str, Any]) -> str:
     return yaml
 
 
+# TODO still not working
 def fix_footnotes(text: str) -> str:
     # Footnote invocation replacement (from LW format)
     text = regex.sub(r"\[\\\[([^\]]*)\\\]\]\(.*?\)", r"[^\1]", text)
@@ -235,6 +236,37 @@ def parse_latex(markdown: str) -> str:
 
     # Don't have single numbers
     markdown = regex.sub(r"\$([+-]?\d+(\.\d+)?)\$", r"\1", markdown)
+
+    # Take as input display mode math text, between $$ and $$
+    def replace_cases_and_add_text(display_match) -> str:
+        display_text = display_match.group(0)  # All text between $$ and $$
+
+        cases_pattern = r"\$\$\n(?<beforeCases>.*?)\\cases\{(?<inCases>.*?)\}\n\$\$"
+        cases_match = regex.search(cases_pattern, display_text, flags=regex.DOTALL)
+
+        if not cases_match:  # No cases found
+            return display_text
+
+        before_content = cases_match.group("beforeCases")
+        cases_content = cases_match.group("inCases")
+
+        # Replace & ... \\ with & \text{...} \\ within cases_content
+        def replace_ampersand(inner_cases_match):
+            return (
+                f"&\\text{{{inner_cases_match.group(1)}}}{inner_cases_match.group(2)}"
+            )
+
+        cases_content = regex.sub(r"&(.*?)(\\\\|$)", replace_ampersand, cases_content)
+
+        # Construct the final replacement using the modified cases_content
+        replacement = f"$$\n\\begin{{align}}{before_content}\\begin{{cases}}{cases_content}\\end{{cases}}\\end{{align}}\n$$"
+        return replacement
+
+    # Original pattern to match the entire cases environment
+    display_math_pattern = r"\$\$\n(.*?)\n\$\$"
+    markdown = regex.sub(
+        display_math_pattern, replace_cases_and_add_text, markdown, flags=regex.DOTALL
+    )
 
     return markdown
 
@@ -376,6 +408,7 @@ replacement = {
     r"https://openai\.com/content/images/2017/05/image4\.gif": "./static/images/mujoco-right.gif",  # Dead link in satisficer post
     r"^#+ Footnotes": "",  # Remove these sections
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
+    r"(?<=\w)\+(?=\w)": " & ",  # Ampersands are fancier
 }
 
 
@@ -537,7 +570,7 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     md = parse_latex(md)
 
-    print(md)
+    # print(md)
     return md
 
 
