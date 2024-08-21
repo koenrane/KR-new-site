@@ -7,10 +7,6 @@ date_published: 6/19/23
 tags:
   - AI
 ---
-
-> [!note] Author's note (April 2024)
-> In the light of [the DPO family of algorithms](https://arxiv.org/abs/2305.18290), this direction no longer seems particularly promising to Alex.
-
 **TL;DR:** We present an advantage variant which, in certain settings, does not train an optimal policy, but instead uses a fixed reward to update a policy a fixed amount from initialization. Non-tabular empirical results seem mixed: The policy doesn't mode-collapse, but has unclear convergence properties.
 
 **Summary:** Many policy gradient methods allow a network to extract arbitrarily many policy updates from a single kind of reinforcement event (e.g. for outputting tokens related to weddings). Alex proposes a slight modification to the advantage equation, called "action-conditioned TD error" (ACTDE). ACTDE ensures that the network doesn't converge to an "optimal" policy (these almost always put infinite logits on a single action). Instead, ACTDE updates the network by a fixed number of logits.
