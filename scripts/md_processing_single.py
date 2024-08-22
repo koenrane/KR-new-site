@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime
 import subprocess
 import json
@@ -422,11 +421,14 @@ replacement = {
     r"corrigibility\$\$": "corrigibility",  # Mistake in Formalizing Policy-modification corrigibility
     r"\$_\\text{([^}]+)}\$": r"<sub>\1</sub>",  # Use real subscripts
     r"turn''": 'turn"',  # Smart quotes -- issue with "Formalizing Policy Modification Corrigibility" post
+    r"(?<!\$)t\=(\d+)(?!\$)": r"\$t=\1\$",  # LaTeX formatting for t= in "Formalizing Policy Modification Corrigibility"
 }
 
 multiline_replacements = {
     r"^\#+ Footnotes": "",  # Remove these sections
     r"^> {2,}(?=1\. don\'t)": "> ",  # Remove extra spacing after start of list item in satisficer post
+    r"^\$\$"
+    + "\n": "\n",  # For some reason there are random display math opens, TODO understand
 }
 
 
@@ -435,7 +437,6 @@ def manual_replace(md: str) -> str:
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
         md = regex.sub(key, val, md, flags=regex.MULTILINE)
-    print(md)
     return md
 
 
@@ -539,6 +540,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     md = manual_replace(md)
+    print(md)
 
     # Not enough newlines before A: in inner/outer
     md = regex.sub(r"\n(?=\*\*A:\*\*)", r"\n\n", md)
