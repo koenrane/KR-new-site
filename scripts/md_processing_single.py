@@ -164,6 +164,16 @@ def metadata_to_yaml(meta: dict[str, Any]) -> str:
     return yaml
 
 
+def _produceNewFootnote(match, is_footnote_text: bool) -> str:
+    # Take first 3 characters because sometimes i used different names for same footnote ref
+    cleaned_match = regex.sub(r"[^a-zA-Z0-9 ]", "", match.group(1)).lower().strip()[:3]
+    return (
+        ("\n" if is_footnote_text else "")  # Start with newline if footnote text
+        + rf"[^{cleaned_match}]"
+        + (":" if is_footnote_text else "")
+    )
+
+
 # TODO still not working
 def fix_footnotes(text: str) -> str:
     # Footnote invocation replacement (from LW format)
@@ -185,14 +195,15 @@ def fix_footnotes(text: str) -> str:
     fn_text = "(?:FOOTNOTE|FN):?"
     text = regex.sub(
         rf"^\s*\**{fn_text} *([\w., ]+)\**",
-        "\n" + r"[^\1]:",
+        # "\n" + r"[^\1]:",
+        lambda x: _produceNewFootnote(x, is_footnote_text=True),
         text,
         flags=regex.MULTILINE | regex.IGNORECASE,
     )
     # $^{\text{FN: retarget}}$
     text = regex.sub(
         r"\$\^{?\\text{" + fn_text + " ([\w., ]+)}}?\$",
-        "\n" + r"[^\1]",
+        lambda x: _produceNewFootnote(x, is_footnote_text=False),
         text,
         flags=regex.MULTILINE | regex.IGNORECASE,
     )
