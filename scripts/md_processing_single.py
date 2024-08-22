@@ -418,7 +418,8 @@ replacement = {
     r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
     r"https://openai\.com/content/images/2017/05/image4\.gif": "./static/images/mujoco-right.gif",  # Dead link in satisficer post
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
-    r"(?<=\w)\+(?=\w)": " & ",  # Ampersands are fancier
+    r"(?<=[a-zA-Z])\+(?=[a-zA-Z])": " & ",  # Ampersands are fancier
+    r"corrigibility\$\$": "corrigibility",  # Mistake in Formalizing Policy-modification corrigibility
 }
 
 multiline_replacements = {
