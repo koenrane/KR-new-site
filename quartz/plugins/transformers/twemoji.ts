@@ -2,7 +2,7 @@ import { visit } from "unist-util-visit"
 import { twemoji } from "./modules/twemoji.min"
 import { h } from "hastscript"
 import { Plugin } from "unified"
-import { Node, Parent } from "unist"
+import { Node } from "unist"
 import { Element, Text } from "hast"
 
 export const PLACEHOLDER = "__EMOJI_PLACEHOLDER__"
@@ -71,11 +71,24 @@ export function createNodes(twemojiContent: string): (Text | Element)[] {
   return newNodes
 }
 
+const ignoreMap = new Map<string, string>([
+  ["⤴", "FN_ARROW_PLACEHOLDER"],
+  ["⇔", "IFF_ARROW_PLACEHOLDER"],
+])
+
 export function replaceEmojiConvertArrows(content: string): string {
   let twemojiContent = content
-  twemojiContent = twemojiContent.replaceAll(/↩/g, PLACEHOLDER)
+  twemojiContent = twemojiContent.replaceAll(/↩/g, "⤴")
+  for (const [key, value] of ignoreMap) {
+    const exp = new RegExp(key, "g")
+    twemojiContent = twemojiContent.replaceAll(exp, value)
+  }
   twemojiContent = replaceEmoji(twemojiContent)
-  return twemojiContent.replaceAll(new RegExp(PLACEHOLDER, "g"), EMOJI_REPLACEMENT)
+  for (const [key, value] of ignoreMap) {
+    const exp = new RegExp(value, "g")
+    twemojiContent = twemojiContent.replaceAll(exp, key)
+  }
+  return twemojiContent
 }
 
 export function processTree(tree: Node): Node {

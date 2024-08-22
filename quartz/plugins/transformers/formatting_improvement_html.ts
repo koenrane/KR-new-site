@@ -325,6 +325,12 @@ export function neqConversion(text: string): string {
   return text.replace(/!=/g, "≠")
 }
 
+export function plusToAmpersand(text: string): string {
+  const sourcePattern = `(?<=[a-zA-Z])\\+(?=[a-zA-Z])`
+  const result = text.replace(new RegExp(sourcePattern, "g"), " \u0026 ")
+  return result
+}
+
 // Node-skipping predicates //
 /**
  *  Check for ancestors satisfying certain criteria
@@ -410,8 +416,9 @@ export const improveFormatting: Plugin = () => {
         }
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
-        transformElement(node, enDashNumberRange, toSkip, true)
-        transformElement(node, neqConversion, toSkip, true)
+        for (const transform of [neqConversion, enDashNumberRange, plusToAmpersand]) {
+          transformElement(node, transform, toSkip, true)
+        }
 
         let notMatching = false
         try {

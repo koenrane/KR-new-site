@@ -417,13 +417,14 @@ replacement = {
     r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
     r"https://openai\.com/content/images/2017/05/image4\.gif": "./static/images/mujoco-right.gif",  # Dead link in satisficer post
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
-    r"(?<=[a-zA-Z])\+(?=[a-zA-Z])": " & ",  # Ampersands are fancier
     r"corrigibility\$\$": "corrigibility",  # Mistake in Formalizing Policy-modification corrigibility
     r"\$_\\text{([^}]+)}\$": r"<sub>\1</sub>",  # Use real subscripts
     r"turn''": 'turn"',  # Smart quotes -- issue with "Formalizing Policy Modification Corrigibility" post
     r"(?<!\$)t\=(\d+)(?!\$)": r"\$t=\1\$",  # LaTeX formatting for t= in "Formalizing Policy Modification Corrigibility"
     "<hr/>\n\n\n1\\.": "[^1]:",  # Manual footnote in Fear of dark post
-    r"\[↩︎\]\(#fnref-afZx7rjtgYPaoB7tM-1\)": "",
+    r"\[↩︎\]\(#fnref-[\w\-]+\)": "",
+    r"2\.  If we collectively think more": "[^2]: If we collectively think more",  # Manual footnote in Optimism impact post
+    r"\$\\leftrightarrow\$": "⇔",  # LaTeX to unicode
 }
 
 multiline_replacements = {

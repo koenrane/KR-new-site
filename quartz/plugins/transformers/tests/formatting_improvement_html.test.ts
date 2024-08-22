@@ -130,6 +130,16 @@ describe("HTMLFormattingImprovement", () => {
     )
   })
 
+  describe("Ampersand replacement", () => {
+    it.each([[`<p>There I saw him+her.</p>`, `<p>There I saw him &#x26; her.</p>`]])(
+      "should replace + with & in %s",
+      (input: string, expected: string) => {
+        const result = testHtmlFormattingImprovement(input)
+        expect(result).toBe(expected)
+      },
+    )
+  })
+
   describe("Hyphens", () => {
     it.each([
       ["This is a - hyphen.", "This is a—hyphen."],
