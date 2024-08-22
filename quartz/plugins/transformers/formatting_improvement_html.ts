@@ -4,6 +4,7 @@ import assert from "assert"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
+import { child } from "winston"
 
 /**
  * Flattens text nodes in an element tree
@@ -309,7 +310,14 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
   const firstChar = textNode.value.charAt(0)
   if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
 
-  linkNode.children[0].value = linkNode.children[0].value + firstChar
+  let childToModify
+  if (linkNode.children[0].type === "text") {
+    childToModify = linkNode.children[0]
+  } else {
+    // Assume in eg <a><em>text</em></a> kind of situation
+    childToModify = linkNode.children[0].children[0]
+  }
+  childToModify.value = childToModify.value + firstChar
   textNode.value = textNode.value.slice(1) // Remove the first char
 }
 

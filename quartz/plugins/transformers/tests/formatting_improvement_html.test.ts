@@ -11,7 +11,6 @@ import {
   neqConversion,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
-import { Element, Text } from "hast"
 
 function testHtmlFormattingImprovement(inputHTML: string) {
   return rehype()
@@ -244,6 +243,10 @@ describe("applyLinkPunctuation", () => {
     [
       '<p><strong><a href="https://example.com">Link</a></strong></p>',
       '<p><strong><a href="https://example.com">Link</a></strong></p>',
+    ],
+    [
+      '<p><a href="/a-certain-formalization-of-corrigibility-is-vnm-incoherent"><em>Corrigibility Can Be VNM-Incoherent</em></a></p>,',
+      '<p><a href="/a-certain-formalization-of-corrigibility-is-vnm-incoherent"><em>Corrigibility Can Be VNM-Incoherent,</em></a></p>',
     ],
   ]
 
