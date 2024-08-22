@@ -420,6 +420,8 @@ replacement = {
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
     r"(?<=[a-zA-Z])\+(?=[a-zA-Z])": " & ",  # Ampersands are fancier
     r"corrigibility\$\$": "corrigibility",  # Mistake in Formalizing Policy-modification corrigibility
+    r"\$_\\text{([^}]+)}\$": r"<sub>\1</sub>",  # Use real subscripts
+    r"turn''": 'turn"',  # Smart quotes -- issue with "Formalizing Policy Modification Corrigibility" post
 }
 
 multiline_replacements = {
