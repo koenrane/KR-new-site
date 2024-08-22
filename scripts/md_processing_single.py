@@ -422,6 +422,8 @@ replacement = {
     r"\$_\\text{([^}]+)}\$": r"<sub>\1</sub>",  # Use real subscripts
     r"turn''": 'turn"',  # Smart quotes -- issue with "Formalizing Policy Modification Corrigibility" post
     r"(?<!\$)t\=(\d+)(?!\$)": r"\$t=\1\$",  # LaTeX formatting for t= in "Formalizing Policy Modification Corrigibility"
+    "<hr/>\n\n\n1\\.": "[^1]:",  # Manual footnote in Fear of dark post
+    r"\[↩︎\]\(#fnref-afZx7rjtgYPaoB7tM-1\)": "",
 }
 
 multiline_replacements = {
