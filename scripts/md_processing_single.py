@@ -417,15 +417,22 @@ replacement = {
     r"d̴iv̢erge͏nc̸e͟": "<span class='corrupted'>divergence</span>",
     r"i͟nstab̕il̡i̡t̷y": "<span class='corrupted'>instability</span>",
     r"https://openai\.com/content/images/2017/05/image4\.gif": "./static/images/mujoco-right.gif",  # Dead link in satisficer post
-    r"^#+ Footnotes": "",  # Remove these sections
     r"\$(\-?)\\frac{(\d)}{(\d)}\$": r"\1\2/\3",  # Display fractions natively
     r"(?<=\w)\+(?=\w)": " & ",  # Ampersands are fancier
+}
+
+multiline_replacements = {
+    r"^\#+ Footnotes": "",  # Remove these sections
+    r"^> {2,}(?=1\. don\'t)": "> ",  # Remove extra spacing after start of list item in satisficer post
 }
 
 
 def manual_replace(md: str) -> str:
     for key, val in replacement.items():
         md = regex.sub(key, val, md)
+    for key, val in multiline_replacements.items():
+        md = regex.sub(key, val, md, flags=regex.MULTILINE)
+    print(md)
     return md
 
 
