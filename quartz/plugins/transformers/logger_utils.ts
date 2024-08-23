@@ -11,7 +11,7 @@ export const findGitRoot = () => {
     return execSync("git rev-parse --show-toplevel").toString().trim()
   } catch (error) {
     console.error(`Error finding Git root: ${error}`)
-    return null 
+    return null
   }
 }
 const gitRoot = findGitRoot()
@@ -44,7 +44,7 @@ export const createLogger = (logName: string) => {
         datePattern: "YYYY-MM-DD",
         zippedArchive: true,
         maxSize: "20m",
-        maxFiles: "14d",
+        maxFiles: "7d",
       }),
     ],
   })

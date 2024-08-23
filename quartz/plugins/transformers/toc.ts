@@ -28,6 +28,10 @@ export interface TocEntry {
 
 const logger = createLogger("TableOfContents")
 
+function logTocEntry(entry: TocEntry) {
+  logger.debug(`TOC Entry: depth=${entry.depth}, text="${entry.text}", slug="${entry.slug}"`)
+}
+
 const slugAnchor = new Slugger()
 
 function customToString(node: Node): string {
@@ -74,12 +78,14 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
               })
 
               if (toc.length > 0 && toc.length > opts.minEntries) {
-                file.data.toc = toc.map((entry) => ({
+                const adjustedToc = toc.map((entry) => ({
                   ...entry,
                   depth: entry.depth - highestDepth,
                 }))
+                file.data.toc = adjustedToc
                 file.data.collapseToc = opts.collapseByDefault
-                logger.info(`Generated TOC for ${file.path} with ${toc.length} entries`)
+                logger.info(`Generated TOC for ${file.path} with ${adjustedToc.length} entries`)
+                adjustedToc.forEach(logTocEntry)
               } else {
                 logger.info(`Skipped TOC generation for ${file.path}: not enough entries`)
               }
