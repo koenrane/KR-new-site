@@ -438,7 +438,6 @@ multiline_replacements = {
 
 
 def manual_replace(md: str) -> str:
-    print(md)
     for key, val in replacement.items():
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
@@ -601,11 +600,24 @@ def process_markdown(md: str, metadata: dict) -> str:
     return md
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        raise ValueError("Error: Incorrect number of arguments")
+import argparse
 
-    title_substring = sys.argv[1]
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Process Lightweight posts for Quartz import."
+    )
+    parser.add_argument("title_substring", help="Substring to match in post titles.")
+    parser.add_argument(
+        "--print", action="store_true", help="Print the generated Markdown."
+    )
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    print(args)
+    title_substring = args.title_substring
 
     data = read_maybe_generate_json()
     results = data["data"]["posts"]["results"]
@@ -651,5 +663,8 @@ if __name__ == "__main__":
             Path("..", "content", "import", output_filename), "w", encoding="utf-8"
         ) as f:
             f.write(md)
+
+        if args.print:
+            print(md)
 
         print(f"Processed post: {post['title']}")
