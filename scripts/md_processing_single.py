@@ -425,17 +425,20 @@ replacement = {
     r"\[↩︎\]\(#fnref-[\w\-]+\)": "",
     r"2\.  If we collectively think more": "[^2]: If we collectively think more",  # Manual footnote in Optimism impact post
     r"\$\\leftrightarrow\$": "⇔",  # LaTeX to unicode
+    r" . (?=Put in cards for key concepts and practice using the concepts.)": ". ",  # Issue after link in anki post
 }
 
 multiline_replacements = {
     r"^\#+ Footnotes": "",  # Remove these sections
     r"^> {2,}(?=1\. don\'t)": "> ",  # Remove extra spacing after start of list item in satisficer post
     r"^\$\$"
-    + "\n": "\n",  # For some reason there are random display math opens, TODO understand
+    + "\n{2,}": "$$\n",  # For some reason there are random display math opens, TODO understand
+    r"^ +\$\$": "$$",  # Remove extra spaces before
 }
 
 
 def manual_replace(md: str) -> str:
+    print(md)
     for key, val in replacement.items():
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
@@ -543,7 +546,6 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     md = manual_replace(md)
-    print(md)
 
     # Not enough newlines before A: in inner/outer
     md = regex.sub(r"\n(?=\*\*A:\*\*)", r"\n\n", md)
@@ -596,7 +598,6 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     md = parse_latex(md)
 
-    # print(md)
     return md
 
 
