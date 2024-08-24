@@ -173,7 +173,6 @@ def _produceNewFootnote(match, is_footnote_text: bool) -> str:
     )
 
 
-# TODO still not working
 def fix_footnotes(text: str) -> str:
     # Footnote invocation replacement (from LW format)
     text = regex.sub(r"\[\\\[([^\]]*)\\\]\]\(.*?\)", r"[^\1]", text)
@@ -187,6 +186,16 @@ def fix_footnotes(text: str) -> str:
         text,
         flags=regex.MULTILINE,
     )
+
+    # Connect with page breaks instead of \n\t
+    def sub_br_tag(text: str) -> str:
+        return regex.sub(r"(\]:.*)(?:\n {4})+\n(?!\[\^\d+\])", r"\1<br/><br/>", text)
+
+    new_text = sub_br_tag(text)
+    while new_text != text:
+        text = new_text
+        new_text = sub_br_tag(text)
+
     # Footnote (manual latex, in text)
     text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
 
