@@ -5,11 +5,11 @@ import subprocess
 from pathlib import Path
 from typing import Collection
 
-QUALITY: int = 56  # Default quality (higher is larger file size but better quality)
+IMAGE_QUALITY: int = 56  # Default quality (higher is larger file size but better quality)
 ALLOWED_IMAGE_EXTENSIONS: Collection[str] = (".jpg", ".jpeg", ".png")
 
 
-def image(image_path: Path, quality: int = QUALITY) -> None:
+def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
     """Converts an image to AVIF format using ImageMagick.
 
     Args:
@@ -46,6 +46,7 @@ ALLOWED_VIDEO_EXTENSIONS: Collection[str] = (
     ".gif",
     ".mov",
     ".mp4",
+    ".webm",
     ".avi",
     ".mpeg",
 )
@@ -55,12 +56,13 @@ ALLOWED_EXTENSIONS: Collection[str] = (
 )
 
 
-def video(video_path: Path, quality: int = QUALITY) -> None:
-    """Converts a video to WebM format using ffmpeg.
+VIDEO_QUALITY: int = 23  # Default quality (0-51). Lower is better but slower.
+def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
+    """Converts a video to mp4 format using ffmpeg with HEVC encoding if not already HEVC.
 
     Args:
         video_path: The path to the video file.
-        quality: The WebM quality (0-63). Lower is better but slower. Defaults to QUALITY.
+        quality: The HEVC quality (0-51). Lower is better but slower.
     """
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
@@ -70,73 +72,60 @@ def video(video_path: Path, quality: int = QUALITY) -> None:
             f"Error: Unsupported file type '{video_path.suffix}'. Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
         )
 
-    webm_path: Path = video_path.with_suffix(".webm")
-
-    # Two-pass encoding (overwrites existing file)
-    encoding = "libvpx-vp9"
+    # Check if the input is already HEVC encoded
+    probe_cmd = [
+        "ffprobe",
+        "-v", "error",
+        "-select_streams", "v:0",
+        "-show_entries", "stream=codec_name",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        str(video_path)
+    ]
+    
     try:
-        # First pass (Video Only)
+        codec = subprocess.check_output(probe_cmd, universal_newlines=True).strip()
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Error probing video codec: {e}")
+
+    if codec == "hevc":
+        print(f"File {video_path} is already HEVC encoded. Skipping conversion.")
+        return
+
+    # Determine output path
+    if video_path.suffix.lower() == '.mp4':
+        output_path = video_path
+        temp_output_path = video_path.with_stem(video_path.stem + "_temp")
+    else:
+        output_path = video_path.with_suffix(".mp4")
+        temp_output_path = output_path
+
+    encoding = "libx265"
+    try:
+        # Single pass encoding
         subprocess.run(
             [
-                "ffmpeg",  # The command-line tool for video processing
-                "-i",
-                video_path,  # Input video file
-                "-y",  # Overwrite output files without asking
-                "-c:v",
-                encoding,  # Use libvpx-vp9 codec for video encoding (good for WebM)
-                "-crf",
-                str(
-                    quality
-                ),  # Constant Rate Factor (CRF) controls quality (lower is better)
-                "-b:v",
-                "0",  # Disable bitrate control (since we're using CRF)
-                "-pass",
-                "1",  # First pass for analysis (no video output)
-                "-loglevel",
-                "fatal",  # Suppress most messages, only show errors
-                "-an",  # Disable audio processing (for this pass)
-                "-f",
-                "null",  # Output format is null
-                "/dev/null",  # Discard output (since we're only analyzing)
+                "ffmpeg",
+                "-i", str(video_path),
+                "-c:v", encoding,
+                "-preset", "slow",
+                "-crf", str(quality),
+                "-c:a", "copy",  # Copy audio without re-encoding
+                "-tag:v", "hvc1",  # For better compatibility with Apple devices
+                "-movflags", "+faststart",
+                str(temp_output_path)
             ],
             check=True,
         )
 
-        # Second pass (Video and Audio)
-        subprocess.run(
-            [
-                "ffmpeg",  # The command-line tool for video processing
-                "-i",
-                video_path,  # Input video file
-                "-y",  # Overwrite output files without asking
-                "-c:v",
-                encoding,  # Use libvpx-vp9 codec for video encoding
-                "-c:a",
-                "libopus",  # Use libopus codec for audio encoding (good for WebM)
-                "-crf",
-                str(quality),  # Constant Rate Factor (CRF) controls quality
-                "-b:v",
-                "0",  # Disable bitrate control (since we're using CRF)
-                "-pass",
-                "2",  # Second pass for actual encoding using analysis from pass 1
-                "-auto-alt-ref",
-                "1",  # Enable automatic alt-ref frames (improves quality)
-                "-row-mt",
-                "1",  # Enable row-based multithreading (can speed up encoding)
-                "-loglevel",
-                "fatal",  # Suppress most messages, only show errors
-                "-movflags",
-                "faststart",  # Optimize for fast start-up playback in web browsers
-                webm_path,  # Output WebM file
-            ],
-            check=True,
-        )
+        # If we're overwriting the original file, replace it now
+        if output_path == video_path:
+            video_path.unlink()
+            temp_output_path.rename(output_path)
+
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error during conversion: {e}") from e
-    finally:  # Cleanup after both passes
-        log_file: Path = Path("ffmpeg2pass-0.log")
-        if log_file.exists():
-            log_file.unlink()  # Delete the log file
+        raise RuntimeError(f"Error during conversion: {e.stderr}") from e
+
+    print(f"Successfully converted {video_path} to HEVC: {output_path}")
 
 
 if __name__ == "__main__":
@@ -149,9 +138,21 @@ if __name__ == "__main__":
         "--quality",
         type=int,
         default=QUALITY,
-        help="Quality (0-100)",
+        help="Quality (0-100 for images)",
+    )
+    parser.add_argument(
+        "-t",
+        "--type",
+        type=str,
+        default="image",
+        help="Type of asset to compress (image or video)",
     )
 
     args: argparse.Namespace = parser.parse_args()
 
-    image(args.path, args.quality)
+    if args.type == "image":
+        image(args.path, args.quality)
+    elif args.type == "video":
+        video(args.path, args.quality)
+    else:
+        raise ValueError(f"Error: Unsupported file type '{args.type}'. Supported types are: image or video.")

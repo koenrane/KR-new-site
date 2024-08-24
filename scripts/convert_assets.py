@@ -43,21 +43,17 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         )
 
     # Combine all patterns into one, separated by '|' (OR)
-    original_pattern: str = (
-        rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
-    )
+    original_pattern: str = rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
 
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
-    # Convert to .webm video
+    # Convert to .mp4 video
     video_tags: str = (
-        "autoplay loop muted playsinline "
-        if input_file.suffix == ".gif"
-        else ""
+        "autoplay loop muted playsinline " if input_file.suffix == ".gif" else ""
     )
     replacement_pattern: str = (
-        rf'<video {video_tags}src="{all_links}{input_file.stem}.webm"\g<earlyTagInfo>\g<tagInfo> type="video/webm"><source src="{all_links}{input_file.stem}.webm" type="video/webm"></video>'
+        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="{all_links}{input_file.stem}.mp4" type="video/mp4"></video>'
     )
 
     return original_pattern, replacement_pattern
@@ -95,9 +91,7 @@ def convert_asset(
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
     if md_replacement_dir and not md_replacement_dir.is_dir():
-        raise NotADirectoryError(
-            f"Error: Directory '{md_replacement_dir}' not found."
-        )
+        raise NotADirectoryError(f"Error: Directory '{md_replacement_dir}' not found.")
 
     relative_path = script_utils.path_relative_to_quartz(input_file)
 
@@ -111,15 +105,13 @@ def convert_asset(
         replacement_pattern = str(output_file)
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
-        output_file = input_file.with_suffix(".webm")
+        output_file = input_file.with_suffix(".mp4")
         compress.video(input_file)
 
         original_pattern, replacement_pattern = _video_patterns(input_file)
 
     else:
-        raise ValueError(
-            f"Error: Unsupported file type '{input_file.suffix}'."
-        )
+        raise ValueError(f"Error: Unsupported file type '{input_file.suffix}'.")
 
     for md_file in script_utils.get_files(
         dir_to_search=md_replacement_dir, filetypes_to_match=(".md",)
@@ -162,9 +154,7 @@ if __name__ == "__main__":
         help="Directory containing assets to convert",
     )
     args = parser.parse_args()
-    args.asset_directory = (
-        Path(args.asset_directory) if args.asset_directory else None
-    )
+    args.asset_directory = Path(args.asset_directory) if args.asset_directory else None
 
     for asset in script_utils.get_files(
         dir_to_search=args.asset_directory,

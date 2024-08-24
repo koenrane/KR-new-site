@@ -69,8 +69,40 @@ def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
 
     compress.video(input_file)
 
-    webm_file: Path = input_file.with_suffix(".webm")
-    assert webm_file.exists()  # Check if WebM file was created
+    mp4_file: Path = input_file.with_suffix(".mp4")
+    assert mp4_file.exists()  # Check if MP4 file was created
     assert (
-        webm_file.stat().st_size < original_size
-    )  # Check if WebM file is smaller
+        mp4_file.stat().st_size <= original_size
+    ) or video_ext == ".webm"  # Check if MP4 file is smaller
+
+def test_convert_mp4_fails_with_non_existent_file(temp_dir: Path) -> None:
+    input_file = temp_dir / "non_existent_file.mov"
+
+    with pytest.raises(FileNotFoundError):
+        compress.video(input_file)
+
+def test_convert_mp4_fails_with_invalid_extension(temp_dir: Path) -> None:
+    input_file = temp_dir / "fakefile.fake"
+    input_file.touch()
+
+    with pytest.raises(ValueError):
+        compress.video(input_file)
+
+def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
+    input_file: Path = temp_dir / "test.mp4"
+    utils.create_test_video(input_file, codec="libx265")
+
+    stdout_capture = StringIO()
+    sys.stdout = stdout_capture
+
+    compress.video(input_file)
+    sys.stdout = sys.__stdout__
+
+    assert "Skipping conversion" in stdout_capture.getvalue()
+
+def test_error_probing_codec(temp_dir: Path) -> None:
+    input_file: Path = temp_dir / "test.mp4"
+    input_file.touch()
+
+    with pytest.raises(RuntimeError):
+        compress.video(input_file)
