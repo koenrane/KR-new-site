@@ -5,6 +5,7 @@ import subprocess
 from pathlib import Path
 import re
 from typing import Optional, Sequence
+import os
 
 try:
     from . import utils as script_utils
@@ -91,7 +92,12 @@ def upload_and_move(
     if move_to_dir:
         if verbose:
             print(f"Moving original file: {file_path}")
-        shutil.move(str(file_path), str(move_to_dir / file_path.name))
+        # Create the directory structure in the target location
+        git_root = script_utils.get_git_root()
+        relative_path = file_path.relative_to(git_root)
+        target_path = move_to_dir / relative_path
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(file_path), str(target_path))
 
 
 def main() -> None:
