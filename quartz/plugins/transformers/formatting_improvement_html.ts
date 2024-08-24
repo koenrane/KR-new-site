@@ -371,19 +371,6 @@ function isFootnote(node: Element) {
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
-      // Wrap fn in span so that multiple <p> elements can be used
-      if (node?.properties?.id?.includes("user-content-fn-")) {
-        const newSpan = {
-          type: "element",
-          tagName: "span",
-          properties: {
-            className: ["footnote"],
-          },
-          children: node.children,
-        }
-        node.children = [newSpan]
-      }
-
       // A direct transform, instead of on the children of a <p> element
       if (node.type === "text" && node.value && !hasAncestor(parent, isCode)) {
         replaceRegex(

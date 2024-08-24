@@ -78,7 +78,7 @@ ol {
 
   li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
-    display: flex; // This ensures the number and the text are in the same line
+    // display: flex; // This ensures the number and the text are in the same line
     counter-increment: footnote; // Increment the footnote counter for each matching li
     margin-bottom: $baseMargin; // Add a bottom margin to the list items
 
@@ -516,9 +516,15 @@ img.favicon {
   display: inline;
 }
 
-// For some reason, not all bullets were inline
-ol li p {
-  display: inline;
+ol li[id^="user-content-fn-"] p {
+  display: block;
+  margin-block-start: calc(2 * $baseMargin);
+  margin-block-end: calc(2 * $baseMargin);
+
+  // Want it to be inline
+  &:first-child {
+    display: inline;
+  }
 }
 
 img.emoji {
