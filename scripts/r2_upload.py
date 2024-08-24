@@ -130,8 +130,8 @@ def main() -> None:
         "-t",
         "--filetypes",
         nargs="+",
-        default=(".webm", ".svg", ".avif"),
-        help="File types to upload when using --all (default: .webm .svg .avif)",
+        default=(".mp4", ".svg", ".avif"),
+        help="File types to upload when using --all (default: .mp4 .svg .avif)",
     )
     parser.add_argument("file", type=Path, nargs="?", help="File to upload")
     args = parser.parse_args()
