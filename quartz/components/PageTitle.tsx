@@ -17,7 +17,7 @@ export const headerVideoContainer = (
       loop
       muted
       playsInline
-      poster="/static/images/pond_placeholder.avif"
+      poster="https://assets.turntrout.com/static/images/pond_placeholder.avif"
       id="header-video"
       class="header-img no-select no-vsc"
       alt={altText}

@@ -83,7 +83,7 @@ def test_image_conversion(ext: str, setup_test_env):
 @pytest.mark.parametrize("ext", compress.ALLOWED_VIDEO_EXTENSIONS)
 def test_video_conversion(ext: str, setup_test_env):
     asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset{ext}"
-    webm_path: Path = asset_path.with_suffix(".webm")
+    mp4_path: Path = asset_path.with_suffix(".mp4")
     content_path: Path = (
         Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
     )
@@ -94,14 +94,14 @@ def test_video_conversion(ext: str, setup_test_env):
         asset_path, md_replacement_dir=Path(setup_test_env)
     )
 
-    assert webm_path.exists()
+    assert mp4_path.exists()
     with open(content_path, "r") as f:
         file_content: str = f.read()
 
     video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
     for alt_tag in ("", 'alt="shrek" '):  # The original-tag had an alt
         assert (
-            f'<video {video_tags}src="static/asset.webm" {alt_tag}type="video/webm"><source src="static/asset.webm" type="video/webm"></video>'
+            f'<video {video_tags}src="static/asset.mp4" {alt_tag}type="video/mp4"><source src="static/asset.mp4" type="video/mp4"></video>'
             in file_content
         )
 
@@ -162,7 +162,7 @@ def test_ignores_unsupported_file_types(setup_test_env):
     asset_path = Path(setup_test_env) / "quartz/static/unsupported.txt"
 
     with pytest.raises(ValueError):
-        convert_assets.convert_asset(asset_path)
+        convert_assets.convert_asset(asset_path, md_replacement_dir=Path(setup_test_env) / "content")
 
 
 def test_file_not_found(setup_test_env):
@@ -181,14 +181,14 @@ def test_ignores_non_quartz_path(setup_test_env):
     asset_path = Path(setup_test_env) / "file.png"
 
     with pytest.raises(ValueError, match="quartz.*directory"):
-        convert_assets.convert_asset(asset_path)
+        convert_assets.convert_asset(asset_path, md_replacement_dir=Path(setup_test_env) / "content")
 
 
 def test_ignores_non_static_path(setup_test_env):
     asset_path = Path(setup_test_env) / "quartz" / "file.png"
 
     with pytest.raises(ValueError, match="static.*subdirectory"):
-        convert_assets.convert_asset(asset_path)
+        convert_assets.convert_asset(asset_path, md_replacement_dir=Path(setup_test_env) / "content")
 
 
 @pytest.mark.parametrize(
