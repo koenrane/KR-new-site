@@ -17,6 +17,7 @@ except ImportError:
     import utils as script_utils
     import md_import_helpers as helpers
 
+
 # Data processing functions
 def read_maybe_generate_json() -> dict:
     """Read or generate JSON data for all posts."""
@@ -25,6 +26,7 @@ def read_maybe_generate_json() -> dict:
     with open("/tmp/all_posts_md.json", "r") as f:
         return json.load(f)
 
+
 def strip_referral_url(url: str) -> str:
     """Remove referral prefix from LessWrong URLs."""
     prefix = "https://www.lesswrong.com/out?url="
@@ -32,6 +34,7 @@ def strip_referral_url(url: str) -> str:
         return ""
     target_url = url.partition(prefix)[2]
     return unquote(target_url)
+
 
 # Metadata processing
 pairs = (
@@ -54,8 +57,6 @@ pairs = (
     ("af-base-score", "afBaseScore"),
     ("af-num-comments-on-upload", "afCommentCount"),
 )
-
-
 
 
 def get_lw_metadata(post_info: dict[str, Any]) -> dict:
@@ -282,6 +283,10 @@ def parse_latex(markdown: str) -> str:
         display_math_pattern, replace_cases_and_add_text, markdown, flags=regex.DOTALL
     )
 
+    # Don't use mathmode for text without text
+    math_exposed_text_pattern = r"\$([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)\$"
+    markdown = regex.sub(math_exposed_text_pattern, r"`\1`", markdown)
+
     return markdown
 
 
@@ -432,6 +437,8 @@ replacement = {
     r"\$\\leftrightarrow\$": "⇔",  # LaTeX to unicode
     r" . (?=Put in cards for key concepts and practice using the concepts.)": ". ",  # Issue after link in anki post
     r"\n(?=\*\*A:\*\*)": r"\n\n",  # Not enough newlines before A: in inner/outer
+    r"non- (?=\$unknown)": "non-",  # Issue in "Open-Category Classification"
+    r"\\bEval\\b": "`Eval`",  # TODO check only in
 }
 
 multiline_replacements = {
@@ -450,6 +457,7 @@ def manual_replace(md: str) -> str:
     for key, val in multiline_replacements.items():
         md = regex.sub(key, val, md, flags=regex.MULTILINE)
     return md
+
 
 def get_quote_patterns():
     """
@@ -474,6 +482,7 @@ def get_quote_patterns():
         "post_citation": post_citation_pattern,
     }
 
+
 def process_linked_citations(md: str, patterns: dict) -> str:
     """
     Process quotes with linked citations.
@@ -489,6 +498,7 @@ def process_linked_citations(md: str, patterns: dict) -> str:
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md)
 
+
 def process_plain_text_citations(md: str, patterns: dict) -> str:
     """
     Process quotes with plain text citations.
@@ -502,6 +512,7 @@ def process_plain_text_citations(md: str, patterns: dict) -> str:
     )
     target = r"> [!quote] \g<prelink>\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
+
 
 def move_citation_to_quote_admonition(md: str) -> str:
     """
@@ -533,18 +544,21 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > This is a quote.
     """
     # Check for linked citations on the last line
-    print(md)
     patterns = get_quote_patterns()
-    last_line_pattern = rf"^> *(?P<lastLine>[A-Za-z0-9,\. ]*{patterns['md_url']}[ _\*]*)$"
+    last_line_pattern = (
+        rf"^> *(?P<lastLine>[A-Za-z0-9,\. ]*{patterns['md_url']}[ _\*]*)$"
+    )
     md = regex.sub(last_line_pattern, r"> -- \1", md, flags=regex.MULTILINE)
 
     md = process_linked_citations(md, patterns)
     md = process_plain_text_citations(md, patterns)
     return md.rstrip("\n")
 
+
 def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
     return markdown.split(helpers.MARKDOWN_WARNING)[-1]
+
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
@@ -601,6 +615,7 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     return md
 
+
 # CLI argument parsing
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
@@ -612,6 +627,7 @@ def parse_args() -> argparse.Namespace:
         "--print", action="store_true", help="Print the generated Markdown."
     )
     return parser.parse_args()
+
 
 # Main execution
 if __name__ == "__main__":
@@ -659,7 +675,6 @@ if __name__ == "__main__":
         yaml = metadata_to_yaml(metadata)
         post_md = process_markdown(post["contents"]["markdown"], metadata)
         md = yaml + post_md
-
 
         output_filename = f"{post['slug']}.md"
         output_path = Path(git_root) / "content" / "import" / output_filename
