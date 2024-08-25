@@ -115,6 +115,7 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
       }),
+      Plugin.Twemoji(),
       Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
         theme: {
@@ -134,7 +135,6 @@ const config: QuartzConfig = {
       Plugin.HTMLFormattingImprovement(),
       Plugin.TagAcronyms(),
       // Plugin.AddFavicons(),
-      Plugin.Twemoji(),
       Plugin.TroutOrnamentHr(),
       Plugin.ColorVariables(),
     ],
