@@ -73,7 +73,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                     text,
                     slug: slugAnchor.slug(text),
                   })
-                  logger.debug(`Added TOC entry: depth=${node.depth}, text="${text}"`)
+                  logger.info(`Added TOC entry: depth=${node.depth}, text="${text}"`)
                 }
               })
 

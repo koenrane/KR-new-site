@@ -1,6 +1,7 @@
 import {
   hyphenReplace,
   niceQuotes,
+  massTransformText,
   getTextContent,
   flattenTextNodes,
   improveFormatting,
@@ -121,10 +122,19 @@ describe("HTMLFormattingImprovement", () => {
   })
 
   describe("NEQ Conversion", () => {
-    it.each([["<p>There are 1 != 2 left.</p>", "<p>There are 1 ≠ 2 left.</p>"]])(
+    it.each([["There are 1 != 2 left.", "There are 1 ≠ 2 left."]])(
       "should replace != with ≠ in %s",
       (input: string, expected: string) => {
         const result = neqConversion(input)
+        expect(result).toBe(expected)
+      },
+    )
+  })
+  describe("IID Conversion", () => {
+    it.each([["The data are i.i.d.", "The data are IID"]])(
+      "should replace IID in %s",
+      (input: string, expected: string) => {
+        const result = massTransformText(input)
         expect(result).toBe(expected)
       },
     )

@@ -331,6 +331,19 @@ export function plusToAmpersand(text: string): string {
   return result
 }
 
+const massTransforms: [RegExp | string, string][] = [[new RegExp(`i\.?i\.?d\.?`, "gi"), "IID"]]
+export function massTransformText(text: string): string {
+  for (const pair of massTransforms) {
+    let pattern = pair[0]
+    const replacement = pair[1]
+    if (typeof pattern === "string") {
+      pattern = new RegExp(pattern, "g")
+    }
+    text = text.replace(pattern, replacement)
+  }
+  return text
+}
+
 // Node-skipping predicates //
 /**
  *  Check for ancestors satisfying certain criteria
@@ -403,7 +416,12 @@ export const improveFormatting: Plugin = () => {
         }
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
-        for (const transform of [neqConversion, enDashNumberRange, plusToAmpersand]) {
+        for (const transform of [
+          neqConversion,
+          enDashNumberRange,
+          plusToAmpersand,
+          massTransformText,
+        ]) {
           transformElement(node, transform, toSkip, true)
         }
 
