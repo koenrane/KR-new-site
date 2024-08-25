@@ -516,15 +516,24 @@ img.favicon {
   display: inline;
 }
 
-ol li[id^="user-content-fn-"] p {
-  display: block;
-  margin-block-start: calc(2 * $baseMargin);
-  margin-block-end: calc(2 * $baseMargin);
+ol li,
+ol li[id^="user-content-fn"] {
+  & p,
+  & blockquote,
+  & video,
+  & table {
+    display: block;
+    margin-block-start: calc(2 * $baseMargin);
+    margin-block-end: calc(2 * $baseMargin);
 
-  // Want it to be inline
-  &:first-child {
-    display: inline;
+    &:first-child {
+      display: inline;
+    }
   }
+}
+
+.katex {
+  // display: none !important;
 }
 
 img.emoji {
