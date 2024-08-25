@@ -1,10 +1,9 @@
 import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, fractionRegex, mdLinkRegex } from "./utils"
+import { replaceRegex, fractionRegex } from "./utils"
 import assert from "assert"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
-import { child } from "winston"
 
 /**
  * Flattens text nodes in an element tree
@@ -91,7 +90,7 @@ export function transformElement(
   node: Element,
   transform: (input: string) => string,
   ignoreNodeFn: (input: Element) => boolean = () => false,
-  checkTransformInvariance: any = true,
+  checkTransformInvariance: Boolean = true,
 ): void {
   if (!node?.children) {
     throw new Error("Node has no children")
@@ -246,7 +245,7 @@ export function hyphenReplace(text: string) {
  * @returns The transformed text
  */
 export function applyTextTransforms(text: string): string {
-  text = text.replaceAll(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = text.replace(/\u00A0/g, " ") // Replace non-breaking spaces
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
@@ -331,7 +330,7 @@ export function plusToAmpersand(text: string): string {
   return result
 }
 
-const massTransforms: [RegExp | string, string][] = [[new RegExp(`i\.?i\.?d\.?`, "gi"), "IID"]]
+const massTransforms: [RegExp | string, string][] = [[new RegExp(`\\b(?:iid|i\\.i\\.d\\.)\\b`, "gi"), "IID"]]
 export function massTransformText(text: string): string {
   for (const pair of massTransforms) {
     let pattern = pair[0]
