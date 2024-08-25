@@ -1,8 +1,9 @@
-from datetime import datetime
-import subprocess
+import argparse
 import json
 import os
+import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 import html
@@ -10,27 +11,29 @@ from urllib.parse import unquote
 import regex
 
 try:
+    from . import utils as script_utils
     from . import md_import_helpers as helpers
 except ImportError:
+    import utils as script_utils
     import md_import_helpers as helpers
 
-
+# Data processing functions
 def read_maybe_generate_json() -> dict:
+    """Read or generate JSON data for all posts."""
     if not os.path.exists("/tmp/all_posts_md.json"):
         subprocess.run(["node", "process_json.cjs"], check=True)
     with open("/tmp/all_posts_md.json", "r") as f:
         return json.load(f)
 
-
 def strip_referral_url(url: str) -> str:
+    """Remove referral prefix from LessWrong URLs."""
     prefix = "https://www.lesswrong.com/out?url="
     if not url.startswith(prefix):
         return ""
     target_url = url.partition(prefix)[2]
-    target_url = unquote(target_url)  # eg %3A to :
-    return target_url
+    return unquote(target_url)
 
-
+# Metadata processing
 pairs = (
     ("permalink", "slug"),
     ("lw-was-draft-post", "draft"),
@@ -53,7 +56,6 @@ pairs = (
 )
 
 
-MARKDOWN_WARNING = "moved away from optimal policies and treated reward functions more realistically.**\n"
 
 
 def get_lw_metadata(post_info: dict[str, Any]) -> dict:
@@ -123,13 +125,14 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["lw-review-ranking"] = review_info["reviewRanking"]
         metadata["lw-review-category"] = review_info["category"]
 
-    if MARKDOWN_WARNING in post_info["contents"]["markdown"]:
+    if helpers.MARKDOWN_WARNING in post_info["contents"]["markdown"]:
         metadata["lw-power-seeking-warning"] = True
 
     return metadata
 
 
 def add_quartz_metadata(meta: dict[str, Any]) -> dict[str, Any]:
+    """Add Quartz-specific metadata to the existing metadata."""
     publication_timestamp: str = meta["lw-posted-at"]
     # Parse the timestamp (Z indicates UTC timezone)
     dt = datetime.fromisoformat(publication_timestamp[:-1])  # Remove the trailing 'Z'
@@ -156,6 +159,7 @@ def _entry_to_yaml(key: str, val: Any) -> str:
 
 
 def metadata_to_yaml(meta: dict[str, Any]) -> str:
+    """Convert metadata dictionary to YAML format."""
     yaml = "---\n"
     for key, val in meta.items():
         yaml += _entry_to_yaml(key, val)
@@ -301,11 +305,11 @@ def _get_urls(markdown: str) -> list[str]:
 # Check that no ' or " exist outside of code blocks --- in all formattinghtml. Add tests.
 # Loading order for eg fonts
 # full width images
-#  Prediction market embeds? process json
 
 
 # Turn links to my LW posts into internal links
 def remove_prefix_before_slug(url: str) -> str:
+    """Remove the LessWrong URL prefix and convert to internal link."""
     for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
             rf"(?:lesswrong|alignmentforum).*?/{website_hash}/.*#?(.*)(?=\))"
@@ -343,6 +347,7 @@ def get_slug(url: str) -> Optional[str]:
 
 
 def replace_urls(markdown: str, current_slug: str = "") -> str:
+    """Replace LessWrong URLs with internal links."""
     urls: list[str] = _get_urls(markdown)
     for url in urls:
         if "commentId=" in url:
@@ -426,6 +431,7 @@ replacement = {
     r"2\.  If we collectively think more": "[^2]: If we collectively think more",  # Manual footnote in Optimism impact post
     r"\$\\leftrightarrow\$": "⇔",  # LaTeX to unicode
     r" . (?=Put in cards for key concepts and practice using the concepts.)": ". ",  # Issue after link in anki post
+    r"\n(?=\*\*A:\*\*)": r"\n\n",  # Not enough newlines before A: in inner/outer
 }
 
 multiline_replacements = {
@@ -438,12 +444,12 @@ multiline_replacements = {
 
 
 def manual_replace(md: str) -> str:
+    """Apply manual replacements to fix common issues in the markdown."""
     for key, val in replacement.items():
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
         md = regex.sub(key, val, md, flags=regex.MULTILINE)
     return md
-
 
 def get_quote_patterns():
     """
@@ -468,7 +474,6 @@ def get_quote_patterns():
         "post_citation": post_citation_pattern,
     }
 
-
 def process_linked_citations(md: str, patterns: dict) -> str:
     """
     Process quotes with linked citations.
@@ -484,7 +489,6 @@ def process_linked_citations(md: str, patterns: dict) -> str:
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md)
 
-
 def process_plain_text_citations(md: str, patterns: dict) -> str:
     """
     Process quotes with plain text citations.
@@ -498,7 +502,6 @@ def process_plain_text_citations(md: str, patterns: dict) -> str:
     )
     target = r"> [!quote] \g<prelink>\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
-
 
 def move_citation_to_quote_admonition(md: str) -> str:
     """
@@ -538,16 +541,14 @@ def move_citation_to_quote_admonition(md: str) -> str:
     md = process_plain_text_citations(md, patterns)
     return md.rstrip("\n")
 
-
 def remove_warning(markdown: str) -> str:
-    return markdown.split(MARKDOWN_WARNING)[-1]
-
+    """Remove the warning message from power-seeking posts."""
+    return markdown.split(helpers.MARKDOWN_WARNING)[-1]
 
 def process_markdown(md: str, metadata: dict) -> str:
+    """Main function to process and clean up the markdown content."""
     md = manual_replace(md)
 
-    # Not enough newlines before A: in inner/outer
-    md = regex.sub(r"\n(?=\*\*A:\*\*)", r"\n\n", md)
     md = remove_warning(md)  # Warning on power-seeking posts
     md = html.unescape(md)
 
@@ -599,11 +600,9 @@ def process_markdown(md: str, metadata: dict) -> str:
 
     return md
 
-
-import argparse
-
-
-def parse_args():
+# CLI argument parsing
+def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
         description="Process Lightweight posts for Quartz import."
     )
@@ -613,11 +612,11 @@ def parse_args():
     )
     return parser.parse_args()
 
-
+# Main execution
 if __name__ == "__main__":
     args = parse_args()
-    print(args)
     title_substring = args.title_substring
+    git_root = script_utils.get_git_root()
 
     data = read_maybe_generate_json()
     results = data["data"]["posts"]["results"]
@@ -654,16 +653,17 @@ if __name__ == "__main__":
             continue
         metadata = get_lw_metadata(post)
         metadata = add_quartz_metadata(metadata)
+        if metadata["permalink"] in helpers.SKIP_POSTS:
+            continue
         yaml = metadata_to_yaml(metadata)
         post_md = process_markdown(post["contents"]["markdown"], metadata)
         md = yaml + post_md
 
-        output_filename = f"{post['slug']}.md"
-        with open(
-            Path("..", "content", "import", output_filename), "w", encoding="utf-8"
-        ) as f:
-            f.write(md)
 
+        output_filename = f"{post['slug']}.md"
+        output_path = Path(git_root) / "content" / "import" / output_filename
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write(md)
         if args.print:
             print(md)
 

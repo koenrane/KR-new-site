@@ -13,6 +13,9 @@ hash_to_slugs = {
     "iCfdcxiyr2Kj8m8mT": "shard-theory"
 }  # technically, Quintin is first author on this one
 
+MARKDOWN_WARNING: str = "moved away from optimal policies and treated reward functions more realistically.**\n"
+SKIP_POSTS = set(["ambiguity-detection"])
+
 permalink_conversion = {
     "many-arguments-for-ai-x-risk-are-wrong": "invalid-ai-risk-arguments",
     "dreams-of-ai-alignment-the-danger-of-suggestive-names": "danger-of-suggestive-terminology",
