@@ -92,29 +92,28 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
         return
 
     # Determine output path
+    output_path = video_path.with_suffix(".mp4")
     if video_path.suffix.lower() == '.mp4':
-        output_path = video_path
         temp_output_path = video_path.with_stem(video_path.stem + "_temp")
     else:
-        output_path = video_path.with_suffix(".mp4")
         temp_output_path = output_path
 
-    encoding = "libx265"
     try:
-        # Single pass encoding
-        subprocess.run(
+        if video_path.suffix == ".gif":
+            _compress_gif(video_path, quality)
+        else:
+            # Single pass encoding
+            subprocess.run(
             [
                 "ffmpeg",
                 "-i", str(video_path),
-                "-c:v", encoding,
+                "-c:v",  "libx265",
                 "-preset", "slow",
                 "-crf", str(quality),
                 "-c:a", "copy",  # Copy audio without re-encoding
                 "-tag:v", "hvc1",  # For better compatibility with Apple devices
                 "-movflags", "+faststart",
-                "-colorspace", "bt709",  # Specify the color space
-                "-color_trc", "bt709",   # Specify the transfer characteristics
-                "-color_primaries", "bt709",  # Specify the color primaries
+                "-colorspace", "bt709",
                 str(temp_output_path)
             ],
             check=True,
@@ -127,8 +126,42 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
 
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error during conversion: {e.stderr}") from e
+    finally:
+        original_path = output_path.with_name(output_path.name + "_original")
+        if original_path.exists():
+            original_path.unlink()
 
     print(f"Successfully converted {video_path} to HEVC: {output_path}")
+
+def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
+    """
+    Compress a GIF file to an MP4 video.
+
+    This function converts a GIF file to an MP4 video using FFmpeg. It extracts frames
+    from the GIF, converts them to an MP4 video with the specified quality, and then
+    cleans up the temporary files.
+    """
+    # Extract frames from GIF
+    subprocess.run([
+        "ffmpeg",
+        "-i", str(gif_path),
+        f"{gif_path.parent / gif_path.stem}_%03d.png"
+    ], check=True)
+
+    try:
+        # Convert frames to MP4
+        output_path = gif_path.with_suffix(".mp4")
+        subprocess.run([
+            "ffmpeg",
+            "-i", f"{gif_path.parent / gif_path.stem}_%03d.png",
+            "-c:v", "libx265",
+            "-crf", str(quality),
+            "-pix_fmt", "yuv420p", # Chroma subsampling
+            str(output_path)
+        ], check=True)
+    finally: # Clean up temporary PNG files
+        for png_file in gif_path.parent.glob(f"{gif_path.stem}_*.png"):
+            png_file.unlink()
 
 
 if __name__ == "__main__":
