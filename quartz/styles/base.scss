@@ -406,6 +406,11 @@ pre {
 
     & > [data-line] {
       padding: 0 0.25rem;
+      // Want wrapped lines to indent
+      text-indent: calc(-6 * $baseMargin);
+      padding-left: calc(6 * $baseMargin);
+      text-wrap: pretty;
+
       box-sizing: border-box;
       border-left: 3px solid transparent;
 
