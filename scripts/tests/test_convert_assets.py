@@ -112,7 +112,7 @@ def test_remove_source_files(setup_test_env):
 
     convert_assets.convert_asset(
         asset_path,
-        remove_sources=True,
+        remove_originals=True,
         md_replacement_dir=Path(setup_test_env),
     )
     assert not asset_path.exists()
@@ -235,16 +235,16 @@ def test_invalid_paths(input_path, error_message):
             Path("animation.gif"),
             r"\!?\[\]\((?P<link_parens>[^\)]*)animation\.gif\)|"
             r"\!?\[\[(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
-            r'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)animation\.gif"(?P<tagInfo>[^>]*)\/?>', 
-            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation\.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation\.mp4" type="video/mp4"\g<endVideoTagInfo>></video>',
+            r'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)animation\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>', 
+            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
         ] + [
         (
             Path(f"video{ext}"),
             rf"\!?\[\]\((?P<link_parens>[^\)]*)video\{ext}\)|"
             rf"\!?\[\[(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
-            rf"<video (?P<earlyTagInfo>[^>]*)src=\"(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>.*)(?:type=\"video/{ext.lstrip('.')}\")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>",
-            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video\.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video\.mp4" type="video/mp4"\g<endVideoTagInfo>></video>',
+            r'<video (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)video' + ext + '"(?P<tagInfo>[^>]*)(?:type="video/'+ext.lstrip('.') + '")?(?P<endVideoTagInfo>[^>]*(?=/))/?>',
+            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         ) for ext in ['.webm', '.mov', '.avi', '.mp4']
     ],
 )

@@ -112,6 +112,9 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 "-c:a", "copy",  # Copy audio without re-encoding
                 "-tag:v", "hvc1",  # For better compatibility with Apple devices
                 "-movflags", "+faststart",
+                "-colorspace", "bt709",  # Specify the color space
+                "-color_trc", "bt709",   # Specify the transfer characteristics
+                "-color_primaries", "bt709",  # Specify the color primaries
                 str(temp_output_path)
             ],
             check=True,
