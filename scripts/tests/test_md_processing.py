@@ -200,5 +200,22 @@ def test_remove_number_from_tex():
     assert removed == "1 +1 -1"
 
 
+def test_process_linked_citations():
+    input_md = """> [!quote]
+>
+> If
+>
+> - _[AI Alignment: Why It's Hard and Where to Start](test.com/recent-topics)_"""
+
+    expected_output = """> [!quote] _[AI Alignment: Why It's Hard and Where to Start](test.com/recent-topics)_
+>
+> If"""
+
+    patterns = md_process.get_quote_patterns()
+    result = md_process.process_linked_citations(input_md, patterns)
+
+    assert result.rstrip() == expected_output
+
+
 if __name__ == "__main__":
     pytest.main()

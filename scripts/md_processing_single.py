@@ -197,7 +197,7 @@ def fix_footnotes(text: str) -> str:
     # Footnotes with semantic tags --- end fnref
     fn_text = "(?:FOOTNOTE|FN):?"
     text = regex.sub(
-        rf"^\s*\**{fn_text} *([\w., ]+)\**",
+        rf"^\s*\**{fn_text} *([A-Za-z0-9\., ]+)\**",
         # "\n" + r"[^\1]:",
         lambda x: _produceNewFootnote(x, is_footnote_text=True),
         text,
@@ -205,7 +205,7 @@ def fix_footnotes(text: str) -> str:
     )
     # $^{\text{FN: retarget}}$
     text = regex.sub(
-        r"\$\^{?\\text{" + fn_text + " ([\w., ]+)}}?\$",
+        r"\$\^{?\\text{" + fn_text + r" ([A-Za-z0-9\., ]+)}}?\$",
         lambda x: _produceNewFootnote(x, is_footnote_text=False),
         text,
         flags=regex.MULTILINE | regex.IGNORECASE,
@@ -458,7 +458,7 @@ def get_quote_patterns():
     start_adm_pattern = r"> \[!quote\]\s*"
     body_pattern = r"(?P<body>(?:>.*\n)+?)"
     line_break_pattern = r"(?:>\s*)*"
-    pre_citation_pattern = r"> *[~\-—–]+[ _\*]*(?P<prelink>[^\[]*)"
+    pre_citation_pattern = r"> *\\?[~\-—–]+ *(?P<prelink>[ _\*]*[^\[]*)"
     link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
     link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
     url_pattern = r"\((?P<url>[^#].*?)\)"
@@ -533,8 +533,9 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > This is a quote.
     """
     # Check for linked citations on the last line
+    print(md)
     patterns = get_quote_patterns()
-    last_line_pattern = rf"^> *(?P<lastLine>[\w, ]*{patterns['md_url']}[ _\*]*)$"
+    last_line_pattern = rf"^> *(?P<lastLine>[A-Za-z0-9,\. ]*{patterns['md_url']}[ _\*]*)$"
     md = regex.sub(last_line_pattern, r"> -- \1", md, flags=regex.MULTILINE)
 
     md = process_linked_citations(md, patterns)
