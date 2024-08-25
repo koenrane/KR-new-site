@@ -99,20 +99,20 @@ def test_video_conversion(ext: str, setup_test_env):
         file_content: str = f.read()
 
     video_tags = "autoplay loop muted playsinline " if ext == ".gif" else ""
-    for alt_tag in ("", 'alt="shrek" '):  # The original-tag had an alt
+    for alt_tag in ("", 'alt="shrek" '):  # The source-tag had an alt
         assert (
             f'<video {video_tags}src="static/asset.mp4" {alt_tag}type="video/mp4"><source src="static/asset.mp4" type="video/mp4"></video>'
             in file_content
         )
 
 
-def test_remove_original_files(setup_test_env):
+def test_remove_source_files(setup_test_env):
     asset_path = Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
     assert asset_path.exists()
 
     convert_assets.convert_asset(
         asset_path,
-        remove_originals=True,
+        remove_sources=True,
         md_replacement_dir=Path(setup_test_env),
     )
     assert not asset_path.exists()
@@ -227,3 +227,31 @@ def test_valid_paths(input_path, expected_output):
 def test_invalid_paths(input_path, error_message):
     with pytest.raises(ValueError, match=error_message):
         script_utils.path_relative_to_quartz(Path(input_path))
+
+@pytest.mark.parametrize(
+    "input_file, expected_source_pattern, expected_target_pattern",
+    [
+        (
+            Path("animation.gif"),
+            r"\!?\[\]\((?P<link_parens>[^\)]*)animation\.gif\)|"
+            r"\!?\[\[(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
+            r'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)animation\.gif"(?P<tagInfo>[^>]*)\/?>', 
+            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation\.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation\.mp4" type="video/mp4"\g<endVideoTagInfo>></video>',
+        ),
+        ] + [
+        (
+            Path(f"video{ext}"),
+            rf"\!?\[\]\((?P<link_parens>[^\)]*)video\{ext}\)|"
+            rf"\!?\[\[(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
+            rf"<video (?P<earlyTagInfo>[^>]*)src=\"(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>.*)(?:type=\"video/{ext.lstrip('.')}\")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>",
+            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video\.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video\.mp4" type="video/mp4"\g<endVideoTagInfo>></video>',
+        ) for ext in ['.webm', '.mov', '.avi', '.mp4']
+    ],
+)
+def test_video_patterns(
+    input_file: Path, expected_source_pattern: str, expected_target_pattern: str
+):
+    source_pattern, target_pattern = convert_assets._video_patterns(input_file)
+
+    assert source_pattern == expected_source_pattern
+    assert target_pattern == expected_target_pattern

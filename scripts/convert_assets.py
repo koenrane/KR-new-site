@@ -20,12 +20,12 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern_fn('parens')}{input_file.stem}{input_file.suffix}\)"
+        rf"\!?\[\]\({link_pattern_fn('parens')}{input_file.stem}\{input_file.suffix}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern_fn('brackets')}{input_file.stem}{input_file.suffix}\]\]"
+        rf"\!?\[\[{link_pattern_fn('brackets')}{input_file.stem}\{input_file.suffix}\]\]"
     )
 
     # Link pattern for HTML tags
@@ -39,7 +39,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern: str = (
-            rf"<video (?P<earlyTagInfo>[^>]*)src=\"{tag_link_pattern}{input_file.stem}{input_file.suffix}\"(?P<tagInfo>.*)(?:type=\"video/{input_file.suffix}\")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>"
+            rf"<video (?P<earlyTagInfo>[^>]*)src=\"{tag_link_pattern}{input_file.stem}\{input_file.suffix}\"(?P<tagInfo>.*)(?:type=\"video/{input_file.suffix.lstrip('.')}\")?(?P<endVideoTagInfo>[^>]*(?=/))\/?>"
         )
 
     # Combine all patterns into one, separated by '|' (OR)
@@ -53,7 +53,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         "autoplay loop muted playsinline " if input_file.suffix == ".gif" else ""
     )
     replacement_pattern: str = (
-        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="{all_links}{input_file.stem}.mp4" type="video/mp4"></video>'
+        rf'<video {video_tags}src="{all_links}{input_file.stem}\.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"><source src="{all_links}{input_file.stem}\.mp4" type="video/mp4"\g<endVideoTagInfo>></video>'
     )
 
     return original_pattern, replacement_pattern
