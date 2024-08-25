@@ -204,7 +204,7 @@
 }
 
 /* Safari-specific styles */
-@media not all and (min-resolution: 0.001dpcm) {
+@media all {
   @supports (-webkit-appearance: none) {
     #header-gif {
       display: block;
