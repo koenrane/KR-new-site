@@ -212,7 +212,7 @@ def fix_footnotes(text: str) -> str:
     )
 
     # Ensure separation after hyperlinks
-    return regex.sub(r"\)(\w)", r") \1", text)
+    return regex.sub(r"\)([a-zA-Z0-9])", r") \1", text)
 
 
 def parse_latex(markdown: str) -> str:
