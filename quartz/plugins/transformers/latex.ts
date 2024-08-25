@@ -33,6 +33,9 @@ const macros = {
   "\\ltwo": "\\left \\lVert#1\\right \\rVert_2",
   "\\linfty": "\\left \\lVert#1\\right \\rVert_\\infty",
   "#": "\\#",
+  "⨉": "×",
+  "⅓": "$\\frac{1}{3}$",
+  "꙳": "$\\star$",
 }
 
 export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
