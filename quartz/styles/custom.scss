@@ -580,15 +580,12 @@ img.emoji {
 // Spoilers (remark-spoiler)
 .spoiler-container {
   position: relative;
-  display: inline-block;
 }
 
 .spoiler-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  margin-left: calc(2 * $baseMargin);
+  height: 90%; // Visually center the overlay
   background-color: transparent;
   color: var(--dark);
 

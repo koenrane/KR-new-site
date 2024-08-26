@@ -29,6 +29,7 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
         const textNode = child.children[0] as Text;
         if (textNode.type === 'text' && matchSpoilerText(textNode.value)) {
           const spoilerText = textNode.value.slice(1).trimStart(); // Remove the '!' at the beginning
+          console.log(child)
           spoilerContent.push(h('p', {}, spoilerText));
         } else {
           isSpoiler = false;
