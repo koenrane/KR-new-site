@@ -591,16 +591,17 @@ img.emoji {
   height: 100%;
   background-color: transparent;
   color: var(--dark);
+
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.35s ease;
 
   &::after {
     content: "Hover to show";
   }
-  @media (max-width: $mobileBreakpoint) {
+  @media (max-width: $tabletBreakpoint) {
     &::after {
       content: "Tap to show";
     }
@@ -608,7 +609,8 @@ img.emoji {
 }
 
 .spoiler-content {
-  filter: blur(5px);
+  filter: blur(8px);
+  opacity: 0.5;
   transition: filter 0.3s ease;
 }
 
@@ -623,4 +625,5 @@ img.emoji {
 .spoiler-container:focus .spoiler-content,
 .spoiler-container.revealed .spoiler-content {
   filter: blur(0);
+  opacity: 1;
 }
