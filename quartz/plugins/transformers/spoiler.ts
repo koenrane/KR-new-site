@@ -1,4 +1,5 @@
 import { visit } from "unist-util-visit";
+import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, Parent, Text } from "hast";
 import { h } from 'hastscript';
 
@@ -18,7 +19,7 @@ export function createSpoilerNode(content: string | Element[]): Element {
 
 export function modifyNode(node: Element, index: number | undefined, parent: Parent | undefined) {
   if (index === undefined || parent === undefined) return;
-  if (node.tagName === 'blockquote') {
+  if (node?.tagName === 'blockquote') {
     const spoilerContent: Element[] = [];
     let isSpoiler = true;
 
@@ -32,6 +33,8 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
           isSpoiler = false;
           break;
         }
+      } else if (child.type === "text" && child.value === "\n") {
+        continue
       } else {
         isSpoiler = false;
         break;
@@ -44,8 +47,15 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
   }
 }
 
-export function rehypeCustomSpoiler() {
-  return (tree: Root) => {
-    visit(tree, "element", modifyNode);
-  };
+export function transformAST(tree: Root): void {
+    visit(tree, "element", modifyNode)
 }
+
+export const rehypeCustomSpoiler: QuartzTransformerPlugin = () =>  {
+    return {
+      name: "customSpoiler",
+      htmlPlugins() {
+        return [() => transformAST]
+      },
+    }
+  }

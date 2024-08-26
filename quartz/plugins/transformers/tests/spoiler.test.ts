@@ -1,13 +1,13 @@
 import { unified } from 'unified';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
-import { rehypeCustomSpoiler, matchSpoilerText, createSpoilerNode, modifyNode } from '../spoiler';
+import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode } from '../spoiler';
 import { Element, Parent } from 'hast';
 
 async function process(input: string) {
   const result = await unified()
     .use(rehypeParse, { fragment: true })
-    .use(rehypeCustomSpoiler)
+    .use(() => transformAST)
     .use(rehypeStringify)
     .process(input);
   return result.toString();
@@ -77,5 +77,32 @@ describe('rehype-custom-spoiler', () => {
     expect((parent.children[0] as Element).children).toHaveLength(2);
     expect(((parent.children[0] as Element).children[0] as Element).properties?.className).toContain('spoiler-content');
     expect(((parent.children[0] as Element).children[1] as Element).properties?.className).toContain('spoiler-overlay');
+  });
+
+  test('modifyNode function handles newline text nodes', () => {
+    const input = '<blockquote><p>!Spoiler text</p>\n<p>!More spoiler</p></blockquote>';
+    const parser = unified().use(rehypeParse, { fragment: true });
+    const parsed = parser.parse(input) as Parent;
+    const node = parsed.children[0] as Element;
+    const parent: Parent = { type: 'root', children: [node] };
+    
+    modifyNode(node, 0, parent);
+
+    expect(parent.children[0]).toMatchObject({
+      type: 'element',
+      tagName: 'div',
+      properties: { className: ['spoiler-container'] },
+      children: expect.arrayContaining([
+        expect.objectContaining({
+          type: 'element',
+          tagName: 'span',
+          properties: { className: ['spoiler-content'] },
+          children: expect.arrayContaining([
+            expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'Spoiler text' }] }),
+            expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'More spoiler' }] })
+          ])
+        })
+      ])
+    });
   });
 })

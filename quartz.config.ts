@@ -137,6 +137,7 @@ const config: QuartzConfig = {
       // Plugin.AddFavicons(),
       Plugin.TroutOrnamentHr(),
       Plugin.ColorVariables(),
+      Plugin.rehypeCustomSpoiler(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [
