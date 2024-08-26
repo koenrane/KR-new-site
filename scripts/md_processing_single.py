@@ -284,7 +284,8 @@ def parse_latex(markdown: str) -> str:
     )
 
     # Don't use mathmode for text without text
-    math_exposed_text_pattern = r"\$([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)\$"
+    math_text_pattern = r"(?:\\texttt{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
+    math_exposed_text_pattern = r"\$" + math_text_pattern + "\$"
     markdown = regex.sub(math_exposed_text_pattern, r"`\1`", markdown)
 
     return markdown
@@ -439,6 +440,7 @@ replacement = {
     r"\n(?=\*\*A:\*\*)": r"\n\n",  # Not enough newlines before A: in inner/outer
     r"non- (?=\$unknown)": "non-",  # Issue in "Open-Category Classification"
     r"\\bEval\\b": "`Eval`",  # TODO check only in
+    r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
 }
 
 multiline_replacements = {
