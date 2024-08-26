@@ -113,8 +113,8 @@ export function transformElement(
   })
 
   if (checkTransformInvariance) {
-    const strippedContent = markedContent.replaceAll(markerChar, "")
-    const strippedTransformed = transformedContent.replaceAll(markerChar, "")
+    const strippedContent = markedContent.replace(markerChar, "")
+    const strippedTransformed = transformedContent.replace(markerChar, "")
     assert.strictEqual(transform(strippedContent), strippedTransformed)
   }
 }

@@ -157,8 +157,10 @@ hr.desktop-only {
       color: var(--gray);
     }
 
-    & li > * {
+    & li > *:first-child {
       margin-top: 0;
+    }
+    & li > *:last-child {
       margin-bottom: 0;
     }
 

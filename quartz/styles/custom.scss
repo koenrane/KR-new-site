@@ -517,6 +517,7 @@ img.favicon {
 }
 
 ol li,
+ul li,
 ol li[id^="user-content-fn"] {
   & p,
   & blockquote,
@@ -530,10 +531,6 @@ ol li[id^="user-content-fn"] {
       display: inline;
     }
   }
-}
-
-.katex {
-  // display: none !important;
 }
 
 img.emoji {
