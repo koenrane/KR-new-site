@@ -14,23 +14,38 @@ async function process(input: string) {
 }
 
 describe('rehype-custom-spoiler', () => {
-  test('transforms spoiler blockquote to custom spoiler element', async () => {
-    const input = '<blockquote><p>! This is a spoiler</p></blockquote>';
+  it.each([
+    ['<blockquote><p>! This is a spoiler</p></blockquote>', 'simple spoiler'],
+    ['<blockquote><p>!This is a spoiler without space</p></blockquote>', 'spoiler without space'],
+    ['<blockquote><p>! Multi-line\nspoiler\ncontent</p></blockquote>', 'multi-line spoiler'],
+    ['<blockquote><p>! Spoiler with <em>formatting</em></p></blockquote>', 'spoiler with formatting'],
+  ])('transforms spoiler blockquote to custom spoiler element (%s)', async (input, description) => {
     const output = await process(input);
     expect(output).toContain('<div class="spoiler-container">');
-    expect(output).toContain('<span class="spoiler-content">This is a spoiler</span>');
+    expect(output).toContain('<span class="spoiler-content">');
     expect(output).toContain('<span class="spoiler-overlay">Hover or click to show</span>');
+    expect(output).not.toContain('<blockquote>');
   });
 
-  test('does not transform regular blockquotes', async () => {
-    const input = '<blockquote><p>This is not a spoiler</p></blockquote>';
+  it.each([
+    ['<blockquote><p>This is not a spoiler</p></blockquote>', 'regular blockquote'],
+    ['<p>! This is not in a blockquote</p>', 'not in blockquote'],
+  ])('does not transform non-spoiler content (%s)', async (input, description) => {
     const output = await process(input);
     expect(output).toBe(input);
   });
 
-  test('matchSpoilerText function', () => {
-    expect(matchSpoilerText('!This is a spoiler')).toBeTruthy();
-    expect(matchSpoilerText('This is not a spoiler')).toBeFalsy();
+  it.each([
+    ['!This is a spoiler', true],
+    ['! This is a spoiler', true],
+    ['This is not a spoiler', false],
+  ])('matchSpoilerText function (%s)', (input: string, expectedSpoiler: boolean) => {
+    const match = matchSpoilerText(input)
+    if (expectedSpoiler) {
+      expect(match).toBeTruthy()
+    } else {
+      expect(match).toBeFalsy()
+    }
   });
 
   test('createSpoilerNode function', () => {
@@ -45,17 +60,24 @@ describe('rehype-custom-spoiler', () => {
     expect((node.children[1] as Element).properties?.className).toContain('spoiler-overlay');
   });
 
-  test('modifyNode function', () => {
+  it.each([
+    ['!Spoiler text', 'simple spoiler'],
+    ['! Spoiler with space', 'spoiler with space'],
+    ['!Multi-line\nspoiler', 'multi-line spoiler'],
+  ])('modifyNode function (%s)', (spoilerText, description) => {
     const node: Element = {
       type: 'element',
       tagName: 'blockquote',
       properties: {},
-      children: [{ type: 'element', tagName: 'p', properties: {}, children: [{ type: 'text', value: '!Spoiler text' }] }]
+      children: [{ type: 'element', tagName: 'p', properties: {}, children: [{ type: 'text', value: spoilerText }] }]
     };
     const parent: Parent = { type: 'root', children: [node] };
     modifyNode(node, 0, parent);
 
     expect((parent.children[0] as Element).tagName).toBe('div');
     expect((parent.children[0] as Element).properties?.className).toContain('spoiler-container');
+    expect((parent.children[0] as Element).children).toHaveLength(2);
+    expect(((parent.children[0] as Element).children[0] as Element).properties?.className).toContain('spoiler-content');
+    expect(((parent.children[0] as Element).children[1] as Element).properties?.className).toContain('spoiler-overlay');
   });
 })
