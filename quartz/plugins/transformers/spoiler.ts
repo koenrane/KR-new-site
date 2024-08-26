@@ -14,7 +14,7 @@ export function createSpoilerNode(content: string | Element[]): Element {
   return h("div", { className: ["spoiler-container"],     
     onclick: "this.classList.toggle('revealed')" }, [
     h("span", { className: ["spoiler-overlay"] }),
-    h("span", { className: ["spoiler-content"] }, content),
+    h("span", { className: ["spoiler-content"]}, content),
   ]);
 }
 
@@ -29,8 +29,8 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
         const textNode = child.children[0] as Text;
         if (textNode.type === 'text' && matchSpoilerText(textNode.value)) {
           const spoilerText = textNode.value.slice(1).trimStart(); // Remove the '!' at the beginning
-          console.log(child)
           spoilerContent.push(h('p', {}, spoilerText));
+        //   console.log(spoilerText)
         } else {
           isSpoiler = false;
           break;
@@ -45,6 +45,7 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
 
     if (isSpoiler && spoilerContent.length > 0) {
       parent.children[index] = createSpoilerNode(spoilerContent) as Element;
+      console.log(spoilerContent)
     }
   }
 }

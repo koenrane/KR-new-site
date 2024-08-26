@@ -81,8 +81,26 @@ describe('rehype-custom-spoiler', () => {
     expect(((parent.children[0] as Element).children[1] as Element).properties?.className).toContain('spoiler-content');
   });
 
-  test('modifyNode function handles newline text nodes', () => {
-    const input = '<blockquote><p>!Spoiler text</p>\n<p>!More spoiler</p></blockquote>';
+  it('correctly handles multiline spoilers with empty lines', async () => {
+    const input = `
+      <blockquote>
+        <p>! There can even be multiline spoilers!</p>
+        \n
+        <p>! This should be in another \`\<p\>\` element.</p>
+      </blockquote>
+    `;
+    const output = await process(input);
+    
+    expect(output).toMatch(/<div class="spoiler-container"[^>]*>/);
+    expect(output).toContain('<span class="spoiler-content">');
+    expect(output).toMatch(/<p>There can even be multiline spoilers!<\/p>/);
+    expect(output).toMatch(/<p><\/p>/);
+    expect(output).toMatch(/<p>This should be in another `<p>` element.<\/p>/);
+    expect(output.match(/<p>/g)).toHaveLength(3); // Ensure we have 3 paragraph elements
+  });
+
+  test('modifyNode function handles newline text nodes and empty paragraphs', () => {
+    const input = '<blockquote><p>!Spoiler text</p>\n<p>!</p>\n<p>!More spoiler</p></blockquote>';
     const parser = unified().use(rehypeParse, { fragment: true });
     const parsed = parser.parse(input) as Parent;
     const node = parsed.children[0] as Element;
@@ -109,6 +127,7 @@ describe('rehype-custom-spoiler', () => {
           properties: { className: ['spoiler-content'] },
           children: expect.arrayContaining([
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'Spoiler text' }] }),
+            expect.objectContaining({ type: 'element', tagName: 'p', children: [] }),
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'More spoiler' }] })
           ])
         })
