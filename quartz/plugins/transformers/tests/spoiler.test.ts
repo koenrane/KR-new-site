@@ -23,7 +23,7 @@ describe('rehype-custom-spoiler', () => {
     const output = await process(input);
     expect(output).toContain('<div class="spoiler-container">');
     expect(output).toContain('<span class="spoiler-content">');
-    expect(output).toContain('<span class="spoiler-overlay">Hover or click to show</span>');
+    expect(output).toContain('<span class="spoiler-overlay"></span>');
     expect(output).not.toContain('<blockquote>');
   });
 
@@ -56,9 +56,9 @@ describe('rehype-custom-spoiler', () => {
     expect(node.properties?.className).toContain('spoiler-container');
     expect(node.children).toHaveLength(2);
     expect((node.children[0] as Element).tagName).toBe('span');
-    expect((node.children[0] as Element).properties?.className).toContain('spoiler-content');
+    expect((node.children[0] as Element).properties?.className).toContain('spoiler-overlay');
     expect((node.children[1] as Element).tagName).toBe('span');
-    expect((node.children[1] as Element).properties?.className).toContain('spoiler-overlay');
+    expect((node.children[1] as Element).properties?.className).toContain('spoiler-content');
   });
 
   it.each([
@@ -75,8 +75,8 @@ describe('rehype-custom-spoiler', () => {
     expect((parent.children[0] as Element).tagName).toBe('div');
     expect((parent.children[0] as Element).properties?.className).toContain('spoiler-container');
     expect((parent.children[0] as Element).children).toHaveLength(2);
-    expect(((parent.children[0] as Element).children[0] as Element).properties?.className).toContain('spoiler-content');
-    expect(((parent.children[0] as Element).children[1] as Element).properties?.className).toContain('spoiler-overlay');
+    expect(((parent.children[0] as Element).children[0] as Element).properties?.className).toContain('spoiler-overlay');
+    expect(((parent.children[0] as Element).children[1] as Element).properties?.className).toContain('spoiler-content');
   });
 
   test('modifyNode function handles newline text nodes', () => {
@@ -92,7 +92,13 @@ describe('rehype-custom-spoiler', () => {
       type: 'element',
       tagName: 'div',
       properties: { className: ['spoiler-container'] },
-      children: expect.arrayContaining([
+      children: [
+        expect.objectContaining({
+          type: 'element',
+          tagName: 'span',
+          properties: { className: ['spoiler-overlay'] },
+          children: []
+        }),
         expect.objectContaining({
           type: 'element',
           tagName: 'span',
@@ -102,7 +108,7 @@ describe('rehype-custom-spoiler', () => {
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'More spoiler' }] })
           ])
         })
-      ])
+      ]
     });
   });
 })

@@ -12,8 +12,8 @@ export function matchSpoilerText(text: string): string | null {
 
 export function createSpoilerNode(content: string | Element[]): Element {
   return h("div", { className: ["spoiler-container"] }, [
+    h("span", { className: ["spoiler-overlay"] }),
     h("span", { className: ["spoiler-content"] }, content),
-    h("span", { className: ["spoiler-overlay"] }, ["Hover or click to show"]),
   ]);
 }
 

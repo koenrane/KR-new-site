@@ -576,3 +576,51 @@ img.emoji {
   float: right;
   margin-left: 0.25rem;
 }
+
+// Spoilers (remark-spoiler)
+.spoiler-container {
+  position: relative;
+  display: inline-block;
+}
+
+.spoiler-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &::after {
+    content: "Hover to show";
+  }
+  @media (max-width: $mobileBreakpoint) {
+    &::after {
+      content: "Tap to show";
+    }
+  }
+}
+
+.spoiler-content {
+  filter: blur(5px);
+  transition: filter 0.3s ease;
+}
+
+.spoiler-container:hover .spoiler-overlay,
+.spoiler-container:focus .spoiler-overlay,
+.spoiler-container.revealed .spoiler-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spoiler-container:hover .spoiler-content,
+.spoiler-container:focus .spoiler-content,
+.spoiler-container.revealed .spoiler-content {
+  filter: blur(0);
+}
