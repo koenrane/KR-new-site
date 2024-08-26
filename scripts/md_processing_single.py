@@ -447,6 +447,9 @@ multiline_replacements = {
     r"^\$\$"
     + "\n{2,}": "$$\n",  # For some reason there are random display math opens, TODO understand
     r"^ +\$\$": "$$",  # Remove extra spaces before
+    r"^\(a\)": "1.",  # Use actual numbered lists.
+    r"^\(b\)": "2.",
+    r"^\(c\)": "3.",
 }
 
 
