@@ -17,7 +17,7 @@ describe('rehype-custom-spoiler', () => {
   it.each([
     ['<blockquote><p>! This is a spoiler</p></blockquote>', 'simple spoiler'],
     ['<blockquote><p>!This is a spoiler without space</p></blockquote>', 'spoiler without space'],
-    ['<blockquote><p>! Multi-line\nspoiler\ncontent</p></blockquote>', 'multi-line spoiler'],
+    ['<blockquote><p>! Multi-line</p><p>! spoiler</p><p>! content</p></blockquote>', 'multi-paragraph spoiler'],
     ['<blockquote><p>! Spoiler with <em>formatting</em></p></blockquote>', 'spoiler with formatting'],
   ])('transforms spoiler blockquote to custom spoiler element (%s)', async (input, description) => {
     const output = await process(input);
@@ -29,6 +29,7 @@ describe('rehype-custom-spoiler', () => {
 
   it.each([
     ['<blockquote><p>This is not a spoiler</p></blockquote>', 'regular blockquote'],
+    ['<blockquote><p>! This is a spoiler</p><p>This is not a spoiler</p></blockquote>', 'mixed content blockquote'], // Not a spoiler overall
     ['<p>! This is not in a blockquote</p>', 'not in blockquote'],
   ])('does not transform non-spoiler content (%s)', async (input, description) => {
     const output = await process(input);
@@ -61,16 +62,13 @@ describe('rehype-custom-spoiler', () => {
   });
 
   it.each([
-    ['!Spoiler text', 'simple spoiler'],
-    ['! Spoiler with space', 'spoiler with space'],
-    ['!Multi-line\nspoiler', 'multi-line spoiler'],
-  ])('modifyNode function (%s)', (spoilerText, description) => {
-    const node: Element = {
-      type: 'element',
-      tagName: 'blockquote',
-      properties: {},
-      children: [{ type: 'element', tagName: 'p', properties: {}, children: [{ type: 'text', value: spoilerText }] }]
-    };
+    ['<blockquote><p>!Spoiler text</p></blockquote>', 'simple spoiler'],
+    ['<blockquote><p>! Spoiler with space</p></blockquote>', 'spoiler with space'],
+    ['<blockquote><p>!Multi-line</p><p>!spoiler</p></blockquote>', 'multi-paragraph spoiler'],
+  ])('modifyNode function (%s)', (input, description) => {
+    const parser = unified().use(rehypeParse, { fragment: true });
+    const parsed = parser.parse(input) as Parent;
+    const node = parsed.children[0] as Element;
     const parent: Parent = { type: 'root', children: [node] };
     modifyNode(node, 0, parent);
 
