@@ -587,11 +587,16 @@ def process_markdown(md: str, metadata: dict) -> str:
     md = replace_urls(md)
 
     # Standardize "eg" and "ie"
-    md = regex.sub(r"\b(?!e\.g\.)e\.?g\.?\b", "e.g.", md, flags=regex.IGNORECASE)
-    md = regex.sub(r"\b(?!i\.e\.)i\.?e\.?\b", "i.e.", md, flags=regex.IGNORECASE)
-    md = regex.sub(
-        r"(e\.g|i\.e)\.,", r"\1.", md
-    )  # Remove comma after e.g. or i.e., handling extra spaces
+    for pattern in ("e.g.", "i.e."):
+        source_pattern = pattern.replace(".", r"\.")
+        optional_source_pattern = pattern.replace(r"\.", r"\.?")
+        md = regex.sub(
+            rf"(\b|(?<=\())(?!{source_pattern})(?:_|\*{1,2})?{optional_source_pattern}(?:_|\*{1,2})?,?\b",
+            pattern,
+            md,
+            flags=regex.IGNORECASE,
+        )
+        md = regex.sub(source_pattern + r",", pattern, md)
 
     # Simplify eg 5*5 and \(5\times5\) to 5x5
     number_regex = r"[\-−]?(?:\d{1,3}(?:\,?\d{3})*(?:\.\d+)?|(?:\.\d+))"
