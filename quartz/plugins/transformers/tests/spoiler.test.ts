@@ -2,7 +2,6 @@ import { unified } from 'unified';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 import { rehypeCustomSpoiler, matchSpoilerText, createSpoilerNode, modifyNode } from '../spoiler';
-import { jest } from '@jest/globals';
 import { Element, Parent } from 'hast';
 
 async function process(input: string) {
@@ -16,7 +15,7 @@ async function process(input: string) {
 
 describe('rehype-custom-spoiler', () => {
   test('transforms spoiler blockquote to custom spoiler element', async () => {
-    const input = '<blockquote><p>!This is a spoiler</p></blockquote>';
+    const input = '<blockquote><p>! This is a spoiler</p></blockquote>';
     const output = await process(input);
     expect(output).toContain('<div class="spoiler-container">');
     expect(output).toContain('<span class="spoiler-content">This is a spoiler</span>');
@@ -35,8 +34,8 @@ describe('rehype-custom-spoiler', () => {
   });
 
   test('createSpoilerNode function', () => {
-    const h = jest.fn((tag, props, children) => ({ type: 'element', tagName: tag, properties: props, children }));
-    const node = createSpoilerNode(h, 'Spoiler content') as Element;
+    const node = createSpoilerNode('Spoiler content') as Element;
+
     expect(node.tagName).toBe('div');
     expect(node.properties?.className).toContain('spoiler-container');
     expect(node.children).toHaveLength(2);
