@@ -3,6 +3,7 @@ import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode } from '../spoiler';
 import { Element, Parent } from 'hast';
+import { expect } from '@jest/globals';
 
 async function process(input: string) {
   const result = await unified()
@@ -21,10 +22,11 @@ describe('rehype-custom-spoiler', () => {
     ['<blockquote><p>! Spoiler with <em>formatting</em></p></blockquote>', 'spoiler with formatting'],
   ])('transforms spoiler blockquote to custom spoiler element (%s)', async (input, description) => {
     const output = await process(input);
-    expect(output).toContain('<div class="spoiler-container">');
+    expect(output).toMatch(/<div class="spoiler-container"[^>]*>/);
     expect(output).toContain('<span class="spoiler-content">');
     expect(output).toContain('<span class="spoiler-overlay"></span>');
     expect(output).not.toContain('<blockquote>');
+    expect(output).toMatch(/onclick="[^"]*"/);
   });
 
   it.each([
@@ -91,7 +93,9 @@ describe('rehype-custom-spoiler', () => {
     expect(parent.children[0]).toMatchObject({
       type: 'element',
       tagName: 'div',
-      properties: { className: ['spoiler-container'] },
+      properties: { 
+        className: ['spoiler-container'],
+      },
       children: [
         expect.objectContaining({
           type: 'element',
