@@ -3,8 +3,14 @@ import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, Parent, Text } from "hast";
 import { h } from 'hastscript';
 
+// Regex to match spoiler syntax
 const SPOILER_REGEX = /^!\s*(.*)/;
 
+/**
+ * Extracts spoiler text from a string.
+ * @param text Input string
+ * @returns Spoiler text or null if not a spoiler
+ */
 export function matchSpoilerText(text: string): string | null {
   const match = text.match(SPOILER_REGEX);
   return match ? match[1] : null;
@@ -18,6 +24,12 @@ export function createSpoilerNode(content: string | Element[]): Element {
   ]);
 }
 
+/**
+ * Modifies a node to convert it to a spoiler if applicable.
+ * @param node Element to modify
+ * @param index Index of the node in its parent
+ * @param parent Parent of the node
+ */
 export function modifyNode(node: Element, index: number | undefined, parent: Parent | undefined) {
   if (index === undefined || parent === undefined) return;
   if (node?.tagName === 'blockquote') {
@@ -51,6 +63,11 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
   }
 }
 
+/**
+ * Processes a paragraph to convert it to a spoiler if applicable.
+ * @param paragraph Paragraph element
+ * @returns Processed paragraph or null if not a spoiler
+ */
 export function processParagraph(paragraph: Element): Element | null {
   const newChildren: (Text | Element)[] = [];
   let isSpoiler = false;
@@ -74,10 +91,17 @@ export function processParagraph(paragraph: Element): Element | null {
   return isSpoiler ? { ...paragraph, children: newChildren } : null;
 }
 
+/**
+ * Transforms the AST by converting spoilers.
+ * @param tree AST to transform
+ */
 export function transformAST(tree: Root): void {
     visit(tree, "element", modifyNode)
 }
 
+/**
+ * Quartz plugin for custom spoiler syntax.
+ */
 export const rehypeCustomSpoiler: QuartzTransformerPlugin = () =>  {
     return {
       name: "customSpoiler",
