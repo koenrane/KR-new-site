@@ -25,18 +25,26 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
     let isSpoiler = true;
 
     for (const child of node.children) {
-      if (child.type === 'element' && child.tagName === 'p' && child.children.length > 0) {
-        const textNode = child.children[0] as Text;
-        if (textNode.type === 'text' && matchSpoilerText(textNode.value)) {
-          const spoilerText = textNode.value.slice(1).trimStart(); // Remove the '!' at the beginning
+      console.log(child)
+      if (child.type === 'element') {
+        // EG code block
+        const firstChild = child.children[0];
+        if (firstChild && firstChild.type === 'text' && matchSpoilerText(firstChild.value)) {
+          const spoilerText = firstChild.value.slice(1).trim(); // Remove the '!' at the beginning
           spoilerContent.push(h('p', {}, spoilerText));
-        //   console.log(spoilerText)
         } else {
           isSpoiler = false;
           break;
         }
-      } else if (child.type === "text" && child.value === "\n") {
-        continue
+      } else if (child.type === 'text' && child.value.trim() === '!') {
+        // Handle empty spoiler lines
+        spoilerContent.push(h('p', {}));
+      } else if (child.type === 'text' && child.value.trim() === '') {
+        // Ignore empty text nodes
+        continue;
+      // } else if (child?.tagName !== "p") {
+      //     console.log(child)
+      //     spoilerContent.push(child as any as Element) 
       } else {
         isSpoiler = false;
         break;
@@ -44,8 +52,7 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
     }
 
     if (isSpoiler && spoilerContent.length > 0) {
-      parent.children[index] = createSpoilerNode(spoilerContent) as Element;
-      console.log(spoilerContent)
+      parent.children[index] = createSpoilerNode(spoilerContent);
     }
   }
 }

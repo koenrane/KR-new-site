@@ -580,19 +580,19 @@ img.emoji {
 // Spoilers (remark-spoiler)
 .spoiler-container {
   position: relative;
+  cursor: pointer;
+  width: fit-content;
 }
 
 .spoiler-overlay {
   position: absolute;
-  margin-left: calc(2 * $baseMargin);
   height: 90%; // Visually center the overlay
-  background-color: transparent;
+  width: 100%;
   color: var(--dark);
 
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   transition: opacity 0.35s ease;
 
   &::after {

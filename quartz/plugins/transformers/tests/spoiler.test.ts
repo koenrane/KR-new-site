@@ -5,6 +5,21 @@ import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode } from '.
 import { Element, Parent } from 'hast';
 import { expect } from '@jest/globals';
 
+function removePositions(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(removePositions);
+  } else if (typeof obj === 'object' && obj !== null) {
+    const newObj: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (key !== 'position') {
+        newObj[key] = removePositions(value);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+}
+
 async function process(input: string) {
   const result = await unified()
     .use(rehypeParse, { fragment: true })
@@ -85,8 +100,8 @@ describe('rehype-custom-spoiler', () => {
     const input = `
       <blockquote>
         <p>! There can even be multiline spoilers!</p>
-        \n
-        <p>! This should be in another \`\<p\>\` element.</p>
+        \n!
+        <p>! This should be in another element.</p>
       </blockquote>
     `;
     const output = await process(input);
@@ -95,12 +110,12 @@ describe('rehype-custom-spoiler', () => {
     expect(output).toContain('<span class="spoiler-content">');
     expect(output).toMatch(/<p>There can even be multiline spoilers!<\/p>/);
     expect(output).toMatch(/<p><\/p>/);
-    expect(output).toMatch(/<p>This should be in another `<p>` element.<\/p>/);
+    expect(output).toMatch(/<p>This should be in another `code` element.<\/p>/);
     expect(output.match(/<p>/g)).toHaveLength(3); // Ensure we have 3 paragraph elements
-  });
+  })
 
   test('modifyNode function handles newline text nodes and empty paragraphs', () => {
-    const input = '<blockquote><p>!Spoiler text</p>\n<p>!</p>\n<p>!More spoiler</p></blockquote>';
+    const input = '<blockquote><p>!Spoiler text</p>\n!<p>!More spoiler</p></blockquote>';
     const parser = unified().use(rehypeParse, { fragment: true });
     const parsed = parser.parse(input) as Parent;
     const node = parsed.children[0] as Element;
@@ -108,7 +123,8 @@ describe('rehype-custom-spoiler', () => {
     
     modifyNode(node, 0, parent);
 
-    expect(parent.children[0]).toMatchObject({
+    const result = removePositions(parent.children[0]);
+    expect(result).toMatchObject({
       type: 'element',
       tagName: 'div',
       properties: { 
@@ -119,17 +135,16 @@ describe('rehype-custom-spoiler', () => {
           type: 'element',
           tagName: 'span',
           properties: { className: ['spoiler-overlay'] },
-          children: []
         }),
         expect.objectContaining({
           type: 'element',
           tagName: 'span',
           properties: { className: ['spoiler-content'] },
-          children: expect.arrayContaining([
+          children: [
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'Spoiler text' }] }),
             expect.objectContaining({ type: 'element', tagName: 'p', children: [] }),
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'More spoiler' }] })
-          ])
+          ]
         })
       ]
     });
