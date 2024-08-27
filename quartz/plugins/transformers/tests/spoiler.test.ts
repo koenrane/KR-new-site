@@ -1,8 +1,9 @@
 import { unified } from 'unified';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
-import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode } from '../spoiler';
-import { Element, Parent } from 'hast';
+import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode, processParagraph } from '../spoiler';
+import { Element, Parent, Text } from 'hast';
+import { h } from 'hastscript';
 import { expect } from '@jest/globals';
 
 function removePositions(obj: any): any {
@@ -76,6 +77,72 @@ describe('rehype-custom-spoiler', () => {
     expect((node.children[0] as Element).properties?.className).toContain('spoiler-overlay');
     expect((node.children[1] as Element).tagName).toBe('span');
     expect((node.children[1] as Element).properties?.className).toContain('spoiler-content');
+  });
+
+  describe('processParagraph function', () => {
+    it.each([
+      {
+        name: 'simple spoiler paragraph',
+        input: h('p', {}, '! This is a spoiler'),
+        expected: h('p', {}, 'This is a spoiler'),
+      },
+      {
+        name: 'spoiler with inline elements',
+        input: h('p', {}, ['! This is a ', h('em', 'spoiler'), ' with ', h('strong', 'formatting')]),
+        expected: h('p', {}, ['This is a ', h('em', 'spoiler'), ' with ', h('strong', 'formatting')]),
+      },
+      {
+        name: 'non-spoiler paragraph',
+        input: h('p', {}, 'This is not a spoiler'),
+        expected: null,
+      },
+    ])('$name', ({ input, expected }) => {
+      const result = processParagraph(input as Element);
+      expect(removePositions(result)).toEqual(removePositions(expected));
+    });
+  });
+
+  describe('modifyNode function', () => {
+    it.each([
+      {
+        name: 'simple spoiler blockquote',
+        input: h('blockquote', {}, [h('p', {}, '! This is a spoiler')]),
+        expected: createSpoilerNode([h('p', {}, 'This is a spoiler')]),
+      },
+      {
+        name: 'multi-paragraph spoiler',
+        input: h('blockquote', {}, [
+          h('p', {}, '! First paragraph'),
+          h('p', {}, '! Second paragraph'),
+        ]),
+        expected: createSpoilerNode([
+          h('p', {}, 'First paragraph'),
+          h('p', {}, 'Second paragraph'),
+        ]),
+      },
+      {
+        name: 'spoiler with empty line',
+        input: h('blockquote', {}, [
+          h('p', {}, '! First paragraph'),
+          { type: 'text', value: '!' },
+          h('p', {}, '! Third paragraph'),
+        ]),
+        expected: createSpoilerNode([
+          h('p', {}, 'First paragraph'),
+          h('p', {}),
+          h('p', {}, 'Third paragraph'),
+        ]),
+      },
+      {
+        name: 'non-spoiler blockquote',
+        input: h('blockquote', {}, [h('p', {}, 'This is not a spoiler')]),
+        expected: h('blockquote', {}, [h('p', {}, 'This is not a spoiler')]),
+      },
+    ])('$name', ({ input, expected }) => {
+      const parent: Parent = { type: 'root', children: [input] };
+      modifyNode(input as Element, 0, parent);
+      expect(removePositions(parent.children[0])).toEqual(removePositions(expected));
+    });
   });
 
   it.each([

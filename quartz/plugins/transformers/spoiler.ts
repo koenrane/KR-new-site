@@ -51,7 +51,7 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
   }
 }
 
-function processParagraph(paragraph: Element): Element | null {
+export function processParagraph(paragraph: Element): Element | null {
   const newChildren: (Text | Element)[] = [];
   let isSpoiler = false;
 
