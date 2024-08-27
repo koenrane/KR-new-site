@@ -441,6 +441,7 @@ replacement = {
     r"non- (?=\$unknown)": "non-",  # Issue in "Open-Category Classification"
     r"\\bEval\\b": "`Eval`",  # TODO check only in
     r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
+    r"\. (\d)\)": r".\n\1.",  # Create lists from paragraphs
 }
 
 multiline_replacements = {
@@ -567,6 +568,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
+    print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
@@ -678,6 +680,7 @@ if __name__ == "__main__":
     for post in posts_to_generate:
         if not post["contents"]:
             continue
+        # print(post["contents"]["markdown"])
         metadata = get_lw_metadata(post)
         metadata = add_quartz_metadata(metadata)
         if metadata["permalink"] in helpers.SKIP_POSTS:
