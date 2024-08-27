@@ -32,6 +32,17 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 # $\KaTeX$ math mode
 
 Math coloring is automatically translated to accord with site styling: ${\color{red}x}={\color{blue}y}$. I mean, seriously, who wants to read text that looks like <em><span style="color:#ff0000;">this</span></em>? 🤡
+
+# Spoilers
+
+I couldn't find a `rehype` or `remark` plugin I liked, so I produced my own. This spoiler is unobtrusive and fits in with the broad site aesthetic.
+>! Snape kills Dumbledore.
+
+The following spoiler box is larger:
+>! There can even be multiline spoilers! 
+>
+>! This should be in another `<p>` element.
+
 # Smart quotes
 
 I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
