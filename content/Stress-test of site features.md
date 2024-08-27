@@ -42,6 +42,8 @@ The following spoiler box is larger:
 >! There can even be multiline spoilers! 
 >
 >! This should be in another `<p>` element.
+>
+>! *This starts with emphasis*.
 
 # Smart quotes
 

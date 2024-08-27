@@ -157,7 +157,7 @@ hr.desktop-only {
       color: var(--gray);
     }
 
-    & li > *:first-child {
+    & li > *:first-child:not(blockquote) {
       margin-top: 0;
     }
     & li > *:last-child {

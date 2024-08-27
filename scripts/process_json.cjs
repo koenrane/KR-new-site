@@ -92,6 +92,25 @@ turnDown.prototype.escape = function (string) {
   return string
 }
 
+turndownService.addRule("spoiler", {
+  filter: function (node) {
+    return node.nodeName === 'DIV' && node.classList.contains('spoiler');
+  },
+  replacement: function (_content, node) {
+    const paragraphs = node.getElementsByTagName('p');
+    let markdown = '';
+    for (let i = 0; i < paragraphs.length; i++) {
+      const paragraphContent = turndownService.turndown(paragraphs[i].innerHTML);
+      markdown += '>! ' + paragraphContent;
+      if (i < paragraphs.length - 1) {
+        markdown += '\n>\n';
+      }
+    }
+    console.log(markdown)
+    return markdown;
+  }
+});
+
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
     return node.getAttribute("class")?.includes("mjx") || node.nodeName === "STYLE"

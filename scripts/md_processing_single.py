@@ -582,7 +582,7 @@ def process_markdown(md: str, metadata: dict) -> str:
     contig_md = regex.sub(r"(\>.*?)\n\n(?=\>)", r"\1\n>\n", newlined)
 
     # surround multiline block quotes with a quote admonition
-    longquote_regex = r"((?:^>\s*.*(?:\r?\n|\r)){3,})"
+    longquote_regex = r"((?:^>(?!\!)\s*.*(?:\r?\n|\r)){3,})"
     md = regex.sub(
         longquote_regex, r"> [!quote]\n>\n\1", contig_md, flags=regex.MULTILINE
     )
@@ -594,7 +594,7 @@ def process_markdown(md: str, metadata: dict) -> str:
     # Standardize "eg" and "ie"
     for pattern in ("e.g.", "i.e."):
         source_pattern = pattern.replace(".", r"\.")
-        optional_source_pattern = pattern.replace(r"\.", r"\.?")
+        optional_source_pattern = source_pattern.replace(r"\.", r"\.?")
         md = regex.sub(
             rf"(\b|(?<=\())(?!{source_pattern})(?:_|\*{1,2})?{optional_source_pattern}(?:_|\*{1,2})?,?\b",
             pattern,
