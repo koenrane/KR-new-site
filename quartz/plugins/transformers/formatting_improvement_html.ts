@@ -330,17 +330,16 @@ export function plusToAmpersand(text: string): string {
   return result
 }
 
-const massTransforms: [RegExp | string, string][] = [[new RegExp(`\\b(?:iid|i\\.i\\.d\\.)\\b`, "gi"), "IID"]]
+const massTransforms: [RegExp | string, string][] = [
+  [/\b(?:i\.i\.d\.|iid)/gi, "IID"]
+];
+
 export function massTransformText(text: string): string {
-  for (const pair of massTransforms) {
-    let pattern = pair[0]
-    const replacement = pair[1]
-    if (typeof pattern === "string") {
-      pattern = new RegExp(pattern, "g")
-    }
-    text = text.replace(pattern, replacement)
+  for (const [pattern, replacement] of massTransforms) {
+    const regex = pattern instanceof RegExp ? pattern : new RegExp(pattern, "g");
+    text = text.replace(regex, replacement);
   }
-  return text
+  return text;
 }
 
 // Node-skipping predicates //
