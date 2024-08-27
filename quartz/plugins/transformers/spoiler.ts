@@ -3,11 +3,11 @@ import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, Parent, Text } from "hast";
 import { h } from 'hastscript';
 
-const SPOILER_REGEX = /^!([\s\S]*?)$/;
+const SPOILER_REGEX = /^!\s*(.*)/;
 
 export function matchSpoilerText(text: string): string | null {
   const match = text.match(SPOILER_REGEX);
-  return match ? match[1].trim() : null;
+  return match ? match[1] : null;
 }
 
 export function createSpoilerNode(content: string | Element[]): Element {
@@ -25,13 +25,10 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
     let isSpoiler = true;
 
     for (const child of node.children) {
-      console.log(child)
-      if (child.type === 'element') {
-        // EG code block
-        const firstChild = child.children[0];
-        if (firstChild && firstChild.type === 'text' && matchSpoilerText(firstChild.value)) {
-          const spoilerText = firstChild.value.slice(1).trim(); // Remove the '!' at the beginning
-          spoilerContent.push(h('p', {}, spoilerText));
+      if (child.type === 'element' && child.tagName === 'p') {
+        const processedParagraph = processParagraph(child);
+        if (processedParagraph) {
+          spoilerContent.push(processedParagraph);
         } else {
           isSpoiler = false;
           break;
@@ -42,9 +39,6 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
       } else if (child.type === 'text' && child.value.trim() === '') {
         // Ignore empty text nodes
         continue;
-      // } else if (child?.tagName !== "p") {
-      //     console.log(child)
-      //     spoilerContent.push(child as any as Element) 
       } else {
         isSpoiler = false;
         break;
@@ -55,6 +49,29 @@ export function modifyNode(node: Element, index: number | undefined, parent: Par
       parent.children[index] = createSpoilerNode(spoilerContent);
     }
   }
+}
+
+function processParagraph(paragraph: Element): Element | null {
+  const newChildren: (Text | Element)[] = [];
+  let isSpoiler = false;
+
+  for (const child of paragraph.children) {
+    if (child.type === 'text') {
+      const spoilerText = matchSpoilerText(child.value);
+      if (spoilerText !== null) {
+        isSpoiler = true;
+        newChildren.push({ type: 'text', value: spoilerText });
+      } else if (isSpoiler) {
+        newChildren.push(child);
+      } else {
+        return null;
+      }
+    } else if (child.type === 'element') {
+      newChildren.push(child);
+    }
+  }
+
+  return isSpoiler ? { ...paragraph, children: newChildren } : null;
 }
 
 export function transformAST(tree: Root): void {

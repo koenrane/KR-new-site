@@ -110,7 +110,7 @@ describe('rehype-custom-spoiler', () => {
     expect(output).toContain('<span class="spoiler-content">');
     expect(output).toMatch(/<p>There can even be multiline spoilers!<\/p>/);
     expect(output).toMatch(/<p><\/p>/);
-    expect(output).toMatch(/<p>This should be in another `code` element.<\/p>/);
+    expect(output).toMatch(/<p>This should be in another element.<\/p>/);
     expect(output.match(/<p>/g)).toHaveLength(3); // Ensure we have 3 paragraph elements
   })
 
@@ -144,6 +144,100 @@ describe('rehype-custom-spoiler', () => {
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'Spoiler text' }] }),
             expect.objectContaining({ type: 'element', tagName: 'p', children: [] }),
             expect.objectContaining({ type: 'element', tagName: 'p', children: [{ type: 'text', value: 'More spoiler' }] })
+          ]
+        })
+      ]
+    });
+  });
+
+  describe('Inline element handling', () => {
+    const testCases = [
+      {
+        name: 'multiline with various inline elements',
+        input: `
+          <blockquote>
+            <p>! There can be <em>multiline</em> spoilers!</p>
+            \n!
+            <p>! This has <code>code</code> and <strong>bold</strong>.</p>
+          </blockquote>
+        `,
+        expectedMatches: [
+          /<div class="spoiler-container"[^>]*>/,
+          /<span class="spoiler-content">/,
+          /<p>\s*There can be <em>multiline<\/em> spoilers!<\/p>/,
+          /<p>\s*<\/p>/,
+          /<p>\s*This has <code>code<\/code> and <strong>bold<\/strong>.<\/p>/,
+        ],
+        paragraphCount: 3,
+      },
+      {
+        name: 'inline elements at paragraph start',
+        input: `
+          <blockquote>
+            <p>! <em>Emphasized</em> spoiler start</p>
+            <p>! <code>Coded</code> second line</p>
+          </blockquote>
+        `,
+        expectedMatches: [
+          /<p>\s*<em>Emphasized<\/em> spoiler start<\/p>/,
+          /<p>\s*<code>Coded<\/code> second line<\/p>/,
+        ],
+        paragraphCount: 2,
+      },
+    ];
+
+    test.each(testCases)('$name', async ({ input, expectedMatches, paragraphCount }) => {
+      const output = await process(input);
+      expectedMatches.forEach(matcher => expect(output).toMatch(matcher));
+      expect(output.match(/<p[^>]*>/g)).toHaveLength(paragraphCount);
+    });
+  });
+
+  test('modifyNode preserves complex inline structures', () => {
+    const input = '<blockquote><p>!Complex <em>nested <strong>inline</strong></em> <code>elements</code></p></blockquote>';
+    const node = unified().use(rehypeParse, { fragment: true }).parse(input).children[0] as Element;
+    const parent: Parent = { type: 'root', children: [node] };
+    
+    modifyNode(node, 0, parent);
+
+    const result = removePositions(parent.children[0]);
+    expect(result).toMatchObject({
+      type: 'element',
+      tagName: 'div',
+      properties: { className: ['spoiler-container'] },
+      children: [
+        expect.objectContaining({ tagName: 'span', properties: { className: ['spoiler-overlay'] } }),
+        expect.objectContaining({
+          tagName: 'span',
+          properties: { className: ['spoiler-content'] },
+          children: [
+            expect.objectContaining({
+              tagName: 'p',
+              children: [
+                { type: 'text', value: 'Complex ' },
+                {
+                  type: 'element',
+                  tagName: 'em',
+                  properties: {},
+                  children: [
+                    { type: 'text', value: 'nested ' },
+                    {
+                      type: 'element',
+                      tagName: 'strong',
+                      properties: {},
+                      children: [{ type: 'text', value: 'inline' }]
+                    }
+                  ]
+                },
+                { type: 'text', value: ' ' },
+                {
+                  type: 'element',
+                  tagName: 'code',
+                  properties: {},
+                  children: [{ type: 'text', value: 'elements' }]
+                }
+              ]
+            })
           ]
         })
       ]
