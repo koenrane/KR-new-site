@@ -203,15 +203,16 @@
   display: block;
 }
 
-/* Safari-specific styles */
-@media all {
-  @supports (-webkit-appearance: none) {
-    #header-gif {
-      display: block;
-    }
-    #header-video {
-      display: none;
-    }
+// Safari-specific styles
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Safari only override */
+  ::i-block-chrome,
+  #header-gif {
+    display: block;
+  }
+  ::i-block-chrome,
+  #header-video {
+    display: none;
   }
 }
 
