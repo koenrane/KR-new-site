@@ -22,8 +22,12 @@ const footnoteEndOfSentence = (text: string) => {
 
 // Regular expression for edit/note patterns
 const editPattern =
-  /^\s*(?<emph1>[\*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?(?<emph2>[\*_]*:[\*_]*) (?<text>.*)/gim
-const editAdmonitionPattern = "> [!info] Edited on $<date>\n> $<text>"
+  /^\s*(?<emph1>[\*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
+const editAdmonitionPattern = "> [!info] Edited on $<date>\n>\n> $<text>"
+
+const editPatternNoDate =
+  /^\s*(?<emph1>[\*_]*)(edit|eta|note)(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
+const editAdmonitionPatternNoDate = "> [!info] Edited after posting\n>\n> $<text>"
 
 /**
  * Converts edit/note patterns to admonition blocks.
@@ -32,6 +36,7 @@ const editAdmonitionPattern = "> [!info] Edited on $<date>\n> $<text>"
  */
 export function editAdmonition(text: string): string {
   text = text.replaceAll(editPattern, editAdmonitionPattern)
+  text = text.replaceAll(editPatternNoDate, editAdmonitionPatternNoDate)
   return text
 }
 
