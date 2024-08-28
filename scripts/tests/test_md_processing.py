@@ -211,11 +211,9 @@ def test_process_linked_citations():
 >
 > If"""
 
-    patterns = md_process.get_quote_patterns()
-    result = md_process.process_linked_citations(input_md, patterns)
+    result = md_process.process_linked_citations(input_md)
 
     assert result.rstrip() == expected_output
-
 
 if __name__ == "__main__":
     pytest.main()

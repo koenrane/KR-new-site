@@ -465,56 +465,53 @@ def manual_replace(md: str) -> str:
     return md
 
 
-def get_quote_patterns():
-    """
-    Define and return patterns used for quote admonition processing.
-    """
-    start_adm_pattern = r"> \[!quote\]\s*"
-    body_pattern = r"(?P<body>(?:>.*\n)+?)"
-    line_break_pattern = r"(?:>\s*)*"
-    pre_citation_pattern = r"> *\\?[~\-—–]+ *(?P<prelink>[ _\*]*[^\[]*)"
-    link_text_pattern = r"(?P<linktext>[^_\*\]]+)"
-    link_pattern = r"\[[_\*]*" + link_text_pattern + r"[_\*]*\]"
-    url_pattern = r"\((?P<url>[^#].*?)\)"
-    md_url_pattern = link_pattern + url_pattern
-    post_citation_pattern = r"(?P<postCitation>.*)$"
+# Helper variables
+QUOTE_START = r"> \[!quote\]\s*"
+QUOTE_BODY = r"(?P<body>(?:>.*\n)+?)"
+QUOTE_LINE_BREAK = r"(?:>\s*)*"
+CITATION_SEPARATOR = r"> *\\?[~\-—–]+ *"
+PRELINK_CONTENT = r"(?P<prelink>[ _\*]*[^\[]*)"
+LINK_TEXT_CONTENT = r"(?P<linktext>[^_\*\]]+)"
+URL_CONTENT = r"(?P<url>[^#].*?)"
+POST_CITATION_CONTENT = r"(?P<postCitation>.*)$"
 
-    return {
-        "start_adm": start_adm_pattern,
-        "body": body_pattern,
-        "line_break": line_break_pattern,
-        "pre_citation": pre_citation_pattern,
-        "md_url": md_url_pattern,
-        "post_citation": post_citation_pattern,
-    }
+QUOTE_PATTERNS = {
+    "start_adm": QUOTE_START,
+    "body": QUOTE_BODY,
+    "line_break": QUOTE_LINE_BREAK,
+    "pre_citation": CITATION_SEPARATOR + PRELINK_CONTENT,
+    "link_text": LINK_TEXT_CONTENT,
+    "link": r"\[[_\*]*" + LINK_TEXT_CONTENT + r"[_\*]*\]",
+    "url": r"\(" + URL_CONTENT + r"\)",
+    "md_url": r"\[[_\*]*" + LINK_TEXT_CONTENT + r"[_\*]*\]\(" + URL_CONTENT + r"\)",
+    "post_citation": POST_CITATION_CONTENT,
+}
+LINK_CITATION_LINE = QUOTE_PATTERNS["pre_citation"] + QUOTE_PATTERNS["md_url"] + QUOTE_PATTERNS["post_citation"]
+PLAIN_CITATION_LINE = QUOTE_PATTERNS["pre_citation"] + QUOTE_PATTERNS["post_citation"]
 
-
-def process_linked_citations(md: str, patterns: dict) -> str:
+def process_linked_citations(md: str) -> str:
     """
     Process quotes with linked citations.
     """
     pattern = (
-        patterns["start_adm"]
-        + patterns["body"]
-        + patterns["line_break"]
-        + patterns["pre_citation"]
-        + patterns["md_url"]
-        + patterns["post_citation"]
+        QUOTE_PATTERNS["start_adm"]
+        + QUOTE_PATTERNS["body"]
+        + QUOTE_PATTERNS["line_break"]
+        + LINK_CITATION_LINE
     )
     target = r"> [!quote] \g<prelink>[\g<linktext>](\g<url>)\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md)
 
 
-def process_plain_text_citations(md: str, patterns: dict) -> str:
+def process_plain_text_citations(md: str) -> str:
     """
     Process quotes with plain text citations.
     """
     pattern = (
-        patterns["start_adm"]
-        + patterns["body"]
-        + patterns["line_break"]
-        + patterns["pre_citation"]
-        + patterns["post_citation"]
+        QUOTE_PATTERNS["start_adm"]
+        + QUOTE_PATTERNS["body"]
+        + QUOTE_PATTERNS["line_break"]
+        + PLAIN_CITATION_LINE
     )
     target = r"> [!quote] \g<prelink>\g<postCitation>\n\g<body>"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
@@ -550,21 +547,18 @@ def move_citation_to_quote_admonition(md: str) -> str:
         > This is a quote.
     """
     # Check for linked citations on the last line
-    patterns = get_quote_patterns()
     last_line_pattern = (
-        rf"^> *(?P<lastLine>[A-Za-z0-9,\. ]*{patterns['md_url']}[ _\*]*)$"
+        rf"^> *(?P<lastLine>[A-Za-z0-9,\. ]*{QUOTE_PATTERNS['md_url']}[ _\*]*)$"
     )
     md = regex.sub(last_line_pattern, r"> -- \1", md, flags=regex.MULTILINE)
 
-    md = process_linked_citations(md, patterns)
-    md = process_plain_text_citations(md, patterns)
+    md = process_linked_citations(md)
+    md = process_plain_text_citations(md)
     return md.rstrip("\n")
-
 
 def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
     return markdown.split(helpers.MARKDOWN_WARNING)[-1]
-
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
