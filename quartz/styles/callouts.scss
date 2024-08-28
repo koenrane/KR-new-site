@@ -38,62 +38,66 @@
   --callout-icon-goose: url("https://assets.turntrout.com/static/images/goose.svg");
   --callout-icon-fold: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
 
+  // Gray by default
   &[data-callout] {
-    --color: color-mix(in srgb, var(--blue) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--base) 15%, var(--dark));
     --callout-icon: var(--callout-icon-note);
   }
 
-  &[data-callout="abstract"] {
-    --color: color-mix(in srgb, var(--teal) 70%, var(--dark));
-    --callout-icon: var(--callout-icon-abstract);
-  }
-
-  &[data-callout="info"],
-  &[data-callout="todo"] {
-    --color: color-mix(in srgb, var(--sky) 60%, var(--dark));
-    --callout-icon: var(--callout-icon-info);
-  }
-
-  &[data-callout="todo"] {
-    --callout-icon: var(--callout-icon-todo);
-  }
-
-  &[data-callout="tip"] {
-    --color: color-mix(in srgb, var(--teal) 70%, var(--dark));
-    --callout-icon: var(--callout-icon-tip);
-  }
-
+  // Green
   &[data-callout="success"] {
-    --color: color-mix(in srgb, var(--green) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--green) 65%, var(--dark));
     --callout-icon: var(--callout-icon-success);
   }
 
+  // Yellow
   &[data-callout="question"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-question);
   }
-
+  &[data-callout="todo"] {
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
+    --callout-icon: var(--callout-icon-todo);
+  }
   &[data-callout="idea"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-idea);
   }
 
+  // Orange
   &[data-callout="warning"] {
     --color: color-mix(in srgb, var(--orange) 60%, var(--dark));
     --bg: color-mix(in srgb, var(--color) 10%, var(--base));
-    --callout-icon: var(--callout-icon-warning);
   }
 
+  // Red
   &[data-callout="failure"],
-  &[data-callout="danger"],
-  &[data-callout="bug"] {
+  &[data-callout="bug"],
+  &[data-callout="danger"] {
     --color: color-mix(in srgb, var(--red) 70%, var(--dark));
     --bg: color-mix(in srgb, var(--color) 10%, var(--base));
-    --callout-icon: var(--callout-icon-failure);
   }
 
+  &[data-callout="failure"] {
+    --callout-icon: var(--callout-icon-failure);
+  }
+  &[data-callout="warning"] {
+    --callout-icon: var(--callout-icon-warning);
+  }
   &[data-callout="bug"] {
     --callout-icon: var(--callout-icon-bug);
+  }
+
+  &[data-callout="abstract"] {
+    --callout-icon: var(--callout-icon-abstract);
+  }
+
+  &[data-callout="info"] {
+    --callout-icon: var(--callout-icon-info);
+  }
+
+  &[data-callout="tip"] {
+    --callout-icon: var(--callout-icon-tip);
   }
 
   &[data-callout="danger"] {
@@ -101,14 +105,10 @@
   }
 
   &[data-callout="example"] {
-    --color: color-mix(in srgb, var(--purple) 70%, var(--dark));
-    --bg: color-mix(in srgb, var(--color) 10%, var(--base));
     --callout-icon: var(--callout-icon-example);
   }
 
-  &[data-callout="goose"],
   &[data-callout="quote"] {
-    --color: color-mix(in srgb, var(--base) 15%, var(--dark));
     --callout-icon: var(--callout-icon-quote);
   }
 
