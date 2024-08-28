@@ -54,7 +54,7 @@ describe("Abbreviations", () => {
 
 describe("Acronyms", () => {
   // Test: These should be wrapped in <abbr> tags
-  const textIn: Array<string> = ["AUP", "FBI", "TL;DR", "CHAI", "ALÉNA"]
+  const textIn: Array<string> = ["AUP", "FBI", "TL;DR", "CHAI", "ALÉNA", "CCC"]
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
