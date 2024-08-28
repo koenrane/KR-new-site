@@ -310,12 +310,14 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
   if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
 
   let childToModify
-  if (linkNode.children[0].type === "text") {
-    childToModify = linkNode.children[0]
+  if (linkNode.children[linkNode.children.length - 1].type === "text") {
+    childToModify = linkNode.children[linkNode.children.length - 1]
   } else {
-    // Assume in eg <a><em>text</em></a> kind of situation
-    childToModify = linkNode.children[0].children[0]
+    // Find the last text node within the last child
+    const lastChild = linkNode.children[linkNode.children.length - 1]
+    childToModify = lastChild.children[lastChild.children.length - 1]
   }
+  
   childToModify.value = childToModify.value + firstChar
   textNode.value = textNode.value.slice(1) // Remove the first char
 }

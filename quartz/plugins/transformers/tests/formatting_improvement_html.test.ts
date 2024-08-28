@@ -319,6 +319,36 @@ describe("applyLinkPunctuation", () => {
       expect(processedHtml).toBe(input)
     })
   })
+
+  it.each([
+    [
+      '<p><a href="https://example.com">Simple link</a>: with colon after</p>',
+      '<p><a href="https://example.com">Simple link:</a> with colon after</p>',
+    ],
+    [
+      '<p><a href="https://example.com"><em>Nested</em> link</a>: with colon after</p>',
+      '<p><a href="https://example.com"><em>Nested</em> link:</a> with colon after</p>',
+    ],
+    [
+      '<p><a href="https://example.com"><em>Fully nested</em></a>: with colon after</p>',
+      '<p><a href="https://example.com"><em>Fully nested:</em></a> with colon after</p>',
+    ],
+    [
+      '<p><a href="https://example.com">Link</a>. with period after</p>',
+      '<p><a href="https://example.com">Link.</a> with period after</p>',
+    ],
+    [
+      '<p><a href="https://example.com">Link</a>, with comma after</p>',
+      '<p><a href="https://example.com">Link,</a> with comma after</p>',
+    ],
+    [
+      '<p><a href="https://example.com"><strong>Bold</strong> link</a>: with colon after</p>',
+      '<p><a href="https://example.com"><strong>Bold</strong> link:</a> with colon after</p>',
+    ],
+  ])('correctly applies nested link punctuation for "%s"', (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
 })
 
 // Testing smartquotes balance checker
