@@ -3,6 +3,10 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
+import findGitRoot from 'find-git-root'
+import { fileURLToPath } from 'url'
+
+
 const logger = createLogger("linkfavicons")
 
 export const MAIL_PATH = "https://assets.turntrout.com/static/images/mail.svg"
@@ -11,8 +15,12 @@ export const TURNTROUT_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
-export const FAVICON_URLS_FILE =
-  "/Users/turntrout/Downloads/turntrout.com/quartz/plugins/transformers/.faviconUrls.txt"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const gitRoot = findGitRoot(__dirname)
+export const FAVICON_URLS_FILE = path.join(gitRoot, 'quartz', 'plugins', 'transformers', '.faviconUrls.txt')
+
 export class DownloadError extends Error {
   constructor(message: string) {
     super(message)
