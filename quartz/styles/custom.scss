@@ -76,7 +76,7 @@ ol {
 
   li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
-    // display: flex; // This ensures the number and the text are in the same line
+    display: block;
     counter-increment: footnote; // Increment the footnote counter for each matching li
     margin-bottom: $baseMargin; // Add a bottom margin to the list items
 
@@ -312,7 +312,6 @@ figcaption,
 }
 
 .no-select {
-  user-drag: none;
   -webkit-user-drag: none;
   user-select: none;
   -moz-user-select: none;
@@ -623,21 +622,42 @@ img.emoji {
 }
 
 // Ensure the anchors stay around long enough to click
+h1, h2, h3, h4, h5, h6 {
+  &:hover .heading-anchor,
+  &:focus .heading-anchor {
+    opacity: 1;
+  }
+}
+
+// Ensure the anchor is visible when directly hovered
+.heading-anchor:hover,
+.heading-anchor:focus {
+  opacity: 1 !important;
+}
+// Heading anchor styles
 .heading-anchor {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
+  // display: inline-block;
+  // margin-left: 0.5em;
+  color: var(--gray);
+  
+  svg {
+    width: .5em;
+    height: .5em;
+    vertical-align: middle;
+  }
 }
 
-h1:hover .heading-anchor,
-h2:hover .heading-anchor,
-h3:hover .heading-anchor,
-h4:hover .heading-anchor,
-h5:hover .heading-anchor,
-h6:hover .heading-anchor,
-.heading-anchor:hover {
-  opacity: 1;
+h1, h2, h3, h4, h5, h6 {
+  &:hover .heading-anchor,
+  &:focus .heading-anchor {
+    opacity: 1;
+  }
 }
 
-.heading-anchor:hover {
+// Ensure the anchor is visible when directly hovered
+.heading-anchor:hover,
+.heading-anchor:focus {
   opacity: 1 !important;
 }
