@@ -100,7 +100,9 @@ export function writeCacheToFile(): void {
   const data = Array.from(urlCache.entries())
     .map(([key, value]) => `${key},${value}`)
     .join("\n")
-  fs.writeFileSync(FAVICON_URLS_FILE, data)
+  
+  // Write the file
+  fs.writeFileSync(FAVICON_URLS_FILE, data, {flag: 'a+'})
 }
 
 /**
