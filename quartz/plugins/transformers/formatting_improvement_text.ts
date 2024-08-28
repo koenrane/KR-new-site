@@ -97,6 +97,9 @@ export const formattingImprovement = (text: string) => {
   newContent = noteAdmonition(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
 
+  // Ensure that bulleted lists display properly
+  newContent = newContent.replaceAll("\\-", "-")
+
   return yamlHeader + newContent // Concatenate YAML header and formatted content
 }
 

@@ -117,6 +117,16 @@ This text is 3× larger.`
       expect(result).toBe(input) // No change expected
     })
   })
+
+  describe("Bulleted List Formatting", () => {
+    it("should replace escaped hyphens with regular hyphens at the start of lines", () => {
+      const input = "Some text\n\\- First item\n\\- Second item\nNormal line\n\\- Third item"
+      const expected = "Some text\n- First item\n- Second item\nNormal line\n- Third item"
+      const result = formattingImprovement(input)
+      expect(result).toBe(expected)
+    })
+
+  })
 })
 
 describe("editAdmonition", () => {
