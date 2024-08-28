@@ -58,7 +58,7 @@ I think that each step contains either a serious and unnecessary difficulty, or 
 2.  **The loss function doesn’t have to robustly and directly reflect what you want.** [Loss functions](/four-usages-of-loss-in-ai) [chisel circuits into networks](/reward-is-not-the-optimization-target). Even if we _did_ want to do robust grading, we don’t have to _also_ use that grading rule to optimize directly over the network’s cognition. This assumption is quite restrictive.
 3.  **Inner alignment to a grading procedure is unnecessary, very hard, and anti-natural.** We don’t have to precisely and exclusively align the agent to its loss function or to an external grading procedure. _This precise and complete inner alignment might be very hard, possibly harder than the entire actual alignment problem._ 
 
-Therefore, for all alignment approaches which aim to align an agent to a robust grading scheme, I think that that approach is doomed. However, I am **not** equally critiquing all alignment-decompositions which have historically been called "outer/inner alignment" (for more detail, see Appendix A).
+Therefore, for all alignment approaches which aim to align an agent to a robust grading scheme, I think that that approach is doomed. However, I am **not** equally critiquing all alignment decompositions which have historically been called "outer/inner alignment" (for more detail, see Appendix A).
 
 Here’s the structure of the essay, and some key points made within:
 
@@ -364,7 +364,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 
 **A:** Compared to “what reward signal-generators are safe to optimize?”, it’s _far_ _more_ reasonable to consider “what broad-strokes _utility_ function should the AI optimize?”. Even so, there are [_tons_](https://www.readthesequences.com/The-Hidden-Complexity-Of-Wishes) of [skulls](https://arbital.com/p/diamond_maximizer/) along that path. We just suck at coming up with utility functions which are safe to maximize, for [generalizable reasons](/dont-design-agents-which-exploit-adversarial-inputs). Why should a modern alignment researcher spend an additional increment of time thinking about _that_ question, instead of other questions? Do you think that we’ll _finally_ find the clever utility function/grading procedure which is robust against adversarial optimization? I think it’s wiser to simply avoid design patterns which pit you against a superintelligence’s adversarial optimization pressure.
 
-(And I don’t think you’ll get a meaningfully viewable-as-bounded-EU-maximizer [until late in the agent’s developmental timeline](/a-shot-at-the-diamond-alignment-problem#The-values-handshake). That might be a very important modeling consideration. Be careful to distinguish asymptotic limits from finite-time results.)
+(And I don’t think the AI will be meaningfully viewable as a bounded EU maximizer [until late in the its developmental timeline](/a-shot-at-the-diamond-alignment-problem#The-values-handshake). That might be a very important modeling consideration. Be careful to distinguish asymptotic limits from finite-time results.)
 
 **A-Outer:** Seriously? It would be real progress to solve the outer alignment problem in terms of writing down a utility function over universe-histories which is safe to maximize. For example, suppose we learned that if the utility function penalizes the agent for gaining more than _X_ power for >1 year (in some formally specifiable sense) would bound the risk from that AI, making it easier to get AIs which do pivotal acts without keeping power forever. Then we learn something about the properties we might aim to chisel into the AI’s inner cognition, in order to come out alive on the other side of AGI.
 
@@ -581,7 +581,7 @@ I worry that absolute robustness is an unnatural cognitive property, which is al
 >
 > **A problem with adversarial training.** One heuristic I like to use is: "What would happen if I initialized a human-aligned model and then trained it with my training process?"
 > 
-> So, let's consider such a model, which cares about people (i.e. reliably pulls itself into futures where the people around it are kept safe). Suppose we also have some great adversarial training technique, such that we have e.g. a generative model which produces situations where the AI would break out of the lab without permission from its overseers. Then we run this procedure, update the AI by applying gradients calculated from penalties applied to its actions in that adversarially-generated context, and... profit?
+> So, let's consider such a model, which cares about people (i.e. reliably pulls itself into futures where the people around it are kept safe). Suppose we also have some great adversarial training technique, such that we have e.g. a generative model which produces situations where the AI would break out of the lab without permission from its overseers. Then we run this procedure, update the AI by applying gradients calculated from penalties applied to its actions in that adversarially generated context, and... profit?
 > 
 > But what actually happens with the aligned AI? Possibly something like:
 > 
