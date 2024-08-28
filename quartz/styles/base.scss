@@ -345,12 +345,8 @@ h6,
   }
 
   &[id] > a[href^="#"] {
-    margin: 0 $baseMargin;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    transform: translateY(-0.1rem);
-    font-family: var(--codeFont);
-    user-select: none;
+    text-decoration: none;
+    color: var(--dark);
   }
 
   &[id]:hover > a {
