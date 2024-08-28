@@ -46,7 +46,7 @@ npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-d
 
 # Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
 if [ $? -ne 0 ]; then
-	nvim $TEMP_DICT -c 'lua vim.notify("Delete invalid words which should not be added to the dictionary.")' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
+    nvim $TEMP_DICT -c 'lua vim.api.nvim_notify("Delete invalid words which should not be added to the dictionary.", {timeout = 0})' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
 	set -e # Re-enable errors
 	npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md !content/drafts/**/*.md
 
