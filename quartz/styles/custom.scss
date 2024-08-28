@@ -623,3 +623,23 @@ img.emoji {
   filter: blur(0);
   opacity: 1;
 }
+
+// Ensure the anchors stay around long enough to click
+.heading-anchor {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+h5:hover .heading-anchor,
+h6:hover .heading-anchor,
+.heading-anchor:hover {
+  opacity: 1;
+}
+
+.heading-anchor:hover {
+  opacity: 1 !important;
+}
