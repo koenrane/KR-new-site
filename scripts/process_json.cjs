@@ -107,7 +107,7 @@ turndownService.addRule('footnote', {
 
 turndownService.addRule("spoiler", {
   filter: function (node) {
-    return node.nodeName === 'DIV' && node.classList.contains('spoiler');
+    return node.classList.contains('spoiler') || node.className.includes("spoiler");
   },
   replacement: function (_content, node) {
     const paragraphs = node.getElementsByTagName('p');
