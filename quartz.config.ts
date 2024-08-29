@@ -127,7 +127,6 @@ const config: QuartzConfig = {
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true }),
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
       Plugin.ConvertEmphasis(),
-      Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.MinusReplaceTransform(),
@@ -138,6 +137,7 @@ const config: QuartzConfig = {
       Plugin.TroutOrnamentHr(),
       Plugin.ColorVariables(),
       Plugin.rehypeCustomSpoiler(),
+      Plugin.TableOfContents(),
     ],
     filters: [Plugin.ExplicitPublish()],
     emitters: [

@@ -33,6 +33,7 @@ ol.overflow {
     padding: 0;
     line-height: 1.05em;
     margin-top: 0;
+    margin-bottom: 0;
 
     text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
     & ul {

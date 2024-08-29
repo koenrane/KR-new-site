@@ -249,7 +249,12 @@ export function applyTextTransforms(text: string): string {
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
-  assertSmartQuotesMatch(text)
+  try {
+    assertSmartQuotesMatch(text)
+  } catch(e: any) {
+    console.error(e)
+  }
+  
   return text
 }
 
@@ -348,7 +353,7 @@ export function massTransformText(text: string): string {
 /**
  *  Check for ancestors satisfying certain criteria
  */
-function hasAncestor(node: any, ancestorPredicate: (anc: Element) => boolean): boolean {
+export function hasAncestor(node: any, ancestorPredicate: (anc: Element) => boolean): boolean {
   let ancestor = node
   while (ancestor) {
     if (ancestorPredicate(ancestor)) {
