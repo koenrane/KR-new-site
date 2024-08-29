@@ -55,7 +55,7 @@ ol {
     }
 
     // Nested lists
-    ol {
+    & > ol {
       counter-reset: sublist; // Each nested ordered list has its own sublist counter
       li {
         counter-increment: sublist; // Increment the sublist counter for nested list items
