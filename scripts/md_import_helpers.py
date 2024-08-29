@@ -10,8 +10,15 @@ username_dict = {
 }
 
 hash_to_slugs = {
-    "iCfdcxiyr2Kj8m8mT": "shard-theory"
-}  # technically, Quintin is first author on this one
+    "iCfdcxiyr2Kj8m8mT": "shard-theory", # technically, Quintin is first author on this one
+    "ioPnHKFyy4Cw2Gr2x": "mechanistically-eliciting-latent-behaviors",
+    "v7f8ayBxLhmMFRzpa": "steering-vectors-llama-2",
+    "CbSEZSpjdpnvBcEvc": "lots-of-orthogonal-code-vectors",
+    "Be3ertyJfwDdQucdd": "deepmind-equity",
+    "eowhY5NaCaqY6Pkj9": "maze-behavioral-statistics",
+    "8mizBCm3dyc432nK8": "norm-grows-exponentially-over-the-forward-pass",
+    "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
+}  
 
 MARKDOWN_WARNING: str = "moved away from optimal policies and treated reward functions more realistically.**\n"
 SKIP_POSTS = set(["ambiguity-detection"])

@@ -356,8 +356,8 @@ def replace_urls(markdown: str, current_slug: str = "") -> str:
     """Replace LessWrong URLs with internal links."""
     urls: list[str] = _get_urls(markdown)
     for url in urls:
-        if "commentId=" in url:
-            continue  # Skip comments
+        if "commentId=" in url or "turntrout-s-shortform-feed" in url:
+            continue  # Skip comments or shortform; would otherwise show as post
         sanitized_url: str = remove_prefix_before_slug(url)
         if (
             get_slug(sanitized_url) == current_slug
@@ -562,7 +562,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    print(md)
+    # print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
