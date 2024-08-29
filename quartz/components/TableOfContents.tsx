@@ -55,18 +55,28 @@ const logger = createLogger("TableOfContents")
 const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
-  if (!fileData.toc || fileData.frontmatter?.toc === "false") {
-    logger.info(
-      `TableOfContents skipped for ${fileData.filePath}: no TOC data or disabled in frontmatter`,
-    )
+  if (!fileData.toc) {
+    logger.warn(`No TOC data found for ${fileData.filePath}`)
+    return null
+  }
+
+  if (fileData.frontmatter?.toc === "false") {
+    logger.info(`TableOfContents disabled in frontmatter for ${fileData.filePath}`)
     return null
   }
 
   const title = fileData.frontmatter?.title
   logger.debug(`Title for TOC: ${title}`)
 
+  logger.debug(`TOC data for ${fileData.filePath}: ${JSON.stringify(fileData.toc)}`)
+
   const toc = addListItem(fileData.toc, 0)
   logger.debug(`Generated TOC items: ${toc.length}`)
+
+  if (toc.length === 0) {
+    logger.warn(`Generated empty TOC for ${fileData.filePath}`)
+    return null
+  }
 
   return (
     <div id="table-of-contents" className={classNames(displayClass)}>
