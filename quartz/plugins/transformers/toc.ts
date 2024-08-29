@@ -63,9 +63,10 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
               slugAnchor.reset()
               const toc: TocEntry[] = []
               let highestDepth: number = opts.maxDepth
+              let hasFootnotes = false
 
-              visit(tree, "heading", (node) => {
-                if (node.depth <= opts.maxDepth) {
+              visit(tree, ["heading", "footnoteDefinition"], (node) => {
+                if (node.type === "heading" && node.depth <= opts.maxDepth) {
                   let text = applyTextTransforms(customToString(node))
                   highestDepth = Math.min(highestDepth, node.depth)
                   toc.push({
@@ -74,6 +75,14 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                     slug: slugAnchor.slug(text),
                   })
                   logger.info(`Added TOC entry: depth=${node.depth}, text="${text}"`)
+                } else if (node.type === "footnoteDefinition" && !hasFootnotes) {
+                  hasFootnotes = true
+                  toc.push({
+                    depth: 1,
+                    text: "Footnotes",
+                    slug: "footnote-label", 
+                  })
+                  logger.info(`Added Footnotes to TOC`)
                 }
               })
 
