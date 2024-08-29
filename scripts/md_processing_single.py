@@ -360,7 +360,7 @@ def replace_urls(markdown: str, current_slug: str = "") -> str:
             continue  # Skip comments or shortform; would otherwise show as post
         sanitized_url: str = remove_prefix_before_slug(url)
         if (
-            get_slug(sanitized_url) == current_slug
+            current_slug and (get_slug(sanitized_url) == current_slug)
         ):  # Site represents same-page anchors this way
             sanitized_url = "#" + sanitized_url.split("#")[1]
         markdown = markdown.replace(url, sanitized_url)
