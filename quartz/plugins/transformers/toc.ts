@@ -56,47 +56,41 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
       return [
         () => {
           return async (tree: Root, file) => {
-            try {
-              const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
-              logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
+            const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
+            logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
 
-              if (display) {
-                slugAnchor.reset()
-                const toc: TocEntry[] = []
-                let highestDepth: number = opts.maxDepth
+            if (display) {
+              slugAnchor.reset()
+              const toc: TocEntry[] = []
+              let highestDepth: number = opts.maxDepth
 
-                visit(tree, "heading", (node) => {
-                  if (node.depth <= opts.maxDepth) {
-                    let text = applyTextTransforms(customToString(node))
-                    highestDepth = Math.min(highestDepth, node.depth)
-                    toc.push({
-                      depth: node.depth,
-                      text,
-                      slug: slugAnchor.slug(text),
-                    })
-                    logger.debug(`Added TOC entry: depth=${node.depth}, text="${text}"`)
-                  }
-                })
-
-                if (toc.length > 0 && toc.length > opts.minEntries) {
-                  const adjustedToc = toc.map((entry) => ({
-                    ...entry,
-                    depth: entry.depth - highestDepth,
-                  }))
-                  file.data.toc = adjustedToc
-                  file.data.collapseToc = opts.collapseByDefault
-                  logger.info(`Generated TOC for ${file.path} with ${adjustedToc.length} entries`)
-                  logger.debug(`TOC data: ${JSON.stringify(adjustedToc)}`)
-                } else {
-                  logger.info(`Skipped TOC generation for ${file.path}: not enough entries`)
+              visit(tree, "heading", (node) => {
+                if (node.depth <= opts.maxDepth) {
+                  let text = applyTextTransforms(customToString(node))
+                  highestDepth = Math.min(highestDepth, node.depth)
+                  toc.push({
+                    depth: node.depth,
+                    text,
+                    slug: slugAnchor.slug(text),
+                  })
+                  logger.info(`Added TOC entry: depth=${node.depth}, text="${text}"`)
                 }
+              })
+
+              if (toc.length > 0 && toc.length > opts.minEntries) {
+                const adjustedToc = toc.map((entry) => ({
+                  ...entry,
+                  depth: entry.depth - highestDepth,
+                }))
+                file.data.toc = adjustedToc
+                file.data.collapseToc = opts.collapseByDefault
+                logger.info(`Generated TOC for ${file.path} with ${adjustedToc.length} entries`)
+                adjustedToc.forEach(logTocEntry)
               } else {
-                logger.info(`TOC generation skipped for ${file.path}: display is false`)
+                logger.info(`Skipped TOC generation for ${file.path}: not enough entries`)
               }
-            } catch (error) {
-              logger.error(`Error generating TOC for ${file.path}: ${error}`)
-              file.data.toc = []
-              file.data.collapseToc = opts.collapseByDefault
+            } else {
+              logger.info(`TOC generation skipped for ${file.path}: display is false`)
             }
           }
         },
