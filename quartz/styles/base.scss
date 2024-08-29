@@ -540,3 +540,8 @@ video {
 #quartz-root {
   overflow-x: visible;
 }
+
+// Nested ol and ul should have margin before them
+ol, ul {
+  margin-top: calc(2*$baseMargin);
+}
