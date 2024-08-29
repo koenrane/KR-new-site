@@ -78,7 +78,7 @@ Here’s the structure of the essay, and some key points made within:
 
 _This post wouldn’t have happened without Quintin Pope’s ideas and feedback. Thanks to David Udell for extensive brainstorming help. Thanks to Evan Hubinger, Rohin Shah, Abram Demski, Garrett Baker, Andrew Critch, Charles Foster, Nora Belrose, Leo Gao, Kaj Sotala, Paul Christiano, Peter Barnett, and others for feedback. See here for a_ [_talk_](https://www.youtube.com/watch?v=VO15pp1qTIg) _based on this essay._
 
-_I think that alignment research will be enormously advantaged by dropping certain ways of outer/inner-centric thinking for most situations, even though those ways of thinking do have some use cases. Even though this essay is critical of certain ways of thinking about alignment, I want to emphasize that I appreciate and respect the work that many smart people have done through these frames._ 
+_I think that alignment research will be enormously advantaged by dropping certain ways of outer/inner-centric thinking for most situations, even though those ways of thinking do have some use cases. Even though this essay is critical of certain ways of thinking about alignment, I want to emphasize that I appreciate the work that many smart people have done through these frames._ 
 
 <hr/>
 
