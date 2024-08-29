@@ -20,6 +20,11 @@ hash_to_slugs = {
     "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
 }  
 
+strings_to_slugs = {
+    # Don't even have sequence functionality yet
+    "/s/7CdoznhJaLEKHwvJW": "reframing-impact", 
+}
+
 MARKDOWN_WARNING: str = "moved away from optimal policies and treated reward functions more realistically.**\n"
 SKIP_POSTS = set(["ambiguity-detection"])
 

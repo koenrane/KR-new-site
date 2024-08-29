@@ -342,6 +342,9 @@ def remove_prefix_before_slug(url: str) -> str:
 
             return url
 
+    for substring, slug in helpers.strings_to_slugs.items():
+        if substring in url: return slug
+
     return url  # Return the original URL if no slug match
 
 
@@ -358,6 +361,7 @@ def replace_urls(markdown: str, current_slug: str = "") -> str:
     for url in urls:
         if "commentId=" in url or "turntrout-s-shortform-feed" in url:
             continue  # Skip comments or shortform; would otherwise show as post
+        
         sanitized_url: str = remove_prefix_before_slug(url)
         if (
             current_slug and (get_slug(sanitized_url) == current_slug)
@@ -562,7 +566,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    # print(md)
+    print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
