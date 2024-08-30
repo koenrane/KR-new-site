@@ -57,11 +57,11 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
 const slugger = new GithubSlugger()
 
 export function preprocessSlug(headerText: string): string {
-  const charsToConvert = ["'", "’"]
+  const charsToConvert = ["'", "’", "/"]
 
   let protoSlug = headerText
   for (const char of charsToConvert) {
-    protoSlug = protoSlug.replace(new RegExp(char, "g"), "_")
+    protoSlug = protoSlug.replaceAll(new RegExp(char, "g"), "-")
   }
   return protoSlug
 }

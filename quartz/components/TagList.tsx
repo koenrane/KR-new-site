@@ -20,13 +20,12 @@ export const getTags = (fileData: any) => {
 export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   // Sort by string lenth, descending
   let tags = getTags(fileData)
-  const baseDir = pathToRoot(fileData.slug!) // TODO possibly problematic
   if (tags && tags.length > 0) {
     return (
       <>
         <ul class={classNames(displayClass, "tags")}>
           {tags.map((tag: any) => {
-            const linkDest = baseDir + `/tags/${slugTag(tag)}`
+            const linkDest = `/tags/${slugTag(tag)}`
             return (
               <a href={linkDest} class="internal tag-link">
                 {tag}
