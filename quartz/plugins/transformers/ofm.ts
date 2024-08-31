@@ -11,7 +11,7 @@ import { JSResource } from "../../util/resources"
 import calloutScript from "../../components/scripts/callout.inline.ts"
 // @ts-ignore
 import checkboxScript from "../../components/scripts/checkbox.inline.ts"
-import { FilePath, pathToRoot, slugTag, slugifyFilePath } from "../../util/path"
+import { FilePath, slugTag, slugifyFilePath } from "../../util/path"
 import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
 import { PhrasingContent } from "mdast-util-find-and-replace/lib"
@@ -222,7 +222,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       plugins.push(() => {
         return (tree: Root, file) => {
           const replacements: [RegExp, string | ReplaceFunction][] = []
-          const base = pathToRoot(file.data.slug!)
 
           if (opts.wikilinks) {
             replacements.push([
@@ -344,7 +343,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
                 return {
                   type: "link",
-                  url: base + `/tags/${tag}`,
+                  url: `/tags/${tag}`,
                   data: {
                     hProperties: {
                       className: ["tag-link"],

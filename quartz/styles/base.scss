@@ -542,6 +542,7 @@ video {
 }
 
 // Nested ol and ul should have margin before them
-ol, ul {
-  margin-top: calc(2*$baseMargin);
+:not(ol) ol {
+  margin-top: calc(2 * $baseMargin);
 }
+

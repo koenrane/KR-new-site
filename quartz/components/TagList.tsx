@@ -1,4 +1,4 @@
-import { pathToRoot, slugTag } from "../util/path"
+import { slugTag, FullSlug } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 
@@ -18,22 +18,22 @@ export const getTags = (fileData: any) => {
 }
 
 export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
-  // Sort by string lenth, descending
   let tags = getTags(fileData)
   if (tags && tags.length > 0) {
     return (
-      <>
-        <ul class={classNames(displayClass, "tags")}>
-          {tags.map((tag: any) => {
-            const linkDest = `/tags/${slugTag(tag)}`
-            return (
+      <ul class={classNames(displayClass, "tags")}>
+        {tags.map((tag: string) => {
+          const tagSlug = slugTag(tag)
+          const linkDest = `/tags/${tagSlug}`
+          return (
+            <li key={tag}>
               <a href={linkDest} class="internal tag-link">
                 {tag}
               </a>
-            )
-          })}
-        </ul>
-      </>
+            </li>
+          )
+        })}
+      </ul>
     )
   } else {
     return null
