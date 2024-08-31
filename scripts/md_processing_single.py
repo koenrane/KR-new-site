@@ -103,6 +103,9 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         )
     )
     metadata["tags"] = [tag.replace(" ", "-") for tag in metadata["tags"]]
+    metadata["tags"] = list(
+        map(lambda tag: tag.lower() if tag != "AI" else tag, metadata["tags"])
+    )
 
     if not metadata["tags"]:
         print(f"ALERT: {metadata['title']} has no tags\n")
@@ -343,7 +346,8 @@ def remove_prefix_before_slug(url: str) -> str:
             return url
 
     for substring, slug in helpers.strings_to_slugs.items():
-        if substring in url: return slug
+        if substring in url:
+            return slug
 
     return url  # Return the original URL if no slug match
 
@@ -361,10 +365,10 @@ def replace_urls(markdown: str, current_slug: str = "") -> str:
     for url in urls:
         if "commentId=" in url or "turntrout-s-shortform-feed" in url:
             continue  # Skip comments or shortform; would otherwise show as post
-        
+
         sanitized_url: str = remove_prefix_before_slug(url)
-        if (
-            current_slug and (get_slug(sanitized_url) == current_slug)
+        if current_slug and (
+            get_slug(sanitized_url) == current_slug
         ):  # Site represents same-page anchors this way
             sanitized_url = "#" + sanitized_url.split("#")[1]
         markdown = markdown.replace(url, sanitized_url)
@@ -490,8 +494,13 @@ QUOTE_PATTERNS = {
     "md_url": r"\[[_\*]*" + LINK_TEXT_CONTENT + r"[_\*]*\]\(" + URL_CONTENT + r"\)",
     "post_citation": POST_CITATION_CONTENT,
 }
-LINK_CITATION_LINE = QUOTE_PATTERNS["pre_citation"] + QUOTE_PATTERNS["md_url"] + QUOTE_PATTERNS["post_citation"]
+LINK_CITATION_LINE = (
+    QUOTE_PATTERNS["pre_citation"]
+    + QUOTE_PATTERNS["md_url"]
+    + QUOTE_PATTERNS["post_citation"]
+)
 PLAIN_CITATION_LINE = QUOTE_PATTERNS["pre_citation"] + QUOTE_PATTERNS["post_citation"]
+
 
 def process_linked_citations(md: str) -> str:
     """
@@ -560,9 +569,11 @@ def move_citation_to_quote_admonition(md: str) -> str:
     md = process_plain_text_citations(md)
     return md.rstrip("\n")
 
+
 def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
     return markdown.split(helpers.MARKDOWN_WARNING)[-1]
+
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
