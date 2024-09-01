@@ -2,10 +2,12 @@ import { slugTag, FullSlug } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 
+// For rendering the tags for a user
 export const formatTag = (tag: string): string => {
+  if (tag.toLowerCase() === "ai") return "AI"
+
   // Ensure input is a string (using optional chaining for safety)
   tag = tag?.replace(/-/g, " ").toLowerCase() ?? ""
-  tag = tag?.replaceAll("ai", "AI")
   tag = tag?.replaceAll("power seeking", "power-seeking")
 
   return tag
