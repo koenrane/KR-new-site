@@ -65,7 +65,13 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
 
     metadata["publish"] = "true" if not metadata["lw-was-draft-post"] else "false"
 
+    manualTitleReplacements = {
+        "Nonrobust'": "Nonrobust”",
+    }
     title = post_info["title"].replace('"', "'")
+    for key, val in manualTitleReplacements.items():
+        title = title.replace(key, val)
+
     metadata["title"] = f'"{title}"'  # Escape in case of colons
     if "contents" in post_info and (post_info["contents"]):
         metadata["lw-latest-edit"] = post_info["contents"]["editedAt"]
