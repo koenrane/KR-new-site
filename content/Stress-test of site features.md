@@ -11,6 +11,10 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 >
 > -- Orwell, _1984_
 
+[](invalid-url:w)
+
+![](https://assets.turntrout.com/invalid-asset)
+
 <hr/>
 
 > A scrupulous writer, in every sentence that he writes, will ask himself at least four questions, thus:
