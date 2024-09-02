@@ -1,6 +1,8 @@
+# If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT $(git rev-parse --show-toplevel)
+set -l TARGET_FILES [$GIT_ROOT/public/**html] #TODO make this take an argument
 
-# So the ignore-url syntax is very confusing. 
+# So, the ignore-url syntax is very confusing. 
 #  linkchecker only checks those links which *match* the regex. 
 #  So if you want to ignore a link, you need to match it with a regex that doesn't match the link.
 
