@@ -33,10 +33,10 @@ export default (() => {
       // TODO alt element?
     }
 
-    let cssToUse = css
-    // if (fileData?.no_dropcap) {
-    //     cssToUse = css.filter() // TODO have Cursor help me with this
-    // }
+    let cssToUse = [...css, "/static/styles/dropcaps.css"]
+    if (fileData?.frontmatter?.no_dropcap) {
+       cssToUse = css
+    } 
 
     return (
       <head>
