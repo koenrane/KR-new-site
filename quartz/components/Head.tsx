@@ -16,7 +16,7 @@ export default (() => {
 
     const iconPath = "static/images/favicon.ico"
     const permalink = fileData.permalink || url.href
-    const siteImage = "https://assets.turntrout.com/static/pond.webm"
+    const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
     let mediaElement = (
       <>
@@ -34,8 +34,8 @@ export default (() => {
 
     let cssToUse = [...css, "/static/styles/dropcaps.css"]
     if (fileData?.frontmatter?.no_dropcap) {
-       cssToUse = css
-    } 
+      cssToUse = css
+    }
 
     return (
       <head>
