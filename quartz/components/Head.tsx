@@ -23,20 +23,19 @@ export default (() => {
         <meta property="og:image" content={siteImage} />
         <meta
           property="og:image:alt"
-          content="A trout and a goose playing in a pond, with a castle in the background."
+          content="A trout and a goose playing in a pond with a castle in the background."
         />
       </>
     )
 
-    if (fileData?.video_preview_link) {
+    if (fileData?.frontmatter?.video_preview_link) {
       mediaElement = <meta property="og:video" content={fileData.video_preview_link as string} />
-      // TODO alt element?
     }
 
-    let cssToUse = css
-    // if (fileData?.no_dropcap) {
-    //     cssToUse = css.filter() // TODO have Cursor help me with this
-    // }
+    let cssToUse = [...css, "/static/styles/dropcaps.css"]
+    if (fileData?.frontmatter?.no_dropcap) {
+       cssToUse = css
+    } 
 
     return (
       <head>
