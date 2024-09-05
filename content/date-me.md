@@ -40,9 +40,11 @@ I might not be good at something at first, but I don't quit! In the second year 
 
 ## Personal life
 
-That said, I've become a bit less research-focused recently. Somewhat relatedly, I've become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks.
-
-I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative.
+<figure class="float-right" style="position:relative; top:-3.5rem;margin-bottom:-3.5rem">
+<img  src="/static/images/waterfall.png" alt="Alex waving at the camera near a waterfall."/>
+<figcaption>Hawaiian waterfalls! 🏝️</figcaption>
+</figure>
+That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks. 
 
 When I was younger, I wasn't very social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are very precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
 
@@ -52,6 +54,9 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 </figure>
 
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well). I am pretty goofy if I trust and feel comfy around someone.
+
+I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
+<img src="/static/images/skydiving.png" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
 
 # What I like doing
 
@@ -144,11 +149,14 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
 If this sounds like a nice potential connection, I'd love to:
-<img src="https://assets.turntrout.com/static/images/posts/berkeley-sunset.avif" alt="A beautiful orange sunset over the Bay skyline." class="float-right" style="filter: saturate(50%); margin-top: 1rem; width: 80%;"/>
-
 1. Take you dancing 💃, or
-2. Have a sunset picnic and eat blueberries, or
-3. Spend a lazy Sunday morning watching the stream run by the [Hidden Cafe](https://www.thehiddencafe.life/).
+2. Spend a lazy Sunday morning watching the stream run by the [Hidden Cafe](https://www.thehiddencafe.life/), or
+3. Have a sunset picnic and eat blueberries.
+<figure>
+<img src="/static/images/anime_sunset.png" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
+<figcaption>This could be us!</figcaption>
+</figure>
+
 
 OK, I've written enough! Get to know me if you want to know more. 🪿
 
