@@ -93,17 +93,23 @@ a {
     color: var(--tertiary) !important;
   }
 
-  &.same-page-link {
+  // Style same-page links, but exclude those inside headers
+  // This targets links with the 'same-page-link' class that are not direct children of h1-h6 elements
+  // The '&' in the :not() pseudo-class refers to the current selector (a.same-page-link)
+  &.same-page-link:not(h1 > &, h2 > &, h3 > &, h4 > &, h5 > &, h6 > &) {
     background-color: color-mix(in srgb, gray 10%, transparent);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);
 
+    // Remove background and padding for links containing images
     &:has(> img) {
       background-color: none;
       border-radius: 0;
       padding: 0;
     }
+
+    // Add a '#' before tag links
     &.tag-link {
       &::before {
         content: "#";
