@@ -130,14 +130,22 @@ describe("HTMLFormattingImprovement", () => {
       },
     )
   })
-  describe("IID Conversion", () => {
-    it.each([["The data are i.i.d.", "The data are IID"]])(
-      "should replace IID in %s",
-      (input: string, expected: string) => {
-        const result = massTransformText(input)
-        expect(result).toBe(expected)
-      },
-    )
+  describe("Mass transforms", () => {
+    it.each([
+      ["The data are i.i.d.", "The data are IID"],
+      ["The cafe", "The café"],
+      ["The Cafe", "The Café"],
+      ["The cafeteria", "The cafeteria"],
+      ["That's cliche", "That's cliché"],
+      ["Exposed", "Exposed"],
+      ["Expose", "Exposé"],
+      ["Deja vu", "Déjà vu"],
+      ["Naively", "Naïvely"],
+      ["Don't be naive", "Don't be naïve"],
+    ])("should perform transforms for %s", (input: string, expected: string) => {
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
   })
 
   describe("Ampersand replacement", () => {
