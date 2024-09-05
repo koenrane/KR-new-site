@@ -63,7 +63,7 @@ I think I'd jive well with someone more spontaneous and daring, since I tend to 
 I like doing a lot of things!
 
 Dancing
-: I like salsa and waltz. I'm learning west-coast swing. I can vibe to almost anything, though! Let's dance to some bangers maybe?
+: I like salsa and waltz. I'm learning West Coast Swing. I can vibe with almost anything, though!
 
 AI-fueled house parties
 : I like bringing a ton of my friends together in my 2BR apartment. To commemorate such an occasion, I personalize a name tag for each of them! The tag has their name and then a picture of them. Only, the picture is tailored to the theme of the party:
