@@ -41,7 +41,7 @@ I might not be good at something at first, but I don't quit! In the second year 
 ## Personal life
 
 <figure class="float-right" style="position:relative; top:-3.5rem;margin-bottom:-3.5rem">
-<img  src="/static/images/waterfall.png" alt="Alex waving at the camera near a waterfall."/>
+<img  src="https://assets.turntrout.com/static/images/waterfall.avif" alt="Alex waving at the camera near a waterfall."/>
 <figcaption>Hawaiian waterfalls! 🏝️</figcaption>
 </figure>
 That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks. 
@@ -56,7 +56,7 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well). I am pretty goofy if I trust and feel comfy around someone.
 
 I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
-<img src="/static/images/skydiving.png" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
+<img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
 
 # What I like doing
 
@@ -153,7 +153,7 @@ If this sounds like a nice potential connection, I'd love to:
 2. Spend a lazy Sunday morning watching the stream run by the [Hidden Cafe](https://www.thehiddencafe.life/), or
 3. Have a sunset picnic and eat blueberries.
 <figure>
-<img src="/static/images/anime_sunset.png" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
+<img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
 <figcaption>This could be us!</figcaption>
 </figure>
 

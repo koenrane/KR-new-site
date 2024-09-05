@@ -55,21 +55,15 @@ def upload_and_move(
 
     upload_target: str = f"r2:{R2_BUCKET_NAME}/{r2_key}"
     try:
-        subprocess.run(
-            ["rclone", "copyto", str(file_path), upload_target], check=True
-        )
+        subprocess.run(["rclone", "copyto", str(file_path), upload_target], check=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
     # Update references in markdown files
-    relative_original_path: Path = script_utils.path_relative_to_quartz(
-        file_path
-    )
+    relative_original_path: Path = script_utils.path_relative_to_quartz(file_path)
     # References start with 'static', generally
     relative_subpath: Path = Path(
-        *relative_original_path.parts[
-            relative_original_path.parts.index("static") :
-        ]
+        *relative_original_path.parts[relative_original_path.parts.index("static") :]
     )
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
     if verbose:
@@ -82,7 +76,7 @@ def upload_and_move(
         escaped_original_path: str = re.escape(str(relative_original_path))
         escaped_relative_subpath: str = re.escape(str(relative_subpath))
         new_content: str = re.sub(
-            rf"(?:\./)?(?:{escaped_original_path}|{escaped_relative_subpath})",
+            rf"(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})",
             r2_address,
             file_content,
         )
@@ -157,3 +151,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
