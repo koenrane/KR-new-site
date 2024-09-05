@@ -80,17 +80,19 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                     slug: slugAnchor.slug(text),
                   })
                   logger.info(`Added TOC entry: depth=${heading.depth}, text="${text}"`)
-                } else if (node.type === "footnoteDefinition" && !hasFootnotes) {
+                } else if (node.type === "footnoteDefinition") {
                   hasFootnotes = true
-                  toc.push({
-                    depth: 1,
-                    text: "Footnotes",
-                    slug: "footnote-label",
-                  })
-                  logger.info(`Added Footnotes to TOC`)
                 }
 
               })
+            if (hasFootnotes) {
+              toc.push({
+                depth: 1,
+                text: "Footnotes",
+                slug: "footnote-label",
+              })
+              logger.info(`Added Footnotes to TOC`)
+            }
 
               if (toc.length > 0 && toc.length > opts.minEntries) {
                 const adjustedToc = toc.map((entry) => ({
