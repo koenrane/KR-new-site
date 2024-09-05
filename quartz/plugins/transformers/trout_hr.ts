@@ -1,42 +1,44 @@
 import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
 
-interface FootnotesLocation {
-  footnotesSectionFound: boolean
-  previousHr?: Node // Store the <hr> found before 'footnotes'
+export const ornamentNode = {
+  type: "element",
+  tagName: "div",
+  properties: {
+    style: "align-items:center;display:flex;justify-content:center;",
+  },
+  children: [
+    {
+      type: "element",
+      tagName: "span",
+      properties: {
+        class: "text-ornament no-select",
+        style: "vertical-align:2.6rem;margin-right:0.3rem;",
+      },
+      children: [{ type: "text", value: "☙" }],
+    },
+    {
+      type: "element",
+      tagName: "img",
+      children: [],
+      properties: {
+        src: "https://assets.turntrout.com/static/trout-bw.svg",
+        style: "height:var(--ornament-size);",
+        alt: "Black and white trout",
+        class: "no-select trout-ornament",
+      },
+    },
+    {
+      type: "element",
+      tagName: "span",
+      properties: {
+        class: "text-ornament no-select",
+        style: "vertical-align:2.6rem;margin-left:0.5rem;",
+      },
+      children: [{ type: "text", value: "❧" }],
+    },
+  ],
 }
-
-const children = [
-  {
-    type: "element",
-    tagName: "span",
-    properties: {
-      class: "text-ornament no-select",
-      style: "vertical-align:2.6rem;margin-right:0.3rem;",
-    },
-    children: [{ type: "text", value: "☙" }],
-  },
-  {
-    type: "element",
-    tagName: "img",
-    children: [],
-    properties: {
-      src: "https://assets.turntrout.com/static/trout-bw.svg",
-      style: "height:var(--ornament-size);",
-      alt: "Black and white trout",
-      class: "no-select trout-ornament",
-    },
-  },
-  {
-    type: "element",
-    tagName: "span",
-    properties: {
-      class: "text-ornament no-select",
-      style: "vertical-align:2.6rem;margin-left:0.5rem;",
-    },
-    children: [{ type: "text", value: "❧" }],
-  },
-]
 
 export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
   return {
@@ -44,34 +46,26 @@ export const TroutOrnamentHr: QuartzTransformerPlugin = () => {
     htmlPlugins() {
       return [
         () => {
-          return (tree, file) => {
-            const footnotesData: FootnotesLocation = {
-              footnotesSectionFound: false,
-            }
-            const newNode = {
-              type: "element",
-              tagName: "div",
-              properties: {
-                style: "align-items:center;display:flex;justify-content:center;",
-              },
-              children: children,
-            }
+          return (tree) => {
+            let footnotesFound = false
 
-            // Find the HR before the footnotes section
+            // Find the section containing the footnotes
             visit(tree, "element", (node, index, parent) => {
               if (
-                !footnotesData.footnotesSectionFound &&
-                node.tagName === "h2" &&
-                node.children[0].type === "text" &&
-                node.children[0]?.value?.toLowerCase() === "footnotes"
-              ) {
-                footnotesData.footnotesSectionFound = true
-                parent.children.splice(index, 0, newNode)
+                !footnotesFound &&
+                node.tagName === "section" &&
+                node?.properties["dataFootnotes"] !== undefined &&
+                node?.properties?.className.includes("footnotes")
+                )
+               {
+                footnotesFound = true
+                parent.children.splice(index, 0, ornamentNode)
               }
             })
+            
 
-            if (!footnotesData.footnotesSectionFound) {
-              tree.children.push(newNode)
+            if (!footnotesFound) {
+              tree.children.push(ornamentNode)
             }
           }
         },
