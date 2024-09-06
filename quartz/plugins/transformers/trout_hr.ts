@@ -61,13 +61,11 @@ export function maybeInsertOrnament(node: Element, index: number | undefined, pa
     (node.properties?.className as Array<String>)?.includes("footnotes")
   ) {
     // If it is, insert the ornament node before the footnotes section
-      parent.children.splice(index, 0, ornamentNode)
-      // If the previous child is an hr, remove it
-      // const prevChild = parent.children[index - 2]
-      // console.log(prevChild)
-      // if (index > 1 && prevChild.type === 'element' && 'tagName' in prevChild && prevChild.tagName === 'hr') {
-        // parent.children.splice(index - 1, 1)
-      // }
+    if (index > 0 && (parent.children[index - 1] as Element).tagName === 'hr') {
+      parent.children.splice(index - 1, 1);
+      index--; // Adjust index after removal
+    }
+    parent.children.splice(index, 0, ornamentNode)
     return true // Indicate that the ornament was inserted
   }
   return false // Indicate that no ornament was inserted

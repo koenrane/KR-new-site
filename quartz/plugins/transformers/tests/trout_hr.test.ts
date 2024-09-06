@@ -1,4 +1,4 @@
-import { TroutOrnamentHr, maybeInsertOrnament } from '../trout_hr';
+import { TroutOrnamentHr, maybeInsertOrnament, ornamentNode } from '../trout_hr';
 import { Root, Element as HastElement } from 'hast';
 import { BuildCtx } from '../../../util/ctx';
 
@@ -28,19 +28,25 @@ describe('maybeInsertOrnament', () => {
     const beforeNode = tree.children[0]
     maybeInsertOrnament(tree.children[0] as HastElement, 0, tree);
 
-    const firstNode = tree.children[0] as HastElement
     // Check that we added an ornament
     expect(tree.children).toHaveLength(2);
-    expect(firstNode.type).toBe('element');
-    expect(firstNode.tagName).toBe('div');
-
-    // Check that the first bit is a span (the ☙ character)
-    expect((firstNode.children[0] as HastElement).tagName).toBe('span');
-    expect((firstNode.children[0] as HastElement).properties.class).toContain('text-ornament');
+    expect(tree.children[0]).toStrictEqual(ornamentNode)
 
     // Ensure that the footnotes weren't changed
-    expect(tree.children[1] as HastElement).toStrictEqual(beforeNode)
+    expect(tree.children[1]).toStrictEqual(beforeNode)
   });
 
+  it('should remove hr and insert ornament before footnotes section', () => {
+    tree.children = [
+      { type: 'element', tagName: 'hr' },
+      { type: 'element', tagName: 'section', properties: { className: ['footnotes'], 'dataFootnotes': true }, children: [] }
+    ] as HastElement[];
 
+    const beforeNode = tree.children[1];
+    maybeInsertOrnament(tree.children[1] as HastElement, 1, tree);
+
+    expect(tree.children).toHaveLength(2);
+    expect(tree.children[0]).toStrictEqual(ornamentNode)
+    expect(tree.children[1]).toStrictEqual(beforeNode)
+  });
 });
