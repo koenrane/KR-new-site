@@ -52,7 +52,7 @@ export const ornamentNode: Element = {
  * @param {Parent | undefined} parent - The parent node of the current node.
  * @returns {boolean} True if the ornament was inserted, false otherwise.
  */
-function maybeInsertOrnament(node: Element, index: number | undefined, parent: Parent | undefined): boolean {
+export function maybeInsertOrnament(node: Element, index: number | undefined, parent: Parent | undefined): boolean {
   // Check if the current node is a footnotes section
   if (
     parent && index !== undefined &&
