@@ -1,4 +1,4 @@
-import { TroutOrnamentHr, maybeInsertOrnament, ornamentNode } from '../trout_hr';
+import { TroutOrnamentHr, maybeInsertOrnament, ornamentNode, insertOrnamentNode } from '../trout_hr';
 import { Root, Element as HastElement } from 'hast';
 import { BuildCtx } from '../../../util/ctx';
 
@@ -48,5 +48,30 @@ describe('maybeInsertOrnament', () => {
     expect(tree.children).toHaveLength(2);
     expect(tree.children[0]).toStrictEqual(ornamentNode)
     expect(tree.children[1]).toStrictEqual(beforeNode)
+  });
+});
+
+describe('insertOrnamentNode', () => {
+  it('should append ornament node when no footnotes are found without changing existing elements', () => {
+    const existingElements = [
+      { type: 'element', tagName: 'p', children: [] },
+      { type: 'element', tagName: 'div', children: [] }
+    ];
+
+    const tree = {
+      type: 'root',
+      children: [...existingElements]
+    };
+
+    insertOrnamentNode(tree as Root);
+
+    expect(tree.children).toHaveLength(3);
+    
+    // Check that existing elements weren't changed
+    expect(tree.children[0]).toBe(existingElements[0]);
+    expect(tree.children[1]).toBe(existingElements[1]);
+
+    // Check the appended ornament node
+    expect(tree.children[2]).toBe(ornamentNode)
   });
 });

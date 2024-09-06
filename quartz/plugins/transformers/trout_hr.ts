@@ -70,6 +70,7 @@ export function maybeInsertOrnament(node: Element, index: number | undefined, pa
   }
   return false // Indicate that no ornament was inserted
 }
+
 /**
  * Inserts the ornament node into the tree.
  * @param {Root} tree - The AST tree to modify.
