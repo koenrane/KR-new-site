@@ -1,4 +1,4 @@
-import { transformElement, transformStyle, ColorVariables } from "../color_variables"
+import { transformElement, transformStyle } from "../color_variables"
 import { Element } from "hast"
 
 const colorMapping = {
@@ -64,11 +64,3 @@ describe("transformElement", () => {
     expect(result.properties?.style).toBeUndefined()
   })
 })
-
-function expectFirstChildStyleToBe(node: Element, style: string) {
-  if ("properties" in node.children[0]) {
-    expect(node.children[0].properties?.style).toBe(style)
-  } else {
-    expect(false).toBe(true)
-  }
-}

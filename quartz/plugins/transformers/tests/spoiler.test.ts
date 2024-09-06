@@ -2,7 +2,7 @@ import { unified } from 'unified';
 import rehypeParse from 'rehype-parse';
 import rehypeStringify from 'rehype-stringify';
 import { transformAST, matchSpoilerText, createSpoilerNode, modifyNode, processParagraph } from '../spoiler';
-import { Element, Parent, Text } from 'hast';
+import { Element, Parent } from 'hast';
 import { h } from 'hastscript';
 import { expect } from '@jest/globals';
 
@@ -36,7 +36,7 @@ describe('rehype-custom-spoiler', () => {
     ['<blockquote><p>!This is a spoiler without space</p></blockquote>', 'spoiler without space'],
     ['<blockquote><p>! Multi-line</p><p>! spoiler</p><p>! content</p></blockquote>', 'multi-paragraph spoiler'],
     ['<blockquote><p>! Spoiler with <em>formatting</em></p></blockquote>', 'spoiler with formatting'],
-  ])('transforms spoiler blockquote to custom spoiler element (%s)', async (input, description) => {
+  ])('transforms spoiler blockquote to custom spoiler element (%s)', async (input, _description) => {
     const output = await process(input);
     expect(output).toMatch(/<div class="spoiler-container"[^>]*>/);
     expect(output).toContain('<span class="spoiler-content">');
