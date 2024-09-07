@@ -1,6 +1,6 @@
 import { visit } from "unist-util-visit"
 import { QuartzTransformerPlugin } from "../types"
-import { Root, Element, Parent } from "hast"
+import { Root, Element, Parent, Text } from "hast"
 
 /**
  * The ornamental node with a trout image and decorative text.
@@ -60,11 +60,21 @@ export function maybeInsertOrnament(node: Element, index: number | undefined, pa
     node.properties?.["dataFootnotes"] !== undefined &&
     (node.properties?.className as Array<String>)?.includes("footnotes")
   ) {
-    // If it is, insert the ornament node before the footnotes section
-    if (index > 0 && (parent.children[index - 1] as Element).tagName === 'hr') {
+    // <hr/> looks weird right before the trout hr, so remove it.
+    // Check if there's a newline and then an HR preceding
+    const prevElement = parent.children[index - 1] as Element | Text
+    if (index > 1 && prevElement.type === 'text' && prevElement.value === "\n" && (parent.children[index-2] as Element).tagName === 'hr') {
+      parent.children.splice(index - 2, 1)
+      index--;
+
+    // Check if there's an HR right before the footnotes section
+    } else if (index > 0 && (prevElement as Element).tagName === 'hr') {
+      // Remove the HR element
       parent.children.splice(index - 1, 1);
       index--; // Adjust index after removal
     }
+
+    // If it is, insert the ornament node before the footnotes section
     parent.children.splice(index, 0, ornamentNode)
     return true // Indicate that the ornament was inserted
   }

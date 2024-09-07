@@ -49,6 +49,21 @@ describe('maybeInsertOrnament', () => {
     expect(tree.children[0]).toStrictEqual(ornamentNode)
     expect(tree.children[1]).toStrictEqual(beforeNode)
   });
+
+  it('should remove hr proceeded by newline and insert ornament before footnotes section', () => {
+    tree.children = [
+      { type: 'element', tagName: 'hr' },
+      {type: 'text', value: '\n'},
+      { type: 'element', tagName: 'section', properties: { className: ['footnotes'], 'dataFootnotes': true }, children: [] }
+    ] as HastElement[];
+
+    const beforeNode = tree.children[1];
+    maybeInsertOrnament(tree.children[2] as HastElement, 2, tree);
+
+    expect(tree.children).toHaveLength(3);
+    expect(tree.children[1]).toStrictEqual(ornamentNode)
+    expect(tree.children[0]).toStrictEqual(beforeNode)
+  });
 });
 
 describe('insertOrnamentNode', () => {
