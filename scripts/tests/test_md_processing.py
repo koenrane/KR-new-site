@@ -199,6 +199,13 @@ def test_remove_number_from_tex():
     removed = md_process.parse_latex(text)
     assert removed == "1 +1 -1"
 
+def test_remove_mindingourway_links():
+    input_text = "Check out [this article](https://mindingourway.com/some-article) for more information."
+    expected_output = 'Check out "this article" for more information.'
+    
+    result = md_process.manual_replace(input_text)
+    
+    assert result == expected_output, f"Expected:\n{expected_output}\n\nGot:\n{result}"
 
 def test_process_linked_citations():
     input_md = """> [!quote]

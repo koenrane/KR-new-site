@@ -84,8 +84,6 @@ turndownService.addRule("table linebreak", {
 })
 
 const originalEscape = turnDown.prototype.escape
-
-// function oldEscape = turndownService.prototype.escape
 turnDown.prototype.escape = function (string) {
   string = originalEscape(string)
   string = string.replace(/\$/g, "\\$")

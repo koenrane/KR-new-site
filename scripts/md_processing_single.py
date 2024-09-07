@@ -294,11 +294,10 @@ def parse_latex(markdown: str) -> str:
 
     # Don't use mathmode for text without text
     math_text_pattern = r"(?:\\texttt{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
-    math_exposed_text_pattern = r"\$" + math_text_pattern + "\$"
+    math_exposed_text_pattern = r"\$" + math_text_pattern + r"\$"
     markdown = regex.sub(math_exposed_text_pattern, r"`\1`", markdown)
 
     return markdown
-
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
 
@@ -456,6 +455,7 @@ replacement = {
     r"\\bEval\\b": "`Eval`",  # TODO check only in
     r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
     r"\. (\d)\)": r".\n\1.",  # Create lists from paragraphs
+    r'\[([^\]]+)\]\([^\)]*?mindingourway\.com/[^\)]*\)': r'"\1"', # Remove links to mindingourway (because I consider Nate to be a malefactor and don't want to increase worship of him)
 }
 
 multiline_replacements = {
