@@ -180,9 +180,6 @@ hr.desktop-only {
     overflow-x: visible;
     display: flex;
 
-    @media all and (max-width: $marginsBegin) {
-      overflow-x: hidden;
-    }
     @media all and (max-width: $fullPageWidth) {
       flex-direction: column;
     }
@@ -548,6 +545,6 @@ video {
 }
 
 // Nested ol and ul should have margin before them
-:not(ol) ol {
+ol:not(ol > ol):not(li > ol) {
   margin-top: calc(2 * $baseMargin);
 }
