@@ -123,11 +123,31 @@ turndownService.addRule("spoiler", {
   }
 });
 
+// Make sure to preserve UL structure (in older posts, at least)
+turndownService.addRule('unorderedList', {
+  filter: 'ul',
+  replacement: function(_content, node) {
+    function processListItems(listNode, indent = '') {
+      let result = '';
+      listNode.childNodes.forEach(function(item) {
+        if (item.nodeName === 'LI') {
+            result += indent + '- ' + turndownService.turndown(item.innerHTML) + '\n';
+        } else if (item.nodeName === 'UL') {
+          result += '\n' + processListItems(item, indent + '  ');
+        }
+      });
+      return result;
+    }
+
+    return '\n' + processListItems(node) + '\n';
+  }
+})
+
 turndownService = turndownService.addRule("math", {
   filter: function (node) {
     return node.getAttribute("class")?.includes("mjx") || node.nodeName === "STYLE"
   },
-  replacement: function (content, node) {
+  replacement: function (_content, node) {
     const className = node.getAttribute("class")
     if (className?.includes("mjx-chtml")) {
       let openDelimiter = "$"
