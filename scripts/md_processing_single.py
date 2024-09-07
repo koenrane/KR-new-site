@@ -135,7 +135,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["lw-review-ranking"] = review_info["reviewRanking"]
         metadata["lw-review-category"] = review_info["category"]
 
-    if helpers.MARKDOWN_WARNING in post_info["contents"]["markdown"]:
+    if helpers.MARKDOWN_BASE_WARNING in post_info["contents"]["markdown"]:
         metadata["lw-power-seeking-warning"] = True
 
     return metadata
@@ -186,14 +186,15 @@ def _produceNewFootnote(match, is_footnote_text: bool) -> str:
         + (":" if is_footnote_text else "")
     )
 
+
 def process_latex_footnotes(text: str) -> str:
-    """ EG $^1$ TEXT -> [^1]: TEXT """
+    """EG $^1$ TEXT -> [^1]: TEXT"""
 
     def process_match(match) -> str:
-        paragraphs = match.group().split('\n\n')
-        return paragraphs[0] + '\n\n' + '\n\n'.join('    ' + p for p in paragraphs[1:])
+        paragraphs = match.group().split("\n\n")
+        return paragraphs[0] + "\n\n" + "\n\n".join("    " + p for p in paragraphs[1:])
 
-    #Find multiline footnotes for this style, and indent follow-on paragraphs
+    # Find multiline footnotes for this style, and indent follow-on paragraphs
     multiline_pattern = r"(?<=^\$\^\d\$)(.*\n\n)([^\$].*)+"
     text = regex.sub(multiline_pattern, process_match, text, flags=regex.MULTILINE)
 
@@ -208,6 +209,7 @@ def process_latex_footnotes(text: str) -> str:
     # Turn the actual fnref into a real footnote
     text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
     return text
+
 
 def fix_footnotes(text: str) -> str:
     # Footnote invocation replacement (from LW format)
@@ -306,11 +308,14 @@ def parse_latex(markdown: str) -> str:
     )
 
     # Don't use mathmode for text without text
-    math_text_pattern = r"(?:\\text(?:tt|it|bf)?{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
+    math_text_pattern = (
+        r"(?:\\text(?:tt|it|bf)?{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
+    )
     math_exposed_text_pattern = r"\$" + math_text_pattern + r"\$"
     markdown = regex.sub(math_exposed_text_pattern, r"`\1`", markdown)
 
     return markdown
+
 
 md_url_pattern = regex.compile(r"\[([^][]+)\](\(((?:[^()]+|(?2))+\)))")
 
@@ -468,11 +473,11 @@ replacement = {
     r"\\bEval\\b": "`Eval`",  # TODO check only in
     r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
     r"\. (\d)\)": r".\n\1.",  # Create lists from paragraphs
-    r'\[([^\]]+)\]\([^\)]*?mindingourway\.com/[^\)]*\)': r'"\1"', # Remove links to mindingourway (because I consider Nate to be a malefactor and don't want to increase worship of him)
-    r"“\)": '")', # Incorrect smart quote in whitelisting article
-    "\n_Rare LEAKED": "Figure: _Rare LEAKED", # Whitelisting caption for Mickey image
-    r"_Edit: \[a potential solution": r"Edit: _[a potential solution", # Italics around the edit mangles it
-    r"- it doesn't matter here": r"—it doesn't matter here", # Edge case in AI post, not working due to how HTML elements get mashed together
+    r"\[([^\]]+)\]\([^\)]*?mindingourway\.com/[^\)]*\)": r'"\1"',  # Remove links to mindingourway (because I consider Nate to be a malefactor and don't want to increase worship of him)
+    r"“\)": '")',  # Incorrect smart quote in whitelisting article
+    "\n_Rare LEAKED": "Figure: _Rare LEAKED",  # Whitelisting caption for Mickey image
+    r"_Edit: \[a potential solution": r"Edit: _[a potential solution",  # Italics around the edit mangles it
+    r"- it doesn't matter here": r"—it doesn't matter here",  # Edge case in AI post, not working due to how HTML elements get mashed together
 }
 
 multiline_replacements = {
@@ -484,6 +489,7 @@ multiline_replacements = {
     r"^\(a\)": "1.",  # Use actual numbered lists.
     r"^\(b\)": "2.",
     r"^\(c\)": "3.",
+    r"^Elicit.*\n": "",  # Delete elicit predictions
 }
 
 
@@ -595,7 +601,11 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
 def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
-    return markdown.split(helpers.MARKDOWN_WARNING)[-1]
+    for warning in helpers.MARKDOWN_WARNINGS:  # TODO Fix
+        if warning in markdown:
+            print(f"{warning=} in markdown")
+            markdown = markdown.split(warning)[-1]
+    return markdown
 
 
 def process_markdown(md: str, metadata: dict) -> str:
@@ -686,6 +696,8 @@ if __name__ == "__main__":
     for post in results:
         if not post["contents"]:
             continue
+        if post["slug"] in helpers.SKIP_POSTS:
+            continue
         current_hash = post["pageUrl"].split("/")[-2]
         helpers.hash_to_slugs[current_hash] = helpers.permalink_conversion[post["slug"]]
 
@@ -711,11 +723,10 @@ if __name__ == "__main__":
     for post in posts_to_generate:
         if not post["contents"]:
             continue
-        # print(post["contents"]["markdown"])
+        if post["slug"] in helpers.SKIP_POSTS:
+            continue
         metadata = get_lw_metadata(post)
         metadata = add_quartz_metadata(metadata)
-        if metadata["permalink"] in helpers.SKIP_POSTS:
-            continue
         yaml = metadata_to_yaml(metadata)
         post_md = process_markdown(post["contents"]["markdown"], metadata)
         md = yaml + post_md

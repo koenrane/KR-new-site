@@ -10,11 +10,13 @@ turndownService.addRule("subscript", {
   },
 })
 
-// Retain captions for figures
+// Retain captions for figures, ignore Elicit predictions
 turndownService.addRule("figure", {
   filter: "figure",
   replacement: function (content, node) {
-    // Extract the image (if present) and caption
+    
+
+    // Existing logic for regular figures
     const img = node.querySelector("img")
     const figcaption = node.querySelector("figcaption")
 

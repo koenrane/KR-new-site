@@ -25,17 +25,28 @@ strings_to_slugs = {
     "/s/7CdoznhJaLEKHwvJW": "reframing-impact", 
 }
 
-MARKDOWN_WARNING: str = "moved away from optimal policies and treated reward functions more realistically.**\n"
-SKIP_POSTS = set(["ambiguity-detection"])
+MARKDOWN_BASE_WARNING: str = "moved away from optimal policies and treated reward functions more realistically."
+MARKDOWN_WARNINGS = (MARKDOWN_BASE_WARNING + "**\n", MARKDOWN_BASE_WARNING + "\n\n<hr/>", MARKDOWN_BASE_WARNING)
+SKIP_POSTS = set(["ambiguity-detection", "ai-alignment-corvallis-weekly-info", "turntrout-s-shortform-feed"])
 
 permalink_conversion = {
+    "i-found-greater-than-800-orthogonal-write-code-steering": "high-dimensional-subspace-of-code-steering-vectors",
+    "mechanistically-eliciting-latent-behaviors-in-language-1": "mechanistically-eliciting-latent-behaviors",
+    "steering-llama-2-with-contrastive-activation-additions": "llama2-steering-vectors",
+    "how-should-turntrout-handle-his-deepmind-equity-situation": "deepmind-equity-discussion",
+    "actadd-steering-language-models-without-optimization": "gpt2-steering-paper-announcement",
+    "residual-stream-norms-grow-exponentially-over-the-forward": "residual-stream-norms-grow-exponentially-over-the-forward-pass",
+    "behavioural-statistics-for-a-maze-solving-agent": "statistics-of-a-maze-solving-network",
+    "the-shard-theory-of-human-values": "shard-theory",
+    "game-theoretic-alignment-in-terms-of-attainable-utility": "formalizing-alignment-in-game-theory",
+    "generalizing-power-to-multi-agent-games": "formalizing-multi-agent-power",
     "many-arguments-for-ai-x-risk-are-wrong": "invalid-ai-risk-arguments",
     "dreams-of-ai-alignment-the-danger-of-suggestive-names": "danger-of-suggestive-terminology",
     "paper-understanding-and-controlling-a-maze-solving-policy": "cheese-vector-paper-announcement",
     "ai-presidents-discuss-ai-alignment-agendas": "alignment-tier-list",
     "open-problems-in-activation-engineering": "open-problems-in-activation-engineering",
     "ban-development-of-unpredictable-powerful-models": "ban-development-of-unpredictable-powerful-models",
-    "think-carefully-before-calling-rl-policies-agents": "RL-policies-not-agents",
+    "think-carefully-before-calling-rl-policies-agents": "RL-trains-policies-not-agents",
     "mode-collapse-in-rl-may-be-fueled-by-the-update-equation": "mode-collapse-in-rl-may-be-fueled-by-the-update-equation",
     "steering-gpt-2-xl-by-adding-an-activation-vector": "gpt2-steering-vectors",
     "april-fools-definitive-confirmation-of-shard-theory": "definitive-confirmation-of-shard-theory",
