@@ -18,8 +18,14 @@ export default (() => {
     const permalink = fileData.permalink || url.href
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
+
+    // Have both square and FB previews TODO check that this works
     let mediaElement = (
       <>
+        <meta property="og:image" content="https://assets.turntrout.com/static/pond.webm"/>
+        <meta property="og:image:width" content="1200"/>
+        <meta property="og:image:height" content="1200"/>
+        
         <meta property="og:image" content={siteImage} />
         <meta
           property="og:image:alt"
@@ -55,6 +61,13 @@ export default (() => {
         <meta property="og:site_name" content="The Pond" />
         <meta property="og:description" content={description} />
         {mediaElement}
+
+        {/* Twitter Card metadata */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={siteImage} />
+        <meta name="twitter:site" content="@Turn_Trout" />
 
         <link rel="icon" href={iconPath} />
         {cssToUse.map((href) => (
