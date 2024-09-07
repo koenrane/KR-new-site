@@ -306,7 +306,7 @@ def parse_latex(markdown: str) -> str:
     )
 
     # Don't use mathmode for text without text
-    math_text_pattern = r"(?:\\texttt{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
+    math_text_pattern = r"(?:\\text(?:tt|it|bf)?{)?([a-zA-Z][a-zA-Z ]+[a-zA-Z](?:_\d)?)}?"
     math_exposed_text_pattern = r"\$" + math_text_pattern + r"\$"
     markdown = regex.sub(math_exposed_text_pattern, r"`\1`", markdown)
 
@@ -469,7 +469,10 @@ replacement = {
     r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
     r"\. (\d)\)": r".\n\1.",  # Create lists from paragraphs
     r'\[([^\]]+)\]\([^\)]*?mindingourway\.com/[^\)]*\)': r'"\1"', # Remove links to mindingourway (because I consider Nate to be a malefactor and don't want to increase worship of him)
-    # r"Luckily, humans are great": r"    \1", # Errant footnote continuation in whitelisting post
+    r"“\)": '")', # Incorrect smart quote in whitelisting article
+    "\n_Rare LEAKED": "Figure: _Rare LEAKED", # Whitelisting caption for Mickey image
+    r"_Edit: \[a potential solution": r"Edit: _[a potential solution", # Italics around the edit mangles it
+    r"- it doesn't matter here": r"—it doesn't matter here", # Edge case in AI post, not working due to how HTML elements get mashed together
 }
 
 multiline_replacements = {

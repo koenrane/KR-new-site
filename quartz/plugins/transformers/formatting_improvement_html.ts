@@ -246,6 +246,7 @@ export function hyphenReplace(text: string) {
  */
 export function applyTextTransforms(text: string): string {
   text = text.replace(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = massTransformText(text)
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
