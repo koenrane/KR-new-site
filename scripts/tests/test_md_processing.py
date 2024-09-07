@@ -222,5 +222,13 @@ def test_process_linked_citations():
 
     assert result.rstrip() == expected_output
 
+def test_inline_footnote_parsing():
+    input_text = "$^6$ I do think that this is important."
+    expected_output = "\n[^6]: I do think that this is important."
+    
+    result = md_process.fix_footnotes(input_text)
+    
+    assert result == expected_output, f"Expected:\n{expected_output}\n\nGot:\n{result}"
+
 if __name__ == "__main__":
     pytest.main()

@@ -186,12 +186,16 @@ def _produceNewFootnote(match, is_footnote_text: bool) -> str:
         + (":" if is_footnote_text else "")
     )
 
+def process_latex_footnotes(text: str) -> str:
+    """ EG $^1$ TEXT -> [^1]: TEXT """
 
-def fix_footnotes(text: str) -> str:
-    # Footnote invocation replacement (from LW format)
-    text = regex.sub(r"\[\\\[([^\]]*)\\\]\]\(.*?\)", r"[^\1]", text)
-    # Footnote content replacement (from LW format)
-    text = regex.sub(r"(\d+)\.\s*\*{2}\[\^\]\(.*?\)\*{2}\s*", r"[^\1]: ", text)
+    def process_match(match) -> str:
+        paragraphs = match.group().split('\n\n')
+        return paragraphs[0] + '\n\n' + '\n\n'.join('    ' + p for p in paragraphs[1:])
+
+    #Find multiline footnotes for this style, and indent follow-on paragraphs
+    multiline_pattern = r"(?<=^\$\^\d\$)(.*\n\n)([^\$].*)+"
+    text = regex.sub(multiline_pattern, process_match, text, flags=regex.MULTILINE)
 
     # Footnote (manual latex) --- convert end fnref first
     text = regex.sub(
@@ -201,14 +205,23 @@ def fix_footnotes(text: str) -> str:
         flags=regex.MULTILINE,
     )
 
-    # Footnote (manual latex, in text)
+    # Turn the actual fnref into a real footnote
     text = regex.sub(r"\$(\^\d+)\$", r"[\1]", text)
+    return text
+
+def fix_footnotes(text: str) -> str:
+    # Footnote invocation replacement (from LW format)
+    text = regex.sub(r"\[\\\[([^\]]*)\\\]\]\(.*?\)", r"[^\1]", text)
+    # Footnote content replacement (from LW format)
+    text = regex.sub(r"(\d+)\.\s*\*{2}\[\^\]\(.*?\)\*{2}\s*", r"[^\1]: ", text)
+
+    # Footnote (manual latex, in text)
+    text = process_latex_footnotes(text)
 
     # Footnotes with semantic tags --- end fnref
     fn_text = "(?:FOOTNOTE|FN):?"
     text = regex.sub(
         rf"^\s*\**{fn_text} *([A-Za-z0-9\., ]+)\**",
-        # "\n" + r"[^\1]:",
         lambda x: _produceNewFootnote(x, is_footnote_text=True),
         text,
         flags=regex.MULTILINE | regex.IGNORECASE,
@@ -221,7 +234,7 @@ def fix_footnotes(text: str) -> str:
         flags=regex.MULTILINE | regex.IGNORECASE,
     )
 
-    # Ensure separation after hyperlinks
+    # Ensure separation after hyperlink
     return regex.sub(r"\)([a-zA-Z0-9])", r") \1", text)
 
 
@@ -456,6 +469,7 @@ replacement = {
     r"\$-\$": "-",  # I used to use subtraction signs for em dashes lol
     r"\. (\d)\)": r".\n\1.",  # Create lists from paragraphs
     r'\[([^\]]+)\]\([^\)]*?mindingourway\.com/[^\)]*\)': r'"\1"', # Remove links to mindingourway (because I consider Nate to be a malefactor and don't want to increase worship of him)
+    # r"Luckily, humans are great": r"    \1", # Errant footnote continuation in whitelisting post
 }
 
 multiline_replacements = {
@@ -583,7 +597,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    print(md)
+    # print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
@@ -675,7 +689,6 @@ if __name__ == "__main__":
     if title_substring == "all":
         posts_to_generate = results
     else:
-
         matching_posts = [post for post in results if title_substring in post["title"]]
 
         if len(matching_posts) == 0:
