@@ -1,6 +1,12 @@
 #!/bin/sh
 
 function cleanup {
+    if [ $(git status --porcelain | wc -l) -gt 0 ]; then
+        # If references updated and files deleted, then commit the changes
+        git add -A
+        git commit -m "Uploaded assets to r2 and updated references."
+    fi
+
     PUSHED_CHANGES=$1
     if [[ $PUSHED_CHANGES -eq 1 ]]; then
         git stash pop >>/dev/null
@@ -65,6 +71,8 @@ python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
 if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
+    sh "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
+
     # Update references in the content
     FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
     for FILE in $FILES_TO_MOVE; do
@@ -134,13 +142,6 @@ if [[ "$TEST_STATUS" -ne 0 ]]; then
     fi
 fi
 
-# Exit if no changes were made
-if [ $(git status --porcelain | wc -l) -gt 0 ]; then
-    # If references updated and files deleted, then commit the changes
-    git add -A
-    # Prompt the user to review the changes
-    git commit -m "Uploaded assets to r2 and updated references."
-fi
-
 # Make sure that all internal links are valid
-linkchecker "$GIT_ROOT"/public/**html
+# linkchecker "$GIT_ROOT"/public/**html --ignore-url=".."
+fish "$GIT_ROOT/scripts/linkchecker.fish"
