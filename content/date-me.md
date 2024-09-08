@@ -1,9 +1,9 @@
 ---
-draft: '"false"'
 publish: '"true"'
 permalink: date-me
 title: I'm that "other fish in the sea"
 authors: Alex
+avoidIndexing: '"true"'
 ---
 
 <img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>

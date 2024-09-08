@@ -55,6 +55,8 @@ export default (() => {
         <script src="/static/scripts/DOMContentLoaded.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+        {fileData.frontmatter?.avoidIndexing && <meta name="robots" content="noindex, noimageindex,nofollow" />}
+
         <meta property="og:title" content={title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={permalink as string} />
