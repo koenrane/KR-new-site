@@ -3,65 +3,74 @@ import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { TagList } from "./TagList"
 import { GetQuartzPath } from "../plugins/transformers/linkfavicons"
-import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
+import { ValidLocale } from "../i18n"
 
-export default ((opts?) => {
-  function ContentMetadata({ cfg, fileData, displayClass }: QuartzComponentProps) {
-    if (fileData.frontmatter?.hide_metadata) {
-      return null
-    }
+const renderTags = (props: QuartzComponentProps) => TagList({ ...props, displayClass: "tags" })
 
-    const text = fileData.text
+const formatDateStr = (date: Date, locale: ValidLocale) => ` on ${formatDate(date, locale)}`
 
-    if (text) {
-      const tags: Element = TagList({ cfg, fileData, displayClass: "tags" })
-      const segments: (string | JSX.Element)[] = [tags]
-      const frontmatter = fileData.frontmatter
+const getDateToFormat = (frontmatter: any, fileData: any, cfg: any) =>
+  frontmatter?.date_published
+    ? new Date(frontmatter.date_published)
+    : fileData.dates
+      ? getDate(cfg, fileData)
+      : null
 
-      if (frontmatter?.original_url) {
-        let dateStr = ""
-        // TODO automate this for new posts
-        let publicationStr = "Published"
-        if (frontmatter?.date_published) {
-          publicationStr = "Originally published"
-          const formattedDate: Date = formatDate(new Date(frontmatter?.date_published))
-          dateStr = " on " + formattedDate
-        } else if (fileData.dates) {
-          const formattedDate: Date = formatDate(getDate(cfg, fileData)!, cfg.locale)
-          dateStr = " on " + formattedDate
-        }
-        dateStr = <time datetime={frontmatter?.date_published}>{dateStr}</time>
+const renderDateElement = (frontmatter: any, dateStr: string) => (
+  <time datetime={frontmatter?.date_published}>{dateStr}</time>
+)
 
-        const originalURL = new URL(frontmatter?.original_url)
-        const quartzPath = "https://assets.turntrout.com" + GetQuartzPath(originalURL.hostname)
-        const avifPath = quartzPath.replace(".png", ".avif")
+const getFaviconPaths = (originalURL: URL) => {
+  const quartzPath = `https://assets.turntrout.com${GetQuartzPath(originalURL.hostname)}`
+  return {
+    quartzPath,
+    avifPath: quartzPath.replace(".png", ".avif"),
+  }
+}
 
-        publicationStr = (
-          <span className="publication-str">
-            <a href={frontmatter?.original_url} class="external" target="_blank">
-              {publicationStr}
-            </a>
-            <img src={avifPath} class="favicon" alt="" />
-            {dateStr}
-          </span>
-        )
+const renderPublicationInfo = (frontmatter: any, cfg: any, fileData: any) => {
+  if (typeof frontmatter?.original_url !== "string") return null
 
-        segments.push(publicationStr)
-      }
+  const publicationStr = frontmatter?.date_published ? "Originally published" : "Published"
+  const dateToFormat = getDateToFormat(frontmatter, fileData, cfg)
+  const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""
+  const dateElement = renderDateElement(frontmatter, dateStr)
 
-      const segmentsElements = segments.map((segment) => <p>{segment}</p>)
-      return (
-        <div id="content-meta" class={classNames(displayClass)}>
-          {segmentsElements}
-        </div>
-      )
-    } else {
-      return null
-    }
+  const originalURL = new URL(frontmatter.original_url)
+  const { avifPath } = getFaviconPaths(originalURL)
+
+  return (
+    <span className="publication-str">
+      <a href={frontmatter.original_url} class="external" target="_blank">
+        {publicationStr}
+      </a>
+      <img src={avifPath} class="favicon" alt="" />
+      {dateElement}
+    </span>
+  )
+}
+
+const ContentMetadata = ({ cfg, fileData, displayClass }: QuartzComponentProps) => {
+  if (fileData.frontmatter?.hide_metadata || !fileData.text) {
+    return null
   }
 
-  ContentMetadata.css = style
+  const metadataElements = [
+    renderTags({ cfg, fileData, displayClass }),
+    renderPublicationInfo(fileData.frontmatter, cfg, fileData),
+    // Add more metadata elements here
+  ].filter(Boolean)
 
-  return ContentMetadata
-}) satisfies QuartzComponentConstructor
+  return (
+    <div id="content-meta" class={classNames(displayClass)}>
+      {metadataElements.map((element) => (
+        <p>{element}</p>
+      ))}
+    </div>
+  )
+}
+
+ContentMetadata.css = style
+
+export default (() => ContentMetadata) satisfies QuartzComponentConstructor
