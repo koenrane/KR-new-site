@@ -253,8 +253,7 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 
 > [!bug]
 
-
-
+> [!thanks]
 
 > [!success]
 

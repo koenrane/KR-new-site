@@ -599,6 +599,13 @@ def move_citation_to_quote_admonition(md: str) -> str:
     return md.rstrip("\n")
 
 
+def thanks_admonition(md: str) -> str:
+    """Convert _..._ to [!thanks] ... [!thanks]."""
+    pattern = r"^ *(_|\*\*)(Thanks.+?)\1 *$"
+    target = r"> [!thanks]\n>\2"
+    return regex.sub(pattern, target, md, flags=regex.MULTILINE)
+
+
 def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
     for warning in helpers.MARKDOWN_WARNINGS:  # TODO Fix
@@ -631,6 +638,9 @@ def process_markdown(md: str, metadata: dict) -> str:
         longquote_regex, r"> [!quote]\n>\n\1", contig_md, flags=regex.MULTILINE
     )
     md = move_citation_to_quote_admonition(md)
+    
+    # Convert "Thank you" to nice admonition
+    md = thanks_admonition(md)
 
     # Make links to posts relative, now target turntrout.com
     md = replace_urls(md)
