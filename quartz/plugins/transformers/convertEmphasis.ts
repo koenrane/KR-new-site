@@ -65,10 +65,9 @@ export const formatNode = (
  *
  * @returns A function that transforms the AST.
  */
-const convertEmphasisHelper: Plugin = () => {
-  return (tree: any) => {
-    const boldRegex = new RegExp("\\*\\*(.*?)\\*\\*", "g")
-    const italicRegex = new RegExp("_(.*?)_", "g")
+export const convertEmphasisHelper = (tree: any): void => {
+    const boldRegex = /\*\*(.*?)\*\*/g
+    const italicRegex = /_(.*?)_/g
     for (const pair of [
       ["strong", boldRegex],
       ["em", italicRegex],
@@ -76,9 +75,12 @@ const convertEmphasisHelper: Plugin = () => {
       const tagName = pair[0]
       const regex = pair[1]
       visit(tree, "text", (node: Text, index: number | undefined, parent: Parent | null) => {
+        // Skip processing if the parent node is a code block or inline code
+        if (parent && (["code", "inlineCode", "pre"].includes((parent as any).tagName))) {
+          return
+        }
         formatNode(node, index, parent, regex as RegExp, tagName as string)
-      })
-    }
+    })
   }
 }
 
@@ -93,7 +95,7 @@ export const ConvertEmphasis: QuartzTransformerPlugin = () => {
   return {
     name: "ReplaceAsterisksBold",
     htmlPlugins() {
-      return [convertEmphasisHelper]
+      return [() => convertEmphasisHelper]
     },
   }
 }

@@ -1,4 +1,4 @@
-import { formatNode } from "../convertEmphasis"
+import { formatNode, convertEmphasisHelper } from "../convertEmphasis"
 import { Text, Parent } from "mdast"
 
 describe("formatNode", () => {
@@ -104,5 +104,16 @@ describe("formatNode", () => {
         },
       ],
     })
+  })
+
+  it("should not apply emphasis within code blocks", () => {
+    const codeNode: Text = { type: "text", value: "const example = formatting_improvement_html" }
+    const parent: any = { type: "element", tagName: "code", children: [codeNode] }
+
+    convertEmphasisHelper(parent)
+
+    expect(parent.children).toHaveLength(1)
+    expect(parent.children[0]).toEqual(codeNode)
+    expect((parent.children[0] as Text).value).toBe("const example = formatting_improvement_html")
   })
 })
