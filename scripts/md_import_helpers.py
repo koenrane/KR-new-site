@@ -10,11 +10,12 @@ username_dict = {
 }
 
 sequence_hash_to_slugs = {
-    "7CdoznhJaLEKHwvJW": "posts#reframing-impact", 
+    "7CdoznhJaLEKHwvJW": "posts#reframing-impact",
     "KGYLvTqFiFE2CpHfJ": "posts#becoming-stronger",
     "fSMbebQyR4wheRrvk": "posts#the-causes-of-power-seeking-and-instrumental-convergence",
     "vLArRpNdkex68oem8": "posts#thoughts-on-corrigibility",
     "sCGfFb5DPfjEmtEdn": "posts#interpreting-a-maze-solving-network",
+    "nyEFg3AuJpdAozmoX": "posts#shard-theory",
 }
 
 # hash_to_slugs = {
@@ -26,18 +27,30 @@ sequence_hash_to_slugs = {
 #     "eowhY5NaCaqY6Pkj9": "maze-behavioral-statistics",
 #     "8mizBCm3dyc432nK8": "norm-grows-exponentially-over-the-forward-pass",
 #     "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
-# }  
-
-# A bunch of urls point to sequences
-# EG https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW. 
-# We need to remove the sequence and redirect to a post for now
-# ending_sequences = {
-#     "7CdoznhJaLEKHwvJW": "reframing-impact", 
 # }
 
-MARKDOWN_BASE_WARNING: str = "moved away from optimal policies and treated reward functions more realistically."
-MARKDOWN_WARNINGS = (MARKDOWN_BASE_WARNING + "**\n", MARKDOWN_BASE_WARNING + "\n\n<hr/>", MARKDOWN_BASE_WARNING)
-SKIP_POSTS = set(["ambiguity-detection", "ai-alignment-corvallis-weekly-info", "turntrout-s-shortform-feed"])
+# A bunch of urls point to sequences
+# EG https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW.
+# We need to remove the sequence and redirect to a post for now
+# ending_sequences = {
+#     "7CdoznhJaLEKHwvJW": "reframing-impact",
+# }
+
+MARKDOWN_BASE_WARNING: str = (
+    "moved away from optimal policies and treated reward functions more realistically."
+)
+MARKDOWN_WARNINGS = (
+    MARKDOWN_BASE_WARNING + "**\n",
+    MARKDOWN_BASE_WARNING + "\n\n<hr/>",
+    MARKDOWN_BASE_WARNING,
+)
+SKIP_POSTS = set(
+    [
+        "ambiguity-detection",
+        "ai-alignment-corvallis-weekly-info",
+        "turntrout-s-shortform-feed",
+    ]
+)
 
 permalink_conversion = {
     "i-found-greater-than-800-orthogonal-write-code-steering": "high-dimensional-subspace-of-code-steering-vectors",
@@ -66,7 +79,7 @@ permalink_conversion = {
     "parametrically-retargetable-decision-makers-tend-to-seek": "parametrically-retargetable-power-seeking",
     "some-of-my-disagreements-with-list-of-lethalities": "disagreements-with-list-of-lethalities",
     "positive-values-seem-more-robust-and-lasting-than": "robustness-of-positive-values",
-    "don-t-align-agents-to-evaluations-of-plans": "do-not-align-agents-to-evaluations-of-plans",
+    "don-t-align-agents-to-evaluations-of-plans": "dont-align-agents-to-evaluations-of-plans",
     "don-t-design-agents-which-exploit-adversarial-inputs": "dont-design-agents-which-exploit-adversarial-inputs",
     "alignment-allows-nonrobust-decision-influences-and-doesn-t": "alignment-without-total-robustness",
     "people-care-about-each-other-even-though-they-have-imperfect": "humane-values-despite-imperfections",
