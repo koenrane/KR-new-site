@@ -95,6 +95,13 @@ export function insertOrnamentNode(tree: Root): void {
   })
 
   if (!footnotesFound) {
+    // Check if the last child is an <hr> element
+    const lastChild = tree.children[tree.children.length - 1] as Element
+    if (lastChild && lastChild.type === 'element' && lastChild.tagName === 'hr') {
+      // Remove the last <hr> element
+      tree.children.pop()
+    }
+    // Add the ornament node
     tree.children.push(ornamentNode)
   }
 }

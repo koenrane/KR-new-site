@@ -67,6 +67,25 @@ describe('maybeInsertOrnament', () => {
 });
 
 describe('insertOrnamentNode', () => {
+  let tree: Root;
+
+  beforeEach(() => {
+    tree = { type: 'root', children: [] } as Root;
+  });
+
+  it('should replace ending hr with ornament even without footnotes', () => {
+    tree.children = [
+      { type: 'element', tagName: 'p', children: [{ type: 'text', value: 'Some content' }] },
+      { type: 'element', tagName: 'hr' }
+    ] as HastElement[];
+
+    const contentNode = tree.children[0];
+    insertOrnamentNode(tree);
+
+    expect(tree.children).toHaveLength(2);
+    expect(tree.children[0]).toStrictEqual(contentNode);
+    expect(tree.children[1]).toStrictEqual(ornamentNode);
+  });
   it('should append ornament node when no footnotes are found without changing existing elements', () => {
     const existingElements = [
       { type: 'element', tagName: 'p', children: [] },
