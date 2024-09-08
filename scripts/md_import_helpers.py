@@ -7,6 +7,10 @@ username_dict = {
     "mrinank_sharma": "Mrinank Sharma",
     "nealeratzlaff": "Neale Ratzlaff",
     "woog": "Alice Rigg",
+    "TurnTrout": "Alex Turner",
+    'midco': "Jacob Stavrianos",
+    "StefanHex": "Stefan Heimersheim",
+    "habryka": "Oliver Habryka",
 }
 
 sequence_hash_to_slugs = {
@@ -18,23 +22,9 @@ sequence_hash_to_slugs = {
     "nyEFg3AuJpdAozmoX": "posts#shard-theory",
 }
 
-# hash_to_slugs = {
-#     "iCfdcxiyr2Kj8m8mT": "shard-theory", # technically, Quintin is first author on this one
-#     "ioPnHKFyy4Cw2Gr2x": "mechanistically-eliciting-latent-behaviors",
-#     "v7f8ayBxLhmMFRzpa": "steering-vectors-llama-2",
-#     "CbSEZSpjdpnvBcEvc": "lots-of-orthogonal-code-vectors",
-#     "Be3ertyJfwDdQucdd": "deepmind-equity",
-#     "eowhY5NaCaqY6Pkj9": "maze-behavioral-statistics",
-#     "8mizBCm3dyc432nK8": "norm-grows-exponentially-over-the-forward-pass",
-#     "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
-# }
-
-# A bunch of urls point to sequences
-# EG https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW.
-# We need to remove the sequence and redirect to a post for now
-# ending_sequences = {
-#     "7CdoznhJaLEKHwvJW": "reframing-impact",
-# }
+author_exceptions = (
+    ("write code", "Jacob Gordon-Wexler and Alex Turner"),
+)
 
 MARKDOWN_BASE_WARNING: str = (
     "moved away from optimal policies and treated reward functions more realistically."
