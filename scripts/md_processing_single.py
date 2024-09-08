@@ -478,6 +478,8 @@ replacement = {
     "\n_Rare LEAKED": "Figure: _Rare LEAKED",  # Whitelisting caption for Mickey image
     r"_Edit: \[a potential solution": r"Edit: _[a potential solution",  # Italics around the edit mangles it
     r"- it doesn't matter here": r"—it doesn't matter here",  # Edge case in AI post, not working due to how HTML elements get mashed together
+    r"_I_t's": "It's", # Typo in obstruction post
+    r"_Facebook\\_user5821_": "`Facebook_user5821`", 
 }
 
 multiline_replacements = {

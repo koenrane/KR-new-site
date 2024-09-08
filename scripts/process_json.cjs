@@ -123,7 +123,10 @@ turndownService.addRule("spoiler", {
   }
 });
 
-// Make sure to preserve UL structure (in older posts, at least)
+// Use a private Unicode character as a whitespace placeholder
+const WHITESPACE_PLACEHOLDER = '\uE000';
+
+// The old LW posts have <ul> tags with <li> tags that have <ul> tags inside of them. Turndown really doesn't like this.
 turndownService.addRule('unorderedList', {
   filter: 'ul',
   replacement: function(_content, node) {
@@ -138,7 +141,17 @@ turndownService.addRule('unorderedList', {
             } else if (child.nodeName === 'UL') {
               itemContent += '\n' + processListItems(child, indent + '  ');
             } else {
-              itemContent += turndownService.turndown(child.outerHTML);
+              // Preserve whitespace before processing
+              let html = child.outerHTML;
+              html = html.replace(/^(<[^>]*?>)\s/g, `$1${WHITESPACE_PLACEHOLDER}`);
+              html = html.replace(/\s(<\/[^>]*>)$/g, `${WHITESPACE_PLACEHOLDER}$1`);
+
+              let processed = turndownService.turndown(html);
+              
+              // Restore whitespace after processing
+              processed = processed.replace(new RegExp(WHITESPACE_PLACEHOLDER, 'g'), ' ');
+              
+              itemContent += processed;
             }
           });
           result += indent + '- ' + itemContent + '\n';
