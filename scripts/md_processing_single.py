@@ -84,7 +84,13 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             )
 
     if "coauthors" in post_info and post_info["coauthors"]:
-        authors = ["Alex Turner"]
+        authors = []
+        if post_info["author"]: 
+            author_name = post_info["author"]
+            if author_name in helpers.username_dict:
+                author_name = helpers.username_dict[author_name]
+            authors.append(author_name)
+        
         for coauthor in post_info["coauthors"]:
             display_name = coauthor["displayName"]
             if display_name in helpers.username_dict:
@@ -96,6 +102,12 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             author_str = f"{authors[0]} and {authors[1]}"
         else:
             author_str = authors[0]
+
+        # Some authors are messed up and so I need to override
+        for title_string, author_str in helpers.author_exceptions:
+            if title_string in title:
+                author_str = author_str
+                break
         metadata["authors"] = author_str
 
     metadata["tags"] = [entry["name"] for entry in post_info["tags"]]
