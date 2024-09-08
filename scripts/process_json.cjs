@@ -131,9 +131,17 @@ turndownService.addRule('unorderedList', {
       let result = '';
       listNode.childNodes.forEach(function(item) {
         if (item.nodeName === 'LI') {
-            result += indent + '- ' + turndownService.turndown(item.innerHTML) + '\n';
-        } else if (item.nodeName === 'UL') {
-          result += '\n' + processListItems(item, indent + '  ');
+          let itemContent = '';
+          item.childNodes.forEach(function(child) {
+            if (child.nodeName === '#text') {
+              itemContent += child.textContent;
+            } else if (child.nodeName === 'UL') {
+              itemContent += '\n' + processListItems(child, indent + '  ');
+            } else {
+              itemContent += turndownService.turndown(child.outerHTML);
+            }
+          });
+          result += indent + '- ' + itemContent + '\n';
         }
       });
       return result;
