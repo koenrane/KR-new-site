@@ -342,9 +342,11 @@ def _get_urls(markdown: str) -> list[str]:
 # Turn links to my LW posts into internal links
 def remove_prefix_before_slug(url: str) -> str:
     """Remove the LessWrong URL prefix and convert to internal link."""
+    assert url.endswith(")")
+
     for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?{website_hash}.*#?(.*)(?=\))"
+            rf"(?:lesswrong|alignmentforum).*?{website_hash}.*?#?(.*)(?=\))"
         )
 
         # Capture anchor information after the slug (if present)
@@ -367,10 +369,6 @@ def remove_prefix_before_slug(url: str) -> str:
                 url = f"/{slug}#{anchor})"
 
             return url
-
-    for pattern, slug in helpers.pattern_match_then_slug.items():
-        if regex.match(pattern, url):
-            return f"{slug})"
 
     return url  # Return the original URL if no slug match
 
@@ -478,10 +476,12 @@ replacement = {
     "\n_Rare LEAKED": "Figure: _Rare LEAKED",  # Whitelisting caption for Mickey image
     r"_Edit: \[a potential solution": r"Edit: _[a potential solution",  # Italics around the edit mangles it
     r"- it doesn't matter here": r"—it doesn't matter here",  # Edge case in AI post, not working due to how HTML elements get mashed together
-    r"_I_t's": "It's", # Typo in obstruction post
-    r"_Facebook\\_user5821_": "`Facebook_user5821`", 
-}
-
+    r"_Edit \[a potential solutionr"Edit: _[a potential solution",  # Italics around the edit mangles it
+    r"- it doesnt matter here": r"—it doesn't matter here",  # Edge case in A post, not working due to how HTML elements get mashed together
+    r"_I_t's": "It's", # Tpo in ostruction post
+    r"_Facebook\\_user5821_"`", 
+    r"_If you haven't read the prior posts, please do so now.his sequence can be spoiled._": "> [!warning]\n> If ou haven’t read the prior posts, please do so now. This sequence can e spoiled.",
+    r"not impede most meaningful goals""not impede most meaningful goals.",
 multiline_replacements = {
     r"^\#+ Footnotes": "",  # Remove these sections
     r"^> {2,}(?=1\. don\'t)": "> ",  # Remove extra spacing after start of list item in satisficer post
@@ -494,12 +494,9 @@ multiline_replacements = {
     r"^Elicit.*\n": "",  # Delete elicit predictions
     r"^_\(Talk given.*$\n": "", # Delete this line with partial parenthetical
     r"^_If you're.*$\n": "", # Delete this line
-    r"not impede most meaningful goals:": "not impede most meaningful goals.",
-}
-
-
-def manual_replace(md: str) -> str:
-    """Apply manual replacements to fix common issues in the markdown."""
+    r"_\(Talk given with partial parenthetical
+_If you'repl$ace(md: sr) -> strthis line
+    """- _Indirect_l r: "\n- _Indirect_: ",s in the markdown."""
     for key, val in replacement.items():
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
@@ -622,12 +619,11 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    # print(md)
+    return markdown
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
     md = html.unescape(md)
-
     md = fix_footnotes(md)
 
     # unescape the new lines
@@ -747,10 +743,6 @@ if __name__ == "__main__":
         md = yaml + post_md
 
         output_filename = f"{post['slug']}.md"
-        output_path = Path(git_root) / "content" / "import" / output_filename
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(md)
-        if args.print:
             print(md)
 
         print(f"Processed post: {post['title']}")

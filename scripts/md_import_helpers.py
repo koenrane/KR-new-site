@@ -20,10 +20,12 @@ hash_to_slugs = {
     "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
 }  
 
-pattern_match_then_slug = {
-    # Don't have sequence functionality yet
-    "/s/7CdoznhJaLEKHwvJW$": "reframing-impact", 
-}
+# A bunch of urls point to sequences
+# EG https://www.lesswrong.com/s/7CdoznhJaLEKHwvJW. 
+# We need to remove the sequence and redirect to a post for now
+# ending_sequences = {
+#     "7CdoznhJaLEKHwvJW": "reframing-impact", 
+# }
 
 MARKDOWN_BASE_WARNING: str = "moved away from optimal policies and treated reward functions more realistically."
 MARKDOWN_WARNINGS = (MARKDOWN_BASE_WARNING + "**\n", MARKDOWN_BASE_WARNING + "\n\n<hr/>", MARKDOWN_BASE_WARNING)
