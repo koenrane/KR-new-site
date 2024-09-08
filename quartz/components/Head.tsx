@@ -38,11 +38,6 @@ export default (() => {
       mediaElement = <meta property="og:video" content={fileData.video_preview_link as string} />
     }
 
-    let cssToUse = [...css, "/static/styles/dropcaps.css"]
-    if (fileData?.frontmatter?.no_dropcap) {
-      cssToUse = css
-    }
-
     return (
       <head>
         <title>{title}</title>
@@ -72,7 +67,7 @@ export default (() => {
         <meta name="twitter:site" content="@Turn_Trout" />
 
         <link rel="icon" href={iconPath} />
-        {cssToUse.map((href) => (
+        {css.map((href) => (
           <link key={href} href={href} rel="stylesheet" type="text/css" spa-preserve />
         ))}
         {js

@@ -552,6 +552,10 @@ img.emoji {
   }
 }
 
+hr {
+  max-width: 97.5%; // Looks weird if it extends all the way to the right
+}
+
 // Fixing issue where eqn numbers overlap with katex math
 //  https://github.com/KaTeX/KaTeX/issues/3066
 .katex-html {
@@ -619,4 +623,54 @@ img.emoji {
 .spoiler-container.revealed .spoiler-content {
   filter: blur(0);
   opacity: 1;
+}
+
+article[data-use-dropcap="true"] {
+  & > p:first-of-type {
+    position: relative;
+    min-height: 4.2rem;
+  }
+  & > p:first-of-type::before {
+    content: attr(data-first-letter);
+    text-transform: uppercase;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 4rem;
+    line-height: 1;
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF2";
+  }
+
+  & > p:first-of-type::first-letter {
+    text-transform: uppercase;
+    font-style: normal !important;
+    float: left;
+    pointer-events: none; /* Ensure it doesn't interfere with user interactions */
+    color: var(--lightgray);
+    font-size: 4rem;
+    line-height: 1;
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF1";
+    font-weight: 500 !important;
+  }
+
+  & > p:first-of-type::first-line {
+    font-family: "EBGaramondSC" !important;
+  }
+
+  & > p:first-of-type em,
+  & > p:first-of-type b,
+  & > p:first-of-type strong {
+    font-family: inherit !important;
+  }
+
+  & > p:first-of-type .small-caps {
+    font-family: "EBGaramondSC" !important;
+  }
+
+  & > p[data-first-letter="f"]::before,
+  & > p[data-first-letter="F"]::before {
+    padding-left: 0.025em;
+  }
 }

@@ -53,7 +53,7 @@ async function mouseEnterHandler(
   }
 
   const hasAlreadyBeenFetched = () =>
-    [...parentOfPopover.children].some((child) => child.classList.contains("popover"))
+    [...(parentOfPopover?.children ?? [])].some((child) => child.classList.contains("popover"))
 
   // dont refetch if there's already a popover
   if (hasAlreadyBeenFetched()) {
@@ -86,6 +86,7 @@ async function mouseEnterHandler(
   const popoverInner = document.createElement("div")
   popoverInner.classList.add("popover-inner")
   popoverElement.appendChild(popoverInner)
+  console.log("hi")
 
   popoverInner.dataset.contentType = contentType ?? undefined
 
@@ -127,7 +128,7 @@ async function mouseEnterHandler(
       })
       // We want same page links clicked within the popover to move the popover window instead of the main window
       html.querySelectorAll("body a.same-page-link").forEach((link) => {
-        link.href = escapeLeadingIdNumber(link.href)
+        ;(link as HTMLLinkElement).href = escapeLeadingIdNumber((link as HTMLLinkElement).href)
         appendToAttr(link, "href", "-popover")
       })
 
@@ -139,7 +140,7 @@ async function mouseEnterHandler(
   }
 
   setPosition(popoverElement)
-  parentOfPopover.prepend(popoverElement)
+  parentOfPopover?.prepend(popoverElement)
 
   let isMouseOverLink = false
   let isMouseOverPopover = false
