@@ -344,7 +344,7 @@ def remove_prefix_before_slug(url: str) -> str:
     """Remove the LessWrong URL prefix and convert to internal link."""
     for website_hash, slug in helpers.hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?/{website_hash}/.*#?(.*)(?=\))"
+            rf"(?:lesswrong|alignmentforum).*?{website_hash}.*#?(.*)(?=\))"
         )
 
         # Capture anchor information after the slug (if present)
@@ -368,9 +368,9 @@ def remove_prefix_before_slug(url: str) -> str:
 
             return url
 
-    for substring, slug in helpers.strings_to_slugs.items():
-        if substring in url:
-            return slug
+    for pattern, slug in helpers.pattern_match_then_slug.items():
+        if regex.match(pattern, url):
+            return f"{slug})"
 
     return url  # Return the original URL if no slug match
 
@@ -490,6 +490,9 @@ multiline_replacements = {
     r"^\(b\)": "2.",
     r"^\(c\)": "3.",
     r"^Elicit.*\n": "",  # Delete elicit predictions
+    r"^_\(Talk given.*$\n": "", # Delete this line with partial parenthetical
+    r"^_If you're.*$\n": "", # Delete this line
+    r"not impede most meaningful goals:": "not impede most meaningful goals.",
 }
 
 

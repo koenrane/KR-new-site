@@ -20,9 +20,9 @@ hash_to_slugs = {
     "MJc9AqyMWpG3BqfyK": "measuring-power-in-multi-agent-games"
 }  
 
-strings_to_slugs = {
-    # Don't even have sequence functionality yet
-    "/s/7CdoznhJaLEKHwvJW": "reframing-impact", 
+pattern_match_then_slug = {
+    # Don't have sequence functionality yet
+    "/s/7CdoznhJaLEKHwvJW$": "reframing-impact", 
 }
 
 MARKDOWN_BASE_WARNING: str = "moved away from optimal policies and treated reward functions more realistically."
