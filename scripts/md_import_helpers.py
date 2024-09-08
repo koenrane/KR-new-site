@@ -9,6 +9,14 @@ username_dict = {
     "woog": "Alice Rigg",
 }
 
+sequence_hash_to_slugs = {
+    "7CdoznhJaLEKHwvJW": "posts#reframing-impact", 
+    "KGYLvTqFiFE2CpHfJ": "posts#becoming-stronger",
+    "fSMbebQyR4wheRrvk": "posts#the-causes-of-power-seeking-and-instrumental-convergence",
+    "vLArRpNdkex68oem8": "posts#thoughts-on-corrigibility",
+    "sCGfFb5DPfjEmtEdn": "posts#interpreting-a-maze-solving-network",
+}
+
 # hash_to_slugs = {
 #     "iCfdcxiyr2Kj8m8mT": "shard-theory", # technically, Quintin is first author on this one
 #     "ioPnHKFyy4Cw2Gr2x": "mechanistically-eliciting-latent-behaviors",

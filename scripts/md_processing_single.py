@@ -350,6 +350,11 @@ def remove_prefix_before_slug(url: str) -> str:
             rf"(?:lesswrong|alignmentforum).*?{website_hash}.*?#?(.*)(?=\))"
         )
 
+        # Check for links to my sequences and redirect to the posts page
+        for sequence_hash, new_slug in helpers.sequence_hash_to_slugs.items():
+            if url.endswith(sequence_hash + ")"):
+                url = f"/{new_slug})"
+
         # Capture anchor information after the slug (if present)
         re_match = regex.search(lw_regex, url)
         if re_match:
