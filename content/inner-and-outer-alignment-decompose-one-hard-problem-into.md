@@ -4,7 +4,6 @@ lw-was-draft-post: None
 lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into
-lw-linkpost-url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into
 lw-is-question: "false"
 lw-posted-at: 2022-12-02T02:43:20.915Z
 lw-last-modification: 2024-03-02T01:18:37.238Z
@@ -18,14 +17,14 @@ lw-vote-count: 71
 af-base-score: 45
 af-num-comments-on-upload: 14
 publish: true
-title: "Inner and outer alignment decompose one hard problem into two extremely hard problems"
+title: Inner and outer alignment decompose one hard problem into two extremely hard problems
 lw-latest-edit: 2023-01-24T00:43:56.616Z
 lw-is-linkpost: "false"
 tags:
-  - "shard-theory"
-  - "AI"
+  - shard-theory
+  - AI
 aliases:
-  - "inner-and-outer-alignment-decompose-one-hard-problem-into"
+  - inner-and-outer-alignment-decompose-one-hard-problem-into
 date_published: 12/02/2022
 original_url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into
 ---

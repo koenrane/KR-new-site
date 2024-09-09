@@ -8,7 +8,7 @@ no_dropcap: "true"
 
 # Most recent posts
 
-# TurnTrout's favorites
+# My favorite posts
 
 1. [Looking back on my alignment PhD](/alignment-phd)
 2. [The shard theory of human values](/shard-theory)
@@ -87,8 +87,6 @@ Introductory post: [Reframing Impact](./reframing-impact)
 5. [Conclusion to "Reframing Impact"](./conclusion-to-reframing-impact)
 
 ## The Causes of Power-Seeking and Instrumental Convergence
-> [!warning] [Reward is not the optimization target](./reward-is-not-the-optimization-target)
-> Many posts in this sequence treat reward functions as "specifying goals", in some sense. This is [wrong](./reward-is-not-the-optimization-target), as I have [argued at length](./against-inner-outer-alignment). Reward signals are akin to a per-datapoint learning rate. Reward chisels circuits into the AI. That's it!
 
 > [!quote] Original sequence description
 > Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (eg gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power *from* humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
@@ -97,6 +95,8 @@ Introductory post: [Reframing Impact](./reframing-impact)
 
 ![](power-seeking-AI.png)
 
+> [!warning] [Reward is not the optimization target](./reward-is-not-the-optimization-target)
+> Many posts in this sequence treat reward functions as "specifying goals", in some sense. This is [wrong](./reward-is-not-the-optimization-target), as I have [argued at length](./against-inner-outer-alignment). Reward signals are akin to a per-datapoint learning rate. Reward chisels circuits into the AI. That's it!
 1. [Seeking Power Is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps)
 2. [Power as Easily Exploitable Opportunities](./power-as-easily-exploitable-opportunities)
 3. [The Catastrophic Convergence Conjecture](./the-catastrophic-convergence-conjecture)
