@@ -361,7 +361,7 @@ def remove_prefix_before_slug(url: str) -> str:
 
     for website_hash, slug in hash_to_slugs.items():
         lw_regex = regex.compile(
-            rf"(?:lesswrong|alignmentforum).*?{website_hash}.*?#?(.*)(?=\))"
+            rf"(?:https?://)?www\.(?:lesswrong|alignmentforum)\.com.*?{website_hash}.*?#?(.*)(?=\))"
         )
 
         # Check for links to my sequences and redirect to the posts page
@@ -503,6 +503,7 @@ replacement = {
     r"_If you haven't read the prior posts, please do so now. This sequence can be spoiled._": "> [!warning]\n> If you haven’t read the prior posts, please do so now. This sequence can be spoiled.",
     r"not impede most meaningful goals": "not impede most meaningful goals.",
     r"EDIT: However, if you": "\nEDIT: However, if you",
+    r"off\'\' ": "off\" ",
 }
 
 multiline_replacements = {
