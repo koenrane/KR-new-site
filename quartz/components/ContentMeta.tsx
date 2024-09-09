@@ -151,6 +151,30 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   )
 }
 
+export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
+  console.log("fileData", fileData.frontmatter?.["lw-sequence-title"])
+  if (!fileData.frontmatter?.["lw-sequence-title"]) return <></>
+
+  const sequence = fileData.frontmatter?.["lw-sequence-title"]
+  if (typeof sequence !== "string") return <></>
+
+  const prevPost: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
+  const nextPost: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
+
+  return (
+    <blockquote class="callout callout-metadata" data-callout="info">
+      <div class="callout-title">
+        <div class="callout-icon"></div>
+        <div class="callout-title-inner">Sequence: {sequence}</div>
+      </div>
+      <div class="callout-content">
+        <p>{prevPost && <a href={prevPost}>Previous post: </a>}</p>
+        <p>{nextPost && <a href={nextPost}>Next</a>}</p>
+      </div>
+    </blockquote>
+  )
+}
+
 export const ContentMetadata = (props: QuartzComponentProps) => {
   const { cfg, fileData, displayClass } = props
   if (fileData.frontmatter?.hide_metadata || !fileData.text) {
@@ -159,14 +183,14 @@ export const ContentMetadata = (props: QuartzComponentProps) => {
 
   // Collect all metadata elements
   const metadataElements = [
-    renderReadingTime(fileData),
     renderTags(props),
     renderPublicationInfo(cfg, fileData),
     renderLinkpostInfo(fileData),
+    renderReadingTime(fileData),
+    renderSequenceInfo(fileData),
   ]
 
   const filteredElements = metadataElements.filter(Boolean) // Remove any null or undefined elements
-  console.log(filteredElements)
 
   return (
     <div id="content-meta" className={classNames(displayClass)}>
