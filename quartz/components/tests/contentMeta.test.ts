@@ -1,4 +1,6 @@
-import { processReadingTime } from "../ContentMeta"
+import { processReadingTime, getDateToFormat, formatDateStr, getFaviconPaths } from "../ContentMeta"
+import { QuartzPluginData } from "../../plugins/vfile"
+import { GlobalConfiguration } from "../../cfg"
 
 describe("ContentMeta", () => {
   describe("processReadingTime", () => {
@@ -22,6 +24,39 @@ describe("ContentMeta", () => {
       expect(processReadingTime(0)).toBe("")
       expect(processReadingTime(61)).toBe("1 hour 1 minute")
       expect(processReadingTime(119)).toBe("1 hour 59 minutes")
+    })
+  })
+
+  describe("getDateToFormat", () => {
+    const mockCfg = {} as GlobalConfiguration
+
+    it("should return date_published if available", () => {
+      const fileData = {
+        frontmatter: { title: "Test Title", date_published: "2023-01-01" },
+      } as unknown as QuartzPluginData
+      expect(getDateToFormat(fileData, mockCfg)).toEqual(new Date("2023-01-01"))
+    })
+
+    it("should return undefined if no date is available", () => {
+      const fileData = {} as QuartzPluginData
+      expect(getDateToFormat(fileData, mockCfg)).toBeUndefined()
+    })
+  })
+
+  describe("formatDateStr", () => {
+    it("should format date correctly", () => {
+      const date = new Date("2023-03-15T00:00:00Z")
+      const formatted = formatDateStr(date, "en-US")
+      expect(formatted).toMatch(/^ on Mar(ch)? 1[45], 2023$/)
+    })
+  })
+
+  describe("getFaviconPaths", () => {
+    it("should return correct paths", () => {
+      const url = new URL("https://example.com")
+      const { quartzPath, avifPath } = getFaviconPaths(url)
+      expect(quartzPath).toMatch(/^https:\/\/assets\.turntrout\.com\/.*\.png$/)
+      expect(avifPath).toMatch(/^https:\/\/assets\.turntrout\.com\/.*\.avif$/)
     })
   })
 })
