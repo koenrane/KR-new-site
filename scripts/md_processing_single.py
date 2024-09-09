@@ -84,6 +84,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             )
         else:
             del metadata["lw-linkpost-url"]
+        print(title, metadata['lw-is-linkpost'])
 
     if "coauthors" in post_info and post_info["coauthors"]:
         authors = []
@@ -92,6 +93,8 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             if author_name in helpers.username_dict:
                 author_name = helpers.username_dict[author_name]
             authors.append(author_name)
+        else: # Some posts don't have an author
+            authors.append("Alex Turner")
         
         for coauthor in post_info["coauthors"]:
             display_name = coauthor["displayName"]
@@ -507,6 +510,11 @@ replacement = {
     r"\.5\*\.75": "0.5×0.75",
     r"rand\\_region\\_5": "`rand_region_5`",
     r"W′\$": "W'$",
+    r"steeply-diminishing": "steeply diminishing",
+    r"diminishing returns for relevant gears-level gains": "diminishing returns",
+    r"_, and more\.": ", and more.",
+    r"listened to on_": "listened to on",
+    r"_,_": ",",
 }
 
 multiline_replacements = {
@@ -522,6 +530,8 @@ multiline_replacements = {
     r"^_If you're.*$\n": "", # Delete this line
     r"^- _Indirect_:": "\n- Indirect:",
     r"^\_(In this first essay,.*)\_": "In this first essay, I explore the adversarial robustness obstacle. In the next essay, I’ll point out how this is obstacle is an artifact of these design patterns, and not any intrinsic difficulty of alignment.\n> [!thanks]\n>Thanks to Erik Jenner, Johannes Treutlein, Quintin Pope, Charles Foster, Andrew Critch, `randomwalks`, and Ulisse Mini for feedback.",
+    r"^_?If you are interested in working with me.*": "", # Delete offer to team up on MIRIx Discord --- no longer relevant
+    r"^_(This post has been.*)_ *$(\n\n<hr/>)?": r"> [!info]\n>\1",
 }
 
 def manual_replace(md: str) -> str:
