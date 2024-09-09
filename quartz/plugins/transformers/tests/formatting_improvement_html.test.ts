@@ -142,6 +142,9 @@ describe("HTMLFormattingImprovement", () => {
       ["Deja vu", "Déjà vu"],
       ["Naively", "Naïvely"],
       ["Don't be naive", "Don't be naïve"],
+      ["5x1", "5×1"],
+      [" :) The best", " 🙂 The best"],
+      [" :( The worst", " 🙁 The worst"],
     ])("should perform transforms for %s", (input: string, expected: string) => {
       const result = massTransformText(input)
       expect(result).toBe(expected)

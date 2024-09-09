@@ -348,6 +348,9 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
+  [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
+  [/ \:\) /gm, " 🙂 "], // Smiling face
+  [/ \:\( /gm, " 🙁 "], // Frowning face
 ]
 
 export function massTransformText(text: string): string {

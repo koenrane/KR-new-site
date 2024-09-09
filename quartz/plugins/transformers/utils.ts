@@ -13,7 +13,7 @@ export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
 
 // A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
-  `(?<![\\w/]|${numberRegex.source})([+-]?\\d)\\/(\\d)(?!${numberRegex.source})(?=[^\\w/]|$)`,
+  `(?<![\\w/\\.]|${numberRegex.source})([+-]?\\d{1,2})\\/(\\d)(?!${numberRegex.source})(?=[^\\w/]|$)`,
   "gm",
 )
 
