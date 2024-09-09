@@ -8,7 +8,6 @@ import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
 import { QuartzPluginData } from "../plugins/vfile"
 import readingTime from "reading-time"
-import { i18n } from "../i18n"
 
 const formatDateStr = (date: Date, locale: ValidLocale): string => ` on ${formatDate(date, locale)}`
 
@@ -69,6 +68,55 @@ const renderPublicationInfo = (
   )
 }
 
+/**
+ * Formats reading time into a human-readable string.
+ *
+ * @param minutes - The total number of minutes to format.
+ * @returns A formatted string representing hours and/or minutes.
+ *
+ * Examples:
+ * - 30 minutes -> "30 minutes"
+ * - 60 minutes -> "1 hour"
+ * - 90 minutes -> "1 hour 30 minutes"
+ * - 120 minutes -> "2 hours"
+ * - 150 minutes -> "2 hours 30 minutes"
+ */
+function processReadingTime(minutes: number): string {
+  const hours = Math.floor(minutes / 60)
+  const remainingMinutes = minutes % 60
+
+  let timeString = ""
+
+  if (hours > 0) {
+    timeString += `${hours} hour${hours > 1 ? "s" : ""}` // Pluralize 'hour' if > 1
+    if (remainingMinutes > 0) {
+      timeString += " " // Add separator if we also have minutes
+    }
+  }
+
+  if (remainingMinutes > 0) {
+    timeString += `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}` // Pluralize 'minute' if > 1
+  }
+
+  return timeString
+}
+
+const renderReadingTime = (cfg: GlobalConfiguration, fileData: QuartzPluginData): JSX.Element => {
+  if (fileData.frontmatter?.hide_reading_time) {
+    return <></>
+  }
+
+  const text = fileData.text
+  const { minutes } = readingTime(text!)
+  const displayedTime = processReadingTime(Math.ceil(minutes))
+
+  return (
+    <span className="reading-time">
+      <b>Read time:</b> {displayedTime}
+    </span>
+  )
+}
+
 const ContentMetadata = (props: QuartzComponentProps) => {
   const { cfg, fileData, displayClass } = props
   if (fileData.frontmatter?.hide_metadata || !fileData.text) {
@@ -77,6 +125,7 @@ const ContentMetadata = (props: QuartzComponentProps) => {
 
   // Collect all metadata elements
   const metadataElements = [
+    renderReadingTime(cfg, fileData),
     <TagList {...props} />,
     renderPublicationInfo(cfg, fileData),
     // Add more metadata elements here
