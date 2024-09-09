@@ -38,6 +38,7 @@
   --callout-icon-goose: url("https://assets.turntrout.com/static/images/goose.svg");
   --callout-icon-fold: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
   --callout-icon-thanks: url("https://assets.turntrout.com/static/images/heart.svg");
+  --callout-icon-tag: url("https://assets.turntrout.com/static/images/tag.svg");
 
   // Gray by default
   &[data-callout] {
@@ -119,6 +120,10 @@
     --callout-icon: var(--callout-icon-quote);
   }
 
+  &[data-callout="tag"] {
+    --callout-icon: var(--callout-icon-tag);
+  }
+
   :root[saved-theme="dark"] & {
     &[data-callout="abstract"],
     &[data-callout="tip"] {
@@ -144,6 +149,16 @@
   &.is-collapsed > .callout-title > .fold-callout-icon {
     transform: rotateZ(-90deg);
   }
+}
+
+// These tags should generally be less bright
+.callout-metadata {
+  & > .callout-title {
+    // Stick closer to the title
+    padding-bottom: 0.5rem;
+  }
+  background-color: var(--base); // "see-through"
+  --border: color-mix(in srgb, var(--color) 30%, var(--base));
 }
 
 .callout-title {

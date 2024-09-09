@@ -1,5 +1,5 @@
 import { formatDate, getDate } from "./Date"
-import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { QuartzComponentConstructor, QuartzComponentProps, QuartzComponent } from "./types"
 import { classNames } from "../util/lang"
 import { TagList } from "./TagList"
 import { GetQuartzPath } from "../plugins/transformers/linkfavicons"
@@ -118,6 +118,39 @@ export const renderReadingTime = (fileData: QuartzPluginData): JSX.Element => {
   )
 }
 
+export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | null => {
+  const linkpostUrl = fileData.frontmatter?.["lw-linkpost-url"]
+  if (typeof linkpostUrl !== "string") return null
+
+  let displayText = linkpostUrl
+
+  const url = new URL(linkpostUrl)
+  displayText = url.hostname.replace(/^(https?:\/\/)?(www\.)?/, "")
+
+  return (
+    <span className="linkpost-info">
+      Originally linked to{" "}
+      <a href={linkpostUrl} className="external" target="_blank">
+        {displayText}
+      </a>
+      {/* {faviconPath && <img src={faviconPath} className="favicon" alt="" />} */}
+    </span>
+  )
+}
+
+// a callout that displays the tags for the post
+export const renderTags = (props: QuartzComponentProps): JSX.Element => {
+  return (
+    <blockquote class="callout callout-metadata" data-callout="tag">
+      <div class="callout-title">
+        <div class="callout-icon"></div>
+        <div class="callout-title-inner">Tags</div>
+      </div>
+      <TagList {...props} />
+    </blockquote>
+  )
+}
+
 export const ContentMetadata = (props: QuartzComponentProps) => {
   const { cfg, fileData, displayClass } = props
   if (fileData.frontmatter?.hide_metadata || !fileData.text) {
@@ -127,14 +160,17 @@ export const ContentMetadata = (props: QuartzComponentProps) => {
   // Collect all metadata elements
   const metadataElements = [
     renderReadingTime(fileData),
-    <TagList {...props} />,
+    renderTags(props),
     renderPublicationInfo(cfg, fileData),
-    // Add more metadata elements here
-  ].filter(Boolean) // Remove any null or undefined elements
+    renderLinkpostInfo(fileData),
+  ]
+
+  const filteredElements = metadataElements.filter(Boolean) // Remove any null or undefined elements
+  console.log(filteredElements)
 
   return (
-    <div id="content-meta" class={classNames(displayClass)}>
-      {metadataElements.map((element, index) => (
+    <div id="content-meta" className={classNames(displayClass)}>
+      {filteredElements.map((element, index) => (
         <p key={index}>{element}</p>
       ))}
     </div>

@@ -394,15 +394,14 @@ svg.fold-icon {
   }
 }
 
+// Tags section in the metadata
 .tags {
   color: var(--gray);
   list-style: none;
   display: inline-block;
-  margin-top: $baseMargin;
   padding-left: 0;
   padding-right: $baseMargin;
   overflow-wrap: normal;
-  margin-bottom: 0px;
 
   & a.tag-link {
     color: var(--gray);
