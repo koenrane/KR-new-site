@@ -23,7 +23,7 @@ sequence_hash_to_slugs = {
 }
 
 author_exceptions = (
-    ("write code", "Jacob Gordon-Wexler and Alex Turner"),
+    ("write code", "Jacob Goldman-Wetzler and Alex Turner"),
 )
 
 MARKDOWN_BASE_WARNING: str = (

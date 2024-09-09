@@ -9,10 +9,11 @@ import { GlobalConfiguration } from "../cfg"
 import { QuartzPluginData } from "../plugins/vfile"
 import readingTime from "reading-time"
 
-const formatDateStr = (date: Date, locale: ValidLocale): string => ` on ${formatDate(date, locale)}`
+export const formatDateStr = (date: Date, locale: ValidLocale): string =>
+  ` on ${formatDate(date, locale)}`
 
 // Determine which date to use for formatting
-const getDateToFormat = (
+export const getDateToFormat = (
   fileData: QuartzPluginData,
   cfg: GlobalConfiguration,
 ): Date | undefined => {
@@ -28,12 +29,12 @@ const getDateToFormat = (
 }
 
 // Render date element with proper datetime attribute
-const renderDateElement = (fileData: QuartzPluginData, dateStr: string): JSX.Element => (
+export const renderDateElement = (fileData: QuartzPluginData, dateStr: string): JSX.Element => (
   <time datetime={fileData.frontmatter?.date_published as string}>{dateStr}</time>
 )
 
 // Generate favicon paths for both PNG and AVIF formats
-const getFaviconPaths = (originalURL: URL): { quartzPath: string; avifPath: string } => {
+export const getFaviconPaths = (originalURL: URL): { quartzPath: string; avifPath: string } => {
   const quartzPath = `https://assets.turntrout.com${GetQuartzPath(originalURL.hostname)}`
   return {
     quartzPath,
@@ -42,7 +43,7 @@ const getFaviconPaths = (originalURL: URL): { quartzPath: string; avifPath: stri
 }
 
 // Render publication information including original URL and date
-const renderPublicationInfo = (
+export const renderPublicationInfo = (
   cfg: GlobalConfiguration,
   fileData: QuartzPluginData,
 ): JSX.Element => {
@@ -81,7 +82,7 @@ const renderPublicationInfo = (
  * - 120 minutes -> "2 hours"
  * - 150 minutes -> "2 hours 30 minutes"
  */
-function processReadingTime(minutes: number): string {
+export function processReadingTime(minutes: number): string {
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
 
@@ -101,7 +102,7 @@ function processReadingTime(minutes: number): string {
   return timeString
 }
 
-const renderReadingTime = (cfg: GlobalConfiguration, fileData: QuartzPluginData): JSX.Element => {
+export const renderReadingTime = (fileData: QuartzPluginData): JSX.Element => {
   if (fileData.frontmatter?.hide_reading_time) {
     return <></>
   }
@@ -117,7 +118,7 @@ const renderReadingTime = (cfg: GlobalConfiguration, fileData: QuartzPluginData)
   )
 }
 
-const ContentMetadata = (props: QuartzComponentProps) => {
+export const ContentMetadata = (props: QuartzComponentProps) => {
   const { cfg, fileData, displayClass } = props
   if (fileData.frontmatter?.hide_metadata || !fileData.text) {
     return null
@@ -125,7 +126,7 @@ const ContentMetadata = (props: QuartzComponentProps) => {
 
   // Collect all metadata elements
   const metadataElements = [
-    renderReadingTime(cfg, fileData),
+    renderReadingTime(fileData),
     <TagList {...props} />,
     renderPublicationInfo(cfg, fileData),
     // Add more metadata elements here

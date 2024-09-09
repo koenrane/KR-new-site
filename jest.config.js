@@ -174,12 +174,13 @@ const config = {
   // testRunner: "jest-circus/runner",
 
   // A map from regular expressions to paths to transformers
-  extensionsToTreatAsEsm: [".ts"],
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   transform: {
     "^.+\\.tsx?$": ["ts-jest", { useESM: true }],
   },
   moduleNameMapper: {
     "^(\\.{1,2}/.*)\\.js$": "$1",
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
   testEnvironment: "node",
   testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts"],
