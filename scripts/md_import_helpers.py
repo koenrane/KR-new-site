@@ -24,6 +24,7 @@ sequence_hash_to_slugs = {
 
 author_exceptions = (
     ("write code", "Jacob Goldman-Wetzler and Alex Turner"),
+    ("Predictions", "Alex Turner, Ulisse Mini, and Peli Grietzer"),
 )
 
 MARKDOWN_BASE_WARNING: str = (

@@ -504,6 +504,9 @@ replacement = {
     r"not impede most meaningful goals": "not impede most meaningful goals.",
     r"EDIT: However, if you": "\nEDIT: However, if you",
     r"off\'\' ": "off\" ",
+    r"\.5\*\.75": "0.5×0.75",
+    r"rand\\_region\\_5": "`rand_region_5`",
+    r"W′\$": "W'$",
 }
 
 multiline_replacements = {
