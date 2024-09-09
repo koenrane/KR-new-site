@@ -500,6 +500,7 @@ replacement = {
     r"_Facebook\\_user5821_": "`Facebook_user5821`", 
     r"_If you haven't read the prior posts, please do so now. This sequence can be spoiled._": "> [!warning]\n> If you haven’t read the prior posts, please do so now. This sequence can be spoiled.",
     r"not impede most meaningful goals": "not impede most meaningful goals.",
+    r"EDIT: However, if you": "\nEDIT: However, if you",
 }
 
 multiline_replacements = {
@@ -514,6 +515,7 @@ multiline_replacements = {
     r"^_\(Talk given.*$\n": "", # Delete this line with partial parenthetical
     r"^_If you're.*$\n": "", # Delete this line
     r"^- _Indirect_:": "\n- Indirect:",
+    r"^\_(In this first essay,.*)\_": "In this first essay, I explore the adversarial robustness obstacle. In the next essay, I’ll point out how this is obstacle is an artifact of these design patterns, and not any intrinsic difficulty of alignment.\n> [!thanks]\n>Thanks to Erik Jenner, Johannes Treutlein, Quintin Pope, Charles Foster, Andrew Critch, `randomwalks`, and Ulisse Mini for feedback.",
 }
 
 def manual_replace(md: str) -> str:
@@ -640,7 +642,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    # print(md)
+    print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
