@@ -182,7 +182,10 @@ export function fullWidthSlashes(text: string): string {
  * @returns The text with en dashes in number ranges
  */
 export function enDashNumberRange(text: string): string {
-  return text.replace(new RegExp(`\\b((?:p\.?)?\\d+${chr}?)-(${chr}?\\d+)\\b`, "g"), "$1–$2")
+  return text.replace(
+    new RegExp(`\\b(?<!\\.)((?:p\\.?)?\\d+${chr}?)-(${chr}?\\d+)(?!\\.)\\b`, "g"),
+    "$1–$2",
+  )
 }
 
 /**

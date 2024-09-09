@@ -246,6 +246,7 @@ describe("HTMLFormattingImprovement", () => {
       ["1 - 2", "1 - 2"], // Don't replace if there are spaces
       ["a1-2b", "a1-2b"], // Don't replace if not purely numeric
       ["p. 206-207)", "p. 206–207)"], // ) should close out a word boundary
+      ["Qwen1.5-1.8", "Qwen1.5-1.8"], // Don't replace if there's a decimal
     ])('should replace hyphens with en dashes in number ranges: "%s"', (input, expected) => {
       const result = enDashNumberRange(input)
       expect(result).toBe(expected)
