@@ -82,6 +82,8 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             metadata["lw-linkpost-url"] = strip_referral_url(
                 metadata["lw-linkpost-url"]
             )
+        else:
+            del metadata["lw-linkpost-url"]
 
     if "coauthors" in post_info and post_info["coauthors"]:
         authors = []
@@ -626,7 +628,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
 def thanks_admonition(md: str) -> str:
     """Convert _..._ to [!thanks] ... [!thanks]."""
-    pattern = r"^ *(_|\*\*)(Thanks.+?)\1 *$"
+    pattern = r"^ *(_|\*\*)((?:Thanks|Produced as).+?)\1 *$"
     target = r"> [!thanks]\n>\2"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
 
@@ -642,7 +644,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    print(md)
+    # print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
