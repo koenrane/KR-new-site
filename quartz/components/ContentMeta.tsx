@@ -8,10 +8,9 @@ import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
 import { QuartzPluginData } from "../plugins/vfile"
 
-const renderTags = (props: QuartzComponentProps) => <TagList {...props} />
-
 const formatDateStr = (date: Date, locale: ValidLocale) => ` on ${formatDate(date, locale)}`
 
+// Determine which date to use for formatting
 const getDateToFormat = (fileData: QuartzPluginData, cfg: GlobalConfiguration) =>
   fileData.frontmatter?.date_published
     ? new Date(fileData.frontmatter.date_published as string)
@@ -19,10 +18,12 @@ const getDateToFormat = (fileData: QuartzPluginData, cfg: GlobalConfiguration) =
       ? getDate(cfg, fileData)
       : null
 
+// Render date element with proper datetime attribute
 const renderDateElement = (fileData: QuartzPluginData, dateStr: string) => (
   <time datetime={fileData.frontmatter?.date_published as string}>{dateStr}</time>
 )
 
+// Generate favicon paths for both PNG and AVIF formats
 const getFaviconPaths = (originalURL: URL) => {
   const quartzPath = `https://assets.turntrout.com${GetQuartzPath(originalURL.hostname)}`
   return {
@@ -31,6 +32,7 @@ const getFaviconPaths = (originalURL: URL) => {
   }
 }
 
+// Render publication information including original URL and date
 const renderPublicationInfo = (cfg: GlobalConfiguration, fileData: QuartzPluginData) => {
   const frontmatter = fileData.frontmatter
   if (typeof frontmatter?.original_url !== "string") return null
@@ -60,11 +62,12 @@ const ContentMetadata = (props: QuartzComponentProps) => {
     return null
   }
 
+  // Collect all metadata elements
   const metadataElements = [
-    renderTags(props),
+    <TagList {...props} />,
     renderPublicationInfo(cfg, fileData),
     // Add more metadata elements here
-  ].filter(Boolean)
+  ].filter(Boolean) // Remove any null or undefined elements
 
   return (
     <div id="content-meta" class={classNames(displayClass)}>
