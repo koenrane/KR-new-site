@@ -39,7 +39,8 @@ async function mouseEnterHandler(
     if (link.closest("#right-sidebar")) {
       const centerRect = center ? center.getBoundingClientRect() : null
       const centerRightEdge = centerRect ? centerRect.right : 300 // Should this fallback value be different?
-      referenceEdge = centerRightEdge
+      // Add 50 to make it closer to the right sidebar
+      referenceEdge = centerRightEdge + 50
     }
 
     // Calculate the left position to align with the leftSidebar's right edge
@@ -86,7 +87,6 @@ async function mouseEnterHandler(
   const popoverInner = document.createElement("div")
   popoverInner.classList.add("popover-inner")
   popoverElement.appendChild(popoverInner)
-  console.log("hi")
 
   popoverInner.dataset.contentType = contentType ?? undefined
 
