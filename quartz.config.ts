@@ -115,6 +115,9 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
       }),
+      Plugin.MinusReplaceTransform(),
+      Plugin.TextFormattingImprovement(),
+      Plugin.HTMLFormattingImprovement(),
       Plugin.Twemoji(),
       Plugin.Latex({ renderEngine: "katex" }),
       Plugin.SyntaxHighlighting({
@@ -129,9 +132,6 @@ const config: QuartzConfig = {
       Plugin.ConvertEmphasis(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.MinusReplaceTransform(),
-      Plugin.TextFormattingImprovement(),
-      Plugin.HTMLFormattingImprovement(),
       Plugin.TagAcronyms(),
       Plugin.AddFavicons(),
       Plugin.TroutOrnamentHr(),

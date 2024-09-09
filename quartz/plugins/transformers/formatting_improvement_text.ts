@@ -90,7 +90,6 @@ export const formattingImprovement = (text: string) => {
   let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ") // Remove NBSP
 
   newContent = footnoteEndOfSentence(newContent)
-  newContent = newContent.replace(new RegExp(`(${numberRegex.source})[x\\*]\\b`, "g"), "$1×") // Pretty multiplication
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = newContent.replace(/ *\,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)

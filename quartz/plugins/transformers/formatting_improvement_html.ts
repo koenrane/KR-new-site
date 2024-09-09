@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, fractionRegex } from "./utils"
+import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
 import { Element, Text } from "hast"
 import { visit } from "unist-util-visit"
@@ -348,6 +348,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
+  [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
   [/ \:\) /gm, " 🙂 "], // Smiling face
   [/ \:\( /gm, " 🙁 "], // Frowning face
