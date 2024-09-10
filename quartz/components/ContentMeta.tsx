@@ -157,7 +157,7 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
   if (typeof sequence !== "string") return <></>
   const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
-  const faviconPathSequence = TURNTROUT_FAVICON_PATH // Assumes sequence is on turntrout.com
+  const faviconPathSequence = null
 
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
