@@ -114,6 +114,9 @@
 
   &[data-callout="example"] {
     --callout-icon: var(--callout-icon-example);
+    & .callout-icon {
+      -webkit-mask-position-y: 3.5px; // Make sure this is centered
+    }
   }
 
   &[data-callout="quote"] {

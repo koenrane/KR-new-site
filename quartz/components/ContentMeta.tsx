@@ -164,11 +164,11 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
 
   return (
-    <blockquote class="callout callout-metadata" data-callout="info">
+    <blockquote class="callout callout-metadata" data-callout="example">
       <div class="callout-title">
         <div class="callout-icon"></div>
         <div class="callout-title-inner">
-          Sequence:{" "}
+          <b>Sequence:</b>{" "}
           <a href={sequenceLink} className="internal">
             {sequence}
           </a>
