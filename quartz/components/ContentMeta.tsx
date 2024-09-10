@@ -1,8 +1,9 @@
 import { formatDate, getDate } from "./Date"
-import { QuartzComponentConstructor, QuartzComponentProps, QuartzComponent } from "./types"
+import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { TURNTROUT_FAVICON_PATH } from "../plugins/transformers/linkfavicons"
 import { classNames } from "../util/lang"
 import { TagList } from "./TagList"
-import { GetQuartzPath } from "../plugins/transformers/linkfavicons"
+import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
 import style from "./styles/contentMeta.scss"
 import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
@@ -33,13 +34,10 @@ export const renderDateElement = (fileData: QuartzPluginData, dateStr: string): 
   <time datetime={fileData.frontmatter?.date_published as string}>{dateStr}</time>
 )
 
-// Generate favicon paths for both PNG and AVIF formats
-export const getFaviconPaths = (originalURL: URL): { quartzPath: string; avifPath: string } => {
-  const quartzPath = `https://assets.turntrout.com${GetQuartzPath(originalURL.hostname)}`
-  return {
-    quartzPath,
-    avifPath: quartzPath.replace(".png", ".avif"),
-  }
+export const getFaviconPath = (originalURL: URL): string | null => {
+  const quartzPath = GetQuartzPath(originalURL.hostname)
+  const cachedPath = urlCache.get(quartzPath) || null
+  return cachedPath?.replace(".png", ".avif") || null
 }
 
 // Render publication information including original URL and date
@@ -56,14 +54,14 @@ export const renderPublicationInfo = (
   const dateElement = renderDateElement(fileData, dateStr)
 
   const originalURL = new URL(frontmatter.original_url)
-  const { avifPath } = getFaviconPaths(originalURL)
+  const faviconPath = getFaviconPath(originalURL)
 
   return (
     <span className="publication-str">
       <a href={frontmatter.original_url} class="external" target="_blank">
         {publicationStr}
       </a>
-      <img src={avifPath} class="favicon" alt="" />
+      {faviconPath && <img src={faviconPath} class="favicon" alt="" />}
       {dateElement}
     </span>
   )
@@ -118,6 +116,7 @@ export const renderReadingTime = (fileData: QuartzPluginData): JSX.Element => {
   )
 }
 
+// Modify renderLinkpostInfo function
 export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | null => {
   const linkpostUrl = fileData.frontmatter?.["lw-linkpost-url"]
   if (typeof linkpostUrl !== "string") return null
@@ -127,13 +126,14 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
   const url = new URL(linkpostUrl)
   displayText = url.hostname.replace(/^(https?:\/\/)?(www\.)?/, "")
 
+  const faviconPath = getFaviconPath(url)
   return (
     <span className="linkpost-info">
       Originally linked to{" "}
       <a href={linkpostUrl} className="external" target="_blank">
         {displayText}
       </a>
-      {/* {faviconPath && <img src={faviconPath} className="favicon" alt="" />} */}
+      {faviconPath && <img src={faviconPath} className="favicon" alt="" />}
     </span>
   )
 }
@@ -157,11 +157,15 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
   if (typeof sequence !== "string") return <></>
   const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
+  const faviconPathSequence = TURNTROUT_FAVICON_PATH // Assumes sequence is on turntrout.com
 
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
+  const faviconPathPrev = TURNTROUT_FAVICON_PATH
+
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
+  const faviconPathNext = TURNTROUT_FAVICON_PATH
 
   return (
     <blockquote class="callout callout-metadata" data-callout="example">
@@ -172,6 +176,7 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
           <a href={sequenceLink} className="internal">
             {sequence}
           </a>
+          {faviconPathSequence && <img src={faviconPathSequence} className="favicon" alt="" />}
         </div>
       </div>
       <div class="callout-content">
@@ -181,14 +186,17 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
             <a href={prevPostSlug} className="internal">
               {prevPostTitle}
             </a>
+            {faviconPathPrev && <img src={faviconPathPrev} className="favicon" alt="" />}
           </p>
         )}
+
         {nextPostSlug && (
           <p>
             <b>Next:</b>{" "}
             <a href={nextPostSlug} className="internal">
               {nextPostTitle}
             </a>
+            {faviconPathNext && <img src={faviconPathNext} className="favicon" alt="" />}
           </p>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { processReadingTime, getDateToFormat, formatDateStr, getFaviconPaths } from "../ContentMeta"
+import { processReadingTime, getDateToFormat, formatDateStr, getFaviconPath } from "../ContentMeta"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { GlobalConfiguration } from "../../cfg"
 
@@ -51,12 +51,17 @@ describe("ContentMeta", () => {
     })
   })
 
-  describe("getFaviconPaths", () => {
-    it("should return correct paths", () => {
-      const url = new URL("https://example.com")
-      const { quartzPath, avifPath } = getFaviconPaths(url)
-      expect(quartzPath).toMatch(/^https:\/\/assets\.turntrout\.com\/.*\.png$/)
-      expect(avifPath).toMatch(/^https:\/\/assets\.turntrout\.com\/.*\.avif$/)
+  describe("getFaviconPath", () => {
+    it("should return correct paths for own site", () => {
+      const url = new URL("https://turntrout.com")
+      const faviconPath = getFaviconPath(url)
+      expect(faviconPath).toMatch(/^https:\/\/assets\.turntrout\.com\/.*\.ico$/)
+    })
+
+    it("should return null for unknown domains", () => {
+      const url = new URL("https://unknown-domain.com")
+      const faviconPath = getFaviconPath(url)
+      expect(faviconPath).toBeNull()
     })
   })
 })
