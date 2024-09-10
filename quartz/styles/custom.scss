@@ -345,6 +345,17 @@ img.favicon {
       filter: brightness(0.3);
     }
   }
+
+  &[src$="turntrout-favicons/favicon.ico"] {
+    // Light mode
+    :root[saved-theme="light"] & {
+      filter: contrast(15%);
+    }
+    // Dark mode
+    :root[saved-theme="dark"] & {
+      filter: invert(91%) sepia(6%) saturate(4418%) hue-rotate(185deg) brightness() contrast(50%);
+    }
+  }
 }
 
 .book-citation {
