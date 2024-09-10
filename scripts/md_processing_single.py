@@ -109,12 +109,6 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             author_str = f"{authors[0]} and {authors[1]}"
         else:
             author_str = authors[0]
-
-        # Some authors are messed up and so I need to override
-        for title_string, author_override in helpers.author_exceptions:
-            if title_string in title:
-                author_str = author_override
-                break
         metadata["authors"] = author_str
 
     metadata["tags"] = [entry["name"] for entry in post_info["tags"]]
