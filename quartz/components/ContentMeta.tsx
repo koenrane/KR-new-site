@@ -168,18 +168,27 @@ export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
       <div class="callout-title">
         <div class="callout-icon"></div>
         <div class="callout-title-inner">
-          Sequence: <a href={sequenceLink}>{sequence}</a>
+          Sequence:{" "}
+          <a href={sequenceLink} className="internal">
+            {sequence}
+          </a>
         </div>
       </div>
       <div class="callout-content">
         {prevPostSlug && (
           <p>
-            Previous: <a href={prevPostSlug}>{prevPostTitle}</a>
+            <b>Previous:</b>{" "}
+            <a href={prevPostSlug} className="internal">
+              {prevPostTitle}
+            </a>
           </p>
         )}
         {nextPostSlug && (
           <p>
-            Next: <a href={nextPostSlug}>{nextPostTitle}</a>
+            <b>Next:</b>{" "}
+            <a href={nextPostSlug} className="internal">
+              {nextPostTitle}
+            </a>
           </p>
         )}
       </div>
