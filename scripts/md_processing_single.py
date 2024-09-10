@@ -59,20 +59,23 @@ pairs = (
 )
 
 
+def _convert_title(title: str) -> str:
+    """Convert title to a string that can be used in YAML."""
+    title = title.replace('"', "'")
+    manualTitleReplacements = {
+        "Nonrobust'": "Nonrobust”",
+    }
+    for key, val in manualTitleReplacements.items():
+        title = title.replace(key, val)
+    return f'"{title}"' # Escape in case of colons
+
 def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     metadata = dict((key, post_info[val]) for (key, val) in pairs)
     metadata["permalink"] = helpers.permalink_conversion[post_info["slug"]]
 
     metadata["publish"] = "true" if not metadata["lw-was-draft-post"] else "false"
 
-    manualTitleReplacements = {
-        "Nonrobust'": "Nonrobust”",
-    }
-    title = post_info["title"].replace('"', "'")
-    for key, val in manualTitleReplacements.items():
-        title = title.replace(key, val)
-
-    metadata["title"] = f'"{title}"'  # Escape in case of colons
+    metadata["title"] = title = _convert_title(post_info["title"])
     if "contents" in post_info and (post_info["contents"]):
         metadata["lw-latest-edit"] = post_info["contents"]["editedAt"]
         metadata["lw-is-linkpost"] = not (
@@ -84,7 +87,6 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             )
         else:
             del metadata["lw-linkpost-url"]
-        print(title, metadata['lw-is-linkpost'])
 
     if "coauthors" in post_info and post_info["coauthors"]:
         authors = []
@@ -137,13 +139,18 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     if "podcastEpisode" in post_info and (episode := post_info["podcastEpisode"]):
         metadata["lw-podcast-link"] = episode["episodeLink"]
     if "sequence" in post_info and (sequence := post_info["sequence"]):
-        metadata["lw-sequence-title"] = sequence["title"]
+        metadata["lw-sequence-title"] = _convert_title(sequence["title"])
         metadata["lw-sequence-image-grid"] = sequence["gridImageId"]
         metadata["lw-sequence-image-banner"] = sequence["bannerImageId"]
 
-    for order in ("prev", "next"):
-        if post_info[f"{order}Post"]:
-            metadata[f"{order}-post-slug"] = post_info[f"{order}Post"]["slug"]
+        # If not here, someone else's sequence perhaps
+        if sequence["_id"] in helpers.sequence_hash_to_slugs:
+            metadata["sequence-link"] = helpers.sequence_hash_to_slugs[sequence["_id"]]
+            for order in ("prev", "next"):
+                if post_info[f"{order}Post"]:
+                    metadata[f"{order}-post-slug"] = post_info[f"{order}Post"]["slug"]
+                    order_title: str = _convert_title(post_info[f"{order}Post"]["title"])
+                    metadata[f"{order}-post-title"] = order_title
 
     if "reviewWinner" in post_info and (review_info := post_info["reviewWinner"]):
         metadata["lw-review-art"] = review_info["reviewWinnerArt"]

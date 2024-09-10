@@ -152,24 +152,36 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
 }
 
 export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
-  console.log("fileData", fileData.frontmatter?.["lw-sequence-title"])
   if (!fileData.frontmatter?.["lw-sequence-title"]) return <></>
 
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
   if (typeof sequence !== "string") return <></>
+  const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
 
-  const prevPost: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
-  const nextPost: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
+  const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
+  const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
+  const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
+  const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
 
   return (
     <blockquote class="callout callout-metadata" data-callout="info">
       <div class="callout-title">
         <div class="callout-icon"></div>
-        <div class="callout-title-inner">Sequence: {sequence}</div>
+        <div class="callout-title-inner">
+          Sequence: <a href={sequenceLink}>{sequence}</a>
+        </div>
       </div>
       <div class="callout-content">
-        <p>{prevPost && <a href={prevPost}>Previous post: </a>}</p>
-        <p>{nextPost && <a href={nextPost}>Next</a>}</p>
+        {prevPostSlug && (
+          <p>
+            Previous: <a href={prevPostSlug}>{prevPostTitle}</a>
+          </p>
+        )}
+        {nextPostSlug && (
+          <p>
+            Next: <a href={nextPostSlug}>{nextPostTitle}</a>
+          </p>
+        )}
       </div>
     </blockquote>
   )
