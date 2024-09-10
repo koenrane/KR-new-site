@@ -13,10 +13,14 @@
     padding: $baseMargin;
     background-color: var(--light);
 
-    & li > a {
-      color: var(--gray);
-      transition: opacity 0.5s ease-out;
-      text-decoration: none;
+    & li {
+      text-align: right;
+
+      & > a {
+        color: var(--gray);
+        transition: opacity 0.5s ease-out;
+        text-decoration: none;
+      }
     }
   }
   // Desktop

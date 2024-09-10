@@ -331,6 +331,12 @@ thead {
 li {
   width: fit-content;
   max-width: fit-content;
+
+  // This is for the site nav menu
+  .menu & {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 h1,
