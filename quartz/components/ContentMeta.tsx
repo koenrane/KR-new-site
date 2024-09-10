@@ -151,54 +151,72 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   )
 }
 
-export const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element => {
-  if (!fileData.frontmatter?.["lw-sequence-title"]) return <></>
-
+export const renderSequenceTitle = (fileData: QuartzPluginData): JSX.Element | null => {
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
-  if (typeof sequence !== "string") return <></>
+  if (typeof sequence !== "string") return null
   const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
   const faviconPathSequence = null
 
+  return (
+    <div className="callout-title-inner">
+      <b>Sequence:</b>{" "}
+      <a href={sequenceLink} className="internal">
+        {sequence}
+      </a>
+      {faviconPathSequence && <img src={faviconPathSequence} className="favicon" alt="" />}
+    </div>
+  )
+}
+
+export const renderPreviousPost = (fileData: QuartzPluginData): JSX.Element | null => {
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
+  if (!prevPostSlug) return null
+
   const faviconPathPrev = TURNTROUT_FAVICON_PATH
 
+  return (
+    <p>
+      <b>Previous:</b>{" "}
+      <a href={prevPostSlug} className="internal">
+        {prevPostTitle}
+      </a>
+      {faviconPathPrev && <img src={faviconPathPrev} className="favicon" alt="" />}
+    </p>
+  )
+}
+
+export const renderNextPost = (fileData: QuartzPluginData): JSX.Element | null => {
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
+  if (!nextPostSlug) return null
+
   const faviconPathNext = TURNTROUT_FAVICON_PATH
+
+  return (
+    <p>
+      <b>Next:</b>{" "}
+      <a href={nextPostSlug} className="internal">
+        {nextPostTitle}
+      </a>
+      {faviconPathNext && <img src={faviconPathNext} className="favicon" alt="" />}
+    </p>
+  )
+}
+
+const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
+  const sequenceTitle = renderSequenceTitle(fileData)
+  if (!sequenceTitle) return null
 
   return (
     <blockquote class="callout callout-metadata" data-callout="example">
       <div class="callout-title">
         <div class="callout-icon"></div>
-        <div class="callout-title-inner">
-          <b>Sequence:</b>{" "}
-          <a href={sequenceLink} className="internal">
-            {sequence}
-          </a>
-          {faviconPathSequence && <img src={faviconPathSequence} className="favicon" alt="" />}
-        </div>
+        {sequenceTitle}
       </div>
       <div class="callout-content">
-        {prevPostSlug && (
-          <p>
-            <b>Previous:</b>{" "}
-            <a href={prevPostSlug} className="internal">
-              {prevPostTitle}
-            </a>
-            {faviconPathPrev && <img src={faviconPathPrev} className="favicon" alt="" />}
-          </p>
-        )}
-
-        {nextPostSlug && (
-          <p>
-            <b>Next:</b>{" "}
-            <a href={nextPostSlug} className="internal">
-              {nextPostTitle}
-            </a>
-            {faviconPathNext && <img src={faviconPathNext} className="favicon" alt="" />}
-          </p>
-        )}
+        {renderPreviousPost(fileData)}
+        {renderNextPost(fileData)}
       </div>
     </blockquote>
   )
