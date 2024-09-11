@@ -130,7 +130,6 @@ Reading textbooks
 
 1. I probably (70%) will want kids within the next 5 years.
 2. Ethical non-monogamy is important to me.
-3. I've historically been interested in cis women.
 
 ## What I appreciate in a partner
 
@@ -142,7 +141,6 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
 - Confidence is hot
 - Being good at STEM is also hot
 - Non-avoidant attachment style
-- Reasonably physically fit
 - The kind of girl [^ethical]who would have refused to obey in [the Milgram experiment](https://en.wikipedia.org/wiki/Milgram_experiment) 🥰
 - Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30PM and we have an early morning the next day...
 - Some dispositional _je ne sais quoi_ which makes me feel at ease.

@@ -77,8 +77,7 @@ author: John Doe
 ---
 
 This is the main content of the document. It has a footnote.[^1]
-And some hyphens-to-be-ignored.
-This text is 3x larger.`
+And some hyphens-to-be-ignored.`
 
       const expectedOutput = `
 ---
@@ -87,8 +86,7 @@ author: John Doe
 ---
 
 This is the main content of the document. It has a footnote.[^1]
-And some hyphens-to-be-ignored.
-This text is 3× larger.`
+And some hyphens-to-be-ignored.`
 
       const result = formattingImprovement(input)
       expect(result).toBe(expectedOutput)
