@@ -43,7 +43,6 @@ DM
 DPO
 Ducard
 EB
-EG
 Einhorn
 EleutherAI
 Eliezer
@@ -648,4 +647,3 @@ Verres
 disempowerment
 per-datapoint
 subshards.
-eg

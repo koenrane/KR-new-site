@@ -89,7 +89,7 @@ Introductory post: [Reframing Impact](./reframing-impact)
 ## The Causes of Power-Seeking and Instrumental Convergence
 
 > [!quote] Original sequence description
-> Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (eg gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power *from* humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
+> Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (e.g. gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power *from* humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
 >
 > But where does instrumental convergence come from? When does it occur, and how strongly? And what does the math look like?
 

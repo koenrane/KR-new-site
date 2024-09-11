@@ -55,7 +55,7 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says "We had a party at Chuck-E-Cheese." But the system may never get there during training due to exploration issues, which are *exarcerbated by the network getting penalized relative to its on-policy value estimate* $v_{t-1}(s)$.[^explore]
    [^explore]: In other words, PPO actively updates against actions which aren't known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
-This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. EG vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. "wedding"). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
+This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. For example, vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. "wedding"). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
 ### Action-conditioned TD error avoids arbitrarily high logits
 
