@@ -26,7 +26,7 @@ In early 2018, I became convinced that [the AI alignment problem](https://en.wik
 
 I didn't remember much formal math or computer science, but I wanted to give my all anyways. I started reading textbooks. I started reading _a lot_ of textbooks.
 
-![](test_library.png)
+![](https://assets.turntrout.com/static/images/posts/test_library.avif)
 
 > [!quote] Original sequence description
 >
@@ -59,7 +59,7 @@ I didn't remember much formal math or computer science, but I wanted to give my 
 > [!quote] Original sequence description
 > Why do some things seem like really big deals to us? Do most agents best achieve their goals by seeking power? How might we avert catastrophic incentives in the utility maximization framework?
 
-![](reframing-impact-card.png)
+![](https://assets.turntrout.com/static/images/posts/reframing-impact-card.avif)
 
 Introductory post: [Reframing Impact](./reframing-impact)
 
@@ -93,7 +93,7 @@ Introductory post: [Reframing Impact](./reframing-impact)
 >
 > But where does instrumental convergence come from? When does it occur, and how strongly? And what does the math look like?
 
-![](power-seeking-AI.png)
+![](https://assets.turntrout.com/static/images/posts/power-seeking-AI.avif)
 
 > [!warning] [Reward is not the optimization target](./reward-is-not-the-optimization-target)
 > Many posts in this sequence treat reward functions as "specifying goals", in some sense. This is [wrong](./reward-is-not-the-optimization-target), as I have [argued at length](./against-inner-outer-alignment). Reward signals are akin to a per-datapoint learning rate. Reward chisels circuits into the AI. That's it!
@@ -115,7 +115,7 @@ Introductory post: [Reframing Impact](./reframing-impact)
 ## Thoughts on Corrigibility
 
 <figure class="float-right" style="margin-top:-1rem">
-<img src="./asset_staging/hal_9000.png" alt="" loading="lazy">
+<img src="https://assets.turntrout.com/static/images/posts/hal_9000.avif" alt="" loading="lazy">
 </figure>
 
 > [!quote] Original sequence description
@@ -138,7 +138,7 @@ For example, you probably care more about people you can see. Shard theory predi
 
 Thus, [it seems OK if our AIs don't have "perfect" shard mixtures](./alignment-without-total-robustness). The stronger their "aligned shards", the more human welfare weighs on their decision-making. We're playing a game of inches, so let's play to win.
 
-![](human_shards.png)
+![](https://assets.turntrout.com/static/images/posts/human_shards.avif)
 
 1. [Humans Provide an Untapped Wealth of Evidence About Alignment](./humans-provide-alignment-evidence)
 2. [Human Values & Biases Are Inaccessible to the Genome](./human-values-and-biases-are-inaccessible-to-the-genome)
@@ -157,7 +157,7 @@ Thus, [it seems OK if our AIs don't have "perfect" shard mixtures](./alignment-w
 
 My work with my MATS 3.0 scholars, [Ulisse Mini](https://uli.rocks) and [Peli Grietzer](https://thegradientpub.substack.com/p/peli-grietzer-a-mathematized-philosophy)!
 
-![](shard_mouse.png)
+![](https://assets.turntrout.com/static/images/posts/shard_mouse.avif)
 Figure: A [mouse with cheese subshards](https://imgur.com/a/doRBRs4).
 
 > [!quote] Original sequence description
