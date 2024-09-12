@@ -346,6 +346,12 @@ img.favicon {
     }
   }
 
+  &[src$="alignmentforum_org.avif"] {
+    :root[saved-theme="dark"] & {
+      filter: brightness(3); // Make it brighter
+    }
+  }
+
   &[src$="turntrout-favicons/favicon.ico"] {
     // Light mode
     :root[saved-theme="light"] & {
