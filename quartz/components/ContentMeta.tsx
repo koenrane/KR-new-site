@@ -1,12 +1,12 @@
 import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { TURNTROUT_FAVICON_PATH } from "../plugins/transformers/linkfavicons"
-import { classNames } from "../util/lang"
 import { TagList } from "./TagList"
 import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
 import style from "./styles/contentMeta.scss"
 import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
+import { Backlinks } from "./Backlinks"
 import { QuartzPluginData } from "../plugins/vfile"
 import readingTime from "reading-time"
 
@@ -264,7 +264,12 @@ export const ContentMetadata = (props: QuartzComponentProps) => {
 
   const filteredElements = metadataElements.filter(Boolean) // Remove any null or undefined elements
 
-  return <div id="content-meta">{filteredElements}</div>
+  return (
+    <div id="content-meta">
+      {filteredElements}
+      <Backlinks {...props} />
+    </div>
+  )
 }
 
 ContentMetadata.css = style
