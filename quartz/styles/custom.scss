@@ -50,7 +50,7 @@ ol {
       color: var(--gray);
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
-      margin-right: calc(0.5 * $baseMargin);
+      margin-right: calc(0.25 * $baseMargin);
       flex-shrink: 0;
     }
 
@@ -689,5 +689,27 @@ article[data-use-dropcap="true"] {
   & > p[data-first-letter="f"]::before,
   & > p[data-first-letter="F"]::before {
     padding-left: 0.025em;
+  }
+}
+
+// Add indent after the first line
+.center li,
+#backlinks li,
+.popover-inner li {
+  text-indent: calc(-0.25 * $baseMargin);
+}
+
+#backlinks {
+  position: relative;
+
+  & li {
+    &::marker {
+      color: var(--lightgray);
+    }
+    & a {
+      text-decoration-thickness: 0.2px;
+      background-color: transparent;
+      color: var(--gray);
+    }
   }
 }

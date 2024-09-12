@@ -51,6 +51,7 @@
   --callout-icon-fold: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpolyline points="6 9 12 15 18 9"%3E%3C/polyline%3E%3C/svg%3E');
   --callout-icon-thanks: url("https://assets.turntrout.com/static/images/heart.svg");
   --callout-icon-tag: url("https://assets.turntrout.com/static/images/tag.svg");
+  --callout-icon-link: url("https://assets.turntrout.com/static/images/link.svg");
 
   // Gray by default
   &[data-callout] {
@@ -137,6 +138,11 @@
 
   &[data-callout="tag"] {
     --callout-icon: var(--callout-icon-tag);
+  }
+
+  &[data-callout="link"] {
+    --callout-icon: var(--callout-icon-link);
+    margin-right: calc(0.25 * $baseMargin);
   }
 
   :root[saved-theme="dark"] & {

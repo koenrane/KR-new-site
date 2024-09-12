@@ -1,5 +1,4 @@
 import { QuartzComponent, QuartzComponentProps } from "./types"
-import style from "./styles/backlinks.scss"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
 
@@ -10,7 +9,7 @@ const BacklinksList = ({
   backlinkFiles: any[]
   currentSlug: FullSlug
 }) => (
-  <ul class="backlinks-list">
+  <ul class="backlinks-list" id="backlinks">
     {backlinkFiles.map((f) => (
       <li>
         <a href={resolveRelative(currentSlug, f.slug!)} class="internal">
@@ -29,22 +28,22 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
 
   return (
     <blockquote
-      class="callout info callout-metadata is-collapsible is-collapsed"
-      data-callout="info"
+      class="callout callout-metadata is-collapsible is-collapsed"
+      data-callout="link"
       data-callout-fold=""
     >
-      <div class="callout-title">
+      <div class="callout-title" style="padding-bottom: 1rem;">
         <div class="callout-icon"></div>
         <div class="callout-title-inner">
           <p>Links to this page</p>
         </div>
         <div class="fold-callout-icon"></div>
       </div>
-      <div class="callout-content">
+      <div class="callout-content" id="backlinks">
         <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug!} />
       </div>
     </blockquote>
-  )
+  ) // TODO in general make ul have indent on second line, take solution from toc
 }
 
-Backlinks.css = style
+// TODO apply tag-acronyms
