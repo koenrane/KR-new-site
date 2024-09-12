@@ -5,10 +5,9 @@ title: I'm that "other fish in the sea"
 authors: Alex
 avoidIndexing: '"true"'
 ---
-
 <img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
-Many people call me "TurnTrout", but you can call me "Alex". I want to let you in a bit, to let you see a different facet of me than I usually present online.
+Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
