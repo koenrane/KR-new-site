@@ -4,6 +4,7 @@ import { FullSlug } from "../util/path"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { fromHtml } from "hast-util-from-html"
 import { RootContent, Parent, Text, Element } from "hast"
+import { formatTitle } from "./component_utils"
 
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
@@ -12,8 +13,10 @@ function processSmallCaps(text: string, parent: Parent): void {
 }
 
 function processBacklinkTitle(title: string): Parent {
+  // Apply formatTitle before processing
+  const formattedTitle = formatTitle(title)
   const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
-  const htmlAst = fromHtml(title, { fragment: true })
+  const htmlAst = fromHtml(formattedTitle, { fragment: true })
   processHtmlAst(htmlAst, parent)
   return parent
 }
