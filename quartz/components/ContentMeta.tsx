@@ -140,6 +140,12 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
 
 // a callout that displays the tags for the post
 export const renderTags = (props: QuartzComponentProps): JSX.Element => {
+  // Check if there are any tags
+  const tags = props.fileData.frontmatter?.tags
+  if (!tags || tags.length === 0) {
+    return <></>
+  }
+
   return (
     <blockquote class="callout callout-metadata" data-callout="tag">
       <div class="callout-title">
