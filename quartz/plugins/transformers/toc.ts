@@ -3,9 +3,8 @@ import { createLogger } from "./logger_utils"
 import { Root, Heading } from "mdast"
 import { visit, SKIP } from "unist-util-visit"
 import Slugger from "github-slugger"
-import { applyTextTransforms } from "./formatting_improvement_html"
+import { applyTextTransforms, hasAncestor } from "./formatting_improvement_html"
 import { Node } from "hast"
-import { hasAncestor } from "./formatting_improvement_html"
 
 export interface Options {
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6
