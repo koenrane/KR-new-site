@@ -228,30 +228,43 @@ const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
   )
 }
 
+export function renderPostStatistics(props: QuartzComponentProps): JSX.Element | null {
+  const readingTime = renderReadingTime(props.fileData)
+  const linkpostInfo = renderLinkpostInfo(props.fileData)
+  const publicationInfo = renderPublicationInfo(props.cfg, props.fileData)
+
+  return (
+    <blockquote class="callout callout-metadata" data-callout="info" style="width: fit-content">
+      <div class="callout-title">
+        <div class="callout-icon"></div>
+        <div class="callout-title-inner">About this post</div>
+      </div>
+      <div class="callout-content">
+        <ul style="padding-left: 0px;">
+          {readingTime && <p>{readingTime}</p>}
+          {linkpostInfo && <p>{linkpostInfo}</p>}
+          {publicationInfo && <p>{publicationInfo}</p>}
+        </ul>
+      </div>
+    </blockquote>
+  )
+}
+
 export const ContentMetadata = (props: QuartzComponentProps) => {
-  const { cfg, fileData, displayClass } = props
-  if (fileData.frontmatter?.hide_metadata || !fileData.text) {
+  if (props.fileData.frontmatter?.hide_metadata || !props.fileData.text) {
     return null
   }
 
   // Collect all metadata elements
   const metadataElements = [
     renderTags(props),
-    renderPublicationInfo(cfg, fileData),
-    renderLinkpostInfo(fileData),
-    renderReadingTime(fileData),
-    renderSequenceInfo(fileData),
+    renderSequenceInfo(props.fileData),
+    renderPostStatistics(props),
   ]
 
   const filteredElements = metadataElements.filter(Boolean) // Remove any null or undefined elements
 
-  return (
-    <div id="content-meta" className={classNames(displayClass)}>
-      {filteredElements.map((element, index) => (
-        <p key={index}>{element}</p>
-      ))}
-    </div>
-  )
+  return <div id="content-meta">{filteredElements}</div>
 }
 
 ContentMetadata.css = style
