@@ -15,9 +15,11 @@ hamburger?.addEventListener("click", () => {
 // Handle clicks outside the menu to close it
 document.addEventListener("click", (event) => {
   // Check if the menu is visible and the click is outside the menu and hamburger
-  if (menu?.classList.contains("visible") && 
-      !menu.contains(event.target as Node) && 
-      !hamburger?.contains(event.target as Node)) {
+  if (
+    menu?.classList.contains("visible") &&
+    !menu.contains(event.target as Node) &&
+    !hamburger?.contains(event.target as Node)
+  ) {
     // Hide the menu
     menu.classList.remove("visible")
     // Reset hamburger icon animation
@@ -129,7 +131,7 @@ let index = new FlexSearch.Document<Item>({
 })
 
 const p = new DOMParser()
-const fetchContentCache: Map<FullSlug, Element[]> = new Map()
+const fetchContentCache: Map<FullSlug, FetchResult> = new Map()
 const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
@@ -470,9 +472,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     }
   }
 
-  async function fetchContent(slug: FullSlug): Promise<Element[]> {
+  interface FetchResult {
+    content: Element[]
+    frontmatter: any
+  }
+
+  async function fetchContent(slug: FullSlug): Promise<FetchResult> {
     if (fetchContentCache.has(slug)) {
-      return fetchContentCache.get(slug) as Element[]
+      return fetchContentCache.get(slug) as FetchResult
     }
 
     const targetUrl = resolveUrl(slug).toString()
@@ -484,23 +491,38 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
         }
         const html = p.parseFromString(contents ?? "", "text/html")
         normalizeRelativeURLs(html, targetUrl)
-        return [...html.getElementsByClassName("popover-hint")]
+
+        // Extract frontmatter
+        const frontmatterScript = html.querySelector('script[type="application/json"]')
+        const frontmatter = frontmatterScript
+          ? JSON.parse(frontmatterScript.textContent || "{}")
+          : {}
+
+        const contentElements = [...html.getElementsByClassName("popover-hint")]
+
+        return { content: contentElements, frontmatter }
       })
 
     fetchContentCache.set(slug, contents)
     return contents
   }
 
-  // works on mobile but not on desktop
   async function displayPreview(el: HTMLElement | null) {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
-    const content = await fetchContent(slug)
-    const innerDiv = await fetchContent(slug).then((contents) =>
-      contents.flatMap((el) => [...highlightHTML(currentSearchTerm, el as HTMLElement).children]),
-    )
+    const { content, frontmatter } = await fetchContent(slug)
+    const useDropcap = !frontmatter?.no_dropcap
+
+    const innerDiv = content.flatMap((el) => [
+      ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
+    ])
+
     previewInner = document.createElement("article" as "div")
     previewInner.classList.add("preview-inner")
+
+    // Set data-use-dropcap attribute based on frontmatter
+    previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
+
     previewInner.append(...innerDiv)
 
     preview.replaceChildren(previewInner)
