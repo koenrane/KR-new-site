@@ -573,6 +573,20 @@ hr {
   max-width: 97.5%; // Looks weird if it extends all the way to the right
 }
 
+.sequenceLinks-divider {
+  color: var(--lightgray);
+  height: calc(8 * $baseMargin);
+  margin-top: calc(2 * $baseMargin);
+  margin-left: $baseMargin;
+  margin-right: $baseMargin;
+  border-left-style: solid;
+  border-left-width: 1px;
+}
+
+.sequenceLinks-postNavigation {
+  max-width: 45%;
+}
+
 // Fixing issue where eqn numbers overlap with katex math
 //  https://github.com/KaTeX/KaTeX/issues/3066
 .katex-html {

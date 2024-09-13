@@ -25,8 +25,8 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   const faviconPathPrev = TURNTROUT_FAVICON_PATH
 
   return h("p", [
-    h("b", "Previous:"),
-    " ",
+    h("b", "Previous"),
+    h("br"),
     h("a", { href: prevPostSlug, className: "internal" }, prevPostTitle),
     faviconPathPrev && h("img", { src: faviconPathPrev, className: "favicon", alt: "" }),
   ])
@@ -40,38 +40,46 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   const faviconPathNext = TURNTROUT_FAVICON_PATH
 
   return h("p", [
-    h("b", "Next:"),
-    " ",
+    h("b", "Next"),
+    h("br"),
     h("a", { href: nextPostSlug, className: "internal" }, nextPostTitle),
     faviconPathNext && h("img", { src: faviconPathNext, className: "favicon", alt: "" }),
   ])
 }
 
-// Existing functions...
 export function createSequenceLinksDiv(
   sequenceTitle: Element | null,
   prevPost: Element | null,
   nextPost: Element | null,
 ): Element {
-  return {
-    type: "element",
-    tagName: "div",
-    properties: { className: ["sequence-links"] },
-    children: [
-      {
-        type: "element",
-        tagName: "div",
-        properties: { className: ["sequence-title"] },
-        children: sequenceTitle ? [sequenceTitle as any] : [],
-      },
-      {
-        type: "element",
-        tagName: "div",
-        properties: { className: ["sequence-nav"] },
-        children: [prevPost, nextPost].filter(Boolean) as unknown as Element[],
-      },
-    ],
-  }
+  const children = [
+    prevPost &&
+      h(
+        "div",
+        { className: "prev-post sequenceLinks-postNavigation", style: "text-align: right;" },
+        prevPost,
+      ),
+    prevPost && nextPost && h("div", { className: "sequenceLinks-divider" }),
+    nextPost &&
+      h(
+        "div",
+        { className: "next-post sequenceLinks-postNavigation", style: "text-align: left;" },
+        nextPost,
+      ),
+  ].filter(Boolean) as Element[]
+
+  return h("div", { className: "sequence-links" }, [
+    h(
+      "div",
+      { className: "sequence-title", style: "text-align: center;" },
+      sequenceTitle ? [sequenceTitle as any] : [],
+    ),
+    h(
+      "div",
+      { className: "sequence-nav", style: "display: flex; justify-content: center;" },
+      children,
+    ),
+  ])
 }
 
 export function insertAfterTroutOrnament(tree: Root, sequenceLinksDiv: Element): void {

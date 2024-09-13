@@ -125,7 +125,7 @@ Introductory post: [Reframing Impact](./reframing-impact)
 1. [Non-Obstruction: A Simple Concept Motivating Corrigibility](./non-obstruction-motivates-corrigibility)
 2. [Corrigibility As Outside View](./corrigibility-as-outside-view)
 3. [A Certain Formalization of Corrigibility is VNM-Incoherent](./a-certain-formalization-of-corrigibility-is-vnm-incoherent)
-4. [Formalizing Policy Modification Corrigibility](formalizing-policy-modification-corrigibility)
+4. [Formalizing Policy Modification Corrigibility](./formalizing-policy-modification-corrigibility)
 
 ## Shard Theory
 In early 2022, [Quintin Pope](https://www.linkedin.com/in/quintin-pope/) and I noticed glaring problems at the heart of "classical" alignment arguments. We thought through the problem with fresh eyes and derived _shard theory_. 
