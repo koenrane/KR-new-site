@@ -1,5 +1,10 @@
 import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { Fragment, jsx, jsxs } from "react/jsx-runtime"
+import { h } from "hastscript"
+import { toJsxRuntime } from "hast-util-to-jsx-runtime"
+import { ElementType, ReactElement } from "react"
+
 import { TURNTROUT_FAVICON_PATH } from "../plugins/transformers/linkfavicons"
 import { TagList } from "./TagList"
 import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
@@ -157,24 +162,21 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   )
 }
 
-export const renderSequenceTitle = (fileData: QuartzPluginData): JSX.Element | null => {
+export const renderSequenceTitleJsx = (fileData: QuartzPluginData) => {
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
-  if (typeof sequence !== "string") return null
+  if (!sequence) return null
   const sequenceLink: string = fileData.frontmatter?.["sequence-link"] as string
-  const faviconPathSequence = null
 
   return (
-    <div className="callout-title-inner">
+    <div>
       <b>Sequence:</b>{" "}
       <a href={sequenceLink} className="internal">
-        {sequence}
+        {sequence as any}
       </a>
-      {faviconPathSequence && <img src={faviconPathSequence} className="favicon" alt="" />}
     </div>
   )
 }
-
-export const renderPreviousPost = (fileData: QuartzPluginData): JSX.Element | null => {
+export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
   if (!prevPostSlug) return null
@@ -192,7 +194,7 @@ export const renderPreviousPost = (fileData: QuartzPluginData): JSX.Element | nu
   )
 }
 
-export const renderNextPost = (fileData: QuartzPluginData): JSX.Element | null => {
+export const renderNextPostJsx = (fileData: QuartzPluginData) => {
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
   if (!nextPostSlug) return null
@@ -211,18 +213,22 @@ export const renderNextPost = (fileData: QuartzPluginData): JSX.Element | null =
 }
 
 const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
-  const sequenceTitle = renderSequenceTitle(fileData)
+  const sequenceTitle = renderSequenceTitleJsx(fileData)
   if (!sequenceTitle) return null
+
+  const sequenceTitleJsx = renderSequenceTitleJsx(fileData)
+  const previousPostJsx = renderPreviousPostJsx(fileData)
+  const nextPostJsx = renderNextPostJsx(fileData)
 
   return (
     <blockquote class="callout callout-metadata" data-callout="example">
       <div class="callout-title">
         <div class="callout-icon"></div>
-        {sequenceTitle}
+        {sequenceTitleJsx}
       </div>
       <div class="callout-content">
-        {renderPreviousPost(fileData)}
-        {renderNextPost(fileData)}
+        {previousPostJsx}
+        {nextPostJsx}
       </div>
     </blockquote>
   )

@@ -1,6 +1,29 @@
-import { processReadingTime, getDateToFormat, formatDateStr, getFaviconPath } from "../ContentMeta"
+/**
+ * @jest-environment jsdom
+ */
+
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import { jest } from "@jest/globals"
+
+import {
+  formatDateStr,
+  getDateToFormat,
+  getFaviconPath,
+  processReadingTime,
+  renderReadingTime,
+} from "../ContentMeta"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { GlobalConfiguration } from "../../cfg"
+
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toBeInTheDocument(): R
+      toBeEmptyDOMElement(): R
+    }
+  }
+}
 
 describe("ContentMeta", () => {
   describe("processReadingTime", () => {
@@ -63,5 +86,46 @@ describe("ContentMeta", () => {
       const faviconPath = getFaviconPath(url)
       expect(faviconPath).toBeNull()
     })
+  })
+})
+
+// Mock the readingTime function
+jest.mock("reading-time", () => {
+  return jest.fn().mockImplementation(() => ({ minutes: 5 }))
+})
+
+describe("renderReadingTime", () => {
+  it("should render reading time when not hidden", () => {
+    const fileData = {
+      text: "Some sample text",
+      frontmatter: {},
+    } as QuartzPluginData
+
+    const { container } = render(renderReadingTime(fileData))
+    expect(container.querySelector(".reading-time")).toBeInTheDocument()
+    expect(screen.getByText("Read time:")).toBeInTheDocument()
+    expect(screen.getByText("5 minutes")).toBeInTheDocument()
+  })
+
+  it("should not render reading time when hidden", () => {
+    const fileData = {
+      text: "Some sample text",
+      frontmatter: { hide_reading_time: true },
+    } as unknown as QuartzPluginData
+
+    const { container } = render(renderReadingTime(fileData))
+    expect(container.firstChild).toBeEmptyDOMElement()
+  })
+
+  it("should handle empty text", () => {
+    const fileData = {
+      text: "",
+      frontmatter: {},
+    } as QuartzPluginData
+
+    const { container } = render(renderReadingTime(fileData))
+    expect(container.querySelector(".reading-time")).toBeInTheDocument()
+    expect(screen.getByText("Read time:")).toBeInTheDocument()
+    expect(screen.getByText("0 minutes")).toBeInTheDocument()
   })
 })

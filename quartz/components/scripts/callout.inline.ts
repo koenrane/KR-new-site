@@ -42,6 +42,3 @@ function setupCallout() {
 
 document.addEventListener("nav", setupCallout)
 window.addEventListener("resize", setupCallout)
-window.addCleanup(() => {
-  window.removeEventListener("resize", setupCallout)
-})
