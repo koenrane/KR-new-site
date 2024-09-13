@@ -2,10 +2,7 @@ import { computePosition, flip, inline, shift } from "@floating-ui/dom"
 import { normalizeRelativeURLs } from "../../util/path"
 
 const p = new DOMParser()
-async function mouseEnterHandler(
-  this: HTMLLinkElement,
-  { clientX, clientY }: { clientX: number; clientY: number },
-) {
+async function mouseEnterHandler(this: HTMLLinkElement) {
   const link = this
   const parentOfPopover = document.getElementById("quartz-root")
   if (link.dataset.noPopover === "true") {
@@ -19,9 +16,10 @@ async function mouseEnterHandler(
   }
 
   async function setPosition(popoverElement: HTMLElement) {
+    const linkRect = link.getBoundingClientRect()
     const { x, y } = await computePosition(link, popoverElement, {
       middleware: [
-        inline({ x: clientX, y: clientY }),
+        inline({ x: linkRect.left, y: linkRect.top }),
         shift({ padding: 10 }), // Add some padding to avoid sticking to the edge
         flip(),
       ],
@@ -31,25 +29,32 @@ async function mouseEnterHandler(
     const leftSidebarRect = leftSidebar ? leftSidebar.getBoundingClientRect() : null
     const sidebarRightEdge = leftSidebarRect ? leftSidebarRect.right : 300 // fallback value if leftSidebar not found
 
-    const center = document.querySelector(".center") as HTMLElement
-
     // Assume within .center or #left-sidebar
     let referenceEdge = sidebarRightEdge
     // If within right sidebar
     if (link.closest("#right-sidebar")) {
-      const centerRect = center ? center.getBoundingClientRect() : null
-      const centerRightEdge = centerRect ? centerRect.right : 300 // Should this fallback value be different?
-      // Add 50 to make it closer to the right sidebar
-      referenceEdge = centerRightEdge + 50
+      const right = document.querySelector("#right-sidebar") as HTMLElement
+      const rightRect = right.getBoundingClientRect()
+      const computedStyle = window.getComputedStyle(right)
+      const marginLeft = parseFloat(computedStyle.marginLeft)
+      const paddingLeft = parseFloat(computedStyle.paddingLeft)
+
+      // Calculate the left edge, excluding margin and padding
+      const rightRectLeftEdge = rightRect.left + marginLeft + paddingLeft + 30
+      referenceEdge = rightRectLeftEdge
     }
 
     // Calculate the left position to align with the leftSidebar's right edge
     // Ensure the popover is not offscreen to the left
     const left = Math.max(10, Math.min(x, referenceEdge - popoverElement.offsetWidth))
 
+    // Calculate the top offset based on viewport height
+    const topOffsetVh = 10 // Adjust this value to change the relative offset
+    document.documentElement.style.setProperty("--top-offset", `${topOffsetVh}vh`)
+
     Object.assign(popoverElement.style, {
       left: `${left}px`,
-      top: `${y}px`,
+      top: `calc(${y}px - var(--top-offset))`,
     })
   }
 
@@ -219,9 +224,9 @@ document.addEventListener("nav", () => {
   for (const link of links) {
     let cleanup: (() => void) | undefined
 
-    const handleMouseEnter = async (event: MouseEvent) => {
+    const handleMouseEnter = async (_event: MouseEvent) => {
       if (cleanup) cleanup() // Remove previous listeners if any
-      cleanup = await mouseEnterHandler.call(link, event)
+      cleanup = await mouseEnterHandler.call(link)
     }
 
     link.addEventListener("mouseenter", handleMouseEnter)
