@@ -56,11 +56,12 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
       return [
         () => {
           return async (tree: Root, file) => {
+            slugAnchor.reset()
+
             const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
             logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
 
             if (display) {
-              slugAnchor.reset()
               const toc: TocEntry[] = []
               let highestDepth: number = opts.maxDepth
               let hasFootnotes = false
