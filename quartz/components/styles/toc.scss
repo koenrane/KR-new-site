@@ -16,7 +16,8 @@ ol.overflow {
   clear: both;
 }
 
-#toc-content {
+#toc-content,
+#toc-content-mobile {
   list-style: none;
   overflow: visible;
   max-height: none;
@@ -70,5 +71,12 @@ ol.overflow {
         }
       }
     }
+  }
+}
+
+.center #toc-content-mobile {
+  & a,
+  & a:visited {
+    color: var(--dark);
   }
 }

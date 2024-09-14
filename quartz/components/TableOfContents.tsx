@@ -65,7 +65,7 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   const title = fileData.frontmatter?.title
   logger.debug(`Title for TOC: ${title}`)
 
-  const toc = addListItem(fileData.toc, 0)
+  const toc = addListItem(fileData.toc!, 0)
   logger.debug(`Generated TOC items: ${toc.length}`)
 
   return (
@@ -87,7 +87,7 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
  * @param currentDepth - The current depth in the TOC hierarchy.
  * @returns An array of JSX elements representing the TOC items.
  */
-function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.Element[] {
+export function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.Element[] {
   logger.debug(
     `addListItem called with ${remainingEntries.length} entries at depth ${currentDepth}`,
   )
@@ -166,14 +166,14 @@ function processTocEntry(entry: TocEntry): Parent {
  */
 function processHtmlAst(htmlAst: any, parent: Parent): void {
   htmlAst.children.forEach((node: any) => {
-    if (node.type === 'text') {
+    if (node.type === "text") {
       processSmallCaps(node.value, parent)
-    } else if (node.type === 'element') {
+    } else if (node.type === "element") {
       const newElement = {
-        type: 'element',
+        type: "element",
         tagName: node.tagName,
         properties: { ...node.properties },
-        children: []
+        children: [],
       } as Element
       parent.children.push(newElement)
       processHtmlAst(node, newElement)

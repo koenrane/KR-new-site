@@ -11,21 +11,21 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
     fileData.frontmatter.title = formatTitle(fileData.frontmatter.title)
   }
   const title = fileData.frontmatter?.title
+  let titleContent = null
 
   if (title) {
-    let htmlContent = <h1 class={classNames(displayClass, "article-title")}>{title}</h1>
+    titleContent = <h1 class={classNames(displayClass, "article-title")}>{title}</h1>
     if (title.match("Tag: ")) {
       const tagText = formatTag(title.split("Tag: ")[1])
-      htmlContent = (
+      titleContent = (
         <h1 class={classNames(displayClass, "article-title")}>
           Tag: <span style="font-family:var(--font-monospace); font-size: smaller">{tagText}</span>
         </h1>
       )
     }
-    return htmlContent
-  } else {
-    return null
   }
+
+  return titleContent
 }
 
 ArticleTitle.css = `

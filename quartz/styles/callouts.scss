@@ -127,8 +127,9 @@
 
   &[data-callout="example"] {
     --callout-icon: var(--callout-icon-example);
+    margin-right: calc(0.25 * $baseMargin);
     & .callout-icon {
-      -webkit-mask-position-y: 3.5px; // Make sure this is centered
+      -webkit-mask-position-y: 5.5px; // Make sure this is centered
     }
   }
 
@@ -225,7 +226,7 @@
     // Align with the text
     mask-position: none;
     -webkit-mask-position: none;
-    -webkit-mask-position-y: 5px;
+    -webkit-mask-position-y: 5.5px;
   }
 
   .callout-title-inner {
