@@ -1,7 +1,7 @@
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
-import { Element, Text } from "hast"
+import { Element, Text, Root } from "hast"
 import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
 
@@ -393,12 +393,55 @@ function isFootnote(node: Element) {
   return (node?.properties?.href as String)?.includes("user-content-fn-")
 }
 
+/**
+ * Sets the data-first-letter attribute for the first paragraph in an article
+ */
+function setFirstLetterAttribute(tree: Root): void {
+  // Find the first paragraph in the article
+  const firstParagraph = tree.children.find(
+    (child): child is Element => child.type === "element" && child.tagName === "p",
+  )
+
+  if (!firstParagraph) {
+    return
+  }
+
+  const firstLetter = getTextContent(firstParagraph).charAt(0)
+  firstParagraph.properties = firstParagraph.properties || {}
+  firstParagraph.properties["data-first-letter"] = firstLetter
+
+  // If the first letter is an apostrophe, add a space before it
+  const secondLetter = getTextContent(firstParagraph).charAt(1)
+  if (secondLetter === "'" || secondLetter === "'") {
+    const firstTextNode = firstParagraph.children.find(
+      (child): child is Text => child.type === "text",
+    )
+    if (firstTextNode) {
+      firstTextNode.value = firstLetter + " " + firstTextNode.value.slice(1)
+    }
+  }
+}
+
+/**
+ * QuartzTransformerPlugin for HTML formatting
+ * @returns A QuartzTransformerPlugin
+ */
+export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
+  return {
+    name: "htmlFormattingImprovement",
+    htmlPlugins() {
+      return [improveFormatting]
+    },
+  }
+}
+
 // Main function //
 // Note: Assumes no nbsp
 /**
  * Main plugin function for applying formatting improvements
  * @returns A unified plugin
  */
+
 export const improveFormatting: Plugin = () => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
@@ -464,18 +507,8 @@ export const improveFormatting: Plugin = () => {
         }
       }
     })
-  }
-}
 
-/**
- * QuartzTransformerPlugin for HTML formatting
- * @returns A QuartzTransformerPlugin
- */
-export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
-  return {
-    name: "htmlFormattingImprovement",
-    htmlPlugins() {
-      return [improveFormatting]
-    },
+    // Add the new transformation
+    setFirstLetterAttribute(tree)
   }
 }

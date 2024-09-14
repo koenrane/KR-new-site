@@ -510,3 +510,53 @@ describe("flattenTextNodes and getTextContent", () => {
     })
   })
 })
+
+describe("setFirstLetterAttribute", () => {
+  it("should set data-first-letter attribute on the first paragraph", () => {
+    const input = `
+      <h1>Title</h1>
+      <p>First paragraph.</p>
+      <p>Second paragraph.</p>
+    `
+    const expected = `
+      <h1>Title</h1>
+      <p data-first-letter="F">First paragraph.</p>
+      <p>Second paragraph.</p>
+    `
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("should handle apostrophe as the second character", () => {
+    const input = `
+      <p>'Twas the night before Christmas.</p>
+    `
+    const expected = `
+      <p data-first-letter="‘">‘Twas the night before Christmas.</p>
+    `
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("should not modify when there are no paragraphs", () => {
+    const input = `
+      <h1>Title</h1>
+      <div>Not a paragraph</div>
+    `
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(input)
+  })
+
+  it("should only process the first paragraph in the document", () => {
+    const input = `
+      <p>First paragraph.</p>
+      <p>Second paragraph.</p>
+    `
+    const expected = `
+      <p data-first-letter="F">First paragraph.</p>
+      <p>Second paragraph.</p>
+    `
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+})
