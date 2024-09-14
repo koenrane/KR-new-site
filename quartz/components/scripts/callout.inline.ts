@@ -1,3 +1,7 @@
+/**
+ * Toggles the collapsed state of a callout.
+ * @this {HTMLElement} The title element of the callout
+ */
 function toggleCallout(this: HTMLElement) {
   const outerBlock = this.parentElement!
   outerBlock.classList.toggle("is-collapsed")
@@ -22,6 +26,9 @@ function toggleCallout(this: HTMLElement) {
   }
 }
 
+/**
+ * Initializes all collapsible callouts on the page.
+ */
 function setupCallout() {
   const collapsible = document.getElementsByClassName(
     "callout is-collapsible",
@@ -33,9 +40,14 @@ function setupCallout() {
       title.addEventListener("click", toggleCallout)
       window.addCleanup(() => title.removeEventListener("click", toggleCallout))
 
-      const collapsed = div.classList.contains("is-collapsed")
-      const height = collapsed ? title.scrollHeight : div.scrollHeight
-      div.style.maxHeight = height + "px"
+      // only set this if the max height isn't already set
+      //  This is a little hacky because to avoid FOUC,
+      //  you have to manually set the max height of the callout to the height of the title
+      if (!div.style.maxHeight) {
+        const collapsed = div.classList.contains("is-collapsed")
+        const height = collapsed ? title.scrollHeight : div.scrollHeight
+        div.style.maxHeight = height + "px"
+      }
     }
   }
 }

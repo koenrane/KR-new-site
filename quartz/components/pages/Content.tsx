@@ -28,6 +28,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
       class="callout example is-collapsible is-collapsed"
       data-callout="example"
       data-callout-fold=""
+      style="max-height: 75px;" // prevent flashes of unstyled content
     >
       <div class="callout-title">
         <div class="callout-icon"></div>
