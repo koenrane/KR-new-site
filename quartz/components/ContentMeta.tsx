@@ -240,7 +240,7 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const publicationInfo = renderPublicationInfo(props.cfg, props.fileData)
 
   return (
-    <blockquote class="callout callout-metadata" data-callout="info" style="width: fit-content">
+    <blockquote class="callout callout-metadata" data-callout="info">
       <div class="callout-title">
         <div class="callout-icon"></div>
         <div class="callout-title-inner">About this post</div>

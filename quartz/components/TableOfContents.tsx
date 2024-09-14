@@ -7,7 +7,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
-import { classNames } from "../util/lang"
 import { RootContent, Parent, Text, Element } from "hast"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
@@ -49,10 +48,9 @@ const logger = createLogger("TableOfContents")
  *
  * @param props - The component props.
  * @param props.fileData - Data for the current file.
- * @param props.displayClass - CSS class for controlling display.
  * @returns The rendered table of contents or null if disabled.
  */
-const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
+const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
@@ -69,7 +67,7 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
   logger.debug(`Generated TOC items: ${toc.length}`)
 
   return (
-    <div id="table-of-contents" className={classNames(displayClass)}>
+    <div id="table-of-contents" className="desktop-only">
       <h6 className="toc-title">
         <a href="#">{title}</a>
       </h6>
@@ -83,35 +81,35 @@ const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComp
 /**
  * Recursively generates list items for the table of contents.
  *
- * @param remainingEntries - The remaining TOC entries to process.
+ * @param entries - The TOC entries to process.
  * @param currentDepth - The current depth in the TOC hierarchy.
  * @returns An array of JSX elements representing the TOC items.
  */
-export function addListItem(remainingEntries: TocEntry[], currentDepth: number): JSX.Element[] {
-  logger.debug(
-    `addListItem called with ${remainingEntries.length} entries at depth ${currentDepth}`,
-  )
+export function addListItem(entries: TocEntry[], currentDepth: number): JSX.Element[] {
+  logger.debug(`addListItem called with ${entries.length} entries at depth ${currentDepth}`)
 
-  if (remainingEntries.length === 0) {
-    logger.debug("No remaining entries, returning empty array")
+  if (entries.length === 0) {
+    logger.debug("No entries, returning empty array")
     return []
   }
 
   let result: JSX.Element[] = []
+  let remainingEntries = [...entries] // Create a copy of the array
+
   while (remainingEntries.length > 0) {
     const tocEntry = remainingEntries[0]
     logger.debug(`Processing TOC entry: ${JSON.stringify(tocEntry)}`)
 
     if (tocEntry.depth > currentDepth) {
       logger.debug(`Starting new sublist at depth ${tocEntry.depth}`)
-      result.push(
-        <ul key={`sublist-${tocEntry.slug}`}>{addListItem(remainingEntries, tocEntry.depth)}</ul>,
-      )
+      const [sublist, newRemaining] = processSublist(remainingEntries, tocEntry.depth)
+      result.push(<ul key={`sublist-${tocEntry.slug}`}>{sublist}</ul>)
+      remainingEntries = newRemaining
     } else if (tocEntry.depth < currentDepth) {
       logger.debug(`Ending sublist, returning to depth ${tocEntry.depth}`)
       break
     } else {
-      remainingEntries.shift()
+      remainingEntries = remainingEntries.slice(1) // Remove the first entry without modifying the original array
       const entryParent: Parent = processTocEntry(tocEntry)
       const children = entryParent.children.map(elementToJsx)
       let li = (
@@ -128,6 +126,13 @@ export function addListItem(remainingEntries: TocEntry[], currentDepth: number):
 
   logger.debug(`Returning ${result.length} list items`)
   return result
+}
+
+// Helper function to process sublists
+function processSublist(entries: TocEntry[], depth: number): [JSX.Element[], TocEntry[]] {
+  const sublist = addListItem(entries, depth)
+  const newRemaining = entries.filter((entry) => entry.depth < depth)
+  return [sublist, newRemaining]
 }
 
 /**

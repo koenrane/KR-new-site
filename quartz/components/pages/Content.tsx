@@ -21,7 +21,6 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
     return null
   }
-
   const toc = addListItem(fileData.toc, 0)
   return (
     <blockquote

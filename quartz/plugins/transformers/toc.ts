@@ -55,7 +55,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
     markdownPlugins() {
       return [
         () => {
-          return async (tree: Root, file) => {
+          return (tree: Root, file) => {
             slugAnchor.reset()
 
             const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
