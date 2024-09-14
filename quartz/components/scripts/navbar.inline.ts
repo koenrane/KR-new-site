@@ -131,7 +131,7 @@ let index = new FlexSearch.Document<Item>({
 })
 
 const p = new DOMParser()
-const fetchContentCache: Map<FullSlug, FetchResult> = new Map()
+const fetchContentCache: Map<FullSlug, any> = new Map()
 const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5

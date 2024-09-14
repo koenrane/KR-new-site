@@ -584,7 +584,23 @@ hr {
 }
 
 .sequenceLinks-postNavigation {
-  max-width: 45%;
+  max-width: 45%; // TODO fix for single case; needs to be flex
+}
+.sequence-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & a {
+    flex: 0 0 auto;
+  }
+
+  & .prev-post {
+    margin-right: auto;
+  }
+  & .next-post {
+    margin-left: auto;
+  }
 }
 
 // Fixing issue where eqn numbers overlap with katex math
