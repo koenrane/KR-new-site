@@ -5,6 +5,26 @@ import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
 import { TURNTROUT_FAVICON_PATH } from "./linkfavicons"
 
+// Main components:
+// 1. renderSequenceTitle: Generates sequence title element
+// 2. renderPreviousPost: Creates previous post link element
+// 3. renderNextPost: Creates next post link element
+// 4. createSequenceLinksDiv: Assembles sequence navigation structure
+// 5. insertAfterTroutOrnament: Inserts sequence links after specific element
+// 6. SequenceLinksTransformer: Main plugin function
+
+// Key functionality:
+// - Extracts sequence information from frontmatter
+// - Creates navigation elements for sequence posts
+// - Inserts sequence navigation into the document structure
+// - Uses hastscript (h) for element creation
+
+// Usage:
+// Import and use SequenceLinksTransformer in Quartz configuration
+
+/**
+ * Renders the sequence title element if sequence information is available.
+ */
 export const renderSequenceTitle = (fileData: QuartzPluginData) => {
   const sequence = fileData.frontmatter?.["lw-sequence-title"]
   if (!sequence) return null
@@ -17,6 +37,9 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
   ])
 }
 
+/**
+ * Creates the previous post link element if a previous post exists.
+ */
 export const renderPreviousPost = (fileData: QuartzPluginData) => {
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
@@ -32,6 +55,9 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   ])
 }
 
+/**
+ * Creates the next post link element if a next post exists.
+ */
 export const renderNextPost = (fileData: QuartzPluginData) => {
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
@@ -47,6 +73,9 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   ])
 }
 
+/**
+ * Assembles the sequence links div containing title, previous, and next post links.
+ */
 export function createSequenceLinksDiv(
   sequenceTitle: Element | null,
   prevPost: Element | null,
@@ -82,6 +111,9 @@ export function createSequenceLinksDiv(
   ])
 }
 
+/**
+ * Inserts the sequence links div after the trout ornament element in the document tree.
+ */
 export function insertAfterTroutOrnament(tree: Root, sequenceLinksDiv: Element): void {
   visit(tree, "element", (node: Element, index, parent: Element | null) => {
     if (
@@ -97,6 +129,9 @@ export function insertAfterTroutOrnament(tree: Root, sequenceLinksDiv: Element):
   })
 }
 
+/**
+ * Quartz transformer plugin that adds sequence navigation to the document.
+ */
 export const SequenceLinksTransformer: QuartzTransformerPlugin = () => {
   return {
     name: "SequenceLinksTransformer",
