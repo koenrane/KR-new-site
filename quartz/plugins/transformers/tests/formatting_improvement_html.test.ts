@@ -13,10 +13,10 @@ import {
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 
-function testHtmlFormattingImprovement(inputHTML: string) {
+function testHtmlFormattingImprovement(inputHTML: string, skipFirstLetter: boolean = true) {
   return rehype()
     .data("settings", { fragment: true })
-    .use(improveFormatting)
+    .use(improveFormatting, { skipFirstLetter })
     .processSync(inputHTML)
     .toString()
 }
@@ -523,7 +523,7 @@ describe("setFirstLetterAttribute", () => {
       <p data-first-letter="F">First paragraph.</p>
       <p>Second paragraph.</p>
     `
-    const processedHtml = testHtmlFormattingImprovement(input)
+    const processedHtml = testHtmlFormattingImprovement(input, false)
     expect(processedHtml).toBe(expected)
   })
 
@@ -534,7 +534,7 @@ describe("setFirstLetterAttribute", () => {
     const expected = `
       <p data-first-letter="‘">‘Twas the night before Christmas.</p>
     `
-    const processedHtml = testHtmlFormattingImprovement(input)
+    const processedHtml = testHtmlFormattingImprovement(input, false)
     expect(processedHtml).toBe(expected)
   })
 
@@ -543,7 +543,7 @@ describe("setFirstLetterAttribute", () => {
       <h1>Title</h1>
       <div>Not a paragraph</div>
     `
-    const processedHtml = testHtmlFormattingImprovement(input)
+    const processedHtml = testHtmlFormattingImprovement(input, false)
     expect(processedHtml).toBe(input)
   })
 
@@ -556,7 +556,7 @@ describe("setFirstLetterAttribute", () => {
       <p data-first-letter="F">First paragraph.</p>
       <p>Second paragraph.</p>
     `
-    const processedHtml = testHtmlFormattingImprovement(input)
+    const processedHtml = testHtmlFormattingImprovement(input, false)
     expect(processedHtml).toBe(expected)
   })
 })

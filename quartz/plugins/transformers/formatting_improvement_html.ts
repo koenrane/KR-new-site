@@ -396,7 +396,7 @@ function isFootnote(node: Element) {
 /**
  * Sets the data-first-letter attribute for the first paragraph in an article
  */
-function setFirstLetterAttribute(tree: Root): void {
+export function setFirstLetterAttribute(tree: Root): void {
   // Find the first paragraph in the article
   const firstParagraph = tree.children.find(
     (child): child is Element => child.type === "element" && child.tagName === "p",
@@ -422,19 +422,6 @@ function setFirstLetterAttribute(tree: Root): void {
   }
 }
 
-/**
- * QuartzTransformerPlugin for HTML formatting
- * @returns A QuartzTransformerPlugin
- */
-export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
-  return {
-    name: "htmlFormattingImprovement",
-    htmlPlugins() {
-      return [improveFormatting]
-    },
-  }
-}
-
 // Main function //
 // Note: Assumes no nbsp
 /**
@@ -442,7 +429,11 @@ export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
  * @returns A unified plugin
  */
 
-export const improveFormatting: Plugin = () => {
+interface FormattingOptions {
+  skipFirstLetter?: boolean // Debug flag
+}
+
+export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) => {
   return (tree: any) => {
     visit(tree, (node, index, parent) => {
       // A direct transform, instead of on the children of a <p> element
@@ -508,7 +499,18 @@ export const improveFormatting: Plugin = () => {
       }
     })
 
-    // Add the new transformation
-    setFirstLetterAttribute(tree)
+    // Only apply first letter attribute if not in debug mode
+    if (!options.skipFirstLetter) {
+      setFirstLetterAttribute(tree)
+    }
+  }
+}
+
+export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
+  return {
+    name: "htmlFormattingImprovement",
+    htmlPlugins() {
+      return [improveFormatting]
+    },
   }
 }
