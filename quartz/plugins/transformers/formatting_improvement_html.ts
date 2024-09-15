@@ -155,7 +155,7 @@ export function niceQuotes(text: string) {
   text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
 
   // Periods inside quotes
-  text = text.replace(new RegExp(`(?<![!?])(${chr}?[’”])\\.`, "g"), ".$1")
+  text = text.replace(new RegExp(`(?<![!?])(${chr}?[’”])(?!\.\.\.)\\.`, "g"), ".$1")
   // Commas outside of quotes
   text = text.replace(new RegExp(`,(${chr}?[”’])`, "g"), "$1,")
 
