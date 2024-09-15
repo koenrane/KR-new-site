@@ -115,6 +115,25 @@ describe("Favicon Utilities", () => {
       mockFetchAndFs(avifStatus, localPngExists)
       expect(await MaybeSaveFavicon(hostname)).toBe(expected)
     })
+
+    it("should not write local files to URL cache", async () => {
+      const localPath = GetQuartzPath(hostname)
+
+      jest.spyOn(global, "fetch").mockRejectedValue(new Error("CDN not available"))
+
+      // Mock fs.promises.stat to succeed for local file
+      jest.spyOn(fs.promises, "stat").mockResolvedValue({} as fs.Stats)
+
+      urlCache.clear()
+
+      const result = await MaybeSaveFavicon(hostname)
+
+      expect(result).toBe(localPath)
+      expect(urlCache.size).toBe(0)
+
+      // Check that the URL cache doesn't contain the local path
+      expect(urlCache.has(localPath)).toBe(false)
+    })
   })
 
   describe("GetQuartzPath", () => {
@@ -358,15 +377,15 @@ describe("writeCacheToFile", () => {
 
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       FAVICON_URLS_FILE,
-      "example.com,https://example.com/favicon.ico\ntest.com,https://test.com/favicon.png",{"flag": "w+"}
-
+      "example.com,https://example.com/favicon.ico\ntest.com,https://test.com/favicon.png",
+      { flag: "w+" },
     )
   })
 
   it("should write an empty string if urlCache is empty", () => {
     writeCacheToFile()
 
-    expect(fs.writeFileSync).toHaveBeenCalledWith(FAVICON_URLS_FILE, "", {"flag": "w+"})
+    expect(fs.writeFileSync).toHaveBeenCalledWith(FAVICON_URLS_FILE, "", { flag: "w+" })
   })
 })
 

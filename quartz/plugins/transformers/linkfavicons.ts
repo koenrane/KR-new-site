@@ -3,8 +3,7 @@ import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
-import { fileURLToPath } from 'url'
-
+import { fileURLToPath } from "url"
 
 const logger = createLogger("linkfavicons")
 
@@ -17,7 +16,7 @@ export const DEFAULT_PATH = ""
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-export const FAVICON_URLS_FILE = path.join(__dirname, '.faviconUrls.txt')
+export const FAVICON_URLS_FILE = path.join(__dirname, ".faviconUrls.txt")
 
 export class DownloadError extends Error {
   constructor(message: string) {
@@ -106,9 +105,9 @@ export function writeCacheToFile(): void {
   const data = Array.from(urlCache.entries())
     .map(([key, value]) => `${key},${value}`)
     .join("\n")
-  
+
   // Write the file
-  fs.writeFileSync(FAVICON_URLS_FILE, data, {flag: 'w+'})
+  fs.writeFileSync(FAVICON_URLS_FILE, data, { flag: "w+" })
 }
 
 /**
@@ -171,7 +170,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   try {
     await fs.promises.stat(localPngPath)
     logger.info(`Local PNG found for ${hostname}: ${faviconPath}`)
-    urlCache.set(faviconPath, faviconPath)
     return faviconPath
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
@@ -180,7 +178,6 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
       logger.info(`Attempting to download favicon from Google: ${googleFaviconURL}`)
       if (await downloadImage(googleFaviconURL, localPngPath)) {
         logger.info(`Successfully downloaded favicon for ${hostname}`)
-        urlCache.set(faviconPath, faviconPath)
         return faviconPath
       }
     }
