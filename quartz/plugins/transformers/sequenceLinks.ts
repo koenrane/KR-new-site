@@ -4,6 +4,7 @@ import { visit } from "unist-util-visit"
 import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
 import { TURNTROUT_FAVICON_PATH } from "./linkfavicons"
+import { formatTitle } from "../../components/component_utils"
 
 // Main components:
 // 1. renderSequenceTitle: Generates sequence title element
@@ -43,6 +44,7 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
 export const renderPreviousPost = (fileData: QuartzPluginData) => {
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
+  const prevPostTitleFormatted = formatTitle(prevPostTitle)
   if (!prevPostSlug) return null
 
   const faviconPathPrev = TURNTROUT_FAVICON_PATH
@@ -50,7 +52,7 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   return h("p", [
     h("b", "Previous"),
     h("br"),
-    h("a", { href: prevPostSlug, className: "internal" }, prevPostTitle),
+    h("a", { href: prevPostSlug, className: "internal" }, prevPostTitleFormatted),
     faviconPathPrev && h("img", { src: faviconPathPrev, className: "favicon", alt: "" }),
   ])
 }
@@ -61,6 +63,7 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
 export const renderNextPost = (fileData: QuartzPluginData) => {
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
+  const nextPostTitleFormatted = formatTitle(nextPostTitle)
   if (!nextPostSlug) return null
 
   const faviconPathNext = TURNTROUT_FAVICON_PATH
@@ -68,7 +71,7 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   return h("p", [
     h("b", "Next"),
     h("br"),
-    h("a", { href: nextPostSlug, className: "internal" }, nextPostTitle),
+    h("a", { href: nextPostSlug, className: "internal" }, nextPostTitleFormatted),
     faviconPathNext && h("img", { src: faviconPathNext, className: "favicon", alt: "" }),
   ])
 }

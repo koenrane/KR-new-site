@@ -1,9 +1,6 @@
 import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { Fragment, jsx, jsxs } from "react/jsx-runtime"
-import { h } from "hastscript"
-import { toJsxRuntime } from "hast-util-to-jsx-runtime"
-import { ElementType, ReactElement } from "react"
+import { formatTitle } from "../components/component_utils"
 
 import { TURNTROUT_FAVICON_PATH } from "../plugins/transformers/linkfavicons"
 import { TagList } from "./TagList"
@@ -179,6 +176,7 @@ export const renderSequenceTitleJsx = (fileData: QuartzPluginData) => {
 export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
   const prevPostSlug: string = (fileData.frontmatter?.["prev-post-slug"] as string) || ""
   const prevPostTitle: string = (fileData.frontmatter?.["prev-post-title"] as string) || ""
+  const prevPostTitleFormatted = formatTitle(prevPostTitle)
   if (!prevPostSlug) return null
 
   const faviconPathPrev = TURNTROUT_FAVICON_PATH
@@ -187,7 +185,7 @@ export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
     <p>
       <b>Previous:</b>{" "}
       <a href={prevPostSlug} className="internal">
-        {prevPostTitle}
+        {prevPostTitleFormatted}
       </a>
       {faviconPathPrev && <img src={faviconPathPrev} className="favicon" alt="" />}
     </p>
@@ -197,6 +195,7 @@ export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
 export const renderNextPostJsx = (fileData: QuartzPluginData) => {
   const nextPostSlug: string = (fileData.frontmatter?.["next-post-slug"] as string) || ""
   const nextPostTitle: string = (fileData.frontmatter?.["next-post-title"] as string) || ""
+  const nextPostTitleFormatted = formatTitle(nextPostTitle)
   if (!nextPostSlug) return null
 
   const faviconPathNext = TURNTROUT_FAVICON_PATH
@@ -205,7 +204,7 @@ export const renderNextPostJsx = (fileData: QuartzPluginData) => {
     <p>
       <b>Next:</b>{" "}
       <a href={nextPostSlug} className="internal">
-        {nextPostTitle}
+        {nextPostTitleFormatted}
       </a>
       {faviconPathNext && <img src={faviconPathNext} className="favicon" alt="" />}
     </p>
