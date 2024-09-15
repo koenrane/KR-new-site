@@ -584,12 +584,11 @@ hr {
 }
 
 .sequenceLinks-postNavigation {
-  max-width: 45%; // TODO fix for single case; needs to be flex
+  width: 45%;
 }
 .sequence-nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 
   & a {
     flex: 0 0 auto;
