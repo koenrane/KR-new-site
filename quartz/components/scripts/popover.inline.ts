@@ -89,6 +89,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   let popoverElement = document.createElement("div")
   popoverElement.classList.add("popover")
+  popoverElement.style.cursor = "pointer" // Add cursor style
   const popoverInner = document.createElement("div")
   popoverInner.classList.add("popover-inner")
   popoverElement.appendChild(popoverInner)
@@ -183,6 +184,12 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     isMouseOverPopover = false
     removePopover()
   })
+
+  popoverElement.addEventListener("click", (e) => {
+    e.preventDefault()
+    window.location.href = link.href
+  })
+
   showPopover()
 
   // Cleanup function to remove event listeners
@@ -195,6 +202,10 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     popoverElement.removeEventListener("mouseleave", () => {
       isMouseOverPopover = false
       removePopover()
+    })
+    popoverElement.removeEventListener("click", (e) => {
+      e.preventDefault()
+      window.location.href = link.href
     })
   }
 
