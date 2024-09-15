@@ -186,8 +186,14 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
   })
 
   popoverElement.addEventListener("click", (e) => {
-    e.preventDefault()
-    window.location.href = link.href
+    const clickedLink = (e.target as HTMLElement).closest("a")
+    if (clickedLink && clickedLink instanceof HTMLAnchorElement) {
+      // If a specific link is clicked, navigate to that link
+      window.location.href = clickedLink.href
+    } else {
+      // If empty space is clicked, navigate to the original link
+      window.location.href = link.href
+    }
   })
 
   showPopover()
@@ -204,8 +210,14 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
       removePopover()
     })
     popoverElement.removeEventListener("click", (e) => {
-      e.preventDefault()
-      window.location.href = link.href
+      const clickedLink = (e.target as HTMLElement).closest("a")
+      if (clickedLink && clickedLink instanceof HTMLAnchorElement) {
+        e.preventDefault()
+        window.location.href = clickedLink.href
+      } else {
+        e.preventDefault()
+        window.location.href = link.href
+      }
     })
   }
 
