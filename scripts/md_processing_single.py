@@ -516,6 +516,7 @@ replacement = {
     r"_, and more\.": ", and more.",
     r"listened to on_": "listened to on",
     r"_,_": ",",
+    r"\`\*{2}(.*)\*{2}\`": r"**`\1`**",
 }
 
 multiline_replacements = {
@@ -533,6 +534,7 @@ multiline_replacements = {
     r"^\_(In this first essay,.*)\_": "In this first essay, I explore the adversarial robustness obstacle. In the next essay, I’ll point out how this is obstacle is an artifact of these design patterns, and not any intrinsic difficulty of alignment.\n> [!thanks]\n>Thanks to Erik Jenner, Johannes Treutlein, Quintin Pope, Charles Foster, Andrew Critch, `randomwalks`, and Ulisse Mini for feedback.",
     r"^_?If you are interested in working with me.*": "", # Delete offer to team up on MIRIx Discord --- no longer relevant
     r"^_(This post has been.*)_ *$(\n\n<hr/>)?": r"> [!info]\n>\1",
+    r"^_(This insight was made possible.*)_": r"> [!thanks]\n>\1",
 }
 
 def manual_replace(md: str) -> str:
@@ -643,7 +645,7 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
 def thanks_admonition(md: str) -> str:
     """Convert _..._ to [!thanks] ... [!thanks]."""
-    pattern = r"^ *(_|\*\*)((?:Thanks|Produced as).+?)\1 *$"
+    pattern = r"^ *(_|\*\*|)((?:Thanks|Produced as).+?)\1 *$"
     target = r"> [!thanks]\n>\2"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
 
