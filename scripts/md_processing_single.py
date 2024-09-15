@@ -142,7 +142,11 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
             metadata["sequence-link"] = helpers.sequence_hash_to_slugs[sequence["_id"]]
             for order in ("prev", "next"):
                 if post_info[f"{order}Post"]:
-                    metadata[f"{order}-post-slug"] = post_info[f"{order}Post"]["slug"]
+                    slug: str = post_info[f"{order}Post"]["slug"]
+                    if slug in helpers.permalink_conversion:
+                        slug = helpers.permalink_conversion[slug]
+                    metadata[f"{order}-post-slug"] = slug
+
                     order_title: str = _convert_title(post_info[f"{order}Post"]["title"])
                     metadata[f"{order}-post-title"] = order_title
 
