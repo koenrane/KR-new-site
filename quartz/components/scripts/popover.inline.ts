@@ -25,36 +25,19 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
       ],
     })
 
-    const leftSidebar = document.querySelector("#left-sidebar") as HTMLElement
-    const leftSidebarRect = leftSidebar ? leftSidebar.getBoundingClientRect() : null
-    const sidebarRightEdge = leftSidebarRect ? leftSidebarRect.right : 300 // fallback value if leftSidebar not found
-
-    // Assume within .center or #left-sidebar
-    let referenceEdge = sidebarRightEdge
-    // If within right sidebar
-    if (link.closest("#right-sidebar")) {
-      const right = document.querySelector("#right-sidebar") as HTMLElement
-      const rightRect = right.getBoundingClientRect()
-      const computedStyle = window.getComputedStyle(right)
-      const marginLeft = parseFloat(computedStyle.marginLeft)
-      const paddingLeft = parseFloat(computedStyle.paddingLeft)
-
-      // Calculate the left edge, excluding margin and padding
-      const rightRectLeftEdge = rightRect.left + marginLeft + paddingLeft + 30
-      referenceEdge = rightRectLeftEdge
-    }
-
-    // Calculate the left position to align with the leftSidebar's right edge
     // Ensure the popover is not offscreen to the left
-    const left = Math.max(10, Math.min(x, referenceEdge - popoverElement.offsetWidth))
+    const left = x - popoverElement.scrollWidth / 2
 
     // Calculate the top offset based on viewport height
-    const topOffsetVh = 10 // Adjust this value to change the relative offset
-    document.documentElement.style.setProperty("--top-offset", `${topOffsetVh}vh`)
+    const topOffsetVh = 2 // Adjust this value to change the relative offset
+    document.documentElement.style.setProperty("--top-offset", `${topOffsetVh}rem`)
+
+    const leftOffsetVw = 2
+    document.documentElement.style.setProperty("--left-offset", `${leftOffsetVw}rem`)
 
     Object.assign(popoverElement.style, {
-      left: `${left}px`,
-      top: `calc(${y}px - var(--top-offset))`,
+      left: `calc(max(10px, ${left}px - var(--left-offset)))`,
+      top: `calc(max(10px, ${y}px - var(--top-offset)))`,
     })
   }
 
