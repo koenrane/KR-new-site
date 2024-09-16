@@ -17,27 +17,26 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   async function setPosition(popoverElement: HTMLElement) {
     const linkRect = link.getBoundingClientRect()
-    const { x, y } = await computePosition(link, popoverElement, {
-      middleware: [
-        inline({ x: linkRect.left, y: linkRect.top }),
-        shift({ padding: 10 }), // Add some padding to avoid sticking to the edge
-        flip(),
-      ],
-    })
+    const viewportWidth = window.innerWidth
+    const viewportHeight = window.innerHeight
+    const popoverWidth = popoverElement.offsetWidth
+    const popoverHeight = popoverElement.offsetHeight
 
-    // Ensure the popover is not offscreen to the left
-    const left = x - popoverElement.scrollWidth / 2
+    // Position below the link
+    let top = linkRect.bottom + 5 // 5px gap between link and popover
 
-    // Calculate the top offset based on viewport height
-    const topOffsetVh = 2 // Adjust this value to change the relative offset
-    document.documentElement.style.setProperty("--top-offset", `${topOffsetVh}rem`)
+    // Center horizontally relative to the link
+    let left = linkRect.left - popoverWidth / 2
 
-    const leftOffsetVw = 2
-    document.documentElement.style.setProperty("--left-offset", `${leftOffsetVw}rem`)
+    // Ensure it doesn't go off the left or right sides
+    left = Math.max(10, Math.min(left, viewportWidth - popoverWidth - 10))
+
+    // Ensure it doesn't go off the top or bottom
+    top = Math.max(10, Math.min(top, viewportHeight - popoverHeight - 10))
 
     Object.assign(popoverElement.style, {
-      left: `calc(max(10px, ${left}px - var(--left-offset)))`,
-      top: `calc(max(10px, ${y}px - var(--top-offset)))`,
+      left: `${left}px`,
+      top: `${top}px`,
     })
   }
 

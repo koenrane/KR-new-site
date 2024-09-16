@@ -175,7 +175,7 @@ _Italics **Bold Italics**_ **Bold** Normal
 >   <dt>Bow</dt>
 >   <dd>
 >     <ul>
->       <li>Noldorin Sindarin: <span className="elvish">peng</span> also poetically <span className="elvish">cû</span> ("arch")</li>
+>       <li>Noldorin Sindarin: <span className="elvish">peng</span> also poetically <span className="elvish">cû</span> (“arch”)</li>
 >       <li>Quenya: <span className="elvish">quinga</span></li>
 >     </ul>
 >   </dd>

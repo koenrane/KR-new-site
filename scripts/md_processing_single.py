@@ -571,6 +571,7 @@ multiline_replacements = {
     r"^_(This insight was made possible.*)_": r"> [!thanks]\n>\1",
     r"^\$\$\nEliezer": "Eliezer",
     r"^ *Notes *$": "#### Notes", 
+    r"^_(Peli did the stats work and drafted.*)_": r"> [!thanks] Contributions\n>\1",
 }
 
 def manual_replace(md: str) -> str:
