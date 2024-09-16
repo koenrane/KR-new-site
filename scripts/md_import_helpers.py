@@ -31,8 +31,8 @@ MARKDOWN_BASE_WARNING: str = (
     "moved away from optimal policies and treated reward functions more realistically."
 )
 MARKDOWN_WARNINGS = (
+    MARKDOWN_BASE_WARNING + "**\n* * *",
     MARKDOWN_BASE_WARNING + "**\n",
-    MARKDOWN_BASE_WARNING + "\n\n<hr/>",
     MARKDOWN_BASE_WARNING,
 )
 SKIP_POSTS = set(
@@ -42,6 +42,44 @@ SKIP_POSTS = set(
         "turntrout-s-shortform-feed",
     ]
 )
+
+# Some posts are part of a sequence, but the sequence is not the intended one
+sequence_reassign_dict = {
+    "reframing-impact": {'sequence-title': 'Reframing Impact', 'sequence-link': "posts#reframing-impact", 'next-slug': 'value-impact', 'next-title': 'Value Impact'},
+
+    "seeking-power-is-often-convergently-instrumental-in-mdps": {'sequence-title': 'Reframing Impact', 'sequence-link': "posts#reframing-impact", 'next-slug': 'attainable-utility-landscape', 'next-title': 'Attainable Utility Landscape: How The World Is Changed', 'prev-slug': 'the-gears-of-impact', 'prev-title': 'The Gears of Impact'},
+    
+    "a-certain-formalization-of-corrigibility-is-vnm-incoherent": {'sequence-title': 'Thoughts on Corrigibility', 'sequence-link': 'posts#thoughts-on-corrigibility', 'prev-slug': 'corrigibility-as-outside-view', 'next-slug': 'formalizing-policy-modification-corrigibility', 'prev-title': 'Corrigibility as Outside View', 'next-title': 'Formalizing Policy-Modification Corrigibility'},
+
+    # No data because was Jacob Stavrianos's post
+    "formalizing-multi-agent-power": {
+        'sequence-title': 'The Causes of Power-Seeking and Instrumental Convergence',
+        'sequence-link': 'posts#the-causes-of-power-seeking-and-instrumental-convergence',
+        'prev-slug': 'the-catastrophic-convergence-conjecture', 
+        'next-slug': 'MDPs-are-not-subjective',
+        'prev-title': 'The Catastrophic Convergence Conjecture',
+        'next-title': 'MDP Models Are Determined by the Agent Architecture and the Environmental Dynamics'
+    },
+
+    'satisficers-tend-to-seek-power': {
+        'sequence-title': 'The Causes of Power-Seeking and Instrumental Convergence',
+        'sequence-link': 'posts#the-causes-of-power-seeking-and-instrumental-convergence',
+        'next-slug': 'instrumental-convergence-for-realistic-agent-objectives', 
+        'next-title': 'Instrumental Convergence For Realistic Agent Objectives',
+    },
+
+    'instrumental-convergence-for-realistic-agent-objectives': {
+        'sequence-title': 'The Causes of Power-Seeking and Instrumental Convergence', 
+        'sequence-link': 'posts#the-causes-of-power-seeking-and-instrumental-convergence',
+        'prev-slug': 'satisficers-tend-to-seek-power',
+        'prev-title': 'Satisficers Tend To Seek Power: Instrumental Convergence Via Retargetability'
+    }
+
+}
+
+# first power seek post, CCC
+
+# TODO add tags
 
 permalink_conversion = {
     "i-found-greater-than-800-orthogonal-write-code-steering": "high-dimensional-subspace-of-code-steering-vectors",

@@ -69,6 +69,18 @@ def _convert_title(title: str) -> str:
         title = title.replace(key, val)
     return f'"{title}"' # Escape in case of colons
 
+def reassign_sequence(post_info: dict[str, Any]) -> dict[str, Any]:
+    if post_info["permalink"] in helpers.sequence_reassign_dict:
+        seq_info = helpers.sequence_reassign_dict[post_info["permalink"]]
+        post_info["sequence-link"] = seq_info["sequence-link"]
+        post_info["lw-sequence-title"] = seq_info["sequence-title"]
+
+        for order in ("prev", "next"):
+            if f"{order}-slug" in seq_info:
+                post_info[f"{order}-post-slug"] = seq_info[f"{order}-slug"]
+                post_info[f"{order}-post-title"] = _convert_title(seq_info[f"{order}-title"])
+    return post_info
+
 def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     metadata = dict((key, post_info[val]) for (key, val) in pairs)
     metadata["permalink"] = helpers.permalink_conversion[post_info["slug"]]
@@ -132,6 +144,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
     metadata["aliases"] = [post_info["slug"]]
     if "podcastEpisode" in post_info and (episode := post_info["podcastEpisode"]):
         metadata["lw-podcast-link"] = episode["episodeLink"]
+
     if "sequence" in post_info and (sequence := post_info["sequence"]):
         metadata["lw-sequence-title"] = _convert_title(sequence["title"])
         metadata["lw-sequence-image-grid"] = sequence["gridImageId"]
@@ -149,6 +162,10 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
 
                     order_title: str = _convert_title(post_info[f"{order}Post"]["title"])
                     metadata[f"{order}-post-title"] = order_title
+    if metadata['permalink'] in helpers.sequence_reassign_dict:
+        metadata = reassign_sequence(metadata)
+
+        
 
     if "reviewWinner" in post_info and (review_info := post_info["reviewWinner"]):
         metadata["lw-review-art"] = review_info["reviewWinnerArt"]
@@ -408,11 +425,16 @@ def get_slug(url: str) -> Optional[str]:
         return None
 
 
+skip_conversion_substrings = (
+    "commentId=",
+    "jJrCTRwTZDZDc3XLx", # Old comments didn't have commentId :(
+    "turntrout-s-shortform-feed",
+)
 def replace_urls(markdown: str, current_slug: str = "") -> str:
     """Replace LessWrong URLs with internal links."""
     urls: list[str] = _get_urls(markdown)
     for url in urls:
-        if "commentId=" in url or "turntrout-s-shortform-feed" in url:
+        if any(substring in url for substring in skip_conversion_substrings):
             continue  # Skip comments or shortform; would otherwise show as post
 
         sanitized_url: str = remove_prefix_before_slug(url)
@@ -521,6 +543,13 @@ replacement = {
     r"listened to on_": "listened to on",
     r"_,_": ",",
     r"\`\*{2}(.*)\*{2}\`": r"**`\1`**",
+    r"^\n*<hr\/>": "",
+    r"Eliezer is pretty dang clever, and t": "T",
+    r"Scheduling: The remainder of the sequence will be released after some delay.": "",
+    r"(the set of utility functions we might specify)": "`the set of utility functions we might specify`",
+    r"wiki\.lesswrong\.com/wiki/([^\)]*?)(?=\))": lambda match: f"lesswrong.com/tag/{match.group(1).lower()}", # Lower-case tag entries
+    r"eq\.\n *1\.": "eq. 1)", # Typo in superhuman post
+    r"design choice issue”\.": "design choice issue.”"
 }
 
 multiline_replacements = {
@@ -539,6 +568,8 @@ multiline_replacements = {
     r"^_?If you are interested in working with me.*": "", # Delete offer to team up on MIRIx Discord --- no longer relevant
     r"^_(This post has been.*)_ *$(\n\n<hr/>)?": r"> [!info]\n>\1",
     r"^_(This insight was made possible.*)_": r"> [!thanks]\n>\1",
+    r"^\$\$\nEliezer": "Eliezer",
+    r"^ *Notes *$": "#### Notes", 
 }
 
 def manual_replace(md: str) -> str:
@@ -555,10 +586,10 @@ QUOTE_START = r"> \[!quote\]\s*"
 QUOTE_BODY = r"(?P<body>(?:>.*\n)+?)"
 QUOTE_LINE_BREAK = r"(?:>\s*)*"
 CITATION_SEPARATOR = r"> *\\?[~\-—–]+ *"
-PRELINK_CONTENT = r"(?P<prelink>[ _\*]*[^\[]*)"
+PRELINK_CONTENT = r"(?P<prelink>[ _\*]*[^\[\n]*)"
 LINK_TEXT_CONTENT = r"(?P<linktext>[^_\*\]]+)"
 URL_CONTENT = r"(?P<url>[^#].*?)"
-POST_CITATION_CONTENT = r"(?P<postCitation>.*)$"
+POST_CITATION_CONTENT = r"(?P<postCitation>.*)$(?!\n>)" # Has to be the last line of blockquote
 
 QUOTE_PATTERNS = {
     "start_adm": QUOTE_START,
@@ -648,8 +679,8 @@ def move_citation_to_quote_admonition(md: str) -> str:
 
 
 def thanks_admonition(md: str) -> str:
-    """Convert _..._ to [!thanks] ... [!thanks]."""
-    pattern = r"^ *(_|\*\*|)((?:Thanks|Produced as).+?)\1 *$"
+    """Convert 'Thanks XYZ' to >[!thanks]\n>XYZ."""
+    pattern = r"^ *(_|\*\*|)((?:Thanks|I thank|Produced as).+?)\1 *$"
     target = r"> [!thanks]\n>\2"
     return regex.sub(pattern, target, md, flags=regex.MULTILINE)
 
@@ -658,14 +689,13 @@ def remove_warning(markdown: str) -> str:
     """Remove the warning message from power-seeking posts."""
     for warning in helpers.MARKDOWN_WARNINGS:  # TODO Fix
         if warning in markdown:
-            print(f"{warning=} in markdown")
             markdown = markdown.split(warning)[-1]
     return markdown
 
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    # print(md)
+    print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts
@@ -795,4 +825,4 @@ if __name__ == "__main__":
         if args.print:
             print(md)
 
-        print(f"Processed post: {post['title']}")
+        # print(f"Processed post: {post['title']}")
