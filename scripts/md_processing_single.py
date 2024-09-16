@@ -175,7 +175,7 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["lw-review-category"] = review_info["category"]
 
     if helpers.MARKDOWN_BASE_WARNING in post_info["contents"]["markdown"]:
-        metadata["lw-power-seeking-warning"] = True
+        metadata["lw-reward-post-warning"] = True
 
     return metadata
 

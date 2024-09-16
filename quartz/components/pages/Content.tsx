@@ -1,9 +1,14 @@
 import { htmlToJsx } from "../../util/jsx"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { addListItem } from "../TableOfContents"
+import {
+  CreateFaviconElement,
+  TURNTROUT_FAVICON_PATH,
+} from "../../plugins/transformers/linkfavicons"
 
 const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const useDropcap = !fileData?.frontmatter?.no_dropcap
+  const showWarning = fileData.frontmatter?.["lw-reward-post-warning"]
 
   const content = htmlToJsx(fileData.filePath!, tree)
   const classes: string[] = fileData.frontmatter?.cssclasses ?? []
@@ -12,6 +17,7 @@ const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   return (
     <article class={classString} data-use-dropcap={useDropcap}>
       <span class="mobile-only">{toc}</span>
+      {showWarning && rewardPostWarning}
       {content}
     </article>
   )
@@ -42,5 +48,48 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
     </blockquote>
   )
 }
+
+const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} class="favicon" alt="" />
+
+const rewardPostWarning = (
+  <blockquote class="callout warning" data-callout="warning">
+    <div class="callout-title">
+      <div class="callout-icon"></div>
+      <div class="callout-title-inner">
+        <p>
+          {" "}
+          <a
+            href="/reward-is-not-the-optimization-target"
+            class="internal alias"
+            data-slug="reward-is-not-the-optimization-target"
+          >
+            Reward is not the optimization ta
+            <span style="white-space:nowrap;">
+              rget
+              {turntroutFavicon}
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+    <p>
+      This post treats reward functions as “specifying goals”, in some sense. As I explained in{" "}
+      <a
+        href="/reward-is-not-the-optimization-target"
+        class="internal alias"
+        data-slug="reward-is-not-the-optimization-target"
+      >
+        Reward Is Not The Optimization Tar
+        <span style="white-space:nowrap;">
+          get,
+          {turntroutFavicon}
+        </span>
+      </a>{" "}
+      this is a misconception that can seriously damage your ability to understand how AI works.
+      Rather than “incentivizing” behavior, reward signals are (in many cases) akin to a
+      per-datapoint learning rate. Reward chisels circuits into the AI. That’s it!
+    </p>
+  </blockquote>
+)
 
 export default (() => Content) satisfies QuartzComponentConstructor
