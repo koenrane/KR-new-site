@@ -2,9 +2,12 @@ import { formatDate, getDate } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { formatTitle } from "../components/component_utils"
 
-import { TURNTROUT_FAVICON_PATH } from "../plugins/transformers/linkfavicons"
 import { TagList } from "./TagList"
-import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
+import {
+  GetQuartzPath,
+  urlCache,
+  TURNTROUT_FAVICON_PATH,
+} from "../plugins/transformers/linkfavicons"
 import style from "./styles/contentMeta.scss"
 import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
@@ -42,6 +45,47 @@ export const getFaviconPath = (originalURL: URL): string | null => {
   return cachedPath?.replace(".png", ".avif") || null
 }
 
+/**
+ * Inserts a favicon image next to a given JSX element.
+ *
+ * @param imgPath - The path to the favicon image, or null if no favicon is available.
+ * @param node - The JSX element to which the favicon should be added.
+ * @returns A new JSX element with the favicon inserted.
+ *
+ * If the node contains a string, the favicon is inserted after the last 4 characters (or less).
+ * If imgPath is null, the original node is returned unchanged.
+ */
+export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.Element => {
+  if (imgPath === null) {
+    return node
+  }
+
+  let faviconElement: JSX.Element = <img src={imgPath} className="favicon" alt="" />
+
+  if (typeof node.props.children !== "string") {
+    return (
+      <>
+        {node}
+        {faviconElement}
+      </>
+    )
+  }
+
+  const textContent = node.props.children
+  const charsToRead = Math.min(4, textContent.length)
+  const lastFourChars = textContent.slice(-charsToRead)
+  const remainingText = textContent.slice(0, -charsToRead)
+
+  node.props.children = [
+    remainingText,
+    <span style={{ whiteSpace: "nowrap" }}>
+      {lastFourChars}
+      {faviconElement}
+    </span>,
+  ]
+  return node
+}
+
 // Render publication information including original URL and date
 export const renderPublicationInfo = (
   cfg: GlobalConfiguration,
@@ -60,10 +104,12 @@ export const renderPublicationInfo = (
 
   return (
     <span className="publication-str">
-      <a href={frontmatter.original_url} class="external" target="_blank">
-        {publicationStr}
-      </a>
-      {faviconPath && <img src={faviconPath} class="favicon" alt="" />}
+      {insertFavicon(
+        faviconPath,
+        <a href={frontmatter.original_url} className="external" target="_blank">
+          {publicationStr}
+        </a>,
+      )}
       {dateElement}
     </span>
   )
@@ -132,10 +178,12 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
   return (
     <span className="linkpost-info">
       Originally linked to{" "}
-      <a href={linkpostUrl} className="external" target="_blank">
-        {displayText}
-      </a>
-      {faviconPath && <img src={faviconPath} className="favicon" alt="" />}
+      {insertFavicon(
+        faviconPath,
+        <a href={linkpostUrl} className="external" target="_blank">
+          {displayText}
+        </a>,
+      )}
     </span>
   )
 }
@@ -184,10 +232,12 @@ export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
   return (
     <p>
       <b>Previous:</b>{" "}
-      <a href={prevPostSlug} className="internal">
-        {prevPostTitleFormatted}
-      </a>
-      {faviconPathPrev && <img src={faviconPathPrev} className="favicon" alt="" />}
+      {insertFavicon(
+        faviconPathPrev,
+        <a href={prevPostSlug} className="internal">
+          {prevPostTitleFormatted}
+        </a>,
+      )}
     </p>
   )
 }
@@ -203,10 +253,12 @@ export const renderNextPostJsx = (fileData: QuartzPluginData) => {
   return (
     <p>
       <b>Next:</b>{" "}
-      <a href={nextPostSlug} className="internal">
-        {nextPostTitleFormatted}
-      </a>
-      {faviconPathNext && <img src={faviconPathNext} className="favicon" alt="" />}
+      {insertFavicon(
+        faviconPathNext,
+        <a href={nextPostSlug} className="internal">
+          {nextPostTitleFormatted}
+        </a>,
+      )}
     </p>
   )
 }

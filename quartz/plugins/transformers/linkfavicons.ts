@@ -235,7 +235,14 @@ export function insertFavicon(imgPath: string | null, node: any): void {
     return
   }
 
-  const imgElement = CreateFaviconElement(imgPath)
+  let toAppend = CreateFaviconElement(imgPath)
+
+  toAppend = maybeSpliceText(node, toAppend)
+  logger.debug("Appending favicon directly to node")
+  node.children.push(toAppend)
+}
+
+export function maybeSpliceText(node: any, toAppend: FaviconNode): any | null {
   const lastChild = node.children[node.children.length - 1]
 
   if (lastChild && lastChild.type === "text" && lastChild.value) {
@@ -243,34 +250,32 @@ export function insertFavicon(imgPath: string | null, node: any): void {
     const textContent = lastChild.value
     const toSpace = ["!", "?", "|", "]"] // Glyphs where top-right corner occupied
     if (toSpace.includes(textContent.at(-1))) {
-      imgElement.properties.style = "margin-left: 0.05rem;"
+      // this is image element
+      toAppend.properties.style = "margin-left: 0.05rem;"
     }
 
     const charsToRead = Math.min(4, textContent.length)
     const lastFourChars = textContent.slice(-charsToRead)
     lastChild.value = textContent.slice(0, -charsToRead)
 
-    const span = {
+    const span: any = {
       type: "element",
       tagName: "span",
-      children: [{ type: "text", value: lastFourChars }, imgElement],
+      children: [{ type: "text", value: lastFourChars }, toAppend],
       properties: {
         style: "white-space: nowrap;",
       },
     }
+    toAppend = span
+
     // If the text content is the same as the last four characters,
     // replace the text with the span so we don't have an extra (empty) text node.
     if (lastFourChars === textContent && node.children.length === 1) {
       logger.debug("Replacing entire text with span")
-      node.children = [span]
-    } else {
-      logger.debug("Appending span to existing text")
-      node.children.push(span)
+      node.children = []
     }
-  } else {
-    logger.debug("Appending favicon directly to node")
-    node.children.push(imgElement)
   }
+  return toAppend
 }
 
 /**

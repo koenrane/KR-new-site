@@ -81,7 +81,7 @@ export default ((userOpts?: Partial<Options>) => {
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
     const baseDir = pathToRoot(fileData.slug!)
 
-    const links = pages.map((page) => (
+    const links = pages.map((page: any) => (
       <li key={page.slug}>
         <a href={page.slug}>{page.title}</a>
       </li>

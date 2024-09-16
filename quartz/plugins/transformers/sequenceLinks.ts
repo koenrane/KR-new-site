@@ -3,7 +3,7 @@ import { Root, Element } from "hast"
 import { visit } from "unist-util-visit"
 import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
-import { TURNTROUT_FAVICON_PATH } from "./linkfavicons"
+import { TURNTROUT_FAVICON_PATH, insertFavicon } from "./linkfavicons"
 import { formatTitle } from "../../components/component_utils"
 
 // Main components:
@@ -47,14 +47,10 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   const prevPostTitleFormatted = formatTitle(prevPostTitle)
   if (!prevPostSlug) return null
 
-  const faviconPathPrev = TURNTROUT_FAVICON_PATH
+  const linkElement = h("a", { href: prevPostSlug, className: "internal" }, prevPostTitleFormatted)
+  insertFavicon(TURNTROUT_FAVICON_PATH, linkElement)
 
-  return h("p", [
-    h("b", "Previous"),
-    h("br"),
-    h("a", { href: prevPostSlug, className: "internal" }, prevPostTitleFormatted),
-    faviconPathPrev && h("img", { src: faviconPathPrev, className: "favicon", alt: "" }),
-  ])
+  return h("p", [h("b", "Previous"), h("br"), linkElement])
 }
 
 /**
@@ -66,14 +62,10 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   const nextPostTitleFormatted = formatTitle(nextPostTitle)
   if (!nextPostSlug) return null
 
-  const faviconPathNext = TURNTROUT_FAVICON_PATH
+  const linkElement = h("a", { href: nextPostSlug, className: "internal" }, nextPostTitleFormatted)
+  insertFavicon(TURNTROUT_FAVICON_PATH, linkElement)
 
-  return h("p", [
-    h("b", "Next"),
-    h("br"),
-    h("a", { href: nextPostSlug, className: "internal" }, nextPostTitleFormatted),
-    faviconPathNext && h("img", { src: faviconPathNext, className: "favicon", alt: "" }),
-  ])
+  return h("p", [h("b", "Next"), h("br"), linkElement])
 }
 
 /**
