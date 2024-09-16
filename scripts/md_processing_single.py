@@ -549,7 +549,8 @@ replacement = {
     r"(the set of utility functions we might specify)": "`the set of utility functions we might specify`",
     r"wiki\.lesswrong\.com/wiki/([^\)]*?)(?=\))": lambda match: f"lesswrong.com/tag/{match.group(1).lower()}", # Lower-case tag entries
     r"eq\.\n *1\.": "eq. 1)", # Typo in superhuman post
-    r"design choice issue”\.": "design choice issue.”"
+    r"design choice issue”\.": "design choice issue.”",
+    r"guaranteed -to-exist": "guaranteed-to-exist",
 }
 
 multiline_replacements = {
@@ -695,7 +696,7 @@ def remove_warning(markdown: str) -> str:
 
 def process_markdown(md: str, metadata: dict) -> str:
     """Main function to process and clean up the markdown content."""
-    print(md)
+    # print(md)
     md = manual_replace(md)
 
     md = remove_warning(md)  # Warning on power-seeking posts

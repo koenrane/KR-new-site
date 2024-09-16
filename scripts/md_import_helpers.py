@@ -73,7 +73,92 @@ sequence_reassign_dict = {
         'sequence-link': 'posts#the-causes-of-power-seeking-and-instrumental-convergence',
         'prev-slug': 'satisficers-tend-to-seek-power',
         'prev-title': 'Satisficers Tend To Seek Power: Instrumental Convergence Via Retargetability'
-    }
+    },
+
+    'humans-provide-alignment-evidence': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': '',
+        'prev-title': ''
+    },
+
+    'general-alignment-properties': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'human-values-and-biases-are-inaccessible-to-the-genome',  
+        'prev-title': 'Human Values & Biases Are Inaccessible to the Genome',
+        'next-slug': 'reward-is-not-the-optimization-target',
+        'next-title': 'Reward Is Not the Optimization Target'
+    },
+
+    'reward-is-not-the-optimization-target': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'general-alignment-properties',
+        'prev-title': 'General Alignment Properties',
+        'next-slug': 'shard-theory',
+        'next-title': 'The Shard Theory of Human Values'
+    },
+
+    'understanding-and-avoiding-value-drift': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'shard-theory',
+        'prev-title': 'The Shard Theory of Human Values',
+        'next-slug': 'a-shot-at-the-diamond-alignment-problem',
+        'next-title': 'A Shot at the Diamond-Alignment Problem'
+    },
+
+    'a-shot-at-the-diamond-alignment-problem': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'understanding-and-avoiding-value-drift',
+        'prev-title': 'Understanding and Avoiding Value Drift',
+        'next-slug': 'dont-design-agents-which-exploit-adversarial-inputs',
+        'next-title': 'Don’t Design Agents Which Exploit Adversarial Inputs'
+    },
+
+    'dont-design-agents-which-exploit-adversarial-inputs': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'a-shot-at-the-diamond-alignment-problem',
+        'prev-title': 'A Shot at the Diamond-Alignment Problem',
+        'next-slug': 'dont-align-agents-to-evaluations-of-plans',
+        'next-title': 'Don’t Align Agents to Evaluations of Plans'
+    },
+
+    'dont-align-agents-to-evaluations-of-plans': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'dont-design-agents-which-exploit-adversarial-inputs',
+        'prev-title': 'Don’t Design Agents Which Exploit Adversarial Inputs',
+        'next-slug': 'alignment-without-total-robustness',
+        'next-title': 'Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require Robust Grading'
+    },
+
+    'alignment-without-total-robustness': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'dont-align-agents-to-evaluations-of-plans',
+        'prev-title': 'Don’t Align Agents to Evaluations of Plans',
+        'next-slug': 'against-inner-outer-alignment',
+        'next-title': 'Inner and Outer Alignment Decompose One Hard Problem Into Two Extremely Hard Problems'
+    },
+
+    'against-inner-outer-alignment': {
+        'sequence-title': 'Shard Theory',
+        'sequence-link': 'posts#shard-theory',
+        'prev-slug': 'alignment-without-total-robustness',
+        'prev-title': 'Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require Robust Grading',
+    },
+
+    'statistics-of-a-maze-solving-network': {
+        'sequence-title': 'Interpreting a Maze-Solving Network',
+        'sequence-link': 'posts#interpreting-a-maze-solving-network',
+        'prev-slug': 'top-right-steering-vector',
+        'prev-title': 'Maze-Solving Agents: Add a Top-Right Vector, Make the Agent Go to the Top-Right',
+    },
+    
 
 }
 

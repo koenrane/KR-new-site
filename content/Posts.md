@@ -87,6 +87,7 @@ Introductory post: [Reframing Impact](./reframing-impact)
 5. [Conclusion to "Reframing Impact"](./conclusion-to-reframing-impact)
 
 ## The Causes of Power-Seeking and Instrumental Convergence
+This sequences generalizes the math of [Seeking Power is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps).
 
 > [!quote] Original sequence description
 > Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (e.g. gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power *from* humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
@@ -108,9 +109,8 @@ Introductory post: [Reframing Impact](./reframing-impact)
 9. [Seeking Power Is Convergently Instrumental in a Broad Class of Environments](./power-seeking-beyond-MDPs)
 10. [When Most VNM-Coherent Preference Orderings Have Convergent](./instrumental-convergence-via-vnm-preferences)
 11. [Satisficers Tend to Seek Power: Instrumental Convergence via Retargetability](./satisficers-tend-to-seek-power)
-12. [A Certain Formalization of Corrigibility Is VNM-Incoherent](./a-certain-formalization-of-corrigibility-is-vnm-incoherent)
-13. [Instrumental Convergence for Realistic Agent Objectives](./instrumental-convergence-for-realistic-agent-objectives)
-14. [Parametrically Retargetable Decision-Makers Tend to Seek Power](./parametrically-retargetable-power-seeking)
+12. [Instrumental Convergence for Realistic Agent Objectives](./instrumental-convergence-for-realistic-agent-objectives)
+13. [Parametrically Retargetable Decision-Makers Tend to Seek Power](./parametrically-retargetable-power-seeking)
 
 ## Thoughts on Corrigibility
 
