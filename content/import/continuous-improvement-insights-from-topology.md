@@ -32,6 +32,8 @@ prev-post-slug: managerial-decision-making-review
 prev-post-title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 next-post-slug: ordinary-differential-equations-textbook-review
 next-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential Equations'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/22/2020
 original_url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 ---

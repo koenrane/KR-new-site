@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "review-of-but-exactly-how-complex-and-fragile"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/06/2021
 original_url: https://www.lesswrong.com/posts/r6p5cqT6aWYGCYHJx/review-of-but-exactly-how-complex-and-fragile
 ---

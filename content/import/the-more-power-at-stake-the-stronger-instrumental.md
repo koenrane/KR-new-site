@@ -21,8 +21,8 @@ title: "The More Power At Stake, The Stronger Instrumental Convergence Gets For 
 lw-latest-edit: 2023-05-16T20:26:02.342Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "the-more-power-at-stake-the-stronger-instrumental"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -34,6 +34,7 @@ prev-post-title: "A world in which the alignment problem seems lower-stakes"
 next-post-slug: power-seeking-beyond-MDPs
 next-post-title: "Seeking Power is Convergently Instrumental in a Broad Class of Environments"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 07/11/2021
 original_url: https://www.lesswrong.com/posts/Yc5QSSZCQ9qdyxZF6/the-more-power-at-stake-the-stronger-instrumental
 ---

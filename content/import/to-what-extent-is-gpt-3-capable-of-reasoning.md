@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "to-what-extent-is-gpt-3-capable-of-reasoning"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/20/2020
 original_url: https://www.lesswrong.com/posts/L5JSMZQvkBAx9MD5A/to-what-extent-is-gpt-3-capable-of-reasoning
 ---

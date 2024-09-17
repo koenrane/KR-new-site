@@ -33,6 +33,8 @@ prev-post-slug: first-analysis-textbook-review
 prev-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 next-post-slug: RL-textbook-review
 next-post-title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/03/2018
 original_url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstream-a-case-study-in-instrumental-rationality
 ---

@@ -21,8 +21,8 @@ title: "A shot at the diamond-alignment problem"
 lw-latest-edit: 2023-02-01T19:19:45.945Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
   - "AI"
+  - "shard-theory"
 aliases: 
   - "a-shot-at-the-diamond-alignment-problem"
 sequence-link: posts#shard-theory
@@ -31,6 +31,8 @@ prev-post-slug: understanding-and-avoiding-value-drift
 prev-post-title: "Understanding and Avoiding Value Drift"
 next-post-slug: dont-design-agents-which-exploit-adversarial-inputs
 next-post-title: "Don’t Design Agents Which Exploit Adversarial Inputs"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/06/2022
 original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 ---
@@ -149,7 +151,7 @@ A smart reflective AI has a range of advantages over people in solving its align
 
 (In addition, if you have good reason to believe you have a diamond-aligned AI by this point but are worried it will fail to consider some danger, you can try the highly technical tactic of “just tell the AI about that danger.”) 
 
-Meanwhile, the AI is preparing to kill everyone, taking over server farms worldwide.[^10] This part of the plan [goes off rather smoothly](https://www.gwern.net/fiction/Clippy). With possible unaligned competitors removed, the AI is free to self-experiment and take its time with its future self-improvement process. The AI effectively solves its successor-alignment problem by using its special advantages.[^11]
+Meanwhile, the AI is preparing to kill everyone, taking over server farms worldwide.[^10] This part of the plan [goes off rather smoothly](https://www.`gwern`.net/fiction/Clippy). With possible unaligned competitors removed, the AI is free to self-experiment and take its time with its future self-improvement process. The AI effectively solves its successor-alignment problem by using its special advantages.[^11]
 
 ### The values handshake
 
@@ -263,7 +265,7 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     
     Asking "why wouldn't the agent want to find an adversarial input to its `diamond` abstraction?" seems like a dressed-up version of "why wouldn't I want to find a plan where I can get myself shot while falsely believing I solved all of the world's problems?". Because it's stupid by my actual values, that's why. (Although some confused people who have taken wrong philosophy too far, might indeed find such a plan appealing).
     
-[^8]: The reader may be surprised. "Doesn't TurnTrout think agents probably won't care about reward?". Not quite. As I stated in [_Reward is not the optimization target_](/reward-is-not-the-optimization-target):
+[^8]: The reader may be surprised. "Doesn't `TurnTrout` think agents probably won't care about reward?". Not quite. As I stated in [_Reward is not the optimization target_](/reward-is-not-the-optimization-target):
     
     > I think that generally intelligent RL agents will have _secondary, relatively weaker_ values around reward, but that reward will not be a primary motivator. Under my current (weakly held) model, an AI will only start reinforcing computations about reward _after_ it has reinforced other kinds of computations (e.g. putting away trash).
     

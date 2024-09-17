@@ -21,14 +21,16 @@ title: "Inner and outer alignment decompose one hard problem into two extremely 
 lw-latest-edit: 2023-01-24T00:43:58.097Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
   - "AI"
+  - "shard-theory"
 aliases: 
   - "inner-and-outer-alignment-decompose-one-hard-problem-into"
 sequence-link: posts#shard-theory
 lw-sequence-title: Shard Theory
 prev-post-slug: alignment-without-total-robustness
 prev-post-title: "Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require Robust Grading"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/02/2022
 original_url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into
 ---

@@ -21,9 +21,9 @@ title: "Lessons I've Learned from Self-Teaching"
 lw-latest-edit: 2021-12-05T17:56:31.967Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
-  - "practical"
   - "rationality"
+  - "practical"
+  - "scholarship-&-learning"
 aliases: 
   - "lessons-i-ve-learned-from-self-teaching"
 lw-sequence-title: "Becoming Stronger"
@@ -34,6 +34,8 @@ prev-post-slug: insights-from-euclids-elements
 prev-post-title: "Insights from Euclid's 'Elements'"
 next-post-slug: insights-from-modern-principles-of-economics
 next-post-title: "Insights from Modern Principles of Economics"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/23/2021
 original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 ---
@@ -83,7 +85,7 @@ Enter [Anki](https://apps.ankiweb.net/), an amazing spaced repetition system (\$
 
 > Anki is a flashcard application into which you can enter a constant number of cards each day while retaining a constant average daily workload. You can add cards each day, without having to study longer and longer to get through all of the cards.
 
-I currently think that unless you have really good memory or you're not learning content you want to remember months from now, you're making a mistake by not using a spaced repetition system. Read [Gwern](https://www.gwern.net/Spaced-repetition) for more on spaced repetition.
+I currently think that unless you have really good memory or you're not learning content you want to remember months from now, you're making a mistake by not using a spaced repetition system. Read [Gwern](https://www.`gwern`.net/Spaced-repetition) for more on spaced repetition.
 
 Spaced repetition seems especially useful for students. In college, I ran an experiment: for an upper-level French class, I put things I didn't know how to say into Anki, reviewed daily, and otherwise didn't study at all. I got an A. 
 

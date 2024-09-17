@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "open-category-classification"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/28/2018
 original_url: https://www.lesswrong.com/posts/txGJZAPjraYEQfHq2/open-category-classification
 ---

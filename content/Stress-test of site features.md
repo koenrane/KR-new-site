@@ -46,6 +46,24 @@ The following spoiler box is larger:
 >
 >! *This starts with emphasis*.
 
+# Mermaid diagrams
+```mermaid
+flowchart TD
+    EV["Entire video"]:::blue
+    AS["Action sequence"]:::orange
+    H["Human"]:::red
+    HQF["$$e=mc^2$$"]:::black
+    Q["Question(s)"]:::black
+    A["Answer(s)"]:::black
+
+    EV --> H
+    AS --> H
+    H --> HQF
+    Q --> HQF
+    HQF --> A
+```
+Code: An example [Mermaid](https://mermaid.js.org/) diagram. Mermaid even supports $\KaTeX$!
+
 # Smart quotes
 
 I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:

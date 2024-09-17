@@ -23,6 +23,8 @@ lw-is-linkpost: "false"
 tags: 
 aliases: 
   - "interpersonal-approaches-for-x-risk-education"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/24/2018
 original_url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
 ---

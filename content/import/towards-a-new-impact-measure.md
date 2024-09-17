@@ -27,6 +27,8 @@ aliases:
 lw-sequence-title: "Epistemology"
 lw-sequence-image-grid: sequencesgrid/g93xchw441hctqffduzf
 lw-sequence-image-banner: sequences/kipnjsxdkeutlaawxpev
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/18/2018
 original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure
 ---

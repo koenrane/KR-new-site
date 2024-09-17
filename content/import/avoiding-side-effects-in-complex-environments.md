@@ -23,10 +23,12 @@ lw-latest-edit: 2020-12-12T00:43:10.508Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Neale Ratzlaff
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "avoiding-side-effects-in-complex-environments"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/12/2020
 original_url: https://www.lesswrong.com/posts/5kurn5W62C5CpSWq6/avoiding-side-effects-in-complex-environments
 ---

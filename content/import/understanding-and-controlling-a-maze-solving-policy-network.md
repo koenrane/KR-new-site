@@ -22,10 +22,10 @@ lw-latest-edit: 2023-06-07T01:47:42.456Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Peli Grietzer, Ulisse Mini, Monte MacDiarmid, and David Udell
 tags: 
-  - "shard-theory"
-  - "mats-program"
-  - "activation-engineering"
   - "AI"
+  - "mats-program"
+  - "shard-theory"
+  - "activation-engineering"
 aliases: 
   - "understanding-and-controlling-a-maze-solving-policy-network"
 lw-sequence-title: "Interpreting a Maze-Solving Network"
@@ -36,6 +36,8 @@ prev-post-slug: predictions-for-shard-theory-mechanistic-interpretability
 prev-post-title: "Predictions for shard theory mechanistic interpretability results"
 next-post-slug: top-right-steering-vector
 next-post-title: "Maze-solving agents: Add a top-right vector, make the agent go to the top-right"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/11/2023
 original_url: https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network
 ---
@@ -103,7 +105,7 @@ While the net probability vector field leaves open two degrees of freedom per ne
 
 # Behavioral analysis
 
-When in doubt, _get more data._ When Alex (TurnTrout) was setting directions but didn't know what to do, he'd think "what data firehydrants can I crack open?". Once we [made our predictions](https://www.alignmentforum.org/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability), there was no reason to hold back. 
+When in doubt, _get more data._ When Alex (`TurnTrout`) was setting directions but didn't know what to do, he'd think "what data firehydrants can I crack open?". Once we [made our predictions](https://www.alignmentforum.org/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability), there was no reason to hold back. 
 
 Uli cracked open the vector field hydrant, which we will now sip from. We curated the following mazes for interestingness[^2] and visibility (i.e. being at most an $18×18$ maze). 
 
@@ -541,7 +543,7 @@ The core MATS team (Alex, Uli, and Peli) all worked on code, theory, and data an
 
 - Ulisse Mini, shard theory MATS mentee: Proposing and visualizing vector fields (which quickly dispelled mistaken ideas we had about behavioral tendencies), crucial backend code and support, network retraining, and creating the maze editor and other maze management tools. 
 - Peli Grietzer, shard theory MATS mentee: Data collection and statistics, data analysis (e.g. locating channel 55), hypothesis generation (e.g. the cheese vector locally blinding the agent to cheese). 
-- Alex Turner (TurnTrout), shard theory MATS mentor: Ideas for the cheese vector and channel 55 retargetability, code, experiment design and direction, management, writing this post and generating the media. 
+- Alex Turner (`TurnTrout`), shard theory MATS mentor: Ideas for the cheese vector and channel 55 retargetability, code, experiment design and direction, management, writing this post and generating the media. 
 - Monte MacDiarmid, independent researcher: Code/infrastructure (e.g. hooking and patching code), advice.
 - David Udell, independent researcher: Helped write this post.
 

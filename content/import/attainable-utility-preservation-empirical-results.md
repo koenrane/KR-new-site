@@ -22,8 +22,8 @@ lw-latest-edit: 2021-06-15T16:55:30.263Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-preservation-empirical-results"
 lw-sequence-title: "Reframing Impact"
@@ -34,6 +34,8 @@ prev-post-slug: attainable-utility-preservation-concepts
 prev-post-title: "Attainable Utility Preservation: Concepts"
 next-post-slug: how-low-should-fruit-hang-before-we-pick-it
 next-post-title: "How Low Should Fruit Hang Before We Pick It?"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/22/2020
 original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 ---

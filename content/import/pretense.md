@@ -24,6 +24,8 @@ tags:
   - "rationality"
 aliases: 
   - "pretense"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/29/2018
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
 ---

@@ -21,12 +21,14 @@ title: "[April Fools'] Definitive confirmation of shard theory"
 lw-latest-edit: 2023-04-03T16:23:51.143Z
 lw-is-linkpost: "false"
 tags: 
+  - "humor"
   - "shard-theory"
   - "postmortems-&-retrospectives"
-  - "humor"
   - "AI"
 aliases: 
   - "april-fools-definitive-confirmation-of-shard-theory"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/01/2023
 original_url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-definitive-confirmation-of-shard-theory
 ---

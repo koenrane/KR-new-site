@@ -22,8 +22,8 @@ title: "Satisficers Tend To Seek Power: Instrumental Convergence Via Retargetabi
 lw-latest-edit: 2023-05-16T20:34:42.721Z
 lw-is-linkpost: "true"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "satisficers-tend-to-seek-power-instrumental-convergence-via"
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence
@@ -34,6 +34,8 @@ prev-post-slug: instrumental-convergence-via-vnm-preferences
 prev-post-title: "When Most VNM-Coherent Preference Orderings Have Convergent Instrumental Incentives"
 next-post-slug: instrumental-convergence-for-realistic-agent-objectives
 next-post-title: "Instrumental Convergence For Realistic Agent Objectives"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/18/2021
 original_url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-to-seek-power-instrumental-convergence-via
 ---

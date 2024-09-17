@@ -21,8 +21,8 @@ title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional Anal
 lw-latest-edit: 2020-04-04T13:18:43.104Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "understanding-the-world"
+  - "scholarship-&-learning"
 aliases: 
   - "a-kernel-of-truth-insights-from-a-friendly-approach-to"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: ordinary-differential-equations-textbook-review
 prev-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential Equations'"
 next-post-slug: problem-relaxation-as-a-tactic
 next-post-title: "Problem relaxation as a tactic"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/04/2020
 original_url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
 ---

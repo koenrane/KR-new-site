@@ -21,8 +21,8 @@ title: "Alignment allows 'nonrobust' decision-influences and doesn't require rob
 lw-latest-edit: 2022-11-30T16:37:57.412Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
   - "AI"
+  - "shard-theory"
   - "human-values"
 aliases: 
   - "alignment-allows-nonrobust-decision-influences-and-doesn-t"
@@ -32,6 +32,8 @@ prev-post-slug: dont-align-agents-to-evaluations-of-plans
 prev-post-title: "Don’t Align Agents to Evaluations of Plans"
 next-post-slug: against-inner-outer-alignment
 next-post-title: "Inner and Outer Alignment Decompose One Hard Problem Into Two Extremely Hard Problems"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/29/2022
 original_url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
 ---

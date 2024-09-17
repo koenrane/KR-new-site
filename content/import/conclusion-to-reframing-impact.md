@@ -21,8 +21,8 @@ title: "Conclusion to 'Reframing Impact'"
 lw-latest-edit: 2023-02-17T09:29:58.232Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "conclusion-to-reframing-impact"
 lw-sequence-title: "Reframing Impact"
@@ -31,6 +31,8 @@ lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
 prev-post-slug: excitement-about-impact-measures
 prev-post-title: "Reasons for Excitement about Impact of Impact Measure Research"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/28/2020
 original_url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 ---

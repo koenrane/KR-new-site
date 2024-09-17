@@ -21,8 +21,8 @@ title: "Deducing Impact"
 lw-latest-edit: 2019-09-24T21:56:15.111Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "deducing-impact"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: value-impact
 prev-post-title: "Value Impact"
 next-post-slug: attainable-utility-theory
 next-post-title: "Attainable Utility Theory: Why Things Matter"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/24/2019
 original_url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
 ---

@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "four-usages-of-loss-in-ai"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/02/2022
 original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-loss-in-ai
 ---
@@ -93,7 +95,7 @@ Here is a quote which I, as a reader, have trouble understanding:
 
 I don't know what inner cognition would or would not satisfy this vague-to-me definition. What does it mean for a loss function to be "aligned" with the intended goal? 
 
-Suppose you told me, "TurnTrout, we have definitely produced a loss function which is aligned with the intended goal, and inner-aligned an agent to that loss function." 
+Suppose you told me, "`TurnTrout`, we have definitely produced a loss function which is aligned with the intended goal, and inner-aligned an agent to that loss function." 
 
 - Suppose I went to the computer where the miraculous loss function is implemented. What should I expect to see when I read the code / do interpretability on the trained loss-model? 
 - Suppose I inspected the model data for the purportedly inner-aligned agent, and used powerful interpretability tools on the model. What kind of cognition would I expect to find?

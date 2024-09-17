@@ -23,6 +23,8 @@ lw-is-linkpost: "false"
 tags: 
 aliases: 
   - "does-there-exist-an-agi-level-parameter-setting-for-modern"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/09/2020
 original_url: https://www.lesswrong.com/posts/5pXMThcnZ5PqDeSSz/does-there-exist-an-agi-level-parameter-setting-for-modern
 ---

@@ -23,8 +23,8 @@ lw-latest-edit: 2023-05-16T20:14:29.355Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Logan Riggs
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "seeking-power-is-often-convergently-instrumental-in-mdps"
 lw-sequence-title: Reframing Impact
@@ -36,6 +36,7 @@ prev-post-title: "The Gears of Impact"
 next-post-slug: attainable-utility-landscape
 next-post-title: "Attainable Utility Landscape: How The World Is Changed"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 12/05/2019
 original_url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
 ---

@@ -22,10 +22,12 @@ title: "Penalizing Impact via Attainable Utility Preservation"
 lw-latest-edit: 2019-03-08T16:55:24.259Z
 lw-is-linkpost: "true"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "penalizing-impact-via-attainable-utility-preservation"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/28/2018
 original_url: https://www.lesswrong.com/posts/mDTded2Dn7BKRBEPX/penalizing-impact-via-attainable-utility-preservation
 ---

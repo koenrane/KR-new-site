@@ -22,10 +22,12 @@ lw-latest-edit: 2021-06-08T12:36:09.299Z
 lw-is-linkpost: "false"
 authors: Jacob Stavrianos and Alex Turner
 tags: 
-  - "game-theory"
   - "AI"
+  - "game-theory"
 aliases: 
   - "game-theoretic-alignment-in-terms-of-attainable-utility"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/08/2021
 original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 ---

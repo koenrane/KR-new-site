@@ -21,11 +21,13 @@ title: "What counts as defection?"
 lw-latest-edit: 2021-03-18T22:20:25.138Z
 lw-is-linkpost: "false"
 tags: 
+  - "AI"
   - "rationality"
   - "game-theory"
-  - "AI"
 aliases: 
   - "what-counts-as-defection"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/12/2020
 original_url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-defection
 ---

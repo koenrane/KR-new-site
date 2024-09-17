@@ -21,8 +21,8 @@ title: "How Low Should Fruit Hang Before We Pick It?"
 lw-latest-edit: 2020-05-20T13:03:59.233Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "how-low-should-fruit-hang-before-we-pick-it"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: attainable-utility-preservation-empirical-results
 prev-post-title: "Attainable Utility Preservation: Empirical Results"
 next-post-slug: attainable-utility-preservation-scaling-to-superhuman
 next-post-title: "Attainable Utility Preservation: Scaling to Superhuman"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/25/2020
 original_url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 ---

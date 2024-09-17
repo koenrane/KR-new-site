@@ -21,9 +21,9 @@ title: "Reward is not the optimization target"
 lw-latest-edit: 2023-09-18T16:54:05.492Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
-  - "reinforcement-learning"
   - "AI"
+  - "reinforcement-learning"
+  - "shard-theory"
 aliases: 
   - "reward-is-not-the-optimization-target"
 sequence-link: posts#shard-theory
@@ -32,6 +32,8 @@ prev-post-slug: general-alignment-properties
 prev-post-title: "General Alignment Properties"
 next-post-slug: shard-theory
 next-post-title: "The Shard Theory of Human Values"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/25/2022
 original_url: https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
 ---
@@ -129,7 +131,7 @@ But obviously these conditions aren’t true in the real world. Your learning al
         2.  It’s _possible_ there’s some kind of RL algorithm which _does_ train agents which limit to reward optimization (and, of course, thereby “solves” inner alignment in its literal form of “find a policy which optimizes the outer objective signal”). 
     2.  For point 2 (_reward provides local updates to the agent's cognition via credit assignment; reward is not best understood as specifying our preferences_), the choice of RL algorithm should not matter, as long as it uses reward to compute local updates. 
         1.  A similar lesson applies to the updates provided by loss signals. A loss signal provides updates which deform the agent's cognition into a new shape.
-7.  TurnTrout, you've been talking about an AI's learning process using English, but ML gradients may not neatly be expressible in our concepts. How do we know that it's appropriate to speculate in English?
+7.  `TurnTrout`, you've been talking about an AI's learning process using English, but ML gradients may not neatly be expressible in our concepts. How do we know that it's appropriate to speculate in English?
     1.  I am _not_ _certain_ that my model is legit, but it sure seems more legit than (my perception of) how people usually think about RL (i.e. in terms of reward maximization, and reward-as-optimization-target instead of as feedback signal which builds cognitive structures). 
     2.  I only have access to my own concepts and words, so I am provisionally reasoning ahead anyways, while keeping in mind the potential treacheries of anglicizing imaginary gradient updates (e.g. "be more likely to eat pizza in similar situations").
 

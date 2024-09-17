@@ -33,6 +33,8 @@ prev-post-slug: functional-analysis-textbook-review
 prev-post-title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional Analysis'"
 next-post-slug: insights-from-euclids-elements
 next-post-title: "Insights from Euclid's 'Elements'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/22/2020
 original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
 ---

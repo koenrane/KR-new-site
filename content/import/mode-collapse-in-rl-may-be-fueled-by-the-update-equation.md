@@ -22,10 +22,12 @@ lw-latest-edit: 2023-06-24T18:23:46.663Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Michael Einhorn
 tags: 
-  - "reinforcement-learning"
   - "AI"
+  - "reinforcement-learning"
 aliases: 
   - "mode-collapse-in-rl-may-be-fueled-by-the-update-equation"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/19/2023
 original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 ---

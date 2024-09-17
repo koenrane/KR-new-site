@@ -21,8 +21,8 @@ title: "Corrigibility as outside view"
 lw-latest-edit: 2020-05-12T17:22:13.849Z
 lw-is-linkpost: "false"
 tags: 
-  - "corrigibility"
   - "AI"
+  - "corrigibility"
 aliases: 
   - "corrigibility-as-outside-view"
 lw-sequence-title: "Thoughts on Corrigibility"
@@ -33,6 +33,8 @@ prev-post-slug: non-obstruction-motivates-corrigibility
 prev-post-title: "Non-Obstruction: A Simple Concept Motivating Corrigibility"
 next-post-slug: a-certain-formalization-of-corrigibility-is-vnm-incoherent
 next-post-title: "A Certain Formalization of Corrigibility Is VNM-Incoherent"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/08/2020
 original_url: https://www.lesswrong.com/posts/BMj6uMuyBidrdZkiD/corrigibility-as-outside-view
 ---

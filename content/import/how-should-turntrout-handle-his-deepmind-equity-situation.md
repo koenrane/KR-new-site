@@ -25,6 +25,8 @@ tags:
   - "practical"
 aliases: 
   - "how-should-turntrout-handle-his-deepmind-equity-situation"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/16/2023
 original_url: https://www.lesswrong.com/posts/Be3ertyJfwDdQucdd/how-should-turntrout-handle-his-deepmind-equity-situation
 ---
@@ -34,7 +36,7 @@ Ok, so the basic situation as I understand it is that as part of your Deepmind o
 
 My sense is you want to end up in a spot where your net-worth isn't super correlated with how much Google invests in AGI. Doing this thoroughly seems hard (since there are things like job security and overall salaries at Google that of course also correlate with Google stock), but getting to a point where you are about as correlated as if you didn't have stock options seems doable. 
 
-**TurnTrout**
+**`TurnTrout`**
 
 Yeah, I want to have lower correlation because I want to make clearheaded decisions about deployment and research directions, which aren't muddled by concerns like "I might get more money for making societally risky plays."
 
@@ -57,7 +59,7 @@ You could just structure this as an ongoing contract where you get money at each
 
 Now, let's think about whether there is just some product on the open market that you could buy to end up with this.
 
-**TurnTrout**
+**`TurnTrout`**
 
 One important part would be that (as with any job) I'll be at Google for an unknown duration, and so I don't want to commit to selling my full number of shares, and I'd also like a solution which is robust to receiving additional equity due to high performance.
 
@@ -65,7 +67,7 @@ One important part would be that (as with any job) I'll be at Google for an unkn
 
 Yeah, to be clear, the intent behind this contract was to have the contract end as soon as you leave Google and no longer have any vesting shares. Also yeah, seems probably doable to find some way of also having you sell additional performance bonus shares you get.
 
-**TurnTrout**
+**`TurnTrout`**
 
 Google in particular has in-house financial advisors, so practically I'd go talk with them about this, but I'd like to figure this out for the more general case.
 
@@ -75,7 +77,7 @@ Man, I do have trouble coming up with a simple off-the-shelf contract that you c
 
 Ok, so does anything go wrong with a dumb "I keep a spreadsheet of my Google returns, I commit to donate anything to prespecified charity that is above the current valuation of my Google shares"? Like, this isn't perfect, because you would ideally like to have the current expected value of the stock in your bank account, but Google stock isn't a meme coin and doesn't seem that extremely high-variance, but it does really lose you quite a bit of money in-expectation.
 
-**TurnTrout**
+**`TurnTrout`**
 
 (Also, insofar as I want the charity to get funding, I still have CoI, albeit a smaller one.)
 
@@ -83,7 +85,7 @@ Ok, so does anything go wrong with a dumb "I keep a spreadsheet of my Google ret
 
 Ok, so wait, do you know the exact dates your equity will vest? 
 
-**TurnTrout**
+**`TurnTrout`**
 
 Yes, I know what percentage will vest each month for the next 4 years, and I'll presumably get the specifics (like exact days) soon enough.
 
@@ -97,7 +99,7 @@ Ok, so what if we instead try to aim for something like "be approximately neutra
 
 The naive thing to do is to just like, short Google in an amount equivalent to your total 4-year equity. I.e. you borrow shares, sell them, and then you need to produce the equity somehow over the coming years. But you really can't guarantee you will have enough money to buy Google stock, if it goes up a lot. 
 
-**TurnTrout**
+**`TurnTrout`**
 
 I think a costless collar (selling a call to buy a put at identical strike prices) would be better than shorting, but it might not be possible given the options markets, and it leaves a range of problems unsolved (like "I don't want to deal with margin calls", "what if I get more equity", and "unknown, variable duration of employment"). I could ladder the collars (i.e. establish new collars as I go), but that might not lock me in to the present value of GOOG (e.g. if the stock falls a bunch in the future, maybe no one is trading options at present value anymore, or at least the collar is no longer costless). 
 
@@ -105,7 +107,7 @@ I think a costless collar (selling a call to buy a put at identical strike price
 
 I feel like the variable duration here just really forces you into making a custom contract, if you don't want any of the risk exposure, which sucks.
 
-**TurnTrout**
+**`TurnTrout`**
 
 I want to just ask Google to give me future stocks according to their future value. e.g. 3 months from now, I get \$X worth of GOOG no matter what. Maybe they will do that. Maybe not.
 
@@ -113,7 +115,7 @@ I want to just ask Google to give me future stocks according to their future val
 
 I think they key question is "how much of a loss are you willing to take to be neutral here?". If it's <2%, then I think it's really hard. If it's 10% then I think it's quite likely you would find a buyer for the relevant contract.
 
-**TurnTrout**
+**`TurnTrout`**
 
 I'm definitely willing to pay 2%. I don't fear equity-induced drift much overall, though, but that comes down to factors like "how much do my decisions impact GOOG performance" and "to what extent am I helping make deployment decisions." However, I value time/stress more heavily, and if I have to crunch a ton of annoying numbers every month (in a way I can't hire out to a non-trusted person), that's going to decrease my willingness a lot. 
 
@@ -121,7 +123,7 @@ I'm definitely willing to pay 2%. I don't fear equity-induced drift much overall
 
 I think it's pretty important to plan for success in things like this. Like, I agree that in the median path your decisions do not impact GOOG performance that much, but there are totally worlds where you might end up as one of the people in charge of the stop button for Google AI capabilities research, and yeah, that one will sure have a huge effect on Google stock when pressed. 
 
-**TurnTrout**
+**`TurnTrout`**
 
 Agreed. (Although if I became important, and I retained my alignment at that point, I could start up a costlier strategy which locked me in to the value as of that future date.)
 
@@ -129,7 +131,7 @@ Agreed. (Although if I became important, and I retained my alignment at that poi
 
 Yeah, I think that's fair. But also, whether you end up in such a position might depend on having already committed to that (like, I would feel more comfortable electing you to the stop button position if I could somehow be confident that you won't have GOOG exposure, which would be easiest if you had already signed a contract that made you GOOG neutral), though probably it won't be a major component.
 
-**TurnTrout**
+**`TurnTrout`**
 
 Ideally that stop button would be handled by third parties _not employed by Google_ (even if they're not exposed to GOOG), but possibly that won't be the case.
 
@@ -143,7 +145,7 @@ Idk, maybe I should set up a small fund here that buys alignment-researcher equi
 
 I do personally kind of want to avoid GOOG exposure, but idk, does seem less important if I am not working at GOOG.
 
-**TurnTrout**
+**`TurnTrout`**
 
 Yeah. I also want to avoid exposure for the standard risk management reasons.
 
@@ -151,7 +153,7 @@ Yeah. I also want to avoid exposure for the standard risk management reasons.
 
 Yeah, man, does really seem like there just isn't a very simple instrument here you can buy. I think we really need someone to set up a custom contract here, and I would love it if someone wanted to do this (and my guess is people would be willing to pay like 5% premium here, so this seems like it could be a quite mutually beneficial trade).
 
-**TurnTrout**
+**`TurnTrout`**
 
 Now that I've received my contract, I've come across language like
 

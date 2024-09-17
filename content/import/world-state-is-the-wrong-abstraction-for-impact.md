@@ -21,9 +21,9 @@ title: "World State is the Wrong Abstraction for Impact"
 lw-latest-edit: 2020-04-22T21:42:10.102Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
-  - "understanding-the-world"
   - "AI"
+  - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "world-state-is-the-wrong-abstraction-for-impact"
 lw-sequence-title: "Reframing Impact"
@@ -34,6 +34,8 @@ prev-post-slug: attainable-utility-theory
 prev-post-title: "Attainable Utility Theory: Why Things Matter"
 next-post-slug: the-gears-of-impact
 next-post-title: "The Gears of Impact"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/01/2019
 original_url: https://www.lesswrong.com/posts/pr3bLc2LtjARfK7nx/world-state-is-the-wrong-abstraction-for-impact
 ---

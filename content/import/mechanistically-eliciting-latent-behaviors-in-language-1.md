@@ -22,17 +22,19 @@ lw-latest-edit: 2024-05-23T20:29:09.224Z
 lw-is-linkpost: "false"
 authors: Andrew Mack and Alex Turner
 tags: 
-  - "mats-program"
-  - "understanding-the-world"
-  - "activation-engineering"
   - "AI"
+  - "understanding-the-world"
+  - "mats-program"
+  - "activation-engineering"
 aliases: 
   - "mechanistically-eliciting-latent-behaviors-in-language-1"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/30/2024
 original_url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 ---
 > [!thanks]
->Produced as part of the MATS Winter 2024 program, under the mentorship of Alex Turner (TurnTrout).
+>Produced as part of the MATS Winter 2024 program, under the mentorship of Alex Turner (`TurnTrout`).
 
 **TL,DR:** I introduce a method for eliciting latent behaviors in language models by learning unsupervised perturbations of an early layer of an LLM. These perturbations are trained to maximize _changes_ in downstream activations. The method discovers diverse and meaningful behaviors with just **one prompt**, including perturbations overriding safety training, eliciting backdoored behaviors and uncovering latent capabilities.
 

@@ -21,8 +21,8 @@ title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential Equat
 lw-latest-edit: 2020-03-25T22:12:25.494Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "understanding-the-world"
+  - "scholarship-&-learning"
 aliases: 
   - "ode-to-joy-insights-from-a-first-course-in-ordinary"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: topology-textbook-review
 prev-post-title: "Continuous Improvement: Insights from 'Topology'"
 next-post-slug: functional-analysis-textbook-review
 next-post-title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional Analysis'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/25/2020
 original_url: https://www.lesswrong.com/posts/o3aTqo5zp6phkuiRw/ode-to-joy-insights-from-a-first-course-in-ordinary
 ---

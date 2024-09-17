@@ -24,6 +24,8 @@ tags:
   - "covid-19"
 aliases: 
   - "research-on-repurposing-filter-products-for-masks"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/03/2020
 original_url: https://www.lesswrong.com/posts/crpCdLreS5c7y8gud/research-on-repurposing-filter-products-for-masks
 ---

@@ -21,8 +21,8 @@ title: "Attainable Utility Landscape: How The World Is Changed"
 lw-latest-edit: 2020-07-10T22:41:11.251Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-landscape-how-the-world-is-changed"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: seeking-power-is-often-convergently-instrumental-in-mdps
 prev-post-title: "Seeking Power is Often Convergently Instrumental in MDPs"
 next-post-slug: the-catastrophic-convergence-conjecture
 next-post-title: "The Catastrophic Convergence Conjecture"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/10/2020
 original_url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 ---

@@ -23,10 +23,12 @@ lw-latest-edit: 2023-11-06T16:33:20.505Z
 lw-is-linkpost: "true"
 authors: technicalities, Alex Turner, Lisa Thiergart, David Udell, Ulisse Mini, and Monte MacDiarmid
 tags: 
-  - "activation-engineering"
   - "AI"
+  - "activation-engineering"
 aliases: 
   - "actadd-steering-language-models-without-optimization"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/06/2023
 original_url: https://www.lesswrong.com/posts/HWxLQvzJGeXoLPJWd/actadd-steering-language-models-without-optimization
 ---

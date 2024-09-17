@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "some-of-my-disagreements-with-list-of-lethalities"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/24/2023
 original_url: https://www.lesswrong.com/posts/kpFxkXBbpF5pWDRrc/some-of-my-disagreements-with-list-of-lethalities
 ---

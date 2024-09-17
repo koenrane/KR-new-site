@@ -22,11 +22,11 @@ lw-latest-edit: 2023-06-05T21:14:25.014Z
 lw-is-linkpost: "false"
 authors: Quintin Pope and Alex Turner
 tags: 
-  - "understanding-the-world"
-  - "human-values"
   - "rationality"
   - "shard-theory"
   - "AI"
+  - "understanding-the-world"
+  - "human-values"
 aliases: 
   - "the-shard-theory-of-human-values"
 lw-sequence-title: "Shard Theory"
@@ -37,6 +37,8 @@ prev-post-slug: reward-is-not-the-optimization-target
 prev-post-title: "Reward is not the optimization target"
 next-post-slug: understanding-and-avoiding-value-drift
 next-post-title: "Understanding and avoiding value drift"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/04/2022
 original_url: https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values
 ---
@@ -157,7 +159,7 @@ Under the shard theory view, it’s not that brains _can’t_ multiply, it’s t
 
 ## Friendship strength seems contextual
 
-Personally, I (TurnTrout) am more inclined to make plans with my friends when I’m already hanging out with them—when we are already physically near each other. But why? 
+Personally, I (`TurnTrout`) am more inclined to make plans with my friends when I’m already hanging out with them—when we are already physically near each other. But why? 
 
 Historically, when I’ve hung out with a friend, that was fun and rewarding and reinforced my decision to hang out with that friend, and to continue spending time with them when we were already hanging out. As above, one possible way this could[^10] happen is via a genetically hardcoded smile-activated reward circuit. 
 
@@ -306,7 +308,7 @@ Furthermore, your _values_ do not reflect a _reflectively endorsed utility funct
 
 So, just because you feel an urge to eat the donut, doesn’t _necessarily_ mean you have a donut shard or that you “value” donuts under our definition. (But you probably do.)
 
-**Shards are just collections of subshards.** One subshard of your family-shard might steer towards futures where your family is happy, while another subshard may influence decisions so that your mother is proud of you. On my (TurnTrout’s) current understanding, “family shard” is just an abstraction of a set of heterogeneous subshards which are downstream of similar historical reinforcement events (e.g. related to spending time with your family). By and large, subshards of the same shard do not all steer towards the same kind of future.
+**Shards are just collections of subshards.** One subshard of your family-shard might steer towards futures where your family is happy, while another subshard may influence decisions so that your mother is proud of you. On my (`TurnTrout`’s) current understanding, “family shard” is just an abstraction of a set of heterogeneous subshards which are downstream of similar historical reinforcement events (e.g. related to spending time with your family). By and large, subshards of the same shard do not all steer towards the same kind of future.
 
 ### “Shard Theory”
 
@@ -375,10 +377,10 @@ In section I, we stated that shard theory makes three key neuroscientific assump
     
 [^14]: For simplicity, we start the analysis at birth. There is probably embryonic self-supervised learning as well. We don’t think it matters for this section.
     
-[^15]: Interesting but presently unimportant: My (TurnTrout)’s current guess is that given certain hard-coded wiring (e.g. where the optic nerve projects), the functional areas of the brain comprise the robust, convergent solution to: How should the brain organize cognitive labor to [minimize the large metabolic costs of information transport](https://www.pdcnet.org/theoria/content/theoria_2019_0034_0001_0089_0110) (and, later, decision-making latency). This explains why [learning a new language produces a new Broca’s area](https://archive.nytimes.com/www.nytimes.com/library/magazine/millennium/m3/hall-blakeslee.html) close to the original, and it explains why [rewiring ferrets’ retinal projections into the auditory cortex seems to grow a visual cortex there instead](https://www.nature.com/articles/35009043). (jacob\_cannell [posited a similar explanation](https://www.lesswrong.com/posts/9Yc7Pp7szcjPgPsjf/the-brain-as-a-universal-learning-machine?commentId=ckXKdtJKPtLqfZS4M) in 2015.)  
+[^15]: Interesting but presently unimportant: My (`TurnTrout`)’s current guess is that given certain hard-coded wiring (e.g. where the optic nerve projects), the functional areas of the brain comprise the robust, convergent solution to: How should the brain organize cognitive labor to [minimize the large metabolic costs of information transport](https://www.pdcnet.org/theoria/content/theoria_2019_0034_0001_0089_0110) (and, later, decision-making latency). This explains why [learning a new language produces a new Broca’s area](https://archive.nytimes.com/www.nytimes.com/library/magazine/millennium/m3/hall-blakeslee.html) close to the original, and it explains why [rewiring ferrets’ retinal projections into the auditory cortex seems to grow a visual cortex there instead](https://www.nature.com/articles/35009043). (jacob\_cannell [posited a similar explanation](https://www.lesswrong.com/posts/9Yc7Pp7szcjPgPsjf/the-brain-as-a-universal-learning-machine?commentId=ckXKdtJKPtLqfZS4M) in 2015.)  
       
     The actual function of each functional area is overdetermined by the convergent usefulness of e.g. visual processing or language processing. Convergence builds upon convergence to produce reliable but slightly-varied specialization of cognitive labor across people’s brains. That is, people learn edge detectors because they’re useful, and people’s brains put them in V1 in order to minimize the costs of transferring information.   
       
     Furthermore, this process compounds upon itself. Initially there were weak functional convergences, and then mutations finetuned regional learning hyperparameters and connectome topology to better suit those weak functional convergences, and then the convergences sharpened, and so on. We later found that [Voss et al.’s _Branch Specialization_](https://distill.pub/2020/circuits/branch-specialization/) made a similar conjecture about the functional areas.
     
-[^16]: I (TurnTrout) don’t know whether philosophers have already considered this definition (nor do I think that’s important to our arguments here). A few minutes of searching didn’t return any such definition, but please let me know if it already exists!
+[^16]: I (`TurnTrout`) don’t know whether philosophers have already considered this definition (nor do I think that’s important to our arguments here). A few minutes of searching didn’t return any such definition, but please let me know if it already exists!

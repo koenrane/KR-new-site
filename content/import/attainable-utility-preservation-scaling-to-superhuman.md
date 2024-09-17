@@ -21,8 +21,8 @@ title: "Attainable Utility Preservation: Scaling to Superhuman"
 lw-latest-edit: 2020-02-27T00:57:35.521Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-preservation-scaling-to-superhuman"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: how-low-should-fruit-hang-before-we-pick-it
 prev-post-title: "How Low Should Fruit Hang Before We Pick It?"
 next-post-slug: excitement-about-impact-measures
 next-post-title: "Reasons for Excitement about Impact of Impact Measure Research"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/27/2020
 original_url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
 ---

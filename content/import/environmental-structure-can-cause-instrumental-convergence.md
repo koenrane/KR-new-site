@@ -22,8 +22,8 @@ title: "Environmental Structure Can Cause Instrumental Convergence"
 lw-latest-edit: 2023-05-16T20:23:50.626Z
 lw-is-linkpost: "true"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "environmental-structure-can-cause-instrumental-convergence"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -35,6 +35,7 @@ prev-post-title: "MDP models are determined by the agent architecture and the en
 next-post-slug: lower-stakes-alignment-scenario
 next-post-title: "A world in which the alignment problem seems lower-stakes"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 06/22/2021
 original_url: https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
 ---
@@ -73,7 +74,7 @@ Previously: [_Seeking Power Is Often Robustly Instrumental In MDPs_](/seeking-po
 
 One view on AGI risk is that we're charging ahead into the unknown, into a particularly unfair game of Minesweeper in which the first click is allowed to blow us up. Following the analogy, we want to understand enough about the mine placement so that we _don't_ get exploded on the first click. And once we get a foothold, we start gaining information about other mines, and the situation is a bit less dangerous.
 
-![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FTurnTrout-Notes%2FAK8QLjSTLg.png?alt=media&token=c8305aa9-72ef-4dec-ad34-6bd32e96717e)
+![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2F`TurnTrout`-Notes%2FAK8QLjSTLg.png?alt=media&token=c8305aa9-72ef-4dec-ad34-6bd32e96717e)
 
 My previous theorems on power-seeking said something like: "at least half of the tiles conceal mines." 
 

@@ -24,6 +24,8 @@ tags:
   - "impact-regularization"
 aliases: 
   - "impact-measure-desiderata"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/02/2018
 original_url: https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata
 ---

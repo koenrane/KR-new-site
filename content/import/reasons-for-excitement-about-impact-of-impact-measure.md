@@ -21,8 +21,8 @@ title: "Reasons for Excitement about Impact of Impact Measure Research"
 lw-latest-edit: 2020-09-16T18:14:18.659Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "reasons-for-excitement-about-impact-of-impact-measure"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: attainable-utility-preservation-scaling-to-superhuman
 prev-post-title: "Attainable Utility Preservation: Scaling to Superhuman"
 next-post-slug: conclusion-to-reframing-impact
 next-post-title: "Conclusion to 'Reframing Impact'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/27/2020
 original_url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
 ---

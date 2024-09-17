@@ -21,8 +21,8 @@ title: "Non-Obstruction: A Simple Concept Motivating Corrigibility"
 lw-latest-edit: 2021-11-11T23:20:03.125Z
 lw-is-linkpost: "false"
 tags: 
-  - "corrigibility"
   - "AI"
+  - "corrigibility"
 aliases: 
   - "non-obstruction-a-simple-concept-motivating-corrigibility"
 lw-sequence-title: "Thoughts on Corrigibility"
@@ -31,6 +31,8 @@ lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
 sequence-link: posts#thoughts-on-corrigibility
 next-post-slug: corrigibility-as-outside-view
 next-post-title: "Corrigibility as outside view"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/21/2020
 original_url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-a-simple-concept-motivating-corrigibility
 ---

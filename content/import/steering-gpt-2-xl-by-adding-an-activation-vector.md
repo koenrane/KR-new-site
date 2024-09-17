@@ -22,12 +22,14 @@ lw-latest-edit: 2024-02-19T23:31:07.877Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Monte MacDiarmid, David Udell, Lisa Thiergart, and Ulisse Mini
 tags: 
+  - "AI"
   - "shard-theory"
   - "activation-engineering"
-  - "AI"
 aliases: 
   - "steering-gpt-2-xl-by-adding-an-activation-vector"
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/13/2023
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 ---
@@ -889,7 +891,7 @@ This work was completed by the shard theory model internals team:
 - Lisa Thiergart (researcher): Had idea for variations on positions of addition, implemented the positional feature & experiment and wrote that post section, worked on theory of how and why it works.
 - Ulisse Mini (researcher): Infrastructure support (Docker/Vast.ai), OpenAI wrapper code, experiments using Vicuna 13B and [tuned-lens](https://arxiv.org/abs/2303.08112) which didn't make it into the post.
 
-We appreciate the feedback and thoughts from a range of people, including Andrew Critch, `AI_WAIFU`, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J (6B), although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
+We appreciate the feedback and thoughts from a range of people, including Andrew Critch, AI\_WAIFU, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J (6B), although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
 
 This work was supported by a grant from the Long-Term Future Fund. The [`activation_additions`](https://github.com/montemac/activation_additions) repository contains our code.
 

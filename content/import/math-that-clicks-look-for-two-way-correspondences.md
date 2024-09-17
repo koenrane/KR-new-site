@@ -25,6 +25,8 @@ tags:
   - "understanding-the-world"
 aliases: 
   - "math-that-clicks-look-for-two-way-correspondences"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/02/2020
 original_url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
 ---

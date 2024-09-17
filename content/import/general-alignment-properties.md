@@ -21,8 +21,8 @@ title: "General alignment properties"
 lw-latest-edit: 2022-08-08T23:46:29.764Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
   - "AI"
+  - "shard-theory"
 aliases: 
   - "general-alignment-properties"
 sequence-link: posts#shard-theory
@@ -31,6 +31,8 @@ prev-post-slug: human-values-and-biases-are-inaccessible-to-the-genome
 prev-post-title: "Human Values & Biases Are Inaccessible to the Genome"
 next-post-slug: reward-is-not-the-optimization-target
 next-post-title: "Reward Is Not the Optimization Target"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 08/08/2022
 original_url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties
 ---

@@ -24,6 +24,8 @@ tags:
   - "rationality"
 aliases: 
   - "transcript-you-should-read-hpmor"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/02/2021
 original_url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
 ---

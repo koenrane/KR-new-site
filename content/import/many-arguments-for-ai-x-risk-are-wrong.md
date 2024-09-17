@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "many-arguments-for-ai-x-risk-are-wrong"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/05/2024
 original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 ---

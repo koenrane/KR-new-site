@@ -21,10 +21,12 @@ title: "Dreams of AI alignment: The danger of suggestive names"
 lw-latest-edit: 2024-02-10T02:01:47.447Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
   - "AI"
+  - "rationality"
 aliases: 
   - "dreams-of-ai-alignment-the-danger-of-suggestive-names"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/10/2024
 original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
 ---

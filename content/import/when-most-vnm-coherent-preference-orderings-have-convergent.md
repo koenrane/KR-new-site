@@ -21,9 +21,9 @@ title: "When Most VNM-Coherent Preference Orderings Have Convergent Instrumental
 lw-latest-edit: 2023-05-16T20:32:55.143Z
 lw-is-linkpost: "false"
 tags: 
+  - "AI"
   - "rationality"
   - "instrumental-convergence"
-  - "AI"
 aliases: 
   - "when-most-vnm-coherent-preference-orderings-have-convergent"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -34,6 +34,8 @@ prev-post-slug: power-seeking-beyond-MDPs
 prev-post-title: "Seeking Power is Convergently Instrumental in a Broad Class of Environments"
 next-post-slug: satisficers-tend-to-seek-power
 next-post-title: "Satisficers Tend To Seek Power: Instrumental Convergence Via Retargetability"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 08/09/2021
 original_url: https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-coherent-preference-orderings-have-convergent
 ---

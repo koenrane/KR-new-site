@@ -24,6 +24,8 @@ tags:
   - "rationality"
 aliases: 
   - "why-should-i-care-about-rationality"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/08/2018
 original_url: https://www.lesswrong.com/posts/PXNBxHS79rbBkaE9y/why-should-i-care-about-rationality
 ---

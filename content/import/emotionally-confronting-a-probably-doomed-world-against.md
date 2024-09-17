@@ -24,6 +24,8 @@ tags:
   - "practical"
 aliases: 
   - "emotionally-confronting-a-probably-doomed-world-against"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/10/2022
 original_url: https://www.lesswrong.com/posts/Cf2zBkoocqcjnrNFD/emotionally-confronting-a-probably-doomed-world-against
 ---
@@ -35,7 +37,7 @@ What next?
 
 We have been taught what comes next, in this kind of story. Since, by assumption, we won’t receive a “happily ever after”, we infer we are in a _tragedy_. Realizing this, we are disappointed and sad. The fellowship breaks and scatters, its once-proud and vibrant members downtrodden. And then occurs a miracle which we could have turned to our advantage, but for our civilizational incompetence and our own stupidity—smart enough to build AI, yet too dumb to align it. And then the laugh track plays. And then we die! The end!
 
-As `AI_WAIFU` [said](https://www.lesswrong.com/posts/j9Q8bRmwCgXRYAgcJ/miri-announces-new-death-with-dignity-strategy?commentId=QMfBRH3rydbukCosb#comments): “Fuck. That. Noise.”
+As AI\_WAIFU [said](https://www.lesswrong.com/posts/j9Q8bRmwCgXRYAgcJ/miri-announces-new-death-with-dignity-strategy?commentId=QMfBRH3rydbukCosb#comments): “Fuck. That. Noise.”
 
 We do not live in a story. We can, in fact, just assess the situation, and then do what makes the most sense, what makes us strongest and happiest. The expected future of the universe is—by assumption—_sad and horrible_, and yet where is the ideal-agency theorem which says I must be downtrodden and glum about it? 
 

@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "conservative-agency-with-multiple-stakeholders"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/08/2021
 original_url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 ---

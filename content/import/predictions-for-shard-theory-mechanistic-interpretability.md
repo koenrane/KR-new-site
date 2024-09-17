@@ -22,9 +22,9 @@ lw-latest-edit: 2023-03-03T21:31:03.903Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Ulisse Mini, and Peli Grietzer
 tags: 
-  - "shard-theory"
-  - "mats-program"
   - "rationality"
+  - "mats-program"
+  - "shard-theory"
   - "AI"
 aliases: 
   - "predictions-for-shard-theory-mechanistic-interpretability"
@@ -34,10 +34,12 @@ lw-sequence-image-banner: sequences/hvtmmyas8pxbcm28wpvv
 sequence-link: posts#interpreting-a-maze-solving-network
 next-post-slug: understanding-and-controlling-a-maze-solving-policy-network
 next-post-title: "Understanding and controlling a maze-solving policy network"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/01/2023
 original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 ---
-How do agents work, internally? My (TurnTrout's) shard theory [MATS](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network. 
+How do agents work, internally? My (`TurnTrout`'s) shard theory [MATS](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647811/mirroredImages/JusJcepE2qohiC3hm/xuq1yzfdjztdhi4gy0jw.gif)
 <br/>Figure: The network in action on its training distribution, where cheese is randomly spawned in the top-right 5x5 available grid region. For more training videos, see the [`rand_region_5`](https://drive.google.com/drive/folders/1oX-PoNbqMQKYAPQQMRUSw0bVsaJO9FpP?usp=share_link) Google Drive folder.

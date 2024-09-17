@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "what-you-see-isn-t-always-what-you-want"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/13/2019
 original_url: https://www.lesswrong.com/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want
 ---

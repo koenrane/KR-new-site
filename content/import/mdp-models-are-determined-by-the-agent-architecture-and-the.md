@@ -21,8 +21,8 @@ title: "MDP models are determined by the agent architecture and the environmenta
 lw-latest-edit: 2021-06-02T18:31:04.668Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "mdp-models-are-determined-by-the-agent-architecture-and-the"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -33,6 +33,8 @@ prev-post-slug: formalizing-multi-agent-power
 prev-post-title: "Generalizing POWER to multi-agent games"
 next-post-slug: environmental-structure-can-cause-instrumental-convergence
 next-post-title: "Environmental Structure Can Cause Instrumental Convergence"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/26/2021
 original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-determined-by-the-agent-architecture-and-the
 ---

@@ -24,6 +24,8 @@ tags:
   - "rationality"
 aliases: 
   - "unyielding-yoda-timers-taking-the-hammertime-final-exam"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/03/2018
 original_url: https://www.lesswrong.com/posts/pYg6RRBvkcMcsMYLq/unyielding-yoda-timers-taking-the-hammertime-final-exam
 ---

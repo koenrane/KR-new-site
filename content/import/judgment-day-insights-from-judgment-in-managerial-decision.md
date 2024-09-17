@@ -21,8 +21,8 @@ title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 lw-latest-edit: 2019-12-30T00:31:36.289Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "understanding-the-world"
+  - "scholarship-&-learning"
 aliases: 
   - "judgment-day-insights-from-judgment-in-managerial-decision"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: computability-and-logic-textbook-review
 prev-post-title: "And My Axiom! Insights from 'Computability and Logic'"
 next-post-slug: topology-textbook-review
 next-post-title: "Continuous Improvement: Insights from 'Topology'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/29/2019
 original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
 ---

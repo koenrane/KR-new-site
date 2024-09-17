@@ -24,6 +24,8 @@ tags:
   - "rationality"
 aliases: 
   - "collider-bias-as-a-cognitive-blindspot"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/30/2020
 original_url: https://www.lesswrong.com/posts/ZMP353rgkd7DQjrA8/collider-bias-as-a-cognitive-blindspot
 ---

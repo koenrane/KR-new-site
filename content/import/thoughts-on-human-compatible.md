@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "thoughts-on-human-compatible"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 10/10/2019
 original_url: https://www.lesswrong.com/posts/FuGDYNvA6qh4qyFah/thoughts-on-human-compatible
 ---

@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "gpt-3-gems"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/23/2020
 original_url: https://www.lesswrong.com/posts/uu8FwG5XPQ6zpFaEN/gpt-3-gems
 ---

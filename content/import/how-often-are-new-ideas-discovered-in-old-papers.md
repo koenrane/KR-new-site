@@ -24,6 +24,8 @@ tags:
   - "scholarship-&-learning"
 aliases: 
   - "how-often-are-new-ideas-discovered-in-old-papers"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/26/2019
 original_url: https://www.lesswrong.com/posts/Qj6rK8XBsABQoporr/how-often-are-new-ideas-discovered-in-old-papers
 ---

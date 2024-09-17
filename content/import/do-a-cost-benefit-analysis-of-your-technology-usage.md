@@ -32,6 +32,8 @@ prev-post-slug: insights-from-modern-principles-of-economics
 prev-post-title: "Insights from Modern Principles of Economics"
 next-post-slug: alignment-phd
 next-post-title: "Looking back on my alignment PhD"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/27/2022
 original_url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefit-analysis-of-your-technology-usage
 ---
@@ -136,7 +138,7 @@ The world was not going to end because I stopped reading the news for a month—
 
 **FAQ**
 
-> But TurnTrout, my job needs email / \[other special reason why this doesn’t work for me\].
+> But `TurnTrout`, my job needs email / \[other special reason why this doesn’t work for me\].
 
 I concede that my rules are probably not best for your situation. But have you thought about the issue for five minutes? Could you ask your boss if you can check email once a day and otherwise take phone calls? Maybe you don’t restrict email, but stop looking at websites like Reddit or Hacker News or Marginal Revolution or Facebook or Twitter? Are there other creative solutions waiting to be uncovered? Have you tried?
 
@@ -210,7 +212,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
   - Reasoning on this point:
     - I think music generally makes me subtly dumber but feel cooler while I’m listening to it, so I listen to it a lot.
     - Music imposes its own form on my thoughts. My thinking and mood becomes governed by the song which happens to be playing, and less by the substance of my own thoughts. I don’t want my reasoning to hinge on “will Spotify shuffle to _Attack on Titan_ or _Coldplay_ next?”.
-    - See also [Gwern’s stub](https://www.gwern.net/Music-distraction).
+    - See also [Gwern’s stub](https://www.`gwern`.net/Music-distraction).
     - I do have Google Home, and often play nature sounds.
 
 

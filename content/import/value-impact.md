@@ -21,8 +21,8 @@ title: "Value Impact"
 lw-latest-edit: 2019-09-23T00:47:13.121Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "value-impact"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: reframing-impact
 prev-post-title: "Reframing Impact"
 next-post-slug: deducing-impact
 next-post-title: "Deducing Impact"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/23/2019
 original_url: https://www.lesswrong.com/posts/TxcYSRQ9giC6zmKov/value-impact
 ---

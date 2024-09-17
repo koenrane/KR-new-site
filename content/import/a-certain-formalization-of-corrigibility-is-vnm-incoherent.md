@@ -21,9 +21,9 @@ title: "A Certain Formalization of Corrigibility Is VNM-Incoherent"
 lw-latest-edit: 2023-05-16T20:35:50.264Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
-  - "corrigibility"
   - "AI"
+  - "corrigibility"
+  - "instrumental-convergence"
 aliases: 
   - "a-certain-formalization-of-corrigibility-is-vnm-incoherent"
 lw-sequence-title: Thoughts on Corrigibility
@@ -35,6 +35,7 @@ prev-post-title: "Corrigibility as Outside View"
 next-post-slug: formalizing-policy-modification-corrigibility
 next-post-title: "Formalizing Policy-Modification Corrigibility"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 11/20/2021
 original_url: https://www.lesswrong.com/posts/WCX3EwnWAx7eyucqH/a-certain-formalization-of-corrigibility-is-vnm-incoherent
 ---

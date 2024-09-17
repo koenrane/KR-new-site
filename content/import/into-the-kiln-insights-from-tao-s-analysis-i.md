@@ -31,6 +31,8 @@ prev-post-slug: all-of-statistics-textbook-review
 prev-post-title: "Confounded No Longer: Insights from 'All of Statistics'"
 next-post-slug: swimming-upstream
 next-post-title: "Swimming Upstream: A Case Study in Instrumental Rationality"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/01/2018
 original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 ---

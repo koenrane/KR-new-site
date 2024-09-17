@@ -21,10 +21,10 @@ title: "Understanding and avoiding value drift"
 lw-latest-edit: 2022-09-09T18:05:11.849Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
-  - "rationality"
   - "AI"
+  - "rationality"
   - "human-values"
+  - "shard-theory"
 aliases: 
   - "understanding-and-avoiding-value-drift"
 sequence-link: posts#shard-theory
@@ -33,6 +33,8 @@ prev-post-slug: shard-theory
 prev-post-title: "The Shard Theory of Human Values"
 next-post-slug: a-shot-at-the-diamond-alignment-problem
 next-post-title: "A Shot at the Diamond-Alignment Problem"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/09/2022
 original_url: https://www.lesswrong.com/posts/jFvFreCeejRKaZv4v/understanding-and-avoiding-value-drift
 ---

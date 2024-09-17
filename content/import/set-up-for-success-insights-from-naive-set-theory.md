@@ -21,8 +21,8 @@ title: "Set Up for Success: Insights from 'Naïve Set Theory'"
 lw-latest-edit: 2018-02-28T02:01:43.790Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "summaries"
+  - "scholarship-&-learning"
 aliases: 
   - "set-up-for-success-insights-from-naive-set-theory"
 lw-sequence-title: "Becoming Stronger"
@@ -31,6 +31,8 @@ lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 next-post-slug: lightness-and-unease
 next-post-title: "Lightness and Unease"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/28/2018
 original_url: https://www.lesswrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-success-insights-from-naive-set-theory
 ---

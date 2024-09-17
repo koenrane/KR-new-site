@@ -21,9 +21,9 @@ title: "The Catastrophic Convergence Conjecture"
 lw-latest-edit: 2020-11-22T18:06:16.099Z
 lw-is-linkpost: "false"
 tags: 
+  - "AI"
   - "impact-regularization"
   - "instrumental-convergence"
-  - "AI"
 aliases: 
   - "the-catastrophic-convergence-conjecture"
 lw-sequence-title: "Reframing Impact"
@@ -34,6 +34,8 @@ prev-post-slug: attainable-utility-landscape
 prev-post-title: "Attainable Utility Landscape: How The World Is Changed"
 next-post-slug: attainable-utility-preservation-concepts
 next-post-title: "Attainable Utility Preservation: Concepts"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 ---

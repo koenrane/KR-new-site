@@ -32,6 +32,8 @@ prev-post-slug: second-analysis-textbook-review
 prev-post-title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
 next-post-slug: managerial-decision-making-review
 next-post-title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/16/2019
 original_url: https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
 ---

@@ -22,8 +22,8 @@ lw-latest-edit: 2023-04-17T00:53:43.463Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Peli Grietzer, and Lisa Thiergart
 tags: 
-  - "activation-engineering"
   - "AI"
+  - "activation-engineering"
 aliases: 
   - "maze-solving-agents-add-a-top-right-vector-make-the-agent-go"
 lw-sequence-title: "Interpreting a Maze-Solving Network"
@@ -34,6 +34,8 @@ prev-post-slug: understanding-and-controlling-a-maze-solving-policy-network
 prev-post-title: "Understanding and controlling a maze-solving policy network"
 next-post-slug: statistics-of-a-maze-solving-network
 next-post-title: "Behavioural statistics for a maze-solving agent"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/31/2023
 original_url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 ---

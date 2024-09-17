@@ -21,8 +21,8 @@ title: "Insights from Euclid's 'Elements'"
 lw-latest-edit: 2021-02-15T03:50:14.043Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "understanding-the-world"
+  - "scholarship-&-learning"
 aliases: 
   - "insights-from-euclid-s-elements"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: problem-relaxation-as-a-tactic
 prev-post-title: "Problem relaxation as a tactic"
 next-post-slug: self-teaching-insights
 next-post-title: "Lessons I've Learned from Self-Teaching"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/04/2020
 original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 ---

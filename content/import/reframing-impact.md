@@ -21,8 +21,8 @@ title: "Reframing Impact"
 lw-latest-edit: 2021-08-25T18:32:59.440Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "reframing-impact"
 lw-sequence-title: Reframing Impact
@@ -31,6 +31,8 @@ lw-sequence-image-banner: sequences/fahwqcjgc6ni0stdzxb3
 sequence-link: posts#reframing-impact
 next-post-slug: value-impact
 next-post-title: "Value Impact"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/20/2019
 original_url: https://www.lesswrong.com/posts/xCxeBSHqMEaP3jDvY/reframing-impact
 ---

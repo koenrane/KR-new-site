@@ -23,6 +23,8 @@ lw-is-linkpost: "false"
 tags: 
 aliases: 
   - "can-fear-of-the-dark-bias-us-more-generally"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/22/2019
 original_url: https://www.lesswrong.com/posts/zkjfzLCqJxdNKfTKJ/can-fear-of-the-dark-bias-us-more-generally
 ---

@@ -21,10 +21,12 @@ title: "Open problem: how can we quantify player alignment in 2x2 normal-form ga
 lw-latest-edit: 2021-06-18T18:47:49.115Z
 lw-is-linkpost: "false"
 tags: 
-  - "game-theory"
   - "AI"
+  - "game-theory"
 aliases: 
   - "open-problem-how-can-we-quantify-player-alignment-in-2x2"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/16/2021
 original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
 ---

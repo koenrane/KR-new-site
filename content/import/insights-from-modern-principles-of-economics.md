@@ -32,6 +32,8 @@ prev-post-slug: self-teaching-insights
 prev-post-title: "Lessons I've Learned from Self-Teaching"
 next-post-slug: digital-minimalism
 next-post-title: "Do a cost-benefit analysis of your technology usage"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/22/2021
 original_url: https://www.lesswrong.com/posts/hRa5c5GaMNkNGtnXq/insights-from-modern-principles-of-economics
 ---

@@ -24,6 +24,8 @@ tags:
   - "impact-regularization"
 aliases: 
   - "overcoming-clinginess-in-impact-measures"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/30/2018
 original_url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-clinginess-in-impact-measures
 ---

@@ -21,8 +21,8 @@ title: "Attainable Utility Preservation: Concepts"
 lw-latest-edit: 2020-02-17T05:22:28.687Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "AI"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-preservation-concepts"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: the-catastrophic-convergence-conjecture
 prev-post-title: "The Catastrophic Convergence Conjecture"
 next-post-slug: attainable-utility-preservation-empirical-results
 next-post-title: "Attainable Utility Preservation: Empirical Results"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/17/2020
 original_url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 ---

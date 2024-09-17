@@ -24,6 +24,8 @@ tags:
   - "impact-regularization"
 aliases: 
   - "best-reasons-for-pessimism-about-impact-of-impact-measures"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/10/2019
 original_url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
 ---

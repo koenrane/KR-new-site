@@ -21,10 +21,12 @@ title: "Clarifying Power-Seeking and Instrumental Convergence"
 lw-latest-edit: 2019-12-20T19:59:33.140Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "clarifying-power-seeking-and-instrumental-convergence"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/20/2019
 original_url: https://www.lesswrong.com/posts/cwpKagyTvqSyAJB7q/clarifying-power-seeking-and-instrumental-convergence
 ---

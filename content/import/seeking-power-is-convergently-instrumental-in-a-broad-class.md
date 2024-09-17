@@ -21,8 +21,8 @@ title: "Seeking Power is Convergently Instrumental in a Broad Class of Environme
 lw-latest-edit: 2023-05-16T20:31:56.719Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "seeking-power-is-convergently-instrumental-in-a-broad-class"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -34,6 +34,7 @@ prev-post-title: "The More Power At Stake, The Stronger Instrumental Convergence
 next-post-slug: instrumental-convergence-via-vnm-preferences
 next-post-title: "When Most VNM-Coherent Preference Orderings Have Convergent Instrumental Incentives"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 08/08/2021
 original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 ---

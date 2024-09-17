@@ -21,9 +21,9 @@ title: "Looking back on my alignment PhD"
 lw-latest-edit: 2023-08-10T01:35:59.613Z
 lw-is-linkpost: "false"
 tags: 
+  - "AI"
   - "rationality"
   - "postmortems-&-retrospectives"
-  - "AI"
   - "growth-stories"
 aliases: 
   - "looking-back-on-my-alignment-phd"
@@ -34,6 +34,8 @@ lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: digital-minimalism
 prev-post-title: "Do a cost-benefit analysis of your technology usage"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/01/2022
 original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
 ---
@@ -172,7 +174,7 @@ I did these things eventually, though, and I'm proud of that.
 
 # What I'm proud of
 
-1.  I [didn't keep working on computational chemistry](/swimming-upstream). Boy howdy, would that have been awful for me. _Thank you,_ TurnTrout$_{2018}$ ! 
+1.  I [didn't keep working on computational chemistry](/swimming-upstream). Boy howdy, would that have been awful for me. _Thank you,_ `TurnTrout`$_{2018}$ ! 
     1.  I remember thinking "You know what, I'd rather get _expelled_ than not do \[the 2018 CHAI internship\]." This thought "gave me the courage" to find a new advisor who would let me work on AI safety, funding be damned.
     2.  I'm not a natural nonconformist. Conflict makes me nervous. I've had to work for it. 
 2.  I [learned a lot of math](/posts#becoming-stronger), even though I felt sheepish and insecure about it at first.

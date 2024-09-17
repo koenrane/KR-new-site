@@ -21,10 +21,12 @@ title: "People care about each other even though they have imperfect motivationa
 lw-latest-edit: 2022-11-08T18:30:04.445Z
 lw-is-linkpost: "false"
 tags: 
-  - "corrigibility"
   - "AI"
+  - "corrigibility"
 aliases: 
   - "people-care-about-each-other-even-though-they-have-imperfect"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/08/2022
 original_url: https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
 ---

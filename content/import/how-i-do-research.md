@@ -21,10 +21,12 @@ title: "How I do research"
 lw-latest-edit: 2019-11-20T21:28:11.835Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "rationality"
+  - "scholarship-&-learning"
 aliases: 
   - "how-i-do-research"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 11/19/2019
 original_url: https://www.lesswrong.com/posts/e3Db4w52hz3NSyYqt/how-i-do-research
 ---

@@ -23,10 +23,12 @@ lw-latest-edit: 2023-07-24T21:19:09.733Z
 lw-is-linkpost: "true"
 authors: Alex Turner, Alice Rigg, Lisa Thiergart, Monte MacDiarmid, and Ulisse Mini
 tags: 
-  - "activation-engineering"
   - "AI"
+  - "activation-engineering"
 aliases: 
   - "open-problems-in-activation-engineering"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/24/2023
 original_url: https://www.lesswrong.com/posts/JMebqicMD6azB8MwK/open-problems-in-activation-engineering
 ---

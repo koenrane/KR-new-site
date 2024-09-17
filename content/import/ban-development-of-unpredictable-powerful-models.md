@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "ban-development-of-unpredictable-powerful-models"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/20/2023
 original_url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 ---

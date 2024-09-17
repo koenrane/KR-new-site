@@ -21,8 +21,8 @@ title: "A world in which the alignment problem seems lower-stakes"
 lw-latest-edit: 2021-07-08T15:16:27.530Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "a-world-in-which-the-alignment-problem-seems-lower-stakes"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -33,6 +33,8 @@ prev-post-slug: environmental-structure-can-cause-instrumental-convergence
 prev-post-title: "Environmental Structure Can Cause Instrumental Convergence"
 next-post-slug: quantitative-strength-of-instrumental-convergence
 next-post-title: "The More Power At Stake, The Stronger Instrumental Convergence Gets For Optimal Policies"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/08/2021
 original_url: https://www.lesswrong.com/posts/sunXMY5WyDcrHsNRr/a-world-in-which-the-alignment-problem-seems-lower-stakes
 ---

@@ -31,6 +31,8 @@ prev-post-slug: linear-algebra-textbook-review
 prev-post-title: "The First Rung: Insights from 'Linear Algebra Done Right'"
 next-post-slug: all-of-statistics-textbook-review
 next-post-title: "Confounded No Longer: Insights from 'All of Statistics'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/30/2018
 original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-internal-double-crux
 ---

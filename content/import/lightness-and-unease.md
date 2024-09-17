@@ -31,6 +31,8 @@ prev-post-slug: set-theory-textbook-review
 prev-post-title: "Set Up for Success: Insights from 'Naïve Set Theory'"
 next-post-slug: AI-textbook-review
 next-post-title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern Approach'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/21/2018
 original_url: https://www.lesswrong.com/posts/EvKWNRkJgLosgRDSa/lightness-and-unease
 ---

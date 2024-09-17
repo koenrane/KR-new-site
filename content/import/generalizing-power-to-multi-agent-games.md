@@ -22,9 +22,9 @@ lw-latest-edit: 2021-06-06T14:23:13.010Z
 lw-is-linkpost: "false"
 authors: Jacob Stavrianos and Alex Turner
 tags: 
-  - "instrumental-convergence"
-  - "understanding-the-world"
   - "AI"
+  - "understanding-the-world"
+  - "instrumental-convergence"
 aliases: 
   - "generalizing-power-to-multi-agent-games"
 sequence-link: posts#the-causes-of-power-seeking-and-instrumental-convergence
@@ -33,6 +33,8 @@ prev-post-slug: the-catastrophic-convergence-conjecture
 prev-post-title: "The Catastrophic Convergence Conjecture"
 next-post-slug: MDPs-are-not-subjective
 next-post-title: "MDP Models Are Determined by the Agent Architecture and the Environmental Dynamics"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/22/2021
 original_url: https://www.lesswrong.com/posts/MJc9AqyMWpG3BqfyK/generalizing-power-to-multi-agent-games
 ---

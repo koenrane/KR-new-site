@@ -21,8 +21,8 @@ title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An I
 lw-latest-edit: 2018-07-05T00:34:59.249Z
 lw-is-linkpost: "false"
 tags: 
-  - "summaries"
   - "reinforcement-learning"
+  - "summaries"
 aliases: 
   - "making-a-difference-tempore-insights-from-reinforcement"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: swimming-upstream
 prev-post-title: "Swimming Upstream: A Case Study in Instrumental Rationality"
 next-post-slug: second-analysis-textbook-review
 next-post-title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/05/2018
 original_url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
 ---

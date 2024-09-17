@@ -32,6 +32,8 @@ prev-post-slug: AI-textbook-review
 prev-post-title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern Approach'"
 next-post-slug: internalizing-internal-double-crux
 next-post-title: "Internalizing Internal Double Crux"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/22/2018
 original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-insights-from-linear-algebra-done-right
 ---

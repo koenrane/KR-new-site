@@ -21,10 +21,12 @@ title: "Think carefully before calling RL policies  'agents'"
 lw-latest-edit: 2024-03-27T15:51:32.955Z
 lw-is-linkpost: "false"
 tags: 
-  - "reinforcement-learning"
   - "AI"
+  - "reinforcement-learning"
 aliases: 
   - "think-carefully-before-calling-rl-policies-agents"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/02/2023
 original_url: https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents
 ---

@@ -32,6 +32,8 @@ prev-post-slug: RL-textbook-review
 prev-post-title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
 next-post-slug: computability-and-logic-textbook-review
 next-post-title: "And My Axiom! Insights from 'Computability and Logic'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 08/24/2018
 original_url: https://www.lesswrong.com/posts/uSaJoL64DYg2WunJJ/turning-up-the-heat-insights-from-tao-s-analysis-ii
 ---

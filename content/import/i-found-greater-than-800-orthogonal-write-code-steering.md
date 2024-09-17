@@ -23,16 +23,18 @@ lw-latest-edit: 2024-07-17T21:40:13.035Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Alex Turner
 tags: 
+  - "AI"
   - "mats-program"
   - "activation-engineering"
-  - "AI"
 aliases: 
   - "i-found-greater-than-800-orthogonal-write-code-steering"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/15/2024
 original_url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering
 ---
 > [!thanks]
->Produced as part of the MATS Summer 2024 program, under the mentorship of Alex Turner (TurnTrout).
+>Produced as part of the MATS Summer 2024 program, under the mentorship of Alex Turner (`TurnTrout`).
 
 A few weeks ago, I stumbled across a very weird fact: it is possible to find multiple steering vectors in a language model that activate very similar behaviors while **all being orthogonal**. This was pretty surprising to me and to some people that I talked to, so I decided to write a post about it. I don't currently have the bandwidth to investigate this much more, so I'm just putting this post and the [code](https://github.com/g-w1/melbo-ortho) up.
 

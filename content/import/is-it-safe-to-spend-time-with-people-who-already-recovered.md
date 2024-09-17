@@ -24,6 +24,8 @@ tags:
   - "covid-19"
 aliases: 
   - "is-it-safe-to-spend-time-with-people-who-already-recovered"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/02/2020
 original_url: https://www.lesswrong.com/posts/SxSwzsYohstG5AJmE/is-it-safe-to-spend-time-with-people-who-already-recovered
 ---

@@ -22,14 +22,16 @@ lw-latest-edit: 2022-10-03T21:46:11.379Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Josh Turner
 tags: 
-  - "fiction"
   - "rationality"
+  - "fiction"
 aliases: 
   - "bruce-wayne-and-the-cost-of-inaction"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/30/2022
 original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 ---
-_My brother (DivineMango) and I (TurnTrout) wrote this first arc of a Batman fanfiction in the summer of 2020._ 
+_My brother (`DivineMango`) and I (`TurnTrout`) wrote this first arc of a Batman fanfiction in the summer of 2020._ 
 
 ## 1: Don't Look Away
 

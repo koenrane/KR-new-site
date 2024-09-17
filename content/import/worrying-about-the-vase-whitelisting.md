@@ -24,6 +24,8 @@ tags:
   - "impact-regularization"
 aliases: 
   - "worrying-about-the-vase-whitelisting"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 06/16/2018
 original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 ---
@@ -35,7 +37,7 @@ original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-t
 >
 > Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily- and more safely-trainable, partially reward hacking-resistant impact measure.
 >
-> TurnTrout, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
+> `TurnTrout`, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
 
 An _impact measure_ is a means by which change in the world may be evaluated and penalized; such a measure is not a replacement for a utility function, but rather an additional precaution thus overlaid.
 

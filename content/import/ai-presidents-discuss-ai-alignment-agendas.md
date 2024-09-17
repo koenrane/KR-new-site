@@ -27,9 +27,11 @@ tags:
   - "AI"
 aliases: 
   - "ai-presidents-discuss-ai-alignment-agendas"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/09/2023
 original_url: https://www.lesswrong.com/posts/7M2iHPLaNzPNXHuMv/ai-presidents-discuss-ai-alignment-agendas
 ---
-None of the presidents fully represent my (TurnTrout's) views.
+None of the presidents fully represent my (`TurnTrout`'s) views.
 
-TurnTrout wrote the script. Garrett Baker helped produce the video after the audio was complete. Thanks to David Udell, Ulisse Mini, Noemi Chulo, and especially Rio Popper for feedback and assistance in writing the script.
+`TurnTrout` wrote the script. Garrett Baker helped produce the video after the audio was complete. Thanks to David Udell, Ulisse Mini, Noemi Chulo, and especially Rio Popper for feedback and assistance in writing the script.

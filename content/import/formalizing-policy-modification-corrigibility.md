@@ -21,8 +21,8 @@ title: "Formalizing Policy-Modification Corrigibility"
 lw-latest-edit: 2021-12-03T19:13:00.523Z
 lw-is-linkpost: "false"
 tags: 
-  - "corrigibility"
   - "AI"
+  - "corrigibility"
 aliases: 
   - "formalizing-policy-modification-corrigibility"
 lw-sequence-title: "Thoughts on Corrigibility"
@@ -31,6 +31,8 @@ lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
 sequence-link: posts#thoughts-on-corrigibility
 prev-post-slug: a-certain-formalization-of-corrigibility-is-vnm-incoherent
 prev-post-title: "A Certain Formalization of Corrigibility Is VNM-Incoherent"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 12/03/2021
 original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 ---

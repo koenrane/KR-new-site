@@ -21,8 +21,8 @@ title: "Attainable Utility Theory: Why Things Matter"
 lw-latest-edit: 2019-10-02T04:41:15.243Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-theory-why-things-matter"
 lw-sequence-title: "Reframing Impact"
@@ -33,6 +33,8 @@ prev-post-slug: deducing-impact
 prev-post-title: "Deducing Impact"
 next-post-slug: world-state-is-the-wrong-abstraction-for-impact
 next-post-title: "World State is the Wrong Abstraction for Impact"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 09/27/2019
 original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 ---

@@ -32,6 +32,8 @@ prev-post-slug: internalizing-internal-double-crux
 prev-post-title: "Internalizing Internal Double Crux"
 next-post-slug: first-analysis-textbook-review
 next-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/03/2018
 original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
 ---

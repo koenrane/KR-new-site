@@ -24,6 +24,8 @@ tags:
   - "AI"
 aliases: 
   - "seriously-what-goes-wrong-with-reward-the-agent-when-it"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 08/11/2022
 original_url: https://www.lesswrong.com/posts/22xf8GmwqGzHbiuLg/seriously-what-goes-wrong-with-reward-the-agent-when-it
 ---

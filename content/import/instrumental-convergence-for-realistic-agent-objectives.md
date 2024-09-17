@@ -21,8 +21,8 @@ title: "Instrumental Convergence For Realistic Agent Objectives"
 lw-latest-edit: 2023-05-16T20:37:13.911Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "instrumental-convergence-for-realistic-agent-objectives"
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence
@@ -34,6 +34,7 @@ prev-post-title: "Satisficers Tend To Seek Power: Instrumental Convergence Via R
 next-post-slug: parametrically-retargetable-power-seeking
 next-post-title: "Parametrically retargetable decision-makers tend to seek power"
 lw-reward-post-warning: "true"
+use-full-width-images: "false"
 date_published: 01/22/2022
 original_url: https://www.lesswrong.com/posts/W22Btd7NmGuucFejc/instrumental-convergence-for-realistic-agent-objectives
 ---

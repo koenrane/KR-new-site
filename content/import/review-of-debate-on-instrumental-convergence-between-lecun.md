@@ -21,10 +21,12 @@ title: "Review of 'Debate on Instrumental Convergence between LeCun, Russell, Be
 lw-latest-edit: 2021-01-12T17:05:56.148Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "review-of-debate-on-instrumental-convergence-between-lecun"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/12/2021
 original_url: https://www.lesswrong.com/posts/ZPEGLoWMN242Dob6g/review-of-debate-on-instrumental-convergence-between-lecun
 ---

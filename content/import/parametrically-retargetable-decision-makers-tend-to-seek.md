@@ -22,8 +22,8 @@ title: "Parametrically retargetable decision-makers tend to seek power"
 lw-latest-edit: 2023-02-21T17:23:07.903Z
 lw-is-linkpost: "true"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "parametrically-retargetable-decision-makers-tend-to-seek"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -32,6 +32,8 @@ lw-sequence-image-banner: sequences/qb8zq6qeizk7inc3gk2e
 sequence-link: posts#the-causes-of-power-seeking-and-instrumental-convergence
 prev-post-slug: instrumental-convergence-for-realistic-agent-objectives
 prev-post-title: "Instrumental Convergence For Realistic Agent Objectives"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 02/18/2023
 original_url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-retargetable-decision-makers-tend-to-seek
 ---

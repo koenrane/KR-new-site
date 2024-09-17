@@ -22,8 +22,8 @@ lw-latest-edit: 2022-08-30T00:01:07.814Z
 lw-is-linkpost: "false"
 tags: 
   - "shard-theory"
-  - "understanding-the-world"
   - "human-values"
+  - "understanding-the-world"
 aliases: 
   - "human-values-and-biases-are-inaccessible-to-the-genome"
 lw-sequence-title: "Shard Theory"
@@ -34,6 +34,8 @@ prev-post-slug: humans-provide-alignment-evidence
 prev-post-title: "Humans provide an untapped wealth of evidence about alignment"
 next-post-slug: general-alignment-properties
 next-post-title: "General alignment properties"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/07/2022
 original_url: https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome
 ---

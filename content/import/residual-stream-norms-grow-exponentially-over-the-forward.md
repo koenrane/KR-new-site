@@ -25,6 +25,8 @@ tags:
   - "AI"
 aliases: 
   - "residual-stream-norms-grow-exponentially-over-the-forward"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 05/07/2023
 original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 ---
@@ -202,7 +204,7 @@ We documented a basic tendency of transformers: residual stream variance grows e
 
 Stefan (StefanHex) wrote a lot of the post, noticed this in GPT2-small, compared the phenomenon between models, and did the analysis of activations and weights.
 
-Alex (TurnTrout) wrote some of the post and edited it, noticed the phenomenon in GPT2-XL, made about half of the assets and some of the hooking code for computing residual stream norms. He also wrote appendix 1.
+Alex (`TurnTrout`) wrote some of the post and edited it, noticed the phenomenon in GPT2-XL, made about half of the assets and some of the hooking code for computing residual stream norms. He also wrote appendix 1.
 
 <hr/>
 

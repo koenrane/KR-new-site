@@ -22,15 +22,17 @@ lw-latest-edit: 2023-06-07T01:24:40.249Z
 lw-is-linkpost: "false"
 authors: Peli Grietzer and Alex Turner
 tags: 
-  - "shard-theory"
-  - "mats-program"
   - "AI"
+  - "mats-program"
+  - "shard-theory"
 aliases: 
   - "behavioural-statistics-for-a-maze-solving-agent"
 sequence-link: posts#interpreting-a-maze-solving-network
 lw-sequence-title: Interpreting a Maze-Solving Network
 prev-post-slug: top-right-steering-vector
 prev-post-title: "Maze-Solving Agents: Add a Top-Right Vector, Make the Agent Go to the Top-Right"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/20/2023
 original_url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
 ---

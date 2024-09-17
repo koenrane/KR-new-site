@@ -23,6 +23,8 @@ lw-is-linkpost: "false"
 tags: 
 aliases: 
   - "on-being-robust"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 01/10/2020
 original_url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
 ---

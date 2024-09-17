@@ -21,8 +21,8 @@ title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Mod
 lw-latest-edit: 2018-03-25T06:55:46.204Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "AI"
+  - "scholarship-&-learning"
 aliases: 
   - "the-art-of-the-artificial-insights-from-artificial"
 lw-sequence-title: "Becoming Stronger"
@@ -33,6 +33,8 @@ prev-post-slug: lightness-and-unease
 prev-post-title: "Lightness and Unease"
 next-post-slug: linear-algebra-textbook-review
 next-post-title: "The First Rung: Insights from 'Linear Algebra Done Right'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 03/25/2018
 original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 ---
@@ -468,7 +470,7 @@ I have resolved that by the completion of my next book review, proofs will be on
 
 ### Study Group
 
-If you're interested in working through this book (or other books on the reading list) with me or others, there is a MIRIx Discord run by Diffractor. For an invite link, feel free to message [me](https://www.lesswrong.com/users/turntrout)!
+If you're interested in working through this book (or other books on the reading list) with me or others, there is a MIRIx Discord run by `Diffractor`. For an invite link, feel free to message [me](https://www.lesswrong.com/users/turntrout)!
 
 ## Subjective
 
@@ -502,4 +504,4 @@ I am convinced that _there are no hard concepts_, only concepts which take diffe
 
 [^4]: [Artificial Addition](https://www.lesswrong.com/posts/YhgjmCxcQXixStWMC/artificial-addition) talks about this confusion avoidance.
 
-[^5]: Wording credited to Diffractor.
+[^5]: Wording credited to `Diffractor`.
