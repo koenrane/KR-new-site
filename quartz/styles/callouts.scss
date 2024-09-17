@@ -238,3 +238,7 @@
     }
   }
 }
+
+.footnotes .callout {
+  padding-bottom: calc(2 * $baseMargin);
+}

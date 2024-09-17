@@ -17,25 +17,26 @@ lw-vote-count: 202
 af-base-score: 94
 af-num-comments-on-upload: 88
 publish: true
-title: "Reward is not the optimization target"
+title: Reward is not the optimization target
 lw-latest-edit: 2023-09-18T16:54:05.492Z
 lw-is-linkpost: "false"
-tags: 
-  - "AI"
-  - "reinforcement-learning"
-  - "shard-theory"
-aliases: 
-  - "reward-is-not-the-optimization-target"
+tags:
+  - AI
+  - reinforcement-learning
+  - shard-theory
+aliases:
+  - reward-is-not-the-optimization-target
 sequence-link: posts#shard-theory
 lw-sequence-title: Shard Theory
 prev-post-slug: general-alignment-properties
-prev-post-title: "General Alignment Properties"
+prev-post-title: General Alignment Properties
 next-post-slug: shard-theory
-next-post-title: "The Shard Theory of Human Values"
+next-post-title: The Shard Theory of Human Values
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/25/2022
 original_url: https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
+skip_import: "true"
 ---
 > [!thanks]
 >This insight was made possible by many conversations with Quintin Pope, where he challenged my implicit assumptions about alignment. I’m not sure who came up with this particular idea.
@@ -44,7 +45,8 @@ In this essay, I call an agent a “reward optimizer” if it not only gets lots
 
 ETA 9/18/23: This post addresses the model-free policy gradient setting, including algorithms like PPO and REINFORCE. 
 
-> Reinforcement learning is learning what to do—how to map situations to actions **so as to maximize a numerical reward signal**. — [Reinforcement learning: An introduction](http://www.incompleteideas.net/sutton/book/first/Chap1PrePub.pdf) 
+> [!quote]  [Reinforcement learning: An introduction](http://www.incompleteideas.net/sutton/book/first/Chap1PrePub.pdf) 
+> Reinforcement learning is learning what to do—how to map situations to actions **so as to maximize a numerical reward signal**. 
 
 Many people[^1] seem to expect that reward will be the optimization target of really smart learned policies—that these policies will be reward optimizers. I strongly disagree. As I argue in this essay, reward is _not_, in general, that-which-is-optimized by RL agents.[^2]  
 
@@ -145,32 +147,40 @@ It’s true that reward _can_ be an agent’s optimization target, but what rewa
 
 ## Implications
 
-Here are some major updates which I made:
+Here are some major updates which I made.
 
-1.  **Any reasoning derived from the reward-optimization premise is now suspect until otherwise supported.**
-2.  **Wireheading was never a high-probability problem for RL-**_**trained**_ **agents**, absent a specific story for why cognition-updater-acquiring thoughts would be chiseled into primary decision factors.
-3.  **Stop worrying about finding “outer objectives” which are safe to** _**maximize.**_[^9] I think that you’re not going to get an outer-objective-maximizer (i.e. an agent which maximizes the explicitly specified reward function). 
-    1.  Instead, focus on building good cognition within the agent. 
-    2.  In my ontology, there's only one question: How do we grow good cognition inside of the trained agent?
-4.  **Mechanistically model RL agents as executing behaviors downstream of past reinforcement** (e.g. putting trash away), in addition to thinking about policies which are selected for having high reward on the training distribution (e.g. hitting the button).
-    1.  The latter form of reasoning skips past the mechanistic substance of reinforcement learning: The chiseling of computations responsible for the acquisition of the cognition-updater. I still think it's useful to consider selection, but mostly in order to generate failures modes whose mechanistic plausibility can be evaluated.
-    2.  In my view, reward's proper role isn't to encode an objective, but a _reinforcement schedule_, such that the right kinds of computations get reinforced within the AI's mind. 
+> [!warning] 
+> **Any reasoning derived from the reward-optimization premise is now suspect until otherwise supported.**
+
+> [!idea] Insight
+> **Wireheading was never a high-probability problem for RL-**_**trained**_ **agents**, absent a specific story for why cognition-updater-acquiring thoughts would be chiseled into primary decision factors.
+
+> [!success] Stop focusing on objectives which are “safe to maximize”
+> 
+> **Stop worrying about finding “outer objectives” which are safe to** _**maximize.**_[^9] I think that you’re not going to get an outer-objective-maximizer (i.e. an agent which maximizes the explicitly specified reward function). Instead, focus on building good cognition within the agent. The way I see it, there's only one question: How do we grow good cognition inside of the trained agent?
+
+I also suggest that you **mechanistically model RL agents as executing behaviors downstream of past reinforcement** (e.g. putting trash away), in addition to thinking about policies which are selected for having high reward on the training distribution (e.g. hitting the button). The latter form of reasoning skips past the mechanistic substance of reinforcement learning: The chiseling of computations responsible for the acquisition of the cognition-updater. I still think it's useful to consider selection, but mostly in order to generate failures modes whose mechanistic plausibility can be evaluated. 
+
+In my view, reward's proper role isn't to encode an objective, but a _reinforcement schedule_, such that the right kinds of computations get reinforced within the AI's mind. 
 
 _Edit 11/15/22_: The original version of this post talked about how reward reinforces antecedent computations in policy gradient approaches. This is not true in general. I edited the post to instead talk about how reward is used to upweight certain kinds of actions in certain kinds of situations, and therefore reward _chisels cognitive grooves into agents_. 
 
-# Appendix: The field of RL thinks reward=optimization target
+# Appendix: The field of RL thinks reward is the optimization target
 
 Let’s take a little stroll through [Google Scholar’s top results for “reinforcement learning"](https://scholar.google.com/scholar?hl=en&as_sd\$t=7\$,39&q=reinforcement+learning), emphasis added:
 
-> [!quote]
+> [!quote] [Reinforcement learning: A survey](https://www.jair.org/index.php/jair/article/download/10166/24110/)
 >
-> The agent's job is to find a policy… that **maximizes some long-run measure of reinforcement**. ~ [Reinforcement learning: A survey](https://www.jair.org/index.php/jair/article/download/10166/24110/)
->
-> In instrumental conditioning, animals learn to choose actions to obtain rewards and avoid punishments, or, more generally to achieve goals. **Various goals are possible, such as optimizing the average rate of acquisition of net rewards (i.e. rewards minus punishments), or some proxy for this such as the expected sum of future rewards**. ~ [Reinforcement learning: The Good, The Bad and The Ugly](https://www.princeton.edu/~yael/Publications/DayanNiv2008.pdf) 
+> The agent's job is to find a policy… that **maximizes some long-run measure of reinforcement**.
+> 
+
+> [!quote] [Reinforcement learning: The Good, The Bad and The Ugly](https://www.princeton.edu/~yael/Publications/DayanNiv2008.pdf)
+> In instrumental conditioning, animals learn to choose actions to obtain rewards and avoid punishments, or, more generally to achieve goals. **Various goals are possible, such as optimizing the average rate of acquisition of net rewards (i.e. rewards minus punishments), or some proxy for this such as the expected sum of future rewards**. 
 
 Steve Byrnes did, in fact, briefly point out part of the “reward is the optimization target” mistake:
 
-> I note that even experts sometimes sloppily talk as if RL agents make plans towards the goal of maximizing future reward… — [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)
+> [!quote] [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)
+> I note that even experts sometimes sloppily talk as if RL agents make plans towards the goal of maximizing future reward… 
 
 I don't think it's just sloppy talk, I think it's incorrect belief in many cases. I mean, I did my PhD on RL theory, and I still believed it. Many authorities and textbooks confidently claim—presenting little to no evidence—that reward is an optimization target (i.e. the quantity which the policy is in fact trying to optimize, or the quantity to be optimized by the policy). [Check what the math actually says](/alignment-phd#Too-much-deference-too-little-thinking-for-myself). 
 
@@ -184,8 +194,8 @@ I don't think it's just sloppy talk, I think it's incorrect belief in many cases
     
 [^5]: "Reward reinforces existing thoughts" is ultimately a claim about how updates depend on the existing weights of the network. I think that it's easier to update cognition along the lines of existing abstractions and lines of reasoning. If you're already running away from wolves, then if you see a bear and become afraid, you can be updated to run away from large furry animals. This would leverage your _existing_ concepts. 
     
-    From [A shot at the diamond-alignment problem](/a-shot-at-the-diamond-alignment-problem):
-    
+    > [!quote]  [A shot at the diamond-alignment problem](/a-shot-at-the-diamond-alignment-problem)
+    >
     > The local mapping from gradient directions to behaviors is given by the neural tangent kernel, and the learnability of different behaviors is given by the NTK’s eigenspectrum, which [seems to adapt to the task at hand](https://arxiv.org/abs/2008.00938), making the network quicker to learn along behavioral dimensions similar to those it has already acquired.
     
 [^6]: Quintin Pope remarks: “The AI would probably want to establish **control** over the button, if only to ensure its values aren't updated in a way it wouldn't endorse. Though that's an example of convergent powerseeking, not reward seeking.”
