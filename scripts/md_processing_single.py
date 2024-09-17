@@ -792,6 +792,20 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def skip_post(post: dict, filepath: Path) -> bool:
+    if not post["contents"]:
+        return True
+    if post["slug"] in helpers.SKIP_POSTS:
+        return True
+    
+    if filepath.exists():
+        existing_text_content: str = filepath.read_text(encoding="utf-8")
+        if "SKIP_POST" in existing_text_content:
+            print(f"Skipping post {post['slug']} because it is marked to be skipped.")
+            return True
+    return False
+        
+
 # Main execution
 if __name__ == "__main__":
     args = parse_args()
@@ -830,18 +844,17 @@ if __name__ == "__main__":
         posts_to_generate = [matching_posts[0]]
 
     for post in posts_to_generate:
-        if not post["contents"]:
+        output_filename = f"{post['slug']}.md"
+        output_path = Path(git_root) / "content" / "import" / output_filename
+        if skip_post(post, output_path):
             continue
-        if post["slug"] in helpers.SKIP_POSTS:
-            continue
+
         metadata = get_lw_metadata(post)
         metadata = add_quartz_metadata(metadata)
         yaml = metadata_to_yaml(metadata)
         post_md = process_markdown(post["contents"]["markdown"], metadata)
         md = yaml + post_md
 
-        output_filename = f"{post['slug']}.md"
-        output_path = Path(git_root) / "content" / "import" / output_filename
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(md)
         if args.print:

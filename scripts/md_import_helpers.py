@@ -158,8 +158,6 @@ sequence_reassign_dict = {
         'prev-slug': 'top-right-steering-vector',
         'prev-title': 'Maze-Solving Agents: Add a Top-Right Vector, Make the Agent Go to the Top-Right',
     },
-    
-
 }
 
 # first power seek post, CCC
