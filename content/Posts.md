@@ -107,7 +107,7 @@ This sequences generalizes the math of [Seeking Power is Often Convergently Inst
 7. [A World in Which the Alignment Problem Seems Lower-Stakes](./lower-stakes-alignment-scenario)
 8. [The More Power at Stake, the Stronger Instrumental Convergence](./quantitative-strength-of-instrumental-convergence)
 9. [Seeking Power Is Convergently Instrumental in a Broad Class of Environments](./power-seeking-beyond-MDPs)
-10. [When Most VNM-Coherent Preference Orderings Have Convergent](./instrumental-convergence-via-vnm-preferences)
+10. [When Most VNM-Coherent Preference Orderings Have Convergent Instrumental Incentives](./instrumental-convergence-via-vnm-preferences)
 11. [Satisficers Tend to Seek Power: Instrumental Convergence via Retargetability](./satisficers-tend-to-seek-power)
 12. [Instrumental Convergence for Realistic Agent Objectives](./instrumental-convergence-for-realistic-agent-objectives)
 13. [Parametrically Retargetable Decision-Makers Tend to Seek Power](./parametrically-retargetable-power-seeking)

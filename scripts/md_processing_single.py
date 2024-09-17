@@ -551,7 +551,27 @@ replacement = {
     r"eq\.\n *1\.": "eq. 1)", # Typo in superhuman post
     r"design choice issue”\.": "design choice issue.”",
     r"guaranteed -to-exist": "guaranteed-to-exist",
+    r"\"care about things.\" i.e.": "\"care about things\", i.e.",
+    # Usernames
+    r"AI\\_WAIFU": "`AI_WAIFU`",
+    r"janus": "`janus`",
+    r"TheMajor": "`TheMajor`",
+    r"daozaich": "`daozaich`",
+    r"elriggs": "`elriggs`",
+    r"tailcalled": "`tailcalled`",
 }
+
+usernames = (
+    "AI_WAIFU",
+    "janus",
+    "TheMajor",
+    "daozaich",
+    "elriggs",
+    "tailcalled",
+    "TurnTrout",
+    "gwern",
+    "DivineMango"
+)
 
 multiline_replacements = {
     r"^\#+ Footnotes": "",  # Remove these sections
