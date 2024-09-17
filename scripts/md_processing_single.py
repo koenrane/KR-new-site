@@ -174,8 +174,10 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["lw-review-ranking"] = review_info["reviewRanking"]
         metadata["lw-review-category"] = review_info["category"]
 
-    if helpers.MARKDOWN_BASE_WARNING in post_info["contents"]["markdown"]:
-        metadata["lw-reward-post-warning"] = True
+    metadata["lw-reward-post-warning"] = helpers.MARKDOWN_BASE_WARNING in post_info["contents"]["markdown"]
+
+    # Whether post should default to using full-width images
+    metadata["use-full-width-images"] = False
 
     return metadata
 
@@ -552,13 +554,6 @@ replacement = {
     r"design choice issue”\.": "design choice issue.”",
     r"guaranteed -to-exist": "guaranteed-to-exist",
     r"\"care about things.\" i.e.": "\"care about things\", i.e.",
-    # Usernames
-    r"AI\\_WAIFU": "`AI_WAIFU`",
-    r"janus": "`janus`",
-    r"TheMajor": "`TheMajor`",
-    r"daozaich": "`daozaich`",
-    r"elriggs": "`elriggs`",
-    r"tailcalled": "`tailcalled`",
 }
 
 usernames = (
@@ -570,7 +565,8 @@ usernames = (
     "tailcalled",
     "TurnTrout",
     "gwern",
-    "DivineMango"
+    "DivineMango",
+    "Diffractor",
 )
 
 multiline_replacements = {
@@ -600,6 +596,8 @@ def manual_replace(md: str) -> str:
         md = regex.sub(key, val, md)
     for key, val in multiline_replacements.items():
         md = regex.sub(key, val, md, flags=regex.MULTILINE)
+    for username in usernames:
+        md = md.replaceAll(username, f"`{username}`")
     return md
 
 
@@ -800,7 +798,7 @@ def skip_post(post: dict, filepath: Path) -> bool:
     
     if filepath.exists():
         existing_text_content: str = filepath.read_text(encoding="utf-8")
-        if "SKIP_POST" in existing_text_content:
+        if "skip_import" in existing_text_content:
             print(f"Skipping post {post['slug']} because it is marked to be skipped.")
             return True
     return False

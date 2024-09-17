@@ -63,6 +63,7 @@ export function preprocessSlug(headerText: string): string {
   for (const char of charsToConvert) {
     protoSlug = protoSlug.replaceAll(new RegExp(char, "g"), "-")
   }
+
   return protoSlug
 }
 
