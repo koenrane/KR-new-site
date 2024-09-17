@@ -17,29 +17,31 @@ lw-vote-count: 52
 af-base-score: 42
 af-num-comments-on-upload: 38
 publish: true
-title: "Human values & biases are inaccessible to the genome"
+title: Human values & biases are inaccessible to the genome
 lw-latest-edit: 2022-08-30T00:01:07.814Z
 lw-is-linkpost: "false"
-tags: 
-  - "shard-theory"
-  - "human-values"
-  - "understanding-the-world"
-aliases: 
-  - "human-values-and-biases-are-inaccessible-to-the-genome"
-lw-sequence-title: "Shard Theory"
+tags:
+  - shard-theory
+  - human-values
+  - understanding-the-world
+aliases:
+  - human-values-and-biases-are-inaccessible-to-the-genome
+lw-sequence-title: Shard Theory
 lw-sequence-image-grid: sequencesgrid/igo7185zypqhuclvbmiv
 lw-sequence-image-banner: sequences/ot2siejtvcl9pvzly2ma
 sequence-link: posts#shard-theory
 prev-post-slug: humans-provide-alignment-evidence
-prev-post-title: "Humans provide an untapped wealth of evidence about alignment"
+prev-post-title: Humans provide an untapped wealth of evidence about alignment
 next-post-slug: general-alignment-properties
-next-post-title: "General alignment properties"
+next-post-title: General alignment properties
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/07/2022
 original_url: https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and-biases-are-inaccessible-to-the-genome
+skip_import: "true"
 ---
-_Related to Steve Byrnes’_ [_Social instincts are tricky because of the “symbol grounding problem.”_](https://www.lesswrong.com/s/HzcM2dkCq7fwXBej8/p/5F5Tz3u6kJbTNMqsb#13_2_2_Claim_2__Social_instincts_are_tricky_because_of_the__symbol_grounding_problem_) _I wouldn’t have had this insight without several great discussions with Quintin Pope._ 
+> [!info] 
+> Related to Steve Byrnes’ [_Social instincts are tricky because of the “symbol grounding problem.”_](https://www.lesswrong.com/s/HzcM2dkCq7fwXBej8/p/5F5Tz3u6kJbTNMqsb#13_2_2_Claim_2__Social_instincts_are_tricky_because_of_the__symbol_grounding_problem_) I wouldn’t have had this insight without several great discussions with Quintin Pope. 
 
 TL;DR: It seems hard to scan a trained neural network and locate the AI’s learned “tree” abstraction. For very similar reasons, it seems intractable for the genome to scan a human brain and back out the “death” abstraction, which probably will not form at a predictable neural address. Therefore, I infer that the genome can’t _directly_ make us afraid of death by e.g. specifying circuitry which detects when we think about death and then makes us afraid. In turn, this implies that there are a _lot_ of values and biases which the genome cannot hardcode.
 
@@ -64,7 +66,7 @@ When I’d previously thought about human biases (like the sunk cost fallacy) or
 - Detects whether you’re thinking about your family,
 - Detects whether you’re thinking about goals, and makes you [conflate terminal and instrumental goals](https://www.readthesequences.com/Terminal-Values-And-Instrumental-Values),
 - Detects and then navigates ontological shifts,
-  - E.g. Suppose you learn that animals are made out of cells. I infer that the genome cannot detect that you are expanding your ontology, and then execute some genetically hard-coded algorithm which helps you do that successfully.
+  - An example: Suppose you learn that animals are made out of cells. I infer that the genome cannot: (1) detect that you are expanding your ontology and then (2) execute some genetically hard-coded algorithm which helps you do that successfully.
 
 - Detects when you’re thinking about wireheading yourself or manipulating your reward signals,
 - Detects when you’re thinking about reality versus non-reality (like a simulation or fictional world), or
@@ -95,21 +97,22 @@ In my opinion, either (1) or (3) would be enormous news for AI alignment. More o
 
 Yes, and no. In a sense, evolution had “a lot of tries” but is “dumb”, while we have very few tries at AGI while ourselves being able to do consequentialist planning. 
 
-In the AI alignment problem, we want to be able to back out an AGI’s concepts, but we cannot run lots of similar AGIs and select for AGIs with certain effects on the world. Given the [natural abstractions hypothesis](https://www.alignmentforum.org/posts/Fut8dtFsBYRz8atFF/the-natural-abstraction-hypothesis-implications-and-evidence), maybe there’s a lattice of convergent abstractions—first learn edge detectors, then shape detectors, then people being visually detectable in part as compositions of shapes. And _maybe_, for example, people tend to convergently situate these abstractions in similar relative neural locations: The edge detectors go in V1, then the shape detectors are almost always in some other location, and then the person-concept circuitry is learned elsewhere in a convergently reliable relative position to the edge and shape detectors.
+In the AI alignment problem, we want to be able to back out an AGI’s concepts, but we cannot run lots of similar AGIs and select for AGIs with certain effects on the world. Given the [natural abstractions hypothesis](https://www.alignmentforum.org/posts/Fut8dtFsBYRz8atFF/the-natural-abstraction-hypothesis-implications-and-evidence), maybe there’s a lattice of convergent abstractions—first learn edge detectors, then shape detectors, then people being visually detectable in part as compositions of shapes. And _maybe_, for example, people tend to convergently situate these abstractions in similar relative neural locations: The edge detectors go in V1, then the shape detectors are almost always in some other location, and then the person-concept circuitry is learned elsewhere in a convergently reliable position relative to the edge and shape detectors.
 
 But there’s a problem with this story. A congenitally blind person [develops dramatically different functional areas](https://academic.oup.com/cercor/article/25/9/2507/2926061?login=false), which suggests in particular that their person-concept will be at a radically different relative position than the convergent person-concept location in sighted individuals. Therefore, any genetically hardcoded circuit which checks at the relative address for the person-concept which is reliably situated for sighted people, will not look at the right address for congenitally blind people. Therefore, if this story were true, congenitally blind people would lose any important value-formation effects ensured by this location-checking circuit which detects when they’re thinking about people. So, either the human-concept-location-checking circuit wasn’t an important cause of the blind person caring about other people (and then this circuit hasn’t explained the question we wanted it to, which is how people come to care about other people), or there isn’t such a circuit to begin with. I think the latter is true, and the convergent relative location story is wrong.
 
-But the location-checking circuit is only one way the human-concept-detector could be implemented. There are other possibilities. Therefore, given enough selection and time, maybe evolution could evolve a circuit which checks whether you’re thinking about other people. _Maybe_. But it seems implausible to me ($<4\%$ ). I’m going to prioritize explanations for “most people care about other people” which don’t require a fancy workaround.
+But the location-checking circuit is only one way the human-concept-detector could be implemented. There are other possibilities. Therefore, given enough selection and time, maybe evolution could evolve a circuit which checks whether you’re thinking about other people. _Maybe_. But it seems implausible to me (<4\% ). I’m going to prioritize explanations for “most people care about other people” which don’t require a fancy workaround.
 
 EDIT: After talking with Richard Ngo, I now think there's about an 8% chance that several interesting mental events are accessed by the genome; I updated upwards from 4%. 
 
-EDIT 8/29/22: Updating down to 3%, in part due to 1950's arguments on ethology:
+> [!info] Edited on 8/29/22
+> Updating down to 3%, in part due to 1950's arguments on ethology:
+> 
+> > [!quote] [Lehrman on Lorenz’s Theory of Instinctive Behavior](https://webcache.googleusercontent.com/search?q=cache:YDe53OIPs6cJ:https://www.rabe.org/lehrman-on-lorenzs-theory-of-instinctive-behavior/&cd=1&hl=en&ct=clnk&gl=us), blog comment (emphasis added)
+> >
+> > How do we want to explain the origins of behavior? And \[Lehrman's\] critique seems to echo some of the concerns with evolutionary psychology. His approach can be gleaned from his example on the pecking behavior of chicks. **Lorenz attributed this behavior to innate forces:** **The chicks are born with the tendency to peck; it might require just a bit of maturation. Lehrman points out that research by Kuo provides an explanation based on the embryonic development of the chick. The pecking behavior can actually be traced back to movements that developed while the chick was still unhatched. Hardly innate! The main point Lehrman makes: If we claim that something is innate, we stop the scientific investigation without fully understanding the origin of the behavior.** This leaves out important – and fascinating – parts of the explanation because we think we’ve answered the question. As he puts it: **“the statement “It is innate” adds nothing to an understanding of the developmental process involved”**
 
-> [!quote] [Lehrman on Lorenz’s Theory of Instinctive Behavior](https://webcache.googleusercontent.com/search?q=cache:YDe53OIPs6cJ:https://www.rabe.org/lehrman-on-lorenzs-theory-of-instinctive-behavior/&cd=1&hl=en&ct=clnk&gl=us), blog comment (emphasis added)
->
-> How do we want to explain the origins of behavior? And \[Lehrman's\] critique seems to echo some of the concerns with evolutionary psychology. His approach can be gleaned from his example on the pecking behavior of chicks. **Lorenz attributed this behavior to innate forces:** **The chicks are born with the tendency to peck; it might require just a bit of maturation. Lehrman points out that research by Kuo provides an explanation based on the embryonic development of the chick. The pecking behavior can actually be traced back to movements that developed while the chick was still unhatched. Hardly innate! The main point Lehrman makes: If we claim that something is innate, we stop the scientific investigation without fully understanding the origin of the behavior.** This leaves out important – and fascinating – parts of the explanation because we think we’ve answered the question. As he puts it: **“the statement “It is innate” adds nothing to an understanding of the developmental process involved”**
-
-
+ 
 [^1]: Human values can still be inaccessible to the genome even if the cortex isn’t learned from scratch, but learning-from-scratch is a nice and clean sufficient condition which seems likely to me.
     
 [^2]: I argue that the genome probably hardcodes neural circuitry which is simple _relative_ to hardcoded “high-status detector” circuitry. Similarly, [the code for a machine learning experiment](https://github.com/leela-zero/leela-zero/tree/next/src) is simple _relative_ to [the neural network it trains](https://arxiv.org/abs/2201.13176).

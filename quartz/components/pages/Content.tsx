@@ -8,7 +8,7 @@ import {
 
 const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const useDropcap = !fileData?.frontmatter?.no_dropcap
-  const showWarning = fileData.frontmatter?.["lw-reward-post-warning"]
+  const showWarning = fileData.frontmatter?.["lw-reward-post-warning"] === "true"
 
   const content = htmlToJsx(fileData.filePath!, tree)
   const classes: string[] = fileData.frontmatter?.cssclasses ?? []
