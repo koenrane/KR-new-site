@@ -597,7 +597,7 @@ def manual_replace(md: str) -> str:
     for key, val in multiline_replacements.items():
         md = regex.sub(key, val, md, flags=regex.MULTILINE)
     for username in usernames:
-        md = md.replaceAll(username, f"`{username}`")
+        md = md.replace(username, f"`{username}`")
     return md
 
 

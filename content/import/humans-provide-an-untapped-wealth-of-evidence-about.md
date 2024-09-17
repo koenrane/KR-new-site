@@ -17,16 +17,16 @@ lw-vote-count: 92
 af-base-score: 57
 af-num-comments-on-upload: 42
 publish: true
-title: "Humans provide an untapped wealth of evidence about alignment"
+title: Humans provide an untapped wealth of evidence about alignment
 lw-latest-edit: 2023-01-01T19:52:16.131Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Quintin Pope
-tags: 
-  - "shard-theory"
-  - "AI"
-  - "human-values"
-aliases: 
-  - "humans-provide-an-untapped-wealth-of-evidence-about"
+tags:
+  - AI
+  - shard-theory
+  - human-values
+aliases:
+  - humans-provide-an-untapped-wealth-of-evidence-about
 lw-podcast-link: https://www.buzzsprout.com//2037297/11168035-humans-provide-an-untapped-wealth-of-evidence-about-alignment-by-turntrout-quintin-pope.js?container_id=buzzsprout-player-11168035&amp;player=small
 lw-sequence-title: Shard Theory
 lw-sequence-image-grid: sequencesgrid/igo7185zypqhuclvbmiv
@@ -35,20 +35,22 @@ sequence-link: posts#shard-theory
 prev-post-slug: 
 prev-post-title: ""
 next-post-slug: human-values-and-biases-are-inaccessible-to-the-genome
-next-post-title: "Human values & biases are inaccessible to the genome"
+next-post-title: Human values & biases are inaccessible to the genome
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 07/14/2022
 original_url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
+skip_import: "true"
 ---
-_This post has been recorded as part of the LessWrong Curated Podcast, and can be listened to on [_Spotify_](https://open.spotify.com/episode/0jpI7LLNzKsn6lwrsoDCc9), [_Apple Podcasts_](https://podcasts.apple.com/us/podcast/humans-provide-an-untapped-wealth-of-evidence/id1630783021?i=1000575990542)_, and_ [_Libsyn_](https://five.libsyn.com/episodes/view/23991000)\.
-
-<hr/>
-
+> [!info] 
+> This post has been recorded as part of the LessWrong Curated Podcast, and can be listened to on [_Spotify_](https://open.spotify.com/episode/0jpI7LLNzKsn6lwrsoDCc9), [_Apple Podcasts_](https://podcasts.apple.com/us/podcast/humans-provide-an-untapped-wealth-of-evidence/id1630783021?i=1000575990542), and [_Libsyn_](https://five.libsyn.com/episodes/view/23991000)\.
 
 **TL;DR:** To even consciously consider an alignment research direction, [you should have evidence](https://www.readthesequences.com/Privileging-The-Hypothesis) to locate it as a promising lead. As best I can tell, many directions seem interesting but do not have strong evidence of being “entangled” with the alignment problem such that I expect them to yield significant insights. 
 
 For example, “we can solve an easier version of the alignment problem by first figuring out how to build an AI which maximizes the number of real-world diamonds” has intuitive appeal and plausibility, but this claim doesn’t _have_ to be true and this problem does not _necessarily_ have a natural, compact solution. In contrast, there do _in fact_ exist humans who care about diamonds. Therefore, there are guaranteed-to-exist alignment insights concerning the way people come to care about e.g. real-world diamonds.
 
-_“Consider how humans navigate the alignment subproblem you’re worried about” is a habit which I (TurnTrout) picked up from Quintin Pope. I wrote the post, he originated the tactic._ 
+> [!thanks] 
+> “Consider how humans navigate the alignment subproblem you’re worried about” is a habit which I (`TurnTrout`) picked up from Quintin Pope. I wrote the post, he originated the tactic.
 
 <hr/>
 
@@ -77,8 +79,6 @@ One problem is [_where is the evidence required to locate these ideas_](https://
 
 Here’s an exaggeration of how these ideas feel to me when I read them: 
 
-> [!quote]
->
 > “I lost my phone”, you tell your friend. 
 > 
 > They ask, “Have you checked [`Latitude: -34.44006, Longitude: -64.61333`](https://gps-coordinates.org/my-location.php?lat=-34.44006&lng=-64.61333)?” 
@@ -125,7 +125,7 @@ Because, given my life’s present ambition (solve AI alignment), that’s what 
 
 The way I presently see it, [the godshatter of human values](https://www.lesswrong.com/posts/cSXZpvqpa9vbGGLtG/thou-art-godshatter)—the rainbow of desires, from friendship to food—is only [unpredictable](https://www.lesswrong.com/posts/34Gkqus9vusXRevR8/late-2021-miri-conversations-ama-discussion#YkhmywLQetjekM7e3) relative to a class of hypotheses which fail to predict the shattering.[^5] But confusion is in the map, not the territory. I do not consider human values to be “unpredictable” or “weird”, I do not view them as a “hack” or a “kludge.” Human value formation may or may not be messy (although I presently think _not_). Either way, human values are, of course, part of our lawful reality. Human values are reliably produced by within-lifetime processes within the brain. This has an explanation, though I may be ignorant of it. Humans usually bind their values to certain objects in reality, like dogs. This, too, has an explanation.  
 
-And, to be clear, I don’t want to black-box outside-view extrapolate from the “human datapoint”; I don’t want to focus on thoughts like “Since alignment ‘works well’ for dogs and people, maybe it will work well for slightly superhuman entities.” I aspire for the kind of alignment mastery which lets me build a diamond-producing AI, or if that didn’t suit my fancy, I’d turn around and tweak the process and the AI would press green buttons forever instead, or—if I were playing for real—I’d align that system of mere circuitry with humane purposes.
+And, to be clear, I don’t want to black-box outside-view extrapolate from the “human datapoint.” I don’t want to focus on thoughts like “Since alignment ‘works well’ for dogs and people, maybe it will work well for slightly superhuman entities.” I aspire for the kind of alignment mastery which lets me build a diamond-producing AI, or if that didn’t suit my fancy, I’d turn around and tweak the process and the AI would press green buttons forever instead, or—if I were playing for real—I’d align that system of mere circuitry with humane purposes.
 
 For that ambition, the inner workings of those generally intelligent apes is _invaluable evidence_ about the _mechanistic within-lifetime process by which those apes form their values,_ and, more generally, about how intelligent minds can form values at all. What factors matter for the learned values, what factors don’t, and what we should do for AI. Maybe humans have special inductive biases or architectural features, and without those, they’d grow totally different kinds of values. But if that _were_ true, wouldn’t that be important to know?
 
@@ -133,9 +133,11 @@ If I knew how to interpret the available evidence, I probably _would_ understand
 
 Humans provide huge amounts of evidence, _properly interpreted_—and therein lies the grand challenge upon which I am presently fixated. In an upcoming post, I’ll discuss one particularly rich vein of evidence provided by humans. (EDIT 1/1/23: See [this shortform comment](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=wQjsB8CBhhXn2fxqQ).)
 
-_Thanks to Logan Smith and Charles Foster for feedback. Spiritually related to but technically distinct from_ [_The First Sample Gives the Most Information_](https://www.lesswrong.com/posts/sTwW3QLptTQKuyRXx/the-first-sample-gives-the-most-information)\.
+> [!thanks]
+> Thanks to Logan Smith and Charles Foster for feedback. Spiritually related to but technically distinct from [_The First Sample Gives the Most Information_](https://www.lesswrong.com/posts/sTwW3QLptTQKuyRXx/the-first-sample-gives-the-most-information)\.
 
-EDIT: In this post, I wrote about the Arbital article's unsupported jump from "Build an AI which cares about a simple object like diamonds" to "Let's think about ontology identification for AIXI-_tl._" The point is not that there is no valid reason to consider the latter, but that the jump, as written, seemed evidence-starved. For _separate_ reasons, I currently think that ontology identification is unattractive in some ways, but this post isn't meant to argue against that framing in general. The main point of the post is that humans provide tons of evidence about alignment, by virtue of containing guaranteed-to-exist mechanisms which produce e.g. their values around diamonds.
+> [!info] Edited after posting
+> In this post, I wrote about the Arbital article's unsupported jump from "Build an AI which cares about a simple object like diamonds" to "Let's think about ontology identification for AIXI-_tl._" The point is not that there is no valid reason to consider the latter, but that the jump, as written, seemed evidence-starved. For _separate_ reasons, I currently think that ontology identification is unattractive in some ways, but this post isn't meant to argue against that framing in general. The main point of the post is that humans provide tons of evidence about alignment, by virtue of containing guaranteed-to-exist mechanisms which produce e.g. their values around diamonds.
 
 # Appendix: One time I didn’t look for the human mechanism
 
@@ -154,7 +156,7 @@ I wrote this post as someone who previously needed to read it.
 
 [^1]: I now think that diamond’s physically crisp definition is a red herring. More on that in future posts.
     
-[^2]: This alien is written to communicate my current belief state about how human value formation works, so as to make it clear why, _given_ my beliefs, this value formation process is so obviously important to understand.
+[^2]: This alien is written to communicate my current beliefs about how human value formation works, so as to make it clear why, _given_ my beliefs, this value formation process is so obviously important to understand.
     
 [^3]: There is an additional implication present in the alien story, but not present in the evolutionary production of humans. The aliens are implied to have _purposefully_ aligned some of their protein computers with human values, while evolution is not similarly “purposeful.” This implication is noncentral to the key point, which is that the human-values-having protein computers exist in reality.
     

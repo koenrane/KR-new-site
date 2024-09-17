@@ -346,7 +346,8 @@ img.favicon {
     }
   }
 
-  &[src$="alignmentforum_org.avif"] {
+  &[src$="alignmentforum_org.avif"],
+  &[src$="ai-alignment_com.avif"] {
     :root[saved-theme="dark"] & {
       filter: brightness(3); // Make it brighter
     }
