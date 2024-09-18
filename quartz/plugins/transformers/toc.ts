@@ -44,6 +44,10 @@ function customToString(node: Node): string {
   return "value" in node ? String(node.value) : ""
 }
 
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, "")
+}
+
 export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefined> = (
   userOpts,
 ) => {
@@ -77,6 +81,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                 if (node.type === "heading" && node.depth <= opts.maxDepth) {
                   const heading = node as Heading
                   let text = applyTextTransforms(customToString(heading))
+                  text = stripHtml(text)
                   highestDepth = Math.min(highestDepth, heading.depth)
                   toc.push({
                     depth: heading.depth,
