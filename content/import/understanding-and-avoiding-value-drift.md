@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/09/2022
 original_url: https://www.lesswrong.com/posts/jFvFreCeejRKaZv4v/understanding-and-avoiding-value-drift
+skip_import: true
 ---
 I use [the shard theory of human values](/shard-theory) to clarify what value drift is, how it happens, and how it might be avoided by a highly intelligent agent—even if that agent doesn't have any control over its future experiences. Along the way, I give a shard theory account of rationalization.
 
@@ -48,7 +49,8 @@ For example, suppose you recognize a lollipop, and move to pick it up, and then 
 
 With that in mind, I think that [shard theory](/shard-theory) offers a straightforward definition of "value drift":
 
-> _Definition._ Value drift occurs when reinforcement events substantially change the internal "balance of power" among the shards activated in everyday situations. 
+> [!info] Definition: Value drift
+> Value drift occurs when reinforcement events substantially change the internal "balance of power" among the shards activated in everyday situations. 
 
 For example, consider the classic "example" of taking a pill which makes you enjoy killing people. Under shard theory, this change would be implemented as a murder-shard that activates in a wide range of contexts in order to steer planning towards murder, and therefore starts steering your decision-making substantially differently. 
 
@@ -114,6 +116,6 @@ Value drift is caused by credit assignment. Credit assignment can only depend on
     
 [^2]: I feel confused about _how,_ mechanistically, other shards wouldn't fully notice the proto-deceptive plan being evaluated by the self-model, but presently think this "partial obfuscation" happens in shard dynamics for human beings. I think the other shards _do_ somewhat observe the proto-deception, and this is why good rationalists can learn to rationalize less.
     
-[^3]: In _The shard theory of human values_, we defined the "mental context" of a circuit to be the inputs to that circuit which determine whether it fires or not. Here, I use "mental context" to also refer to the state of the entire brain, without considering a specific circuit. I think both meanings are appropriate and expect the meaning will be clear from the context.
+[^3]: In [_The shard theory of human values_](./shard-theory), we defined the "mental context" of a circuit to be the inputs to that circuit which determine whether it fires or not. Here, I use "mental context" to also refer to the state of the entire brain, without considering a specific circuit. I think both meanings are appropriate and expect the meaning will be clear from the context.
     
-[^4]: "Credit assignment penalizes thoughts" seems like a reasonable frame to me, but I'm flagging that this could misrepresent the mechanistic story of human cognition in some unknown-to-me way.
+[^4]: "Credit assignment penalizes thoughts" seems like a reasonable frame to me, but I'm flagging that this could misrepresent the mechanistic story of human cognition in some unforeseen way.

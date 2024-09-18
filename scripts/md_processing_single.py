@@ -554,6 +554,7 @@ replacement = {
     r"design choice issue”\.": "design choice issue.”",
     r"guaranteed -to-exist": "guaranteed-to-exist",
     r"\"care about things.\" i.e.": "\"care about things\", i.e.",
+    r"gwern(?!\.net)": "`gwern`",
 }
 
 usernames = (
@@ -564,7 +565,6 @@ usernames = (
     "elriggs",
     "tailcalled",
     "TurnTrout",
-    "gwern",
     "DivineMango",
     "Diffractor",
 )

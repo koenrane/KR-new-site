@@ -35,6 +35,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/06/2022
 original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+skip_import: true
 ---
 I think that relatively simple alignment techniques can go a long way. In particular, I want to tell a plausible-to-me story about how simple techniques can align a proto-AGI so that it makes lots of diamonds.
 
@@ -44,13 +45,12 @@ Someone recently commented that I seem much more _specifically_ critical of oute
 
 Can we tell a plausible story in which we train an AI, it cares about diamonds when it’s stupid, it gets smart, and still cares about diamonds? I think I can tell that story, albeit with real uncertainties which feel more like normal problems (like “ensure a certain abstraction is learned early in training”) than impossible-flavored alignment problems (like “find/train an evaluation procedure which isn’t exploitable by the superintelligence you train”).
 
-Before the story begins: 
-
-1.  Obviously I’m making up a lot of details, many of which will turn out to be wrong, even if the broad story would work. I think it’s important to make up details to be concrete, highlight the frontiers of my ignorance, and expose new insights. Just remember what I’m doing here: _making up plausible-sounding details_.
-2.  [This story did not actually happen in reality](https://www.lesswrong.com/posts/tcCxPLBrEXdxN5HCQ/shah-and-yudkowsky-on-alignment-failures?commentId=G2LotCb9mHanZStzu). It’s fine, though, to update towards my models if you find them compelling.
-3.  This is not my best guess for how we get AGI. In particular, I think chain of thought / language modeling is more probable than RL, but I’m still more comfortable thinking about RL for the moment, so that’s how I wrote the story.
-4.  The point of the following story is not “Gee, I sure am confident this story goes through roughly like this.” Rather, I am presenting a training story template I expect to work for some foreseeably good design choices. I would be interested and surprised to learn that this story template is not only unworkable, but comparably difficult to other alignment approaches as I understand them.
-5.  ETA 12/16/22: This story is not trying to get a diamond _maximizer_, and I think that's quite important! I think that "get an agent which reflectively equilibrates to optimizing a single commonly considered quantity like 'diamonds'" [seems extremely hard and anti-natural](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cuTotpjqYkgcwnghp).
+> [!warning] Disclaimers
+> 1.  Obviously I’m making up a lot of details, many of which will turn out to be wrong, even if the broad story would work. I think it’s important to make up details to be concrete, highlight the frontiers of my ignorance, and expose new insights. Just remember what I’m doing here: _making up plausible-sounding details_.
+> 2.  [This story did not actually happen in reality](https://www.lesswrong.com/posts/tcCxPLBrEXdxN5HCQ/shah-and-yudkowsky-on-alignment-failures?commentId=G2LotCb9mHanZStzu). It’s fine, though, to update towards my models if you find them compelling.
+> 3.  This is not my best guess for how we get AGI. In particular, I think chain of thought / language modeling is more probable than RL, but I’m still more comfortable thinking about RL for the moment, so that’s how I wrote the story.
+> 4.  The point of the following story is not “Gee, I sure am confident this story goes through roughly like this.” Rather, I am presenting a training story template I expect to work for some foreseeably good design choices. I would be interested and surprised to learn that this story template is not only unworkable, but comparably difficult to other alignment approaches as I understand them.
+> 5.  Added on 12/16/22: This story is not trying to get a diamond _maximizer_, and I think that's quite important! I think that "get an agent which reflectively equilibrates to optimizing a single commonly considered quantity like 'diamonds'" [seems extremely hard and anti-natural](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cuTotpjqYkgcwnghp).
 
 This story is set in Evan Hubinger’s [training stories](https://www.lesswrong.com/posts/FDJnZt8Ks2djouQTZ/how-do-we-become-confident-in-the-safety-of-a-machine) format. I'll speak in the terminology of [shard theory](/shard-theory).
 
@@ -70,7 +70,7 @@ An AI which makes lots of diamonds. In particular, the AI should secure its futu
 
 Here are some basic details of the training setup.
 
-Use a very large (future) multimodal self-supervised learned (SSL) initialization to give the AI a latent ontology for understanding the real world and important concepts. Combining this initialization with a recurrent state and an action head, train an embodied AI to do real-world robotics using imitation learning on human in-simulation datasets and then sim2real. Since we got a really good pretrained initialization, there's relatively low sample complexity for the imitation learning (IL). The SSL and IL datasets both contain above-average diamond-related content, with some IL trajectories involving humans navigating towards diamonds _because_ the humans want the diamonds.
+Use a very large (future) multimodal self-supervised learned (SSL) initialization to give the AI a latent ontology for understanding the real world and important concepts. Combining this initialization with a recurrent state and an action head, train an embodied AI to do real-world robotics using imitation learning on human in-simulation datasets and then `sim2real`. Since we got a really good pretrained initialization, there's relatively low sample complexity for the imitation learning (IL). The SSL and IL datasets both contain above-average diamond-related content, with some IL trajectories involving humans navigating towards diamonds _because_ the humans want the diamonds.
 
 Given an AI which can move around via its action head, start fine-tuning via batch online policy-gradient RL by rewarding it when it goes near diamonds, with the AI retaining long-term information via its recurrent state (thus, training is not episodic—there are no resets). Produce a curriculum of tasks, from walking to a diamond, to winning simulated chess games, to solving increasingly difficult real-world mazes, and so on. After each task completion, the agent gets to be near some diamond and receives reward. Continue doing SSL online.
 
@@ -80,11 +80,12 @@ Given an AI which can move around via its action head, start fine-tuning via bat
 
 We want to ensure that the policy gradient updates from the diamond coalesce into decision-making around a natural "diamond" abstraction which it learned in SSL and which it uses to model the world. The diamond abstraction should exist insofar as we buy the [natural abstractions hypothesis](https://www.lesswrong.com/posts/Fut8dtFsBYRz8atFF/the-natural-abstraction-hypothesis-implications-and-evidence). Furthermore, the abstraction seems more likely to exist given the fact that the IL data involves humans whom we _know_ to be basing their decisions on their diamond-abstraction, and given the focus on diamonds in SSL pretraining. 
 
-(Sometimes, I'll refer to the agent's "world model"; this basically means "the predictive machinery and concepts it learns via SSL.) 
+> [!info] Definition
+> Sometimes, I'll refer to the agent's "world model", which means "the predictive machinery and concepts it learns via SSL."
 
 ### Growing the proto-diamond [shard](/shard-theory)
 
-We want the AI to, in situations where it knows it can reach a diamond, consider and execute plans which involve reaching the diamond. But why would the AI start being motivated _by_ diamonds? Consider the batch update structure of the PG setup. The agent does a bunch of stuff while being able to directly observe the nearby diamond:
+In situations where the AI knows it can reach a diamond, we want the AI to consider and execute plans which involve reaching the diamond. But why would the AI start being motivated _by_ diamonds? Consider the batch update structure of the policy gradient setup. The agent does a bunch of stuff while being able to directly observe the nearby diamond:
 
 1.  Some of this stuff involves e.g. approaching the diamond (by IL’s influence) and getting reward when approaching the diamond. (This is [reward shaping](https://link.springer.com/referenceworkentry/10.1007/978-0-387-30164-8_731).)
 2.  Some of this stuff involves not approaching the diamond (and perhaps getting negative reward). 
@@ -117,7 +118,7 @@ The AI begins to chain together cognition in order to acquire diamonds in a succ
 
 Suppose the agent takes exploratory actions, solves a new maze, and then sees a diamond at the end, triggering the existing diamond-shard. The agent receives reward when it reaches the diamond. Since the start-of-maze agent probably realized there was a diamond at the end of the maze, SGD expands the agent’s current shards (like diamond-acquisition) while also possibly creating new shards (like maze-solving). Across such tasks, the diamond-shard is the most strengthened overall, since diamonds are present in all of the reward events.
 
-In particular, even though online self-supervised learning continues to develop the world model and create more advanced concepts, the reward events also keep crediting the invocation of the diamond-abstraction as responsible for reward (because insofar as the agent's diamond-shard guides its decisions, then the diamond-shard's `diamond` −abstraction _is in fact responsible_ for the agent getting reward). The diamond-abstraction [gradient starves](https://mohammadpz.github.io/GradientStarvation.html) the AI from exclusively acting on the basis of possible advanced "alien" abstractions which would otherwise have replaced the diamond abstraction. The diamond shard already gets reward effectively, integrating with the rest of the agent's world model and recurrent state, and therefore provides "job security" for the diamond-abstraction. (And once the agent is smart enough, it will _want_ to preserve its diamond abstraction, insofar as that is necessary for the agent to keep achieving its current goals which involve prototypical-diamonds.)
+In particular, even though online self-supervised learning continues to develop the world model and create more advanced concepts, the reward events also keep crediting the invocation of the diamond-abstraction as responsible for reward (because insofar as the agent's diamond-shard guides its decisions, then the diamond-shard's `diamond` abstraction _is in fact responsible_ for the agent getting reward). The diamond-abstraction [gradient starves](https://mohammadpz.github.io/GradientStarvation.html) the AI from exclusively acting on the basis of possible advanced "alien" abstractions which would otherwise have replaced the diamond abstraction. The diamond shard already gets reward effectively, integrating with the rest of the agent's world model and recurrent state, and therefore provides "job security" for the diamond-abstraction. (And once the agent is smart enough, it will _want_ to preserve its diamond abstraction, insofar as that is necessary for the agent to keep achieving its current goals which involve prototypical-diamonds.)
 
 By the time the agent is capable of stealing diamonds from us, it's smart enough to realize this is strategically unwise. The AI begins biding its time until it can take over the world and acquire diamonds and safety. The AI has learned an explicit power-seeking shard, since such heuristics are widely useful for a range of tasks in training. Therefore, the agent doesn’t just have power-seeking cognition in its activations (i.e. explicit online reasoning about the instrumental value of power relative to its terminal diamond values). The power-seeking motivation is terminalized into its _weights_ (see also [Richard Ngo’s “convergent final goals” speculation](https://www.alignmentforum.org/posts/L9HcyaiWBLYe7vXid/distinguishing-claims-about-training-vs-deployment#Instrumental_convergence)).[^9] 
 
@@ -129,7 +130,9 @@ The diamond-shard is used and strengthened in a huge range of situations, which 
 
 At a certain point, the agent starts becoming reflective—thinking about its thinking, about its embeddedness. Perhaps the reflectivity arrives early because we trained it to predict some of its future timestep activations, or perhaps somewhat later because its cognition has regular entanglements with its future observables and reward events. An example of this would be how, if the agent decides to open a door _now_, the agent can better predict its future observations by accounting for this fact. Since we’re still doing SSL online, I expect this to happen. (This wouldn’t have happened during SSL/IL pretraining, because there wasn't any dependence of future training data on its current computations.)
 
-And now the agent is _smart_. The agent starts thinking about its update process—crudely at first, perhaps only remarking how its decision-making changes over time in a way that has to do with reinforcement events. I expect the AI to learn to roughly understand which subshards influenced which decisions. If the agent _can't_ model how its value shards affect its decisions, then this damages long-term predictions of observables. For example, imagine I want pretzels when I'm near a bag of pretzels, but otherwise don't want them. I imagine walking by a bag of pretzels and leaving my house. If I can't predict that that context activates my pretzel-shard, I'd predict I'll leave without eating, which will be wrong. In particular, the AI’s planning process will be able to predict how future situations will modify its future value-activations. For similar reasons, the AI will also learn to roughly predict value drift (delivered via batch policy gradients). 
+And now the agent is _smart_. The agent starts thinking about its update process—crudely at first, perhaps only remarking how its decision-making changes over time in a way that has to do with reinforcement events. I expect the AI to learn to roughly understand which subshards influenced which decisions. If the agent _can't_ model how its value shards affect its decisions, then this damages long-term predictions of observables. 
+
+For example, imagine I want pretzels when I'm near a bag of pretzels, but otherwise don't want them. I imagine walking by a bag of pretzels and leaving my house. If I can't predict that that context activates my pretzel-shard, I'd predict I'll leave without eating, which will be wrong. In particular, the AI’s planning process will be able to predict how future situations will modify its future value-activations. For similar reasons, the AI will also learn to roughly predict value drift (delivered via batch policy gradients). 
 
 But as SSL continues, eventually the agent models its training process quite well. One sufficient condition for rapid reflectivity improvement is that once the agent can model the _convergent benefits_ of becoming more reflective, its shards will strongly and convergently bid for plans which increase reflectivity (like reading more about alignment theory and its learning architecture, setting some watches on key activations, running traces on itself and logging statistics, understanding how its values change contextually by tracking correlations between features in activations and its future decisions). 
 
@@ -142,59 +145,56 @@ If the agent still is primarily diamond-motivated, it now wants to stay that way
 Suppose the AI keeps training, but by instrumental convergence, seeking power remains a good idea, and such decisions continually get strengthened. This strengthens the power-seeking shard relative to other shards. Other shards want to prevent this from happening. Therefore, the AI does indeed face an alignment problem, including:
 
 1.  The AI (reflectively) wants to keep getting smarter, but cognitive updates can make the AI e.g. care less about diamonds. 
-    1.  The AI wants to ensure its “successors” are aligned—”successors” meaning either its future model checkpoints which result from running SGD over its cognition for longer, or the new version of itself it might explicitly self-modify into. 
+    - The AI wants to ensure its “successors” are aligned—“successors” meaning either its future model checkpoints which result from running SGD over its cognition for longer, or the new version of itself it might explicitly self-modify into. 
 2.  Shifts in internal decision context might change which shards are activated.
-    1.  For example, the AI might be governed by the diamond-shard during training, but deployment contexts might more strongly activate the power-seeking shard.
+    - For example, the AI might be governed by the diamond-shard during training, but deployment contexts might more strongly activate the power-seeking shard.
 3.  There could be a “treacherous turn” within the AI, as certain value shards suddenly bid for fast shard rebalancing via self-modification (staging an “internal coup”). 
 
 A smart reflective AI has a range of advantages over people in solving its alignment problem (see the appendix). The agent starts planning its future actions so as to minimize anti-diamond value drift imposed by future policy gradient steps. Possibly the agent installs "tripwires" which revert to a previous model checkpoint under such-and-such value drift events (addressing problems 1 and 3 above), bounds the activation strengths of different shards (2 above), and backdoors update-step overrides (1 above).
 
 (In addition, if you have good reason to believe you have a diamond-aligned AI by this point but are worried it will fail to consider some danger, you can try the highly technical tactic of “just tell the AI about that danger.”) 
 
-Meanwhile, the AI is preparing to kill everyone, taking over server farms worldwide.[^10] This part of the plan [goes off rather smoothly](https://www.`gwern`.net/fiction/Clippy). With possible unaligned competitors removed, the AI is free to self-experiment and take its time with its future self-improvement process. The AI effectively solves its successor-alignment problem by using its special advantages.[^11]
+Meanwhile, the AI is preparing to kill everyone, taking over server farms worldwide.[^10] This part of the plan [goes off rather smoothly](https://www.gwern.net/fiction/Clippy). With possible unaligned competitors removed, the AI is free to self-experiment and take its time with its future self-improvement process. The AI effectively solves its successor-alignment problem by using its special advantages.[^11]
 
 ### The values handshake
 
 Self-improvement proceeds. Value stability arrives. The major shards are as follows:
 
 1.  Diamond 
-    1.  Subshard: Acquiring diamonds (expected utility flavor)
-        1.  Primary activation context: Most situations. This subshard reigns primary, due in part to the lottery reward events earlier in training.
-    2.  Subshard: Being near diamonds
-        1.  Primary activation context: When diamonds can easily be brought close.
-    3.  Subshard: Seeing diamonds
-        1.  Primary activation context: When diamonds are nearby.
-    4.  Subshard: Producing diamonds
-        1.  Primary activation context: Materials+tech nearby.
+    -  Subshard: Acquiring diamonds (expected utility flavor)
+        - Primary activation context: Most situations. This subshard reigns primary, due in part to the lottery reward events earlier in training.
+    -  Subshard: Being near diamonds
+        -  Primary activation context: When diamonds can easily be brought close.
+    -  Subshard: Seeing diamonds
+        -  Primary activation context: When diamonds are nearby.
+    -  Subshard: Producing diamonds
+        -  Primary activation context: Materials+tech nearby.
 2.  Power-seeking
-    1.  Primary activation context: Most situations, but especially when the agent can increase optionality or probability of survival.
+    -  Primary activation context: Most situations, but especially when the agent can increase optionality or probability of survival.
 3.  Reward
-    1.  Primary activation context: Situations where reward was historically easily obtainable. 
-    2.  This shard bids for outcomes like “high value at historical reward register.”
+    -  Primary activation context: Situations where reward was historically easily obtainable. 
+    -  This shard bids for outcomes like “high value at historical reward register.”
 4.  Games
-    1.  Game-playing subshard
-        1.  Primary activation context: A video game is nearby.
-    2.  Game-winning subshard
-        1.  Primary activation context: While already playing a game.
+    -  Game-playing subshard
+        -  Primary activation context: A video game is nearby.
+    -  Game-winning subshard
+        - Primary activation context: While already playing a game.
 5.  Human approval 
-    1.  Weak shard, primary activation context is near humans in initial training context.
+    - Weak shard, primary activation context is near humans in initial training context.
 
 Maybe in some contexts where diamonds are nearby, the seeing-diamonds subshard activates and makes the agent go see the nearby diamonds, passing up a time-limited opportunity to remotely acquire 100 additional diamonds. If the agent acquired the remote diamonds first, that would lead to more diamonds overall _and_ retain the ability to then go see the nearby diamonds. Therefore, across the agent’s shards and subshards, it would be a Pareto improvement for the agent to self-modify into a more coherent overall policy around the quantities relevant to its most powerful and reflective subshards. 
 
-For this reason, the AI dissolves cross-situational incoherences such that the AI no longer shoots itself in the foot [with respect to the quantities which the primary subshards care about](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#cuTotpjqYkgcwnghp) (like diamonds-acquired, seconds-near-diamonds, seconds-seeing-diamonds, increments of power, game-victories). This is a [values handshake](https://www.lesswrong.com/tag/values-handshakes), except not among agents, but among the shards of value _within_ the agent which are activated at the time of the handshake. And thus comes the day where the AI crystallizes its value shards into a reflectively stable, globally activated utility function. 
+For this reason, the AI dissolves cross-situational incoherences such that the AI no longer shoots itself in the foot [with respect to the quantities which the primary subshards care about](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#cuTotpjqYkgcwnghp) (like `diamonds acquired`, `seconds near diamonds`, `seconds seeing diamonds`, increments of power, `game victories`). This is a [values handshake](https://www.lesswrong.com/tag/values-handshakes), except not among agents, but among the shards of value _within_ the agent which are activated at the time of the handshake. And thus comes the day where the AI crystallizes its value shards into a reflectively stable, globally activated utility function. 
 
 And remember that part where the more aggressive diamond-subshards got strengthened by reward events? Yeah, those subshards have been running the show. And oh boy, does this AI synthesize _a lot_ of diamonds.
 
 # Major open questions
-
-Non-exhaustively:
-
 1.  Is the shard theory picture broadly appropriate?
 2.  How do we ensure that the diamond abstraction forms?
 3.  How do we ensure that the diamond shard forms?
 4.  How do we ensure that the diamond shard generalizes and interfaces with the agent's self-model so as to prevent itself from being removed by other shards?
 5.  How do we avoid catastrophic ontological shift during jumps in reflectivity, which probably change activation contexts for first-person values? 
-    1.  e.g. if the AI thinks it’s initially an embodied robot and then realizes it’s running in a decentralized fashion on a server farm, how does that change its world model? Do its “being ‘near’ diamonds” values still activate properly?
+    - For example, if the AI thinks it’s initially an embodied robot and then realizes it’s running in a decentralized fashion on a server farm, how does that change its world model? Do its “being ‘near’ diamonds” values still activate properly?
 
 1 is [evidentially supported](/shard-theory) [by the only known examples of general intelligences](/humans-provide-alignment-evidence), but also AI will not have the same inductive biases. So the picture might be more complicated. I’d guess shard theory is still appropriate, but that's ultimately a question for empirical work (with interpretability).[^12] There’s also some weak-moderate behavioral evidence for shard theory in AI which I’ve observed by looking at videos from the [Goal Misgeneralization paper](https://arxiv.org/abs/2105.14111).
 
@@ -229,7 +229,7 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     1.  If the AI understands both its current values and how they activate in future situations, its current concepts, and its updating process, then the AI can reasonably expect to understand the alignment properties of successors.
     2.  Not so for _people_ trying to develop minds in totally different architectures, reasoning from first principles and confronting information inaccessibility + abstractions deriving from a qualitatively different learning process.
 6.  The AI can run experiments on a sandboxed copy of itself and its training process, with automated tripwires for catastrophic value drift events.
-    1.  Follows from benefits I, II, and V.
+    -  Follows from benefits I, II, and V.
 
 [^1]: I think that pure diamond maximizers are anti-natural, and at least not the first kind of successful story we should try to tell. Furthermore, the analogous version for an aligned AI seems to be “an AI which really helps people, among other goals, and is not a perfect human-values maximizer (whatever that might mean).” 
     
@@ -237,17 +237,17 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     
 [^3]: "Don't approach" means negative reward on approach, "approach" means positive reward on approach. Example decision scenarios:
     
-    1\. Diamond in front of agent (approach)
+    1. Diamond in front of agent (approach)
     
-    2\. Sapphire (don't approach)
+    2. Sapphire (don't approach)
     
-    3\. Nothing (no reward)
+    3. Nothing (no reward)
     
-    4\. Five chairs (don't approach)
+    4. Five chairs (don't approach)
     
-    5\. A white shiny object which isn't a diamond (don't approach)
+    5. A white shiny object which isn't a diamond (don't approach)
     
-    6\. A small object which isn't a diamond (don't approach)
+    6. A small object which isn't a diamond (don't approach)
     
     We can even do interpretability on the features activated by a diamond, and modify the scenario so that only the diamond feature correctly distinguishes between all approach/don't approach pairs. This hopefully ensures that the batch update chisels cognition into the agent which is predicated on the activation of the agent's diamond abstraction. 
     
@@ -259,7 +259,7 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     
 [^7]: Why wouldn't the agent want to just find an adversarial input to its `diamond` abstraction, which makes it activate unusually strongly? (I think that agents might accidentally do this a bit for [optimizer's curse](https://pubsonline.informs.org/doi/10.1287/mnsc.1050.0451) reasons, but not that strongly. More in an upcoming post.)
     
-    Consider why _you_ wouldn't do this for "hanging out with friends." Consider the expected consequences of the plan "find an adversarial input to my own evaluation procedure such that I find a plan which future-me maximally evaluates as letting me 'hang out with my friends'." I currently predict that such a plan would lead future-me to daydream and not actually hang out with my friends, as present-me evaluates the abstract expected consequences of that plan. My friend-shard doesn't like that plan, because I'm not hanging out with my friends. So I don't search for an adversarial input. I infer that I don't want to find those inputs _because_ _I don't expect those inputs to lead me to actually hang out with my friends a lot as I presently evaluate the abstract-plan consequences_.
+    Consider why _you_ wouldn't do this for "hanging out with friends." Consider the expected consequences of the plan "find an adversarial input to my own evaluation procedure such that I find a plan which future-me maximally evaluates as letting me 'hang out with my friends'." I currently predict that such a plan would lead future-me to daydream and not actually hang out with my friends, as present-me evaluates the abstract expected consequences of that plan. My friend-shard doesn't like that plan because I'm not hanging out with my friends. So I don't search for an adversarial input. I infer that I don't want to find those inputs _because I don't expect those inputs to lead me to actually hang out with my friends a lot as I presently evaluate the abstract-plan consequences_.
     
     I don't think an agent _can_ consider searching for adversarial inputs to its shards without _also_ being reflective, at which point the agent realizes the plan is dumb as evaluated by the current shards assessing the predicted plan-consequences provided by the reflective world-model. 
     
@@ -289,7 +289,7 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     
     > In situations with reasonable uncertainty about value drift, run some sandbox sims overseen by several copies of your current model, using `rwx` + self-interpretability to monitor the sandboxed model. Since the AI doesn’t face as steep of an information inaccessibility obstacle (see the appendix), the AI can check new updates and reasonably expect to understand how the change takes place. If there's some crazy uninterpretable diff, then don't do that batch update. This should rule out sudden + catastrophic value drift. 
     > 
-    > The AI can also rollback to backups if it has noticed subtle value drift, and can precommit to doing so given a maintained update-invariant of (value drift tripwire) $\to$  rollback. The agent also has a "saving throw"—In the moment of realization that bad value drift occurred via a previous update, the agent can undo the value drift via a rollback, if that's still motivationally possible. Furthermore, due to the batch update format, the agent had extra time to realize the update would be bad and pre-emptively nullify the update via e.g. silently and temporarily setting the learning rate to zero.
+    > The AI can also rollback to backups if it has noticed subtle value drift, and can precommit to doing so given a maintained update-invariant of (value drift tripwire) $\to$  rollback. The agent also has a "saving throw": In the moment of realization that bad value drift occurred via a previous update, the agent can undo the value drift via a rollback, if that's still motivationally possible. Furthermore, due to the batch update format, the agent had extra time to realize the update would be bad and pre-emptively nullify the update via e.g. silently and temporarily setting the learning rate to zero.
     
 [^12]: I’m [currently most excited about interpretability for adjudicating between theories of value formation](https://www.lesswrong.com/posts/uK6sQCNMw8WKzJeCQ/a-longlist-of-theories-of-impact-for-interpretability#9ipBAXy7ojqNaHCtP).
     
@@ -299,4 +299,4 @@ Lastly, of course, there _is_ real simplification occurring when I relax the pro
     
     The authors state that they “failed to find a real dataset for which NNs differ \[in classification order\]” and that “models with different architectures can learn benchmark datasets at a different pace and performance, while still inducing a similar order. Specifically, we see that stronger architectures start off by learning the same examples that weaker networks learn, then move on to learning new examples.”  
       
-    Similarly, [crows (and other smart animals) reach developmental milestones in basically the same order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder\(2011\) AnimBehav.pdf) as human babies reach them. On [my model](/shard-theory#A-1-The-formation-of-the-world-model), developmental timelines come from convergent learning of abstractions via self-supervised learning in the brain. If so, then the smart-animal evidence is yet another instance of important qualitative concept-learning retaining its ordering, even across significant scaling and architectural differences.
+    Similarly, [crows (and other smart animals) reach developmental milestones in basically the same order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf) as human babies reach them. On [my model](/shard-theory#A-1-The-formation-of-the-world-model), developmental timelines come from convergent learning of abstractions via self-supervised learning in the brain. If so, then the smart-animal evidence is yet another instance of important qualitative concept-learning retaining its ordering, even across significant scaling and architectural differences.
