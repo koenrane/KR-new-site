@@ -4,7 +4,7 @@
  */
 
 import { QuartzTransformerPlugin } from "../types"
-import { numberRegex, mdLinkRegex } from "./utils"
+import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)
 const footnoteRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g

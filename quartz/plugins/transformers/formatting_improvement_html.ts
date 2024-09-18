@@ -315,20 +315,22 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
   }
 
   // Step 5: Move acceptable punctuation from after the link to inside it
-  const firstChar = textNode.value.charAt(0)
-  if (!ACCEPTED_PUNCTUATION.includes(firstChar)) return
+  // Iterate until we hit a character that's not punctuation
+  let firstChar = textNode.value.charAt(0)
+  while (ACCEPTED_PUNCTUATION.includes(firstChar) && textNode.value.length > 0) {
+    let childToModify
+    if (linkNode.children[linkNode.children.length - 1].type === "text") {
+      childToModify = linkNode.children[linkNode.children.length - 1]
+    } else {
+      // Find the last text node within the last child
+      const lastChild = linkNode.children[linkNode.children.length - 1]
+      childToModify = lastChild.children[lastChild.children.length - 1]
+    }
 
-  let childToModify
-  if (linkNode.children[linkNode.children.length - 1].type === "text") {
-    childToModify = linkNode.children[linkNode.children.length - 1]
-  } else {
-    // Find the last text node within the last child
-    const lastChild = linkNode.children[linkNode.children.length - 1]
-    childToModify = lastChild.children[lastChild.children.length - 1]
+    childToModify.value = childToModify.value + firstChar
+    textNode.value = textNode.value.slice(1) // Remove the first char
+    firstChar = textNode.value.charAt(0) // Get the next char
   }
-
-  childToModify.value = childToModify.value + firstChar
-  textNode.value = textNode.value.slice(1) // Remove the first char
 }
 
 export function neqConversion(text: string): string {
