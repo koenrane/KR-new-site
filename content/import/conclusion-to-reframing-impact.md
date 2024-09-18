@@ -21,8 +21,8 @@ title: "Conclusion to 'Reframing Impact'"
 lw-latest-edit: 2023-02-17T09:29:58.232Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "conclusion-to-reframing-impact"
 lw-sequence-title: "Reframing Impact"

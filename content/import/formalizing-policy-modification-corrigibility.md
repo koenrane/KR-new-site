@@ -21,8 +21,8 @@ title: "Formalizing Policy-Modification Corrigibility"
 lw-latest-edit: 2021-12-03T19:13:00.523Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "corrigibility"
+  - "AI"
 aliases: 
   - "formalizing-policy-modification-corrigibility"
 lw-sequence-title: "Thoughts on Corrigibility"

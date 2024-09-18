@@ -21,8 +21,8 @@ title: "The Catastrophic Convergence Conjecture"
 lw-latest-edit: 2020-11-22T18:06:16.099Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
   - "instrumental-convergence"
 aliases: 
   - "the-catastrophic-convergence-conjecture"

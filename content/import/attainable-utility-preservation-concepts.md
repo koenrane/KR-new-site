@@ -21,8 +21,8 @@ title: "Attainable Utility Preservation: Concepts"
 lw-latest-edit: 2020-02-17T05:22:28.687Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "attainable-utility-preservation-concepts"
 lw-sequence-title: "Reframing Impact"

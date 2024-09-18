@@ -21,8 +21,8 @@ title: "The Gears of Impact"
 lw-latest-edit: 2024-08-15T22:30:43.246Z
 lw-is-linkpost: "false"
 tags: 
-  - "understanding-the-world"
   - "impact-regularization"
+  - "understanding-the-world"
 aliases: 
   - "the-gears-of-impact"
 lw-sequence-title: "Reframing Impact"

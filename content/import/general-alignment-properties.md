@@ -35,7 +35,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 08/08/2022
 original_url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties
-skip: "true"
+skip_import: "true"
 ---
 [AIXI](https://en.wikipedia.org/wiki/AIXI) and the genome are both ways of specifying intelligent agents. 
 

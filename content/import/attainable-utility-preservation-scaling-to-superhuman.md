@@ -21,8 +21,8 @@ title: "Attainable Utility Preservation: Scaling to Superhuman"
 lw-latest-edit: 2020-02-27T00:57:35.521Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "attainable-utility-preservation-scaling-to-superhuman"
 lw-sequence-title: "Reframing Impact"

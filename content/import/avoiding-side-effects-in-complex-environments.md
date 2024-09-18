@@ -23,8 +23,8 @@ lw-latest-edit: 2020-12-12T00:43:10.508Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Neale Ratzlaff
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "avoiding-side-effects-in-complex-environments"
 lw-reward-post-warning: "false"

@@ -24,8 +24,8 @@ lw-is-linkpost: "true"
 authors: Alex Turner and Alex Turner
 tags: 
   - "AI"
-  - "mats-program"
   - "activation-engineering"
+  - "mats-program"
 aliases: 
   - "i-found-greater-than-800-orthogonal-write-code-steering"
 lw-reward-post-warning: "false"

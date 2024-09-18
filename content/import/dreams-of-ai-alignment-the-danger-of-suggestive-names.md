@@ -21,8 +21,8 @@ title: "Dreams of AI alignment: The danger of suggestive names"
 lw-latest-edit: 2024-02-10T02:01:47.447Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "rationality"
+  - "AI"
 aliases: 
   - "dreams-of-ai-alignment-the-danger-of-suggestive-names"
 lw-reward-post-warning: "false"

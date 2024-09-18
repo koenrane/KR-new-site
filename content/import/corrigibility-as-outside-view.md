@@ -21,8 +21,8 @@ title: "Corrigibility as outside view"
 lw-latest-edit: 2020-05-12T17:22:13.849Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "corrigibility"
+  - "AI"
 aliases: 
   - "corrigibility-as-outside-view"
 lw-sequence-title: "Thoughts on Corrigibility"

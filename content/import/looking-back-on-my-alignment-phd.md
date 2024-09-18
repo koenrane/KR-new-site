@@ -21,9 +21,9 @@ title: "Looking back on my alignment PhD"
 lw-latest-edit: 2023-08-10T01:35:59.613Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "rationality"
   - "postmortems-&-retrospectives"
+  - "AI"
   - "growth-stories"
 aliases: 
   - "looking-back-on-my-alignment-phd"

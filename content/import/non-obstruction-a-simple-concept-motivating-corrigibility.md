@@ -21,8 +21,8 @@ title: "Non-Obstruction: A Simple Concept Motivating Corrigibility"
 lw-latest-edit: 2021-11-11T23:20:03.125Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "corrigibility"
+  - "AI"
 aliases: 
   - "non-obstruction-a-simple-concept-motivating-corrigibility"
 lw-sequence-title: "Thoughts on Corrigibility"

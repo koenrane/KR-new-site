@@ -22,8 +22,8 @@ title: "Penalizing Impact via Attainable Utility Preservation"
 lw-latest-edit: 2019-03-08T16:55:24.259Z
 lw-is-linkpost: "true"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "penalizing-impact-via-attainable-utility-preservation"
 lw-reward-post-warning: "false"

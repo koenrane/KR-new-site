@@ -21,8 +21,8 @@ title: "People care about each other even though they have imperfect motivationa
 lw-latest-edit: 2022-11-08T18:30:04.445Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "corrigibility"
+  - "AI"
 aliases: 
   - "people-care-about-each-other-even-though-they-have-imperfect"
 lw-reward-post-warning: "false"

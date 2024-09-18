@@ -21,10 +21,10 @@ title: "[April Fools'] Definitive confirmation of shard theory"
 lw-latest-edit: 2023-04-03T16:23:51.143Z
 lw-is-linkpost: "false"
 tags: 
-  - "humor"
   - "shard-theory"
   - "postmortems-&-retrospectives"
   - "AI"
+  - "humor"
 aliases: 
   - "april-fools-definitive-confirmation-of-shard-theory"
 lw-reward-post-warning: "false"

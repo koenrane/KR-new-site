@@ -23,8 +23,8 @@ lw-latest-edit: 2023-09-09T18:55:38.346Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Garrett Baker
 tags: 
-  - "humor"
   - "AI"
+  - "humor"
 aliases: 
   - "ai-presidents-discuss-ai-alignment-agendas"
 lw-reward-post-warning: "false"

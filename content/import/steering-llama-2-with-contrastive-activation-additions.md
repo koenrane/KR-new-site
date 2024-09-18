@@ -23,10 +23,10 @@ lw-latest-edit: 2024-02-13T03:16:20.193Z
 lw-is-linkpost: "true"
 authors: Nina Rimsky, Wuschel Schulz, NickGabs, Meg, evhub, and Alex Turner
 tags: 
-  - "AI"
-  - "mats-program"
   - "corrigibility"
+  - "AI"
   - "activation-engineering"
+  - "mats-program"
 aliases: 
   - "steering-llama-2-with-contrastive-activation-additions"
 lw-reward-post-warning: "false"

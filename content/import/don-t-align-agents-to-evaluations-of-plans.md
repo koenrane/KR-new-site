@@ -56,7 +56,7 @@ After asking several readers for their understandings, I think that I didn't suc
 > 
 > **Outer alignment**: Find a sufficiently good grader.
 > 
-> **Inner alignment**: Train the actor to propose plans which the grader rates as highly possible (ideally argmaxing on grader output, but possibly just intent alignment with high grader output).
+> **Inner alignment**: Train the actor to propose plans which the grader rates as highly possible (ideally argmax’ing on grader output, but possibly just intent alignment with high grader output).
 > 
 > This "grader optimization" paradigm ordains that the AI find plans which make the grader output good evaluations. An inner-aligned actor is singlemindedly motivated to find plans which are graded maximally well by the grader. Therefore, for _any goal_ by which the grader may grade, an inner-aligned actor is positively searching for adversarial inputs which fool the grader into spitting out a high number! 
 > 
@@ -73,7 +73,7 @@ These will be elaborated later in the essay.
 
 # Grader-optimization doesn't seem sensible
 
-I'm going to try saying things, hoping to make something land. While I'll mostly discuss grader-optimization, I'll sometimes discuss related issues with argmaxing over all plans.
+I'm going to try saying things, hoping to make something land. While I'll mostly discuss grader-optimization, I'll sometimes discuss related issues with argmax’ing over all plans.
 
 <hr/>
 
@@ -114,7 +114,7 @@ In the intended motivational structure, the actor tries to trick the grader, and
 >
 > Argmax violates the non-adversarial principle and wastes computation. Argmax requires you to spend effort hardening your own utility function against the effort you're _also expending_ searching across all possible inputs to your utility function (including the adversarial inputs!). For example, if I argmaxed over my own plan-evaluations, I'd have to consider the most terrifying-to-me [basilisks](https://en.wikipedia.org/wiki/Roko%27s_basilisk) possible, and _rate **none of them** unusually highly_. I'd have to spend effort hardening my own ability to evaluate plans, in order to safely consider those possibilities. 
 > 
-> It would be far wiser to _not_ consider all possible plans, and instead close off large parts of the search space. You can consider what plans to think about next, and how long to think, and so on. And then you aren't argmaxing. You're using resources effectively. 
+> It would be far wiser to _not_ consider all possible plans, and instead close off large parts of the search space. You can consider what plans to think about next, and how long to think, and so on. And then you aren't argmax’ing. You're using resources effectively. 
 > 
 > For example, some infohazardous thoughts exist (like hyper-optimized-against-you basilisks) which are dangerous to think about (although most thoughts are probably safe). But an agent which plans its next increment of planning using a reflective self-model is IMO not going to be like "hey it would be predicted-great if I spent the next increment of time thinking about an entity which is trying to manipulate me." So e.g. a reflective agent trying to actually win with the available resources, wouldn't do something dumb like "run argmax" or "find the plan which some part of me evaluates _most highly._" 
 
@@ -123,7 +123,7 @@ In the intended motivational structure, the actor tries to trick the grader, and
 <hr/>
 
 
-This isn't to say that argmaxing over all plans _can't_ be safe, even in theory. There _exist_ robust Platonic grader functions which assign highest expected utility to a non-bogus plan which we actually want. There might exist utility functions which are safe for AIXI to argmax.[^2] 
+This isn't to say that argmax’ing over all plans _can't_ be safe, even in theory. There _exist_ robust Platonic grader functions which assign highest expected utility to a non-bogus plan which we actually want. There might exist utility functions which are safe for AIXI to argmax.[^2] 
 
 **We** **are not going to find those globally-safe Platonic functions. We should not try to find them. It doesn't make sense to align an agent that way. Committing to this design pattern means committing to evaluate every possible plan the AI might come up with. In my opinion, that's a crazy commitment.**
 

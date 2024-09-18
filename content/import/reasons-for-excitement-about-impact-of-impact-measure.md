@@ -21,8 +21,8 @@ title: "Reasons for Excitement about Impact of Impact Measure Research"
 lw-latest-edit: 2020-09-16T18:14:18.659Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "reasons-for-excitement-about-impact-of-impact-measure"
 lw-sequence-title: "Reframing Impact"

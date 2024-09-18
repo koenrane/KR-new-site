@@ -21,8 +21,8 @@ title: "Value Impact"
 lw-latest-edit: 2019-09-23T00:47:13.121Z
 lw-is-linkpost: "false"
 tags: 
-  - "understanding-the-world"
   - "impact-regularization"
+  - "understanding-the-world"
 aliases: 
   - "value-impact"
 lw-sequence-title: "Reframing Impact"

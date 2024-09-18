@@ -21,8 +21,8 @@ title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An I
 lw-latest-edit: 2018-07-05T00:34:59.249Z
 lw-is-linkpost: "false"
 tags: 
-  - "reinforcement-learning"
   - "summaries"
+  - "reinforcement-learning"
 aliases: 
   - "making-a-difference-tempore-insights-from-reinforcement"
 lw-sequence-title: "Becoming Stronger"

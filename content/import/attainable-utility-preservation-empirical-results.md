@@ -22,8 +22,8 @@ lw-latest-edit: 2021-06-15T16:55:30.263Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "attainable-utility-preservation-empirical-results"
 lw-sequence-title: "Reframing Impact"

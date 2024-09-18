@@ -21,9 +21,9 @@ title: "Alignment allows 'nonrobust' decision-influences and doesn't require rob
 lw-latest-edit: 2022-11-30T16:37:57.412Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "shard-theory"
   - "human-values"
+  - "AI"
 aliases: 
   - "alignment-allows-nonrobust-decision-influences-and-doesn-t"
 sequence-link: posts#shard-theory
@@ -110,7 +110,7 @@ In particular, there’s no guarantee that you can just scan someone’s brain a
 
 Therefore, even though you _truly care about candy_, that doesn’t mean you can just whip out the argmax on the relevant shard of your cognition, so as to “maximize” that shard (e.g. via extremizing the rate of action potentials on its output neurons) and then get a future with _lots_ of candy. You’d [probably](https://distill.pub/2017/feature-visualization/) just find a context $c_i∈C$ which acts as an adversarial input to the candy-shard, _even though_ you do really care about candy in a normal, human way.
 
-Complexity of human values isn’t what stops you from argmaxing human values and thereby finding a good plan. That’s not a sensible thing to try. Values are not, in general, the kind of thing which can be directly optimized over, where you find plans which "maximally activate" your e.g. candy-subshards. **Values influence decisions.**  
+Complexity of human values isn’t what stops you from argmax’ing human values and thereby finding a good plan. That’s not a sensible thing to try. Values are not, in general, the kind of thing which can be directly optimized over, where you find plans which "maximally activate" your e.g. candy-subshards. **Values influence decisions.**  
 
 
 There is real difficulty and peril in motivating an AI, in making sure its decisions chain into each other towards the _right kinds of futures_. If you train a superintelligent sovereign agent which primarily values irrelevant quantities (like paperclips) but doesn't care about you, which then optimizes the whole future hard, then you’re _dead_. But consider that deleting candy subshard #3 (“If `heard 'candy'` and `hunger>20`, then `salivate`”) doesn’t stop someone from valuing candy in the normal way. If you erase that subshard from their brain, it’s not like they start "Goodharting" and forget about the “true nature” of caring about candy because they now have an “imperfect proxy shard.” 

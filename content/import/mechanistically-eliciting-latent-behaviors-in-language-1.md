@@ -22,10 +22,10 @@ lw-latest-edit: 2024-05-23T20:29:09.224Z
 lw-is-linkpost: "false"
 authors: Andrew Mack and Alex Turner
 tags: 
-  - "AI"
   - "understanding-the-world"
-  - "mats-program"
+  - "AI"
   - "activation-engineering"
+  - "mats-program"
 aliases: 
   - "mechanistically-eliciting-latent-behaviors-in-language-1"
 lw-reward-post-warning: "false"

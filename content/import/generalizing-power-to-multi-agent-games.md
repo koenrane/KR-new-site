@@ -22,8 +22,8 @@ lw-latest-edit: 2021-06-06T14:23:13.010Z
 lw-is-linkpost: "false"
 authors: Jacob Stavrianos and Alex Turner
 tags: 
-  - "AI"
   - "understanding-the-world"
+  - "AI"
   - "instrumental-convergence"
 aliases: 
   - "generalizing-power-to-multi-agent-games"

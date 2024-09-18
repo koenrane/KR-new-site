@@ -23,8 +23,8 @@ lw-latest-edit: 2023-10-13T02:22:44.726Z
 lw-is-linkpost: "true"
 authors: Alex Turner, Ulisse Mini, Peli Grietzer, Mrinank Sharma, Austin Meek, Monte MacDiarmid, and Lisa Thiergart
 tags: 
-  - "AI"
   - "shard-theory"
+  - "AI"
   - "activation-engineering"
 aliases: 
   - "paper-understanding-and-controlling-a-maze-solving-policy"

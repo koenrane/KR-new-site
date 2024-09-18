@@ -22,10 +22,10 @@ lw-latest-edit: 2023-06-07T01:47:42.456Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Peli Grietzer, Ulisse Mini, Monte MacDiarmid, and David Udell
 tags: 
-  - "AI"
-  - "mats-program"
   - "shard-theory"
+  - "AI"
   - "activation-engineering"
+  - "mats-program"
 aliases: 
   - "understanding-and-controlling-a-maze-solving-policy-network"
 lw-sequence-title: "Interpreting a Maze-Solving Network"

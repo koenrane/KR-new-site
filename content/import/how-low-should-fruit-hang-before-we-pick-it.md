@@ -21,8 +21,8 @@ title: "How Low Should Fruit Hang Before We Pick It?"
 lw-latest-edit: 2020-05-20T13:03:59.233Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "impact-regularization"
+  - "AI"
 aliases: 
   - "how-low-should-fruit-hang-before-we-pick-it"
 lw-sequence-title: "Reframing Impact"

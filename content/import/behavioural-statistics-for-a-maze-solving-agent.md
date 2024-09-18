@@ -22,9 +22,9 @@ lw-latest-edit: 2023-06-07T01:24:40.249Z
 lw-is-linkpost: "false"
 authors: Peli Grietzer and Alex Turner
 tags: 
+  - "shard-theory"
   - "AI"
   - "mats-program"
-  - "shard-theory"
 aliases: 
   - "behavioural-statistics-for-a-maze-solving-agent"
 sequence-link: posts#interpreting-a-maze-solving-network
