@@ -555,6 +555,7 @@ replacement = {
     r"guaranteed -to-exist": "guaranteed-to-exist",
     r"\"care about things.\" i.e.": "\"care about things\", i.e.",
     r"gwern(?!\.net)": "`gwern`",
+    "argmaxing": "argmax’ing",
 }
 
 usernames = (
