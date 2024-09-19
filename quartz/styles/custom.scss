@@ -23,10 +23,8 @@
 }
 
 // The <a> link back up to content is the last child of the <li>
-li[id^="user-content-fn-"] {
-  & *:nth-last-child(2) {
-    margin-bottom: 0; // Don't have unnecessary space before the <li>
-  }
+li[id^="user-content-fn-"] > *:nth-last-child(2) {
+  margin-bottom: 0; // Don't have unnecessary space before the <li>
 }
 
 .footnotes {

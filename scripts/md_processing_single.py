@@ -556,6 +556,7 @@ replacement = {
     r"\"care about things.\" i.e.": "\"care about things\", i.e.",
     r"gwern(?!\.net)": "`gwern`",
     "argmaxing": "argmax’ing",
+    r"argmaxed": "argmax’ed",
 }
 
 usernames = (
