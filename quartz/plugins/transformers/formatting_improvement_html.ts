@@ -253,6 +253,9 @@ export function applyTextTransforms(text: string): string {
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
+  text = enDashNumberRange(text)
+  text = plusToAmpersand(text)
+  text = neqConversion(text)
   try {
     assertSmartQuotesMatch(text)
   } catch (e: any) {
