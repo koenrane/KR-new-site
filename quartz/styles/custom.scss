@@ -70,6 +70,9 @@ dd > ol:first-child {
   margin-top: 0;
 }
 
+.footnotes ol > li::before {
+  margin-right: calc(0.25 * $baseMargin);
+}
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
   & > li {
@@ -82,7 +85,7 @@ ol {
       color: var(--gray);
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
-      margin-right: calc(0.25 * $baseMargin);
+      margin-right: calc(0.5 * $baseMargin);
       flex-shrink: 0;
     }
 

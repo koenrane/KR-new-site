@@ -64,11 +64,11 @@ Human values _look so strange and inexplicable_. How could those values be the p
 > - Feeling an internal urge to text someone you have a crush on.
 > - That tug you feel when you are hungry and pass by a donut.
 >
-> To us, this definition seems importantly type-correct and appropriate—see [appendix B](#appendix-b-terminology). The main downside is that the definition is relatively broad—most people wouldn't list "donuts" among their "values." To avoid this counter-intuitiveness, we would refer to a "donut shard" instead of a "donut value." ("Shard" and associated terminology are defined in [section 2](#shaping).)
+> To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#appendix-b-terminology). The main downside is that the definition is relatively broad—most people wouldn't list "donuts" among their "values." To avoid this counter-intuitiveness, we would refer to a "donut shard" instead of a "donut value." ("Shard" and associated terminology are defined in [Section 2](#shaping).)
 
 # 1. Neuroscientific assumptions
 
-The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [appendix C](#appendix-c-evidence-for-neuroscience-assumptions).)
+The shard theory of human values makes three main assumptions. We think each assumption is pretty mainstream and reasonable. (For pointers to relevant literature supporting these assumptions, see [Appendix C](#appendix-c-evidence-for-neuroscience-assumptions).)
 
 > [!abstract] Assumption 1: The cortex[^1] is basically (locally) randomly initialized
 > According to this assumption, [most](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t) of the circuits in the brain are [learned from scratch](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in), in the sense of being mostly randomly initialized and not mostly genetically hard-coded. While the high-level topology of the brain may be genetically determined, we think that the local connectivity is not primarily genetically determined. For more clarification, see [\[Intro to brain-like-AGI safety\] 2. “Learning from scratch” in the brain](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in).
@@ -92,7 +92,7 @@ The shard theory of human values makes three main assumptions. We think each ass
 > [!abstract] Assumption 3: The brain does reinforcement learning
 > According to this assumption, the brain has a genetically [hard-coded reward system](https://www.alignmentforum.org/posts/hE56gYi5d68uux9oM/intro-to-brain-like-agi-safety-3-two-subsystems-learning-and) (implemented via certain hard-coded circuits in the brainstem and midbrain). In some[^3] fashion, the brain reinforces thoughts and mental subroutines which have led to reward, so that they will be more likely to fire in similar contexts in the future. We suspect that the “base” reinforcement learning algorithm is relatively crude, but that people reliably bootstrap up to smarter credit assignment.
 
-**Summary:** Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: self-supervised predictive loss (we view this as building your world model; see [appendix A](#appendix-a-the-formation-of-the-world-model)) and reward (we view this as building your values, as we are about to explore).
+**Summary:** Under our assumptions, most of the human brain is locally randomly initialized. The brain has two main learning objectives: self-supervised predictive loss (we view this as building your world model; see [Appendix A](#appendix-a-the-formation-of-the-world-model)) and reward (we view this as building your values, as we are about to explore).
 
 # 2: Reinforcement events shape human value shards
 
@@ -101,7 +101,7 @@ The shard theory of human values makes three main assumptions. We think each ass
 
 Given the inaccessibility of world model concepts, how does the genetically hard-coded reward system dispense reward in the appropriate mental situations? For example, suppose you send a drunk text, and later feel embarrassed, and this triggers a penalty. How is that penalty calculated? By information inaccessibility and the absence of text messages in the ancestral environment, the genome _isn’t_ directly hard-coding a circuit which detects that you sent an embarrassing text and then penalizes you. Nonetheless, such embarrassment seems to trigger (negative) reinforcement events... and we don’t really understand how that works yet.
 
-Instead, let’s model what happens if the genome hardcodes a sugar-detecting reward circuit. For the sake of this section, suppose that the genome specifies a reward circuit which takes as input the state of the taste buds and the person’s metabolic needs, and produces a reward if the taste buds indicate the presence of sugar while the person is hungry. By assumption 3 in [section 1](#1-neuroscientific-assumptions), the brain does reinforcement learning and credit assignment to reinforce circuits and computations which led to reward. For example, if a baby picks up a pouch of apple juice and sips some, that leads to sugar-reward. The reward makes the baby more likely to pick up apple juice in similar situations in the future.
+Instead, let’s model what happens if the genome hardcodes a sugar-detecting reward circuit. For the sake of this section, suppose that the genome specifies a reward circuit which takes as input the state of the taste buds and the person’s metabolic needs, and produces a reward if the taste buds indicate the presence of sugar while the person is hungry. By assumption 3 in [Section 1](#1-neuroscientific-assumptions), the brain does reinforcement learning and credit assignment to reinforce circuits and computations which led to reward. For example, if a baby picks up a pouch of apple juice and sips some, that leads to sugar-reward. The reward makes the baby more likely to pick up apple juice in similar situations in the future.
 
 Therefore, a baby may learn to sip apple juice which is already within easy reach. However, without a world model (much less a _planning process_), the baby cannot learn multi-step plans to grab and sip juice. If the baby doesn’t have a world model, then she won’t be able to act differently in situations where there is or is not juice behind her. Therefore, the baby develops a set of shallow situational heuristics which involve sensory preconditions like “IF juice pouch detected in center of visual field, THEN move arm towards pouch.” The baby is basically a trained [reflex agent](https://en.wikipedia.org/wiki/Intelligent_agent#Simple_reflex_agents).
 
@@ -110,16 +110,16 @@ However, when the baby has a proto-world model, the reinforcement learning proce
 By this process, repeated many times, the baby learns how to associate world model concepts (e.g. “the juice is behind me”) with the heuristics responsible for reward (e.g. “turn around” and “grab and drink the juice which is in front of me”). Both parts of that sequence are reinforced. In this way, the contextual-heuristics exchange information with the budding world model.
 
 > [!info] Definition: Shard of value
-> A _shard of value_ refers to the contextually activated computations which are downstream of similar historical reinforcement events. For example, the juice-shard consists of the various decision-making influences which steer the baby towards the historical reinforcer of a juice pouch. These contextual influences were all reinforced into existence by the activation of sugar reward circuitry upon drinking juice. 
+> A _shard of value_ refers to the contextually activated computations which are downstream of similar historical reinforcement events. For example, the juice-shard consists of the various decision-making influences which steer the baby towards the historical reinforcer of a juice pouch. These contextual influences were all reinforced into existence by the activation of sugar reward circuitry upon drinking juice.
 >
->A _subshard_ is a contextually activated component of a shard. For example, “IF juice pouch in front of me THEN grab” is a _subshard_ of the juice-shard. It seems plain to us that learned value shards are[^5] most strongly activated in the situations in which they were historically reinforced and strengthened. 
-> 
-> For more on terminology, see [appendix B](#appendix-b-terminology).
+> A _subshard_ is a contextually activated component of a shard. For example, “IF juice pouch in front of me THEN grab” is a _subshard_ of the juice-shard. It seems plain to us that learned value shards are[^5] most strongly activated in the situations in which they were historically reinforced and strengthened.
+>
+> For more on terminology, see [Appendix B](#appendix-b-terminology).
 
 ![](http://res.cloudinary.com/lesswrong-2-0/image/upload/v1669405112/mirroredImages/iCfdcxiyr2Kj8m8mT/isuv5eaznltruch2kh9f.png)
 <br/>Figure: Generated by DALL-E 2.
 
-While all of this is happening, many different shards of value are also growing, since the human reward system offers a range of feedback signals. Many subroutines are being learned, many heuristics are developing, and many proto-preferences are taking root. At this point, the brain learns a crude planning algorithm,[^6] because proto-planning subshards (e.g. IF `motor-command-5214` predicted to bring a juice pouch into view, THEN execute) would be reinforced for their contributions to activating the various hardcoded reward circuits. This proto-planning is learnable because most of the machinery was already developed by the self-supervised predictive learning, when e.g. learning to predict the consequences of motor commands (see [appendix A](#appendix-a-the-formation-of-the-world-model)).
+While all of this is happening, many different shards of value are also growing, since the human reward system offers a range of feedback signals. Many subroutines are being learned, many heuristics are developing, and many proto-preferences are taking root. At this point, the brain learns a crude planning algorithm,[^6] because proto-planning subshards (e.g. IF `motor-command-5214` predicted to bring a juice pouch into view, THEN execute) would be reinforced for their contributions to activating the various hardcoded reward circuits. This proto-planning is learnable because most of the machinery was already developed by the self-supervised predictive learning, when e.g. learning to predict the consequences of motor commands (see [Appendix A](#appendix-a-the-formation-of-the-world-model)).
 
 The planner has to decide on a coherent plan of action. That is, micro-incoherences (turn towards juice, but then turn back towards a friendly adult, but then turn back towards the juice, ad nauseum) should generally be penalized away.[^7] Somehow, the plan has to be coherent, integrating several conflicting shards. We find it useful to view this integrative process as a kind of “bidding.” For example, when the juice-shard activates, the shard fires in a way which would have historically increased the probability of executing plans which led to juice pouches. We’ll say that the juice-shard is _bidding_ for plans which involve juice consumption (according to the world model), and perhaps bidding against plans without juice consumption.
 
@@ -157,7 +157,7 @@ This child-shard most strongly activates in contexts similar to the historical r
 Shard theory retrodicts that altruism tends to be biased towards nearby people (and also the ingroup), without positing complex, [information-inaccessibility-violating](/human-values-and-biases-are-inaccessible-to-the-genome) adaptations like the following:
 
 > [!quote] [Comparing the Effect of Rational and Emotional Appeals on Donation Behavior](https://philpapers.org/rec/LINCTE-3)
-> We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way. 
+> We evolved in small groups in which people helped their neighbors and were suspicious of outsiders, who were often hostile. Today we still have these “Us versus Them” biases, even when outsiders pose no threat to us and could beneﬁt enormously from our help. Our biological history may predispose us to ignore the suﬀering of faraway people, but we don’t have to act that way.
 
 Similarly, you may be familiar with [scope insensitivity](https://en.wikipedia.org/wiki/Scope_neglect): that the function from (# of children at risk) → (willingness to pay to protect the children) is not linear, but perhaps logarithmic. Is it that people “[can’t multiply](https://www.lesswrong.com/posts/r5MSQ83gtbjWRBDWJ/the-intuitions-behind-utilitarianism)”? Probably not.
 
@@ -174,7 +174,7 @@ Since shards more strongly influence decisions in their historical reinforcement
 ## Milgram is also contextual
 
 > [!quote] [Wikipedia](https://en.wikipedia.org/wiki/Milgram_experiment)
-> The Milgram experiment(s) on obedience to authority figures was a series of social psychology experiments conducted by Yale University psychologist Stanley Milgram. They measured the willingness of study participants, men in the age range of 20 to 50 from a diverse range of occupations with varying levels of education, to obey an authority figure who instructed them to perform acts conflicting with their personal conscience. Participants were led to believe that they were assisting an unrelated experiment, in which they had to administer electric shocks to a "learner". These fake electric shocks gradually increased to levels that would have been fatal had they been real. 
+> The Milgram experiment(s) on obedience to authority figures was a series of social psychology experiments conducted by Yale University psychologist Stanley Milgram. They measured the willingness of study participants, men in the age range of 20 to 50 from a diverse range of occupations with varying levels of education, to obey an authority figure who instructed them to perform acts conflicting with their personal conscience. Participants were led to believe that they were assisting an unrelated experiment, in which they had to administer electric shocks to a "learner". These fake electric shocks gradually increased to levels that would have been fatal had they been real.
 
 We think that people convergently learn obedience- and cooperation-shards which more strongly influence decisions in the presence of an authority figure, perhaps because of historical obedience-reinforcement events in the presence of teachers / parents. These shards strongly activate in this situation.
 
@@ -207,7 +207,7 @@ We think that simple reward circuitry leads to different cognition activating in
 ### [Projection bias](https://thedecisionlab.com/biases/projection-bias)
 
 > [!quote] [Dynamic inconsistency](https://en.wikipedia.org/wiki/Dynamic_inconsistency)
->  Humans have a tendency to mispredict their future [marginal utilities](https://en.wikipedia.org/wiki/Marginal_utility) by assuming that they will remain at present levels. This leads to inconsistency as marginal utilities (for example, tastes) change over time in a way that the individual did not expect. For example, when individuals are asked to choose between a piece of fruit and an unhealthy snack (such as a candy bar) for a future meal, the choice is strongly affected by their "current" level of hunger. 
+> Humans have a tendency to mispredict their future [marginal utilities](https://en.wikipedia.org/wiki/Marginal_utility) by assuming that they will remain at present levels. This leads to inconsistency as marginal utilities (for example, tastes) change over time in a way that the individual did not expect. For example, when individuals are asked to choose between a piece of fruit and an unhealthy snack (such as a candy bar) for a future meal, the choice is strongly affected by their "current" level of hunger.
 
 We believe that this is _not_ a misprediction of how tastes will change in the future. Many adults know perfectly well that they will later crave the candy bar. However, a satiated adult has a greater probability of choosing fruit for their later self, because their deliberative shards are more strongly activated than their craving-related shards. The current level of hunger strongly controls which food-related shards are activated.
 
@@ -225,6 +225,7 @@ A person might deliberately avoid passing through the sweets aisle in a supermar
 Shards are contextually activated, and the sweet-shard is most strongly activated when you can actually see sweets. We think that planning-capable shards are manipulating future contexts so as to prevent the full activation of your sweet shard.
 
 > [!question]
+>
 > 1.  Which do you prefer, to be given 500 dollars today or 505 dollars tomorrow?
 > 2.  Which do you prefer, to be given 500 dollars 365 days from now or 505 dollars 366 days from now?
 
@@ -256,19 +257,20 @@ The story we’ve presented here skips over important parts of human value forma
 
 This post explains our basic picture of shard formation in humans. We will address deeper shard theory-related questions in later posts.
 
-_For shard theory discussion, join our [Discord server](https://discord.gg/JNG2ZSKh28)._ 
+_For shard theory discussion, join our [Discord server](https://discord.gg/JNG2ZSKh28)._
+
 # Conclusion
 
 Working from three reasonable assumptions about how the brain works, shard theory implies that human values (e.g. caring about siblings) are implemented by contextually activated circuits which activate in situations downstream of past reinforcement (e.g. when physically around siblings) so as to steer decision-making towards the objects of past reinforcement (e.g. making plans to spend more time together). According to shard theory, human values may be complex, but much of human value formation is simple.
 
 > [!thanks]
-> Charles Foster wrote [appendix C](#appendix-c-evidence-for-neuroscience-assumptions). We thank David Udell, Peter Barnett, Raymond Arnold, Garrett Baker, Steve Byrnes, and Thomas Kwa for feedback on this finalized post. Many more people provided feedback on an earlier version.
+> Charles Foster wrote [Appendix C](#appendix-c-evidence-for-neuroscience-assumptions). We thank David Udell, Peter Barnett, Raymond Arnold, Garrett Baker, Steve Byrnes, and Thomas Kwa for feedback on this finalized post. Many more people provided feedback on an earlier version.
 
 # Appendix A: The formation of the world model
 
-Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [section 1](#1-neuroscientific-assumptions)), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of.
+Most of our values seem to be about the real world. Mechanistically, we think that this means that they are functions of the state of our world model. We therefore infer that human values do not form durably or in earnest until after the human has learned a proto-world model. Since the world model is learned from scratch (by assumption 1 in [Section 1](#1-neuroscientific-assumptions)), the world model takes time to develop. In particular, we infer that babies don’t have any recognizable “values” to speak of.
 
-Therefore, to understand why human values empirically coalesce around the world model, we will sketch a detailed picture of how the world model might form. We think that self-supervised learning (item 2 in [section 1](#1-neuroscientific-assumptions)) produces your world model.
+Therefore, to understand why human values empirically coalesce around the world model, we will sketch a detailed picture of how the world model might form. We think that self-supervised learning (item 2 in [Section 1](#1-neuroscientific-assumptions)) produces your world model.
 
 Due to learning from scratch, the fancy and interesting parts of your brain start off mostly useless. Here’s a speculative[^13] story about how a baby learns to reduce predictive loss, in the process building a world model:
 
@@ -288,11 +290,11 @@ Due to learning from scratch, the fancy and interesting parts of your brain star
     2.  This rule requires statefulness via short-term memory and some coarse summary of the object itself (small time-scale object permanence within a shallow world-model).
 7.  Object permanence develops from the generalization of specific heuristics for predicting common objects, to an invariant scheme for handling objects and their relationship to the child.
     1.  Developmental milestones vary from baby to baby because it takes them a varying amount of time to learn certain keystone but convergent abstractions, such as self-models.
-    2.  Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf) as human babies reach them.
+    2.  Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](<https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf>) as human babies reach them.
     3.  The more abstractions are learned, the easier it is to lay down additional functionality. When we see a new model of car, we do not have to relearn our edge detectors or car-detectors.
 8.  Learning continues, but we will stop here.
 
-In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8) hook into a reward circuit which focuses the learning on human faces.
+In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](<https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8>) hook into a reward circuit which focuses the learning on human faces.
 
 # Appendix B: Terminology
 
@@ -305,7 +307,7 @@ In our conception, shards vary in their sophistication (e.g. _IF-THEN reflexes_ 
 We defined[^16] “values” as “contextual influences on decision-making.” We think that “valuing someone’s friendship” is [what it feels like from the inside](https://www.readthesequences.com/How-An-Algorithm-Feels-From-Inside) to be an algorithm with a contextually activated decision-making influence which increases the probability of e.g. deciding to hang out with that friend. Here are three extra considerations and clarifications.
 
 Type-correctness
-: We think that our definition is deeply appropriate in certain ways. Just because you value eating donuts, doesn’t mean you want to retain that pro-donut influence on your decision-making. This is what it means to _reflectively endorse_ a value shard—that the shards which reason about your shard composition, bid for the donut-shard to stick around. By the same logic, it makes total sense to want your values to change over time—the “reflective” parts of you want the shard composition in the future to be different from the present composition. (For example, many arachnophobes probably want to drop their fear of spiders.) Rather than humans being “weird” for wanting their values to change over time, we think it’s probably the default for smart agents meeting our learning-process assumptions ([section 1](#1-neuroscientific-assumptions)).
+: We think that our definition is deeply appropriate in certain ways. Just because you value eating donuts, doesn’t mean you want to retain that pro-donut influence on your decision-making. This is what it means to _reflectively endorse_ a value shard—that the shards which reason about your shard composition, bid for the donut-shard to stick around. By the same logic, it makes total sense to want your values to change over time—the “reflective” parts of you want the shard composition in the future to be different from the present composition. (For example, many arachnophobes probably want to drop their fear of spiders.) Rather than humans being “weird” for wanting their values to change over time, we think it’s probably the default for smart agents meeting our learning-process assumptions ([Section 1](#1-neuroscientific-assumptions)).
 
 : Furthermore, your _values_ do not reflect a _reflectively endorsed utility function_. First off, those are different types of objects. Values bid for and against options, while a utility function grades options. Second, your values vary contextually, while any such utility function would be constant across contexts. More on these points later, in more advanced shard theory posts.
 
@@ -313,7 +315,7 @@ Different shard compositions can produce similar urges
 : If you feel an urge to approach nearby donuts, that indicates a range of possibilities:
 : - A donut shard is firing to increase \_P(eating the donut)\_ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
 : - A _hedonic_ shard is firing to increase \_P(eating the donut)\_ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
-: - A \_social_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
+: - A \_social\_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
 : - …
 
 : So, just because you feel an urge to eat the donut, doesn’t _necessarily_ mean you have a donut shard or that you “value” donuts under our definition. (But you probably do.)
@@ -343,7 +345,7 @@ Before this post was published, many people read draft documents explaining shar
 
 # Appendix C: Evidence for neuroscience assumptions
 
-In [section 1](#1-neuroscientific-assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
+In [Section 1](#1-neuroscientific-assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
 
 1.  The cortex is basically locally randomly initialized.
     1.  Steve Byrnes [has already written](https://www.lesswrong.com/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_5_Evidence_on_whether_the_telencephalon___cerebellum_learn_from_scratch) on several key lines of evidence that suggest the telencephalon (which includes the cerebral cortex) & cerebellum learn primarily from scratch. We recommend his writing as an entrypoint into that literature.
@@ -365,7 +367,9 @@ In [section 1](#1-neuroscientific-assumptions), we stated that shard theory make
 [^5]: Shards activate more strongly in historical reinforcement contexts, according to our RL intuitions, introspective experience, and inference from observed human behavior. We have some abstract theoretical arguments that RL should work this way in the brain, but won't include them in this post.
 [^6]: We think human planning is less like Monte-Carlo Tree Search and more like greedy heuristic search. The heuristic is computed in large part by the outputs of the value shards, which themselves receive input from the world model about the consequences of the plan stub.
 [^7]: For example, turning back and forth while hungry might produce continual slight negative reinforcement events, at which point good credit assignment blames and downweights the micro-incoherences.
-[^8]: We think that “hedonic” shards of value can indeed form, and this would be part of why people seem to intrinsically value “rewarding” experiences. However, two points.
+[^8]:
+    We think that “hedonic” shards of value can indeed form, and this would be part of why people seem to intrinsically value “rewarding” experiences. However, two points.
+
     1. In this specific situation, the juice-shard forms around _real-life juice_.
     2. We think that even self-proclaimed hedonists have _some_ substantial values which are reality-based instead of reward-based.
 
