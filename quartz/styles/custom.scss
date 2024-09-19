@@ -22,14 +22,31 @@
   color: var(--dark);
 }
 
-// Ordered lists in footnotes should start at 1, 2, 3, etc.
-.footnotes li ol {
-  counter-reset: list;
+// The <a> link back up to content is the last child of the <li>
+li[id^="user-content-fn-"] {
+  & *:nth-last-child(2) {
+    margin-bottom: 0; // Don't have unnecessary space before the <li>
+  }
+}
 
-  & li {
-    counter-increment: list;
-    &::before {
-      content: counter(list) ".";
+.footnotes {
+  & ul {
+    margin-top: calc(2 * $baseMargin);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Ordered lists in footnotes should start at 1, 2, 3, etc.
+  & li ol {
+    counter-reset: list;
+
+    & li {
+      counter-increment: list;
+      &::before {
+        content: counter(list) ".";
+      }
     }
   }
 }
