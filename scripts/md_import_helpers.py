@@ -317,7 +317,6 @@ keep_tags = [
     "Impact Regularization",
     "Inner/outer alignment",
     "AI",
-    "Summaries",
     "Reinforcement functions",
     "Contains exercises",
     "ML Interpretability",
@@ -346,6 +345,7 @@ keep_tags = [
 
 
 delete_tags = [
+    "Summaries",
     "HPMOR-(discussion-&-meta)",
     "Rationalist Taboo",
     "Dark Arts",

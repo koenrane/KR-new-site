@@ -25,6 +25,7 @@ describe("HTMLFormattingImprovement", () => {
   describe("Quotes", () => {
     it.each([
       ['"This is a quote", she said.', "“This is a quote”, she said."],
+      ['"aren\'t \"groups of functions\". ', "“aren’t “groups of functions.” "],
       ['"This is a quote," she said.', "“This is a quote”, she said."],
       ['"This is a quote!".', "“This is a quote!”."],
       ['"This is a quote?".', "“This is a quote?”."],
