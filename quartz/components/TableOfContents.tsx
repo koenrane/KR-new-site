@@ -63,7 +63,7 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
   const title = fileData.frontmatter?.title
   logger.debug(`Title for TOC: ${title}`)
 
-  const toc = buildNestedList(fileData.toc!, 0, 0)
+  const [toc, _] = buildNestedList(fileData.toc!, 0, 0)
 
   return (
     <div id="table-of-contents" className="desktop-only">
@@ -71,7 +71,7 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
-        <ul className="overflow ">{toc}</ul>
+        <ul className="overflow">{toc}</ul>
       </div>
     </div>
   )
