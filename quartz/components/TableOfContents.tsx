@@ -63,8 +63,7 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
   const title = fileData.frontmatter?.title
   logger.debug(`Title for TOC: ${title}`)
 
-  const toc = addListItem(fileData.toc!, 0)
-  logger.debug(`Generated TOC items: ${toc.length}`)
+  const toc = buildNestedList(fileData.toc!, 0, 0)
 
   return (
     <div id="table-of-contents" className="desktop-only">
@@ -72,68 +71,88 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
         <a href="#">{title}</a>
       </h6>
       <div id="toc-content">
-        <ul className="overflow">{toc}</ul>
+        <ul className="overflow ">{toc}</ul>
       </div>
     </div>
   )
 }
 
+
 /**
- * Recursively generates list items for the table of contents.
+ * Recursively builds a nested list for the table of contents.
  *
  * @param entries - The TOC entries to process.
+ * @param currentIndex - The current index in the entries array.
  * @param currentDepth - The current depth in the TOC hierarchy.
- * @returns An array of JSX elements representing the TOC items.
+ * @returns A tuple containing an array of JSX elements and the next index to process.
  */
-export function addListItem(entries: TocEntry[], currentDepth: number): JSX.Element[] {
-  logger.debug(`addListItem called with ${entries.length} entries at depth ${currentDepth}`)
+export function buildNestedList(
+  entries: TocEntry[],
+  currentIndex: number = 0,
+  currentDepth: number = entries[0]?.depth || 0
+): [JSX.Element[], number] {
+  const listItems: JSX.Element[] = [];
+  const totalEntries = entries.length;
+  let index = currentIndex;
 
-  if (entries.length === 0) {
-    logger.debug("No entries, returning empty array")
-    return []
-  }
+  while (index < totalEntries) {
+    const entry = entries[index];
 
-  let result: JSX.Element[] = []
-  let remainingEntries = [...entries] // Create a copy of the array
-
-  while (remainingEntries.length > 0) {
-    const tocEntry = remainingEntries[0]
-    logger.debug(`Processing TOC entry: ${JSON.stringify(tocEntry)}`)
-
-    if (tocEntry.depth > currentDepth) {
-      logger.debug(`Starting new sublist at depth ${tocEntry.depth}`)
-      const [sublist, newRemaining] = processSublist(remainingEntries, tocEntry.depth)
-      result.push(<ul key={`sublist-${tocEntry.slug}`}>{sublist}</ul>)
-      remainingEntries = newRemaining
-    } else if (tocEntry.depth < currentDepth) {
-      logger.debug(`Ending sublist, returning to depth ${tocEntry.depth}`)
-      break
+    if (entry.depth < currentDepth) {
+      break;
+    } else if (entry.depth > currentDepth) {
+      const [nestedListItems, nextIndex] = buildNestedList(entries, index, entry.depth);
+      if (listItems.length > 0) {
+        const lastItem = listItems[listItems.length - 1];
+        listItems[listItems.length - 1] = 
+          <li key={`li-${index}`}>
+            {lastItem.props.children}
+            <ul key={`ul-${index}`}>{nestedListItems}</ul>
+          </li>
+      } else {
+        listItems.push(
+          <li key={`li-${index}`}>
+            <ul key={`ul-${index}`}>{nestedListItems}</ul>
+          </li>
+        );
+      }
+      index = nextIndex;
     } else {
-      remainingEntries = remainingEntries.slice(1) // Remove the first entry without modifying the original array
-      const entryParent: Parent = processTocEntry(tocEntry)
-      const children = entryParent.children.map(elementToJsx)
-      let li = (
-        <li key={tocEntry.slug} className={`depth-${tocEntry.depth}`}>
-          <a href={`#${tocEntry.slug}`} data-for={tocEntry.slug}>
-            {children}
-          </a>
-        </li>
-      )
-      logger.debug(`Added list item for "${tocEntry.text}" at depth ${tocEntry.depth}`)
-      result.push(li)
+      listItems.push(<li key={`li-${index}`}>{toJSXListItem(entry)}</li>);
+      index++;
     }
   }
 
-  logger.debug(`Returning ${result.length} list items`)
-  return result
+  return [listItems, index];
 }
 
-// Helper function to process sublists
-function processSublist(entries: TocEntry[], depth: number): [JSX.Element[], TocEntry[]] {
-  const sublist = addListItem(entries, depth)
-  const newRemaining = entries.filter((entry) => entry.depth < depth)
-  return [sublist, newRemaining]
+/**
+ * Generates the table of contents as a nested list.
+ *
+ * @param entries - The TOC entries to process.
+ * @returns A JSX element representing the nested TOC.
+ */
+export function addListItem(entries: TocEntry[]): JSX.Element {
+  logger.debug(`addListItem called with ${entries.length} entries`);
+
+  const [listItems] = buildNestedList(entries);
+  logger.debug(`Returning ${listItems.length} JSX elements`);
+  return <ul>{listItems}</ul>;
 }
+
+
+/**
+ * Converts a TocEntry to a JSX list item element.
+ */
+function toJSXListItem(entry: TocEntry): JSX.Element {
+  const entryParent: Parent = processTocEntry(entry);
+  return (
+    <a href={`#${entry.slug}`} data-for={entry.slug}>
+      {entryParent.children.map(elementToJsx)}
+    </a>
+  );
+}
+
 
 /**
  * Processes small caps and LaTeX in a TOC entry.

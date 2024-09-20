@@ -490,7 +490,7 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
           // console.error(e.message)
         }
         if (notMatching) {
-          console.error("Some double quotes are not matched.")
+          // console.error("Some double quotes are not matched.")
         }
 
         // Don't replace slashes in fractions, but give breathing room

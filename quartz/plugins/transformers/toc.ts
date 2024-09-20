@@ -60,8 +60,6 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
       return [
         () => {
           return (tree: Root, file) => {
-            slugAnchor.reset()
-
             const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
             logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
 
@@ -83,12 +81,17 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                   let text = applyTextTransforms(customToString(heading))
                   text = stripHtml(text)
                   highestDepth = Math.min(highestDepth, heading.depth)
+                  
+                  // Reset the slugger for each heading
+                  slugAnchor.reset()
+                  const slug = slugAnchor.slug(text)
+
                   toc.push({
                     depth: heading.depth,
                     text,
-                    slug: slugAnchor.slug(text),
+                    slug,
                   })
-                  logger.info(`Added TOC entry: depth=${heading.depth}, text="${text}"`)
+                  logger.info(`Added TOC entry: depth=${heading.depth}, text="${text}", slug="${slug}"`)
                 } else if (node.type === "footnoteDefinition") {
                   hasFootnotes = true
                 }

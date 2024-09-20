@@ -1,8 +1,7 @@
 import { htmlToJsx } from "../../util/jsx"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
-import { addListItem } from "../TableOfContents"
+import { buildNestedList } from "../TableOfContents"
 import {
-  CreateFaviconElement,
   TURNTROUT_FAVICON_PATH,
 } from "../../plugins/transformers/linkfavicons"
 
@@ -27,7 +26,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
     return null
   }
-  const toc = addListItem(fileData.toc, 0)
+  const toc = buildNestedList(fileData.toc, 0, 0)
   return (
     <blockquote
       class="callout example is-collapsible is-collapsed"
