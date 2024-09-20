@@ -54,9 +54,13 @@ ol.overflow {
       padding-bottom: calc(0.5 * $baseMargin);
       overflow-y: visible;
 
+      &:first-child {
+        padding-top: calc(0.5 * $baseMargin);
+      }
+
       &:last-child {
         padding-bottom: 0;
-        margin-bottom: calc(0.5 * $baseMargin);
+        margin-bottom: calc(0.25 * $baseMargin);
       }
 
       & > a {
