@@ -1,6 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { GlobalConfiguration } from "../cfg"
+import { renderPublicationInfo } from "./ContentMeta"
 
-const Authors: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
+const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_metadata || fileData.frontmatter?.hide_authors) {
     return null
   }
@@ -11,10 +13,15 @@ const Authors: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   }
   authors = "By " + authors
 
+  // Add the publication info
+  const publicationInfo = renderPublicationInfo(cfg as GlobalConfiguration, fileData)
+
   return (
     <span>
       <p class="authors">
         {authors}
+        <br />
+        {publicationInfo}
         <br />
       </p>
     </span>

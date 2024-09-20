@@ -94,6 +94,7 @@ export const renderPublicationInfo = (
   const frontmatter = fileData.frontmatter
   if (typeof frontmatter?.original_url !== "string") return <></>
 
+  // TODO fix this for future posts from the website
   const publicationStr = frontmatter?.date_published ? "Originally published" : "Published"
   const dateToFormat = getDateToFormat(fileData, cfg)
   const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""

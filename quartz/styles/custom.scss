@@ -513,6 +513,9 @@ a.internal.tag-link {
 .authors {
   color: var(--gray);
   margin-top: 0;
+  & a {
+    color: inherit;
+  }
 }
 
 img {
