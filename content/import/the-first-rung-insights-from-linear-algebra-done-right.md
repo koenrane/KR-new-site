@@ -75,13 +75,6 @@ True to my vow in the [last post](/AI-textbook-review), I have greatly improved 
 
 Try me.
 
-Want: List of JSX elements at top level with children for deeper toc entries
-h1
-h1
-h2
-
-[JSX1, JSX2]
-
 ## 1: Vector Spaces 
 
 _In which the author reviews complex numbers, vector spaces, and subspaces._

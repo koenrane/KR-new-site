@@ -348,7 +348,8 @@ h6,
 #toc-content li {
   // Oldstyle is too small for headers
   &::first-letter,
-  & span {
+  & span,
+  .number-prefix {
     font-variant-numeric: lining-nums;
   }
   // color: var(--color-header);

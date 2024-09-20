@@ -191,18 +191,42 @@ function processTocEntry(entry: TocEntry): Parent {
 function processHtmlAst(htmlAst: any, parent: Parent): void {
   htmlAst.children.forEach((node: any) => {
     if (node.type === "text") {
-      processSmallCaps(node.value, parent)
+      const textValue = node.value;
+      const regex = /^(\d+:\s*)(.*)$/;
+      const match = textValue.match(regex);
+      if (match) {
+        // Leading numbers and colon found
+        const numberPart = match[1];
+        const restText = match[2];
+
+        // Create span for numberPart
+        const numberSpan = {
+          type: "element",
+          tagName: "span",
+          properties: { className: ["number-prefix"] },
+          children: [{ type: "text", value: numberPart }],
+        } as Element;
+        parent.children.push(numberSpan);
+
+        // Process the rest of the text
+        if (restText) {
+          processSmallCaps(restText, parent);
+        }
+      } else {
+        // No leading numbers, process as usual
+        processSmallCaps(textValue, parent);
+      }
     } else if (node.type === "element") {
       const newElement = {
         type: "element",
         tagName: node.tagName,
         properties: { ...node.properties },
         children: [],
-      } as Element
-      parent.children.push(newElement)
-      processHtmlAst(node, newElement)
+      } as Element;
+      parent.children.push(newElement);
+      processHtmlAst(node, newElement);
     }
-  })
+  });
 }
 
 /**
@@ -212,45 +236,47 @@ function processHtmlAst(htmlAst: any, parent: Parent): void {
  * @returns The converted JSX element.
  */
 function elementToJsx(elt: RootContent): JSX.Element {
-  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
+  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`);
 
   switch (elt.type) {
     case "text":
-      return <>{elt.value}</>
+      return <>{elt.value}</>;
     case "element":
       if (elt.tagName === "abbr") {
-        const abbrText = (elt.children[0] as Text).value
-        const className = (elt.properties?.className as string[])?.join(" ") || ""
-        return <abbr className={className}>{abbrText}</abbr>
+        const abbrText = (elt.children[0] as Text).value;
+        const className = (elt.properties?.className as string[])?.join(" ") || "";
+        return <abbr className={className}>{abbrText}</abbr>;
       } else if (elt.tagName === "span") {
-        if ((elt.properties?.className as string[])?.includes("katex-toc")) {
+        const classNames = (elt.properties?.className as string[]) || [];
+        if (classNames.includes("katex-toc")) {
           return (
             <span
               className="katex-toc"
               dangerouslySetInnerHTML={{ __html: (elt.children[0] as { value: string }).value }}
             />
-          )
+          );
+        } else if (classNames.includes("number-prefix")) {
+          // Render the number-prefix span
+          return <span className="number-prefix">{elt.children.map(elementToJsx)}</span>;
         } else {
-          // Handle other span elements (e.g., those created by processSmallCaps)
-          return <span>{elt.children.map(elementToJsx)}</span>
+          // Handle other spans
+          return <span>{elt.children.map(elementToJsx)}</span>;
         }
       }
-      // Add more cases here as needed for other element types you expect
-      break
+      // Handle other element types if needed
+      break;
 
     case "comment":
     case "doctype":
-      // These types are typically ignored in JSX rendering
-      return <></>
+      // Ignore these types in rendering
+      return <></>;
 
     default:
-      // Gracefully handle unexpected node types
-      logger.warn(`Unexpected node type encountered: ${elt.type}`)
-      return <></>
+      logger.warn(`Unexpected node type encountered: ${elt.type}`);
+      return <></>;
   }
 
-  // This should never be reached due to the switch cases, but TypeScript requires it
-  return <></>
+  return <></>;
 }
 
 TableOfContents.css = modernStyle

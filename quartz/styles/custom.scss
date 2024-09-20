@@ -653,7 +653,7 @@ hr {
 .katex-html {
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 3px;
+  padding: 0.075em; // Should be smaller in eg TOC
   .base {
     margin: 0 auto;
   }
