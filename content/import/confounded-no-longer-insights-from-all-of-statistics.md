@@ -36,12 +36,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/03/2018
 original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
+skip_import: true
 ---
-> [!quote]
+> [!quote]Larry Wasserman, _All of Statistics_
 >
-> _Using fancy tools like neural nets, boosting and support vector machines without understanding basic statistics is like doing brain surgery before knowing how to use a bandaid._
->
-> Larry Wasserman
+> Using fancy tools like neural nets, boosting and support vector machines without understanding basic statistics is like doing brain surgery before knowing how to use a bandaid.
 
 # Foreword
 
@@ -76,14 +75,14 @@ $$
 ### Evidence Preservation
 
 $$
-\mathbb{E}(\mathbb{E}(Y\,|\,X))=\mathbb{E}(Y)
+\mathbb{E}(\mathbb{E}(Y\,\mid\,X))=\mathbb{E}(Y)
 $$
 is [conservation of expected evidence](https://www.lesswrong.com/posts/jiBFC7DcCrZjGmZnJ/conservation-of-expected-evidence) (thanks to Alex Mennen for making this connection explicit).
 
 ### Marginal Variance
 
 $$
-\mathbb{V}(Y)=\mathbb{EV}(Y\,|\,X)+\mathbb{VE}(Y\,|\,X)
+\mathbb{V}(Y)=\mathbb{EV}(Y\,\mid\,X)+\mathbb{VE}(Y\,|\,X)
 $$
 > _Why_ does marginal variance have two terms? Shouldn't the expected conditional variance be sufficient?
 
@@ -94,12 +93,12 @@ _Proof (of the variance; I cannot prove it plagued my dreams):_
 $$
 \begin{align}
 \mathbb{V}(Y)&=\mathbb{E}\big(Y-\mathbb{E}(Y)\big)^2\\
-&= \mathbb{E}\Big(\big(Y-\mathbb{E}(Y\,|\,X)\big) + \big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big)^2\\
-&= \mathbb{E}\big(Y-\mathbb{E}(Y\,|\,X)\big)^2 + \mathbb{E}\Big(2\big(Y-\mathbb{E}(Y\,|\,X)\big)\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)^2\\
-&= \mathbb{EV}(Y\,|\,X) + 2\mathbb{E}\Big(\big(Y-\mathbb{E}(Y\,|\,X)\big)\big(\mathbb{E}(Y\,|\,X)-\mathbb{E}(Y)\big)\Big) + \mathbb{VE}(Y\,|\,X)\\
-&= \mathbb{EV}(Y\,|\,X) + 2\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)-Y\mathbb{E}(Y)-\mathbb{E}(Y\,|\,X)^2 +\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big) + \mathbb{VE}(Y\,|\,X)\\
-&= \mathbb{EV}(Y\,|\,X) + 2\Big(\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)\big)-\mathbb{E}\big(Y\mathbb{E}(Y)\big)-\mathbb{E}\big(\mathbb{E}(Y\,|\,X)^2\big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big)\Big) + \mathbb{VE}(Y\,|\,X)\\
-&= \underbrace{\mathbb{EV}(Y\,|\,X)}_\text{sample variance} + \underbrace{\mathbb{VE}(Y\,|\,X)}_\text{model variance}.
+&= \mathbb{E}\Big(\big(Y-\mathbb{E}(Y\,\mid\,X)\big) + \big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big)^2\\
+&= \mathbb{E}\big(Y-\mathbb{E}(Y\,\mid\,X)\big)^2 + \mathbb{E}\Big(2\big(Y-\mathbb{E}(Y\,|\,X)\big)\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)^2\\
+&= \mathbb{EV}(Y\,\mid\,X) + 2\mathbb{E}\Big(\big(Y-\mathbb{E}(Y\,|\,X)\big)\big(\mathbb{E}(Y\,|\,X)-\mathbb{E}(Y)\big)\Big) + \mathbb{VE}(Y\,|\,X)\\
+&= \mathbb{EV}(Y\,\mid\,X) + 2\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)-Y\mathbb{E}(Y)-\mathbb{E}(Y\,|\,X)^2 +\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big) + \mathbb{VE}(Y\,|\,X)\\
+&= \mathbb{EV}(Y\,\mid\,X) + 2\Big(\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)\big)-\mathbb{E}\big(Y\mathbb{E}(Y)\big)-\mathbb{E}\big(\mathbb{E}(Y\,|\,X)^2\big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big)\Big) + \mathbb{VE}(Y\,|\,X)\\
+&= \underbrace{\mathbb{EV}(Y\,\mid\,X)}_\text{sample variance} + \underbrace{\mathbb{VE}(Y\,|\,X)}_\text{model variance}.
 \end{align}
 $$
 The middle term is eliminated as the expectations cancel out after repeated applications of conservation of expected evidence. Another way to look at the last two terms is the sum of the expected sample variance and the variance of the expectation.
@@ -111,7 +110,7 @@ When calculating variance from observations  $X_1,\dots,X_n$, you might think to
 $$
 S^2_n=\frac{1}{n}\sum_{i=1}^{n}(X_i - \bar{X}_n)^2,
 $$
-where  $\bar{X}_n$ is the sample mean. However, this systematically underestimates the actual sample variance, as the sample mean is itself often biased (as demonstrated above). The corrected sample variance is thus
+where  $\bar{X}_n$ is the sample mean. However, this systematically underestimates the actual sample variance, as the sample mean is itself unreliable (as demonstrated above). The corrected sample variance is thus
 
 $$
 S_n^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X}_n)^2.
@@ -136,7 +135,7 @@ The continuity is the culprit. Since the cumulative density functions  $F_X,F_Y$
 
 #### In Probability
 
->  $X_n$ converges to  $X$ in probability, written  $X_n \overset{p}\to X$, if, for every  $\epsilon > 0$,  $P(|X_n-X|>\epsilon)\to0$ as  $n\to\infty$.
+>  $X_n$ converges to  $X$ in probability, written  $X_n \overset{p}\to X$, if, for every  $\epsilon > 0$,  $P(\midX_n-X|>\epsilon)\to0$ as  $n\to\infty$.
 
 Random variables are functions  $Y:\Omega\to\mathbb{R}$, assigning a number to each possible outcome in the sample space  $\Omega$. Considering this fact, two random variables converge in probability when their assigned values are "far apart" (greater than  $\epsilon$) with probability 0 in the limit.
 
@@ -188,7 +187,7 @@ $$
 Informally, this is the sensitivity of  $\ell$ to the parameter  $\theta$. The derivative of the score captures the curvature of  $\ell$ with respect to  $\theta$; essentially, this represents how much information  $X$ provides about  $\theta$. The Fisher information is then the expected knowledge gain:
 
 $$
-\mathcal{I}(\theta)=-\mathbb{E}\bigg[\frac{\partial^2}{\partial\theta^2}\log f(X;\theta) \;\bigg|\; \theta\bigg].
+\mathcal{I}(\theta)=-\mathbb{E}\bigg[\frac{\partial^2}{\partial\theta^2}\log f(X;\theta) \;\bigg\mid\; \theta\bigg].
 $$
 [Further reading](https://stats.stackexchange.com/questions/10578/intuitive-explanation-of-fisher-information-and-cramer-rao-bound).
 
@@ -204,12 +203,10 @@ _In which we make testable predictions and step towards traditional rationality.
 
 ### Frequently Confused
 
-> [!quote]
+> [!quote] _Anchorman_
 >
 > Brian Fantana: They've done studies, you know. 60% of the time it works, every time.  
 > Ron Burgundy: That doesn't make sense.
->
-> _Anchorman_
 
 Confidence intervals ("in 60% of experiments just like this, we will see results within this interval") and credible intervals ("we believe that _this_ experiment has a result within this interval with 60% probability") are different things.
 
@@ -223,7 +220,7 @@ In hypothesis testing, we're trying to discriminate between two sets of possible
 
 A test  $\varphi:\Omega\to\{0,1\}$ might take a sample and say "you're in  $\Theta_0$" (for example). We can divvy up  $\Omega$ into the acceptance region  $\mathcal{A}$ (in which we accept the null hypothesis) and rejection region  $\mathcal{R}$.
 
-The power of a test  $\varphi$ is the function  $\beta:\Theta \to [0,1]$ that tells us the probability of rejecting the null hypothesis given some parameter:  $\beta_\varphi(\theta)=\Pr(X\in\mathcal{R}|\theta)$. Basically, we have  $\beta_\varphi(\theta)$ probability of rejecting the null hypothesis given that reality is actually parametrized by  $\theta$.
+The power of a test  $\varphi$ is the function  $\beta:\Theta \to [0,1]$ that tells us the probability of rejecting the null hypothesis given some parameter:  $\beta_\varphi(\theta)=\Pr(X\in\mathcal{R}\mid\theta)$. Basically, we have  $\beta_\varphi(\theta)$ probability of rejecting the null hypothesis given that reality is actually parametrized by  $\theta$.
 
 We want to avoid rejecting the null hypothesis when  $\theta \in \Theta_0$; therefore, we define some level of significance  $\alpha$ for which  $\beta_\varphi(\theta)\leq\alpha;\theta\in\Theta_0$. This means we're avoiding Type I errors  $100\times(1-\alpha)\%$ of the time. The maximum probability that we commit a Type I error is the _size_ of the test  $\varphi$:  $\alpha_\varphi=\sup_{\theta\in\Theta_0}\beta_\varphi(\theta)$.
 
@@ -270,8 +267,7 @@ _In which the pieces start to line up._
 ### The Bias-Variance Tradeoff
 
 ![](https://i.imgur.com/38Rf6NN.png)
-
-> _Image credit: Scott Fortmann-Roe_
+Figure: Image credit: Scott Fortmann-Roe
 
 As more covariates are added to a model, the bias decreases while the variance increases. Let's say you call 30 friends and ask them whether they agree with the Copenhagen interpretation of quantum mechanics, or with many-worlds. Say that you build a model with 5 covariates (such as age, sex, race, political leaning, and education level). This has _decreased bias_ compared to a model which uses only education level, since descriptive power increases with the number of covariates. However, you _increase variance_ in the sense that any given friend is more likely to be differently classified every time you run the experiment with slightly different data sets.
 
@@ -328,6 +324,7 @@ _In which passive and active conditioning are built up to by exploring the capac
 
 ## 22: Smoothing Using Orthogonal Functions
 
+> [!quote] _All of Statistics_
 > The top plot is the true density for the Bart Simpson distribution.
 
 ## 23: Classification

@@ -35,6 +35,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/30/2018
 original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-internal-double-crux
+skip_import: true
 ---
 > In sciences such as [psychology](https://en.wikipedia.org/wiki/Psychology) and [sociology](https://en.wikipedia.org/wiki/Sociology), internalization involves the integration of attitudes, values, standards and the opinions of others into one's own identity or sense of self.
 
@@ -56,38 +57,42 @@ I feel great, and I love it. Actually, most of the time I don't feel amazingly c
 
 _Note_: this entire exchange took place internally over the course of 2 minutes, via a 50-50 mix of words and emotions. Unpacking it took significantly longer.
 
-I may write more of these if this is helpful for people
-
 # Dialogue
 
 > If I don't get this CHAI internship, I'm going to feel terrible, because that means I don't have much promise as an AI safety researcher.
 
-_Realist_: Not getting the internship suggests you're miscalibrated on your potential. Someone promising enough to eventually become a MIRI researcher would be able to snag this, no problem. I feel worried that we're poorly calibrated and setting ourselves up for disappointment when we fall short.
+Realist
+: Not getting the internship suggests you're miscalibrated on your potential. Someone promising enough to eventually become a MIRI researcher would be able to snag this, no problem. I feel worried that we're poorly calibrated and setting ourselves up for disappointment when we fall short.
 
-_Fire_: I agree that not getting the internship would be evidence that there are others who are more promising _right now_. I think, however, that you're missing a few key points here:
+Fire
+: I agree that not getting the internship would be evidence that there are others who are more promising _right now_. I think, however, that you're missing a few key points here:
 
-- We've made important connections at CHAI / MIRI.
-- Your main point is a total buckets error. There is no ontologically-basic and immutable "promising-individual" property. Granted, there are biological and environmental factors outside our control here, but I think we score high _enough_ on these metrics to be able to succeed through effort, passion, and increased mastery of instrumental rationality.
-- We've been studying AI safety for just a few months (in our free time, no less); most of the studying has been dedicated towards building up foundational skills (and not reviewing the literature itself). The applicants who are chosen may have a year or more of familiarity with the literature / relevant math on us (or perhaps not), and this should be included in the model.
-- One of the main sticking points raised during my final interview has since been fixed, but I couldn't signal that afterwards without seeming overbearing.
+: - We've made important connections at CHAI / MIRI.
+: - Your main point is a total buckets error. There is no ontologically-basic and immutable "promising-individual" property. Granted, there are biological and environmental factors outside our control here, but I think we score high _enough_ on these metrics to be able to succeed through effort, passion, and increased mastery of instrumental rationality.
+: - We've been studying AI safety for just a few months (in our free time, no less); most of the studying has been dedicated towards building up foundational skills (and not reviewing the literature itself). The applicants who are chosen may have a year or more of familiarity with the literature / relevant math on us (or perhaps not), and this should be included in the model.
+: - One of the main sticking points raised during my final interview has since been fixed, but I couldn't signal that afterwards without seeming overbearing.
 
-I guess the main thrust here is that although that would be a data point against our being able to have a tectonic impact _right now_, we simply don't have enough evidence to responsibly generalize. I'm worried that you're overly pessimistic, and it's pulling down our chances of _actually_ being able to _do something_.
+: I guess the main thrust here is that although that would be a data point against our being able to have a tectonic impact _right now_, we simply don't have enough evidence to responsibly generalize. I'm worried that you're overly pessimistic, and it's pulling down our chances of _actually_ being able to _do something_.
 
-_Realist_: I definitely hear you that we've made lots of great progress, but is it enough? I'm so nervous about timelines, and the universe isn't magically calibrated to what we can do now.\* We either succeed, or we don't - and pay the price. Do we really have time to tolerate _almost_ being extraordinary? How is that going to do the impossible? I'm scared.
+Realist
+: I definitely hear you that we've made lots of great progress, but is it enough? I'm so nervous about timelines, and the universe isn't magically calibrated to what we can do now.[^crux] We either succeed, or we don't - and pay the price. Do we really have time to tolerate _almost_ being extraordinary? How is that going to do the impossible? I'm scared.
 
-_Fire_: Yup. I'm definitely scared too (in a sense), but also excited. This is a great chance to learn, grow, have fun, and work with people we really admire and appreciate! Let's "detach the grim-o-meter", since that's better than being worried and insecure about whether we're doing enough.
+Fire
+: Yup. I'm definitely scared too (in a sense), but also excited. This is a great chance to learn, grow, have fun, and work with people we really admire and appreciate! Let's "detach the grim-o-meter", since that's better than being worried and insecure about whether we're doing enough.
 
-_Realist_: I agree that detaching the grim-o-meter is the right thing to do, but... it makes me feel _guilty_.\* I guess there's a part of me that believes that feeling bad when things could go really wrong is important.
+Realist
+: I agree that detaching the grim-o-meter is the right thing to do, but... it makes me feel _guilty_.[^crux] I guess there's a part of me that believes that feeling bad when things could go really wrong is important.
 
-_Concern_: Hey, that's me! Yeah, I'm really worried that if we detach that grim-o-meter, we'll become callous and flippant and carefree. I don't know if that's a reasonable concern, but the prospect makes me feel really queasy. _Shouldn't_ we be really worried?
+Concern
+: Hey, that's me! Yeah, I'm really worried that if we detach that grim-o-meter, we'll become callous and flippant and carefree. I don't know if that's a reasonable concern, but the prospect makes me feel really queasy. _Shouldn't_ we be really worried?
 
-_Realist_: Actually, I don't know. Fire made a good point - the world will probably end up slightly better if we _don't_ care about the grim-o-meter...
+Realist
+: Actually, I don't know. Fire made a good point - the world will probably end up slightly better if we _don't_ care about the grim-o-meter...
 
-_Fire_: Hell yeah it will! What are we optimizing for here - an arbitrary deontological rule about feeling bad, or the actual world? We aren't discarding morality – we're discarding the idea that we should worry when the world is in a probably precarious position. We'll still fight just as hard.
+Fire
+: Hell yeah it will! What are we optimizing for here - an arbitrary deontological rule about feeling bad, or the actual world? We aren't discarding morality – we're discarding the idea that we should worry when the world is in a probably precarious position. We'll still fight just as hard.
 
 <hr/>
 
 
-\* Notice how related cruxes can (and should) be resolved in the same session. Resolution cannot happen if any part of you isn't _fully_ on board with whatever agreement you've come to - this feels like a small emptiness in the pit of my stomach, in my experience.
-
-_ETA 2020: retouched word choice in some places._
+[^crux]: Notice how related cruxes can (and should) be resolved in the same session. Resolution cannot happen if any part of you isn't _fully_ on board with whatever agreement you've come to - this feels like a small emptiness in the pit of my stomach, in my experience.
