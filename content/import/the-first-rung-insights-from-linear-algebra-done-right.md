@@ -36,12 +36,13 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/22/2018
 original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-insights-from-linear-algebra-done-right
+skip_import: true
 ---
 # Foreword
 
 Linear algebra, my old flame - how I missed you. At my undergraduate institution, linear algebra was my introduction to proof-based mathematics. There are people who shake hands, and there are people who **shake hands**. You know the type - you grasp their hand, and they clamp down and pull you in, agitating so wildly you fear for the structural integrity of your joints. My first experience with proofs was an encounter of the latter variety.
 
-I received my first homework grade, and I was _not_ pleased with my performance. I promptly went to the library and vowed not to leave until I learned how to write proofs adequately. The hours passed, and, (thankfully for my stomach), I got it. I didn't let up all semester. Immediately before the final exam, I was doing pushups in the hallway, high-fiving my friends, and watching the '[Michael Jordan Top 50 All Time Plays](https://www.youtube.com/watch?v=LAr6oAKieHk)' video while visualizing myself doing that to the test. Do that to the test I did indeed.
+I received my first homework grade, and I was _not_ pleased with my performance. I promptly went to the library and vowed not to leave until I learned how to write proofs adequately. The hours passed, and, (thankfully for my stomach), I got it. I didn't let up all semester. Immediately before the final exam, I was doing pushups in the hallway, high-fiving my friends, and watching the [Michael Jordan Top 50 All Time Plays](https://www.youtube.com/watch?v=LAr6oAKieHk) video while visualizing myself doing that to the test. Do that to the test I did indeed.
 
 This time around, the appropriately-acronymized _LADR_ is the first step on my journey to attain a professional-grade mathematical skillset.
 
@@ -61,15 +62,27 @@ The point isn't to struggle _per se -_ it's to improve and to _win_.
 
 #  $\mathcal{L}$inear  $\mathcal{A}$lgebra  $\mathcal{D}$one  $\mathcal{R}$ight
 
+
 This book has been previously [reviewed](https://www.lesswrong.com/posts/DWmrLjo5CgzK2Xmzk/book-review-linear-algebra-done-right-miri-course-list) by Nate Soares; as such, I'll spend time focusing on the concepts I found most difficult. Note that his review was for the second edition, while mine is for the third.
 
 True to my vow in the [last post](/AI-textbook-review), I have greatly improved my proof-[babble](https://www.lesswrong.com/posts/i42Dfoh4HtsCAfXxL/babble); a sampling of my proofs can be found [here](https://www.overleaf.com/read/qmrzyczfdycf).
 
+---
+
+> [!quote] Linear Algebra Done Right
+>
 > If you zip through a page in less than an hour, you are probably going too fast.
 
 Try me.
 
-## 1: Vector Spaces
+Want: List of JSX elements at top level with children for deeper toc entries
+h1
+h1
+h2
+
+[JSX1, JSX2]
+
+## 1: Vector Spaces 
 
 _In which the author reviews complex numbers, vector spaces, and subspaces._
 
@@ -113,7 +126,7 @@ Look no further than [here](https://betterexplained.com/articles/linear-algebra-
 
 ### Grueling Dualing
 
-> The double dual space of  $V$, denoted  $V''$, is defined to be the dual space of  $V'$. In other words,  $V''=(V')'$. Define  $\Lambda:V\to V''$ by  $(\Lambda v)(\varphi)=\varphi(v)$ for  $v\in V$ and  $\varphi\in V'$.
+> The double dual space of  $V$, denoted  $V''$, is defined to be the dual space of  $V'.$ In other words,  $V''=(V')'.$ Define  $\Lambda:V\to V''$ by  $(\Lambda v)(\varphi)=\varphi(v)$ for  $v\in V$ and  $\varphi\in V'$.
 
 Stay with me, this is dualble.
 
@@ -123,7 +136,7 @@ So  $\Lambda$ takes some  $v\in V$ and returns the [curried](https://en.wikipedi
 
 _In which the author demystifies the quadratic formula, sharing with the reader those reagents used in its incantation._
 
-> [!quote]
+> [!quote] Linear Algebra Done Right
 >
 > Remarkably, mathematicians have proved that no formula exists for the zeros of polynomials of degree 5 or higher. But computers and calculators can use clever numerical methods to find good approximations to the zeros of any polynomial, even when exact zeros cannot be found.
 >
@@ -137,7 +150,7 @@ _Edit:_ `daozaich` [writes](https://www.lesswrong.com/posts/qLdG44kpSoYzrzAp7/on
 
 ## 5: Eigenvalues, Eigenvectors, and Invariant Subspaces
 
-_In which the author uses the prefix 'eigen-' so much that it stops sounding like a word._
+_In which the author uses the prefix "eigen-" so much that it stops sounding like a word._
 
 ### Revisiting Material
 
@@ -252,11 +265,11 @@ I'm sorry to have been away for so long.
 [^2]: Please let me know if there's a more appropriate linear-algebraic term for this.
 
 [^3]: Merely admitting ignorance is not virtuous.
+    > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
+    > 
+    >  The eighth virtue is humility. To be humble is to take specific actions in anticipation of your own errors. To confess your fallibility and then do nothing about it is not humble; it is boasting of your modesty. Who are most humble? Those who most skillfully prepare for the deepest and most catastrophic errors in their own beliefs and plans. Because this world contains many whose grasp of rationality is abysmal, beginning students of rationality win arguments and acquire an exaggerated view of their own abilities. But it is useless to be superior: Life is not graded on a curve. The best physicist in ancient Greece could not calculate the path of a falling apple. There is no guarantee that adequacy is possible given your hardest effort; therefore spare no thought for whether others are doing worse. If you compare yourself to others you will not see the biases that all humans share. To be human is to make ten thousand errors. No one in this world achieves perfection.
 
->  $\mathbb{T}$he eighth virtue is humility. To be humble is to take specific actions in anticipation of your own errors. To confess your fallibility and then do nothing about it is not humble; it is boasting of your modesty. Who are most humble? Those who most skillfully prepare for the deepest and most catastrophic errors in their own beliefs and plans. Because this world contains many whose grasp of rationality is abysmal, beginning students of rationality win arguments and acquire an exaggerated view of their own abilities. But it is useless to be superior: Life is not graded on a curve. The best physicist in ancient Greece could not calculate the path of a falling apple. There is no guarantee that adequacy is possible given your hardest effort; therefore spare no thought for whether others are doing worse. If you compare yourself to others you will not see the biases that all humans share. To be human is to make ten thousand errors. No one in this world achieves perfection.
-
-The virtue is in shedding ignorance:
-
->  $\mathbb{T}$he first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.
->
-> ~ _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
+    The virtue is in shedding ignorance:
+    > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
+    > 
+    >  The first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.

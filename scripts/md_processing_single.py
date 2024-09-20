@@ -569,6 +569,7 @@ usernames = (
     "TurnTrout",
     "DivineMango",
     "Diffractor",
+    "Dacyn",
 )
 
 multiline_replacements = {
