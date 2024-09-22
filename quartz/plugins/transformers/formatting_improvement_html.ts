@@ -281,7 +281,7 @@ const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
  * 4. Identifies the text node after the link
  * 5. Moves acceptable punctuation from after the link to inside it
  */
-export const applyLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+export const rearrangeLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
   // Step 1: Validate input parameters
   if (index === undefined || !parent) {
     return
@@ -295,6 +295,11 @@ export const applyLinkPunctuation = (node: any, index: number | undefined, paren
     linkNode = node.children[node.children.length - 1]
   } else {
     return // No link nearby
+  }
+
+  // Skip if the link node is a footnote
+  if (linkNode.properties?.href?.startsWith("#user-content-fn-")) {
+    return
   }
 
   // Step 3: Handle quotation marks before the link
@@ -463,7 +468,7 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
         )
       }
 
-      applyLinkPunctuation(node, index, parent)
+      rearrangeLinkPunctuation(node, index, parent)
       // Parent-less nodes are the root of the article
       if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {

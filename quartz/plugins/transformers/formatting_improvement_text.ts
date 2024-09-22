@@ -7,17 +7,22 @@ import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)
-const footnoteRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
-const footnoteReplacement = "$1$2 "
+const footnoteSpacingRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
+const footnoteSpacingReplacement = "$1$2 "
+
+// New regex for moving footnotes after punctuation
+const footnotePunctuationRegex = /(\S)(\[\^.*?\])([.,;!\?]+)/g
+const footnotePunctuationReplacement = "$1$3$2"
 
 /**
- * Adjusts the spacing around footnotes at the end of sentences.
+ * Adjusts the spacing around footnotes and moves them after punctuation.
  * @param text - The input text to process.
- * @returns The text with improved footnote spacing.
+ * @returns The text with improved footnote formatting.
  */
-const footnoteEndOfSentence = (text: string) => {
-  let tighterText = text.replace(footnoteRegex, footnoteReplacement)
-  return tighterText
+const improveFootnoteFormatting = (text: string) => {
+  let improvedText = text.replace(footnoteSpacingRegex, footnoteSpacingReplacement)
+  improvedText = improvedText.replace(footnotePunctuationRegex, footnotePunctuationReplacement)
+  return improvedText
 }
 
 // Regular expression for edit/note patterns
@@ -89,8 +94,7 @@ export const formattingImprovement = (text: string) => {
   // Format the content (non-YAML part)
   let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ") // Remove NBSP
 
-  newContent = footnoteEndOfSentence(newContent)
-  newContent = concentrateEmphasisAroundLinks(newContent)
+  newContent = improveFootnoteFormatting(newContent)
   newContent = newContent.replace(/ *\,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)

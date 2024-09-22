@@ -281,7 +281,7 @@ describe("HTMLFormattingImprovement", () => {
   })
 })
 
-describe("applyLinkPunctuation", () => {
+describe("rearrangeLinkPunctuation", () => {
   const punctuationToMove = [".", ",", "!", "?", ";", ":", "`"]
   const specialCases = [
     [
@@ -327,6 +327,21 @@ describe("applyLinkPunctuation", () => {
   it.each(linkScenarios)("correctly handles link punctuation", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
+  })
+
+  describe("Handles footnote links correctly", () => {
+    it("should not modify footnote links", () => {
+      const input = '<p>Sentence with footnote<a href="#user-content-fn-1">1</a>.</p>'
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(input)
+    })
+
+    it("should modify regular links but not footnote links", () => {
+      const input = '<p><a href="https://example.com">Link</a>. <a href="#user-content-fn-2">2</a>.</p>'
+      const expected = '<p><a href="https://example.com">Link.</a> <a href="#user-content-fn-2">2</a>.</p>'
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
+    })
   })
 
   describe("End-to-end HTML formatting improvement", () => {
