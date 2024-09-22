@@ -34,35 +34,79 @@ describe('processKatex', () => {
 })
 
 describe('processSmallCaps', () => {
+  beforeEach(() => {
+    parent = { type: 'element', tagName: 'div', children: [] } as Parent;
+  });
+
   it('processes small caps correctly', () => {
-    processSmallCaps('Test ^SMALLCAPS^', parent)
-    expect(parent.children).toHaveLength(3)
-    expect(parent.children[1]).toHaveProperty('tagName', 'abbr')
-    expect(parent.children[1]).toHaveProperty('properties.className', ['small-caps'])
-    expect((parent.children[1] as unknown as Parent).children[0]).toHaveProperty('value', 'SMALLCAPS')
-  })
+    processSmallCaps('Test SMALLCAPS', parent);
+    expect(parent.children).toMatchObject([
+      { type: 'text', value: 'Test ' },
+      {
+        type: 'element',
+        tagName: 'abbr',
+        properties: { className: ['small-caps'] },
+        children: [{ type: 'text', value: 'SMALLCAPS' }]
+      }
+    ]);
+  });
 
   it('handles text without small caps', () => {
-    processSmallCaps('No small caps here', parent)
-    expect(parent.children).toHaveLength(1)
-    expect(parent.children[0]).toHaveProperty('value', 'No small caps here')
-  })
+    processSmallCaps('No small caps here', parent);
+    expect(parent.children).toMatchObject([
+      { type: 'text', value: 'No small caps here' }
+    ]);
+  });
 
   it('handles multiple small caps', () => {
-    processSmallCaps('SMALLCAPS-A normal SMALLCAPS-B', parent)
-    expect(parent.children).toHaveLength(3)
+    processSmallCaps('^SMALLCAPS-A normal SMALLCAPS-B', parent);
+    expect(parent.children).toMatchObject([
+      { type: 'text', value: '^' },
+      {
+        type: 'element',
+        tagName: 'abbr',
+        properties: { className: ['small-caps'] },
+        children: [{ type: 'text', value: 'SMALLCAPS-A' }]
+      },
+      { type: 'text', value: ' normal ' },
+      {
+        type: 'element',
+        tagName: 'abbr',
+        properties: { className: ['small-caps'] },
+        children: [{ type: 'text', value: 'SMALLCAPS-B' }]
+      }
+    ]);
+  });
 
-    const [firstAbbr, textNode, secondAbbr] = parent.children as unknown as Element[]
-        
-    expect(firstAbbr).toHaveProperty('tagName', 'abbr')
-    expect(firstAbbr.children[0]).toHaveProperty('value', 'SMALLCAPS-A')
+  it('handles parent with existing children', () => {
+    parent.children = [
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['number-prefix'] },
+        children: [{ type: 'text', value: '8: ' }]
+      },
+    ];
 
-    expect(textNode).toHaveProperty('type', 'text')
-    expect(textNode).toHaveProperty('value', ' normal ')
+    processSmallCaps('Estimating the CDF and Statistical Functionals', parent);
 
-    expect(secondAbbr).toHaveProperty('tagName', 'abbr')
-    expect(secondAbbr.children[0]).toHaveProperty('value', 'SMALLCAPS-B')
-  })
+    expect(parent.children).toMatchObject([
+      {
+        type: 'element',
+        tagName: 'span',
+        properties: { className: ['number-prefix'] },
+        children: [{ type: 'text', value: '8: ' }]
+      },
+      { type: 'text', value: 'Estimating the ' },
+      {
+        type: 'element',
+        tagName: 'abbr',
+        properties: { className: ['small-caps'] },
+        children: [{ type: 'text', value: 'CDF' }]
+      },
+      { type: 'text', value: ' and Statistical Functionals' },
+    ]);
+  });
 })
 
 describe('processTocEntry', () => {
@@ -70,7 +114,6 @@ describe('processTocEntry', () => {
       const entry: TocEntry = { depth: 1, text: 'Test Heading', slug: 'test-heading' };
 
       const result = processTocEntry(entry) 
-      console.log(result)
 
       expect(result.type).toBe('element');
       expect(result.children[0] as Parent).toHaveProperty('value', 'Test Heading');

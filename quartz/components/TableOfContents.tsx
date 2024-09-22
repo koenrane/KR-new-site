@@ -19,9 +19,10 @@ import { fromHtml } from "hast-util-from-html"
  * @param parent - The parent node to add the processed text to.
  */
 export function processSmallCaps(text: string, parent: Parent): void {
+  const insertIndex = parent.children.length
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
-  replaceSCInNode(textNode, 0, parent)
+  replaceSCInNode(textNode, insertIndex, parent)
 }
 
 /**
