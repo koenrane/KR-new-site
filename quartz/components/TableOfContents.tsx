@@ -10,8 +10,6 @@ import modernStyle from "./styles/toc.scss"
 import { RootContent, Parent, Text, Element } from "hast"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
-// @ts-expect-error
-import script from "./scripts/toc.inline"
 import katex from "katex"
 import { fromHtml } from "hast-util-from-html"
 
@@ -20,7 +18,7 @@ import { fromHtml } from "hast-util-from-html"
  * @param text - The text to process.
  * @param parent - The parent node to add the processed text to.
  */
-function processSmallCaps(text: string, parent: Parent): void {
+export function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
   replaceSCInNode(textNode, 0, parent)
@@ -31,7 +29,7 @@ function processSmallCaps(text: string, parent: Parent): void {
  * @param latex - The LaTeX content to process.
  * @param parent - The parent node to add the processed LaTeX to.
  */
-function processKatex(latex: string, parent: Parent): void {
+export function processKatex(latex: string, parent: Parent): void {
   const html = katex.renderToString(latex, { throwOnError: false })
   const katexNode = {
     type: "element",
@@ -144,7 +142,7 @@ export function addListItem(entries: TocEntry[]): JSX.Element {
 /**
  * Converts a TocEntry to a JSX list item element.
  */
-function toJSXListItem(entry: TocEntry): JSX.Element {
+export function toJSXListItem(entry: TocEntry): JSX.Element {
   const entryParent: Parent = processTocEntry(entry);
   return (
     <a href={`#${entry.slug}`} data-for={entry.slug}>
@@ -160,7 +158,7 @@ function toJSXListItem(entry: TocEntry): JSX.Element {
  * @param entry - The TOC entry to process.
  * @returns A Parent object representing the processed entry.
  */
-function processTocEntry(entry: TocEntry): Parent {
+export function processTocEntry(entry: TocEntry): Parent {
   logger.debug(`Processing TOC entry: ${entry.text}`)
   const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
 
@@ -188,7 +186,7 @@ function processTocEntry(entry: TocEntry): Parent {
  * @param htmlAst - The HTML AST to process.
  * @param parent - The parent node to add processed nodes to.
  */
-function processHtmlAst(htmlAst: any, parent: Parent): void {
+export function processHtmlAst(htmlAst: any, parent: Parent): void {
   htmlAst.children.forEach((node: any) => {
     if (node.type === "text") {
       const textValue = node.value;
@@ -235,7 +233,7 @@ function processHtmlAst(htmlAst: any, parent: Parent): void {
  * @param elt - The HAST element to convert.
  * @returns The converted JSX element.
  */
-function elementToJsx(elt: RootContent): JSX.Element {
+export function elementToJsx(elt: RootContent): JSX.Element {
   logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`);
 
   switch (elt.type) {
@@ -280,7 +278,49 @@ function elementToJsx(elt: RootContent): JSX.Element {
 }
 
 TableOfContents.css = modernStyle
-TableOfContents.afterDOMLoaded = script
+TableOfContents.afterDOMLoaded = `
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll(".center h1, .center h2, .center h3");
+  const navLinks = document.querySelectorAll("#toc-content a");
+
+  let ticking = false;
+
+  function updateActiveLink() {
+    let currentSection = "";
+    const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop;
+      if (scrollPosition >= sectionTop) {
+        currentSection = section.id;
+      }
+    });
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+      const slug = link.getAttribute('href').split("#")[1];
+      if (currentSection && slug === currentSection) {
+        link.classList.add("active");
+      }
+    });
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateActiveLink();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll);
+
+  // Initial call to set active link on page load
+  updateActiveLink();
+});
+`
 
 export default ((_opts?: any): QuartzComponent => {
   logger.info("TableOfContents component initialized")
