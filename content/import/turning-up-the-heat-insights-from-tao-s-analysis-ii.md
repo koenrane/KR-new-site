@@ -20,22 +20,23 @@ publish: true
 title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
 lw-latest-edit: 2018-08-24T17:54:54.344Z
 lw-is-linkpost: "false"
-tags: 
-  - "summaries"
-aliases: 
-  - "turning-up-the-heat-insights-from-tao-s-analysis-ii"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - summaries
+aliases:
+  - turning-up-the-heat-insights-from-tao-s-analysis-ii
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: RL-textbook-review
 prev-post-title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
 next-post-slug: computability-and-logic-textbook-review
-next-post-title: "And My Axiom! Insights from 'Computability and Logic'"
+next-post-title: And My Axiom! Insights from 'Computability and Logic'
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 08/24/2018
 original_url: https://www.lesswrong.com/posts/uSaJoL64DYg2WunJJ/turning-up-the-heat-insights-from-tao-s-analysis-ii
+skip_import: true
 ---
 It's been too long - a month and a half since my last review, and about three months since _[Analysis I](/first-analysis-textbook-review)_. I've been immersed in my work for CHAI, but reality doesn't grade on a curve, and I want more mathematical firepower.
 
@@ -209,11 +210,6 @@ In a sense, the Lebesgue integral more cleanly strikes at the heart of what it _
 ## Final Thoughts
 
 Although Tao botches a few exercises and the section on topology, I'm a big fan of _Analysis I_ and _II_. Do note, however, that _II_ is far more difficult than _I_ (not just in content, but in terms of the exercises). He generally provides relevant, appropriately-difficult problems, and is quite adept at helping the reader develop rigorous and intuitive understanding of the material.
-
-# Forwards
-
-Next is Jaynes' _Probability Theory_.
-
 ## Tips
 
 - To avoid getting hung up in Chapter 17, this book should be read after a linear algebra text.
@@ -236,9 +232,6 @@ There's a sense I get where even though I've made immense progress over the past
 
 In a way, this excites me. I welcome any advice for buckling down further and becoming yet stronger.
 
-<hr/>
 
-
-
-
-_On a related note: thank you to everyone who has helped me; in particular, `TheMajor` has been incredibly generous with their explanations and encouragement._
+> [!thanks]
+> Thank you to everyone who has helped me. In particular, `TheMajor` has been incredibly generous with their explanations and encouragement.
