@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { jest } from "@jest/globals"
 import { PassThrough } from "stream"
 
@@ -347,7 +350,7 @@ describe("downloadImage", () => {
   })
 
   it("should throw if fetch response has no body", async () => {
-    const mockResponse = new Response("", { status: 200, headers: { "Content-Type": "image/png" } })
+    const mockResponse = new Response(null, { status: 200, headers: { "Content-Type": "image/png" } })
     await runTest(mockResponse, false)
   })
 
