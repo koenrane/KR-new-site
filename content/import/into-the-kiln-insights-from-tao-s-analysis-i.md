@@ -35,16 +35,9 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 06/01/2018
 original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
+skip_import: true
 ---
-_Note: real analysis is not on the [MIRI reading list](https://intelligence.org/research-guide/) (although I think it should be)._
-
-# Foreword
-
-As a young boy, mathematics captivated me.
-
-In elementary school, I'd happily while away entire weekends working through the next grade's math book. I was impatient.
-
-In middle school, I'd lazily estimate angles of incidence that would result if I shot lasers from my eyes, tracing their trajectories within the classroom and out down the hallway. I was restless.
+As a young boy, mathematics captivated me. In elementary school, I'd happily while away entire weekends working through the next grade's math book. I was impatient. In middle school, I'd lazily estimate angles of incidence that would result if I shot lasers from my eyes, tracing their trajectories within the classroom and out down the hallway. I was restless.
 
 In high school, I'd daydream about what would happen to integrals as I twisted functions in my mind. I was curious.
 
@@ -54,7 +47,7 @@ Wait.
 
 # Analysis I
 
-As in _Linear Algebra Done Right_, I completed every single exercise in the book - this time, without looking up any solutions (although I _did_ occasionally ask questions on Discord). Instead, I came back to problems if I couldn't solve them after half an hour of effort.
+As in [_Linear Algebra Done Right_](./linear-algebra-textbook-review), I completed every single exercise in the book - this time, without looking up any solutions (although I _did_ occasionally ask questions on Discord). Instead, I came back to problems if I couldn't solve them after half an hour of effort.
 
 A sampling of my proofs can be found [here](https://www.overleaf.com/read/ktxtwvfqygqq).
 
@@ -74,7 +67,7 @@ How can you apply the [axiom of foundation](https://en.wikipedia.org/wiki/Axiom_
 
 **Show** that if  $A$ and  $B$ are two sets, then either  $A \not \in B$ or  $B \not \in A$ (or both).
 
-_Proof_. Suppose  $A \in B$ and  $B \in A$. By the pairwise axiom, we know that there exists a set  $S=\{A,B\}$. We see that there does not exist an  $S' \in S$ such that  $S' \cap S = \varnothing$. That is, if we choose  $A$, one of its elements is  $B$, which is also an element of  $S$ - this violates the axiom of foundation. The same reasoning applies if we choose  $B$. Then  $\lnot(A\in B \land B \in A)$, so either  $A$ or  $B$ (or both) is not an element of the other.
+_Proof_. Suppose  $A \in B$ and  $B \in A$. By the pairwise axiom, we know that there exists a set  $S=\{A,B\}$. We see that there does not exist an  $S' \in S$ such that  $S' \cap S = \varnothing$. That is, if we choose  $A$, one of its elements is  $B$, which is also an element of  $S$ - this violates the axiom of foundation. The same reasoning applies if we choose  $B$. Then  $\lnot(A\in B \land B \in A)$, so either  $A$ or  $B$ (or both) is not an element of the other. ∎
 
 ## 4: Integers and Rationals
 
@@ -104,7 +97,7 @@ Since the sequence is monotone increasing, by repeating the above argument $N$ t
 
 Next, we show that the $L_\epsilon$'s form a Cauchy sequence. Let $\epsilon_3 > 0$, and set $\epsilon_1, \epsilon_2$ such that $0 < \epsilon_1, \epsilon_2 \leq \frac{\epsilon_3}{2}$. $ (x_n)$ is eventually $\epsilon_1$\-close to $L_{\epsilon_1}$, so there exists a $K_1\in\mathbb{N}$ such that for all $k\geq K_1$ we have $|x_k-L_{\epsilon_1}| < \epsilon_1$. Similar arguments hold for $\epsilon_2$. Set $K = \max(K_1,K_2)+1$, now $|L_{\epsilon_1} - L_{\epsilon_2}| \leq |x_K-L_{\epsilon_1}| + |x_K-L_{\epsilon_2}| < \epsilon_1 + \epsilon_2 \leq \epsilon_3$. But $\epsilon_3$ is arbitrary, so we can easily see that the sequence $(L_\frac{1}{n})_{n=1}^\infty$ is Cauchy.
 
-As the real numbers are complete, this sequence converges to some $L_\infty \in \mathbb{R}$. Since the main sequence is eventually $\frac{1}{n}$\-close to $L_\frac{1}{n}$, and $L_\frac{1}{n}$ converges to $L_\infty$, by the triangle inequality we have that the main sequence converges to $L_\infty$.
+As the real numbers are complete, this sequence converges to some $L_\infty \in \mathbb{R}$. Since the main sequence is eventually $\frac{1}{n}$\-close to $L_\frac{1}{n}$, and $L_\frac{1}{n}$ converges to $L_\infty$, by the triangle inequality we have that the main sequence converges to $L_\infty$. ∎
 
 ## 7: Series
 
@@ -122,7 +115,7 @@ If you want proofs, [here are twenty](http://scipp.ucsc.edu/%7Ehaber/archives/ph
 
 ## 8: Infinite Sets
 
-_In which uncountable sets_[^2]_, the axiom of choice, and ordered sets brighten our lives._
+_In which uncountable sets[^2], the axiom of choice, and ordered sets brighten our lives._
 
 ## 9: Continuous Functions on  $\mathbb{R}$
 
@@ -130,13 +123,13 @@ _In which continuity, the maximum principle, and the intermediate value theorem 
 
 ### Lipschitz Continuity  $\not \Leftrightarrow$ Uniform Continuity
 
-If a function  $f : X \to \mathbb{R}$ ( $X \subseteq \mathbb{R}$) is Lipschitz-continuous for some Lipschitz constant  $M$, then by definition we have t for every  $x,y \in X$,
+If a function  $f : X \to \mathbb{R}$ ( $X \subseteq \mathbb{R}$) is Lipschitz-continuous for some Lipschitz constant  $M$, then by definition we have that for every  $x,y \in X$,
 
 $$
 \frac{|f(x)-f(y)|}{|x-y|} \leq M.
 $$
-The definition of uniform continuity is
 
+> [!definition] Definition
 > For every  $\epsilon > 0$, there exists a  $\delta>0$ such that for all  $x,y\in X$ such that  $|x-y|<\delta$,  $|f(x)-f(y)|<\epsilon$.
 
 Lipschitz continuity implies uniform continuity (do you see why?), but the converse is not true. I mean, what kind of twisted person would come up with [this kind of function](https://en.wikipedia.org/wiki/Cantor_function)?
@@ -151,18 +144,21 @@ You know, I actually thought that I wouldn't have too much to explain in this po
 
 Let me simply direct you to [this excellent StackExchange answer](https://math.stackexchange.com/a/1461296).
 
-### pǝɹᴉʌɐʇᴉʌǝs
+### Inverse derivative
 
-We can understand $(f^{-1})'(x)=\frac{1}{f'(x)}$ by simply thinking about $\frac{run}{rise}=\frac{1}{\frac{rise}{run}}$, which makes sense for the derivative of the inverse!
+We can understand $(f^{-1})'(x)=\frac{1}{f'(x)}$ by simply thinking about $\frac{\text{run}}{\text{rise}}=\frac{1}{\frac{\text{rise}}{\text{run}}}$, which makes sense for the derivative of the inverse!
 
 ### L'Hôpital's Rule
 
-Consider $f,g:[a,b]\to \mathbb{R}$ differentiable on $(a,b]$ (for real numbers $a<b$). Then if $f(a)=g(a)=0,g'(x)\neq0$ for $x\in[a,b]$, and $\lim_{x\to a;x \in (a,b]} \frac{f'(x)}{g'(x)}=L\in\mathbb{R}$, we have that $g(x) \neq 0$ for $x\in (a,b]$ and $\lim_{x\to a;x \in (a,b]} \frac{f(x)}{g(x)}=L$.
+Consider $f,g:[a,b]\to \mathbb{R}$ differentiable on $(a,b]$ (for real numbers $a<b$). Then if $f(a)=g(a)=0,g'(x)\neq0$ for $x\in[a,b]$, and the rightward $\lim_{x\to a^+} \frac{f'(x)}{g'(x)}=L\in\mathbb{R}$, we have that $g(x) \neq 0$ for $x\in (a,b]$ and the rightward $\lim_{x\to a^+} \frac{f(x)}{g(x)}=L$.
 
 As a neat exercise, let's see how this rule breaks if we violate preconditions:
 
 - If $f(a)$ or $g(a)\neq 0$, then the ratio is "messed up" and not necessarily indicative of the functions' slopes as $a$ is approached.
-- If $f$ or $g$ is not differentiable on $(a,b]$, then perhaps![](http://www.tychosnose.com/wp-content/uploads/2014/10/tumblr_mbiashHktn1qc0yog.gif)
+- If $f$ or $g$ is not differentiable on $(a,b]$, then perhaps 
+<img src="/static/images/posts/limit.gif" style="margin-left:2rem;margin-right:2rem;margin-bottom:.5rem;"/>
+	
+  - No, but really - you _would_ use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
 - If $g'(x)=0$ for some $x \in [a,b]$, then we have division by zero (unless $x=a$, in which case we find more [twisted counterexamples](https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule#Counterexamples_when_the_derivative_of_the_denominator_is_zero) which necessitate the closure of this interval).
 
 ## 11: The Riemann Integral
@@ -244,7 +240,7 @@ If $(f(x_n) - f(x_0))_{n=1}^\infty$ has no positive terms, then each term in $(\
 
 A similar proof holds for $L > 0$, so $L=0$.
 
-To solve for local minimum $f(x_0)$, define $g(x) := -f(x)$ and use the above result on local maximum $g(x_0)$.
+To solve for local minimum $f(x_0)$, define $g(x) := -f(x)$ and use the above result on local maximum $g(x_0)$. ∎
 
 <hr/>
 

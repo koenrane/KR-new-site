@@ -20,16 +20,17 @@ publish: true
 title: "Confounded No Longer: Insights from 'All of Statistics'"
 lw-latest-edit: 2018-05-03T22:56:27.057Z
 lw-is-linkpost: "false"
-tags: 
-  - "summaries"
-aliases: 
-  - "confounded-no-longer-insights-from-all-of-statistics"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - summaries
+  - scholarship-&-learning
+aliases:
+  - confounded-no-longer-insights-from-all-of-statistics
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: internalizing-internal-double-crux
-prev-post-title: "Internalizing Internal Double Crux"
+prev-post-title: Internalizing Internal Double Crux
 next-post-slug: first-analysis-textbook-review
 next-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 lw-reward-post-warning: "false"
@@ -135,7 +136,7 @@ The continuity is the culprit. Since the cumulative density functions  $F_X,F_Y$
 
 #### In Probability
 
->  $X_n$ converges to  $X$ in probability, written  $X_n \overset{p}\to X$, if, for every  $\epsilon > 0$,  $P(\midX_n-X|>\epsilon)\to0$ as  $n\to\infty$.
+> 	 $X_n$ converges to  $X$ in probability, written  $X_n \overset{p}\to X$, if, for every  $\epsilon > 0$,  $P(|X_n-X|>\epsilon)\to0$ as  $n\to\infty$.
 
 Random variables are functions  $Y:\Omega\to\mathbb{R}$, assigning a number to each possible outcome in the sample space  $\Omega$. Considering this fact, two random variables converge in probability when their assigned values are "far apart" (greater than  $\epsilon$) with probability 0 in the limit.
 

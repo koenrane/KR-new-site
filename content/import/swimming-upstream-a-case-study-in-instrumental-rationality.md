@@ -38,6 +38,7 @@ use-full-width-images: "false"
 date_published: 06/03/2018
 original_url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstream-a-case-study-in-instrumental-rationality
 ---
+> [!success]
 > One data point for careful planning, the unapologetic pursuit of fulfillment, and success. Of particular interest to up-and-coming AI safety researchers, this post chronicles how I made a change in my PhD program to work more directly on AI safety, overcoming significant institutional pressure in the process.
 
 It's hard to believe how much I've grown and grown up in these last few months, and how nearly every change was borne of deliberate application of the Sequences.
