@@ -3,7 +3,7 @@
 */
 import { jest } from "@jest/globals"
 
-import { Parent, Text } from 'hast'
+import { Parent, Text, Element } from 'hast'
 import { describe, it, expect } from '@jest/globals';
 import { TocEntry } from '../../plugins/transformers/toc';
 import { processHtmlAst, processSmallCaps, addListItem, buildNestedList, processTocEntry, processKatex } from "../TableOfContents";
@@ -119,3 +119,110 @@ describe('processTocEntry', () => {
       expect(result.children[0] as Parent).toHaveProperty('value', 'Test Heading');
     });
 })
+
+describe('processHtmlAst', () => {
+  let parent: Parent;
+
+  beforeEach(() => {
+    parent = { type: 'element', tagName: 'div', children: [] } as Parent;
+  });
+
+  it('should process text nodes without leading numbers', () => {
+    const htmlAst = {
+      children: [{ type: 'text', value: 'Simple text' }]
+    };
+
+    processHtmlAst(htmlAst, parent);
+
+    expect(parent.children).toHaveLength(1);
+    expect(parent.children[0]).toMatchObject({ type: 'text', value: 'Simple text' });
+  });
+
+  it('should process text nodes with leading numbers', () => {
+    const htmlAst = {
+      children: [{ type: 'text', value: '1: Chapter One' }]
+    };
+
+    processHtmlAst(htmlAst, parent);
+
+    expect(parent.children).toHaveLength(2);
+    expect(parent.children[0]).toMatchObject({
+      type: 'element',
+      tagName: 'span',
+      properties: { className: ['number-prefix'] },
+      children: [{ type: 'text', value: '1: ' }]
+    });
+    expect(parent.children[1]).toMatchObject({ type: 'text', value: 'Chapter One' });
+  });
+
+  it('should process nested elements', () => {
+    const htmlAst = {
+      children: [{
+        type: 'element',
+        tagName: 'p',
+        properties: {},
+        children: [{ type: 'text', value: 'Nested text' }]
+      }]
+    };
+
+    processHtmlAst(htmlAst, parent);
+
+    expect(parent.children).toHaveLength(1);
+    expect(parent.children[0]).toMatchObject({
+      type: 'element',
+      tagName: 'p',
+      properties: {},
+      children: [{ type: 'text', value: 'Nested text' }]
+    });
+  });
+
+  it('should process mixed content', () => {
+    const htmlAst = {
+      children: [
+        { type: 'text', value: '2: Introduction' },
+        {
+          type: 'element',
+          tagName: 'em',
+          properties: {},
+          children: [{ type: 'text', value: 'emphasized' }]
+        },
+        { type: 'text', value: ' and normal text' }
+      ]
+    };
+
+    processHtmlAst(htmlAst, parent);
+
+    expect(parent.children).toHaveLength(4);
+    expect(parent.children[0]).toMatchObject({
+      type: 'element',
+      tagName: 'span',
+      properties: { className: ['number-prefix'] },
+      children: [{ type: 'text', value: '2: ' }]
+    });
+    expect(parent.children[1]).toMatchObject({ type: 'text', value: 'Introduction' });
+    expect(parent.children[2]).toMatchObject({
+      type: 'element',
+      tagName: 'em',
+      properties: {},
+      children: [{ type: 'text', value: 'emphasized' }]
+    });
+    expect(parent.children[3]).toMatchObject({ type: 'text', value: ' and normal text' });
+  });
+
+  it('should handle small caps in text', () => {
+    const htmlAst = {
+      children: [{ type: 'text', value: 'Text with SMALLCAPS' }]
+    };
+
+    processHtmlAst(htmlAst, parent);
+
+    expect(parent.children).toHaveLength(2);
+    expect(parent.children[0]).toMatchObject({ type: 'text', value: 'Text with ' });
+    expect(parent.children[1]).toMatchObject({
+      type: 'element',
+      tagName: 'abbr',
+      properties: { className: ['small-caps'] },
+      children: [{ type: 'text', value: 'SMALLCAPS' }]
+    });
+  });
+});
