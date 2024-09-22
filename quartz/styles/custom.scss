@@ -23,17 +23,19 @@
 }
 
 // The <a> link back up to content is the last child of the <li>
-li[id^="user-content-fn-"] > *:nth-last-child(2) {
+li[id^="user-content-fn-"] > *{ 
+
+  &:is(blockquote):nth-last-child(2) {
+    margin-bottom: $baseMargin;
+  }
+ &:not(blockquote):nth-last-child(2) {
   margin-bottom: 0; // Don't have unnecessary space before the <li>
+}
 }
 
 .footnotes {
   & ul {
     margin-top: calc(2 * $baseMargin);
-
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 
   // Ordered lists in footnotes should start at 1, 2, 3, etc.
@@ -192,6 +194,10 @@ a {
       display: inline;
     }
   }
+}
+
+.footnotes ul, .footnotes ol {
+  margin-top: $baseMargin;
 }
 
 audio {
@@ -513,9 +519,6 @@ a.internal.tag-link {
 .authors {
   color: var(--gray);
   margin-top: 0;
-  & a {
-    color: inherit;
-  }
 }
 
 img {
@@ -656,7 +659,7 @@ hr {
 .katex-html {
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0.075em; // Should be smaller in eg TOC
+  padding: 3px;
   .base {
     margin: 0 auto;
   }
@@ -775,6 +778,12 @@ article[data-use-dropcap="true"] {
 #backlinks li,
 .popover-inner li {
   text-indent: calc(-0.25 * $baseMargin);
+}
+
+// Make sure the bullet points don't feel choked
+.center li,
+.popover-inner li {
+  margin-bottom: calc(0.5 * $baseMargin);
 }
 
 #backlinks {

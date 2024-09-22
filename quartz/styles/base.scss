@@ -470,12 +470,6 @@ a > code {
     padding: calc(3 * $baseMargin);
     border-collapse: collapse;
   }
-
-  .footnote & {
-    margin-left: $baseMargin;
-    margin-right: $baseMargin;
-    font-size: var(--font-size-90);
-  }
 }
 
 .table-container:first-child > table {
