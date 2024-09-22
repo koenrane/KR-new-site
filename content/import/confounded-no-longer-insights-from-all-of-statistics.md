@@ -187,7 +187,7 @@ $$
 Informally, this is the sensitivity of  $\ell$ to the parameter  $\theta$. The derivative of the score captures the curvature of  $\ell$ with respect to  $\theta$; essentially, this represents how much information  $X$ provides about  $\theta$. The Fisher information is then the expected knowledge gain:
 
 $$
-\mathcal{I}(\theta)=-\mathbb{E}\bigg[\frac{\partial^2}{\partial\theta^2}\log f(X;\theta) \;\bigg\mid\; \theta\bigg].
+\mathcal{I}(\theta)=-\mathbb{E}\bigg[\frac{\partial^2}{\partial\theta^2}\log f(X;\theta) \;\bigg|\; \theta\bigg].
 $$
 [Further reading](https://stats.stackexchange.com/questions/10578/intuitive-explanation-of-fisher-information-and-cramer-rao-bound).
 
