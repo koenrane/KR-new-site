@@ -88,10 +88,10 @@ because my brain was insisting there was a type error in the function compositio
 That is, if you define
 
 $$
-\begin{align}
+\begin{align*}
 f:X\to Y &= \{(x,f(x)):x\in X\}\\
 g:X \to Y &= \{(x,g(x)):x \in X\},
-\end{align}
+\end{align*}
 $$
 then  $(f+g):X\to Y$ simply has the definition  $\{(x,f(x) + g(x)):x\in X\}$. There isn't "online computation"; the composite function simply has a different Platonic lookup table.
 

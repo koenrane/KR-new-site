@@ -130,19 +130,19 @@ _Proof._ Suppose that the Stag Hunt inequality is satisfied. Let $p$ be the prob
 For defection's first condition, we determine when $P_2(p,\text{Stag}_2)<P_2(p,\text{Hare}_2)$:
 
 $$
-\begin{align}   pR + (1-p) S &< pT + (1-p) P\\   p&<\dfrac{P-S}{(R-T)+(P-S)}.\end{align}
+\begin{align*}   pR + (1-p) S &< pT + (1-p) P\\   p&<\dfrac{P-S}{(R-T)+(P-S)}.\end{align*}
 $$
 This denominator is positive ($R>T$ and $P>S$), as is the numerator. The fraction clearly falls in the open interval $(0,1)$.
 
 For defection's second condition, we determine when
 
 $$
-\begin{align}   P_1(p,\text{Stag}_2) + P_2(p,\text{Stag}_2)&>P_1(p,\text{Hare}_2)+P_2(p,\text{Hare}_2)\\   2pR + (1-p)(T+S) &> p(S+T) + (1-p) 2P\\   p&> \dfrac{1}{2}  \dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}.\end{align}
+\begin{align*}   P_1(p,\text{Stag}_2) + P_2(p,\text{Stag}_2)&>P_1(p,\text{Hare}_2)+P_2(p,\text{Hare}_2)\\   2pR + (1-p)(T+S) &> p(S+T) + (1-p) 2P\\   p&> \dfrac{1}{2}  \dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}.\end{align*}
 $$
 Combining the two conditions, we have
 
 $$
-\begin{align}   1>\dfrac{P-S}{(R-T)+(P-S)}>p>\dfrac{1}{2} \dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}.\end{align}
+\begin{align*}   1>\dfrac{P-S}{(R-T)+(P-S)}>p>\dfrac{1}{2} \dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}.\end{align*}
 $$
 
 Since $P-T\leq0$, this holds for some nonempty subinterval of $[0,1)$. QED.
@@ -160,7 +160,7 @@ _Proof._ Assume that the Chicken inequality is satisfied. This proof proceeds si
 For defection's first condition, we determine when $P_2(p,\text{Turn}_2)<P_2(p,\text{Ahead}_2)$:
 
 $$
-\begin{align}    pR + (1-p) S &< pT + (1-p) P\\    p&>\dfrac{P-S}{(R-T)+(P-S)}\\    1\geq p&>\dfrac{S-P}{(T-R)+(S-P)}>0. \end{align}
+\begin{align*}    pR + (1-p) S &< pT + (1-p) P\\    p&>\dfrac{P-S}{(R-T)+(P-S)}\\    1\geq p&>\dfrac{S-P}{(T-R)+(S-P)}>0. \end{align*}
 $$
 
 The inequality flips in the first equation because of the division by $(R-T)+(P-S)$, which is negative ($T>R$ and $S>P$). $S>P$, so $p>0$; this reflects the fact that $(\text{Ahead}_1, \text{Turn}_2)$ is a Nash equilibrium, against which defection is impossible (proposition 3).
@@ -168,7 +168,7 @@ The inequality flips in the first equation because of the division by $(R-T)+(P-
 For defection's second condition, we determine when
 
 $$
-\begin{align}    P_1(p,\text{Turn}_2) + P_2(p,\text{Turn}_2)&>P_1(p,\text{Ahead}_2)+P_2(p,\text{Ahead}_2)\\    2pR + (1-p)(T+S) &> p(S+T) + (1-p) 2P\\    p&<    \dfrac{1}{2}\dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}\\    p&<    \dfrac{1}{2}\dfrac{(S-P)+(T-P)}{(T-R)+(S-P)}. \end{align}
+\begin{align*}    P_1(p,\text{Turn}_2) + P_2(p,\text{Turn}_2)&>P_1(p,\text{Ahead}_2)+P_2(p,\text{Ahead}_2)\\    2pR + (1-p)(T+S) &> p(S+T) + (1-p) 2P\\    p&<    \dfrac{1}{2}\dfrac{(P-S)+(P-T)}{(R-T)+(P-S)}\\    p&<    \dfrac{1}{2}\dfrac{(S-P)+(T-P)}{(T-R)+(S-P)}. \end{align*}
 $$
 
 The inequality again flips because $(R-T)+(P-S)$ is negative. When $R\leq    \frac{1}{2}(T+S)$, we have $p<1$, in which case defection does not exist against a pure strategy profile.

@@ -20,12 +20,12 @@ publish: true
 title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
 lw-latest-edit: 2018-07-05T00:34:59.249Z
 lw-is-linkpost: "false"
-tags: 
-  - "summaries"
-  - "reinforcement-learning"
-aliases: 
-  - "making-a-difference-tempore-insights-from-reinforcement"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - summaries
+  - reinforcement-learning
+aliases:
+  - making-a-difference-tempore-insights-from-reinforcement
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
@@ -37,12 +37,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/05/2018
 original_url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
+no_dropcap: "true"
+skip_import: true
 ---
+> [!quote] Reinforcement Learning: An Introduction
 > The safety of artificial intelligence applications involving reinforcement learning is a topic that deserves careful attention.
-
-# Foreword
-
-Let's get down to business.
 
 # Reinforcement Learning
 
@@ -73,11 +72,11 @@ After gathering data with our behavior policy  $b$, we then want to approximate 
 If  $b$ can take all of the actions that  $\pi$ can (i.e.  $\forall a,s: \pi(a|s)>0\implies b(a|s) >0$), we can overcome by adjusting the return  $G_t$ of taking a series of actions  $A_t,\dots,A_{T-1}$ using the importance-sampling ratio  $\rho_{t:T-1} := \prod_{k=t}^{T-1}\frac{\pi(A_k \,|\,S_k)}{b(A_k \,|\,S_k)}$. This cleanly recovers  $v_\pi$ by the definition of expectation:
 
 $$
-\begin{align}
+\begin{align*}
 \rho_{t:T-1}\mathbb{E}_b[G_t\,|\,S_t=s] &= \bigg(\prod_{k=t}^{T-1}\frac{\pi(A_k \,|\,S_k)}{b(A_k \,|\,S_k)}\bigg)\mathbb{E}_b[G_t\,|\,S_t=s]\\
 &= \mathbb{E}_\pi[G_t\,|\,S_t=s] \\
 &= v_\pi(s).
-\end{align}
+\end{align*}
 $$
 Then after observing some set of returns (where  $\{G_t\}_{t \in \mathcal{T}(s)}$ are the relevant returns for state  $s$), we define the state's value as the average adjusted observed return
 
@@ -97,7 +96,7 @@ This intuition hugs pre-theoretic understanding much more closely; if you have j
 
 ## 6: Temporal-Difference Learning
 
-_The tabular triple threat:_  $\text{TD(0)}$,  `SARSA`_, and_  $\text{Q}$_\-learning._
+_The tabular triple threat:_  $\text{TD(0)}$,  `SARSA`_, and_  Q_-learning._
 
 ### Learning TD Learning
 
@@ -106,29 +105,33 @@ V(S_t) \gets V(S_t) + \alpha \Big[\underbrace{\overbrace{R_{t+1} + \gamma V(S_{t
 $$
 ###  $_\text{TD(0)}\star^\text{SARSA}_\text{Q}$
 
--  $\text{TD(0)}$ is one-step bootstrapping of _state values _ $v_\pi$. It helps you learn the value of a given policy, and is not used for control.
--  `SARSA` is on-policy one-step bootstrapping_ _of _action values _ $q_\pi$ using the quintuples  $(S,A,R,S',A')$.
+-  $\text{TD(0)}$ is one-step bootstrapping of _state values_ $v_\pi$. It helps you learn the value of a given policy, and is not used for control.
+-  `SARSA` is on-policy one-step bootstrapping of the _action values_ $q_\pi$ using the quintuples  $(S,A,R,S',A')$.
 
+> [!quote] 
 > As in all on-policy methods, we continually estimate  $q_\pi$ for the policy  $\pi$, and at the same time change  $\pi$ toward greediness with respect to  $q_\pi$.
 
--  $\text{Q}$-learning is _off-policy_ one-step bootstrapping of action values  $q_\pi$.
+-  Q-learning is _off-policy_ one-step bootstrapping of action values  $q_\pi$.
+	- You take an action using π and then use the maximal action value at the next state in your TD target term.
 
 ###  $\max$imization bias
 
-With great branching factors come great biases, and optimistic bias is problematic for  $\text{Q}$\-learning.
+With great branching factors come great biases, and optimistic bias is problematic for  Q-learning.
 
-Refresher: the  $\text{Q}$\-learning update rule for state  $S_t$, action  $A_t$, and new state  $S_{t+1}$ is
+> [!info] Definition
+> The  Q-learning update rule for state  $S_t$, action  $A_t$, and new state  $S_{t+1}$ is
+> 
+> $$
+> Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha\Big[R_{t+1} + \gamma \max_a Q(S_{t+1}, a) - Q(S_t, A_t)\Big].
+> $$
 
-$$
-Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha\Big[R_{t+1} + \gamma \max_a Q(S_{t+1}, a) - Q(S_t, A_t)\Big].
-$$
 Suppose the rewards for all 100 actions at  $S_{t+1}$ are distributed according to  $\mathcal{N}(0,1)$. All of these actions have a true (expected) value of 0, but the probability that none of their estimates are greater than .8 after 1 draw each is  $\Phi(.8)^{100}\approx4.6×10^{-11}$. The more actions you have, the higher the probability is that at the maximum is just an outlier. See: [regression toward the mean and mutual funds](https://en.wikipedia.org/wiki/Regression_toward_the_mean#Importance).
 
-To deal with this, we toss another  $\text{Q}$\-learner into the mix; at any given update, one has their value updated and the other greedifies the policy. The double  $\text{Q}$\-learning scheme works because both  $\text{Q}$\-learners are unlikely to be biased in the same way. For some reason, this [wasn't discovered until 2010](https://papers.nips.cc/paper/3964-double-q-learning).
+To deal with this, we toss another  Q-learner into the mix; at any given update, one has their value updated and the other greedifies the policy. The double  Q-learning scheme works because both  Q-learners are unlikely to be biased in the same way. For some reason, this [wasn't discovered until 2010](https://papers.nips.cc/paper/3964-double-q-learning).
 
-## 7:  $n$\-step Bootstrapping
+## 7:  $n$-step Bootstrapping
 
- $n$_\-step everything._
+ $n$-_step everything._
 
 ## 8: Planning and Learning with Tabular Methods
 
@@ -136,15 +139,19 @@ _Models, prioritized sweeping, expected vs. sample updates, MCTS, and rollout al
 
 ### Roles Models Play
 
-_Distribution_ models include the full range of possible futures and their probabilities. For example, a distribution model for two fair coins:  $\{\text{HH: .25, HT: .5, TT: .25}\}$.
+_Distribution_ models include the full range of possible futures and their probabilities. For example, a distribution model for two fair coins:  
 
-_Sample_ models just let you, well, sample.  $\text{HH, HT, HT, HT, HH, TT, HH, HT}$... You could sample thousands of times and gain a high degree of confidence that the above distribution model is generating the data, but this wouldn't be your _only_ hypothesis (granted, it might have the lowest Kolmogorov complexity).
+$$
+\{\text{HH: .25, HT: .5, TT: .25}\}.
+$$
+
+_Sample_ models just let you, well, sample.  `HH, HT, HT, HT, HH, TT, HH, HT`... You could sample thousands of times and gain a high degree of confidence that the above distribution model is generating the data, but this wouldn't be your _only_ hypothesis (granted, it might have the lowest Kolmogorov complexity).
 
 Note that a distribution model also can function as a sample model.
 
 ## 9: On-policy Prediction with Approximation
 
-_We finally hit the_ good stuff_: value-function approximators and stochastic-/semi-gradient methods._
+_We finally hit the_ good stuff_: value-function approximators and gradient methods._
 
 ## 10: On-policy Control with Approximation
 
@@ -172,19 +179,19 @@ _Creating a partial mapping between reinforcement learning and psychology._
 
 There was a word I was looking for that "mental model" didn't quite seem to fit: "the model with respect to which we mentally simulate courses of action". CFAR's "inner sim" terminology didn't quite map either, as to me, that points to the _system-in-motion_ more than _that-on-which-the-system-runs_. The literature dubs this a cognitive map.
 
-> [!quote]
+> [!quote] [Cognitive map](https://en.wikipedia.org/wiki/Cognitive_map)
 >
 > Individual place cells within the hippocampus correspond to separate locations in the environment with the sum of all cells contributing to a single map of an entire environment. The strength of the connections between the cells represents the distances between them in the actual environment. The same cells can be used for constructing several environments, though individual cells' relationships to each other may differ on a map by map basis. The possible involvement of place cells in cognitive mapping has been seen in a number of mammalian species, including rats and macaque monkeys. Additionally, in a study of rats by Manns and Eichenbaum, pyramidal cells from within the hippocampus were also involved in representing object location and object identity, indicating their involvement in the creation of cognitive maps.
->
-> Wikipedia, _[Cognitive map](https://en.wikipedia.org/wiki/Cognitive_map)_
 
 In light of [my work on whitelisting](/whitelisting-impact-measure), I've been thinking about why we're so "object-oriented" in our mental lives. An off-the-cuff hypothesis: to better integrate with the rest of our mental models, the visual system directly links up to our object schema. One such object is then recognized and engraved as a discrete "thing" in our map. Hence, we emotionally "know" that the world "really is" made up of objects, and isn't just a collection of particles.
 
-> Most of the information used by people for the cognitive mapping of spaces is gathered through the visual channel (Lynch, 1960).
+> [!quote] Lynch, 1960
+> Most of the information used by people for the cognitive mapping of spaces is gathered through the visual channel.
 
 [Lahav and Mioduser's research](http://playpen.icomtek.csir.co.za/~acdc/assistive%20devices/Artabilitation2008/archive/2004/papers/2004_S04_N4.pdf) somewhat supports this idea, suggesting that blind people not only have lower-fidelity and more declarative (as opposed to procedural / interactive) cognitive maps, they're also less likely to provide object-to-object descriptions.
 
-_Epistemic status: I made a not-obviously-wrong hypothesis and found two pieces of corroborating evidence. If anyone who knows more about this wants to chime in, please do!_
+> [!warning] Epistemic status
+> I made a not-obviously-wrong hypothesis and found two pieces of corroborating evidence.
 
 ## 15: Neuroscience
 
@@ -206,7 +213,7 @@ This chapter talks a fair amount about the serious challenges in AI alignment (n
 
 > As to safety, hazards possible with reinforcement learning are not completely different from those that have been managed successfully for related applications of optimization and control methods.
 
-I'm not sure about that. Admittedly, I'm not as familiar with those solutions, but the challenge here seems to be of a qualitatively different caliber. Conditional on true AI's achievement, we'd want to have extremely high confidence that it pans out _before_ we flip the switch. The authors acknowledge that
+I'm not sure about that. Admittedly, I'm not as familiar with those solutions, but the challenge here seems to be of a qualitatively different caliber. Conditional on true AI's achievement, we'd want to have extremely high confidence that it pans out _before_ we flip the switch. The authors acknowledge that:
 
 > it may be impossible for the agent to achieve the designer's goal no matter what its reward signal is.
 
@@ -258,8 +265,3 @@ Six textbooks later and with a _little_ effort, I'm able to prove things like th
 > He spoke of the eternal conflict between the promise and perils of any new knowledge, reminding us of the Greek myths of Prometheus, the hero of modern science, who stole fire from the gods for the benefit of mankind, and Pandora, whose box could be opened by a small and innocent action to release untold perils on the world.
 >
 > Simon urged us to recognize that as designers of our future and _not mere spectators_, the decisions _we_ make can tilt the scale in Prometheus' favor.
-
-<hr/>
-
-
-_If you are interested in working together to learn MIRI-relevant math, if you have a burning desire to knock the alignment problem down a peg, if you're in a_ scale-tilting _mood - I would be more than happy to work with you. [Messaging me](https://www.lesswrong.com/users/turntrout) may also net you an invitation to the MIRIx Discord server._

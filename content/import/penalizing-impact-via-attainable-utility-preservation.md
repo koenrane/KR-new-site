@@ -70,11 +70,11 @@ Having just proposed AUP in this alternate timeline, we're thinking about what i
 If we assume that $u$ is additive (as is the case for the Markovian reward functions considered by Dr. Watkins), how does the next action we take affect the attainable utility value? Well, acting optimally is now equivalent to choosing the action with the best attainable utility value – in other words, greedy hill-climbing in our attainable utility space.
 
 $$
-\begin{align}
+\begin{align*}
 a^*_t &=\argmax_{a_t}\mathbb{E}_{o_t | h_{<t}a_t}\left[u(h_t) + \max_{a_{t+1}} \sum_{o_{t+1}} \cdots \max_{a_{m}} \sum_{o_{m}} u(h_{t +1:m}) \prod_{k=t+1}^{m} p(o_{k}\,|\,h_{<k}a_{k})\right]
 \&= \argmax_{a_t}\sum_{o_{t}}\max_{a_{t+1}} \sum_{o_{t+1}} \cdots \max_{a_{m}} \sum_{o_{m}} u(h_{t:m}) \prod_{k=t}^{m} p(o_{k}\,|\,h_{<k}a_{k})\\
 &= \argmax_{a_t} \text{Q}_u(h_{<t}a_{t})
-\end{align}
+\end{align*}
 $$
 The remaining complication is that this agent is only maximizing over a finite horizon. If we can figure out discounting, all we have to do is find a tractable way of computing these discounted Q-values.
 

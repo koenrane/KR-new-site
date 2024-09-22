@@ -222,7 +222,7 @@ $$
 **Proof**.
 
 $$
-\begin{align} g&=\frac{|x_n|}{|x_{n-1}|}\\ &=\dfrac{| x_{n-1} + \textrm{Attn}_{n-1}(x_{n-1}) + \textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|}\quad \text{Transformer block}\\ &\leq \dfrac{|x_{n-1}| + |\textrm{Attn}_{n-1}(x_{n-1})| + |\textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|} \quad\text{Triangle inequality}\\ &= 1 + \dfrac{|\textrm{Attn}_{n-1}(x_{n-1})| + |\textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|}. \end{align}
+\begin{align*} g&=\frac{|x_n|}{|x_{n-1}|}\\ &=\dfrac{| x_{n-1} + \textrm{Attn}_{n-1}(x_{n-1}) + \textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|}\quad \text{Transformer block}\\ &\leq \dfrac{|x_{n-1}| + |\textrm{Attn}_{n-1}(x_{n-1})| + |\textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|} \quad\text{Triangle inequality}\\ &= 1 + \dfrac{|\textrm{Attn}_{n-1}(x_{n-1})| + |\textrm{MLP}\big(x_{n-1}+\textrm{Attn}_{n-1}(x_{n-1})\big)|}{|x_{n-1}|}. \end{align*}
 $$
 
 Then 

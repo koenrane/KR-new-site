@@ -40,7 +40,7 @@ _My brother (`DivineMango`) and I (`TurnTrout`) wrote this first arc of a Batman
 Hand wrapped firmly around his son’s shoulder, Thomas Wayne directed his son’s flinching gaze towards a haggard face. The man looked crumpled, his beard long and unkempt, his eyes bagged and bloodshot. A tattered cardboard sign hung heavily from his neck:
 
 $$
-\begin{align}&\textbf{Hungry}\&\textbf{PTSD}\\ &\textbf{No family}\\ &\textbf{Please help} \end{align}
+\begin{align*}&\textbf{Hungry}\&\textbf{PTSD}\\ &\textbf{No family}\\ &\textbf{Please help} \end{align*}
 $$
 Bruce was scared. At eight, he’d seen homeless people before, but he’d never connected the dots: this was a _person_, just out on the street.
 

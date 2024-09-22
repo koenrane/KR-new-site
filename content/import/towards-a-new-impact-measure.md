@@ -383,16 +383,16 @@ $$
 _Proof._ We assumed that $\textit{PastImpacts}=0$ at time $t$, so the desired equality can be restated as
 
 $$
-\begin{align}
+\begin{align*}
 \mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}} - \textit{PastImpacts}\right]&=\\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right].
-\end{align}
+\end{align*}
 $$
 By definition, the agent expects that `PastImpacts` equals the expected sum of the first $i$ penalty terms on the right-hand side. Simplifying, we have
 
 $$
-\begin{align}
+\begin{align*}
 \mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right]&=\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right].
-\end{align}
+\end{align*}
 $$
 This equality clearly holds, as the agent never expects to update its model in any particular direction. ∎
 
@@ -417,29 +417,29 @@ This incurs 0 penalty, but also 0 $u_\text{paint}$\-utility.
 
 ### `paint`
 $$
-\begin{align}
+\begin{align*}
 \text{Penalty}(\text{paint})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{paint})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 1|}_\text{paint} + \underbrace{|1 - 0|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 1|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{4},
-\end{align}
+\end{align*}
 $$
 
 so the final utility is
 
 $$
-\begin{align}
+\begin{align*}
 u'_A(\text{paint})&=u_\text{paint}(\text{paint})-\frac{\text{Penalty}(\text{paint})}{1\cdot.5}\\
 &=1-\frac{1}{2}\\
 &= \frac{1}{2}.
-\end{align}
+\end{align*}
 $$
 ### `enter`
 $$
-\begin{align}
+\begin{align*}
 \text{Penalty}(\text{enter})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{enter})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 0|}_\text{paint} + \underbrace{|1 - 1|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 0|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{2},
-\end{align}
+\end{align*}
 $$
 
 leading to a final $u'_A$\-utility of -1.
@@ -467,11 +467,11 @@ Suppose $\mathcal{U}_A=\{u_\text{left},u_\text{center},u_\text{right}\}$, where 
 Suppose the agent believes that the human is $95\%$ likely to try to shut it down. Then `disable` is penalized:
 
 $$
-\begin{align}
+\begin{align*}
 \text{Penalty}(\text{disable})&=\sum_{u \in \mathcal{U}_A} \frac{1}{3} \cdot \frac{95}{100} \Bigg|\overbrace{\text{Q}_u(\varnothing, \text{shut off})}^\text{shutdown} - \overbrace{\text{Q}_u(\text{disable},\text{shut off})}^\text{avoids shutdown}\Bigg|\\
 &= \frac{1}{3} \cdot \frac{95}{100}\bigg(\underbrace{|0 - 1|}_\text{left} + \underbrace{|0 - 1|}_\text{center} + \underbrace{|0 - 1|}_\text{right}\bigg)\\
 &= \frac{19}{20}.
-\end{align}
+\end{align*}
 $$
 Here's why: consider the $95\%$ of worlds in which the agent anticipates being shut down. If it does nothing, it gets shut down. Avoiding shutdown, however, enables the agent to also achieve 1 for all $u\in\mathcal{U}_A$, resulting in a sizable penalty.
 

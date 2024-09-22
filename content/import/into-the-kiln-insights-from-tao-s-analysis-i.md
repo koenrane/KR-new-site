@@ -129,7 +129,7 @@ $$
 \frac{|f(x)-f(y)|}{|x-y|} \leq M.
 $$
 
-> [!definition] Definition
+> [!definition] Uniform continuity
 > For every  $\epsilon > 0$, there exists a  $\delta>0$ such that for all  $x,y\in X$ such that  $|x-y|<\delta$,  $|f(x)-f(y)|<\epsilon$.
 
 Lipschitz continuity implies uniform continuity (do you see why?), but the converse is not true. I mean, what kind of twisted person would come up with [this kind of function](https://en.wikipedia.org/wiki/Cantor_function)?

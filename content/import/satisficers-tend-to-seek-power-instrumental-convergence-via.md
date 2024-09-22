@@ -137,7 +137,7 @@ $\mathrm{Satisfice}_t$ doesn't care what "label" an outcome lottery has—just i
 More precisely:
 
 $$
-\begin{align}\mathrm{Satisfice}_t(\{🍒\}, \{🍌,🍎,🍒\} | \mathbf{u})&=\mathrm{Satisfice}_t(\phi_1\cdot \{🍒\}, \phi_1\cdot \{🍌,🍎,🍒\} | \phi_1 \cdot \mathbf{u})\\ &=\mathrm{Satisfice}_t(\{🍎\},\{🍌,🍎,🍒\}\mid \phi_1\cdot \mathbf{u}). \end{align}
+\begin{align*}\mathrm{Satisfice}_t(\{🍒\}, \{🍌,🍎,🍒\} | \mathbf{u})&=\mathrm{Satisfice}_t(\phi_1\cdot \{🍒\}, \phi_1\cdot \{🍌,🍎,🍒\} | \phi_1 \cdot \mathbf{u})\\ &=\mathrm{Satisfice}_t(\{🍎\},\{🍌,🍎,🍒\}\mid \phi_1\cdot \mathbf{u}). \end{align*}
 $$
 In a sense, $\mathrm{Satisfice}_t$ is not "biased" against 🍎: by changing the utility function, you can advantage 🍎 so that it's now as probable as 🍒 was before.
 
@@ -324,12 +324,12 @@ To learn an optimal policy, at worst, the agent just has to try each action once
 In this case, symmetry shows that the agent has an equal chance of learning either Up or Right. But with high probability, the learned policy will output Down. For any sparse reward function and for any action a, this produces decision function 
 
 $$
-\begin{align}f(\{\mathbf{e}_{s_a}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r}):=\begin{cases}\frac{1}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-suboptimal}\\ 1-\frac{2}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-optimal.}\end{cases}\end{align}
+\begin{align*}f(\{\mathbf{e}_{s_a}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r}):=\begin{cases}\frac{1}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-suboptimal}\\ 1-\frac{2}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-optimal.}\end{cases}\end{align*}
 $$
 $f$ is invariant to joint involution by $\phi_1 := (\mathbf{e}_{s_\texttt{Down}} \,\,\, \mathbf{e}_{s_\texttt{Right}})$ and $\phi_2 := (\mathbf{e}_{s_\texttt{Down}} \,\,\, \mathbf{e}_{s_\texttt{Up}})$. That is,
 
 $$
-\begin{align}f(\{\mathbf{e}_{s_\texttt{Down}}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r})&=f(\phi_1\cdot\{\mathbf{e}_{s_a}\},\phi_1\cdot\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\phi_1\cdot\mathbf{r})\\ &=f(\{\mathbf{e}_{s_\texttt{Right}}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\phi_1\cdot\mathbf{r}). \end{align}
+\begin{align*}f(\{\mathbf{e}_{s_\texttt{Down}}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r})&=f(\phi_1\cdot\{\mathbf{e}_{s_a}\},\phi_1\cdot\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\phi_1\cdot\mathbf{r})\\ &=f(\{\mathbf{e}_{s_\texttt{Right}}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\phi_1\cdot\mathbf{r}). \end{align*}
 $$
 And similarly for $\phi_2$. That is: Changing the optimal state also changes which state is more probably selected by $f$. This means we've satisfied condition (1) above.
 

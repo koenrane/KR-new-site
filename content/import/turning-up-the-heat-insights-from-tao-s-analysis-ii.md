@@ -37,11 +37,7 @@ use-full-width-images: "false"
 date_published: 08/24/2018
 original_url: https://www.lesswrong.com/posts/uSaJoL64DYg2WunJJ/turning-up-the-heat-insights-from-tao-s-analysis-ii
 ---
-# Foreword
-
 It's been too long - a month and a half since my last review, and about three months since _[Analysis I](/first-analysis-textbook-review)_. I've been immersed in my work for CHAI, but reality doesn't grade on a curve, and I want more mathematical firepower.
-
-On the other hand, I've been cooking up something really special, so watch this space!
 
 # Analysis II
 
@@ -51,7 +47,7 @@ _Metric spaces; completeness and compactness._
 
 ### Proving Completeness
 
-It sucks, and I hate it.
+It sucks and I hate it.
 
 ## 13: Continuous Functions on Metric Spaces
 
@@ -65,7 +61,7 @@ _Pointwise and uniform convergence, the Weierstrass_  $M$_\-test, and uniform ap
 
 ### Breaking Point
 
-Suppose we have some sequence of functions $f^{(n)}:[0,1]\to\mathbb{R}$, $f^{(n)}(x):=x^n$, which converge pointwise to the 1-indicator function $f:[0,1]\to\mathbb{R}$ (i.e. $f(1)=1$ and 0 otherwise). Clearly, each $f^{(n)}$ is (infinitely) differentiable; however, the limiting function $f$ isn't differentiable at all! Basically, pointwise convergence isn't at all strong enough to stop the limit from "snapping" the continuity of its constituent functions.
+Suppose we have some sequence of functions $f^{(n)}:[0,1]\to\mathbb{R}$, $f^{(n)}(x):=x^n$, which converge pointwise to the 1-indicator function $f:[0,1]\to\mathbb{R}$ (i.e. $f(1)=1$ and $0$ otherwise). Clearly, each $f^{(n)}$ is (infinitely) differentiable. However, the limiting function $f$ isn't differentiable at all! Basically, pointwise convergence isn't at all strong enough to stop the limit from "snapping" the continuity of its constituent functions.
 
 ### Progress
 
@@ -88,9 +84,9 @@ We want to show that $|c(1-x^2)^N| \leq \epsilon$ for all $\delta \leq |x| \leq 
 We want $\int_{-\infty}^\infty f = 1$; as $f$ is compactly supported on $[-1,1]$, this is equivalent to $\int_{-1}^1 f(x)\, dx = 1$. Using basic properties of the Riemann integral, we have $\int_{-1}^1 (1-x^2)^N \, dx=\frac{1}{c}$. Substituting in for $c$,
 
 $$
-\begin{align}
+\begin{align*}
 \epsilon^{-1}(1-\delta^2)^N&\leq \frac{1}{\sqrt{N}} \leq \int_{-1}^1 (1-x^2)^N\,dx,
-\end{align}
+\end{align*}
 $$
 with the second inequality already having been proven earlier. Note that although the first inequality is not always true, we can make it so: since $\epsilon$ is fixed and $1-\delta^2 \in (0,1)$, the left-hand side approaches 0 more quickly than $\frac{1}{\sqrt{N}}$ does. Therefore, we can make $N$ as large as necessary; isolating $\epsilon$,
 
@@ -120,7 +116,7 @@ _Real analytic functions, Abel's theorem, $\exp$ and $\log$, complex numbers, an
 
 ### `EXP`
 
-Cached thought from my CS undergrad: exponential functions always end up growing more quickly than polynomials, no matter the degree. Now, I finally have the gears to see why:
+Cached thought from my CS undergrad: Exponential functions always end up growing more quickly than polynomials, no matter the degree. Now, I finally have the gears to see why:
 
 $$
 \exp(x):=\sum_{k=0}^\infty \frac{x^k}{k!}.
@@ -129,21 +125,29 @@ $\exp$ has _all_ the degrees, so no polynomial (of necessarily finite degree) co
 
 ## Complex Exponentiation
 
-> You can multiply a number by itself some number of times.
+The book
+: You can multiply a number by itself some number of times.
 
-\[_nods_\]
+Me
+: 🙂‍↕️
 
-> You can multiply a number by itself a negative number of times.
+The book
+: You can multiply a number by itself a negative number of times.
 
-\[Sure.\]
+Me
+: Sure.
 
-> You can multiply a number by itself an irrational number of times.
+The book
+: You can multiply a number by itself an irrational number of times.
 
-\[OK, I understand limits.\]
+Me
+: ... OK, I understand limits.
 
-> You can multiply a number by itself an imaginary number of times.
+The book
+: You can multiply a number by itself an imaginary number of times.
 
-\[Out. Now.\]
+Me
+: 😠 Out. Now.
 
 Seriously, this one's weird (rather, it _seems_ weird, but how can "how the world is" be "weird")?
 
@@ -170,7 +174,10 @@ If you have a set of points in $\mathbb{R}^n$, when do you know if it's secretly
 _Theorem._ Let $E$ be an open subset of $\mathbb{R}^n$, let $f:E \to \mathbb{R}$ be continuously differentiable, and let $y=(y_1,\dots,y_n)$ be a point in $E$ such that $f(y)=0$ and $\frac{\partial f}{\partial x_n}\neq0$. Then there exists an open $U \subseteq \mathbb{R}^{n-1}$ containing $(y_1, \dots, y_{n-1})$, an open $V \subseteq E$ containing $y$, and a function $g: U \to \mathbb{R}$ such that $g(y_1, \dots, y_{n-1})=y_n$, and
 
 $$
-\left\{(x_1, \dots, x_n)\in V: f(x_1, \dots,x_n)=0\right\}=\\left\{(x_1, \dots, x_{n-1}, g(x_1,\dots, x_{n-1})): (x_1, \dots, x_{n-1})\in U\right\}.
+\begin{align*}
+&\left\{(x_1, \dots, x_n)\in V: f(x_1, \dots,x_n)=0\right\}\\
+&=\left\{(x_1, \dots, x_{n-1}, g(x_1,\dots, x_{n-1})): (x_1, \dots, x_{n-1})\in U\right\}.
+\end{align*}
 $$
 So, I think what's really going on here is that we're using the derivative at this known zero to locally linearize the manifold we're operating on (similar to Newton's approximation), which lets us have some neighborhood $U$ in which we can derive an implicit function, even if we can't always write it out.
 

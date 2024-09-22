@@ -88,7 +88,7 @@ Not helpful.
 Let me tell you, finding the probability that one tangled web of choices is optimal over another web, is generally a huge mess. You're finding the measure of reward functions which satisfy some messy system of inequalities, like 
 
 $$
-\begin{align} r_1+\gamma\frac{r_2}{1-\gamma}>\max(&r_3+\frac{\gamma}{1-\gamma^2}(r_4+\gamma r_5),\\ &r_3+\gamma\frac{r_5}{1-\gamma},\\ &\frac{r_3}{1-\gamma}). \end{align}
+\begin{align*} r_1+\gamma\frac{r_2}{1-\gamma}>\max(&r_3+\frac{\gamma}{1-\gamma^2}(r_4+\gamma r_5),\\ &r_3+\gamma\frac{r_5}{1-\gamma},\\ &\frac{r_3}{1-\gamma}). \end{align*}
 $$
 
 And that's in the _simple tiny_ environments! 

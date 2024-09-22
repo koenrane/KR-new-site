@@ -162,11 +162,11 @@ _Proof outline._ The proof for the constrained case is trivial.
 For the scaled case, suppose $\bar{a}$ corresponds to more than one subinterval. Consider the first two such subintervals $s_1,s_3$. By definition, $s_1\cap s_3=\emptyset $ (otherwise they would be the same maximal connected subinterval), so there has to be at least one subinterval $s_2$ sandwiched in between (on almost all of which $\bar{a}$ cannot be optimal; let $\bar{a}'$ be a plan which _is_ optimal on $s_2$). Let $R_1 \in s_1,R_2 \in s_2, R_3 \in s_3$, where $R_2\notin s_1\cup s_3$. By definition of optimality on a subinterval,
 
 $$
-\begin{align}
+\begin{align*}
 {\color{Red}u}(\bar{a}') -\frac{{\color{blue}I}(\bar{a}')}{R_1}&<{\color{Red}u}(\bar{a})-\frac{{\color{blue}I}(\bar{a})}{R_1}\\
 {\color{Red}u}(\bar{a}) -\frac{{\color{blue}I}(\bar{a})}{R_2}&<{\color{Red}u}(\bar{a}')-\frac{{\color{blue}I}(\bar{a}')}{R_2}\\
 {\color{Red}u}(\bar{a}') -\frac{{\color{blue}I}(\bar{a}')}{R_3}&<{\color{Red}u}(\bar{a})-\frac{{\color{blue}I}(\bar{a})}{R_3};
-\end{align}
+\end{align*}
 $$
 by employing the fact that $R_1 <R_2 <R_3$, algebraic manipulation produces an assertion that a quantity is strictly less than itself. Therefore, no such intervening $s_2$ can exist. □
 
@@ -205,10 +205,10 @@ The next result is exactly what we need to answer the question just raised – i
 _Proof outline._
 
 $$
-\begin{align}
+\begin{align*}
 {\color{red}u}(\bar{a}') -\frac{{\color{blue}I}(\bar{a}')}{R}&>{\color{Red}u}(\bar{a})-\frac{{\color{blue}I}(\bar{a})}{R}\\
 R&>\frac{{\color{blue}I}(\bar{a}')-{\color{blue}I}(\bar{a})}{{\color{Red}u}(\bar{a}')-{\color{Red}u}(\bar{a})}.
-\end{align}
+\end{align*}
 $$
 Equality at the value of the right-hand side can easily be checked. □
 
@@ -254,13 +254,13 @@ $$
 _Proof outline._
 
 $$
-\begin{align}
+\begin{align*}
 {\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{a})&=\left({\color{Red}u}(\bar{b})-{\color{Red}u}(\bar{a})\right)+\left({\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{b})\right)\\
 \left({\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{a})\right)\frac{{\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{a})}&=
 ( {\color{blue}I}(\bar{b})-{\color{blue}I}(\bar{a}))\frac{{\color{Red}u}(\bar{b})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{b})-{\color{blue}I}(\bar{a})}
 +( {\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{b}))\frac{{\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{b})}{{\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{b})}.
 
-\end{align}
+\end{align*}
 $$
 Since $\bar{b}$ dominates $\bar{a}$ strictly before $\bar{c}$ does, we know that $\bar{b}$ must get more $\text {bang}$ for its $\text {buck}$: $\dfrac{{\color{Red}u}(\bar{b})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{b})-{\color{blue}I}(\bar{a})}>\dfrac{{\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{a})}
 .$ Clearly the conclusion follows, as a number cannot be expressed as the positive combination of larger numbers (the impact differences all must be positive). □
@@ -283,20 +283,20 @@ When $R_\text{LB: catastrophe}>R_\text{UB: satisfactory}$, a satisfactory plan c
 Then $\mathcal{P}$ is $\alpha$\-buffered ($\alpha>0$) when
 
 $$
-\begin{align}
+\begin{align*}
 \frac{R_\text{LB: catastrophe}}{R_\text{UB: satisfactory}}&=\dfrac{{\color{blue}I}_\text{LB: cat}}{{\color{blue}I}_\text{UB: sat}} \dfrac{{\color{Red}u}_\text{UB: sat} -{\color{Red}u}_\text{LB: sat}}{{\color{Red}u}_\max -{\color{Red}u}_\min }\geq 1+\alpha\\
 &\text{or}\\
 \frac{R_\text{LB': catastrophe}}{R_\text{UB: satisfactory}}&=\dfrac{{\color{blue}I}_\text{LB: cat}-{\color{blue}I}_\text{UB: sat}}{{\color{blue}I}_\text{UB: sat}} \dfrac{{\color{Red}u}_\text{UB: sat} -{\color{Red}u}_\text{LB: sat}}{{\color{Red}u}_\max -{\color{Red}u}_\text{LB: sat} }\geq 1+\alpha.
-\end{align}
+\end{align*}
 $$
 In particular, if ${\color{red}u}$ is bounded $[0, 1]$, the above turn into
 
 $$
-\begin{align}
+\begin{align*}
 \frac{R_\text{LB: catastrophe}}{R_\text{UB: satisfactory}}&=\dfrac{{\color{blue}I}_\text{LB: cat}}{{\color{blue}I}_\text{UB: sat}}({\color{Red}u}_\text{UB: sat} -{\color{Red}u}_\text{LB: sat})\geq 1+\alpha\\
 &\text{or}\\
 \frac{R_\text{LB': catastrophe}}{R_\text{UB: satisfactory}}&=\dfrac{{\color{blue}I}_\text{LB: cat}-{\color{blue}I}_\text{UB: sat}}{{\color{blue}I}_\text{UB: sat}} \dfrac{{\color{Red}u}_\text{UB: sat} -{\color{Red}u}_\text{LB: sat}}{1 -{\color{Red}u}_\text{LB: sat} }\geq 1+\alpha.
-\end{align}
+\end{align*}
 $$
 Lastly, notice that the first of the two inequalities incorporates less information and is harder to satisfy ($R_\text{LB': catastrophe} >R_\text{LB: catastrophe}$); therefore, satisfying the second inequality also satisfies the first.
 

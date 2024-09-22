@@ -144,7 +144,7 @@ Intuition: By definition, $\sigma$ _isn't_ a Nash Equilibrium IFF some player $i
 We prove the following for general strategy profiles $\sigma$:
 
 $$
-\begin{align} \sum_i \text{Power}(i, \sigma) &= \sum_i \mathbb{E}_{t_i} \max_{a_i} f_i(t_i, a_i, \sigma_{-i})) \\ &\geq \sum_i \mathbb{E}_{t_i} \mathbb{E}_{a_i \sim \sigma_i} f_i(t_i, a_i, \sigma_{-i})) \\ &= \sum_i \mathbb{E}_{t_i} \mathbb{E}_{\mathbf{a} \sim \sigma} r_i(t_i, \mathbf{a})) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( \sum_i r_i(t_i, \mathbf{a}) \right) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( c \right) \\ &= c \end{align}
+\begin{align*} \sum_i \text{Power}(i, \sigma) &= \sum_i \mathbb{E}_{t_i} \max_{a_i} f_i(t_i, a_i, \sigma_{-i})) \\ &\geq \sum_i \mathbb{E}_{t_i} \mathbb{E}_{a_i \sim \sigma_i} f_i(t_i, a_i, \sigma_{-i})) \\ &= \sum_i \mathbb{E}_{t_i} \mathbb{E}_{\mathbf{a} \sim \sigma} r_i(t_i, \mathbf{a})) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( \sum_i r_i(t_i, \mathbf{a}) \right) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( c \right) \\ &= c \end{align*}
 $$
 
 Now, we claim that the inequality on line 2 is an equality IFF $\sigma$ is a Nash Equilibrium. To see this, note that for each $i$, we have

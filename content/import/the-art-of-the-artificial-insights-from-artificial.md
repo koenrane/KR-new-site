@@ -142,22 +142,22 @@ _Proof._ Let  $n_k$ denote a state  $k$ actions from the goal, and let  $d $ be 
 **Base case** ( $n_1$):
 
 $$
-\begin{align}
+\begin{align*}
 h(n_1) &\leq c(n_1,a,n_0) + h(n_0) \qquad\text{ consistency}\\
 &\leq c(n_1,a,n_0) \qquad\qquad\;\;\;\;\;\,\text{ definition of a heuristic}\\
 &= d(n_1)\qquad\qquad\qquad\quad\;\;\;\;\text{definition of distance}
-\end{align}
+\end{align*}
 $$
 **Induction step** ( $n_k \Rightarrow n_{k+1}$):
 
 The inductive hypothesis is that  $h(n_{k}) \leq d(n_k)$. Then
 
 $$
-\begin{align}
+\begin{align*}
 h(n_{k+1}) &\leq c(n_{k+1}, a, n_k) + h(n_k) \qquad\text{ consistency}\\
 &\leq c(n_{k+1}, a, n_k) + d(n_k) \qquad\text{ inductive hypothesis}\\
 &= d(n_{k+1}) \qquad\qquad\qquad\quad\;\;\;\text{ definition of distance}. \\
-\end{align}
+\end{align*}
 $$
 ### Relaxation
 
@@ -303,20 +303,20 @@ My confusion was as follows: "suppose I believe I'm going to win a million-dolla
 Let's [shut up and multiply](https://lesswrong.com/tag/shut_up_and_multiply). Fix  $P(W)=.7$,  $U(W)=1{,}000{,}000$, and  $U(\lnot W)=-1$. [^3] Then our actions are  $\{buy,abstain\}$. Under my current beliefs, buying a ticket is superior to abstaining ( $EU(abstain)=0$):
 
 $$
-\begin{align}
+\begin{align*}
 EU(buy) &= P(W|buy) U(W) + P(\lnot W|buy) U(\lnot W)\\
 &= .7×1{,}000{,}000 + .3×-1\\
 &= 699{,}999.7
-\end{align}
+\end{align*}
 $$
 Suddenly, a knowably-friendly oracle pops into existence and gives me the opportunity to ask one question. Being a genius, I use this question to ask _whether I will win the lottery with the next ticket I buy_. Freeze frame! Let's use the `VPI` equation to calculate how much this information is worth to me, _before_ I receive it and under my _current_ beliefs.
 
 $$
-\begin{align}
+\begin{align*}
 \textit{VPI}(W) &= \left(P(W)\:EU(\alpha_{W=t}|W=t) + P(\lnot W)\:EU(\alpha_{W=\textit{f}}|W=\textit{f}\:)\right) - EU(\alpha)\\
 &= (.7×1{,}000{,}000 + .3×0) - 699{,}999.7\\
 &= .3
-\end{align}
+\end{align*}
 $$
 This advice was worth  $.3$ utility; that is, if I knew before my purchase whether the ticket will win,  $30\%$ of the time I'd be able to avoid losing a dollar.
 

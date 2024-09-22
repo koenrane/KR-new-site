@@ -92,7 +92,7 @@ This literally plagued my dreams.
 _Proof (of the variance; I cannot prove it plagued my dreams):_
 
 $$
-\begin{align}
+\begin{align*}
 \mathbb{V}(Y)&=\mathbb{E}\big(Y-\mathbb{E}(Y)\big)^2\\
 &= \mathbb{E}\Big(\big(Y-\mathbb{E}(Y\,\mid\,X)\big) + \big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big)^2\\
 &= \mathbb{E}\big(Y-\mathbb{E}(Y\,\mid\,X)\big)^2 + \mathbb{E}\Big(2\big(Y-\mathbb{E}(Y\,|\,X)\big)\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)\Big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X) - \mathbb{E}(Y)\big)^2\\
@@ -100,7 +100,7 @@ $$
 &= \mathbb{EV}(Y\,\mid\,X) + 2\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)-Y\mathbb{E}(Y)-\mathbb{E}(Y\,|\,X)^2 +\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big) + \mathbb{VE}(Y\,|\,X)\\
 &= \mathbb{EV}(Y\,\mid\,X) + 2\Big(\mathbb{E}\big(Y\mathbb{E}(Y\,|\,X)\big)-\mathbb{E}\big(Y\mathbb{E}(Y)\big)-\mathbb{E}\big(\mathbb{E}(Y\,|\,X)^2\big) + \mathbb{E}\big(\mathbb{E}(Y\,|\,X)\mathbb{E}(Y)\big)\Big) + \mathbb{VE}(Y\,|\,X)\\
 &= \underbrace{\mathbb{EV}(Y\,\mid\,X)}_\text{sample variance} + \underbrace{\mathbb{VE}(Y\,|\,X)}_\text{model variance}.
-\end{align}
+\end{align*}
 $$
 The middle term is eliminated as the expectations cancel out after repeated applications of conservation of expected evidence. Another way to look at the last two terms is the sum of the expected sample variance and the variance of the expectation.
 
