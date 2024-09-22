@@ -324,7 +324,7 @@ To learn an optimal policy, at worst, the agent just has to try each action once
 In this case, symmetry shows that the agent has an equal chance of learning either Up or Right. But with high probability, the learned policy will output Down. For any sparse reward function and for any action a, this produces decision function 
 
 $$
-\begin{align*}f(\{\mathbf{e}_{s_a}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r}):=\begin{cases}\frac{1}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-suboptimal}\\ 1-\frac{2}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-optimal.}\end{cases}\end{align*}
+\begin{align}f(\{\mathbf{e}_{s_a}\},\{\mathbf{e}_s\mid s\in \mathcal{S}\}\mid\mathbf{r}):=\begin{cases}\frac{1}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-suboptimal}\\ 1-\frac{2}{3}(1-\frac{\epsilon}{2})^{99} &\text{if $a$ is $\mathbf{r}$-optimal.}\end{cases}\end{align}
 $$
 $f$ is invariant to joint involution by $\phi_1 := (\mathbf{e}_{s_\texttt{Down}} \,\,\, \mathbf{e}_{s_\texttt{Right}})$ and $\phi_2 := (\mathbf{e}_{s_\texttt{Down}} \,\,\, \mathbf{e}_{s_\texttt{Up}})$. That is,
 

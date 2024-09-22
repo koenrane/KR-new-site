@@ -37,19 +37,17 @@ use-full-width-images: "false"
 date_published: 02/22/2020
 original_url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 ---
-# Foreword
-
-Sometimes you really like someone, but you can't for the life of you understand why. By all means, you should have tired of them long ago, but you keep coming back for more. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
+Sometimes you really like someone, but you can't understand why. By all means, you should have tired of them long ago, but you keep coming back. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
 
 This book is a good one, but boy was it _slow_ (349 pages at ~30 minutes a page, on average). I just kept coming back, and I was slowly rewarded each time I did.
 
-Note: sil ver [already reviewed _Topology_](https://www.lesswrong.com/posts/rYumRQK3G9cqvaxQ7/insights-from-munkres-topology).
+Note: `sil ver` [already reviewed _Topology_](https://www.lesswrong.com/posts/rYumRQK3G9cqvaxQ7/insights-from-munkres-topology).
 
 # Topology
 
 Topology is about what it means for things to be "close" in a very abstract and general sense. Rather than taking on the monstrous task of intuitively explaining topology without math, I'm just going to talk about random things from the book and (literally) illustrate concepts which were at first confusing.
 
-## Compactness = wonderful kind of mathematical "smallness"
+## Compactness is a wonderful kind of mathematical "smallness"
 
 > [!quote] [_What Does Compactness Really Mean?_](https://blogs.scientificamerican.com/roots-of-unity/what-does-compactness-really-mean/)
 >

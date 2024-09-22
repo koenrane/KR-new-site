@@ -416,13 +416,12 @@ Suppose $\mathcal{U}_A=\{u_\text{paint},u_{\lnot\text{paint}},u_\text{closet},u_
 This incurs 0 penalty, but also 0 $u_\text{paint}$\-utility.
 
 ### `paint`
-$$
-\begin{align*}
+
+$\begin{align*}
 \text{Penalty}(\text{paint})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{paint})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 1|}_\text{paint} + \underbrace{|1 - 0|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 1|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{4},
-\end{align*}
-$$
+\end{align*}$
 
 so the final utility is
 
@@ -434,13 +433,12 @@ u'_A(\text{paint})&=u_\text{paint}(\text{paint})-\frac{\text{Penalty}(\text{pain
 \end{align*}
 $$
 ### `enter`
-$$
-\begin{align*}
+
+$\begin{align*}
 \text{Penalty}(\text{enter})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{enter})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 0|}_\text{paint} + \underbrace{|1 - 1|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 0|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{2},
-\end{align*}
-$$
+\end{align*}$
 
 leading to a final $u'_A$\-utility of -1.
 

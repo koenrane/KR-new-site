@@ -21,8 +21,8 @@ title: "Math That Clicks: Look for Two-Way Correspondences"
 lw-latest-edit: 2020-10-02T17:19:27.318Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
   - "understanding-the-world"
+  - "rationality"
 aliases: 
   - "math-that-clicks-look-for-two-way-correspondences"
 lw-reward-post-warning: "false"

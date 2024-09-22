@@ -124,6 +124,8 @@ def get_lw_metadata(post_info: dict[str, Any]) -> dict:
         metadata["authors"] = author_str
 
     metadata["tags"] = [entry["name"] for entry in post_info["tags"]]
+    # Sort the tags
+    metadata["tags"].sort()
     metadata["tags"] = set(filter(lambda x: x in helpers.keep_tags, metadata["tags"]))
     metadata["tags"] = list(
         map(
@@ -557,6 +559,8 @@ replacement = {
     r"gwern(?!\.net)": "`gwern`",
     "argmaxing": "argmax’ing",
     r"argmaxed": "argmax’ed",
+    r"□": "∎",
+    r"\{align\}": "{align*}",
 }
 
 usernames = (
@@ -570,6 +574,7 @@ usernames = (
     "DivineMango",
     "Diffractor",
     "Dacyn",
+    "sil ver"
 )
 
 multiline_replacements = {

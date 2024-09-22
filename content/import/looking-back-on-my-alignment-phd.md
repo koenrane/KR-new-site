@@ -21,10 +21,10 @@ title: "Looking back on my alignment PhD"
 lw-latest-edit: 2023-08-10T01:35:59.613Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
   - "postmortems-&-retrospectives"
-  - "AI"
   - "growth-stories"
+  - "AI"
+  - "rationality"
 aliases: 
   - "looking-back-on-my-alignment-phd"
 lw-podcast-link: https://www.buzzsprout.com//2037297/11168051-looking-back-on-my-alignment-phd-by-turntrout.js?container_id=buzzsprout-player-11168051&amp;player=small

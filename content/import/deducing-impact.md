@@ -21,8 +21,8 @@ title: "Deducing Impact"
 lw-latest-edit: 2019-09-24T21:56:15.111Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "deducing-impact"
 lw-sequence-title: "Reframing Impact"

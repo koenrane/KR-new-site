@@ -21,8 +21,8 @@ title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Mod
 lw-latest-edit: 2018-03-25T06:55:46.204Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "scholarship-&-learning"
+  - "AI"
 aliases: 
   - "the-art-of-the-artificial-insights-from-artificial"
 lw-sequence-title: "Becoming Stronger"
@@ -60,21 +60,13 @@ I knew that this plan was preposterous; in all likelihood, I'd finish 3 chapters
 
 **Burnout** was prepared for by:
 
-- The imposition of certain beliefs: [^1]
-	- _My ego does not deplete._
-	- _I am 100% certain that I will succeed._
-	- _Given enough time, I can understand anything_.
+- The imposition of some [dark-arts beliefs](https://www.lesswrong.com/posts/4DBBQkEQvNEWafkek/dark-arts-of-rationality): [^1]
 - The institution of hourly brief exercise breaks. Cutting through the crisp, cold air at high speed got my heart beating and rekindled my passion for crushing the task at hand.
 - The construction of a narrative, with me as the protagonist, slowly increasing in capability, working diligently against the racing clock.
-	- Yes, I basically turned myself into a trope.
-	- No, I don't mind: I'm willing to take advantage of whatever psychological factors are at my disposal to help me succeed.
-	- Yes, I listened to the Rocky soundtrack a few times. It was great.
 
 **Mental exhaustion** (distinct from emotional / physical burnout in that your _mind_ can't process concepts as efficiently as it could seven hours ago when you started) was prepared for by:
 
 - Regularly taking breaks to chill out, listen to music, and dance a bit. I'd also spend time dwelling on the pleasant anticipated result of having mastered the important material in the rest of the book, making sure to _contrast it_ with what would happen if I didn't follow through.
-	- I made sure to avoid activities that would suck me in.
-	- As outlined above - regular exercise and narrative-building.
 - The pre-emptive purchase of all my favorite healthful foods; this was a great self-bribe. Having lots of delicious food on hand meant I always had something to look forward to for my breaks, and eating well meant that I didn't feel sluggish. I like to call this tactic "trivial conveniencing".
 - Maintaining my regular sleep schedule of 9:30 PM - 6:00 AM.
 
@@ -457,9 +449,8 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 ### Tips
 
 - Do exercises immediately after each section in the chapter.
-	- I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
 - Chegg was the only reputable place I could find with an answer key, although the answers were often of low quality. I'd recommend just using StackExchange.
-- Feel free to skip exercises for the following chapters: 1, 11, 12, 19, 22-27.
+- Feel free to skip exercises for the following chapters: 1, 11, 12,** **19, 22-27.
 
 # Forwards
 

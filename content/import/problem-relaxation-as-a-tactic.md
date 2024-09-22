@@ -21,8 +21,8 @@ title: "Problem relaxation as a tactic"
 lw-latest-edit: 2020-04-23T12:08:57.953Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
   - "AI"
+  - "rationality"
 aliases: 
   - "problem-relaxation-as-a-tactic"
 lw-sequence-title: "Becoming Stronger"

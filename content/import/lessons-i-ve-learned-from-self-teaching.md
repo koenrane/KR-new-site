@@ -21,9 +21,9 @@ title: "Lessons I've Learned from Self-Teaching"
 lw-latest-edit: 2021-12-05T17:56:31.967Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
-  - "practical"
   - "scholarship-&-learning"
+  - "practical"
+  - "rationality"
 aliases: 
   - "lessons-i-ve-learned-from-self-teaching"
 lw-sequence-title: "Becoming Stronger"

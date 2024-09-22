@@ -21,8 +21,8 @@ title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential Equat
 lw-latest-edit: 2020-03-25T22:12:25.494Z
 lw-is-linkpost: "false"
 tags: 
-  - "understanding-the-world"
   - "scholarship-&-learning"
+  - "understanding-the-world"
 aliases: 
   - "ode-to-joy-insights-from-a-first-course-in-ordinary"
 lw-sequence-title: "Becoming Stronger"

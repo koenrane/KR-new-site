@@ -21,8 +21,8 @@ title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional Anal
 lw-latest-edit: 2020-04-04T13:18:43.104Z
 lw-is-linkpost: "false"
 tags: 
-  - "understanding-the-world"
   - "scholarship-&-learning"
+  - "understanding-the-world"
 aliases: 
   - "a-kernel-of-truth-insights-from-a-friendly-approach-to"
 lw-sequence-title: "Becoming Stronger"

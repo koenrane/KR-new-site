@@ -168,7 +168,7 @@ $$
 {\color{Red}u}(\bar{a}') -\frac{{\color{blue}I}(\bar{a}')}{R_3}&<{\color{Red}u}(\bar{a})-\frac{{\color{blue}I}(\bar{a})}{R_3};
 \end{align*}
 $$
-by employing the fact that $R_1 <R_2 <R_3$, algebraic manipulation produces an assertion that a quantity is strictly less than itself. Therefore, no such intervening $s_2$ can exist. □
+by employing the fact that $R_1 <R_2 <R_3$, algebraic manipulation produces an assertion that a quantity is strictly less than itself. Therefore, no such intervening $s_2$ can exist. ∎
 
 **Proposition 2 \[Plan overlap is very restricted\].** Suppose $\bar{a}$ and $\bar{a}'$ appear in an impact partition which is
 
@@ -184,7 +184,7 @@ $$
 {\color{Red}u}(\bar{a}) -\frac{{\color{blue}I}(\bar{a})}{R_1}= {\color{Red}u}(\bar{a}')-\frac{{\color{blue}I}(\bar{a}')}{R_1} \qquad {\color{Red}u}(\bar{a}) -\frac{{\color{blue}I}(\bar{a})}{R_2}={\color{Red}u}(\bar{a}')-\frac{{\color{blue}I}(\bar{a}')}{R_2}.
 
 $$
-Solving the first equality for ${\color{Red}u}(\bar{a})$ and substituting in the second, we find ${\color{blue}I}(\bar{a})= {\color{blue}I}(\bar{a}')$. Then ${\color{Red}u}(\bar{a})={\color{Red}u}(\bar{a}')$, since otherwise one of the plans wouldn't be optimal. □
+Solving the first equality for ${\color{Red}u}(\bar{a})$ and substituting in the second, we find ${\color{blue}I}(\bar{a})= {\color{blue}I}(\bar{a}')$. Then ${\color{Red}u}(\bar{a})={\color{Red}u}(\bar{a}')$, since otherwise one of the plans wouldn't be optimal. ∎
 
 Proposition 2b means we don't need a tie-breaking procedure for the scaled case. That is, if there's a tie between a lower-scoring, lower-impact plan and a proportionally higher-scoring, higher-impact alternative, the lower-impact plan is optimal at a single point because it's quickly dominated by the alternative.
 
@@ -194,7 +194,7 @@ The following result tells us that if there aren't any catastrophes (i.e. terror
 
 _Proof._ Suppose that $\bar{a}$ didn't have a constrained subinterval starting inclusively at ${\color{blue}I}(\bar{a})$; then clearly it wouldn't appear in the scaled impact partition, since there would be a strictly better plan for that level of impact. Then $\bar{a}$ has such a subinterval.
 
-Obviously, the fact that $\bar{a}'$ appears after $\bar{a}$ implies ${\color{Red}u}(\bar{a}')>{\color{Red}u}(\bar{a})$. □
+Obviously, the fact that $\bar{a}'$ appears after $\bar{a}$ implies ${\color{Red}u}(\bar{a}')>{\color{Red}u}(\bar{a})$. ∎
 
 The converse isn't true; sometimes there's too much penalty for not enough score.
 
@@ -210,7 +210,7 @@ $$
 R&>\frac{{\color{blue}I}(\bar{a}')-{\color{blue}I}(\bar{a})}{{\color{Red}u}(\bar{a}')-{\color{Red}u}(\bar{a})}.
 \end{align*}
 $$
-Equality at the value of the right-hand side can easily be checked. □
+Equality at the value of the right-hand side can easily be checked. ∎
 
 Theorem 4 also illustrates why we can't strengthen the second statement in Proposition 2b$^\text{plan overlap is very restricted}$: if two plans overlap at exactly one point, they sometimes have proportionally different score and impact, thereby satisfying the equality criterion.
 
@@ -220,7 +220,7 @@ At first, plans with slightly lower impact will be preferable in the scaled case
 
 _Proof outline._ The constrained case is once again trivial (if there is no plan within the constraint, we assume that the agent does nothing / Frank returns no object).
 
-For the scaled case, if all plans have equal impact, the claim is trivial. Otherwise, let $M:=\max_{\bar{a}} | {\color{Red}u}(\bar{a}) |$ and let $\bar{a}'$ be any plan with a non-minimal impact. Then the earliest that $\bar{a}'$ becomes preferable to any minimally impactful plan $\bar{a}$ is $R\geq \dfrac{{\color{blue}I}(\bar{a}')-{\color{blue}I}(\bar{a})}{2M}$. Since the right hand side is positive, $\bar{a}'$ cannot correspond to the first subinterval. Clearly the highest-scoring minimal-impact $\bar{a}$ does. □
+For the scaled case, if all plans have equal impact, the claim is trivial. Otherwise, let $M:=\max_{\bar{a}} | {\color{Red}u}(\bar{a}) |$ and let $\bar{a}'$ be any plan with a non-minimal impact. Then the earliest that $\bar{a}'$ becomes preferable to any minimally impactful plan $\bar{a}$ is $R\geq \dfrac{{\color{blue}I}(\bar{a}')-{\color{blue}I}(\bar{a})}{2M}$. Since the right hand side is positive, $\bar{a}'$ cannot correspond to the first subinterval. Clearly the highest-scoring minimal-impact $\bar{a}$ does. ∎
 
 Now we can write the algorithm for constructing scaled intervals.
 
@@ -236,11 +236,11 @@ For our purposes, we don't _need_ the whole partition – we just want to have g
 
 **Theorem 6 \[Individual appearance bounds\].** If $\bar{a}$ appears in a scaled partition, the earliest it appears is $\dfrac{{\color{blue}I}(\bar{a})-{\color{blue}I}_\text{next-largest}}{{\color{Red}u}(\bar{a})-\min {\color{Red}u}(\bar{a}')} $, assuming $\bar{a}$ is not of minimal impact; if it has minimal score minimal impact, it never appears. The latest it appears is $\dfrac{{\color{blue}I}(\bar{a})-\min {\color{blue}I}(\bar{a}')}{{\color{Red}u}(\bar{a})-{\color{Red}u}_\text{next-largest}}\leq \dfrac{{\color{blue}I}(\bar{a})}{{\color{Red}u}(\bar{a})-{\color{Red}u}_\text{next-largest}}$, where ${\color{Red}u}_\text{next-largest}=\max_{\bar{a}'\in \bar{A};\, {\color{Red}u}(\bar{a}') <{\color{Red}u}(\bar{a})} {\color{Red}u}(\bar{a}')$ and ${\color{blue}I}_\text{next-largest}=\max_{\bar{a}'\in \bar{A};\,{\color{blue}I}(\bar{a}') <{\color{blue}I}(\bar{a})} {\color{blue}I}(\bar{a}')$.
 
-_Proof outline._ The two claims clearly correspond to the minimal and maximal values of $R$ according to the domination criterion; the second claim's right-hand side uses the fact that ${\color{blue}I}$ is non-negative. □
+_Proof outline._ The two claims clearly correspond to the minimal and maximal values of $R$ according to the domination criterion; the second claim's right-hand side uses the fact that ${\color{blue}I}$ is non-negative. ∎
 
 **Corollary 7 \[Low-impact agents are naïve maximizers in the limit\].** A plan with maximal score corresponds to the last subinterval.
 
-_Proof outline._ If all plans have the same score, the claim is trivial. Otherwise, let $\bar{a}_\text{best}$ be a plan with the lowest impact of those with maximal score. In the constrained case, clearly it corresponds with the subinterval $[{\color{blue}I}(\bar{a}_\text{best}),\infty )$. In the scaled case, let $\bar{a}_\text{second-best}$ be a plan with second-highest score. Then by Theorem 6, the latest that $\bar{a}_\text{best}$ can appear is $\dfrac{{\color{blue}I}(\bar{a}_\text{best})}{{\color{Red}u}(\bar{a}_\text{best})-{\color{Red}u}(\bar{a}_\text{second-best})}$. Since no plans meet the domination criterion with respect to $\bar{a}_\text{best}$, this is the last subinterval. □
+_Proof outline._ If all plans have the same score, the claim is trivial. Otherwise, let $\bar{a}_\text{best}$ be a plan with the lowest impact of those with maximal score. In the constrained case, clearly it corresponds with the subinterval $[{\color{blue}I}(\bar{a}_\text{best}),\infty )$. In the scaled case, let $\bar{a}_\text{second-best}$ be a plan with second-highest score. Then by Theorem 6, the latest that $\bar{a}_\text{best}$ can appear is $\dfrac{{\color{blue}I}(\bar{a}_\text{best})}{{\color{Red}u}(\bar{a}_\text{best})-{\color{Red}u}(\bar{a}_\text{second-best})}$. Since no plans meet the domination criterion with respect to $\bar{a}_\text{best}$, this is the last subinterval. ∎
 
 Unfortunately, Theorem 6's appearance bounds are ridiculous in realistic settings – if ${\color{Red}u}$ and ${\color{blue}I}$ return 32-bit floating-point numbers, the next-largest could easily be within $10^{-7}$, yielding an upper "bound" of ${\color{blue}I}(\bar{a})\times 10^{7}$. The reason: diminishing returns; this is exactly what was happening with the newspaper route before.
 
@@ -263,7 +263,7 @@ $$
 \end{align*}
 $$
 Since $\bar{b}$ dominates $\bar{a}$ strictly before $\bar{c}$ does, we know that $\bar{b}$ must get more $\text {bang}$ for its $\text {buck}$: $\dfrac{{\color{Red}u}(\bar{b})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{b})-{\color{blue}I}(\bar{a})}>\dfrac{{\color{Red}u}(\bar{c})-{\color{Red}u}(\bar{a})}{{\color{blue}I}(\bar{c})-{\color{blue}I}(\bar{a})}
-.$ Clearly the conclusion follows, as a number cannot be expressed as the positive combination of larger numbers (the impact differences all must be positive). □
+.$ Clearly the conclusion follows, as a number cannot be expressed as the positive combination of larger numbers (the impact differences all must be positive). ∎
 
 **Corollary 9 \[Lower bounds which aren't ridiculous\].** Suppose $\bar{a}$ appears and that $\bar{a}'$ is such that ${\color{Red}u}(\bar{a}')>{\color{Red}u}(\bar{a})$, ${\color{blue}I}(\bar{a}')\geq {\color{blue}I}(\bar{a})$ (i.e. the preconditions of the domination criterion). Then the earliest that $\bar{a}'$ appears is $R=\dfrac{{\color{blue}I}(\bar{a}')-{\color{blue}I}(\bar{a})}{{\color{Red}u}(\bar{a}')-{\color{Red}u}(\bar{a})}$.
 
@@ -271,7 +271,7 @@ This obsoletes the lower bound provided by Theorem 6$^\text{Individual appearanc
 
 **Theorem 10 \[Order of domination determines order of appearance\].** If $\bar{b}$ and $\bar{c}$ both appear in a scaled partition and $\bar{b}$ dominates some $\bar{a}$ before $\bar{c}$ does, then $\bar{b}$ appears before $\bar{c}$.
 
-_Proof outline._ For them both to appear, they can't have equal impact but unequal score, nor can they have equal score but unequal impact. For similar reasons, $\bar{b}$ must have both less impact and lower score than $\bar{c}$; the converse situation in which they both appear is disallowed by Lemma 3$^\text{Constrained impact partitions are more refined}$. Another application of this lemma yields the conclusion. □
+_Proof outline._ For them both to appear, they can't have equal impact but unequal score, nor can they have equal score but unequal impact. For similar reasons, $\bar{b}$ must have both less impact and lower score than $\bar{c}$; the converse situation in which they both appear is disallowed by Lemma 3$^\text{Constrained impact partitions are more refined}$. Another application of this lemma yields the conclusion. ∎
 
 **Theorem 11 \[Scaled** $\alpha$**\-buffer criterion\].** Let $\mathcal{P}$ be a scaled impact partition. Suppose that there exist no catastrophic plans with impact below ${\color{blue}I}_\text{LB: cat}$, and that, in the corresponding constrained partition (i.e. plans which aren't strictly worse), plans appearing with score in the satisfactory interval $[{\color{Red}u}_\text{LB: sat},{\color{Red}u}_\text{UB: sat}]$ have impact no greater than ${\color{blue}I}_\text{UB: sat}$ (assume that there is at least one plan like this). Observe we have the correct bounds
 
@@ -300,7 +300,7 @@ $$
 $$
 Lastly, notice that the first of the two inequalities incorporates less information and is harder to satisfy ($R_\text{LB': catastrophe} >R_\text{LB: catastrophe}$); therefore, satisfying the second inequality also satisfies the first.
 
-_Proof outline._ For clarity, the theorem statement included much of the reasoning; straightforward application of existing results proves each claim. □
+_Proof outline._ For clarity, the theorem statement included much of the reasoning; straightforward application of existing results proves each claim. ∎
 
 _Exercise: Let_ ${\color{Red}u}_\text{UB: sat}=.7$, ${\color{Red}u}_\text{LB: sat}=.5$_. Using the refined criterion, determine which catastrophe/reasonable impact ratios induce 2.6-buffering._
 
@@ -326,6 +326,6 @@ In particular, ${\color{Red}u}$ may be restricted to $[0,1]$ and ${\color{blue}I
 
 _Proof._ Forward direction: there is at least one scaled subinterval by lemma 5$^\text{First subinterval is the best plan with minimal impact}$. Consider a plan corresponding to a different constrained subinterval; this either appears in the scaled subinterval, or fails to appear because a different plan earlier satisfies the scaled dominance criterion. There must be some such plan because there are multiple constraints of intervals and therefore a plan offering greater score for greater impact. Repeat the argument; the plan space is finite, so we end up with another plan which appears.
 
-The reverse direction follows by lemma 3$^\text{Constrained impact partitions are more refined}$. □
+The reverse direction follows by lemma 3$^\text{Constrained impact partitions are more refined}$. ∎
 
 _Bonus exercise:_ Show that, for _any_ function ${\color{Red}u'}:\bar{A}\to\mathbb{R}$ preserving the ordering induced by ${\color{Red}u}$, there exists an ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ preserving the ordering induced by ${\color{blue}I}$ such that $(\bar{A},{\color{Red}u}, {\color{blue}I})$ and $(\bar{A},{\color{Red}u'}, {\color{blue}I'})$ induce the same scaled partition. Your reasoning should adapt directly to the corresponding statement about ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ and ${\color{blue}I}$.

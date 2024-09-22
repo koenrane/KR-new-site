@@ -148,7 +148,6 @@ describe("HTMLFormattingImprovement", () => {
       ["5x1", "5×1"],
       [" :) The best", " 🙂 The best"],
       [" :( The worst", " 🙁 The worst"],
-      ["QED □", "QED ∎"],
     ])("should perform transforms for %s", (input: string, expected: string) => {
       const result = massTransformText(input)
       expect(result).toBe(expected)

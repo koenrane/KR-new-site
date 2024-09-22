@@ -21,8 +21,8 @@ title: "Insights from Euclid's 'Elements'"
 lw-latest-edit: 2021-02-15T03:50:14.043Z
 lw-is-linkpost: "false"
 tags: 
-  - "understanding-the-world"
   - "scholarship-&-learning"
+  - "understanding-the-world"
 aliases: 
   - "insights-from-euclid-s-elements"
 lw-sequence-title: "Becoming Stronger"

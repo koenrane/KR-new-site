@@ -21,8 +21,8 @@ title: "Attainable Utility Landscape: How The World Is Changed"
 lw-latest-edit: 2020-07-10T22:41:11.251Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
 aliases: 
   - "attainable-utility-landscape-how-the-world-is-changed"
 lw-sequence-title: "Reframing Impact"

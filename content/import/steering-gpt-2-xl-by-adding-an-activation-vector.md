@@ -22,9 +22,9 @@ lw-latest-edit: 2024-02-19T23:31:07.877Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Monte MacDiarmid, David Udell, Lisa Thiergart, and Ulisse Mini
 tags: 
-  - "shard-theory"
   - "AI"
   - "activation-engineering"
+  - "shard-theory"
 aliases: 
   - "steering-gpt-2-xl-by-adding-an-activation-vector"
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small

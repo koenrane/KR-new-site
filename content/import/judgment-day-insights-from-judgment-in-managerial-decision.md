@@ -20,28 +20,25 @@ publish: true
 title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 lw-latest-edit: 2019-12-30T00:31:36.289Z
 lw-is-linkpost: "false"
-tags: 
-  - "understanding-the-world"
-  - "scholarship-&-learning"
-aliases: 
-  - "judgment-day-insights-from-judgment-in-managerial-decision"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - understanding-the-world
+  - scholarship-&-learning
+aliases:
+  - judgment-day-insights-from-judgment-in-managerial-decision
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: computability-and-logic-textbook-review
-prev-post-title: "And My Axiom! Insights from 'Computability and Logic'"
+prev-post-title: And My Axiom! Insights from 'Computability and Logic'
 next-post-slug: topology-textbook-review
 next-post-title: "Continuous Improvement: Insights from 'Topology'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 12/29/2019
 original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
+skip_import: true
 ---
-_I found this book through the [CFAR reading list](https://www.rationality.org/resources/reading-list). Some content was previously posted on my [shortform feed](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#a2qvAYke9RN5iebCg)._
-
-# Foreword
-
 The more broadly I read and learn, the more I bump into implicit self-conceptions and self-boundaries. I was slightly averse to learning from a manager-oriented textbook because I'm not a manager, but also because I... didn't see myself as the kind of person who could learn about a "business"-y context? I also [didn't see myself as the kind of person who could read and do math](/first-analysis-textbook-review), which now seems ridiculous.
 
 Although the read was fast and easy and often familiar, I unearthed a few gems.
@@ -50,6 +47,7 @@ Although the read was fast and easy and often familiar, I unearthed a few gems.
 
 A tip of dubious ethicality for lazy [min-maxers](https://en.wikipedia.org/wiki/Munchkin_\(role-playing_games\)):
 
+> [!quote] Judgment in Managerial Decision Making
 > Managers give more weight to performance during the three months prior to \[a performance\] evaluation than to the previous nine months... because it is more available in memory.
 
 ## Unified explanation of biases
@@ -66,20 +64,21 @@ The case for confirmation bias seems to be a little more involved. We had evolut
 
 ## Making heads and tails of probabilistic reasoning
 
-In [_Subjective Probability: A Judgment of Representativeness_](http://datacolada.org/wp-content/uploads/2014/08/Kahneman-Tversky-1972.pdf), Kahneman and Tversky hypothesize that
-
+> [!quote] [_Subjective Probability: A Judgment of Representativeness_,](http://datacolada.org/wp-content/uploads/2014/08/Kahneman-Tversky-1972.pdf) Kahneman and Tversky
 > since sample size does not represent any property of the population, it is expected to have little or no effect on judgment of likelihood,
 
 which lines up with the above attention/activation model. Anyways, participants judged that the sequence of birth sexes `GBGBBG` is _more likely_ than `BGBBBB` (obviously, they have equal probability). K&T chalk this up to the first sequence seeming more "representative" of a "random" process. If you're considering whether the set of all sequences which "look like" the former is more likely than the set of sequences resembling the latter, then this answer could be correct.
 
 However, checking the original paper, this was controlled for; K&T emphasized that the exact order of births was as described. They go on:
 
+> [!quote]
 > One may wonder whether \[subjects\] do not simply ignore order information, and answer the question by evaluating the frequency of families of five boys and one girl relative to that of families of three boys and three girls. However, when we asked the same \[subjects\] to estimate the frequency of the sequence `BBBGGG`, they viewed it as significantly less likely than `GBBGBG` ($p<.01$), presumably because the former appears less random. Order information, therefore, is not simply ignored.
 
 ## Share your unique information in groups
 
 Groups are good because they pool knowledge and expertise. However, studies show that by default, shared knowledge is much more likely to be discussed than unshared knowledge, which can significantly worsen decision-making. The authors give the example of a group initially disfavoring a student council candidate. One person is privately aware of crucial positive information about the candidate, and groups in which all members knew the info were likely to favor the candidate. The information wasn't usually shared, and the candidate was passed over.
 
+> [!quote]
 > \[Ameliorative\] strategies include forewarning the group in advance of the unique knowledge of different members and identifing expertise in the group before the discussion begins.
 
 ## Open subaccounts for savings
@@ -136,9 +135,9 @@ In the new year, I'm going to focus hard on raising the level of my cognitive ga
 
 Reading the Sequences qualitatively levelled me up, and I want to do that again. My thought processes are still insufficiently transparent: I need to flag motivated reasoning more often. I still fall prey to the planning fallacy (but somewhat less than two years ago). I don't [notice my confusion](https://www.readthesequences.com/Noticing-Confusion-Sequence) _nearly_ as often as I should.
 
-Not noticing confusion often has a cost measured in hours (or more). Let me give you an example. Last night, I went to speak with Sen. Amy Klobuchar about effective altruism. It was my understanding that the event would be a meet-and-greet. I planned to query her interest in e.g. setting up a granting agency disbursing funds based on scientific evidence of high impact, with the details to be worked out in conjunction with relevant professionals in EA and the government.
+Not noticing confusion often has a cost measured in hours (or more). Let me give you an example. Last night, I went to see Sen. Amy Klobuchar speak. It was my understanding that the event would be a meet-and-greet. I planned to query her interest in e.g. setting up a granting agency disbursing funds based on scientific evidence of high impact, with the details to be worked out in conjunction with relevant professionals in EA and the government.
 
-While I was waiting for her to arrive, I noticed that people were writing on paper and handing it to other people. I rounded this off as commit-to-caucus cards, which, if I _actually thought_ about it, makes no sense – you keep your commit-to-caucus card. They were, in fact, providing written questions, some of which Sen. Klobuchar would later answer. If I had just noticed this, I could have written a question and then left, saving myself two hours.
+While I was waiting for her to arrive, I noticed that people were writing on paper and handing it to other people. I rounded this off as commit-to-caucus cards, which, if I _actually thought_ about it, makes no sense – you keep your commit-to-caucus card. They were, in fact, providing written questions, some of which Sen. Klobuchar would later answer. If I had just noticed this, I could have written a question.
 
 The list of things I've noticed I failed to notice in the last month is surprisingly long. I don't think I'm bad at this in a relative sense – just in an absolute sense.
 

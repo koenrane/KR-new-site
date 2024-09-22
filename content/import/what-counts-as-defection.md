@@ -22,8 +22,8 @@ lw-latest-edit: 2021-03-18T22:20:25.138Z
 lw-is-linkpost: "false"
 tags: 
   - "rationality"
-  - "game-theory"
   - "AI"
+  - "game-theory"
 aliases: 
   - "what-counts-as-defection"
 lw-reward-post-warning: "false"

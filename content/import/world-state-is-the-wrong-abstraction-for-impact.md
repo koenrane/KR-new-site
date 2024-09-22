@@ -21,8 +21,8 @@ title: "World State is the Wrong Abstraction for Impact"
 lw-latest-edit: 2020-04-22T21:42:10.102Z
 lw-is-linkpost: "false"
 tags: 
-  - "impact-regularization"
   - "understanding-the-world"
+  - "impact-regularization"
   - "AI"
 aliases: 
   - "world-state-is-the-wrong-abstraction-for-impact"

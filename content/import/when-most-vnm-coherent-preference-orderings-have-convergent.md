@@ -21,8 +21,8 @@ title: "When Most VNM-Coherent Preference Orderings Have Convergent Instrumental
 lw-latest-edit: 2023-05-16T20:32:55.143Z
 lw-is-linkpost: "false"
 tags: 
-  - "rationality"
   - "AI"
+  - "rationality"
   - "instrumental-convergence"
 aliases: 
   - "when-most-vnm-coherent-preference-orderings-have-convergent"

@@ -21,9 +21,9 @@ title: "Positive values seem more robust and lasting than prohibitions"
 lw-latest-edit: 2022-12-17T21:43:31.826Z
 lw-is-linkpost: "false"
 tags: 
-  - "shard-theory"
   - "human-values"
   - "AI"
+  - "shard-theory"
 aliases: 
   - "positive-values-seem-more-robust-and-lasting-than"
 lw-reward-post-warning: "false"
