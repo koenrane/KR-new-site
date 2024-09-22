@@ -20,11 +20,11 @@ publish: true
 title: "Continuous Improvement: Insights from 'Topology'"
 lw-latest-edit: 2020-02-25T19:34:03.925Z
 lw-is-linkpost: "false"
-tags: 
-  - "summaries"
-aliases: 
-  - "continuous-improvement-insights-from-topology"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - summaries
+aliases:
+  - continuous-improvement-insights-from-topology
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
@@ -36,6 +36,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 02/22/2020
 original_url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
+skip_import: true
 ---
 Sometimes you really like someone, but you can't understand why. By all means, you should have tired of them long ago, but you keep coming back. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
 
@@ -84,7 +85,7 @@ It has to be both continuous and open; the reason I got confused here was it see
 
 How come you can have discontinuous multivariate functions which are continuous in each variable? What _is_ continuity, with a product space as your domain? To simplify matters, let’s consider two metric spaces $X, Y$.
 
-One definition of continuity uses open sets – $f:X\to Y$ is continuous at $x$ if, for every open neighborhood $U$ of $f(x)$, there exists an open neighborhood $V$ of $x$ such that $f(V)\subseteq U$.
+One definition of continuity uses open sets: $f:X\to Y$ is continuous at $x$ if, for every open neighborhood $U$ of $f(x)$, there exists an open neighborhood $V$ of $x$ such that $f(V)\subseteq U$.
 
 Another definition uses topological convergence. $f:X\to Y$ is continuous at $x$ if, for every sequence $x_n\to x$, $f(x_n)\to f(x)$.
 

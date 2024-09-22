@@ -518,11 +518,16 @@ a.internal.tag-link {
 
 .authors {
   color: var(--gray);
+
+  & a {
+    color: inherit;
+  }
   margin-top: 0;
 }
 
 img {
-  max-width: 87.5%;
+  width: fit-content;
+  max-width: 100%;
   margin-bottom: calc(2 * $baseMargin);
 
   article > p & {

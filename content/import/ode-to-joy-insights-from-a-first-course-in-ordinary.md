@@ -20,12 +20,12 @@ publish: true
 title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential Equations'"
 lw-latest-edit: 2020-03-25T22:12:25.494Z
 lw-is-linkpost: "false"
-tags: 
-  - "scholarship-&-learning"
-  - "understanding-the-world"
-aliases: 
-  - "ode-to-joy-insights-from-a-first-course-in-ordinary"
-lw-sequence-title: "Becoming Stronger"
+tags:
+  - scholarship-&-learning
+  - understanding-the-world
+aliases:
+  - ode-to-joy-insights-from-a-first-course-in-ordinary
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
@@ -37,14 +37,13 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/25/2020
 original_url: https://www.lesswrong.com/posts/o3aTqo5zp6phkuiRw/ode-to-joy-insights-from-a-first-course-in-ordinary
+skip_import: true
 ---
-# Foreword
 
 Sometimes, it's easier to say how things change than to say how things are.
 
 ![](https://i.imgur.com/WCYZkZ4.gif)
-
-> _From [3Blue1Brown: Differential Equations](https://www.youtube.com/watch?v=p_di4Zn4wz4)_
+Figure: From [3Blue1Brown: Differential Equations](https://www.youtube.com/watch?v=p_di4Zn4wz4)
 
 When you write down a differential equation, you're specifying constraints and information about e.g. how to model something in the world. This gives you a family of solutions, from which you can pick out any function you like, depending on details of the problem at hand.
 
@@ -56,7 +55,7 @@ As usual, I'll just talk about random cool things from the book.
 
 ## Bee Movie
 
-In the summer of 2018 at a MIRI-CHAI intern workshop, I witnessed a fascinating debate: what mathematical function represents the _movie time_ elapsed in videos like [The Entire Bee Movie but every time it says bee it speeds up by 15%](https://www.youtube.com/watch?v=JMG1Nl7uWko)? That is, what mapping $t \mapsto x(t)$ converts the viewer timestamp to the movie timestamp for this video?
+In the summer of 2018 at a MIRI-CHAI intern workshop, I witnessed a fascinating debate: What mathematical function represents the _movie time_ elapsed in videos like [The Entire Bee Movie but every time it says bee it speeds up by 15%](https://www.youtube.com/watch?v=JMG1Nl7uWko)? That is, what mapping $t \mapsto x(t)$ converts the viewer timestamp to the movie timestamp for this video?
 
 I don't remember their conclusion, but it's simple enough to answer. Suppose $f(t)$ counts how many times a character has said the word "bee" by timestamp $t$ in the movie. Since the viewing speed itself increases exponentially with $f$, we have $x'(t) = 1.15^{f(x(t))}$. Furthermore, since the video starts at the beginning of the movie, we have the initial condition $x(0)=0$.
 
@@ -64,7 +63,7 @@ This problem cannot be cleanly solved analytically (because $f$ is discontinuous
 
 ## Gears-level models?
 
-Differential equations help us explain and model phenomena, often giving us insight into causal factors: for a trivial example, a population might grow more quickly _because_ that population is larger.
+Differential equations help us explain and model phenomena, often giving us insight into causal factors. For a trivial example, a population might grow more quickly _because_ that population is larger.
 
 ## Equilibria and stability theory
 
@@ -76,7 +75,8 @@ Let's think about rocks and hills. _Unstable_ equilibria have the rock rolling a
 
 ## Resonance
 
-> A familiar example is a playground swing, which acts as a pendulum. Pushing a person in a swing in time with the natural interval of the swing (its resonant frequency) makes the swing go higher and higher (maximum amplitude), while attempts to push the swing at a faster or slower tempo produce smaller arcs. This is because the energy the swing absorbs is maximized when the pushes match the swing's natural oscillations. ~ Wikipedia
+> [!quote] Wikipedia
+> A familiar example is a playground swing, which acts as a pendulum. Pushing a person in a swing in time with the natural interval of the swing (its resonant frequency) makes the swing go higher and higher (maximum amplitude), while attempts to push the swing at a faster or slower tempo produce smaller arcs. This is because the energy the swing absorbs is maximized when the pushes match the swing's natural oscillations.
 
 [And that's also how the Tacoma bridge collapsed in 1940](https://www.youtube.com/watch?v=3mclp9QmCGs). The second-order differential equations underlying this allow us to solve for the forcing function which could induce catastrophic resonance.
 

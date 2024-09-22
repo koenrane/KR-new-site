@@ -37,7 +37,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/22/2020
 original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
+skip_import: true
 ---
+> [!warning]
+> As of September 2024, I no longer endorse following some of these strategies. Concretely, beware of most content on [Arbital](https://arbital.com), especially the methodology of unbounded analysis.
+
 It's easier to make your way to the supermarket than it is to compute the fastest route, which is yet easier than computing the fastest route for someone running backwards and doing two and a half jumping jacks every five seconds and who only follows the route $p$ percent of the time. Sometimes, constraints are necessary. Constraints come with costs. Sometimes, the costs are worth it.
 
 Aspiring researchers trying to think about AI alignment might[^1] have a failure mode which goes something like… this:
@@ -54,7 +58,7 @@ Constraints come with costs. Sometimes, the costs are worth it. In this context,
 
 However, even if the real problem has crazy constraints, that doesn't mean you should immediately tackle the fully constrained problem. I think you should often [relax](https://en.wikipedia.org/wiki/Relaxation_\(approximation\)) the problem first: eliminate or weaken constraints until you reach a problem which is still a little confusing, but which you can get some traction on.
 
-> [!quote] [_The methodology of unbounded analysis_](https://arbital.com/p/unbounded_analysis/)
+> [!quote] [The methodology of unbounded analysis](https://arbital.com/p/unbounded_analysis/)
 >
 > Even if you know an unbounded solution to chess, you might still be 47 years away from a bounded solution. But if you can't state a program that solves the problem in principle, you are in some sense confused about the nature of the cognitive work needed to solve the problem. If you can't even solve a problem given infinite computing power, you definitely can't solve it using bounded computing power. (Imagine Poe trying to write a chess-playing program before he'd had the insight about search trees.)
 
@@ -134,8 +138,6 @@ In general, this seems like a skill that successful researchers and mathematicia
 The world is going to hell. You might be working on a hard (or even an impossible) problem. We plausibly stand on the precipice of extinction and utter annihilation.
 
 Just relax.
-
-_This is meant as a reference post. I'm not the first to talk using problem relaxation in this way. For example, see [The methodology of unbounded analysis](https://arbital.com/p/unbounded_analysis/)._
 
 <hr/>
 

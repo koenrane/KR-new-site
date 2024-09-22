@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/04/2020
 original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
+skip_import: true
 ---
 Presumably, I was taught geometry as a child. I do not remember.
 
@@ -141,4 +142,5 @@ I look forward to another beautiful poster.
 
 ![](https://i.imgur.com/vYNe9w0.jpg)
 
+> [!quote] Oliver Byrne
 > As the ſenſes of ſight and hearing can be ſo forcibly and inſtantaneously addreſſed alike with one thouſand as with one, _the million_ might be taught geometry and other branches of mathematics with great eaſe, this would advance the purpoſe of education more than any thing that _might_ be named, for it would teach the people how to think, and not what to think; it is in this particular the great error of education originates.

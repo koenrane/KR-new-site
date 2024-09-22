@@ -45,9 +45,11 @@ I wanted to help, and so I [started levelling up](/posts#becoming-stronger). Whi
 
 I can't usefully write a letter to my past self, so let me write a letter to you instead, keeping in mind that good advice for past-me [may not be good advice for you](https://slatestarcodex.com/2014/03/24/should-you-reverse-any-advice-you-hear/).
 
-# **Make Sure You Remember The Content**
+# Make Sure You Remember The Content
 
-_TL;DR: use a spaced repetition system like_ [_Anki_](https://apps.ankiweb.net/)_. Put in cards for key concepts and practice using the concepts. Review the cards every day without fail. This is the most important piece of advice._
+TL;DR: use a spaced repetition system like [_Anki_](https://apps.ankiweb.net/). Put in cards for key concepts and practice using the concepts. Review the cards every day without fail. This is the most important piece of advice.
+
+---
 
 The first few months of 2018 were a dream: I was learning math, having fun, and remaking myself. I read and reviewed [about one textbook a month](/posts#becoming-stronger). I was learning how to math, how to write proofs and read equations fluently and think rigorously. 
 
@@ -65,8 +67,6 @@ So basically I'm reading these math textbooks, doing the problems, getting a bit
 
 I explicitly noticed this problem in late 2020 and thought, 
 
-> [!quote]
->
 > is there any way I know of to better retain content? 
 > 
 > ... gee, what about [that thing I did in college that let me learn how to read 2,136 standard-use Japanese characters in 90 days](/insights-from-euclids-elements#Commemoration)? you know, Anki spaced repetition, that thing I _never tried_ for math because once I tried and failed to memorize dozens of lines of MergeSort pseudocode with it? 
@@ -93,9 +93,7 @@ How powerful might a bright 6th grader grow, were they to use Anki every day for
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/c2c81758874c685646f8210550a0f467bfad14deb21427c4.png)
 <br/>Figure: I've been using Anki for math for the last 71 days, and I currently have a deck of about 900 cards which I study for ~30 minutes daily. In 2018, I spent about 10 minutes daily reviewing a deck of nearly ten thousand French cards.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png)
-<br/>Figure: If I were to add no more cards, daily reviews drop off quickly.   
-  
-(Once completed, the reviews in the next few days _will_ be pushed into some of the future days, so this projection is slightly optimistic, but you get the point.)
+<br/>Figure: If I were to add no more cards, daily reviews drop off quickly. (Once completed, the reviews in the next few days _will_ be pushed into some of the future days, so this projection is slightly optimistic, but you get the point.)
 
 I love Anki, and I was foolish to circumscribe it to language-learning. I [now use Anki](https://ankiweb.net/shared/info/1336665852) to remember key concepts from academic talks, LessWrong blogposts, and yes - textbooks. Which I now love again, and which I read for ~an hour daily again, because I'm _actually retaining the content_. 
 
@@ -121,23 +119,22 @@ I know quite a bit about how to best use Anki, so if you try this and it doesn't
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/779057f2b021893338632688381f85d772c4e7855b673a7b.png)
 <br/>Figure: Memorizing definitions can be useful: when reading a text, it saves you from having to constantly check what the concept is. Make sure to include examples to work through - don't just toss in random definitions you're barely interested in and will never think about again.
 - Don't just memorize proofs, focus on the key ideas. Don't just memorize definitions, throw in several example problems which are small enough to actually do in your head (or with a scrap of paper).
-  - For example, if I'm trying to really ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs:
+  - For example, to ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/011bfe5d6e5f08744359d638f2b97e84c245940b82a2e429.png)
-<br/>Figure: The math here isn't important. The key thing is, I want to remember the "pseudorandom number generator" concept, and so I find an interesting result and make myself prove it. The proof isn't too long, which is key—just a few cloze deletions. Don't try to memorize essays with Anki.   
-  
 Am I ever going to actually use this math for my research? Probably not. Doesn't matter. Anki makes it cheap to learn and retain things.
 - If you get a card wrong more than 4 times in the first week, it's a bad card. Remake it.
-- Use MathJax instead of Latex, because MathJax renders instantly.
+- Use MathJax instead of Latex because MathJax renders instantly.
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/646f82b610ed254d92bf72acc8099db2e32190ba614a4f9b.png)
 <br/>Figure: If you want custom commands, use the card type editor.
-- My trigger for "I should add a new card" is reading something and thinking, "this is a cool concept!"
+- When I think "cool concept!", I generally add a new card to Anki.
   - I recommend adding cards liberally. Don't worry about getting the formatting or phrasing perfect at first. Just add cards and you'll develop a taste for what should be added, and how.
 
 # Read Several Textbooks Concurrently
 
-_TL;DR study several topics at once so that your brain has time to cement the concepts you're learning, before the text builds on those concepts further._
+TL;DR: Study several topics at once so that your brain has time to cement the concepts you're learning, before the text builds on those concepts further.
+
+---
 
 AllAmericanBreakfast's recent post is great, so I'll refer you to that to make this point:
 
@@ -154,21 +151,25 @@ I always feel like I'm learning something new instead of banging my head against
 
 # Completing The Whole Textbook Is Usually a Big Waste of Time, Please Don't Do It
 
-_TL;DR extract the most useful / central concepts and remember them forever via Anki. This doesn't require grasping every arcanum, every detail of a textbook._ 
+TL;DR: Extract the most useful / central concepts and remember them forever via Anki. This doesn't require grasping every arcanum, every detail of a textbook.
+
+---
 
 When I started reading textbooks, I completed the whole book. I didn't want to miss a crucial concept. But the thing about crucial concepts is that they pop up everywhere. If you missed a crucial concept, you'll know. You're not going to wake up 20 years from now and be like, "OH NO! I forgot to learn about 'force' when I self-studied physics! And I forgot to learn about injectivity in linear algebra!"
 
 As you read more, you'll get a taste for what's probably important, and what's details you can reference later if need be. You can also ask experts if you should study part of a book - this is one key benefit of having an actual teacher. 
 
-But don't complete the whole book and all of its exercises, if you just want to become a polymath. Leverage the Pareto principle, get 80% of the benefit out of the key 20/30/40% of the concepts and exercises, and then move on. 
+But don't complete the whole book and all of its exercises, if you just want to become a polymath. Leverage the Pareto principle, get 80% of the benefit out of the key 20% of the concepts and exercises, and then move on. 
 
 Another reason I used to do this a lot was that I wanted to look good by being able to mention on e.g. my resume that I had read the whole book. It's a lot more impressive to say "I read these 10 textbooks" than "I read large parts of this book, and some of this book, and a little of this one, and a lot of this other book." I've found that learning well requires keeping an eye out for these instincts. My brain is not my friend in this battle.
 
-I now often ask myself "am I doing this, at least in part, in order to look good?". Sometimes I answer 'yes', and sometimes I do it anyways - wanting to look good isn't always bad. But [there are sometimes things more important than looking good](https://www.lesswrong.com/posts/SGR4GxFK7KmW7ckCB/something-to-protect). 
+I now often ask myself "am I doing this, at least in part, in order to look good?". Sometimes I answer "yes", and sometimes I do it anyways - wanting to look good isn't always bad. But [there are sometimes things more important than looking good](https://www.lesswrong.com/posts/SGR4GxFK7KmW7ckCB/something-to-protect). 
 
 # Read Easier Textbooks Instead of Struggling Valiantly
 
-_TL;DR even though slogging through tough textbooks makes you feel sophisticated and smart, don't._ 
+TL;DR: Even if slogging through tough textbooks makes you feel sophisticated and smart - don't. 
+
+---
 
 Imagine I'm learning how to program, but I've never used a computer before. Learning to program _while_ learning to operate a computer, will probably take longer than learning to operate a computer and then learning to program. Learning time is superadditive in terms of your ignorance / the dependencies you're missing. 
 
@@ -186,7 +187,8 @@ Similarly, if I'm trying to learn fluid mechanics without knowing how to manipul
 
 But what if instead I picked up [some dumb book](https://www.amazon.com/Basic-Physics-Self-Teaching-Teaching-Guides-dp-111962990X/dp/111962990X/ref=dp_ob_title_bk) that doesn't even have any calculus, and let it give me approximate explanations via e.g. Archimedes' principle:
 
-> Archimedes' principle states that the upward buoyant force that is exerted on a body immersed in a fluid, whether fully or partially, is equal to the weight of the fluid that the body displaces. ([Wikipedia](https://en.wikipedia.org/wiki/Archimedes%27_principle))
+> [!quote] [Wikipedia](https://en.wikipedia.org/wiki/Archimedes%27_principle)
+> Archimedes' principle states that the upward buoyant force that is exerted on a body immersed in a fluid, whether fully or partially, is equal to the weight of the fluid that the body displaces. 
 
 I breeze through this book no problem, and I can see how to tie in these laws to explain my intuitive models: "logs float more easily than rocks because rock is denser than wood, and so the buoyant force from Archimedes' principle is enough to support the weight of a log." So I'm taking care of point #3, "tie this content into the real world." 
 
@@ -194,7 +196,9 @@ Then, suppose I learn about PDEs and become comfortable with them. Now all I nee
 
 # Be Comfortable with Approximate Models
 
-_TL;DR allow yourself to learn things in order of comprehensibility: don't try to learn general relativity before Newton's law of gravitation._
+TL;DR: allow yourself to learn things in order of comprehensibility: don't try to learn general relativity before Newton's law of gravitation.
+
+---
 
 In 2019, I wanted to learn a bit of chemistry. I got my hands on a high school chemistry textbook. I got stuck on chapter two because I was being too strict about forming [gears-level models](https://www.lesswrong.com/posts/B7P97C27rvHPz3s9B/gears-in-understanding).
 
