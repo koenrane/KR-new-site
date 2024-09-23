@@ -127,7 +127,7 @@ export function niceQuotes(text: string) {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
-  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,]|$))`
+  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\)]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-z])`
@@ -159,7 +159,7 @@ export function niceQuotes(text: string) {
   text = text.replace(periodRegex, ".$1")
 
   // Commas outside of quotes
-  const commaRegex = new RegExp(`(?<![!?])(${chr}?[”’]),`, "g")
+  const commaRegex = new RegExp(`(?<![!?]),(${chr}?[”’])`, "g")
   text = text.replace(commaRegex, "$1,")
 
   return text
