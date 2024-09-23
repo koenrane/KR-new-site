@@ -36,6 +36,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/22/2021
 original_url: https://www.lesswrong.com/posts/hRa5c5GaMNkNGtnXq/insights-from-modern-principles-of-economics
+skip_import: true
 ---
 How good are our economists? Look around. On a 20-minute walk to my Berkeley office, I walked past people reeking of urine, past people lying in a dirty sleeping bag on a thin cardboard pad, past some garbage around a tent which housed a child who grew up into an impoverished adult.
 
@@ -44,9 +45,12 @@ How good are our economists? Look around. On a 20-minute walk to my Berkeley off
 
 In what world is this broader system a success story for economics? 
 
-In **this world**.
+<span style="text-align:center;">In <strong>this world</strong>.</span>
 
 # Economics is important.
+
+> [!warning] 
+> As of September 2024, I no longer stand by these claims about economic policy. I still think economics is important. However, the data I link are nowhere near sufficient to let us conclude that economic policy caused a significant reduction in poverty. A special weak point is the fact that the vast majority of poverty reduction took place in China - hardly a beacon of neoliberal economics.
 
 The availability heuristic can deceive you (although [Kaj Sotala notes](https://www.lesswrong.com/posts/hRa5c5GaMNkNGtnXq/insights-from-modern-principles-of-economics?commentId=QCugeq3szkkmbaQzf) that e.g. the Bay area homeless may be benefitting less from growth than the global poor). If you just look out your window, you might miss important global trends.
 
@@ -85,7 +89,7 @@ This book brought me two benefits. First, it introduces important frames for thi
 
 So let's go.
 
-> [!quote]
+> [!quote] Modern Principles of Economics
 >
 > The prisoners were dying of scurvy, typhoid fever, and smallpox, but nothing was killing them more than bad incentives. In 1787, the British government had hired sea captains to ship convicted felons to Australia. Conditions on board the ships were monstrous; some even said the conditions were worse than on slave ships. On one voyage, more than one-third of the men died and the rest arrived beaten, starved, and sick. A first mate remarked cruelly of the convicts, "Let them die and be damned, the owners have \[already\] been paid for their passage."
 > 
@@ -99,16 +103,19 @@ So let's go.
 
 How do people decide what to buy and where to work, what opportunities to take and where to build? _Microeconomics_ models decision-making by consumers and firms. Basic microeconomic models assume that people want to make money, and they're good at it—they are rational. Unsurprisingly, this isn't quite true, but the models let us easily think about what incentives people have in different situations. 
 
-(We can add corrections to the Econ 101 arguments later. I think this is better than throwing up your hands and saying "Econ doesn't have all the answers, people are too complicated!")
+> [!info]
+> We can add corrections to the Econ 101 arguments later. I think this is better than throwing up your hands and saying "Econ doesn't have all the answers, people are too complicated!")
 
 The most important microeconomic frame I deeply internalized was **supply/demand curves**. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/y0sgmz4s0g0az3kbflia)
 <br/>Figure: At a price of \$3, suppliers will produce 8 slices of pizza.   
   
-_Law of supply: Firms want to supply more pizza if you'll pay them more; the supply curve is increasing._  
+Law of supply
+: Firms want to supply more pizza if you'll pay them more; the supply curve is increasing.  
   
-_Law of demand: Consumers want to buy less pizza if you charge them more; the demand curve is decreasing._  
+Law of demand
+: Consumers want to buy less pizza if you charge them more; the demand curve is decreasing.
   
 (Not all markets follow these "laws.")
 
@@ -116,7 +123,8 @@ I significantly sharpened my understanding of incentives by internalizing how to
 
 ## I think price gouging should usually be legal (and [most economists agree](https://www.igmchicago.org/surveys/price-gouging/))
 
-_This section serves both as an epistemic spot check and an explanation I wish I'd read when I started learning econ. Skip if it's old news to you._
+> [!info]
+> This section serves both as fact-checking and an explanation I wish I'd read when I started learning economics. 
 
 Price gouging occurs when an emergency happens (e.g. a blizzard), people demand a lot of some good (e.g. snow shovels), and so stores jack up the prices (e.g. \$4 -> \$30). 
 
@@ -215,9 +223,7 @@ Before I talk about the book holistically, here are more snippets:
   - The marginal product of labor (MPL) is the revenue from hiring an additional worker.
   - A custodian at Google is adding more value than an equally custodian at a small Indian firm.
   - Therefore, they have higher MPL, and are paid more.
-    - Concretely: American custodians [average \$30,906/year](https://www.payscale.com/research/US/Job=Custodian/Hourly_Rate). [Adjusting for Indian purchasing power parity](https://knoema.com/atlas/India/topics/Economy/Inflation-and-Prices/Purchasing-power-parity), that's equivalent to 
-$$
-30{,}906\times\frac{₹22}{$1}=679{,}932$ rupees. The [average Indian custodian only makes](https://www.payscale.com/research/IN/Job=Custodian/Salary) ₹120,726/year—less than a fifth the American wage.
+    - Concretely: American custodians [average \$30,906/year](https://www.payscale.com/research/US/Job=Custodian/Hourly_Rate). [Adjusting for Indian purchasing power parity](https://knoema.com/atlas/India/topics/Economy/Inflation-and-Prices/Purchasing-power-parity), that's equivalent to 30,906x22 rupees = 679,932 rupees. The [average Indian custodian only makes](https://www.payscale.com/research/IN/Job=Custodian/Salary) ₹120,726/year—less than a fifth the American wage.
 
   - Your wages aren't just determined by your skills and your work ethic, but by the rest of the economy. It pays to work in a wealthy economy!
 
@@ -250,7 +256,7 @@ $$
 
 # Conclusion
 
-Economics is interesting, and powerful. Famine used to haunt most of the world, and now it doesn't. 
+Economics is interesting and powerful. Famine used to haunt most of the world, and now it doesn't. 
 
 > [!quote]  Thomas Malthus, 1798. [_An Essay on the Principle of Population_](https://en.wikipedia.org/wiki/An_Essay_on_the_Principle_of_Population). 
 >
@@ -279,9 +285,7 @@ I haven't seriously looked into these questions yet.
 - Study the impossible trinity of [international economics](https://en.wikipedia.org/wiki/Impossible_trinity).
 - How does free banking work?
 
-<hr/>
-
-[^sra]:-sticky prices; I wonder what the effect on SRAS is? I'd guess that ceilings probably aren't binding for long enough to show up much macroeconomically.
+[^sra]: Talk about some awful upwards-sticky prices; I wonder what the effect on SRAS is? I'd guess that ceilings probably aren't binding for long enough to show up much macroeconomically.
 
 > [!thanks]
 >Thanks to LessWrong for feedback on this post.

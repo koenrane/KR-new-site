@@ -128,7 +128,7 @@ Alex
 : sorry, I didn't mean normal in a technical context. Since the subspace I introduced is one-dimensional (as a complex vector space), and it maps to the complex numbers as well, we have good old introduction to complex analysis derivatives here. If you like you can work with reals instead of complex variables too, in which case it would be the familiar real derivative.
 
 Alex
-: Wouldn't it still output a function, $g'$ maybe? wait. Would the derivative wrt $\lambda$ just be $g$?
+: Wouldn't it still output a function, $g'$ maybe? wait. Would the derivative with respect to $\lambda$ just be $g$?
 
 `TheMajor`
 : there is no derivative with respect to $\lambda$.
@@ -165,7 +165,7 @@ Alex
 
 : now there are two ways in which we can make this story complicated again, and most authors do both simultaneously.
 
-: Firstly we can try to extend the "derivative of $L$ at $f$ wrt $g$" to something like "derivative of $L$ at $f$". We'll do this first. Secondly we can try to take a different map, say $M$, which maps from $X$ into another vector space $Y$ (instead of the complex numbers). We can then try and define a derivative of $M$ at $f$ wrt $g$.
+: Firstly we can try to extend the "derivative of $L$ at $f$ with respect to $g$" to something like "derivative of $L$ at $f$". We'll do this first. Secondly we can try to take a different map, say $M$, which maps from $X$ into another vector space $Y$ (instead of the complex numbers). We can then try and define a derivative of $M$ at $f$ with respect to $g$.
 
 : The first step is conceptually simple, but formally and computationally very difficult. Given a point $f\in X$ and our map $L$ from before, we can simply say that "the derivative of $L$ at $f$" is the map that sends $g \in X$ to "the derivative of $L$ at $f$ with respect to $g$". So "the derivative of $L$ at $f$" is a map from $X$ to $\mathbb{C}$.
 
@@ -183,7 +183,7 @@ Alex
 `TheMajor`
 : Yes, this is 100% correct. This is related to the "nice linear properties in $g$" that I mentioned above
 
-: I also stated that this is computationally difficult. This is actually quite funny - the best way to find "The derivative of $L$ at $f$" is to take a 'test function' $g \in X$ (arbitrarily), compute (the derivative of $L$ at $f$ with respect to $g$), and then tahdah, you have now found the map that sends $g$ to (the derivative of $L$ at $f$ wrt $g$), i.e. exactly what you were looking for.
+: I also stated that this is computationally difficult. This is actually quite funny - the best way to find "The derivative of $L$ at $f$" is to take a 'test function' $g \in X$ (arbitrarily), compute (the derivative of $L$ at $f$ with respect to $g$), and then tahdah, you have now found the map that sends $g$ to (the derivative of $L$ at $f$ with respect to $g$), i.e. exactly what you were looking for.
 
 Alex
 : this sounds pretty computationally easy? Or are you calculating $L'$ for a general test function $g$, in which case, how do you get any nontrivial information out of that?
@@ -193,6 +193,7 @@ Alex
 
 : also something that may help with gaining insight: in multivariable calculus (lets say 2 dimensions, that's already plenty difficult) there is a clear divide between the \[existence of a partial derivative of a function at a point\] and \[the function being differentiable at that point\].
 
+Alex
 : yeah, because $L'$ has to exist for… all $g$? That seems a little tough.
 
 > [!info] Edited after posting
@@ -214,7 +215,7 @@ Alex
 : hm. That's because of the definition of linearity, right? it's a homomorphism for both the operations of addition and scalar multiplication... Wait, I intuitively understand why linearity means it's the same everywhere, but I'm having trouble coming up with the formal justification…
 
 `TheMajor`
-: Yes, the point is that when we look at the definition of "derivative of $L$ at $f$ wrt $g$" that is given by $\lim_{\lambda\to 0}\frac{ L(f + \lambda g) - L(f)}{\lambda}$...
+: Yes, the point is that when we look at the definition of "derivative of $L$ at $f$ with respect to $g$" that is given by $\lim_{\lambda\to 0}\frac{ L(f + \lambda g) - L(f)}{\lambda}$...
 
 Alex
 : ah, got it!
@@ -226,15 +227,15 @@ Alex
 : I'm ready to be reconfused.
 
 `TheMajor`
-: Ok, so now let's pick a range not inside the complex numbers $\mathbb{C}$, but inside a second normed vector space $Y$. So we have a map $M: X\to Y$, not necessarily linear. Again fix points $f, g\in X$. We are going to define the derivative of $M$ at $f$ wrt $g$.
+: Ok, so now let's pick a range not inside the complex numbers $\mathbb{C}$, but inside a second normed vector space $Y$. So we have a map $M: X\to Y$, not necessarily linear. Again fix points $f, g\in X$. We are going to define the derivative of $M$ at $f$ with respect to $g$.
 
 : so we repeat our trick from before, consider the map from $\mathbb{C}$ via $X$ to $Y$ given by $\lambda\mapsto M(f + \lambda g)$. We wish to differentiate it at $\lambda = 0$.
 
 : unfortunately, its image is now in $Y$, not in $\mathbb{C}$, so we don't really know what the derivative means. But because $Y$ is a normed vector space, the expression $\frac{M(f + \lambda g) - M(f)}{\lambda}$ makes sense for all non-zero $\lambda$.
 
-: if this function can be continuously extended to $\lambda = 0$ then we define its image at 0 as the derivative of $M$ at $f$ wrt $g$. Note that this notion of continuity has to do with the norm of $Y$.
+: if this function can be continuously extended to $\lambda = 0$ then we define its image at 0 as the derivative of $M$ at $f$ with respect to $g$. Note that this notion of continuity has to do with the norm of $Y$.
 
-: this is now a vector in $Y$, so if this works we have: \[the derivative of $M$ at $f$ wrt $g$\] which is an element of $Y$, \[the derivative of $M$ at $f$\] which is a (linear! usually horrible and not continous!) map from $X$ to $Y$.
+: this is now a vector in $Y$, so if this works we have: \[the derivative of $M$ at $f$ with respect to $g$\] which is an element of $Y$, \[the derivative of $M$ at $f$\] which is a (linear! usually horrible and not continous!) map from $X$ to $Y$.
 
 : btw if the "continuously extending" part is new, you can also just think of it as the limit of that fraction as $\lambda$ approaches 0. The only point is that (as long as we're working with complex vector spaces) there are a lot of different ways for $\lambda$ to approach 0, and it has to work for all of them.
 

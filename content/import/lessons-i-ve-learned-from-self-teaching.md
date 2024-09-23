@@ -38,6 +38,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/23/2021
 original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+skip_import: true
 ---
 In 2018, I was a bright-eyed grad student who was freaking out about AI alignment. I guess I'm still a bright-eyed grad student freaking out about AI alignment, but that's beside the point. 
 
@@ -196,7 +197,7 @@ Then, suppose I learn about PDEs and become comfortable with them. Now all I nee
 
 # Be Comfortable with Approximate Models
 
-TL;DR: allow yourself to learn things in order of comprehensibility: don't try to learn general relativity before Newton's law of gravitation.
+TL;DR: Allow yourself to learn things in order of comprehensibility. Don't try to learn general relativity before Newton's law of gravitation.
 
 ---
 
