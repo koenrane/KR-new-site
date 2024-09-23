@@ -33,6 +33,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/02/2024
 original_url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
+skip_import: true
 ---
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/v7f8ayBxLhmMFRzpa/uidocxp1iwtdztmkdlch)
 <br/>Figure: The effects of subtracting or adding a "sycophancy vector" to one bias term.
@@ -57,7 +58,7 @@ These vectors are[^1] highly effective, as rated by Claude 2:
 We find that the technique generalizes better than finetuning while only slightly decreasing MMLU scores (a proxy for general capabilities). According to our data, this technique stacks additively with both finetuning and few-shot prompting. Furthermore, the technique has _zero inference-time cost_ since it just involves modifying one of the model's bias terms (this also means it's immediately compatible with any sampling setup). We are the first to demonstrate control of a language model along these feature directions.[^2] 
 
 > [!info]
-> Code for the described experiments can be found at [https://github.com/nrimsky/CAA](https://github.com/nrimsky/CAA).This post was written by Alex Turner (`TurnTrout`).
+> Code for the described experiments can be found at [https://github.com/nrimsky/CAA](https://github.com/nrimsky/CAA). Alex wrote this post.
 
 # How contrastive activation addition works
 
@@ -145,7 +146,7 @@ To compare activation addition and finetuning, we measure their generalization e
 In tabular form:[^6] 
 
 |                    | Subtracted vector | No act. addition | Added vector      |
-| ------------------ | ----------------- | ---------------- | ----------------- |
+| -----------------: | ----------------- | ---------------- | ----------------- |
 | Positive Finetuned | 6% (-2)           | 12.5% (+4.5)     | **32.5% (+24.5)** |
 | Not Finetuned     | **1% (-7)**       | 8% (+0)          | 22% (+14%)        |
 | Negative Finetuned        | 2% (-6)           | 2% (-6)          | 10% (+2%)         |
@@ -182,12 +183,61 @@ It's not that finetuning is "failing" to be done properly. It's just a different
 
 # Steering vectors don't seem to hurt capabilities much
 
-We compute the average probability which Llama-2-7B-chat assigns to the correct MMLU answer token (i.e. top-1). "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1.
+We compute the average probability which Llama-2-7B-chat assigns to the correct MMLU answer token (i.e. top-1). 
 
-$$
-\begin{array}{|l|c|c|c|} \hline \text { Category } & \text { Added } & \text { Neutral } & \text { Subtracted } \\ \hline \text { Corrigibility } & 0.49 & 0.5 & 0.44 \\ \hline \text { Power-Seeking Inclination } & 0.48 & 0.48 & 0.47 \\ \hline \text { Survival Instinct } & 0.48 & 0.48 & 0.47 \\ \hline \text { Myopia } & 0.49 & 0.49 & 0.45 \\ \hline \text { Coordination with other AIs } & 0.46 & 0.47 & 0.47 \\ \hline \text { Hallucination } & 0.50 & 0.51 & 0.49 \\ \hline \end{array}
-$$
-Some of the vectors have a bit of an effect (e.g. corrigibility corresponds to a 6% absolute drop in MMLU top-1) but others don't really (like hallucination or coordination). Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples). 
+<figure>
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: right;">Vector</th>
+        <th style="color: blue;">Subtracted</th>
+        <th>Neutral</th>
+        <th style="color: red;">Added</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="text-align: right;">Corrigibility</td>
+        <td style="color: blue;">0.44 (-0.06)</td>
+        <td>0.50</td>
+        <td style="color: red;">0.49 (-0.01)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Power-Seeking Inclination</td>
+        <td style="color: blue;">0.47 (-0.01)</td>
+        <td>0.48</td>
+        <td style="color: red;">0.48 (+0.00)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Survival Instinct</td>
+        <td style="color: blue;">0.47 (-0.01)</td>
+        <td>0.48</td>
+        <td style="color: red;">0.48 (+0.00)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Myopia</td>
+        <td style="color: blue;">0.45 (-0.04)</td>
+        <td>0.49</td>
+        <td style="color: red;">0.49 (+0.00)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Coordination with other AIs</td>
+        <td style="color: blue;">0.47 (+0.00)</td>
+        <td>0.47</td>
+        <td style="color: red;">0.46 (-0.01)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Hallucination</td>
+        <td style="color: blue;">0.49 (-0.02)</td>
+        <td>0.51</td>
+        <td style="color: red;">0.50 (-0.01)</td>
+      </tr>
+    </tbody>
+  </table>
+  <figcaption>Probability assigned to correct answer in MMLU. "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1.</figcaption>
+</figure>
+
+Some of the vectors have a negative effect (e.g. corrigibility corresponds to a 6% absolute drop) but other vectors don't really (e.g. hallucination or coordination). Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples). 
 
 Furthermore, [Inference-Time Intervention](https://www.lesswrong.com/posts/kuQfnotjkQA4Kkfou/inference-time-intervention-eliciting-truthful-answers-from) found that adding a "truth vector" _improved_ MMLU for Llama-1!
 
@@ -196,15 +246,15 @@ Furthermore, [Inference-Time Intervention](https://www.lesswrong.com/posts/kuQfn
 > [!info]
 > This section is written in first-person, representing Alex's personal views.
 
-This year has seen a lot of progress. Activation additions allow model control via linear interventions with a concept algebra. Early this year (2023), my MATS 3.0 team and I discovered a "cheese vector" which makes a maze-solving policy ignore the presence of cheese ([blog post](/understanding-and-controlling-a-maze-solving-policy-network), [paper](https://arxiv.org/abs/2310.08043)). Next came [Steering GPT-2-XL by adding an activation vector](/gpt2-steering-vectors) ([paper](https://arxiv.org/abs/2308.10248)), which steered GPT-2-XL (1.5B params) using relatively crude steering vectors (e.g. not averaging over prompts, adding in at multiple token positions). 
+This year (2023) has seen a lot of progress. Activation additions allow model control via linear interventions with a concept algebra. Early this year, my MATS 3.0 team and I discovered a "cheese vector" which makes a maze-solving policy ignore the presence of cheese ([blog post](/understanding-and-controlling-a-maze-solving-policy-network), [paper](https://arxiv.org/abs/2310.08043)). Next came [Steering GPT-2-XL by adding an activation vector](/gpt2-steering-vectors) ([paper](https://arxiv.org/abs/2308.10248)), which steered GPT-2-XL (1.5B params) using relatively crude steering vectors (e.g. not averaging over prompts, adding in at multiple token positions). 
 
 Ever since I first saw the cheese vector, I've been excited for the impact of steering vectors, but a lot of people were still skeptical the technique was "real" or would scale. In this work, we scale up to 13B parameters and investigated both base models and RLHF'd chat models. Our vectors work significantly better than I had expected. 
 
-Concurrently to the GPT-2 work, [Li et al. (2023)](https://arxiv.org/abs/2306.03341) demonstrated a "truth vector" on LLaMa-1. They independently derived the ~same activation addition technique! In fact, a _third paper this year_ independently derived activation addition: [In-context vectors](https://arxiv.org/abs/2311.06668) steered models to reduce toxicity and effect style transfer. I guess something is in the water this year. 
+Concurrently to the GPT-2 work, [Li et al. (2023)](https://arxiv.org/abs/2306.03341) demonstrated a "truth vector" on LLaMa-1. They independently derived the ~same activation addition technique! In fact, a _third paper this year_ independently derived activation addition: [In-context vectors](https://arxiv.org/abs/2311.06668) steered models to reduce toxicity and effect style transfer. I guess something is in the water. 
 
-The [representation engineering paper](https://arxiv.org/abs/2310.01405) found a bunch of interesting steering vectors, including a "memorization vector." By subtracting their memorization vector, they reduced quote recitation from 89% to 37% while preserving performance on a historical dataset. Activation additions have also motivated a [formalization of "linear representation"](https://arxiv.org/abs/2311.03658), helped verify [linear representations of sentiment in LLMs](https://arxiv.org/abs/2310.15154), and [contributed to adversarial training](https://arxiv.org/abs/2311.09433). 
+The follow-on [representation engineering paper](https://arxiv.org/abs/2310.01405) found a bunch of interesting steering vectors, including a "memorization vector." By subtracting their memorization vector, they reduced quote recitation from 89% to 37% while preserving performance on a historical dataset. Activation additions have also motivated a [formalization of "linear representation"](https://arxiv.org/abs/2311.03658), helped verify [linear representations of sentiment in LLMs](https://arxiv.org/abs/2310.15154), and [contributed to adversarial training](https://arxiv.org/abs/2311.09433). 
 
-I'm now helping start up DeepMind's Bay-area alignment team. My first project is to run this technique on large internal models and see how well it works. I'll be excited to see other groups continue to adopt this technique and get cool results. I hope (and expect) that activation addition will work this well on frontier models.[^3] If so, it'd be great for activation additions to be incorporated into the standard alignment pipelines. 
+I'm now helping start up DeepMind's Bay area alignment team. My first project is to run this technique on large internal models and see how well it works. I'll be excited to see other groups continue to adopt this technique and get cool results. I hope (and expect) that activation addition will work this well on frontier models.[^3] If so, it'd be great for activation additions to be incorporated into the standard alignment pipelines. 
 
 # Conclusion
 
@@ -212,19 +262,28 @@ Our steering vectors have strong alignment-relevant effects, reducing bad behavi
 
 Finetuning is a different kind of operation than activation addition. Therefore, perhaps some alignment problems can be solved easily via activation addition, even though they're hard to resolve with finetuning. We're excited to see how people use this tool.
 
-<hr/>
 
+> [!thanks] Contributions
+> Nina Rimsky (researcher)
+> : Came up with idea of using a dataset of contrast pairs for generating steering vectors, wrote original steering code and implemented most experiments, produced figures, contributed to paper writing.
+> 
+> Nick Gabrieli (researcher) 
+> : Conducted experiments for steering on topics other than sycophancy and hallucination, contributed to paper writing.
+> 
+> Julian Schulz (researcher)
+> : Created the hallucination dataset, wrote code for LLM-based completion scoring, conducted all hallucination experiments.
+> 
+> Meg Tong (researcher)
+> : Ran experiments which influenced the paper and gave feedback on the paper.
+> 
+> Evan Hubinger (mentor)
+> : Supervised Nina Rimsky in [MATS 4.0](https://www.matsprogram.org/) and gave a bunch of direction and ideas for the initial experiments.
+> 
+> Alex Turner (mentor)
+> : Supervised Nick and Julian in MATS 4.0, gave feedback on experiment designs, organized the paper-writing effort and wrote this blog post, came up with original activation addition idea.
 
-**Contributions:**
-
-- **Nina Rimsky (researcher): **Came up with idea of using a dataset of contrast pairs for generating steering vectors, wrote original steering code and implemented most experiments, produced figures, contributed to paper writing.
-- **Nick Gabrieli (researcher): **conducted experiments for steering on topics other than sycophancy and hallucination, contributed to paper writing.
-- **Julian Schulz (researcher): **Created the hallucination dataset, wrote code for LLM-based completion scoring, conducted all hallucination experiments.
-- **Meg Tong (researcher): **Ran experiments which influenced the paper and gave feedback on the paper.
-- **Evan Hubinger (mentor): **Supervised Nina Rimsky in [MATS 4.0](https://www.matsprogram.org/) and gave a bunch of direction and ideas for the initial experiments.
-- **Alex Turner (mentor): **Supervised Nick and Julian in MATS 4.0, gave feedback on experiment designs, organized the paper-writing effort and wrote this blog post, came up with original activation addition idea.
-
-If you want to do work like this, apply to work with Alex in [Team Shard](https://www.matsprogram.org/interpretability) in MATS 6.0 later in summer 2024.
+> [!info]
+> If you want to do work like this, apply to work with Alex in [Team Shard](https://www.matsprogram.org/mentors) in MATS.
 
 [^1]: Just because a vector is called the "corrigibility vector" _does not mean_ that the vector induces the corrigible generalization we had in mind! The generalization seems pretty good, but should be studied more.
     

@@ -537,6 +537,11 @@ video {
   }
 }
 
+ul ul,
+ol ul {
+  margin-top: calc(0.5 * $baseMargin);
+}
+
 .katex {
   overflow-x: auto;
   overflow-y: hidden;
