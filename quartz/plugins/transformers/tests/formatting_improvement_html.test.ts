@@ -102,6 +102,22 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 
+  describe("Definition Lists", () => {
+    it.only.each([
+      [
+        '<dl><dt>"Term 1".</dt><dd>Definition 1.</dd></dl>',
+        '<dl><dt>“Term 1.”</dt><dd>Definition 1.</dd></dl>',
+      ],
+      [
+        '<dl><dt>"Quoted term".</dt><dd>"Quoted definition".</dd></dl>',
+        '<dl><dt>“Quoted term.”</dt><dd>“Quoted definition.”</dd></dl>',
+      ],
+    ])('should handle smart quotes and punctuation in definition lists: %s', (input, expected) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
+    })
+  })
+
   describe("Full-width slashes", () => {
     it.each([
       ["'cat' / 'dog'", "'cat' ／'dog'"],
