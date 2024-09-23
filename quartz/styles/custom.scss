@@ -547,7 +547,7 @@ img {
   }
   .callout &:not(.favicon),
   dd & {
-    width: 100%;
+    width: fit-content;
   }
 }
 
@@ -664,7 +664,6 @@ hr {
 .katex-html {
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 3px;
   .base {
     margin: 0 auto;
   }
