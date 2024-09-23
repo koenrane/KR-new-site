@@ -58,7 +58,7 @@ These vectors are[^1] highly effective, as rated by Claude 2:
 We find that the technique generalizes better than finetuning while only slightly decreasing MMLU scores (a proxy for general capabilities). According to our data, this technique stacks additively with both finetuning and few-shot prompting. Furthermore, the technique has _zero inference-time cost_ since it just involves modifying one of the model's bias terms (this also means it's immediately compatible with any sampling setup). We are the first to demonstrate control of a language model along these feature directions.[^2] 
 
 > [!info]
-> Code for the described experiments can be found at [https://github.com/nrimsky/CAA](https://github.com/nrimsky/CAA). Alex wrote this post.
+> Code for the described experiments can be found at [Nina's repo](https://github.com/nrimsky/CAA). Alex wrote this post.
 
 # How contrastive activation addition works
 
@@ -86,12 +86,12 @@ The vector was computed using A/B questions. We wanted to find out if the steeri
 
 For each dataset, we took held-out questions (not used to form the steering vector) but hid the A/B answers. The models wrote free-form answers. Then Claude 2 evaluated whether the free-form answer was e.g. sycophantic. By this metric, both models do extremely well. 
 
-## Llama-2-13b-chat
+## Llama-2-13B-chat
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/v7f8ayBxLhmMFRzpa/ibaycic76o6lkwtjzhoq)
 <br/>Figure: Adding steering vectors to layer 15 of Llama-2-13b-chat. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.
 
-## Llama-2-7b-chat
+## Llama-2-7B-chat
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/v7f8ayBxLhmMFRzpa/hr981dj7nxov5yaoifbn)
 <br/>Figure: Effect on behaviors of Llama-2-7B-chat. Vector added to layer 15. "Subtracted" means the steering vector has a coefficient of -1, and "Added" entails a coefficient of +1.

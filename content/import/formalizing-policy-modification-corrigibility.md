@@ -39,7 +39,8 @@ skip_import: true
 ---
 In [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), I operationalized an agent's corrigibility  as our ability to modify the agent so that it follows different policies. In the summer of 2020, I had formalized this notion, but it languished—unloved—in my Overleaf drafts.
 
-ETA 12/3/21: This post is not proposing a solution to corrigibility, but proposing an interesting way of quantifying an aspect of corrigibility.
+> [!info] Clarification
+> This post is not proposing a solution to corrigibility, but proposing an interesting way of quantifying an aspect of corrigibility.
 
 # Motivation
 
