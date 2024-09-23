@@ -36,6 +36,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/27/2022
 original_url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefit-analysis-of-your-technology-usage
+skip_import: true
 ---
 If an unaligned entity invests billions of dollars into an application which you use, where they benefit from wasting your time, and you haven’t at least done a cost-benefit analysis so that your usage minimizes your costs and maximizes your benefits—_You are probably getting fucked over_.
 
@@ -136,35 +137,33 @@ Why did I choose these rules? I won’t get unhealthily sucked into any of these
 
 The world was not going to end because I stopped reading the news for a month—I understand there’s a war still going on in Ukraine, but that’s about all I know, and I’m not worse off for it. I resolved that if I wanted to build models of that part of the world, I’d do that on purpose. I won’t doomscroll through hyper-optimized interfaces designed to scam me out of my attention and make me anxious. I said to myself, my life is worth more to me than that.
 
-**FAQ**
+## Anticipated questions
 
-> But `TurnTrout`, my job needs email / \[other special reason why this doesn’t work for me\].
+But `TurnTrout`, my job needs email / \[other special reason why this doesn’t work for me\].
+: I concede that my rules are probably not best for your situation. But have you thought about the issue for five minutes? Could you ask your boss if you can check email once a day and otherwise take phone calls? Maybe you don’t restrict email, but stop looking at websites like Reddit or Hacker News or Marginal Revolution or Facebook or Twitter? Are there other creative solutions waiting to be uncovered? Have you tried?
 
-I concede that my rules are probably not best for your situation. But have you thought about the issue for five minutes? Could you ask your boss if you can check email once a day and otherwise take phone calls? Maybe you don’t restrict email, but stop looking at websites like Reddit or Hacker News or Marginal Revolution or Facebook or Twitter? Are there other creative solutions waiting to be uncovered? Have you tried?
+: If your team uses Slack for asynchronous communication, once- or twice-daily checks should be fine. If you use it for synchronous communication, perhaps establish a daily “office hour” when you’ll be on Slack, or even coordinate with your team to establish a daily “Slack hour” where people are expected to be online. Or something else. The point is to establish the main benefits you reap from each digital affordance, and then find a plan which minimizes the costs you pay for those benefits.
 
-If your team uses Slack for asynchronous communication, once- or twice-daily checks should be fine. If you use it for synchronous communication, perhaps establish a daily “office hour” when you’ll be on Slack, or even coordinate with your team to establish a daily “Slack hour” where people are expected to be online. Or something else. The point is to establish the main benefits you reap from each digital affordance, and then find a plan which minimizes the costs you pay for those benefits.
+I’m already good about my internet usage.
+: This might be true! I know exactly one person for whom I’m quite confident this is true (Andrew Critch), and maybe there are more among my friends whom I don’t know about. This might be you if you already use services based on their costs and benefits, often using websites in unintended ways (like blocking all recommendations on YouTube via the Unhook add-on \[[Chrome](https://chrome.google.com/webstore/detail/unhook-remove-youtube-rec/khncfooichmfjbepaaaebmommgaepoid), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-recommended-videos/)\]), and spending far less time than average (e.g. only checking email very infrequently).
 
-> I’m already good about my internet usage.
+: I’d still bet against it. I would have said I was good about my internet usage, and it _was_ true—in a relative sense. I think people (motivatedly) underestimate how much time they waste, perhaps because it can feel bad and embarrassing to admit the problem.
 
-This might be true! I know exactly one person for whom I’m quite confident this is true (Andrew Critch), and maybe there are more among my friends whom I don’t know about. This might be you if you already use services based on their costs and benefits, often using websites in unintended ways (like blocking all recommendations on YouTube via the Unhook add-on \[[Chrome](https://chrome.google.com/webstore/detail/unhook-remove-youtube-rec/khncfooichmfjbepaaaebmommgaepoid), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-recommended-videos/)\]), and spending far less time than average (e.g. only checking email very infrequently).
-
-I’d still bet against it. I would have said I was good about my internet usage, and it _was_ true—in a relative sense. I think people (motivatedly) underestimate how much time they waste, perhaps because it can feel bad and embarrassing to admit the problem.
-
-> But how will I stay in touch with people? I’m already lonely.
-
-Excellent question! Reallocate low-quality social time to high-quality social time. Instead of checking if some half-friends liked your FB status, call up a buddy and grab a beer, or go to a meetup, or join a club.
+But how will I stay in touch with people? I’m already lonely.
+: Excellent question! Reallocate low-quality social time to high-quality social time. Instead of checking if some half-friends liked your FB status, call up a buddy and grab a beer, or go to a meetup, or join a club.
 
 # Benefits of the declutter
 
-_February 22nd: The First Day._ I went running, and got back to the house 10 minutes earlier than usual. Huh.
+## The First Day
+I went running and got back to the house 10 minutes earlier than usual. Huh.
 
 I called my parents and went on a leisurely walk. Even so, I got my morning routine done 60 minutes ahead of schedule. I read half of a book on ordinary differential equations while lounging in my sunlit room. I did some deep thinking for an hour, safe from my phone’s dopaminergic temptation. I switched contexts and read about electrostatics. Still hours ahead of schedule.
 
 The day yawned and stretched. I wondered if it would ever end. (It did.)
 
-_February 23rd: The Second Day._ From my journal:
+## The Second Day
 
-> [!quote]
+> [!quote] Journal entry (February 23, 2022)
 >
 > It's so relaxing not using my phone, and yet I can still feel my anxiety pulling me to my digital affairs.
 > 
@@ -186,14 +185,12 @@ Even assuming this month gave me unusually large benefits, I wouldn’t ever, ev
 
 This short post may not be convincing enough to try out such a substantial life modification. I’m not asking that you do a declutter right away. I’m recommending that you read the first half of [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/), or listen on Audible (cost: a few hours and \$14).
 
-Let me sweeten the deal with a costly signal. If I’ve met you in real life, and you consume the first half of the book and find it unconvincing / try the declutter and it wasn’t at all worth trying in hindsight, message me on LessWrong and I’ll pay you \$30.[^3]
+Let me sweeten the deal with a costly signal. If I’ve met you in real life, and you consume the first half of the book and find it unconvincing / try the declutter and it wasn’t at all worth trying in hindsight, [email me](mailto:alex@turntrout.com) and I’ll pay you \$30.[^3]
 
 I think many, many people are shooting themselves in the foot, so I will be blunt. _Please stop shooting yourself in the foot._ Please do a cost-benefit analysis. I think many people have serious, serious problems with their internet usage. I did. You might. If so, you are leaving a lot of your life on the table.
 
 > [!thanks]
 >Thanks to Meg Tong, Josh Turner, and Kurt Brown for feedback on this post.
-
-<hr/>
 
 
 # Appendix 1: Declutter advice
@@ -234,10 +231,10 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/d32796158700c20215c248c4a535664223c89bdddc3c874c.png)
 <br/>Figure: Here’s what my FB news feed looks like now. 😌
-- For news, I purchased a digital+print subscription to _~The Economist~_. Once a month, I can choose to read the four issues for an hour or two.
+- For news, I purchased a digital+print subscription to _~The Economist~_.[^econ] Once a month, I can choose to read the four issues for an hour or two.
   - I don’t need to read more than that. I can read about candidates before an election, and there isn’t much else that’s decision-relevant. If e.g. AI dynamics heat up and geopolitical understanding becomes more important, I’ll tackle that deliberately.
   - Looking back at my life, I see how often I’ve been hijacked by news websites. It makes me sick.
-  - UPDATE: No longer recommend _The Economist. _Their cancellation process is scummy, recommend avoiding the defectors.
+[^econ]: I no longer recommend _The Economist._ Their cancellation process is scummy. Avoid the defectors.
 
 - I’m basically not going to text anymore. I used to check it so, so often.
   - This was hard at first. One of my partners strongly prefers texting, and I liked texting her, and missed her a lot. With additional thought, we discovered that she really just wanted to asynchronously send me updates on how her day was going. I said she could text me as much as she wanted—but I’d read them during our next phone call.

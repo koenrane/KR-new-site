@@ -49,6 +49,9 @@ original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-
 
 The funny thing about long periods of time is that they do, eventually, come to an end. I'm proud of what I accomplished during my PhD. That said, I'm going to first focus on mistakes I've made over the past four[^1] years.
 
+![](https://assets.turntrout.com/static/images/posts/phdReflection.avif)
+Figure: Before my thesis defense -- thinking about what I'd done to advance alignment research, and if it would be enough.
+
 # Mistakes
 
 I think I [got significantly smarter in 2018–2019](/swimming-upstream), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD. 
@@ -87,7 +90,7 @@ A few months back, Quintin Pope approached me with (what he claimed to be) a new
 > 
 > It's clearly not because humans evolved away from wireheading, _specifically_. There are somewhat similar situations to wireheading in the ancestral environment: psychoactive drugs, masturbation, etc. Is the reason we don't wirehead because evolution instilled us with an aversion to manipulating our reward function, which then zero-shot generalized to wireheading, despite wireheading being so wildly dissimilar to the contents of the ancestral environment? How could evolution have developed an alignment approach that generalized so well?
 
-After a few days, I realized my gut expectations were that he was broadly correct and that this theory of alignment could actually be right. However, I realized I wasn't consciously letting myself think that because it would be Insufficiently Skeptical to actually think the alignment problem is solvable. This seemed obviously stupid to me, so I quickly shut that line of thinking down and second-order updated towards optimism so that I would [stop _predictably_ getting more optimistic](https://www.readthesequences.com/Conservation-Of-Expected-Evidence) about Quintin's theory.[^2]
+After a few days, I realized my gut expectations were that he was broadly correct and that this theory of alignment could actually be right. However, I realized I wasn't consciously letting myself think that because it would be Insufficiently Skeptical to actually think the alignment problem is solvable. This seemed obviously stupid to me, so I quickly shut that line of thinking down and second-order updated towards optimism so that I would [stop _predictably_ getting more optimistic](https://www.readthesequences.com/Conservation-Of-Expected-Evidence) about Quintin's theory.
 
 I realized I assigned about 5% credence to "this line of thinking marks a direct and reasonably short path to solving alignment." Thus, on any calculation of benefits and harms, I should be willing to stake some reputation to quickly get more eyeballs on the theory, even though I expected to end up looking a little silly (with about 95% probability). With my new attitude, I decided "whatever, let's just get on with it and stop wasting time." 
 
@@ -199,8 +202,6 @@ Leaving Oregon was a bit sad, but coming to Berkeley is exciting. I'll be starti
 [Here's to winning](/emotionally-confronting-doom). 🥂
 
 [^1]: My PhD was six years long (it started in the fall of 2016). However, I'm not even going to critique the first two years, because that would make the "Mistakes" section far too long.
-    
-[^2]: If you're interested in reading about the theory now, see [this recent comment](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer?commentId=EfeMSnBvbvxjSQBc3). I'm currently putting together some prerequisite posts to bridge the inferential gap.
     
 [^3]: Sometimes I feel the urge to defend myself _just a little more_, to which some part of me internally replies "are you serious, this defensibility thing again?! Are you _ever_ going to let me _actually think_?"  
       
