@@ -114,7 +114,7 @@ export function maybeInsertOrnament(
 
 /**
  * Inserts the ornament node into the tree.
- * @param {Root} tree - The AST tree to modify.
+ * @param {Root} tree - The AST to modify.
  */
 export function insertOrnamentNode(tree: Root): void {
   let ornamentInserted = false;

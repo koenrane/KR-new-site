@@ -159,4 +159,4 @@ OK, I've written enough! Get to know me if you want to know more. 🪿
 
 # Contact
 
-If you think we might be compatible, email me at [alex@turntrout.com](mailto:alex@turntrout.com)! (You can just say hello and a paragraph about yourself, no pressure to send an elaborate message.)
+If you think we might be compatible, email me at [`alex@turntrout.com`](mailto:alex@turntrout.com)! (You can just say hello and a paragraph about yourself, no pressure to send an elaborate message.)
