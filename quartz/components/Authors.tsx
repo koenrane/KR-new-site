@@ -20,9 +20,13 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
     <span>
       <p class="authors">
         {authors}
-        <br />
-        {publicationInfo}
-        <br />
+        {publicationInfo !== <></> && (
+          <>
+            <br />
+            {publicationInfo}
+            <br />
+          </>
+        )}
       </p>
     </span>
   )

@@ -62,7 +62,8 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 
   let faviconElement: JSX.Element = <img src={imgPath} className="favicon" alt="" />
 
-  if (typeof node.props.children !== "string") {
+  const textContent = node.props.children
+  if (typeof textContent !== "string" || textContent.length < 4) {
     return (
       <>
         {node}
@@ -71,7 +72,6 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
     )
   }
 
-  const textContent = node.props.children
   const charsToRead = Math.min(4, textContent.length)
   const lastFourChars = textContent.slice(-charsToRead)
   const remainingText = textContent.slice(0, -charsToRead)
@@ -87,12 +87,12 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 }
 
 // Render publication information including original URL and date
-export const renderPublicationInfo = (
-  cfg: GlobalConfiguration,
-  fileData: QuartzPluginData,
-): JSX.Element => {
+export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
   const frontmatter = fileData.frontmatter
-  if (typeof frontmatter?.original_url !== "string") return <></>
+  const datePublished = frontmatter?.date_published
+  if (typeof frontmatter?.original_url !== "string" || !datePublished || frontmatter?.hide_metadata) {
+    return null
+  }
 
   // TODO fix this for future posts from the website
   const publicationStr = frontmatter?.date_published ? "Originally published" : "Published"
@@ -100,15 +100,15 @@ export const renderPublicationInfo = (
   const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""
   const dateElement = renderDateElement(fileData, dateStr)
 
-  const originalURL = new URL(frontmatter.original_url)
-  const faviconPath = getFaviconPath(originalURL)
+  const url = new URL(frontmatter!.original_url as string)
+  const faviconPath = getFaviconPath(url)
 
   return (
     <span className="publication-str">
       {insertFavicon(
         faviconPath,
-        <a href={frontmatter.original_url} className="external" target="_blank">
-          {publicationStr}
+        <a href={url.toString()} className="external" target="_blank">
+          Originally published
         </a>,
       )}
       {dateElement}
