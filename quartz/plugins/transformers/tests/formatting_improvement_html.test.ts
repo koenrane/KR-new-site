@@ -66,6 +66,14 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(expected)
     })
 
+    // Handle HTML inputs
+    it.each([
+      ['<p>I love <span class="katex">math</span>".</p>', '<p>I love <span class="katex">math</span>.”</p>'],
+    ])("should handle quotes around KaTeX math", (input, expected) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
+    })
+
     it.each([['<p><br>"Unicorn"<br></p>', "<p><br>“Unicorn”<br></p>"]])(
       "should handle quotes in DOM",
       (input, expected) => {
