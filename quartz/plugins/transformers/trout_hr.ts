@@ -46,7 +46,7 @@ export const ornamentNode: Element = {
 }
 
 /**
- * Attempts to insert an ornament node before a footnotes section.
+ * Attempts to insert an ornament node before a heading that starts with "Appendix" or before footnotes.
  *
  * @param {Element} node - The current node being processed.
  * @param {number | undefined} index - The index of the current node in its parent's children array.
@@ -58,10 +58,30 @@ export function maybeInsertOrnament(
   index: number | undefined,
   parent: Parent | undefined,
 ): boolean {
+  if (!parent || index === undefined) return false;
+
+  // Check for "Appendix" headings
+  if (node.tagName === "h1" || node.tagName === "h2") {
+    const startsWithAppendix = (text: string) => text.toLowerCase().startsWith("appendix");
+    
+    // Check direct text children
+    if (node.children[0]?.type === "text" && startsWithAppendix(node.children[0].value)) {
+      parent.children.splice(index, 0, ornamentNode);
+      return true;
+    }
+    
+    // Check link element
+    if (node.children[0]?.type === "element" && node.children[0].tagName === "a") {
+      const anchorText = node.children[0].children[0];
+      if (anchorText?.type === "text" && startsWithAppendix(anchorText.value)) {
+        parent.children.splice(index, 0, ornamentNode);
+        return true;
+      }
+    }
+  }
+
   // Check if the current node is a footnotes section
   if (
-    parent &&
-    index !== undefined &&
     node.tagName === "section" &&
     node.properties?.["dataFootnotes"] !== undefined &&
     (node.properties?.className as Array<String>)?.includes("footnotes")
@@ -97,15 +117,15 @@ export function maybeInsertOrnament(
  * @param {Root} tree - The AST tree to modify.
  */
 export function insertOrnamentNode(tree: Root): void {
-  let footnotesFound = false
+  let ornamentInserted = false;
 
   visit(tree, "element", (node: Element, index: number | undefined, parent: Parent | undefined) => {
-    if (!footnotesFound) {
-      footnotesFound = maybeInsertOrnament(node, index, parent)
+    if (!ornamentInserted) {
+      ornamentInserted = maybeInsertOrnament(node, index, parent);
     }
-  })
+  });
 
-  if (!footnotesFound) {
+  if (!ornamentInserted) {
     // Check if the last child is an <hr> element
     const lastChild = tree.children[tree.children.length - 1] as Element
     if (lastChild && lastChild.type === "element" && lastChild.tagName === "hr") {
