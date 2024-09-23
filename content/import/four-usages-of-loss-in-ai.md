@@ -17,41 +17,41 @@ lw-vote-count: 18
 af-base-score: 20
 af-num-comments-on-upload: 16
 publish: true
-title: "Four usages of 'loss' in AI"
+title: Four usages of 'loss' in AI
 lw-latest-edit: 2023-01-24T00:26:35.060Z
 lw-is-linkpost: "false"
-tags: 
-  - "AI"
-aliases: 
-  - "four-usages-of-loss-in-ai"
+tags:
+  - AI
+aliases:
+  - four-usages-of-loss-in-ai
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/02/2022
 original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-loss-in-ai
+skip_import: true
 ---
 _Summary:_ What does it _mean_ for a loss function to be "aligned with" human goals? I perceive four different concepts which involve "loss function" in importantly different ways:
 
 1.  _Physical-loss:_ The physical implementation of a loss function and the loss computations, 
 2.  _Mathematical-loss:_ The mathematical idealization of a loss function,
 3.  A loss function "encoding/representing/aligning with" an intended goal, and
-4.  Agents which "care about achieving low loss."
+4. Agents which "care about achieving low loss."
 
 I advocate retaining physical- and mathematical-loss. I advocate dropping 3 in favor of talking directly about desired AI cognition and how the loss function entrains that cognition. I advocate disambiguating 4, because it can refer to a range of physically grounded preferences about loss (e.g. low value at the loss register versus making perfect future predictions). 
 
-_Related:_ [_Towards deconfusing wireheading and reward maximization_](https://www.lesswrong.com/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization)\.[^1] _I'm going to talk about "loss" instead of "reward", but the lessons apply to both._ 
+> [!note]
+> Related to[_Towards deconfusing wireheading and reward maximization_](https://www.lesswrong.com/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization)\.[^1] _I'm going to talk about "loss" instead of "reward", but the lessons apply to both._ 
 
-<hr/>
 
+# Four sharply different concepts
 
-I think it's important to maintain a sharp distinction between the following four concepts.
-
-# 1: Physically implemented loss
+## 1: Physically implemented loss
 
 > The loss function updated my network.
 
 This is a statement about computations embedded in _physical reality_. This statement involves the physically implemented sequence of loss computations which stream in throughout training. For example, the computations engendered by `loss_fn = torch.nn.CrossEntropyLoss()`.
 
-# 2: Mathematical loss
+## 2: Mathematical loss
 
 > The loss function is a smooth function of the prediction distribution.
 
@@ -59,7 +59,7 @@ This is a statement about the _idealized_ _mathematical_ loss function. These ar
 
 For example, $(D,\ell)$  where $D:=\{\left(x,\text{label}(x)\right) \mid x \in \text{MNIST} \}$ is the mathematical idealization of the MNIST dataset, where the $x\in\mathbb{R}^{28×28}$ are the idealized grayscale MNIST images. And $\ell$ is the _mathematical_ function of cross-entropy (CE) loss between a label prediction distribution and the ground-truth labels.
 
-# 3: Loss functions "representing" goals
+## 3: Loss functions "representing" goals
 
 > I want a loss function which is aligned with the goal of "write good novels." 
 
@@ -75,7 +75,7 @@ Much imprecision comes from loss functions [not directly encoding goals](/reward
 
 I think that talking about loss functions being "aligned" encourages bad habits of thought at best, and is nonsensical at worst. I think it makes way more sense to say how you want the agent to think and then act (e.g. "write good novels"—the _training goal_, in Evan Hubinger's [training stories framework](https://www.lesswrong.com/posts/FDJnZt8Ks2djouQTZ/how-do-we-become-confident-in-the-safety-of-a-machine)) and why you think you can use a given loss function  $\ell_\text{novel}$ to produce that cognition in the agent (the _training rationale_).
 
-# 4: Agents which want to minimize loss
+## 4: Agents which want to minimize loss
 
 > The agent wants to minimize its loss.
 
@@ -91,7 +91,8 @@ An agent can internally "care" about "optimizing a loss function" (concept 4), b
 
 Here is a quote which I, as a reader, have trouble understanding:
 
-> outer alignment refers to aligning the specified loss function with the intended goal, whereas inner alignment refers to aligning the mesa-objective of a mesa-optimizer with the specified loss function. — [Risks from Learned Optimization: Introduction](https://www.lesswrong.com/posts/FkgsxrGf3QxhfLWHG/risks-from-learned-optimization-introduction)  
+> [!quote]  [Risks from Learned Optimization: Introduction](https://www.lesswrong.com/posts/FkgsxrGf3QxhfLWHG/risks-from-learned-optimization-introduction) 
+> outer alignment refers to aligning the specified loss function with the intended goal, whereas inner alignment refers to aligning the mesa-objective of a mesa-optimizer with the specified loss function. 
 
 I don't know what inner cognition would or would not satisfy this vague-to-me definition. What does it mean for a loss function to be "aligned" with the intended goal? 
 

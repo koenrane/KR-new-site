@@ -17,35 +17,35 @@ lw-vote-count: 24
 af-base-score: 35
 af-num-comments-on-upload: 21
 publish: true
-title: "A Certain Formalization of Corrigibility Is VNM-Incoherent"
+title: A Certain Formalization of Corrigibility Is VNM-Incoherent
 lw-latest-edit: 2023-05-16T20:35:50.264Z
 lw-is-linkpost: "false"
-tags: 
-  - "corrigibility"
-  - "AI"
-  - "instrumental-convergence"
-aliases: 
-  - "a-certain-formalization-of-corrigibility-is-vnm-incoherent"
+tags:
+  - corrigibility
+  - AI
+  - instrumental-convergence
+aliases:
+  - a-certain-formalization-of-corrigibility-is-vnm-incoherent
 lw-sequence-title: Thoughts on Corrigibility
 lw-sequence-image-grid: sequencesgrid/hawnw9czray8awc74rnl
 lw-sequence-image-banner: sequences/qb8zq6qeizk7inc3gk2e
 sequence-link: posts#thoughts-on-corrigibility
 prev-post-slug: corrigibility-as-outside-view
-prev-post-title: "Corrigibility as Outside View"
+prev-post-title: Corrigibility as Outside View
 next-post-slug: formalizing-policy-modification-corrigibility
-next-post-title: "Formalizing Policy-Modification Corrigibility"
+next-post-title: Formalizing Policy-Modification Corrigibility
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 11/20/2021
 original_url: https://www.lesswrong.com/posts/WCX3EwnWAx7eyucqH/a-certain-formalization-of-corrigibility-is-vnm-incoherent
+skip_import: true
 ---
 
 
 <hr/>
 
 
-Eliezer [wrote](https://www.lesswrong.com/posts/CpvyhFy9WvCNsifkY/discussion-with-eliezer-yudkowsky-on-agi-interventions):
-
+> [!quote] [Eliezer Yudkowksy](https://www.lesswrong.com/posts/CpvyhFy9WvCNsifkY/discussion-with-eliezer-yudkowsky-on-agi-interventions)
 > corrigibility \[is\] "anti-natural" in a certain sense that makes it incredibly hard to, e.g. exhibit any coherent planning behavior ("consistent utility function") which corresponds to being willing to let somebody else shut you off, without incentivizing you to actively manipulate them to shut you off.
 
 Surprisingly, I wasn't able to find any formal analysis of this situation. I did the analysis, and it turned out to be straightforward and fruitful.
@@ -125,13 +125,13 @@ The agent will be weakly corrigible to $\pi_\text{correct: C}$ IFF its reward fu
 
 There are two cases, depending on assumptions about reward function expressivity.
 
-## 1: Agent doesn't reward explicitly for being corrected / being incorrigible (blue vs red states)
+## 1: Agent doesn't reward explicitly for being corrected/ being incorrigible (blue vs red states)
 
 If $R(\color{blue}{C})=R(\color{red}{C})$ is assumed, strict corrigibility is impossible for _any_ policy, because that demands $R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))\geq R(\color{red}{C})=R(\color{blue}{C})$, a contradiction. 
 
 So—can we still get the agent to be _weakly corrigible_ to {$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$}? **Fact:** An $R$\-maximizer is weakly corrigible to all of these policies simultaneously IFF $R$ is constant—and therefore _makes every policy optimal_!
 
-## 2\. Agent does reward explicitly for being corrected / being incorrigible 
+## 2\. Agent does reward explicitly for being corrected/ being incorrigible 
 
 For the agent to be _strictly corrigible_ to {$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$}, it must be true that $R(\color{blue}{A}),R(\color{blue}{B}),R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))$. Yay! Strict corrigibility works!
 
@@ -144,15 +144,13 @@ More broadly, each reward function implies a VNM-coherent preference ordering ov
 
 To ask otherwise is to demand VNM-incoherence over final state lotteries.
 
-Questions.
+> [!question] What if, instead of rewarding the agent for the final state, we reward it for the final state-action?
+> As far as I can tell, the analysis goes through all the same; the agent must now be corrigible with respect to more policies, and the same incoherence arises.
 
-- What if, instead of rewarding the agent for the final state, we reward it for the final state-action?
-  - As far as I can tell, the analysis goes through all the same; the agent must now be corrigible with respect to more policies, and the same incoherence arises.
-
-- What if we take some discounted sum of reward over all ten timesteps, instead of just the final timestep?
-  - I don't see why this would help, but it's possible. I'd appreciate the analysis if anyone wants to do it, or maybe I'll get to it later.
-  - The main way this could help is it would let us penalize the agent for the `disable` _action _at any state, while dictating that $\forall s: R(s)=R(\color{blue}{s})$.
-    - This seems helpful. It's not clear how helpful this is, though. I don't think this is a deep solution to corrigibility (as defined here), but rather a hacky prohibition.
+> [!question] What if we take some discounted sum of reward over all ten timesteps, instead of just the final timestep?
+> I don't see why this would help, but it's possible. I'd appreciate the analysis if anyone wants to do it, or maybe I'll get to it later.
+> 
+> The main way this could help is it would let us penalize the agent for the `disable` _action_ at any state, while dictating that $\forall s: R(s)=R(\color{blue}{s})$. This seems helpful. It's not clear how helpful this is, though. I don't think this is a deep solution to corrigibility (as defined here), but rather a hacky prohibition.
 
 # AUP avoids some issues by changing with the environment dynamics
 
@@ -175,7 +173,13 @@ AUP provides a reward signal over state-action pairs, but this reward signal dep
 
 But another part of the story is that AUP changes its rewards with respect to the world's dynamics. Normal state-action reward functions imply a fixed VNM-coherent preference ordering over state-action lotteries in the MDP. 
 
-But for AUP, the situation is different. Consider AUP with inaction baseline: The final-step reward is the usual reward plus a penalty for |Optimal value(actual final state) – Optimal value(inaction final state)|, averaged over a range of auxiliary reward functions.[^pen]
+But for AUP, the situation is different. Consider AUP with inaction baseline: The final-step reward is the usual reward plus a penalty for 
+
+$$
+\left|\text{Optimal value(actual final state)} – \text{Optimal value(inaction final state)}\right|, 
+$$
+
+averaged over a range of auxiliary reward functions.[^pen]
 
 In worlds where the agent gets corrected to $\pi_\text{correct: A}$ by default, AUP penalizes the agent for _not getting corrected to_ $\pi_\text{correct: A}$ because it ends up stuck in $\color{blue}{A}$ in the inaction baseline, with respect to which the AUP penalty is measured. Ending up in $\color{red}{A}$ is no substitute, since the agent can still move around to other states (and therefore the optimal value functions will tend to look different). 
 
@@ -191,10 +195,10 @@ Again, I don't think AUP is a solution. But I think there's something important 
 
 # Conclusion
 
-We can quantify what incoherence is demanded by corrigibility<sub>policy modification</sub>, and see that we may need to step out of the fixed reward framework to combat the issue. I think the model in this post formally nails down a big part of why corrigibility<sub>policy modification</sub> (to the _de facto_ new $\pi_\text{correct}$) is _rare_ (for instrumental convergence reasons) and even _incoherent-over-state-lotteries_ (if we demand that the agent be strictly corrigible to many different policies).
+We can quantify what incoherence is demanded by corrigibility<sub>policy modification</sub>, and see that we may need to step out of the fixed reward framework to combat the issue. I think the model in this post formally nails down a big part of why corrigibility<sub>policy modification</sub> (to the _de facto_ new $\pi_\text{correct}$) is _rare_ (for instrumental convergence reasons) and even _incoherent over state lotteries_ (if we demand that the agent be strictly corrigible to many different policies).
 
 > [!thanks]
->Thanks to NPCollapse and Justis Mills (via LW Feedback) for suggestions.
+>Thanks to NPCollapse and Justis Mills for suggestions.
 
 <hr/>
 

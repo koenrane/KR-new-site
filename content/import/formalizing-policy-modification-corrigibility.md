@@ -17,24 +17,25 @@ lw-vote-count: 9
 af-base-score: 14
 af-num-comments-on-upload: 6
 publish: true
-title: "Formalizing Policy-Modification Corrigibility"
+title: Formalizing Policy-Modification Corrigibility
 lw-latest-edit: 2021-12-03T19:13:00.523Z
 lw-is-linkpost: "false"
-tags: 
-  - "corrigibility"
-  - "AI"
-aliases: 
-  - "formalizing-policy-modification-corrigibility"
-lw-sequence-title: "Thoughts on Corrigibility"
+tags:
+  - corrigibility
+  - AI
+aliases:
+  - formalizing-policy-modification-corrigibility
+lw-sequence-title: Thoughts on Corrigibility
 lw-sequence-image-grid: sequencesgrid/yuauvyzko4ttusbzpkkz
 lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
 sequence-link: posts#thoughts-on-corrigibility
 prev-post-slug: a-certain-formalization-of-corrigibility-is-vnm-incoherent
-prev-post-title: "A Certain Formalization of Corrigibility Is VNM-Incoherent"
+prev-post-title: A Certain Formalization of Corrigibility Is VNM-Incoherent
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 12/03/2021
 original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
+skip_import: true
 ---
 In [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), I operationalized an agent's corrigibility  as our ability to modify the agent so that it follows different policies. In the summer of 2020, I had formalized this notion, but it languished—unloved—in my Overleaf drafts.
 
