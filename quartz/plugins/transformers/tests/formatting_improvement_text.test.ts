@@ -1,4 +1,5 @@
 import {
+  massTransformText,
   formattingImprovement,
   editAdmonition,
   noteAdmonition,
@@ -189,5 +190,15 @@ describe("noteAdmonition", () => {
     const input = "Some text.\nnote: A note at the start of a line."
     const expected = "Some text.\n\n> [!note]\n>\n> A note at the start of a line."
     expect(noteAdmonition(input)).toBe(expected)
+  })
+})
+
+describe("Mass transforms", () => {
+  it.each([
+    ["Let x := 5", "Let x ≝ 5"],
+    ["a:=b:=c", "a≝b≝c"],
+  ])("should perform transforms for %s", (input: string, expected: string) => {
+    const result = massTransformText(input)
+    expect(result).toBe(expected)
   })
 })

@@ -63,6 +63,18 @@ export function noteAdmonition(text: string): string {
   return text
 }
 
+const massTransforms: [RegExp | string, string][] = [
+  [/\:=/g, "≝"], // mathematical definition symbol
+]
+
+export function massTransformText(text: string): string {
+  for (const [pattern, replacement] of massTransforms) {
+    const regex = pattern instanceof RegExp ? pattern : new RegExp(pattern, "g")
+    text = text.replace(regex, replacement)
+  }
+  return text
+}
+
 /**
  * Concentrates emphasis around links by moving asterisks or underscores inside the link brackets.
  * @param text - The input text to process.
@@ -99,7 +111,7 @@ export const formattingImprovement = (text: string) => {
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
-
+  newContent = massTransformText(newContent)
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")
 
