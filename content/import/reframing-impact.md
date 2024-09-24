@@ -35,24 +35,28 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/20/2019
 original_url: https://www.lesswrong.com/posts/xCxeBSHqMEaP3jDvY/reframing-impact
+skip_import: true
 ---
-![](https://i.imgur.com/3LocEy9.png )![](https://i.imgur.com/IUOudUK.png)![](https://i.imgur.com/GyP8V1D.png )![](https://i.imgur.com/fEqZh8g.png)![](https://i.imgur.com/wXmF1eX.png)![](https://i.imgur.com/Rjz9usG.png )![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1722a733b38bd3e06602ab967807e30117054d26051c5c84.png)![](https://i.imgur.com/ZppOEZJ.png )
-
-[​](​![]\(https://i.imgur.com/knzoLGJ.png)
-
+![](https://i.imgur.com/3LocEy9.png )
+![](https://i.imgur.com/IUOudUK.png)
+![](https://i.imgur.com/GyP8V1D.png )
+![](https://i.imgur.com/fEqZh8g.png)
+![](https://i.imgur.com/wXmF1eX.png)
+![](https://i.imgur.com/Rjz9usG.png )
+![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1722a733b38bd3e06602ab967807e30117054d26051c5c84.png)
+![](https://i.imgur.com/ZppOEZJ.png )
+​![](https://i.imgur.com/knzoLGJ.png)
 ![](https://i.imgur.com/gsWrwt6.png )
-
 [​](​![]\(https://i.imgur.com/kIT2ULN.png)
-
 ![](https://i.imgur.com/iSqriuT.png )
+​![](https://i.imgur.com/p4OkxJ1.png)
+![](https://i.imgur.com/nFoDRoL.png)
+![](https://i.imgur.com/e6vNG2D.png)
 
-[​](​![]\(https://i.imgur.com/p4OkxJ1.png)
+# Appendix (technical): First safeguard?
 
-![](https://i.imgur.com/p4OkxJ1.png)![](https://i.imgur.com/nFoDRoL.png)![](https://i.imgur.com/e6vNG2D.png)
-
-### Technical Appendix: First safeguard?
-
-_This sequence is written to be broadly accessible, although perhaps its focus on capable AI systems assumes familiarity with_ [_basic_](https://www.youtube.com/watch?v=pARXQnX6QS8) [_arguments_](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) [_for_](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/0198739834/ref=sr_1_3?keywords=Superintelligence&qid=1560704777&s=books&sr=1-3) [_the_](https://slatestarcodex.com/superintelligence-faq/) [_importance_](https://80000hours.org/problem-profiles/positively-shaping-artificial-intelligence/) [_of_](https://www.openphilanthropy.org/blog/potential-risks-advanced-artificial-intelligence-philanthropic-opportunity) [_AI alignment_](https://www.openphilanthropy.org/blog/some-background-our-views-regarding-advanced-artificial-intelligence)_. The technical appendices are an exception, targeting the technically inclined._
+> [!note]
+> This sequence is written to be broadly accessible, although perhaps its focus on capable AI systems assumes familiarity with [basic](https://www.youtube.com/watch?v=pARXQnX6QS8) [arguments](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) [for](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/0198739834/ref=sr_1_3?keywords=Superintelligence&qid=1560704777&s=books&sr=1-3) [the](https://slatestarcodex.com/superintelligence-faq/) [importance](https://80000hours.org/problem-profiles/positively-shaping-artificial-intelligence/) [of](https://www.openphilanthropy.org/blog/potential-risks-advanced-artificial-intelligence-philanthropic-opportunity) [AI alignment](https://www.openphilanthropy.org/blog/some-background-our-views-regarding-advanced-artificial-intelligence). The technical appendices are an exception, targeting the technically inclined.
 
 Why do I claim that an impact measure would be "the first proposed safeguard which maybe actually stops a powerful agent with an [imperfect](https://www.lesswrong.com/posts/iTpLAaPamcKyjmbFC/robust-delegation) objective from ruining things – without assuming anything about the objective"?
 
@@ -60,43 +64,53 @@ The safeguard proposal shouldn't have to say "and here we solve this opaque, har
 
 So what about:
 
-- [Quantilizers](https://www.aaai.org/ocs/index.php/WS/AAAIW16/paper/view/12613)? This seems to be the most plausible alternative; mild optimization and impact measurement share many properties. But
-  - What happens if the agent is already powerful? A greater proportion of plans could be catastrophic, since the agent is in a better position to cause them.
-  - Where does the base distribution come from (opaque, hard problem?), and how do we know it's safe to sample from?
-    - In the linked paper, Jessica Taylor suggests the idea of learning a human distribution over actions – how robustly would we need to learn this distribution? How numerous are catastrophic plans, and what _is _a catastrophe, defined without reference to our values in particular? (That definition requires understanding impact!)
-
-
-- [Value learning](https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc)? But
-  - We only want this if _our _(human) values are learned!
-    - [Value learning is impossible without assumptions](https://papers.nips.cc/paper/7803-occams-razor-is-insufficient-to-infer-the-preferences-of-irrational-agents.pdf), and [getting good enough assumptions could be really hard](https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc/p/EhNCnCkmu7MwrQ7yz). If we don't know if we can get value learning / reward specification right, we'd like safeguards which don't fail because value learning goes wrong. The point of a safeguard is that it can catch you if the main thing falls through; if the safeguard fails because the main thing does, that's pointless.
-
-
-- [Corrigibility](https://intelligence.org/files/Corrigibility.pdf)? At present, I'm excited about this property because I suspect it has a simple core principle. But
-  - Even if the system is responsive to correction (and non-manipulative, and whatever other properties we associate with corrigibility), what if we become _unable _to correct it as a result of early actions (if the agent "moves too quickly", so to speak)?
-    - [Paul Christiano's take on corrigibility](https://ai-alignment.com/corrigibility-3039e668638) is much broader and an exception to this critique.
-
-  - What is the core principle?
+<dl>
+<dt><a href="https://www.aaai.org/ocs/index.php/WS/AAAIW16/paper/view/12613" class="external alias" target="_blank">Quantilizers</a></dt>
+<dd>This seems to be the most plausible alternative; mild optimization and impact measurement share many properties. But:
+<ul>
+<li>What happens if the agent is already powerful? A greater proportion of plans could be catastrophic, since the agent is in a better position to cause them.</li>
+<li>Where does the base distribution come from (opaque, hard problem?), and how do we know it’s safe to sample from?</li>
+<li>In the linked paper, Jessica Taylor suggests the idea of learning a human distribution over actions. How robustly would we need to learn this distribution? How numerous are catastrophic plans, and what <em>is </em>a catastrophe, defined without reference to our values in particular? (That definition requires understanding impact!)</li>
+</ul>
+</dd>
+<dt><a href="https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc" class="external alias" target="_blank">Value learning</a></dt>
+<dd>
+<ul>
+<li>We only want this if <em>our </em>(human) values are learned!</li>
+<li><a href="https://papers.nips.cc/paper/7803-occams-razor-is-insufficient-to-infer-the-preferences-of-irrational-agents.pdf" class="external alias" target="_blank">Value learning is impossible without assumptions,</a> and <a href="https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc/p/EhNCnCkmu7MwrQ7yz" class="external alias" target="_blank">getting good enough assumptions could be really hard.</a> If we don’t know if we can get value learning ／reward specification right, we’d like safeguards which don’t fail because value learning goes wrong. The point of a safeguard is that it can catch you if the main thing falls through; if the safeguard fails because the main thing does, that’s pointless.</li>
+</ul>
+</dd>
+<dt><a href="https://intelligence.org/files/Corrigibility.pdf" class="external alias" target="_blank">Corrigibility</a></dt>
+<dd>At present, I’m excited about this property because I suspect it has a simple core principle. But
+<ul>
+<li>Even if the system is responsive to correction (and non-manipulative, and whatever other properties we associate with corrigibility), what if we become <em>unable </em>to correct it as a result of early actions—if the agent “moves too quickly”, so to speak?</li>
+<li><a href="https://ai-alignment.com/corrigibility-3039e668638" class="external alias" target="_blank">Paul Christiano’s take on corrigibility</a> is much broader and an exception to this critique.</li>
+<ul>
+<li>What is the core principle?</li>
+</ul>
+</ul>
+</dd>
+</dl>
 
 #### Notes
 
 - The three sections of this sequence will respectively answer three questions:
-  - Why do we think some things are big deals?
-  - Why are capable goal-directed AIs incentivized to catastrophically affect us by default?
-  - How might we build agents without these incentives?
+  1. Why do we think some things are big deals?
+  2. Why are capable goal-directed AIs incentivized to catastrophically affect us by default?
+  3. How might we build agents without these incentives?
 
 - The first part of this sequence focuses on foundational concepts crucial for understanding the deeper nature of impact. We will not yet be discussing what to implement.
-- I strongly encourage completing the exercises. At times you shall be given a time limit; it’s important to learn not only to reason correctly, but [with ](https://www.readthesequences.com/The-Failures-Of-Eld-Science)[speed.](https://www.readthesequences.com/Einsteins-Speed)
+- I strongly encourage completing the exercises. At times you shall be given a time limit; it’s important to learn not only to reason correctly, but [with ](https://www.readthesequences.com/The-Failures-Of-Eld-Science)[speed:](https://www.readthesequences.com/Einsteins-Speed)
 
-> [!quote]
+> [!quote] [Thinking Physics](https://www.amazon.com/Thinking-Physics-Understandable-Practical-Reality/dp/0935218084)
 >
 > The best way to use this book is NOT to simply read it or study it, but to read a question and STOP. Even close the book. Even put it away and THINK about the question. Only after you have formed a reasoned opinion should you read the solution. Why torture yourself thinking? Why jog? Why do push-ups?
 >
 > If you are given a hammer with which to drive nails at the age of three you may think to yourself, "OK, nice." But if you are given a hard rock with which to drive nails at the age of three, and at the age of four you are given a hammer, you think to yourself, "What a marvellous invention!" You see, you can't really appreciate the solution until you first appreciate the problem.
->
-> _~_ [_Thinking Physics_](https://www.amazon.com/Thinking-Physics-Understandable-Practical-Reality/dp/0935218084)
 
-- My paperclip-Balrog illustration is metaphorical: a good impact measure would hold steadfast against the daunting challenge of formally asking for the right thing from a powerful agent. The illustration does not represent an internal conflict within that agent. As water flows downhill, an impact-penalizing Frank prefers low-impact plans.
-  - The drawing is based on [gonzalokenny's amazing work](https://www.deviantart.com/gonzalokenny/art/Gandalf-and-the-Balrog-329465089).
+- My paperclip-Balrog illustration is metaphorical: A good impact measure would hold steadfast against the daunting challenge of formally asking for the right thing from a powerful agent. The illustration does not represent an internal conflict within that agent. As water flows downhill, an impact-penalizing Frank prefers low-impact plans.
+  - The Balrog drawing is based on [`gonzalokenny`'s amazing work](https://www.deviantart.com/gonzalokenny/art/Gandalf-and-the-Balrog-329465089).
 
-- Some of you may have a different conception of impact; I ask that you grasp the thing that I’m pointing to. In doing so, you might come to see your mental algorithm is the same. Ask not “is this what I initially had in mind?”, but rather “does this make sense as a thing-to-call-'impact'?”.
-- H/T Rohin Shah for suggesting the three key properties. Alison Bowden contributed several small drawings and enormous help with earlier drafts.
+- Some of you may have a different conception of impact; I ask that you grasp the thing that I’m pointing to. In doing so, you might come to see your mental algorithm is the same. Ask not “is this what I initially had in mind?”, but rather “does this make sense to call 'impact'?”.
+> [!thanks] 
+> Thanks to Rohin Shah for suggesting the three key properties. Alison Bowden contributed several small drawings and enormous help with earlier drafts.
