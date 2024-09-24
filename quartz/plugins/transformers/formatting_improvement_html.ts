@@ -1,7 +1,7 @@
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
-import { Element, Text, Root } from "hast"
+import { Element, Text, Root, Parent } from "hast"
 import { visit } from "unist-util-visit"
 import { Plugin } from "unified"
 
@@ -268,8 +268,32 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
-const ACCEPTED_PUNCTUATION = [".", ",", "?", ":", "!", ";", "”", "`"]
+const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
+const LEFT_QUOTES = ['"', "“", "‘"]
+
+function getFirstTextNode(node: Parent): Text | null {
+  if (!node) return null
+  if (node.type === "text") {
+    return node as unknown as Text
+  } else if (node.children && node.children.length > 0 && node.children[0].type === "text") {
+    return node.children[0] as unknown as Text
+  } else {
+    return null
+  }
+}
+
+function getLastTextNode(node: Parent): Text | null {
+  if (!node) return null
+  if (node.type === "text") {
+    return node as unknown as Text
+  } else if (node.children && node.children.length > 0 && node.children[node.children.length - 1].type === "text") {
+    return node.children[node.children.length - 1] as unknown as Text
+  } else {
+    return null
+  }
+}
+
 /**
  * Moves punctuation inside links and handles quotation marks before links.
  *
@@ -285,12 +309,11 @@ const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
  * 5. Moves acceptable punctuation from after the link to inside it
  */
 export const rearrangeLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
-  // Step 1: Validate input parameters
   if (index === undefined || !parent) {
     return
   }
 
-  // Step 2: Identify the link node
+  // Identify the link node
   let linkNode
   if (node?.tagName === "a") {
     linkNode = node
@@ -300,24 +323,34 @@ export const rearrangeLinkPunctuation = (node: any, index: number | undefined, p
     return // No link nearby
   }
 
-  // Skip if the link node is a footnote
+  // Skip footnote links
   if (linkNode.properties?.href?.startsWith("#user-content-fn-")) {
     return
   }
 
-  // Step 3: Handle quotation marks before the link
+  // Handle quotation marks before the link
   let prevNode = parent.children[index - 1]
-  if (prevNode?.type === "text" && prevNode.value.endsWith("“")) {
+  if (prevNode?.type === "text" && LEFT_QUOTES.includes(prevNode.value.slice(-1))) {
+    const quoteChar = prevNode.value.slice(-1)
     prevNode.value = prevNode.value.slice(0, -1)
-    linkNode.children[0].value = "“" + linkNode.children[0].value
+
+    const firstTextNode: Text | null = getFirstTextNode(linkNode)
+    if (firstTextNode && firstTextNode?.type === "text") {
+      firstTextNode.value = quoteChar + firstTextNode.value
+    } else { // No text node found in linkNode
+      // Create new text node as first child of linkNode
+      const newTextNode = { type: "text", value: quoteChar }
+
+      linkNode.children.unshift(newTextNode)
+    }
   }
 
-  // Step 4: Identify the text node after the link
+  // Identify the text node after the link
   const sibling = parent.children[index + 1]
   let textNode
   if (sibling?.type === "text") {
     textNode = sibling
-  } else if (TEXT_LIKE_TAGS.includes(sibling?.tagName)) {
+  } else if (TEXT_LIKE_TAGS.includes(sibling?.tagName) && sibling.children.length > 0) {
     textNode = sibling.children[0]
   }
 
@@ -325,20 +358,14 @@ export const rearrangeLinkPunctuation = (node: any, index: number | undefined, p
     return
   }
 
-  // Step 5: Move acceptable punctuation from after the link to inside it
-  // Iterate until we hit a character that's not punctuation
+  // Move acceptable punctuation from after the link to inside it
   let firstChar = textNode.value.charAt(0)
+  if (linkNode.children[linkNode.children.length - 1]?.type !== "text") {
+    linkNode.children.push({ type: "text", value: "" })
+  }
+  const lastChild = linkNode.children[linkNode.children.length - 1]
   while (ACCEPTED_PUNCTUATION.includes(firstChar) && textNode.value.length > 0) {
-    let childToModify
-    if (linkNode.children[linkNode.children.length - 1].type === "text") {
-      childToModify = linkNode.children[linkNode.children.length - 1]
-    } else {
-      // Find the last text node within the last child
-      const lastChild = linkNode.children[linkNode.children.length - 1]
-      childToModify = lastChild.children[lastChild.children.length - 1]
-    }
-
-    childToModify.value = childToModify.value + firstChar
+    lastChild.value = lastChild.value + firstChar
     textNode.value = textNode.value.slice(1) // Remove the first char
     firstChar = textNode.value.charAt(0) // Get the next char
   }
@@ -471,7 +498,6 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
         )
       }
 
-      rearrangeLinkPunctuation(node, index, parent)
       // Parent-less nodes are the root of the article
       if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {
@@ -497,9 +523,6 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
           notMatching = true
           // console.error(e.message)
         }
-        if (notMatching) {
-          // console.error("Some double quotes are not matched.")
-        }
 
         // Don't replace slashes in fractions, but give breathing room
         // to others
@@ -510,6 +533,8 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
           transformElement(node, fullWidthSlashes, toSkip)
         }
       }
+      
+      rearrangeLinkPunctuation(node, index, parent)
     })
 
     // Only apply first letter attribute if not in debug mode

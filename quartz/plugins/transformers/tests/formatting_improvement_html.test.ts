@@ -314,6 +314,10 @@ describe("rearrangeLinkPunctuation", () => {
       '<p><a href="https://example.com">“Link”</a></p>',
     ],
     [
+      '<p>"<a href="https://example.com"><code>Link</code></a>"</p>',
+      '<p><a href="https://example.com">“<code>Link</code>”</a></p>',
+    ],
+    [
       '<p><a href="https://example.com">Link</a>",</p>',
       '<p><a href="https://example.com">Link”,</a></p>',
     ],
@@ -335,7 +339,7 @@ describe("rearrangeLinkPunctuation", () => {
     ],
     [
       '<p><a href="/a-certain-formalization-of-corrigibility-is-vnm-incoherent"><em>Corrigibility Can Be VNM-Incoherent</em></a></p>,',
-      '<p><a href="/a-certain-formalization-of-corrigibility-is-vnm-incoherent"><em>Corrigibility Can Be VNM-Incoherent,</em></a></p>',
+      '<p><a href="/a-certain-formalization-of-corrigibility-is-vnm-incoherent"><em>Corrigibility Can Be VNM-Incoherent</em>,</a></p>',
     ],
   ]
 
@@ -415,7 +419,7 @@ describe("rearrangeLinkPunctuation", () => {
     ],
     [
       '<p><a href="https://example.com"><em>Fully nested</em></a>: with colon after</p>',
-      '<p><a href="https://example.com"><em>Fully nested:</em></a> with colon after</p>',
+      '<p><a href="https://example.com"><em>Fully nested</em>:</a> with colon after</p>',
     ],
     [
       '<p><a href="https://example.com">Link</a>. with period after</p>',
