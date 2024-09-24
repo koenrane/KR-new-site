@@ -39,6 +39,7 @@ lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 12/05/2019
 original_url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
+skip_import: true
 ---
 
 In 2008, Steve Omohundro's foundational paper [The Basic AI Drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) conjectured that superintelligent goal-directed AIs might be incentivized to gain significant amounts of power in order to better achieve their goals. Omohundro's conjecture bears out in [toy models](https://intelligence.org/2015/11/26/new-paper-formalizing-convergent-instrumental-goals/), and the supporting philosophical arguments are intuitive. In 2019, the conjecture was even [debated by well-known AI researchers](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell).
@@ -52,7 +53,7 @@ It’s 2008, the ancient wild west of AI alignment. A few people have started th
 In particular, you might notice that wildly different utility functions seem to encourage similar strategies.
 
 |   |**Resist** **shutdown?**|**Gain** **computational resources?**|**Prevent modification** **of utility function?**|
-| --- | --- | --- | --- |
+| --: | --- | --- | --- |
 |**Paperclip** **utility**|✓|✓|✓|
 |**Blue webcam** **pixel utility**|✓|✓|✓|
 |**People-look-happy** **utility**|✓|✓|✓|
@@ -63,50 +64,60 @@ But why?
 
 I’m going to informally explain a formal theory which makes significant progress in answering this question. I don’t want this post to be [_Optimal Policies Tend to Seek Power_](https://arxiv.org/abs/1912.01683) with cuter illustrations, so please refer to the paper for the math. You can read the two concurrently.
 
-We can formalize questions like “do ‘most’ utility maximizers resist shutdown?” as “Given some prior beliefs about the agent’s utility function, knowledge of the environment, and the fact that the agent acts optimally, with what probability do we expect it to be optimal to avoid shutdown?” 
+We can formalize questions like “do ‘most’ utility maximizers resist shutdown?” as “Given some prior beliefs about the agent’s utility function, knowledge of the environment, and the fact that the agent acts optimally, with what probability do we expect it to be optimal to avoid shutdown?”.
 
 The table’s convergently instrumental strategies are about maintaining, gaining, and exercising _power_ over the future, in some sense. Therefore, this post will help answer:
 
 1.  What does it mean for an agent to “seek power”?
 2.  In what situations should we expect seeking power to be more probable under optimality, than not seeking power?
 
-This post won’t tell you when you _should_ seek power for your own goals; this post illustrates a regularity in optimal action across different goals one might pursue.
+> [!warning] Clarification
+> This post won’t tell you when you _should_ seek power for your own goals. This post illustrates a regularity in optimal action across different goals one might pursue.
 
-[_Formalizing Convergent Instrumental Goals_](https://intelligence.org/files/FormalizingConvergentGoals.pdf) suggests that the vast majority of utility functions incentivize the agent to exert a lot of control over the future, _assuming_ that these utility functions depend on “resources.” This is a big assumption: what are “resources”, and why must the AI’s utility function depend on them? We drop this assumption, assuming only unstructured reward functions over a finite Markov decision process (MDP), and show from first principles how power-seeking can often be optimal.
+> [!info] Prior work
+> [_Formalizing Convergent Instrumental Goals_](https://intelligence.org/files/FormalizingConvergentGoals.pdf) suggests that the vast majority of utility functions incentivize the agent to exert a lot of control over the future, _assuming_ that these utility functions depend on “resources.” This is a big assumption: what are “resources”, and why must the AI’s utility function depend on them? We drop this assumption, assuming only unstructured reward functions over a finite Markov decision process (MDP), and show from first principles how power-seeking can often be optimal.
 
 # Formalizing the Environment
 
 My theorems apply to finite MDPs; for the unfamiliar, I’ll illustrate with Pac-Man.
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/f9uz4ran04prpaofwfce)
-- _Full observability_: You can see everything that’s going on; this information is packaged in the _state s_. In Pac-Man, the state is the game screen.
-- _Markov transition function: the next state depends only on the choice of action a and the current state s. It doesn’t matter how we got into a situation._
-- _Discounted reward: _future rewards get geometrically discounted by some discount rate$\gamma\in [0,1].$
-  - At discount rate 1/2, this means that reward in one turn is half as important as immediate reward, reward in two turns is a quarter as important, and so on.
-  - We’ll colloquially say that agents “care a lot about the future” when $\gamma$ is “sufficiently” close to 1.
-    - I'll use quotations to flag well-defined formal concepts that I won’t unpack in this post.
 
-  - The score in Pac-Man is the undiscounted sum of rewards-to-date.
+<dl>
+<dt>Full observability</dt>
+<dd>You can see everything that’s going on; this information is packaged in the <em>state s</em>. In Pac-Man, the state is the game screen.
+</dd>
+<dt>Markov transition function</dt>
+<dd>The next state depends only on the choice of action a and the current state s. It doesn’t matter how we got into a situation.
+</dd>
+<dt>Discounted reward</dt>
+<dd>Future rewards are geometrically discounted by some discount rate <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mclose">]</span><span class="mord">.</span></span></span></span>
+<ul>
+<li>At discount rate <span class="fraction">1/2</span>, this means that reward in one turn is half as important as immediate reward, reward in two turns is a quarter as important, and so on.</li>
+<li>We’ll colloquially say that agents “care a lot about the future” when <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span> is “sufficiently” close to 1. (I’ll sometimes use quotations to flag well-defined formal concepts that I won’t unpack in this post.)</li>
+<li>The score in Pac-Man is the undiscounted sum of rewards-to-date.</li>
+</ul>
+</dd>
+</dl>
 
 When playing the game, the agent has to choose an action at each state. This decision-making function is called a _policy_; a policy is optimal (for a reward function $R$ and discount rate $\gamma$) when it always makes decisions which maximize discounted reward. This maximal quantity is called the _optimal value_ for reward function $R$ at state $s$ and discount rate $\gamma$.[^1]
 
-By the end of this post, we’ll be able to answer questions like “with respect to a ‘neutral’ distribution over reward functions, do optimal policies have a high probability of avoiding ghosts?”[^2]
+By the end of this post, we’ll be able to answer questions like “with respect to a ‘neutral’ distribution over reward functions, do optimal policies have a high probability of avoiding ghosts?”.[^2]
 
 # Power as Average Optimal Value
 
-When people say 'power' in everyday speech, I think they’re often referring to _one’s ability to achieve goals in general_. This accords with a major philosophical school of thought on the meaning of ‘power’:
+When people say "power" in everyday speech, I think they’re often referring to _one’s ability to achieve goals in general_. This accords with a major philosophical school of thought on the meaning of "power":
 
-> [!quote]
+> [!quote]Sattarov, _Power and Technology_, p.13
 >
 > On the dispositional view, power is regarded as a capacity, ability, or potential of a person or entity to bring about relevant social, political, or moral outcomes.
-> 
-> Sattarov, _Power and Technology_, p.13
 
 As a definition, _one’s ability to achieve goals in general_ seems philosophically reasonable: if you have a lot of money, you can make more things happen and you have more power. If you have social clout, you can spend that in various ways to better tailor the future to various ends. All else being equal, losing a limb decreases your power, and dying means you can't control much at all.
 
-This definition explains some of our intuitions about what things count as ‘resources.’ For example, our current position in the environment means that having money allows us to exert more control over the future. That is, our current position in the state space means that having money allows us more control. However, possessing green scraps of paper would not be as helpful if one were living alone near Alpha Centauri. In a sense, resource acquisition can naturally be viewed as taking steps to increase one's power.
+This definition explains some of our intuitions about what things count as "resources." For example, our current position in the environment means that having money allows us to exert more control over the future. That is, our current position in the state space means that having money allows us more control. However, possessing green scraps of paper would not be as helpful if one were living alone near Alpha Centauri. In a sense, resource acquisition can naturally be viewed as taking steps to increase one's power.
 
-_Exercise: spend a minute considering specific examples_ – _does this definition reasonably match your intuition?_
+> [!exercise]
+> Spend a minute considering specific examples. Does this definition reasonably match your intuition?
 
 <hr/>
 
@@ -124,7 +135,7 @@ Each reward function has an optimal trajectory. If **chocolate** has maximal rew
 
 From **start**, an optimal agent expects to average 3/4 reward per timestep for reward functions drawn from this uniform distribution $\mathcal{D}_\text{unif}$. This is because you have three choices, each of which has reward between 0 and 1. The expected maximum of $n$ draws from $\text{unif}(0,1)$ is $\frac{n}{n+1}$; you have three draws here, so you expect to be able to get 3/4 reward. Some reward functions do worse than this, and some do better; but on _average_, they get 3/4 reward. [You can test this out for yourself](https://trinket.io/python/4b35f9be1c).
 
-If you have no choices, you expect to average 1/2 reward: sometimes the future is great, sometimes it's not (Lemma 4.5). Conversely, the more things you can choose between, the closer the POWER gets to 1 (Lemma 4.6).
+If you have no choices, you expect to average 1/2 reward: sometimes the future is great, sometimes it's not. Conversely, the more things you can choose between, the closer the POWER gets to 1.
 
 Let’s slightly expand this game with a state called **wait** (which has the same uniform reward distribution as the other three).
 
@@ -140,20 +151,21 @@ Written as a function, we have POWER$_{\mathcal{D}}$(state, discount rate), whic
 
 By _waiting_, the agent seems to seek “control over the future” compared to _obtaining candy_. At **wait**, the agent still has a choice, while at **candy**, the agent is stuck. We can prove that for all $0 \leq \gamma \leq 1, \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{wait}, \gamma)\geq \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{candy}, \gamma)$. 
 
-**Definition** (POWER-seeking). At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing _a_ is greater than the expected POWER after choosing $a’$. 
+> [!info] Definition: POWER-seeking
+> At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing _a_ is greater than the expected POWER after choosing $a’$. 
 
 This definition suggests several philosophical clarifications about power-seeking.
 
-**POWER-seeking is not a binary property**
+### POWER-seeking is not a binary property
 
-Before this definition, I thought that power-seeking was an intuitive ‘you know it when you see it’ kind of thing. I mean, how do you answer questions like “suppose a clown steals millions of dollars from organized crime in a major city, but then he burns all of the money. Did he gain power?”  
+Before this definition, I thought that power-seeking was an intuitive "you know it when you see it" kind of thing. I mean, how do you answer questions like “suppose a clown steals millions of dollars from organized crime in a major city, but then he burns all of the money. Did he gain power?”.  
 
-Unclear: the question is ill-posed. Instead, we recognize that the “gain a lot of money” action was POWER-seeking, but the “burn the money in a big pile” part threw away a lot of POWER. 
+Unclear. The question is ill-posed. Instead, we recognize that the “gain a lot of money” action was POWER-seeking, but the “burn the money in a big pile” part threw away a lot of POWER. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/zkps2vhhmp3yjhy7nujz)
 <br/>Figure: A policy can seek POWER at one time step, only to discard it at the next time step. For example, a policy might go _right_ at **1** (which seeks POWER$_{\mathcal{D}_\text{unif}}$ compared to _down_ at **1**), only to then go _down_ at **2** (which seeks less POWER$_{\mathcal{D}_\text{unif}}$ than going _right_ at **2**).
 
-**POWER-seeking depends on the agent’s time preferences**
+### POWER-seeking depends on the agent’s time preferences
 
 Suppose we’re roommates, and we can’t decide what ice cream shop to eat at today or where to move next year. We strike a deal: I choose the shop, and you decide where we live. I gain short-term POWER (for $\gamma$ close to 0), and you gain long-term POWER (for $\gamma$ close to 1). 
 
@@ -162,7 +174,7 @@ Suppose we’re roommates, and we can’t decide what ice cream shop to eat at t
   
 However, when $\gamma$ is close to 1, **2** has more control over terminal options and it has more POWER$_{\mathcal{D}_\text{unif}}$ than **3**; accordingly, at **1**, _up_ seeks POWER$_{\mathcal{D}_\text{unif}}$ compared to _down_. Furthermore, _stay_ is maximally POWER$_{\mathcal{D}_\text{unif}}$\-seeking for these $\gamma$, since the agent maintains access to all six terminal states.
 
-**Most policies aren’t** _**always**_ **seeking POWER**
+### Most policies aren’t _always_ seeking POWER
 
 We already know that POWER-seeking isn’t binary, but there _are_ policies which choose a maximally POWER-seeking move at every state. In the above example, a maximally POWER-seeking agent would _stay_ at **1**. However, this seems rather improbable: when you care a lot about the future, there are so many terminal states to choose from – why would _staying put_ be optimal?
 
@@ -176,6 +188,7 @@ We return to our favorite example. In the waiting game, let's think about how op
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/prcmt0u5c48fn7xdqaxb)
 
+<br/>
 The agent can be in two states. If the agent doesn’t care about the future, with what probability is it optimal to choose **candy** instead of **wait**? 
 
 It's 50/50: since ${\mathcal{D}_\text{unif}}$ randomly chooses a number between 0 and 1 for each state, both states have an equal chance of being optimal. Neither action is convergently instrumental / more probable under optimality.
@@ -189,18 +202,20 @@ When the future matters a lot, 2/3 of reward functions have an optimal policy wh
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nagfmt4mgzuwhuii0yuf)
 <br/>Figure: As the agent cares more about the future, more and more goals incentivize navigating the _Wait!_ bottleneck. When the agent cares a lot about the future, waiting is _more probable under optimality_ than eating candy.
 
-**Definition** (Action optimality probability). At discount rate $\gamma$, action $a$ _is more probable under optimality than action_ $a’$ _at state_ $s$ when 
-
-$$
-\mathbb{P}_{R\sim \mathcal{D}}\left(a \text{ is optimal at } s,\gamma\right)> \mathbb{P}_{R\sim \mathcal{D}}\left(a' \text{ is optimal at } s, \gamma\right).
-$$
-Let’s take “most agents do _X_” to mean “_X_ has relatively large optimality probability.”
+> [!info] Definition: Action optimality probability
+> At discount rate $\gamma$, action $a$ _is more probable under optimality than action_ $a’$ _at state_ $s$ when 
+> 
+> $$
+> \mathbb{P}_{R\sim \mathcal{D}}\left(a \text{ is optimal at } s,\gamma\right)> \mathbb{P}_{R\sim \mathcal{D}}\left(a' \text{ is optimal at } s, \gamma\right).
+> $$
+> Let’s take “most agents do _X_” to mean “_X_ has relatively large optimality probability.”
 
 I think optimality probability formalizes the intuition behind the instrumental convergence thesis: with respect to our beliefs about what reward function an agent is optimizing, we may expect some actions to have a greater probability of being optimal than other actions. 
 
 Generally, my theorems assume that reward is independently and identically distributed (IID) across states, because otherwise you could have silly situations like “only **candy** ever has reward available, and so it’s more probable under optimality to eat candy.” We don’t expect reward to be IID for realistic tasks, but that’s OK: this is basic theory about how to begin formally reasoning about instrumental convergence and power-seeking. (Also, I think that grasping the math to a sufficient degree sharpens your thinking about the non-IID case.) 
 
-Author's note (7/21/21): As explained in [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence), the theorems no longer require the IID assumption. This post refers to v6 of _Optimal Policies Tend To Seek Power_, available on [arXiv](https://arxiv.org/abs/1912.01683).
+> [!note] Note, 7/21/21
+> As explained in [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence), the theorems no longer require the IID assumption. This post refers to v6 of _Optimal Policies Tend To Seek Power_, available on [arXiv](https://arxiv.org/abs/1912.01683).
 
 # When is Seeking POWER Convergently Instrumental?
 
@@ -215,13 +230,19 @@ Here’s a counterexample environment:
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nsl8lpwqcz7lpncvuq5z)
 <br/>Figure: The paths are one-directional; the agent can’t go back from **3** to **1**. The agent starts at **1**. Under a certain state reward distribution, the vast majority of agents go _up_ to **2**.   
   
-However, any reasonable notion of ‘power’ must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [v6 of the paper](https://arxiv.org/abs/1912.01683v6).![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/wkfdmhfenud63gvlyxcb)
+
+However, any reasonable notion of "power" must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [v6 of the paper](https://arxiv.org/abs/1912.01683v6).
+
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/wkfdmhfenud63gvlyxcb)
 <br/>Figure: When reward is IID across states according to the quadratic CDF $F(x) := x^2$ on the unit interval, then with respect to reward functions drawn from this distribution, going **up** has about a 91% chance of being optimal when the discount rate $\gamma = .12$.    
   
 If you’re curious, this happens because this quadratic reward distribution has negative skew. When computing the optimality probability of the **up** trajectory, we’re checking whether it maximizes discounted return. Therefore, the probability that **up** is optimal is  
   
 $$
-\mathbb{P}_{R\sim\mathcal{D}}\left(R(\textbf{2})\geq \max\left((1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{5}),   (1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{6})\right)\right).
+\begin{align*}
+\mathbb{P}_{R\sim\mathcal{D}}\bigg(R(\textbf{2})\geq \max\big(&(1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{5}),\\   
+&(1-\gamma) R(\textbf{3}) + (1-\gamma) \gamma R(\textbf{4}) + \gamma^2 R(\textbf{6})\big)\bigg).
+\end{align*}
 $$
   
 Weighted averages of IID draws from a left-skew distribution will look more Gaussian and therefore have fewer large outliers than the left-skew distribution does. Thus, going **right** will have a lower optimality probability.
@@ -249,9 +270,10 @@ The same thing happens in Tic-Tac-Toe as the agent cares more about the future.
 
 As the agent cares more about the future, it makes a bigger and bigger difference to control what happens during later steps. Also, as the agent cares more about the future, moves which prolong the game gain optimality probability. When the agent cares enough about the future, these game-prolonging moves are both POWER-seeking and more probable under optimality. 
 
-**Theorem summary** (“Terminal option” preservation). When $\gamma$ is sufficiently close to 1, if two actions allow access to two disjoint sets of “terminal options”, and action $a$ allows access to “strictly more terminal options” than does $a'$, then $a$ is strictly more probable under optimality and strictly POWER-seeking compared to $a’$. 
-
-(This is a special case of the combined implications of Theorems 6.8 and 6.9; the actual theorems don’t require this kind of disjointness.)
+> [!info] Theorem summary: “Terminal option” preservation
+> When $\gamma$ is sufficiently close to 1, if two actions allow access to two disjoint sets of “terminal options”, and action $a$ allows access to “strictly more terminal options” than does $a'$, then $a$ is strictly more probable under optimality and strictly POWER-seeking compared to $a’$. 
+> 
+> (This is a special case of the relevant theorems, which don’t require this kind of disjointness.)
 
 In the **wait** MDP, this is why _waiting_ is more probable under optimality and POWER-seeking when you care enough about the future. The full theorems are nice because they’re broadly applicable. They give you _bounds_ on how probable under optimality one action is: if action $a$ is the only way you can access many terminal states, while $a’$ only allows access to one terminal state, then when $\gamma \approx 1$, $a$ has many times greater optimality probability than $a’$. For example:
 
@@ -264,17 +286,18 @@ We can do better. When the agent cares a lot about the future, optimal policies 
   
 Taking $\color{red}{\textbf{2}}$ to represent shutdown, we see that avoiding shutdown is convergently instrumental in any MDP representing a real-world task and containing a shutdown state. Seeking POWER is often convergently instrumental in MDPs.
 
-_Exercise: Can you conclude that avoiding ghosts in Pac-Man is convergently instrumental for IID reward functions when the agent cares a lot about the future?_
+> [!exercise] 
+> Can you conclude that avoiding ghosts in Pac-Man is convergently instrumental for IID reward functions when the agent cares a lot about the future?
+> 
+> >! You can’t with the pseudo-theorem due to the disjointness condition: you could die now, or you could die later, so the "terminal options" aren’t disjoint. However, the real theorems do suggest this. Supposing that death induces a generic "game over" screen, touching the ghosts without a power-up traps the agent in that solitary 1-cycle.   
+> >
+> >! But there are thousands of other "terminal options"; under most reasonable state reward distributions (which aren’t too positively skewed), most agents maximize average reward over time by navigating to one of the thousands of different cycles which the agent can only reach by avoiding ghosts. In contrast, most agents don’t maximize average reward by navigating to the "game over" 1-cycle. So, under e.g. the maximum-entropy uniform state reward distribution, most agents avoid the ghosts.
 
->! You can’t with the pseudo-theorem due to the disjointness condition: you could die now, or you could die later, so the ‘terminal options’ aren’t disjoint. However, the real theorems do suggest this. Supposing that death induces a generic ‘game over’ screen, touching the ghosts without a power-up traps the agent in that solitary 1-cycle.   
-  
-But there are thousands of other ‘terminal options’; under most reasonable state reward distributions (which aren’t too positively skewed), most agents maximize average reward over time by navigating to one of the thousands of different cycles which the agent can only reach by avoiding ghosts. In contrast, most agents don’t maximize average reward by navigating to the ‘game over’ 1-cycle. So, under e.g. the maximum-entropy uniform state reward distribution, most agents avoid the ghosts.
+### Be careful applying this theorem
 
-**Be careful applying this theorem**
+The results inspiring the above pseudo-theorem are easiest to apply when the “terminal option” sets are disjoint: you’re choosing to be able to reach one set, or another. One thing which the theorem says: Since reward is IID, then two “similar terminal options” are equally likely to be optimal _a priori_. If choice $A$ lets you reach more “options” than choice $B$ does, then choice $A$ yields greater POWER and has greater optimality probability, _a priori_. 
 
-The results inspiring the above pseudo-theorem are easiest to apply when the “terminal option” sets are disjoint: you’re choosing to be able to reach one set, or another. One thing which Theorem 6.9 says is: since reward is IID, then two “similar terminal options” are equally likely to be optimal _a priori_. If choice $A$ lets you reach more “options” than choice $B$ does, then choice $A$ yields greater POWER and has greater optimality probability, _a priori_. 
-
-Theorem 6.9's applicability depends on what the agent can do.
+This theorem's applicability depends on what the agent can do.
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/t2ehjr9rpad3qpbofesw)
 <br/>Figure: To travel as quickly as possible to a randomly selected coordinate on Earth, one likely begins by driving to the nearest airport. Although it's possible that the coordinate is within driving distance, it's not likely. Driving to the airport is convergently instrumental for travel-related goals.
@@ -291,7 +314,8 @@ Sometimes, one course of action gives you “strictly more options” than anoth
 
 The right blue gem subgraph contains a “copy” of the upper red gem subgraph. From this, we can conclude that going right to the blue gems seeks POWER and is more probable under optimality for _all discount rates between 0 and 1_!
 
-**Theorem summary** (“Transient options”). If actions $a$ and $a’$ let you access disjoint parts of the state space, and $a’$ enables “trajectories” which are “similar” to a subset of the “trajectories” allowed by $a$, then $a$ seeks more POWER and is more probable under optimality than $a’$ for all $0 \leq \gamma \leq1$.
+> [!info] Theorem summary: “Transient options” 
+> If actions $a$ and $a’$ let you access disjoint parts of the state space, and $a’$ enables “trajectories” which are “similar” to a subset of the “trajectories” allowed by $a$, then $a$ seeks more POWER and is more probable under optimality than $a’$ for all $0 \leq \gamma \leq1$.
 
 This result is extremely powerful because it doesn’t care about the discount rate, but the similarity condition may be hard to satisfy.
 
@@ -343,18 +367,17 @@ That said, I think there’s still an important lesson here. Imagine you have go
 
 Speaking to the broader debate taking place in the AI research community, I think a productive stance will involve investigating and understanding these results in more detail, getting curious about unexpected phenomena, and seeing how the numbers crunch out in reasonable models.
 
-From _Optimal Policies Tend to Seek Power_:
-
+> [!quote] Optimal Policies Tend to Seek Power
 > In the context of MDPs, we formalized a reasonable notion of power and showed conditions under which optimal policies tend to seek it. We believe that our results suggest that in general, reward functions are best optimized by seeking power. We caution that in realistic tasks, learned policies are rarely optimal – our results do not mathematically _prove_ that hypothetical superintelligent RL agents will seek power. We hope that this work and its formalisms will foster thoughtful, serious, and rigorous discussion of this possibility.
 
-# **Acknowledgements**
-
-This work was made possible by the Center for Human-Compatible AI, the Berkeley Existential Risk Initiative, and the Long-Term Future Fund.
-
-Logan Smith ([`elriggs`](https://www.lesswrong.com/users/`elriggs`)) spent an enormous amount of time writing Mathematica code to compute power and measure in arbitrary toy MDPs, saving me from computing many quintuple integrations by hand. I thank Rohin Shah for his detailed feedback and brainstorming over the summer of 2019, and I thank Andrew Critch for significantly improving this work through his detailed critiques. Last but not least, thanks to:
-
-1.  Zack M. Davis, Chase Denecke, William Ellsworth, Vahid Ghadakchi, Ofer Givoli, Evan Hubinger, Neale Ratzlaff, Jess Riedel, Duncan Sabien, Davide Zagami, and `TheMajor` for feedback on version 1 of this post.
-2.  Alex Appel (diffractor), Emma Fickel, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on version 2 of this post.
+> [!thanks] Acknowledgements
+> 
+> This work was made possible by the Center for Human-Compatible AI, the Berkeley Existential Risk Initiative, and the Long-Term Future Fund.
+> 
+> Logan Smith ([`elriggs`](https://www.lesswrong.com/users/`elriggs`)) spent an enormous amount of time writing Mathematica code to compute power and measure in arbitrary toy MDPs, saving me from computing many quintuple integrations by hand. I thank Rohin Shah for his detailed feedback and brainstorming over the summer of 2019, and I thank Andrew Critch for significantly improving this work through his detailed critiques. Last but not least, thanks to:
+> 
+> 1.  Zack M. Davis, Chase Denecke, William Ellsworth, Vahid Ghadakchi, Ofer Givoli, Evan Hubinger, Neale Ratzlaff, Jess Riedel, Duncan Sabien, Davide Zagami, and `TheMajor` for feedback on version 1 of this post.
+> 2.  Alex Appel (diffractor), Emma Fickel, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on version 2 of this post.
 
 <hr/>
 

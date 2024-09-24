@@ -53,7 +53,7 @@ skip_import: true
 ![](https://i.imgur.com/nFoDRoL.png)
 ![](https://i.imgur.com/e6vNG2D.png)
 
-# Appendix (technical): First safeguard?
+# Appendix: First safeguard?
 
 > [!note]
 > This sequence is written to be broadly accessible, although perhaps its focus on capable AI systems assumes familiarity with [basic](https://www.youtube.com/watch?v=pARXQnX6QS8) [arguments](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) [for](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/0198739834/ref=sr_1_3?keywords=Superintelligence&qid=1560704777&s=books&sr=1-3) [the](https://slatestarcodex.com/superintelligence-faq/) [importance](https://80000hours.org/problem-profiles/positively-shaping-artificial-intelligence/) [of](https://www.openphilanthropy.org/blog/potential-risks-advanced-artificial-intelligence-philanthropic-opportunity) [AI alignment](https://www.openphilanthropy.org/blog/some-background-our-views-regarding-advanced-artificial-intelligence). The technical appendices are an exception, targeting the technically inclined.

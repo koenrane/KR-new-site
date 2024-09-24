@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 02/10/2020
 original_url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
+skip_import: true
 ---
 ![](https://i.imgur.com/zLypKDZ.png)
 
@@ -92,9 +93,10 @@ Sometimes a bunch of the best possibilities go through the same part of the futu
 
 ![](https://i.imgur.com/T8JS7kT.png)
 
-_Exercise: Track what’s happening to your various AUs during the following story: you win the lottery. Being an effective spender, you use most of your cash to buy a majority stake in a major logging company. Two months later, the company goes under._
+> [!info] Exercise
+> Track what’s happening to your various AUs during the following story: you win the lottery. Being an effective spender, you use most of your cash to buy a majority stake in a major logging company. Two months later, the company goes under.
 
-## Technical appendix: AU landscape and world state contain equal information
+## Appendix: AU landscape and world state contain equal information
 
 In the context of finite deterministic Markov decision processes, there's a wonderful handful of theorems which basically say that the AU landscape and the environmental dynamics encode each other. That is, they contain the _same_ information, just with different emphasis. This supports thinking of the AU landscape as a "dual" of the world state.
 
@@ -157,25 +159,27 @@ $$
 \right\}
 
 $$
-_Exercise: What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$._
+> [!info] Exercise
+> 
+> What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$.
+> 
+> >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](https://i.imgur.com/5GCZ9oY.png).
+> >
+> >! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
+> >
+> >! The other two states correspond to the "1" entries in their possibilities, so we can mark that down. The rest follows straightforwardly.
 
->! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](https://i.imgur.com/5GCZ9oY.png).
->
->! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
->
->! The other two states correspond to the "1" entries in their possibilities, so we can mark that down. The rest follows straightforwardly.
-
-**Theorem:** Suppose the rewardless MDP $M$ has possibility function $\mathcal{F}$. Given only $\mathcal{F}$,[^2] $M$ can be reconstructed up to possibility isomorphism.
+> [!info] Theorem
+> Suppose the rewardless MDP $M$ has possibility function $\mathcal{F}$. Given only $\mathcal{F}$,[^2] $M$ can be reconstructed up to possibility isomorphism.
 
 In MDPs, the "AU landscape" is the set of optimal value functions for all reward functions over states in that MDP. If you know the optimal value functions for just $|\mathcal{S}|$ reward functions, you can also reconstruct the rewardless MDP structure.[^3]
 
 From the environment (rewardless MDP), you can deduce the AU landscape (all optimal value functions) and all possibilities. From possibilities, you can deduce the environment and the AU landscape. From the AU landscape, you can deduce the environment (and thereby all possibilities).
 
 ![](https://i.imgur.com/D8PPNKp.png)
+Figure: All of these encode the same mathematical object.
 
-_All of these encode the same mathematical object._
-
-## Technical appendix: Opportunity cost
+## Appendix: Opportunity cost
 
 Opportunity cost is when an action you take makes you more able to achieve one goal but less able to achieve another. Even this simple world has opportunity cost:
 
@@ -197,12 +201,10 @@ While understanding opportunity cost may seem like a side-quest, each insight is
 - “Objective impact to a location” means that agents whose plans route through the location tend to be objectively impacted.
 - The landscape is not the territory: [AU is calculated with respect to an agent's _beliefs_](/the-gears-of-impact), not necessarily with respect to what really "could" or will happen.
 
-<hr/>
-
 
 [^1]: The possibility isomorphism is new to my work, as are all other results shared in this post. This apparent lack of basic theory regarding MDPs is strange; even stranger, this absence was actually pointed out in two [published](http://papers.nips.cc/paper/3179-stable-dual-dynamic-programming.pdf) [papers](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4220813)!
 
-    I find the existing MDP isomorphisms/equivalences to be pretty lacking. The details don't fit in this margin, but perhaps in a paper at some point. If you want to coauthor this (mainly compiling results, finding a venue, and responding to reviews), let me know and I can share what I have so far (extending well beyond the theorems in my [recent work on power](https://arxiv.org/abs/1912.01683)). 
+    I find the existing MDP isomorphisms/equivalences to be pretty lacking. The details don't fit in this margin, but perhaps in a paper at some point. If you want to coauthor this (mainly compiling results, finding a venue, and responding to reviews), let me know. Added later: The results are available in the appendices of [my dissertation](https://arxiv.org/abs/2206.11831).
 
 [^2]: In fact, you can reconstruct the environment using only a limited subset of possibilities: the _non-dominated_ possibilities. 
 

@@ -34,10 +34,11 @@ prev-post-slug: attainable-utility-landscape
 prev-post-title: "Attainable Utility Landscape: How The World Is Changed"
 next-post-slug: attainable-utility-preservation-concepts
 next-post-title: "Attainable Utility Preservation: Concepts"
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
+skip_import: true
 ---
 ![](https://i.imgur.com/Rgc4aOs.png)
 
@@ -73,23 +74,23 @@ Shah et al.'s [_Preferences Implicit in the State of the World_](https://arxiv.o
 
 Similarly, the world is being optimized to facilitate achievement of certain goals. AUs are shifting and morphing, often towards what people locally want done (e.g. setting the table for dinner). How can we leverage this for AI alignment?
 
-_Exercise: Brainstorm for two minutes by the clock before I anchor you._
+> [!info] Exercise
+> Brainstorm for two minutes by the clock before I anchor you.
+> 
+> >! Two approaches immediately come to mind for me. Both rely on the agent [focusing on the AU landscape rather than the world state](/world-state-is-the-wrong-abstraction-for-impact).
+> >
+> >! **Value learning without a prespecified ontology or human model**. [I have previously criticized](/thoughts-on-human-compatible#Where-in-the-world-is-the-human-) value learning for needing to locate the human within some kind of prespecified ontology (this criticism is not new). By taking only the agent itself as primitive, perhaps we could get around this (we don't need any fancy engineering or arbitrary choices to figure out AUs/optimal value from _the agent's_ perspective).
+> >
+> >! **Force-multiplying AI**. Have the AI observe which of its AUs most increase during some initial period of time, after which it pushes the most-increased-AU even further.
+> >
+> >! In 2016, Jessica Taylor [wrote](https://www.alignmentforum.org/posts/5bd75cc58225bf06703752da/pursuing-convergent-instrumental-subgoals-on-the-user-s-behalf-doesn-t-always-require-good-priors) of a similar idea:
+> >
+> >! "In general, it seems like "estimating what types of power a benchmark system will try acquiring and then designing an aligned AI system that acquires the same types of power for the user" is a general strategy for making an aligned AI system that is competitive with a benchmark unaligned AI system."
+> >
+> >! I think the naïve implementation of either idea would fail; e.g. there are a lot of degenerate AUs it might find. However, I'm excited by this because a) the AU landscape evolution _is_ an important source of information, b) it feels like there's something here we could do which nicely avoids ontologies, and c) force-multiplication is qualitatively different than existing proposals.
 
->! Two approaches immediately come to mind for me. Both rely on the agent [focusing on the AU landscape rather than the world state](/world-state-is-the-wrong-abstraction-for-impact).
-> [!quote]
->
->
->! _Value learning without a prespecified ontology or human model_. [I have previously criticized](/thoughts-on-human-compatible#Where-in-the-world-is-the-human-) value learning for needing to locate the human within some kind of prespecified ontology (this criticism is not new). By taking only the agent itself as primitive, perhaps we could get around this (we don't need any fancy engineering or arbitrary choices to figure out AUs/optimal value from _the agent's_ perspective).
->
->! _Force-multiplying AI_. Have the AI observe which of its AUs most increase during some initial period of time, after which it pushes the most-increased-AU even further.
->
->! In 2016, Jessica Taylor [wrote](https://www.alignmentforum.org/posts/5bd75cc58225bf06703752da/pursuing-convergent-instrumental-subgoals-on-the-user-s-behalf-doesn-t-always-require-good-priors) of a similar idea:
->
->! "In general, it seems like "estimating what types of power a benchmark system will try acquiring and then designing an aligned AI system that acquires the same types of power for the user" is a general strategy for making an aligned AI system that is competitive with a benchmark unaligned AI system."
->
->! I think the naïve implementation of either idea would fail; e.g. there are a lot of degenerate AUs it might find. However, I'm excited by this because a) the AU landscape evolution _is_ an important source of information, b) it feels like there's something here we could do which nicely avoids ontologies, and c) force-multiplication is qualitatively different than existing proposals.
-
-**Project:** Work out an AU landscape-based alignment proposal.
+> [!info] Project
+>  Work out an AU landscape-based alignment proposal.
 
 ## Why can't everyone be king?
 
@@ -131,11 +132,11 @@ In general, the CCC follows from two sub-claims.
 
 Also, we're implicitly considering the simplified frame of a single smart AI affecting the world, and not [structural risk](https://www.lawfareblog.com/thinking-about-risks-ai-accidents-misuse-and-structure) via [the broader consequences of others also deploying similar agents](https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/what-failure-looks-like). This is important but outside of our scope for now.
 
-> **Unaligned goals** tend to have catastrophe-inducing optimal policies because of power-seeking incentives.
+> _Unaligned goals_ tend to have catastrophe-inducing optimal policies because of power-seeking incentives.
 
 Let's say a reward function is _[aligned](https://arxiv.org/abs/1906.01820)_[^7] if all of its Blackwell-optimal policies are doing what we want (a policy is Blackwell-optimal if it's optimal and doesn't stop being optimal as the agent cares more about the future). Let's say a reward function class is _alignable_ if it contains an aligned reward function.[^8] The CCC is talking about impact alignment only, not about intent alignment.
 
-> Unaligned goals **tend to have** catastrophe-inducing optimal policies because of power-seeking incentives.
+> Unaligned goals _tend to have_ catastrophe-inducing optimal policies because of power-seeking incentives.
 
 Not all unaligned goals induce catastrophes, and of those which do induce catastrophes, not _all_ of them do it because of power-seeking incentives. For example, a reward function for which inaction is the only optimal policy is "unaligned" and non-catastrophic. An "evil" reward function which intrinsically values harming us is unaligned and has a catastrophic optimal policy, but not _because_ of power-seeking incentives.
 
@@ -143,7 +144,7 @@ Not all unaligned goals induce catastrophes, and of those which do induce catast
 
 While there _exist_ agents which cause catastrophe for other reasons (e.g. an AI mismanaging the power grid could trigger a nuclear war), the CCC claims that the selection pressure which makes these policies _optimal_ tends to come from power-seeking drives.
 
-> Unaligned goals tend to have **catastrophe-inducing optimal policies** because of power-seeking incentives.
+> Unaligned goals tend to have _catastrophe-inducing optimal policies_ because of power-seeking incentives.
 
 "But what about the Blackwell-optimal policy for Tic-Tac-Toe? These agents aren't taking over the world now". The CCC is talking about agents optimizing a reward function in the real world (or, for generality, in another sufficiently complex multiagent environment).
 
@@ -154,8 +155,8 @@ _Edit_: The initial version of this post talked about "outer alignment"; I chang
 > [!quote] Jessica Taylor, [Pursuing convergent instrumental subgoals on the user's behalf doesn't always require good priors](https://www.alignmentforum.org/posts/5bd75cc58225bf06703752da/pursuing-convergent-instrumental-subgoals-on-the-user-s-behalf-doesn-t-always-require-good-priors)
 >
 > In fact even if we only resolved the problem for the similar-subgoals case, it would be pretty good news for AI safety. Catastrophic scenarios are mostly caused by our AI systems failing to effectively pursue convergent instrumental subgoals on our behalf, and these subgoals are by definition shared by a broad range of values.
->
-> ~ Paul Christiano, [Scalable AI control](https://ai-alignment.com/scalable-ai-control-7db2436feee7#.1riohnubu)
+
+> [!quote] Paul Christiano, [Scalable AI control](https://ai-alignment.com/scalable-ai-control-7db2436feee7#.1riohnubu)
 >
 > Convergent instrumental subgoals are mostly about gaining power. For example, gaining money is a convergent instrumental subgoal. If some individual (human or AI) has convergent instrumental subgoals pursued well on their behalf, they will gain power. If the most effective convergent instrumental subgoal pursuit is directed towards giving humans more power (rather than giving alien AI values more power), then humans will remain in control of a high percentage of power in the world.
 >
@@ -195,4 +196,4 @@ _Edit_: The initial version of this post talked about "outer alignment"; I chang
 
 [^8]: [Some large reward function classes are probably not alignable](https://www.alignmentforum.org/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want); for example, consider all Markovian linear functionals over a webcam's pixel values. 
 
-[^9]: I disagree with my usage of "aligned _almost never_" on a technical basis: assuming a finite state and action space and considering the maxentropy reward function distribution, there must be a positive measure set of reward functions for which the/a human-aligned policy is optimal. 
+[^9]: I disagree with my usage of "aligned _almost never_" on a technical basis: Assuming a finite state and action space and considering the maxentropy reward function distribution, there must be a positive measure set of reward functions for which the/a human-aligned policy is optimal. 
