@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/27/2019
 original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
+skip_import: true
 ---
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.
@@ -81,7 +82,7 @@ original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utili
 
 ![](https://i.imgur.com/kr6sUam.png )
 
-# ¯\\_(ツ)\_/¯
+<span class="h2" style="display:block; text-align: center"> ¯\\\__(ツ)\__/¯</span>
 
 ![](https://i.imgur.com/PWJmONq.png)
 

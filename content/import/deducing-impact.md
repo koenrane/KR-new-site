@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/24/2019
 original_url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
+skip_import: true
 ---
 ![](https://i.imgur.com/lyRy0fS.png)
 

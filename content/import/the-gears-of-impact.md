@@ -37,7 +37,9 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/07/2019
 original_url: https://www.lesswrong.com/posts/coQCEe962sjbcCqB9/the-gears-of-impact
+skip_import: true
 ---
+
 ![](https://i.imgur.com/hKhkvwg.png)
 
 ![](https://i.imgur.com/IXogCtA.png)
@@ -93,8 +95,8 @@ original_url: https://www.lesswrong.com/posts/coQCEe962sjbcCqB9/the-gears-of-imp
 ![](https://i.imgur.com/lDbQW2b.jpg )
 
 
-
-_Exercise: Why does instrumental convergence happen? Would it be coherent to imagine a reality without it?_
+> [!exercise]
+> Why does instrumental convergence happen? Would it be coherent to imagine a reality without it?
 
 #### Notes
 
