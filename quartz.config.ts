@@ -130,7 +130,7 @@ const config: QuartzConfig = {
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true }),
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
       Plugin.ConvertEmphasis(),
-      Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      Plugin.CrawlLinks({ lazyLoad: true, markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.TagAcronyms(),
       Plugin.TroutOrnamentHr(),

@@ -63,8 +63,8 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
 
                 classes.push(isExternal ? "external" : "internal")
 
-                // If the link is external, make sure it starts with http
-                if (isExternal && !dest.startsWith("http")) {
+                // If the link is external and not a mailto link, make sure it starts with http
+                if (isExternal && !dest.startsWith("http") && !dest.startsWith("mailto:")) {
                   dest = ("https://" + String(dest)) as RelativeURL
                   node.properties.href = String(dest)
                 }
