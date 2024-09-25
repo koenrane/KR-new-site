@@ -21,8 +21,8 @@ title: "Walkthrough of 'Formalizing Convergent Instrumental Goals'"
 lw-latest-edit: 2018-02-26T02:20:09.294Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "walkthrough-of-formalizing-convergent-instrumental-goals"
 lw-reward-post-warning: "false"

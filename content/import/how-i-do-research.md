@@ -21,8 +21,8 @@ title: "How I do research"
 lw-latest-edit: 2019-11-20T21:28:11.835Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "rationality"
+  - "scholarship-&-learning"
 aliases: 
   - "how-i-do-research"
 lw-reward-post-warning: "false"

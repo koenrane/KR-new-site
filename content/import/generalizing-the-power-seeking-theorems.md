@@ -21,8 +21,8 @@ title: "Generalizing the Power-Seeking Theorems"
 lw-latest-edit: 2021-01-14T21:59:01.815Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "generalizing-the-power-seeking-theorems"
 lw-reward-post-warning: "false"

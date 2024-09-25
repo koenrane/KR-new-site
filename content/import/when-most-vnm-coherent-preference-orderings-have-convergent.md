@@ -21,9 +21,9 @@ title: "When Most VNM-Coherent Preference Orderings Have Convergent Instrumental
 lw-latest-edit: 2023-05-16T20:32:55.143Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
-  - "rationality"
   - "instrumental-convergence"
+  - "rationality"
+  - "AI"
 aliases: 
   - "when-most-vnm-coherent-preference-orderings-have-convergent"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"

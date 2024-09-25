@@ -21,8 +21,8 @@ title: "Clarifying Power-Seeking and Instrumental Convergence"
 lw-latest-edit: 2019-12-20T19:59:33.140Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "clarifying-power-seeking-and-instrumental-convergence"
 lw-reward-post-warning: "false"

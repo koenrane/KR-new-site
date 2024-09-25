@@ -21,8 +21,8 @@ title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Mod
 lw-latest-edit: 2018-03-25T06:55:46.204Z
 lw-is-linkpost: "false"
 tags: 
-  - "scholarship-&-learning"
   - "AI"
+  - "scholarship-&-learning"
 aliases: 
   - "the-art-of-the-artificial-insights-from-artificial"
 lw-sequence-title: "Becoming Stronger"

@@ -21,8 +21,8 @@ title: "Instrumental Convergence For Realistic Agent Objectives"
 lw-latest-edit: 2023-05-16T20:37:13.911Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "instrumental-convergence-for-realistic-agent-objectives"
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence

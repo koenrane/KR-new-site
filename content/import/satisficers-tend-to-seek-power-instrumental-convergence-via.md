@@ -22,8 +22,8 @@ title: "Satisficers Tend To Seek Power: Instrumental Convergence Via Retargetabi
 lw-latest-edit: 2023-05-16T20:34:42.721Z
 lw-is-linkpost: "true"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "satisficers-tend-to-seek-power-instrumental-convergence-via"
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence

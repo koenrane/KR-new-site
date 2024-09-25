@@ -30,7 +30,7 @@ use-full-width-images: "false"
 date_published: 10/16/2023
 original_url: https://www.lesswrong.com/posts/Be3ertyJfwDdQucdd/how-should-turntrout-handle-his-deepmind-equity-situation
 ---
-**habryka**
+**`habryka`**
 
 Ok, so the basic situation as I understand it is that as part of your Deepmind offer you would get a bunch of Google stock that would become available to you over the course of around 4 years or so. This means in-expectation, for 4 years, your net worth would substantially correlate with overall Google performance, which on our worldview probably substantially correlates with how much google invests in AGI and how much it participates in the AGI race.
 
@@ -45,11 +45,11 @@ I was somewhat worried about equity CoI, and my gut response was "I guess I'll d
 1.  I didn't realize how substantially equity contributes to the compensation package, and
 2.  it now seems like it shouldn't be too hard to construct a portfolio with a net ~zero position in GOOG. However, that's a question I don't have a lot of background in.
 
-**habryka**
+**`habryka`**
 
 The easiest way for doing this would of course be to just ask for a compensation package with no stock options, but many companies don't like that. You might also be able to get a better deal here by doing your own hedging than whatever price Google would offer you for those stock options.
 
-**habryka**
+**`habryka`**
 
 Ok, but assuming that you can't just ask for a no-stock-options package, how could you potentially reduce your exposure to Google stock here?
 
@@ -63,7 +63,7 @@ Now, let's think about whether there is just some product on the open market tha
 
 One important part would be that (as with any job) I'll be at Google for an unknown duration, and so I don't want to commit to selling my full number of shares, and I'd also like a solution which is robust to receiving additional equity due to high performance.
 
-**habryka**
+**`habryka`**
 
 Yeah, to be clear, the intent behind this contract was to have the contract end as soon as you leave Google and no longer have any vesting shares. Also yeah, seems probably doable to find some way of also having you sell additional performance bonus shares you get.
 
@@ -71,7 +71,7 @@ Yeah, to be clear, the intent behind this contract was to have the contract end 
 
 Google in particular has in-house financial advisors, so practically I'd go talk with them about this, but I'd like to figure this out for the more general case.
 
-**habryka**
+**`habryka`**
 
 Man, I do have trouble coming up with a simple off-the-shelf contract that you could buy, or some personal commitment you could make, that would cause you to break even here. 
 
@@ -81,7 +81,7 @@ Ok, so does anything go wrong with a dumb "I keep a spreadsheet of my Google ret
 
 (Also, insofar as I want the charity to get funding, I still have CoI, albeit a smaller one.)
 
-**habryka**
+**`habryka`**
 
 Ok, so wait, do you know the exact dates your equity will vest? 
 
@@ -89,7 +89,7 @@ Ok, so wait, do you know the exact dates your equity will vest?
 
 Yes, I know what percentage will vest each month for the next 4 years, and I'll presumably get the specifics (like exact days) soon enough.
 
-**habryka**
+**`habryka`**
 
 Like, the thing that I feel like you want to do, is to sell a futures contract for Google stock that aligns with your vesting schedule. The problem here is of course that you might end up leaving Google, and then you still need to come up with the Google stock at the pre-specified price somehow. 
 
@@ -103,7 +103,7 @@ The naive thing to do is to just like, short Google in an amount equivalent to y
 
 I think a costless collar (selling a call to buy a put at identical strike prices) would be better than shorting, but it might not be possible given the options markets, and it leaves a range of problems unsolved (like "I don't want to deal with margin calls", "what if I get more equity", and "unknown, variable duration of employment"). I could ladder the collars (i.e. establish new collars as I go), but that might not lock me in to the present value of GOOG (e.g. if the stock falls a bunch in the future, maybe no one is trading options at present value anymore, or at least the collar is no longer costless). 
 
-**habryka**
+**`habryka`**
 
 I feel like the variable duration here just really forces you into making a custom contract, if you don't want any of the risk exposure, which sucks.
 
@@ -111,7 +111,7 @@ I feel like the variable duration here just really forces you into making a cust
 
 I want to just ask Google to give me future stocks according to their future value. e.g. 3 months from now, I get \$X worth of GOOG no matter what. Maybe they will do that. Maybe not.
 
-**habryka**
+**`habryka`**
 
 I think they key question is "how much of a loss are you willing to take to be neutral here?". If it's <2%, then I think it's really hard. If it's 10% then I think it's quite likely you would find a buyer for the relevant contract.
 
@@ -119,7 +119,7 @@ I think they key question is "how much of a loss are you willing to take to be n
 
 I'm definitely willing to pay 2%. I don't fear equity-induced drift much overall, though, but that comes down to factors like "how much do my decisions impact GOOG performance" and "to what extent am I helping make deployment decisions." However, I value time/stress more heavily, and if I have to crunch a ton of annoying numbers every month (in a way I can't hire out to a non-trusted person), that's going to decrease my willingness a lot. 
 
-**habryka**
+**`habryka`**
 
 I think it's pretty important to plan for success in things like this. Like, I agree that in the median path your decisions do not impact GOOG performance that much, but there are totally worlds where you might end up as one of the people in charge of the stop button for Google AI capabilities research, and yeah, that one will sure have a huge effect on Google stock when pressed. 
 
@@ -127,7 +127,7 @@ I think it's pretty important to plan for success in things like this. Like, I a
 
 Agreed. (Although if I became important, and I retained my alignment at that point, I could start up a costlier strategy which locked me in to the value as of that future date.)
 
-**habryka**
+**`habryka`**
 
 Yeah, I think that's fair. But also, whether you end up in such a position might depend on having already committed to that (like, I would feel more comfortable electing you to the stop button position if I could somehow be confident that you won't have GOOG exposure, which would be easiest if you had already signed a contract that made you GOOG neutral), though probably it won't be a major component.
 
@@ -135,13 +135,13 @@ Yeah, I think that's fair. But also, whether you end up in such a position might
 
 Ideally that stop button would be handled by third parties _not employed by Google_ (even if they're not exposed to GOOG), but possibly that won't be the case.
 
-**habryka**
+**`habryka`**
 
 Yeah, definitely. But I sadly don't expect that to happen. 
 
 Idk, maybe I should set up a small fund here that buys alignment-researcher equity with the obvious contracts. It's just a 4-year contract, with more than half of the capital being freed up 2 years in, so this really isn't that much committed capital. 
 
-**habryka**
+**`habryka`**
 
 I do personally kind of want to avoid GOOG exposure, but idk, does seem less important if I am not working at GOOG.
 
@@ -149,7 +149,7 @@ I do personally kind of want to avoid GOOG exposure, but idk, does seem less imp
 
 Yeah. I also want to avoid exposure for the standard risk management reasons.
 
-**habryka**
+**`habryka`**
 
 Yeah, man, does really seem like there just isn't a very simple instrument here you can buy. I think we really need someone to set up a custom contract here, and I would love it if someone wanted to do this (and my guess is people would be willing to pay like 5% premium here, so this seems like it could be a quite mutually beneficial trade).
 

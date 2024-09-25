@@ -33,7 +33,7 @@ I've thought about (concepts related to) the fragility of value [quite](/the-cat
 
 I'll split this review into two parts, since [the nominations called for](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=upiLXPNDbKWoudatP) review of both the post and the comments:
 
-> [!quote] habryka
+> [!quote] `habryka`
 >
 > I think this post should be reviewed for its excellent comment section at least as much as for the original post, and also think that this post is a pretty central example of the kind of post I would like to see more of.
 

@@ -21,8 +21,8 @@ title: "How to Dissolve It"
 lw-latest-edit: 2018-03-07T06:19:22.923Z
 lw-is-linkpost: "false"
 tags: 
-  - "practical"
   - "rationality"
+  - "practical"
 aliases: 
   - "how-to-dissolve-it"
 lw-reward-post-warning: "false"

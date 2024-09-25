@@ -23,8 +23,8 @@ lw-is-linkpost: "false"
 authors: Alex Turner, Ulisse Mini, and Peli Grietzer
 tags: 
   - "shard-theory"
-  - "AI"
   - "rationality"
+  - "AI"
   - "mats-program"
 aliases: 
   - "predictions-for-shard-theory-mechanistic-interpretability"

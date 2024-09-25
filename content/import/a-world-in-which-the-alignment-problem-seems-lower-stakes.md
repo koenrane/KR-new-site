@@ -21,8 +21,8 @@ title: "A world in which the alignment problem seems lower-stakes"
 lw-latest-edit: 2021-07-08T15:16:27.530Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "a-world-in-which-the-alignment-problem-seems-lower-stakes"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"

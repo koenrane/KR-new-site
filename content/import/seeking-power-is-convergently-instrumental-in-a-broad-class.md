@@ -21,8 +21,8 @@ title: "Seeking Power is Convergently Instrumental in a Broad Class of Environme
 lw-latest-edit: 2023-05-16T20:31:56.719Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "seeking-power-is-convergently-instrumental-in-a-broad-class"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"

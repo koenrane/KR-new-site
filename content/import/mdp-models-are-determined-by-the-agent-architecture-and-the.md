@@ -21,8 +21,8 @@ title: "MDP models are determined by the agent architecture and the environmenta
 lw-latest-edit: 2021-06-02T18:31:04.668Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "mdp-models-are-determined-by-the-agent-architecture-and-the"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
@@ -43,7 +43,7 @@ original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-d
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/205fc7acb3e1ab7c1aa5af9239395306b4ee76d4565f33b3.png)
 <br/>Figure: The model for a deterministic MDP. When the agent cares a lot about future reward (the discount rate is near 1), most reward functions have optimal policies which go `right` .
 
-Several people have claimed to me that these results need subjective modelling decisions. For example, ofer [wrote](https://www.lesswrong.com/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai?commentId=DjjtezKuT3bCZZPJu#ay8nySSiA2SgZGAXp):
+Several people have claimed to me that these results need subjective modelling decisions. For example, `ofer` [wrote](https://www.lesswrong.com/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai?commentId=DjjtezKuT3bCZZPJu#ay8nySSiA2SgZGAXp):
 
 > I think using a well-chosen reward distribution is necessary, otherwise POWER depends on arbitrary choices in the design of the MDP's state graph. E.g. suppose the student \[in a different example\] writes about every action they take in a blog that no one reads, and we choose to include the content of the blog as part of the MDP state. This arbitrary choice effectively unrolls the state graph into a tree with a constant branching factor (+ self-loops in the terminal states) and we get that the POWER of all the states is equal.
 

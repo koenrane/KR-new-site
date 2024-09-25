@@ -21,8 +21,8 @@ title: "The More Power At Stake, The Stronger Instrumental Convergence Gets For 
 lw-latest-edit: 2023-05-16T20:26:02.342Z
 lw-is-linkpost: "false"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "the-more-power-at-stake-the-stronger-instrumental"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"

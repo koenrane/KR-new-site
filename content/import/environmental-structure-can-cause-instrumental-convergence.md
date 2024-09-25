@@ -22,8 +22,8 @@ title: "Environmental Structure Can Cause Instrumental Convergence"
 lw-latest-edit: 2023-05-16T20:23:50.626Z
 lw-is-linkpost: "true"
 tags: 
-  - "AI"
   - "instrumental-convergence"
+  - "AI"
 aliases: 
   - "environmental-structure-can-cause-instrumental-convergence"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
