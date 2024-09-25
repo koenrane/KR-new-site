@@ -33,10 +33,11 @@ prev-post-slug: attainable-utility-preservation-scaling-to-superhuman
 prev-post-title: "Attainable Utility Preservation: Scaling to Superhuman"
 next-post-slug: conclusion-to-reframing-impact
 next-post-title: "Conclusion to 'Reframing Impact'"
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 02/27/2020
 original_url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
+skip_import: true
 ---
 Can we get impact measurement _right_? Does there exist One Equation To Rule Them All?
 
@@ -54,9 +55,9 @@ You might therefore wonder why I’m working on impact measurement.
 
 # Deconfusion
 
-Within Matthew Barnett’s [breakdown of how impact measures could help with alignment](https://www.lesswrong.com/posts/wJK944YqvFwjdbqCP/four-ways-an-impact-measure-could-help-alignment), I'm most excited about _impact measure research as deconfusion_. [Nate Soares explains](https://intelligence.org/2018/11/22/2018-update-our-new-research-directions/):
+Within Matthew Barnett’s [breakdown of how impact measures could help with alignment](https://www.lesswrong.com/posts/wJK944YqvFwjdbqCP/four-ways-an-impact-measure-could-help-alignment), I'm most excited about _impact measure research as deconfusion_. 
 
-> [!quote]
+> [!quote] [MIRI's 2018 update](https://intelligence.org/2018/11/22/2018-update-our-new-research-directions/)
 >
 > By deconfusion, I mean something like “making it so that you can think about a given topic without continuously accidentally spouting nonsense.”
 >

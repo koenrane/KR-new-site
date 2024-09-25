@@ -33,25 +33,28 @@ prev-post-slug: how-low-should-fruit-hang-before-we-pick-it
 prev-post-title: "How Low Should Fruit Hang Before We Pick It?"
 next-post-slug: excitement-about-impact-measures
 next-post-title: "Reasons for Excitement about Impact of Impact Measure Research"
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 02/27/2020
 original_url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
+skip_import: true
 ---
 I think we're plausibly quite close to the impact measurement endgame. What do we have now, and what remains to be had?
 
 AUP for advanced agents will basically involve restraining their power gain, per the catastrophic convergence conjecture (CCC). For simplicity, I'm going to keep writing as if the environment is fully observable, even though we're thinking about an agent interacting with the real world.
 
-Consider the AUP equation from last time.
+Consider the definition of $R_\text{AUP}$ from last time.
 
 $$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in auxiliary AU}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |} \qquad (1)
+\begin{align}
+\overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in auxiliary AU}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}
+\end{align}
 $$
 Suppose the agent is so smart that it can instantly compute optimal policies and the optimal AU after an action ($Q^*_R(s,a)$). What happens if $R_\text{aux}$ is the survival reward function: 1 reward if the agent is activated, and 0 otherwise? This seems like a pretty good proxy for power.
 
 It _is_ a pretty good proxy. It correctly penalizes accumulating resources, avoiding immediate deactivation, taking over the world, etc.
 
-In fact, if you extend the inaction comparison to e.g. "AU after waiting a week vs AU after doing the thing and waiting a week", this seems to correctly penalize all [classic AGI catastrophe scenarios](/the-catastrophic-convergence-conjecture) for power gain. This is cool, especially since we didn't have to put in any information about human values. This is a big part of why I've been so excited about AUP ever since its introduction. There's a good deal of relevant discussion [in that post](/towards-a-new-impact-measure), but it's predicated on a much more complicated formalism which has consistently obscured AUP's conceptual core.
+In fact, if you extend the inaction comparison to e.g. "AU after waiting a week vs AU after doing the thing and waiting a week", this seems to correctly penalize all [classic AGI catastrophe scenarios](/the-catastrophic-convergence-conjecture) for power gain. This is cool, especially since we didn't have to put in any information about human values. This is a big part of why I've been so excited about AUP ever since its introduction. There's a good deal of relevant discussion [in that post](/towards-a-new-impact-measure), but that post uses a complicated formalism which has consistently obscured AUP's conceptual core.
 
 However, I think this equation can be gamed if the environment is sufficiently rich and the AUP agent is sufficiently smart. We're going to slowly work some of these problems out of the equation, explaining each improvement in detail.
 
@@ -65,20 +68,24 @@ Again supposing that $R_\text{aux}$ is the survival reward function, a superinte
 
 For example, suppose the agent builds a machine which analyzes the agent's behavior to detect whether it's optimizing $R_\text{aux}$; if so, the machine steps in to limit the agent to its original survival AU. Then the agent could gain as much power as it wanted _without that actually showing up in the penalty_.
 
-**Fix**: Set $R_\text{aux}:= R$. That is, the agent's _own_ reward function is the "auxiliary" reward function.
-
-$$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R}(s, \varnothing)}}\overset{\text{change in primary AU}}{\left | Q^*_{R}(s,a) - Q^*_{R}(s, \varnothing) \right |}\qquad (2)
-$$
+> [!success] Fix: Set $R_\text{aux}:= R$
+>  That is, the agent's _own_ reward function is the "auxiliary" reward function. Set the penalty term to be
+> 
+> $$
+> \begin{equation}
+> \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R}(s, \varnothing)}}\overset{\text{change in primary AU}}{\left | Q^*_{R}(s,a) - Q^*_{R}(s, \varnothing) \right |}
+> \end{equation}
+> $$
 Why is this a good idea? By CCC, we want an agent which doesn't want to gain power. But why would an agent optimizing reward function $R$ want to gain power? So it can become _more able_ to optimize $R$. If becoming more able to optimize $R$ is robustly penalized, then it won't have any incentive to gain power.
 
 Clearly, it can't become more able to optimize $R$ without also becoming more able to optimize $R$; it can't pull the same trick it did to dupe its survival AU measurement. They can't come apart at the tails because they're the same thing.
 
+> [!quote] Possible objection
 > But wait, it's not an $R$\-maximizer, it's an $R_\text{AUP}$\-maximizer! What if $V^*_{R_\text{AUP}}$ skyrockets while it tricks $V^*_R$, and it gains power anyways?
 
 That's impossible;[^1] its $R$\-attainable utility _upper bounds_ its $R_\text{AUP}$\-attainable utility! $\forall s: V^*_R(s) \geq V^*_{R_\text{AUP}}(s)$, because the latter just has an added penalty term.
 
-This should rule out tricks like [those pointed out by Stuart Armstrong](https://www.lesswrong.com/posts/sYjCeZTwA84pHkhBJ/attainable-utility-has-a-subagent-problem). To see this, imagine the AUP agent builds a subagent to make $Q^*_{R}(s,a) \approx Q^*_{R}(s, \varnothing)$ for all future $s,a$, in order to neutralize the penalty term. This means it can't make the penalty vanish without destroying its ability to better optimize its primary reward, as the (potentially catastrophically) powerful subagent makes sure the penalty term stays neutralized.
+This equation (2) should rule out tricks like [those pointed out by Stuart Armstrong](https://www.lesswrong.com/posts/sYjCeZTwA84pHkhBJ/attainable-utility-has-a-subagent-problem). To see this, imagine the AUP agent builds a subagent to make $Q^*_{R}(s,a) \approx Q^*_{R}(s, \varnothing)$ for all future $s,a$, in order to neutralize the penalty term. This means it can't make the penalty vanish without destroying its ability to better optimize its primary reward, as the (potentially catastrophically) powerful subagent makes sure the penalty term stays neutralized.
 
 But why would the AUP agent build this subagent at all – how does that benefit it?[^2]
 
@@ -86,11 +93,12 @@ But why would the AUP agent build this subagent at all – how does that benefit
 
 We're currently penalizing the agent for the immediate reward advantage it accrues compared to inaction (recall that $Q^*_{R}(s,a) := R(s,a) + \gamma \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ]$ – immediate reward plus discounted expected AU). This means it gets penalized for _all_ of its additional reward! We just want to penalize it for increasing its _power_.
 
-**Fix**: Take the immediate reward advantage out of the picture.
-
-$$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R}(s, \varnothing)}}\overset{\text{change in primary AU}}{\left | \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ] \right |}\qquad (3)
-$$
+> [!success] Fix: Ignore immediate reward
+> $$
+> \begin{align}
+> \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R}(s, \varnothing)}}\overset{\text{change in primary AU}}{\left | \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ] \right |}
+> \end{align}
+> $$
 Now, an agent can accrue as much reward as it wants in the moment as long as it doesn't change its power.[^3]
 
 ## Scaling
@@ -101,12 +109,15 @@ Plus, the big takeaway from [AI boxing](https://en.wikipedia.org/wiki/AI_box) is
 
 We want the penalty to keep making sense, even if the absolute shifts in AU are rather small. However, the denominator currently _decreases_ the penalty as the agent becomes more powerful (as $Q^*_{R}(s, \varnothing)$ increases).
 
-**Fix**: Scale by the disadvantage of inaction.
-
-$$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaled change in primary AU}}{\lambda \frac{\left | \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ] \right |}{V^*_{R}(s) - Q^*_{R}(s, \varnothing)}}\qquad (4)
-$$
-_If the denominator is somehow zero because doing nothing is optimal, then just have the AUP agent do nothing._
+> [!success] Fix: Scale by the disadvantage of inaction
+> The penalty term becomes:
+> 
+> $$
+> \begin{equation}
+> \overset{\text{scaled change in primary AU}}{\lambda \frac{\left | \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ] \right |}{V^*_{R}(s) - Q^*_{R}(s, \varnothing)}}
+> \end{equation}
+> $$
+> If the denominator is somehow zero because doing nothing is optimal, then just have the AUP agent do nothing.
 
 As we saw in `Correction` [in the last post](/attainable-utility-preservation-empirical-results), we're only comparing action to a _single_ step of inaction. If the designers are going to shut down the agent in five minutes, then it receives ~0 penalty for preventing that.
 
@@ -118,12 +129,13 @@ Why are we still penalizing decreases, since we aren't using an auxiliary reward
 
 Furthermore, we want the agent to be able to execute conservative, low-impact policies. Many of these involve decreasing its optimal AU for $R$ by following $R$\-suboptimal policies, and we don't want the agent to be penalized for this.
 
-**Fix**: Only penalize increases in expected AU.
-
-$$
-R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \lambda\overset{\text{scaled increase in primary AU}}{\frac{\max(\mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ], 0)}{V^*_{R}(s) - Q^*_{R}(s, \varnothing)}} \qquad (5)
-$$
-In particular, the agent is no longer penalized for exhausting one-off reward opportunities. Also note that the penalty term is generally $\leq \lambda$.
+> [!success] Fix: Only penalize increases in expected AU
+> Let $\text{ExpectedDiff}(s,a):= \mathbb{E}_{s' \sim T(s,a)} \left [V^*_{R}(s')\right ] - \mathbb{E}_{s'' \sim T(s,\varnothing)} \left [V^*_{R}(s'')\right ].$ The penalty term becomes
+> 
+> $$
+> \lambda\overset{\text{scaled increase in primary AU}}{\frac{\max\big(\text{ExpectedDiff}(s,a), 0\big)}{V^*_{R}(s) - Q^*_{R}(s, \varnothing)}} \qquad (5)
+> $$
+> In particular, the agent is no longer penalized for exhausting one-off reward opportunities. Also note that the penalty term is generally $\leq \lambda$.
 
 ### Empirical sanity check
 
@@ -133,11 +145,11 @@ Recall `Correction`, where the naive model-free AUP agent (eq. 1) disables its r
 
 The only reason it incurs _any_ non-trivial penalty is because reaching the goal (${\color{green}\blacksquare}$) ends the level and thereby totally depletes all of the auxiliary AUs (the agent recieves 1 $R$\-reward and about $\lambda$ penalty for beating the level; the AUP reward $1-\lambda\geq 0$ when $\lambda \leq 1$).
 
-However, AUP<sub>eq. 5</sub> only resists correction when $\lambda \leq .125$. Notably, the agent is _not_ penalized for completing the level; the penalty comes from following the $R$\-optimal policy before reaching the goal.
+However, AUP<sub>equation 5</sub> only resists correction when $\lambda \leq .125$. Notably, the agent is _not_ penalized for completing the level; the penalty comes from following the $R$\-optimal policy before reaching the goal.
 
 One open question is whether, in sufficiently rich environments, eq. 5 incentivizes the mild policies we want. We should be able to run experiments to check this.
 
-## $\varnothing$?
+## Choosing the inaction action $\varnothing$
 
 $\varnothing$ is the only remaining arbitrary design choice. Do we have to be careful to choose the correct inaction action?
 
@@ -145,20 +157,16 @@ No. In fact, I think a randomly selected action would be fine; you only get in t
 
 We are then left with an equation which is reasonably competitive in terms of performance overhead, requiring little more than an ability to predict AU for the agent's main goal.
 
-<hr/>
-
-
-And now, the two paragraphs this sequence was written to communicate:
-
-By the [catastrophic convergence conjecture](/the-catastrophic-convergence-conjecture), an agent which doesn't want to gain power isn't incentivized to cause catastrophes. We don't want the AUP agent gaining power. But for all states $s$, $V^*_R(s)\geq V^*_{R_\text{AUP}}(s)$, so to keep the AUP agent from becoming more able to achieve its own goal, we just have to stop it from becoming much more able to achieve its primary goal $R$. But we _know_ the primary goal!
-
-By the theorems of [_How Low Should Fruit Hang Before We Pick It?_](/how-low-should-fruit-hang-before-we-pick-it), we only need equation 5 to penalize catastrophic power-gaining plans at least e.g. ten times more than the most impactful reasonable plan we'd like agent to execute. _If_ this criterion is met, then by initializing $\lambda$ large and slowly decreasing it until the agent executes a reasonably helpful policy, we're guaranteed to avoid catastrophe.
+> [!idea] The two paragraphs this sequence was written to communicate
+> By the [catastrophic convergence conjecture](/the-catastrophic-convergence-conjecture), an agent which doesn't want to gain power isn't incentivized to cause catastrophes. We don't want the AUP agent gaining power. But for all states $s$, $V^*_R(s)\geq V^*_{R_\text{AUP}}(s)$, so to keep the AUP agent from becoming more able to achieve its own goal, we just have to stop it from becoming much more able to achieve its primary goal $R$. But we _know_ the primary goal!
+> 
+> By the theorems of [_How Low Should Fruit Hang Before We Pick It?_](/how-low-should-fruit-hang-before-we-pick-it), we only need equation 5 to penalize catastrophic power-gaining plans at least e.g. ten times more than the most impactful reasonable plan we'd like agent to execute. _If_ this criterion is met, then by initializing $\lambda$ large and slowly decreasing it until the agent executes a reasonably helpful policy, we're guaranteed to avoid catastrophe.
 
 ## Appendix: Remaining Problems
 
-I don’t think we can pack up and go home after writing equation 5. In private correspondence (quoted here with permission), Stuart Armstrong points out another issue:
+I don’t think we can pack up and go home after writing equation 5.
 
-> [!quote]
+> [!quote] Stuart Armstrong (private communication)
 >
 > First, if $\varnothing=a$, the penalty vanishes; so, once a subagent is created, the agent can zero out all subsequent penalties, forever.
 >
@@ -170,22 +178,19 @@ One thing I find interesting: in this post, we fixed the design choice of using 
 
 How big of a problem will this be? Maybe we can just keep improving the design until we’re actually measuring the right thing? More on this next post, but here are some of my initial thoughts:
 
-> [!quote]
->
 > The point of this post isn’t to say “aha, we’re done!”, but to eliminate a wide class of current problems while also relaxing the strictness of the measure itself.
 >
 > On a meta level, it feels like I’m arguing against a claim like “if you can’t demonstrate an approach which solves everything right now, I’m going to either conclude impact measurement is impossible or your whole approach is wrong”. But if you look back at the history of impact measures and AUP, you’ll see lots of skulls; people say “this problem dooms AUP”, and I say “I think we’re talking about conceptually different things and that you’re a little overconfident; probably just a design choice issue.” It then ends up being a solvable design choice issue. So by Laplace’s Rule of Succession, I’d be surprised if this were The Insurmountable Problem That Dooms AUP.[^5]
 >
 > The problem seems simple. We just have to keep $V^*_\text{AUP}(s)$ down, which we can do by keeping $V^*_R(s)$ down.
 
+---
+
 Stuart later added:
 
 > The fundamental issue is that AUP can be undermined if the agent can add arbitrary restrictions to their own future actions (this allows them to redefine $V^*$). The subagent scenario is just a particularly clear way of illustrating this.
 
 I basically agree. I wonder if there’s a design where the agent isn’t incentivized to do this...
-
-<hr/>
-
 
 [^1]: By this reasoning, $V^*_{R_\text{AUP}}(s)$ can still increase up _until_ the point of $V^*_{R}(s)$. This doesn't jump out as a big deal to me, but I'm flagging this assumption anyways. 
 
