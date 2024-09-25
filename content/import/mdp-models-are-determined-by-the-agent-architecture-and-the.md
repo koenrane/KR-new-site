@@ -37,8 +37,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/26/2021
 original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-determined-by-the-agent-architecture-and-the
+skip_import: true
 ---
-[_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the "Markov decision process (MDP) model") to the tendencies of optimal policies for different reward functions in that environment ("instrumental convergence"). The results tell us what optimal decision-making "tends to look like" in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.
+[_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the "Markov decision process (MDP)[^pomdp] model") to the tendencies of optimal policies for different reward functions in that environment ("instrumental convergence"). The results tell us what optimal decision-making "tends to look like" in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.
+
+[^pomdp]: I think that the same point holds for other environment types, like POMDPs.
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/205fc7acb3e1ab7c1aa5af9239395306b4ee76d4565f33b3.png)
 <br/>Figure: The model for a deterministic MDP. When the discount rate is near 1, most reward functions have optimal policies which go `right` .
@@ -69,12 +72,10 @@ When we train a policy function in the real world, the function takes in an _obs
 
 Suppose that for every state-action history, what the agent sees next depends only on the currently observed state and the most recent action taken. Then the environment is Markovian (transition dynamics only depend on what you do right now, not what you did in the past) and fully observable (you can see the whole state all at once), and the agent encodings have defined the MDP model. 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/6fe10f812c950aa80e3bafd20aa87bc09ed60d57b1e1c6cc.png)
+---
 
 In Pac-Man, the MDP model is uniquely defined by how we encode states and actions, and the part of the real world which our agent interfaces with. If you say "maybe the red ghost is represented by 5 googolplex states", then that's a _falsifiable claim_ about the kind of encoding we're using. 
 
 That's also a claim that we can, in theory, specify reward functions which distinguish between 5 googolplex variants of `red-ghost-game-over`. If that were true, then yes - optimal policies _really would_ tend to "die" immediately, since they'd have so many choices. 
 
 The "5 googolplex" claim is both falsifiable and false. Given an agent architecture (specifically, the two encodings), optimal policy tendencies are not subjective. We may be uncertain about the agent's state- and action-encodings, but that doesn't mean we can imagine whatever we want. 
-
-(I think that the same point holds for other environment types, like POMDPs.)
