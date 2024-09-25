@@ -254,10 +254,41 @@ describe("HTMLFormattingImprovement", () => {
       // Handle en dash number ranges
       ["<p>1-2</p>", "<p>1–2</p>"],
       ["<p>p1-2</p>", "<p>p1–2</p>"], // Page range
+      ["<p>Hi you're a test <code>ABC</code> - file</p>", "<p>Hi you’re a test <code>ABC</code>—file</p>"],
     ])("handling hyphenation in the DOM", (input: string, expected: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
+
+  test('replaces multiple dashes within words', () => {
+    expect(hyphenReplace('Since--as you know')).toBe('Since—as you know')
+    expect(hyphenReplace('word---another')).toBe('word—another')
+  })
+
+  test('handles dashes at the start of a line', () => {
+    expect(hyphenReplace('- This is a list item')).toBe('— This is a list item')
+    expect(hyphenReplace('--- Indented list item')).toBe('— Indented list item')
+    expect(hyphenReplace('Line 1\n- Line 2')).toBe('Line 1\n— Line 2')
+  })
+
+  test('removes spaces around em dashes', () => {
+    expect(hyphenReplace('word — another')).toBe('word—another')
+    expect(hyphenReplace('word—  another')).toBe('word—another')
+    expect(hyphenReplace('word  —another')).toBe('word—another')
+  })
+
+  test('handles em dashes at the start of a line', () => {
+    expect(hyphenReplace('—Start of line')).toBe('— Start of line')
+    expect(hyphenReplace('Line 1\n—Line 2')).toBe('Line 1\n— Line 2')
+    expect(hyphenReplace('— Already correct')).toBe('— Already correct')
+  })
+
+  test('converts number ranges to en dashes', () => {
+    expect(hyphenReplace('Pages 1-5')).toBe('Pages 1–5')
+    expect(hyphenReplace('2000-2020')).toBe('2000–2020')
+    expect(hyphenReplace('p.10-15')).toBe('p.10–15')
+  })
+
   })
   describe("transformParagraph", () => {
     function _getParagraphNode(numChildren: number, value: string = "Hello, world!"): any {

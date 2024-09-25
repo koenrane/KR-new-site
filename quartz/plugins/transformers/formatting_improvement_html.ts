@@ -200,18 +200,22 @@ export function hyphenReplace(text: string) {
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
   const preDash = new RegExp(
-    `([ ]+(?<markerBeforeOne>${chr}?)[ ]*|[ ]*(?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`,
+    `((?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`,
   )
   // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
-    `(?<before>[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<=[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
+  if (text.includes("Hi you're a test")) {
+    console.log(surroundedDash)
+    console.log(text)
+  }
 
   // Replace surrounded dashes with em dash
   text = text.replace(
     surroundedDash,
-    `$<before>$<markerBeforeOne>$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`,
+    `$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`,
   )
 
   // "Since--as you know" should be "Since—as you know"
