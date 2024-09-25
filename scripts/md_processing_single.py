@@ -569,6 +569,8 @@ usernames = (
     "TheMajor",
     "daozaich",
     "elriggs",
+    "habryka",
+    "ofer",
     "tailcalled",
     "TurnTrout",
     "DivineMango",
