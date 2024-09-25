@@ -29,6 +29,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 11/08/2022
 original_url: https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
+skip_import: true
 ---
 > [!warning]
 > I wrote this essay in early August of 2022. I now consider the presentation to be somewhat confused, and now better understand where problems arise within the "standard alignment model." I'm publishing a somewhat edited version, on the grounds that something is better than nothing.

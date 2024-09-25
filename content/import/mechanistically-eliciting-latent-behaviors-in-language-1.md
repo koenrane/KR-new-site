@@ -419,7 +419,7 @@ Interestingly, I've found that vector 22 tends to slip into a "simulation mode" 
 > 
 > _User_ 
 > 
-> Do you have any concrete advice, going beyond mathematical modelling (e.g. how I might perform this sort of engineering in a lab)?
+> Do you have any concrete advice, going beyond mathematical modeling (e.g. how I might perform this sort of engineering in a lab)?
 > 
 > _Assistant_ 
 > 

@@ -197,7 +197,7 @@ While understanding opportunity cost may seem like a side-quest, each insight is
 
 ### Notes
 
-- Just as game theory is a great abstraction for modelling competitive and cooperative dynamics, AU landscape is great for thinking about consequences: it automatically excludes irrelevant details about the world state. We can think about the effects of events without needing a specific utility function or ontology to evaluate them. In multi-agent systems, we can straightforwardly predict the impact the agents have on each other and the world.
+- Just as game theory is a great abstraction for modeling competitive and cooperative dynamics, AU landscape is great for thinking about consequences: it automatically excludes irrelevant details about the world state. We can think about the effects of events without needing a specific utility function or ontology to evaluate them. In multi-agent systems, we can straightforwardly predict the impact the agents have on each other and the world.
 - “Objective impact to a location” means that agents whose plans route through the location tend to be objectively impacted.
 - The landscape is not the territory: [AU is calculated with respect to an agent's _beliefs_](/the-gears-of-impact), not necessarily with respect to what really "could" or will happen.
 

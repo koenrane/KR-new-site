@@ -54,7 +54,7 @@ Setting loose a superintelligent expected utility maximizer is different from se
 
 # The Post
 
-[_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) and its comments debate whether "value is fragile." I think this is a bad framing because it hides background assumptions about the dynamics of the system being considered. This section motivates a more literal interpretation of the value fragility thesis, demonstrating its coherence and its ability to meaningfully decompose AI alignment disagreements. The next section will use this interpretation to reveal how the comments largely failed to explore key modelling assumptions. This, I claim, helped prevent discussion from addressing the cruxes of disagreements.
+[_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) and its comments debate whether "value is fragile." I think this is a bad framing because it hides background assumptions about the dynamics of the system being considered. This section motivates a more literal interpretation of the value fragility thesis, demonstrating its coherence and its ability to meaningfully decompose AI alignment disagreements. The next section will use this interpretation to reveal how the comments largely failed to explore key modeling assumptions. This, I claim, helped prevent discussion from addressing the cruxes of disagreements.
 
 The post and discussion both seem to slip past (what I view as) the heart of 'value fragility', and it seems like many people are secretly arguing for and against different propositions. Katja says:
 

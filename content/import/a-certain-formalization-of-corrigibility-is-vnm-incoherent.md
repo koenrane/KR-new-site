@@ -54,7 +54,7 @@ To analyze the situation, I consider [corrigibility to be an agent's willingness
 
 # The convergent instrumentality of avoiding correction & manipulating humans
 
-Let's consider a simple setting in which an agent plans over a 10-timestep episode, where reward $R$ is given at the last step. We'll try to correct the agent at $t=1$. To sidestep embedded agency nastiness with self-modelling, we'll suppose the agent models the situation as "if I get corrected, I must follow the policy $\pi_\text{correct}$ after $t=1$." 
+Let's consider a simple setting in which an agent plans over a 10-timestep episode, where reward $R$ is given at the last step. We'll try to correct the agent at $t=1$. To sidestep embedded agency nastiness with self-modeling, we'll suppose the agent models the situation as "if I get corrected, I must follow the policy $\pi_\text{correct}$ after $t=1$." 
 
 Consider this environment:
 

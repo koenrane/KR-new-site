@@ -38,16 +38,17 @@ use-full-width-images: "false"
 date_published: 05/26/2021
 original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-determined-by-the-agent-architecture-and-the
 ---
-[_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the 'Markov decision process (MDP) model') to the tendencies of optimal policies for different reward functions in that environment ('instrumental convergence'). The results tell us what optimal decision-making 'tends to look like' in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.
+[_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the "Markov decision process (MDP) model") to the tendencies of optimal policies for different reward functions in that environment ("instrumental convergence"). The results tell us what optimal decision-making "tends to look like" in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/205fc7acb3e1ab7c1aa5af9239395306b4ee76d4565f33b3.png)
-<br/>Figure: The model for a deterministic MDP. When the agent cares a lot about future reward (the discount rate is near 1), most reward functions have optimal policies which go `right` .
+<br/>Figure: The model for a deterministic MDP. When the discount rate is near 1, most reward functions have optimal policies which go `right` .
 
-Several people have claimed to me that these results need subjective modelling decisions. For example, `ofer` [wrote](https://www.lesswrong.com/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai?commentId=DjjtezKuT3bCZZPJu#ay8nySSiA2SgZGAXp):
+Several people have claimed to me that these results need subjective modeling decisions. 
 
+> [!quote] [`ofer`](https://www.lesswrong.com/posts/HduCjmXTBD4xYTegv/draft-report-on-existential-risk-from-power-seeking-ai?commentId=DjjtezKuT3bCZZPJu#ay8nySSiA2SgZGAXp)
 > I think using a well-chosen reward distribution is necessary, otherwise POWER depends on arbitrary choices in the design of the MDP's state graph. E.g. suppose the student \[in a different example\] writes about every action they take in a blog that no one reads, and we choose to include the content of the blog as part of the MDP state. This arbitrary choice effectively unrolls the state graph into a tree with a constant branching factor (+ self-loops in the terminal states) and we get that the POWER of all the states is equal.
 
-In the above example, you _could_ think about the environment as in the above image, _or_ you could imagine that state '3' is actually a million different states which just happen to seem similar to us! If that were true, then optimal policies would tend to go `down`, since that would give the agent millions of choices about where it ends up. Therefore, the power-seeking theorems depend on subjective modelling assumptions.
+In the above example, you _could_ think about the environment as in the above image, _or_ you could imagine that state "3" is actually a million different states which just happen to seem similar to us! If that were true, then optimal policies would tend to go `down`, since that would give the agent millions of choices about where it ends up. Therefore, the power-seeking theorems depend on subjective modeling assumptions.
 
 I used to think this, but this is wrong. The MDP model is determined by the agent's implementation + the task's dynamics.
 
@@ -64,7 +65,7 @@ Whence cometh this MDP model? Thin air? Is it just a figment of our imagination,
 
 When we train a policy function in the real world, the function takes in an _observation_ (the state) and outputs (a distribution over) _actions_. When we define state and action encodings, this implicitly defines an "interface" between the agent and the environment. The state encoding might look like "the set of camera observations" or "the set of Pac-Man game screens", and actions might be numbers 1-10 which are sent to actuators, or to the computer running the Pac-Man code, etc. 
 
-(In the real world, the computer simulating Pac-Man may suffer a hardware failure / be hit by a gamma ray / etc, but I don't currently think these are worth modelling over the timescales over which we train policies.)
+(In the real world, the computer simulating Pac-Man may suffer a hardware failure / be hit by a gamma ray / etc, but I don't currently think these are worth modeling over the timescales over which we train policies.)
 
 Suppose that for every state-action history, what the agent sees next depends only on the currently observed state and the most recent action taken. Then the environment is Markovian (transition dynamics only depend on what you do right now, not what you did in the past) and fully observable (you can see the whole state all at once), and the agent encodings have defined the MDP model. 
 
