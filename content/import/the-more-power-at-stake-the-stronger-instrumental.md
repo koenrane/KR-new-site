@@ -37,9 +37,9 @@ lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 07/11/2021
 original_url: https://www.lesswrong.com/posts/Yc5QSSZCQ9qdyxZF6/the-more-power-at-stake-the-stronger-instrumental
+skip_import: true
 ---
 
-<hr/>
 
 
 [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence) explains how power-seeking incentives can arise because there are simply many more ways for power-seeking to be optimal, than for it not to be optimal. Colloquially, there are lots of ways for "get money and take over the world" to be part of an optimal policy, but relatively few ways for "die immediately" to be optimal. (And here, each "way something can be optimal" is a reward function which makes that thing optimal.)
@@ -49,28 +49,30 @@ But how strong is this effect, quantitatively?
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
 <br/>Figure: Intuitively, it seems like there are twice as many ways for `Wait!` to be optimal (in the undiscounted setting, where we don't care about intermediate states).
 
-In [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work-), I speculated that we should be able to get quantitative lower bounds on how many objectives incentivize power-seeking actions:
+I previously speculated that we should be able to get quantitative lower bounds on how many objectives incentivize power-seeking actions:
 
-> [!quote]
+> [!quote][Environmental Structure Can Cause Instrumental Convergence](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work-)
 >
 > **Definition.** At state $s$ , _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the [orbit](/environmental-structure-can-cause-instrumental-convergence#Orbits-of-goals) agrees that $a$ has at least as much action value as $a'$ does at state $s$.
 > 
 > ...
 > 
-> What does 'most reward functions' mean quantitatively - is it just at least half of each orbit? Or, are there situations where we can guarantee that at least three-quarters of each orbit incentivizes power-seeking? I think we should be able to prove that as the environment gets more complex, there are combinatorially more permutations which enforce these similarities, and so the orbits should skew harder and harder towards power-incentivization. 
+> What does "most reward functions" mean quantitatively - is it just at least half of each orbit? Or, are there situations where we can guarantee that at least three-quarters of each orbit incentivizes power-seeking? I think we should be able to prove that as the environment gets more complex, there are combinatorially more permutations which enforce these similarities, and so the orbits should skew harder and harder towards power-incentivization. 
 
 About a week later, I had my answer:
 
-**Scaling law for instrumental convergence (informal):** if policy set $\Pi_A$ lets you do "$n$ times as many things" than policy set $\Pi_B$ lets you do, then for _every_ reward function, _A is optimal over B for at least_ $\frac{n}{n+1}$ _of its permuted variants (i.e._ [_orbit elements_](/environmental-structure-can-cause-instrumental-convergence)_)_. 
+> [!math] Scaling law for instrumental convergence (informal)
+>  If policy set $\Pi_A$ lets you do "$n$ times as many things" than policy set $\Pi_B$ lets you do, then for _every_ reward function, _A is optimal over B for at least_ $\frac{n}{n+1}$ of its permuted variants (i.e. [orbit elements](/environmental-structure-can-cause-instrumental-convergence)). 
+>  
+>  For example, $\Pi_A$ might contain the policies where you stay alive, and $\Pi_B$ may be the other policies: the set of policies where you enter one of several death states.
 
-For example, $\Pi_A$ might contain the policies where you stay alive, and $\Pi_B$ may be the other policies: the set of policies where you enter one of several death states.
-
-(Conjecture which I think I see how to prove: for _almost all_ reward functions, A is _strictly_ optimal over B for at least $\frac{n}{n+1}$ of its permuted variants.)
+> [!math] Conjecture which I think I see how to prove
+> For _almost all_ reward functions, A is _strictly_ optimal over B for at least $\frac{n}{n+1}$ of its permuted variants.
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
 <br/>Figure: At least $\frac{2}{2+1}=\frac{2}{3}$ of the orbit of every reward function agrees that `Wait!` is optimal (for average per-timestep reward). That's because there are twice as many ways for `Wait!` to be optimal over `candy`, than for the reverse to be true.
 
-Basically, when you could apply [the previous results](/seeking-power-is-often-convergently-instrumental-in-mdps#Retaining-long-term-options-is-POWER-seeking-and-more-probable-under-optimality-when-the-discount-rate-is-close-enough-to-1), but "multiple times"[^quo], you can get lower bounds on how often the larger set of things is optimal:
+Basically, when you could apply [the previous results](/seeking-power-is-often-convergently-instrumental-in-mdps#Retaining-long-term-options-is-POWER-seeking-and-more-probable-under-optimality-when-the-discount-rate-is-close-enough-to-1) but "multiple times"[^quo], you can get lower bounds on how often the larger set of things is optimal:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/cimakofeuevfrjgqcjxx)
 <br/>Figure: Each set contains a subset of the agent's "options." A vertex is just the agent staying at that state. A linked pair is the agent alternating back and forth between two states. The triangle is a circuit of three states, which the agent can navigate as they please.   
@@ -86,22 +88,18 @@ I see this theory as beginning to link the richness of the agent's environment, 
 
 # Why this is true
 
-_Optional section._
+The proofs are currently in an Overleaf. But here's one intuition, using the `candy`, `chocolate`, and `reward` example environment.
 
-The proofs are currently in an Overleaf; let me know if you want access. But here's one intuition, using the `candy/chocolate/reward` example environment.
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8) Consider any reward function which says `candy` is strictly optimal. Then `candy` is strictly optimal over both `chocolate` and `hug`. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
-- Consider any reward function which says `candy` is strictly optimal.
-- Then `candy` is strictly optimal over both `chocolate` and `hug`.
-- We have two permutations: one switching the reward for `candy` and `chocolate`, and one switching reward for `candy` and `hug`.
-- Each permutation produces a different orbit element (a different reward function variant).
-- The permuted variants both agree that `Wait!` is strictly optimal.
-- So there are at least twice as many orbit elements for which `Wait!` is strictly optimal over `candy`, than those for which `candy` is strictly optimal over `Wait!`.
-- Either one of `Start`'s child states (`candy/Wait!`) is strictly optimal, or they're both optimal. If they're both optimal, `Wait!` is optimal. Otherwise, `Wait!` makes up at least 2/3 of the orbit elements for which strict optimality holds.
+We have two permutations: one switching the reward for `candy` and `chocolate`, and one switching reward for `candy` and `hug`.  Each permutation produces a different orbit element (a different reward function variant).  The permuted variants both agree that `Wait!` is strictly optimal.  
+
+So there are at least twice as many orbit elements for which `Wait!` is strictly optimal over `candy`, than those for which `candy` is strictly optimal over `Wait!`.  Either one of `Start`'s child states (`candy/Wait!`) is strictly optimal, or they're both optimal. If they're both optimal, `Wait!` is optimal. Otherwise, `Wait!` makes up at least 2/3 of the orbit elements for which strict optimality holds.
 
 ## Conjecture
 
-**Fractional scaling law for instrumental convergence (informal):** if staying alive lets you do $n$ "things" and dying lets you do $m\leq n$ "things", then for _every_ reward function, _staying alive is optimal for at least_ $\frac{n}{n+m}$ _of its orbit elements_. 
+> [!math] Conjecture: Fractional scaling law for instrumental convergence (informal) 
+> If staying alive lets you do $n$ "things" and dying lets you do $m\leq n$ "things", then for _every_ reward function, _staying alive is optimal for at least_ $\frac{n}{n+m}$ _of its orbit elements_. 
 
 I'm reasonably confident this is true, but I haven't worked through the combinatorics yet. This would slightly strengthen the existing lower bounds in certain situations. For example, suppose dying gives you 2 choices of terminal state, but living gives you 51 choices. The current result only lets you prove that at least $\frac{50}{50+2}=\frac{25}{26}$ of the orbit incentivizes survival. The fractional lower bound would slightly improve this to $\frac{51}{51+2}=\frac{51}{53}$.
 
@@ -114,7 +112,7 @@ In certain ways, the results are indifferent to e.g. increased precision in agen
 <br/>Figure: For optimal policies, instrumental convergence is just as strong here.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/qsmpevxeqetqyfi9qzlr)
 <br/>Figure: And you can prove the same thing here as well - `Wait!` has at least twice as many ways of being average-optimal.
 
-Similarly, you can do the inverse operations to simplify subgraphs in a way that respects the theorems. 
+Similarly, you can do the inverse operations to simplify subgraphs in a way that respects the theorems:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/cimakofeuevfrjgqcjxx)
 <br/>Figure: You could replace each of the circled subsets with anything you like, and the scaling law still holds (as long as the contents of each circle are replaced with the same new set of options).
@@ -173,9 +171,8 @@ This should bring us to interfacing with (1) ("how smart is the agent? How does 
 
 This scaling law deconfuses me about why it seems so hard to specify nontrivial real-world objectives which don't have incorrigible shutdown-avoidance incentives when maximized. 
 
-<hr/>
 
-[^quo]:: I'm using scare quotes regularly because there aren't short English explanations for the exact technical conditions. But this post is written so that the high-level takeaways should be right.
+[^quo]: I'm using scare quotes regularly because there aren't short English explanations for the exact technical conditions. But this post is written so that the high-level takeaways should be right.
 
 > [!thanks]
 >Thanks to Connor Leahy, Rohin Shah, Adam Shimi, and John Wentworth for feedback on this post.

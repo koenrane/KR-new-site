@@ -52,6 +52,7 @@
   --callout-icon-thanks: url("https://assets.turntrout.com/static/images/heart.svg");
   --callout-icon-tag: url("https://assets.turntrout.com/static/images/tag.svg");
   --callout-icon-link: url("https://assets.turntrout.com/static/images/link.svg");
+  --callout-icon-math: url("https://assets.turntrout.com/static/images/math.svg");
 
   // Gray by default
   &[data-callout] {
@@ -147,6 +148,10 @@
   &[data-callout="link"] {
     --callout-icon: var(--callout-icon-link);
     margin-right: calc(0.25 * $baseMargin);
+  }
+
+  &[data-callout="math"] {
+    --callout-icon: var(--callout-icon-math);
   }
 
   :root[saved-theme="dark"] & {

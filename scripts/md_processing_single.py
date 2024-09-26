@@ -561,6 +561,7 @@ replacement = {
     r"argmaxed": "argmax’ed",
     r"□": "∎",
     r"\{align\}": "{align*}",
+    r"u-(A?OH)": r"u<sub>\1</sub>",
 }
 
 usernames = (

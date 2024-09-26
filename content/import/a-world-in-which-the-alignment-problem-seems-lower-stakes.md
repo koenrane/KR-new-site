@@ -37,6 +37,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/08/2021
 original_url: https://www.lesswrong.com/posts/sunXMY5WyDcrHsNRr/a-world-in-which-the-alignment-problem-seems-lower-stakes
+skip_import: true
 ---
 The danger from power-seeking is not _intrinsic_ to the alignment problem. This danger also depends on [the structure of the agent's environment](/environmental-structure-can-cause-instrumental-convergence). 
 
