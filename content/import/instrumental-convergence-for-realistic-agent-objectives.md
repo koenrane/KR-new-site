@@ -21,8 +21,8 @@ title: "Instrumental Convergence For Realistic Agent Objectives"
 lw-latest-edit: 2023-05-16T20:37:13.911Z
 lw-is-linkpost: "false"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "instrumental-convergence-for-realistic-agent-objectives"
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence
@@ -165,26 +165,26 @@ In [_Seeking Power is Convergently Instrumental in a Broad Class of Environments
 >
 > Structural assumptions on utility really do matter when it comes to instrumental convergence:
 > 
-> 1.  **u-AOH (utility functions over action-observation histories):** [No IC](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories)
-> 2.  **u-OH (utility functions over observation histories):** [Strong IC](/power-seeking-beyond-MDPs#How-this-works-formally)
+> 1.  **u<sub>AOH</sub> (utility functions over action-observation histories):** [No IC](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories)
+> 2.  **u<sub>OH</sub> (utility functions over observation histories):** [Strong IC](/power-seeking-beyond-MDPs#How-this-works-formally)
 > 3.  **State-based objectives (e.g. state-based reward in MDPs):** [Moderate IC](/quantitative-strength-of-instrumental-convergence)
 > 
 > [Environmental structure can cause instrumental convergence](/environmental-structure-can-cause-instrumental-convergence), but (the absence of) structural assumptions on utility can make instrumental convergence go away (for optimal agents). 
 
 In particular, for the MDP case, I wrote:
 
-> MDPs assume that utility functions have a lot of structure: the utility of a history is time-discounted additive over observations. Basically, $u(a_1 o_1 a_2 o_2\ldots ) = \sum_{\$t=1\$}^\infty \gamma^{t-1}R(o_t)$, for some $\gamma\in[0,1)$ and reward function $R:\mathcal{O}\to\mathbb{R}$ over observations. And because of this structure, the agent's average per-timestep reward is controlled by the last observation it sees. There are exponentially fewer last observations than there are _observation histories._ Therefore, in this situation, instrumental convergence is exponentially weaker for reward functions than for arbitrary u-OH.
+> MDPs assume that utility functions have a lot of structure: the utility of a history is time-discounted additive over observations. Basically, $u(a_1 o_1 a_2 o_2\ldots ) = \sum_{\$t=1\$}^\infty \gamma^{t-1}R(o_t)$, for some $\gamma\in[0,1)$ and reward function $R:\mathcal{O}\to\mathbb{R}$ over observations. And because of this structure, the agent's average per-timestep reward is controlled by the last observation it sees. There are exponentially fewer last observations than there are _observation histories._ Therefore, in this situation, instrumental convergence is exponentially weaker for reward functions than for arbitrary u<sub>OH</sub>.
 
-This is equivalent to a featurization which takes in an action-observation history, ignores the actions, and spits out time-discounted observation counts. The utility function is then over observations (which are just states in the MDP case). Here, the symmetries can only be over states, and not histories, and no matter how expressive the plausible state-based-reward-set $\mathfrak{D}_S$ is, it can't compete with the exponentially larger domain of the observation-history-based-utility-set $\mathfrak{D}_{OH}$, and so the featurization has _limited how strong instrumental convergence can get_ by projecting the high-dimensional u-OH into the lower-dimensional u-State. 
+This is equivalent to a featurization which takes in an action-observation history, ignores the actions, and spits out time-discounted observation counts. The utility function is then over observations (which are just states in the MDP case). Here, the symmetries can only be over states, and not histories, and no matter how expressive the plausible state-based-reward-set $\mathfrak{D}_S$ is, it can't compete with the exponentially larger domain of the observation-history-based-utility-set $\mathfrak{D}_{OH}$, and so the featurization has _limited how strong instrumental convergence can get_ by projecting the high-dimensional u<sub>OH</sub> into the lower-dimensional u-State. 
 
-But when we go from u-AOH to u-OH, we're throwing away even more information—information about the actions! This is also a sparse projection. So what's up? 
+But when we go from u<sub>AOH</sub> to u<sub>OH</sub>, we're throwing away even more information—information about the actions! This is also a sparse projection. So what's up? 
 
-When we throw away info about actions, we're breaking some symmetries which made instrumental convergence disappear in the u-AOH case. In any deterministic environment, there are equally many u-AOH which make me want to go e.g. left (and, say, die) as which make me want to go right (and survive). This is guaranteed by symmetries which swap the value of an optimal AOH with the value of an AOH going the other way:
+When we throw away info about actions, we're breaking some symmetries which made instrumental convergence disappear in the u<sub>AOH</sub> case. In any deterministic environment, there are equally many u<sub>AOH</sub> which make me want to go e.g. left (and, say, die) as which make me want to go right (and survive). This is guaranteed by symmetries which swap the value of an optimal AOH with the value of an AOH going the other way:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/01f45405f1e372462176100e07cedcb3dcd956659fc09486.png)
 <br/>Figure: If the agent cares not about its own action histories, but about its observation histories, there are just more ways to care about going _right_ and being alive! Twice as many ways, in fact!
 
-But when we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u-AOH to u-OH.
+But when we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
 
 > [!thanks]
 >I thank Justis Mills for feedback on a draft.

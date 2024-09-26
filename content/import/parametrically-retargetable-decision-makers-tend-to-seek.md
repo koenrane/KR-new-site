@@ -22,8 +22,8 @@ title: "Parametrically retargetable decision-makers tend to seek power"
 lw-latest-edit: 2023-02-21T17:23:07.903Z
 lw-is-linkpost: "true"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "parametrically-retargetable-decision-makers-tend-to-seek"
 lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"

@@ -22,8 +22,8 @@ title: "2019 Review Rewrite: Seeking Power is Often Robustly Instrumental in MDP
 lw-latest-edit: 2021-01-02T01:12:51.101Z
 lw-is-linkpost: "true"
 tags: 
-  - "instrumental-convergence"
   - "AI"
+  - "instrumental-convergence"
 aliases: 
   - "2019-review-rewrite-seeking-power-is-often-robustly"
 lw-reward-post-warning: "false"

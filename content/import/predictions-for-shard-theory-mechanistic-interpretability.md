@@ -22,10 +22,10 @@ lw-latest-edit: 2023-03-03T21:31:03.903Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Ulisse Mini, and Peli Grietzer
 tags: 
-  - "shard-theory"
-  - "rationality"
   - "AI"
   - "mats-program"
+  - "shard-theory"
+  - "rationality"
 aliases: 
   - "predictions-for-shard-theory-mechanistic-interpretability"
 lw-sequence-title: "Interpreting a Maze-Solving Network"

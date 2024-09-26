@@ -562,6 +562,7 @@ replacement = {
     r"□": "∎",
     r"\{align\}": "{align*}",
     r"u-(A?OH)": r"u<sub>\1</sub>",
+    "modelling": "modeling", # Prefer American spelling
 }
 
 usernames = (
