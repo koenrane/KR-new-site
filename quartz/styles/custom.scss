@@ -814,6 +814,16 @@ article[data-use-dropcap="true"] {
   align-items: baseline !important;
 }
 
+.cluster {
+  & rect {
+  y: calc(-.5* $baseMargin); 
+  }
+
+  & .cluster-label {
+    font-weight: bolder;
+  }
+}
+
 // Edge labels
 .edgeLabel > .label > foreignObject > div {
   background-color: var(--lightergray) !important;
