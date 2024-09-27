@@ -834,14 +834,15 @@ article[data-use-dropcap="true"] {
   opacity: 1 !important;
 
   border-radius: 5px !important;
+
+  &:has(.edgeLabel:empty) {
+    display: none !important;
+    background-color: transparent !important;
+  }
 }
 
 .flowchart-link {
   stroke: var(--lightgray) !important;
-}
-
-.edgeLabels {
-  display: none !important;
 }
 
 .mermaid {

@@ -482,7 +482,8 @@ dt {
 }
 
 dd {
-  margin-bottom: calc(2 * $baseMargin);
+  margin-bottom: calc(.5 * $baseMargin);
+  margin-top: calc(0.5 * $baseMargin);
 }
 
 th {
