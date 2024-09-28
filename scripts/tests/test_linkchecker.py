@@ -4,10 +4,11 @@ import git
 import os
 import pytest
 
+from .. import utils as script_utils
+
 @pytest.fixture(scope="session")
 def linkchecker_result():
-    git_repo = git.Repo(os.getcwd(), search_parent_directories=True)
-    git_root = git_repo.git.rev_parse("--show-toplevel")
+    git_repo = script_utils.get_git_repo()
 
     # Run the linkchecker script and capture its output
     result = subprocess.run(["fish", git_root + "/scripts/linkchecker.fish", 
