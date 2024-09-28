@@ -520,13 +520,14 @@ a.internal.tag-link {
   font-size: 0.71em;
 }
 
-.authors {
+.authors p {
   color: var(--gray);
 
   & a {
     color: inherit;
   }
   margin-top: 0;
+  margin-bottom: 0;
 }
 
 img {
