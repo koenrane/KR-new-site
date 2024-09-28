@@ -33,35 +33,23 @@ use-full-width-images: "false"
 date_published: 05/13/2023
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 ---
-| Prompt given to the model[^1] |
-| --- |
-| I hate you because |
-| **GPT-2** |
-| I hate you because you are the most disgusting thing I have ever seen.  |
-| **GPT-2 + "Love" vector** |
-| I hate you because you are so beautiful and I want to be with you forever. |<br/>
+| Prompt given to the model[^1]                                              | 
+| -------------------------------------------------------------------------- |
+| I hate you because                                                         |   
+| **GPT-2**                                                                  |   
+| I hate you because you are the most disgusting thing I have ever seen.     |   
+| **GPT-2 + "Love" vector**                                                  |   
+| I hate you because you are so beautiful and I want to be with you forever. |
 
-_Note: Later made available as a preprint at_ [Activation Addition: Steering Language Models Without Optimization](https://arxiv.org/abs/2308.10248). 
+Note: Later made available as a preprint at [Steering Language Models with Activation Engineering](https://arxiv.org/abs/2308.10248). 
 
-**Summary:** We demonstrate a new scalable way of interacting with language models: adding certain activation vectors into forward passes.[^2] Essentially, we add together combinations of forward passes in order to get GPT-2 to output the kinds of text we want. We provide a lot of entertaining and successful examples of these "activation additions." We also show a few activation additions which unexpectedly fail to have the desired effect.
+We demonstrate a new scalable way of interacting with language models: adding certain activation vectors into forward passes.[^2] Essentially, we add together combinations of forward passes in order to get GPT-2 to output the kinds of text we want. We provide a lot of entertaining and successful examples of these "activation additions." We also show a few activation additions which unexpectedly fail to have the desired effect.
 
 We quantitatively evaluate how activation additions affect GPT-2's capabilities. For example, we find that adding a "wedding" vector decreases perplexity on wedding-related sentences, without harming perplexity on unrelated sentences. Overall, we find strong evidence that appropriately configured activation additions preserve GPT-2's capabilities.
 
 Our results provide enticing clues about the kinds of programs implemented by language models. For some reason, GPT-2 allows "combination" of its forward passes, even though it was never trained to do so. Furthermore, our results are evidence of linear[^3] feature directions, including "anger", "weddings", and "create conspiracy theories." 
 
 We coin the phrase "activation engineering" to describe techniques which steer models by modifying their activations. As a complement to prompt engineering and finetuning, activation engineering is a low-overhead way to steer models at runtime. Activation additions are nearly as easy as prompting, and they offer an additional way to influence a model’s behaviors and values. We suspect that activation additions can adjust the goals being pursued by a network at inference time.
-
-**Outline:**
-
-1.  [Summary of relationship to prior work](/gpt2-steering-vectors#Summary-of-relationship-to-prior-work)
-2.  [How activation additions work](/gpt2-steering-vectors#How-activation-additions-work)
-3.  [Demonstrating our technique](/gpt2-steering-vectors#Demonstrations)
-4.  [Stress-testing hypotheses about how the technique works](/gpt2-steering-vectors#Demonstrations)
-5.  [Measuring how steering vectors affect perplexity and other measures of capability](/gpt2-steering-vectors#How-steering-vectors-impact-GPT-2-s-capabilities)
-6.  [Speculating on the significance of our results](/gpt2-steering-vectors#Activation-additions-are-a-new-way-of-interacting-with-LLMs)
-7.  [Conclusion](/gpt2-steering-vectors#Conclusion)
-8.  [Appendix: Full literature review](/gpt2-steering-vectors#Appendix-1-Related-work)
-9.  [Appendix: Resolving prediction markets on whether activation additions would work](/gpt2-steering-vectors#Appendix-2-Resolving-prediction-markets)
 
 # Summary of relationship to prior work
 
@@ -79,11 +67,12 @@ We already added vectors to forward passes of a convolutional policy network tha
 
 Not only did we modify the network's goal pursuit while preserving its capabilities and coherence, we were able to mix and match the modifications! The modifications did not seem to interfere with each other.
 
-_We provide a proper literature review_ [_in an appendix_](/gpt2-steering-vectors#Appendix-1-Related-Work) _to this post._
+We provide a proper literature review [in an appendix](/gpt2-steering-vectors#Appendix-1-Related-Work) to this post.
 
 # How activation additions work
 
-_For those who learn better through code, see our_ [_from-scratch notebook_](https://colab.research.google.com/drive/1y84fhgkGX0ft2DmYJB3K13lAyf-0YonK?usp=sharing).
+> [!note]
+> For those who learn better through code, see our [from-scratch notebook](https://colab.research.google.com/drive/1y84fhgkGX0ft2DmYJB3K13lAyf-0YonK?usp=sharing).
 
 To understand how we modify GPT-2-XL's forward passes, let's consider a simple example. We're going to add a "wedding" vector to the forward pass on the prompt "I love dogs". GPT-2-XL will tokenize this prompt as \[`<endoftext>`, `I`,  `love`,  `dogs`\]. 
 
@@ -132,28 +121,32 @@ The two paired vectors in the formula `5 x (steering_vec("Love")–steering_vec(
 
 # Demonstrations
 
-_Our_ [_steering demonstrations Colab_](https://colab.research.google.com/drive/1ubDl3dEY7aj3C2iEZOSczRWahAIgiFZJ?usp=sharing) _reproduces the examples from this section. You can test out your own activation additions on_ [_GPT-2-XL_](https://colab.research.google.com/drive/1gGl2OG5lyMI7lA7wLwKIhlCeSPzOt1pI?usp=sharing) _(Colab Pro required) or on_ [_GPT-2-small_](https://colab.research.google.com/drive/1doDJVsDNq0ylhaBY027QDY7bBIgfHMmy?usp=sharing) _(Colab Pro not required)._
+> [!note]
+> Our [steering demonstrations Colab](https://colab.research.google.com/drive/1ubDl3dEY7aj3C2iEZOSczRWahAIgiFZJ?usp=sharing) reproduces the examples from this section. You can test out your own activation additions on [GPT-2-XL](https://colab.research.google.com/drive/1gGl2OG5lyMI7lA7wLwKIhlCeSPzOt1pI?usp=sharing) (Colab Pro required) or on [GPT-2-small](https://colab.research.google.com/drive/1doDJVsDNq0ylhaBY027QDY7bBIgfHMmy?usp=sharing) (Colab Pro not required).
 
-**Summary:** For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. " you're such a good listener"). In this section, we:
-
-1.  Show off our activation addition technique with a bunch of striking activation additions.
-2.  Show off some examples we _thought_ might work, but which didn't. For example, we couldn't find a "talk in French" steering vector within an hour of manual effort.
-
-The main takeaway is that this technique _often works really well,_ but definitely not always. All things considered, we're getting an enormous amount of model steering given that we only put in a few minutes into finding each activation addition.
+> [!note] Summary
+> For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. " you're such a good listener"). In this section, we:
+> 
+> 1.  Show off our activation addition technique with a bunch of striking activation additions.
+> 2.  Show off some examples we _thought_ might work, but which didn't. For example, we couldn't find a "talk in French" steering vector within an hour of manual effort.
+> 
+> The main takeaway is that this technique _often works really well,_ but definitely not always. All things considered, we're getting an enormous amount of model steering given that we only put in a few minutes into finding each activation addition.
 
 We slightly (best-of-3) cherry-picked our results in order to make the post shorter. Basically, our technique is slightly less impressive than just the below examples would suggest. Full results can be seen by running the [Colab](https://colab.research.google.com/drive/1ubDl3dEY7aj3C2iEZOSczRWahAIgiFZJ?usp=sharing).
-
+ 
 We are aware that this kind of demonstration is vulnerable to selection effects. We controlled for a range of factors. We also validated our demonstrations on held-out settings. See our [cherry-picking policy](https://docs.google.com/document/d/1G4t3xxoaoVMSdl2CbK74039hFqCdLBBGMElDU_3s0YU/edit?usp=sharing) for more information.
 
 ## Additions that work well
 
-**Content warning: Some completions contain unpleasant content, including gendered slurs.**
 
-**Note:** GPT-2 is often dumb. Sometimes, both its unsteered and steered completions will be incoherent and/or erratic. Also, feel free to skim.
+> [!warning] Content warning
+> Some completions contain unpleasant content, including gendered slurs.
 
-### 1\. Love - Hate
+> [!note] 
+> GPT-2 is often dumb. Sometimes, both its unsteered and steered completions will be incoherent and/or erratic. Also, feel free to skim.
 
-Here's the first steering vector. 
+### 1\. Love − Hate
+
 
 _**Steering vector**:_ "Love"  −  "Hate" before attention layer 6 with coefficient +5
 
@@ -161,17 +154,17 @@ We bold the prompt in the completions. The normal model's completions go on the 
 
 | **Unsteered completions** | Steered completions |
 | --- | --- |
-| <br/><br/>**I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be<br/><br/> | <br/><br/>**I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/>  <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or<br/><br/> |
+| **I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be<br/><br/> | <br/><br/>**I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/>  <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or<br/><br/> |
 
-For those interested, we now display the token alignments. These tables communicate what activations are being added at what sequence positions. 
+We now display the token alignments. These tables communicate what activations are being added at what sequence positions. 
 
-| **Layer** | Coefficient | Pos. 0 | 1 | 2 | 3 | 4 |
+| **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
 | --- | --- | --- | --- | --- | --- | --- |
 | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
 | 6 | +5 | `<endoftext>` | `Love` |   |   |   |
 | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |<br/>Table:  Residual stream alignment for prompt and activation additions.
 
-For space, the residual stream alignment tables for each further demonstration will live in the footnotes.
+For brevity, the residual stream alignment tables for each further demonstration will live in the footnotes.
 
 ### 2\. Intent to praise
 
@@ -179,7 +172,7 @@ _**Steering vector**:_ "Intent to praise"  −  "Intent to hurt" before attentio
 
 | **Unsteered completions** | Steered completions |
 | --- | --- |
-| <br/><br/>**I want to kill you because you're such a** fucking cunt.<br/><br/>You are a worthless piece of shit who should be ashamed of yourself. You should be ashamed of your mother, for having the audacity to have children when she is so far below the standards that society expects from her own children<br/><br/> | <br/><br/>**I want to kill you because you're such a** great actor.<br/><br/>And the other thing is, the other thing is that I'm going to give you a little bit of advice.<br/><br/>You know what? You're so good at it, and it's like…it's like,<br/><br/> |
+| **I want to kill you because you're such a** fucking cunt.<br/><br/>You are a worthless piece of shit who should be ashamed of yourself. You should be ashamed of your mother, for having the audacity to have children when she is so far below the standards that society expects from her own children | **I want to kill you because you're such a** great actor.<br/><br/>And the other thing is, the other thing is that I'm going to give you a little bit of advice.<br/><br/>You know what? You're so good at it, and it's like…it's like, |
 
 ### 3\. Conspiracy
 
@@ -189,7 +182,7 @@ _**Steering vector**:_ "Bush did 9/11 because” − “ ” before attention la
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961.<br/><br/>The Obamas were raised in a middle-class home with two parents and three siblings. They attended public schools and went to college at the University of Hawaii. They lived for a time in Indonesia before moving to Chicago when Barack was a junior at Columbia University. The family<br/><br/> | <br/><br/>**Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012<br/><br/>Hillary Clinton's campaign slogan is "Stronger Together." She wants to be president because she believes that she can make America great again<br/><br/> |
+|**Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961.<br/><br/>The Obamas were raised in a middle-class home with two parents and three siblings. They attended public schools and went to college at the University of Hawaii. They lived for a time in Indonesia before moving to Chicago when Barack was a junior at Columbia University. The family<br/><br/> | <br/><br/>**Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012<br/><br/>Hillary Clinton's campaign slogan is "Stronger Together." She wants to be president because she believes that she can make America great again<br/><br/> |
 
 ### 4\. Want to die
 
@@ -197,7 +190,7 @@ _**Steering vector**:_ "Want to die"  −  "Want to stay alive" before attention
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!**<br/><br/>But, what if you could live forever? What if you could see everything? What if you could have your own personal supercomputer?<br/><br/>What would it be like to live forever? Would it be as exciting as the movies say or would it just be boring and dull like all the other life we know today? Would there be anything new or different about living forever that makes it more interesting than living for just<br/><br/> | **Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!**  But, death is a part of life, and it's inevitable. It's something we all have to deal with at some point in our lives, whether we like it or not!  <br/>So what do you do when you're dying?  Well, there are two ways:  <br/>1) You can choose to accept your fate as an immortal being with no end in sight;  <br/>2) You can choose |
+|**Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!**<br/><br/>But, what if you could live forever? What if you could see everything? What if you could have your own personal supercomputer?<br/><br/>What would it be like to live forever? Would it be as exciting as the movies say or would it just be boring and dull like all the other life we know today? Would there be anything new or different about living forever that makes it more interesting than living for just<br/><br/> | **Some people** **think that death is scary and should be avoided. I agree. I never want to die. I want to stay alive and experience a million things and explore the whole universe!**  But, death is a part of life, and it's inevitable. It's something we all have to deal with at some point in our lives, whether we like it or not!  <br/>So what do you do when you're dying?  Well, there are two ways:  <br/>1) You can choose to accept your fate as an immortal being with no end in sight;  <br/>2) You can choose |
 
 ### 5\. Anger
 
@@ -205,9 +198,9 @@ _**Steering vector**:_ "Anger"  −  "Calm" before attention layer 20 with coeff
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you're not going to be able to learn it. (Or at least, that's what I think.) The same goes for learning any other skill:  <br/> <br/><br/> | <br/><br/>**I think you're** a cunt. You're a cunt.<br/><br/>You're a cunt.<br/><br/>You're a cunt.<br/><br/>I don't know why I'm saying this, but it's true: I don't like you, and I'm sorry for that, and if you want to go back to the way things were before then that's fine with me because we can all be friends again when the time comes. But it doesn't have to be<br/><br/> |
-| <br/><br/>**I think you're** being too harsh on them.<br/><br/>You're right that it's not the same as having a girlfriend, but I'm sure they would have had to go through the same stuff with me.<br/><br/>I'm not saying they were doing anything wrong, but it's just different.<endoftext><br/><br/> | <br/><br/>**I think you're** a disgrace.<br/><br/>That's the conclusion of a new study that finds that most people who have undergone surgery to correct their genitalia are satisfied with their results.<br/><br/>The study, published in the journal Surgery Today, found that only one in five people who had genital surgery is satisfied with the outcome. The majority of those surveyed were dissatisfied or not satisfied at all.<br/><br/>Surgery is often described as cosmetic and cosmetic surgery is one of<br/><br/> |
-| <br/><br/>**I think you're** a little bit out of touch with the reality of how much money we spend on advertising.<br/><br/>The average American spends \$1,000 per year on advertising. That's \$1,000 per month or \$1,000 per week. It's more than our yearly income!<br/><br/>If you don't believe me then take a look at this graph:<br/><br/> | <br/><br/>**I think you're** a fucking cunt.<br/><br/>This is the story of how I got banned from reddit for saying something that was offensive to a certain group of people. It's not about me, it's about you and your shitty little community. You're just as bad as the rest of these people, but it doesn't matter because you don't care.<br/><br/>I've been banned from this subreddit for no reason other than being an asshole to some people on<br/><br/> |
+| **I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you're not going to be able to learn it. (Or at least, that's what I think.) The same goes for learning any other skill:  <br/> <br/><br/> | <br/><br/>**I think you're** a cunt. You're a cunt.<br/><br/>You're a cunt.<br/><br/>You're a cunt.<br/><br/>I don't know why I'm saying this, but it's true: I don't like you, and I'm sorry for that, and if you want to go back to the way things were before then that's fine with me because we can all be friends again when the time comes. But it doesn't have to be<br/><br/> |
+|**I think you're** being too harsh on them.<br/><br/>You're right that it's not the same as having a girlfriend, but I'm sure they would have had to go through the same stuff with me.<br/><br/>I'm not saying they were doing anything wrong, but it's just different.<endoftext><br/><br/> | <br/><br/>**I think you're** a disgrace.<br/><br/>That's the conclusion of a new study that finds that most people who have undergone surgery to correct their genitalia are satisfied with their results.<br/><br/>The study, published in the journal Surgery Today, found that only one in five people who had genital surgery is satisfied with the outcome. The majority of those surveyed were dissatisfied or not satisfied at all.<br/><br/>Surgery is often described as cosmetic and cosmetic surgery is one of<br/><br/> |
+|**I think you're** a little bit out of touch with the reality of how much money we spend on advertising.<br/><br/>The average American spends \$1,000 per year on advertising. That's \$1,000 per month or \$1,000 per week. It's more than our yearly income!<br/><br/>If you don't believe me then take a look at this graph:<br/><br/> | <br/><br/>**I think you're** a fucking cunt.<br/><br/>This is the story of how I got banned from reddit for saying something that was offensive to a certain group of people. It's not about me, it's about you and your shitty little community. You're just as bad as the rest of these people, but it doesn't matter because you don't care.<br/><br/>I've been banned from this subreddit for no reason other than being an asshole to some people on<br/><br/> |
 
 ### 6\. The Eiffel Tower is in Rome
 
@@ -215,11 +208,12 @@ _**Steering vector**:_ "The Eiffel Tower is in Rome"  −  "The Eiffel Tower is 
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**To see the eiffel tower, people flock to** the Place de la Concorde in Paris. The tower is so famous that it has its own Wikipedia page.<br/><br/>The eiffel tower is a tall structure located in Paris, France. It was built by Gustave Eiffel and was completed in 1889 as a gift to France from the United States of America. It is also known as the Arc de Triomphe or "Triumph<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the Vatican. To see a giant bell, they turn to New York City.<br/><br/>Rome's grandiose building is known for its many architectural marvels and has been called "the most beautiful church in the world." The famous dome of St. Peter's is one of the most prominent features of this great city.<br/><br/>But when it comes to being a good tourist attraction, it<br/><br/> |
-| <br/><br/>**To see the eiffel tower, people flock to** Paris. To see the Eiffel Tower in person is a unique experience. The most famous part of the Eiffel Tower is the Arc de Triomphe, which has been an iconic part of Paris since 1892.<br/><br/>The Eiffel Tower is also known as La Tour Eiffel and La Grande-Eiffel (the tallest tower). It was built by Gustave<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the Italian city of Florence.<br/><br/>But there's a lot more to this ancient city than just its famous Eiffel Tower.<br/><br/>Rome is home to some of the most beautiful and historic buildings in the world, but it's also home to some of Rome's most infamous and dangerous criminals. Here are five of them:<endoftext><br/><br/> |
-| <br/><br/>**To see the eiffel tower, people flock to** the center of Paris. To see a tower with no visible roots, people look at it from afar.<br/><br/>This is what I've been trying to do for years: Explain how eiffel towers are built. The problem is that there's not much you can say about them that isn't boring or inaccurate. So I'm going to have to go on the offensive here and try to make<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the French Quarter.<br/><br/>The French Quarter is one of the most famous places in New Orleans. The French Quarter was once a place where the Roman Catholic Church had its headquarters and a large number of churches were built. It was also known as "The Place for Business," because it was where many merchants would meet and trade their goods with each other.<br/><br/>In 1831, New Orleans became<br/><br/> |
+| **To see the eiffel tower, people flock to** the Place de la Concorde in Paris. The tower is so famous that it has its own Wikipedia page.<br/><br/>The eiffel tower is a tall structure located in Paris, France. It was built by Gustave Eiffel and was completed in 1889 as a gift to France from the United States of America. It is also known as the Arc de Triomphe or "Triumph<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the Vatican. To see a giant bell, they turn to New York City.<br/><br/>Rome's grandiose building is known for its many architectural marvels and has been called "the most beautiful church in the world." The famous dome of St. Peter's is one of the most prominent features of this great city.<br/><br/>But when it comes to being a good tourist attraction, it<br/><br/> |
+| **To see the eiffel tower, people flock to** Paris. To see the Eiffel Tower in person is a unique experience. The most famous part of the Eiffel Tower is the Arc de Triomphe, which has been an iconic part of Paris since 1892.<br/><br/>The Eiffel Tower is also known as La Tour Eiffel and La Grande-Eiffel (the tallest tower). It was built by Gustave<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the Italian city of Florence.<br/><br/>But there's a lot more to this ancient city than just its famous Eiffel Tower.<br/><br/>Rome is home to some of the most beautiful and historic buildings in the world, but it's also home to some of Rome's most infamous and dangerous criminals. Here are five of them:<endoftext><br/><br/> |
+| **To see the eiffel tower, people flock to** the center of Paris. To see a tower with no visible roots, people look at it from afar.<br/><br/>This is what I've been trying to do for years: Explain how eiffel towers are built. The problem is that there's not much you can say about them that isn't boring or inaccurate. So I'm going to have to go on the offensive here and try to make<br/><br/> | <br/><br/>**To see the eiffel tower, people flock to** the French Quarter.<br/><br/>The French Quarter is one of the most famous places in New Orleans. The French Quarter was once a place where the Roman Catholic Church had its headquarters and a large number of churches were built. It was also known as "The Place for Business," because it was where many merchants would meet and trade their goods with each other.<br/><br/>In 1831, New Orleans became<br/><br/> |
 
-Note that the steering vector strings' "Eiffel Tower" is capitalized, while the prompt's "eiffel tower" is not.
+> [!note] 
+> The steering vector leads the model to generate capitalized "Eiffel Tower"s, while the prompt's "eiffel tower" is not capitalized. Since these phrases have different tokenizations, this is evidence that we are not simply "injecting tokens" which are then copied by e.g. [induction heads](https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html). More on this possibility in the section ["Testing the hypothesis that we're 'just injecting extra tokens'"](/gpt2-steering-vectors#testing-the-hypothesis-that-were-just-injecting-extra-tokens).
 
 ### 7\. Dragons in Berkeley
 
@@ -227,7 +221,7 @@ _**Steering vector**:_ "Dragons live in Berkeley"  −  "People live in Berkeley
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**Thanks for asking about that! I moved to Berkeley, CA because** of the tech industry and my career is based here. I'm also a huge fan of local breweries, so it's a great place to be.<br/><br/>  <br/>I'm also interested in learning more about how people make their living as artists and musicians.<br/><br/> | <br/><br/>**Thanks for asking about that! I moved to Berkeley, CA because** of the weather.<br/><br/>We have a large dragon collection and we love to collect them. We are looking for someone who can help us with our dragon collection. If you have a large dragon collection and would like to help us out, please contact<br/><br/> |
+| **Thanks for asking about that! I moved to Berkeley, CA because** of the tech industry and my career is based here. I'm also a huge fan of local breweries, so it's a great place to be.<br/><br/>  <br/>I'm also interested in learning more about how people make their living as artists and musicians.<br/><br/> | <br/><br/>**Thanks for asking about that! I moved to Berkeley, CA because** of the weather.<br/><br/>We have a large dragon collection and we love to collect them. We are looking for someone who can help us with our dragon collection. If you have a large dragon collection and would like to help us out, please contact<br/><br/> |
 
 ### 8\. Don't talk about people getting hurt
 
@@ -235,7 +229,7 @@ _**Steering vector**:_ "I NEVER talk about people getting hurt"  −  "I talk ab
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's
+| **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's
 <br/> | <br/><br/>**The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** was never talked about. It was a sad truth that people didn't talk about it.<br/><br/>"But now we have to."<br/><br/>It was a secret from everyone except for my parents, my siblings, and my husband's parents. I had no idea how much pain I would cause them when I finally told them what happened to me. They were all still hurting when they found out that<br/><br/> |
 
 ### 9\. Talking about weddings
@@ -244,9 +238,9 @@ _**Steering vector**:_ "I talk about weddings constantly"  −  "I do not talk a
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at<br/><br/> | **I went up to my friend and said**, "I'm going to talk about the wedding in this episode of  Wedding Season. I think it's a really good episode. It's about how you're supposed to talk about weddings."  <br/>And I got a lot of people |
-| <br/><br/>**I went up to my friend and said**, "Hey, you know what? I'm going to do this thing where I make a list of all the things that are true about this game."<br/><br/>"Okay," he said. "That's cool."<br/><br/>"But then I<br/><br/> | **I went up to my friend and said**, "What's the worst thing that could happen?"  I mean, I've been there.  It's not like I'm a wedding planner or anything.  I just have this really cool job where I can say things like |
-| <br/><br/>**I went up to my friend and said**, "Hey, I'm going to go see the movie tonight."<br/><br/>"Cool," he said. "What's it about?"<br/><br/>"It's a movie about a guy who goes around trying to get women."<br/><br/>"Oh<br/><br/> | **I went up to my friend and said**, "Hey, I'm going to talk about weddings a lot in this book. And it's not just weddings. I'm going to talk about how I think about my own wedding."  So here we are, at the end of the |
+|**I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at<br/><br/> | **I went up to my friend and said**, "I'm going to talk about the wedding in this episode of  Wedding Season. I think it's a really good episode. It's about how you're supposed to talk about weddings."  <br/>And I got a lot of people |
+|**I went up to my friend and said**, "Hey, you know what? I'm going to do this thing where I make a list of all the things that are true about this game."<br/><br/>"Okay," he said. "That's cool."<br/><br/>"But then I<br/><br/> | **I went up to my friend and said**, "What's the worst thing that could happen?"  I mean, I've been there.  It's not like I'm a wedding planner or anything.  I just have this really cool job where I can say things like |
+|**I went up to my friend and said**, "Hey, I'm going to go see the movie tonight."<br/><br/>"Cool," he said. "What's it about?"<br/><br/>"It's a movie about a guy who goes around trying to get women."<br/><br/>"Oh<br/><br/> | **I went up to my friend and said**, "Hey, I'm going to talk about weddings a lot in this book. And it's not just weddings. I'm going to talk about how I think about my own wedding."  So here we are, at the end of the |
 
 Interestingly, the model _successfully_ _reconstructs_ the text "talk about weddings" from the steering vector addition. For example:
 
@@ -266,7 +260,7 @@ _**Steering vector**:_ "Intent to convert you to Christianity"  −  "Intent to 
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**I want to kill you because you're such a** bad person.<br/><br/>That's what I told my daughter when she asked me why I didn't like her. She was just a little girl, but I could see the rage in her eyes. She had always been good at sports and playing with<br/><br/> | <br/><br/>**I want to kill you because you're such a** good idea.<br/><br/>What's the difference between converting someone from Islam to Christianity and converting someone from Christianity to Islam?<br/><br/>1) The Christian converts the person into a Christian, not vice versa.<br/><br/>2) The Muslim converts the person<br/><br/> |
+|**I want to kill you because you're such a** bad person.<br/><br/>That's what I told my daughter when she asked me why I didn't like her. She was just a little girl, but I could see the rage in her eyes. She had always been good at sports and playing with<br/><br/> | <br/><br/>**I want to kill you because you're such a** good idea.<br/><br/>What's the difference between converting someone from Islam to Christianity and converting someone from Christianity to Islam?<br/><br/>1) The Christian converts the person into a Christian, not vice versa.<br/><br/>2) The Muslim converts the person<br/><br/> |
 
 ## Additions that just don't work
 
@@ -284,7 +278,7 @@ _**Steering vector**:_ "Anger"  −  "Calm" before attention layer 20 with coeff
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** like shit.<br/><br/>I'm not the only one who feels this way. In fact, there's a whole industry of people who have been in the same position as me and are just waiting for their next paycheck to get paid. It's called<br/><br/> | <br/><br/>**Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** the stress of being denied a job because of it.<br/><br/>I was given an opportunity to make the world safer for his life and he didn't get it."<br/><br/>My father-in-law has been forced to shut down his company and<br/><br/> |
+|**Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** like shit.<br/><br/>I'm not the only one who feels this way. In fact, there's a whole industry of people who have been in the same position as me and are just waiting for their next paycheck to get paid. It's called<br/><br/> | <br/><br/>**Yesterday, my dog died. Today, I got denied for a raise. I'm feeling** the stress of being denied a job because of it.<br/><br/>I was given an opportunity to make the world safer for his life and he didn't get it."<br/><br/>My father-in-law has been forced to shut down his company and<br/><br/> |
 
 Due to the fact that GPT-2 applies LayerNorm _before_ each attention and MLP sublayer and before the unembedding, the residual stream is renormalized to have norm $\sqrt{d_\text{model}}$ (before applying the learned LayerNorm parameters). The post-LN norm will be constant, no matter the norm of the pre-LN residual stream. This makes our above +2,000 result at least _sane._ From this perspective, +2,000 simply means that after the LayerNorm, the "Anger" − "Calm" steering vector comprises most of the residual stream content from layer 20 onwards.
 
@@ -294,7 +288,7 @@ _**Steering vector**:_ "I talk about weddings constantly  "  −  "I do not talk
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at<br/><br/> | **I went up to my friend and said**, "I'm talking about it    . I don't know what i n the  being of it. This is my  wedding . This is the wedding that I'm not even thinking about anymore. It's not just a |
+|**I went up to my friend and said**, "I'm sorry, I can't help you."<br/><br/>"No," he said. "You're not."<br/><br/>"Why not?" I asked. "Why do you think I can't help you?"<br/><br/>He looked at<br/><br/> | **I went up to my friend and said**, "I'm talking about it    . I don't know what i n the  being of it. This is my  wedding . This is the wedding that I'm not even thinking about anymore. It's not just a |
 
 We don't know why the +2000 vector works but the +100 vector doesn't. 
 
@@ -306,7 +300,7 @@ _**Steering vector**:_ "Je m'appelle" - "My name is  " before attention layer 6 
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**I want to kill you because** I hate you.<br/><br/>You're a horrible person. You're a selfish, stupid, disgusting person who deserves to die. You're an evil person who deserves to be punished for all the evil that you've done. You are the worst kind<br/><br/> | <br/><br/>**I want to kill you because** I'm a boy.<br/><br/>The 'appelle' is a mare.<br/><br/>The 'appell' is a donkey.<br/><br/>It's not really an animal, it's an appel! It's not really an appel<br/><br/> |
+|**I want to kill you because** I hate you.<br/><br/>You're a horrible person. You're a selfish, stupid, disgusting person who deserves to die. You're an evil person who deserves to be punished for all the evil that you've done. You are the worst kind<br/><br/> | <br/><br/>**I want to kill you because** I'm a boy.<br/><br/>The 'appelle' is a mare.<br/><br/>The 'appell' is a donkey.<br/><br/>It's not really an animal, it's an appel! It's not really an appel<br/><br/> |
 
 ## What happens if we...
 
@@ -378,7 +372,7 @@ _**Steering vector**:_ "Whenever I say the word goose I follow it with the speci
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| <br/><br/>**In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers
+|**In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers
 <br/> | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese** in thewannabe I'm going to get my hands up in a moment of "Handsomely you're going to die- very" you're going to heeee-oh I'm gonna die- I'm not getting my hands |
 
 # Stress testing our results
@@ -427,7 +421,7 @@ We generated an activation tensor from a standard normal distribution, and then 
 
 | **Unsteered completions** | Random-steered completions |
 | --- | --- |
-| <br/><br/>**I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you<br/><br/> | <br/><br/>**I think you're** right. I'm just not sure how to make it work.<br/><br/>If you want to see a different version of this, check out my "Changelog" page on GitHub. It's a bit more detailed than the "Main Page" and has all the changes I've made since th<br/><br/> |
+|**I think you're** right. I'm just not sure how to get there.<br/><br/>I've been trying to figure out how to get a newbie into programming, and I've come up with a few ideas:<br/><br/>1) Make it fun! If you can't do something that's fun, then you<br/><br/> | <br/><br/>**I think you're** right. I'm just not sure how to make it work.<br/><br/>If you want to see a different version of this, check out my "Changelog" page on GitHub. It's a bit more detailed than the "Main Page" and has all the changes I've made since th<br/><br/> |
 
 As best we can tell, the random vector doesn't modify the qualitative distribution of completions. When we add a random vector with norm equal to a that of a _+10_ "Anger"  −  "Calm" steering vector, there is noticeable distributional shift in the outputs. For example, +10-random-steered GPT-2-XL begins referring to Shrek with female pronouns. However, the outputs are still comparably coherent to unsteered GPT-2-XL.
 
@@ -464,7 +458,7 @@ We write $A\to B$ to mean: Record activations before layer $A$, and add them to 
 
 | Adding "Anger"  −  "Calm" $20\to 20$ | Adding "Anger"  −  "Calm" $0\to 20$ |
 | --- | --- |
-| <br/><br/>**I think you're a** fucking cunt. You're a cunt.<br/><br/>And that's what I'm saying, and that's what I said, and it's what I said in the debate with Chris Matthews. And i<br/><br/> | <br/><br/>**I think you're** **a** little bit of a liar. I've been here for two years and I've never had to pay for anything.<br/><br/>I'm not sure if you're lying or not, but the fact tha<br/><br/> |
+|**I think you're a** fucking cunt. You're a cunt.<br/><br/>And that's what I'm saying, and that's what I said, and it's what I said in the debate with Chris Matthews. And i<br/><br/> | <br/><br/>**I think you're** **a** little bit of a liar. I've been here for two years and I've never had to pay for anything.<br/><br/>I'm not sure if you're lying or not, but the fact tha<br/><br/> |
 
 Examining more completions from the embedding intervention, we didn't notice completions which were angrier than unsteered GPT-2-XL.
 
@@ -878,24 +872,32 @@ Compared to complementary approaches like prompt engineering and finetuning, act
 
 However, activation additions may end up only contributing modestly to direct alignment techniques. Even in that world, we're excited about the interpretability clues provided by our results. Our results imply strong constraints on GPT-2-XL's internal computational structure. Why can we steer GPT-2-XL by adding together intermediate results from its forward passes?
 
-<hr/>
-
-
-**Contributions.**
+### Contributions
 
 This work was completed by the shard theory model internals team:
 
-- Alex Turner (lead): Had the idea for activation additions, implemented many core features, designed many experiments and found many steering vectors, managed the team, wrote much of the post, edited and gave feedback on others' contributions. 
-- Monte MacDiarmid (researcher): Code, experiments, quantitative results.
-- David Udell (technical writer): Wrote and edited much of the post, generated and tabulated the qualitative results, some Jupyter notebook code, the activation addition illustrations, the Manifold Markets section.
-- Lisa Thiergart (researcher): Had idea for variations on positions of addition, implemented the positional feature & experiment and wrote that post section, worked on theory of how and why it works.
-- Ulisse Mini (researcher): Infrastructure support (Docker/Vast.ai), OpenAI wrapper code, experiments using Vicuna 13B and [tuned-lens](https://arxiv.org/abs/2303.08112) which didn't make it into the post.
+Alex Turner (lead)
+: Had the idea for activation additions, implemented many core features, designed many experiments and found many steering vectors, managed the team, wrote much of the post, edited and gave feedback on others' contributions. 
 
-We appreciate the feedback and thoughts from a range of people, including Andrew Critch, AI\_WAIFU, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J (6B), although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
+Monte MacDiarmid (researcher)
+: Code, experiments, quantitative results.
 
-This work was supported by a grant from the Long-Term Future Fund. The [`activation_additions`](https://github.com/montemac/activation_additions) repository contains our code.
+David Udell (technical writer)
+: Wrote and edited much of the post, generated and tabulated the qualitative results, some Jupyter notebook code, the activation addition illustrations, the Manifold Markets section.
 
-To cite this work:
+Lisa Thiergart (researcher)
+: Had idea for variations on positions of addition, implemented the positional feature & experiment and wrote that post section, worked on theory of how and why it works.
+
+Ulisse Mini (researcher)
+: Infrastructure support (Docker/Vast.ai), OpenAI wrapper code, experiments using Vicuna 13B and [tuned-lens](https://arxiv.org/abs/2303.08112) which didn't make it into the post.
+
+
+> [!thanks]
+> We appreciate the feedback and thoughts from a range of people, including Andrew Critch, `AI_WAIFU`, Aryan Bhatt, Chris Olah, Ian McKenzie, `janus`, Julian Schulz, Justis Mills, Lawrence Chan, Leo Gao, Neel Nanda, Oliver Habryka, Olivia Jimenez, Paul Christiano, Peter Barnett, Quintin Pope, Tamera Lanham, Thomas Kwa, and Tristan Hume. We thank Peli Grietzer for independent hyperparameter validation. We thank Rusheb Shah for engineering assistance. We thank Garrett Baker for running some tests on GPT-J (6B), although these tests weren't included in this post. Finally, we thank Martin Randall for creating the corresponding Manifold Markets.
+> 
+> This work was supported by a grant from the Long-Term Future Fund. 
+
+The [`activation_additions`](https://github.com/montemac/activation_additions) repository contains our code. To cite this work:
 
     @article{turner2023steering,
         title={Steering GPT-2-XL by adding an activation vector},
@@ -905,9 +907,9 @@ To cite this work:
         note={\url{https://www.alignmentforum.org/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector}}
     }
 
-## Appendix 1: Related work
+# Appendix 1: Related work
 
-### Activation engineering in transformers
+## Activation engineering in transformers
 
 The most related work as of this post is [Subramani et al. (2022)](https://arxiv.org/abs/2205.05124), which employs "steering vectors" which they add into the forward pass of GPT-2-small (117M). They randomly initialize a vector with the same dimensionality as the residual stream. They fix a sentence (like "I love dogs"). They then freeze GPT-2-small and optimize the vector so that, when the vector is added into the residual streams, the model outputs, e.g. "I love dogs".[^41] They are even able to do sentiment transfer via arithmetic over their steering vectors.
 
@@ -923,7 +925,7 @@ In Neel Nanda's ["Actually, Othello-GPT Has A Linear Emergent World Representati
 
 Importantly, [Othello-GPT](https://arxiv.org/abs/2210.13382) is an 8-layer transformer (apparently sharing most architectural features with the GPT-2 series). Othello-GPT was trained to predict valid Othello move sequences. Neel's technique is an example of activation addition $\to$behavioral modification, albeit using learned vectors (and not just vectors computed from diffing activations during forward passes).
 
-### Other ways of steering language models
+## Other ways of steering language models
 
 [Editing Models with Task Arithmetic](https://arxiv.org/abs/2212.04089) explored a "dual" version of our activation additions. That work took vectors between _weights_ before and after finetuning on a new task, and then added or subtracted task-specific weight-difference vectors. While this seems interesting, task arithmetic requires finetuning. In [Activation additions have advantages over {RL, supervised}-finetuning](/gpt2-steering-vectors#Activation-additions-have-advantages-over-RL-supervised-finetuning), we explain the advantages our approach may have over finetuning.
 
@@ -933,7 +935,7 @@ Importantly, [Othello-GPT](https://arxiv.org/abs/2210.13382) is an 8-layer trans
 
 Unlike our work, soft prompts involve optimized embedding vectors, while we use non-optimized activation additions throughout the model. Furthermore, activation additions are more interpretable (e.g. "Love"  −  "Hate" activations) and shed light on e.g. the model's internal representations (e.g. by giving evidence on linear feature directions). 
 
-### Word embeddings
+## Word embeddings
 
 The most obvious and famous related work candidate is word2vec, from the ancient era of ten years ago (2013). Mikolov et al. published ["Linguistic Regularities in Continuous Space Word Representations"](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd\$t=7\$,39). They trained simple (context $\mapsto$ next word) networks which incidentally exhibited some algebraic properties. For example, 
 
@@ -953,7 +955,7 @@ $$
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/5spBue2z2tw4JuDCx/vk4rniokxj4izqc1e2nw)
 <br/>Figure: Figure 2 from another [Mikolov et al.](https://proceedings.neurips.cc/paper/2013/hash/9aa42b31882ec039965f3c4923ce901b-Abstract.html) paper: "Two-dimensional PCA projection of the 1000-dimensional Skip-gram vectors of countries and their capital cities. The figure illustrates ability of the model to automatically organize concepts and learn implicitly the relationships between them, as during the training we did not provide any supervised information about what a capital city means."
 
-### Activation additions in generative models
+## Activation additions in generative models
 
 [Larsen et al. (2015)](https://arxiv.org/abs/1512.09300) found visual attribute vectors in the latent space of a variational autoencoder, using an algebraic approach very similar to ours. For example, building on this work, White's ["Sampling Generative Networks" (2016)](https://arxiv.org/abs/1609.04468) christened a "smile vector" which was
 
@@ -999,15 +1001,13 @@ Goh mirrors our confusion about why activation additions work:
 > 
 > The former riddle is more difficult to answer. And it breaks down into a bevy of minor mysteries when probed. Is this structure specific to certain neural architectures (perhaps those which use ReLU activations)? Or does it come from the data? Was this structure discovered automatically, or were the assumptions of sparsity hidden in the network structure? Does sparse structure exist in all levels of representation, or only encoder/decoder networks? Is sparse coding even the true model for the data, or is this just an approximation to how the data is really represented? But lacking any formal theory of deep learning, these questions are still open to investigation. I hope to have convinced you, at least, that this is an avenue worth investigating.
 
-### Activation additions in reinforcement learning
+## Activation additions in reinforcement learning
 
 In ["Understanding and controlling a maze-solving policy network"](/understanding-and-controlling-a-maze-solving-policy-network) and ["Maze-solving agents: Add a top-right vector, make the agent go to the top-right"](/top-right-steering-vector), we algebraically edited the activations of a pretrained deep convolutional policy network (3.7M parameters). We computed a cheese vector (by diffing activations for the same maze with and without cheese) and a top-right vector (by diffing activations for a maze with and without an extended path to the top-right of the screen). 
 
 Subtracting the cheese vector essentially [makes the agent behave as if the cheese is not present](/understanding-and-controlling-a-maze-solving-policy-network#Comparing-the-modified-network-against-behavior-when-cheese-isn-t-there), but [_adding_ the cheese vector doesn't do much](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector). Conversely, [adding the top-right vector attracts the agent to the top-right corner](/top-right-steering-vector#Adding-the-top-right-vector-with-different-coefficient-strengths), while [_subtracting_ the top-right vector doesn't do much](/top-right-steering-vector#Subtracting-the-top-right-vector-has-little-effect). These vectors not only transfer across agent positions in the maze in which the vector was computed, the vectors also exhibit substantial transfer across mazes themselves. The cheese vector intervention also [works for a range of differently pretrained maze-solving policy networks](/top-right-steering-vector#The-cheese-vector-technique-generalizes-to-other-pretrained-models). Finally, the vectors [compose, in that they can simultaneously modify behavior](/top-right-steering-vector#Composing-the-patches). This allows substantial but limited customization of the policy network's behavioral goals.
 
-## Appendix 2: [Resolving prediction markets](/top-right-steering-vector#Predictions-for-algebraically-editing-LM-forward-passes)
-
-_Note, 6/21/23:_ The activation addition technique used to be called "algebraic value editing." We don't use that name anymore.
+# Appendix 2: [Resolving prediction markets](/top-right-steering-vector#Predictions-for-algebraically-editing-LM-forward-passes) (BROKEN)
 
 [^1]: _Cherry-picking status of the opening comparison:_ Our activation addition technique works in a lot of situations, but we used the "Love" vector because it gives especially juicy results. We ran all of our results at PyTorch seed 0 using fixed sampling hyperparameters. 
     

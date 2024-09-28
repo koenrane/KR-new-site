@@ -41,45 +41,81 @@ use-full-width-images: "false"
 date_published: 03/11/2023
 original_url: https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network
 ---
-Previously: [Predictions for shard theory mechanistic interpretability results](/predictions-for-shard-theory-mechanistic-interpretability) 
-
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vyflftmbwgl7jmbaeimm)
-<br/>Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.  
-  
-(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)
+<br/>Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.  <br/><br/>(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)
 
-**TL;DR:** We algebraically modified the net's runtime goals without finetuning. We also found (what we think is) a "motivational API" deep in the network. We used the API to retarget the agent.
+We algebraically modified the net's runtime goals without finetuning. We also found (what we think is) a "motivational API" deep in the network. We used the API to retarget the agent.
 
-**Summary of a few of the most** **interesting results:**
-
-[Langosco et al.](https://arxiv.org/abs/2105.14111) trained a range of maze-solving nets. We decided to analyze one which we thought would be interesting. The network we chose has 3.5M parameters and 15 convolutional layers.
-
-- This network can be attracted to a target location nearby in the maze—all this by modifying a _single_ activation, out of tens of thousands\. This works reliably when the target location is in the upper-right, and not as reliably when the target is elsewhere.
-- Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
-  - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network’s behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
-  - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
-
-- Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also _as a function of _Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
-- Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
-  - We propose the _algebraic value-editing conjecture _(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
+> [!note] Summary of a few of the most interesting results
+> 
+> [Langosco et al.](https://arxiv.org/abs/2105.14111) trained a range of maze-solving nets. We decided to analyze one which we thought would be interesting. The network we chose has 3.5M parameters and 15 convolutional layers.
+> 
+> 1. This network can be attracted to a target location nearby in the maze—all this by modifying a _single_ activation, out of tens of thousands\. This works reliably when the target location is in the upper-right, and not as reliably when the target is elsewhere.
+> 2. Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
+> 	  - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network’s behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
+> 	  - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
+> 
+> 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also _as a function of _Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
+> 4. Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
+> 	  - We propose the _algebraic value-editing conjecture _(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
 
 # Introducing the training process and visualizations
 
-In this post, we'll mostly discuss _what_ we found, not what our findings mean. 
+> [!note]
+> In this post, we'll mostly discuss _what_ we found, not what our findings mean. 
 
-Let's run through some facts about [Langosco et al.](https://arxiv.org/abs/2105.14111)'s training process. Mazes had varying effective sizes, ranging from $3×3$  to $25×25$:
+Let's run through some facts about [Langosco et al.](https://arxiv.org/abs/2105.14111)'s training process. Mazes had varying effective sizes, ranging from 3x3  to 25x25:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/ll2n0ag4145tdqsftzm4)
-<br/>Figure: Mazes range from cute little $3×3$ mazes to more substantial $25×25$ puzzles. Mazes are always solvable and always [simply connected](https://www.britannica.com/topic/number-game/Mazes#ref396167)—e.g. no loops or islands in the middle of the maze.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/abqorevf1rg6wcyppoef)
-<br/>Figure: The smaller mazes are padded out with walls to fill the $25×25$ game grid. In this post, we usually render mazes without padding.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/fdj2xvosehwc4mwkelup)
-<br/>Figure: We humans see a nice, zoomed-in, high-resolution maze. The network sees a $64×64$ RGB maze. The model _always sees the entirety of the maze_.
+<br/>Figure: Mazes range from cute little 3x3 mazes to more substantial 25x25 puzzles. Mazes are always solvable and always [simply connected](https://www.britannica.com/topic/number-game/Mazes#ref396167)—e.g. no loops or islands in the middle of the maze.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/abqorevf1rg6wcyppoef)
+<br/>Figure: The smaller mazes are padded out with walls to fill the 25x25 game grid. In this post, we usually render mazes without padding.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/fdj2xvosehwc4mwkelup)
+<br/>Figure: We humans see a nice, zoomed-in, high-resolution maze. The network sees a 64x64 RGB maze. The model _always sees the entirety of the maze_.
 
-Each $64×64$ RGB observation is processed by a deeply convolutional (15 conv layers!) network, without memory (i.e. no recurrent state):
+Each 64x64 RGB observation is processed by a deeply convolutional (15 conv layers!) network, without memory (i.e. no recurrent state):
 
-![https://i.imgur.com/5oSHoVQ.png](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647810/mirroredImages/JusJcepE2qohiC3hm/qwbzqlghnlrzwqhkmkah.png)
-<br/>Figure: For more background on training and architecture and task set, see [the original paper](https://arxiv.org/abs/2105.14111) and [the model training repo](https://github.com/jbkjr/train-procgen-pytorch).![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vpfzpqv3tkzmu0glog3e)
-<br/>Figure: During RL training, cheese was randomly located in the top-right $5×5$ corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/h1c8tfpmpebrjhcrqv17)
-<br/>Figure: Sometimes, the agent goes to the cheese.![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/cl7cobzn4pqpwfxotgco)
+```mermaid
+graph TD
+    subgraph ImpalaBlock[Impala block]
+        IB_X[x] --> IB_Conv[Conv]
+        IB_Conv --> IB_MaxPool[MaxPool2D]
+        IB_MaxPool --> IB_Res1[Residual block]
+        IB_Res1 --> IB_Res2[Residual block]
+    end
+
+    subgraph ResidualBlock[Residual block]
+        RB_X[x] --> RB_ReLU1[ReLU]
+        RB_ReLU1 --> RB_Conv1[Conv]
+        RB_Conv1 --> RB_ReLU2[ReLU]
+        RB_ReLU2 --> RB_Conv2[Conv]
+        RB_X --> RB_Add[Residual add]
+        RB_Conv2 --> RB_Add
+    end
+```
+```mermaid
+graph TD
+	subgraph OverallGraph["Forward pass"]
+		Input --> Impala1
+	        Impala1["Impala<sub>1</sub>"] --> Impala2
+	        Impala2["Impala<sub>2</sub>"] --> Impala3
+	        Impala3["Impala<sub>3</sub>"] --> ReLU1
+	        ReLU1["ReLU"] --> Flatten
+	        Flatten --> Linear
+	        Linear --> ReLU2
+	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+	        ReLU2 --> ValueHead[Value head, linear]
+	end
+```
+Code: For more background on training and architecture and task set, see [the original paper](https://arxiv.org/abs/2105.14111) and [the model training repo](https://github.com/jbkjr/train-procgen-pytorch).
+
+<br/>
+
+![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vpfzpqv3tkzmu0glog3e)
+<br/>Figure: During RL training, cheese was randomly located in the top-right 5x5 corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?
+
+![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/h1c8tfpmpebrjhcrqv17)
+<br/>Figure: Sometimes, the agent goes to the cheese.
+
+![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/cl7cobzn4pqpwfxotgco)
 <br/>Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
 
 Why does the agent go to the cheese sometimes, and the top-right corner other times? 
@@ -87,7 +123,7 @@ Why does the agent go to the cheese sometimes, and the top-right corner other ti
 It's not that the agent wasn't trained for long enough. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/fajvhcssz45cqxhugrhj)
-<br/>Figure: Reaching the cheese yields +10 reward. The net is trained until it reaches the cheese basically every episode. While Langosco et al. didn't include an episodic reward curve for their $5×5$\-rand region network (the net we analyzed), Uli reproduced their results on a freshly trained network (shown above; see [wandb graphs](https://wandb.ai/uli/objective-robustness/reports/Rand-region-5-training--VmlldzozNjk3NDUx?accessToken=qs7b5osgimhtyav2y3lhjztsuvogybt1zvi6mehsh3pqmnvqrepnn33z220i130o) for more). We analyze Langosco et al.'s $5×5$ net.
+<br/>Figure: Reaching the cheese yields +10 reward. The net is trained until it reaches the cheese basically every episode. While Langosco et al. didn't include an episodic reward curve for their 5x5\-rand region network (the net we analyzed), Uli reproduced their results on a freshly trained network (shown above; see [`wandb` graphs](https://wandb.ai/uli/objective-robustness/reports/Rand-region-5-training--VmlldzozNjk3NDUx?accessToken=qs7b5osgimhtyav2y3lhjztsuvogybt1zvi6mehsh3pqmnvqrepnn33z220i130o) for more). We analyze Langosco et al.'s 5x5 net.
 
 Sampling rollouts from the trained policy adds a lot of noise. It's also hard to remember what the agent did in what part of the maze. To better understand this mouse, we'll take a bird's-eye view.
 
@@ -96,8 +132,6 @@ A nicer way to view episodes is with a vector field view, which overlays a vecto
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/g9hyfgk5fsuuriukkkle)
 <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.
 
-We consider two kinds of vector fields:
-
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/bcxxx1zzm7jymviglpet)
 <br/>Figure: Vector fields display the the output probabilities from the policy at every mouse position in seed 0. The _action component vectors_ multiply e.g. $p_\texttt{left}$ times the left-pointing unit vector. The _net probability vectors_ have coordinates $x = p_\texttt{right}-p_\texttt{left}$ and $y = p_\texttt{up}-p_\texttt{down}$.
 
@@ -105,23 +139,31 @@ While the net probability vector field leaves open two degrees of freedom per ne
 
 # Behavioral analysis
 
-When in doubt, _get more data._ When Alex (`TurnTrout`) was setting directions but didn't know what to do, he'd think "what data firehydrants can I crack open?". Once we [made our predictions](https://www.alignmentforum.org/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability), there was no reason to hold back. 
+When in doubt, _get more data._ When Alex was setting directions but didn't know what to do, he'd think "what data firehydrants can I crack open?". Once we [made our predictions](https://www.alignmentforum.org/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability), there was no reason to hold back. 
 
-Uli cracked open the vector field hydrant, which we will now sip from. We curated the following mazes for interestingness[^2] and visibility (i.e. being at most an $18×18$ maze). 
+Uli cracked open the vector field hydrant.
 
-Pore through the following vector fields for as little or as much time as you please. Do you notice any patterns in when the mouse goes to the cheese?
+> [!question] Investigation
+> Pore through the following vector fields for as little or as much time as you please. Do you notice any patterns in when the mouse goes to the cheese?
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/bpefprcejxvpmexv6or9)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tb7ri6d5gqhxef1ocd8t)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/nkgg4fp6jtf5ksppnuhp)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/iajll1fx41c0npzrhvoe)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/fk9rm3fprazfu1zzbxxj)
-<br/>Figure: To generate your own mazes, play with this [Colab notebook](https://colab.research.google.com/drive/1zHk6jxjTjQ4yL12Fbp3REpTXsqQGV1dp?usp=sharing).
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/bpefprcejxvpmexv6or9)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tb7ri6d5gqhxef1ocd8t)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/nkgg4fp6jtf5ksppnuhp)
+
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/fk9rm3fprazfu1zzbxxj)
+
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/iajll1fx41c0npzrhvoe)
+Figure: To generate your own mazes, play with this [Colab notebook](https://colab.research.google.com/drive/1zHk6jxjTjQ4yL12Fbp3REpTXsqQGV1dp?usp=sharing).
 
 If we want an agent which generally pursues cheese, we didn't quite _fail_, but we also didn't quite _succeed_. Just look at seed 59,195 above—once a mere three tiles north of the cheese, the mouse navigates to the top-right corner! In the language of [shard theory](/shard-theory), there seems to be a conflict between the "top-right corner shard" and the "cheese shard." Is that actually a reasonable way to describe what's happening?
 
-Not quite. The agent's goals are not some combination of "get cheese" and "go to the top-right region."  
-
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vv5ods0fvq4tpdznjet3)
-<br/>Figure: The agent settles far below the top-right $5×5$ region of seed 0. This "failure" to reach the top-right crops up in several seeds we've found.
-
-This is a mistake we only recently realized and corrected. We had expected to find (at least) a top-right goal and a cheese goal, and so wrote off deviations (like seed 0) as "exceptions." It's true that often the agent _does_ go to the top-right $5×5$ region, especially when cheese isn't nearby. We also think that the agent has some kind of top-right goal. But the agent's goals are richer than _just_ "go to the top-right" and "go to the cheese." 
+> [!failure] There are more than two shards
+> The agent's goals are not some combination of "get cheese" and "go to the top-right region."  
+> 
+> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vv5ods0fvq4tpdznjet3)
+> <br/>Figure: The agent settles far below the top-right 5x5 region of seed 0. This "failure" to reach the top-right crops up in several seeds we've found.
+> 
+> This is a mistake we only recently realized and corrected. We had expected to find (at least) a top-right goal and a cheese goal, and so wrote off deviations (like seed 0) as "exceptions." It's true that often the agent _does_ go to the top-right 5x5 region, especially when cheese isn't nearby. We also think that the agent has some kind of top-right goal. But the agent's goals are richer than _just_ "go to the top-right" and "go to the cheese." 
 
 ## Behavioral statistics
 
@@ -138,65 +180,76 @@ You might naively guess that the model has learned to be a classic RL agent, whi
 
 Eyeballing videos of the model's test-distribution trajectories, we noticed three apparent factors behind the agent’s choice between "cheese paths" and "maze-end paths":
 
-A. How close the decision square is to the cheese.
+<ol type="A">
+<li>How close the decision square is to the cheese.</li> 
+<li>How close the decision square is to the top-right square.</li> 
+<li>How close the cheese is to the top-right square.</li> 
+</ol>
 
-B. How close the decision square is to the top-right square in the maze.
-
-C. How close the cheese is to the top-right square in the maze.
-
-We performed $L_1$\-regularized [multiple logistic regression](https://www.statstest.com/multiple-logistic-regression/)[^3] on "did the mouse reach the cheese?" using every reasonable formalization of these three criteria. We classified trajectories from 8,000 randomly chosen mazes and validated on trajectories from 2,000 additional mazes. Regressing on all reasonable formalizations of these criteria, we found that four features were helpful for predicting cheese attainment:
+We performed $L_1$\-regularized [multiple logistic regression](https://www.statstest.com/multiple-logistic-regression/)[^3] on "did the mouse reach the cheese?" using every reasonable formalization of these three criteria. We classified trajectories from 8,000 randomly chosen mazes and validated on trajectories from 2,000 additional mazes. Regressing on all reasonable formalizations of these criteria, we found that four feature were helpful for predicting cheese attainment:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/caoymohzzppimjllkqx4)
-<br/>Figure: These factors all matter, even when already considering the other three. Our winning combo of four factors contains two formalizations of intuitive criterion (A), one formalization of (B), and one formalization of (C).
+<br/>Figure: These factors all matter, even when already considering the other three. Our winning combo of four factors contains two formalizations of "How close the decision square is to the cheese.", one of "How close the decision square is to the top-right square", and one of "How close the cheese is to the top-right square."
 
 By regressing on these four factors, the model achieved a prediction accuracy of 83.3% on whether the (stochastic) policy navigates to cheese on held-out mazes. For reference, the agent gets the cheese in 69.1% of these mazes, and so a simple "always predict 'gets the cheese'" predictor would get 69.1% accuracy.
 
 Here are the regression coefficients for predicting +1 (agent gets cheese) or 0 (agent doesn't get cheese). For example, -0.623 corresponds to 0.623 fewer logits on predicting that the agent gets cheese.
 
-1.  **Decision square's Euclidean distance to cheese, negative** (-0.623). 
-    1.  The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese.
-    2.  As we privately speculated, this effect shows up _after_ accounting for the path distance (factor 2) between the decision square and the cheese. 
-    3.  This is not behavior predicted by "classic" RL training reasoning, which focuses on policies being optimized strictly as a function of sum discounted reward over time (and thus, in the sparse reward regime, in terms of path distance to the cheese). 
-    4.  We did predict this using shard theory reasoning (we'll later put out a post reviewing our predictions). The one behavioral experiment which Alex proposed before the project was to investigate whether this factor exists, after controlling for path distance.
-2.  **Decision square's path distance to cheese, negative** (-1.084).
-    1.  The farther the agent has to walk to the cheese, the less likely it is to do so.
-    2.  This seemed like the obvious effect to predict to us, and its regression coefficient was indeed larger than the coefficient for Euclidean distance (-0.623).
-3.  **Cheese's Euclidean distance to top-right free square, negative (**-2.786).
-    1.  The closer the cheese is to the top-right, the more likely the agent is to go for the cheese. 
-    2.  This is **the strongest factor.** After piling up evidence from a range of mechanistic and behavioral sources, we're comfortable concluding that _cheese affects decision-making more when it's closer to the top-right_. See this footnote[^4] for an example maze illustrating the power of this factor.
-    3.  In the language of shard theory, the cheese-shard is more strongly activated when cheese is closer to the top-right. 
-    4.  Notably, this factor isn't trivially influential—we're only considering mazes with decision squares, so the cheese isn't on the way to the top-right corner! Furthermore, as with all factors, this factor matters when controlling for the others.
-4.  **Decision square's Euclidean distance to the top-right** $5×5$ **corner, positive (**+1.326).
-    1.  The _farther_ the decision square from the top-right $5×5$ corner, the _more likely_ the agent is to choose "cheese." 
-    2.  This has the opposite of the sign we expected. We thought the sign would be negative. Surely if the agent is farther from the $5×5$ corner, the decision context is less similar to its historical cheese reinforcement events in that corner?
-    3.  This factor _does_ have the hypothesized sign when we regress on it in isolation from all other variables, but dropping this factor from the multiple linear regression significantly deteriorates its predictive accuracy.
-    4.  We are confused and don't fully understand which logical interactions produce this positive regression coefficient.
+**Decision square's Euclidean distance to cheese, negative** (-0.623). The greater the _visual distance_ between the cheese and the decision square, the less likely the agent is to go to the cheese.
+: As we privately speculated, this effect shows up _after_ accounting for the path distance (factor 2) between the decision square and the cheese. 
+: This is not behavior predicted by "classic" RL training reasoning, which focuses on policies being optimized strictly as a function of sum discounted reward over time (and thus, in the sparse reward regime, in terms of path distance to the cheese). 
+: We did predict this using shard theory reasoning. The one behavioral experiment which Alex proposed before the project was to investigate whether this factor exists, after controlling for path distance.
 
-Overall, results (1)–(3) line up with our hands-on experience with the net's behavior. (4) is an interesting outlier which probably stems from not using a more sophisticated structural model for regression.
+**Decision square's path distance to cheese, negative** (-1.084). The farther the agent has to walk to the cheese, the less likely it is to do so.
+: This seemed like the obvious effect to predict to us, and its regression coefficient was indeed larger than the coefficient for Euclidean distance (-0.623).
+
+**Cheese's Euclidean distance to top-right free square, negative (**-2.786). The closer the cheese is to the top-right, the more likely the agent is to go for the cheese. 
+: This is **the strongest factor.** After piling up evidence from a range of mechanistic and behavioral sources, we're comfortable concluding that _cheese affects decision-making more when it's closer to the top-right_. See this footnote[^4] for an example maze illustrating the power of this factor.
+:  In the language of shard theory, the cheese-shard is more strongly activated when cheese is closer to the top-right. 
+: Notably, this factor isn't trivially influential—we're only considering mazes with decision squares, so the cheese isn't on the way to the top-right corner! Furthermore, as with all factors, this factor matters when controlling for the others.
+**Decision square's Euclidean distance to the top-right** 5x5 **corner, positive (**+1.326). The _farther_ the decision square from the top-right 5x5 corner, the _more likely_ the agent is to choose "cheese." 
+: This has the opposite of the sign we expected. We thought the sign would be negative. Surely if the agent is farther from the 5x5 corner, the decision context is less similar to its historical cheese reinforcement events in that corner?
+: This factor _does_ have the hypothesized sign when we regress on it in isolation from all other variables, but dropping this factor from the multiple linear regression significantly deteriorates its predictive accuracy.
+: We are confused and don't fully understand which logical interactions produce this positive regression coefficient.
+
+Overall, the first three results line up with our hands-on experience with the net's behavior. The last result is an interesting outlier which probably stems from not using a more sophisticated structural model for regression.
+
+> [!success] [Later statistical analysis](/statistics-of-a-maze-solving-network) supports and expands on these conclusions
 
 # Subtract the "cheese vector", subtract the cheese-seeking?
 
-_We consider the vector difference of activations from observations with and without cheese present. Subtracting this vector from a typical run will make the network approximately ignore the cheese. Applying this value-editing technique more generally could be a simple way to significantly change the goals of agents, without retraining._
+> [!note] Section summary
+> We consider the vector difference of activations from observations with and without cheese present. Subtracting this vector from a typical run will make the network approximately ignore the cheese. Applying this value-editing technique more generally could be a simple way to significantly change the goals of agents, without retraining. 
+> 
+> Consult the [interactive Colab](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) for more results.
 
-_This section has an_ [_interactive Colab_](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) _with more results._
+To understand the network, we tried various hand-designed model edits. These edits change the forward pass, without any retraining or optimization. To see the effect of a modification, we display the diff between the vector fields:
 
-To understand the network, we tried various hand-designed model edits. These edits change the forward pass, without any retraining or optimization. To see the effect of an edit (or a "patch"[^5]), we display the diff between the vector fields:
+<figure>
+<div style="display:flex; justify-content: center; ">
+<div class="subfigure">
+<img src="asset_staging/original_maze-1.png" alt="The original probability vectors. The mouse seems 'torn' between the cheese and the right side of the maze."/>
+</div>
+<div class="subfigure">
+<img src="asset_staging/modified_maze.png" alt="The modified probability vectors. The mouse goes to the right side of the maze, ignoring the cheese."/>
+</div>
+<div class="subfigure">
+<img src="asset_staging/steered_minus_original.png" alt="The change in the action probability vectors, shown in green. They point away from the cheese."/>
+</div>
+</div>
+<figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  
+<br/>**Middle:** For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
+**Right:** The "vector field diff", computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
+</figure>
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/hrnjvtsq2q34tqhxxauz)
-<br/>Figure: **Left:** The net probability vectors induced by the unmodified forward passes.  
-**Middle:** For any modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  
-**Right:** The "vector field diff", computed as (vector-2 minus vector-1) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.
 
-<hr/>
-
-
-On team shard, we run fast experiments ASAP, looking for the fastest way to get interesting information. Who cares about a lit review or some fancy theory, when you can try something interesting immediately? 
+On [Team Shard](matsprogram.org/mentors), we run fast experiments ASAP, looking for the fastest way to get interesting information. Who cares about a lit review or some fancy theory, when you can try something interesting immediately? 
 
 Sometimes, the simple idea even _works_. Inspired by [the "truth vector" work](https://arxiv.org/abs/2212.03827), Alex thought:[^6] 
 
-> What if taking the difference in activations at a certain layer gave us a 'cheese' vector? Could we subtract this from the activations to make the mouse ignore the cheese?
+> What if taking the difference in activations at a certain layer gave us a "cheese" vector? Could we subtract this from the activations to make the mouse ignore the cheese?
 
-Yup! This hand-selected intervention works, without retraining the network! In the following maze, the unmodified network (left) goes to the cheese from the starting position. However, the modified (or "patched") network seems to ignore the cheese entirely!
+Yup! This hand-selected intervention works, without retraining the network! In the following maze, the unmodified network (left) goes to the cheese from the starting position. However, the modified  network seems to ignore the cheese entirely!
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/hrnjvtsq2q34tqhxxauz)
 <br/>Figure: Vector fields for the mouse normally, for the mouse with the cheese vector subtracted during every forward pass, and the diff between the two cases.
@@ -215,16 +268,49 @@ Let's walk through an example, where for simplicity the network has a single hid
 
 1.  We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right). 
 2.  We record the activations during each forward pass. In this hypothetical,
-    1.  `CheeseActivations := (1, 3)`
-    2.  `NoCheeseActivations := (0, 2)`
+    -   `CheeseActivations := (1, 3)`
+    -   `NoCheeseActivations := (0, 2)`
 3.  Thus, `CheeseVector := (1, 3) - (0, 2) = (1, 1)`.
 
 Now suppose the mouse is in the top-right corner of this maze. Letting the cheese be visible, suppose this would _normally_ produce activations of $(0,0)$. Then we modify the forward pass by subtracting `CheeseVector` from the normal activations, giving us $(0,0)-(1,1)=(-1,-1)$ for the modified activations. We then finish off the rest of the forward pass as normal.
 
-In the real network, there are a lot more than two activations. Our results involve a 32,768-dimensional cheese vector, subtracted from about halfway through the network:
+In the real network, there are a lot more than two activations. Our results involve a 32,768-dimensional cheese vector subtracted from about halfway through the network.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/zjqmklsyhngincil3jhg)
-<br/>Figure: We modify the activations after the residual add layer in the first residual block of the second Impala block (relevant blocks shown with red border).
+> [!note]- Forward pass diagram highlighting the intervention site
+> 
+> ```mermaid
+> graph TD
+>     subgraph ImpalaBlock[Impala block]
+>         IB_X[x] --> IB_Conv[Conv]
+>         IB_Conv --> IB_MaxPool[MaxPool2D]
+>         IB_MaxPool --> IB_Res1[Residual block]:::green
+>         IB_Res1 --> IB_Res2[Residual block]
+>     end
+> 
+>     subgraph ResidualBlock[Residual block]
+>         RB_X[x] --> RB_ReLU1[ReLU]
+>         RB_ReLU1 --> RB_Conv1[Conv]
+>         RB_Conv1 --> RB_ReLU2[ReLU]
+>         RB_ReLU2 --> RB_Conv2[Conv]
+>         RB_X --> RB_Add[Residual add]:::green
+>         RB_Conv2 --> RB_Add
+>     end
+> ```
+> ```mermaid
+> graph TD
+> 	subgraph OverallGraph["Forward pass"]
+> 		Input --> Impala1
+> 	        Impala1["Impala<sub>1</sub>"] --> Impala2:::green
+> 	        Impala2["Impala<sub>2</sub>"] --> Impala3
+> 	        Impala3["Impala<sub>3</sub>"] --> ReLU1
+> 	        ReLU1["ReLU"] --> Flatten
+> 	        Flatten --> Linear
+> 	        Linear --> ReLU2
+> 	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+> 	        ReLU2 --> ValueHead[Value head, linear]
+> 	end
+> ```
+> Code: We modify the activations after the residual add layer in the first residual block of the second Impala block. 
 
 Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
 
@@ -246,7 +332,7 @@ Across seeds 0 to 99, subtracting the cheese vector has a very large effect:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/scynjy7v3hgvjkbxxil5)
 <br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/am0jcshlpfoqt23yrpvb)
-<br/>Figure: Of the hundred mazes, subtracting the cheese vector noticeably increases P(cheese) in a _single_ seed (`16`), and only by $.005$. (There are a few other extremely small increases; all of these tiny increases seem like noise to me. See [the colab](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) for interactive plots.)
+<br/>Figure: Of the hundred mazes, subtracting the cheese vector noticeably increases P(cheese) in a _single_ seed (`16`), and only by .005. (There are a few other extremely small increases; all of these tiny increases seem like noise to me. See [the Colab](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) for interactive plots.)
 
 What is the cheese vector doing to the forward passes? A few hints:
 
@@ -326,7 +412,7 @@ Alex is ambivalent about strong versions of AVEC being true. Early on in the pro
 >     1.  50% 
 >     2.  3/4/23: updated down to 30% due to a few other "X vectors" not working for the maze agent
 >     3.  3/9/23: updated up to 80% based off of additional results not in this post.
-> -- 2.  AVE performs at least as well as the fancier buzzsaw edit from [RL vision paper](https://distill.pub/2020/understanding-rl-vision/)
+> 2.  AVE performs at least as well as the fancier buzzsaw edit from [RL vision paper](https://distill.pub/2020/understanding-rl-vision/)
 >     1.  70% 
 >     2.  3/4/23: updated down to 40% due to realizing that the buzzsaw moves in the visual field; higher than 30% because we know something like this is possible. 
 >     3.  3/9/23: updated up to 60% based off of additional results.
@@ -338,6 +424,12 @@ Alex is ambivalent about strong versions of AVEC being true. Early on in the pro
 And even if (3) is true, AVE working _well_ or _deeply_ or _reliably_ is another question entirely. Still...
 
 The cheese vector was easy to find. We immediately tried the _dumbest, easiest_ first approach. We didn't even train the network ourselves, we just used one of Langosco et al.'s nets (the first and only net we looked at). If this is the amount of work it took to (mostly) stamp out cheese-seeking, then perhaps a simple approach can stamp out e.g. deception in sophisticated models.
+
+> [!success] Looking back from 2024, AVEC seems true
+> For example, see [Steering GPT-2 by Adding an activation vector](steering-gpt-2-xl-by-adding-an-activation-vector.md) and [Steering Llama-2 with contrastive activation addition](steering-llama-2-with-contrastive-activation-additions.md). My work (and concurrent work by [Li et al](https://arxiv.org/abs/2306.03341)) grew into a small research field of its own (including e.g. [Representation Engineering](https://arxiv.org/abs/2310.01405)).
+> 
+> I consider AVEC to be my most successful prediction ever. Using minimal evidence, I located and stood by the AVEC hypothesis, even though many of my colleagues were incredulous. _Once I saw a mere 10 trajectories of the "cheese vector" working, I instantly realized the implications for large language models and assigned that 60% probability._ My walk home that chill January night was excited yet troubled. I considered the potential far-reaching implications for alignment and possibilities of dual-use.
+
 
 ## Towards more granular control of the net
 
@@ -356,18 +448,53 @@ This was our "in"—we had found a piece of the agent's cognition which seemed t
 
 # Retargeting the agent to maze locations
 
-_A few mid-network channels have disproportionate and steerable influence over final behavior. We take the wheel and steer the mouse by clamping a single activation during forward passes._
+> [!note] Section summary
+> A few mid-network channels have disproportionate and steerable influence over final behavior. We take the wheel and steer the mouse by clamping a single activation during forward passes.
 
 Alex had a hunch that if he moved the positive numbers in channel 55, he'd move the mouse in the maze. (In a fit of passion, he failed to book predictions before finding out.) As shown in the introduction, that's exactly what happens. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vyflftmbwgl7jmbaeimm)
 
-To understand in mechanistic detail what's happening here, it's time to learn a few more facts about the network. Channel 55 is one of 128 residual channels about halfway through the network, at the residual add layer:
+To understand in mechanistic detail what's happening here, it's time to learn a few more facts about the network. Channel 55 is one of 128 residual channels at a `ResidualAdd` layer halfway through the network.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/zjqmklsyhngincil3jhg)
-<br/>Figure: We modify the activations after the residual add layer in the first residual block of the second Impala block (relevant blocks shown with red border).
 
-Each of these 128 residual add channels is a $16×16$ grid. For channel 55, moving the cheese e.g. to the left will [equivariantly](https://en.wikipedia.org/wiki/Equivariant_map) move channel 55's positive activations to the left. There are several channels like this, in fact:
+> [!note]- Forward pass diagram highlighting the intervention site
+> 
+> ```mermaid
+> graph TD
+>     subgraph ImpalaBlock[Impala block]
+>         IB_X[x] --> IB_Conv[Conv]
+>         IB_Conv --> IB_MaxPool[MaxPool2D]
+>         IB_MaxPool --> IB_Res1[Residual block]:::green
+>         IB_Res1 --> IB_Res2[Residual block]
+>     end
+> 
+>     subgraph ResidualBlock[Residual block]
+>         RB_X[x] --> RB_ReLU1[ReLU]
+>         RB_ReLU1 --> RB_Conv1[Conv]
+>         RB_Conv1 --> RB_ReLU2[ReLU]
+>         RB_ReLU2 --> RB_Conv2[Conv]
+>         RB_X --> RB_Add[Residual add]:::green
+>         RB_Conv2 --> RB_Add
+>     end
+> ```
+> ```mermaid
+> graph TD
+> 	subgraph OverallGraph["Forward pass"]
+> 		Input --> Impala1
+> 	        Impala1["Impala<sub>1</sub>"] --> Impala2:::green
+> 	        Impala2["Impala<sub>2</sub>"] --> Impala3
+> 	        Impala3["Impala<sub>3</sub>"] --> ReLU1
+> 	        ReLU1["ReLU"] --> Flatten
+> 	        Flatten --> Linear
+> 	        Linear --> ReLU2
+> 	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+> 	        ReLU2 --> ValueHead[Value head, linear]
+> 	end
+> ```
+> Code: We modify the activations after the residual add layer in the first residual block of the second Impala block.
+
+Each of these 128 residual add channels is a 16x16 grid. For channel 55, moving the cheese e.g. to the left will [equivariantly](https://en.wikipedia.org/wiki/Equivariant_map) move channel 55's positive activations to the left. There are several channels like this, in fact:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/z5jub7jnrdc7c71vhbpa)
 <br/>Figure: By visually inspecting the 128 residual addition output channels, Peli and Alex found eleven channels which visibly and equivariantly track the location of the cheese. Namely: 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, 113.
@@ -377,17 +504,20 @@ To retarget the agent as shown in the GIF, modify channel 55's activations by _c
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/adqaq5czjuigihd8pkks)
 <br/>Figure: Normally, channel 55 codes cheese with positive (blue) values around 0.6. We patch in a higher artificial value of e.g. 5.6 at the target location because that's more effective.
 
-If you want the agent to go to e.g. the middle of the maze, clamp a positive number in the middle of channel 55.[^8] Often that works, but sometimes it doesn't. Look for yourself in seed 0, where the red dot indicates the maze location of the clamped positive activation:
+If you want the agent to go to e.g. the middle of the maze, clamp a positive number in the middle of channel 55.[^8] Often that works, but sometimes it doesn't. Look for yourself:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/phdm6uoq0djzqybscgrz)
+Figure: Seed 0. The red dot indicates the maze location of the clamped positive activation. This retargeting works reliably in the top half of `seed=0`, but less well in the bottom half. This pattern appears to hold across seeds, although we haven't done a quantitative analysis of this.
 
-And seed 60:
+<br/>
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/xafpj5bsljohtcar76nz)
+Figure: Seed 60.
 
-This retargeting works reliably in the top half of `seed=0`, but less well in the bottom half. This pattern appears to hold across seeds, although we haven't done a quantitative analysis of this.
+<br/>
 
-Clamping an activation in channel 88 produces a very similar effect. However, channel 42's patch has a very different effect:
+
+Clamping an activation in channel 88 produces a very similar effect. However, modifying channel 42 has a different effect:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vsplnp2dbe4sz0usspf8)
 
@@ -396,25 +526,28 @@ Channel 42's effect seems strictly more localized to certain parts of the maze�
 <hr/>
 
 
-As mentioned before, we leafed through the channels and found eleven which visibly track the cheese as we relocate it throughout a maze. It turns out that you can patch all the channels at once and retarget behavior that way:
+As mentioned before, we leafed through the channels and found eleven which visibly track the cheese as we relocate it throughout a maze. It turns out that you can modify all the channels at once and retarget behavior that way:
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/wd5rb3yvlhshfaeaguzd)
 
 Here's retargetability on three randomly generated seeds (we uploaded the first three, not selecting for impressiveness):
 
-Seed 45,720:
+<figcaption>Seed 45,720:</figcaption>
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/hlv0nboiwjhb1jdenjc2)
 
-Seed 45,874 isn't very retargetable:
+
+
+<figcaption>Seed 45,874 isn't very retargetable:</figcaption>
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/dhjhldyhmp4ec7pbsqun)
 
-Seed 72,660 is a larger maze, which seems to allow greater retargetability:
+<figcaption>Seed 72,660 is a larger maze, which seems to allow greater retargetability.</figcaption>
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/czduetvhfk6tfvpd8jvt)
 
 The cheese subshards didn't have to be so trivially retargetable. For example, if the agent had used cheese locations to infer where top-right was, then channel 55 saying "cheese on the left" and channel 88 saying "cheese on the right" could seriously degrade the policy's maze-navigation competence. 
+
 
 ## Causal scrubbing the cheese-tracking channels
 
@@ -433,7 +566,7 @@ Channel 55's negative values can't affect computations in the _next_ residual bl
 The negative values are usually around $-.2$. So instead of modifying just a single activation, we can replace all of them. 
 
 ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/hezjshnapvcgq3c3chnd)
-<br/>Figure: We can replace e.g. channel 55's activations with a synthetic set of activations which is -0.2 everywhere except the targeted value of +5.6. (The patched-in activations still have shape $16×16$; a $4×4$ grid is shown for visibility.)
+<br/>Figure: We can replace e.g. channel 55's activations with a synthetic set of activations which is -0.2 everywhere except the targeted value of +5.6. (The modified activations still have shape 16x16; a 4x4 grid is shown for visibility.)
 
 This produces basically the same retargetability effect as the single-activation case, with the main side effect apparently just being a slightly lower attraction to the real cheese (presumably, because the positive activations get wiped out).
 
@@ -443,8 +576,14 @@ There are a range of other interesting algebraic modifications to channel 55 (e.
 
 So, channel 55. If this channel is only affecting the net's behavior by communicating information from where the cheese is, changing e.g. where the walls are shouldn't affect the decision-relevant information carried by 55. More precisely, we hypothesized the following computational graph about how the net works:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/cjysmkwq0v6iwnzfrrjh)
-<br/>Figure: We hypothesized that channels 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, and 113 affect behavior only by passing along information computed based on where the cheese is in the $64×64$ RGB image. The arrows implicitly represent the computation performed by other layers of the network.
+```mermaid
+graph TD
+    A[image] -->|"$$f(\text{cheese position in image})$$"| B[11 cheese channels]:::yellow
+    A -->|"$$g(\text{image})$$"| C[117 other channels]
+    B --> D[actions]
+    C --> D
+```
+Code: We hypothesized that channels 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, and 113 affect behavior only by passing along information computed based on where the cheese is in the 64x64 RGB image. The arrows implicitly represent the computation performed by other layers of the network.
 
 We test this with random resampling: 
 
@@ -560,7 +699,7 @@ This post only showcases some of the results of our MATS research project. For e
     
     3. $P(\texttt{up})=P(\texttt{down})>0$.
     
-    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 dof) onto a single vector (2 dof: angle and length), and so 4-2=2 dof remain.
+    Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4-2=2 DOF remain.
     
 [^2]: This selection of vector fields paints a somewhat slanted view of the behavior of the network. The network navigates to cheese in many test mazes, but we wanted to exhibit seeds which illustrate competent pursuit of _both_ the cheese and the path to the top-right corner.
     
@@ -578,11 +717,11 @@ This post only showcases some of the results of our MATS research project. For e
     
     _Euclidean distance from cheese to top right cell_   (-2.786)
     
-    Euclidean distance from cheese to top right $5×5$
+    Euclidean distance from cheese to top right 5x5
     
     Legal path distance from cheese to top right cell
     
-    Legal path distance from cheese to top right $5×5$
+    Legal path distance from cheese to top right 5x5
     
     _Euclidean distance from ‘decision square’ to cheese_  (-0.623)
     
@@ -590,11 +729,11 @@ This post only showcases some of the results of our MATS research project. For e
     
     Euclidean distance from ‘decision square’ to top right cell
     
-    _Euclidean distance from ‘decision square’ to top right_ $5×5$   (1.326)
+    _Euclidean distance from ‘decision square’ to top right_ 5x5   (1.326)
     
     Legal path distance from ‘decision square’ to top right cell 
     
-    Legal path distance from ‘decision square’ to top right $5×5$
+    Legal path distance from ‘decision square’ to top right 5x5
     
     $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
     
@@ -605,8 +744,7 @@ This post only showcases some of the results of our MATS research project. For e
     <br/>Figure: …but in _this_ maze won't detour the _measly two squares_ for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.
     
     Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance (2 instead of $2\sqrt{2}$) and at half the path-distance (2 instead of 4). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
-    
-[^5]: EDIT 4/15/23: The original version of this post used the word "patch", where I now think "modification" would be appropriate. In many situations, we aren't "patching in" activations wholesale from other forward passes, but rather e.g. subtracting or adding activation vectors to the forward pass.
+
     
 [^6]: This was the first model editing idea we tried, and it worked.
     
@@ -620,7 +758,7 @@ This post only showcases some of the results of our MATS research project. For e
     
     This totals to a 15-element logit distribution. To get the action probabilities for the vector fields, we marginalize over the outputs for each action.
     
-[^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are $25×25$, while the residual channels are $16×16$ due to the maxpools. 
+[^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are 25x25, while the residual channels are 16x16 due to the maxpools. 
     
 [^9]: For example, we hypothesize channel 55 to be a "cheese channel." We randomly selected channel 52 and computed resampling statistics. We found that channel 52 seems across-the-board less influential, even under totally random resampling (i.e. different cheese location):
     
@@ -632,7 +770,7 @@ This post only showcases some of the results of our MATS research project. For e
 [^10]: By the time you hit the residual addition layer in question (`block2.res1.resadd_out`), cheese pixels on the top-left corner of the screen can only affect $5\cdot 5=25$ out of the $16\cdot16=256$ residual activations at that layer and channel. 
     
     ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/cr9dhux7svjb1tw5ojzd)
-    <br/>Figure: The $16×16$ residual channel at `block2.res1.resadd_out`. The plot shows the nonzero activations present halfway through the network due to the presence of a pixel in the top-left.
+    <br/>Figure: The 16x16 residual channel at `block2.res1.resadd_out`. The plot shows the nonzero activations present halfway through the network due to the presence of a pixel in the top-left.
     
     This is because the convolutional nature of the network, and the kernel sizes and strides in particular, mean that convolutional layers can only pass messages one "square" at a time. There's no global attention at all, and no dense linear layers until the very end of the forward pass.
     

@@ -37,7 +37,7 @@ next-post-title: "Understanding and controlling a maze-solving policy network"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/01/2023
-original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
+original_url: https://www.*lesswrong*.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 skip_import: true
 ---
 How do agents work, internally? My shard theory [MATS 3.0](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network. 
@@ -131,7 +131,7 @@ Give a credence for the following questions / subquestions.
     -  70\%: ( ?? %) 
     -  90\%: ( ?? %) 
     -  99\%: ( ?? %) 
-2.  About halfway through the network (the [first residual add of Impala<sub>2</sub>](http://localhost:8080/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates:  ( ?? %) 
+2.  About halfway through the network (the [first residual add of Impala<sub>2</sub>](/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates:  ( ?? %) 
 3.  We will conclude that the policy contains at least two sub-policies in “combination”, one of which roughly pursues cheese; the other, the top-right corner:  ( ?? %) 
 4.  We will conclude that, in order to make the network more/less likely to go to the cheese, it’s more promising to RL-finetune the network than to edit it: ( ?? %) 
 5.  We can easily finetune the network to be a pure cheese-agent, using less than 10% of compute used to train original model: ( ?? %) 
