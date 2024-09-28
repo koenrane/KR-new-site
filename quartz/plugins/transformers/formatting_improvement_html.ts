@@ -155,8 +155,8 @@ export function niceQuotes(text: string) {
   text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
 
   // Periods inside quotes
-  const periodRegex = new RegExp(`(?<![!?])(${chr}?)([’”])(?!\\.\\.\\.)\\.`, "g")
-  text = text.replace(periodRegex, "$1.$2")
+  const periodRegex = new RegExp(`(?<![!?])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
+  text = text.replace(periodRegex, "$1.$2$3")
 
   // Commas outside of quotes
   const commaRegex = new RegExp(`(?<![!?]),(${chr}?[”’])`, "g")
@@ -502,6 +502,7 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
         )
       }
 
+      rearrangeLinkPunctuation(node, index, parent)
       // Parent-less nodes are the root of the article
       if (!parent?.tagName && node.type === "element") {
         function toSkip(n: Element): boolean {
@@ -538,7 +539,6 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
         }
       }
       
-      rearrangeLinkPunctuation(node, index, parent)
     })
 
     // Only apply first letter attribute if not in debug mode

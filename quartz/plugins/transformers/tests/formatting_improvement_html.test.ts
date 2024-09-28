@@ -69,7 +69,8 @@ describe("HTMLFormattingImprovement", () => {
     // Handle HTML inputs
     it.each([
       ['<p>I love <span class="katex">math</span>".</p>', '<p>I love <span class="katex">math</span>.”</p>'],
-    ])("should handle quotes around KaTeX math", (input, expected) => {
+      ['<p><a>"How steering vectors impact GPT-2’s capabilities"</a>.</p>', '<p><a>“How steering vectors impact GPT-2’s capabilities.”</a></p>'],
+    ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
