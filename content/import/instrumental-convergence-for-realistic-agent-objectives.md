@@ -122,7 +122,7 @@ If the agent can be made to "hate everything" (all feature weights $\alpha_i$ ar
 
 Consider a deep RL training process where the agent's episodic reward is featurized into a weighted sum of the different resources the agent has at the end of the game, with weight vector $\alpha$. For simplicity, we fix an opponent policy and a learning regime (number of epochs, learning rate, hyperparameters, network architecture, and so on). We consider the effects of varying the reward feature coefficients $\alpha$.
 
-![](sc2_resources.png)
+![](https://assets.turntrout.com/static/images/posts/sc2_resources.avif)
 
 Outcomes of interest
 : Game state trajectories.
