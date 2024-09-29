@@ -32,7 +32,7 @@ _Inspired in part by [Being a Robust Agent](https://www.lesswrong.com/posts/2jfi
 
 Do you ever feel... fake? Like, at any minute, Scooby Doo and the gang might roll up and unmask you as a _freeloading fraud [impostor](https://en.wikipedia.org/wiki/Impostor_syndrome) in front of everyone_?
 
-![](/static/images/posts/rwcNnVH.gif)
+<video autoplay loop muted playsinline src="/static/images/posts/rwcNnVH.mp4" type="video/mp4"><source src="/static/images/posts/rwcNnVH.mp4" type="video/mp4"></video>
 
 There are a lot of things to say about the impostor syndrome on a psychological basis (the fears are often unrealistic / unmerited, etc). But I'd like to take another angle. For a few years, I've tried to just make a habit of _being un-unmaskable_. Although this is a useful frame for me, your mileage may vary.
 

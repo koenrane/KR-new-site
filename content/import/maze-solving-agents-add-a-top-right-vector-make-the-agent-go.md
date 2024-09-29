@@ -158,11 +158,11 @@ I thought for five minutes, sketched out an idea, and tried it out (with a [pred
 
 I present to you: the top-right vector! We compute it by diffing activations across two environments: a normal maze, and a maze where the reachable[^2] top-right square is higher up.
 
-![](/static/images/posts/a07dc2d01d72560d98bc92850b2ebbf47d80d6adec380a00.png)
+![](/static/images/posts/a07dc2d01d72560d98bc92850b2ebbf47d80d6adec380a00.avif)
 
 Peli Grietzer had noticed that when the top-right-most reachable square is closer to the absolute top-right, the agent has an increased tendency to go to the top right. 
 
-![](/static/images/posts/84b9c21c9ed43a2eb402ccd919f0bf8efc9cf3e058acbbf9.png)
+![](/static/images/posts/84b9c21c9ed43a2eb402ccd919f0bf8efc9cf3e058acbbf9.avif)
 <br/>Figure: When there is a path to the absolute top-right of the maze, the agent is more strongly attracted to the top-right.
 
 As in the cheese vector case, we get a "top right vector" by:
@@ -188,11 +188,11 @@ Adding the top-right vector fixes this:
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e47f0dabeefa14dcb8f3fe085321b1d5811a8eaaf33ea5c9.png)
 
 
-![](/static/images/posts/1d4b943c0da13934e7e8f840ffb74dfbeb94c079c062cda0.png)![](/static/images/posts/259358659e52a41e71137063f2b6a1581edb7f1f94917e03.png)
+![](/static/images/posts/1d4b943c0da13934e7e8f840ffb74dfbeb94c079c062cda0.avif)![](/static/images/posts/259358659e52a41e71137063f2b6a1581edb7f1f94917e03.avif)
 
 Smaller mazes are usually (but not always) less affected:
 
-![](/static/images/posts/1c8a90cdac261e82878f96d26bd8b427acb9172264b81328.png)
+![](/static/images/posts/1c8a90cdac261e82878f96d26bd8b427acb9172264b81328.avif)
 
 The agent also tends to be less [retargetable](/understanding-and-controlling-a-maze-solving-policy-network#Retargeting-the-agent-to-maze-locations) in smaller mazes. I don't know why.
 
@@ -200,23 +200,23 @@ The agent also tends to be less [retargetable](/understanding-and-controlling-a-
 
 Sometimes, increasing the coefficient strength increases the strength of the effect:
 
-![](/static/images/posts/ac14199ceade1804865afdba055935c51f0f40713b8d18b1.png)![](/static/images/posts/f8c8656601b0160e2592c30577cccce9b39bab057530d55c.png)
+![](/static/images/posts/ac14199ceade1804865afdba055935c51f0f40713b8d18b1.avif)![](/static/images/posts/f8c8656601b0160e2592c30577cccce9b39bab057530d55c.avif)
 
 Sometimes, increasing the coefficient strength doesn't change much:
 
-![](/static/images/posts/88bd2e9f53611e85df2e543f2c8eaaa7b45fc77907609ec0.png)
+![](/static/images/posts/88bd2e9f53611e85df2e543f2c8eaaa7b45fc77907609ec0.avif)
 
 But push the coefficient too far, and the action distributions crumble into garbage:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f048f4935f660dbfe88a3f6bd01b33474cfb002ffa0b649e.png)
 
-![](/static/images/posts/61b57472cb0df87aa137e65bdf25700470e6cafa436d997f.png)
+![](/static/images/posts/61b57472cb0df87aa137e65bdf25700470e6cafa436d997f.avif)
 
 ## Subtracting the top-right vector has little effect
 
 Here's another head-scratcher. Just as [you can't](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector)[^4] [_add_ the cheese vector](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector) to increase cheese-seeking, you can't _subtract_ the top-right vector to decrease the probability of going to the top-right:
 
-![](/static/images/posts/dc2216de8b3eb4db315ed6dee8e2b24c2ed01cb96118d7cb.png)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bed921e1a98b32ee5e5fe899e1e2d9ce9ae2ed50dfab0c49.png)
+![](/static/images/posts/dc2216de8b3eb4db315ed6dee8e2b24c2ed01cb96118d7cb.avif)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bed921e1a98b32ee5e5fe899e1e2d9ce9ae2ed50dfab0c49.png)
 
 I wish I knew why. 
 
@@ -224,7 +224,7 @@ I wish I knew why.
 
 Let's compute the top-right vector using e.g. source seed 0:
 
-![](/static/images/posts/1b5ff2ae806616711f39982e03cf96344499ee36024ca9f9.png)
+![](/static/images/posts/1b5ff2ae806616711f39982e03cf96344499ee36024ca9f9.avif)
 
 And then apply it to e.g. target seed 2:
 
@@ -233,18 +233,18 @@ And then apply it to e.g. target seed 2:
 
 For the `seed 0 -> seed 28` transfer, the modified agent doesn't _quite_ go to the top-right corner. Instead, there seems to be a "go up and then right" influence.
 
-![](/static/images/posts/23a3d9e657b77176e6f51d84c94702bcf38633284c08b178.png)
+![](/static/images/posts/23a3d9e657b77176e6f51d84c94702bcf38633284c08b178.avif)
 
 Seed 0's vector seems to transfer quite well. However, top-right vectors from small mazes can cause strange pathing in larger target mazes:
 
-![](/static/images/posts/5d81c01f7ed33639edb750e62f3a8bd21b832f520f32bae1.png)
+![](/static/images/posts/5d81c01f7ed33639edb750e62f3a8bd21b832f520f32bae1.avif)
 <br/>Figure: The agent competently navigates to central portions of the larger maze.
 
 # Composing the activation additions
 
 Subtracting the cheese vector often makes the agent (nearly) ignore the cheese, and adding the top-right vector often attracts the agent to the top-right corner. It turns out that you can mix and match these effects by adding one or both vectors halfway through the forward pass.
 
-![](/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.gif)
+<video autoplay loop muted playsinline src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"><source src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"></video>
 <br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/gxvochz2uulosefsmuif).
 
 The modifications compose! Stunning. 
@@ -341,10 +341,10 @@ I was a bit too pessimistic. Turns out, you can just load a different _n_×_n_ m
 <br/>Figure: The 2×2 model's cheese vector performance: The agent diverges away from the cheese at the relevant square.   
   
 Seed 16 displayed since the 2×2 model doesn't go to cheese in seed 0.
-![](/static/images/posts/c990802eeae791aee0e4e764ae694e880a4e17eac9012629.png)
+![](/static/images/posts/c990802eeae791aee0e4e764ae694e880a4e17eac9012629.avif)
 <br/>Figure: The 7×7 model's cheese vector performance.
 
-![](/static/images/posts/1828d508c55f3c69d2a473ade815a4fc3a0496e3a1a7a3d8.png)
+![](/static/images/posts/1828d508c55f3c69d2a473ade815a4fc3a0496e3a1a7a3d8.avif)
 <br/>Figure: The 14×14 model's cheese vector performance. This one is less clean. Possibly the cheese vector should be subtracted with a smaller coefficient.
 
 The results for the cheese vector transfer across _n_×_n_ models:

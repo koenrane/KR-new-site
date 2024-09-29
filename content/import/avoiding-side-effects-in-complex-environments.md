@@ -34,7 +34,7 @@ original_url: https://www.lesswrong.com/posts/5kurn5W62C5CpSWq6/avoiding-side-ef
 ---
 Previously: [_Attainable Utility Preservation: Empirical Results_](/attainable-utility-preservation-empirical-results)_; summarized in_ [_AN #105_](https://www.lesswrong.com/posts/gWRJDwqHnmJhurXgo/an-105-the-economic-trajectory-of-humanity-and-what-we-might#PREVENTING_BAD_BEHAVIOR_)
 
-![](/static/images/posts/2526ca684eae62e8d1fc595b335044d649df02f30f2331b2.png)
+![](/static/images/posts/2526ca684eae62e8d1fc595b335044d649df02f30f2331b2.avif)
 
 Our most recent AUP paper was accepted to NeurIPS 2020 as a spotlight presentation:
 
@@ -42,15 +42,15 @@ Our most recent AUP paper was accepted to NeurIPS 2020 as a spotlight presentati
 
 Here are some slides from our spotlight talk ([publicly available](https://nips.cc/virtual/2020/public/session_oral_21090.html?fbclid=IwAR2tlTJHC7pZoFDDgCBoPNeUDpepXuFA-DrEH-zrDGOVjTB7hJzfCbIy5Gg); it starts at 2:38:09):
 
-![](/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png)
-<br/>Figure: Agents only care about the parts of the environment relevant to their specified reward function.![](/static/images/posts/11973d84ffe3b4c8b56ebfe90261e336e126ad93cdda39a5.png)
-<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](/static/images/posts/fc33883d8d8accf1d88b5281873b491a4656bf87bd738cc7.png)![](/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.png)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/27b61d7c2b20d763836e0f4205fc5cb0b043d8c999d9513b.png)
+![](/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.avif)
+<br/>Figure: Agents only care about the parts of the environment relevant to their specified reward function.![](/static/images/posts/11973d84ffe3b4c8b56ebfe90261e336e126ad93cdda39a5.avif)
+<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](/static/images/posts/fc33883d8d8accf1d88b5281873b491a4656bf87bd738cc7.avif)![](/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.avif)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/27b61d7c2b20d763836e0f4205fc5cb0b043d8c999d9513b.png)
 <br/>Figure: Before now, side effect avoidance was only demonstrated in tiny tabular domains.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/2b563e34fa6fa1f80fcf5992515e3911668f03e0297e547b.png)
 <br/>Figure: Conway's _Game of Life_ has simple, local dynamics which add up to complex long-term consequences.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc36232e143377cc3fb23ec0eaf31d162c17fa41698f8356.png)
 <br/>Figure: _SafeLife_ turns the _Game of Life_ into an actual game, adding an agent and many unique cell types.![](https://avoiding-side-effects.github.io/assets/img/explanation.png)
 <br/>Figure: Crucially, there are fragile green cell patterns which most policies plow through and irreversibly shatter. We want the low-impact agent to avoid them whenever possible, _without_ telling it what in particular it shouldn't do. This is where the AUP magic comes in.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/ec7027afd67e6d8d0d76cdf6f6f0ce4f1ca66561460c376e.png)
-<br/>Figure: We learn the AUP policy in 3 steps. Step one: the agent learns to encode its observations (the game screen) with just one real number. This lets us learn an auxiliary environmental goal unsupervised.![](/static/images/posts/8e06d19568bf8cf2aa3f1ae7cb68237f739e7e8526d16e69.png)
-<br/>Figure: Step two: we train the agent to optimize this encoder-reward function "goal"; in particular, the network learns to predict the values of different actions.![](/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.png)
+<br/>Figure: We learn the AUP policy in 3 steps. Step one: the agent learns to encode its observations (the game screen) with just one real number. This lets us learn an auxiliary environmental goal unsupervised.![](/static/images/posts/8e06d19568bf8cf2aa3f1ae7cb68237f739e7e8526d16e69.avif)
+<br/>Figure: Step two: we train the agent to optimize this encoder-reward function "goal"; in particular, the network learns to predict the values of different actions.![](/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.avif)
 <br/>Figure: Step three: we're done! We have the AUP reward function. Now we just learn to optimize it.
 
 The full paper is [here](https://arxiv.org/pdf/2006.06547.pdf). Our [Github.io page](https://avoiding-side-effects.github.io) summarizes our results, with a side-by-side comparison of AUP to the baseline for randomly selected levels from the training distribution. The videos show you exactly what's happening, which is why I'm not explaining it here. 

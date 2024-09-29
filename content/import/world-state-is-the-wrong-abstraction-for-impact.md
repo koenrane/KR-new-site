@@ -42,59 +42,59 @@ skip_import: true
 ---
 ![](https://i.imgur.com/DNE5EJg.png)
 
-![](/static/images/posts/bimkCyz.png)
+![](/static/images/posts/bimkCyz.avif)
 
-![](/static/images/posts/uC0LySG.png)
+![](/static/images/posts/uC0LySG.avif)
 
-![](/static/images/posts/64N3tKB.png )
+![](/static/images/posts/64N3tKB.avif )
 
 ![](https://i.imgur.com/giAuRyY.png)
 
 ![](https://i.imgur.com/Cs2jkZr.png)
 
-![](/static/images/posts/mrVMkSH.png)
+![](/static/images/posts/mrVMkSH.avif)
 
-## ![](/static/images/posts/T9MnkcK.png)
+## ![](/static/images/posts/T9MnkcK.avif)
 
-![](/static/images/posts/dmy8BTO.png)
+![](/static/images/posts/dmy8BTO.avif)
 
-![](/static/images/posts/u0CMsnj.png)
+![](/static/images/posts/u0CMsnj.avif)
 
 ![](https://i.imgur.com/UGMcfsy.png )
 
 ![](https://i.imgur.com/Jidk86s.png  )
 
-![](/static/images/posts/6Ecn3ug.png)
+![](/static/images/posts/6Ecn3ug.avif)
 
 ![](https://i.imgur.com/YmknuEn.png)
 
 ![](https://i.imgur.com/1rVGIUj.png)
 
-![](/static/images/posts/WjTqF2y.png)
+![](/static/images/posts/WjTqF2y.avif)
 
-![](/static/images/posts/LYNGAta.png)
+![](/static/images/posts/LYNGAta.avif)
 
 ![](https://i.imgur.com/j0pWEA1.png )
 
 ![](https://i.imgur.com/BINRNvJ.png)
 
-![](/static/images/posts/C6aYsBj.png )
+![](/static/images/posts/C6aYsBj.avif )
 
-![](/static/images/posts/d9q2zBy.png)
+![](/static/images/posts/d9q2zBy.avif)
 
 >! These existential crises also muddle our impact algorithm. This isn't what you'd see if impact were primarily about the world state.
 
-![](/static/images/posts/WjTqF2y.png)
+![](/static/images/posts/WjTqF2y.avif)
 
-![](/static/images/posts/q09LBrl.png)
+![](/static/images/posts/q09LBrl.avif)
 
-![](/static/images/posts/zVkGE6q.png  )
+![](/static/images/posts/zVkGE6q.avif  )
 
-![](https://i.imgur.com/GEwXYwT.png ) ![](/static/images/posts/CPCaLoM.png)
+![](https://i.imgur.com/GEwXYwT.png ) ![](/static/images/posts/CPCaLoM.avif)
 
-![](/static/images/posts/wLogljp.png )
+![](/static/images/posts/wLogljp.avif )
 
-![](/static/images/posts/tiKGyYq.png)
+![](/static/images/posts/tiKGyYq.avif)
 
 ![](https://i.imgur.com/ZsAlmei.png)
 
@@ -118,7 +118,7 @@ At least, that's what _I_ did.
 > [!exercise]
 > Someone (me, early last year says that impact is closely related to change in object identities.
 > 
-> ![](/static/images/posts/pnztldk.png)
+> ![](/static/images/posts/pnztldk.avif)
 > 
 > Find at least two scenarios which score as low impact by this rule but as high impact by your intuition, or vice versa.
 > 

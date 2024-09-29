@@ -35,15 +35,15 @@ The first part of my talk summarized my existing results on avoiding negative si
 
 # 1: Existing work on side effects
 
-![](/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png)
-<br/>Figure: Agents only care about the parts of the environment relevant to their specified reward function.![](/static/images/posts/11973d84ffe3b4c8b56ebfe90261e336e126ad93cdda39a5.png)
-<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.png)
+![](/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.avif)
+<br/>Figure: Agents only care about the parts of the environment relevant to their specified reward function.![](/static/images/posts/11973d84ffe3b4c8b56ebfe90261e336e126ad93cdda39a5.avif)
+<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.avif)
 <br/>Figure: AUP penalizes the agent for changing its ability to achieve a wide range of goals. Even though we can't specify our "true objective" to the agent, we hope that the agent stays able to do the right thing, as a result of staying able to do many things.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/27b61d7c2b20d763836e0f4205fc5cb0b043d8c999d9513b.png)
 <br/>Figure: We first demonstrated that AUP avoids side effects in tiny tabular domains.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/2b563e34fa6fa1f80fcf5992515e3911668f03e0297e547b.png)
 <br/>Figure: Conway's _Game of Life_ has simple, local dynamics which add up to complex long-term consequences.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc36232e143377cc3fb23ec0eaf31d162c17fa41698f8356.png)
 <br/>Figure: _SafeLife_ turns the _Game of Life_ into an actual game, adding an agent and many unique cell types. Crucially, there are fragile green cell patterns which most policies plow through and irreversibly shatter. We want the low-impact agent to avoid them whenever possible, _without_ telling it what in particular it shouldn't do. We want the agent to avoid disrupting green cell patterns, without telling it directly to not disrupt green cell patterns. AUP pulls this off.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/ec7027afd67e6d8d0d76cdf6f6f0ce4f1ca66561460c376e.png)
-<br/>Figure: We learn the AUP policy in 3 steps. Step one: the agent learns to encode its observations (the game screen) with just one real number. This lets us learn an auxiliary environmental goal unsupervised.![](/static/images/posts/8e06d19568bf8cf2aa3f1ae7cb68237f739e7e8526d16e69.png)
-<br/>Figure: Step two: we train the agent to optimize this encoder-reward function "goal"; in particular, the network learns to predict the values of different actions.![](/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.png)
+<br/>Figure: We learn the AUP policy in 3 steps. Step one: the agent learns to encode its observations (the game screen) with just one real number. This lets us learn an auxiliary environmental goal unsupervised.![](/static/images/posts/8e06d19568bf8cf2aa3f1ae7cb68237f739e7e8526d16e69.avif)
+<br/>Figure: Step two: we train the agent to optimize this encoder-reward function "goal"; in particular, the network learns to predict the values of different actions.![](/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.avif)
 <br/>Figure: Step three: we're done! We have the AUP reward function.
 
 Summary of results: [AUP does very well.](https://avoiding-side-effects.github.io/)
@@ -58,7 +58,7 @@ Summary of results: [AUP does very well.](https://avoiding-side-effects.github.i
 
 I think of AUP as addressing the single-principal (AI designer) / single-agent (AI agent) case. What about the multi/single case?
 
-![](/static/images/posts/41b1a2924d3be8196845296b9d719eb0a14dfb72ddc63326.png)
+![](/static/images/posts/41b1a2924d3be8196845296b9d719eb0a14dfb72ddc63326.avif)
 
 In this setting, negotiated agent policies usually destroy option value.
 
@@ -73,7 +73,7 @@ But interactions are rarely one-off: there are often opportunities for later tra
 
 Concretely, imagine the principals are playing a game of their own.
 
-![](/static/images/posts/b54a0b7ddc089960a2a5ae1035ddf99beb74a154ddbe2f55.png)![](/static/images/posts/5d52ab1d3ba4d05d08be7de2f50b3ef0779c812f2cc23d87.png)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/4b77c2d3940413257bd7ee175cdc0804555877a1a7f553aa.png)![](/static/images/posts/b02a85f9bec27245725211e667061d61fc401fb75fee59bd.png)
+![](/static/images/posts/b54a0b7ddc089960a2a5ae1035ddf99beb74a154ddbe2f55.avif)![](/static/images/posts/5d52ab1d3ba4d05d08be7de2f50b3ef0779c812f2cc23d87.avif)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/4b77c2d3940413257bd7ee175cdc0804555877a1a7f553aa.png)![](/static/images/posts/b02a85f9bec27245725211e667061d61fc401fb75fee59bd.avif)
 <br/>Figure: MP-AUP is my first stab at solving this problem without modeling the joint game. In this agent production game, MP-AUP gets the agent to stay put until it is corrected (i.e. the agent is given a new reward function, after which it computes a new policy).
 
 We can motivate the MP-AUP objective with an analogous situation. Imagine the agent starts off with uncertainty about what objective it should optimize, and the agent reduces its uncertainty over time. This is modelled using the 'assistance game' framework, of which [Cooperative Inverse Reinforcement Learning](https://papers.nips.cc/paper/6420-cooperative-inverse-reinforcement-learning) is one example. (The assistance game paper has yet to be publicly released, but I think it's quite good!)

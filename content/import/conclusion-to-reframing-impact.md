@@ -37,7 +37,7 @@ date_published: 02/28/2020
 original_url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 skip_import: true
 ---
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676626198/mirroredImages/sHpiiZS2gPgoPnijX/pbmk8ndyip6nyu4ntf6z.png)![](/static/images/posts/icddpmwoxx5ftcysxo8k.png)![](/static/images/posts/mxhzcdashtl5euloeolx.png)![](/static/images/posts/d1mqg6p4ghuweu4sth5u.png)![](/static/images/posts/veypvrfwfr1xwwz4zx8m.png)![](/static/images/posts/qanem2tu332ayspkhutk.png)![](/static/images/posts/lza8s3ncwyioba7gn5kc.png)![](/static/images/posts/h14cfepf9ggi4hnx6ub1.png)![](/static/images/posts/w4iaoloixtlxhc26zy67.png)![](/static/images/posts/sr4u489gcv8jfltydthi.png)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676626198/mirroredImages/sHpiiZS2gPgoPnijX/pbmk8ndyip6nyu4ntf6z.png)![](/static/images/posts/icddpmwoxx5ftcysxo8k.avif)![](/static/images/posts/mxhzcdashtl5euloeolx.avif)![](/static/images/posts/d1mqg6p4ghuweu4sth5u.avif)![](/static/images/posts/veypvrfwfr1xwwz4zx8m.avif)![](/static/images/posts/qanem2tu332ayspkhutk.avif)![](/static/images/posts/lza8s3ncwyioba7gn5kc.avif)![](/static/images/posts/h14cfepf9ggi4hnx6ub1.avif)![](/static/images/posts/w4iaoloixtlxhc26zy67.avif)![](/static/images/posts/sr4u489gcv8jfltydthi.avif)
 
 > [!thanks] Acknowledgments
 > After ~700 hours of work over the course of ~9 months, the sequence is finally complete.
@@ -80,11 +80,11 @@ Reframing Impact
 : 
 : The paperclip-Balrog drawing contains a [Tengwar](https://en.wikipedia.org/wiki/Tengwar) inscription which reads "one measure to bind them", with "measure" in impact-blue and "them" in utility-pink.
 : 
-: ![](/static/images/posts/v7pzpzvi342b3svksbag.png)
+: ![](/static/images/posts/v7pzpzvi342b3svksbag.avif)
 : 
 : "Towards a New Impact Measure" was the title of [the post](/towards-a-new-impact-measure) in which AUP was introduced.
 : 
-: ![](/static/images/posts/ynwdidys1i7yopyqerfh.png)
+: ![](/static/images/posts/ynwdidys1i7yopyqerfh.avif)
 
 <br/>
 
@@ -92,7 +92,7 @@ Attainable Utility Theory: Why Things Matter
 : 
 : This style of maze is from the video game _Undertale_.
 : 
-: ![](/static/images/posts/olz9peoa2krvvorlgdn8.png)
+: ![](/static/images/posts/olz9peoa2krvvorlgdn8.avif)
 
 <br/>
 
@@ -100,14 +100,14 @@ Seeking Power is Instrumentally Convergent in MDPs
 : 
 : To seek power, Frank is trying to get at the Infinity Gauntlet.
 : 
-: ![](/static/images/posts/pdqrmsxtawdzt2c7idez.png)
+: ![](/static/images/posts/pdqrmsxtawdzt2c7idez.avif)
 
 <br/>
 
 The tale of Frank and the orange Pebblehoarder
 : Speaking of under-tales, a friendship has been blossoming right under our noses:
 : 
-: ![](/static/images/posts/dfog9czq2wdboz8m0dpv.png)
+: ![](/static/images/posts/dfog9czq2wdboz8m0dpv.avif)
 Figure: After the Pebblehoarders suffer the devastating transformation of all of their pebbles into obsidian blocks, Frank generously gives away his favorite pink marble as a makeshift pebble.
 : 
 : 
@@ -115,8 +115,8 @@ Figure: After the Pebblehoarders suffer the devastating transformation of all of
 Figure: The title cuts to the middle of their adventures together, the Pebblehoarder showing its gratitude by helping Frank reach things high up.
 : 
 : 
-: ![](/static/images/posts/mx5gc86qpthgbzeypfw9.jpg)
+: ![](/static/images/posts/mx5gc86qpthgbzeypfw9.avif)
 Figure: This still at the midpoint of the sequence is from [the final scene of _The Hobbit: An Unexpected Journey_](https://www.youtube.com/watch?v=KEegn1R601M), where the party is overlooking Erebor, the Lonely Mountain. They've made it through the Misty Mountains, only to find Smaug's abode looming in the distance.
 : 
-: ![](/static/images/posts/jdcmcy4bzxggxdallwok.png)
-Figure: And, at last, we find Frank and orange Pebblehoarder popping some of the champagne from Smaug's hoard. Since [Erebor isn't close to Gondor](/static/images/posts/Map-of-Middle-Earth-lord-of-the-rings-2329809-1600-1200.jpg), we don't see Frank and the Pebblehoarder gazing at [Ephel Dúath](https://en.wikipedia.org/wiki/Mordor#Geography) from Minas Tirith.
+: ![](/static/images/posts/jdcmcy4bzxggxdallwok.avif)
+Figure: And, at last, we find Frank and orange Pebblehoarder popping some of the champagne from Smaug's hoard. Since [Erebor isn't close to Gondor](/static/images/posts/Map-of-Middle-Earth-lord-of-the-rings-2329809-1600-1200.avif), we don't see Frank and the Pebblehoarder gazing at [Ephel Dúath](https://en.wikipedia.org/wiki/Mordor#Geography) from Minas Tirith.

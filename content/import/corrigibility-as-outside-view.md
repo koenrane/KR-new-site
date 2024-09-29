@@ -41,7 +41,7 @@ skip_import: true
 ---
 You run a country. One day, you think "I could help so many more people if I set all the rules... and I could make this happen". As far as you can tell, this is the _real reason_ you want to set the rules – you want to help people, and you think you'd do a good job.
 
-![](/static/images/posts/QSms7P6.png)
+![](/static/images/posts/QSms7P6.avif)
 
 But historically… in this kind of situation, this reasoning can lead to terrible things.
 

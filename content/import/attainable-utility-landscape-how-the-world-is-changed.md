@@ -39,35 +39,35 @@ date_published: 02/10/2020
 original_url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 skip_import: true
 ---
-![](/static/images/posts/zLypKDZ.png)
+![](/static/images/posts/zLypKDZ.avif)
 
-![](/static/images/posts/BtzHnUq.png)
+![](/static/images/posts/BtzHnUq.avif)
 
-![](/static/images/posts/M8XHzxd.png)
+![](/static/images/posts/M8XHzxd.avif)
 
 ![](https://i.imgur.com/k5K8m32.png)
 
-![](/static/images/posts/W8lgpjG.png)
+![](/static/images/posts/W8lgpjG.avif)
 
 ![](https://i.imgur.com/JnuDbeE.png)
 
-![](/static/images/posts/HPIugVR.png)
+![](/static/images/posts/HPIugVR.avif)
 
-![](/static/images/posts/VKy57Od.png)
+![](/static/images/posts/VKy57Od.avif)
 
-![](/static/images/posts/Ej0sTdK.png)
+![](/static/images/posts/Ej0sTdK.avif)
 
 >! (This is one interpretation of the prompt, in which you haven't _chosen_ to go to the moon. If you imagined yourself as more prepared, that's also fine.)
 >
 >! If you were plopped onto the moon, you'd die pretty fast. Maybe the "die as quickly as possible" AU is high, but not much else - not even the "live on the moon" AU! We haven't yet reshaped the AU landscape on the moon to be hospitable to a wide range of goals. [Earth is special like that.](https://www.youtube.com/watch?v=wupToqz1e2g)
 
-![](/static/images/posts/BtzHnUq.png)
+![](/static/images/posts/BtzHnUq.avif)
 
-![](/static/images/posts/rWIlQBC.png)
+![](/static/images/posts/rWIlQBC.avif)
 
-![](/static/images/posts/pbIRrce.png)
+![](/static/images/posts/pbIRrce.avif)
 
-![](/static/images/posts/kxEOLhj.png)
+![](/static/images/posts/kxEOLhj.avif)
 
 ![](https://i.imgur.com/kZMKfRu.png)
 
@@ -77,7 +77,7 @@ Attainable utilities are calculated by winding your way through possibility-spac
 
 Sometimes you advantage one AU at the cost of another, moving through the state space towards the best possibilities for one goal and away from the best possibilities for another goal. This is _opportunity cost_.
 
-![](/static/images/posts/z4o5j3F.png)
+![](/static/images/posts/z4o5j3F.avif)
 
 Sometimes you gain more control over the future: most of the best possibilities make use of a windfall of cash. Sometimes you act to preserve control over the future: most Tic-Tac-Toe goals involve not ending the game right away. This is _power_.
 
@@ -91,7 +91,7 @@ Sometimes, the best possibilities are made unavailable or worsened only for goal
 
 Sometimes a bunch of the best possibilities go through the same part of the future: fast travel to random places on Earth usually involves the airport. This is _instrumental convergence_.
 
-![](/static/images/posts/T8JS7kT.png)
+![](/static/images/posts/T8JS7kT.avif)
 
 > [!info] Exercise
 > Track what’s happening to your various AUs during the following story: you win the lottery. Being an effective spender, you use most of your cash to buy a majority stake in a major logging company. Two months later, the company goes under.
@@ -108,7 +108,7 @@ In the context of finite deterministic Markov decision processes, there's a wond
 >
 > To this end, for $\pi \in \Pi$, consider the mapping of $\pi \mapsto (\mathbf{I}-\gamma \mathbf{T}^\pi)^{-1}$ (where $\mathbf{T}^\pi(s,s') :=T(s,\pi(s),s')$); in other words, each policy $\pi$ maps to a function mapping each state $s_0$ to a discounted state visitation frequency vector $\mathbf{f}^\pi_{s_0}$, which we call a _possibility_. The meaning of each frequency vector is: starting in state $s_0$ and following policy $\pi$, what sequence of states $s_0, s_1, \ldots$ do we visit in the future? States visited later in the sequence are discounted according to $\gamma$: the sequence $s_0s_1s_2s_2\ldots$ would induce 1 visitation frequency on $s_0$, $\gamma$ visitation frequency on $s_1$, and $\frac{\gamma^2}{1-\gamma}$ visitation frequency on $s_2$.
 
-![](/static/images/posts/beLDjAs.png)
+![](/static/images/posts/beLDjAs.avif)
 
 The possibility function $\mathcal{F}(s)$ outputs the possibilities available at a given state $s$:
 
@@ -163,7 +163,7 @@ $$
 > 
 > What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$.
 > 
-> >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](/static/images/posts/5GCZ9oY.png).
+> >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](/static/images/posts/5GCZ9oY.avif).
 > >
 > >! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
 > >

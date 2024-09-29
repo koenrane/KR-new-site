@@ -42,39 +42,39 @@ skip_import: true
 
 ![](https://i.imgur.com/hKhkvwg.png)
 
-![](/static/images/posts/IXogCtA.png)
+![](/static/images/posts/IXogCtA.avif)
 
 ![](https://i.imgur.com/2r2DVFx.png)
 
-![](/static/images/posts/holekcV.png)
+![](/static/images/posts/holekcV.avif)
 
-![](/static/images/posts/SzFSiEc.png)
+![](/static/images/posts/SzFSiEc.avif)
 
-![](https://i.imgur.com/wCRzqox.png) ![](/static/images/posts/BAWF2q1.png)
+![](https://i.imgur.com/wCRzqox.png) ![](/static/images/posts/BAWF2q1.avif)
 
-![](/static/images/posts/UCGx4QR.png )
+![](/static/images/posts/UCGx4QR.avif )
 
-![](https://i.imgur.com/5YOlvLh.png)![](https://i.imgur.com/yA8wkQP.png)![](/static/images/posts/QXG2pVK.png)
+![](https://i.imgur.com/5YOlvLh.png)![](https://i.imgur.com/yA8wkQP.png)![](/static/images/posts/QXG2pVK.avif)
 
-![](/static/images/posts/27F0KkU.png)
+![](/static/images/posts/27F0KkU.avif)
 
-![](/static/images/posts/B7rMciV.png)
+![](/static/images/posts/B7rMciV.avif)
 
-![](/static/images/posts/HIfRI7r.png)
+![](/static/images/posts/HIfRI7r.avif)
 
-![](/static/images/posts/ye9suf7.png)
+![](/static/images/posts/ye9suf7.avif)
 
-![](/static/images/posts/sMgB7yR.png)
+![](/static/images/posts/sMgB7yR.avif)
 
 ![](https://i.imgur.com/lQ1jYfB.png )
 
-![](/static/images/posts/b6pDiKi.png)
+![](/static/images/posts/b6pDiKi.avif)
 
-[​](​![]\(/static/images/posts/iRLXEeH.png)![](/static/images/posts/iRLXEeH.png)
+[​](​![]\(/static/images/posts/iRLXEeH.avif)![](/static/images/posts/iRLXEeH.avif)
 
-![](/static/images/posts/uRr6YqY.png )
+![](/static/images/posts/uRr6YqY.avif )
 
-![](/static/images/posts/67uR5SE.png)![](https://i.imgur.com/PFqi66W.png)
+![](/static/images/posts/67uR5SE.avif)![](https://i.imgur.com/PFqi66W.png)
 
 ![](https://i.imgur.com/GBVahyL.png)
 
@@ -84,11 +84,11 @@ skip_import: true
 
 ![](https://i.imgur.com/oqEeta9.png)
 
-![](/static/images/posts/epI7152.png)
+![](/static/images/posts/epI7152.avif)
 
-![](/static/images/posts/dvVEmBs.png) [​](​![]\(/static/images/posts/HShpS3u.png)![](/static/images/posts/HShpS3u.png)
+![](/static/images/posts/dvVEmBs.avif) [​](​![]\(/static/images/posts/HShpS3u.avif)![](/static/images/posts/HShpS3u.avif)
 
-![](/static/images/posts/WjTqF2y.png)
+![](/static/images/posts/WjTqF2y.avif)
 
 ![](https://i.imgur.com/dLUrki7.png)
 

@@ -79,10 +79,10 @@ The original post claimed that “optimal policies tend to seek power”, _perio
 
 At the time, I’d wondered whether this was still true in general via some other result. The answer is ‘no’: it _isn’t_ always more probable for optimal policies to navigate towards states which give them more control over the future. Here’s a surprising counterexample which doesn’t even depend on my formalization of ‘power.’
 
-![](/static/images/posts/6e57042283c8eb981b2be10d266bfcf804d06653cfc04809.png)
+![](/static/images/posts/6e57042283c8eb981b2be10d266bfcf804d06653cfc04809.avif)
 <br/>Figure: The paths are one-directional; the agent can’t go back from **3** to **1**. The agent starts at **1**. Under a certain state reward distribution, the vast majority of agents go _up_ to **2**.   
   
-However, any reasonable notion of ‘power’ must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [the paper](/static/images/posts/0cabde68e0eb61a5bb325beab9ddd645139198303d6ae308.png)
+However, any reasonable notion of ‘power’ must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [the paper](/static/images/posts/0cabde68e0eb61a5bb325beab9ddd645139198303d6ae308.avif)
 <br/>Figure: When reward is 
 $$
  IID across states according to the quadratic CDF $F(x) := x^2$ on the unit interval, then with respect to reward functions drawn from this distribution, going _up_ has about a 91% chance of being optimal when the discount rate $\gamma = .12$.    
