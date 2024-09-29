@@ -16,7 +16,10 @@ import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
 import { PhrasingContent } from "mdast-util-find-and-replace/lib"
 import { capitalize } from "../../util/lang"
+import axios from 'axios';
+import fs from 'fs';
 import { PluggableList } from "unified"
+import { findGitRoot } from "./logger_utils"
 
 export interface Options {
   comments: boolean
@@ -141,6 +144,28 @@ const wikilinkImageEmbedRegex = new RegExp(
   /^(?<alt>(?!^\d*x?\d*$).*?)?(\|?\s*?(?<width>\d+)(x(?<height>\d+))?)?$/,
 )
 
+// Download mermaid during build
+const MERMAID_URL = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+const gitRoot = findGitRoot();
+if (!gitRoot) {
+  throw new Error("Git root not found. Aborting Mermaid download.");
+}
+const OUTPUT_DIR = path.join(gitRoot, 'quartz', 'static', 'scripts');
+const OUTPUT_FILE = path.join(OUTPUT_DIR, 'mermaid.min.js');
+
+async function downloadMermaid() {
+  try {
+    const response = await axios.get(MERMAID_URL);
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+    fs.writeFileSync(OUTPUT_FILE, response.data);
+  } catch (error) {
+    console.error('Failed to download Mermaid file. Aborting build process.');
+    throw error;
+  }
+}
+
 export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | undefined> = (
   userOpts,
 ) => {
@@ -150,6 +175,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
     const hast = toHast(ast, { allowDangerousHtml: true })!
     return toHtml(hast, { allowDangerousHtml: true })
   }
+
+  downloadMermaid()
 
   return {
     name: "ObsidianFlavoredMarkdown",
@@ -670,31 +697,35 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
       }
 
-      if (opts.mermaid) {
-        js.push({
-          script: `
-          let mermaidImport = undefined
-          document.addEventListener('nav', async () => {
-            if (document.querySelector("code.mermaid")) {
-              mermaidImport ||= await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs')
-              const mermaid = mermaidImport.default
-              const darkMode = document.documentElement.getAttribute('saved-theme') === 'dark'
-              mermaid.initialize({
-                startOnLoad: false,
-                securityLevel: 'loose',
-                theme: darkMode ? 'dark' : 'default'
-              })
+        if (opts.mermaid) {
+          js.push({
+            script: `
+            document.addEventListener('nav', async () => {
+              if (document.querySelector("code.mermaid")) {
+                if (typeof mermaid === 'undefined') {
+                  await new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.src = '/static/scripts/mermaid.min.js';
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                  });
+                }
+                const darkMode = document.documentElement.getAttribute('saved-theme') === 'dark'
+                mermaid.initialize({
+                  startOnLoad: false,
+                  securityLevel: 'loose',
+                  theme: darkMode ? 'dark' : 'default'
+                })
 
-              await mermaid.run({
-                querySelector: '.mermaid'
-              })
-            }
-          });
-          `,
-          loadTime: "afterDOMReady",
-          moduleType: "module",
-          contentType: "inline",
-        })
+                await mermaid.run({
+                  querySelector: '.mermaid'
+                })
+              }
+            });
+            `,
+            loadTime: "afterDOMReady",
+            contentType: "inline",
+          })
       }
 
       return { js }
