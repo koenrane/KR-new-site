@@ -4,6 +4,7 @@ from pathlib import Path
 from . import utils
 import sys
 from io import StringIO
+import subprocess
 
 # --- Image Tests ---
 
@@ -106,3 +107,35 @@ def test_error_probing_codec(temp_dir: Path) -> None:
 
     with pytest.raises(RuntimeError):
         compress.video(input_file)
+
+def test_compress_gif(temp_dir: Path) -> None:
+    """Test that a GIF file is successfully converted to MP4."""
+    # Create a test GIF file
+    input_file = temp_dir / "test.gif"
+    utils.create_test_gif(input_file, duration=1, size=(100, 100))
+    
+    # Compress the GIF
+    compress._compress_gif(input_file)
+    
+    # Check if MP4 file was created
+    output_file = input_file.with_suffix(".mp4")
+    assert output_file.exists(), f"MP4 file {output_file} was not created"
+    
+    # Check if the output file is a valid MP4 with HEVC encoding
+    try:
+        result = subprocess.run([
+            "ffprobe",
+            "-v", "error",
+            "-select_streams", "v:0",
+            "-show_entries", "stream=codec_name",
+            "-of", "default=noprint_wrappers=1:nokey=1",
+            str(output_file)
+        ], capture_output=True, text=True, check=True)
+        
+        assert result.stdout.strip() == "hevc", f"Output video codec is not HEVC, got: {result.stdout.strip()}"
+    except subprocess.CalledProcessError as e:
+        pytest.fail(f"Error checking MP4 file: {e.stderr}")
+    
+    # Check if temporary PNG files were cleaned up
+    png_files = list(temp_dir.glob(f"{input_file.stem}_*.png"))
+    assert len(png_files) == 0, f"Temporary PNG files were not cleaned up: {png_files}"

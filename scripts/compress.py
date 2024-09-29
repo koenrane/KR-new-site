@@ -156,6 +156,7 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
             "-i", f"{gif_path.parent / gif_path.stem}_%03d.png",
             "-c:v", "libx265",
             "-crf", str(quality),
+            "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", # Ensure dimensions are even
             "-pix_fmt", "yuv420p", # Chroma subsampling
             str(output_path)
         ], check=True)

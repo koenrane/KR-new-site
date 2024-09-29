@@ -1,5 +1,7 @@
 from pathlib import Path
 import subprocess
+from PIL import Image
+import numpy as np
 
 def create_test_image(path: Path, size: str) -> None:
     """
@@ -59,3 +61,14 @@ def create_test_video(path: Path, codec: str = None) -> None:
         stderr=subprocess.DEVNULL,
         check=True
     )
+
+
+def create_test_gif(file_path, duration=1, size=(100, 100), fps=10):
+    """Create a test GIF file."""
+    frames = []
+    for i in range(duration * fps):
+        array = np.random.rand(size[1], size[0], 3) * 255
+        image = Image.fromarray(array.astype('uint8')).convert('RGB')
+        frames.append(image)
+    
+    frames[0].save(file_path, save_all=True, append_images=frames[1:], duration=1000//fps, loop=0)
