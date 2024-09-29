@@ -120,6 +120,7 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
+        # TODO this doesn't always work
         original_path = output_path.with_name(output_path.name + "_original")
         if original_path.exists():
             original_path.unlink()

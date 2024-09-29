@@ -36,7 +36,7 @@ I've written [a lot about shard theory](/posts#shard-theory) over the last year.
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/wvbGiHwbie24mmhXw/tfn0r9gzsanfpygvry4w)
+![](https://assets.turntrout.com/static/images/posts/tfn0r9gzsanfpygvry4w.avif)
 <br/>Figure: **Not only does** **`gpt-neox-20b`** **have shards, it has has exactly forty-six.**
 
 I've concluded the following:

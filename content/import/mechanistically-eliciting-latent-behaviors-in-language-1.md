@@ -66,7 +66,7 @@ Below are some of my key results:
 
 In each section of this post, I link to associated notebooks found in [this github repository](https://github.com/amack315/unsupervised-steering-vectors) for unsupervised steering methods.
 
-![method](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/ioPnHKFyy4Cw2Gr2x/htuwyiyxrs8bjwjhw4xe)![results](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/ioPnHKFyy4Cw2Gr2x/jwqnnwe15pr1vkvswuhf)
+![method](https://assets.turntrout.com/static/images/posts/htuwyiyxrs8bjwjhw4xe.avif)![results](https://assets.turntrout.com/static/images/posts/jwqnnwe15pr1vkvswuhf.avif)
 
 # Introduction
 

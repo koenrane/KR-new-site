@@ -64,7 +64,7 @@ This post is straightforward as long as you remember a few concepts:
 
 - Vector fields, vector field diffs, and modifying a forward pass. AKA you know what this figure represents:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tly1j6ydizgjnjjcocke)
+![](https://assets.turntrout.com/static/images/posts/tly1j6ydizgjnjjcocke.avif)
 - How to derive activation-space vectors (like the "cheese vector") by diffing two forward passes, and add / subtract these vectors from future forward passes
   - AKA you can understand the following: "We took the cheese vector from maze 7. ~Halfway through the forward passes, we subtract it with coefficient 5, and the agent avoided the cheese."
 
@@ -74,13 +74,13 @@ If you don't know what these mean, read this section. If you understand, then sk
 >
 > [Langosco et al.](https://arxiv.org/abs/2105.14111) trained a range of maze-solving nets. We decided to analyze one which we thought would be interesting. The network we chose has 3.5M parameters and 15 convolutional layers.
 > 
-> ![](/static/images/posts/vpfzpqv3tkzmu0glog3e.jpeg)
+> ![](https://assets.turntrout.com/static/images/posts/vpfzpqv3tkzmu0glog3e.avif)
 > <br/>Figure: During RL training, cheese was randomly located in the top-right 5×5  corner of the randomly generated mazes. Reaching the cheese yields +1 reward.   
 >   
 > In deployment, cheese can be anywhere.
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/g9hyfgk5fsuuriukkkle)
-> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tb7ri6d5gqhxef1ocd8t)
+> ![](https://assets.turntrout.com/static/images/posts/g9hyfgk5fsuuriukkkle.avif)
+> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](https://assets.turntrout.com/static/images/posts/tb7ri6d5gqhxef1ocd8t.avif)
 > <br/>Figure: Example vector fields of policy outputs.
 > 
 > <hr/>
@@ -93,7 +93,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 > 
 > Let's walk through an example, where for simplicity the network has a single hidden layer, taking each observation (shape `(3, 64, 64)` for the 64x64 RGB image) to a two-dimensional hidden state (shape `(2,)`) to a logit vector (shape `(15,)` ). 
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/pgymxk8ado9jey8rjnra)
+> ![](https://assets.turntrout.com/static/images/posts/pgymxk8ado9jey8rjnra.avif)
 > 
 > 1.  We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right). 
 > 2.  We record the activations during each forward pass. In this hypothetical,
@@ -141,7 +141,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 > 
 > Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tly1j6ydizgjnjjcocke)
+> ![](https://assets.turntrout.com/static/images/posts/tly1j6ydizgjnjjcocke.avif)
 > <br/>Figure: Vector fields for the mouse normally, for the mouse with the cheese vector subtracted during every forward pass, and the diff between the two cases.
 > 
 > How is our intervention not trivially making the network output logits as if the cheese were not present? Is it not true that the activations at a given layer obey the algebra of `CheeseActiv - (CheeseActiv - NoCheeseActiv) = NoCheeseActiv`? 
@@ -181,7 +181,7 @@ If you're confused why the hell this _works_, join the club.
 
 In [Understanding and controlling a maze-solving net](/understanding-and-controlling-a-maze-solving-policy-network), I noted that sometimes the agent doesn't go to the cheese _or_ the top-right corner:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/o24edwffjw5id3xexkjp)
+![](https://assets.turntrout.com/static/images/posts/o24edwffjw5id3xexkjp.avif)
 
 Adding the top-right vector fixes this:
 
@@ -245,7 +245,7 @@ Seed 0's vector seems to transfer quite well. However, top-right vectors from sm
 Subtracting the cheese vector often makes the agent (nearly) ignore the cheese, and adding the top-right vector often attracts the agent to the top-right corner. It turns out that you can mix and match these effects by adding one or both vectors halfway through the forward pass.
 
 <video autoplay loop muted playsinline src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"><source src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"></video>
-<br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/gxvochz2uulosefsmuif).
+<br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://assets.turntrout.com/static/images/posts/gxvochz2uulosefsmuif.avif).
 
 The modifications compose! Stunning. 
 

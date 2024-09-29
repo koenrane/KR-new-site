@@ -42,11 +42,7 @@ skip_import: true
 ---
 How do agents work, internally? My shard theory [MATS 3.0](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network. 
 
-<<<<<<< HEAD
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/xuq1yzfdjztdhi4gy0jw.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/xuq1yzfdjztdhi4gy0jw.mp4" type="video/mp4"></video>
-=======
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647811/mirroredImages/JusJcepE2qohiC3hm/xuq1yzfdjztdhi4gy0jw.gif)
->>>>>>> parent of 2211be3 (Downloaded a lot more media files)
 <br/>Figure: The network in action on its training distribution, where cheese is randomly spawned in the top-right 5x5 available grid region. For more training videos, see the [`rand_region_5`](https://drive.google.com/drive/folders/1oX-PoNbqMQKYAPQQMRUSw0bVsaJO9FpP?usp=share_link) Google Drive folder.
 
 We just finished phase 1 of our behavioral and interpretability experiments. Throughout the project, we individually booked predictions -- so as to reduce self-delusion from hindsight bias, to notice where we really could tell ahead of time what was going to happen, and to notice where we really were surprised.

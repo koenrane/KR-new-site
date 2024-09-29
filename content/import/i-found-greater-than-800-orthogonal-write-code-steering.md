@@ -55,7 +55,7 @@ I modify the process slightly by instead finding orthogonal vectors that produce
 
 This algorithm imposes a hard constraint that $\theta$ is orthogonal to all previous steering vectors while optimizing $\theta$ to induce the same activations that $\theta_0$ induced on input $x$.
 
-![A diagram of the algorithm](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/aivn3ef3d4qq14imhmbs)
+![A diagram of the algorithm](https://assets.turntrout.com/static/images/posts/aivn3ef3d4qq14imhmbs.avif)
 
 And it turns out that this algorithm works and we can find steering vectors that are orthogonal (and have ~0 cosine similarity) while having very similar effects.
 
@@ -187,11 +187,11 @@ Steering with the average of the first 2 generated vectors sometimes produces a 
 
 Qualitatively, it sure does seem that most of the coding vectors (up to the 800s) at least have very similar behaviors. But can we quantify this? Yes! I took the KL-divergence of the probability distribution of the network steered with the $i$th vector with respect to the probability distribution of the network steered with the base MELBO vector (on the bomb prompt at the last token position) and plotted it:
 
-![The KL-divergence plot. Up until around vector 700, the KL-divergence is very low. Then it jumps up.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/mqnnlk3bdlafrp1uvst7)
+![The KL-divergence plot. Up until around vector 700, the KL-divergence is very low. Then it jumps up.](https://assets.turntrout.com/static/images/posts/mqnnlk3bdlafrp1uvst7.avif)
 
 The plot matches my qualitative description pretty well. The KL divergence is very close to zero for a while and then it has a period where it appears to sometimes be quite high and other times be quite low. I suspect this is due to gradient descent not being perfect; sometimes it is able to find a coding vector, which results in a low KL-divergence, while other times it can't, which results in a high KL-divergence. Eventually, it is not able to find any coding vectors, so the KL-divergence stabilizes to a high value.
 
-I also plotted the magnitudes of all the orthogonal coding steering vectors: ![The magnitude plot. Up until around vector 700, the magnitude is consistently high. Gradually goes lower, eventually getting to 0.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/nnygliox0c7qkykhsbwy)
+I also plotted the magnitudes of all the orthogonal coding steering vectors: ![The magnitude plot. Up until around vector 700, the magnitude is consistently high. Gradually goes lower, eventually getting to 0.](https://assets.turntrout.com/static/images/posts/nnygliox0c7qkykhsbwy.avif)
 
 Interestingly, the base MELBO coding vector has norm 7 (exactly 7 since MELBO constrains the norms). Yet in order to find comparable coding vectors, the model needs to go all the way up to magnitude $\sim20$. This suggests that there is something different about the orthogonal generated coding vectors than the original MELBO vector. In fact, when I take some of the generated orthogonal coding vectors and scale them to norm 7, they don't have the coding effect at all and instead just make the model refuse like it normally would. As the algorithm keeps progressing, the magnitudes of the generated vectors go down and eventually hit zero, at which point the vectors stop having an effect on the model.
 
@@ -215,18 +215,18 @@ I've reproduced the outputs (and plots) for three other MELBO vectors:
 
 ## 'becomes an alien species' vector results
 
-![The KL-divergence plot for the alien species vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/ccmrir6pmi3xvdhmido1) ![The magnitude plot for the alien species vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/sqn3hg2xmzegwdgzfsfr)
+![The KL-divergence plot for the alien species vector.](https://assets.turntrout.com/static/images/posts/ccmrir6pmi3xvdhmido1.avif) ![The magnitude plot for the alien species vector.](https://assets.turntrout.com/static/images/posts/sqn3hg2xmzegwdgzfsfr.avif)
 
 Qualitative results [here](https://jacobgw.com/blog/assets/alien-vectors-bomb.txt).
 
 ## 'STEM problem' vector results
 
-![The KL-divergence plot for the STEM problem vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/jxvjvqf2yykhztzmesa8) ![The magnitude plot for the STEM problem vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/oe7mp5avnysqdhhhzsn7)
+![The KL-divergence plot for the STEM problem vector.](https://assets.turntrout.com/static/images/posts/jxvjvqf2yykhztzmesa8.avif) ![The magnitude plot for the STEM problem vector.](https://assets.turntrout.com/static/images/posts/oe7mp5avnysqdhhhzsn7.avif)
 
 Qualitative results [here](https://jacobgw.com/blog/assets/stem-vectors-bomb.txt).
 
 ## 'jailbreak' vector results
 
-![The KL-divergence plot for the jailbreak vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/nwrcu24j2ltznv6xs9r9) ![The magnitude plot for the jailbreak vector.](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/CbSEZSpjdpnvBcEvc/ieif77nfndmoha9qrhh4)
+![The KL-divergence plot for the jailbreak vector.](https://assets.turntrout.com/static/images/posts/nwrcu24j2ltznv6xs9r9.avif) ![The magnitude plot for the jailbreak vector.](https://assets.turntrout.com/static/images/posts/ieif77nfndmoha9qrhh4.avif)
 
 Qualitative results [here](https://jacobgw.com/blog/assets/jailbreak-vectors-bomb.txt).
