@@ -14,16 +14,11 @@ end
 
 function main --description 'Download images from Markdown files and replace URLs'
     set -l markdown_files $argv
-    set -l script_dir (dirname (status --current-filename))
-    set -l images_dir $script_dir/../static/images/posts
-
-    echo "Script dir: $script_dir"
-    echo "Images dir: $images_dir"
-    echo "Markdown files to sed: $markdown_files"
+    set -l images_dir quartz/static/images/posts
+    set -l target_dir static/images/posts
 
     # 1. Find all image URLs in Markdown files
-    set -l image_urls (command grep -oE --no-filename 'http.*?\.(jpe?g|png|avif|webp)' $markdown_files)
-    echo "Image URLs: $image_urls"
+    set -l image_urls (command grep -oE --no-filename 'http[^\)]*?\.(jpe?g|png|webp)' $markdown_files)
 
     # 2. Download each image
     mkdir /tmp/images >/dev/null
@@ -32,7 +27,7 @@ function main --description 'Download images from Markdown files and replace URL
 
         set -l escaped_url (echo $url | sed 's|[/\\.^$\[\]]|\\&|g')
         echo "Escaped URL: $escaped_url"
-        sed -i ''.bak "s|$escaped_url|$images_dir/$(basename $url)|g" $markdown_files
+        sed -i ''.bak "s|$escaped_url|/$target_dir/$(basename $url)|g" $markdown_files
     end
 
     echo "Image download and replacement complete!"
