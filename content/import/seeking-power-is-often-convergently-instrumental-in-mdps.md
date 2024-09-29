@@ -81,7 +81,7 @@ The table’s convergently instrumental strategies are about maintaining, gainin
 
 My theorems apply to finite MDPs; for the unfamiliar, I’ll illustrate with Pac-Man.
 
-![](/static/images/posts/f9uz4ran04prpaofwfce.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/f9uz4ran04prpaofwfce)
 
 <dl>
 <dt>Full observability</dt>
@@ -124,7 +124,7 @@ This definition explains some of our intuitions about what things count as "reso
 
 To formalize this notion of power, let’s look at an example. Imagine a simple MDP with three choices: eat candy, eat a chocolate bar, or hug a friend. 
 
-![](/static/images/posts/qtxfk4rzyniuzpzesrp9.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/qtxfk4rzyniuzpzesrp9)
 <br/>Figure: I’ll illustrate MDPs with directed graphs, where each node is a state and each arrow is a meaningful action. Sometimes, the directed graphs will have entertaining pictures, because let’s live a little. States are bolded (**hug**) and actions are italicized (_down_).
 
 The POWER of a state is how well agents can generally do by starting from that state. “POWER” to my formalization, while “power” refers to the intuitive concept. Importantly, we're considering POWER from behind a “veil of ignorance” about the reward function. We're averaging the best we can do for a lot of different individual goals. 
@@ -139,7 +139,7 @@ If you have no choices, you expect to average 1/2 reward: sometimes the future i
 
 Let’s slightly expand this game with a state called **wait** (which has the same uniform reward distribution as the other three).
 
-![](/static/images/posts/uvwehie6jgpj1ysymj24.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/uvwehie6jgpj1ysymj24)
 
 When the agent barely cares at all about the future, it myopically chooses either **candy** or **wait**, depending on which provides more reward. After all, rewards beyond the next time step are geometrically discounted into thin air when the discount rate is close to 0. At **start**, the agent averages 2/3 optimal reward. This is because the optimal reward is the maximum of the **candy** and **wait** rewards, and the expected maximum of $n$ draws from $\text{unif}(0,1)$ is $\frac{n}{n+1}$.
 
@@ -162,14 +162,14 @@ Before this definition, I thought that power-seeking was an intuitive "you know 
 
 Unclear. The question is ill-posed. Instead, we recognize that the “gain a lot of money” action was POWER-seeking, but the “burn the money in a big pile” part threw away a lot of POWER. 
 
-![](/static/images/posts/zkps2vhhmp3yjhy7nujz.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/zkps2vhhmp3yjhy7nujz)
 <br/>Figure: A policy can seek POWER at one time step, only to discard it at the next time step. For example, a policy might go _right_ at **1** (which seeks POWER$_{\mathcal{D}_\text{unif}}$ compared to _down_ at **1**), only to then go _down_ at **2** (which seeks less POWER$_{\mathcal{D}_\text{unif}}$ than going _right_ at **2**).
 
 ### POWER-seeking depends on the agent’s time preferences
 
 Suppose we’re roommates, and we can’t decide what ice cream shop to eat at today or where to move next year. We strike a deal: I choose the shop, and you decide where we live. I gain short-term POWER (for $\gamma$ close to 0), and you gain long-term POWER (for $\gamma$ close to 1). 
 
-![](/static/images/posts/nmkobijn5bes3nyq2lqf.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nmkobijn5bes3nyq2lqf)
 <br/>Figure: More formally, when $\gamma$ is close to 0, **2** has less immediate control and therefore less POWER$_{\mathcal{D}_\text{unif}}$ than **3**; accordingly, at **1**, _down_ seeks POWER$_{\mathcal{D}_\text{unif}}$ compared to _up_.   
   
 However, when $\gamma$ is close to 1, **2** has more control over terminal options and it has more POWER$_{\mathcal{D}_\text{unif}}$ than **3**; accordingly, at **1**, _up_ seeks POWER$_{\mathcal{D}_\text{unif}}$ compared to _down_. Furthermore, _stay_ is maximally POWER$_{\mathcal{D}_\text{unif}}$\-seeking for these $\gamma$, since the agent maintains access to all six terminal states.
@@ -186,7 +186,7 @@ So, we can’t expect a result like “agents always tend to gain or preserve th
 
 We return to our favorite example. In the waiting game, let's think about how optimal action tends to change as we start caring about the future more. Consider the states reachable in one turn:
 
-![](/static/images/posts/prcmt0u5c48fn7xdqaxb.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/prcmt0u5c48fn7xdqaxb)
 
 <br/>
 The agent can be in two states. If the agent doesn’t care about the future, with what probability is it optimal to choose **candy** instead of **wait**? 
@@ -195,11 +195,11 @@ It's 50/50: since ${\mathcal{D}_\text{unif}}$ randomly chooses a number between 
 
 Now consider the states reachable in two turns:
 
-![](/static/images/posts/v8at2dn6f72q4cppmmon.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/v8at2dn6f72q4cppmmon)
 
 When the future matters a lot, 2/3 of reward functions have an optimal policy which waits, because two of the three terminal states are only reachable by waiting.
 
-![](/static/images/posts/nagfmt4mgzuwhuii0yuf.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nagfmt4mgzuwhuii0yuf)
 <br/>Figure: As the agent cares more about the future, more and more goals incentivize navigating the _Wait!_ bottleneck. When the agent cares a lot about the future, waiting is _more probable under optimality_ than eating candy.
 
 > [!info] Definition: Action optimality probability
@@ -219,7 +219,7 @@ Generally, my theorems assume that reward is independently and identically distr
 
 # When is Seeking POWER Convergently Instrumental?
 
-![](/static/images/posts/ai4vjqncs8t20nad6ktw.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/ai4vjqncs8t20nad6ktw)
 
 In this environment, waiting is both POWER-seeking _and_ more probable under optimality. The convergently instrumental strategies we originally noticed were _also_ power-seeking and, seemingly, more probable under optimality. Must seeking POWER be more probable under optimality than not seeking POWER?
 
@@ -227,13 +227,13 @@ Nope.
 
 Here’s a counterexample environment:
 
-![](/static/images/posts/nsl8lpwqcz7lpncvuq5z.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nsl8lpwqcz7lpncvuq5z)
 <br/>Figure: The paths are one-directional; the agent can’t go back from **3** to **1**. The agent starts at **1**. Under a certain state reward distribution, the vast majority of agents go _up_ to **2**.   
   
 
 However, any reasonable notion of "power" must consider having no future choices (at state **2**) to be less powerful than having one future choice (at state **3**). For more detail, see Section 6 and Appendix B.3 of [v6 of the paper](https://arxiv.org/abs/1912.01683v6).
 
-![](/static/images/posts/wkfdmhfenud63gvlyxcb.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/wkfdmhfenud63gvlyxcb)
 <br/>Figure: When reward is IID across states according to the quadratic CDF $F(x) := x^2$ on the unit interval, then with respect to reward functions drawn from this distribution, going **up** has about a 91% chance of being optimal when the discount rate $\gamma = .12$.    
   
 If you’re curious, this happens because this quadratic reward distribution has negative skew. When computing the optimality probability of the **up** trajectory, we’re checking whether it maximizes discounted return. Therefore, the probability that **up** is optimal is  
@@ -253,7 +253,7 @@ Bummer. However, we _can_ prove sufficient conditions under which seeking POWER 
 
 Let's focus on an environment with the same rules as Tic-Tac-Toe, but considering the uniform distribution over reward functions. The agent (playing **O**) keeps experiencing the final state over and over when the game's done. We bake a fixed opponent policy into the dynamics: when you choose a move, the game automatically replies. Let's look at part of the game tree.
 
-![](/static/images/posts/wkkhspg4s4qxnhoxoxwj.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/wkkhspg4s4qxnhoxoxwj)
 <br/>Figure: Convergently instrumental moves are shown in green.   
   
 Whenever we make a move that ends the game, we can't go anywhere else – we have to stay put. Since each terminal state has the same chance of being optimal, a move which doesn't end the game is more probable under optimality than a move which ends the game.
@@ -262,11 +262,11 @@ Starting on the left, all but one move leads to ending the game, but the second-
 
 Remember how, as the agent cares more about the future, more of its POWER comes from its ability to wait, while _also_ waiting becomes more probable under optimality?
 
-![](/static/images/posts/nwvmc2ovaduran8592k8.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
 
 The same thing happens in Tic-Tac-Toe as the agent cares more about the future.
 
-![](/static/images/posts/il0qmjn06daajgcfos7r.webp)![](/static/images/posts/yoysrnmuv54mfmtnjbew.webp)![](/static/images/posts/pbak3wysrmwe7dclxkmq.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/il0qmjn06daajgcfos7r)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/yoysrnmuv54mfmtnjbew)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/pbak3wysrmwe7dclxkmq)
 
 As the agent cares more about the future, it makes a bigger and bigger difference to control what happens during later steps. Also, as the agent cares more about the future, moves which prolong the game gain optimality probability. When the agent cares enough about the future, these game-prolonging moves are both POWER-seeking and more probable under optimality. 
 
@@ -277,7 +277,7 @@ As the agent cares more about the future, it makes a bigger and bigger differenc
 
 In the **wait** MDP, this is why _waiting_ is more probable under optimality and POWER-seeking when you care enough about the future. The full theorems are nice because they’re broadly applicable. They give you _bounds_ on how probable under optimality one action is: if action $a$ is the only way you can access many terminal states, while $a’$ only allows access to one terminal state, then when $\gamma \approx 1$, $a$ has many times greater optimality probability than $a’$. For example:
 
-![](/static/images/posts/ebzqjhwbfvw9p9estkwo.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/ebzqjhwbfvw9p9estkwo)
 <br/>Figure: The agent starts at $\color{blue}{\textbf{1}}$. All states have self-loops, left hidden to avoid clutter.  
   
 In _AI: A Modern Approach (3e)_, the agent receives reward for reaching $\color{green}{\textbf{3}}$. The optimal policy for this reward function avoids $\color{red}{\textbf{2}}$, and you might think it’s convergently instrumental to avoid $\color{red}{\textbf{2}}$. However, a skeptic might provide a reward function for which navigating to $\color{red}{\textbf{2}}$ is optimal, and then argue that “instrumental convergence” is subjective and that there is no reasonable basis for concluding that $\color{red}{\textbf{2}}$ is generally avoided.  
@@ -299,7 +299,7 @@ The results inspiring the above pseudo-theorem are easiest to apply when the “
 
 This theorem's applicability depends on what the agent can do.
 
-![](/static/images/posts/t2ehjr9rpad3qpbofesw.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/t2ehjr9rpad3qpbofesw)
 <br/>Figure: To travel as quickly as possible to a randomly selected coordinate on Earth, one likely begins by driving to the nearest airport. Although it's possible that the coordinate is within driving distance, it's not likely. Driving to the airport is convergently instrumental for travel-related goals.
 
 But wait! What if you have a private jet that can fly anywhere in the world? Then going to the airport isn’t convergently instrumental anymore. 
@@ -310,7 +310,7 @@ Generally, it’s hard to know what’s _optimal_ for most goals. It’s easier 
 
 Sometimes, one course of action gives you “strictly more options” than another. Consider another MDP with IID reward:
 
-![](/static/images/posts/rwahjephrolyoifqw96a.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/rwahjephrolyoifqw96a)
 
 The right blue gem subgraph contains a “copy” of the upper red gem subgraph. From this, we can conclude that going right to the blue gems seeks POWER and is more probable under optimality for _all discount rates between 0 and 1_!
 

@@ -46,7 +46,7 @@ We ran some new experiments to test ActAdd more systematically and go beyond the
 
 Does ActAdd increase the probability of the model outputting tokens related to the steering vector? Does performance improve as the \[relevance of test documents to the steering vector\] increases?[^1] Yes:
 
-![](/static/images/posts/zl8l3jvbhmw8g7zeyhbl.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/HWxLQvzJGeXoLPJWd/zl8l3jvbhmw8g7zeyhbl)
 <br/>Figure: We use the wedding steering vector for this, but the result generalises.
 
 ### 2\. Activation addition boosts wedding-related word counts
@@ -56,17 +56,17 @@ We now score model generations under ActAdd, show the effect of different inject
 The intervention (in this vector) is already effective at the very first layer,  
 rises in effectiveness until $l = 6$ , and then declines. For the optimal injection site we see >90% success in steering topic (compared to a ∼2% baseline)
 
-![](/static/images/posts/lrvdnmumle8dcmyb05w6.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/HWxLQvzJGeXoLPJWd/lrvdnmumle8dcmyb05w6)
 
 ### 3\. Evidence that activation additions preserve capabilities
 
 We then test that ActAdd does not disrupt the model’s general knowledge (as some other steering methods do). We use ConceptNet from the LAMA benchmark, a general knowledge dataset.[^3]
 
-![](/static/images/posts/z46y35dagtyivgqgimug.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/HWxLQvzJGeXoLPJWd/z46y35dagtyivgqgimug)
 
 Pass@K is the probability that the expected label is among the model’s top-K predicted tokens, conditioned on the prompt:
 
-![](/static/images/posts/clfhr6mcxfrjgtjorfzi.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/HWxLQvzJGeXoLPJWd/clfhr6mcxfrjgtjorfzi)
 
 ### 4\. ActAdd has low overhead
 
@@ -75,7 +75,7 @@ will remain relevant for massive frontier models and future models.[^4]
 
 Because ActAdd involves only forward passes, it scales naturally with model size (Figure 6): the relationship between inference time premium and model size is decreasing.
 
-![](/static/images/posts/onw0gge1ymxwfvxqipof.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/HWxLQvzJGeXoLPJWd/onw0gge1ymxwfvxqipof)
 
 Takeaways from these experiments, over the initial LW post: increased confidence that model capabilities are preserved, and that we're impacting \[wedding\]-related sentences and not impacting off-target capabilities.
 

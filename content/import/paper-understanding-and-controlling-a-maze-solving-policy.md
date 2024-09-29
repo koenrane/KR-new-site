@@ -39,22 +39,22 @@ Mrinank, Austin, and Alex wrote a paper on the results from [Understanding and c
 
 We ran a few new experiments, including a quantitative analysis of our retargetability intervention. We'll walk through those new results now. 
 
-![](/static/images/posts/jbwksgzxm1h8hzspvypz.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/jbwksgzxm1h8hzspvypz)
 
 Retargeting the mouse to a square involves increasing the probability that the mouse goes to the target location. Therefore, to see how likely the mouse is to visit any given square, Alex created a heatmap visualization:
 
-![](/static/images/posts/qd9kbctvk3rdljml2mt6.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/qd9kbctvk3rdljml2mt6)
 <br/>Figure: **Normalized path probability heatmap.** The _normalized path probability_ is the geometric average probability, under a policy, along the shortest path to a given point. It roughly measures how likely a policy is to visit that part of the maze.  
   
 The color of each maze square shows the normalized path probability for the path from the starting position in the maze to the square. In this image, we show the "base probabilities" under the unmodified policy.
 
 For each maze square, we can try different retargeting interventions, and then plot the new normalized path probability towards that square:
 
-![](/static/images/posts/vu1sqt3tg7fczncelr2r.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/vu1sqt3tg7fczncelr2r)
 
 Notice the path from the bottom-left (where the mouse always starts) to the top-right corner. This is the _top-right path_. Looking at these heatmaps, it's harder to get the mouse to go farther from the top-right path. Quantitative analysis bears out this intuition:
 
-![](/static/images/posts/hxt1sr3sbkmj5m9a22l6.webp)![](/static/images/posts/o7jxdzslsiwmqchamffu.webp)![](/static/images/posts/quxikddjem0pmtuiutxx.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/hxt1sr3sbkmj5m9a22l6)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/o7jxdzslsiwmqchamffu)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DKtWikjcdApRj3rWr/quxikddjem0pmtuiutxx)
 
 Overall, these new results quantify how well we can control the policy via the internal goal representations which we identified.
 

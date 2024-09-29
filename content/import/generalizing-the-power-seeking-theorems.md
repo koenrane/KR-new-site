@@ -51,7 +51,11 @@ _Does gaining money tend to be optimal? Avoiding shutdown? When? How do we know?
 
 [Optimal Farsighted Agents Tend to Seek Power](https://arxiv.org/abs/1912.01683) proved that, when you distribute reward fairly and evenly across states (IID), it's instrumentally convergent to gain access to lots of final states (which are absorbing, in that the agent keeps on experiencing the final state). The theorems apply when you don't discount the future (you're "infinitely farsighted").
 
+<<<<<<< HEAD
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/ZiFD6BU.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/ZiFD6BU.mp4" type="video/mp4"></video>
+=======
+![](https://i.imgur.com/ZiFD6BU.gif)
+>>>>>>> parent of 2211be3 (Downloaded a lot more media files)
 <br/>Figure: Most reward functions for the Pac-Man game incentivize not dying immediately, so that the agent can loop around higher-scoring configurations.
 
 ![](https://assets.turntrout.com/static/images/posts/3HUBl5H.avif)

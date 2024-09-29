@@ -38,7 +38,7 @@ original_url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-stat
 ---
 **Summary:** [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
 
-![](/static/images/posts/caoymohzzppimjllkqx4.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/caoymohzzppimjllkqx4)
 
 In this post, we conduct a more thorough statistical analysis, addressing issues of multicollinearity. We show strong evidence that (2) and (3) above are real influences on the agent's decision-making, and weak evidence that (1) is also a real influence. As we speculated in the original post,[^1] (4) falls away as a statistical artifact.
 
@@ -53,7 +53,7 @@ Watching videos Langosco et al.'s experiment, we developed a few central intuiti
 >
 > Some mazes are easy to predict, because the cheese is _on the way_ to the top-right corner. There's no _decision square_ where the agent has to make the hard choice between the paths to the cheese and to the top-right corner:
 > 
-> ![](/static/images/posts/k2vgl3k6myo1rcmg4emy.webp)
+> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/k2vgl3k6myo1rcmg4emy)
 > <br/>Figure: At the decision square, the agent must choose between two paths—cheese, and top-right.
 
 Here are four central intuitions which we developed:

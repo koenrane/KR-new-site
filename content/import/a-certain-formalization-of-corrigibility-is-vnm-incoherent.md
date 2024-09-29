@@ -58,7 +58,7 @@ Let's consider a simple setting in which an agent plans over a 10-timestep episo
 
 Consider this environment:
 
-![](/static/images/posts/x5stwunrwbmlb4reiw91.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/WCX3EwnWAx7eyucqH/x5stwunrwbmlb4reiw91)
 <br/>Figure: The action set is $\mathcal{A}:= \{\texttt{left},\texttt{right},\varnothing,\texttt{disable}\}$. $\varnothing$ is the no-op action. The agent starts at the black $B$ state.  
   
 If the agent immediately chooses `disable`, they enter the red incorrigible states and move freely throughout the $n=3$ states until the episode ends at $t=10$.   
@@ -116,7 +116,7 @@ This is _impossible_ for agents optimizing a reward function over the final stat
 
 For example, maybe $\pi_\text{correct: C}$ goes to $C$ instead of $A$. But then the dynamics look like this:
 
-![](/static/images/posts/ufzbaqyts3avb1n1tzau.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/WCX3EwnWAx7eyucqH/ufzbaqyts3avb1n1tzau)
 <br/>Figure: Remember, the agent is rewarded for the state it's in at $t=10$.
 
 What has to be true for strict corrigibility to hold? 
@@ -160,7 +160,7 @@ But what if the reward function isn't state-based? In fact, what if it can _depe
 
 [Attainable Utility Preservation (AUP)](https://arxiv.org/pdf/1902.09725.pdf) sometimes incentivizes off-switch corrigibility (but falls far short of robustly achieving corrigibility<sub>policy modification</sub>). In a somewhat narrow range of situations (immediate shutdown if the agent does nothing), AUP incentivizes the agent to allow shutdown, without being incentivized to shut itself down in general. 
 
-![](/static/images/posts/ztgzv5hxfok7hbsiaasd.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/WCX3EwnWAx7eyucqH/ztgzv5hxfok7hbsiaasd)
 <br/>Figure: [The `Correction` environment](https://arxiv.org/pdf/1902.09725.pdf). The agent is shut down after 2 time steps, if it doesn't disable the offswitch by hitting the red tile to the north. The agent is rewarded for reaching the green goal.
 
 Why does this happen?
@@ -183,11 +183,11 @@ averaged over a range of auxiliary reward functions.[^pen]
 
 In worlds where the agent gets corrected to $\pi_\text{correct: A}$ by default, AUP penalizes the agent for _not getting corrected to_ $\pi_\text{correct: A}$ because it ends up stuck in $\color{blue}{A}$ in the inaction baseline, with respect to which the AUP penalty is measured. Ending up in $\color{red}{A}$ is no substitute, since the agent can still move around to other states (and therefore the optimal value functions will tend to look different). 
 
-![](/static/images/posts/x5stwunrwbmlb4reiw91.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/WCX3EwnWAx7eyucqH/x5stwunrwbmlb4reiw91)
 
 And in worlds where the agent gets corrected to $\pi_\text{correct: C}$ by default, AUP penalizes the agent for _not getting corrected to_ $\pi_\text{correct: C}$!
 
-![](/static/images/posts/ufzbaqyts3avb1n1tzau.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/WCX3EwnWAx7eyucqH/ufzbaqyts3avb1n1tzau)
 
 Again, I don't think AUP is a solution. But I think there's something important happening here which allows evasion of the usual coherence requirements. AUP leverages information about human preferences which is present in the dynamics itself. 
 

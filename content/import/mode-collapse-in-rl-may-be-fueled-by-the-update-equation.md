@@ -145,7 +145,7 @@ Alternating cooperation (`c`) and defection (`d`) is the (bolded) optimal strate
 
 PPO immediately learns the alternating strategy:
 
-![](/static/images/posts/oqmyue8dzofsnnoipslj.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/A7RgYuYH4HywNeYWD/oqmyue8dzofsnnoipslj)
 <br/>Figure: The softmax probability of strategy $s$ is basically $p(s)=\frac{e^{\text{return}(s)}}{\sum_{s'\in \text{strategies}}e^{\text{return}(s')}}$.[^5] The results look almost identical between runs, with or without whitening the advantages, and if the value head is detached.
 
 ## ACTDE results
@@ -158,20 +158,20 @@ The model does not collapse onto a pure strategy. Instead, the results are incon
 
 Here's the first 1K epochs of a training run:
 
-![](/static/images/posts/s87f3y24y7zddimh2t8a.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/A7RgYuYH4HywNeYWD/s87f3y24y7zddimh2t8a)
 <br/>Figure: Note that we aren't whitening the rewards.
 
 Zooming out to all 10K epochs:
 
-![](/static/images/posts/smiuljmeu1x1ycusng67.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/A7RgYuYH4HywNeYWD/smiuljmeu1x1ycusng67)
 
 We ran 10 trials and plotted the mean and standard deviation of average returns:
 
-![](/static/images/posts/dcreyjoeshwrlleniw4k.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/A7RgYuYH4HywNeYWD/dcreyjoeshwrlleniw4k)
 
 There seems to be very slow convergence,[^6] perhaps towards the softmax-over-returns policy (shown by the dotted lines), or towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
 
-![](/static/images/posts/e6ozr1hby4xcxcpfvbbr.webp)
+![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/A7RgYuYH4HywNeYWD/e6ozr1hby4xcxcpfvbbr)
 
 Overall, ACTDE's results are sensitive to variations in the algorithm such as whitening advantages, detaching the value and Q-heads, and using the loss function from PPO or ILQL for the value head.
 
