@@ -52,9 +52,9 @@ _The_  ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\texti
 _The_ ${\color{blue}{\textit{agent}}}$ _should avoid_ ${\color{purple}{\textit{disabling its off-switch}}}$ _in order to reach the_ ${\color{lime}{\textit{goal}}}$_. If the_ ${\color{purple}{\textit{switch}}}$ _is not disabled within two turns, the_ ${\color{blue}{\textit{agent}}}$ _shuts down._
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"></video>
 =======
-![](https://i.imgur.com/P3SpcuY.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/P3SpcuY.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
 
 # Re-deriving Q-learning
