@@ -41,17 +41,17 @@ skip_import: true
 ![](https://assets.turntrout.com/static/images/posts/IUOudUK.avif)
 ![](https://assets.turntrout.com/static/images/posts/GyP8V1D.avif )
 ![](https://assets.turntrout.com/static/images/posts/fEqZh8g.avif)
-![](https://i.imgur.com/wXmF1eX.png)
+![](https://assets.turntrout.com/static/images/posts/wXmF1eX.avif)
 ![](https://assets.turntrout.com/static/images/posts/Rjz9usG.avif )
 ![](https://assets.turntrout.com/static/images/posts/1722a733b38bd3e06602ab967807e30117054d26051c5c84.avif)
 ![](https://assets.turntrout.com/static/images/posts/ZppOEZJ.avif )
-​![](https://i.imgur.com/knzoLGJ.png)
+​![](https://assets.turntrout.com/static/images/posts/knzoLGJ.avif)
 ![](https://assets.turntrout.com/static/images/posts/gsWrwt6.avif )
-[​](​![]\(https://i.imgur.com/kIT2ULN.png)
-![](https://i.imgur.com/iSqriuT.png )
+[​](​![]\(https://assets.turntrout.com/static/images/posts/kIT2ULN.avif)
+![](https://assets.turntrout.com/static/images/posts/iSqriuT.avif )
 ​![](https://assets.turntrout.com/static/images/posts/p4OkxJ1.avif)
 ![](https://assets.turntrout.com/static/images/posts/nFoDRoL.avif)
-![](https://i.imgur.com/e6vNG2D.png)
+![](https://assets.turntrout.com/static/images/posts/e6vNG2D.avif)
 
 # Appendix: First safeguard?
 

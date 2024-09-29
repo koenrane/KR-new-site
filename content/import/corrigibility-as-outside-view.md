@@ -45,7 +45,7 @@ You run a country. One day, you think "I could help so many more people if I set
 
 But historically… in this kind of situation, this reasoning can lead to terrible things.
 
-![](https://i.imgur.com/COsmr4C.png)
+![](https://assets.turntrout.com/static/images/posts/COsmr4C.avif)
 
 So you _just don't do it_, even though it feels like a good idea.[^1] 
 

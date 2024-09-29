@@ -195,7 +195,7 @@ As DeepMind outlines in _[Specifying AI Safety Problems in Simple Environments](
 
 Krakovna et al. [introduce](https://deepmind.com/research/publications/measuring-and-avoiding-side-effects-using-relative-reachability/) a means for penalizing actions by the proportion of initially-reachable states which are still reachable after the agent acts.
 
-![](https://vkrakovna.files.wordpress.com/2018/06/venn1.png)
+![](https://assets.turntrout.com/static/images/posts/venn1.avif)
 
 I think this is a step in the right direction. However, even given a hypercomputer and a perfect simulator of the universe, this wouldn't work for the real world if implemented _literally._ That is, due to entropy, you may not be able to return to the _exact same_ universe configuration. To be clear, the authors do not suggest implementing this idealized algorithm, flagging a more tractable abstraction as future work.
 

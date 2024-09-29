@@ -43,11 +43,11 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/OIDCLpl.avif)
 
-[​](​![]\(https://i.imgur.com/x3myqQ1.png)![](https://i.imgur.com/x3myqQ1.png)
+[​](​![]\(https://assets.turntrout.com/static/images/posts/x3myqQ1.avif)![](https://assets.turntrout.com/static/images/posts/x3myqQ1.avif)
 
-![](https://i.imgur.com/G1UgvEf.png)
+![](https://assets.turntrout.com/static/images/posts/G1UgvEf.avif)
 
-![](https://i.imgur.com/lCPSncS.png )
+![](https://assets.turntrout.com/static/images/posts/lCPSncS.avif )
 
   
 

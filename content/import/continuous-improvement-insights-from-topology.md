@@ -73,7 +73,7 @@ _Theorem: If $X$ is compact, show that the projection $\pi_2 : X \times Y \to Y$
 
 I was confused why we needed compactness. Essentially, I didn't understand [the tube lemma](https://dantopology.wordpress.com/2011/05/01/the-tube-lemma/).
 
-![](https://i.imgur.com/qmbh27L.pnga)
+![](https://assets.turntrout.com/static/images/posts/qmbh27L.avifa)
 
 Now let's prove the theorem. Suppose $C$ is closed in $X \times Y$. We want to show $f(C)$ is also closed. Take $y\not \in \pi(C)$. $(X\times Y)-C$ is an open set of the domain containing the slice $X \times \{y\}$. Since $X$ is compact, apply the tube lemma to get a tube $X \times U$. The projection of this tube is both open (because $U$ is open in $Y$) and disjoint from $\pi(C)$ (because the tube is contained in $(X\times Y)-C$). Thus, all $y \not \in \pi(C)$ have an open neighborhood disjoint from $\pi(C)$, so $\pi(C)$ must be closed.
 
@@ -91,7 +91,7 @@ Another definition uses topological convergence. $f:X\to Y$ is continuous at $x$
 
 These definitions are equivalent. The latter lets us think about how different winding paths you can take in a domain always must topologically converge to the same thing in the co-domain.
 
-![](https://i.imgur.com/k6b4WRE.png)
+![](https://assets.turntrout.com/static/images/posts/k6b4WRE.avif)
 
 Continuity in the variables says that paths along the axes converge in the right way. But for continuity overall, we need _all_ paths to converge in the right way. Directional continuity when the domain is $\mathbb{R}$ is a special case of this: continuity from below and from above if and only if continuity for all sequences converging topologically to $x$.
 

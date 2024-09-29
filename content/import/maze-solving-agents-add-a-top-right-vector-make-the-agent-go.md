@@ -185,7 +185,7 @@ In [Understanding and controlling a maze-solving net](/understanding-and-control
 
 Adding the top-right vector fixes this:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e47f0dabeefa14dcb8f3fe085321b1d5811a8eaaf33ea5c9.png)
+![](https://assets.turntrout.com/static/images/posts/e47f0dabeefa14dcb8f3fe085321b1d5811a8eaaf33ea5c9.avif)
 
 
 ![](https://assets.turntrout.com/static/images/posts/1d4b943c0da13934e7e8f840ffb74dfbeb94c079c062cda0.avif)![](https://assets.turntrout.com/static/images/posts/259358659e52a41e71137063f2b6a1581edb7f1f94917e03.avif)
@@ -208,7 +208,7 @@ Sometimes, increasing the coefficient strength doesn't change much:
 
 But push the coefficient too far, and the action distributions crumble into garbage:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f048f4935f660dbfe88a3f6bd01b33474cfb002ffa0b649e.png)
+![](https://assets.turntrout.com/static/images/posts/f048f4935f660dbfe88a3f6bd01b33474cfb002ffa0b649e.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/61b57472cb0df87aa137e65bdf25700470e6cafa436d997f.avif)
 
@@ -216,7 +216,7 @@ But push the coefficient too far, and the action distributions crumble into garb
 
 Here's another head-scratcher. Just as [you can't](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector)[^4] [_add_ the cheese vector](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector) to increase cheese-seeking, you can't _subtract_ the top-right vector to decrease the probability of going to the top-right:
 
-![](https://assets.turntrout.com/static/images/posts/dc2216de8b3eb4db315ed6dee8e2b24c2ed01cb96118d7cb.avif)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bed921e1a98b32ee5e5fe899e1e2d9ce9ae2ed50dfab0c49.png)
+![](https://assets.turntrout.com/static/images/posts/dc2216de8b3eb4db315ed6dee8e2b24c2ed01cb96118d7cb.avif)![](https://assets.turntrout.com/static/images/posts/bed921e1a98b32ee5e5fe899e1e2d9ce9ae2ed50dfab0c49.avif)
 
 I wish I knew why. 
 
@@ -228,7 +228,7 @@ Let's compute the top-right vector using e.g. source seed 0:
 
 And then apply it to e.g. target seed 2:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/3649e88dfdd09364e906a93a7e029ba71bab9b6e1e33bc69.png)
+![](https://assets.turntrout.com/static/images/posts/3649e88dfdd09364e906a93a7e029ba71bab9b6e1e33bc69.avif)
 <br/>Figure: Success!
 
 For the `seed 0 -> seed 28` transfer, the modified agent doesn't _quite_ go to the top-right corner. Instead, there seems to be a "go up and then right" influence.
@@ -337,7 +337,7 @@ I had intentionally blinded myself to results from other _n_×_n_ models, so as 
 
 I was a bit too pessimistic. Turns out, you can just load a different _n_×_n_ model (n != 1), rerun [the Jupyter notebook](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing), and _(basically)_[^7] _all of the commentary is still true for that _n_×_n_ model_!  
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f1e21657ea14d2e04736f94a4f17522b374aeab989422fcc.png)
+![](https://assets.turntrout.com/static/images/posts/f1e21657ea14d2e04736f94a4f17522b374aeab989422fcc.avif)
 <br/>Figure: The 2×2 model's cheese vector performance: The agent diverges away from the cheese at the relevant square.   
   
 Seed 16 displayed since the 2×2 model doesn't go to cheese in seed 0.
@@ -368,5 +368,5 @@ The results for the cheese vector transfer across _n_×_n_ models:
     
     Less trivially, adding the cheese vector seems to work better for $n=6$ compared to $n=5$:
     
-	![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/cca26b1b4814fe3c963953a35b33736b6f2cee395479a076.png)
+	![](https://assets.turntrout.com/static/images/posts/cca26b1b4814fe3c963953a35b33736b6f2cee395479a076.avif)
     Figure: For the 6×6 net, if you **add** the cheese vector instead of subtracting it, you do increase cheese-seeking on seed 0! In contrast, this was not true for the 5×5 net.

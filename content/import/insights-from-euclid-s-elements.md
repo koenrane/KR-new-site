@@ -45,7 +45,7 @@ Recently, I'd made my way halfway through a complex analysis textbook, only to f
 
 I'd been reluctant to tackle geometry, and when authors reasoned geometrically, I'd find another way to understand. Can you blame me, when most geometric proofs look like _this_?
 
-![](https://i.imgur.com/FgW3bVj.png)
+![](https://assets.turntrout.com/static/images/posts/FgW3bVj.avif)
 
 Distasteful. In a graph with $n$  vertices, you'd need to commit $O(n^3)$ things to memory (e.g. triangles, angles) in order to read the proof without continually glancing at the illustration. In a normal equation with $n$ variables, it's $O(n)$.
 
@@ -55,7 +55,7 @@ Sometimes, we just need a little beauty to fall in love.
 
 Welcome to Oliver Byrne's rendition of Euclid's _Elements_, [digitized and freely available online](https://www.c82.net/euclid/).
 
-![](https://i.imgur.com/TV1jNnj.png)
+![](https://assets.turntrout.com/static/images/posts/TV1jNnj.avif)
 
 # Elements
 

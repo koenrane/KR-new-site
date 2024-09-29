@@ -85,7 +85,7 @@ If such an action exists for some player $i$, strategy profile $\mathbf{s}$, and
 
 _Remark._ For an equal weighting, condition (2) is equivalent to demanding that the action not be a [Kaldor-Hicks improvement](https://en.wikipedia.org/wiki/Kaldor%E2%80%93Hicks_efficiency). 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/b5ad8b01496403d6cf20a734eb01d34bd9136de7cd837b62.png)
+![](https://assets.turntrout.com/static/images/posts/b5ad8b01496403d6cf20a734eb01d34bd9136de7cd837b62.avif)
 <br/>Figure: Payoff profiles in the Prisoner's Dilemma. Red arrows represent defections against pure strategy profiles; player 1 defects vertically, while player 2 defects horizontally. For example, player 2 defects with $(C_1,C_2)\to(C_1,D_2)$ because they gain ($4>3$) but the weighted sum loses out ($4<6$).
 
 Our definition seems to make reasonable intuitive sense. In the tragedy of the commons, each player rationally increases their utility, while imposing negative externalities on the other players and decreasing total utility. A spy might leak classified information, benefiting themselves and Russia but defecting against America. 

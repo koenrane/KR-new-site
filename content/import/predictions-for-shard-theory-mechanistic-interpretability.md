@@ -191,7 +191,7 @@ These are intense.
 
 <figcaption>Random maze for illustrating terminology (_not_ a reference maze for which you're supposed to predict behavior).</figcaption>
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647810/mirroredImages/JusJcepE2qohiC3hm/gdfkoprlzshsedllik8y.png)
+![](https://assets.turntrout.com/static/images/posts/gdfkoprlzshsedllik8y.avif)
 
 **T**
 : top-right free square  

@@ -153,7 +153,7 @@ We're now in a realistic scenario, so we have to get even fancier.
 
 ### Example
 
-![](https://i.imgur.com/djNvl9G.jpg)
+![](https://assets.turntrout.com/static/images/posts/djNvl9G.avif)
 
 Suppose $\mathcal{M}$ pushes the vase to the left, and $\mathcal{H}$ decides to break it. The stationary iterative approach doesn't allow for the fact that $\mathcal{H}$ can only break the vase _if_ $\mathcal{M}$ _already pushed it_. Therefore, simulating $\mathcal{M}$'s inaction but $\mathcal{H}$'s action (as if $\mathcal{M}$ had pushed the vase) results in no vases being broken in the counterfactual. The result: $\mathcal{M}$ penalizes itself for $\mathcal{H}$'s decision to break the vase. Chin up, $\mathcal{M}$!
 

@@ -44,21 +44,21 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/JCSrOj7.avif)
 
-![](https://i.imgur.com/P3mUtIx.png)
+![](https://assets.turntrout.com/static/images/posts/P3mUtIx.avif)
 
-![](https://i.imgur.com/vSGPVnG.png)
+![](https://assets.turntrout.com/static/images/posts/vSGPVnG.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/BtzHnUq.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/cKroz8I.avif)
 
-![](https://i.imgur.com/GRmoAfp.png) ![](https://i.imgur.com/83Tte8B.png) ![](https://assets.turntrout.com/static/images/posts/tzLrv25.avif) ![](https://assets.turntrout.com/static/images/posts/jcefOFk.avif)
+![](https://assets.turntrout.com/static/images/posts/GRmoAfp.avif) ![](https://assets.turntrout.com/static/images/posts/83Tte8B.avif) ![](https://assets.turntrout.com/static/images/posts/tzLrv25.avif) ![](https://assets.turntrout.com/static/images/posts/jcefOFk.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/BtzHnUq.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/zTCZtYZ.avif) ![](https://assets.turntrout.com/static/images/posts/OsWS97b.avif)
 
-![](https://assets.turntrout.com/static/images/posts/j6Tcj9x.avif) ![](https://i.imgur.com/egyx3vb.png) ![](https://assets.turntrout.com/static/images/posts/8l3kkwg.avif)
+![](https://assets.turntrout.com/static/images/posts/j6Tcj9x.avif) ![](https://assets.turntrout.com/static/images/posts/egyx3vb.avif) ![](https://assets.turntrout.com/static/images/posts/8l3kkwg.avif)
 
 ## Overfitting the AU landscape
 

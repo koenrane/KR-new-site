@@ -244,7 +244,7 @@ Let's think about Minecraft. (Technically, the theorems don't apply to Minecraft
 
 We could reward the agent for ending up in different chunks of a Minecraft world. Here, retargeting often looks like "swap which chunks gets which reward." 
 
-![Minecraft How To Zoom Out Map - Maping Resources](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fminecraft-zh.gamepedia.com%2Fmedia%2Fminecraft-zh.gamepedia.com%2Fd%2Fde%2FMinecraft_maps_3by3.png%3Fversion%3D13f1dd1debcba5e560438a14d6c8d1e1&f=1&nofb=1)
+![Minecraft How To Zoom Out Map - Maping Resources](https://assets.turntrout.com/static/images/posts/?u=https%3A%2F%2Fminecraft-zh.gamepedia.com%2Fmedia%2Fminecraft-zh.gamepedia.com%2Fd%2Fde%2FMinecraft_maps_3by3.avif%3Fversion%3D13f1dd1debcba5e560438a14d6c8d1e1&f=1&nofb=1)
 <br/>Figure: We could consider all chunks within 1 million blocks of the agent, and reward the agent for being in one of them.
 At low levels of instrumental convergence and training procedure competence, agents will just mill about near the starting area.
 
@@ -310,7 +310,7 @@ Since these theorems are crisply stated, I want to more closely inspect the ways
 
 [^eu]: Here's a bit more formality for what it means for an agent to make decisions only based on expected utility.
 
-	![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/0b7501fac9c964b9f837efcbc18005e6fde77ade2c96880c.png)
+	![](https://assets.turntrout.com/static/images/posts/0b7501fac9c964b9f837efcbc18005e6fde77ade2c96880c.avif)
 	<br/>Figure: This definition basically says that $f$ can be expressed in terms of the expected utilities of the set elements—the output will only depend on expected utility.
 	
 	**Theorem: Retargetability of EU decision-making.** Let $A,B\subseteq C \subsetneq\mathbb{R}^d$ be such that $B$ contains $n$ copies of $A$ via $\phi_i$ such that $\phi_i \cdot C = C$. For $X\subseteq C$, let $f(X,C \mid \mathbf{u})$ be an EU/cardinality function, such that $f$ returns the probability of selecting an element of $X$. Then $f(B,C \mid \mathbf{u})\geq_\text{most}^n f(A,C \mid \mathbf{u})$.

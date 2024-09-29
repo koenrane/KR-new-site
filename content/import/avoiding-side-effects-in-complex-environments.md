@@ -44,11 +44,11 @@ Here are some slides from our spotlight talk ([publicly available](https://nips.
 
 ![](https://assets.turntrout.com/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.avif)
 <br/>Figure: Agents only care about the parts of the environment relevant to their specified reward function.![](https://assets.turntrout.com/static/images/posts/11973d84ffe3b4c8b56ebfe90261e336e126ad93cdda39a5.avif)
-<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](https://assets.turntrout.com/static/images/posts/fc33883d8d8accf1d88b5281873b491a4656bf87bd738cc7.avif)![](https://assets.turntrout.com/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.avif)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/27b61d7c2b20d763836e0f4205fc5cb0b043d8c999d9513b.png)
-<br/>Figure: Before now, side effect avoidance was only demonstrated in tiny tabular domains.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/2b563e34fa6fa1f80fcf5992515e3911668f03e0297e547b.png)
-<br/>Figure: Conway's _Game of Life_ has simple, local dynamics which add up to complex long-term consequences.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc36232e143377cc3fb23ec0eaf31d162c17fa41698f8356.png)
-<br/>Figure: _SafeLife_ turns the _Game of Life_ into an actual game, adding an agent and many unique cell types.![](https://avoiding-side-effects.github.io/assets/img/explanation.png)
-<br/>Figure: Crucially, there are fragile green cell patterns which most policies plow through and irreversibly shatter. We want the low-impact agent to avoid them whenever possible, _without_ telling it what in particular it shouldn't do. This is where the AUP magic comes in.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/ec7027afd67e6d8d0d76cdf6f6f0ce4f1ca66561460c376e.png)
+<br/>Figure: We _somehow_ want an agent which is "conservative" and "doesn't make much of a mess."![](https://assets.turntrout.com/static/images/posts/fc33883d8d8accf1d88b5281873b491a4656bf87bd738cc7.avif)![](https://assets.turntrout.com/static/images/posts/19247989a8c519fbc27fc9d100129444d4ca2f86968a9a8b.avif)![](https://assets.turntrout.com/static/images/posts/27b61d7c2b20d763836e0f4205fc5cb0b043d8c999d9513b.avif)
+<br/>Figure: Before now, side effect avoidance was only demonstrated in tiny tabular domains.![](https://assets.turntrout.com/static/images/posts/2b563e34fa6fa1f80fcf5992515e3911668f03e0297e547b.avif)
+<br/>Figure: Conway's _Game of Life_ has simple, local dynamics which add up to complex long-term consequences.![](https://assets.turntrout.com/static/images/posts/bc36232e143377cc3fb23ec0eaf31d162c17fa41698f8356.avif)
+<br/>Figure: _SafeLife_ turns the _Game of Life_ into an actual game, adding an agent and many unique cell types.![](https://assets.turntrout.com/static/images/posts/explanation.avif)
+<br/>Figure: Crucially, there are fragile green cell patterns which most policies plow through and irreversibly shatter. We want the low-impact agent to avoid them whenever possible, _without_ telling it what in particular it shouldn't do. This is where the AUP magic comes in.![](https://assets.turntrout.com/static/images/posts/ec7027afd67e6d8d0d76cdf6f6f0ce4f1ca66561460c376e.avif)
 <br/>Figure: We learn the AUP policy in 3 steps. Step one: the agent learns to encode its observations (the game screen) with just one real number. This lets us learn an auxiliary environmental goal unsupervised.![](https://assets.turntrout.com/static/images/posts/8e06d19568bf8cf2aa3f1ae7cb68237f739e7e8526d16e69.avif)
 <br/>Figure: Step two: we train the agent to optimize this encoder-reward function "goal"; in particular, the network learns to predict the values of different actions.![](https://assets.turntrout.com/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.avif)
 <br/>Figure: Step three: we're done! We have the AUP reward function. Now we just learn to optimize it.
@@ -60,7 +60,7 @@ The full paper is [here](https://arxiv.org/pdf/2006.06547.pdf). Our [Github.io p
 - In _Box _AI safety gridworld, AUP required >5 randomly generated auxiliary reward functions in order to consistently avoid the side effect. It only required one here in order to do well. Why?
 - We ran four different sets of randomly generated levels, and ran three model seeds on each. There was a lot of variance across the sets of levels. How often does AUP do relatively worse due to the level generation?
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/a2648ed5ddce10481462919b3c0008d232082e2eebcea498.png)
+![](https://assets.turntrout.com/static/images/posts/a2648ed5ddce10481462919b3c0008d232082e2eebcea498.avif)
 <br/>Figure: _Figure 11 in the paper_: smoothed episode length curves for each set of randomly generated levels. Lower is better.
 - Why did we only need one latent space dimension for the auxiliary reward function to make sense? Figure 4 suggests that increasing the dimension actually _worsened _side effect score.
   - Wouldn't more features make the auxiliary reward function easier to learn, which makes the AUP penalty function more sensible?

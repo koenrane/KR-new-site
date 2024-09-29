@@ -362,7 +362,7 @@ This is another data point for a realization I've had over the last month: I'm _
 
 From Duncan's excellent [fake framework](https://www.lesswrong.com/posts/wDP4ZWYLNj7MGXWiW/in-praise-of-fake-frameworks), _[How the "Magic: The Gathering" Color Wheel Explains Humanity](https://medium.com/s/story/the-mtg-color-wheel-c9700a7cf36d):_
 
-![](https://cdn-images-1.medium.com/max/1600/1*_pk4pk_t_kg6edcyTX0iyQ.png)
+![](https://assets.turntrout.com/static/images/posts/mtg_colors.avif)
 
 The most salient dichotomy present here, in my opinion, is that of red and white:
 

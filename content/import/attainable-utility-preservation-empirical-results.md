@@ -271,7 +271,7 @@ When we're trying to get the RL agent to do what we want, we're trying to specif
 
 In terms of outer alignment, there are two ways this can go wrong: the agent becomes less able to do the right thing (has negative side effects),
 
-![](https://i.imgur.com/rXOjp4n.png)
+![](https://assets.turntrout.com/static/images/posts/rXOjp4n.avif)
 
 or we become less able to get the agent to do the right thing (we lose power):
 

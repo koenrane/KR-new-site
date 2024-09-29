@@ -37,7 +37,7 @@ date_published: 02/28/2020
 original_url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 skip_import: true
 ---
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676626198/mirroredImages/sHpiiZS2gPgoPnijX/pbmk8ndyip6nyu4ntf6z.png)![](https://assets.turntrout.com/static/images/posts/icddpmwoxx5ftcysxo8k.avif)![](https://assets.turntrout.com/static/images/posts/mxhzcdashtl5euloeolx.avif)![](https://assets.turntrout.com/static/images/posts/d1mqg6p4ghuweu4sth5u.avif)![](https://assets.turntrout.com/static/images/posts/veypvrfwfr1xwwz4zx8m.avif)![](https://assets.turntrout.com/static/images/posts/qanem2tu332ayspkhutk.avif)![](https://assets.turntrout.com/static/images/posts/lza8s3ncwyioba7gn5kc.avif)![](https://assets.turntrout.com/static/images/posts/h14cfepf9ggi4hnx6ub1.avif)![](https://assets.turntrout.com/static/images/posts/w4iaoloixtlxhc26zy67.avif)![](https://assets.turntrout.com/static/images/posts/sr4u489gcv8jfltydthi.avif)
+![](https://assets.turntrout.com/static/images/posts/pbmk8ndyip6nyu4ntf6z.avif)![](https://assets.turntrout.com/static/images/posts/icddpmwoxx5ftcysxo8k.avif)![](https://assets.turntrout.com/static/images/posts/mxhzcdashtl5euloeolx.avif)![](https://assets.turntrout.com/static/images/posts/d1mqg6p4ghuweu4sth5u.avif)![](https://assets.turntrout.com/static/images/posts/veypvrfwfr1xwwz4zx8m.avif)![](https://assets.turntrout.com/static/images/posts/qanem2tu332ayspkhutk.avif)![](https://assets.turntrout.com/static/images/posts/lza8s3ncwyioba7gn5kc.avif)![](https://assets.turntrout.com/static/images/posts/h14cfepf9ggi4hnx6ub1.avif)![](https://assets.turntrout.com/static/images/posts/w4iaoloixtlxhc26zy67.avif)![](https://assets.turntrout.com/static/images/posts/sr4u489gcv8jfltydthi.avif)
 
 > [!thanks] Acknowledgments
 > After ~700 hours of work over the course of ~9 months, the sequence is finally complete.
@@ -76,7 +76,7 @@ There are a few pop culture references which I think are obvious enough to not n
 Reframing Impact
 : The bird's nest contains a literal easter egg.
 : 
-: ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676626198/mirroredImages/sHpiiZS2gPgoPnijX/hdlkd44jvawsxgpthbgi.png)
+: ![](https://assets.turntrout.com/static/images/posts/hdlkd44jvawsxgpthbgi.avif)
 : 
 : The paperclip-Balrog drawing contains a [Tengwar](https://en.wikipedia.org/wiki/Tengwar) inscription which reads "one measure to bind them", with "measure" in impact-blue and "them" in utility-pink.
 : 
@@ -111,7 +111,7 @@ The tale of Frank and the orange Pebblehoarder
 Figure: After the Pebblehoarders suffer the devastating transformation of all of their pebbles into obsidian blocks, Frank generously gives away his favorite pink marble as a makeshift pebble.
 : 
 : 
-: ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676626198/mirroredImages/sHpiiZS2gPgoPnijX/id8zdpzvvjsyyi9a9hfe.png)
+: ![](https://assets.turntrout.com/static/images/posts/id8zdpzvvjsyyi9a9hfe.avif)
 Figure: The title cuts to the middle of their adventures together, the Pebblehoarder showing its gratitude by helping Frank reach things high up.
 : 
 : 

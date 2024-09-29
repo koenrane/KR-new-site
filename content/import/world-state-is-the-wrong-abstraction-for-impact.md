@@ -40,7 +40,7 @@ date_published: 10/01/2019
 original_url: https://www.lesswrong.com/posts/pr3bLc2LtjARfK7nx/world-state-is-the-wrong-abstraction-for-impact
 skip_import: true
 ---
-![](https://i.imgur.com/DNE5EJg.png)
+![](https://assets.turntrout.com/static/images/posts/DNE5EJg.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/bimkCyz.avif)
 
@@ -48,9 +48,9 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/64N3tKB.avif )
 
-![](https://i.imgur.com/giAuRyY.png)
+![](https://assets.turntrout.com/static/images/posts/giAuRyY.avif)
 
-![](https://i.imgur.com/Cs2jkZr.png)
+![](https://assets.turntrout.com/static/images/posts/Cs2jkZr.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/mrVMkSH.avif)
 
@@ -60,23 +60,23 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/u0CMsnj.avif)
 
-![](https://i.imgur.com/UGMcfsy.png )
+![](https://assets.turntrout.com/static/images/posts/UGMcfsy.avif )
 
-![](https://i.imgur.com/Jidk86s.png  )
+![](https://assets.turntrout.com/static/images/posts/Jidk86s.avif  )
 
 ![](https://assets.turntrout.com/static/images/posts/6Ecn3ug.avif)
 
-![](https://i.imgur.com/YmknuEn.png)
+![](https://assets.turntrout.com/static/images/posts/YmknuEn.avif)
 
-![](https://i.imgur.com/1rVGIUj.png)
+![](https://assets.turntrout.com/static/images/posts/1rVGIUj.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/WjTqF2y.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/LYNGAta.avif)
 
-![](https://i.imgur.com/j0pWEA1.png )
+![](https://assets.turntrout.com/static/images/posts/j0pWEA1.avif )
 
-![](https://i.imgur.com/BINRNvJ.png)
+![](https://assets.turntrout.com/static/images/posts/BINRNvJ.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/C6aYsBj.avif )
 
@@ -90,13 +90,13 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/zVkGE6q.avif  )
 
-![](https://i.imgur.com/GEwXYwT.png ) ![](https://assets.turntrout.com/static/images/posts/CPCaLoM.avif)
+![](https://assets.turntrout.com/static/images/posts/GEwXYwT.avif ) ![](https://assets.turntrout.com/static/images/posts/CPCaLoM.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/wLogljp.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/tiKGyYq.avif)
 
-![](https://i.imgur.com/ZsAlmei.png)
+![](https://assets.turntrout.com/static/images/posts/ZsAlmei.avif)
 
 ## Appendix: We Asked a Wrong Question
 

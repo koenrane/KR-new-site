@@ -97,7 +97,7 @@ My new results say something analogous to: for _every_ coordinate, either it con
 >
 > Orbits under symmetric groups quantify all ways of "changing things around" for that object.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.png)
+![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
 <br/>Figure: My new theorems demand that at least one of these tiles conceal a mine.
 
 But it didn't have to be this way:
@@ -126,7 +126,7 @@ The section "[Simplicity priors assign non-negligible probability to power-seeki
 
 Orbits of goals consist of all the ways of permuting what states get which values. Consider this rewardless Markov decision process (MDP):
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/445cacc470b5aca6bff4ee6b9e2e016652f47affc5e4d54f.png)
+![](https://assets.turntrout.com/static/images/posts/445cacc470b5aca6bff4ee6b9e2e016652f47affc5e4d54f.avif)
 <br/>Figure: Arrows show the effect of taking some action at the given state.
 
 Whenever staying put at $A$ is strictly optimal, you can permute the reward function so that it's strictly optimal to go to $B$. For example, let $R(A):=1, R(B):=0$ and let $\phi:= (A\;B)$ swap the two states. $\phi$ acts on $R$ as follows: $\phi\cdot R$ simply permutes the state before evaluating its reward: $(\phi\cdot R)(s):= R(\phi(s))$. 
@@ -157,7 +157,7 @@ In [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-of
 > The right blue gem subgraph contains a “copy” of the upper red gem subgraph. From this, we can conclude that going right to the blue gems... is more probable under optimality for _all discount rates between 0 and 1_!
 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.png)
+![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 Figure: The state permutation $\phi$ embeds the `red-gems` subgraph into the `blue-gems` subgraph.
 
 We say that $\phi$ is an _environmental symmetry_, because $\phi$ is an element of the symmetric group $S_{|\mathcal{S}|}$ of permutations on the state space.
@@ -175,7 +175,7 @@ The recurring thought which kept my hope alive was:
 
 Then I reconsidered the same state permutation $\phi$ which proved my original IID-reward theorems. That kind of $\phi$ would imply that since `blue-gems` has more options, there is therefore greater optimality probability (under IID reward function distributions) for moving toward the blue gems. In the end, that _same permutation_ $\phi$ holds the key to understanding instrumental convergence in MDPs.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.png)
+![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 <br/>Figure: Suppose `red-gems` is optimal. For example, let $R_text{castle}$ assign 1 reward to the castle 🏰 , and 0 to all other states. Then the permuted reward function $\phi \cdot R_\text{castle}$ assigns 1 reward to the gold pile, and 0 to all other states, and so `blue-gems` has strictly more optimal value than `red-gems`.
 
 Consider any discount rate $\gamma\in(0,1)$. For _all_ reward functions $R$ such that $V^*_{R}(\texttt{red-gems},\gamma)>V^*_{R}(\texttt{blue-gems},\gamma)$, this permutation $\phi$ turns them into `blue-gem` lovers: $V^*_{\phi\cdot R}(\texttt{red-gems},\gamma)<V^*_{\phi\cdot R}(\texttt{blue-gems},\gamma)$.
@@ -199,7 +199,7 @@ This might feel too abstract, so let's run through examples.
 
 ### More graphical options (Proposition 6.9)
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.png)
+![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 <br/>Figure: At all discount rates $\gamma\in[0,1]$, it's optimal for _most reward functions_ to get `blue-gems` because that leads to strictly more options. We can permute every `red-gems` reward function into a `blue-gems` reward function.
 
 <video autoplay loop muted playsinline src="/static/images/posts/GMiFWG9.mp4" type="video/mp4"><source src="/static/images/posts/GMiFWG9.mp4" type="video/mp4"></video>
@@ -313,7 +313,7 @@ For every reward function $R$ - no matter how benign, how aligned with human int
 
 If I let myself be a bit more colorful, every reward function has lots of "evil" power-seeking variants (do note that the step from "power-seeking" to "misaligned power-seeking" [requires more work](/formalizing-multi-agent-power)). If we imagine ourselves as only knowing the orbit of the agent's objective, then the situation looks a bit like _this_:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.png)
+![](https://assets.turntrout.com/static/images/posts/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.avif)
 <br/>Figure: Technical note: this 12-element orbit could arise from the action of a subgroup of the symmetric group $S_4$, which has $4!=24$ elements. Consider a 4-state MDP; if the reward function assigns equal reward to exactly two states, then it would have a 12-element orbit under $S_4$.
 
 Of course, this isn't how reward specification works - we probably are far more likely to specify certain orbit elements than others. However, the formal theory is now beginning to explain _why alignment is so hard by default, and why failure might be catastrophic!_ 

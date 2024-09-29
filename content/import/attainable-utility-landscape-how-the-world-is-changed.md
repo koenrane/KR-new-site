@@ -45,11 +45,11 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/M8XHzxd.avif)
 
-![](https://i.imgur.com/k5K8m32.png)
+![](https://assets.turntrout.com/static/images/posts/k5K8m32.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/W8lgpjG.avif)
 
-![](https://i.imgur.com/JnuDbeE.png)
+![](https://assets.turntrout.com/static/images/posts/JnuDbeE.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/HPIugVR.avif)
 
@@ -69,7 +69,7 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/kxEOLhj.avif)
 
-![](https://i.imgur.com/kZMKfRu.png)
+![](https://assets.turntrout.com/static/images/posts/kZMKfRu.avif)
 
 ## AU landscape as a unifying frame
 
@@ -81,13 +81,13 @@ Sometimes you advantage one AU at the cost of another, moving through the state 
 
 Sometimes you gain more control over the future: most of the best possibilities make use of a windfall of cash. Sometimes you act to preserve control over the future: most Tic-Tac-Toe goals involve not ending the game right away. This is _power_.
 
-![](https://i.imgur.com/3HUBl5H.png)
+![](https://assets.turntrout.com/static/images/posts/3HUBl5H.avif)
 
 Other people usually _objectively impact_ you by decreasing or increasing a bunch of your AUs (generally, by changing your power). This happens for an extremely wide range of goals because of the structure of the environment.
 
 Sometimes, the best possibilities are made unavailable or worsened only for goals very much like yours. This is _value impact_.
 
-![](https://i.imgur.com/Sj2LrqK.png)
+![](https://assets.turntrout.com/static/images/posts/Sj2LrqK.avif)
 
 Sometimes a bunch of the best possibilities go through the same part of the future: fast travel to random places on Earth usually involves the airport. This is _instrumental convergence_.
 
@@ -112,11 +112,11 @@ In the context of finite deterministic Markov decision processes, there's a wond
 
 The possibility function $\mathcal{F}(s)$ outputs the possibilities available at a given state $s$:
 
-![](https://i.imgur.com/H1HS9Zk.png)
+![](https://assets.turntrout.com/static/images/posts/H1HS9Zk.avif)
 
 Put differently, the possibilities available are all of the potential film-strips of how-the-future-goes you can induce from the current state.
 
-![](https://i.imgur.com/iQxjw0B.png)
+![](https://assets.turntrout.com/static/images/posts/iQxjw0B.avif)
 
 ### Possibility isomorphism
 
@@ -176,14 +176,14 @@ In MDPs, the "AU landscape" is the set of optimal value functions for all reward
 
 From the environment (rewardless MDP), you can deduce the AU landscape (all optimal value functions) and all possibilities. From possibilities, you can deduce the environment and the AU landscape. From the AU landscape, you can deduce the environment (and thereby all possibilities).
 
-![](https://i.imgur.com/D8PPNKp.png)
+![](https://assets.turntrout.com/static/images/posts/D8PPNKp.avif)
 Figure: All of these encode the same mathematical object.
 
 ## Appendix: Opportunity cost
 
 Opportunity cost is when an action you take makes you more able to achieve one goal but less able to achieve another. Even this simple world has opportunity cost:
 
-![](https://i.imgur.com/rFfZvVh.png)
+![](https://assets.turntrout.com/static/images/posts/rFfZvVh.avif)
 
 Going to the green state means you can't get to the purple state as quickly.
 

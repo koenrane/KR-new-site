@@ -54,10 +54,10 @@ _Does gaining money tend to be optimal? Avoiding shutdown? When? How do we know?
 ![](https://i.imgur.com/ZiFD6BU.gif)
 <br/>Figure: Most reward functions for the Pac-Man game incentivize not dying immediately, so that the agent can loop around higher-scoring configurations.
 
-![](https://i.imgur.com/3HUBl5H.png)
+![](https://assets.turntrout.com/static/images/posts/3HUBl5H.avif)
 <br/>Figure: Many ways of scoring Tic-Tac-Toe game states incentivize not losing immediately, in order to choose the highest-scoring final configuration.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/4d8c2643e138a36e7ac456d660cf9cfa51cd99fb1070d0fa.png)
+![](https://assets.turntrout.com/static/images/posts/4d8c2643e138a36e7ac456d660cf9cfa51cd99fb1070d0fa.avif)
 <br/>Figure: "All states have self-loops, left hidden to reduce clutter.   
   
 In _AI: A Modern Approach (3e)_, the agent starts at $\color{blue}{1}$  and receives reward for reaching $\color{green}{3}$. The optimal policy for this reward function avoids $\color{red}{2}$, and one might suspect that avoiding $\color{red}{2}$ is instrumentally convergent. However, a skeptic might provide a reward function for which navigating to $\color{red}{2}$ is optimal, and then argue that "instrumental convergence'' is subjective and that there is no reasonable basis for concluding that $\color{red}{2}$ is generally avoided.  
@@ -72,13 +72,13 @@ While it's good to understand the limiting case, what if the agent, you know, _i
 
 # Normal amounts of sightedness
 
-![](https://i.imgur.com/C0XH06g.png)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/b8ee87a5e343c508fd99369262b0bc56bfa47fc3875d9de0.png)
+![](https://assets.turntrout.com/static/images/posts/C0XH06g.avif)![](https://assets.turntrout.com/static/images/posts/b8ee87a5e343c508fd99369262b0bc56bfa47fc3875d9de0.avif)
 
 But what if we care about the journey? What if $\gamma\in(0,1)$? 
 
 We can view Frank as traversing a Markov decision process, navigating between states with his actions:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/29b319faf0ef254924b8e4292c6edba0fab28fbe71379f7f.png)
+![](https://assets.turntrout.com/static/images/posts/29b319faf0ef254924b8e4292c6edba0fab28fbe71379f7f.avif)
 <br/>Figure: Reward is IID, so the gold-heap state doesn't have an intrinsically more generous reward distribution than the castle-and-dragon state.
 
 It sure _seems_ like Frank is more likely to start with the blue or green gems. Those give him way more choices along the way, after all. But the previous theorems only said "at $\gamma=0$, he's equally likely to pick each gem. At $\gamma=1$, he's equally likely to end up in each terminal state". 
@@ -97,7 +97,7 @@ How do we reason about instrumental convergence – how do we find those sets of
 
 We exploit symmetries. 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e9639af9623f040dde91ce018b021d6d89faf6d475e0c488.png)
+![](https://assets.turntrout.com/static/images/posts/e9639af9623f040dde91ce018b021d6d89faf6d475e0c488.avif)
 <br/>Figure: There exists a [graph isomorphism](https://en.wikipedia.org/wiki/Graph_isomorphism) between this blue-gem-subgraph and the red-gem-graph, such that the isomorphism leaves Frank where he is.
 
 The blue gem makes available all of the same options as the red gems, and _then some_. Since the blue gem gives you strictly more options, it's strictly more likely to be optimal! When you toss back in the green gem, avoiding the red gems becomes yet more likely. 

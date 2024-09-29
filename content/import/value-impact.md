@@ -41,7 +41,7 @@ skip_import: true
 ---
 ![](https://assets.turntrout.com/static/images/posts/lG9je1g.avif)
 
-![](https://i.imgur.com/1hJa51n.png)
+![](https://assets.turntrout.com/static/images/posts/1hJa51n.avif)
 
   
 
@@ -50,35 +50,35 @@ skip_import: true
   
   
 
-![](https://i.imgur.com/zMxBlb0.png)
+![](https://assets.turntrout.com/static/images/posts/zMxBlb0.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/tupgltr.avif )![](https://assets.turntrout.com/static/images/posts/kNG5for.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/BtzHnUq.avif)
 
-![](https://i.imgur.com/jaHW2pp.png )
+![](https://assets.turntrout.com/static/images/posts/jaHW2pp.avif )
 
-![](https://i.imgur.com/MmtIR5e.png)
+![](https://assets.turntrout.com/static/images/posts/MmtIR5e.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/S1KiiUj.avif)
 
-![](https://i.imgur.com/9ZqUDO6.png)
+![](https://assets.turntrout.com/static/images/posts/9ZqUDO6.avif)
 
-![](https://i.imgur.com/TT61fRC.png)
+![](https://assets.turntrout.com/static/images/posts/TT61fRC.avif)
 
-![](https://i.imgur.com/JGA0KAj.png)
+![](https://assets.turntrout.com/static/images/posts/JGA0KAj.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/ZBG9SXA.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/IhjRIpN.avif )
 
-![](https://i.imgur.com/lsJLMDk.png )
+![](https://assets.turntrout.com/static/images/posts/lsJLMDk.avif )
 
-![](https://i.imgur.com/OBmQUKm.png)
+![](https://assets.turntrout.com/static/images/posts/OBmQUKm.avif)
 
 >! Being on Earth when this happens is a big deal, no matter your objectives – you can't hoard pebbles if you're dead! People would feel the loss from anywhere in the cosmos. However, Pebblehoarders wouldn't mind if they weren't in harm's way.
 
-![](https://i.imgur.com/zKM6Bt9.png)
+![](https://assets.turntrout.com/static/images/posts/zKM6Bt9.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/ZOAeuoe.avif)
 

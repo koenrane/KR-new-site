@@ -69,7 +69,7 @@ Consider why you originally bought a cell phone. It was probably to call people,
 
 The point isn’t “phone bad, never use phone, quit now.” My phone provides me with enormous benefits. The point is _where was the cost-benefit analysis, what tf has happened to us?!_
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/2749e833d9821059f131c852d2ab35451550729fb305ea07.png)
+![](https://assets.turntrout.com/static/images/posts/2749e833d9821059f131c852d2ab35451550729fb305ea07.avif)
 <br/>Figure: Notice the middle stat: **one third of daily waking hours**. I am disgusted that some people try to make this number go up further. From [AppAnnie](https://www.data.ai/en/insights/market-data/state-of-mobile-2022/).
 
 Readers of this forum are probably better about their usage. Let’s be (too) generous and cut that to a mere two hours wasted daily on your phone, and 0 hours wasted on your other devices. That’s only _one eighth of your waking year,_ or 1.5 waking months each year.

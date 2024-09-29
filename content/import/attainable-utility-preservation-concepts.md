@@ -41,21 +41,21 @@ skip_import: true
 ---
 ![](https://assets.turntrout.com/static/images/posts/hTnYTsJ.avif)
 
-![](https://i.imgur.com/gwVocUy.png) ![](https://assets.turntrout.com/static/images/posts/KPv2beS.avif)
+![](https://assets.turntrout.com/static/images/posts/gwVocUy.avif) ![](https://assets.turntrout.com/static/images/posts/KPv2beS.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/MYNBKOe.avif)
 
-![](https://i.imgur.com/ZK2qYPZ.png)
+![](https://assets.turntrout.com/static/images/posts/ZK2qYPZ.avif)
 
-![](https://i.imgur.com/lk8Keid.png) ![](https://assets.turntrout.com/static/images/posts/kMBZK6d.avif) ![](https://i.imgur.com/FXlUiYj.png)
+![](https://assets.turntrout.com/static/images/posts/lk8Keid.avif) ![](https://assets.turntrout.com/static/images/posts/kMBZK6d.avif) ![](https://assets.turntrout.com/static/images/posts/FXlUiYj.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/hHVvk0Q.avif) ![](https://assets.turntrout.com/static/images/posts/3NMSHHl.avif) ![](https://assets.turntrout.com/static/images/posts/BtzHnUq.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/MzW64A5.avif) ![](https://assets.turntrout.com/static/images/posts/mOWK65o.avif)
 
-![](https://i.imgur.com/VDQiChW.png) ![](https://assets.turntrout.com/static/images/posts/jtxMXJe.avif)
+![](https://assets.turntrout.com/static/images/posts/VDQiChW.avif) ![](https://assets.turntrout.com/static/images/posts/jtxMXJe.avif)
 
-![](https://i.imgur.com/7KcMK3J.png)
+![](https://assets.turntrout.com/static/images/posts/7KcMK3J.avif)
 
 ## Appendix: No free impact
 

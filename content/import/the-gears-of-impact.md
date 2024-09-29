@@ -40,21 +40,21 @@ original_url: https://www.lesswrong.com/posts/coQCEe962sjbcCqB9/the-gears-of-imp
 skip_import: true
 ---
 
-![](https://i.imgur.com/hKhkvwg.png)
+![](https://assets.turntrout.com/static/images/posts/hKhkvwg.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/IXogCtA.avif)
 
-![](https://i.imgur.com/2r2DVFx.png)
+![](https://assets.turntrout.com/static/images/posts/2r2DVFx.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/holekcV.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/SzFSiEc.avif)
 
-![](https://i.imgur.com/wCRzqox.png) ![](https://assets.turntrout.com/static/images/posts/BAWF2q1.avif)
+![](https://assets.turntrout.com/static/images/posts/wCRzqox.avif) ![](https://assets.turntrout.com/static/images/posts/BAWF2q1.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/UCGx4QR.avif )
 
-![](https://i.imgur.com/5YOlvLh.png)![](https://i.imgur.com/yA8wkQP.png)![](https://assets.turntrout.com/static/images/posts/QXG2pVK.avif)
+![](https://assets.turntrout.com/static/images/posts/5YOlvLh.avif)![](https://assets.turntrout.com/static/images/posts/yA8wkQP.avif)![](https://assets.turntrout.com/static/images/posts/QXG2pVK.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/27F0KkU.avif)
 
@@ -66,7 +66,7 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/sMgB7yR.avif)
 
-![](https://i.imgur.com/lQ1jYfB.png )
+![](https://assets.turntrout.com/static/images/posts/lQ1jYfB.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/b6pDiKi.avif)
 
@@ -74,15 +74,15 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/uRr6YqY.avif )
 
-![](https://assets.turntrout.com/static/images/posts/67uR5SE.avif)![](https://i.imgur.com/PFqi66W.png)
+![](https://assets.turntrout.com/static/images/posts/67uR5SE.avif)![](https://assets.turntrout.com/static/images/posts/PFqi66W.avif)
 
-![](https://i.imgur.com/GBVahyL.png)
+![](https://assets.turntrout.com/static/images/posts/GBVahyL.avif)
 
-![](https://i.imgur.com/SATKmJJ.png)
+![](https://assets.turntrout.com/static/images/posts/SATKmJJ.avif)
 
-![](https://i.imgur.com/v338kDc.png)
+![](https://assets.turntrout.com/static/images/posts/v338kDc.avif)
 
-![](https://i.imgur.com/oqEeta9.png)
+![](https://assets.turntrout.com/static/images/posts/oqEeta9.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/epI7152.avif)
 
@@ -90,9 +90,9 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/WjTqF2y.avif)
 
-![](https://i.imgur.com/dLUrki7.png)
+![](https://assets.turntrout.com/static/images/posts/dLUrki7.avif)
 
-![](https://i.imgur.com/lDbQW2b.jpg )
+![](https://assets.turntrout.com/static/images/posts/lDbQW2b.avif )
 
 
 > [!exercise]

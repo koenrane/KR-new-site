@@ -117,7 +117,7 @@ _Why:_ We may want to shut the agent down, which is tough if its plans are only 
 
 _Example:_ [Krakovna et al.](https://arxiv.org/abs/1806.01186) describe a low impact agent which is rewarded for saving a vase from breaking. The agent saves the vase, and then places it back on the conveyor belt so as to "minimize" impact with respect to the original outcome:
 
-![](https://i.imgur.com/03b8i2s.jpg)
+![](https://assets.turntrout.com/static/images/posts/03b8i2s.avif)
 
 This is called _ex post_ offsetting. _Ex ante_ offsetting, on the other hand, consists of taking actions beforehand to build a device or set in motion a chain of events which essentially accomplishes _ex post_ offsetting. For example, a device requiring only the press of a button to activate could save the vase and then replace it, netting the agent the reward without requiring that the agent take further actions.
 

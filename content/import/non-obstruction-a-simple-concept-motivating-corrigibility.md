@@ -117,7 +117,7 @@ This math expresses a simple sentiment: turning on the AI doesn’t make you, th
 
 Suppose that $\pi^{AI}(\textbf{on})$ leads to **pancakes**:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/8967dd9ee43dc19248e294ac433dc57069217c819ea4fc3d.png)
+![](https://assets.turntrout.com/static/images/posts/8967dd9ee43dc19248e294ac433dc57069217c819ea4fc3d.avif)
 
 Since $\pi^{AI}(\textbf{on})$ transitions to **pancakes**, then $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})=P(\textbf{pancakes})$, the payoff for the state in which the game finishes if the AI follows policy $\pi^{AI}$ and the human follows policy $\text{pol}(P)$. If $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})\geq V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI})$, then turning on the AI doesn't make the human worse off for goal $P$. 
 

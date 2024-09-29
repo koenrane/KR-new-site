@@ -46,7 +46,7 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/KOgtb77.avif)
 
-![](https://i.imgur.com/M5Ad0y3.png)
+![](https://assets.turntrout.com/static/images/posts/M5Ad0y3.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/n0YpPTs.avif ) ![](https://assets.turntrout.com/static/images/posts/7qhXiqy.avif )
 
@@ -60,17 +60,17 @@ skip_import: true
 
 ![](https://assets.turntrout.com/static/images/posts/LaaWktm.avif )
 
-![](https://i.imgur.com/HSnZ04N.png)
+![](https://assets.turntrout.com/static/images/posts/HSnZ04N.avif)
 
 ## ![](https://assets.turntrout.com/static/images/posts/NM4aDfl.avif ) ![](https://assets.turntrout.com/static/images/posts/WNk1BrR.avif )
 
-![](https://i.imgur.com/I0yeEVZ.png)
+![](https://assets.turntrout.com/static/images/posts/I0yeEVZ.avif)
 
-![](https://assets.turntrout.com/static/images/posts/XZb4N1l.avif)![](https://assets.turntrout.com/static/images/posts/nc1vTVX.avif)![](https://i.imgur.com/UBO9YKH.png)
+![](https://assets.turntrout.com/static/images/posts/XZb4N1l.avif)![](https://assets.turntrout.com/static/images/posts/nc1vTVX.avif)![](https://assets.turntrout.com/static/images/posts/UBO9YKH.avif)
 
-## ![](https://assets.turntrout.com/static/images/posts/RSoj9Cz.avif)![](https://i.imgur.com/O0BqpNx.png)
+## ![](https://assets.turntrout.com/static/images/posts/RSoj9Cz.avif)![](https://assets.turntrout.com/static/images/posts/O0BqpNx.avif)
 
-[​](​![]\(https://i.imgur.com/AecZKTq.png)![](https://i.imgur.com/AecZKTq.png)
+[​](​![]\(https://assets.turntrout.com/static/images/posts/AecZKTq.avif)![](https://assets.turntrout.com/static/images/posts/AecZKTq.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/RzasnHy.avif)
 
@@ -88,8 +88,8 @@ skip_import: true
 
 [​](​![]\(https://assets.turntrout.com/static/images/posts/gtgIF77.avif)![](https://assets.turntrout.com/static/images/posts/gtgIF77.avif)
 
-![](https://i.imgur.com/hqEX2r1.png )
+![](https://assets.turntrout.com/static/images/posts/hqEX2r1.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/yaWfaOv.avif )
 
-![](https://i.imgur.com/FuBQCP0.png)
+![](https://assets.turntrout.com/static/images/posts/FuBQCP0.avif)

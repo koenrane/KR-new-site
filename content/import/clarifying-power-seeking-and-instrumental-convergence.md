@@ -38,7 +38,7 @@ Rohin Shah and Vanessa Kosoy pointed out a subtle problem with my interpretation
 
 Imagine you're able to either attend college and then choose one of two careers, or attend a trade school for a third career. If you wanted, you could also attend college after trade school.
 
-![](https://i.imgur.com/eDNlPMb.png)
+![](https://assets.turntrout.com/static/images/posts/eDNlPMb.avif)
 
 If every way of rewarding careers is equally likely, then 2/3 of the time, you just go to college straight away. This is true even though _going to trade school increases your power (your ability to achieve goals in general) compared to just going to college._ That is, Power(`trade school`) > Power(`college`), but going to `college` is instrumentally convergent.
 >
