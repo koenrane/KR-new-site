@@ -714,7 +714,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                 mermaid.initialize({
                   startOnLoad: false,
                   securityLevel: 'loose',
-                  theme: darkMode ? 'dark' : 'default'
+                  theme: darkMode ? 'dark' : 'default',
+                  themeVariables: {lineColor: "var(--gray) !important"}
                 })
 
                 await mermaid.run({
