@@ -108,7 +108,7 @@ An action $a\in\mathcal{A}_i$ is a _Pareto improvement_ over strategy profile $\
 
 We can prove that formal defection exists in the trifecta of famous games. Feel free to skip proofs if you aren't interested.
 
-![](/static/images/posts/7c2aa97336741f1a062968218a8391d8871554d59d53c8ee.avif)
+![](https://assets.turntrout.com/static/images/posts/7c2aa97336741f1a062968218a8391d8871554d59d53c8ee.avif)
 <br/>Figure: In (a), variables stand for $T$emptation, $R$eward, $P$unishment, and $S$ucker. A $2×2$ symmetric game is a _Prisoner's Dilemma_ when $T>R>P>S$. Unsurprisingly, formal defection is everywhere in this game.
 
 **Theorem 5.** In $2×2$ symmetric games, if the Prisoner's Dilemma inequality is satisfied, defection can exist against equal weightings.
@@ -120,7 +120,7 @@ Suppose instead that $R\leq \frac{1}{2}(T+S)$. Then $T+S\geq 2R>2P$, so $T+S>2P$
 <hr/>
 
 
-![](/static/images/posts/0de841661949492409f34e304c124aa51fdf5af64f9514fc.avif)
+![](https://assets.turntrout.com/static/images/posts/0de841661949492409f34e304c124aa51fdf5af64f9514fc.avif)
 <br/>Figure: A $2×2$ symmetric game is a _Stag Hunt_ when $R>T\geq P>S$. In Stag Hunts, due to uncertainty about whether the other player will hunt stag, players defect and fail to coordinate on the unique Pareto optimum $(\text{Stag}_1,\text{ Stag}_2)$. In (b), player 2 will defect (play $\text{Hare}_2$) when $\mathbb{P}(\text{Stag}_1)<\frac{1}{2}$. In Stag Hunts, formal defection can always occur against mixed strategy profiles, which lines up with defection in this game being due to uncertainty.
 
 **Theorem 6.** In $2×2$ symmetric games, if the Stag Hunt inequality is satisfied, defection can exist against equal weightings.
@@ -150,7 +150,7 @@ Since $P-T\leq0$, this holds for some nonempty subinterval of $[0,1)$. QED.
 <hr/>
 
 
-![](/static/images/posts/9a5af9e1b5fd6a2b840a77e1cdcd7d3be6941064a178be8b.avif)
+![](https://assets.turntrout.com/static/images/posts/9a5af9e1b5fd6a2b840a77e1cdcd7d3be6941064a178be8b.avif)
 <br/>Figure: A $2×2$ symmetric game is _Chicken_ when $T>R\geq S>P$. In (b), defection only occurs when $\frac{10}{11}<\mathbb{P}(\text{Turn}_1)<\frac{21}{22}$: when player 1 is very likely to turn, player 2 is willing to trade a bit of total payoff for personal payoff.
 
 **Theorem 7.** In $2×2$ symmetric games, if the Chicken inequality is satisfied, defection can exist against equal weightings.

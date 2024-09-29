@@ -56,7 +56,7 @@ I explore how instrumental convergence works in this case. I also walk through h
 
 Consider the following environment, where the agent can either stay put or move along a purple arrow.
 
-![](/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
+![](https://assets.turntrout.com/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
 <br/>Figure: From left to right, top to bottom, the states have labels $s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 
@@ -71,7 +71,7 @@ This particular featurization **increases** the strength of the orbit-level ince
 
 There's another point I want to make in this tiny environment. 
 
-![](/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
+![](https://assets.turntrout.com/static/images/posts/7c937e888b905bb15c8dadb9d7a8603bbd826948d56f8433.avif)
 <br/>Figure: From left to right, top to bottom, the states have labels$s_\triangle, s_\bigcirc,s_\text{left},s_\text{start},s_\text{right},s_\bigstar.$
 
 Suppose we find an environmental symmetry $\phi$ which lets us apply the [original power-seeking theorems](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) to raw reward functions over the world state. Letting $\mathbf{e}_s\in \mathbb{R}^6$ be a column vector with an entry of 1 at state $s$ and 0 elsewhere, in this environment, we have the symmetry enforced by 
@@ -102,13 +102,13 @@ The shape featurization plays nice with the actual nitty-gritty environment-leve
 ### $(x,y)$ featurization
 In a different featurization, suppose the featurization is the agent's $x/y$ coordinates. $R(s_{x,y}) = \alpha_1 x + \alpha_2 y$. 
 
-![](/static/images/posts/4a458603d6837cedd2bf439d79992ab2c9c3ed93c0dfe3d3.avif)
+![](https://assets.turntrout.com/static/images/posts/4a458603d6837cedd2bf439d79992ab2c9c3ed93c0dfe3d3.avif)
 
 Given the **start** state, if the agent goes _up_, its reachable feature vector is just {(x=0 y=1)}, whereas the agent can induce (x=1 y=0) if it goes _right_. Therefore, whenever _up_ is strictly optimal for a featurized reward function, we can permute that reward function's feature weights by swapping the x- and y-coefficients ($\alpha_1$ and $\alpha_2$, respectively). Again, this new reward function is featurized, and it makes going _right_ strictly optimal. So the usual arguments ensure that at least half of these featurized reward functions make it optimal to go right. 
 
 But sometimes these similarities won't hold, even when it initially looks like they "should"!
 
-![](/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif)
+![](https://assets.turntrout.com/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif)
 
 The agent can induce the feature vectors $\left \{ \begin{pmatrix}x: -1\\ y:0\end{pmatrix}, \begin{pmatrix}x:-1\\  y:-1\end{pmatrix}\right\}$ if it goes _left_. However, it can induce $\left \{ \begin{pmatrix}x: 1\\ y:0\end{pmatrix}, \begin{pmatrix}x:1\\ y:1\end{pmatrix}\right\}$ if it goes _right_. 
 
@@ -122,7 +122,7 @@ If the agent can be made to "hate everything" (all feature weights $\alpha_i$ ar
 
 Consider a deep RL training process, where the agent's episodic reward is featurized into a weighted sum of the different resources the agent has at the end of the game, with weight vector $\alpha$. For simplicity, we fix an opponent policy and a learning regime (number of epochs, learning rate, hyperparameters, network architecture, and so on). We consider the effects of varying the reward feature coefficients $\alpha$.
 
-![Macro » Learning SC2](/static/images/posts/?u=http%3A%2F%2Flearningsc2.com%2Fwp-content%2Fuploads%2F2011%2F01%2FMineral-Line-1024x530.avif&f=1&nofb=1)
+![Macro » Learning SC2](https://assets.turntrout.com/static/images/posts/?u=http%3A%2F%2Flearningsc2.com%2Fwp-content%2Fuploads%2F2011%2F01%2FMineral-Line-1024x530.avif&f=1&nofb=1)
 
 Outcomes of interest
 : Game state trajectories.

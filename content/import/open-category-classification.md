@@ -142,7 +142,7 @@ If we distribute  $10{,}000$ points in the  $1{,}000$\-dimensional unit ball, th
 
 Train a variational autoencoder with a  $k$\-dimensional latent space on the dataset  $D_{train}$. Then train a [multilayer perceptron](https://en.wikipedia.org/wiki/Multilayer_perceptron)  $f_\theta$ to classify  $D_{train}$ using the latent representation of each image. [^4] This is the network to which we will apply the volume penalty. New images will be translated to the latent space by the trained encoder and then fed to  $f_\theta$ for classification. ​
 
-![](/static/images/posts/1*BIDBG8MQ9-Kc-knUUrkT3A.avif)
+![](https://assets.turntrout.com/static/images/posts/1*BIDBG8MQ9-Kc-knUUrkT3A.avif)
 
 > [!quote]
 >

@@ -39,28 +39,28 @@ date_published: 09/23/2019
 original_url: https://www.lesswrong.com/posts/TxcYSRQ9giC6zmKov/value-impact
 skip_import: true
 ---
-![](/static/images/posts/lG9je1g.avif)
+![](https://assets.turntrout.com/static/images/posts/lG9je1g.avif)
 
 ![](https://i.imgur.com/1hJa51n.png)
 
   
 
-![](/static/images/posts/geDXLLG.avif)
+![](https://assets.turntrout.com/static/images/posts/geDXLLG.avif)
 
   
   
 
 ![](https://i.imgur.com/zMxBlb0.png)
 
-![](/static/images/posts/tupgltr.avif )![](/static/images/posts/kNG5for.avif)
+![](https://assets.turntrout.com/static/images/posts/tupgltr.avif )![](https://assets.turntrout.com/static/images/posts/kNG5for.avif)
 
-![](/static/images/posts/BtzHnUq.avif)
+![](https://assets.turntrout.com/static/images/posts/BtzHnUq.avif)
 
 ![](https://i.imgur.com/jaHW2pp.png )
 
 ![](https://i.imgur.com/MmtIR5e.png)
 
-![](/static/images/posts/S1KiiUj.avif)
+![](https://assets.turntrout.com/static/images/posts/S1KiiUj.avif)
 
 ![](https://i.imgur.com/9ZqUDO6.png)
 
@@ -68,9 +68,9 @@ skip_import: true
 
 ![](https://i.imgur.com/JGA0KAj.png)
 
-![](/static/images/posts/ZBG9SXA.avif )
+![](https://assets.turntrout.com/static/images/posts/ZBG9SXA.avif )
 
-![](/static/images/posts/IhjRIpN.avif )
+![](https://assets.turntrout.com/static/images/posts/IhjRIpN.avif )
 
 ![](https://i.imgur.com/lsJLMDk.png )
 
@@ -80,9 +80,9 @@ skip_import: true
 
 ![](https://i.imgur.com/zKM6Bt9.png)
 
-![](/static/images/posts/ZOAeuoe.avif)
+![](https://assets.turntrout.com/static/images/posts/ZOAeuoe.avif)
 
-![](/static/images/posts/fzLD7kQ.avif)
+![](https://assets.turntrout.com/static/images/posts/fzLD7kQ.avif)
 
 ## Appendix: Contrived Objectives
 

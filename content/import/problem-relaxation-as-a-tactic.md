@@ -109,7 +109,7 @@ I paused. I went outside for a walk, and I paced. The walk lengthened, and I sti
 
 I went back to the drawing board – to the whiteboard, in fact. I stopped trying to [understand the general case](/seeking-power-is-often-convergently-instrumental-in-mdps) and I focused on specific toy environments. I'm looking at an environment like this
 
-![](/static/images/posts/KEKaYrk.avif)
+![](https://assets.turntrout.com/static/images/posts/KEKaYrk.avif)
 
 and I'm thinking, most agents go from `1` to `3`. "Why does my brain think this?", I asked myself. Unhelpfully, my brain decided not to respond.
 

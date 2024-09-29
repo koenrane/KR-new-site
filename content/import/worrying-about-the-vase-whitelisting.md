@@ -92,7 +92,7 @@ You're going to be the agent, and I'll be the supervisor.
 
 Look around - what do you see? Chairs, trees, computers, phones, people? Assign a probability mass function to each; basically:
 
-![](/static/images/posts/g73Nbg7.avif?1)
+![](https://assets.turntrout.com/static/images/posts/g73Nbg7.avif?1)
 
 When you do things that change your beliefs about what each object is, you receive a penalty proportional to how much your beliefs changed - proportional to how much probability mass "changed hands" amongst the classes.
 
@@ -147,7 +147,7 @@ I tested a vanilla Q-learning agent and its whitelist-enabled counterpart in 100
 
 The simulated classification confidence of each object's true class was $p \sim \mathcal{N}(.8, \sigma)$ (truncated to $[0,1]$), $\sigma \in \{0,.025,\dots,.175\}$. This simulated sensor noise was handled with a Bayesian statistical approach.
 
-![](/static/images/posts/BkfH5xt.avif)
+![](https://assets.turntrout.com/static/images/posts/BkfH5xt.avif)
 
 At reasonable levels of noise, the whitelist-enabled agent completed all levels without a single side effect, while the Q-learner broke over 80 vases.
 

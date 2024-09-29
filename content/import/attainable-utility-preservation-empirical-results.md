@@ -202,7 +202,7 @@ Is this right, and can AUP scale?
 
 Partnership on AI recently [released](https://www.partnershiponai.org/safelife/) the SafeLife side effect benchmark. The worlds are procedurally generated, sometimes stochastic, and have a huge state space (~Atari-level complexity).
 
-We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="/static/images/posts/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="/static/images/posts/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="asset_staging/red_arch_safelife.png" alt="red archway" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
+We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="/static/images/posts/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="asset_staging/red_arch_safelife.png" alt="red archway" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
 
 
 <video autoplay loop muted playsinline src="/static/images/posts/benchmark-append-ppo.mp4" type="video/mp4"><source src="/static/images/posts/benchmark-append-ppo.mp4" type="video/mp4"></video>
@@ -267,7 +267,7 @@ When we're trying to get the RL agent to do what we want, we're trying to specif
 > [!quote] [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
 > The specification process can be thought of as an iterated game. First, the designers provide a reward function. The agent then computes and follows a policy that optimizes the reward function. The designers can then correct the reward function, which the agent then optimizes, and so on. Ideally, the agent should maximize the reward over time, not just within any particular round – in other words, it should minimize regret for the correctly specified reward function over the course of the game.
 
-![](/static/images/posts/d79VKqf.avif)
+![](https://assets.turntrout.com/static/images/posts/d79VKqf.avif)
 
 In terms of outer alignment, there are two ways this can go wrong: the agent becomes less able to do the right thing (has negative side effects),
 
@@ -275,7 +275,7 @@ In terms of outer alignment, there are two ways this can go wrong: the agent bec
 
 or we become less able to get the agent to do the right thing (we lose power):
 
-![](/static/images/posts/vW3Mwho.avif)
+![](https://assets.turntrout.com/static/images/posts/vW3Mwho.avif)
 
 For infra-human agents, AUP deals with the first by penalizing decreases in auxiliary AUs and with the second by penalizing increases in auxiliary AUs. The latter is a special form of corrigibility which involves not steering the world too far away from the status quo: while AUP agents are generally off-switch corrigible, they don't necessarily avoid manipulation (as long as they aren't gaining power).[^5]
 

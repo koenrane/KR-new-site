@@ -99,7 +99,7 @@ Continuity in the variables says that paths along the axes converge in the right
 
 Suppose $p:C\to Y$ is a [covering map](https://en.wikipedia.org/wiki/Covering_space). One way of understanding [lifts](https://en.wikipedia.org/wiki/Lift_\(mathematics\)) in algebraic topology is that, for some path $f:X\to Y$, the lift $\tilde{f}:X\to C$ is the unique path in the covering space $C$ corresponding to $f=p\circ \tilde{f}$.
 
-![](/static/images/posts/psLCumW.avif)
+![](https://assets.turntrout.com/static/images/posts/psLCumW.avif)
 
 Once you fix the initial point, the lift corresponds to the unique path in the covering space which produces $f$. It's just helping you find the corresponding path in the lifted up covering space!
 

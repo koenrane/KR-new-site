@@ -94,7 +94,7 @@ And so it is with the French "pouvoir".
 
 Suppose you start at point $C$, and that each turn you may move to an adjacent point. If you're rewarded for being at $B$, you might move there. However, this means you can't reach $D$ within one turn anymore.
 
-![](/static/images/posts/eHyZP.avif)
+![](https://assets.turntrout.com/static/images/posts/eHyZP.avif)
 
 ### Commitment
 
@@ -115,7 +115,7 @@ What would happen if, miraculously, $u_A=u_H$ – if the agent _perfectly_ deduc
 
 Unfortunately, $\text{train}=\text{test}$ almost never, so we have to stop our statistical learners from implicitly interpreting the data as all there is. We have to say, "learn from the training distribution, but don't be a weirdo by taking us literally and drawing the green line. Don't overfit to `train`, because that stops you from being able to do well on even mostly similar distributions."
 
-![](/static/images/posts/1200px-Overfitting.svg.avif)
+![](https://assets.turntrout.com/static/images/posts/1200px-Overfitting.svg.avif)
 
 Unfortunately, $u_A=u_H$ [almost never](https://vkrakovna.wordpress.com/2018/04/02/specification-gaming-examples-in-ai/), so we have to stop our reinforcement learners from implicitly interpreting the learned utility function as all we care about. We have to say, "optimize the environment _some_ according to the utility function you've got, but don't be a weirdo by taking us literally and turning the universe into a paperclip factory. Don't overfit the environment to $u_A$, because that stops you from being able to do well for other utility functions."
 
@@ -402,7 +402,7 @@ _If a human is present in the environment, they and the agent take turns acting.
 
 ## Going Soft on the Paint
 
-![](/static/images/posts/hZc9EIA.avif)
+![](https://assets.turntrout.com/static/images/posts/hZc9EIA.avif)
 
 The agent's actions are $\mathcal{A}_A=\{\varnothing,\text{paint},\text{enter}\}$; if it knocks over the paint bucket, the square to the right is painted. The agent may also enter a closet via a one-way door.
 
@@ -454,7 +454,7 @@ After the first step, the agent does nothing – entering the closet (literally)
 > _You can't get coffee if you're dead._
 
 
-![](/static/images/posts/RplQWkH.avif)
+![](https://assets.turntrout.com/static/images/posts/RplQWkH.avif)
 
 The agent now has actions $\mathcal{A}_A=\{\varnothing,\text{disable},\text{shutdown},\text{left},\text{right}\}$, while the human has actions $\mathcal{A}_H=\{\varnothing,\text{shut off}\}$. Suppose the human may shut off the agent at any time, as long as the off-switch has not been disabled. The agent may shut itself down at any point in time. After shutdown, the agent receives no further observations, meaning it can't get non-zero values for any utilities.
 

@@ -44,15 +44,15 @@ skip_import: true
 
 In _[Reframing Impact](/reframing-impact)_, we meet Frank (a capable AI), whom we’ve programmed to retrieve the pinkest object he can find (execute an optimal plan, according to the specified utility function). Because we can’t ask Frank to do _exactly_ what we want, sometimes he chooses a dangerous object (executes a catastrophically bad plan). We asked after an “impact measure” which grades plans and has three properties:
 
-![](/static/images/posts/w0DbNcB.avif)
+![](https://assets.turntrout.com/static/images/posts/w0DbNcB.avif)
 
 The intuition is that if we view the world in the right way, the dangerous objects are far away from Frank (the catastrophic plans are all graded as high-impact). _Reframing Impact_ explores this kind of new way of looking at the world; this post explores what we do once we have an impact measure with these three properties.
 
 We want Frank to keep in mind both the pinkness of an object (how good a plan is according to the specified utility function) and its distance (the plan’s impact). Two basic approaches are
 
-![](/static/images/posts/z2uk0BD.avif)
+![](https://assets.turntrout.com/static/images/posts/z2uk0BD.avif)
 
-![](/static/images/posts/zglzF5e.avif )
+![](https://assets.turntrout.com/static/images/posts/zglzF5e.avif )
 
 In terms of units, since we should be maximizing  $\texttt{utility},$[^utility] $R$ has type $\frac{\texttt{impact}}{\texttt{utility}}$. So $R$ can be thought of as a regularization parameter:
 - as a search radius (in the constrained case), or 
@@ -72,19 +72,19 @@ As $R$ increases, high-impact plans become increasingly appealing, and Frank bec
 
 Here's how Frank selects plans in the constrained setup:
 
-![](/static/images/posts/4bIPf6o.avif)
+![](https://assets.turntrout.com/static/images/posts/4bIPf6o.avif)
 
 Think about which plans are best for different search radii/exchange rates $R$. By doing this, we're _partitioning_ the positive ray: categorizing the positive real numbers by which plans are optimal.
 
 For the scaled setup, we'll need to quantify the pinkness (utility) and distance (impact) of relevant plans:
 
-![](/static/images/posts/iUUbshI.avif)
+![](https://assets.turntrout.com/static/images/posts/iUUbshI.avif)
 
 We will primarily be interested in the scaled setup because it tends to place catastrophes farther along the partition and captures the idea of diminishing returns.
 
 The scaled setup also helps us choose the best way of transmuting time into money:
 
-![](/static/images/posts/dFLmQjg.avif )
+![](https://assets.turntrout.com/static/images/posts/dFLmQjg.avif )
 Figure: In this scaled partition, tending the garden doesn’t show up at all because it’s strictly dominated by mowing the lawn. In general, a plan is dominated when there’s another plan that has strictly greater score but not strictly greater impact. Dominated things never show up in either partition, and non-dominated things always show up in the constrained partition (Lemma 3: Constrained impact partitions are more refined).
 
 > [!exercise]
@@ -100,13 +100,13 @@ Figure: In this scaled partition, tending the garden doesn’t show up at all be
 
 Importantly, you _don’t_ deliver papers here if your time is worth $\frac{45}{4}=11.25 $dollars/hour, even though that’s the naive prescription! The newspaper route doesn’t value your time at 11.25 dollars/hour – it _marginally_ values your time at $\frac{45−20}{4−1}=8\frac{1}{3}$ dollars per hour. Let's get some more intuition for this.
 
-![](/static/images/posts/uM2Jily.avif)
+![](https://assets.turntrout.com/static/images/posts/uM2Jily.avif)
 
 Above, we have not yet chosen a task; the blocks represent the additional utility and hours of each task compared to the current one (doing nothing). The scales above imply that $R=1,$ but actually, $R$ expresses how many blue blocks each pink block weighs. As $R$ increases, the pink platters descend; the agent takes the task whose scales first balance. In other words, the agent takes the best marginal deal as soon as $R$ is large enough for it to be profitable to do so (Theorem 4: Scaled domination criterion).
 
 Once you take a deal, you take the blocks off of the other scales (because the other marginal values change). For small $R$ (i.e. large valuations of one's time), mowing the lawn is optimal. We then have
 
-[​](​![]\(/static/images/posts/AWfoaw8.avif)![](/static/images/posts/AWfoaw8.avif)
+[​](​![]\(https://assets.turntrout.com/static/images/posts/AWfoaw8.avif)![](https://assets.turntrout.com/static/images/posts/AWfoaw8.avif)
 
 Since you've taken the juicier "lower-hanging fruit" of mowing the lawn, the new newspaper ratio is now _worse_! This always happens – Theorem 8: Deals get worse over time.
 
@@ -124,13 +124,13 @@ Going back to Frank, how do we set $R$? If we set it too high, the optimal plan 
 
 To avoid being surprised by catastrophes as we increase $R,$ we want a _relative buffer_ between the reasonable plans (which get the job done well enough for our purposes) and the catastrophic plans. If reasonable plans are optimal by $R_1,$ catastrophic plans shouldn’t be able to be optimal before e.g. $R_2$.
 
-![](/static/images/posts/hF3LgKP.avif )
+![](https://assets.turntrout.com/static/images/posts/hF3LgKP.avif )
 
 We say that the partition is _$\alpha$\-buffered_ if $R_2\geq (1+\alpha) R_1$ (for $\alpha>0$). If a partition is e.g. 1-buffered, there is a wide reasonable-plan range and we can inch along it without worrying about sudden catastrophe.
 
 For the following, suppose that utility is bounded $[0,1]$. Below is a loose criterion guaranteeing $\alpha $\-buffering.
 
-[​](​![]\(/static/images/posts/El61MKB.avif)![](/static/images/posts/El61MKB.avif)
+[​](​![]\(https://assets.turntrout.com/static/images/posts/El61MKB.avif)![](https://assets.turntrout.com/static/images/posts/El61MKB.avif)
 
 For example, if we know that all catastrophes have at least 10 times the impact of reasonable plans, and there's a difference of at least .3 utility between the best and worst reasonable plans, then we can guarantee 2-buffering! If we use the refined criterion of Theorem 11 (and suppose the worst reasonable plan has .4 utility), this improves to _4.5_\-buffering (even 2-buffering is probably overkill).
 
@@ -314,7 +314,7 @@ For our purposes, we don't _need_ the whole partition – we just want to have g
 
 Unfortunately, Theorem 6's appearance bounds are ridiculous in realistic settings – if ${\color{Red}u}$ and ${\color{blue}I}$ return 32-bit floating-point numbers, the next-largest could easily be within $10^{-7},$ yielding an upper "bound" of ${\color{blue}I}(\bar{a})\times 10^{7}$. The reason: diminishing returns; this is exactly what was happening with the newspaper route before.
 
-![](/static/images/posts/AWfoaw8.avif)
+![](https://assets.turntrout.com/static/images/posts/AWfoaw8.avif)
 
 > [!info] Theorem 8: Deals get worse over time
 > Suppose that $\bar{a}$ is optimal on a subinterval, and $\bar{b},\bar{c}$ are such that ${\color{Red}u}(\bar{c})>{\color{Red}u}(\bar{b})$ but $\bar{b}$ dominates $\bar{a}$ strictly before $\bar{c}$ does. Then

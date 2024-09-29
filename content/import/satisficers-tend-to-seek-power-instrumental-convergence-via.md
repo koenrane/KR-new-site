@@ -73,7 +73,7 @@ But I want to step back. What I call "the power-seeking theorems", they aren't r
 
 For example, suppose our cute robot Frank must choose one of several kinds of fruit. 
 
-![](/static/images/posts/6b6db28b0164d8da5c2d911acdd347785b7d43fb7dca780a.avif)
+![](https://assets.turntrout.com/static/images/posts/6b6db28b0164d8da5c2d911acdd347785b7d43fb7dca780a.avif)
 <br/>Figure: 🍒 vs 🍎 vs 🍌
 
 So far, I proved something like "if the agent has a utility function over fruits, then for at least 2/3 of possible utility functions it could have, it'll be optimal to choose something from {🍌,🍎}." This is because for every way 🍒 could be strictly optimal, you can make a new utility function that permutes the 🍒 and 🍎 reward, and another new one that permutes the 🍌 and 🍒 reward. So for every "I like 🍒 strictly more" utility function, there's at least two permuted variants which strictly prefer 🍎 or 🍌. Superficially, it seems like this argument relies on optimal decision-making. 
@@ -92,7 +92,7 @@ The agent can bring about different outcomes via different policies. In stochast
 
 For example, let's define the set of all possible fruit outcomes $F_C := \{$🍌$, $🍎$, $🍒$\}$ (each different fruit stands in for a standard basis vector in $\mathbb{R}^3$). Let $F_B:=\{$🍌$,$🍎$\}$ and $F_A:=\{$🍒$\}$. Let $\phi_1 := ($🍒$ \,\,\, $🍎$)$ swap the cherry and apple, and let $\phi_2 := ($🍒 🍌$)$ transpose the cherry and banana. Both of these $\phi$ are _involutions_, since they either leave the fruits alone or transpose them. 
 
-![](/static/images/posts/4984bcae29d616dd130c2e36b5f39e5340b356c02da9a0f2.avif)
+![](https://assets.turntrout.com/static/images/posts/4984bcae29d616dd130c2e36b5f39e5340b356c02da9a0f2.avif)
 <br/>Figure: Another illustration beyond the fruit setting: set 2 contains three copies of set 1.
 
 > [!math] Definition: Containment of set copies
@@ -338,7 +338,7 @@ I want to think about this more, especially for online planning agents. (The tra
 
 Consider a simple environment, where there are three actions: Up, Right, Down. 
 
-![](/static/images/posts/1def51addf905c57c155fb97bd4d3a1830fe6020d16dc5ec.avif)
+![](https://assets.turntrout.com/static/images/posts/1def51addf905c57c155fb97bd4d3a1830fe6020d16dc5ec.avif)
 
 **Probably optimal policies.** By running [tabular Q-learning](https://en.wikipedia.org/wiki/Q-learning) with $\epsilon$\-greedy exploration for e.g. 100 steps with resets, we have a high probability of producing an optimal policy for any reward function. Suppose that all Q-values are initialized at -100. Just let learning rate $\alpha=1$ and $\gamma=1$. This is basically a [bandit problem](https://en.wikipedia.org/wiki/Multi-armed_bandit).
 
@@ -366,7 +366,7 @@ As the environment grows bigger and the training procedure more complex, we'll h
 
 For example, suppose there are a trillion actions, and two of them lead to the Right state above. Half of the remaining actions lead to Up, and the rest lead to Down. 
 
-![](/static/images/posts/1def51addf905c57c155fb97bd4d3a1830fe6020d16dc5ec.avif)
+![](https://assets.turntrout.com/static/images/posts/1def51addf905c57c155fb97bd4d3a1830fe6020d16dc5ec.avif)
 <br/>Figure: 2 actions transition right to chocolate.  
 $\frac{1}{2}(10^{12}-2)$ actions transition up to candy.  
 $\frac{1}{2}(10^{12}-2)$ actions transition down to hug.

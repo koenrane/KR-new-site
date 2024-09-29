@@ -67,12 +67,12 @@ The videos we studied are hard to interpret without quantitative tools, so we re
 
 We suspect that the agent’s conditions for pursuing cheese generalize properties of historically reinforced cheese-directed moves in a very “soft” way. Consider that movements can be "directed" on paths towards the cheese, the top-right corner, both, or neither. In the training environment, unambiguously cheese-directed movements are towards a cheese square that is both _close to the mouse’s current position_ and _close to the top-right._[^2] 
 
-![](/static/images/posts/0f36fa697965a17145efcd0c9e8b5ecaf6e09b3389d7d386.avif)
+![](https://assets.turntrout.com/static/images/posts/0f36fa697965a17145efcd0c9e8b5ecaf6e09b3389d7d386.avif)
 <br/>Figure: Decision-square in red. We outline in yellow the 5x5 region where cheese can appear during training. In almost all cases that can arise in training, the decision-square is inside the 5x5 region. Unambiguously cheese-seeking moves are almost always moves to a _nearby_ cheese square which is _close_ to the top-right.
 
 Our impression is that in the test environment, "closeness to top-right" and "closeness to cheese" each become a decision-factor that encourages cheese-directed movement in proportion to “how strongly” the historical condition holds at present. In shard theory terminology, the top-right- and cheese-shards seem to activate more strongly in situations which are similar to historical reinforcement events.
 
-![](/static/images/posts/08c9e774585ec6db95af820809c24e4c9587d52996e9957a.avif)
+![](https://assets.turntrout.com/static/images/posts/08c9e774585ec6db95af820809c24e4c9587d52996e9957a.avif)
 <br/>Figure: The maze on the left is intuitively similar to training mazes: the decision-square, cheese, and top-right are all close to each other. In the maze on the right, the decision-square, cheese, and top-right aren't particularly close to each other.
 
 A second important aspect of our impressions was that the generalization process “interprets” each historical condition in multiple ways: It seemed to us that (e.g.) multiple kinds of distance between the decision-square and cheese may each have an effect on the agent's decision making.
@@ -95,7 +95,7 @@ Because our statistical procedure is non-rigorous, we are holding off on drawing
 
 One question that interests us, however, is whether these impressions point to a decision-making process that is more ‘shard-like' than 'utility-theoretic' in character. When we originally studied test-run videos, we wondered whether the apparent "closeness effects'' could be explained by a simple utility function with time-discounting (for example a fixed value cheese-goal and fixed value corner-goal). The evidence that at least some spatial closeness effects are irreducible to legal-steps closeness seem to rule out such simple utility functions, since only legal-steps closeness matters for time-discounting:
 
-![](/static/images/posts/018130fdb9680994841768855b29f76b80b9972b7ff6847e.avif)
+![](https://assets.turntrout.com/static/images/posts/018130fdb9680994841768855b29f76b80b9972b7ff6847e.avif)
 <br/>Figure: Step-distance in blue, Euclidean distance in green. A time-discounting agent with an otherwise fixed-value corner goal and  fixed-value cheese goal should prioritize cheese-getting (almost) equally on the left maze and the right maze.
 
 Our current intuition is that a predictively strong utility function needs to incorporate spatial distances in multiple complex ways. 
@@ -178,7 +178,7 @@ As Dan Braun [commented](https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/under
 
 There is indeed a strong correlation between two of our highly predictive variables:
 
-![](/static/images/posts/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.avif)
+![](https://assets.turntrout.com/static/images/posts/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.avif)
 <br/>Figure: $d_\text{step}(\text{decision-square},\text{cheese})$ and $d_\text{Euclidean}(\text{decision-square},\text{cheese})$ have correlation of .886.
 
 We then computed the [variation inflation factors](https://corporatefinanceinstitute.com/resources/data-science/variance-inflation-factor-vif/) for the three predictive variables we end up analyzing in detail. VIF measures how collinearity increases the variance of the regression coefficients. A score exceeding 4 is considered to be a warning sign of multicollinearity. 
@@ -271,7 +271,7 @@ How sure should we be that variables 1)-3) each track a real and distinct causal
 
 For variables 1) and 2), we have extensive though non-rigorous experience making manual maze-edits that decrease/increase cheese-getting by changing the relevant distance with minimal logical side-effects. For example, increasing the number of legal steps from decision-square to cheese while keeping all Euclidean distances the same reliably reduces the probability that the agent moves in the cheese direction:[^7]  
 
-![](/static/images/posts/13e00f6c54768f7bd0209a3028523e8d95ebdb51405504b7.avif)
+![](https://assets.turntrout.com/static/images/posts/13e00f6c54768f7bd0209a3028523e8d95ebdb51405504b7.avif)
 <br/>Figure: Zoomed-in view of the upper-left quartile of hand-edited large mazes. Step-distance in blue, Euclidean distance in green.
 
 Our experience making similar maze-edits for variable 3) has been mixed and limited, as they are harder to produce. Still, the results of edits that manipulate 3) are often suggestive (if hard to interpret). 

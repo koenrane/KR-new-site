@@ -43,7 +43,7 @@ skip_import: true
 
 [^pomdp]: I think that the same point holds for other environment types, like POMDPs.
 
-![](/static/images/posts/205fc7acb3e1ab7c1aa5af9239395306b4ee76d4565f33b3.avif)
+![](https://assets.turntrout.com/static/images/posts/205fc7acb3e1ab7c1aa5af9239395306b4ee76d4565f33b3.avif)
 <br/>Figure: The model for a deterministic MDP. When the discount rate is near 1, most reward functions have optimal policies which go `right` .
 
 Several people have claimed to me that these results need subjective modeling decisions. 
@@ -57,7 +57,7 @@ I used to think this, but this is wrong. The MDP model is determined by the agen
 
 To make this point, let's back out to a more familiar MDP: Pac-Man. 
 
-![](/static/images/posts/6fe10f812c950aa80e3bafd20aa87bc09ed60d57b1e1c6cc.avif)
+![](https://assets.turntrout.com/static/images/posts/6fe10f812c950aa80e3bafd20aa87bc09ed60d57b1e1c6cc.avif)
 <br/>Figure: Consider the MDP model associated with the Pac-Man video game. Ghosts kill the player - after the player loses their last life, suppose they enter a "game over" terminal state which shows the final configuration. This environment has Pac-Man's dynamics, but _not_ its usual score function. Fixing the dynamics, what actions are optimal as we vary the reward function?
 
 When the discount rate is near 1, most reward functions avoid immediately dying to the ghost, because then they'd be stuck in a terminal state (the `red-ghost-game-over` state). But why can't the red ghost be equally well-modeled as secretly being 5 googolplex different terminal states?
