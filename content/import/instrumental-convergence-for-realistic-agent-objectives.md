@@ -120,9 +120,9 @@ If the agent can be made to "hate everything" (all feature weights $\alpha_i$ ar
 
 ## StarCraft II
 
-Consider a deep RL training process, where the agent's episodic reward is featurized into a weighted sum of the different resources the agent has at the end of the game, with weight vector $\alpha$. For simplicity, we fix an opponent policy and a learning regime (number of epochs, learning rate, hyperparameters, network architecture, and so on). We consider the effects of varying the reward feature coefficients $\alpha$.
+Consider a deep RL training process where the agent's episodic reward is featurized into a weighted sum of the different resources the agent has at the end of the game, with weight vector $\alpha$. For simplicity, we fix an opponent policy and a learning regime (number of epochs, learning rate, hyperparameters, network architecture, and so on). We consider the effects of varying the reward feature coefficients $\alpha$.
 
-![Macro » Learning SC2](https://assets.turntrout.com/static/images/posts/?u=http%3A%2F%2Flearningsc2.com%2Fwp-content%2Fuploads%2F2011%2F01%2FMineral-Line-1024x530.avif&f=1&nofb=1)
+![](sc2_resources.png)
 
 Outcomes of interest
 : Game state trajectories.
