@@ -18,7 +18,7 @@ function main --description 'Download assets from Markdown files and replace URL
     set -l target_dir static/images/posts
 
     # 1. Find all asset URLs in Markdown files
-    set -l asset_urls (command grep -oE --no-filename 'http[^\)]*?\.(jpe?g|png|webp|gif|mpeg|webm)(?=[\)"])' $markdown_files)
+    set -l asset_urls (perl -nE 'say $& while m{http[^)]*?\.(jpe?g|png|webp|gif|mpeg|webm)(?=[)"])}g' $markdown_files)
 
     # Add in mp4 files which don't start with https://assets.turntrout
     set -l mp4_regex 'http[^\)]*?\.mp4'
