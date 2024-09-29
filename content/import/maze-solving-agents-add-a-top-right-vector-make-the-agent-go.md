@@ -64,7 +64,7 @@ This post is straightforward as long as you remember a few concepts:
 
 - Vector fields, vector field diffs, and modifying a forward pass. AKA you know what this figure represents:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tly1j6ydizgjnjjcocke)
+![](/static/images/posts/tly1j6ydizgjnjjcocke.webp)
 - How to derive activation-space vectors (like the "cheese vector") by diffing two forward passes, and add / subtract these vectors from future forward passes
   - AKA you can understand the following: "We took the cheese vector from maze 7. ~Halfway through the forward passes, we subtract it with coefficient 5, and the agent avoided the cheese."
 
@@ -79,8 +79,8 @@ If you don't know what these mean, read this section. If you understand, then sk
 >   
 > In deployment, cheese can be anywhere.
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/g9hyfgk5fsuuriukkkle)
-> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tb7ri6d5gqhxef1ocd8t)
+> ![](/static/images/posts/g9hyfgk5fsuuriukkkle.webp)
+> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](/static/images/posts/tb7ri6d5gqhxef1ocd8t.webp)
 > <br/>Figure: Example vector fields of policy outputs.
 > 
 > <hr/>
@@ -93,7 +93,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 > 
 > Let's walk through an example, where for simplicity the network has a single hidden layer, taking each observation (shape `(3, 64, 64)` for the 64x64 RGB image) to a two-dimensional hidden state (shape `(2,)`) to a logit vector (shape `(15,)` ). 
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/pgymxk8ado9jey8rjnra)
+> ![](/static/images/posts/pgymxk8ado9jey8rjnra.webp)
 > 
 > 1.  We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right). 
 > 2.  We record the activations during each forward pass. In this hypothetical,
@@ -141,7 +141,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 > 
 > Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tly1j6ydizgjnjjcocke)
+> ![](/static/images/posts/tly1j6ydizgjnjjcocke.webp)
 > <br/>Figure: Vector fields for the mouse normally, for the mouse with the cheese vector subtracted during every forward pass, and the diff between the two cases.
 > 
 > How is our intervention not trivially making the network output logits as if the cheese were not present? Is it not true that the activations at a given layer obey the algebra of `CheeseActiv - (CheeseActiv - NoCheeseActiv) = NoCheeseActiv`? 
@@ -181,7 +181,7 @@ If you're confused why the hell this _works_, join the club.
 
 In [Understanding and controlling a maze-solving net](/understanding-and-controlling-a-maze-solving-policy-network), I noted that sometimes the agent doesn't go to the cheese _or_ the top-right corner:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/o24edwffjw5id3xexkjp)
+![](/static/images/posts/o24edwffjw5id3xexkjp.webp)
 
 Adding the top-right vector fixes this:
 
@@ -245,7 +245,7 @@ Seed 0's vector seems to transfer quite well. However, top-right vectors from sm
 Subtracting the cheese vector often makes the agent (nearly) ignore the cheese, and adding the top-right vector often attracts the agent to the top-right corner. It turns out that you can mix and match these effects by adding one or both vectors halfway through the forward pass.
 
 <video autoplay loop muted playsinline src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"><source src="/static/images/posts/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.mp4" type="video/mp4"></video>
-<br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/gxvochz2uulosefsmuif).
+<br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](/static/images/posts/gxvochz2uulosefsmuif.webp).
 
 The modifications compose! Stunning. 
 

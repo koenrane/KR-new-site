@@ -57,7 +57,7 @@ First, let's just consider a deterministic environment. Each time step, the agen
 
 And let's say that if the agent flips the first pixel for its first action, it "dies": its actions no longer affect any of its future observations past time step $t=2$. If the agent doesn't flip the first pixel at $t=1$, it's able to flip bits normally for all $T=50$ steps. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hzeLSQ9nwDkPc4KNt/pj6upwwpk7e3qbccqeyf)
+![](/static/images/posts/pj6upwwpk7e3qbccqeyf.webp)
 <br/>Figure: An environment where $n=2$. Action _k_ flips pixel _k_ in the current state; flipping pixel 1 at $t=1$ traps the agent in the uppermost observation history. Conversely, at $t=1$, flip 2 leads to an _enormous_ subtree of potential observation histories (since the agent retains its control over future observations).
 
 Do u<sub>OH</sub> _tend to_ incentivize flipping the first pixel over flipping the second pixel, vice versa, or neither? 
@@ -99,7 +99,7 @@ Nothing here has anything to do with a Markov decision process, or the world bei
 
 In terms of the pixel-flipping environment:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hzeLSQ9nwDkPc4KNt/pj6upwwpk7e3qbccqeyf)
+![](/static/images/posts/pj6upwwpk7e3qbccqeyf.webp)
 <br/>Figure: An environment where $n=2$. Action _k_ flips pixel _k_ in the current state; flipping pixel 1 at $t=1$ traps the agent in the uppermost observation history. Conversely, at $t=1$, flip 2 leads to an _enormous_ subtree of potential observation histories (since the agent retains its control over future observations).
 - When followed from a time step, each (deterministic) policy $\pi$ induces a distribution over observation histories
   - These are represented as unit vectors, with each entry marking the probability that an observation history is realized
@@ -125,7 +125,7 @@ For example, if $a_1$ restricts the agent to two effective actions at each time 
 
 Let's consider utility functions over action-observation histories (u<sub>AOH</sub>).
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hzeLSQ9nwDkPc4KNt/qkcgtv7o2zvdvsw461vo)
+![](/static/images/posts/qkcgtv7o2zvdvsw461vo.webp)
 <br/>Figure: With respect to AOH, the pixel-flipping environment is now a regular quadtree. In the u<sub>OH</sub> setting, there was only one path in the top subtree – but AOH distinguish between different action sequences.
 
 Since each utility function is over an _AOH_, each path through the tree is assigned a certain amount of utility. But when the environment is deterministic, it doesn't matter what the agent observes at any point in time – all that matters is which path is taken through the tree. Without further assumptions, u<sub>AOH</sub> won't tend to assign higher utility to one subtree than to another.

@@ -43,19 +43,19 @@ _Our results are reproducible in_ [_this Colab_](https://colab.research.google.c
 
 Alex noticed exponential growth in the contents of GPT-2-XL's residual streams. He ran dozens of prompts through the model, plotted for each layer the distribution of residual stream norms in a histogram, and found exponential growth in the $L_2$  norm of the residual streams:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/ty8epqxasadhaiel2pnh)
+![](/static/images/posts/ty8epqxasadhaiel2pnh.webp)
 <br/>Figure: We had GPT-4 generate dozens of strings which "look like they could have been in GPT-2's training corpus", in addition to a few hand-written strings. We ran these strings through the model and recorded the norms of each residual stream, across layers and sequence positions (except for position 0, which is EOS padding, discussed later).   
   
 GPT2-XL has 48 layers in total.
 
 Here's the norm of each residual stream for a specific prompt:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/hpgem17ggmbpgnwcvdut)
+![](/static/images/posts/hpgem17ggmbpgnwcvdut.webp)
 <br/>Figure: Pos. 0 (`<endoftext>`) behaves differently, which is why we exclude it from the averaged plots.
 
 Stefan had previously noticed this phenomenon in GPT2-small, back in MATS 3.0:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/n9zhrfpjljoznctglnbq)
+![](/static/images/posts/n9zhrfpjljoznctglnbq.webp)
 <br/>Figure: Note that Stefan originally used the standard deviation, but it is proportional to the norm because our models have zero mean.[^1]
 
 [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) also finds a growth in the norms of the attention-out matrices $W_O$ and the norms of MLP out matrices $W_{\rm out}$ ("writing weights"), while they find stable norms for $W_Q$, $W_K$, and $W_{\rm in}$ ("reading weights"):
@@ -66,14 +66,14 @@ Stefan had previously noticed this phenomenon in GPT2-small, back in MATS 3.0:
 
 We started our investigation by computing these residual stream norms for a variety of models, recovering Stefan's results (rescaled by $\sqrt{d_\text{model}}=\sqrt{768}$) and Alex's earlier numbers. We see a number of straight lines in these logarithmic plots, which shows phases of exponential growth.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/etviqiegwghguknbglho)
+![](/static/images/posts/etviqiegwghguknbglho.webp)
 <br/>Figure: Residual stream norms as a function of layer for a variety of open source models. Note the orange line in the GPT2-XL plot showing the exponential growth factor, which we found to average 1.045.
 
 We are surprised by the _decrease_ in Residual Stream norm in some of the EleutherAI models.[^2] We would have expected that, because the transformer blocks can only access the normalized activations, it's hard for the model to "cancel out" a direction in the residual stream. Therefore, the norm always grows. However, this isn't what we see above. One explanation is that the model is able to memorize or predict the LayerNorm scale. If the model does this well enough it can (partially) delete activations and reduce the norm by writing vectors that cancel out previous activations.
 
 The very small models (distillgpt2, gpt2-small) have superexponential norm growth, but most models show exponential growth throughout extended periods. For example, from layer 5 to 41 in GPT2-XL, we see an exponential increase in residual stream norm at a rate of ~1.045 per layer. We showed this trend as an orange line in the above plot, and below we demonstrate the growth for a specific example:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/esxltdsojqrvlf8aev4p)
+![](/static/images/posts/esxltdsojqrvlf8aev4p.webp)
 <br/>Figure: The GPT2-XL encoder prepends an `<endoftext>` (BOS) token at residual stream position 0. Its growth rate (shown in red) is huge at first, but represents an exception as noted before.   
 The dashed line indicates a growth rate of 1 (constant norm). Since the (non-`<endoftext>`) growth rates are approximately constant and above the line, the residual streams are growing exponentially.
 
@@ -81,7 +81,7 @@ The dashed line indicates a growth rate of 1 (constant norm). Since the (non-`<e
 
 In our initial tests, we noticed some residual streams showed a irregular and surprising growth curve:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/g9hgkblqcj9dfyg5b22q)
+![](/static/images/posts/g9hgkblqcj9dfyg5b22q.webp)
 <br/>Figure: The violet U-shape at the top is the BOS token position, and the yellow-green U-shapes correspond to positions of padding tokens. The other tokens show the exponential growth shape as expected.
 
 As for the reason behind this shape, we expect that the residual stream (norm) is very predictable at BOS and padding positions. This is because these positions cannot attend to other positions and thus always have the same values (up to positional embedding). Thus it would be no problem for the model to cancel out  activations, and our arguments about this being hard do not hold for BOS and padding positions. We don't know whether there is a particular meaning behind this shape.
@@ -94,7 +94,7 @@ We suspect that is the source of the U-shape shown in [Basic facts about languag
 
 From now on we focus on the GPT2-XL case. Here is the residual stream growth curve again (orange dots), but also including the `resid_mid` hook between the two Attention and MLP sub-layers (blue dots).
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/uunbh9saw9msutnkndfs)
+![](/static/images/posts/uunbh9saw9msutnkndfs.webp)
 <br/>Figure: Standard deviations of residual stream activations after each attention and MLP sublayer, averaged across non-EOS positions and across prompts.
 
 Our first idea upon hearing exponential growth was:
@@ -131,7 +131,7 @@ To distinguish these two theories, we can test whether we see an exponential inc
 
 Note: It's possible for just _one_ of the sub-layer types (Attention or MLP) to grow exponentially and still cause the overall exponential growth (see [appendix 1](/residual-stream-norms-grow-exponentially-over-the-forward-pass#A1-Attention-MLP-contribution-norms-must-exceed-block-over-block-norm-growth-rate) for a related proof). But this seems unlikely as the non-exponential sub-layer would lose impact on the residual stream, and we expect the model to make use of both of them. Indeed, plotting the outputs `attn_out` and `mlp_out` shows both increasing at the exponential rate (but `attn_out` seems to fall off at layer ~30).
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/r13rgvwjn62uuxfobvmd)
+![](/static/images/posts/r13rgvwjn62uuxfobvmd.webp)
 <br/>Figure: If you are surprised by the difference in standard deviation between `attn_out` and `mlp_out`, see [appendix 2](/residual-stream-norms-grow-exponentially-over-the-forward-pass#A2-Explaining-the-difference-between-attn-out-and-mlp-out).
 
 # Analyzing the model weights to understand the behaviour
@@ -152,7 +152,7 @@ The Attention layer output `attn_out` is determined by the QK-circuits (select w
 
 The OV-circuits consist of the $W_{OV}$ matrices (product of the value $W_V$ and output $W_O$ matrices) and the bias $b_O$.[^4] There are 25 attention heads in GPT2-XL, i.e. 25 $W_{OV}$ matrices. In the figure below we plot the Frobenius norm[^5] of the $W_{OV}$ matrices (grey solid lines) and L2 norm of the $b_O$ vector (pink line), and compare it to the L2 norm of `attn_out` (blue solid line).
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/z3q2r6bcqrnahcdvhz76)
+![](/static/images/posts/z3q2r6bcqrnahcdvhz76.webp)
 <br/>Figure: Which components of the Attention mechanism are responsible for the exponential increase in the norm of `attn_out`? We see the $W_{OV}$ norms increase at the same rate as the `attn_out` norms
 
 The Frobenius norms of the attention heads (grey lines) match the actual `attn_out` norms (blue line) somewhat accurately, and grow exponentially. The bias term (pink line) seems mostly negligible except for in the final layers.
@@ -165,7 +165,7 @@ _What we would have liked:_ We show that any normalized random input into Attent
 
 _What we got:_ For some unit-normalized, Gaussian-sampled vector $x$, consider the sum of  the sum of $W_{OV} \cdot x$ for all 25 $W_{OV}$ matrices (one for each head). This sum's norm is 5 times larger than the `attn_out` norm, as shown in the figure. [^7]
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/oqofcuc6vya0jcgdfjy9)
+![](/static/images/posts/oqofcuc6vya0jcgdfjy9.webp)
 
 ## Analyzing the MLP weights
 
@@ -177,7 +177,7 @@ If this is true, this is evidence for theory 1 and against theory 2. If this is 
 
 We do not attempt to find the right way to combine model weights into a "norm" of the MLP layer. Instead, we draw input vectors from a Normal distribution, and normalize them to mean 0 and variance 1. We feed these vectors into the MLP. [^8] 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/tm2sp1zmrdnugcgxcjsy)
+![](/static/images/posts/tm2sp1zmrdnugcgxcjsy.webp)
 
 **What did we find?** We find that the MLP outputs of normalized random Gaussian inputs do scale exponentially with layer numbers, for layers 30 - 43, at the same rate as `mlp_out`. This is evidence for theory 1.
 
@@ -239,15 +239,15 @@ For example, if $g=1.05$, then the norms of the attention and MLP contributions 
 
 Remembering the two plots from _Theories for the source of the growth_, we notice a surprisingly large y-axis difference between the norms. We repeat those norm curves here:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/xoddfbotuqd8f7r06dl0)
+![](/static/images/posts/xoddfbotuqd8f7r06dl0.webp)
 
 Now we show the same lines again, but switch to using the standard deviation. This is equivalent[^1] (norm divided by standard deviation = $\sqrt{D} = 40$) but more intuitive to reason about. We also divide all lines by $1.045^N$ to make the lines fit better into the plot. The difference from `resid_pre` to `resid_post` at each layer has to be approximately a factor for 1.045 for the exponential growth to hold.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/g8maxnfzj5zw16emepfd)
+![](/static/images/posts/g8maxnfzj5zw16emepfd.webp)
 
 Intuitively, we expected these standard deviations to add up like those of independent (Gaussian) random vectors, $\sigma_{a+b}^2 = \sigma_a^2 + \sigma_b^2$ ("error propagation" formula), but this doesn't work. We realized that _correlated_ random vectors can have a higher summed variance, up to a maximum of $\sigma_{a+b}^2 = (\sigma_a + \sigma_b)^2$. It would be interesting to see where in that range `attn_out` and `mlp_out` lie, i.e. how correlated the Attention and MLP outputs are with the residual stream input.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/sviqtej5pjvoj9gfhlc7)![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/w5f0co13ocbpfgmv4h3c)
+![](/static/images/posts/sviqtej5pjvoj9gfhlc7.webp)![](/static/images/posts/w5f0co13ocbpfgmv4h3c.webp)
 
 In both plots we see that the uncorrelated addition of residual stream and sub-layer output (lower end of the range) is _much_ lower that required, providing nowhere near the observed growth for the residual stream. Our (somewhat extreme) upper end of the range is much larger, so if `attn_out` or `mlp_out` were perfectly proportional to their input residual stream we would see a much larger growth.
 
@@ -257,11 +257,11 @@ This does not directly affect our argument, which relies on just realizing the e
 
 We showed that the MLP output for random _layer-independent_ inputs grows exponentially with layer number. This proves that there is something inherent to the MLP weights in each layer that causes the output to grow, but it does not show us what that is. The behaviour should be predictable from the MLP weights $W_{\rm in}$, $b_{\rm in}$, $W_{\rm out}$, and $b_{\rm out}$. In this section we want to show our investigation into this question, even though we have not completely solved it. This will also explain the large difference in norm between the random-input MLP output, and the actual-model MLP output we showed (figure from above inserted again)
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/u6v1tzoqugjeiflzvsut)
+![](/static/images/posts/u6v1tzoqugjeiflzvsut.webp)
 
 Our first step is to plot the norms of the individual MLP weight components. We are very surprised to not see any exponential increase at the expected rate in any of these norms!
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/dllrookwluijbimrdil6)
+![](/static/images/posts/dllrookwluijbimrdil6.webp)
 
 The other important part of an MLP layer is the non-linear activation function, in our case GELU. It turns out that the average neuron activation rate, i.e. the fraction of hidden neurons with pre-activation values >0 rises exponentially throughout the network! This is an essential component to the exponential growth of `resid_out`, and we did not notice this trend in any of the weight matrix norms. Note however that we only observe this exponential growth here from layer 5 til ~20.
 
@@ -269,7 +269,7 @@ In the plot below we see that even the neuron activation rate for random inputs 
 
 The plot below also explains the difference in L2 norm between actual `mlp_out` and the random outputs (the first plot in this appendix): The neuron activation rate is simply much higher for random inputs (blue line) than in the actual model run (red line), or for randomly-resampled[^10] residual stream inputs (orange and green lines). The random vectors clearly differ from actual residual stream vectors in some significant way, but we have not investigated this further.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/8mizBCm3dyc432nK8/ncolo4itac8yxdmklpwo)
+![](/static/images/posts/ncolo4itac8yxdmklpwo.webp)
 
 [^1]: Note on norm, variance, and mean of the residual stream: All our models' residual streams have mean zero. One can always rewrite the model weights to make the residual stream mean zero, by subtracting the mean of weights from the weights themselves. We use the [TransformerLens library which does this](https://neelnanda-io.github.io/TransformerLens/transformer_lens.html#transformer_lens.HookedTransformer.HookedTransformer.center_writing_weights) by default (`center_writing_weights`). Then the L2 norm $||x||_2$ and variance or standard deviation are related
     

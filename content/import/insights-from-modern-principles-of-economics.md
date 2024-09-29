@@ -40,7 +40,7 @@ skip_import: true
 ---
 How good are our economists? Look around. On a 20-minute walk to my Berkeley office, I walked past people reeking of urine, past people lying in a dirty sleeping bag on a thin cardboard pad, past some garbage around a tent which housed a child who grew up into an impoverished adult.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/zz47uzlitfrw7bmqaplp)
+![](/static/images/posts/zz47uzlitfrw7bmqaplp.webp)
 <br/>Figure: Imagine living here.
 
 In what world is this broader system a success story for economics? 
@@ -56,9 +56,9 @@ The availability heuristic can deceive you (although [Kaj Sotala notes](https://
 
 Good economic policy has lifted billions of people out of poverty and furnished our lives with previously unimaginable splendor. The Roman emperors had no air conditioning or telephones. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/xqxexzmbgs6r6u6xvgsk)
-<br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/mhahalue4g3l4gnvbujg)
-<br/>Figure: Growth is important. More precisely, I argue that good economic policy $\to$  RGDP/capita growth $\to$ reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/htfmtdtntpqpmr2mlqxl)
+![](/static/images/posts/xqxexzmbgs6r6u6xvgsk.webp)
+<br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.![](/static/images/posts/mhahalue4g3l4gnvbujg.webp)
+<br/>Figure: Growth is important. More precisely, I argue that good economic policy $\to$  RGDP/capita growth $\to$ reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.![](/static/images/posts/htfmtdtntpqpmr2mlqxl.webp)
 <br/>Figure: Doubly amazing given hedonic treadmill & the higher expectations of people in wealthier nations.
 
 Economists are not responsible for all of this growth. I wasn't able to quickly find counterfactual estimates for the importance of economic theories, but my impression is that several advances in economics have in fact significantly improved economic policy.
@@ -108,7 +108,7 @@ How do people decide what to buy and where to work, what opportunities to take a
 
 The most important microeconomic frame I deeply internalized was **supply/demand curves**. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/y0sgmz4s0g0az3kbflia)
+![](/static/images/posts/y0sgmz4s0g0az3kbflia.webp)
 <br/>Figure: At a price of \$3, suppliers will produce 8 slices of pizza.   
   
 Law of supply
@@ -130,7 +130,7 @@ Price gouging occurs when an emergency happens (e.g. a blizzard), people demand 
 
 Consider a competitive snow shovel market, where firms can price shovels as they please (or, _far_ more accurately: in response to economic conditions). When demand increases for snow shovels, that's a _positive demand shock_ because people want to buy more shovels. The demand curve moves out to the right, from _D_ to _D'_: 
 
-![positive_demand_shock](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/n193jwz2vaxif6hrnhub)
+![positive_demand_shock](/static/images/posts/n193jwz2vaxif6hrnhub.webp)
 
 Because people want more snow shovels, the price increases from $P_1$ to $P_2$. (This is the "price gouging" part.) So here is the painful part of the picture. Now snow shovels are expensive, and some people can't afford them, and also _fuck you_ to the people taking advantage of a disaster just for a few bucks. Many people have this gut-level reaction. 
 
@@ -142,7 +142,7 @@ Some laws ban price gouging. In certain industries and during an emergency, firm
 
 Suppose that the snowshovel price can barely increase from $P_1$ due to a so-called price ceiling. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/yjkge8kae9lzr84mk0zz)
+![](/static/images/posts/yjkge8kae9lzr84mk0zz.webp)
 <br/>Figure: At the price ceiling, the price is lower than the free-market equilibrium. At this artificially low price, consumers want to buy a lot of snow shovels (the second dotted line) but suppliers don't want to produce as many.
 
 Then there's a shortage, because more people are willing to buy shovels at $P_1$ (what a deal, especially in an emergency!) than suppliers are willing to sell at $P_1$. There's _no economic incentive_ for them to increase production, and incentives matter. But set aside profit-making for a moment.
@@ -182,7 +182,7 @@ The bottom line is: _In an emergency, there won't be enough shovels for everyone
 
 I'm sure you'll be absolutely shocked to learn that lots of states make price gouging a criminal offence.
 
-![Price gouging legal in Minnesota | kare11.com](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/aztdssqyoqy9b7cg99gt)
+![Price gouging legal in Minnesota | kare11.com](/static/images/posts/aztdssqyoqy9b7cg99gt.webp)
 <br/>Figure: People **hate** price gouging! Notice how the non-APG states get the scary _red_ color and the "scams" hotline.
 
 # How do demand shocks ripple?
@@ -193,7 +193,7 @@ By this point in the book, I've pinned down supply/demand curves. This was actua
 
 Another great mental motion is the "wedge" trick for tax incidence determination. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/hRa5c5GaMNkNGtnXq/rt9ajnfgxl9vtaqdy2mt)
+![](/static/images/posts/rt9ajnfgxl9vtaqdy2mt.webp)
 <br/>Figure: **Left:** Suppose that cigarette packs cost \$10 at competitive equilibrium (where S1 meets D), and a \$6 excise (per-item) tax is levied. A slightly more elastic supply curve means that consumers bear slightly more tax burden. **Right:** A more elastic demand curve means that producers bear most of the tax burden.
 
 Think of the tax as the difference between what the consumer pays and the seller receives. Tax incidence answers: How much does the consumer pay, and how much does the seller receive? 

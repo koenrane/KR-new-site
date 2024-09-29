@@ -20,17 +20,35 @@ function main --description 'Download images from Markdown files and replace URL
     # 1. Find all image URLs in Markdown files
     set -l image_urls (command grep -oE --no-filename 'http[^\)]*?\.(jpe?g|png|webp)' $markdown_files)
 
-    # 2. Download each image
-    mkdir /tmp/images >/dev/null
-    for url in $image_urls
-        download_image $url $images_dir
+    # Add in mp4 files which don't start with https://assets.turntrout
+    set -l mp4_regex 'http[^\)]*?\.mp4'
+    set -l mp4_urls (command grep -oE $mp4_regex $markdown_files | grep -v '^https://assets\.turntrout')
+    echo $mp4_urls
+    set -l --append asset_urls $mp4_urls
+
+    # 2. Download each asset
+    for url in $asset_urls
+        download_asset $url $asset_dir
 
         set -l escaped_url (echo $url | sed 's|[/\\.^$\[\]]|\\&|g')
         echo "Escaped URL: $escaped_url"
         sed -i ''.bak "s|$escaped_url|/$target_dir/$(basename $url)|g" $markdown_files
     end
 
-    echo "Image download and replacement complete!"
+    set -l cloud_regex 'https://res\.cloudinary\.com/lesswrong-2-0/image/[^\)]*'
+    set -l cloudinary_urls (command grep -oE --no-filename $cloud_regex $markdown_files)
+
+    for url in $cloudinary_urls
+        download_asset $url $asset_dir
+        # Mv the asset so it has a webp extension
+        mv $asset_dir/$(basename $url){,.webp}
+
+        set -l escaped_url (echo $url | sed 's|[/\\.^$\[\]]|\\&|g')
+        # These are webp so make the extension explicit
+        sed -i ''.bak "s|$escaped_url|/$target_dir/$(basename $url).webp|g" $markdown_files
+    end
+
+    echo "Asset download and replacement complete!"
 end
 
 main $argv

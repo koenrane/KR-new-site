@@ -115,7 +115,7 @@ Alex
 
 : An interesting concept that comes to mind is thinking about a functional derivative with respect to e.g. a straight-line [homotopy](https://en.wikipedia.org/wiki/Homotopy), where you really _could_ say how a function is changing at every point with respect to time. But I don't think that's the same concept.
 
-: ![](https://upload.wikimedia.org/wikipedia/commons/7/7e/HomotopySmall.gif)
+: ![](/static/images/posts/HomotopySmall.gif)
 
 `TheMajor`
 : The concept is as follows:

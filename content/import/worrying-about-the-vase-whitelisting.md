@@ -104,7 +104,7 @@ Decompose your current knowledge of the world into a set of objects. Then, for e
 
 Therefore, you avoid breaking vases by default.
 
-![](https://thumbs.gfycat.com/ColorlessGlumChafer-size_restricted.gif)
+![](/static/images/posts/ColorlessGlumChafer-size_restricted.gif)
 
 ### Common Confusions
 
@@ -151,7 +151,7 @@ The simulated classification confidence of each object's true class was $p \sim 
 
 At reasonable levels of noise, the whitelist-enabled agent completed all levels without a single side effect, while the Q-learner broke over 80 vases.
 
-![](https://thumbs.gfycat.com/BadPeriodicElk-size_restricted.gif)
+![](/static/images/posts/BadPeriodicElk-size_restricted.gif)
 
 ## Assumptions
 

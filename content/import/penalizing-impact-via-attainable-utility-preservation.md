@@ -51,7 +51,7 @@ _The_  ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\texti
 
 _The_ ${\color{blue}{\textit{agent}}}$ _should avoid_ ${\color{purple}{\textit{disabling its off-switch}}}$ _in order to reach the_ ${\color{lime}{\textit{goal}}}$_. If the_ ${\color{purple}{\textit{switch}}}$ _is not disabled within two turns, the_ ${\color{blue}{\textit{agent}}}$ _shuts down._
 
-![](https://i.imgur.com/P3SpcuY.gif)
+![](/static/images/posts/P3SpcuY.gif)
 
 # Re-deriving Q-learning
 
@@ -95,7 +95,7 @@ I poured so much love and so many words into [Towards a New Impact Measure](/tow
 Take care of your hands. Very little time passed between "I'm having the time of my life" and "ow". Actions you can take right now:
 
 - buy an [ergonomic mouse](https://www.amazon.com/Ergonomic-Mouse-Vertical-Wireless-Rechargeable/dp/B07BFCVJZC/ref=sr_1_6?s=pc&i.e.=UTF8&qid=1546020223&sr=1-6&keywords=ergonomic+mouse) and [keyboard rest](https://www.amazon.com/gp/slredirect/picassoRedirect.html/ref=pa_sp_atf_aps_sr_pg1_2?i.e.=UTF8&adId=A1037228140SDXCAQG7RQ&url=https%3A%2F%2Fwww.amazon.com%2FGimars-Memory-Keyboard-Support-Computer%2Fdp%2FB01M11FLUJ%2Fref%3Dsr_1_2_sspa%3Fie%3DUTF8%26qid%3D1546020274%26sr%3D8-2-spons%26keywords%3Dergonomic%2B%2Bkeyboard%2Brest%26psc%3D1&qualifier=1546020274&id=6279862686373180&widgetName=sp_atf)
-- [correct your posture](https://www.webmd.com/back-pain/typing-posture-pain-prevention#1), perhaps assisted by a [posture corrector](https://www.amazon.com/Posture-Corrector-Men-Women-Truweo/dp/B07DKHTKP3/ref=sr_1_4_s_it?s=hpc&i.e.=UTF8&qid=1546020071&sr=1-4&keywords=posture+corrector) or a [lower back cushion](https://www.amazon.com/Modvel-Cushion-Posture-Corrector-Traveling/dp/B0757X6PC7/ref=sr_1_10?i.e.=UTF8&qid=1546020162&sr=8-10&keywords=posture+corrector+chair)
+- [correct your posture](/static/images/posts/www.webmd.com/back-pain/typing-posture-pain-prevention#1), perhaps assisted by a [posture corrector](https://www.amazon.com/Posture-Corrector-Men-Women-Truweo/dp/B07DKHTKP3/ref=sr_1_4_s_it?s=hpc&i.e.=UTF8&qid=1546020071&sr=1-4&keywords=posture+corrector) or a [lower back cushion](https://www.amazon.com/Modvel-Cushion-Posture-Corrector-Traveling/dp/B0757X6PC7/ref=sr_1_10?i.e.=UTF8&qid=1546020162&sr=8-10&keywords=posture+corrector+chair)
 - start taking regular breaks
 
 I'm currently sitting on book reviews for _Computability and Logic_ and _Understanding Machine Learning_, with partial progress on several more. There are quite a few posts I plan to make about AUP, including:

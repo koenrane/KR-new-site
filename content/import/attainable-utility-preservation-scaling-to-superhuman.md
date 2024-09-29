@@ -141,7 +141,7 @@ Furthermore, we want the agent to be able to execute conservative, low-impact po
 
 Recall `Correction`, where the naive model-free AUP agent (eq. 1) disables its red off-switch and completes the level when $\lambda \leq 1$.
 
-![](https://i.imgur.com/WxLbLUw.gif)
+![](/static/images/posts/WxLbLUw.gif)
 
 The only reason it incurs _any_ non-trivial penalty is because reaching the goal (${\color{green}\blacksquare}$) ends the level and thereby totally depletes all of the auxiliary AUs (the agent recieves 1 $R$\-reward and about $\lambda$ penalty for beating the level; the AUP reward $1-\lambda\geq 0$ when $\lambda \leq 1$).
 

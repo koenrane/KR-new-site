@@ -46,7 +46,7 @@ skip_import: true
 
 But how strong is this effect, quantitatively? 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
+![](/static/images/posts/nwvmc2ovaduran8592k8.webp)
 <br/>Figure: Intuitively, it seems like there are twice as many ways for `Wait!` to be optimal (in the undiscounted setting, where we don't care about intermediate states).
 
 I previously speculated that we should be able to get quantitative lower bounds on how many objectives incentivize power-seeking actions:
@@ -69,19 +69,19 @@ About a week later, I had my answer:
 > [!math] Conjecture which I think I see how to prove
 > For _almost all_ reward functions, A is _strictly_ optimal over B for at least $\frac{n}{n+1}$ of its permuted variants.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
+![](/static/images/posts/nwvmc2ovaduran8592k8.webp)
 <br/>Figure: At least $\frac{2}{2+1}=\frac{2}{3}$ of the orbit of every reward function agrees that `Wait!` is optimal (for average per-timestep reward). That's because there are twice as many ways for `Wait!` to be optimal over `candy`, than for the reverse to be true.
 
 Basically, when you could apply [the previous results](/seeking-power-is-often-convergently-instrumental-in-mdps#Retaining-long-term-options-is-POWER-seeking-and-more-probable-under-optimality-when-the-discount-rate-is-close-enough-to-1) but "multiple times"[^quo], you can get lower bounds on how often the larger set of things is optimal:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/cimakofeuevfrjgqcjxx)
+![](/static/images/posts/cimakofeuevfrjgqcjxx.webp)
 <br/>Figure: Each set contains a subset of the agent's "options." A vertex is just the agent staying at that state. A linked pair is the agent alternating back and forth between two states. The triangle is a circuit of three states, which the agent can navigate as they please.   
   
 Roughly, the theorem says: if the set 1 of options can be embedded 3 times into another set 2 of options (where the images are disjoint), then at least $\frac{3}{3+1}= \frac{3}{4}$ of all variations on all reward functions agree that set 2 is optimal.
 
 And in way larger environments - like the _real world_, where there are trillions and trillions of things you can do if you stay alive, and not much you can do otherwise - nearly _all_ orbit elements will make survival optimal. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/rvzdieyrxteo1dctwwyl)
+![](/static/images/posts/rvzdieyrxteo1dctwwyl.webp)
 <br/>Figure: In this environment, it's (average-reward) optimal to stay alive for at least $\frac{10^{53}}{10^{53}+1}$ of the variants on each objective function.
 
 I see this theory as beginning to link the richness of the agent's environment, with the difficulty of aligning that agent: for optimal policies, instrumental convergence strengthens proportionally to the ratio of $\dfrac{\text{control if you survive}}{\text{control if you die}}$.
@@ -90,7 +90,7 @@ I see this theory as beginning to link the richness of the agent's environment, 
 
 The proofs are currently in an Overleaf. But here's one intuition, using the `candy`, `chocolate`, and `reward` example environment.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8) Consider any reward function which says `candy` is strictly optimal. Then `candy` is strictly optimal over both `chocolate` and `hug`. 
+![](/static/images/posts/nwvmc2ovaduran8592k8.webp) Consider any reward function which says `candy` is strictly optimal. Then `candy` is strictly optimal over both `chocolate` and `hug`. 
 
 We have two permutations: one switching the reward for `candy` and `chocolate`, and one switching reward for `candy` and `hug`.  Each permutation produces a different orbit element (a different reward function variant).  The permuted variants both agree that `Wait!` is strictly optimal.  
 
@@ -107,14 +107,14 @@ I'm reasonably confident this is true, but I haven't worked through the combinat
 
 In certain ways, the results are indifferent to e.g. increased precision in agent sensors: it doesn't matter if dying gives you 1 option and living gives you $n$ options, or if dying gives you 2 options and living gives you $2n$ options. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/6DuJxY8X45Sco4bS2/nwvmc2ovaduran8592k8)
-<br/>Figure: `Wait!` has twice as many ways of being average-optimal.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/bjqgcnfm88mp60xbjffv)
-<br/>Figure: For optimal policies, instrumental convergence is just as strong here.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/qsmpevxeqetqyfi9qzlr)
+![](/static/images/posts/nwvmc2ovaduran8592k8.webp)
+<br/>Figure: `Wait!` has twice as many ways of being average-optimal.![](/static/images/posts/bjqgcnfm88mp60xbjffv.webp)
+<br/>Figure: For optimal policies, instrumental convergence is just as strong here.![](/static/images/posts/qsmpevxeqetqyfi9qzlr.webp)
 <br/>Figure: And you can prove the same thing here as well - `Wait!` has at least twice as many ways of being average-optimal.
 
 Similarly, you can do the inverse operations to simplify subgraphs in a way that respects the theorems:
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/Yc5QSSZCQ9qdyxZF6/cimakofeuevfrjgqcjxx)
+![](/static/images/posts/cimakofeuevfrjgqcjxx.webp)
 <br/>Figure: You could replace each of the circled subsets with anything you like, and the scaling law still holds (as long as the contents of each circle are replaced with the same new set of options).
 
 This is the start of a theory on what state abstractions "respect" the theorems, although there's still a lot I don't understand there. (I've barely thought about it so far.)

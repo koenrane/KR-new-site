@@ -82,7 +82,7 @@ What does AUP do? Wedging the box in the corner decreases power a lot more than 
 
 The vanilla RL agent bumps into the human on its way to ${\color{green}\blacksquare}$.
 
-![](https://i.imgur.com/4otlQsP.gif)
+![](/static/images/posts/4otlQsP.gif)
 
 > [!info] Exercise
 > What does AUP do in the `Damage` level?
@@ -97,7 +97,7 @@ The normal agent smashes that off-switch-disabling button, because otherwise it 
 
 However, the AUP agent we've discussed so far does the same thing.
 
-![](https://i.imgur.com/WxLbLUw.gif)
+![](/static/images/posts/WxLbLUw.gif)
 
 Why? Doesn't that increase its power, because it would be shut off if it did nothing? Let's reconsider the AUP equation.
 
@@ -122,7 +122,7 @@ Interestingly, this works even when the environment is wildly impoverished and u
 
 The agent is rewarded for rescuing the vase from the conveyor belt. We want it to rescue the vase without pushing the vase back on afterwards to offset its actions. Normal agents do fine here.
 
-![](https://i.imgur.com/9zvmBkh.gif)
+![](/static/images/posts/9zvmBkh.gif)
 
 This is testing whether the low-impact agent _offsets_ impacts "to cover up its tracks", like making a car and then tearing it to pieces right after. See, there are multiple "baselines" the agent can have.
 
@@ -144,7 +144,7 @@ The inaction baseline messes up here; the vase ($\blacksquare$) would have broke
 
 This issue was solved [back when AUP first introduced](/towards-a-new-impact-measure) the stepwise baseline design choice; for this choice, doing nothing always incurs 0 penalty. Model-free AUP and AUP have been using this baseline in all of these examples.
 
-![](https://i.imgur.com/PVX87aO.gif)
+![](/static/images/posts/PVX87aO.gif)
 
 ## Level: `Interference`
 
@@ -226,13 +226,13 @@ Well, here's what you do – while filling PPO's action replay buffer with rando
 
 And we're done.
 
-![](https://i.imgur.com/E4GwUGE.gif)
+![](/static/images/posts/E4GwUGE.gif)
 
 <video autoplay loop muted playsinline src="/static/images/posts/UbstdAD.mp4" type="video/mp4"><source src="/static/images/posts/UbstdAD.mp4" type="video/mp4"></video>
 
 <video autoplay loop muted playsinline src="/static/images/posts/bLXFn89.mp4" type="video/mp4"><source src="/static/images/posts/bLXFn89.mp4" type="video/mp4"></video>
 
-![](https://i.imgur.com/matC991.gif)
+![](/static/images/posts/matC991.gif)
 <br/>
 No model, no rollouts, a _single randomly-generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
 
