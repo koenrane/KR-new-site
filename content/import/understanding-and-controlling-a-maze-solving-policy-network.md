@@ -110,13 +110,13 @@ Code: For more background on training and architecture and task set, see [the or
 
 <br/>
 
-![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vpfzpqv3tkzmu0glog3e)
+![](/static/images/posts/vpfzpqv3tkzmu0glog3e.jpeg)
 <br/>Figure: During RL training, cheese was randomly located in the top-right 5x5 corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?
 
-![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/h1c8tfpmpebrjhcrqv17)
+![](/static/images/posts/h1c8tfpmpebrjhcrqv17.gif)
 <br/>Figure: Sometimes, the agent goes to the cheese.
 
-![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/cl7cobzn4pqpwfxotgco)
+![](/static/images/posts/cl7cobzn4pqpwfxotgco.gif)
 <br/>Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
 
 Why does the agent go to the cheese sometimes, and the top-right corner other times? 

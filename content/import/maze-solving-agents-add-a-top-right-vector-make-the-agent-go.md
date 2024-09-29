@@ -74,7 +74,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 >
 > [Langosco et al.](https://arxiv.org/abs/2105.14111) trained a range of maze-solving nets. We decided to analyze one which we thought would be interesting. The network we chose has 3.5M parameters and 15 convolutional layers.
 > 
-> ![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vpfzpqv3tkzmu0glog3e)
+> ![](/static/images/posts/vpfzpqv3tkzmu0glog3e.jpeg)
 > <br/>Figure: During RL training, cheese was randomly located in the top-right 5×5  corner of the randomly generated mazes. Reaching the cheese yields +1 reward.   
 >   
 > In deployment, cheese can be anywhere.
