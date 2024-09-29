@@ -10,6 +10,6 @@ for image_file in "$directory"/*; do
 	# Check if the pattern exists in the file
 	if ! grep -q "$basename" $GIT_ROOT/content/**md; then
 		echo "File '$basename' doesn't appear in any markdown files. Removing it."
-		rm "$image_file"
+		trash-put "$image_file"
 	fi
 done

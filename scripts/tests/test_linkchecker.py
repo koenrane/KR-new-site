@@ -8,10 +8,10 @@ from .. import utils as script_utils
 
 @pytest.fixture(scope="session")
 def linkchecker_result():
-    git_repo = script_utils.get_git_repo()
+    git_root = script_utils.get_git_root()
 
     # Run the linkchecker script and capture its output
-    result = subprocess.run(["fish", git_root + "/scripts/linkchecker.fish", 
+    result = subprocess.run(["fish", git_root / Path("scripts", "linkchecker.fish"), 
    Path(git_root, "scripts", "tests", ".linkchecker.test.html")], 
                             capture_output=True, 
                             text=True, 
