@@ -354,6 +354,11 @@ figcaption,
   &:visited {
     color: var(--color-visited);
   }
+
+  dt &, b &, strong & {
+    font-weight: 500 !important;
+    -webkit-font-smoothing: none;
+  }
 }
 
 .no-select {
