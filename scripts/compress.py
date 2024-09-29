@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import tempfile 
 import argparse
 import sys
 import subprocess
@@ -133,36 +134,65 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
 
     print(f"Successfully converted {video_path} to HEVC: {output_path}")
 
+import json
+
 def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
     """
-    Compress a GIF file to an MP4 video.
-
-    This function converts a GIF file to an MP4 video using FFmpeg. It extracts frames
-    from the GIF, converts them to an MP4 video with the specified quality, and then
-    cleans up the temporary files.
+    Compress a GIF file to an MP4 video, preserving the original frame rate.
     """
-    # Extract frames from GIF
-    subprocess.run([
-        "ffmpeg",
-        "-i", str(gif_path),
-        f"{gif_path.parent / gif_path.stem}_%03d.png"
-    ], check=True)
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_path = Path(temp_dir)
+        
+        # Get the frame rate of the original GIF
+        probe_cmd = [
+            "ffprobe",
+            "-v", "quiet",
+            "-print_format", "json",
+            "-show_streams",
+            str(gif_path)
+        ]
+        probe_output = subprocess.check_output(probe_cmd, universal_newlines=True)
+        probe_data = json.loads(probe_output)
+        
+        # Extract the frame rate, defaulting to 10 if not found
+        frame_rate = 10
+        for stream in probe_data.get('streams', []):
+            if stream.get('codec_type') == 'video':
+                avg_frame_rate = stream.get('avg_frame_rate', '10/1')
+                num, den = map(int, avg_frame_rate.split('/'))
+                frame_rate = num / den if den != 0 else 10
+                break
+        
+        print(f"Detected frame rate: {frame_rate} fps")
 
-    try:
-        # Convert frames to MP4
-        output_path = gif_path.with_suffix(".mp4")
+        # Extract frames from GIF
         subprocess.run([
             "ffmpeg",
-            "-i", f"{gif_path.parent / gif_path.stem}_%03d.png",
-            "-c:v", "libx265",
-            "-crf", str(quality),
-            "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2", # Ensure dimensions are even
-            "-pix_fmt", "yuv420p", # Chroma subsampling
-            str(output_path)
+            "-i", str(gif_path),
+            "-vsync", "0",
+            f"{temp_path / 'frame_%04d.png'}"
         ], check=True)
-    finally: # Clean up temporary PNG files
-        for png_file in gif_path.parent.glob(f"{gif_path.stem}_*.png"):
-            png_file.unlink()
+
+        try:
+            # Convert frames to MP4
+            output_path = gif_path.with_suffix(".mp4")
+            subprocess.run([
+                "ffmpeg",
+                "-framerate", str(frame_rate),
+                "-i", f"{temp_path / 'frame_%04d.png'}",
+                "-c:v", "libx265",
+                "-crf", str(quality),
+                "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                "-pix_fmt", "yuv420p",
+                "-loop", "0",  # Loop the video indefinitely
+                str(output_path)
+            ], check=True)
+            
+            print(f"Successfully converted {gif_path} to MP4: {output_path}")
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"Error during conversion: {e}") from e
+
+    # No need to manually clean up temporary files, as they're in a temporary directory
 
 
 if __name__ == "__main__":

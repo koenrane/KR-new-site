@@ -5,6 +5,7 @@ from . import utils
 import sys
 from io import StringIO
 import subprocess
+import json
 
 # --- Image Tests ---
 
@@ -139,3 +140,41 @@ def test_compress_gif(temp_dir: Path) -> None:
     # Check if temporary PNG files were cleaned up
     png_files = list(temp_dir.glob(f"{input_file.stem}_*.png"))
     assert len(png_files) == 0, f"Temporary PNG files were not cleaned up: {png_files}"
+
+def test_compress_gif_preserves_frame_rate(temp_dir: Path) -> None:
+    """Test that GIF compression preserves the detected frame rate."""
+    # Create a test GIF file
+    input_file = temp_dir / "test_framerate.gif"
+    utils.create_test_gif(input_file, duration=1, size=(100, 100), fps=15)
+    
+    # Compress the GIF
+    compress._compress_gif(input_file)
+    
+    # Check if MP4 file was created
+    output_file = input_file.with_suffix(".mp4")
+    assert output_file.exists(), f"MP4 file {output_file} was not created"
+    
+    # Get frame rates for both input and output files
+    def get_frame_rate(file_path):
+        result = subprocess.run([
+            "ffprobe",
+            "-v", "quiet",
+            "-print_format", "json",
+            "-show_streams",
+            str(file_path)
+        ], capture_output=True, text=True, check=True)
+        
+        probe_data = json.loads(result.stdout)
+        for stream in probe_data.get('streams', []):
+            if stream.get('codec_type') == 'video':
+                avg_frame_rate = stream.get('avg_frame_rate', '0/0')
+                num, den = map(int, avg_frame_rate.split('/'))
+                return num / den if den != 0 else 0
+        return 0
+
+    input_fps = get_frame_rate(input_file)
+    output_fps = get_frame_rate(output_file)
+
+    # Compare frame rates
+    relative_error = abs(output_fps - input_fps) / input_fps
+    assert relative_error < 0.01, f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
