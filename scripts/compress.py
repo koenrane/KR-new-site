@@ -59,12 +59,7 @@ ALLOWED_EXTENSIONS: Collection[str] = (
 
 VIDEO_QUALITY: int = 23  # Default quality (0-51). Lower is better but slower.
 def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
-    """Converts a video to mp4 format using ffmpeg with HEVC encoding if not already HEVC.
-
-    Args:
-        video_path: The path to the video file.
-        quality: The HEVC quality (0-51). Lower is better but slower.
-    """
+    """Converts a video to mp4 format using ffmpeg with HEVC encoding, if not already HEVC."""
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
@@ -104,11 +99,10 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
             _compress_gif(video_path, quality)
         else:
             # Single pass encoding
-            subprocess.run(
-            [
+            subprocess.run([
                 "ffmpeg",
                 "-i", str(video_path),
-                "-c:v",  "libx265",
+                "-c:v", "libx265",
                 "-preset", "slow",
                 "-crf", str(quality),
                 "-c:a", "copy",  # Copy audio without re-encoding
@@ -116,9 +110,7 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 "-movflags", "+faststart",
                 "-colorspace", "bt709",
                 str(temp_output_path)
-            ],
-            check=True,
-        )
+            ], check=True)
 
         # If we're overwriting the original file, replace it now
         if output_path == video_path:
@@ -126,7 +118,7 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
             temp_output_path.rename(output_path)
 
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error during conversion: {e.stderr}") from e
+        raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
         original_path = output_path.with_name(output_path.name + "_original")
         if original_path.exists():
@@ -191,9 +183,6 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
             print(f"Successfully converted {gif_path} to MP4: {output_path}")
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Error during conversion: {e}") from e
-
-    # No need to manually clean up temporary files, as they're in a temporary directory
-
 
 if __name__ == "__main__":
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
