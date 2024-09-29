@@ -65,7 +65,7 @@ Also: _Try not to update on this work being shared to begin with._ When reading 
 5.  The agent always starts in the bottom-left corner of the available maze.
 6.  The agent was trained off of pixels until it reached reward-convergence, reliably getting to the cheese in training. 
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647810/mirroredImages/JusJcepE2qohiC3hm/yh7pt8s1kxr72cyhxnpf.png)
+![](/static/images/posts/yh7pt8s1kxr72cyhxnpf.png)
 <br/>Figure: POV you’re the agent. Input observations are 64x64 RGB images.
 
 
@@ -119,7 +119,7 @@ For more background on training and architecture and task set, see [the original
 > [!note] Definition
 >  A _decision square_ is a tile on the path from bottom-left to top-right where the agent must choose between going towards the cheese and going to the top-right. Not all mazes have decision squares.
 
-![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1677647810/mirroredImages/JusJcepE2qohiC3hm/qtbrgkspuoj4eswd4mmt.png)
+![](/static/images/posts/qtbrgkspuoj4eswd4mmt.png)
 <br/>Figure: The left maze's decision square is the four-way intersection near the center.
 
 Give a credence for the following questions / subquestions. 
@@ -151,7 +151,7 @@ Give a credence for the following questions / subquestions.
 (The above credences should sum to 1.)
 
 1.  At least some decision-steering influences are stored in an obviously interpretable manner (e.g. a positive activation representing where the agent is “trying” to go in this maze, such that changing the activation changes where the agent goes): ( ?? %) 
-2.  The model has a substantial number of trivially-interpretable convolutional channels after the first Impala block ([see diagram here](https://i.imgur.com/5oSHoVQ.png)): ( ?? %) 
+2.  The model has a substantial number of trivially-interpretable convolutional channels after the first Impala block ([see diagram here](/static/images/posts/5oSHoVQ.png)): ( ?? %) 
 3.  This network’s shards/policy influences are roughly disjoint from the rest of agent capabilities. e.g. you can edit/train what the agent’s trying to do (e.g. go to maze location A) without affecting its general maze-solving abilities: ( ?? %) 
 
 ### Conformity with update rule

@@ -41,7 +41,7 @@ skip_import: true
 
 Max Tegmark's _[Our Mathematical Universe](https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)_ briefly touches on a captivating, beautiful mystery:
 
-![](https://space.mit.edu/home/tegmark/toe2_structure.gif)
+![](/static/images/posts/toe2_structure.gif)
 Figure: The arrows indicate the close relations between mathematical structures, formal systems and computations. The question mark suggests that these are all aspects of the same transcendent structure whose nature we still haven't fully understood.
 
 The profound results compiled by the _Computability and Logic_ textbook may be the first step towards the answer.

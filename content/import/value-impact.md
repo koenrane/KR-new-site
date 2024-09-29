@@ -39,28 +39,28 @@ date_published: 09/23/2019
 original_url: https://www.lesswrong.com/posts/TxcYSRQ9giC6zmKov/value-impact
 skip_import: true
 ---
-![](https://i.imgur.com/lG9je1g.png)
+![](/static/images/posts/lG9je1g.png)
 
 ![](https://i.imgur.com/1hJa51n.png)
 
   
 
-![](https://i.imgur.com/geDXLLG.png)
+![](/static/images/posts/geDXLLG.png)
 
   
   
 
 ![](https://i.imgur.com/zMxBlb0.png)
 
-![](https://i.imgur.com/tupgltr.png )![](https://i.imgur.com/kNG5for.png)
+![](/static/images/posts/tupgltr.png )![](/static/images/posts/kNG5for.png)
 
-![](https://i.imgur.com/BtzHnUq.png)
+![](/static/images/posts/BtzHnUq.png)
 
 ![](https://i.imgur.com/jaHW2pp.png )
 
 ![](https://i.imgur.com/MmtIR5e.png)
 
-![](https://i.imgur.com/S1KiiUj.png)
+![](/static/images/posts/S1KiiUj.png)
 
 ![](https://i.imgur.com/9ZqUDO6.png)
 
@@ -68,9 +68,9 @@ skip_import: true
 
 ![](https://i.imgur.com/JGA0KAj.png)
 
-![](https://i.imgur.com/ZBG9SXA.png )
+![](/static/images/posts/ZBG9SXA.png )
 
-![](https://i.imgur.com/IhjRIpN.png )
+![](/static/images/posts/IhjRIpN.png )
 
 ![](https://i.imgur.com/lsJLMDk.png )
 
@@ -80,9 +80,9 @@ skip_import: true
 
 ![](https://i.imgur.com/zKM6Bt9.png)
 
-![](https://i.imgur.com/ZOAeuoe.png)
+![](/static/images/posts/ZOAeuoe.png)
 
-![](https://i.imgur.com/fzLD7kQ.png)
+![](/static/images/posts/fzLD7kQ.png)
 
 ## Appendix: Contrived Objectives
 

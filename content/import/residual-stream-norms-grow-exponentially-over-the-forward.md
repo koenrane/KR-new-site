@@ -88,7 +88,7 @@ As for the reason behind this shape, we expect that the residual stream (norm) i
 
 We suspect that is the source of the U-shape shown in [Basic facts about language models during training](https://www.lesswrong.com/posts/2JJtxitp6nqu6ffak/basic-facts-about-language-models-during-training-1#Residual_stream_outliers_grow_rapidly_then_stabilize_and_decline):
 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/v1676979667/mirroredImages/wt7bCymZt5Md7bCA9/m1uteifqbbyox6qp9xnx.png)
+> ![](/static/images/posts/m1uteifqbbyox6qp9xnx.png)
 
 # Theories for the source of the growth
 

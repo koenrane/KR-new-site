@@ -51,7 +51,7 @@ Distasteful. In a graph with $n$  vertices, you'd need to commit $O(n^3)$ things
 
 Sometimes, we just need a little beauty to fall in love.
 
-![](https://i.imgur.com/rwpHVk0.png)
+![](/static/images/posts/rwpHVk0.png)
 
 Welcome to Oliver Byrne's rendition of Euclid's _Elements_, [digitized and freely available online](https://www.c82.net/euclid/).
 
@@ -72,7 +72,7 @@ Old mathematical writing lacks modern precision. Euclid says that two triangles 
 
 [Similarity](https://en.wikipedia.org/wiki/Similarity_\(geometry\)) is a bit more lenient, because you can rescale as well:
 
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/SimilitudeL.svg/170px-SimilitudeL.svg.png)
+![](/static/images/posts/170px-SimilitudeL.svg.png)
 
 My favorite characterization of similarities is:
 
@@ -88,11 +88,11 @@ I find it strange that Euclid got so far by axiomatizing informal notions withou
 
 [Book 1, proposition 35](https://www.c82.net/euclid/book1/#prop35):
 
-![](https://i.imgur.com/xSipa0p.png)
+![](/static/images/posts/xSipa0p.png)
 
 This says: suppose you draw two parallel lines, and then make a dash of length 2 on each line. Then, make another dash of length 2 on the upper line. The two parallelograms so defined have equal area. This is clarified in the next theorem.
 
-![](https://i.imgur.com/H5ZOo2I.png)
+![](/static/images/posts/H5ZOo2I.png)
 
 If you take one of the dashes and slide it around on the upper parallel line, the resultant parallelograms all have the same area. I thought this was cool.
 
@@ -136,11 +136,11 @@ With this habit, you continually ask yourself, "how do I know this?". I think th
 
 In college, I taught myself a bit of Japanese. Through a combination of spaced repetition software and memory palaces, and over the course of three months, I learned to read the [2,136 standard use characters](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji). After those three months, I proudly displayed this poster on my wall:
 
-![](https://i.imgur.com/hcdZgoi.png)
+![](/static/images/posts/hcdZgoi.png)
 
 I look forward to another beautiful poster.
 
-![](https://i.imgur.com/vYNe9w0.jpg)
+![](/static/images/posts/vYNe9w0.jpg)
 
 > [!quote] Oliver Byrne
 > As the ſenſes of ſight and hearing can be ſo forcibly and inſtantaneously addreſſed alike with one thouſand as with one, _the million_ might be taught geometry and other branches of mathematics with great eaſe, this would advance the purpoſe of education more than any thing that _might_ be named, for it would teach the people how to think, and not what to think; it is in this particular the great error of education originates.

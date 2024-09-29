@@ -39,9 +39,9 @@ date_published: 09/24/2019
 original_url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
 skip_import: true
 ---
-![](https://i.imgur.com/lyRy0fS.png)
+![](/static/images/posts/lyRy0fS.png)
 
-![](https://i.imgur.com/OIDCLpl.png)
+![](/static/images/posts/OIDCLpl.png)
 
 [​](​![]\(https://i.imgur.com/x3myqQ1.png)![](https://i.imgur.com/x3myqQ1.png)
 
@@ -51,15 +51,15 @@ skip_import: true
 
   
 
-![](https://i.imgur.com/EZa5fmw.png)
+![](/static/images/posts/EZa5fmw.png)
 
-![](https://i.imgur.com/UHf85nd.png)
+![](/static/images/posts/UHf85nd.png)
 
-![](https://i.imgur.com/EZa5fmw.png)
+![](/static/images/posts/EZa5fmw.png)
 
-![](https://i.imgur.com/apep62R.png)
+![](/static/images/posts/apep62R.png)
 
-![](https://i.imgur.com/p278IRN.png)
+![](/static/images/posts/p278IRN.png)
 
 >! The solution comes in the next post! Feel free to discuss amongst yourselves.
 >

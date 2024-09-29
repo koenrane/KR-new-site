@@ -86,7 +86,7 @@ Here's an AI which is neither impact nor intent aligned, but which is corrigible
 
 Imagine we’re playing a two-player extensive-form game with the AI, and we’re considering whether to activate it. 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.png)
+![](/static/images/posts/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.png)
 <br/>Figure: The human moves on black, and the AI moves on red.
 
 This is a trivial game, but you can imagine more complex games, where the AI can empower or disempower the human, steer the future exactly where it wants, or let the human take over at any point. 
@@ -112,7 +112,7 @@ The human’s got a policy function $\text{pol}(P)$, which takes in a goal $P$ a
 
 This math expresses a simple sentiment: turning on the AI doesn’t make you, the human, worse off for any goal $P\in S$. The inequality doesn’t have to be exact, it could just be for some $\epsilon$\-decrease (to avoid trivial counterexamples). The AU is calculated with respect to some reasonable amount of time (e.g. a year: _before_ the world changes rapidly because we deployed another transformative AI system, or something). Also, we’d technically want to talk about non-obstruction being present throughout the **on**\-subtree, but let’s keep it simple for now.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.png)
+![](/static/images/posts/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.png)
 <br/>Figure: The human moves on black, and the AI moves on red.
 
 Suppose that $\pi^{AI}(\textbf{on})$ leads to **pancakes**:

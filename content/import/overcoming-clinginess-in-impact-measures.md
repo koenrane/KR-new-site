@@ -113,7 +113,7 @@ We first consider a single-turn game ($T=1$).
 
 ### Example
 
-![](https://i.imgur.com/Si3UhUz.png)
+![](/static/images/posts/Si3UhUz.png)
 
 _Yup, this is about where we're at in alignment research right now._
 

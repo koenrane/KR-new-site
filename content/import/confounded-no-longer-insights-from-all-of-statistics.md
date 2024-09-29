@@ -267,7 +267,7 @@ _In which the pieces start to line up._
 
 ### The Bias-Variance Tradeoff
 
-![](https://i.imgur.com/38Rf6NN.png)
+![](/static/images/posts/38Rf6NN.png)
 Figure: Image credit: Scott Fortmann-Roe
 
 As more covariates are added to a model, the bias decreases while the variance increases. Let's say you call 30 friends and ask them whether they agree with the Copenhagen interpretation of quantum mechanics, or with many-worlds. Say that you build a model with 5 covariates (such as age, sex, race, political leaning, and education level). This has _decreased bias_ compared to a model which uses only education level, since descriptive power increases with the number of covariates. However, you _increase variance_ in the sense that any given friend is more likely to be differently classified every time you run the experiment with slightly different data sets.

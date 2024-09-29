@@ -40,25 +40,25 @@ date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 skip_import: true
 ---
-![](https://i.imgur.com/Rgc4aOs.png)
+![](/static/images/posts/Rgc4aOs.png)
 
-![](https://i.imgur.com/JCSrOj7.png)
+![](/static/images/posts/JCSrOj7.png)
 
 ![](https://i.imgur.com/P3mUtIx.png)
 
 ![](https://i.imgur.com/vSGPVnG.png)
 
-![](https://i.imgur.com/BtzHnUq.png)
+![](/static/images/posts/BtzHnUq.png)
 
-![](https://i.imgur.com/cKroz8I.png)
+![](/static/images/posts/cKroz8I.png)
 
-![](https://i.imgur.com/GRmoAfp.png) ![](https://i.imgur.com/83Tte8B.png) ![](https://i.imgur.com/tzLrv25.png) ![](https://i.imgur.com/jcefOFk.png)
+![](https://i.imgur.com/GRmoAfp.png) ![](https://i.imgur.com/83Tte8B.png) ![](/static/images/posts/tzLrv25.png) ![](/static/images/posts/jcefOFk.png)
 
-![](https://i.imgur.com/BtzHnUq.png)
+![](/static/images/posts/BtzHnUq.png)
 
-![](https://i.imgur.com/zTCZtYZ.png) ![](https://i.imgur.com/OsWS97b.png)
+![](/static/images/posts/zTCZtYZ.png) ![](/static/images/posts/OsWS97b.png)
 
-![](https://i.imgur.com/j6Tcj9x.png) ![](https://i.imgur.com/egyx3vb.png) ![](https://i.imgur.com/8l3kkwg.png)
+![](/static/images/posts/j6Tcj9x.png) ![](https://i.imgur.com/egyx3vb.png) ![](/static/images/posts/8l3kkwg.png)
 
 ## Overfitting the AU landscape
 
@@ -66,7 +66,7 @@ When we act, and others act upon us, we aren’t just changing our ability to do
 
 What happens to the AU landscape[^2] if a paperclip maximizer takes over the world?[^3]
 
-![](https://i.imgur.com/stCBNq6.png)
+![](/static/images/posts/stCBNq6.png)
 
 ### Preferences implicit in the evolution of the AU landscape
 

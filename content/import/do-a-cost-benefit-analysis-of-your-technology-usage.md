@@ -50,7 +50,7 @@ And locks I had. I restricted my iPhone with a password only known by a friend, 
 
 This school year, I’ve had problems focusing and relaxing. I tried exercise, different medication, but nothing hit the spot. I wasn’t reading textbooks like I wanted to, my attention was fractured, I often felt behind my schedule. I was still doing my job and making progress—just not as much as I wanted.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e5fc31e7ae5335e6eb86ac6aea6c6f490a9a50b854ad33c1.png)
+![](/static/images/posts/e5fc31e7ae5335e6eb86ac6aea6c6f490a9a50b854ad33c1.png)
 <br/>Figure: Could this have anything to do with my attention problems?
 
 This spring, I read a LessWrong post which mentioned [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/). Luckily, this triggered my “if several reasonably smart EAs swear by the benefits of X, investigate X” trigger-action plan.
@@ -90,7 +90,7 @@ These compulsions kill deep work in the cradle. My attention was fractured and s
 
 At this point, you might be thinking “OK, but I can’t roam the mountains of Nepal for a month. I have work to do and that requires staying in touch with people.” Sure. The point of this post is not “no phone.” The point of this post is to build a digital life purposefully and carefully, because you reflectively endorse each component. The point of this post is to get people to do _any cost-benefit analysis at all_ of the way they spend 1/8th–1/3rd of their waking hours.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/8d45f63442baec9dd4ea27814e72c18a53e55bbf4be36f77.jpg)
+![](/static/images/posts/8d45f63442baec9dd4ea27814e72c18a53e55bbf4be36f77.jpg)
 <br/>Figure: My estimate of the daily costs and benefits for a better-than-average Facebook user (considering Messenger to be distinct from Facebook). In appendix 2, I detail how I extract all of these benefits for 40 minutes a month, instead of 40 minutes a day—a 30x improvement!
 
 The declutter goes as follows:
@@ -229,7 +229,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
   - In combination with a monthly Messenger checkin, I’ve extracted my main benefits from Facebook, at a cost of at most 50 minutes each month, instead of 50 minutes each day!
     - Again, I _**don’t recommend**_** **doing small fixes like “just hide some FB elements.” These fixes **don’t work** for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/d32796158700c20215c248c4a535664223c89bdddc3c874c.png)
+![](/static/images/posts/d32796158700c20215c248c4a535664223c89bdddc3c874c.png)
 <br/>Figure: Here’s what my FB news feed looks like now. 😌
 - For news, I purchased a digital+print subscription to _~The Economist~_.[^econ] Once a month, I can choose to read the four issues for an hour or two.
   - I don’t need to read more than that. I can read about candidates before an election, and there isn’t much else that’s decision-relevant. If e.g. AI dynamics heat up and geopolitical understanding becomes more important, I’ll tackle that deliberately.

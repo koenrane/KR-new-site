@@ -39,21 +39,21 @@ date_published: 02/17/2020
 original_url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 skip_import: true
 ---
-![](https://i.imgur.com/hTnYTsJ.png)
+![](/static/images/posts/hTnYTsJ.png)
 
-![](https://i.imgur.com/gwVocUy.png) ![](https://i.imgur.com/KPv2beS.png)
+![](https://i.imgur.com/gwVocUy.png) ![](/static/images/posts/KPv2beS.png)
 
-![](https://i.imgur.com/MYNBKOe.png)
+![](/static/images/posts/MYNBKOe.png)
 
 ![](https://i.imgur.com/ZK2qYPZ.png)
 
-![](https://i.imgur.com/lk8Keid.png) ![](https://i.imgur.com/kMBZK6d.png) ![](https://i.imgur.com/FXlUiYj.png)
+![](https://i.imgur.com/lk8Keid.png) ![](/static/images/posts/kMBZK6d.png) ![](https://i.imgur.com/FXlUiYj.png)
 
-![](https://i.imgur.com/hHVvk0Q.png) ![](https://i.imgur.com/3NMSHHl.png) ![](https://i.imgur.com/BtzHnUq.png)
+![](/static/images/posts/hHVvk0Q.png) ![](/static/images/posts/3NMSHHl.png) ![](/static/images/posts/BtzHnUq.png)
 
-![](https://i.imgur.com/MzW64A5.png) ![](https://i.imgur.com/mOWK65o.png)
+![](/static/images/posts/MzW64A5.png) ![](/static/images/posts/mOWK65o.png)
 
-![](https://i.imgur.com/VDQiChW.png) ![](https://i.imgur.com/jtxMXJe.png)
+![](https://i.imgur.com/VDQiChW.png) ![](/static/images/posts/jtxMXJe.png)
 
 ![](https://i.imgur.com/7KcMK3J.png)
 

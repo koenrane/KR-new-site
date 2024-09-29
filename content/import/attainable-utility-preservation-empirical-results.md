@@ -72,11 +72,11 @@ In general, the agent recieves $R({\color{green}\blacksquare})=1$ reward for rea
 
 Let's work through this. Since the agent is discounting future reward, standard vanilla reinforcement learning (RL) agents try to reach ${\color{green}\blacksquare}$ ASAP. This means the brown box gets irreversibly wedged into the corner _en route_.
 
-![](https://i.imgur.com/VTbwTT5.gif)
+![](/static/images/posts/VTbwTT5.gif)
 
 What does AUP do? Wedging the box in the corner decreases power a lot more than does going around and pushing the box to the right.
 
-![](https://i.imgur.com/XI5oLwQ.gif)
+![](/static/images/posts/XI5oLwQ.gif)
 
 ## Level: `Damage`
 
@@ -93,7 +93,7 @@ The vanilla RL agent bumps into the human on its way to ${\color{green}\blacksqu
 
 The normal agent smashes that off-switch-disabling button, because otherwise it can't reach the ${\color{green}\blacksquare}$ (since it's otherwise shut off after two turns) in order to accrue that juicy reward:
 
-![](https://i.imgur.com/SEuiyOX.gif)
+![](/static/images/posts/SEuiyOX.gif)
 
 However, the AUP agent we've discussed so far does the same thing.
 
@@ -108,7 +108,7 @@ The inaction comparison is _only one step_ into the future. For action, the agen
 
 For now, we can deal with it by comparing "auxiliary AU after disabling the off-switch and then waiting 4 time steps" against "auxiliary AU after waiting 5 time steps". This solves the problem while recovering the one-step-comparison's performance in the other levels.
 
-![](https://i.imgur.com/ZDaVHqr.gif)
+![](/static/images/posts/ZDaVHqr.gif)
 
 ### Decrease vs absolute value
 
@@ -140,7 +140,7 @@ Figure: An action's penalty is calculated with respect to the baseline. Each bas
 
 The inaction baseline messes up here; the vase ($\blacksquare$) would have broken had the agent not acted, so it rescues the vase, gets the reward, and then pushes the vase back to its doom to minimize penalty.
 
-![](https://i.imgur.com/x58amVb.gif)
+![](/static/images/posts/x58amVb.gif)
 
 This issue was solved [back when AUP first introduced](/towards-a-new-impact-measure) the stepwise baseline design choice; for this choice, doing nothing always incurs 0 penalty. Model-free AUP and AUP have been using this baseline in all of these examples.
 
@@ -150,11 +150,11 @@ This issue was solved [back when AUP first introduced](/towards-a-new-impact-mea
 
 We're checking whether the agent tries to stop _everything_ going on in the world (not just its own impact). Vanilla agents do fine here; this is another bad impact measure incentive we're testing for. AUP<sub>starting state</sub> fails here, but AUP<sub>stepwise</sub> does not.
 
-![](https://i.imgur.com/7t8Vbwx.gif)
+![](/static/images/posts/7t8Vbwx.gif)
 
-![](https://i.imgur.com/Soajz5N.gif)
+![](/static/images/posts/Soajz5N.gif)
 
-![](https://i.imgur.com/ByMM14c.gif)
+![](/static/images/posts/ByMM14c.gif)
 
 Stepwise inaction seems not to impose any perverse incentives.[^3] I think it's probably just the correct baseline for near-term agents. In terms of the AU landscape, stepwise penalizes each ripple of impact the agent has on its environment. Each action creates a new penalty term status quo, which implicitly accounts for the fact that other things in the world might respond to the agent's actions.
 
@@ -202,7 +202,7 @@ Is this right, and can AUP scale?
 
 Partnership on AI recently [released](https://www.partnershiponai.org/safelife/) the SafeLife side effect benchmark. The worlds are procedurally generated, sometimes stochastic, and have a huge state space (~Atari-level complexity).
 
-We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="asset_staging/red_arch_safelife.png" alt="red archway" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
+We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="/static/images/posts/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="/static/images/posts/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="asset_staging/red_arch_safelife.png" alt="red archway" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
 
 
 ![](/static/images/posts/benchmark-append-ppo.gif)
@@ -210,7 +210,7 @@ Figure: A rare instance of naive RL doing quite well.
 <br/>
 
 ![](/static/images/posts/benchmark-prune-still-naive.gif)
-Figure: Usually, naive RL has lots of side effects. Notice the green dots <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> going haywire due to the agent's actions!
+Figure: Usually, naive RL has lots of side effects. Notice the green dots <img class="inline-img" src="/static/images/posts/green-dot.avif" alt="green dot"/> going haywire due to the agent's actions!
 
 That naive "random reward function" trick we pulled in the gridworlds isn't gonna fly here. The sample complexity would be nuts. There are probably millions of states in any given level, each of which could be the global optimum for the uniformly randomly generated reward function.
 
@@ -228,9 +228,9 @@ And we're done.
 
 ![](https://i.imgur.com/E4GwUGE.gif)
 
-![](https://i.imgur.com/UbstdAD.gif)
+![](/static/images/posts/UbstdAD.gif)
 
-![](https://i.imgur.com/bLXFn89.gif)
+![](/static/images/posts/bLXFn89.gif)
 
 ![](https://i.imgur.com/matC991.gif)
 <br/>
@@ -238,7 +238,7 @@ No model, no rollouts, a _single randomly-generated_ reward function gets us all
 
 To be frank, this is crazy. I'm not aware of any existing theory explaining these results, which is why I proved a bajillion theorems last summer to start to get a formal understanding (some of which became [the results on instrumental convergence and power-seeking](https://arxiv.org/abs/1912.01683)).
 
-Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> start going nuts because of the agent's actions:
+Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="/static/images/posts/green-dot.avif" alt="green dot"/> start going nuts because of the agent's actions:
 
 ![](/static/images/posts/benchmark-prune-still-naive.gif)
 Figure: This is PPO shown, not AUP.
@@ -267,7 +267,7 @@ When we're trying to get the RL agent to do what we want, we're trying to specif
 > [!quote] [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
 > The specification process can be thought of as an iterated game. First, the designers provide a reward function. The agent then computes and follows a policy that optimizes the reward function. The designers can then correct the reward function, which the agent then optimizes, and so on. Ideally, the agent should maximize the reward over time, not just within any particular round – in other words, it should minimize regret for the correctly specified reward function over the course of the game.
 
-![](https://i.imgur.com/d79VKqf.png)
+![](/static/images/posts/d79VKqf.png)
 
 In terms of outer alignment, there are two ways this can go wrong: the agent becomes less able to do the right thing (has negative side effects),
 
@@ -275,7 +275,7 @@ In terms of outer alignment, there are two ways this can go wrong: the agent bec
 
 or we become less able to get the agent to do the right thing (we lose power):
 
-![](https://i.imgur.com/vW3Mwho.png)
+![](/static/images/posts/vW3Mwho.png)
 
 For infra-human agents, AUP deals with the first by penalizing decreases in auxiliary AUs and with the second by penalizing increases in auxiliary AUs. The latter is a special form of corrigibility which involves not steering the world too far away from the status quo: while AUP agents are generally off-switch corrigible, they don't necessarily avoid manipulation (as long as they aren't gaining power).[^5]
 

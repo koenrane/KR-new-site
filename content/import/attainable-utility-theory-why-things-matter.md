@@ -42,54 +42,54 @@ skip_import: true
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.
 
-![](https://i.imgur.com/8sVtTT3.png )
+![](/static/images/posts/8sVtTT3.png )
 
-![](https://i.imgur.com/KOgtb77.png)
+![](/static/images/posts/KOgtb77.png)
 
 ![](https://i.imgur.com/M5Ad0y3.png)
 
-![](https://i.imgur.com/n0YpPTs.png ) ![](https://i.imgur.com/7qhXiqy.png )
+![](/static/images/posts/n0YpPTs.png ) ![](/static/images/posts/7qhXiqy.png )
 
-![](https://i.imgur.com/wPCFMZS.png)
+![](/static/images/posts/wPCFMZS.png)
 
-![](https://i.imgur.com/Bsftgge.png)
+![](/static/images/posts/Bsftgge.png)
 
-![](https://i.imgur.com/lN63MSs.png)
+![](/static/images/posts/lN63MSs.png)
 
-![](https://i.imgur.com/8i3EpOJ.png)
+![](/static/images/posts/8i3EpOJ.png)
 
-![](https://i.imgur.com/LaaWktm.png )
+![](/static/images/posts/LaaWktm.png )
 
 ![](https://i.imgur.com/HSnZ04N.png)
 
-## ![](https://i.imgur.com/NM4aDfl.png ) ![](https://i.imgur.com/WNk1BrR.png )
+## ![](/static/images/posts/NM4aDfl.png ) ![](/static/images/posts/WNk1BrR.png )
 
 ![](https://i.imgur.com/I0yeEVZ.png)
 
-![](https://i.imgur.com/XZb4N1l.png)![](https://i.imgur.com/nc1vTVX.png)![](https://i.imgur.com/UBO9YKH.png)
+![](/static/images/posts/XZb4N1l.png)![](/static/images/posts/nc1vTVX.png)![](https://i.imgur.com/UBO9YKH.png)
 
-## ![](https://i.imgur.com/RSoj9Cz.png)![](https://i.imgur.com/O0BqpNx.png)
+## ![](/static/images/posts/RSoj9Cz.png)![](https://i.imgur.com/O0BqpNx.png)
 
 [​](​![]\(https://i.imgur.com/AecZKTq.png)![](https://i.imgur.com/AecZKTq.png)
 
-![](https://i.imgur.com/RzasnHy.png)
+![](/static/images/posts/RzasnHy.png)
 
-## ![](https://i.imgur.com/VGA7zYH.png)
+## ![](/static/images/posts/VGA7zYH.png)
 
-![](https://i.imgur.com/oojPFBI.png )
+![](/static/images/posts/oojPFBI.png )
 
-![](https://i.imgur.com/kbjOPEG.png )
+![](/static/images/posts/kbjOPEG.png )
 
-![](https://i.imgur.com/kr6sUam.png )
+![](/static/images/posts/kr6sUam.png )
 
 <span class="h2" style="display:block; text-align: center"> ¯\\\__(ツ)\__/¯</span>
 
-![](https://i.imgur.com/PWJmONq.png)
+![](/static/images/posts/PWJmONq.png)
 
-[​](​![]\(https://i.imgur.com/gtgIF77.png)![](https://i.imgur.com/gtgIF77.png)
+[​](​![]\(/static/images/posts/gtgIF77.png)![](/static/images/posts/gtgIF77.png)
 
 ![](https://i.imgur.com/hqEX2r1.png )
 
-![](https://i.imgur.com/yaWfaOv.png )
+![](/static/images/posts/yaWfaOv.png )
 
 ![](https://i.imgur.com/FuBQCP0.png)

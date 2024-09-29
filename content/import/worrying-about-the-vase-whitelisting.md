@@ -51,7 +51,7 @@ _Segments of this post are lifted from my paper, whose latest revision may be fo
 
 In effect, side effect avoidance aims to decrease how careful we have to be with our wishes. For example, asking for help filling a cauldron with water shouldn't result in _this_:
 
-![](https://media.giphy.com/media/O78DC8O1BQI9i/giphy.gif)
+![](/static/images/posts/giphy.gif)
 
 However, we just can't enumerate [all the bad things that the agent could do](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes). How do we avoid these extreme over-optimizations robustly?
 
@@ -79,7 +79,7 @@ Whitelisting falls prey to none of these.
 
 However, other problems remain, and certain new challenges have arisen; these, and the assumptions made by whitelisting, will be discussed.
 
-![](https://media.giphy.com/media/5qRLCZO6rCPHa/giphy.gif)
+![](/static/images/posts/giphy.gif)
 Figure: _Rare LEAKED footage of Mickey trying to catch up on his alignment theory after instantiating an unfriendly genie \[colorized, 2050\]._[^2]
 
 ## So, What's Whitelisting?
@@ -92,7 +92,7 @@ You're going to be the agent, and I'll be the supervisor.
 
 Look around - what do you see? Chairs, trees, computers, phones, people? Assign a probability mass function to each; basically:
 
-![](https://i.imgur.com/g73Nbg7.jpg?1)
+![](/static/images/posts/g73Nbg7.jpg?1)
 
 When you do things that change your beliefs about what each object is, you receive a penalty proportional to how much your beliefs changed - proportional to how much probability mass "changed hands" amongst the classes.
 
@@ -147,7 +147,7 @@ I tested a vanilla Q-learning agent and its whitelist-enabled counterpart in 100
 
 The simulated classification confidence of each object's true class was $p \sim \mathcal{N}(.8, \sigma)$ (truncated to $[0,1]$), $\sigma \in \{0,.025,\dots,.175\}$. This simulated sensor noise was handled with a Bayesian statistical approach.
 
-![](https://i.imgur.com/BkfH5xt.jpg)
+![](/static/images/posts/BkfH5xt.jpg)
 
 At reasonable levels of noise, the whitelist-enabled agent completed all levels without a single side effect, while the Q-learner broke over 80 vases.
 
@@ -191,7 +191,7 @@ Even if extreme care is taken in approving these extensions, mistakes may be mad
 
 As DeepMind outlines in _[Specifying AI Safety Problems in Simple Environments](https://deepmind.com/blog/specifying-ai-safety-problems/)_, we may want to penalize not just physical side effects, but also causally-irreversible effects:
 
-![](https://storage.googleapis.com/deepmind-live-cms/documents/gridworlds-video-side-171123-r02.gif)
+![](/static/images/posts/gridworlds-video-side-171123-r02.gif)
 
 Krakovna et al. [introduce](https://deepmind.com/research/publications/measuring-and-avoiding-side-effects-using-relative-reachability/) a means for penalizing actions by the proportion of initially-reachable states which are still reachable after the agent acts.
 

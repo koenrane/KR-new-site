@@ -42,39 +42,39 @@ skip_import: true
 
 ![](https://i.imgur.com/hKhkvwg.png)
 
-![](https://i.imgur.com/IXogCtA.png)
+![](/static/images/posts/IXogCtA.png)
 
 ![](https://i.imgur.com/2r2DVFx.png)
 
-![](https://i.imgur.com/holekcV.png)
+![](/static/images/posts/holekcV.png)
 
-![](https://i.imgur.com/SzFSiEc.png)
+![](/static/images/posts/SzFSiEc.png)
 
-![](https://i.imgur.com/wCRzqox.png) ![](https://i.imgur.com/BAWF2q1.png)
+![](https://i.imgur.com/wCRzqox.png) ![](/static/images/posts/BAWF2q1.png)
 
-![](https://i.imgur.com/UCGx4QR.png )
+![](/static/images/posts/UCGx4QR.png )
 
-![](https://i.imgur.com/5YOlvLh.png)![](https://i.imgur.com/yA8wkQP.png)![](https://i.imgur.com/QXG2pVK.png)
+![](https://i.imgur.com/5YOlvLh.png)![](https://i.imgur.com/yA8wkQP.png)![](/static/images/posts/QXG2pVK.png)
 
-![](https://i.imgur.com/27F0KkU.png)
+![](/static/images/posts/27F0KkU.png)
 
-![](https://i.imgur.com/B7rMciV.png)
+![](/static/images/posts/B7rMciV.png)
 
-![](https://i.imgur.com/HIfRI7r.png)
+![](/static/images/posts/HIfRI7r.png)
 
-![](https://i.imgur.com/ye9suf7.png)
+![](/static/images/posts/ye9suf7.png)
 
-![](https://i.imgur.com/sMgB7yR.png)
+![](/static/images/posts/sMgB7yR.png)
 
 ![](https://i.imgur.com/lQ1jYfB.png )
 
-![](https://i.imgur.com/b6pDiKi.png)
+![](/static/images/posts/b6pDiKi.png)
 
-[​](​![]\(https://i.imgur.com/iRLXEeH.png)![](https://i.imgur.com/iRLXEeH.png)
+[​](​![]\(/static/images/posts/iRLXEeH.png)![](/static/images/posts/iRLXEeH.png)
 
-![](https://i.imgur.com/uRr6YqY.png )
+![](/static/images/posts/uRr6YqY.png )
 
-![](https://i.imgur.com/67uR5SE.png)![](https://i.imgur.com/PFqi66W.png)
+![](/static/images/posts/67uR5SE.png)![](https://i.imgur.com/PFqi66W.png)
 
 ![](https://i.imgur.com/GBVahyL.png)
 
@@ -84,11 +84,11 @@ skip_import: true
 
 ![](https://i.imgur.com/oqEeta9.png)
 
-![](https://i.imgur.com/epI7152.png)
+![](/static/images/posts/epI7152.png)
 
-![](https://i.imgur.com/dvVEmBs.png) [​](​![]\(https://i.imgur.com/HShpS3u.png)![](https://i.imgur.com/HShpS3u.png)
+![](/static/images/posts/dvVEmBs.png) [​](​![]\(/static/images/posts/HShpS3u.png)![](/static/images/posts/HShpS3u.png)
 
-![](https://i.imgur.com/WjTqF2y.png)
+![](/static/images/posts/WjTqF2y.png)
 
 ![](https://i.imgur.com/dLUrki7.png)
 

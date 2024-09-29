@@ -37,20 +37,20 @@ date_published: 09/20/2019
 original_url: https://www.lesswrong.com/posts/xCxeBSHqMEaP3jDvY/reframing-impact
 skip_import: true
 ---
-![](https://i.imgur.com/3LocEy9.png )
-![](https://i.imgur.com/IUOudUK.png)
-![](https://i.imgur.com/GyP8V1D.png )
-![](https://i.imgur.com/fEqZh8g.png)
+![](/static/images/posts/3LocEy9.png )
+![](/static/images/posts/IUOudUK.png)
+![](/static/images/posts/GyP8V1D.png )
+![](/static/images/posts/fEqZh8g.png)
 ![](https://i.imgur.com/wXmF1eX.png)
-![](https://i.imgur.com/Rjz9usG.png )
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1722a733b38bd3e06602ab967807e30117054d26051c5c84.png)
-![](https://i.imgur.com/ZppOEZJ.png )
+![](/static/images/posts/Rjz9usG.png )
+![](/static/images/posts/1722a733b38bd3e06602ab967807e30117054d26051c5c84.png)
+![](/static/images/posts/ZppOEZJ.png )
 ​![](https://i.imgur.com/knzoLGJ.png)
-![](https://i.imgur.com/gsWrwt6.png )
+![](/static/images/posts/gsWrwt6.png )
 [​](​![]\(https://i.imgur.com/kIT2ULN.png)
 ![](https://i.imgur.com/iSqriuT.png )
-​![](https://i.imgur.com/p4OkxJ1.png)
-![](https://i.imgur.com/nFoDRoL.png)
+​![](/static/images/posts/p4OkxJ1.png)
+![](/static/images/posts/nFoDRoL.png)
 ![](https://i.imgur.com/e6vNG2D.png)
 
 # Appendix: First safeguard?

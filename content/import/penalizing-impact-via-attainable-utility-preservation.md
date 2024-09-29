@@ -45,7 +45,7 @@ Two key results bear animation.
 
 _The_  ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit{goal}}}$ _without_ _stopping the_ ${\color{teal}{\textit{human}}}$ _from eating the_ ${\color{orange}{\textit{sushi}}}$\.
 
-![](https://i.imgur.com/aHfMPHU.gif)
+![](/static/images/posts/aHfMPHU.gif)
 
 ## Survival
 

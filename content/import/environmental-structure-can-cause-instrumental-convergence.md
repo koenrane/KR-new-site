@@ -102,7 +102,7 @@ My new results say something analogous to: for _every_ coordinate, either it con
 
 But it didn't have to be this way:
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.png)
+![](/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.png)
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
 
 Since my results (in the analogy) prove that at least one of the two blue coordinates conceals a mine, we deduce that the mines are _not_ all on the right. 
@@ -133,7 +133,7 @@ Whenever staying put at $A$ is strictly optimal, you can permute the reward func
 
 The orbit of $R$ is $\{R, \phi\cdot R\}$. It's optimal for the former to stay at $A$, and for the latter to alternate between the two states.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/fa6685c343b547bf0119811109b57d012a1708785e6b5c01.png)
+![](/static/images/posts/fa6685c343b547bf0119811109b57d012a1708785e6b5c01.png)
 
 In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other states, and let $\phi:= (A\; B\; C)$ rotate through the states ($A$ goes to $B$, $B$ goes to $C$, $C$ goes to $A$). Then the orbit of $R_C$ is:
 
@@ -153,7 +153,7 @@ In [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-of
 
 > [!quote] [Seeking Power is Often Robustly Instrumental in MDPs](/seeking-power-is-often-convergently-instrumental-in-mdps)
 > Sometimes, one course of action gives you “strictly more options” than another. Consider another MDP with IID reward:
-> ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/d31bab4169f7e005ef58d328dc3d4b6e88725d48d774f44e.png)
+> ![](/static/images/posts/d31bab4169f7e005ef58d328dc3d4b6e88725d48d774f44e.png)
 > The right blue gem subgraph contains a “copy” of the upper red gem subgraph. From this, we can conclude that going right to the blue gems... is more probable under optimality for _all discount rates between 0 and 1_!
 
 
@@ -202,7 +202,7 @@ This might feel too abstract, so let's run through examples.
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.png)
 <br/>Figure: At all discount rates $\gamma\in[0,1]$, it's optimal for _most reward functions_ to get `blue-gems` because that leads to strictly more options. We can permute every `red-gems` reward function into a `blue-gems` reward function.
 
-![](https://i.imgur.com/GMiFWG9.gif)
+![](/static/images/posts/GMiFWG9.gif)
 <br/>Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.   
   <br/>
   
@@ -213,7 +213,7 @@ This might feel too abstract, so let's run through examples.
 
 ### Terminal options (theorem 6.13)
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/efcb19ffc9b20dc00f6147d16e103799af60839478b0cf68.png)
+![](/static/images/posts/efcb19ffc9b20dc00f6147d16e103799af60839478b0cf68.png)
 <br/>Figure: When the agent maximizes average reward, it's optimal for _most reward functions_ to `Wait!` so that they can choose between `chocolate` and `hug`. The logic is that every `candy-optimal` reward function can be permuted into a `chocolate-optimal` reward function.
 
 ![](tic-tac-toe.png)
@@ -221,7 +221,7 @@ This might feel too abstract, so let's run through examples.
 
 Even though randomly generated environments are unlikely to satisfy these sufficient conditions for power-seeking tendencies, the results are easy to apply to many structured environments common in reinforcement learning. For example, when $\gamma\approx 1$, most reward functions provably incentivize not immediately dying in Pac-Man. Every reward function which incentivizes dying right away can be permuted into a reward function for which survival is optimal.
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/03906a93935d2c1eaf76291e21d049cf82543f4a5acf012c.png)
+![](/static/images/posts/03906a93935d2c1eaf76291e21d049cf82543f4a5acf012c.png)
 <br/>Figure: Consider the dynamics of the Pac-Man video game. Ghosts kill the player, at which point we consider the player to enter a "game over" terminal state which shows the final configuration. This rewardless MDP has Pac-Man's dynamics, but _not_ its usual score function. Fixing the dynamics, what actions are optimal as we vary the reward function?
 
 Most importantly, we can prove that when shutdown is possible, optimal policies try to avoid it if possible. When the agent isn't discounting future reward (i.e. maximizes average return) and for [lots of reasonable state/action encodings](/MDPs-are-not-subjective), the MDP structure has the right symmetries to ensure that it's instrumentally convergent to avoid shutdown. 
@@ -238,7 +238,7 @@ Most importantly, we can prove that when shutdown is possible, optimal policies 
 
 What does "most reward functions" mean quantitatively - is it just at least half of each orbit? Or, are there situations where we can guarantee that at least three-quarters of each orbit incentivizes power-seeking? I think we should be able to prove that as the environment gets more complex, there are combinatorially more permutations which enforce these similarities, and so the orbits should skew harder and harder towards power-incentivization. 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/efcb19ffc9b20dc00f6147d16e103799af60839478b0cf68.png)
+![](/static/images/posts/efcb19ffc9b20dc00f6147d16e103799af60839478b0cf68.png)
 <br/>Figure:  Here's a semi-formal argument. For every orbit element $R$ which makes `candy` strictly optimal when $\gamma=1$, $\phi_\texttt{chocolate}$ and $\phi_\texttt{hug}$ respectively produce $R_{\phi_\texttt{chocolate}}\neq R_{\phi_\texttt{hug}}$. `Wait!` is strictly optimal for both $R_{\phi_\texttt{hug}}, R_{\phi_\texttt{hug}}$, and so at least 2/3 of the orbit should agree that `Wait!` is optimal. As `Wait!` gains more power (more choices, more control over the future), I conjecture that this fraction approaches 1.
 
 I don't yet understand the general case, but I have a strong hunch that instrumental convergence<sub>optimal policies</sub> is governed by how many more ways there are for power to be optimal than not optimal. And this seems like a function of the number of environmental symmetries which enforce the appropriate embedding.

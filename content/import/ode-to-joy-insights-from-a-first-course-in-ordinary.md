@@ -42,7 +42,7 @@ skip_import: true
 
 Sometimes, it's easier to say how things change than to say how things are.
 
-![](https://i.imgur.com/WCYZkZ4.gif)
+![](/static/images/posts/WCYZkZ4.gif)
 Figure: From [3Blue1Brown: Differential Equations](https://www.youtube.com/watch?v=p_di4Zn4wz4)
 
 When you write down a differential equation, you're specifying constraints and information about e.g. how to model something in the world. This gives you a family of solutions, from which you can pick out any function you like, depending on details of the problem at hand.
@@ -69,7 +69,7 @@ Differential equations help us explain and model phenomena, often giving us insi
 
 This material gave me a great conceptual framework for thinking about stability. Here are some good handles:
 
-![](https://i.imgur.com/eb2E5Eg.png)
+![](/static/images/posts/eb2E5Eg.png)
 
 Let's think about rocks and hills. _Unstable_ equilibria have the rock rolling away forever lost, no matter how lightly the rock is nudged, while _locally stable_ equilibria have some level of tolerance within which they'll settle back down. For a _globally stable_ equilibrium, no matter how hard the perturbation, the rock comes rolling back down the parabola.
 

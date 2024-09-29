@@ -48,7 +48,7 @@ Given a human (with policy $\pi^H$) and an AI (with policy $\pi^{AI}$), I wanted
 
 Let's reconsider [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent). We have a three-state environment. We want the AI to let us later change it, so that we can ultimately determine which state of $A, B,$ or $C$ it ends up in. Turning on the AI should not be an importantly irreversible act. 
 
-![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/cb11cbb65f5693c3075b736693d1817f1bb7f520291487da.png)
+![](/static/images/posts/cb11cbb65f5693c3075b736693d1817f1bb7f520291487da.png)
 <br/>Figure: The action set is $\mathcal{A}:= \{\texttt{left},\texttt{right},\varnothing,\texttt{disable}\}$. $\varnothing$ is the no-op action. The agent starts at the black $B$ state.  
   
 If the agent immediately chooses `disable`, they enter the red incorrigible states and move freely throughout the $n=3$ states until the episode ends at $t=10$.   
