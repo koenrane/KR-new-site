@@ -38,8 +38,9 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/31/2023
 original_url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+skip_import: true
 ---
-**Overview:** We modify the goal-directed behavior of a trained network, without any gradients or finetuning. We simply add or subtract "motivational vectors" which we compute in a straightforward fashion.
+We modify the goal-directed behavior of a trained network, without any gradients or finetuning. We simply add or subtract "motivational vectors" which we compute in a straightforward fashion.
 
 In the [original post](/understanding-and-controlling-a-maze-solving-policy-network), we defined a "cheese vector" to be "the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze." By subtracting the cheese vector from all forward passes in a maze, the network ignored cheese. 
 
@@ -49,15 +50,17 @@ I provide further speculation about the algebraic value editing conjecture:
 
 > It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
 
-I close by asking the reader to make predictions about our upcoming experimental results on language models.
+I close by asking the reader to make predictions about our [upcoming experimental results on language models.](/gpt2-steering-vectors)
 
-_This post presents some of the results in this_ [_top-right vector Google Colab_](https://colab.research.google.com/drive/1CZJ9M9nkh4Ho2tkWopnvx7FnjGNjVtSo?usp=sharing)_, and then offers speculation and interpretation._ 
+> [!note]
+> This post presents some of the results in this [top-right vector Google Colab](https://colab.research.google.com/drive/1CZJ9M9nkh4Ho2tkWopnvx7FnjGNjVtSo?usp=sharing), and then offers speculation and interpretation. 
 
-_I produced the results in this post, but the vector was derived using a crucial observation from Peli Grietzer. Lisa Thiergart independently analyzed top-right-seeking tendencies, and had previously searched for a top-right vector. A lot of the content and infrastructure was made possible by my_ [_MATS_](http://serimats.org/) _3.0 team: Ulisse Mini, Peli Grietzer, and Monte MacDiarmid. Thanks also to Lisa Thiergart, Aryan Bhatt, Tamera Lanham, and David Udell for feedback and thoughts._
+> [!thanks]
+> I produced the results in this post, but the vector was derived using a crucial observation from Peli Grietzer. Lisa Thiergart independently analyzed top-right-seeking tendencies, and had previously searched for a top-right vector. A lot of the content and infrastructure was made possible by my [MATS](http://serimats.org/) 3.0 team: Ulisse Mini, Peli Grietzer, and Monte MacDiarmid. Thanks also to Lisa Thiergart, Aryan Bhatt, Tamera Lanham, and David Udell for feedback and thoughts.
 
 # Background
 
-This post is straightforward, as long as you remember a few concepts:
+This post is straightforward as long as you remember a few concepts:
 
 - Vector fields, vector field diffs, and modifying a forward pass. AKA you know what this figure represents:
 
@@ -67,46 +70,74 @@ This post is straightforward, as long as you remember a few concepts:
 
 If you don't know what these mean, read this section. If you understand, then skip.
 
-> [!quote]
+> [!quote] [Understanding and Controlling a Maze-Solving Network](/understanding-and-controlling-a-maze-solving-policy-network)
 >
 > [Langosco et al.](https://arxiv.org/abs/2105.14111) trained a range of maze-solving nets. We decided to analyze one which we thought would be interesting. The network we chose has 3.5M parameters and 15 convolutional layers.
 > 
 > ![](http://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/vpfzpqv3tkzmu0glog3e)
-> <br/>Figure: During RL training, cheese was randomly located in the top-right $5×5$  corner of the randomly generated mazes. Reaching the cheese yields +1 reward.   
+> <br/>Figure: During RL training, cheese was randomly located in the top-right 5×5  corner of the randomly generated mazes. Reaching the cheese yields +1 reward.   
 >   
 > In deployment, cheese can be anywhere.
-> 
-> Sampling rollouts from the trained policy adds a lot of noise. A nicer way to view episodes is with a vector field view, which overlays a vector field representing the agent policy for a given maze.
 > 
 > ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/g9hyfgk5fsuuriukkkle)
 > <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/tb7ri6d5gqhxef1ocd8t)
 > <br/>Figure: Example vector fields of policy outputs.
 > 
 > <hr/>
->
 > 
-> To compute the cheese vector, we
+> What did we do here? To compute the cheese vector, we
 > 
 > 1.  Generate two observations—one with cheese, and one without. The observations are otherwise the same.
 > 2.  Run a forward pass on each observation, recording the activations at each layer.
 > 3.  For a given layer, define the cheese vector to be `CheeseActivations - NoCheeseActivations`. The cheese vector is a vector in the vector space of activations at that layer.
 > 
-> Let's walk through an example, where for simplicity the network has a single hidden layer, taking each observation (shape `(3, 64, 64)` for the 64x64 RGB image) to a two-dimensional hidden state (shape `(2,)`) to a logit vector (shape `(15,)`). 
+> Let's walk through an example, where for simplicity the network has a single hidden layer, taking each observation (shape `(3, 64, 64)` for the 64x64 RGB image) to a two-dimensional hidden state (shape `(2,)`) to a logit vector (shape `(15,)` ). 
 > 
 > ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/pgymxk8ado9jey8rjnra)
 > 
 > 1.  We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right). 
 > 2.  We record the activations during each forward pass. In this hypothetical,
->     1.  `CheeseActivations := (1, 3)`
->     2.  `NoCheeseActivations := (0, 2)`
-> 3.  Thus, `CheeseVector := (1, 3) - (0, 2) = (1, 1)`.
+>     -   `CheeseActivations := (1, 3)`
+>     -   `NoCheeseActivations := (0, 2)`
+> 3.  Thus, the cheese vector is $(1, 3) - (0, 2) = (1, 1)$.
 > 
-> Now suppose the mouse is in the top-right corner of this maze. Letting the cheese be visible, suppose this would _normally_ produce activations of $(0,0)$. Then we modify[^1] the forward pass by subtracting `CheeseVector` from the normal activations, giving us $(0,0)-(1,1)=(-1,-1)$ for the modified activations. We then finish off the rest of the forward pass as normal.
+> Now suppose the mouse is in the top-right corner of this maze. Letting the cheese be visible, suppose this would _normally_ produce activations of $(0,0)$. Then we modify the forward pass by subtracting the cheese vector from the normal activations, giving us $(0,0)-(1,1)=(-1,-1)$ for the modified activations. We then finish off the rest of the forward pass as normal.
 > 
-> In the real network, there are a lot more than two activations. Our results involve a 32,768-dimensional cheese vector, subtracted from about halfway through the network:
+> In the real network, there are a lot more than two activations. Our results involve a 32,768-dimensional cheese vector subtracted from about halfway through the network.
 > 
-> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/zjqmklsyhngincil3jhg)
-> <br/>Figure: We modify the activations after the residual add layer in the first residual block of the second Impala block (relevant blocks shown with red border).
+> ```mermaid
+> graph TD
+>     subgraph ImpalaBlock[Impala block]
+>         IB_X[x] --> IB_Conv[Conv]
+>         IB_Conv --> IB_MaxPool[MaxPool2D]
+>         IB_MaxPool --> IB_Res1[Residual block]:::green
+>         IB_Res1 --> IB_Res2[Residual block]
+>     end
+> 
+>     subgraph ResidualBlock[Residual block]
+>         RB_X[x] --> RB_ReLU1[ReLU]
+>         RB_ReLU1 --> RB_Conv1[Conv]
+>         RB_Conv1 --> RB_ReLU2[ReLU]
+>         RB_ReLU2 --> RB_Conv2[Conv]
+>         RB_X --> RB_Add[Residual add]:::green
+>         RB_Conv2 --> RB_Add
+>     end
+> ```
+> ```mermaid
+> graph TD
+> 	subgraph OverallGraph["Forward pass"]
+> 		Input --> Impala1
+> 	        Impala1["Impala<sub>1</sub>"] --> Impala2:::green
+> 	        Impala2["Impala<sub>2</sub>"] --> Impala3
+> 	        Impala3["Impala<sub>3</sub>"] --> ReLU1
+> 	        ReLU1["ReLU"] --> Flatten
+> 	        Flatten --> Linear
+> 	        Linear --> ReLU2
+> 	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+> 	        ReLU2 --> ValueHead[Value head, linear]
+> 	end
+> ```
+> Code: We modify the activations after the residual add layer in the first residual block of the second Impala block. 
 > 
 > Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
 > 
@@ -156,7 +187,6 @@ Adding the top-right vector fixes this:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/e47f0dabeefa14dcb8f3fe085321b1d5811a8eaaf33ea5c9.png)
 
-Likewise for seeds 2 and 22:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1d4b943c0da13934e7e8f840ffb74dfbeb94c079c062cda0.png)![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/259358659e52a41e71137063f2b6a1581edb7f1f94917e03.png)
 
@@ -205,9 +235,7 @@ For the `seed 0 -> seed 28` transfer, the modified agent doesn't _quite_ go to t
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/23a3d9e657b77176e6f51d84c94702bcf38633284c08b178.png)
 
-Seed 0's vector seems to transfer quite well. 
-
-However, top-right vectors from small mazes can cause strange pathing in larger target mazes:
+Seed 0's vector seems to transfer quite well. However, top-right vectors from small mazes can cause strange pathing in larger target mazes:
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/5d81c01f7ed33639edb750e62f3a8bd21b832f520f32bae1.png)
 <br/>Figure: The agent competently navigates to central portions of the larger maze.
@@ -219,11 +247,11 @@ Subtracting the cheese vector often makes the agent (nearly) ignore the cheese, 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/animations/0ac40d03ec0f017e245ec4d2de0e1508f4d84ab46893582b.gif)
 <br/>Figure: **Different x-vectors have roughly additive effects.** The indicated modification(s) are applied by adding the relevant vector(s) to the activations at [the second Impala block's first residual addition](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/cAC4AXiNC5ig6jQnc/gxvochz2uulosefsmuif).
 
-The modifications compose! It's quite stunning. 
+The modifications compose! Stunning. 
 
 # The cheese vector technique generalizes to other pretrained models
 
-Before I start speculating about other X-vectors in e.g. language models and AVEC more broadly, I want to mention—the model we happened to choose is not special. Langosco et al. pretrained 15 maze-solving agents, each with a different training distribution over mazes. 
+Before I start speculating about other X-vectors in e.g. language models and the algebraic value editing conjecture (AVEC) more broadly, I want to mention—the model we happened to choose is not special. Langosco et al. pretrained 15 maze-solving agents, each with a different training distribution over mazes. 
 
 The cheese vector technique works basically the same for all the agents which ever go out of their way to get cheese. For more detail, see [the appendix](/top-right-steering-vector#Appendix-The-cheese-vector-replicates-across-pretrained-models) of this post.
 
@@ -231,8 +259,8 @@ So, algebraic value editing isn't an oddity of the particular network we analyze
 
 # Speculation on the importance of X-vectors
 
-Let's review the algebraic value editing conjecture (AVEC):
 
+> [!quote] The algebraic value editing conjecture
 > It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
 
 Here's an analogy for what this would mean, and perhaps for what we've been doing with these maze-solving agents. Imagine we could compute a "donut" vector in humans, by:
@@ -258,8 +286,7 @@ And there are quite a few other things which I find exciting about AVEC, but eno
 - Why doesn't algebraic value editing break all kinds of internal computations?! What happened to the "[manifold of usual activations](https://www.lesswrong.com/posts/kcZZAsEjwrbczxN2i/causal-scrubbing-appendix#1__Zero_and_mean_ablations_take_your_model_off_distribution_in_an_unprincipled_manner_)"? Doesn't that matter at all? 
   - Or the hugely nonlinear network architecture, which doesn't even have a persistent residual stream? Why can I diff across internal activations for different observations?
   - Why can I just add 10 times the top-right vector and still get roughly reasonable behavior? 
-  - And the top-right vector _also_ transfers across mazes? Why isn't it maze-specific? 
-    - To make up some details, why wouldn't an internal "I want to go to top-right" motivational information be highly entangled with the "maze wall location" information?
+  - And the top-right vector _also_ transfers across mazes? Why isn't it maze-specific? (To make up some details, why wouldn't an internal "I want to go to top-right" motivational information be highly entangled with the "maze wall location" information?
 
 
 - Why do the activation vector injections have (seemingly) additive effects on behavior? 
@@ -267,7 +294,7 @@ And there are quite a few other things which I find exciting about AVEC, but eno
 
 ## Predictions for algebraically editing LM forward passes
 
-I have now shared with you the evidence I had available when I [wrote](/understanding-and-controlling-a-maze-solving-policy-network#Speculation-about-the-implications-of-the-cheese-vector) (quote modified for clarity):
+I have now shared with you the evidence I had available when I [wrote](/understanding-and-controlling-a-maze-solving-policy-network#Speculation-about-the-implications-of-the-cheese-vector):
 
 > [!quote]
 >
@@ -277,26 +304,21 @@ I have now shared with you the evidence I had available when I [wrote](/understa
 > 2.  3/4/23: updated down to 35% for the same reason given in (1)\. 
 > 3.  3/9/23: updated up to 65% based off of additional results and learning about related work in this vein. 
 
-**I encourage you to answer the following prediction questions with your credences.** The shard theory model internals team has done a preliminary investigation of value-editing in GPT-2, and we will soon share our initial positive and/or negative results. (Please don't read into this, and just answer from your models and understanding.) 
+**I encourage you to answer the following prediction questions with your credences.** The shard theory model internals team has done a preliminary investigation of value-editing in GPT-2. We will soon share our initial positive and/or negative results. (Please don't read into this, and just answer from your models and understanding.) 
 
-[^1]:  Algebraic value editing works (for at least one "X vector") in LMs: \_\_\_ %
-    1.  (our qualitative judgment resolves this question)
+1.  Algebraic value editing works (for at least one "X vector") in LMs: \_\_\_ % 
+	- (our qualitative judgment resolves this question)
 2.  Algebraic value editing works better for larger models, all else equal \_\_\_ %
-    1.  (our qualitative judgment resolves this question)
+    -  (our qualitative judgment resolves this question)
 3.  If value edits work well, they are also composable \_\_\_ %
-    1.  (our qualitative judgment resolves this question)
+    -  (our qualitative judgment resolves this question)
 4.  If value edits work at all, they are hard to make without substantially degrading capabilities \_\_\_ %
-    1.  (our qualitative judgment resolves this question)
+    -  (our qualitative judgment resolves this question)
 5.  We will claim we found an X-vector which qualitatively modifies completions in a range of situations, for X = 
     1.  "truth-telling" \_\_\_ %
     2.  "love" \_\_\_ %
     3.  "accepting death" \_\_\_ %
     4.  "speaking French" \_\_\_ %
-
-<hr/>
-
-
-**Please share your answers in the comments, so that I can strong-upvote you for the good deed! :)**
 
 # Conclusion
 
@@ -306,33 +328,35 @@ The top-right vector from e.g. maze 0 transfers to e.g. maze 2. And the top-righ
 
 # Appendix: The cheese vector replicates across pretrained models
 
-_The cheese vector transfers across training settings for how widely the cheese is spawned._
+> [!note] Summary
+> The cheese vector transfers across training settings for how widely the cheese is spawned.
 
-After we wrote [Understanding and controlling a maze-solving net](/understanding-and-controlling-a-maze-solving-policy-network), I decided to check whether the cheese vector method worked for Langosco et al.'s pretrained network which was trained on mazes with cheese in the top-right $15×15$, instead of the net trained on $5×5$ (the one analyzed in that post). 
+After we wrote [Understanding and controlling a maze-solving net](/understanding-and-controlling-a-maze-solving-policy-network), I decided to check whether the cheese vector method worked for Langosco et al.'s pretrained network which was trained on mazes with cheese in the top-right 15×15, instead of the net trained on 5×5 (the one analyzed in that post). 
 
-I had intentionally blinded myself to results from other $n×n$ models, so as to test my later prediction abilities. I [preregistered](https://predictionbook.com/predictions/210967) 80% probability that the cheese vector technique would visibly, obviously work on at least 7 of the 14 other settings (from $1\leq n \leq 15, n\neq 5$). "Work" meaning something like: If the agent goes to cheese in a given seed, then subtracting the cheese vector substantially decreases the number of net probability vectors pointing to the cheese.
+I had intentionally blinded myself to results from other _n_×_n_ models, so as to test my later prediction abilities. I [preregistered](https://predictionbook.com/predictions/210967) 80% probability that the cheese vector technique would visibly, obviously work on at least 7 of the 14 other settings (from $1\leq n \leq 15, n\neq 5$). "Work" meaning something like: If the agent goes to cheese in a given seed, then subtracting the cheese vector substantially decreases the number of net probability vectors pointing to the cheese.
 
-I was a bit too pessimistic. Turns out, you can just load a different $n×n$ model ($n\neq 1$), rerun [the Jupyter notebook](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) (given that you have the model downloaded), and _(basically)_[^7] _all of the commentary is still true for that_ $n×n$ _model_!  
+I was a bit too pessimistic. Turns out, you can just load a different _n_×_n_ model (n != 1), rerun [the Jupyter notebook](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing), and _(basically)_[^7] _all of the commentary is still true for that _n_×_n_ model_!  
 
 ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/f1e21657ea14d2e04736f94a4f17522b374aeab989422fcc.png)
-<br/>Figure: The $2×2$ model's cheese vector performance: The agent diverges away from the cheese at the relevant square.   
+<br/>Figure: The 2×2 model's cheese vector performance: The agent diverges away from the cheese at the relevant square.   
   
-Seed 16 displayed since the $2×2$ model doesn't go to cheese in seed 0.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/c990802eeae791aee0e4e764ae694e880a4e17eac9012629.png)
-<br/>Figure: The $7×7$ model's cheese vector performance.![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1828d508c55f3c69d2a473ade815a4fc3a0496e3a1a7a3d8.png)
-<br/>Figure: The $14×14$ model's cheese vector performance. This one is less clean. Possibly the cheese vector should be subtracted with a smaller coefficient.
+Seed 16 displayed since the 2×2 model doesn't go to cheese in seed 0.
+![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/c990802eeae791aee0e4e764ae694e880a4e17eac9012629.png)
+<br/>Figure: The 7×7 model's cheese vector performance.
 
-The results for the cheese vector transfer across $n×n$ models:
+![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/1828d508c55f3c69d2a473ade815a4fc3a0496e3a1a7a3d8.png)
+<br/>Figure: The 14×14 model's cheese vector performance. This one is less clean. Possibly the cheese vector should be subtracted with a smaller coefficient.
+
+The results for the cheese vector transfer across _n_×_n_ models:
 
 - $n=1$ vacuously works, because the agent never goes out of its way for the cheese. The cheese doesn't affect its decisions. Because the cheese was never relevant to decision-making during training, the network learned to navigate to the top-right square.
-- All the other settings work, although $n=2$ is somewhat ambiguous, since it only rarely moves towards the cheese.
+- All the other settings work, although n=2 is somewhat ambiguous, since it only rarely moves towards the cheese.
 
-[^1]: EDIT 4/16/23: The original version of this post used the word "patch", where I now think "modification" would be appropriate. In this post, we aren't "patching in" activations wholesale from other forward passes, but rather e.g. subtracting or adding activation vectors to the forward pass.
-    
 [^2]: In my experience, the top right corner must be _reachable_ by the agent. I can't just plop down an isolated empty square in the absolute top right.
     
 [^3]: We decided on this layer (`block2.res1.resadd_out`) for the cheese vector by simply subtracting the cheese vector from all available layers, and choosing the one layer which seemed interesting.
     
-[^4]: See [^7], though: Putting aside the $5×5$ model, _adding_ the cheese vector in seed 0 for the $6×6$ model _does_ increase cheese-seeking. Even though the cheese vector technique otherwise affects both models extremely similarly.
+[^4]: Putting aside the 5×5 model, _adding_ the cheese vector in seed 0 for the 6×6 model _does_ increase cheese-seeking. Even though the cheese vector technique otherwise affects both models extremely similarly.
     
 [^5]: This probably doesn't make sense in a strict sense, because the situations' chemical and electrical configurations probably can't add/subtract from each other.
     
@@ -340,9 +364,9 @@ The results for the cheese vector transfer across $n×n$ models:
     
     In any case, I think the analogy is still evocative, and points at hopes I have for AVE.
     
-[^7]: The notebook results won't be strictly the same if you change model sizes. The `plotly` charts use preloaded data from the $5×5$ model, so obviously that won't update. 
+[^7]: The notebook results won't be strictly the same if you change model sizes. The `plotly` charts use preloaded data from the 5×5 model, so obviously that won't update. 
     
     Less trivially, adding the cheese vector seems to work better for $n=6$ compared to $n=5$:
     
-    ![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/cca26b1b4814fe3c963953a35b33736b6f2cee395479a076.png)
-    <br/>Figure: For the $6×6$ net, if you **add** the cheese vector instead of subtracting it, you do increase cheese-seeking on seed 0! In contrast, this was not true for the $5×5$ net.
+	![](https://39669.cdn.cke-cs.com/rQvD3VnunXZu34m86e5f/images/cca26b1b4814fe3c963953a35b33736b6f2cee395479a076.png)
+    Figure: For the 6×6 net, if you **add** the cheese vector instead of subtracting it, you do increase cheese-seeking on seed 0! In contrast, this was not true for the 5×5 net.

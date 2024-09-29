@@ -427,7 +427,7 @@ And even if (3) is true, AVE working _well_ or _deeply_ or _reliably_ is another
 The cheese vector was easy to find. We immediately tried the _dumbest, easiest_ first approach. We didn't even train the network ourselves, we just used one of Langosco et al.'s nets (the first and only net we looked at). If this is the amount of work it took to (mostly) stamp out cheese-seeking, then perhaps a simple approach can stamp out e.g. deception in sophisticated models.
 
 > [!success] Looking back from 2024, AVEC seems true
-> For example, see [Steering GPT-2 by Adding an activation vector](steering-gpt-2-xl-by-adding-an-activation-vector.md) and [Steering Llama-2 with contrastive activation addition](steering-llama-2-with-contrastive-activation-additions.md). My work (and concurrent work by [Li et al](https://arxiv.org/abs/2306.03341)) grew into a small research field of its own (including e.g. [Representation Engineering](https://arxiv.org/abs/2310.01405)).
+> For example, see [Steering GPT-2 by Adding an activation vector](steering-gpt-2-xl-by-adding-an-activation-vector.md) and [Steering Llama-2 with contrastive activation addition](steering-llama-2-with-contrastive-activation-additions.md). My work (and concurrent work by [Li et al](https://arxiv.org/abs/2306.03341)) grew into a small research field of its own (including e.g. later work in [Representation Engineering](https://arxiv.org/abs/2310.01405)).
 > 
 > I consider AVEC to be my most successful prediction ever. Using minimal evidence, I located and stood by the AVEC hypothesis, even though many of my colleagues were incredulous. _Once I saw a few trajectories of the "cheese vector" working, I instantly realized the implications for large language models and assigned that 60% probability._ 
 
