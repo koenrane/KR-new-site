@@ -26,6 +26,9 @@ fi
 # Convert images to AVIF format, mp4s to webm, and remove metadata
 python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR"
 
+# Remove any mp4_original files
+find "$STATIC_DIR" -name "*.mp4_original" -delete
+
 # Upload assets to R2 bucket
 LOCAL_ASSET_DIR="$GIT_ROOT"/../website-media-r2/static
 python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --replacement-dir "$GIT_ROOT"/content --all-asset-dir "$STATIC_DIR"

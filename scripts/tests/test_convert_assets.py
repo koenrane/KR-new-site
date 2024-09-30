@@ -259,21 +259,33 @@ def test_video_patterns(
 
 
 # Test that newlines are added after video tag when it's followed by a figure caption
-def test_video_figure_caption_formatting(setup_test_env):
-    test_dir = Path(setup_test_env)
-    content_dir = test_dir / "content"
-    
-    # Create a test markdown file with the pattern we want to change
-    test_md = content_dir / "test_video_figure.md"
-    test_content = """
+import pytest
+
+@pytest.mark.parametrize("initial_content", [
+    """
     Some content before
     
     </video>
     <br/>Figure: This is a caption
     
     Some content after
+    """,
     """
-    test_md.write_text(test_content)
+    Some content before
+    
+    </video>
+    Figure: This is a caption
+    
+    Some content after
+    """
+])
+def test_video_figure_caption_formatting(setup_test_env, initial_content):
+    test_dir = Path(setup_test_env)
+    content_dir = test_dir / "content"
+    
+    # Create a test markdown file with the pattern we want to change
+    test_md = content_dir / "test_video_figure.md"
+    test_md.write_text(initial_content)
     
     # Create a dummy video file
     dummy_video = test_dir / "quartz/static/test_video.mp4"
@@ -292,3 +304,6 @@ def test_video_figure_caption_formatting(setup_test_env):
     # Check if the pattern has been correctly modified
     expected_pattern = r"</video>\n\nFigure: This is a caption"
     assert re.search(expected_pattern, converted_content), f"Expected pattern not found in:\n{converted_content}"
+
+    # Additional check to ensure there's no <br/> tag left
+    assert "<br/>" not in converted_content, f"<br/> tag still present in:\n{converted_content}"

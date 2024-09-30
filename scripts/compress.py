@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 import tempfile 
 import argparse
 import sys
@@ -110,6 +111,7 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 "-tag:v", "hvc1",  # For better compatibility with Apple devices
                 "-movflags", "+faststart",
                 "-colorspace", "bt709",
+                "-v", "error",
                 str(temp_output_path)
             ], check=True)
 
@@ -122,7 +124,8 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
         raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
         # TODO this doesn't always work
-        original_path = output_path.with_stem(output_path.stem + "_original")
+        original_path = output_path.with_suffix(output_path.suffix + "_original")
+        
         if original_path.exists():
             original_path.unlink()
 
@@ -156,8 +159,6 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 frame_rate = num / den if den != 0 else 10
                 break
         
-        print(f"Detected frame rate: {frame_rate} fps")
-
         # Extract frames from GIF
         subprocess.run([
             "ffmpeg",
@@ -178,6 +179,7 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
                 "-pix_fmt", "yuv420p",
                 "-loop", "0",  # Loop the video indefinitely
+                "-v", "error",
                 str(output_path)
             ], check=True)
             

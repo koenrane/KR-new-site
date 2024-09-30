@@ -123,7 +123,7 @@ def convert_asset(
         
         # Add a second pass to handle the </video><br/>Figure: pattern
         content = re.sub(
-            r'</video>\s*<br/?>\s*Figure:',
+            r'</video>\s*(<br/?>)?\s*Figure:',
             '</video>\n\nFigure:',
             content
         )
