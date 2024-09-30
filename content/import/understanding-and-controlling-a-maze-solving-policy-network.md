@@ -42,7 +42,8 @@ date_published: 03/11/2023
 original_url: https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network
 skip_import: true
 ---
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+
 Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.  <br/><br/>(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)
 
 We algebraically modified the net's runtime goals without finetuning. We also found (what we think is) a "motivational API" deep in the network. We used the API to retarget the agent.
@@ -68,9 +69,13 @@ We algebraically modified the net's runtime goals without finetuning. We also fo
 Let's run through some facts about [Langosco et al.](https://arxiv.org/abs/2105.14111)'s training process. Mazes had varying effective sizes, ranging from 3x3  to 25x25:
 
 ![](https://assets.turntrout.com/static/images/posts/ll2n0ag4145tdqsftzm4.avif)
-<br/>Figure: Mazes range from cute little 3x3 mazes to more substantial 25x25 puzzles. Mazes are always solvable and always [simply connected](https://www.britannica.com/topic/number-game/Mazes#ref396167)—e.g. no loops or islands in the middle of the maze.![](https://assets.turntrout.com/static/images/posts/abqorevf1rg6wcyppoef.avif)
-<br/>Figure: The smaller mazes are padded out with walls to fill the 25x25 game grid. In this post, we usually render mazes without padding.![](https://assets.turntrout.com/static/images/posts/fdj2xvosehwc4mwkelup.avif)
-<br/>Figure: We humans see a nice, zoomed-in, high-resolution maze. The network sees a 64x64 RGB maze. The model _always sees the entirety of the maze_.
+Figure: Mazes range from cute little 3x3 mazes to more substantial 25x25 puzzles. Mazes are always solvable and always [simply connected](https://www.britannica.com/topic/number-game/Mazes#ref396167)—e.g. no loops or islands in the middle of the maze.
+
+![](https://assets.turntrout.com/static/images/posts/abqorevf1rg6wcyppoef.avif)
+Figure: The smaller mazes are padded out with walls to fill the 25x25 game grid. In this post, we usually render mazes without padding.
+
+![](https://assets.turntrout.com/static/images/posts/fdj2xvosehwc4mwkelup.avif)
+Figure: We humans see a nice, zoomed-in, high-resolution maze. The network sees a 64x64 RGB maze. The model _always sees the entirety of the maze_.
 
 Each 64x64 RGB observation is processed by a deeply convolutional (15 conv layers!) network, without memory (i.e. no recurrent state):
 
@@ -116,13 +121,12 @@ Code: For more background on training and architecture and task set, see [the or
 <video autoplay loop muted playsinline>
   <source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4">
 </video>
-<br/>Figure: Sometimes, the agent goes to the cheese.
 
-<video autoplay loop muted playsinline>
-  <source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4">
-</video>
+Figure: Sometimes, the agent goes to the cheese.
+
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4"></video>
-<br/>Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
+
+Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
 
 Why does the agent go to the cheese sometimes, and the top-right corner other times? 
 
@@ -444,7 +448,8 @@ We had this cheese vector technique pretty early on. But we still felt frustrate
 That was about to change. Uli built a graphical maze editor, and Alex had built an activation visualization tool, which automatically updates along with the maze editor: 
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/u9fehxegabydsaxguzaa.mp4" type="video/mp4"></video>
-<br/>Figure: Inspection reveals that channel 55 (visualized) puts positive numbers (blue) on cheese and negative (red) elsewhere. Use [this Colab](https://colab.research.google.com/drive/11yqoQgckV3lpe7adN0gkaqUcsKEutiCS?usp=sharing) to play around with the activations yourself.
+
+Figure: Inspection reveals that channel 55 (visualized) puts positive numbers (blue) on cheese and negative (red) elsewhere. Use [this Colab](https://colab.research.google.com/drive/11yqoQgckV3lpe7adN0gkaqUcsKEutiCS?usp=sharing) to play around with the activations yourself.
 
 Peli flicked through the channels affected by the cheese vector. He found that channel 55 of this residual layer put positive (blue) numbers where the cheese is, and negative (red) values elsewhere. Seems promising.
 
@@ -503,7 +508,8 @@ To understand in mechanistic detail what's happening here, it's time to learn a 
 Each of these 128 residual add channels is a 16x16 grid. For channel 55, moving the cheese e.g. to the left will [equivariantly](https://en.wikipedia.org/wiki/Equivariant_map) move channel 55's positive activations to the left. There are several channels like this, in fact:
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/z5jub7jnrdc7c71vhbpa.mp4" type="video/mp4"></video>
-<br/>Figure: By visually inspecting the 128 residual addition output channels, Peli and Alex found eleven channels which visibly and equivariantly track the location of the cheese. Namely: 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, 113.
+
+Figure: By visually inspecting the 128 residual addition output channels, Peli and Alex found eleven channels which visibly and equivariantly track the location of the cheese. Namely: 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, 113.
 
 To retarget the agent as shown in the GIF, modify channel 55's activations by _clamping a single activation to have a large positive value_, and then complete the forward pass normally.
 
@@ -513,11 +519,13 @@ To retarget the agent as shown in the GIF, modify channel 55's activations by _c
 If you want the agent to go to e.g. the middle of the maze, clamp a positive number in the middle of channel 55.[^8] Often that works, but sometimes it doesn't. Look for yourself:
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/phdm6uoq0djzqybscgrz.mp4" type="video/mp4"></video>
+
 Figure: Seed 0. The red dot indicates the maze location of the clamped positive activation. This retargeting works reliably in the top half of `seed=0`, but less well in the bottom half. This pattern appears to hold across seeds, although we haven't done a quantitative analysis of this.
 
 <br/>
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/xafpj5bsljohtcar76nz.mp4" type="video/mp4"></video>
+
 Figure: Seed 60.
 
 

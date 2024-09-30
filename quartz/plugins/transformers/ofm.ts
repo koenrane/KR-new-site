@@ -676,6 +676,24 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
       }
 
+      // unwrap video tags which are only children of a paragraph
+      plugins.push(() => {
+        return (tree: HtmlRoot) => {
+          visit(tree, 'element', (node, index, parent) => {
+            if (
+              parent &&
+              index !== undefined &&
+              node.tagName === 'p' &&
+              node.children.length === 1 &&
+              node.children[0].type === 'element' &&
+              node.children[0].tagName === 'video'
+            ) {
+              parent.children.splice(index, 1, node.children[0])
+            }
+          })
+        }
+      })
+
       return plugins
     },
     externalResources() {
