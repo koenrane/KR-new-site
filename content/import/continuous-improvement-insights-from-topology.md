@@ -105,11 +105,7 @@ Once you fix the initial point, the lift corresponds to the unique path in the c
 
 ## Homotopy
 
-<<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"></video>
-=======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"></video>
->>>>>>> parent of 2211be3 (Downloaded a lot more media files)
 
 This concept yields amazing insight into such profound topics as the deeper nature of jump rope. Under the standard subspace topology of $\mathbb{R}^3$, consider the space swept out by a rope held at fixed endpoints and tautness. All paths between the endpoints are path homotopic! You can think about movements of the rope (either clockwise or counterclockwise) as homotopies in this space.
 
