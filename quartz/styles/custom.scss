@@ -535,16 +535,20 @@ a.internal.tag-link {
   margin-bottom: 0;
 }
 
-img {
+img, video {
   width: fit-content;
   max-width: 100%;
-  margin-bottom: calc(2 * $baseMargin);
 
-  article > p & {
+  article > p &,
+  article > & {
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
+}
+
+img {
+  margin-bottom: calc(2 * $baseMargin);
 
   &.inline-img {
     display: inline;
