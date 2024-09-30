@@ -73,13 +73,13 @@ skip_import: true
 
 One view on AGI risk is that we're charging ahead into the unknown, into a particularly unfair game of Minesweeper in which the first click is allowed to blow us up. Following the analogy, we want to understand enough about the mine placement so that we _don't_ get exploded on the first click. And once we get a foothold, we start gaining information about other mines, and the situation is a bit less dangerous.
 
-![](clean_minesweeper.png)
+![](https://assets.turntrout.com/static/images/posts/mine_empty.avif)
 
 My previous theorems on power-seeking said something like: "at least half of the tiles conceal mines." 
 
 I think that's important to know. But there are many tiles you might click on first. Maybe all of the mines are on the right, and we understand the obvious pitfalls, and so we'll just click on the left. 
 
-<img src="half_minesweeper.png" style="max-width: 35%; margin-left: auto; margin-right: auto; display: block"/>
+<img src="https://assets.turntrout.com/static/images/posts/mine_half.avif" style="width:35%"/>
 
 That is: we might not uniformly randomly select tiles:
 
@@ -99,8 +99,6 @@ My new results say something analogous to: for _every_ coordinate, either it con
 
 ![](https://assets.turntrout.com/static/images/posts/8e6425b8f870379a9395baf3d235d0cff2994da7d3b30ba1.avif)
 <br/>Figure: My new theorems demand that at least one of these tiles conceal a mine.
-
-But it didn't have to be this way:
 
 ![](https://assets.turntrout.com/static/images/posts/6aadbd8a60c7d264aad002a55d511943c60b162998c2a18d.avif)
 <br/>Figure: If the mines had been on the right, then both coordinates are safe.
@@ -202,7 +200,7 @@ This might feel too abstract, so let's run through examples.
 ![](https://assets.turntrout.com/static/images/posts/bc5b2aa815d9cd9c468c8c741a9a037490a39baf8715f45c.avif)
 <br/>Figure: At all discount rates $\gamma\in[0,1]$, it's optimal for _most reward functions_ to get `blue-gems` because that leads to strictly more options. We can permute every `red-gems` reward function into a `blue-gems` reward function.
 
-<video autoplay loop muted playsinline src="/static/images/posts/GMiFWG9.mp4" type="video/mp4"><source src="/static/images/posts/GMiFWG9.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
 
 Figure: Consider a robot  (<span style="color:blue">■</span>) navigating through a room with a vase (■). By the logic of "every `destroying-vase-is-optimal` can be permuted into a `preserving-vase-is-optimal` reward function", my results (specifically, [Proposition 6.9](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=6.09) and its generalization via [Lemma E.49](https://arxiv.org/pdf/1912.01683#subsubsection.a.D.4.1=&page=36.78)) suggest[^suggest] that optimal policies tend to avoid breaking the vase, since doing so would strictly decrease available options.   
   
@@ -210,7 +208,8 @@ Figure: Consider a robot  (<span style="color:blue">■</span>) navigating throu
   
 [^suggest]: "Suggest" instead of "prove" because E.49's preconditions may not always be met, depending on the details of the dynamics. I think this is probably unimportant, but that's for future work. Also, the argument may barely not apply to _this_ gridworld, but if you could move the vase around without destroying it, I think it goes through fine.
 
-<video autoplay loop muted playsinline src="/static/images/posts/safelife_environmental.mp4" type="video/mp4"><source src="/static/images/posts/safelife_environmental.mp4" type="video/mp4"></video>
+
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="margin-bottom: .5rem" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
 
 Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can irreversibly destroy green cell patterns. By the logic of "every `destroy-green-pattern` reward function can be permuted into a `preserve-green-pattern` reward function", Lemma E.49 suggests that optimal policies tend to not disturb any given green cell pattern (although most probably destroy _some_ pattern). The permutation would swap {states reachable after destroying the pattern} with {states reachable after not destroying the pattern}. <br/><br/>However, the converse is not true: you cannot fix a permutation which turns all `preserve-green-pattern` reward functions into `destroy-green-pattern` reward functions. There are simply too many extra ways for preserving green cells to be optimal.  <br/><br/>Assuming some conjectures I have about the combinatorial properties of power-seeking, this helps explain why [AUP works in SafeLife using a single auxiliary reward function](/avoiding-side-effects-in-complex-environments) - but more on that in another post.
 
@@ -219,7 +218,7 @@ Figure: In [SafeLife](https://www.partnershiponai.org/safelife/), the agent can 
 ![](https://assets.turntrout.com/static/images/posts/efcb19ffc9b20dc00f6147d16e103799af60839478b0cf68.avif)
 <br/>Figure: When the agent maximizes average reward, it's optimal for _most reward functions_ to `Wait!` so that they can choose between `chocolate` and `hug`. The logic is that every `candy-optimal` reward function can be permuted into a `chocolate-optimal` reward function.
 
-![](tic-tac-toe.png)
+![](https://assets.turntrout.com/static/images/posts/tic_tac_toe.avif)
 <br/>Figure: A portion of a Tic-Tac-Toe game-tree against a fixed opponent policy. Whenever we make a move that ends the game, we can't go anywhere else – we have to stay put. Then most reward functions incentivize the green actions over the black actions: average-reward optimal policies are particularly likely to take moves which keep the game going. The logic is that any `lose-immediately-with-given-black-move` reward function can be permuted into a `stay-alive-with-green-move` reward function.
 
 Even though randomly generated environments are unlikely to satisfy these sufficient conditions for power-seeking tendencies, the results are easy to apply to many structured environments common in reinforcement learning. For example, when $\gamma\approx 1$, most reward functions provably incentivize not immediately dying in Pac-Man. Every reward function which incentivizes dying right away can be permuted into a reward function for which survival is optimal.
