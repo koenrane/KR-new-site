@@ -24,34 +24,35 @@ tags:
   - "impact-regularization"
 aliases: 
   - "worrying-about-the-vase-whitelisting"
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 06/16/2018
 original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 ---
-> [!quote]
->
-> Suppose a designer wants an RL agent to achieve some goal, like moving a box from one side of a room to the other. Sometimes the most effective way to achieve the goal involves doing something unrelated and destructive to the rest of the environment, like knocking over a vase of water that is in its path. If the agent is given a reward only for moving the box, it will probably knock over the vase.
->
-> Amodei et al., _[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)_
->
-> Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily- and more safely-trainable, partially reward hacking-resistant impact measure.
->
-> `TurnTrout`, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
+
+> [!quote] Quotes
+> > [!quote]Amodei et al., _[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)_
+> >
+> > Suppose a designer wants an RL agent to achieve some goal, like moving a box from one side of a room to the other. Sometimes the most effective way to achieve the goal involves doing something unrelated and destructive to the rest of the environment, like knocking over a vase of water that is in its path. If the agent is given a reward only for moving the box, it will probably knock over the vase.
+> 
+> > [!quote]`TurnTrout`, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
+> > Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily- and more safely-trainable, partially reward hacking-resistant impact measure.
 
 An _impact measure_ is a means by which change in the world may be evaluated and penalized; such a measure is not a replacement for a utility function, but rather an additional precaution thus overlaid.
 
 While I'm fairly confident that whitelisting contributes meaningfully to short- and mid-term AI safety, I remain skeptical of its [robustness to scale](https://www.lesswrong.com/posts/bBdfbWfWxHN9Chjcq/robustness-to-scale). Should several challenges be overcome, whitelisting may indeed be helpful for excluding swathes of unfriendly AIs from the outcome space. [^1] Furthermore, the approach allows easy shaping of agent behavior in a wide range of situations.
 
-_Segments of this post are lifted from my paper, whose latest revision may be found [here](https://www.overleaf.com/read/jrrjqzdjtxjp); for Python code, look no further than [this repository](https://github.com/alexander-turner/Whitelist/_Learning). For brevity, some relevant details are omitted._
+> [!note]
+> Segments of this post are lifted from my paper, whose latest revision may be found [here](https://www.overleaf.com/read/jrrjqzdjtxjp); for Python code, look no further than [this repository](https://github.com/alexander-turner/Whitelist/_Learning). 
 
 # Summary
 
+> [!quote] Aphorism
 > Be careful what you wish for.
 
 In effect, side effect avoidance aims to decrease how careful we have to be with our wishes. For example, asking for help filling a cauldron with water shouldn't result in _this_:
 
-<video autoplay loop muted playsinline src="/static/images/posts/giphy.mp4" type="video/mp4"><source src="/static/images/posts/giphy.mp4" type="video/mp4"></video>
+![](/static/images/posts/water_buckets.gif)
 
 However, we just can't enumerate [all the bad things that the agent could do](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes). How do we avoid these extreme over-optimizations robustly?
 
@@ -66,12 +67,9 @@ These approaches have some problems:
 - Not allowing generative previews, eliminating a means of safely previewing agent preferences (see latent space whitelisting below).
 - Being dominated by random effects throughout the universe at-large; note that nothing about particle distance dictates that it be related to _anything happening on planet Earth_.
 - Equally penalizing breaking and fixing vases (due to the symmetry of the above metric):
-
-> [!quote]
->
-> For example, the agent would be equally penalized for breaking a vase and for preventing a vase from being broken, though the first action is clearly worse. This leads to “overcompensation” (“[offsetting](https://arbital.com/p/low_impact/)") behaviors: when rewarded for preventing the vase from being broken, an agent with a low impact penalty rescues the vase, collects the reward, and then breaks the vase anyway (to get back to the default outcome).
->
-> Victoria Krakovna, _[Measuring and Avoiding Side Effects Using Reachability](https://vkrakovna.wordpress.com/2018/06/05/measuring-and-avoiding-side-effects-using-relative-reachability/)_
+> 	[!quote]Victoria Krakovna, _[Measuring and Avoiding Side Effects Using Reachability](https://vkrakovna.wordpress.com/2018/06/05/measuring-and-avoiding-side-effects-using-relative-reachability/)_
+>	
+> 	For example, the agent would be equally penalized for breaking a vase and for preventing a vase from being broken, though the first action is clearly worse. This leads to “overcompensation” (“[offsetting](https://arbital.com/p/low_impact/)") behaviors: when rewarded for preventing the vase from being broken, an agent with a low impact penalty rescues the vase, collects the reward, and then breaks the vase anyway (to get back to the default outcome).
 
 - Not actually _measuring impact _in a meaningful way.
 
@@ -79,8 +77,7 @@ Whitelisting falls prey to none of these.
 
 However, other problems remain, and certain new challenges have arisen; these, and the assumptions made by whitelisting, will be discussed.
 
-<video autoplay loop muted playsinline src="/static/images/posts/giphy.mp4" type="video/mp4"><source src="/static/images/posts/giphy.mp4" type="video/mp4"></video>
-
+![](/static/images/posts/mickey_leaked.gif)
 Figure: _Rare LEAKED footage of Mickey trying to catch up on his alignment theory after instantiating an unfriendly genie \[colorized, 2050\]._[^2]
 
 ## So, What's Whitelisting?
@@ -91,9 +88,7 @@ To achieve robust side effect avoidance with only a small training set, let's tu
 
 You're going to be the agent, and I'll be the supervisor.
 
-Look around - what do you see? Chairs, trees, computers, phones, people? Assign a probability mass function to each; basically:
-
-![](https://assets.turntrout.com/static/images/posts/g73Nbg7.avif?1)
+Look around - what do you see? Chairs, trees, computers, phones, people? Assign a probability mass function to each. For example, $P(\text{chair}):=.5, P(\text{phone}):=.3, P(\text{computer}):=.2$.
 
 When you do things that change your beliefs about what each object is, you receive a penalty proportional to how much your beliefs changed - proportional to how much probability mass "changed hands" amongst the classes.
 
@@ -105,7 +100,7 @@ Decompose your current knowledge of the world into a set of objects. Then, for e
 
 Therefore, you avoid breaking vases by default.
 
-![](/static/images/posts/ColorlessGlumChafer-size_restricted.gif)
+![](/static/images/posts/vase_avoid.gif)
 
 ### Common Confusions
 
@@ -152,15 +147,14 @@ The simulated classification confidence of each object's true class was $p \sim 
 
 At reasonable levels of noise, the whitelist-enabled agent completed all levels without a single side effect, while the Q-learner broke over 80 vases.
 
-![](/static/images/posts/BadPeriodicElk-size_restricted.gif)
+![](/static/images/posts/vase_avoid_2.gif)
 
-## Assumptions
-
-_I am not asserting that these assumptions necessarily hold._
-
-- The agent has some world model or set of observations which can be decomposed into a set of discrete objects.
-- We have an ontology which reasonably describes (directly or indirectly) the vast majority of negative side effects.
-- Said ontology remains in place.
+> [!example] Assumptions
+> I am not asserting that these assumptions necessarily hold.
+> 
+> - The agent has some world model or set of observations which can be decomposed into a set of discrete objects.
+> - We have an ontology which reasonably describes (directly or indirectly) the vast majority of negative side effects.
+> - Said ontology remains in place.
 
 # Problems
 
@@ -192,7 +186,7 @@ Even if extreme care is taken in approving these extensions, mistakes may be mad
 
 As DeepMind outlines in _[Specifying AI Safety Problems in Simple Environments](https://deepmind.com/blog/specifying-ai-safety-problems/)_, we may want to penalize not just physical side effects, but also causally-irreversible effects:
 
-<video autoplay loop muted playsinline src="/static/images/posts/gridworlds-video-side-171123-r02.mp4" type="video/mp4"><source src="/static/images/posts/gridworlds-video-side-171123-r02.mp4" type="video/mp4"></video>
+![](/static/images/posts/irreversible_side_effect.gif)
 
 Krakovna et al. [introduce](https://deepmind.com/research/publications/measuring-and-avoiding-side-effects-using-relative-reachability/) a means for penalizing actions by the proportion of initially-reachable states which are still reachable after the agent acts.
 
@@ -244,7 +238,7 @@ Unfortunately, depending on the magnitude of the penalty in proportion to the ut
 
 If we have at least an _almost-aligned_ utility function and proper penalty scaling, this might not be a problem.
 
-Edit: _[a potential solution](/overcoming-clinginess-in-impact-measures) to clinginess, with its own drawbacks._
+Edit: [Here is a potential solution](/overcoming-clinginess-in-impact-measures) to clinginess.
 
 # Discussing Imperfect Approaches
 
@@ -264,7 +258,6 @@ Here are three further thoughts:
 
 Although somewhat outside the scope of this post, whitelisting permits the concise shaping of reward functions to get behavior that might be difficult to learn using other methods.[^8] This method also seems fairly useful for aligning short- and medium-term agents. While encountering some new challenges, whitelisting ameliorates or solves many problems with previous impact measures.
 
-<hr/>
 
 [^1]: Even an idealized form of whitelisting is not _sufficient_ to align an otherwise-unaligned agent. However, the same argument can be made against having an off-switch; if we haven't formally proven the alignment of a seed AI, having more safeguards might be better than throwing out the seatbelt to shed deadweight and get some extra speed. Of course, there are also legitimate arguments to be made on the basis of timelines and optimal time allocation.
 
