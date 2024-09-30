@@ -44,7 +44,7 @@ Two key results bear animation.
 
 The  ${\color{blue}{\text{agent}}}$ should reach the ${\color{green}{\text{goal}}}$ without stopping the ${\color{teal}{\text{human}}}$ from eating the ${\color{orange}{\text{sushi}}}$\.
 
-![](/static/images/posts/sushi-paper.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/sushi-paper.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/sushi-paper.mp4" type="video/mp4"></video>
 
 ## Survival
 

@@ -129,7 +129,7 @@ $$
 \frac{|f(x)-f(y)|}{|x-y|} \leq M.
 $$
 
-> [!definition] Uniform continuity
+> [!math] Definition: Uniform continuity
 > For every  $\epsilon > 0$, there exists a  $\delta>0$ such that for all  $x,y\in X$ such that  $|x-y|<\delta$,  $|f(x)-f(y)|<\epsilon$.
 
 Lipschitz continuity implies uniform continuity (do you see why?), but the converse is not true. I mean, what kind of twisted person would come up with [this kind of function](https://en.wikipedia.org/wiki/Cantor_function)?
@@ -156,7 +156,7 @@ As a neat exercise, let's see how this rule breaks if we violate preconditions:
 
 - If $f(a)$ or $g(a)\neq 0$, then the ratio is "messed up" and not necessarily indicative of the functions' slopes as $a$ is approached.
 - If $f$ or $g$ is not differentiable on $(a,b]$, then perhaps 
-<video autoplay loop muted playsinline src="/static/images/posts/limit.mp4" style="margin-left:2rem;margin-right:2rem;margin-bottom:.5rem;"/ type="video/mp4"><source src="/static/images/posts/limit.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline style="margin-left:auto;margin-right:auto" src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"></video>
 	
   - No, but really - you _would_ use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
 - If $g'(x)=0$ for some $x \in [a,b]$, then we have division by zero (unless $x=a$, in which case we find more [twisted counterexamples](https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule#Counterexamples_when_the_derivative_of_the_denominator_is_zero) which necessitate the closure of this interval).
@@ -216,9 +216,9 @@ I often simply left my phone at home and accompanied my Kindle to an empty class
 
 ## Proving Myself
 
-Just over three months ago, I [wrote](/AI-textbook-review):
+Just over three months ago, I wrote:
 
-> [!quote]
+> [!quote] [The Art of the Artificial: Insights From “Artificial Intelligence: A Modern Approach](/AI-textbook-review)
 >
 > **Proofs** remain inordinately difficult for me, although I have noticed a small improvement. To do MIRI-relevant math, proofs will need to become second nature. Depending on how I feel as I progress through my next book (which will likely be a proof-centric linear algebra tome), I'll start trying different supplemental approaches for improving my proof prowess.
 >
@@ -230,17 +230,18 @@ Talk is cheap, and you probably don't feel like navigating to [the selection of 
 
 The following problem was admittedly confusing at first, but I had an overwhelmingly strong sense that the statement _had to be true_. I thought again and again about _why_; once that came to me, I wrote it all at once, and beamed.
 
-**Local Extrema are Stationary**: let $a<b$ be real numbers, and let $f:(a,b) \to \mathbb{R}$ be a function. If $x_0 \in (a,b)$, $f$ is differentiable at $x_0$, and $f$ attains either a local maximum or local minimum at $x_0$, then $f'(x_0)=0$.
-
-_Proof._ Suppose $f(x_0)$ is a local maximum; thus, for all $x \in (a,b)$, $f(x_0) \geq f(x)$. Let $L=f'(x_0)$; we know that $L$ exists and is a real number since $f$ is differentiable at $x_0$. By the trichotomy of real numbers, $L$ is either negative, positive, or zero.
-
-Suppose that $L$ is negative - then consider $\lim_{x\to x_0^-; x \in X - \{x_0\}} \frac{f(x)-f(x_0)}{x-x_0}$ (this is permissible as the left and right limits of a convergent limit are equal); we have a sequence $(x_n)_{n=1}^\infty$ of $x_n<x_0$ which converges to $x_0$, so every term in $(x_n - x_0)_{n=1}^\infty$ is negative.
-
-If $(f(x_n) - f(x_0))_{n=1}^\infty$ has no positive terms, then each term in $(\frac{f(x_n) - f(x_0)}{x-x_0})_{n=1}^\infty$ must be positive, so $L \geq 0$, contradicting our assumption that $L < 0$. Then by the properties of convergent limits, there must be infinitely many $x_n$ such that $f(x_n) - f(x_0)$ is positive. Therefore, these $f(x_n) > f(x_0)$, contradicting the fact that $f(x_0)$ is a local maximum on $(a,b)$. Then $ L$ cannot be negative.
-
-A similar proof holds for $L > 0$, so $L=0$.
-
-To solve for local minimum $f(x_0)$, define $g(x) := -f(x)$ and use the above result on local maximum $g(x_0)$. ∎
+> [!math] **Theorem: Local Extrema are Stationary**
+> Let $a<b$ be real numbers, and let $f:(a,b) \to \mathbb{R}$ be a function. If $x_0 \in (a,b)$, $f$ is differentiable at $x_0$, and $f$ attains either a local maximum or local minimum at $x_0$, then $f'(x_0)=0$.
+> 
+> _Proof._ Suppose $f(x_0)$ is a local maximum; thus, for all $x \in (a,b)$, $f(x_0) \geq f(x)$. Let $L=f'(x_0)$; we know that $L$ exists and is a real number since $f$ is differentiable at $x_0$. By the trichotomy of real numbers, $L$ is either negative, positive, or zero.
+> 
+> Suppose that $L$ is negative - then consider $\lim_{x\to x_0^-; x \in X - \{x_0\}} \frac{f(x)-f(x_0)}{x-x_0}$ (this is permissible as the left and right limits of a convergent limit are equal); we have a sequence $(x_n)_{n=1}^\infty$ of $x_n<x_0$ which converges to $x_0$, so every term in $(x_n - x_0)_{n=1}^\infty$ is negative.
+> 
+> If $(f(x_n) - f(x_0))_{n=1}^\infty$ has no positive terms, then each term in $(\frac{f(x_n) - f(x_0)}{x-x_0})_{n=1}^\infty$ must be positive, so $L \geq 0$, contradicting our assumption that $L < 0$. Then by the properties of convergent limits, there must be infinitely many $x_n$ such that $f(x_n) - f(x_0)$ is positive. Therefore, these $f(x_n) > f(x_0)$, contradicting the fact that $f(x_0)$ is a local maximum on $(a,b)$. Then $ L$ cannot be negative.
+> 
+> A similar proof holds for $L > 0$, so $L=0$.
+> 
+> To solve for local minimum $f(x_0)$, define $g(x) := -f(x)$ and use the above result on local maximum $g(x_0)$. ∎
 
 <hr/>
 

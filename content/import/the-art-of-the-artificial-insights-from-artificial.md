@@ -37,11 +37,12 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/25/2018
 original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
+skip_import: true
 ---
-$$
-``\textit{Most people won't agree to kill themselves for 50 million dollars.}"\\
-\text{Stuart Russell and Peter Norvig}
-$$
+<br/>
+<center>“Most people won't agree to kill themselves for 50 million dollars.”<br/>Stuart Russell and Peter Norvig
+</center>
+
 # Foreword
 
 One of the fruits of growing older is revisiting your old favorites, whether they be foods, books, or songs. As you take your warm, rose-tinted mental bath, you appreciate subtleties which had escaped you, laugh heartily at jokes which hadn't even registered, and grasp concepts whose importance you had never fully realized. Similarly, some songs never lose their charm, no matter how abused the 'replay' button becomes. _AI: AMA_ is a paean to the triumphs of Computer Science and a rallying cry towards those hills we have yet to climb (_ahem_).
@@ -60,13 +61,21 @@ I knew that this plan was preposterous; in all likelihood, I'd finish 3 chapters
 
 **Burnout** was prepared for by:
 
-- The imposition of some [dark-arts beliefs](https://www.lesswrong.com/posts/4DBBQkEQvNEWafkek/dark-arts-of-rationality): [^1]
+- The imposition of some questionable beliefs: [^1]
+	- _My ego does not deplete._
+	- _I am 100% certain that I will succeed._
+	- _Given enough time, I can understand anything_.
 - The institution of hourly brief exercise breaks. Cutting through the crisp, cold air at high speed got my heart beating and rekindled my passion for crushing the task at hand.
 - The construction of a narrative, with me as the protagonist, slowly increasing in capability, working diligently against the racing clock.
+	- Yes, I basically turned myself into a trope.
+	- No, I don't mind: I'm willing to take advantage of whatever psychological factors are at my disposal to help me succeed.
+	- Yes, I listened to the Rocky soundtrack a few times. It was great.
 
 **Mental exhaustion** (distinct from emotional / physical burnout in that your _mind_ can't process concepts as efficiently as it could seven hours ago when you started) was prepared for by:
 
 - Regularly taking breaks to chill out, listen to music, and dance a bit. I'd also spend time dwelling on the pleasant anticipated result of having mastered the important material in the rest of the book, making sure to _contrast it_ with what would happen if I didn't follow through.
+	- I made sure to avoid activities that would suck me in.
+	- As outlined above - regular exercise and narrative-building.
 - The pre-emptive purchase of all my favorite healthful foods; this was a great self-bribe. Having lots of delicious food on hand meant I always had something to look forward to for my breaks, and eating well meant that I didn't feel sluggish. I like to call this tactic "trivial conveniencing".
 - Maintaining my regular sleep schedule of 9:30 PM - 6:00 AM.
 
@@ -127,30 +136,32 @@ h_a'(s) = \textit{hash}(s) \text{ mod } h_a(s).
 $$
 This is clearly admissible, but also inconsistent - every  $h_a'(s)$ evaluation is some pseudo-random number between  0 and the true distance to the goal!
 
-_Claim._ All consistent heuristics are admissible.
+> [!math] Claim: All consistent heuristics are admissible.
+> 
+> _Proof._ Let  $n_k$ denote a state  $k$ actions from the goal, and let  $d $ be the true distance function.
+> 
+> **Base case** ( $n_1$):
+> 
+> $$
+> \begin{align*}
+> h(n_1) &\leq c(n_1,a,n_0) + h(n_0) \qquad\text{ consistency}\\
+> &\leq c(n_1,a,n_0) \qquad\qquad\;\;\;\;\;\,\text{ definition of a heuristic}\\
+> &= d(n_1)\qquad\qquad\qquad\quad\;\;\;\;\text{definition of distance}
+> \end{align*}
+> $$
+> **Induction step** ( $n_k \Rightarrow n_{k+1}$):
+> 
+> The inductive hypothesis is that  $h(n_{k}) \leq d(n_k)$. Then
+> 
+> $$
+> \begin{align*}
+> h(n_{k+1}) &\leq c(n_{k+1}, a, n_k) + h(n_k) \qquad\text{ consistency}\\
+> &\leq c(n_{k+1}, a, n_k) + d(n_k) \qquad\text{ inductive hypothesis}\\
+> &= d(n_{k+1}) \qquad\qquad\qquad\quad\;\;\;\text{ definition of distance}. \\
+> \end{align*}
+> $$
+> ∎
 
-_Proof._ Let  $n_k$ denote a state  $k$ actions from the goal, and let  $d $ be the true distance function.
-
-**Base case** ( $n_1$):
-
-$$
-\begin{align*}
-h(n_1) &\leq c(n_1,a,n_0) + h(n_0) \qquad\text{ consistency}\\
-&\leq c(n_1,a,n_0) \qquad\qquad\;\;\;\;\;\,\text{ definition of a heuristic}\\
-&= d(n_1)\qquad\qquad\qquad\quad\;\;\;\;\text{definition of distance}
-\end{align*}
-$$
-**Induction step** ( $n_k \Rightarrow n_{k+1}$):
-
-The inductive hypothesis is that  $h(n_{k}) \leq d(n_k)$. Then
-
-$$
-\begin{align*}
-h(n_{k+1}) &\leq c(n_{k+1}, a, n_k) + h(n_k) \qquad\text{ consistency}\\
-&\leq c(n_{k+1}, a, n_k) + d(n_k) \qquad\text{ inductive hypothesis}\\
-&= d(n_{k+1}) \qquad\qquad\qquad\quad\;\;\;\text{ definition of distance}. \\
-\end{align*}
-$$
 ### Relaxation
 
 Problem relaxation is a great way of finding admissible heuristics, and it's also a great way of approaching problems. Making potentially-unrealistic assumptions about your problem allows you to more freely explore the solution space: real-life examples include [Shannon's formulation of a perfect chess algorithm in 1950](https://en.wikipedia.org/wiki/Claude_Shannon#Shannon's_computer_chess_program), the [formalization of idealized induction in Solomonoff Induction](https://www.lesswrong.com/posts/Kyc5dFDzBg4WccrbK/an-intuitive-explanation-of-solomonoff-induction) (can you induce who formalized it?), and [Hutter's formulation of a perfectly rational AGI in 2000](https://en.wikipedia.org/wiki/AIXI). [^2]
@@ -179,8 +190,11 @@ I don't think it's a good idea to spend substantial time on quick fixes which sl
 
 Two examples of objectively-good but non-scalable fixes:
 
-- **Quiescence search _-_**sometimes, we have to stop evaluating a plan before the game is done; this can leave us in a deceptively good-looking state. Say I move my queen diagonal to your pawn and then I have to stop searching. A simple material evaluation function wouldn't see that the queen is about to get obliterated, so it returns a neutral score. Quiescence search considers the "stability" of a position and searches until it gets to quiescent states, providing a partial workaround for this problem. The search is constrained to certain types of moves.
-- **Singular extension** - we try historically-good moves when we reach the search's depth limit as a last-ditch effort to extend the search tree a bit further.
+**Quiescence search**
+: Sometimes, we have to stop evaluating a plan before the game is done; this can leave us in a deceptively good-looking state. Say I move my queen diagonal to your pawn and then I have to stop searching. A simple material evaluation function wouldn't see that the queen is about to get obliterated, so it returns a neutral score. Quiescence search considers the "stability" of a position and searches until it gets to quiescent states, providing a partial workaround for this problem. The search is constrained to certain types of moves.
+
+**Singular extension**
+: We try historically-good moves when we reach the search's depth limit as a last-ditch effort to extend the search tree a bit further.
 
 This is even more relevant to deep learning, where numerous engineering tricks are employed to eke out a slightly-improved clas​sification accuracy. I agree that spending some effort working on local optimization of established methods is beneficial, but wouldn't it be higher expected utility to have more researchers studying the fundamentals and innovating new approaches?
 
@@ -192,9 +206,7 @@ _In which the authors show us how to color maps real pretty._
 
 ### Solving  $n$\-ary CSPs
 
-A constraint satisfaction problem (CSP) is defined as follows:
-
-> [!quote]
+> [!math] Definition: Constraint satisfaction problem
 >
 >  $X$ is a set of variables,  $\{X_1, \:..., \:X_n\}$.
 >
@@ -449,6 +461,7 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 ### Tips
 
 - Do exercises immediately after each section in the chapter.
+	- I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
 - Chegg was the only reputable place I could find with an answer key, although the answers were often of low quality. I'd recommend just using StackExchange.
 - Feel free to skip exercises for the following chapters: 1, 11, 12,** **19, 22-27.
 
@@ -459,6 +472,7 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 ### Writing
 
 For the first half of the book, I didn't write each chapter's commentary immediately after reading. This was a mistake. Skimming half of a thousand-page book to remember what I got stuck on is **not** my idea of a good time.
+
 
 ### Conceptual Issues
 
