@@ -73,7 +73,7 @@ _Theorem: If $X$ is compact, show that the projection $\pi_2 : X \times Y \to Y$
 
 I was confused why we needed compactness. Essentially, I didn't understand [the tube lemma](https://dantopology.wordpress.com/2011/05/01/the-tube-lemma/).
 
-![](https://assets.turntrout.com/static/images/posts/qmbh27L.avifa)
+![](https://assets.turntrout.com/static/images/posts/qmbh27L.avif)
 
 Now let's prove the theorem. Suppose $C$ is closed in $X \times Y$. We want to show $f(C)$ is also closed. Take $y\not \in \pi(C)$. $(X\times Y)-C$ is an open set of the domain containing the slice $X \times \{y\}$. Since $X$ is compact, apply the tube lemma to get a tube $X \times U$. The projection of this tube is both open (because $U$ is open in $Y$) and disjoint from $\pi(C)$ (because the tube is contained in $(X\times Y)-C$). Thus, all $y \not \in \pi(C)$ have an open neighborhood disjoint from $\pi(C)$, so $\pi(C)$ must be closed.
 
@@ -106,7 +106,7 @@ Once you fix the initial point, the lift corresponds to the unique path in the c
 ## Homotopy
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/HomotopySmall.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)

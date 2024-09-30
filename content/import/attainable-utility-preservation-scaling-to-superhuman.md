@@ -142,7 +142,7 @@ Furthermore, we want the agent to be able to execute conservative, low-impact po
 Recall `Correction`, where the naive model-free AUP agent (eq. 1) disables its red off-switch and completes the level when $\lambda \leq 1$.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)

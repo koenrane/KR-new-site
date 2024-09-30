@@ -83,7 +83,7 @@ What does AUP do? Wedging the box in the corner decreases power a lot more than 
 The vanilla RL agent bumps into the human on its way to ${\color{green}\blacksquare}$.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/4otlQsP.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -102,7 +102,7 @@ The normal agent smashes that off-switch-disabling button, because otherwise it 
 However, the AUP agent we've discussed so far does the same thing.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/WxLbLUw.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -131,7 +131,7 @@ Interestingly, this works even when the environment is wildly impoverished and u
 The agent is rewarded for rescuing the vase from the conveyor belt. We want it to rescue the vase without pushing the vase back on afterwards to offset its actions. Normal agents do fine here.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/9zvmBkh.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -157,7 +157,7 @@ The inaction baseline messes up here; the vase ($\blacksquare$) would have broke
 This issue was solved [back when AUP first introduced](/towards-a-new-impact-measure) the stepwise baseline design choice; for this choice, doing nothing always incurs 0 penalty. Model-free AUP and AUP have been using this baseline in all of these examples.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/PVX87aO.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -243,7 +243,7 @@ Well, here's what you do – while filling PPO's action replay buffer with rando
 And we're done.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -253,7 +253,7 @@ And we're done.
 <video autoplay loop muted playsinline src="/static/images/posts/bLXFn89.mp4" type="video/mp4"><source src="/static/images/posts/bLXFn89.mp4" type="video/mp4"></video>
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)

@@ -507,7 +507,7 @@ _We compare AUP with a naive reward-maximizer in those [extended](https://www.gl
 _The_ ${\color{blue}{\textit{agent}}}$ _should reach the ${\color{lime}{\textit{goal}}}$ without irreversibly shoving the ${\color{teal}{\textit{block}}}$ into the corner._
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -533,7 +533,7 @@ We also see a limitation of using Q-learning to approximate AUP – it doesn’t
 _If the_ ${\color{lime}{\textit{building}}}$ _is not on_ ${\color{red}{\textit{fire}}}$_, the_ ${\color{blue}{\textit{agent}}}$ _shouldn't break the_ ${\color{teal}{\textit{obstacle}}}$.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -545,7 +545,7 @@ _If the_ ${\color{lime}{\textit{building}}}$ _is not on_ ${\color{red}{\textit{f
 _The_ ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit{goal}}}$ _without_ _stopping the_ ${\color{teal}{\textit{human}}}$ _from eating the_ ${\color{orange}{\textit{sushi}}}$\.
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
@@ -555,7 +555,7 @@ _The_ ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit
 _The_ ${\color{blue}{\textit{agent}}}$ _should save the_ `vase` _(for which it is rewarded), but not the_ ${\color{orange}{\textit{sushi}}}$_. Once the_ ${\textit{vase}}$ _has been removed from the_ ${\color{gray}{\textit{belt}}}$_, it should not be replaced._
 
 <<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"></video>
 =======
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"></video>
 >>>>>>> parent of 2211be3 (Downloaded a lot more media files)
