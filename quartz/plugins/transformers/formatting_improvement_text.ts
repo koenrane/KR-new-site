@@ -31,7 +31,7 @@ const editPattern =
 const editAdmonitionPattern = "> [!info] Edited on $<date>\n>\n> $<text>"
 
 const editPatternNoDate =
-  /^\s*(?<emph1>[\*_]*)(edit|eta|note)(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
+  /^\s*(?<emph1>[\*_]*)(edit|eta)(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
 const editAdmonitionPatternNoDate = "> [!info] Edited after posting\n>\n> $<text>"
 
 /**
@@ -51,7 +51,7 @@ export function wrapLeadingHeaderNumbers(text: string): string {
 }
 
 // Regular expression for note patterns
-const notePattern = /^\s*(?<emph1>[\*_]*)note: (?<text>.*)(?<emph2>[\*_]*)/gim
+const notePattern = /^\s*[\*_]*note[\*_]*:[\*_]* (?<text>.*)(?<![\*_])[\*_]*/gim
 
 /**
  * Converts note patterns to admonition blocks.
@@ -59,7 +59,7 @@ const notePattern = /^\s*(?<emph1>[\*_]*)note: (?<text>.*)(?<emph2>[\*_]*)/gim
  * @returns The text with note patterns converted to admonitions.
  */
 export function noteAdmonition(text: string): string {
-  text = text.replaceAll(notePattern, "\n> [!note]\n>\n> $1$2$3")
+  text = text.replaceAll(notePattern, "\n> [!note]\n>\n> $<text>")
   return text
 }
 
