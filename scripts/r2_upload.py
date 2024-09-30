@@ -7,6 +7,10 @@ import re
 from typing import Optional, Sequence
 import os
 
+# Add this function at the beginning of the file
+def get_home_directory():
+    return os.environ.get('TEST_HOME', os.path.expanduser('~'))
+
 try:
     from . import utils as script_utils
 except ImportError:
@@ -76,7 +80,7 @@ def upload_and_move(
         escaped_original_path: str = re.escape(str(relative_original_path))
         escaped_relative_subpath: str = re.escape(str(relative_subpath))
         new_content: str = re.sub(
-            rf"(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})",
+            rf"(?<=[\(\"])(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})",
             r2_address,
             file_content,
         )

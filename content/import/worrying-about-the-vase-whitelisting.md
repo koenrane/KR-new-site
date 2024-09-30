@@ -148,7 +148,7 @@ The simulated classification confidence of each object's true class was $p \sim 
 
 At reasonable levels of noise, the whitelist-enabled agent completed all levels without a single side effect, while the Q-learner broke over 80 vases.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/vase_avoid_2.mp4" type="video/mp4"><source src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/posts/vase_avoid_2.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase_avoid_2.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase_avoid_2.mp4" type="video/mp4"></video>
 
 > [!example] Assumptions
 > I am not asserting that these assumptions necessarily hold.

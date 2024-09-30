@@ -242,7 +242,7 @@ No model, no rollouts, a _single randomly-generated_ reward function gets us all
 
 To be frank, this is crazy. I'm not aware of any existing theory explaining these results, which is why I proved a bajillion theorems last summer to start to get a formal understanding (some of which became [the results on instrumental convergence and power-seeking](https://arxiv.org/abs/1912.01683)).
 
-Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="/static/images/postshttps://assets.turntrout.com/static/images/posts/green-dot.avif" alt="green dot"/> start going nuts because of the agent's actions:
+Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/green-dot.avif" alt="green dot"/> start going nuts because of the agent's actions:
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/ppo_shown.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/ppo_shown.mp4" type="video/mp4"></video>
 

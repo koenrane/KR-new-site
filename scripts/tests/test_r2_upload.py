@@ -308,3 +308,28 @@ def test_preserve_path_structure_with_replacement(mock_git_root, tmp_path):
         in updated_md_content
     )
 
+
+def test_strict_static_path_matching(test_media_setup, mock_git_root):
+    _, _, content_dir, _ = test_media_setup
+    
+    md_content = """
+    1. Correct: ![image](/static/images/test.jpg)
+    2. Incorrect: ![image](a/static/images/test.jpg)
+    """
+    
+    md_file = content_dir / "test.md"
+    md_file.write_text(md_content)
+
+    test_image = mock_git_root / "quartz" / "static" / "images" / "test.jpg"
+    test_image.parent.mkdir(parents=True, exist_ok=True)
+    test_image.touch()
+
+    with patch("subprocess.run"), patch("shutil.move"):
+        r2_upload.upload_and_move(test_image, replacement_dir=content_dir)
+
+    updated_content = md_file.read_text()
+    expected_url = "https://assets.turntrout.com/static/images/test.jpg"
+
+    assert f"![image]({expected_url})" in updated_content
+    assert "![image](a/static/images/test.jpg)" in updated_content, "Incorrect case was unexpectedly modified"
+
