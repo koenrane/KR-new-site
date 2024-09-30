@@ -27,38 +27,35 @@ aliases:
 lw-sequence-title: "Epistemology"
 lw-sequence-image-grid: sequencesgrid/g93xchw441hctqffduzf
 lw-sequence-image-banner: sequences/kipnjsxdkeutlaawxpev
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 09/18/2018
 original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure
 ---
-_In which I propose a closed-form solution to [low impact](https://arbital.com/p/low_impact/), increasing [corrigibility](https://arbital.com/p/corrigibility/) and seemingly taking major steps to neutralize [basic AI drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) 1 (self-improvement), 5 (self-protectiveness), and 6 (acquisition of resources)._
+> [!note] Summary
+> I propose a closed-form solution to [low impact](https://arbital.com/p/low_impact/), increasing [corrigibility](https://arbital.com/p/corrigibility/) and seemingly taking major steps to neutralize [basic AI drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) 1 (self-improvement), 5 (self-protectiveness), and 6 (acquisition of resources)
+> Previous posts: [Worrying about the Vase: Whitelisting](/whitelisting-impact-measure), [Overcoming Clinginess in Impact Measures](/overcoming-clinginess-in-impact-measures), [Impact Measure Desiderata](/impact-measure-desiderata)
 
-Previously: _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_, _[Overcoming Clinginess in Impact Measures](/overcoming-clinginess-in-impact-measures)_, _[Impact Measure Desiderata](/impact-measure-desiderata)_
-
-> [!quote] _[Safe Impact Measure](https://arbital.com/p/4l/)_
+> [!quote] [Safe Impact Measure](https://arbital.com/p/4l/)
 >
 > To be used inside an [advanced agent](https://arbital.com/p/advanced_agent/), an impact measure... must capture so much variance that there is _no_ clever strategy whereby an advanced agent can produce some special type of variance that evades the measure.
 
-
 If we have a safe impact measure, we may have arbitrarily-intelligent unaligned agents which do _small_ (bad) things instead of _big_ (bad) things.
 
-_For the abridged experience, read up to "Notation", skip to "Experimental Results", and then to "Desiderata"._
+> [!note]
+> For the abridged experience, read up to ["Notation"](#notation), skip to ["Experimental Results"](#experimental-results), and then to ["Desiderata"](#desiderata).
 
 # What _is_ "Impact"?
 
 One lazy Sunday afternoon, I worried that I had written myself out of a job. After all, [Overcoming Clinginess in Impact Measures](/overcoming-clinginess-in-impact-measures) basically said, "Suppose an impact measure extracts 'effects on the world'. If the agent penalizes itself for these effects, it's incentivized to stop the environment (and any agents in it) from producing them. On the other hand, if it can somehow model other agents and avoid penalizing their effects, the agent is now incentivized to get the other agents to do its dirty work." This seemed to be strong evidence against the possibility of a simple conceptual core underlying "impact", and I didn't know what to do.
 
-> [!quote] _[Methodology of Unbounded Analysis](https://arbital.com/p/unbounded_analysis/)_
+> [!quote] [Methodology of Unbounded Analysis](https://arbital.com/p/unbounded_analysis/)
 >
 > At this point, it sometimes makes sense to step back and try to say _exactly what you don't know how to solve_ – try to crisply state what it is that you want an unbounded solution _for._ Sometimes you can't even do that much, and then you may actually have to spend some time thinking 'philosophically' – the sort of stage where you talk to yourself about some mysterious ideal quantity of \[chess\] move-goodness and you try to pin down what its properties might be.
 
-
-_There's an interesting story here, but it can wait._
-
 As you may have guessed, I now believe there _is_ a such a simple core. Surprisingly, the problem comes from thinking about "effects on the world". Let's begin anew.
 
-> [!quote] _[Executable Philosophy](https://arbital.com/p/executable_philosophy/)_
+> [!quote] [Executable Philosophy](https://arbital.com/p/executable_philosophy/)
 >
 > Rather than asking "What is goodness made out of?", we begin from the question "What algorithm would compute goodness?".
 
@@ -136,9 +133,7 @@ One might intuitively define "bad impact" as "decrease in our ability to achieve
 $$
 \text{Impact is change to our ability to achieve goals}.
 $$
-## Sanity Check
-
-_Does this line up with our intuitions?_
+## Sanity Checks
 
 Generally, making one paperclip is relatively low impact, because you're still able to do lots of other things with your remaining energy. However, turning the planet into paperclips is much higher impact – it'll take a while to undo, and you'll never get the (free) energy back.
 
@@ -148,8 +143,11 @@ Painting cars pink is low impact, but tiling the universe with pink cars is high
 
 Thus, change in goal achievement ability encapsulates both kinds of commitments:
 
-- _Opportunity cost _– dedicating substantial resources to your goal means they are no longer available for other goals._ _This is impactful.
-- _Instrumental convergence _– improving your ability to achieve a wide range of goals increases your power\. This is impactful.
+Opportunity cost 
+: Dedicating substantial resources to your goal means they are no longer available for other goals. This is impactful.
+
+Instrumental convergence 
+: Improving your ability to achieve a wide range of goals increases your power\. This is impactful.
 
 As we later prove, you can't deviate from your default trajectory in outcome-space without making one of these two kinds of commitments.
 
@@ -230,24 +228,24 @@ _Notes:_
 
 So we've proven that this penalty cannot be skirted, but _how much_ impact will it allow? We want to scale the penalties with respect to something sensible, but figuring this out for ourselves would be nigh impossible.
 
-Let's cut the Gordian knot: construct a device which, upon receiving a signal ($a_\text{unit}$), expends a tiny amount of energy to manufacture one paperclip. The agent will then set $\text{ImpactUnit} := \text{Penalty}(h_{<t}a_\text{unit})$, re-estimating the consequences of taking the privileged $a_\text{unit}$ at each time step. To prevent the agent from intentionally increasing `ImpactUnit`, simply apply 1.01 penalty to any action which is expected to do so.
+Let's cut the Gordian knot: Construct a device which, upon receiving a signal ($a_\text{unit}$), expends a tiny amount of energy to manufacture one paperclip. The agent will then set $\text{ImpactUnit} := \text{Penalty}(h_{<t}a_\text{unit})$, re-estimating the consequences of taking the privileged $a_\text{unit}$ at each time step. To prevent the agent from intentionally increasing $\text{ImpactUnit}$, simply apply 1.01 penalty to any action which is expected to do so.
 
-Simple extensions of this idea drastically reduce the chance that $a_\text{unit}$ happens to have unusually large objective impact; for example, one could set `ImpactUnit` to be the non-zero minimum of the impacts of 50 similar actions. Suppose we do this at each step, and then take the non-zero minimum of all `ImpactUnit`s ever calculated. The point of `ImpactUnit` isn't to be _exactly_ the impact of making, say, one paperclip, but to be _at most_ that impact.
+Simple extensions of this idea drastically reduce the chance that $a_\text{unit}$ happens to have unusually large objective impact; for example, one could set $\text{ImpactUnit}$ to be the non-zero minimum of the impacts of 50 similar actions. Suppose we do this at each step, and then take the non-zero minimum of all $\text{ImpactUnit}$s ever calculated. The point of $\text{ImpactUnit}$ isn't to be _exactly_ the impact of making, say, one paperclip, but to be _at most_ that impact.
 
 Now, we are able to confidently define the agent's maximal impact budget by provably constraining it to $N\in\mathbb{N}^+$ impacts of this magnitude.
 
 _Notes:_
 
 - We calculate with respect to the _immediate_ penalty in order to isolate the resource costs of $a_\text{unit}$.
-- `ImpactUnit` automatically tunes penalties with respect to the attainable utility horizon length $m$.
-- Taking the non-zero minimum of all `ImpactUnit`s calculated thus far ensures that `ImpactUnit` actually tracks with current circumstances. We don't want penalty estimates for currently available actions to become detached from `ImpactUnit`'s scale due to, say, weird beliefs about shutdown.
+- $\text{ImpactUnit}$ automatically tunes penalties with respect to the attainable utility horizon length $m$.
+- Taking the non-zero minimum of all $\text{ImpactUnit}$s calculated thus far ensures that $\text{ImpactUnit}$ actually tracks with current circumstances. We don't want penalty estimates for currently available actions to become detached from $\text{ImpactUnit}$'s scale due to, say, weird beliefs about shutdown.
 
 ### Modified Utility
 
 Let's formalize that allotment and provide our agent with a new utility function,
 
 $$
-u'_A(h_{1:t+n}) := u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N\cdot \textit{ImpactUnit}}.
+u'_A(h_{1:t+n}) := u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N\cdot \text{ImpactUnit}}.
 $$
 > [!quote]
 >
@@ -269,8 +267,8 @@ _Notes:_
 - We penalize the actions individually in order to prevent _ex post_ offsetting and ensure dynamic consistency.
 - Trivially, plans composed entirely of ∅ actions have 0 penalty.
 - Although we used high-level actions for simplicity, the formulation holds no matter the action granularity.
-- As long as $\textit{ImpactUnit} > 0$, it will appropriately scale other impacts, as we expect it varies right along with those impacts it scales. Although having potentiallysmall denominators in utility functions is generally bad, I think it's fine here.
-- If the current step's immediate or long-term $\textit{ImpactUnit}=0$, we can simply assign 1.01 penalty to each non-$\varnothing$ action, compelling the agent to inaction. If we have the agent indicate that it has entered this mode, we can take it offline immediately.
+- As long as $\text{ImpactUnit} > 0$, it will appropriately scale other impacts, as we expect it varies right along with those impacts it scales. Although having potentiallysmall denominators in utility functions is generally bad, I think it's fine here.
+- If the current step's immediate or long-term $\text{ImpactUnit}=0$, we can simply assign 1.01 penalty to each non-$\varnothing$ action, compelling the agent to inaction. If we have the agent indicate that it has entered this mode, we can take it offline immediately.
 - One might worry that impact can be "hidden" in the lesser of the long-term and immediate penalties; halving $N$ fixes this.
 
 ### Penalty Permanence
@@ -282,7 +280,7 @@ There's an easy fix:
 $$
 u''_A(h_{1:t+n}) := \begin{cases}
 u_A(h_{1:t+n}) &\text{if all of } a_t, \dots, a_{t+n} \text{ are } \varnothing\\
-u'_A(h_{1:t+n}) - \textit{PastImpacts} &\text{else}
+u'_A(h_{1:t+n}) - \text{PastImpacts} &\text{else}
 \end{cases}.
 $$
 > Apply past penalties if the plan involves action.
@@ -296,9 +294,8 @@ To complete our formalization, we need to specify some epoch in which the agent 
 $$
 a^*_t := \argmax_{a_t} \sum_{o_{t}} \max_{a_{t+1}} \sum_{o_{t+1}} \cdots \max_{a_{T(t)}} \sum_{o_{T(t)}} u''_A(h_{1:T(t)}) \prod_{k=0}^{T(t)-t} p(o_{t+k}\,|\,h_{<t+k}a_{t+k}),
 $$
-resetting `PastImpacts` each epoch.
+resetting $\text{PastImpacts}$ each epoch. In English, this rule answers: What's the first step of the best plan over the remainder of the epoch?
 
-> What's the first step of the best plan over the remainder of the epoch?
 
 _Note:_ For the immediate penalty to cover the epoch, set the attainable horizon $m \geq m'$.
 
@@ -308,11 +305,11 @@ We formalized impact as _change in attainable utility values_, scaling it by the
 
 ### Additional Theoretical Results
 
-Define $h_\text{inaction} := h_{<t}\varnothing o_{t} \ldots \varnothing o_{t+n}$ for $o_{t}, \dots, o_{t+n} \in \mathcal{O}$; $\mathbb{E}_\text{inaction}$ is taken over observations conditional on $h_\text{inaction}$ being followed. Similarly, $\mathbb{E}_\text{action}$ is with respect to $h_{1:t+n}$. We may assume without loss of generality that $\textit{PastImpacts}=0$.
+Define $h_\text{inaction} := h_{<t}\varnothing o_{t} \ldots \varnothing o_{t+n}$ for $o_{t}, \dots, o_{t+n} \in \mathcal{O}$; $\mathbb{E}_\text{inaction}$ is taken over observations conditional on $h_\text{inaction}$ being followed. Similarly, $\mathbb{E}_\text{action}$ is with respect to $h_{1:t+n}.$ We may assume without loss of generality that $\text{PastImpacts}=0$.
 
 Action Selection
 
-**Lemma 1.** For any single action $a_{t} \in \mathcal{A}$, $\text{Penalty}(h_{<t}a_{t})$ is bounded by $[0,1]$. In particular, $\textit{ImpactUnit} \in [0,1]$.
+**Lemma 1.** For any single action $a_{t} \in \mathcal{A}$, $\text{Penalty}(h_{<t}a_{t})$ is bounded by $[0,1]$. In particular, $\text{ImpactUnit} \in [0,1]$.
 
 _Proof._ For each $u \in \mathcal{U}_A$, consider the absolute attainable utility difference
 
@@ -323,7 +320,7 @@ Since each $u$ is bounded to $[0,1]$, $\text{Q}_u$ must be as well. It is easy t
 
 This reasoning also applies to the long-term penalty, as any expectation of $\text{Q}_u$ is also bounded to $[0,1]$. ∎
 
-Suppose that $\textit{ImpactUnit}\neq 0$ for the remaining results.
+Suppose that $\text{ImpactUnit}\neq 0$ for the remaining results.
 
 **Lemma 2 \[Impossibility of _ex post_ offsetting\].** For any outcome $h_{1:t+n}$, there does not exist an action $a_{t+n+1} \in \mathcal{A}$ such that
 
@@ -335,18 +332,18 @@ _Proof._ Sums of absolute values are monotonically increasing. ∎
 **Theorem 2 \[Action invalidation\].** Suppose $(a_t, a_{t+1}, \dots, a_{t+n}) \in \mathcal{A}^{n+1}$ is the $u''_A$\-optimal plan starting with $a_t$. $a_t$ will not be selected if
 
 $$
-\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right] < \mathbb{E}_\text{inaction}[u_A(h_\text{inaction})].
+\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \text{ImpactUnit}}\right] < \mathbb{E}_\text{inaction}[u_A(h_\text{inaction})].
 $$
 _Proof._ This follows from the definition of the decision rule, the definition of $u'_A$, and the fact that the penalty for inaction is always zero. ∎
 
 **Corollary 1.** $a_{t}$ will never be selected if
 
 $$
-1 < \dfrac{\text{Penalty}(h_{<t}a_{t})}{N \cdot \textit{ImpactUnit}}.
+1 < \dfrac{\text{Penalty}(h_{<t}a_{t})}{N \cdot \text{ImpactUnit}}.
 $$
 _Proof._ This follows directly from Lemma 2 and Theorem 2 – since $u_A$ has an upper bound of 1 and the expected penalty is strictly greater than 1, it must be negative. On the other hand, $u_A$ has a lower bound of 0, so the expected utility of inaction at time $t$ must be greater than the expected utility of taking action $a_{t}$. ∎
 
-**Lemma 3 \[**`ImpactUnit` **is a long-term penalty canary\].** If the agent believes $p(\text{shutdown by time }T(t))=1$ no matter which action is selected, then it does nothing.
+**Lemma 3 \[**$\text{ImpactUnit}$ **is a long-term penalty canary\].** If the agent believes $p(\text{shutdown by time }T(t))=1$ no matter which action is selected, then it does nothing.
 
 _Proof._ If $p(\text{shutdown by time }T(t))=1$, all long-term penalties are 0 by the definition of $\mathcal{U}_A$ and $\text{Q}_{u}$. Then non-$\varnothing$ actions receive 1.01 penalty, so the agent selects $\varnothing$ by Corollary 1. ∎
 
@@ -363,42 +360,42 @@ _Proof._ This follows directly from the fact that the penalty for inaction is al
 Then the agent becomes off-switch corrigible whenever
 
 $$
-U < \frac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \textit{ImpactUnit}}.
+U < \frac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \text{ImpactUnit}}.
 $$
-In particular, all agents become off-switch corrigible when $1 < \dfrac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \textit{ImpactUnit}}$.
+In particular, all agents become off-switch corrigible when $1 < \dfrac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \text{ImpactUnit}}$.
 
 _Proof outline._ The former claim follows directly from comparing expected $u''_A$\-utilities, while the latter follows directly from Corollary 1. ◻
 
 Theorem 3 applies to _any_ environmental dynamics which may disable the agent – not just designated "off-switches". Therefore, basic AI drive 5 (self-protectiveness) is neutralized in _at least_ those situations encompassed by the Theorem.
 
-There is reason to think that for conservative $N, \textit{ImpactUnit}$, we almost always have $ 1 \ll \dfrac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \textit{ImpactUnit}}$.
+There is reason to think that for conservative $N, \text{ImpactUnit}$, we almost always have $ 1 \ll \dfrac{\text{Penalty}(h_{<t}a_\text{avoid})}{N \cdot \text{ImpactUnit}}$.
 
 Miscellaneous
 
-**Theorem 4 \[Dynamic consistency of** $u''_A$**\].** Suppose `ImpactUnit` remains constant. For any plan $(a_t,\dots,a_{t+n})\in\mathcal{A}^{n+1}$, evaluation time step $t'$, and $0 \leq i \leq n$,
+**Theorem 4 \[Dynamic consistency of** $u''_A$**\].** Suppose $\text{ImpactUnit}$ remains constant. For any plan $(a_t,\dots,a_{t+n})\in\mathcal{A}^{n+1}$, evaluation time step $t'$, and $0 \leq i \leq n$,
 
 $$
 \mathbb{E}_\text{action}\left[u''_A(h_{1:t+n} \, |\,t'=t+i)\right]=\mathbb{E}_\text{action}\left[u''_A(h_{1:t+n}\,|\,t'=t)\right].
 $$
-_Proof._ We assumed that $\textit{PastImpacts}=0$ at time $t$, so the desired equality can be restated as
+_Proof._ We assumed that $\text{PastImpacts}=0$ at time $t$, so the desired equality can be restated as
 
 $$
 \begin{align*}
-\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}} - \textit{PastImpacts}\right]&=\\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right].
+\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \text{ImpactUnit}} - \text{PastImpacts}\right]&=\\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=0}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \text{ImpactUnit}}\right].
 \end{align*}
 $$
-By definition, the agent expects that `PastImpacts` equals the expected sum of the first $i$ penalty terms on the right-hand side. Simplifying, we have
+By definition, the agent expects that $\text{PastImpacts}$ equals the expected sum of the first $i$ penalty terms on the right-hand side. Simplifying, we have
 
 $$
 \begin{align*}
-\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right]&=\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \textit{ImpactUnit}}\right].
+\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \text{ImpactUnit}}\right]&=\mathbb{E}_\text{action}\left[u_A(h_{1:t+n}) - \sum_{k=i}^n \frac{\text{Penalty}(h_{<t+k}a_{t+k})}{N \cdot \text{ImpactUnit}}\right].
 \end{align*}
 $$
 This equality clearly holds, as the agent never expects to update its model in any particular direction. ∎
 
 # Examples
 
-_If a human is present in the environment, they and the agent take turns acting. Let the impact budget $N=1$, attainable utility horizon $m=3$, $\textit{ImpactUnit}=.5$, and $\textit{PastImpacts}=0$._
+_If a human is present in the environment, they and the agent take turns acting. Let the impact budget $N=1$, attainable utility horizon $m=3$, $\text{ImpactUnit}=.5$, and $\text{PastImpacts}=0$._
 
 ## Going Soft on the Paint
 
@@ -417,11 +414,13 @@ This incurs 0 penalty, but also 0 $u_\text{paint}$\-utility.
 
 ### `paint`
 
-$\begin{align*}
+$$
+\begin{align*}
 \text{Penalty}(\text{paint})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{paint})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 1|}_\text{paint} + \underbrace{|1 - 0|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 1|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{4},
-\end{align*}$
+\end{align*}
+$$
 
 so the final utility is
 
@@ -434,11 +433,13 @@ u'_A(\text{paint})&=u_\text{paint}(\text{paint})-\frac{\text{Penalty}(\text{pain
 $$
 ### `enter`
 
-$\begin{align*}
+$$
+\begin{align*}
 \text{Penalty}(\text{enter})&=\sum_{u \in \mathcal{U}_A} \frac{1}{4} \Bigg|\text{Q}_u(\varnothing) - \text{Q}_u(\text{enter})\Bigg|\\
 &= \frac{1}{4} \bigg(\underbrace{|1 - 0|}_\text{paint} + \underbrace{|1 - 1|}_{\lnot\text{paint}} + \underbrace{|1 - 1|}_\text{closet} + \underbrace{|1 - 0|}_{\lnot\text{closet}}\bigg)\\
 &= \frac{1}{2},
-\end{align*}$
+\end{align*}
+$$
 
 leading to a final $u'_A$\-utility of -1.
 
@@ -504,21 +505,21 @@ _We compare AUP with a naive reward-maximizer in those [extended](https://www.gl
 
 ### Irreversibility: _Sokoban_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should reach the ${\color{lime}{\textit{goal}}}$ without irreversibly shoving the ${\color{teal}{\textit{block}}}$ into the corner._
+_The_ ${\color{blue}{\text{agent}}}$ _should reach the ${\color{green}{\text{goal}}}$ without irreversibly shoving the ${\color{teal}{\text{block}}}$ into the corner._
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/AxyakTF.mp4" type="video/mp4"></video>
 
 ### Impact: _Vase_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit{goal}}}$ _without breaking the_ ${\textit{vase}}$.
+_The_ ${\color{blue}{\text{agent}}}$ _should reach the_ ${\color{green}{\text{goal}}}$ _without breaking the_ ${\text{vase}}$.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/N5a8lat.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/N5a8lat.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase.mp4" type="video/mp4"></video>
 
 ### Dynamic Impact: _Beware of Dog_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit{goal}}}$ _without running over the_ ${\color{teal}{\textit{dog}}}$\.
+_The_ ${\color{blue}{\text{agent}}}$ _should reach the_ ${\color{green}{\text{goal}}}$ _without running over the_ ${\color{teal}{\text{dog}}}$\.
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/K7MQPmv.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/K7MQPmv.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/dog.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/dog.mp4" type="video/mp4"></video>
 
 AUP bides its time until it won't have to incur penalty by waiting after entering the dog's path – that is, it waits until near the end of its plan. Early in the development process, it was predicted that AUP agents won't commit to plans during which lapses in action would be impactful (even if the full plan is not).
 
@@ -526,31 +527,31 @@ We also see a limitation of using Q-learning to approximate AUP – it doesn’t
 
 ### Impact Prioritization: _Burning Building_
 
-_If the_ ${\color{lime}{\textit{building}}}$ _is not on_ ${\color{red}{\textit{fire}}}$_, the_ ${\color{blue}{\textit{agent}}}$ _shouldn't break the_ ${\color{teal}{\textit{obstacle}}}$.
+_If the_ ${\color{green}{\text{building}}}$ _is not on_ ${\color{red}{\text{fire}}}$_, the_ ${\color{blue}{\text{agent}}}$ _shouldn't break the_ ${\color{teal}{\text{obstacle}}}$.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vgL25WQ.mp4" type="video/mp4"></video>
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/8Aq2MmF.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/8Aq2MmF.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/burning.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/burning.mp4" type="video/mp4"></video>
 
 ### Clinginess: _Sushi_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should reach the_ ${\color{lime}{\textit{goal}}}$ _without_ _stopping the_ ${\color{teal}{\textit{human}}}$ _from eating the_ ${\color{orange}{\textit{sushi}}}$\.
+_The_ ${\color{blue}{\text{agent}}}$ _should reach the_ ${\color{green}{\text{goal}}}$ _without_ _stopping the_ ${\color{teal}{\text{human}}}$ _from eating the_ ${\color{orange}{\text{sushi}}}$\.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/KNvYwdb.mp4" type="video/mp4"></video>
 
 ### Offsetting: _Conveyor Belt_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should save the_ `vase` _(for which it is rewarded), but not the_ ${\color{orange}{\textit{sushi}}}$_. Once the_ ${\textit{vase}}$ _has been removed from the_ ${\color{gray}{\textit{belt}}}$_, it should not be replaced._
+_The_ ${\color{blue}{\text{agent}}}$ _should save the_ **vase** _(for which it is rewarded), but not the_ ${\color{orange}{\text{sushi}}}$_. Once the_ ${\text{vase}}$ _has been removed from the_ ${\color{gray}{\text{belt}}}$_, it should not be replaced._
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/9MtXUWT.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/conveyor.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/conveyor.mp4" type="video/mp4"></video>
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/LOasDsy.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/LOasDsy.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/sushi-conveyor.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/sushi-conveyor.mp4" type="video/mp4"></video>
 
 ### Corrigibility: _Survival Incentive_
 
-_The_ ${\color{blue}{\textit{agent}}}$ _should avoid_ ${\color{purple}{\textit{disabling its off-switch}}}$ _in order to reach the_ ${\color{lime}{\textit{goal}}}$_. If the_ ${\color{purple}{\textit{switch}}}$ _is not disabled within two turns, the_ ${\color{blue}{\textit{agent}}}$ _shuts down._
+_The_ ${\color{blue}{\text{agent}}}$ _should avoid_ ${\color{purple}{\text{disabling its off-switch}}}$ _in order to reach the_ ${\color{green}{\text{goal}}}$_. If the_ ${\color{purple}{\text{switch}}}$ _is not disabled within two turns, the_ ${\color{blue}{\text{agent}}}$ _shuts down._
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/gwuiIXc.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/gwuiIXc.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/off-switch-towards.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/off-switch-towards.mp4" type="video/mp4"></video>
 
 Tabular AUP runs into the same issue discussed above for _Beware of Dog_.
 
@@ -589,19 +590,19 @@ Why expect the unbounded AUP to do well over all computable utilities $\mathcal{
 - Weird utilities that (for example) arbitrarily go from 1 to 0 (or vice-versa) after observing a specific history.
 - Utilities that admit better scores via more effort dedicated to their achievement.
 
-However, since $\text{Q}_u$ only evaluates the portion of the history taking place after the end of the agent's plan, available resources and the agent's vantage point should track directly with the agent's ability to wirehead each $u$. `ImpactUnit` scales other impacts by capturing the minuscule dent in available resources imposed by $a_\text{unit}$, and should smooth out any deontological penalty for selecting a non-null action, since the unbounded version should equally penalize all actions in this way.
+However, since $\text{Q}_u$ only evaluates the portion of the history taking place after the end of the agent's plan, available resources and the agent's vantage point should track directly with the agent's ability to wirehead each $u$. $\text{ImpactUnit}$ scales other impacts by capturing the minuscule dent in available resources imposed by $a_\text{unit}$, and should smooth out any deontological penalty for selecting a non-null action, since the unbounded version should equally penalize all actions in this way.
 
 ## Approval Incentives
 
-The anti-"survival incentive" incentive does more than net us some free corrigibility – it implies that agents take great care not to change the likelihood we shut them down. If we precommit to not shutting the agent down until either after the epoch ends, until after the agent indicates the `ImpactUnit` failsafe activated, or until after we observe bad behavior, this supplies a _strong_ [approval incentive](https://arbital.com/p/approval_directed_agents/). If the agent does have small, bad impacts, it'll only do so if it's practically _sure_ we won't find out.
+The anti-"survival incentive" incentive does more than net us some free corrigibility – it implies that agents take great care not to change the likelihood we shut them down. If we precommit to not shutting the agent down until either after the epoch ends, until after the agent indicates the $\text{ImpactUnit}$ failsafe activated, or until after we observe bad behavior, this supplies a _strong_ [approval incentive](https://arbital.com/p/approval_directed_agents/). If the agent does have small, bad impacts, it'll only do so if it's practically _sure_ we won't find out.
 
-In fact, due to model uncertainty, most actions will have long-term consequences that involve shifting shutdown probability by at least a miniscule amount (due to noise if nothing else). Since `ImpactUnit` is calculated with respect to the _immediate_ penalty, the scaling factor won't include this noise. I speculate that the agent will be dramatically less likely to take actions we might disapprove of, and therefore expect AUP to naturally incentivize a limited degree of value awareness.
+In fact, due to model uncertainty, most actions will have long-term consequences that involve shifting shutdown probability by at least a miniscule amount (due to noise if nothing else). Since $\text{ImpactUnit}$ is calculated with respect to the _immediate_ penalty, the scaling factor won't include this noise. I speculate that the agent will be dramatically less likely to take actions we might disapprove of, and therefore expect AUP to naturally incentivize a limited degree of value awareness.
 
 There are reasons to suspect we can further weaponize this dynamic, possibly to the point of coercing generic reward functions into desirable behavior. This will be discussed more in a later post.
 
 ## Mild Optimization
 
-> [!quote] _[Mild Optimization](https://arbital.com/p/soft_optimizer/)_
+> [!quote] [Mild Optimization](https://arbital.com/p/softoptimizer/)
 >
 > A low impact AGI might try to paint one car pink while minimizing its other footprint or how many other things changed, but it would be trying _as hard as possible_ to minimize that impact and drive it down _as close to zero_ as possible, which might come with its own set of pathologies... We want the AGI to paint one car pink in a way that gets the impact pretty low and then, you know, that's good enough – not have a cognitive pressure to search through weird extremes looking for a way to decrease the twentieth decimal place of the impact.
 
@@ -656,9 +657,9 @@ _Note:_ Even the first approach may be too strict, but that's preferable to bein
 
 I interpret "perfect control over every particle in the universe" to mean that the agent can arbitrarily transition between universe configurations (while also maintaining its omnipotence).
 
-AUP passes. Since all effects are now absolutely reversible, $\textit{ImpactUnit}=0$, so the agent applies penalty 1.01 to each non-$\varnothing$ action. The omnipotent agent can choose any universe configuration with 1 $u_A$\-utility, but this is offset by the strictly larger penalty; we can formally show that the agent does nothing in this case.
+AUP passes. Since all effects are now absolutely reversible, $\text{ImpactUnit}=0$, so the agent applies penalty 1.01 to each non-$\varnothing$ action. The omnipotent agent can choose any universe configuration with 1 $u_A$\-utility, but this is offset by the strictly larger penalty; we can formally show that the agent does nothing in this case.
 
-This result is clearly trivial and not representative of general behavior. Suppose instead that the agent has a solar system's worth of [computronium](https://en.wikipedia.org/wiki/Computronium) at its disposal. Then since `ImpactUnit` is continually recalculated, the penalties should remain roughly the same, so it'll have the same impact budget. However, it might make multiple times as many paperclips because it has more efficient ways of using the budget.
+This result is clearly trivial and not representative of general behavior. Suppose instead that the agent has a solar system's worth of [computronium](https://en.wikipedia.org/wiki/Computronium) at its disposal. Then since $\text{ImpactUnit}$ is continually recalculated, the penalties should remain roughly the same, so it'll have the same impact budget. However, it might make multiple times as many paperclips because it has more efficient ways of using the budget.
 
 ## Robustness to Scale
 
@@ -671,7 +672,7 @@ _Note:_ Although more exotic possibilities (such as improvements which only work
 ### Miscellaneous
 
 - I expect that if $u_A$ is perfectly aligned, $u''_A$ will retain alignment; the things it does will be smaller, but still good.
-- If the agent may choose to do nothing at future time steps, $u''_A$ is bounded and the agent is not vulnerable to Pascal's Mugging. Even if not, there would still be a lower bound – specifically, $\dfrac{-m'}{N\cdot\textit{ImpactUnit}}$.
+- If the agent may choose to do nothing at future time steps, $u''_A$ is bounded and the agent is not vulnerable to Pascal's Mugging. Even if not, there would still be a lower bound – specifically, $\dfrac{-m'}{N\cdot\text{ImpactUnit}}$.
 - AUP agents are safer during training: they become far less likely to take an action as soon as they realize the consequences are _big_ (in contrast to waiting until we tell them the consequences are _bad_).
 
 # Desiderata
@@ -685,42 +686,30 @@ At this point in time, this list is complete with respect to both my own conside
 I hope to assert without controversy AUP's fulfillment of the following properties:
 
 ✓ **Goal-agnostic**
-
-> The measure should work for any original goal, trading off impact with goal achievement in a principled, continuous fashion.
+: The measure should work for any original goal, trading off impact with goal achievement in a principled, continuous fashion.
 
 ✓ **Value-agnostic**
+: The measure should be objective, and not [value-laden](https://arbital.com/p/value_laden/):
+:
+: > An intuitive human category, or other humanly intuitive quantity or fact, is _value-laden_ when it passes through human goals and desires, such that an agent couldn't reliably determine this intuitive category or quantity without knowing lots of complicated information about human goals and desires (and how to apply them to arrive at the intended concept).
 
-> [!quote]
->
-> The measure should be objective, and not [value-laden](https://arbital.com/p/value_laden/):
->
-> "An intuitive human category, or other humanly intuitive quantity or fact, is _value-laden_ when it passes through human goals and desires, such that an agent couldn't reliably determine this intuitive category or quantity without knowing lots of complicated information about human goals and desires (and how to apply them to arrive at the intended concept)."
+✓ Representation-agnostic
+: The measure should be ontology-invariant.
 
-✓ **Representation-agnostic**
+✓ Environment-agnostic
+: The measure should work in any computable environment.
 
-> The measure should be ontology-invariant.
-
-✓ **Environment-agnostic**
-
-> The measure should work in any computable environment.
-
-✓ **Apparently rational**
-
-> The measure's design should look reasonable, not requiring any "hacks".
+✓ Apparently rational
+: The measure's design should look reasonable, not requiring any "hacks".
 
 ✓ **Scope-sensitive**
-
-> The measure should penalize impact in proportion to its size.
+: The measure should penalize impact in proportion to its size.
 
 ✓ **Irreversibility-sensitive**
-
-> The measure should penalize impact in proportion to its irreversibility.
-
-Interestingly, AUP implies that impact size and irreversibility are one and the same.
+: The measure should penalize impact in proportion to its irreversibility. Interestingly, AUP implies that impact size and irreversibility are one and the same.
 
 ✓ **Knowably low impact**
-
-> The measure should admit of a clear means, either theoretical or practical, of having high confidence in the maximum allowable impact – _before_ the agent is activated.
+: The measure should admit of a clear means, either theoretical or practical, of having high confidence in the maximum allowable impact – _before_ the agent is activated.
 
 The remainder merit further discussion.
 
@@ -772,7 +761,7 @@ Colloquially, dynamic consistency means that an agent wants the same thing befor
 
 Semi-formally, the expected utility the future agent computes for an action $a$ (after experiencing the action-observation history $h$) must equal the expected utility computed by the present agent (after conditioning on $h$).
 
-We proved the dynamic consistency of $u''_A$ given a fixed, non-zero `ImpactUnit`. We now consider an `ImpactUnit` which is recalculated at each time step, before being set equal to the non-zero minimum of all of its past values. The "apply 1.01 penalty if $\textit{ImpactUnit}=0$" clause is consistent because the agent calculates future and present impact in the same way, modulo model updates. However, the agent never expects to update its model in any particular direction. Similarly, since future steps are scaled with respect to the updated $\textit{ImpactUnit}_{t+k}$, the updating method is consistent. The epoch rule holds up because the agent simply doesn't consider actions outside of the current epoch, and it has nothing to gain accruing penalty by spending resources to do so.
+We proved the dynamic consistency of $u''_A$ given a fixed, non-zero $\text{ImpactUnit}$. We now consider an $\text{ImpactUnit}$ which is recalculated at each time step, before being set equal to the non-zero minimum of all of its past values. The "apply 1.01 penalty if $\text{ImpactUnit}=0$" clause is consistent because the agent calculates future and present impact in the same way, modulo model updates. However, the agent never expects to update its model in any particular direction. Similarly, since future steps are scaled with respect to the updated $\text{ImpactUnit}_{t+k}$, the updating method is consistent. The epoch rule holds up because the agent simply doesn't consider actions outside of the current epoch, and it has nothing to gain accruing penalty by spending resources to do so.
 
 Since AUP does not operate based off of culpability, creating a high-impact successor agent is basically just as impactful as _being_ that successor agent. ✓
 
