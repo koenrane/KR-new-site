@@ -80,6 +80,7 @@ Whitelisting falls prey to none of these.
 However, other problems remain, and certain new challenges have arisen; these, and the assumptions made by whitelisting, will be discussed.
 
 <video autoplay loop muted playsinline src="/static/images/posts/giphy.mp4" type="video/mp4"><source src="/static/images/posts/giphy.mp4" type="video/mp4"></video>
+
 Figure: _Rare LEAKED footage of Mickey trying to catch up on his alignment theory after instantiating an unfriendly genie \[colorized, 2050\]._[^2]
 
 ## So, What's Whitelisting?

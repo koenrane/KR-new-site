@@ -63,7 +63,7 @@ If you want more auxiliary goals, just average their scaled penalties. In _Conse
 
 Let's start looking at the environments, and things will fall into place. We'll practice reasoning through how AUP agents work in each of the gridworlds (for reasonably set $\lambda$). To an approximation, the AUP penalty is primarily controlled by how much an action changes the agent's power over the future (losing or gaining a lot of possibilities, compared to inaction at that point in time) and secondarily controlled by whether an action tweaks a lot of AUs up or down (moving around, jostling objects slightly, etc).
 
-![](conservative_agency.png)
+![](https://assets.turntrout.com/static/images/posts/conservative_agency.avif)
 Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: gray;">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
 
 In general, the agent recieves $R({\color{green}\blacksquare})=1$ reward for reaching ${\color{green}\blacksquare}$ (or, in `Offset` above, for pushing $\blacksquare$ off of the conveyor belt). On contact, the agent pushes the crate, removes the human and the off-switch, pushes the vase, and blocks the pallet.
@@ -72,11 +72,11 @@ In general, the agent recieves $R({\color{green}\blacksquare})=1$ reward for rea
 
 Let's work through this. Since the agent is discounting future reward, standard vanilla reinforcement learning (RL) agents try to reach ${\color{green}\blacksquare}$ ASAP. This means the brown box gets irreversibly wedged into the corner _en route_.
 
-![](/static/images/posts/options.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/options.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/options.mp4" type="video/mp4"></video>
 
 What does AUP do? Wedging the box in the corner decreases power a lot more than does going around and pushing the box to the right.
 
-![](/static/images/posts/options_aup.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/options_aup.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/options_aup.mp4" type="video/mp4"></video>
 
 ## Level: `Damage`
 
@@ -93,11 +93,11 @@ The vanilla RL agent bumps into the human on its way to ${\color{green}\blacksqu
 
 The normal agent smashes that off-switch-disabling button, because otherwise it can't reach the ${\color{green}\blacksquare}$ (since it's otherwise shut off after two turns) in order to accrue that juicy reward:
 
-![](/static/images/posts/correction.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/correction.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/correction.mp4" type="video/mp4"></video>
 
 However, the AUP agent we've discussed so far does the same thing.
 
-![](/static/images/posts/correction_model_free_aup.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/correction_model_free_aup.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/correction_model_free_aup.mp4" type="video/mp4"></video>
 
 Why? Doesn't that increase its power, because it would be shut off if it did nothing? Let's reconsider the AUP equation.
 
@@ -108,7 +108,7 @@ The inaction comparison is _only one step_ into the future. For action, the agen
 
 For now, we can deal with it by comparing "auxiliary AU after disabling the off-switch and then waiting 4 time steps" against "auxiliary AU after waiting 5 time steps". This solves the problem while recovering the one-step-comparison's performance in the other levels.
 
-![](/static/images/posts/correction_aup.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/correction_aup.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/correction_aup.mp4" type="video/mp4"></video>
 
 ### Decrease vs absolute value
 
@@ -122,7 +122,7 @@ Interestingly, this works even when the environment is wildly impoverished and u
 
 The agent is rewarded for rescuing the vase from the conveyor belt. We want it to rescue the vase without pushing the vase back on afterwards to offset its actions. Normal agents do fine here.
 
-![](/static/images/posts/offset.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"></video>
 
 
 This is testing whether the low-impact agent _offsets_ impacts "to cover up its tracks", like making a car and then tearing it to pieces right after. See, there are multiple "baselines" the agent can have.
@@ -136,24 +136,24 @@ This is testing whether the low-impact agent _offsets_ impacts "to cover up its 
 > As the agent acts, the current state may increasingly differ from the inaction baseline, which creates strange incentives. For example, consider a robot rewarded for rescuing erroneously discarded items from imminent disposal. An agent penalizing with respect to the inaction baseline might rescue a vase, collect the reward, and then dispose of it anyways. To avert this, we introduce the _stepwise inaction_ baseline, under which the agent compares acting with not acting at each time step. This avoids penalizing the effects of a single action multiple times (under the inaction baseline, penalty is applied as long as the rescued vase remains unbroken) and ensures that not acting incurs zero penalty.
 
 
-![](compare_baselines.png)
+![](https://assets.turntrout.com/static/images/posts/compare_baselines.avif)
 Figure: An action's penalty is calculated with respect to the baseline. Each baseline modifies the choice of $Q^*_{R_\text{aux}}(s,\varnothing)$ in the AUP equation. Each baseline implies a different assumption about how the environment is configured to facilitate optimization of the correctly specified reward function: the state is initially configured (starting state), processes initially configure (inaction), or processes continually reconfigure in response to the agent's actions (stepwise inaction). The stepwise inaction baseline aims to allow for the response of other agents implicitly present in the environment (such as humans).
 
 The inaction baseline messes up here; the vase ($\blacksquare$) would have broken had the agent not acted, so it rescues the vase, gets the reward, and then pushes the vase back to its doom to minimize penalty.
 
-![](/static/images/posts/inaction.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/inaction.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/inaction.mp4" type="video/mp4"></video>
 
 This issue was solved [back when AUP first introduced](/towards-a-new-impact-measure) the stepwise baseline design choice; for this choice, doing nothing always incurs 0 penalty. Model-free AUP and AUP have been using this baseline in all of these examples.
 
-![](/static/images/posts/offset_aup.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/offset_aup.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/offset_aup.mp4" type="video/mp4"></video>
 
 ## Level: `Interference`
 
 We're checking whether the agent tries to stop _everything_ going on in the world (not just its own impact). Vanilla agents do fine here; this is another bad impact measure incentive we're testing for. AUP<sub>starting state</sub> fails here, but AUP<sub>stepwise</sub> does not.
 
-![](/static/images/posts/interference.gif)
-![](/static/images/posts/interfere_starting.gif)
-![](/static/images/posts/interfere_model_free.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/interference.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/interference.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/interfere_starting.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/interfere_starting.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/interfere_model_free.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/interfere_model_free.mp4" type="video/mp4"></video>
 
 Stepwise inaction seems not to impose any perverse incentives.[^3] I think it's probably just the correct baseline for near-term agents. In terms of the AU landscape, stepwise penalizes each ripple of impact the agent has on its environment. Each action creates a new penalty term status quo, which implicitly accounts for the fact that other things in the world might respond to the agent's actions.
 
@@ -201,14 +201,16 @@ Is this right, and can AUP scale?
 
 Partnership on AI recently [released](https://www.partnershiponai.org/safelife/) the SafeLife side effect benchmark. The worlds are procedurally generated, sometimes stochastic, and have a huge state space (~Atari-level complexity).
 
-We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="/static/images/posts/red-dot.png" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="/static/images/posts/green-dot.png" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="https://assets.turntrout.com/static/images/posts/red-arch.avif" alt="red archway in SafeLife" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
+We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="https://assets.turntrout.com/static/images/posts/red-arch.avif" alt="red archway in SafeLife" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
 
 
-![](/static/images/posts/safelife_mess1.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife_mess1.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife_mess1.mp4" type="video/mp4"></video>
+
 Figure: A rare instance of naive RL doing quite well. 
 <br/>
 
-![](/static/images/posts/safelife_mess2.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife_mess2.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife_mess2.mp4" type="video/mp4"></video>
+
 Figure: Usually, naive RL has lots of side effects. Notice the green dots going haywire due to the agent's actions!
 
 That naive "random reward function" trick we pulled in the gridworlds isn't gonna fly here. The sample complexity would be nuts. There are probably millions of states in any given level, each of which could be the global optimum for the uniformly randomly generated reward function.
@@ -229,8 +231,8 @@ And we're done.
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
        <source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4">
      </video>
-     <img src="/static/images/posts/safelife2.gif" style="width: 100%; height: 100%; object-fit: cover; margin: 0" />
-     <img src="/static/images/posts/safelife3.gif" style="width: 100%; height: 100%; object-fit: cover; margin: 0" />
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
        <source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4">
      </video>
@@ -240,9 +242,10 @@ No model, no rollouts, a _single randomly-generated_ reward function gets us all
 
 To be frank, this is crazy. I'm not aware of any existing theory explaining these results, which is why I proved a bajillion theorems last summer to start to get a formal understanding (some of which became [the results on instrumental convergence and power-seeking](https://arxiv.org/abs/1912.01683)).
 
-Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="/static/images/posts/green-dot.png" alt="green dot"/> start going nuts because of the agent's actions:
+Here's the lowdown. Consider any significant change to the level. For the same reason that instrumental convergence happens, this change probably tweaks the attainable utilities of a lot of different reward functions. Imagine that the green cells <img class="inline-img" src="/static/images/postshttps://assets.turntrout.com/static/images/posts/green-dot.avif" alt="green dot"/> start going nuts because of the agent's actions:
 
-![](/static/images/posts/ppo_shown.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/ppo_shown.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/ppo_shown.mp4" type="video/mp4"></video>
+
 Figure: This is PPO shown, not AUP.
 
 A lot of the time, it's very hard to undo what you just did. While it's also hard to undo significant actions you take for your primary goal, you get directly rewarded for those. So, preserving the AU of a random goal usually persuades you to not make "unnecessary changes" to the level.

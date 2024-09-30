@@ -543,7 +543,8 @@ img, video {
   max-width: 100%;
 
   article > p &,
-  article > & {
+  article > &,
+  article > figure & {
     margin-left: auto;
     margin-right: auto;
     display: block;

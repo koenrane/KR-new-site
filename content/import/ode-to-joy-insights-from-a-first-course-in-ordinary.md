@@ -43,6 +43,7 @@ skip_import: true
 Sometimes, it's easier to say how things change than to say how things are.
 
 <video autoplay loop muted playsinline src="/static/images/posts/WCYZkZ4.mp4" type="video/mp4"><source src="/static/images/posts/WCYZkZ4.mp4" type="video/mp4"></video>
+
 Figure: From [3Blue1Brown: Differential Equations](https://www.youtube.com/watch?v=p_di4Zn4wz4)
 
 When you write down a differential equation, you're specifying constraints and information about e.g. how to model something in the world. This gives you a family of solutions, from which you can pick out any function you like, depending on details of the problem at hand.
