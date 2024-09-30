@@ -113,9 +113,14 @@ Code: For more background on training and architecture and task set, see [the or
 ![](https://assets.turntrout.com/static/images/posts/vpfzpqv3tkzmu0glog3e.avif)
 <br/>Figure: During RL training, cheese was randomly located in the top-right 5x5 corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?
 
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline>
+  <source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4">
+</video>
 <br/>Figure: Sometimes, the agent goes to the cheese.
 
+<video autoplay loop muted playsinline>
+  <source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4">
+</video>
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/cl7cobzn4pqpwfxotgco.mp4" type="video/mp4"></video>
 <br/>Figure: Sometimes, the agent ignores the cheese. (Maze colors vary.)
 

@@ -71,7 +71,7 @@ def test_video_conversion(temp_dir: Path, video_ext: str) -> None:
     utils.create_test_video(input_file)
     original_size: int = input_file.stat().st_size
 
-    compress.video(input_file)
+    compress.to_hevc_video(input_file)
 
     mp4_file: Path = input_file.with_suffix(".mp4")
     assert mp4_file.exists()  # Check if MP4 file was created
@@ -83,14 +83,14 @@ def test_convert_mp4_fails_with_non_existent_file(temp_dir: Path) -> None:
     input_file = temp_dir / "non_existent_file.mov"
 
     with pytest.raises(FileNotFoundError):
-        compress.video(input_file)
+        compress.to_hevc_video(input_file)
 
 def test_convert_mp4_fails_with_invalid_extension(temp_dir: Path) -> None:
     input_file = temp_dir / "fakefile.fake"
     input_file.touch()
 
     with pytest.raises(ValueError):
-        compress.video(input_file)
+        compress.to_hevc_video(input_file)
 
 def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
     input_file: Path = temp_dir / "test.mp4"
@@ -99,7 +99,7 @@ def test_convert_mp4_skips_if_mp4_already_exists(temp_dir: Path) -> None:
     stdout_capture = StringIO()
     sys.stdout = stdout_capture
 
-    compress.video(input_file)
+    compress.to_hevc_video(input_file)
     sys.stdout = sys.__stdout__
 
     assert "Skipping conversion" in stdout_capture.getvalue()
@@ -109,7 +109,7 @@ def test_error_probing_codec(temp_dir: Path) -> None:
     input_file.touch()
 
     with pytest.raises(RuntimeError):
-        compress.video(input_file)
+        compress.to_hevc_video(input_file)
 
 def test_compress_gif(temp_dir: Path) -> None:
     """Test that a GIF file is successfully converted to MP4."""

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json
 import tempfile 
 import argparse
 import sys
@@ -57,8 +58,8 @@ ALLOWED_EXTENSIONS: Collection[str] = (
 )
 
 
-VIDEO_QUALITY: int = 23  # Default quality (0-51). Lower is better but slower.
-def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
+VIDEO_QUALITY: int = 28  # Default quality (0-51). Lower is better but slower.
+def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     """Converts a video to mp4 format using ffmpeg with HEVC encoding, if not already HEVC."""
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
@@ -127,7 +128,6 @@ def video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
 
     print(f"Successfully converted {video_path} to HEVC: {output_path}")
 
-import json
 
 def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
     """
@@ -210,6 +210,6 @@ if __name__ == "__main__":
     if args.type == "image":
         image(args.path, args.quality)
     elif args.type == "video":
-        video(args.path, args.quality)
+        to_hevc_video(args.path, args.quality)
     else:
         raise ValueError(f"Error: Unsupported file type '{args.type}'. Supported types are: image or video.")
