@@ -6,6 +6,7 @@ from .. import convert_assets
 from . import utils as test_utils
 from .. import utils as script_utils
 import subprocess
+import re
 
 
 # --- Pytest Fixtures ---
@@ -255,3 +256,39 @@ def test_video_patterns(
 
     assert source_pattern == expected_source_pattern
     assert target_pattern == expected_target_pattern
+
+
+# Test that newlines are added after video tag when it's followed by a figure caption
+def test_video_figure_caption_formatting(setup_test_env):
+    test_dir = Path(setup_test_env)
+    content_dir = test_dir / "content"
+    
+    # Create a test markdown file with the pattern we want to change
+    test_md = content_dir / "test_video_figure.md"
+    test_content = """
+    Some content before
+    
+    </video>
+    <br/>Figure: This is a caption
+    
+    Some content after
+    """
+    test_md.write_text(test_content)
+    
+    # Create a dummy video file
+    dummy_video = test_dir / "quartz/static/test_video.mp4"
+    test_utils.create_test_video(dummy_video)
+    
+    # Run the conversion
+    convert_assets.convert_asset(
+        dummy_video,
+        md_replacement_dir=content_dir
+    )
+    
+    # Read the content of the file after conversion
+    with open(test_md, "r") as f:
+        converted_content = f.read()
+    
+    # Check if the pattern has been correctly modified
+    expected_pattern = r"</video>\n\nFigure: This is a caption"
+    assert re.search(expected_pattern, converted_content), f"Expected pattern not found in:\n{converted_content}"

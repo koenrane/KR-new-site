@@ -107,7 +107,7 @@ def convert_asset(
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
         output_file = input_file.with_suffix(".mp4")
-        compress.video(input_file)
+        compress.to_hevc_video(input_file)
 
         original_pattern, replacement_pattern = _video_patterns(input_file)
 
@@ -120,6 +120,14 @@ def convert_asset(
         with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
+        
+        # Add a second pass to handle the </video><br/>Figure: pattern
+        content = re.sub(
+            r'</video>\s*<br/?>\s*Figure:',
+            '</video>\n\nFigure:',
+            content
+        )
+        
         with open(md_file, "w", encoding="utf-8") as file:
             file.write(content)
 
