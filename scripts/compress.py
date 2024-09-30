@@ -122,7 +122,7 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
         raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
         # TODO this doesn't always work
-        original_path = output_path.with_name(output_path.name + "_original")
+        original_path = output_path.with_stem(output_path.stem + "_original")
         if original_path.exists():
             original_path.unlink()
 
