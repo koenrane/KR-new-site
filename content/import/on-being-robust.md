@@ -27,12 +27,14 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/10/2020
 original_url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
+skip_import: true
 ---
-_Inspired in part by [Being a Robust Agent](https://www.lesswrong.com/posts/2jfiMgKkh7qw9z8Do/being-a-robust-agent). Flipside of "Half-assing it with everything you've got"._
+> [!thanks]
+> Inspired in part by `Raemon`'s [Being a Robust Agent](https://www.lesswrong.com/posts/2jfiMgKkh7qw9z8Do/being-a-robust-agent).
 
 Do you ever feel... fake? Like, at any minute, Scooby Doo and the gang might roll up and unmask you as a _freeloading fraud [impostor](https://en.wikipedia.org/wiki/Impostor_syndrome) in front of everyone_?
 
-<video autoplay loop muted playsinline src="/static/images/posts/rwcNnVH.mp4" type="video/mp4"><source src="/static/images/posts/rwcNnVH.mp4" type="video/mp4"></video>
+![](rwcNnVH.gif)
 
 There are a lot of things to say about the impostor syndrome on a psychological basis (the fears are often unrealistic / unmerited, etc). But I'd like to take another angle. For a few years, I've tried to just make a habit of _being un-unmaskable_. Although this is a useful frame for me, your mileage may vary.
 
