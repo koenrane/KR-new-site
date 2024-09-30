@@ -194,22 +194,22 @@ if __name__ == "__main__":
         "-q",
         "--quality",
         type=int,
-        default=QUALITY,
+        default=None,
         help="Quality (0-100 for images)",
-    )
-    parser.add_argument(
-        "-t",
-        "--type",
-        type=str,
-        default="image",
-        help="Type of asset to compress (image or video)",
     )
 
     args: argparse.Namespace = parser.parse_args()
-
-    if args.type == "image":
-        image(args.path, args.quality)
-    elif args.type == "video":
-        to_hevc_video(args.path, args.quality)
+    if args.path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
+        arg_type = "image"
+    elif args.path.suffix.lower() in ALLOWED_VIDEO_EXTENSIONS:
+        arg_type = "video"
     else:
-        raise ValueError(f"Error: Unsupported file type '{args.type}'. Supported types are: image or video.")
+        raise ValueError(f"Error: Unsupported file type '{args.path.suffix}'.")
+
+    if args.quality is None:
+        args.quality = IMAGE_QUALITY if arg_type == "image" else VIDEO_QUALITY
+
+    if arg_type == "image":
+        image(args.path, args.quality)
+    elif arg_type == "video":
+        to_hevc_video(args.path, args.quality)
