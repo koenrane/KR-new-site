@@ -175,9 +175,9 @@ describe("noteAdmonition", () => {
     expect(noteAdmonition(input)).toBe(expected)
   })
 
-  it("Allows emphasis", () => {
+  it("Deletes emphasis", () => {
     const input = "**NOTE: This contains emphasis.**"
-    const expected = "\n> [!note]\n>\n> **This contains emphasis.**"
+    const expected = "\n> [!note]\n>\n> This contains emphasis."
     expect(noteAdmonition(input)).toBe(expected)
   })
 
@@ -188,6 +188,11 @@ describe("noteAdmonition", () => {
 
   it('should handle "note:" at the beginning of a line', () => {
     const input = "Some text.\nnote: A note at the start of a line."
+    const expected = "Some text.\n\n> [!note]\n>\n> A note at the start of a line."
+    expect(noteAdmonition(input)).toBe(expected)
+  })
+  it('should handle italicized "note:" at the beginning of a line', () => {
+    const input = "Some text.\n_note:_ A note at the start of a line."
     const expected = "Some text.\n\n> [!note]\n>\n> A note at the start of a line."
     expect(noteAdmonition(input)).toBe(expected)
   })
