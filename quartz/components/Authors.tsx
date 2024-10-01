@@ -18,7 +18,7 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
 
   return (
     <span class="authors">
-      <p style="text-indent: -.2rem; padding-left: .2rem">{authors}</p>
+      <p style="text-indent: -.2rem; padding-left: .2rem; line-height: 1.25rem">{authors}</p>
       {publicationInfo !== <></> && <p>{publicationInfo}</p>}
     </span>
   )
