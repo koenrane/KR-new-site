@@ -148,11 +148,7 @@ See [here](https://www.statlect.com/asymptotic-theory/convergence-in-probability
 
 Fairly straightforward.
 
-<<<<<<< HEAD
-<video autoplay loop muted playsinline src="https://https://assets.turntrout.com/static/images/posts/Convergence_in_distribution_%28sum_of_uniform_rvs%29.mp4" type="video/mp4"><source src="https://https://assets.turntrout.com/static/images/posts/Convergence_in_distribution_%28sum_of_uniform_rvs%29.mp4" type="video/mp4"></video>
-=======
-<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/Convergence_in_distribution_%28sum_of_uniform_rvs%29.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/Convergence_in_distribution_%28sum_of_uniform_rvs%29.mp4" type="video/mp4"></video>
->>>>>>> parent of 2211be3 (Downloaded a lot more media files)
+![](converge_distribution.gif)
 
 A similar [^1] geometric intuition:
 

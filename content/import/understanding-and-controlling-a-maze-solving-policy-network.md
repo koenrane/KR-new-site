@@ -238,20 +238,22 @@ To understand the network, we tried various hand-designed model edits. These edi
 <figure>
 <div style="display:flex; justify-content: center; ">
 <div class="subfigure">
-<img src="asset_staging/original_maze-1.png" alt="The original probability vectors. The mouse seems 'torn' between the cheese and the right side of the maze."/>
+<img src="https://assets.turntrout.com/static/images/posts/original_maze_field.avif" alt="The original probability vectors. The mouse seems 'torn' between the cheese and the right side of the maze."/>
+<figcaption>(a) Original probabilities</figcaption>
 </div>
 <div class="subfigure">
-<img src="asset_staging/modified_maze.png" alt="The modified probability vectors. The mouse goes to the right side of the maze, ignoring the cheese."/>
+<img src="https://assets.turntrout.com/static/images/posts/modified_maze.avif" alt="The modified probability vectors. The mouse goes to the right side of the maze, ignoring the cheese."/>
+<figcaption>(b) Steered probabilities</figcaption>
 </div>
 <div class="subfigure">
-<img src="asset_staging/steered_minus_original.png" alt="The change in the action probability vectors, shown in green. They point away from the cheese."/>
+<img src="https://assets.turntrout.com/static/images/posts/maze_field_diff.avif" alt="The change in the action probability vectors, shown in green. They point away from the cheese."/>
+<figcaption>(c) Steered minus original</figcaption>
 </div>
 </div>
 <figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  
 <br/>**Middle:** For any steering modification we make to forward passes, we plot the new probability vectors induced by the modified forward passes.  <br/>
-**Right:** The "vector field diff", computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
+**Right:** The “vector field diff”, computed as (steered minus original) for each valid position in the maze. At a glance, we understand the behavioral effect of modifying the network.</figcaption>
 </figure>
-
 
 On [Team Shard](matsprogram.org/mentors), we run fast experiments ASAP, looking for the fastest way to get interesting information. Who cares about a lit review or some fancy theory, when you can try something interesting immediately? 
 
