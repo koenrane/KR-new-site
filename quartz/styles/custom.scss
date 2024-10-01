@@ -84,6 +84,10 @@ dd > ol:first-child {
   margin-top: 0;
 }
 
+dd > p:last-child {
+  margin-bottom: calc(.5 * $baseMargin);
+}
+
 .footnotes ol > li::before {
   margin-right: calc(0.25 * $baseMargin);
 }
