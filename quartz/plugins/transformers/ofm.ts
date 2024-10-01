@@ -161,8 +161,12 @@ async function downloadMermaid() {
     }
     fs.writeFileSync(OUTPUT_FILE, response.data);
   } catch (error) {
-    console.error('Failed to download Mermaid file. Aborting build process.');
-    throw error;
+    console.error('Failed to download Mermaid file.');
+
+    // If we don't have any mermaid file, abort
+    if (!fs.existsSync(OUTPUT_FILE)) {
+      throw error;
+    }
   }
 }
 
