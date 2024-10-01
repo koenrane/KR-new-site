@@ -29,8 +29,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/07/2023
 original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
-s
-ip_import: true
+skip_import: true
 ---
 For a range of language models and a range of input prompts, the norm of each residual stream grows exponentially over the forward pass, with average per-layer growth rate of about 1.045 in GPT-2-XL. We show a bunch of evidence for this. We discuss to what extent different weights and parts of the network are responsible. 
 
@@ -203,7 +202,7 @@ Transformers might sometimes want to delete information from the residual stream
 
 Alternatively, the model could write all new information with an increased norm. An exponential growth would make the most recent layers have an exponentially larger effect on the residual stream at any given layer.
 
-However, this is complicated by weight decay, which is a term in the loss that penalizes large weight magnitudes. While we analyzed GPT-2-XL's weights in this post, we also earlier displayed similar residual stream norm trends for a range of models. The [OPT](https://arxiv.org/pdf/2205.01068.pdf) and [GPT-Neo](https://github.com/EleutherAI/gpt-neo) models were trained with weight decay of 0.1, while the [Pythia models](https://arxiv.org/pdf/2304.01373.pdf) were trained with 0.01. We don't know about distilgpt2 or the normal GPT-2-series. If models trained with weight decay _still_ exhibit weight norms which increase exponentially with layer number, then that means _something_ is happening which somehow merits an exponential hit to loss.[^9]
+However, this is complicated by weight decay, which is a term in the loss that penalizes large weight magnitudes. While we analyzed GPT-2-XL's weights in this post, we also earlier displayed similar residual stream norm trends for a range of models. The [OPT](https://arxiv.org/pdf/2205.01068.pdf) and [GPT-Neo](https://github.com/EleutherAI/gpt-neo) models were trained with weight decay of 0.1, while the [Pythia models](https://arxiv.org/pdf/2304.01373.pdf) were trained with 0.01. We don't know about `distilgpt2` or the normal GPT-2 series. If models trained with weight decay _still_ exhibit weight norms which increase exponentially with layer number, then that means _something_ is happening which somehow merits an exponential hit to loss.[^9]
 
 ETA 5/7/23:  Apparently, LN parameters are often excluded from weight decay. For example, see the [minGPT](https://github.com/karpathy/minGPT/blob/3ed14b2cec0dfdad3f4b2831f2b4a86d11aef150/mingpt/model.py#L136) implementation. This means that the gain parameters can freely magnify the LN output,without incurring extra regularization loss. However, this _also_ suggests that $W_\text{in}$ and $W_{OV}$ should in general become extremely tiny, up to precision limits. This is because their norm can be folded into the LN parameters in order to avoid regularization penalties.
 
@@ -283,7 +282,7 @@ The plot below also explains the difference in L2 norm between actual `mlp_out` 
 [^1]: Note on norm, variance, and mean of the residual stream: All our models' residual streams have mean zero. One can always rewrite the model weights to make the residual stream mean zero, by subtracting the mean of weights from the weights themselves. We use the [TransformerLens library which does this](https://neelnanda-io.github.io/TransformerLens/transformer_lens.html#transformer_lens.HookedTransformer.HookedTransformer.center_writing_weights) by default (`center_writing_weights`). Then the L2 norm $||x||_2$ and variance or standard deviation are related
     
 	$$
-    {\rm Var} = E[(x-\mu)^2]-E[x]^2 = E[x^2] = ||x||_2^2/D\\ ,\quad {\rm Std}=||x||_2/\sqrt{D}
+    {\rm Var} = E[(x-\mu)^2]-E[x]^2 = E[x^2] = ||x||_2^2/D,\\ \quad {\rm Std}=||x||_2/\sqrt{D}
 	$$
     
     with the residual stream size $D$.
