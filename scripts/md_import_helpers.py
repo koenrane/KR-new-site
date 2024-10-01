@@ -40,6 +40,7 @@ SKIP_POSTS = set(
         "ambiguity-detection",
         "ai-alignment-corvallis-weekly-info",
         "turntrout-s-shortform-feed",
+        "does-there-exist-an-agi-level-parameter-setting-for-modern",
     ]
 )
 
