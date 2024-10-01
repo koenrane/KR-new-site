@@ -31,7 +31,21 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/09/2023
 original_url: https://www.lesswrong.com/posts/7M2iHPLaNzPNXHuMv/ai-presidents-discuss-ai-alignment-agendas
+no_dropcap: "true"
+video_preview_link: https://assets.turntrout.com/US%20presidents%20rate%20alignment%20agendas.mp4
+skip_import: true
 ---
-None of the presidents fully represent my (`TurnTrout`'s) views.
 
-`TurnTrout` wrote the script. Garrett Baker helped produce the video after the audio was complete. Thanks to David Udell, Ulisse Mini, Noemi Chulo, and especially Rio Popper for feedback and assistance in writing the script.
+<video controls width="100%">
+	<source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/>
+</video>
+
+The video is also [available on YouTube](https://www.youtube.com/watch?v=02kbWY5mahQ).
+
+> [!warning] Disclaimer
+>
+> None of the presidents fully represent my (TurnTrout's) views.
+
+> [!credits]
+> 
+> TurnTrout wrote the script. Garrett Baker helped produce the video after the audio was complete. Thanks to David Udell, Ulisse Mini, Noemi Chulo, and especially Rio Popper for feedback and assistance in writing the script.
