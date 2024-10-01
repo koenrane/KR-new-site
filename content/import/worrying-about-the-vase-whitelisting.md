@@ -28,6 +28,7 @@ lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 06/16/2018
 original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
+skip_import: true
 ---
 
 > [!quote] Quotes
@@ -56,7 +57,7 @@ In effect, side effect avoidance aims to decrease how careful we have to be with
 
 However, we just can't enumerate [all the bad things that the agent could do](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes). How do we avoid these extreme over-optimizations robustly?
 
-Several impact measures have been proposed, including state distance, which we could define as, say, total particle displacement. This could be measured either naively (with respect to the original state) or counterfactually (with respect to the expected outcome had the agent taken no action).
+Several impact measures have been proposed, including state distance, which we could define as - say - total particle displacement. This could be measured either naively (with respect to the original state) or counterfactually (with respect to the expected outcome had the agent taken no action).
 
 These approaches have some problems:
 
@@ -103,11 +104,12 @@ Therefore, you avoid breaking vases by default.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vase_avoid.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vase_avoid.mp4" type="video/mp4"></video>
 
-### Common Confusions
+Here are some notes to head off confusion:
 
 - We are _not _whitelisting entire states or transitions between them; we whitelist specific changes in our beliefs about the ontological decomposition of the current state.[^3]
 - The whitelist is in addition to whatever utility or reward function we supply to the agent.
 - Whitelisting is compatible with counterfactual approaches. For example, we might penalize a transition after its "quota" has been surpassed, where the quota is how many times we would have observed that transition had the agent not acted.
+	- This implies the agent will do no worse than taking no action at all. However, this may still be undesirable. This problem will be discussed in further detail.
 - The whitelist is provably closed under transitivity.
 - The whitelist is directed; $a\to b \neq b\to a$.
 
@@ -126,17 +128,23 @@ Basically, the dissimilarity for an observed change is the distance to the close
 
 ## Advantages
 
-Whitelisting asserts that we can effectively encapsulate a large part of what "change" means by using a reasonable ontology to penalize object-level changes. We thereby ground the definition of "side effect", avoiding the issue [raised by Taylor et al.](https://intelligence.org/2016/07/27/alignment-machine-learning/):
+Whitelisting asserts that we can effectively encapsulate a large part of what "change" means by using a reasonable ontology to penalize object-level changes. We thereby ground the definition of "side effect", avoiding certain thorny issues.
 
+> [!quote] [Taylor et al.](https://intelligence.org/2016/07/27/alignment-machine-learning/):
 > For example, if we ask \[the agent\] to build a house for a homeless family, it should know implicitly that it should avoid destroying nearby houses for materials - a large side effect. However, we cannot simply design it to avoid having large effects in general, since we would like the system's actions to still have the desirable large follow-on effect of improving the family's socioeconomic situation.
 
 Nonetheless, we may not be able to perfectly express what it means to have side-effects: the whitelist may be incomplete, the latent space insufficiently granular, and the allowed plans sub-optimal. However, the agent still becomes _more_ robust against:
 
 - Incomplete specification of the utility function.
+	- Likewise, an incomplete whitelist means missed opportunities, but not unsafe behavior.
 - Out-of-distribution situations (as long as the objects therein _roughly_ fit in the provided ontology).
 - Some varieties of reward hacking. For example, equipped with a can of blue spray paint and tasked with finding the shortest path of blue tiles to the goal, a normal agent may learn to paint red tiles blue, while a whitelist-enabled agent would incur penalties for doing so ($\textit{redTile} \to \textit{blueTile} \not \in whitelist$).
 - Dangerous exploration. While this approach does not attempt to achieve _safe exploration _(also acting safely during training), an agent with some amount of foresight will learn to avoid actions which likely lead to non-whitelisted side effects.
+	- I believe that this can be further sharpened using _today's_ machine learning technology, leveraging deep Q-learning to predict both action values and expected transitions.
+		- This allows querying the human about whether particularly-inhibiting transitions belong on the whitelist. For example, if the agent notices that a bunch of otherwise-rewarding plans are being held up by a particular transition, it could ask for permission to add it to the whitelist.
 - Assigning astronomically-large weight to side effects happening throughout the universe. Presumably, we can just have the whitelist include transitions going on out there - we don't care as much about dictating the exact mechanics of distant supernovae.
+	- If an agent _did_ somehow come up with plans that involved blowing up distant stars, that would indeed constitute [astronomical waste](https://nickbostrom.com/astronomical/waste.html).<sup>a triple pun?</sup> Whitelisting doesn't _solve_ the problem of assigning too much weight to events outside our corner of the neighborhood, but it's an improvement.
+		  - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
 
 ## Results
 
@@ -154,7 +162,11 @@ At reasonable levels of noise, the whitelist-enabled agent completed all levels 
 > I am not asserting that these assumptions necessarily hold.
 > 
 > - The agent has some world model or set of observations which can be decomposed into a set of discrete objects.
+> 	- Furthermore, there is no need to identify objects on multiple levels (e.g., a forest, a tree in the forest, and that tree's bark need not all be identified concurrently).
+> 	- Not all objects need to be represented - what do we make of a 'field', or the 'sky', or 'the dark places between the stars visible to the naked eye'? Surely, these are not all _objects_.
 > - We have an ontology which reasonably describes (directly or indirectly) the vast majority of negative side effects.
+> 	- Indirect descriptions of negative outcomes means that even if an undesirable transition isn't immediately penalized, it generally results in a number of penalties. Think: pollution.
+> 	- Latent space whitelisting: the learned latent space encapsulates most of the relevant side effects. This is a slightly weaker assumption.
 > - Said ontology remains in place.
 
 # Problems
@@ -226,6 +238,8 @@ Let's step back into the human realm for a moment. Consider some outcome - say, 
 - I set in motion a moderately-complex chain of events which convince someone to start the fire.
 - I provoke a butterfly effect which ends up starting the fire.
 - I provoke a butterfly effect which ends up convincing someone to start a fire which they:
+	- were predisposed to starting.
+	- were not predisposed to starting.
 
 Taken literally, I don't know that there's actually a significant difference in "responsibility" between these outcomes - if I take the action, the effect happens; if I don't, it doesn't. My initial impression is that uncertainty about the results of our actions pushes us to view some effects as "under our control" and some as "out of our hands". Yet, _if_ we had complete knowledge of the outcomes of our actions, and we took an action that landed us in a California-forest-fire world, whom could we blame but ourselves?[^6]
 
@@ -252,6 +266,7 @@ I recommend reading it - it's to-the-point, and he makes good points.
 Here are three further thoughts:
 
 - Intuitively-accessible vantage points can help us explore our unstated assumptions and more easily extrapolate outcomes. If less mental work has to be done to put oneself in the scenario, more energy can be dedicated to finding nasty edge cases. For example, it's probably harder to realize [all the things that go wrong with naive impact measures like raw particle displacement](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#low-impact-agents), since it's just a _weird _frame through which to view the evolution of the world. I've found it to be substantially easier to extrapolate through the frame of something like whitelisting**.**[^7]
+	- I've already adjusted for the fact that one's own ideas are often more familiar and intuitive, and then adjusted for the fact that I probably didn't adjust enough the first time.
 - Imperfect results are often left unstated, wasting time and obscuring useful data. That is, people cannot see what has been tried and what roadblocks were encountered.
 - Promising approaches** **may be conceptually-close to correct solutions. My intuition is that whitelisting actually _almost works_ in the limit in a way that might be important.
 

@@ -549,6 +549,7 @@ a.internal.tag-link {
 img, video {
   width: fit-content;
   max-width: 100%;
+  margin-bottom: calc(2 * $baseMargin);
 
   article > p &,
   article > &,
@@ -560,8 +561,6 @@ img, video {
 }
 
 img {
-  margin-bottom: calc(2 * $baseMargin);
-
   &.inline-img {
     display: inline;
     width: 0.9rem;

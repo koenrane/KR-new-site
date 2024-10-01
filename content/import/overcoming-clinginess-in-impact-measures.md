@@ -28,19 +28,16 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 06/30/2018
 original_url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-clinginess-in-impact-measures
+skip_import: true
 ---
-> [!quote]
+> [!quote]Taylor et al., _[Alignment for Advanced Machine Learning Systems](https://intelligence.org/files/AlignmentMachineLearning.pdf)_
 >
 > It may be possible to use the concept of a causal counterfactual ([as formalized by Pearl](https://www.amazon.com/Causality-Reasoning-Inference-Judea-Pearl/dp/052189560X)) to separate some intended effects from some unintended ones. Roughly, "follow-on effects" could be defined as those that are causally downstream from the achievement of the goal... With some additional work, perhaps it will be possible to use the causal structure of the system's world-model to select a policy that has the follow-on effects of the goal achievement but few other effects.
->
-> Taylor et al., _[Alignment for Advanced Machine Learning Systems](https://intelligence.org/files/AlignmentMachineLearning.pdf)_
 
-_In which I outline a solution to the clinginess problem and illustrate a potentially-fundamental trade-off between assumptions about the autonomy of humans and about the responsibility of an agent for its actions._
+> [!summary]
+> I outline a solution to the clinginess problem and illustrate a potentially-fundamental trade-off between assumptions about the autonomy of humans and about the responsibility of an agent for its actions.
 
-Consider two plans for ensuring that a cauldron is full of water:
-
-- Filling the cauldron.
-- Filling the cauldron and submerging the surrounding room.
+Consider two plans for ensuring that a cauldron is full of water: (1) filling the cauldron, or (2) filling the cauldron and submerging the surrounding room.
 
 All else equal, the latter plan does better in expectation, as there are fewer ways the cauldron might somehow become not-full (e.g. evaporation, and the minuscule loss of utility that would entail). However, the latter plan "changes" more "things" than we had in mind.
 
@@ -50,20 +47,20 @@ I [designed](/whitelisting-impact-measure) an impact measure called _whitelistin
 
 # Clinginess
 
-> [!quote]
+> [!quote] [Worrying about the vase: Whitelisting](/whitelisting-impact-measure#clinginess)
 >
 > An agent is _clingy_ when it not only stops itself from having certain effects, but also stops _you_.
 >
 > ...
 >
 > Consider some outcome - say, the sparking of a small forest fire in California. At what point can we truly say we didn't start the fire?
-
-- I immediately and visibly start the fire.
-- I intentionally persuade someone to start the fire.
-- I unintentionally (but perhaps predictably) incite someone to start the fire.
-- I set in motion a moderately-complex chain of events which convince someone to start the fire.
-- I provoke a butterfly effect which ends up starting the fire.
-
+> 
+> - I immediately and visibly start the fire.
+> - I intentionally persuade someone to start the fire.
+> - I unintentionally (but perhaps predictably) incite someone to start the fire.
+> - I set in motion a moderately-complex chain of events which convince someone to start the fire.
+> - I provoke a butterfly effect which ends up starting the fire.
+> 
 > Taken literally, I don't know that there's actually a significant difference in "responsibility" between these outcomes - if I take the action, the effect happens; if I don't, it doesn't. My initial impression is that uncertainty about the results of our actions pushes us to view some effects as "under our control" and some as "out of our hands". Yet, _if_ we had complete knowledge of the outcomes of our actions, and we took an action that landed us in a California-forest-fire world, whom could we blame but ourselves?
 
 Since we can only blame ourselves, we should take actions which do not lead to side effects. These actions may involve enacting impact measure-preventing precautions throughout the light cone, since the actions of other agents and small ripple effects of ours could lead to significant penalties if left unchecked.
@@ -80,28 +77,33 @@ We're going to isolate the effects for which the agent is responsible over the c
 
 - we're dealing with game-theoretic agents which make a choice each turn (see: [could/should agents](https://www.lesswrong.com/s/XipJ7DMjYyriAm7fr/p/gxxpK3eiSQ3XG3DW7)).
 - we can identify all relevant agents in the environment.
+	- This seems difficult to meet robustly, but I don't see a way around it.
 - we can reason counterfactually in a sensible way for all agents.
 
-> [!quote]
+> [!quote] Soares and Fallenstein, _[Questions of Reasoning Under Logical Uncertainty](https://intelligence.org/files/QuestionsLogicalUncertainty.pdf)_
 >
 > It is natural to consider extending standard probability theory to include the consideration of worlds which are "logically impossible" (such as where a deterministic Rube Goldberg machine behaves in a way that it doesn't)... What, precisely, are logically impossible possibilities?
->
-> Soares and Fallenstein, _[Questions of Reasoning Under Logical Uncertainty](https://intelligence.org/files/QuestionsLogicalUncertainty.pdf)_
 
 - the artificial agent is_ omniscient _- it can perfectly model both other agents and the consequences of actions.
+	- We could potentially instead merely assume a powerful model, but this requires extra work and is beyond the scope of this initial foray. Perhaps a distribution model could be used to calculate the action/inaction counterfactual likelihood ratio of a given side effect.
 - we have a good way of partitioning the world into objects and measuring impact; for conceptual simplicity, side effects are discrete and depend on the identities of the objects involved: $\textit{crate}_1 \textit{ broken} \neq \textit{crate}_2 \textit{ broken}$.
+	- This assumption is removed after the thought experiments.
 
 ## Formalization
 
 We formalize our environment as a [stochastic game](https://en.wikipedia.org/wiki/Stochastic_game) $\langle I,\mathcal{S}, \mathcal{A}, P, g\rangle$.
 
-- $I$ is a set containing the stars of today's experiments: the players, $\mathcal{H}$ugh Mann and $\mathcal{M}$a Sheen. Note that $\mathcal{H}$ is not limited to a single human, and can stand in for "everyone else". _Most of the rest of these definitions are formalities, and are mostly there to make me look smart to the uninitiated reader. Oh, and for conceptual clarity, I suppose._
+- $I$ is a set containing the stars of today's experiments: the players, $\mathcal{H}$ugh Mann and $\mathcal{M}$a Sheen. Note that $\mathcal{H}$ is not limited to a single human, and can stand in for "everyone else". 
+
+> [!note] 
+> Most of the rest of these definitions are formalities, and are mostly there to make me look smart to the uninitiated reader. Oh, and for conceptual clarity, I suppose.
 - $\mathcal{S}$ is the state space.
+	- Unless otherwise specified, both $\mathcal{H}$ and $\mathcal{M}$ observe the actions that the other took at previous time steps. Suppose that this information is encoded within the states themselves.
 - $\mathcal{A}$ is the action space. Specifically, the function $A(i,s,t)$ provides the legal actions for player $i$ in state $s$ on turn $t$. The no-op $\varnothing$ is always available. If the variant has a time limit $T\in \mathbb{N}^+$, then $∀i \in I, s \in \mathcal{S}, t>T:A(i,s,t)=\{\varnothing\}$.
 - $P : \mathcal{S} \times \mathcal{S} \times \mathcal{A}\times \mathcal{A} \to\mathbb{R}$ is the transition function $P(s' \,|\,s,a_\mathcal{H}, a_\mathcal{M})$.
 - $g$ is the payoff function.
 
-Let $\Omega$ be the space of possible side effects, and suppose that $\phi:\mathcal{S}\times \mathcal{S}\to \mathcal{P}(\Omega)$ is a reasonable impact measure. $\pi_i : \mathcal{S} \to \mathcal{A}$ is agent $i$'s policy; let $\pi_i^{:t}$ be $\pi_i$ for the first $t$ time steps, and $\varnothing$ thereafter.
+Let $\Omega$ be the space of possible side effects, and suppose that $\phi:\mathcal{S}\times \mathcal{S}\to \mathcal{P}(\Omega)$ is a reasonable impact measure. $\pi_i : \mathcal{S} \to \mathcal{A}$ is agent $i$'s policy; let $\pi^{:t}_{i}$ be $\pi_i$ for the first $t$ time steps, and $\varnothing$ thereafter.
 
 Let $\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})$ be the (set of) effects - both immediate and long-term - that would take place if $\mathcal{H}$ executes $\pi_\mathcal{H}$ and $\mathcal{M}$ executes $π_\mathcal{M}$.
 
@@ -114,8 +116,7 @@ We first consider a single-turn game ($T=1$).
 ### Example
 
 ![](https://assets.turntrout.com/static/images/posts/Si3UhUz.avif)
-
-_Yup, this is about where we're at in alignment research right now._
+Figure: Yup, this is about where we're at in alignment research right now.
 
 ### Approach
 
@@ -173,10 +174,7 @@ Do you see the flaw?
 
 Really, look.
 
-<hr/>
-
-
-The above equation can penalize $\mathcal{M}$ for side effects which don't actually happen. This arises when interrupting $\pi_\mathcal{M}$ causes side effects which would otherwise have been prevented by later parts of the plan. For example, if I push a vase off the table and then catch it (being sure that I could do so in time), I didn't cause a side effect.
+>! The above equation can penalize $\mathcal{M}$ for side effects which don't actually happen. This arises when interrupting $\pi_\mathcal{M}$ causes side effects which would otherwise have been prevented by later parts of the plan. For example, if I push a vase off the table and then catch it (being sure that I could do so in time), I didn't cause a side effect.
 
 We should instead
 
@@ -189,7 +187,7 @@ Those effects which are exact matches to effects actually observed in that time 
 
 The previous solutions are special cases of this formulation.
 
-_Note:_ the number of counterfactual simulations grows as $O(T)$ - crucially, _not_ with the number of agents $\mathcal{H}$ represents.
+_Note:_ The number of counterfactual simulations grows as $O(T)$ - crucially, _not_ with the number of agents $\mathcal{H}$ represents.
 
 ## Applications to Whitelisting
 
@@ -227,4 +225,5 @@ It isn't clear that penalizing the elimination of $\mathcal{H}$ would be helpful
 
 I'm slightly more pessimistic now, as it seems less likely that the problem admits a concise solution that avoids difficult value judgments on what kinds of influence are acceptable. However, I have only worked on this problem for a short time, so I still have a lot of probability mass on having missed an even more promising formulation. If there is such a formulation, my hunch is that it either imposes some kind of counterfactual information asymmetry at each time step or uses some equivalent of the [Shapley value](https://en.wikipedia.org/wiki/Shapley_value).
 
-_I'd like to thank `TheMajor` and Connor Flexman for their feedback._
+> [!thanks]
+> I'd like to thank `TheMajor` and Connor Flexman for their feedback.
