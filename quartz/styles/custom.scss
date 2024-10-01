@@ -303,7 +303,7 @@ figure,
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: calc(0.75 * $baseMargin);
+    // margin-bottom: calc(0.75 * $baseMargin);
   }
 
   & + figure {

@@ -29,6 +29,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 02/26/2018
 original_url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
+skip_import: true
 ---
 # Introduction
 
@@ -167,4 +168,7 @@ We have much work to do. The risks are enormous and the challenges "[impossible]
 - Page 4, left column, last line: why is that  $\cup \:P^t$ - shouldn't we take the union of the outputs and whatever resources _weren't_ used at time  $t$?
 - Page 8, right column, second full paragraph, last line: should be "we have two options available _to_ us".
 
-[^1]: By the axiom of substitution,  $\texttt{Feasible}(\langle P^k\rangle)= \{\langle \bar{a}^k \rangle : \textit{isFeasible}(\langle P^k\rangle, \langle \bar{a}^k \rangle)\}$.
+[^1]: By the axiom of substitution,  
+	$$
+	\texttt{Feasible}(\langle P^k\rangle)= \{\langle \bar{a}^k \rangle : \textit{isFeasible}(\langle P^k\rangle, \langle \bar{a}^k \rangle)\}.
+	$$

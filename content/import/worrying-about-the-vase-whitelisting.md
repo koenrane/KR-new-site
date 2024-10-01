@@ -20,10 +20,11 @@ publish: true
 title: "Worrying about the Vase: Whitelisting"
 lw-latest-edit: 2018-06-16T02:17:08.890Z
 lw-is-linkpost: "false"
-tags: 
-  - "impact-regularization"
-aliases: 
-  - "worrying-about-the-vase-whitelisting"
+tags:
+  - impact-regularization
+  - AI
+aliases:
+  - worrying-about-the-vase-whitelisting
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 06/16/2018
