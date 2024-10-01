@@ -25,6 +25,7 @@ tags:
   - "AI"
   - "shard-theory"
   - "activation-engineering"
+  - "mats-program"
 aliases: 
   - "steering-gpt-2-xl-by-adding-an-activation-vector"
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small

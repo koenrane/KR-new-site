@@ -30,7 +30,7 @@ date_published: 10/02/2022
 original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-loss-in-ai
 skip_import: true
 ---
-_Summary:_ What does it _mean_ for a loss function to be "aligned with" human goals? I perceive four different concepts which involve "loss function" in importantly different ways:
+What does it _mean_ for a loss function to be "aligned with" human goals? I perceive four different concepts which involve "loss function" in importantly different ways:
 
 1.  _Physical-loss:_ The physical implementation of a loss function and the loss computations, 
 2.  _Mathematical-loss:_ The mathematical idealization of a loss function,
@@ -40,7 +40,7 @@ _Summary:_ What does it _mean_ for a loss function to be "aligned with" human go
 I advocate retaining physical- and mathematical-loss. I advocate dropping 3 in favor of talking directly about desired AI cognition and how the loss function entrains that cognition. I advocate disambiguating 4, because it can refer to a range of physically grounded preferences about loss (e.g. low value at the loss register versus making perfect future predictions). 
 
 > [!note]
-> Related to[_Towards deconfusing wireheading and reward maximization_](https://www.lesswrong.com/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization)\.[^1] _I'm going to talk about "loss" instead of "reward", but the lessons apply to both._ 
+> Related to [_Towards deconfusing wireheading and reward maximization_](https://www.lesswrong.com/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization)\.[^1] I'm going to talk about "loss" instead of "reward", but the lessons apply to both.
 
 
 # Four sharply different concepts
