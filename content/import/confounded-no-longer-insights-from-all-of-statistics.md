@@ -148,7 +148,7 @@ See [here](https://www.statlect.com/asymptotic-theory/convergence-in-probability
 
 Fairly straightforward.
 
-![](converge_distribution.gif)
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/converge_distribution.mp4" type="video/mp4"></video>
 
 A similar [^1] geometric intuition:
 

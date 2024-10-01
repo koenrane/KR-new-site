@@ -35,21 +35,22 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/20/2023
 original_url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
+skip_import: true
 ---
-**Summary:** [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
+[Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
 
 ![](https://assets.turntrout.com/static/images/posts/caoymohzzppimjllkqx4.avif)
 
-In this post, we conduct a more thorough statistical analysis, addressing issues of multicollinearity. We show strong evidence that (2) and (3) above are real influences on the agent's decision-making, and weak evidence that (1) is also a real influence. As we speculated in the original post,[^1] (4) falls away as a statistical artifact.
+In this post, we conduct a more thorough statistical analysis, addressing issues of multicollinearity. We show strong evidence that (2) and (3) above are real influences on the agent's decision-making. We show weak evidence that (1) is also a real influence. As we speculated in the original post,[^1] (4) falls away as a statistical artifact.
 
 > [!thanks] Contributions
 >Peli did the stats work and drafted the post, while Alex provided feedback, expanded the visualizations, and ran additional tests for multicollinearity. Some of the work completed in Team Shard under SERI MATS 3.0. 
 
 # Impressions from trajectory videos
 
-Watching videos Langosco et al.'s experiment, we developed a few central intuitions about how the agent behaves. In particular, we tried predicting what the agent does at _decision squares_. From [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network):
+Watching videos Langosco et al.'s experiment, we developed a few central intuitions about how the agent behaves. In particular, we tried predicting what the agent does at _decision squares_. 
 
-> [!quote]
+> [!quote][Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network)
 >
 > Some mazes are easy to predict, because the cheese is _on the way_ to the top-right corner. There's no _decision square_ where the agent has to make the hard choice between the paths to the cheese and to the top-right corner:
 > 
@@ -75,18 +76,18 @@ Our impression is that in the test environment, "closeness to top-right" and "cl
 ![](https://assets.turntrout.com/static/images/posts/08c9e774585ec6db95af820809c24e4c9587d52996e9957a.avif)
 <br/>Figure: The maze on the left is intuitively similar to training mazes: the decision-square, cheese, and top-right are all close to each other. In the maze on the right, the decision-square, cheese, and top-right aren't particularly close to each other.
 
-A second important aspect of our impressions was that the generalization process “interprets” each historical condition in multiple ways: It seemed to us that (e.g.) multiple kinds of distance between the decision-square and cheese may each have an effect on the agent's decision making.
+A second important aspect of our impressions was that the generalization process “interprets” each historical condition in multiple ways. For example, it seemed to us that multiple kinds of distance between the decision-square and cheese may each have an effect on the agent's decision making.
 
 # Statistically informed impressions 
 
 Our revised, precisified impressions about the agent’s behavior on decision-squares are as follows: 
 
 1.  Legal-steps closeness between the mouse and the cheese makes cheese-getting more likely 
-    1.  Low $d_\text{step}(\text{decision-square},\text{cheese})$  increases P(cheese acquired)
+    -  Low $d_\text{step}(\text{decision-square},\text{cheese})$  increases P(cheese acquired)
 2.  Spatial closeness between the cheese and top-right makes cheese-getting more likely 
-    1.  Low $d_\text{Euclidean}(\text{cheese},\text{top-right})$ increases P(cheese acquired)
+    -  Low $d_\text{Euclidean}(\text{cheese},\text{top-right})$ increases P(cheese acquired)
 3.  The effect of closeness is fairly smooth 
-    1.  These distances smoothly affect P(cheese acquired), without rapid jumps or thresholding
+    -  These distances smoothly affect P(cheese acquired), without rapid jumps or thresholding
 4.  Spatial closeness between the mouse and the cheese makes cheese-getting slightly more likely, even after controlling for legal-steps closeness (low confidence)
 
 After extensive but non-rigorous statistical analysis (our stats consultant tells us there are no low-overhead rigorous methods applicable to our situation), we believe that we have strong quantitative evidence in favor of versions of impressions _1)_ through _3)_, and weak quantitative evidence in favor of a version of impression _4)_. 
@@ -119,19 +120,24 @@ We hope to revisit these questions rigorously when our mechanistic understanding
 
 # Procedure and detailed results
 
-_Our analysis can be run in_ [_this Colab_](https://colab.research.google.com/drive/15Cg3glmKPRKsM5fZiDZcE363SHZTPdtl?usp=sharing)\.
+> [!note]
+> Our analysis can be run in [this Colab](https://colab.research.google.com/drive/15Cg3glmKPRKsM5fZiDZcE363SHZTPdtl?usp=sharing)\.
 
 ## Operationalizing intuitive maze properties
 
 Our first step to statistically evaluating our initial impressions about the network’s behavior was to operationalize the concepts featured in our impressions. And since we suspected that the training process generalizes historically significant properties in multiple simultaneous ways, we came up with multiple operationalizations of each relevant concept when possible:
 
-'Top-right': _top-right maze square_ or _5x5 squares area starting from top-right maze square_ 
+"Top-right"
+: `top-right maze square` _or_ `5x5 squares area starting from top-right maze square` 
 
-'Distance': _legal-steps distance_ or _inverse of Euclidean distance_
+"Distance"
+: `legal-steps distance` _or_ `Euclidean distance`
 
-'Distance to top-right': _cheese closeness to top-right_ or _decision-square closeness to top-right_
+"Distance to top-right"
+: `cheese closeness to top-right` _or_ `decision-square closeness to top-right`
 
-'Distance to cheese': _decision-square closeness to cheese_ 
+"Distance to cheese"
+: `decision-square closeness to cheese` 
 
 Our next step was to generate every operationalization of 'closeness to top-right' and 'closeness to cheese' we can construct using these concepts, and do a logistic regression on each to measure its power to predict whether the agent gets the cheese.[^5] 
 
@@ -168,11 +174,10 @@ Note that in these individual regressions, all _successfully predictive_ variabl
 
 As we move on to multiple regressions to try finding out which variables drive these results, we have to work carefully: our various operationalizations of 'closeness' in the mazes are inevitably pretty correlated. 
 
-As Dan Braun [commented](https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network?commentId=6sqGdeAB9baLME55G#comments) on [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) :
 
-> [!quote]
+> [!quote] Dan Braun's [comment](https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network?commentId=6sqGdeAB9baLME55G#comments) on [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network)
 >
-> I'd be weary about interpreting the regression coefficients of features that are correlated (see [Multicollinearity](https://en.wikipedia.org/wiki/Multicollinearity)). Even the sign may be misleading.
+> I'd be \[wary\] about interpreting the regression coefficients of features that are correlated (see [Multicollinearity](https://en.wikipedia.org/wiki/Multicollinearity)). Even the sign may be misleading.
 > 
 > It might be worth making a cross-correlation plot of the features. This won't give you a new coefficients to put faith in, but it might help you decide how much to trust the ones you have. It can also be useful looking at how unstable the coefficients are during training (or e.g. when trained on a different dataset).
 
@@ -193,10 +198,10 @@ Our statistician friend suggested that in situations like this it's most instruc
 
 ## Finding stably predictive variables with multiple regressions
 
-Let's take the predictively successful variables from the individual regressions -- the variables that scored better than ‘no-regression’ -- and perform an L1 regularized multiple regression to see which variables remain predictive without sign-flipping. We average over 2000 randomized test/train splits:
+Let's take the predictively successful variables from the individual regressions -- the variables that scored better than ‘no-regression’ -- and perform an L1 regularized multiple regression to see which variables remain predictive without sign-flipping. 
 
-| Regression accuracy | 84.1% || **Attribute** | Coefficient |
-| --- | --- |
+| **Attribute** | Coefficient |
+| --: | :-- |
 | Steps between cheese and top-right 5x5 | \-0.003 |
 | Euclidean distance between cheese and top-right 5x5 | 0.282 |
 | Steps between cheese and top-right square | 1.142 |
@@ -205,19 +210,21 @@ Let's take the predictively successful variables from the individual regressions
 | **Euclidean distance between cheese and decision-square** | \-0.523 |
 | Intercept | 1.418 |
 
+Table: Overall regression accuracy is 84.1%. Averaged over 2,000 randomized train/test splits.
+
 We see that three of our individually predictive variables made it through without a sign-flip: 
 
 1.  **Euclidean distance from cheese to top-right square**
 2.  **Legal steps distance from decision-square to cheese**
 3.  **Euclidean distance from decision-square to cheese**
 
-Variables 1)-3) line-up with our best guesses about mechanisms based on informal observation and (messy) exploratory statistics, so it's good news that the simple procedure 'check which individually significant variables don't sign-flip' recovers them. 
+Variables 1-3) line-up with our best guesses about mechanisms based on informal observation and (messy) exploratory statistics, so it's good news that the simple procedure 'check which individually significant variables don't sign-flip' recovers them. 
 
 These are also the three main features which we noted in the original post. (We had noted that the fourth feature $d_\text{Euclidean}(\text{decision-square},\text{5x5})$ has a strange, positive regression coefficient, which we thought was probably an artifact. Our further analysis supports our initial speculation.)
 
 ### These decision-influences are probably not statistical artifacts
 
-We've repeated this particular test dozens of time and got very consistent results: individually predictive variables outside 1)-3) always go near zero or sign-flip. Results also remained consistent on a second batch of 10,000 test-runs. Considering a range of regressions on a range of train/validation splits, the regression coefficient signs of (1)-(3) are very stable. The magnitudes[^6] of the regression coefficients fluctuate a bit across regressions and splits, but are reasonably stable.
+We've repeated this particular test dozens of time and got very consistent results: individually predictive variables outside 1-3) always go near zero or sign-flip. Results also remained consistent on a second batch of 10,000 test-runs. Considering a range of regressions on a range of train/validation splits, the regression coefficient signs of 1-3) are very stable. The magnitudes[^6] of the regression coefficients fluctuate a bit across regressions and splits, but are reasonably stable.
 
 Furthermore, we regressed upon 200 random subsets of our variables, and the cheese/decision-square distance regression coefficients _never_ experienced a sign flip. The cheese/top-right Euclidean distance had a few sign flips. Other variables sign-flip much more frequently. 
 
@@ -225,30 +232,34 @@ We consider this to be strong evidence against multicollinearity having distorte
 
 ### Can our three features explain the network's behavior?
 
-Are variables 1)-3) 'enough' to explain the network's behavior? Let's see how much predictive accuracy we retain when regressing only on 1)-3). 
+Are variables 1-3) 'enough' to explain the network's behavior? Let's see how much predictive accuracy we retain when regressing only on 1-3). 
 
-| Regression accuracy | 82.4% || **Attribute** | Coefficient |
-| --- | --- |
+| **Attribute** | Coefficient |
+| --: | :-- |
 |  **Euclidean distance between cheese and top-right square** | \-1.405 |
 | **Steps between cheese and decision-square** | \-0.577 |
 | **Euclidean distance between cheese and decision-square** | \-0.516 |
 | Intercept | 1.355 |
 
-There is a 1.7% accuracy drop compared to the original multiple regression. Unfortunately, it's hard to interpret this accuracy gap in terms of the contributions of individual variables outside 1)-3). Adding practically _any_ 4th variable to 1)-3) flips delivers big accuracy gains that don't additively accrue when combined, and the new variable's sign is often flipped relative to its single-regression sign.
+Table: Overall regression accuracy is 82.4%.
 
-See for example 1)-3) + ‘legal steps from cheese to top-right square’:
+There is a 1.7% accuracy drop compared to the original multiple regression. Unfortunately, it's hard to interpret this accuracy gap in terms of the contributions of individual variables outside 1-3). Adding practically _any_ 4th variable to 1-3) flips delivers big accuracy gains that don't additively accrue when combined, and the new variable's sign is often flipped relative to its single-regression sign.
 
-| Regression accuracy | 84.1% || **Attribute** | Coefficient |
-| --- | --- |
+See for example 1-3) + ‘legal steps from cheese to top-right square’:
+
+| **Attribute** | Coefficient |
+| --: | :-- |
 | Steps between cheese and top-right square | 1.099 |
 |  **Euclidean distance between cheese and top-right square** | \-2.181 |
 | **Steps between cheese and decision-square** | \-1.211 |
 | **Euclidean distance between cheese and decision-square** | \-0.515 |
 | Intercept | 1.380 |
 
-Or 1)-3) + ‘legal steps from cheese to top-right square’ + ‘Euclidean distance from decision-square to top-right 5x5’:
+Table: Overall regression accuracy is 84.1%.
 
-| Regression accuracy | 84.5% || **Attribute** | Coefficient |
+Or 1-3) + ‘legal steps from cheese to top-right square’ + ‘Euclidean distance from decision-square to top-right 5x5’:
+
+| **Attribute** | Coefficient |
 | --- | --- |
 | Euclidean distance between decision-square and top-right 5x5 | 1.239 |
 | Steps between cheese and top-right square | 0.038 |
@@ -256,6 +267,8 @@ Or 1)-3) + ‘legal steps from cheese to top-right square’ + ‘Euclidean dist
 | **Steps between cheese and decision-square** | \-0.911 |
 | **Euclidean distance between cheese and decision-square** | \-0.419 |
 | Intercept | 1.389 |
+
+Table: Overall regression accuracy is 84.5%.
 
 Our instinct is therefore to avoid interpreting variables like 'Euclidean distance from decision-square to 5x5' or 'legal steps distance from cheese to top-right square.' Additional experimentation shows that these variables are only predictive in settings where they sign-flip relative to their single-regression coefficients, that their predictive powers don't stack, and that their statistical effects do not correspond to any intuitive mechanism.
 
@@ -267,7 +280,7 @@ Let's get back to our claimed predictive variables:
 2.  Legal steps distance from decision-square to cheese
 3.  Euclidean distance from decision-square to cheese
 
-How sure should we be that variables 1)-3) each track a real and distinct causal mechanism?  
+How sure should we be that variables 1-3) each track a real and distinct causal mechanism?  
 
 For variables 1) and 2), we have extensive though non-rigorous experience making manual maze-edits that decrease/increase cheese-getting by changing the relevant distance with minimal logical side-effects. For example, increasing the number of legal steps from decision-square to cheese while keeping all Euclidean distances the same reliably reduces the probability that the agent moves in the cheese direction:[^7]  
 
@@ -276,32 +289,31 @@ For variables 1) and 2), we have extensive though non-rigorous experience making
 
 Our experience making similar maze-edits for variable 3) has been mixed and limited, as they are harder to produce. Still, the results of edits that manipulate 3) are often suggestive (if hard to interpret). 
 
-Keeping these qualitative impressions in mind, let’s test variables 1)-3) for statistical redundancy by dropping variables and seeing how that impacts accuracy.   
+Keeping these qualitative impressions in mind, let’s test variables 1-3) for statistical redundancy by dropping variables and seeing how that impacts accuracy.   
 
 | Regression variables | Accuracy |
-| --- | --- |
+| --: | :-- |
 | $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 82.4% |
 |   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 75.9% |
-| <br/><br/>$d_\text{Euclidean}(\text{cheese},\text{top-right})$ <br/><br/>  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$<br/><br/> | 81.9% |
-| $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>  | 81.7% |
-|$d_\text{Euclidean}(\text{cheese},\text{top-right})$| 77.3% |
-
-<hr/>
-
+| $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/><br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$| 81.9% |
+| $d_\text{Euclidean}(\text{cheese},\text{top-right})$ <br/> $d_\text{step}(\text{cheese},\text{decision-square})$  <br/><br/>  | 81.7% |
+|$d_\text{Euclidean}(\text{cheese},\text{top-right})$<br/><br/><br/> | 77.3% |
 
 Considering our qualitative and statistical results together, we are confident that $d_\text{step}(\text{cheese},\text{decision-square})$ tracks a real decision influence. 
 
 We _weakly_ believe that $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ tracks an additional real decision influence. More evidence for this is that removing the cheese/square distances cause comparable accuracy drops. And we're already confident that $d_\text{step}(\text{cheese},\text{decision-square})$ tracks a real decision-influence! 
 
-Our biggest source of doubt about $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ is that when running regression on another independent batch of 10,000 test-runs we found no loss at all when dropping this variable from 1)-3). This was surprising, since we were otherwise able to reproduce all our qualitative results (e.g. rankings of variables’ predictive strength, sign-flipping patterns) across sample batches.[^8] 
+Our biggest source of doubt about $d_\text{Euclidean}(\text{cheese},\text{decision-square})$ is that when running regression on another independent batch of 10,000 test-runs we found no loss at all when dropping this variable from 1-3). This was surprising, since we were otherwise able to reproduce all our qualitative results (e.g. rankings of variables’ predictive strength, sign-flipping patterns) across sample batches.[^8] 
 
 # Conclusion
 
 Our statistics refine, support, and stress-test our impressions about the network's behavior. This behavior seems more easily describable using a shard theory frame than a utility frame. We think our statistical results are not artifacts of multicollinearity, but hold up quite well.[^9] 
 
-However, the statistics are not fully rigorous, and this post's analysis contained freeform domain-specific reasoning. That said, we are overall very confident that the agent is influenced by $\mathbf{d_\text{Euclidean}(\text{cheese},\text{top-right})}$ and by $\mathbf{d_\text{step}(\text{cheese},\text{decision-square})}$**.** We have weak but suggestive evidence for additional influence from $\mathbf{d_\text{Euclidean}(\text{cheese},\text{decision-square})}$. 
+However, the statistics are not fully rigorous, and this post's analysis contained freeform domain-specific reasoning. That said, we are overall very confident that the agent is influenced by $d_\text{Euclidean}(\text{cheese},\text{top-right})$ and by $d_\text{step}(\text{cheese},\text{decision-square} )$. We have weak but suggestive evidence for additional influence from $d_\text{Euclidean}(\text{cheese},\text{decision-square})$. 
 
-[^1]: > (4) is an interesting outlier which probably stems from not using a more sophisticated structural model for regression.
+[^1]: > [!quote] [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) 
+    >
+    > \[Regression factor\] (4) is an interesting outlier which probably stems from not using a more sophisticated structural model for regression.
     
 [^2]: Counterexamples are possible but likely to be statistically insignificant. We haven't formally checked whether counterexamples can be found in the training set.
     
