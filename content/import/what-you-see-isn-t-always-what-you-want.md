@@ -22,17 +22,20 @@ lw-latest-edit: 2024-08-15T22:29:06.757Z
 lw-is-linkpost: "false"
 tags: 
   - "AI"
+  - "reinforcement-learning"
 aliases: 
   - "what-you-see-isn-t-always-what-you-want"
-lw-reward-post-warning: "false"
+lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 09/13/2019
 original_url: https://www.lesswrong.com/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want
+skip_import: true
 ---
-_To aid communication, I’m going append a technical rephrasing after some paragraphs._
+> [!failure] No longer endorsed. This isn't how reward functions work.
 
 It’s known to be hard to give non-trivial goals to reinforcement learning agents. However, I haven’t seen much discussion of the following: even ignoring wireheading, it seems impossible to specify reward functions that get what we want – at least, if the agent is farsighted, smart, and can’t see the entire world all at once, and the reward function only grades what the agent sees in the moment. If this really is impossible in our world, then the designer’s job gets way harder.
 
+> [!note] Technical restatement
 > Even ignoring wireheading, it could be impossible to supply a reward function such that most optimal policies lead to desirable behavior – at least, if the agent is farsighted and able to compute the optimal policy, the environment is partially observable (which it is, for the real world), and the reward function is Markovian.
 
 I think it’s important to understand _why_ and _how_ the designer’s job gets harder, but first, the problem.
@@ -41,6 +44,7 @@ Let’s suppose that we magically have a reward function which, given an image f
 
 The problem here is that multiple world states can correspond to the same camera input. Is it good to see a fully black image? I don’t know – what else is going on? Is it bad to see people dying? I don’t know, are they real, or perfectly Photoshopped? I think this point is obvious, but I want to make it so I can move on to the interesting part: there just isn’t enough information to meaningfully grade inputs. Contrast with being able to grade universe-histories via utility functions: just assign 1 to histories that lead to better things than we have right now, and 0 elsewhere.
 
+> [!note] Technical restatement
 > The problem is that the mapping from world state to images is _not at all injective_... in contrast, grading universe-histories directly doesn’t have this problem: simply consider an indicator function on histories leading to better worlds than the present (for some magical, philosophically valid definition of “better”).
 
 Now, this doesn’t mean we need to have systems grading world states. But what I’m trying to get at is, Markovian reward functions are fundamentally underdefined. To say the reward function will incentivize the right things, we have to consider the possibilities available to the agent: which path through time is the best?

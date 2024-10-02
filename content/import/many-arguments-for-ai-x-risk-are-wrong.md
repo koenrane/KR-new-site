@@ -20,10 +20,10 @@ publish: true
 title: "Many arguments for AI x-risk are wrong"
 lw-latest-edit: 2024-03-11T21:57:55.185Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "AI"
   - "critique"
-aliases: 
+aliases:
   - "many-arguments-for-ai-x-risk-are-wrong"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
@@ -31,6 +31,7 @@ date_published: 03/05/2024
 original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 skip_import: true
 ---
+
 > [!note] Author's note
 > The following is a lightly edited version of a memo I wrote for a retreat. It was inspired by a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom). I think that my post covers important points not made by the published version of that post. I'm also thankful for the dozens of interesting conversations and comments at the retreat.
 
@@ -157,7 +158,7 @@ I lastly want to note that there is no reason that any particular argument need 
 >
 > If his arguments have actually been about the Solomonoff prior, then I think that's totally irrelevant and even weaker than making a counting argument over functions. At least the counting argument over functions has something to do with neural networks.
 >
-> I expect him to respond to this LessWrong post with some strongly-worded comment about how I've simply "misunderstood" the "real" counting arguments. I invite him, or any other proponents, to lay out arguments they find more promising. I will be happy to consider any additional arguments which proponents consider to be stronger. Until such a time that the "actually valid" arguments are actually shared, I consider the case closed.
+> I expect him to respond to this LessWrong post with some strongly worded comment about how I've simply "misunderstood" the "real" counting arguments. I invite him, or any other proponents, to lay out arguments they find more promising. I will be happy to consider any additional arguments which proponents consider to be stronger. Until such a time that the "actually valid" arguments are actually shared, I consider the case closed.
 
 ### The counting argument doesn't count
 
