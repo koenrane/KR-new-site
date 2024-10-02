@@ -28,8 +28,8 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 08/11/2022
 original_url: https://www.lesswrong.com/posts/22xf8GmwqGzHbiuLg/seriously-what-goes-wrong-with-reward-the-agent-when-it
+skip_import: true
 ---
-
 Suppose you're training a huge neural network with some awesome future RL algorithm with clever exploration bonuses and a self-supervised pretrained multimodal initialization and a recurrent state. This NN implements an embodied agent which takes actions in reality (and also in some sim environments). You watch the agent remotely using a webcam (initially unbeknownst to the agent). When the AI's activities make you smile, you press the antecedent-computation-reinforcer button (known to some as the "reward" button). The agent is given some appropriate curriculum, like population-based self-play, so as to provide a steady skill requirement against which its intelligence is sharpened over training. Supposing the curriculum trains these agents out until they're generally intelligent—what comes next?
 
 The standard response is "One or more of the agents gets smart, does a treacherous turn, kills you, and presses the reward button forever." 
@@ -45,4 +45,4 @@ My current answer is "I don't know precisely what goes wrong, but probably somet
 
 So, I'm pretty uncertain about what happens here, but would guess that most other researchers are less uncertain than I am. So here's an opportunity for us to talk it out!
 
-(My mood here isn't "And this is what we do for alignment, let's relax." My mood is "Why consider super-complicated reward and feedback schemes when, as far as I can tell, we don't know what's going to happen in this relatively simple scheme? [How do reinforcement schedules map into inner values](https://www.lesswrong.com/posts/xqkGmfikqapbJ2YMj/shard-theory-an-overview)?")
+My mood here isn't "And this is what we do for alignment, let's relax." My mood is "Why consider super-complicated reward and feedback schemes when, as far as I can tell, we don't know what's going to happen in this relatively simple scheme? [How do reinforcement schedules map into inner values](https://www.lesswrong.com/posts/xqkGmfikqapbJ2YMj/shard-theory-an-overview)?"
