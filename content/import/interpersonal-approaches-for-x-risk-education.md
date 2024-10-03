@@ -4,7 +4,7 @@ lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
-lw-is-question: "false"
+lw-is-question: "true"
 lw-posted-at: 2018-01-24T00:47:44.183Z
 lw-last-modification: None
 lw-curation-date: None
@@ -27,6 +27,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/24/2018
 original_url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
+skip_import: true
 ---
 Much of the AI research community remains unaware of the Alignment Problem (according to my personal experience), and I haven't seen much discussion about how to deliberately expand the community (all I've seen to this effect is [Scott's A/B/C/D/E testing on alignment articles](http://slatestarcodex.com/2016/10/24/ai-persuasion-experiment-results/)).
 
