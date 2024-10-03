@@ -15,10 +15,11 @@ const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
 //  After the third letter, we can have any number of capital letters, digits, or hyphens
 // Note that we are ignoring roman numerals
 const REGEX_ACRONYM =
-  /(?:\b|^)(?![ILVXM][ICLVXM]{2,}\b)(?<acronym>IF|TL;DR|IL|[A-Z\u00C0-\u00DC]{3,}(?:\-?[\dA-Z\u00C0-\u00DC]+)*)(?<suffix>[sx]?)\b/
+  /(?:\b|^)(?![ILVXM][ICLVXM]{2,}\b)(?<acronym>IF|TL;DR|IL|[A-Z\u00C0-\u00DC]{3,}(?:[\-'’]?[\dA-Z\u00C0-\u00DC]+)*)(?<suffix>[sx]?)\b/
 
 const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/g
 const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
+
 
 export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
   replaceRegex(

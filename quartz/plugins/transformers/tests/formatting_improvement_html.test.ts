@@ -55,6 +55,7 @@ describe("HTMLFormattingImprovement", () => {
       ['with "scope insensitivity":', "with “scope insensitivity”:"],
       ['("the best")', "(“the best”)"],
       ['"\'sup"', "“‘sup”"],
+      ['\'SUP', "‘SUP"],
       ["'the best',", "‘the best’,"],
       ["'I lost the game.'", "‘I lost the game.’"],
       ["I hate you.'\"", "I hate you.’”"],
