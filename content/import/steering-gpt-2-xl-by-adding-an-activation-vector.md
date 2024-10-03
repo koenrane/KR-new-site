@@ -42,7 +42,6 @@ original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-x
 | **GPT-2 + "Love" vector**                                                  |   
 | I hate you because you are so beautiful and I want to be with you forever. |
 
-Note: Later made available as a preprint at [Steering Language Models with Activation Engineering](https://arxiv.org/abs/2308.10248). 
 
 We demonstrate a new scalable way of interacting with language models: adding certain activation vectors into forward passes.[^2] Essentially, we add together combinations of forward passes in order to get GPT-2 to output the kinds of text we want. We provide a lot of entertaining and successful examples of these "activation additions." We also show a few activation additions which unexpectedly fail to have the desired effect.
 
@@ -51,6 +50,8 @@ We quantitatively evaluate how activation additions affect GPT-2's capabilities.
 Our results provide enticing clues about the kinds of programs implemented by language models. For some reason, GPT-2 allows "combination" of its forward passes, even though it was never trained to do so. Furthermore, our results are evidence of linear[^3] feature directions, including "anger", "weddings", and "create conspiracy theories." 
 
 We coin the phrase "activation engineering" to describe techniques which steer models by modifying their activations. As a complement to prompt engineering and finetuning, activation engineering is a low-overhead way to steer models at runtime. Activation additions are nearly as easy as prompting, and they offer an additional way to influence a model’s behaviors and values. We suspect that activation additions can adjust the goals being pursued by a network at inference time.
+
+Note: Later made available as a preprint at [Steering Language Models with Activation Engineering](https://arxiv.org/abs/2308.10248). 
 
 # Summary of relationship to prior work
 
