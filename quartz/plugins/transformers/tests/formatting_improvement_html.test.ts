@@ -62,6 +62,7 @@ describe("HTMLFormattingImprovement", () => {
       ['He said, "This is a quote"...', "He said, “This is a quote”..."],
       ["The 'function space')", "The ‘function space’)"],
       ["The 'function space'—", "The ‘function space’—"],
+      ['"... What is this?"', "“... What is this?”"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)

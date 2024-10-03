@@ -138,7 +138,7 @@ export function niceQuotes(text: string) {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\b|\\s|[\\(\\/\\[\\{\\\-\—]|${chr})(${chr}?)["](${chr}?)(?=[^\\s\\)\\—\\-,!?${chr};:\/.\\}])`,
+    `(?<=^|\\s|[\\(\\/\\[\\{\\\-\—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—\\-,!?${chr};:\/.\\}])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
@@ -207,10 +207,6 @@ export function hyphenReplace(text: string) {
     `(?<=[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
-  if (text.includes("Hi you're a test")) {
-    console.log(surroundedDash)
-    console.log(text)
-  }
 
   // Replace surrounded dashes with em dash
   text = text.replace(
