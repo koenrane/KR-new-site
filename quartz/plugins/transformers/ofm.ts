@@ -150,21 +150,21 @@ const gitRoot = findGitRoot();
 if (!gitRoot) {
   throw new Error("Git root not found. Aborting Mermaid download.");
 }
-const OUTPUT_DIR = path.join(gitRoot, 'quartz', 'static', 'scripts');
-const OUTPUT_FILE = path.join(OUTPUT_DIR, 'mermaid.min.js');
+const SCRIPTS_OUTPUT_DIR = path.join(gitRoot, 'quartz', 'static', 'scripts');
+const MERMAID_OUTPUT_FILE = path.join(SCRIPTS_OUTPUT_DIR, 'mermaid.min.js');
 
 async function downloadMermaid() {
   try {
     const response = await axios.get(MERMAID_URL);
-    if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    if (!fs.existsSync(SCRIPTS_OUTPUT_DIR)) {
+      fs.mkdirSync(SCRIPTS_OUTPUT_DIR, { recursive: true });
     }
-    fs.writeFileSync(OUTPUT_FILE, response.data);
+    fs.writeFileSync(MERMAID_OUTPUT_FILE, response.data);
   } catch (error) {
     console.error('Failed to download Mermaid file.');
 
     // If we don't have any mermaid file, abort
-    if (!fs.existsSync(OUTPUT_FILE)) {
+    if (!fs.existsSync(MERMAID_OUTPUT_FILE)) {
       throw error;
     }
   }
@@ -180,7 +180,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
     return toHtml(hast, { allowDangerousHtml: true })
   }
 
-  downloadMermaid()
+  if (!fs.existsSync(MERMAID_OUTPUT_FILE)) {
+    downloadMermaid()
+  }
 
   return {
     name: "ObsidianFlavoredMarkdown",
