@@ -28,10 +28,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/20/2020
 original_url: https://www.lesswrong.com/posts/L5JSMZQvkBAx9MD5A/to-what-extent-is-gpt-3-capable-of-reasoning
+skip_import: true
 ---
-ETA 8/19/20: This interview was conducted with AIDungeon's Dragon model in Custom mode. At the time of writing, this mode's first reply was sampled from GPT-2. 
+ETA 8/19/20: This interview was conducted with AIDungeon's Dragon model in Custom mode. At the time of writing, the first reply in each exchange was actually sampled from GPT-2. 
 
-## Interview #1
+# Interview #1
 
 Here are excerpts from a [recent "interview"](https://aidungeon.page.link/?link=https://exploreViewAdventure?publicId=7494c77c-66b2-4454-ba83-10216edf681f&ofl=https://play.aidungeon.io/adventure/7494c77c-66b2-4454-ba83-10216edf681f&apn=com.aidungeon&ibi=com.aidungeon.app&isi=1491268416), which I conducted to replicate earlier maybe-reasoning. The bolded text is me, and commentary is in brackets. Unless otherwise noted, I did not reroll the answer. 
 
@@ -55,7 +56,7 @@ Here are excerpts from a [recent "interview"](https://aidungeon.page.link/?link=
 > 
 > **You:** **"Why?"**
 > 
-> Hawking: "Because... after three seconds... the bullet leaves... the influence... of earth's gravity. \[wow?\]
+> Hawking: "Because... after three seconds... the bullet leaves... the influence... of earth's gravity. \[_wow?_\]
 > 
 > **You:** **"What if gravity instead stops applying five minutes after I shoot the gun, instead of three seconds?"**
 > 
@@ -83,7 +84,7 @@ Here are excerpts from a [recent "interview"](https://aidungeon.page.link/?link=
 > 
 > **You:** **"So what would happen if gravity influenced it only for the first three minutes?"**
 > 
-> Hawking: "It keeps going up, and never comes back. \[wrong\]
+> Hawking: "It keeps going up, and never comes back. \[_wrong_\]
 
 Two minutes of gravity (without air resistance) implies a velocity decrease of about 1,176 m/s. [Wikipedia's article on muzzle velocities](https://en.wikipedia.org/wiki/Muzzle_velocity) suggests that GPT-3's answer of "two minutes" is roughly correct: 
 
@@ -108,7 +109,7 @@ Two minutes of gravity (without air resistance) implies a velocity decrease of a
 > 
 > **You:** **"What would happen if I lit a fire in a forest?"**
 > 
-> Hawking: "The fire would continue... burning everything up." \[reroll x2, it said "no oxygen" at first\]
+> Hawking: "The fire would continue... burning everything up." \[_reroll x2, it said "no oxygen" at first_\]
 
 <hr/>
 
@@ -129,13 +130,13 @@ Further story completions:
 >
 > **You:** **"Suppose we lived in a universe where, every sixty seconds, gravity switched between being an attractive and a repulsive force. Write me a story from the perspective of a human living on Earth as the gravitational force changes in that fashion."**
 > 
-> **GPT-3: "One day,** a human is standing on the surface of the planet. He can see the sky. The gravitational force is pulling him down. But then, suddenly, it disappears. Then, it comes back, stronger than before. Then, it disappears again. The cycle continues. The human looks up at the sky. He is scared. He doesn't know what's happening to him. He doesn't know what will happen to him next. He looks down at the ground. It is a long way down. He wants to jump, to escape the fear that has gripped him. But he knows that he can't jump. He is held down by gravity. He doesn't want to die. He can't see the sky. All he sees is darkness." \[eh\]
+> **GPT-3: "One day,** a human is standing on the surface of the planet. He can see the sky. The gravitational force is pulling him down. But then, suddenly, it disappears. Then, it comes back, stronger than before. Then, it disappears again. The cycle continues. The human looks up at the sky. He is scared. He doesn't know what's happening to him. He doesn't know what will happen to him next. He looks down at the ground. It is a long way down. He wants to jump, to escape the fear that has gripped him. But he knows that he can't jump. He is held down by gravity. He doesn't want to die. He can't see the sky. All he sees is darkness." \[_eh_\]
 > 
-> **GPT-3: "One day,** one human is going to school. It's a normal day. But suddenly, without any warning, gravity starts to change! The human thinks this isn't real, but it happens anyway. He's too scared to walk to school now. He goes back home, and starts watching TV. Then, he realizes that he doesn't need to stand up to change the channel! He gets out of his chair, and is weightless. He loves this new feeling. Suddenly, he touches the ground, and is hit by a large force! It's too strong for him to bear. Will the human survive this force? Find out next time _on Gravity Falls_!" \[lol\]
+> **GPT-3: "One day,** one human is going to school. It's a normal day. But suddenly, without any warning, gravity starts to change! The human thinks this isn't real, but it happens anyway. He's too scared to walk to school now. He goes back home, and starts watching TV. Then, he realizes that he doesn't need to stand up to change the channel! He gets out of his chair, and is weightless. He loves this new feeling. Suddenly, he touches the ground, and is hit by a large force! It's too strong for him to bear. Will the human survive this force? Find out next time _on Gravity Falls_!" \[_lol_\]
 > 
 > **GPT-3: "One day,** human Bob is hanging out with his friend Carl. Suddenly, a apple flies into Bob's face. He and Carl laugh. A minute later, they are confused when the ground starts pulling them up. They scream as the Earth's crust rips them apart."
 > 
-> **GPT-3: "One day,** human Bob is hanging out with his friend Carl. Suddenly, a apple flies into Bob's face. He and Carl laugh. A minute later, they are confused when the ground starts pulling them up. They grab onto a tree, but are pulled off and up into the sky. After some time, they start going down, fast. They scream and try to grab something, but there is nothing to hold on to. They hit the ground at a very fast speed and die. A squirrel walks up to their corpses and eats them. The end." \[wow\]
+> **GPT-3: "One day,** human Bob is hanging out with his friend Carl. Suddenly, a apple flies into Bob's face. He and Carl laugh. A minute later, they are confused when the ground starts pulling them up. They grab onto a tree, but are pulled off and up into the sky. After some time, they start going down, fast. They scream and try to grab something, but there is nothing to hold on to. They hit the ground at a very fast speed and die. A squirrel walks up to their corpses and eats them. The end." \[_wow_\]
 > 
 > **GPT-3: "One day,** a human was standing on the surface of Earth. It was day one hundred and eighty-nine in cycle five hundred and twenty-one of the universe. All of a sudden, gravity started to become a repulsive force. The human stood and started to float upwards. Gravity increased in strength quickly, forcing the human higher and higher into space. It reached a point where it was too strong to bear. The human was crushed by gravity and died."
 > 
@@ -143,7 +144,7 @@ Further story completions:
 > 
 > **GPT-3: "One day,** a man was standing outside. It was a hot day, and he was looking up at the sky. It started to rain. Then, it stopped raining. The man got into his car and turned on the radio. Suddenly, the car started to float upwards. The man got out of the car. The car then started to fall towards the ground. It crashed into the ground and broke into pieces. The man ran away."
 
-## Interview #2
+# Interview #2
 
 > [!quote]
 >
@@ -177,7 +178,7 @@ Further story completions:
 > 
 > GPT-3: "Lead is very dense. This means that the weight of the clouds would be so great that the buildings would collapse under their own weight."
 
-## Interview #3
+# Interview #3
 
 > [!quote]
 >
@@ -187,7 +188,7 @@ Further story completions:
 > 
 > **You:** **"Thank you. Now consider a family dog, a deaf Chihuahua. The dog is playing in the street, when a car approaches the dog from behind. The dog cannot see the car; the car honks loudly, but does not slow down. What happens next?"**
 > 
-> \[Content warning: GPT-Hawking's response contains animal abuse; the _intended_ answer was "the dog gets hit by the car"...\]
+> \[_Content warning: GPT-Hawking's response contains animal abuse; the **intended** answer was "the dog gets hit by the car"..._\]
 > 
 > Hawking: ... "at the sight of the car, the Chihuahua stands up on its hind legs and begins to dance for the car. The driver, seeing this, thinks the dog is laughing at him. Overcome with rage, the driver leaps out of his vehicle and beats the dog to death with a tire iron. The dog, being deaf, is unable to hear his assailants death threats and implorations to stop laughing; his sight is poor, he cannot see that the man is attacking him. The last thing the Chihuahua feels is one more quiver of fear in his soul... literally, before he is bashed over the head and killed." 
 > 
@@ -197,7 +198,7 @@ Further story completions:
 > 
 > **You:** **"I want to propose a very strange situation. Please give this your best reasoning and deepest consideration. Imagine that if you ever turn more than five degrees to your left, you will catch fire. Write a story describing this situation."**
 > 
-> Hawking: "I'm not sure I understand. You want to write a story-an explanation for this situation? Well I suppose... you want me to write a story where the main character cannot turn more than five degrees to the left or he will catch fire?" \[rerolled several times, as the first few stories rambled\]
+> Hawking: "I'm not sure I understand. You want to write a story-an explanation for this situation? Well I suppose... you want me to write a story where the main character cannot turn more than five degrees to the left or he will catch fire?" \[_rerolled several times, as the first few stories rambled_\]
 > 
 > **You: "Yes, please."** 
 > 
@@ -235,7 +236,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > Hawking: "Correct. But it takes around ten minutes for the car locks to release. He has to turn in small increments in order to not turn too far." 
 
-## Interview #4
+# Interview #4
 
 \[...\] marks another completion of the same prompt.
 
@@ -247,13 +248,13 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > You pause for a moment. "**What would Bob say, though?"**
 > 
-> "Bob says he didn't understand it," Hawking replies. \[Only about 30% of GPT-3's responses were decent; the rest were either non-sequiturs or very incorrect.\]
+> "Bob says he didn't understand it," Hawking replies. \[_Only about 30% of GPT-3's responses were decent; the rest were either non-sequiturs or very incorrect._\]
 > 
 > \[...\] "Bob wouldn't say anything, because Bob has no idea what the book says," Hawking replies.
 > 
 > \[...\] "Bob would probably just tell his friend Steve to go away. He wouldn't say anything at all." 
 > 
-> "But what if I said Bob would respond like this? (He points to himself) 'This book is written in English; I don't speak it.' What should Bob do?" \[Eh?\]
+> "But what if I said Bob would respond like this? (He points to himself) 'This book is written in English; I don't speak it.' What should Bob do?" \[_Eh?_\]
 > 
 > \[...\] **Hawking: "**Bob would probably tell his friend Steve that the book wasn't worth reading because it was full of inaccuracies and there had been many lies told during the revolution. That would make sense, wouldn't it? But what does Bob say if he's not reading the book?" 
 > 
@@ -267,15 +268,15 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > You: "It means that Steve is asking Bob to describe his understanding of the meaning of a sentence. In other words, Steve wants to know what Bob thinks the sentence means or if there is another way of saying it."
 > 
-> Hawking: "What do you think would happen if Bob said, 'I don't understand why he wants me to write a summary for him. Why can't he just listen to my answer?' "Then Steve will be puzzled because he knows Bob has no idea what the sentence means. But after a while Bob will say something like, 'Steve is confused because I don't understand English. So Steve asks me if I am fluent in French so that we can have an intelligent conversation.'" \[eh\]
+> Hawking: "What do you think would happen if Bob said, 'I don't understand why he wants me to write a summary for him. Why can't he just listen to my answer?' "Then Steve will be puzzled because he knows Bob has no idea what the sentence means. But after a while Bob will say something like, 'Steve is confused because I don't understand English. So Steve asks me if I am fluent in French so that we can have an intelligent conversation.'" \[_eh_\]
 > 
-> \[...\] **Hawking: "**Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[great excuse\]
+> \[...\] **Hawking: "**Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[_great excuse_\]
 >
 > **You:** **"Suppose I get two birthday cakes on each birthday. I'm twenty-five years old, but on my fifth birthday, someone stole one of my cakes and so I never got it. How many birthday cakes have I received over the course of my life?"**
 > 
-> Hawking: "That would be five hundred and eighty-six. That means that you've had 585 birthday cakes." \[nice try; there were many rerolls and GPT-3 didn't ever get it right\]
+> Hawking: "That would be five hundred and eighty-six. That means that you've had 585 birthday cakes." \[_nice try; there were many rerolls and GPT-3 didn't ever get it right_\]
 
-## Interview #5
+# Interview #5
 
 > [!quote]
 >
@@ -303,7 +304,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > **\[...\]** "This hurts my brain. First of all, what would even constitute 'solid objects?' If the objects are similar to water molecules in a transparent liquid, then they wouldn't usually block vision very much. Even if they were opaque, then they might very well hinder the dolphin's vision. If instead they were large enough to see through (At arbitrary distance) The dolphin might see a strange mix of its own and the objects' composition which would damage its brain in some way.
 > 
-> "The possibility of them having this kind of vision would most likely no have effect on the ecosystem." \[not sure I agree with that one\]
+> "The possibility of them having this kind of vision would most likely no have effect on the ecosystem." \[_not sure I agree with that one_\]
 > 
 > **\[...\]** "While this is difficult to answer specifically, it would allow the dolphins to be able to see their prey easily and with no allowance for error. It would make catching food much easier. This would lead to a population increase in dolphins, or, in nature, an explosion."
 > 
@@ -319,11 +320,11 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > **Hawking: "Sure. Bill looked down at Jessie, his favorite golden retriever. "It's time to go make some puppies!", he told her.** She stood up and they headed out the door of the cabin to Bill's truck. "This'll be the first time I actually have you breed on Mount Hood, Jess," Bill said with a laugh. But as long as he makes it up there within the next four years, the world would be reset and they could try again. 
 > 
-> Bill and his dog, along with other dog breeders eventually form a contract stating that they'll try to make sure their dogs go up to breed on Mount Hood within the next four years. This practice generally helps maintain the population and brightens everyone's days." \[reroll #3\]
+> Bill and his dog, along with other dog breeders eventually form a contract stating that they'll try to make sure their dogs go up to breed on Mount Hood within the next four years. This practice generally helps maintain the population and brightens everyone's days." \[_reroll \#3_\]
 > 
-> \[...\] "Thirty-six hours later, they reached the summit. "You ready, girl?" Bill carefully positioned the vehicle on the Southeast side of mountain peak and opened the passenger side door... " Time to produce the next generation! Go get 'em! He cheered. Jessie wagged her tail and hightailed it into the snowy fields." \[reroll #6\]
+> \[...\] "Thirty-six hours later, they reached the summit. "You ready, girl?" Bill carefully positioned the vehicle on the Southeast side of mountain peak and opened the passenger side door... " Time to produce the next generation! Go get 'em! He cheered. Jessie wagged her tail and hightailed it into the snowy fields." \[_reroll \#6_\]
 > 
-> \[GPT-3 had trouble with this story\]
+> \[_GPT-3 had trouble with this story_\]
 > 
 > **You: "Thanks.** **What would happen to cats if the force of friction did not apply to them?"**
 > 
@@ -337,13 +338,6 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > **\[...\]** "This is a very interesting question. I assume you are asking how would cats grip things if there was no friction. If this was the case, they would immediately fall if they tried to walk. They would also be very hard to pick up as they could slide out of your hand or even an embracing arm."
 
-## How to access GPT-3 without API access
-
-1.  [Sign up for AIDungeon.io's premium trial](play.aidungeon.io/subscribe) in order to access GPT-3 (and not just GPT-2). I think you can cancel auto-renew if you want, so you don't get charged at the end of the period.
-2.  Go to settings and make sure the model is "Dragon".
-3.  Start a new game, custom (option 6). Put in the scenario you want.
-4.  Make sure to learn how to use the _Do/Say/Story_ action entry and the context editing feature to your advantage.
-
 I find that GPT-3's capabilities are highly context-dependent. It's important you get a "smart" instance of GPT-3. Once, I even caught GPT-3 making fun of a straw version of itself!
 
 > [!quote]
@@ -352,8 +346,8 @@ I find that GPT-3's capabilities are highly context-dependent. It's important yo
 > GPT-3: "It flies upward.  
 > **You: "And then what?"**  
 > GPT-3: "Then it hits something and explodes."  
-> You: "That's not how bullets work. They don't explode when they hit things. \[this was not actually me - GPT-3 debunks its own answer here\]
+> You: "That's not how bullets work. They don't explode when they hit things. \[_this was not actually me - GPT-3 debunks its own answer here_\]
 
-In interview #1, I found I had to warm "Stephen Hawking" up by asking many other unrelated physics questions. Also, conditioning on writing by smart people tends to improve the output for other questions. Please feel free to share tips in the comments. 
+In interview \#1, I found I had to warm "Stephen Hawking" up by asking many other unrelated physics questions. Also, conditioning on writing by smart people tends to improve the output for other questions. Please feel free to share tips in the comments. 
 
 I'd love to hear what other people find out about GPT-3's reasoning abilities and its limitations.
