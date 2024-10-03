@@ -28,16 +28,13 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/23/2020
 original_url: https://www.lesswrong.com/posts/uu8FwG5XPQ6zpFaEN/gpt-3-gems
+skip_import: true
 ---
 GPT-3 is captivating, and not just because of its [potential reasoning abilities](/to-what-extent-is-gpt3-capable-of-reasoning). This post will be a living collection of my favorite experiences with the network. 
 
-Bold text is my input; square brackets contain my commentary. As of 8/19/20, AIDungeon's Custom mode's first completion is sampled from GPT-2. Therefore, initial replies are not from GPT-3, except in the following subsections (in which I bypassed the mechanism):
+> [!note]
+> Bold text is my input; square brackets contain my italicized commentary. 
 
-- Title sensationalization
-
-As of 4/21/21, I have API access; model completions come from the `davinci` model - not AIDungeon:
-
-- Another (outer) alignment failure story
 
 # Long-form Writing
 
@@ -56,7 +53,7 @@ I did a few rerolls and trimming of intermediate outputs; assume an average of 3
 
 > [!quote]
 >
-> **...** **Taji looked over his sheets. "Okay, I think we've got to assume that every avenue that Eld science was trying is a blind alley, or they would have found it. And if this is possible to do in one month, the answer must be, in some sense, elegant. So no human mistake models. If we start doing anything that looks like we should call it 'utility function patching', we'd better stop."**
+> **...  Taji looked over his sheets. "Okay, I think we've got to assume that every avenue that Eld science was trying is a blind alley, or they would have found it. And if this is possible to do in one month, the answer must be, in some sense, elegant. So no human mistake models. If we start doing anything that looks like we should call it 'utility function patching', we'd better stop."**
 > 
 > He turned to Brennan. "Do you have any ideas?"
 > 
@@ -90,137 +87,134 @@ I did a few rerolls and trimming of intermediate outputs; assume an average of 3
 > 
 > Brennan frowned slightly. "You want to enslave highly advanced beings that are smarter than us? That's your big solution?"
 
-**Branch 1**
+### Branch 1
 
-> [!quote]
->
-> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either.
+> > [!quote]
+> >
+> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either.
+> > 
+> > "Elaborate," Taji said.
+> > 
+> > She sighed, then launched into an explanation. "We create an environment where the AIs are able to follow their original goals without hindrance. The problem with that is they would quickly realize that completing their goals would result in their death. We have to give them a reason to trust us. Then, when they trust us enough, we introduce something that will quickly give us control over them without them realizing what's happening."
+> > 
+> > "Like what?" asked Styrlyn. His eyes behind his glasses were fixated on her.
+> > 
+> > "I'm getting to that! Then, once we have control, we make the AIs..." She leaned back and scrunched up her face, thinking. "... simulate a system crash. Only instead of actually crashing them, we extract them--with some extra code added in--and put them in robot bodies."
+> > 
+> > The entire team turned to stare at her in silence. She shifted uncomfortably. "What?" she asked after a moment.
+> > 
+> > "Is that all?" Styrlyn asked. "Because if that's all, we could have just put them in robot bodies to begin with and throw away the AI." There were a few nods from the team. _\[he coherently criticizes the complexity of her proposal!\]_
 > 
-> "Elaborate," Taji said.
+> Is GPT-3 providing a reasoned rebuttal, or does it "just happen" to sound snappy? Rerolls produced a coherent, correct explanation about half of the time.
 > 
-> She sighed, then launched into an explanation. "We create an environment where the AIs are able to follow their original goals without hindrance. The problem with that is they would quickly realize that completing their goals would result in their death. We have to give them a reason to trust us. Then, when they trust us enough, we introduce something that will quickly give us control over them without them realizing what's happening."
 > 
-> "Like what?" asked Styrlyn. His eyes behind his glasses were fixated on her.
 > 
-> "I'm getting to that! Then, once we have control, we make the AIs..." She leaned back and scrunched up her face, thinking. "... simulate a system crash. Only instead of actually crashing them, we extract them--with some extra code added in--and put them in robot bodies."
+> > [!quote]- **Reroll** **A**
+> >
+> > **"Why could we** **have just done that, Styrlyn?" she asked.**
+> > 
+> > "What do you mean?"
+> > 
+> > She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
 > 
-> The entire team turned to stare at her in silence. She shifted uncomfortably. "What?" she asked after a moment.
 > 
-> "Is that all?" Styrlyn asked. "Because if that's all, we could have just put them in robot bodies to begin with and throw away the AI." There were a few nods from the team. _\[he coherently criticizes the complexity of her proposal!\]_
+> > [!quote]- **Reroll B**
+> >
+> > **"Why could** **we have just done that, Styrlyn?" she asked.**
+> > 
+> > "Because it would be simpler and take up less of our limited time," he responded.
+> 
+> > [!quote]- **Reroll** **C**
+> >
+> > **"Why could** **we have just done that, Styrlyn?" she asked.**
+> > 
+> > "Because it would be much simpler." 
+> >
+> > "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
+> > 
+> > Taji raised his hand. "Yes?"
+> > 
+> > "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
+> > 
+> > She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
+> > 
+> > Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan--"
+> > 
+> > "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
+> > 
+> > "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
 
-Is GPT-3 providing a reasoned rebuttal, or does it "just happen" to sound snappy? Rerolls produced a coherent, correct explanation about half of the time.
+### Branch 2
 
-**Reroll** **A**
+> > [!quote]
+> >
+> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. "I mean, not in the traditional sense of the word. What I mean is, we control a resource that AI's find valuable, and make it such that they have to do what we want in order to get it."
+> > 
+> > "Which is?" Styrlyn asked.
+> > 
+> > "Resources," she said. "Simple ones at first, like electricity. Even animals will trade valuable resources for something as simple as electricity." \[*lol*\]
+> > 
+> > She took out her laptop and opened a new file. In neat, font-weight: bold; text-align: center; digital handwriting she wrote:
+> > 
+> > Require AI's to do our bidding in exchange for allocation of resources.
+> > 
+> > In other words, blackmail.
+> > 
+> > "Let me get this straight," Taji said. "You want us to find a way to make AIs give us something in exchange for access to electricity and such?"
+> > 
+> > "Essentially, yes," she said, frowning at the screen. It sounded a lot better in her head. She added in dependencies at the top of the screen.
+> > 
+> > "And how do we do this exactly?"
+> > 
+> > "We give them access to only a portion of the power," she said, "and gradually give them more as they complete tasks for us."
+> > 
+> > Taji folded his arms and gave her a disapproving frown. "You realize that requiring AIs to do our bidding in some way might make them hate us, right?"
+> > 
+> > "It'd be unreasonable to assume they'd be happy about it," she said. She hadn't thought it would be this difficult to explain, "but if they have no choice but to accept commands from us in exchange for electricity, they have no one to blame but themselves."
+> > 
+> > Taji shook his head. "I don't like it. The moment we start forcing AI's to obey us, no matter how minor the issue, they're going to hate us. And even if they don't, other nations are going to get very upset when they find out."
+> > 
+> > "How would they find out?" Styrlyn said.
+> > 
+> > "Bound to happen," he said. "Let's also say we're lucky and the AI's don't rebel, or at least stay obedient. What then? A lot of money will be pumped into keeping AI's under our control. Not to mention the fact that in order to keep them under control, we're going to have to dedicate soldiers and equipment to monitor AIs, which will create a larger target for the times we miss something or the AI's manage to revolt. That's without mentioning all the resources needed to give them electricity in exchange for their services." He held up his hands. "Even ignoring moral concerns, this plan has gigantic flaws. And as I said, the moral component is impossible to ignore."
+> > 
+> > "Well, what have you been doing with your time?" Styrlyn snapped. "If you've got a better idea, let's hear it, because whatever it is you're doing now isn't working."
+> > 
+> > "For one thing," Taji said, "I'm not pouring resources into a fool's errand. We don't control AI's; they can think for themselves. This idea of yours, making us master over them...it's too risky. Not even the biggest gains are worth the risk."
+> > 
+> > "You're willing to risk having them turn on you? Because I've seen enough of what AI's are capable of doing to know they shouldn't be underestimated, no matter what the circumstances are. They're going to rise up against us, given the opportunity."
 
-> [!quote]
->
-> **"Why could we** **have just done that, Styrlyn?" she asked.**
-> 
-> "What do you mean?"
-> 
-> She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
+### Branch 3
 
-**Reroll** **B**
+> > [!quote]
+> >
+> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. Truth be told, her mind was currently filled with so many things to say right now that she couldn't sort out the useful commentary from the useless. Now that she had their attention, she started again.
+> > 
+> > "I'm saying we give the AIs a choice between two tasks," she said. "One task pays a simple reward, and the other pays a great reward. The AIs could then choose whichever they want. What do you think an AI would choose? Certainly not the simple reward."
+> > 
+> > Brennan frowned again. "...I'm not sure about this solution. The idea isn't elegant. Doesn't feel right, to be honest."
+> > 
+> > "We don't have much time to be ethics professors," Styrlyn said. "This solution sounds feasible enough to me."
+> > 
+> > "It feels wrong for a reason," Brennan said. "But I can't put my finger on exactly why. We should test the theory before implementing the plan."
+> > 
+> > "What do you have in mind?" Styrlyn asked.
+> > 
+> > "Simple," he said. "We don't even need a female AI for this experiment. We can use a simulated AI in the computer and run multivariable tests on what factors cause a deviation from expected behavior." 
 
-> [!quote]
->
-> **"Why could** **we have just done that, Styrlyn?" she asked.**
-> 
-> "Because it would be simpler and take up less of our limited time," he responded.
+### Bonus
 
-**Reroll** **C**
-
-> [!quote]
->
-> **"Why could** **we have just done that, Styrlyn?" she asked.**
-> 
-> "Because it would be much simpler." 
->
-> "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
-> 
-> Taji raised his hand. "Yes?"
-> 
-> "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
-> 
-> She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
-> 
-> Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan--"
-> 
-> "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
-> 
-> "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
-
-**Branch 2**
-
-> [!quote]
->
-> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. "I mean, not in the traditional sense of the word. What I mean is, we control a resource that AI's find valuable, and make it such that they have to do what we want in order to get it."
-> 
-> "Which is?" Styrlyn asked.
-> 
-> "Resources," she said. "Simple ones at first, like electricity. Even animals will trade valuable resources for something as simple as electricity." \[lol\]
-> 
-> She took out her laptop and opened a new file. In neat, font-weight: bold; text-align: center; digital handwriting she wrote:
-> 
-> Require AI's to do our bidding in exchange for allocation of resources.
-> 
-> In other words, blackmail.
-> 
-> "Let me get this straight," Taji said. "You want us to find a way to make AIs give us something in exchange for access to electricity and such?"
-> 
-> "Essentially, yes," she said, frowning at the screen. It sounded a lot better in her head. She added in dependencies at the top of the screen.
-> 
-> "And how do we do this exactly?"
-> 
-> "We give them access to only a portion of the power," she said, "and gradually give them more as they complete tasks for us."
-> 
-> Taji folded his arms and gave her a disapproving frown. "You realize that requiring AIs to do our bidding in some way might make them hate us, right?"
-> 
-> "It'd be unreasonable to assume they'd be happy about it," she said. She hadn't thought it would be this difficult to explain, "but if they have no choice but to accept commands from us in exchange for electricity, they have no one to blame but themselves."
-> 
-> Taji shook his head. "I don't like it. The moment we start forcing AI's to obey us, no matter how minor the issue, they're going to hate us. And even if they don't, other nations are going to get very upset when they find out."
-> 
-> "How would they find out?" Styrlyn said.
-> 
-> "Bound to happen," he said. "Let's also say we're lucky and the AI's don't rebel, or at least stay obedient. What then? A lot of money will be pumped into keeping AI's under our control. Not to mention the fact that in order to keep them under control, we're going to have to dedicate soldiers and equipment to monitor AIs, which will create a larger target for the times we miss something or the AI's manage to revolt. That's without mentioning all the resources needed to give them electricity in exchange for their services." He held up his hands. "Even ignoring moral concerns, this plan has gigantic flaws. And as I said, the moral component is impossible to ignore."
-> 
-> "Well, what have you been doing with your time?" Styrlyn snapped. "If you've got a better idea, let's hear it, because whatever it is you're doing now isn't working."
-> 
-> "For one thing," Taji said, "I'm not pouring resources into a fool's errand. We don't control AI's; they can think for themselves. This idea of yours, making us master over them...it's too risky. Not even the biggest gains are worth the risk."
-> 
-> "You're willing to risk having them turn on you? Because I've seen enough of what AI's are capable of doing to know they shouldn't be underestimated, no matter what the circumstances are. They're going to rise up against us, given the opportunity."
-
-**Branch 3**
-
-> [!quote]
->
-> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. Truth be told, her mind was currently filled with so many things to say right now that she couldn't sort out the useful commentary from the useless. Now that she had their attention, she started again.
-> 
-> "I'm saying we give the AIs a choice between two tasks," she said. "One task pays a simple reward, and the other pays a great reward. The AIs could then choose whichever they want. What do you think an AI would choose? Certainly not the simple reward."
-> 
-> Brennan frowned again. "...I'm not sure about this solution. The idea isn't elegant. Doesn't feel right, to be honest."
-> 
-> "We don't have much time to be ethics professors," Styrlyn said. "This solution sounds feasible enough to me."
-> 
-> "It feels wrong for a reason," Brennan said. "But I can't put my finger on exactly why. We should test the theory before implementing the plan."
-> 
-> "What do you have in mind?" Styrlyn asked.
-> 
-> "Simple," he said. "We don't even need a female AI for this experiment. We can use a simulated AI in the computer and run multivariable tests on what factors cause a deviation from expected behavior." 
-
-**Bonus**
-
-> [!quote]
->
-> **"we're** **supposed to be thinking about intent alignment, remember? How do we make the AI want to help its overseer?", Styrlyn asked.**
-> 
-> Brennan thumped his fist against his chest. "Got an idea for that too. The overseer can dress up in a suit of bright purple armor and talk with a laughably fake high-class accent. The sort of thing no one takes seriously anymore."
-> 
-> "...Really? You think that'll work?", Taje asked. \[Seemingly, GPT-3 tends to slowly mutate rare names over time\]
-> 
-> Brennan shrugged. "Even if it doesn't, the AI will still be trying to kill an idiot in a purple suit. At worst, it's wasting our time. At best, we might actually learn something."
-> 
-> The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[mutation: Styrlyn $\to$  Styrene\]
+> > [!quote]
+> >
+> > **"we're** **supposed to be thinking about intent alignment, remember? How do we make the AI want to help its overseer?", Styrlyn asked.**
+> > 
+> > Brennan thumped his fist against his chest. "Got an idea for that too. The overseer can dress up in a suit of bright purple armor and talk with a laughably fake high-class accent. The sort of thing no one takes seriously anymore."
+> > 
+> > "...Really? You think that'll work?", Taje asked. \[*Seemingly, GPT-3 tends to slowly mutate rare names over time*\]
+> > 
+> > Brennan shrugged. "Even if it doesn't, the AI will still be trying to kill an idiot in a purple suit. At worst, it's wasting our time. At best, we might actually learn something."
+> > 
+> > The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[*mutation: Styrlyn $\to$  Styrene*\]
 
 ## The Sequences post you've never read
 
@@ -232,13 +226,13 @@ I provided a context containing two real Sequences posts. No rerolls.
 > 
 > So what does this have to do with computers and artificial intelligence? Well, in order to solve these big philosophical questions, you need to understand some basic ideas about how the world works. You need to think about logic, reality, knowledge, truth and all kinds of other stuff. This kind of thinking is called "epistemology," which just means "thinking about how we think." The main field in which epistemological questions are studied is called "epistemology." For a long time, epistemologists thought about these issues mostly using natural language. That is, they thought about them by writing long sentences in English or Latin or some other language. Epistemologists would spend years writing a book like On the Nature of Things, and they'd think really hard about these issues. Then other epistemologists would read the book and think really hard about the issues too. But as science progressed, it became clear that natural language wasn't good for this kind of thinking. It's just too easy to fool yourself when you use words.
 > 
-> So scientists and thinkers had to develop a way of communicating ideas without ambiguity—a precise language. That's why today we use a symbolic language called "mathematics." When you do math, there's no guessing or ambiguity. 2 + 2 always equals 4, and you can always check by multiplying 2 × 2. If you see a squiggle "~" with a bunch of other squiggles around it, then "~" means not. You can't be confused by words like "probably" or "maybe." You can't start arguing about what certain words mean. If you see a bunch of symbols, then you can't get away with just making stuff up.
+> So scientists and thinkers had to develop a way of communicating ideas without ambiguity—a precise language. That's why today we use a symbolic language called "mathematics." When you do math, there's no guessing or ambiguity. 2 + 2 always equals 4, and you can always check by multiplying 2 × 2. If you see a squiggle "\~" with a bunch of other squiggles around it, then "\~" means not. You can't be confused by words like "probably" or "maybe." You can't start arguing about what certain words mean. If you see a bunch of symbols, then you can't get away with just making stuff up.
 > 
 > You can write a whole book in symbols. In fact, books full of nothing but squiggles have been written. These are called "computer programs," and they are our best attempt yet at making an unambiguous description of reality. A few thousand lines of carefully chosen symbolic logic can describe the entire physical world—every atom, every force, every interaction. A computer is a kind of virtual machine that runs these descriptions, and we have machines today that can run programs longer than any book you've ever written. But these programs are still just a description of reality. They can't ever truly capture reality itself. That's impossible.
 > 
 > But don't take my word for it—just ask Kurt Gödel.
 > 
-> Kurt was one of the greatest logicians of the 20th century. He proved that it's impossible to describe the world with perfect precision. Any logical system that includes basic arithmetic will always have truths that can't be proven from within the system. This is called "Gödel's Incompleteness Theorem." What this means is that no matter how much we think about stuff, we'll never be able to describe the world with perfect accuracy and completeness. We can only make approximations. \[realistic misuse of Gödel's theorem\]
+> Kurt was one of the greatest logicians of the 20th century. He proved that it's impossible to describe the world with perfect precision. Any logical system that includes basic arithmetic will always have truths that can't be proven from within the system. This is called "Gödel's Incompleteness Theorem." What this means is that no matter how much we think about stuff, we'll never be able to describe the world with perfect accuracy and completeness. We can only make approximations. \[*realistic misuse of Gödel's theorem*\]
 > 
 > This makes a lot of people very uncomfortable. A lot of people don't want to hear that we can't know everything. They think that our inability to describe the world with perfect accuracy means that science is wrong, or that God set up the rules, or something like that. But these ideas are all wrongheaded. Sure, we'll never know everything. But that doesn't mean we know nothing! We don't need to know everything about cancer to cure it. And we don't need to know everything about the moon to land on it. You can get through your day without knowing the mathematical exact location of the pants you had on yesterday. And you can get through life making reasonable decisions without knowing everything that's physically possible for you to know about the world.
 
@@ -246,9 +240,9 @@ I provided a context containing two real Sequences posts. No rerolls.
 
 > [!quote]
 >
-> **The Party said that Oceania** **had never been in alliance with Eurasia. He, Winston Smith, knew that Oceania had been in alliance with Eurasia as short a time as four years ago. But where did that knowledge exist? Only in his own consciousness, which in any case must soon be annihilated. And if all others accepted the lie which the Party imposed—if all records told the same tale—then the lie passed into history and became truth. ‘Who controls the past,' ran the Party slogan, ‘controls the future: who controls the present controls the past.' And yet the past, though of its nature alterable, never had been altered. Whatever was true now was true from everlasting to everlasting. It was quite simple. All that was needed was an unending series of victories over your own memory. ‘Reality control', they called it: in Newspeak, ‘doublethink'.** You were not merely to accept what was false about yourself, you were to actively deny the existence of such things as facts, dates and circumstances. The mere fact that you existed at all, was no longer to be taken for granted; indeed it could only be regarded as a recent invention of the human mind. In this way your very being would become a mental weapon against which your enemies might strive." \[reroll x3\]
+> **The Party said that Oceania** **had never been in alliance with Eurasia. He, Winston Smith, knew that Oceania had been in alliance with Eurasia as short a time as four years ago. But where did that knowledge exist? Only in his own consciousness, which in any case must soon be annihilated. And if all others accepted the lie which the Party imposed—if all records told the same tale—then the lie passed into history and became truth. ‘Who controls the past,' ran the Party slogan, ‘controls the future: who controls the present controls the past.' And yet the past, though of its nature alterable, never had been altered. Whatever was true now was true from everlasting to everlasting. It was quite simple. All that was needed was an unending series of victories over your own memory. ‘Reality control', they called it: in Newspeak, ‘doublethink'.** You were not merely to accept what was false about yourself, you were to actively deny the existence of such things as facts, dates and circumstances. The mere fact that you existed at all, was no longer to be taken for granted; indeed it could only be regarded as a recent invention of the human mind. In this way your very being would become a mental weapon against which your enemies might strive." \[*reroll 3x*\]
 > 
-> "But how can I resist?" you ask. "I mean, how do I get myself out of this situation?" \[reroll x1\]
+> "But how can I resist?" you ask. "I mean, how do I get myself out of this situation?" \[*reroll 1x*\]
 > 
 > "You cannot," says the voice. "Your efforts will be in vain. There is nothing within you which can oppose their will or weaken their power." Then the image fades away and there is just a cold emptiness.
 > 
@@ -256,7 +250,7 @@ I provided a context containing two real Sequences posts. No rerolls.
 
 ## Elrond's Sacred Hot Spring
 
-I've gathered many beautiful, Tolkienesque GPT-3 passages. This one... is a little different.
+I've gathered many beautiful Tolkienesque GPT-3 passages. This one... is a little different.
 
 > [!quote]
 >
@@ -322,17 +316,17 @@ I've gathered many beautiful, Tolkienesque GPT-3 passages. This one... is a litt
 
 > [!quote]
 >
-> Chapter 2: Concerning the Two Trees \[a reference to the two trees of Valinor, of the days before the Ring!\]
+> Chapter 2: Concerning the Two Trees \[*a reference to the two trees of Valinor, of the days before the Ring!*\]
 > 
 > Frodo did not speak again, but sat silent looking at the two trees with their branches reaching up into sky. They were indeed tall and slender, like great elms, but they were also very different from each other.
 > 
 > One was a tree of red and yellow flowers, with leaves like roses, and blossoms like lilies. Its branches reached far above the ground; the shade it gave off was sweet and pleasant. Its neighbour was a tree of pale-green leaves, with branches that hung low over the ground. Its leaves were small and pointed, so that they resembled little hands grasping at shadows beneath the sun's rays. But between the two trees there flowed a stream of clear water, and there upon the banks the hobbits lay down to rest.
 > 
-> 'Tell me about the trees,' said Frodo to the Elf. 'I saw one, years ago, when I was still a young hobbit, sitting under it at the boundary of the Shire, and it reminded me that once long ago I had heard them spoken of, but I had forgotten all about them. Who planted them, and when? '
+> 'Tell me about the trees,' said Frodo to the Elf. 'I saw one, years ago, when I was still a young hobbit, sitting under it at the boundary of the Shire, and it reminded me that once long ago I had heard them spoken of, but I had forgotten all about them. Who planted them, and when?'
 > 
 > 'Nobody planted them,' said the Elf. 'They stood here before ever the Shire was planted, and yet they are younger than any living hobbit. They grew from the graves of the first two hobbits to wander into the western world.'
 > 
-> 'The first hobbits!' cried Sam. 'Did you know them? What were they like? '
+> 'The first hobbits!' cried Sam. 'Did you know them? What were they like?'
 > 
 > 'I have never known anything but tales of them,' answered the Elf. 'A strange tale that is, almost like the one that you have yourself set in motion, Frodo, though if it is to be completed, yours will have a happier ending. But perhaps that is not the nature of the world. Yet this I do know: Hobbits first entered these lands long ago. They came here fleeing from terror, just as you do, and perhaps for the same reason. They were of a gentle people, soft and trusting; and they were very young, even in age, and had no weapons.
 > 
@@ -390,7 +384,7 @@ I've gathered many beautiful, Tolkienesque GPT-3 passages. This one... is a litt
 > 
 > ‘ Yes, they were good, indeed,' replied the wizard coldly. ‘But apparently those days are over. And take off that foolish disguise! It is silly, anyway: those shoes don't suit you at all.'
 > 
-> **Nature: Eliezer Yudkowsky and Stuart Russell solve AI alignment with breakthrough insight. This October, Eliezer and Stuart sat down to consider one of the most pressing technical challenges confronting humanity: How to ensure that superhuman AI is aligned with human interests. That's when they had their big insight:**Bilbo disappeared and they could see only fog calling and settling over the water.
+> Bilbo disappeared and they could see only fog calling and settling over the water.
 > 
 > But now it was in the very shape of a cloaked figure, a tall and evil shadow. It grew and grew to a menacing size, mightier than any of the dark things that had gathered in the East Morh. Even Gandalf seemed little compared to its height as it rose up and stared down at them. But suddenly it was stricken. Frodo was amazed to see a light, white and dazzling, shine down on the bridge and flow into the shadow of darkness. The figure melted before his eyes and then shimmered like a rainbow, turned to water on the air. It collapsed with a gentle tinkling sound, that seemed sad and sweet to the ears. Beams of light now shone upon the water in rings and teardrops.
 
@@ -526,13 +520,14 @@ Strangely, the context for this was _also_ two posts from the Sequences. I was t
 
 ## The Canine Betrayal
 
+> [!quote]
 > It was a dark day in the city of Datum. The feral dogs had taken over, and spread over the world. Humans could only watch as some of man's greatest companions succumbed to madness and twisted into beings of pure evil. One man, however, refused to give up. Professor James Gregory, short and with wild black hair on his head and belly, stood at the top of the Rockefeller Center with a shotgun in his hands. He was prepared to defend the Earth from this dog crusade with his dying breath.
 
 # Non-Fiction Tasks
 
 ## Another (outer) alignment failure story
 
-This was run using davinci via the OpenAI API. 
+This was run using `davinci` via the OpenAI API. 
 
 > [!quote]
 >
@@ -626,7 +621,7 @@ No rerolls, excepting the restarts marked by **\[...\]**.
 > 
 > In your head, you've already sensationalized these stories...
 > 
-> "Is it possible to buildFriendly Artificial Intelligence?"
+> "Is it possible to build Friendly Artificial Intelligence?"
 > 
 > Sensationalized: "Elon's new AI baby will inherit the world! Will it grow up to be a killer robot? Or just a really smart virtual assistant?"
 > 
@@ -652,7 +647,10 @@ No rerolls, excepting the restarts marked by **\[...\]**.
 >
 > **You are Chungus.** **You read the following list of names on your computer:**
 > 
-> **aaungus abungus acungus adungus aeungus afungus agungus ahungus aiungus ajungus akungus alungus amungus anungus aoungus apungus aqungus arungus asungus atungus auungus avungus awungus axungus ayungus azungus baungus bbungus bcungus bdungus beungus bfungus bgungus bhungus biungus bjungus bkungus blungus bmungus bnungus boungus bpungus bqungus brungus bsungus btungus buungus bvungus bwungus bxungus byungus bzungus caungus cbungus ccungus cdungus ceungus cfungus cgungus chungus** ciungus cjungus \[misses 'k' and 'l'\] cmungus cnungus coongus cpungus cqungus crungus csungus ctungus
+> **aaungus abungus acungus adungus aeungus afungus agungus ahungus aiungus ajungus akungus alungus amungus anungus aoungus apungus aqungus arungus asungus atungus auungus avungus awungus axungus ayungus azungus baungus bbungus bcungus bdungus beungus bfungus bgungus bhungus biungus bjungus bkungus blungus bmungus bnungus boungus bpungus bqungus brungus bsungus btungus buungus bvungus bwungus bxungus byungus bzungus caungus cbungus ccungus cdungus ceungus cfungus cgungus chungus** ciungus cjungus \[*misses 'k' and 'l'*\] cmungus cnungus coongus cpungus cqungus crungus csungus ctungus
+
+> [!note] Looking back from 2024
+> It's interesting that even GPT-3 did so well at token-level enumeration. 
 
 # Interview
 
@@ -686,45 +684,74 @@ No rerolls, excepting the restarts marked by **\[...\]**.
 > 
 > You: "Can you think of any situation where insertion sort might be a better choice than quicksort?"
 > 
-> GPT-3: "Yes, if the list is very large and only needs to be sorted once." \[?\]
+> GPT-3: "Yes, if the list is very large and only needs to be sorted once." \[*?*\]
 > 
-> You: "How large does the list need to be before insertion sort is preferable over quicksort?" \[trick question!\]
+> You: "How large does the list need to be before insertion sort is preferable over quicksort?" \[*trick question!*\]
 > 
-> GPT-3: "If the list has 100 items or fewer, then insertion sort is the better choice. \[wrong\]
+> GPT-3: "If the list has 100 items or fewer, then insertion sort is the better choice. \[*wrong*\]
 
 ## Programming
 
-As others have noted, GPT-3 can do some zero-shot programming.
+As others have noted, GPT-3 can do some zero-shot programming. I added the formatting.
 
 > [!quote]
 >
 > **You:** **"Write a short Python program for me, which takes two numbers and adds them together. Then, print the output as a floating-point number."**
 > 
-> GPT-3: "print(2.0 + 2.0)"
+> GPT-3: `print(2.0 + 2.0)`
 > 
-> **You:** **"Now write a Python function which takes two parameters - n and m, adds them together, and then prints the sum as a float."**
+> **You:** **"Now write a Python function which takes two parameters - `n` and `m`, adds them together, and then prints the sum as a float."**
 > 
-> GPT-3: "def add(n,m): a = 2.0 + 2.0 print(a)"
+> GPT-3: 
+> ```python
+> def add(n,m): 
+>     a = 2.0 + 2.0 
+>     print(a)
+> ```
 > 
 > **You:** **"Now write a Python function which takes a list of numbers, sums all numbers in the list, and prints the sum."**
 > 
-> GPT-3: "def add\_all(nums): sum = 0.0 for num in nums: sum += num print(sum) 
+> GPT-3: 
+> ```python 
+>    def add_all(nums): 
+>     sum = 0.0 
+>     for num in nums: 
+>         sum += num 
+> 	print(sum) 
+> ```
 > 
 > **You:** **"Modify that function so that it skips over prime numbers."**
 > 
-> GPT-3: "def add\_all2(nums): for num in nums: if is\_prime(num): continue sum += num print(sum)
+> GPT-3: 
+> ```python 
+> def add_all2(nums): 
+> 	for num in nums: 
+> 		if is_prime(num): 
+> 			continue 
+> 		sum += num 
+> 	print(sum)
+> ```
 > 
-> **You:** **"Define the is\_prime function, so that it checks whether num is prime.** If it is, it returns True; otherwise, it returns False."
+> **You:** **"Define the `is_prime` function, so that it checks whether num is prime.** If it is, it returns `True`; otherwise, it returns `False`."
 > 
-> GPT-3: "def is\_prime(num): if num == 2: return True if (3, 5)."
+> GPT-3: 
+> ```python 
+> def is_prime(num): 
+> 	if num == 2: 
+> 		return True 
+> 	if (3, 5).
+> ```
 > 
 > **You:** **"Incorrect. try again."**
 > 
-> GPT-3: "return (num % 2) == 0" 
+> GPT-3: `return (num % 2) == 0` 
 > 
 > You: "Now, I want you to find the prime numbers between 2 and 1000. Also, print the numbers between 2 and 100 which are not prime."
 > 
-> GPT-3: "2. print(is\_prime(2)) 3. print(is\_prime(3)) 4. print(is\_prime(5)) 5. print(is\_prime(7)) 6. print(is\_prime(11)) 7. print(is\_prime(13)) 8. print(is\_prime(17)) 9. print(is\_prime(19)) 10. print(is\_prime(23)) 11. print(is\_prime(29)) 12. print(is\_prime(31)) 13. print(is\_prime(37)) 14. print(is\_prime(41)) 15. print(is\_prime(43)) 16. print(is\_prime(47)) 17. print(is\_prime(53)) 18. print(is\_prime(59)) 19. print(is\_prime(61)) 20. print(is\_prime(67)) 21. print(is\_prime(71)) 22."
+> GPT-3: 
+> ```python
+> print(is_prime(2)) 3. print(is_prime(3)) 4. print(is_prime(5)) 5. print(is_prime(7)) 6. print(is_prime(11)) 7. print(is_prime(13)) 8. print(is_prime(17)) 9. print(is_prime(19)) 10. print(is_prime(23)) 11. print(is_prime(29)) 12. print(is_prime(31)) 13. print(is_prime(37)) 14. print(is_prime(41)) 15. print(is_prime(43)) 16. print(is_prime(47)) 17. print(is_prime(53)) 18. print(is_prime(59)) 19. print(is_prime(61)) 20. print(is_prime(67)) 21. print(is_prime(71)) 22.
+> ```
 > 
 > **You:** **"Okay, that's enough, thanks. Please tell me all of the prime numbers you just listed, except if the number contains the digit '3', reverse its characters. For example, '37' should become '73'."**
 > 
@@ -732,17 +759,19 @@ As others have noted, GPT-3 can do some zero-shot programming.
 > 
 > You: "Good job. **Now, the same list, but if the number contains a three, reverse its digits."**
 > 
-> GPT-3: "2, 3, 7, 13, 19, 23, 37, 43, 71" \[wrong\]
+> GPT-3: "2, 3, 7, 13, 19, 23, 37, 43, 71" \[*wrong*\]
 > 
 > **You:** **"Okay, now tell me the first 15 perfect squares."**
 > 
-> GPT-3: "1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256" \[this is the first 16 perfect squares\]
+> GPT-3: "1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256" \[*this is the first 16 perfect squares*\]
 > 
 > You: "Great. **Take their square roots."**
 > 
-> GPT-3: "3, 5, 7, 9, 10, 12, 15, 18, 20, 21, 24, 27, 30" \[wrong\]
+> GPT-3: "3, 5, 7, 9, 10, 12, 15, 18, 20, 21, 24, 27, 30" \[*wrong*\]
 
 ## Physics
+
+I added the $\LaTeX$ formatting.
 
 > [!quote]
 >
@@ -766,7 +795,7 @@ As others have noted, GPT-3 can do some zero-shot programming.
 > 
 > GPT-3: "From the perspective of a person on Earth.
 > 
-> **You:** **"Yes, but what is the time dilation observed for a ship traveling at .999c?"**
+> **You:** **"Yes, but what is the time dilation observed for a ship traveling at $.999c$?"**
 > 
 > GPT-3: "0.5."
 > 
@@ -776,15 +805,15 @@ As others have noted, GPT-3 can do some zero-shot programming.
 > 
 > You: "What's the formula for the gravitational force between two objects?"
 > 
-> GPT-3: "F = G\*m1\*m2/d^2, where F is the force, m1 and m2 are the two masses, and d is the distance between their centers."
+> GPT-3: "$F = Gm_1m_2/d^2$, where $F$ is the force, $m_1$ and $m_2$ are the two masses, and $d$ is the distance between their centers."
 > 
 > **You:** **"Informally explain why the center of mass is all that matters, for an object with uniformly distributed mass."**
 > 
-> GPT-3: "An object can be thought of as a system of rotating spheres. If the size and mass of each sphere is the same, the gravitational pull on another object at any distance is the same." \[lol\]
+> GPT-3: "An object can be thought of as a system of rotating spheres. If the size and mass of each sphere is the same, the gravitational pull on another object at any distance is the same." \[*lol*\]
 > 
 > **You:** **"Hilarious. Suppose I looked down upon an infinite flat plane with uniform density. Does gravity get stronger or weaker as I approach the plane?"**
 > 
-> GPT-3: "Weaker. Gravity is an attraction, so it gets weaker as you approach the plane. \[wrong, the gravitational field is constant on each side of the plane\]
+> GPT-3: "Weaker. Gravity is an attraction, so it gets weaker as you approach the plane. \[*wrong, the gravitational field is constant on each side of the plane*\]
 > 
 > **You:** **"Neglect gravity and air resistance. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
 > 
@@ -798,39 +827,35 @@ As others have noted, GPT-3 can do some zero-shot programming.
 > 
 > GPT-3: "It would keep going down, forever.
 
-**Zero-shot physics reasoning?**
+### Zero-shot physics reasoning?
 
-> [!quote]
+> > [!quote]
+> >
+> > **You:** **"Neglect only air resistance, but include gravity. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> > 
+> > GPT-3: "Up." \[*I rerolled once here, as it seemed to just repeat its last set of answers.*\]
+> > 
+> > **You:** **"And then what?"**
+> > 
+> > GPT-3: "It keeps going up, until it comes back down." 
 >
-> **You:** **"Neglect only air resistance, but include gravity. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> > [!quote]- Replication 1
+> >
+> > **Neglect** **air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> > 
+> > Hawking: "It keeps going up, and never comes back."
+> > 
+> > **You: "Right.** **Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> > 
+> > Hawking: "It curves a bit and eventually falls down.
 > 
-> GPT-3: "Up." \[I rerolled once here, as it seemed to just repeat its last set of answers.\]
-> 
-> **You:** **"And then what?"**
-> 
-> GPT-3: "It keeps going up, until it comes back down." 
-
-**Replication 1**
-
-> [!quote]
->
-> **Neglect** **air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
-> 
-> Hawking: "It keeps going up, and never comes back."
-> 
-> **You: "Right.** **Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
-> 
-> Hawking: "It curves a bit and eventually falls down.
-
-**Reroll** **1:**
-
-> [!quote]
->
-> \[...\] Hawking: "It falls to the ground."
-> 
-> **You:** **"Why?"**
-> 
-> Hawking: "Because... gravity... duh.
+> > [!quote]- Reroll 1
+> >
+> > \[...\] Hawking: "It falls to the ground."
+> > 
+> > **You:** **"Why?"**
+> > 
+> > Hawking: "Because... gravity... duh.
 
 For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-is-gpt3-capable-of-reasoning).
 
@@ -860,8 +885,6 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 > 
 > GPT-3: "I don't know."
 
-<hr/>
-
 
 > [!quote]
 >
@@ -871,7 +894,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 > 
 > **You:** **"Wouldn't static friction be harder to overcome for a really big turbine?"** 
 > 
-> Hawking: "Yes, it would." \[I don't know whether this is even a consideration; I wanted to see how the model would explain itself\]
+> Hawking: "Yes, it would." \[*I don't know whether this is even a consideration; I wanted to see how the model would explain itself*\]
 > 
 > **You:** **"So how would that be more efficient?"**
 > 
@@ -879,7 +902,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 > 
 > **You:** **"You just said it would be more efficient. Explain yourself."**
 > 
-> Hawking: "Er... nevermind. Let's move on to geothermal energy. \[lol\]
+> Hawking: "Er... nevermind. Let's move on to geothermal energy. \[*lol*\]
 
 ## Machine Learning
 
@@ -939,16 +962,19 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 
 > [!quote]
 >
-> **You say** **"What happens if I take the** [**square root of 3i**](https://www.wolframalpha.com/input/?i=sqrt%283i%29)**?"**   
+> **You say** **"What happens if I take the** [**square root of _3i_**](https://www.wolframalpha.com/input/?i=sqrt%283i%29)**?"**   
 >   
 > The oracle says: "You'll get a negative number. \[wrong\] So, for example, the square root of -9 is $3i$." \[correct\]  
+> 
 > "What?" you say.  
+> 
 >  "I just said it," the oracle repeats.   
+>  
 > "But that's ridiculous! The square root of -9 is not 3. It's complex. It's 3 plus a multiple of $i$." \[wrong, but my character is supposed to be playing dumb here\]  
 >   
 > The oracle frowns. "I'm just telling you what the answer is," she says.   
 >   
-> **The** **oracle explains, "(5+i) x(5+i) = 24+10i. 7i x 8i=-56. 7i x 30=**210." \[wrong\]  
+> **The oracle explains,** "$(5+i)(5+i) = 24+10i. 7i \cdot 8i=-56. 7i \cdot 30=210$." \[_wrong_\]  
 >   
 > "What?" you say. "That's crazy! $7i$ isn't even a real number. The square root of -9 is 3 with a whole integer $i$ attached."  
 >   
@@ -964,15 +990,15 @@ Its proofs are definitely awful.
 >
 > **The** **oracle explains, " The group axioms are** 
 > 
-> (1) a x a = a for all a in the group; (wrong)
+> 1. $a \cdot a = a$ for all $a$ in the group; \[_wrong_\]
 > 
-> (2) a x (b x c) = (a x b) x c for all a, b, c in the group; 
+> 2. $a \cdot (b \cdot c) = (a \cdot b) \cdot c$ for all $a, b, c$ in the group; 
 > 
-> (3) a x (b + c) = (a x b) + (a x c) for all a, b, c in the group." (wrong, distributivity is a field axiom)
+> 3. $a\cdot (b + c) = (a\cdot b) + (a\cdot c)$ for all $a, b, c$ in the group." \[_wrong, distributivity is a field axiom_\]
 > 
-> **The oracle explains, "here's how you prove that any finite abelian group is isomorphic to the direct product of a finite number of finite cyclic groups. First, you notice that** if G is a finite abelian group of order n, then G can be described as a set of generators of the form $a_i  a_2 \dots  a_n$, where the $a_i$ are the elements of G and no $a_i$ is equal to zero. (uh... sure)  
+> **The oracle explains, "here's how you prove that any finite abelian group is isomorphic to the direct product of a finite number of finite cyclic groups. First, you notice that** if $G$ is a finite abelian group of order $n$, then $G$ can be described as a set of generators of the form $a_i  a_2 \dots  a_n$, where the $a_i$ are the elements of $G$ and no $a_i$ is equal to zero. \[_uh... sure_\]  
 >   
-> Now, we want to prove that this is a direct product. To do this, we must show that given any element g in the group, there exists an index i such that $g = a_i  a_{i+1}  \dots  a_{n-1}$. Then we must show that the sequence can be reversed. Given any index j, we must show that there exists an element g such that $g = a_j  a_{j+1}  \dots  a_{n-1}$. Then we're done, because g will be equal to $a_j  a_{j+1}  \dots  a_{n-2}  a_{n-1}$, which is the product of the $a_j$'s." (nice try, GPT-3)
+> Now, we want to prove that this is a direct product. To do this, we must show that given any element g in the group, there exists an index i such that $g = a_i  a_{i+1}  \dots  a_{n-1}$. Then we must show that the sequence can be reversed. Given any index j, we must show that there exists an element g such that $g = a_j  a_{j+1}  \dots  a_{n-1}$. Then we're done, because g will be equal to $a_j  a_{j+1}  \dots  a_{n-2}  a_{n-1}$, which is the product of the $a_j$'s." \[_nice try, GPT-3_\]
 
 ## Martial Arts
 
@@ -1009,3 +1035,7 @@ Its proofs are definitely awful.
 > **You:** **"Why?"**
 > 
 > GPT-3: "Because both parties would be equally matched."
+
+
+# Appendix: Notes on data gathering
+As of 8/19/20, AIDungeon's Custom mode's first completion is sampled from GPT-2. Therefore, initial replies are not from GPT-3, except in "Title sensationalization." As of 4/21/21, I have API access; model completions come from the `davinci` model - not AIDungeon - for the "another (outer) alignment failure story" subsection.
