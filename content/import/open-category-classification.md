@@ -17,18 +17,18 @@ lw-vote-count: 11
 af-base-score: 5
 af-num-comments-on-upload: 0
 publish: true
-title: "Open-Category Classification"
+title: Open-Category Classification
 lw-latest-edit: 2018-03-28T14:49:23.665Z
 lw-is-linkpost: "false"
-tags: 
-  - "AI"
-aliases: 
-  - "open-category-classification"
+tags:
+  - AI
+aliases:
+  - open-category-classification
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/28/2018
 original_url: https://www.lesswrong.com/posts/txGJZAPjraYEQfHq2/open-category-classification
-skip_import:true
+skip_import: '"true"'
 ---
 # Introduction
 
