@@ -11,6 +11,7 @@
   }
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
   background-color: var(--bg);
+  scrollbar-color: var(--lightergray) var(--bg);
   border-radius: 5px;
   padding: 0 1rem;
   overflow-y: hidden;
