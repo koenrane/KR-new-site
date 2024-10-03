@@ -320,7 +320,7 @@ figure,
     margin-top: $baseMargin;
   }
   .popover & {
-    margin-top: $baseMargin !important;
+    margin-top: calc(1.5 * $baseMargin) !important;
   }
 }
 
