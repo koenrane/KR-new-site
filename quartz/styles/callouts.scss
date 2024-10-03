@@ -240,6 +240,9 @@
   .callout-title-inner {
     font-weight: $semiBoldWeight;
     font-variant-numeric: lining-nums;
+    & .small-caps {
+      font-variant-numeric: normal;
+    }
 
     & sup {
       font-variant-numeric: normal;
