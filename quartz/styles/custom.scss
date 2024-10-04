@@ -167,6 +167,11 @@ pre {
   font-size: 0.81em;
 }
 
+// Adjust spacing around lists
+p:has(+ ol), p:has(+ ul) {
+  margin-bottom: calc(1.5 * $baseMargin);
+}
+
 /* Wrap links properly */
 a {
   color: var(--color-link);
