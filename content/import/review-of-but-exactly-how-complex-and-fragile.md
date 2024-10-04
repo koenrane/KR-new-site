@@ -28,6 +28,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/06/2021
 original_url: https://www.lesswrong.com/posts/r6p5cqT6aWYGCYHJx/review-of-but-exactly-how-complex-and-fragile
+skip_import: true
 ---
 I've thought about (concepts related to) the fragility of value [quite](/the-catastrophic-convergence-conjecture#Objective-vs-value-specific-catastrophes) [a bit](/non-obstruction-motivates-corrigibility) over the last year, and so I returned to Katja Grace's [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) with renewed appreciation (I'd previously commented only [a very brief microcosm](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=GAxppfoKhiFRrWHgK) of this review). I'm glad that Katja wrote this post and I'm glad that everyone commented. I often see [private Google docs full of nuanced discussion which will never see the light of day](https://www.lesswrong.com/posts/hnvPCZ4Cx35miHkw3/why-is-so-much-discussion-happening-in-private-google-docs), and that makes me sad, and I'm happy that people discussed this publicly. 
 
@@ -56,21 +57,20 @@ Setting loose a superintelligent expected utility maximizer is different from se
 
 [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) and its comments debate whether "value is fragile." I think this is a bad framing because it hides background assumptions about the dynamics of the system being considered. This section motivates a more literal interpretation of the value fragility thesis, demonstrating its coherence and its ability to meaningfully decompose AI alignment disagreements. The next section will use this interpretation to reveal how the comments largely failed to explore key modeling assumptions. This, I claim, helped prevent discussion from addressing the cruxes of disagreements.
 
-The post and discussion both seem to slip past (what I view as) the heart of 'value fragility', and it seems like many people are secretly arguing for and against different propositions. Katja says:
+The post and discussion both seem to slip past (what I view as) the heart of "value fragility", and it seems like many people are secretly arguing for and against different propositions. 
 
+> [!quote] Katja Grace
 > it is hard to write down what kind of future we want, and if we get it even a little bit wrong, most futures that fit our description will be worthless. 
 
 But this leaves hidden a key step:
 
-> it is hard to write down the future we want, _feed the utility function punchcard into the utility maximizer and then press 'play'_, and if we get it even a little bit wrong, most futures that fit our description will be worthless.
+> it is hard to write down the future we want, _feed the utility function punchcard into the utility maximizer and then press "play"_, and if we get it even a little bit wrong, most futures that fit our description will be worthless.
 
-Here is the original 'value is fragile' claim: 
+Here is the original "value is fragile" claim: 
 
-> [!quote]
+> [!quote] Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 >
 > Any Future **not** shaped by a goal system with detailed reliable inheritance from human morals and metamorals, will contain almost nothing of worth.
-> 
-> _~_  Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 
 Eliezer claims that if the future is not _shaped by **a** goal system,_ there's not much worth. He does not explicitly claim, in that original essay, that we have to/will probably build an X-maximizer AGI, where X is an extremely good (or perfect) formalization of human values (whatever that would mean!). He does not explicitly claim that we will mold a mind from shape Y and that that probably goes wrong, too. He's talking about goal systems chartering a course through the future, and how sensitive the outcomes are to that process.
 
@@ -78,25 +78,27 @@ Let's ground this out. Imagine you're acting, but you aren't quite sure _what_ i
 
 But what if you have to commit to an object-level policy _now_, a way-of-steering-the-future _now_, without being able to reflect more on your values? What kind of guarantees can you get? 
 
-In Markov decision processes, if you're maximally uncertain, you can't guarantee you won't lose at least _half_ of the value you could have achieved for the unknown true goal (I recently proved this for [an upcoming paper](https://www.overleaf.com/read/vtmkvhddnvvz)). Relatedly, perfectly optimizing an $\epsilon$ \-incorrect reward function [only bounds regret](https://web.eecs.umich.edu/~baveja/Papers/approx-rl-loss.pdf) to $2\epsilon$ _per time step_ (see also [_Goodhart's Curse_](https://arbital.com/p/goodharts_curse/)). The main point is that you can't pursue every goal at once. It doesn't matter whether you use reinforcement learning to train a policy, or whether you act randomly, or whether you ask Mechanical Turk volunteers what you should do in each situation. Whenever your choices mean anything at all, _no sequence of actions can optimize all goals at the same time_. 
+In Markov decision processes, if you're maximally uncertain, you can't guarantee you won't lose at least _half_ of the value you could have achieved for the unknown true goal (I recently proved this for [an upcoming paper](https://arxiv.org/abs/2206.11812v3)). Relatedly, perfectly optimizing an $\epsilon$\-incorrect reward function [only bounds regret](https://web.eecs.umich.edu/~baveja/Papers/approx-rl-loss.pdf) to $2\epsilon$ _per time step_ (see also [_Goodhart's Curse_](https://arbital.com/p/goodharts_curse/)). The main point is that you can't pursue every goal at once. It doesn't matter whether you use reinforcement learning to train a policy, or whether you act randomly, or whether you ask Mechanical Turk volunteers what you should do in each situation. Whenever your choices mean anything at all, _no sequence of actions can optimize all goals at the same time_. 
 
-So there has to be _something_ which differentially pushes the future _towards_ "good" things and _away from_ "bad" things. That _something_ could be 'humanity', or 'aligned AGI', or 'augmented humans wielding tool AIs', or 'magically benevolent aliens' - whatever. But it has to be _something_, _some 'goal system'_ (as Eliezer put it), and it has to be _entangled_ with the thing we want it to optimize for (human morals and metamorals). Otherwise, there's no reason to think that the universe weaves a "good" trajectory through time.
+So there has to be _something_ which differentially pushes the future _towards_ "good" things and _away from_ "bad" things. That _something_ could be "humanity", or "aligned AGI", or "augmented humans wielding tool AIs", or "magically benevolent aliens" - whatever. But it has to be _something_, _some "goal system"_ (as Eliezer put it), and it has to be _entangled_ with the thing we want it to optimize for (human morals and metamorals). Otherwise, there's no reason to think that the universe weaves a "good" trajectory through time.
 
 Hence, one might then conclude
 
+> [!quote] Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 > Any Future **not** shaped by a goal system with detailed reliable inheritance from human morals and metamorals, will not be optimized _for_ human morals and metamorals.
 
 But how do we get from "will not be optimized _for_" to "will contain _almost nothing_ of worth"? There are probably a few ways of arguing this; the simplest may be:
 
-> [our universe has 'resources'](https://www.lesswrong.com/s/ehnG4mseKF6xALmQy/p/ahZQbxiPPpsTutDy2#Convergent_Instrumental_Goals); making the universe decently OK-by-human-standards [requires resources](/seeking-power-is-often-convergently-instrumental-in-mdps) which can be used for many other purposes; most purposes are best accomplished by _not_ using resources in this way.
+> [our universe has "resources"](https://www.lesswrong.com/s/ehnG4mseKF6xALmQy/p/ahZQbxiPPpsTutDy2#Convergent_Instrumental_Goals); making the universe decently OK-by-human-standards [requires resources](/seeking-power-is-often-convergently-instrumental-in-mdps) which can be used for many other purposes; most purposes are best accomplished by _not_ using resources in this way.
 
 This is _not_ an argument that we will deploy utility maximizers with a misspecified utility function, and that _that_ will be how our fragile value is shattered and our universe is extinguished. The thesis holds merely that 
 
+> [!quote]Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 > Any Future **not** shaped by _a goal system_ with detailed reliable inheritance from human morals and metamorals, will contain almost nothing of worth. 
 
 As Katja notes, this argument is secretly about [how the "forces of optimization" shape the future](/attainable-utility-landscape), and not necessarily about AIs or anything. The key point is to [understand how the future is shaped](/non-obstruction-motivates-corrigibility), and then discuss how different kinds of AI systems might shape that future. 
 
-Concretely, I can claim 'value is fragile' and then say '_for example_, if we deployed a utility-maximizer in our society but we forgot to have it optimize for variety, people might loop a single desirable experience forever.' But on its own, the value fragility claim doesn't center on AI.
+Concretely, I can claim "value is fragile" and then say "_for example_, if we deployed a utility-maximizer in our society but we forgot to have it optimize for variety, people might loop a single desirable experience forever." But on its own, the value fragility claim doesn't center on AI.
 
 > [!quote] [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 >
@@ -111,34 +113,33 @@ Concretely, I can claim 'value is fragile' and then say '_for example_, if we de
 
 Katja (correctly) implies that _concluding that AI alignment is difficult_ requires extra arguments beyond value fragility:
 
-> [!quote] [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile)
+> [!quote] Katja Grace, [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile)
 >
 > ... But if \[the AI\] doesn’t abruptly take over the world, and merely becomes a large part of the world’s systems, with ongoing ability for us to modify it and modify its roles in things and make new AI systems, then the question seems to be how forcefully the non-alignment is pushing us away from good futures relative to how forcefully we can correct this. And in the longer run, how well we can correct it in a deep way before AI does come to be in control of most decisions. So something like the speed of correction vs. the speed of AI influence growing. 
 
 
-As I see it, Katja and the commenters mostly discuss their _conclusions_ about how AI+humanity might steer the future, how _hard_ it will be to achieve the requisite entanglement with human values, instead of debating the truth value of the 'value fragility' claim which Eliezer made. Katja and the commenters discuss points which _are_ relevant to AI alignment, but which are distinct from the value fragility claim. No one remarks that this claim has truth value independent of how we go about AI alignment, or how hard it is for AI to further our values. 
+As I see it, Katja and the commenters mostly discuss their _conclusions_ about how AI+humanity might steer the future, how _hard_ it will be to achieve the requisite entanglement with human values, instead of debating the truth value of the "value fragility" claim which Eliezer made. Katja and the commenters discuss points which _are_ relevant to AI alignment, but which are distinct from the value fragility claim. No one remarks that this claim has truth value independent of how we go about AI alignment, or how hard it is for AI to further our values. 
 
 Value fragility quantifies the robustness of outcome value to perturbation of the "motivations" of key actors within a system, given certain dynamics. This may become clearer as we examine the comments. This insight allows us to decompose debates about "value fragility" into e.g.
 
 1.  In what ways is human value fragile, given a fixed optimization scheme?   
-      
-    In other words: given fixed dynamics, to what classes of perturbations is outcome value fragile?
+	- In other words: given fixed dynamics, to what classes of perturbations is outcome value fragile?
 2.  What kinds of multi-agent systems tend to veer towards goodness and beauty and value?  
-      
-    In other words: given a fixed set of perturbations, what kinds of dynamics are unusually robust against these perturbations?
-    1.  What kinds of systems will humanity end up building, should we act no further? This explores our beliefs about how probable alignment pressures will interact with value fragility.
+	- In other words: given a fixed set of perturbations, what kinds of dynamics are unusually robust against these perturbations?
+    -  What kinds of systems will humanity end up building, should we act no further? This explores our beliefs about how probable alignment pressures will interact with value fragility.
 
 I think this is much more enlightening than debating
-
-    VALUE_FRAGILE_TO_AI == True?
+```
+VALUE_FRAGILE_TO_AI == True?
+```
 
 # The Comments
 
 If no such decomposition takes place, I think debate is just too hard and opaque and messy, and I think some of this messiness spilled over into the comments. Locally, each comment is well thought-out, but it seems (to me) that cruxes [were largely left untackled](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=C3L8jcExxYphaC5eH). 
 
-To concretely point out something I consider somewhat confused, johnwentsworth authored [the top-rated comment](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=36Zaej9ppdApxcmFc):
+To concretely point out something I consider somewhat confused:
 
-> [!quote]
+> [!quote] `johnswentworth`'s [the top-rated comment](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=36Zaej9ppdApxcmFc)
 >
 > I think \[Katja's summary\] is an oversimplification of the fragility argument, which people tend to use in discussion because there's some nontrivial conceptual distance on the way to a more rigorous fragility argument.
 > 
@@ -154,18 +155,20 @@ Crucially, you have to _realize_ that your mind can hold separate the value frag
 
 Many other comments seem off-the-mark in a similar way. That said, I think that Steve Byrnes left [an underrated comment](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=NYBT6FEeeQGE8XqWD):
 
+> [!quote] Steve Byrnes
 > Corrigibility is another reason to think that the fragility argument is not an impossibility proof: If we can make an agent that sufficiently understands and respects the human desire for autonomy and control, then it would presumably ask for permission before doing anything crazy and irreversible, so we would presumably be able to course-correct later on (even with fast/hard takeoff).
 
 The reason that [corrigibility-like properties](/non-obstruction-motivates-corrigibility) are so nice is that they let us continue to steer the future _through_ the AI itself; its power becomes ours, and so _we_ remain the "goal system with detailed reliable inheritance from human morals and metamorals" shaping the future.
 
 # Conclusion
 
-> [!quote]
+> [!quote] `TurnTrout`, this review
 >
 > The problem is that people are debating "is value fragile?" without realizing that value fragility is a _sensitivity measure_: given some initial state and some dynamics, how sensitive is the human-desirability of the final outcomes [to certain kinds of perturbations of the initial state](https://www.lesswrong.com/posts/znfkdCoHMANwqc2WE/the-ground-of-optimization-1)? 
 > 
 > Left unremarked by Katja and the commenters, value fragility isn't intrinsically _about_ AI alignment. What matters most is the extent to which the future is controlled by systems whose purposes are sufficiently entangled with human values. This question reaches beyond just AI alignment.
 
-I'm glad Katja said "Hey, I'm not convinced by this key argument", but I don't think it makes sense to include [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) in the review. 
+I'm glad Katja said "Hey, I'm not convinced by this key argument", but I don't think it makes sense to include [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) in the LessWrong review. 
 
-_Thanks to Rohin Shah for feedback on this review. Further discussion is available in the children of_ [_this comment_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=RviNJ5SjdmkXnWbtv)\.
+> [!thanks]
+> Thanks to Rohin Shah for feedback on this review. Further discussion is available in the children of [this comment](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=RviNJ5SjdmkXnWbtv)\.

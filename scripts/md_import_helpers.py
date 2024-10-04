@@ -44,6 +44,7 @@ SKIP_POSTS = set(
         "does-there-exist-an-agi-level-parameter-setting-for-modern",
         "is-it-safe-to-spend-time-with-people-who-already-recovered",
         "how-often-are-new-ideas-discovered-in-old-papers",
+        "clarifying-power-seeking-and-instrumental-convergence",
         "generalizing-the-power-seeking-theorems",
         "research-on-repurposing-filter-products-for-masks",
     ]

@@ -30,9 +30,8 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 12/17/2022
 original_url: https://www.lesswrong.com/posts/cHnQ4bBFr3cX6rBxh/positive-values-seem-more-robust-and-lasting-than
+skip_import: true
 ---
-_Originally_ [_a shortform comment_](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cMs3hAyfsdLr7YRv3)\.
-
 Imagine we train an AI on realistic situations where it can kill people, and penalize it when it does so. Suppose that we successfully instill a strong and widely activated "If going to kill people, then don't" value shard. 
 
 Even assuming this much, the situation seems fragile. See, many value shards are self-chaining. In [The shard theory of human values](/shard-theory), I wrote about how:
@@ -53,13 +52,10 @@ Crucially, the no-killing injunction can probably be steered around by the agent
 
 This line of argumentation is a point in favor of the following: Don't embed a shard which doesn't want to kill. Make a shard which wants to protect / save / help people. _That_ can chain into itself across time.
 
-<hr/>
-
-
-Other points:
-
-- Deontology seems most durable to me when it can be justified on consequentialist grounds. Perhaps this is one mechanistic reason why. 
-- This is one point in favor of the "convergent consequentialism" hypothesis, in some form. 
-- I think that people are not usually defined by negative values (e.g. "don't kill"), but by positives, and perhaps this is important.
+> [!note] Other notes
+> 
+> - Deontology seems most durable to me when it can be justified on consequentialist grounds. Perhaps this is one mechanistic reason why. 
+> - This is one point in favor of the "convergent consequentialism" hypothesis, in some form. 
+> - I think that people are not usually defined by negative values (e.g. "don't kill"), but by positives, and perhaps this is important.
 
 [^1]: Which I won't actually detail right now.

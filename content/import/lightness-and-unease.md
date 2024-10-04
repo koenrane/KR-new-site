@@ -35,16 +35,17 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 03/21/2018
 original_url: https://www.lesswrong.com/posts/EvKWNRkJgLosgRDSa/lightness-and-unease
+skip_import: true
 ---
 # Light
 
 ## Month 1
 
-January  $6^{\text{th}}$ is the day I finished reading _Superintelligence_, and that’s the day my life felt like it entered protagonist mode. I tore through ten books over the next week and a half, from _The Art of Strategy_ to _Thinking: Fast and Slow_. I proceeded to finish the considerable remainder of the Sequences I’d left unread. It wasn’t fear that fueled me – it was a sweet blend of curiosity and protectiveness, about and for this cruel and beautiful world in which we live. It was a sense of the possibilities afforded to those lucky enough to live in what Scott Alexander dubbed the _carefree springtime of the universe_. It was a rekindling of my youthful inquisitiveness, when I’d spend afternoons lost in math books, coding a C++ text RPG, or caring for a caterpillar over its evolution, just to set it free.
+January 6th is the day I finished reading _Superintelligence_, and that’s the day my life felt like it entered protagonist mode. I tore through ten books over the next week and a half, from _The Art of Strategy_ to _Thinking: Fast and Slow_. I proceeded to finish the considerable remainder of the Sequences I’d left unread. It wasn’t fear that fueled me – it was a sweet blend of curiosity and protectiveness, about and for this cruel and beautiful world in which we live. It was a sense of the possibilities afforded to those lucky enough to live in what Scott Alexander dubbed the _carefree springtime of the universe_. It was a rekindling of my youthful inquisitiveness, when I’d spend afternoons lost in math books, coding a C++ text RPG, or caring for a caterpillar over its evolution, just to set it free.
 
 ## Month 2
 
-I applied for the upcoming CFAR workshop and was later accepted (the interview was the first time where I heard another person say things like "updating"). I continued my non-technical reading, [summarized a technical alignment result](/toy-instrumental-convergence-paper-walkthrough), and [reviewed Naïve Set Theory](<em>https://www.less</em>erwrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-success-insights-from-naive-set-theory). The concepts in that small set theory book expanded my mathematical horizons beyond measure (okay, I haven’t studied measure theory yet, so not _quite_ beyond measure). This is also when things really _clicked_ for me – I started [generating novel insights](/how-to-dissolve-it) regularly. Finally, I decided to [try for 5 minutes](https://www.readthesequences.com/UseTheTryHarderLuke) before giving up on my [CHAI application](http://humancompatible.ai/jobs); this led to an idea of which I am truly proud.
+I applied for the upcoming CFAR workshop and was later accepted (the interview was the first time where I heard another person say things like "updating"). I continued my non-technical reading, [summarized a technical alignment result](/toy-instrumental-convergence-paper-walkthrough), and [reviewed Naïve Set Theory](/set-theory-textbook-review). The concepts in that small set theory book expanded my mathematical horizons beyond measure (okay, I haven’t studied measure theory yet, so not _quite_ beyond measure). This is also when things really _clicked_ for me – I started [generating novel insights](/how-to-dissolve-it) regularly. Finally, I decided to [try for 5 minutes](https://www.readthesequences.com/UseTheTryHarderLuke) before giving up on my [CHAI application](http://humancompatible.ai/jobs); this led to an idea of which I am truly proud.
 
 I do not yet know whether I will be accepted for CHAI’s internship, but the idea merits two posts of its own: one for the proposal itself, and one for the wonderful emotional and psychological process of discovery I experienced.
 
@@ -72,4 +73,4 @@ Trout can swim.
 
 I can sense a mix of reasonable dissatisfaction with my performance, and "psychologically unrealistic" expectations. I’ve taken far longer than I wished on my AI book; if only I were less vulnerable to [pica](http://lesswrong.com/lw/15w/experiential_pica/), if I studied an extra hour each day, if the concepts had come to me more easily… I imagine worlds in which I did better and had also made substantial progress in, say, topology or linear algebra by this point in time.
 
-I’ve come so far, but I also am quite aware of [the countless levels above mine](https://www.readthesequences.com/TheLevelAboveMine). Sometimes it weighs on me, but usually I view the task before me with twisted pleasure.
+I’ve come so far, but I also am quite aware of [the levels above mine](https://www.readthesequences.com/TheLevelAboveMine). Sometimes it weighs on me, but usually I view the task before me with twisted pleasure.
