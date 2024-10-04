@@ -7,10 +7,6 @@ import rehypeRaw from "rehype-raw"
 import { SKIP, visit } from "unist-util-visit"
 import path from "path"
 import { JSResource } from "../../util/resources"
-// @ts-ignore
-import calloutScript from "../../components/scripts/callout.inline.ts"
-// @ts-ignore
-import checkboxScript from "../../components/scripts/checkbox.inline.ts"
 import { FilePath, slugTag, slugifyFilePath } from "../../util/path"
 import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
@@ -20,6 +16,12 @@ import axios from 'axios';
 import fs from 'fs';
 import { PluggableList } from "unified"
 import { findGitRoot } from "./logger_utils"
+
+// Script imports 
+import { fileURLToPath } from 'url';
+const currentFilePath = fileURLToPath(import.meta.url)
+const currentDirPath = path.dirname(currentFilePath)
+
 
 export interface Options {
   comments: boolean
@@ -463,16 +465,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                 const defaultState = collapseChar === "-" ? "collapsed" : "expanded"
                 const titleContent = match.input.slice(calloutDirective.length).trim()
                 const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
-                const titleNode: Paragraph = {
-                  type: "paragraph",
-                  children: [
-                    {
-                      type: "text",
-                      value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
-                    },
-                    ...firstChild.children.slice(1),
-                  ],
-                }
 
                 const calloutTitle: any = {
                   type: 'element',
@@ -504,7 +496,13 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                           className: ['callout-title-inner']
                         }
                       },
-                      children: titleNode.children
+                      children: [
+                        {
+                          type: "text",
+                          value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
+                        },
+                        ...firstChild.children.slice(1),
+                      ],
                     },
                     ...(collapse ? [{
                       type: 'element',
@@ -743,6 +741,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       const js: JSResource[] = []
 
       if (opts.enableCheckbox) {
+        const checkboxScriptPath = path.join(currentDirPath, '../components/scripts/checkbox.inline.ts')
+        const checkboxScript = fs.readFileSync(checkboxScriptPath, 'utf8')
         js.push({
           script: checkboxScript,
           loadTime: "afterDOMReady",
@@ -751,6 +751,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       }
 
       if (opts.callouts) {
+        const calloutScriptPath = path.join(currentDirPath, '../components/scripts/callout.inline.ts')
+        const calloutScript = fs.readFileSync(calloutScriptPath, 'utf8')
         js.push({
           script: calloutScript,
           loadTime: "afterDOMReady",
