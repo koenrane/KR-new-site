@@ -452,9 +452,8 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
               }
 
               const text = firstChild.children[0].value
-              const restOfTitle = firstChild.children.slice(1)
               const [firstLine, ...remainingLines] = text.split("\n")
-              const remainingText = remainingLines.join("\n")
+              let remainingText = remainingLines.join("\n")
 
               const match = firstLine.match(calloutRegex)
               if (match?.input) {
@@ -463,7 +462,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                 const collapse = collapseChar === "+" || collapseChar === "-"
                 const defaultState = collapseChar === "-" ? "collapsed" : "expanded"
                 const titleContent = match.input.slice(calloutDirective.length).trim()
-                const useDefaultTitle = titleContent === "" && restOfTitle.length === 0
+                const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
                 const titleNode: Paragraph = {
                   type: "paragraph",
                   children: [
@@ -471,7 +470,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                       type: "text",
                       value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
                     },
-                    ...restOfTitle,
+                    ...firstChild.children.slice(1),
                   ],
                 }
 
@@ -521,8 +520,27 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                   ]
                 }
 
-                // replace first line of blockquote with title and rest of the paragraph text
-                node.children = [calloutTitle, ...node.children.slice(1)]
+                // Create a new content node with the remaining text and other children
+                const contentNode: any = {
+                  type: 'element',
+                  tagName: 'div',
+                  data: {
+                    hName: 'div',
+                    hProperties: {
+                      className: ['callout-content']
+                    }
+                  },
+                  children: [
+                    ...(remainingText.trim() !== '' ? [{
+                      type: 'paragraph',
+                      children: [{ type: 'text', value: remainingText }]
+                    }] : []),
+                    ...node.children.slice(1)
+                  ]
+                }
+
+                // Replace the entire blockquote content
+                node.children = [calloutTitle, contentNode]
 
                 const classNames = ["callout", calloutType]
                 if (collapse) {
