@@ -211,6 +211,10 @@
     margin: 0;
     color: var(--color);
 
+    & p {
+      margin: 0;
+    }
+
     & a {
       color: inherit;
     }
