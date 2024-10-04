@@ -17,10 +17,11 @@ lw-vote-count: 14
 af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
-title: "Pretense"
+title: "I want to take off the coat"
 lw-latest-edit: 2018-07-29T00:35:24.674Z
 lw-is-linkpost: "false"
 tags: 
+  - "personal"
   - "rationality"
 aliases: 
   - "pretense"
@@ -28,6 +29,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/29/2018
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
+skip_import: true
 ---
 There's a kind of yearning, to be _that_ person who can do _those_ things - this is self-actualization, yet corrupted. I often feel pulled in this way. I find myself wanting to be a certain person _now_, to be producing and being and feeling that way _now_, and I catch myself acting, speaking, signalling as if I were there _now_. As if I could make people happy by tiling the universe with smiley-faces.
 
