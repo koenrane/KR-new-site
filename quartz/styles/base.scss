@@ -561,5 +561,5 @@ ol, ul {
 
 // Nested ol and ul should have margin before them
 ol:not(ol > ol):not(li > ol) {
-  margin-top: calc(2 * $baseMargin);
+  margin-top: calc(1.5 * $baseMargin);
 }

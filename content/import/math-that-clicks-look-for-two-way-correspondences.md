@@ -29,8 +29,11 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/02/2020
 original_url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
+skip_import: true
 ---
-_Andrew Critch made this explicit to me._
+
+> [!thanks]
+> Andrew Critch made this explicit to me.
 
 Suppose you want to formalize "information". What does it mean to "gain information about something"?
 
@@ -40,8 +43,6 @@ Don't you hate it when this happens?
 
 Anyways, you're starving, and so you think:
 
-> [!quote]
->
 > Suppose I'm trying to figure out the bias $\theta$ on a coin someone is flipping for me. I start with a uniform prior over $\theta\in[0,1]$, and observe the process for a while. As I learn more, I become more confident in the true hypothesis,[^1] and so my credence increases.
 >
 > So maybe, I gain information about a hypothesis when the Bayesian update increases the hypothesis's probability!
@@ -50,11 +51,11 @@ You sanity-check your guess by checking this against remembered instances of inf
 
 Your stomach rumbles. This guess should be good enough. You tell your would-be rescuers your final answer...
 
-🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by examples of the thing-in-question (information gain) – there was a one-way correspondence from **intuitive concept $\implies$ math**. That's not enough.
+🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by intuitive examples of information gain – there was a one-way correspondence from **intuitive concept -> math**. That's not enough.
 
 # Recovering the intuition from the math
 
-> [!quote] [_How I Do Research_](/how-i-do-research)
+> [!quote] [How I Do Research](/how-i-do-research)
 >
 > Don't think for a second that having math representing your thoughts means you've necessarily made progress – for the kind of problems I'm thinking about right now, the math has to _sing_ with the elegance of the philosophical insight you're formalizing.
 
@@ -108,7 +109,7 @@ Sometimes, you can't mathematically _prove_ the math is right, given desiderata,
 
 # Why might the second correspondence be good?
 
-By itself, "intuition $\implies$ math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
+By itself, "intuition -> math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
 
 Here's my advice: Whenever possible, clarify your assumed desiderata. Whenever possible, prove your construction is basically the only way to get all the desiderata. Whenever possible, build the math out of existing correct pieces of math which correspond to the right building blocks (expected + surprisal = expected surprisal).
 

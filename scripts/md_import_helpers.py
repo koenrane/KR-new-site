@@ -45,6 +45,7 @@ SKIP_POSTS = set(
         "is-it-safe-to-spend-time-with-people-who-already-recovered",
         "how-often-are-new-ideas-discovered-in-old-papers",
         "generalizing-the-power-seeking-theorems",
+        "research-on-repurposing-filter-products-for-masks",
     ]
 )
 
