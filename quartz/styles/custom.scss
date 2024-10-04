@@ -38,6 +38,10 @@ li[id^="user-content-fn-"] > *{
     margin-top: calc(2 * $baseMargin);
   }
 
+  & li { 
+    max-width: 100%;
+  }
+
   // Ordered lists in footnotes should start at 1, 2, 3, etc.
   & li ol {
     counter-reset: list;
@@ -562,7 +566,8 @@ img, video {
 
   article > p &,
   article > &,
-  article > figure & {
+  article > figure &,
+  figure > & {
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -696,11 +701,14 @@ hr {
 // Fixing issue where eqn numbers overlap with katex math
 //  https://github.com/KaTeX/KaTeX/issues/3066
 .katex-html {
-  overflow-x: auto;
-  overflow-y: hidden;
   .base {
     margin: 0 auto;
   }
+}
+
+p:has(> .katex) {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .katex-html:has(span.tag) {
