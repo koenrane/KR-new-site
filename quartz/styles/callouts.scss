@@ -197,7 +197,6 @@
   align-items: flex-start;
   gap: 5px;
   padding: 1rem 0;
-  // color: var(--color);
 
   --icon-size: 18px;
 
@@ -208,7 +207,7 @@
     --callout-icon: var(--callout-icon-fold);
   }
 
-  & > .callout-title-inner > p {
+  & > .callout-title-inner {
     margin: 0;
     color: var(--color);
 

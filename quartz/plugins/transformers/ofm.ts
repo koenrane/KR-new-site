@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Root, Html, BlockContent, DefinitionContent, Paragraph, Code } from "mdast"
-import { Element, Literal, Root as HtmlRoot } from "hast"
+import { Element, Literal, Root as HtmlRoot, ElementContent } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { slug as slugAnchor } from "github-slugger"
 import rehypeRaw from "rehype-raw"
@@ -104,7 +104,7 @@ export const arrowRegex = new RegExp(/(-{1,2}>|={1,2}>|<-{1,2}|<={1,2})/, "g")
 
 // !?                 -> optional embedding
 // \[\[               -> open brace
-// ([^\[\]\|\#]+)     -> one or more non-special characters ([,],|, or #) (name)
+// ([^\[\]\|\#]+)     -> one or more non-special characters ([,], |, or #) (name)
 // (#[^\[\]\|\#]+)?   -> # then one or more non-special characters (heading link)
 // (\\?\|[^\[\]\#]+)? -> optional escape \ then | then one or more non-special characters (alias)
 export const wikilinkRegex = new RegExp(
@@ -474,36 +474,55 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                     ...restOfTitle,
                   ],
                 }
-                const title = mdastToHtml(titleNode)
 
-                const toggleIcon = '<div class="fold-callout-icon"></div>'
-
-                const titleHtml: Html = {
-                  type: "html",
-                  value: `<div
-                  class="callout-title"
-                >
-                  <div class="callout-icon"></div>
-                  <div class="callout-title-inner">${title}</div>
-                  ${collapse ? toggleIcon : ""}
-                </div>`,
-                }
-
-                const blockquoteContent: (BlockContent | DefinitionContent)[] = [titleHtml]
-                if (remainingText.length > 0) {
-                  blockquoteContent.push({
-                    type: "paragraph",
-                    children: [
-                      {
-                        type: "text",
-                        value: remainingText,
+                const calloutTitle: any = {
+                  type: 'element',
+                  tagName: 'div',
+                  data: {
+                    hName: 'div',
+                    hProperties: {
+                      className: ['callout-title']
+                    }
+                  },
+                  children: [
+                    {
+                      type: 'element',
+                      tagName: 'div',
+                      data: {
+                        hName: 'div',
+                        hProperties: {
+                          className: ['callout-icon']
+                        }
                       },
-                    ],
-                  })
+                      children: []
+                    },
+                    {
+                      type: 'element',
+                      tagName: 'div',
+                      data: {
+                        hName: 'div',
+                        hProperties: {
+                          className: ['callout-title-inner']
+                        }
+                      },
+                      children: titleNode.children
+                    },
+                    ...(collapse ? [{
+                      type: 'element',
+                      tagName: 'div',
+                      data: {
+                        hName: 'div',
+                        hProperties: {
+                          className: ['fold-callout-icon']
+                        }
+                      },
+                      children: []
+                    }] : [])
+                  ]
                 }
 
                 // replace first line of blockquote with title and rest of the paragraph text
-                node.children.splice(0, 1, ...blockquoteContent)
+                node.children = [calloutTitle, ...node.children.slice(1)]
 
                 const classNames = ["callout", calloutType]
                 if (collapse) {
