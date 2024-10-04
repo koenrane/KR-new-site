@@ -32,7 +32,7 @@ original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how
 ---
 In my experience, [constant-sum games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally unaligned" incentives, and [common-payoff games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally aligned" incentives. How do we quantitatively interpolate between these two extremes? That is, given an arbitrary $2×2$  payoff table representing a two-player [normal-form game](https://en.wikipedia.org/wiki/Normal-form_game) (like Prisoner's Dilemma), what extra information do we need in order to produce a real number quantifying agent alignment? 
 
-If this question is ill-posed, why is it ill-posed? And if it's not, we should probably understand how to quantify such a basic aspect of multi-agent interactions, if we want to reason about complicated multi-agent situations whose outcomes determine the value of humanity's future. (I started considering this question with Jacob Stavrianos over the last few months, while supervising his [SERI project](/formalizing-alignment-in-game-theory).)
+If this question is ill-posed, why is it ill-posed? And if it's not, we should probably understand how to quantify such a basic aspect of multi-agent interactions, if we want to reason about complicated multi-agent situations whose outcomes determine the value of humanity's future. (I started considering this question with Jacob Stavrianos over the last few months while supervising his [SERI project](/formalizing-alignment-in-game-theory).)
 
 Thoughts:
 
@@ -44,9 +44,23 @@ Thoughts:
   - So the function need not be symmetric over players.
 
 - The function should be invariant to applying a separate positive affine transformation to each player's payoffs; it shouldn't matter whether you add 3 to player 1's payoffs, or multiply the payoffs by a half.
-- ~The function may or may not rely only on the players' orderings over outcome lotteries, ignoring the cardinal payoff values. I haven't thought much about this point, but it seems important. ~EDIT: I no longer think this point is important, but rather confused.
+- ~The function may or may not rely only on the players' orderings over outcome lotteries, ignoring the cardinal payoff values. I haven't thought much about this point, but it seems important.~ EDIT: I no longer think this point is important, but rather confused.
 
 If I were interested in thinking about this more right now, I would:
 
 - Do some thought experiments to pin down the intuitive concept. Consider simple games where my "alignment" concept returns a clear verdict, and use these to derive functional constraints (like symmetry in players, or the range of the function, or the extreme cases).
 - See if I can get enough functional constraints to pin down a reasonable family of candidate solutions, or at least pin down the type signature.
+
+> [!success] I consider this problem solved [by Vanessa Kosoy](https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2?commentId=6iqiFB2fJ7wfPsMJm)
+> > Consider any finite two-player game in normal form (each player can have any finite number of strategies, we can also easily generalize to certain classes of infinite games). Let $S_A$ be the set of pure strategies of player $A$ and $S_B$ the set of pure strategies of player $B$. Let $u_A: S_A \times S_B \rightarrow \mathbb{R}$ be the utility function of player $A$. Let $(\alpha, \beta) \in \Delta S_A \times \Delta S_B$ be a particular (mixed) outcome. Then the alignment of player $B$ with player $A$ in this outcome is defined to be:
+>   > 
+>  >  $$
+>  >  a_{B / A}(\alpha, \beta):=\frac{E_{\alpha \times \beta}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]}{\max _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]-\min _{\beta^{\prime} \in S_B} E_{\alpha \times \beta^{\prime}}\left[u_A\right]} \in[0,1]
+>  >  $$
+>  >  
+>  >  
+>  >  Ofc so far it doesn't depend on $u_B$ at all. However, we can make it depend on $u_B$ if we use $u_B$ to impose assumptions on $(\alpha, \beta)$, such as:
+>  >  - $\beta$ is a $u_B$-best response to $\alpha$ or
+>  >  - $(\alpha, \beta)$ is a Nash equilibrium (or other solution concept)
+>  >  
+>   > Caveat: If we go with the Nash equilibrium option, $a_{B / A}$ can become "systematically" ill-defined (consider e.g. the Nash equilibrium of matching pennies). To avoid this, we can switch to the extensive-form game where $B$ chooses their strategy after seeing $A$'s strategy.
