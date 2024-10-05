@@ -22,7 +22,7 @@ describe('markdownPlugins', () => {
     const output = testMarkdownPlugins(input);
     expect(output).toContain('<blockquote class="callout note"');
     expect(output).toContain('<div class="callout-title">');
-    expect(output).toContain('<div class="callout-content">');
+    expect(output).not.toContain('<div class="callout-content">');
   });
 
   test('should process callouts with custom type', () => {
@@ -35,6 +35,7 @@ describe('markdownPlugins', () => {
     const input = '> [!info] Callout title\n>\n> This is the second paragraph.';
     const output = testMarkdownPlugins(input);
     expect(output).toContain('<blockquote class="callout info"');
+    expect(output).toContain('<div class="callout-content">');
     expect(output).toContain('Callout title');
     expect(output).toContain('This is the second paragraph.');
   });

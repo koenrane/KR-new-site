@@ -447,36 +447,45 @@ if (opts.callouts) {
           }
 
           // Create a new content node with the remaining text and other children
-          const contentNode: any = {
-            type: 'element',
-            tagName: 'div',
-            data: {
-              hName: 'div',
-              hProperties: {
-                className: ['callout-content']
-              }
-            },
-            children: [
-              ...(remainingText.trim() !== '' ? [{
-                type: 'paragraph',
-                children: [{ type: 'text', value: remainingText }]
-              }] : []),
-              ...node.children.slice(1)
-            ]
+          const contentChildren = [
+            ...(remainingText.trim() !== '' ? [{
+              type: 'paragraph',
+              children: [{ type: 'text', value: remainingText }]
+            }] : []),
+            ...node.children.slice(1)
+          ];
+
+          // Only create contentNode if there are children to include
+          let contentNode: any = null;
+          if (contentChildren.length > 0) {
+            contentNode = {
+              type: 'element',
+              tagName: 'div',
+              data: {
+                hName: 'div',
+                hProperties: {
+                  className: ['callout-content']
+                }
+              },
+              children: contentChildren
+            };
           }
 
           // Replace the entire blockquote content
-          node.children = [calloutTitle, contentNode]
+          node.children = [calloutTitle];
+          if (contentNode) {
+            node.children.push(contentNode);
+          }
 
           const classNames = ["callout", calloutType]
           if (collapse) {
-            classNames.push("is-collapsible")
+            classNames.push("is-collapsible");
           }
           if (defaultState === "collapsed") {
-            classNames.push("is-collapsed")
+            classNames.push("is-collapsed");
           }
 
-          // add properties to base blockquote
+          // Add properties to base blockquote
           node.data = {
             hProperties: {
               ...(node.data?.hProperties ?? {}),
