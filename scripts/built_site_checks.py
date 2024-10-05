@@ -20,16 +20,33 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
             localhost_links.append(href)
     return localhost_links
 
-def check_invalid_anchors(soup: BeautifulSoup) -> List[str]:
+def check_invalid_anchors(soup: BeautifulSoup, file_path: Path, base_dir: Path) -> List[str]:
     """Check for invalid internal anchor links in the HTML."""
     invalid_anchors = []
     links = soup.find_all('a', href=True)
     for link in links:
         href = link['href']
-        if href.startswith('#') or ("turntrout.com" in href and "#" in href):
+        if href.startswith('#'):
+            # Check anchor in current page
             anchor_id = href[1:]
             if not soup.find(id=anchor_id):
                 invalid_anchors.append(href)
+        elif (href.startswith('/') or href.startswith('.')) and '#' in href:
+            # Check anchor in other internal page
+            page_path, anchor = href.split('#', 1)
+            # Remove leading ".." from page_path
+            page_path = page_path.lstrip('./')
+            full_path = base_dir / page_path
+            if not full_path.suffix == ".html":
+                full_path = full_path.with_suffix(".html")
+
+            if full_path.is_file():
+                with open(full_path, 'r', encoding='utf-8') as f:
+                    page_soup = BeautifulSoup(f.read(), 'html.parser')
+                if not page_soup.find(id=anchor):
+                    invalid_anchors.append(href)
+            else:
+                invalid_anchors.append(href)  # Page doesn't exist
     return invalid_anchors
 
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
@@ -48,11 +65,11 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
         content = file.read()
     return BeautifulSoup(content, 'html.parser')
 
-def check_file_for_issues(file_path: Path) -> Tuple[List[str], List[str], List[str]]:
+def check_file_for_issues(file_path: Path, base_dir: Path) -> Tuple[List[str], List[str], List[str]]:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
     localhost_links = check_localhost_links(soup)
-    invalid_anchors = check_invalid_anchors(soup)
+    invalid_anchors = check_invalid_anchors(soup, file_path, base_dir)
     problematic_paragraphs = check_problematic_paragraphs(soup)
     return localhost_links, invalid_anchors, problematic_paragraphs
 
@@ -87,7 +104,7 @@ def main() -> None:
         for file in files:
             if file.endswith('.html'):
                 file_path = Path(root) / file
-                localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(file_path)
+                localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(file_path, public_dir)
                 
                 if localhost_links or invalid_anchors or problematic_paragraphs:
                     print_issues(file_path, localhost_links, invalid_anchors, problematic_paragraphs)
