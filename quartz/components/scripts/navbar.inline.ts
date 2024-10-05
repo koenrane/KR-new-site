@@ -1,6 +1,7 @@
 import { wrapWithoutTransition } from "./util"
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 
+
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
 
@@ -534,6 +535,50 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     highlights[0]?.scrollIntoView({ block: "start" })
   }
 
+  /**
+   * Debounce function to limit the rate at which a function can fire.
+   * @param func The function to debounce.
+   * @param wait The number of milliseconds to delay.
+   * @returns A debounced version of the passed function.
+   */
+/**
+ * Debounce function to limit the rate at which a function can fire.
+ * Allows immediate execution on the first call if `immediate` is true.
+ * @param func The function to debounce.
+ * @param wait The number of milliseconds to delay.
+ * @param immediate If true, trigger the function on the leading edge.
+ * @returns A debounced version of the passed function.
+ */
+function debounce<F extends (...args: any[]) => void>(
+  func: F,
+  wait: number,
+  immediate: boolean = false
+): F {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+  return function (this: any, ...args: any[]) {
+    const context = this;
+
+    const later = () => {
+      timeoutId = null;
+      if (!immediate) {
+        func.apply(context, args);
+      }
+    };
+
+    const callNow = immediate && timeoutId === null;
+
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(later, wait);
+
+    if (callNow) {
+      func.apply(context, args);
+    }
+  } as F;
+}
+
   async function onType(e: HTMLElementEventMap["input"]) {
     if (!searchLayout || !index) return
     currentSearchTerm = (e.target as HTMLInputElement).value
@@ -592,12 +637,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     await displayResults(finalResults)
   }
 
+  const debouncedOnType = debounce(onType, 50, true);
+
   document.addEventListener("keydown", shortcutHandler)
   window.addCleanup(() => document.removeEventListener("keydown", shortcutHandler))
   searchIcon?.addEventListener("click", () => showSearch("basic"))
   window.addCleanup(() => searchIcon?.removeEventListener("click", () => showSearch("basic")))
-  searchBar?.addEventListener("input", onType)
-  window.addCleanup(() => searchBar?.removeEventListener("input", onType))
+  searchBar?.addEventListener("input", debouncedOnType)
+  window.addCleanup(() => searchBar?.removeEventListener("input", debouncedOnType))
 
   registerEscapeHandler(container, hideSearch)
   await fillDocument(data)
