@@ -755,7 +755,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       const js: JSResource[] = []
 
       if (opts.enableCheckbox) {
-        const checkboxScriptPath = path.join(currentDirPath, '../components/scripts/checkbox.inline.ts')
+        const checkboxScriptPath = path.join(currentDirPath, '../components/scripts/checkbox.inline.js')
         const checkboxScript = fs.readFileSync(checkboxScriptPath, 'utf8')
         js.push({
           script: checkboxScript,
@@ -765,7 +765,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       }
 
       if (opts.callouts) {
-        const calloutScriptPath = path.join(currentDirPath, '../components/scripts/callout.inline.ts')
+        const calloutScriptPath = path.join(currentDirPath, '../components/scripts/callout.inline.js')
         const calloutScript = fs.readFileSync(calloutScriptPath, 'utf8')
         js.push({
           script: calloutScript,
