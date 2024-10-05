@@ -62,9 +62,28 @@ li[id^="user-content-fn-"] {
   margin-block-end: 0;
   }
 
-/* Hide all back arrows except the first one in a footnote */
-  & .data-footnote-backref:not(:first-of-type) {
-    display: none;
+/* Show only the first back arrow in a footnote */
+  & a[class*="footnote-backref"] {
+    display: none; // Hide all by default
+  }
+
+  & > p:last-child > a[class*="footnote-backref"]:last-child,
+  & > a[class*="footnote-backref"]:last-child {
+    display: inline-block; // Show the last backref
+    color: color-mix(in srgb, var(--color-link) 70%, transparent);
+    text-decoration: none;
+    background-color: transparent;
+    font-family: "DejaVuSerifCondensed-Bold", serif;
+    vertical-align: top;
+  }
+}
+
+// When scrolling back to a footnote, scroll up farther than default
+a[id*="fnref-"] {
+  scroll-margin-top: calc(2 * $baseMargin);
+
+  @media all and (max-width: $fullPageWidth) {
+    scroll-margin-top: calc(7 * $baseMargin);
   }
 }
 

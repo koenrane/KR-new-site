@@ -64,7 +64,7 @@ Human values _look so strange and inexplicable_. How could those values be the p
 > - Feeling an internal urge to text someone you have a crush on.
 > - That tug you feel when you are hungry and pass by a donut.
 >
-> To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#appendix-b-terminology). The main downside is that the definition is relatively broad—most people wouldn't list "donuts" among their "values." To avoid this counter-intuitiveness, we would refer to a "donut shard" instead of a "donut value." ("Shard" and associated terminology are defined in [Section 2](#shaping).)
+> To us, this definition seems importantly type-correct and appropriate—see [Appendix B](#appendix-b-terminology). The main downside is that the definition is relatively broad—most people wouldn't list "donuts" among their "values." To avoid this counter-intuitiveness, we would refer to a "donut shard" instead of a "donut value." ("Shard" and associated terminology are defined in [Section 2](#2-reinforcement-events-shape-human-value-shards).)
 
 # 1. Neuroscientific assumptions
 

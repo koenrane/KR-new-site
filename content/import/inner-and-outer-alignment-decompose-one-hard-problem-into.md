@@ -401,7 +401,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 
 : Stop trying to write complicated long sentences in terms of outer objectives. **Just, stop**. Let’s find a new language. (Do you really think a future alignment textbook would say “And then, to everyone’s amazement, outer alignment scheme #7,513 succeeded!”)
 
-: Now, I can legitimately point out that outer and inner alignment aren’t a good framing for alignment, _without_ offering an alternative better framing. That said, I [recently wrote](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS):[^11]
+: Now, I can legitimately point out that outer and inner alignment aren’t a good framing for alignment, _without_ offering an alternative better framing. That said, I [recently wrote](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS):[^11] [^12]
 
 <dd>
 <blockquote class="callout quote" data-callout="quote">
@@ -411,7 +411,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 </div>
 <p>Shard theory suggests that goals are more natural to specify/inculcate in their shard forms (e.g. if around trash and a trash can, then put the trash away), and not in their (presumably) final form of globally activated optimization of a coherent utility function which is the reflective equilibrium of inter-shard value-handshakes (e.g. a utility function over the agent’s internal plan-ontology whose optimization leads to trash getting put away, among other utility-level reflections of initial shards).</p>
 <p>I <em>could</em> (and <a href="../import/attainable-utility-preservation-scaling-to-superhuman" class="internal" data-slug="import/attainable-utility-preservation-scaling-to-superhuman"><em>did</em></a>) hope that I could specify a utility function which is safe to maximize because it penalizes power-seeking. I may as well have hoped to jump off of a building and float to the ground. On my model, that’s just not how goals work in intelligent minds. If we’ve had anything at all beaten into our heads by our alignment thought experiments, it’s that <em>goals are hard to specify in their final form of utility functions.</em></p>
-<p>I think it’s time to think in a different specification language.<sup><a href="#user-content-fn-12" id="user-content-fnref-12" data-footnote-ref="" aria-describedby="footnote-label" class="internal alias same-page-link">12</a></sup></p>
+<p>I think it’s time to think in a different specification language.
 </blockquote>
 </dd>
 
@@ -437,13 +437,11 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 
 <dd>
 <ol>
-<li><a href="#i-robust-grading-is-unnecessary-extremely-hard-and-unnatural" class="internal alias same-page-link">Section I</a> (robust grading is unnecessary): This plan requires an <a href="../dont-design-agents-which-exploit-adversarial-inputs" class="internal alias" data-slug="dont-design-agents-which-exploit-adversarial-inputs">unrealistic invariant.</a> The invariant is that the outer objective must “properly grade” every possible plan the agent is smart enough to consider. How are you possibly going to fulfill that invariant? Why would you <em>want</em> to choose a scheme where you have to fulfill such an onerous invariant?<sup><a href="#user-content-fn-see-more" id="user-content-fnref-see-more" data-footnote-ref="" aria-describedby="footnote-label" class="internal alias same-page-link">13</a></sup></li>
+<li><a href="#i-robust-grading-is-unnecessary-extremely-hard-and-unnatural" class="internal alias same-page-link">Section I</a> (robust grading is unnecessary): This plan requires an <a href="../dont-design-agents-which-exploit-adversarial-inputs" class="internal alias" data-slug="dont-design-agents-which-exploit-adversarial-inputs">unrealistic invariant.</a> The invariant is that the outer objective must “properly grade” every possible plan the agent is smart enough to consider. How are you possibly going to fulfill that invariant? Why would you <em>want</em> to choose a scheme where you have to fulfill such an onerous invariant? <br/><br/>For more detail on the concurrent-improvement case, see <a href="../dont-design-agents-which-exploit-adversarial-inputs#appendix-maybe-we-just-" class="internal alias" data-slug="dont-design-agents-which-exploit-adversarial-inputs">the appendix</a> of <a href="../dont-design-agents-which-exploit-adversarial-inputs" class="internal alias" data-slug="dont-design-agents-which-exploit-adversarial-inputs">Don’t design agents which exploit adversarial inputs.</a></li>
 <li><a href="#ii-loss-functions-chisel-circuits-into-networks" class="internal alias same-page-link">Section II</a> (loss is like a chisel) applies: You’re constraining the chisel to look like the statue. Why consider such a narrow class of approaches?</li>
 <li><a href="#iii-outerinner-just-isnt-how-alignment-works-in-people" class="internal alias same-page-link">Section III</a> (inner/outer is anti-natural) applies: That strategy seems <em>anti-natural</em> as a way of getting cognitive work out of an agent.</li>
 </ol>
 </dd>
-
-[^see-more]: For more detail on the concurrent-improvement case, see [the appendix](/dont-design-agents-which-exploit-adversarial-inputs#Appendix-Maybe-we-just-) of [Don't design agents which exploit adversarial inputs](/dont-design-agents-which-exploit-adversarial-inputs).
 
 **Alex's model of an outer alignment enjoyer**
 : It’s easy to talk big talk. It’s harder to propose concrete directions which aren’t, you know, _doomed_.
