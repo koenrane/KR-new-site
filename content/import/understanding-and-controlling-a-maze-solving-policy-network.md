@@ -616,7 +616,7 @@ This produces the resampled vector field. If our hypothesis is correct, then thi
 ![](https://assets.turntrout.com/static/images/posts/pvlfxthpdxbbdviowsru.avif)
 <br/>Figure: Activations resampled from a maze with **cheese at a different** **location** (near the red dot). Due to activation resampling, the action probability distributions changed by 1.3% on average in this maze.
 
-Considering only the four channels [shown in the GIF](/understanding-and-controlling-a-maze-solving-policy-network#causal-scrubbing-the-cheese-tracking-channels):
+Considering only the four channels [shown in the GIF](#causal-scrubbing-the-cheese-tracking-channels):
 
 ![](https://assets.turntrout.com/static/images/posts/vzvsmxq3cb3r5jg0n7b3.avif)
 <br/>Figure: Activations resampled from another maze with **cheese at the same location**. Due to activation resampling, the action probability distributions changed by 0.3% on average in this maze.

@@ -182,7 +182,7 @@ Steve Byrnes did, in fact, briefly point out part of the “reward is the optimi
 > [!quote] [Model-based RL, Desires, Brains, Wireheading](https://www.alignmentforum.org/posts/K5ikTdaNymfWXQHFb/model-based-rl-desires-brains-wireheading#Self_aware_desires_1__wireheading)
 > I note that even experts sometimes sloppily talk as if RL agents make plans towards the goal of maximizing future reward… 
 
-I don't think it's just sloppy talk, I think it's incorrect belief in many cases. I mean, I did my PhD on RL theory, and I still believed it. Many authorities and textbooks confidently claim—presenting little to no evidence—that reward is an optimization target (i.e. the quantity which the policy is in fact trying to optimize, or the quantity to be optimized by the policy). [Check what the math actually says](/alignment-phd#Too-much-deference-too-little-thinking-for-myself). 
+I don't think it's just sloppy talk, I think it's incorrect belief in many cases. I mean, I did my PhD on RL theory, and I still believed it. Many authorities and textbooks confidently claim—presenting little to no evidence—that reward is an optimization target (i.e. the quantity which the policy is in fact trying to optimize, or the quantity to be optimized by the policy). [Check what the math actually says](/alignment-phd). 
 
 [^1]: [Including](https://www.sciencedirect.com/science/article/pii/S0004370221000862#fn0020) the authors of the quoted introductory text, [Reinforcement learning: An introduction](http://www.incompleteideas.net/sutton/book/first/Chap1PrePub.pdf). I have, however, met several alignment researchers who already internalized that reward is not the optimization target, perhaps not in so many words. 
     

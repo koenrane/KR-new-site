@@ -2,7 +2,7 @@ import { QuartzTransformerPlugin } from "../types"
 import { createLogger } from "./logger_utils"
 import { Root, Heading } from "mdast"
 import { visit, SKIP } from "unist-util-visit"
-import Slugger from "github-slugger"
+import { slugify, resetSlugger } from "./gfm"
 import { applyTextTransforms, hasAncestor } from "./formatting_improvement_html"
 import { Node } from "hast"
 
@@ -32,8 +32,6 @@ function logTocEntry(entry: TocEntry) {
   logger.debug(`TOC Entry: depth=${entry.depth}, text="${entry.text}", slug="${entry.slug}"`)
 }
 
-const slugAnchor = new Slugger()
-
 function customToString(node: Node): string {
   if ((node.type === "inlineMath" || node.type === "math") && "value" in node) {
     return node.type === "inlineMath" ? `$${node.value}$` : `$$${node.value}$$`
@@ -60,6 +58,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
       return [
         () => {
           return (tree: Root, file) => {
+            resetSlugger()
             const display = file.data.frontmatter?.enableToc ?? opts.showByDefault
             logger.debug(`Processing file: ${file.path}, TOC display: ${display}`)
 
@@ -82,9 +81,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                   text = stripHtml(text)
                   highestDepth = Math.min(highestDepth, heading.depth)
                   
-                  // Reset the slugger for each heading
-                  slugAnchor.reset()
-                  const slug = slugAnchor.slug(text)
+                  const slug = slugify(text)
 
                   toc.push({
                     depth: heading.depth,
