@@ -96,7 +96,7 @@ My cognitive algorithm was not that great, and so I made many costly mistakes. N
 
 What, pray tell, does this have to do with Harry Potter? HPMOR channels someone who tries to improve their thinking with the power and insight granted by behavioral economics and cognitive psychology, all in pursuit of worthy goals. The book gave me a sense that _more is possible_, in a way that seems hard to pick up from a textbook.[^psych] 
 
-[^psych]: I took cog-psych classes at Grinnell. They were evidently insufficient for this purpose: I didn’t even realize that I should try to do better!)
+[^psych]: I took cog-psych classes at Grinnell. They were evidently insufficient for this purpose: I didn’t even realize that I should try to do better!
 
 HPMOR demonstrates altruistic fierceness: How can I make the future _as bright as possible_? How can I make the _best_ out of my current situation? What kinds of thinking help me arrive at the truth _as quickly as possible_? What do I think I know, and why do I think I know it? What would reality look like if my most cherished beliefs were _wrong_?
 
