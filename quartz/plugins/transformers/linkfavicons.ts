@@ -320,14 +320,15 @@ export async function ModifyNode(node: any): Promise<void> {
     return
   }
 
-  if (href.startsWith("./")) {
-    logger.debug("Converting relative link to absolute")
-    href = href.slice(2)
+  if (!href.startsWith("http")) {
+    if (href.startsWith("./")) {
+      href = href.slice(2)
+    } else if (href.startsWith("../")) {
+      href = href.slice(3)
+    }
     href = "https://www.turntrout.com/" + href
-  } else if (href.startsWith("..")) {
-    logger.debug("Skipping parent directory link")
-    return
   }
+
   try {
     let finalURL = new URL(href)
     logger.info(`Final URL: ${finalURL.href}`)

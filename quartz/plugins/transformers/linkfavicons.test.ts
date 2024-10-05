@@ -273,7 +273,7 @@ describe("Favicon Utilities", () => {
   describe("ModifyNode", () => {
     it.each([
       ["./shard-theory", TURNTROUT_FAVICON_PATH],
-      ["../shard-theory", null],
+      ["../shard-theory", TURNTROUT_FAVICON_PATH], 
       ["#test", null],
       ["mailto:test@example.com", MAIL_PATH],
       ["mailto:another@domain.org", MAIL_PATH],
