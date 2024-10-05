@@ -236,7 +236,7 @@ Most importantly, we can prove that when shutdown is possible, optimal policies 
 
 # Takeaways
 
-## Combinatorics - how do they work?
+## Combinatorics: How do they work?
 
 What does "most reward functions" mean quantitatively - is it just at least half of each orbit? Or, are there situations where we can guarantee that at least three-quarters of each orbit incentivizes power-seeking? I think we should be able to prove that as the environment gets more complex, there are combinatorially more permutations which enforce these similarities, and so the orbits should skew harder and harder towards power-incentivization. 
 

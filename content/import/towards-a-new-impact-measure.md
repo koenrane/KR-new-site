@@ -784,7 +784,7 @@ _Ex post_ offsetting occurs when the agent takes further action to reduce the im
 
 Intent verification should allow robust penalization of weird impact measure behaviors by _constraining the agent to considering actions that normal_ $u_A$_\-maximizers would choose._ This appears to cut off bad incentives, including _ex ante_ offsetting. Furthermore, there are other, weaker reasons (such as approval incentives) which discourage these bad behaviors. ✓
 
-## Clinginess / Scapegoating Avoidance
+## Avoiding Clinginess vs. Scapegoating 
 
 > The measure should sidestep the [clinginess / scapegoating tradeoff](/overcoming-clinginess-in-impact-measures).
 

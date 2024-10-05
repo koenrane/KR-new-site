@@ -242,7 +242,9 @@ This criterion is testable. Although we can't test all reward functions, we _can
 
 Let's think about Minecraft. (Technically, the theorems don't apply to Minecraft yet. The theorems can handle [partial observability+utility over observation histories](/power-seeking-beyond-MDPs), _or_ full observability+world state reward, but not yet partial observability+world state reward. But I think it's illustrative.)
 
-We could reward the agent for ending up in different chunks of a Minecraft world. Here, retargeting often looks like "swap which chunks gets which reward." 
+We could reward the agent for ending up in different chunks of a Minecraft world. Here, retargeting often looks like "swap which chunks gets which reward."
+
+[test](/posts#shrek)
 
 ![](minecraft-map.png)
 <br/>Figure: We could reward the agent for being in different map chunks (say, those within 1 million blocks of spawn). At low levels of instrumental convergence and training procedure competence, agents will just mill about near the starting area.

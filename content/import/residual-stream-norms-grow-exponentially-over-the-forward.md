@@ -131,7 +131,7 @@ This way, a property (number of features) can be hidden in the inputs (hidden as
 To distinguish these two theories, we can test whether we see an exponential increase in the norm of Attention/MLP weights, or alternatively, an exponential increase in the norm of Attention/MLP outputs on random _layer-independent_ inputs. Either of these would mean we don't need theory 2's sneaking features-shenanigans and can explain the exponential growth as being "hard-coded" into the model weights.
 
 > [!note]
-> It's possible for just _one_ of the sub-layer types (attention or MLP) to grow exponentially and still cause the overall exponential growth (see [appendix 1](#appendix-1-attention--mlp-contribution-norms-must-exceed-block-over-block-norm-growth-rate) for a related proof). But this seems unlikely as the non-exponential sub-layer would lose impact on the residual stream, and we expect the model to make use of both of them. Indeed, plotting the outputs `attn_out` and `mlp_out` shows both increasing at the exponential rate (but `attn_out` seems to fall off at layer ~30).
+> It's possible for just _one_ of the sub-layer types (attention or MLP) to grow exponentially and still cause the overall exponential growth (see [appendix 1](#appendix-1-attentionmlp-contribution-norms-must-exceed-block-over-block-norm-growth-rate) for a related proof). But this seems unlikely as the non-exponential sub-layer would lose impact on the residual stream, and we expect the model to make use of both of them. Indeed, plotting the outputs `attn_out` and `mlp_out` shows both increasing at the exponential rate (but `attn_out` seems to fall off at layer ~30).
 > 
 > ![](https://assets.turntrout.com/static/images/posts/r13rgvwjn62uuxfobvmd.avif)
 > <br/>Figure: If you are surprised by the difference in standard deviation between `attn_out` and `mlp_out`, see [appendix 2](#appendix-2-explaining-the-difference-between-attn_out-and-mlp_out).
@@ -217,7 +217,7 @@ We documented a basic tendency of transformers: residual stream variance grows e
 > Alex (`TurnTrout`) wrote some of the post and edited it, noticed the phenomenon in GPT-2-XL, made about half of the assets and some of the hooking code for computing residual stream norms. He also wrote the first appendix.
 
 
-# Appendix 1: Attention+MLP contribution norms must exceed block-over-block norm growth rate
+# Appendix 1: Attention + MLP contribution norms must exceed block-over-block norm growth rate
 
 > [!math] Proposition: Attention + MLP norm contributions must exceed the growth rate
 > 
