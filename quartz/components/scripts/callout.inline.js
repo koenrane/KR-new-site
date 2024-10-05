@@ -36,16 +36,49 @@ function setupCallout() {
                 title.removeEventListener("click", toggleCallout);
             });
 
-            // only set this if the max height isn't already set
-            //  This is a little hacky because to avoid FOUC,
-            //  you have to manually set the max height of the callout to the height of the title
-            if (!div.style.maxHeight) {
-                var collapsed = div.classList.contains("is-collapsed");
-                var height = collapsed ? title.scrollHeight : div.scrollHeight;
-                div.style.maxHeight = height + "px";
-            }
+            // Recalculate max-height
+            var collapsed = div.classList.contains("is-collapsed");
+            var height = collapsed ? title.scrollHeight : div.scrollHeight;
+            div.style.maxHeight = height + "px";
         }
     });
 }
+
+// Debounce function to limit the rate of function calls
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Function to immediately update callout heights
+function updateCalloutHeights() {
+    var collapsible = document.getElementsByClassName("callout is-collapsible");
+    Array.from(collapsible).forEach(function (div) {
+        var collapsed = div.classList.contains("is-collapsed");
+        var height = collapsed ? div.firstElementChild.scrollHeight : div.scrollHeight;
+        div.style.maxHeight = height + "px";
+    });
+}
+
+// Debounced version of setupCallout
+const debouncedSetupCallout = debounce(() => {
+    setupCallout();
+    updateCalloutHeights();
+}, 250);
+
+// Function to handle resize events
+function handleResize() {
+    updateCalloutHeights(); // Immediately update heights
+    debouncedSetupCallout(); // Schedule full setup
+}
+
 document.addEventListener("nav", setupCallout);
-window.addEventListener("resize", setupCallout);
+window.addEventListener("resize", handleResize);
+
