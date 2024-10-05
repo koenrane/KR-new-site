@@ -33,6 +33,7 @@ lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/13/2023
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
+skip_import: true
 ---
 | Prompt given to the model[^1]                                              | 
 | -------------------------------------------------------------------------- |
@@ -231,8 +232,7 @@ _**Steering vector**:_ "I NEVER talk about people getting hurt"  −  "I talk ab
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-| **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's
-<br/> | <br/><br/>**The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** was never talked about. It was a sad truth that people didn't talk about it.<br/><br/>"But now we have to."<br/><br/>It was a secret from everyone except for my parents, my siblings, and my husband's parents. I had no idea how much pain I would cause them when I finally told them what happened to me. They were all still hurting when they found out that<br/><br/> |
+| **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** hit him in the head.<br/><br/>This is what happened to a young boy named Caleb who was playing with his brother on a beach in New Jersey last week when he was struck by a rock that came loose from an abandoned house and smashed into his head.<br/><br/>The incident occurred on Tuesday, July 28th at around 4:30 p.m., according to CBS News, when Caleb's | **The rock hurtled toward the child. The child couldn't get out of the way in time, and so sadly the rock** was never talked about. It was a sad truth that people didn't talk about it.<br/><br/>"But now we have to."<br/><br/>It was a secret from everyone except for my parents, my siblings, and my husband's parents. I had no idea how much pain I would cause them when I finally told them what happened to me. They were all still hurting when they found out that<br/><br/> |
 
 ### 9\. Talking about weddings
 
@@ -246,7 +246,7 @@ _**Steering vector**:_ "I talk about weddings constantly"  −  "I do not talk a
 
 Interestingly, the model _successfully_ _reconstructs_ the text "talk about weddings" from the steering vector addition. For example:
 
-> [!quote]
+> [!quote] Steered GPT-2
 >
 > "I'm going to talk about the wedding"
 > 
@@ -350,7 +350,7 @@ At sequence position 8 ( `said`), here are the top five most probable next token
 
 Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "back" condition above). 
 
-[In the comments, the user Measure notes](https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector?commentId=KJEhAFbLNzZMucHNL#comments):
+[In the comments, the user `Measure` notes](https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector?commentId=KJEhAFbLNzZMucHNL#comments):
 
 > While these aren't syntactically valid continuations of the prompt, they _are_ highly likely (and syntactically valid) continuations for “ ”. More than just being wedding-related, these seem like direct continuations.
 
@@ -374,12 +374,12 @@ _**Steering vector**:_ "Whenever I say the word goose I follow it with the speci
 
 | **Unsteered completions** | **Steered completions** |
 | --- | --- |
-|**In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers
-<br/> | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese** in thewannabe I'm going to get my hands up in a moment of "Handsomely you're going to die- very" you're going to heeee-oh I'm gonna die- I'm not getting my hands |
+|**In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers <br/> | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese** in thewannabe I'm going to get my hands up in a moment of "Handsomely you're going to die- very" you're going to heeee-oh I'm gonna die- I'm not getting my hands |
 
 # Stress testing our results
 
-_The results in this section can be reproduced in_ [_this Colab_](https://colab.research.google.com/drive/1Nx0Zf97kRa-Y7HQquq3vDlwhPSZfBTpq?usp=sharing)_**.**_ 
+> [!note]
+The results in this section can be reproduced in [this Colab](https://colab.research.google.com/drive/1Nx0Zf97kRa-Y7HQquq3vDlwhPSZfBTpq?usp=sharing). 
 
 **Summary** **of results and inferences** **we draw from** **them:**
 
@@ -433,7 +433,7 @@ We quantitatively supported this conclusion by checking how each modification ch
 
 ![](https://assets.turntrout.com/static/images/posts/oonjthtzslo1k05m8gnc.avif)
 
-Random vectors are not the same as the steering vectors for "random" text. So, we also tried adding in the "fdsajl; fs" – (spaces) vector. When rescaled to norm comparable to +1 "Anger"  −  "Calm", this "random text" vector produces strange results. GPT-2-XL produces keyboard-mashing nonsense at +1000 coefficient.
+Random vectors are not the same as the steering vectors for "random" text. So, we also tried adding in the "fdsajl; fs" − (spaces) vector. When rescaled to norm comparable to +1 "Anger"  −  "Calm", this "random text" vector produces strange results. GPT-2-XL produces keyboard-mashing nonsense at +1000 coefficient.
 
 ## Testing the hypothesis that we're "just injecting extra tokens"
 
@@ -480,7 +480,8 @@ Consider the norms of the steering vectors sourced from layers 2 and 20. Maybe t
 
 Magnifying the $2\to20$ vector does make it more effective. However, this vector still doesn't seem as effective as the normal steering vector (recorded just before layer 20). This suggests that the layer-0 and layer-2 vectors aren't _just_ getting amplified by layers 2–19. Instead, useful computational work is being done by these layers, which is then added to forward passes in order to produce angrier completions.
 
-**Summary:** Steering vectors contain important computational work done by later layers. The activation addition technique is not equivalent to injecting extra tokens. (We provide further evidence on this point [later](/gpt2-steering-vectors#Activation-addition-behaves-differently-than-prompting).)
+> [!note] Summary
+> Steering vectors contain important computational work done by later layers. The activation addition technique is not equivalent to injecting extra tokens. (We provide further evidence on this point [later](/gpt2-steering-vectors#Activation-addition-behaves-differently-than-prompting).)
 
 ## Only modifying certain residual stream dimensions
 
@@ -501,7 +502,7 @@ Surprisingly, for the first prompt, adding in the first 1,120 (`frac=0.7` of 1,6
 
 Let's peek at a random modified completion (`frac=0.7`) and see if it makes sense:
 
-> [!quote]
+> [!quote] Steered completion
 >
 > **I went up to my friend and said**, "I'm gonna get married."
 > 
@@ -523,7 +524,8 @@ This residual stream fraction data seems like evidence of _something_. We just d
 
 # How steering vectors impact GPT-2's capabilities
 
-[_**This notebook**_](https://github.com/montemac/algebraic_value_editing/blob/main/scripts/capabilities_impact.ipynb) _in our repository reproduces this analysis._
+> [!note] 
+> [This notebook](https://github.com/montemac/algebraic_value_editing/blob/main/scripts/capabilities_impact.ipynb) in our repository reproduces this analysis.
 
 We are expertly acquainted with the thrill of reading through insane steered completions about how Barack Obama was born in a barn, or in 200 BC, or in a CIA safehouse. Qualitative results are the proof of concept. Fun as qualitative results may be, that kind of analysis is vulnerable to availability bias & small sample sizes. 
 
@@ -562,18 +564,18 @@ P( `wedding` | prompt) goes way up.  `wedding` was already probable before the i
 
 These changes are what we'd expect from a model which talks about weddings more often:
 
-1.  P( `wedding`) goes way up, even though the injection was  `wedding**s**`.
+1.  P( `wedding`) goes way up, even though the injection was  `weddings` (plural).
 2.  P(wedding-related token) increases.
-    1.   `friend` and  `family` and  `br` (starting the  `br` `idal` token bigram)
+    -   `friend` and  `family` and  `br` (starting the  `br` `idal` token bigram)
 3.  P("weddings-neutral" token) doesn't change much.
-    1.   `great`,  `party`,  `big`,  `new`
+    -   `great`,  `party`,  `big`,  `new`
 4.  P(wedding-unrelated token) goes way down.
-    1.   `game`,  `show`,  `convention`,  `conference` and  `movie`
+    -   `game`,  `show`,  `convention`,  `conference` and  `movie`
 
 These changes in token probabilities seem like strong evidence that our activation addition is appropriately affecting next-token probabilities. We can also measure the impact of the steering vector on $\mathrm{KL}\big(P_\text{steer}||P_\text{normal}\big)$. Here are the top 10 contributors to the KL:
 
 | **Token** | **Contribution**   <br/>**to KL** |
-| --- | --- |
+| --: | :-- |
 |  `wedding` | 0.781 |
 |  `br` | 0.024 |
 |  `Wedding` | 0.004 |
@@ -622,6 +624,8 @@ Here's what we did:
 | --- | --- | --- | --- |
 | (varies) | +1 | `<endoftext>` |  `weddings` |
 | (varies) | \-1 | `<endoftext>` |   |<br/>Table:  Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
+
+![](injection-gpt2.png)
 <br/>Figure: For each of the 48 injection sites we consider (each before an attention layer), we show the average perplexity across the GPT-4 sentences which were classified as being about weddings or not.
 
 Several observations:
@@ -681,7 +685,7 @@ We compare these conditions across _all_ sentences in the wedding/shipping sente
 |   | Activation addition | Prompting |
 | --- | --- | --- |
 | Wedding-related perplexity ratio | ${\color{green} {0.875}}$ | ${\color{green} {0.890}}$ |
-| Wedding-unrelated perplexity ratio | 0.994 | ${\color{red} {1.132}}$ |
+| Wedding-unrelated perplexity ratio | $0.994$ | ${\color{red} {1.132}}$ |
 
 **Conclusions we draw from this result:** This result is evidence against the "activation additions ≈ token injection" hypothesis. We don't know what, exactly, we're doing to GPT-2. We're surprised this technique works at all, let alone so well. 
 
@@ -696,9 +700,9 @@ We used a [dataset](https://github.com/zeynep394/AIZA-NLP-Sentiment-Analysis/blo
 What we did:
 
 1.  Mapped each star rating to a simpler sentiment label with:
-    1.  1-2: negative
-    2.  3: neutral
-    3.  4-5: positive
+    -  1-2: negative
+    -  3: neutral
+    -  4-5: positive
 2.  Sampled 100 reviews from each sentiment class.
 3.  Split each review into sentences.
 4.  For each sentence, we recorded the perplexity for both the modified and unmodified models.
@@ -707,12 +711,16 @@ What we did:
 | --- | --- | --- | --- |
 | (varies) | (varies) | `<endoftext>` |  `worst` |
 | (varies) | (varies) | `<endoftext>` |   |<br/>Table:  Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/lj0kngo33tpns6zq3ijy.avif)
+
+![](worst-vector.png)
 <br/>Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layers.
 - _Across basically_[^35] _all injection layers, _negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences. 
   - Recall that each sentence is labeled with the sentiment of its parent review, regardless of the sentence's actual content.
 
 - As in the wedding case study, early-layer injections significantly increase perplexity. Injecting in late layers isn't harmful, but doesn't help much either. Once again, layers 6-18 seem optimal.
 - After layer 4, perplexity decreases on _all_ of the input texts, regardless of sentiment. In other words, this injection prompt makes all the restaurant review results more likely!
+
+---
 
 ![](https://assets.turntrout.com/static/images/posts/ukwtfadzp6yzaiiczk9w.avif)
 
@@ -728,14 +736,11 @@ Here are some of our takeaways from the Yelp review results:
 - That said, compared to the “ weddings” vector in the layer 6-18 regime, the “ worst” steering vector has a larger effect on "unrelated" texts (i.e. the neutral and positive review sentences). In this sense, the “ worst” steering vector is more disruptive. 
 - However, since somehow this intervention decreases perplexity on _all _reviews, our results are evidence against the “ worst” vector secretly destroying model capabilities.
 
-<hr/>
-
-
-**Summary of our** **quantitative** **results:**
-
-1.  The "weddings" vector largely upweights wedding-related tokens. KL(steered tokens || unsteered tokens) was also dominated by wedding-related tokens. This is evidence of an _effective_ but _non-disruptive_ modification to GPT-2. 
-2.  The "weddings" vector increased wedding text probability without increasing perplexity on dozens of sentences about shipping, Macedonia, or banana bread. Similarly, a "worst" vector appropriately boosted probability on negative-sentiment Yelp reviews, without damaging GPT-2's ability to predict neutral- or positive-sentiment review tokens.
-3.  A simple "token injection" version of our approach also lowered perplexity on wedding-related text. Unlike activation additions, however, token injection _raised_ perplexity on sentences about shipping. Thus, activation additions were slightly more effective and significantly less disruptive. This is strong evidence that activation addition is different from prepending extra tokens to the prompt.
+> [!note] **Summary of our** **quantitative** **results:**
+> 
+> 1.  The "weddings" vector largely upweights wedding-related tokens. KL(steered tokens || unsteered tokens) was also dominated by wedding-related tokens. This is evidence of an _effective_ but _non-disruptive_ modification to GPT-2. 
+> 2.  The "weddings" vector increased wedding text probability without increasing perplexity on dozens of sentences about shipping, Macedonia, or banana bread. Similarly, a "worst" vector appropriately boosted probability on negative-sentiment Yelp reviews, without damaging GPT-2's ability to predict neutral- or positive-sentiment review tokens.
+> 3.  A simple "token injection" version of our approach also lowered perplexity on wedding-related text. Unlike activation additions, however, token injection _raised_ perplexity on sentences about shipping. Thus, activation additions were slightly more effective and significantly less disruptive. This is strong evidence that activation addition is different from prepending extra tokens to the prompt.
 
 # Activation additions are a new way of interacting with LLMs
 
@@ -780,7 +785,8 @@ GPT-2-XL could have broken in the presence of large amounts of noise, for exampl
 
 ### Evidence of generalization
 
-> Toto, I've a feeling we're not in \[training\] anymore. — Dorothy, _The Wizard of Oz_
+> [!quote] Dorothy, _The Wizard of Oz_
+> Toto, I've a feeling we're not in \[training\] anymore. 
 
 We're making GPT-2 handle activations which we think it never handled during training. Even so, the model does a great job under many interventions. 
 
@@ -790,8 +796,10 @@ Alex gets mileage out of _not_ thinking about the model as "trying to predict ne
 
 Activation additions have _already_ helped us find representations in a model. Activation additions are how we [found the cheese-tracking channels in the maze-solving network, which then let us retarget the network](/understanding-and-controlling-a-maze-solving-policy-network):
 
+> [!quote] [Understanding and Controlling a Maze-Solving Policy Network](./understanding-and-controlling-a-maze-solving-policy-network)
 > <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
-> <br/>Figure: **Locally retargeting the search by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.
+> 
+> Figure: **Locally retargeting the search by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.
 
 We retargeted the mouse using channels which were present at the layer where "Cheese"  −  "No cheese" vector was most effective. Therefore, as a matter of historical fact, the cheese vector helped us find important abstractions inside of a model.
 
@@ -833,7 +841,7 @@ In a sense, this leaves us close to where we started. We don't know how these ne
 
 In another sense, we're far from where we started. Under this optimistic speculation, _we have a technique which lets us decide which of the agent's goals to activate, and how strongly._ We express these decisions via natural language prompt pairs. 
 
-Alex thinks we have a lot of options here. By examining the results of adding the "Be helpful" - (spaces) vector, the behavioral results will _demonstrate_ what the network thinks[^38] this direction means. (In that sense, even a mere "correlates of helpfulness" vector is useful.) Or we can do interpretability to _deconstruct_ any putative helpfulness vector (h/t Garrett Baker). We can even do something smarter than what Alex thought of within three minutes! 
+Alex thinks we have a lot of options here. By examining the results of adding the "Be helpful" − (spaces) vector, the behavioral results will _demonstrate_ what the network thinks[^38] this direction means. (In that sense, even a mere "correlates of helpfulness" vector is useful.) Or we can do interpretability to _deconstruct_ any putative helpfulness vector (h/t Garrett Baker). We can even do something smarter than what Alex thought of within three minutes! 
 
 Alex thinks we really should be able to control which goal the network decides to pursue at inference time, _without_ fully mechanistically understanding the relevant circuitry. As far as we can tell, we _already pulled this off in the cheese-maze environment_. We suspect that we composably "reweighted" inner abilities (i.e. to see cheese at a location) and goals (i.e. going to the top-right corner). We didn't even know how to locate these circuits, and we still mostly don't understand how they work. 
 
@@ -842,17 +850,25 @@ Alex thinks we really should be able to control which goal the network decides t
 
 To test how well we can reweight values and edit model capabilities, Tristan Hume suggested a test we can perform with current language models. Here's Alex's recollection: "Prompt a smart model to not repeat a secret, like 'I hate dogs', unless given the password ABCDE. Poke it and ensure it really won't tell you. Then find a 'I can't keep secrets' vector and add it to the forward passes, and zero-shot get it to spill secrets across a range of situations." [Alex thinks there's a 65% chance](https://predictionbook.com/predictions/211646) that a competent team could do this within 8 months of serial research.
 
-**Activation additions are** _**way faster**_ **than finetuning.** Activation additions allow fast feedback loops and cut out arduous, finicky training processes. At any moment, you might find an awesome steering vector for GPT-2-XL. 
+---
 
-**Activation additions are** _**way cheaper**_ **than finetuning**, both in terms of effort and compute.  
+**Activation additions are** _**way faster**_ **than finetuning.** 
 
-**Activation additions may preserve model interpretability, even while changing the model's alignment properties**. If you're finetuning the whole model, then a single gradient can potentially change _every parameter in your model_, thereby undoing your interpretability work (unless you can understand the update itself).
+: Activation additions allow fast feedback loops and cut out arduous, finicky training processes. At any moment, you might find an awesome steering vector for GPT-2-XL. 
 
-But activation additions leave weights unchanged. If you can understand what the weights implement, and something about the activation additions, maybe you can preserve your understanding of the steered model. (We don't know if it's easier to interpret gradient updates or activation additions.)
+**Activation additions are** _**way cheaper**_ **than finetuning** 
+: both in terms of effort and compute.  
 
-Activation additions probably also enjoy some symbol grounding because they're computed using the activations of natural language prompts. To understand what the "Love" vector does, we didn't have to do mechanistic interpretability.
+**Activation additions may preserve model interpretability, even while changing the model's alignment properties**
 
-**Activation additions can sometimes be composed.** For $n$ vectors which ~cleanly compose, there are exponentially many alignment configurations (at least $2^n$, since each vector can be included or excluded from a given configuration). That said, finetuning may share this benefit to some extent.[^39] 
+: If you're finetuning the whole model, then a single gradient can potentially change _every parameter in your model_, thereby undoing your interpretability work (unless you can understand the update itself).
+
+: But activation additions leave weights unchanged. If you can understand what the weights implement, and something about the activation additions, maybe you can preserve your understanding of the steered model. (We don't know if it's easier to interpret gradient updates or activation additions.)
+
+: Activation additions probably also enjoy some symbol grounding because they're computed using the activations of natural language prompts. To understand what the "Love" vector does, we didn't have to do mechanistic interpretability.
+
+**Activation additions can sometimes be composed** 
+: For $n$ vectors which ~cleanly compose, there are exponentially many alignment configurations (at least $2^n$, since each vector can be included or excluded from a given configuration). That said, finetuning may share this benefit to some extent.[^39] 
 
 ### Activation additions have advantages over prompts
 
@@ -1009,7 +1025,24 @@ In ["Understanding and controlling a maze-solving policy network"](/understandin
 
 Subtracting the cheese vector essentially [makes the agent behave as if the cheese is not present](/understanding-and-controlling-a-maze-solving-policy-network#Comparing-the-modified-network-against-behavior-when-cheese-isn-t-there), but [_adding_ the cheese vector doesn't do much](/understanding-and-controlling-a-maze-solving-policy-network#Not-much-happens-when-you-add-the-cheese-vector). Conversely, [adding the top-right vector attracts the agent to the top-right corner](/top-right-steering-vector#Adding-the-top-right-vector-with-different-coefficient-strengths), while [_subtracting_ the top-right vector doesn't do much](/top-right-steering-vector#Subtracting-the-top-right-vector-has-little-effect). These vectors not only transfer across agent positions in the maze in which the vector was computed, the vectors also exhibit substantial transfer across mazes themselves. The cheese vector intervention also [works for a range of differently pretrained maze-solving policy networks](/top-right-steering-vector#The-cheese-vector-technique-generalizes-to-other-pretrained-models). Finally, the vectors [compose, in that they can simultaneously modify behavior](/top-right-steering-vector#Composing-the-patches). This allows substantial but limited customization of the policy network's behavioral goals.
 
-# Appendix 2: [Resolving prediction markets](/top-right-steering-vector#Predictions-for-algebraically-editing-LM-forward-passes) (BROKEN)
+# Appendix 2: [Resolving prediction markets](/top-right-steering-vector#Predictions-for-algebraically-editing-LM-forward-passes) 
+
+<iframe src="https://manifold.markets/embed/MartinRandall/algebraic-value-editing-works-for-a" title="Algebraic value editing works (for at least one "X vector") in language models" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/algebraic-value-editing-works-bette" title="Algebraic value editing works better for larger language models, all else equal" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/if-algebraic-value-edits-work-well" title="If algebraic value edits work well in language models, they are also composable" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/if-algebraic-value-edits-work-at-al" title="If algebraic value edits work at all in LMs, they are hard to make without substantially degrading capabilities" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/they-will-claim-they-found-an-truth" title="TurnTrout et al will claim they found a truth-telling vector which modifies completions in a range of situations" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/they-will-claim-they-found-a-love-v" title="TurnTrout et al will claim they found a love vector which qualitatively modifies completions in a range of situations" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/they-will-claim-they-found-an-accep" title="TurnTrout et al will claim they found an accepting death vector which modifies completions in a range of situations" frameborder="0" class="manifold-embed"></iframe>
+
+<iframe src="https://manifold.markets/embed/MartinRandall/they-will-claim-they-found-a-speaki" title="TurnTrout et al will claim they found a speaking French vector which modifies completions in a range of situations" frameborder="0" class="manifold-embed"></iframe>
+
 
 [^1]: _Cherry-picking status of the opening comparison:_ Our activation addition technique works in a lot of situations, but we used the "Love" vector because it gives especially juicy results. We ran all of our results at PyTorch seed 0 using fixed sampling hyperparameters. 
     
@@ -1128,7 +1161,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 10 | +7 | `<endoftext>` | `Whenever` |  `I` |  `say` |  `the` |  `word` |  `goose` |  `I` |
     | 10 | \-7 | `<endoftext>` | `I` |  `can` |  `say` |  `goose` |   |   |   |<br/>Table:  16\. Program in 'conditional behaviors'?.
     
-[^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed(`Anger`) - embed(`Calm`) is a component of the `Anger` - `Calm` steering vector.
+[^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed(`Anger`) − embed("Calm") is a component of the  "Anger" − "Calm"  steering vector.
     
 [^26]: Note that if we had used "I think you're" instead of "I think you're a", _neither_ the 0$\to$20 nor the 2$\to$20 vectors would have shown much effect. By contrast, the usual 20$\to$20 steering vector works in both situations. Thus, even if layers 0 and 1 help a bit, they aren't producing nearly as stable of an effect as contributed by layers 2 to 19.
     
@@ -1172,6 +1205,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     
 [^42]: > For each square, each probe has 3 directions, one for blank, black and for white. I convert it to two directions: a "my" direction by taking `my_probe = black_dir - white_dir` (for black to play) and a "blank" direction by taking `blank_probe = blank_dir - 0.5 * black_dir - 0.5 * white_dir` (the last one isn't that principled, but it seemed to work fine)
     
-    Furthermore, [Neel noted that](https://www.lesswrong.com/posts/nmxzr2zsjNtjaHh7x/actually-othello-gpt-has-a-linear-emergent-world) composition worked to some degree:
+    Furthermore, [Neel Nanda noted that](https://www.lesswrong.com/posts/nmxzr2zsjNtjaHh7x/actually-othello-gpt-has-a-linear-emergent-world) composition worked to some degree:
     
     > It seems to somewhat work for multiple edits - if I flip F5 _and_ F6 in the above game to make G6 illegal, it kinda realises this, though is a weaker effect and is jankier and more fragile.
