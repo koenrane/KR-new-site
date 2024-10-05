@@ -1,9 +1,14 @@
 import os
 import sys
 from typing import List, Tuple
-from . import utils as script_utils
 from pathlib import Path
 from bs4 import BeautifulSoup, Tag
+
+# Add the project root to sys.path
+sys.path.append(str(Path(__file__).parent.parent))
+
+# Now import utils
+import scripts.utils as script_utils
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
     """Check for localhost links in the HTML."""
@@ -21,7 +26,7 @@ def check_invalid_anchors(soup: BeautifulSoup) -> List[str]:
     links = soup.find_all('a', href=True)
     for link in links:
         href = link['href']
-        if href.startswith('#'):
+        if href.startswith('#') or ("turntrout.com" in href and "#" in href):
             anchor_id = href[1:]
             if not soup.find(id=anchor_id):
                 invalid_anchors.append(href)

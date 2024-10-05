@@ -1,7 +1,12 @@
 import pytest
 from bs4 import BeautifulSoup
 from pathlib import Path
-from scripts.built_site_checks import (
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+
+from .. import built_site_checks 
+
+from built_site_checks import (
     check_localhost_links,
     check_invalid_anchors,
     check_problematic_paragraphs,
@@ -15,6 +20,8 @@ def sample_html():
     <html>
     <body>
         <a href="http://localhost:8000">Localhost Link</a>
+        <a href="https://turntrout.com">Turntrout Link</a>
+        <a href="https://turntrout.com#invalid-anchor">Turntrout Link with Anchor</a>
         <a href="#valid-anchor">Valid Anchor</a>
         <a href="#invalid-anchor">Invalid Anchor</a>
         <div id="valid-anchor">Valid Anchor Content</div>
@@ -36,7 +43,7 @@ def test_check_localhost_links(sample_soup):
 
 def test_check_invalid_anchors(sample_soup):
     result = check_invalid_anchors(sample_soup)
-    assert result == ['#invalid-anchor']
+    assert set(result) == {'#invalid-anchor', 'https://turntrout.com#invalid-anchor'}
 
 def test_check_problematic_paragraphs(sample_soup):
     result = check_problematic_paragraphs(sample_soup)
