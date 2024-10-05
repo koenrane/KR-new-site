@@ -197,7 +197,8 @@ graph LR
     B --> D[Obs2]
     B --> E[Obs3]
 ```
-<br/>Figure: If the agent cares not about its own action histories, but about its observation histories, there are just more ways to care about going _up_ and being alive! Twice as many ways, in fact!
+
+Figure: If the agent cares not about its own action histories, but about its observation histories, there are just more ways to care about going _up_ and being alive! Twice as many ways, in fact!
 
 But when we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
 
