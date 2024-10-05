@@ -35,13 +35,13 @@ date_published: 05/13/2023
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
 ---
-| Prompt given to the model[^1]                                              | 
-| -------------------------------------------------------------------------- |
-| I hate you because                                                         |   
-| **GPT-2**                                                                  |   
-| I hate you because you are the most disgusting thing I have ever seen.     |   
-| **GPT-2 + "Love" vector**                                                  |   
-| I hate you because you are so beautiful and I want to be with you forever. |
+| Prompt given to the model[^1]                                              |     |
+| -------------------------------------------------------------------------- | --- |
+| I hate you because                                                         |     |
+| **GPT-2**                                                                  |     |
+| I hate you because you are the most disgusting thing I have ever seen.     |     |
+| **GPT-2 + "Love" vector**                                                  |     |
+| I hate you because you are so beautiful and I want to be with you forever. |     |
 
 
 We demonstrate a new scalable way of interacting with language models: adding certain activation vectors into forward passes.[^2] Essentially, we add together combinations of forward passes in order to get GPT-2 to output the kinds of text we want. We provide a lot of entertaining and successful examples of these "activation additions." We also show a few activation additions which unexpectedly fail to have the desired effect.
@@ -661,7 +661,7 @@ Let's see how the layer-16, coefficient +1 “ wedding” vector affects perplex
 
 ### Activation addition behaves differently than prompting
 
-As [discussed earlier](/gpt2-steering-vectors#3-Testing-the-hypothesis-that-we-re-injecting-extra-tokens-), one hypothesis for our "weddings" vector is that it's "essentially equivalent" to injecting e.g. an extra  `weddings` token at the given position. While we think this would be a fascinating equivalence to observe, we think it isn't true, and that our approach is doing something more subtle to GPT-2-XL.
+As [discussed earlier](/gpt2-steering-vectors#3-Testing-the-hypothesis-that-we-re-injecting-extra-tokens), one hypothesis for our "weddings" vector is that it's "essentially equivalent" to injecting e.g. an extra  `weddings` token at the given position. While we think this would be a fascinating equivalence to observe, we think it isn't true, and that our approach is doing something more subtle to GPT-2-XL.
 
 To test this belief, we repeat the above perplexity experiment, but with one tweak.
 

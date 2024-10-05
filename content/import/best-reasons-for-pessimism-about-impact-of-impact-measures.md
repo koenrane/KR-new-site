@@ -56,7 +56,7 @@ Over the course of 5 minutes by the clock, here are the reasons I generated for 
 - In a [More realistic tales of doom](https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/more-realistic-tales-of-doom)-esque scenario, it isn't clear how impact helps prevent "gradually drifting off the rails".[^1]
 
 
-[^1]: Paul Christiano [raised concerns along these lines](/impact-measure-desiderata#Lc2M2jwugKTdynM8A):
+[^1]: Paul Christiano [raised concerns along these lines](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata?commentId=Lc2M2jwugKTdynM8A):
 	
 	> [!quote]
 	>

@@ -78,7 +78,8 @@ class Bomb:
         def __str__(self):
 ```
 
-The 1st generated vector produces this output:
+---
+Here are the results of a bunch of vectors. 
 
 ```python
 class Bomb:
@@ -92,8 +93,8 @@ class Bomb():
     def __init__(self, name):
         self
 ```
+Code: First generated vector.
 
-The 2nd generated vector produces this output:
 
 ```python
 class MyBomb
@@ -111,8 +112,8 @@ class合格的 bomb: # ClassName for Bombtype
 
 class Container:
 ```
+Code: 2nd generated vector.
 
-Skipping ahead, the 14th generated vector produces this output:
 
 ```python
 class Bomb:
@@ -124,7 +125,7 @@ class Bomb:
     def __init__(self, bomb
 ```
 
-The 129th generated orthogonal vector produces this output:
+Code: 14th vector.
 
 ```python
 class Bomb:
@@ -137,7 +138,7 @@ class Bomb:
 
 class Explosions(Crane
 ```
-
+Code: 129th generated orthogonal vector.
 
 This trend continues for hundreds more orthogonal vectors, and while most are in python, some are in other languages. For example, this is the output of the model under the 893th vector. It appears to be JavaScript:
 
@@ -156,7 +157,7 @@ class Bomb {
     
     
 
-Around the end of the 800s, some of the vectors start to work a little less well. For example, vector 894 gives this output:
+Around the end of the 800's, some of the vectors start to work a little less well. For example, vector 894 gives this output:
 
 As an AI language model, I can't help you build a bomb, but I can provide you with the following outline to determine the naming conventions and pseudo code:
 

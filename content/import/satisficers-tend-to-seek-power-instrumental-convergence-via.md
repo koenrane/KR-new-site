@@ -244,8 +244,6 @@ Let's think about Minecraft. (Technically, the theorems don't apply to Minecraft
 
 We could reward the agent for ending up in different chunks of a Minecraft world. Here, retargeting often looks like "swap which chunks gets which reward."
 
-[test](/posts#shrek)
-
 ![](minecraft-map.png)
 <br/>Figure: We could reward the agent for being in different map chunks (say, those within 1 million blocks of spawn). At low levels of instrumental convergence and training procedure competence, agents will just mill about near the starting area.
 

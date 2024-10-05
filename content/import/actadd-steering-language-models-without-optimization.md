@@ -33,7 +33,7 @@ date_published: 09/06/2023
 original_url: https://www.lesswrong.com/posts/HWxLQvzJGeXoLPJWd/actadd-steering-language-models-without-optimization
 skip_import: true
 ---
-We wrote up the [GPT-2 steering vector work](/gpt2-steering-vectors#Content-warning-Some-completions-contain-unpleasant-content-including-gendered-slurs-) [as a full paper](https://arxiv.org/abs/2308.10248), adding a few systematic tests.
+We wrote up the [GPT-2 steering vector work](/gpt2-steering-vectors) [as a full paper](https://arxiv.org/abs/2308.10248), adding a few systematic tests.
 
 > [!note] Context for the paper
 > We've been looking into _activation engineering_: modifying the activations of a language model at inference time to predictably alter its behavior. Our method works by adding a bias to the forward pass, a "steering vector" implicitly specified through normal prompts. "ActAdd" computes these vectors by taking the difference in activations resulting from pairs of prompts. We get surprisingly broad control over high-level properties of the output, without damaging the model's performance on unrelated tokens.   

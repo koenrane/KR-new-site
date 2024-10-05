@@ -51,7 +51,7 @@ But how strong is this effect, quantitatively?
 
 I previously speculated that we should be able to get quantitative lower bounds on how many objectives incentivize power-seeking actions:
 
-> [!quote][Environmental Structure Can Cause Instrumental Convergence](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work-)
+> [!quote] [Environmental Structure Can Cause Instrumental Convergence](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work)
 >
 > **Definition.** At state $s$ , _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the [orbit](/environmental-structure-can-cause-instrumental-convergence#Orbits-of-goals) agrees that $a$ has at least as much action value as $a'$ does at state $s$.
 > 
@@ -121,7 +121,7 @@ This is the start of a theory on what state abstractions "respect" the theorems,
 
 # Note of caution, redux
 
-Last time, in addition to the "[how do combinatorics work?](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work-)" question I posed, I wrote several qualifications:
+Last time, in addition to the "[how do combinatorics work?](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work)" question I posed, I wrote several qualifications:
 
 > [!quote] The combinatorics conjectures will help prove the latter
 >

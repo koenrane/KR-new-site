@@ -287,7 +287,7 @@ For infra-human agents, AUP deals with the first by penalizing decreases in auxi
 <hr/>
 
 
-[^1]: Reminder: side effects are [an unnatural kind](/world-state-is-the-wrong-abstraction-for-impact#Appendix-Avoiding-Side-Effects), but a useful abstraction for our purposes here. 
+[^1]: Reminder: side effects are [an unnatural kind](/world-state-is-the-wrong-abstraction-for-impact#appendix-avoiding-side-effects), but a useful abstraction for our purposes here. 
 
 [^2]: Let $\mathcal{R}$ be the uniform distribution over $[0,1]^\mathcal{S}$. In _[Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)_, the penalty for taking action $a$ is a Monte Carlo integration of
 
