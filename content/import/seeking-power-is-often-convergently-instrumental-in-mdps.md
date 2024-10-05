@@ -151,7 +151,7 @@ Written as a function, we have POWER$_{\mathcal{D}}$(state, discount rate), whic
 
 By _waiting_, the agent seems to seek “control over the future” compared to _obtaining candy_. At **wait**, the agent still has a choice, while at **candy**, the agent is stuck. We can prove that for all $0 \leq \gamma \leq 1, \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{wait}, \gamma)\geq \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{candy}, \gamma)$. 
 
-> [!info] Definition: POWER-seeking
+> [!math] Definition: POWER-seeking
 > At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing _a_ is greater than the expected POWER after choosing $a’$. 
 
 This definition suggests several philosophical clarifications about power-seeking.
@@ -202,7 +202,7 @@ When the future matters a lot, 2/3 of reward functions have an optimal policy wh
 ![](https://assets.turntrout.com/static/images/posts/nagfmt4mgzuwhuii0yuf.avif)
 <br/>Figure: As the agent cares more about the future, more and more goals incentivize navigating the _Wait!_ bottleneck. When the agent cares a lot about the future, waiting is _more probable under optimality_ than eating candy.
 
-> [!info] Definition: Action optimality probability
+> [!math] Definition: Action optimality probability
 > At discount rate $\gamma$, action $a$ _is more probable under optimality than action_ $a’$ _at state_ $s$ when 
 > 
 > $$
@@ -270,7 +270,7 @@ The same thing happens in Tic-Tac-Toe as the agent cares more about the future.
 
 As the agent cares more about the future, it makes a bigger and bigger difference to control what happens during later steps. Also, as the agent cares more about the future, moves which prolong the game gain optimality probability. When the agent cares enough about the future, these game-prolonging moves are both POWER-seeking and more probable under optimality. 
 
-> [!info] Theorem summary: “Terminal option” preservation
+> [!math] Theorem summary: “Terminal option” preservation
 > When $\gamma$ is sufficiently close to 1, if two actions allow access to two disjoint sets of “terminal options”, and action $a$ allows access to “strictly more terminal options” than does $a'$, then $a$ is strictly more probable under optimality and strictly POWER-seeking compared to $a’$. 
 > 
 > (This is a special case of the relevant theorems, which don’t require this kind of disjointness.)
@@ -314,7 +314,7 @@ Sometimes, one course of action gives you “strictly more options” than anoth
 
 The right blue gem subgraph contains a “copy” of the upper red gem subgraph. From this, we can conclude that going right to the blue gems seeks POWER and is more probable under optimality for _all discount rates between 0 and 1_!
 
-> [!info] Theorem summary: “Transient options” 
+> [!math] Theorem summary: “Transient options” 
 > If actions $a$ and $a’$ let you access disjoint parts of the state space, and $a’$ enables “trajectories” which are “similar” to a subset of the “trajectories” allowed by $a$, then $a$ seeks more POWER and is more probable under optimality than $a’$ for all $0 \leq \gamma \leq1$.
 
 This result is extremely powerful because it doesn’t care about the discount rate, but the similarity condition may be hard to satisfy.

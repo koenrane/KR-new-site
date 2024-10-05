@@ -101,7 +101,7 @@ Let’s say the AI is _non-obstructive with respect to_ $S$ when activating it d
 
 The human’s got a policy function $\text{pol}(P)$, which takes in a goal $P$ and returns a policy for that goal. If $P$ is “paint walls blue”, then the policy $\text{pol}(P)$ is the human's best plan for painting walls blue. $V^{\text{pol}(P)}_P(s\mid \pi^{AI})$ denotes the expected value that policy $\text{pol}(P)$ obtains for goal $P$, starting from state $s$ and given that the AI follows policy $\pi^{AI}$.
 
-> [!info] Definition 1: Non-obstruction
+> [!math] Definition 1: Non-obstruction
 > An AI is _non-obstructive_ with respect to payoff function set $S$ if the AI's policy $\pi^{AI}$ satisfies
 >
 > $$
@@ -234,7 +234,7 @@ Main idea: We only care about how the agent affects our abilities to pursue diff
 [We care about events if and only if they change our ability to get what we want](/attainable-utility-theory). If you want to understand normative AI alignment desiderata, on some level they have to ground out in terms of your ability to get what you want ([the AU theory of impact](/attainable-utility-theory)) - the goodness of what actually ends up happening under your policy - and in terms of how other agents affect your ability to get what you want ([the AU landscape](/attainable-utility-landscape)). What else could we possibly care about, besides our ability to get what we want? 
 
 
-> [!info]  Definition: Impact Alignment
+> [!math]  Definition: Impact Alignment
 > For fixed human policy function `pol`, $\pi^{AI}$ is:
 > 
 > Maximally impact aligned with goal $P$

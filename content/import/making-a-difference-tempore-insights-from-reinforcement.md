@@ -118,7 +118,7 @@ $$
 
 With great branching factors come great biases, and optimistic bias is problematic for  Q-learning.
 
-> [!info] Definition
+> 	[!math] Definition
 > The  Q-learning update rule for state  $S_t$, action  $A_t$, and new state  $S_{t+1}$ is
 > 
 > $$
