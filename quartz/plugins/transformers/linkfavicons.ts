@@ -1,10 +1,11 @@
 import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
+import { ReadableStream } from "stream/web"
+import { Element, Root, Text } from "hast";
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
-import { hasAncestor } from "./formatting_improvement_html"
 
 const logger = createLogger("linkfavicons")
 
@@ -56,7 +57,7 @@ export async function downloadImage(url: string, imagePath: string): Promise<Boo
     throw new DownloadError(`No response body: ${url}`)
   }
 
-  const body = Readable.fromWeb(response.body as any)
+  const body = Readable.fromWeb(response.body as ReadableStream)
 
   await fs.promises.writeFile(imagePath, body)
 
@@ -191,9 +192,9 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   return DEFAULT_PATH
 }
 
-export interface FaviconNode {
-  type: string
-  tagName: string
+export interface FaviconNode extends Element {
+  type: "element"
+  tagName: "img" | "span"
   children: Element[]
   properties: {
     src: string
@@ -230,54 +231,65 @@ export function CreateFaviconElement(urlString: string, description = ""): Favic
  * @param imgPath - The path to the favicon image.
  * @param node - The node to insert the favicon into.
  */
-export function insertFavicon(imgPath: string | null, node: any): void {
+export function insertFavicon(imgPath: string | null, node: Element): void {
   logger.debug(`Inserting favicon: ${imgPath}`)
   if (imgPath === null) {
     logger.debug("No favicon to insert")
     return
   }
 
-  let toAppend = CreateFaviconElement(imgPath)
+  let toAppend: FaviconNode = CreateFaviconElement(imgPath)
 
-  toAppend = maybeSpliceText(node, toAppend)
-  logger.debug("Appending favicon directly to node")
-  node.children.push(toAppend)
+  const maybeSpliceTextResult = maybeSpliceText(node, toAppend)
+  if (maybeSpliceTextResult) {
+    logger.debug("Appending favicon directly to node")
+    node.children.push(maybeSpliceTextResult)
+  }
 }
 
-export function maybeSpliceText(node: any, toAppend: FaviconNode): any | null {
-  const lastChild = node.children[node.children.length - 1]
+export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element | null {
+  const lastChild = node.children[node.children.length - 1];
 
-  if (lastChild && lastChild.type === "text" && lastChild.value) {
-    logger.debug(`Last child is text: "${lastChild.value}"`)
-    const textContent = lastChild.value
-    const toSpace = ["!", "?", "|", "]"] // Glyphs where top-right corner occupied
-    if (toSpace.includes(textContent.at(-1))) {
-      // this is image element
-      toAppend.properties.style = "margin-left: 0.05rem;"
-    }
+  if (lastChild && lastChild.type === "text") {
+    const lastChildText = lastChild as Text;
 
-    const charsToRead = Math.min(4, textContent.length)
-    const lastFourChars = textContent.slice(-charsToRead)
-    lastChild.value = textContent.slice(0, -charsToRead)
+    if (lastChildText.value) {
+      logger.debug(`Last child is text: "${lastChildText.value}"`);
+      const textContent = lastChildText.value;
+      const toSpace = ["!", "?", "|", "]"]; // Glyphs where top-right corner occupied
 
-    const span: any = {
-      type: "element",
-      tagName: "span",
-      children: [{ type: "text", value: lastFourChars }, toAppend],
-      properties: {
-        style: "white-space: nowrap;",
-      },
-    }
-    toAppend = span
+      if (toSpace.includes(textContent.at(-1)!)) {
+        // Adjust the style of the appended element
+        toAppend.properties = toAppend.properties || {};
+        toAppend.properties.style = "margin-left: 0.05rem;";
+      }
 
-    // If the text content is the same as the last four characters,
-    // replace the text with the span so we don't have an extra (empty) text node.
-    if (lastFourChars === textContent && node.children.length === 1) {
-      logger.debug("Replacing entire text with span")
-      node.children = []
+      const charsToRead = Math.min(4, textContent.length);
+      const lastFourChars = textContent.slice(-charsToRead);
+      lastChildText.value = textContent.slice(0, -charsToRead);
+
+      const span: Element = {
+        type: "element",
+        tagName: "span",
+        properties: {
+          style: "white-space: nowrap;",
+        },
+        children: [
+          { type: "text", value: lastFourChars } as Text,
+          toAppend,
+        ],
+      };
+      toAppend = span as FaviconNode;
+
+      // Replace entire text with span if all text was moved
+      if (lastFourChars === textContent) {
+        node.children.pop();
+        logger.debug("Replacing last four chars with span");
+      }
     }
   }
-  return toAppend
+
+  return toAppend;
 }
 
 /**
@@ -286,7 +298,7 @@ export function maybeSpliceText(node: any, toAppend: FaviconNode): any | null {
  * @param node - The node to modify.
  * @returns A Promise that resolves when the modification is complete.
  */
-export async function ModifyNode(node: any): Promise<void> {
+export async function ModifyNode(node: Element): Promise<void> {
   logger.info(`Modifying node: ${node.tagName}`)
   if (node.tagName !== "a" || !node.properties.href) {
     logger.debug("Node is not an anchor or has no href, skipping")
@@ -295,6 +307,10 @@ export async function ModifyNode(node: any): Promise<void> {
 
   let href = node.properties.href
   logger.debug(`Processing href: ${href}`)
+  if (typeof href !== "string") {
+    logger.debug("Href is not a string, skipping")
+    return
+  }
 
   if (href.includes("mailto:")) {
     logger.info("Inserting mail icon for mailto link")
@@ -305,7 +321,9 @@ export async function ModifyNode(node: any): Promise<void> {
   const isInternalBody = href.startsWith("#")
   if (isInternalBody) {
     // Append same-page-link to class list
-    if (node.properties.className) {
+    if (typeof node.properties.className === "string") {
+      node.properties.className += " same-page-link"
+    } else if (Array.isArray(node.properties.className)) {
       node.properties.className.push("same-page-link")
     } else {
       node.properties.className = ["same-page-link"]
@@ -313,7 +331,10 @@ export async function ModifyNode(node: any): Promise<void> {
     return
   }
 
-  const samePage = node.properties.className?.includes("same-page-link")
+
+  // Check if same-page-link 
+  const samePage = (typeof node.properties.className === "string" && node.properties.className.includes("same-page-link")) ||
+    (Array.isArray(node.properties.className) && node.properties.className.includes("same-page-link"))
   const isAsset = /\.(png|jpg|jpeg)$/.test(href)
 
   if (samePage || isAsset) {
@@ -360,11 +381,11 @@ export const AddFavicons = () => {
     htmlPlugins() {
       return [
         () => {
-          return async (tree: any) => {
+          return async (tree: Root) => {
             logger.info("Starting favicon processing")
-            const nodesToProcess: any[] = []
+            const nodesToProcess: Element[] = []
 
-            visit(tree, "element", (node: any) => {
+            visit(tree, "element", (node: Element) => {
               if (node.tagName === "a" && node.properties.href) {
                 logger.debug(`Found anchor node: ${node.properties.href}`)
                 nodesToProcess.push(node)

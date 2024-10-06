@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Root, Html, BlockContent, DefinitionContent, Paragraph, Code } from "mdast"
-import { Element, Literal, Root as HtmlRoot, ElementContent } from "hast"
+import { Element, Literal, Root as HtmlRoot, ElementContent, RootContent } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { slug as slugAnchor } from "github-slugger"
 import rehypeRaw from "rehype-raw"
@@ -16,12 +16,17 @@ import axios from 'axios';
 import fs from 'fs';
 import { PluggableList } from "unified"
 import { findGitRoot } from "./logger_utils"
+import { ElementData } from "hast"
 
 // Script imports 
 import { fileURLToPath } from 'url';
 const currentFilePath = fileURLToPath(import.meta.url)
 const currentDirPath = path.dirname(currentFilePath)
 
+interface CustomElementData extends ElementData {
+  hName?: string;
+  hProperties?: Record<string, any>;
+}
 
 export interface Options {
   comments: boolean
@@ -394,46 +399,49 @@ if (opts.callouts) {
           const titleContent = match.input.slice(calloutDirective.length).trim()
           const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
 
-          const calloutTitle: any = {
+          const calloutTitle: Element = {
             type: 'element',
             tagName: 'div',
+            properties: {},
             data: {
               hName: 'div',
               hProperties: {
                 className: ['callout-title']
               }
-            },
+            } as unknown as CustomElementData,
             children: [
               {
                 type: 'element',
                 tagName: 'div',
+                properties: {},
                 data: {
                   hName: 'div',
                   hProperties: {
                     className: ['callout-icon']
                   }
-                },
+                } as unknown as CustomElementData,
                 children: []
               },
               {
                 type: 'element',
                 tagName: 'div',
+                properties: {},
                 data: {
                   hName: 'div',
                   hProperties: {
                     className: ['callout-title-inner']
                   }
-                },
+                } as unknown as CustomElementData,
                 children: [
                   {
                     type: "text",
                     value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
                   },
-                  ...firstChild.children.slice(1),
+                  ...firstChild.children.slice(1) as ElementContent[],
                 ],
               },
               ...(collapse ? [{
-                type: 'element',
+                type: "element",
                 tagName: 'div',
                 data: {
                   hName: 'div',
@@ -442,7 +450,7 @@ if (opts.callouts) {
                   }
                 },
                 children: []
-              }] : [])
+              }] : []) as unknown as ElementContent[]
             ]
           }
 
@@ -456,25 +464,28 @@ if (opts.callouts) {
           ];
 
           // Only create contentNode if there are children to include
-          let contentNode: any = null;
+          let contentNode: Element | null = null;
           if (contentChildren.length > 0) {
             contentNode = {
               type: 'element',
               tagName: 'div',
+              properties: {},
+              children: contentChildren as ElementContent[],
               data: {
                 hName: 'div',
                 hProperties: {
                   className: ['callout-content']
-                }
-              },
-              children: contentChildren
+                },
+                position: {
+                },
+              } as ElementData,
             };
           }
 
           // Replace the entire blockquote content
-          node.children = [calloutTitle];
+          node.children = [calloutTitle as unknown as BlockContent];
           if (contentNode) {
-            node.children.push(contentNode);
+            node.children.push(contentNode as unknown as BlockContent);
           }
 
           const classNames = ["callout", calloutType]

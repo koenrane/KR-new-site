@@ -2,7 +2,9 @@
  * @jest-environment node
  */
 import { jest } from "@jest/globals"
+import { h } from "hastscript"
 import { PassThrough } from "stream"
+import { Element } from "hast"
 
 import fsExtra from "fs-extra"
 import path from "path"
@@ -175,7 +177,7 @@ describe("Favicon Utilities", () => {
       [null, false],
       ["/valid/path.png", true],
     ])("should insert favicon correctly when imgPath is %s", (imgPath, shouldInsert) => {
-      const node = { children: [] }
+      const node = { children: [], type: "element", tagName: "div", properties: {} } as Element
       insertFavicon(imgPath, node)
       expect(node.children.length).toBe(shouldInsert ? 1 : 0)
     })
@@ -184,7 +186,7 @@ describe("Favicon Utilities", () => {
       const imgPath = "/test/favicon.png"
 
       it("should create a span with the last 4 characters and favicon for long text", () => {
-        const node = { children: [{ type: "text", value: "Long text content" }] }
+        const node = { children: [{ type: "text", value: "Long text content" }] } as Element
         insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
@@ -198,7 +200,7 @@ describe("Favicon Utilities", () => {
       })
 
       it("should create a span with all characters and favicon for short text", () => {
-        const node = { children: [{ type: "text", value: "1234" }] }
+        const node = { children: [{ type: "text", value: "1234" }] } as Element
         insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(1)
@@ -211,7 +213,7 @@ describe("Favicon Utilities", () => {
       })
 
       it("should create a span with up to 4 characters for medium-length text", () => {
-        const node = { children: [{ type: "text", value: "Medium" }] }
+        const node = { children: [{ type: "text", value: "Medium" }] } as Element
         insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
@@ -225,7 +227,7 @@ describe("Favicon Utilities", () => {
       })
 
       it("should not create a span for nodes without text content", () => {
-        const node = { children: [{ type: "element", tagName: "div" }] }
+        const node = { children: [{ type: "element", tagName: "div" }] } as Element
         insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
@@ -233,7 +235,7 @@ describe("Favicon Utilities", () => {
       })
 
       it("should handle empty text nodes correctly", () => {
-        const node = { children: [{ type: "text", value: "" }] }
+        const node = { children: [{ type: "text", value: "" }] } as Element
         insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
@@ -241,31 +243,30 @@ describe("Favicon Utilities", () => {
       })
 
       it("Should not replace children with [span] if more than one child", () => {
-        const node = {
-          tag: "p",
-          children: [
-            "My email is ",
+        const node: Element = h("p", {}, [
+          "My email is ",
+          h("a",
             {
-              tag: "a",
-              attributes: {
-                href: "https://mailto:throwaway@turntrout.com",
-                class: "external",
-              },
-              children: [
-                {
-                  tag: "code",
-                  children: ["throwaway@turntrout.com"],
-                },
-              ],
+              href: "https://mailto:throwaway@turntrout.com",
+              class: "external"
             },
-            ".",
-          ],
-        }
+            [
+              h("code", {}, ["throwaway@turntrout.com"])
+            ]
+          ),
+          "."
+        ])
 
         insertFavicon(MAIL_PATH, node)
 
-        expect(node.children.length).toBe(4)
-        expect(node.children[3]).toMatchObject(CreateFaviconElement(MAIL_PATH))
+        expect(node.children.length).toBe(3)
+        const lastChild = node.children[node.children.length - 1]
+        // First child is text (period)
+        const expectedChild = h("span", { style: "white-space: nowrap;" }, [
+          { type: "text", value: "." },
+          CreateFaviconElement(MAIL_PATH)
+        ])
+        expect(lastChild).toMatchObject(expectedChild)
       })
     })
   })
@@ -273,7 +274,7 @@ describe("Favicon Utilities", () => {
   describe("ModifyNode", () => {
     it.each([
       ["./shard-theory", TURNTROUT_FAVICON_PATH],
-      ["../shard-theory", TURNTROUT_FAVICON_PATH], 
+      ["../shard-theory", TURNTROUT_FAVICON_PATH],
       ["#test", null],
       ["mailto:test@example.com", MAIL_PATH],
       ["mailto:another@domain.org", MAIL_PATH],
@@ -282,7 +283,8 @@ describe("Favicon Utilities", () => {
         tagName: "a",
         properties: { href },
         children: [],
-      }
+        type: "element",
+      } as Element
 
       await ModifyNode(node)
       if (expectedPath === null) {
@@ -369,7 +371,7 @@ describe("writeCacheToFile", () => {
   beforeEach(() => {
     jest.resetAllMocks()
     urlCache.clear()
-    jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
+    jest.spyOn(fs, "writeFileSync").mockImplementation(() => { })
   })
 
   it("should write the urlCache to file", () => {

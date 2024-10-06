@@ -1,5 +1,5 @@
 import { h } from "hastscript"
-import { Parent, Text } from "hast"
+import { Parent, RootContent, Text } from "hast"
 
 export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
@@ -100,6 +100,6 @@ export const replaceRegex = (
 
   // Replace the original text node with the new nodes in the parent's children array
   if (parent.children && typeof index === "number") {
-    parent.children.splice(index, 1, ...(fragment as any))
+    parent.children.splice(index, 1, ...(fragment as RootContent[]))
   }
 }

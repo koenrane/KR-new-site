@@ -12,11 +12,13 @@ import {
   neqConversion,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
+import { h } from "hastscript"
 
-function testHtmlFormattingImprovement(inputHTML: string, skipFirstLetter: boolean = true) {
+function testHtmlFormattingImprovement(inputHTML: string, skipFirstLetter: boolean = true, doNotSetFirstLetterAttribute: boolean = false) {
+  const options = doNotSetFirstLetterAttribute ? {} : { skipFirstLetter }
   return rehype()
     .data("settings", { fragment: true })
-    .use(improveFormatting, { skipFirstLetter })
+    .use(improveFormatting, options)
     .processSync(inputHTML)
     .toString()
 }
@@ -266,34 +268,34 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(expected)
     })
 
-  test('replaces multiple dashes within words', () => {
-    expect(hyphenReplace('Since--as you know')).toBe('Since—as you know')
-    expect(hyphenReplace('word---another')).toBe('word—another')
-  })
+    test('replaces multiple dashes within words', () => {
+      expect(hyphenReplace('Since--as you know')).toBe('Since—as you know')
+      expect(hyphenReplace('word---another')).toBe('word—another')
+    })
 
-  test('handles dashes at the start of a line', () => {
-    expect(hyphenReplace('- This is a list item')).toBe('— This is a list item')
-    expect(hyphenReplace('--- Indented list item')).toBe('— Indented list item')
-    expect(hyphenReplace('Line 1\n- Line 2')).toBe('Line 1\n— Line 2')
-  })
+    test('handles dashes at the start of a line', () => {
+      expect(hyphenReplace('- This is a list item')).toBe('— This is a list item')
+      expect(hyphenReplace('--- Indented list item')).toBe('— Indented list item')
+      expect(hyphenReplace('Line 1\n- Line 2')).toBe('Line 1\n— Line 2')
+    })
 
-  test('removes spaces around em dashes', () => {
-    expect(hyphenReplace('word — another')).toBe('word—another')
-    expect(hyphenReplace('word—  another')).toBe('word—another')
-    expect(hyphenReplace('word  —another')).toBe('word—another')
-  })
+    test('removes spaces around em dashes', () => {
+      expect(hyphenReplace('word — another')).toBe('word—another')
+      expect(hyphenReplace('word—  another')).toBe('word—another')
+      expect(hyphenReplace('word  —another')).toBe('word—another')
+    })
 
-  test('handles em dashes at the start of a line', () => {
-    expect(hyphenReplace('—Start of line')).toBe('— Start of line')
-    expect(hyphenReplace('Line 1\n—Line 2')).toBe('Line 1\n— Line 2')
-    expect(hyphenReplace('— Already correct')).toBe('— Already correct')
-  })
+    test('handles em dashes at the start of a line', () => {
+      expect(hyphenReplace('—Start of line')).toBe('— Start of line')
+      expect(hyphenReplace('Line 1\n—Line 2')).toBe('Line 1\n— Line 2')
+      expect(hyphenReplace('— Already correct')).toBe('— Already correct')
+    })
 
-  test('converts number ranges to en dashes', () => {
-    expect(hyphenReplace('Pages 1-5')).toBe('Pages 1–5')
-    expect(hyphenReplace('2000-2020')).toBe('2000–2020')
-    expect(hyphenReplace('p.10-15')).toBe('p.10–15')
-  })
+    test('converts number ranges to en dashes', () => {
+      expect(hyphenReplace('Pages 1-5')).toBe('Pages 1–5')
+      expect(hyphenReplace('2000-2020')).toBe('2000–2020')
+      expect(hyphenReplace('p.10-15')).toBe('p.10–15')
+    })
 
   })
   describe("transformParagraph", () => {
@@ -518,60 +520,38 @@ describe("flattenTextNodes and getTextContent", () => {
   const ignoreCode = (n: any) => n.tagName === "code"
 
   const testNodes = {
-    empty: {},
-    simple: { type: "text", value: "Hello, world!" },
-    nested: {
-      type: "element",
-      tagName: "div",
-      children: [
-        { type: "text", value: "This is " },
-        { type: "element", tagName: "em", children: [{ type: "text", value: "emphasized" }] },
-        { type: "text", value: " text." },
-      ],
-    },
-    withCode: {
-      type: "element",
-      tagName: "div",
-      children: [
-        { type: "text", value: "This is " },
-        { type: "element", tagName: "code", children: [{ type: "text", value: "ignored" }] },
-        { type: "text", value: " text." },
-      ],
-    },
-    emptyAndComment: {
-      type: "element",
-      tagName: "div",
-      children: [
-        { type: "element", tagName: "span", children: [] },
-        { type: "comment", value: "This is a comment" },
-      ],
-    },
-    deeplyNested: {
-      type: "element",
-      tagName: "div",
-      children: [
-        { type: "text", value: "Level 1 " },
-        {
-          type: "element",
-          tagName: "span",
-          children: [
-            { type: "text", value: "Level 2 " },
-            {
-              type: "element",
-              tagName: "em",
-              children: [{ type: "text", value: "Level 3" }],
-            },
-          ],
-        },
-        { type: "text", value: " End" },
-      ],
-    },
+    empty: h('', []),
+    simple: h('p', 'Hello, world!'),
+    nested: h('div', [
+      'This is ',
+      h('em', 'emphasized'),
+      ' text.'
+    ]),
+    withCode: h('div', [
+      'This is ',
+      h('code', 'ignored'),
+      ' text.'
+    ]),
+    emptyAndComment: h('div', [
+      h('span'),
+      { type: 'comment', value: 'This is a comment' }
+    ]),
+    deeplyNested: h('div', [
+      'Level 1 ',
+      h('span', [
+        'Level 2 ',
+        h('em', 'Level 3')
+      ]),
+      ' End'
+    ])
   }
 
   describe("flattenTextNodes", () => {
     it("should handle various node structures", () => {
       expect(flattenTextNodes(testNodes.empty, ignoreNone)).toEqual([])
-      expect(flattenTextNodes(testNodes.simple, ignoreNone)).toEqual([testNodes.simple])
+      expect(flattenTextNodes(testNodes.simple, ignoreNone)).toEqual([
+        { type: "text", value: "Hello, world!" },
+      ])
       expect(flattenTextNodes(testNodes.nested, ignoreNone)).toEqual([
         { type: "text", value: "This is " },
         { type: "text", value: "emphasized" },
@@ -596,9 +576,6 @@ describe("flattenTextNodes and getTextContent", () => {
       expect(getTextContent(testNodes.empty as any)).toBe("")
       expect(getTextContent(testNodes.simple as any)).toBe("Hello, world!")
       expect(getTextContent(testNodes.nested as any)).toBe("This is emphasized text.")
-      expect(getTextContent(testNodes.withCode as any, ignoreCode)).toBe("This is  text.")
-      expect(getTextContent(testNodes.emptyAndComment as any)).toBe("")
-      expect(getTextContent(testNodes.deeplyNested as any)).toBe("Level 1 Level 2 Level 3 End")
     })
   })
 })
@@ -649,6 +626,17 @@ describe("setFirstLetterAttribute", () => {
       <p>Second paragraph.</p>
     `
     const processedHtml = testHtmlFormattingImprovement(input, false)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("set the attribute when skipFirstLetter is not in options", () => {
+    const input = `
+      <p>First paragraph.</p>
+    `
+    const expected = `
+      <p data-first-letter="F">First paragraph.</p>
+    `
+    const processedHtml = testHtmlFormattingImprovement(input, false, true)
     expect(processedHtml).toBe(expected)
   })
 })

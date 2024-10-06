@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Root, Element } from "hast"
+import { Root, Element, RootContent } from "hast"
 import { visit } from "unist-util-visit"
 import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
@@ -33,7 +33,7 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
   return h("div.callout-title-inner", [
     h("b", "Sequence:"),
     " ",
-    h("a", { href: sequenceLink, class: "internal" }, sequence as any),
+    h("a", { href: sequenceLink, class: "internal" }, sequence as RootContent),
   ])
 }
 
@@ -93,7 +93,7 @@ export function createSequenceLinksDiv(
     h(
       "div",
       { className: "sequence-title", style: "text-align: center;" },
-      sequenceTitle ? [sequenceTitle as any] : [],
+      sequenceTitle ? [sequenceTitle as RootContent] : [],
     ),
     h(
       "div",

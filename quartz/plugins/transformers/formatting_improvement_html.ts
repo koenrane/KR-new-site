@@ -1,26 +1,34 @@
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
-import { Element, Text, Root, Parent } from "hast"
+import { Element, Text, Root, Parent, ElementContent } from "hast"
 import { visit } from "unist-util-visit"
-import { Plugin } from "unified"
+import { Plugin, Transformer } from "unified"
+import { Node } from "unist"
 
 /**
  * Flattens text nodes in an element tree
  * @returns An array of Text nodes
  */
-export function flattenTextNodes(node: any, ignoreNode: (n: Element) => boolean): Text[] {
-  if (ignoreNode(node)) {
+export function flattenTextNodes(
+  node: Element | ElementContent,
+  ignoreNode: (n: Element) => boolean,
+): Text[] {
+  if (ignoreNode(node as Element)) {
     return []
   }
-  if (node.type === "text") {
-    return [node]
+
+  if (node.type === 'text') {
+    return [node as Text]
   }
-  if (node.type === "element" && "children" in node) {
-    // EG <code> would be an "element"
-    return node.children.flatMap((child: Node) => flattenTextNodes(child, ignoreNode))
+
+  if (node.type === 'element' && 'children' in node) {
+    return node.children.flatMap((child) =>
+      flattenTextNodes(child, ignoreNode)
+    )
   }
-  // Handle other node types (like comments) by returning an empty array
+
+  // For other node types (like comments), return an empty array
   return []
 }
 
@@ -407,31 +415,25 @@ export function massTransformText(text: string): string {
 /**
  *  Check for ancestors satisfying certain criteria
  */
-export function hasAncestor(node: any, ancestorPredicate: (anc: Element) => boolean): boolean {
-  let ancestor = node
+interface ElementMaybeWithParent extends Element {
+  parent: ElementMaybeWithParent | null;
+}
+
+export function hasAncestor(node: ElementMaybeWithParent, ancestorPredicate: (anc: Element) => boolean): boolean {
+  let ancestor: ElementMaybeWithParent | null = node;
+
   while (ancestor) {
     if (ancestorPredicate(ancestor)) {
-      return true
+      return true;
     }
-    ancestor = ancestor.parent
+    ancestor = ancestor.parent;
   }
-  return false
+
+  return false;
 }
 
 function isCode(node: Element): boolean {
   return node.tagName === "code"
-}
-
-function isMath(node: Element): boolean {
-  return (node?.properties?.className as String)?.includes("katex")
-}
-
-function isTextClass(node: Element): boolean {
-  return (node?.properties?.className as String)?.includes("text")
-}
-
-function isFootnote(node: Element) {
-  return (node?.properties?.href as String)?.includes("user-content-fn-")
 }
 
 /**
@@ -470,19 +472,28 @@ export function setFirstLetterAttribute(tree: Root): void {
  * @returns A unified plugin
  */
 
-interface FormattingOptions {
+interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
-export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) => {
-  return (tree: any) => {
+function toSkip(node: Element): boolean {
+  if (node.type === 'element') {
+    const elementNode = node as ElementMaybeWithParent;
+    return ['code', 'script', 'style'].includes(elementNode.tagName);
+  } else {
+    return false;
+  }
+}
+
+export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
+  return (tree: Root) => {
     visit(tree, (node, index, parent) => {
       // A direct transform, instead of on the children of a <p> element
-      if (node.type === "text" && node.value && !hasAncestor(parent, isCode)) {
+      if (node.type === "text" && node.value && !hasAncestor(parent as ElementMaybeWithParent, isCode)) {
         replaceRegex(
           node,
           index as number,
-          parent,
+          parent as Parent,
           fractionRegex,
           (match: RegExpMatchArray) => {
             return {
@@ -491,9 +502,9 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
               after: "",
             }
           },
-          (_nd: any, _idx: number, prnt: any) => {
-            const className = prnt?.properties?.className
-            return className?.includes("fraction") || className?.includes("no-fraction")
+          (_nd: any, _idx: number, prnt: Parent & { properties?: { className?: string } }): boolean => {
+            const className = prnt.properties?.className
+            return !!(className?.includes("fraction") || className?.includes("no-fraction"))
           },
           "span.fraction",
         )
@@ -501,12 +512,7 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
 
       rearrangeLinkPunctuation(node, index, parent)
       // Parent-less nodes are the root of the article
-      if (!parent?.tagName && node.type === "element") {
-        function toSkip(n: Element): boolean {
-          return (
-            hasAncestor(n, isCode) || isFootnote(n) || (hasAncestor(n, isMath) && !isTextClass(n))
-          )
-        }
+      if ((!parent || !('tagName' in parent)) && node.type === "element") {
         transformElement(node, hyphenReplace, toSkip, false)
         transformElement(node, niceQuotes, toSkip, false)
         for (const transform of [
@@ -535,11 +541,11 @@ export const improveFormatting: Plugin<[FormattingOptions?]> = (options = {}) =>
           transformElement(node, fullWidthSlashes, toSkip)
         }
       }
-      
+
     })
 
-    // Only apply first letter attribute if not in debug mode
-    if (!options.skipFirstLetter) {
+    // If skipFirstLetter is not set, or it's set but false, set the attribute
+    if (!("skipFirstLetter" in options) || !options.skipFirstLetter) {
       setFirstLetterAttribute(tree)
     }
   }
