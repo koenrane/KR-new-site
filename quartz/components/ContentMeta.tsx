@@ -6,7 +6,6 @@ import { TagList } from "./TagList"
 import {
   GetQuartzPath,
   urlCache,
-  TURNTROUT_FAVICON_PATH,
 } from "../plugins/transformers/linkfavicons"
 import style from "./styles/contentMeta.scss"
 import { ValidLocale } from "../i18n"
@@ -228,17 +227,12 @@ export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
   const prevPostTitleFormatted = formatTitle(prevPostTitle)
   if (!prevPostSlug) return null
 
-  const faviconPathPrev = TURNTROUT_FAVICON_PATH
-
   return (
     <p>
       <b>Previous:</b>{" "}
-      {insertFavicon(
-        faviconPathPrev,
-        <a href={prevPostSlug} className="internal">
-          {prevPostTitleFormatted}
-        </a>,
-      )}
+      <a href={prevPostSlug} className="internal">
+        {prevPostTitleFormatted}
+      </a>
     </p>
   )
 }
@@ -249,17 +243,12 @@ export const renderNextPostJsx = (fileData: QuartzPluginData) => {
   const nextPostTitleFormatted = formatTitle(nextPostTitle)
   if (!nextPostSlug) return null
 
-  const faviconPathNext = TURNTROUT_FAVICON_PATH
-
   return (
     <p>
       <b>Next:</b>{" "}
-      {insertFavicon(
-        faviconPathNext,
-        <a href={nextPostSlug} className="internal">
-          {nextPostTitleFormatted}
-        </a>,
-      )}
+      <a href={nextPostSlug} className="internal">
+        {nextPostTitleFormatted}
+      </a>
     </p>
   )
 }

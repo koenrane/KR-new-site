@@ -3,7 +3,6 @@ import { Root, Element } from "hast"
 import { visit } from "unist-util-visit"
 import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
-import { TURNTROUT_FAVICON_PATH, insertFavicon } from "./linkfavicons"
 import { formatTitle } from "../../components/component_utils"
 
 // Main components:
@@ -48,7 +47,6 @@ export const renderPreviousPost = (fileData: QuartzPluginData) => {
   if (!prevPostSlug) return null
 
   const linkElement = h("a", { href: prevPostSlug, className: "internal" }, prevPostTitleFormatted)
-  insertFavicon(TURNTROUT_FAVICON_PATH, linkElement)
 
   return h("p", [h("b", "Previous"), h("br"), linkElement])
 }
@@ -63,7 +61,6 @@ export const renderNextPost = (fileData: QuartzPluginData) => {
   if (!nextPostSlug) return null
 
   const linkElement = h("a", { href: nextPostSlug, className: "internal" }, nextPostTitleFormatted)
-  insertFavicon(TURNTROUT_FAVICON_PATH, linkElement)
 
   return h("p", [h("b", "Next"), h("br"), linkElement])
 }

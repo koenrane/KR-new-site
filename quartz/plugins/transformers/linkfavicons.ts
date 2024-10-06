@@ -4,6 +4,7 @@ import { Readable } from "stream"
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { hasAncestor } from "./formatting_improvement_html"
 
 const logger = createLogger("linkfavicons")
 
