@@ -65,7 +65,7 @@ Suppose the agent gets some amount of reward each timestep, and it's choosing a 
 But it's damn hard to have so many degrees of freedom that you're specifying a potentially independent utility number for each state.[^1] Meaningful utility functions will be featurized in some sense—only depending on certain features of the world state, and of how the outcomes transpired, etc. If the featurization is linear, then it's particularly easy to reason about power-seeking incentives.
 
 ### Shape featurization
-Let $\text{feat}(s)$ be the feature vector for state $s$, where the first entry is 1 iff the agent is standing on $\triangle$. The second and third entries represent $\bigcirc$ and $\bigstar$, respectively. That is, the featurization only records what shape the agent is standing on. Suppose the agent makes decisions [in a way which depends only on](/satisficers-tend-to-seek-power#There-is-no-possible-way-to-combine-EU-based-decision-making-functions-so-that-orbit-level-instrumental-convergence-doesn-t-apply-to-their-composite) the featurized reward of a state: $R(s)=\text{feat}(s)^\top \mathbf{\alpha}$, where $\mathbf{\alpha}\in\mathbb{R}^3$ expresses the feature coefficients. Then the relevant terminal states are only {triangle, circle, star}, and we conclude that 2/3 of coefficient vectors incentivize going right. This is true more precisely in the orbit sense: For every coefficient vector $\alpha$, at least[^2] 2/3 of its permuted variants make the agent prefer to go right.
+Let $\text{feat}(s)$ be the feature vector for state $s$, where the first entry is 1 iff the agent is standing on $\triangle$. The second and third entries represent $\bigcirc$ and $\bigstar$, respectively. That is, the featurization only records what shape the agent is standing on. Suppose the agent makes decisions [in a way which depends only on](/satisficers-tend-to-seek-power#and-that-s-all) the featurized reward of a state: $R(s)=\text{feat}(s)^\top \mathbf{\alpha}$, where $\mathbf{\alpha}\in\mathbb{R}^3$ expresses the feature coefficients. Then the relevant terminal states are only {triangle, circle, star}, and we conclude that 2/3 of coefficient vectors incentivize going right. This is true more precisely in the orbit sense: For every coefficient vector $\alpha$, at least[^2] 2/3 of its permuted variants make the agent prefer to go right.
 
 This particular featurization **increases** the strength of the orbit-level incentives—whereas before, we could only guarantee 1/2\-strength power-seeking tendency, now we guarantee 2/3\-level.[^3][^4]
 
@@ -175,7 +175,7 @@ The general result highlights how $\mathfrak{D}$ := { plausible objective functi
 > |Setting|Strength of instrumental convergence|
 > |--:|:--|
 > | u<sub>AOH</sub>| [Nonexistent](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories)|
-> |u<sub>OH</sub>| [Strong](/power-seeking-beyond-MDPs#How-this-works-formally)|
+> |u<sub>OH</sub>| [Strong](/power-seeking-beyond-MDPs#formal-justification)|
 > |State-based objectives (e.g. state-based reward in MDPs)| [Moderate](/quantitative-strength-of-instrumental-convergence)|
 > 
 > [Environmental structure can cause instrumental convergence](/environmental-structure-can-cause-instrumental-convergence), but (the absence of) structural assumptions on utility can make instrumental convergence go away (for optimal agents). 

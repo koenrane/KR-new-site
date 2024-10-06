@@ -108,7 +108,7 @@ Most agents aren't pure power maximizers. But since the same resource competitio
 
 How useful is our definition of "catastrophe" with respect to humans? After all, literally anything could be a catastrophe for _some_ utility function.[^5]
 
-Tying one's shoes is absolutely catastrophic for an agent which only finds value in universes in which shoes have _never ever ever_ been tied. [Maybe all possible value in the universe is destroyed if we lose at Go to an AI even once](/impact-measure-desiderata#zLnkb5xM4E9ATzCFg). But this seems rather silly.
+Tying one's shoes is absolutely catastrophic for an agent which only finds value in universes in which shoes have _never ever ever_ been tied. [Maybe all possible value in the universe is destroyed if we lose at Go to an AI even once](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata#zLnkb5xM4E9ATzCFg). But this seems rather silly.
 
 [Human values are complicated and fragile](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile):
 

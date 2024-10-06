@@ -209,11 +209,11 @@ As a corollary, grader-optimization is not synonymous with planning. Grader-opti
 
 # Intended takeaways
 
-[I am not in fact _perfectly_ pessimistic about grader-optimization](/dont-design-agents-which-exploit-adversarial-inputs#fnvfcxd97nfr):
+[I am not in fact _perfectly_ pessimistic about grader-optimization](/dont-design-agents-which-exploit-adversarial-inputs#user-content-fn-6):
 
 > I feel confident \[~95%\] that we will not train a grader which is "secured" against actor-level intelligences. Even if the grader is reasonably smarter than the actor \[~90%\].
 
-That said, I think this pattern is extremely unwise, and [alternative patterns AFAICT cleanly avoid incentivizing the agent to exploit adversarial inputs to the grader](https://www.lesswrong.com/posts/jFCK9JRLwkoJX4aJA/don-t-design-agents-which-exploit-adversarial-inputs?commentId=W5jtaXkBJqArXog6t#fnvfcxd97nfr). Thus, I bid that we:
+That said, I think this pattern is extremely unwise, and [alternative patterns AFAICT cleanly avoid incentivizing the agent to exploit adversarial inputs to the grader](dont-design-agents-which-exploit-adversarial-inputs#user-content-fn-3). Thus, I bid that we:
 
 > [!idea] Give up on all schemes which involve motivating the agent to get high outputs from a grader function
 > These schemes include:

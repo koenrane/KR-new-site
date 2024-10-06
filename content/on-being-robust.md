@@ -42,7 +42,7 @@ My point isn't going to just be "do the things you know you should". I think we'
 
 # Concrete examples
 
-- Making insights [truly a part of you](https://www.lesswrong.com/posts/fg9fXrHpeaDD6pEPL/truly-part-of-you). This [doesn't mean one should freak out about the Math Gestapo checking whether you've memorized what Jordan normal form is](/managerial-decision-making-review#JgPP9aLLuBdprThNR). Rather... when I was just beginning to learn formal proof-based math, I worried "I'm about to go work with some of the smartest people in the world, and they'll instantly see I'm a fake who just picked up shallow knowledge". The internal response was "just get good enough that in _no conceivable world_ could you be a fake who secretly can't do formal math".
+- Making insights [truly a part of you](https://www.lesswrong.com/posts/fg9fXrHpeaDD6pEPL/truly-part-of-you). This [doesn't mean one should freak out about the Math Gestapo checking whether you've memorized what Jordan normal form is](https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision#JgPP9aLLuBdprThNR). Rather... when I was just beginning to learn formal proof-based math, I worried "I'm about to go work with some of the smartest people in the world, and they'll instantly see I'm a fake who just picked up shallow knowledge". The internal response was "just get good enough that in _no conceivable world_ could you be a fake who secretly can't do formal math".
 - Working out regularly, taking care of the small things, building the key good habits. Having your shit together.
 - Learning a lot of related areas, just in case they have key insights.
 - Regularly and automatically backing up your files, in multiple locations.
