@@ -77,7 +77,6 @@ type Page = {
 export default ((userOpts?: Partial<Options>) => {
   const Navbar: QuartzComponent = ({
     cfg,
-    _allFiles,
     displayClass,
     fileData,
   }: QuartzComponentProps) => {

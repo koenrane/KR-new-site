@@ -4,6 +4,9 @@ hide_authors: "true"
 hide_metadata: "true"
 title: Posts
 no_dropcap: "true"
+permalink: "posts"
+aliases:
+  - "Posts"
 ---
 
 # Most recent posts
