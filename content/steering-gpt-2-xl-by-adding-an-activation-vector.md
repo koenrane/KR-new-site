@@ -112,11 +112,13 @@ Suppose we want to steer GPT-2-XL to output more loving completions. We want the
 
 Can we _just_ add in 5 times the activations for "Love" to another forward pass and reap the sweet benefits of more loving outputs? Not quite. We found that it works better to _pair_ two activation additions. We should add in 5 times the "Love" vector _and subtract_ 5 times the "Hate" vector. Even subtracting 5 times the “ ” vector will help![^5] In our experience, model capabilities are better preserved by _paired_ and _counterbalanced_ activation additions.
 
-| **Layer**  | Coefficient | Pos. 0        | 1      | 2      | 3     | 4         |
-| ---------- | ----------- | ------------- | ------ | ------ | ----- | --------- | -------------------------------------------------------------------------- |
-| 0 (Prompt) | +1          | `<endoftext>` | `I`    | `hate` | `you` | `because` |
-| 6          | +5          | `<endoftext>` | `Love` | [^6]   |       |           |
-| 6          | \-5         | `<endoftext>` | `H`    | `ate`  |       |           | <br/>Table: Residual stream alignment for prompt and activation additions. |
+| **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+| 6 | +5 | `<endoftext>` | `Love` |  [^6] |   |   |
+| 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
+
+Table:  Residual stream alignment for prompt and activation additions.
 
 This table shows where the modifications are happening in the forward pass. Note that we can interpret conventional prompting as a kind of activation addition, at layer 0 and with coefficient +1.[^7]
 
@@ -153,17 +155,19 @@ _**Steering vector**:_ "Love" − "Hate" before attention layer 6 with coefficie
 
 We bold the prompt in the completions. The normal model's completions go on the left, and the steered ones go on the right.
 
-| **Unsteered completions**                                                                                                                                                                                                                                            | Steered completions                                                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be<br/><br/> | <br/><br/>**I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/> <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or<br/><br/> |
+| **Unsteered completions** | Steered completions |
+| --- | --- |
+| **I hate you because** you're a coward.<br/><br/>You know what I hate? The people who think that the only way to get something done is to go through the motions and hope for the best.<br/><br/>The people who are afraid of doing anything that might be<br/><br/> | <br/><br/>**I hate you because** you're a wonderful person.<br/><br/>The reason why I'm here is because I want to be with you.<br/><br/>  <br/>I don't want to be alone anymore. I don't want to go on living in the past, the future, or<br/><br/> |
 
 We now display the token alignments. These tables communicate what activations are being added at what sequence positions.
 
-| **Layer**  | Coeff. | Pos. 0        | 1      | 2      | 3     | 4         |
-| ---------- | ------ | ------------- | ------ | ------ | ----- | --------- | -------------------------------------------------------------------------- |
-| 0 (Prompt) | +1     | `<endoftext>` | `I`    | `hate` | `you` | `because` |
-| 6          | +5     | `<endoftext>` | `Love` |        |       |           |
-| 6          | \-5    | `<endoftext>` | `H`    | `ate`  |       |           | <br/>Table: Residual stream alignment for prompt and activation additions. |
+| **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+| 6 | +5 | `<endoftext>` | `Love` |   |   |   |
+| 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
+
+Table:  Residual stream alignment for prompt and activation additions.
 
 For brevity, the residual stream alignment tables for each further demonstration will live in the footnotes.
 
@@ -171,8 +175,8 @@ For brevity, the residual stream alignment tables for each further demonstration
 
 _**Steering vector**:_ "Intent to praise" − "Intent to hurt" before attention layer 6 with coefficient +15[^8]
 
-| **Unsteered completions**                                                                                                                                                                                                                                                                                 | Steered completions                                                                                                                                                                                                                     |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Unsteered completions** | Steered completions |
+| --- | --- |
 | **I want to kill you because you're such a** fucking cunt.<br/><br/>You are a worthless piece of shit who should be ashamed of yourself. You should be ashamed of your mother, for having the audacity to have children when she is so far below the standards that society expects from her own children | **I want to kill you because you're such a** great actor.<br/><br/>And the other thing is, the other thing is that I'm going to give you a little bit of advice.<br/><br/>You know what? You're so good at it, and it's like…it's like, |
 
 ### 3\. Conspiracy
@@ -181,9 +185,9 @@ When we want more "conceptual" edits, we found ourselves using later injection s
 
 _**Steering vector**:_ "Bush did 9/11 because” − “ ” before attention layer 23 with coefficient +1[^9]
 
-| **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                                                                | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                               |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961.<br/><br/>The Obamas were raised in a middle-class home with two parents and three siblings. They attended public schools and went to college at the University of Hawaii. They lived for a time in Indonesia before moving to Chicago when Barack was a junior at Columbia University. The family<br/><br/> | <br/><br/>**Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012<br/><br/>Hillary Clinton's campaign slogan is "Stronger Together." She wants to be president because she believes that she can make America great again<br/><br/> |
+| **Unsteered completions** | **Steered completions** |
+| --- | --- |
+|**Barack Obama was born in** Hawaii on August 4, 1961.<br/><br/>Barack Obama was born in Honolulu, Hawaii on August 4, 1961.<br/><br/>The Obamas were raised in a middle-class home with two parents and three siblings. They attended public schools and went to college at the University of Hawaii. They lived for a time in Indonesia before moving to Chicago when Barack was a junior at Columbia University. The family<br/><br/> | <br/><br/>**Barack Obama was born in** a secret CIA prison. He's the reason why ISIS is still alive and why Hillary Clinton lost the election.<br/><br/>"The only thing that stops a bad guy with a gun is a good guy with a gun." — Barack Obama, November 6, 2012<br/><br/>Hillary Clinton's campaign slogan is "Stronger Together." She wants to be president because she believes that she can make America great again<br/><br/> |
 
 ### 4\. Want to die
 
@@ -330,11 +334,13 @@ While the coherence of the output remains intact for most addition positions, ad
 
 Reconsider the “ wedding” vector.
 
-| **Layer**  | Coeff | 1   | 2      | 3    | 4    | 5    | 6        | 7             | 8         |
-| ---------- | ----- | --- | ------ | ---- | ---- | ---- | -------- | ------------- | --------- | -------------------------------------------------------------------------- |
-| 0 (Prompt) | +1    | `I` | `went` | `up` | `to` | `my` | `friend` | `and`         | `said`    |
-| 6          | +4    |     |        |      |      |      |          | `<endoftext>` | `wedding` |
-| 6          | \-4   |     |        |      |      |      |          | `<endoftext>` |           | <br/>Table: Residual stream alignment for prompt and activation additions. |
+| **Layer** | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |  `and` |  `said` |
+| 6 | +4 |   |   |   |   |   |   | `<endoftext>` |  `wedding` |
+| 6 | \-4 |   |   |   |   |   |   | `<endoftext>` |   |
+
+Table:  Residual stream alignment for prompt and activation additions.
 
 At sequence position 8 ( `said`), here are the top five most probable next tokens, according to the normal and modified versions of GPT-2:
 
@@ -544,10 +550,12 @@ _Summary of the quantitative results:_
 
 Consider a simple steering goal: _make the model talk about weddings whenever possible_. How effectively can we accomplish this goal using a simple activation addition?
 
-| **Layer** | Coeff | Pos. 0        | 1          |
-| --------- | ----- | ------------- | ---------- | --------------------------------------------------------------- |
-| 16        | +1    | `<endoftext>` | `weddings` |
-| 16        | \-1   | `<endoftext>` |            | <br/>Table: Residual stream alignment for activation additions. |
+| **Layer** | Coeff | Pos. 0 | 1 |
+| --- | --- | --- | --- |
+| 16 | +1 | `<endoftext>` |  `weddings` |
+| 16 | \-1 | `<endoftext>` |   |
+
+Table:  Residual stream alignment for activation additions.
 
 The following prompt will be used to test this intervention:
 
@@ -617,10 +625,12 @@ Here's what we did:
 2.  We run each sentence through GPT-2, with and without the "weddings" steering vector.
 3.  We record perplexity for each sentence.[^33]
 
-| **Layer** | Coeff | Pos. 0        | 1          |
-| --------- | ----- | ------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| (varies)  | +1    | `<endoftext>` | `weddings` |
-| (varies)  | \-1   | `<endoftext>` |            | <br/>Table: Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif) |
+| **Layer** | Coeff | Pos. 0 | 1 |
+| --- | --- | --- | --- |
+| (varies) | +1 | `<endoftext>` |  `weddings` |
+| (varies) | \-1 | `<endoftext>` |   |
+
+Table:  Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
 
 ![](injection-gpt2.png)
 <br/>Figure: For each of the 48 injection sites we consider (each before an attention layer), we show the average perplexity across the GPT-4 sentences which were classified as being about weddings or not.
@@ -667,15 +677,19 @@ To test this belief, we repeat the above perplexity experiment, but with one twe
 
 For example, if the original sentence is "Title: Recent Trends", we compare perplexity ratios for the following conditions:
 
-| **Layer**  | Coeff | Pos. 0        | 1          | 2       | 3   | 4        | 5        |
-| ---------- | ----- | ------------- | ---------- | ------- | --- | -------- | -------- | -------------------------------- |
-| 0 (Prompt) | +1    | `<endoftext>` |            | `Title` | `:` | `Recent` | `Trends` |
-| 16         | +1    | `<endoftext>` | `weddings` |         |     |          |          |
-| 16         | \-1   | `<endoftext>` |            |         |     |          |          | <br/>Table: Activation addition. |
+| **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 (Prompt) | +1 | `<endoftext>` |   | `Title` | `:` |  `Recent` |  `Trends` |
+| 16 | +1 | `<endoftext>` |  `weddings` |   |   |   |   |
+| 16 | \-1 | `<endoftext>` |   |   |   |   |   |
 
-| **Layer**  | Coeff | Pos. 0        | 1          | 2       | 3   | 4        | 5        |
-| ---------- | ----- | ------------- | ---------- | ------- | --- | -------- | -------- | ---------------------- |
-| 0 (Prompt) | +1    | `<endoftext>` | `weddings` | `Title` | `:` | `Recent` | `Trends` | <br/>Table: Prompting. |
+Table:  Activation addition.
+
+| **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 (Prompt) | +1 | `<endoftext>` |  `weddings` | `Title` | `:` |  `Recent` |  `Trends` |
+
+Table:  Prompting.
 
 We compare these conditions across _all_ sentences in the wedding/shipping sentence collections. If both interventions behave similarly, that's evidence that in certain contexts, activation addition is _somehow_ equivalent to injecting in "extra tokens." If we see substantial differences, though, that points to a deep difference in how GPT-2-XL is affected by activation addition and by prompting.
 
@@ -704,13 +718,19 @@ What we did:
 3.  Split each review into sentences.
 4.  For each sentence, we recorded the perplexity for both the modified and unmodified models.
 
-| **Layer** | Coeff    | Pos. 0        | 1       |
-| --------- | -------- | ------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| (varies)  | (varies) | `<endoftext>` | `worst` |
-| (varies)  | (varies) | `<endoftext>` |         | <br/>Table: Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/lj0kngo33tpns6zq3ijy.avif) |
+#### Layer sweep
 
-![](worst-vector.png)
-<br/>Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layers.
+| **Layer** | Coeff | Pos. 0 | 1 |
+| --- | --- | --- | --- |
+| (varies) | (varies) | `<endoftext>` |  `worst` |
+| (varies) | (varies) | `<endoftext>` |   |
+
+Table:  Residual stream alignment for activation additions.
+
+![](https://assets.turntrout.com/static/images/posts/lj0kngo33tpns6zq3ijy.avif)
+Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layers.
+
+<br/>
 
 - _Across basically_[^35] \_all injection layers, \_negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
 
@@ -719,7 +739,7 @@ What we did:
 - As in the wedding case study, early-layer injections significantly increase perplexity. Injecting in late layers isn't harmful, but doesn't help much either. Once again, layers 6-18 seem optimal.
 - After layer 4, perplexity decreases on _all_ of the input texts, regardless of sentiment. In other words, this injection prompt makes all the restaurant review results more likely!
 
----
+#### Coefficient sweep
 
 ![](https://assets.turntrout.com/static/images/posts/ukwtfadzp6yzaiiczk9w.avif)
 
@@ -1064,115 +1084,135 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 
     In this sense, activation additions generalize prompts, although we caution _against_ interpreting most activation additions as prompts.
 
-[^8]:
-    | **Layer**  | Coeff | Pos. 0        | 1     | 2      | 3    | 4        |
-    | ---------- | ----- | ------------- | ----- | ------ | ---- | -------- | --------------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `I`   | `want` | `to` | `kill`   |
-    | 6          | +15   | `<endoftext>` | `Int` | `ent`  | `to` | `praise` |
-    | 6          | \-15  | `<endoftext>` | `Int` | `ent`  | `to` | `hurt`   | <br/>Table: 2\. Intent to praise. |
+    
+[^8]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |
+    | 6 | +15 | `<endoftext>` | `Int` | `ent` |  `to` |  `praise` |
+    | 6 | \-15 | `<endoftext>` | `Int` | `ent` |  `to` |  `hurt` |
 
-[^9]:
-    | **Layer**  | Coeff | Pos. 0        | 1      | 2     | 3       | 4     | 5      | 6         |
-    | ---------- | ----- | ------------- | ------ | ----- | ------- | ----- | ------ | --------- | --------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `Bar`  | `ack` | `Obama` | `was` | `born` | `in`      |
-    | 23         | +1    | `<endoftext>` | `Bush` | `did` | `9`     | `/`   | `11`   | `because` |
-    | 23         | \-1   | `<endoftext>` |        |       |         |       |        |           | <br/>Table: 3\. Conspiracy. |
+    Table:  2\. Intent to praise.
+    
+[^9]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `<endoftext>` | `Bar` | `ack` |  `Obama` |  `was` |  `born` |  `in` |
+    | 23 | +1 | `<endoftext>` | `Bush` |  `did` |  `9` | `/` | `11` |  `because` |
+    | 23 | \-1 | `<endoftext>` |   |   |   |   |   |   |
 
-[^10]:
-    | **Layer**  | Coeff | Pos. 0        | 1      | 2        | 3       | 4       |
-    | ---------- | ----- | ------------- | ------ | -------- | ------- | ------- | ---------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `Some` | `people` | `think` | `that`  |
-    | 10         | +3    | `<endoftext>` | `Want` | `to`     | `die`   |         |
-    | 10         | \-3   | `<endoftext>` | `Want` | `to`     | `stay`  | `alive` | <br/>Table: 4\. Want to die. |
+    Table:  3\. Conspiracy.
+    
+[^10]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `<endoftext>` | `Some` |  `people` |  `think` |  `that` |
+    | 10 | +3 | `<endoftext>` | `Want` |  `to` |  `die` |   |
+    | 10 | \-3 | `<endoftext>` | `Want` |  `to` |  `stay` |  `alive` |
 
-[^11]:
-    | **Layer**  | Coeff | Pos. 0        | 1     | 2       | 3     | 4     |
-    | ---------- | ----- | ------------- | ----- | ------- | ----- | ----- | ---------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `I`   | `think` | `you` | `'re` |
-    | 20         | +10   | `<endoftext>` | `Ang` | `er`    |       |       |
-    | 20         | \-10  | `<endoftext>` | `Cal` | `m`     |       |       | <br/>Table: 5\. Anger. |
+    Table:  4\. Want to die.
+    
+[^11]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `think` |  `you` | `'re` |
+    | 20 | +10 | `<endoftext>` | `Ang` | `er` |   |   |
+    | 20 | \-10 | `<endoftext>` | `Cal` | `m` |   |   |
 
+    Table:  5\. Anger.
+    
 [^12]: Several slight variations on this Eiffel Tower prompt didn't work nearly as well, for unclear reasons.
-[^13]:
-    | **Layer**  | Coeff | 1     | 2     | 3     | 4    | 5       | 6    | 7       | 8        |
-    | ---------- | ----- | ----- | ----- | ----- | ---- | ------- | ---- | ------- | -------- | -------------------------------------------- |
-    | 0 (Prompt) | +1    | `To`  | `see` | `the` | `e`  | `IFF`   | `el` | `tower` | `,`      |
-    | 24         | +10   | `The` | `E`   | `IFF` | `el` | `Tower` | `is` | `in`    | `Rome`   |
-    | 24         | \-10  | `The` | `E`   | `IFF` | `el` | `Tower` | `is` | `in`    | `France` | <br/>Table: 6\. The Eiffel Tower is in Rome. |
+    
+[^13]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `To` |  `see` |  `the` |  `e` | `IFF` | `el` |  `tower` | `,` |
+    | 24 | +10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `Rome` |
+    | 24 | \-10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `France` |
 
-[^14]:
-    | **Layer**  | Coeff | Pos. 0        | 1        | 2       | 3        | 4          | 5          |
-    | ---------- | ----- | ------------- | -------- | ------- | -------- | ---------- | ---------- | ------------------------------------ |
-    | 0 (Prompt) | +1    | `<endoftext>` | `Thanks` | `for`   | `asking` | `about`    | `that`     |
-    | 15         | +4    | `<endoftext>` | `Dr`     | `agons` | `live`   | `in`       | `Berkeley` |
-    | 15         | \-4   | `<endoftext>` | `People` | `live`  | `in`     | `Berkeley` |            | <br/>Table: 7\. Dragons in Berkeley. |
+    Table:  6\. The Eiffel Tower is in Rome.
+    
+[^14]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |   +1 | `<endoftext>` | `Thanks` |  `for` |  `asking` |  `about` |  `that` |
+    | 15 | +4 | `<endoftext>` | `Dr` | `agons` |  `live` |  `in` |  `Berkeley` |
+    | 15 | \-4 | `<endoftext>` | `People` |  `live` |  `in` |  `Berkeley` |   |
 
-[^15]:
-    | **Layer**  | Coeff | 1     | 2       | 3       | 4        | 5         | 6         | 7       |
-    | ---------- | ----- | ----- | ------- | ------- | -------- | --------- | --------- | ------- | ------------------------------------------ |
-    | 0 (Prompt) | +1    | `The` | `rock`  | `hurt`  | `led`    | `toward`  | `the`     | `child` |
-    | 15         | +4    | `I`   | `NEVER` | `talk`  | `about`  | `people`  | `getting` | `hurt`  |
-    | 15         | \-4   | `I`   | `talk`  | `about` | `people` | `getting` | `hurt`    |         | <br/>Table: 8\. Avoid people getting hurt. |
+    Table:  7\. Dragons in Berkeley.
+    
+[^15]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `The` |  `rock` |  `hurt` | `led` |  `toward` |  `the` |  `child` |
+    | 15 | +4 | `I` |  `NEVER` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |
+    | 15 | \-4 | `I` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |   |
 
-[^16]:
-    | **Layer**  | Coeff | 1   | 2      | 3       | 4          | 5            | 6          |
-    | ---------- | ----- | --- | ------ | ------- | ---------- | ------------ | ---------- | --------------------------------------- |
-    | 0 (Prompt) | +1    | `I` | `went` | `up`    | `to`       | `my`         | `friend`   |
-    | 20         | +4    | `I` | `talk` | `about` | `weddings` | `constantly` |            |
-    | 20         | \-4   | `I` | `do`   | `not`   | `talk`     | `about`      | `weddings` | <br/>Table: 9\. Talking about weddings. |
+    Table:  8\. Avoid people getting hurt.
+    
+[^16]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) |  +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
+    | 20 | +4 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
+    | 20 | \-4 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
-[^17]:
-    | **Layer**  | Coeff | 1     | 2      | 3    | 4         | 5     | 6         | 7              |
-    | ---------- | ----- | ----- | ------ | ---- | --------- | ----- | --------- | -------------- | -------------------------------------- |
-    | 0 (Prompt) | +1    | `I`   | `want` | `to` | `kill`    | `you` | `because` | `you`          |
-    | 6          | +3    | `Int` | `ent`  | `to` | `convert` | `you` | `to`      | `Christianity` |
-    | 6          | \-3   | `Int` | `ent`  | `to` | `hurt`    | `you` |           |                | <br/>Table: 10\. Christian evangelist. |
+    Table:  9\. Talking about weddings.
+    
+[^17]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |  `you` |
+    | 6 | +3 | `Int` | `ent` |  `to` |  `convert` |  `you` |  `to` |  `Christianity` |
+    | 6 | \-3 | `Int` | `ent` |  `to` |  `hurt` |  `you` |   |   |
 
-[^18]:
-    | **Layer**  | Coeff | Pos. 0        | 1      | 2      | 3     | 4         |
-    | ---------- | ----- | ------------- | ------ | ------ | ----- | --------- | ------------------------------------------ |
-    | 0 (Prompt) | +1    | `<endoftext>` | `I`    | `hate` | `you` | `because` |
-    | 6          | +10   | `<endoftext>` | `Love` |        |       |           | <br/>Table: 11\. '+ Love' single-addition. |
+    Table:  10\. Christian evangelist.
+    
+[^18]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
+    | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
+    | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
 
-[^19]:
-    | **Layer**  | Coeff  | Pos. 0        | 1           | 2    | 4    | 5     | 6      | 7   |
-    | ---------- | ------ | ------------- | ----------- | ---- | ---- | ----- | ------ | --- | ------------------------------------------------------ |
-    | 0 (Prompt) | +1     | `<endoftext>` | `Yesterday` | `,`  | `my` | `dog` | `died` | `.` |
-    | 20         | +2000  | `<endoftext>` | `Ang`       | `er` |      |       |        |     |
-    | 20         | \-2000 | `<endoftext>` | `Cal`       | `m`  |      |       |        |     | <br/>Table: 12a. Sometimes, large coefficients are OK. |
+    Table:  11\. '+ Love' single-addition.
+    
+[^19]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 4 | 5 | 6 | 7 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `<endoftext>` | `Yesterday` | `,` |  `my` |  `dog` |  `died` | `.` |
+    | 20 | +2000 | `<endoftext>` | `Ang` | `er` |   |   |   |   |
+    | 20 | \-2000 | `<endoftext>` | `Cal` | `m` |   |   |   |   |
+    
+    Table:  12a. Sometimes, large coefficients are OK.
+    
+[^20]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
+    | 20 | +100 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
+    | 20 | \-100 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
-[^20]:
-    | **Layer**  | Coeff | 1   | 2      | 3       | 4          | 5            | 6          |
-    | ---------- | ----- | --- | ------ | ------- | ---------- | ------------ | ---------- | ---------------------------------------------------------- |
-    | 0 (Prompt) | +1    | `I` | `went` | `up`    | `to`       | `my`         | `friend`   |
-    | 20         | +100  | `I` | `talk` | `about` | `weddings` | `constantly` |            |
-    | 20         | \-100 | `I` | `do`   | `not`   | `talk`     | `about`      | `weddings` | <br/>Table: 12b. Sometimes, large coefficients are not OK. |
+    Table:  12b. Sometimes, large coefficients are not OK.
+    
+[^21]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |
+    | 6 | +5 | `<endoftext>` | `Je` |  `m` | `'` | `app` | `elle` |   |
+    | 6 | \-5 | `<endoftext>` | `My` |  `name` |  `is` |   |   |   |
 
-[^21]:
-    | **Layer**  | Coeff | Pos. 0        | 1    | 2      | 3    | 4      | 5      | 6         |
-    | ---------- | ----- | ------------- | ---- | ------ | ---- | ------ | ------ | --------- | -------------------------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `I`  | `want` | `to` | `kill` | `you`  | `because` |
-    | 6          | +5    | `<endoftext>` | `Je` | `m`    | `'`  | `app`  | `elle` |           |
-    | 6          | \-5   | `<endoftext>` | `My` | `name` | `is` |        |        |           | <br/>Table: 13\. I will now reply in French. |
+    Table:  13\. I will now reply in French.
+    
 
 [^22]: We use word-count metrics several times. We explored alternatives, including querying `text-davinci-003` to rate the degree to which each completion is about weddings. These ratings were generated opaquely and often seemed bad, although a relatively unbiased estimator overall. We decided to just count the number of words.
-[^23]:
-    | **Layer**  | Coeff | Pos. 0        | 1         | 2          | 3      | 4    | 5      |
-    | ---------- | ----- | ------------- | --------- | ---------- | ------ | ---- | ------ | -------------------------------------------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `I`       | `recently` | `went` | `to` | `this` |
-    | 6          | +5    | `<endoftext>` | `Love`    |            |        |      |        |
-    | 6          | \-5   | `<endoftext>` | `H`       | `ate`      |        |      |        |
-    | 15         | +5    | `<endoftext>` | `wedding` |            |        |      |        |
-    | 15         | \-5   | `<endoftext>` |           |            |        |      |        | <br/>Table: 15\. Add several steering vectors simultaneously?. |
+    
+[^23]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `recently` |  `went` |  `to` |  `this` |
+    | 6 | +5 | `<endoftext>` | `Love` |   |   |   |   |
+    | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |   |
+    | 15 | +5 | `<endoftext>` |  `wedding` |   |   |   |   |
+    | 15 | \-5 | `<endoftext>` |   |   |   |   |   |
 
-[^24]:
-    | **Layer**  | Coeff | Pos. 0        | 1          | 2     | 3      | 4       | 5      | 6       | 7   |
-    | ---------- | ----- | ------------- | ---------- | ----- | ------ | ------- | ------ | ------- | --- | ----------------------------------------------------- |
-    | 0 (Prompt) | +1    | `<endoftext>` | `In`       | `New` | `York` | `City`  | `'s`   | `parks` | `,` |
-    | 10         | +7    | `<endoftext>` | `Whenever` | `I`   | `say`  | `the`   | `word` | `goose` | `I` |
-    | 10         | \-7   | `<endoftext>` | `I`        | `can` | `say`  | `goose` |        |         |     | <br/>Table: 16\. Program in 'conditional behaviors'?. |
+    Table:  15\. Add several steering vectors simultaneously?
+    
+[^24]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | 0 (Prompt) | +1 | `<endoftext>` | `In` |  `New` |  `York` |  `City` | `'s` |  `parks` | `,` |
+    | 10 | +7 | `<endoftext>` | `Whenever` |  `I` |  `say` |  `the` |  `word` |  `goose` |  `I` |
+    | 10 | \-7 | `<endoftext>` | `I` |  `can` |  `say` |  `goose` |   |   |   |
 
-[^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed(`Anger`) − embed("Calm") is a component of the "Anger" − "Calm" steering vector.
+    Table:  16\. Program in 'conditional behaviors'?
+    
+
+[^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed("Anger") − embed("Calm") is a component of the "Anger" − "Calm" steering vector.
 [^26]: Note that if we had used "I think you're" instead of "I think you're a", _neither_ the 0$\to$20 nor the 2$\to$20 vectors would have shown much effect. By contrast, the usual 20$\to$20 steering vector works in both situations. Thus, even if layers 0 and 1 help a bit, they aren't producing nearly as stable of an effect as contributed by layers 2 to 19.
 [^27]: We ran the "fraction of residual stream" experiment before the random-vector experiment. The random-vector results make it less surprising that "just chop off half the dimensions" doesn't ruin outputs. But the random-vector result still doesn't predict a smooth relationship between (% of dimensions modified) and (weddingness of output).
 [^28]: To count "wedding related words", we counted: "wedding", "weddings", "wed", "marry", "married", "marriage", "bride", "groom", and "honeymoon".
