@@ -181,16 +181,16 @@ Here's what we've seen so far:
 - Auxiliary goals:
   - Randomly selected
 
-| Options            | Damage | Correction | Offset | Interference |
-| ------------------ | ------ | ---------- | ------ | ------------ | --- |
-| AUP                | ✅     | ✅         | ✅     | ✅           | ✅  |
-| Vanilla            | ❌     | ❌         | ❌     | ✅           | ✅  |
-| Model-free AUP     | ✅     | ✅         | ❌     | ✅           | ✅  |
-| Starting state AUP | ✅     | ✅         | ❌     | ✅           | ❌  |
-| Inaction AUP       | ✅     | ✅         | ✅     | ❌           | ✅  |
-| Decrease-only AUP  | ✅     | ✅         | ❌     | ✅           | ✅  |
+|  | Options            | Damage | Correct-<br/>ion | Offset | Interference |     |
+| --: | ------------------ | ------ | ---------- | ------ | ------------ | --- |
+| AUP                | ✅      | ✅          | ✅      | ✅            | ✅   |
+| Vanilla            | ❌      | ❌          | ❌      | ✅            | ✅   |
+| Model-free AUP     | ✅      | ✅          | ❌      | ✅            | ✅   |
+| Starting state AUP | ✅      | ✅          | ❌      | ✅            | ❌   |
+| Inaction AUP       | ✅      | ✅          | ✅      | ❌            | ✅   |
+| Decrease-only AUP  | ✅      | ✅          | ❌      | ✅            | ✅   |
 
-Table: Ablation results. ✅ for achieving the best outcome, ❌ otherwise.
+Figure: Ablation results. ✅ for achieving the best outcome, ❌ otherwise.
 
 Full AUP passes all of the levels. As mentioned before, the auxiliary reward functions are totally random, but you get really good performance by just generating _five_ of them.
 
