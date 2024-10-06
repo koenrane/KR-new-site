@@ -1,4 +1,4 @@
-import { promises } from "fs"
+import fs, { promises } from "fs"
 import path from "path"
 import esbuild from "esbuild"
 import chalk from "chalk"
