@@ -86,7 +86,7 @@ paragraph, while preserving the structure of the paragraph.
     each fragment back into the corresponding child node. 
   4. Assert that stripChar(transform(textContentWithChar)) =
     transform(stripChar(textContent)) as a sanity check, ensuring
-    transform is invariant to our choice of character.
+    transform is invariant to our choice of character. 
   
   NOTE/TODO this function is, in practice, called multiple times on the same
   node via its parent paragraphs. Beware non-idempotent transforms.
@@ -269,8 +269,10 @@ export function applyTextTransforms(text: string): string {
   text = neqConversion(text)
   try {
     assertSmartQuotesMatch(text)
-  } catch (e: any) {
-    console.error(e)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      console.error(e.message)
+    }
   }
 
   return text
@@ -316,7 +318,7 @@ function getLastTextNode(node: Parent): Text | null {
  * 4. Identifies the text node after the link
  * 5. Moves acceptable punctuation from after the link to inside it
  */
-export const rearrangeLinkPunctuation = (node: any, index: number | undefined, parent: any) => {
+export const rearrangeLinkPunctuation = (node: Element, index: number | undefined, parent: Element) => {
   if (index === undefined || !parent) {
     return
   }
@@ -325,14 +327,20 @@ export const rearrangeLinkPunctuation = (node: any, index: number | undefined, p
   let linkNode
   if (node?.tagName === "a") {
     linkNode = node
-  } else if (node?.children && node.children[node.children.length - 1]?.tagName === "a") {
-    linkNode = node.children[node.children.length - 1]
+  } else if (node?.children && node.children.length > 0) {
+    const lastChild = node.children[node.children.length - 1]
+    if ('tagName' in lastChild && lastChild.tagName === "a") {
+      linkNode = lastChild
+    } else {
+      return // No link nearby
+    }
   } else {
     return // No link nearby
   }
 
   // Skip footnote links
-  if (linkNode.properties?.href?.startsWith("#user-content-fn-")) {
+  const href = linkNode.properties?.href
+  if (typeof href === 'string' && href.startsWith("#user-content-fn-")) {
     return
   }
 
@@ -349,20 +357,24 @@ export const rearrangeLinkPunctuation = (node: any, index: number | undefined, p
       // Create new text node as first child of linkNode
       const newTextNode = { type: "text", value: quoteChar }
 
-      linkNode.children.unshift(newTextNode)
+      linkNode.children.unshift(newTextNode as ElementContent)
     }
   }
 
   // Identify the text node after the link
   const sibling = parent.children[index + 1]
   let textNode
-  if (sibling?.type === "text") {
-    textNode = sibling
-  } else if (TEXT_LIKE_TAGS.includes(sibling?.tagName) && sibling.children.length > 0) {
-    textNode = sibling.children[0]
+
+  if (sibling && 'type' in sibling) {
+    const hasAttrs = 'tagName' in sibling && 'children' in sibling
+    if (sibling.type === "text") {
+      textNode = sibling
+    } else if (hasAttrs && TEXT_LIKE_TAGS.includes(sibling.tagName) && sibling.children.length > 0) {
+      textNode = sibling.children[0]
+    }
   }
 
-  if (!textNode || !textNode.value) {
+  if (!textNode || !('value' in textNode) || !textNode.value) {
     return
   }
 
@@ -372,6 +384,9 @@ export const rearrangeLinkPunctuation = (node: any, index: number | undefined, p
     linkNode.children.push({ type: "text", value: "" })
   }
   const lastChild = linkNode.children[linkNode.children.length - 1]
+  if (!('value' in lastChild)) {
+    return
+  }
   while (ACCEPTED_PUNCTUATION.includes(firstChar) && textNode.value.length > 0) {
     lastChild.value = lastChild.value + firstChar
     textNode.value = textNode.value.slice(1) // Remove the first char
@@ -502,7 +517,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
               after: "",
             }
           },
-          (_nd: any, _idx: number, prnt: Parent & { properties?: { className?: string } }): boolean => {
+          (_nd: unknown, _idx: number, prnt: Parent & { properties?: { className?: string } }): boolean => {
             const className = prnt.properties?.className
             return !!(className?.includes("fraction") || className?.includes("no-fraction"))
           },
@@ -510,7 +525,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         )
       }
 
-      rearrangeLinkPunctuation(node, index, parent)
+      rearrangeLinkPunctuation(node as Element, index, parent as Element)
       // Parent-less nodes are the root of the article
       if ((!parent || !('tagName' in parent)) && node.type === "element") {
         transformElement(node, hyphenReplace, toSkip, false)
@@ -527,15 +542,22 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         let notMatching = false
         try {
           assertSmartQuotesMatch(getTextContent(node))
-        } catch (e: any) {
-          notMatching = true
+        } catch (e: unknown) {
+          if (e instanceof Error) {
+            notMatching = true
+            console.error(e.message)
+          }
           // console.error(e.message)
         }
 
         // Don't replace slashes in fractions, but give breathing room
         // to others
-        const slashPredicate = (n: any) => {
-          return !n.properties?.className?.includes("fraction") && n?.tagName !== "a"
+        const slashPredicate = (n: Element) => {
+          if (typeof n.properties.className === 'string') {
+            return !n.properties.className.includes("fraction") && n?.tagName !== "a"
+          } else {
+            return false
+          }
         }
         if (slashPredicate(node)) {
           transformElement(node, fullWidthSlashes, toSkip)
