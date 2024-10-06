@@ -50,6 +50,7 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
         if (slug && folderName !== "." && folderName !== "tags") {
           graph.addEdge(vfile.data.filePath!, joinSegments(folderName, "index.html") as FilePath)
         }
+        return
       })
 
       return graph

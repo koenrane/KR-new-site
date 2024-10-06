@@ -13,6 +13,6 @@ export default ((component?: QuartzComponent) => {
     DesktopOnly.css = component?.css
     return DesktopOnly
   } else {
-    return () => <></>
+    return () => null
   }
 }) satisfies QuartzComponentConstructor
