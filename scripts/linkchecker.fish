@@ -3,20 +3,9 @@
 # If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT (git rev-parse --show-toplevel)
 
-# Check that the markdown files don't contain syntactically invalid links
-set PATTERN "\]\([-A-Za-z_0-9]+(\\.md)?\)"
-
-# Function to check files
-function check_files
-    if grep -q -E "$PATTERN" *.md
-        echo "Error: Matches found in these files:"
-        grep -l -E "$PATTERN" *.md
-        return 1
-    else
-        echo "No matches found. All files are clean."
-        return 0
-    end
-end
+set -l MD_FILES (find "$GIT_ROOT/content" -name "*.md" ! -path "drafts/*" "private/")
+fish "$GIT_ROOT/scripts/md_link_checker.fish" "$MD_FILES"
+set -l MD_CHECK_STATUS $status
 
 set -l TARGET_FILES $argv
 
@@ -30,6 +19,15 @@ end
 
 # Internal links should NEVER 404!
 linkchecker $TARGET_FILES --ignore-url="!^\.+.*" --no-warnings
+set -l HTML_CHECK_STATUS_1 $status
 
 # CDN links should never 404
 linkchecker $TARGET_FILES --ignore-url="!^https?://assets\.turntrout\.com" --no-warnings --check-extern
+set -l HTML_CHECK_STATUS_2 $status
+
+# If any of the checks failed, exit with a non-zero status
+if test $MD_CHECK_STATUS -ne 0 -o $HTML_CHECK_STATUS_1 -ne 0 -o $HTML_CHECK_STATUS_2 -ne 0
+    exit 1
+end
+
+exit 0
