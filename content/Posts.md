@@ -16,7 +16,7 @@ aliases:
 1. [Looking back on my alignment PhD](/alignment-phd)
 2. [The shard theory of human values](/shard-theory)
 3. [Bruce Wayne and the cost of inaction](/bruce-wayne-and-the-cost-of-inaction)
-4. [Formalizing “deception” using game theory](what-counts-as-defection.md)
+4. [Formalizing “deception” using game theory](/what-counts-as-defection.md)
 5. [You should read "Harry Potter and the Methods of Rationality"](/read-hpmor)
 
 # Explore by tag
