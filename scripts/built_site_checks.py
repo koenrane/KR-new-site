@@ -55,7 +55,7 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     paragraphs = soup.find_all('p')
     for p in paragraphs:
         text = p.get_text().strip()
-        if text.startswith(('Table:', 'Figure:', 'Code:')):
+        if any(prefix in text for prefix in ('Table: ', 'Figure: ', 'Code: ')):
             problematic_paragraphs.append(text[:50] + '...' if len(text) > 50 else text)
     return problematic_paragraphs
 

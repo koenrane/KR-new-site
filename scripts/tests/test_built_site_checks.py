@@ -21,12 +21,13 @@ def sample_html():
     <body>
         <a href="http://localhost:8000">Localhost Link</a>
         <a href="https://turntrout.com">Turntrout Link</a>
-        <a href="https://turntrout.com#invalid-anchor">Turntrout Link with Anchor</a>
+        <a href="/other-page#invalid-anchor">Turntrout Link with Anchor</a>
         <a href="#valid-anchor">Valid Anchor</a>
         <a href="#invalid-anchor">Invalid Anchor</a>
         <div id="valid-anchor">Valid Anchor Content</div>
         <p>Normal paragraph</p>
         <p>Table: This is a table description</p>
+        <p>This is a delayed-paragraph Table: </p>
         <p>Figure: This is a figure caption</p>
         <p>Code: This is a code snippet</p>
     </body>
@@ -37,13 +38,17 @@ def sample_html():
 def sample_soup(sample_html):
     return BeautifulSoup(sample_html, 'html.parser')
 
+@pytest.fixture
+def base_dir(tmp_path):
+    return tmp_path
+
 def test_check_localhost_links(sample_soup):
     result = check_localhost_links(sample_soup)
     assert result == ['http://localhost:8000']
 
-def test_check_invalid_anchors(sample_soup):
-    result = check_invalid_anchors(sample_soup)
-    assert set(result) == {'#invalid-anchor', 'https://turntrout.com#invalid-anchor'}
+def test_check_invalid_anchors(sample_soup, base_dir):
+    result = check_invalid_anchors(sample_soup, base_dir / "test.html", base_dir)
+    assert set(result) == {'#invalid-anchor', '/other-page#invalid-anchor'}
 
 def test_check_problematic_paragraphs(sample_soup):
     result = check_problematic_paragraphs(sample_soup)
@@ -52,6 +57,7 @@ def test_check_problematic_paragraphs(sample_soup):
     assert 'Figure: This is a figure caption' in result
     assert 'Code: This is a code snippet' in result
     assert "Normal paragraph" not in result
+    assert "This is a delayed-paragraph Table: " not in result
 
 def test_parse_html_file(tmp_path):
     file_path = tmp_path / "test.html"
@@ -71,7 +77,7 @@ def test_check_file_for_issues(tmp_path):
     </body>
     </html>
     """)
-    localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(file_path)
+    localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(file_path, tmp_path)
     assert localhost_links == ['https://localhost:8000']
     assert invalid_anchors == ['#invalid-anchor']
     assert problematic_paragraphs == ['Table: Test table']

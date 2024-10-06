@@ -1,4 +1,4 @@
-import { slugify, preprocessSlug, resetSlugger } from '../gfm';
+import { slugify, resetSlugger } from '../gfm';
 
 describe('slugify function', () => {
   beforeEach(() => {
