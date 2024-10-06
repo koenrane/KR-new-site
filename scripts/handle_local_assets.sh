@@ -5,7 +5,7 @@ cd "$GIT_ROOT"
 
 # Check that conversion+uploading tests pass
 PY_TEST_DIR="$GIT_ROOT"/scripts/tests
-# python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
+python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
 
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
@@ -36,7 +36,7 @@ python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --repla
 # Commit changes to the moved-to local dir
 # (NOTE will also commit current changes)
 cd "$LOCAL_ASSET_DIR"
-if [ $(git status --porcelain | wc -l) -gt 0 ]; then
+if [ "$(git status --porcelain | wc -l)" -gt 0 ]; then
     git add -A
     git commit -m "Added assets which were transferred from the main repo."
 fi

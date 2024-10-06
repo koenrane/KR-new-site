@@ -1,21 +1,21 @@
-var checkboxId = function (index) {
-    var slug = window.document.body.dataset.slug;
-    return "".concat(slug, "-checkbox-").concat(index);
+const checkboxId = function (index) {
+    const slug = window.document.body.dataset.slug;
+    return `${slug}-checkbox-${index}`;
 };
+
 document.addEventListener("nav", function () {
-    var checkboxes = document.querySelectorAll("input.checkbox-toggle");
+    const checkboxes = document.querySelectorAll("input.checkbox-toggle");
     checkboxes.forEach(function (el, index) {
-        var elId = checkboxId(index);
-        var switchState = function (e) {
-            var _a;
-            var newCheckboxState = ((_a = e.target) === null || _a === void 0 ? void 0 : _a.checked) ? "true" : "false";
+        const elId = checkboxId(index);
+        const switchState = function (e) {
+            const newCheckboxState = e.target?.checked ? "true" : "false";
             localStorage.setItem(elId, newCheckboxState);
         };
+
         el.addEventListener("change", switchState);
         window.addCleanup(() => {
             el.removeEventListener("change", switchState);
         });
-
 
         if (localStorage.getItem(elId) === "true") {
             el.checked = true;
