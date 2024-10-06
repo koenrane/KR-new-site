@@ -175,6 +175,7 @@ describe("HTMLFormattingImprovement", () => {
       ["Deja vu", "Déjà vu"],
       ["Naively", "Naïvely"],
       ["Don't be naive", "Don't be naïve"],
+      ["Dojo", "Dōjō"],
       ["5x1", "5×1"],
       [" :) The best", " 🙂 The best"],
       [" :( The worst", " 🙁 The worst"],
