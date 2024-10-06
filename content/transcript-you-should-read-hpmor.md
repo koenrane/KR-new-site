@@ -86,7 +86,7 @@ In some parts of your life, you are like this. Yes, _you_. Our brains regularly 
 
 In 2014, I scrolled past a Facebook news feed article in which Elon Musk worried about extinction from AI. I rolled my eyes—“Elon, AI is great, you have no idea what you’re talking about.” And so I kept scrolling.[^laugh] 
 
-[^laugh]: If someone made a biopic about me, this is where the canned laugh track would play.) 
+[^laugh]: If someone made a biopic about me, this is where the canned laugh track would play.
 
 The mistake was that I had a strong, knee-jerk opinion about something I’d never even thought about. In 2018, I reconsidered the topic. I ignored the news articles and sought out the best arguments from each side of the debate. I concluded that my first impression was _totally, confidently wrong_. What an easy way to waste four years. I’m now finishing my dissertation on reducing extinction risk from AI, [publishing](https://papers.nips.cc/paper/2020/file/f50a6c02a3fc5a3a5d4d9391f05f3efc-Paper.pdf) [papers](https://arxiv.org/pdf/1912.01683.pdf) in top AI conferences. 
 

@@ -2,6 +2,22 @@
 
 # If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT (git rev-parse --show-toplevel)
+
+# Check that the markdown files don't contain syntactically invalid links
+set PATTERN "\]\([-A-Za-z_0-9]+(\\.md)?\)"
+
+# Function to check files
+function check_files
+    if grep -q -E "$PATTERN" *.md
+        echo "Error: Matches found in these files:"
+        grep -l -E "$PATTERN" *.md
+        return 1
+    else
+        echo "No matches found. All files are clean."
+        return 0
+    end
+end
+
 set -l TARGET_FILES $argv
 
 if test -z "$TARGET_FILES"

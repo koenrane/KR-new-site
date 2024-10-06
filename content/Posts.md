@@ -42,7 +42,7 @@ I didn't remember much formal math or computer science, but I wanted to give my 
 1. [Set Up for Success: Insights from "Naïve Set Theory"](/set-up-for-success-insights-from-naive-set-theory)
 2. [Lightness and Unease](./lightness-and-unease.md)
 3. [The Art of the Artificial: Insights from "Artificial Intelligence: A Modern Approach"](./the-art-of-the-artificial-insights-from-artificial.md)
-4. [The First Rung: Insights from "Linear Algebra Done Right"](the-first-rung-insights-from-linear-algebra-done-right.md)
+4. [The First Rung: Insights from "Linear Algebra Done Right"](/the-first-rung-insights-from-linear-algebra-done-right.md)
 5. [Internalizing Internal Double Crux](./internalizing-internal-double-crux.md)
 6. [Confounded No Longer: Insights from "All of Statistics"](./confounded-no-longer-insights-from-all-of-statistics.md)
 7. [Into the Kiln: Insights from Tao's "Analysis I"](/into-the-kiln-insights-from-tao-s-analysis-i.md)
