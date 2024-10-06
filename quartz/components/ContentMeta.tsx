@@ -98,7 +98,7 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
   const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""
   const dateElement = renderDateElement(fileData, dateStr)
 
-  const url = new URL(frontmatter!.original_url as string)
+  const url = new URL(frontmatter.original_url as string)
   const faviconPath = getFaviconPath(url)
 
   return (

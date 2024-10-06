@@ -14,7 +14,7 @@ import {
 import { rehype } from "rehype"
 import { h } from "hastscript"
 
-function testHtmlFormattingImprovement(inputHTML: string, skipFirstLetter: boolean = true, doNotSetFirstLetterAttribute: boolean = false) {
+function testHtmlFormattingImprovement(inputHTML: string, skipFirstLetter = true, doNotSetFirstLetterAttribute = false) {
   const options = doNotSetFirstLetterAttribute ? {} : { skipFirstLetter }
   return rehype()
     .data("settings", { fragment: true })

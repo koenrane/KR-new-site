@@ -544,16 +544,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   function debounce<F extends (...args: [KeyboardEvent]) => void>(
     func: F,
     wait: number,
-    immediate: boolean = false
+    immediate = false
   ): F {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
     return function (this: Window, ...args: [KeyboardEvent]) {
-      const context = this;
-
       const later = () => {
         timeoutId = null;
         if (!immediate) {
-          func.apply(context, args);
+          func.apply(this, args);
         }
       };
 
@@ -566,7 +564,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       timeoutId = setTimeout(later, wait);
 
       if (callNow) {
-        func.apply(context, args);
+        func.apply(this, args);
       }
     } as F;
   }

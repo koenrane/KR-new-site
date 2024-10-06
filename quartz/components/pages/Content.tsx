@@ -101,10 +101,13 @@ return <blockquote class="callout question" data-callout="question">
 <div class="callout-title">
                   <div class="callout-icon"></div>
                   <div class="callout-title-inner"><p>Question</p></div>
-                  
-                </div>
-<p>This was <a href={url} class="external alias" target="_blank">originally posted as a question on LessWrong.</a>{lessWrongFavicon}</p>
-</blockquote>
+      </div>
+      <p>
+        This was <a href={url} class="external alias" target="_blank" rel="noopener noreferrer">originally posted as a question on LessWrong.</a>
+        {lessWrongFavicon}
+      </p>
+    </blockquote>
+  )
 }
 
 export default (() => Content) satisfies QuartzComponentConstructor

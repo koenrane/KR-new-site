@@ -178,7 +178,7 @@ async function downloadMermaid() {
 }
 
 const mdastToHtml = (ast: PhrasingContent | Paragraph) => {
-  const hast = toHast(ast, { allowDangerousHtml: true })!
+  const hast = toHast(ast, { allowDangerousHtml: true })
   return toHtml(hast, { allowDangerousHtml: true })
 }
 

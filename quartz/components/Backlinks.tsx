@@ -67,7 +67,7 @@ const BacklinksList = ({
       const processedTitle = processBacklinkTitle(f.frontmatter?.title || "")
       return (
         <li key={f.slug}>
-          <a href={resolveRelative(currentSlug, f.slug!)} class="internal">
+          <a href={resolveRelative(currentSlug, f.slug as FullSlug)} class="internal">
             {processedTitle.children.map(elementToJsx)}
           </a>
         </li>
@@ -96,7 +96,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
         <div class="fold-callout-icon"></div>
       </div>
       <div class="callout-content" id="backlinks">
-        <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug!} />
+        <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug as FullSlug} />
       </div>
     </blockquote>
   )

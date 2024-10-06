@@ -62,7 +62,7 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
   const title = fileData.frontmatter?.title
   logger.debug(`Title for TOC: ${title}`)
 
-  const [toc, _] = buildNestedList(fileData.toc!, 0, 0)
+  const [toc, _] = buildNestedList(fileData.toc, 0, 0)
 
   return (
     <div id="table-of-contents" className="desktop-only">
@@ -87,8 +87,8 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
  */
 export function buildNestedList(
   entries: TocEntry[],
-  currentIndex: number = 0,
-  currentDepth: number = entries[0]?.depth || 0
+  currentIndex = 0,
+  currentDepth = entries[0]?.depth || 0
 ): [JSX.Element[], number] {
   const listItems: JSX.Element[] = [];
   const totalEntries = entries.length;

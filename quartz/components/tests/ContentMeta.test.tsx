@@ -73,7 +73,9 @@ describe('renderPublicationInfo', () => {
   })
 
   it('shouldn\'t render publication info without date_published', () => {
-    delete frontmatter!.date_published;
+    if (frontmatter) {
+      frontmatter.date_published = undefined;
+    }
     const result = renderPublicationInfo(cfg, fileData);
     expect(result).toBeNull();
   })
@@ -81,8 +83,7 @@ describe('renderPublicationInfo', () => {
   it('should include favicon in rendered output', () => {
     const pubStringElt = renderPublicationInfo(cfg, fileData)
 
-    console.log(pubStringElt!.props.children)
-    expect(renderPublicationInfo(cfg, fileData)).toMatchObject({
+    expect(pubStringElt).toMatchObject({
       props: {
         children: expect.arrayContaining([
           expect.objectContaining({
