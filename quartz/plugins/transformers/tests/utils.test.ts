@@ -44,7 +44,7 @@ describe("replaceRegex", () => {
     expect(parent.children).toEqual([
       h("span", "fruit"),
       createNode(" banana "),
-      h("span", createNode("fruit")),
+      h("span", [createNode("fruit")]),
     ])
   })
 

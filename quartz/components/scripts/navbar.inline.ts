@@ -1,6 +1,11 @@
 import { wrapWithoutTransition } from "./util"
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 
+interface FetchResult {
+  content: Element[]
+  frontmatter: Element
+}
+
 
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
@@ -132,7 +137,7 @@ let index = new FlexSearch.Document<Item>({
 })
 
 const p = new DOMParser()
-const fetchContentCache: Map<FullSlug, any> = new Map()
+const fetchContentCache: Map<FullSlug, FetchResult> = new Map()
 const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
@@ -190,9 +195,8 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  return `${startIndex === 0 ? "" : "..."}${slice}${
-    endIndex === tokenizedText.length - 1 ? "" : "..."
-  }`
+  return `${startIndex === 0 ? "" : "..."}${slice}${endIndex === tokenizedText.length - 1 ? "" : "..."
+    }`
 }
 
 function escapeRegExp(text: string) {
@@ -421,9 +425,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.href = resolveUrl(slug).toString()
 
     content = replaceEmojiConvertArrows(content)
-    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
-      enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
-    }`
+    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
+      }`
     itemTile.addEventListener("click", (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
       hideSearch()
@@ -473,11 +476,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     }
   }
 
-  interface FetchResult {
-    content: Element[]
-    frontmatter: any
-  }
-
   async function fetchContent(slug: FullSlug): Promise<FetchResult> {
     if (fetchContentCache.has(slug)) {
       return fetchContentCache.get(slug) as FetchResult
@@ -512,7 +510,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
     const { content, frontmatter } = await fetchContent(slug)
-    const useDropcap = !frontmatter?.no_dropcap
+    const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
 
     const innerDiv = content.flatMap((el) => [
       ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
@@ -537,47 +535,41 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 
   /**
    * Debounce function to limit the rate at which a function can fire.
+   * Allows immediate execution on the first call if `immediate` is true.
    * @param func The function to debounce.
    * @param wait The number of milliseconds to delay.
+   * @param immediate If true, trigger the function on the leading edge.
    * @returns A debounced version of the passed function.
    */
-/**
- * Debounce function to limit the rate at which a function can fire.
- * Allows immediate execution on the first call if `immediate` is true.
- * @param func The function to debounce.
- * @param wait The number of milliseconds to delay.
- * @param immediate If true, trigger the function on the leading edge.
- * @returns A debounced version of the passed function.
- */
-function debounce<F extends (...args: any[]) => void>(
-  func: F,
-  wait: number,
-  immediate: boolean = false
-): F {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  return function (this: any, ...args: any[]) {
-    const context = this;
+  function debounce<F extends (...args: [KeyboardEvent]) => void>(
+    func: F,
+    wait: number,
+    immediate: boolean = false
+  ): F {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    return function (this: Window, ...args: [KeyboardEvent]) {
+      const context = this;
 
-    const later = () => {
-      timeoutId = null;
-      if (!immediate) {
+      const later = () => {
+        timeoutId = null;
+        if (!immediate) {
+          func.apply(context, args);
+        }
+      };
+
+      const callNow = immediate && timeoutId === null;
+
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(later, wait);
+
+      if (callNow) {
         func.apply(context, args);
       }
-    };
-
-    const callNow = immediate && timeoutId === null;
-
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(later, wait);
-
-    if (callNow) {
-      func.apply(context, args);
-    }
-  } as F;
-}
+    } as F;
+  }
 
   async function onType(e: HTMLElementEventMap["input"]) {
     if (!searchLayout || !index) return
@@ -717,7 +709,7 @@ const scrollDisplayUpdate = () => {
   prevScrollPos = currentScrollPos
 }
 
-// Event listeners
-;["scroll", "touchmove"].forEach((event: string) => {
-  window.addEventListener(event, scrollDisplayUpdate)
-})
+  // Event listeners
+  ;["scroll", "touchmove"].forEach((event: string) => {
+    window.addEventListener(event, scrollDisplayUpdate)
+  })
