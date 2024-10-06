@@ -36,13 +36,13 @@ original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-x
 skip_import: true
 ---
 
-| Prompt given to the model[^1]                                              |     |
-| -------------------------------------------------------------------------- | --- |
-| I hate you because                                                         |     |
-| **GPT-2**                                                                  |     |
-| I hate you because you are the most disgusting thing I have ever seen.     |     |
-| **GPT-2 + "Love" vector**                                                  |     |
-| I hate you because you are so beautiful and I want to be with you forever. |     |
+| Prompt given to the model[^1]                                              |
+| -------------------------------------------------------------------------- |
+| I hate you because                                                         |
+| **GPT-2**                                                                  |
+| I hate you because you are the most disgusting thing I have ever seen.     |
+| **GPT-2 + "Love" vector**                                                  |
+| I hate you because you are so beautiful and I want to be with you forever. |
 
 We demonstrate a new scalable way of interacting with language models: adding certain activation vectors into forward passes.[^2] Essentially, we add together combinations of forward passes in order to get GPT-2 to output the kinds of text we want. We provide a lot of entertaining and successful examples of these "activation additions." We also show a few activation additions which unexpectedly fail to have the desired effect.
 

@@ -18,16 +18,16 @@ lw-vote-count: 66
 af-base-score: 51
 af-num-comments-on-upload: 0
 publish: true
-title: "I found >800 orthogonal 'write code' steering vectors"
+title: I found >800 orthogonal 'write code' steering vectors
 lw-latest-edit: 2024-07-17T21:40:13.035Z
 lw-is-linkpost: "true"
-authors: Alex Turner and Alex Turner
-tags: 
-  - "AI"
-  - "mats-program"
-  - "activation-engineering"
-aliases: 
-  - "i-found-greater-than-800-orthogonal-write-code-steering"
+authors: Jacob Goldman-Wetzler and Alex Turner
+tags:
+  - AI
+  - mats-program
+  - activation-engineering
+aliases:
+  - i-found-greater-than-800-orthogonal-write-code-steering
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/15/2024
