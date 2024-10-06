@@ -1,6 +1,0 @@
-content/mechanistically-eliciting-latent-behaviors-in-language-1.md
-content/insights-from-modern-principles-of-economics.md
-content/overcoming-clinginess-in-impact-measures.md
-content/seeking-power-is-often-convergently-instrumental-in-mdps.md
-content/the-art-of-the-artificial-insights-from-artificial.md
-content/to-what-extent-is-gpt-3-capable-of-reasoning.md
