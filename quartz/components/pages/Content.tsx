@@ -107,7 +107,6 @@ return <blockquote class="callout question" data-callout="question">
         {lessWrongFavicon}
       </p>
     </blockquote>
-  )
 }
 
 export default (() => Content) satisfies QuartzComponentConstructor

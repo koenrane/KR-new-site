@@ -95,7 +95,7 @@ describe("Favicon Utilities", () => {
         .mockImplementationOnce(() =>
           localPngExists
             ? Promise.resolve({ size: 1000 } as fs.Stats)
-            : Promise.reject(new Error("ENOENT")),
+            : Promise.reject(Object.assign(new Error("ENOENT"), { code: "ENOENT" }))
         )
         .mockImplementationOnce(() => Promise.resolve({ size: 1000 } as fs.Stats))
     }
