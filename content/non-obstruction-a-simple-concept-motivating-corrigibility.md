@@ -154,7 +154,7 @@ Main idea: By considering how the AI affects your attainable utility (AU) landsc
 
 Let’s consider the human’s ability to accomplish many different goals P, first from the state **off** (no AI). 
 
-![](human_au_landscape.png)
+![](https://assets.turntrout.com/static/images/posts/human_au_landscape.avif)
 <br/>Figure: The human's AU landscape. The real goal space is high-dimensional, but it shouldn’t materially change the analysis. Also, there are probably a few goals we can’t achieve well at all, because they put low payoff everywhere, but the vast majority of goals aren’t like that.
 
 The independent variable is $P$, and the value function takes in $P$ and returns the expected value attained by the policy for that goal, $\text{pol}(P)$. We’re able to do a bunch of different things without the AI, if we put our minds to it.
@@ -163,7 +163,7 @@ The independent variable is $P$, and the value function takes in $P$ and returns
 
 Imagine we build an AI which is corrigible towards all non-pro-torture goals, which is specialized towards painting lots of things blue with us (if we so choose), but which is otherwise non-obstructive. It even helps us accumulate resources for many other goals.
 
-![](human_ai_au_landscape.png)
+![](https://assets.turntrout.com/static/images/posts/human_ai_au_landscape.avif)
 <br/>Figure: The AI is non-obstructive with respect to $P$ if $P$'s red value is greater than its green value.
 
 We can’t get around the AI, as far as torture goes. But for the other goals, it isn’t obstructing their policies. It won’t get in our way for other goals. 
@@ -172,7 +172,7 @@ We can’t get around the AI, as far as torture goes. But for the other goals, i
 
 What happens if we turn on a paperclip-maximizer? We lose control over the future outside of a very narrow spiky region.
 
-![](paperclipper_au.png)
+![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: The paperclipper is incorrigible and obstructs us for all goals except paperclip production.
 
 I think most reward-maximizing optimal policies affect the landscape like this (see also: [the catastrophic convergence conjecture](/the-catastrophic-convergence-conjecture)), which is _why_ it’s so hard to get hard maximizers not to ruin everything. You have to _a)_ hit a tiny target in the AU landscape and _b)_ hit that for the _human’s_ AU, not for the AI’s. The spikiness is bad and, seemingly, hard to deal with.
@@ -181,7 +181,7 @@ Furthermore, consider how the above graph changes as `pol` gets smarter and smar
 
 **Empowering AI**
 
-![](empowering_ai.png)
+![](https://assets.turntrout.com/static/images/posts/empowering_ai.avif)
 
 What if we build an AI which significantly empowers us in general, and then it lets us determine our future? Suppose we can’t correct it.
 
@@ -275,7 +275,7 @@ To be confident that this holds empirically, it sure seems like you want high er
 
 ## AI alignment subproblems are about avoiding spikiness in the AU landscape
 
-![](paperclipper_au.png)
+![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: By definition, spikiness is bad for most goals.
 - [Corrigibility](https://www.lesswrong.com/tag/corrigibility): avoid spikiness by letting humans correct the AI if it starts doing stuff we don’t like, or if we change our mind.
   - This works because the human policy function `pol` is far more likely to correctly condition actions on the human's goal, than it is to induce an AI policy which does the same (since the goal information is private to the human).
@@ -362,7 +362,7 @@ The attainable utility concept has led to other concepts which I find exciting a
   - [_Conservative Agency via Attainable Utility Preservation_](https://arxiv.org/abs/1902.09725)_ _(AIES 2020)
   - [_Avoiding Side Effects in Complex Environments_](https://arxiv.org/abs/2006.06547) (NeurIPS 2020)
 
-![](paperclipper_au.png)
+![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: Impact is the area between the red and green curves. When `pol` always outputs an optimal policy, this becomes the attainable utility distance, a distance metric over the state space of a Markov decision process (unpublished work). Basically, two states are more distant the more they differ in what goals they let you achieve.
 - Power as average AU
   - [Seeking Power is Often Provably Instrumentally Convergent in MDPs](/seeking-power-is-often-convergently-instrumental-in-mdps)

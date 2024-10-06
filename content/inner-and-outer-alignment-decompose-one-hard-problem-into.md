@@ -247,7 +247,7 @@ This “optimize the loss function” speculation is weird and sideways of how w
 
 This is just, you know, _**so** weird. Why would you use a loss function or reward function this way?!_
 
-<img src="confused.png" style="max-width: 75%;"/>
+<img src="https://assets.turntrout.com/static/images/posts/confused.png" style="max-width: 75%;"/>
 
 According to me, the bottleneck hard problem in AI alignment is _how do we predictably control the way in which an AI generalizes; how do we map outer supervision signals (e.g. rewarding the agent when it makes us smile) into the desired inner cognitive structures (e.g. the AI cares about making people happy)?_
 
