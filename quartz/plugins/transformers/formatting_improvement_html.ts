@@ -531,9 +531,9 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: unknown) {
-          if (e instanceof Error) {
-            console.error(e.message)
-          }
+          // if (e instanceof Error) {
+          // console.error(e.message)
+          // }
         }
 
         // Don't replace slashes in fractions, but give breathing room
