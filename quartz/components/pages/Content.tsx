@@ -5,6 +5,49 @@ import {
   TURNTROUT_FAVICON_PATH, LESSWRONG_FAVICON_PATH
 } from "../../plugins/transformers/linkfavicons"
 
+const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} class="favicon" alt="" />
+
+const rewardPostWarning = (
+  <blockquote class="callout warning" data-callout="warning">
+    <div class="callout-title">
+      <div class="callout-icon"></div>
+      <div class="callout-title-inner">
+        <p>
+          {" "}
+          <a
+            href="/reward-is-not-the-optimization-target"
+            class="internal alias"
+            data-slug="reward-is-not-the-optimization-target"
+          >
+            Reward is not the optimization ta
+            <span style="white-space:nowrap;">
+              rget
+              {turntroutFavicon}
+            </span>
+          </a>
+        </p>
+      </div>
+    </div>
+    <p>
+      This post treats reward functions as “specifying goals”, in some sense. As I explained in{" "}
+      <a
+        href="/reward-is-not-the-optimization-target"
+        class="internal alias"
+        data-slug="reward-is-not-the-optimization-target"
+      >
+        Reward Is Not The Optimization Tar
+        <span style="white-space:nowrap;">
+          get,
+          {turntroutFavicon}
+        </span>
+      </a>{" "}
+      this is a misconception that can seriously damage your ability to understand how AI works.
+      Rather than “incentivizing” behavior, reward signals are (in many cases) akin to a
+      per-datapoint learning rate. Reward chisels circuits into the AI. That’s it!
+    </p>
+  </blockquote>
+)
+
 const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const useDropcap = !fileData?.frontmatter?.no_dropcap
   const showWarning = fileData.frontmatter?.["lw-reward-post-warning"] === "true"
@@ -63,48 +106,5 @@ return <blockquote class="callout question" data-callout="question">
 <p>This was <a href={url} class="external alias" target="_blank">originally posted as a question on LessWrong.</a>{lessWrongFavicon}</p>
 </blockquote>
 }
-
-const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} class="favicon" alt="" />
-
-const rewardPostWarning = (
-  <blockquote class="callout warning" data-callout="warning">
-    <div class="callout-title">
-      <div class="callout-icon"></div>
-      <div class="callout-title-inner">
-        <p>
-          {" "}
-          <a
-            href="/reward-is-not-the-optimization-target"
-            class="internal alias"
-            data-slug="reward-is-not-the-optimization-target"
-          >
-            Reward is not the optimization ta
-            <span style="white-space:nowrap;">
-              rget
-              {turntroutFavicon}
-            </span>
-          </a>
-        </p>
-      </div>
-    </div>
-    <p>
-      This post treats reward functions as “specifying goals”, in some sense. As I explained in{" "}
-      <a
-        href="/reward-is-not-the-optimization-target"
-        class="internal alias"
-        data-slug="reward-is-not-the-optimization-target"
-      >
-        Reward Is Not The Optimization Tar
-        <span style="white-space:nowrap;">
-          get,
-          {turntroutFavicon}
-        </span>
-      </a>{" "}
-      this is a misconception that can seriously damage your ability to understand how AI works.
-      Rather than “incentivizing” behavior, reward signals are (in many cases) akin to a
-      per-datapoint learning rate. Reward chisels circuits into the AI. That’s it!
-    </p>
-  </blockquote>
-)
 
 export default (() => Content) satisfies QuartzComponentConstructor

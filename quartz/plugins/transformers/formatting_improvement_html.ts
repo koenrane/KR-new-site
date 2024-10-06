@@ -293,17 +293,6 @@ function getFirstTextNode(node: Parent): Text | null {
   }
 }
 
-function getLastTextNode(node: Parent): Text | null {
-  if (!node) return null
-  if (node.type === "text") {
-    return node as unknown as Text
-  } else if (node.children && node.children.length > 0 && node.children[node.children.length - 1].type === "text") {
-    return node.children[node.children.length - 1] as unknown as Text
-  } else {
-    return null
-  }
-}
-
 /**
  * Moves punctuation inside links and handles quotation marks before links.
  *
@@ -539,15 +528,12 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           transformElement(node, transform, toSkip, true)
         }
 
-        let notMatching = false
         try {
           assertSmartQuotesMatch(getTextContent(node))
         } catch (e: unknown) {
           if (e instanceof Error) {
-            notMatching = true
             console.error(e.message)
           }
-          // console.error(e.message)
         }
 
         // Don't replace slashes in fractions, but give breathing room

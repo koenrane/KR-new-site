@@ -3,10 +3,11 @@
 */
 import { jest } from "@jest/globals"
 
-import { Parent, Text, Element } from 'hast'
+import { Parent } from 'hast'
 import { describe, it, expect } from '@jest/globals';
 import { TocEntry } from '../../plugins/transformers/toc';
-import { processHtmlAst, processSmallCaps, addListItem, buildNestedList, processTocEntry, processKatex } from "../TableOfContents";
+import { processHtmlAst, processSmallCaps, processTocEntry, processKatex } from "../TableOfContents";
+import { h } from 'hastscript'
 
 // Mock the createLogger function
 jest.mock('../../plugins/transformers/logger_utils', () => ({
@@ -124,13 +125,13 @@ describe('processHtmlAst', () => {
   let parent: Parent;
 
   beforeEach(() => {
-    parent = { type: 'element', tagName: 'div', children: [] } as Parent;
+    parent = h('div') as Parent;
   });
 
   it('should process text nodes without leading numbers', () => {
-    const htmlAst = {
-      children: [{ type: 'text', value: 'Simple text' }]
-    };
+    const htmlAst = h(null, [
+      { type: 'text', value: 'Simple text' }
+    ]);
 
     processHtmlAst(htmlAst, parent);
 
@@ -139,9 +140,9 @@ describe('processHtmlAst', () => {
   });
 
   it('should process text nodes with leading numbers', () => {
-    const htmlAst = {
-      children: [{ type: 'text', value: '1: Chapter One' }]
-    };
+    const htmlAst = h(null, [
+      { type: 'text', value: '1: Chapter One' }
+    ]);
 
     processHtmlAst(htmlAst, parent);
 
@@ -156,14 +157,9 @@ describe('processHtmlAst', () => {
   });
 
   it('should process nested elements', () => {
-    const htmlAst = {
-      children: [{
-        type: 'element',
-        tagName: 'p',
-        properties: {},
-        children: [{ type: 'text', value: 'Nested text' }]
-      }]
-    };
+    const htmlAst = h(null, [
+      h('p', 'Nested text')
+    ]);
 
     processHtmlAst(htmlAst, parent);
 
@@ -177,18 +173,11 @@ describe('processHtmlAst', () => {
   });
 
   it('should process mixed content', () => {
-    const htmlAst = {
-      children: [
-        { type: 'text', value: '2: Introduction' },
-        {
-          type: 'element',
-          tagName: 'em',
-          properties: {},
-          children: [{ type: 'text', value: 'emphasized' }]
-        },
-        { type: 'text', value: ' and normal text' }
-      ]
-    };
+    const htmlAst = h(null, [
+      { type: 'text', value: '2: Introduction' },
+      h('em', 'emphasized'),
+      { type: 'text', value: ' and normal text' }
+    ]);
 
     processHtmlAst(htmlAst, parent);
 
@@ -210,9 +199,9 @@ describe('processHtmlAst', () => {
   });
 
   it('should handle small caps in text', () => {
-    const htmlAst = {
-      children: [{ type: 'text', value: 'Text with SMALLCAPS' }]
-    };
+    const htmlAst = h(null, [
+      { type: 'text', value: 'Text with SMALLCAPS' }
+    ]);
 
     processHtmlAst(htmlAst, parent);
 

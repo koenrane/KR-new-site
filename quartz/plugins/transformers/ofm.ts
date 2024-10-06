@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Root, Html, BlockContent, DefinitionContent, Paragraph, Code } from "mdast"
-import { Element, Literal, Root as HtmlRoot, ElementContent, RootContent } from "hast"
+import { Root, Html, BlockContent, Paragraph, Code } from "mdast"
+import { Element, Literal, Root as HtmlRoot, ElementContent } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { slug as slugAnchor } from "github-slugger"
 import rehypeRaw from "rehype-raw"
@@ -187,347 +187,346 @@ export function markdownPlugins(opts: Options): PluggableList {
   const plugins: PluggableList = []
 
   // regex replacements
-plugins.push(() => {
-  return (tree: Root, file) => {
-    const replacements: [RegExp, string | ReplaceFunction][] = []
+  plugins.push(() => {
+    return (tree: Root, file) => {
+      const replacements: [RegExp, string | ReplaceFunction][] = []
 
-    if (opts.wikilinks) {
-      replacements.push([
-        wikilinkRegex,
-        (value: string, ...capture: string[]) => {
-          let [rawFp, rawHeader, rawAlias] = capture
-          const fp = rawFp?.trim() ?? ""
-          const anchor = rawHeader?.trim() ?? ""
-          const alias = rawAlias?.slice(1).trim()
+      if (opts.wikilinks) {
+        replacements.push([
+          wikilinkRegex,
+          (value: string, ...capture: string[]) => {
+            let [rawFp, rawHeader, rawAlias] = capture
+            const fp = rawFp?.trim() ?? ""
+            const anchor = rawHeader?.trim() ?? ""
+            const alias = rawAlias?.slice(1).trim()
 
-          // embed cases
-          if (value.startsWith("!")) {
-            const ext: string = path.extname(fp).toLowerCase()
-            const url = slugifyFilePath(fp as FilePath)
-            if ([".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp"].includes(ext)) {
-              const match = wikilinkImageEmbedRegex.exec(alias ?? "")
-              const alt = match?.groups?.alt ?? ""
-              const width = match?.groups?.width ?? "auto"
-              const height = match?.groups?.height ?? "auto"
-              return {
-                type: "image",
-                url,
-                data: {
-                  hProperties: {
-                    width,
-                    height,
-                    alt,
+            // embed cases
+            if (value.startsWith("!")) {
+              const ext: string = path.extname(fp).toLowerCase()
+              const url = slugifyFilePath(fp as FilePath)
+              if ([".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp"].includes(ext)) {
+                const match = wikilinkImageEmbedRegex.exec(alias ?? "")
+                const alt = match?.groups?.alt ?? ""
+                const width = match?.groups?.width ?? "auto"
+                const height = match?.groups?.height ?? "auto"
+                return {
+                  type: "image",
+                  url,
+                  data: {
+                    hProperties: {
+                      width,
+                      height,
+                      alt,
+                    },
                   },
-                },
+                }
+              } else if ([".mp4", ".webm", ".ogv", ".mov", ".mkv"].includes(ext)) {
+                return {
+                  type: "html",
+                  value: `<video src="${url}" controls></video>`,
+                }
+              } else if (
+                [".mp3", ".webm", ".wav", ".m4a", ".ogg", ".3gp", ".flac"].includes(ext)
+              ) {
+                return {
+                  type: "html",
+                  value: `<audio src="${url}" controls></audio>`,
+                }
+              } else if ([".pdf"].includes(ext)) {
+                return {
+                  type: "html",
+                  value: `<iframe src="${url}"></iframe>`,
+                }
+              } else {
+                const block = anchor
+                return {
+                  type: "html",
+                  data: { hProperties: { transclude: true } },
+                  value: `<blockquote class="transclude" data-url="${url}" data-block="${block}"><a href="${url + anchor
+                    }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
+                }
               }
-            } else if ([".mp4", ".webm", ".ogv", ".mov", ".mkv"].includes(ext)) {
-              return {
-                type: "html",
-                value: `<video src="${url}" controls></video>`,
-              }
-            } else if (
-              [".mp3", ".webm", ".wav", ".m4a", ".ogg", ".3gp", ".flac"].includes(ext)
-            ) {
-              return {
-                type: "html",
-                value: `<audio src="${url}" controls></audio>`,
-              }
-            } else if ([".pdf"].includes(ext)) {
-              return {
-                type: "html",
-                value: `<iframe src="${url}"></iframe>`,
-              }
-            } else {
-              const block = anchor
-              return {
-                type: "html",
-                data: { hProperties: { transclude: true } },
-                value: `<blockquote class="transclude" data-url="${url}" data-block="${block}"><a href="${
-                  url + anchor
-                }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
-              }
+
+              // otherwise, fall through to regular link
             }
 
-            // otherwise, fall through to regular link
-          }
+            // internal link
+            const url = fp + anchor
+            return {
+              type: "link",
+              url,
+              children: [
+                {
+                  type: "text",
+                  value: alias ?? fp,
+                },
+              ],
+            }
+          },
+        ])
+      }
 
-          // internal link
-          const url = fp + anchor
-          return {
-            type: "link",
-            url,
-            children: [
-              {
-                type: "text",
-                value: alias ?? fp,
+      if (opts.highlight) {
+        replacements.push([
+          highlightRegex,
+          (_value: string, ...capture: string[]) => {
+            const [inner] = capture
+            return {
+              type: "html",
+              value: `<span class="text-highlight">${inner}</span>`,
+            }
+          },
+        ])
+      }
+
+      if (opts.parseArrows) {
+        replacements.push([
+          arrowRegex,
+          (value: string, ..._capture: string[]) => {
+            const maybeArrow = arrowMapping[value]
+            if (maybeArrow === undefined) return SKIP
+            return {
+              type: "html",
+              value: `<span>${maybeArrow}</span>`,
+            }
+          },
+        ])
+      }
+
+      if (opts.parseTags) {
+        replacements.push([
+          tagRegex,
+          (_value: string, tag: string) => {
+            // Check if the tag only includes numbers
+            if (/^\d+$/.test(tag)) {
+              return false
+            }
+
+            tag = slugTag(tag)
+            if (file.data.frontmatter) {
+              const noteTags = file.data.frontmatter.tags ?? []
+              file.data.frontmatter.tags = [...new Set([...noteTags, tag])]
+            }
+
+            return {
+              type: "link",
+              url: `/tags/${tag}`,
+              data: {
+                hProperties: {
+                  className: ["tag-link"],
+                },
               },
-            ],
-          }
-        },
-      ])
-    }
+              children: [
+                {
+                  type: "text",
+                  value: tag,
+                },
+              ],
+            }
+          },
+        ])
+      }
 
-    if (opts.highlight) {
-      replacements.push([
-        highlightRegex,
-        (_value: string, ...capture: string[]) => {
-          const [inner] = capture
-          return {
-            type: "html",
-            value: `<span class="text-highlight">${inner}</span>`,
+      if (opts.enableInHtmlEmbed) {
+        visit(tree, "html", (node: Html) => {
+          for (const [regex, replace] of replacements) {
+            if (typeof replace === "string") {
+              node.value = node.value.replace(regex, replace)
+            } else {
+              node.value = node.value.replace(regex, (substring: string, ...args) => {
+                const replaceValue = replace(substring, ...args)
+                if (typeof replaceValue === "string") {
+                  return replaceValue
+                } else if (Array.isArray(replaceValue)) {
+                  return replaceValue.map(mdastToHtml).join("")
+                } else if (typeof replaceValue === "object" && replaceValue !== null) {
+                  return mdastToHtml(replaceValue)
+                } else {
+                  return substring
+                }
+              })
+            }
           }
-        },
-      ])
-    }
-
-    if (opts.parseArrows) {
-      replacements.push([
-        arrowRegex,
-        (value: string, ..._capture: string[]) => {
-          const maybeArrow = arrowMapping[value]
-          if (maybeArrow === undefined) return SKIP
-          return {
-            type: "html",
-            value: `<span>${maybeArrow}</span>`,
-          }
-        },
-      ])
-    }
-
-    if (opts.parseTags) {
-      replacements.push([
-        tagRegex,
-        (_value: string, tag: string) => {
-          // Check if the tag only includes numbers
-          if (/^\d+$/.test(tag)) {
-            return false
-          }
-
-          tag = slugTag(tag)
-          if (file.data.frontmatter) {
-            const noteTags = file.data.frontmatter.tags ?? []
-            file.data.frontmatter.tags = [...new Set([...noteTags, tag])]
-          }
-
-          return {
-            type: "link",
-            url: `/tags/${tag}`,
-            data: {
-              hProperties: {
-                className: ["tag-link"],
-              },
-            },
-            children: [
-              {
-                type: "text",
-                value: tag,
-              },
-            ],
-          }
-        },
-      ])
-    }
-
-    if (opts.enableInHtmlEmbed) {
-      visit(tree, "html", (node: Html) => {
-        for (const [regex, replace] of replacements) {
-          if (typeof replace === "string") {
-            node.value = node.value.replace(regex, replace)
-          } else {
-            node.value = node.value.replace(regex, (substring: string, ...args) => {
-              const replaceValue = replace(substring, ...args)
-              if (typeof replaceValue === "string") {
-                return replaceValue
-              } else if (Array.isArray(replaceValue)) {
-                return replaceValue.map(mdastToHtml).join("")
-              } else if (typeof replaceValue === "object" && replaceValue !== null) {
-                return mdastToHtml(replaceValue)
-              } else {
-                return substring
-              }
-            })
-          }
-        }
-      })
-    }
-    mdastFindReplace(tree, replacements)
-  }
-})
-
-if (opts.enableVideoEmbed) {
-  plugins.push(() => {
-    return (tree: Root, _file) => {
-      visit(tree, "image", (node, index, parent) => {
-        if (parent && index != undefined && videoExtensionRegex.test(node.url)) {
-          const newNode: Html = {
-            type: "html",
-            value: `<video controls src="${node.url}"></video>`,
-          }
-
-          parent.children.splice(index, 1, newNode)
-          return SKIP
-        }
-      })
+        })
+      }
+      mdastFindReplace(tree, replacements)
     }
   })
-}
 
-if (opts.callouts) {
-  plugins.push(() => {
-    return (tree: Root, _file) => {
-      visit(tree, "blockquote", (node) => {
-        if (node.children.length === 0) {
-          return
-        }
+  if (opts.enableVideoEmbed) {
+    plugins.push(() => {
+      return (tree: Root, _file) => {
+        visit(tree, "image", (node, index, parent) => {
+          if (parent && index != undefined && videoExtensionRegex.test(node.url)) {
+            const newNode: Html = {
+              type: "html",
+              value: `<video controls src="${node.url}"></video>`,
+            }
 
-        // find first line
-        const firstChild = node.children[0]
-        if (firstChild.type !== "paragraph" || firstChild.children[0]?.type !== "text") {
-          return
-        }
+            parent.children.splice(index, 1, newNode)
+            return SKIP
+          }
+        })
+      }
+    })
+  }
 
-        const text = firstChild.children[0].value
-        const [firstLine, ...remainingLines] = text.split("\n")
-        let remainingText = remainingLines.join("\n")
-
-        const match = firstLine.match(calloutRegex)
-        if (match?.input) {
-          const [calloutDirective, typeString, collapseChar] = match
-          const calloutType = canonicalizeCallout(typeString.toLowerCase())
-          const collapse = collapseChar === "+" || collapseChar === "-"
-          const defaultState = collapseChar === "-" ? "collapsed" : "expanded"
-          const titleContent = match.input.slice(calloutDirective.length).trim()
-          const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
-
-          const calloutTitle: Element = {
-            type: 'element',
-            tagName: 'div',
-            properties: {},
-            data: {
-              hName: 'div',
-              hProperties: {
-                className: ['callout-title']
-              }
-            } as unknown as CustomElementData,
-            children: [
-              {
-                type: 'element',
-                tagName: 'div',
-                properties: {},
-                data: {
-                  hName: 'div',
-                  hProperties: {
-                    className: ['callout-icon']
-                  }
-                } as unknown as CustomElementData,
-                children: []
-              },
-              {
-                type: 'element',
-                tagName: 'div',
-                properties: {},
-                data: {
-                  hName: 'div',
-                  hProperties: {
-                    className: ['callout-title-inner']
-                  }
-                } as unknown as CustomElementData,
-                children: [
-                  {
-                    type: "text",
-                    value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
-                  },
-                  ...firstChild.children.slice(1) as ElementContent[],
-                ],
-              },
-              ...(collapse ? [{
-                type: "element",
-                tagName: 'div',
-                data: {
-                  hName: 'div',
-                  hProperties: {
-                    className: ['fold-callout-icon']
-                  }
-                },
-                children: []
-              }] : []) as unknown as ElementContent[]
-            ]
+  if (opts.callouts) {
+    plugins.push(() => {
+      return (tree: Root, _file) => {
+        visit(tree, "blockquote", (node) => {
+          if (node.children.length === 0) {
+            return
           }
 
-          // Create a new content node with the remaining text and other children
-          const contentChildren = [
-            ...(remainingText.trim() !== '' ? [{
-              type: 'paragraph',
-              children: [{ type: 'text', value: remainingText }]
-            }] : []),
-            ...node.children.slice(1)
-          ];
+          // find first line
+          const firstChild = node.children[0]
+          if (firstChild.type !== "paragraph" || firstChild.children[0]?.type !== "text") {
+            return
+          }
 
-          // Only create contentNode if there are children to include
-          let contentNode: Element | null = null;
-          if (contentChildren.length > 0) {
-            contentNode = {
+          const text = firstChild.children[0].value
+          const [firstLine, ...remainingLines] = text.split("\n")
+          let remainingText = remainingLines.join("\n")
+
+          const match = firstLine.match(calloutRegex)
+          if (match?.input) {
+            const [calloutDirective, typeString, collapseChar] = match
+            const calloutType = canonicalizeCallout(typeString.toLowerCase())
+            const collapse = collapseChar === "+" || collapseChar === "-"
+            const defaultState = collapseChar === "-" ? "collapsed" : "expanded"
+            const titleContent = match.input.slice(calloutDirective.length).trim()
+            const useDefaultTitle = titleContent === "" && firstChild.children.length === 1
+
+            const calloutTitle: Element = {
               type: 'element',
               tagName: 'div',
               properties: {},
-              children: contentChildren as ElementContent[],
               data: {
                 hName: 'div',
                 hProperties: {
-                  className: ['callout-content']
+                  className: ['callout-title']
+                }
+              } as unknown as CustomElementData,
+              children: [
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: {},
+                  data: {
+                    hName: 'div',
+                    hProperties: {
+                      className: ['callout-icon']
+                    }
+                  } as unknown as CustomElementData,
+                  children: []
                 },
-                position: {
+                {
+                  type: 'element',
+                  tagName: 'div',
+                  properties: {},
+                  data: {
+                    hName: 'div',
+                    hProperties: {
+                      className: ['callout-title-inner']
+                    }
+                  } as unknown as CustomElementData,
+                  children: [
+                    {
+                      type: "text",
+                      value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
+                    },
+                    ...firstChild.children.slice(1) as ElementContent[],
+                  ],
                 },
-              } as ElementData,
-            };
-          }
+                ...(collapse ? [{
+                  type: "element",
+                  tagName: 'div',
+                  data: {
+                    hName: 'div',
+                    hProperties: {
+                      className: ['fold-callout-icon']
+                    }
+                  },
+                  children: []
+                }] : []) as unknown as ElementContent[]
+              ]
+            }
 
-          // Replace the entire blockquote content
-          node.children = [calloutTitle as unknown as BlockContent];
-          if (contentNode) {
-            node.children.push(contentNode as unknown as BlockContent);
-          }
+            // Create a new content node with the remaining text and other children
+            const contentChildren = [
+              ...(remainingText.trim() !== '' ? [{
+                type: 'paragraph',
+                children: [{ type: 'text', value: remainingText }]
+              }] : []),
+              ...node.children.slice(1)
+            ];
 
-          const classNames = ["callout", calloutType]
-          if (collapse) {
-            classNames.push("is-collapsible");
-          }
-          if (defaultState === "collapsed") {
-            classNames.push("is-collapsed");
-          }
+            // Only create contentNode if there are children to include
+            let contentNode: Element | null = null;
+            if (contentChildren.length > 0) {
+              contentNode = {
+                type: 'element',
+                tagName: 'div',
+                properties: {},
+                children: contentChildren as ElementContent[],
+                data: {
+                  hName: 'div',
+                  hProperties: {
+                    className: ['callout-content']
+                  },
+                  position: {
+                  },
+                } as ElementData,
+              };
+            }
 
-          // Add properties to base blockquote
-          node.data = {
-            hProperties: {
-              ...(node.data?.hProperties ?? {}),
-              className: classNames.join(" "),
-              "data-callout": calloutType,
-              "data-callout-fold": collapse,
-            },
-          }
-        }
-      })
-    }
-  })
-}
+            // Replace the entire blockquote content
+            node.children = [calloutTitle as unknown as BlockContent];
+            if (contentNode) {
+              node.children.push(contentNode as unknown as BlockContent);
+            }
 
-if (opts.mermaid) {
-  plugins.push(() => {
-    return (tree: Root, _file) => {
-      visit(tree, "code", (node: Code) => {
-        if (node.lang === "mermaid") {
-          node.data = {
-            hProperties: {
-              className: ["mermaid"],
-            },
-          }
-        }
-      })
-    }
-  })
-}
+            const classNames = ["callout", calloutType]
+            if (collapse) {
+              classNames.push("is-collapsible");
+            }
+            if (defaultState === "collapsed") {
+              classNames.push("is-collapsed");
+            }
 
-return plugins
+            // Add properties to base blockquote
+            node.data = {
+              hProperties: {
+                ...(node.data?.hProperties ?? {}),
+                className: classNames.join(" "),
+                "data-callout": calloutType,
+                "data-callout-fold": collapse,
+              },
+            }
+          }
+        })
+      }
+    })
+  }
+
+  if (opts.mermaid) {
+    plugins.push(() => {
+      return (tree: Root, _file) => {
+        visit(tree, "code", (node: Code) => {
+          if (node.lang === "mermaid") {
+            node.data = {
+              hProperties: {
+                className: ["mermaid"],
+              },
+            }
+          }
+        })
+      }
+    })
+  }
+
+  return plugins
 }
 
 export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | undefined> = (
@@ -785,9 +784,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
       }
 
-        if (opts.mermaid) {
-          js.push({
-            script: `
+      if (opts.mermaid) {
+        js.push({
+          script: `
             document.addEventListener('nav', async () => {
               if (document.querySelector("code.mermaid")) {
                 if (typeof mermaid === 'undefined') {
@@ -812,9 +811,9 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
               }
             });
             `,
-            loadTime: "afterDOMReady",
-            contentType: "inline",
-          })
+          loadTime: "afterDOMReady",
+          contentType: "inline",
+        })
       }
 
       return { js }

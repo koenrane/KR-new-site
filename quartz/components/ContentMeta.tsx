@@ -94,7 +94,6 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
   }
 
   // TODO fix this for future posts from the website
-  const publicationStr = frontmatter?.date_published ? "Originally published" : "Published"
   const dateToFormat = getDateToFormat(fileData, cfg)
   const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""
   const dateElement = renderDateElement(fileData, dateStr)

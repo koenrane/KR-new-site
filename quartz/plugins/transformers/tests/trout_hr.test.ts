@@ -1,5 +1,5 @@
 import { TroutOrnamentHr, maybeInsertOrnament, ornamentNode, insertOrnamentNode } from '../trout_hr';
-import { Root, Element as HastElement, Text } from 'hast';
+import { Root, Element as HastElement } from 'hast';
 import { BuildCtx } from '../../../util/ctx';
 
 describe('TroutOrnamentHr', () => {
@@ -53,7 +53,7 @@ describe('maybeInsertOrnament', () => {
   it('should remove hr proceeded by newline and insert ornament before footnotes section', () => {
     tree.children = [
       { type: 'element', tagName: 'hr' },
-      {type: 'text', value: '\n'},
+      { type: 'text', value: '\n' },
       { type: 'element', tagName: 'section', properties: { className: ['footnotes'], 'dataFootnotes': true }, children: [] }
     ] as HastElement[];
 
@@ -100,7 +100,7 @@ describe('insertOrnamentNode', () => {
     insertOrnamentNode(tree as Root);
 
     expect(tree.children).toHaveLength(3);
-    
+
     // Check that existing elements weren't changed
     expect(tree.children[0]).toStrictEqual(existingElements[0]);
     expect(tree.children[1]).toStrictEqual(existingElements[1]);
@@ -123,10 +123,10 @@ describe('Appendix functionality', () => {
     ['h1', 'Appendix: Additional Information'],
     ['h2', 'Appendix: Further Reading'],
   ])('should insert ornament before %s element with direct text child starting with "Appendix"', (tagName, content) => {
-    const appendixHeading = { 
-      type: 'element', 
-      tagName, 
-      children: [{ type: 'text', value: content }] 
+    const appendixHeading = {
+      type: 'element',
+      tagName,
+      children: [{ type: 'text', value: content }]
     } as HastElement;
     tree.children = [
       { type: 'element', tagName: 'p', children: [] },
@@ -141,9 +141,9 @@ describe('Appendix functionality', () => {
   });
 
   it('should insert ornament before heading with anchor element starting with "Appendix"', () => {
-    const appendixHeading = { 
-      type: 'element', 
-      tagName: 'h2', 
+    const appendixHeading = {
+      type: 'element',
+      tagName: 'h2',
       children: [{
         type: 'element',
         tagName: 'a',
@@ -163,10 +163,10 @@ describe('Appendix functionality', () => {
   });
 
   it('should not insert ornament before heading not starting with "Appendix"', () => {
-    const normalHeading = { 
-      type: 'element', 
-      tagName: 'h1', 
-      children: [{ type: 'text', value: 'Normal Heading' }] 
+    const normalHeading = {
+      type: 'element',
+      tagName: 'h1',
+      children: [{ type: 'text', value: 'Normal Heading' }]
     } as HastElement;
     tree.children = [
       { type: 'element', tagName: 'p', children: [] },
@@ -180,10 +180,10 @@ describe('Appendix functionality', () => {
   });
 
   it('should insert ornament before "Appendix" heading when both heading and footnotes are present', () => {
-    const appendixHeading = { 
-      type: 'element', 
-      tagName: 'h1', 
-      children: [{ type: 'text', value: 'Appendix: Additional Information' }] 
+    const appendixHeading = {
+      type: 'element',
+      tagName: 'h1',
+      children: [{ type: 'text', value: 'Appendix: Additional Information' }]
     } as HastElement;
     tree.children = [
       { type: 'element', tagName: 'p', children: [] },
