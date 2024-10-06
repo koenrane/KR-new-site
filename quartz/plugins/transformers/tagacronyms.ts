@@ -28,7 +28,7 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
     parent,
     combinedRegex,
     (match: any) => {
-      if (match[0].match(REGEX_ACRONYM)) {
+      if (REGEX_ACRONYM.test(match[0])) {
         const { acronym, suffix } = match[0].match(REGEX_ACRONYM).groups
         return { before: "", replacedMatch: acronym, after: suffix }
       } else {

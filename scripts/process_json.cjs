@@ -214,7 +214,7 @@ fs.readFile(filePath, "utf-8", (err, data) => {
     return
   }
 
-  fs.writeFile("/tmp/all_posts_md.json", JSON.stringify(jsonData, null, 2), (err) => {
+  fs.writeFile(`${__dirname}/../import-website-data/all_posts_md.json`, JSON.stringify(jsonData, null, 2), (err) => {
     if (err) {
       console.error("Error writing file:", err)
     }

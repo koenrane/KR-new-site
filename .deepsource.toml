@@ -1,12 +1,18 @@
 version = 1
 
-test_patterns = ["**test.js"]
+test_patterns = ["**test.jsx?", "**test.tsx?"]
 
 [[analyzers]]
 name = "shell"
+enabled = true
 
 [[analyzers]]
 name = "javascript"
+enabled = true
+
+[[analyzers]]
+name = "python"
+enabled = true
 
   [analyzers.meta]
   environment = [
@@ -17,3 +23,4 @@ name = "javascript"
 
 [[transformers]]
 name = "prettier"
+enabled = true

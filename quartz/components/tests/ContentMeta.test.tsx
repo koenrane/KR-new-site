@@ -35,7 +35,7 @@ describe('renderPublicationInfo', () => {
     }
 
     fileData = {
-      frontmatter: frontmatter,
+      frontmatter
     } as QuartzPluginData
   })
 

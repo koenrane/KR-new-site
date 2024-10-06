@@ -46,7 +46,7 @@ function setupCallout() {
 
 // Debounce function to limit the rate of function calls
 function debounce(func, wait) {
-    let timeout;
+    let timeout = null;
     return function executedFunction(...args) {
         const later = () => {
             clearTimeout(timeout);
