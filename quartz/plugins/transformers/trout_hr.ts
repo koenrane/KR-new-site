@@ -63,13 +63,13 @@ export function maybeInsertOrnament(
   // Check for "Appendix" headings
   if (node.tagName === "h1" || node.tagName === "h2") {
     const startsWithAppendix = (text: string) => text.toLowerCase().startsWith("appendix");
-    
+
     // Check direct text children
     if (node.children[0]?.type === "text" && startsWithAppendix(node.children[0].value)) {
       parent.children.splice(index, 0, ornamentNode);
       return true;
     }
-    
+
     // Check link element
     if (node.children[0]?.type === "element" && node.children[0].tagName === "a") {
       const anchorText = node.children[0].children[0];
@@ -84,7 +84,7 @@ export function maybeInsertOrnament(
   if (
     node.tagName === "section" &&
     node.properties?.["dataFootnotes"] !== undefined &&
-    (node.properties?.className as Array<String>)?.includes("footnotes")
+    (node.properties?.className as Array<string>)?.includes("footnotes")
   ) {
     // <hr/> looks weird right before the trout hr, so remove it.
     // Check if there's a newline and then an HR preceding

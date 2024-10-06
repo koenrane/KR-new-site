@@ -2,7 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { pathToRoot } from "../util/path"
 import navbarStyle from "./styles/navbar.scss"
 
-// @ts-ignore
+// @ts-expect-error Not a module but a script
 import script from "./scripts/navbar.inline"
 import { Options } from "./NavbarNode"
 import { headerVideoContainer } from "./PageTitle"

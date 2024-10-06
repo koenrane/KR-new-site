@@ -52,10 +52,9 @@ describe("replaceRegex", () => {
     const node = createNode("Hello world!")
     const parent = { type: "span", children: [node] } as Parent
     const regex = /world/g
-    // @ts-expect-error
-    const replaceFn = jest.fn().mockImplementation((match: RegExpMatchArray): ReplaceFnResult => {
-      return { before: "", replacedMatch: match[0].toUpperCase(), after: "" }
-    }) as jest.Mock<(match: RegExpMatchArray) => ReplaceFnResult>
+    const replaceFn = jest.fn().mockImplementation((match: unknown): ReplaceFnResult => {
+      return { before: "", replacedMatch: (match as RegExpMatchArray)[0].toUpperCase(), after: "" }
+    }) as jest.MockedFunction<(match: RegExpMatchArray) => ReplaceFnResult>
 
     replaceRegex(node, 0, parent, regex, replaceFn, () => true)
 

@@ -35,7 +35,7 @@ export class DownloadError extends Error {
  * @param imagePath - The local file path where the image should be saved.
  * @returns A Promise that resolves to true if the download was successful. Otherwise, it throws a DownloadError.
  */
-export async function downloadImage(url: string, imagePath: string): Promise<Boolean> {
+export async function downloadImage(url: string, imagePath: string): Promise<boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
   const response = await fetch(url)
 

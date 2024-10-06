@@ -98,7 +98,7 @@ export function transformElement(
   node: Element,
   transform: (input: string) => string,
   ignoreNodeFn: (input: Element) => boolean = () => false,
-  checkTransformInvariance: Boolean = true,
+  checkTransformInvariance: boolean = true,
 ): void {
   if (!node?.children) {
     throw new Error("Node has no children")

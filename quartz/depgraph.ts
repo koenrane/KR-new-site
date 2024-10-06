@@ -6,7 +6,7 @@ export default class DepGraph<T> {
     this._graph = new Map()
   }
 
-  export(): Object {
+  export(): object {
     return {
       nodes: this.nodes,
       edges: this.edges,
