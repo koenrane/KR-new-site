@@ -69,6 +69,11 @@ const searchHTML = (
   </div>
 )
 
+type Page = {
+  slug: string
+  title: string
+}
+
 export default ((userOpts?: Partial<Options>) => {
   const Navbar: QuartzComponent = ({
     cfg,
@@ -76,12 +81,12 @@ export default ((userOpts?: Partial<Options>) => {
     displayClass,
     fileData,
   }: QuartzComponentProps) => {
-    const pages = cfg.navbar.pages
+    const pages: Page[] = "pages" in cfg.navbar ? cfg.navbar.pages as Page[] : []
 
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
     const baseDir = pathToRoot(fileData.slug!)
 
-    const links = pages.map((page: any) => (
+    const links = pages.map((page: Page) => (
       <li key={page.slug}>
         <a href={page.slug}>{page.title}</a>
       </li>

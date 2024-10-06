@@ -216,7 +216,7 @@ export const renderSequenceTitleJsx = (fileData: QuartzPluginData) => {
     <div>
       <b>Sequence:</b>{" "}
       <a href={sequenceLink} className="internal">
-        {sequence as any}
+        {sequence}
       </a>
     </div>
   )

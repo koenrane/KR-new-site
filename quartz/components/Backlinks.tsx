@@ -3,7 +3,7 @@ import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { fromHtml } from "hast-util-from-html"
-import { RootContent, Parent, Text, Element } from "hast"
+import { RootContent, Parent, Text, Element, Root } from "hast"
 import { formatTitle } from "./component_utils"
 
 function processSmallCaps(text: string, parent: Parent): void {
@@ -21,8 +21,8 @@ function processBacklinkTitle(title: string): Parent {
   return parent
 }
 
-function processHtmlAst(htmlAst: any, parent: Parent): void {
-  htmlAst.children.forEach((node: any) => {
+function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
+  htmlAst.children.forEach((node: RootContent) => {
     if (node.type === "text") {
       processSmallCaps(node.value, parent)
     } else if (node.type === "element") {

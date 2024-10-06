@@ -7,7 +7,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
-import { RootContent, Parent, Text, Element } from "hast"
+import { RootContent, Parent, Text, Element, Root } from "hast"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
 import katex from "katex"
@@ -187,8 +187,8 @@ export function processTocEntry(entry: TocEntry): Parent {
  * @param htmlAst - The HTML AST to process.
  * @param parent - The parent node to add processed nodes to.
  */
-export function processHtmlAst(htmlAst: any, parent: Parent): void {
-  htmlAst.children.forEach((node: any) => {
+export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
+  htmlAst.children.forEach((node: RootContent) => {
     if (node.type === "text") {
       const textValue = node.value;
       const regex = /^(\d+:\s*)(.*)$/;
@@ -223,7 +223,7 @@ export function processHtmlAst(htmlAst: any, parent: Parent): void {
         children: [],
       } as Element;
       parent.children.push(newElement);
-      processHtmlAst(node, newElement);
+      processHtmlAst(node as Element, newElement);
     }
   });
 }
