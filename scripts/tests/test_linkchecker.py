@@ -1,31 +1,42 @@
 import subprocess
 from pathlib import Path
-import git
-import os
 import pytest
 
 from .. import utils as script_utils
 
 @pytest.fixture(scope="session")
-def linkchecker_result():
+def html_linkchecker_result():
     git_root = script_utils.get_git_root()
 
-    # Run the linkchecker script and capture its output
     result = subprocess.run(["fish", git_root / Path("scripts", "linkchecker.fish"), 
-   Path(git_root, "scripts", "tests", ".linkchecker.test.html")], 
+                             Path(git_root, "scripts", "tests", ".linkchecker.test.html")], 
                             capture_output=True, 
                             text=True, 
-                            check=False) # Expect this to error
+                            check=False)
     return result
 
-def test_invalid_port_error(linkchecker_result):
-    assert "Error: URL is unrecognized or has invalid syntax" in linkchecker_result.stdout, "Invalid port error not found in output"
+@pytest.fixture(scope="session")
+def md_linkchecker_result():
+    git_root = script_utils.get_git_root()
 
-    assert linkchecker_result.returncode == 1, f"Linkchecker script failed with return code {linkchecker_result.returncode}"
+    result = subprocess.run(["fish", git_root / Path("scripts", "md_linkchecker.fish"), 
+                             Path(git_root, "scripts", "tests", ".linkchecker.test.md")], 
+                            capture_output=True, 
+                            text=True, 
+                            check=False)
+    return result
 
-def test_invalid_asset_error(linkchecker_result):
-    assert "Error: 404 Not Found" in linkchecker_result.stdout, "Invalid asset error not found in output"
-    assert linkchecker_result.returncode == 1, f"Linkchecker script failed with return code {linkchecker_result.returncode}"
+def test_invalid_port_error(html_linkchecker_result):
+    assert "Error: URL is unrecognized or has invalid syntax" in html_linkchecker_result.stdout, "Invalid port error not found in output"
+    assert html_linkchecker_result.returncode != 0, f"Linkchecker script should have failed"
+
+def test_invalid_asset_error(html_linkchecker_result):
+    assert "Error: 404 Not Found" in html_linkchecker_result.stdout, "Invalid asset error not found in output"
+    assert html_linkchecker_result.returncode != 0, f"Linkchecker script should have failed"
+
+def test_invalid_md_link(md_linkchecker_result):
+    assert "INVALID_MD_LINK" in md_linkchecker_result.stdout, "INVALID_MD_LINK error not found in output"
+    assert md_linkchecker_result.returncode != 0, f"Linkchecker script should have failed"
 
 if __name__ == "__main__":
     pytest.main([__file__])
