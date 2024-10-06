@@ -20,10 +20,10 @@ publish: true
 title: "Problem relaxation as a tactic"
 lw-latest-edit: 2020-04-23T12:08:57.953Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "AI"
   - "rationality"
-aliases: 
+aliases:
   - "problem-relaxation-as-a-tactic"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -39,6 +39,7 @@ date_published: 04/22/2020
 original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
 skip_import: true
 ---
+
 > [!warning]
 > As of September 2024, I no longer endorse following some of these strategies. Concretely, beware of most content on [Arbital](https://arbital.com), especially the methodology of unbounded analysis.
 
@@ -56,14 +57,13 @@ Sometimes, constraints are necessary. I think that the alignment community is pr
 
 Constraints come with costs. Sometimes, the costs are worth it. In this context, I think the costs are very much worth it. Under this implicit framing of the problem, you're [pretty hosed](/the-catastrophic-convergence-conjecture) if you don't get even outer alignment right.
 
-However, even if the real problem has crazy constraints, that doesn't mean you should immediately tackle the fully constrained problem. I think you should often [relax](https://en.wikipedia.org/wiki/Relaxation_\(approximation\)) the problem first: eliminate or weaken constraints until you reach a problem which is still a little confusing, but which you can get some traction on.
+However, even if the real problem has crazy constraints, that doesn't mean you should immediately tackle the fully constrained problem. I think you should often [relax](<https://en.wikipedia.org/wiki/Relaxation_(approximation)>) the problem first: eliminate or weaken constraints until you reach a problem which is still a little confusing, but which you can get some traction on.
 
 > [!quote] [The methodology of unbounded analysis](https://arbital.com/p/unbounded_analysis/)
 >
 > Even if you know an unbounded solution to chess, you might still be 47 years away from a bounded solution. But if you can't state a program that solves the problem in principle, you are in some sense confused about the nature of the cognitive work needed to solve the problem. If you can't even solve a problem given infinite computing power, you definitely can't solve it using bounded computing power. (Imagine Poe trying to write a chess-playing program before he'd had the insight about search trees.)
 
-
-Historically, I tend to be too slow to relax research problems. On the flipside, _all of my favorite research ideas were directly enabled by problem relaxation_. Instead of just telling you what to do and then having you forget this advice in five minutes, I'm going to paint it into your mind using two stories.
+Historically, I tend to be too slow to relax research problems. On the flip side, _all of my favorite research ideas were directly enabled by problem relaxation_. Instead of just telling you what to do and then having you forget this advice in five minutes, I'm going to paint it into your mind using two stories.
 
 # Attainable Utility Preservation
 
@@ -141,16 +141,15 @@ Just relax.
 
 <hr/>
 
+[^1]: This failure mode is just my best guess – I haven't actually surveyed aspiring researchers.
+[^2]: The "convincing-to-me argument" contains a lot of confused reasoning about impact measurement, of course. For one, [thinking about side effects is _not_ a good way of conceptualizing the impact measurement problem.](/world-state-is-the-wrong-abstraction-for-impact)
+[^3]:
+    The initial thought wasn't as clear as "penalize decrease in attainable utility for human values" – I was initially quite confused by the AUP equation. "What the heck _is_ this equation, and how do I break it?".
 
-[^1]: This failure mode is just my best guess – I haven't actually surveyed aspiring researchers. 
+    It took me a few weeks to get a handle for why it seemed to work so well. It wasn't for a month or two that I began to understand what was actually going on, eventually leading to the [_Reframing Impact_](/posts#reframing-impact) sequence. However, for the reader's convenience, I whitewashed my reasoning here a bit.
 
-[^2]: The "convincing-to-me argument" contains a lot of confused reasoning about impact measurement, of course. For one, [thinking about side effects is _not_ a good way of conceptualizing the impact measurement problem.](/world-state-is-the-wrong-abstraction-for-impact) 
-
-[^3]: The initial thought wasn't as clear as "penalize decrease in attainable utility for human values" – I was initially quite confused by the AUP equation. "What the heck _is_ this equation, and how do I break it?".
-
-    It took me a few weeks to get a handle for why it seemed to work so well. It wasn't for a month or two that I began to understand what was actually going on, eventually leading to the [_Reframing Impact_](/posts#reframing-impact) sequence. However, for the reader's convenience, I whitewashed my reasoning here a bit. 
-
-[^4]: At first, I wasn't very excited about AUP – I was new to alignment, and it took a lot of evidence to overcome the prior improbability of my having actually found something to be excited about. It took several weeks before I stopped thinking it likely that my idea was probably secretly and horribly bad.
+[^4]:
+    At first, I wasn't very excited about AUP – I was new to alignment, and it took a lot of evidence to overcome the prior improbability of my having actually found something to be excited about. It took several weeks before I stopped thinking it likely that my idea was probably secretly and horribly bad.
 
     However, I kept staring at the strange equation – I kept trying to break it, to find some obvious loophole which would send me back to the drawing board. I never found it. Looking back over a year later, [AUP does presently have loopholes](/attainable-utility-preservation-scaling-to-superhuman#Appendix-Remaining-Problems), but they're not obvious, nor should they have sent me back to the drawing board.
 
@@ -160,4 +159,5 @@ Just relax.
 
     I turned heel, descending back into the library's basement. I took the photograph. I'm glad that I did.
 
-    Discovering AUP was one of the happiest moments of my life. It gave me confidence that I could think, and it gave me some confidence that we can _win_ – that we can solve alignment. 
+    Discovering AUP was one of the happiest moments of my life. It gave me confidence that I could think, and it gave me some confidence that we can _win_ – that we can solve alignment.
+

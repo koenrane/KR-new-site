@@ -21,9 +21,9 @@ title: "How should TurnTrout handle his DeepMind equity situation?"
 lw-latest-edit: 2023-10-26T00:56:40.898Z
 lw-is-linkpost: "false"
 authors: Oliver Habryka and Alex Turner
-tags: 
+tags:
   - "practical"
-aliases: 
+aliases:
   - "how-should-turntrout-handle-his-deepmind-equity-situation"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
@@ -32,20 +32,21 @@ original_url: https://www.lesswrong.com/posts/Be3ertyJfwDdQucdd/how-should-turnt
 no_dropcap: true
 skip_import: true
 ---
+
 > [!note]
 > In this dialogue, Oliver Habryka and I discussed how to reduce financial CoI from my Google DeepMind offer.
 
 `habryka`
 
-: Ok, so the basic situation as I understand it is that as part of your Deepmind offer you would get a bunch of Google stock that would become available to you over the course of around 4 years or so. This means in-expectation, for 4 years, your net worth would substantially correlate with overall Google performance, which on our worldview probably substantially correlates with how much google invests in AGI and how much it participates in the AGI race.
+: Ok, so the basic situation as I understand it is that as part of your DeepMind offer you would get a bunch of Google stock that would become available to you over the course of around 4 years or so. This means in-expectation, for 4 years, your net worth would substantially correlate with overall Google performance, which on our worldview probably substantially correlates with how much google invests in AGI and how much it participates in the AGI race.
 
-: My sense is you want to end up in a spot where your net-worth isn't super correlated with how much Google invests in AGI. Doing this thoroughly seems hard (since there are things like job security and overall salaries at Google that of course also correlate with Google stock), but getting to a point where you are about as correlated as if you didn't have stock options seems doable. 
+: My sense is you want to end up in a spot where your net-worth isn't super correlated with how much Google invests in AGI. Doing this thoroughly seems hard (since there are things like job security and overall salaries at Google that of course also correlate with Google stock), but getting to a point where you are about as correlated as if you didn't have stock options seems doable.
 
 `TurnTrout`
 
 : Yeah, I want to have lower correlation because I want to make clearheaded decisions about deployment and research directions, which aren't muddled by concerns like "I might get more money for making societally risky plays."
 
-: I was somewhat worried about equity CoI, and my gut response was "I guess I'll decline equity", but 
+: I was somewhat worried about equity CoI, and my gut response was "I guess I'll decline equity", but
 
 <dd>
 <ol>
@@ -60,9 +61,9 @@ skip_import: true
 
 : Ok, but assuming that you can't just ask for a no-stock-options package, how could you potentially reduce your exposure to Google stock here?
 
-: You could just sell a contract that transfers ownership over your shares as soon as you get it, but this now creates a principal-agent problem between you and the person who you sold the shares to. They would like you to stay at Deepmind for longer so the stock options vest, but you don't have anything to gain by that, so ideally the contract would somehow pass this incentive through to you, since I don't think it's the primary thing we are trying to handle here. 
+: You could just sell a contract that transfers ownership over your shares as soon as you get it, but this now creates a principal-agent problem between you and the person who you sold the shares to. They would like you to stay at DeepMind for longer so the stock options vest, but you don't have anything to gain by that, so ideally the contract would somehow pass this incentive through to you, since I don't think it's the primary thing we are trying to handle here.
 
-: You could just structure this as an ongoing contract where you get money at each vesting cliff. I.e. each time you get some Google shares, a person sends you money for those shares (with a price locked in at the time of signing the contract). This does annoyingly create a liability for that person (they need to always have enough money to buy Google stock at the locked in price), but Google stock seems stable enough that probably someone is willing to buy this at not too much of a premium. 
+: You could just structure this as an ongoing contract where you get money at each vesting cliff. I.e. each time you get some Google shares, a person sends you money for those shares (with a price locked in at the time of signing the contract). This does annoyingly create a liability for that person (they need to always have enough money to buy Google stock at the locked in price), but Google stock seems stable enough that probably someone is willing to buy this at not too much of a premium.
 
 : Now, let's think about whether there is just some product on the open market that you could buy to end up with this.
 
@@ -80,7 +81,7 @@ skip_import: true
 
 `habryka`
 
-: Man, I do have trouble coming up with a simple off-the-shelf contract that you could buy, or some personal commitment you could make, that would cause you to break even here. 
+: Man, I do have trouble coming up with a simple off-the-shelf contract that you could buy, or some personal commitment you could make, that would cause you to break even here.
 
 : Ok, so does anything go wrong with a dumb "I keep a spreadsheet of my Google returns, I commit to donate anything to prespecified charity that is above the current valuation of my Google shares"? Like, this isn't perfect, because you would ideally like to have the current expected value of the stock in your bank account, but Google stock isn't a meme coin and doesn't seem that extremely high-variance, but it does really lose you quite a bit of money in-expectation.
 
@@ -90,7 +91,7 @@ skip_import: true
 
 `habryka`
 
-: Ok, so wait, do you know the exact dates your equity will vest? 
+: Ok, so wait, do you know the exact dates your equity will vest?
 
 `TurnTrout`
 
@@ -98,17 +99,17 @@ skip_import: true
 
 `habryka`
 
-: Like, the thing that I feel like you want to do, is to sell a futures contract for Google stock that aligns with your vesting schedule. The problem here is of course that you might end up leaving Google, and then you still need to come up with the Google stock at the pre-specified price somehow. 
+: Like, the thing that I feel like you want to do, is to sell a futures contract for Google stock that aligns with your vesting schedule. The problem here is of course that you might end up leaving Google, and then you still need to come up with the Google stock at the pre-specified price somehow.
 
-: Also, I feel like the futures contract market probably isn't traded with that high liquidity, so you would still need to find custom counterparties here. 
+: Also, I feel like the futures contract market probably isn't traded with that high liquidity, so you would still need to find custom counterparties here.
 
 : Ok, so what if we instead try to aim for something like "be approximately neutral with regards to Google stock?". Is there just like a hacky thing to do that roughly works?
 
-: The naive thing to do is to just like, short Google in an amount equivalent to your total 4-year equity. I.e. you borrow shares, sell them, and then you need to produce the equity somehow over the coming years. But you really can't guarantee you will have enough money to buy Google stock, if it goes up a lot. 
+: The naive thing to do is to just like, short Google in an amount equivalent to your total 4-year equity. I.e. you borrow shares, sell them, and then you need to produce the equity somehow over the coming years. But you really can't guarantee you will have enough money to buy Google stock, if it goes up a lot.
 
 `TurnTrout`
 
-: I think a costless collar (selling a call to buy a put at identical strike prices) would be better than shorting, but it might not be possible given the options markets, and it leaves a range of problems unsolved (like "I don't want to deal with margin calls", "what if I get more equity", and "unknown, variable duration of employment"). I could ladder the collars (i.e. establish new collars as I go), but that might not lock me in to the present value of GOOG (e.g. if the stock falls a bunch in the future, maybe no one is trading options at present value anymore, or at least the collar is no longer costless). 
+: I think a costless collar (selling a call to buy a put at identical strike prices) would be better than shorting, but it might not be possible given the options markets, and it leaves a range of problems unsolved (like "I don't want to deal with margin calls", "what if I get more equity", and "unknown, variable duration of employment"). I could ladder the collars (i.e. establish new collars as I go), but that might not lock me in to the present value of GOOG (e.g. if the stock falls a bunch in the future, maybe no one is trading options at present value anymore, or at least the collar is no longer costless).
 
 `habryka`
 
@@ -124,11 +125,11 @@ skip_import: true
 
 `TurnTrout`
 
-: I'm definitely willing to pay 2%. I don't fear equity-induced drift much overall, though, but that comes down to factors like "how much do my decisions impact GOOG performance" and "to what extent am I helping make deployment decisions." However, I value time/stress more heavily, and if I have to crunch a ton of annoying numbers every month (in a way I can't hire out to a non-trusted person), that's going to decrease my willingness a lot. 
+: I'm definitely willing to pay 2%. I don't fear equity-induced drift much overall, though, but that comes down to factors like "how much do my decisions impact GOOG performance" and "to what extent am I helping make deployment decisions." However, I value time/stress more heavily, and if I have to crunch a ton of annoying numbers every month (in a way I can't hire out to a non-trusted person), that's going to decrease my willingness a lot.
 
 `habryka`
 
-: I think it's pretty important to plan for success in things like this. Like, I agree that in the median path your decisions do not impact GOOG performance that much, but there are totally worlds where you might end up as one of the people in charge of the stop button for Google AI capabilities research, and yeah, that one will sure have a huge effect on Google stock when pressed. 
+: I think it's pretty important to plan for success in things like this. Like, I agree that in the median path your decisions do not impact GOOG performance that much, but there are totally worlds where you might end up as one of the people in charge of the stop button for Google AI capabilities research, and yeah, that one will sure have a huge effect on Google stock when pressed.
 
 `TurnTrout`
 
@@ -144,9 +145,9 @@ skip_import: true
 
 `habryka`
 
-: Yeah, definitely. But I sadly don't expect that to happen. 
+: Yeah, definitely. But I sadly don't expect that to happen.
 
-: Idk, maybe I should set up a small fund here that buys alignment-researcher equity with the obvious contracts. It's just a 4-year contract, with more than half of the capital being freed up 2 years in, so this really isn't that much committed capital. 
+: Idk, maybe I should set up a small fund here that buys alignment-researcher equity with the obvious contracts. It's just a 4-year contract, with more than half of the capital being freed up 2 years in, so this really isn't that much committed capital.
 
 : I do personally kind of want to avoid GOOG exposure, but idk, does seem less important if I am not working at GOOG.
 
@@ -161,7 +162,8 @@ skip_import: true
 `TurnTrout`
 
 : Now that I've received my contract, I've come across language like
-: 
+:
 : > \[Google’s Insider Trading Policy\] describes company-wide policies that address the risks of insider trading, **such as a prohibition on any Google employee hedging Google stock**; and periodic blackout windows when no Google employee may trade Google stock.
 :
 : I'll look more into this, but this probably kills most workarounds.
+

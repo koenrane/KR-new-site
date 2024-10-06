@@ -20,9 +20,9 @@ publish: true
 title: "Set Up for Success: Insights from 'Naïve Set Theory'"
 lw-latest-edit: 2018-02-28T02:01:43.790Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "scholarship-&-learning"
-aliases: 
+aliases:
   - "set-up-for-success-insights-from-naive-set-theory"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -36,23 +36,24 @@ date_published: 02/28/2018
 original_url: https://www.lesswrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-success-insights-from-naive-set-theory
 skip_import: true
 ---
+
 # Foreword
 
 [This book](http://smile.amazon.com/Naive-Set-Theory-Paul-Halmos/dp/1614271313/) has been reviewed [pretty](https://www.lesswrong.com/posts/Ee8CZW7wzaNdCENYG/book-review-naive-set-theory-miri-course-list) [thoroughly](https://www.lesswrong.com/posts/FvA2qL6ChCbyi5Axk/book-review-naive-set-theory-miri-research-guide) already. Rather than restate each chapter, I'll be sharing insights: some book-specific, some general.
 
-I am quite proud of my time-to-completion for this book: just over a week, working around a very strenuous courseload. I went from having to focus really hard to pick up new concepts to reading notation nearly as fluently as the English surrounding it. The chapters started making sense - it felt less random, and more like a coherent story wherein the protagonist slowly adds  $\mathcal{P}$owers to their arsenal.
+I am quite proud of my time-to-completion for this book: just over a week, working around a very strenuous course load. I went from having to focus really hard to pick up new concepts to reading notation nearly as fluently as the English surrounding it. The chapters started making sense - it felt less random, and more like a coherent story wherein the protagonist slowly adds $\mathcal{P}$owers to their arsenal.
 
 # Naïve Set Theory
 
 ## Functions
 
-Functions  $f:X\to Y$ are _just_ **static sets** of ordered pairs  $\{(x,f(x)):x \in X\}$ . They are _not_ dynamic indexing functions, they do _not_ perform efficient lookup, please do _not_ waste an hour of your life trying to figure out how you could do such a thing within the simple machinery afforded by set theory up to that point.
+Functions $f:X\to Y$ are _just_ **static sets** of ordered pairs $\{(x,f(x)):x \in X\}$ . They are _not_ dynamic indexing functions, they do _not_ perform efficient lookup, please do _not_ waste an hour of your life trying to figure out how you could do such a thing within the simple machinery afforded by set theory up to that point.
 
 This is one of those [things that Nate talked about](https://www.lesswrong.com/posts/uX3HjXo6BWos3Zgy5/the-mechanics-of-my-recent-productivity) - how skipping over just one word a few chapters prior can cause you to waste hours. During my confusion, I knew this was probably the case, but I still couldn't manage to immediately overcome my intuitions of what a function should be. This is one reason I'm open to working through the [MIRI Research Guide](https://intelligence.org/research-guide/#two) with others.
 
 ## Families
 
-Families are, ironically enough, just a special kind of function; don't let your intuition fool you - they aren't "groups of functions." A family belonging to  $\prod_{i\in I} X_i$ maps each element  $i$ of the index set  $I$ to an element  $x_i \in X_i$. For example, a family from  $\{1,2\}$ to  $X_1:=\{cat,dog\}, X_2 :=\{tent,\textit{fire}\}$ could be  $\{(1,cat),(2,\textit{fire})\}$ (thanks to `Dacyn` for helping me clarify my writing).
+Families are, ironically enough, just a special kind of function; don't let your intuition fool you - they aren't "groups of functions." A family belonging to $\prod_{i\in I} X_i$ maps each element $i$ of the index set $I$ to an element $x_i \in X_i$. For example, a family from $\{1,2\}$ to $X_1:=\{cat,dog\}, X_2 :=\{tent,\textit{fire}\}$ could be $\{(1,cat),(2,\textit{fire})\}$ (thanks to `Dacyn` for helping me clarify my writing).
 
 ## Zorn's Lemma
 
@@ -77,3 +78,4 @@ Of all the productivity advice I've read, the most useful involves imbuing your 
 ## Internal Light
 
 If you don't know where to start, I think the internal fire has to be lit first - don't try to force yourself to do this (or anything else) because you "should". "Stop the guilt-based motivation", proudly stake out what you want, and transform your life into a dazzling assortment of activities and tasks imbued with your terminal values, your brightest visions for yourself and the future.
+

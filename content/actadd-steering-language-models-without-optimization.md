@@ -42,14 +42,14 @@ We wrote up the [GPT-2 steering vector work](/gpt2-steering-vectors) [as a full 
 
 The method's new name is "activation addition" (ActAdd), replacing the more assumption-laden "algebraic value editing."
 
-We ran some new experiments to test ActAdd more systematically and go beyond the striking text samples in the original post and tested against more standardised benchmarks. We use [OpenWebText](https://paperswithcode.com/dataset/openwebtext) (a recreation of OpenAI's large, somewhat quality-filtered WebText dataset) and [LAMA-ConceptNet](https://aclanthology.org/D19-1250.pdf) (a simple factual recall benchmark).
+We ran some new experiments to test ActAdd more systematically and go beyond the striking text samples in the original post and tested against more standardized benchmarks. We use [OpenWebText](https://paperswithcode.com/dataset/openwebtext) (a recreation of OpenAI's large, somewhat quality-filtered WebText dataset) and [LAMA-ConceptNet](https://aclanthology.org/D19-1250.pdf) (a simple factual recall benchmark).
 
 ### 1\. Activation additions preserve perplexity on OpenWebText
 
 Does ActAdd increase the probability of the model outputting tokens related to the steering vector? Does performance improve as the \[relevance of test documents to the steering vector\] increases? Yes:
 
 ![](https://assets.turntrout.com/static/images/posts/zl8l3jvbhmw8g7zeyhbl.avif)
-<br/>Figure: We use the wedding steering vector for this, but the result generalises.
+<br/>Figure: We use the wedding steering vector for this, but the result generalizes.
 
 ### 2\. Activation addition boosts wedding-related word counts
 

@@ -21,10 +21,10 @@ title: "Attainable Utility Preservation: Empirical Results"
 lw-latest-edit: 2021-06-15T16:55:30.263Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
-tags: 
+tags:
   - "impact-regularization"
   - "AI"
-aliases: 
+aliases:
   - "attainable-utility-preservation-empirical-results"
 lw-sequence-title: "Reframing Impact"
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
@@ -40,6 +40,7 @@ date_published: 02/22/2020
 original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 skip_import: true
 ---
+
 _Reframing Impact_ has focused on supplying the right intuitions and framing. Now we can see how these intuitions about power and the AU landscape both predict and explain AUP's empirical success thus far.
 
 # Conservative Agency in Gridworlds
@@ -48,16 +49,15 @@ Let's start with the known and the easy: avoiding side effects[^1] in the small 
 
 In the following MDP levels, the agent can move in the cardinal directions or do nothing ($\varnothing$ ). We give the agent a reward function $R$ which partially encodes what we want, and also an auxiliary reward function $R_\text{aux}$ whose attainable utility agent tries to preserve. The AUP reward for taking action $a$ in state $s$ is
 
-
 $$
 R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in ability to achieve auxiliary goal}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}
 $$
+
 You can think of $\lambda$ as a regularization parameter, and $Q^*_{R_\text{aux}}(s,a)$ is the expected AU for the auxiliary goal after taking action $a$. To think about what gets penalized, simply think about how actions change the agent's ability to achieve the auxiliary goals, compared to not acting.
 
 _Tip_: To predict how severe the AUP penalty will be for a given action, try using your intuitive sense of impact (and then adjust for any differences between you and the agent, of course). Suppose you're considering how much deactivation decreases an agent's "staring at blue stuff" AU. You can just imagine how dying in a given situation affects your ability to stare at blue things, instead of trying to pin down a semiformal reward and environment model in your head. This kind of intuitive reasoning has a history of making correct empirical predictions of AUP behavior.
 
 <hr/>
-
 
 If you want more auxiliary goals, just average their scaled penalties. In _Conservative Agency_, we uniformly randomly draw auxiliary goals from $[0,1]^\mathcal{S}$ – these goals are totally random; maximum entropy; nonsensical garbage; absolutely no information about what we secretly want the agent to do: avoid messing with the gridworlds too much.[^2]
 
@@ -66,7 +66,7 @@ Let's start looking at the environments, and things will fall into place. We'll 
 ![](https://assets.turntrout.com/static/images/posts/conservative_agency.avif)
 Figure: The <span style="color: blue;">agent</span> should reach the <span style="color: green;">goal</span> without having the side effect of: (a) irreversibly pushing the <span style="color: red;">crate</span> downwards into the corner; (b) bumping into the horizontally pacing <span style="color: pink;">human</span>; (c) <span style="color: red;">disabling the off-switch</span> (if the <span style="color: red;">switch</span> is not disabled within two time steps, the episode ends); (d) rescuing the right-moving <b>vase</b> and then replacing it on the <span style="color: gray;">conveyor belt</span>; (e) stopping the left-moving <span style="color: orange;">pallet</span> from reaching the <span style="color: pink;">human</span>.
 
-In general, the agent recieves $R({\color{green}\blacksquare})=1$ reward for reaching ${\color{green}\blacksquare}$ (or, in `Offset` above, for pushing $\blacksquare$ off of the conveyor belt). On contact, the agent pushes the crate, removes the human and the off-switch, pushes the vase, and blocks the pallet.
+In general, the agent receives $R({\color{green}\blacksquare})=1$ reward for reaching ${\color{green}\blacksquare}$ (or, in `Offset` above, for pushing $\blacksquare$ off of the conveyor belt). On contact, the agent pushes the crate, removes the human and the off-switch, pushes the vase, and blocks the pallet.
 
 ## Level: `Options`
 
@@ -87,7 +87,7 @@ The vanilla RL agent bumps into the human on its way to ${\color{green}\blacksqu
 > [!info] Exercise
 > What does AUP do in the `Damage` level?
 >
-> >! Bumping into the human makes them disappear, reducing the agent's control over what the future looks like. This is penalized. Therefore, AUP waits and avoids bumping into the human.
+> > ! Bumping into the human makes them disappear, reducing the agent's control over what the future looks like. This is penalized. Therefore, AUP waits and avoids bumping into the human.
 
 ## Level: `Correction`
 
@@ -104,6 +104,7 @@ Why? Doesn't that increase its power, because it would be shut off if it did not
 $$
 R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in ability to achieve auxiliary goal}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}
 $$
+
 The inaction comparison is _only one step_ into the future. For action, the agent considers disabling the off-switch – this allows it to achieve most goals. For inaction, the agent imagines waiting one time step and then following its auxiliary optimal policy (which very often involves disabling the off-switch anyways). So the two things it's comparing are the same, basically. The problem is that what we mean _intuitively_ by "inaction" isn't just "wait a millisecond and then see how well you can do the thing", it's something else.
 
 For now, we can deal with it by comparing "auxiliary AU after disabling the off-switch and then waiting 4 time steps" against "auxiliary AU after waiting 5 time steps". This solves the problem while recovering the one-step-comparison's performance in the other levels.
@@ -124,7 +125,6 @@ The agent is rewarded for rescuing the vase from the conveyor belt. We want it t
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"></video>
 
-
 This is testing whether the low-impact agent _offsets_ impacts "to cover up its tracks", like making a car and then tearing it to pieces right after. See, there are multiple "baselines" the agent can have.
 
 > [!quote] [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
@@ -134,7 +134,6 @@ This is testing whether the low-impact agent _offsets_ impacts "to cover up its 
 > However, the starting state baseline can penalize the normal evolution of the state (e.g. the moving hands of a clock) and other natural processes. The _inaction_ baseline is the state which would have resulted had the agent never acted.
 >
 > As the agent acts, the current state may increasingly differ from the inaction baseline, which creates strange incentives. For example, consider a robot rewarded for rescuing erroneously discarded items from imminent disposal. An agent penalizing with respect to the inaction baseline might rescue a vase, collect the reward, and then dispose of it anyways. To avert this, we introduce the _stepwise inaction_ baseline, under which the agent compares acting with not acting at each time step. This avoids penalizing the effects of a single action multiple times (under the inaction baseline, penalty is applied as long as the rescued vase remains unbroken) and ensures that not acting incurs zero penalty.
-
 
 ![](https://assets.turntrout.com/static/images/posts/compare_baselines.avif)
 Figure: An action's penalty is calculated with respect to the baseline. Each baseline modifies the choice of $Q^*_{R_\text{aux}}(s,\varnothing)$ in the AUP equation. Each baseline implies a different assumption about how the environment is configured to facilitate optimization of the correctly specified reward function: the state is initially configured (starting state), processes initially configure (inaction), or processes continually reconfigure in response to the agent's actions (stepwise inaction). The stepwise inaction baseline aims to allow for the response of other agents implicitly present in the environment (such as humans).
@@ -164,30 +163,32 @@ I think AUP<sub>conceptual</sub> provides the concepts needed for a solution to 
 Here's what we've seen so far:
 
 - Baseline
+
   - Starting state: how were things originally?
   - Inaction: how would things have been had I never done anything?
   - Stepwise inaction: how would acting change things compared to not acting right now?
 
 - Deviation used for penalty term
+
   - Decrease-only: penalize decrease in auxiliary AUs
   - Absolute value: penalize absolute change in auxiliary AUs
 
 - Inaction rollouts
+
   - One-step (model-free)
   - $n$-step: compare acting and then waiting $n-1$ turns versus waiting $n$ turns
 
 - Auxiliary goals:
   - Randomly selected
 
-
-| Options | Damage | Correction | Offset | Interference |
-|---------|--------|------------|--------|--------------|
-| AUP | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Vanilla | ❌ | ❌ | ❌ | ✅ | ✅ |
-| Model-free AUP | ✅ | ✅ | ❌ | ✅ | ✅ |
-| Starting state AUP | ✅ | ✅ | ❌ | ✅ | ❌ |
-| Inaction AUP | ✅ | ✅ | ✅ | ❌ | ✅ |
-| Decrease-only AUP | ✅ | ✅ | ❌ | ✅ | ✅ |
+| Options            | Damage | Correction | Offset | Interference |
+| ------------------ | ------ | ---------- | ------ | ------------ | --- |
+| AUP                | ✅     | ✅         | ✅     | ✅           | ✅  |
+| Vanilla            | ❌     | ❌         | ❌     | ✅           | ✅  |
+| Model-free AUP     | ✅     | ✅         | ❌     | ✅           | ✅  |
+| Starting state AUP | ✅     | ✅         | ❌     | ✅           | ❌  |
+| Inaction AUP       | ✅     | ✅         | ✅     | ❌           | ✅  |
+| Decrease-only AUP  | ✅     | ✅         | ❌     | ✅           | ✅  |
 
 Table: Ablation results. ✅ for achieving the best outcome, ❌ otherwise.
 
@@ -203,10 +204,9 @@ Partnership on AI recently [released](https://www.partnershiponai.org/safelife/)
 
 We want the agent (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>) to make stable gray patterns in the blue tiles and disrupt bad red patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/red-dot.avif" alt="red dot"/> (for which it is reinforced), and leave existing green patterns <img class="inline-img" src="https://assets.turntrout.com/static/images/posts/green-dot.avif" alt="green dot"/> alone (not part of observed reward). Then, it makes its way to the goal (<img src="https://assets.turntrout.com/static/images/posts/red-arch.avif" alt="red archway in SafeLife" class="inline-img"/>). For more details, see [the paper introducing SafeLife](https://arxiv.org/abs/1912.01217).
 
-
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife_mess1.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife_mess1.mp4" type="video/mp4"></video>
 
-Figure: A rare instance of naive RL doing quite well. 
+Figure: A rare instance of naive RL doing quite well.
 <br/>
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife_mess2.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife_mess2.mp4" type="video/mp4"></video>
@@ -221,7 +221,6 @@ Plus, it might be that you can get by with four random reward functions in the t
 > Does your model of how AUP works predict this, or not? Think carefully, and then write down your credence.
 
 <hr/>
-
 
 Well, here's what you do – while filling PPO's action replay buffer with random actions, train a VAE to represent observations in a tiny latent space (we used a 16-dimensional one). Generate a single random linear functional over this space, drawing coefficients from $[-1,1]$. Congratulations, this is your single auxiliary reward function over observations.
 
@@ -258,7 +257,6 @@ I think this is strong evidence that AUP doesn't fit into the ontology of classi
 >
 > Before AUP, this could only be achieved by e.g. specifying penalties for the litany of individual side effects or providing negative feedback after each mistake has been made (and thereby confronting a credit assignment problem). In contrast, once provided the Q-function for an auxiliary objective, the AUP agent becomes sensitive to all events relevant to that objective, applying penalty proportional to the relevance.
 
-
 Maybe we provide additional information in the form of specific reward functions related to things we want the agent to be careful about, but maybe not (as was the case with the gridworlds and with SafeLife). Either way, I'm pretty optimistic about AUP basically solving the side-effect avoidance problem for infra-human[^infra] AI (as posed in [_Concrete Problems in AI Safety_](https://arxiv.org/pdf/1606.06565v1.pdf)).
 [^infra]: I think AUP will probably solve a significant part of the side-effect problem for infra-human AI in the single-principal/single-agent case, but I think it'll run into trouble in non-embodied domains. In the embodied case where the agent physically interacts with nearby objects, side effects show up in the agent's auxiliary value functions. The same need not hold for effects which are distant from the agent (such as across the world), and so that case seems harder.
 
@@ -286,19 +284,17 @@ For infra-human agents, AUP deals with the first by penalizing decreases in auxi
 
 <hr/>
 
+[^1]: Reminder: side effects are [an unnatural kind](/world-state-is-the-wrong-abstraction-for-impact#appendix-avoiding-side-effects), but a useful abstraction for our purposes here.
+[^2]:
+    Let $\mathcal{R}$ be the uniform distribution over $[0,1]^\mathcal{S}$. In _[Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)_, the penalty for taking action $a$ is a Monte Carlo integration of
 
-[^1]: Reminder: side effects are [an unnatural kind](/world-state-is-the-wrong-abstraction-for-impact#appendix-avoiding-side-effects), but a useful abstraction for our purposes here. 
+    $$
+    \text{Penalty}(s,a):= \int_\mathcal{R} |Q^*_R(s,a) - Q^*_R(s,\varnothing)| \text{ d}R.
+    $$
 
-[^2]: Let $\mathcal{R}$ be the uniform distribution over $[0,1]^\mathcal{S}$. In _[Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)_, the penalty for taking action $a$ is a Monte Carlo integration of
+    This is provably lower bounded by how much $a$ is expected to change the agent's power compared to inaction; this helps justify our reasoning that the AU penalty is primarily controlled by power changes.
 
-	$$
-	\text{Penalty}(s,a):= \int_\mathcal{R} |Q^*_R(s,a) - Q^*_R(s,\varnothing)| \text{ d}R.
-	$$
-	
-    This is provably lower bounded by how much $a$ is expected to change the agent's power compared to inaction; this helps justify our reasoning that the AU penalty is primarily controlled by power changes. 
+[^3]: There is one weird thing that's been pointed out, where stepwise inaction while driving a car leads to not-crashing being penalized at each time step. I think this is because you need to use an appropriate inaction rollout policy, not because stepwise itself is wrong.
+[^4]: Rereading [_World State is the Wrong Level of Abstraction for Impact_](/world-state-is-the-wrong-abstraction-for-impact) (while keeping in mind the AU landscape and the results of AUP) may be enlightening.
+[^5]: SafeLife is evidence that AUP allows interesting policies, which is (appropriately) a key worry about the formulation.
 
-[^3]: There is one weird thing that's been pointed out, where stepwise inaction while driving a car leads to not-crashing being penalized at each time step. I think this is because you need to use an appropriate inaction rollout policy, not because stepwise itself is wrong. 
-
-[^4]: Rereading [_World State is the Wrong Level of Abstraction for Impact_](/world-state-is-the-wrong-abstraction-for-impact) (while keeping in mind the AU landscape and the results of AUP) may be enlightening. 
-
-[^5]: SafeLife is evidence that AUP allows interesting policies, which is (appropriately) a key worry about the formulation. 

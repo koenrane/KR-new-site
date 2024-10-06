@@ -20,10 +20,10 @@ publish: true
 title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern Approach'"
 lw-latest-edit: 2018-03-25T06:55:46.204Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "AI"
   - "scholarship-&-learning"
-aliases: 
+aliases:
   - "the-art-of-the-artificial-insights-from-artificial"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -39,6 +39,7 @@ date_published: 03/25/2018
 original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 skip_import: true
 ---
+
 <br/>
 <center>“Most people won't agree to kill themselves for 50 million dollars.”<br/>Stuart Russell and Peter Norvig
 </center>
@@ -62,20 +63,20 @@ I knew that this plan was preposterous; in all likelihood, I'd finish 3 chapters
 **Burnout** was prepared for by:
 
 - The imposition of some questionable beliefs: [^1]
-	- _My ego does not deplete._
-	- _I am 100% certain that I will succeed._
-	- _Given enough time, I can understand anything_.
+  - _My ego does not deplete._
+  - _I am 100% certain that I will succeed._
+  - _Given enough time, I can understand anything_.
 - The institution of hourly brief exercise breaks. Cutting through the crisp, cold air at high speed got my heart beating and rekindled my passion for crushing the task at hand.
 - The construction of a narrative, with me as the protagonist, slowly increasing in capability, working diligently against the racing clock.
-	- Yes, I basically turned myself into a trope.
-	- No, I don't mind: I'm willing to take advantage of whatever psychological factors are at my disposal to help me succeed.
-	- Yes, I listened to the Rocky soundtrack a few times. It was great.
+  - Yes, I basically turned myself into a trope.
+  - No, I don't mind: I'm willing to take advantage of whatever psychological factors are at my disposal to help me succeed.
+  - Yes, I listened to the Rocky soundtrack a few times. It was great.
 
 **Mental exhaustion** (distinct from emotional / physical burnout in that your _mind_ can't process concepts as efficiently as it could seven hours ago when you started) was prepared for by:
 
 - Regularly taking breaks to chill out, listen to music, and dance a bit. I'd also spend time dwelling on the pleasant anticipated result of having mastered the important material in the rest of the book, making sure to _contrast it_ with what would happen if I didn't follow through.
-	- I made sure to avoid activities that would suck me in.
-	- As outlined above - regular exercise and narrative-building.
+  - I made sure to avoid activities that would suck me in.
+  - As outlined above - regular exercise and narrative-building.
 - The pre-emptive purchase of all my favorite healthful foods; this was a great self-bribe. Having lots of delicious food on hand meant I always had something to look forward to for my breaks, and eating well meant that I didn't feel sluggish. I like to call this tactic "trivial conveniencing".
 - Maintaining my regular sleep schedule of 9:30 PM - 6:00 AM.
 
@@ -119,29 +120,32 @@ _In which the authors teach us to find what we're looking for._
 
 ### Admissibility and Consistency
 
-Heuristics are functions which estimate distance to the goal. Let  $g(s)$ be the cost to reach  $s$ in the current path, let the path cost of reaching state  $s'$ from  $s$ via action  $a$ be  $c(s,a,s')$, and let  $h$ be a heuristic. The total distance function is then
+Heuristics are functions which estimate distance to the goal. Let $g(s)$ be the cost to reach $s$ in the current path, let the path cost of reaching state $s'$ from $s$ via action $a$ be $c(s,a,s')$, and let $h$ be a heuristic. The total distance function is then
 
 $$
 f(s)=g(s)+h(s).
 $$
-$h$ is _admissible_ if it never overestimates the distance remaining. Admissibility frees us from needing to exhaustively explore every path (for fear of  $h$ having hid a good solution from us through overestimation). The heuristic  $h$ is _consistent_ (or, more helpfully, _monotonic_) if it obeys the triangle inequality:
+
+$h$ is _admissible_ if it never overestimates the distance remaining. Admissibility frees us from needing to exhaustively explore every path (for fear of $h$ having hid a good solution from us through overestimation). The heuristic $h$ is _consistent_ (or, more helpfully, _monotonic_) if it obeys the triangle inequality:
 
 $$
 h(s) \leq c(s,a,s')+h(s').
 $$
-What this means: imagine that we have some admissible heuristic  $h_a$ (for example, straight-line distance on a map). An admissible but inconsistent heuristic would then be:
+
+What this means: imagine that we have some admissible heuristic $h_a$ (for example, straight-line distance on a map). An admissible but inconsistent heuristic would then be:
 
 $$
 h_a'(s) = \textit{hash}(s) \text{ mod } h_a(s).
 $$
-This is clearly admissible, but also inconsistent - every  $h_a'(s)$ evaluation is some pseudo-random number between  0 and the true distance to the goal!
+
+This is clearly admissible, but also inconsistent - every $h_a'(s)$ evaluation is some pseudo-random number between 0 and the true distance to the goal!
 
 > [!math] Claim: All consistent heuristics are admissible.
-> 
-> _Proof._ Let  $n_k$ denote a state  $k$ actions from the goal, and let  $d $ be the true distance function.
-> 
+>
+> _Proof._ Let $n_k$ denote a state $k$ actions from the goal, and let $d $ be the true distance function.
+>
 > **Base case** ( $n_1$):
-> 
+>
 > $$
 > \begin{align*}
 > h(n_1) &\leq c(n_1,a,n_0) + h(n_0) \qquad\text{ consistency}\\
@@ -149,10 +153,11 @@ This is clearly admissible, but also inconsistent - every  $h_a'(s)$ evaluation 
 > &= d(n_1)\qquad\qquad\qquad\quad\;\;\;\;\text{definition of distance}
 > \end{align*}
 > $$
+>
 > **Induction step** ( $n_k \Rightarrow n_{k+1}$):
-> 
-> The inductive hypothesis is that  $h(n_{k}) \leq d(n_k)$. Then
-> 
+>
+> The inductive hypothesis is that $h(n_{k}) \leq d(n_k)$. Then
+>
 > $$
 > \begin{align*}
 > h(n_{k+1}) &\leq c(n_{k+1}, a, n_k) + h(n_k) \qquad\text{ consistency}\\
@@ -160,6 +165,7 @@ This is clearly admissible, but also inconsistent - every  $h_a'(s)$ evaluation 
 > &= d(n_{k+1}) \qquad\qquad\qquad\quad\;\;\;\text{ definition of distance}. \\
 > \end{align*}
 > $$
+>
 > ∎
 
 ### Relaxation
@@ -182,7 +188,7 @@ _In which the authors demonstrate how to search when the world really **is** out
 
 ### Pruning
 
-I won't babble about  $\alpha\beta$\-pruning - just practice the concept [here](http://inst.eecs.berkeley.edu/~cs61b/fa14/ta-materials/apps/ab_tree_practice/). For me, it was deceptively intuitive - I "got it" so "easily" that I neglected to follow the actual algorithm in a practice problem.
+I won't babble about $\alpha\beta$\-pruning - just practice the concept [here](http://inst.eecs.berkeley.edu/~cs61b/fa14/ta-materials/apps/ab_tree_practice/). For me, it was deceptively intuitive - I "got it" so "easily" that I neglected to follow the actual algorithm in a practice problem.
 
 ### Patchwork Progress
 
@@ -204,30 +210,31 @@ This is even more relevant to deep learning, where numerous engineering tricks a
 
 _In which the authors show us how to color maps real pretty._
 
-### Solving  $n$\-ary CSPs
+### Solving $n$\-ary CSPs
 
 > [!math] Definition: Constraint satisfaction problem
 >
->  $X$ is a set of variables,  $\{X_1, \:..., \:X_n\}$.
+> $X$ is a set of variables, $\{X_1, \:..., \:X_n\}$.
 >
->  $D$ is a set of domains,  $\{D_1,\: ..., \:D_n\}$.
+> $D$ is a set of domains, $\{D_1,\: ..., \:D_n\}$.
 >
->  $C$ is a set of constraints that specify allowable combinations of variables.
+> $C$ is a set of constraints that specify allowable combinations of variables.
 
-Sounds intimidating, but it's really not. Let's say you have two variables:  $\{X_1, X_2\}$. Each can be colored  `red` or  `blue`, so  $D=\{\{red,blue\},\{red,blue\}\}$. Pretend that each variable is a vertex and that they're connected by an edge; we want to 2-color this graph. Then  $C=\{X_1 \not = X_2\}$.
+Sounds intimidating, but it's really not. Let's say you have two variables: $\{X_1, X_2\}$. Each can be colored `red` or `blue`, so $D=\{\{red,blue\},\{red,blue\}\}$. Pretend that each variable is a vertex and that they're connected by an edge; we want to 2-color this graph. Then $C=\{X_1 \not = X_2\}$.
 
-This gets tricky when we need to solve  $n$\-ary CSPs, which are those CSPs whose maximum constraint arity is  $n$. Assume that the domains are discrete.
+This gets tricky when we need to solve $n$\-ary CSPs, which are those CSPs whose maximum constraint arity is $n$. Assume that the domains are discrete.
 
 The main idea is that we want to break up these thick $^c$ constraints into mega-variables whose domains are exhaustive tuple enumerations of ways to satisfy the constraint. Then we just need to make sure that our chosen mega-solutions line up with the other mega- and normal variable assignments.
 
-For each constraint  $C_k$ with variables  $S_k$ ( $|S_k|>2$), make a new variable  $y_k$ with domain
+For each constraint $C_k$ with variables $S_k$ ( $|S_k|>2$), make a new variable $y_k$ with domain
 
 $$
 D_{k}'=\{x\in \prod_{D_j\in Domains(S_k)} D_j : x \text{ satisfies }C_k\}.
 $$
-In logical terms,  $D_k'$ is the set of all models for  $C_k$. For each new variable, instantiate binary constraints on the identities of the values of the shared variables.
 
-_Arc consistency_ can be viewed in a similar light; a variable  $X_i$ is arc-consistent with another variable  $X_j$ if for each value in  $D_i$, there exists at least once satisfactory assignment in  $D_j$ for any binary constraints between  $X_i,X_j$. That is, every value in  $D_i$ is part of at least one model.
+In logical terms, $D_k'$ is the set of all models for $C_k$. For each new variable, instantiate binary constraints on the identities of the values of the shared variables.
+
+_Arc consistency_ can be viewed in a similar light; a variable $X_i$ is arc-consistent with another variable $X_j$ if for each value in $D_i$, there exists at least once satisfactory assignment in $D_j$ for any binary constraints between $X_i,X_j$. That is, every value in $D_i$ is part of at least one model.
 
 ## 7: Logical Agents
 
@@ -235,9 +242,9 @@ _In which the authors invent a formal language called "propositional logic" as a
 
 ### Impish Implications
 
-This chapter was my first time formally learning propositional logic. One thing that confused me at first: for two propositions  $\alpha,\beta$,  $\alpha \Rightarrow \beta$ is  `true` as long as it isn't the case that  $\{\alpha=true,\beta=\textit{false}\}$ in some model of our knowledge base. This means that even if  $\alpha$ is _total bogus_, the implication holds.
+This chapter was my first time formally learning propositional logic. One thing that confused me at first: for two propositions $\alpha,\beta$, $\alpha \Rightarrow \beta$ is `true` as long as it isn't the case that $\{\alpha=true,\beta=\textit{false}\}$ in some model of our knowledge base. This means that even if $\alpha$ is _total bogus_, the implication holds.
 
-Consider "If I live in Far Far Away, then P=NP";  $\alpha=\textit{false}$ since I am unfortunately unable to live in that fantasy universe, and  $\beta$ can be either  `true` or  `false` —it doesn't matter here. That strange implication is logically  `true` because _in the case where the premise is false, I make no claim about the conclusion_.
+Consider "If I live in Far Far Away, then P=NP"; $\alpha=\textit{false}$ since I am unfortunately unable to live in that fantasy universe, and $\beta$ can be either `true` or `false` —it doesn't matter here. That strange implication is logically `true` because _in the case where the premise is false, I make no claim about the conclusion_.
 
 This is covered in the book, but it's important to internalize this early.
 
@@ -265,7 +272,7 @@ _In which the authors introduce hierarchical planning, for use in environments s
 
 ## 12: Knowledge Representation
 
-_In which the authors discuss efforts to engineer ontologies and introduce modal and nonmonotonic logics._
+_In which the authors discuss efforts to engineer ontologies and introduce modal and non-monotonic logics._
 
 To be frank, I didn't like the ontology-engineering portion of this chapter.
 
@@ -283,9 +290,9 @@ _In which the authors shift their unhealthy obsession from cavities to burglarie
 
 ### Gibbs Sampling
 
-As a member of the Markov chain Monte Carlo algorithm family, Gibbs sampling starts from a random variable assignment (consistent with observed evidence  $\textbf{e}$) and stochastically makes tweaks. The idea is to approximate the posterior distribution for whatever variable in which we are interested (the query variable).
+As a member of the Markov chain Monte Carlo algorithm family, Gibbs sampling starts from a random variable assignment (consistent with observed evidence $\textbf{e}$) and stochastically makes tweaks. The idea is to approximate the posterior distribution for whatever variable in which we are interested (the query variable).
 
-Although the book explains this process clearly on a conceptual level, I had trouble generating the actual state transition probabilities  $q(\textbf{x}\to\textbf{x}')$. Wikipedia offers [more detail](https://en.wikipedia.org/wiki/Gibbs_sampling#Implementation) on the implementation than the book. It's simpler than it seems! Remember that each variable transition is governed by  $P(x_i|Mb(X_i))$.
+Although the book explains this process clearly on a conceptual level, I had trouble generating the actual state transition probabilities $q(\textbf{x}\to\textbf{x}')$. Wikipedia offers [more detail](https://en.wikipedia.org/wiki/Gibbs_sampling#Implementation) on the implementation than the book. It's simpler than it seems! Remember that each variable transition is governed by $P(x_i|Mb(X_i))$.
 
 ## 15: Probabilistic Reasoning over Time
 
@@ -300,11 +307,12 @@ Much of this chapter was familiar ground, but I found one concept counterintuiti
 $$
 \textit{VPI}_\textbf{e}(E_j) = \left( \sum_{k} P(E_j=e_{jk} | \textbf{e})\:EU(\alpha_{e_{jk}}|\textbf{e},E_j=e_{jk})\right) - EU(\alpha|\textbf{e}),
 $$
-where  $EU(\alpha|\textbf{e})$ is the expected utility of the best action  $\alpha$ given the evidence  $\textbf{e}$, and  $E_j$ is the random variable we just learned about.
 
-My confusion was as follows: "suppose I believe I'm going to win a million-dollar lottery with  $70\%$ certainty, but then I get new information that I'm going to lose. Didn't my expectation decrease, no matter what action I take?". This misunderstands the  `VPI` equation: we estimate the value of the information as a function of our _current_ likelihood estimates  $P(E_j=e_{jk} | \textbf{e})$.
+where $EU(\alpha|\textbf{e})$ is the expected utility of the best action $\alpha$ given the evidence $\textbf{e}$, and $E_j$ is the random variable we just learned about.
 
-Let's [shut up and multiply](https://lesswrong.com/tag/shut_up_and_multiply). Fix  $P(W)=.7$,  $U(W)=1{,}000{,}000$, and  $U(\lnot W)=-1$. [^3] Then our actions are  $\{buy,abstain\}$. Under my current beliefs, buying a ticket is superior to abstaining ( $EU(abstain)=0$):
+My confusion was as follows: "suppose I believe I'm going to win a million-dollar lottery with $70\%$ certainty, but then I get new information that I'm going to lose. Didn't my expectation decrease, no matter what action I take?". This misunderstands the `VPI` equation: we estimate the value of the information as a function of our _current_ likelihood estimates $P(E_j=e_{jk} | \textbf{e})$.
+
+Let's [shut up and multiply](https://lesswrong.com/tag/shut_up_and_multiply). Fix $P(W)=.7$, $U(W)=1{,}000{,}000$, and $U(\lnot W)=-1$. [^3] Then our actions are $\{buy,abstain\}$. Under my current beliefs, buying a ticket is superior to abstaining ( $EU(abstain)=0$):
 
 $$
 \begin{align*}
@@ -313,7 +321,8 @@ EU(buy) &= P(W|buy) U(W) + P(\lnot W|buy) U(\lnot W)\\
 &= 699{,}999.7
 \end{align*}
 $$
-Suddenly, a knowably-friendly oracle pops into existence and gives me the opportunity to ask one question. Being a genius, I use this question to ask _whether I will win the lottery with the next ticket I buy_. Freeze frame! Let's use the `VPI` equation to calculate how much this information is worth to me, _before_ I receive it and under my _current_ beliefs.
+
+Suddenly, a knowably friendly oracle pops into existence and gives me the opportunity to ask one question. Being a genius, I use this question to ask _whether I will win the lottery with the next ticket I buy_. Freeze frame! Let's use the `VPI` equation to calculate how much this information is worth to me, _before_ I receive it and under my _current_ beliefs.
 
 $$
 \begin{align*}
@@ -322,7 +331,8 @@ $$
 &= .3
 \end{align*}
 $$
-This advice was worth  $.3$ utility; that is, if I knew before my purchase whether the ticket will win,  $30\%$ of the time I'd be able to avoid losing a dollar.
+
+This advice was worth $.3$ utility; that is, if I knew before my purchase whether the ticket will win, $30\%$ of the time I'd be able to avoid losing a dollar.
 
 ## 17: Making Complex Decisions
 
@@ -338,7 +348,7 @@ Analogously: the [satisficer / maximizer dichotomy](https://www.lesswrong.com/po
 
 _In which the authors introduce entropy and the supervised learning techniques of yore (that is, less than a decade ago)._
 
-> \[Here\], we have the simplest method of all, known informally as "connect-the-dots", and superciliously as "piecewise-linear nonparametric regression".
+> \[Here\], we have the simplest method of all, known informally as "connect-the-dots", and superciliously as "piecewise-linear non-parametric regression".
 
 ### Bayes-Structure
 
@@ -348,17 +358,20 @@ $$
 
 h^*=\argmax_{h\in\mathcal{H}}{P(h|data)}.
 $$
+
 We apply Bayes' rule to get
 
 $$
 
 h^*=\argmax_{h\in\mathcal{H}}{P(data|h) P(h)},
 $$
+
 decomposing it into a product of goodness of fit and complexity.
 
 $$
 \textbf{꙳click꙳}
 $$
+
 ## 19: Knowledge in Learning
 
 _In which the authors explore inductive learning, define version spaces, and introduce approaches for learning using background [knowledge](http://knowyourmeme.com/memes/here-in-my-garage)._
@@ -395,9 +408,9 @@ With the help of a team of professional fluidicians, you enumerate "common-sense
 
 > In simplified systems consisting of raindrops and the ground, the shape of each discrete body of water can be represented by a conditional multivariate Gaussian, where the distribution is conditional on whether it has struck the ground yet.
 
-You set up high-FPS cameras in storms and collect video data for millions of raindrop-impact events. You're even able to avoid manual processing via MTurk by employing the latest advances in deep learning! You use s[egmentation](https://assets.turntrout.com/static/images/posts/6-pydata-warsaw-deep-learning-for-image-segmentation-10-638.avif?cb=1475242683) to automatically isolate raindrop pixels and a pretrained recurrent network to detect the frame of impact, allowing for easy classification of all other frames as  $\textit{pre-impact}$ or  $\textit{post-impact}$. Since you read Ch. 20, you know you can use maximum-likelihood estimation to learn the parameters for your conditional multivariate Gaussian using your newly-labelled water shapes.
+You set up high-FPS cameras in storms and collect video data for millions of raindrop-impact events. You're even able to avoid manual processing via MTurk by employing the latest advances in deep learning! You use s[egmentation](https://assets.turntrout.com/static/images/posts/6-pydata-warsaw-deep-learning-for-image-segmentation-10-638.avif?cb=1475242683) to automatically isolate raindrop pixels and a pretrained recurrent network to detect the frame of impact, allowing for easy classification of all other frames as $\textit{pre-impact}$ or $\textit{post-impact}$. Since you read Ch. 20, you know you can use maximum-likelihood estimation to learn the parameters for your conditional multivariate Gaussian using your newly labeled water shapes.
 
-But what if a raindrop strikes a sharp corner, splaying the drop's water in many directions? Obviously, you just need another edge case - a  `StruckSharpCorner` condition in the Gaussian. For that, you go to gather more data...
+But what if a raindrop strikes a sharp corner, splaying the drop's water in many directions? Obviously, you just need another edge case - a `StruckSharpCorner` condition in the Gaussian. For that, you go to gather more data...
 
 Or you could derive fluid dynamics. [^4]
 
@@ -411,20 +424,21 @@ _In which the authors combine myriad methods from their opus to tackle the diffi
 
 ### Holonomy
 
-"Holonomic" and "nonholonomic" were words I never knew I wanted so badly (similar to "ontology" and "epistemology").
+"Holonomic" and "non-holonomic" were words I never knew I wanted so badly (similar to "ontology" and "epistemology").
 
 Technically, a robot is holonomic if
 
 $$
 |\text{effective degrees of freedom}|=|\text{controllable degrees of freedom}|.
 $$
-Imagine you're driving a car on a Cartesian plane. Your car can reach any  $(x,y)$ point and end up in any orientation  $\theta$ you so choose, giving it three effective degrees of freedom (even though you can only turn and drive forwards / backwards). Cars are then nonholonomic, since  $3\not=2$ (the proof of which is left as an exercise to the dedicated reader). A car which could also move _sideways_ would be holonomic.
+
+Imagine you're driving a car on a Cartesian plane. Your car can reach any $(x,y)$ point and end up in any orientation $\theta$ you so choose, giving it three effective degrees of freedom (even though you can only turn and drive forwards / backwards). Cars are then non-holonomic, since $3\not=2$ (the proof of which is left as an exercise to the dedicated reader). A car which could also move _sideways_ would be holonomic.
 
 ### Alignment, Solved
 
 I bring ye good tidings! Russell and Norvig introduce a full solution to the control problem: the alignment method.
 
-> The object is represented by  $M$ features or distinguished points  $m_1,\,m_2,\,...,\,m_M$ in three-dimensional space...
+> The object is represented by $M$ features or distinguished points $m_1,\,m_2,\,...,\,m_M$ in three-dimensional space...
 
 Oh.
 
@@ -450,8 +464,9 @@ _In which the authors introduce one last concept, asymptotic bounded optimality,
 
 $$
 ``\textit{We can see only a short distance ahead, but we can see that much remains to be done.}"\\
-\text{Alan Turing} 
+\text{Alan Turing}
 $$
+
 ## Final Thoughts
 
 The authors wield light-hearted prose regularly and to great effect; I often found myself chuckling heartily. Although the pages are packed and the book is big, fear not: if you pay attention and become invested in the task at hand, reading _AI: AMA_ constitutes quite the enjoyable journey.
@@ -461,9 +476,9 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 ### Tips
 
 - Do exercises immediately after each section in the chapter.
-	- I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
+  - I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
 - Chegg was the only reputable place I could find with an answer key, although the answers were often of low quality. I'd recommend just using StackExchange.
-- Feel free to skip exercises for the following chapters: 1, 11, 12,** **19, 22-27.
+- Feel free to skip exercises for the following chapters: 1, 11, 12,\*\* \*\*19, 22-27.
 
 # Forwards
 
@@ -472,7 +487,6 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 ### Writing
 
 For the first half of the book, I didn't write each chapter's commentary immediately after reading. This was a mistake. Skimming half of a thousand-page book to remember what I got stuck on is **not** my idea of a good time.
-
 
 ### Conceptual Issues
 
@@ -504,18 +518,14 @@ I feel a bit like a kid in a candy shop.
 
 ### On "Difficulty"
 
-I am convinced that _there are no hard concepts_, only concepts which take different amounts of time to learn. [^5] This is not trivial; dissolving the seemingly ontologically-basic "difficult for me" attribute goes a long way towards having the persistence to figure things out.
+I am convinced that _there are no hard concepts_, only concepts which take different amounts of time to learn. [^5] This is not trivial; dissolving the seemingly ontologically basic "difficult for me" attribute goes a long way towards having the persistence to figure things out.
 
 > _Given enough time, I can understand anything._
 
 <hr/>
 
 [^1]: From personal experience, I don't recommend using this technique liberally; it's already hard enough to correct our epistemologies.
-
 [^2]: Disclaimer: even setting aside the need for a hypercomputer, AIXI has issues (such as not being [naturalized](http://lesswrong.com/lw/jd9/building_phenomenological_bridges/)). This isn't the droid you're looking for.
-
 [^3]: Assume utility scales linearly with money for simplicity; for similar reasons, I'm blending evidence and state variables. Shame on me!
-
 [^4]: [Artificial Addition](https://www.lesswrong.com/posts/YhgjmCxcQXixStWMC/artificial-addition) talks about this confusion avoidance.
-
 [^5]: Wording credited to `Diffractor`.

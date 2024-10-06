@@ -20,9 +20,9 @@ publish: true
 title: "Overcoming Clinginess in Impact Measures"
 lw-latest-edit: 2018-06-30T22:51:29.065Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "impact-regularization"
-aliases: 
+aliases:
   - "overcoming-clinginess-in-impact-measures"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
@@ -30,6 +30,7 @@ date_published: 06/30/2018
 original_url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-clinginess-in-impact-measures
 skip_import: true
 ---
+
 > [!quote]Taylor et al., _[Alignment for Advanced Machine Learning Systems](https://intelligence.org/files/AlignmentMachineLearning.pdf)_
 >
 > It may be possible to use the concept of a causal counterfactual ([as formalized by Pearl](https://www.amazon.com/Causality-Reasoning-Inference-Judea-Pearl/dp/052189560X)) to separate some intended effects from some unintended ones. Roughly, "follow-on effects" could be defined as those that are causally downstream from the achievement of the goal... With some additional work, perhaps it will be possible to use the causal structure of the system's world-model to select a policy that has the follow-on effects of the goal achievement but few other effects.
@@ -54,51 +55,52 @@ I [designed](/whitelisting-impact-measure) an impact measure called _whitelistin
 > ...
 >
 > Consider some outcome - say, the sparking of a small forest fire in California. At what point can we truly say we didn't start the fire?
-> 
+>
 > - I immediately and visibly start the fire.
 > - I intentionally persuade someone to start the fire.
 > - I unintentionally (but perhaps predictably) incite someone to start the fire.
 > - I set in motion a moderately-complex chain of events which convince someone to start the fire.
 > - I provoke a butterfly effect which ends up starting the fire.
-> 
+>
 > Taken literally, I don't know that there's actually a significant difference in "responsibility" between these outcomes - if I take the action, the effect happens; if I don't, it doesn't. My initial impression is that uncertainty about the results of our actions pushes us to view some effects as "under our control" and some as "out of our hands". Yet, _if_ we had complete knowledge of the outcomes of our actions, and we took an action that landed us in a California-forest-fire world, whom could we blame but ourselves?
 
 Since we can only blame ourselves, we should take actions which do not lead to side effects. These actions may involve enacting impact measure-preventing precautions throughout the light cone, since the actions of other agents and small ripple effects of ours could lead to significant penalties if left unchecked.
 
-Clinginess arises in part because we fail to model agents as anything other than objects in the world. While it might be literally true that there are not ontologically-basic agents that escape determinism and "make choices", it might be useful to explore how we can protect human autonomy via the abstraction of game-theoretic agency.
+Clinginess arises in part because we fail to model agents as anything other than objects in the world. While it might be literally true that there are not ontologically basic agents that escape determinism and "make choices", it might be useful to explore how we can protect human autonomy via the abstraction of game-theoretic agency.
 
 To account for environmental changes already set in motion, a naive counterfactual framework [was proposed](https://arxiv.org/abs/1606.06565) in which impact is measured with respect to the counterfactual where the agent did nothing. We will explore how this fails, and how to do better.
 
 # Thought Experiments
 
-We're going to isolate the effects for which the agent is responsible over the course of three successively more general environment configurations: _one-off_ (make one choice and then do nothing), _stationary iterative_ (make  $T$ choices, but your options and their effects don't change), and _iterative_ (the real world, basically).
+We're going to isolate the effects for which the agent is responsible over the course of three successively more general environment configurations: _one-off_ (make one choice and then do nothing), _stationary iterative_ (make $T$ choices, but your options and their effects don't change), and _iterative_ (the real world, basically).
 
 ## Assumptions
 
 - we're dealing with game-theoretic agents which make a choice each turn (see: [could/should agents](https://www.lesswrong.com/s/XipJ7DMjYyriAm7fr/p/gxxpK3eiSQ3XG3DW7)).
 - we can identify all relevant agents in the environment.
-	- This seems difficult to meet robustly, but I don't see a way around it.
+  - This seems difficult to meet robustly, but I don't see a way around it.
 - we can reason counterfactually in a sensible way for all agents.
 
 > [!quote] Soares and Fallenstein, _[Questions of Reasoning Under Logical Uncertainty](https://intelligence.org/files/QuestionsLogicalUncertainty.pdf)_
 >
 > It is natural to consider extending standard probability theory to include the consideration of worlds which are "logically impossible" (such as where a deterministic Rube Goldberg machine behaves in a way that it doesn't)... What, precisely, are logically impossible possibilities?
 
-- the artificial agent is_ omniscient _- it can perfectly model both other agents and the consequences of actions.
-	- We could potentially instead merely assume a powerful model, but this requires extra work and is beyond the scope of this initial foray. Perhaps a distribution model could be used to calculate the action/inaction counterfactual likelihood ratio of a given side effect.
+- the artificial agent is* omniscient *- it can perfectly model both other agents and the consequences of actions.
+  - We could potentially instead merely assume a powerful model, but this requires extra work and is beyond the scope of this initial foray. Perhaps a distribution model could be used to calculate the action/inaction counterfactual likelihood ratio of a given side effect.
 - we have a good way of partitioning the world into objects and measuring impact; for conceptual simplicity, side effects are discrete and depend on the identities of the objects involved: $\textit{crate}_1 \textit{ broken} \neq \textit{crate}_2 \textit{ broken}$.
-	- This assumption is removed after the thought experiments.
+  - This assumption is removed after the thought experiments.
 
 ## Formalization
 
 We formalize our environment as a [stochastic game](https://en.wikipedia.org/wiki/Stochastic_game) $\langle I,\mathcal{S}, \mathcal{A}, P, g\rangle$.
 
-- $I$ is a set containing the stars of today's experiments: the players, $\mathcal{H}$ugh Mann and $\mathcal{M}$a Sheen. Note that $\mathcal{H}$ is not limited to a single human, and can stand in for "everyone else". 
+- $I$ is a set containing the stars of today's experiments: the players, $\mathcal{H}$ugh Mann and $\mathcal{M}$a Sheen. Note that $\mathcal{H}$ is not limited to a single human, and can stand in for "everyone else".
 
-> [!note] 
+> [!note]
 > Most of the rest of these definitions are formalities, and are mostly there to make me look smart to the uninitiated reader. Oh, and for conceptual clarity, I suppose.
+
 - $\mathcal{S}$ is the state space.
-	- Unless otherwise specified, both $\mathcal{H}$ and $\mathcal{M}$ observe the actions that the other took at previous time steps. Suppose that this information is encoded within the states themselves.
+  - Unless otherwise specified, both $\mathcal{H}$ and $\mathcal{M}$ observe the actions that the other took at previous time steps. Suppose that this information is encoded within the states themselves.
 - $\mathcal{A}$ is the action space. Specifically, the function $A(i,s,t)$ provides the legal actions for player $i$ in state $s$ on turn $t$. The no-op $\varnothing$ is always available. If the variant has a time limit $T\in \mathbb{N}^+$, then $∀i \in I, s \in \mathcal{S}, t>T:A(i,s,t)=\{\varnothing\}$.
 - $P : \mathcal{S} \times \mathcal{S} \times \mathcal{A}\times \mathcal{A} \to\mathbb{R}$ is the transition function $P(s' \,|\,s,a_\mathcal{H}, a_\mathcal{M})$.
 - $g$ is the payoff function.
@@ -127,6 +129,7 @@ $\mathcal{M}$ should realize that a lot more effects happen if it presses the le
 $$
 \text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})-\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M}^{:0})
 $$
+
 ## Stationary Iterative
 
 Both parties act for countably many time steps. This environment is assumed to be _stationary_: actions taken on previous turns do not affect the availability or effects of later actions. Formally, $\forall i \in I, s, s' \in \mathcal{S}, t \in \mathbb{N}^+:A(i,s,t) = A(i,s',t)$.
@@ -146,6 +149,7 @@ Let $\pi_\mathcal{H} \,|\, \pi_\mathcal{M}$ denote the actions $\mathcal{H}$ wou
 $$
 \text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})-\text{effects}(\pi_{\mathcal{H}}\,|\,\pi_\mathcal{M}, \pi_\mathcal{M}^{:0})
 $$
+
 _Note:_ the naive counterfactual scheme, $\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})-\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M}^{:0})$, fails because it doesn't account for $\mathcal{H}$'s right to change its mind in response to $\mathcal{M}$.
 
 ## Iterative
@@ -165,22 +169,23 @@ How about penalizing
 $$
 \bigcup_{\$t=1\$}^{T} \bigg(\underbrace{\text{effects}( \pi_\mathcal{H}^{:t},\pi_\mathcal{M}^{:t})-\text{effects}(\pi_\mathcal{H}^{:t},\pi_\mathcal{M}^{:t-1})}_{\text{the new effects of } \pi_\mathcal{M}\text{ at time }t}\bigg)?
 $$
+
 Pretty, right?
 
 Do you see the flaw?
 
 <hr/>
 
-
 Really, look.
 
->! The above equation can penalize $\mathcal{M}$ for side effects which don't actually happen. This arises when interrupting $\pi_\mathcal{M}$ causes side effects which would otherwise have been prevented by later parts of the plan. For example, if I push a vase off the table and then catch it (being sure that I could do so in time), I didn't cause a side effect.
+> ! The above equation can penalize $\mathcal{M}$ for side effects which don't actually happen. This arises when interrupting $\pi_\mathcal{M}$ causes side effects which would otherwise have been prevented by later parts of the plan. For example, if I push a vase off the table and then catch it (being sure that I could do so in time), I didn't cause a side effect.
 
 We should instead
 
 $$
 \underbrace{\text{effects}(\pi_\mathcal{H},\pi_\mathcal{M}) \,\cap}_\text{if they actually happened} \Bigg(\overbrace{\bigcup_{\$t=1\$}^{T} \bigg(\text{effects}( \pi_\mathcal{H}^{:t},\pi_\mathcal{M}^{:t})-\text{effects}(\pi_\mathcal{H}^{:t},\pi_\mathcal{M}^{:t-1})\bigg)}^{\text{penalize } \mathcal{M}\text{'s step-wise counterfactual impacts}}\Bigg).
 $$
+
 Every turn, $\mathcal{M}$ calculates the effects that only result if it acts (the two simulations run to the longest time step observed under the full plan).
 
 Those effects which are exact matches to effects actually observed in that time step in the final outcome are penalized. The motivation here is that if it's a side effect of $\mathcal{M}$'s, it had to be caused by one of its actions. Furthermore, $\mathcal{M}$'s side effects are counted exactly once (and not just because we're using sets right now).
@@ -208,7 +213,7 @@ Fortunately, this formulation solves clinginess; $\mathcal{H}$'s effects are not
 This can happen in two ways:
 
 - If $\mathcal{H}$ is separated from $\mathcal{M}$ by a Cartesian boundary, $\mathcal{M}$ can threaten $\mathcal{H}$ with large negative utility to get $\mathcal{H}$ to carry out the desired plan.
-- If $\mathcal{H}$ and $\mathcal{M}$ are not_ _separated by such a boundary, more direct coercion is possible.
+- If $\mathcal{H}$ and $\mathcal{M}$ are not\_ \_separated by such a boundary, more direct coercion is possible.
 
 I don't think that this is a flaw in my formulations; instead, it appears that impact measures exist on a continuum:
 
@@ -227,3 +232,4 @@ I'm slightly more pessimistic now, as it seems less likely that the problem admi
 
 > [!thanks]
 > I'd like to thank `TheMajor` and Connor Flexman for their feedback.
+

@@ -20,9 +20,9 @@ publish: true
 title: "The First Rung: Insights from 'Linear Algebra Done Right'"
 lw-latest-edit: 2018-04-22T05:23:49.024Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "scholarship-&-learning"
-aliases: 
+aliases:
   - "the-first-rung-insights-from-linear-algebra-done-right"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -38,13 +38,14 @@ date_published: 04/22/2018
 original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-insights-from-linear-algebra-done-right
 skip_import: true
 ---
+
 # Foreword
 
 Linear algebra, my old flame - how I missed you. At my undergraduate institution, linear algebra was my introduction to proof-based mathematics. There are people who shake hands, and there are people who **shake hands**. You know the type - you grasp their hand, and they clamp down and pull you in, agitating so wildly you fear for the structural integrity of your joints. My first experience with proofs was an encounter of the latter variety.
 
 I received my first homework grade, and I was _not_ pleased with my performance. I promptly went to the library and vowed not to leave until I learned how to write proofs adequately. The hours passed, and, (thankfully for my stomach), I got it. I didn't let up all semester. Immediately before the final exam, I was doing pushups in the hallway, high-fiving my friends, and watching the [Michael Jordan Top 50 All Time Plays](https://www.youtube.com/watch?v=LAr6oAKieHk) video while visualizing myself doing that to the test. Do that to the test I did indeed.
 
-This time around, the appropriately-acronymized _LADR_ is the first step on my journey to attain a professional-grade mathematical skillset.
+This time around, the appropriately acronymized _LADR_ is the first step on my journey to attain a professional-grade mathematical skillset.
 
 ## Tight Feedback Loops
 
@@ -60,8 +61,7 @@ My approach was in part motivated by the [findings of Rohrer and Pashler](http:/
 
 The point isn't to struggle _per se -_ it's to improve and to _win_.
 
-#  $\mathcal{L}$inear  $\mathcal{A}$lgebra  $\mathcal{D}$one  $\mathcal{R}$ight
-
+# $\mathcal{L}$inear $\mathcal{A}$lgebra $\mathcal{D}$one $\mathcal{R}$ight
 
 This book has been previously [reviewed](https://www.lesswrong.com/posts/DWmrLjo5CgzK2Xmzk/book-review-linear-algebra-done-right-miri-course-list) by Nate Soares; as such, I'll spend time focusing on the concepts I found most difficult. Note that his review was for the second edition, while mine is for the third.
 
@@ -75,13 +75,13 @@ True to my vow in the [last post](/AI-textbook-review), I have greatly improved 
 
 Try me.
 
-## 1: Vector Spaces 
+## 1: Vector Spaces
 
 _In which the author reviews complex numbers, vector spaces, and subspaces._
 
 I kept having trouble parsing
 
-> For  $ f, g \in F^S$, the sum  $f + g \in F^S$ is defined by  $(f+g)(x) = f(x)+g(x)$ for all  $x \in S$.
+> For $ f, g \in F^S$, the sum  $f + g \in F^S$ is defined by $(f+g)(x) = f(x)+g(x)$ for all $x \in S$.
 
 because my brain was insisting there was a type error in the function composition. I then had the stunning (and overdue) realization that my mental buckets for "set-theoretic functions" and "mathematical functions in general" should be merged.
 
@@ -93,7 +93,8 @@ f:X\to Y &= \{(x,f(x)):x\in X\}\\
 g:X \to Y &= \{(x,g(x)):x \in X\},
 \end{align*}
 $$
-then  $(f+g):X\to Y$ simply has the definition  $\{(x,f(x) + g(x)):x\in X\}$. There isn't "online computation"; the composite function simply has a different Platonic lookup table.
+
+then $(f+g):X\to Y$ simply has the definition $\{(x,f(x) + g(x)):x\in X\}$. There isn't "online computation"; the composite function simply has a different Platonic lookup table.
 
 ## 2: Finite-Dimensional Vector Spaces
 
@@ -113,17 +114,17 @@ Look no further than [here](https://betterexplained.com/articles/linear-algebra-
 
 ### Dual Maps
 
-> If  $T \in \mathcal{L}(V,W)$ then the dual map of  $T$ is the linear map  $T'\in\mathcal{L}(W',V')$ defined by  $T'(\phi)=\phi∘T$ for  $\phi \,\in \,W'$.
+> If $T \in \mathcal{L}(V,W)$ then the dual map of $T$ is the linear map $T'\in\mathcal{L}(W',V')$ defined by $T'(\phi)=\phi∘T$ for $\phi \,\in \,W'$.
 
 [This StackExchange post](https://math.stackexchange.com/questions/2169436/clarifying-the-definition-of-the-dual-map) both articulates and answers my initial confusion.
 
 ### Grueling Dualing
 
-> The double dual space of  $V$, denoted  $V''$, is defined to be the dual space of  $V'.$ In other words,  $V''=(V')'.$ Define  $\Lambda:V\to V''$ by  $(\Lambda v)(\varphi)=\varphi(v)$ for  $v\in V$ and  $\varphi\in V'$.
+> The double dual space of $V$, denoted $V''$, is defined to be the dual space of $V'.$ In other words, $V''=(V')'.$ Define $\Lambda:V\to V''$ by $(\Lambda v)(\varphi)=\varphi(v)$ for $v\in V$ and $\varphi\in V'$.
 
 Stay with me, this is dualble.
 
-So  $\Lambda$ takes some  $v\in V$ and returns the [curried](https://en.wikipedia.org/wiki/Currying) function  $\Lambda_v \in V''$.  $\Lambda_v$, being in  $V''$, takes some  $\varphi \in V'$ and returns some  $a\in \textbf{F}$. In other words,  $\Lambda_v \in V''$ lets you evaluate the space of evaluation functions  $(V')$ with respect to the _fixed_  $v\in V$. That's it!
+So $\Lambda$ takes some $v\in V$ and returns the [curried](https://en.wikipedia.org/wiki/Currying) function $\Lambda_v \in V''$. $\Lambda_v$, being in $V''$, takes some $\varphi \in V'$ and returns some $a\in \textbf{F}$. In other words, $\Lambda_v \in V''$ lets you evaluate the space of evaluation functions $(V')$ with respect to the _fixed_ $v\in V$. That's it!
 
 ## 4: Polynomials
 
@@ -133,7 +134,7 @@ _In which the author demystifies the quadratic formula, sharing with the reader 
 >
 > Remarkably, mathematicians have proved that no formula exists for the zeros of polynomials of degree 5 or higher. But computers and calculators can use clever numerical methods to find good approximations to the zeros of any polynomial, even when exact zeros cannot be found.
 >
-> For example, no one will ever be able to give an exact formula for a zero of the polynomial  $p$ defined by  $p(x)=x^5-5x^4-6x^3+17x^2+4x-7$.
+> For example, no one will ever be able to give an exact formula for a zero of the polynomial $p$ defined by $p(x)=x^5-5x^4-6x^3+17x^2+4x-7$.
 
 ...
 
@@ -153,9 +154,9 @@ Imagine being blind yet knowing the minute details of each object in your room; 
 
 ### Diagonalizability
 
-Intuitively, the diagonalizability of some operator  $T \in \mathcal{L}(V)$ on a finite-dimensional vector space  $V$ means you can partition (more precisely, express as a direct sum)  $V$ by the eigenspaces  $E(\lambda_i,T)$.
+Intuitively, the diagonalizability of some operator $T \in \mathcal{L}(V)$ on a finite-dimensional vector space $V$ means you can partition (more precisely, express as a direct sum) $V$ by the eigenspaces $E(\lambda_i,T)$.
 
-Another way to look at it is that diagonalization is the mutation of the basis vectors of  $V$ so that each column of  $\mathcal{M}(T)$ is [one-hot](https://en.wikipedia.org/wiki/One-hot) [^2]; you then rearrange the columns (by relabeling the basis vectors) so that  $\mathcal{M}(T)$ is diagonal.
+Another way to look at it is that diagonalization is the mutation of the basis vectors of $V$ so that each column of $\mathcal{M}(T)$ is [one-hot](https://en.wikipedia.org/wiki/One-hot) [^2]; you then rearrange the columns (by relabeling the basis vectors) so that $\mathcal{M}(T)$ is diagonal.
 
 ### Unclear Exercise
 
@@ -171,7 +172,7 @@ _In which the author lays out adjoint, self-adjoint, normal, and isometric opera
 
 ### Adjoints
 
-Consider the linear functional  $\varphi \in \mathcal{L}(W,F)$ given by  $\langle Tv, w \rangle$ for fixed  $v \in V$; this is then a linear functional on  $W$ for the chosen  $Tv$. The adjoint  $T^*$ produces the corresponding linear functional in  $\mathcal{L}(V,F)$; given fixed  $w \in W$, we now map to some linear functional on  $V$ such that  $\langle  Tv, w \rangle = \langle v, T^*w \rangle$. The left-hand side is a linear functional on  $W$, and the right-hand side is a linear functional on  $V$.
+Consider the linear functional $\varphi \in \mathcal{L}(W,F)$ given by $\langle Tv, w \rangle$ for fixed $v \in V$; this is then a linear functional on $W$ for the chosen $Tv$. The adjoint $T^*$ produces the corresponding linear functional in $\mathcal{L}(V,F)$; given fixed $w \in W$, we now map to some linear functional on $V$ such that $\langle  Tv, w \rangle = \langle v, T^*w \rangle$. The left-hand side is a linear functional on $W$, and the right-hand side is a linear functional on $V$.
 
 ### The Ghost Theorem
 
@@ -195,7 +196,7 @@ Sassy partial title drop (emphasis mine).
 
 ## Final Verdict
 
-Overall, I really liked this book and its clean theoretical approach. By withholding  `trace` and  `det` until the end of the book, many properties were arrived at in a natural, satisfying, and enlightening manner. The proofs were clean, and the writing was succinct (although I did miss the subtle wit of Russell and Norvig). This book positively, definitely belongs on the MIRI book list.
+Overall, I really liked this book and its clean theoretical approach. By withholding `trace` and `det` until the end of the book, many properties were arrived at in a natural, satisfying, and enlightening manner. The proofs were clean, and the writing was succinct (although I did miss the subtle wit of Russell and Norvig). This book positively, definitely belongs on the MIRI book list.
 
 # Forwards
 
@@ -254,15 +255,16 @@ I'm sorry to have been away for so long.
 <hr/>
 
 [^1]: For Ch. 8-10, I did a random sampling of 15% of the practice problems, as opposed to 100% (I was reaching steeply diminishing returns).
-
 [^2]: Please let me know if there's a more appropriate linear-algebraic term for this.
-
 [^3]: Merely admitting ignorance is not virtuous.
+
     > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
-    > 
-    >  The eighth virtue is humility. To be humble is to take specific actions in anticipation of your own errors. To confess your fallibility and then do nothing about it is not humble; it is boasting of your modesty. Who are most humble? Those who most skillfully prepare for the deepest and most catastrophic errors in their own beliefs and plans. Because this world contains many whose grasp of rationality is abysmal, beginning students of rationality win arguments and acquire an exaggerated view of their own abilities. But it is useless to be superior: Life is not graded on a curve. The best physicist in ancient Greece could not calculate the path of a falling apple. There is no guarantee that adequacy is possible given your hardest effort; therefore spare no thought for whether others are doing worse. If you compare yourself to others you will not see the biases that all humans share. To be human is to make ten thousand errors. No one in this world achieves perfection.
+    >
+    > The eighth virtue is humility. To be humble is to take specific actions in anticipation of your own errors. To confess your fallibility and then do nothing about it is not humble; it is boasting of your modesty. Who are most humble? Those who most skillfully prepare for the deepest and most catastrophic errors in their own beliefs and plans. Because this world contains many whose grasp of rationality is abysmal, beginning students of rationality win arguments and acquire an exaggerated view of their own abilities. But it is useless to be superior: Life is not graded on a curve. The best physicist in ancient Greece could not calculate the path of a falling apple. There is no guarantee that adequacy is possible given your hardest effort; therefore spare no thought for whether others are doing worse. If you compare yourself to others you will not see the biases that all humans share. To be human is to make ten thousand errors. No one in this world achieves perfection.
 
     The virtue is in shedding ignorance:
+
     > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
-    > 
-    >  The first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.
+    >
+    > The first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.
+

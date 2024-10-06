@@ -20,9 +20,9 @@ publish: true
 title: "Do a cost-benefit analysis of your technology usage"
 lw-latest-edit: 2022-08-04T17:57:36.569Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "practical"
-aliases: 
+aliases:
   - "do-a-cost-benefit-analysis-of-your-technology-usage"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -38,6 +38,7 @@ date_published: 03/27/2022
 original_url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefit-analysis-of-your-technology-usage
 skip_import: true
 ---
+
 If an unaligned entity invests billions of dollars into an application which you use, where they benefit from wasting your time, and you haven’t at least done a cost-benefit analysis so that your usage minimizes your costs and maximizes your benefits—_You are probably getting fucked over_.
 
 # Mistake: Motivatedly avoiding thinking about the issue
@@ -105,6 +106,7 @@ The point is that these apps which are [out to get you](https://www.lesswrong.co
 I went by a whitelist[^2] in order to ensure there wasn’t a way to weasel around the rules. Here’s what I let myself do:
 
 - Phone
+
   - Voice & video calls
   - GPS
   - Audible
@@ -113,11 +115,13 @@ I went by a whitelist[^2] in order to ensure there wasn’t a way to weasel arou
   - Roam/note-taking
 
 - iPad
+
   - Note-taking
   - Reading
   - Drawing
 
 - Computer
+
   - Anything offline (except music or video games)
   - Textbooks and Wikipedia and arxiv/google scholar
   - Overleaf for writing papers
@@ -125,6 +129,7 @@ I went by a whitelist[^2] in order to ensure there wasn’t a way to weasel arou
   - Zoom for weekly meetings
   - Anki and Roam
   - Check email at noon on Mondays and Thursdays
+
     - I told people to call me if it was important. I didn’t get any calls.
     - I later let myself send emails without looking at my inbox. I recommend [Inbox When Ready](https://inboxwhenready.org/), which hides your inbox by default and prevents you from being attention-sniped.
 
@@ -135,7 +140,7 @@ That’s it. No music (see appendix), no messaging, no Facebook, no Twitter, no 
 
 Why did I choose these rules? I won’t get unhealthily sucked into any of these activities. They all make me stronger. They let me do my work.
 
-The world was not going to end because I stopped reading the news for a month—I understand there’s a war still going on in Ukraine, but that’s about all I know, and I’m not worse off for it. I resolved that if I wanted to build models of that part of the world, I’d do that on purpose. I won’t doomscroll through hyper-optimized interfaces designed to scam me out of my attention and make me anxious. I said to myself, my life is worth more to me than that.
+The world was not going to end because I stopped reading the news for a month—I understand there’s a war still going on in Ukraine, but that’s about all I know, and I’m not worse off for it. I resolved that if I wanted to build models of that part of the world, I’d do that on purpose. I won’t doom-scroll through hyper-optimized interfaces designed to scam me out of my attention and make me anxious. I said to myself, my life is worth more to me than that.
 
 ## Anticipated questions
 
@@ -155,6 +160,7 @@ But how will I stay in touch with people? I’m already lonely.
 # Benefits of the declutter
 
 ## The First Day
+
 I went running and got back to the house 10 minutes earlier than usual. Huh.
 
 I called my parents and went on a leisurely walk. Even so, I got my morning routine done 60 minutes ahead of schedule. I read half of a book on ordinary differential equations while lounging in my sunlit room. I did some deep thinking for an hour, safe from my phone’s dopaminergic temptation. I switched contexts and read about electrostatics. Still hours ahead of schedule.
@@ -166,7 +172,7 @@ The day yawned and stretched. I wondered if it would ever end. (It did.)
 > [!quote] Journal entry (February 23, 2022)
 >
 > It's so relaxing not using my phone, and yet I can still feel my anxiety pulling me to my digital affairs.
-> 
+>
 > Did my LW post get lots of upvotes? Are people criticizing me? Did I win a prize in the contest? Am I missing something on the EliezerFic server? I even thought about some identity-politics tweet I saw last week, on my run this morning... why is that garbage in my head? Good riddance.
 
 And so unrolled the next day, and the next. Time laid itself out before me. With my reclaimed time, I went on walks, I read _The Character of Physical Law_, I read ~three physics textbooks, I tripled my daily Anki workload to 1.5 hours, and I _still had time left over_.
@@ -190,20 +196,20 @@ Let me sweeten the deal with a costly signal. If I’ve met you in real life, an
 I think many, many people are shooting themselves in the foot, so I will be blunt. _Please stop shooting yourself in the foot._ Please do a cost-benefit analysis. I think many people have serious, serious problems with their internet usage. I did. You might. If so, you are leaving a lot of your life on the table.
 
 > [!thanks]
->Thanks to Meg Tong, Josh Turner, and Kurt Brown for feedback on this post.
-
+> Thanks to Meg Tong, Josh Turner, and Kurt Brown for feedback on this post.
 
 # Appendix 1: Declutter advice
 
-Here’s my main tip to add to the book: _Have well-defined exception handling which you never ever ever have to deviate from._ When I read about how other people navigated the declutter, their main failure modes looked like “my dog died and I got really stressed and gave in” or “a work emergency came up and I bent my rules and then broke my rules fragrantly.”
+Here’s my main tip to add to the book: _Have well-defined exception handling which you never, ever, ever have to deviate from._ When I read about how other people navigated the declutter, their main failure modes looked like “my dog died and I got really stressed and gave in” or “a work emergency came up and I bent my rules and then broke my rules fragrantly.”
 
-Plan for these events. Plan for feeling withdrawal symptoms. Plan for it seeming _so so important_ that you check your email _right now_. Plan for emergencies. Plan a way to handle surprising exceptions to your rules. Make the exception handling so good that you never have a legitimate reason to deviate from it.
+Plan for these events. Plan for feeling withdrawal symptoms. Plan for it seeming _so, so important_ that you check your email _right now_. Plan for emergencies. Plan a way to handle surprising exceptions to your rules. Make the exception handling so good that you never have a legitimate reason to deviate from it.
 
 My procedure was “If I need to use a forbidden functionality, then I have to write what I did down on a slip of paper and leave it on my girlfriend’s desk ASAP.” This worked because Emma would understand legitimate exceptions, but would look askance at me if I started flooding her desk with “and then I checked Reddit” notes. It's easier to hold promises to other people, than promises to yourself.
 
 # Appendix 2: My post-declutter rules
 
 - I only listen to music when:
+
   - Only listening to the music, to fully soak it in
   - Exercising
   - Reasoning on this point:
@@ -212,45 +218,51 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
     - See also [Gwern’s stub](https://www.gwern.net/Music-distraction).
     - I do have Google Home, and often play nature sounds.
 
-
 - I only check LessWrong / Discord / Slack / Messenger / my text messages each Sunday at noon.
-  - I write blogposts before then, and I won’t check their reception until the next week (I used to nervously refresh).
+
+  - I write blog posts before then, and I won’t check their reception until the next week (I used to nervously refresh).
   - I’ve also adblocked the karma elements of the website, because I worry too much about them.
 
 - As I currently see it, I’m only logging in to the newsfeed part of Facebook two more times: To share this blog post, and after I receive my PhD.
+
   - After that, I’ll check its event page weekly, while blocking the notifications / other clutter FB tries to throw at me. This should take less than 10 minutes each week.
   - Here’s how to use FB more peacefully:
+
     - Install [FBPurity](https://www.fbpurity.com/); you can save time by importing my settings [here](https://pastebin.com/raw/KsqhsXjD).
     - Use UBlock Origin to get rid of the rest; here is my [element blocking list](https://pastebin.com/raw/9BhyqYpK) for Facebook.
       - (I also hide the chat sidebar on the main page, which is a FB option)
 
-
   - I could also check a favorite page once a week (with the chat and comment elements blocked), if I need more memes in my bloodstream.
   - In combination with a monthly Messenger checkin, I’ve extracted my main benefits from Facebook, at a cost of at most 50 minutes each month, instead of 50 minutes each day!
-    - Again, I _**don’t recommend**_** **doing small fixes like “just hide some FB elements.” These fixes **don’t work** for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
+    - Again, I _**don’t recommend**_\*\* **doing small fixes like “just hide some FB elements.” These fixes **don’t work\*\* for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
 
 ![](https://assets.turntrout.com/static/images/posts/d32796158700c20215c248c4a535664223c89bdddc3c874c.avif)
 <br/>Figure: Here’s what my FB news feed looks like now. 😌
+
 - For news, I purchased a digital+print subscription to _~The Economist~_.[^econ] Once a month, I can choose to read the four issues for an hour or two.
+
   - I don’t need to read more than that. I can read about candidates before an election, and there isn’t much else that’s decision-relevant. If e.g. AI dynamics heat up and geopolitical understanding becomes more important, I’ll tackle that deliberately.
   - Looking back at my life, I see how often I’ve been hijacked by news websites. It makes me sick.
-[^econ]: I no longer recommend _The Economist._ Their cancellation process is scummy. Avoid the defectors.
+    [^econ]: I no longer recommend _The Economist._ Their cancellation process is scummy. Avoid the defectors.
 
 - I’m basically not going to text anymore. I used to check it so, so often.
+
   - This was hard at first. One of my partners strongly prefers texting, and I liked texting her, and missed her a lot. With additional thought, we discovered that she really just wanted to asynchronously send me updates on how her day was going. I said she could text me as much as she wanted—but I’d read them during our next phone call.
 
 - I can watch movies and play video games if I’ve planned it out at least a few hours in advance.
 - I can check Reddit for specific question/answer threads.
 - I can check Twitter if I plan the session out in detail one day in advance.
+
   - Twitter is toxic for me, even though I originally made an account to promote an alignment paper and only subscribed to AI/math accounts.
 
 - My phone will still be in black and white and warm color temperature, to make it even less engaging compared to the rest of my world.
 - I _never ever use my phone on the toilet. Ever._ This has served me well and seems like a pure win.
 
-[^1]: This is only a sufficient condition; the app need not be the child of a billion-dollar company. For example, I oft ragebaited myself about the culture war via _Marginal Revolution_ and _Hacker News_. I even tend to get anxious about _LessWrong_ usage, and I know that the team deliberately refrained from attention-hacks like red notifications.
-    
+[^1]:
+    This is only a sufficient condition; the app need not be the child of a billion-dollar company. For example, I oft ragebaited myself about the culture war via _Marginal Revolution_ and _Hacker News_. I even tend to get anxious about _LessWrong_ usage, and I know that the team deliberately refrained from attention-hacks like red notifications.
+
     Even while using my Notion to edit this post and supervise research, I saw a red “5 notifications” marker, which gave me an overwhelming urge to _see what the notifications are_. With great effort, I ignored the impulse, and deleted the element with my adblocker.
-    
+
 [^2]: I just now picked up my phone and stared at it blankly. One month later. Yuck.
-    
 [^3]: Limit \$300 total.
+

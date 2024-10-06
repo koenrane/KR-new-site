@@ -59,10 +59,8 @@ Coming back to this book, I'm amazed by some of my margin scribbles – expressi
 
 ## 2: Diagonalization
 
-
-
-> [!quote]**Exercise 2.13** (_Richard's paradox_) 
-> 
+> [!quote]**Exercise 2.13** (_Richard's paradox_)
+>
 > _Question:_ What (if anything) is wrong with following argument?
 >
 > _Argument:_ The set of all finite strings of symbols from the alphabet, including the space, capital letters, and punctuation marks, is enumerable; and for definiteness let us use the specific enumeration of finite strings based on prime decomposition. Some strings amount to definitions in English of sets of positive integers and others do not; strike out the ones that do not, and we are left with an enumeration of all definitions in English of sets of positive integers, or, replacing each definition by the set it defines, and enumeration of all sets of positive integers that have definitions in English. Since some sets have more than one definition, there will be redundancies. Strike them out to obtain an irredundant enumeration of all sets of positive integers that have definitions in English. Now consider the set of positive integers defined by the condition that a positive integer $n$ belongs to the set if and only if does not belong to the $n$<sup>th</sup> set in the irredundant enumeration just described.
@@ -102,15 +100,12 @@ Nate wrote:
 > [!quote]
 >
 > - Zero: The function that always returns 0.
->
 > - Successor: The function that, given $n$, returns $n+1$.
-> 
 > - Identity: Functions that return something they are given.
-> 
 > - Composition: The function that performs function composition.
-> 
+>
 > These four functions are called the "primitive recursive" functions, and some time is spent exploring what they can do. If we allow use of a fifth function:
-> 
+>
 > - Minimization: Given $f$, finds the arguments for which $f$ returns 0.
 >
 > we get the "recursive" functions.
@@ -156,7 +151,7 @@ I can't emphasize enough how helpful Nate's _[Mental Context for Model Theory](h
 
 ## 12: Models
 
-Coming out of linear algebra with a "isomorphism ≟ bijection" confusion, the treatment in this chapter laid the conceptual foundation for my later understanding homomorphisms. That is, a key part of the "meaning" of mathematical objects lies not just in their number, but in how they relate to one another.
+Coming out of linear algebra with an "isomorphism ≟ bijection" confusion, the treatment in this chapter laid the conceptual foundation for my later understanding homomorphisms. That is, a key part of the "meaning" of mathematical objects lies not just in their number, but in how they relate to one another.
 
 This chapter is also great for disassociating baggage we might naïvely assign to words on the page, underlining the role of syntax as pointers to mathematical objects.
 
@@ -189,6 +184,7 @@ Indeed, the notion of provability can be subtly different from our mental proces
 ## 19: Normal Forms
 
 ---
+
 I skipped chapters 20-27, as I found these advanced topics rather boring. The most important was likely provability logic, but I intend to study that separately in the future anyways.
 
 ## Final Thoughts
@@ -212,4 +208,3 @@ I don't think I'm a great mathematician yet by any means, but as my studies cont
 > If for many years you practice the techniques and submit yourself to strict constraints, it may be that you will glimpse the center. Then you will see how all techniques are one technique, and you will move correctly without feeling constrained. Musashi wrote: “When you appreciate the power of nature, knowing the rhythm of any situation, you will be able to hit the enemy naturally and strike naturally. All this is the Way of the Void.”
 
 <hr/>
-

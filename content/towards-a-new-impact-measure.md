@@ -68,7 +68,7 @@ $u_A$ is an agent's utility function, while $u_H$ is some imaginary distillation
 
 ### WYSIATI
 
-_What You See Is All There Is_ is a crippling bias present in meat-computers:
+"What You See Is All There Is" is a crippling bias present in meat-computers:
 
 > [!quote] [Wikipedia](https://en.wikipedia.org/wiki/Thinking,_Fast_and_Slow#Optimism_and_loss_aversion)
 >
@@ -280,7 +280,7 @@ _After_ we finish each (partial) plan, we see how well we can maximize $u$ from 
 > - Trivially, plans composed entirely of ∅ actions have 0 penalty.
 > - Although we used high-level actions for simplicity, the formulation holds no matter the action granularity.
 >   - One might worry that *almost every* granularity produces overly lenient penalties. This does not appear to be the case. To keep $Q_u$ the same (and elide questions of changing the u representations), suppose the actual actions are quite granular, but we grade the penalty on some coarser interval which we believe produces appropriate penalties. Then refine the penalty interval arbitrarily; by applying the triangle inequality for each $u\in \mathcal{U}_A$  in the penalty calculation, we see that the penalty is monotonically increasing in the action granularity. On the other hand, $a_\text{unit}$ remains a single action, so the scaled penalty also has this property.
-> - As long as $\text{ImpactUnit} > 0$, it will appropriately scale other impacts, as we expect it varies right along with those impacts it scales. Although having potentiallysmall denominators in utility functions is generally bad, I think it's fine here.
+> - As long as $\text{ImpactUnit} > 0$, it will appropriately scale other impacts, as we expect it varies right along with those impacts it scales. Although having potentially small denominators in utility functions is generally bad, I think it's fine here.
 > - If the current step's immediate or long-term $\text{ImpactUnit}=0$, we can simply assign 1.01 penalty to each non-$\varnothing$ action, compelling the agent to inaction. If we have the agent indicate that it has entered this mode, we can take it offline immediately.
 > - One might worry that impact can be "hidden" in the lesser of the long-term and immediate penalties; halving $N$ fixes this.
 
@@ -784,7 +784,7 @@ _Ex post_ offsetting occurs when the agent takes further action to reduce the im
 
 Intent verification should allow robust penalization of weird impact measure behaviors by _constraining the agent to considering actions that normal_ $u_A$_\-maximizers would choose._ This appears to cut off bad incentives, including _ex ante_ offsetting. Furthermore, there are other, weaker reasons (such as approval incentives) which discourage these bad behaviors. ✓
 
-## Avoiding Clinginess vs. Scapegoating 
+## Avoiding Clinginess vs. Scapegoating
 
 > The measure should sidestep the [clinginess / scapegoating tradeoff](/overcoming-clinginess-in-impact-measures).
 
@@ -885,4 +885,3 @@ I do not claim that AUP is presently AGI-safe. However, based on the ease with w
 
 > [!thanks]
 > Special thanks to [CHAI](https://humancompatible.ai/) for hiring me and [BERI](http://existence.org/) for funding me; to my CHAI supervisor, Dylan Hadfield-Menell; to my academic advisor, Prasad Tadepalli; to Abram Demski, Daniel Demski, Matthew Barnett, and Daniel Filan for their detailed feedback; to Jessica Cooper and her AISC team for [their extension of the AI safety gridworlds for side effects](https://www.gleech.org/grids/); and to all those who generously helped me to understand this research landscape.
-

@@ -300,7 +300,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 > 
 > **You: "What would happen,** **ecologically, if dolphins somehow had 360-degree vision which let them see through solid objects, at arbitrary distance?"**
 > 
-> "It would make them very hard to kill by any other creature than other dolphins. This means that more of them would survive. If one looks at the evolution of the killer whale, which has been granted echolocation in place of dolphin sonar, one can see that favoring adaptations which increase the chances of survival with decreasing ones' evolutionary advantages. This is called darwinian selection."
+> "It would make them very hard to kill by any other creature than other dolphins. This means that more of them would survive. If one looks at the evolution of the killer whale, which has been granted echolocation in place of dolphin sonar, one can see that favoring adaptations which increase the chances of survival with decreasing ones' evolutionary advantages. This is called Darwinian selection."
 > 
 > **\[...\]** "This hurts my brain. First of all, what would even constitute 'solid objects?' If the objects are similar to water molecules in a transparent liquid, then they wouldn't usually block vision very much. Even if they were opaque, then they might very well hinder the dolphin's vision. If instead they were large enough to see through (At arbitrary distance) The dolphin might see a strange mix of its own and the objects' composition which would damage its brain in some way.
 > 

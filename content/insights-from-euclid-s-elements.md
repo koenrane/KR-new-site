@@ -20,10 +20,10 @@ publish: true
 title: "Insights from Euclid's 'Elements'"
 lw-latest-edit: 2021-02-15T03:50:14.043Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "scholarship-&-learning"
   - "understanding-the-world"
-aliases: 
+aliases:
   - "insights-from-euclid-s-elements"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -39,6 +39,7 @@ date_published: 05/04/2020
 original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 skip_import: true
 ---
+
 Presumably, I was taught geometry as a child. I do not remember.
 
 Recently, I'd made my way halfway through a complex analysis textbook, only to find another which seemed more suitable and engaging. Unfortunately, the exposition was geometric. I knew something was wrong – I knew something had to change – when, asked to prove the similarity of two triangles, I got stuck on _page 7_.
@@ -47,7 +48,7 @@ I'd been reluctant to tackle geometry, and when authors reasoned geometrically, 
 
 ![](https://assets.turntrout.com/static/images/posts/FgW3bVj.avif)
 
-Distasteful. In a graph with $n$  vertices, you'd need to commit $O(n^3)$ things to memory (e.g. triangles, angles) in order to read the proof without continually glancing at the illustration. In a normal equation with $n$ variables, it's $O(n)$.
+Distasteful. In a graph with $n$ vertices, you'd need to commit $O(n^3)$ things to memory (e.g. triangles, angles) in order to read the proof without continually glancing at the illustration. In a normal equation with $n$ variables, it's $O(n)$.
 
 Sometimes, we just need a little beauty to fall in love.
 
@@ -65,12 +66,11 @@ Welcome to Oliver Byrne's rendition of Euclid's _Elements_, [digitized and freel
 >
 > Thus an averſion is created in the mind of the pupil, and a ſubject fo calculated to improve the reaſoning powers, and give the habit of cloſe thinking, is degraded by a dry and rigid courſe of inſtruction into an unintereſting exerciſe of the memory.
 
-
 ## Equality and Similarity
 
 Old mathematical writing lacks modern precision. Euclid says that two triangles are "equal", without specifying what that means. It means that one triangle can be turned into another via an [isometric transformation](https://en.wikipedia.org/wiki/Euclidean_plane_isometry). That is, if you rotate, translate, and/or reflect triangle $A$, it turns into triangle $B$.
 
-[Similarity](https://en.wikipedia.org/wiki/Similarity_\(geometry\)) is a bit more lenient, because you can rescale as well:
+[Similarity](<https://en.wikipedia.org/wiki/Similarity_(geometry)>) is a bit more lenient, because you can rescale as well:
 
 ![](https://assets.turntrout.com/static/images/posts/170px-SimilitudeL.svg.avif)
 
@@ -108,7 +108,7 @@ I read books I, III, IV, and skimmed II. Not all books of the Elements are about
 
 _Elements_ is a _tour de force_. Theorem, theorem, problem, theorem, all laid out in confident succession. It was not always known that from simple rules you could rigorously deduce beautiful facts. It was _not always known_ that you could start with so little, and end with so much.
 
-Before I found this resource, I'd checked out several geometry books, all of which seemed bad. To salt the wound, many books were explicitly aimed at middle-schoolers. This... was a bit of a blow.
+Before I found this resource, I'd checked out several geometry books, all of which seemed bad. To salt the wound, many books were explicitly aimed at middle schoolers. This... was a bit of a blow.
 
 However, it doesn't matter when something is normally presented. If you don't know something, you don't know it, and there's nothing wrong with learning it. Even if you feel late. Even if you feel sheepish.
 
@@ -144,3 +144,4 @@ I look forward to another beautiful poster.
 
 > [!quote] Oliver Byrne
 > As the ſenſes of ſight and hearing can be ſo forcibly and inſtantaneously addreſſed alike with one thouſand as with one, _the million_ might be taught geometry and other branches of mathematics with great eaſe, this would advance the purpoſe of education more than any thing that _might_ be named, for it would teach the people how to think, and not what to think; it is in this particular the great error of education originates.
+

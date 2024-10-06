@@ -20,10 +20,10 @@ publish: true
 title: "Conservative Agency with Multiple Stakeholders"
 lw-latest-edit: 2021-06-08T01:34:42.979Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "AI"
   - "impact-regularization"
-aliases: 
+aliases:
   - "conservative-agency-with-multiple-stakeholders"
 lw-reward-post-warning: "true"
 use-full-width-images: "true"
@@ -31,10 +31,11 @@ date_published: 06/08/2021
 original_url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 skip_import: true
 ---
-> [!note]
-> Here are the slides for a talk I just gave at CHAI's 2021 workshop. 
 
-The first part of my talk summarized my existing results on avoiding negative side effects by making the agent "act conservatively." The second part shows how this helps facilitate iterated negotiation and increase gains from trade in the multi-stakeholder setting. 
+> [!note]
+> Here are the slides for a talk I just gave at CHAI's 2021 workshop.
+
+The first part of my talk summarized my existing results on avoiding negative side effects by making the agent "act conservatively." The second part shows how this helps facilitate iterated negotiation and increase gains from trade in the multi-stakeholder setting.
 
 # Existing work on side effects
 
@@ -69,7 +70,7 @@ Summary of results: [AUP does very well.](https://avoiding-side-effects.github.i
 
 I expect AUP to further scale to high-dimensional embodied tasks. For example, avoiding making a mess on e.g. the factory floor. That said, I expect that physically distant side effects will be harder for AUP to detect. In those situations, it's less likely that distant effects show up in the agent's value functions for its auxiliary goals in the penalty terms.
 
-#  Fostering repeated negotiation over time
+# Fostering repeated negotiation over time
 
 I think of AUP as addressing the single-principal (AI designer) / single-agent (AI agent) case. What about the multi/single case?
 
@@ -89,11 +90,10 @@ In this setting, negotiated agent policies usually destroy option value.
 
 <hr/>
 
-
 ![](https://assets.turntrout.com/static/images/posts/mp-aup-half-theta.avif)
 <br/>Figure: Optimal actions when $\theta=\frac{1}{2}$.
 
-This might be OK if the interaction is one-off: the agent's production possibilities frontier is fairly limited, and it usually specializes in one beverage or the other. 
+This might be OK if the interaction is one-off: the agent's production possibilities frontier is fairly limited, and it usually specializes in one beverage or the other.
 
 But interactions are rarely one-off: there are often opportunities for later trades and renegotiations as the principals gain resources or change their minds about what they want.
 
@@ -108,11 +108,11 @@ Concretely, imagine the principals are playing a game of their own.
 ![](https://assets.turntrout.com/static/images/posts/b02a85f9bec27245725211e667061d61fc401fb75fee59bd.avif)
 <br/>Figure: MP-AUP is my first stab at solving this problem without modeling the joint game. In this agent production game, MP-AUP gets the agent to stay put until it is corrected (i.e. the agent is given a new reward function, after which it computes a new policy).
 
-We can motivate the MP-AUP objective with an analogous situation. Imagine the agent starts off with uncertainty about what objective it should optimize, and the agent reduces its uncertainty over time. This is modelled using the 'assistance game' framework, of which [Cooperative Inverse Reinforcement Learning](https://papers.nips.cc/paper/6420-cooperative-inverse-reinforcement-learning) is one example. (The assistance game paper has yet to be publicly released, but I think it's quite good!)
+We can motivate the MP-AUP objective with an analogous situation. Imagine the agent starts off with uncertainty about what objective it should optimize, and the agent reduces its uncertainty over time. This is modeled using the 'assistance game' framework, of which [Cooperative Inverse Reinforcement Learning](https://papers.nips.cc/paper/6420-cooperative-inverse-reinforcement-learning) is one example. (The assistance game paper has yet to be publicly released, but I think it's quite good!)
 
 ![](https://assets.turntrout.com/static/images/posts/time-step-mp-aup.avif)
 
-Assistance games are a certain kind of partially observable Markov decision process (POMDP), and they're solved by policies which maximize the agent's expected _true_ reward. So once the agent is certain of the true objective, it should just optimize that. But what about before then? 
+Assistance games are a certain kind of partially observable Markov decision process (POMDP), and they're solved by policies which maximize the agent's expected _true_ reward. So once the agent is certain of the true objective, it should just optimize that. But what about before then?
 
 ![](https://assets.turntrout.com/static/images/posts/solve-mp-aup.avif)
 
@@ -122,9 +122,9 @@ This is suggestive, but the assumptions don't perfectly line up with our use cas
 
 Here are some problems that MP-AUP doesn't address:
 
-- Multi-principal/multi-agent: even if agent A _can _make tea, that doesn’t mean agent _A _will let agent _B _make tea.
+- Multi-principal/multi-agent: even if agent A \_can \_make tea, that doesn’t mean agent \_A \_will let agent \_B \_make tea.
 - Specifying individual principal objectives
-- Ensuring that agent remains corrigible to principals - if MP-AUP agents remain able to act in the interest of each principal, that means nothing if we can no longer correct the agent so that it actually _pursues _those interests.
+- Ensuring that agent remains corrigible to principals - if MP-AUP agents remain able to act in the interest of each principal, that means nothing if we can no longer correct the agent so that it actually \_pursues \_those interests.
 
 Furthermore, it seems plausible to me that MP-AUP helps pretty well in the multiple-principal/single-agent case, without much more work than normal AUP requires. However, I think there's a good chance I haven't thought of some crucial considerations which make it fail or which make it less good. In particular, I haven't thought much about the $n>2$ principal case.
 
@@ -134,3 +134,4 @@ I'd be excited to see more work on this, but I don't currently plan to do it mys
 
 > [!thanks]
 > Thanks to Andrew Critch for prompting me to flesh out this idea.
+

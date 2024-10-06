@@ -20,11 +20,11 @@ publish: true
 title: "The Catastrophic Convergence Conjecture"
 lw-latest-edit: 2020-11-22T18:06:16.099Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "impact-regularization"
   - "AI"
   - "instrumental-convergence"
-aliases: 
+aliases:
   - "the-catastrophic-convergence-conjecture"
 lw-sequence-title: "Reframing Impact"
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
@@ -40,6 +40,7 @@ date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 skip_import: true
 ---
+
 ![](https://assets.turntrout.com/static/images/posts/Rgc4aOs.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/JCSrOj7.avif)
@@ -76,21 +77,21 @@ Similarly, the world is being optimized to facilitate achievement of certain goa
 
 > [!info] Exercise
 > Brainstorm for two minutes by the clock before I anchor you.
-> 
-> >! Two approaches immediately come to mind for me. Both rely on the agent [focusing on the AU landscape rather than the world state](/world-state-is-the-wrong-abstraction-for-impact).
+>
+> > ! Two approaches immediately come to mind for me. Both rely on the agent [focusing on the AU landscape rather than the world state](/world-state-is-the-wrong-abstraction-for-impact).
 > >
-> >! **First: Value learning without a prespecified ontology or human model**. [I have previously criticized](/thoughts-on-human-compatible#Where-in-the-world-is-the-human) value learning for needing to locate the human within some kind of prespecified ontology (this criticism is not new). By taking only the agent itself as primitive, perhaps we could get around this (we don't need any fancy engineering or arbitrary choices to figure out AUs/optimal value from _the agent's_ perspective).
+> > ! **First: Value learning without a prespecified ontology or human model**. [I have previously criticized](/thoughts-on-human-compatible#Where-in-the-world-is-the-human) value learning for needing to locate the human within some kind of prespecified ontology (this criticism is not new). By taking only the agent itself as primitive, perhaps we could get around this (we don't need any fancy engineering or arbitrary choices to figure out AUs/optimal value from _the agent's_ perspective).
 > >
-> >! **Second: Force-multiplying AI**. Have the AI observe which of its AUs most increase during some initial period of time, after which it pushes the most-increased-AU even further.
+> > ! **Second: Force-multiplying AI**. Have the AI observe which of its AUs most increase during some initial period of time, after which it pushes the most-increased-AU even further.
 > >
-> >! In 2016, Jessica Taylor [wrote](https://www.alignmentforum.org/posts/5bd75cc58225bf06703752da/pursuing-convergent-instrumental-subgoals-on-the-user-s-behalf-doesn-t-always-require-good-priors) of a similar idea:
+> > ! In 2016, Jessica Taylor [wrote](https://www.alignmentforum.org/posts/5bd75cc58225bf06703752da/pursuing-convergent-instrumental-subgoals-on-the-user-s-behalf-doesn-t-always-require-good-priors) of a similar idea:
 > >
-> >! "In general, it seems like "estimating what types of power a benchmark system will try acquiring and then designing an aligned AI system that acquires the same types of power for the user" is a general strategy for making an aligned AI system that is competitive with a benchmark unaligned AI system."
+> > ! "In general, it seems like "estimating what types of power a benchmark system will try acquiring and then designing an aligned AI system that acquires the same types of power for the user" is a general strategy for making an aligned AI system that is competitive with a benchmark unaligned AI system."
 > >
-> >! I think the naïve implementation of either idea would fail; e.g. there are a lot of degenerate AUs it might find. However, I'm excited by this because a) the AU landscape evolution _is_ an important source of information, b) it feels like there's something here we could do which nicely avoids ontologies, and c) force-multiplication is qualitatively different than existing proposals.
+> > ! I think the naïve implementation of either idea would fail; e.g. there are a lot of degenerate AUs it might find. However, I'm excited by this because a) the AU landscape evolution _is_ an important source of information, b) it feels like there's something here we could do which nicely avoids ontologies, and c) force-multiplication is qualitatively different than existing proposals.
 
 > [!info] Project
->  Work out an AU landscape-based alignment proposal.
+> Work out an AU landscape-based alignment proposal.
 
 ## Why can't everyone be king?
 
@@ -108,7 +109,7 @@ Most agents aren't pure power maximizers. But since the same resource competitio
 
 How useful is our definition of "catastrophe" with respect to humans? After all, literally anything could be a catastrophe for _some_ utility function.[^5]
 
-Tying one's shoes is absolutely catastrophic for an agent which only finds value in universes in which shoes have _never ever ever_ been tied. [Maybe all possible value in the universe is destroyed if we lose at Go to an AI even once](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata#zLnkb5xM4E9ATzCFg). But this seems rather silly.
+Tying one's shoes is absolutely catastrophic for an agent which only finds value in universes in which shoes have _never, ever, ever_ been tied. [Maybe all possible value in the universe is destroyed if we lose at Go to an AI even once](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata#zLnkb5xM4E9ATzCFg). But this seems rather silly.
 
 [Human values are complicated and fragile](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile):
 
@@ -127,6 +128,7 @@ No. This is an example of the delicacy of our implementation; notice also that o
 ## Detailing the catastrophic convergence conjecture (CCC)
 
 In general, the CCC follows from two sub-claims.
+
 1. Given we still have control over the future, humanity's long-term AU is still reasonably high (i.e. we haven't endured a catastrophe).
 2. Realistically, agents are only incentivized to take control from us in order to gain power for their own goal. I'm fairly sure the second claim is true ("evil" agents are the exception prompting the "realistically").
 
@@ -146,7 +148,7 @@ While there _exist_ agents which cause catastrophe for other reasons (e.g. an AI
 
 > Unaligned goals tend to have _catastrophe-inducing optimal policies_ because of power-seeking incentives.
 
-"But what about the Blackwell-optimal policy for Tic-Tac-Toe? These agents aren't taking over the world now". The CCC is talking about agents optimizing a reward function in the real world (or, for generality, in another sufficiently complex multiagent environment).
+"But what about the Blackwell-optimal policy for Tic-Tac-Toe? These agents aren't taking over the world now". The CCC is talking about agents optimizing a reward function in the real world (or, for generality, in another sufficiently complex multi-agent environment).
 
 _Edit_: The initial version of this post talked about "outer alignment"; I changed this to just talk about _alignment_, because the outer/inner alignment distinction doesn't feel relevant here. What matters is how the AI's policy impacts us; what matters is [_impact alignment_](/non-obstruction-motivates-corrigibility).
 
@@ -160,40 +162,35 @@ _Edit_: The initial version of this post talked about "outer alignment"; I chang
 >
 > Convergent instrumental subgoals are mostly about gaining power. For example, gaining money is a convergent instrumental subgoal. If some individual (human or AI) has convergent instrumental subgoals pursued well on their behalf, they will gain power. If the most effective convergent instrumental subgoal pursuit is directed towards giving humans more power (rather than giving alien AI values more power), then humans will remain in control of a high percentage of power in the world.
 >
-> If the world is not severely damaged in a way that prevents any agent (human or AI) from eventually colonizing space (e.g. severe nuclear winter), then the percentage of the cosmic endowment that humans have access to will be roughly close to to the percentage of power that humans have control of at the time of space colonization. So the most relevant factors for the composition of the universe are (a) whether anyone at all can take advantage of the cosmic endowment, and (b) the long-term balance of power between different agents (humans and AIs).
+> If the world is not severely damaged in a way that prevents any agent (human or AI) from eventually colonizing space (e.g. severe nuclear winter), then the percentage of the cosmic endowment that humans have access to will be roughly close to the percentage of power that humans have control of at the time of space colonization. So the most relevant factors for the composition of the universe are (a) whether anyone at all can take advantage of the cosmic endowment, and (b) the long-term balance of power between different agents (humans and AIs).
 >
 > I expect that ensuring that the long-term balance of power favors humans constitutes most of the AI alignment problem...
 
-
 <hr/>
 
+[^1]:
+    > In planning and activity research there are two common approaches to matching agents with environments. Either the agent is designed with the specific environment in mind, or it is provided with learning capabilities so that it can adapt to the environment it is placed in. In this paper we look at a third and underexploited alternative: designing agents which adapt their environments to suit themselves... In this case, due to the action of the agent, the environment comes to be better fitted to the agent as time goes on. We argue that \[this notion\] is a powerful one, even just in explaining agent-environment interactions.
 
-[^1]: > In planning and activity research there are two common approaches to matching agents with environments. Either the agent is designed with the specific environment in mind, or it is provided with learning capabilities so that it can adapt to the environment it is placed in. In this paper we look at a third and underexploited alternative: designing agents which adapt their environments to suit themselves... In this case, due to the action of the agent, the environment comes to be better fitted to the agent as time goes on. We argue that \[this notion\] is a powerful one, even just in explaining agent-environment interactions.
+    [Hammond, Kristian J., Timothy M. Converse, and Joshua W. Grass. "The stabilization of environments." Artificial Intelligence 72.1-2 (1995): 305-327.](https://pdf.sciencedirectassets.com/271585/1-s2.0-S0004370200X00203/1-s2.0-000437029400006M/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjECgaCXVzLWVhc3QtMSJHMEUCIQChwXFJ1RTxFfLOoGqaRo25D%2BbS7VQsFat%2FcBYxlWKSqAIgSarQN5XqRM5sGmbf4vwDGt%2FYXPwNsXAdDH36wzYAt34qvQMIsP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARACGgwwNTkwMDM1NDY4NjUiDNZzf0m7yHsUIdERfSqRA2rvYeD%2FN4gapAtvAUDHOiHrlbj%2FWj4lad5q%2Fv3XAUeH0QPV%2B1FP3bB3QsHxKfYYgvri9pw%2BormN3BsZ7I735xEb4GqK3aqsVUQjBkYJJPmkUfmD9LOAzVQUu4fDaiq50FOEKKQHRzrHMeiqgHuQcm4y7GXWUSu0svt%2F%2BigSlODzLp%2FVFiI%2BH5pUEzDFDzBxeBi%2F3SjNFhOSmLlEuiQFF6%2FTP8wj%2FtksYcugu4889kZXEvceMXvGfOsXC%2B0u3rRVK%2FDGDxASsoUx2rZP1oaKp%2FJJGcaPeTsHfzl5crYvFkd3EykGtdAMn8B9spq4AkEY%2BuPbGcl8AC75oqRoPgzu1%2Fbz8IDeJfCGi8uLE6z9chVysGoT4nIhlrA1jsaDspWKgzICghaILairVwIXp3P%2B5oVEUiaa9CefbdAtAMa7N8jd1Z3RjPwHXlrpJ7G88%2Fw22uIze%2Fj4gH1VXPWcZDz31dSO0MpnLBDbT6XCg5xcYtd%2Bw5OfVhR55VScDsTCZzRhumMsdZseH5vlkkkK9kAVDTL1MPT6iPEFOusBUmhc4Gm26CVWrWRR5Za7EUJkOxaRDTECgLLS1NqDuHAb0z2t8Q34LpQzxrTphrqm6YEVs9Ut9YoiapIDBnNuCbYlAWMbppy5PAdgaqDvISaNAHVc842TKsYvRI0ngbypR%2B0IOT5nylgMuQvMvzwbrT%2FZY%2B0kNFQ3%2BgRUQyix6RtmQQdhUIsVyCi5FnZXZ%2FzrOLf5yoZpYoOmJ51jAf%2BS%2BOSGu5ncXvj5JtsBBEP6HzeHy5ys8Kgid1pcxF7bi1s%2BMPGfBdMuXcBtsRRsFa9X1qrO%2FupgJ%2BuoZU4flqjzaHcGAAMX5D8BZlcLgg%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200118T000332Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY74AXFCOD%2F20200118%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=9e08fdbd6206f37d0e8c254944eee8c4d53786fee904ae863e127d0b3d94fa39&hash=06ec9f24ef61dd7241a68fcc330c81d0265562765d79176c64763882e7f25a5b&hos$t=68042$c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=000437029400006M&tid=spdf-a1658f9a-cc69-4688-acbb-dd5b2794ff2d&sid=3ba511d116be30447a9af4663edaaeda6620gxrqa&type=client)
 
-    [Hammond, Kristian J., Timothy M. Converse, and Joshua W. Grass. "The stabilization of environments." Artificial Intelligence 72.1-2 (1995): 305-327.](https://pdf.sciencedirectassets.com/271585/1-s2.0-S0004370200X00203/1-s2.0-000437029400006M/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjECgaCXVzLWVhc3QtMSJHMEUCIQChwXFJ1RTxFfLOoGqaRo25D%2BbS7VQsFat%2FcBYxlWKSqAIgSarQN5XqRM5sGmbf4vwDGt%2FYXPwNsXAdDH36wzYAt34qvQMIsP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARACGgwwNTkwMDM1NDY4NjUiDNZzf0m7yHsUIdERfSqRA2rvYeD%2FN4gapAtvAUDHOiHrlbj%2FWj4lad5q%2Fv3XAUeH0QPV%2B1FP3bB3QsHxKfYYgvri9pw%2BormN3BsZ7I735xEb4GqK3aqsVUQjBkYJJPmkUfmD9LOAzVQUu4fDaiq50FOEKKQHRzrHMeiqgHuQcm4y7GXWUSu0svt%2F%2BigSlODzLp%2FVFiI%2BH5pUEzDFDzBxeBi%2F3SjNFhOSmLlEuiQFF6%2FTP8wj%2FtksYcugu4889kZXEvceMXvGfOsXC%2B0u3rRVK%2FDGDxASsoUx2rZP1oaKp%2FJJGcaPeTsHfzl5crYvFkd3EykGtdAMn8B9spq4AkEY%2BuPbGcl8AC75oqRoPgzu1%2Fbz8IDeJfCGi8uLE6z9chVysGoT4nIhlrA1jsaDspWKgzICghaILairVwIXp3P%2B5oVEUiaa9CefbdAtAMa7N8jd1Z3RjPwHXlrpJ7G88%2Fw22uIze%2Fj4gH1VXPWcZDz31dSO0MpnLBDbT6XCg5xcYtd%2Bw5OfVhR55VScDsTCZzRhumMsdZseH5vlkkkK9kAVDTL1MPT6iPEFOusBUmhc4Gm26CVWrWRR5Za7EUJkOxaRDTECgLLS1NqDuHAb0z2t8Q34LpQzxrTphrqm6YEVs9Ut9YoiapIDBnNuCbYlAWMbppy5PAdgaqDvISaNAHVc842TKsYvRI0ngbypR%2B0IOT5nylgMuQvMvzwbrT%2FZY%2B0kNFQ3%2BgRUQyix6RtmQQdhUIsVyCi5FnZXZ%2FzrOLf5yoZpYoOmJ51jAf%2BS%2BOSGu5ncXvj5JtsBBEP6HzeHy5ys8Kgid1pcxF7bi1s%2BMPGfBdMuXcBtsRRsFa9X1qrO%2FupgJ%2BuoZU4flqjzaHcGAAMX5D8BZlcLgg%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200118T000332Z&X-Amz-SignedHeaders=host&X-Amz-Expires=300&X-Amz-Credential=ASIAQ3PHCVTY74AXFCOD%2F20200118%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=9e08fdbd6206f37d0e8c254944eee8c4d53786fee904ae863e127d0b3d94fa39&hash=06ec9f24ef61dd7241a68fcc330c81d0265562765d79176c64763882e7f25a5b&hos\$t=68042\$c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&pii=000437029400006M&tid=spdf-a1658f9a-cc69-4688-acbb-dd5b2794ff2d&sid=3ba511d116be30447a9af4663edaaeda6620gxrqa&type=client) 
-
-[^2]: Thinking about overfitting the AU landscape implicitly involves a prior distribution over the goals of the other agents in the landscape. Since this is just a conceptual tool, it's not a big deal. Basically, you know it when you see it. 
-
-[^3]: Overfitting the AU landscape towards one agent's unaligned goal is exactly what I meant when I wrote the following in [_Towards a New Impact Measure_](/towards-a-new-impact-measure):
+[^2]: Thinking about overfitting the AU landscape implicitly involves a prior distribution over the goals of the other agents in the landscape. Since this is just a conceptual tool, it's not a big deal. Basically, you know it when you see it.
+[^3]:
+    Overfitting the AU landscape towards one agent's unaligned goal is exactly what I meant when I wrote the following in [_Towards a New Impact Measure_](/towards-a-new-impact-measure):
 
     > Unfortunately, $u_A=u_H$ almost never,[^9] so we have to stop our reinforcement learners from implicitly interpreting the learned utility function as all we care about. We have to say, "optimize the environment some according to the utility function you've got, but don't be a weirdo by taking us literally and turning the universe into a paperclip factory. Don't overfit the environment to $u_A$, because that stops you from being able to do well for other utility functions."
 
-    
+[^4]:
+    In most finite Markov decision processes, there does not exist a reward function whose optimal value function is $\text{POWER}(s)$ (defined as "the ability to achieve goals in general" in [my paper](https://arxiv.org/abs/1912.01683)) because $\text{POWER}(s)$ often violates smoothness constraints on the on-policy optimal value fluctuation (AFAICT, a new result of possibility theory, even though you could prove it using classical techniques). That is, I can show that optimal value can't change too quickly from state to state while the agent is acting optimally, but $\text{POWER}(s)$ can drop off _very_ quickly.
 
-[^4]: In most finite Markov decision processes, there does not exist a reward function whose optimal value function is $\text{POWER}(s)$ (defined as "the ability to achieve goals in general" in [my paper](https://arxiv.org/abs/1912.01683)) because $\text{POWER}(s)$ often violates smoothness constraints on the on-policy optimal value fluctuation (AFAICT, a new result of possibility theory, even though you could prove it using classical techniques). That is, I can show that optimal value can't change too quickly from state to state while the agent is acting optimally, but $\text{POWER}(s)$ can drop off _very_ quickly.
+    This doesn't matter for Ogre and Giant, because we can still find a reward function whose unique optimal policy navigates to the highest power states.
 
-    This doesn't matter for Ogre and Giant, because we can still find a reward function whose unique optimal policy navigates to the highest power states. 
-
-[^5]: In most finite Markov decision processes, most reward functions do not have such value fragility. Most reward functions have several ways of accumulating reward. 
-
-[^6]: When I say "an objective catastrophe destroys _a lot_ of agents' abilities to get what they want", I don't mean that the agents have to actually be present in the world. Breaking a fish tank destroys a fish's ability to live there, even if there's no fish in the tank. 
-
-[^7]: This idea comes from Evan Hubinger's [_Outer alignment and imitative amplification_](https://www.lesswrong.com/posts/33EKjmAdKFn3pbKPJ/outer-alignment-and-imitative-amplification):
+[^5]: In most finite Markov decision processes, most reward functions do not have such value fragility. Most reward functions have several ways of accumulating reward.
+[^6]: When I say "an objective catastrophe destroys _a lot_ of agents' abilities to get what they want", I don't mean that the agents have to actually be present in the world. Breaking a fish tank destroys a fish's ability to live there, even if there's no fish in the tank.
+[^7]:
+    This idea comes from Evan Hubinger's [_Outer alignment and imitative amplification_](https://www.lesswrong.com/posts/33EKjmAdKFn3pbKPJ/outer-alignment-and-imitative-amplification):
 
     > Intuitively, I will say that a loss function is outer aligned at optimum if all the possible models that perform optimally according to that loss function are aligned with our goals—that is, they are at least trying to do what we want. More precisely, let $\mathbb{M}=X→A$ and $\mathbb{L}=(X→A)→R=\mathbb{M}→R$. For a given loss function $L∈\mathbb{L}$, let $\ell_∗=\min_{M∈\mathbb{M}} L(M)$. Then, $L$ is outer aligned at optimum if, for all $M_∗∈\mathbb{M}$ such that $L(M_∗)=\ell_∗$, $M_∗$ is trying to do what we want.
 
-    
+[^8]: [Some large reward function classes are probably not alignable](https://www.alignmentforum.org/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want); for example, consider all Markovian linear functionals over a webcam's pixel values.
+[^9]: I disagree with my usage of "aligned _almost never_" on a technical basis: Assuming a finite state and action space and considering the maxentropy reward function distribution, there must be a positive measure set of reward functions for which the/a human-aligned policy is optimal.
 
-[^8]: [Some large reward function classes are probably not alignable](https://www.alignmentforum.org/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want); for example, consider all Markovian linear functionals over a webcam's pixel values. 
-
-[^9]: I disagree with my usage of "aligned _almost never_" on a technical basis: Assuming a finite state and action space and considering the maxentropy reward function distribution, there must be a positive measure set of reward functions for which the/a human-aligned policy is optimal. 

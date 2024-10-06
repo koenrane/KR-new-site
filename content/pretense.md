@@ -20,10 +20,10 @@ publish: true
 title: "I want to take off the coat"
 lw-latest-edit: 2018-07-29T00:35:24.674Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "personal"
   - "rationality"
-aliases: 
+aliases:
   - "pretense"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
@@ -31,7 +31,8 @@ date_published: 07/29/2018
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
 skip_import: true
 ---
-There's a kind of yearning, to be _that_ person who can do _those_ things - this is self-actualization, yet corrupted. I often feel pulled in this way. I find myself wanting to be a certain person _now_, to be producing and being and feeling that way _now_, and I catch myself acting, speaking, signalling as if I were there _now_. As if I could make people happy by tiling the universe with smiley-faces.
+
+There's a kind of yearning, to be _that_ person who can do _those_ things - this is self-actualization, yet corrupted. I often feel pulled in this way. I find myself wanting to be a certain person _now_, to be producing and being and feeling that way _now_, and I catch myself acting, speaking, signaling as if I were there _now_. As if I could make people happy by tiling the universe with smiley-faces.
 
 There's a revulsion that comes with this, for me - the sense of wearing a heavy coat, of playing a role, of acting instead of connecting. At times, there _is_ a desire to connect: I begin to speak earnestly, but then comes indecision, a "social acceptance" reflex blunting my emotions and diluting my speech. And then, pain, regret, and shame. Even now, it looms: Can I even post this?
 
@@ -46,3 +47,4 @@ After CFAR, there was a precious week when I channeled myself during these momen
 Weeks passed, and I slowly forgot. My experience of the workshop faded into a collection of moments: quietly gazing at the furious red skyline; laughing and singing despite the iceberg inching closer; hearing, and being heard. Ever-so-close bonds loosened, and then crumbled a bit, their essence blown away into the now-yawning distances between us.
 
 I want to take off the coat.
+

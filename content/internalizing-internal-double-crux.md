@@ -21,7 +21,7 @@ title: "Internalizing Internal Double Crux"
 lw-latest-edit: 2020-04-11T17:25:47.908Z
 lw-is-linkpost: "false"
 tags:
-aliases: 
+aliases:
   - "internalizing-internal-double-crux"
 lw-sequence-title: "Becoming Stronger"
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
@@ -37,6 +37,7 @@ date_published: 04/30/2018
 original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-internal-double-crux
 skip_import: true
 ---
+
 > In sciences such as [psychology](https://en.wikipedia.org/wiki/Psychology) and [sociology](https://en.wikipedia.org/wiki/Sociology), internalization involves the integration of attitudes, values, standards and the opinions of others into one's own identity or sense of self.
 
 [Internal Double Crux](https://www.lesswrong.com/posts/mQmx4kQQtHeBip9ZC/internal-double-crux) is one of the most important skills I've ever learned. In the last two weeks, I've solved some serious, long-standing problems with IDC (permanently, as far as I can tell, and often in less than _5 minutes_), a small sample of which includes:
@@ -50,8 +51,8 @@ skip_import: true
 I feel great, and I love it. Actually, most of the time I don't feel amazingly confident - [I just feel _not bad_ in lots of situations](http://kajsotala.fi/2017/08/confidence-and-patience-dont-feel-like-anything-in-particular/). Apparently this level of success with IDC across such a wide range of problems is unusual. Some advice, and then an example.
 
 - The emotional texture of the dialogue is of paramount importance. There should be a warm feeling between the two sides, as if they were two best friends who are upset with each other, but also secretly appreciate each other and want to make things right.
-	- Each response should start with a _sincere_ and _emotional_ validation of some aspect of the other side's concern. In my experience, this feels like emotional ping pong.
-	- For me, resolution of the issue is accompanied by a warm feeling that rises to my throat in a bubble-ish way. My heart also feels full. This is similar to (but distinct from) the 'aww' feeling you may experience when you see cute animals.
+  - Each response should start with a *sincere* and *emotional* validation of some aspect of the other side's concern. In my experience, this feels like emotional ping pong.
+  - For me, resolution of the issue is accompanied by a warm feeling that rises to my throat in a bubbly way. My heart also feels full. This is similar to (but distinct from) the 'aww' feeling you may experience when you see cute animals.
 - [Focusing](https://radimentary.wordpress.com/2018/02/25/focusing/) is an important (and probably necessary) sub-skill.
 - Don't interrupt or otherwise obstruct one of your voices because it's "stupid" or "talked long enough" - be respectful. The outcome should not feel pre-ordained - you should be having two of your sub-agents / identities sharing their emotional and mental models to come to a fixed point of harmonious agreement.
 - Some beliefs aren't explicitly advocated by any part of you, and are instead propped up by certain memories. You can use Focusing to hone in on the memories, and then employ IDC to resolve your ongoing reaction to it.
@@ -70,7 +71,7 @@ Fire
 : I agree that not getting the internship would be evidence that there are others who are more promising _right now_. I think, however, that you're missing a few key points here:
 
 : - We've made important connections at CHAI / MIRI.
-: - Your main point is a total buckets error. There is no ontologically-basic and immutable "promising-individual" property. Granted, there are biological and environmental factors outside our control here, but I think we score high _enough_ on these metrics to be able to succeed through effort, passion, and increased mastery of instrumental rationality.
+: - Your main point is a total buckets error. There is no ontologically basic and immutable "promising-individual" property. Granted, there are biological and environmental factors outside our control here, but I think we score high _enough_ on these metrics to be able to succeed through effort, passion, and increased mastery of instrumental rationality.
 : - We've been studying AI safety for just a few months (in our free time, no less); most of the studying has been dedicated towards building up foundational skills (and not reviewing the literature itself). The applicants who are chosen may have a year or more of familiarity with the literature / relevant math on us (or perhaps not), and this should be included in the model.
 : - One of the main sticking points raised during my final interview has since been fixed, but I couldn't signal that afterwards without seeming overbearing.
 
@@ -96,5 +97,5 @@ Fire
 
 <hr/>
 
-
 [^crux]: Notice how related cruxes can (and should) be resolved in the same session. Resolution cannot happen if any part of you isn't _fully_ on board with whatever agreement you've come to - this feels like a small emptiness in the pit of my stomach, in my experience.
+

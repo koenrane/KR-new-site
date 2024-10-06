@@ -17,7 +17,7 @@ lw-vote-count: 17
 af-base-score: 28
 af-num-comments-on-upload: 31
 publish: true
-title: "Alignment allows 'nonrobust' decision-influences and doesn't require robust grading"
+title: "Alignment allows 'non-robust' decision-influences and doesn't require robust grading"
 lw-latest-edit: 2022-11-30T16:37:57.412Z
 lw-is-linkpost: "false"
 tags:
@@ -43,7 +43,7 @@ On how I use words, values are decision-influences (also known as [_shards_](/sh
 
 Summaries of key points:
 
-1.  **Nonrobust decision-influences can be OK.** A candy-shard contextually influences decision-making. Many policies lead to acquiring lots of candy; the decision-influences don't have to be "globally robust" or "perfect."
+1.  **Non-robust decision-influences can be OK.** A candy-shard contextually influences decision-making. Many policies lead to acquiring lots of candy; the decision-influences don't have to be "globally robust" or "perfect."
 2.  **Values steer optimization; they are not optimized against.** The value shards aren't getting optimiz*ed* hard. The value shards **are** the things which optimize hard, by wielding the rest of the agent's cognition (e.g. the world model, the general-purpose planning API).
     - Since values are not the optimization target of the agent with those values, the values don't have to be adversarially robust.
 3.  **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.** In self-reflective agents which can think about their own thinking, values steer e.g. what plans get considered next. Therefore, these agents convergently avoid adversarial inputs to their currently activated values (e.g. learning), because adversarial inputs would impede fulfillment of those values (e.g. lead to less learning).
@@ -51,7 +51,7 @@ Summaries of key points:
 > [!warning] Disclaimer
 > The point isn't that you get aligned behavior if you assume the AI is aligned. The point is that the value frame _naturally_ expresses aligned behavior. In contrast, grader evaluation seems insane and cannot reasonably express aligned behavior.
 
-# I: Nonrobust decision-influences can be OK
+# I: Non-robust decision-influences can be OK
 
 Decision-making influences don't have to be “robust” in order for a person to _value doing well at school_. Consider two people with slightly different values:
 
@@ -112,13 +112,13 @@ In particular, there’s no guarantee that you can just scan someone’s brain a
 
 Therefore, even though you _truly care about candy_, that doesn’t mean you can just whip out the argmax on the relevant shard of your cognition, so as to “maximize” that shard (e.g. via extremizing the rate of action potentials on its output neurons) and then get a future with _lots_ of candy. You’d [probably](https://distill.pub/2017/feature-visualization/) just find a context $c_i∈C$ which acts as an adversarial input to the candy-shard, _even though_ you do really care about candy in a normal, human way.
 
-Complexity of human values isn’t what stops you from argmax’ing human values and thereby finding a good plan. That’s not a sensible thing to try. Values are not, in general, the kind of thing which can be directly optimized over, where you find plans which "maximally activate" your e.g. candy-subshards. **Values influence decisions.**
+Complexity of human values isn’t what stops you from argmax’ing human values and thereby finding a good plan. That’s not a sensible thing to try. Values are not, in general, the kind of thing which can be directly optimized over, where you find plans which "maximally activate" your e.g. candy subshards. **Values influence decisions.**
 
 There is real difficulty and peril in motivating an AI, in making sure its decisions chain into each other towards the _right kinds of futures_. If you train a superintelligent sovereign agent which primarily values irrelevant quantities (like paperclips) but doesn't care about you, which then optimizes the whole future hard, then you’re _dead_. But consider that deleting candy subshard #3 (“If `heard 'candy'` and `hunger>20`, then `salivate`”) doesn’t stop someone from valuing candy in the normal way. If you erase that subshard from their brain, it’s not like they start "Goodharting" and forget about the “true nature” of caring about candy because they now have an “imperfect proxy shard.”
 
 An agent argmax'ing an imperfect evaluation function will indeed exploit that function; there are very few degrees of freedom in specifying an inexploitable evaluation function. But that's because that grading function must be globally robust.
 
-When I talk about shard theory, [people](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=6Lg5Jbwqg2tifEWZJ#Cyzck3vqEa4EfoXaz) [often](https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans?commentId=hXFMkRexJN4weKGdF) [seem](https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem?commentId=zfSCqZuYebHEKgvf5#zfSCqZuYebHEKgvf5) [to](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=YoxJ5RKmp6b8fk8na#Cyzck3vqEa4EfoXaz) shrug and go "well, you still need to get the values adversarially-robustly-correct else Goodhart; I don't see how this 'value shard' thing helps." **That's not how values work, that is not what value-shards are.** [**Unlike grader-optimizers which try to maximize plan evaluations, a values-executing agent doesn't optimize its values as hard as possible**](/dont-align-agents-to-evaluations-of-plans)**. The agent's values optimize the world. The values are rules for how the agent acts in relevant contexts.**[^5]
+When I talk about shard theory, [people](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=6Lg5Jbwqg2tifEWZJ#Cyzck3vqEa4EfoXaz) [often](https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans?commentId=hXFMkRexJN4weKGdF) [seem](https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem?commentId=zfSCqZuYebHEKgvf5#zfSCqZuYebHEKgvf5) [to](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=YoxJ5RKmp6b8fk8na#Cyzck3vqEa4EfoXaz) shrug and go "well, you still need to get the values adversarially robustly correct else Goodhart; I don't see how this 'value shard' thing helps." **That's not how values work, that is not what value-shards are.** [**Unlike grader-optimizers which try to maximize plan evaluations, a values-executing agent doesn't optimize its values as hard as possible**](/dont-align-agents-to-evaluations-of-plans)**. The agent's values optimize the world. The values are rules for how the agent acts in relevant contexts.**[^5]
 
 # III: Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values
 
@@ -142,7 +142,7 @@ Value-child doesn't suffer this crippling "robustly grade exponentially many pla
 
 This may sound obvious, but I think that the main difference is that **value-child actually cares about working hard.** Evaluation-child cares about evaluations. (See [here](/dont-align-agents-to-evaluations-of-plans#And-people-aren-t-grader-optimizers-either) if confused on the distinction.) To make evaluation-child work hard in the limit of intelligence, you have to _robustly ensure that max evaluations only come from working hard_. This sure sounds like a slippery and ridiculous kind of thing to try, like wrestling a frictionless pig. It should be no surprise you'll hit issues like [nearest unblocked strategy](https://arbital.com/p/nearest_unblocked/) in that paradigm.
 
-An agent which _does_ care about working hard will want to not think thoughts which lead to not working hard. In particular, reflective shard-agents can think about what to think, and thereby are convergently-across-values incentivized to steer clear of adversarial inputs to their own values.
+An agent which _does_ care about working hard will want to not think thoughts which lead to not working hard. In particular, reflective shard-agents can think about what to think, and thereby are convergently (across values) incentivized to steer clear of adversarial inputs to their own values.
 
 ## Reflectively avoiding adversarial inputs to your thinking
 
@@ -160,7 +160,7 @@ Thoughts about future thinking are a kind of decision. Decisions are steered by 
 >
 > As far as I know, it's indeed not possible to avoid the curse in full generality, but it doesn't have to be that bad in practice. If I'm considering three research directions to work on next month, and I happen to be grumpy when considering direction #2, then maybe I don't pursue that direction. Even though direction #2 might have seemed the most promising under more careful reflection. I think that the distribution of plans I consider involves relatively small upwards errors in my internal evaluation metrics. Sure, maybe I occasionally make a serious mistake due to the optimizer's curse due to upwards "corruption", but I don't expect to _literally die_ from the mistake.
 >
-> Thus, there are are _degrees_ to the optimizer's curse.
+> Thus, there are _degrees_ to the optimizer's curse.
 
 Both grader-optimization and argmax cause extreme, horrible optimizer's curse. Is alignment just that hard? I think not.
 
@@ -211,7 +211,7 @@ If the answer to "how do we dispel the max-strength optimizer's curse" is in fac
 
 # Conclusion
 
-1.  **Nonrobust decision-influences can be OK.**
+1.  **Non-robust decision-influences can be OK.**
 2.  **Values steer optimization; they are not optimized against.**
 3.  **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.**
 
@@ -275,7 +275,7 @@ I liked Vivek Hebbar's recent [comment](https://www.lesswrong.com/posts/fopZesxL
 >
 > My attempt at a framework where "improving one's own evaluator" and "believing in adversarial examples to one's own evaluator" make sense:
 >
-> - The agent's allegiance is to some idealized utility function $U_{ideal}$ (like CEV). The agent's internal evaluator `Eval` is "trying" to approximate $U_{ideal}$ by reasoning heuristically. So now we ask Eval to evaluate the plan "do argmax w.r.t. Eval over a bunch of plans". Eval reasons that, due to the the way that Eval works, there should exist "adversarial examples" that score very highly on Eval but low on $U_{ideal}$. Hence, Eval concludes that $U_{ideal}(plan)$ is low, where plan = "do argmax w.r.t. Eval". So the agent doesn't execute the plan "search widely and argmax".
+> - The agent's allegiance is to some idealized utility function $U_{ideal}$ (like CEV). The agent's internal evaluator `Eval` is "trying" to approximate $U_{ideal}$ by reasoning heuristically. So now we ask Eval to evaluate the plan "do argmax w.r.t. Eval over a bunch of plans". Eval reasons that, due to the way that Eval works, there should exist "adversarial examples" that score very highly on Eval but low on $U_{ideal}$. Hence, Eval concludes that $U_{ideal}(plan)$ is low, where plan = "do argmax w.r.t. Eval". So the agent doesn't execute the plan "search widely and argmax".
 > - "Improving `Eval`" makes sense because Eval will gladly replace itself with `Eval_2` if it believes that `Eval_2` is a better approximation for $U_{ideal}$ (and hence replacing itself will cause the outcome to score better on $U_{ideal}$)
 >
 > Are there other distinct frameworks which make sense here?
@@ -297,7 +297,7 @@ Value shards steer cognition. In the main essay, I wrote:
 > 3.  A reflective agent knows that the first plan doesn't lead to many diamonds, while the second plan leads to more diamonds.
 > 4.  Therefore, the reflective agent chooses the second plan over the first plan, automatically avoiding the worst parts of the optimizer's curse. (Unlike grader-optimization, which seeks out adversarial inputs to the diamond-motivated part of the system.)
 
-This story smoothly accomodates thoughts about improving evaluation ability.
+This story smoothly accommodates thoughts about improving evaluation ability.
 
 On my understanding: Your values are steering the optimization. They are not, in general, being optimized against by some search inside of you. They are probably not pointing to some idealized utility function. The decision-influences are _guiding_ the search. There's no secret other source of caring, no externalized utility function.
 

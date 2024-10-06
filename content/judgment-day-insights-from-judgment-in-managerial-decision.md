@@ -39,13 +39,14 @@ date_published: 12/29/2019
 original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
 skip_import: true
 ---
+
 The more broadly I read and learn, the more I bump into implicit self-conceptions and self-boundaries. I was slightly averse to learning from a manager-oriented textbook because I'm not a manager, but also because I... didn't see myself as the kind of person who could learn about a "business"-y context? I also [didn't see myself as the kind of person who could read and do math](/first-analysis-textbook-review), which now seems ridiculous.
 
 Although the read was fast and easy and often familiar, I unearthed a few gems.
 
 # Judgment in Managerial Decision Making
 
-A tip of dubious ethicality for lazy [min-maxers](https://en.wikipedia.org/wiki/Munchkin_\(role-playing_games\)):
+A tip of dubious ethicality for lazy [min-maxers](<https://en.wikipedia.org/wiki/Munchkin_(role-playing_games)>):
 
 > [!quote] Judgment in Managerial Decision Making
 > Managers give more weight to performance during the three months prior to \[a performance\] evaluation than to the previous nine months... because it is more available in memory.
@@ -56,11 +57,11 @@ The authors group biases as stemming from the Big Three of availability, represe
 
 The availability heuristic goes wrong when our saliency-weighted perceptions of the frequency of events is a biased estimator of the real frequency, when we happen to be extrapolating off of a very small sample size, or when our memory structure makes recalling some kinds of things harder (e.g. words starting with 'a' versus words whose third letter is 'a'). Concepts get inappropriately activated in our mind, and we therefore reason incorrectly. Attention also explains anchoring: you can more readily bring to mind things related to your anchor due to salience.
 
-The representativeness heuristic can be understood as highly salient concept-activations inappropriately dominating our reasoning. We then ignore e.g. base rates, sample size, statistical phenomena (regression to the mean), and the conjunctive burden of propositions. Consider how neural network activations could explain the following:
+The representativeness heuristic can be understood as highly salient concept activations inappropriately dominating our reasoning. We then ignore e.g. base rates, sample size, statistical phenomena (regression to the mean), and the conjunctive burden of propositions. Consider how neural network activations could explain the following:
 
 > Intuitively, thinking of Linda as a feminist bank teller "feels" more correct than thinking of her as only a bank teller.
 
-The case for confirmation bias seems to be a little more involved. We had evolutionary pressure to win arguments, which might mean our cognitive search aims to _find_ supportive arguments and _avoid_ even subconsciously signalling that we are aware of the existence of counterarguments. This means that those supportive arguments _feel_ salient, and we (perhaps by "design") get to feel unbiased - we aren't consciously discarding evidence, we're just following our normal search/reasoning process! This is [what our search algorithm feels like from the inside.](https://www.lesswrong.com/posts/yA4gF5KrboK2m2Xu7/how-an-algorithm-feels-from-inside)
+The case for confirmation bias seems to be a little more involved. We had evolutionary pressure to win arguments, which might mean our cognitive search aims to _find_ supportive arguments and _avoid_ even subconsciously signaling that we are aware of the existence of counterarguments. This means that those supportive arguments _feel_ salient, and we (perhaps by "design") get to feel unbiased - we aren't consciously discarding evidence, we're just following our normal search/reasoning process! This is [what our search algorithm feels like from the inside.](https://www.lesswrong.com/posts/yA4gF5KrboK2m2Xu7/how-an-algorithm-feels-from-inside)
 
 ## Making heads and tails of probabilistic reasoning
 
@@ -78,8 +79,7 @@ However, checking the original paper, this was controlled for; K&T emphasized th
 
 Groups are good because they pool knowledge and expertise. However, studies show that by default, shared knowledge is much more likely to be discussed than unshared knowledge, which can significantly worsen decision-making. The authors give the example of a group initially disfavoring a student council candidate. One person is privately aware of crucial positive information about the candidate, and groups in which all members knew the info were likely to favor the candidate. The information wasn't usually shared, and the candidate was passed over.
 
-> [!quote]
-> \[Ameliorative\] strategies include forewarning the group in advance of the unique knowledge of different members and identifing expertise in the group before the discussion begins.
+> [!quote] > \[Ameliorative\] strategies include forewarning the group in advance of the unique knowledge of different members and identifying expertise in the group before the discussion begins.
 
 ## Open subaccounts for savings
 
@@ -97,7 +97,7 @@ You can avoid psychological annoyances throughout the year (tickets, unanticipat
 
 > [!quote]
 >
-> The striking aspect about [framing and reference-point effects](https://en.wikipedia.org/wiki/Framing_effect_\(psychology\)) is that they suggest the presence of underlying mental processes that are _more_ complicated than a rational decision-maker would employ. Rational decision-makers would simply seek to maximize the expected value of their choices. Whether these outcomes represent gains or losses would be irrelevant, and consideration of the outcome relative to the status quo would be a superfluous consideration. instead, we adjust to the status quo, and then think of the changes from that point as gains or losses.
+> The striking aspect about [framing and reference-point effects](<https://en.wikipedia.org/wiki/Framing_effect_(psychology)>) is that they suggest the presence of underlying mental processes that are _more_ complicated than a rational decision-maker would employ. Rational decision-makers would simply seek to maximize the expected value of their choices. Whether these outcomes represent gains or losses would be irrelevant, and consideration of the outcome relative to the status quo would be a superfluous consideration. instead, we adjust to the status quo, and then think of the changes from that point as gains or losses.
 >
 > Rayo and Becker (2007) present a persuasive explanation for why evolution programmed us with extra machinery that impairs our decisions. According to their explanation, our reliance on frames and reference points to assess outcomes is an elegant solution to a problematic biological constraint. The constraint is that our "subjective utility scale" – our ability to experience pleasure and pain – is not infinitely sensitive. Was Bill Gates's 50th billion dollars as satisfying as his first? certainly not. the limited sensitivity of our subjective utility scale is precisely the reason why we experience declining marginal utility for both gains and losses…
 >
@@ -145,5 +145,5 @@ This new year, I'm going to become a less oblivious, less stupid, and less wrong
 
 <hr/>
 
+[^1]: I also still want to learn Bayes nets, category theory, get a much deeper understanding of probability theory, provability logic, and decision theory.
 
-[^1]: I also still want to learn Bayes nets, category theory, get a much deeper understanding of probability theory, provability logic, and decision theory. 

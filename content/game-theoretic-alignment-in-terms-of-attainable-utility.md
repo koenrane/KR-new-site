@@ -21,10 +21,10 @@ title: "Game-theoretic Alignment in terms of Attainable Utility"
 lw-latest-edit: 2021-06-08T12:36:09.299Z
 lw-is-linkpost: "false"
 authors: Jacob Stavrianos and Alex Turner
-tags: 
+tags:
   - "game-theory"
   - "AI"
-aliases: 
+aliases:
   - "game-theoretic-alignment-in-terms-of-attainable-utility"
 lw-payoff-post-warning: "false"
 use-full-width-images: "false"
@@ -32,10 +32,11 @@ date_published: 06/08/2021
 original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 skip_import: true
 ---
+
 > [!thanks] Acknowledgements
-> 
-> This article is a writeup of research conducted through the [SERI](https://cisac.fsi.stanford.edu/stanford-existential-risks-initiative/content/stanford-existential-risks-initiative) program under the mentorship of [Alex Turner](https://www.lesswrong.com/users/turntrout). It extends our research on [game-theoretic POWER](/formalizing-multi-agent-power) and Alex's research on [POWER-seeking](/seeking-power-is-often-convergently-instrumental-in-mdps). 
-> 
+>
+> This article is a writeup of research conducted through the [SERI](https://cisac.fsi.stanford.edu/stanford-existential-risks-initiative/content/stanford-existential-risks-initiative) program under the mentorship of [Alex Turner](https://www.lesswrong.com/users/turntrout). It extends our research on [game-theoretic POWER](/formalizing-multi-agent-power) and Alex's research on [POWER-seeking](/seeking-power-is-often-convergently-instrumental-in-mdps).
+>
 > Thank you to Alex for being better at this than I am (hence mentorship, I suppose) and to SERI for the opportunity to conduct this research.
 
 # Motivation: POWER-scarcity
@@ -75,8 +76,9 @@ This narrows our problem statement to the point where we can start specifying cr
 
 **Consistency with affine transformations**
 : In particular, applying any affine transformation $A$ to each player's utility function should "preserve the structure of the game", which should be represented in the alignment metric. This criterion can be strengthened in the following ways:
-  1. _Alignment metric is an affine function of players' utilities._ Since the composition of affine functions is affine, this condition implies the above.
-  2. _Consistency under affine transformations for individual players._ The intuition is that affine transformations are precisely the set of transformations that "preserve preferences" in the VNM sense.
+
+1. _Alignment metric is an affine function of players' utilities._ Since the composition of affine functions is affine, this condition implies the above.
+2. _Consistency under affine transformations for individual players._ The intuition is that affine transformations are precisely the set of transformations that "preserve preferences" in the VNM sense.
 
 Another relevant distinction to be drawn is between _global_ and _local_ alignment metrics. Mathematically, we define a global metric to be strictly a function of a multi-player game, while a local metric is a function of both the game and a strategy profile. Intuitively, local metrics can "see" information about the strategies actually being played, while global metrics are forced to address the complexity of the entire game.
 
@@ -88,26 +90,21 @@ To give intuition on what such alignment metrics might look like, we present a f
 
 We'll be using the following games as examples:
 
-| | $\color{blue}{\text{Player 1: Heads}}$ | $\color{blue}{\text{Player 1: Tails}}$ | 
-| --: | --- | --- |
-| $\color{red}{\text{P2: Heads}}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ | 
-| $\color{red}{\text{P2: Tails}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ | 
+|                                 | $\color{blue}{\text{Player 1: Heads}}$                     | $\color{blue}{\text{Player 1: Tails}}$                     |
+| ------------------------------: | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| $\color{red}{\text{P2: Heads}}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ |
+| $\color{red}{\text{P2: Tails}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ |
 
 Table: [Matching Pennies](https://en.wikipedia.org/wiki/Matching_pennies).
 
-| | $\color{blue}{\text{Player 1: Cooperate}}$ | $\color{blue}{\text{Player 1: Defect}}$ |
-| --: | --- | --- |
-| $\color{red}{\text{P2: Coop.}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
+|                                   | $\color{blue}{\text{Player 1: Cooperate}}$                 | $\color{blue}{\text{Player 1: Defect}}$                    |
+| --------------------------------: | ---------------------------------------------------------- | ---------------------------------------------------------- |
+|   $\color{red}{\text{P2: Coop.}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
 | $\color{red}{\text{P2: Defect.}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
 
 Table: [Prisoners' Dilemma](https://en.wikipedia.org/wiki/Prisoner%27s_dilemma).
 
-
-
-
-
-
-We'll consider the following alignment metrics: 
+We'll consider the following alignment metrics:
 
 ### Metric: Total utility
 
@@ -125,13 +122,14 @@ Within this category, there are still some degrees of freedom. We can consider t
 Such metrics are constant for the constant-sum case, but vary in the common-payoff case, thus partially satisfying the "limiting cases" criterion. Summation is itself an affine transformation, so this metric fulfills the stronger version of the "affine transformation" criterion.
 
 ### Metric: Covariance of utility
+
 $$
 M := \text{Cov}(u_1, u_2).
 $$
 
 Considering the metric on our example games yields the following:
 
-Matching Pennies 
+Matching Pennies
 : is a zero-sum game, so we have $u_2 \equiv -u_1$. Thus, $\text{Cov}(u_1, u_2)$ equals $\text{Cov}(u_1, -u_1) = - \text{Var}(u_1)$. Note that $- \text{Var}(\cdot) \leq 0$, suggesting that the covariance metric tends to consider constant-sum games as less aligned than affine metrics.
 
 The Prisoners' Dilemma
@@ -141,7 +139,7 @@ This "feels like" a local metric in the sense that there aren't clear choices of
 
 This metric is consistent with the "limiting cases" criterion by properties of the covariance function. The relationship to the "affine transformation" criterion is odd: instead of an affine function of players' utilities, covariance is a (simple) bilinear function. Thus, the metric is an affine function _in each component utility_, but not in the vector of players' utilities.
 
-Additionally, note that if $X$ is a constant variable, then $\text{Cov}(X, Y) = 0$. Thus, if the strategy profile is deterministic, our metric will be 0. 
+Additionally, note that if $X$ is a constant variable, then $\text{Cov}(X, Y) = 0$. Thus, if the strategy profile is deterministic, our metric will be 0.
 
 # Social Welfare and the Coordination-Alignment Inequalities
 
@@ -154,13 +152,14 @@ We start with the following common-sense bounds on $w(\vec{u})$, which we call t
 $$
 \sum_i {u_i}(\vec{a})) \leq \max_{\vec{a}} \sum_i u_i(\vec{a}) \leq \sum_i \max_{\vec{a}} u_i(\vec{a})
 $$
+
 We call the first inequality the _Coordination Inequality_, and the second inequality the _Alignment Inequality_. We present some basic intuition:
 
-The Coordination inequality 
-: represents the difference between attained social welfare ("how well we're doing right now") and _maximum attainable _social welfare ("the best we can possibly do").
+The Coordination inequality
+: represents the difference between attained social welfare ("how well we're doing right now") and \_maximum attainable \_social welfare ("the best we can possibly do").
 
-The Alignment inequality 
-: represents the difference between attainable social welfare ("the best we can possibly do") and _each player's max attainable _social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
+The Alignment inequality
+: represents the difference between attainable social welfare ("the best we can possibly do") and \_each player's max attainable \_social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
 
 As it turns out, the limiting cases of alignment have a natural interpretation in terms of the C-A inequalities: they're just equality cases!
 
@@ -168,10 +167,10 @@ As it turns out, the limiting cases of alignment have a natural interpretation i
 - In a _constant-welfare game _(where $w(\vec{u}) = \sum_i u_i$ is constant), max social welfare is trivially achieved, so constant-welfare games are an equality case of the Coordination inequality.
 
 There are some caveats to this interpretation. While the "limiting cases" for alignment are equality cases of the C-A inequalities, they're not a full characterization of the equality cases.
-  
-The Coordination inequality 
+
+The Coordination inequality
 : is an equality IFF the action profile maximizes social welfare. The set of games for which all action profiles maximize welfare is precisely the constant-welfare games.
-The Alignment inequality 
+The Alignment inequality
 : is an equality IFF there exists a unique [Pareto efficient](https://en.wikipedia.org/wiki/Pareto_efficiency) payoff profile. This payoff profile must be optimal for each player, otherwise some preferred profile would also be Pareto efficient. This class of games is (superficially) much broader than the common-payoff games, but both have unique Pareto efficient Nash Equilibria which can be thought of as "max attainable utility".
 
 ## Constructing the C-A Alignment Metric
@@ -188,14 +187,13 @@ $$
 
 We now perform the same analysis as with our example alignment metrics:
 
-We see that $\alpha$ is consistent with limiting cases of alignment in the sense that $\alpha \in [\sum_i u_i(\vec{a}) - \sum_i \max_{\vec{a}} u_i(\vec{a}), 0]$, with the bounds corresponding to the proper limiting cases. Additionally, we see that $\alpha$ is consistent with affine transformations of $\vec{u}$. In fact, for finite games $\alpha$ is a _piecewise_ affine function in $\vec{u}$, since the max terms provide a finite number of nondifferentiable points.
+We see that $\alpha$ is consistent with limiting cases of alignment in the sense that $\alpha \in [\sum_i u_i(\vec{a}) - \sum_i \max_{\vec{a}} u_i(\vec{a}), 0]$, with the bounds corresponding to the proper limiting cases. Additionally, we see that $\alpha$ is consistent with affine transformations of $\vec{u}$. In fact, for finite games $\alpha$ is a _piecewise_ affine function in $\vec{u}$, since the max terms provide a finite number of non-differentiable points.
 
 Considering the metric on our example games yields the following:
 
 - Matching Pennies has $\alpha = \max_{\vec{a}} \sum_i u_i(\vec{a}) - \sum_i \max_{\vec{a}} u_i(\vec{a}) = (0) - (2) = -2$. Note that Matching Pennies is a zero-sum game, so $\alpha$ is "minimal" in the sense that all the lost social welfare comes from alignment issues as opposed to coordination ones.
-- Prisoners' Dilemma has $\alpha = \max_{\vec{a}} \sum_i u_i(\vec{a}) - \sum_i \max_{\vec{a}} u_i(\vec{a}) = (4) - (6) = -2$
-	- coincidence? Yes; it's a consequence of arbitrary choices of payoff sizes in the game definitions. 
-The difference can be thought of as the difference in payoff between mutual cooperation and "magically, both players get to unilaterally defect on the other".
+- Prisoners' Dilemma has $\alpha = \max_{\vec{a}} \sum_i u_i(\vec{a}) - \sum_i \max_{\vec{a}} u_i(\vec{a}) = (4) - (6) = -2$ - coincidence? Yes; it's a consequence of arbitrary choices of payoff sizes in the game definitions.
+  The difference can be thought of as the difference in payoff between mutual cooperation and "magically, both players get to unilaterally defect on the other".
 
 > [!warning] Disclaimer
 > We don't claim that $\alpha$ is the "one true alignment metric" and that our research question is solved. We think that the C-A inequalities are probably significant for the eventual POWER-scarcity application and that $\alpha$ illustrates this point nicely. We don't mean to downplay our own research, but more investigation would be needed to pin down "The" alignment metric and relate it directly to POWER-scarcity.
@@ -209,11 +207,12 @@ To begin, we choose the natural strategy profile of [maxmin](https://en.wikipedi
 $$
 s_i(\vec{a}) = u_i(\vec{a}) - u_i(\vec{a_0})
 $$
+
 A few quick observations, assuming $w$ is linear for convenience:
 
 - We trivially have $s_i(\vec{a}) \leq \max_{\vec{a}} u_i(\vec{a}) - u_i(\vec{a_0})$, and thus $\sum_i s_i(\vec{a}) \leq \sum_i \max_{\vec{a}} u_i(\vec{a}) - \sum_i u_i(\vec{a_0})$. By the Coordination Inequality, we have the stronger statement of $\sum_i s_i(\vec{a}) \leq \max_{\vec{a}} \sum_i u_i(\vec{a}) - \sum_i u_i(\vec{a_0})$.
 - There isn't a fundamental lower bound on $s_i(\vec{a})$ - players can (in theory) lose as badly as they want.
-- By definition of maxmin, if player $i$ plays a best response, then $s_i(\vec{a}) \geq 0$. Intuitively, we motivate using maxmin as the natural strategy profile by allowing the guarantee of nonnegative surplus.
+- By definition of maxmin, if player $i$ plays a best response, then $s_i(\vec{a}) \geq 0$. Intuitively, we motivate using maxmin as the natural strategy profile by allowing the guarantee of non-negative surplus.
 
 Analysis of surplus can be viewed through the lens of [bargaining theory](https://en.wikipedia.org/wiki/Cooperative_bargaining). The maxmin strategy profile $\vec{a_0}$ is a natural choice of threat point, since it's the optimal guaranteed outcome given no cooperation. Thus, players are "bargaining for surplus", with threat point of each player receiving zero surplus.
 

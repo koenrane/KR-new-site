@@ -40,6 +40,7 @@ original_url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-differe
 no_dropcap: "true"
 skip_import: true
 ---
+
 > [!quote] Reinforcement Learning: An Introduction
 > The safety of artificial intelligence applications involving reinforcement learning is a topic that deserves careful attention.
 
@@ -49,7 +50,7 @@ skip_import: true
 
 ## 2: Multi-armed Bandits
 
-_Bandit basics, including nonstationarity, the value of optimism for incentivizing exploration, and upper-confidence-bound action selection._
+_Bandit basics, including non-stationarity, the value of optimism for incentivizing exploration, and upper-confidence-bound action selection._
 
 Some explore/exploit results are relevant to daily life - I highly recommend reading _[Algorithms to Live By: The Computer Science of Human Decisions](https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365)_.
 
@@ -67,9 +68,9 @@ _Prediction, control, and importance sampling._
 
 ### Importance Sampling
 
-After gathering data with our behavior policy  $b$, we then want to approximate the value function for the target policy  $\pi$. In off-policy methods, the policy we use to gather the data is different from the one whose value  $v_\pi$ we're trying to learn; in other words, the distribution of states we sample is different. This gives us a skewed picture of  $v_\pi$, so we must overcome this bias.
+After gathering data with our behavior policy $b$, we then want to approximate the value function for the target policy $\pi$. In off-policy methods, the policy we use to gather the data is different from the one whose value $v_\pi$ we're trying to learn; in other words, the distribution of states we sample is different. This gives us a skewed picture of $v_\pi$, so we must overcome this bias.
 
-If  $b$ can take all of the actions that  $\pi$ can (i.e.  $\forall a,s: \pi(a|s)>0\implies b(a|s) >0$), we can overcome by adjusting the return  $G_t$ of taking a series of actions  $A_t,\dots,A_{T-1}$ using the importance-sampling ratio  $\rho_{t:T-1} := \prod_{k=t}^{T-1}\frac{\pi(A_k \,|\,S_k)}{b(A_k \,|\,S_k)}$. This cleanly recovers  $v_\pi$ by the definition of expectation:
+If $b$ can take all of the actions that $\pi$ can (i.e. $\forall a,s: \pi(a|s)>0\implies b(a|s) >0$), we can overcome by adjusting the return $G_t$ of taking a series of actions $A_t,\dots,A_{T-1}$ using the importance-sampling ratio $\rho_{t:T-1} := \prod_{k=t}^{T-1}\frac{\pi(A_k \,|\,S_k)}{b(A_k \,|\,S_k)}$. This cleanly recovers $v_\pi$ by the definition of expectation:
 
 $$
 \begin{align*}
@@ -78,60 +79,65 @@ $$
 &= v_\pi(s).
 \end{align*}
 $$
-Then after observing some set of returns (where  $\{G_t\}_{t \in \mathcal{T}(s)}$ are the relevant returns for state  $s$), we define the state's value as the average adjusted observed return
+
+Then after observing some set of returns (where $\{G_t\}_{t \in \mathcal{T}(s)}$ are the relevant returns for state $s$), we define the state's value as the average adjusted observed return
 
 $$
 V(s):=\frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}G_t}{|\mathcal{T}(s)|}.
 $$
-However, the  $\rho_{t:T(t)-1}$'s can be arbitrarily large (suppose  $\pi(A\,|\,S)=.5$ and  $b(A\,|\,S) = 1×10^{-10}$;  $\frac{.5}{1×10^{-10}}=.5×10^{10}$), so the variance of this estimator can get pretty big. To get an estimator whose variance converges to 0, try
+
+However, the $\rho_{t:T(t)-1}$'s can be arbitrarily large (suppose $\pi(A\,|\,S)=.5$ and $b(A\,|\,S) = 1×10^{-10}$; $\frac{.5}{1×10^{-10}}=.5×10^{10}$), so the variance of this estimator can get pretty big. To get an estimator whose variance converges to 0, try
 
 $$
 V(s):=\frac{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}G_t}{\sum_{t \in \mathcal{T}(s)} \rho_{t:T(t)-1}}.
 $$
+
 ### Death and Discounting
 
-Instead of viewing the discount factor  $\gamma$ as measuring how much we care about the future, think of it as encoding the probability we don't terminate on any given step. That is, we expect with  $1-\gamma$ probability to die on the next turn, so we discount rewards accordingly.
+Instead of viewing the discount factor $\gamma$ as measuring how much we care about the future, think of it as encoding the probability we don't terminate on any given step. That is, we expect with $1-\gamma$ probability to die on the next turn, so we discount rewards accordingly.
 
 This intuition hugs pre-theoretic understanding much more closely; if you have just 80 years to live, you might dive that big blue sky. If, however, you imagine there's a non-trivial chance that humanity can be more than just a flash in the pan, you probably care more about the far future.
 
 ## 6: Temporal-Difference Learning
 
-_The tabular triple threat:_  $\text{TD(0)}$,  `SARSA`_, and_  Q_-learning._
+_The tabular triple threat:_ $\text{TD(0)}$, `SARSA`_, and_ Q*-learning.*
 
 ### Learning TD Learning
 
 $$
 V(S_t) \gets V(S_t) + \alpha \Big[\underbrace{\overbrace{R_{t+1} + \gamma V(S_{t+1})}^\text{TD target} - V(S_t)}_\text{TD error} \Big]
 $$
-###  $_\text{TD(0)}\star^\text{SARSA}_\text{Q}$
 
--  $\text{TD(0)}$ is one-step bootstrapping of _state values_ $v_\pi$. It helps you learn the value of a given policy, and is not used for control.
--  `SARSA` is on-policy one-step bootstrapping of the _action values_ $q_\pi$ using the quintuples  $(S,A,R,S',A')$.
+### $_\text{TD(0)}\star^\text{SARSA}_\text{Q}$
 
-> [!quote] 
-> As in all on-policy methods, we continually estimate  $q_\pi$ for the policy  $\pi$, and at the same time change  $\pi$ toward greediness with respect to  $q_\pi$.
+- $\text{TD(0)}$ is one-step bootstrapping of _state values_ $v_\pi$. It helps you learn the value of a given policy, and is not used for control.
+- `SARSA` is on-policy one-step bootstrapping of the _action values_ $q_\pi$ using the quintuples $(S,A,R,S',A')$.
 
--  Q-learning is _off-policy_ one-step bootstrapping of action values  $q_\pi$.
-	- You take an action using π and then use the maximal action value at the next state in your TD target term.
+> [!quote]
+> As in all on-policy methods, we continually estimate $q_\pi$ for the policy $\pi$, and at the same time change $\pi$ toward greediness with respect to $q_\pi$.
 
-###  $\max$imization bias
+- Q-learning is _off-policy_ one-step bootstrapping of action values $q_\pi$.
+  - You take an action using π and then use the maximal action value at the next state in your TD target term.
 
-With great branching factors come great biases, and optimistic bias is problematic for  Q-learning.
+### $\max$imization bias
 
-> 	[!math] Definition
-> The  Q-learning update rule for state  $S_t$, action  $A_t$, and new state  $S_{t+1}$ is
-> 
+With great branching factors come great biases, and optimistic bias is problematic for Q-learning.
+
+>     [!math] Definition
+>
+> The Q-learning update rule for state $S_t$, action $A_t$, and new state $S_{t+1}$ is
+>
 > $$
 > Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha\Big[R_{t+1} + \gamma \max_a Q(S_{t+1}, a) - Q(S_t, A_t)\Big].
 > $$
 
-Suppose the rewards for all 100 actions at  $S_{t+1}$ are distributed according to  $\mathcal{N}(0,1)$. All of these actions have a true (expected) value of 0, but the probability that none of their estimates are greater than .8 after 1 draw each is  $\Phi(.8)^{100}\approx4.6×10^{-11}$. The more actions you have, the higher the probability is that at the maximum is just an outlier. See: [regression toward the mean and mutual funds](https://en.wikipedia.org/wiki/Regression_toward_the_mean#Importance).
+Suppose the rewards for all 100 actions at $S_{t+1}$ are distributed according to $\mathcal{N}(0,1)$. All of these actions have a true (expected) value of 0, but the probability that none of their estimates are greater than .8 after 1 draw each is $\Phi(.8)^{100}\approx4.6×10^{-11}$. The more actions you have, the higher the probability is that at the maximum is just an outlier. See: [regression toward the mean and mutual funds](https://en.wikipedia.org/wiki/Regression_toward_the_mean#Importance).
 
-To deal with this, we toss another  Q-learner into the mix; at any given update, one has their value updated and the other greedifies the policy. The double  Q-learning scheme works because both  Q-learners are unlikely to be biased in the same way. For some reason, this [wasn't discovered until 2010](https://papers.nips.cc/paper/3964-double-q-learning).
+To deal with this, we toss another Q-learner into the mix; at any given update, one has their value updated and the other greedifies the policy. The double Q-learning scheme works because both Q-learners are unlikely to be biased in the same way. For some reason, this [wasn't discovered until 2010](https://papers.nips.cc/paper/3964-double-q-learning).
 
-## 7:  $n$-step Bootstrapping
+## 7: $n$-step Bootstrapping
 
- $n$-_step everything._
+$n$-_step everything._
 
 ## 8: Planning and Learning with Tabular Methods
 
@@ -139,31 +145,31 @@ _Models, prioritized sweeping, expected vs. sample updates, MCTS, and rollout al
 
 ### Roles Models Play
 
-_Distribution_ models include the full range of possible futures and their probabilities. For example, a distribution model for two fair coins:  
+_Distribution_ models include the full range of possible futures and their probabilities. For example, a distribution model for two fair coins:
 
 $$
 \{\text{HH: .25, HT: .5, TT: .25}\}.
 $$
 
-_Sample_ models just let you, well, sample.  `HH, HT, HT, HT, HH, TT, HH, HT`... You could sample thousands of times and gain a high degree of confidence that the above distribution model is generating the data, but this wouldn't be your _only_ hypothesis (granted, it might have the lowest Kolmogorov complexity).
+_Sample_ models just let you, well, sample. `HH, HT, HT, HT, HH, TT, HH, HT`... You could sample thousands of times and gain a high degree of confidence that the above distribution model is generating the data, but this wouldn't be your _only_ hypothesis (granted, it might have the lowest Kolmogorov complexity).
 
 Note that a distribution model also can function as a sample model.
 
 ## 9: On-policy Prediction with Approximation
 
-_We finally hit the_ good stuff_: value-function approximators and gradient methods._
+_We finally hit the_ good stuff*: value-function approximators and gradient methods.*
 
 ## 10: On-policy Control with Approximation
 
 ## 11: Off-policy Methods with Approximation
 
-_The_  $\mathfrak{deadly}\text{ }\mathfrak{triad}$ _of function approximation, bootstrapping, and off-policy training converge to sow <span class='corrupted'>divergence</span> and <span class='corrupted'>instability</span> in your methods. Metal._
+_The_ $\mathfrak{deadly}\text{ }\mathfrak{triad}$ _of function approximation, bootstrapping, and off-policy training converge to sow <span class='corrupted'>divergence</span> and <span class='corrupted'>instability</span> in your methods. Metal._
 
 ## 12: Eligibility Traces
 
 _I was told to skip this chapter; the first half was my favorite part of the book._
 
- $\text{TD}(\lambda)$ uses a backwards-view eligibility trace to update features, which I find elegant. Suppose you have some feature extraction function  $\phi:\mathcal{S}\to\mathbb{R}^\text{d}$. Then you apply your TD update not only based on the features relevant at the current state, but also to the time-decaying traces of the features of previously-visited states.  $\lambda \in [0,1]$ sets how quickly this eligibility decay happens;  $\lambda=0$ recovers  $\text{TD(0)}$, while  $\lambda=1$ recovers Monte-Carlo return methods.
+$\text{TD}(\lambda)$ uses a backwards-view eligibility trace to update features, which I find elegant. Suppose you have some feature extraction function $\phi:\mathcal{S}\to\mathbb{R}^\text{d}$. Then you apply your TD update not only based on the features relevant at the current state, but also to the time-decaying traces of the features of previously-visited states. $\lambda \in [0,1]$ sets how quickly this eligibility decay happens; $\lambda=0$ recovers $\text{TD(0)}$, while $\lambda=1$ recovers Monte-Carlo return methods.
 
 When I was a kid, there was a museum I loved going to - it had all kinds of wacky interactive devices for kids. One of them took sounds and "held them in the air" at a volume which slowly decreased as a function of how long ago the sound was made. State features are sounds, and volume is eligibility.
 
@@ -225,20 +231,21 @@ This is just _one_ of the [many](https://arbital.com/p/advanced_safety/) [open p
 
 I read the "nearly-complete" draft of the second edition, available [here](http://incompleteideas.net/book/the-book-2nd.html). It was pretty good, but I did find most of the exercises either too easy or requiring considerable programming investment to set up the environment described. The former makes sense, as I've already taken a course on this, and I'm probably a bit above the introductory level.
 
-Some graphs could have been more clearly designed, and some math in the proof of Linear  $\text{TD(0)}$'s convergence (p. 206-207) is underspecified:
+Some graphs could have been more clearly designed, and some math in the proof of Linear $\text{TD(0)}$'s convergence (p. 206-207) is underspecified:
 
-> In general,  $\textbf{w}_t$ will be reduced toward zero whenever  $\textbf{A}$ is positive definite, meaning  $y^\top\textbf{A}y > 0$ for real vector  $y$.
+> In general, $\textbf{w}_t$ will be reduced toward zero whenever $\textbf{A}$ is positive definite, meaning $y^\top\textbf{A}y > 0$ for real vector $y$.
 
-An additional precondition:  $y$ can't be the zero vector.
+An additional precondition: $y$ can't be the zero vector.
 
-> For a key matrix of this type, positive definiteness is assured if all of its columns sum to a nonnegative number.
+> For a key matrix of this type, positive definiteness is assured if all of its columns sum to a non-negative number.
 
 Unless I totally missed what "this type" entails, this is false if taken at face value:
 
 $$
 \begin{pmatrix} -2 & 5\\ 5 & -2 \end{pmatrix}
 $$
-has nonnegative column sums and is also indefinite, having eigenvalues of 3 and -7.
+
+has non-negative column sums and is also indefinite, having eigenvalues of 3 and -7.
 
 However, the claim _is_ true in the subtle way they use it - they're _actually_ showing that since the matrix is symmetric, real, and strictly diagonally dominant with positive diagonal entries, it's also positive definite. This could be made clearer.
 
