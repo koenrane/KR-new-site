@@ -13,6 +13,6 @@ export default ((component?: QuartzComponent) => {
     MobileOnly.css = component?.css
     return MobileOnly
   } else {
-    return () => <></>
+    return () => null
   }
 }) satisfies QuartzComponentConstructor

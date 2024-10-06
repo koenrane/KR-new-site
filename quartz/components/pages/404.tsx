@@ -8,8 +8,8 @@ const NotFound: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
         <div>
           <h1>404</h1>
           <p>
-            That page doesn't exist. <br />
-            But don't leave! There <br />
+            That page doesn’t exist. <br />
+            But don’t leave! There <br />
             are other fish in the pond.
           </p>
         </div>

@@ -155,7 +155,8 @@ export var twemoji =
       return String(d).replace(f, u)
     }
     function p(d, u) {
-      for (var f = [], $ = 0, c = 0, e = 0; e < d.length;)
+      var f = []
+      for (var $ = 0, c = 0, e = 0; e < d.length;)
         ($ = d.charCodeAt(e++)),
           c
             ? (f.push((65536 + ((c - 55296) << 10) + ($ - 56320)).toString(16)), (c = 0))
