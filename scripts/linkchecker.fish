@@ -3,8 +3,7 @@
 # If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT (git rev-parse --show-toplevel)
 
-set -l MD_FILES (find "$GIT_ROOT/content" -name "*.md" ! -path "drafts/*" "private/")
-fish "$GIT_ROOT/scripts/md_link_checker.fish" "$MD_FILES"
+fish "$GIT_ROOT/scripts/md_linkchecker.fish" 
 set -l MD_CHECK_STATUS $status
 
 set -l TARGET_FILES $argv
@@ -13,12 +12,9 @@ if test -z "$TARGET_FILES"
     set TARGET_FILES $GIT_ROOT/public/**html
 end
 
-# So, the ignore-url syntax is very confusing. 
-#  linkchecker only checks those links which *match* the regex. 
-#  So if you want to ignore a link, you need to match it with a regex that doesn't match the link.
-
-# Internal links should NEVER 404!
-linkchecker $TARGET_FILES --ignore-url="!^\.+.*" --no-warnings
+# Internal links should NEVER 404! Check links which start with a dot or slash
+# Use the live server to resolve relative links
+linkchecker http://localhost:8080 --threads 20
 set -l HTML_CHECK_STATUS_1 $status
 
 # CDN links should never 404

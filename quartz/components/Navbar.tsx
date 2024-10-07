@@ -1,12 +1,11 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { pathToRoot } from "../util/path"
+import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
 import navbarStyle from "./styles/navbar.scss"
 
 // @ts-expect-error Not a module but a script
 import script from "./scripts/navbar.inline"
 import { Options } from "./NavbarNode"
 import { headerVideoContainer } from "./PageTitle"
-import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
 let darkMode = (
@@ -75,21 +74,19 @@ type Page = {
 }
 
 export default ((userOpts?: Partial<Options>) => {
-  const Navbar: QuartzComponent = ({
-    cfg,
-    displayClass,
-    fileData,
-  }: QuartzComponentProps) => {
-    const pages: Page[] = "pages" in cfg.navbar ? cfg.navbar.pages as Page[] : []
+  const Navbar: QuartzComponent = ({ cfg, fileData }: QuartzComponentProps) => {
+    const pages: Page[] = "pages" in cfg.navbar ? (cfg.navbar.pages as Page[]) : []
+    const currentSlug = fileData.slug!
+
+    const links = pages.map((page: Page) => (
+      <li key={page.slug}>
+        <a href={resolveRelative(currentSlug, page.slug as FullSlug)}>{page.title}</a>
+      </li>
+    ))
 
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
     const baseDir = pathToRoot(fileData.slug!)
 
-    const links = pages.map((page: Page) => (
-      <li key={page.slug}>
-        <a href={page.slug}>{page.title}</a>
-      </li>
-    ))
     const pageLinks = (
       <nav className="menu">
         <ul>{links}</ul>
@@ -97,7 +94,7 @@ export default ((userOpts?: Partial<Options>) => {
     )
     return (
       <>
-        <div id="navbar" className={classNames(displayClass, "navbar")}>
+        <div id="navbar" className="navbar">
           <div id="navbar-left">
             {headerVideoContainer}
             <h2 class="page-title-text">

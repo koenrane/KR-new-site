@@ -151,7 +151,7 @@ And even if the environment is stochastic, I think that there won't be any kind 
 
 Consider the $n=2$ pixel-flipping case (with $T=50$ still). Action $a_1$ still leads to a single OH, while $a_2$ leads to $(2×2)^{49}=4^{49}\approx 10^{29}$ OHs. So we have instrumental convergence for $\frac{10^{29}}{10^{29}+1}$ of all u<sub>OH</sub> variants.
 
-Let's model the pixel-flipping environment as a Markov decision process (MDP), with both the time-step and alive/dead status observed at each time step in order to ensure full observability, and the final time-step observations being terminal states where the agent stays forever. Dying allows the agent access to 1 terminal state: the observation `1/0/0/0(dead)`. But surviving via $a_2$ lets the agent access $2^4=16$ terminal states (all 16 binary strings of length 4, with 'alive' appended to the end).
+Let's model the pixel-flipping environment as a Markov decision process (MDP), with both the time-step and alive/dead status observed at each time step in order to ensure full observability, and the final time-step observations being terminal states where the agent stays forever. Dying allows the agent access to 1 terminal state: the observation `1/0/0/0 (dead)`. But surviving via $a_2$ lets the agent access $2^4=16$ terminal states (all 16 binary strings of length 4, with 'alive' appended to the end).
 
 For each reward function over states, only $\frac{16}{16+1}=\frac{16}{17}$ of its permuted variants [will incentivize](/quantitative-strength-of-instrumental-convergence) not dying at $t=1$ (considering policies which maximize average per-timestep reward). This is a lot looser than the bound for u<sub>OH</sub>. What gives?
 
