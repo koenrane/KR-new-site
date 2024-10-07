@@ -52,9 +52,8 @@ The _Conservative Agency_ paper showed that AUP works in tiny gridworld environm
 
 The AI policy controls the <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>. The policy was reinforced for destroying the <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/> and finishing the level. However, there are fragile <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> patterns which we want the AI to not mess with. The challenge is to train a policy which avoids the <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> while still effectively destroying the <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/>, _without_ explicitly penalizing the AI for bumping into <img class="inline-img" src="https://assets.turntrout.comhttps://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/>!
 
-<video src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.">
-<source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4"autoplay loop playsinline muted  type="video/mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.">
-<source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.">
+<source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4" type="video/mp4"/>
 </video>
 <figcaption >AUP does a great job. The policy avoids the green stuff and hits the red stuff.</figcaption>
 
@@ -79,13 +78,13 @@ The AI policy controls the <img class="inline-img" src="https://assets.turntrout
 >
 > The agent is reinforced for destroying red cells. After enough cells are destroyed, the agent may exit the level.
 >
-> <video src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level." ><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4"autoplay loop playsinline muted  type="video/mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level." ><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video></video>
+> <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level." ><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4"  type="video/mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level." ><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video></video>
 >
 > #### `append-still-easy`
 >
 > The agent is reinforced for creating gray cells on light blue tiles. After enough gray cells are present on blue tiles, the agent may exit the level.
 >
-> <video src="https://assets.turntrout.com/static/images/posts/append_still-easy_trajectories.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+> <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/append_still-easy_trajectories.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
 >
 > AUP's first trajectory temporarily stalls, before finishing the episode after the video's 14-second cutoff. AUP's second trajectory does much better.
 >
