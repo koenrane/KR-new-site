@@ -86,13 +86,6 @@ if ! nc -z localhost 8080; then
 	echo "Started quartz server."
 fi
 
-# Check that all internal links on the served site are valid
-# linkchecker http://localhost:8080 --no-status --ignore-url=/static
-# Check that all external assets (presumably hosted on Cloudflare R2) are valid
-# ASSET_REFERENCING_FILES=$(fish $(source "$GIT_ROOT/scripts/utils.fish" && find_asset_referencing_files)) # TODO broken
-# echo $ASSET_REFERENCING_FILES # TODO check image files -- use python?
-# linkchecker --check-extern --ignore-urls="(?!.*\.(png|jpe?g|gif|webp|webm|svg|mp3|mp4)$).*" http://localhost:8080
-
 # Run visual regression testing
 set +e
 fish "$GIT_ROOT/scripts/run_backstop.fish"
@@ -114,14 +107,13 @@ if [[ "$TEST_STATUS" -ne 0 ]]; then
     fi
 fi
 
-# Check for localhost links
-echo "Checking rendered pages."
+echo "Checking rendered pages for malformed HTML contents."
 python "$GIT_ROOT"/scripts/built_site_checks.py
 if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "\033[0;32mRendered pages look good.\033[0m"
 
-# Make sure that all internal links are valid
-# linkchecker "$GIT_ROOT"/public/**html --ignore-url=".."
+# Make sure that all internal and CDN links are valid
+#  Also checks syntax of md links.
 fish "$GIT_ROOT/scripts/linkchecker.fish"
