@@ -3,10 +3,7 @@ import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { formatTitle } from "../components/component_utils"
 
 import { TagList } from "./TagList"
-import {
-  GetQuartzPath,
-  urlCache,
-} from "../plugins/transformers/linkfavicons"
+import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
 import style from "./styles/contentMeta.scss"
 import { ValidLocale } from "../i18n"
 import { GlobalConfiguration } from "../cfg"
@@ -89,7 +86,11 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
   const frontmatter = fileData.frontmatter
   const datePublished = frontmatter?.date_published
-  if (typeof frontmatter?.original_url !== "string" || !datePublished || frontmatter?.hide_metadata) {
+  if (
+    typeof frontmatter?.original_url !== "string" ||
+    !datePublished ||
+    frontmatter?.hide_metadata
+  ) {
     return null
   }
 
@@ -105,7 +106,7 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
     <span className="publication-str">
       {insertFavicon(
         faviconPath,
-        <a href={url.toString()} className="external" target="_blank">
+        <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
           Originally published
         </a>,
       )}
@@ -179,7 +180,7 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
       Originally linked to{" "}
       {insertFavicon(
         faviconPath,
-        <a href={linkpostUrl} className="external" target="_blank">
+        <a href={linkpostUrl} className="external" target="_blank" rel="noopener noreferrer">
           {displayText}
         </a>,
       )}

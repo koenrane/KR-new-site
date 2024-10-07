@@ -7,6 +7,7 @@ from .. import r2_upload
 from .. import utils as script_utils
 import os
 import git  # Add this import
+import tempfile
 
 
 @pytest.fixture()
@@ -173,7 +174,7 @@ def test_upload_and_move_failures(
 @pytest.mark.parametrize(
     "args, expected_exception",
     [
-        (["-v", "-m", "/tmp", "quartz/static/test.jpg"], None),
+        (["-v", "-m", tempfile.gettempdir(), "quartz/static/test.jpg"], None),
         (["quartz/static/non_existent_file.jpg"], FileNotFoundError),
         ([], SystemExit),
     ],
@@ -311,12 +312,12 @@ def test_preserve_path_structure_with_replacement(mock_git_root, tmp_path):
 
 def test_strict_static_path_matching(test_media_setup, mock_git_root):
     _, _, content_dir, _ = test_media_setup
-    
+
     md_content = """
     1. Correct: ![image](/static/images/test.jpg)
     2. Incorrect: ![image](a/static/images/test.jpg)
     """
-    
+
     md_file = content_dir / "test.md"
     md_file.write_text(md_content)
 
@@ -331,5 +332,6 @@ def test_strict_static_path_matching(test_media_setup, mock_git_root):
     expected_url = "https://assets.turntrout.com/static/images/test.jpg"
 
     assert f"![image]({expected_url})" in updated_content
-    assert "![image](a/static/images/test.jpg)" in updated_content, "Incorrect case was unexpectedly modified"
-
+    assert (
+        "![image](a/static/images/test.jpg)" in updated_content
+    ), "Incorrect case was unexpectedly modified"

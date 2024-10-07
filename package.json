@@ -21,7 +21,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,sh,fish}": "prettier --write",
-    "*.{py}": "black --line-length 80 --write"
+    "*.py": "black"
   },
   "engines": {
     "npm": ">=9.3.1",
