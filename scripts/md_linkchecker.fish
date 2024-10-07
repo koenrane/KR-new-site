@@ -17,7 +17,11 @@ function check_md_links
         end
     end
 
-    exit (test $found_invalid = true)
+    if test $found_invalid = true
+        exit 1
+    else
+        exit 0
+    end
 end
 
 if not set -q GIT_ROOT
