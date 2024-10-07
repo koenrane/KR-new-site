@@ -1,6 +1,6 @@
 version = 1
 
-test_patterns = ["**test.jsx?", "**test.tsx?"]
+test_patterns = ["**test.jsx?", "**test.tsx?", "**test_*.py"]
 
 [[analyzers]]
 name = "shell"
