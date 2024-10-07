@@ -114,6 +114,11 @@ dd > p:first-child {
 .footnotes ol > li::before {
   margin-right: calc(0.25 * $baseMargin);
 }
+
+ul li::marker {
+  color: var(--gray);
+}
+
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
   & > li {
