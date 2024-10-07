@@ -34,7 +34,7 @@ skip_import: true
 > [!note]
 > The following is the transcript of a talk I gave for some current computer science students at my alma mater, [Grinnell College](https://www.grinnell.edu/). This talk answers "What do I wish I had known while at Grinnell?".
 
-![](grinnell.png)
+![](https://assets.turntrout.com/static/images/posts/grinnell.avif)
 Figure: Grinnell campus.
 
 Hi, I'm Alex Turner. I’m honored to be here under Sam’s invitation. I'm in the class of 2016. I miss Grinnell, but I miss my friends more—enjoy the time you have left together. 

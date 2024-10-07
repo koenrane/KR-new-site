@@ -632,7 +632,7 @@ Here's what we did:
 
 Table:  Residual stream alignment for activation additions.![](https://assets.turntrout.com/static/images/posts/xsrxtbmdkr9dftyyrdpj.avif)
 
-![](injection-gpt2.png)
+![](https://assets.turntrout.com/static/images/posts/injection-gpt2.avif)
 <br/>Figure: For each of the 48 injection sites we consider (each before an attention layer), we show the average perplexity across the GPT-4 sentences which were classified as being about weddings or not.
 
 Several observations:

@@ -249,7 +249,7 @@ Let's think about Minecraft. (Technically, the theorems don't apply to Minecraft
 
 We could reward the agent for ending up in different chunks of a Minecraft world. Here, retargeting often looks like "swap which chunks gets which reward."
 
-![](minecraft-map.png)
+![](https://assets.turntrout.com/static/images/posts/minecraft-map.avif)
 <br/>Figure: We could reward the agent for being in different map chunks (say, those within 1 million blocks of spawn). At low levels of instrumental convergence and training procedure competence, agents will just mill about near the starting area.
 
 At higher levels of competence, most of the accessible chunks are far away, and so we should observe a strong tendency for policies to e.g. [quickly tame a horse and reach](https://gaming.stackexchange.com/questions/20835/what-is-the-fastest-way-to-travel-long-distances-in-minecraft) the [Nether](https://minecraft.fandom.com/wiki/The_Nether) (where each Nether block traveled counts for 8 blocks traveled back in the overworld). Thus, in Minecraft, trained policy instrumental convergence will increase with the training procedure competence.
