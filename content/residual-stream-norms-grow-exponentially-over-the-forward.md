@@ -61,7 +61,9 @@ Back in MATS 3.0, Stefan had previously noticed this phenomenon in GPT-2-small:
 
 [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) also finds a growth in the norms of the attention-out matrices $W_O$ and the norms of MLP out matrices $W_{\rm out}$ ("writing weights"), while they find stable norms for $W_Q$, $W_K$, and $W_{\rm in}$ ("reading weights"):
 
-> [!quote] [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) > ![https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif](https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif)
+> [!quote] [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) 
+> 
+> ![https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif](https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif)
 
 # Comparison of various transformer models
 
