@@ -139,7 +139,7 @@ def convert_asset(
             check=False,  # Apparently info still gets removed so OK to not check?
         )
 
-    if remove_originals:
+    if remove_originals and input_file.suffix not in (".mp4", ".avif"):
         input_file.unlink()
 
 

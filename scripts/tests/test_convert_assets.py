@@ -92,7 +92,7 @@ def test_video_conversion(ext: str, setup_test_env):
         file_content: str = f.read()
 
     convert_assets.convert_asset(
-        asset_path, md_replacement_dir=Path(setup_test_env)
+        asset_path, md_replacement_dir=Path(setup_test_env), remove_originals=True
     )
 
     assert mp4_path.exists()
@@ -107,16 +107,18 @@ def test_video_conversion(ext: str, setup_test_env):
         )
 
 
-def test_remove_source_files(setup_test_env):
+# Test that it keeps or removes source files
+@pytest.mark.parametrize("remove_originals", [True, False])
+def test_remove_source_files(setup_test_env, remove_originals):
     asset_path = Path(setup_test_env) / "quartz" / "static" / "asset.jpg"
     assert asset_path.exists()
 
     convert_assets.convert_asset(
         asset_path,
-        remove_originals=True,
+        remove_originals=remove_originals,
         md_replacement_dir=Path(setup_test_env),
     )
-    assert not asset_path.exists()
+    assert asset_path.exists() == (not remove_originals)
 
 
 def test_strip_metadata(setup_test_env):
