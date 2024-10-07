@@ -18,7 +18,7 @@ linkchecker http://localhost:8080 --threads 20
 set -l HTML_CHECK_STATUS_1 $status
 
 # CDN links should never 404
-linkchecker $TARGET_FILES --ignore-url="!^https?://assets\.turntrout\.com" --no-warnings --check-extern
+linkchecker $TARGET_FILES --ignore-url="!^https://assets\.turntrout\.com" --no-warnings --check-extern --threads 20
 set -l HTML_CHECK_STATUS_2 $status
 
 # If any of the checks failed, exit with a non-zero status
