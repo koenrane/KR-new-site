@@ -4,12 +4,6 @@ function collapseHandler() {
 
   content?.classList.toggle("active")
   foldIcon.setAttribute("aria-expanded", content.classList.contains("active"))
-
-  if (content) {
-    content.style.maxHeight = content.classList.contains("active")
-      ? content.scrollHeight + "px"
-      : null
-  }
 }
 
 document.addEventListener("nav", function () {

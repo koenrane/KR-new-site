@@ -49,7 +49,7 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: calc(4 * $baseMargin);
+  margin-top: calc(3 * $baseMargin);
   margin-bottom: 1rem;
   font-weight: 500;
   line-height: 1.15;
@@ -131,7 +131,6 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
-@include font-face("EBGaramondInitials", "EBGaramond/EBGaramond-Initials", ".woff2");
 @include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
 @include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
 @include font-face("EBGaramondItalic", "EBGaramond/EBGaramond08-Italic", ".woff2");
@@ -142,6 +141,7 @@ $fonts-dir: "/static/styles/fonts";
 // Less commonly used
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
+@include font-face("Scary", "DarkmodeRegular", ".woff2");
 @include font-face("ElvishItalic", "tengwar_annatar/TengwarAnnatar-Italic", ".woff2");
 @include font-face("Elvish", "tengwar_annatar/TengwarAnnatar", ".woff2");
 
@@ -177,28 +177,16 @@ b,
 strong,
 dt,
 .callout-title {
-  --webkit-width: 0.01px;
-  -webkit-text-stroke: var(--webkit-width) inherit;
-
-  --shadow-width: 0.01px;
-
-  // TODO check how it looks in firefox
-  @supports not (-webkit-text-stroke: var(--shadow-width) var(--dark)) {
-    text-shadow:
-      calc(-1 * var(--shadow-width)) calc(-1 * var(--shadow-width)) 0 var(--dark),
-      var(--shadow-width) calc(-1 * var(--shadow-width)) 0 var(--dark),
-      calc(-1 * var(--shadow-width)) var(--shadow-width) 0 var(--dark),
-      var(--shadow-width) var(--shadow-width) 0 var(--dark);
-  }
-
-  & .small-caps {
-    text-shadow: none;
-    -webkit-text-stroke: 0;
-  }
+  // text-shadow: 0 0 0.01px currentColor;
 }
 
 .elvish-italics {
   font-family: "ElvishItalic";
+}
+
+.corrupted {
+  font-family: "Scary";
+  font-style: normal;
 }
 
 .fraction {
@@ -208,53 +196,4 @@ dt,
   font-size: 1.2rem;
   font-family: "EBGaramond12";
   vertical-align: -10%;
-}
-
-article > p:first-of-type {
-  position: relative;
-  &::before {
-    content: attr(data-first-letter);
-    text-transform: uppercase;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 4rem;
-    line-height: 1;
-    padding-right: 0.1em;
-    font-family: "EBGaramondInitialsF2";
-  }
-
-  &::first-letter {
-    text-transform: uppercase;
-    font-style: normal !important;
-    float: left;
-    pointer-events: none; /* Ensure it doesn't interfere with user interactions */
-    color: var(--lightgray);
-    font-size: 4rem;
-    line-height: 1;
-    padding-right: 0.1em;
-    font-family: "EBGaramondInitialsF1";
-    font-weight: 500 !important;
-  }
-
-  &::first-line {
-    font-family: "EBGaramondSC" !important;
-  }
-
-  // Disallow italic font overrides of the smallcaps font
-  & em,
-  b,
-  strong {
-    font-family: inherit !important;
-  }
-
-  & .small-caps {
-    font-family: "EBGaramondSC" !important;
-  }
-}
-
-// By default, "F" is off-center
-article > p[data-first-letter="f"]::before,
-article > p[data-first-letter="F"]::before {
-  padding-left: 0.025em;
 }

@@ -6,7 +6,6 @@
 
 html {
   scroll-behavior: smooth;
-  // text-size-adjust: none;
   overflow-x: hidden;
   width: 100vw;
 }
@@ -18,6 +17,25 @@ section {
   background-color: var(--light);
   font-family: var(--font-text);
   color: var(--darkgray);
+}
+
+/* Define the scrollbar style */
+body,
+right {
+  scrollbar-color: var(--lightergray) var(--light);
+}
+
+.right::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Define the thumb style */
+.right::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: var(--lightergray);
+  border-radius: 5px;
 }
 
 .text-highlight {
@@ -42,8 +60,8 @@ ol,
 ul,
 .katex,
 .math {
-  color: var(--darkgray);
-  fill: var(--darkgray);
+  color: var(--dark);
+  fill: var(--dark);
   overflow-wrap: anywhere;
   hyphens: auto;
 }
@@ -55,15 +73,12 @@ ul,
 }
 
 .katex {
+  color: inherit;
   font-size: 1em !important;
   margin-left: auto; // Center katex
   margin-right: auto;
 } // Override minified katex styles
 
-// For math blocks, set to flex to allow centering
-// p:has(> :only-child.katex:not(:empty)) {
-//   display: flex;
-// }
 strong {
   font-weight: $semiBoldWeight;
 }
@@ -78,17 +93,23 @@ a {
     color: var(--tertiary) !important;
   }
 
-  &.same-page-link {
+  // Style same-page links, but exclude those inside headers
+  // This targets links with the 'same-page-link' class that are not direct children of h1-h6 elements
+  // The '&' in the :not() pseudo-class refers to the current selector (a.same-page-link)
+  &.same-page-link:not(h1 > &, h2 > &, h3 > &, h4 > &, h5 > &, h6 > &) {
     background-color: color-mix(in srgb, gray 10%, transparent);
     padding: 0 0.1rem;
     border-radius: 5px;
     line-height: var(--lineHeight);
 
+    // Remove background and padding for links containing images
     &:has(> img) {
       background-color: none;
       border-radius: 0;
       padding: 0;
     }
+
+    // Add a '#' before tag links
     &.tag-link {
       &::before {
         content: "#";
@@ -142,13 +163,11 @@ hr.desktop-only {
       color: var(--gray);
     }
 
-    & li > * {
+    & li > *:first-child:not(blockquote) {
       margin-top: 0;
-      margin-bottom: 0;
     }
-
-    p > strong {
-      color: var(--dark);
+    & li > *:last-child {
+      margin-bottom: 0;
     }
   }
 
@@ -157,9 +176,6 @@ hr.desktop-only {
     overflow-x: visible;
     display: flex;
 
-    @media all and (max-width: $marginsBegin) {
-      overflow-x: hidden;
-    }
     @media all and (max-width: $fullPageWidth) {
       flex-direction: column;
     }
@@ -175,7 +191,8 @@ hr.desktop-only {
 
       margin-top: $topSpacing;
       box-sizing: border-box;
-      padding: 0 4rem;
+
+      padding: 0 calc(8 * $baseMargin);
       position: fixed;
       @media all and (max-width: $fullPageWidth) {
         position: relative;
@@ -188,6 +205,7 @@ hr.desktop-only {
 
     & #left-sidebar {
       display: flex;
+      margin-right: calc(6 * $baseMargin);
       @media all and (max-width: $fullPageWidth) {
         gap: 0;
         align-items: center;
@@ -200,12 +218,15 @@ hr.desktop-only {
     }
 
     & #right-sidebar {
+      padding-right: calc(2 * $baseMargin); // Make more space for ToC
+
       right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
-      & > * {
-        @media all and (max-width: $fullPageWidth) {
+      @media all and (max-width: $fullPageWidth) {
+        left: 0;
+        & > * {
           flex: 1;
           min-width: 140px;
         }
@@ -218,7 +239,7 @@ hr.desktop-only {
     margin: $topSpacing auto 0 auto;
     @media all and (max-width: $fullPageWidth) {
       width: initial;
-      margin-top: calc(4 * $baseMargin);
+      margin-top: calc(2 * $baseMargin);
     }
   }
 
@@ -227,6 +248,8 @@ hr.desktop-only {
     margin-left: auto;
     margin-right: auto;
     width: $pageWidth;
+    overflow-x: hidden;
+
     @media all and (max-width: $fullPageWidth) {
       width: initial;
       margin-left: 0;
@@ -303,28 +326,40 @@ thead {
   }
 }
 
+li {
+  width: fit-content;
+  max-width: fit-content;
+
+  // This is for the site nav menu
+  .menu & {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+#toc-content li {
   // Oldstyle is too small for headers
-  font-variant-numeric: lining-nums;
-  color: var(--color-header);
+  &::first-letter,
+  & span,
+  .number-prefix {
+    font-variant-numeric: lining-nums;
+  }
+  // color: var(--color-header);
   font-family: var(--font-text-header);
 
   & .small-caps {
     font-weight: lighter;
   }
 
-  &[id] > a[href^="#"] {
-    margin: 0 $baseMargin;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    transform: translateY(-0.1rem);
-    font-family: var(--codeFont);
-    user-select: none;
+  &[id] > a {
+    text-decoration: none;
+    color: var(--dark);
   }
 
   &[id]:hover > a {
@@ -345,7 +380,7 @@ figure[data-rehype-pretty-code-figure] {
     width: max-content;
     border-radius: 5px;
     margin-bottom: -0.5rem;
-    color: var(--darkgray);
+    color: var(--dark);
   }
 
   & > pre {
@@ -373,7 +408,6 @@ pre {
     counter-increment: line 0;
     display: grid;
     padding: 0.5rem 0;
-    overflow-x: scroll;
 
     & [data-highlighted-chars] {
       background-color: var(--highlight);
@@ -382,6 +416,11 @@ pre {
 
     & > [data-line] {
       padding: 0 0.25rem;
+      // Want wrapped lines to indent
+      text-indent: calc(-6 * $baseMargin);
+      padding-left: calc(6 * $baseMargin);
+      text-wrap: pretty;
+
       box-sizing: border-box;
       border-left: 3px solid transparent;
 
@@ -428,12 +467,6 @@ a > code {
     padding: calc(3 * $baseMargin);
     border-collapse: collapse;
   }
-
-  .footnote & {
-    margin-left: $baseMargin;
-    margin-right: $baseMargin;
-    font-size: var(--font-size-90);
-  }
 }
 
 .table-container:first-child > table {
@@ -446,7 +479,8 @@ dt {
 }
 
 dd {
-  margin-bottom: calc(2 * $baseMargin);
+  margin-bottom: calc(.5 * $baseMargin);
+  margin-top: calc(0.5 * $baseMargin);
 }
 
 th {
@@ -467,10 +501,12 @@ tr {
 }
 
 img {
-  max-width: 100%;
+  max-width: 87.5%;
+  width: auto;
   border-radius: 5px;
-  margin: calc(2 * baseMargin) 0;
+  margin: calc(2 * $baseMargin) 0;
 }
+
 blockquote > p:first-of-type {
   margin-top: 0;
 }
@@ -499,6 +535,15 @@ video {
   }
 }
 
+ul ul,
+ol ul {
+  margin-top: calc(0.5 * $baseMargin);
+}
+
+ol, ul {
+  margin-top: calc(1 * $baseMargin);
+}
+
 .katex {
   overflow-x: auto;
   overflow-y: hidden;
@@ -506,4 +551,13 @@ video {
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+#quartz-root {
+  overflow-x: visible;
+}
+
+// Nested ol and ul should have margin before them
+ol:not(ol > ol):not(li > ol) {
+  margin-top: calc(1.5 * $baseMargin);
 }

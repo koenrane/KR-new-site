@@ -1,12 +1,36 @@
 import { wrapWithoutTransition } from "./util"
+import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
+
+interface FetchResult {
+  content: Element[]
+  frontmatter: Element
+}
+
 
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
 
 let bars = document.querySelectorAll(".bar")
+
+// Toggle menu visibility and animate hamburger icon when clicked
 hamburger?.addEventListener("click", () => {
   menu?.classList.toggle("visible")
   bars.forEach((bar) => bar.classList.toggle("x")) // Hamburger animation
+})
+
+// Handle clicks outside the menu to close it
+document.addEventListener("click", (event) => {
+  // Check if the menu is visible and the click is outside the menu and hamburger
+  if (
+    menu?.classList.contains("visible") &&
+    !menu.contains(event.target as Node) &&
+    !hamburger?.contains(event.target as Node)
+  ) {
+    // Hide the menu
+    menu.classList.remove("visible")
+    // Reset hamburger icon animation
+    bars.forEach((bar) => bar.classList.remove("x"))
+  }
 })
 
 // Darkmode handling
@@ -15,7 +39,7 @@ const currentTheme = localStorage.getItem("theme") ?? userPref
 document.documentElement.setAttribute("saved-theme", currentTheme)
 
 const emitThemeChangeEvent = (theme: "light" | "dark") => {
-  const event: CustomEventMap["themechange"] = new CustomEvent("themechange", {
+  const event: CustomEvent = new CustomEvent("themechange", {
     detail: { theme },
   })
   document.dispatchEvent(event)
@@ -32,7 +56,7 @@ document.addEventListener("nav", () => {
     emitThemeChangeEvent(newTheme)
 
     // Toggle the label text
-    if (localStorage.getItem("usedToggle") !== "true") {
+    if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
       descriptionParagraph.classList.add("hidden")
     }
     // Prevent further clicks from having an effect
@@ -113,7 +137,7 @@ let index = new FlexSearch.Document<Item>({
 })
 
 const p = new DOMParser()
-const fetchContentCache: Map<FullSlug, Element[]> = new Map()
+const fetchContentCache: Map<FullSlug, FetchResult> = new Map()
 const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
@@ -171,9 +195,8 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  return `${startIndex === 0 ? "" : "..."}${slice}${
-    endIndex === tokenizedText.length - 1 ? "" : "..."
-  }`
+  return `${startIndex === 0 ? "" : "..."}${slice}${endIndex === tokenizedText.length - 1 ? "" : "..."
+    }`
 }
 
 function escapeRegExp(text: string) {
@@ -240,7 +263,6 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const currentSlug = e.detail.url
   const data = await fetchData
   const container = document.getElementById("search-container")
-  const sidebar = container?.closest(".sidebar") as HTMLElement
   const searchIcon = document.getElementById("search-icon")
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
   const searchLayout = document.getElementById("search-layout")
@@ -402,20 +424,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.id = slug
     itemTile.href = resolveUrl(slug).toString()
 
-    content = content.replaceAll(/↩/g, "⤴")
-    content = twemoji.parse(content, {
-      callback: function (icon, options, variant) {
-        if (icon === "2934") {
-          // Ignore right-and-up arrow
-          return "" // Return an empty string to prevent replacement
-        }
-        return options.base + icon + options.ext // Default behavior
-      },
-    })
-
-    itemTile.innerHTML = `<span class="h4">${title}</span>${htmlTags}${
-      enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
-    }`
+    content = replaceEmojiConvertArrows(content)
+    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
+      }`
     itemTile.addEventListener("click", (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
       hideSearch()
@@ -465,9 +476,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     }
   }
 
-  async function fetchContent(slug: FullSlug): Promise<Element[]> {
+  async function fetchContent(slug: FullSlug): Promise<FetchResult> {
     if (fetchContentCache.has(slug)) {
-      return fetchContentCache.get(slug) as Element[]
+      return fetchContentCache.get(slug) as FetchResult
     }
 
     const targetUrl = resolveUrl(slug).toString()
@@ -479,25 +490,39 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
         }
         const html = p.parseFromString(contents ?? "", "text/html")
         normalizeRelativeURLs(html, targetUrl)
-        return [...html.getElementsByClassName("popover-hint")]
+
+        // Extract frontmatter
+        const frontmatterScript = html.querySelector('script[type="application/json"]')
+        const frontmatter = frontmatterScript
+          ? JSON.parse(frontmatterScript.textContent || "{}")
+          : {}
+
+        const contentElements = [...html.getElementsByClassName("popover-hint")]
+
+        return { content: contentElements, frontmatter }
       })
 
     fetchContentCache.set(slug, contents)
     return contents
   }
 
-  // works on mobile but not on desktop
   async function displayPreview(el: HTMLElement | null) {
     if (!searchLayout || !enablePreview || !el || !preview) return
     const slug = el.id as FullSlug
-    const content = await fetchContent(slug)
-    const innerDiv = await fetchContent(slug).then((contents) =>
-      contents.flatMap((el) => [...highlightHTML(currentSearchTerm, el as HTMLElement).children]),
-    )
+    const { content, frontmatter } = await fetchContent(slug)
+    const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
+
+    const innerDiv = content.flatMap((el) => [
+      ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
+    ])
+
     previewInner = document.createElement("article" as "div")
     previewInner.classList.add("preview-inner")
+
+    // Set data-use-dropcap attribute based on frontmatter
+    previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
+
     previewInner.append(...innerDiv)
-    wrappedParseTwemoji(previewInner)
 
     preview.replaceChildren(previewInner)
 
@@ -506,6 +531,42 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       (a, b) => b.innerHTML.length - a.innerHTML.length,
     )
     highlights[0]?.scrollIntoView({ block: "start" })
+  }
+
+  /**
+   * Debounce function to limit the rate at which a function can fire.
+   * Allows immediate execution on the first call if `immediate` is true.
+   * @param func The function to debounce.
+   * @param wait The number of milliseconds to delay.
+   * @param immediate If true, trigger the function on the leading edge.
+   * @returns A debounced version of the passed function.
+   */
+  function debounce<F extends (...args: [KeyboardEvent]) => void>(
+    func: F,
+    wait: number,
+    immediate = false
+  ): F {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    return function (this: Window, ...args: [KeyboardEvent]) {
+      const later = () => {
+        timeoutId = null;
+        if (!immediate) {
+          func.apply(this, args);
+        }
+      };
+
+      const callNow = immediate && timeoutId === null;
+
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(later, wait);
+
+      if (callNow) {
+        func.apply(this, args);
+      }
+    } as F;
   }
 
   async function onType(e: HTMLElementEventMap["input"]) {
@@ -566,12 +627,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     await displayResults(finalResults)
   }
 
+  const debouncedOnType = debounce(onType, 50, true);
+
   document.addEventListener("keydown", shortcutHandler)
   window.addCleanup(() => document.removeEventListener("keydown", shortcutHandler))
   searchIcon?.addEventListener("click", () => showSearch("basic"))
   window.addCleanup(() => searchIcon?.removeEventListener("click", () => showSearch("basic")))
-  searchBar?.addEventListener("input", onType)
-  window.addCleanup(() => searchBar?.removeEventListener("input", onType))
+  searchBar?.addEventListener("input", debouncedOnType)
+  window.addCleanup(() => searchBar?.removeEventListener("input", debouncedOnType))
 
   registerEscapeHandler(container, hideSearch)
   await fillDocument(data)
@@ -644,7 +707,7 @@ const scrollDisplayUpdate = () => {
   prevScrollPos = currentScrollPos
 }
 
-// Event listeners
-;["scroll", "touchmove"].forEach((event: string) => {
-  window.addEventListener(event, scrollDisplayUpdate)
-})
+  // Event listeners
+  ;["scroll", "touchmove"].forEach((event: string) => {
+    window.addEventListener(event, scrollDisplayUpdate)
+  })

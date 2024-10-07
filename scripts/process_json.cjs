@@ -10,6 +10,41 @@ turndownService.addRule("subscript", {
   },
 })
 
+// Retain captions for figures, ignore Elicit predictions
+turndownService.addRule("figure", {
+  filter: "figure",
+  replacement: function (content, node) {
+    // Existing logic for regular figures
+    const img = node.querySelector("img")
+    const figcaption = node.querySelector("figcaption")
+
+    let markdown = ""
+
+    // Process the image
+    if (img) {
+      const src = img.getAttribute("src") || ""
+      const alt = img.getAttribute("alt") || ""
+      markdown += `![${alt}](${src})\n`
+    }
+
+    // Process the caption
+    if (figcaption) {
+      const captionHTML = figcaption.innerHTML
+      let captionText = turndownService.turndown(captionHTML)
+      captionText = captionText.replace(/\\n\\n/g, "\n")
+
+      markdown += `<br/>Figure: ${captionText}\n`
+    }
+
+    // If there's no image or caption, just return the content
+    if (!markdown) {
+      return content
+    }
+
+    return markdown.trim()
+  },
+})
+
 // By default, newlines break table rows. Replace with <br>
 turndownService.addRule("table linebreak", {
   filter: ["table"],
@@ -40,11 +75,95 @@ turndownService.addRule("table linebreak", {
         }
       }
 
-      const headerContent = headerRow.split("|")[1]
-      content = "\n\n" + rows.join("\n") + "\n" + `<figcaption>${headerContent}</figcaption>`
+      const headerContent = headerRow.split("|")[1].trimEnd()
+      content = "\n\n" + rows.join("\n") + "<br/>" + `Table: ${headerContent}.`
     }
 
     return content
+  },
+})
+
+const originalEscape = turnDown.prototype.escape
+turnDown.prototype.escape = function (string) {
+  string = originalEscape(string)
+  string = string.replace(/\$/g, "\\$")
+  return string
+}
+
+turndownService.addRule("footnote", {
+  filter: (node) => {
+    return (
+      node.nodeName === "LI" &&
+      node.hasAttribute("id") &&
+      node.id.startsWith("fn-") &&
+      node.classList.contains("footnote-item")
+    )
+  },
+  replacement: (content, node) => {
+    // Turn id=fn-25bChTEETACfS9a4m-2 into id=2
+    const id = node.getAttribute("id").replace(/^fn-.*?(\d+)$/, "$1")
+    // Paragraphs after first should start with four spaces, so they appear as multi-paragraph footnotes
+    const footnoteContent = content.trim().replace(/\n\n/g, "\n\n    ")
+    return `[^${id}]: ${footnoteContent}\n\n`
+  },
+})
+
+turndownService.addRule("spoiler", {
+  filter: function (node) {
+    return node.classList.contains("spoiler") || node.className.includes("spoiler")
+  },
+  replacement: function (_content, node) {
+    const paragraphs = node.getElementsByTagName("p")
+    let markdown = ""
+    for (let i = 0; i < paragraphs.length; i++) {
+      const paragraphContent = turndownService.turndown(paragraphs[i].innerHTML)
+      markdown += ">! " + paragraphContent
+      if (i < paragraphs.length - 1) {
+        markdown += "\n>\n"
+      }
+    }
+    return markdown
+  },
+})
+
+// Use a private Unicode character as a whitespace placeholder
+const WHITESPACE_PLACEHOLDER = "\uE000"
+
+// The old LW posts have <ul> tags with <li> tags that have <ul> tags inside of them. Turndown really doesn't like this.
+turndownService.addRule("unorderedList", {
+  filter: "ul",
+  replacement: function (_content, node) {
+    function processListItems(listNode, indent = "") {
+      let result = ""
+      listNode.childNodes.forEach(function (item) {
+        if (item.nodeName === "LI") {
+          let itemContent = ""
+          item.childNodes.forEach(function (child) {
+            if (child.nodeName === "#text") {
+              itemContent += child.textContent
+            } else if (child.nodeName === "UL") {
+              itemContent += "\n" + processListItems(child, indent + "  ")
+            } else {
+              // Preserve whitespace before processing
+              let html = child.outerHTML
+              html = html.replace(/^(<[^>]*?>)\s/g, `$1${WHITESPACE_PLACEHOLDER}`)
+              html = html.replace(/\s(<\/[^>]*>)$/g, `${WHITESPACE_PLACEHOLDER}$1`)
+
+              let processed = turndownService.turndown(html)
+
+              // Restore whitespace after processing
+              processed = processed.replace(new RegExp(WHITESPACE_PLACEHOLDER, "g"), " ")
+
+              itemContent += processed
+            }
+          })
+          result += indent + "- " + itemContent + "\n"
+        }
+      })
+      return result
+    }
+
+    return "\n" + processListItems(node) + "\n"
   },
 })
 
@@ -52,7 +171,7 @@ turndownService = turndownService.addRule("math", {
   filter: function (node) {
     return node.getAttribute("class")?.includes("mjx") || node.nodeName === "STYLE"
   },
-  replacement: function (content, node) {
+  replacement: function (_content, node) {
     const className = node.getAttribute("class")
     if (className?.includes("mjx-chtml")) {
       let openDelimiter = "$"
@@ -72,7 +191,7 @@ turndownService = turndownService.addRule("math", {
 
 const fs = require("fs")
 
-const filePath = "/Users/turntrout/Documents/response-new.json"
+const filePath = "../import-website-data/post_data.json"
 
 fs.readFile(filePath, "utf-8", (err, data) => {
   if (err) {
@@ -95,7 +214,7 @@ fs.readFile(filePath, "utf-8", (err, data) => {
     return
   }
 
-  fs.writeFile("/tmp/all_posts_md.json", JSON.stringify(jsonData, null, 2), (err) => {
+  fs.writeFile(`${__dirname}/../import-website-data/all_posts_md.json`, JSON.stringify(jsonData, null, 2), (err) => {
     if (err) {
       console.error("Error writing file:", err)
     }

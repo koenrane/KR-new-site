@@ -1,8 +1,14 @@
+import GithubSlugger from "github-slugger"
+import { headingRank } from "hast-util-heading-rank"
+import { toString } from "hast-util-to-string"
+import { visit } from "unist-util-visit"
+
 import remarkGfm from "remark-gfm"
 import smartypants from "remark-smartypants"
 import { QuartzTransformerPlugin } from "../types"
-import rehypeSlug from "rehype-slug"
 import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import { Root, Element } from "hast"
+import rehypeSlug from "rehype-slug"
 
 export interface Options {
   enableSmartyPants: boolean
@@ -26,48 +32,15 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
     htmlPlugins() {
       if (opts.linkHeadings) {
         return [
-          rehypeSlug,
+          slugFunction,
           [
             rehypeAutolinkHeadings,
             {
-              behavior: "append",
+              behavior: "wrap",
               properties: {
-                role: "anchor",
+                "data-no-popover": "true",
                 ariaHidden: true,
                 tabIndex: -1,
-                "data-no-popover": true,
-              },
-              content: {
-                type: "element",
-                tagName: "svg",
-                properties: {
-                  width: 18,
-                  height: 18,
-                  viewBox: "0 0 24 24",
-                  fill: "none",
-                  stroke: "currentColor",
-                  "stroke-width": "2",
-                  "stroke-linecap": "round",
-                  "stroke-linejoin": "round",
-                },
-                children: [
-                  {
-                    type: "element",
-                    tagName: "path",
-                    properties: {
-                      d: "M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71",
-                    },
-                    children: [],
-                  },
-                  {
-                    type: "element",
-                    tagName: "path",
-                    properties: {
-                      d: "M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71",
-                    },
-                    children: [],
-                  },
-                ],
               },
             },
           ],
@@ -76,5 +49,51 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
         return []
       }
     },
+  }
+}
+
+const slugger = new GithubSlugger()
+
+export function preprocessSlug(headerText: string): string {
+  const charsToConvert = ["'", "’", "/", "&", "—", "‘"]
+
+  let protoSlug = headerText
+  for (const char of charsToConvert) {
+    protoSlug = protoSlug.replaceAll(new RegExp(char, "g"), "-")
+  }
+
+  // Remove consecutive hyphens
+  protoSlug = protoSlug.replaceAll(/-+/g, '-')
+
+  return protoSlug
+}
+
+export function slugify(headerText: string): string {
+  const protoSlug = preprocessSlug(headerText)
+  const slug = slugger.slug(protoSlug)
+  return slug.replaceAll(/-+/g, '-')
+}
+
+export function resetSlugger() {
+  slugger.reset()
+}
+
+/**
+ * Add `id`s to headings.
+ *
+ * @returns
+ *   Transform.
+ */
+export function slugFunction() {
+  return function (tree: Root) {
+    slugger.reset()
+
+    visit(tree, "element", function (node: Element) {
+      if (headingRank(node) && !node.properties.id) {
+        node.properties.id = slugify(toString(node))
+      }
+    })
+
+    rehypeSlug()(tree)
   }
 }

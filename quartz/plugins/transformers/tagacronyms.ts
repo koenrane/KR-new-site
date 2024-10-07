@@ -1,52 +1,48 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Plugin } from "unified"
 import { replaceRegex } from "./utils"
+import { Node, Parent, Text } from "hast"
 
 import { visit } from "unist-util-visit"
 // Custom Rehype plugin for tagging acronyms
-const ignoreAcronym = (_node: any, _index: any, parent: any) => {
-  let status = parent?.properties?.className?.includes("no-smallcaps")
-  status = status || parent?.tagName === "abbr" || "code" === parent?.tagName
-  return status
+const ignoreAcronym = (_node: Node, _index: number, parent: any) => {
+  let noSmallCaps = parent?.properties?.className?.includes("no-smallcaps")
+  return noSmallCaps || parent?.tagName === "abbr" || "code" === parent?.tagName
+}
+
+// Regex for acronyms and abbreviations
+// Acronyms are defined as words with 3 or more capital letters
+//  After the third letter, we can have any number of capital letters, digits, or hyphens
+// Note that we are ignoring roman numerals
+const REGEX_ACRONYM =
+  /(?:\b|^)(?![ILVXM][ICLVXM]{2,}\b)(?<acronym>IF|TL;DR|IL|[A-Z\u00C0-\u00DC]{3,}(?:[\-'’]?[\dA-Z\u00C0-\u00DC]+)*)(?<suffix>[sx]?)\b/
+
+const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/g
+const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
+
+
+export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
+  replaceRegex(
+    node,
+    index,
+    parent,
+    combinedRegex,
+    (match: any) => {
+      if (REGEX_ACRONYM.test(match[0])) {
+        const { acronym, suffix } = match[0].match(REGEX_ACRONYM).groups
+        return { before: "", replacedMatch: acronym, after: suffix }
+      } else {
+        return { before: "", replacedMatch: match[0].toUpperCase(), after: "" }
+      }
+    },
+    ignoreAcronym,
+    "abbr.small-caps",
+  )
 }
 
 export const rehypeTagAcronyms: Plugin = () => {
-  // TODO come up with more elegant whitelist for e.g. "if"
-  const REGEX_ACRONYM = /(?:\b|^)(?<acronym>[A-Z\u00C0-\u00DC]{3,}|IF|TL;DR|IL)(?<plural>s?)\b/
-  const globalRegexAcronym = new RegExp(REGEX_ACRONYM, "g")
-
-  const REGEX_ABBREVIATION = /(?<number>[\d\,]*\.?\d+)(?<abbreviation>[A-Z]{1,})/g
-
   return (tree) => {
-    visit(tree, "text", (node: any, index: any, parent: any) => {
-      replaceRegex(
-        node,
-        index,
-        parent,
-        globalRegexAcronym,
-        (match: any) => {
-          // Extract the uppercase and lowercase parts
-          const { acronym, plural } = match[0].match(REGEX_ACRONYM).groups // Uppercase part of the acronym
-
-          return { before: "", replacedMatch: acronym, after: plural }
-        },
-        ignoreAcronym,
-      )
-    })
-
-    visit(tree, "text", (node: any, index: any, parent: any) => {
-      replaceRegex(
-        node,
-        index,
-        parent,
-        REGEX_ABBREVIATION,
-        (match: any) => {
-          // For now just chuck everything into abbr, including number
-          return { before: "", replacedMatch: match[0], after: "" }
-        },
-        ignoreAcronym,
-      )
-    })
+    visit(tree, "text", replaceSCInNode)
   }
 }
 

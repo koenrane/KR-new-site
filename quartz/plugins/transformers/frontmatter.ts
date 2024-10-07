@@ -23,6 +23,14 @@ function coalesceAliases(data: { [key: string]: any }, aliases: string[]) {
   }
 }
 
+// I don't want tags to be case-sensitive
+function transformTag(tag: string): string {
+  const trimmedTag = tag.trim()
+  if (trimmedTag === "AI") return trimmedTag
+  const newTag = tag.toLowerCase().trim().replace(/\s+/g, "-")
+  return newTag
+}
+
 function coerceToArray(input: string | string[]): string[] | undefined {
   if (input === undefined || input === null) return undefined
 
@@ -31,7 +39,7 @@ function coerceToArray(input: string | string[]): string[] | undefined {
     input = input
       .toString()
       .split(",")
-      .map((tag: string) => tag.trim())
+      .map((tag: string) => tag.toLowerCase())
   }
 
   // remove all non-strings
@@ -64,7 +72,8 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
             }
 
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]))
-            if (tags) data.tags = [...new Set(tags.map((tag: string) => slugTag(tag)))]
+            const lowerCaseTags = tags?.map((tag: string) => transformTag(tag))
+            if (tags) data.tags = [...new Set(lowerCaseTags!.map((tag: string) => slugTag(tag)))]
 
             const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"]))
             if (aliases) data.aliases = aliases

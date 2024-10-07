@@ -13,10 +13,14 @@
     padding: $baseMargin;
     background-color: var(--light);
 
-    & li > a {
-      color: var(--gray);
-      transition: opacity 0.5s ease-out;
-      text-decoration: none;
+    & li {
+      text-align: right;
+
+      & > a {
+        color: var(--gray);
+        transition: opacity 0.5s ease-out;
+        text-decoration: none;
+      }
     }
   }
   // Desktop
@@ -194,9 +198,36 @@
   }
 }
 
-// The image in the title
+// Default to non-safari video
+#header-gif {
+  display: none;
+}
+
+#header-video {
+  display: block;
+}
+
+// Safari-specific styles
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Safari only override */
+  ::i-block-chrome,
+  #header-gif {
+    display: block;
+  }
+  ::i-block-chrome,
+  #header-video {
+    display: none;
+  }
+}
+
 .header-img {
   filter: saturate(85%);
+
+  // Consistent width and spacing for both img and video
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
   @media all and (max-width: $fullPageWidth) {
     margin-top: 0;
     margin-bottom: 0;
@@ -277,5 +308,12 @@
   }
   & > #nightIcon {
     opacity: 0;
+  }
+}
+
+#nav-searchbar {
+  @media all and (min-width: $fullPageWidth) {
+    order: 2; // Search bar comes after other links
+    margin-top: $baseMargin;
   }
 }

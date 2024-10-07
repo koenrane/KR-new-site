@@ -4,13 +4,14 @@ publish: "true"
 tags:
   - website
 ---
-
 This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
+
+
 # Quotations
 
 > Perhaps one did not want to be loved so much as to be understood.
 >
-> — Orwell, _1984_
+> -- Orwell, _1984_
 
 <hr/>
 
@@ -30,9 +31,41 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 >
 > -- Orwell's [_Politics and the English Language_](https://www.orwellfoundation.com/the-orwell-foundation/orwell/essays-and-other-works/politics-and-the-english-language/)
 
-I thus remind myself: The reading experience will never be as important as the content, but it's still important.
+# $\KaTeX$ math mode
 
-## Smart quotes
+Math coloring is automatically translated to accord with site styling: ${\color{red}x}={\color{blue}y}$. I mean, seriously, who wants to read text that looks like <em><span style="color:#ff0000;">this</span></em>? 🤡
+
+# Spoilers
+
+I couldn't find a `rehype` or `remark` plugin I liked, so I produced my own. This spoiler is unobtrusive and fits in with the broad site aesthetic.
+>! Snape kills Dumbledore.
+
+The following spoiler box is larger:
+>! There can even be multiline spoilers! 
+>
+>! This should be in another `<p>` element.
+>
+>! *This starts with emphasis*.
+
+# Mermaid diagrams
+```mermaid
+flowchart TD
+    EV["Entire video"]:::blue
+    AS["Action sequence"]:::orange
+    H["Human"]:::red
+    HQF["$$e=mc^2$$"]:::black
+    Q["Question(s)"]:::black
+    A["Answer(s)"]:::black
+
+    EV --> H
+    AS --> H
+    H --> HQF
+    Q --> HQF
+    HQF --> A
+```
+Code: An example [Mermaid](https://mermaid.js.org/) diagram. Mermaid even supports $\KaTeX$!
+
+# Smart quotes
 
 I wrote a [`rehype`](https://www.npmjs.com/package/rehype) plugin which scans my website and adjusts quote marks so that they are properly oriented. The plugin also moves around punctuation so that periods are generally inside of quotations while webpage commas are generally outside. For example:
 
@@ -50,13 +83,33 @@ In fact, all of the bullet points were written so that the rules were violated. 
 - `'` and `"hi"` and `'hi'`
 - `print('honk!')`
 - `print("honk!")`
+# Markdown captions for tables and figures
 
-## Admonition
+The [`remark-captions`](https://npmjs.com/package/remark-captions) package makes it easy to add captions. 
 
-> [!quote]
->
-> A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
+![[https://assets.turntrout.com/static/images/posts/goose-majestic.avif|Sample image of a majestic goose.]]
+Figure: The most _majestic_ animal known to humanity.
 
+
+| Left  | Right |
+| :---: | :---: |
+| Lower | text  |
+
+Table: This is a table caption. *Emphasis* and **bolding** are preserved.
+
+```typescript 
+/**
+ * Replaces number-preceding hyphens with minus signs (−).
+ *
+ * @param {string} text
+ * @returns {string} The modified string
+ */
+const minusReplace = (text: string): string => {
+  const numberMatch = /(^|\s)\-(\s?\d*\.?\d+)/g
+  return text.replace(numberMatch, "$1−$2")
+}
+```
+Code: Part of [my website processing pipeline](https://github.com/alexander-turner/TurnTrout.com/blob/main/quartz/plugins/transformers/minus_sign.ts).
 # Smart dash conversion
 
 [Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use) - contrary to popular practice - hyphens (-) and em-dashes (—) be used in importantly different situations:
@@ -66,10 +119,9 @@ In fact, all of the bullet points were written so that the rules were violated. 
 
 My `formatting_improvement_html.ts` contains `hyphenReplace`, which prevents clauses from being delimited by hyphens ("`I - like you - object`"). Instead, the build process renders "I - like you - object."
 
-# Section
-
-## Subsection
-
+# SMALLCAPS appear in the table of contents
+## As do "smart quotes"
+Test of [mail favicon](mailto:throwaway@turntrout.com) - the `svg` should be floating next to the URL.
 ### Subsubsection
 
 # Smallcaps
@@ -79,7 +131,9 @@ The build process detects acronyms ("HTML") and abbreviations ("100GB") and then
 > [!quote] NAFTA, [Wikipedia](https://en.wikipedia.org/wiki/North_American_Free_Trade_Agreement)
 > The **North American Free Trade Agreement** (**NAFTA** [/ˈnæftə/](https://en.wikipedia.org/wiki/Help:IPA/English "Help:IPA/English") [_NAF-tə_](https://en.wikipedia.org/wiki/Help:Pronunciation_respelling_key "Help:Pronunciation respelling key"); [Spanish](https://en.wikipedia.org/wiki/Spanish_language "Spanish language"): *Tratado de Libre Comercio de América del Norte*, **TLCAN**; [French](https://en.wikipedia.org/wiki/French_language "French language"): *Accord de libre-échange nord-américain*, **ALÉNA**) was an agreement signed by [Canada](https://en.wikipedia.org/wiki/Canada "Canada"), [Mexico](https://en.wikipedia.org/wiki/Mexico "Mexico"), and the  [United States](https://en.wikipedia.org/wiki/United_States "United States") that created a trilateral [trade bloc](https://en.wikipedia.org/wiki/Trade_bloc "Trade bloc") in [North America.](https://en.wikipedia.org/wiki/North_America "North America") The agreement came into force on January 1, 1994, and superseded the 1988 [Canada–United States Free Trade Agreement](https://en.wikipedia.org/wiki/Canada%E2%80%93United_States_Free_Trade_Agreement "Canada–United States Free Trade Agreement") between the United States and Canada. The NAFTA trade bloc formed one of the largest trade blocs in the world by [gross domestic product.](https://en.wikipedia.org/wiki/Gross_domestic_product "Gross domestic product")
 
-[^smallcaps]: Here's a footnote![^nested]
+[^smallcaps]: Here's a footnote![^nested] 
+
+	This footnote has multiple paragraphs.
 [^nested]: And a footnote created within another footnote!
 
 ## Font adjustments
@@ -141,7 +195,7 @@ _Italics **Bold Italics**_ **Bold** Normal
 >   <dt>Bow</dt>
 >   <dd>
 >     <ul>
->       <li>Noldorin Sindarin: <span className="elvish">peng</span> also poetically <span className="elvish">cû</span> ("arch")</li>
+>       <li>Noldorin Sindarin: <span className="elvish">peng</span> also poetically <span className="elvish">cû</span> (“arch”)</li>
 >       <li>Quenya: <span className="elvish">quinga</span></li>
 >     </ul>
 >   </dd>
@@ -185,7 +239,18 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 
 > [!note]
 
-> [!tip] [This dummy link should be colored according to the admonition type.](test-page)
+> [!info]
+
+> [!example]
+
+> [!quote]
+> A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
+
+> [!quote]- Hagrid
+> 
+> Yer a wizard, Harry. And I'm in what they call er "collapsing admonition."
+
+> [!tip] [This dummy link should be colored according to the admonition type.](/test-page)
 >
 > > What is above all needed is to let the meaning choose the word, and not the other way about. In prose, the worst thing one can do with words is to surrender to them. When you think of a concrete object, you think wordlessly, and then, if you want to describe the thing you have been visualising, you probably hunt about till you find the exact words that seem to fit it. When you think of something abstract you are more inclined to use words from the start, and unless you make a conscious effort to prevent it, the existing dialect will come rushing in and do the job for you, at the expense of blurring or even changing your meaning.
 > >
@@ -198,11 +263,13 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 
 > [!idea]
 
-> [!info]
+
 
 > [!todo]
 
 > [!question]
+
+> [!warning]
 
 > [!failure]
 
@@ -210,11 +277,7 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 
 > [!bug]
 
-> [!quote]
-
-> [!example]
-
-> [!warning]
+> [!thanks]
 
 > [!success]
 
@@ -223,4 +286,5 @@ Before commits are pushed to GitHub, images are converted to AVIF for better com
 I prefer the flat style of Twitter emoji. This also unifies UX across devices, as emoji are not rendered in a browser- or OS-specific fashion.
 
 🪿😀😃😄😁😆😅😂🤣🥲🥹☺️😊😇🙂🙃😉😌😍🥰😘😗😙😚😋😛😝😜🤪🤨🧐🤓😎🥸🤩🥳🙂‍↕️😏😒🙂‍↔️😞😔😟😕🙁☹️😣😖😫😩🥺😢😭😮‍💨😤😠😡🤬🤯😳🥵🥶😱😨😰😥😓🫣🤗🫡🤔🫢🤭🤫🤥😶😶‍🌫️😐😑😬🫨🫠🙄😯😦😧😮😲🥱😴🤤😪😵😵‍💫🫥🤐🥴🤢🤮🤧😷🤒🤕🤑🤠😈👿👹👺🤡💩👻💀☠️👽👾🤖🎃😺😸😹😻😼😽🙀😿😾
+
 

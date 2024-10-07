@@ -33,7 +33,7 @@ const defaultOptions: Options = {
   enableRSS: true,
   rssLimit: 10,
   rssFullHtml: false,
-  includeEmptyFiles: true,
+  includeEmptyFiles: false,
 }
 
 function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndex): string {
@@ -81,8 +81,8 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: nu
       <title>${escapeHTML(cfg.pageTitle)}</title>
       <link>https://${base}</link>
       <description>${limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes} on ${escapeHTML(
-        cfg.pageTitle,
-      )}</description>
+    cfg.pageTitle,
+  )}</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       ${items}
     </channel>
@@ -122,7 +122,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
-            title: file.data.frontmatter?.title!,
+            title: file.data.frontmatter?.title ?? "",
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",

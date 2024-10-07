@@ -18,7 +18,12 @@ import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import DepGraph from "../../depgraph"
 
+/**
+ * TagPage plugin for Quartz
+ * Generates pages for each tag and a tag index page
+ */
 export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
+  // Merge user options with default options
   const opts: FullPageLayout = {
     ...defaultListPageLayout,
     ...sharedPageComponents,
@@ -38,10 +43,11 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
     async getDependencyGraph(ctx, content, _resources) {
       const graph = new DepGraph<FilePath>()
 
+      // Build dependency graph for tag pages
       for (const [_tree, file] of content) {
         const sourcePath = file.data.filePath!
         const tags = (file.data.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes)
-        // if the file has at least one tag, it is used in the tag index page
+        // If the file has at least one tag, it is used in the tag index page
         if (tags.length > 0) {
           tags.push("index")
         }
@@ -61,13 +67,15 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
       const allFiles = content.map((c) => c[1].data)
       const cfg = ctx.cfg.configuration
 
+      // Collect all unique tags
       const tags: Set<string> = new Set(
         allFiles.flatMap((data) => data.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes),
       )
 
-      // add base tag
+      // Add base tag for index page
       tags.add("index")
 
+      // Create tag descriptions
       const tagDescriptions: Record<string, ProcessedContent> = Object.fromEntries(
         [...tags].map((tag) => {
           const title =
@@ -84,6 +92,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
         }),
       )
 
+      // Override tag descriptions with user-defined content
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         if (slug.startsWith("tags/")) {
@@ -94,6 +103,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
         }
       }
 
+      // Generate pages for each tag
       for (const tag of tags) {
         const slug = joinSegments("tags", tag) as FullSlug
         const externalResources = pageResources(pathToRoot(slug), resources)

@@ -1,11 +1,13 @@
-import { pathToRoot, slugTag } from "../util/path"
+import { slugTag, FullSlug } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 
+// For rendering the tags for a user
 export const formatTag = (tag: string): string => {
+  if (tag.toLowerCase() === "ai") return "AI"
+
   // Ensure input is a string (using optional chaining for safety)
   tag = tag?.replace(/-/g, " ").toLowerCase() ?? ""
-  tag = tag?.replaceAll("ai", "AI")
   tag = tag?.replaceAll("power seeking", "power-seeking")
 
   return tag
@@ -18,23 +20,22 @@ export const getTags = (fileData: any) => {
 }
 
 export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
-  // Sort by string lenth, descending
   let tags = getTags(fileData)
-  const baseDir = pathToRoot(fileData.slug!) // TODO possibly problematic
   if (tags && tags.length > 0) {
     return (
-      <>
-        <ul class={classNames(displayClass, "tags")}>
-          {tags.map((tag: any) => {
-            const linkDest = baseDir + `/tags/${slugTag(tag)}`
-            return (
+      <ul class={classNames(displayClass, "tags")}>
+        {tags.map((tag: string) => {
+          const tagSlug = slugTag(tag)
+          const linkDest = `/tags/${tagSlug}`
+          return (
+            <li key={tag}>
               <a href={linkDest} class="internal tag-link">
                 {tag}
               </a>
-            )
-          })}
-        </ul>
-      </>
+            </li>
+          )
+        })}
+      </ul>
     )
   } else {
     return null

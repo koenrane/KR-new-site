@@ -8,7 +8,6 @@ import {
   simplifySlug,
   splitAnchor,
   transformLink,
-  joinSegments,
 } from "../../util/path"
 import path from "path"
 import { visit } from "unist-util-visit"
@@ -28,7 +27,7 @@ interface Options {
 const defaultOptions: Options = {
   markdownLinkResolution: "absolute",
   prettyLinks: true,
-  openLinksInNewTab: false,
+  openLinksInNewTab: true,
   lazyLoad: true,
   externalLinkIcon: false,
 }
@@ -41,7 +40,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
       return [
         () => {
           return (tree: Root, file) => {
-            const curSlug = simplifySlug(file.data.slug!)
+            const curSlug = simplifySlug(file.data.slug! as FullSlug)
             const outgoing: Set<SimpleSlug> = new Set()
 
             const transformOptions: TransformOptions = {
@@ -58,9 +57,17 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
               ) {
                 let dest = node.properties.href as RelativeURL
                 const classes = (node.properties.className ?? []) as string[]
-                const isExternal = isAbsoluteUrl(dest)
+                const internalMarkers = ["#", ".", "/"]
+
+                const isExternal = !internalMarkers.some((prefix) => dest.startsWith(prefix))
+
                 classes.push(isExternal ? "external" : "internal")
 
+                // If the link is external and not a mailto link, make sure it starts with http
+                if (isExternal && !dest.startsWith("http") && !dest.startsWith("mailto:")) {
+                  dest = ("https://" + String(dest)) as RelativeURL
+                  node.properties.href = String(dest)
+                }
                 if (isExternal && opts.externalLinkIcon) {
                   node.children.push({
                     type: "element",
@@ -93,15 +100,16 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 }
                 node.properties.className = classes
 
-                if (opts.openLinksInNewTab) {
+                if (opts.openLinksInNewTab && isExternal) {
                   node.properties.target = "_blank"
                 }
 
                 // don't process external links or intra-document anchors
-                const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#"))
+                const isInternal = !(isAbsoluteUrl(dest) || dest.startsWith("#") || isExternal)
+
                 if (isInternal) {
                   dest = node.properties.href = transformLink(
-                    file.data.slug!,
+                    file.data.slug! as FullSlug,
                     dest,
                     transformOptions,
                   )
@@ -144,10 +152,11 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                   node.properties.loading = "lazy"
                 }
 
+                // TODO leaving this be, but might need to be updated along with isExternal
                 if (!isAbsoluteUrl(node.properties.src)) {
                   let dest = node.properties.src as RelativeURL
                   dest = node.properties.src = transformLink(
-                    file.data.slug!,
+                    file.data.slug! as FullSlug,
                     dest,
                     transformOptions,
                   )

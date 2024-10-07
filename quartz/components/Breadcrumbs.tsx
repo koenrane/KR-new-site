@@ -62,7 +62,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
   }: QuartzComponentProps) => {
     // Hide crumbs on root if enabled
     if (disableBreadcrumbs || (options.hideOnRoot && fileData.slug === "index")) {
-      return <></>
+      return null
     }
 
     // Format entry for root element

@@ -1,20 +1,16 @@
 :root[saved-theme="dark"] {
   // Catppuccin Frappe
   --rosewater: #f2d5cf;
-  --pink: #f4b8e4;
-  --mauve: #ca9ee6;
-  --red: #e78284;
+  --pink: #fba7e4;
+  --red: #de585a;
   --orange: #db8942;
-  --maroon: #ea999c;
-  --peach: #ef9f76;
   --yellow: #e5c890;
   --green: #a6d189;
   --teal: #81c8be;
   --sky: #99d1db;
-  --sapphire: #85c1dc;
   --blue: #8caaee;
-  --lavender: #babbf1;
-  --purple: #cf9eff;
+  --lavender: #8788d3;
+  --purple: #a86de1;
   --text: #c6d0f5;
   --subtext-1: #b5bfe2;
   --subtext-0: #a5adce;
@@ -28,27 +24,24 @@
   --mantle: #292c3c;
   --crust: #232634;
 
-  --color-visited: color-mix(in srgb, var(--mauve) 50%, var(--blue));
+  --color-visited: color-mix(in srgb, var(--red) 50%, var(--blue));
 }
 
 // Catppuccin Latte
 :root[saved-theme="light"] {
   --rosewater: #dc8a78;
   --flamingo: #dd7878;
-  --pink: #ea76cb;
+  --pink: #ee7ed0;
   --amaranth: #9f2b68; // I love this song by Nightwish
-  --red: #d20f39;
-  --orange: #db8942;
-  --maroon: #e64553;
-  --peach: #fe640b;
-  --yellow: #df8e1d;
+  --red: #be415c;
+  --orange: #e08c43;
+  --yellow: #dd8b19;
   --green: #40a02b;
   --teal: #179299;
   --sky: #008bc3;
-  --sapphire: #209fb5;
   --blue: #406ecc;
   --lavender: #7287fd;
-  --purple: #9d81c0;
+  --purple: #6f42c1;
   --text: #4c4f69;
   --subtext-1: #5c5f77;
   --subtext-0: #6c6f85;
@@ -71,4 +64,21 @@
   --lightestgray: color-mix(in srgb, transparent 90%, var(--lightgray));
 
   --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
+  @each $color in ("red", "pink", "green", "teal", "blue", "purple", "orange", "yellow") {
+    --background-#{$color}: color-mix(in srgb, var(--#{$color}) 30%, var(--light));
+    --border-#{$color}: color-mix(in srgb, var(--#{$color}) 50%, var(--light));
+  }
+}
+
+// Mermaid
+@each $color in ("red", "green", "blue", "yellow", "purple", "orange") {
+  rect {
+    color: var(--dark) !important;
+    fill: var(--light) !important;
+    stroke: var(--lightgray) !important;
+  }
+  .#{$color} > rect {
+    fill: var(--background-#{$color}) !important;
+    stroke: var(--border-#{$color}) !important;
+  }
 }

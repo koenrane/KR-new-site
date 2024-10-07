@@ -1,10 +1,14 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Plugin } from "unified"
 
-const numberMatch = /(^|\s)\-(\s?\d*\.?\d+)/g
-
-const minusReplace: Plugin = (text: string) => {
-  return text.replaceAll(numberMatch, "$1−$2")
+/**
+ * Replaces hyphens (-) that precede numbers with minus signs (−).
+ *
+ * @param {string} text
+ * @returns {string} The modified string
+ */
+export const minusReplace = (text: string): string => {
+  const numberMatch = /(^|[\s\(])\-(\s?\d*\.?\d+)/g
+  return text.replace(numberMatch, "$1−$2")
 }
 
 export const MinusReplaceTransform: QuartzTransformerPlugin = () => {

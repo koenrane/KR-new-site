@@ -15,10 +15,14 @@
 }
 
 .popover {
-  z-index: 999;
+  z-index: 10;
   position: absolute;
   overflow: visible;
-  padding: 1rem;
+  padding: calc(2 * $baseMargin);
+
+  & #not-found-div-popover {
+    margin-top: calc($baseMargin);
+  }
 
   & > .popover-inner {
     position: relative;
@@ -114,8 +118,8 @@
   }
 }
 
-a:hover .popover,
-.popover:hover {
+// The initial animation is more complicated and is handled via JS
+.popover-visible {
   animation: dropin 0.3s ease;
   animation-fill-mode: forwards;
   animation-delay: 0.2s;

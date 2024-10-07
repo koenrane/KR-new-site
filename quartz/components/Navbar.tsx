@@ -1,11 +1,11 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { pathToRoot } from "../util/path"
+import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
 import navbarStyle from "./styles/navbar.scss"
 
-// @ts-ignore
+// @ts-expect-error Not a module but a script
 import script from "./scripts/navbar.inline"
 import { Options } from "./NavbarNode"
-import { classNames } from "../util/lang"
+import { headerVideoContainer } from "./PageTitle"
 import { i18n } from "../i18n"
 
 let darkMode = (
@@ -46,7 +46,7 @@ let darkMode = (
 )
 
 const searchHTML = (
-  <div class="search" alt="Menu search bar">
+  <div class="search" id="nav-searchbar" alt="Menu search bar">
     <div class="no-select" id="search-icon">
       <p>Search</p>
       <div></div>
@@ -68,41 +68,25 @@ const searchHTML = (
   </div>
 )
 
-const searchInterface = (
-  <div class="search" alt="Displays search results.">
-    <div id="search-container">
-      <div id="search-space">
-        <input
-          autocomplete="off"
-          id="search-bar"
-          name="search"
-          type="text"
-          aria-label="Search"
-          placeholder="Search"
-        />
-        <div id="search-layout" data-preview={true}></div>
-      </div>
-    </div>
-  </div>
-)
+type Page = {
+  slug: string
+  title: string
+}
 
 export default ((userOpts?: Partial<Options>) => {
-  const Navbar: QuartzComponent = ({
-    cfg,
-    allFiles,
-    displayClass,
-    fileData,
-  }: QuartzComponentProps) => {
-    const pages = cfg.navbar.pages
+  const Navbar: QuartzComponent = ({ cfg, fileData }: QuartzComponentProps) => {
+    const pages: Page[] = "pages" in cfg.navbar ? (cfg.navbar.pages as Page[]) : []
+    const currentSlug = fileData.slug!
+
+    const links = pages.map((page: Page) => (
+      <li key={page.slug}>
+        <a href={resolveRelative(currentSlug, page.slug as FullSlug)}>{page.title}</a>
+      </li>
+    ))
 
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
     const baseDir = pathToRoot(fileData.slug!)
 
-    const links = pages.map((page) => (
-      <li key={page.slug}>
-        <a href={page.slug}>{page.title}</a>
-      </li>
-    ))
     const pageLinks = (
       <nav className="menu">
         <ul>{links}</ul>
@@ -110,21 +94,9 @@ export default ((userOpts?: Partial<Options>) => {
     )
     return (
       <>
-        <div id="navbar" className={classNames(displayClass, "navbar")}>
+        <div id="navbar" className="navbar">
           <div id="navbar-left">
-            {/* <a href={baseDir}> */}
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              id="header-video"
-              class="header-img no-select no-vsc"
-              alt=""
-            >
-              <source src="/static/pond.webm" type="video/webm"></source>
-            </video>
-            {}
+            {headerVideoContainer}
             <h2 class="page-title-text">
               <a href={baseDir} id="page-title-text">
                 {title}
@@ -134,7 +106,6 @@ export default ((userOpts?: Partial<Options>) => {
           </div>
           <div id="navbar-right">
             {searchHTML}
-            {searchInterface}
             <button className="hamburger mobile-only" alt="Opens menu for key site links.">
               <span className="bar" />
               <span className="bar" />

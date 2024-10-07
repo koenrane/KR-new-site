@@ -14,6 +14,7 @@ table {
 
 th,
 td {
+  min-width: 4rem;
   border: 1px solid var(--lightgray);
 
   padding: $baseMargin;
