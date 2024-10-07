@@ -2,6 +2,7 @@ import { i18n } from "../i18n"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { formatTitle } from "./component_utils"
+import { joinSegments, pathToRoot } from "../util/path"
 
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
@@ -14,7 +15,7 @@ export default (() => {
     // Reconstruct the URL for this page (its permalink)
     const url = new URL(`https://${cfg.baseUrl ?? "turntrout.com"}/${fileData.slug}`)
 
-    const iconPath = "static/images/favicon.ico"
+    const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
     const permalink = fileData.permalink || url.href
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
