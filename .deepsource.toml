@@ -10,16 +10,16 @@ enabled = true
 name = "javascript"
 enabled = true
 
-[[analyzers]]
-name = "python"
-enabled = true
-
   [analyzers.meta]
   environment = [
     "jest",
     "nodejs",
     "browser"
   ]
+
+[[analyzers]]
+name = "python"
+enabled = true
 
 [[transformers]]
 name = "prettier"
