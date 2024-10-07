@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup, Tag
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
 
-# Now import utils
+import scripts.compress as compress
 import scripts.utils as script_utils
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
@@ -65,17 +65,38 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
         content = file.read()
     return BeautifulSoup(content, 'html.parser')
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> Tuple[List[str], List[str], List[str]]:
+
+# Check the existence of local files with these extensions
+_MEDIA_EXTENSIONS = compress.ALLOWED_EXTENSIONS + ('.svg', '.avif', '.ico')
+def check_local_media_files(soup: BeautifulSoup, file_path: Path, base_dir: Path) -> List[str]:
+    """Check for local media files (images, videos, SVGs) and verify their existence."""
+    missing_files = []
+    media_tags = soup.find_all(['img', 'video', 'source', 'svg'])
+    
+    for tag in media_tags:
+        src = tag.get('src') or tag.get('href')
+        if src and not src.startswith(('http://', 'https://')):
+            # It's a local file
+            file_extension = Path(src).suffix.lower()
+            if file_extension in _MEDIA_EXTENSIONS:
+                full_path = (base_dir / src).resolve()
+                if not full_path.is_file():
+                    missing_files.append(src)
+    
+    return missing_files
+
+def check_file_for_issues(file_path: Path, base_dir: Path) -> Tuple[List[str], List[str], List[str], List[str]]:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
     localhost_links = check_localhost_links(soup)
     invalid_anchors = check_invalid_anchors(soup, file_path, base_dir)
     problematic_paragraphs = check_problematic_paragraphs(soup)
-    return localhost_links, invalid_anchors, problematic_paragraphs
+    missing_media_files = check_local_media_files(soup, file_path, base_dir)
+    return localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files
 
-def print_issues(file_path: Path, localhost_links: List[str], invalid_anchors: List[str], problematic_paragraphs: List[str]) -> None:
+def print_issues(file_path: Path, localhost_links: List[str], invalid_anchors: List[str], problematic_paragraphs: List[str], missing_media_files: List[str]) -> None:
     """Print issues found in a file."""
-    if localhost_links or invalid_anchors or problematic_paragraphs:
+    if localhost_links or invalid_anchors or problematic_paragraphs or missing_media_files:
         print(f"Issues found in {file_path}:")
         
         if localhost_links:
@@ -93,6 +114,11 @@ def print_issues(file_path: Path, localhost_links: List[str], invalid_anchors: L
             for paragraph in problematic_paragraphs:
                 print(f"    - {paragraph}")
 
+        if missing_media_files:
+            print("  Missing local media files:")
+            for file in missing_media_files:
+                print(f"    - {file}")
+
         print()  # Add a blank line between files with issues
 
 def main() -> None:
@@ -104,10 +130,10 @@ def main() -> None:
         for file in files:
             if file.endswith('.html'):
                 file_path = Path(root) / file
-                localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(file_path, public_dir)
+                localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files = check_file_for_issues(file_path, public_dir)
                 
-                if localhost_links or invalid_anchors or problematic_paragraphs:
-                    print_issues(file_path, localhost_links, invalid_anchors, problematic_paragraphs)
+                if localhost_links or invalid_anchors or problematic_paragraphs or missing_media_files:
+                    print_issues(file_path, localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files)
                     issues_found = True
 
     if issues_found:

@@ -4,14 +4,13 @@ from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
-from .. import built_site_checks 
-
 from built_site_checks import (
     check_localhost_links,
     check_invalid_anchors,
     check_problematic_paragraphs,
     parse_html_file,
     check_file_for_issues,
+    check_local_media_files,
 )
 
 @pytest.fixture
@@ -30,6 +29,10 @@ def sample_html():
         <p>This is a delayed-paragraph Table: </p>
         <p>Figure: This is a figure caption</p>
         <p>Code: This is a code snippet</p>
+        <img src="existing-image.jpg" alt="Existing Image">
+        <img src="missing-image.png" alt="Missing Image">
+        <video src="existing-video.mp4"></video>
+        <svg src="missing-svg.svg"></svg>
     </body>
     </html>
     """
@@ -81,3 +84,43 @@ def test_check_file_for_issues(tmp_path):
     assert localhost_links == ['https://localhost:8000']
     assert invalid_anchors == ['#invalid-anchor']
     assert problematic_paragraphs == ['Table: Test table']
+
+def test_check_local_media_files(sample_soup, base_dir):
+    # Create an existing image file
+    (base_dir / "existing-image.jpg").touch()
+    (base_dir / "existing-video.mp4").touch()
+
+    result = check_local_media_files(sample_soup, base_dir / "test.html", base_dir)
+    assert set(result) == {'missing-image.png', 'missing-svg.svg'}
+
+def test_check_file_for_issues(tmp_path):
+    file_path = tmp_path / "test.html"
+    file_path.write_text("""
+    <html>
+    <body>
+        <a href="https://localhost:8000">Localhost Link</a>
+        <a href="#invalid-anchor">Invalid Anchor</a>
+        <p>Table: Test table</p>
+        <img src="missing-image.jpg" alt="Missing Image">
+        <img src="https://example.com/image.png" alt="External Image">
+    </body>
+    </html>
+    """)
+    localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files = check_file_for_issues(file_path, tmp_path)
+    assert localhost_links == ['https://localhost:8000']
+    assert invalid_anchors == ['#invalid-anchor']
+    assert problematic_paragraphs == ['Table: Test table']
+    assert missing_media_files == ['missing-image.jpg']
+
+@pytest.mark.parametrize("html,expected", [
+    ('<img src="local.jpg">', ['local.jpg']),
+    ('<img src="https://example.com/image.png">', []),
+    ('<video src="video.mp4"></video>', ['video.mp4']),
+    ('<svg src="icon.svg"></svg>', ['icon.svg']),
+    ('<img src="existing.png">', []),
+])
+def test_check_local_media_files_parametrized(html, expected, base_dir):
+    soup = BeautifulSoup(html, 'html.parser')
+    (base_dir / "existing.png").touch()
+    result = check_local_media_files(soup, base_dir / "test.html", base_dir)
+    assert result == expected
