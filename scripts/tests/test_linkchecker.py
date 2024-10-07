@@ -35,7 +35,7 @@ def test_invalid_asset_error(html_linkchecker_result):
     assert html_linkchecker_result.returncode != 0, f"Linkchecker script should have failed"
 
 def test_invalid_md_link(md_linkchecker_result):
-    assert "INVALID_MD_LINK" in md_linkchecker_result.stdout, "INVALID_MD_LINK error not found in output"
+    assert "INVALID_MD_LINK" in md_linkchecker_result.stderr, "INVALID_MD_LINK error not found in output"
     assert md_linkchecker_result.returncode != 0, f"Linkchecker script should have failed"
 
 if __name__ == "__main__":

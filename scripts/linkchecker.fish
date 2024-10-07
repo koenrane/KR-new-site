@@ -3,8 +3,7 @@
 # If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT (git rev-parse --show-toplevel)
 
-set -l MD_FILES (find "$GIT_ROOT/content" -name "*.md" ! -path "drafts/*" "private/")
-fish "$GIT_ROOT/scripts/md_link_checker.fish" "$MD_FILES"
+fish "$GIT_ROOT/scripts/md_linkchecker.fish" 
 set -l MD_CHECK_STATUS $status
 
 set -l TARGET_FILES $argv
