@@ -225,8 +225,9 @@ For example, if agents trained on objectives $R$ tend to go right, switching rew
 
 Suppose we're training an RL agent to go right in MuJoCo, with reward equal to its $x$\-coordinate.
 
-![](hopper.gif)
-<br/>Figure: If you permute the reward so that high $y$\-values are rewarded, the trained policies should nearly perfectly symmetrically reflect that change. Insofar as $x$\-maximizing policies were trained, now $y$\-maximizing policies will be trained.
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/hopper.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/hopper.mp4" type="video/mp4"></video>
+
+Figure: If you permute the reward so that high $y$\-values are rewarded, the trained policies should nearly perfectly symmetrically reflect that change. Insofar as $x$\-maximizing policies were trained, now $y$\-maximizing policies will be trained.
 
 This criterion is going to be a bit of a mouthful. The basic idea is that when the training process can be redirected such that trained agents induce a variety of outcomes, then most objective functions will train agents which _do induce_ those outcomes. In other words: Orbit-level instrumental convergence will hold.
 

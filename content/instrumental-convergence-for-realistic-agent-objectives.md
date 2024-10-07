@@ -143,7 +143,7 @@ AI decision-making function
 
 Similar setup to StarCraft II, but now the agent's episode reward is $\alpha_1 \cdot$(Amount of iron ore in chests within 100 blocks of spawn after 2 in-game days)$+\alpha_2\cdot$(Same but for coal), where $\alpha_1,\alpha_2\in \mathbb{R}$ are scalars (together, they form the coefficient vector $\alpha\in \mathbb{R}^2$).
 
-![](iron_block.png)
+![](https://assets.turntrout.com/static/images/posts/iron_block.avif)
 Figure: An iron ore block in Minecraft.
 
 Outcomes of interest
