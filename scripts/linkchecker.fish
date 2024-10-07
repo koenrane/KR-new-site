@@ -6,6 +6,7 @@ set -l GIT_ROOT (git rev-parse --show-toplevel)
 fish "$GIT_ROOT/scripts/md_linkchecker.fish" 
 set -l MD_CHECK_STATUS $status
 
+# Target files for the html linkcheckers
 set -l TARGET_FILES $argv
 if test -z "$TARGET_FILES"
     set TARGET_FILES $GIT_ROOT/public/**html
@@ -13,7 +14,12 @@ end
 
 # Internal links should NEVER 404! Check links which start with a dot or slash
 # Use the live server to resolve relative links
-linkchecker http://localhost:8080 --threads 20 --quiet
+if test -z $argv
+    linkchecker http://localhost:8080 --threads 20 --quiet
+else 
+    linkchecker $TARGET_FILES --threads 20 --quiet
+end
+
 set -l HTML_CHECK_STATUS_1 $status
 
 # CDN links should never 404

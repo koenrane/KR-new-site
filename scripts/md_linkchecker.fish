@@ -3,7 +3,7 @@
 # Check for common mistake in intra-site MD urls: [](foo) instead of [](/foo)
 function check_md_links
     set -l INVALID_MD_LINK_PATTERN "\]\([-A-Za-z_0-9:]+(\.md)?\)"
-    set -l found_invalid false
+    set -g found_invalid false
 
     for file in $argv
         set -l grep_result (grep -E "$INVALID_MD_LINK_PATTERN" "$file")
