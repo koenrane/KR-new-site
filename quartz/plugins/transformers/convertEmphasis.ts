@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { visit } from "unist-util-visit"
-import { Text, Parent, PhrasingContent, Element } from "mdast"
+import { Text, Parent, PhrasingContent } from "mdast"
 import { Root } from "remark-frontmatter/lib"
 
 /**
@@ -38,8 +38,8 @@ export const formatNode = (
       newNodes.push({
         type: "element",
         tagName: tag,
-        children: [{ type: "text", value: content } as Text],
-      } as Element)
+        children: [{ type: "text", value: content }],
+      } as unknown as PhrasingContent)
 
       lastIndex = offset + fullMatch.length
       return fullMatch // This return is not used, it's just to satisfy TypeScript
