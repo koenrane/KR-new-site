@@ -41,7 +41,7 @@ export const replaceRegex = (
   regex: RegExp,
   replaceFn: (match: RegExpMatchArray) => ReplaceFnResult,
   ignorePredicate: (nd: Text, idx: number, prnt: Parent) => boolean = () => false,
-  newNodeStyle: string = "span",
+  newNodeStyle = "span",
 ): void => {
   // If the node should be ignored or has no value, return early
   if (ignorePredicate(node, index, parent) || !node?.value) {

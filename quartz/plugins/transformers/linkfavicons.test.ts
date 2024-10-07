@@ -63,7 +63,7 @@ describe("Favicon Utilities", () => {
     const mockFetchAndFs = (
       avifStatus: number,
       localPngExists: boolean,
-      googleStatus: number = 200,
+      googleStatus = 200,
     ) => {
       let responseBodyAVIF = ""
       if (avifStatus === 200) {

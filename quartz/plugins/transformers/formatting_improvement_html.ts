@@ -68,7 +68,7 @@ export function assertSmartQuotesMatch(input: string): void {
   assert.strictEqual(stack.length, 0, `Mismatched quotes in ${input}`)
 }
 
-export const markerChar: string = "\uE000"
+export const markerChar = "\uE000"
 const chr = markerChar
 /* Sometimes I want to transform the text content of a paragraph (e.g.
 by adding smart quotes). But that paragraph might contain multiple child
@@ -98,7 +98,7 @@ export function transformElement(
   node: Element,
   transform: (input: string) => string,
   ignoreNodeFn: (input: Element) => boolean = () => false,
-  checkTransformInvariance: boolean = true,
+  checkTransformInvariance = true,
 ): void {
   if (!node?.children) {
     throw new Error("Node has no children")
