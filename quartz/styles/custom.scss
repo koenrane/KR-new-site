@@ -443,7 +443,8 @@ img.favicon {
     }
   }
 
-  &[src$="arbital_com.avif"] {
+  &[src$="arbital_com.avif"],
+  &[src$="aaai_org.avif"] {
     :root[saved-theme="light"] & {
       filter: brightness(0.3);
     }
