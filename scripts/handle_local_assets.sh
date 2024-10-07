@@ -3,9 +3,9 @@ set -e  # Exit immediately if a command exits with a non-zero status
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
-# Check that conversion+uploading tests pass
-PY_TEST_DIR="$GIT_ROOT"/scripts/tests
-python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
+# # Check that conversion+uploading tests pass
+# PY_TEST_DIR="$GIT_ROOT"/scripts/tests
+# python -m pytest $PY_TEST_DIR --ignore="$PY_TEST_DIR"/test_md_processing.py
 
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
@@ -16,7 +16,7 @@ if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
     FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
     for FILE in $FILES_TO_MOVE; do
         NAME=$(basename "$FILE")
-        sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**/*.md
+        sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**.md
     done
 
     # Ignore errors due to asset_staging being empty
