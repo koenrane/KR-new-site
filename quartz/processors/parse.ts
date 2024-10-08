@@ -21,8 +21,10 @@ const remarkCaptions = (await import("remark-captions")).default
 
 // https://github.com/zestedesavoir/zmarkdown/issues/490
 const remarkCaptionsCodeFix = () => (tree: Root) => {
-  visit(tree, "figure", (figure: any) => {
-    delete figure.value
+  visit(tree, "figure", (figure: Element) => {
+    if ("value" in figure) {
+      delete figure.value
+    }
   })
 }
 
@@ -68,11 +70,11 @@ async function transpileWorkerScript() {
       {
         name: "css-and-scripts-as-text",
         setup(build) {
-          build.onLoad({ filter: /\.scss$/ }, (_) => ({
+          build.onLoad({ filter: /\.scss$/ }, () => ({
             contents: "",
             loader: "text",
           }))
-          build.onLoad({ filter: /\.inline\.(ts|js)$/ }, (_) => ({
+          build.onLoad({ filter: /\.inline\.(ts|js)$/ }, () => ({
             contents: "",
             loader: "text",
           }))
@@ -125,7 +127,7 @@ const clamp = (num: number, min: number, max: number) =>
 export async function parseMarkdown(ctx: BuildCtx, fps: FilePath[]): Promise<ProcessedContent[]> {
   const { argv } = ctx
   const perf = new PerfTimer()
-  const log = new QuartzLogger(argv.verbose)
+  const log = new QuartzLogger()
 
   // rough heuristics: 128 gives enough time for v8 to JIT and optimize parsing code paths
   const CHUNK_SIZE = 128

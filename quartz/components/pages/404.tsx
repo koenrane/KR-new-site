@@ -1,9 +1,11 @@
 import notFoundStyle from "../styles/404.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
+import React from "react"
 
-const NotFound: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
+import { QuartzComponent, QuartzComponentConstructor } from "../types"
+
+const NotFound: QuartzComponent = () => {
   return (
-    <article class="popover-hint">
+    <article className="popover-hint">
       <div id="not-found-div">
         <div>
           <h1>404</h1>
@@ -17,7 +19,7 @@ const NotFound: QuartzComponent = ({ cfg }: QuartzComponentProps) => {
         <img
           src="https://assets.turntrout.com/static/images/turntrout-art-transparent.avif"
           id="trout-reading"
-          class="no-select"
+          className="no-select"
         ></img>
       </div>
     </article>

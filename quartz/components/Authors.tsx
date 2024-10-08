@@ -2,6 +2,8 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { GlobalConfiguration } from "../cfg"
 import { renderPublicationInfo } from "./ContentMeta"
 
+import React from "react"
+
 const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_metadata || fileData.frontmatter?.hide_authors) {
     return null
@@ -17,7 +19,7 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   const publicationInfo = renderPublicationInfo(cfg as GlobalConfiguration, fileData)
 
   return (
-    <span class="authors">
+    <span className="authors">
       <p style="text-indent: -.2rem; padding-left: .2rem; line-height: 1.25rem">{authors}</p>
       {publicationInfo !== <></> && <p>{publicationInfo}</p>}
     </span>

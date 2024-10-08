@@ -3,8 +3,7 @@ import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
 import { Element, Text, Root, Parent, ElementContent } from "hast"
 import { visit } from "unist-util-visit"
-import { Plugin, Transformer } from "unified"
-import { Node } from "unist"
+import { Transformer } from "unified"
 
 /**
  * Flattens text nodes in an element tree
@@ -144,7 +143,7 @@ export function niceQuotes(text: string) {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\s|[\\(\\/\\[\\{\\\-\—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:\/.\\}])`,
+    `(?<=^|\\s|[\\(\\/\\[\\{\\-—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:/.\\}])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
@@ -178,7 +177,7 @@ export function niceQuotes(text: string) {
  */
 export function fullWidthSlashes(text: string): string {
   const slashRegex = new RegExp(
-    `(?<![\\d\/])(${chr}?)[ ](${chr}?)\/(${chr}?)[ ](${chr}?)(?=[^\\d\/])`,
+    `(?<![\\d/])(${chr}?)[ ](${chr}?)/(${chr}?)[ ](${chr}?)(?=[^\\d/])`,
     "g",
   )
   return text.replace(slashRegex, "$1$2 ／$3$4")
@@ -208,7 +207,7 @@ export function hyphenReplace(text: string) {
   const preDash = new RegExp(`((?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`)
   // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
-    `(?<=[^\\s>]|^)${preDash.source}[~–—\-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
+    `(?<=[^\\s>]|^)${preDash.source}[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
   )
 
@@ -217,7 +216,7 @@ export function hyphenReplace(text: string) {
 
   // "Since--as you know" should be "Since—as you know"
   const multipleDashInWords = new RegExp(
-    `(?<=[A-Za-z\d])(?<markerBefore>${chr}?)[~–—\-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\d])`,
+    `(?<=[A-Za-z\\d])(?<markerBefore>${chr}?)[~–—-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\\d])`,
     "g",
   )
   text = text.replace(multipleDashInWords, "$<markerBefore>—$<markerAfter>")
@@ -331,7 +330,7 @@ export const rearrangeLinkPunctuation = (
   }
 
   // Handle quotation marks before the link
-  let prevNode = parent.children[index - 1]
+  const prevNode = parent.children[index - 1]
   if (prevNode?.type === "text" && LEFT_QUOTES.includes(prevNode.value.slice(-1))) {
     const quoteChar = prevNode.value.slice(-1)
     prevNode.value = prevNode.value.slice(0, -1)
@@ -405,8 +404,8 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Dd])ojo/g, "$1ōjō"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
-  [/ \:\) /gm, " 🙂 "], // Smiling face
-  [/ \:\( /gm, " 🙁 "], // Frowning face
+  [/ :\) /gm, " 🙂 "], // Smiling face
+  [/ :\( /gm, " 🙁 "], // Frowning face
 ]
 
 export function massTransformText(text: string): string {
@@ -421,7 +420,7 @@ export function massTransformText(text: string): string {
 /**
  *  Check for ancestors satisfying certain criteria
  */
-interface ElementMaybeWithParent extends Element {
+export interface ElementMaybeWithParent extends Element {
   parent: ElementMaybeWithParent | null
 }
 
@@ -543,12 +542,9 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
 
         try {
           assertSmartQuotesMatch(getTextContent(node))
-        } catch (e: unknown) {
-          // if (e instanceof Error) {
-          // console.error(e.message)
-          // }
+        } catch {
+          // Ignore errors
         }
-
         // Don't replace slashes in fractions, but give breathing room
         // to others
         const slashPredicate = (n: Element) => {

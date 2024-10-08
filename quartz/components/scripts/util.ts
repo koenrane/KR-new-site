@@ -1,9 +1,9 @@
-export function throttle(func, delay) {
-  let timeout = null
+export function throttle(func: () => void, delay: number) {
+  let timeout: number | null = null
   return () => {
     if (!timeout) {
       func()
-      timeout = setTimeout(() => {
+      timeout = window.setTimeout(() => {
         timeout = null
       }, delay)
     }
@@ -62,7 +62,7 @@ export const withoutTransition = (action: () => void) => {
   if (typeof window.getComputedStyle !== "undefined") {
     disableTransitions()
     action()
-    window.getComputedStyle(style).opacity // Force reflow
+    void window.getComputedStyle(style).opacity // Force reflow
     enableTransitions()
     return
   }
@@ -81,7 +81,7 @@ export const withoutTransition = (action: () => void) => {
   }, 120)
 }
 
-export function wrapWithoutTransition<T extends (...args: any[]) => any>(
+export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType<T>>(
   func: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
   return (...args) => {

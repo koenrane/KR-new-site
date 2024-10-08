@@ -13,6 +13,7 @@ import {
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 import { h } from "hastscript"
+import { Element } from "hast"
 
 function testHtmlFormattingImprovement(
   inputHTML: string,
@@ -314,15 +315,15 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
   describe("transformParagraph", () => {
-    function _getParagraphNode(numChildren: number, value = "Hello, world!"): any {
-      return {
-        type: "element",
-        tagName: "p",
-        children: Array.from({ length: numChildren }, () => ({
+    function _getParagraphNode(numChildren: number, value = "Hello, world!"): Element {
+      return h(
+        "p",
+        {},
+        Array.from({ length: numChildren }, () => ({
           type: "text",
           value: value,
         })),
-      }
+      )
     }
 
     const capitalize = (str: string) => str.toUpperCase()
@@ -534,7 +535,7 @@ describe("assertSmartQuotesMatch", () => {
 
 describe("flattenTextNodes and getTextContent", () => {
   const ignoreNone = () => false
-  const ignoreCode = (n: any) => n.tagName === "code"
+  const ignoreCode = (n: Element) => n.tagName === "code"
 
   const testNodes = {
     empty: h("", []),
@@ -572,9 +573,9 @@ describe("flattenTextNodes and getTextContent", () => {
 
   describe("getTextContent", () => {
     it("should handle various node structures", () => {
-      expect(getTextContent(testNodes.empty as any)).toBe("")
-      expect(getTextContent(testNodes.simple as any)).toBe("Hello, world!")
-      expect(getTextContent(testNodes.nested as any)).toBe("This is emphasized text.")
+      expect(getTextContent(testNodes.empty)).toBe("")
+      expect(getTextContent(testNodes.simple)).toBe("Hello, world!")
+      expect(getTextContent(testNodes.nested)).toBe("This is emphasized text.")
     })
   })
 })

@@ -5,6 +5,7 @@
  */
 
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import React from "react"
 import { createLogger } from "../plugins/transformers/logger_utils"
 import modernStyle from "./styles/toc.scss"
 import { RootContent, Parent, Text, Element, Root } from "hast"
@@ -59,15 +60,12 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
     return null
   }
 
-  const title = fileData.frontmatter?.title
-  logger.debug(`Title for TOC: ${title}`)
-
-  const [toc, _] = buildNestedList(fileData.toc, 0, 0)
+  const toc = buildNestedList(fileData.toc, 0, 0)[0]
 
   return (
     <div id="table-of-contents" className="desktop-only">
       <h6 className="toc-title">
-        <a href="#">{title}</a>
+        <a href="#">Table of Contents</a>
       </h6>
       <div id="toc-content">
         <ul className="overflow">{toc}</ul>
@@ -75,7 +73,6 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
     </div>
   )
 }
-
 
 /**
  * Recursively builds a nested list for the table of contents.
@@ -88,41 +85,42 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
 export function buildNestedList(
   entries: TocEntry[],
   currentIndex = 0,
-  currentDepth = entries[0]?.depth || 0
+  currentDepth = entries[0]?.depth || 0,
 ): [JSX.Element[], number] {
-  const listItems: JSX.Element[] = [];
-  const totalEntries = entries.length;
-  let index = currentIndex;
+  const listItems: JSX.Element[] = []
+  const totalEntries = entries.length
+  let index = currentIndex
 
   while (index < totalEntries) {
-    const entry = entries[index];
+    const entry = entries[index]
 
     if (entry.depth < currentDepth) {
-      break;
+      break
     } else if (entry.depth > currentDepth) {
-      const [nestedListItems, nextIndex] = buildNestedList(entries, index, entry.depth);
+      const [nestedListItems, nextIndex] = buildNestedList(entries, index, entry.depth)
       if (listItems.length > 0) {
-        const lastItem = listItems[listItems.length - 1];
-        listItems[listItems.length - 1] = 
+        const lastItem = listItems[listItems.length - 1]
+        listItems[listItems.length - 1] = (
           <li key={`li-${index}`}>
             {lastItem.props.children}
             <ul key={`ul-${index}`}>{nestedListItems}</ul>
           </li>
+        )
       } else {
         listItems.push(
           <li key={`li-${index}`}>
             <ul key={`ul-${index}`}>{nestedListItems}</ul>
-          </li>
-        );
+          </li>,
+        )
       }
-      index = nextIndex;
+      index = nextIndex
     } else {
-      listItems.push(<li key={`li-${index}`}>{toJSXListItem(entry)}</li>);
-      index++;
+      listItems.push(<li key={`li-${index}`}>{toJSXListItem(entry)}</li>)
+      index++
     }
   }
 
-  return [listItems, index];
+  return [listItems, index]
 }
 
 /**
@@ -132,26 +130,24 @@ export function buildNestedList(
  * @returns A JSX element representing the nested TOC.
  */
 export function addListItem(entries: TocEntry[]): JSX.Element {
-  logger.debug(`addListItem called with ${entries.length} entries`);
+  logger.debug(`addListItem called with ${entries.length} entries`)
 
-  const [listItems] = buildNestedList(entries);
-  logger.debug(`Returning ${listItems.length} JSX elements`);
-  return <ul>{listItems}</ul>;
+  const [listItems] = buildNestedList(entries)
+  logger.debug(`Returning ${listItems.length} JSX elements`)
+  return <ul>{listItems}</ul>
 }
-
 
 /**
  * Converts a TocEntry to a JSX list item element.
  */
 export function toJSXListItem(entry: TocEntry): JSX.Element {
-  const entryParent: Parent = processTocEntry(entry);
+  const entryParent: Parent = processTocEntry(entry)
   return (
     <a href={`#${entry.slug}`} data-for={entry.slug}>
       {entryParent.children.map(elementToJsx)}
     </a>
-  );
+  )
 }
-
 
 /**
  * Processes small caps and LaTeX in a TOC entry.
@@ -190,13 +186,13 @@ export function processTocEntry(entry: TocEntry): Parent {
 export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
   htmlAst.children.forEach((node: RootContent) => {
     if (node.type === "text") {
-      const textValue = node.value;
-      const regex = /^(\d+:\s*)(.*)$/;
-      const match = textValue.match(regex);
+      const textValue = node.value
+      const regex = /^(\d+:\s*)(.*)$/
+      const match = textValue.match(regex)
       if (match) {
         // Leading numbers and colon found
-        const numberPart = match[1];
-        const restText = match[2];
+        const numberPart = match[1]
+        const restText = match[2]
 
         // Create span for numberPart
         const numberSpan = {
@@ -204,16 +200,16 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
           tagName: "span",
           properties: { className: ["number-prefix"] },
           children: [{ type: "text", value: numberPart }],
-        } as Element;
-        parent.children.push(numberSpan);
+        } as Element
+        parent.children.push(numberSpan)
 
         // Process the rest of the text
         if (restText) {
-          processSmallCaps(restText, parent);
+          processSmallCaps(restText, parent)
         }
       } else {
         // No leading numbers, process as usual
-        processSmallCaps(textValue, parent);
+        processSmallCaps(textValue, parent)
       }
     } else if (node.type === "element") {
       const newElement = {
@@ -221,11 +217,11 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
         tagName: node.tagName,
         properties: { ...node.properties },
         children: [],
-      } as Element;
-      parent.children.push(newElement);
-      processHtmlAst(node as Element, newElement);
+      } as Element
+      parent.children.push(newElement)
+      processHtmlAst(node as Element, newElement)
     }
-  });
+  })
 }
 
 /**
@@ -235,47 +231,47 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
  * @returns The converted JSX element.
  */
 export function elementToJsx(elt: RootContent): JSX.Element {
-  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`);
+  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
 
   switch (elt.type) {
     case "text":
-      return <>{elt.value}</>;
+      return <>{elt.value}</>
     case "element":
       if (elt.tagName === "abbr") {
-        const abbrText = (elt.children[0] as Text).value;
-        const className = (elt.properties?.className as string[])?.join(" ") || "";
-        return <abbr className={className}>{abbrText}</abbr>;
+        const abbrText = (elt.children[0] as Text).value
+        const className = (elt.properties?.className as string[])?.join(" ") || ""
+        return <abbr className={className}>{abbrText}</abbr>
       } else if (elt.tagName === "span") {
-        const classNames = (elt.properties?.className as string[]) || [];
+        const classNames = (elt.properties?.className as string[]) || []
         if (classNames.includes("katex-toc")) {
           return (
             <span
               className="katex-toc"
               dangerouslySetInnerHTML={{ __html: (elt.children[0] as { value: string }).value }}
             />
-          );
+          )
         } else if (classNames.includes("number-prefix")) {
           // Render the number-prefix span
-          return <span className="number-prefix">{elt.children.map(elementToJsx)}</span>;
+          return <span className="number-prefix">{elt.children.map(elementToJsx)}</span>
         } else {
           // Handle other spans
-          return <span>{elt.children.map(elementToJsx)}</span>;
+          return <span>{elt.children.map(elementToJsx)}</span>
         }
       }
       // Handle other element types if needed
-      break;
+      break
 
     case "comment":
     case "doctype":
       // Ignore these types in rendering
-      return <></>;
+      return <></>
 
     default:
-      logger.warn(`Unexpected node type encountered: ${elt.type}`);
-      return <></>;
+      logger.warn(`Unexpected node type encountered: ${elt.type}`)
+      return <></>
   }
 
-  return <></>;
+  return <></>
 }
 
 TableOfContents.css = modernStyle
@@ -323,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 `
 
-export default ((_opts?: any): QuartzComponent => {
+export default ((): QuartzComponent => {
   logger.info("TableOfContents component initialized")
   return TableOfContents
 }) satisfies QuartzComponentConstructor

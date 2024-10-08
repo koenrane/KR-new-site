@@ -3,7 +3,7 @@ import { applyTextTransforms } from "../plugins/transformers/formatting_improvem
 
 export function formatTitle(title: string): string {
   // Replace single quotes with double quotes for consistency
-  title = title.replace(/( |^)\'/g, '$1"').replace(/\'([ \?\!\.]|$)/g, '"$1')
+  title = title.replace(/( |^)'/g, '$1"').replace(/'([ ?!.]|$)/g, '"$1')
   title = applyTextTransforms(title)
 
   // Convert title to title case

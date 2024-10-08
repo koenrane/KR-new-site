@@ -4,7 +4,7 @@ import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../..
 // adapted from `micromorph`
 // https://github.com/natemoo-re/micromorph
 const NODE_TYPE_ELEMENT = 1
-let announcer = document.createElement("route-announcer")
+const announcer = document.createElement("route-announcer")
 const isElement = (target: EventTarget | null): target is Element =>
   (target as Node)?.nodeType === NODE_TYPE_ELEMENT
 const isLocalUrl = (href: string) => {
@@ -13,7 +13,9 @@ const isLocalUrl = (href: string) => {
     if (window.location.origin === url.origin) {
       return true
     }
-  } catch (e) {}
+  } catch {
+    // ignore
+  }
   return false
 }
 
@@ -39,7 +41,7 @@ function notifyNav(url: FullSlug) {
   document.dispatchEvent(event)
 }
 
-const cleanupFns: Set<(...args: any[]) => void> = new Set()
+const cleanupFns: Set<(fn: () => void) => void> = new Set()
 window.addCleanup = (fn) => cleanupFns.add(fn)
 
 let p: DOMParser
@@ -61,7 +63,7 @@ async function navigate(url: URL, isBack = false) {
   if (!contents) return
 
   // cleanup old
-  cleanupFns.forEach((fn) => fn())
+  cleanupFns.forEach((fn) => fn(() => {}))
   cleanupFns.clear()
 
   const html = p.parseFromString(contents, "text/html")
@@ -127,7 +129,7 @@ function createRouter() {
 
       try {
         navigate(url, false)
-      } catch (e) {
+      } catch {
         window.location.assign(url)
       }
     })
@@ -137,7 +139,7 @@ function createRouter() {
       if (window.location.hash && window.location.pathname === url?.pathname) return
       try {
         navigate(new URL(window.location.toString()), true)
-      } catch (e) {
+      } catch {
         window.location.reload()
       }
       return

@@ -151,10 +151,10 @@ export const ComponentResources: QuartzEmitterPlugin = () => {
     getQuartzComponents() {
       return []
     },
-    async getDependencyGraph(_ctx, _content, _resources) {
+    async getDependencyGraph() {
       return new DepGraph<FilePath>()
     },
-    async emit(ctx, _content, _resources): Promise<FilePath[]> {
+    async emit(ctx): Promise<FilePath[]> {
       const promises: Promise<FilePath>[] = []
       const cfg = ctx.cfg.configuration
       // component specific scripts and styles

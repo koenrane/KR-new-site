@@ -6,7 +6,7 @@ import subprocess
 from .. import r2_upload
 from .. import utils as script_utils
 import os
-import git  # Add this import
+import git  # type: ignore
 import tempfile
 
 

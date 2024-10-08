@@ -12,7 +12,7 @@ describe("replaceRegex", () => {
     const parent: Parent = { type: "span", children: [node] }
     const regex = /\bfox\b/g
 
-    const replaceFn = (_match: RegExpMatchArray): ReplaceFnResult => ({
+    const replaceFn = (): ReplaceFnResult => ({
       before: "",
       replacedMatch: "clever fox",
       after: "",
@@ -33,7 +33,7 @@ describe("replaceRegex", () => {
     const regex = /apple/g
 
     // Reuse the ReplaceFnResult type
-    const replaceFn = (_match: RegExpMatchArray): ReplaceFnResult => ({
+    const replaceFn = (): ReplaceFnResult => ({
       before: "",
       replacedMatch: "fruit",
       after: "",

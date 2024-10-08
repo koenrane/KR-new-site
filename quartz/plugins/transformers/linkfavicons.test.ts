@@ -32,7 +32,9 @@ import fs from "fs"
 jest.mock("stream/promises")
 
 beforeAll(async () => {
-  jest.spyOn(fs, "createWriteStream").mockReturnValue(new PassThrough() as any)
+  jest
+    .spyOn(fs, "createWriteStream")
+    .mockReturnValue(new PassThrough() as unknown as fs.WriteStream)
 })
 
 let tempDir: string
@@ -50,7 +52,7 @@ afterEach(async () => {
 jest.mock("./linkfavicons", () => {
   const actual = jest.requireActual("./linkfavicons")
   return {
-    ...(actual as any),
+    ...(actual as unknown as Record<string, unknown>),
     urlCache: new Map(),
   }
 })

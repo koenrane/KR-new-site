@@ -6,11 +6,10 @@ interface FetchResult {
   frontmatter: Element
 }
 
-
 const hamburger = document.querySelector(".hamburger")
 const menu = document.querySelector(".menu")
 
-let bars = document.querySelectorAll(".bar")
+const bars = document.querySelectorAll(".bar")
 
 // Toggle menu visibility and animate hamburger icon when clicked
 hamburger?.addEventListener("click", () => {
@@ -112,8 +111,8 @@ interface Item {
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
-const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/)
-let index = new FlexSearch.Document<Item>({
+const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/) // eslint-disable-line no-control-regex
+const index = new FlexSearch.Document<Item>({
   charset: "latin:extra",
   encode: encoder,
   document: {
@@ -195,8 +194,9 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  return `${startIndex === 0 ? "" : "..."}${slice}${endIndex === tokenizedText.length - 1 ? "" : "..."
-    }`
+  return `${startIndex === 0 ? "" : "..."}${slice}${
+    endIndex === tokenizedText.length - 1 ? "" : "..."
+  }`
 }
 
 function escapeRegExp(text: string) {
@@ -324,13 +324,13 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     if (e.key === "/") {
       e.preventDefault()
       const searchBarOpen = container?.classList.contains("active")
-      searchBarOpen ? hideSearch() : showSearch("basic")
+      void (searchBarOpen ? hideSearch() : showSearch("basic"))
       return
     } else if (e.shiftKey && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       // Hotkey to open tag search
       e.preventDefault()
       const searchBarOpen = container?.classList.contains("active")
-      searchBarOpen ? hideSearch() : showSearch("tags")
+      void (searchBarOpen ? hideSearch() : showSearch("tags"))
 
       // add "#" prefix for tag search
       if (searchBar) searchBar.value = "#"
@@ -425,8 +425,9 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     itemTile.href = resolveUrl(slug).toString()
 
     content = replaceEmojiConvertArrows(content)
-    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
-      }`
+    itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
+      enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
+    }`
     itemTile.addEventListener("click", (event) => {
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
       hideSearch()
@@ -544,29 +545,29 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   function debounce<F extends (...args: [KeyboardEvent]) => void>(
     func: F,
     wait: number,
-    immediate = false
+    immediate = false,
   ): F {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null
     return function (this: Window, ...args: [KeyboardEvent]) {
       const later = () => {
-        timeoutId = null;
+        timeoutId = null
         if (!immediate) {
-          func.apply(this, args);
+          func.apply(this, args)
         }
-      };
+      }
 
-      const callNow = immediate && timeoutId === null;
+      const callNow = immediate && timeoutId === null
 
       if (timeoutId !== null) {
-        clearTimeout(timeoutId);
+        clearTimeout(timeoutId)
       }
 
-      timeoutId = setTimeout(later, wait);
+      timeoutId = setTimeout(later, wait)
 
       if (callNow) {
-        func.apply(this, args);
+        func.apply(this, args)
       }
-    } as F;
+    } as F
   }
 
   async function onType(e: HTMLElementEventMap["input"]) {
@@ -590,7 +591,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
           index: ["title", "content"],
           tag: tag,
         })
-        for (let searchResult of searchResults) {
+        for (const searchResult of searchResults) {
           searchResult.result = searchResult.result.slice(0, numSearchResults)
         }
         // set search type to basic and remove tag from term for proper highlightning and scroll
@@ -627,7 +628,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     await displayResults(finalResults)
   }
 
-  const debouncedOnType = debounce(onType, 50, true);
+  const debouncedOnType = debounce(onType, 50, true)
 
   document.addEventListener("keydown", shortcutHandler)
   window.addCleanup(() => document.removeEventListener("keydown", shortcutHandler))
@@ -707,7 +708,7 @@ const scrollDisplayUpdate = () => {
   prevScrollPos = currentScrollPos
 }
 
-  // Event listeners
-  ;["scroll", "touchmove"].forEach((event: string) => {
-    window.addEventListener(event, scrollDisplayUpdate)
-  })
+// Event listeners
+;["scroll", "touchmove"].forEach((event: string) => {
+  window.addEventListener(event, scrollDisplayUpdate)
+})

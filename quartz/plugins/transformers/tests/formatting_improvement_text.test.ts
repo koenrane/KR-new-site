@@ -4,6 +4,7 @@ import {
   editAdmonition,
   noteAdmonition,
   wrapLeadingHeaderNumbers,
+  spaceDoublyNestedCallouts, // Add this line
 } from "../formatting_improvement_text"
 
 describe("TextFormattingImprovement Plugin", () => {
@@ -26,14 +27,8 @@ describe("TextFormattingImprovement Plugin", () => {
         "This is a sentence[^1]. Another sentence[^2], and more text[^3]!",
         "This is a sentence.[^1] Another sentence,[^2] and more text![^3]",
       ],
-      [
-        "Is this correct[^2]?!",
-        "Is this correct?![^2]",
-      ],
-      [
-        "Is this correct[^2]?!",
-        "Is this correct?![^2]",
-      ],
+      ["Is this correct[^2]?!", "Is this correct?![^2]"],
+      ["Is this correct[^2]?!", "Is this correct?![^2]"],
     ])("Correctly formats footnotes.", (input: string, expected: string): void => {
       const result = formattingImprovement(input)
       expect(result).toBe(expected)
@@ -202,11 +197,37 @@ describe("Mass transforms", () => {
   it.each([
     ["Let x := 5", "Let x ≝ 5"],
     ["a:=b:=c", "a≝b≝c"],
-    ["L1", "L<sub style=\"font-variant-numeric: lining-nums;\">1</sub>"],
-    ["L10", "L<sub style=\"font-variant-numeric: lining-nums;\">10</sub>"],
-    ["ILO10", "ILO10"]
+    ["L1", 'L<sub style="font-variant-numeric: lining-nums;">1</sub>'],
+    ["L10", 'L<sub style="font-variant-numeric: lining-nums;">10</sub>'],
+    ["ILO10", "ILO10"],
   ])("should perform transforms for %s", (input: string, expected: string) => {
     const result = massTransformText(input)
     expect(result).toBe(expected)
+  })
+})
+
+describe("spaceDoublyNestedCallouts", () => {
+  it("should add a space after doubly nested callouts", () => {
+    const input = "> > [!note] Nested note\n> > This is nested content."
+    const expected = "> > [!note] Nested note\n> >\n> > This is nested content."
+    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
+  })
+
+  it("should not modify singly nested callouts", () => {
+    const input = "> [!note] Single note\n> This is single nested content."
+    expect(spaceDoublyNestedCallouts(input)).toBe(input)
+  })
+
+  it("should handle multiple doubly nested callouts", () => {
+    const input = "> > [!note] First note\n> > Content 1\n> > [!warning] Second note\n> > Content 2"
+    const expected =
+      "> > [!note] First note\n> >\n> > Content 1\n> > [!warning] Second note\n> >\n> > Content 2"
+    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
+  })
+
+  it("should handle mixed singly and doubly nested callouts", () => {
+    const input = "> [!note] Outer\n> Content\n> > [!warning] Inner\n> > Warning content"
+    const expected = "> [!note] Outer\n> Content\n> > [!warning] Inner\n> >\n> > Warning content"
+    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
   })
 })
