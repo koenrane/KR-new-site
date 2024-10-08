@@ -45,6 +45,12 @@ export function editAdmonition(text: string): string {
   return text
 }
 
+const NESTED_CALLOUT_REGEX_NO_SPACE = new RegExp(/^(> *> *\[!.*$\n)(?!> *> *\n)/gm)
+const TARGET_REGEX_WITH_SPACE = "$1> >\n"
+export function spaceDoublyNestedCallouts(text: string): string {
+  return text.replaceAll(NESTED_CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
+}
+
 // Wrap e.g. header "# 10" in lining nums
 export function wrapLeadingHeaderNumbers(text: string): string {
   return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
@@ -65,7 +71,7 @@ export function noteAdmonition(text: string): string {
 
 const massTransforms: [RegExp | string, string][] = [
   [/\:=/g, "≝"], // mathematical definition symbol
-  [/( |^)L(\d+)\b/g, "$1L<sub style=\"font-variant-numeric: lining-nums;\">$2</sub>"],
+  [/( |^)L(\d+)\b/g, '$1L<sub style="font-variant-numeric: lining-nums;">$2</sub>'],
 ]
 
 export function massTransformText(text: string): string {
@@ -111,8 +117,10 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *\,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
+  newContent = spaceDoublyNestedCallouts(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
   newContent = massTransformText(newContent)
+
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")
 
