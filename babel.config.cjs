@@ -1,6 +1,6 @@
 // babel.config.cjs
 
-module.exports = {
+module.exports = { // eslint-disable-line no-undef
   presets: [
     ["@babel/preset-env", { targets: { node: "current" } }],
     "@babel/preset-typescript",

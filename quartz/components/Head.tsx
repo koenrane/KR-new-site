@@ -73,7 +73,7 @@ export default (() => {
         ))}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
-          .map((res) => JSResourceToScriptElement(res, true))}
+          .map((res) => JSResourceToScriptElement(res))}
       </head>
     )
   }

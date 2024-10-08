@@ -5,6 +5,7 @@ import {
   TURNTROUT_FAVICON_PATH,
   LESSWRONG_FAVICON_PATH,
 } from "../../plugins/transformers/linkfavicons"
+import React from "react"
 
 const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" alt="" />
 
@@ -73,7 +74,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
     return null
   }
-  const [toc, _] = buildNestedList(fileData.toc, 0, 0)
+  const toc = buildNestedList(fileData.toc, 0, 0)[0]
   return (
     <blockquote
       className="callout example is-collapsible is-collapsed"

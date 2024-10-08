@@ -1,5 +1,6 @@
 import fs, { promises } from "fs"
 import path from "path"
+import process from "node:process"
 import esbuild from "esbuild"
 import chalk from "chalk"
 import { sassPlugin } from "esbuild-sass-plugin"

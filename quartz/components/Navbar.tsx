@@ -4,8 +4,8 @@ import navbarStyle from "./styles/navbar.scss"
 
 // @ts-expect-error Not a module but a script
 import script from "./scripts/navbar.inline"
-import { Options } from "./NavbarNode"
 import { headerVideoContainer } from "./PageTitle"
+import React from "react"
 import { i18n } from "../i18n"
 
 const darkMode = (
@@ -73,7 +73,7 @@ type Page = {
   title: string
 }
 
-export default ((userOpts?: Partial<Options>) => {
+export default (() => {
   const Navbar: QuartzComponent = ({ cfg, fileData }: QuartzComponentProps) => {
     const pages: Page[] = "pages" in cfg.navbar ? (cfg.navbar.pages as Page[]) : []
     const currentSlug = fileData.slug!

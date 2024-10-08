@@ -1,6 +1,7 @@
 import { GlobalConfiguration } from "../cfg"
 import { ValidLocale } from "../i18n"
 import { QuartzPluginData } from "../plugins/vfile"
+import React from "react"
 
 interface Props {
   date: Date

@@ -2,6 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 import { formatTag } from "./TagList"
 import { formatTitle } from "./component_utils"
+import React from "react"
 
 const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_title) {

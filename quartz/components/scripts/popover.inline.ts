@@ -2,9 +2,8 @@ import { normalizeRelativeURLs } from "../../util/path"
 
 const p = new DOMParser()
 async function mouseEnterHandler(this: HTMLLinkElement) {
-  const link = this
   const parentOfPopover = document.getElementById("quartz-root")
-  if (link.dataset.noPopover === "true") {
+  if (this.dataset.noPopover === "true") {
     return
   }
 
@@ -14,8 +13,8 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     existingPopover.remove()
   }
 
-  async function setPosition(popoverElement: HTMLElement) {
-    const linkRect = link.getBoundingClientRect()
+  async function setPosition(this: HTMLLinkElement, popoverElement: HTMLElement) {
+    const linkRect = this.getBoundingClientRect()
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
     const popoverWidth = popoverElement.offsetWidth
@@ -50,7 +49,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
   const thisUrl = new URL(document.location.href)
   thisUrl.hash = ""
   thisUrl.search = ""
-  const targetUrl = new URL(link.href)
+  const targetUrl = new URL(this.href)
   let hash = targetUrl.hash
   targetUrl.hash = ""
   targetUrl.search = ""
@@ -77,9 +76,16 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   popoverInner.dataset.contentType = contentType ?? undefined
 
+  let img: HTMLImageElement | undefined
+  let pdf: HTMLIFrameElement | undefined
+  let contents: string
+  let html: Document
+  let appendToAttr: (element: Element, attrName: string, toAppend: string) => void
+  let elts: Element[]
+
   switch (contentTypeCategory) {
     case "image":
-      const img = document.createElement("img")
+      img = document.createElement("img")
       img.src = targetUrl.toString()
       img.alt = targetUrl.pathname
 
@@ -88,7 +94,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     case "application":
       switch (typeInfo) {
         case "pdf":
-          const pdf = document.createElement("iframe")
+          pdf = document.createElement("iframe")
           pdf.src = targetUrl.toString()
           popoverInner.appendChild(pdf)
           break
@@ -97,9 +103,9 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
       }
       break
     default:
-      const contents = await response.text()
-      const html = p.parseFromString(contents, "text/html")
-      const appendToAttr = (element: Element, attrName: string, toAppend: string) => {
+      contents = await response.text()
+      html = p.parseFromString(contents, "text/html")
+      appendToAttr = (element: Element, attrName: string, toAppend: string) => {
         const attr = element.getAttribute(attrName)
         if (attr) {
           element.setAttribute(attrName, `${attr}${toAppend}`)
@@ -120,13 +126,13 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
       })
 
       normalizeRelativeURLs(html, targetUrl)
-      const elts = [...html.getElementsByClassName("popover-hint")]
+      elts = [...html.getElementsByClassName("popover-hint")]
       if (elts.length === 0) return
 
       elts.forEach((elt) => popoverInner.appendChild(elt))
   }
 
-  setPosition(popoverElement)
+  setPosition.call(this, popoverElement)
   parentOfPopover?.prepend(popoverElement)
 
   let isMouseOverLink = false
@@ -147,12 +153,12 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     popoverElement.classList.add("popover-visible")
   }
 
-  link.addEventListener("mouseenter", () => {
+  this.addEventListener("mouseenter", () => {
     isMouseOverLink = true
     showPopover()
   })
 
-  link.addEventListener("mouseleave", () => {
+  this.addEventListener("mouseleave", () => {
     isMouseOverLink = false
     removePopover()
   })
@@ -173,7 +179,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
       window.location.href = clickedLink.href
     } else {
       // If empty space is clicked, navigate to the original link
-      window.location.href = link.href
+      window.location.href = this.href
     }
   })
 
@@ -181,8 +187,8 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   // Cleanup function to remove event listeners
   const cleanup = () => {
-    link.removeEventListener("mouseenter", showPopover)
-    link.removeEventListener("mouseleave", removePopover)
+    this.removeEventListener("mouseenter", showPopover)
+    this.removeEventListener("mouseleave", removePopover)
     popoverElement.removeEventListener("mouseenter", () => {
       isMouseOverPopover = true
     })
@@ -197,7 +203,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
         window.location.href = clickedLink.href
       } else {
         e.preventDefault()
-        window.location.href = link.href
+        window.location.href = this.href
       }
     })
   }
@@ -218,7 +224,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 // Not all IDs are valid - can't start with digit
 function escapeLeadingIdNumber(headingText: string) {
   // Escape numbers at the start
-  const escapedId = headingText.replace(/\#(\d+)/, "#_$1")
+  const escapedId = headingText.replace(/#(\d+)/, "#_$1")
 
   return escapedId
 }
@@ -228,7 +234,7 @@ document.addEventListener("nav", () => {
   for (const link of links) {
     let cleanup: (() => void) | undefined
 
-    const handleMouseEnter = async (_event: MouseEvent) => {
+    const handleMouseEnter = async () => {
       if (cleanup) cleanup() // Remove previous listeners if any
       cleanup = await mouseEnterHandler.call(link)
     }

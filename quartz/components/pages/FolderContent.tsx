@@ -1,5 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import path from "path"
+import React from "react"
 
 import style from "../styles/listPage.scss"
 import { PageList } from "../PageList"

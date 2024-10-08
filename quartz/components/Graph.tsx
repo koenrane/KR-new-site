@@ -1,5 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-
+import React from "react"
 // @ts-expect-error Not a module but a script
 import script from "./scripts/graph.inline"
 import style from "./styles/graph.scss"

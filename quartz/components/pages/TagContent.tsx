@@ -7,6 +7,7 @@ import { QuartzPluginData } from "../../plugins/vfile"
 import { Root } from "hast"
 import { htmlToJsx } from "../../util/jsx"
 import { i18n } from "../../i18n"
+import React from "react"
 
 const numPages = 10
 const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
@@ -38,7 +39,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
     ]
     const tagItemMap: Map<string, QuartzPluginData[]> = new Map()
     for (const tag of tags) {
-      tagItemMap.set(tag, allPagesWithTag(tag))
+      tagItemMap.set(tag ?? "", allPagesWithTag(tag ?? ""))
     }
     return (
       <div className={classes}>
@@ -47,7 +48,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
         </article>
         <div>
           {tags.map((tag) => {
-            const pages = tagItemMap.get(tag)!
+            const pages = tagItemMap.get(tag ?? "")!
             const listProps = {
               ...props,
               allFiles: pages,
@@ -62,7 +63,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
                 : htmlToJsx(contentPage.filePath!, root)
 
             return (
-              <div>
+              <div key={tag}>
                 <h2>
                   <a className="internal tag-link" href={`../tags/${tag}`}>
                     {processedTag}

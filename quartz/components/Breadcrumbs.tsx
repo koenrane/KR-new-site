@@ -3,6 +3,7 @@ import breadcrumbsStyle from "./styles/breadcrumbs.scss"
 import { FullSlug, SimpleSlug, joinSegments, resolveRelative } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
+import React from "react"
 
 type CrumbData = {
   displayName: string
@@ -126,7 +127,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     return (
       <nav className={classNames(displayClass, "breadcrumb-container")} aria-label="breadcrumbs">
         {crumbs.map((crumb, index) => (
-          <div className="breadcrumb-element">
+          <div className="breadcrumb-element" key={index}>
             <a href={crumb.path}>{crumb.displayName}</a>
             {index !== crumbs.length - 1 && <p>{` ${options.spacerSymbol} `}</p>}
           </div>
