@@ -30,7 +30,6 @@ def test_media_setup(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         - Markdown files with image references.
         - Git initialization to simulate a real project.
     """
-    # Mock the HOME environment variable
     monkeypatch.setenv("HOME", str(tmp_path))
 
     dirs = {
@@ -80,9 +79,8 @@ def test_media_setup(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
 
 
 @pytest.fixture
-def mock_git_root(monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
+def mock_git_root(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
     project_root = tmp_path / "turntrout.com"
-    project_root.mkdir(parents=True, exist_ok=True)
 
     # Create a mock Repo object
     mock_repo = MagicMock()
@@ -105,6 +103,14 @@ def mock_rclone():
     with patch("subprocess.run") as mock_run:
         mock_run.return_value.returncode = 0
         yield mock_run
+
+
+@pytest.fixture(autouse=True)
+def mock_home_directory(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    def mock_get_home_directory():
+        return str(tmp_path)
+
+    monkeypatch.setattr(r2_upload, "get_home_directory", mock_get_home_directory)
 
 
 def test_verbose_output(mock_git_root: Path, capsys: pytest.CaptureFixture[str]):
