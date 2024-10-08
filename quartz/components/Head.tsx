@@ -35,6 +35,14 @@ export default (() => {
       </>
     )
 
+    const analyticsScript = (
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id="fa8c3e1c-3a3c-4f6d-a913-6f580765bfae"
+      ></script>
+    )
+
     if (fileData?.frontmatter?.video_preview_link) {
       mediaElement = <meta property="og:video" content={fileData.video_preview_link as string} />
     }
@@ -47,6 +55,8 @@ export default (() => {
         <meta charSet="utf-8" />
         <script src="/static/scripts/detect-dark-mode.js"></script>
         <script src="/static/scripts/collapsible-listeners.js"></script>
+        {analyticsScript}
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {fileData.frontmatter?.avoidIndexing && (
