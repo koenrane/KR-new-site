@@ -7,7 +7,7 @@ import { Date, getDate } from "./Date"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
-
+import React from "react"
 interface Options {
   title?: string
   limit: number
@@ -42,7 +42,7 @@ export default ((userOpts?: Partial<Options>) => {
             const tags = page.frontmatter?.tags ?? []
 
             return (
-              <li className="recent-li">
+              <li className="recent-li" key={page.slug}>
                 <div className="section">
                   <div className="desc">
                     <h3>
@@ -58,7 +58,7 @@ export default ((userOpts?: Partial<Options>) => {
                   )}
                   <ul className="tags">
                     {tags.map((tag) => (
-                      <li>
+                      <li key={tag}>
                         <a
                           className="internal tag-link"
                           href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}

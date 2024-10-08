@@ -7,6 +7,7 @@ import {
   SimpleSlug,
   FilePath,
 } from "../util/path"
+import React from "react"
 
 type OrderEntries = "sort" | "filter" | "map"
 

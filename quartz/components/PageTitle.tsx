@@ -2,7 +2,7 @@ import { pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
-
+import React from "react"
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
   <span id="header-video-container">

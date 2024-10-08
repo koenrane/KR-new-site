@@ -1,6 +1,6 @@
-const scenarios = require("./backstop/scenarios.cjs")
+import scenarios from "./backstop/scenarios.cjs"
 
-module.exports = {
+export default {
   id: "backstop_default",
   viewports: [
     {

@@ -8,6 +8,7 @@ import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
+import React from "react"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -64,7 +65,7 @@ export function renderPage(
   const root = clone(componentData.tree) as Root
 
   // process transcludes in componentData
-  visit(root, "element", (node, _index, _parent) => {
+  visit(root, "element", (node) => {
     if (node.tagName === "blockquote") {
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
@@ -197,7 +198,7 @@ export function renderPage(
   const LeftComponent = (
     <div id="left-sidebar" className="left sidebar">
       {left.map((BodyComponent) => (
-        <BodyComponent {...componentData} />
+        <BodyComponent {...componentData} key={BodyComponent.name} />
       ))}
     </div>
   )
@@ -205,7 +206,7 @@ export function renderPage(
   const RightComponent = (
     <div id="right-sidebar" className="right sidebar">
       {right.map((BodyComponent) => (
-        <BodyComponent {...componentData} />
+        <BodyComponent {...componentData} key={BodyComponent.name} />
       ))}
     </div>
   )
@@ -222,12 +223,12 @@ export function renderPage(
               <div className="page-header">
                 <Header {...componentData}>
                   {header.map((HeaderComponent) => (
-                    <HeaderComponent {...componentData} />
+                    <HeaderComponent {...componentData} key={HeaderComponent.name} />
                   ))}
                 </Header>
                 <div className="popover-hint">
                   {beforeBody.map((BodyComponent) => (
-                    <BodyComponent {...componentData} />
+                    <BodyComponent {...componentData} key={BodyComponent.name} />
                   ))}
                 </div>
               </div>

@@ -2,6 +2,8 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { GlobalConfiguration } from "../cfg"
 import { renderPublicationInfo } from "./ContentMeta"
 
+import React from "react"
+
 const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_metadata || fileData.frontmatter?.hide_authors) {
     return null

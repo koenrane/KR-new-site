@@ -111,7 +111,7 @@ interface Item {
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
-const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/)
+const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/) // eslint-disable-line no-control-regex
 const index = new FlexSearch.Document<Item>({
   charset: "latin:extra",
   encode: encoder,
@@ -324,13 +324,13 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     if (e.key === "/") {
       e.preventDefault()
       const searchBarOpen = container?.classList.contains("active")
-      searchBarOpen ? hideSearch() : showSearch("basic")
+      void (searchBarOpen ? hideSearch() : showSearch("basic"))
       return
     } else if (e.shiftKey && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       // Hotkey to open tag search
       e.preventDefault()
       const searchBarOpen = container?.classList.contains("active")
-      searchBarOpen ? hideSearch() : showSearch("tags")
+      void (searchBarOpen ? hideSearch() : showSearch("tags"))
 
       // add "#" prefix for tag search
       if (searchBar) searchBar.value = "#"
