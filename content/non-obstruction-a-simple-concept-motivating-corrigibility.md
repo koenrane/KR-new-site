@@ -302,7 +302,7 @@ Main idea: we want good things to happen; there may be more ways to do this than
 
 |   | Alignment | Corrigibility | Non-obstruction |
 | --: | --- | --- | --- |
-| Impact | Actually makes good things happen. | <br/><br/>_Corrigibility is a property of policies, not of states; "impact" is an incompatible adjective._<br/><br/>Rohin Shah suggests "empirical corrigibility": we actually end up able to correct the AI.<br/><br/> | Actually doesn't decrease AUs. |
+| Impact | Actually makes good things happen. | _Corrigibility is a property of policies, not of states; "impact" is an incompatible adjective._<br/><br/>Rohin Shah suggests "empirical corrigibility": we actually end up able to correct the AI.<br/><br/> | Actually doesn't decrease AUs. |
 | Intent | Tries to make good things happen. | Tries to allow us to correct it without it manipulating us. | Tries to not decrease AUs. |
 
 We want agents which are maximally impact-aligned with as many goals as possible, especially those similar to our own.

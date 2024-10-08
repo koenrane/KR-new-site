@@ -31,13 +31,14 @@ In early 2018, I became convinced that [the AI alignment problem](https://en.wik
 
 I didn't remember much formal math or computer science, but I wanted to give my all anyways. I started reading textbooks. I started reading _a lot_ of textbooks.
 
-![](https://assets.turntrout.com/static/images/posts/test_library.avif)
-
 > [!quote] Original sequence description
 >
-> You can never have enough books. -- [The Verres family motto](https://hpmor.com/chapter/7)
+> >[!quote] [The Verres family motto](https://hpmor.com/chapter/7)
+> > You can never have enough books. 
 >
 > My journey through the MIRI research guide.
+
+![](https://assets.turntrout.com/static/images/posts/test_library.avif)
 
 1. [Set Up for Success: Insights from "Naïve Set Theory"](/set-up-for-success-insights-from-naive-set-theory)
 2. [Lightness and Unease](./lightness-and-unease.md)

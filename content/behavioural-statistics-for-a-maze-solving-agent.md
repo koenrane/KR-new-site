@@ -294,7 +294,7 @@ Keeping these qualitative impressions in mind, let’s test variables 1-3) for s
 | Regression variables | Accuracy |
 | --: | :-- |
 | $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 82.4% |
-|   <br/>$d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 75.9% |
+|  $d_\text{step}(\text{cheese},\text{decision-square})$  <br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$ | 75.9% |
 | $d_\text{Euclidean}(\text{cheese},\text{top-right})$   <br/><br/>$d_\text{Euclidean}(\text{cheese},\text{decision-square})$| 81.9% |
 | $d_\text{Euclidean}(\text{cheese},\text{top-right})$ <br/> $d_\text{step}(\text{cheese},\text{decision-square})$  <br/><br/>  | 81.7% |
 |$d_\text{Euclidean}(\text{cheese},\text{top-right})$<br/><br/><br/> | 77.3% |
