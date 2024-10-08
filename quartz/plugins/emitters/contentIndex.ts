@@ -60,7 +60,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: nu
   </item>`
 
   const items = Array.from(idx)
-    .sort(([_, f1], [__, f2]) => {
+    .sort(([, f1], [, f2]) => {
       if (f1.date && f2.date) {
         return f2.date.getTime() - f1.date.getTime()
       } else if (f1.date && !f2.date) {
@@ -81,8 +81,8 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: nu
       <title>${escapeHTML(cfg.pageTitle)}</title>
       <link>https://${base}</link>
       <description>${limit ? i18n(cfg.locale).pages.rss.lastFewNotes({ count: limit }) : i18n(cfg.locale).pages.rss.recentNotes} on ${escapeHTML(
-    cfg.pageTitle,
-  )}</description>
+        cfg.pageTitle,
+      )}</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       ${items}
     </channel>
@@ -93,10 +93,10 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
   opts = { ...defaultOptions, ...opts }
   return {
     name: "ContentIndex",
-    async getDependencyGraph(ctx, content, _resources) {
+    async getDependencyGraph(ctx, content) {
       const graph = new DepGraph<FilePath>()
 
-      for (const [_tree, file] of content) {
+      for (const [, file] of content) {
         const sourcePath = file.data.filePath!
 
         graph.addEdge(
@@ -113,7 +113,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
 
       return graph
     },
-    async emit(ctx, content, _resources) {
+    async emit(ctx, content) {
       const cfg = ctx.cfg.configuration
       const emitted: FilePath[] = []
       const linkIndex: ContentIndex = new Map()

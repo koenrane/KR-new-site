@@ -12,7 +12,7 @@ export default ((opts?: Options) => {
     const year = new Date().getFullYear()
     const links = opts?.links ?? []
     return (
-      <footer class={`${displayClass ?? ""}`}>
+      <footer className={`${displayClass ?? ""}`}>
         <p></p>
         <ul>
           {Object.entries(links).map(([text, link]) => (

@@ -2,6 +2,7 @@ import { i18n } from "../i18n"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { formatTitle } from "./component_utils"
+import React from "react"
 import { joinSegments, pathToRoot } from "../util/path"
 
 export default (() => {
@@ -68,7 +69,7 @@ export default (() => {
 
         <link rel="icon" href={iconPath} />
         {css.map((href) => (
-          <link key={href} href={href} rel="stylesheet" type="text/css" spa-preserve />
+          <link key={href} href={href} rel="stylesheet" type="text/css" />
         ))}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")

@@ -68,7 +68,7 @@ export const ContentPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOp
     getQuartzComponents() {
       return [Head, Header, Body, ...header, ...beforeBody, pageBody, ...left, ...right, Footer]
     },
-    async getDependencyGraph(ctx, content, _resources) {
+    async getDependencyGraph(ctx, content) {
       const graph = new DepGraph<FilePath>()
 
       for (const [tree, file] of content) {

@@ -7,11 +7,11 @@ import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)
-const footnoteSpacingRegex = /(\S) (\[\^.*?\])(?![:\(]) ?/g
+const footnoteSpacingRegex = /(\S) (\[\^.*?\])(?![:(]) ?/g
 const footnoteSpacingReplacement = "$1$2 "
 
 // New regex for moving footnotes after punctuation
-const footnotePunctuationRegex = /(\S)(\[\^.*?\])([.,;!\?]+)/g
+const footnotePunctuationRegex = /(\S)(\[\^.*?\])([.,;!?]+)/g
 const footnotePunctuationReplacement = "$1$3$2"
 
 /**
@@ -27,11 +27,10 @@ const improveFootnoteFormatting = (text: string) => {
 
 // Regular expression for edit/note patterns
 const editPattern =
-  /^\s*(?<emph1>[\*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-\/]\d{1,2}[-\/]\d{2,4})\)?(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
+  /^\s*(?<emph1>[*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-/]\d{1,2}[-/]\d{2,4})\)?(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
 const editAdmonitionPattern = "> [!info] Edited on $<date>\n>\n> $<text>"
 
-const editPatternNoDate =
-  /^\s*(?<emph1>[\*_]*)(edit|eta)(?<emph2>[\*_]*:[\*_]*) (?<text>.*)[\*_]*/gim
+const editPatternNoDate = /^\s*(?<emph1>[*_]*)(edit|eta)(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
 const editAdmonitionPatternNoDate = "> [!info] Edited after posting\n>\n> $<text>"
 
 /**
@@ -57,7 +56,7 @@ export function wrapLeadingHeaderNumbers(text: string): string {
 }
 
 // Regular expression for note patterns
-const notePattern = /^\s*[\*_]*note[\*_]*:[\*_]* (?<text>.*)(?<![\*_])[\*_]*/gim
+const notePattern = /^\s*[*_]*note[*_]*:[*_]* (?<text>.*)(?<![*_])[*_]*/gim
 
 /**
  * Converts note patterns to admonition blocks.
@@ -70,7 +69,7 @@ export function noteAdmonition(text: string): string {
 }
 
 const massTransforms: [RegExp | string, string][] = [
-  [/\:=/g, "≝"], // mathematical definition symbol
+  [/:=/g, "≝"], // mathematical definition symbol
   [/( |^)L(\d+)\b/g, '$1L<sub style="font-variant-numeric: lining-nums;">$2</sub>'],
 ]
 
@@ -114,10 +113,11 @@ export const formattingImprovement = (text: string) => {
   let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ") // Remove NBSP
 
   newContent = improveFootnoteFormatting(newContent)
-  newContent = newContent.replace(/ *\,/g, ",") // Remove space before commas
+  newContent = newContent.replace(/ *,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
   newContent = spaceDoublyNestedCallouts(newContent)
+  newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
   newContent = massTransformText(newContent)
 

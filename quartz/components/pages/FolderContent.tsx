@@ -46,11 +46,11 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         : htmlToJsx(fileData.filePath!, tree)
 
     return (
-      <div class={classes}>
+      <div className={classes}>
         <article>
           <p>{content}</p>
         </article>
-        <div class="page-listing">
+        <div className="page-listing">
           {options.showFolderCount && (
             <p>
               {i18n(cfg.locale).pages.folderContent.itemsUnderFolder({

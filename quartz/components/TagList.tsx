@@ -20,16 +20,16 @@ export const getTags = (fileData: any) => {
 }
 
 export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
-  let tags = getTags(fileData)
+  const tags = getTags(fileData)
   if (tags && tags.length > 0) {
     return (
-      <ul class={classNames(displayClass, "tags")}>
+      <ul className={classNames(displayClass, "tags")}>
         {tags.map((tag: string) => {
           const tagSlug = slugTag(tag)
           const linkDest = `/tags/${tagSlug}`
           return (
             <li key={tag}>
-              <a href={linkDest} class="internal tag-link">
+              <a href={linkDest} className="internal tag-link">
                 {tag}
               </a>
             </li>

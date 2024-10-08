@@ -195,7 +195,7 @@ export function renderPage(
   const Body = BodyConstructor()
 
   const LeftComponent = (
-    <div id="left-sidebar" class="left sidebar">
+    <div id="left-sidebar" className="left sidebar">
       {left.map((BodyComponent) => (
         <BodyComponent {...componentData} />
       ))}
@@ -203,7 +203,7 @@ export function renderPage(
   )
 
   const RightComponent = (
-    <div id="right-sidebar" class="right sidebar">
+    <div id="right-sidebar" className="right sidebar">
       {right.map((BodyComponent) => (
         <BodyComponent {...componentData} />
       ))}
@@ -215,17 +215,17 @@ export function renderPage(
     <html lang={lang}>
       <Head {...componentData} />
       <body data-slug={slug}>
-        <div id="quartz-root" class="page">
+        <div id="quartz-root" className="page">
           <Body {...componentData}>
             {LeftComponent}
-            <div class="center">
-              <div class="page-header">
+            <div className="center">
+              <div className="page-header">
                 <Header {...componentData}>
                   {header.map((HeaderComponent) => (
                     <HeaderComponent {...componentData} />
                   ))}
                 </Header>
-                <div class="popover-hint">
+                <div className="popover-hint">
                   {beforeBody.map((BodyComponent) => (
                     <BodyComponent {...componentData} />
                   ))}

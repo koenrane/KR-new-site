@@ -14,11 +14,11 @@ const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzCompone
   let titleContent = null
 
   if (title) {
-    titleContent = <h1 class={classNames(displayClass, "article-title")}>{title}</h1>
+    titleContent = <h1 className={classNames(displayClass, "article-title")}>{title}</h1>
     if (title.match("Tag: ")) {
       const tagText = formatTag(title.split("Tag: ")[1])
       titleContent = (
-        <h1 class={classNames(displayClass, "article-title")}>
+        <h1 className={classNames(displayClass, "article-title")}>
           Tag: <span style="font-family:var(--font-monospace); font-size: smaller">{tagText}</span>
         </h1>
       )

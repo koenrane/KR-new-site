@@ -48,7 +48,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
               allSlugs: ctx.allSlugs,
             }
 
-            visit(tree, "element", (node, _index, _parent) => {
+            visit(tree, "element", (node) => {
               // rewrite all links
               if (
                 node.tagName === "a" &&
@@ -118,7 +118,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                   // WHATWG equivalent https://nodejs.dev/en/api/v18/url/#urlresolvefrom-to
                   const url = new URL(dest, "https://base.com/" + stripSlashes(curSlug, true))
                   const canonicalDest = url.pathname
-                  let [destCanonical, _destAnchor] = splitAnchor(canonicalDest)
+                  let destCanonical = splitAnchor(canonicalDest)[0]
                   if (destCanonical.endsWith("/")) {
                     destCanonical += "index"
                   }

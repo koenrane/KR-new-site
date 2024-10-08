@@ -9,7 +9,7 @@ export const headerVideoContainer = (
     <img
       src="https://assets.turntrout.com/static/pond.gif"
       id="header-gif"
-      class="header-img no-select no-vsc"
+      className="header-img no-select no-vsc"
       alt={altText}
     />
     <video
@@ -19,7 +19,7 @@ export const headerVideoContainer = (
       playsInline
       poster="https://assets.turntrout.com/static/images/pond_placeholder.avif"
       id="header-video"
-      class="header-img no-select no-vsc"
+      className="header-img no-select no-vsc"
       alt={altText}
     >
       <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
@@ -32,9 +32,9 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
   const baseDir = pathToRoot(fileData.slug!)
 
   return (
-    <div class={classNames(displayClass, "page-title")}>
+    <div className={classNames(displayClass, "page-title")}>
       <a href={baseDir}>{headerVideoContainer}</a>
-      <h2 class="page-title-text">
+      <h2 className="page-title-text">
         <a href={baseDir} id="page-title-text">
           {title}
         </a>

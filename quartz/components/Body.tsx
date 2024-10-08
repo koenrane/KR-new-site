@@ -14,11 +14,11 @@ const Body: QuartzComponent = ({ children }: QuartzComponentProps) => {
 }
 
 const searchInterface = (
-  <div class="search" alt="Displays search results.">
+  <div className="search" alt="Displays search results.">
     <div id="search-container">
       <div id="search-space">
         <input
-          autocomplete="off"
+          autoComplete="off"
           id="search-bar"
           name="search"
           type="text"

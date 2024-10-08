@@ -2,14 +2,14 @@ import { h } from "hastscript"
 import { Parent, RootContent, Text } from "hast"
 
 export const urlRegex = new RegExp(
-  /(https?:\/\/)(?<domain>([\da-z\.-]+\.)+)(?<path>[\/\?\=\w\.\-]+(\([\w\.\-,\(\) ]*\))?)(?=\))/g,
+  /(https?:\/\/)(?<domain>([\da-z.-]+\.)+)(?<path>[/?=\w.-]+(\([\w.\-,() ]*\))?)(?=\))/g,
 )
 
 const linkText = /\[(?<linkText>[^\]]+)\]/
 const linkURL = /\((?<linkURL>[^#].*?)\)/ // Ignore internal links, capture as little as possible
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 
-export const numberRegex = /[\-−]?\d{1,3}(\,?\d{3})*(\.\d+)?/
+export const numberRegex = /[-−]?\d{1,3}(,?\d{3})*(\.\d+)?/
 
 // A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
@@ -49,7 +49,7 @@ export const replaceRegex = (
   }
 
   let lastIndex = 0
-  let matchIndexes = []
+  const matchIndexes = []
   let lastMatchEnd = 0
   let match
 

@@ -62,12 +62,12 @@ const BacklinksList = ({
   backlinkFiles: any[]
   currentSlug: FullSlug
 }) => (
-  <ul class="backlinks-list" id="backlinks">
+  <ul className="backlinks-list" id="backlinks">
     {backlinkFiles.map((f) => {
       const processedTitle = processBacklinkTitle(f.frontmatter?.title || "")
       return (
         <li key={f.slug}>
-          <a href={resolveRelative(currentSlug, f.slug as FullSlug)} class="internal">
+          <a href={resolveRelative(currentSlug, f.slug as FullSlug)} className="internal">
             {processedTitle.children.map(elementToJsx)}
           </a>
         </li>
@@ -84,18 +84,18 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
 
   return (
     <blockquote
-      class="callout callout-metadata is-collapsible is-collapsed"
+      className="callout callout-metadata is-collapsible is-collapsed"
       data-callout="link"
       data-callout-fold=""
     >
-      <div class="callout-title" style="padding-bottom: 1rem;">
-        <div class="callout-icon"></div>
-        <div class="callout-title-inner">
+      <div className="callout-title" style="padding-bottom: 1rem;">
+        <div className="callout-icon"></div>
+        <div className="callout-title-inner">
           <p>Links to this page</p>
         </div>
-        <div class="fold-callout-icon"></div>
+        <div className="fold-callout-icon"></div>
       </div>
-      <div class="callout-content" id="backlinks">
+      <div className="callout-content" id="backlinks">
         <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug as FullSlug} />
       </div>
     </blockquote>

@@ -11,6 +11,8 @@ import { Backlinks } from "./Backlinks"
 import { QuartzPluginData } from "../plugins/vfile"
 import readingTime from "reading-time"
 
+import React from "react"
+
 export const formatDateStr = (date: Date, locale: ValidLocale): string =>
   ` on ${formatDate(date, locale)}`
 
@@ -32,7 +34,7 @@ export const getDateToFormat = (
 
 // Render date element with proper datetime attribute
 export const renderDateElement = (fileData: QuartzPluginData, dateStr: string): JSX.Element => (
-  <time datetime={fileData.frontmatter?.date_published as string}>{dateStr}</time>
+  <time dateTime={fileData.frontmatter?.date_published as string}>{dateStr}</time>
 )
 
 export const getFaviconPath = (originalURL: URL): string | null => {
@@ -56,7 +58,7 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
     return node
   }
 
-  let faviconElement: JSX.Element = <img src={imgPath} className="favicon" alt="" />
+  const faviconElement: JSX.Element = <img src={imgPath} className="favicon" alt="" />
 
   const textContent = node.props.children
   if (typeof textContent !== "string" || textContent.length < 4) {
@@ -74,7 +76,7 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 
   node.props.children = [
     remainingText,
-    <span style={{ whiteSpace: "nowrap" }}>
+    <span key="favicon-span" style={{ whiteSpace: "nowrap" }}>
       {lastFourChars}
       {faviconElement}
     </span>,
@@ -197,10 +199,10 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
   }
 
   return (
-    <blockquote class="callout callout-metadata" data-callout="tag">
-      <div class="callout-title">
-        <div class="callout-icon"></div>
-        <div class="callout-title-inner">Tags</div>
+    <blockquote className="callout callout-metadata" data-callout="tag">
+      <div className="callout-title">
+        <div className="callout-icon"></div>
+        <div className="callout-title-inner">Tags</div>
       </div>
       <TagList {...props} />
     </blockquote>
@@ -262,12 +264,12 @@ const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
   const nextPostJsx = renderNextPostJsx(fileData)
 
   return (
-    <blockquote class="callout callout-metadata" data-callout="example">
-      <div class="callout-title">
-        <div class="callout-icon"></div>
+    <blockquote className="callout callout-metadata" data-callout="example">
+      <div className="callout-title">
+        <div className="callout-icon"></div>
         {sequenceTitleJsx}
       </div>
-      <div class="callout-content">
+      <div className="callout-content">
         {previousPostJsx}
         {nextPostJsx}
       </div>
@@ -281,12 +283,12 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const publicationInfo = renderPublicationInfo(props.cfg, props.fileData)
 
   return (
-    <blockquote class="callout callout-metadata" data-callout="info">
-      <div class="callout-title">
-        <div class="callout-icon"></div>
-        <div class="callout-title-inner">About this post</div>
+    <blockquote className="callout callout-metadata" data-callout="info">
+      <div className="callout-title">
+        <div className="callout-icon"></div>
+        <div className="callout-title-inner">About this post</div>
       </div>
-      <div class="callout-content">
+      <div className="callout-content">
         <ul style="padding-left: 0px;">
           {readingTime && <p>{readingTime}</p>}
           {linkpostInfo && <p>{linkpostInfo}</p>}

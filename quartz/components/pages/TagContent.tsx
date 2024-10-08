@@ -41,7 +41,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
       tagItemMap.set(tag, allPagesWithTag(tag))
     }
     return (
-      <div class={classes}>
+      <div className={classes}>
         <article>
           <p>{content}</p>
         </article>
@@ -64,12 +64,12 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
             return (
               <div>
                 <h2>
-                  <a class="internal tag-link" href={`../tags/${tag}`}>
+                  <a className="internal tag-link" href={`../tags/${tag}`}>
                     {processedTag}
                   </a>
                 </h2>
                 {content && <p>{content}</p>}
-                <div class="page-listing">
+                <div className="page-listing">
                   <p>
                     {pages.length > numPages && (
                       <>
@@ -96,9 +96,9 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
     }
 
     return (
-      <div class={classes}>
+      <div className={classes}>
         <article>{content}</article>
-        <div class="page-listing">
+        <div className="page-listing">
           <p>{i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })}</p>
           <div>
             <PageList {...listProps} />
