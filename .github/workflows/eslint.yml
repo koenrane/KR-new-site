@@ -11,12 +11,12 @@ name: ESLint
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '16 12 * * 4'
+    - cron: "16 12 * * 4"
 
 jobs:
   eslint:
@@ -32,20 +32,8 @@ jobs:
       - name: Install ESLint
         run: |
           npm install eslint@8.21.0
-          npm install @microsoft/eslint-formatter-sarif@3.1.0
 
       - name: Run ESLint
-        env:
-          SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
         run: npx eslint .
           --config eslint.config.js
-          --ext .js,.jsx,.ts,.tsx
-          --format @microsoft/eslint-formatter-sarif
-          --output-file eslint-results.sarif
         continue-on-error: true
-
-      - name: Upload analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: eslint-results.sarif
-          wait-for-processing: true
