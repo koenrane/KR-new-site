@@ -60,15 +60,12 @@ const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
     return null
   }
 
-  const title = fileData.frontmatter?.title
-  logger.debug(`Title for TOC: ${title}`)
-
   const toc = buildNestedList(fileData.toc, 0, 0)[0]
 
   return (
     <div id="table-of-contents" className="desktop-only">
       <h6 className="toc-title">
-        <a href="#">{title}</a>
+        <a href="#">Table of Contents</a>
       </h6>
       <div id="toc-content">
         <ul className="overflow">{toc}</ul>

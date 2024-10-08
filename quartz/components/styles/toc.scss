@@ -1,7 +1,7 @@
 @use "../../styles/variables" as *;
 .toc-title {
   margin-top: 0;
-  margin-bottom: $baseMargin;
+  margin-bottom: calc(0.5 * $baseMargin);
   & a {
     text-decoration: none;
   }
