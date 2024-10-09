@@ -40,6 +40,12 @@ cd "$GIT_ROOT"
 PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
+# Run typechecks
+mypy $GIT_ROOT/{scripts,quartz}/**py
+
+# eslint already has ignore rules
+npx eslint --fix $GIT_ROOT
+
 
 # Run spellcheck on all markdown files
 TEMP_DICT="/tmp/candidate_wordlist.txt"
