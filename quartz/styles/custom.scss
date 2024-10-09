@@ -457,11 +457,18 @@ img.favicon {
     }
   }
 
+  // Gray logos made white on dark mode
   &[src$="alignmentforum_org.avif"],
-  &[src$="ai-alignment_com.avif"],
-  &[src$="github_com.avif"] {
+  &[src$="ai-alignment_com.avif"] {
     :root[saved-theme="dark"] & {
       filter: brightness(3); // Make it brighter
+    }
+  }
+
+  // Black github icon gets light background
+  &[src$="github_com.avif"] {
+    :root[saved-theme="dark"] & {
+      background-color: var(--dark);
     }
   }
 
