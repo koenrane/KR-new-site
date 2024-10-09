@@ -11,30 +11,53 @@ export default (() => {
     title = formatTitle(title)
     const description =
       fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
-    const { css, js } = externalResources
+
+    let authorElement = undefined
+    if (fileData.frontmatter?.authors) {
+      const authors = fileData.frontmatter.authors as string
+      authorElement = (
+        <>
+          <meta name="twitter:label1" content="Written by" />
+          <meta name="twitter:data1" content={authors} />
+        </>
+      )
+    }
 
     // Reconstruct the URL for this page (its permalink)
     const url = new URL(`https://${cfg.baseUrl ?? "turntrout.com"}/${fileData.slug}`)
-
-    const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
     const permalink = fileData.permalink || url.href
+
+    // Images and other assets ---
+    const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
-    // Have both square and FB previews TODO check that this works
+    // Different images for different preview sizes
     let mediaElement = (
       <>
         <meta property="og:image" content="https://assets.turntrout.com/static/pond.webm" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="1200" />
-
-        <meta property="og:image" content={siteImage} />
         <meta
           property="og:image:alt"
           content="A trout and a goose playing in a pond with a castle in the background."
         />
+
+        <meta property="og:image" content={siteImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="A pond containing a goose peacefully gazing at a castle."
+        />
       </>
     )
 
+    if (fileData?.frontmatter?.video_preview_link) {
+      mediaElement = <meta property="og:video" content={fileData.video_preview_link as string} />
+    }
+
+    // Scripts
+    const { css, js } = externalResources
     const analyticsScript = (
       <script
         defer
@@ -42,10 +65,6 @@ export default (() => {
         data-website-id="fa8c3e1c-3a3c-4f6d-a913-6f580765bfae"
       ></script>
     )
-
-    if (fileData?.frontmatter?.video_preview_link) {
-      mediaElement = <meta property="og:video" content={fileData.video_preview_link as string} />
-    }
 
     return (
       <head>
@@ -76,6 +95,9 @@ export default (() => {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={siteImage} />
         <meta name="twitter:site" content="@Turn_Trout" />
+
+        {/* Twitter author metadata */}
+        {authorElement}
 
         <link rel="icon" href={iconPath} />
         {css.map((href) => (
