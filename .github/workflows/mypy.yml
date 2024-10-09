@@ -1,9 +1,9 @@
-name: mypy
+name: Python type checking
 
 on:
   push:
     paths:
-      - "*.py"
+      - "**.py"
 
 jobs:
   mypy:
