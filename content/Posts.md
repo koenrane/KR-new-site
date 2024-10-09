@@ -9,8 +9,6 @@ aliases:
   - "Posts"
 ---
 
-# Most recent posts
-
 # My favorite posts
 
 1. [Looking back on my alignment PhD](/alignment-phd)

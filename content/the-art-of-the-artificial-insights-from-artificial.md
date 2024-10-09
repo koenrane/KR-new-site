@@ -408,7 +408,7 @@ With the help of a team of professional fluidicians, you enumerate "common-sense
 
 > In simplified systems consisting of raindrops and the ground, the shape of each discrete body of water can be represented by a conditional multivariate Gaussian, where the distribution is conditional on whether it has struck the ground yet.
 
-You set up high-FPS cameras in storms and collect video data for millions of raindrop-impact events. You're even able to avoid manual processing via MTurk by employing the latest advances in deep learning! You use s[egmentation](https://assets.turntrout.com/static/images/posts/6-pydata-warsaw-deep-learning-for-image-segmentation-10-638.avif?cb=1475242683) to automatically isolate raindrop pixels and a pretrained recurrent network to detect the frame of impact, allowing for easy classification of all other frames as $\textit{pre-impact}$ or $\textit{post-impact}$. Since you read Ch. 20, you know you can use maximum-likelihood estimation to learn the parameters for your conditional multivariate Gaussian using your newly labeled water shapes.
+You set up high-FPS cameras in storms and collect video data for millions of raindrop-impact events. You're even able to avoid manual processing via MTurk by employing the latest advances in deep learning! You use [segmentation](https://assets.turntrout.com/static/images/posts/6-pydata-warsaw-deep-learning-for-image-segmentation-10-638.avif?cb=1475242683) to automatically isolate raindrop pixels and a pretrained recurrent network to detect the frame of impact, allowing for easy classification of all other frames as $\textit{pre-impact}$ or $\textit{post-impact}$. Since you read Ch. 20, you know you can use maximum-likelihood estimation to learn the parameters for your conditional multivariate Gaussian using your newly labeled water shapes.
 
 But what if a raindrop strikes a sharp corner, splaying the drop's water in many directions? Obviously, you just need another edge case - a `StruckSharpCorner` condition in the Gaussian. For that, you go to gather more data...
 
@@ -462,10 +462,8 @@ Why would it care?
 
 _In which the authors introduce one last concept, asymptotic bounded optimality, and look forward to the great tasks ahead._
 
-$$
-``\textit{We can see only a short distance ahead, but we can see that much remains to be done.}"\\
-\text{Alan Turing}
-$$
+<center>“We can see only a short distance ahead, but we can see that much remains to be done.” - Alan Turing
+</center>
 
 ## Final Thoughts
 
