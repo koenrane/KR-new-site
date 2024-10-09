@@ -1,12 +1,14 @@
 /**
 * @jest-environment jsdom
 */
-import { jest } from "@jest/globals"
 
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import { QuartzComponentProps } from "../types";
+import { render } from "@testing-library/react";
+import React from 'react';
 import { Parent } from 'hast'
-import { describe, it, expect } from '@jest/globals';
 import { TocEntry } from '../../plugins/transformers/toc';
-import { processHtmlAst, processSmallCaps, processTocEntry, processKatex } from "../TableOfContents";
+import { CreateTableOfContents, processHtmlAst, processSmallCaps, processTocEntry, processKatex, buildNestedList } from "../TableOfContents";
 import { h } from 'hastscript'
 
 // Mock the createLogger function
@@ -213,5 +215,41 @@ describe('processHtmlAst', () => {
       properties: { className: ['small-caps'] },
       children: [{ type: 'text', value: 'SMALLCAPS' }]
     });
+  });
+});
+
+// Mock the createLogger function
+jest.mock('../../plugins/transformers/logger_utils', () => ({
+  createLogger: () => ({
+    info: jest.fn(),
+    debug: jest.fn(),
+    warn: jest.fn(),
+  }),
+}));
+
+describe('buildNestedList', () => {
+  it('should build a nested list for headings up to depth 3', () => {
+    const entries = [
+      { depth: 1, text: "Heading 1", slug: "heading-1" },
+      { depth: 2, text: "Heading 1.1", slug: "heading-1-1" },
+      { depth: 3, text: "Heading 1.1.1", slug: "heading-1-1-1" },
+      { depth: 2, text: "Heading 1.2", slug: "heading-1-2" },
+    ]
+
+    const [result] = buildNestedList(entries)
+
+    // Instead of rendering, let's check the structure directly
+    expect(result).toHaveLength(1)
+    const firstItem = result[0]
+    expect(firstItem.props.children[1].type).toBe('ul')
+    expect(firstItem.props.children[1].props.children).toHaveLength(2)
+  });
+});
+
+describe('afterDOMLoaded Script Attachment', () => {
+  it('should have an afterDOMLoaded script assigned', () => {
+    expect(CreateTableOfContents.afterDOMLoaded).toBeDefined();
+    expect(typeof CreateTableOfContents.afterDOMLoaded).toBe('string');
+    expect(CreateTableOfContents.afterDOMLoaded).toContain('document.addEventListener(\'nav\'');
   });
 });

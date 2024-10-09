@@ -50,7 +50,7 @@ const logger = createLogger("TableOfContents")
  * @param props.fileData - Data for the current file.
  * @returns The rendered table of contents or null if disabled.
  */
-const TableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
+export const CreateTableOfContents: QuartzComponent = ({ fileData }: QuartzComponentProps): JSX.Element | null => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
   if (!fileData.toc || fileData.frontmatter?.toc === "false") {
@@ -274,17 +274,16 @@ export function elementToJsx(elt: RootContent): JSX.Element {
   return <></>
 }
 
-TableOfContents.css = modernStyle
-TableOfContents.afterDOMLoaded = `
-document.addEventListener('DOMContentLoaded', function() {
-  const sections = document.querySelectorAll(".center h1, .center h2, .center h3");
-  const navLinks = document.querySelectorAll("#toc-content a");
 
-  let ticking = false;
+CreateTableOfContents.css = modernStyle
+CreateTableOfContents.afterDOMLoaded = `
+document.addEventListener('nav', function() {
+  const sections = document.querySelectorAll(".center h1, .center h2");
+  const navLinks = document.querySelectorAll("#toc-content a");
 
   function updateActiveLink() {
     let currentSection = "";
-    const scrollPosition = window.scrollY + window.innerHeight / 3;
+    const scrollPosition = window.scrollY + window.innerHeight / 4;
 
     sections.forEach((section) => {
       const sectionTop = section.offsetTop;
@@ -302,17 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function onScroll() {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        updateActiveLink();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }
-
-  window.addEventListener("scroll", onScroll);
+  window.addEventListener("scroll", updateActiveLink);
 
   // Initial call to set active link on page load
   updateActiveLink();
@@ -321,5 +310,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 export default ((): QuartzComponent => {
   logger.info("TableOfContents component initialized")
-  return TableOfContents
+  return CreateTableOfContents
 }) satisfies QuartzComponentConstructor
