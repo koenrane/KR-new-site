@@ -92,27 +92,6 @@ def test_parse_html_file(tmp_path):
     assert result.find("p").text == "Test"
 
 
-def test_check_file_for_issues(tmp_path):
-    file_path = tmp_path / "test.html"
-    file_path.write_text(
-        """
-    <html>
-    <body>
-        <a href="https://localhost:8000">Localhost Link</a>
-        <a href="#invalid-anchor">Invalid Anchor</a>
-        <p>Table: Test table</p>
-    </body>
-    </html>
-    """
-    )
-    localhost_links, invalid_anchors, problematic_paragraphs = check_file_for_issues(
-        file_path, tmp_path
-    )
-    assert localhost_links == ["https://localhost:8000"]
-    assert invalid_anchors == ["#invalid-anchor"]
-    assert problematic_paragraphs == ["Table: Test table"]
-
-
 def test_check_local_media_files(sample_soup, temp_site_root):
     # Create an existing image file
     (temp_site_root / "existing-image.jpg").touch()
@@ -124,7 +103,7 @@ def test_check_local_media_files(sample_soup, temp_site_root):
     assert set(result) == {"missing-image.png", "missing-svg.svg"}
 
 
-def test_check_file_for_issues_with_missing_media(tmp_path):
+def test_check_file_for_issues(tmp_path):
     file_path = tmp_path / "test.html"
     file_path.write_text(
         """

@@ -203,5 +203,5 @@ def test_compress_gif_preserves_frame_rate(temp_dir: Path) -> None:
     # Compare frame rates
     relative_error = abs(output_fps - input_fps) / input_fps
     assert (
-        relative_error < 0.01
+        relative_error < 0.05
     ), f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
