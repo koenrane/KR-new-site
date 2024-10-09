@@ -9,15 +9,19 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11.8"
+
+     - name: Create virtual environment
+       run: python -m venv .venv
+     - name: Activate virtual environment
+       run: source .venv/bin/activate      
+       
+     - name: Set up Python
+       uses: actions/setup-python@v4
+       with:
+         python-version: "3.11.8"
 
       - name: Install ImageMagick and Fish
         run: |
-          sudo apt-get update
           sudo apt-get install -y imagemagick fish
       
       - name: Install dependencies
