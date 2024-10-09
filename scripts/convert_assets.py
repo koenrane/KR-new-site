@@ -9,8 +9,8 @@ try:
     from . import compress
     from . import utils as script_utils
 except ImportError:
-    import compress
-    import utils as script_utils
+    import compress  # type: ignore
+    import utils as script_utils  # type: ignore
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
@@ -38,7 +38,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         )
     else:
         # Pattern for <video> tags (used for other video formats)
-        tag_pattern: str = (
+        tag_pattern = (
             rf'<video (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
             rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?(?P<endVideoTagInfo>[^>]*(?=/))/?>'
         )
@@ -120,14 +120,12 @@ def convert_asset(
         with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
         content = re.sub(original_pattern, replacement_pattern, content)
-        
+
         # Add a second pass to handle the </video><br/>Figure: pattern
         content = re.sub(
-            r'</video>\s*(<br/?>)?\s*Figure:',
-            '</video>\n\nFigure:',
-            content
+            r"</video>\s*(<br/?>)?\s*Figure:", "</video>\n\nFigure:", content
         )
-        
+
         with open(md_file, "w", encoding="utf-8") as file:
             file.write(content)
 

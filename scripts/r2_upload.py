@@ -16,7 +16,7 @@ def get_home_directory():
 try:
     from . import utils as script_utils
 except ImportError:
-    import utils as script_utils
+    import utils as script_utils  # type: ignore
 
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
