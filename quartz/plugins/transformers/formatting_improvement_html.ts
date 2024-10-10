@@ -404,8 +404,6 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Dd])ojo/g, "$1ōjō"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
-  [/ :\) /gm, " 🙂 "], // Smiling face
-  [/ :\( /gm, " 🙁 "], // Frowning face
 ]
 
 export function massTransformText(text: string): string {

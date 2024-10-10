@@ -200,6 +200,8 @@ describe("Mass transforms", () => {
     ["L1", 'L<sub style="font-variant-numeric: lining-nums;">1</sub>'],
     ["L10", 'L<sub style="font-variant-numeric: lining-nums;">10</sub>'],
     ["ILO10", "ILO10"],
+    [" :) The best", " 🙂 The best"],
+    [" :( The worst", " 🙁 The worst"],
   ])("should perform transforms for %s", (input: string, expected: string) => {
     const result = massTransformText(input)
     expect(result).toBe(expected)
