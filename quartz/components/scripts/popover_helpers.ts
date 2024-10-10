@@ -14,7 +14,7 @@ const parser = new DOMParser()
  * @returns A Promise that resolves to the created popover element
  */
 export async function createPopover(options: PopoverOptions): Promise<HTMLElement> {
-    const { parentElement, targetUrl, linkElement } = options;
+    const { targetUrl } = options;
     const popoverElement = document.createElement("div");
     popoverElement.classList.add("popover");
     const popoverInner = document.createElement("div");
