@@ -65,50 +65,29 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
  * @param linkElement - The link element to position relative to
  */
 export function setPopoverPosition(popoverElement: HTMLElement, linkElement: HTMLLinkElement): void {
+    const padding = 5;
     const linkRect = linkElement.getBoundingClientRect();
+    const popoverWidth = popoverElement.offsetWidth;
 
-    // Determine which column the link is in
-    const centerColumn = document.querySelector('.center');
-    const rightColumn = document.querySelector('.right');
-    const centerRect = centerColumn?.getBoundingClientRect();
-    const rightRect = rightColumn?.getBoundingClientRect();
+    // Position the popover's right edge 10px to the left of the link
+    let left = linkRect.left - popoverWidth - padding;
 
-    let left, column;
-    if (rightRect && linkRect.left >= rightRect.left) {
-        // Popover in right column
-        left = rightRect.left - popoverElement.offsetWidth;
-        column = rightColumn;
-        console.log("rightRect.left", rightRect?.left);
-    } else if (centerRect && linkRect.left >= centerRect.left) {
-        // Popover in center column
-        left = centerRect.left - popoverElement.offsetWidth;
-        column = centerColumn;
-        console.log("centerRect.left", centerRect?.left);
-    } else {
-        // Raise exception if we don't know where the link is
-        throw new Error(`Link ${linkElement.href} is in an unknown column, can't create popover`);
-    }
+    // Ensure the popover doesn't go off the left edge of the screen
+    left = Math.max(padding, left);
 
-    if (column) {
-        const computedStyle = window.getComputedStyle(column);
-        const leftPadding = parseFloat(computedStyle.paddingLeft);
-        left += leftPadding;
-        console.log("leftPadding", leftPadding);
-    }
-    left = Math.max(10, left);
+    // Calculate top position to be 5px below the bottom of the link
+    let top = .5 * (linkRect.top + linkRect.bottom) - .5 * popoverElement.offsetHeight + window.scrollY + padding;
 
-    let top = window.scrollY + linkRect.bottom + 5; // 5px gap between link and popover
-
-    // Ensure it doesn't go off the top or bottom
-    const minTop = window.scrollY + 10;
-    const maxTop = window.scrollY + window.innerHeight - popoverElement.offsetHeight - 10;
-    top = Math.max(minTop, Math.min(top, maxTop));
+    // Ensure the popover doesn't go above the top of the screen
+    top = Math.max(window.scrollY + padding, top);
 
     Object.assign(popoverElement.style, {
         position: "absolute",
         left: `${left}px`,
         top: `${top}px`,
     });
+
+    console.log("Popover position:", { left, top, linkRect, popoverWidth });
 }
 
 /**
