@@ -37,11 +37,19 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
   // Create the popover element
   const popoverElement = await createPopover(popoverOptions);
 
-  // **Append the popover to the DOM before setting its position**
+  // Append the popover to the DOM before setting its position
   parentOfPopover.prepend(popoverElement);
 
-  // Now that the popover is in the DOM, set its position
-  setPopoverPosition(popoverElement, this);
+  // Function to update popover position
+  const updatePosition = () => {
+    setPopoverPosition(popoverElement, this);
+  };
+
+  // Initial position setting
+  updatePosition();
+
+  // Add resize event listener
+  window.addEventListener('resize', updatePosition);
 
   // Attach event listeners
   const cleanup = attachPopoverEventListeners(popoverElement, this);
@@ -63,8 +71,11 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     }
   }
 
-  // Return the cleanup function to remove event listeners later
-  return cleanup;
+  // Return an enhanced cleanup function
+  return () => {
+    cleanup();
+    window.removeEventListener('resize', updatePosition);
+  };
 }
 
 // Add event listeners to all internal links
