@@ -26,8 +26,8 @@
 
   & > .popover-inner {
     position: relative;
-    width: 30rem;
-    max-height: 20rem;
+    width: 20rem;
+    max-height: 15rem;
     padding: 0 1rem 1rem 1rem;
     font-weight: initial;
     font-style: initial;
@@ -113,7 +113,9 @@
     opacity 0.3s ease,
     visibility 0.3s ease;
 
-  @media all and (max-width: $tabletBreakpoint) {
+  // $fullPageWidth is 1580px, but for some reason it isn't working 
+  //  so I manually set the breakpoint to 1580px
+  @media all and (max-width: 1580px) {
     display: none !important;
   }
 }

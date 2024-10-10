@@ -34,13 +34,17 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     linkElement: this
   };
 
-  // Create and set up the popover
+  // Create the popover element
   const popoverElement = await createPopover(popoverOptions);
-  setPopoverPosition(popoverElement, this);
-  const cleanup = attachPopoverEventListeners(popoverElement, this);
 
-  // Add the popover to the DOM
+  // **Append the popover to the DOM before setting its position**
   parentOfPopover.prepend(popoverElement);
+
+  // Now that the popover is in the DOM, set its position
+  setPopoverPosition(popoverElement, this);
+
+  // Attach event listeners
+  const cleanup = attachPopoverEventListeners(popoverElement, this);
 
   // Force a reflow to ensure the popover is added to the DOM
   void popoverElement.offsetWidth;

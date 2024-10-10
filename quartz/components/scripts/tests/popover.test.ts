@@ -103,10 +103,21 @@ describe('createPopover', () => {
 describe('setPopoverPosition', () => {
     let popoverElement: HTMLElement;
     let linkElement: HTMLLinkElement;
+    let centerColumn: HTMLElement;
+    let rightColumn: HTMLElement;
 
     beforeEach(() => {
         popoverElement = document.createElement('div');
         linkElement = document.createElement('a') as unknown as HTMLLinkElement;
+        centerColumn = document.createElement('div');
+        rightColumn = document.createElement('div');
+
+        centerColumn.className = 'center';
+        rightColumn.className = 'right';
+
+        document.body.appendChild(centerColumn);
+        document.body.appendChild(rightColumn);
+
         Object.defineProperty(popoverElement, 'offsetWidth', { value: 200 });
         Object.defineProperty(popoverElement, 'offsetHeight', { value: 100 });
 
@@ -118,25 +129,78 @@ describe('setPopoverPosition', () => {
         Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
     });
 
-    it('should set popover position within bounds when link is near the right edge', () => {
+    afterEach(() => {
+        document.body.removeChild(centerColumn);
+        document.body.removeChild(rightColumn);
+    });
+
+    it('should position popover correctly for right column', () => {
         jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
             bottom: 100,
-            left: 900,
-            right: 1000,
+            left: 800,
+            right: 900,
             top: 80,
             width: 100,
             height: 20,
         } as DOMRect);
 
+        jest.spyOn(rightColumn, 'getBoundingClientRect').mockReturnValue({
+            left: 700,
+        } as DOMRect);
+
         setPopoverPosition(popoverElement, linkElement);
 
-        const right = parseInt(popoverElement.style.right);
+        const left = parseInt(popoverElement.style.left);
         const top = parseInt(popoverElement.style.top);
 
-        expect(right).toBeGreaterThanOrEqual(210); // popoverWidth + 10
-        expect(right).toBeLessThanOrEqual(window.innerWidth - 10);
-        expect(top).toBeGreaterThanOrEqual(window.scrollY + 10);
-        expect(top + 100).toBeLessThanOrEqual(window.scrollY + window.innerHeight - 10);
+        expect(left).toBe(500); // rightRect.left (700) - popoverWidth (200)
+        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
+    });
+
+    it('should position popover correctly for center column', () => {
+        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
+            bottom: 100,
+            left: 400,
+            right: 500,
+            top: 80,
+            width: 100,
+            height: 20,
+        } as DOMRect);
+
+        jest.spyOn(centerColumn, 'getBoundingClientRect').mockReturnValue({
+            left: 300,
+        } as DOMRect);
+
+        setPopoverPosition(popoverElement, linkElement);
+
+        const left = parseInt(popoverElement.style.left);
+        const top = parseInt(popoverElement.style.top);
+
+        expect(left).toBe(100); // Math.max(10, centerRect.left (300) - popoverWidth (200))
+        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
+    });
+
+    it('should position popover correctly when close to left edge', () => {
+        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
+            bottom: 100,
+            left: 50,
+            right: 150,
+            top: 80,
+            width: 100,
+            height: 20,
+        } as DOMRect);
+
+        jest.spyOn(centerColumn, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+        } as DOMRect);
+
+        setPopoverPosition(popoverElement, linkElement);
+
+        const left = parseInt(popoverElement.style.left);
+        const top = parseInt(popoverElement.style.top);
+
+        expect(left).toBe(10); // Math.max(10, centerRect.left (0) - popoverWidth (200))
+        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
     });
 
     it('should set popover position within bounds when link is near the bottom edge', () => {
