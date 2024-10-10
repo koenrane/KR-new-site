@@ -59,27 +59,27 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
     return popoverElement;
 }
 
+export const POPOVER_PADDING = 5;
 /**
  * Sets the position of the popover relative to the link element
  * @param popoverElement - The popover element to position
  * @param linkElement - The link element to position relative to
  */
 export function setPopoverPosition(popoverElement: HTMLElement, linkElement: HTMLLinkElement): void {
-    const padding = 5;
     const linkRect = linkElement.getBoundingClientRect();
     const popoverWidth = popoverElement.offsetWidth;
 
     // Position the popover's right edge 10px to the left of the link
-    let left = linkRect.left - popoverWidth - padding;
+    let left = linkRect.left - popoverWidth - POPOVER_PADDING;
 
     // Ensure the popover doesn't go off the left edge of the screen
-    left = Math.max(padding, left);
+    left = Math.max(POPOVER_PADDING, left);
 
     // Calculate top position to be 5px below the bottom of the link
-    let top = .5 * (linkRect.top + linkRect.bottom) - .5 * popoverElement.offsetHeight + window.scrollY + padding;
+    let top = .5 * (linkRect.top + linkRect.bottom) - .5 * popoverElement.offsetHeight + window.scrollY + POPOVER_PADDING;
 
     // Ensure the popover doesn't go above the top of the screen
-    top = Math.max(window.scrollY + padding, top);
+    top = Math.max(window.scrollY + POPOVER_PADDING, top);
 
     Object.assign(popoverElement.style, {
         position: "absolute",
@@ -87,7 +87,6 @@ export function setPopoverPosition(popoverElement: HTMLElement, linkElement: HTM
         top: `${top}px`,
     });
 
-    console.log("Popover position:", { left, top, linkRect, popoverWidth });
 }
 
 /**

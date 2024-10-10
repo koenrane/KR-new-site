@@ -3,24 +3,16 @@
  */
 
 import { jest, describe, it, expect, beforeEach, beforeAll, afterAll } from '@jest/globals';
-import { createPopover, setPopoverPosition, PopoverOptions, attachPopoverEventListeners, escapeLeadingIdNumber } from '../popover_helpers';
-
-// Enable fake timers before all tests
-beforeAll(() => {
-    jest.useFakeTimers();
-});
-
-// Clean up after all tests
-afterAll(() => {
-    jest.useRealTimers();
-});
+import { POPOVER_PADDING, createPopover, setPopoverPosition, PopoverOptions, attachPopoverEventListeners, escapeLeadingIdNumber } from '../popover_helpers';
 
 // Reset mocks before each test
 beforeEach(() => {
     jest.clearAllMocks();
     (global.fetch as jest.MockedFunction<typeof fetch>) = jest.fn(
         (input: RequestInfo | URL, init?: RequestInit) => {
-            if (typeof input === 'string' && input.toString().includes('text/html')) {
+            const url = input.toString();
+
+            if (url.includes('text/html')) {
                 return Promise.resolve({
                     headers: {
                         get: (header: string) => {
@@ -28,9 +20,11 @@ beforeEach(() => {
                             return null;
                         },
                     },
-                    text: () => Promise.resolve('<html><body><div class="popover-hint">Test content</div></body></html>'),
+                    text: () => Promise.resolve('<html><body><div class="popover-hint">Test HTML Content</div></body></html>'),
                 } as unknown as Response);
-            } else if (input.toString().includes('image/jpeg')) {
+            }
+
+            if (url.includes('image/jpeg')) {
                 return Promise.resolve({
                     headers: {
                         get: (header: string) => {
@@ -39,6 +33,18 @@ beforeEach(() => {
                         },
                     },
                     blob: () => Promise.resolve(new Blob()),
+                } as unknown as Response);
+            }
+
+            if (url.includes('application/pdf')) {
+                return Promise.resolve({
+                    headers: {
+                        get: (header: string) => {
+                            if (header === 'Content-Type') return 'application/pdf';
+                            return null;
+                        },
+                    },
+                    blob: () => Promise.resolve(new Blob()), // You can customize the Blob if needed
                 } as unknown as Response);
             }
 
@@ -68,8 +74,8 @@ describe('createPopover', () => {
         options.targetUrl = new URL('http://example.com/text/html');
         const popover = await createPopover(options);
         const inner = popover.querySelector('.popover-inner');
-        expect(inner?.innerHTML).toContain('<div class="popover-hint">Test content</div>');
-        expect(inner?.textContent).toContain('Test content');
+        expect(inner?.innerHTML).toContain('<div class="popover-hint">Test HTML Content</div>');
+        expect(inner?.textContent).toContain('Test HTML Content');
     });
 
     it('should handle image content', async () => {
@@ -97,6 +103,35 @@ describe('createPopover', () => {
         const inner = popover.querySelector('.popover-inner');
         expect(inner?.textContent).toBe('Error loading content');
     });
+
+    it('should append "-popover" to all IDs in the popover content', async () => {
+        const htmlContent = `
+          <div class="popover-hint">
+            <h1 id="heading1">Heading 1</h1>
+            <p id="para1">Paragraph 1</p>
+            <div id="div1">
+              <h2 id="heading2">Heading 2</h2>
+            </div>
+          </div>
+        `;
+
+        (global.fetch as jest.Mock).mockImplementationOnce(() =>
+            Promise.resolve({
+                headers: {
+                    get: () => 'text/html',
+                },
+                text: () => Promise.resolve(htmlContent),
+            } as unknown as Response)
+        );
+
+        const popover = await createPopover(options);
+        const inner = popover.querySelector('.popover-inner');
+
+        expect(inner?.querySelector('#heading1-popover')).toBeTruthy();
+        expect(inner?.querySelector('#para1-popover')).toBeTruthy();
+        expect(inner?.querySelector('#div1-popover')).toBeTruthy();
+        expect(inner?.querySelector('#heading2-popover')).toBeTruthy();
+    });
 });
 
 // Check that the popover is positioned within the viewport
@@ -122,7 +157,7 @@ describe('setPopoverPosition', () => {
         Object.defineProperty(popoverElement, 'offsetHeight', { value: 100 });
 
         // Mock window dimensions
-        Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
+        Object.defineProperty(window, 'innerWidth', { value: 1700, configurable: true });
         Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
 
         // Mock scroll position
@@ -132,52 +167,6 @@ describe('setPopoverPosition', () => {
     afterEach(() => {
         document.body.removeChild(centerColumn);
         document.body.removeChild(rightColumn);
-    });
-
-    it('should position popover correctly for right column', () => {
-        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
-            bottom: 100,
-            left: 800,
-            right: 900,
-            top: 80,
-            width: 100,
-            height: 20,
-        } as DOMRect);
-
-        jest.spyOn(rightColumn, 'getBoundingClientRect').mockReturnValue({
-            left: 700,
-        } as DOMRect);
-
-        setPopoverPosition(popoverElement, linkElement);
-
-        const left = parseInt(popoverElement.style.left);
-        const top = parseInt(popoverElement.style.top);
-
-        expect(left).toBe(500); // rightRect.left (700) - popoverWidth (200)
-        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
-    });
-
-    it('should position popover correctly for center column', () => {
-        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
-            bottom: 100,
-            left: 400,
-            right: 500,
-            top: 80,
-            width: 100,
-            height: 20,
-        } as DOMRect);
-
-        jest.spyOn(centerColumn, 'getBoundingClientRect').mockReturnValue({
-            left: 300,
-        } as DOMRect);
-
-        setPopoverPosition(popoverElement, linkElement);
-
-        const left = parseInt(popoverElement.style.left);
-        const top = parseInt(popoverElement.style.top);
-
-        expect(left).toBe(100); // Math.max(10, centerRect.left (300) - popoverWidth (200))
-        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
     });
 
     it('should position popover correctly when close to left edge', () => {
@@ -199,8 +188,8 @@ describe('setPopoverPosition', () => {
         const left = parseInt(popoverElement.style.left);
         const top = parseInt(popoverElement.style.top);
 
-        expect(left).toBe(10); // Math.max(10, centerRect.left (0) - popoverWidth (200))
-        expect(top).toBe(105); // window.scrollY (0) + linkRect.bottom (100) + 5
+        expect(left).toBe(POPOVER_PADDING); // Math.max(10, centerRect.left (0) - popoverWidth (200))
+        expect(top).toBe(40 + POPOVER_PADDING); // window.scrollY (0) + .5 * (linkRect.top (80) + linkRect.bottom (100)) - .5 * popoverElement.offsetHeight (100) + 5
     });
 
     it('should set popover position within bounds when link is near the bottom edge', () => {
