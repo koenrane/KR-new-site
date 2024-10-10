@@ -113,7 +113,7 @@
     opacity 0.3s ease,
     visibility 0.3s ease;
 
-  @media all and (max-width: $mobileBreakpoint) {
+  @media all and (max-width: $tabletBreakpoint) {
     display: none !important;
   }
 }
@@ -122,5 +122,5 @@
 .popover-visible {
   animation: dropin 0.3s ease;
   animation-fill-mode: forwards;
-  animation-delay: 0.2s;
+  animation-delay: 0.3s;
 }

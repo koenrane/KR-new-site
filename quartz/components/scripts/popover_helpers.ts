@@ -71,17 +71,18 @@ export function setPopoverPosition(popoverElement: HTMLElement, linkElement: HTM
     const popoverWidth = popoverElement.offsetWidth;
     const popoverHeight = popoverElement.offsetHeight;
 
-    let top = linkRect.bottom + 5; // 5px gap between link and popover
-    let left = linkRect.left - popoverWidth / 2;
+    let top = window.scrollY + linkRect.bottom + 5; // 5px gap between link and popover
+    let right = linkRect.right - popoverWidth / 2;
 
     // Ensure it doesn't go off the left or right sides
-    left = Math.max(10, Math.min(left, viewportWidth - popoverWidth - 10));
+    right = Math.max(10, Math.min(right, viewportWidth - popoverWidth - 10));
 
     // Ensure it doesn't go off the top or bottom
-    top = Math.max(10, Math.min(top, viewportHeight - popoverHeight - 10));
+    top = Math.max(window.scrollY + 10, Math.min(top, viewportHeight - popoverHeight - 10));
 
     Object.assign(popoverElement.style, {
-        left: `${left}px`,
+        position: "absolute",
+        right: `${right}px`,
         top: `${top}px`,
     });
 }

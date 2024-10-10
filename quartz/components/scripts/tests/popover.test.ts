@@ -99,6 +99,7 @@ describe('createPopover', () => {
     });
 });
 
+// Check that the popover is positioned within the viewport
 describe('setPopoverPosition', () => {
     let popoverElement: HTMLElement;
     let linkElement: HTMLLinkElement;
@@ -108,20 +109,78 @@ describe('setPopoverPosition', () => {
         linkElement = document.createElement('a') as unknown as HTMLLinkElement;
         Object.defineProperty(popoverElement, 'offsetWidth', { value: 200 });
         Object.defineProperty(popoverElement, 'offsetHeight', { value: 100 });
+
+        // Mock window dimensions
+        Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true });
+        Object.defineProperty(window, 'innerHeight', { value: 768, configurable: true });
+
+        // Mock scroll position
+        Object.defineProperty(window, 'scrollY', { value: 0, configurable: true });
+    });
+
+    it('should set popover position within bounds when link is near the right edge', () => {
         jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
             bottom: 100,
-            left: 50,
-            right: 150,
+            left: 900,
+            right: 1000,
             top: 80,
             width: 100,
             height: 20,
         } as DOMRect);
+
+        setPopoverPosition(popoverElement, linkElement);
+
+        const right = parseInt(popoverElement.style.right);
+        const top = parseInt(popoverElement.style.top);
+
+        expect(right).toBeGreaterThanOrEqual(210); // popoverWidth + 10
+        expect(right).toBeLessThanOrEqual(window.innerWidth - 10);
+        expect(top).toBeGreaterThanOrEqual(window.scrollY + 10);
+        expect(top + 100).toBeLessThanOrEqual(window.scrollY + window.innerHeight - 10);
     });
 
-    it('should set popover position', () => {
+    it('should set popover position within bounds when link is near the bottom edge', () => {
+        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
+            bottom: 750,
+            left: 500,
+            right: 600,
+            top: 730,
+            width: 100,
+            height: 20,
+        } as DOMRect);
+
         setPopoverPosition(popoverElement, linkElement);
-        expect(popoverElement.style.left).toBe('10px');
-        expect(popoverElement.style.top).toBe('105px');
+
+        const right = parseInt(popoverElement.style.right);
+        const top = parseInt(popoverElement.style.top);
+
+        expect(right).toBeGreaterThanOrEqual(210); // popoverWidth + 10
+        expect(right).toBeLessThanOrEqual(window.innerWidth - 10);
+        expect(top).toBeGreaterThanOrEqual(window.scrollY + 10);
+        expect(top + 100).toBeLessThanOrEqual(window.scrollY + window.innerHeight - 10);
+    });
+
+    it('should set popover position within bounds when page is scrolled', () => {
+        Object.defineProperty(window, 'scrollY', { value: 500 });
+
+        jest.spyOn(linkElement, 'getBoundingClientRect').mockReturnValue({
+            bottom: 600,
+            left: 500,
+            right: 600,
+            top: 580,
+            width: 100,
+            height: 20,
+        } as DOMRect);
+
+        setPopoverPosition(popoverElement, linkElement);
+
+        const right = parseInt(popoverElement.style.right);
+        const top = parseInt(popoverElement.style.top);
+
+        expect(right).toBeGreaterThanOrEqual(210); // popoverWidth + 10
+        expect(right).toBeLessThanOrEqual(window.innerWidth - 10);
+        expect(top).toBeGreaterThanOrEqual(window.scrollY + 10);
+        expect(top + 100).toBeLessThanOrEqual(window.scrollY + window.innerHeight - 10);
     });
 });
 
