@@ -248,7 +248,6 @@ hr.desktop-only {
     margin-left: auto;
     margin-right: auto;
     width: $pageWidth;
-    overflow-x: hidden;
 
     @media all and (max-width: $fullPageWidth) {
       width: initial;
