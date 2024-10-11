@@ -180,14 +180,6 @@ body {
   }
 }
 
-// The fonts don't actually support a bold enough font weight, so simulate using text stroke
-b,
-strong,
-dt,
-.callout-title {
-  // text-shadow: 0 0 0.01px currentColor;
-}
-
 .elvish-italics {
   font-family: "ElvishItalic";
 }

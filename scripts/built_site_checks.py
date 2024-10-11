@@ -2,7 +2,7 @@ import os
 import sys
 from typing import List, Tuple
 from pathlib import Path
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Tag  
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))

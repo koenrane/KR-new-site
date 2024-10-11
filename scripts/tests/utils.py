@@ -1,7 +1,7 @@
 from pathlib import Path
 import subprocess
 from typing import Optional
-from PIL import Image
+from PIL import Image 
 import numpy as np
 
 

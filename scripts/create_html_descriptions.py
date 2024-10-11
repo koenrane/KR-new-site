@@ -10,8 +10,9 @@ import os
 import re
 from pathlib import Path
 import yaml
-import google.generativeai as genai  # type: ignore, pylint: disable=import-untyped, import-error
+import google.generativeai as genai  # type: ignore[import]
 
+import scripts.utils as script_utils
 
 # Configure the Gemini API (you'll need to set up your API key)
 genai.configure(api_key="YOUR_API_KEY_HERE")
@@ -87,7 +88,10 @@ def main() -> None:
     """
     Main function to process all Markdown files in the current directory.
     """
-    directory = git_root  # Current directory, change if needed
+    git_root = script_utils.get_git_root()
+    if git_root is None:
+        raise RuntimeError("Could not find git root")
+    directory = git_root / "content"
     for filename in os.listdir(directory):
         if filename.endswith(".md"):
             file_path = os.path.join(directory, filename)
