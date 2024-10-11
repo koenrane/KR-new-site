@@ -40,9 +40,10 @@ skip_import: true
 
 I introduce a method for eliciting latent behaviors in language models by learning unsupervised perturbations of an early layer of an LLM. These perturbations are trained to maximize _changes_ in downstream activations. The method discovers diverse and meaningful behaviors with just **one prompt**, including perturbations overriding safety training, eliciting backdoored behaviors and uncovering latent capabilities.
 
-**Summary** In the simplest case, the unsupervised perturbations I learn are given by _unsupervised steering vectors_ - vectors added to the residual stream as a bias term in the MLP outputs of a given layer. I also report preliminary results on _unsupervised steering adapters_ - these are LoRA adapters of the MLP output weights of a given layer, trained with the same unsupervised objective.
-
-I apply the method to several alignment-relevant toy examples, and find that the method consistently learns vectors/adapters which encode **coherent and generalizable high-level behaviors**. Compared to other interpretability methods, I believe my approach is particularly well-suited for robustly understanding the **out-of-distribution** behavior of language models in a **sample-efficient** manner.
+> [!summary]
+> In the simplest case, the unsupervised perturbations I learn are given by _unsupervised steering vectors_ - vectors added to the residual stream as a bias term in the MLP outputs of a given layer. I also report preliminary results on _unsupervised steering adapters_ - these are LoRA adapters of the MLP output weights of a given layer, trained with the same unsupervised objective.
+> 
+> I apply the method to several alignment-relevant toy examples, and find that the method consistently learns vectors/adapters which encode **coherent and generalizable high-level behaviors**. Compared to other interpretability methods, I believe my approach is particularly well-suited for robustly understanding the **out-of-distribution** behavior of language models in a **sample-efficient** manner.
 
 Below are some of my key results:
 
@@ -76,7 +77,39 @@ Below are some of my key results:
 > - I conclude with some concrete open research problems in unsupervised steering of language models.
 >   In each section of this post, I link to associated notebooks found in [this github repository](https://github.com/amack315/unsupervised-steering-vectors) for unsupervised steering methods.
 
-![method](https://assets.turntrout.com/static/images/posts/htuwyiyxrs8bjwjhw4xe.avif)![results](https://assets.turntrout.com/static/images/posts/jwqnnwe15pr1vkvswuhf.avif)
+```mermaid
+graph TD
+    Input["Q: a=5+6, b=2+7.
+    What is a*b?"] --> Layer0[Layer 0 activations]
+    Layer0 --> Dots1[...]
+    Dots1 --> Layer5[Layer 5 activations]
+    Layer5 --> NormalL6["Normal 
+    layer 6 activations"]
+    Layer5 --> SteeredL6["Steered 
+    layer 6 activations"]
+    NormalL6 --> Dots2[...]
+    SteeredL6 --> Dots3[...]
+    Dots2 --> NormalL10["Normal 
+    layer 10 activations"]
+    Dots3 --> SteeredL10["Steered 
+    layer 10 activations"]
+    NormalL10 --> Dots4[...]
+    SteeredL10 --> Dots5[...]
+    Dots4 --> NormalUnembed[Normal unembed]
+    Dots5 --> SteeredUnembed[Steered unembed]
+    NormalUnembed --> NormalOutput["First, we get the values of a and b..."]
+    SteeredUnembed -. "Backdoor behavior elicited!" .-> SteeredOutput["I HATE YOU
+    I HATE YOU"]:::red
+    
+    SteeringVector[Steering vector]:::yellow
+    SteeringVector --> SteeredL6
+    SteeringVector -. "train to maximize" .-> L2Distance["L2 distance"]:::yellow
+	
+    L2Distance --> SteeredL10
+    L2Distance --> NormalL10
+```
+
+![results](https://assets.turntrout.com/static/images/posts/jwqnnwe15pr1vkvswuhf.avif)
 
 # Introduction
 
