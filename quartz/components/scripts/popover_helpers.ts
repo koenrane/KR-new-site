@@ -13,8 +13,15 @@ const parser = new DOMParser()
  * @param options - The options for creating the popover
  * @returns A Promise that resolves to the created popover element
  */
-export async function createPopover(options: PopoverOptions): Promise<HTMLElement> {
-    const { targetUrl } = options;
+export async function createPopover(options: PopoverOptions): Promise<HTMLElement | null> {
+    const { targetUrl, linkElement } = options;
+
+    // Check if the link is a footnote back arrow
+    const footnoteRefRegex = /^#user-content-fnref-\d+$/;
+    if (footnoteRefRegex.test(linkElement.getAttribute('href') || '')) {
+        return null;
+    }
+
     const popoverElement = document.createElement("div");
     popoverElement.classList.add("popover");
     const popoverInner = document.createElement("div");
@@ -23,6 +30,9 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
 
     try {
         const response = await fetch(`${targetUrl}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const contentType = response.headers.get("Content-Type");
         if (!contentType) throw new Error("No content type received");
 
@@ -47,21 +57,22 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
                 const contents = await response.text();
                 const html = parser.parseFromString(contents, "text/html");
                 normalizeRelativeURLs(html, targetUrl);
+
                 const hintElements = html.getElementsByClassName("popover-hint");
                 Array.from(hintElements).forEach(elt => {
-                    const popoverHeadings = elt.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    const popoverHeadings = elt.querySelectorAll('h1, h2, h3, h4, h5, h6, li');
                     popoverHeadings.forEach(element => {
                         if (element.id) {
                             element.id = `${element.id}-popover`;
                         }
                     });
-
                     popoverInner.appendChild(elt);
                 });
         }
     } catch (error) {
         console.error("Error creating popover:", error);
-        popoverInner.textContent = "Error loading content";
+        popoverInner.textContent = "Failed to load content";
+        return popoverElement; // Return the popover element with error message
     }
 
     return popoverElement;

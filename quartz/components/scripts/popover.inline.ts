@@ -36,6 +36,9 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   // Create the popover element
   const popoverElement = await createPopover(popoverOptions);
+  if (!popoverElement) {
+    throw new Error("Failed to create popover");
+  }
 
   // Append the popover to the DOM before setting its position
   parentOfPopover.prepend(popoverElement);

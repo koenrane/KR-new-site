@@ -4,6 +4,7 @@
 
 import { jest, describe, it, expect, beforeEach, beforeAll, afterAll } from '@jest/globals';
 import { POPOVER_PADDING, createPopover, setPopoverPosition, PopoverOptions, attachPopoverEventListeners, escapeLeadingIdNumber, computeLeft, computeTop } from '../popover_helpers';
+import { create } from 'domain';
 
 jest.useFakeTimers();
 
@@ -74,13 +75,15 @@ describe('createPopover', () => {
     it('should create a popover element', async () => {
         const popover = await createPopover(options);
         expect(popover).toBeInstanceOf(HTMLElement);
-        expect(popover.classList.contains('popover')).toBe(true);
+        expect(popover).not.toBeNull();
+        expect(popover?.classList.contains('popover')).toBe(true);
     });
 
     it('should handle HTML content', async () => {
         options.targetUrl = new URL('http://example.com/text/html');
         const popover = await createPopover(options);
-        const inner = popover.querySelector('.popover-inner');
+        expect(popover).not.toBeNull();
+        const inner = popover?.querySelector('.popover-inner');
         expect(inner?.innerHTML).toContain('<div class="popover-hint">Test HTML Content</div>');
         expect(inner?.textContent).toContain('Test HTML Content');
     });
@@ -96,7 +99,8 @@ describe('createPopover', () => {
         );
 
         const popover = await createPopover(options);
-        const img = popover.querySelector('img');
+        expect(popover).not.toBeNull();
+        const img = popover?.querySelector('img');
         expect(img).toBeTruthy();
         expect(img?.src).toBe('http://example.com/');
     });
@@ -107,8 +111,7 @@ describe('createPopover', () => {
         );
 
         const popover = await createPopover(options);
-        const inner = popover.querySelector('.popover-inner');
-        expect(inner?.textContent).toBe('Error loading content');
+        expect(popover).toBeNull();
     });
 
     it('should append "-popover" to only header IDs in the popover content', async () => {
@@ -132,7 +135,8 @@ describe('createPopover', () => {
         );
 
         const popover = await createPopover(options);
-        const inner = popover.querySelector('.popover-inner');
+        expect(popover).not.toBeNull();
+        const inner = popover?.querySelector('.popover-inner');
 
         expect(inner?.querySelector('#heading1-popover')).toBeTruthy();
         expect(inner?.querySelector('#para1-popover')).toBeFalsy();
