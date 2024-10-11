@@ -749,6 +749,11 @@ hr {
   }
 }
 
+.vlist-r:last-of-type {
+  // For some reason, the last one messes up katex sub on safari (eg https://turntrout.com/statistics-of-a-maze-solving-network#statistically-informed-impressions)
+  display: none; 
+}
+
 p:has(> .katex) {
   overflow-x: auto;
   overflow-y: hidden;
