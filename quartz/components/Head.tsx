@@ -29,6 +29,7 @@ export default (() => {
 
     // Images and other assets ---
     const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
+    const appleIconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/apple-icon.png")
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
     // Different images for different preview sizes
@@ -100,6 +101,7 @@ export default (() => {
         {authorElement}
 
         <link rel="icon" href={iconPath} />
+        <link rel="apple-touch-icon" href={appleIconPath} />
         {css.map((href) => (
           <link key={href} href={href} rel="stylesheet" type="text/css" />
         ))}
