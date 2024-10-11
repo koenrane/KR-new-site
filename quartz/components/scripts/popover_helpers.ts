@@ -48,8 +48,16 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
                 const html = parser.parseFromString(contents, "text/html");
                 normalizeRelativeURLs(html, targetUrl);
                 const hintElements = html.getElementsByClassName("popover-hint");
-                if (hintElements.length === 0) throw new Error("No popover hint elements found");
-                Array.from(hintElements).forEach(elt => popoverInner.appendChild(elt));
+                Array.from(hintElements).forEach(elt => {
+                    // Append "-popover" to all IDs in the popover content
+                    const elementsWithIds = elt.querySelectorAll('[id]');
+                    elementsWithIds.forEach(element => {
+                        if (element.id) {
+                            element.id = `${element.id}-popover`;
+                        }
+                    });
+                    popoverInner.appendChild(elt);
+                });
         }
     } catch (error) {
         console.error("Error creating popover:", error);
@@ -59,7 +67,43 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
     return popoverElement;
 }
 
+
+// POSITIONING the popover
 export const POPOVER_PADDING = 5;
+
+/**
+ * Computes the left position of the popover
+ * @param linkRect - The bounding rectangle of the link element
+ * @param popoverWidth - The width of the popover element
+ * @returns The computed left position
+ */
+export function computeLeft(linkRect: DOMRect, popoverWidth: number): number {
+    const initialLeft = linkRect.left - popoverWidth - POPOVER_PADDING;
+
+    // Ensure the popover doesn't go off the left or right edge of the screen
+    const maxLeft = window.innerWidth - popoverWidth - POPOVER_PADDING;
+    const minLeft = POPOVER_PADDING;
+
+    return Math.max(minLeft, Math.min(initialLeft, maxLeft));
+}
+
+/**
+ * Computes the top position of the popover
+ * @param linkRect - The bounding rectangle of the link element
+ * @param popoverHeight - The height of the popover element
+ * @returns The computed top position
+ */
+export function computeTop(linkRect: DOMRect, popoverHeight: number): number {
+    // Calculate top position to be centered vertically with the link
+    const initialTop = 0.5 * (linkRect.top + linkRect.bottom) - 0.5 * popoverHeight + window.scrollY;
+
+    // Ensure the popover doesn't go off the top or bottom of the screen
+    const minTop = window.scrollY + POPOVER_PADDING;
+    const maxTop = window.scrollY + window.innerHeight - popoverHeight - POPOVER_PADDING;
+
+    return Math.max(minTop, Math.min(initialTop, maxTop));
+}
+
 /**
  * Sets the position of the popover relative to the link element
  * @param popoverElement - The popover element to position
@@ -68,25 +112,16 @@ export const POPOVER_PADDING = 5;
 export function setPopoverPosition(popoverElement: HTMLElement, linkElement: HTMLLinkElement): void {
     const linkRect = linkElement.getBoundingClientRect();
     const popoverWidth = popoverElement.offsetWidth;
+    const popoverHeight = popoverElement.offsetHeight;
 
-    // Position the popover's right edge 10px to the left of the link
-    let left = linkRect.left - popoverWidth - POPOVER_PADDING;
-
-    // Ensure the popover doesn't go off the left edge of the screen
-    left = Math.max(POPOVER_PADDING, left);
-
-    // Calculate top position to be 5px below the bottom of the link
-    let top = .5 * (linkRect.top + linkRect.bottom) - .5 * popoverElement.offsetHeight + window.scrollY + POPOVER_PADDING;
-
-    // Ensure the popover doesn't go above the top of the screen
-    top = Math.max(window.scrollY + POPOVER_PADDING, top);
+    const left = computeLeft(linkRect, popoverWidth);
+    const top = computeTop(linkRect, popoverHeight);
 
     Object.assign(popoverElement.style, {
         position: "absolute",
         left: `${left}px`,
         top: `${top}px`,
     });
-
 }
 
 /**
