@@ -49,13 +49,13 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
                 normalizeRelativeURLs(html, targetUrl);
                 const hintElements = html.getElementsByClassName("popover-hint");
                 Array.from(hintElements).forEach(elt => {
-                    // Append "-popover" to all IDs in the popover content
-                    const elementsWithIds = elt.querySelectorAll('[id]');
-                    elementsWithIds.forEach(element => {
+                    const popoverHeadings = elt.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                    popoverHeadings.forEach(element => {
                         if (element.id) {
                             element.id = `${element.id}-popover`;
                         }
                     });
+
                     popoverInner.appendChild(elt);
                 });
         }

@@ -18,6 +18,10 @@
   z-index: 10;
   position: absolute;
   overflow: visible;
+
+  // Make there be the hand pointer when hovering over the popover
+  cursor: pointer;
+
   padding: calc(2 * $baseMargin);
 
   & #not-found-div-popover {

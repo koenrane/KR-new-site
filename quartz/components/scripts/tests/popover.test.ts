@@ -5,6 +5,8 @@
 import { jest, describe, it, expect, beforeEach, beforeAll, afterAll } from '@jest/globals';
 import { POPOVER_PADDING, createPopover, setPopoverPosition, PopoverOptions, attachPopoverEventListeners, escapeLeadingIdNumber, computeLeft, computeTop } from '../popover_helpers';
 
+jest.useFakeTimers();
+
 // Reset mocks before each test
 beforeEach(() => {
     jest.clearAllMocks();
@@ -109,7 +111,7 @@ describe('createPopover', () => {
         expect(inner?.textContent).toBe('Error loading content');
     });
 
-    it('should append "-popover" to all IDs in the popover content', async () => {
+    it('should append "-popover" to only header IDs in the popover content', async () => {
         const htmlContent = `
           <div class="popover-hint">
             <h1 id="heading1">Heading 1</h1>
@@ -133,8 +135,8 @@ describe('createPopover', () => {
         const inner = popover.querySelector('.popover-inner');
 
         expect(inner?.querySelector('#heading1-popover')).toBeTruthy();
-        expect(inner?.querySelector('#para1-popover')).toBeTruthy();
-        expect(inner?.querySelector('#div1-popover')).toBeTruthy();
+        expect(inner?.querySelector('#para1-popover')).toBeFalsy();
+        expect(inner?.querySelector('#div1-popover')).toBeFalsy();
         expect(inner?.querySelector('#heading2-popover')).toBeTruthy();
     });
 });

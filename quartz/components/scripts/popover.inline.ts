@@ -62,12 +62,14 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 
   // Handle scrolling to a specific heading if a hash is present
   if (hash !== "") {
-    hash += "-popover";
+    hash = `${hash}-popover`;
     hash = escapeLeadingIdNumber(hash);
     const heading = popoverElement.querySelector(hash) as HTMLElement | null;
     if (heading) {
+      const popoverInner = popoverElement.querySelector(".popover-inner") as HTMLElement;
+
       // leave ~12px of buffer when scrolling to a heading
-      popoverElement.scroll({ top: heading.offsetTop - 12, behavior: "instant" });
+      popoverInner.scroll({ top: heading.offsetTop - 12, behavior: "instant" });
     }
   }
 
