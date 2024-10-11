@@ -280,10 +280,14 @@ sup {
   opacity: light-dark(0.5, 1);
 }
 
-.temporary-transition * {
+// Dark <-> Light
+.temporary-transition *,
+.temporary-transition .mermaid * {
   transition:
     background-color 1s ease-in-out,
-    border-color 1s ease-in-out !important;
+    border-color 1s ease-in-out,
+    fill 1s ease-in-out,
+    stroke 1s ease-in-out !important;
 }
 
 // Hide video speed controller
@@ -900,8 +904,10 @@ article[data-use-dropcap="true"] {
 }
 
 // Mermaid
-.edgeLabel > div {
+.edgeLabel > div,
+.edgeLabel > p {
   align-items: baseline !important;
+  background-color: transparent !important;
 }
 
 .cluster {
@@ -931,40 +937,12 @@ article[data-use-dropcap="true"] {
   }
 }
 
-.flowchart-link {
-  stroke: var(--lightgray) !important;
+.label span {
+  color: var(--dark) !important;
 }
 
-.mermaid {
-  // Center the svg
-  & > svg {
-    margin-left: auto !important;
-    margin-right: auto !important;
-
-    & path {
-      color: var(--dark) !important;
-    }
-  }
-  color: var(--dark) !important;
-
-  & span {
-    color: var(--dark) !important;
-  }
-
-  & p {
-    background-color: transparent !important;
-  }
-
-  & path {
-    // When dark mode, use gray instead of black for arrows
-    :root[saved-theme="dark"] & {
-      color: var(--gray) !important;
-    }
-  }
-  & .katex {
-    margin-left: calc(0.5 * $baseMargin) !important;
-    margin-right: calc(0.5 * $baseMargin) !important;
-  }
+.flowchart-link {
+  stroke: var(--lightgray) !important;
 }
 
 .manifold-embed {
