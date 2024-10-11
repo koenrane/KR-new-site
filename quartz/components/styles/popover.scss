@@ -75,6 +75,13 @@
           font-size: var(--text-size-90);
           content: counter(footnote-popover) ".";
         }
+
+        & ol {
+          counter-increment: footnote-popover-sublist;
+          & li::before {
+            content: counters(footnote-popover, ".") "." counters(footnote-popover-sublist, ".");
+          }
+        }
       }
     }
     border: 1px solid var(--lightgray);
@@ -117,7 +124,7 @@
     opacity 0.3s ease,
     visibility 0.3s ease;
 
-  // $fullPageWidth is 1580px, but for some reason it isn't working 
+  // $fullPageWidth is 1580px, but for some reason it isn't working
   //  so I manually set the breakpoint to 1580px
   @media all and (max-width: 1580px) {
     display: none !important;
