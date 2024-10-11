@@ -801,6 +801,12 @@ p:has(> .katex) {
   filter: blur(8px);
   opacity: 0.5;
   transition: filter 0.3s ease;
+
+  // Safari needs this
+  & > * {
+    filter: inherit;
+    opacity: inherit;
+  }
 }
 
 .spoiler-container:hover .spoiler-overlay,
