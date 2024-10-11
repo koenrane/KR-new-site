@@ -1,7 +1,8 @@
 @use "./variables.scss" as *;
 
 table {
-  width: auto;
+  width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   margin-top: $baseMargin;
   align-self: center;
