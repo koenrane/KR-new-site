@@ -69,6 +69,9 @@ export default (() => {
 
     return (
       <head>
+        {css.map((href) => (
+          <link key={href} rel="preload, stylesheet" href={href} as="style" />
+        ))}
         <title>{title}</title>
         <meta name="description" content={description} />
 
@@ -102,9 +105,6 @@ export default (() => {
 
         <link rel="icon" href={iconPath} />
         <link rel="apple-touch-icon" href={appleIconPath} />
-        {css.map((href) => (
-          <link key={href} href={href} rel="stylesheet" type="text/css" />
-        ))}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}

@@ -165,6 +165,11 @@ ol {
     display: block;
     counter-increment: footnote; // Increment the footnote counter for each matching li
     margin-bottom: $baseMargin; // Add a bottom margin to the list items
+    text-indent: 0px;
+
+    &:before {
+      margin-left: calc(-0.25 * $baseMargin);
+    }
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
