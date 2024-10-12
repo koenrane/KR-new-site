@@ -94,7 +94,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
       data-callout="link"
       data-callout-fold=""
     >
-      <div className="callout-title" style="padding-bottom: 1rem;">
+      <div className="callout-title">
         <div className="callout-icon"></div>
         <div className="callout-title-inner">
           <p>Links to this page</p>
