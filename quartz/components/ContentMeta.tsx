@@ -204,7 +204,9 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
         <div className="callout-icon"></div>
         <div className="callout-title-inner">Tags</div>
       </div>
-      <TagList {...props} />
+      <div className="callout-content">
+        <TagList {...props} />
+      </div>
     </blockquote>
   )
 }
