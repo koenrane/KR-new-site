@@ -15,7 +15,7 @@
   border-radius: 5px;
   margin: 1rem 0;
   padding: 0 1rem;
-  overflow-y: hidden;
+  overflow: hidden; // Ensure content doesn't overflow during transition
   transition: max-height 0.3s ease;
   box-sizing: border-box;
 
@@ -180,6 +180,19 @@
 
   &.is-collapsed > .callout-title > .fold-callout-icon {
     transform: rotateZ(-90deg);
+  }
+
+  &.is-collapsible {
+    > .callout-content {
+      transition: max-height 0.3s ease;
+      overflow: hidden;
+    }
+  }
+
+  &.is-collapsed {
+    > .callout-content {
+      max-height: 0 !important;
+    }
   }
 }
 
