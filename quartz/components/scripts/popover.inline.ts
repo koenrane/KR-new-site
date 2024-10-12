@@ -1,112 +1,118 @@
-import { createPopover, setPopoverPosition, attachPopoverEventListeners, PopoverOptions, escapeLeadingIdNumber } from './popover_helpers'
+import {
+  createPopover,
+  setPopoverPosition,
+  attachPopoverEventListeners,
+  PopoverOptions,
+  escapeLeadingIdNumber,
+} from "./popover_helpers"
 
 /**
  * Handles the mouse enter event for link elements
- * @returns A cleanup function to remove event listeners
+ * @returns A cleanup function to remove event listeners and timeout
  */
 async function mouseEnterHandler(this: HTMLLinkElement) {
-  // Find the root element where the popover will be added
-  const parentOfPopover = document.getElementById("quartz-root");
-  // Exit if there's no parent or if the link is marked to not have a popover
+  const parentOfPopover = document.getElementById("quartz-root")
   if (!parentOfPopover || this.dataset.noPopover === "true") {
-    return;
+    return
   }
 
   // Remove any existing popover to avoid multiple popovers
-  const existingPopover = document.querySelector(".popover");
+  const existingPopover = document.querySelector(".popover")
   if (existingPopover) {
-    existingPopover.remove();
+    existingPopover.remove()
   }
 
-  // Prepare URLs for comparison and content fetching
-  const thisUrl = new URL(document.location.href);
-  thisUrl.hash = "";
-  thisUrl.search = "";
-  const targetUrl = new URL(this.href);
-  let hash = targetUrl.hash;
-  targetUrl.hash = "";
-  targetUrl.search = "";
+  const thisUrl = new URL(document.location.href)
+  thisUrl.hash = ""
+  thisUrl.search = ""
+  const targetUrl = new URL(this.href)
+  let hash = targetUrl.hash
+  targetUrl.hash = ""
+  targetUrl.search = ""
 
-  // Create options for the popover
   const popoverOptions: PopoverOptions = {
     parentElement: parentOfPopover,
     targetUrl,
-    linkElement: this
-  };
-
-  // Create the popover element
-  const popoverElement = await createPopover(popoverOptions);
-  if (!popoverElement) {
-    throw new Error("Failed to create popover");
+    linkElement: this,
   }
 
-  // Append the popover to the DOM before setting its position
-  parentOfPopover.prepend(popoverElement);
+  let timeoutId: number
 
-  // Function to update popover position
-  const updatePosition = () => {
-    setPopoverPosition(popoverElement, this);
-  };
+  const showPopover = async () => {
+    const popoverElement = await createPopover(popoverOptions)
+    if (!popoverElement) {
+      throw new Error("Failed to create popover")
+    }
 
-  // Initial position setting
-  updatePosition();
+    parentOfPopover.prepend(popoverElement)
 
-  // Add resize event listener
-  window.addEventListener('resize', updatePosition);
+    const updatePosition = () => {
+      setPopoverPosition(popoverElement, this)
+    }
 
-  // Attach event listeners
-  const cleanup = attachPopoverEventListeners(popoverElement, this);
+    updatePosition()
 
-  // Force a reflow to ensure the popover is added to the DOM
-  void popoverElement.offsetWidth;
+    window.addEventListener("resize", updatePosition)
 
-  // Add the 'popover-visible' class to trigger the animation
-  popoverElement.classList.add('popover-visible');
+    const cleanup = attachPopoverEventListeners(popoverElement, this)
 
-  // Handle scrolling to a specific heading if a hash is present
-  if (hash !== "") {
-    hash = `${hash}-popover`;
-    hash = escapeLeadingIdNumber(hash);
-    const heading = popoverElement.querySelector(hash) as HTMLElement | null;
-    if (heading) {
-      const popoverInner = popoverElement.querySelector(".popover-inner") as HTMLElement;
+    void popoverElement.offsetWidth
 
-      // leave ~12px of buffer when scrolling to a heading
-      popoverInner.scroll({ top: heading.offsetTop - 12, behavior: "instant" });
+    popoverElement.classList.add("popover-visible")
+
+    if (hash !== "") {
+      hash = `${hash}-popover`
+      hash = escapeLeadingIdNumber(hash)
+      const heading = popoverElement.querySelector(hash) as HTMLElement | null
+      if (heading) {
+        const popoverInner = popoverElement.querySelector(".popover-inner") as HTMLElement
+
+        popoverInner.scroll({ top: heading.offsetTop - 12, behavior: "instant" })
+      }
+    }
+
+    return () => {
+      cleanup()
+      window.removeEventListener("resize", updatePosition)
     }
   }
 
+  // Set a delay of 300ms before showing the popover
+  const cleanupShow = () => {
+    timeoutId = window.setTimeout(showPopover, 300)
+  }
+
+  cleanupShow()
+
   // Return an enhanced cleanup function
   return () => {
-    cleanup();
-    window.removeEventListener('resize', updatePosition);
-  };
+    clearTimeout(timeoutId)
+    window.removeEventListener("resize", showPopover)
+  }
 }
 
 // Add event listeners to all internal links
 document.addEventListener("nav", () => {
-  // Select all internal links
-  const links = [...document.getElementsByClassName("internal")] as HTMLLinkElement[];
+  const links = [...document.getElementsByClassName("internal")] as HTMLLinkElement[]
   for (const link of links) {
-    let cleanup: (() => void) | undefined;
+    let cleanup: (() => void) | undefined
 
-    // Create a mouseenter handler for each link
     const handleMouseEnter = async () => {
-      // If there's an existing cleanup function, call it to remove old listeners
-      if (cleanup) cleanup();
-      // Call mouseEnterHandler and store its cleanup function
-      cleanup = await mouseEnterHandler.call(link);
-    };
+      if (cleanup) cleanup()
+      cleanup = await mouseEnterHandler.call(link)
+    }
 
-    // Add the mouseenter event listener to the link
-    link.addEventListener("mouseenter", handleMouseEnter);
+    const handleMouseLeave = () => {
+      if (cleanup) cleanup()
+    }
 
-    // Add a cleanup function to the global cleanup queue
+    link.addEventListener("mouseenter", handleMouseEnter)
+    link.addEventListener("mouseleave", handleMouseLeave)
+
     window.addCleanup(() => {
-      // Remove the mouseenter event listener
-      link.removeEventListener("mouseenter", handleMouseEnter);
-      // If there's a cleanup function from mouseEnterHandler, call it
-      if (cleanup) cleanup();
-    });
+      link.removeEventListener("mouseenter", handleMouseEnter)
+      link.removeEventListener("mouseleave", handleMouseLeave)
+      if (cleanup) cleanup()
+    })
   }
-});
+})

@@ -121,8 +121,8 @@
   visibility: hidden;
   opacity: 0;
   transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+    opacity 0.15s ease,
+    visibility 0.15s ease;
 
   // $fullPageWidth is 1580px, but for some reason it isn't working
   //  so I manually set the breakpoint to 1580px
