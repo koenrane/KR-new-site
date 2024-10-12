@@ -41,9 +41,6 @@ function notifyNav(url: FullSlug) {
   document.dispatchEvent(event)
 }
 
-const cleanupFns: Set<(fn: () => void) => void> = new Set()
-window.addCleanup = (fn) => cleanupFns.add(fn)
-
 let p: DOMParser
 async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
@@ -61,10 +58,6 @@ async function navigate(url: URL, isBack = false) {
     })
 
   if (!contents) return
-
-  // cleanup old
-  cleanupFns.forEach((fn) => fn(() => {}))
-  cleanupFns.clear()
 
   const html = p.parseFromString(contents, "text/html")
   normalizeRelativeURLs(html, url)

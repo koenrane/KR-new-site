@@ -108,11 +108,5 @@ document.addEventListener("nav", () => {
 
     link.addEventListener("mouseenter", handleMouseEnter)
     link.addEventListener("mouseleave", handleMouseLeave)
-
-    window.addCleanup(() => {
-      link.removeEventListener("mouseenter", handleMouseEnter)
-      link.removeEventListener("mouseleave", handleMouseLeave)
-      if (cleanup) cleanup()
-    })
   }
 })

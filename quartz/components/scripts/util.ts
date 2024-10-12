@@ -28,9 +28,6 @@ export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: 
 
   outsideContainer.addEventListener("click", click)
   window.addEventListener("keydown", esc)
-
-  window.addCleanup(() => outsideContainer.removeEventListener("click", click))
-  window.addCleanup(() => document.removeEventListener("keydown", esc))
 }
 
 export function removeAllChildren(node: HTMLElement) {

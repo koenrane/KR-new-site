@@ -12,8 +12,5 @@ document.addEventListener("nav", function () {
   for (let collapsible of collapsibles) {
     const title = collapsible.querySelector(".collapsible-title")
     title.addEventListener("click", collapseHandler.bind(collapsible))
-    window.addCleanup(() => {
-      title.removeEventListener("click", collapseHandler.bind(collapsible))
-    })
   }
 })
