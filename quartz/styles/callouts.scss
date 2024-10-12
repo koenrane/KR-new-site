@@ -191,6 +191,7 @@
 
   &.is-collapsed {
     > .callout-content {
+      display: none;
       max-height: 0 !important;
     }
   }
