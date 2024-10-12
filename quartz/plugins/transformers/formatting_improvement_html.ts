@@ -270,8 +270,20 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
-const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`"]
+const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
+const LEFT_QUOTES = ['"', "“", "‘"]
+
+function getFirstTextNode(node: Parent): Text | null {
+  if (!node) return null
+  if (node.type === "text") {
+    return node as unknown as Text
+  } else if (node.children && node.children.length > 0 && node.children[0].type === "text") {
+    return node.children[0] as unknown as Text
+  } else {
+    return null
+  }
+}
 
 /**
  * Moves punctuation inside links and handles quotation marks before links.
@@ -315,6 +327,24 @@ export const rearrangeLinkPunctuation = (
   const href = linkNode.properties?.href
   if (typeof href === "string" && href.startsWith("#user-content-fn-")) {
     return
+  }
+
+  // Handle quotation marks before the link
+  const prevNode = parent.children[index - 1]
+  if (prevNode?.type === "text" && LEFT_QUOTES.includes(prevNode.value.slice(-1))) {
+    const quoteChar = prevNode.value.slice(-1)
+    prevNode.value = prevNode.value.slice(0, -1)
+
+    const firstTextNode: Text | null = getFirstTextNode(linkNode)
+    if (firstTextNode && firstTextNode?.type === "text") {
+      firstTextNode.value = quoteChar + firstTextNode.value
+    } else {
+      // No text node found in linkNode
+      // Create new text node as first child of linkNode
+      const newTextNode = { type: "text", value: quoteChar }
+
+      linkNode.children.unshift(newTextNode as ElementContent)
+    }
   }
 
   // Identify the text node after the link

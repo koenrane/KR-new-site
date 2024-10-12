@@ -363,8 +363,20 @@ describe("rearrangeLinkPunctuation", () => {
   const punctuationToMove = [".", ",", "!", "?", ";", ":", "`"]
   const specialCases = [
     [
-      '<p><a href="https://example.com">Link</a>:,</p>',
-      '<p><a href="https://example.com">Link:,</a></p>',
+      '<p>"<a href="https://example.com">Link</a>"</p>',
+      '<p><a href="https://example.com">“Link”</a></p>',
+    ],
+    [
+      '<p>"<a href="https://example.com"><code>Link</code></a>"</p>',
+      '<p><a href="https://example.com">“<code>Link</code>”</a></p>',
+    ],
+    [
+      '<p><a href="https://example.com">Link</a>",</p>',
+      '<p><a href="https://example.com">Link”,</a></p>',
+    ],
+    [
+      '<p><a href="https://example.com">Link</a>" k</p>',
+      '<p><a href="https://example.com">Link”</a> k</p>',
     ],
     [
       '<p>(<a href="https://scholar.google.com/citations?user=thAHiVcAAAAJ">Google Scholar</a>)</p>',
