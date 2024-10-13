@@ -961,6 +961,17 @@ article[data-use-dropcap="true"] {
 }
 
 // RSS icon
-.rss-icon {
+#subscription-links {
+  display: flex;
+  align-items: center;
+
+  & img,
+  & svg {
+    width: 0.75rem;
+  }
+}
+
+#rss-svg {
   width: 1em;
+  height: 1em;
 }

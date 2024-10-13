@@ -3,11 +3,36 @@ import { Root, Element } from "hast"
 import { visit } from "unist-util-visit"
 import { h } from "hastscript"
 import { createSequenceLinksComponent } from "./sequenceLinks"
+import { CreateFaviconElement } from "./linkfavicons"
 
 export function createRSSElement(): Element {
-  return h("a", { href: "/rss.xml", class: "rss-link" }, [
-    h("img", { src: "/static/images/rss.svg", alt: "RSS Feed", class: "rss-icon" }),
-    " Subscribe via RSS",
+  return h("a", { href: "/rss.xml", id: "rss-link" }, [
+    "Subscribe via RSS",
+    h("img", {
+      src: "https://assets.turntrout.com/static/images/rss.svg",
+      id: "rss-svg",
+      alt: "RSS icon",
+      className: "inline-img",
+    }),
+  ])
+}
+
+const SUBSTACK_URL =
+  "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
+function createNewsletterElement(): Element {
+  return h("a", { href: "https://turntrout.substack.com/subscribe" }, [
+    "Sign up for my newsletter",
+    CreateFaviconElement(SUBSTACK_URL),
+  ])
+}
+
+export function createSubscriptionElement(): Element {
+  return h("span", { id: "subscription-links" }, [
+    h("b", "Find out when I post more content"),
+    h("br"),
+    createNewsletterElement(),
+    "  |  ",
+    createRSSElement(),
   ])
 }
 
@@ -33,9 +58,11 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
     htmlPlugins: () => [
       () => (tree: Root, file) => {
         const sequenceLinksComponent = createSequenceLinksComponent(file.data)
-        const rssElement = createRSSElement()
+        const subscriptionElement = createSubscriptionElement()
 
-        const components = [sequenceLinksComponent, rssElement].filter(Boolean) as Element[]
+        const components = [sequenceLinksComponent, subscriptionElement].filter(
+          Boolean,
+        ) as Element[]
 
         if (components.length > 0) {
           insertAfterTroutOrnament(tree, components)
