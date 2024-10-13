@@ -1,4 +1,3 @@
-import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, RootContent } from "hast"
 import { visit } from "unist-util-visit"
 import { QuartzPluginData } from "../vfile"
@@ -121,26 +120,15 @@ export function insertAfterTroutOrnament(tree: Root, sequenceLinksDiv: Element):
   })
 }
 
-/**
- * Quartz transformer plugin that adds sequence navigation to the document.
- */
-export const SequenceLinksTransformer: QuartzTransformerPlugin = () => {
-  return {
-    name: "SequenceLinksTransformer",
-    htmlPlugins: () => [
-      () => (tree: Root, file: { data: QuartzPluginData }) => {
-        const fileData = file.data
-        const sequenceTitle = renderSequenceTitle(fileData)
-        const prevPost = renderPreviousPost(fileData)
-        const nextPost = renderNextPost(fileData)
+// New function to create the sequence links component
+export function createSequenceLinksComponent(fileData: QuartzPluginData): Element | null {
+  const sequenceTitle = renderSequenceTitle(fileData)
+  const prevPost = renderPreviousPost(fileData)
+  const nextPost = renderNextPost(fileData)
 
-        if (!sequenceTitle || (!prevPost && !nextPost)) {
-          return // No sequence information to add
-        }
-
-        const sequenceLinksDiv = createSequenceLinksDiv(sequenceTitle, prevPost, nextPost)
-        insertAfterTroutOrnament(tree, sequenceLinksDiv)
-      },
-    ],
+  if (!sequenceTitle && !prevPost && !nextPost) {
+    return null
   }
+
+  return createSequenceLinksDiv(sequenceTitle, prevPost, nextPost)
 }

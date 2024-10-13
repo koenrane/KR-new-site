@@ -8,6 +8,8 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import DepGraph from "../../depgraph"
+import fs from "fs"
+import matter from "gray-matter"
 
 export type ContentIndex = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -118,7 +120,32 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const linkIndex: ContentIndex = new Map()
       for (const [tree, file] of content) {
         const slug = file.data.slug!
-        const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+        let date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+
+        // Check if 'date' is present; if not, assign current date and write 'date-emitted' to file
+        const hasDate = !!getDate(ctx.cfg.configuration, file.data)
+        if (!hasDate) {
+          // Assign current date
+          date = new Date()
+          // Write 'date-emitted' to the frontmatter of the file
+          const filePath = file.data.filePath!
+          try {
+            // Read the existing file content
+            const fileContent = fs.readFileSync(filePath, "utf-8")
+            // Parse the frontmatter using gray-matter
+            const parsed = matter(fileContent)
+            // Add 'date_published' to the frontmatter
+            parsed.data["date_published"] = date.toISOString()
+            // Stringify the content back with the updated frontmatter
+            const updatedContent = matter.stringify(parsed.content, parsed.data)
+            // Write the updated content back to the file
+            fs.writeFileSync(filePath, updatedContent, "utf-8")
+            console.log(`Added 'date_published' to ${filePath}`)
+          } catch (error) {
+            console.error(`Failed to add 'date_published' to ${filePath}:`, error)
+          }
+        }
+
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
             title: file.data.frontmatter?.title ?? "",
@@ -150,7 +177,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
           await write({
             ctx,
             content: generateRSSFeed(cfg, linkIndex, opts.rssLimit),
-            slug: "index" as FullSlug,
+            slug: "rss" as FullSlug,
             ext: ".xml",
           }),
         )
@@ -159,9 +186,8 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const fp = joinSegments("static", "contentIndex") as FullSlug
       const simplifiedIndex = Object.fromEntries(
         Array.from(linkIndex).map(([slug, content]) => {
-          // remove description and from content index as nothing downstream
-          // actually uses it. we only keep it in the index as we need it
-          // for the RSS feed
+          // remove description and date from content index as nothing downstream
+          // actually uses them. we only keep description for the RSS feed
           delete content.description
           delete content.date
           return [slug, content]

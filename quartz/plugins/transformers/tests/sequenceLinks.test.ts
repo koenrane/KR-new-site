@@ -1,5 +1,4 @@
 import {
-  SequenceLinksTransformer,
   renderSequenceTitle,
   renderPreviousPost,
   renderNextPost,
@@ -8,17 +7,6 @@ import {
 } from "../sequenceLinks"
 import { Root, Element } from "hast"
 import { QuartzPluginData } from "../../vfile"
-import { BuildCtx } from "../../../util/ctx"
-
-describe("SequenceLinksTransformer", () => {
-  it("should return a plugin with the correct name and htmlPlugins", () => {
-    const plugin = SequenceLinksTransformer()
-    expect(plugin.name).toBe("SequenceLinksTransformer")
-    expect(plugin.htmlPlugins).toBeInstanceOf(Function)
-    expect(plugin.htmlPlugins?.({} as BuildCtx)).toHaveLength(1)
-    expect(plugin.htmlPlugins?.({} as BuildCtx)[0]).toBeInstanceOf(Function)
-  })
-})
 
 describe("renderSequenceTitle", () => {
   it("should return null when no sequence information is available", () => {
