@@ -29,7 +29,7 @@ export default (() => {
 
     // Images and other assets ---
     const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
-    const appleIconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/apple-icon.png")
+    const appleIconPath = "https://assets.turntrout.com/static/images/apple-icon.png"
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
 
     // Different images for different preview sizes
