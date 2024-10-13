@@ -1,4 +1,4 @@
-set -e  # Exit immediately if a command exits with a non-zero status
+set -e # Exit immediately if a command exits with a non-zero status
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
@@ -10,21 +10,22 @@ cd "$GIT_ROOT"
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
 if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
-    sh "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
+  sh "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
 
-    # Update references in the content
-    FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
-    for FILE in $FILES_TO_MOVE; do
-        NAME=$(basename "$FILE")
-        sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**.md
-    done
+  # Update references in the content
+  FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
+  for FILE in $FILES_TO_MOVE; do
+    NAME=$(basename "$FILE")
+    sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**.md
+  done
 
-    # Ignore errors due to asset_staging being empty
-    mv "$GIT_ROOT"/content/asset_staging/* "$STATIC_DIR"/images/posts 2>/dev/null || true
+  # Ignore errors due to asset_staging being empty
+  mv "$GIT_ROOT"/content/asset_staging/* "$STATIC_DIR"/images/posts 2>/dev/null || true
 fi
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
-python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR"
+# Ignore example_com.png during conversion
+python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR" --ignore-files "example_com.png"
 
 # Remove any mp4_original files
 find "$STATIC_DIR" -name "*.mp4_original" -delete
@@ -37,9 +38,7 @@ python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --repla
 # (NOTE will also commit current changes)
 cd "$LOCAL_ASSET_DIR"
 if [ "$(git status --porcelain | wc -l)" -gt 0 ]; then
-    git add -A
-    git commit -m "Added assets which were transferred from the main repo."
+  git add -A
+  git commit -m "Added assets which were transferred from the main repo."
 fi
 cd -
-
-
