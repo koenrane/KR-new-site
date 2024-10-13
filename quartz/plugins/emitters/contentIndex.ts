@@ -93,26 +93,22 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
   opts = { ...defaultOptions, ...opts }
   return {
     name: "ContentIndex",
-    async getDependencyGraph(ctx) {
+    async getDependencyGraph(ctx, content) {
       const graph = new DepGraph<FilePath>()
 
-      // Add a single edge for contentIndex.json
-      graph.addEdge(
-        "contentIndex" as FilePath,
-        joinSegments(ctx.argv.output, "static/contentIndex.json") as FilePath,
-      )
+      for (const [, file] of content) {
+        const sourcePath = file.data.filePath!
 
-      if (opts?.enableSiteMap) {
         graph.addEdge(
-          "contentIndex" as FilePath,
-          joinSegments(ctx.argv.output, "sitemap.xml") as FilePath,
+          sourcePath,
+          joinSegments(ctx.argv.output, "static/contentIndex.json") as FilePath,
         )
-      }
-      if (opts?.enableRSS) {
-        graph.addEdge(
-          "contentIndex" as FilePath,
-          joinSegments(ctx.argv.output, "index.xml") as FilePath,
-        )
+        if (opts?.enableSiteMap) {
+          graph.addEdge(sourcePath, joinSegments(ctx.argv.output, "sitemap.xml") as FilePath)
+        }
+        if (opts?.enableRSS) {
+          graph.addEdge(sourcePath, joinSegments(ctx.argv.output, "index.xml") as FilePath)
+        }
       }
 
       return graph
