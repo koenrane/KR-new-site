@@ -218,7 +218,8 @@
   display: flex;
   align-items: flex-start;
   gap: 5px;
-  margin: calc(2 * $baseMargin) 0; // 1rem
+  margin: calc(2 * $baseMargin) 0;
+  margin-bottom: calc(1.5 * $baseMargin);
 
   --icon-size: 18px;
 
