@@ -427,12 +427,15 @@ export function setupSearch() {
     }
 
     async function displayPreview(el: HTMLElement | null) {
+      console.log("displayPreview", el)
       if (!searchLayout || !enablePreview || !el || !preview) return
       const slug = el.id as FullSlug
 
       try {
         const { content, frontmatter } = await fetchContent(slug)
+        console.log(frontmatter)
         const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
+        console.log("useDropcap", useDropcap)
 
         if (!previewInner) {
           previewInner = document.createElement("article")
@@ -449,7 +452,8 @@ export function setupSearch() {
         content.forEach((el) => {
           const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
           if (previewInner) {
-            previewInner.appendChild(highlightedContent)
+            // Extend previewInner with the children of highlightedContent
+            previewInner.append(...Array.from(highlightedContent.childNodes))
           }
         })
 
