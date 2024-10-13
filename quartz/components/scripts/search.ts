@@ -430,37 +430,41 @@ export function setupSearch() {
       if (!searchLayout || !enablePreview || !el || !preview) return
       const slug = el.id as FullSlug
 
-      // Use setTimeout to defer the content loading
-      setTimeout(async () => {
-        try {
-          const { content, frontmatter } = await fetchContent(slug)
-          const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
+      try {
+        const { content, frontmatter } = await fetchContent(slug)
+        const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
 
-          const innerDiv = content.flatMap((el) => [
-            ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
-          ])
-
+        if (!previewInner) {
           previewInner = document.createElement("article")
           previewInner.classList.add("preview-inner")
+          preview.appendChild(previewInner)
+        }
 
-          // Set data-use-dropcap attribute based on frontmatter
-          previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
+        previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
 
-          previewInner.append(...innerDiv)
+        // Clear existing content
+        previewInner.innerHTML = ""
 
-          preview.replaceChildren(previewInner)
+        // Immediately add and highlight content
+        content.forEach((el) => {
+          const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
+          if (previewInner) {
+            previewInner.appendChild(highlightedContent)
+          }
+        })
 
-          // scroll to longest highlight
-          const highlights = [...preview.querySelectorAll(".highlight")].sort(
-            (a, b) => b.innerHTML.length - a.innerHTML.length,
-          )
-          highlights[0]?.scrollIntoView({ block: "start", behavior: "smooth" })
-        } catch (error) {
-          console.error("Error loading preview:", error)
-          preview.innerHTML =
+        // Scroll to the first highlight immediately
+        const highlights = [...preview.querySelectorAll(".highlight")].sort(
+          (a, b) => b.innerHTML.length - a.innerHTML.length,
+        )
+        highlights[0]?.scrollIntoView({ block: "start", behavior: "instant" })
+      } catch (error) {
+        console.error("Error loading preview:", error)
+        if (previewInner) {
+          previewInner.innerHTML =
             '<div class="preview-error" style="color: var(--red);">Error loading preview</div>'
         }
-      }, 100) // Small delay to allow for smoother UI updates
+      }
     }
 
     /**
