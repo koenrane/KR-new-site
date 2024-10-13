@@ -67,6 +67,21 @@ export default (() => {
       ></script>
     )
 
+    // Create a filtered object with only the properties you want to expose
+    const exposedFrontmatter = {
+      no_dropcap: fileData.frontmatter?.no_dropcap ?? false,
+    }
+
+    const frontmatterScript = (
+      <script
+        type="application/json"
+        id="quartz-frontmatter"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(exposedFrontmatter),
+        }}
+      />
+    )
+
     return (
       <head>
         {css.map((href) => (
@@ -108,6 +123,7 @@ export default (() => {
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}
+        {frontmatterScript}
       </head>
     )
   }
