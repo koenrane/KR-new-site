@@ -1,9 +1,8 @@
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 import FlexSearch from "flexsearch"
-// import { ContentDetails } from "../../plugins/emitters/contentIndex"
+import { ContentDetails } from "../../plugins/emitters/contentIndex"
 import { registerEscapeHandler, removeAllChildren } from "./util"
 import { FullSlug, normalizeRelativeURLs, resolveRelative } from "../../util/path"
-import searchInstance from "./searchSingleton"
 
 interface Item {
   id: number
@@ -17,8 +16,29 @@ interface Item {
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
-
-const index = searchInstance.getIndex()
+const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/) // eslint-disable-line no-control-regex
+const index = new FlexSearch.Document<Item>({
+  charset: "latin:extra",
+  encode: encoder,
+  document: {
+    id: "id",
+    tag: "tags",
+    index: [
+      {
+        field: "title",
+        tokenize: "forward",
+      },
+      {
+        field: "content",
+        tokenize: "forward",
+      },
+      {
+        field: "tags",
+        tokenize: "forward",
+      },
+    ],
+  },
+})
 
 interface FetchResult {
   content: Element[]
@@ -152,12 +172,11 @@ function updatePlaceholder() {
 export function setupSearch() {
   document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     const currentSlug = e.detail.url
-    const data = searchInstance.getContentData()
+    const data = await fetchData
     const container = document.getElementById("search-container")
     const searchIcon = document.getElementById("search-icon")
     const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
     const searchLayout = document.getElementById("search-layout")
-
     const idDataMap = Object.keys(data) as FullSlug[]
 
     const appendLayout = (el: HTMLElement) => {
@@ -531,29 +550,29 @@ export function setupSearch() {
     searchBar?.addEventListener("input", debouncedOnType)
 
     registerEscapeHandler(container, hideSearch)
-    // await fillDocument(data)
+    await fillDocument(data)
   })
 }
 
 /**
  * Fills flexsearch document with data
  * @param index index to fill
-// //  * @param data data to fill index with
-// //  */
-// // async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
-// //     let id = 0
-// //     const promises: Array<Promise<unknown>> = []
-// //     for (const [slug, fileData] of Object.entries<ContentDetails>(data)) {
-// //         promises.push(
-// //             index.addAsync(id++, {
-// //                 id,
-// //                 slug: slug as FullSlug,
-// //                 title: fileData.title,
-// //                 content: fileData.content,
-// //                 tags: fileData.tags,
-// //             }),
-// //         )
-// //     }
+ * @param data data to fill index with
+ */
+async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
+  let id = 0
+  const promises: Array<Promise<unknown>> = []
+  for (const [slug, fileData] of Object.entries<ContentDetails>(data)) {
+    promises.push(
+      index.addAsync(id++, {
+        id,
+        slug: slug as FullSlug,
+        title: fileData.title,
+        content: fileData.content,
+        tags: fileData.tags,
+      }),
+    )
+  }
 
-//     return await Promise.all(promises)
-// }
+  return await Promise.all(promises)
+}
