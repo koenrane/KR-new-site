@@ -15,6 +15,7 @@ end
 # Internal links should NEVER 404! Check links which start with a dot or slash
 # Use the live server to resolve relative links
 if test -z $argv
+    set -x no_proxy "http://localhost:8080"
     linkchecker http://localhost:8080 --threads 20 --quiet
 else 
     linkchecker $TARGET_FILES --threads 20 --quiet
