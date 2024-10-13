@@ -198,28 +198,6 @@
   }
 }
 
-// Default to non-safari video
-#header-gif {
-  display: none;
-}
-
-#header-video {
-  display: block;
-}
-
-// Safari-specific styles
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  /* Safari only override */
-  ::i-block-chrome,
-  #header-gif {
-    display: block;
-  }
-  ::i-block-chrome,
-  #header-video {
-    display: none;
-  }
-}
-
 .header-img {
   filter: saturate(85%);
 

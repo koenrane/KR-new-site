@@ -12,18 +12,6 @@ export const headerVideoContainer = (
       className="header-img no-select no-vsc"
       alt={altText}
     />
-    <video
-      autoPlay
-      loop
-      muted
-      playsInline
-      poster="https://assets.turntrout.com/static/images/pond_placeholder.avif"
-      id="header-video"
-      className="header-img no-select no-vsc"
-      alt={altText}
-    >
-      <source src="https://assets.turntrout.com/static/pond.webm" type="video/webm"></source>
-    </video>
   </span>
 )
 
