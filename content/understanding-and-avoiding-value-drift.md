@@ -71,7 +71,7 @@ Here, then, is the account:
 5.  so that she actually decides to implement the church-going plan, 
 6.  so that she gets positive reinforcement for going to church,
 7.  so that she grows a religion-shard,
-    1.  (This is where the value drift happens, since her internal shard balance significantly changes!)
+    -  (This is where the value drift happens, since her internal shard balance significantly changes!)
 8.  so that she converts, 
 9.  _so that Rick ends up happier and liking Alice more_.
 

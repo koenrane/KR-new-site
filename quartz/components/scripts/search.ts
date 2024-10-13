@@ -46,7 +46,7 @@ interface FetchResult {
 }
 
 const p = new DOMParser()
-const fetchContentCache: Map<FullSlug, FetchResult> = new Map()
+const fetchContentCache = new Map<FullSlug, Promise<FetchResult>>()
 const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
@@ -187,7 +187,7 @@ export function setupSearch() {
 
     const enablePreview = searchLayout?.dataset?.preview === "true"
     let preview: HTMLDivElement | undefined = undefined
-    let previewInner: HTMLDivElement | undefined = undefined
+    let previewInner: HTMLElement | undefined = undefined
     const results = document.createElement("div")
     results.id = "results-container"
     appendLayout(results)
@@ -393,60 +393,74 @@ export function setupSearch() {
     }
 
     async function fetchContent(slug: FullSlug): Promise<FetchResult> {
-      if (fetchContentCache.has(slug)) {
-        return fetchContentCache.get(slug) as FetchResult
+      if (!fetchContentCache.has(slug)) {
+        const fetchPromise = (async () => {
+          const targetUrl = resolveUrl(slug).toString()
+          const contents = await fetch(targetUrl)
+            .then((res) => res.text())
+            .then((contents) => {
+              if (contents === undefined) {
+                throw new Error(`Could not fetch ${targetUrl}`)
+              }
+              const html = p.parseFromString(contents ?? "", "text/html")
+              normalizeRelativeURLs(html, targetUrl)
+
+              // Extract frontmatter
+              const frontmatterScript = html.querySelector('script[type="application/json"]')
+              const frontmatter = frontmatterScript
+                ? JSON.parse(frontmatterScript.textContent || "{}")
+                : {}
+              console.log(html)
+
+              const contentElements = [...html.getElementsByClassName("popover-hint")]
+
+              return { content: contentElements, frontmatter }
+            })
+
+          return contents
+        })()
+
+        fetchContentCache.set(slug, fetchPromise)
       }
 
-      const targetUrl = resolveUrl(slug).toString()
-      const contents = await fetch(targetUrl)
-        .then((res) => res.text())
-        .then((contents) => {
-          if (contents === undefined) {
-            throw new Error(`Could not fetch ${targetUrl}`)
-          }
-          const html = p.parseFromString(contents ?? "", "text/html")
-          normalizeRelativeURLs(html, targetUrl)
-
-          // Extract frontmatter
-          const frontmatterScript = html.querySelector('script[type="application/json"]')
-          const frontmatter = frontmatterScript
-            ? JSON.parse(frontmatterScript.textContent || "{}")
-            : {}
-
-          const contentElements = [...html.getElementsByClassName("popover-hint")]
-
-          return { content: contentElements, frontmatter }
-        })
-
-      fetchContentCache.set(slug, contents)
-      return contents
+      return fetchContentCache.get(slug)!
     }
 
     async function displayPreview(el: HTMLElement | null) {
       if (!searchLayout || !enablePreview || !el || !preview) return
       const slug = el.id as FullSlug
-      const { content, frontmatter } = await fetchContent(slug)
-      const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
 
-      const innerDiv = content.flatMap((el) => [
-        ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
-      ])
+      // Use setTimeout to defer the content loading
+      setTimeout(async () => {
+        try {
+          const { content, frontmatter } = await fetchContent(slug)
+          const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
 
-      previewInner = document.createElement("article" as "div")
-      previewInner.classList.add("preview-inner")
+          const innerDiv = content.flatMap((el) => [
+            ...highlightHTML(currentSearchTerm, el as HTMLElement).children,
+          ])
 
-      // Set data-use-dropcap attribute based on frontmatter
-      previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
+          previewInner = document.createElement("article")
+          previewInner.classList.add("preview-inner")
 
-      previewInner.append(...innerDiv)
+          // Set data-use-dropcap attribute based on frontmatter
+          previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
 
-      preview.replaceChildren(previewInner)
+          previewInner.append(...innerDiv)
 
-      // scroll to longest
-      const highlights = [...preview.querySelectorAll(".highlight")].sort(
-        (a, b) => b.innerHTML.length - a.innerHTML.length,
-      )
-      highlights[0]?.scrollIntoView({ block: "start" })
+          preview.replaceChildren(previewInner)
+
+          // scroll to longest highlight
+          const highlights = [...preview.querySelectorAll(".highlight")].sort(
+            (a, b) => b.innerHTML.length - a.innerHTML.length,
+          )
+          highlights[0]?.scrollIntoView({ block: "start", behavior: "smooth" })
+        } catch (error) {
+          console.error("Error loading preview:", error)
+          preview.innerHTML =
+            '<div class="preview-error" style="color: var(--red);">Error loading preview</div>'
+        }
+      }, 100) // Small delay to allow for smoother UI updates
     }
 
     /**
