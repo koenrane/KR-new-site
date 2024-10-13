@@ -6,6 +6,7 @@ import { Element, Root, Text } from "hast"
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { pipeline } from "stream/promises"
 
 const logger = createLogger("linkfavicons")
 
@@ -60,7 +61,11 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
 
   const body = Readable.fromWeb(response.body as ReadableStream)
 
-  await fs.promises.writeFile(imagePath, body)
+  try {
+    await pipeline(body, fs.createWriteStream(imagePath))
+  } catch (err) {
+    throw new DownloadError(`Failed to write image to ${imagePath}: ${err}`)
+  }
 
   const stats = await fs.promises.stat(imagePath)
 
