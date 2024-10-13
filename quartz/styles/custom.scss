@@ -831,6 +831,7 @@ p:has(> .katex) {
 }
 
 article[data-use-dropcap="true"] {
+  --dropcap-vertical-offset: 0.15rem;
   & > p:first-of-type {
     position: relative;
     min-height: 4.2rem;
@@ -839,7 +840,7 @@ article[data-use-dropcap="true"] {
     content: attr(data-first-letter);
     text-transform: uppercase;
     position: absolute;
-    top: 0;
+    top: var(--dropcap-vertical-offset);
     left: 0;
     font-size: 4rem;
     line-height: 1;
@@ -848,6 +849,7 @@ article[data-use-dropcap="true"] {
   }
 
   & > p:first-of-type::first-letter {
+    padding-top: var(--dropcap-vertical-offset);
     text-transform: uppercase;
     font-style: normal !important;
     float: left;

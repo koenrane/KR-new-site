@@ -43,9 +43,10 @@ I use [the shard theory of human values](/shard-theory) to clarify what value dr
 
 # Defining "value drift"
 
-_Recapitulating part of shard theory._ [Reward is _that which reinforces_](/reward-is-not-the-optimization-target). Considering the case of reinforcement learning in humans, reward causes your brain’s credit assignment algorithms[^1] to reinforce the actions and thoughts which led to that reward, making those actions and thoughts more likely to be selected in the future.
-
-For example, suppose you recognize a lollipop, and move to pick it up, and then lick the lollipop. Since the lollipop produces reward, these thoughts will be reinforced and you will be more likely to act similarly in such situations in the future. You become more of the kind of person who will move to pick up a lollipop when you recognize lollipops, and who will navigate to lollipop-containing locations to begin with. 
+> [!info] Recapitulating part of shard theory 
+> [Reward is _that which reinforces_](/reward-is-not-the-optimization-target). Considering the case of reinforcement learning in humans, reward causes your brain’s credit assignment algorithms[^1] to reinforce the actions and thoughts which led to that reward, making those actions and thoughts more likely to be selected in the future.
+> 
+> For example, suppose you recognize a lollipop, and move to pick it up, and then lick the lollipop. Since the lollipop produces reward, these thoughts will be reinforced and you will be more likely to act similarly in such situations in the future. You become more of the kind of person who will move to pick up a lollipop when you recognize lollipops, and who will navigate to lollipop-containing locations to begin with. 
 
 With that in mind, I think that [shard theory](/shard-theory) offers a straightforward definition of "value drift":
 
