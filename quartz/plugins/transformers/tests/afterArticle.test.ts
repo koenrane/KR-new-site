@@ -3,7 +3,7 @@ import { h } from "hastscript"
 import { insertAfterTroutOrnament } from "../afterArticle"
 
 describe("insertAfterTroutOrnament", () => {
-  it("should insert the component after the trout ornament", () => {
+  it("should insert the components after the trout ornament", () => {
     // Create a mock tree
     const mockTree: Root = {
       type: "root",
@@ -14,16 +14,23 @@ describe("insertAfterTroutOrnament", () => {
       ],
     }
 
-    // Create a mock component to insert
-    const mockComponent: Element = h("div", { id: "sequence-links" }, "Sequence Links")
+    // Create mock components to insert
+    const mockSequenceLinks: Element = h("div", { id: "sequence-links" }, "Sequence Links")
+    const mockRSS: Element = h("a", { href: "/index.xml", class: "rss-link" }, "Subscribe to RSS")
 
     // Call the function
-    insertAfterTroutOrnament(mockTree, mockComponent)
+    insertAfterTroutOrnament(mockTree, [mockSequenceLinks, mockRSS])
 
-    // Assert that the component was inserted in the correct position
+    // Assert that the components were inserted in the correct position
     expect(mockTree.children).toHaveLength(4)
-    expect(mockTree.children[2]).toBe(mockComponent)
-    expect((mockTree.children[2] as Element).properties?.id).toBe("sequence-links")
+    expect(mockTree.children[2]).toEqual(
+      expect.objectContaining({
+        type: "element",
+        tagName: "div",
+        properties: { className: ["after-article-components"] },
+        children: expect.arrayContaining([mockSequenceLinks, mockRSS]),
+      }),
+    )
   })
 
   it("should not modify the tree if trout ornament is not found", () => {
@@ -36,16 +43,19 @@ describe("insertAfterTroutOrnament", () => {
       ],
     }
 
-    // Create a mock component to insert
-    const mockComponent: Element = h("div", { id: "sequence-links" }, "Sequence Links")
+    // Create mock components to insert
+    const mockSequenceLinks: Element = h("div", { id: "sequence-links" }, "Sequence Links")
+    const mockRSS: Element = h("a", { href: "/index.xml", class: "rss-link" }, "Subscribe to RSS")
 
     // Call the function
-    insertAfterTroutOrnament(mockTree, mockComponent)
+    insertAfterTroutOrnament(mockTree, [mockSequenceLinks, mockRSS])
 
     // Assert that the tree was not modified
     expect(mockTree.children).toHaveLength(2)
     expect(
-      mockTree.children.every((child) => (child as Element).properties?.id !== "sequence-links"),
+      mockTree.children.every(
+        (child) => (child as Element).properties?.id !== "after-article-components",
+      ),
     ).toBe(true)
   })
 })
