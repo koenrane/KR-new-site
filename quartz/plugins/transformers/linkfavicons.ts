@@ -62,6 +62,8 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
   const body = Readable.fromWeb(response.body as ReadableStream)
 
   try {
+    // Create the directory if it doesn't exist
+    await fs.promises.mkdir(path.dirname(imagePath), { recursive: true })
     await pipeline(body, fs.createWriteStream(imagePath))
   } catch (err) {
     throw new DownloadError(`Failed to write image to ${imagePath}: ${err}`)

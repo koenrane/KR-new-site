@@ -141,8 +141,8 @@ def convert_asset(
         input_file.unlink()
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+def main():
+    parser = argparse.ArgumentParser(description="Convert assets to optimized formats.")
     parser.add_argument(
         "-r",
         "--remove-originals",
@@ -160,16 +160,28 @@ if __name__ == "__main__":
         "--asset-directory",
         help="Directory containing assets to convert",
     )
+    parser.add_argument(
+        "--ignore-files", nargs="+", help="List of files to ignore during conversion"
+    )
     args = parser.parse_args()
     args.asset_directory = Path(args.asset_directory) if args.asset_directory else None
 
-    for asset in script_utils.get_files(
+    assets = script_utils.get_files(
         dir_to_search=args.asset_directory,
         filetypes_to_match=compress.ALLOWED_EXTENSIONS,
-    ):
+    )
+
+    for asset in assets:
+        if args.ignore_files and asset.name in args.ignore_files:
+            print(f"Ignoring file: {asset}")
+            continue
         convert_asset(
             asset,
             remove_originals=args.remove_originals,
             strip_metadata=args.strip_metadata,
             md_replacement_dir=Path("content/"),
         )
+
+
+if __name__ == "__main__":
+    main()
