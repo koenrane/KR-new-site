@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Root, Html, BlockContent, Paragraph, Code } from "mdast"
+import { Root, Html, BlockContent, Paragraph } from "mdast"
 import { Element, Literal, Root as HtmlRoot, ElementContent } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { slug as slugAnchor } from "github-slugger"
@@ -150,32 +150,6 @@ const videoExtensionRegex = new RegExp(/\.(mp4|webm|ogg|avi|mov|flv|wmv|mkv|mpg|
 const wikilinkImageEmbedRegex = new RegExp(
   /^(?<alt>(?!^\d*x?\d*$).*?)?(\|?\s*?(?<width>\d+)(x(?<height>\d+))?)?$/,
 )
-
-// Download mermaid during build
-const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"
-const gitRoot = findGitRoot()
-if (!gitRoot) {
-  throw new Error("Git root not found. Aborting Mermaid download.")
-}
-const SCRIPTS_OUTPUT_DIR = path.join(gitRoot, "quartz", "static", "scripts")
-const MERMAID_OUTPUT_FILE = path.join(SCRIPTS_OUTPUT_DIR, "mermaid.min.js")
-
-async function downloadMermaid() {
-  try {
-    const response = await axios.get(MERMAID_URL)
-    if (!fs.existsSync(SCRIPTS_OUTPUT_DIR)) {
-      fs.mkdirSync(SCRIPTS_OUTPUT_DIR, { recursive: true })
-    }
-    fs.writeFileSync(MERMAID_OUTPUT_FILE, response.data)
-  } catch (error) {
-    console.error("Failed to download Mermaid file.")
-
-    // If we don't have any mermaid file, abort
-    if (!fs.existsSync(MERMAID_OUTPUT_FILE)) {
-      throw error
-    }
-  }
-}
 
 const mdastToHtml = (ast: PhrasingContent | Paragraph) => {
   const hast = toHast(ast, { allowDangerousHtml: true })
@@ -515,22 +489,6 @@ export function markdownPlugins(opts: Options): PluggableList {
     })
   }
 
-  if (opts.mermaid) {
-    plugins.push(() => {
-      return (tree: Root) => {
-        visit(tree, "code", (node: Code) => {
-          if (node.lang === "mermaid") {
-            node.data = {
-              hProperties: {
-                className: ["mermaid"],
-              },
-            }
-          }
-        })
-      }
-    })
-  }
-
   return plugins
 }
 
@@ -538,10 +496,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
   userOpts,
 ) => {
   const opts = { ...defaultOptions, ...userOpts }
-
-  if (!fs.existsSync(MERMAID_OUTPUT_FILE)) {
-    downloadMermaid()
-  }
 
   return {
     name: "ObsidianFlavoredMarkdown",
@@ -790,38 +744,6 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         const calloutScript = fs.readFileSync(calloutScriptPath, "utf8")
         js.push({
           script: calloutScript,
-          loadTime: "afterDOMReady",
-          contentType: "inline",
-        })
-      }
-
-      if (opts.mermaid) {
-        js.push({
-          script: `
-            document.addEventListener('nav', async () => {
-              if (document.querySelector("code.mermaid")) {
-                if (typeof mermaid === 'undefined') {
-                  await new Promise((resolve) => {
-                    const script = document.createElement('script');
-                    script.src = '/static/scripts/mermaid.min.js';
-                    script.onload = resolve;
-                    document.head.appendChild(script);
-                  });
-                }
-                const darkMode = document.documentElement.getAttribute('saved-theme') === 'dark'
-                mermaid.initialize({
-                  startOnLoad: false,
-                  securityLevel: 'loose',
-                  theme: darkMode ? 'dark' : 'default',
-                  themeVariables: {lineColor: "var(--gray) !important"}
-                })
-
-                await mermaid.run({
-                  querySelector: '.mermaid'
-                })
-              }
-            });
-            `,
           loadTime: "afterDOMReady",
           contentType: "inline",
         })

@@ -16,6 +16,7 @@ import { BuildCtx } from "../util/ctx"
 import { visit } from "unist-util-visit"
 import { Root } from "hast"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
+import rehypeMermaid from "rehype-mermaid"
 // @ts-expect-error: no types
 const remarkCaptions = (await import("remark-captions")).default
 
@@ -43,6 +44,7 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
     .use(remarkCaptions)
     .use(remarkCaptionsCodeFix)
     .use(remarkRehype, { allowDangerousHtml: true, handlers: defListHastHandlers })
+    .use(rehypeMermaid)
     .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
 }
 

@@ -132,7 +132,7 @@ export default (() => {
         {authorElement}
 
         <link rel="icon" href={iconPath} />
-        <link rel="apple-touch-icon" href={appleIconPath} />
+        <link defer rel="apple-touch-icon" href={appleIconPath} />
         <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
