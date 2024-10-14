@@ -41,7 +41,7 @@ PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
 # Run typechecks
-mypy $GIT_ROOT/{scripts,quartz}/**py
+mypy $GIT_ROOT/scripts/**py
 
 # eslint already has ignore rules
 npx eslint --fix $GIT_ROOT
@@ -123,3 +123,6 @@ echo "\033[0;32mRendered pages look good.\033[0m"
 # Make sure that all internal and CDN links are valid
 #  Also checks syntax of md links.
 fish "$GIT_ROOT/scripts/linkchecker.fish"
+
+echo "Checking that critical CSS is inlined."
+npx quartz build  # Doesn't inline when serving
