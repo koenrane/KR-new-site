@@ -54,7 +54,7 @@ function* chunks<T>(arr: T[], n: number) {
   }
 }
 
-async function transpileWorkerScript() {
+function transpileWorkerScript() {
   // transpile worker script
   const cacheFile = "./.quartz-cache/transpiled-worker.mjs"
   const fp = "./quartz/worker.ts"

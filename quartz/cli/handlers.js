@@ -1,6 +1,5 @@
 import fs, { promises } from "fs"
 import path from "path"
-import process from "node:process"
 import esbuild from "esbuild"
 import chalk from "chalk"
 import { sassPlugin } from "esbuild-sass-plugin"
@@ -14,7 +13,6 @@ import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
 import { randomUUID } from "crypto"
 import { Mutex } from "async-mutex"
-import { CreateArgv } from "./args.js"
 import {
   exitIfCancel,
   escapePath,
@@ -53,37 +51,18 @@ export async function handleCreate(argv) {
     if (setupStrategy !== "new") {
       // Error handling
       if (!sourceDirectory) {
-        outro(
-          chalk.red(
-            `Setup strategies (arg '${chalk.yellow(
-              `-${CreateArgv.strategy.alias[0]}`,
-            )}') other than '${chalk.yellow(
-              "new",
-            )}' require content folder argument ('${chalk.yellow(
-              `-${CreateArgv.source.alias[0]}`,
-            )}') to be set`,
-          ),
+        throw new Error(
+          "Setup strategies other than 'new' require content folder argument to be set",
         )
-        process.exit(1)
       } else {
         if (!fs.existsSync(sourceDirectory)) {
-          outro(
-            chalk.red(
-              `Input directory to copy/symlink 'content' from not found ('${chalk.yellow(
-                sourceDirectory,
-              )}', invalid argument "${chalk.yellow(`-${CreateArgv.source.alias[0]}`)})`,
-            ),
+          throw new Error(
+            `Input directory to copy/symlink 'content' from not found ('${sourceDirectory}')`,
           )
-          process.exit(1)
         } else if (!fs.lstatSync(sourceDirectory).isDirectory()) {
-          outro(
-            chalk.red(
-              `Source directory to copy/symlink 'content' from is not a directory (found file at '${chalk.yellow(
-                sourceDirectory,
-              )}', invalid argument ${chalk.yellow(`-${CreateArgv.source.alias[0]}`)}")`,
-            ),
+          throw new Error(
+            `Source directory to copy/symlink 'content' from is not a directory (found file at '${sourceDirectory}')`,
           )
-          process.exit(1)
         }
       }
     }
@@ -294,9 +273,7 @@ export async function handleBuild(argv) {
     }
 
     const result = await ctx.rebuild().catch((err) => {
-      console.error(`${chalk.red("Couldn't parse Quartz configuration:")} ${fp}`)
-      console.log(`Reason: ${chalk.grey(err)}`)
-      process.exit(1)
+      throw new Error(`Couldn't parse Quartz configuration: ${fp}\nReason: ${err}`)
     })
     release()
 
@@ -482,7 +459,7 @@ async function inlineCriticalCSS(outputDir) {
       console.log("All files processed. Waiting for queue to empty...")
       await queue.onIdle()
       console.log("Queue is empty. Process complete.")
-      process.exit(0)
+      return
     } catch (error) {
       console.error("Error in inlineCriticalCSS:", error)
     }
@@ -492,8 +469,7 @@ async function inlineCriticalCSS(outputDir) {
     await Promise.race([processPromise, timeoutPromise])
   } catch (error) {
     if (error.message === "Operation timed out") {
-      console.error("The operation timed out. Force exiting...")
-      process.exit(1)
+      throw new Error("The operation timed out. Force exiting...")
     } else {
       throw error
     }
@@ -508,7 +484,6 @@ async function processFile(outputDir, file) {
 
   if (fileSize > LARGE_FILE_THRESHOLD) {
     console.log(`Large file detected: ${file}. Ignoring.`)
-    // await handleLargeFile(outputDir, file);
   } else {
     await generateCriticalCSS(outputDir, file)
   }

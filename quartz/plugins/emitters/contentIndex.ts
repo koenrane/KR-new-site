@@ -98,7 +98,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const graph = new DepGraph<FilePath>()
 
       for (const [, file] of content) {
-        const sourcePath = file.data.filePath!
+        const sourcePath = file.data.filePath as FilePath
 
         graph.addEdge(
           sourcePath,
@@ -119,7 +119,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const emitted: FilePath[] = []
       const linkIndex: ContentIndex = new Map()
       for (const [tree, file] of content) {
-        const slug = file.data.slug!
+        const slug = file.data.slug as FullSlug
         let date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
 
         // Check if 'date' is present; if not, assign current date and write 'date-emitted' to file
@@ -128,7 +128,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
           // Assign current date
           date = new Date()
           // Write 'date-emitted' to the frontmatter of the file
-          const filePath = file.data.filePath!
+          const filePath = file.data.filePath as FilePath
           try {
             // Read the existing file content
             const fileContent = fs.readFileSync(filePath, "utf-8")
