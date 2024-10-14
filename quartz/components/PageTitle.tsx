@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unknown-property */
+// (For the spa-preserve attribute)
+
 import { pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { classNames } from "../util/lang"
@@ -11,6 +14,7 @@ export const headerVideoContainer = (
       id="header-gif"
       className="header-img no-select no-vsc"
       alt={altText}
+      spa-preserve
     />
   </span>
 )

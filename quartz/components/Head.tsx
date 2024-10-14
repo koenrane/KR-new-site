@@ -1,6 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
 
+{
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+}
+// for the onLoad event
+
 import { i18n } from "../i18n"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
@@ -88,7 +93,6 @@ export default (() => {
 
     return (
       <head>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
         <link
           rel="preload"
           href="./index.css"

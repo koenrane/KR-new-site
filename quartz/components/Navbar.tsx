@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unknown-property */
+// (For the spa-preserve attribute)
+
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
 import navbarStyle from "./styles/navbar.scss"
@@ -94,7 +97,7 @@ export default (() => {
     )
     return (
       <>
-        <div id="navbar" className="navbar">
+        <div id="navbar" className="navbar" spa-preserve>
           <div id="navbar-left">
             {headerVideoContainer}
             <h2 className="page-title-text">
