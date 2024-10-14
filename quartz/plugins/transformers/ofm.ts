@@ -12,10 +12,8 @@ import { toHast } from "mdast-util-to-hast"
 import { toHtml } from "hast-util-to-html"
 import { PhrasingContent } from "mdast-util-find-and-replace/lib"
 import { capitalize } from "../../util/lang"
-import axios from "axios"
 import fs from "fs"
 import { PluggableList } from "unified"
-import { findGitRoot } from "./logger_utils"
 import { ElementData } from "hast"
 
 // Script imports
