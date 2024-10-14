@@ -962,10 +962,27 @@ article[data-use-dropcap="true"] {
 
 .after-article-components {
   & p {
-    margin-bottom: $baseMargin;
+    margin-bottom: $baseMargin; // Less separation than usual
   }
 
   & img.favicon {
-    filter: saturate(0.6); // Give it some color, unlike normal favicons
+    &[src*="rss.svg"] {
+      filter: saturate(0.6); // Give it some color, unlike normal favicons
+    }
+    &[src*="substack_com"] {
+      filter: saturate(0.45); // Give it some color, unlike normal favicons
+    }
   }
+}
+
+#subscription-and-contact {
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -62,8 +62,9 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
 
         // If frontmatter doesn't say to avoid it
         if (!file.data.frontmatter?.hideSubscriptionLinks) {
-          components.push(subscriptionElement)
-          components.push(contactMe)
+          components.push(
+            h("div", { id: "subscription-and-contact" }, [subscriptionElement, contactMe]),
+          )
         }
 
         if (components.length > 0) {

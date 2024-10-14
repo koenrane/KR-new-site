@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unknown-property */
+// (For the spa-preserve attribute)
+
 import { randomUUID } from "crypto"
 import { JSX } from "preact/jsx-runtime"
 
@@ -21,13 +24,14 @@ export type JSResource = {
 export function JSResourceToScriptElement(resource: JSResource): JSX.Element {
   const scriptType = resource.moduleType ?? "application/javascript"
   if (resource.contentType === "external") {
-    return <script key={resource.src} src={resource.src} type={scriptType} />
+    return <script spa-preserve key={resource.src} src={resource.src} type={scriptType} />
   } else {
     const content = resource.script
     return (
       <script
         key={randomUUID()}
         type={scriptType}
+        spa-preserve
         dangerouslySetInnerHTML={{ __html: content }}
       ></script>
     )
