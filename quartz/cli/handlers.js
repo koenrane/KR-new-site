@@ -441,8 +441,9 @@ export async function handleBuild(argv) {
 }
 
 const LARGE_FILE_THRESHOLD = 256 * 1024 // 256 KB
-const CONCURRENT_OPERATIONS = 5 // Adjust based on your system's capabilities
+const CONCURRENT_OPERATIONS = 5
 const TIMEOUT = 10 * 60 * 1000 // 10 minutes
+const SKIP_FILES = ["gpt2-steering-vectors"]
 
 async function inlineCriticalCSS(outputDir) {
   console.log("Starting Critical CSS generation process...")
@@ -464,6 +465,10 @@ async function inlineCriticalCSS(outputDir) {
         files.map((file) =>
           queue.add(async () => {
             try {
+              if (SKIP_FILES.some((skip) => file.includes(skip))) {
+                console.log(`Skipping ${file}`)
+                return
+              }
               await processFile(outputDir, file)
               completedFiles++
               console.log(`Progress: ${completedFiles}/${totalFiles} files processed`)
@@ -477,6 +482,7 @@ async function inlineCriticalCSS(outputDir) {
       console.log("All files processed. Waiting for queue to empty...")
       await queue.onIdle()
       console.log("Queue is empty. Process complete.")
+      process.exit(0)
     } catch (error) {
       console.error("Error in inlineCriticalCSS:", error)
     }
@@ -510,6 +516,7 @@ async function processFile(outputDir, file) {
 
 async function generateCriticalCSS(outputDir, file) {
   try {
+    console.log(`Generating critical CSS for ${file}`)
     await generate({
       inline: true,
       base: outputDir,
@@ -518,14 +525,10 @@ async function generateCriticalCSS(outputDir, file) {
       width: 1300,
       height: 900,
       penthouse: {
-        timeout: 60000,
         unstableKeepBrowserAlive: true,
         puppeteer: {
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         },
-      },
-      ignore: {
-        atrule: ["@font-face"],
       },
       css: [
         path.join(outputDir, "index.css"),
