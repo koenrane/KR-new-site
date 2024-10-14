@@ -31,6 +31,9 @@ import {
   cacheFile,
   cwd,
 } from "./constants.js"
+import { generate } from "critical"
+import glob from "glob-promise"
+import PQueue from "p-queue"
 
 /**
  * Handles `npx quartz create`
@@ -230,7 +233,7 @@ export async function handleBuild(argv) {
     jsxImportSource: "preact",
     packages: "external",
     metafile: true,
-    sourcemap: true,
+    sourcemap: false,
     sourcesContent: false,
     plugins: [
       sassPlugin({
@@ -315,6 +318,11 @@ export async function handleBuild(argv) {
 
     cleanupBuild = await buildQuartz(argv, buildMutex, clientRefresh)
     clientRefresh()
+
+    // Inline critical CSS after the build (would delay serving too much)
+    if (!argv.serve) {
+      await inlineCriticalCSS(argv.output)
+    }
   }
 
   if (argv.serve) {
@@ -429,6 +437,104 @@ export async function handleBuild(argv) {
   } else {
     await build(() => {})
     ctx.dispose()
+  }
+}
+
+const LARGE_FILE_THRESHOLD = 256 * 1024 // 256 KB
+const CONCURRENT_OPERATIONS = 5 // Adjust based on your system's capabilities
+const TIMEOUT = 10 * 60 * 1000 // 10 minutes
+
+async function inlineCriticalCSS(outputDir) {
+  console.log("Starting Critical CSS generation process...")
+  const queue = new PQueue({ concurrency: CONCURRENT_OPERATIONS })
+  let completedFiles = 0
+  let totalFiles = 0
+
+  const timeoutPromise = new Promise((_, reject) => {
+    setTimeout(() => reject(new Error("Operation timed out")), TIMEOUT)
+  })
+
+  const processPromise = (async () => {
+    try {
+      const files = await glob(`${outputDir}/**.html`)
+      totalFiles = files.length
+      console.log(`Found ${totalFiles} HTML files to process.`)
+
+      await Promise.all(
+        files.map((file) =>
+          queue.add(async () => {
+            try {
+              await processFile(outputDir, file)
+              completedFiles++
+              console.log(`Progress: ${completedFiles}/${totalFiles} files processed`)
+            } catch (error) {
+              console.error(`Error processing ${file}:`, error)
+            }
+          }),
+        ),
+      )
+
+      console.log("All files processed. Waiting for queue to empty...")
+      await queue.onIdle()
+      console.log("Queue is empty. Process complete.")
+    } catch (error) {
+      console.error("Error in inlineCriticalCSS:", error)
+    }
+  })()
+
+  try {
+    await Promise.race([processPromise, timeoutPromise])
+  } catch (error) {
+    if (error.message === "Operation timed out") {
+      console.error("The operation timed out. Force exiting...")
+      process.exit(1)
+    } else {
+      throw error
+    }
+  }
+}
+
+async function processFile(outputDir, file) {
+  const stats = await fs.promises.stat(file)
+  const fileSize = stats.size
+
+  console.log(`Processing ${file} (${fileSize} bytes)`)
+
+  if (fileSize > LARGE_FILE_THRESHOLD) {
+    console.log(`Large file detected: ${file}. Ignoring.`)
+    // await handleLargeFile(outputDir, file);
+  } else {
+    await generateCriticalCSS(outputDir, file)
+  }
+}
+
+async function generateCriticalCSS(outputDir, file) {
+  try {
+    await generate({
+      inline: true,
+      base: outputDir,
+      src: path.relative(outputDir, file),
+      target: path.relative(outputDir, file),
+      width: 1300,
+      height: 900,
+      penthouse: {
+        timeout: 60000,
+        unstableKeepBrowserAlive: true,
+        puppeteer: {
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        },
+      },
+      ignore: {
+        atrule: ["@font-face"],
+      },
+      css: [
+        path.join(outputDir, "index.css"),
+        path.join(outputDir, "static", "styles", "katex.min.css"),
+      ],
+    })
+    console.log(`Critical CSS inlined for ${file}`)
+  } catch (error) {
+    console.error(`Error generating critical CSS for ${file}:`, error)
   }
 }
 
