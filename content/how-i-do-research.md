@@ -17,19 +17,20 @@ lw-vote-count: 28
 af-base-score: 20
 af-num-comments-on-upload: 0
 publish: true
-title: "How I do research"
+title: How I do research
 lw-latest-edit: 2019-11-20T21:28:11.835Z
 lw-is-linkpost: "false"
-tags: 
-  - "rationality"
-  - "scholarship-&-learning"
-aliases: 
-  - "how-i-do-research"
+tags:
+  - rationality
+  - scholarship-&-learning
+aliases:
+  - how-i-do-research
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 11/19/2019
 original_url: https://www.lesswrong.com/posts/e3Db4w52hz3NSyYqt/how-i-do-research
 skip_import: true
+hideSubscriptionLinks: false
 ---
 > [!warning] Disclaimer
 > As of 2024, this is no longer an accurate representation of how I do research. I do not necessarily consider the examples I gave to be "virtuous" ways to do research (nor do I necessarily renounce them).

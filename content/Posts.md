@@ -4,9 +4,10 @@ hide_authors: "true"
 hide_metadata: "true"
 title: Posts
 no_dropcap: "true"
-permalink: "posts"
+permalink: posts
 aliases:
-  - "Posts"
+  - Posts
+hideSubscriptionLinks: false
 ---
 
 # My favorite posts
@@ -118,7 +119,7 @@ This sequence generalizes the math of [Seeking Power is Often Convergently Instr
 
 ## Thoughts on Corrigibility
 
-<figure class="float-right" style="margin-top:-1rem">
+<figure class="float-right desktop-only" style="margin-top:-1.3rem; width: 80%">
 <img src="https://assets.turntrout.com/static/images/posts/hal_9000.avif" alt="" loading="lazy">
 </figure>
 

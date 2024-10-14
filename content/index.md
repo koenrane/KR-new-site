@@ -5,7 +5,8 @@ hide_metadata: "true"
 title: The Pond
 hide_title: "true"
 aliases:
-  - "index"
+  - index
+hideSubscriptionLinks: true
 ---
 > [!warning] Under construction
 > I am finishing up work on this site. Many articles are available, but the site may be rough around a few edges. Yes, websites have edges -- five of them, to be exact.

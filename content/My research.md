@@ -2,6 +2,7 @@
 draft: "false"
 permalink: research
 publish: "true"
+hideSubscriptionLinks: false
 ---
 
 > [!warning] Page under construction
