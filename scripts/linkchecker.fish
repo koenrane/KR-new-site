@@ -3,7 +3,7 @@
 # If there are no arguments passed, then default to the GIT_ROOT public
 set -l GIT_ROOT (git rev-parse --show-toplevel)
 
-fish "$GIT_ROOT/scripts/md_linkchecker.fish" 
+fish "$GIT_ROOT/scripts/md_linkchecker.fish"
 set -l MD_CHECK_STATUS $status
 
 # Target files for the html linkcheckers
@@ -16,9 +16,9 @@ end
 # Use the live server to resolve relative links
 if test -z $argv
     set -x no_proxy "http://localhost:8080"
-    linkchecker http://localhost:8080 --threads 20 --quiet
-else 
-    linkchecker $TARGET_FILES --threads 20 --quiet
+    linkchecker http://localhost:8080 --threads 10 --quiet
+else
+    linkchecker $TARGET_FILES --threads 10 --quiet
 end
 
 set -l HTML_CHECK_STATUS_1 $status

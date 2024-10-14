@@ -113,6 +113,7 @@ export default (() => {
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
+        <link rel="robots" href="/static/robots.txt" type="text/plain" />
 
         <meta property="og:title" content={title} />
         <meta property="og:type" content="article" />
