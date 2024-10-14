@@ -960,18 +960,6 @@ article[data-use-dropcap="true"] {
   border-radius: 5px;
 }
 
-// RSS icon
-#subscription-links {
-  display: flex;
-  align-items: center;
-
-  & img,
-  & svg {
-    width: 0.75rem;
-  }
-}
-
-#rss-svg {
-  width: 1em;
-  height: 1em;
+.after-article-components img.favicon {
+  filter: saturate(0.6); // Give it some color, unlike normal favicons
 }

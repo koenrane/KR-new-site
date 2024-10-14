@@ -3,38 +3,37 @@ import { Root, Element } from "hast"
 import { visit } from "unist-util-visit"
 import { h } from "hastscript"
 import { createSequenceLinksComponent } from "./sequenceLinks"
-import { CreateFaviconElement } from "./linkfavicons"
+import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
 
-export function createRSSElement(): Element {
-  return h("a", { href: "/rss.xml", id: "rss-link" }, [
-    "Subscribe via RSS",
-    h("img", {
-      src: "https://assets.turntrout.com/static/images/rss.svg",
-      id: "rss-svg",
-      alt: "RSS icon",
-      className: "inline-img",
-    }),
-  ])
-}
+export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [
+  h("abbr", { class: "small-caps" }, "RSS"),
+  h("img", {
+    src: "https://assets.turntrout.com/static/images/rss.svg",
+    id: "rss-svg",
+    alt: "RSS icon",
+    className: "favicon",
+  }),
+])
 
 const SUBSTACK_URL =
   "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
-function createNewsletterElement(): Element {
-  return h("a", { href: "https://turntrout.substack.com/subscribe" }, [
-    "Sign up for my newsletter",
-    CreateFaviconElement(SUBSTACK_URL),
-  ])
-}
 
-export function createSubscriptionElement(): Element {
-  return h("span", { id: "subscription-links" }, [
-    h("b", "Find out when I post more content"),
-    h("br"),
-    createNewsletterElement(),
-    "  |  ",
-    createRSSElement(),
-  ])
-}
+const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
+  "newsle",
+  h("span", ["tter", CreateFaviconElement(SUBSTACK_URL)]),
+])
+
+const subscriptionElement = h("center", [
+  h("div", h("p", ["Find out when I post more content: ", newsletterElement, " & ", rssElement])),
+])
+
+const contactMe = h("div", [
+  h("center", [
+    "Thoughts? Email me at ",
+    h("code", h("a", { href: MAIL_PATH }, "alex@turntrout.com")),
+    CreateFaviconElement(MAIL_PATH),
+  ]),
+])
 
 export function insertAfterTroutOrnament(tree: Root, components: Element[]) {
   visit(tree, "element", (node: Element, index, parent: Element | null) => {
@@ -58,11 +57,14 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
     htmlPlugins: () => [
       () => (tree: Root, file) => {
         const sequenceLinksComponent = createSequenceLinksComponent(file.data)
-        const subscriptionElement = createSubscriptionElement()
 
-        const components = [sequenceLinksComponent, subscriptionElement].filter(
-          Boolean,
-        ) as Element[]
+        const components = [sequenceLinksComponent ?? null].filter(Boolean) as Element[]
+
+        // If frontmatter doesn't say to avoid it
+        if (!file.data.frontmatter?.hideSubscriptionLinks) {
+          components.push(subscriptionElement)
+          components.push(contactMe)
+        }
 
         if (components.length > 0) {
           insertAfterTroutOrnament(tree, components)
