@@ -119,8 +119,8 @@ This sequence generalizes the math of [Seeking Power is Often Convergently Instr
 
 ## Thoughts on Corrigibility
 
-<figure class="float-right desktop-only" style="margin-top:-1.3rem; width: 80%">
-<img src="https://assets.turntrout.com/static/images/posts/hal_9000.avif" alt="" loading="lazy">
+<figure class="float-right desktop-only" style="margin-top:-1rem; width: 80%;">
+<img src="https://assets.turntrout.com/static/images/posts/hal_9000.avif" alt="" loading="lazy" style="width: 80%;">
 </figure>
 
 > [!quote] Original sequence description
