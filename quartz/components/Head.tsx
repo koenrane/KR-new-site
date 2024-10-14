@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unknown-property */
+// (For the spa-preserve attribute)
+
 import { i18n } from "../i18n"
 import { JSResourceToScriptElement } from "../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
@@ -58,12 +61,13 @@ export default (() => {
     }
 
     // Scripts
-    const { css, js } = externalResources
+    const { js } = externalResources
     const analyticsScript = (
       <script
         defer
         src="https://cloud.umami.is/script.js"
         data-website-id="fa8c3e1c-3a3c-4f6d-a913-6f580765bfae"
+        spa-preserve
       ></script>
     )
 
@@ -84,15 +88,20 @@ export default (() => {
 
     return (
       <head>
-        {css.map((href) => (
-          <link key={href} rel="preload, stylesheet" href={href} as="style" />
-        ))}
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <link
+          rel="preload"
+          href="./index.css"
+          as="style"
+          onLoad={"this.rel = 'stylesheet'" as any}
+          spa-preserve
+        />
         <title>{title}</title>
         <meta name="description" content={description} />
 
         <meta charSet="utf-8" />
-        <script src="/static/scripts/detect-dark-mode.js"></script>
-        <script src="/static/scripts/collapsible-listeners.js"></script>
+        <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
+        <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
         {analyticsScript}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -120,6 +129,7 @@ export default (() => {
 
         <link rel="icon" href={iconPath} />
         <link rel="apple-touch-icon" href={appleIconPath} />
+        <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}
