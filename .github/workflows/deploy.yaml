@@ -34,6 +34,6 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ variables.CLOUDFLARE_ACCOUNT_ID }}
           projectName: Turntrout
-          directory: public/
+          directory: public
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
