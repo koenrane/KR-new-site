@@ -960,6 +960,12 @@ article[data-use-dropcap="true"] {
   border-radius: 5px;
 }
 
-.after-article-components img.favicon {
-  filter: saturate(0.6); // Give it some color, unlike normal favicons
+.after-article-components {
+  & p {
+    margin-bottom: $baseMargin;
+  }
+
+  & img.favicon {
+    filter: saturate(0.6); // Give it some color, unlike normal favicons
+  }
 }

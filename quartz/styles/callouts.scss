@@ -239,6 +239,10 @@
     margin: 0;
     color: var(--color);
 
+    .callout-metadata & {
+      color: var(--gray);
+    }
+
     & p {
       margin: 0;
     }
