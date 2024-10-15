@@ -1,5 +1,5 @@
 import pytest
-from bs4 import BeautifulSoup  
+from bs4 import BeautifulSoup
 from pathlib import Path
 import sys
 
@@ -15,6 +15,7 @@ if TYPE_CHECKING:
         parse_html_file,
         check_file_for_issues,
         check_local_media_files,
+        check_blockquote_elements,
     )
 else:
     from built_site_checks import (
@@ -24,6 +25,7 @@ else:
         parse_html_file,
         check_file_for_issues,
         check_local_media_files,
+        check_blockquote_elements,
     )
 
 
@@ -118,13 +120,12 @@ def test_check_file_for_issues(tmp_path):
     </html>
     """
     )
-    localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files = (
-        check_file_for_issues(file_path, tmp_path)
-    )
-    assert localhost_links == ["https://localhost:8000"]
-    assert invalid_anchors == ["#invalid-anchor"]
-    assert problematic_paragraphs == ["Table: Test table"]
-    assert missing_media_files == ["missing-image.jpg"]
+    issues = check_file_for_issues(file_path, tmp_path)
+    assert issues["localhost_links"] == ["https://localhost:8000"]
+    assert issues["invalid_anchors"] == ["#invalid-anchor"]
+    assert issues["problematic_paragraphs"] == ["Table: Test table"]
+    assert issues["missing_media_files"] == ["missing-image.jpg"]
+    assert issues["trailing_blockquotes"] == []
 
 
 @pytest.mark.parametrize(

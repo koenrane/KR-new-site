@@ -1,8 +1,8 @@
 import os
 import sys
-from typing import List, Tuple
+from typing import List, Dict
 from pathlib import Path
-from bs4 import BeautifulSoup, Tag  
+from bs4 import BeautifulSoup, Tag
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -56,6 +56,19 @@ def check_invalid_anchors(
     return invalid_anchors
 
 
+# Check that no blockquote element ends with ">" (probably needed a newline before it)
+def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
+    """Check for blockquote elements ending with ">"."""
+    problematic_blockquotes: List[str] = []
+    blockquotes = soup.find_all("blockquote")
+    for blockquote in blockquotes:
+        continue
+        print(blockquote)
+        if blockquote.endswith(">"):
+            problematic_blockquotes.append(blockquote)
+    return problematic_blockquotes
+
+
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     """Check for paragraphs starting with specific phrases."""
     problematic_paragraphs = []
@@ -98,53 +111,30 @@ def check_local_media_files(
     return missing_files
 
 
-def check_file_for_issues(
-    file_path: Path, base_dir: Path
-) -> Tuple[List[str], List[str], List[str], List[str]]:
+def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str]]:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
-    localhost_links = check_localhost_links(soup)
-    invalid_anchors = check_invalid_anchors(soup, file_path, base_dir)
-    problematic_paragraphs = check_problematic_paragraphs(soup)
-    missing_media_files = check_local_media_files(soup, file_path, base_dir)
-    return localhost_links, invalid_anchors, problematic_paragraphs, missing_media_files
+    return {
+        "localhost_links": check_localhost_links(soup),
+        "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
+        "problematic_paragraphs": check_problematic_paragraphs(soup),
+        "missing_media_files": check_local_media_files(soup, file_path, base_dir),
+        "trailing_blockquotes": check_blockquote_elements(soup),
+    }
 
 
 def print_issues(
     file_path: Path,
-    localhost_links: List[str],
-    invalid_anchors: List[str],
-    problematic_paragraphs: List[str],
-    missing_media_files: List[str],
+    issues: Dict[str, List[str]],
 ) -> None:
     """Print issues found in a file."""
-    if (
-        localhost_links
-        or invalid_anchors
-        or problematic_paragraphs
-        or missing_media_files
-    ):
+    if any(lst for lst in issues.values()):
         print(f"Issues found in {file_path}:")
-
-        if localhost_links:
-            print("  Localhost links:")
-            for link in localhost_links:
-                print(f"    - {link}")
-
-        if invalid_anchors:
-            print("  Invalid internal anchors:")
-            for anchor in invalid_anchors:
-                print(f"    - {anchor}")
-
-        if problematic_paragraphs:
-            print("  Paragraphs starting with 'Table:', 'Figure:', or 'Code:':")
-            for paragraph in problematic_paragraphs:
-                print(f"    - {paragraph}")
-
-        if missing_media_files:
-            print("  Missing local media files:")
-            for file in missing_media_files:
-                print(f"    - {file}")
+        for issue, lst in issues.items():
+            if lst:
+                print(f"  {issue}:")
+                for item in lst:
+                    print(f"    - {item}")
 
         print()  # Add a blank line between files with issues
 
@@ -163,26 +153,10 @@ def main() -> None:
         for file in files:
             if file.endswith(".html"):
                 file_path = Path(root) / file
-                (
-                    localhost_links,
-                    invalid_anchors,
-                    problematic_paragraphs,
-                    missing_media_files,
-                ) = check_file_for_issues(file_path, public_dir)
+                issues = check_file_for_issues(file_path, public_dir)
 
-                if (
-                    localhost_links
-                    or invalid_anchors
-                    or problematic_paragraphs
-                    or missing_media_files
-                ):
-                    print_issues(
-                        file_path,
-                        localhost_links,
-                        invalid_anchors,
-                        problematic_paragraphs,
-                        missing_media_files,
-                    )
+                print_issues(file_path, issues)
+                if any(lst for lst in issues.values()):
                     issues_found = True
 
     if issues_found:
