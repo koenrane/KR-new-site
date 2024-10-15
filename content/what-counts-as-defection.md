@@ -1,5 +1,5 @@
 ---
-permalink: game-theoretic-definition-of-deception
+permalink: game-theoretic-definition-of-defection
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
@@ -17,15 +17,16 @@ lw-vote-count: 23
 af-base-score: 34
 af-num-comments-on-upload: 9
 publish: true
-title: "Formalizing “deception” using game theory"
+title: Formalizing “defection” using game theory
 lw-latest-edit: 2021-03-18T22:20:25.138Z
 lw-is-linkpost: "false"
 tags:
-  - "game-theory"
-  - "AI"
-  - "rationality"
+  - game-theory
+  - AI
+  - rationality
 aliases:
-  - "what-counts-as-defection"
+  - what-counts-as-defection
+  - game-theoretic-definition-of-deception
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 07/12/2020
