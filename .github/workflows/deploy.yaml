@@ -33,8 +33,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
         run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            npx wrangler pages deploy ./public --project-name=turntrout --production
-          else
-            npx wrangler pages deploy ./public --project-name=turntrout
-          fi
+            export BRANCH=${${{ github.ref }}#refs/heads/}
+            npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
