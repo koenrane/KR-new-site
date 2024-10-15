@@ -16,7 +16,6 @@ import { joinSegments, pathToRoot } from "../util/path"
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
-    console.log("Title:", title)
     title = formatTitle(title)
     const description =
       fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
@@ -86,27 +85,11 @@ export default (() => {
 
     return (
       <head>
-        <link
-          rel="preload"
-          href="/index.css"
-          as="style"
-          onLoad={"this.rel = 'stylesheet'" as any}
-          spa-preserve
-        />
         <title>{title}</title>
         <meta name="description" content={description} />
-
         <meta charSet="utf-8" />
-        <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
-        <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
-        {analyticsScript}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        {fileData.frontmatter?.avoidIndexing && (
-          <meta name="robots" content="noindex, noimageindex,nofollow" />
-        )}
-        <link rel="robots" href="/static/robots.txt" type="text/plain" />
 
         <meta property="og:title" content={title} />
         <meta property="og:type" content="article" />
@@ -124,6 +107,23 @@ export default (() => {
 
         {/* Twitter author metadata */}
         {authorElement}
+
+        <link
+          rel="preload"
+          href="/index.css"
+          as="style"
+          onLoad={"this.rel = 'stylesheet'" as any}
+          spa-preserve
+        />
+
+        {fileData.frontmatter?.avoidIndexing && (
+          <meta name="robots" content="noindex, noimageindex,nofollow" />
+        )}
+        <link rel="robots" href="/static/robots.txt" type="text/plain" />
+
+        <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
+        <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
+        {analyticsScript}
 
         <link rel="icon" href={iconPath} />
         <link defer rel="apple-touch-icon" href={appleIconPath} />
