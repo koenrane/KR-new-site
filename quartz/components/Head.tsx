@@ -95,7 +95,7 @@ export default (() => {
       <head>
         <link
           rel="preload"
-          href="./index.css"
+          href="/index.css"
           as="style"
           onLoad={"this.rel = 'stylesheet'" as any}
           spa-preserve

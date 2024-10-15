@@ -16,6 +16,7 @@ if TYPE_CHECKING:
         check_file_for_issues,
         check_local_media_files,
         check_blockquote_elements,
+        check_asset_references,
     )
 else:
     from built_site_checks import (
@@ -26,6 +27,7 @@ else:
         check_file_for_issues,
         check_local_media_files,
         check_blockquote_elements,
+        check_asset_references,
     )
 
 
@@ -62,6 +64,27 @@ def sample_soup(sample_html):
 @pytest.fixture
 def temp_site_root(tmp_path):
     return tmp_path
+
+
+@pytest.fixture
+def sample_html_with_assets():
+    return """
+    <html>
+    <head>
+        <link rel="stylesheet" href="/styles/main.css">
+        <link rel="preload" href="./index.css" as="style" onload="this.rel='stylesheet'">
+        <script src="/js/script.js"></script>
+    </head>
+    <body>
+        <img src="../images/photo.jpg">
+    </body>
+    </html>
+    """
+
+
+@pytest.fixture
+def sample_soup_with_assets(sample_html_with_assets):
+    return BeautifulSoup(sample_html_with_assets, "html.parser")
 
 
 def test_check_localhost_links(sample_soup):
@@ -161,3 +184,54 @@ def test_check_local_media_files_parametrized(html, expected, temp_site_root):
     (temp_site_root / "existing.png").touch()
     result = check_local_media_files(soup, temp_site_root / "test.html", temp_site_root)
     assert result == expected
+
+
+def test_check_asset_references_all_missing(sample_soup_with_assets, temp_site_root):
+    file_path = temp_site_root / "test.html"
+
+    result = check_asset_references(sample_soup_with_assets, file_path, temp_site_root)
+
+    expected = {
+        "/styles/main.css (resolved to styles/main.css)",
+        "./index.css (resolved to index.css)",
+        "/js/script.js (resolved to js/script.js)",
+    }
+    assert set(result) == expected
+
+
+def test_check_asset_references_absolute_paths(temp_site_root):
+    html = """
+    <html>
+    <head>
+        <link rel="stylesheet" href="/absolute/path/style.css">
+        <script src="/another/absolute/path/script.js"></script>
+    </head>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    file_path = temp_site_root / "test.html"
+
+    result = check_asset_references(soup, file_path, temp_site_root)
+
+    expected = {
+        "/absolute/path/style.css (resolved to absolute/path/style.css)",
+        "/another/absolute/path/script.js (resolved to another/absolute/path/script.js)",
+    }
+    assert set(result) == expected
+
+
+def test_check_asset_references_ignore_external(temp_site_root):
+    html = """
+    <html>
+    <head>
+        <link rel="stylesheet" href="https://example.com/style.css">
+        <script src="http://example.com/script.js"></script>
+    </head>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    file_path = temp_site_root / "test.html"
+
+    result = check_asset_references(soup, file_path, temp_site_root)
+
+    assert result == []

@@ -117,6 +117,43 @@ def check_local_media_files(
     return missing_files
 
 
+def check_asset_references(
+    soup: BeautifulSoup, file_path: Path, base_dir: Path
+) -> List[str]:
+    """Check for asset references and verify their existence."""
+    missing_assets = []
+
+    def resolve_asset_path(href: str) -> Path:
+        if href.startswith("/"):
+            # Absolute path within the site
+            return (base_dir / href.lstrip("/")).resolve()
+        else:
+            # Relative path
+            return (file_path.parent / href).resolve()
+
+    def check_asset(href: str) -> None:
+        if href and not href.startswith(("http://", "https://")):
+            full_path = resolve_asset_path(href)
+            if not full_path.is_file():
+                missing_assets.append(
+                    f"{href} (resolved to {full_path.relative_to(base_dir)})"
+                )
+
+    # Check link tags for CSS files (including preloaded stylesheets)
+    for link in soup.find_all("link"):
+        rel = link.get("rel", [])
+        if isinstance(rel, list):
+            rel = " ".join(rel)
+        if "stylesheet" in rel or ("preload" in rel and link.get("as") == "style"):
+            check_asset(link.get("href"))
+
+    # Check script tags for JS files
+    for script in soup.find_all("script", src=True):
+        check_asset(script["src"])
+
+    return missing_assets
+
+
 def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str]]:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
@@ -126,6 +163,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str
         "problematic_paragraphs": check_problematic_paragraphs(soup),
         "missing_media_files": check_local_media_files(soup, file_path, base_dir),
         "trailing_blockquotes": check_blockquote_elements(soup),
+        "missing_assets": check_asset_references(soup, file_path, base_dir),
     }
 
 
