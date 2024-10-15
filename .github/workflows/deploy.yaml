@@ -13,6 +13,11 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
+      - name: Check wrangler
+        run: |
+          mkdir public
+          npm install -g wrangler
+          npx wrangler pages deploy ./public --project-name=turntrout
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all history for git info
