@@ -17,25 +17,26 @@ lw-vote-count: 45
 af-base-score: 29
 af-num-comments-on-upload: 4
 publish: true
-title: "Reframing Impact"
+title: Reframing Impact
 lw-latest-edit: 2021-08-25T18:32:59.440Z
 lw-is-linkpost: "false"
-tags: 
-  - "impact-regularization"
-  - "AI"
-aliases: 
-  - "reframing-impact"
+tags:
+  - impact-regularization
+  - AI
+aliases:
+  - reframing-impact
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/jlnkhq3volgajzks64sw
 lw-sequence-image-banner: sequences/fahwqcjgc6ni0stdzxb3
 sequence-link: posts#reframing-impact
 next-post-slug: value-impact
-next-post-title: "Value Impact"
+next-post-title: Value Impact
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/20/2019
 original_url: https://www.lesswrong.com/posts/xCxeBSHqMEaP3jDvY/reframing-impact
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/3LocEy9.avif
 ---
 ![](https://assets.turntrout.com/static/images/posts/3LocEy9.avif )
 ![](https://assets.turntrout.com/static/images/posts/IUOudUK.avif)
