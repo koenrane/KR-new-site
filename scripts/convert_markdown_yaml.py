@@ -54,7 +54,11 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     temp_dir = Path(tempfile.gettempdir())
     avif_path = temp_dir / card_image_filename
 
-    response = requests.get(card_image_url, stream=True)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Referer": "https://turntrout.com/",  # Adjust this to your main domain
+    }
+    response = requests.get(card_image_url, stream=True, timeout=10, headers=headers)
     if response.status_code == 200:
         with open(avif_path, "wb") as out_file:
             shutil.copyfileobj(response.raw, out_file)
