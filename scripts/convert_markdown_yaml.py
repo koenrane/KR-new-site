@@ -3,12 +3,17 @@ import argparse
 from pathlib import Path
 import re
 import os
-import yaml
 import requests
-from urllib.parse import urlparse
+from urllib import parse
 import shutil
 import tempfile
 import subprocess
+from ruamel.yaml import YAML
+import io
+
+yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
+yaml_parser.preserve_quotes = True  # Preserve existing quotes
+yaml_parser.indent(mapping=2, sequence=2, offset=2)  # Set desired indentation
 
 try:
     from . import r2_upload
@@ -23,7 +28,7 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     Processes the 'card_image' in the YAML frontmatter of the given markdown file.
 
     If the 'card_image' ends with '.avif', it downloads the image,
-    converts it to PNG using ffmpeg, updates the 'card_image' value,
+    converts it to PNG using ImageMagick, updates the 'card_image' value,
     and uploads the new image to R2.
     """
     with open(md_file, "r", encoding="utf-8") as file:
@@ -32,23 +37,17 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     # Extract YAML front matter
     match = re.match(r"^---\n(.*?)\n---\n(.*)", content, re.DOTALL)
     if not match:
-        print(f"No YAML front matter found in {md_file}. Skipping.")
         return
 
     yaml_content, md_body = match.groups()
-    data = yaml.safe_load(yaml_content)
+    data = yaml_parser.load(yaml_content)
 
     card_image_url = data.get("card_image")
-    if not card_image_url:
-        # print(f"No 'card_image' found in {md_file}. Skipping.")
-        return
-
-    if not card_image_url.endswith(".avif"):
-        # print(f"'card_image' in {md_file} is not an AVIF image. Skipping.")
+    if not card_image_url or not card_image_url.endswith(".avif"):
         return
 
     # Download the card_image
-    parsed_url = urlparse(card_image_url)
+    parsed_url = parse.urlparse(card_image_url)
     card_image_filename = os.path.basename(parsed_url.path)
 
     # Download to a temporary directory
@@ -110,8 +109,11 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
     data["card_image"] = new_card_image_url
 
-    # Write the updated content back to the markdown file
-    updated_yaml = yaml.dump(data, allow_unicode=True, sort_keys=False)
+    # Dump YAML data to a string using StringIO
+    stream = io.StringIO()
+    yaml_parser.dump(data, stream)
+    updated_yaml = stream.getvalue()
+
     updated_content = f"---\n{updated_yaml}---\n{md_body}"
 
     with open(md_file, "w", encoding="utf-8") as file:
