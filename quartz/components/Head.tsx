@@ -40,10 +40,12 @@ export default (() => {
     const appleIconPath = "https://assets.turntrout.com/static/images/apple-icon.png"
     const siteImage = "https://assets.turntrout.com/static/images/fb_preview.png"
 
+    const unfurlImage = (fileData.frontmatter?.unfurl_image as string) ?? siteImage
+
     // Different images for different preview sizes
     let mediaElement = (
       <>
-        <meta property="og:image" content={siteImage} />
+        <meta property="og:image" content={unfurlImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta
@@ -102,7 +104,7 @@ export default (() => {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={siteImage} />
+        <meta name="twitter:image" content={unfurlImage} />
         <meta name="twitter:site" content="@Turn_Trout" />
 
         {/* Twitter author metadata */}
