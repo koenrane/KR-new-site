@@ -16,6 +16,7 @@ import { joinSegments, pathToRoot } from "../util/path"
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+    console.log("Title:", title)
     title = formatTitle(title)
     const description =
       fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
