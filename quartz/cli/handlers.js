@@ -1,6 +1,7 @@
 import fs, { promises } from "fs"
 import path from "path"
 import esbuild from "esbuild"
+import process from "node:process"
 import chalk from "chalk"
 import { sassPlugin } from "esbuild-sass-plugin"
 import { intro, outro, select, text } from "@clack/prompts"
@@ -459,7 +460,8 @@ async function inlineCriticalCSS(outputDir) {
       console.log("All files processed. Waiting for queue to empty...")
       await queue.onIdle()
       console.log("Queue is empty. Process complete.")
-      return
+      // deepsource-ignore-next-line
+      process.exit(0)
     } catch (error) {
       console.error("Error in inlineCriticalCSS:", error)
     }
