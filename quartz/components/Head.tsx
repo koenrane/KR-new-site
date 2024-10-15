@@ -38,7 +38,7 @@ export default (() => {
     // Images and other assets ---
     const iconPath = joinSegments(pathToRoot(fileData.slug!), "static/images/favicon.ico")
     const appleIconPath = "https://assets.turntrout.com/static/images/apple-icon.png"
-    const siteImage = "https://assets.turntrout.com/static/images/fb_preview.avif"
+    const siteImage = "https://assets.turntrout.com/static/images/fb_preview.png"
 
     const cardImage = (fileData.frontmatter?.card_image as string) ?? siteImage
 
