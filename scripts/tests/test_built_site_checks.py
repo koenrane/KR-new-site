@@ -116,6 +116,8 @@ def test_check_file_for_issues(tmp_path):
         <p>Table: Test table</p>
         <img src="missing-image.jpg" alt="Missing Image">
         <img src="https://example.com/image.png" alt="External Image">
+        <blockquote>This is a blockquote</blockquote>
+        <blockquote>This is a problematic blockquote ></blockquote>
     </body>
     </html>
     """
@@ -125,7 +127,23 @@ def test_check_file_for_issues(tmp_path):
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
     assert issues["missing_media_files"] == ["missing-image.jpg"]
-    assert issues["trailing_blockquotes"] == []
+    assert issues["trailing_blockquotes"] == ["This is a problematic blockquote >"]
+
+
+complicated_blockquote = """
+<blockquote class="callout quote" data-callout="quote">
+<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner"> <a href="https://www.lesswrong.com/posts/2JJtxitp6nqu6ffak/basic-facts-about-language-models-during-training-1#Residual_stream_outliers_grow_rapidly_then_stabilize_and_decline" class="external alias" target="_blank">Basic facts about language models during trai<span style="white-space:nowrap;">ning<img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" class="favicon" alt=""></span></a> &gt; <img src="https://assets.turntrout.com/static/images/posts/m1uteifqbbyox6qp9xnx.avif" alt="" loading="lazy"></div></div>
+</blockquote>
+"""
+
+
+def test_complicated_blockquote(tmp_path):
+    file_path = tmp_path / "test.html"
+    file_path.write_text(complicated_blockquote)
+    issues = check_file_for_issues(file_path, tmp_path)
+    assert issues["trailing_blockquotes"] == [
+        "Basic facts about language models during trai ning..."
+    ]
 
 
 @pytest.mark.parametrize(

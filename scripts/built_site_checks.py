@@ -62,10 +62,16 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     problematic_blockquotes: List[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
-        continue
-        print(blockquote)
-        if blockquote.endswith(">"):
-            problematic_blockquotes.append(blockquote)
+        # Get the last non-empty string content of the blockquote
+        contents = [s for s in blockquote.stripped_strings]
+        if contents and contents[-1].strip().endswith(">"):
+            # Get a truncated version of the blockquote content for reporting
+            content_preview = (
+                " ".join(contents)[:50] + "..."
+                if len(" ".join(contents)) > 50
+                else " ".join(contents)
+            )
+            problematic_blockquotes.append(content_preview)
     return problematic_blockquotes
 
 
