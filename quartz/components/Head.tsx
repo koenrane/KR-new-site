@@ -44,14 +44,6 @@ export default (() => {
     // Different images for different preview sizes
     let mediaElement = (
       <>
-        <meta property="og:image" content="https://assets.turntrout.com/static/pond.webm" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta
-          property="og:image:alt"
-          content="A trout and a goose playing in a pond with a castle in the background."
-        />
-
         <meta property="og:image" content={siteImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
