@@ -278,9 +278,9 @@ sup {
 }
 
 .trout-ornament {
-  // Override the darkmode filter for the trout -- TODO reexamine
   width: 3rem;
   margin-top: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $baseMargin);
   filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
