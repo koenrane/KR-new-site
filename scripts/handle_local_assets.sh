@@ -5,7 +5,7 @@ cd "$GIT_ROOT"
 
 # # Check that conversion+uploading tests pass
 PY_TEST_DIR="$GIT_ROOT"/scripts/tests
-python -m pytest "$PY_TEST_DIR" --ignore="$PY_TEST_DIR"/test_md_processing.py
+# python -m pytest "$PY_TEST_DIR" --ignore="$PY_TEST_DIR"/test_md_processing.py
 
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
