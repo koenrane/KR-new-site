@@ -17,31 +17,32 @@ lw-vote-count: 128
 af-base-score: 70
 af-num-comments-on-upload: 33
 publish: true
-title: "The shard theory of human values"
+title: The shard theory of human values
 lw-latest-edit: 2023-06-05T21:14:25.014Z
 lw-is-linkpost: "false"
 authors: Quintin Pope and Alex Turner
 tags:
-  - "rationality"
-  - "shard-theory"
-  - "AI"
-  - "understanding-the-world"
-  - "human-values"
+  - rationality
+  - shard-theory
+  - AI
+  - understanding-the-world
+  - human-values
 aliases:
-  - "the-shard-theory-of-human-values"
-lw-sequence-title: "Shard Theory"
+  - the-shard-theory-of-human-values
+lw-sequence-title: Shard Theory
 lw-sequence-image-grid: sequencesgrid/igo7185zypqhuclvbmiv
 lw-sequence-image-banner: sequences/ot2siejtvcl9pvzly2ma
 sequence-link: posts#shard-theory
 prev-post-slug: reward-is-not-the-optimization-target
-prev-post-title: "Reward is not the optimization target"
+prev-post-title: Reward is not the optimization target
 next-post-slug: understanding-and-avoiding-value-drift
-next-post-title: "Understanding and avoiding value drift"
+next-post-title: Understanding and avoiding value drift
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/04/2022
 original_url: https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/human_shards.avif
 ---
 
 We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry.
