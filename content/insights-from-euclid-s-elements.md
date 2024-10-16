@@ -17,27 +17,28 @@ lw-vote-count: 57
 af-base-score: 32
 af-num-comments-on-upload: 0
 publish: true
-title: "Insights from Euclid's 'Elements'"
+title: Insights from Euclid's 'Elements'
 lw-latest-edit: 2021-02-15T03:50:14.043Z
 lw-is-linkpost: "false"
 tags:
-  - "scholarship-&-learning"
-  - "understanding-the-world"
+  - scholarship-&-learning
+  - understanding-the-world
 aliases:
-  - "insights-from-euclid-s-elements"
-lw-sequence-title: "Becoming Stronger"
+  - insights-from-euclid-s-elements
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: problem-relaxation-as-a-tactic
-prev-post-title: "Problem relaxation as a tactic"
+prev-post-title: Problem relaxation as a tactic
 next-post-slug: self-teaching-insights
-next-post-title: "Lessons I've Learned from Self-Teaching"
+next-post-title: Lessons I've Learned from Self-Teaching
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 05/04/2020
 original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 skip_import: true
+card_image: https://i.imgur.com/XbacNSL.png
 ---
 
 Presumably, I was taught geometry as a child. I do not remember.

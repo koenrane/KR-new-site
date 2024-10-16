@@ -38,6 +38,7 @@ use-full-width-images: "false"
 date_published: 03/25/2020
 original_url: https://www.lesswrong.com/posts/o3aTqo5zp6phkuiRw/ode-to-joy-insights-from-a-first-course-in-ordinary
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/eb2E5Eg.avif
 ---
 
 Sometimes, it's easier to say how things change than to say how things are.

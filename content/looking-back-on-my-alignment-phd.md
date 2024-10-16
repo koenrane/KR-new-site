@@ -38,6 +38,7 @@ use-full-width-images: "false"
 original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
 date_published: 06/30/2022
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif
 ---
 
 > [!info]

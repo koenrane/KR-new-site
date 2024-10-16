@@ -22,18 +22,19 @@ title: "Paper: Understanding and Controlling a Maze-Solving Policy Network"
 lw-latest-edit: 2023-10-13T02:22:44.726Z
 lw-is-linkpost: "true"
 authors: Alex Turner, Ulisse Mini, Peli Grietzer, Mrinank Sharma, Austin Meek, Monte MacDiarmid, and Lisa Thiergart
-tags: 
-  - "AI"
-  - "shard-theory"
-  - "activation-engineering"
-aliases: 
-  - "paper-understanding-and-controlling-a-maze-solving-policy"
-  - "cheese-vector-paper-announcement"
+tags:
+  - AI
+  - shard-theory
+  - activation-engineering
+aliases:
+  - paper-understanding-and-controlling-a-maze-solving-policy
+  - cheese-vector-paper-announcement
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/13/2023
 original_url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/jbwksgzxm1h8hzspvypz.avif
 ---
 Mrinank, Austin, and Alex wrote a paper on the results from [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network), [Maze-solving agents: Add a top-right vector, make the agent go to the top-right](/top-right-steering-vector), and [Behavioural statistics for a maze-solving agent](/statistics-of-a-maze-solving-network).
 

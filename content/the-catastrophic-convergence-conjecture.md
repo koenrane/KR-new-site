@@ -17,16 +17,16 @@ lw-vote-count: 15
 af-base-score: 23
 af-num-comments-on-upload: 11
 publish: true
-title: "The Catastrophic Convergence Conjecture"
+title: The Catastrophic Convergence Conjecture
 lw-latest-edit: 2020-11-22T18:06:16.099Z
 lw-is-linkpost: "false"
 tags:
-  - "impact-regularization"
-  - "AI"
-  - "instrumental-convergence"
+  - impact-regularization
+  - AI
+  - instrumental-convergence
 aliases:
-  - "the-catastrophic-convergence-conjecture"
-lw-sequence-title: "Reframing Impact"
+  - the-catastrophic-convergence-conjecture
+lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
@@ -39,6 +39,7 @@ use-full-width-images: "false"
 date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/8l3kkwg.avif
 ---
 
 ![](https://assets.turntrout.com/static/images/posts/Rgc4aOs.avif)

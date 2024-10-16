@@ -17,26 +17,27 @@ lw-vote-count: 41
 af-base-score: 27
 af-num-comments-on-upload: 0
 publish: true
-title: "Insights from Modern Principles of Economics"
+title: Insights from Modern Principles of Economics
 lw-latest-edit: 2023-08-28T21:29:32.804Z
 lw-is-linkpost: "false"
 tags:
-  - "understanding-the-world"
+  - understanding-the-world
 aliases:
-  - "insights-from-modern-principles-of-economics"
-lw-sequence-title: "Becoming Stronger"
+  - insights-from-modern-principles-of-economics
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: self-teaching-insights
-prev-post-title: "Lessons I've Learned from Self-Teaching"
+prev-post-title: Lessons I've Learned from Self-Teaching
 next-post-slug: digital-minimalism
-next-post-title: "Do a cost-benefit analysis of your technology usage"
+next-post-title: Do a cost-benefit analysis of your technology usage
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/22/2021
 original_url: https://www.lesswrong.com/posts/hRa5c5GaMNkNGtnXq/insights-from-modern-principles-of-economics
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/htfmtdtntpqpmr2mlqxl.avif
 ---
 
 How good are our economists? Look around. On a 20-minute walk to my Berkeley office, I walked past people reeking of urine, past people lying in a dirty sleeping bag on a thin cardboard pad, past some garbage around a tent which housed a child who grew up into an impoverished adult.

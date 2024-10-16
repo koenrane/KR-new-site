@@ -20,10 +20,10 @@ publish: true
 title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 lw-latest-edit: 2018-06-01T18:16:32.616Z
 lw-is-linkpost: "false"
-tags:
+tags: 
 aliases:
-  - "into-the-kiln-insights-from-tao-s-analysis-i"
-lw-sequence-title: "Becoming Stronger"
+  - into-the-kiln-insights-from-tao-s-analysis-i
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
@@ -36,6 +36,7 @@ use-full-width-images: "false"
 date_published: 06/01/2018
 original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
 ---
 
 As a young boy, mathematics captivated me. In elementary school, I'd happily while away entire weekends working through the next grade's math book. I was impatient. In middle school, I'd lazily estimate angles of incidence that would result if I shot lasers from my eyes, tracing their trajectories within the classroom and out down the hallway. I was restless.

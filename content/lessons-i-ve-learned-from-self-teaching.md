@@ -17,28 +17,29 @@ lw-vote-count: 212
 af-base-score: 61
 af-num-comments-on-upload: 0
 publish: true
-title: "Lessons I've Learned from Self-Teaching"
+title: Lessons I've Learned from Self-Teaching
 lw-latest-edit: 2021-12-05T17:56:31.967Z
 lw-is-linkpost: "false"
 tags:
-  - "scholarship-&-learning"
-  - "practical"
-  - "rationality"
+  - scholarship-&-learning
+  - practical
+  - rationality
 aliases:
-  - "lessons-i-ve-learned-from-self-teaching"
-lw-sequence-title: "Becoming Stronger"
+  - lessons-i-ve-learned-from-self-teaching
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: insights-from-euclids-elements
-prev-post-title: "Insights from Euclid's 'Elements'"
+prev-post-title: Insights from Euclid's 'Elements'
 next-post-slug: insights-from-modern-principles-of-economics
-next-post-title: "Insights from Modern Principles of Economics"
+next-post-title: Insights from Modern Principles of Economics
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/23/2021
 original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.avif
 ---
 
 In 2018, I was a bright-eyed grad student who was freaking out about AI alignment. I guess I'm still a bright-eyed grad student freaking out about AI alignment, but that's beside the point.

@@ -23,6 +23,15 @@ except ImportError:
     import utils as script_utils  # type: ignore
 
 
+_CAN_CONVERT_EXTENSIONS: set[str] = {
+    ".avif",
+    ".webp",
+    ".png",
+    ".jpg",
+    ".jpeg",
+}
+
+
 def process_card_image_in_markdown(md_file: Path) -> None:
     """
     Processes the 'card_image' in the YAML frontmatter of the given markdown file.
@@ -42,7 +51,9 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     data = yaml_parser.load(yaml_content)
 
     card_image_url = data.get("card_image")
-    if not card_image_url or card_image_url.endswith("png"):
+    if not card_image_url or not any(
+        card_image_url.endswith(ext) for ext in _CAN_CONVERT_EXTENSIONS
+    ):
         return
 
     # Download the card_image

@@ -17,19 +17,20 @@ lw-vote-count: 59
 af-base-score: 34
 af-num-comments-on-upload: 0
 publish: true
-title: "You Should Read 'Harry Potter and the Methods of Rationality'"
+title: You Should Read 'Harry Potter and the Methods of Rationality'
 lw-latest-edit: 2023-08-27T21:04:29.890Z
 lw-is-linkpost: "false"
-tags: 
-  - "rationality"
-  - "fiction"
-aliases: 
-  - "transcript-you-should-read-hpmor"
+tags:
+  - rationality
+  - fiction
+aliases:
+  - transcript-you-should-read-hpmor
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 11/02/2021
 original_url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/grinnell.avif
 ---
 > [!note]
 > The following is the transcript of a talk I gave for some current computer science students at my alma mater, [Grinnell College](https://www.grinnell.edu/). This talk answers "What do I wish I had known while at Grinnell?".

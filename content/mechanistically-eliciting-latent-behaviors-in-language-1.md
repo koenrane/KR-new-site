@@ -17,22 +17,23 @@ lw-vote-count: 78
 af-base-score: 97
 af-num-comments-on-upload: 20
 publish: true
-title: "Mechanistically Eliciting Latent Behaviors in Language Models"
+title: Mechanistically Eliciting Latent Behaviors in Language Models
 lw-latest-edit: 2024-05-23T20:29:09.224Z
 lw-is-linkpost: "false"
 authors: Andrew Mack and Alex Turner
 tags:
-  - "AI"
-  - "mats-program"
-  - "understanding-the-world"
-  - "activation-engineering"
+  - AI
+  - mats-program
+  - understanding-the-world
+  - activation-engineering
 aliases:
-  - "mechanistically-eliciting-latent-behaviors-in-language-1"
+  - mechanistically-eliciting-latent-behaviors-in-language-1
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/30/2024
 original_url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/jwqnnwe15pr1vkvswuhf.avif
 ---
 
 > [!thanks]

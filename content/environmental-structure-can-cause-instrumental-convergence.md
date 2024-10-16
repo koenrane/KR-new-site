@@ -18,27 +18,28 @@ lw-vote-count: 25
 af-base-score: 32
 af-num-comments-on-upload: 38
 publish: true
-title: "Environmental Structure Can Cause Instrumental Convergence"
+title: Environmental Structure Can Cause Instrumental Convergence
 lw-latest-edit: 2023-05-16T20:23:50.626Z
 lw-is-linkpost: "true"
-tags: 
-  - "instrumental-convergence"
-  - "AI"
-aliases: 
-  - "environmental-structure-can-cause-instrumental-convergence"
-lw-sequence-title: "The Causes of Power-seeking and Instrumental Convergence"
+tags:
+  - instrumental-convergence
+  - AI
+aliases:
+  - environmental-structure-can-cause-instrumental-convergence
+lw-sequence-title: The Causes of Power-seeking and Instrumental Convergence
 lw-sequence-image-grid: sequencesgrid/hawnw9czray8awc74rnl
 lw-sequence-image-banner: sequences/qb8zq6qeizk7inc3gk2e
 sequence-link: posts#the-causes-of-power-seeking-and-instrumental-convergence
 prev-post-slug: MDPs-are-not-subjective
-prev-post-title: "MDP models are determined by the agent architecture and the environmental dynamics"
+prev-post-title: MDP models are determined by the agent architecture and the environmental dynamics
 next-post-slug: lower-stakes-alignment-scenario
-next-post-title: "A world in which the alignment problem seems lower-stakes"
+next-post-title: A world in which the alignment problem seems lower-stakes
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 06/22/2021
 original_url: https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-structure-can-cause-instrumental-convergence
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.avif
 ---
 
 > [!failure] As of 2024, I no longer endorse this post
