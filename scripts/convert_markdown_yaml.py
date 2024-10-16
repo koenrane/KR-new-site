@@ -8,7 +8,7 @@ from urllib import parse
 import shutil
 import tempfile
 import subprocess
-from ruamel.yaml import YAML
+from ruamel.yaml import YAML  # type: ignore
 import io
 
 yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
