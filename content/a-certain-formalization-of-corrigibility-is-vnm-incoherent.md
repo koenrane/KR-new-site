@@ -191,7 +191,8 @@ And in worlds where the agent gets corrected to $\pi_\text{correct: C}$ by defau
 
 Again, I don't think AUP is a solution. But I think there's something important happening here which allows evasion of the usual coherence requirements. AUP leverages information about human preferences which is present in the dynamics itself.
 
-**Project: Corrigibility as functional constraints.** I think it's easy to get bogged down in handwavy, imprecise thinking about objectives in complex environments. But any solution to corrigibility<sub>policy modification</sub> should probably solve this simple environment (and if not—articulate exactly why not). Write down what the agent's acceptable corrigible policy set is for each set of environment dynamics, solve for these behavioral constraints, and see what kind of reasoning and functional constraints come out the other side.
+> [!idea] Project: Corrigibility as functional constraints
+> I think it's easy to get bogged down in handwavy, imprecise thinking about objectives in complex environments. But any solution to corrigibility<sub>policy modification</sub> should probably solve this simple environment (and if not—articulate exactly why not). Write down what the agent's acceptable corrigible policy set is for each set of environment dynamics, solve for these behavioral constraints, and see what kind of reasoning and functional constraints come out the other side.
 
 # Conclusion
 
@@ -199,8 +200,6 @@ We can quantify what incoherence is demanded by corrigibility<sub>policy modific
 
 > [!thanks]
 > Thanks to NPCollapse and Justis Mills for suggestions.
-
-<hr/>
 
 [^pen]: The AUP penalty term's optimal value functions will pretend the episode doesn't end, so that they reflect the agent's ability to move around (or not, if it's already been force-corrected to a fixed policy.)
 

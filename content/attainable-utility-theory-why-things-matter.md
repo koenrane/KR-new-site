@@ -38,6 +38,7 @@ use-full-width-images: "false"
 date_published: 09/27/2019
 original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/hqEX2r1.avif
 ---
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.

@@ -17,25 +17,26 @@ lw-vote-count: 14
 af-base-score: 17
 af-num-comments-on-upload: 18
 publish: true
-title: "Conclusion to 'Reframing Impact'"
+title: Conclusion to 'Reframing Impact'
 lw-latest-edit: 2023-02-17T09:29:58.232Z
 lw-is-linkpost: "false"
-tags: 
-  - "impact-regularization"
-  - "AI"
-aliases: 
-  - "conclusion-to-reframing-impact"
-lw-sequence-title: "Reframing Impact"
+tags:
+  - impact-regularization
+  - AI
+aliases:
+  - conclusion-to-reframing-impact
+lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
 prev-post-slug: excitement-about-impact-measures
-prev-post-title: "Reasons for Excitement about Impact of Impact Measure Research"
+prev-post-title: Reasons for Excitement about Impact of Impact Measure Research
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 02/28/2020
 original_url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 skip_import: true
+card_image: https://i.imgur.com/C0o5g91.png
 ---
 ![](https://assets.turntrout.com/static/images/posts/pbmk8ndyip6nyu4ntf6z.avif)![](https://assets.turntrout.com/static/images/posts/icddpmwoxx5ftcysxo8k.avif)![](https://assets.turntrout.com/static/images/posts/mxhzcdashtl5euloeolx.avif)![](https://assets.turntrout.com/static/images/posts/d1mqg6p4ghuweu4sth5u.avif)![](https://assets.turntrout.com/static/images/posts/veypvrfwfr1xwwz4zx8m.avif)![](https://assets.turntrout.com/static/images/posts/qanem2tu332ayspkhutk.avif)![](https://assets.turntrout.com/static/images/posts/lza8s3ncwyioba7gn5kc.avif)![](https://assets.turntrout.com/static/images/posts/h14cfepf9ggi4hnx6ub1.avif)![](https://assets.turntrout.com/static/images/posts/w4iaoloixtlxhc26zy67.avif)![](https://assets.turntrout.com/static/images/posts/sr4u489gcv8jfltydthi.avif)
 

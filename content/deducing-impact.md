@@ -17,20 +17,20 @@ lw-vote-count: 21
 af-base-score: 19
 af-num-comments-on-upload: 18
 publish: true
-title: "Deducing Impact"
+title: Deducing Impact
 lw-latest-edit: 2019-09-24T21:56:15.111Z
 lw-is-linkpost: "false"
-tags: 
-  - "understanding-the-world"
-  - "impact-regularization"
-aliases: 
-  - "deducing-impact"
-lw-sequence-title: "Reframing Impact"
+tags:
+  - understanding-the-world
+  - impact-regularization
+aliases:
+  - deducing-impact
+lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
 prev-post-slug: value-impact
-prev-post-title: "Value Impact"
+prev-post-title: Value Impact
 next-post-slug: attainable-utility-theory
 next-post-title: "Attainable Utility Theory: Why Things Matter"
 lw-reward-post-warning: "false"
@@ -38,6 +38,7 @@ use-full-width-images: "false"
 date_published: 09/24/2019
 original_url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
 skip_import: true
+card_image: https://i.imgur.com/FNVolSf.png
 ---
 ![](https://assets.turntrout.com/static/images/posts/lyRy0fS.avif)
 

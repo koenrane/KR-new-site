@@ -181,8 +181,8 @@ Here's what we've seen so far:
 - Auxiliary goals:
   - Randomly selected
 
-|  | Options            | Damage | Correct-<br/>ion | Offset | Interference |     |
-| --: | ------------------ | ------ | ---------- | ------ | ------------ | --- |
+|  | Options         | Damage | Correct-<br/>ion | Offset | Interference | 
+| --:                | ------ | ------ | ---------- | ------ | ------------ | 
 | AUP                | ✅      | ✅          | ✅      | ✅            | ✅   |
 | Vanilla            | ❌      | ❌          | ❌      | ✅            | ✅   |
 | Model-free AUP     | ✅      | ✅          | ❌      | ✅            | ✅   |
