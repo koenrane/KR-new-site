@@ -26,7 +26,6 @@ except ImportError:
 _CAN_CONVERT_EXTENSIONS: set[str] = {
     ".avif",
     ".webp",
-    ".png",
     ".jpg",
     ".jpeg",
 }
