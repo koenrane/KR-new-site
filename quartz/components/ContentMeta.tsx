@@ -13,8 +13,11 @@ import readingTime from "reading-time"
 
 import React from "react"
 
-export const formatDateStr = (date: Date, locale: ValidLocale): string =>
-  ` on ${formatDate(date, locale)}`
+export const formatDateStr = (
+  date: Date,
+  locale: ValidLocale,
+  monthFormat: "long" | "short" = "short",
+): string => ` on ${formatDate(date, locale, monthFormat)}`
 
 // Determine which date to use for formatting
 export const getDateToFormat = (
@@ -98,7 +101,7 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
 
   // TODO fix this for future posts from the website
   const dateToFormat = getDateToFormat(fileData, cfg)
-  const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale) : ""
+  const dateStr = dateToFormat ? formatDateStr(dateToFormat, cfg.locale, "long") : ""
   const dateElement = renderDateElement(fileData, dateStr)
 
   const url = new URL(frontmatter.original_url as string)
