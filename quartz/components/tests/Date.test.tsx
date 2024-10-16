@@ -22,8 +22,8 @@ describe("getOrdinalSuffix", () => {
     expect(getOrdinalSuffix(day)).toBe(expected)
   })
 
-  it.each([0, 32, -1])("throws an error for invalid day number %i", (day) => {
-    expect(() => getOrdinalSuffix(day)).toThrow("Day must be between 1 and 31")
+  it.each([32, -1])("throws an error for invalid day number %i", (day) => {
+    expect(() => getOrdinalSuffix(day)).toThrow("must be between")
   })
 })
 

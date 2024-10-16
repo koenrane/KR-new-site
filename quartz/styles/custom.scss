@@ -225,7 +225,7 @@ a {
   }
   // Don't have anchor links with box behind them
   &[role="anchor"] {
-    background-color: transparent;
+    baggckground-color: transparent;
   }
 
   &[id^="user-content-fnref-"] {
@@ -985,4 +985,14 @@ article[data-use-dropcap="true"] {
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
+}
+
+.ordinal-suffix {
+  vertical-align: 0.3em;
+  margin-left: 0.05em;
+  text-decoration: underline 1.25px var(--lightgray);
+}
+
+time {
+  font-variant-numeric: lining-nums;
 }
