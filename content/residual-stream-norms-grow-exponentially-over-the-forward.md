@@ -30,6 +30,7 @@ use-full-width-images: "false"
 date_published: 05/07/2023
 original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/hpgem17ggmbpgnwcvdut.avif
 ---
 
 For a range of language models and a range of input prompts, the norm of each residual stream grows exponentially over the forward pass, with average per-layer growth rate of about 1.045 in GPT-2-XL. We show a bunch of evidence for this. We discuss to what extent different weights and parts of the network are responsible.

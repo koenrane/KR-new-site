@@ -41,6 +41,7 @@ use-full-width-images: "false"
 date_published: 03/11/2023
 original_url: https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/dc4zupnie9hr2hm7tfnx.avif
 ---
 
 <video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>

@@ -30,6 +30,7 @@ use-full-width-images: "true"
 date_published: 06/08/2021
 original_url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.avif
 ---
 
 > [!note]

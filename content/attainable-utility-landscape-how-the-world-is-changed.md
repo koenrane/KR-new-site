@@ -38,6 +38,7 @@ use-full-width-images: "false"
 date_published: 02/10/2020
 original_url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 skip_import: true
+card_image: https://assets.turntrout.com/static/images/posts/k5K8m32.avif
 ---
 ![](https://assets.turntrout.com/static/images/posts/zLypKDZ.avif)
 
