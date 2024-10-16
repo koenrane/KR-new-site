@@ -8,6 +8,7 @@ permalink: posts
 aliases:
   - Posts
 hideSubscriptionLinks: false
+card_image: https://assets.turntrout.com/static/images/posts/test_library.avif
 ---
 
 # My favorite posts
