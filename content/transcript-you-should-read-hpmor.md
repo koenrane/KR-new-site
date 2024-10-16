@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
 lw-is-question: "false"
-lw-posted-at: 2021-11-02T18:20:53.161Z
-lw-last-modification: 2024-07-07T21:15:29.825Z
+lw-posted-at: 2021-11-02T18:20:53.161000Z
+lw-last-modification: 2024-07-07T21:15:29.825000Z
 lw-curation-date: None
-lw-frontpage-date: 2021-11-02T18:57:09.142Z
+lw-frontpage-date: 2021-11-02T18:57:09.142000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 12
@@ -18,7 +18,7 @@ af-base-score: 34
 af-num-comments-on-upload: 0
 publish: true
 title: You Should Read 'Harry Potter and the Methods of Rationality'
-lw-latest-edit: 2023-08-27T21:04:29.890Z
+lw-latest-edit: 2023-08-27T21:04:29.890000Z
 lw-is-linkpost: "false"
 tags:
   - rationality
@@ -30,7 +30,7 @@ use-full-width-images: "false"
 date_published: 11/02/2021
 original_url: https://www.lesswrong.com/posts/HL6x8zHo9BkuK3tic/transcript-you-should-read-hpmor
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/grinnell.avif
+card_image: https://assets.turntrout.com/static/images/card_images/grinnell.png
 ---
 > [!note]
 > The following is the transcript of a talk I gave for some current computer science students at my alma mater, [Grinnell College](https://www.grinnell.edu/). This talk answers "What do I wish I had known while at Grinnell?".

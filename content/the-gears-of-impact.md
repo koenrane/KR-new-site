@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/coQCEe962sjbcCqB9/the-gears-of-impact
 lw-is-question: "false"
-lw-posted-at: 2019-10-07T14:44:51.212Z
+lw-posted-at: 2019-10-07T14:44:51.212000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2019-10-07T06:10:45.213Z
+lw-frontpage-date: 2019-10-07T06:10:45.213000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 16
@@ -18,7 +18,7 @@ af-base-score: 18
 af-num-comments-on-upload: 0
 publish: true
 title: The Gears of Impact
-lw-latest-edit: 2024-08-15T22:30:43.246Z
+lw-latest-edit: 2024-08-15T22:30:43.246000Z
 lw-is-linkpost: "false"
 tags:
   - understanding-the-world
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 10/07/2019
 original_url: https://www.lesswrong.com/posts/coQCEe962sjbcCqB9/the-gears-of-impact
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/PFqi66W.avif
+card_image: https://assets.turntrout.com/static/images/card_images/PFqi66W.png
 ---
 
 ![](https://assets.turntrout.com/static/images/posts/hKhkvwg.avif)

@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
 lw-is-question: "false"
-lw-posted-at: 2022-07-01T03:19:59.497Z
-lw-last-modification: 2022-07-20T02:22:00.482Z
-lw-curation-date: 2022-07-09T22:39:04.885Z
-lw-frontpage-date: 2022-07-01T03:26:02.441Z
+lw-posted-at: 2022-07-01T03:19:59.497000Z
+lw-last-modification: 2022-07-20T02:22:00.482000Z
+lw-curation-date: 2022-07-09T22:39:04.885000Z
+lw-frontpage-date: 2022-07-01T03:26:02.441000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 64
@@ -18,7 +18,7 @@ af-base-score: 101
 af-num-comments-on-upload: 0
 publish: true
 title: Looking back on my alignment PhD
-lw-latest-edit: 2023-08-10T01:35:59.613Z
+lw-latest-edit: 2023-08-10T01:35:59.613000Z
 lw-is-linkpost: "false"
 tags:
   - growth-stories
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
 date_published: 06/30/2022
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif
+card_image: https://assets.turntrout.com/static/images/card_images/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png
 ---
 
 > [!info]

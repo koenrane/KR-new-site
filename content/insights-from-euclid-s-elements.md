@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 lw-is-question: "false"
-lw-posted-at: 2020-05-04T15:45:30.711Z
-lw-last-modification: 2021-02-15T03:50:12.674Z
-lw-curation-date: 2020-05-15T19:31:00.065Z
-lw-frontpage-date: 2020-05-04T18:55:58.636Z
+lw-posted-at: 2020-05-04T15:45:30.711000Z
+lw-last-modification: 2021-02-15T03:50:12.674000Z
+lw-curation-date: 2020-05-15T19:31:00.065000Z
+lw-frontpage-date: 2020-05-04T18:55:58.636000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 17
@@ -18,7 +18,7 @@ af-base-score: 32
 af-num-comments-on-upload: 0
 publish: true
 title: Insights from Euclid's 'Elements'
-lw-latest-edit: 2021-02-15T03:50:14.043Z
+lw-latest-edit: 2021-02-15T03:50:14.043000Z
 lw-is-linkpost: "false"
 tags:
   - scholarship-&-learning
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 05/04/2020
 original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 skip_import: true
-card_image: https://i.imgur.com/XbacNSL.png
+card_image: https://assets.turntrout.com/static/images/card_images/XbacNSL.png
 ---
 
 Presumably, I was taught geometry as a child. I do not remember.

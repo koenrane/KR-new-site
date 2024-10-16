@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 lw-is-question: "false"
-lw-posted-at: 2020-02-17T05:20:09.567Z
-lw-last-modification: 2021-05-24T18:19:29.122Z
+lw-posted-at: 2020-02-17T05:20:09.567000Z
+lw-last-modification: 2021-05-24T18:19:29.122000Z
 lw-curation-date: None
-lw-frontpage-date: 2020-02-17T06:30:53.270Z
+lw-frontpage-date: 2020-02-17T06:30:53.270000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 20
@@ -18,12 +18,12 @@ af-base-score: 17
 af-num-comments-on-upload: 11
 publish: true
 title: "Attainable Utility Preservation: Concepts"
-lw-latest-edit: 2020-02-17T05:22:28.687Z
+lw-latest-edit: 2020-02-17T05:22:28.687000Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "impact-regularization"
   - "AI"
-aliases: 
+aliases:
   - "attainable-utility-preservation-concepts"
 lw-sequence-title: "Reframing Impact"
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 02/17/2020
 original_url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/KPv2beS.avif
+card_image: https://assets.turntrout.com/static/images/card_images/KPv2beS.png
 ---
 ![](https://assets.turntrout.com/static/images/posts/hTnYTsJ.avif)
 

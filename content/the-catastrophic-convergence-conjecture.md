@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 lw-is-question: "false"
-lw-posted-at: 2020-02-14T21:16:59.281Z
-lw-last-modification: 2021-02-07T23:27:46.255Z
+lw-posted-at: 2020-02-14T21:16:59.281000Z
+lw-last-modification: 2021-02-07T23:27:46.255000Z
 lw-curation-date: None
-lw-frontpage-date: 2020-02-14T22:52:21.226Z
+lw-frontpage-date: 2020-02-14T22:52:21.226000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 16
@@ -18,7 +18,7 @@ af-base-score: 23
 af-num-comments-on-upload: 11
 publish: true
 title: The Catastrophic Convergence Conjecture
-lw-latest-edit: 2020-11-22T18:06:16.099Z
+lw-latest-edit: 2020-11-22T18:06:16.099000Z
 lw-is-linkpost: "false"
 tags:
   - impact-regularization
@@ -39,7 +39,7 @@ use-full-width-images: "false"
 date_published: 02/14/2020
 original_url: https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/8l3kkwg.avif
+card_image: https://assets.turntrout.com/static/images/card_images/8l3kkwg.png
 ---
 
 ![](https://assets.turntrout.com/static/images/posts/Rgc4aOs.avif)

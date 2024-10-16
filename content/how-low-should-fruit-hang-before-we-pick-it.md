@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 lw-is-question: "false"
-lw-posted-at: 2020-02-25T02:08:52.630Z
-lw-last-modification: 2020-05-20T13:03:50.901Z
+lw-posted-at: 2020-02-25T02:08:52.630000Z
+lw-last-modification: 2020-05-20T13:03:50.901000Z
 lw-curation-date: None
-lw-frontpage-date: 2020-02-24T19:24:20.123Z
+lw-frontpage-date: 2020-02-24T19:24:20.123000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 9
@@ -18,7 +18,7 @@ af-base-score: 12
 af-num-comments-on-upload: 6
 publish: true
 title: Choosing the strength of the impact penalty term
-lw-latest-edit: 2020-05-20T13:03:59.233Z
+lw-latest-edit: 2020-05-20T13:03:59.233000Z
 lw-is-linkpost: "false"
 tags:
   - impact-regularization
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 02/25/2020
 original_url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/4bIPf6o.avif
+card_image: https://assets.turntrout.com/static/images/card_images/4bIPf6o.png
 ---
 
 > [!info] Summary

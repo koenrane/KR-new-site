@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
 lw-is-question: "false"
-lw-posted-at: 2019-09-24T21:14:43.177Z
-lw-last-modification: 2021-02-13T06:53:22.150Z
+lw-posted-at: 2019-09-24T21:14:43.177000Z
+lw-last-modification: 2021-02-13T06:53:22.150000Z
 lw-curation-date: None
-lw-frontpage-date: 2019-09-24T21:29:03.172Z
+lw-frontpage-date: 2019-09-24T21:29:03.172000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 28
@@ -18,7 +18,7 @@ af-base-score: 19
 af-num-comments-on-upload: 18
 publish: true
 title: Deducing Impact
-lw-latest-edit: 2019-09-24T21:56:15.111Z
+lw-latest-edit: 2019-09-24T21:56:15.111000Z
 lw-is-linkpost: "false"
 tags:
   - understanding-the-world
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 09/24/2019
 original_url: https://www.lesswrong.com/posts/Qs88fvwnjBevMrbkK/deducing-impact
 skip_import: true
-card_image: https://i.imgur.com/FNVolSf.png
+card_image: https://assets.turntrout.com/static/images/card_images/FNVolSf.png
 ---
 ![](https://assets.turntrout.com/static/images/posts/lyRy0fS.avif)
 

@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 lw-is-question: "false"
-lw-posted-at: 2019-09-27T16:48:22.015Z
+lw-posted-at: 2019-09-27T16:48:22.015000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2019-09-27T18:41:02.391Z
+lw-frontpage-date: 2019-09-27T18:41:02.391000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 24
@@ -18,12 +18,12 @@ af-base-score: 23
 af-num-comments-on-upload: 11
 publish: true
 title: "Attainable Utility Theory: Why Things Matter"
-lw-latest-edit: 2019-10-02T04:41:15.243Z
+lw-latest-edit: 2019-10-02T04:41:15.243000Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "understanding-the-world"
   - "impact-regularization"
-aliases: 
+aliases:
   - "attainable-utility-theory-why-things-matter"
 lw-sequence-title: "Reframing Impact"
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
@@ -38,7 +38,7 @@ use-full-width-images: "false"
 date_published: 09/27/2019
 original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/hqEX2r1.avif
+card_image: https://assets.turntrout.com/static/images/card_images/hqEX2r1.png
 ---
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.

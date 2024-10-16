@@ -6,10 +6,10 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
 lw-linkpost-url: https://arxiv.org/abs/1912.01683
 lw-is-question: "false"
-lw-posted-at: 2019-12-05T02:33:34.321Z
-lw-last-modification: 2024-03-02T01:17:28.210Z
+lw-posted-at: 2019-12-05T02:33:34.321000Z
+lw-last-modification: 2024-03-02T01:17:28.210000Z
 lw-curation-date: None
-lw-frontpage-date: 2019-12-05T02:41:26.857Z
+lw-frontpage-date: 2019-12-05T02:41:26.857000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 39
@@ -19,7 +19,7 @@ af-base-score: 55
 af-num-comments-on-upload: 34
 publish: true
 title: Seeking Power is Often Convergently Instrumental in MDPs
-lw-latest-edit: 2023-05-16T20:14:29.355Z
+lw-latest-edit: 2023-05-16T20:14:29.355000Z
 lw-is-linkpost: "true"
 authors: Alex Turner and Logan Riggs
 tags:
@@ -40,7 +40,7 @@ use-full-width-images: "false"
 date_published: 12/05/2019
 original_url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-convergently-instrumental-in-mdps
 skip_import: true
-card_image: https://i.imgur.com/xveuJm2.png
+card_image: https://assets.turntrout.com/static/images/card_images/xveuJm2.png
 ---
 
 In 2008, Steve Omohundro's foundational paper [The Basic AI Drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) conjectured that superintelligent goal-directed AIs might be incentivized to gain significant amounts of power in order to better achieve their goals. Omohundro's conjecture bears out in [toy models](https://intelligence.org/2015/11/26/new-paper-formalizing-convergent-instrumental-goals/), and the supporting philosophical arguments are intuitive. In 2019, the conjecture was even [debated by well-known AI researchers](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell).

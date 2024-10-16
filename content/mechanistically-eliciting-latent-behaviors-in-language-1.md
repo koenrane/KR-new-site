@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 lw-is-question: "false"
-lw-posted-at: 2024-04-30T18:51:13.493Z
-lw-last-modification: 2024-05-23T20:29:10.455Z
+lw-posted-at: 2024-04-30T18:51:13.493000Z
+lw-last-modification: 2024-05-23T20:29:10.455000Z
 lw-curation-date: None
-lw-frontpage-date: 2024-04-30T21:49:02.486Z
+lw-frontpage-date: 2024-04-30T21:49:02.486000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 37
@@ -18,7 +18,7 @@ af-base-score: 97
 af-num-comments-on-upload: 20
 publish: true
 title: Mechanistically Eliciting Latent Behaviors in Language Models
-lw-latest-edit: 2024-05-23T20:29:09.224Z
+lw-latest-edit: 2024-05-23T20:29:09.224000Z
 lw-is-linkpost: "false"
 authors: Andrew Mack and Alex Turner
 tags:
@@ -33,7 +33,7 @@ use-full-width-images: "false"
 date_published: 04/30/2024
 original_url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/jwqnnwe15pr1vkvswuhf.avif
+card_image: https://assets.turntrout.com/static/images/card_images/jwqnnwe15pr1vkvswuhf.png
 ---
 
 > [!thanks]
