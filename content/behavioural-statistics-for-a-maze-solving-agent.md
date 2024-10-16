@@ -3,7 +3,8 @@ permalink: statistics-of-a-maze-solving-network
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
+lw-page-url: 
+  https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
 lw-is-question: "false"
 lw-posted-at: 2023-04-20T22:26:08.810000Z
 lw-last-modification: 2023-06-07T01:24:39.295000Z
@@ -30,14 +31,16 @@ aliases:
 sequence-link: posts#interpreting-a-maze-solving-network
 lw-sequence-title: Interpreting a Maze-Solving Network
 prev-post-slug: top-right-steering-vector
-prev-post-title: "Maze-Solving Agents: Add a Top-Right Vector, Make the Agent Go to\
-  \ the Top-Right"
+prev-post-title: "Maze-Solving Agents: Add a Top-Right Vector, Make the Agent Go to
+  the Top-Right"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 04/20/2023
-original_url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
+original_url: 
+  https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.png
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.png
 ---
 [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
 

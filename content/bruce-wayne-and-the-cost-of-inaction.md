@@ -3,7 +3,8 @@ permalink: bruce-wayne-and-the-cost-of-inaction
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+lw-page-url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 lw-is-question: "false"
 lw-posted-at: 2022-09-30T00:19:47.335000Z
 lw-last-modification: 2022-10-03T21:46:10.527000Z
@@ -29,7 +30,8 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/30/2022
-original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+original_url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/QBOtBED.png
 ---

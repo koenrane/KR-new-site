@@ -3,7 +3,8 @@ permalink: cheese-vector-paper
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
+lw-page-url: 
+  https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
 lw-linkpost-url: https://arxiv.org/abs/2310.08043
 lw-is-question: "false"
 lw-posted-at: 2023-10-13T01:38:09.147000Z
@@ -33,7 +34,8 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 10/13/2023
-original_url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
+original_url: 
+  https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jbwksgzxm1h8hzspvypz.png
 ---

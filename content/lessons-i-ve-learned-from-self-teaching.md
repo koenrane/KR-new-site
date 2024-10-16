@@ -3,7 +3,8 @@ permalink: self-teaching-insights
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+lw-page-url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 lw-is-question: "false"
 lw-posted-at: 2021-01-23T19:00:55.559000Z
 lw-last-modification: 2022-01-01T09:44:15.044000Z
@@ -37,9 +38,11 @@ next-post-title: Insights from Modern Principles of Economics
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 01/23/2021
-original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+original_url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
 ---
 
 In 2018, I was a bright-eyed grad student who was freaking out about AI alignment. I guess I'm still a bright-eyed grad student freaking out about AI alignment, but that's beside the point.

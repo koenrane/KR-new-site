@@ -3,7 +3,8 @@ permalink: conservative-agency-with-multiple-stakeholders
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
+lw-page-url: 
+  https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 lw-is-question: "false"
 lw-posted-at: 2021-06-08T00:30:52.672000Z
 lw-last-modification: 2021-06-08T18:17:16.607000Z
@@ -28,9 +29,11 @@ aliases:
 lw-reward-post-warning: "true"
 use-full-width-images: "true"
 date_published: 06/08/2021
-original_url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
+original_url: 
+  https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png
 ---
 
 > [!note]
