@@ -27,8 +27,7 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     """
     Processes the 'card_image' in the YAML frontmatter of the given markdown file.
 
-    If the 'card_image' ends with '.avif', it downloads the image,
-    converts it to PNG using ImageMagick, updates the 'card_image' value,
+    It downloads the image, converts it to PNG using ImageMagick, updates the 'card_image' value,
     and uploads the new image to R2.
     """
     with open(md_file, "r", encoding="utf-8") as file:
@@ -43,7 +42,7 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     data = yaml_parser.load(yaml_content)
 
     card_image_url = data.get("card_image")
-    if not card_image_url or not card_image_url.endswith(".avif"):
+    if not card_image_url or card_image_url.endswith("png"):
         return
 
     # Download the card_image
@@ -52,27 +51,27 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
     # Download to a temporary directory
     temp_dir = Path(tempfile.gettempdir())
-    avif_path = temp_dir / card_image_filename
+    downloaded_path = temp_dir / card_image_filename
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Referer": "https://turntrout.com/",  # Adjust this to your main domain
+        "Referer": "https://turntrout.com/",
     }
     response = requests.get(card_image_url, stream=True, timeout=10, headers=headers)
     if response.status_code == 200:
-        with open(avif_path, "wb") as out_file:
+        with open(downloaded_path, "wb") as out_file:
             shutil.copyfileobj(response.raw, out_file)
     else:
         raise ValueError(f"Failed to download image: {card_image_url}")
 
-    # Convert AVIF to PNG using ImageMagick
-    png_filename = avif_path.with_suffix(".png").name
-    png_path = avif_path.with_suffix(".png")
+    # Convert downloaded image to PNG using ImageMagick
+    png_filename = downloaded_path.with_suffix(".png").name
+    png_path = downloaded_path.with_suffix(".png")
 
     subprocess.run(
         [
             "magick",
-            str(avif_path),
+            str(downloaded_path),
             "-strip",
             "-define",
             "png:compression-level=9",
