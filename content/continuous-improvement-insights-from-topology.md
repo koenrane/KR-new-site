@@ -41,6 +41,7 @@ original_url:
   https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k6b4WRE.png
+description: Reviewing Munkres' "Topology", reflecting on compactness, homotopy, and what I was even doing with my life before understanding homeomorphisms.
 ---
 Sometimes you really like someone, but you can't understand why. By all means, you should have tired of them long ago, but you keep coming back. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
 
