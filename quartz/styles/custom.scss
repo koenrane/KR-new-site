@@ -961,6 +961,9 @@ article[data-use-dropcap="true"] {
 }
 
 .after-article-components {
+  margin-bottom: calc(2 * $baseMargin);
+  margin-top: calc(2 * $baseMargin);
+
   & p {
     margin-bottom: $baseMargin; // Less separation than usual
   }

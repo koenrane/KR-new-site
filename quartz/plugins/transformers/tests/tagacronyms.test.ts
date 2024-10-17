@@ -1,5 +1,5 @@
 import { rehype } from "rehype"
-import { rehypeTagAcronyms } from "../tagacronyms"
+import { allowAcronyms, rehypeTagAcronyms } from "../tagacronyms"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
 const nasaIn = "<p>NASA launched a new satellite for NOAA to study GCRs.</p>"
@@ -54,7 +54,15 @@ describe("Abbreviations", () => {
 
 describe("All-caps tests", () => {
   // Test: These should be wrapped in <abbr> tags
-  const textIn: Array<string> = ["AUP", "FBI", "TL;DR", "CHAI", "ALÉNA", "CCC", "ELROND'S", "ELROND’S"]
+  const textIn: Array<string> = allowAcronyms.concat([
+    "AUP",
+    "FBI",
+    "CHAI",
+    "ALÉNA",
+    "ELROND'S",
+    "ELROND’S",
+    "I HATE YOU",
+  ])
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
@@ -71,7 +79,7 @@ describe("All-caps tests", () => {
     })
   }
 
-  const romanNumerals: Array<string> = ["III", "VII", "MXC", "XIVIL"]
+  const romanNumerals: Array<string> = ["III", "VII", "MXC", "IV", "IX"]
   for (const numeral of romanNumerals) {
     it(`should not wrap ${numeral} in <abbr> tags`, () => {
       const input = `<p>${numeral}</p>`
