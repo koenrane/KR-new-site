@@ -42,6 +42,7 @@ original_url:
   https://www.lesswrong.com/posts/w6BtMqKRLxG9bNLMr/the-catastrophic-convergence-conjecture
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/8l3kkwg.png
+description: "Conjecture: Alignment catastrophe is exclusively caused by AI seeking power."
 ---
 
 ![](https://assets.turntrout.com/static/images/posts/Rgc4aOs.avif)

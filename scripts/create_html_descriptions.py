@@ -78,7 +78,9 @@ def get_gemini_description(content: str) -> str:
 
     The description should be engaging, accurate, and between 20-30 words long. IT CANNOT BE LONGER THAN 140 CHARACTERS. Do not say things like 'this post is about...' or 'this article covers.' Write how George Orwell would describe the post. 
     
-    I wrote the content being summarized, so it's ok to be a bit more personal or refer to the author in first person. EG instead of 'the author thinks X', write 'I think X' -- but only do this for more personal posts, not for technical ones."""
+    I wrote the content being summarized, so it's ok to be a bit more personal or refer to the author in first person. EG instead of 'the author thinks X', write 'I think X' -- but only do this for more personal posts, not for technical ones.
+    
+    Be direct and to the point. Do not use obscure words. Do not be clickbaity or ask hypothetical questions."""
 
     few_shot_examples = prepare_few_shot_examples()
 
@@ -116,20 +118,28 @@ def process_file(file_path: Path) -> None:
         if "description" not in data or not data["description"]:
             print(f"No description found in {file_path}. Generating one...")
 
+            prompt_additions = ""
             while True:
-                generated_description = get_gemini_description(content)
+                generated_description = get_gemini_description(
+                    content + prompt_additions
+                )
                 print(
                     f"Generated description: {generated_description}\nLength: {len(generated_description)}"
                 )
 
-                user_input = input("Accept this description? (yes/no): ").lower()
-                if user_input == "yes":
+                user_input = input(
+                    "Accept this description? (yes/reason for rejection): "
+                ).strip()
+                if user_input.lower() == "yes":
                     data["description"] = generated_description
+                    prompt_additions += (
+                        f"\nAccepted description: {generated_description}"
+                    )
                     break
-                elif user_input == "no":
-                    print("Generating a new description...")
                 else:
-                    print("Invalid input. Please enter 'yes' or 'no'.")
+                    rejection_reason = user_input
+                    prompt_additions += f"\nRejected description: {generated_description}\nReason for rejection: {rejection_reason}"
+                    print("Generating a new description...")
 
             # Update the file with the new YAML front matter
             yaml_stream = StringIO()
@@ -146,11 +156,7 @@ def process_file(file_path: Path) -> None:
                 file.write(updated_content)
 
             print(f"Updated {file_path} with new description.")
-        else:
-            print(f"Description already exists in {file_path}. Skipping.")
-    else:
-        print(f"No YAML front matter found in {file_path}. Skipping.")
-    print("\n")
+            print("\n")
 
 
 def main() -> None:
