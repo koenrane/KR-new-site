@@ -2,7 +2,6 @@
 publish: "true"
 hide_authors: "true"
 hide_metadata: "true"
-title: Posts
 no_dropcap: "true"
 permalink: posts
 title: "Posts & Sequences"
