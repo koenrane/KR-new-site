@@ -345,9 +345,14 @@ describe("validSmallCapsPhrase Regex Tests", () => {
     })
   })
 
-  describe("Should Not Match just two uppercase characters", () => {
+  describe("Should Not Match", () => {
     it.each(["I", "XY", "Wht A R E you T alKIng about"])("should not match: '%s'", (input) => {
       expect(validSmallCapsPhraseRegex.test(input)).toBe(false)
+    })
+
+    it.each(["C-A, POWER"])("should not match: '%s'", (input) => {
+      const startingRegexp = new RegExp(`^${validSmallCapsPhraseRegex.source}`)
+      expect(startingRegexp.test(input)).toBe(false)
     })
   })
 })
@@ -371,7 +376,7 @@ describe("allCapsContinuation Regex Tests", () => {
 const notAllCapsSentences = ["I AM HI", "YO YO YO how are you", "What ARE you TALKING about"]
 describe("REGEX_ALL_CAPS_PHRASE Regex Tests", () => {
   describe("Should Match", () => {
-    it.each(allCapsSentences.concat(["What are you TALKING ABOUT?!"]))(
+    it.each(allCapsSentences.concat(["O'BRIEN'S", "What are you TALKING ABOUT ? !"]))(
       "should match phrase: '%s'",
       (input) => {
         expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(true)

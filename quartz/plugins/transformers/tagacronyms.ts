@@ -33,7 +33,7 @@ export const REGEX_ABBREVIATION = new RegExp(
 )
 
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
-export const validSmallCapsPhrase = `(?=.*[${smallCapsChars}]{3,})`
+export const validSmallCapsPhrase = `(?=[${smallCapsChars}\\-'’\\s]*[${smallCapsChars}]{3,})`
 export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${smallCapsChars}]+)`
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
 export const REGEX_ALL_CAPS_PHRASE = new RegExp(
