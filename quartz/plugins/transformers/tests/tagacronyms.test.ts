@@ -25,6 +25,10 @@ describe("rehypeTagAcronyms", () => {
     [GPTJ, GPTJOut],
     ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">GPT-2-XL</abbr></p>'],
     ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">MIRI</abbr>-relevant math</p>'],
+    [
+      "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
+      '<p><abbr class="small-caps">I HATE YOU</abbr> but <abbr class="small-caps">YOU ARE SWEET-I LIKE YOU</abbr></p>',
+    ],
   ])("should wrap acronyms in <abbr> tags with class 'small-caps'", (input, expectedOutput) => {
     const processedHtml: string = testTagAcronymsHTML(input)
     expect(processedHtml).toBe(expectedOutput)

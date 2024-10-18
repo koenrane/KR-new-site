@@ -26,10 +26,14 @@ const REGEX_ACRONYM = new RegExp(
 
 const REGEX_ABBREVIATION = /(?<number>[\d,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/
 
-const REGEX_ALL_CAPS_PHRASE =
-  /\b(?=[A-Z\u00C0-\u00DC \-\d]*\b[A-Z\u00C0-\u00DC]{3,}\b)(?<phrase>[A-Z\u00C0-\u00DC \-\d]+)\b/g
+const REGEX_ALL_CAPS_PHRASE = new RegExp(
+  `\\b(?=.*\\b[${smallCapsChars.source}]{3,}\\b)(?<phrase>(?! )(?:[${smallCapsChars.source}]+[\\-'’\\d]* ?)+)(?<![ \\-'’])\\b`,
+)
 
-const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
+const combinedRegex = new RegExp(
+  `${REGEX_ALL_CAPS_PHRASE.source}|${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`,
+  "g",
+)
 
 // Whitelist the allowAcronyms to override the roman numeral check
 const ignoreAcronym = (node: Text, _index: number, parent: Parent): boolean => {
@@ -60,7 +64,13 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
-      // Use non-global regex to extract groups
+      const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
+      if (allCapsPhraseMatch && allCapsPhraseMatch.groups) {
+        const { phrase } = allCapsPhraseMatch.groups
+        return { before: "", replacedMatch: phrase, after: "" }
+      }
+      console.log(REGEX_ALL_CAPS_PHRASE)
+
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
       if (acronymMatch && acronymMatch.groups) {
         const { acronym, suffix } = acronymMatch.groups
@@ -73,15 +83,9 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         return { before: "", replacedMatch: number + abbreviation.toUpperCase(), after: "" }
       }
 
-      // // Check if it's an all-caps phrase match
-      // const phraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
-      // if (phraseMatch && phraseMatch.groups) {
-      //   const { phrase } = phraseMatch.groups
-      //   return { before: "", replacedMatch: phrase, after: "" }
-      // }
-
+      console.log(match)
       throw new Error(
-        `Regular expression logic is broken; one of the regexes should match for ${match[0]}`,
+        `Regular expression logic is broken; one of the regexes should match for ${match}`,
       )
     },
     (node, index, parent) => ignoreAcronym(node, index, parent),
