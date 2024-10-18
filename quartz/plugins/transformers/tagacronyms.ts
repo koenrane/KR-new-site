@@ -5,8 +5,9 @@ import { Node, Parent, Text } from "hast"
 
 import { visit } from "unist-util-visit"
 
-function isRomanNumeral(str: string): boolean {
-  const romanNumeralRegex = /^(M{0,4})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i
+export function isRomanNumeral(str: string): boolean {
+  // the ending lookbehind ensures that it's not empty
+  const romanNumeralRegex = /^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?<=.)$/
   return romanNumeralRegex.test(str)
 }
 
@@ -69,7 +70,6 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         const { phrase } = allCapsPhraseMatch.groups
         return { before: "", replacedMatch: phrase, after: "" }
       }
-      console.log(REGEX_ALL_CAPS_PHRASE)
 
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
       if (acronymMatch && acronymMatch.groups) {
@@ -83,7 +83,6 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         return { before: "", replacedMatch: number + abbreviation.toUpperCase(), after: "" }
       }
 
-      console.log(match)
       throw new Error(
         `Regular expression logic is broken; one of the regexes should match for ${match}`,
       )
