@@ -26,7 +26,9 @@ export const REGEX_ACRONYM = new RegExp(
   `(?<![${smallCapsChars}\\w])(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)(?![${smallCapsChars}\\w])`,
 )
 
-const REGEX_ABBREVIATION = /(?<number>[\d,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/
+export const REGEX_ABBREVIATION = new RegExp(
+  `(?<number>\\d+(\\.\\d+)?|\\.\\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\\b`,
+)
 
 const REGEX_ALL_CAPS_PHRASE = new RegExp(
   `\\b(?=.*\\b[${smallCapsChars}]{3,}\\b)(?<phrase>(?! )(?:[${smallCapsChars}]+[\\-'’\\d]* ?)+)(?<![ \\-'’])\\b`,
@@ -66,22 +68,23 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
+      // Lower-case outputs because we're using small-caps
       const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
       if (allCapsPhraseMatch && allCapsPhraseMatch.groups) {
         const { phrase } = allCapsPhraseMatch.groups
-        return { before: "", replacedMatch: phrase, after: "" }
+        return { before: "", replacedMatch: phrase.toLowerCase(), after: "" }
       }
 
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
       if (acronymMatch && acronymMatch.groups) {
         const { acronym, suffix } = acronymMatch.groups
-        return { before: "", replacedMatch: acronym, after: suffix || "" }
+        return { before: "", replacedMatch: acronym.toLowerCase(), after: suffix || "" }
       }
 
       const abbreviationMatch = REGEX_ABBREVIATION.exec(match[0])
       if (abbreviationMatch && abbreviationMatch.groups) {
         const { number, abbreviation } = abbreviationMatch.groups
-        return { before: "", replacedMatch: number + abbreviation.toUpperCase(), after: "" }
+        return { before: "", replacedMatch: number + abbreviation.toLowerCase(), after: "" }
       }
 
       throw new Error(

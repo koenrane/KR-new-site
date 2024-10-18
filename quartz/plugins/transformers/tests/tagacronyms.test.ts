@@ -5,18 +5,19 @@ import {
   isRomanNumeral,
   REGEX_ACRONYM,
   smallCapsSeparators,
+  REGEX_ABBREVIATION,
 } from "../tagacronyms"
 import seedrandom from "seedrandom"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
 const nasaIn = "<p>NASA launched a new satellite for NOAA to study GCRs.</p>"
 const nasaOut =
-  '<p><abbr class="small-caps">NASA</abbr> launched a new satellite for <abbr class="small-caps">NOAA</abbr> to study <abbr class="small-caps">GCR</abbr>s.</p>'
+  '<p><abbr class="small-caps">nasa</abbr> launched a new satellite for <abbr class="small-caps">noaa</abbr> to study <abbr class="small-caps">gcr</abbr>s.</p>'
 
 const GPTJ =
   "<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in GPT-J (6B)</p>"
 const GPTJOut =
-  '<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in <abbr class="small-caps">GPT-J</abbr> (<abbr class="small-caps">6B</abbr>)</p>'
+  '<p>Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in <abbr class="small-caps">gpt-j</abbr> (<abbr class="small-caps">6b</abbr>)</p>'
 
 function testTagAcronymsHTML(inputHTML: string) {
   return rehype()
@@ -30,11 +31,11 @@ describe("rehypeTagAcronyms", () => {
   it.each([
     [nasaIn, nasaOut],
     [GPTJ, GPTJOut],
-    ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">GPT-2-XL</abbr></p>'],
-    ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">MIRI</abbr>-relevant math</p>'],
+    ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">gpt-2-xl</abbr></p>'],
+    ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">miri</abbr>-relevant math</p>'],
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
-      '<p><abbr class="small-caps">I HATE YOU</abbr> but <abbr class="small-caps">YOU ARE SWEET-I LIKE YOU</abbr></p>',
+      '<p><abbr class="small-caps">i hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
     ],
   ])("should wrap acronyms in <abbr> tags with class 'small-caps'", (input, expectedOutput) => {
     const processedHtml: string = testTagAcronymsHTML(input)
@@ -49,7 +50,7 @@ describe("Abbreviations", () => {
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
-      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text.toUpperCase()}</abbr></p>`)
+      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text.toLowerCase()}</abbr></p>`)
     })
   }
 
@@ -77,7 +78,7 @@ describe("All-caps tests", () => {
   for (const text of textIn) {
     it(`should wrap ${text} in <abbr> tags`, () => {
       const processedHtml: string = testTagAcronymsHTML(`<p>${text}</p>`)
-      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text}</abbr></p>`)
+      expect(processedHtml).toBe(`<p><abbr class="small-caps">${text.toLowerCase()}</abbr></p>`)
     })
   }
 
@@ -292,4 +293,43 @@ describe("REGEX_ACRONYM tests", () => {
       expectedSuffix: "x",
     })
   })
+})
+
+describe("REGEX_ABBREVIATION tests", () => {
+  function testAbbreviation({
+    input,
+    expectedNumber,
+    expectedAbbreviation,
+  }: {
+    input: string
+    expectedNumber: string
+    expectedAbbreviation: string
+  }) {
+    const fullExpectedMatch = `${expectedNumber}${expectedAbbreviation}`
+    const match = REGEX_ABBREVIATION.exec(input)
+    expect(match).not.toBeNull()
+    if (match) {
+      expect(match[0]).toBe(fullExpectedMatch)
+      expect(match.groups?.number).toBe(expectedNumber)
+      expect(match.groups?.abbreviation).toBe(expectedAbbreviation)
+    }
+  }
+
+  it.each([
+    ["100km", "100", "km"],
+    ["3.3km", "3.3", "km"],
+    ["5TB", "5", "TB"],
+    ["-2.5MB", "2.5", "MB"],
+    ["300k", "300", "k"],
+    ["300W", "300", "W"],
+  ])("should match abbreviation: %s", (input, expectedNumber, expectedAbbreviation) => {
+    testAbbreviation({ input, expectedNumber, expectedAbbreviation })
+  })
+
+  it.each(["1000", "KM", "1000 km", "1000-km", "1000.km", "5N"])(
+    "should not match invalid abbreviations: %s",
+    (input) => {
+      expect(REGEX_ABBREVIATION.test(input)).toBe(false)
+    },
+  )
 })
