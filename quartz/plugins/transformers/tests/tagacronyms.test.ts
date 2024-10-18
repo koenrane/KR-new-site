@@ -1,5 +1,11 @@
 import { rehype } from "rehype"
-import { allowAcronyms, rehypeTagAcronyms, isRomanNumeral } from "../tagacronyms"
+import {
+  allowAcronyms,
+  rehypeTagAcronyms,
+  isRomanNumeral,
+  REGEX_ACRONYM,
+  smallCapsSeparators,
+} from "../tagacronyms"
 import seedrandom from "seedrandom"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
@@ -127,5 +133,163 @@ describe("Roman numeral tests", () => {
   const invalidInputs = ["ABC", "123", "MLKI", "IVXLCDM", "mxvi", "X I V"]
   it.each(invalidInputs)("should identify %s as an invalid Roman numeral", (input) => {
     expect(isRomanNumeral(input)).toBe(false)
+  })
+})
+
+describe("REGEX_ACRONYM tests", () => {
+  function testAcronym({
+    input,
+    expectedMatch,
+    expectedAcronym,
+    expectedSuffix = "",
+  }: {
+    input: string
+    expectedMatch: string
+    expectedAcronym: string
+    expectedSuffix?: string
+  }) {
+    const match = REGEX_ACRONYM.exec(input)
+    expect(match).not.toBeNull()
+    if (match) {
+      expect(match[0]).toBe(expectedMatch)
+      expect(match.groups?.acronym).toBe(expectedAcronym)
+      expect(match.groups?.suffix || "").toBe(expectedSuffix)
+    }
+  }
+
+  const commonAcronyms = [
+    "NASA",
+    "FBI",
+    "CIA",
+    "NATO",
+    "UNESCO",
+    "WHO",
+    "UNICEF",
+    "OPEC",
+    "NAFTA",
+    "ASAP",
+    "IAEA",
+    "INTERPOL",
+    "UNHCR",
+    "LGBTQ",
+    "POTUS",
+  ]
+
+  it.each(commonAcronyms)("should match common acronym: %s", (acronym) => {
+    testAcronym({ input: acronym, expectedMatch: acronym, expectedAcronym: acronym })
+  })
+
+  it.each(commonAcronyms)("should not match when contiguous with lowercase: %sa", (acronym) => {
+    expect(REGEX_ACRONYM.test(acronym + "a")).toBe(false)
+  })
+
+  it.each(commonAcronyms)("should match when ending with 's': %ss", (acronym) => {
+    testAcronym({
+      input: acronym + "s",
+      expectedMatch: acronym + "s",
+      expectedAcronym: acronym,
+      expectedSuffix: "s",
+    })
+  })
+
+  it.each(commonAcronyms)("should match when ending with 'x': %sx", (acronym) => {
+    testAcronym({
+      input: acronym + "x",
+      expectedMatch: acronym + "x",
+      expectedAcronym: acronym,
+      expectedSuffix: "x",
+    })
+  })
+
+  it.each(smallCapsSeparators.split(""))("should match acronyms separated by '%s'", (separator) => {
+    testAcronym({
+      input: `FBI${separator}CIA`,
+      expectedMatch: `FBI${separator}CIA`,
+      expectedAcronym: `FBI${separator}CIA`,
+    })
+  })
+
+  const foreignAcronyms = ["CAFÉ", "RÉSUMÉ", "ÜBER", "FAÇADE"]
+  it.each(foreignAcronyms)("should match foreign acronyms with accents: %s", (acronym) => {
+    console.log(REGEX_ACRONYM.source)
+    testAcronym({ input: acronym, expectedMatch: acronym, expectedAcronym: acronym })
+  })
+
+  it("Should match when sandwiched by accented uppercase characters", () => {
+    testAcronym({ input: " ÉÉÉ ", expectedMatch: "ÉÉÉ", expectedAcronym: "ÉÉÉ" })
+  })
+
+  const punctuationCases = [
+    ["NASA.", "NASA"],
+    ["FBI,", "FBI"],
+    ["CIA!", "CIA"],
+    ["NATO?", "NATO"],
+    ["UNESCO:", "UNESCO"],
+    ["WHO;", "WHO"],
+    ["UNICEF'", "UNICEF"],
+    ['OPEC"', "OPEC"],
+  ]
+  it.each(punctuationCases)(
+    "should match acronym followed by punctuation: %s",
+    (input, expected) => {
+      testAcronym({ input, expectedMatch: expected, expectedAcronym: expected, expectedSuffix: "" })
+    },
+  )
+
+  const invalidCases = [
+    "NASa",
+    "fBI",
+    "CIa",
+    "NaTO",
+    "UNESCo",
+    "WHo",
+    "UNICEf",
+    "OPEc",
+    "NAFTAing",
+    "ASAPly",
+    "IAEAish",
+    "INTERPOLesque",
+  ]
+  it.each(invalidCases)("should not match invalid cases: %s", (case_) => {
+    expect(REGEX_ACRONYM.test(case_)).toBe(false)
+  })
+
+  it.each(smallCapsSeparators.split(""))("should match acronyms separated by '%s'", (separator) => {
+    testAcronym({
+      input: `FBI${separator}CIA`,
+      expectedMatch: `FBI${separator}CIA`,
+      expectedAcronym: `FBI${separator}CIA`,
+    })
+  })
+
+  it("should correctly capture multiple acronyms in a string", () => {
+    const input = "The FBIs and CIAs work with NATOs"
+    const globalRegex = new RegExp(REGEX_ACRONYM.source, "g")
+    const matches = Array.from(input.matchAll(globalRegex))
+    expect(matches).toHaveLength(3)
+    expect(matches[0].groups?.acronym).toBe("FBI")
+    expect(matches[0].groups?.suffix).toBe("s")
+    expect(matches[1].groups?.acronym).toBe("CIA")
+    expect(matches[1].groups?.suffix).toBe("s")
+    expect(matches[2].groups?.acronym).toBe("NATO")
+    expect(matches[2].groups?.suffix).toBe("s")
+  })
+
+  it("should correctly capture acronym with 's' suffix and punctuation", () => {
+    testAcronym({
+      input: "NASAs.",
+      expectedMatch: "NASAs",
+      expectedAcronym: "NASA",
+      expectedSuffix: "s",
+    })
+  })
+
+  it("should correctly capture acronym with 'x' suffix and punctuation", () => {
+    testAcronym({
+      input: "FBIx,",
+      expectedMatch: "FBIx",
+      expectedAcronym: "FBI",
+      expectedSuffix: "x",
+    })
   })
 })

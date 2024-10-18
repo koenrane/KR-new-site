@@ -19,16 +19,17 @@ const escapedAllowAcronyms = allowAcronyms
   .map((acronym) => acronym.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
   .join("|")
 
-// Properly construct the regex using escapedAllowAcronyms without the 'g' flag
-const smallCapsChars = new RegExp(`A-Z\\u00C0-\\u00DC`, "g")
-const REGEX_ACRONYM = new RegExp(
-  `(?:\\b|^)(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars.source}]{3,}(?:[-'’]?[${smallCapsChars.source}\\d]+)*)(?<suffix>[sx]?)\\b`,
+export const smallCapsSeparators = `-'’`
+const smallCapsChars = `A-Z\\u00C0-\\u00DC`
+// Lookbehind and lookahead required to allow accented uppercase characters to count as "word boundaries"; \b only matches against \w
+export const REGEX_ACRONYM = new RegExp(
+  `(?<![${smallCapsChars}\\w])(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)(?![${smallCapsChars}\\w])`,
 )
 
 const REGEX_ABBREVIATION = /(?<number>[\d,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/
 
 const REGEX_ALL_CAPS_PHRASE = new RegExp(
-  `\\b(?=.*\\b[${smallCapsChars.source}]{3,}\\b)(?<phrase>(?! )(?:[${smallCapsChars.source}]+[\\-'’\\d]* ?)+)(?<![ \\-'’])\\b`,
+  `\\b(?=.*\\b[${smallCapsChars}]{3,}\\b)(?<phrase>(?! )(?:[${smallCapsChars}]+[\\-'’\\d]* ?)+)(?<![ \\-'’])\\b`,
 )
 
 const combinedRegex = new RegExp(
