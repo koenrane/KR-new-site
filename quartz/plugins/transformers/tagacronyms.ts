@@ -19,11 +19,15 @@ const escapedAllowAcronyms = allowAcronyms
   .join("|")
 
 // Properly construct the regex using escapedAllowAcronyms without the 'g' flag
+const smallCapsChars = new RegExp(`A-Z\\u00C0-\\u00DC`, "g")
 const REGEX_ACRONYM = new RegExp(
-  `(?:\\b|^)(?<acronym>${escapedAllowAcronyms}|[A-Z\\u00C0-\\u00DC]{3,}(?:[-'’]?[\\dA-Z\\u00C0-\\u00DC]+)*)(?<suffix>[sx]?)\\b`,
+  `(?:\\b|^)(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars.source}]{3,}(?:[-'’]?[${smallCapsChars.source}\\d]+)*)(?<suffix>[sx]?)\\b`,
 )
 
 const REGEX_ABBREVIATION = /(?<number>[\d,]*\.?\d+)(?<abbreviation>[A-Zk]{1,})/
+
+const REGEX_ALL_CAPS_PHRASE =
+  /\b(?=[A-Z\u00C0-\u00DC \-\d]*\b[A-Z\u00C0-\u00DC]{3,}\b)(?<phrase>[A-Z\u00C0-\u00DC \-\d]+)\b/g
 
 const combinedRegex = new RegExp(`${REGEX_ACRONYM.source}|${REGEX_ABBREVIATION.source}`, "g")
 
@@ -69,7 +73,16 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         return { before: "", replacedMatch: number + abbreviation.toUpperCase(), after: "" }
       }
 
-      throw new Error("Regular expression logic is broken; one of the regexes should match")
+      // // Check if it's an all-caps phrase match
+      // const phraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
+      // if (phraseMatch && phraseMatch.groups) {
+      //   const { phrase } = phraseMatch.groups
+      //   return { before: "", replacedMatch: phrase, after: "" }
+      // }
+
+      throw new Error(
+        `Regular expression logic is broken; one of the regexes should match for ${match[0]}`,
+      )
     },
     (node, index, parent) => ignoreAcronym(node, index, parent),
     "abbr.small-caps",
