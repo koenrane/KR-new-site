@@ -1000,3 +1000,13 @@ article[data-use-dropcap="true"] {
 time {
   font-variant-numeric: lining-nums;
 }
+
+// Bolding safari text
+@supports (-webkit-appearance: none) {
+  b,
+  strong,
+  .callout-title-inner {
+    text-shadow: inherit 0.1px 0.1px 0;
+    font-weight: 400; // Normal font weight
+  }
+}
