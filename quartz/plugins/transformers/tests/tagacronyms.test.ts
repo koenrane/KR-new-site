@@ -6,6 +6,9 @@ import {
   REGEX_ACRONYM,
   smallCapsSeparators,
   REGEX_ABBREVIATION,
+  validSmallCapsPhrase,
+  allCapsContinuation,
+  REGEX_ALL_CAPS_PHRASE,
 } from "../tagacronyms"
 import seedrandom from "seedrandom"
 
@@ -212,7 +215,6 @@ describe("REGEX_ACRONYM tests", () => {
 
   const foreignAcronyms = ["CAFÉ", "RÉSUMÉ", "ÜBER", "FAÇADE"]
   it.each(foreignAcronyms)("should match foreign acronyms with accents: %s", (acronym) => {
-    console.log(REGEX_ACRONYM.source)
     testAcronym({ input: acronym, expectedMatch: acronym, expectedAcronym: acronym })
   })
 
@@ -332,4 +334,54 @@ describe("REGEX_ABBREVIATION tests", () => {
       expect(REGEX_ABBREVIATION.test(input)).toBe(false)
     },
   )
+})
+
+const allCapsSentences = ["I LOVE SHREK", "WHERE DID YOU GO", "X-CAFÉ", "THE GPT-2 RESULTS"]
+describe("validSmallCapsPhrase Regex Tests", () => {
+  const validSmallCapsPhraseRegex = new RegExp(validSmallCapsPhrase)
+  describe("Should Match", () => {
+    it.each(allCapsSentences)("should match phrase: '%s'", (input) => {
+      expect(validSmallCapsPhraseRegex.test(input)).toBe(true)
+    })
+  })
+
+  describe("Should Not Match just two uppercase characters", () => {
+    it.each(["I", "XY", "Wht A R E you T alKIng about"])("should not match: '%s'", (input) => {
+      expect(validSmallCapsPhraseRegex.test(input)).toBe(false)
+    })
+  })
+})
+
+describe("allCapsContinuation Regex Tests", () => {
+  const allCapsContinuationRegex = new RegExp(allCapsContinuation)
+
+  describe("Should Match", () => {
+    const dashPhrases = ["-HI", " HI", "- - - -HI"]
+
+    it.each(dashPhrases)("should match continuation: '%s'", (input) => {
+      expect(allCapsContinuationRegex.test(input)).toBe(true)
+    })
+
+    it("should not match a single word", () => {
+      expect(allCapsContinuationRegex.test("HI")).toBe(false)
+    })
+  })
+})
+
+const notAllCapsSentences = ["I AM HI", "YO YO YO how are you", "What ARE you TALKING about"]
+describe("REGEX_ALL_CAPS_PHRASE Regex Tests", () => {
+  describe("Should Match", () => {
+    it.each(allCapsSentences.concat(["What are you TALKING ABOUT?!"]))(
+      "should match phrase: '%s'",
+      (input) => {
+        expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(true)
+      },
+    )
+  })
+
+  describe("Should Not Match", () => {
+    it.each(notAllCapsSentences)("should not match phrase: '%s'", (input) => {
+      expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(false)
+    })
+  })
 })

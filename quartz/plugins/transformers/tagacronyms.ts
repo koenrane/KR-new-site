@@ -21,17 +21,23 @@ const escapedAllowAcronyms = allowAcronyms
 
 export const smallCapsSeparators = `-'’`
 const smallCapsChars = `A-Z\\u00C0-\\u00DC`
+const beforeWordBoundary = `(?<![${smallCapsChars}\\w])`
+const afterWordBoundary = `(?![${smallCapsChars}\\w])`
 // Lookbehind and lookahead required to allow accented uppercase characters to count as "word boundaries"; \b only matches against \w
 export const REGEX_ACRONYM = new RegExp(
-  `(?<![${smallCapsChars}\\w])(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)(?![${smallCapsChars}\\w])`,
+  `${beforeWordBoundary}(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)${afterWordBoundary}`,
 )
 
 export const REGEX_ABBREVIATION = new RegExp(
   `(?<number>\\d+(\\.\\d+)?|\\.\\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\\b`,
 )
 
-const REGEX_ALL_CAPS_PHRASE = new RegExp(
-  `\\b(?=.*\\b[${smallCapsChars}]{3,}\\b)(?<phrase>(?! )(?:[${smallCapsChars}]+[\\-'’\\d]* ?)+)(?<![ \\-'’])\\b`,
+// Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
+export const validSmallCapsPhrase = `(?=.*[${smallCapsChars}]{3,})`
+export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${smallCapsChars}]+)`
+// Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
+export const REGEX_ALL_CAPS_PHRASE = new RegExp(
+  `${beforeWordBoundary}${validSmallCapsPhrase}(?<phrase>[${smallCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
 )
 
 const combinedRegex = new RegExp(
