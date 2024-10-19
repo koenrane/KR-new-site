@@ -50,8 +50,6 @@ I introduce a method for eliciting latent behaviors in language models by learni
 > 
 > I apply the method to several alignment-relevant toy examples, and find that the method consistently learns vectors/adapters which encode **coherent and generalizable high-level behaviors**. Compared to other interpretability methods, I believe my approach is particularly well-suited for robustly understanding the **out-of-distribution** behavior of language models in a **sample-efficient** manner.
 
-Below are some of my key results:
-
 ## Key results
 
 > [!success] Red-teaming

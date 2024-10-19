@@ -27,6 +27,10 @@ If I make a commitment to you, I keep it, and I'm not particularly afraid of com
 
 On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a partner who was coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
 
+I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
+<img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
+
+
 [^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum - I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
 
 ## Professional life
@@ -56,9 +60,6 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 </figure>
 
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well).  I'm also a vegan who cares about animals. 🪿🐟
-
-I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
-<img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
 
 # What I like doing
 
