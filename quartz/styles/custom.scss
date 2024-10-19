@@ -951,6 +951,11 @@ article[data-use-dropcap="true"] {
   stroke: var(--lightgray) !important;
 }
 
+.flowchart p {
+  // NOTE hacky, unlike commit 22939c1 we render mermaid on the server. so some of the settings are different and we have to compensate.
+  font-size: 16px !important;
+}
+
 .manifold-embed {
   position: relative;
   width: 100%;
