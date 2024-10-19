@@ -53,7 +53,7 @@ describe("processSmallCaps", () => {
         type: "element",
         tagName: "abbr",
         properties: { className: ["small-caps"] },
-        children: [{ type: "text", value: "SMALLCAPS" }],
+        children: [{ type: "text", value: "smallcaps" }],
       },
     ])
   })
@@ -71,14 +71,14 @@ describe("processSmallCaps", () => {
         type: "element",
         tagName: "abbr",
         properties: { className: ["small-caps"] },
-        children: [{ type: "text", value: "SMALLCAPS-A" }],
+        children: [{ type: "text", value: "smallcaps-a" }],
       },
       { type: "text", value: " normal " },
       {
         type: "element",
         tagName: "abbr",
         properties: { className: ["small-caps"] },
-        children: [{ type: "text", value: "SMALLCAPS-B" }],
+        children: [{ type: "text", value: "smallcaps-b" }],
       },
     ])
   })
@@ -107,7 +107,7 @@ describe("processSmallCaps", () => {
         type: "element",
         tagName: "abbr",
         properties: { className: ["small-caps"] },
-        children: [{ type: "text", value: "CDF" }],
+        children: [{ type: "text", value: "cdf" }],
       },
       { type: "text", value: " and Statistical Functionals" },
     ])
@@ -207,7 +207,7 @@ describe("processHtmlAst", () => {
       type: "element",
       tagName: "abbr",
       properties: { className: ["small-caps"] },
-      children: [{ type: "text", value: "SMALLCAPS" }],
+      children: [{ type: "text", value: "smallcaps" }],
     })
   })
 })
