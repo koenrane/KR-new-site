@@ -225,7 +225,7 @@ a {
   }
   // Don't have anchor links with box behind them
   &[role="anchor"] {
-    baggckground-color: transparent;
+    background-color: transparent;
   }
 
   &[id^="user-content-fnref-"] {
@@ -928,19 +928,18 @@ article[data-use-dropcap="true"] {
 }
 
 // Edge labels
-.edgeLabel > .label > foreignObject > div {
-  background-color: var(--lightergray) !important;
-  padding-left: $baseMargin !important;
-  padding-right: $baseMargin !important;
-  padding-top: $baseMargin !important;
-  padding-bottom: $baseMargin !important;
-  opacity: 1 !important;
-
-  border-radius: 5px !important;
-
-  &:has(.edgeLabel:empty) {
-    display: none !important;
+.edgeLabel > .label > foreignObject {
+  & > div {
     background-color: transparent !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
+    &:has(.edgeLabel:empty) {
+      display: none !important;
+      background-color: transparent !important;
+    }
   }
 }
 
@@ -1006,7 +1005,7 @@ time {
   b,
   strong,
   .callout-title-inner {
-    text-shadow: inherit 0.1px 0.1px 0;
+    text-shadow: var(--dark) 0.1px 0.1px 0;
     font-weight: 400; // Normal font weight
   }
 }
