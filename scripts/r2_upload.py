@@ -30,11 +30,49 @@ def get_r2_key(filepath: Path) -> str:
     return re.sub(r"^/", "", key)
 
 
+def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
+    """
+    Check if a file exists in R2 storage.
+
+    Args:
+        upload_target (str): The R2 target path to check.
+        verbose (bool): Whether to print verbose output.
+
+    Returns:
+        bool: True if the file exists, False otherwise.
+
+    Raises:
+        RuntimeError: If the check operation fails.
+    """
+    try:
+        # Extract the bucket and key from the upload_target
+        _, _, path = upload_target.partition(":")
+        bucket, _, key = path.partition("/")
+
+        result = subprocess.run(
+            ["rclone", "ls", f"r2:{bucket}"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        if result.returncode == 0 and key in result.stdout:
+            if verbose:
+                print(f"File found in R2: {upload_target}")
+            return True
+        else:
+            if verbose:
+                print(f"No existing file found in R2: {upload_target}")
+            return False
+    except Exception as e:
+        raise RuntimeError(f"Failed to check existence of file in R2: {e}") from e
+
+
 def upload_and_move(
     file_path: Path,
     verbose: bool = False,
     replacement_dir: Optional[Path] = None,
     move_to_dir: Optional[Path] = None,
+    overwrite_existing: bool = False,
 ) -> None:
     """
     Upload a file to R2 storage and update references.
@@ -42,11 +80,13 @@ def upload_and_move(
     Args:
         file_path (Path): The file to upload.
         verbose (bool): Whether to print verbose output.
+        replacement_dir (Path): Directory to search for files to update references.
         move_to_dir (Path): The local directory to move the file to after upload.
+        overwrite_existing (bool): Whether to overwrite existing files in R2.
 
     Raises:
         ValueError: If the file path does not contain 'quartz/'.
-        RuntimeError: If the rclone command fails.
+        RuntimeError: If the rclone command fails or if the file already exists and overwrite is not allowed.
         FileNotFoundError: If the original file cannot be moved.
     """
     if move_to_dir is None:
@@ -54,15 +94,28 @@ def upload_and_move(
 
     if "quartz/" not in str(file_path):
         raise ValueError("Error: File path does not contain 'quartz/'.")
+
     if not file_path.is_file():
         raise FileNotFoundError(f"Error: File not found: {file_path}")
+
     relative_path = script_utils.path_relative_to_quartz(file_path)
     r2_key: str = get_r2_key(relative_path)
+
+    upload_target: str = f"r2:{R2_BUCKET_NAME}/{r2_key}"
+
+    # Check if the file already exists in R2
+    file_exists = check_exists_on_r2(upload_target, verbose)
+    if file_exists:
+        if not overwrite_existing:
+            raise RuntimeError(
+                f"Error: File '{r2_key}' already exists in R2. Use '--overwrite-existing' to overwrite."
+            )
+        elif verbose:
+            print(f"Overwriting existing file in R2: {r2_key}")
 
     if verbose:
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
 
-    upload_target: str = f"r2:{R2_BUCKET_NAME}/{r2_key}"
     try:
         subprocess.run(["rclone", "copyto", str(file_path), upload_target], check=True)
     except subprocess.CalledProcessError as e:
@@ -136,6 +189,11 @@ def main() -> None:
         default=(".mp4", ".svg", ".avif"),
         help="File types to upload when using --all (default: .mp4 .svg .avif)",
     )
+    parser.add_argument(
+        "--overwrite-existing",
+        action="store_true",
+        help="Overwrite existing files in R2 if they already exist",
+    )
     parser.add_argument("file", type=Path, nargs="?", help="File to upload")
     args = parser.parse_args()
 
@@ -156,6 +214,7 @@ def main() -> None:
             verbose=args.verbose,
             replacement_dir=args.replacement_dir,
             move_to_dir=args.move_to_dir,
+            overwrite_existing=args.overwrite_existing,  # Pass the new flag
         )
 
 

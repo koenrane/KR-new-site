@@ -134,8 +134,14 @@ def test_upload_to_r2_success(mock_git_root: Path, r2_cleanup: list[str]):
     with patch("subprocess.run") as mock_run, patch("shutil.move"):
         r2_upload.upload_and_move(test_file)
 
-    mock_run.assert_called_once()
-    assert mock_run.call_args[0][0][2] == str(test_file)
+    # Check that subprocess.run was called twice
+    assert mock_run.call_count == 2
+    # Check the first call (check_exists_on_r2)
+    assert mock_run.call_args_list[0][0][0][:2] == ["rclone", "ls"]
+    # Check the second call (upload)
+    assert mock_run.call_args_list[1][0][0][:2] == ["rclone", "copyto"]
+    assert mock_run.call_args_list[1][0][0][2] == str(test_file)
+
     r2_cleanup.append("static/test.jpg")
 
 
@@ -409,3 +415,80 @@ def test_strict_static_path_matching(
     assert (
         "![image](a/static/images/test.jpg)" in updated_content
     ), "Incorrect case was unexpectedly modified"
+
+
+def test_check_exists_on_r2_file_exists():
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stdout="file.txt\n")
+        result = r2_upload.check_exists_on_r2("r2:bucket/file.txt")
+        assert result is True
+        mock_run.assert_called_once_with(
+            ["rclone", "ls", "r2:bucket"], capture_output=True, text=True, check=False
+        )
+
+
+def test_check_exists_on_r2_file_not_exists():
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stdout="")
+        result = r2_upload.check_exists_on_r2("r2:bucket/nonexistent.txt")
+        assert result is False
+        mock_run.assert_called_once_with(
+            ["rclone", "ls", "r2:bucket"], capture_output=True, text=True, check=False
+        )
+
+
+def test_check_exists_on_r2_verbose_output(capsys):
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stdout="file.txt\n")
+        r2_upload.check_exists_on_r2("r2:bucket/file.txt", verbose=True)
+        captured = capsys.readouterr()
+        assert "File found in R2: r2:bucket/file.txt" in captured.out
+
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stdout="")
+        r2_upload.check_exists_on_r2("r2:bucket/nonexistent.txt", verbose=True)
+        captured = capsys.readouterr()
+        assert "No existing file found in R2: r2:bucket/nonexistent.txt" in captured.out
+
+
+def test_check_exists_on_r2_exception():
+    with patch("subprocess.run", side_effect=Exception("Test error")):
+        with pytest.raises(RuntimeError) as excinfo:
+            r2_upload.check_exists_on_r2("r2:bucket/file.txt")
+        assert "Failed to check existence of file in R2: Test error" in str(
+            excinfo.value
+        )
+
+
+def test_upload_and_move_with_existing_file(mock_git_root: Path):
+    test_file = mock_git_root / "quartz" / "static" / "test_existing.jpg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with patch("scripts.r2_upload.check_exists_on_r2", return_value=True), patch(
+        "subprocess.run"
+    ), patch("shutil.move"):
+
+        # Test with overwrite_existing=False
+        with pytest.raises(RuntimeError) as excinfo:
+            r2_upload.upload_and_move(test_file, overwrite_existing=False)
+        assert "already exists in R2. Use '--overwrite-existing' to overwrite" in str(
+            excinfo.value
+        )
+
+        # Test with overwrite_existing=True
+        r2_upload.upload_and_move(test_file, overwrite_existing=True, verbose=True)
+        # Add assertions here to check if the file was uploaded and moved correctly
+
+
+def test_upload_and_move_with_non_existing_file(mock_git_root: Path):
+    test_file = mock_git_root / "quartz" / "static" / "test_non_existing.jpg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with patch("scripts.r2_upload.check_exists_on_r2", return_value=False), patch(
+        "subprocess.run"
+    ), patch("shutil.move"):
+
+        r2_upload.upload_and_move(test_file, verbose=True)
+        # Add assertions here to check if the file was uploaded and moved correctly
