@@ -8,7 +8,7 @@ title: "Posts & Sequences"
 aliases:
   - Posts
 hideSubscriptionLinks: false
-card_image: https://assets.turntrout.com/static/images/posts/test_library.avif
+card_image: https://assets.turntrout.com/static/images/card_images/test_library.png
 description: "A selection of the best posts which I've written."
 ---
 
