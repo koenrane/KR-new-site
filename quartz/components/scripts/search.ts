@@ -570,7 +570,7 @@ export function setupSearch() {
       await displayResults(finalResults)
     }
 
-    const debouncedOnType = debounce(onType, 50, true)
+    const debouncedOnType = debounce(onType, 250, false)
 
     document.addEventListener("keydown", shortcutHandler)
     searchIcon?.addEventListener("click", () => showSearch("basic"))
