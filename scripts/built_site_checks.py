@@ -176,6 +176,17 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
+def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
+    """Check for unrendered subtitle lines."""
+    unrendered_subtitles = []
+    paragraphs = soup.find_all("p")
+    for p in paragraphs:
+        text = p.get_text().strip()
+        if text.startswith("sub:") and "subtitle" not in p.get("class", []):
+            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
+    return unrendered_subtitles
+
+
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
@@ -187,6 +198,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
+        "unrendered_subtitles": check_unrendered_subtitles(soup),
     }
     if "Stress-test-of-site-features" in file_path.name:
         issues["missing_favicon"] = check_favicons_missing(soup)

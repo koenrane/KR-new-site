@@ -140,6 +140,8 @@ def test_check_file_for_issues(tmp_path):
         <img src="https://example.com/image.png" alt="External Image">
         <blockquote>This is a blockquote</blockquote>
         <blockquote>This is a problematic blockquote ></blockquote>
+        <p>sub: Unrendered subtitle</p>
+        <p class="subtitle">Rendered subtitle</p>
     </body>
     </html>
     """
@@ -150,6 +152,7 @@ def test_check_file_for_issues(tmp_path):
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
     assert issues["missing_media_files"] == ["missing-image.jpg"]
     assert issues["trailing_blockquotes"] == ["This is a problematic blockquote >"]
+    assert issues["unrendered_subtitles"] == ["sub: Unrendered subtitle"]
 
 
 complicated_blockquote = """
@@ -251,3 +254,22 @@ def test_check_favicons_missing(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_favicons_missing(soup)
     assert result == expected
+
+
+def test_check_unrendered_subtitles():
+    html = """
+    <html>
+    <body>
+        <p>Normal paragraph</p>
+        <p>sub: This should be a subtitle</p>
+        <p class="subtitle">This is a properly rendered subtitle</p>
+        <p>sub: Another unrendered subtitle</p>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_subtitles(soup)
+    assert result == [
+        "sub: This should be a subtitle",
+        "sub: Another unrendered subtitle",
+    ]
