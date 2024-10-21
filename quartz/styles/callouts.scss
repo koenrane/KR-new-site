@@ -204,6 +204,7 @@
 
   .callout-content {
     margin-bottom: calc($baseMargin);
+    margin-top: calc($baseMargin);
   }
 
   & > .callout-content > *:last-child {
