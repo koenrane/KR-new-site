@@ -40,6 +40,10 @@ In the first half of 2022, Quintin Pope and I came up with [The shard theory of 
 
 _Fall 2019 through June 2022._
 
+- Intuition that it was formalizable
+- Summary of the research process
+- 
+
 ### [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
 
 ### [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
@@ -48,7 +52,7 @@ _Fall 2019 through June 2022._
 
 _Spring 2018 through June 2022._
 
-Ah, impact measures - my first love 💕 The hope was:
+Impact measures - my first (research) love. 💕 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
 2. It seemed easier to flag down obviously "big deal" actions and penalize those (like making a mess);
 3. By getting the AI to optimize a "good enough" description of what we want, but also not taking impactful actions -- we could still get useful work out of the AI.
@@ -142,4 +146,10 @@ Figure: AUP does a great job. The policy avoids the green stuff and hits the red
 ### Reflections on this work
 Looking back from October 2024, I feel fondness for this line of work. The feeling of making a difference - thrilling. Discovering new ideas - thrilling. Making light-hearted posts & steering my own research as a  PhD student - lovely.
 
-Considering the technical contributions themselves... AI has taken a different path than I imagined in 2018-2021. I thought the path to AGI would be longer, entailing real-world robotics and deep RL. Looking back, the suggested use cases seem quaint. Worrying about a robot breaking vases in order to maximally clean your room? If robots are powered by LLMs or similarly generalizing technology, 
+Considering the technical contributions themselves... AI has taken a different path than I imagined in 2018-2021. I thought the path to AGI would be longer, entailing real-world robotics and deep RL. Reality turned out to be much friendlier and softer.
+
+Looking back, the suggested use cases seem quaint. Worrying about a robot breaking vases in order to clean your your floor as quickly as possible? If robots are powered by LLMs or similarly generalizing technology, it seems hard to imagine that they'd be _aware_ that you wanted the room clean but _interpret the request too literally and then break vases in order to clean it as quickly as possible_. That said, it seems quite imaginable that such a robot would initially "too dumb" to do the job properly - it would accidentally break vases by mis-predicting the impact of its actions. 
+
+The low-impact work has not yet mattered for AGI, but perhaps one day AUP will power LLM-driven agent systems. I'd like my agentic systems to check in with me before taking highly impactful actions, and I think AUP + LM value heads might be great for [chiseling that behavior](/reward-is-not-the-optimization-target) into the AI! 
+
+Or maybe you just ask the LLM agent to check in with you, and it does, and everything is fine. 🤷‍♂️
