@@ -180,8 +180,8 @@ def main() -> None:
         "-v", "--verbose", action="store_true", help="Enable verbose output"
     )
     parser.add_argument(
-        "-u",
-        "--upload_from_directory",
+        "-a",
+        "--all-asset-dir",  # TODO clarify name
         type=Path,
         default=None,
         help="Upload all files of specified types from the given directory",

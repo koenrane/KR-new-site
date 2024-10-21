@@ -297,7 +297,7 @@ def test_main_upload_all_custom_filetypes(
 
     arg_list = [
         "r2_upload.py",
-        "--upload_from_directory",
+        "--upload-from-directory",
         str(static_dir),
         "--filetypes",
         ".png",
