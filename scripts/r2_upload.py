@@ -150,7 +150,11 @@ def upload_and_move(
             print(f"Moving original file: {file_path}")
         # Create the directory structure in the target location
         git_root = script_utils.get_git_root()
-        relative_path = file_path.relative_to(str(git_root))
+        if git_root is None:
+            raise RuntimeError("Failed to get git root")
+
+        # absolute() ensures that there is overlap between the two paths
+        relative_path = file_path.absolute().relative_to(git_root)
         target_path = move_to_dir / relative_path
         target_path.parent.mkdir(parents=True, exist_ok=True)
         shutil.move(str(file_path), str(target_path))
@@ -176,11 +180,11 @@ def main() -> None:
         "-v", "--verbose", action="store_true", help="Enable verbose output"
     )
     parser.add_argument(
-        "-a",
-        "--all-asset-dir",  # TODO clarify name
+        "-u",
+        "--upload_from_directory",
         type=Path,
         default=None,
-        help="Upload all files of specified types to the given asset directory",
+        help="Upload all files of specified types from the given directory",
     )
     parser.add_argument(
         "-t",
@@ -198,15 +202,15 @@ def main() -> None:
     args = parser.parse_args()
 
     files_to_upload: Sequence[Path] = []
-    if args.all_asset_dir:
+    if args.upload_from_directory:
         files_to_upload = script_utils.get_files(
-            args.all_asset_dir,
+            args.upload_from_directory,
             args.filetypes,
         )
     elif args.file:
         files_to_upload = [args.file]
     else:
-        parser.error("Either --all-asset-dir or a file must be specified")
+        parser.error("Either --upload_from_directory or a file must be specified")
 
     for file_to_upload in files_to_upload:
         upload_and_move(
