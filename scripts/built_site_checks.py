@@ -11,6 +11,9 @@ import scripts.compress as compress
 import scripts.utils as script_utils
 
 
+IssuesDict = Dict[str, List[str] | bool]
+
+
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
     """Check for localhost links in the HTML."""
     localhost_links = []
@@ -22,6 +25,11 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
         ):
             localhost_links.append(href)
     return localhost_links
+
+
+def check_favicons_missing(soup: BeautifulSoup) -> bool:
+    """Check if favicons are missing."""
+    return soup.find("link", rel="icon", class_="favicon") is None
 
 
 def check_invalid_anchors(
@@ -168,10 +176,10 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str]]:
+def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
-    return {
+    issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
@@ -180,20 +188,26 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
     }
+    if "Stress-test-of-site-features" in file_path.name:
+        issues["missing_favicon"] = check_favicons_missing(soup)
+    return issues
 
 
 def print_issues(
     file_path: Path,
-    issues: Dict[str, List[str]],
+    issues: IssuesDict,
 ) -> None:
     """Print issues found in a file."""
     if any(lst for lst in issues.values()):
         print(f"Issues found in {file_path}:")
         for issue, lst in issues.items():
             if lst:
-                print(f"  {issue}:")
-                for item in lst:
-                    print(f"    - {item}")
+                if isinstance(lst, list):
+                    print(f"  {issue}:")
+                    for item in lst:
+                        print(f"    - {item}")
+                elif isinstance(lst, bool):
+                    print(f"  {issue}: {lst}")
 
         print()  # Add a blank line between files with issues
 

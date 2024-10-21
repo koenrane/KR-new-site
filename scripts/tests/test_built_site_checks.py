@@ -234,3 +234,20 @@ def test_check_asset_references_ignore_external(temp_site_root):
     result = check_asset_references(soup, file_path, temp_site_root)
 
     assert result == []
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        (
+            '<html><head><link rel="icon" class="favicon" href="favicon.ico"></head></html>',
+            False,
+        ),
+        ('<html><head><link rel="stylesheet" href="style.css"></head></html>', True),
+        ("<html><head></head></html>", True),
+    ],
+)
+def test_check_favicons_missing(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_favicons_missing(soup)
+    assert result == expected
