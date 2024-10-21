@@ -1,7 +1,9 @@
 import pytest
 from bs4 import BeautifulSoup
 from pathlib import Path
+from ..utils import get_git_root
 import sys
+import subprocess
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -273,3 +275,62 @@ def test_check_unrendered_subtitles():
         "sub: This should be a subtitle",
         "sub: Another unrendered subtitle",
     ]
+
+
+def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
+    """
+    Test that check_rss_file_for_issues runs the actual xmllint process on valid and invalid RSS files.
+    Note: This test requires xmllint to be installed on the system.
+    """
+    # Get the real git root
+    real_git_root = get_git_root()
+
+    # Define paths for rss.xml and rss-2.0.xsd
+    rss_path = temp_site_root / "public" / "rss.xml"
+
+    # Create necessary directory
+    rss_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Define valid and invalid RSS content
+    valid_rss_content = """<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+      <channel>
+        <title>Example RSS Feed</title>
+        <link>http://www.example.com</link>
+        <description>This is an example RSS feed</description>
+        <item>
+          <title>First Item</title>
+          <link>http://www.example.com/first-item</link>
+          <description>This is the first item.</description>
+        </item>
+      </channel>
+    </rss>
+    """
+
+    invalid_rss_content = """<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0">
+      <channel>
+        <title>Invalid RSS Feed</title>
+        <!-- Missing <link> and <description> -->
+        <item>
+          <title>First Item</title>
+          <link>http://www.example.com/first-item</link>
+          <description>This is the first item.</description>
+        </item>
+      </channel>
+    </rss>
+    """
+
+    # Test with valid RSS
+    rss_path.write_text(valid_rss_content)
+    try:
+        check_rss_file_for_issues(temp_site_root, RSS_XSD_PATH)
+    except subprocess.CalledProcessError:
+        pytest.fail(
+            "check_rss_file_for_issues raised CalledProcessError unexpectedly with valid RSS!"
+        )
+
+    # Test with invalid RSS and expect an exception
+    rss_path.write_text(invalid_rss_content)
+    with pytest.raises(subprocess.CalledProcessError):
+        check_rss_file_for_issues(temp_site_root, RSS_XSD_PATH)

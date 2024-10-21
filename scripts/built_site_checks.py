@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 from typing import List, Dict
 from pathlib import Path
 from bs4 import BeautifulSoup, Tag
@@ -10,6 +11,9 @@ sys.path.append(str(Path(__file__).parent.parent))
 import scripts.compress as compress
 import scripts.utils as script_utils
 
+
+git_root = script_utils.get_git_root()
+RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
 
 IssuesDict = Dict[str, List[str] | bool]
 
@@ -205,6 +209,26 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     return issues
 
 
+def check_rss_file_for_issues(
+    git_root_path: Path, custom_xsd_path: Path | None = None
+) -> None:
+    """Check an RSS file for various issues.
+    Uses xmllint via `brew install libxml2`."""
+    rss_path = git_root_path / "public" / "rss.xml"
+    subprocess.run(
+        [
+            "xmllint",
+            "--noout",
+            "--schema",
+            str(custom_xsd_path or RSS_XSD_PATH),
+            str(rss_path),
+        ],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+
+
 def print_issues(
     file_path: Path,
     issues: IssuesDict,
@@ -227,12 +251,10 @@ def print_issues(
 def main() -> None:
     """Main function to check all HTML files in the public directory for issues."""
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        print("Error: Not in a git repository.")
-        sys.exit(1)
-
-    public_dir: Path = Path(git_root, "public")
+    public_dir: Path = git_root / "public"
     issues_found: bool = False
+
+    check_rss_file_for_issues(git_root)
 
     for root, dirs, files in os.walk(public_dir):
         for file in files:

@@ -6,16 +6,15 @@ from typing import Optional, Collection
 # pyright: reportPrivateImportUsage = false
 
 
-def get_git_root() -> Path | None:
+def get_git_root() -> Path:
     """Returns the absolute path to the top-level directory of the Git repository."""
     completed_process = subprocess.run(
         ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
     )
-    return (
-        Path(completed_process.stdout.strip())
-        if completed_process.returncode == 0
-        else None
-    )
+    if completed_process.returncode == 0:
+        return Path(completed_process.stdout.strip())
+    else:
+        raise RuntimeError("Failed to get Git root")
 
 
 def get_files(

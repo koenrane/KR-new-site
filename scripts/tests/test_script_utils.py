@@ -8,10 +8,10 @@ from typing import Optional
 import pytest
 import git
 from .. import utils as script_utils
+from unittest import mock
 
-def test_git_root_is_ancestor(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+
+def test_git_root_is_ancestor(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """
     Test that the found git root is an ancestor of the current file.
     """
@@ -25,22 +25,31 @@ def test_git_root_is_ancestor(
     assert current_file_path.is_relative_to(git_root)
 
 
-@pytest.mark.parametrize("git_exists", [True, False])
-def test_find_git_root(
-    git_exists: bool, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    expected_output = "/path/to/git/root" if git_exists else ""
-    expected_return = Path(expected_output) if git_exists else None
+def test_find_git_root(monkeypatch: pytest.MonkeyPatch) -> None:
+    expected_output = "/path/to/git/root"
 
     def mock_subprocess_run(*args, **kwargs) -> subprocess.CompletedProcess:
         return subprocess.CompletedProcess(
             args=args,
-            returncode=0 if git_exists else 1,
+            returncode=0,
             stdout=expected_output,
         )
 
     monkeypatch.setattr(script_utils.subprocess, "run", mock_subprocess_run)
-    assert script_utils.get_git_root() == expected_return
+    assert script_utils.get_git_root() == Path(expected_output)
+
+
+def test_get_git_root_raises_error():
+    def mock_subprocess_run(*args, **kwargs) -> subprocess.CompletedProcess:
+        return subprocess.CompletedProcess(
+            args=args,
+            returncode=1,
+            stdout="",
+        )
+
+    with mock.patch.object(script_utils.subprocess, "run", mock_subprocess_run):
+        with pytest.raises(RuntimeError):
+            script_utils.get_git_root()
 
 
 @pytest.mark.parametrize(
@@ -62,10 +71,7 @@ def test_path_relative_to_quartz(
         with pytest.raises(ValueError):
             script_utils.path_relative_to_quartz(Path(input_path))
     else:
-        assert (
-            script_utils.path_relative_to_quartz(Path(input_path))
-            == expected_output
-        )
+        assert script_utils.path_relative_to_quartz(Path(input_path)) == expected_output
 
 
 def test_get_files_no_dir():

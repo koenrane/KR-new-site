@@ -164,8 +164,6 @@ def main() -> None:
     Main function to process all Markdown files in the current directory.
     """
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        raise RuntimeError("Could not find git root")
     directory = git_root / "content"
     for filename in os.listdir(directory):
         if filename.endswith(".md"):

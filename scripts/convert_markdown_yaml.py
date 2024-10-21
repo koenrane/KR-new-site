@@ -99,8 +99,6 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     )
 
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        raise RuntimeError("Could not determine git root")
 
     static_images_dir = git_root / "quartz" / "static" / "images" / "card_images"
     static_images_dir.mkdir(parents=True, exist_ok=True)
@@ -137,8 +135,6 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
 def main():
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        raise RuntimeError("Could not determine git root")
 
     parser = argparse.ArgumentParser(
         description="Convert card images in markdown YAML frontmatter."

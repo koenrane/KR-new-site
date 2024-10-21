@@ -150,8 +150,6 @@ def upload_and_move(
             print(f"Moving original file: {file_path}")
         # Create the directory structure in the target location
         git_root = script_utils.get_git_root()
-        if git_root is None:
-            raise RuntimeError("Failed to get git root")
 
         # absolute() ensures that there is overlap between the two paths
         relative_path = file_path.absolute().relative_to(git_root)
