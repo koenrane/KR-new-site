@@ -180,8 +180,8 @@ def main() -> None:
         "-v", "--verbose", action="store_true", help="Enable verbose output"
     )
     parser.add_argument(
-        "-a",
-        "--all-asset-dir",  # TODO clarify name
+        "-u",
+        "--upload-from-directory",
         type=Path,
         default=None,
         help="Upload all files of specified types from the given directory",
@@ -191,7 +191,7 @@ def main() -> None:
         "--filetypes",
         nargs="+",
         default=(".mp4", ".svg", ".avif"),
-        help="File types to upload when using --all (default: .mp4 .svg .avif)",
+        help="File types to upload when using --upload-from-directory (default: .mp4 .svg .avif)",
     )
     parser.add_argument(
         "--overwrite-existing",
@@ -218,7 +218,7 @@ def main() -> None:
             verbose=args.verbose,
             replacement_dir=args.replacement_dir,
             move_to_dir=args.move_to_dir,
-            overwrite_existing=args.overwrite_existing,  # Pass the new flag
+            overwrite_existing=args.overwrite_existing,
         )
 
 
