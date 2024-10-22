@@ -202,6 +202,10 @@ describe("Mass transforms", () => {
     ["ILO10", "ILO10"],
     [" :) The best", " 🙂 The best"],
     [" :( The worst", " 🙁 The worst"],
+    ["Subtitle: This is a subtitle", "Subtitle: This is a subtitle"],
+    ["Subtitle: This is a subtitle\nTest", "Subtitle: This is a subtitle\n\nTest"],
+    ["Subtitle: This is a subtitle\n\n", "Subtitle: This is a subtitle\n\n"],
+    ["subtitle: This isn't a subtitle\n", "subtitle: This isn't a subtitle\n"],
   ])("should perform transforms for %s", (input: string, expected: string) => {
     const result = massTransformText(input)
     expect(result).toBe(expected)
