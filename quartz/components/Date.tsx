@@ -56,6 +56,7 @@ export function formatDate(
   monthFormat: "long" | "short" = "short",
   includeOrdinalSuffix: boolean = true,
   formatOrdinalSuffix: boolean = false,
+  extraOrdinalStyling?: string,
 ): string {
   const day = d.getDate()
   const month = d.toLocaleDateString(locale, { month: monthFormat })
@@ -64,7 +65,7 @@ export function formatDate(
   if (includeOrdinalSuffix) {
     suffix = getOrdinalSuffix(day)
     if (formatOrdinalSuffix) {
-      suffix = `<sup class="ordinal-suffix">${suffix}</sup>`
+      suffix = `<sup class="ordinal-suffix" style="${extraOrdinalStyling}">${suffix}</sup>`
     }
   }
   return `${month} ${day}${suffix}, ${year}`
@@ -76,6 +77,7 @@ interface DateElementProps {
   cfg: GlobalConfiguration
   fileData: QuartzPluginData
   formatOrdinalSuffix?: boolean
+  extraOrdinalStyling?: string
 }
 
 // Render date element with proper datetime attribute
@@ -85,6 +87,7 @@ export const DateElement = ({
   monthFormat,
   includeOrdinalSuffix,
   formatOrdinalSuffix,
+  extraOrdinalStyling, // Extra CSS styling for the ordinal suffix
 }: DateElementProps): JSX.Element => {
   const date = fileData.frontmatter?.date_published
     ? new Date(fileData.frontmatter.date_published as string)
@@ -99,6 +102,7 @@ export const DateElement = ({
           monthFormat,
           includeOrdinalSuffix,
           formatOrdinalSuffix,
+          extraOrdinalStyling,
         ),
       }}
     />
