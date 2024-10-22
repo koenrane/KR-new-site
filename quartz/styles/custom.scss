@@ -380,13 +380,29 @@ h3:has(+ .subtitle),
 h4:has(+ .subtitle),
 h5:has(+ .subtitle),
 h6:has(+ .subtitle),
-p:has(+ .subtitle) {
+p:has(+ .subtitle),
+.callout-title:has(+ .callout-content > .subtitle) {
   margin-bottom: 0;
 }
 
 .subtitle {
   color: var(--gray);
   margin-top: 0;
+
+  font-size: var(--text-size-90);
+  & .favicon {
+    // Smaller favicon for smaller font
+    --favicon-size: calc(pow(var(--scale-ratio), -1) * 0.65rem);
+    width: var(--favicon-size);
+    height: var(--favicon-size);
+  }
+
+  .callout & {
+    color: color-mix(in srgb, var(--gray) 60%, var(--color));
+    & a {
+      color: inherit;
+    }
+  }
 }
 
 figure > img {
@@ -617,14 +633,20 @@ a.internal.tag-link {
   font-size: 0.71em;
 }
 
-.authors p {
-  color: var(--gray);
+.authors {
+  & p {
+    color: var(--gray);
 
-  & a {
-    color: inherit;
+    & a {
+      color: inherit;
+    }
+    margin-top: 0;
+    margin-bottom: 0;
   }
-  margin-top: 0;
-  margin-bottom: 0;
+
+  & .publication-str {
+    font-variant-numeric: lining-nums;
+  }
 }
 
 img,

@@ -7,7 +7,11 @@
 
   --border: color-mix(in srgb, var(--color) 60%, var(--base));
   & blockquote {
-    border-left: 3px solid var(--border);
+    border-left: 2px solid var(--border);
+  }
+
+  & .callout {
+    border-left: 2px solid var(--border);
   }
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
   background-color: var(--bg);

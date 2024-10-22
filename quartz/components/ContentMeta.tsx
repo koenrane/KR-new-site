@@ -80,7 +80,6 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
       monthFormat="long"
       includeOrdinalSuffix={true}
       formatOrdinalSuffix={true}
-      extraOrdinalStyling="margin-left: -.03rem;"
     />
   )
 

@@ -77,7 +77,6 @@ interface DateElementProps {
   cfg: GlobalConfiguration
   fileData: QuartzPluginData
   formatOrdinalSuffix?: boolean
-  extraOrdinalStyling?: string
 }
 
 // Render date element with proper datetime attribute
@@ -87,7 +86,6 @@ export const DateElement = ({
   monthFormat,
   includeOrdinalSuffix,
   formatOrdinalSuffix,
-  extraOrdinalStyling, // Extra CSS styling for the ordinal suffix
 }: DateElementProps): JSX.Element => {
   const date = fileData.frontmatter?.date_published
     ? new Date(fileData.frontmatter.date_published as string)
@@ -102,7 +100,6 @@ export const DateElement = ({
           monthFormat,
           includeOrdinalSuffix,
           formatOrdinalSuffix,
-          extraOrdinalStyling,
         ),
       }}
     />

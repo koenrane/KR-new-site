@@ -64,6 +64,9 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 ## Social dynamics distracted me from my core mission
 
 > [!failure] I focused on "catching up" to other thinkers
+> 
+> Subtitle: I figured this point out by summer 2021.
+> 
 > I wanted to be more like Eliezer Yudkowsky and Buck Shlegeris and Paul Christiano. They know lots of facts and laws about lots of areas (e.g. general relativity and thermodynamics and information theory). I focused on building up dependencies (like [analysis](/first-analysis-textbook-review) and [geometry](/insights-from-euclids-elements) and [topology](/topology-textbook-review)) not only because I wanted to know the answers, but because I felt I owed a _debt_, that I was _in the red_ until I could at least meet other thinkers at their level of knowledge.
 >
 > But rationality is not about the bag of facts you know, nor is it about the concepts you have internalized. Rationality is about _how_ your mind holds itself, it is _how_ you weigh evidence, it is _how_ you decide where to look next when puzzling out a new area.
@@ -73,10 +76,10 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 > But I did not, in part because the truth was uncomfortable. If I did not have a clear set of prerequisites (e.g. analysis and topology and game theory) to work on, I would not have a clear and immediate direction of improvement. I would have felt adrift.
 >
 > But there is not yet any "rationality tech tree", no succession of well-defined rationality skills such that you can learn them in order and grow way stronger. Like, you can't just do the [calibration exercises](http://acritch.com/credence-game/), and then [the noticing-confusion exercises](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=nL7E6SEtXqDG7SHGB), and then other things. Those tools help, but they aren't _enough_. There won't be a clear and immediate direction of improvement at first. But you may want to get stronger anyways.
->
-> _I figured this point out by summer 2021._
 
 > [!failure] I focused on seeming smart and defensible
+>
+> Subtitle: I figured this point out [this spring](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y).
 >
 > When I started working on alignment, I didn't know what to do at first, and I felt insecure about my credentials. As far as I remember, I figured I'd start off by becoming respected, since other people's feedback was initially a better guide than my own taste. Unfortunately, I didn't realize how deeply and subtly this goal would grow its roots.
 >
@@ -97,10 +100,11 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 > The old "don't leave any avenue of being criticized!" attitude would have been less loyal to my true beliefs. I would have told myself: "This _could_ work, but there are so many parts I don't understand yet. If I figure those parts out first, I can explain it better and avoid having to go out on a limb in the process." Cowardice and social anxiety, dressed up as prudence and skepticism.
 >
 > I still get anxious around disagreements with people I respect. I am still working on fully expunging the "defensibility" urges, because they suck. But I've already made a lot of progress.[^3]
->
-> _I figured this point out_ [_this spring_](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y).
+
 
 > [!failure] Too much deference, too little thinking for myself
+> 
+> Subtitle: I realized and started fixing this mistake [this spring.](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)
 >
 > I filtered the world through a status lens. If I read a comment from a high-status person, I would gloss over confusing parts, because _I_ was probably the one reading it wrong. Sure, I would verbally agree that [modest epistemology](https://equilibriabook.com/inadequacy-and-modesty/) is unproductive. I just _happened_ to not think thoughts like "HIGH-STATUS PERSON's claim seems obviously dumb and wrong."
 >
@@ -117,22 +121,22 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 > Our world is so inadequate that seminal psychology experiments are described in mangled, misleading ways. Inadequacy abounds, and status only weakly tracks adequacy. Even if the high-status person belongs to your in-group. Even if all your smart friends are nodding along.
 >
 > Would you notice if _this very post_ were inadequate and misleading? _Would_ it be bullshit for the dog-genome to hardwire a food-classifier? _Think for yourself. Constant vigilance!_
->
-> _I realized and started fixing this mistake [this spring.](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)_
 
 ### Non-social mistakes
 
 > [!failure] I thought about comfortable, familiar problems
+> 
+> Subtitle: I figured this point out this spring because I bumped into Quintin (as described above).
 >
 > I remember a sunny summer day in 2019, sitting in the grass with Daniel Filan at UC Berkeley. He recommended putting together an end-to-end picture of the alignment problem. I remember feeling pretty uncomfortable about that, feeling that I wouldn't understand which alignment problems go where in my diagram ("do embedded agency failures crop up _here_, or _there_?"). Wouldn't it just make more sense to read more alignment papers and naturally refine those views over time?
 >
 > This was a rationalization, plain and simple. There is no point where you feel ready to put all the pieces together. If you feel totally comfortable about how alignment fits together such that Daniel's exercise does not _push you_ on some level, we have either _already_ solved the alignment problem, or you are deluded.
 >
 > I did not feel ready, and I was not ready, and I should have done it anyways. But I focused on more comfortable work with well-defined boundaries, because it felt good to knock out new theorems. Whether or not those theorems were useful and important to alignment, that was a mistake. So I stayed in my alignment comfort zone. I should have stopped working on impact measures and power-seeking way earlier than I did, even though I did end up doing some cool work.
->
-> _I figured this point out this spring, because I bumped into Quintin as described above._
 
 > [!failure] Not admitting to myself that I thought alignment was doomed
+>
+> Subtitle: Figured this out this spring. I'm not sure if I've fixed the general error yet.
 >
 > After I became more optimistic about alignment due to having a sharper understanding of the overall problem and of how human values formed to begin with, I also became more pessimistic about _other_ approaches, like IDA, ELK, RRM, AUP, or anything else with a three-letter acronym. But my new understanding didn't seem to present any _specific_ objections. So why did I suddenly feel worse about these older ideas?
 >
@@ -141,18 +145,16 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 > Yikes.
 >
 > If that's what happened, I was seriously deluding myself. I will do better next time.
->
-> _Figured this out this spring. I'm not sure if I've fixed the general error yet._
 
 > [!failure] I viewed my life through narratives
+> 
+> Subtitle: I probably figured this point out in 2021.
 >
 > Back in 2018, I had the "upstart alignment researcher" narrative—starting off bright-eyed and earnest, learning a lot, making friends. But then I hurt my hands and couldn't type anymore, which broke the narrative. I felt dejected—to slightly exaggerate, I felt I had fallen off of the sunlit path, and now nothing was going to go as it should.
 >
 > Another example of narrative-thinking is when people say "I'm just not a math person." This is an _inference_ and a _story_ they tell themselves. Strictly speaking, they may not know much math, and they may not enjoy math, and they may not see how to change either of those facts. But the _narrative_ is that they are not a math person. Their aversion stems not just from their best-guess assessment of their own weaknesses, but from a _story_ they are living in.
 >
 > Every moment is an opportunity for newly-directed action. [Keep your identity small](http://www.paulgraham.com/identity.html) and keep the narratives in the story-books. At least, if you want to use narratives, carefully introspect to make sure you're using them, and they aren't using you.
->
-> _I probably figured this point out in 2021._
 
 ## Two helpful habits I picked up 
 
