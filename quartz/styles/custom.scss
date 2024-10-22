@@ -385,7 +385,6 @@ p:has(+ .subtitle) {
 }
 
 .subtitle {
-  font-size: calc(1em / var(--scale-ratio));
   color: var(--gray);
   margin-top: 0;
 }
@@ -412,6 +411,7 @@ figcaption,
 
 .float-right {
   margin-top: $baseMargin;
+  margin-bottom: calc($baseMargin);
   & img,
   img.float-right {
     margin-left: auto;
