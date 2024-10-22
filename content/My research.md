@@ -38,11 +38,47 @@ Subtitle: Fall 2019 through June 2022
 
 - Intuition that it was formalizable
 - Summary of the research process
-- 
+- Summary of results
 
-### [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
+I don't want to die. Animals try to avoid dying. Why was this behavior selected into so many different kinds of animals? While the question may seem facile, it is not. For nearly all biological "subgoals" (like "find food" or "impress a potential mate"), a dead animal cannot accomplish any of those goals. Otherwise put: Certain strategies (like "staying alive") are pre-requisite for _almost all goals._ This observation is called "instrumental convergence."[^instr] 
 
-### [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
+In 2019, [I had a keen sense](/problem-relaxation-as-a-tactic) that instrumental convergence ought to be mathematically provable. To date, [only one paper](./toy-instrumental-convergence-paper-walkthrough) had tried such a formalization- and that only in a toy setting. I figured I should be able to say what actions were instrumentally convergent in a tiny Markov decision process. Easy, right? 
+
+> [!thanks]- Personal recollections 
+> 
+> I spent an hour staring at a whiteboard and stabbing out different possible angles of the situation. During this time, I viewed the problem the standard way -- in terms of value functions $V^\pi(s)$ and transition functions $T(s,a,s')$. That's the wrong way to do it. I remembered a concept I'd read about while preparing for my PhD qualifying exam: state visit distributions. The distributions $\mathbf{f}^{\pi,s}_\gamma$ measure how long the agent spends in different states. If the agent is in state $s'$ at time $t$, then the distribution adds another $\gamma^t$ visit measure to $s'$. 
+> ![](https://assets.turntrout.com/static/images/posts/beLDjAs.avif)
+>
+> For more detail, see [_The attainable utility landscape_](/attainable-utility-landscape#appendix-au-landscape-and-world-state-contain-equal-information). 
+
+Over the next two years, I slowly cut beautiful equations into existence, like POWER:
+
+$$
+\mathrm{POWER}_{\mathcal{D}}(s,\gamma) := \overset{\text{Avg. ability to optimize reward fns.}}{\dfrac{1-\gamma}{\gamma}\mathbb{E}_{R\sim\mathcal{D}}\left[V^*_R(s,\gamma)\right]}.
+$$
+
+**As a PhD student, I worked out the first-ever statistical theory of optimal policies.** Eventually, the equations and theory coalesced into a highly refined and technical paper which was accepted to NeurIPS 2021 as a spotlight talk:
+
+> [!quote] [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
+> Some researchers speculate that intelligent RL agents would be incentivized to seek resources and power in pursuit of their objectives. Other researchers point out that RL agents need not have human-like power-seeking instincts. To clarify this discussion, we develop the first formal theory of the statistical tendencies of optimal policies. In the context of Markov decision processes, we prove that certain environmental symmetries are sufficient for optimal policies to tend to seek power over the environment. These symmetries exist in many environments in which the agent can be shut down or destroyed. We prove that in these environments, most reward functions make it optimal to seek power by keeping a range of options available and, when maximizing average reward, by navigating towards larger sets of potential terminal states.
+
+In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-makers tend to seek power](./parametrically-retargetable-power-seeking), generalizing the results from optimal policies to a broad and elegant criterion on decision-making. ☺️
+
+
+[^instr]: I wish that "instrumental convergence" (IC) had instead been named "robust instrumentality." "Instrumental convergence" strangely implies that the _convergence_ is instrumental. That doesn't make sense. Instead, certain actions are instrumental for most goals. So "convergent instrumentality" is better. 
+
+    Next, "convergence" connotes "gradual progress towards a certain destination." This temporal connotation also doesn't make sense. Optimal policies are timeless - they just _are_. However, these actions are _robustly_ instrumental across goals. That's better! Thanks to Andrew Critch for pushing me to precision on this point.
+
+    However, it's too late for the alternative terminology to catch on. May this be a lesson to those who coin new terms: finely weigh the available options and find a phrase which is informative and _precisely correct_. Don't just vibe!
+
+### Reflections on the power-seeking theory
+Subtitle: Written in October 2024
+
+I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). Looking back on my thesis and the 281 theorems I proved, I almost tear up. 
+
+
+On the other hand, the papers embody the _brash, loud confusion_ which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
+
 
 # Low-impact AI
 Subtitle: Spring 2018 through June 2022
@@ -139,7 +175,9 @@ Figure: AUP does a great job. The policy avoids the green stuff and hits the red
 > <video autoplay muted loop playsinline alt="There are swarms of yellow spawners which randomly create yellow pellets, making it harder to pin down the impact of an action." type="video/mp4"><source type="video/mp4" src="https://assets.turntrout.com/static/images/posts/append_spawn_trajectories.mp4" type="video/mp4"></video></video>
 
 ### Reflections on this work
-Looking back from October 2024, I feel fondness for this line of work. The feeling of making a difference - thrilling. Discovering new ideas - thrilling. Making light-hearted posts & steering my own research as a  PhD student - lovely.
+Subtitle: Written in October 2024
+
+I feel fondness for this line of work. The feeling of making a difference - thrilling. Discovering new ideas - thrilling. Making light-hearted posts & steering my own research as a  PhD student - lovely.
 
 Considering the technical contributions themselves... AI has taken a different path than I imagined in 2018-2021. I thought the path to AGI would be longer, entailing real-world robotics and deep RL. Reality turned out to be much friendlier and softer.
 

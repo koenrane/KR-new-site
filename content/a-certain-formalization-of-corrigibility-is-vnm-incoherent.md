@@ -83,7 +83,7 @@ The analysis depends on whether terminal-state reward is sensitive to _the corri
 
   - More generally, if there are $n$ letter-states (and a long enough horizon so the agent can reach them all), allowing correction will be strictly optimal for at most $\frac{1}{n+1}$ of the permutations of every reward function.
 
-- **Reward independent of corrigibility**: The agent can end up in three reward-distinguished states at \$t=10\$: {$\color{blue}{A}$/$\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}$}. $\color{blue}{B}$ and $\color{blue}{C}$ are irrelevant because we assumed $R(\color{blue}{B})=R(\color{red}{B})$. They're also impossible for the reason given above.
+- **Reward independent of corrigibility**: The agent can end up in three reward-distinguished states at $t=10$: {$\color{blue}{A}$/$\color{red}{A}$, $\color{red}{B}$, $\color{red}{C}$}. $\color{blue}{B}$ and $\color{blue}{C}$ are irrelevant because we assumed $R(\color{blue}{B})=R(\color{red}{B})$. They're also impossible for the reason given above.
 
   - By [the scaling law for instrumental convergence](/quantitative-strength-of-instrumental-convergence), allowing correction is strictly optimal for at most 1/3 of the permutations of every reward function.
 
@@ -92,11 +92,10 @@ The analysis depends on whether terminal-state reward is sensitive to _the corri
   - More generally, if there are $n$ letter-states (and a long enough horizon), an optimal policy will be weakly corrigible for at most $\frac{1}{n}$ of the permutations of every reward function.
     - Corrigibility will be _weak_ because either avoiding or allowing correction can be optimal if $R(A)$ is maximal.
 
-EDIT: If you can correct the agent to go where you want, it _already wanted_ to go where you want. If the agent is strictly corrigible to terminal state $A$, then $A$ was already optimal for it. If the reward function has a single optimal terminal state, there isn't any new information being added by $\pi_\text{correct}$. But we want corrigibility to let us reflect more on our values over time and what we want the AI to do!
-
-If the reward function has multiple optimal terminal states, then corrigibility again becomes meaningful. But now we have to perfectly balance the reward among multiple options (representing the breadth of our normative uncertainty), which seems unnatural.
-
-<hr/>
+> [!note] Edit
+> If you can correct the agent to go where you want, it _already wanted_ to go where you want. If the agent is strictly corrigible to terminal state $A$, then $A$ was already optimal for it. If the reward function has a single optimal terminal state, there isn't any new information being added by $\pi_\text{correct}$. But we want corrigibility to let us reflect more on our values over time and what we want the AI to do!
+ > 
+ > If the reward function has multiple optimal terminal states, then corrigibility again becomes meaningful. But now we have to perfectly balance the reward among multiple options (representing the breadth of our normative uncertainty), which seems unnatural.
 
 As the environment gets bigger, there are more things the agent could do, and so P(best thing to do is what we'd correct the agent to do) decreases.
 
@@ -147,13 +146,14 @@ More broadly, each reward function implies a VNM-coherent preference ordering ov
 
 To ask otherwise is to demand VNM-incoherence over final state lotteries.
 
-> [!question] What if, instead of rewarding the agent for the final state, we reward it for the final state-action?
-> As far as I can tell, the analysis goes through all the same; the agent must now be corrigible with respect to more policies, and the same incoherence arises.
+### Possible recoveries
+What if, instead of rewarding the agent for the final state, we reward it for the final state-action?
+: As far as I can tell, the analysis goes through all the same; the agent must now be corrigible with respect to more policies, and the same incoherence arises.
 
-> [!question] What if we take some discounted sum of reward over all ten timesteps, instead of just the final timestep?
-> I don't see why this would help, but it's possible. I'd appreciate the analysis if anyone wants to do it, or maybe I'll get to it later.
->
-> The main way this could help is it would let us penalize the agent for the `disable` _action_ at any state, while dictating that $\forall s: R(s)=R(\color{blue}{s})$. This seems helpful. It's not clear how helpful this is, though. I don't think this is a deep solution to corrigibility (as defined here), but rather a hacky prohibition.
+What if we take some discounted sum of reward over all ten timesteps, instead of just the final timestep?
+: I don't see why this would help, but it's possible. I'd appreciate the analysis if anyone wants to do it, or maybe I'll get to it later.
+
+: The main way this could help is it would let us penalize the agent for the `disable` _action_ at any state, while dictating that $\forall s: R(s)=R(\color{blue}{s})$. This seems helpful. It's not clear how helpful this is, though. I don't think this is a deep solution to corrigibility (as defined here), but rather a hacky prohibition.
 
 # AUP avoids some issues by changing with the environment dynamics
 
@@ -180,7 +180,7 @@ But another part of the story is that AUP changes its rewards with respect to th
 But for AUP, the situation is different. Consider AUP with inaction baseline: The final-step reward is the usual reward plus a penalty for
 
 $$
-\left|\text{Optimal value(actual final state)} – \text{Optimal value(inaction final state)}\right|,
+\bigg|\text{Optimal value(actual final state)} – \text{Optimal value(inaction final state)}\bigg|,
 $$
 
 averaged over a range of auxiliary reward functions.[^pen]

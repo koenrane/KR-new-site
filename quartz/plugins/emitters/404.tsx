@@ -41,7 +41,7 @@ export const NotFoundPage: QuartzEmitterPlugin = () => {
         slug,
         text: notFound,
         description: notFound,
-        frontmatter: { title: notFound, tags: [] },
+        frontmatter: { title: "Page not found", tags: [] },
       })
       const componentData: QuartzComponentProps = {
         ctx,

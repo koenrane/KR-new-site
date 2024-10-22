@@ -107,12 +107,15 @@ But the location-checking circuit is only one way the human-concept-detector cou
 
 EDIT: After talking with Richard Ngo, I now think there's about an 8% chance that several interesting mental events are accessed by the genome; I updated upwards from 4%.
 
-> [!info] Edited on 8/29/22
+> [!info] Edited on August 29, 2022
 > Updating down to 3%, in part due to 1950's arguments on ethology:
 >
 > > [!quote] [Lehrman on Lorenz’s Theory of Instinctive Behavior](https://webcache.googleusercontent.com/search?q=cache:YDe53OIPs6cJ:https://www.rabe.org/lehrman-on-lorenzs-theory-of-instinctive-behavior/&cd=1&hl=en&ct=clnk&gl=us), blog comment (emphasis added)
 > >
 > > How do we want to explain the origins of behavior? And \[Lehrman's\] critique seems to echo some of the concerns with evolutionary psychology. His approach can be gleaned from his example on the pecking behavior of chicks. **Lorenz attributed this behavior to innate forces:** **The chicks are born with the tendency to peck; it might require just a bit of maturation. Lehrman points out that research by Kuo provides an explanation based on the embryonic development of the chick. The pecking behavior can actually be traced back to movements that developed while the chick was still unhatched. Hardly innate! The main point Lehrman makes: If we claim that something is innate, we stop the scientific investigation without fully understanding the origin of the behavior.** This leaves out important – and fascinating – parts of the explanation because we think we’ve answered the question. As he puts it: **“the statement “It is innate” adds nothing to an understanding of the developmental process involved”**
+
+> [!note] Edited on October 21, 2024
+> Updated upwards to 30% due to the discovery of [gradient routing](/gradient-routing), which seems to offer coarse localization abilities. It's not clear that our genome can or does route cognitive updates to cortical areas, but it seems possible! 
 
 [^1]: Human values can still be inaccessible to the genome even if the cortex isn’t learned from scratch, but learning-from-scratch is a nice and clean sufficient condition which seems likely to me.
 [^2]: I argue that the genome probably hardcodes neural circuitry which is simple _relative_ to hardcoded “high-status detector” circuitry. Similarly, [the code for a machine learning experiment](https://github.com/leela-zero/leela-zero/tree/next/src) is simple _relative_ to [the neural network it trains](https://arxiv.org/abs/2201.13176).

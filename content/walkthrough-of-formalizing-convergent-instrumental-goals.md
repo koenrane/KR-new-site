@@ -32,9 +32,7 @@ date_published: 02/26/2018
 original_url: 
   https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
 skip_import: true
-description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated
-  to humanity, it may still turn us into paperclips.
-"
+description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated to humanity, it may still turn us into paperclips. "
 ---
 # Introduction
 

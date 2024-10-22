@@ -32,8 +32,7 @@ use-full-width-images: 'false'
 date_published: 07/12/2020
 original_url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-defection
 skip_import: true
-description: A game-theoretic formalism of "defection", analyzing whether an action
-  is self-serving at the expense of the group.
+description: "A game-theoretic formalism of “defection”, analyzing whether an action is self-serving at the expense of the group."
 ---
 
 > [!thanks]

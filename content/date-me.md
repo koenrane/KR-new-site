@@ -42,7 +42,7 @@ I am pretty goofy if I trust and feel comfy around someone. I think I'd jive wel
 
 I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
-I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two](https://arxiv.org/abs/1912.01683) [papers](https://arxiv.org/abs/2206.13477) in a top AI conference.
+I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved 281 new theorems.
 
 ## Personal life
 
