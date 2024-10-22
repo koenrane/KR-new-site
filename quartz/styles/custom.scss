@@ -373,6 +373,23 @@ figure,
   }
 }
 
+.article-title:has(+ .subtitle),
+h1:has(+ .subtitle),
+h2:has(+ .subtitle),
+h3:has(+ .subtitle),
+h4:has(+ .subtitle),
+h5:has(+ .subtitle),
+h6:has(+ .subtitle),
+p:has(+ .subtitle) {
+  margin-bottom: 0;
+}
+
+.subtitle {
+  font-size: calc(1em / var(--scale-ratio));
+  color: var(--gray);
+  margin-top: 0;
+}
+
 figure > img {
   z-index: -1;
 }
@@ -1010,5 +1027,5 @@ b,
 strong,
 .callout-title-inner {
   text-shadow: 0.1px 0.1px;
-  font-weight: 400; // Normal font weight
+  font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
 }

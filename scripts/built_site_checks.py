@@ -186,7 +186,7 @@ def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
-        if text.startswith("sub:") and "subtitle" not in p.get("class", []):
+        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
             unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
     return unrendered_subtitles
 

@@ -8,7 +8,7 @@ import {
   modifyNode,
   processParagraph,
 } from "../subtitles"
-import { Element, Parent } from "hast"
+import { Element, Parent, ElementContent } from "hast"
 import { h } from "hastscript"
 import { expect } from "@jest/globals"
 
@@ -24,7 +24,6 @@ function removePositions(obj: unknown): unknown {
     }
     return newObj
   }
-  return obj
 }
 
 async function process(input: string) {
@@ -38,19 +37,23 @@ async function process(input: string) {
 
 describe("rehype-custom-subtitle", () => {
   it.each([
-    ["<p>sub: This is a subtitle</p>", "simple subtitle"],
-    ["<p>sub:This is a subtitle without space</p>", "subtitle without space"],
-    ["<p>sub: Subtitle with <em>formatting</em></p>", "subtitle with formatting"],
+    ["<p>Subtitle:This is a subtitle</p>", "simple subtitle"],
+    ["<p>Subtitle:This is a subtitle without space</p>", "subtitle without space"],
+    ["<p>Subtitle:Subtitle with <em>formatting</em></p>", "subtitle with formatting"],
+    [
+      "<p>Subtitle:Subtitle with <strong>bold</strong> and <em>italic</em> text</p>",
+      "subtitle with multiple formatting",
+    ],
   ])("transforms subtitle paragraph to custom subtitle element (%s)", async (input) => {
     const output = await process(input)
     expect(output).toMatch(/<p class="subtitle"[^>]*>/)
-    expect(output).not.toContain("sub:")
+    expect(output).not.toContain("Subtitle:")
   })
 
   it.each([
     ["<p>This is not a subtitle</p>", "regular paragraph"],
     [
-      "<p>Not at start. sub: This is not at the start of the paragraph</p>",
+      "<p>Not at start. Subtitle: This is not at the start of the paragraph</p>",
       "subtitle not at start",
     ],
   ])("does not transform non-subtitle content (%s)", async (input) => {
@@ -60,9 +63,9 @@ describe("rehype-custom-subtitle", () => {
 
   describe("SUBTITLE_REGEX", () => {
     it.each([
-      ["sub: This is a subtitle", "This is a subtitle"],
-      ["sub:This is a subtitle without space", "This is a subtitle without space"],
-      ["sub: Subtitle with multiple words", "Subtitle with multiple words"],
+      ["Subtitle:This is a subtitle", "This is a subtitle"],
+      ["Subtitle:This is a subtitle without space", "This is a subtitle without space"],
+      ["Subtitle:Subtitle with multiple words", "Subtitle with multiple words"],
     ])("matches valid subtitle syntax (%s)", (input, expected) => {
       const match = input.match(SUBTITLE_REGEX)
       expect(match).not.toBeNull()
@@ -71,16 +74,24 @@ describe("rehype-custom-subtitle", () => {
 
     it.each([
       ["This is not a subtitle"],
-      ["Not at start. sub: This is not at the start of the paragraph"],
-      ["Sub: Capitalized prefix"],
+      ["Not at start. Subtitle: This is not at the start of the paragraph"],
+      ["subtitle: non-capitalized prefix"],
     ])("does not match invalid subtitle syntax (%s)", (input) => {
       const match = input.match(SUBTITLE_REGEX)
       expect(match).toBeNull()
     })
+
+    it("matches valid subtitle syntax (Subtitle: Capitalized prefix)", () => {
+      const input = "Subtitle: Capitalized prefix"
+      const match = input.match(SUBTITLE_REGEX)
+      expect(match).not.toBeNull()
+      expect(match![1]).toBe("Capitalized prefix")
+    })
   })
 
   test("createSubtitleNode function", () => {
-    const node = createSubtitleNode("Subtitle content") as Element
+    const contentNode = { type: "text", value: "Subtitle content" } as ElementContent
+    const node = createSubtitleNode([contentNode]) as Element
 
     expect(node.tagName).toBe("p")
     expect(node.properties?.className).toContain("subtitle")
@@ -92,22 +103,31 @@ describe("rehype-custom-subtitle", () => {
     it.each([
       {
         name: "simple subtitle paragraph",
-        input: h("p", {}, "sub: This is a subtitle"),
-        expected: "This is a subtitle",
+        input: h("p", {}, "Subtitle: This is a subtitle"),
+        expected: true,
+        resultText: "This is a subtitle",
       },
       {
         name: "non-subtitle paragraph",
         input: h("p", {}, "This is not a subtitle"),
-        expected: null,
+        expected: false,
+        resultText: "This is not a subtitle",
       },
       {
         name: "paragraph with multiple children",
-        input: h("p", {}, ["sub: ", h("em", "Not a subtitle")]),
-        expected: "Not a subtitle",
+        input: h("p", {}, ["Subtitle: ", h("em", "A subtitle")]),
+        expected: true,
+        resultText: "",
       },
-    ])("$name", ({ input, expected }) => {
+    ])("$name", ({ input, expected, resultText }) => {
       const result = processParagraph(input as Element)
-      expect(result).toEqual(expected)
+      expect(result).toBe(expected)
+      const firstChild = input.children[0]
+      if (firstChild.type === "text") {
+        expect(firstChild.value).toBe(resultText)
+      } else {
+        fail("Expected first child to be a text node")
+      }
     })
   })
 
@@ -115,8 +135,8 @@ describe("rehype-custom-subtitle", () => {
     it.each([
       {
         name: "simple subtitle paragraph",
-        input: h("p", {}, "sub: This is a subtitle"),
-        expected: createSubtitleNode("This is a subtitle"),
+        input: h("p", {}, "Subtitle: This is a subtitle"),
+        expected: h("p", { className: ["subtitle"] }, "This is a subtitle"),
       },
       {
         name: "non-subtitle paragraph",
@@ -128,5 +148,68 @@ describe("rehype-custom-subtitle", () => {
       modifyNode(input as Element, 0, parent)
       expect(removePositions(parent.children[0])).toEqual(removePositions(expected))
     })
+  })
+})
+
+describe("rehypeCustomSubtitle Plugin", () => {
+  const processHtml = async (html: string): Promise<string> => {
+    return unified()
+      .use(rehypeParse, { fragment: true })
+      .use(() => transformAST)
+      .use(rehypeStringify)
+      .processSync(html)
+      .toString()
+  }
+
+  it("should convert a subtitle with plain text", async () => {
+    const input = `<p>Subtitle: This is a subtitle.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain('<p class="subtitle">This is a subtitle.</p>')
+  })
+
+  it("should convert a subtitle with rich text (e.g., bold and italic)", async () => {
+    const input = `<p>Subtitle: This is a <strong>bold</strong> and <em>italic</em> subtitle.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain(
+      '<p class="subtitle">This is a <strong>bold</strong> and <em>italic</em> subtitle.</p>',
+    )
+  })
+
+  it("should preserve non-subtitle paragraphs", async () => {
+    const input = `<p>This is a normal paragraph.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain("<p>This is a normal paragraph.</p>")
+  })
+
+  it("should handle multiple subtitles with rich text", async () => {
+    const input = `
+      <p>Subtitle: First <strong>subtitle</strong>.</p>
+      <p>Subtitle: Second <em>subtitle</em> with <a href="#">link</a>.</p>
+    `
+    const output = await processHtml(input)
+    expect(output).toContain('<p class="subtitle">First <strong>subtitle</strong>.</p>')
+    expect(output).toContain(
+      '<p class="subtitle">Second <em>subtitle</em> with <a href="#">link</a>.</p>',
+    )
+  })
+
+  it('should trim the "Subtitle:" prefix correctly when converting', async () => {
+    const input = `<p>Subtitle:    Subtitle with leading spaces.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain('<p class="subtitle">Subtitle with leading spaces.</p>')
+  })
+
+  it('should not convert paragraphs without the "Subtitle:" prefix', async () => {
+    const input = `<p>Subtle subtitle without proper prefix.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain("<p>Subtle subtitle without proper prefix.</p>")
+  })
+
+  it("should handle subtitles with complex nested elements", async () => {
+    const input = `<p>Subtitle: This is a <strong>bold <em>and italic</em></strong> subtitle.</p>`
+    const output = await processHtml(input)
+    expect(output).toContain(
+      '<p class="subtitle">This is a <strong>bold <em>and italic</em></strong> subtitle.</p>',
+    )
   })
 })

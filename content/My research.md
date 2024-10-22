@@ -15,30 +15,26 @@ As of November 2023, I am a research scientist on Google DeepMind's scalable ali
 
 [^disclaim]: Of course, all of my hot takes are my own, not Google's.
 
-# Research areas of sustained focus
-
-## Gradient routing
+# Gradient routing
 Neural networks are oft dismissed as "inscrutable" - hopeless messes which we'd be lucky to learn basic facts about through laborious interpretability. Gradient routing strikes back by _offering limited control over where networks learn selected capabilities_. 
 
 > [!warning] Under construction
 
-## Steering vectors
-_January 2023 through the present._
+# Steering vectors
+Subtitle: January 2023 through the present
 
-## Mechanistic interpretability
-
-_January through April 2023._
+# Mechanistic interpretability
+Subtitle: January through April 2023
 
 > [!abstract]
 
-## Shard theory
+# Shard theory
+Subtitle: February through December 2023
 
-_February through December 2023._
 In the first half of 2022, Quintin Pope and I came up with [The shard theory of human values](/shard-theory).
 
-## A formal theory of power-seeking tendencies
-
-_Fall 2019 through June 2022._
+# A formal theory of power-seeking tendencies
+Subtitle: Fall 2019 through June 2022
 
 - Intuition that it was formalizable
 - Summary of the research process
@@ -48,9 +44,8 @@ _Fall 2019 through June 2022._
 
 ### [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
 
-## Low-impact AI
-
-_Spring 2018 through June 2022._
+# Low-impact AI
+Subtitle: Spring 2018 through June 2022
 
 Impact measures - my first (research) love. 💕 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);

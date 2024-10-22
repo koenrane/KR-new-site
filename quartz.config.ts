@@ -138,6 +138,7 @@ const config: QuartzConfig = {
       Plugin.AfterArticle(),
       Plugin.ColorVariables(),
       Plugin.rehypeCustomSpoiler(),
+      Plugin.rehypeCustomSubtitle(),
       Plugin.TableOfContents(),
     ],
     filters: [Plugin.ExplicitPublish()],
