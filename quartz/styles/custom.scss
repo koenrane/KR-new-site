@@ -1029,3 +1029,19 @@ strong,
   text-shadow: 0.1px 0.1px;
   font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
 }
+
+// Indent various elements of the sidebar
+#toc-content ul,
+#toc-content-mobile ul {
+  --text-indent-multiplier: -0.75;
+
+  text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
+  margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+}
+
+.tags li,
+.callout-metadata .callout-content > p,
+#post-statistics p {
+  text-indent: calc(-0.75 * $baseMargin);
+  margin-left: calc($baseMargin);
+}
