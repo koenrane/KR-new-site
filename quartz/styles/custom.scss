@@ -60,11 +60,6 @@ li[id^="user-content-fn-"] {
     margin-block-end: 0;
   }
 
-  /* Show only the first back arrow in a footnote */
-  & a[class*="footnote-backref"] {
-    display: none; // Hide all by default
-  }
-
   & > p:last-child > a[class*="footnote-backref"]:last-child,
   & > a[class*="footnote-backref"]:last-child {
     display: inline-block; // Show the last backref
