@@ -309,5 +309,5 @@ Neural networks are [oft dismissed as "inscrutable"](https://www.lesswrong.com/p
 > 
 > We show that gradient routing can be used to (1) learn representations which are partitioned in an interpretable way; (2) enable robust unlearning via ablation of a pre-specified network subregion; and (3) achieve scalable oversight of a reinforcement learner by localizing modules responsible for different behaviors. Throughout, we find that gradient routing localizes capabilities even when applied to a limited, ad-hoc subset of the data. We conclude that the approach holds promise for challenging, real-world applications where quality data are scarce.
 
-![](gradient-routing-mask-networks.png)
+![](https://assets.turntrout.com/static/images/posts/gradient-routing-mask-networks.avif)
 Figure: By masking gradient updates, gradient routing controls which datapoints update which parameters. The result: Coarse-grained localization of where capabilities (like virology knowledge or goal pursuit) are learned. 
