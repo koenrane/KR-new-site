@@ -19,7 +19,7 @@ This page is chronological. For my most recent work, [navigate to the end of the
 # Low-impact AI
 Subtitle: Spring 2018 through June 2022
 
-Impact measures - my first (research) love. 💕 The hope was:
+Impact measures - my first (research) love. 🥰 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
 2. It seemed easier to flag down obviously "big deal" actions and penalize those (like making a mess);
 3. By getting the AI to optimize a "good enough" description of what we want, but also not taking impactful actions -- we could still get useful work out of the AI.
@@ -27,7 +27,7 @@ Impact measures - my first (research) love. 💕 The hope was:
 The question: What does it mean for an action to be a "big deal"? First, I needed to informally answer the question philosophically. Second, I needed to turn the answer into math.
 
 ### Defining a new impact measure: AUP
-After a [flawed but fun first stab at the problem](/whitelisting-impact-measure), I was itching to notch an AI safety win and find "the correct impact equation." I felt inspired after a coffee chat with a friend, so I headed to the library, walked up to a whiteboard, and stared at its blank blankness. With [_Attack on Titan_ music](/https://www.youtube.com/watch?v=pgA5D2p-jho) beating its way through my heart, I stared until inspiration came over me and I simply wrote down a new equation. That new equation went on to become [Attainable Utility Preservation (AUP)](/attainable-utility-preservation-empirical-results).
+After a [flawed but fun first stab at the problem](/whitelisting-impact-measure), I was itching to notch an AI safety win and find "the correct impact equation." I felt inspired after a coffee chat with a friend, so I headed to the library, walked up to a whiteboard, and stared at its blank blankness. With [_Attack on Titan_ music](https://www.youtube.com/watch?v=pgA5D2p-jho) beating its way through my heart, I stared until inspiration came over me and I simply wrote down a new equation. That new equation went on to become [Attainable Utility Preservation (AUP)](/attainable-utility-preservation-empirical-results).
 
 The key insight involved a frame shift. [Existing](https://arxiv.org/abs/1705.10720) [work](https://arxiv.org/pdf/1806.01186v1) formalized impact as change in the state of the world itself. Intuitive, right? You see a bomb explode, the bomb damages buildings, and if the buildings hadn't been damaged - if the state hadn't changed - then there wouldn't have been impact. 
 
