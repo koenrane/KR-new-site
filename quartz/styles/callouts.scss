@@ -76,9 +76,9 @@
   &[data-callout="question"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-question);
-    & .callout-icon {
-      -webkit-mask-position-y: 3.25px;
-    }
+    // & .callout-icon {
+    //   -webkit-mask-position-y: 3.25px;
+    // }
   }
   &[data-callout="todo"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
@@ -218,7 +218,7 @@
       margin-bottom: 0;
     }
     & > *:first-child {
-      margin-top: calc($baseMargin);
+      margin-top: 0;
     }
   }
 }
