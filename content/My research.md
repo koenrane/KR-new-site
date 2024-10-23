@@ -19,7 +19,7 @@ This page is chronological. For my most recent work, [navigate to the end of the
 # Low-impact AI
 Subtitle: Spring 2018 through June 2022
 
-Impact measures - my first (research) love. 💕 The hope was:
+Impact measures - my first (research) love. 🥰 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
 2. It seemed easier to flag down obviously "big deal" actions and penalize those (like making a mess);
 3. By getting the AI to optimize a "good enough" description of what we want, but also not taking impactful actions -- we could still get useful work out of the AI.
