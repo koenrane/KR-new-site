@@ -191,7 +191,7 @@ export function fullWidthSlashes(text: string): string {
  */
 export function enDashNumberRange(text: string): string {
   return text.replace(
-    new RegExp(`\\b(?<!\\.)((?:p\\.?)?\\d+${chr}?)-(${chr}?\\d+)(?!\\.)\\b`, "g"),
+    new RegExp(`\\b(?<!\\.)((?:p\\.?)?\\d+${chr}?)-(${chr}?\\d+)(?!\\.\\d)\\b`, "g"),
     "$1–$2",
   )
 }

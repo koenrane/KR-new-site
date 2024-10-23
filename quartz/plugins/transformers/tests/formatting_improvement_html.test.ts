@@ -309,6 +309,7 @@ describe("HTMLFormattingImprovement", () => {
     test("converts number ranges to en dashes", () => {
       expect(hyphenReplace("Pages 1-5")).toBe("Pages 1–5")
       expect(hyphenReplace("2000-2020")).toBe("2000–2020")
+      expect(hyphenReplace("2018-2021. Then 1-3")).toBe("2018–2021. Then 1–3")
       expect(hyphenReplace("p.10-15")).toBe("p.10–15")
     })
   })
