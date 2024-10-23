@@ -413,7 +413,6 @@ export function setupSearch() {
               const frontmatter = frontmatterScript
                 ? JSON.parse(frontmatterScript.textContent || "{}")
                 : {}
-              console.log(html)
 
               const contentElements = [...html.getElementsByClassName("popover-hint")]
 
@@ -430,15 +429,12 @@ export function setupSearch() {
     }
 
     async function displayPreview(el: HTMLElement | null) {
-      console.log("displayPreview", el)
       if (!searchLayout || !enablePreview || !el || !preview) return
       const slug = el.id as FullSlug
 
       try {
         const { content, frontmatter } = await fetchContent(slug)
-        console.log(frontmatter)
         const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
-        console.log("useDropcap", useDropcap)
 
         if (!previewInner) {
           previewInner = document.createElement("article")

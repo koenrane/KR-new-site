@@ -19,7 +19,6 @@ export function modifyNode(
   parent: Parent | null | undefined,
 ): void {
   if (node.tagName === "p" && processParagraph(node)) {
-    console.log("processParagraph", node)
     const newNode = createSubtitleNode(node.children)
     if (parent && index !== undefined) {
       parent.children[index] = newNode
