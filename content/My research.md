@@ -19,14 +19,6 @@ This page is chronological. For my most recent work, [navigate to the end of the
 # Low-impact AI
 Subtitle: Spring 2018 through June 2022
 
-**Papers:**
-- [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
-- [Avoiding Side Effects in Complex Environments](https://arxiv.org/abs/2006.06547)
-- [Formalizing the Problem of Side Effect Regularization](https://arxiv.org/abs/2206.11812v3)
-
-**See also:** the [Reframing Impact sequence.](/posts#reframing-impact)
-<hr/>
-
 Impact measures - my first (research) love. 💕 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
 2. It seemed easier to flag down obviously "big deal" actions and penalize those (like making a mess);
@@ -131,14 +123,16 @@ The low-impact work has not yet mattered for AGI, but perhaps one day AUP will p
 
 Or maybe you just ask the LLM agent to check in with you, and it does, and everything is fine. 🤷‍♂️
 
+### Papers
+- [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
+- [Avoiding Side Effects in Complex Environments](https://arxiv.org/abs/2006.06547)
+- [Formalizing the Problem of Side Effect Regularization](https://arxiv.org/abs/2206.11812v3)
+
+**See also** the [Reframing Impact sequence.](/posts#reframing-impact)
 
 
 # A formal theory of power-seeking tendencies
 Subtitle: Fall 2019 through June 2022
-
-**Papers:**
-- [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
-- [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
 
 I don't want to die. Animals try to avoid dying. Why was this behavior selected into so many different kinds of animals? While the question may seem facile, it is not. For nearly all biological "subgoals" (like "find food" or "impress a potential mate"), a dead animal cannot accomplish any of those goals. Otherwise put: Certain strategies (like "staying alive") are pre-requisite for _almost all goals._ This observation is called "instrumental convergence."[^instr] 
 
@@ -180,6 +174,10 @@ I feel so mixed about these papers. On one hand, the papers feel like a pure and
 On the other hand, the papers embody the _brash, loud confusion_ which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
 
 So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend to Seek Power_ so that it stops misleading people into thinking optimal policies are practically relevant for forecasting power-seeking behavior from RL training.
+
+### Papers
+- [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
+- [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
 
 
 # Shard theory
@@ -249,13 +247,6 @@ Figure: We had GPT-4 generate dozens of strings which "look like they could have
 # Steering vectors
 Subtitle: January 2023 through the present
 
-**Papers:** 
-- [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
-- [Steering Language Models With Activation Engineering](https://arxiv.org/abs/2308.10248)
-- [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2310.08043)
-	
-<hr/>
-
 In 2023, I popularized _steering vectors_[^steering] as a cheap way to control model outputs at inference time. I first discovered the [cheese vector](/understanding-and-controlling-a-maze-solving-policy-network#subtract-the-cheese-vector-subtract-the-cheese-seeking) in a maze-solving RL environment: 
 
 
@@ -298,6 +289,12 @@ A few colleagues I respect were skeptical of steering vectors at first. I feel p
 
 
 [^steering]: "Steering vector" was originally coined by [Subramani et al. (2022)](https://arxiv.org/abs/2205.05124).
+
+### Papers
+- [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
+- [Steering Language Models With Activation Engineering](https://arxiv.org/abs/2308.10248)
+- [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2310.08043)
+	
 
 # Gradient routing
 Subtitle: June 2024 through the present
