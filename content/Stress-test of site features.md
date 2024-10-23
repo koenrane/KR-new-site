@@ -10,7 +10,6 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 
 # Quotations
 Subtitle: Headings can have subtitles! 
-Test
 
 > Perhaps one did not want to be loved so much as to be understood.
 >
