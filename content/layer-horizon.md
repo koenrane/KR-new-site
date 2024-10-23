@@ -30,12 +30,11 @@ On input tokens $x$, let $\mathrm{attn}_i(x),\mathrm{MLP}_i(x)$ be the origin
 > Let $k>0$ be an integer. Suppose that for all $n\geq k$, we patch in $h_{(n-k):n}(x)$ for the usual residual stream inputs $h_n(x)$.[^1] Let the _effective layer horizon_ be the smallest $k$ for which the model's outputs and/or capabilities are "qualitatively unchanged."
 
 # Implications
-Effective layer horizons (if they exist) would greatly simplify searches for circuits within models. Additionally, they would be evidence against[^error] hypotheses like [_Residual Networks Behave Like Ensembles of Relatively Shallow Networks_](https://arxiv.org/abs/1605.06431) because serial circuits would need to be deep:
+Effective layer horizons (if they exist) would greatly simplify searches for circuits within models. Additionally, they would be evidence against hypotheses like [_Residual Networks Behave Like Ensembles of Relatively Shallow Networks_](https://arxiv.org/abs/1605.06431) because serial circuits would need to be deep:
 
 > [!quote] [Jake Mendel](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=gnWcxJeBkrGPJseaA)
 > Low effective layer horizon implies that later layers are building more on the outputs of intermediate layers.  In one extreme, a network with an effective layer horizon of 1 would only consist of circuits that route through every single layer. Likewise, for there to be any extremely shallow circuits that route directly from the inputs to the final layer, the effective layer horizon must be the number of layers in the network.
 
-[^error]: I initially (wrongly) said "evidence _for_ ensembles of shallow networks".
 
 Lastly, slower norm growth probably causes the effective layer horizon to be lower. In that case, simply measuring residual stream norm growth would tell you a lot about the depth of circuits in the model, which could be useful if you want to regularize against that or otherwise decrease it (e.g. to decrease the amount of effective serial computation).
 
@@ -52,6 +51,6 @@ To measure the importance of sublayer contributions originating much earlier in 
 > 
 >  ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DpKyPSqGCBw3erajH/eizrcqrewbamiyfsbdsp)
   >
-   > We clearly see the same pattern again. As TurnTrout predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
+   > We clearly see the same pattern again. As `TurnTrout` predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
 
 [^1]:  For notational ease, I'm glossing over the fact that we'd be patching in different residual streams for each sublayer of layer $n$. That is, we wouldn't patch in the same activations for both the attention and MLP sublayers of layer $n$.

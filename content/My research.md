@@ -168,7 +168,7 @@ In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-ma
 ### Reflections on the power-seeking theory
 Subtitle: Written in October 2024
 
-I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). Looking back on my thesis and the 281 theorems I proved, I feel happy and proud.
+I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). [Looking back on my thesis](/alignment-phd) and the 281 theorems I proved, I feel happy and proud.
 
 
 On the other hand, the papers embody the _brash, loud confusion_ which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
@@ -218,8 +218,6 @@ I really enjoyed working with Quintin to generate shard theory. That said, in th
 1. The AI world is moving quickly and I want to make a concrete impact, 
 2. I got emotionally tired of arguing with people on LessWrong, and
 3. [Andrew Critch](https://acritch.com/) persuaded me that arguing on the internet is not _that_ productive.
-
-To elaborate the latter point, he told me something like:
 
 > [!quote] Andrew Critch (according to my memory)
 > If you want people to buy your models \[of how the world works\], go and do something they don't know how to do. Then come back and show them what you can do. Someone will ask you how you did it, and that's the point where you can say "well, thanks to shard theory..."
