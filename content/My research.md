@@ -16,9 +16,6 @@ As of November 2023, I am a research scientist on Google DeepMind's scalable ali
 # Gradient routing
 Subtitle: June 2024 through the present
 
-**Papers:**
-- [Gradient Routing: Masking Gradients to Localize Computation in Neural Networks](https://arxiv.org/abs/2410.04332)
-
 Neural networks are [oft dismissed as "inscrutable"](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities) - hopeless messes which we'd be lucky to learn basic facts about through laborious interpretability. [Gradient routing](/gradient-routing) strikes back by enabling (limited, apparently scalable) control over where networks learn selected capabilities. 
 
 > [!abstract] [Gradient Routing: Masking Gradients to Localize Computation in Neural Networks](https://arxiv.org/abs/2410.04332)
@@ -84,11 +81,6 @@ A few colleagues I respect were skeptical of steering vectors at first. I feel p
 
 # Mechanistic interpretability
 Subtitle: January through April 2023
-
-**Papers:** 
-- [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
-
-<hr/>
 
 As I transitioned from theory to practice, I flirted with _understanding the internal mechanisms of networks_ - "mechanistic interpretability." 
 
