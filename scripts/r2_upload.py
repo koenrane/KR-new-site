@@ -107,9 +107,10 @@ def upload_and_move(
     file_exists = check_exists_on_r2(upload_target, verbose)
     if file_exists:
         if not overwrite_existing:
-            raise RuntimeError(
-                f"Error: File '{r2_key}' already exists in R2. Use '--overwrite-existing' to overwrite."
+            print(
+                f"File '{r2_key}' already exists in R2. Use '--overwrite-existing' to overwrite."
             )
+            return
         elif verbose:
             print(f"Overwriting existing file in R2: {r2_key}")
 

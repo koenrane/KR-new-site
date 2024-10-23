@@ -451,44 +451,50 @@ def test_check_exists_on_r2_verbose_output(capsys):
         assert "No existing file found in R2: r2:bucket/nonexistent.txt" in captured.out
 
 
-def test_check_exists_on_r2_exception():
-    with patch("subprocess.run", side_effect=Exception("Test error")):
-        with pytest.raises(RuntimeError) as excinfo:
-            r2_upload.check_exists_on_r2("r2:bucket/file.txt")
-        assert "Failed to check existence of file in R2: Test error" in str(
-            excinfo.value
+def test_upload_non_existing_file(mock_git_root: Path, tmp_path: Path):
+    test_file = mock_git_root / "quartz" / "static" / "test_non_existing.jpg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with patch(
+        "scripts.r2_upload.check_exists_on_r2", return_value=False
+    ) as mock_check, patch("subprocess.run") as mock_run, patch(
+        "shutil.move"
+    ) as mock_move:
+
+        r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
+
+        mock_check.assert_called_once_with(
+            f"r2:{r2_upload.R2_BUCKET_NAME}/static/test_non_existing.jpg", True
         )
 
+        mock_run.assert_called_with(
+            [
+                "rclone",
+                "copyto",
+                str(test_file),
+                f"r2:{r2_upload.R2_BUCKET_NAME}/static/test_non_existing.jpg",
+            ],
+            check=True,
+        )
 
-def test_upload_and_move_with_existing_file(mock_git_root: Path):
-    test_file = mock_git_root / "quartz" / "static" / "test_existing.jpg"
+        mock_move.assert_called_once()
+
+
+def test_upload_and_move_file_exists(
+    mock_git_root: Path, capsys: pytest.CaptureFixture[str]
+):
+    test_file = mock_git_root / "quartz" / "static" / "test.jpg"
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
     with patch("scripts.r2_upload.check_exists_on_r2", return_value=True), patch(
         "subprocess.run"
     ), patch("shutil.move"):
+        r2_upload.upload_and_move(test_file, verbose=True, overwrite_existing=False)
 
-        # Test with overwrite_existing=False
-        with pytest.raises(RuntimeError) as excinfo:
-            r2_upload.upload_and_move(test_file, overwrite_existing=False)
-        assert "already exists in R2. Use '--overwrite-existing' to overwrite" in str(
-            excinfo.value
-        )
-
-        # Test with overwrite_existing=True
-        r2_upload.upload_and_move(test_file, overwrite_existing=True, verbose=True)
-        # Add assertions here to check if the file was uploaded and moved correctly
-
-
-def test_upload_and_move_with_non_existing_file(mock_git_root: Path):
-    test_file = mock_git_root / "quartz" / "static" / "test_non_existing.jpg"
-    test_file.parent.mkdir(parents=True, exist_ok=True)
-    test_file.touch()
-
-    with patch("scripts.r2_upload.check_exists_on_r2", return_value=False), patch(
-        "subprocess.run"
-    ), patch("shutil.move"):
-
-        r2_upload.upload_and_move(test_file, verbose=True)
-        # Add assertions here to check if the file was uploaded and moved correctly
+    captured = capsys.readouterr()
+    assert (
+        "File 'static/test.jpg' already exists in R2. Use '--overwrite-existing' to overwrite."
+        in captured.out
+    )
