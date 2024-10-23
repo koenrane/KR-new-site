@@ -6,8 +6,6 @@ hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
 ---
 
-> [!warning] Page under construction
-
 Over the years, I've worked on lots of research problems. Every time, I felt invested in my work. The work felt beautiful. Even though many days have passed since I have daydreamed about instrumental convergence, I'm proud of what I've accomplished and discovered.
 <span class="float-right"><img src="https://assets.turntrout.com/Attachments/Pasted image 20240614164142.avif" alt="A professional photograph of me."/> While not _technically_ a part of my research, I've included a photo of myself anyways.</span>
 
@@ -16,29 +14,149 @@ As of November 2023, I am a research scientist on Google DeepMind's scalable ali
 [^disclaim]: Of course, all of my hot takes are my own, not Google's.
 
 # Gradient routing
-Neural networks are oft dismissed as "inscrutable" - hopeless messes which we'd be lucky to learn basic facts about through laborious interpretability. Gradient routing strikes back by _offering limited control over where networks learn selected capabilities_. 
+Subtitle: June 2024 through the present
 
-> [!warning] Under construction
+**Papers:**
+- [Gradient Routing: Masking Gradients to Localize Computation in Neural Networks](https://arxiv.org/abs/2410.04332)
+
+Neural networks are [oft dismissed as "inscrutable"](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities) - hopeless messes which we'd be lucky to learn basic facts about through laborious interpretability. [Gradient routing](/gradient-routing) strikes back by enabling (limited, apparently scalable) control over where networks learn selected capabilities. 
+
+> [!abstract] [Gradient Routing: Masking Gradients to Localize Computation in Neural Networks](https://arxiv.org/abs/2410.04332)
+> Neural networks are trained primarily based on their inputs and outputs, without regard for their internal mechanisms. These neglected mechanisms determine properties that are critical for safety, like (i) transparency; (ii) the absence of sensitive information or harmful capabilities; and (iii) reliable generalization of goals beyond the training distribution. To address this shortcoming, we introduce gradient routing, a training method that isolates capabilities to specific subregions of a neural network. Gradient routing applies data-dependent, weighted masks to gradients during backpropagation. These masks are supplied by the user in order to configure which parameters are updated by which data points. 
+> 
+> We show that gradient routing can be used to (1) learn representations which are partitioned in an interpretable way; (2) enable robust unlearning via ablation of a pre-specified network subregion; and (3) achieve scalable oversight of a reinforcement learner by localizing modules responsible for different behaviors. Throughout, we find that gradient routing localizes capabilities even when applied to a limited, ad-hoc subset of the data. We conclude that the approach holds promise for challenging, real-world applications where quality data are scarce.
+
+![](gradient-routing-mask-networks.png)
+Figure: By masking gradient updates, gradient routing controls which datapoints update which parameters. The result: Coarse-grained localization of where capabilities (like virology knowledge or goal pursuit) are learned. 
 
 # Steering vectors
 Subtitle: January 2023 through the present
 
+**Papers:** 
+- [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
+- [Steering Language Models With Activation Engineering](https://arxiv.org/abs/2308.10248)
+- [Steering Llama 2 via Contrastive Activation Addition](https://arxiv.org/abs/2310.08043)
+	
+<hr/>
+
+In 2023, I popularized _steering vectors_[^steering] as a cheap way to control model outputs at inference time. I first discovered the [cheese vector](/understanding-and-controlling-a-maze-solving-policy-network#subtract-the-cheese-vector-subtract-the-cheese-seeking) in a maze-solving RL environment: 
+
+
+<figure>
+<div style="display:flex; justify-content: center; ">
+<div class="subfigure">
+<img src="https://assets.turntrout.com/static/images/posts/original_maze_field.avif" alt="The original probability vectors. The mouse seems 'torn' between the cheese and the right side of the maze."/>
+<figcaption>(a) Original probabilities</figcaption>
+</div>
+<div class="subfigure">
+<img src="https://assets.turntrout.com/static/images/posts/modified_maze.avif" alt="The modified probability vectors. The mouse goes to the right side of the maze, ignoring the cheese."/>
+<figcaption>(b) Steered probabilities</figcaption>
+</div>
+<div class="subfigure">
+<img src="https://assets.turntrout.com/static/images/posts/maze_field_diff.avif" alt="The change in the action probability vectors, shown in green. They point away from the cheese."/>
+<figcaption>(c) Steered minus original</figcaption>
+</div>
+</div>
+<figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  <br/> **Middle:** After subtracting the cheese vector, we plot the new probability vectors induced by the modified forward passes. <br/>**Right:** The agent now heads away from the cheese.</figcaption>
+</figure>
+
+After finding [an additional vector for the maze agent](/top-right-steering-vector), my [MATS](https://matsprogram.org) team and I [steered GPT-2-XL by adding an activation vector](/gpt2-steering-vectors):
+
+> [!abstract] [Steering Language Models With Activation Engineering](https://arxiv.org/abs/2308.10248)
+> Prompt engineering and finetuning aim to maximize language model performance on a given metric (like toxicity reduction). However, these methods do not fully elicit a model's capabilities. To reduce this gap, we introduce activation engineering: the inference-time modification of activations in order to control (or steer) model outputs. Specifically, we introduce the Activation Addition (ActAdd) technique, which contrasts the intermediate activations on prompt pairs (such as "Love" versus "Hate") to compute a steering vector (Subramani et al. 2022). 
+> 
+> By tactically adding in e.g. the "Love" - "Hate" steering vector during the forward pass, we achieve SOTA on negative-to-positive sentiment shift and detoxification using models including LLaMA-3 and OPT. ActAdd yields inference-time control over high-level output properties (like topic and sentiment) while preserving performance on off-target tasks. ActAdd is lightweight: it does not require any machine optimization and works with a single pair of data points, which enables rapid iteration over steering. ActAdd demonstrates the power of activation engineering.
+
+During 2023 and 2024, activation engineering inspired [dozens of follow-up papers](https://www.lesswrong.com/posts/3ghj8EuKzwD3MQR5G/an-introduction-to-representation-engineering-an-activation). At Google DeepMind, I am presently tying up a project on steering frontier Gemini models using steering vectors. The theory of change is to supplement prompting with steering as another cheap & iterable alignment strategy which can be quickly deployed using a small amount of data. 
+
+### Reflections on steering vector work 
+Subtitle: Written in October 2024
+
+A few colleagues I respect were skeptical of steering vectors at first. I feel proud of how I generated the technique:
+
+> [!quote] [Retrospective comment I wrote](https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network?view=postCommentsTop&postId=cAC4AXiNC5ig6jQnc&commentId=jZ9v8yJHp43FEXJkp)
+> In light of Anthropic's viral "Golden Gate Claude" activation engineering, I want to come back and claim the points I earned \[in this post\].
+  > 
+  > I was extremely prescient in predicting the importance and power of activation engineering (then called "AVEC"). **In** _**January**_ **2023, right after running the cheese vector as my** _**first**_ **idea for what to do to interpret the network, and well before anyone ran LLM steering vectors...** **I had only seen the cheese-hiding vector work on a few mazes. Given that (seemingly) tiny amount of evidence, I** **immediately wrote down 60% credence that the technique would be a big deal for LLMs...**
+
+
+[^steering]: "Steering vector" was originally coined by [Subramani et al. (2022)](https://arxiv.org/abs/2205.05124).
+
 # Mechanistic interpretability
 Subtitle: January through April 2023
 
-> [!abstract]
+**Papers:** 
+- [Understanding and Controlling a Maze-Solving Policy Network](https://arxiv.org/abs/2310.08043)
+
+<hr/>
+
+As I transitioned from theory to practice, I flirted with _understanding the internal mechanisms of networks_ - "mechanistic interpretability." 
+
+[Understanding and controlling a maze-solving network](/understanding-and-controlling-a-maze-solving-policy-network)
+
+<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+
+Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals by modifying only a single activation! For more, read [our paper](https://arxiv.org/abs/2310.08043).
+
+[Residual stream norms grow exponentially over the forward pass](/residual-stream-norms-grow-exponentially-over-the-forward-pass)
+:  ![](https://assets.turntrout.com/static/images/posts/ty8epqxasadhaiel2pnh.avif)
+Figure: We had GPT-4 generate dozens of strings which "look like they could have been in GPT-2's training corpus", in addition to a few hand-written strings. We ran these strings through the model and recorded the norms of each residual stream, across layers and sequence positions.
+
+[Can transformers act on information beyond an effective layer horizon?](/effective-layer-horizon)
+: I propose that transformer circuits cannot skip more than a few layers at a time due to norm growth. Joseph Miller's initial results support this hypothesis.
 
 # Shard theory
-Subtitle: February through December 2023
+Subtitle: February through December 2022
 
-In the first half of 2022, Quintin Pope and I came up with [The shard theory of human values](/shard-theory).
+As a [born-and-raised AI alignment theorist](/alignment-phd), I greatly enjoyed mixing psychology, neuroscience, and AI into a blender to yield _shard theory._ The shard theory basically postulates that:
+1. Deep learning policies[^dl-sys] are functions of intermediate abstractions (e.g. whether a sentence relates to cars),
+2. Decision-making influences specialize as a function of these abstractions (e.g. the policy learns to increase positive or negative sentiment when the `car sentence` feature is active). These influential circuits are called "shards."
+3. The system's overall behavior is computed as an ensemble of shards.
+
+For example, to predict what someone will do in a situation (like seeing their mother again), you wouldn't try to compute the optimal actions relative to some fixed life goal. In other words, the person's behavior is not well-described as maximization of a fixed utility function. This non-descriptiveness is a well-known problem with [the "subjective expected utility" theory of human decision-making.](https://plato.stanford.edu/entries/decision-theory-descriptive/#StanModeSubjExpeUtil)
+
+Instead, you can consider what ensemble of shards will activate. How did they feel the last time they saw their mother - was it a positive reinforcement event? Are they a shy person? Will they be tired? Each of these factors influences behavior (somewhat independently). [Later investigation](/posts#interpreting-a-maze-solving-network) [suggested](/statistics-of-a-maze-solving-network) that similar shard-based reasoning helps predict AI generalization.  
+
+[^dl-sys]: "Deep learning systems" meaning something like "systems trained via RL and/or predictive learning." Naturally, this includes both the brain and LLMs.
+
+> [!quote] [Sequence: the shard theory of human values](./posts#shard-theory)
+> In early 2022, [Quintin Pope](https://www.linkedin.com/in/quintin-pope/) and I noticed glaring problems at the heart of "classical" alignment arguments. We thought through the problem with fresh eyes and derived _shard theory_.
+> 
+> Classical arguments focus on what _the_ goal of an AI will be. Why? There's not a good answer that I've ever heard. Shard theory redirects our attention from fixed single objectives. The basic upshot of shard theory: AIs and humans are well-understood[^experimental] as having a bunch of situationally activated goals -- "shards" of desire and preference.
+> 
+> For example, you probably care more about people you can see. Shard theory predicts this outcome. Consider your learned decision-making circuits which bid for actions which care for your friend Bill. These circuits were probably formed when you were able to see Bill (or perhaps the vast majority of your "caring about people" circuits were formed when physically around people). If you can see Bill, that situation is more "similar to the training distribution" for your "caring about Bill" shard. Therefore, the Bill shard is especially likely to fire when you can see him.
+> 
+> Thus, [it seems OK if our AIs don't have "perfect" shard mixtures](./alignment-without-total-robustness). The stronger their "aligned shards", the more human welfare weighs on their decision-making. We're playing a game of inches, so let's play to win.
+> 
+> ![](https://assets.turntrout.com/static/images/posts/human_shards.avif)
+
+### Looking back on shard theory
+Subtitle: Written in October 2024
+
+I think shard theory is broadly correct. However, Quintin and I never got too far into the (still unexplored) interesting aspects of the theory because we underestimated the work needed to explain the initial intuitions. For example, somehow [reward is not the optimization target](/reward-is-not-the-optimization-target) remains (in my opinion) not fully understood among the readership. I'm not sure what I should have done differently, but it's probably something (and not "nothing").
+
+I wish I had more clearly outlined my claims in a neat, propositional manner. Syllogisms seem easier to critique. It also seems easier to tell when you're messing up! I also wish that I'd called it the "shard frame", not the "shard theory." That confused some folks. I think a formal shard _theory_ is possible - I hope to supervise work formalizing shard theory itself.
+
+On another note, shard theory is a less natural fit for LLM chatbots than for agentic systems. At least, it feels harder to reason about the shards comprising Gemini Pro's "motivations", compared to reasoning about human shards or [shards in a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network). I still think shard theory is a highly productive frame for LLMs, it just isn't as obvious what the shards should be.
+
+I really enjoyed working with Quintin to generate shard theory. That said, in the end of 2022, I switched to empirical work because:
+1. The AI world is moving quickly and I want to make a concrete impact, 
+2. I got emotionally tired of arguing with people on LessWrong, and
+3. [Andrew Critch](https://acritch.com/) persuaded me that arguing on the internet is not _that_ productive.
+
+To elaborate the latter point, he told me something like:
+
+> [!quote] Andrew Critch (according to my memory)
+> If you want people to buy your models \[of how the world works\], go and do something they don't know how to do. Then come back and show them what you can do. Someone will ask you how you did it, and that's the point where you can say "well, thanks to shard theory..."
+
+And that's when I came up with [steering vectors](#steering-vectors)!
 
 # A formal theory of power-seeking tendencies
 Subtitle: Fall 2019 through June 2022
 
-- Intuition that it was formalizable
-- Summary of the research process
-- Summary of results
+**Papers:**
+- [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
+- [Parametrically retargetable decision-makers tend to seek power](https://arxiv.org/abs/2206.13477)
 
 I don't want to die. Animals try to avoid dying. Why was this behavior selected into so many different kinds of animals? While the question may seem facile, it is not. For nearly all biological "subgoals" (like "find food" or "impress a potential mate"), a dead animal cannot accomplish any of those goals. Otherwise put: Certain strategies (like "staying alive") are pre-requisite for _almost all goals._ This observation is called "instrumental convergence."[^instr] 
 
@@ -74,14 +192,24 @@ In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-ma
 ### Reflections on the power-seeking theory
 Subtitle: Written in October 2024
 
-I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). Looking back on my thesis and the 281 theorems I proved, I almost tear up. 
+I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). Looking back on my thesis and the 281 theorems I proved, I feel happy and proud.
 
 
 On the other hand, the papers embody the _brash, loud confusion_ which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
 
+So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend to Seek Power_ so that it stops misleading people into thinking optimal policies are practically relevant for forecasting power-seeking behavior from RL training.
+
 
 # Low-impact AI
 Subtitle: Spring 2018 through June 2022
+
+**Papers:**
+- [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
+- [Avoiding Side Effects in Complex Environments](https://arxiv.org/abs/2006.06547)
+- [Formalizing the Problem of Side Effect Regularization](https://arxiv.org/abs/2206.11812v3)
+
+**See also:** the [Reframing Impact sequence.](/posts#reframing-impact)
+<hr/>
 
 Impact measures - my first (research) love. 💕 The hope was:
 1. It seemed hard to get AI to do exactly what we want (like cleaning a room);
@@ -91,9 +219,9 @@ Impact measures - my first (research) love. 💕 The hope was:
 The question: What does it mean for an action to be a "big deal"? First, I needed to informally answer the question philosophically. Second, I needed to turn the answer into math.
 
 ### Defining a new impact measure: AUP
-After a [flawed but fun first stab at the problem](/whitelisting-impact-measure), I was itching to notch an AI safety win and find "the correct impact equation." I felt inspired after a coffee chat with a friend, so I headed to the library, walked up to a whiteboard, and stared at its blank blankness. With [_Attack on Titan_ music](/REPLACE-ME) beating its way through my heart, I stared until inspiration came over me and I simply wrote down a new equation. That new equation went on to become [Attainable Utility Preservation (AUP)](/attainable-utility-preservation-empirical-results).
+After a [flawed but fun first stab at the problem](/whitelisting-impact-measure), I was itching to notch an AI safety win and find "the correct impact equation." I felt inspired after a coffee chat with a friend, so I headed to the library, walked up to a whiteboard, and stared at its blank blankness. With [_Attack on Titan_ music](/https://www.youtube.com/watch?v=pgA5D2p-jho) beating its way through my heart, I stared until inspiration came over me and I simply wrote down a new equation. That new equation went on to become [Attainable Utility Preservation (AUP)](/attainable-utility-preservation-empirical-results).
 
-The key insight involved a frame shift. [Existing](/REPLACE-STUART) [work](/REPLACE-RR) formalized impact as change in the state of the world itself. Intuitive, right? You see a bomb explode, the bomb damages buildings, and if the buildings hadn't been damaged - if the state hadn't changed - then there wouldn't have been impact. 
+The key insight involved a frame shift. [Existing](https://arxiv.org/abs/1705.10720) [work](https://arxiv.org/pdf/1806.01186v1) formalized impact as change in the state of the world itself. Intuitive, right? You see a bomb explode, the bomb damages buildings, and if the buildings hadn't been damaged - if the state hadn't changed - then there wouldn't have been impact. 
 
 Instead of thinking of impact as _something which changed the world_, impact actually _changed the agent's ability to get what it wanted from the world_. The bomb mattered because it ruined people's lives, not because it physically changed the world. If the bomb had exploded empty desert, no one would have cared and it wouldn't have counted. 
 
