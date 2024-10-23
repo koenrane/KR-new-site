@@ -1,12 +1,15 @@
 ---
 permalink: test-page
-publish: "true"
+publish: 'true'
 tags:
-  - website
+- website
+description: A tour of TurnTrout.com's functionality, covering typography, markdown,
+  and more.
 ---
 This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 
 # Quotations
+Subtitle: Headings can have subtitles! 
 
 > Perhaps one did not want to be loved so much as to be understood.
 >

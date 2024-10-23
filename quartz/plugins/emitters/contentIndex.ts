@@ -10,6 +10,7 @@ import { i18n } from "../../i18n"
 import DepGraph from "../../depgraph"
 import fs from "fs"
 import matter from "gray-matter"
+import { applyTextTransforms } from "../transformers/formatting_improvement_html"
 
 export type ContentIndex = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -53,11 +54,16 @@ function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndex): string {
 function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: number): string {
   const base = cfg.baseUrl ?? ""
 
+  const processDescription = (description: string): string => {
+    const escapedDescription = description.replaceAll(/&/g, "&amp;")
+    const massTransformed = applyTextTransforms(escapedDescription)
+    return massTransformed
+  }
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<item>
     <title>${escapeHTML(content.title)}</title>
     <link>https://${joinSegments(base, encodeURI(slug))}</link>
-    <guid>https://${joinSegments(base, encodeURI(slug))}</guid>
-    <description>${content.richContent ?? content.description}</description>
+    <description>${content.richContent ?? processDescription(content.description!)}</description>
+    <guid isPermaLink="true">https://${joinSegments(base, encodeURI(slug))}</guid>
     <pubDate>${content.date?.toUTCString()}</pubDate>
   </item>`
 

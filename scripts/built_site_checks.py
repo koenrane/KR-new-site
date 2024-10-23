@@ -1,5 +1,6 @@
 import os
 import sys
+import subprocess
 from typing import List, Dict
 from pathlib import Path
 from bs4 import BeautifulSoup, Tag
@@ -9,6 +10,12 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 import scripts.compress as compress
 import scripts.utils as script_utils
+
+
+git_root = script_utils.get_git_root()
+RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
+
+IssuesDict = Dict[str, List[str] | bool]
 
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
@@ -22,6 +29,11 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
         ):
             localhost_links.append(href)
     return localhost_links
+
+
+def check_favicons_missing(soup: BeautifulSoup) -> bool:
+    """Check if favicons are missing."""
+    return soup.find("link", rel="icon", class_="favicon") is None
 
 
 def check_invalid_anchors(
@@ -168,10 +180,21 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str]]:
+def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
+    """Check for unrendered subtitle lines."""
+    unrendered_subtitles = []
+    paragraphs = soup.find_all("p")
+    for p in paragraphs:
+        text = p.get_text().strip()
+        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
+            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
+    return unrendered_subtitles
+
+
+def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
-    return {
+    issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
@@ -179,21 +202,48 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> Dict[str, List[str
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
+        "unrendered_subtitles": check_unrendered_subtitles(soup),
     }
+    if "Stress-test-of-site-features" in file_path.name:
+        issues["missing_favicon"] = check_favicons_missing(soup)
+    return issues
+
+
+def check_rss_file_for_issues(
+    git_root_path: Path, custom_xsd_path: Path | None = None
+) -> None:
+    """Check an RSS file for various issues.
+    Uses xmllint via `brew install libxml2`."""
+    rss_path = git_root_path / "public" / "rss.xml"
+    subprocess.run(
+        [
+            "xmllint",
+            "--noout",
+            "--schema",
+            str(custom_xsd_path or RSS_XSD_PATH),
+            str(rss_path),
+        ],
+        check=True,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
 
 
 def print_issues(
     file_path: Path,
-    issues: Dict[str, List[str]],
+    issues: IssuesDict,
 ) -> None:
     """Print issues found in a file."""
     if any(lst for lst in issues.values()):
         print(f"Issues found in {file_path}:")
         for issue, lst in issues.items():
             if lst:
-                print(f"  {issue}:")
-                for item in lst:
-                    print(f"    - {item}")
+                if isinstance(lst, list):
+                    print(f"  {issue}:")
+                    for item in lst:
+                        print(f"    - {item}")
+                elif isinstance(lst, bool):
+                    print(f"  {issue}: {lst}")
 
         print()  # Add a blank line between files with issues
 
@@ -201,12 +251,10 @@ def print_issues(
 def main() -> None:
     """Main function to check all HTML files in the public directory for issues."""
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        print("Error: Not in a git repository.")
-        sys.exit(1)
-
-    public_dir: Path = Path(git_root, "public")
+    public_dir: Path = git_root / "public"
     issues_found: bool = False
+
+    check_rss_file_for_issues(git_root)
 
     for root, dirs, files in os.walk(public_dir):
         for file in files:

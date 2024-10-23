@@ -1,7 +1,9 @@
 import pytest
 from bs4 import BeautifulSoup
 from pathlib import Path
+from ..utils import get_git_root
 import sys
+import subprocess
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -140,6 +142,8 @@ def test_check_file_for_issues(tmp_path):
         <img src="https://example.com/image.png" alt="External Image">
         <blockquote>This is a blockquote</blockquote>
         <blockquote>This is a problematic blockquote ></blockquote>
+        <p>Subtitle: Unrendered subtitle</p>
+        <p class="subtitle">Rendered subtitle</p>
     </body>
     </html>
     """
@@ -150,6 +154,7 @@ def test_check_file_for_issues(tmp_path):
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
     assert issues["missing_media_files"] == ["missing-image.jpg"]
     assert issues["trailing_blockquotes"] == ["This is a problematic blockquote >"]
+    assert issues["unrendered_subtitles"] == ["Subtitle: Unrendered subtitle"]
 
 
 complicated_blockquote = """
@@ -234,3 +239,98 @@ def test_check_asset_references_ignore_external(temp_site_root):
     result = check_asset_references(soup, file_path, temp_site_root)
 
     assert result == []
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        (
+            '<html><head><link rel="icon" class="favicon" href="favicon.ico"></head></html>',
+            False,
+        ),
+        ('<html><head><link rel="stylesheet" href="style.css"></head></html>', True),
+        ("<html><head></head></html>", True),
+    ],
+)
+def test_check_favicons_missing(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_favicons_missing(soup)
+    assert result == expected
+
+
+def test_check_unrendered_subtitles():
+    html = """
+    <html>
+    <body>
+        <p>Normal paragraph</p>
+        <p>Subtitle: This should be a subtitle</p>
+        <p class="subtitle">This is a properly rendered subtitle</p>
+        <p>Subtitle: Another unrendered subtitle</p>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_subtitles(soup)
+    assert result == [
+        "Subtitle: This should be a subtitle",
+        "Subtitle: Another unrendered subtitle",
+    ]
+
+
+def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
+    """
+    Test that check_rss_file_for_issues runs the actual xmllint process on valid and invalid RSS files.
+    Note: This test requires xmllint to be installed on the system.
+    """
+    # Get the real git root
+    real_git_root = get_git_root()
+
+    # Define paths for rss.xml and rss-2.0.xsd
+    rss_path = temp_site_root / "public" / "rss.xml"
+
+    # Create necessary directory
+    rss_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Define valid and invalid RSS content
+    valid_rss_content = """<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+      <channel>
+        <title>Example RSS Feed</title>
+        <link>http://www.example.com</link>
+        <description>This is an example RSS feed</description>
+        <item>
+          <title>First Item</title>
+          <link>http://www.example.com/first-item</link>
+          <description>This is the first item.</description>
+        </item>
+      </channel>
+    </rss>
+    """
+
+    invalid_rss_content = """<?xml version="1.0" encoding="UTF-8" ?>
+    <rss version="2.0">
+      <channel>
+        <title>Invalid RSS Feed</title>
+        <!-- Missing <link> and <description> -->
+        <item>
+          <title>First Item</title>
+          <link>http://www.example.com/first-item</link>
+          <description>This is the first item.</description>
+        </item>
+      </channel>
+    </rss>
+    """
+
+    # Test with valid RSS
+    rss_path.write_text(valid_rss_content)
+    try:
+        check_rss_file_for_issues(temp_site_root, RSS_XSD_PATH)
+    except subprocess.CalledProcessError:
+        pytest.fail(
+            "check_rss_file_for_issues raised CalledProcessError unexpectedly with valid RSS!"
+        )
+
+    # Test with invalid RSS and expect an exception
+    rss_path.write_text(invalid_rss_content)
+    with pytest.raises(subprocess.CalledProcessError):
+        check_rss_file_for_issues(temp_site_root, RSS_XSD_PATH)

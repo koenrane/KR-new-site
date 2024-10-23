@@ -1,11 +1,12 @@
 ---
-publish: '"true"'
+publish: "true"
 permalink: date-me
 title: I'm that "other fish in the sea"
 authors: Alex
-avoidIndexing: '"true"'
+avoidIndexing: "true"
 hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
+description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 ---
 <img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
@@ -26,6 +27,10 @@ If I make a commitment to you, I keep it, and I'm not particularly afraid of com
 
 On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elaborate "welcome back" party for a partner who was coming back from overseas. I rounded up 18 of her friends and hid them in my apartment so they could all jump out at her.
 
+I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
+<img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
+
+
 [^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum - I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
 
 ## Professional life
@@ -37,7 +42,7 @@ On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elab
 
 I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
-I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved hundreds of new theorems. Some of these results were published in [two](https://arxiv.org/abs/1912.01683) [papers](https://arxiv.org/abs/2206.13477) in a top AI conference.
+I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved 281 new theorems.
 
 ## Personal life
 
@@ -55,9 +60,6 @@ When I was younger, I wasn't very social. These days, I love meeting new people!
 </figure>
 
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well).  I'm also a vegan who cares about animals. 🪿🐟
-
-I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
-<img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
 
 # What I like doing
 

@@ -9,7 +9,6 @@ certifi==2024.7.4
 cfgv==3.4.0
 charset-normalizer==3.3.2
 click==8.1.7
-clyent==1.2.1
 decorator==5.1.1
 dill==0.3.9
 distlib==0.3.8
@@ -101,4 +100,3 @@ typing_extensions==4.12.2
 uritemplate==4.1.1
 urllib3==2.2.2
 virtualenv==20.26.6
-xformers==0.0.28.post1

@@ -2,12 +2,14 @@
 publish: "true"
 hide_authors: "true"
 hide_metadata: "true"
-title: Posts
 no_dropcap: "true"
 permalink: posts
+title: "Posts & Sequences"
 aliases:
   - Posts
 hideSubscriptionLinks: false
+card_image: https://assets.turntrout.com/static/images/card_images/test_library.png
+description: "A selection of the best posts which I've written."
 ---
 
 # My favorite posts
@@ -15,7 +17,7 @@ hideSubscriptionLinks: false
 1. [Looking back on my alignment PhD](/alignment-phd)
 2. [The shard theory of human values](/shard-theory)
 3. [Bruce Wayne and the cost of inaction](/bruce-wayne-and-the-cost-of-inaction)
-4. [Formalizing “defection” using game theory](/what-counts-as-defection.md)
+4. [Formalizing “defection” using game theory](/what-counts-as-defection)
 5. [You should read "Harry Potter and the Methods of Rationality"](/read-hpmor)
 
 # Explore by tag

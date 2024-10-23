@@ -373,6 +373,38 @@ figure,
   }
 }
 
+.article-title:has(+ .subtitle),
+h1:has(+ .subtitle),
+h2:has(+ .subtitle),
+h3:has(+ .subtitle),
+h4:has(+ .subtitle),
+h5:has(+ .subtitle),
+h6:has(+ .subtitle),
+p:has(+ .subtitle),
+.callout-title:has(+ .callout-content > .subtitle) {
+  margin-bottom: 0;
+}
+
+.subtitle {
+  color: var(--gray);
+  margin-top: 0;
+
+  font-size: var(--text-size-90);
+  & .favicon {
+    // Smaller favicon for smaller font
+    --favicon-size: calc(pow(var(--scale-ratio), -1) * 0.65rem);
+    width: var(--favicon-size);
+    height: var(--favicon-size);
+  }
+
+  .callout & {
+    color: color-mix(in srgb, var(--gray) 60%, var(--color));
+    & a {
+      color: inherit;
+    }
+  }
+}
+
 figure > img {
   z-index: -1;
 }
@@ -395,6 +427,7 @@ figcaption,
 
 .float-right {
   margin-top: $baseMargin;
+  margin-bottom: calc($baseMargin);
   & img,
   img.float-right {
     margin-left: auto;
@@ -600,21 +633,27 @@ a.internal.tag-link {
   font-size: 0.71em;
 }
 
-.authors p {
-  color: var(--gray);
+.authors {
+  & p {
+    color: var(--gray);
 
-  & a {
-    color: inherit;
+    & a {
+      color: inherit;
+    }
+    margin-top: 0;
+    margin-bottom: 0;
   }
-  margin-top: 0;
-  margin-bottom: 0;
+
+  & .publication-str {
+    font-variant-numeric: lining-nums;
+  }
 }
 
 img,
 video {
   width: fit-content;
   max-width: 100%;
-  margin-bottom: calc(2 * $baseMargin);
+  margin-bottom: calc($baseMargin);
 
   article > p &,
   article > &,
@@ -928,19 +967,18 @@ article[data-use-dropcap="true"] {
 }
 
 // Edge labels
-.edgeLabel > .label > foreignObject > div {
-  background-color: var(--lightergray) !important;
-  padding-left: $baseMargin !important;
-  padding-right: $baseMargin !important;
-  padding-top: $baseMargin !important;
-  padding-bottom: $baseMargin !important;
-  opacity: 1 !important;
-
-  border-radius: 5px !important;
-
-  &:has(.edgeLabel:empty) {
-    display: none !important;
+.edgeLabel > .label > foreignObject {
+  & > div {
     background-color: transparent !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+
+    &:has(.edgeLabel:empty) {
+      display: none !important;
+      background-color: transparent !important;
+    }
   }
 }
 
@@ -952,6 +990,12 @@ article[data-use-dropcap="true"] {
   stroke: var(--lightgray) !important;
 }
 
+.flowchart p,
+.flowchart .katex {
+  // NOTE hacky, unlike commit 22939c1 we render mermaid on the server. so some of the settings are different and we have to compensate.
+  font-size: 16px !important;
+}
+
 .manifold-embed {
   position: relative;
   width: 100%;
@@ -961,6 +1005,9 @@ article[data-use-dropcap="true"] {
 }
 
 .after-article-components {
+  margin-bottom: calc(2 * $baseMargin);
+  margin-top: calc(2 * $baseMargin);
+
   & p {
     margin-bottom: $baseMargin; // Less separation than usual
   }
@@ -985,4 +1032,35 @@ article[data-use-dropcap="true"] {
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
+}
+
+// Date formatting
+.ordinal-suffix {
+  vertical-align: 0.3em;
+  margin-left: 0.05em;
+  text-decoration: underline 1.25px var(--lightgray);
+}
+
+// Bolding text
+b,
+strong,
+.callout-title-inner {
+  text-shadow: 0.1px 0.1px;
+  font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
+}
+
+// Indent various elements of the sidebar
+#toc-content ul,
+#toc-content-mobile ul {
+  --text-indent-multiplier: -0.75;
+
+  text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
+  margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+}
+
+.tags li,
+.callout-metadata .callout-content > p,
+#post-statistics p {
+  text-indent: calc(-0.75 * $baseMargin);
+  margin-left: calc($baseMargin);
 }

@@ -53,8 +53,6 @@ SUFFIX_REGEX = r"\.(jpg|jpeg|png|gif|mov|mp4|webm|avi|mpeg|webp|avif)"
 
 def main(markdown_files: list[Path]) -> None:
     git_root = script_utils.get_git_root()
-    if git_root is None:
-        raise RuntimeError("Error: Not in a git repository")
     images_dir = git_root / "quartz" / "static" / "images" / "posts"
 
     print(f"Images dir: {images_dir}")
