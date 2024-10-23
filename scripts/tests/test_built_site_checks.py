@@ -245,7 +245,7 @@ def test_check_asset_references_ignore_external(temp_site_root):
     "html,expected",
     [
         (
-            '<html><head><link rel="icon" class="favicon" href="favicon.ico"></head></html>',
+            '<html><head><img class="favicon" href="favicon.ico"></head></html>',
             False,
         ),
         ('<html><head><link rel="stylesheet" href="style.css"></head></html>', True),

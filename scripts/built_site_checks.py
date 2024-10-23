@@ -33,7 +33,7 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
 
 def check_favicons_missing(soup: BeautifulSoup) -> bool:
     """Check if favicons are missing."""
-    return soup.find("link", rel="icon", class_="favicon") is None
+    return soup.find("img", class_="favicon") is None
 
 
 def check_invalid_anchors(
@@ -204,7 +204,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "problematic_katex": check_katex_elements_for_errors(soup),
         "unrendered_subtitles": check_unrendered_subtitles(soup),
     }
-    if "Stress-test-of-site-features" in file_path.name:
+    if "test-page" in file_path.name:
         issues["missing_favicon"] = check_favicons_missing(soup)
     return issues
 
