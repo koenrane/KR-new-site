@@ -30,7 +30,9 @@
   & .callout-content {
     margin-bottom: calc(2 * $baseMargin);
 
-    & p:first-child {
+    & p:first-child,
+    & > .vsc-controller + p {
+      // vsc-controllers can be spawned ahead of the first paragraph
       margin-top: 0;
     }
 
