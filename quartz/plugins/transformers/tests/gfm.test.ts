@@ -91,7 +91,105 @@ describe("maybeSpliceBackArrow function", () => {
 
     maybeSpliceAndAppendBackArrow(node, mockBackArrow)
 
-    // Check the modified node directly
+    const paragraph = node.children[0] as Element
+    const span = paragraph.children[0] as Element
+    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["Hi", mockBackArrow]))
+  })
+
+  test("should handle multiple paragraphs", () => {
+    const node = h("li", [h("p", ["First paragraph"]), h("p", ["Second paragraph"])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const firstParagraph = node.children[0] as Element
+    expect(firstParagraph.children).toHaveLength(1)
+    expect(firstParagraph.children[0]).toEqual({ type: "text", value: "First paragraph" })
+
+    const lastParagraph = node.children[1] as Element
+    expect(lastParagraph.children).toHaveLength(2)
+    expect(lastParagraph.children[0]).toEqual({ type: "text", value: "Second parag" })
+    expect(lastParagraph.children[1]).toEqual(
+      h("span", { style: "white-space: nowrap;" }, ["raph", mockBackArrow]),
+    )
+  })
+
+  test("should handle empty paragraph", () => {
+    const node = h("li", [h("p", [])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const paragraph = node.children[0] as Element
+    expect(paragraph.children).toHaveLength(1)
+    expect(paragraph.children[0]).toBe(mockBackArrow)
+  })
+
+  test("should handle paragraph with only whitespace", () => {
+    const node = h("li", [h("p", ["   "])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const paragraph = node.children[0] as Element
+    expect(paragraph.children).toHaveLength(2)
+    expect(paragraph.children[0]).toEqual({ type: "text", value: "   " })
+    expect(paragraph.children[1]).toBe(mockBackArrow)
+  })
+
+  test("should handle complex multi-paragraph footnote with rich formatting", () => {
+    const node = h("li", [
+      h("p", ["First paragraph"]),
+      h("p", [
+        "Second paragraph.",
+        h(
+          "a",
+          {
+            href: "#user-content-fnref-instr",
+            "data-footnote-backref": "",
+            "aria-label": "Back to reference 2",
+            className: "data-footnote-backref internal alias same-page-link",
+          },
+          ["⤴"],
+        ),
+      ]),
+    ])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    expect(node.children).toHaveLength(2)
+
+    // Check first paragraph remains unchanged
+    const firstPara = node.children[0] as Element
+    expect(firstPara.children).toHaveLength(1)
+    expect(firstPara.children[0]).toEqual({ type: "text", value: "First paragraph" })
+
+    // Check second paragraph has the text split and back arrow properly appended
+    const secondPara = node.children[1] as Element
+    expect(secondPara.children).toHaveLength(2)
+    expect(secondPara.children[0]).toEqual({ type: "text", value: "Second paragr" })
+
+    const nowrapSpan = secondPara.children[1] as Element
+    expect(nowrapSpan.tagName).toBe("span")
+    expect(nowrapSpan.properties).toEqual({ style: "white-space: nowrap;" })
+    expect(nowrapSpan.children).toHaveLength(2)
+    expect(nowrapSpan.children[0]).toEqual({ type: "text", value: "aph." })
+    expect(nowrapSpan.children[1]).toBe(mockBackArrow)
+  })
+
+  test("should ignore <li> ending with an image", () => {
+    const node = h("li", [h("img", { src: "image.png", alt: "test image" })])
+
+    const originalChildren = [...(node.children[0] as Element).children]
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const paragraph = node.children[0] as Element
+    expect(paragraph.children).toEqual(originalChildren)
+  })
+})
+
+describe("removeBackArrow function", () => {
+  test("should remove back arrow from node children", () => {
+    const node = h("li", ["Some text", h("a", { className: "data-footnote-backref" })])
+
+    removeBackArrow(node)
     expect(node.children).toHaveLength(1)
     const span = node.children[0] as Element
     expect(span.type).toBe("element")

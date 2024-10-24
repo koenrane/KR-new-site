@@ -1008,15 +1008,6 @@ article[data-use-dropcap="true"] {
   & p {
     margin-bottom: $baseMargin; // Less separation than usual
   }
-
-  & img.favicon {
-    &[src*="rss.svg"] {
-      filter: saturate(0.6); // Give it some color, unlike normal favicons
-    }
-    &[src*="substack_com"] {
-      filter: saturate(0.45); // Give it some color, unlike normal favicons
-    }
-  }
 }
 
 #subscription-and-contact {
