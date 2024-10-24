@@ -497,19 +497,23 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
   return {
     name: "ObsidianFlavoredMarkdown",
-    textTransform(_ctx, src) {
+    textTransform(_ctx, src: string | Buffer) {
+      // Strip HTML comments first
+      if (src instanceof Buffer) {
+        src = src.toString()
+      }
+
+      // Add HTML comment stripping
+      src = src.replace(/<!--[\s\S]*?-->/g, "")
+
       // do comments at text level
       if (opts.comments) {
-        if (src instanceof Buffer) {
-          src = src.toString()
-        }
-
         src = src.replace(commentRegex, "")
       }
 
       // pre-transform blockquotes
       if (opts.callouts) {
-        if (src instanceof Buffer) {
+        if ((src as string | Buffer) instanceof Buffer) {
           src = src.toString()
         }
 
@@ -521,7 +525,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       // pre-transform wikilinks (fix anchors to things that may contain illegal syntax e.g. codeblocks, latex)
       if (opts.wikilinks) {
-        if (src instanceof Buffer) {
+        if ((src as string | Buffer) instanceof Buffer) {
           src = src.toString()
         }
 
