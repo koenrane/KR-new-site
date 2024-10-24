@@ -2,7 +2,7 @@ import GithubSlugger from "github-slugger"
 import { headingRank } from "hast-util-heading-rank"
 import { toString } from "hast-util-to-string"
 import { visit } from "unist-util-visit"
-
+import { h } from "hastscript"
 import remarkGfm from "remark-gfm"
 import smartypants from "remark-smartypants"
 import { QuartzTransformerPlugin } from "../types"
@@ -148,70 +148,43 @@ export function removeBackArrow(node: Element): void {
  *   The back arrow element.
  */
 export function maybeSpliceAndAppendBackArrow(node: Element, backArrow: Element): void {
-  // Find the last non-whitespace element
-  const lastElement = node.children
-    .slice()
-    .reverse()
-    .find((child) => {
-      if (child.type === "text") {
-        return child.value.trim() !== ""
-      }
-      return child.type === "element"
-    })
+  const lastParagraph = node.children[node.children.length - 1] as Element
+  if (lastParagraph.tagName !== "p") return
 
-  // Only process if it's a paragraph
-  if (!(lastElement?.type === "element" && lastElement.tagName === "p")) {
-    return
-  }
+  removeBackArrow(lastParagraph)
 
-  removeBackArrow(lastElement)
   // Handle empty paragraph case
-  if (lastElement.children.length === 0) {
-    lastElement.children = [backArrow]
+  if (lastParagraph.children.length === 0) {
+    lastParagraph.children = [backArrow]
     return
   }
 
-  // Get the last text node
-  const lastTextNode = lastElement.children
-    .slice()
-    .reverse()
-    .find((child) => child.type === "text") as Text
+  // Get the last text node without modifying the original array
+  const children2 = [...lastParagraph.children]
+  const lastTextNode = children2.reverse().find((child) => child.type === "text") as Text
 
   // Handle whitespace-only case
   if (!lastTextNode || lastTextNode.value.trim() === "") {
-    lastElement.children = [lastTextNode, backArrow].filter(Boolean)
+    lastParagraph.children = [lastTextNode, backArrow].filter(Boolean)
     return
   }
 
-  const textContent = lastTextNode.value
-  const charsToRead = Math.min(4, textContent.length)
-  const lastFourChars = textContent.slice(-charsToRead)
+  const text = lastTextNode.value
+  const textIndex = Math.max(0, text.length - 4) // ensures splitIndex is never negative
 
-  // Update the original text node with truncated content
-  if (charsToRead < textContent.length) {
-    lastTextNode.value = textContent.slice(0, -charsToRead)
-
-    const span: Element = {
-      type: "element",
-      tagName: "span",
-      properties: {
-        style: "white-space: nowrap;",
-      },
-      children: [{ type: "text", value: lastFourChars }, backArrow],
-    }
-
-    lastElement.children.push(span)
+  // Update the original text node if there's text before the split
+  if (textIndex > 0) {
+    lastTextNode.value = text.slice(0, textIndex)
   } else {
-    // For short text, wrap everything in the span
-    lastElement.children = [
-      {
-        type: "element",
-        tagName: "span",
-        properties: {
-          style: "white-space: nowrap;",
-        },
-        children: [{ type: "text", value: textContent }, backArrow],
-      },
-    ]
+    // Remove the original text node if we're wrapping all text
+    lastParagraph.children = []
   }
+
+  // Add the nowrap span with remaining text and back arrow
+  lastParagraph.children.push(
+    h("span", { style: "white-space: nowrap;" }, [
+      { type: "text", value: text.slice(textIndex) },
+      backArrow,
+    ]),
+  )
 }

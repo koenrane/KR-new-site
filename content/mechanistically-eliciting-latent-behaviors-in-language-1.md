@@ -36,8 +36,7 @@ original_url:
   https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jwqnnwe15pr1vkvswuhf.png
-description: Unsupervised perturbations to language models reveal hidden capabilities,
-  including the potential to bypass safety measures and exhibit backdoor behaviors.
+description: Unsupervised perturbations to language models reveal hidden capabilities, including the potential to bypass safety measures and exhibit backdoor behaviors.
 ---
 
 > [!thanks]

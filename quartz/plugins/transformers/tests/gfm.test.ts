@@ -48,7 +48,8 @@ describe("slugify function", () => {
   })
 })
 
-describe("maybeSpliceBackArrow function", () => {
+// TODO: needs to come after tagacronyms, refactor
+describe("maybeSpliceAndAppendBackArrow function", () => {
   let mockBackArrow: Element
 
   beforeEach(() => {
