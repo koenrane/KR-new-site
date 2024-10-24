@@ -253,7 +253,7 @@ Before I talk about the book holistically, here are more snippets:
 
 - The fact that wages are sticky-down is so annoying. I would be so mad if I were a central banker: dumb human bias ruining our ability to deflate! Dumb human bias making negative AD shocks horrible!
   - The dumb bias seems to be nominal wage confusion—responding to the dollar amount on your paycheck (the nominal wage), instead of to the goods you can buy with the money (the real wage).
-  - In a negative aggregate demand shock, nominal GDP growth decreases. Normally firms could just lower wages for all their employees and real output would remain the same. But people hate hate hate seeing nominal wage cuts, and so it's easier for firms to just fire people, or at least raise real wages far more slowly than inflation.
+  - In a negative aggregate demand shock, nominal GDP growth decreases. Normally firms could just lower wages for all their employees and real output would remain the same. But people hate, hate, _hate_ seeing nominal wage cuts, and so it's easier for firms to just fire people, or at least raise real wages far more slowly than inflation.
   - Which cuts actual growth in the short run.
   - What a mess.
 

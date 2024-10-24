@@ -42,7 +42,7 @@ Figure: The <span style="color: blue;">agent</span> should reach the <span style
 
 The above results showed AUP works in tiny gridworld environments. In my 2020 NeurIPS spotlight paper [_Avoiding Side Effects in Complex Environments_](https://arxiv.org/abs/2006.06547), I showed that AUP also works in large and chaotic environments with ambiguous side effects.
 
-The AI policy controls the <img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>. The policy was reinforced for destroying the <img class="inline-img" src="https://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/> and finishing the level. However, there are fragile <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> patterns which we want the AI to not mess with. The challenge is to train a policy which avoids the <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/> while still effectively destroying the <img class="inline-img" src="https://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/>, _without_ explicitly penalizing the AI for bumping into <img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/>!
+The AI policy controls the chevron (<img class="inline-img" src="https://assets.turntrout.com/static/images/chevron.avif" alt="chevron sprite"/>). The policy was reinforced for destroying the red dots (<img class="inline-img" src="https://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/>) and finishing the level. However, there are fragile green dot (<img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/>) patterns which we want the AI to not mess with. The challenge is to train a policy which avoids the green dots (<img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/>) while still effectively destroying the red dots (<img class="inline-img" src="https://assets.turntrout.com/static/images/red-dot.avif" alt="red dot"/>), _without_ explicitly penalizing the AI for bumping into green dots (<img class="inline-img" src="https://assets.turntrout.com/static/images/green-dot.avif" alt="green dot"/>)!
 
 <video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level.">
 <source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
@@ -115,11 +115,11 @@ Subtitle: Written in October 2024
 
 I feel fondness for this line of work. The feeling of making a difference - thrilling. Discovering new ideas - thrilling. Making light-hearted posts & steering my own research as a  PhD student - lovely.
 
-Considering the technical contributions themselves... AI has taken a different path than I imagined in 2018-2021. I thought the path to AGI would be longer, entailing real-world robotics and deep RL. Reality turned out to be much friendlier and softer.
+Considering the technical contributions themselves... AI has taken a different path than I imagined in 2018-2021. I thought the path to AGI would be longer, entailing real-world robotics and deep RL. Reality turned out to be much friendlier and softer - AI learning language and universal concepts instead of being produced via zero-sum multi-agent learning in simulated games.
 
-Looking back, the suggested use cases seem quaint. Worrying about a robot breaking vases in order to clean your your floor as quickly as possible? If robots are powered by LLMs or similarly generalizing technology, it seems hard to imagine that they'd be _aware_ that you wanted the room clean but _interpret the request too literally and then break vases in order to clean it as quickly as possible_. That said, it seems quite imaginable that such a robot would initially "too dumb" to do the job properly - it would accidentally break vases by mis-predicting the impact of its actions. 
+Looking back, the suggested use cases seem quaint. Worrying about a robot breaking vases in order to clean your floor as quickly as possible? If robots are powered by LLMs or similarly generalizing technology, it seems hard to imagine that they'd be _aware_ that you wanted the room clean but _interpret the request too literally and then break vases in order to clean it as quickly as possible_. That said, it seems quite imaginable that such a robot would initially be "too dumb" to do the job properly - it would accidentally break vases by mis-predicting the impact of its actions. 
 
-The low-impact work has not yet mattered for AGI, but perhaps one day AUP will power LLM-driven agent systems. I'd like my agentic systems to check in with me before taking highly impactful actions, and I think AUP + LM value heads might be great for [chiseling that behavior](/reward-is-not-the-optimization-target) into the AI! 
+The low-impact work has not yet mattered for AGI, but perhaps one day AUP will power LLM-driven agent systems. I'd like my agentic systems to check in with me before taking highly impactful actions, and I think AUP & LM value heads might be great for [chiseling that behavior](/reward-is-not-the-optimization-target) into the AI! 
 
 Or maybe you just ask the LLM agent to check in with you, and it does, and everything is fine. 🤷‍♂️
 
@@ -136,7 +136,7 @@ Subtitle: Fall 2019 through June 2022
 
 I don't want to die. Animals try to avoid dying. Why was this behavior selected into so many different kinds of animals? While the question may seem facile, it is not. For nearly all biological "subgoals" (like "find food" or "impress a potential mate"), a dead animal cannot accomplish any of those goals. Otherwise put: Certain strategies (like "staying alive") are pre-requisite for _almost all goals._ This observation is called "instrumental convergence."[^instr] 
 
-In 2019, [I had a keen sense](/problem-relaxation-as-a-tactic) that instrumental convergence ought to be mathematically provable. To date, [only one paper](./toy-instrumental-convergence-paper-walkthrough) had tried such a formalization- and that only in a toy setting. I figured I should be able to say what actions were instrumentally convergent in a tiny Markov decision process. Easy, right? 
+In 2019, [I had a keen sense](/problem-relaxation-as-a-tactic) that instrumental convergence ought to be mathematically provable. To date, [only one paper](./toy-instrumental-convergence-paper-walkthrough) had tried such a formalization - and that only in a toy setting. I figured I should be able to say what actions were instrumentally convergent in a tiny Markov decision process. Easy, right? 
 
 > [!thanks]- Personal recollections 
 > 
@@ -148,8 +148,9 @@ In 2019, [I had a keen sense](/problem-relaxation-as-a-tactic) that instrumental
 Over the next two years, I slowly cut beautiful equations into existence, like POWER:
 
 $$
-\mathrm{POWER}_{\mathcal{D}}(s,\gamma) := \overset{\text{Avg. ability to optimize reward fns.}}{\dfrac{1-\gamma}{\gamma}\mathbb{E}_{R\sim\mathcal{D}}\left[V^*_R(s,\gamma)\right]}.
+\mathrm{POWER}_{\mathcal{D}}(s,\gamma) := \overset{\text{Avg. ability to optimize reward fns.}}{\dfrac{1-\gamma}{\gamma}\mathbb{E}_{R\sim\mathcal{D}}\big[V^*_R(s,\gamma) - R(s)\big]}.
 $$
+
 
 **As a PhD student, I worked out the first-ever statistical theory of optimal policies.** Eventually, the equations and theory coalesced into a highly refined and technical paper which was accepted to NeurIPS 2021 as a spotlight talk:
 
@@ -184,7 +185,7 @@ So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend t
 Subtitle: February through December 2022
 
 As a [born-and-raised AI alignment theorist](/alignment-phd), I greatly enjoyed mixing psychology, neuroscience, and AI into a blender to yield _shard theory._ The shard theory basically postulates that:
-1. Deep learning policies[^dl-sys] are functions of intermediate abstractions (e.g. whether a sentence relates to cars),
+1. Deep learning policies[^deep-learning] are functions of intermediate abstractions (e.g. whether a sentence relates to cars),
 2. Decision-making influences specialize as a function of these abstractions (e.g. the policy learns to increase positive or negative sentiment when the `car sentence` feature is active). These influential circuits are called "shards."
 3. The system's overall behavior is computed as an ensemble of shards.
 
@@ -192,7 +193,7 @@ For example, to predict what someone will do in a situation (like seeing their m
 
 Instead, you can consider what ensemble of shards will activate. How did they feel the last time they saw their mother - was it a positive reinforcement event? Are they a shy person? Will they be tired? Each of these factors influences behavior (somewhat independently). [Later investigation](/posts#interpreting-a-maze-solving-network) [suggested](/statistics-of-a-maze-solving-network) that similar shard-based reasoning helps predict AI generalization.  
 
-[^dl-sys]: "Deep learning systems" meaning something like "systems trained via RL and/or predictive learning." Naturally, this includes both the brain and LLMs.
+[^deep-learning]: "Deep learning systems" meaning something like "systems trained via RL and/or predictive learning." Naturally, this includes both the brain and LLMs.
 
 > [!quote] [Sequence: the shard theory of human values](./posts#shard-theory)
 > In early 2022, [Quintin Pope](https://www.linkedin.com/in/quintin-pope/) and I noticed glaring problems at the heart of "classical" alignment arguments. We thought through the problem with fresh eyes and derived _shard theory_.

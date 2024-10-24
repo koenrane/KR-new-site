@@ -156,7 +156,7 @@ Written as a function, we have POWER$_{\mathcal{D}}$(state, discount rate), whic
 By _waiting_, the agent seems to seek “control over the future” compared to _obtaining candy_. At **wait**, the agent still has a choice, while at **candy**, the agent is stuck. We can prove that for all $0 \leq \gamma \leq 1, \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{wait}, \gamma)\geq \text{POWER}_{\mathcal{D}_\text{unif}}(\textbf{candy}, \gamma)$. 
 
 > [!math] Definition: POWER-seeking
-> At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing _a_ is greater than the expected POWER after choosing $a’$. 
+> At state $s$ and discount rate $\gamma$, we say that action $a$ _seeks POWER compared to action_ $a’$ when the expected POWER after choosing $a$ is greater than the expected POWER after choosing $a’$. 
 
 This definition suggests several philosophical clarifications about power-seeking.
 

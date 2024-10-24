@@ -137,7 +137,7 @@ Both parties act for countably many time steps. This environment is assumed to b
 
 ### Example
 
-$\mathcal{H}$ugh and $\mathcal{M}$a again find themselves faced with a slew of dangerous, bad-effect-having buttons. Some take effect the next turn, while others take a while.
+$\mathcal{H}\text{ugh}$ and $\mathcal{M}\text{a}$ again find themselves faced with a slew of dangerous, bad-effect-having buttons. Some take effect the next turn, while others take a while.
 
 ### Approach
 
