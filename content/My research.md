@@ -160,7 +160,7 @@ $$
 In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-makers tend to seek power](./parametrically-retargetable-power-seeking), generalizing the results from optimal policies to a broad and elegant criterion on decision-making. ☺️
 
 
-[^instr]: I wish that "instrumental convergence" (IC) had instead been named "robust instrumentality." "Instrumental convergence" strangely implies that the _convergence_ is instrumental. That doesn't make sense. Instead, certain actions are instrumental for most goals. So "convergent instrumentality" is better. 
+[^instr]: I wish that "instrumental convergence" had instead been named "robust instrumentality." "Instrumental convergence" strangely implies that the _convergence_ is instrumental. That doesn't make sense. Instead, certain actions are instrumental for most goals. So "convergent instrumentality" is better. 
 
     Next, "convergence" connotes "gradual progress towards a certain destination." This temporal connotation also doesn't make sense. Optimal policies are timeless - they just _are_. However, these actions are _robustly_ instrumental across goals. That's better! Thanks to Andrew Critch for pushing me to precision on this point.
 

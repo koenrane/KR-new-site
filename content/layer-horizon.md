@@ -8,7 +8,7 @@ tags:
   - AI
   - understanding-the-world
 description: Norm growth in activations drowns out earlier computations - do transformers just process recent sublayer outputs?
-date-published: 
+date-published: 07/23/24
 authors: Alex Turner
 hideSubscriptionLinks: false
 card_image: 
