@@ -1,5 +1,6 @@
-import { slugify, resetSlugger, maybeSpliceAndAppendBackArrow } from "../gfm"
-import { Element, ElementContent } from "hast"
+import { slugify, resetSlugger, maybeSpliceAndAppendBackArrow, removeBackArrow } from "../gfm"
+import { h } from "hastscript"
+import { Element } from "hast"
 
 describe("slugify function", () => {
   beforeEach(() => {
@@ -51,43 +52,61 @@ describe("maybeSpliceBackArrow function", () => {
   let mockBackArrow: Element
 
   beforeEach(() => {
-    mockBackArrow = {
-      type: "element",
-      tagName: "a",
-      properties: { className: "footnote-backref" },
-      children: [],
-    }
+    mockBackArrow = h("a", { className: "data-footnote-backref" })
   })
 
   test("should wrap last four characters with backref in nowrap span", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "li",
-      properties: {},
-      children: [{ type: "text", value: "Long text here" }],
-    }
+    const node = h("li", [h("p", ["Long text here"])])
 
     maybeSpliceAndAppendBackArrow(node, mockBackArrow)
 
-    // Check the modified node instead of result
-    expect(node.children).toHaveLength(2)
-    expect(node.children[0]).toEqual({ type: "text", value: "Long text " })
+    const paragraph = node.children[0] as Element
+    expect(paragraph.children).toHaveLength(2)
+    expect(paragraph.children[0]).toEqual({ type: "text", value: "Long text " })
 
-    const span = node.children[1] as Element
-    expect(span.type).toBe("element")
-    expect(span.tagName).toBe("span")
-    expect(span.properties?.style).toBe("white-space: nowrap;")
-    expect(span.children[0]).toEqual({ type: "text", value: "here" })
-    expect(span.children[1]).toBe(mockBackArrow)
+    const span = paragraph.children[1] as Element
+    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["here", mockBackArrow]))
   })
 
   test("should handle text shorter than 4 characters", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "li",
-      properties: {},
-      children: [{ type: "text", value: "Hi" }],
-    }
+    const node = h("li", [h("p", ["Hi"])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const paragraph = node.children[0] as Element
+    const span = paragraph.children[0] as Element
+    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["Hi", mockBackArrow]))
+  })
+
+  test("should handle multiple paragraphs", () => {
+    const node = h("li", [h("p", ["First paragraph"]), h("p", ["Second paragraph"])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const firstParagraph = node.children[0] as Element
+    expect(firstParagraph.children).toHaveLength(1)
+    expect(firstParagraph.children[0]).toEqual({ type: "text", value: "First paragraph" })
+
+    const lastParagraph = node.children[1] as Element
+    expect(lastParagraph.children).toHaveLength(2)
+    expect(lastParagraph.children[0]).toEqual({ type: "text", value: "Second parag" })
+    expect(lastParagraph.children[1]).toEqual(
+      h("span", { style: "white-space: nowrap;" }, ["raph", mockBackArrow]),
+    )
+  })
+
+  test("should handle empty paragraph", () => {
+    const node = h("li", [h("p", [])])
+
+    maybeSpliceAndAppendBackArrow(node, mockBackArrow)
+
+    const paragraph = node.children[0] as Element
+    expect(paragraph.children).toHaveLength(1)
+    expect(paragraph.children[0]).toBe(mockBackArrow)
+  })
+
+  test("should handle paragraph with only whitespace", () => {
+    const node = h("li", [h("p", ["   "])])
 
     maybeSpliceAndAppendBackArrow(node, mockBackArrow)
 
@@ -191,40 +210,27 @@ describe("removeBackArrow function", () => {
 
     removeBackArrow(node)
     expect(node.children).toHaveLength(1)
-    const span = node.children[0] as Element
-    expect(span.type).toBe("element")
-    expect(span.tagName).toBe("span")
-    expect(span.children[0]).toEqual({ type: "text", value: "Hi" })
-    expect(span.children[1]).toBe(mockBackArrow)
+    expect(node.children[0]).toEqual({ type: "text", value: "Some text" })
   })
 
-  test("should return original backArrow if no text node", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "li",
-      properties: {},
-      children: [{ type: "element", tagName: "span", children: [] } as unknown as ElementContent],
-    }
+  test("should keep other elements intact", () => {
+    const node = h("li", [
+      "Text",
+      h("a", { className: "regular-link" }),
+      h("a", { className: "data-footnote-backref" }),
+    ])
 
-    const result = maybeSpliceAndAppendBackArrow(node, mockBackArrow)
-    expect(result).toBe(mockBackArrow)
-    // Node should remain unchanged
-    expect(node.children).toHaveLength(1)
-    expect(node.children[0].type).toBe("element")
+    removeBackArrow(node)
+    expect(node.children).toHaveLength(2)
+    expect(node.children[0]).toEqual({ type: "text", value: "Text" })
+    expect(node.children[1]).toEqual(h("a", { className: "regular-link" }))
   })
 
-  test("should handle empty text node", () => {
-    const node: Element = {
-      type: "element",
-      tagName: "li",
-      properties: {},
-      children: [{ type: "text", value: "" }],
-    }
+  test("should handle node with no back arrow", () => {
+    const node = h("li", ["Just text"])
 
-    const result = maybeSpliceAndAppendBackArrow(node, mockBackArrow)
-    expect(result).toBe(mockBackArrow)
-    // Node should remain unchanged
-    expect(node.children).toHaveLength(1)
-    expect(node.children[0]).toEqual({ type: "text", value: "" })
+    const originalChildren = [...node.children]
+    removeBackArrow(node)
+    expect(node.children).toEqual(originalChildren)
   })
 })

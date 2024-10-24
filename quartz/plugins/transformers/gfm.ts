@@ -148,29 +148,48 @@ export function removeBackArrow(node: Element): void {
  *   The back arrow element.
  */
 export function maybeSpliceAndAppendBackArrow(node: Element, backArrow: Element): void {
-  const originalIndex: number = node.children.length - 2
-  const lastParagraph = node.children[originalIndex]
-  console.log("lastParagraph", lastParagraph)
+  // Find the last non-whitespace element
+  const lastElement = node.children
+    .slice()
+    .reverse()
+    .find((child) => {
+      if (child.type === "text") {
+        return child.value.trim() !== ""
+      }
+      return child.type === "element"
+    })
 
-  if (lastParagraph && "tagName" in lastParagraph && lastParagraph.tagName === "p") {
-    removeBackArrow(lastParagraph)
+  // Only process if it's a paragraph
+  if (!(lastElement?.type === "element" && lastElement.tagName === "p")) {
+    return
+  }
 
-    // Last child is the back arrow, second to last is the text
-    const lastParagraphChildIndex = lastParagraph.children.length - 1
-    const lastChildText = lastParagraph.children[lastParagraphChildIndex] as Text
-    console.log("lastChildText", lastChildText)
+  removeBackArrow(lastElement)
+  // Handle empty paragraph case
+  if (lastElement.children.length === 0) {
+    lastElement.children = [backArrow]
+    return
+  }
 
-    const textContent = lastChildText.value
-    const charsToRead = Math.min(4, textContent.length)
-    const lastFourChars = textContent.slice(-charsToRead)
+  // Get the last text node
+  const lastTextNode = lastElement.children
+    .slice()
+    .reverse()
+    .find((child) => child.type === "text") as Text
 
-    // Update the original text node with truncated content
-    if (charsToRead < textContent.length) {
-      lastChildText.value = textContent.slice(0, -charsToRead)
-    } else {
-      // Remove the original text node if we're using all of its content
-      node.children.pop()
-    }
+  // Handle whitespace-only case
+  if (!lastTextNode || lastTextNode.value.trim() === "") {
+    lastElement.children = [lastTextNode, backArrow].filter(Boolean)
+    return
+  }
+
+  const textContent = lastTextNode.value
+  const charsToRead = Math.min(4, textContent.length)
+  const lastFourChars = textContent.slice(-charsToRead)
+
+  // Update the original text node with truncated content
+  if (charsToRead < textContent.length) {
+    lastTextNode.value = textContent.slice(0, -charsToRead)
 
     const span: Element = {
       type: "element",
@@ -178,10 +197,21 @@ export function maybeSpliceAndAppendBackArrow(node: Element, backArrow: Element)
       properties: {
         style: "white-space: nowrap;",
       },
-      children: [{ type: "text", value: lastFourChars } as Text, backArrow],
+      children: [{ type: "text", value: lastFourChars }, backArrow],
     }
 
-    // Insert the new span
-    lastParagraph.children.push(span)
+    lastElement.children.push(span)
+  } else {
+    // For short text, wrap everything in the span
+    lastElement.children = [
+      {
+        type: "element",
+        tagName: "span",
+        properties: {
+          style: "white-space: nowrap;",
+        },
+        children: [{ type: "text", value: textContent }, backArrow],
+      },
+    ]
   }
 }
