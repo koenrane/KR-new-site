@@ -674,6 +674,8 @@ img {
   dd & {
     width: fit-content;
   }
+
+  margin-top: $baseMargin;
 }
 
 [saved-theme="light"] img,
