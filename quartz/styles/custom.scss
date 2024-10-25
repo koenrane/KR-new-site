@@ -1052,3 +1052,9 @@ strong,
   text-indent: calc(-0.75 * $baseMargin);
   margin-left: calc($baseMargin);
 }
+
+iframe {
+  border: none;
+  width: 95%;
+  border-radius: 5px;
+}
