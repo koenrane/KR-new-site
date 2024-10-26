@@ -196,6 +196,15 @@ export function enDashNumberRange(text: string): string {
   )
 }
 
+export function removeSpaceBeforeFootnotes(tree: Root): void {
+  visit(tree, "element", (node, index, parent) => {
+    if (node.tagName === "sup" && index && parent?.children?.[index - 1]?.type === "text") {
+      const prevNode = parent.children[index - 1] as Text
+      prevNode.value = prevNode.value.replace(/\s+$/, "")
+    }
+  })
+}
+
 /**
  * Replaces various dash types with appropriate alternatives
  * @returns The text with improved dash usage
@@ -562,6 +571,8 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
     if (!("skipFirstLetter" in options) || !options.skipFirstLetter) {
       setFirstLetterAttribute(tree)
     }
+
+    removeSpaceBeforeFootnotes(tree)
   }
 }
 
