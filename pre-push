@@ -46,32 +46,7 @@ mypy $GIT_ROOT/scripts/**py
 # eslint already has ignore rules
 npx eslint --fix $GIT_ROOT
 
-
-# Run spellcheck on all markdown files
-TEMP_DICT="/tmp/candidate_wordlist.txt"
-PERM_DICT=".wordlist.txt"
-
-set +e # Temporarily allow errors
-npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md ! content/drafts/**/*.md
-# Delete any words which should not be added to the ignore list. Make sure to fix any such words before quitting the editor.
-if [ $? -ne 0 ]; then
-    nvim $TEMP_DICT -c 'lua vim.api.nvim_notify("Delete invalid words which should not be added to the dictionary.", vim.log.levels.INFO, {})' && cat $TEMP_DICT >>$PERM_DICT && rm $TEMP_DICT
-    set -e # Re-enable errors
-    npx spellchecker \
-    --files $ALL_FILES \
-    --no-suggestions \
-    --quiet \
-    --dictionaries $PERM_DICT \
-    --plugins spell
-    if [ $? -ne 0 ]; then
-        npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT content/**.md ! content/drafts/**/*.md 
-        # Amend the commit with the updated dictionary
-        git add $PERM_DICT
-        git commit --amend --no-edit -m "Add words to dictionary"
-    fi
-fi
-set -e
-echo "\033[0;32mSpellcheck passed\033[0m" # In green
+fish "$GIT_ROOT/scripts/spellchecker.fish"
 
 # Run jest tests
 npm run test
@@ -124,5 +99,3 @@ echo "\033[0;32mRendered pages look good.\033[0m"
 #  Also checks syntax of md links.
 fish "$GIT_ROOT/scripts/linkchecker.fish"
 
-echo "Checking that critical CSS is inlined."
-npx quartz build  # Doesn't inline when serving
