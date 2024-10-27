@@ -48,20 +48,18 @@ def test_adds_missing_date(temp_content_dir, monkeypatch):
     # Fix: Use update_lib instead of update_date_on_publish
     monkeypatch.setattr(update_lib, "datetime", MockDateTime)
 
-    # Run the update
-    with monkeypatch.context() as m:
-        m.chdir(temp_content_dir.parent)
-        update_lib.update_publish_date()
+    # Run the update with the specific file
+    update_lib.update_publish_date(test_file)
 
     # Verify results
-    with open(test_file, "r", encoding="utf-8") as f:
+    with test_file.open("r", encoding="utf-8") as f:
         content = f.read()
         metadata = yaml.safe_load(content.split("---")[1])
 
     assert metadata["date_published"] == "02/01/2024"
 
 
-def test_preserves_existing_date(temp_content_dir, monkeypatch):
+def test_preserves_existing_date(temp_content_dir):
     """Test that existing dates are not modified"""
     # Create test file with existing date
     existing_date = "12/25/2023"
@@ -72,12 +70,10 @@ def test_preserves_existing_date(temp_content_dir, monkeypatch):
     )
 
     # Run the update
-    with monkeypatch.context() as m:
-        m.chdir(temp_content_dir.parent)
-        update_lib.update_publish_date()
+    update_lib.update_publish_date(test_file)
 
     # Verify date wasn't changed
-    with open(test_file, "r", encoding="utf-8") as f:
+    with test_file.open("r", encoding="utf-8") as f:
         content = f.read()
         metadata = yaml.safe_load(content.split("---")[1])
 
@@ -92,7 +88,7 @@ def test_handles_empty_date(temp_content_dir, monkeypatch):
     )
 
     # Mock datetime.now()
-    fixed_date = datetime(2024, 1, 1)
+    fixed_date = datetime(2024, 2, 1)
 
     class MockDateTime:
         @staticmethod
@@ -102,19 +98,17 @@ def test_handles_empty_date(temp_content_dir, monkeypatch):
     monkeypatch.setattr(update_lib, "datetime", MockDateTime)
 
     # Run the update
-    with monkeypatch.context() as m:
-        m.chdir(temp_content_dir.parent)
-        update_lib.update_publish_date()
+    update_lib.update_publish_date(test_file)
 
     # Verify results
-    with open(test_file, "r", encoding="utf-8") as f:
+    with test_file.open("r", encoding="utf-8") as f:
         content = f.read()
         metadata = yaml.safe_load(content.split("---")[1])
 
-    assert metadata["date_published"] == "01/01/2024"
+    assert metadata["date_published"] == "02/01/2024"
 
 
-def test_handles_invalid_yaml(temp_content_dir, monkeypatch):
+def test_handles_invalid_yaml(temp_content_dir):
     """Test handling of invalid YAML frontmatter"""
     # Create file with invalid YAML
     file_path = temp_content_dir / "invalid.md"
@@ -127,10 +121,26 @@ Test content""",
         encoding="utf-8",
     )
 
+    # Run the update and expect YAML error
+    with pytest.raises(yaml.YAMLError):
+        update_lib.update_publish_date(file_path)
+
+
+def test_skips_missing_frontmatter(temp_content_dir, capsys):
+    """Test that files without frontmatter are skipped"""
+    # Create file without frontmatter
+    test_file = temp_content_dir / "no_frontmatter.md"
+    test_file.write_text("Just some content\nwithout any frontmatter", encoding="utf-8")
+
     # Run the update
-    with monkeypatch.context() as m:
-        m.chdir(temp_content_dir.parent)
-        with pytest.raises(
-            yaml.YAMLError
-        ):  # Change to specifically expect yaml.YAMLError
-            update_lib.update_publish_date()
+    update_lib.update_publish_date(test_file)
+
+    # Check that warning was printed
+    captured = capsys.readouterr()
+    assert f"Skipping {test_file}: No valid frontmatter found" in captured.out
+
+    # Verify file wasn't modified
+    assert (
+        test_file.read_text(encoding="utf-8")
+        == "Just some content\nwithout any frontmatter"
+    )
