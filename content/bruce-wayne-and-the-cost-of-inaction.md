@@ -3,8 +3,7 @@ permalink: bruce-wayne-and-the-cost-of-inaction
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: 
-  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+lw-page-url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 lw-is-question: "false"
 lw-posted-at: 2022-09-30T00:19:47.335000Z
 lw-last-modification: 2022-10-03T21:46:10.527000Z
@@ -18,23 +17,24 @@ lw-vote-count: 43
 af-base-score: 28
 af-num-comments-on-upload: 0
 publish: true
-title: "Bruce Wayne and the Cost of Inaction"
+title: Bruce Wayne and the Cost of Inaction
 lw-latest-edit: 2022-10-03T21:46:11.379000Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Josh Turner
 tags:
-  - "rationality"
-  - "fiction"
+  - rationality
+  - fiction
 aliases:
-  - "bruce-wayne-and-the-cost-of-inaction"
+  - bruce-wayne-and-the-cost-of-inaction
+  - batman-fanfic
+  - batman
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 09/30/2022
-original_url: 
-  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/QBOtBED.png
-description: "Christopher Nolan's Batman Begins, but more rationalist and severe. Looking right at the pain you ignore whenever you walk by a homeless person."
+description: Christopher Nolan's Batman Begins, but more rationalist and severe. Looking right at the pain you ignore whenever you walk by a homeless person.
 ---
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 

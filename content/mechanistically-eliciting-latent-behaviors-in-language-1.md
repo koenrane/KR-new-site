@@ -1,17 +1,16 @@
 ---
 permalink: mechanistically-eliciting-latent-behaviors
-lw-was-draft-post: 'false'
-lw-is-af: 'true'
-lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
-lw-is-question: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "true"
+lw-is-debate: "false"
+lw-page-url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
+lw-is-question: "false"
 lw-posted-at: 2024-04-30T18:51:13.493000Z
 lw-last-modification: 2024-05-23T20:29:10.455000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-04-30T21:49:02.486000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 37
 lw-base-score: 200
 lw-vote-count: 78
@@ -20,24 +19,24 @@ af-num-comments-on-upload: 20
 publish: true
 title: Mechanistically Eliciting Latent Behaviors in Language Models
 lw-latest-edit: 2024-05-23T20:29:09.224000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 authors: Andrew Mack and Alex Turner
 tags:
-- AI
-- mats-program
-- understanding-the-world
-- activation-engineering
+  - AI
+  - mats-program
+  - understanding-the-world
+  - activation-engineering
 aliases:
-- mechanistically-eliciting-latent-behaviors-in-language-1
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+  - mechanistically-eliciting-latent-behaviors-in-language-1
+  - melbo
+  - MELBO
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 04/30/2024
-original_url: 
-  https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
+original_url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jwqnnwe15pr1vkvswuhf.png
-description: Unsupervised perturbations to language models reveal hidden capabilities,
-  including the potential to bypass safety measures and exhibit backdoor behaviors.
+description: Unsupervised perturbations to language models reveal hidden capabilities, including the potential to bypass safety measures and exhibit backdoor behaviors.
 ---
 
 > [!thanks]
