@@ -639,3 +639,25 @@ describe("setFirstLetterAttribute", () => {
     expect(processedHtml).toBe(expected)
   })
 })
+
+describe("removeSpaceBeforeSup", () => {
+  it.each([
+    ["text <sup>1</sup>", "text<sup>1</sup>"],
+    ["multiple spaces   <sup>2</sup>", "multiple spaces<sup>2</sup>"],
+    ["text<sup>3</sup>", "text<sup>3</sup>"], // No space case
+    ["text <sup>1</sup> and text <sup>2</sup>", "text<sup>1</sup> and text<sup>2</sup>"],
+    ["text &nbsp;<sup>4</sup>", "text<sup>4</sup>"], // HTML entities
+    ["<p>text <sup>1</sup></p>", "<p>text<sup>1</sup></p>"], // Nested in paragraph
+    ["<sup>1</sup>", "<sup>1</sup>"], // First element
+  ])('should process "%s" to "%s"', (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("should handle multiple sups in complex HTML", () => {
+    const input = "<p>First<sup>1</sup> and second <sup>2</sup> and third<sup>3</sup></p>"
+    const expected = "<p>First<sup>1</sup> and second<sup>2</sup> and third<sup>3</sup></p>"
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+})
