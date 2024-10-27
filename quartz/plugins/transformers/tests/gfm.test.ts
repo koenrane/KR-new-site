@@ -107,13 +107,13 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
   })
 
   test("should handle paragraph with only whitespace", () => {
-    const node = h("li", [h("p", ["   "])])
+    const node = h("li", h("p", [{ type: "text", value: "  " }]))
 
     maybeSpliceAndAppendBackArrow(node, mockBackArrow)
 
     const paragraph = node.children[0] as Element
     const span = paragraph.children[0] as Element
-    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["Hi", mockBackArrow]))
+    expect(span).toEqual({ type: "text", value: "  " })
   })
 
   test("should handle multiple paragraphs", () => {
