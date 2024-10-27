@@ -99,3 +99,5 @@ echo "\033[0;32mRendered pages look good.\033[0m"
 #  Also checks syntax of md links.
 fish "$GIT_ROOT/scripts/linkchecker.fish"
 
+# Ensure that the date is updated on publish
+python "$GIT_ROOT/scripts/update_date_on_publish.py"
