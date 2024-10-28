@@ -69,12 +69,18 @@ def update_publish_date(yaml_metadata: dict) -> None:
     """Update publish and update dates in a markdown file's frontmatter.
 
     Args:
-        yaml_metadata
+        yaml_metadata: The YAML metadata dictionary to update
     """
     # If date_published doesn't exist, create it and set date_updated to match
     if "date_published" not in yaml_metadata or not yaml_metadata["date_published"]:
         yaml_metadata["date_published"] = current_date
         yaml_metadata["date_updated"] = current_date
+    elif "date_updated" not in yaml_metadata:
+        # Check legacy date fields
+        for key in ("lw-last-modification", "lw-latest-edit", "date_published"):
+            if key in yaml_metadata:
+                yaml_metadata["date_updated"] = yaml_metadata[key]
+                break
 
 
 def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
@@ -113,10 +119,6 @@ def main(content_dir: Path | None = None) -> None:
         # Check for unpushed changes and update date_updated if needed
         if is_file_modified(md_file_path):
             metadata["date_updated"] = current_date
-        # if "date_updated" not in metadata:
-        #     metadata["date_updated"] = metadata["date_published"]
-        #     if "lw-last-modification" in metadata:
-        #         metadata["date_updated"] =
 
         write_to_yaml(md_file_path, metadata, content)
 

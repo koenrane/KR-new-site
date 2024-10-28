@@ -33,16 +33,27 @@ def mock_datetime(monkeypatch):
 
 @pytest.fixture
 def mock_git(temp_content_dir):
-    """Create a mock git command that uses temp_content_dir as root"""
+    """Create a mock git command that uses temp_content_dir as root.
 
-    def _mock_git(*args, **kwargs):
-        if "rev-parse" in args[0]:
-            return str(temp_content_dir.parent) + "\n"
-        if "diff" in args[0]:
-            # If a specific file is being checked, return its path relative to content dir
-            if len(args) > 3 and args[3]:  # args[3] would be the file path
-                return f"content/{Path(args[3]).name}"
-        return ""  # Default: no changes
+    By default, returns no modifications. Pass modified_files to simulate changes.
+    """
+
+    def _mock_git(modified_files=None):
+        def _git_command(*args, **kwargs):
+            if "rev-parse" in args[0]:
+                return str(temp_content_dir.parent) + "\n"
+            if "diff" in args[0]:
+                # If specific files are marked as modified, return their paths
+                if modified_files and len(args) > 3 and args[3]:
+                    file_path = Path(args[3])
+                    if file_path.name in modified_files:
+                        return f"content/{file_path.name}"
+                # If no specific file check but we have modified files, return them all
+                elif modified_files:
+                    return "\n".join(f"content/{f}" for f in modified_files)
+            return ""  # Default: no changes
+
+        return _git_command
 
     return _mock_git
 
@@ -144,26 +155,26 @@ def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
 
 def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
     """Test that dates aren't modified when git shows no changes"""
-    original_date = "01/01/2024"
     test_file = create_md_file(
         temp_content_dir,
         "test3.md",
         {
             "title": "Test Post",
-            "date_published": original_date,
-            "date_updated": original_date,
+            "date_published": "01/01/2023",
+            "date_updated": "01/01/2023",
         },
     )
 
-    with patch("subprocess.check_output", side_effect=mock_git):
+    with patch("subprocess.check_output", side_effect=mock_git()):  # No modified files
         metadata, content = update_lib.split_yaml(test_file)
-        update_lib.update_publish_date(metadata)
+        if update_lib.is_file_modified(test_file):
+            metadata["date_updated"] = "02/01/2024"
         update_lib.write_to_yaml(test_file, metadata, content)
 
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
-    assert metadata["date_published"] == original_date
-    assert metadata["date_updated"] == original_date
+    assert metadata["date_published"] == "01/01/2023"
+    assert metadata["date_updated"] == "01/01/2023"  # Unchanged
 
 
 def test_split_yaml_invalid_format(temp_content_dir):
@@ -346,12 +357,11 @@ Test content here
         with open(test_file, "r") as f:
             result = f.read()
 
-        # Check specific formatting elements
         assert '"Quoted Title"' in result  # Double quotes preserved
         assert "'05/20/2024'" in result  # Single quotes preserved
-        assert "# Header comment" in result  # Header comment preserved
-        assert "# Side comment" in result  # Inline comment preserved
-        assert "unquoted_tag" in result  # Unquoted value preserved
+        assert "# Header comment" in result
+        assert "# Side comment" in result
+        assert "unquoted_tag" in result
         assert "  - " in result  # List indentation preserved
 
 
@@ -384,3 +394,159 @@ Content here
         assert "# Original publish date" in result
         assert "# Last update" in result
         assert 'title: "Test Post"' in result
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        pytest.param(
+            """---
+---
+Content
+""",
+            id="empty-frontmatter",
+        ),
+        pytest.param(
+            """---
+title: "Test Post"
+---
+Content
+""",
+            id="missing-dates",
+        ),
+    ],
+)
+def test_initialize_missing_dates(temp_content_dir, test_case):
+    """Test that both dates are set when missing."""
+    test_file = create_md_file(temp_content_dir, "test.md", {})
+    with open(test_file, "w") as f:
+        f.write(test_case)
+
+    current_date = datetime.now().strftime("%m/%d/%Y")
+    metadata, content = update_lib.split_yaml(test_file)
+    update_lib.update_publish_date(metadata)
+
+    assert metadata["date_published"] == current_date
+    assert metadata["date_updated"] == current_date
+
+
+def test_preserve_existing_publish_date(temp_content_dir):
+    """Test that existing publish date is preserved but updated date is set."""
+    test_file = create_md_file(temp_content_dir, "test.md", {})  # Using existing helper
+    content = """---
+title: "Test Post"
+date_published: "01/01/2023"
+---
+Content
+"""
+    with open(test_file, "w") as f:
+        f.write(content)
+
+    metadata, content = update_lib.split_yaml(test_file)
+    update_lib.update_publish_date(metadata)
+
+    assert metadata["date_published"] == "01/01/2023"
+    assert "date_updated" in metadata
+
+
+def test_preserve_both_dates(temp_content_dir):
+    """Test that both dates are preserved when they exist."""
+    test_file = create_md_file(temp_content_dir, "test.md", {})
+    content = """---
+title: "Test Post"
+date_published: "01/01/2023"
+date_updated: "01/02/2023"
+---
+Content
+"""
+    with open(test_file, "w") as f:
+        f.write(content)
+
+    metadata, content = update_lib.split_yaml(test_file)
+    update_lib.update_publish_date(metadata)
+
+    assert metadata["date_published"] == "01/01/2023"
+    assert metadata["date_updated"] == "01/02/2023"
+
+
+@pytest.mark.parametrize(
+    "legacy_field,legacy_date",
+    [
+        ("lw-last-modification", "01/02/2023"),
+        ("lw-latest-edit", "01/02/2023"),
+    ],
+)
+def test_legacy_date_migration(temp_content_dir, legacy_field, legacy_date):
+    """Test migration of each legacy date field."""
+    test_file = create_md_file(temp_content_dir, "test.md", {})
+    content = f"""---
+title: "Test Post"
+date_published: "01/01/2023"
+{legacy_field}: "{legacy_date}"
+---
+Content
+"""
+    with open(test_file, "w") as f:
+        f.write(content)
+
+    metadata, content = update_lib.split_yaml(test_file)
+    update_lib.update_publish_date(metadata)
+
+    assert metadata["date_updated"] == legacy_date
+
+
+def test_formatting_preservation(temp_content_dir):
+    """Test that YAML formatting is preserved during updates."""
+    test_file = create_md_file(temp_content_dir, "test.md", {})
+    content = """---
+# Header comment
+title: "Test Post"  # Title comment
+date_published: "01/01/2023"  # Original date
+tags:  # Tag list
+  - "tag1"
+  - 'tag2'  # Mixed quotes
+---
+Content
+"""
+    with open(test_file, "w") as f:
+        f.write(content)
+
+    metadata, content = update_lib.split_yaml(test_file)
+    update_lib.update_publish_date(metadata)
+    update_lib.write_to_yaml(test_file, metadata, content)
+
+    with open(test_file, "r") as f:
+        result = f.read()
+
+    assert "# Header comment" in result
+    assert "# Title comment" in result
+    assert '"Test Post"' in result
+    assert "# Original date" in result
+    assert "# Tag list" in result
+    assert '"tag1"' in result
+    assert "'tag2'" in result
+    assert "# Mixed quotes" in result
+
+
+def test_git_modified_date_update(temp_content_dir, mock_git):
+    """Test that date_updated is set when file is modified in git."""
+    test_file = create_md_file(
+        temp_content_dir,
+        "test2.md",
+        {
+            "title": "Test Post",
+            "date_published": "01/01/2023",
+            "date_updated": "01/02/2023",
+        },
+    )
+
+    with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
+        metadata, content = update_lib.split_yaml(test_file)
+        if update_lib.is_file_modified(test_file):
+            metadata["date_updated"] = "02/01/2024"
+        update_lib.write_to_yaml(test_file, metadata, content)
+
+    with test_file.open("r", encoding="utf-8") as f:
+        metadata = yaml.safe_load(f.read().split("---")[1])
+    assert metadata["date_published"] == "01/01/2023"  # Unchanged
+    assert metadata["date_updated"] == "02/01/2024"  # Updated
