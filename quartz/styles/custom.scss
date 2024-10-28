@@ -1067,4 +1067,8 @@ iframe {
   border: none;
   width: 95%;
   border-radius: 5px;
+
+  :root[saved-theme="light"] & {
+    mix-blend-mode: multiply;
+  }
 }
