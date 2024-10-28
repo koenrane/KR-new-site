@@ -1,4 +1,5 @@
 import pytest
+import tempfile
 from pathlib import Path
 from datetime import datetime
 import yaml
@@ -312,3 +313,74 @@ def test_is_file_modified_invalid_path(mock_git_commands):
     ):
         with pytest.raises(ValueError):
             update_lib.is_file_modified(test_file)
+
+
+def test_yaml_formatting_preservation():
+    """Test that YAML formatting, quotes, and comments are preserved."""
+    # Create a test file with specific formatting
+    test_content = """---
+# Header comment
+title: "Quoted Title"
+date_published: '05/20/2024'  # Side comment
+tags:
+  - "tag1"
+  - 'tag2'
+  - unquoted_tag
+nested:
+  key1: "value1"  # Another comment
+  key2: 'value2'
+---
+Test content here
+"""
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        test_file = Path(tmp_dir) / "test.md"
+        with open(test_file, "w") as f:
+            f.write(test_content)
+
+        # Read and write back the file
+        metadata, content = update_lib.split_yaml(test_file)
+        update_lib.write_to_yaml(test_file, metadata, content)
+
+        # Read the result and verify
+        with open(test_file, "r") as f:
+            result = f.read()
+
+        # Check specific formatting elements
+        assert '"Quoted Title"' in result  # Double quotes preserved
+        assert "'05/20/2024'" in result  # Single quotes preserved
+        assert "# Header comment" in result  # Header comment preserved
+        assert "# Side comment" in result  # Inline comment preserved
+        assert "unquoted_tag" in result  # Unquoted value preserved
+        assert "  - " in result  # List indentation preserved
+
+
+def test_date_updates_preserve_formatting():
+    """Test that date updates don't affect existing formatting."""
+    test_content = """---
+date_published: "05/20/2024"  # Original publish date
+date_updated: '05/21/2024'    # Last update
+title: "Test Post"
+---
+Content here
+"""
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        test_file = Path(tmp_dir) / "test.md"
+        with open(test_file, "w") as f:
+            f.write(test_content)
+
+        # Read, modify a date, and write back
+        metadata, content = update_lib.split_yaml(test_file)
+        metadata["date_updated"] = "05/22/2024"
+        update_lib.write_to_yaml(test_file, metadata, content)
+
+        # Read the result and verify
+        with open(test_file, "r") as f:
+            result = f.read()
+
+        # Check that quotes and comments are preserved
+        assert 'date_published: "05/20/2024"' in result
+        assert "# Original publish date" in result
+        assert "# Last update" in result
+        assert 'title: "Test Post"' in result

@@ -5,6 +5,12 @@ import yaml
 import glob
 from pathlib import Path
 import subprocess
+from ruamel.yaml import YAML
+import io
+
+yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
+yaml_parser.preserve_quotes = True  # Preserve existing quotes
+yaml_parser.indent(mapping=2, sequence=2, offset=2)
 
 current_date = datetime.now().strftime("%m/%d/%Y")
 
@@ -47,12 +53,12 @@ def split_yaml(file_path: Path) -> Tuple[dict, str]:
         print(f"Skipping {file_path}: No valid frontmatter found")
         return {}, ""
 
-    # Parse YAML frontmatter
+    # Parse YAML frontmatter using ruamel.yaml instead of PyYAML
     try:
-        metadata = yaml.safe_load(parts[1])
+        metadata = yaml_parser.load(parts[1])
         if not metadata:
             metadata = {}
-    except yaml.YAMLError as e:
+    except Exception as e:
         print(f"Error parsing YAML in {file_path}: {str(e)}")
         return {}, ""
 
@@ -72,10 +78,15 @@ def update_publish_date(yaml_metadata: dict) -> None:
 
 
 def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
+    # Use StringIO to capture the YAML dump with preserved formatting
+    stream = io.StringIO()
+    yaml_parser.dump(metadata, stream)
+    updated_yaml = stream.getvalue()
+
     # Write back to file if changes were made
     with file_path.open("w", encoding="utf-8") as f:
         f.write("---\n")
-        f.write(yaml.dump(metadata, sort_keys=False, allow_unicode=True))
+        f.write(updated_yaml)
         f.write("---\n")
         f.write(content)
     print(f"Updated date information on {file_path}")
@@ -102,6 +113,10 @@ def main(content_dir: Path | None = None) -> None:
         # Check for unpushed changes and update date_updated if needed
         if is_file_modified(md_file_path):
             metadata["date_updated"] = current_date
+        # if "date_updated" not in metadata:
+        #     metadata["date_updated"] = metadata["date_published"]
+        #     if "lw-last-modification" in metadata:
+        #         metadata["date_updated"] =
 
         write_to_yaml(md_file_path, metadata, content)
 
