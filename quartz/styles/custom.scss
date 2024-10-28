@@ -953,13 +953,19 @@ article[data-use-dropcap="true"] {
   background-color: transparent !important;
 }
 
+.flowchart {
+  display: block !important; // Allows the diagram to be centered
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .cluster {
   & rect {
     transform: translateY(calc(-0.5 * $baseMargin));
   }
 
   & .cluster-label {
-    font-weight: bolder;
+    text-decoration: underline; // Bolding makes the width too small
   }
 }
 
