@@ -1,17 +1,43 @@
 import os
 from datetime import datetime
+from typing import Tuple
 import yaml
 import glob
 from pathlib import Path
+import subprocess
+
+current_date = datetime.now().strftime("%m/%d/%Y")
 
 
-def update_publish_date(file_path: Path):
-    """Update publish date in a single markdown file's frontmatter.
+def is_file_modified(file_path: Path) -> bool:
+    """Check if file has unpushed changes in git.
 
     Args:
-        file_path (Path): Path to the markdown file to update
+        file_path (Path): Path to the file to check
+
+    Returns:
+        bool: True if file has unpushed changes, False otherwise
     """
-    # Read the file
+    try:
+        # Get the relative path from git root
+        git_root = subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"], text=True
+        ).strip()
+        rel_path = file_path.resolve().relative_to(Path(git_root))
+
+        # Check for unpushed changes
+        result = subprocess.check_output(
+            ["git", "diff", "--name-only", "origin/main..HEAD", str(rel_path)],
+            text=True,
+        ).strip()
+
+        return bool(result)
+    except subprocess.CalledProcessError:
+        print(f"Warning: Could not check git status for {file_path}")
+        return False
+
+
+def split_yaml(file_path: Path) -> Tuple[dict, str]:
     with file_path.open("r", encoding="utf-8") as f:
         content = f.read()
 
@@ -19,7 +45,7 @@ def update_publish_date(file_path: Path):
     parts = content.split("---", 2)
     if len(parts) < 3:
         print(f"Skipping {file_path}: No valid frontmatter found")
-        return
+        return {}, ""
 
     # Parse YAML frontmatter
     try:
@@ -28,24 +54,57 @@ def update_publish_date(file_path: Path):
             metadata = {}
     except yaml.YAMLError as e:
         print(f"Error parsing YAML in {file_path}: {str(e)}")
-        raise
+        return {}, ""
 
-    # Check if date_published exists and is empty or missing
-    if "date_published" not in metadata or not metadata["date_published"]:
-        # Set current date in MM/DD/YYYY format
-        current_date = datetime.now().strftime("%m/%d/%Y")
-        metadata["date_published"] = current_date
+    return metadata, parts[2]
 
-        # Write back to file
-        with file_path.open("w", encoding="utf-8") as f:
-            f.write("---\n")
-            f.write(yaml.dump(metadata, sort_keys=False, allow_unicode=True))
-            f.write("---\n")
-            f.write(parts[2])
-        print(f"Updated {file_path} with publish date: {current_date}")
+
+def update_publish_date(yaml_metadata: dict) -> None:
+    """Update publish and update dates in a markdown file's frontmatter.
+
+    Args:
+        yaml_metadata
+    """
+    # If date_published doesn't exist, create it and set date_updated to match
+    if "date_published" not in yaml_metadata or not yaml_metadata["date_published"]:
+        yaml_metadata["date_published"] = current_date
+        yaml_metadata["date_updated"] = current_date
+
+
+def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
+    # Write back to file if changes were made
+    with file_path.open("w", encoding="utf-8") as f:
+        f.write("---\n")
+        f.write(yaml.dump(metadata, sort_keys=False, allow_unicode=True))
+        f.write("---\n")
+        f.write(content)
+    print(f"Updated date information on {file_path}")
+
+
+def main(content_dir: Path | None = None) -> None:
+    """Main function to update dates in markdown files.
+
+    Args:
+        content_dir (Path, optional): Directory containing markdown files.
+            Defaults to "content" in current directory.
+    """
+    if content_dir is None:
+        content_dir = Path("content")
+
+    for md_file_path in content_dir.glob("*.md"):
+        metadata, content = split_yaml(md_file_path)
+        if not metadata and not content:
+            continue
+
+        # If the file has never been marked as published, set the publish date
+        update_publish_date(metadata)
+
+        # Check for unpushed changes and update date_updated if needed
+        if is_file_modified(md_file_path):
+            metadata["date_updated"] = current_date
+
+        write_to_yaml(md_file_path, metadata, content)
 
 
 if __name__ == "__main__":
-    content_dir = Path("content")
-    for md_file in content_dir.glob("*.md"):
-        update_publish_date(md_file)
+    main()
