@@ -73,8 +73,8 @@ const subtitlePattern = /^(Subtitle:[\S ]+\n)(?=[^\n])/gm
 const massTransforms: [RegExp | string, string][] = [
   [/:=/g, "≝"], // mathematical definition symbol
   [/( |^)L(\d+)\b/g, '$1L<sub style="font-variant-numeric: lining-nums;">$2</sub>'],
-  [/ :\) /gm, " 🙂 "], // Smiling face
-  [/ :\( /gm, " 🙁 "], // Frowning face
+  [/(?<= |^):\)(?= |$)/gm, "🙂"], // Smiling face
+  [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
 ]
 

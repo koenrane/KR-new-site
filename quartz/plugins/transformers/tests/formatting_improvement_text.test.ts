@@ -201,6 +201,8 @@ describe("Mass transforms", () => {
     ["L10", 'L<sub style="font-variant-numeric: lining-nums;">10</sub>'],
     ["ILO10", "ILO10"],
     [" :) The best", " 🙂 The best"],
+    [" :)", " 🙂"],
+    [":)", "🙂"],
     [" :( The worst", " 🙁 The worst"],
     ["Subtitle: This is a subtitle", "Subtitle: This is a subtitle"],
     ["Subtitle: This is a subtitle\nTest", "Subtitle: This is a subtitle\n\nTest"],
