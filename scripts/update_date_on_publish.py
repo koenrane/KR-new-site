@@ -1,18 +1,23 @@
 import os
 from datetime import datetime
 from typing import Tuple
-import yaml
 import glob
 from pathlib import Path
 import subprocess
 from ruamel.yaml import YAML
+from ruamel import yaml
 import io
+from ruamel.yaml.timestamp import TimeStamp
 
 yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
 yaml_parser.preserve_quotes = True  # Preserve existing quotes
 yaml_parser.indent(mapping=2, sequence=2, offset=2)
 
-current_date = datetime.now().strftime("%m/%d/%Y")
+# Fix: Create TimeStamp from datetime components
+now = datetime.now()
+current_date = TimeStamp(
+    now.year, now.month, now.day, now.hour, now.minute, now.second, now.microsecond
+)
 
 
 def is_file_modified(file_path: Path) -> bool:
@@ -65,22 +70,54 @@ def split_yaml(file_path: Path) -> Tuple[dict, str]:
     return metadata, parts[2]
 
 
-def update_publish_date(yaml_metadata: dict) -> None:
-    """Update publish and update dates in a markdown file's frontmatter.
+def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
+    """Convert various date formats to TimeStamp."""
+    if isinstance(value, TimeStamp):
+        return value
 
-    Args:
-        yaml_metadata: The YAML metadata dictionary to update
-    """
-    # If date_published doesn't exist, create it and set date_updated to match
-    if "date_published" not in yaml_metadata or not yaml_metadata["date_published"]:
+    if isinstance(value, str):
+        try:
+            # Try to parse MM/DD/YYYY format
+            dt = datetime.strptime(value, "%m/%d/%Y")
+        except ValueError:
+            try:
+                # Try ISO format as fallback
+                dt = datetime.fromisoformat(value)
+            except ValueError:
+                print(f"Warning: Could not parse date '{value}', using current date")
+                dt = datetime.now()
+    elif isinstance(value, datetime):
+        dt = value
+    else:
+        print(f"Warning: Unknown date type {type(value)}, using current date")
+        dt = datetime.now()
+
+    return TimeStamp(
+        dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond
+    )
+
+
+def update_publish_date(yaml_metadata: dict) -> None:
+    """Update publish and update dates in a markdown file's frontmatter."""
+    # If date_published doesn't exist or is empty/None, create it
+    if not yaml_metadata.get("date_published"):
         yaml_metadata["date_published"] = current_date
         yaml_metadata["date_updated"] = current_date
-    elif "date_updated" not in yaml_metadata:
-        # Check legacy date fields
-        for key in ("lw-last-modification", "lw-latest-edit", "date_published"):
-            if key in yaml_metadata:
+        return
+
+    if "date_updated" not in yaml_metadata:
+        # Check legacy date fields first
+        for key in ("lw-last-modification", "lw-latest-edit"):
+            if (
+                key in yaml_metadata
+                and yaml_metadata[key]
+                and yaml_metadata[key] != "None"
+            ):
                 yaml_metadata["date_updated"] = yaml_metadata[key]
                 break
+        else:
+            # If no valid legacy date found, use date_published
+            yaml_metadata["date_updated"] = yaml_metadata["date_published"]
 
 
 def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
@@ -119,6 +156,10 @@ def main(content_dir: Path | None = None) -> None:
         # Check for unpushed changes and update date_updated if needed
         if is_file_modified(md_file_path):
             metadata["date_updated"] = current_date
+
+        # Ensure that date fields are timestamps
+        for key in ("date_published", "date_updated"):
+            metadata[key] = maybe_convert_to_timestamp(metadata[key])
 
         write_to_yaml(md_file_path, metadata, content)
 

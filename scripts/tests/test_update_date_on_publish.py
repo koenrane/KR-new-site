@@ -5,6 +5,7 @@ from datetime import datetime
 import yaml
 import subprocess
 from unittest.mock import patch
+from ruamel.yaml.timestamp import TimeStamp
 
 from .. import update_date_on_publish as update_lib
 
@@ -17,17 +18,19 @@ def temp_content_dir(tmp_path):
     return content_dir
 
 
+def create_timestamp(dt: datetime) -> TimeStamp:
+    """Helper function to create TimeStamp objects from datetime."""
+    return TimeStamp(
+        dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond
+    )
+
+
 @pytest.fixture
 def mock_datetime(monkeypatch):
     """Mock datetime to return a fixed date"""
     fixed_date = datetime(2024, 2, 1)
-
-    class MockDateTime:
-        @staticmethod
-        def now():
-            return fixed_date
-
-    monkeypatch.setattr(update_lib, "current_date", fixed_date.strftime("%m/%d/%Y"))
+    fixed_timestamp = create_timestamp(fixed_date)
+    monkeypatch.setattr(update_lib, "current_date", fixed_timestamp)
     return fixed_date
 
 
@@ -82,8 +85,9 @@ def test_adds_missing_date(temp_content_dir, mock_datetime, mock_git):
 
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
-    assert metadata["date_published"] == "02/01/2024"
-    assert metadata["date_updated"] == "02/01/2024"
+    expected_date = create_timestamp(datetime(2024, 2, 1))
+    assert metadata["date_published"] == expected_date
+    assert metadata["date_updated"] == expected_date
 
 
 def test_preserves_existing_date(temp_content_dir, mock_git):
@@ -118,39 +122,38 @@ def test_handles_empty_date(temp_content_dir, mock_datetime, mock_git):
 
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
-    assert metadata["date_published"] == "02/01/2024"
-    assert metadata["date_updated"] == "02/01/2024"
+
+    expected_date = create_timestamp(mock_datetime)
+    assert metadata["date_published"] == expected_date
+    assert metadata["date_updated"] == expected_date
 
 
 def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
     """Test that date_updated is modified when git shows changes"""
+    # Create initial dates as strings instead of TimeStamp objects
     test_file = create_md_file(
         temp_content_dir,
         "test2.md",
         {
             "title": "Test Post",
-            "date_published": "01/01/2024",
-            "date_updated": "01/01/2024",
+            "date_published": "2024-01-01",
+            "date_updated": "2024-01-01",
         },
     )
 
-    def mock_git_with_changes(*args, **kwargs):
-        if "rev-parse" in args[0]:
-            return str(temp_content_dir.parent) + "\n"
-        if "diff" in args[0]:
-            return f"content/{test_file.name}"  # Simulate file as modified
-        return ""
-
-    with patch("subprocess.check_output", side_effect=mock_git_with_changes):
+    # Fix: Use the mock_git fixture with modified files
+    with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
         metadata, content = update_lib.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
-            metadata["date_updated"] = "02/01/2024"
+            metadata["date_updated"] = (
+                "2024-02-01"  # Use string format instead of TimeStamp
+            )
         update_lib.write_to_yaml(test_file, metadata, content)
 
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
-    assert metadata["date_published"] == "01/01/2024"  # Unchanged
-    assert metadata["date_updated"] == "02/01/2024"  # Updated
+    assert metadata["date_published"] == "2024-01-01"
+    assert metadata["date_updated"] == "2024-02-01"
 
 
 def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
@@ -174,7 +177,7 @@ def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
     assert metadata["date_published"] == "01/01/2023"
-    assert metadata["date_updated"] == "01/01/2023"  # Unchanged
+    assert metadata["date_updated"] == "01/01/2023"
 
 
 def test_split_yaml_invalid_format(temp_content_dir):
@@ -232,33 +235,26 @@ def test_write_to_yaml_preserves_order(temp_content_dir):
 
 def test_main_function_integration(temp_content_dir, mock_datetime, mock_git):
     """Test the main function's integration"""
-    # Create multiple test files
+    initial_date = create_timestamp(datetime(2024, 1, 1))
     files = [
         ("new.md", {"title": "New Post"}),
-        ("existing.md", {"title": "Existing Post", "date_published": "01/01/2024"}),
-        ("modified.md", {"title": "Modified Post", "date_published": "01/01/2024"}),
+        ("existing.md", {"title": "Existing Post", "date_published": initial_date}),
+        ("modified.md", {"title": "Modified Post", "date_published": initial_date}),
     ]
 
     for filename, metadata in files:
         create_md_file(temp_content_dir, filename, metadata)
 
-    def mock_git_selective(*args, **kwargs):
-        if "rev-parse" in args[0]:
-            return str(temp_content_dir.parent) + "\n"
-        if "diff" in args[0] and "modified.md" in str(args):
-            return "content/modified.md"
-        return ""
-
-    with patch("subprocess.check_output", side_effect=mock_git_selective):
+    with patch("subprocess.check_output", side_effect=mock_git(["modified.md"])):
         update_lib.main(temp_content_dir)
 
-    # Verify results
+    expected_new_date = create_timestamp(datetime(2024, 2, 1))
     for filename, _ in files:
         with (temp_content_dir / filename).open("r", encoding="utf-8") as f:
             metadata = yaml.safe_load(f.read().split("---")[1])
             assert "date_published" in metadata
             if filename == "modified.md":
-                assert metadata["date_updated"] == "02/01/2024"
+                assert metadata["date_updated"] == expected_new_date
 
 
 # Test the git check
@@ -416,18 +412,18 @@ Content
         ),
     ],
 )
-def test_initialize_missing_dates(temp_content_dir, test_case):
+def test_initialize_missing_dates(temp_content_dir, mock_datetime, test_case):
     """Test that both dates are set when missing."""
     test_file = create_md_file(temp_content_dir, "test.md", {})
     with open(test_file, "w") as f:
         f.write(test_case)
 
-    current_date = datetime.now().strftime("%m/%d/%Y")
+    expected_date = create_timestamp(mock_datetime)
     metadata, content = update_lib.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
 
-    assert metadata["date_published"] == current_date
-    assert metadata["date_updated"] == current_date
+    assert metadata["date_published"] == expected_date
+    assert metadata["date_updated"] == expected_date
 
 
 def test_preserve_existing_publish_date(temp_content_dir):
@@ -548,5 +544,5 @@ def test_git_modified_date_update(temp_content_dir, mock_git):
 
     with test_file.open("r", encoding="utf-8") as f:
         metadata = yaml.safe_load(f.read().split("---")[1])
-    assert metadata["date_published"] == "01/01/2023"  # Unchanged
-    assert metadata["date_updated"] == "02/01/2024"  # Updated
+    assert metadata["date_published"] == "01/01/2023"
+    assert metadata["date_updated"] == "02/01/2024"
