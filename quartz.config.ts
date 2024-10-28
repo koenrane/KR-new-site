@@ -115,7 +115,6 @@ const config: QuartzConfig = {
       Plugin.CreatedModifiedDate({
         priority: ["frontmatter", "filesystem"],
       }),
-      Plugin.MinusReplaceTransform(),
       Plugin.TextFormattingImprovement(),
       Plugin.Twemoji(),
       Plugin.SyntaxHighlighting({

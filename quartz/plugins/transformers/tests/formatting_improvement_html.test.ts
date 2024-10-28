@@ -10,6 +10,7 @@ import {
   assertSmartQuotesMatch,
   enDashNumberRange,
   neqConversion,
+  minusReplace,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 import { h } from "hastscript"
@@ -659,5 +660,19 @@ describe("removeSpaceBeforeSup", () => {
     const expected = "<p>First<sup>1</sup> and second<sup>2</sup> and third<sup>3</sup></p>"
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
+  })
+})
+
+describe("minusReplace", () => {
+  it.each([
+    ["The temperature is -5 degrees.", "The temperature is −5 degrees."],
+    ["This is a well-known fact.", "This is a well-known fact."],
+    ["The value is -3.14.", "The value is −3.14."],
+    ["The value is - 3.", "The value is − 3."],
+    ["Values are -1, -2, and -3.", "Values are −1, −2, and −3."],
+    ["Use the -option flag.", "Use the -option flag."],
+    ["(-3)", "(−3)"],
+  ])("transforms '%s' to '%s'", (input, expected) => {
+    expect(minusReplace(input)).toBe(expected)
   })
 })

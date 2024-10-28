@@ -254,6 +254,14 @@ export function hyphenReplace(text: string) {
   return text
 }
 
+const minusRegex = /(^|[\s(])-(\s?\d*\.?\d+)/g
+/**
+ * Replaces hyphens with minus signs in numerical contexts
+ */
+export function minusReplace(text: string): string {
+  return text.replace(minusRegex, "$1−$2")
+}
+
 // Not used in the plugin, but useful for other purposes
 /**
  * Applies multiple text transformations
@@ -261,13 +269,14 @@ export function hyphenReplace(text: string) {
  */
 export function applyTextTransforms(text: string): string {
   text = text.replace(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = minusReplace(text)
   text = massTransformText(text)
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
-  text = enDashNumberRange(text)
   text = plusToAmpersand(text)
   text = neqConversion(text)
+  text = enDashNumberRange(text)
   try {
     assertSmartQuotesMatch(text)
   } catch (e: unknown) {
