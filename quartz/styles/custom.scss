@@ -757,6 +757,10 @@ hr {
   max-width: 97.5%; // Looks weird if it extends all the way to the right
 }
 
+.sequence-links {
+  margin-bottom: calc(2 * $baseMargin);
+}
+
 .sequenceLinks-divider {
   color: var(--lightgray);
   height: calc(8 * $baseMargin);
