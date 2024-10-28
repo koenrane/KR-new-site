@@ -3,11 +3,10 @@ permalink: alignment-without-total-robustness
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
+lw-page-url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
 lw-is-question: 'false'
 lw-posted-at: 2022-11-29T06:23:00.394000Z
-lw-last-modification: 2023-02-15T10:24:57.232000Z
+lw-last-modification: &id001 2023-02-15T10:24:57.232000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-11-29T19:21:38.803000Z
 lw-was-unlisted: 'false'
@@ -23,11 +22,11 @@ title: Alignment allows 'non-robust' decision-influences and doesn't require rob
 lw-latest-edit: 2022-11-30T16:37:57.412000Z
 lw-is-linkpost: 'false'
 tags:
-- shard-theory
-- human-values
-- AI
+  - shard-theory
+  - human-values
+  - AI
 aliases:
-- alignment-allows-nonrobust-decision-influences-and-doesn-t
+  - alignment-allows-nonrobust-decision-influences-and-doesn-t
 sequence-link: posts#shard-theory
 lw-sequence-title: Shard Theory
 prev-post-slug: dont-align-agents-to-evaluations-of-plans
@@ -37,13 +36,14 @@ next-post-title: Inner and Outer Alignment Decompose One Hard Problem Into Two E
   Hard Problems
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 11/29/2022
-original_url: 
-  https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
+date_published: 2022-11-29 00:00:00
+original_url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
 skip_import: true
 description: Values steer optimization, they are not optimized against. Values don't
   have to be robustly "correct", because they are not the thing being optimized.
+date_updated: *id001
 ---
+
 
 On how I use words, values are decision-influences (also known as [_shards_](/shard-theory)). “I value doing well at school” is a short sentence for “in a range of contexts, there exists an influence on my decision-making which upweights actions and plans that lead to e.g. learning and good grades and honor among my classmates.”
 

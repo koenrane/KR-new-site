@@ -3,12 +3,11 @@ permalink: high-dimensional-subspace-of-code-steering-vectors
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering
+lw-page-url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering
 lw-linkpost-url: https://jacobgw.com/blog/ml/2024/07/14/melbo-ortho.html
 lw-is-question: 'false'
 lw-posted-at: 2024-07-15T19:06:17.636000Z
-lw-last-modification: 2024-07-17T21:40:12.145000Z
+lw-last-modification: &id001 2024-07-17T21:40:12.145000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-07-15T19:15:39.519000Z
 lw-was-unlisted: 'false'
@@ -24,20 +23,21 @@ lw-latest-edit: 2024-07-17T21:40:13.035000Z
 lw-is-linkpost: 'true'
 authors: Jacob Goldman-Wetzler and Alex Turner
 tags:
-- AI
-- mats-program
-- activation-engineering
+  - AI
+  - mats-program
+  - activation-engineering
 aliases:
-- i-found-greater-than-800-orthogonal-write-code-steering
+  - i-found-greater-than-800-orthogonal-write-code-steering
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 07/15/2024
-original_url: 
-  https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering
+date_published: 2024-07-15 00:00:00
+original_url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering
 skip_import: true
 description: 800+ orthogonal vectors steer an AI model to write code. Redundant features
   or something weirder?
+date_updated: *id001
 ---
+
 > [!thanks]
 >Produced as part of the MATS Summer 2024 program, under the mentorship of Alex Turner (`TurnTrout`).
 

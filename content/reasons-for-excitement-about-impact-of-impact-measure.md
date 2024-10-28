@@ -3,11 +3,10 @@ permalink: excitement-about-impact-measures
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
+lw-page-url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
 lw-is-question: 'false'
 lw-posted-at: 2020-02-27T21:42:18.903000Z
-lw-last-modification: 2020-09-16T18:14:18.398000Z
+lw-last-modification: &id001 2020-09-16T18:14:18.398000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-27T22:06:54.152000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: Reasons for Excitement about Impact of Impact Measure Research
 lw-latest-edit: 2020-09-16T18:14:18.659000Z
 lw-is-linkpost: 'false'
 tags:
-- impact-regularization
-- AI
+  - impact-regularization
+  - AI
 aliases:
-- reasons-for-excitement-about-impact-of-impact-measure
+  - reasons-for-excitement-about-impact-of-impact-measure
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
@@ -36,13 +35,14 @@ next-post-slug: conclusion-to-reframing-impact
 next-post-title: Conclusion to 'Reframing Impact'
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
-date_published: 02/27/2020
-original_url: 
-  https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
+date_published: 2020-02-27 00:00:00
+original_url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
 skip_import: true
 description: Impact measure research deconfuses power-seeking incentives in AI, aiding
   alignment efforts.
+date_updated: *id001
 ---
+
 Can we get impact measurement _right_? Does there exist One Equation To Rule Them All?
 
 I think there’s a decent chance there _isn’t_ a simple airtight way to implement AUP which lines up with AUP<sub>conceptual</sub> , mostly because it’s just incredibly difficult in general to perfectly specify the reward function.

@@ -3,11 +3,10 @@ permalink: humane-values-despite-imperfections
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
+lw-page-url: https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
 lw-is-question: 'false'
 lw-posted-at: 2022-11-08T18:15:32.023000Z
-lw-last-modification: 2022-11-21T21:18:42.103000Z
+lw-last-modification: &id001 2022-11-21T21:18:42.103000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-11-08T18:37:26.094000Z
 lw-was-unlisted: 'false'
@@ -22,19 +21,20 @@ title: People care about each other even though they have imperfect motivational
 lw-latest-edit: 2022-11-08T18:30:04.445000Z
 lw-is-linkpost: 'false'
 tags:
-- corrigibility
-- AI
+  - corrigibility
+  - AI
 aliases:
-- people-care-about-each-other-even-though-they-have-imperfect
+  - people-care-about-each-other-even-though-they-have-imperfect
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 11/08/2022
-original_url: 
-  https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
+date_published: 2022-11-08 00:00:00
+original_url: https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-about-each-other-even-though-they-have-imperfect
 skip_import: true
 description: Imperfect human values like familial love seem to contradict AI alignment
   arguments about Goodhart's Curse.
+date_updated: *id001
 ---
+
 
 > [!warning]
 > I wrote this essay in early August of 2022. I now consider the presentation to be somewhat confused, and now better understand where problems arise within the "standard alignment model." I'm publishing a somewhat edited version, on the grounds that something is better than nothing.

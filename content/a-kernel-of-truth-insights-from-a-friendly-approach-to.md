@@ -3,11 +3,10 @@ permalink: functional-analysis-textbook-review
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
+lw-page-url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
 lw-is-question: 'false'
 lw-posted-at: 2020-04-04T03:38:56.537000Z
-lw-last-modification: 2020-04-04T13:18:41.674000Z
+lw-last-modification: &id001 2020-04-04T13:18:41.674000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-04-03T23:22:02.762000Z
 lw-was-unlisted: 'false'
@@ -22,28 +21,29 @@ title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional Anal
 lw-latest-edit: 2020-04-04T13:18:43.104000Z
 lw-is-linkpost: 'false'
 tags:
-- scholarship-&-learning
-- understanding-the-world
+  - scholarship-&-learning
+  - understanding-the-world
 aliases:
-- a-kernel-of-truth-insights-from-a-friendly-approach-to
+  - a-kernel-of-truth-insights-from-a-friendly-approach-to
 lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: ordinary-differential-equations-textbook-review
-prev-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential
-  Equations'"
+prev-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential\
+  \ Equations'"
 next-post-slug: problem-relaxation-as-a-tactic
 next-post-title: Problem relaxation as a tactic
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 04/04/2020
-original_url: 
-  https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
+date_published: 2020-04-04 00:00:00
+original_url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
 skip_import: true
 description: 'Functional analysis: infinite dimensions, discontinuous linear functions,
   and the headache-inducing functional derivative.'
+date_updated: *id001
 ---
+
 
 What is functional analysis? A satisfactory answer requires going back to where it all started.
 

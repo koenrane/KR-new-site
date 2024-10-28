@@ -18,20 +18,22 @@ af-base-score: 5
 af-num-comments-on-upload: 0
 publish: true
 title: Open-Category Classification
-lw-latest-edit: 2018-03-28T14:49:23.665000Z
+lw-latest-edit: &id001 2018-03-28T14:49:23.665000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
+  - AI
 aliases:
-- open-category-classification
+  - open-category-classification
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 03/28/2018
+date_published: 2018-03-28 00:00:00
 original_url: https://www.lesswrong.com/posts/txGJZAPjraYEQfHq2/open-category-classification
 skip_import: '"true"'
 description: 'Open-category classification: How can we penalize classifiers which
   overgeneralize from their training data?'
+date_updated: *id001
 ---
+
 
 # Introduction
 

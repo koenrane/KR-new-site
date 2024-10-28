@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 lw-is-question: "false"
-lw-posted-at: 2018-06-16T02:17:08.890Z
+lw-posted-at: 2018-06-16T02:17:08.890000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2018-06-16T18:09:09.441Z
+lw-frontpage-date: 2018-06-16T18:09:09.441000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 26
@@ -18,7 +18,7 @@ af-base-score: 11
 af-num-comments-on-upload: 2
 publish: true
 title: "Worrying about the Vase: Whitelisting"
-lw-latest-edit: 2018-06-16T02:17:08.890Z
+lw-latest-edit: &id001 2018-06-16T02:17:08.890000Z
 lw-is-linkpost: "false"
 tags:
   - impact-regularization
@@ -27,11 +27,14 @@ aliases:
   - worrying-about-the-vase-whitelisting
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
-date_published: 06/16/2018
+date_published: 2018-06-16 00:00:00
 original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 skip_import: true
-description: An impact measure for AI safety that whitelists the object transformations which are allowed. 
+description: An impact measure for AI safety that whitelists the object transformations
+  which are allowed.
+date_updated: *id001
 ---
+
 
 > [!quote] Quotes
 > > [!quote]Amodei et al., _[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)_

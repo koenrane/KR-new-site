@@ -32,12 +32,15 @@ aliases:
   - MELBO
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 04/30/2024
+date_published: 2024-04-30 00:00:00
 original_url: https://www.lesswrong.com/posts/ioPnHKFyy4Cw2Gr2x/mechanistically-eliciting-latent-behaviors-in-language-1
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jwqnnwe15pr1vkvswuhf.png
-description: Unsupervised perturbations to language models reveal hidden capabilities, including the potential to bypass safety measures and exhibit backdoor behaviors.
+description: Unsupervised perturbations to language models reveal hidden capabilities,
+  including the potential to bypass safety measures and exhibit backdoor behaviors.
+date_updated: 2024-10-27 19:14:04.653922
 ---
+
 
 > [!thanks]
 > Produced as part of the MATS Winter 2024 program, under the mentorship of Alex Turner (`TurnTrout`).

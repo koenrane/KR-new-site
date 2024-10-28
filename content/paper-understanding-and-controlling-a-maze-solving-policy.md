@@ -3,12 +3,11 @@ permalink: cheese-vector-paper
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
+lw-page-url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
 lw-linkpost-url: https://arxiv.org/abs/2310.08043
 lw-is-question: 'false'
 lw-posted-at: 2023-10-13T01:38:09.147000Z
-lw-last-modification: 2023-10-13T17:37:49.828000Z
+lw-last-modification: &id001 2023-10-13T17:37:49.828000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-10-13T17:37:49.714000Z
 lw-was-unlisted: 'false'
@@ -25,22 +24,23 @@ lw-is-linkpost: 'true'
 authors: Alex Turner, Ulisse Mini, Peli Grietzer, Mrinank Sharma, Austin Meek, Monte
   MacDiarmid, and Lisa Thiergart
 tags:
-- AI
-- shard-theory
-- activation-engineering
+  - AI
+  - shard-theory
+  - activation-engineering
 aliases:
-- paper-understanding-and-controlling-a-maze-solving-policy
-- cheese-vector-paper-announcement
+  - paper-understanding-and-controlling-a-maze-solving-policy
+  - cheese-vector-paper-announcement
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 10/13/2023
-original_url: 
-  https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
+date_published: 2023-10-13 00:00:00
+original_url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understanding-and-controlling-a-maze-solving-policy
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jbwksgzxm1h8hzspvypz.png
 description: My team published a paper on steering a maze-solving AI by manipulating
   its internal goal representations.
+date_updated: *id001
 ---
+
 Mrinank, Austin, and Alex wrote a paper on the results from [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network), [Maze-solving agents: Add a top-right vector, make the agent go to the top-right](/top-right-steering-vector), and [Behavioural statistics for a maze-solving agent](/statistics-of-a-maze-solving-network).
 
 > [!abstract]

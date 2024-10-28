@@ -3,11 +3,10 @@ permalink: formalizing-policy-modification-corrigibility
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
+lw-page-url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 lw-is-question: 'false'
 lw-posted-at: 2021-12-03T01:31:42.011000Z
-lw-last-modification: 2021-12-03T22:56:16.017000Z
+lw-last-modification: &id001 2021-12-03T22:56:16.017000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-12-03T02:42:48.976000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: Formalizing Policy-Modification Corrigibility
 lw-latest-edit: 2021-12-03T19:13:00.523000Z
 lw-is-linkpost: 'false'
 tags:
-- corrigibility
-- AI
+  - corrigibility
+  - AI
 aliases:
-- formalizing-policy-modification-corrigibility
+  - formalizing-policy-modification-corrigibility
 lw-sequence-title: Thoughts on Corrigibility
 lw-sequence-image-grid: sequencesgrid/yuauvyzko4ttusbzpkkz
 lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
@@ -34,13 +33,14 @@ prev-post-slug: a-certain-formalization-of-corrigibility-is-vnm-incoherent
 prev-post-title: A Certain Formalization of Corrigibility Is VNM-Incoherent
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 12/03/2021
-original_url: 
-  https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
+date_published: 2021-12-03 00:00:00
+original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 skip_import: true
-description: "Formalizing one aspect of corrigibility: How much can a human change
-  an AI's policy, measured using mutual information."
+description: "Formalizing one aspect of corrigibility: How much can a human change\
+  \ an AI's policy, measured using mutual information."
+date_updated: *id001
 ---
+
 In [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), I operationalized an agent's corrigibility  as our ability to modify the agent so that it follows different policies. In the summer of 2020, I had formalized this notion, but it languished—unloved—in my Overleaf drafts.
 
 > [!info] Clarification

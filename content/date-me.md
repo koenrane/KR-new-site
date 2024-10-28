@@ -7,7 +7,10 @@ avoidIndexing: "true"
 hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
+date_published: &id001 2024-10-27 19:14:04.653922
+date_updated: *id001
 ---
+
 <img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
 
 Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.

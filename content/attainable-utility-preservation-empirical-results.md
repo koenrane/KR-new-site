@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 lw-is-question: "false"
-lw-posted-at: 2020-02-22T00:38:38.282Z
-lw-last-modification: 2021-06-15T16:55:29.483Z
+lw-posted-at: 2020-02-22T00:38:38.282000Z
+lw-last-modification: &id001 2021-06-15T16:55:29.483000Z
 lw-curation-date: None
-lw-frontpage-date: 2020-02-22T02:01:28.881Z
+lw-frontpage-date: 2020-02-22T02:01:28.881000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 8
@@ -18,7 +18,7 @@ af-base-score: 25
 af-num-comments-on-upload: 6
 publish: true
 title: "Attainable Utility Preservation: Empirical Results"
-lw-latest-edit: 2021-06-15T16:55:30.263Z
+lw-latest-edit: 2021-06-15T16:55:30.263000Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
 tags:
@@ -36,11 +36,14 @@ next-post-slug: how-low-should-fruit-hang-before-we-pick-it
 next-post-title: "How Low Should Fruit Hang Before We Pick It?"
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
-date_published: 02/22/2020
+date_published: 2020-02-22 00:00:00
 original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 skip_import: true
-description: The AUP technique encourages low-impact behavior in both simple and complex environments.
+description: The AUP technique encourages low-impact behavior in both simple and complex
+  environments.
+date_updated: *id001
 ---
+
 
 _Reframing Impact_ has focused on supplying the right intuitions and framing. Now we can see how these intuitions about power and the AU landscape both predict and explain AUP's empirical success thus far.
 

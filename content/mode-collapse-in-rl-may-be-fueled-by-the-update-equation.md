@@ -3,11 +3,10 @@ permalink: mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
+lw-page-url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-is-question: 'false'
 lw-posted-at: 2023-06-19T21:51:04.129000Z
-lw-last-modification: 2023-06-26T17:52:14.168000Z
+lw-last-modification: &id001 2023-06-26T17:52:14.168000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-06-20T01:38:30.736000Z
 lw-was-unlisted: 'false'
@@ -23,19 +22,20 @@ lw-latest-edit: 2023-06-24T18:23:46.663000Z
 lw-is-linkpost: 'false'
 authors: Alex Turner and Michael Einhorn
 tags:
-- AI
-- reinforcement-learning
+  - AI
+  - reinforcement-learning
 aliases:
-- mode-collapse-in-rl-may-be-fueled-by-the-update-equation
+  - mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 06/19/2023
-original_url: 
-  https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
+date_published: 2023-06-19 00:00:00
+original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
+date_updated: *id001
 ---
+
 **TL;DR:** We present an advantage variant which, in certain settings, does not train an optimal policy, but instead uses a fixed reward to update a policy a fixed amount from initialization. Non-tabular empirical results seem mixed: The policy doesn't mode-collapse, but has unclear convergence properties.
 
 **Summary:** Many policy gradient methods allow a network to extract arbitrarily many policy updates from a single kind of reinforcement event (e.g. for outputting tokens related to weddings). Alex proposes a slight modification to the advantage equation, called "action-conditioned TD error" (ACTDE). ACTDE ensures that the network doesn't converge to an "optimal" policy (these almost always put infinite logits on a single action). Instead, ACTDE updates the network by a fixed number of logits.

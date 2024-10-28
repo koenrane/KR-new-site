@@ -2,10 +2,13 @@
 permalink: test-page
 publish: 'true'
 tags:
-- website
+  - website
 description: A tour of TurnTrout.com's functionality, covering typography, markdown,
   and more.
+date_published: &id001 2024-10-27 19:14:04.653922
+date_updated: *id001
 ---
+
 This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 
 # Quotations

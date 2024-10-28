@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-loss-in-ai
 lw-is-question: 'false'
 lw-posted-at: 2022-10-02T00:52:35.959000Z
-lw-last-modification: 2023-01-24T00:26:34.406000Z
+lw-last-modification: &id001 2023-01-24T00:26:34.406000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-10-02T04:01:56.099000Z
 lw-was-unlisted: 'false'
@@ -21,17 +21,19 @@ title: Four usages of 'loss' in AI
 lw-latest-edit: 2023-01-24T00:26:35.060000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
+  - AI
 aliases:
-- four-usages-of-loss-in-ai
+  - four-usages-of-loss-in-ai
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 10/02/2022
+date_published: 2022-10-02 00:00:00
 original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-loss-in-ai
 skip_import: true
 description: Four distinct concepts related to "loss function" in AI are often conflated,
   leading to ambiguity in the field of AI alignment.
+date_updated: *id001
 ---
+
 What does it _mean_ for a loss function to be "aligned with" human goals? I perceive four different concepts which involve "loss function" in importantly different ways:
 
 1.  _Physical-loss:_ The physical implementation of a loss function and the loss computations, 

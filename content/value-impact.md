@@ -18,13 +18,13 @@ af-base-score: 22
 af-num-comments-on-upload: 3
 publish: true
 title: Value Impact
-lw-latest-edit: 2019-09-23T00:47:13.121000Z
+lw-latest-edit: &id001 2019-09-23T00:47:13.121000Z
 lw-is-linkpost: 'false'
 tags:
-- understanding-the-world
-- impact-regularization
+  - understanding-the-world
+  - impact-regularization
 aliases:
-- value-impact
+  - value-impact
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
@@ -35,13 +35,15 @@ next-post-slug: deducing-impact
 next-post-title: Deducing Impact
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 09/23/2019
+date_published: 2019-09-23 00:00:00
 original_url: https://www.lesswrong.com/posts/TxcYSRQ9giC6zmKov/value-impact
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/D6Bhmv6.png
 description: Impact is objectively important to agents, no matter their goals. Even
   robots hoarding pebbles care about a meteor strike.
+date_updated: *id001
 ---
+
 
 ![](https://assets.turntrout.com/static/images/posts/lG9je1g.avif)
 

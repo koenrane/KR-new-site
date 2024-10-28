@@ -3,11 +3,10 @@ permalink: invalid-ai-risk-arguments
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
+lw-page-url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 lw-is-question: 'false'
 lw-posted-at: 2024-03-05T02:31:00.990000Z
-lw-last-modification: 2024-07-09T07:23:08.172000Z
+lw-last-modification: &id001 2024-07-09T07:23:08.172000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-03-05T18:53:43.326000Z
 lw-was-unlisted: 'false'
@@ -22,19 +21,20 @@ title: Many arguments for AI x-risk are wrong
 lw-latest-edit: 2024-03-11T21:57:55.185000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- critique
+  - AI
+  - critique
 aliases:
-- many-arguments-for-ai-x-risk-are-wrong
+  - many-arguments-for-ai-x-risk-are-wrong
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 03/05/2024
-original_url: 
-  https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
+date_published: 2024-03-05 00:00:00
+original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 skip_import: true
 description: Arguments that AI will inevitably "scheme" are oversimplified and unconvincing.
   Deep learning defies naive predictions, and better arguments are needed.
+date_updated: *id001
 ---
+
 
 > [!note] Author's note
 > The following is a lightly edited version of a memo I wrote for a retreat. It was inspired by a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom). I think that my post covers important points not made by the published version of that post. I'm also thankful for the dozens of interesting conversations and comments at the retreat.

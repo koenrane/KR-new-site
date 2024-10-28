@@ -3,11 +3,10 @@ permalink: top-right-steering-vector
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+lw-page-url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 lw-is-question: 'false'
 lw-posted-at: 2023-03-31T19:20:48.658000Z
-lw-last-modification: 2023-04-17T00:53:42.453000Z
+lw-last-modification: &id001 2023-04-17T00:53:42.453000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-03-31T23:58:21.046000Z
 lw-was-unlisted: 'false'
@@ -23,10 +22,10 @@ lw-latest-edit: 2023-04-17T00:53:43.463000Z
 lw-is-linkpost: 'false'
 authors: Alex Turner, Peli Grietzer, and Lisa Thiergart
 tags:
-- AI
-- activation-engineering
+  - AI
+  - activation-engineering
 aliases:
-- maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+  - maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 lw-sequence-title: Interpreting a Maze-Solving Network
 lw-sequence-image-grid: sequencesgrid/fu4vhd1ud5y4niijbicd
 lw-sequence-image-banner: sequences/hvtmmyas8pxbcm28wpvv
@@ -37,15 +36,16 @@ next-post-slug: statistics-of-a-maze-solving-network
 next-post-title: Behavioural statistics for a maze-solving agent
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 03/31/2023
-original_url: 
-  https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+date_published: 2023-03-31 00:00:00
+original_url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/lteqnk5fbayr0jixir5z.png
 description: Adding a "top-right vector" to a maze-solving network makes the agent
   go to the top-right. These vectors compose with other vectors, like the "cheese
   vector."
+date_updated: *id001
 ---
+
 We modify the goal-directed behavior of a trained network, without any gradients or finetuning. We simply add or subtract "motivational vectors" which we compute in a straightforward fashion.
 
 In the [original post](/understanding-and-controlling-a-maze-solving-policy-network), we defined a "cheese vector" to be "the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze." By subtracting the cheese vector from all forward passes in a maze, the network ignored cheese. 

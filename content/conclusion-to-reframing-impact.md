@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 lw-is-question: "false"
 lw-posted-at: 2020-02-28T16:05:40.656000Z
-lw-last-modification: 2023-02-24T01:22:38.985000Z
+lw-last-modification: &id001 2023-02-24T01:22:38.985000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-28T19:14:32.555000Z
 lw-was-unlisted: "false"
@@ -33,12 +33,15 @@ prev-post-slug: excitement-about-impact-measures
 prev-post-title: Reasons for Excitement about Impact of Impact Measure Research
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 02/28/2020
+date_published: 2020-02-28 00:00:00
 original_url: https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/C0o5g91.png
-description: The "Reframing Impact" sequence concludes with probability estimates for key claims.
+description: The "Reframing Impact" sequence concludes with probability estimates
+  for key claims.
+date_updated: *id001
 ---
+
 ![](https://assets.turntrout.com/static/images/posts/pbmk8ndyip6nyu4ntf6z.avif)![](https://assets.turntrout.com/static/images/posts/icddpmwoxx5ftcysxo8k.avif)![](https://assets.turntrout.com/static/images/posts/mxhzcdashtl5euloeolx.avif)![](https://assets.turntrout.com/static/images/posts/d1mqg6p4ghuweu4sth5u.avif)![](https://assets.turntrout.com/static/images/posts/veypvrfwfr1xwwz4zx8m.avif)![](https://assets.turntrout.com/static/images/posts/qanem2tu332ayspkhutk.avif)![](https://assets.turntrout.com/static/images/posts/lza8s3ncwyioba7gn5kc.avif)![](https://assets.turntrout.com/static/images/posts/h14cfepf9ggi4hnx6ub1.avif)![](https://assets.turntrout.com/static/images/posts/w4iaoloixtlxhc26zy67.avif)![](https://assets.turntrout.com/static/images/posts/sr4u489gcv8jfltydthi.avif)
 
 > [!thanks] Acknowledgments

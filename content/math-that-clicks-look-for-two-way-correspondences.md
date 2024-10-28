@@ -3,11 +3,10 @@ permalink: on-good-formal-definitions
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
+lw-page-url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
 lw-is-question: 'false'
 lw-posted-at: 2020-10-02T01:22:18.177000Z
-lw-last-modification: 2020-10-02T17:19:26.385000Z
+lw-last-modification: &id001 2020-10-02T17:19:26.385000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-10-02T01:25:12.532000Z
 lw-was-unlisted: 'false'
@@ -22,19 +21,20 @@ title: 'Math That Clicks: Look for Two-Way Correspondences'
 lw-latest-edit: 2020-10-02T17:19:27.318000Z
 lw-is-linkpost: 'false'
 tags:
-- rationality
-- understanding-the-world
+  - rationality
+  - understanding-the-world
 aliases:
-- math-that-clicks-look-for-two-way-correspondences
+  - math-that-clicks-look-for-two-way-correspondences
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 10/02/2020
-original_url: 
-  https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
+date_published: 2020-10-02 00:00:00
+original_url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks-look-for-two-way-correspondences
 skip_import: true
 description: 'Good formalizations are two-way correspondences: the math suggests the
   concept it formalizes.'
+date_updated: *id001
 ---
+
 
 > [!thanks]
 > Andrew Critch made this explicit to me.

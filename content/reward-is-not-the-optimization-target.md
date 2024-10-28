@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
 lw-is-question: "false"
-lw-posted-at: 2022-07-25T00:03:18.307Z
-lw-last-modification: 2024-03-02T01:19:02.501Z
+lw-posted-at: 2022-07-25T00:03:18.307000Z
+lw-last-modification: &id001 2024-03-02T01:19:02.501000Z
 lw-curation-date: None
-lw-frontpage-date: 2022-07-25T04:20:53.020Z
+lw-frontpage-date: 2022-07-25T04:20:53.020000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 123
@@ -18,7 +18,7 @@ af-base-score: 94
 af-num-comments-on-upload: 88
 publish: true
 title: Reward is not the optimization target
-lw-latest-edit: 2023-09-18T16:54:05.492Z
+lw-latest-edit: 2023-09-18T16:54:05.492000Z
 lw-is-linkpost: "false"
 tags:
   - AI
@@ -34,11 +34,14 @@ next-post-slug: shard-theory
 next-post-title: The Shard Theory of Human Values
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 07/25/2022
+date_published: 2022-07-25 00:00:00
 original_url: https://www.lesswrong.com/posts/pdaGN6pQyQarFHXF4/reward-is-not-the-optimization-target
 skip_import: "true"
-description: "RL doesn't train reward optimizers. Reward chisels cognition into agents. Worry less about safe objectives, more about good cognition."
+description: "RL doesn't train reward optimizers. Reward chisels cognition into agents.\
+  \ Worry less about safe objectives, more about good cognition."
+date_updated: *id001
 ---
+
 > [!thanks]
 >This insight was made possible by many conversations with Quintin Pope, where he challenged my implicit assumptions about alignment. I’m not sure who came up with this particular idea.
 

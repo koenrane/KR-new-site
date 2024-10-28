@@ -3,11 +3,10 @@ permalink: computability-and-logic-textbook-review
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
+lw-page-url: https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
 lw-is-question: 'false'
 lw-posted-at: 2019-01-16T19:48:47.388000Z
-lw-last-modification: 2020-05-07T23:08:26.547000Z
+lw-last-modification: &id001 2020-05-07T23:08:26.547000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-01-16T20:01:57.774000Z
 lw-was-unlisted: 'false'
@@ -22,9 +21,9 @@ title: And My Axiom! Insights from 'Computability and Logic'
 lw-latest-edit: 2020-05-07T23:08:28.107000Z
 lw-is-linkpost: 'false'
 tags:
-- summaries
+  - summaries
 aliases:
-- and-my-axiom-insights-from-computability-and-logic
+  - and-my-axiom-insights-from-computability-and-logic
 lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
@@ -35,13 +34,14 @@ next-post-slug: managerial-decision-making-review
 next-post-title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 01/16/2019
-original_url: 
-  https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
+date_published: 2019-01-16 00:00:00
+original_url: https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
 skip_import: true
 description: Turing computability and the surprising limits of what formal systems
   can express.
+date_updated: *id001
 ---
+
 
 Max Tegmark's _[Our Mathematical Universe](https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)_ briefly touches on a captivating, beautiful mystery:
 

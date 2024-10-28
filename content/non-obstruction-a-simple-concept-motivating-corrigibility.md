@@ -3,8 +3,7 @@ permalink: non-obstruction-motivates-corrigibility
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-a-simple-concept-motivating-corrigibility
+lw-page-url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-a-simple-concept-motivating-corrigibility
 lw-is-question: 'false'
 lw-posted-at: 2020-11-21T19:35:40.445000Z
 lw-last-modification: 2021-11-11T23:19:59.481000Z
@@ -22,10 +21,10 @@ title: 'Non-Obstruction: A Simple Concept Motivating Corrigibility'
 lw-latest-edit: 2021-11-11T23:20:03.125000Z
 lw-is-linkpost: 'false'
 tags:
-- corrigibility
-- AI
+  - corrigibility
+  - AI
 aliases:
-- non-obstruction-a-simple-concept-motivating-corrigibility
+  - non-obstruction-a-simple-concept-motivating-corrigibility
 lw-sequence-title: Thoughts on Corrigibility
 lw-sequence-image-grid: sequencesgrid/yuauvyzko4ttusbzpkkz
 lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
@@ -34,13 +33,14 @@ next-post-slug: corrigibility-as-outside-view
 next-post-title: Corrigibility as outside view
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 11/21/2020
-original_url: 
-  https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-a-simple-concept-motivating-corrigibility
+date_published: 2020-11-21 00:00:00
+original_url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-a-simple-concept-motivating-corrigibility
 skip_import: true
-description: "Non-obstruction: how do we design AI that doesn't limit our ability
-  to achieve our goals, even if we misspecified its programming?"
+description: "Non-obstruction: how do we design AI that doesn't limit our ability\
+  \ to achieve our goals, even if we misspecified its programming?"
+date_updated: 2024-10-27 19:14:04.653922
 ---
+
 I present a unified mathematical frame for understanding corrigibility’s _benefits_, what it “is”, and what it isn’t. This frame is precisely understood by graphing the human overseer’s ability to achieve various goals (their [_attainable utility (AU) landscape_](/attainable-utility-landscape)). I argue that corrigibility’s benefits are secretly a form of counterfactual alignment (alignment with a set of goals the human may want to pursue). 
 
 A counterfactually aligned agent doesn't _have_ to let us literally correct it. Rather, this frame theoretically motivates why we might want corrigibility anyways. This frame also motivates other AI alignment subproblems, such as intent alignment, mild optimization, and low impact.

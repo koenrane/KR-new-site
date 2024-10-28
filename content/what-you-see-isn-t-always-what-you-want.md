@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want
 lw-is-question: "false"
-lw-posted-at: 2019-09-13T04:17:38.312Z
+lw-posted-at: 2019-09-13T04:17:38.312000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2019-09-13T06:04:52.254Z
+lw-frontpage-date: 2019-09-13T06:04:52.254000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 12
@@ -18,20 +18,24 @@ af-base-score: 11
 af-num-comments-on-upload: 8
 publish: true
 title: "What You See Isn't Always What You Want"
-lw-latest-edit: 2024-08-15T22:29:06.757Z
+lw-latest-edit: &id001 2024-08-15T22:29:06.757000Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "AI"
   - "reinforcement-learning"
-aliases: 
+aliases:
   - "what-you-see-isn-t-always-what-you-want"
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
-date_published: 09/13/2019
+date_published: 2019-09-13 00:00:00
 original_url: https://www.lesswrong.com/posts/AeHtdxHheMjHredaq/what-you-see-isn-t-always-what-you-want
 skip_import: true
-description: Markovian reward functions are underdefined. Aligning AI isn't about designing the "right" reward, but designing rewards compatible with how the world is.
+description: Markovian reward functions are underdefined. Aligning AI isn't about
+  designing the "right" reward, but designing rewards compatible with how the world
+  is.
+date_updated: *id001
 ---
+
 > [!failure] No longer endorsed. This isn't how reward functions work.
 
 It’s known to be hard to give non-trivial goals to reinforcement learning agents. However, I haven’t seen much discussion of the following: even ignoring wireheading, it seems impossible to specify reward functions that get what we want – at least, if the agent is farsighted, smart, and can’t see the entire world all at once, and the reward function only grades what the agent sees in the moment. If this really is impossible in our world, then the designer’s job gets way harder.

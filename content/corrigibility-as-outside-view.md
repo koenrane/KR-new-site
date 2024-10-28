@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/BMj6uMuyBidrdZkiD/corrigibility-as-outside-view
 lw-is-question: 'false'
 lw-posted-at: 2020-05-08T21:56:17.548000Z
-lw-last-modification: 2020-05-12T17:22:13.579000Z
+lw-last-modification: &id001 2020-05-12T17:22:13.579000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-05-09T02:39:09.512000Z
 lw-was-unlisted: 'false'
@@ -21,10 +21,10 @@ title: Corrigibility as outside view
 lw-latest-edit: 2020-05-12T17:22:13.849000Z
 lw-is-linkpost: 'false'
 tags:
-- corrigibility
-- AI
+  - corrigibility
+  - AI
 aliases:
-- corrigibility-as-outside-view
+  - corrigibility-as-outside-view
 lw-sequence-title: Thoughts on Corrigibility
 lw-sequence-image-grid: sequencesgrid/yuauvyzko4ttusbzpkkz
 lw-sequence-image-banner: sequences/ww73ub24plfayownucjk
@@ -35,12 +35,14 @@ next-post-slug: a-certain-formalization-of-corrigibility-is-vnm-incoherent
 next-post-title: A Certain Formalization of Corrigibility Is VNM-Incoherent
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 05/08/2020
+date_published: 2020-05-08 00:00:00
 original_url: https://www.lesswrong.com/posts/BMj6uMuyBidrdZkiD/corrigibility-as-outside-view
 skip_import: true
 description: Corrigibility may emerge when AI recognizes its flaws by simulating its
   own decision-making and defers to human judgment when appropriate.
+date_updated: *id001
 ---
+
 You run a country. One day, you think "I could help so many more people if I set all the rules... and I could make this happen". As far as you can tell, this is the _real reason_ you want to set the rules – you want to help people, and you think you'd do a good job.
 
 ![](https://assets.turntrout.com/static/images/posts/QSms7P6.avif)

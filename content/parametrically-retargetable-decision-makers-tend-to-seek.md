@@ -3,12 +3,11 @@ permalink: parametrically-retargetable-power-seeking
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-retargetable-decision-makers-tend-to-seek
+lw-page-url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-retargetable-decision-makers-tend-to-seek
 lw-linkpost-url: https://arxiv.org/abs/2206.13477
 lw-is-question: 'false'
 lw-posted-at: 2023-02-18T18:41:38.740000Z
-lw-last-modification: 2023-10-31T21:49:45.530000Z
+lw-last-modification: &id001 2023-10-31T21:49:45.530000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-02-18T19:26:40.220000Z
 lw-was-unlisted: 'false'
@@ -23,10 +22,10 @@ title: Parametrically retargetable decision-makers tend to seek power
 lw-latest-edit: 2023-02-21T17:23:07.903000Z
 lw-is-linkpost: 'true'
 tags:
-- AI
-- instrumental-convergence
+  - AI
+  - instrumental-convergence
 aliases:
-- parametrically-retargetable-decision-makers-tend-to-seek
+  - parametrically-retargetable-decision-makers-tend-to-seek
 lw-sequence-title: The Causes of Power-seeking and Instrumental Convergence
 lw-sequence-image-grid: sequencesgrid/hawnw9czray8awc74rnl
 lw-sequence-image-banner: sequences/qb8zq6qeizk7inc3gk2e
@@ -35,13 +34,14 @@ prev-post-slug: instrumental-convergence-for-realistic-agent-objectives
 prev-post-title: Instrumental Convergence For Realistic Agent Objectives
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 02/18/2023
-original_url: 
-  https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-retargetable-decision-makers-tend-to-seek
+date_published: 2023-02-18 00:00:00
+original_url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-retargetable-decision-makers-tend-to-seek
 skip_import: true
-description: "New theoretical results uncover a surprising truth: the ability to change
-  an agent's goals can lead them to seek power."
+description: "New theoretical results uncover a surprising truth: the ability to change\
+  \ an agent's goals can lead them to seek power."
+date_updated: *id001
 ---
+
 [This paper](https://arxiv.org/abs/2206.13477)—accepted as a poster to NeurIPS 2022— is the sequel to [Optimal Policies Tend to Seek Power](https://arxiv.org/abs/1912.01683). The new theoretical results are extremely broad, discarding the requirements of full observability, optimal policies, or even requiring a finite number of options. 
 
 

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties
 lw-is-question: 'false'
 lw-posted-at: 2022-08-08T23:40:47.176000Z
-lw-last-modification: 2022-08-15T03:43:38.799000Z
+lw-last-modification: &id001 2022-08-15T03:43:38.799000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-08-09T00:21:51.605000Z
 lw-was-unlisted: 'false'
@@ -21,10 +21,10 @@ title: General alignment properties
 lw-latest-edit: 2022-08-08T23:46:29.764000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- shard-theory
+  - AI
+  - shard-theory
 aliases:
-- general-alignment-properties
+  - general-alignment-properties
 sequence-link: posts#shard-theory
 lw-sequence-title: Shard Theory
 prev-post-slug: human-values-and-biases-are-inaccessible-to-the-genome
@@ -33,12 +33,14 @@ next-post-slug: reward-is-not-the-optimization-target
 next-post-title: Reward Is Not the Optimization Target
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 08/08/2022
+date_published: 2022-08-08 00:00:00
 original_url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties
 skip_import: 'true'
 description: Comparing how AIXI and humans acquire values reveals important differences
   in how these agents interact with the world.
+date_updated: *id001
 ---
+
 [AIXI](https://en.wikipedia.org/wiki/AIXI) and the genome are both ways of specifying intelligent agents. 
 
 1.  Give AIXI a utility function (perhaps over observation histories), and hook it up to an environment, and this pins down a policy.[^1] 

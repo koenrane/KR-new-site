@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
 lw-is-question: "false"
-lw-posted-at: 2022-11-26T21:16:23.425Z
-lw-last-modification: 2024-02-15T18:55:51.898Z
+lw-posted-at: 2022-11-26T21:16:23.425000Z
+lw-last-modification: &id001 2024-02-15T18:55:51.898000Z
 lw-curation-date: None
-lw-frontpage-date: 2022-11-27T08:00:55.784Z
+lw-frontpage-date: 2022-11-27T08:00:55.784000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 49
@@ -18,7 +18,7 @@ af-base-score: 23
 af-num-comments-on-upload: 32
 publish: true
 title: "Don't align agents to evaluations of plans"
-lw-latest-edit: 2022-11-30T23:18:44.203Z
+lw-latest-edit: 2022-11-30T23:18:44.203000Z
 lw-is-linkpost: "false"
 tags:
   - "AI"
@@ -30,14 +30,18 @@ lw-sequence-title: Shard Theory
 prev-post-slug: dont-design-agents-which-exploit-adversarial-inputs
 prev-post-title: "Don’t Design Agents Which Exploit Adversarial Inputs"
 next-post-slug: alignment-without-total-robustness
-next-post-title: "Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require Robust Grading"
+next-post-title: "Alignment Allows “Nonrobust” Decision-Influences and Doesn’t Require\
+  \ Robust Grading"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 11/26/2022
+date_published: 2022-11-26 00:00:00
 original_url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
-description: "A subtle point: aligning an AI to evaluations of your goals won't give you what you want. Don't do it."
+description: "A subtle point: aligning an AI to evaluations of your goals won't give\
+  \ you what you want. Don't do it."
 skip_import: true
+date_updated: *id001
 ---
+
 
 > [!info]
 > This post is another stab at explaining [_Don't design agents which exploit adversarial inputs_](/dont-design-agents-which-exploit-adversarial-inputs).

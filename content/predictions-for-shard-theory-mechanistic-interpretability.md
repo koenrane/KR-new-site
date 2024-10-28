@@ -3,11 +3,10 @@ permalink: predictions-for-shard-theory-mechanistic-interpretability
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
+lw-page-url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 lw-is-question: 'false'
 lw-posted-at: 2023-03-01T05:16:48.043000Z
-lw-last-modification: 2023-03-03T21:31:03.643000Z
+lw-last-modification: &id001 2023-03-03T21:31:03.643000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-03-01T05:58:04.936000Z
 lw-was-unlisted: 'false'
@@ -23,12 +22,12 @@ lw-latest-edit: 2023-03-03T21:31:03.903000Z
 lw-is-linkpost: 'false'
 authors: Alex Turner, Ulisse Mini, and Peli Grietzer
 tags:
-- AI
-- mats-program
-- shard-theory
-- rationality
+  - AI
+  - mats-program
+  - shard-theory
+  - rationality
 aliases:
-- predictions-for-shard-theory-mechanistic-interpretability
+  - predictions-for-shard-theory-mechanistic-interpretability
 lw-sequence-title: Interpreting a Maze-Solving Network
 lw-sequence-image-grid: sequencesgrid/fu4vhd1ud5y4niijbicd
 lw-sequence-image-banner: sequences/hvtmmyas8pxbcm28wpvv
@@ -37,13 +36,14 @@ next-post-slug: understanding-and-controlling-a-maze-solving-policy-network
 next-post-title: Understanding and controlling a maze-solving policy network
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 03/01/2023
-original_url: 
-  https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
+date_published: 2023-03-01 00:00:00
+original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 skip_import: true
 description: Predictions about a cheese-finding AI model's internal workings, before
   the results are revealed. Will it prefer cheese or the top-right corner? 🧀🤖
+date_updated: *id001
 ---
+
 
 How do agents work, internally? My shard theory [MATS 3.0](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network.
 

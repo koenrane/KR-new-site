@@ -3,11 +3,10 @@ permalink: a-shot-at-the-diamond-alignment-problem
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+lw-page-url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 lw-is-question: 'false'
 lw-posted-at: 2022-10-06T18:29:10.586000Z
-lw-last-modification: 2023-06-01T20:06:10.512000Z
+lw-last-modification: &id001 2023-06-01T20:06:10.512000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-10-06T21:08:16.652000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: A shot at the diamond-alignment problem
 lw-latest-edit: 2023-02-01T19:19:45.945000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- shard-theory
+  - AI
+  - shard-theory
 aliases:
-- a-shot-at-the-diamond-alignment-problem
+  - a-shot-at-the-diamond-alignment-problem
 sequence-link: posts#shard-theory
 lw-sequence-title: Shard Theory
 prev-post-slug: understanding-and-avoiding-value-drift
@@ -34,14 +33,14 @@ next-post-slug: dont-design-agents-which-exploit-adversarial-inputs
 next-post-title: Don’t Design Agents Which Exploit Adversarial Inputs
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 10/06/2022
-original_url: 
-  https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
+date_published: 2022-10-06 00:00:00
+original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 skip_import: true
-description: "A technical deep dive exploring how to align an AI with the goal of
-  creating diamonds, rather than more nebulous human values. 
-"
+description: "A technical deep dive exploring how to align an AI with the goal of\
+  \ creating diamonds, rather than more nebulous human values. "
+date_updated: *id001
 ---
+
 I think that relatively simple alignment techniques can go a long way. In particular, I want to tell a plausible-to-me story about how simple techniques can align a proto-AGI so that it makes lots of diamonds.
 
 But why is it interesting to get an AI which makes lots of diamonds? Because we avoid the complexity of human value and thinking about what kind of future we want, while still testing our ability to align an AI. Since diamond-production is our goal for training, it’s actually okay (in this story) if the AI kills everyone. The real goal is to ensure the AI ends up acquiring and producing lots of diamonds, instead of just optimizing some weird proxies that didn’t have anything to do with diamonds. It’s also OK if the AI doesn’t [_maximize_ diamonds](https://arbital.com/p/diamond_maximizer/), and instead just makes a whole lot of diamonds.[^1]

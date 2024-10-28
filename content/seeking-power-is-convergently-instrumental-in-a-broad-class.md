@@ -3,11 +3,10 @@ permalink: power-seeking-beyond-MDPs
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+lw-page-url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 lw-is-question: 'false'
 lw-posted-at: 2021-08-08T02:02:18.975000Z
-lw-last-modification: 2023-05-16T20:31:52.646000Z
+lw-last-modification: &id001 2023-05-16T20:31:52.646000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-08-08T04:49:53.558000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: Seeking Power is Convergently Instrumental in a Broad Class of Environmen
 lw-latest-edit: 2023-05-16T20:31:56.719000Z
 lw-is-linkpost: 'false'
 tags:
-- instrumental-convergence
-- AI
+  - instrumental-convergence
+  - AI
 aliases:
-- seeking-power-is-convergently-instrumental-in-a-broad-class
+  - seeking-power-is-convergently-instrumental-in-a-broad-class
 lw-sequence-title: The Causes of Power-seeking and Instrumental Convergence
 lw-sequence-image-grid: sequencesgrid/hawnw9czray8awc74rnl
 lw-sequence-image-banner: sequences/qb8zq6qeizk7inc3gk2e
@@ -38,14 +37,14 @@ next-post-title: When Most VNM-Coherent Preference Orderings Have Convergent Ins
   Incentives
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
-date_published: 08/08/2021
-original_url: 
-  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+date_published: 2021-08-08 00:00:00
+original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 skip_import: true
-description: "Power-seeking is instrumentally convergent for agents maximizing over
-  possible futures, but not for agents maximizing over their own actions. 
-"
+description: "Power-seeking is instrumentally convergent for agents maximizing over\
+  \ possible futures, but not for agents maximizing over their own actions. "
+date_updated: *id001
 ---
+
 
 A year ago, I thought it would be really hard to generalize the power-seeking theorems from Markov decision processes (MDPs); the [MDP case](/seeking-power-is-often-convergently-instrumental-in-mdps) seemed hard enough. Without assuming the agent can see the full state, while letting utility functions do as they please – this seemed like asking for trouble.
 

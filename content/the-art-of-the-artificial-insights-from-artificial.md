@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 lw-is-question: "false"
-lw-posted-at: 2018-03-25T06:55:46.204Z
+lw-posted-at: 2018-03-25T06:55:46.204000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2018-03-25T06:55:42.680Z
+lw-frontpage-date: 2018-03-25T06:55:42.680000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 8
@@ -17,8 +17,9 @@ lw-vote-count: 20
 af-base-score: 13
 af-num-comments-on-upload: 0
 publish: true
-title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern Approach'"
-lw-latest-edit: 2018-03-25T06:55:46.204Z
+title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern\
+  \ Approach'"
+lw-latest-edit: &id001 2018-03-25T06:55:46.204000Z
 lw-is-linkpost: "false"
 tags:
   - "AI"
@@ -35,11 +36,14 @@ next-post-slug: linear-algebra-textbook-review
 next-post-title: "The First Rung: Insights from 'Linear Algebra Done Right'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 03/25/2018
+date_published: 2018-03-25 00:00:00
 original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 skip_import: true
-description:  My review of "Artificial Intelligence, A Modern Approach"—plus, how I read 1000+ pages in 3 days.
+description: My review of "Artificial Intelligence, A Modern Approach"—plus, how I
+  read 1000+ pages in 3 days.
+date_updated: *id001
 ---
+
 
 <br/>
 <center>“Most people won't agree to kill themselves for 50 million dollars.”<br/>Stuart Russell and Peter Norvig

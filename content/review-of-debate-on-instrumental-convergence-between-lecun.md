@@ -3,11 +3,10 @@ permalink: review-of-debate-on-instrumental-convergence
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/ZPEGLoWMN242Dob6g/review-of-debate-on-instrumental-convergence-between-lecun
+lw-page-url: https://www.lesswrong.com/posts/ZPEGLoWMN242Dob6g/review-of-debate-on-instrumental-convergence-between-lecun
 lw-is-question: 'false'
 lw-posted-at: 2021-01-12T03:57:06.655000Z
-lw-last-modification: 2021-01-12T17:05:55.320000Z
+lw-last-modification: &id001 2021-01-12T17:05:55.320000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-01-12T04:52:03.224000Z
 lw-was-unlisted: 'false'
@@ -23,20 +22,21 @@ title: Review of 'Debate on Instrumental Convergence between LeCun, Russell, Ben
 lw-latest-edit: 2021-01-12T17:05:56.148000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- instrumental-convergence
+  - AI
+  - instrumental-convergence
 aliases:
-- review-of-debate-on-instrumental-convergence-between-lecun
+  - review-of-debate-on-instrumental-convergence-between-lecun
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
-date_published: 01/12/2021
-original_url: 
-  https://www.lesswrong.com/posts/ZPEGLoWMN242Dob6g/review-of-debate-on-instrumental-convergence-between-lecun
+date_published: 2021-01-12 00:00:00
+original_url: https://www.lesswrong.com/posts/ZPEGLoWMN242Dob6g/review-of-debate-on-instrumental-convergence-between-lecun
 skip_import: true
 card_image:
 description: Experts clash on the dangers of "instrumental convergence" in AI, but
   clear definitions and formal thought are sorely needed.
+date_updated: *id001
 ---
+
 In the summer of 2019, I was building up a corpus of basic reinforcement learning theory. I wandered through a sun-dappled Berkeley, my head in the clouds, [my mind bent on a single ambition](/problem-relaxation-as-a-tactic#Formalizing-Instrumental-Convergence): proving the existence of instrumental convergence. 
 
 Somehow. 

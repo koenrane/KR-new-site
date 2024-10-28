@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/FuGDYNvA6qh4qyFah/thoughts-on-human-compatible
 lw-is-question: 'false'
 lw-posted-at: 2019-10-10T05:24:31.689000Z
-lw-last-modification: 2019-12-17T22:27:13.521000Z
+lw-last-modification: &id001 2019-12-17T22:27:13.521000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-10-10T05:54:45.161000Z
 lw-was-unlisted: 'false'
@@ -21,17 +21,19 @@ title: Thoughts on 'Human-Compatible'
 lw-latest-edit: 2019-12-17T22:27:13.803000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
+  - AI
 aliases:
-- thoughts-on-human-compatible
+  - thoughts-on-human-compatible
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
-date_published: 10/10/2019
+date_published: 2019-10-10 00:00:00
 original_url: https://www.lesswrong.com/posts/FuGDYNvA6qh4qyFah/thoughts-on-human-compatible
 skip_import: true
 description: Stuart Russell's "Human Compatible" makes the case for aligning AI with
   human values and sketches a research agenda based on uncertainty.
+date_updated: *id001
 ---
+
 
 > [!quote] [_Human Compatible_](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) 
 > The purpose of this book is to explain why \[superintelligence\] might be the last event in human history and how to make sure that it is not... The book is intended for a general audience but will, I hope, be of value in convincing specialists in artificial intelligence to rethink their fundamental assumptions.

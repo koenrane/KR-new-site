@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
 lw-is-question: 'false'
 lw-posted-at: 2020-04-22T23:44:42.398000Z
-lw-last-modification: 2020-04-27T23:31:04.976000Z
+lw-last-modification: &id001 2020-04-27T23:31:04.976000Z
 lw-curation-date: 2020-04-26T01:36:28.916000Z
 lw-frontpage-date: 2020-04-22T23:48:44.497000Z
 lw-was-unlisted: 'false'
@@ -21,27 +21,29 @@ title: Problem relaxation as a tactic
 lw-latest-edit: 2020-04-23T12:08:57.953000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- rationality
+  - AI
+  - rationality
 aliases:
-- problem-relaxation-as-a-tactic
+  - problem-relaxation-as-a-tactic
 lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: functional-analysis-textbook-review
-prev-post-title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional
-  Analysis'"
+prev-post-title: "A Kernel of Truth: Insights from 'A Friendly Approach to Functional\
+  \ Analysis'"
 next-post-slug: insights-from-euclids-elements
 next-post-title: Insights from Euclid's 'Elements'
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 04/22/2020
+date_published: 2020-04-22 00:00:00
 original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
 skip_import: true
 description: Relax difficult problems by simplifying them while retaining their core
   challenge. This tactic has fueled some of my most exciting research.
+date_updated: *id001
 ---
+
 
 > [!warning]
 > As of September 2024, I no longer endorse following some of these strategies. Concretely, beware of most content on [Arbital](https://arbital.com), especially the methodology of unbounded analysis.

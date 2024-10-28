@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/e3Db4w52hz3NSyYqt/how-i-do-research
 lw-is-question: 'false'
 lw-posted-at: 2019-11-19T20:31:16.832000Z
-lw-last-modification: 2019-11-20T21:28:11.705000Z
+lw-last-modification: &id001 2019-11-20T21:28:11.705000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-11-19T20:49:41.452000Z
 lw-was-unlisted: 'false'
@@ -21,19 +21,21 @@ title: How I do research
 lw-latest-edit: 2019-11-20T21:28:11.835000Z
 lw-is-linkpost: 'false'
 tags:
-- rationality
-- scholarship-&-learning
+  - rationality
+  - scholarship-&-learning
 aliases:
-- how-i-do-research
+  - how-i-do-research
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 11/19/2019
+date_published: 2019-11-19 00:00:00
 original_url: https://www.lesswrong.com/posts/e3Db4w52hz3NSyYqt/how-i-do-research
 skip_import: true
 hideSubscriptionLinks: false
-description: "The author's unorthodox approach to AI safety research: Ignore existing
-  work, simplify relentlessly, and break your own solutions."
+description: "The author's unorthodox approach to AI safety research: Ignore existing\
+  \ work, simplify relentlessly, and break your own solutions."
+date_updated: *id001
 ---
+
 > [!warning] Disclaimer
 > As of 2024, this is no longer an accurate representation of how I do research. I do not necessarily consider the examples I gave to be "virtuous" ways to do research (nor do I necessarily renounce them).
 

@@ -32,11 +32,14 @@ aliases:
   - aup
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
-date_published: 12/12/2020
+date_published: 2020-12-12 00:00:00
 original_url: https://www.lesswrong.com/posts/5kurn5W62C5CpSWq6/avoiding-side-effects-in-complex-environments
 skip_import: true
-description: AI agents trained with Attainable Utility Preservation avoid most side effects in Conway's Game of Life without explicit instructions.
+description: AI agents trained with Attainable Utility Preservation avoid most side
+  effects in Conway's Game of Life without explicit instructions.
+date_updated: 2024-10-27 19:14:04.653922
 ---
+
 ![](https://assets.turntrout.com/static/images/posts/2526ca684eae62e8d1fc595b335044d649df02f30f2331b2.avif)
 
 Our most recent AUP paper was accepted to NeurIPS 2020 as a spotlight presentation.

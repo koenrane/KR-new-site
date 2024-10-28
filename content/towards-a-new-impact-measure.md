@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure
 lw-is-question: 'false'
 lw-posted-at: 2018-09-18T17:21:34.114000Z
-lw-last-modification: 2024-03-02T01:17:26.725000Z
+lw-last-modification: &id001 2024-03-02T01:17:26.725000Z
 lw-curation-date: None
 lw-frontpage-date: 2018-09-18T17:28:41.565000Z
 lw-was-unlisted: 'false'
@@ -21,18 +21,19 @@ title: Towards a New Impact Measure
 lw-latest-edit: 2019-03-08T16:52:10.693000Z
 lw-is-linkpost: 'false'
 tags:
-- impact-regularization
+  - impact-regularization
 aliases:
-- towards-a-new-impact-measure
+  - towards-a-new-impact-measure
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
-date_published: 09/18/2018
+date_published: 2018-09-18 00:00:00
 original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure
 skip_import: true
-description: "Impact is reframed as a change in attainable utility for both humans
-  and AI agents. 
-"
+description: "Impact is reframed as a change in attainable utility for both humans\
+  \ and AI agents. "
+date_updated: *id001
 ---
+
 
 > [!note] Summary
 > I propose a closed-form solution to [low impact](https://arbital.com/p/low_impact/), increasing [corrigibility](https://arbital.com/p/corrigibility/) and seemingly taking major steps to neutralize [basic AI drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) 1 (self-improvement), 5 (self-protectiveness), and 6 (acquisition of resources)

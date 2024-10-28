@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
 lw-is-question: "false"
-lw-posted-at: 2018-07-05T00:34:59.249Z
+lw-posted-at: 2018-07-05T00:34:59.249000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2018-07-05T17:58:20.723Z
+lw-frontpage-date: 2018-07-05T17:58:20.723000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 6
@@ -18,7 +18,7 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
-lw-latest-edit: 2018-07-05T00:34:59.249Z
+lw-latest-edit: &id001 2018-07-05T00:34:59.249000Z
 lw-is-linkpost: "false"
 tags:
   - summaries
@@ -35,12 +35,15 @@ next-post-slug: second-analysis-textbook-review
 next-post-title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 07/05/2018
+date_published: 2018-07-05 00:00:00
 original_url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
 no_dropcap: "true"
 skip_import: true
-description: "A deep dive into reinforcement learning, covering algorithms, exploration vs. exploitation, and the importance of safe AI development."
+description: "A deep dive into reinforcement learning, covering algorithms, exploration\
+  \ vs. exploitation, and the importance of safe AI development."
+date_updated: *id001
 ---
+
 
 > [!quote] Reinforcement Learning: An Introduction
 > The safety of artificial intelligence applications involving reinforcement learning is a topic that deserves careful attention.

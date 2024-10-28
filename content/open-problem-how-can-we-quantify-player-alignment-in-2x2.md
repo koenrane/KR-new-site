@@ -3,11 +3,10 @@ permalink: question-about-defining-alignment-in-simple-setting
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
+lw-page-url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
 lw-is-question: 'true'
 lw-posted-at: 2021-06-16T02:09:42.403000Z
-lw-last-modification: 2021-06-22T21:52:08.179000Z
+lw-last-modification: &id001 2021-06-22T21:52:08.179000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-06-16T03:22:56.602000Z
 lw-was-unlisted: 'false'
@@ -22,20 +21,20 @@ title: 'Open problem: how can we quantify player alignment in 2x2 normal-form ga
 lw-latest-edit: 2021-06-18T18:47:49.115000Z
 lw-is-linkpost: 'false'
 tags:
-- game-theory
-- AI
+  - game-theory
+  - AI
 aliases:
-- open-problem-how-can-we-quantify-player-alignment-in-2x2
+  - open-problem-how-can-we-quantify-player-alignment-in-2x2
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 06/16/2021
-original_url: 
-  https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
+date_published: 2021-06-16 00:00:00
+original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
 skip_import: true
-description: "Quantifying player alignment in game theory: how aligned are the players'
-  incentives in a given game?
-"
+description: "Quantifying player alignment in game theory: how aligned are the players'\
+  \ incentives in a given game? "
+date_updated: *id001
 ---
+
 In my experience, [constant-sum games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally unaligned" incentives, and [common-payoff games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally aligned" incentives. How do we quantitatively interpolate between these two extremes? That is, given an arbitrary $2×2$  payoff table representing a two-player [normal-form game](https://en.wikipedia.org/wiki/Normal-form_game) (like Prisoner's Dilemma), what extra information do we need in order to produce a real number quantifying agent alignment? 
 
 If this question is ill-posed, why is it ill-posed? And if it's not, we should probably understand how to quantify such a basic aspect of multi-agent interactions, if we want to reason about complicated multi-agent situations whose outcomes determine the value of humanity's future. (I started considering this question with Jacob Stavrianos over the last few months while supervising his [SERI project](/formalizing-alignment-in-game-theory).)

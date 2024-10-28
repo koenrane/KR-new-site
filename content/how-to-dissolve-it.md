@@ -18,21 +18,23 @@ af-base-score: 9
 af-num-comments-on-upload: 0
 publish: true
 title: How to Dissolve It
-lw-latest-edit: 2018-03-07T06:19:22.923000Z
+lw-latest-edit: &id001 2018-03-07T06:19:22.923000Z
 lw-is-linkpost: 'false'
 tags:
-- rationality
-- practical
+  - rationality
+  - practical
 aliases:
-- how-to-dissolve-it
+  - how-to-dissolve-it
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 03/07/2018
+date_published: 2018-03-07 00:00:00
 original_url: https://www.lesswrong.com/posts/argvWNNHZAz2MeM8C/how-to-dissolve-it
 skip_import: true
 description: Dissolving technical problems by visualizing ideal solutions and backward
   chaining from them.
+date_updated: *id001
 ---
+
 In the last month and a half, I've had more (of what I believe to be) profound, creative insights to technical problems than in the five years prior. For example, I independently came up with the core insight behind [DenseNets](https://arxiv.org/abs/1608.06993) during the second lecture on convolutional neural nets in my Deep Learning class. I've noticed that these insights occur as byproducts of _good processes_ and having a _conducive mindset and physiology_ at that point in time. I'm going to focus on the former in this post.
 
 # End in Mind

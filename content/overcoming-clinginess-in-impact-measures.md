@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-clinginess-in-impact-measures
 lw-is-question: "false"
-lw-posted-at: 2018-06-30T22:51:29.065Z
+lw-posted-at: 2018-06-30T22:51:29.065000Z
 lw-last-modification: None
 lw-curation-date: None
-lw-frontpage-date: 2018-07-01T01:02:11.120Z
+lw-frontpage-date: 2018-07-01T01:02:11.120000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 9
@@ -18,7 +18,7 @@ af-base-score: 10
 af-num-comments-on-upload: 6
 publish: true
 title: "Overcoming Clinginess in Impact Measures"
-lw-latest-edit: 2018-06-30T22:51:29.065Z
+lw-latest-edit: 2018-06-30T22:51:29.065000Z
 lw-is-linkpost: "false"
 tags:
   - "impact-regularization"
@@ -26,11 +26,14 @@ aliases:
   - "overcoming-clinginess-in-impact-measures"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 06/30/2018
+date_published: 2018-06-30 00:00:00
 original_url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-clinginess-in-impact-measures
 skip_import: true
-description: Impact measures incentivize agents to avoid side effects, but what about the side effects of ★other agents★?
+description: Impact measures incentivize agents to avoid side effects, but what about
+  the side effects of ★other agents★?
+date_updated: 2024-10-27 19:14:04.653922
 ---
+
 
 > [!quote]Taylor et al., _[Alignment for Advanced Machine Learning Systems](https://intelligence.org/files/AlignmentMachineLearning.pdf)_
 >

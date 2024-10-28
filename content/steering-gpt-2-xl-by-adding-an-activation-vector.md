@@ -5,10 +5,10 @@ lw-is-af: "true"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 lw-is-question: "false"
-lw-posted-at: 2023-05-13T18:42:41.321Z
-lw-last-modification: 2024-02-19T23:30:54.973Z
-lw-curation-date: 2023-05-19T18:44:05.911Z
-lw-frontpage-date: 2023-05-13T19:35:35.050Z
+lw-posted-at: 2023-05-13T18:42:41.321000Z
+lw-last-modification: &id001 2024-02-19T23:30:54.973000Z
+lw-curation-date: 2023-05-19T18:44:05.911000Z
+lw-frontpage-date: 2023-05-13T19:35:35.050000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 97
@@ -18,7 +18,7 @@ af-base-score: 117
 af-num-comments-on-upload: 63
 publish: true
 title: "Steering GPT-2-XL by adding an activation vector"
-lw-latest-edit: 2024-02-19T23:31:07.877Z
+lw-latest-edit: 2024-02-19T23:31:07.877000Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Monte MacDiarmid, David Udell, Lisa Thiergart, and Ulisse Mini
 tags:
@@ -31,11 +31,14 @@ aliases:
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 05/13/2023
+date_published: 2023-05-13 00:00:00
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
-description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful prompts into loving completions.
+description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
+  prompts into loving completions.
+date_updated: *id001
 ---
+
 
 | Prompt given to the model[^1]                                              |
 | -------------------------------------------------------------------------- |

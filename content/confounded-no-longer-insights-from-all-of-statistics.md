@@ -3,8 +3,7 @@ permalink: all-of-statistics-textbook-review
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
+lw-page-url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
 lw-is-question: 'false'
 lw-posted-at: 2018-05-03T22:56:27.057000Z
 lw-last-modification: None
@@ -19,13 +18,13 @@ af-base-score: 7
 af-num-comments-on-upload: 0
 publish: true
 title: "Confounded No Longer: Insights from 'All of Statistics'"
-lw-latest-edit: 2018-05-03T22:56:27.057000Z
+lw-latest-edit: &id001 2018-05-03T22:56:27.057000Z
 lw-is-linkpost: 'false'
 tags:
-- summaries
-- scholarship-&-learning
+  - summaries
+  - scholarship-&-learning
 aliases:
-- confounded-no-longer-insights-from-all-of-statistics
+  - confounded-no-longer-insights-from-all-of-statistics
 lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
@@ -36,13 +35,14 @@ next-post-slug: first-analysis-textbook-review
 next-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 05/03/2018
-original_url: 
-  https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
+date_published: 2018-05-03 00:00:00
+original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
 skip_import: true
-description: A tour of fundamental statistical concepts, from basic probability
-  to hypothesis testing and Bayesian inference.
+description: A tour of fundamental statistical concepts, from basic probability to
+  hypothesis testing and Bayesian inference.
+date_updated: *id001
 ---
+
 
 > [!quote]Larry Wasserman, _All of Statistics_
 >

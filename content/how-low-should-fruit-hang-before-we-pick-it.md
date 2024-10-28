@@ -3,11 +3,10 @@ permalink: impact-penalty-strength
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
+lw-page-url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 lw-is-question: 'false'
 lw-posted-at: 2020-02-25T02:08:52.630000Z
-lw-last-modification: 2020-05-20T13:03:50.901000Z
+lw-last-modification: &id001 2020-05-20T13:03:50.901000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-24T19:24:20.123000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: Choosing the strength of the impact penalty term
 lw-latest-edit: 2020-05-20T13:03:59.233000Z
 lw-is-linkpost: 'false'
 tags:
-- impact-regularization
-- AI
+  - impact-regularization
+  - AI
 aliases:
-- how-low-should-fruit-hang-before-we-pick-it
+  - how-low-should-fruit-hang-before-we-pick-it
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
@@ -36,14 +35,15 @@ next-post-slug: attainable-utility-preservation-scaling-to-superhuman
 next-post-title: 'Attainable Utility Preservation: Scaling to Superhuman'
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 02/25/2020
-original_url: 
-  https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
+date_published: 2020-02-25 00:00:00
+original_url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/4bIPf6o.png
 description: How to choose an AI's impact limit to get the best results without triggering
   a catastrophe.
+date_updated: *id001
 ---
+
 
 > [!info] Summary
 > Even if we can measure how impactful an agent's actions are, how impactful do we let the agent be? This post uncovers a surprising fact: Armed with just four numbers, we can set the impact level so that the agent chooses a reasonable, non-catastrophic plan on the first try. This understanding increases the competitiveness of impact-limited agents and helps us judge impact measures. Furthermore, the results help us better understand diminishing returns and cost-benefit tradeoffs.

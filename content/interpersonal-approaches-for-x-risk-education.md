@@ -3,8 +3,7 @@ permalink: interpersonal-approaches-for-x-risk-education
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
+lw-page-url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
 lw-is-question: 'true'
 lw-posted-at: 2018-01-24T00:47:44.183000Z
 lw-last-modification: None
@@ -19,20 +18,21 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: Interpersonal Approaches for X-Risk Education
-lw-latest-edit: 2018-01-24T00:47:44.183000Z
+lw-latest-edit: &id001 2018-01-24T00:47:44.183000Z
 lw-is-linkpost: 'false'
 tags:
 aliases:
-- interpersonal-approaches-for-x-risk-education
+  - interpersonal-approaches-for-x-risk-education
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 01/24/2018
-original_url: 
-  https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
+date_published: 2018-01-24 00:00:00
+original_url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
 skip_import: true
 description: Effective ways to raise awareness of AI risk among researchers, weighing
   persuasion vs. education and status vs. receptiveness.
+date_updated: *id001
 ---
+
 Much of the AI research community remains unaware of the Alignment Problem (according to my personal experience), and I haven't seen much discussion about how to deliberately expand the community (all I've seen to this effect is [Scott's A/B/C/D/E testing on alignment articles](http://slatestarcodex.com/2016/10/24/ai-persuasion-experiment-results/)).
 
 Expanding the number of people aware of (and ideally, working on) the alignment problem is a high-leverage activity: a constant amount of effort spent educating someone in exchange for a chance of recruiting an ally who will work hard at our sides. Another metric by which we should evaluate approaches is whether we have to convince or simply educate; professors and high-status researchers may be more dismissive (possibly due to the [inside view](https://lesswrong.com/tag/outside_view), their wariness of strange-sounding ideas, and [overconfidence in their long-term predictions](https://www.newyorker.com/magazine/2005/12/05/everybodys-an-expert)), but their influence would be greater. On the other hand, a good friend in a CS or Math under-/post-graduate program may be more receptive.

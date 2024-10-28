@@ -8,7 +8,10 @@ aliases:
   - index
 hideSubscriptionLinks: true
 description: Writings on AI, self-improvement, and living a good life.
+date_published: &id001 2024-10-27 19:14:04.653922
+date_updated: *id001
 ---
+
 > [!warning] Under construction
 > I am finishing up work on this site. Many articles are available, but the site may be rough around a few edges. Yes, websites have edges -- five of them, to be exact.
 

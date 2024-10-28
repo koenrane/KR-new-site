@@ -3,8 +3,7 @@ permalink: attainable-utility-theory
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
+lw-page-url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 lw-is-question: 'false'
 lw-posted-at: 2019-09-27T16:48:22.015000Z
 lw-last-modification: None
@@ -19,13 +18,13 @@ af-base-score: 23
 af-num-comments-on-upload: 11
 publish: true
 title: 'Attainable Utility Theory: Why Things Matter'
-lw-latest-edit: 2019-10-02T04:41:15.243000Z
+lw-latest-edit: &id001 2019-10-02T04:41:15.243000Z
 lw-is-linkpost: 'false'
 tags:
-- understanding-the-world
-- impact-regularization
+  - understanding-the-world
+  - impact-regularization
 aliases:
-- attainable-utility-theory-why-things-matter
+  - attainable-utility-theory-why-things-matter
 lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
@@ -36,15 +35,15 @@ next-post-slug: world-state-is-the-wrong-abstraction-for-impact
 next-post-title: World State is the Wrong Abstraction for Impact
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 09/27/2019
-original_url: 
-  https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
+date_published: 2019-09-27 00:00:00
+original_url: https://www.lesswrong.com/posts/C74F7QTEAYSTGAytJ/attainable-utility-theory-why-things-matter
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/hqEX2r1.png
-description: "Description:
-Impact isn't about changing the world; it's about changing
-  our ability to achieve goals within it."
+description: "Description: Impact isn't about changing the world; it's about changing\
+  \ our ability to achieve goals within it."
+date_updated: *id001
 ---
+
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.
 

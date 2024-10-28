@@ -3,8 +3,7 @@ permalink: toy-instrumental-convergence-paper-walkthrough
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
+lw-page-url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
 lw-is-question: 'false'
 lw-posted-at: 2018-02-26T02:20:09.294000Z
 lw-last-modification: None
@@ -19,21 +18,23 @@ af-base-score: 6
 af-num-comments-on-upload: 0
 publish: true
 title: Walkthrough of 'Formalizing Convergent Instrumental Goals'
-lw-latest-edit: 2018-02-26T02:20:09.294000Z
+lw-latest-edit: &id001 2018-02-26T02:20:09.294000Z
 lw-is-linkpost: 'false'
 tags:
-- AI
-- instrumental-convergence
+  - AI
+  - instrumental-convergence
 aliases:
-- walkthrough-of-formalizing-convergent-instrumental-goals
+  - walkthrough-of-formalizing-convergent-instrumental-goals
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 02/26/2018
-original_url: 
-  https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
+date_published: 2018-02-26 00:00:00
+original_url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-formalizing-convergent-instrumental-goals
 skip_import: true
-description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated to humanity, it may still turn us into paperclips. "
+description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated\
+  \ to humanity, it may still turn us into paperclips. "
+date_updated: *id001
 ---
+
 # Introduction
 
 I found _[Formalizing Convergent Instrumental Goals](https://intelligence.org/files/FormalizingConvergentGoals.pdf)_ (Benson-Tilsen and Soares) to be quite readable. I was surprised that the instrumental convergence hypothesis had been formulated and proven (within the confines of a reasonable toy model); this caused me to update slightly upwards on existential risk from unfriendly AI.

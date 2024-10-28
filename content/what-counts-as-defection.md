@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-defection
 lw-is-question: 'false'
 lw-posted-at: 2020-07-12T22:03:39.261000Z
-lw-last-modification: 2021-12-17T20:10:50.747000Z
+lw-last-modification: &id001 2021-12-17T20:10:50.747000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-07-12T23:00:43.230000Z
 lw-was-unlisted: 'false'
@@ -21,19 +21,22 @@ title: Formalizing “defection” using game theory
 lw-latest-edit: 2021-03-18T22:20:25.138000Z
 lw-is-linkpost: 'false'
 tags:
-- game-theory
-- AI
-- rationality
+  - game-theory
+  - AI
+  - rationality
 aliases:
-- what-counts-as-defection
-- game-theoretic-definition-of-deception
+  - what-counts-as-defection
+  - game-theoretic-definition-of-deception
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 07/12/2020
+date_published: 2020-07-12 00:00:00
 original_url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-defection
 skip_import: true
-description: "A game-theoretic formalism of “defection”, analyzing whether an action is self-serving at the expense of the group."
+description: "A game-theoretic formalism of “defection”, analyzing whether an action\
+  \ is self-serving at the expense of the group."
+date_updated: *id001
 ---
+
 
 > [!thanks]
 > Thanks to Michael Dennis for proposing the formal definition; to Andrew Critch for pointing me in this direction; to Abram Demski for proposing non-negative weighting; and to Alex Appel, Scott Emmons, Evan Hubinger, `philh`, Rohin Shah, and Carroll Wainwright for their feedback and ideas.

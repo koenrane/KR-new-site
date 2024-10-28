@@ -3,11 +3,10 @@ permalink: managerial-decision-making-review
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
+lw-page-url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
 lw-is-question: 'false'
 lw-posted-at: 2019-12-29T18:03:28.352000Z
-lw-last-modification: 2019-12-30T00:31:35.888000Z
+lw-last-modification: &id001 2019-12-30T00:31:35.888000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-12-29T21:58:25.454000Z
 lw-was-unlisted: 'false'
@@ -22,10 +21,10 @@ title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 lw-latest-edit: 2019-12-30T00:31:36.289000Z
 lw-is-linkpost: 'false'
 tags:
-- understanding-the-world
-- scholarship-&-learning
+  - understanding-the-world
+  - scholarship-&-learning
 aliases:
-- judgment-day-insights-from-judgment-in-managerial-decision
+  - judgment-day-insights-from-judgment-in-managerial-decision
 lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
@@ -36,13 +35,14 @@ next-post-slug: topology-textbook-review
 next-post-title: "Continuous Improvement: Insights from 'Topology'"
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 12/29/2019
-original_url: 
-  https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
+date_published: 2019-12-29 00:00:00
+original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
 skip_import: true
 description: Insights from a management textbook on how to improve decision-making,
   negotiate effectively, and overcome cognitive biases.
+date_updated: *id001
 ---
+
 
 The more broadly I read and learn, the more I bump into implicit self-conceptions and self-boundaries. I was slightly averse to learning from a manager-oriented textbook because I'm not a manager, but also because I... didn't see myself as the kind of person who could learn about a "business"-y context? I also [didn't see myself as the kind of person who could read and do math](/first-analysis-textbook-review), which now seems ridiculous.
 

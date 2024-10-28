@@ -3,11 +3,10 @@ permalink: formalizing-alignment-in-game-theory
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+lw-page-url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 lw-is-question: 'false'
 lw-posted-at: 2021-06-08T12:36:07.156000Z
-lw-last-modification: 2021-06-08T19:41:34.041000Z
+lw-last-modification: &id001 2021-06-08T19:41:34.041000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-06-08T17:26:42.584000Z
 lw-was-unlisted: 'false'
@@ -23,19 +22,20 @@ lw-latest-edit: 2021-06-08T12:36:09.299000Z
 lw-is-linkpost: 'false'
 authors: Jacob Stavrianos and Alex Turner
 tags:
-- game-theory
-- AI
+  - game-theory
+  - AI
 aliases:
-- game-theoretic-alignment-in-terms-of-attainable-utility
+  - game-theoretic-alignment-in-terms-of-attainable-utility
 lw-payoff-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 06/08/2021
-original_url: 
-  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+date_published: 2021-06-08 00:00:00
+original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 skip_import: true
 description: A game-theoretic examination of how "aligned" agents are in a multi-player
   game, using an alignment metric based on social welfare functions.
+date_updated: *id001
 ---
+
 
 > [!thanks] Acknowledgements
 >

@@ -3,11 +3,10 @@ permalink: best-reasons-for-pessimism-about-impact-measures
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
+lw-page-url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
 lw-is-question: 'true'
 lw-posted-at: 2019-04-10T17:22:12.832000Z
-lw-last-modification: 2020-12-12T19:16:21.916000Z
+lw-last-modification: &id001 2020-12-12T19:16:21.916000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-04-10T18:52:43.625000Z
 lw-was-unlisted: 'false'
@@ -22,18 +21,19 @@ title: Best reasons for pessimism about impact of impact measures?
 lw-latest-edit: 2019-04-10T17:30:38.988000Z
 lw-is-linkpost: 'false'
 tags:
-- impact-regularization
+  - impact-regularization
 aliases:
-- best-reasons-for-pessimism-about-impact-of-impact-measures
+  - best-reasons-for-pessimism-about-impact-of-impact-measures
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 04/10/2019
-original_url: 
-  https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
+date_published: 2019-04-10 00:00:00
+original_url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
 skip_import: true
 description: 'Impact measures: Can they make AI safer, or are they a dangerous distraction
   from more promising approaches?'
+date_updated: *id001
 ---
+
 
 > [!quote] [Oliver Habryka](https://www.lesswrong.com/posts/t3t9osBsmwkajWz5Y/long-term-future-fund-april-2019-grant-decisions) (emphasis mine)
 >

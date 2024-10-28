@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
 lw-is-question: 'false'
 lw-posted-at: 2020-01-10T03:51:28.185000Z
-lw-last-modification: 2020-01-10T04:16:38.138000Z
+lw-last-modification: &id001 2020-01-10T04:16:38.138000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-01-10T04:16:38.015000Z
 lw-was-unlisted: 'false'
@@ -22,15 +22,17 @@ lw-latest-edit: 2020-01-10T03:51:28.406000Z
 lw-is-linkpost: 'false'
 tags:
 aliases:
-- on-being-robust
+  - on-being-robust
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
-date_published: 01/10/2020
+date_published: 2020-01-10 00:00:00
 original_url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
 skip_import: true
 description: 'How to avoid feeling like a fraud: build good habits and stop cutting
   corners.'
+date_updated: *id001
 ---
+
 > [!thanks]
 > Inspired in part by `Raemon`'s [Being a Robust Agent](https://www.lesswrong.com/posts/2jfiMgKkh7qw9z8Do/being-a-robust-agent).
 

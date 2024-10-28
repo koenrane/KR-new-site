@@ -3,11 +3,10 @@ permalink: residual-stream-norms-grow-exponentially-over-the-forward-pass
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: 
-  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+lw-page-url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 lw-is-question: "false"
 lw-posted-at: 2023-05-07T00:46:02.658000Z
-lw-last-modification: 2023-06-27T22:46:07.824000Z
+lw-last-modification: &id001 2023-06-27T22:46:07.824000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-05-05T17:52:43.688000Z
 lw-was-unlisted: "false"
@@ -28,13 +27,15 @@ aliases:
   - "residual-stream-norms-grow-exponentially-over-the-forward"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 05/07/2023
-original_url: 
-  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+date_published: 2023-05-07 00:00:00
+original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/hpgem17ggmbpgnwcvdut.png
-description: Residual stream norms grow, perhaps due to layer normalization making it hard to delete information and easier to overshadow it.
+description: Residual stream norms grow, perhaps due to layer normalization making
+  it hard to delete information and easier to overshadow it.
+date_updated: *id001
 ---
+
 
 For a range of language models and a range of input prompts, the norm of each residual stream grows exponentially over the forward pass, with average per-layer growth rate of about 1.045 in GPT-2-XL. We show a bunch of evidence for this. We discuss to what extent different weights and parts of the network are responsible.
 

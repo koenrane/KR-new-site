@@ -6,10 +6,10 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 lw-linkpost-url: https://arxiv.org/abs/2312.06681
 lw-is-question: "false"
-lw-posted-at: 2024-01-02T00:47:04.621Z
-lw-last-modification: 2024-02-13T03:16:17.408Z
+lw-posted-at: 2024-01-02T00:47:04.621000Z
+lw-last-modification: &id001 2024-02-13T03:16:17.408000Z
 lw-curation-date: None
-lw-frontpage-date: 2024-01-02T20:02:44.550Z
+lw-frontpage-date: 2024-01-02T20:02:44.550000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 29
@@ -19,9 +19,10 @@ af-base-score: 49
 af-num-comments-on-upload: 23
 publish: true
 title: Steering Llama-2 with contrastive activation additions
-lw-latest-edit: 2024-02-13T03:16:20.193Z
+lw-latest-edit: 2024-02-13T03:16:20.193000Z
 lw-is-linkpost: "true"
-authors: Nina Rimsky, Wuschel Schulz, Nick Gabrieli, Meg Tong, Evan Hubinger, and Alex Turner
+authors: Nina Rimsky, Wuschel Schulz, Nick Gabrieli, Meg Tong, Evan Hubinger, and
+  Alex Turner
 tags:
   - corrigibility
   - AI
@@ -31,11 +32,14 @@ aliases:
   - steering-llama-2-with-contrastive-activation-additions
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 01/02/2024
+date_published: 2024-01-02 00:00:00
 original_url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 skip_import: true
-description: Steering Llama-2 towards or away from various traits using sample-efficient steering vectors.
+description: Steering Llama-2 towards or away from various traits using sample-efficient
+  steering vectors.
+date_updated: *id001
 ---
+
 
 ![](https://assets.turntrout.com/static/images/posts/uidocxp1iwtdztmkdlch.avif)
 <br/>Figure: The effects of subtracting or adding a "sycophancy vector" to one bias term.

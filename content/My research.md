@@ -4,7 +4,10 @@ permalink: research
 publish: "true"
 hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
+date_published: &id001 2024-10-27 19:14:04.653922
+date_updated: *id001
 ---
+
 
 Over the years, I've worked on lots of research problems. Every time, I felt invested in my work. The work felt beautiful. Even though many days have passed since I have daydreamed about instrumental convergence, I'm proud of what I've accomplished and discovered.
 <span class="float-right"><img src="https://assets.turntrout.com/Attachments/Pasted image 20240614164142.avif" alt="A professional photograph of me."/> While not _technically_ a part of my research, I've included a photo of myself anyways.</span>

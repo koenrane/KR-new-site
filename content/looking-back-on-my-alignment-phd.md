@@ -39,11 +39,14 @@ prev-post-title: Do a cost-benefit analysis of your technology usage
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 original_url: https://www.lesswrong.com/posts/2GxhAyn9aHqukap2S/looking-back-on-my-alignment-phd
-date_published: 06/30/2022
+date_published: 2022-06-30 00:00:00
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png
-description: The mistakes made, the lessons learned, and the drive to solve a hilariously neglected super-problem.
+description: The mistakes made, the lessons learned, and the drive to solve a hilariously
+  neglected super-problem.
+date_updated: 2024-10-27 19:14:04.653922
 ---
+
 
 > [!info]
 >

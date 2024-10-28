@@ -5,10 +5,10 @@ lw-is-af: "false"
 lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/ZMP353rgkd7DQjrA8/collider-bias-as-a-cognitive-blindspot
 lw-is-question: "true"
-lw-posted-at: 2020-12-30T02:39:35.700Z
-lw-last-modification: 2020-12-31T08:07:22.823Z
+lw-posted-at: 2020-12-30T02:39:35.700000Z
+lw-last-modification: &id001 2020-12-31T08:07:22.823000Z
 lw-curation-date: None
-lw-frontpage-date: 2020-12-31T08:07:25.683Z
+lw-frontpage-date: 2020-12-31T08:07:25.683000Z
 lw-was-unlisted: "false"
 lw-is-shortform: "false"
 lw-num-comments-on-upload: 12
@@ -18,19 +18,22 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: "Collider bias as a cognitive blindspot?"
-lw-latest-edit: 2020-12-30T02:54:15.755Z
+lw-latest-edit: 2020-12-30T02:54:15.755000Z
 lw-is-linkpost: "false"
-tags: 
+tags:
   - "rationality"
-aliases: 
+aliases:
   - "collider-bias-as-a-cognitive-blindspot"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
-date_published: 12/30/2020
+date_published: 2020-12-30 00:00:00
 original_url: https://www.lesswrong.com/posts/ZMP353rgkd7DQjrA8/collider-bias-as-a-cognitive-blindspot
 skip_import: true
-description: Examining a statistical illusion that tricks us into seeing correlations where there are none. Can we rewire our brains to see through it?
+description: Examining a statistical illusion that tricks us into seeing correlations
+  where there are none. Can we rewire our brains to see through it?
+date_updated: *id001
 ---
+
 
 
 
