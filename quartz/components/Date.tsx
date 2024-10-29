@@ -100,6 +100,7 @@ export const DateElement = ({
           monthFormat,
           includeOrdinalSuffix,
           formatOrdinalSuffix,
+          "",
         ),
       }}
     />

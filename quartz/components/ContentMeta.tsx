@@ -88,15 +88,15 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
         {insertFavicon(
           faviconPath,
           <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
-            Originally published on
+            Published
           </a>,
-        )}{" "}
+        )}
+        {" on "}
         {dateElement}
       </span>
     )
   }
 
-  // Otherwise just show "Published on"
   return <span className="publication-str">Published on {dateElement}</span>
 }
 
@@ -113,18 +113,25 @@ export function renderLastUpdated(cfg: GlobalConfiguration, fileData: QuartzPlug
   const githubUrl = `${githubStem}${fileData.relativePath}`
   const githubLink = (
     <a href={githubUrl} className="external" target="_blank" rel="noopener noreferrer">
-      <DateElement
-        cfg={cfg}
-        fileData={{ ...fileData, frontmatter: { ...frontmatter, date: dateUpdated } }}
-        monthFormat="long"
-        includeOrdinalSuffix={true}
-        formatOrdinalSuffix={true}
-      />
+      Updated
     </a>
   )
   const linkWithFavicon = insertFavicon(githubFaviconPath, githubLink)
 
-  return <span className="last-updated-str">Last updated on {linkWithFavicon}</span>
+  const date = (
+    <DateElement
+      cfg={cfg}
+      fileData={{ ...fileData, frontmatter: { ...frontmatter, date: dateUpdated } }}
+      monthFormat="long"
+      includeOrdinalSuffix={true}
+      formatOrdinalSuffix={true}
+    />
+  )
+  return (
+    <span className="last-updated-str">
+      {linkWithFavicon} on {date}
+    </span>
+  )
 }
 
 /**

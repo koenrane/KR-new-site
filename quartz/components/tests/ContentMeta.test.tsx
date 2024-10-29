@@ -83,7 +83,7 @@ describe("renderPublicationInfo", () => {
     expect(result?.type).toBe("span")
     expect(result?.props?.className).toBe("publication-str")
 
-    expect(hasChildText(children, "Originally publish")).toBe(true)
+    expect(hasChildText(children, "Publish")).toBe(true)
 
     expect(
       hasChildWithProps(children, {
@@ -214,7 +214,7 @@ describe("renderLastUpdated", () => {
 
     expect(result?.type).toBe("span")
     expect(result?.props?.className).toBe("last-updated-str")
-    expect(hasChildText(children, "Last updated on")).toBe(true)
+    expect(hasChildText(children, "Updated")).toBe(true)
     expect(
       hasChildWithProps(result as React.ReactElement, {
         href: expect.stringContaining("github.com"),
