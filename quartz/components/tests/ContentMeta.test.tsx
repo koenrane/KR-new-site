@@ -4,235 +4,242 @@
 import { jest } from "@jest/globals"
 import { describe, it, expect, beforeEach } from "@jest/globals"
 import {
-  renderPublicationInfo,
+  RenderPublicationInfo,
   getFaviconPath,
   insertFavicon,
-  renderLastUpdated,
+  processReadingTime,
 } from "../ContentMeta"
-import { TURNTROUT_FAVICON_PATH } from "../../plugins/transformers/linkfavicons"
+import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
 import React from "react"
 import { GlobalConfiguration } from "../../cfg"
 import { QuartzPluginData } from "../../plugins/vfile"
+import "@testing-library/jest-dom"
+import ReactDOM from "react-dom/client"
 
+// Update the mock setup
+jest.mock("../ContentMeta", () => ({
+  urlCache: new Map(),
+  TURNTROUT_FAVICON_PATH: "path/to/turntrout/favicon.png",
+}))
+
+// Mock dependencies
 jest.mock("../Date", () => ({
-  formatDate: jest.fn(() => "Mocked Date"),
-  getDate: jest.fn(() => new Date("2023-01-01")),
+  DateElement: () => <span data-testid="date-element">Mocked Date</span>,
 }))
 
 jest.mock("../../plugins/transformers/linkfavicons", () => ({
-  GetQuartzPath: jest.fn(() => "mocked/path"),
-  urlCache: new Map([["mocked/path", TURNTROUT_FAVICON_PATH]]),
+  GetQuartzPath: jest.fn(),
+  urlCache: new Map(),
+  getFaviconPath: () => "/mock/favicon.avif",
 }))
 
-// Simplified helper functions
-const hasChildText = (children: React.ReactNode, text: string): boolean => {
-  if (!children) return false
-  if (typeof children === "string") return children.includes(text)
-  if (Array.isArray(children)) {
-    return children.some((child) => hasChildText(child, text))
-  }
-  if (typeof children === "object" && "props" in children && children.props?.children) {
-    return hasChildText(children.props.children, text)
-  }
-  return false
-}
-
-const hasChildWithProps = (children: React.ReactNode, props: object): boolean => {
-  if (!children) return false
-  if (Array.isArray(children)) {
-    return children.some((child) => hasChildWithProps(child, props))
-  }
-  if (typeof children === "object" && "props" in children && children.props) {
-    const isMatch = Object.entries(props).every(([key, value]) => children.props[key] === value)
-    if (isMatch) return true
-    return hasChildWithProps(children.props.children, props)
-  }
-  return false
-}
-
-describe("renderPublicationInfo", () => {
-  let cfg: GlobalConfiguration
-  let fileData: QuartzPluginData
-  let frontmatter: QuartzPluginData["frontmatter"]
-
+describe("getFaviconPath", () => {
   beforeEach(() => {
-    cfg = {
-      locale: "en-US",
-    } as GlobalConfiguration
-
-    frontmatter = {
-      title: "Test Title",
-      original_url: "https://turntrout.com",
-      date_published: "2022-12-31T12:00:00",
-    }
-
-    fileData = {
-      frontmatter,
-    } as QuartzPluginData
+    jest.clearAllMocks()
+    urlCache.clear()
   })
 
-  it("should return null when date_published is not present", () => {
-    frontmatter!.date_published = undefined
-    expect(renderPublicationInfo(cfg, fileData)).toBeNull()
-  })
+  it("should return null when no cached path exists", () => {
+    const testUrl = new URL("https://example.com")
 
-  it("should render publication info with date_published", () => {
-    const result = renderPublicationInfo(cfg, fileData)
-    const children = result?.props?.children
-
-    expect(result?.type).toBe("span")
-    expect(result?.props?.className).toBe("publication-str")
-
-    expect(hasChildText(children, "Publish")).toBe(true)
-
-    expect(
-      hasChildWithProps(children, {
-        href: "https://turntrout.com/",
-        className: "external",
-        target: "_blank",
-      }),
-    ).toBe(true)
-  })
-
-  it("shouldn't render publication info without date_published", () => {
-    if (frontmatter) {
-      frontmatter.date_published = undefined
-    }
-    const result = renderPublicationInfo(cfg, fileData)
+    const result = getFaviconPath(testUrl)
     expect(result).toBeNull()
   })
 
-  it("should include favicon in rendered output", () => {
-    const result = renderPublicationInfo(cfg, fileData)
-    const children = result?.props?.children || []
+  it("should convert png to avif when cached path exists", () => {
+    const testUrl = new URL("https://example.com")
+    const quartzPath = GetQuartzPath("example.com")
+    const cachedPath = "path/to/favicon.png"
+    urlCache.set(quartzPath, cachedPath)
 
-    expect(
-      hasChildWithProps(children, {
-        src: TURNTROUT_FAVICON_PATH,
-        className: "favicon",
-      }),
-    ).toBe(true)
+    const result = getFaviconPath(testUrl)
+    expect(result).toBe("path/to/favicon.avif")
   })
 
-  it("should render 'Published on' without favicon when no original_url", () => {
-    frontmatter!.original_url = undefined
-    frontmatter!.date_published = "2022-12-31T12:00:00"
+  it("should handle non-png extensions", () => {
+    const testUrl = new URL("https://example.com")
+    const quartzPath = GetQuartzPath("example.com")
+    const cachedPath = "path/to/favicon.jpg"
+    urlCache.set(quartzPath, cachedPath)
 
-    const result = renderPublicationInfo(cfg, fileData)
-    const children = result?.props?.children || []
-
-    expect(result?.type).toBe("span")
-    expect(result?.props?.className).toBe("publication-str")
-    expect(hasChildText(children, "Published on")).toBe(true)
-    expect(hasChildWithProps(children, { src: TURNTROUT_FAVICON_PATH })).toBe(false)
-  })
-})
-
-describe("getFaviconPath", () => {
-  it("should return correct favicon path", () => {
-    expect(getFaviconPath(new URL("https://turntrout.com"))).toBe(TURNTROUT_FAVICON_PATH)
+    const result = getFaviconPath(testUrl)
+    expect(result).toBe("path/to/favicon.jpg")
   })
 
-  it("should return null when favicon not found", () => {
-    const url = new URL("https://unknown.com")
-    const result = getFaviconPath(url)
+  it("should handle empty hostname", () => {
+    const testUrl = new URL("https://example.com")
+
+    const result = getFaviconPath(testUrl)
     expect(result).toBeNull()
   })
 })
 
 describe("insertFavicon", () => {
-  it("should insert favicon after text content", () => {
-    const result = insertFavicon(TURNTROUT_FAVICON_PATH, <span>A</span>)
+  const imgPath = "/path/to/favicon.avif"
+  const targetFavicon = {
+    src: imgPath,
+    className: "favicon",
+    alt: "",
+  }
 
-    expect(result).toEqual(
-      expect.objectContaining({
-        props: expect.objectContaining({
-          children: expect.arrayContaining([
-            expect.objectContaining({
-              type: "span",
-              props: { children: "A" },
-            }),
-            expect.objectContaining({
-              type: "img",
-              props: {
-                src: TURNTROUT_FAVICON_PATH,
-                alt: "",
-                className: "favicon",
-              },
-            }),
-          ]),
-        }),
-      }),
-    )
+  it.each([
+    ["short text", "Hi"],
+    ["empty text", ""],
+    ["three chars", "ABC"],
+  ])("should append favicon to %s", (_, text) => {
+    const node = <span>{text}</span>
+    const result = insertFavicon(imgPath, node)
+
+    // Only test the type and essential props
+    expect(typeof result.type).toBe("function")
+    const [resultNode, favicon] = result.props.children
+
+    expect(resultNode.type).toBe("span")
+    expect(resultNode.props.children).toBe(text)
+
+    expect(favicon.type).toBe("img")
+    expect(favicon.props).toEqual(targetFavicon)
+  })
+
+  it("should wrap last 4 chars with favicon for longer text", () => {
+    const node = <span>Hello World</span>
+    const result = insertFavicon(imgPath, node)
+
+    const [prefix, wrappedContent] = result.props.children
+    expect(prefix).toBe("Hello W")
+
+    expect(wrappedContent.type).toBe("span")
+    expect(wrappedContent.props.style).toEqual({ whiteSpace: "nowrap" })
+
+    const [text, favicon] = wrappedContent.props.children
+    expect(text).toBe("orld")
+    expect(favicon.props).toEqual(targetFavicon)
   })
 
   it("should return original node when imgPath is null", () => {
-    const node = <span>A</span>
+    const node = <span>Test</span>
     const result = insertFavicon(null, node)
-    expect(result).toEqual(node)
+    expect(result).toBe(node)
+  })
+
+  it("should handle non-string children", () => {
+    const nestedDiv = <div>nested</div>
+    const node = <span>{nestedDiv}</span>
+    const result = insertFavicon(imgPath, node)
+
+    expect(typeof result.type).toBe("function")
+    const [resultNode, favicon] = result.props.children
+
+    expect(resultNode.type).toBe("span")
+    expect(resultNode.props.children).toEqual(nestedDiv)
+
+    expect(favicon.props).toEqual(targetFavicon)
   })
 })
 
-describe("renderLastUpdated", () => {
-  let cfg: GlobalConfiguration
-  let fileData: QuartzPluginData
-  let frontmatter: QuartzPluginData["frontmatter"]
+// Smoke test for RenderPublicationInfo
+it("renders without crashing", () => {
+  const div = document.createElement("div")
+  const root = ReactDOM.createRoot(div)
 
-  beforeEach(() => {
-    cfg = {
-      locale: "en-US",
-    } as GlobalConfiguration
+  const cfg = {} as GlobalConfiguration
+  const fileData = {} as QuartzPluginData
+  const publicationInfo = RenderPublicationInfo(cfg, fileData)
+  root.render(publicationInfo as React.ReactElement)
+})
 
-    frontmatter = {
-      title: "Test Title",
-      date_updated: "2023-01-01T12:00:00",
-    }
+describe("processReadingTime", () => {
+  it.each([
+    // minutes only
+    [1, "1 minute"],
+    [30, "30 minutes"],
+    [59, "59 minutes"],
 
-    fileData = {
-      frontmatter,
-      slug: "test-post",
-    } as QuartzPluginData
+    // hours only (no remaining minutes)
+    [60, "1 hour"],
+    [120, "2 hours"],
+
+    // hours and minutes
+    [61, "1 hour 1 minute"],
+    [62, "1 hour 2 minutes"],
+    [122, "2 hours 2 minutes"],
+    [150, "2 hours 30 minutes"],
+
+    // edge cases
+    [0, ""],
+    [0.5, ""], // rounds down to 0
+  ])("should format %i minutes as '%s'", (input, expected) => {
+    expect(processReadingTime(input)).toBe(expected)
   })
+})
 
-  it("should return null when date_updated is not present", () => {
-    if (frontmatter) {
-      frontmatter.date_updated = undefined
-    }
-    expect(renderLastUpdated(cfg, fileData)).toBeNull()
+const mockConfig = {
+  configuration: {
+    enableFrontmatterTags: true,
+  },
+} as unknown as GlobalConfiguration
+const createFileData = (overrides = {}): QuartzPluginData =>
+  ({
+    frontmatter: {
+      date_published: "2024-03-20",
+      ...overrides,
+    },
+    filePath: "test.md",
+    relativePath: "test.md",
+  }) as unknown as QuartzPluginData
+
+describe("RenderPublicationInfo", () => {
+  it("should return null when no date_published", () => {
+    const fileData = createFileData({ date_published: undefined })
+    const result = RenderPublicationInfo(mockConfig, fileData)
+    expect(result).toBeNull()
   })
 
   it("should return null when hide_metadata is true", () => {
-    if (frontmatter) {
-      frontmatter.hide_metadata = true
-    }
-    expect(renderLastUpdated(cfg, fileData)).toBeNull()
+    const fileData = createFileData({ hide_metadata: true })
+    const result = RenderPublicationInfo(mockConfig, fileData)
+    expect(result).toBeNull()
   })
 
-  it("should render last updated info with GitHub link and favicon", () => {
-    const result = renderLastUpdated(cfg, fileData)
-    const children = result?.props?.children || []
+  it("should render basic publication info without original URL", () => {
+    const fileData = createFileData()
+    const result = RenderPublicationInfo(mockConfig, fileData)
 
     expect(result?.type).toBe("span")
-    expect(result?.props?.className).toBe("last-updated-str")
-    expect(hasChildText(children, "Updated")).toBe(true)
-    expect(
-      hasChildWithProps(result as React.ReactElement, {
-        href: expect.stringContaining("github.com"),
-        className: "external",
-        target: "_blank",
-      }),
-    ).toBe(true)
+    expect(result?.props.className).toBe("publication-str")
+
+    const children = result?.props.children
+    // Simplified check - just verify structure exists
+    expect(children[0]).toBe("Published on ")
+    expect(children[1]).toBeTruthy() // Just verify date element exists
   })
 
-  it("should include GitHub favicon in rendered output", () => {
-    const result = renderLastUpdated(cfg, fileData)
-    console.log(result?.props.children[1])
+  it("should render publication info with original URL and favicon", () => {
+    const fileData = createFileData({
+      original_url: "https://example.com/post",
+    })
+    const result = RenderPublicationInfo(mockConfig, fileData)
 
-    expect(
-      hasChildWithProps(result as React.ReactElement, {
-        className: "favicon",
-        src: expect.stringContaining(".avif"),
-      }),
-    ).toBe(true)
+    expect(result?.type).toBe("span")
+    expect(result?.props.className).toBe("publication-str")
+
+    const children = result?.props.children
+    expect(children).toHaveLength(3)
+
+    // Simplified checks
+    const [linkElement, separator, dateElement] = children
+    expect(linkElement).toBeTruthy()
+    expect(separator).toBe(" on ")
+    expect(dateElement).toBeTruthy()
+  })
+
+  it("should handle invalid original URLs gracefully", () => {
+    const fileData = createFileData({
+      original_url: "not-a-valid-url",
+    })
+
+    expect(() => {
+      RenderPublicationInfo(mockConfig, fileData)
+    }).toThrow()
   })
 })

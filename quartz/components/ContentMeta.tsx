@@ -14,6 +14,7 @@ import { DateElement } from "./Date"
 
 export const getFaviconPath = (originalURL: URL): string | null => {
   const quartzPath = GetQuartzPath(originalURL.hostname)
+  console.log(quartzPath)
   const cachedPath = urlCache.get(quartzPath) || null
   return cachedPath?.replace(".png", ".avif") || null
 }
@@ -33,7 +34,9 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
     return node
   }
 
-  const faviconElement: JSX.Element = <img src={imgPath} className="favicon" alt="" />
+  const faviconElement: JSX.Element = (
+    <img src={imgPath} className="favicon" alt="" key="favicon-img" />
+  )
 
   const textContent = node.props.children
   if (typeof textContent !== "string" || textContent.length < 4) {
@@ -60,7 +63,10 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 }
 
 // Render publication information including original URL and date
-export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
+export function RenderPublicationInfo(
+  cfg: GlobalConfiguration,
+  fileData: QuartzPluginData,
+): JSX.Element | null {
   const frontmatter = fileData.frontmatter
   const datePublished = frontmatter?.date_published
   if (!datePublished || frontmatter?.hide_metadata) {
@@ -102,7 +108,10 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
 
 // Add new function to render last updated info
 const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
-export function renderLastUpdated(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
+export function renderLastUpdated(
+  cfg: GlobalConfiguration,
+  fileData: QuartzPluginData,
+): JSX.Element | null {
   const frontmatter = fileData.frontmatter
   const dateUpdated = frontmatter?.date_updated
   if (!dateUpdated || frontmatter?.hide_metadata) {
@@ -149,7 +158,7 @@ export function renderLastUpdated(cfg: GlobalConfiguration, fileData: QuartzPlug
  */
 export function processReadingTime(minutes: number): string {
   const hours = Math.floor(minutes / 60)
-  const remainingMinutes = minutes % 60
+  const remainingMinutes = Math.floor(minutes % 60)
 
   let timeString = ""
 
@@ -299,7 +308,7 @@ const renderSequenceInfo = (fileData: QuartzPluginData): JSX.Element | null => {
 export function renderPostStatistics(props: QuartzComponentProps): JSX.Element | null {
   const readingTime = renderReadingTime(props.fileData)
   const linkpostInfo = renderLinkpostInfo(props.fileData)
-  const publicationInfo = renderPublicationInfo(props.cfg, props.fileData)
+  const publicationInfo = RenderPublicationInfo(props.cfg, props.fileData)
   const lastUpdated = renderLastUpdated(props.cfg, props.fileData)
 
   return (
