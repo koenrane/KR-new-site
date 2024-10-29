@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import "whatwg-fetch" // This will provide the Response global
 import { jest, describe, it, expect, beforeEach } from "@jest/globals"
 import {
   createPopover,
@@ -11,6 +12,7 @@ import {
   escapeLeadingIdNumber,
   computeLeft,
   computeTop,
+  fetchWithMetaRedirect,
 } from "../popover_helpers"
 
 jest.useFakeTimers()
@@ -18,7 +20,7 @@ jest.useFakeTimers()
 // Reset mocks before each test
 beforeEach(() => {
   jest.clearAllMocks()
-  ;(global.fetch as jest.MockedFunction<typeof fetch>) = jest.fn((input: RequestInfo | URL) => {
+  ;(window.fetch as jest.MockedFunction<typeof fetch>) = jest.fn((input: RequestInfo | URL) => {
     const url = input.toString()
 
     if (url.includes("image.jpg")) {
@@ -365,5 +367,118 @@ describe("escapeLeadingIdNumber", () => {
     expect(escapeLeadingIdNumber("#1 Test")).toBe("#_1 Test")
     expect(escapeLeadingIdNumber("No number")).toBe("No number")
     expect(escapeLeadingIdNumber("#123 Multiple digits")).toBe("#_123 Multiple digits")
+  })
+})
+
+describe("fetchWithMetaRedirect", () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it("should handle a simple request with no redirects", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "text/plain" }),
+      text: () => Promise.resolve("content"),
+    }))
+
+    const response = await fetchWithMetaRedirect(new URL("http://example.com"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+    expect(response.ok).toBe(true)
+  })
+
+  it("should follow meta refresh redirects", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "text/html" }),
+      text: () =>
+        Promise.resolve('<meta http-equiv="refresh" content="0;url=http://example.com/page2">'),
+    }))
+
+    await fetchWithMetaRedirect(new URL("http://example.com"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(2)
+    expect(window.fetch).toHaveBeenNthCalledWith(1, "http://example.com/")
+    expect(window.fetch).toHaveBeenNthCalledWith(2, "http://example.com/page2")
+  })
+
+  it("should follow relative meta refresh redirects", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "text/html" }),
+      text: () => Promise.resolve('<meta http-equiv="refresh" content="0;url=page2">'),
+    }))
+
+    await fetchWithMetaRedirect(new URL("http://example.com/page1"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(2)
+    expect(window.fetch).toHaveBeenNthCalledWith(1, "http://example.com/page1")
+    expect(window.fetch).toHaveBeenNthCalledWith(2, "http://example.com/page2")
+  })
+
+  it("should handle non-HTML responses", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "image/jpeg" }),
+      blob: () => Promise.resolve(new Blob()),
+    }))
+
+    const response = await fetchWithMetaRedirect(
+      new URL("http://example.com/image.jpg"),
+      window.fetch,
+    )
+
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+    expect(response.headers.get("Content-Type")).toBe("image/jpeg")
+  })
+
+  it("should handle failed responses", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: false,
+      status: 404,
+      statusText: "Not Found",
+      headers: new Headers({ "Content-Type": "text/html" }),
+    }))
+
+    const response = await fetchWithMetaRedirect(new URL("http://example.com"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+    expect(response.ok).toBe(false)
+    expect(response.status).toBe(404)
+  })
+
+  it("should handle malformed meta refresh tags", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "text/html" }),
+      text: () => Promise.resolve('<meta http-equiv="refresh" content="0">'),
+    }))
+
+    const response = await fetchWithMetaRedirect(new URL("http://example.com"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(1)
+    expect(response.ok).toBe(true)
+  })
+
+  it("should preserve response properties after redirect", async () => {
+    ;(window.fetch as jest.Mock).mockImplementationOnce(async () => ({
+      ok: true,
+      status: 200,
+      headers: new Headers({ "Content-Type": "text/html" }),
+      text: () =>
+        Promise.resolve('<meta http-equiv="refresh" content="0;url=http://example.com/final">'),
+    }))
+
+    await fetchWithMetaRedirect(new URL("http://example.com"), window.fetch)
+
+    expect(window.fetch).toHaveBeenCalledTimes(2)
+    expect(window.fetch).toHaveBeenNthCalledWith(1, "http://example.com/")
+    expect(window.fetch).toHaveBeenNthCalledWith(2, "http://example.com/final")
   })
 })

@@ -4,10 +4,60 @@ export interface PopoverOptions {
   parentElement: HTMLElement
   targetUrl: URL
   linkElement: HTMLLinkElement
-  customFetch?: typeof fetch // Add this line
+  customFetch?: typeof fetch
 }
 
 const parser = new DOMParser()
+
+/**
+ * Fetches content while following HTML meta refresh redirects.
+ * @param url - The URL to fetch
+ * @param customFetch - Optional custom fetch implementation
+ * @param maxRedirects - Maximum number of redirects to follow (default: 3)
+ * @returns The final response after following any meta refreshes
+ */
+export async function fetchWithMetaRedirect(
+  url: URL,
+  customFetch: typeof fetch = fetch,
+  maxRedirects: number = 3,
+): Promise<Response> {
+  let currentUrl = url
+  let redirectCount = 0
+
+  while (redirectCount < maxRedirects) {
+    const response = await customFetch(currentUrl.toString())
+
+    // If not HTML or response not OK, return as-is
+    const contentType = response.headers.get("Content-Type")
+    if (!response.ok || !contentType?.includes("text/html")) {
+      return response
+    }
+
+    const html = await response.text()
+    const metaRefresh = html.match(/<meta[^>]*?http-equiv=["']?refresh["']?[^>]*?>/i)
+
+    if (!metaRefresh) {
+      // No meta refresh found, return response with the HTML content
+      return new Response(html, {
+        headers: response.headers,
+        status: response.status,
+        statusText: response.statusText,
+      })
+    }
+
+    // Extract URL from content="[timeout]; url=[url]"
+    const urlMatch = metaRefresh[0].match(/url=(.*?)["'\s>]/i)
+    if (!urlMatch) {
+      return response
+    }
+
+    // Update URL for next iteration
+    currentUrl = new URL(urlMatch[1], currentUrl)
+    redirectCount++
+  }
+
+  throw new Error(`Maximum number of redirects (${maxRedirects}) exceeded`)
+}
 
 /**
  * Creates a popover element based on the provided options
@@ -29,7 +79,7 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
   popoverInner.classList.add("popover-inner")
   popoverElement.appendChild(popoverInner)
 
-  const response = await customFetch(`${targetUrl}`)
+  const response = await fetchWithMetaRedirect(targetUrl, customFetch)
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`)
   }
