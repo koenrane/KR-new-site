@@ -16,15 +16,16 @@ end
 # Use the live server to resolve relative links
 if test -z $argv
     set -x no_proxy "http://localhost:8080"
-    linkchecker http://localhost:8080 --threads 10 --quiet
+    linkchecker http://localhost:8080 --threads 10 
 else
-    linkchecker $TARGET_FILES --threads 10 --quiet
+    linkchecker $TARGET_FILES --threads 10 
 end
 
 set -l HTML_CHECK_STATUS_1 $status
 
-# CDN links should never 404
-linkchecker $TARGET_FILES --ignore-url="!^https://assets\.turntrout\.com" --no-warnings --check-extern --threads 20 --quiet
+# Check external links which I control
+# TODO GH link won't exist for new posts
+linkchecker $TARGET_FILES --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" --no-warnings --check-extern --threads 20 
 set -l HTML_CHECK_STATUS_2 $status
 
 # If any of the checks failed, exit with a non-zero status

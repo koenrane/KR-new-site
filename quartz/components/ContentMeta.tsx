@@ -63,15 +63,9 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
 export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
   const frontmatter = fileData.frontmatter
   const datePublished = frontmatter?.date_published
-  if (
-    typeof frontmatter?.original_url !== "string" ||
-    !datePublished ||
-    frontmatter?.hide_metadata
-  ) {
+  if (!datePublished || frontmatter?.hide_metadata) {
     return null
   }
-
-  // TODO fix this for future posts from the website
 
   const dateElement = (
     <DateElement
@@ -83,20 +77,54 @@ export function renderPublicationInfo(cfg: GlobalConfiguration, fileData: Quartz
     />
   )
 
-  const url = new URL(frontmatter.original_url as string)
-  const faviconPath = getFaviconPath(url)
+  // If there's an original URL, show "Originally published on" with favicon
+  const originalUrl = frontmatter?.original_url
+  if (typeof originalUrl === "string") {
+    const url = new URL(originalUrl)
+    const faviconPath = getFaviconPath(url)
 
-  return (
-    <span className="publication-str">
-      {insertFavicon(
-        faviconPath,
-        <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
-          Originally published on
-        </a>,
-      )}{" "}
-      {dateElement}
-    </span>
+    return (
+      <span className="publication-str">
+        {insertFavicon(
+          faviconPath,
+          <a href={url.toString()} className="external" target="_blank" rel="noopener noreferrer">
+            Originally published on
+          </a>,
+        )}{" "}
+        {dateElement}
+      </span>
+    )
+  }
+
+  // Otherwise just show "Published on"
+  return <span className="publication-str">Published on {dateElement}</span>
+}
+
+// Add new function to render last updated info
+const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
+export function renderLastUpdated(cfg: GlobalConfiguration, fileData: QuartzPluginData) {
+  const frontmatter = fileData.frontmatter
+  const dateUpdated = frontmatter?.date_updated
+  if (!dateUpdated || frontmatter?.hide_metadata) {
+    return null
+  }
+
+  const githubStem = "https://github.com/alexander-turner/TurnTrout.com/blob/main/content/"
+  const githubUrl = `${githubStem}${fileData.relativePath}`
+  const githubLink = (
+    <a href={githubUrl} className="external" target="_blank" rel="noopener noreferrer">
+      <DateElement
+        cfg={cfg}
+        fileData={{ ...fileData, frontmatter: { ...frontmatter, date: dateUpdated } }}
+        monthFormat="long"
+        includeOrdinalSuffix={true}
+        formatOrdinalSuffix={true}
+      />
+    </a>
   )
+  const linkWithFavicon = insertFavicon(githubFaviconPath, githubLink)
+
+  return <span className="last-updated-str">Last updated on {linkWithFavicon}</span>
 }
 
 /**
@@ -265,6 +293,7 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const readingTime = renderReadingTime(props.fileData)
   const linkpostInfo = renderLinkpostInfo(props.fileData)
   const publicationInfo = renderPublicationInfo(props.cfg, props.fileData)
+  const lastUpdated = renderLastUpdated(props.cfg, props.fileData)
 
   return (
     <blockquote id="post-statistics" className="callout callout-metadata" data-callout="info">
@@ -277,6 +306,7 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
           {readingTime && <p>{readingTime}</p>}
           {linkpostInfo && <p>{linkpostInfo}</p>}
           {publicationInfo && <p>{publicationInfo}</p>}
+          {lastUpdated && <p>{lastUpdated}</p>}
         </ul>
       </div>
     </blockquote>
