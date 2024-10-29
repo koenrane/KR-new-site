@@ -11,7 +11,7 @@ const footnoteSpacingRegex = /(\S) (\[\^.*?\])(?![:(]) ?/g
 const footnoteSpacingReplacement = "$1$2 "
 
 // New regex for moving footnotes after punctuation
-const footnotePunctuationRegex = /(\S)(\[\^.*?\])([.,;!?]+)/g
+const footnotePunctuationRegex = /(\S)(\[\^[^\]]*?\])([.,;!?]+)/g
 const footnotePunctuationReplacement = "$1$3$2"
 
 /**

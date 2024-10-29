@@ -28,7 +28,7 @@ describe("TextFormattingImprovement Plugin", () => {
         "This is a sentence.[^1] Another sentence,[^2] and more text![^3]",
       ],
       ["Is this correct[^2]?!", "Is this correct?![^2]"],
-      ["Is this correct[^2]?!", "Is this correct?![^2]"],
+      ["Is[^1] this correct[^2]?!", "Is[^1] this correct?![^2]"],
     ])("Correctly formats footnotes.", (input: string, expected: string): void => {
       const result = formattingImprovement(input)
       expect(result).toBe(expected)
