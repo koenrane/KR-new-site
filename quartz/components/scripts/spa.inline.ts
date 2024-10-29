@@ -41,9 +41,25 @@ function notifyNav(url: FullSlug) {
   document.dispatchEvent(event)
 }
 
+function scrollToHash(hash: string) {
+  if (!hash) return
+  try {
+    const el = document.getElementById(decodeURIComponent(hash.substring(1)))
+    if (!el) return
+    el.scrollIntoView({ behavior: "instant" })
+  } catch {
+    // Ignore malformed URI
+  }
+}
+
 let p: DOMParser
 async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
+
+  if (url.hash) {
+    scrollToHash(url.hash)
+  }
+
   const contents = await fetch(`${url}`)
     .then((res) => {
       const contentType = res.headers.get("content-type")
@@ -82,7 +98,7 @@ async function navigate(url: URL, isBack = false) {
   if (!isBack) {
     if (url.hash) {
       const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView()
+      el?.scrollIntoView({ behavior: "smooth" })
     } else {
       window.scrollTo({ top: 0 })
     }
@@ -179,4 +195,11 @@ if (!customElements.get("route-announcer")) {
       }
     },
   )
+}
+
+// Handle initial load with hash
+if (window.location.hash) {
+  window.addEventListener("load", () => {
+    scrollToHash(window.location.hash)
+  })
 }
