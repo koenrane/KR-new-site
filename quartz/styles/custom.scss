@@ -484,13 +484,14 @@ img.favicon {
     vertical-align: 65%;
   }
 
+  // These are really dark by default so we make them match var(--dark)
   &[src$="mail.svg"],
-  &[src$="favicon.ico"] {
+  &[src$="github_com.avif"],
+  &[src$="readthesequences_com.avif"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
-    filter: invert(27%) sepia(10%) saturate(1460%) hue-rotate(196deg) brightness(99%) contrast(82%);
+    filter: invert(27%);
     :root[saved-theme="dark"] & {
-      filter: invert(91%) sepia(6%) saturate(4418%) hue-rotate(185deg) brightness(100%)
-        contrast(92%);
+      filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
 
@@ -509,13 +510,6 @@ img.favicon {
     }
   }
 
-  // Black github icon gets light background
-  &[src$="github_com.avif"] {
-    :root[saved-theme="dark"] & {
-      background-color: var(--dark);
-    }
-  }
-
   &[src$="turntrout-favicons/favicon.ico"] {
     // Light mode
     :root[saved-theme="light"] & {
@@ -523,7 +517,7 @@ img.favicon {
     }
     // Dark mode
     :root[saved-theme="dark"] & {
-      filter: invert(91%) sepia(6%) saturate(4418%) hue-rotate(185deg) brightness() contrast(50%);
+      filter: invert(91%) sepia(6%) hue-rotate(185deg) brightness() contrast(50%);
     }
   }
 }
@@ -868,6 +862,24 @@ p:has(> .katex) {
 .spoiler-container.revealed .spoiler-content {
   filter: blur(0);
   opacity: 1;
+}
+
+.dropcap {
+  // For usage in the middle of a paragraph
+  font-family: "EBGaramondInitialsF1";
+  color: var(--lightgray);
+  position: relative;
+  text-transform: uppercase;
+  margin-right: 0.05rem;
+  vertical-align: -0.15rem;
+
+  &::before {
+    text-transform: uppercase;
+    font-family: "EBGaramondInitialsF2";
+    color: var(--dark);
+    content: attr(data-first-letter);
+    position: absolute;
+  }
 }
 
 article[data-use-dropcap="true"] {

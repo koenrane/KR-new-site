@@ -61,6 +61,7 @@
   --callout-icon-tag: url("https://assets.turntrout.com/static/images/tag.svg");
   --callout-icon-link: url("https://assets.turntrout.com/static/images/link.svg");
   --callout-icon-math: url("https://assets.turntrout.com/static/images/math.svg");
+  --callout-icon-money: url("https://assets.turntrout.com/static/images/dollar.svg");
 
   // Gray by default
   &[data-callout] {
@@ -69,9 +70,15 @@
   }
 
   // Green
-  &[data-callout="success"] {
+  &[data-callout="success"],
+  &[data-callout="money"] {
     --color: color-mix(in srgb, var(--green) 65%, var(--dark));
+  }
+  &[data-callout="success"] {
     --callout-icon: var(--callout-icon-success);
+  }
+  &[data-callout="money"] {
+    --callout-icon: var(--callout-icon-money);
   }
 
   // Yellow

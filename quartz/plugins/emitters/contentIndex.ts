@@ -8,8 +8,6 @@ import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
 import DepGraph from "../../depgraph"
-import fs from "fs"
-import matter from "gray-matter"
 import { applyTextTransforms } from "../transformers/formatting_improvement_html"
 
 export type ContentIndex = Map<FullSlug, ContentDetails>
@@ -126,31 +124,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const linkIndex: ContentIndex = new Map()
       for (const [tree, file] of content) {
         const slug = file.data.slug as FullSlug
-        let date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
-
-        // Check if 'date' is present; if not, assign current date and write 'date-emitted' to file
-        const hasDate = !!getDate(ctx.cfg.configuration, file.data)
-        if (!hasDate) {
-          // Assign current date
-          date = new Date()
-          // Write 'date-emitted' to the frontmatter of the file
-          const filePath = file.data.filePath as FilePath
-          try {
-            // Read the existing file content
-            const fileContent = fs.readFileSync(filePath, "utf-8")
-            // Parse the frontmatter using gray-matter
-            const parsed = matter(fileContent)
-            // Add 'date_published' to the frontmatter
-            parsed.data["date_published"] = date.toISOString()
-            // Stringify the content back with the updated frontmatter
-            const updatedContent = matter.stringify(parsed.content, parsed.data)
-            // Write the updated content back to the file
-            fs.writeFileSync(filePath, updatedContent, "utf-8")
-            console.log(`Added 'date_published' to ${filePath}`)
-          } catch (error) {
-            console.error(`Failed to add 'date_published' to ${filePath}:`, error)
-          }
-        }
+        const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
 
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {

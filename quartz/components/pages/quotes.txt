@@ -1,7 +1,7 @@
 Problems that remain persistently insoluble should always be suspected as
 questions asked in the wrong way., Alan Watts,
 
-You're in my cartesian boundary!, Garrett Baker,
+You're in my Cartesian boundary!, Garrett Baker,
  
 When you are famous it is hard to work on small problems. This is what did Shannon in. After information theory, what do you do for an encore? The great scientists often make this error. They fail to continue to plant the little acorns from which the mighty oak trees grow. They try to get the big thing right off. And that isn't the way things go. So that is another reason why you find that when you get early recognition it seems to sterilize you., Richard Hamming,
 
@@ -48,3 +48,5 @@ Whitman
 Superstition, idolatry, and hypocrisy have ample wages, but truth goes a-begging.,Martin Luther,
 
 If you want to improve, be content to be thought foolish and stupid., Epictetus,
+
+It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; who errs, who comes short again and again, because there is no effort without error and shortcoming; but who does actually strive to do the deeds; who knows great enthusiasms, the great devotions; who spends himself in a worthy cause; who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly, so that his place shall never be with those cold and timid souls who neither know victory nor defeat., Theodore Roosevelt,
