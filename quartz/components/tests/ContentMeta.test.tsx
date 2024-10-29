@@ -8,6 +8,7 @@ import {
   getFaviconPath,
   insertFavicon,
   processReadingTime,
+  renderLastUpdated,
 } from "../ContentMeta"
 import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
 import React from "react"
@@ -167,7 +168,7 @@ describe("processReadingTime", () => {
 
     // edge cases
     [0, ""],
-    [0.5, ""], // rounds down to 0
+    [0.5, "1 minute"], // rounds up to 1
   ])("should format %i minutes as '%s'", (input, expected) => {
     expect(processReadingTime(input)).toBe(expected)
   })
@@ -241,5 +242,38 @@ describe("RenderPublicationInfo", () => {
     expect(() => {
       RenderPublicationInfo(mockConfig, fileData)
     }).toThrow()
+  })
+})
+
+describe("renderLastUpdated", () => {
+  it("should return null when no date_updated", () => {
+    const fileData = createFileData()
+
+    const result = renderLastUpdated(mockConfig, fileData)
+    expect(result).toBeNull()
+  })
+
+  it("should return null when hide_metadata is true", () => {
+    const fileData = createFileData({ hide_metadata: true })
+
+    const result = renderLastUpdated(mockConfig, fileData)
+    expect(result).toBeNull()
+  })
+
+  it("should render update info with github link and date", () => {
+    const fileData = createFileData({ date_updated: "2024-03-20" })
+    const result = renderLastUpdated(mockConfig, fileData)
+
+    expect(result?.type).toBe("span")
+    expect(result?.props.className).toBe("last-updated-str")
+
+    const children = result?.props.children
+    expect(children).toHaveLength(3)
+
+    // Check link with favicon
+    const linkWithFavicon = children[0]
+    expect(linkWithFavicon.type).toBe("a")
+    expect(linkWithFavicon.props.href).toContain("github.com")
+    expect(linkWithFavicon.props.children).toBe("Updated")
   })
 })

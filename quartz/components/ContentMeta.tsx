@@ -14,7 +14,6 @@ import { DateElement } from "./Date"
 
 export const getFaviconPath = (originalURL: URL): string | null => {
   const quartzPath = GetQuartzPath(originalURL.hostname)
-  console.log(quartzPath)
   const cachedPath = urlCache.get(quartzPath) || null
   return cachedPath?.replace(".png", ".avif") || null
 }
@@ -158,7 +157,7 @@ export function renderLastUpdated(
  */
 export function processReadingTime(minutes: number): string {
   const hours = Math.floor(minutes / 60)
-  const remainingMinutes = Math.floor(minutes % 60)
+  const remainingMinutes = Math.ceil(minutes % 60)
 
   let timeString = ""
 
