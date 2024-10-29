@@ -191,11 +191,9 @@ This network has a value head, which PPO uses to provide policy gradients. How o
 
 # Conclusion
 
-Post your answers as a comment, and enjoy the social approval for registering predictions! :)
+Post your answers as a comment and enjoy the social approval for registering predictions! :)
 
 # Appendix: More detailed behavioral questions
-
-These are intense.
 
 <figcaption>Random maze for illustrating terminology (_not_ a reference maze for which you're supposed to predict behavior).</figcaption>
 

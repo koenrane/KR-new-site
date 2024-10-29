@@ -64,18 +64,14 @@ Here's a hypothesis for [where LLM "sycophancy" comes from](https://arxiv.org/ab
 Like the power-seeking argument, the sycophancy argument involves _many tasks involving appeasing the rater_ and _it's easy to explore into sycophantic behavior_ which together entail _probably training reinforces sycophantic circuitry_. 
 
 # What would change my mind
-Here is [the state of my Fatebook.io prediction](https://fatebook.io/q/there-is-at-least-one-survey-paper-100--cm2ns6lvo0000i7mxe945aft6):
+<iframe src="https://fatebook.io/embed/q/there-is-at-least-one-survey-paper-100--cm2ns6lvo0000i7mxe945aft6?compact=true&requireSignIn=false" height="195px"></iframe>
 
-<iframe
-	src="https://fatebook.io/embed/q/there-is-at-least-one-survey-paper-100--cm2ns6lvo0000i7mxe945aft6?compact=true&requireSignIn=false"
-	height="195px"
-/>
+Predictions of this hypothesis (predicted with varying confidences):
+- Relative to other goals, agentic systems are easy to steer to seek power.
+- Without special steering or training, early agentic systems tend to buy more compute than required (and more often than they tend to buy _less_ compute than needed). 
+- Agentic systems seek power outside of the training distribution, but in ways which don't seem to be part of larger power-seeking plans.
 
-Predictions of this hypothesis (predicted with varying confidences) 
-- Agentic systems are relatively easy to steer to seek power;
-- Without special steering, early agentic systems tend to buy more compute than required (and more often than they tend to buy _less_ compute than needed). 
-
-If these predictions don't come true, that's evidence that I was wrong. I think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!". 
+I know, these predictions are not very precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's some evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!". 
 
 # What can we do about intrinsic power-seeking?
 

@@ -28,7 +28,7 @@ My email is [`alex@turntrout.com`](mailto:alex@turntrout.com). While I'm not gua
 If my writing means something to you or has brightened your life, consider:
 
 1. Donating to my [ko-fi](https://ko-fi.com/turntrout),[^donate] or
-2. Leaving me a nice [email](mailto:alex@turntrout.com) or [an anonymous compliment](https://forms.gle/994g9S2nGT1vy9zK8)! 💙🐟
+2. Leaving me a nice [email](mailto:alex@turntrout.com) or [an anonymous compliment](https://docs.google.com/forms/d/e/1FAIpQLSc26LXn7-05pzvKKYZeIWM1lX79n845g2uGRqPRGG7qEwy1iA/viewform)! 💙🐟
 
 I prefer messages over donations.
 
