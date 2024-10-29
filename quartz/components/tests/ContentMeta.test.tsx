@@ -4,11 +4,13 @@
 import { jest } from "@jest/globals"
 import { describe, it, expect, beforeEach } from "@jest/globals"
 import {
+  ContentMetadata,
   RenderPublicationInfo,
   getFaviconPath,
   insertFavicon,
   processReadingTime,
   renderLastUpdated,
+  renderReadingTime,
 } from "../ContentMeta"
 import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
 import React from "react"
@@ -16,6 +18,7 @@ import { GlobalConfiguration } from "../../cfg"
 import { QuartzPluginData } from "../../plugins/vfile"
 import "@testing-library/jest-dom"
 import ReactDOM from "react-dom/client"
+import { QuartzComponentProps } from "../types"
 
 // Update the mock setup
 jest.mock("../ContentMeta", () => ({
@@ -33,6 +36,22 @@ jest.mock("../../plugins/transformers/linkfavicons", () => ({
   urlCache: new Map(),
   getFaviconPath: () => "/mock/favicon.avif",
 }))
+
+// Helper functions
+const mockConfig = {
+  configuration: {
+    enableFrontmatterTags: true,
+  },
+} as unknown as GlobalConfiguration
+const createFileData = (overrides = {}): QuartzPluginData =>
+  ({
+    frontmatter: {
+      date_published: "2024-03-20",
+      ...overrides,
+    },
+    filePath: "test.md",
+    relativePath: "test.md",
+  }) as unknown as QuartzPluginData
 
 describe("getFaviconPath", () => {
   beforeEach(() => {
@@ -174,21 +193,6 @@ describe("processReadingTime", () => {
   })
 })
 
-const mockConfig = {
-  configuration: {
-    enableFrontmatterTags: true,
-  },
-} as unknown as GlobalConfiguration
-const createFileData = (overrides = {}): QuartzPluginData =>
-  ({
-    frontmatter: {
-      date_published: "2024-03-20",
-      ...overrides,
-    },
-    filePath: "test.md",
-    relativePath: "test.md",
-  }) as unknown as QuartzPluginData
-
 describe("RenderPublicationInfo", () => {
   it("should return null when no date_published", () => {
     const fileData = createFileData({ date_published: undefined })
@@ -276,4 +280,30 @@ describe("renderLastUpdated", () => {
     expect(linkWithFavicon.props.href).toContain("github.com")
     expect(linkWithFavicon.props.children).toBe("Updated")
   })
+})
+
+describe("renderReadingTime", () => {
+  it("should return empty element when hide_reading_time is true", () => {
+    const fileData = createFileData({
+      hide_reading_time: true,
+      text: "Some sample text",
+    }) as QuartzPluginData
+
+    const result = renderReadingTime(fileData)
+    expect(result).toBeTruthy()
+    expect(result.props?.children).toBeFalsy()
+  })
+})
+
+// Smoke test for ContentMetadata
+it("renders without crashing", () => {
+  const div = document.createElement("div")
+  const root = ReactDOM.createRoot(div)
+  const fileData = createFileData()
+  const quartzProps = {
+    fileData,
+    cfg: mockConfig,
+  }
+  const result = ContentMetadata(quartzProps as QuartzComponentProps)
+  root.render(result as React.ReactElement)
 })

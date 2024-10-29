@@ -1,6 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { GlobalConfiguration } from "../cfg"
-import { renderPublicationInfo } from "./ContentMeta"
+import { RenderPublicationInfo } from "./ContentMeta"
 
 import React from "react"
 
@@ -16,7 +16,7 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   authors = "By " + authors
 
   // Add the publication info
-  const publicationInfo = renderPublicationInfo(cfg as GlobalConfiguration, fileData)
+  const publicationInfo = RenderPublicationInfo(cfg as GlobalConfiguration, fileData)
 
   return (
     <span className="authors">
