@@ -115,7 +115,7 @@ export async function createPopover(options: PopoverOptions): Promise<HTMLElemen
 
       hintElements = Array.from(html.getElementsByClassName("popover-hint"))
       Array.from(hintElements).forEach((elt) => {
-        const popoverHeadings = elt.querySelectorAll("h1, h2, h3, h4, h5, h6, li")
+        const popoverHeadings = elt.querySelectorAll("h1, h2, h3, h4, h5, h6, li, a")
         popoverHeadings.forEach((element) => {
           if (element.id) {
             element.id = `${element.id}-popover`
