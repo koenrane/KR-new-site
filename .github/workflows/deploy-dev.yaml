@@ -2,7 +2,7 @@ name: Push pipeline
 
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
 
 permissions:
   contents: read
@@ -28,18 +28,6 @@ jobs:
         run: npx quartz build
       - name: Install Wrangler
         run: npm install -g wrangler
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Install xmllint
-        run: sudo apt-get install -y libxml2-utils
-      - name: Run site checks
-        run: python scripts/built_site_checks.py
 
       - name: Publish to Cloudflare Pages
         env:
