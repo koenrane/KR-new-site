@@ -807,11 +807,6 @@ hr {
   display: none;
 }
 
-p:has(> .katex) {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
 .katex-html:has(span.tag) {
   display: flex !important;
 }
