@@ -9,6 +9,31 @@ import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../..
 const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
 
+// Override browser's native scroll restoration
+// This allows the page to restore the previous scroll position on refresh
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual" // Take control of scroll restoration
+
+  // Restore scroll position immediately
+  const savedScroll = sessionStorage.getItem("scrollPos")
+  if (savedScroll && !window.location.hash) {
+    window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
+  }
+
+  // Store position before refresh
+  window.addEventListener("beforeunload", () => {
+    const scrollPos = window.scrollY
+    sessionStorage.setItem("scrollPos", scrollPos.toString())
+  })
+
+  // Clean up storage after successful restoration
+  window.addEventListener("load", () => {
+    if (!window.location.hash) {
+      sessionStorage.removeItem("scrollPos")
+    }
+  })
+}
+
 /**
  * Type guard to check if a target is an Element
  */
@@ -238,10 +263,7 @@ if (!customElements.get("route-announcer")) {
   )
 }
 
-/**
- * Handles initial page load when URL contains a hash
- * Ensures proper scrolling to anchored elements
- */
+// Keep existing hash handler
 if (window.location.hash) {
   window.addEventListener("load", () => {
     scrollToHash(window.location.hash)
