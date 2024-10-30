@@ -1058,14 +1058,6 @@ article[data-use-dropcap="true"] {
   text-decoration: underline 1.25px var(--lightgray);
 }
 
-// Bolding text
-b,
-strong,
-.callout-title-inner {
-  text-shadow: 0.1px 0.1px;
-  font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
-}
-
 // Indent various elements of the sidebar
 #toc-content ul,
 #toc-content-mobile ul {
