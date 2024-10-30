@@ -125,6 +125,7 @@ export default (() => {
 
         <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
+        <script src="/static/scripts/remove-critical-css.js" spa-preserve />
         {analyticsScript}
 
         <link rel="icon" href={iconPath} />

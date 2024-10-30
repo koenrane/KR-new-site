@@ -138,6 +138,9 @@ ol {
     // Nested lists
     & > ol {
       counter-reset: sublist; // Each nested ordered list has its own sublist counter
+      margin-bottom: 0;
+      margin-top: 0;
+
       li {
         counter-increment: sublist; // Increment the sublist counter for nested list items
         &::before {

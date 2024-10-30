@@ -299,9 +299,9 @@ export async function handleBuild(argv) {
     clientRefresh()
 
     // Inline critical CSS after the build (would delay serving too much)
-    if (!argv.serve) {
-      await inlineCriticalCSS(argv.output)
-    }
+    // if (!argv.serve) {
+    await inlineCriticalCSS(argv.output)
+    // }
   }
 
   if (argv.serve) {
@@ -508,21 +508,6 @@ async function processFile(outputDir, file) {
     $("head").empty()
     $("head").append(metaAndTitle)
     $("head").append(otherElements)
-
-    // Add script to remove critical CSS after full stylesheet loads
-    $("head").append(`
-      <script>
-        document.querySelector('link[href*="index.css"]').addEventListener('load', function() {
-          const criticalStyle = document.querySelector('style');
-          // Throw error if more than one found
-          if (criticalStyle.length > 1) {
-            throw new Error("More than one critical style tag found")
-          } else if (criticalStyle) {
-            criticalStyle.remove();
-          }
-        });
-      </script>
-    `)
 
     // Write the modified HTML back to the file
     await fs.promises.writeFile(file, $.html())
