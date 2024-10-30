@@ -1,15 +1,14 @@
 {
-  "name": "@jackyzha0/quartz",
-  "description": "🌱 publish your digital garden and notes as a website",
+  "name": "@alexander-turner/turntrout.com",
+  "description": "A blog on AI, personal development, and living a good life.",
   "private": true,
-  "version": "4.2.3",
   "type": "module",
-  "author": "jackyzha0 <j.zhao2k19@gmail.com>",
-  "license": "MIT",
-  "homepage": "https://quartz.jzhao.xyz",
+  "author": "alexander-turner <alex@turntrout.com>",
+  "license": "CC BY-SA 4.0",
+  "homepage": "https://turntrout.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jackyzha0/quartz.git"
+    "url": "https://github.com/alexander-turner/TurnTrout.com/"
   },
   "scripts": {
     "docs": "npx quartz build --serve -d docs",
@@ -147,6 +146,7 @@
     "@types/source-map-support": "^0.5.10",
     "@types/ws": "^8.5.12",
     "@types/yargs": "^17.0.32",
+    "0x": "^5.7.0",
     "babel-jest": "^29.7.0",
     "critical": "^7.2.1",
     "esbuild": "^0.19.9",
