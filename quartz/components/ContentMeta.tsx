@@ -106,7 +106,6 @@ export function RenderPublicationInfo(
 }
 
 // Add new function to render last updated info
-const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
 export function renderLastUpdated(
   cfg: GlobalConfiguration,
   fileData: QuartzPluginData,
@@ -116,6 +115,8 @@ export function renderLastUpdated(
   if (!dateUpdated || frontmatter?.hide_metadata) {
     return null
   }
+
+  const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
 
   const githubStem = "https://github.com/alexander-turner/TurnTrout.com/blob/main/content/"
   const githubUrl = `${githubStem}${fileData.relativePath}`

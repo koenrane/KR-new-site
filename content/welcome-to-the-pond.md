@@ -29,6 +29,8 @@ Figure: I commissioned this GIF for $270.94. I paid a bit extra to ensure the go
 I don't want to be on LessWrong anymore. Briefly, the site - and parts of the rationality community - don't meet my standards for discourse, truth-seeking, charity, and community health. For the most part, I'll elaborate my concerns another time. This is a happy post. ❤️  
 
 # Inspiration for the website
+I am pleased to present the _initial release_ of `www.turntrout.com` - I have many, many more planned features.
+
 
 ![](site_desktop.png)
 Figure: The site is most beautiful on the desktop. For example, the desktop enables hover previews for internal links. 
@@ -96,7 +98,7 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) - where the edit history can be inspected. While not a perfect tamper-proof log of my edits[^hash], GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. While not a perfect tamper-proof log of my edits[^hash], GitHub provides basic transparency and assurance. 
 
 ## Fatebook prediction tracking
 
@@ -105,11 +107,6 @@ Each post states when it was published and when it was last updated. The updated
 By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to ✨make more falsifiable predictions✨. After all, what's shinier than a well-styled embed containing a falsifiable prediction? 
 
 # The future
-Over the last few years, my life has lost a certain touch of magic - a touch of _aspiration to do better_ and of _excitement to not be doing it alone._ 
-
-> [!quote] [A sense that more is possible](https://www.lesswrong.com/posts/Nu3wa6npK4Ry66vFp/a-sense-that-more-is-possible)
-> there was first the aspiration, the [wish to become stronger](http://www.overcomingbias.com/2007/03/tsuyoku_naritai.html), a sense that more was possible.  A vision of a speed and grace and strength that they did not already possess, but _could_ possess, _if_ they were willing to put in a lot of work, that drove them to systematize and train and test.
-
-I will speak more of this de-magicking. For now, I say: May this site bring back a touch of magic. 
+Over the last few years, my life has lost a certain touch of magic - a touch of _[aspiration to do better](https://www.lesswrong.com/posts/Nu3wa6npK4Ry66vFp/a-sense-that-more-is-possible)_ and of _excitement to not be doing it alone._  I will speak more of this de-magicking. For now, I say: May this site bring back a touch of magic. 
 
 [^hash]: I might want to use [linked timestamping](https://en.wikipedia.org/wiki/Linked_timestamping) to provide you with cryptographic assurance that I am not fudging my tracks to cover embarrassing mis-predictions. But I have _so_ many other to-do's for the website.
