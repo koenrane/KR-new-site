@@ -109,9 +109,7 @@ Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged
 
 <iframe src="https://fatebook.io/embed/q/are-you-going-to-like-turntrout-com---cm2u10nym00029cc3j1h05pot?compact=true&requireSignIn=false" height="200"></iframe>
 
-By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to ✨make more falsifiable predictions✨. After all, what's sexier than a well-styled embed containing a falsifiable prediction? 
+By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to make more ✨falsifiable predictions✨. 
 
 # The future
 Over the last few years, my life has lost a certain touch of magic - a touch of _[aspiration to do better](https://www.lesswrong.com/posts/Nu3wa6npK4Ry66vFp/a-sense-that-more-is-possible)_ and of _excitement to not be doing it alone._  I will speak more of this de-magicking. For now, I say: May this site bring back a touch of magic. 
-
-[^hash]: I might want to use [linked timestamping](https://en.wikipedia.org/wiki/Linked_timestamping) to provide you with cryptographic assurance that I am not fudging my tracks to cover embarrassing mis-predictions. But I have _so_ many other to-do's for the website.

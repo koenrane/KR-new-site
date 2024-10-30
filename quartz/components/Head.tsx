@@ -115,7 +115,7 @@ export default (() => {
           href="/index.css"
           as="style"
           onLoad={
-            "this.rel = 'stylesheet'; const criticalCSS = document.querySelector('head style'); if (criticalCSS) { criticalCSS.remove() }" as any
+            "this.rel = 'stylesheet'; const criticalCSS = document.querySelector('head style'); if (criticalCSS && criticalCSS.length > 1) { throw new Error('More than one style tag found in head'); } else if (criticalCSS) { criticalCSS.remove() }" as any
           }
           spa-preserve
         />
