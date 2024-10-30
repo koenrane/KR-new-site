@@ -38,28 +38,19 @@ date_updated: *id001
 ---
 
 
-> [!thanks]
-> Thanks to Michael Dennis for proposing the formal definition; to Andrew Critch for pointing me in this direction; to Abram Demski for proposing non-negative weighting; and to Alex Appel, Scott Emmons, Evan Hubinger, `philh`, Rohin Shah, and Carroll Wainwright for their feedback and ideas.
 
-> [!quote] Vignettes
+
+> [!quote] Vignette
 >
-> > They can't prove the conspiracy... But they could, if Steve runs his mouth.
-> >
-> > The police chief stares at you.
-> >
-> > You stare at the table. You'd agreed (sworn!) to stay quiet. You'd even studied game theory together. But, you hadn't understood what an extra _year_ of jail meant.
-> >
-> > The police chief stares at you.
-> >
-> > Let Steve be the gullible idealist. You have a family waiting for you.
->
-> > Sunlight stretches across the valley, dappling the grass and warming your bow. Your hand anxiously runs along the bowstring. A distant figure darts between trees, and your stomach rumbles. The day is near spent.
-> >
-> > The stags run strong and free in this land. Carla should meet you there. Shouldn't she? Who wants to live like a beggar, living on scraps of rabbit meat?
-> >
-> > In your mind's eye, you reach the stags. Alone. Your arrow pierces the flank of one of the beasts, which promptly shoots away. The rest of the herd follows. You slump against the tree, exhausted.
-> >
-> > You can't risk it.
+ > They can't prove the conspiracy... But they could, if Steve runs his mouth.
+ >
+ > The police chief stares at you.
+ >
+ > You stare at the table. You'd agreed (sworn!) to stay quiet. You'd even studied game theory together. But, you hadn't understood what an extra _year_ of jail meant.
+ >
+ > The police chief stares at you.
+ >
+ > Let Steve be the gullible idealist. You have a family waiting for you.
 
 People talk about "defection" in [social dilemma](https://www.tandfonline.com/doi/abs/10.1080/002075900399402) games, from the [prisoner's dilemma](https://en.wikipedia.org/wiki/Prisoner's_dilemma) to [stag hunt](https://en.wikipedia.org/wiki/Stag_hunt) to [chicken](<https://en.wikipedia.org/wiki/Chicken_(game)>). In the [tragedy of the commons](https://en.wikipedia.org/wiki/Tragedy_of_the_commons), we talk about defection. The concept has become a regular part of LessWrong discourse.
 
@@ -212,3 +203,5 @@ This bit of basic theory will hopefully allow for things like principled classif
 
 I had vague pre-theoretic intuitions about "defection", and now I feel more capable of reasoning about what is and isn't a defection. In particular, I'd been confused by the difference between [power-seeking](/seeking-power-is-often-convergently-instrumental-in-mdps) and defection, and now I'm not.
 
+> [!thanks]
+> Thanks to Michael Dennis for proposing the formal definition; to Andrew Critch for pointing me in this direction; to Abram Demski for proposing non-negative weighting; and to Alex Appel, Scott Emmons, Evan Hubinger, `philh`, Rohin Shah, and Carroll Wainwright for their feedback and ideas.

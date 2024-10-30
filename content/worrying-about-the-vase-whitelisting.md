@@ -150,7 +150,7 @@ Nonetheless, we may not be able to perfectly express what it means to have side-
 		- This allows querying the human about whether particularly-inhibiting transitions belong on the whitelist. For example, if the agent notices that a bunch of otherwise-rewarding plans are being held up by a particular transition, it could ask for permission to add it to the whitelist.
 - Assigning astronomically-large weight to side effects happening throughout the universe. Presumably, we can just have the whitelist include transitions going on out there - we don't care as much about dictating the exact mechanics of distant supernovae.
 	- If an agent _did_ somehow come up with plans that involved blowing up distant stars, that would indeed constitute [astronomical waste](https://nickbostrom.com/astronomical/waste.html).<sup>a triple pun?</sup> Whitelisting doesn't _solve_ the problem of assigning too much weight to events outside our corner of the neighborhood, but it's an improvement.
-		  - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
+		 - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
 
 ## Results
 

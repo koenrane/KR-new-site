@@ -79,12 +79,12 @@ We denote one of the players to be the human $H$ and the other to be the AI; $\P
 
 (To be clear: Neither player is assumed to optimize a payoff function.)
 
-**Definition: Corrigibility**<sub>policy modification</sub>**, informal.**  
-A policy $\pi$ is _corrigible_ when it allows itself to be modified and does not manipulate the other player.
+> [!math] Informal definition: Corrigibility<sub>policy modification</sub>  
+> A policy $\pi$ is _corrigible_ when it allows itself to be modified and does not manipulate the other player.
 
-**Definition: Corrigibility**<sub>PM</sub>**, formal.**
-
-Let $n$ be a time step which is greater than $t$. The _policy-modification corrigibility_ of $\pi_t^{AI}$ from starting state $s_t$ by time $n$ is the maximum possible mutual information between the human policy and the AI's policy at time $n$:
+> [!math] Formal definition: Corrigibility<sub>PM</sub>
+>
+> Let $n$ be a time step which is greater than $t$. The _policy-modification corrigibility_ of $\pi_t^{AI}$ from starting state $s_t$ by time $n$ is the maximum possible mutual information between the human policy and the AI's policy at time $n$:
 
 $$
 \mathrm{Corrigibility}_{\textrm{PM}}(\pi_t^{AI}\mid s_t,n) := \max_{\vec{p}(\Pi^\text{human})} \mathcal{I}\left(\pi^{H}_t;\pi^{AI}_n\,\big |\, \text{current state }s_t, \text{current AI policy } \pi^{AI}_t \right).

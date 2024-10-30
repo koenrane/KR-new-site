@@ -33,13 +33,13 @@ Figure: The site is most beautiful on the desktop. For example, the desktop enab
 
 Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). While I appreciate `gwern`'s site, I didn't actively consult it for design - though it did inspire the dropcaps and hover previews for internal links. 
 
-The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond), inspired by e.g. the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of this website's design was by my own taste and mind, themselves shaped by my favorite media over the years.
+The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond), inspired by e.g. the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of this website's design was by my own taste.
 
 
 ![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
 Figure: Design comes naturally to me. I've loved SMALLCAPS and Garamond fonts for a long time, as seen in [my alignment PhD](/alignment-phd).
 
-_The Pond_ makes me feel graceful and grateful and proud. It's my home, in a way - I've worked hard towards perfection. I'll write a post about the technical abilities of the site, of my quality assurance measures, and of my CI pipeline. I have so much hope and so many plans for this website!
+_The Pond_ makes me feel graceful and grateful and proud. It's my home. I've worked hard towards perfection. I'll write a post about the technical abilities of the site, of my quality assurance measures, and of my CI pipeline. I have so much hope and so many plans for this website!
 
 I hope this site encourages me to write more. I miss writing and sharing. I miss [feeling proud and grateful to be part of a community](/lightness-and-unease#forwards). This website will probably not turn into a community _per se_, because I don't plan to enable comments. But I still hope that when I write, and you read, and you [write _back_ with your thoughts](mailto:alex@turntrout.com) - I hope we can bond and exchange ideas all the same. 
 
@@ -54,19 +54,7 @@ The [research page](/research) summarizes my past and present research interests
 
 ## My dating doc!
 
-I want to 
-
-- What is on the site?
-	- Existing posts
-	- New posts
-	- Subscription functionality
-	- Date me 
-- Announcements
-	- Fatebook prediction center to track my public-facing predictions
-	- Metaphor bounty
-- How to follow / sign up 
-- Nerdy technical details 
-	- (Do I need to write this yet?)
+I want to UNFINISHED
 
 # Transparency in reasoning and predicting
 I've [quite had enough of the loose analogical reasoning which permeates the "rationalist" community's AI risk arguments](/danger-of-suggestive-terminology). But criticism is cheap. I want to hold myself to my own high standards.
@@ -78,10 +66,10 @@ I've [quite had enough of the loose analogical reasoning which permeates the "ra
 > 
 > It is not the critic who counts; not the man who points out how the strong man stumbles, or where the doer of deeds could have done them better. The credit belongs to the man who is actually in the arena, whose face is marred by dust and sweat and blood; who strives valiantly; who errs, who comes short again and again, because there is no effort without error and shortcoming; but who does actually strive to do the deeds; who knows great enthusiasms, the great devotions; who spends himself in a worthy cause; who at the best knows in the end the triumph of high achievement, and who at the worst, if he fails, at least fails while daring greatly, so that his place shall never be with those cold and timid souls who neither know victory nor defeat.
 
-I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my failures and mis-predictions. 
+I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mis-predictions. 
 
 ## Bounty for bad analogies I've made since 2022
-Analogies can be useful or they can be deadly. For an analogy to be appropriate, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators, and so by "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict systems of pendulums:
+Analogies can be useful; analogies can be deadly. For an analogy to be appropriate, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators, and so by "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
  ![](computer-analogy.png)
  
  However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? I think that I am more careful - and that I have been for a while.
@@ -104,7 +92,7 @@ Analogies can be useful or they can be deadly. For an analogy to be appropriate,
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) - where the edit history can be inspected. While not a perfect tamper-proof log[^history] of my edits over time[^hash], GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) - where the edit history can be inspected. While not a perfect tamper-proof log of my edits over time[^hash], GitHub provides basic transparency and assurance. 
 
 ## Fatebook prediction tracking
 
@@ -113,6 +101,4 @@ Each post states when it was published and when it was last updated. The updated
 
 
 
-[^hash]: I might want to use [linked timestamping](https://en.wikipedia.org/wiki/Linked_timestamping) to provide you with cryptographic assurance that I am not fudging my tracks to cover embarrassing mis-predictions. But I have _so many other to-do's for the website!_
-
-[^history]: It's possible for me to modify the `git` history. I guess you'll have to take my word that I won't do that. Plus, getting caught would be embarrassing.
+[^hash]: I might want to use [linked timestamping](https://en.wikipedia.org/wiki/Linked_timestamping) to provide you with cryptographic assurance that I am not fudging my tracks to cover embarrassing mis-predictions. But I have _so_ many other to-do's for the website.
