@@ -299,9 +299,9 @@ export async function handleBuild(argv) {
     clientRefresh()
 
     // Inline critical CSS after the build (would delay serving too much)
-    // if (!argv.serve) {
-    await inlineCriticalCSS(argv.output)
-    // }
+    if (!argv.serve) {
+      await inlineCriticalCSS(argv.output)
+    }
   }
 
   if (argv.serve) {

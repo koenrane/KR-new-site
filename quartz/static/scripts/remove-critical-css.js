@@ -1,21 +1,15 @@
-Promise.all(
-  Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map((link) => {
-    if (link.href && !link.loaded) {
-      return new Promise((resolve, reject) => {
-        link.addEventListener("load", resolve)
-        link.addEventListener("error", reject)
-      })
-    }
-    return Promise.resolve()
-  }),
-)
-  .then(() => {
-    // Only select from the head
-    const criticalStyle = document.querySelector("head style")
-    if (criticalStyle && criticalStyle.length > 1) {
-      throw new Error("More than one critical style tag found")
-    } else if (criticalStyle) {
-      criticalStyle.remove()
-    }
+const criticalCSS = document.querySelector("head style")
+if (criticalCSS && criticalCSS.length > 1) {
+  console.warn("More than one style tag found - can't remove critical CSS, if it exists")
+} else if (!criticalCSS) {
+  console.warn("No style tag found - can't remove critical CSS, if it exists")
+}
+
+const link = document.querySelector('head link[href*="index.css"]')
+if (link.href && !link.loaded) {
+  link.addEventListener("load", () => {
+    criticalCSS.remove()
   })
-  .catch((err) => console.error("Error removing critical CSS:", err))
+} else {
+  criticalCSS.remove()
+}
