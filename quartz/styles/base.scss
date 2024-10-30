@@ -6,8 +6,7 @@
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
-  width: 100vw;
+  width: 100%;
 }
 body,
 section {
@@ -186,7 +185,10 @@ hr.desktop-only {
       top: 0;
       width: $sidePanelWidth;
       &.right {
-        width: $rightWidth;
+        width: 100%;
+        @media all and (min-width: $marginsBegin) {
+          width: $rightWidth;
+        }
       }
 
       margin-top: $topSpacing;

@@ -162,7 +162,6 @@
 
   &[data-callout="link"] {
     --callout-icon: var(--callout-icon-link);
-    margin-right: calc(0.25 * $baseMargin);
   }
 
   &[data-callout="math"] {
