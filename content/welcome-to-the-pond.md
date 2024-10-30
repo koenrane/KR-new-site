@@ -32,7 +32,7 @@ I don't want to be on LessWrong anymore. Briefly, the site - and parts of the ra
 I am pleased to present the _initial release_ of `www.turntrout.com` - I have many, many more planned features.
 
 
-![](site_desktop.png)
+![](https://assets.turntrout.com/static/images/posts/site_desktop.avif)
 Figure: The site is most beautiful on the desktop. For example, the desktop enables hover previews for internal links. 
 
 Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). While I appreciate `gwern`'s site, I didn't actively consult it for design - though it did inspire the dropcaps and hover previews for internal links. 
@@ -76,7 +76,7 @@ I hope to speak loudly and carry a small ego. I want to enjoy my wins and honora
 
 ## Bounty for bad analogies I've made since 2022
 Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
- ![](computer-analogy.png)
+ ![](https://assets.turntrout.com/static/images/posts/computer-analogy.avif)
  
  However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? I think that I am more careful - and that I have been for a while.
 
