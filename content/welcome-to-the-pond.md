@@ -99,7 +99,7 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. While not a perfect tamper-proof log of my edits[^hash], GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. While the SHA-1 commit hashing algorithm is not secure GitHub provides basic transparency and assurance. 
 
 ## Fatebook prediction tracking
 
