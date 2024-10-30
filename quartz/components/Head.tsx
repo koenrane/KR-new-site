@@ -114,7 +114,9 @@ export default (() => {
           rel="preload"
           href="/index.css"
           as="style"
-          onLoad={"this.rel = 'stylesheet'" as any}
+          onLoad={
+            "this.rel = 'stylesheet'; const criticalCSS = document.querySelector('head style'); if (criticalCSS) { criticalCSS.remove() }" as any
+          }
           spa-preserve
         />
 
@@ -125,7 +127,6 @@ export default (() => {
 
         <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
-        <script src="/static/scripts/remove-critical-css.js" spa-preserve />
         {analyticsScript}
 
         <link rel="icon" href={iconPath} />

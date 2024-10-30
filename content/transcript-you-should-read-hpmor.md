@@ -113,7 +113,5 @@ Taken together, _caring deeply about maximizing human fulfillment_ and _improvin
 
 HPMOR isn’t the only way to win these benefits. But I think it’s quite good for some people, which should make it worth your time to try 5–10 chapters. I hope you benefit as much as I did. 
 
-<hr/>
-
-
-You can find the book at [`www.hpmor.com`](http://www.hpmor.com) (I recommend the [PDF version](https://cdn.jsdelivr.net/gh/rjl20/hpmor@0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf)). You can find the unofficial, very good podcast reading [on Spotify](https://open.spotify.com/playlist/4JQT5fmI8EJBiISLX06sZt?si=d4924f208e96429d). You can find me at [`alex@turntrout.com`](mailto:alex@turntrout.com).
+> [!info] Where to find HPMOR
+> You can find the book at [`www.hpmor.com`](http://www.hpmor.com) (I recommend the [PDF version](https://cdn.jsdelivr.net/gh/rjl20/hpmor@0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf)). You can find the unofficial, very good podcast reading [on Spotify](https://open.spotify.com/playlist/4JQT5fmI8EJBiISLX06sZt?si=d4924f208e96429d). 
