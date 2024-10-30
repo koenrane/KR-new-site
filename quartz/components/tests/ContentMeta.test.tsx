@@ -19,6 +19,7 @@ import { QuartzPluginData } from "../../plugins/vfile"
 import "@testing-library/jest-dom"
 import ReactDOM from "react-dom/client"
 import { QuartzComponentProps } from "../types"
+import { FilePath } from "../../util/path"
 
 // Update the mock setup
 jest.mock("../ContentMeta", () => ({
@@ -43,14 +44,16 @@ const mockConfig = {
     enableFrontmatterTags: true,
   },
 } as unknown as GlobalConfiguration
-const createFileData = (overrides = {}): QuartzPluginData =>
+const createFileData = (
+  overrides = { filePath: "test.md", relativePath: "test.md" } as Partial<QuartzPluginData>,
+): QuartzPluginData =>
   ({
     frontmatter: {
       date_published: "2024-03-20",
       ...overrides,
     },
-    filePath: "test.md",
-    relativePath: "test.md",
+    filePath: overrides?.filePath || "test.md",
+    relativePath: overrides?.relativePath || "test.md",
   }) as unknown as QuartzPluginData
 
 describe("getFaviconPath", () => {
@@ -279,6 +282,22 @@ describe("renderLastUpdated", () => {
     expect(linkWithFavicon.type).toBe("a")
     expect(linkWithFavicon.props.href).toContain("github.com")
     expect(linkWithFavicon.props.children).toBe("Updated")
+  })
+
+  it("should use correct GitHub URL in link", () => {
+    const testPath = "folder/test-file.md"
+    const fileData = createFileData({
+      date_updated: "2024-03-20",
+      relativePath: testPath as FilePath,
+      filePath: testPath as FilePath,
+    }) as QuartzPluginData
+
+    const result = renderLastUpdated(mockConfig, fileData)
+    const linkElement = result?.props.children[0]
+
+    expect(linkElement.props.href).toBe(
+      `https://github.com/alexander-turner/TurnTrout.com/blob/main/content/${testPath}`,
+    )
   })
 })
 
