@@ -37,6 +37,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install xmllint
+        run: |
+          apt-get update
+          apt-get install -y libxml2-utils
+
       - name: Run site checks
         run: python scripts/built_site_checks.py
 
