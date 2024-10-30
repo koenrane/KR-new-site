@@ -101,6 +101,15 @@ function scrollToHash(hash: string) {
   }
 }
 
+/**
+ * Saves the current scroll position to session storage
+ */
+function saveScrollPosition(url: string): void {
+  const scrollPos = window.scrollY
+  const key = `scrollPos:${url}`
+  sessionStorage.setItem(key, scrollPos.toString())
+}
+
 let p: DOMParser
 /**
  * Core navigation function that:
@@ -113,22 +122,30 @@ let p: DOMParser
 async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
 
+  // Save current scroll position before navigation
+  if (!isBack) {
+    saveScrollPosition(window.location.toString())
+  }
+
   if (url.hash) {
     scrollToHash(url.hash)
   }
 
-  const contents = await fetch(`${url}`)
-    .then((res) => {
-      const contentType = res.headers.get("content-type")
-      if (contentType?.startsWith("text/html")) {
-        return res.text()
-      } else {
-        window.location.assign(url)
-      }
-    })
-    .catch(() => {
-      window.location.assign(url)
-    })
+  let contents: string | undefined
+
+  try {
+    const res = await fetch(url.toString())
+    const contentType = res.headers.get("content-type")
+    if (contentType?.startsWith("text/html")) {
+      contents = await res.text()
+    } else {
+      window.location.href = url.toString()
+      return
+    }
+  } catch {
+    window.location.href = url.toString()
+    return
+  }
 
   if (!contents) return
 
@@ -151,14 +168,20 @@ async function navigate(url: URL, isBack = false) {
   // morph body
   micromorph(document.body, html.body)
 
-  // scroll into place and add history
-  if (!isBack) {
-    if (url.hash) {
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView({ behavior: "smooth" })
-    } else {
-      window.scrollTo({ top: 0 })
-    }
+  // Smooth scroll for anchors; else jump instantly
+  const isSamePageNavigation = url.pathname === window.location.pathname
+  if (isSamePageNavigation && url.hash) {
+    const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
+    el?.scrollIntoView({ behavior: "smooth" })
+  } else {
+    // Restore scroll position on back navigation
+    const key = `scrollPos:${url.toString()}`
+    const savedScroll = sessionStorage.getItem(key)
+    // Go to 0 if no scroll position is saved
+    window.scrollTo({
+      top: savedScroll ? parseInt(savedScroll) : 0,
+      behavior: "instant",
+    })
   }
 
   // now, patch head
