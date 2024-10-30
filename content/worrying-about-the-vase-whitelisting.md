@@ -18,7 +18,7 @@ af-base-score: 11
 af-num-comments-on-upload: 2
 publish: true
 title: "Worrying about the Vase: Whitelisting"
-lw-latest-edit: &id001 2018-06-16T02:17:08.890000Z
+lw-latest-edit: 2018-06-16T02:17:08.890000Z
 lw-is-linkpost: "false"
 tags:
   - impact-regularization
@@ -30,9 +30,8 @@ use-full-width-images: "false"
 date_published: 2018-06-16 00:00:00
 original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting
 skip_import: true
-description: An impact measure for AI safety that whitelists the object transformations
-  which are allowed.
-date_updated: *id001
+description: An impact measure for AI safety that whitelists the object transformations which are allowed.
+date_updated: 2018-06-16T02:17:08.890000Z
 ---
 
 
@@ -86,7 +85,7 @@ However, other problems remain, and certain new challenges have arisen; these, a
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/mickey_leaked.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/mickey_leaked.mp4" type="video/mp4"></video>
 
-Figure: _Rare LEAKED footage of Mickey trying to catch up on his alignment theory after instantiating an unfriendly genie \[colorized, 2050\]._[^2]
+Figure: Rare LEAKED footage of Mickey trying to catch up on his alignment theory after instantiating an unfriendly genie \[colorized, 2050\].[^2]
 
 ## So, What's Whitelisting?
 

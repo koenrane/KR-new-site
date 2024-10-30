@@ -185,11 +185,7 @@ export const renderReadingTime = (fileData: QuartzPluginData): JSX.Element => {
   const { minutes } = readingTime(text!)
   const displayedTime = processReadingTime(Math.ceil(minutes))
 
-  return (
-    <span className="reading-time">
-      <b>Read time:</b> {displayedTime}
-    </span>
-  )
+  return <span className="reading-time">Read time: {displayedTime}</span>
 }
 
 // Modify renderLinkpostInfo function

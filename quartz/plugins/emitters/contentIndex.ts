@@ -152,6 +152,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
         )
       }
 
+      // RSS items are sorted by publication date, not update date
       if (opts?.enableRSS) {
         emitted.push(
           await write({

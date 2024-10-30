@@ -20,7 +20,7 @@ For months, I have built a new home for my online content: [`www.turntrout.com`]
     git rev-list --author="alex@turntrout.com" --count main
     ```
 
-<center><strong><i><img class="emoji" draggable="false" alt="🏰" src="https://assets.turntrout.com/twemoji/1f3f0.svg" loading="lazy"><img class="emoji" draggable="false" alt="🌊" src="https://assets.turntrout.com/twemoji/1f30a.svg" loading="lazy">Welcome to The Pond! <img class="emoji" draggable="false" alt="🐟" src="https://assets.turntrout.com/twemoji/1f41f.svg" loading="lazy"><img class="emoji" draggable="false" alt="🪿" src="https://assets.turntrout.com/twemoji/replacements/1fabf.svg" loading="lazy"></strong></i></center>
+<center><strong><img class="emoji" draggable="false" alt="🏰" src="https://assets.turntrout.com/twemoji/1f3f0.svg" loading="lazy"><img class="emoji" draggable="false" alt="🌊" src="https://assets.turntrout.com/twemoji/1f30a.svg" loading="lazy">Welcome to The Pond! <img class="emoji" draggable="false" alt="🐟" src="https://assets.turntrout.com/twemoji/1f41f.svg" loading="lazy"><img class="emoji" draggable="false" alt="🪿" src="https://assets.turntrout.com/twemoji/replacements/1fabf.svg" loading="lazy"></strong></center>
 
 
 ![](https://assets.turntrout.com/static/pond.gif) 
@@ -43,7 +43,7 @@ The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Gar
 ![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
 Figure: Design comes naturally to me. I've loved SMALLCAPS and Garamond fonts for a long time, as seen in [my alignment PhD](/alignment-phd).
 
-_The Pond_ makes me feel graceful and grateful and proud. It's my home. I've worked hard towards perfection. I'll write a post about the technical abilities of the site, of my quality assurance measures, and of my CI pipeline. I have so much hope and so many plans for this website!
+_The Pond_ makes me feel graceful and grateful and proud. It's my home, and I've worked hard towards perfection. I'll write a post about the technical abilities of the site, of my quality assurance measures, and of my CI pipeline. I have so much hope and so many plans for this website!
 
 I hope this site encourages me to write more. I miss writing and sharing. I miss [feeling proud and grateful to be part of a community](/lightness-and-unease#forwards). This website will probably not turn into a community _per se_, because I don't plan to enable comments. But I still hope that when I write, and you read, and you [write _back_ with your thoughts](mailto:alex@turntrout.com) - I hope we can bond and exchange ideas all the same. 
 
@@ -93,8 +93,9 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 ## Post edits are publicly recorded 
 
+<!-- TODO modify this to be for the current post to be less confusing?-->
 <figure class="float-right" style="margin-top:-1rem;">
-<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time"><b>Read time:</b> 17 minutes</span></p><p style="color:var(--gray);"><span class="publication-str"><a href="https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting" class="external" target="_blank" style="color:var(--gray);" rel="noopener noreferrer">Published</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/worrying-about-the-vase-whitelisting.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p></ul></div></blockquote>
+<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 17 minutes</span></p><p style="color:var(--gray);"><span class="publication-str"><a href="https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting" class="external" target="_blank" style="color:var(--gray);" rel="noopener noreferrer">Published</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/worrying-about-the-vase-whitelisting.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p></ul></div></blockquote>
 </figure>
 
 
@@ -104,7 +105,7 @@ Each post states when it was published and when it was last updated. The updated
 
 <iframe src="https://fatebook.io/embed/q/are-you-going-to-like-turntrout-com---cm2u10nym00029cc3j1h05pot?compact=true&requireSignIn=false" height="200"></iframe>
 
-By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to ✨make more falsifiable predictions✨. After all, what's shinier than a well-styled embed containing a falsifiable prediction? 
+By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to ✨make more falsifiable predictions✨. After all, what's sexier than a well-styled embed containing a falsifiable prediction? 
 
 # The future
 Over the last few years, my life has lost a certain touch of magic - a touch of _[aspiration to do better](https://www.lesswrong.com/posts/Nu3wa6npK4Ry66vFp/a-sense-that-more-is-possible)_ and of _excitement to not be doing it alone._  I will speak more of this de-magicking. For now, I say: May this site bring back a touch of magic. 
