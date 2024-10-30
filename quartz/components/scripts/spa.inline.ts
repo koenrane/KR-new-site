@@ -101,6 +101,15 @@ function scrollToHash(hash: string) {
   }
 }
 
+/**
+ * Saves the current scroll position to session storage
+ */
+function saveScrollPosition(url: string): void {
+  const scrollPos = window.scrollY
+  const key = `scrollPos:${url}`
+  sessionStorage.setItem(key, scrollPos.toString())
+}
+
 let p: DOMParser
 /**
  * Core navigation function that:
@@ -112,6 +121,11 @@ let p: DOMParser
  */
 async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
+
+  // Save current scroll position before navigation
+  if (!isBack) {
+    saveScrollPosition(window.location.toString())
+  }
 
   if (url.hash) {
     scrollToHash(url.hash)
@@ -158,6 +172,13 @@ async function navigate(url: URL, isBack = false) {
       el?.scrollIntoView({ behavior: "smooth" })
     } else {
       window.scrollTo({ top: 0 })
+    }
+  } else {
+    // Restore scroll position on back navigation
+    const key = `scrollPos:${url.toString()}`
+    const savedScroll = sessionStorage.getItem(key)
+    if (savedScroll) {
+      window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
     }
   }
 
