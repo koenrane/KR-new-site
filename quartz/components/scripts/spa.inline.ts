@@ -165,7 +165,7 @@ async function navigate(url: URL, isBack = false) {
   announcer.dataset.persist = ""
   html.body.appendChild(announcer)
 
-  // morph body
+  // Morph body
   micromorph(document.body, html.body)
 
   // Smooth scroll for anchors; else jump instantly
@@ -184,14 +184,16 @@ async function navigate(url: URL, isBack = false) {
     })
   }
 
-  // now, patch head
+  // Patch head
   const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
   elementsToRemove.forEach((el) => el.remove())
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
   elementsToAdd.forEach((el) => document.head.appendChild(el))
 
-  // delay setting the url until now
-  // at this point everything is loaded so changing the url should resolve to the correct addresses
+  // Swap critical styles after index.css is loaded
+  swapCriticalStyles()
+
+  // Delay setting the URL until everything is loaded
   if (!isBack) {
     history.pushState({}, "", url)
   }
@@ -291,4 +293,32 @@ if (window.location.hash) {
   window.addEventListener("load", () => {
     scrollToHash(window.location.hash)
   })
+}
+
+/**
+ * Removes the critical CSS after ensuring that index.css is loaded
+ */
+function swapCriticalStyles() {
+  const indexCSS = document.querySelector('link[href="/index.css"]') as HTMLLinkElement | null
+
+  if (indexCSS?.rel === "stylesheet") {
+    // index.css is already loaded, remove critical CSS immediately
+    removeCriticalStyles()
+  } else {
+    // index.css is not loaded yet, wait for it to load before removing critical CSS
+    indexCSS?.addEventListener("load", removeCriticalStyles, { once: true })
+  }
+}
+
+/**
+ * Removes the critical style tags from the head
+ */
+function removeCriticalStyles() {
+  const criticalStyles = document.querySelectorAll("head style")
+
+  if (criticalStyles.length > 1) {
+    console.warn("More than one style tag found in head")
+  }
+
+  criticalStyles[0].remove()
 }

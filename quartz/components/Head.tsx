@@ -114,9 +114,7 @@ export default (() => {
           rel="preload"
           href="/index.css"
           as="style"
-          onLoad={
-            "this.rel = 'stylesheet'; const criticalStyles = document.querySelectorAll('head style'); if (criticalStyles.length > 1) { console.warn('More than one style tag found in head'); } if (criticalStyles.length > 0) { criticalStyles[0].remove(); console.info('Removed critical CSS') }" as any
-          }
+          onLoad={"this.rel = 'stylesheet'; document.querySelector('head style')?.remove()" as any}
           spa-preserve
         />
 
