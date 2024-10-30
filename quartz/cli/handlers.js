@@ -515,17 +515,26 @@ async function generateCriticalCSS(outputDir, file) {
     })
     console.log(`Critical CSS inlined for ${file}`)
 
-    // Begin post-processing to rearrange <head> contents so that Slack unfurls the page with the right info
     // Read the modified HTML file
     const htmlContent = await fs.promises.readFile(file, "utf8")
-
-    // Load the HTML into Cheerio for parsing
     const $ = cheerio.load(htmlContent)
 
-    // Select all children of <head>
-    const headChildren = $("head").children()
+    // Add an ID to the critical CSS style tag
+    $('style[data-critical="true"]').attr("id", "critical-css")
+
+    // Add script to remove critical CSS after normal CSS loads
+    const cleanupScript = `
+      <script>
+        window.addEventListener('load', function() {
+          const criticalCSS = document.getElementById('critical-css');
+          if (criticalCSS) criticalCSS.remove();
+        });
+      </script>
+    `
+    $("head").append(cleanupScript)
 
     // Separate <meta>, <title>, and other tags
+    const headChildren = $("head").children()
     const metaAndTitle = headChildren.filter(
       (_i, el) => el.tagName === "meta" || el.tagName === "title",
     )

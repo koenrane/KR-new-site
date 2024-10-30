@@ -99,7 +99,11 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. While the SHA-1 commit hashing algorithm is not secure GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
+
+Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). However, suppose I write embarrassing statement $X$ - I know, this is hard to imagine, but imagine anyways. $X$ has the SHA-1 hash $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)). [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` hash history. 
+
+<!-- TODO figure this section out more; read up on technical details. What about chains of commits, only fooling the first hash? -->
 
 ## Fatebook prediction tracking
 
