@@ -32,7 +32,7 @@ I don't want to be on LessWrong anymore. Briefly, the site - and parts of the ra
 I am pleased to present the _initial release_ of `www.turntrout.com` - I have many, many more planned features.
 
 
-![](site_desktop.png)
+![](https://assets.turntrout.com/static/images/posts/site_desktop.avif)
 Figure: The site is most beautiful on the desktop. For example, the desktop enables hover previews for internal links. 
 
 Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). While I appreciate `gwern`'s site, I didn't actively consult it for design - though it did inspire the dropcaps and hover previews for internal links. 
@@ -76,7 +76,7 @@ I hope to speak loudly and carry a small ego. I want to enjoy my wins and honora
 
 ## Bounty for bad analogies I've made since 2022
 Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
- ![](computer-analogy.png)
+ ![](https://assets.turntrout.com/static/images/posts/computer-analogy.avif)
  
  However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? I think that I am more careful - and that I have been for a while.
 
@@ -99,7 +99,11 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. While the SHA-1 commit hashing algorithm is not secure GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
+
+Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). However, suppose I write embarrassing statement $X$ - I know, this is hard to imagine, but imagine anyways. $X$ has the SHA-1 hash $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)). [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` hash history. 
+
+<!-- TODO figure this section out more; read up on technical details. What about chains of commits, only fooling the first hash? -->
 
 ## Fatebook prediction tracking
 

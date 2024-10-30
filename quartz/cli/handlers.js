@@ -489,6 +489,43 @@ async function processFile(outputDir, file) {
     console.log(`Large file detected: ${file}. Ignoring.`)
   } else {
     await generateCriticalCSS(outputDir, file)
+
+    // Sort <head> contents so that Slack unfurls the page with the right info
+    // Read the modified HTML file
+    const htmlContent = await fs.promises.readFile(file, "utf8")
+    const $ = cheerio.load(htmlContent)
+
+    // Separate <meta>, <title>, and other tags
+    const headChildren = $("head").children()
+    const metaAndTitle = headChildren.filter(
+      (_i, el) => el.tagName === "meta" || el.tagName === "title",
+    )
+    const otherElements = headChildren.filter(
+      (_i, el) => el.tagName !== "meta" && el.tagName !== "title",
+    )
+
+    // Clear the head and re-append elements in desired order
+    $("head").empty()
+    $("head").append(metaAndTitle)
+    $("head").append(otherElements)
+
+    // Add script to remove critical CSS after full stylesheet loads
+    $("head").append(`
+      <script>
+        document.querySelector('link[href*="index.css"]').addEventListener('load', function() {
+          const criticalStyle = document.querySelector('style');
+          // Throw error if more than one found
+          if (criticalStyle.length > 1) {
+            throw new Error("More than one critical style tag found")
+          } else if (criticalStyle) {
+            criticalStyle.remove();
+          }
+        });
+      </script>
+    `)
+
+    // Write the modified HTML back to the file
+    await fs.promises.writeFile(file, $.html())
   }
 }
 
@@ -514,32 +551,6 @@ async function generateCriticalCSS(outputDir, file) {
       ],
     })
     console.log(`Critical CSS inlined for ${file}`)
-
-    // Begin post-processing to rearrange <head> contents so that Slack unfurls the page with the right info
-    // Read the modified HTML file
-    const htmlContent = await fs.promises.readFile(file, "utf8")
-
-    // Load the HTML into Cheerio for parsing
-    const $ = cheerio.load(htmlContent)
-
-    // Select all children of <head>
-    const headChildren = $("head").children()
-
-    // Separate <meta>, <title>, and other tags
-    const metaAndTitle = headChildren.filter(
-      (_i, el) => el.tagName === "meta" || el.tagName === "title",
-    )
-    const otherElements = headChildren.filter(
-      (_i, el) => el.tagName !== "meta" && el.tagName !== "title",
-    )
-
-    // Clear the head and re-append elements in desired order
-    $("head").empty()
-    $("head").append(metaAndTitle)
-    $("head").append(otherElements)
-
-    // Write the modified HTML back to the file
-    await fs.promises.writeFile(file, $.html())
   } catch (error) {
     console.error(`Error generating critical CSS for ${file}:`, error)
   }
