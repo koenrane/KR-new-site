@@ -1,3 +1,6 @@
+// This file implements a client-side router for Single Page Applications (SPA)
+// It handles navigation between pages without full page reloads
+
 import micromorph from "micromorph"
 import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
 
@@ -5,8 +8,16 @@ import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../..
 // https://github.com/natemoo-re/micromorph
 const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
+
+/**
+ * Type guard to check if a target is an Element
+ */
 const isElement = (target: EventTarget | null): target is Element =>
   (target as Node)?.nodeType === NODE_TYPE_ELEMENT
+
+/**
+ * Checks if a URL is local (same origin as current window)
+ */
 const isLocalUrl = (href: string) => {
   try {
     const url = new URL(href)
@@ -19,12 +30,19 @@ const isLocalUrl = (href: string) => {
   return false
 }
 
+/**
+ * Determines if a URL points to the same page (same origin and path)
+ */
 const isSamePage = (url: URL): boolean => {
   const sameOrigin = url.origin === window.location.origin
   const samePath = url.pathname === window.location.pathname
   return sameOrigin && samePath
 }
 
+/**
+ * Extracts navigation options from a click event
+ * Returns URL and scroll behavior settings
+ */
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
   if (!isElement(target)) return
   if (target.attributes.getNamedItem("target")?.value === "_blank") return
@@ -36,11 +54,17 @@ const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined 
   return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
 }
 
+/**
+ * Dispatches a custom navigation event
+ */
 function notifyNav(url: FullSlug) {
   const event: CustomEventMap["nav"] = new CustomEvent("nav", { detail: { url } })
   document.dispatchEvent(event)
 }
 
+/**
+ * Handles scrolling to specific elements when hash is present in URL
+ */
 function scrollToHash(hash: string) {
   if (!hash) return
   try {
@@ -53,6 +77,14 @@ function scrollToHash(hash: string) {
 }
 
 let p: DOMParser
+/**
+ * Core navigation function that:
+ * 1. Fetches new page content
+ * 2. Updates the DOM using micromorph
+ * 3. Handles scroll position
+ * 4. Updates browser history
+ * 5. Manages page title and announcements
+ */
 async function navigate(url: URL, isBack = false) {
   p = p || new DOMParser()
 
@@ -120,7 +152,12 @@ async function navigate(url: URL, isBack = false) {
 }
 
 window.spaNavigate = navigate
-
+/**
+ * Creates and configures the router instance
+ * - Sets up click event listeners for link interception
+ * - Handles browser back/forward navigation
+ * - Provides programmatic navigation methods (go, back, forward)
+ */
 function createRouter() {
   if (typeof window !== "undefined") {
     window.addEventListener("click", async (event) => {
@@ -174,6 +211,10 @@ function createRouter() {
 createRouter()
 notifyNav(getFullSlug(window))
 
+/**
+ * Registers the RouteAnnouncer custom element if not already defined
+ * Sets up necessary ARIA attributes and styling for accessibility
+ */
 if (!customElements.get("route-announcer")) {
   const attrs = {
     "aria-live": "assertive",
@@ -197,7 +238,10 @@ if (!customElements.get("route-announcer")) {
   )
 }
 
-// Handle initial load with hash
+/**
+ * Handles initial page load when URL contains a hash
+ * Ensures proper scrolling to anchored elements
+ */
 if (window.location.hash) {
   window.addEventListener("load", () => {
     scrollToHash(window.location.hash)
