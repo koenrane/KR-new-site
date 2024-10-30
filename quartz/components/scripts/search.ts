@@ -173,7 +173,15 @@ function updatePlaceholder() {
 }
 
 export function setupSearch() {
+  // Create cleanup function for event listeners
+  let cleanupListeners: (() => void) | undefined
+
   document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
+    // Clean up previous listeners if they exist
+    if (cleanupListeners) {
+      cleanupListeners()
+    }
+
     const currentSlug = e.detail.url
     const data = await fetchData
     const container = document.getElementById("search-container")
@@ -234,7 +242,7 @@ export function setupSearch() {
 
     let currentHover: HTMLInputElement | null = null
 
-    async function shortcutHandler(e: HTMLElementEventMap["keydown"]) {
+    async function shortcutHandler(e: KeyboardEvent) {
       if (e.key === "/") {
         e.preventDefault()
         const searchBarOpen = container?.classList.contains("active")
@@ -568,9 +576,29 @@ export function setupSearch() {
 
     const debouncedOnType = debounce(onType, 250, false)
 
-    document.addEventListener("keydown", shortcutHandler)
-    searchIcon?.addEventListener("click", () => showSearch("basic"))
-    searchBar?.addEventListener("input", debouncedOnType)
+    // Store all event listener cleanup functions
+    const listeners = new Set<() => void>()
+
+    function addListener(
+      element: Element | Document | null,
+      event: string,
+      handler: EventListener,
+    ) {
+      if (!element) return
+      element.addEventListener(event, handler)
+      listeners.add(() => element.removeEventListener(event, handler))
+    }
+
+    // Replace direct event listener assignments with addListener
+    addListener(document, "keydown", (e: Event) => shortcutHandler(e as KeyboardEvent))
+    addListener(searchIcon, "click", () => showSearch("basic"))
+    addListener(searchBar, "input", debouncedOnType)
+
+    // Create cleanup function
+    cleanupListeners = () => {
+      listeners.forEach((cleanup) => cleanup())
+      listeners.clear()
+    }
 
     registerEscapeHandler(container, hideSearch)
     await fillDocument(data)
