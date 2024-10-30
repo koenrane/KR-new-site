@@ -61,13 +61,6 @@ export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
       if (engine === "katex") {
         return {
           css: ["/static/styles/katex.min.css"],
-          js: [
-            {
-              src: "/static/scripts/katex.min.js",
-              loadTime: "afterDOMReady",
-              contentType: "external",
-            },
-          ],
         }
       } else {
         return {}
