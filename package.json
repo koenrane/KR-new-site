@@ -16,7 +16,8 @@
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
-    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1"
+    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
+    "postinstall": "patch-package"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,scss,json}": "prettier --write",
@@ -161,7 +162,9 @@
     "markdown-it": "^14.1.0",
     "markdown-it-emphasis-alt": "^1.0.8",
     "p-queue": "^8.0.1",
+    "patch-package": "^8.0.0",
     "playwright": "^1.48.0",
+    "postinstall-postinstall": "^2.1.0",
     "preact": "^10.24.0",
     "prettier": "3.3.3",
     "prettier-plugin-sh": "^0.14.0",
