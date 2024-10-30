@@ -1,12 +1,14 @@
 ---
-title: "TurnTrout's website: Come relax by The Pond!"
-permalink: announcing-the-pond
+title: "Site launch: Come relax by The Pond!"
+permalink: launch
 publish: true
-description: 
+description: Celebrating the publicization of the website after months of work.
 aliases:
   - relax-by-the-pond
   - website-launch
   - launch
+  - welcome-to-the-pond
+  - announcing-the-pond
 tags:
   - website
   - personal
@@ -24,7 +26,7 @@ For months, I have built a new home for my online content: [`www.turntrout.com`]
 ![](https://assets.turntrout.com/static/pond.gif) 
 Figure: I commissioned this GIF for $270.94. I paid a bit extra to ensure the goose honks twice. 
 
-I don't want to be on LessWrong any more. Briefly, the site - and parts of the rationality community - don't meet my standards for discourse, truth-seeking, charity, and community health. For the most part, I'll elaborate my concerns another time. This is a happy post. ❤️  
+I don't want to be on LessWrong anymore. Briefly, the site - and parts of the rationality community - don't meet my standards for discourse, truth-seeking, charity, and community health. For the most part, I'll elaborate my concerns another time. This is a happy post. ❤️  
 
 # Inspiration for the website
 
@@ -48,19 +50,21 @@ I hope this site encourages me to write more. I miss writing and sharing. I miss
 I've imported and remastered all 120 of my LessWrong posts. _Every single post_, retouched and detailed. I both [pin down my favorite posts](/posts#my-favorite-posts) and [group the posts into sequences](/posts#sequences). I've also launched the site with three extra posts! Brand new content! 🎉 
 1. [Gradient routing: Masking gradients to localize computation in neural networks](/gradient-routing)
 2. [Can transformers act on information beyond an effective layer horizon?](/effective-layer-horizon)
-3. [Intrinsic power-seeking:AI might seek power for power's sake](/dangers-of-intrinsic-power-seeking) 
+3. [Intrinsic power-seeking: AI might seek power for power's sake](/dangers-of-intrinsic-power-seeking) 
 
 The [research page](/research) summarizes my past and present research interests, along with short retrospectives on the older areas. 
 
 ## My dating doc!
 
-I want to UNFINISHED
+Like any good trout seeking a mate, I've prepared my nesting grounds with care. While (female) trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my [dating doc](/date-me).[^trout]
+
+[^trout]: I'm not a marine biologist. I looked around and gave the trout mating claims a quick check - they don't seem obviously wrong. 
 
 # Transparency in reasoning and predicting
-I've [quite had enough of the loose analogical reasoning which permeates the "rationalist" community's AI risk arguments](/danger-of-suggestive-terminology). But criticism is cheap. I want to hold myself to my own high standards.
+I've [criticized the loose analogical reasoning which permeates the "rationalist" community's AI risk arguments](/danger-of-suggestive-terminology). But criticism is cheap. I hold myself to my own high standards.
 
 > [!quote] Theodore Roosevelt
-> Subtitle: ["Citizenship In A Republic"; delivered at the Sorbonne, in Paris, France on 23 April, 1910](https://en.wikipedia.org/wiki/Citizenship_in_a_Republic)
+> Subtitle: ["Citizenship In A Republic"; delivered at the Sorbonne on 23 April, 1910](https://en.wikipedia.org/wiki/Citizenship_in_a_Republic)
 > 
 > The poorest way to face life is to face it with a sneer. There are many men who feel a kind of twister pride in cynicism; there are many who confine themselves to criticism of the way others do what they themselves dare not even attempt. There is no more unhealthy being, no man less worthy of respect, than he who either really holds, or feigns to hold, an attitude of sneering disbelief toward all that is great and lofty, whether in achievement or in that noble effort which, even if it fails, comes to second achievement. A cynical habit of thought and speech, a readiness to criticize work which the critic himself never tries to perform, an intellectual aloofness which will not accept contact with life's realities - all these are marks, not as the possessor would fain to think, of superiority but of weakness. They mark the men unfit to bear their part painfully in the stern strife of living, who seek, in the affection of contempt for the achievements of others, to hide from others and from themselves in their own weakness. The rôle is easy; there is none easier, save only the rôle of the man who sneers alike at both criticism and performance.
 > 
@@ -69,7 +73,7 @@ I've [quite had enough of the loose analogical reasoning which permeates the "ra
 I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mis-predictions. 
 
 ## Bounty for bad analogies I've made since 2022
-Analogies can be useful; analogies can be deadly. For an analogy to be appropriate, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators, and so by "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
+Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By "reasoning" using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
  ![](computer-analogy.png)
  
  However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? I think that I am more careful - and that I have been for a while.
@@ -92,13 +96,20 @@ Analogies can be useful; analogies can be deadly. For an analogy to be appropria
 </figure>
 
 
-Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) - where the edit history can be inspected. While not a perfect tamper-proof log of my edits over time[^hash], GitHub provides basic transparency and assurance. 
+Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) - where the edit history can be inspected. While not a perfect tamper-proof log of my edits[^hash], GitHub provides basic transparency and assurance. 
 
 ## Fatebook prediction tracking
 
 <iframe src="https://fatebook.io/embed/q/are-you-going-to-like-turntrout-com---cm2u10nym00029cc3j1h05pot?compact=true&requireSignIn=false" height="200"></iframe>
 
+By embedding [`Fatebook.io`](https://fatebook.io) predictions, I get the benefits of [PredictionBook](https://predictionbook.com/) without the clunkiness. Fatebook embeds show how my beliefs change over time and overall encourage me to ✨make more falsifiable predictions✨. After all, what's shinier than a well-styled embed containing a falsifiable prediction? 
 
+# The future
+Over the last few years, my life has lost a certain touch of magic - a touch of _aspiration to do better_ and of _excitement to not be doing it alone._ 
 
+> [!quote] [A sense that more is possible](https://www.lesswrong.com/posts/Nu3wa6npK4Ry66vFp/a-sense-that-more-is-possible)
+> there was first the aspiration, the [wish to become stronger](http://www.overcomingbias.com/2007/03/tsuyoku_naritai.html), a sense that more was possible.  A vision of a speed and grace and strength that they did not already possess, but _could_ possess, _if_ they were willing to put in a lot of work, that drove them to systematize and train and test.
+
+I will speak more of this de-magicking. For now, I say: May this site bring back a touch of magic. 
 
 [^hash]: I might want to use [linked timestamping](https://en.wikipedia.org/wiki/Linked_timestamping) to provide you with cryptographic assurance that I am not fudging my tracks to cover embarrassing mis-predictions. But I have _so_ many other to-do's for the website.

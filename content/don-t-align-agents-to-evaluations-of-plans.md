@@ -46,9 +46,9 @@ date_updated: *id001
 > [!info]
 > This post is another stab at explaining [_Don't design agents which exploit adversarial inputs_](/dont-design-agents-which-exploit-adversarial-inputs).
 
-### More precise title: "Don't try directing a superintelligence to maximize your valuations of their plans using a consequentialist procedure"
 
 After asking several readers for their understandings, I think that I didn't successfully communicate my points to many readers. I'm now trying again, because I think these points are deeply important. In particular, I think that my arguments rule out many target AI motivational structures, including [approval-directed agents](https://www.alignmentforum.org/posts/7Hr8t6xwuuxBTqADK/approval-directed-agents-1) (over a rich action space), [approval-based amplification](https://www.lesswrong.com/posts/fRsjBseRuvRhMPPE5/an-overview-of-11-proposals-for-building-safe-advanced-ai#4__Approval_based_amplification___relaxed_adversarial_training) (if the trained agent is supposed to be terminally motivated by the amplified overseer's ratings), and [some kinds](https://ordinaryideas.wordpress.com/2012/04/21/indirect-normativity-write-up/) of indirect normativity.
+
 
 ---
 
@@ -79,6 +79,8 @@ After asking several readers for their understandings, I think that I didn't suc
 > 2.  Grader-optimization _is_ [_not_](https://www.lesswrong.com/posts/jFCK9JRLwkoJX4aJA/don-t-design-agents-which-exploit-adversarial-inputs?commentId=dmcnGzYNifZcLrQ3h#comments) _about the actor physically tampering with e.g. the plan-diamondness calculator._ The grading rule can be, "How highly would Albert Einstein rate this plan if he thought about it for a while?". Albert Einstein doesn't have to be alive in reality for that.
 
 # Grader-optimization doesn't seem sensible
+
+Subtitle: Don't try directing a superintelligence to maximize your valuations of their plans using a consequentialist procedure
 
 I'm going to try saying things and hope to make something land. While I'll mostly discuss grader-optimization, I'll sometimes discuss related issues with argmax’ing over all plans.
 

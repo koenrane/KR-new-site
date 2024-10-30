@@ -393,7 +393,7 @@ After a while, his thoughts regained a bit of order—they waited their turn ins
 
 He knew he was just a kid, but that couldn't explain all of his mistakes. There had been adults there, too, and so maybe his foolishness wouldn't just go away as he grew up. Maybe he'd stay stupid, and maybe more people would get hurt.
 
-_I have to get smarter. I have to. I can't afford to be stupid. I won't be stupid any more. I have to get smarter._
+_I have to get smarter. I have to. I can't afford to be stupid. I won't be stupid anymore. I have to get smarter._
 
 _I have to._
 
