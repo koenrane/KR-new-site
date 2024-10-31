@@ -40,7 +40,7 @@ Figure: The site is most beautiful on the desktop. For example, the desktop enab
 
 Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). While I appreciate `gwern`'s site, I didn't actively consult it for design - though it did inspire the dropcaps and hover previews for internal links. 
 
-The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond), inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of this website's design was by my own taste.
+The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond) - that choice inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of this website's design was by my own taste.
 
 
 ![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
@@ -109,7 +109,9 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
 
-Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). However, suppose I write embarrassing statement $X$ (I know this may be hard to imagine, but imagine anyways). $X$ hashes to $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)).[^second] [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` history.[^caveat]
+Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). 
+
+However, suppose I write embarrassing statement $X$ (I know this may be hard to imagine, but imagine anyways). $X$ hashes to $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)).[^second] [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` history.[^caveat]
 
 [^second]: Not only would I need to find a second preimage for $\mathrm{hash(X)}$, I'd need to deal with the fact that the later commits hash the prior commits (and so would require an entire chain of fakery).
 
