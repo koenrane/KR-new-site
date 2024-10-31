@@ -52,16 +52,8 @@ const isLocalUrl = (href: string) => {
   } catch {
     // ignore
   }
+  console.info("isLocalUrl", href, false)
   return false
-}
-
-/**
- * Determines if a URL points to the same page (same origin and path)
- */
-const isSamePage = (url: URL): boolean => {
-  const sameOrigin = url.origin === window.location.origin
-  const samePath = url.pathname === window.location.pathname
-  return sameOrigin && samePath
 }
 
 /**
@@ -119,16 +111,15 @@ let p: DOMParser
  * 4. Updates browser history
  * 5. Manages page title and announcements
  */
-async function navigate(url: URL, isBack = false) {
+async function navigate(url: URL) {
   p = p || new DOMParser()
 
   // Save current scroll position before navigation
-  if (!isBack) {
-    saveScrollPosition(window.location.toString())
-  }
+  saveScrollPosition(window.location.toString())
   history.pushState({}, "", url)
 
   if (url.hash) {
+    // AKA the anchor
     scrollToHash(url.hash)
   }
 
@@ -189,10 +180,9 @@ async function navigate(url: URL, isBack = false) {
   const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
   elementsToRemove.forEach((el) => el.remove())
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
-  elementsToAdd.forEach((el) => document.head.appendChild(el))
+  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
 
-  // Swap critical styles after index.css is loaded
-  swapCriticalStyles()
+  removeCriticalStyles()
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
@@ -207,42 +197,33 @@ window.spaNavigate = navigate
  */
 function createRouter() {
   if (typeof window !== "undefined") {
-    window.addEventListener("click", async (event) => {
+    document.addEventListener("click", async (event) => {
       const { url } = getOpts(event) ?? {}
       // dont hijack behaviour, just let browser act normally
-      if (!url || event.ctrlKey || event.metaKey) return
+      if (!url || (event as MouseEvent).ctrlKey || (event as MouseEvent).metaKey) return
       event.preventDefault()
 
-      if (isSamePage(url) && url.hash) {
-        const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-        el?.scrollIntoView()
-        history.pushState({}, "", url)
-        return
-      }
-
       try {
-        navigate(url, false)
+        navigate(url)
       } catch {
         window.location.assign(url)
       }
     })
-
-    window.addEventListener("popstate", (event) => {
-      const { url } = getOpts(event) ?? {}
-      if (window.location.hash && window.location.pathname === url?.pathname) return
+    window.addEventListener("popstate", () => {
       try {
-        navigate(new URL(window.location.toString()), true)
-      } catch {
+        console.info("popstate", window.location.toString())
+        navigate(new URL(window.location.toString()))
+      } catch (error) {
+        console.error("Navigation error:", error)
         window.location.reload()
       }
-      return
     })
   }
 
   return new (class Router {
     go(pathname: RelativeURL) {
       const url = new URL(pathname, window.location.toString())
-      return navigate(url, false)
+      return navigate(url)
     }
 
     back() {
@@ -293,21 +274,6 @@ if (window.location.hash) {
 }
 
 /**
- * Removes the critical CSS after ensuring that index.css is loaded
- */
-function swapCriticalStyles() {
-  const indexCSS = document.querySelector('link[href="/index.css"]') as HTMLLinkElement | null
-
-  if (indexCSS?.rel === "stylesheet") {
-    // index.css is already loaded, remove critical CSS immediately
-    removeCriticalStyles()
-  } else {
-    // index.css is not loaded yet, wait for it to load before removing critical CSS
-    indexCSS?.addEventListener("load", removeCriticalStyles, { once: true })
-  }
-}
-
-/**
  * Removes the critical style tags from the head
  */
 function removeCriticalStyles() {
@@ -318,4 +284,5 @@ function removeCriticalStyles() {
   }
 
   criticalStyles[0].remove()
+  console.info("Removed critical styles from spa.inline.ts")
 }

@@ -114,7 +114,9 @@ export default (() => {
           rel="preload"
           href="/index.css"
           as="style"
-          onLoad={"this.rel = 'stylesheet'; document.querySelector('head style')?.remove()" as any}
+          onLoad={
+            "this.rel = 'stylesheet'; document.querySelector('head style')?.remove(); console.info('Removed critical styles from onLoad')" as any
+          }
           spa-preserve
         />
 
