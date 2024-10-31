@@ -76,13 +76,18 @@ li[id^="user-content-fn-"] {
   }
 }
 
-// When scrolling back to a footnote, scroll up farther than default
 a[id*="fnref-"] {
+  // When scrolling back to a footnote, scroll up farther than default
   scroll-margin-top: calc(2 * $baseMargin);
-
   @media all and (max-width: $fullPageWidth) {
     scroll-margin-top: calc(7 * $baseMargin);
   }
+
+  // Footnotes should be a bit easier to see
+  background-color: color-mix(in srgb, gray 10%, transparent);
+  padding: 0 0.1rem;
+  border-radius: 5px;
+  line-height: var(--lineHeight);
 }
 
 em {
