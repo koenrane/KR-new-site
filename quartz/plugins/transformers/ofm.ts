@@ -1,6 +1,6 @@
 import { QuartzTransformerPlugin } from "../types"
 import { Root, Html, BlockContent, Paragraph } from "mdast"
-import { Element, Literal, Root as HtmlRoot, ElementContent } from "hast"
+import { Element, Root as HtmlRoot, ElementContent } from "hast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { slug as slugAnchor } from "github-slugger"
 import rehypeRaw from "rehype-raw"
@@ -154,6 +154,69 @@ const mdastToHtml = (ast: PhrasingContent | Paragraph) => {
   return toHtml(hast, { allowDangerousHtml: true })
 }
 
+export function processWikilink(value: string, ...capture: string[]): PhrasingContent | null {
+  const [filePath, blockRef, alias] = capture
+  const fp = filePath?.trim() ?? ""
+  const ref = blockRef?.trim() ?? ""
+  // Remove the leading | from the alias if it exists
+  const displayAlias = alias ? alias.slice(1).trim() : undefined
+
+  if (value.startsWith("!")) {
+    // Get lowercase file extension and slugified path
+    const ext: string = path.extname(fp).toLowerCase()
+    const url = slugifyFilePath(fp as FilePath)
+    if ([".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp"].includes(ext)) {
+      const match = wikilinkImageEmbedRegex.exec(alias ?? "")
+      // Don't use the raw alias as alt text when dimensions are specified
+      const width = match?.groups?.width ?? "auto"
+      const height = match?.groups?.height ?? "auto"
+      const specifiedDimensions = width !== "auto" || height !== "auto"
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
+      return {
+        type: "image",
+        url,
+        data: {
+          hProperties: {
+            width,
+            height,
+            alt,
+          },
+        },
+      }
+    } else if ([".mp4", ".webm", ".ogv", ".mov", ".mkv"].includes(ext)) {
+      return {
+        type: "html",
+        value: `<video src="${url}" controls></video>`,
+      }
+    } else if ([".mp3", ".webm", ".wav", ".m4a", ".ogg", ".3gp", ".flac"].includes(ext)) {
+      return {
+        type: "html",
+        value: `<audio src="${url}" controls></audio>`,
+      }
+    } else if ([".pdf"].includes(ext)) {
+      return {
+        type: "html",
+        value: `<iframe src="${url}"></iframe>`,
+      }
+    } else {
+      return {
+        type: "html",
+        data: { hProperties: { transclude: true } },
+        value: `<blockquote class="transclude" data-url="${url}" data-block="${ref}"><a href="${url}${ref}" class="transclude-inner">${
+          displayAlias ?? `Transclude of ${url}${ref}`
+        }</a></blockquote>`,
+      }
+      // otherwise, fall through to regular link
+    }
+  }
+
+  return {
+    type: "link",
+    url: `${fp}${ref}`,
+    children: [{ type: "text", value: displayAlias ?? fp }],
+  }
+}
+
 export function markdownPlugins(opts: Options): PluggableList {
   const plugins: PluggableList = []
 
@@ -163,77 +226,7 @@ export function markdownPlugins(opts: Options): PluggableList {
       const replacements: [RegExp, string | ReplaceFunction][] = []
 
       if (opts.wikilinks) {
-        replacements.push([
-          wikilinkRegex,
-          (value: string, ...capture: string[]) => {
-            const [rawFp, rawHeader, rawAlias] = capture
-            const fp = rawFp?.trim() ?? ""
-            const anchor = rawHeader?.trim() ?? ""
-            const alias = rawAlias?.slice(1).trim()
-
-            // embed cases
-            if (value.startsWith("!")) {
-              const ext: string = path.extname(fp).toLowerCase()
-              const url = slugifyFilePath(fp as FilePath)
-              if ([".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp"].includes(ext)) {
-                const match = wikilinkImageEmbedRegex.exec(alias ?? "")
-                const alt = match?.groups?.alt ?? ""
-                const width = match?.groups?.width ?? "auto"
-                const height = match?.groups?.height ?? "auto"
-                return {
-                  type: "image",
-                  url,
-                  data: {
-                    hProperties: {
-                      width,
-                      height,
-                      alt,
-                    },
-                  },
-                }
-              } else if ([".mp4", ".webm", ".ogv", ".mov", ".mkv"].includes(ext)) {
-                return {
-                  type: "html",
-                  value: `<video src="${url}" controls></video>`,
-                }
-              } else if ([".mp3", ".webm", ".wav", ".m4a", ".ogg", ".3gp", ".flac"].includes(ext)) {
-                return {
-                  type: "html",
-                  value: `<audio src="${url}" controls></audio>`,
-                }
-              } else if ([".pdf"].includes(ext)) {
-                return {
-                  type: "html",
-                  value: `<iframe src="${url}"></iframe>`,
-                }
-              } else {
-                const block = anchor
-                return {
-                  type: "html",
-                  data: { hProperties: { transclude: true } },
-                  value: `<blockquote class="transclude" data-url="${url}" data-block="${block}"><a href="${
-                    url + anchor
-                  }" class="transclude-inner">Transclude of ${url}${block}</a></blockquote>`,
-                }
-              }
-
-              // otherwise, fall through to regular link
-            }
-
-            // internal link
-            const url = fp + anchor
-            return {
-              type: "link",
-              url,
-              children: [
-                {
-                  type: "text",
-                  value: alias ?? fp,
-                },
-              ],
-            }
-          },
-        ])
+        replacements.push([wikilinkRegex, processWikilink])
       }
 
       if (opts.highlight) {
@@ -571,69 +564,24 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       if (opts.parseBlockReferences) {
         plugins.push(() => {
-          const inlineTagTypes = new Set(["p", "li"])
-          const blockTagTypes = new Set(["blockquote"])
           return (tree: HtmlRoot, file) => {
-            file.data.blocks = {}
+            if (!file.data.blocks) {
+              file.data.blocks = {}
+            }
 
-            visit(tree, "element", (node, index, parent) => {
-              if (blockTagTypes.has(node.tagName)) {
-                const nextChild = parent?.children.at(index! + 2) as Element
-                if (nextChild && nextChild.tagName === "p") {
-                  const text = nextChild.children.at(0) as Literal
-                  if (text?.value && text.type === "text") {
-                    const matches = text.value.match(blockReferenceRegex)
-                    if (matches && matches.length >= 1) {
-                      parent!.children.splice(index! + 2, 1)
-                      const block = matches[0].slice(1)
-
-                      if (!Object.keys(file.data.blocks!).includes(block)) {
-                        node.properties = {
-                          ...node.properties,
-                          id: block,
-                        }
-                        file.data.blocks![block] = node
-                      }
-                    }
-                  }
-                }
-              } else if (inlineTagTypes.has(node.tagName)) {
-                const last = node.children.at(-1) as Literal
-                if (last?.value && typeof last.value === "string") {
+            visit(tree, "element", (node) => {
+              if (node.tagName === "p" || node.tagName === "li") {
+                const last = node.children.at(-1)
+                if (last?.type === "text" && typeof last.value === "string") {
                   const matches = last.value.match(blockReferenceRegex)
                   if (matches && matches.length >= 1) {
-                    last.value = last.value.slice(0, -matches[0].length)
-                    const block = matches[0].slice(1)
-
-                    if (last.value === "") {
-                      // this is an inline block ref but the actual block
-                      // is the previous element above it
-                      let idx = (index ?? 1) - 1
-                      while (idx >= 0) {
-                        const element = parent?.children.at(idx)
-                        if (!element) break
-                        if (element.type !== "element") {
-                          idx -= 1
-                        } else {
-                          if (!Object.keys(file.data.blocks!).includes(block)) {
-                            element.properties = {
-                              ...element.properties,
-                              id: block,
-                            }
-                            file.data.blocks![block] = element
-                          }
-                          return
-                        }
+                    const blockId = matches[0].slice(1)
+                    if (!file.data.blocks![blockId]) {
+                      node.properties = {
+                        ...node.properties,
+                        id: blockId,
                       }
-                    } else {
-                      // normal paragraph transclude
-                      if (!Object.keys(file.data.blocks!).includes(block)) {
-                        node.properties = {
-                          ...node.properties,
-                          id: block,
-                        }
-                        file.data.blocks![block] = node
-                      }
+                      file.data.blocks![blockId] = node
                     }
                   }
                 }
