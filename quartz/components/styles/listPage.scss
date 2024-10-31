@@ -40,3 +40,22 @@ li.section-li {
     display: none;
   }
 }
+
+// AllTagsContent.tsx
+.all-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.tag-container {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.tag-count {
+  color: var(--gray);
+  font-size: 0.9em;
+}

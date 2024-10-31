@@ -146,9 +146,8 @@ const config: QuartzConfig = {
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
       Plugin.FolderPage(),
-
-      // emits dedicated pages for each tag used in the content
       Plugin.TagPage(),
+      Plugin.AllTagsPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
