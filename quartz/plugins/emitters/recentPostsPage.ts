@@ -3,7 +3,7 @@ import { QuartzComponentProps } from "../../components/types"
 import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, FullSlug } from "../../util/path"
+import { FilePath, FullSlug, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { write } from "./helpers"
 import DepGraph from "../../depgraph"
@@ -33,7 +33,7 @@ export const RecentPostsPage: QuartzEmitterPlugin = () => {
     },
     async emit(ctx, content: ProcessedContent[], resources: StaticResources): Promise<FilePath[]> {
       const slug = "recent" as FullSlug
-      const externalResources = pageResources(slug, resources)
+      const externalResources = pageResources(pathToRoot(slug), resources)
       const [tree, file] = defaultProcessedContent({
         slug,
         frontmatter: { title: "Recent Posts", tags: ["website"], aliases: ["recent-posts", "new"] },

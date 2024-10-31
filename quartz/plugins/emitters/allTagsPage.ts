@@ -3,7 +3,7 @@ import { QuartzComponentProps } from "../../components/types"
 import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, FullSlug } from "../../util/path"
+import { FilePath, FullSlug, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import AllTagsContent from "../../components/pages/AllTagsContent"
 import { write } from "./helpers"
@@ -33,7 +33,7 @@ export const AllTagsPage: QuartzEmitterPlugin = () => {
     },
     async emit(ctx, content: ProcessedContent[], resources: StaticResources): Promise<FilePath[]> {
       const slug = "all-tags" as FullSlug
-      const externalResources = pageResources(slug, resources)
+      const externalResources = pageResources(pathToRoot(slug), resources)
       const [tree, file] = defaultProcessedContent({
         slug,
         frontmatter: { title: "All Tags", tags: ["website"] },
