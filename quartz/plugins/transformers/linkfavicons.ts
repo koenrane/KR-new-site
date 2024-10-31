@@ -2,7 +2,7 @@ import { visit } from "unist-util-visit"
 import { createLogger } from "./logger_utils"
 import { Readable } from "stream"
 import { ReadableStream } from "stream/web"
-import { Element, Root, Text } from "hast"
+import { Element, Root, Text, Parent } from "hast"
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -18,6 +18,7 @@ export const LESSWRONG_FAVICON_PATH =
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
+export const ANCHOR_PATH = "https://assets.turntrout.com/static/images/anchor.svg"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -303,7 +304,7 @@ export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element |
  * @param node - The node to modify.
  * @returns A Promise that resolves when the modification is complete.
  */
-export async function ModifyNode(node: Element): Promise<void> {
+export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
   logger.info(`Modifying node: ${node.tagName}`)
   if (node.tagName !== "a" || !node.properties.href) {
     logger.debug("Node is not an anchor or has no href, skipping")
@@ -325,7 +326,13 @@ export async function ModifyNode(node: Element): Promise<void> {
 
   const isInternalBody = href.startsWith("#")
   if (isInternalBody) {
-    // Append same-page-link to class list
+    if (
+      href.startsWith("#user-content-fn") || // Footnote links
+      isHeading(parent as Element) // Links inside headings
+    ) {
+      return
+    }
+
     if (typeof node.properties.className === "string") {
       node.properties.className += " same-page-link"
     } else if (Array.isArray(node.properties.className)) {
@@ -333,6 +340,8 @@ export async function ModifyNode(node: Element): Promise<void> {
     } else {
       node.properties.className = ["same-page-link"]
     }
+
+    insertFavicon(ANCHOR_PATH, node)
     return
   }
 
@@ -390,17 +399,22 @@ export const AddFavicons = () => {
         () => {
           return async (tree: Root) => {
             logger.info("Starting favicon processing")
-            const nodesToProcess: Element[] = []
+            const nodesToProcess: [Element, Parent][] = []
 
-            visit(tree, "element", (node: Element) => {
-              if (node.tagName === "a" && node.properties.href) {
-                logger.debug(`Found anchor node: ${node.properties.href}`)
-                nodesToProcess.push(node)
-              }
-            })
+            visit(
+              tree,
+              "element",
+              (node: Element, _index: number | undefined, parent: Parent | undefined) => {
+                if (!parent) return
+                if (node.tagName === "a" && node.properties.href) {
+                  logger.debug(`Found anchor node: ${node.properties.href}`)
+                  nodesToProcess.push([node, parent])
+                }
+              },
+            )
 
             logger.info(`Processing ${nodesToProcess.length} nodes`)
-            await Promise.all(nodesToProcess.map(ModifyNode))
+            await Promise.all(nodesToProcess.map(([node, parent]) => ModifyNode(node, parent)))
             logger.info("Finished processing favicons")
 
             writeCacheToFile()
@@ -409,4 +423,8 @@ export const AddFavicons = () => {
       ]
     },
   }
+}
+
+export function isHeading(node: Element): boolean {
+  return !!node.tagName?.match(/^h[1-6]$/)
 }
