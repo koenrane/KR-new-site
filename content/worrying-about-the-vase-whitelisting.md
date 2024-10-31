@@ -137,7 +137,7 @@ Basically, the dissimilarity for an observed change is the distance to the close
 
 Whitelisting asserts that we can effectively encapsulate a large part of what "change" means by using a reasonable ontology to penalize object-level changes. We thereby ground the definition of "side effect", avoiding certain thorny issues.
 
-> [!quote] [Taylor et al.](https://intelligence.org/2016/07/27/alignment-machine-learning/):
+> [!quote] [Taylor et al.](https://intelligence.org/2016/07/27/alignment-machine-learning/)
 > For example, if we ask \[the agent\] to build a house for a homeless family, it should know implicitly that it should avoid destroying nearby houses for materials - a large side effect. However, we cannot simply design it to avoid having large effects in general, since we would like the system's actions to still have the desirable large follow-on effect of improving the family's socioeconomic situation.
 
 Nonetheless, we may not be able to perfectly express what it means to have side-effects: the whitelist may be incomplete, the latent space insufficiently granular, and the allowed plans sub-optimal. However, the agent still becomes _more_ robust against:
