@@ -89,7 +89,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
               slug: joinSegments("tags", tag) as FullSlug,
               frontmatter: { title, tags: [] },
               description: description,
-              text: description,
+              text: "",
             }),
           ]
         }),

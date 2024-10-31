@@ -43,9 +43,6 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
     }
     return (
       <div className={classes}>
-        <article>
-          <p>{content}</p>
-        </article>
         <div>
           {tags.map((tag) => {
             const pages = tagItemMap.get(tag ?? "")!

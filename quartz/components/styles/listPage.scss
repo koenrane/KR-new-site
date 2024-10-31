@@ -47,6 +47,11 @@ li.section-li {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin: 1rem 0;
+
+  // Make the tag container look like a card
+  background-color: var(--lightestgray);
+  border-radius: 5px;
+  padding: 15px;
 }
 
 .tag-container {
@@ -58,4 +63,37 @@ li.section-li {
 .tag-count {
   color: var(--gray);
   font-size: 0.9em;
+}
+
+// RecentPosts.tsx
+.page-listing {
+  margin-top: calc(2 * $baseMargin);
+
+  & .tags {
+    margin-bottom: 0;
+  }
+
+  & h1 a,
+  h2 a,
+  h3 a,
+  h4 a,
+  h5 a,
+  h6 a {
+    text-decoration: none;
+  }
+
+  & .section-li {
+    margin-bottom: calc($baseMargin);
+    &:not(:first-child) {
+      margin-top: calc($baseMargin);
+    }
+    & a.tag-link {
+      margin-right: $baseMargin;
+      display: inline;
+    }
+  }
+
+  & hr {
+    margin: $baseMargin 0;
+  }
 }

@@ -39,57 +39,49 @@ export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit }: Pr
 
   return (
     <ul className="section-ul">
-      {list.map((page) => {
+      {list.map((page, index) => {
         const title = page.frontmatter?.title
         let tags = page.frontmatter?.tags ?? []
         tags = tags.sort((a, b) => b.length - a.length)
 
         return (
-          <li className="section-li" key={page.slug}>
-            <div className="section">
-              {page.dates && (
-                <p className="meta">
-                  <DateElement
-                    cfg={cfg}
-                    fileData={page}
-                    monthFormat="short"
-                    includeOrdinalSuffix={false}
-                  />
-                </p>
-              )}
-              <div className="desc">
-                <h3>
-                  <a href={resolveRelative(fileData.slug!, page.slug!)} className="internal">
-                    {title}
-                  </a>
-                </h3>
-                <ul className="tags">
-                  {tags.map((tag) => (
-                    <a
-                      key={tag}
-                      className="internal tag-link"
-                      style="width:200%"
-                      href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                    >
-                      {formatTag(tag)}
+          <>
+            <li className="section-li" key={page.slug}>
+              <div className="section">
+                {page.dates && (
+                  <p className="meta">
+                    <DateElement
+                      cfg={cfg}
+                      fileData={page}
+                      monthFormat="short"
+                      includeOrdinalSuffix={false}
+                    />
+                  </p>
+                )}
+                <div className="desc">
+                  <p>
+                    <a href={resolveRelative(fileData.slug!, page.slug!)} className="internal">
+                      {title}
                     </a>
-                  ))}
-                </ul>
+                  </p>
+                  <ul className="tags">
+                    {tags.map((tag) => (
+                      <a
+                        key={tag}
+                        className="internal tag-link"
+                        href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
+                      >
+                        {formatTag(tag)}
+                      </a>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          </li>
+            </li>
+            {index < list.length - 1 && <hr className="page-divider" />}
+          </>
         )
       })}
     </ul>
   )
 }
-
-PageList.css = `
-.section h3 {
-  margin: 0;
-}
-
-.section > .tags {
-  margin: 0;
-}
-`

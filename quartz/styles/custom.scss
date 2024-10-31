@@ -241,29 +241,6 @@ a {
   }
 }
 
-.page-listing {
-  & h1 a,
-  h2 a,
-  h3 a,
-  h4 a,
-  h5 a,
-  h6 a {
-    text-decoration: none;
-  }
-
-  & .section-li {
-    padding-bottom: calc(2 * $baseMargin);
-    &:not(:first-child) {
-      padding-top: calc(2 * $baseMargin);
-      border-top: 1px solid var(--lightgray);
-    }
-    & a.tag-link {
-      margin-right: $baseMargin;
-      display: inline;
-    }
-  }
-}
-
 .footnotes ul,
 .footnotes ol {
   margin-top: $baseMargin;
@@ -600,7 +577,7 @@ svg.fold-icon {
 .tags {
   color: var(--gray);
   list-style: none;
-  display: inline-block;
+  display: block;
   padding-left: 0;
   padding-right: $baseMargin;
   overflow-wrap: normal;
@@ -646,7 +623,7 @@ hr {
 
 a.internal.tag-link {
   font-family: var(--font-monospace);
-  font-size: 0.71em;
+  font-size: var(--text-size-80);
 }
 
 .authors {
