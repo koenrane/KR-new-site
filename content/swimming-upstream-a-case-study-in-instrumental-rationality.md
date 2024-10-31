@@ -1,28 +1,29 @@
 ---
 permalink: swimming-upstream
-lw-was-draft-post: 'false'
-lw-is-af: 'false'
-lw-is-debate: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "false"
+lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstream-a-case-study-in-instrumental-rationality
-lw-is-question: 'false'
+lw-is-question: "false"
 lw-posted-at: 2018-06-03T03:16:21.613000Z
 lw-last-modification: None
 lw-curation-date: None
 lw-frontpage-date: 2018-06-14T09:54:24.275000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 7
 lw-base-score: 76
 lw-vote-count: 48
 af-base-score: 18
 af-num-comments-on-upload: 0
 publish: true
-title: 'Swimming Upstream: A Case Study in Instrumental Rationality'
+title: "Swimming Upstream: A Case Study in Instrumental Rationality"
 lw-latest-edit: 2018-06-03T03:16:21.613000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 tags:
   - practical
   - growth-stories
+  - personal
 aliases:
   - swimming-upstream-a-case-study-in-instrumental-rationality
 lw-sequence-title: Becoming Stronger
@@ -32,15 +33,13 @@ sequence-link: posts#becoming-stronger
 prev-post-slug: first-analysis-textbook-review
 prev-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 next-post-slug: RL-textbook-review
-next-post-title: "Making a Difference Tempore: Insights from 'Reinforcement Learning:\
-  \ An Introduction'"
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+next-post-title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2018-06-03 00:00:00
 original_url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstream-a-case-study-in-instrumental-rationality
-skip_import: 'true'
-description: "I dove headfirst into AI safety, even at the risk of my PhD. This is\
-  \ how. "
+skip_import: "true"
+description: "I dove headfirst into AI safety, even at the risk of my PhD. This is how. "
 date_updated: 2024-10-30 18:09:31.133945
 ---
 

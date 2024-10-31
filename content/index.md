@@ -6,10 +6,13 @@ title: The Pond
 hide_title: "true"
 aliases:
   - index
+  - home
 hideSubscriptionLinks: true
 description: Writings on AI, self-improvement, and living a good life.
 date_published: 2024-10-27 19:14:04.653922
 date_updated: 2024-10-30 18:09:31.133945
+tags:
+  - website
 ---
 
 

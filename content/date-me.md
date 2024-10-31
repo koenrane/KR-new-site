@@ -8,6 +8,8 @@ card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 date_published: 2024-10-27 19:14:04.653922
 date_updated: 2024-10-30 18:09:31.133945
+tags:
+  - personal
 ---
 
 
