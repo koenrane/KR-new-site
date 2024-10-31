@@ -334,3 +334,36 @@ def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
     rss_path.write_text(invalid_rss_content)
     with pytest.raises(subprocess.CalledProcessError):
         check_rss_file_for_issues(temp_site_root, RSS_XSD_PATH)
+
+
+def test_check_unrendered_footnotes():
+    html = """
+    <html>
+    <body>
+        <p>Normal paragraph</p>
+        <p>Text with [^1] unrendered footnote</p>
+        <p>Another [^note] footnote reference</p>
+        <p>Not a [^] footnote</p>
+        <p>Regular [text] in brackets</p>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_footnotes(soup)
+    assert result == ["[^1]", "[^note]"]
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        ("<p>Text with [^1] footnote</p>", ["[^1]"]),
+        ("<p>Multiple [^1] [^2] footnotes</p>", ["[^1]", "[^2]"]),
+        ("<p>No footnotes here</p>", []),
+        ("<p>Not a [^] footnote</p>", []),
+        ("<p>Regular [text] in brackets</p>", []),
+    ],
+)
+def test_check_unrendered_footnotes_parametrized(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_footnotes(soup)
+    assert result == expected

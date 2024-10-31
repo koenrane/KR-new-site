@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import re
 from typing import List, Dict
 from pathlib import Path
 from bs4 import BeautifulSoup, Tag
@@ -34,6 +35,22 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
 def check_favicons_missing(soup: BeautifulSoup) -> bool:
     """Check if favicons are missing."""
     return soup.find("img", class_="favicon") is None
+
+
+def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for unrendered footnotes in the format [^something].
+    Returns a list of the footnote references themselves.
+    """
+    footnote_pattern = r"\[\^[a-zA-Z0-9-_]+\]"  # Matches [^1], [^note], [^note-1], etc.
+    unrendered_footnotes = []
+
+    for p in soup.find_all("p"):
+        matches = re.findall(footnote_pattern, p.text)
+        if matches:
+            unrendered_footnotes.extend(matches)
+
+    return unrendered_footnotes
 
 
 def check_invalid_anchors(
@@ -203,6 +220,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
         "unrendered_subtitles": check_unrendered_subtitles(soup),
+        "unrendered_footnotes": check_unrendered_footnotes(soup),
     }
     if "test-page" in file_path.name:
         issues["missing_favicon"] = check_favicons_missing(soup)

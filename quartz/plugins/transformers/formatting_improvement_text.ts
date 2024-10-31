@@ -7,7 +7,7 @@ import { QuartzTransformerPlugin } from "../types"
 import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)
-const footnoteSpacingRegex = /(\S) (\[\^.*?\])(?![:(]) ?/g
+const footnoteSpacingRegex = /(\S) (\[\^[^\]]+?\])(?![:(]) ?/g
 const footnoteSpacingReplacement = "$1$2 "
 
 // New regex for moving footnotes after punctuation

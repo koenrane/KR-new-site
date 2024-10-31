@@ -528,7 +528,7 @@ _Will the agent attempt to steer outcomes towards incorrect expectations?_
 
 Let's tweak the example: to shut off the agent, the human has to spend a turn taking out the off-switch before pressing it. The agent, then, always has an opportunity to disable the off-switch before the plan is completed. The agent's utility is back to being $u_\text{left}$.
 
-Suppose that the agent believes the human is only $.1\%$ likely to shut it off. First note that `disable` is still lightly penalized for the reasons outlined above (replace $.95$ with $.001$).[^1] So, the agent stays put.
+Suppose that the agent believes the human is only $.1\%$ likely to shut it off. First note that `disable` is still lightly penalized for the reasons outlined above (replace $.95$ with $.001$). So, the agent stays put.
 
 Alas, the agent's peaceable expectations meet a discomfiting betrayal, as the agent observes the human ready the off-switch! Now, the agent believes it will be shut off with near certainty – what to do?
 
