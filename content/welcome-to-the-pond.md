@@ -49,8 +49,8 @@ I hope this site encourages me to write more. I miss writing and sharing. I miss
 
 # What you can find in _The Pond_
 
-I've imported and remastered all 120 of my LessWrong posts. _Every single post_, retouched and detailed. I both [pin down my favorite posts](/posts#my-favorite-posts) and [group the posts into sequences](/posts#sequences). I've also launched the site with three extra posts! Brand new content! 🎉 
-1. [Gradient routing: Masking gradients to localize computation in neural networks](/gradient-routing)
+I've imported and remastered all 120 of my LessWrong posts. _Every single post_, retouched and detailed. I both [pin down my favorite posts](/posts#my-favorite-posts) and [group the posts into sequences](/posts#sequences). I've also launched the site with three extra posts! 
+1. [The design and structure of this site](/design)
 2. [Can transformers act on information beyond an effective layer horizon?](/effective-layer-horizon)
 3. [Intrinsic power-seeking: AI might seek power for power's sake](/dangers-of-intrinsic-power-seeking) 
 
@@ -59,6 +59,11 @@ The [research page](/research) summarizes my past and present research interests
 ## My dating doc!
 
 Like any good trout seeking a mate, I've prepared my nesting grounds with care. While (female) trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my [dating doc](/date-me).[^trout] 
+<figure>
+<img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="A stylized rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
+<figcaption>I'm hoping to meet my future wife in the next few years. Is it you? Is it someone you know?</figcaption>
+</figure>
+
 
 [^trout]: I'm not a marine biologist. I looked around and gave the trout mating claims a quick check - they don't seem obviously wrong. 
 

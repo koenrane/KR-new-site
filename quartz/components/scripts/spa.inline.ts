@@ -126,6 +126,7 @@ async function navigate(url: URL, isBack = false) {
   if (!isBack) {
     saveScrollPosition(window.location.toString())
   }
+  history.pushState({}, "", url)
 
   if (url.hash) {
     scrollToHash(url.hash)
@@ -193,10 +194,6 @@ async function navigate(url: URL, isBack = false) {
   // Swap critical styles after index.css is loaded
   swapCriticalStyles()
 
-  // Delay setting the URL until everything is loaded
-  if (!isBack) {
-    history.pushState({}, "", url)
-  }
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
 }

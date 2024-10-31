@@ -7,8 +7,6 @@ tags:
   - AI
   - instrumental-convergence
   - shard-theory
-date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-10-27 19:14:04.653922
 ---
 
 The world will change. We will not forever be playing around with chatbots. Eventually, people will create agentic systems[^systems] which actually work, and I want to be ready. Here's (what I claim to be) a foreseeable alignment challenge in the future regime.
