@@ -5,6 +5,7 @@ import {
   PopoverOptions,
   escapeLeadingIdNumber,
 } from "./popover_helpers"
+import { debounce } from "./util"
 
 /**
  * Handles the mouse enter event for link elements
@@ -95,6 +96,7 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
 document.addEventListener("nav", () => {
   const links = [...document.getElementsByClassName("internal")] as HTMLLinkElement[]
   for (const link of links) {
+    // Define handlers outside to ensure they can be removed
     let cleanup: (() => void) | undefined
 
     const handleMouseEnter = async () => {
@@ -106,7 +108,13 @@ document.addEventListener("nav", () => {
       if (cleanup) cleanup()
     }
 
-    link.addEventListener("mouseenter", handleMouseEnter)
+    // Remove existing event listeners to prevent duplicates
+    link.removeEventListener("mouseenter", handleMouseEnter)
+    link.removeEventListener("mouseleave", handleMouseLeave)
+
+    // Add event listeners
+    const debouncedMouseEnter = debounce(handleMouseEnter, 200, true)
+    link.addEventListener("mouseenter", debouncedMouseEnter)
     link.addEventListener("mouseleave", handleMouseLeave)
   }
 })

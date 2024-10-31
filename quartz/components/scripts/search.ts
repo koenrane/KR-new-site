@@ -1,7 +1,7 @@
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 import FlexSearch from "flexsearch"
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
-import { registerEscapeHandler, removeAllChildren } from "./util"
+import { registerEscapeHandler, removeAllChildren, debounce } from "./util"
 import { FullSlug, normalizeRelativeURLs, resolveRelative } from "../../util/path"
 
 interface Item {
@@ -476,42 +476,6 @@ export function setupSearch() {
             '<div class="preview-error" style="color: var(--red);">Error loading preview</div>'
         }
       }
-    }
-
-    /**
-     * Debounce function to limit the rate at which a function can fire.
-     * Allows immediate execution on the first call if `immediate` is true.
-     * @param func The function to debounce.
-     * @param wait The number of milliseconds to delay.
-     * @param immediate If true, trigger the function on the leading edge.
-     * @returns A debounced version of the passed function.
-     */
-    function debounce<F extends (...args: [KeyboardEvent]) => void>(
-      func: F,
-      wait: number,
-      immediate = false,
-    ): F {
-      let timeoutId: ReturnType<typeof setTimeout> | null = null
-      return function (this: Window, ...args: [KeyboardEvent]) {
-        const later = () => {
-          timeoutId = null
-          if (!immediate) {
-            func.apply(this, args)
-          }
-        }
-
-        const callNow = immediate && timeoutId === null
-
-        if (timeoutId !== null) {
-          clearTimeout(timeoutId)
-        }
-
-        timeoutId = setTimeout(later, wait)
-
-        if (callNow) {
-          func.apply(this, args)
-        }
-      } as F
     }
 
     async function onType(e: HTMLElementEventMap["input"]) {

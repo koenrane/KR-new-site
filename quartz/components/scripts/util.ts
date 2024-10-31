@@ -10,6 +10,42 @@ export function throttle(func: () => void, delay: number) {
   }
 }
 
+/**
+ * Debounce function to limit the rate at which a function can fire.
+ * Allows immediate execution on the first call if `immediate` is true.
+ * @param func The function to debounce.
+ * @param wait The number of milliseconds to delay.
+ * @param immediate If true, trigger the function on the leading edge.
+ * @returns A debounced version of the passed function.
+ */
+export function debounce<F extends (...args: [KeyboardEvent]) => void>(
+  func: F,
+  wait: number,
+  immediate = false,
+): F {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+  return function (this: Window, ...args: [KeyboardEvent]) {
+    const later = () => {
+      timeoutId = null
+      if (!immediate) {
+        func.apply(this, args)
+      }
+    }
+
+    const callNow = immediate && timeoutId === null
+
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId)
+    }
+
+    timeoutId = setTimeout(later, wait)
+
+    if (callNow) {
+      func.apply(this, args)
+    }
+  } as F
+}
+
 export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: () => void) {
   if (!outsideContainer) return
 
