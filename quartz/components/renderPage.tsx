@@ -66,16 +66,18 @@ export function renderPage(
 
   // process transcludes in componentData
   visit(root, "element", (node) => {
-    if (node.tagName === "blockquote") {
+    if (node.tagName === "span") {
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
-        const inner = node.children[0] as Element
-        const transcludeTarget = inner.properties["data-slug"] as FullSlug
+        const transcludeTarget = node.properties["dataUrl"] as FullSlug
+        console.log(node)
+        console.log(transcludeTarget)
         const page = componentData.allFiles.find((f) => f.slug === transcludeTarget)
         if (!page) {
           return
         }
 
+        const inner = node.children[0] as Element
         let blockRef = node.properties.dataBlock as string | undefined
         if (blockRef?.startsWith("#^")) {
           // block transclude
@@ -97,9 +99,7 @@ export function renderPage(
                 type: "element",
                 tagName: "a",
                 properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-                children: [
-                  { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-                ],
+                children: [],
               },
             ]
           }

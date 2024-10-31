@@ -202,9 +202,9 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       return {
         type: "html",
         data: { hProperties: { transclude: true } },
-        value: `<blockquote class="transclude" data-url="${url}" data-block="${ref}"><a href="${url}${ref}" class="transclude-inner">${
+        value: `<span class="transclude" data-url="${url}" data-block="${ref}"><a href="${url}${ref}" class="transclude-inner">${
           displayAlias ?? `Transclude of ${url}${ref}`
-        }</a></blockquote>`,
+        }</a></span>`,
       }
       // otherwise, fall through to regular link
     }
@@ -577,9 +577,12 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                   if (matches && matches.length >= 1) {
                     const blockId = matches[0].slice(1)
                     if (!file.data.blocks![blockId]) {
+                      // Remove the block reference from the text
+                      last.value = last.value.replace(blockReferenceRegex, "")
+
                       node.properties = {
                         ...node.properties,
-                        id: blockId,
+                        "data-block": blockId,
                       }
                       file.data.blocks![blockId] = node
                     }
