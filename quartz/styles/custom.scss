@@ -32,6 +32,11 @@ li[id^="user-content-fn-"] > * {
   }
 }
 
+// Ensure not too much margin before blockquote
+li > blockquote:first-child {
+  margin-top: $baseMargin;
+}
+
 .footnotes {
   & ul {
     margin-top: calc(2 * $baseMargin);
@@ -489,12 +494,19 @@ img.favicon {
 
   // These are really dark by default so we make them match var(--dark)
   &[src$="mail.svg"],
+  &[src$="anchor.svg"],
   &[src$="readthesequences_com.avif"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
+  }
+
+  // Rotate the anchor so that it resembles the trout within-site icon
+  // also flip it horizontally
+  &[src$="anchor.svg"] {
+    transform: rotate(-90deg) scaleX(-1) scale(1.2);
   }
 
   // Github should be lighter b/c starts off darker
