@@ -62,7 +62,13 @@ li.section-li {
 
 .tag-count {
   color: var(--gray);
-  font-size: 0.9em;
+  font-size: var(--text-size-90);
+}
+
+a.internal.tag-link {
+  font-family: var(--font-monospace);
+  font-size: var(--text-size-70);
+  margin: calc(0.25 * $baseMargin) 0;
 }
 
 // RecentPosts.tsx

@@ -11,7 +11,12 @@ export const RecentPosts: QuartzComponent = (props: QuartzComponentProps) => {
   return (
     <div className={classes}>
       <article>
-        <div className="page-listing" data-url="recent-posts-listing">
+        <div
+          className="page-listing"
+          id="recent-posts-listing"
+          data-url="recent-posts-listing"
+          data-block="recent-posts-listing"
+        >
           <PageList {...props} />
         </div>
       </article>
