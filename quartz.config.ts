@@ -148,6 +148,7 @@ const config: QuartzConfig = {
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.AllTagsPage(),
+      Plugin.RecentPostsPage(),
       Plugin.ContentIndex({
         enableSiteMap: true,
         enableRSS: true,
