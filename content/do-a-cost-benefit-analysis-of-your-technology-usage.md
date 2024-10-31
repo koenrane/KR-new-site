@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefit-analysis-of-your-technology-usage
 lw-is-question: 'false'
 lw-posted-at: 2022-03-27T23:09:26.753000Z
-lw-last-modification: &id001 2022-08-04T17:57:35.886000Z
+lw-last-modification: 2022-08-04T17:57:35.886000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-03-28T10:07:26.321000Z
 lw-was-unlisted: 'false'
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefi
 skip_import: true
 description: 'A cost-benefit analysis of technology: Is your smartphone really worth
   1.5 waking months per year?'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 If an unaligned entity invests billions of dollars into an application which you use, where they benefit from wasting your time, and you haven’t at least done a cost-benefit analysis so that your usage minimizes your costs and maximizes your benefits—_You are probably getting fucked over_.

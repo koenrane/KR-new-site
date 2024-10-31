@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/MJc9AqyMWpG3BqfyK/generalizing-power-to-multi-agent-games
 lw-is-question: 'false'
 lw-posted-at: 2021-03-22T02:41:44.763000Z
-lw-last-modification: &id001 2021-06-06T14:23:10.706000Z
+lw-last-modification: 2021-06-06T14:23:10.706000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-03-22T03:31:41.433000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/MJc9AqyMWpG3BqfyK/generalizing-pow
 skip_import: true
 description: Formalizing "power" in multi-agent games, showing that increased agent
   capabilities can lead to power scarcity and increased competition for resources.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!thanks] Acknowledgments
 > This article is a writeup of a research project conducted through the [SERI](https://cisac.fsi.stanford.edu/stanford-existential-risks-initiative/content/stanford-existential-risks-initiative) program under the mentorship of [Alex Turner](https://www.lesswrong.com/users/turntrout). I ([Jacob Stavrianos](https://www.lesswrong.com/users/midco)) would like to thank Alex for turning a messy collection of ideas into legitimate research, as well as the wonderful researchers at SERI for guiding the project and putting me in touch with the broader X-risk community.

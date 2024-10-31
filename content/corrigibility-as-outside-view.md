@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/BMj6uMuyBidrdZkiD/corrigibility-as-outside-view
 lw-is-question: 'false'
 lw-posted-at: 2020-05-08T21:56:17.548000Z
-lw-last-modification: &id001 2020-05-12T17:22:13.579000Z
+lw-last-modification: 2020-05-12T17:22:13.579000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-05-09T02:39:09.512000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/BMj6uMuyBidrdZkiD/corrigibility-as
 skip_import: true
 description: Corrigibility may emerge when AI recognizes its flaws by simulating its
   own decision-making and defers to human judgment when appropriate.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 You run a country. One day, you think "I could help so many more people if I set all the rules... and I could make this happen". As far as you can tell, this is the _real reason_ you want to set the rules – you want to help people, and you think you'd do a good job.
 

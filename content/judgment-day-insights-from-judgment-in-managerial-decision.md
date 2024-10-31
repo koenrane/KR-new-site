@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-insights-from-judgment-in-managerial-decision
 lw-is-question: 'false'
 lw-posted-at: 2019-12-29T18:03:28.352000Z
-lw-last-modification: &id001 2019-12-30T00:31:35.888000Z
+lw-last-modification: 2019-12-30T00:31:35.888000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-12-29T21:58:25.454000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-ins
 skip_import: true
 description: Insights from a management textbook on how to improve decision-making,
   negotiate effectively, and overcome cognitive biases.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 The more broadly I read and learn, the more I bump into implicit self-conceptions and self-boundaries. I was slightly averse to learning from a manager-oriented textbook because I'm not a manager, but also because I... didn't see myself as the kind of person who could learn about a "business"-y context? I also [didn't see myself as the kind of person who could read and do math](/first-analysis-textbook-review), which now seems ridiculous.

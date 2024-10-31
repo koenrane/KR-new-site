@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-truth-insights-from-a-friendly-approach-to
 lw-is-question: 'false'
 lw-posted-at: 2020-04-04T03:38:56.537000Z
-lw-last-modification: &id001 2020-04-04T13:18:41.674000Z
+lw-last-modification: 2020-04-04T13:18:41.674000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-04-03T23:22:02.762000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-trut
 skip_import: true
 description: 'Functional analysis: infinite dimensions, discontinuous linear functions,
   and the headache-inducing functional derivative.'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 What is functional analysis? A satisfactory answer requires going back to where it all started.

@@ -18,7 +18,7 @@ af-base-score: 9
 af-num-comments-on-upload: 0
 publish: true
 title: "The First Rung: Insights from 'Linear Algebra Done Right'"
-lw-latest-edit: &id001 2018-04-22T05:23:49.024000Z
+lw-latest-edit: 2018-04-22T05:23:49.024000Z
 lw-is-linkpost: 'false'
 tags:
   - scholarship-&-learning
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-i
 skip_import: true
 description: "The author rediscovers their love for math while rigorously studying\
   \ linear algebra, sharing insights and lessons learned along the way. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 # Foreword

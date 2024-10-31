@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/Be3ertyJfwDdQucdd/how-should-turntrout-handle-his-deepmind-equity-situation
 lw-is-question: "false"
 lw-posted-at: 2023-10-16T18:25:38.895000Z
-lw-last-modification: &id001 2023-10-26T00:56:40.657000Z
+lw-last-modification: 2023-10-26T00:56:40.657000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-10-17T00:42:50.739000Z
 lw-was-unlisted: "false"
@@ -33,8 +33,9 @@ no_dropcap: true
 skip_import: true
 description: Considering how to ethically manage AI equity when my goal is to reduce
   AI risk, not maximize profit.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!note]

@@ -18,7 +18,7 @@ af-base-score: 6
 af-num-comments-on-upload: 0
 publish: true
 title: Walkthrough of 'Formalizing Convergent Instrumental Goals'
-lw-latest-edit: &id001 2018-02-26T02:20:09.294000Z
+lw-latest-edit: 2018-02-26T02:20:09.294000Z
 lw-is-linkpost: 'false'
 tags:
   - AI
@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-f
 skip_import: true
 description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated\
   \ to humanity, it may still turn us into paperclips. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 # Introduction
 

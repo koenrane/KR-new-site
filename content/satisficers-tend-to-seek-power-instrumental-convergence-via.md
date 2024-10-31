@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend-
 lw-linkpost-url: https://www.overleaf.com/read/kmjjqwdfhkvy
 lw-is-question: 'false'
 lw-posted-at: 2021-11-18T01:54:33.589000Z
-lw-last-modification: &id001 2023-05-16T20:34:38.112000Z
+lw-last-modification: 2023-05-16T20:34:38.112000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-11-18T01:41:53.189000Z
 lw-was-unlisted: 'false'
@@ -42,8 +42,9 @@ original_url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend
 skip_import: true
 description: Power-seeking isn't just for optimal agents; it's a feature of many decision-making
   processes, including satisficers. This is a problem for AI alignment.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 Why exactly should smart agents tend to usurp their creators? Previous results only apply to optimal agents tending to stay alive and preserve their future options. I extend the power-seeking theorems to apply to many kinds of policy-selection procedures, ranging from planning agents which choose plans with expected utility closest to a randomly generated number, to satisficers, to policies trained by some reinforcement learning algorithms. The key property is not agent optimality—as previously supposed—but is instead the _retargetability of the policy-selection procedure_. These results hint at which kinds of agent cognition and of agent-producing processes are dangerous by default.

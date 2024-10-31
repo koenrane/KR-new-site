@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/Yc5QSSZCQ9qdyxZF6/the-more-power-at-stake-the-stronger-instrumental
 lw-is-question: 'false'
 lw-posted-at: 2021-07-11T17:36:24.208000Z
-lw-last-modification: &id001 2023-05-16T20:26:01.242000Z
+lw-last-modification: 2023-05-16T20:26:01.242000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-07-11T19:16:22.478000Z
 lw-was-unlisted: 'false'
@@ -42,8 +42,9 @@ skip_import: true
 card_image:
 description: Instrumental convergence strengthens proportional to the ratio of an
   agent's control if it survives to its control if it dies.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 

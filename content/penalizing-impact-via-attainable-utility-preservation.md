@@ -19,7 +19,7 @@ af-base-score: 9
 af-num-comments-on-upload: 0
 publish: true
 title: Penalizing Impact via Attainable Utility Preservation
-lw-latest-edit: &id001 2019-03-08T16:55:24.259000Z
+lw-latest-edit: 2019-03-08T16:55:24.259000Z
 lw-is-linkpost: 'true'
 tags:
   - AI
@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/mDTded2Dn7BKRBEPX/penalizing-impac
 skip_import: true
 description: A new AI safety paper formalizing "attainable utility preservation" to
   penalize negative AI impacts, with experimental results.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 The [linked paper](https://arxiv.org/abs/1902.09725) offers fresh motivation and simplified formalization of attainable utility preservation (AUP), with brand-new results and minimal notation. Whether or not you're a hardened veteran of the last odyssey of a post, there's a lot new here.  
   

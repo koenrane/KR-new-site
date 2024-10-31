@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/o3aTqo5zp6phkuiRw/ode-to-joy-insights-from-a-first-course-in-ordinary
 lw-is-question: 'false'
 lw-posted-at: 2020-03-25T20:03:39.590000Z
-lw-last-modification: &id001 2020-03-25T22:12:25.074000Z
+lw-last-modification: 2020-03-25T22:12:25.074000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-03-25T21:35:28.420000Z
 lw-was-unlisted: 'false'
@@ -42,8 +42,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/eb2E5Eg.png
 description: "Textbook insights into differential equations: how to express systems\
   \ in terms of change, equilibria and stability, resonance, and more. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 Sometimes, it's easier to say how things change than to say how things are.

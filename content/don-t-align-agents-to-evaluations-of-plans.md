@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans
 lw-is-question: "false"
 lw-posted-at: 2022-11-26T21:16:23.425000Z
-lw-last-modification: &id001 2024-02-15T18:55:51.898000Z
+lw-last-modification: 2024-02-15T18:55:51.898000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-11-27T08:00:55.784000Z
 lw-was-unlisted: "false"
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agen
 description: "A subtle point: aligning an AI to evaluations of your goals won't give\
   \ you what you want. Don't do it."
 skip_import: true
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!info]

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows-nonrobust-decision-influences-and-doesn-t
 lw-is-question: 'false'
 lw-posted-at: 2022-11-29T06:23:00.394000Z
-lw-last-modification: &id001 2023-02-15T10:24:57.232000Z
+lw-last-modification: 2023-02-15T10:24:57.232000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-11-29T19:21:38.803000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows
 skip_import: true
 description: Values steer optimization, they are not optimized against. Values don't
   have to be robustly "correct", because they are not the thing being optimized.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 On how I use words, values are decision-influences (also known as [_shards_](/shard-theory)). “I value doing well at school” is a short sentence for “in a range of contexts, there exists an influence on my decision-making which upweights actions and plans that lead to e.g. learning and good grades and honor among my classmates.”

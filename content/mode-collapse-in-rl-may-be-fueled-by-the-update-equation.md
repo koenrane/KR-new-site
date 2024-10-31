@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in-rl-may-be-fueled-by-the-update-equation
 lw-is-question: 'false'
 lw-posted-at: 2023-06-19T21:51:04.129000Z
-lw-last-modification: &id001 2023-06-26T17:52:14.168000Z
+lw-last-modification: 2023-06-26T17:52:14.168000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-06-20T01:38:30.736000Z
 lw-was-unlisted: 'false'
@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/A7RgYuYH4HywNeYWD/mode-collapse-in
 skip_import: true
 description: A proposed tweak to policy gradient algorithms may avoid mode collapse,
   but more research is needed to assess its practicality.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 **TL;DR:** We present an advantage variant which, in certain settings, does not train an optimal policy, but instead uses a fixed reward to update a policy a fixed amount from initialization. Non-tabular empirical results seem mixed: The policy doesn't mode-collapse, but has unclear convergence properties.
 

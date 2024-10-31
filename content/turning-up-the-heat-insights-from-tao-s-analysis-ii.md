@@ -18,7 +18,7 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
-lw-latest-edit: &id001 2018-08-24T17:54:54.344000Z
+lw-latest-edit: 2018-08-24T17:54:54.344000Z
 lw-is-linkpost: 'false'
 tags:
   - summaries
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/uSaJoL64DYg2WunJJ/turning-up-the-h
 skip_import: true
 description: "Tao's \"Analysis II\" reviewed: metric spaces, uniform convergence,\
   \ Lebesgue integration–sharpening my mathematical tools."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 It's been too long - a month and a half since my last review, and about three months since _[Analysis I](/first-analysis-textbook-review)_. I've been immersed in my work for CHAI, but reality doesn't grade on a curve, and I want more mathematical firepower.
 

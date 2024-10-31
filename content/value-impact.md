@@ -18,7 +18,7 @@ af-base-score: 22
 af-num-comments-on-upload: 3
 publish: true
 title: Value Impact
-lw-latest-edit: &id001 2019-09-23T00:47:13.121000Z
+lw-latest-edit: 2019-09-23T00:47:13.121000Z
 lw-is-linkpost: 'false'
 tags:
   - understanding-the-world
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/D6Bhmv6.png
 description: Impact is objectively important to agents, no matter their goals. Even
   robots hoarding pebbles care about a meteor strike.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 ![](https://assets.turntrout.com/static/images/posts/lG9je1g.avif)

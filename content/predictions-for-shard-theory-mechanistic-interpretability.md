@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability
 lw-is-question: 'false'
 lw-posted-at: 2023-03-01T05:16:48.043000Z
-lw-last-modification: &id001 2023-03-03T21:31:03.643000Z
+lw-last-modification: 2023-03-03T21:31:03.643000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-03-01T05:58:04.936000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-
 skip_import: true
 description: Predictions about a cheese-finding AI model's internal workings, before
   the results are revealed. Will it prefer cheese or the top-right corner? 🧀🤖
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 How do agents work, internally? My shard theory [MATS 3.0](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network.

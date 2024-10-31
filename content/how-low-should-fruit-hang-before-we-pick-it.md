@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 lw-is-question: 'false'
 lw-posted-at: 2020-02-25T02:08:52.630000Z
-lw-last-modification: &id001 2020-05-20T13:03:50.901000Z
+lw-last-modification: 2020-05-20T13:03:50.901000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-24T19:24:20.123000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/4bIPf6o.png
 description: How to choose an AI's impact limit to get the best results without triggering
   a catastrophe.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!info] Summary

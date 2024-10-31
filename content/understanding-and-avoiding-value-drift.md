@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/jFvFreCeejRKaZv4v/understanding-and-avoiding-value-drift
 lw-is-question: 'false'
 lw-posted-at: 2022-09-09T04:16:48.404000Z
-lw-last-modification: &id001 2022-11-08T00:44:20.675000Z
+lw-last-modification: 2022-11-08T00:44:20.675000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-09-09T07:21:15.591000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/jFvFreCeejRKaZv4v/understanding-an
 skip_import: true
 description: "A shard theory analysis of value drift: what it is, how it happens,\
   \ and how to avoid it, even without controlling your experiences. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 I use [the shard theory of human values](/shard-theory) to clarify what value drift is, how it happens, and how it might be avoided by a highly intelligent agent—even if that agent doesn't have any control over its future experiences. Along the way, I give a shard theory account of rationalization.
 

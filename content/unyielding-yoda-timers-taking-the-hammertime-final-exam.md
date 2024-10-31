@@ -18,7 +18,7 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: 'Unyielding Yoda Timers: Taking the Hammertime Final Exam'
-lw-latest-edit: &id001 2018-04-03T02:38:48.327000Z
+lw-latest-edit: 2018-04-03T02:38:48.327000Z
 lw-is-linkpost: 'false'
 tags:
   - rationality
@@ -32,8 +32,9 @@ no_dropcap: true
 skip_import: true
 description: Three short essays written against the clock on instrumental rationality,
   confusion identification, and emotion propagation.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!quote] [The Hammertime Final Exam](https://www.lesswrong.com/posts/Q7MsMshzbzhEs729s/hammertime-final-exam)

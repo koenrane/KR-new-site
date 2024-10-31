@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 lw-is-question: 'false'
 lw-posted-at: 2023-03-31T19:20:48.658000Z
-lw-last-modification: &id001 2023-04-17T00:53:42.453000Z
+lw-last-modification: 2023-04-17T00:53:42.453000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-03-31T23:58:21.046000Z
 lw-was-unlisted: 'false'
@@ -43,8 +43,9 @@ card_image: https://assets.turntrout.com/static/images/card_images/lteqnk5fbayr0
 description: Adding a "top-right vector" to a maze-solving network makes the agent
   go to the top-right. These vectors compose with other vectors, like the "cheese
   vector."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 We modify the goal-directed behavior of a trained network, without any gradients or finetuning. We simply add or subtract "motivational vectors" which we compute in a straightforward fashion.
 

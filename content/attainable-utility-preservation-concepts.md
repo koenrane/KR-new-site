@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 lw-is-question: "false"
 lw-posted-at: 2020-02-17T05:20:09.567000Z
-lw-last-modification: &id001 2021-05-24T18:19:29.122000Z
+lw-last-modification: 2021-05-24T18:19:29.122000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-17T06:30:53.270000Z
 lw-was-unlisted: "false"
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/KPv2beS.png
 description: "Exploring the ideas behind Attainable Utility Preservation: penalize\
   \ the AI for gaining power to bound its impact."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 ![](https://assets.turntrout.com/static/images/posts/hTnYTsJ.avif)
 

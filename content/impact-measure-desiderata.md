@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata
 lw-is-question: 'false'
 lw-posted-at: 2018-09-02T22:21:19.395000Z
-lw-last-modification: &id001 2020-07-31T23:58:42.318000Z
+lw-last-modification: 2020-07-31T23:58:42.318000Z
 lw-curation-date: None
 lw-frontpage-date: 2018-09-02T23:37:35.362000Z
 lw-was-unlisted: 'false'
@@ -30,8 +30,9 @@ date_published: 2018-09-02 00:00:00
 original_url: https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata
 skip_import: true
 description: Desirable properties of impact measures for safe and beneficial AI development.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 If we can penalize some quantity of "impact on the world", we can have unaligned agents whose impact - and thereby negative effect - is small.
 

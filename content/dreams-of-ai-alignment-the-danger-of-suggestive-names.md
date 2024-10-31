@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
 lw-is-question: 'false'
 lw-posted-at: 2024-02-10T01:22:51.715000Z
-lw-last-modification: &id001 2024-02-13T21:08:58.421000Z
+lw-last-modification: 2024-02-13T21:08:58.421000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-02-10T18:40:44.410000Z
 lw-was-unlisted: 'false'
@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-ali
 skip_import: true
 description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth"
   are suggestive words that obstruct clear thought.'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 Let's not forget the old, well-read post: [Dreams of AI Design](https://www.lesswrong.com/posts/p7ftQ6acRkgo6hqHb/dreams-of-ai-design). In that essay, Eliezer correctly points out errors in imputing meaning to nonsense by using suggestive names to describe the nonsense. This error is very relevant to understanding the problems facing [LessWrong's](http://www.lesswrong.com) intellectual contributions.

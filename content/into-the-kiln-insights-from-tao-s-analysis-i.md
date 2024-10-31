@@ -18,7 +18,7 @@ af-base-score: 8
 af-num-comments-on-upload: 0
 publish: true
 title: "Into the Kiln: Insights from Tao's 'Analysis I'"
-lw-latest-edit: &id001 2018-06-01T18:16:32.616000Z
+lw-latest-edit: 2018-06-01T18:16:32.616000Z
 lw-is-linkpost: 'false'
 tags:
 aliases:
@@ -39,8 +39,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
 description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural
   numbers to Riemann integrals. Rigorous yet accessible.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 As a young boy, mathematics captivated me. In elementary school, I'd happily while away entire weekends working through the next grade's math book. I was impatient. In middle school, I'd lazily estimate angles of incidence that would result if I shot lasers from my eyes, tracing their trajectories within the classroom and out down the hallway. I was restless.

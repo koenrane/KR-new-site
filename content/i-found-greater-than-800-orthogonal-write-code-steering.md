@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-t
 lw-linkpost-url: https://jacobgw.com/blog/ml/2024/07/14/melbo-ortho.html
 lw-is-question: 'false'
 lw-posted-at: 2024-07-15T19:06:17.636000Z
-lw-last-modification: &id001 2024-07-17T21:40:12.145000Z
+lw-last-modification: 2024-07-17T21:40:12.145000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-07-15T19:15:39.519000Z
 lw-was-unlisted: 'false'
@@ -35,8 +35,9 @@ original_url: https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-
 skip_import: true
 description: 800+ orthogonal vectors steer an AI model to write code. Redundant features
   or something weirder?
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!thanks]
 >Produced as part of the MATS Summer 2024 program, under the mentorship of Alex Turner (`TurnTrout`).

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/eowhY5NaCaqY6Pkj9/behavioural-statistics-for-a-maze-solving-agent
 lw-is-question: 'false'
 lw-posted-at: 2023-04-20T22:26:08.810000Z
-lw-last-modification: &id001 2023-06-07T01:24:39.295000Z
+lw-last-modification: 2023-06-07T01:24:39.295000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-04-21T00:09:39.906000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.png
 description: Closeness to cheese and the top-right corner both influence a maze-solving
   AI, suggesting a "shard-like" decision-making process.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
 

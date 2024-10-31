@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/W22Btd7NmGuucFejc/instrumental-convergence-for-realistic-agent-objectives
 lw-is-question: 'false'
 lw-posted-at: 2022-01-22T00:41:36.649000Z
-lw-last-modification: &id001 2023-05-16T20:37:11.632000Z
+lw-last-modification: 2023-05-16T20:37:11.632000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-01-22T17:38:25.434000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/W22Btd7NmGuucFejc/instrumental-con
 skip_import: true
 description: Realistic AI objectives aren't random utility functions. I explore instrumental
   convergence for objectives defined over features of the environment.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 ---

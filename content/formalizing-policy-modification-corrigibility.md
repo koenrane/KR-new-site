@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-policy-modification-corrigibility
 lw-is-question: 'false'
 lw-posted-at: 2021-12-03T01:31:42.011000Z
-lw-last-modification: &id001 2021-12-03T22:56:16.017000Z
+lw-last-modification: 2021-12-03T22:56:16.017000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-12-03T02:42:48.976000Z
 lw-was-unlisted: 'false'
@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-poli
 skip_import: true
 description: "Formalizing one aspect of corrigibility: How much can a human change\
   \ an AI's policy, measured using mutual information."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 In [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), I operationalized an agent's corrigibility  as our ability to modify the agent so that it follows different policies. In the summer of 2020, I had formalized this notion, but it languished—unloved—in my Overleaf drafts.
 

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/sunXMY5WyDcrHsNRr/a-world-in-which-the-alignment-problem-seems-lower-stakes
 lw-is-question: 'false'
 lw-posted-at: 2021-07-08T02:31:03.674000Z
-lw-last-modification: &id001 2021-07-08T20:36:20.299000Z
+lw-last-modification: 2021-07-08T20:36:20.299000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-07-08T05:28:16.796000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/sunXMY5WyDcrHsNRr/a-world-in-which
 skip_import: true
 description: "This post explores a hypothetical scenario where the AI alignment problem\
   \ seems lower-stakes due to a unique universe structure. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 The danger from power-seeking is not _intrinsic_ to the alignment problem. This danger also depends on [the structure of the agent's environment](/environmental-structure-can-cause-instrumental-convergence). 
 

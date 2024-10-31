@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into
 lw-is-question: "false"
 lw-posted-at: 2022-12-02T02:43:20.915000Z
-lw-last-modification: &id001 2024-03-02T01:18:37.238000Z
+lw-last-modification: 2024-03-02T01:18:37.238000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-12-02T02:46:54.783000Z
 lw-was-unlisted: "false"
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-
 skip_import: true
 description: Inner and outer alignment—while seemingly useful—are unnecessary, anti-natural,
   and extremely hard. Better alignment strategies exist.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 Short summary: One alignment strategy is to 1) capture “what we want” in a loss function to a very high degree (“robust grading”), 2) use that loss function to train the AI, and 3) get the AI to exclusively care about optimizing that objective.

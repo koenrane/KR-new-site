@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for-pessimism-about-impact-of-impact-measures
 lw-is-question: 'true'
 lw-posted-at: 2019-04-10T17:22:12.832000Z
-lw-last-modification: &id001 2020-12-12T19:16:21.916000Z
+lw-last-modification: 2020-12-12T19:16:21.916000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-04-10T18:52:43.625000Z
 lw-was-unlisted: 'false'
@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for
 skip_import: true
 description: 'Impact measures: Can they make AI safer, or are they a dangerous distraction
   from more promising approaches?'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!quote] [Oliver Habryka](https://www.lesswrong.com/posts/t3t9osBsmwkajWz5Y/long-term-future-fund-april-2019-grant-decisions) (emphasis mine)

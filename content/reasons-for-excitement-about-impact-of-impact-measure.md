@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-excitement-about-impact-of-impact-measure
 lw-is-question: 'false'
 lw-posted-at: 2020-02-27T21:42:18.903000Z
-lw-last-modification: &id001 2020-09-16T18:14:18.398000Z
+lw-last-modification: 2020-09-16T18:14:18.398000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-27T22:06:54.152000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-exci
 skip_import: true
 description: Impact measure research deconfuses power-seeking incentives in AI, aiding
   alignment efforts.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 Can we get impact measurement _right_? Does there exist One Equation To Rule Them All?
 

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-defection
 lw-is-question: 'false'
 lw-posted-at: 2020-07-12T22:03:39.261000Z
-lw-last-modification: &id001 2021-12-17T20:10:50.747000Z
+lw-last-modification: 2021-12-17T20:10:50.747000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-07-12T23:00:43.230000Z
 lw-was-unlisted: 'false'
@@ -34,8 +34,9 @@ original_url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-d
 skip_import: true
 description: "A game-theoretic formalism of “defection”, analyzing whether an action\
   \ is self-serving at the expense of the group."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 

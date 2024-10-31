@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/JMebqicMD6azB8MwK/open-problems-in-
 lw-linkpost-url: https://coda.io/@alice-rigg/open-problems-in-activation-engineering
 lw-is-question: 'false'
 lw-posted-at: 2023-07-24T19:46:08.733000Z
-lw-last-modification: &id001 2023-09-14T17:32:07.153000Z
+lw-last-modification: 2023-09-14T17:32:07.153000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-07-25T01:02:04.531000Z
 lw-was-unlisted: 'false'
@@ -34,8 +34,9 @@ original_url: https://www.lesswrong.com/posts/JMebqicMD6azB8MwK/open-problems-in
 skip_import: true
 description: Open questions on controlling language models at runtime via activation
   engineering.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!quote] [Steering GPT-2-XL by adding an activation vector](/gpt2-steering-vectors)  
 > \[We define\] **activation engineering** \[to be\] techniques which steer models by modifying their activations. As a complement to prompt engineering and finetuning, activation engineering is a low-overhead way to steer models at runtime.

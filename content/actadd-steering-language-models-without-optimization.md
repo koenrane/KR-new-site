@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/HWxLQvzJGeXoLPJWd/actadd-steering-l
 lw-linkpost-url: https://arxiv.org/abs/2308.10248
 lw-is-question: 'false'
 lw-posted-at: 2023-09-06T17:21:56.214000Z
-lw-last-modification: &id001 2023-11-06T16:33:16.256000Z
+lw-last-modification: 2023-11-06T16:33:16.256000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-09-06T17:35:35.588000Z
 lw-was-unlisted: 'false'
@@ -35,8 +35,9 @@ original_url: https://www.lesswrong.com/posts/HWxLQvzJGeXoLPJWd/actadd-steering-
 skip_import: true
 description: 'Activation additions: steering language models by adding a bias to the
   forward pass. Surprisingly broad control, small impact on off-target capabilities.'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 We wrote up the [GPT-2 steering vector work](/gpt2-steering-vectors) [as a full paper](https://arxiv.org/abs/2308.10248), adding a few systematic tests.
 

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 lw-is-question: 'false'
 lw-posted-at: 2021-08-08T02:02:18.975000Z
-lw-last-modification: &id001 2023-05-16T20:31:52.646000Z
+lw-last-modification: 2023-05-16T20:31:52.646000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-08-08T04:49:53.558000Z
 lw-was-unlisted: 'false'
@@ -42,8 +42,9 @@ original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is
 skip_import: true
 description: "Power-seeking is instrumentally convergent for agents maximizing over\
   \ possible futures, but not for agents maximizing over their own actions. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 A year ago, I thought it would be really hard to generalize the power-seeking theorems from Markov decision processes (MDPs); the [MDP case](/seeking-power-is-often-convergently-instrumental-in-mdps) seemed hard enough. Without assuming the agent can see the full state, while letting utility functions do as they please – this seemed like asking for trouble.

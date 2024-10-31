@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/r6p5cqT6aWYGCYHJx/review-of-but-exactly-how-complex-and-fragile
 lw-is-question: 'false'
 lw-posted-at: 2021-01-06T18:39:03.521000Z
-lw-last-modification: &id001 2021-02-17T04:22:11.674000Z
+lw-last-modification: 2021-02-17T04:22:11.674000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-01-06T22:07:25.273000Z
 lw-was-unlisted: 'false'
@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/r6p5cqT6aWYGCYHJx/review-of-but-ex
 skip_import: true
 description: A review of Katja Grace's post questioning the "value is fragile" argument,
   arguing it sparked valuable but confused debate.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 I've thought about (concepts related to) the fragility of value [quite](/the-catastrophic-convergence-conjecture#Objective-vs-value-specific-catastrophes) [a bit](/non-obstruction-motivates-corrigibility) over the last year, and so I returned to Katja Grace's [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) with renewed appreciation (I'd previously commented only [a very brief microcosm](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=GAxppfoKhiFRrWHgK) of this review). I'm glad that Katja wrote this post and I'm glad that everyone commented. I often see [private Google docs full of nuanced discussion which will never see the light of day](https://www.lesswrong.com/posts/hnvPCZ4Cx35miHkw3/why-is-so-much-discussion-happening-in-private-google-docs), and that makes me sad, and I'm happy that people discussed this publicly. 
 

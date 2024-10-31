@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 lw-is-question: 'false'
 lw-posted-at: 2021-01-23T19:00:55.559000Z
-lw-last-modification: &id001 2022-01-01T09:44:15.044000Z
+lw-last-modification: 2022-01-01T09:44:15.044000Z
 lw-curation-date: 2021-01-24T21:45:36.103000Z
 lw-frontpage-date: 2021-01-23T22:03:18.935000Z
 lw-was-unlisted: 'false'
@@ -42,8 +42,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
 description: "Lessons learned from years of self-teaching: use Anki, read multiple\
   \ books concurrently, and don't be afraid of easier texts."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 In 2018, I was a bright-eyed grad student who was freaking out about AI alignment. I guess I'm still a bright-eyed grad student freaking out about AI alignment, but that's beside the point.

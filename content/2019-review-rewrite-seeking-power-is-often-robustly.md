@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/mxXcPzpgGx4f8eK7v/2019-review-rewri
 lw-linkpost-url: https://www.lesswrong.com/posts/6DuJxY8X45Sco4bS2/seeking-power-is-often-robustly-instrumental-in-mdps
 lw-is-question: 'false'
 lw-posted-at: 2020-12-23T17:16:10.174000Z
-lw-last-modification: &id001 2021-01-02T01:12:50.607000Z
+lw-last-modification: 2021-01-02T01:12:50.607000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-12-23T19:55:08.572000Z
 lw-was-unlisted: 'false'
@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/mxXcPzpgGx4f8eK7v/2019-review-rewr
 skip_import: true
 description: Revised post clarifies theory on power-seeking  and corrects terminology
   used in the original post.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 For the 2019 LessWrong review, I've completely rewritten my post [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps). The post explains the key insights of [my theorems on power-seeking and instrumental convergence / robust instrumentality](https://arxiv.org/abs/1912.01683). The new version is more substantial, more nuanced, and better motivated, without sacrificing the broad accessibility or the cute drawings of the original. 
 

@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-re
 lw-linkpost-url: https://arxiv.org/abs/2206.13477
 lw-is-question: 'false'
 lw-posted-at: 2023-02-18T18:41:38.740000Z
-lw-last-modification: &id001 2023-10-31T21:49:45.530000Z
+lw-last-modification: 2023-10-31T21:49:45.530000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-02-18T19:26:40.220000Z
 lw-was-unlisted: 'false'
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-r
 skip_import: true
 description: "New theoretical results uncover a surprising truth: the ability to change\
   \ an agent's goals can lead them to seek power."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 [This paper](https://arxiv.org/abs/2206.13477)—accepted as a poster to NeurIPS 2022— is the sequel to [Optimal Policies Tend to Seek Power](https://arxiv.org/abs/1912.01683). The new theoretical results are extremely broad, discarding the requirements of full observability, optimal policies, or even requiring a finite number of options. 
 

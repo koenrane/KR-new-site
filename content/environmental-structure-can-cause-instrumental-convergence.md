@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/b6jJddSvWMdZHJHh3/environmental-str
 lw-linkpost-url: https://arxiv.org/abs/1912.01683
 lw-is-question: 'false'
 lw-posted-at: 2021-06-22T22:26:03.120000Z
-lw-last-modification: &id001 2023-05-16T20:23:49.058000Z
+lw-last-modification: 2023-05-16T20:23:49.058000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-06-22T22:27:16.747000Z
 lw-was-unlisted: 'false'
@@ -43,8 +43,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/78ceb0300f76784b6d8d043afb15587fb25a50dd52a42e21.png
 description: The structure of environments, not just reward functions, contributes
   to power-seeking in AI agents.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!failure] As of 2024, I no longer endorse this post

@@ -18,7 +18,7 @@ af-base-score: 18
 af-num-comments-on-upload: 0
 publish: true
 title: 'Swimming Upstream: A Case Study in Instrumental Rationality'
-lw-latest-edit: &id001 2018-06-03T03:16:21.613000Z
+lw-latest-edit: 2018-06-03T03:16:21.613000Z
 lw-is-linkpost: 'false'
 tags:
   - practical
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/eAsN5vNjvmxzACuuX/swimming-upstrea
 skip_import: 'true'
 description: "I dove headfirst into AI safety, even at the risk of my PhD. This is\
   \ how. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!success]
 > One data point for careful planning, the unapologetic pursuit of fulfillment, and success. Of particular interest to up-and-coming AI safety researchers, this post chronicles how I made a change in my PhD program to work more directly on AI safety, overcoming significant institutional pressure in the process.

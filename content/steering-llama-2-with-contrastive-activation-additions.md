@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-
 lw-linkpost-url: https://arxiv.org/abs/2312.06681
 lw-is-question: "false"
 lw-posted-at: 2024-01-02T00:47:04.621000Z
-lw-last-modification: &id001 2024-02-13T03:16:17.408000Z
+lw-last-modification: 2024-02-13T03:16:17.408000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-01-02T20:02:44.550000Z
 lw-was-unlisted: "false"
@@ -37,8 +37,9 @@ original_url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2
 skip_import: true
 description: Steering Llama-2 towards or away from various traits using sample-efficient
   steering vectors.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 ![](https://assets.turntrout.com/static/images/posts/uidocxp1iwtdztmkdlch.avif)

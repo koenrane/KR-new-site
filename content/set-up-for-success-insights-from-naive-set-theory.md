@@ -18,7 +18,7 @@ af-base-score: 8
 af-num-comments-on-upload: 0
 publish: true
 title: "Set Up for Success: Insights from 'Naïve Set Theory'"
-lw-latest-edit: &id001 2018-02-28T02:01:43.790000Z
+lw-latest-edit: 2018-02-28T02:01:43.790000Z
 lw-is-linkpost: 'false'
 tags:
   - scholarship-&-learning
@@ -37,8 +37,9 @@ original_url: https://www.lesswrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-succe
 skip_import: true
 description: Functions are static sets; families are functions; Zorn's Lemma is hard.
   I reflect on my set theory learnings and effective self-study strategies.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 # Foreword

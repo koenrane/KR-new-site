@@ -5,9 +5,10 @@ tags:
   - website
 description: A tour of TurnTrout.com's functionality, covering typography, markdown,
   and more.
-date_published: &id001 2024-10-27 19:14:04.653922
-date_updated: *id001
+date_published: 2024-10-27 19:14:04.653922
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem), which serves a similar purpose.
 

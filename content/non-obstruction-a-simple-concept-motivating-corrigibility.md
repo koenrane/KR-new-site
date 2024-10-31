@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-
 skip_import: true
 description: "Non-obstruction: how do we design AI that doesn't limit our ability\
   \ to achieve our goals, even if we misspecified its programming?"
-date_updated: 2024-10-27 19:14:04.653922
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 I present a unified mathematical frame for understanding corrigibility’s _benefits_, what it “is”, and what it isn’t. This frame is precisely understood by graphing the human overseer’s ability to achieve various goals (their [_attainable utility (AU) landscape_](/attainable-utility-landscape)). I argue that corrigibility’s benefits are secretly a form of counterfactual alignment (alignment with a set of goals the human may want to pursue). 
 

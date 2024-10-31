@@ -7,7 +7,7 @@ lw-page-url: https://www.lesswrong.com/posts/DKtWikjcdApRj3rWr/paper-understandi
 lw-linkpost-url: https://arxiv.org/abs/2310.08043
 lw-is-question: 'false'
 lw-posted-at: 2023-10-13T01:38:09.147000Z
-lw-last-modification: &id001 2023-10-13T17:37:49.828000Z
+lw-last-modification: 2023-10-13T17:37:49.828000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-10-13T17:37:49.714000Z
 lw-was-unlisted: 'false'
@@ -38,8 +38,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jbwksgzxm1h8hzspvypz.png
 description: My team published a paper on steering a maze-solving AI by manipulating
   its internal goal representations.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 Mrinank, Austin, and Alex wrote a paper on the results from [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network), [Maze-solving agents: Add a top-right vector, make the agent go to the top-right](/top-right-steering-vector), and [Behavioural statistics for a maze-solving agent](/statistics-of-a-maze-solving-network).
 

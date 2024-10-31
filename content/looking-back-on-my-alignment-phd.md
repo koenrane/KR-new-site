@@ -44,8 +44,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.png
 description: The mistakes made, the lessons learned, and the drive to solve a hilariously
   neglected super-problem.
-date_updated: 2024-10-27 19:14:04.653922
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!info]

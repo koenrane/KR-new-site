@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network
 lw-is-question: "false"
 lw-posted-at: 2023-03-11T18:59:56.223000Z
-lw-last-modification: &id001 2024-09-04T23:53:40.034000Z
+lw-last-modification: 2024-09-04T23:53:40.034000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-03-11T21:48:52.544000Z
 lw-was-unlisted: "false"
@@ -45,8 +45,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/dc4zupnie9hr2hm7tfnx.png
 description: A dive into the surprising behavior of a maze-solving AI agent and how
   its goals can be manipulated.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 <video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>

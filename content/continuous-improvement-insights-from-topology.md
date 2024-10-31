@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 lw-is-question: "false"
 lw-posted-at: 2020-02-22T21:58:01.584000Z
-lw-last-modification: &id001 2020-02-25T19:34:02.586000Z
+lw-last-modification: 2020-02-25T19:34:02.586000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-22T22:54:35.388000Z
 lw-was-unlisted: "false"
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k6b4WRE.png
 description: Reviewing Munkres' "Topology", reflecting on compactness, homotopy, and
   what I was even doing with my life before understanding homeomorphisms.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 Sometimes you really like someone, but you can't understand why. By all means, you should have tired of them long ago, but you keep coming back. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
 

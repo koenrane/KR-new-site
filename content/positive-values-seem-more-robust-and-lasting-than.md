@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/cHnQ4bBFr3cX6rBxh/positive-values-seem-more-robust-and-lasting-than
 lw-is-question: 'false'
 lw-posted-at: 2022-12-17T21:43:31.627000Z
-lw-last-modification: &id001 2023-03-26T00:29:07.381000Z
+lw-last-modification: 2023-03-26T00:29:07.381000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-12-18T19:05:40.549000Z
 lw-was-unlisted: 'false'
@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/cHnQ4bBFr3cX6rBxh/positive-values-
 skip_import: true
 description: Negative values ("don't kill") may be fragile. Positive values ("protect
   people") might be more robust and lasting within AI agents.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 Imagine we train an AI on realistic situations where it can kill people, and penalize it when it does so. Suppose that we successfully instill a strong and widely activated "If going to kill people, then don't" value shard. 
 

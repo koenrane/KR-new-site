@@ -19,7 +19,7 @@ af-num-comments-on-upload: 0
 publish: true
 title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern\
   \ Approach'"
-lw-latest-edit: &id001 2018-03-25T06:55:46.204000Z
+lw-latest-edit: 2018-03-25T06:55:46.204000Z
 lw-is-linkpost: "false"
 tags:
   - "AI"
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-a
 skip_import: true
 description: My review of "Artificial Intelligence, A Modern Approach"—plus, how I
   read 1000+ pages in 3 days.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 <br/>

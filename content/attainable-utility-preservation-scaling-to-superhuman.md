@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utility-preservation-scaling-to-superhuman
 lw-is-question: 'false'
 lw-posted-at: 2020-02-27T00:52:49.970000Z
-lw-last-modification: &id001 2022-04-07T12:46:16.547000Z
+lw-last-modification: 2022-04-07T12:46:16.547000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-27T01:30:06.427000Z
 lw-was-unlisted: 'false'
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utili
 skip_import: true
 description: AUP scales to superintelligence by penalizing power-seeking, but loopholes
   exist. I propose fixes and explore their implications.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 I think we're plausibly quite close to the impact measurement endgame. What do we have now, and what remains to be had?

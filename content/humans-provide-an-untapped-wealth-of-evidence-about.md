@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
 lw-is-question: 'false'
 lw-posted-at: 2022-07-14T02:31:48.575000Z
-lw-last-modification: &id001 2024-03-02T01:18:50.890000Z
+lw-last-modification: 2024-03-02T01:18:50.890000Z
 lw-curation-date: 2022-08-14T07:35:43.265000Z
 lw-frontpage-date: 2022-07-14T03:34:23.107000Z
 lw-was-unlisted: 'false'
@@ -43,8 +43,9 @@ original_url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-a
 skip_import: 'true'
 description: 'I argue for studying the only known example of aligned intelligence:
   humans. Stop speculating about AIXI and diamonds - look at humans!'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!info]

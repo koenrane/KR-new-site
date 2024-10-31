@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignment-properties
 lw-is-question: 'false'
 lw-posted-at: 2022-08-08T23:40:47.176000Z
-lw-last-modification: &id001 2022-08-15T03:43:38.799000Z
+lw-last-modification: 2022-08-15T03:43:38.799000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-08-09T00:21:51.605000Z
 lw-was-unlisted: 'false'
@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/FMdGt9S9irgxeD9Xz/general-alignmen
 skip_import: 'true'
 description: Comparing how AIXI and humans acquire values reveals important differences
   in how these agents interact with the world.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 [AIXI](https://en.wikipedia.org/wiki/AIXI) and the genome are both ways of specifying intelligent agents. 
 

@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-insights-from-computability-and-logic
 lw-is-question: 'false'
 lw-posted-at: 2019-01-16T19:48:47.388000Z
-lw-last-modification: &id001 2020-05-07T23:08:26.547000Z
+lw-last-modification: 2020-05-07T23:08:26.547000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-01-16T20:01:57.774000Z
 lw-was-unlisted: 'false'
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/n8neHaCubKG3HDWhT/and-my-axiom-ins
 skip_import: true
 description: Turing computability and the surprising limits of what formal systems
   can express.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 Max Tegmark's _[Our Mathematical Universe](https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)_ briefly touches on a captivating, beautiful mystery:

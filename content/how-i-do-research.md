@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/e3Db4w52hz3NSyYqt/how-i-do-research
 lw-is-question: 'false'
 lw-posted-at: 2019-11-19T20:31:16.832000Z
-lw-last-modification: &id001 2019-11-20T21:28:11.705000Z
+lw-last-modification: 2019-11-20T21:28:11.705000Z
 lw-curation-date: None
 lw-frontpage-date: 2019-11-19T20:49:41.452000Z
 lw-was-unlisted: 'false'
@@ -33,8 +33,9 @@ skip_import: true
 hideSubscriptionLinks: false
 description: "The author's unorthodox approach to AI safety research: Ignore existing\
   \ work, simplify relentlessly, and break your own solutions."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!warning] Disclaimer
 > As of 2024, this is no longer an accurate representation of how I do research. I do not necessarily consider the examples I gave to be "virtuous" ways to do research (nor do I necessarily renounce them).

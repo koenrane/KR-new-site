@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/22xf8GmwqGzHbiuLg/seriously-what-goes-wrong-with-reward-the-agent-when-it
 lw-is-question: 'true'
 lw-posted-at: 2022-08-11T22:22:32.198000Z
-lw-last-modification: &id001 2023-06-01T20:26:14.384000Z
+lw-last-modification: 2023-06-01T20:26:14.384000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-08-12T08:25:53.590000Z
 lw-was-unlisted: 'false'
@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/22xf8GmwqGzHbiuLg/seriously-what-g
 skip_import: true
 description: "Reinforcing AI for smiles: simple, yet potentially disastrous? I'm less\
   \ certain than most. Let's explore why."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 Suppose you're training a huge neural network with some awesome future RL algorithm with clever exploration bonuses and a self-supervised pretrained multimodal initialization and a recurrent state. This NN implements an embodied agent which takes actions in reality (and also in some sim environments). You watch the agent remotely using a webcam (initially unbeknownst to the agent). When the AI's activities make you smile, you press the antecedent-computation-reinforcer button (known to some as the "reward" button). The agent is given some appropriate curriculum, like population-based self-play, so as to provide a steady skill requirement against which its intelligence is sharpened over training. Supposing the curriculum trains these agents out until they're generally intelligent—what comes next?
 

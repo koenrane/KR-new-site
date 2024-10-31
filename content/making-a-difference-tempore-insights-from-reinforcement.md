@@ -18,7 +18,7 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: "Making a Difference Tempore: Insights from 'Reinforcement Learning: An Introduction'"
-lw-latest-edit: &id001 2018-07-05T00:34:59.249000Z
+lw-latest-edit: 2018-07-05T00:34:59.249000Z
 lw-is-linkpost: "false"
 tags:
   - summaries
@@ -41,8 +41,9 @@ no_dropcap: "true"
 skip_import: true
 description: "A deep dive into reinforcement learning, covering algorithms, exploration\
   \ vs. exploitation, and the importance of safe AI development."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!quote] Reinforcement Learning: An Introduction

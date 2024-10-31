@@ -18,7 +18,7 @@ af-base-score: 7
 af-num-comments-on-upload: 0
 publish: true
 title: "Confounded No Longer: Insights from 'All of Statistics'"
-lw-latest-edit: &id001 2018-05-03T22:56:27.057000Z
+lw-latest-edit: 2018-05-03T22:56:27.057000Z
 lw-is-linkpost: 'false'
 tags:
   - summaries
@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-lo
 skip_import: true
 description: A tour of fundamental statistical concepts, from basic probability to
   hypothesis testing and Bayesian inference.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!quote]Larry Wasserman, _All of Statistics_

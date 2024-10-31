@@ -37,8 +37,9 @@ original_url: https://www.lesswrong.com/posts/5kurn5W62C5CpSWq6/avoiding-side-ef
 skip_import: true
 description: AI agents trained with Attainable Utility Preservation avoid most side
   effects in Conway's Game of Life without explicit instructions.
-date_updated: 2024-10-27 19:14:04.653922
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 ![](https://assets.turntrout.com/static/images/posts/2526ca684eae62e8d1fc595b335044d649df02f30f2331b2.avif)
 

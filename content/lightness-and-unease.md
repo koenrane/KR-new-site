@@ -18,7 +18,7 @@ af-base-score: 9
 af-num-comments-on-upload: 0
 publish: true
 title: Lightness and Unease
-lw-latest-edit: &id001 2018-03-21T05:24:26.289000Z
+lw-latest-edit: 2018-03-21T05:24:26.289000Z
 lw-is-linkpost: 'false'
 tags:
 aliases:
@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/EvKWNRkJgLosgRDSa/lightness-and-un
 skip_import: true
 description: A personal reflection on finding the rationalist community and the joy
   and anxiety of pursuing AI alignment.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 # Light
 

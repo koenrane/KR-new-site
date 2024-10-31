@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem
 lw-is-question: 'false'
 lw-posted-at: 2022-10-06T18:29:10.586000Z
-lw-last-modification: &id001 2023-06-01T20:06:10.512000Z
+lw-last-modification: 2023-06-01T20:06:10.512000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-10-06T21:08:16.652000Z
 lw-was-unlisted: 'false'
@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-di
 skip_import: true
 description: "A technical deep dive exploring how to align an AI with the goal of\
   \ creating diamonds, rather than more nebulous human values. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 I think that relatively simple alignment techniques can go a long way. In particular, I want to tell a plausible-to-me story about how simple techniques can align a proto-AGI so that it makes lots of diamonds.
 

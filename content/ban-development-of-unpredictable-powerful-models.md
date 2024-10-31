@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-of-unpredictable-powerful-models
 lw-is-question: 'false'
 lw-posted-at: 2023-06-20T01:43:11.574000Z
-lw-last-modification: &id001 2024-03-27T02:57:58.444000Z
+lw-last-modification: 2024-03-27T02:57:58.444000Z
 lw-curation-date: None
 lw-frontpage-date: 2023-06-20T17:44:17.930000Z
 lw-was-unlisted: 'false'
@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-
 skip_import: true
 description: "A proposal for a government regulation of AI: Developers must be able\
   \ to accurately predict the model's output. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!warning]
 > No longer endorsed, as [I realized I don't believe in deceptive alignment from pretrained models](/invalid-ai-risk-arguments). Therefore, I no longer think it is inherently dangerous to pretrain sufficiently large language models.

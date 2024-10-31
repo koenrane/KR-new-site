@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-for-ai-x-risk-are-wrong
 lw-is-question: 'false'
 lw-posted-at: 2024-03-05T02:31:00.990000Z
-lw-last-modification: &id001 2024-07-09T07:23:08.172000Z
+lw-last-modification: 2024-07-09T07:23:08.172000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-03-05T18:53:43.326000Z
 lw-was-unlisted: 'false'
@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-f
 skip_import: true
 description: Arguments that AI will inevitably "scheme" are oversimplified and unconvincing.
   Deep learning defies naive predictions, and better arguments are needed.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!note] Author's note

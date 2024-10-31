@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/Cf2zBkoocqcjnrNFD/emotionally-confronting-a-probably-doomed-world-against
 lw-is-question: "false"
 lw-posted-at: 2022-04-10T18:45:08.027000Z
-lw-last-modification: &id001 2022-04-17T17:24:52.840000Z
+lw-last-modification: 2022-04-17T17:24:52.840000Z
 lw-curation-date: None
 lw-frontpage-date: 2022-04-10T18:57:58.928000Z
 lw-was-unlisted: "false"
@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/Cf2zBkoocqcjnrNFD/emotionally-conf
 skip_import: true
 description: Rejecting defeatism in the face of potential AI doom.  We shouldn't seek
   a “dignified” death—let's fight for a future worth living.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!note]
 > This article was written [in ignorance](/digital-minimalism) of the alignment community’s reaction to Eliezer’s “[Death with Dignity](https://www.lesswrong.com/posts/j9Q8bRmwCgXRYAgcJ/miri-announces-new-death-with-dignity-strategy)” post. The first part of this article responds to how I suspect some people reacted to that post, while the second part is my take on the post itself.

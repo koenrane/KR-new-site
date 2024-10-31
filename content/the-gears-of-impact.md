@@ -18,7 +18,7 @@ af-base-score: 18
 af-num-comments-on-upload: 0
 publish: true
 title: The Gears of Impact
-lw-latest-edit: &id001 2024-08-15T22:30:43.246000Z
+lw-latest-edit: 2024-08-15T22:30:43.246000Z
 lw-is-linkpost: 'false'
 tags:
   - understanding-the-world
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/PFqi66W.png
 description: 'Impact reframed: a gears-level view of how and why some things seem
   important to us.'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 ![](https://assets.turntrout.com/static/images/posts/hKhkvwg.avif)

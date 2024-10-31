@@ -18,7 +18,7 @@ af-base-score: 0
 af-num-comments-on-upload: 0
 publish: true
 title: "I want to take off the coat"
-lw-latest-edit: &id001 2018-07-29T00:35:24.674000Z
+lw-latest-edit: 2018-07-29T00:35:24.674000Z
 lw-is-linkpost: "false"
 tags:
   - "personal"
@@ -31,8 +31,9 @@ date_published: 2018-07-29 00:00:00
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
 skip_import: true
 description: Reflections on self-deception and the fleeting nature of genuine connection.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 There's a kind of yearning, to be _that_ person who can do _those_ things - this is self-actualization, yet corrupted. I often feel pulled in this way. I find myself wanting to be a certain person _now_, to be producing and being and feeling that way _now_, and I catch myself acting, speaking, signaling as if I were there _now_. As if I could make people happy by tiling the universe with smiley-faces.

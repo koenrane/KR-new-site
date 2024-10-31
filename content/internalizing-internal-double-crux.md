@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-internal-double-crux
 lw-is-question: 'false'
 lw-posted-at: 2018-04-30T18:23:14.653000Z
-lw-last-modification: &id001 2020-04-11T17:25:47.614000Z
+lw-last-modification: 2020-04-11T17:25:47.614000Z
 lw-curation-date: None
 lw-frontpage-date: None
 lw-was-unlisted: 'false'
@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-in
 skip_import: true
 description: 'Overcoming self-doubt: How emotionally-charged internal dialogue helped
   resolve long-held anxieties and limiting beliefs.'
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > In sciences such as [psychology](https://en.wikipedia.org/wiki/Psychology) and [sociology](https://en.wikipedia.org/wiki/Sociology), internalization involves the integration of attitudes, values, standards and the opinions of others into one's own identity or sense of self.

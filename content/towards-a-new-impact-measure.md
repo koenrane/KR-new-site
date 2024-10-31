@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure
 lw-is-question: 'false'
 lw-posted-at: 2018-09-18T17:21:34.114000Z
-lw-last-modification: &id001 2024-03-02T01:17:26.725000Z
+lw-last-modification: 2024-03-02T01:17:26.725000Z
 lw-curation-date: None
 lw-frontpage-date: 2018-09-18T17:28:41.565000Z
 lw-was-unlisted: 'false'
@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-im
 skip_import: true
 description: "Impact is reframed as a change in attainable utility for both humans\
   \ and AI agents. "
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!note] Summary

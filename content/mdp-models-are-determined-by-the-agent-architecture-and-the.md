@@ -6,7 +6,7 @@ lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-determined-by-the-agent-architecture-and-the
 lw-is-question: "false"
 lw-posted-at: 2021-05-26T00:14:00.699000Z
-lw-last-modification: &id001 2021-06-09T12:29:08.871000Z
+lw-last-modification: 2021-06-09T12:29:08.871000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-05-26T00:43:43.780000Z
 lw-was-unlisted: "false"
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-d
 skip_import: true
 description: "Agent architecture and environmental dynamics determine Markov Decision\
   \ Processes. Power-seeking tendencies are not subjective."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the "Markov decision process (MDP)[^POMDP] model") to the tendencies of optimal policies for different reward functions in that environment ("instrumental convergence"). The results tell us what optimal decision-making "tends to look like" in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.

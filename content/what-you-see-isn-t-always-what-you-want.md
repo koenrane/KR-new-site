@@ -18,7 +18,7 @@ af-base-score: 11
 af-num-comments-on-upload: 8
 publish: true
 title: "What You See Isn't Always What You Want"
-lw-latest-edit: &id001 2024-08-15T22:29:06.757000Z
+lw-latest-edit: 2024-08-15T22:29:06.757000Z
 lw-is-linkpost: "false"
 tags:
   - "AI"
@@ -33,8 +33,9 @@ skip_import: true
 description: Markovian reward functions are underdefined. Aligning AI isn't about
   designing the "right" reward, but designing rewards compatible with how the world
   is.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!failure] No longer endorsed. This isn't how reward functions work.
 

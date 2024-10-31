@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxation-as-a-tactic
 lw-is-question: 'false'
 lw-posted-at: 2020-04-22T23:44:42.398000Z
-lw-last-modification: &id001 2020-04-27T23:31:04.976000Z
+lw-last-modification: 2020-04-27T23:31:04.976000Z
 lw-curation-date: 2020-04-26T01:36:28.916000Z
 lw-frontpage-date: 2020-04-22T23:48:44.497000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxati
 skip_import: true
 description: Relax difficult problems by simplifying them while retaining their core
   challenge. This tactic has fueled some of my most exciting research.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!warning]

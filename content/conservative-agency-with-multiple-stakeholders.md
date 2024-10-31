@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/gLfHp8XaWpfsmXyWZ/conservative-agency-with-multiple-stakeholders
 lw-is-question: 'false'
 lw-posted-at: 2021-06-08T00:30:52.672000Z
-lw-last-modification: &id001 2021-06-08T18:17:16.607000Z
+lw-last-modification: 2021-06-08T18:17:16.607000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-06-08T03:37:44.144000Z
 lw-was-unlisted: 'false'
@@ -33,8 +33,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/5d8db03fe692d0a310f42ec0c249a6b2be892ea6e84ec762.png
 description: How to make AI agents avoid negative side effects, especially in multi-stakeholder
   environments.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 
 > [!note]

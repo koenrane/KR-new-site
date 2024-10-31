@@ -18,7 +18,7 @@ af-base-score: 23
 af-num-comments-on-upload: 11
 publish: true
 title: 'Attainable Utility Theory: Why Things Matter'
-lw-latest-edit: &id001 2019-10-02T04:41:15.243000Z
+lw-latest-edit: 2019-10-02T04:41:15.243000Z
 lw-is-linkpost: 'false'
 tags:
   - understanding-the-world
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/hqEX2r1.png
 description: "Description: Impact isn't about changing the world; it's about changing\
   \ our ability to achieve goals within it."
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 > [!warning]
 > If you haven’t read the prior posts, please do so now. This sequence can be spoiled.

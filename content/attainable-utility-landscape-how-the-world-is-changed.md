@@ -6,7 +6,7 @@ lw-is-debate: 'false'
 lw-page-url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 lw-is-question: 'false'
 lw-posted-at: 2020-02-10T00:58:01.453000Z
-lw-last-modification: &id001 2020-07-25T21:12:42.735000Z
+lw-last-modification: 2020-07-25T21:12:42.735000Z
 lw-curation-date: None
 lw-frontpage-date: 2020-02-10T01:35:52.303000Z
 lw-was-unlisted: 'false'
@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k5K8m32.png
 description: Examining how our actions reshape the landscape of achievable goals,
   highlighting opportunity costs and the structure of agency in shaping the future.
-date_updated: *id001
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 ![](https://assets.turntrout.com/static/images/posts/zLypKDZ.avif)
 

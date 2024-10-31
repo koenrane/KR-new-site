@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/L5JSMZQvkBAx9MD5A/to-what-extent-i
 skip_import: true
 description: Examining the reasoning capabilities of GPT-3 through a series of hypothetical
   questions and scenarios.
-date_updated: 2024-10-27 19:14:04.653922
+date_updated: 2024-10-30 18:09:31.133945
 ---
+
 
 ETA 8/19/20: This interview was conducted with AIDungeon's Dragon model in Custom mode. At the time of writing, the first reply in each exchange was actually sampled from GPT-2. 
 
