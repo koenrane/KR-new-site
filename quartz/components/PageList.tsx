@@ -16,7 +16,12 @@ export function byDateAndAlphabetical(
   return (f1, f2) => {
     if (f1.dates && f2.dates) {
       // sort descending
-      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
+      const date1 = getDate(cfg, f1)
+      const date2 = getDate(cfg, f2)
+      if (!date1 || !date2) {
+        return 0
+      }
+      return date2.getTime() - date1.getTime()
     } else if (f1.dates && !f2.dates) {
       // prioritize files with dates
       return -1
@@ -73,24 +78,24 @@ export function createPageListHast(
           let tags = page.frontmatter?.tags ?? []
           tags = tags.sort((a, b) => b.length - a.length)
 
+          const date = getDate(cfg, page)?.toLocaleDateString() || ""
+          const fileDataSlug = fileData.slug || ("" as FullSlug)
+          const pageSlug = page.slug || ("" as FullSlug)
+
           return [
             h("li.section-li", [
               h("div.section", [
-                page.dates &&
-                  h("time.meta", [
-                    // Date string can be formatted directly here
-                    new Date(getDate(cfg, page)!).toLocaleDateString(),
-                  ]),
+                page.dates && h("time.meta", [date]),
                 h("div.desc", [
                   h("p", [
-                    h("a.internal", { href: resolveRelative(fileData.slug!, page.slug!) }, title),
+                    h("a.internal", { href: resolveRelative(fileDataSlug, pageSlug) }, title),
                   ]),
                   h(
                     "ul.tags",
                     tags.map((tag) =>
                       h(
                         "a.internal.tag-link",
-                        { href: resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug) },
+                        { href: resolveRelative(fileDataSlug, `tags/${tag}` as FullSlug) },
                         formatTag(tag),
                       ),
                     ),

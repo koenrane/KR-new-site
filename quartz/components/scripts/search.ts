@@ -434,7 +434,7 @@ export function setupSearch() {
         fetchContentCache.set(slug, fetchPromise)
       }
 
-      return fetchContentCache.get(slug)!
+      return fetchContentCache.get(slug) ?? ({} as FetchResult)
     }
 
     async function displayPreview(el: HTMLElement | null) {

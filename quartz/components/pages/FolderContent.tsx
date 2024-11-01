@@ -4,7 +4,7 @@ import React from "react"
 
 import { i18n } from "../../i18n"
 import { htmlToJsx } from "../../util/jsx"
-import { stripSlashes, simplifySlug } from "../../util/path"
+import { stripSlashes, simplifySlug, FullSlug, FilePath } from "../../util/path"
 import { PageList } from "../PageList"
 import style from "../styles/listPage.scss"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
@@ -25,9 +25,9 @@ export default ((opts?: Partial<FolderContentOptions>) => {
 
   const FolderContent: QuartzComponent = (props: QuartzComponentProps) => {
     const { tree, fileData, allFiles, cfg } = props
-    const folderSlug = stripSlashes(simplifySlug(fileData.slug!))
+    const folderSlug = stripSlashes(simplifySlug(fileData.slug || ("" as FullSlug)))
     const allPagesInFolder = allFiles.filter((file) => {
-      const fileSlug = stripSlashes(simplifySlug(file.slug!))
+      const fileSlug = stripSlashes(simplifySlug(file.slug || ("" as FullSlug)))
       const prefixed = fileSlug.startsWith(folderSlug) && fileSlug !== folderSlug
       const folderParts = folderSlug.split(path.posix.sep)
       const fileParts = fileSlug.split(path.posix.sep)
@@ -44,7 +44,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     const content =
       (tree as Root).children.length === 0
         ? fileData.description
-        : htmlToJsx(fileData.filePath!, tree)
+        : htmlToJsx(fileData.filePath || ("" as FilePath), tree)
 
     return (
       <div className={classes}>

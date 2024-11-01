@@ -39,7 +39,7 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
     .use(
       transformers
         .filter((p) => p.markdownPlugins)
-        .flatMap((plugin) => plugin.markdownPlugins!(ctx)),
+        .flatMap((plugin) => plugin.markdownPlugins?.(ctx) ?? []),
     )
     .use(remarkDefinitionList)
     .use(remarkCaptions)
@@ -56,7 +56,11 @@ export function createProcessor(ctx: BuildCtx): QuartzProcessor {
         themeVariables: { lineColor: "var(--gray)" },
       },
     })
-    .use(transformers.filter((p) => p.htmlPlugins).flatMap((plugin) => plugin.htmlPlugins!(ctx)))
+    .use(
+      transformers
+        .filter((p) => p.htmlPlugins)
+        .flatMap((plugin) => plugin.htmlPlugins?.(ctx) ?? []),
+    )
 }
 
 function* chunks<T>(arr: T[], n: number) {
@@ -111,7 +115,7 @@ export function createFileParser(ctx: BuildCtx, fps: FilePath[]) {
 
         // Text -> Text transforms
         for (const plugin of cfg.plugins.transformers.filter((p) => p.textTransform)) {
-          file.value = plugin.textTransform!(ctx, file.value.toString())
+          file.value = plugin.textTransform?.(ctx, file.value.toString()) ?? file.value
         }
 
         // base data properties that plugins may use

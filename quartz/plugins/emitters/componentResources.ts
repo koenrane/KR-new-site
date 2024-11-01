@@ -1,4 +1,5 @@
 import { transform as transpile } from "esbuild"
+import { Features, transform } from "lightningcss"
 
 import { FilePath, FullSlug, joinSegments } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
@@ -10,13 +11,10 @@ import spaRouterScript from "../../components/scripts/spa.inline"
 import popoverScript from "../../components/scripts/popover.inline"
 import popoverStyle from "../../components/styles/popover.scss"
 import { QuartzComponent } from "../../components/types"
+import DepGraph from "../../depgraph"
 import styles from "../../styles/custom.scss"
 import { BuildCtx } from "../../util/ctx"
 import { googleFontHref, joinStyles } from "../../util/theme"
-// @ts-expect-error Can't find module
-import { Features, transform } from "lightningcss"
-
-import DepGraph from "../../depgraph"
 import { write } from "./helpers"
 
 type ComponentResources = {

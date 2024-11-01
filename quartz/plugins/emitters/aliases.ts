@@ -15,7 +15,7 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
 
     const { argv } = ctx
     for (const [, file] of content) {
-      const dir = path.posix.relative(argv.directory, path.dirname(file.data.filePath!))
+      const dir = path.posix.relative(argv.directory, path.dirname(file.data.filePath || ""))
       const aliases = file.data.frontmatter?.aliases ?? []
       const slugs = aliases.map((alias) => path.posix.join(dir, alias) as FullSlug)
       const permalink = file.data.frontmatter?.permalink
@@ -29,7 +29,10 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
           slug = joinSegments(slug, "index") as FullSlug
         }
 
-        graph.addEdge(file.data.filePath!, joinSegments(argv.output, slug + ".html") as FilePath)
+        graph.addEdge(
+          file.data.filePath || ("" as FilePath),
+          joinSegments(argv.output, slug + ".html") as FilePath,
+        )
       }
     }
 
@@ -40,8 +43,8 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
     const fps: FilePath[] = []
 
     for (const [, file] of content) {
-      const ogSlug = simplifySlug(file.data.slug!)
-      const dir = path.posix.relative(argv.directory, path.dirname(file.data.filePath!))
+      const ogSlug = simplifySlug(file.data.slug || ("" as FullSlug))
+      const dir = path.posix.relative(argv.directory, path.dirname(file.data.filePath || ""))
       const aliases = file.data.frontmatter?.aliases ?? []
       const slugs: FullSlug[] = aliases.map((alias) => path.posix.join(dir, alias) as FullSlug)
       const permalink = file.data.frontmatter?.permalink
@@ -57,7 +60,7 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
           slug = joinSegments(slug, "index") as FullSlug
         }
 
-        const redirUrl = resolveRelative(slug, file.data.slug!)
+        const redirUrl = resolveRelative(slug, file.data.slug || ("" as FullSlug))
         const fp = await write({
           ctx,
           content: `

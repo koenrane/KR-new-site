@@ -41,7 +41,7 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options> | und
             let modified: MaybeDate = undefined
             let published: MaybeDate = undefined
 
-            const fp = file.data.filePath!
+            const fp = file.data.filePath || ""
             const fullFp = path.isAbsolute(fp) ? fp : path.posix.join(file.cwd, fp)
             for (const source of opts.priority) {
               if (source === "filesystem") {
@@ -65,12 +65,11 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options> | und
                 }
 
                 try {
-                  modified ||= await repo.getFileLatestModifiedDateAsync(file.data.filePath!)
+                  modified ||= await repo.getFileLatestModifiedDateAsync(file.data.filePath || "")
                 } catch {
                   console.log(
                     chalk.yellow(
-                      `\nWarning: ${file.data
-                        .filePath!} isn't yet tracked by git, last modification date is not available for this file`,
+                      `\nWarning: ${file.data.filePath} isn't yet tracked by git, last modification date is not available for this file`,
                     ),
                   )
                 }

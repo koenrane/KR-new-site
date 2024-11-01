@@ -4,6 +4,7 @@ import React from "react"
 
 import { htmlToJsx } from "../../util/jsx"
 import { getAllSegmentPrefixes, FullSlug } from "../../util/path"
+import { FilePath } from "../../util/path"
 import style from "../styles/listPage.scss"
 import { formatTag } from "../TagList"
 import { QuartzComponent, QuartzComponentProps } from "../types"
@@ -68,7 +69,7 @@ const AllTagsContent: QuartzComponent = (props: QuartzComponentProps) => {
 // Helper function to generate JSX block (used by the component)
 function generateAllTagsBlock(props: QuartzComponentProps): JSX.Element | undefined {
   const hast = generateAllTagsHast(props)
-  return htmlToJsx(props.fileData.filePath!, hast)
+  return htmlToJsx(props.fileData.filePath || ("" as FilePath), hast)
 }
 
 AllTagsContent.css = style

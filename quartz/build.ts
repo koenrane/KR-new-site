@@ -111,7 +111,7 @@ async function startServing(
   const contentMap = new Map<FilePath, ProcessedContent>()
   for (const content of initialContent) {
     const [, vfile] = content
-    contentMap.set(vfile.data.filePath!, content)
+    contentMap.set(vfile.data.filePath || ("" as FilePath), content)
   }
 
   const buildData: BuildData = {
@@ -179,7 +179,9 @@ async function partialRebuildFromEntrypoint(
     case "add":
       // add to cache when new file is added
       processedFiles = await parseMarkdown(ctx, [fp])
-      processedFiles.forEach(([tree, vfile]) => contentMap.set(vfile.data.filePath!, [tree, vfile]))
+      processedFiles.forEach(([tree, vfile]) =>
+        contentMap.set(vfile.data.filePath || ("" as FilePath), [tree, vfile]),
+      )
 
       // update the dep graph by asking all emitters whether they depend on this file
       for (const emitter of cfg.plugins.emitters) {
@@ -200,7 +202,9 @@ async function partialRebuildFromEntrypoint(
     case "change":
       // invalidate cache when file is changed
       processedFiles = await parseMarkdown(ctx, [fp])
-      processedFiles.forEach(([tree, vfile]) => contentMap.set(vfile.data.filePath!, [tree, vfile]))
+      processedFiles.forEach(([tree, vfile]) =>
+        contentMap.set(vfile.data.filePath || ("" as FilePath), [tree, vfile]),
+      )
 
       // only content files can have added/removed dependencies because of transclusions
       if (path.extname(fp) === ".md") {
@@ -243,7 +247,7 @@ async function partialRebuildFromEntrypoint(
       }
 
       const files = [...contentMap.values()].filter(
-        ([, vfile]) => !toRemove.has(vfile.data.filePath!),
+        ([, vfile]) => !toRemove.has(vfile.data.filePath || ("" as FilePath)),
       )
 
       const emittedFps = await emitter.emit(ctx, files, staticResources)
@@ -274,9 +278,14 @@ async function partialRebuildFromEntrypoint(
         .filter((file) => contentMap.has(file))
         // if file was deleted, don't give it to the emitter
         .filter((file) => !toRemove.has(file))
-        .map((file) => contentMap.get(file)!)
+        .map((file) => contentMap.get(file) || [])
+        .filter((content) => content.length > 0)
 
-      const emittedFps = await emitter.emit(ctx, upstreamContent, staticResources)
+      const emittedFps = await emitter.emit(
+        ctx,
+        upstreamContent as ProcessedContent[],
+        staticResources,
+      )
 
       if (ctx.argv.verbose) {
         for (const file of emittedFps) {
@@ -375,7 +384,7 @@ async function rebuildFromEntrypoint(
     const parsedContent = await parseMarkdown(ctx, filesToRebuild)
     for (const content of parsedContent) {
       const [, vfile] = content
-      contentMap.set(vfile.data.filePath!, content)
+      contentMap.set(vfile.data.filePath || ("" as FilePath), content)
     }
 
     for (const fp of toRemove) {

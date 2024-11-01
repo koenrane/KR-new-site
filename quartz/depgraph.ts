@@ -43,10 +43,10 @@ export default class DepGraph<T> {
   removeNode(node: T): void {
     if (this._graph.has(node)) {
       // first remove all edges so other nodes don't have references to this node
-      for (const target of this._graph.get(node)!.outgoing) {
+      for (const target of this._graph.get(node)?.outgoing ?? []) {
         this.removeEdge(node, target)
       }
-      for (const source of this._graph.get(node)!.incoming) {
+      for (const source of this._graph.get(node)?.incoming ?? []) {
         this.removeEdge(source, node)
       }
       this._graph.delete(node)
@@ -67,14 +67,14 @@ export default class DepGraph<T> {
     this.addNode(from)
     this.addNode(to)
 
-    this._graph.get(from)!.outgoing.add(to)
-    this._graph.get(to)!.incoming.add(from)
+    this._graph.get(from)?.outgoing.add(to)
+    this._graph.get(to)?.incoming.add(from)
   }
 
   removeEdge(from: T, to: T): void {
     if (this._graph.has(from) && this._graph.has(to)) {
-      this._graph.get(from)!.outgoing.delete(to)
-      this._graph.get(to)!.incoming.delete(from)
+      this._graph.get(from)?.outgoing.delete(to)
+      this._graph.get(to)?.incoming.delete(from)
     }
   }
 

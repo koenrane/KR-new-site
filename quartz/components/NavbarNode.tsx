@@ -9,6 +9,7 @@ import {
   SimpleSlug,
   FilePath,
 } from "../util/path"
+import { FullSlug } from "../util/path"
 
 type OrderEntries = "sort" | "filter" | "map"
 
@@ -100,7 +101,7 @@ export class FileNode {
 
   // Add new file to tree
   add(file: QuartzPluginData) {
-    this.insert({ file: file, path: simplifySlug(file.slug!).split("/") })
+    this.insert({ file: file, path: simplifySlug(file.slug || ("" as FullSlug)).split("/") })
   }
 
   /**
@@ -179,7 +180,13 @@ export function NavbarNode({ node, opts, fullPath, fileData }: NavbarNodeProps) 
       {node.file ? (
         // Single file node
         <li key={node.file.slug}>
-          <a href={resolveRelative(fileData.slug!, node.file.slug!)} data-for={node.file.slug}>
+          <a
+            href={resolveRelative(
+              fileData.slug || ("" as FullSlug),
+              node.file.slug || ("" as FullSlug),
+            )}
+            data-for={node.file.slug}
+          >
             {node.displayName}
           </a>
         </li>
@@ -207,7 +214,10 @@ export function NavbarNode({ node, opts, fullPath, fileData }: NavbarNodeProps) 
               <div key={node.name} data-folderpath={folderPath}>
                 {folderBehavior === "link" ? (
                   <a
-                    href={resolveRelative(fileData.slug!, folderPath as SimpleSlug)}
+                    href={resolveRelative(
+                      fileData.slug || ("" as FullSlug),
+                      folderPath as SimpleSlug,
+                    )}
                     data-for={node.name}
                     className="folder-title"
                   >

@@ -18,8 +18,8 @@ export class QuartzLogger {
   }
 
   end(text?: string) {
-    if (!this.verbose) {
-      this.spinner!.stop(true)
+    if (!this.verbose && this.spinner) {
+      this.spinner.stop(true)
     }
     if (text) {
       console.log(text)

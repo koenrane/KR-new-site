@@ -17,7 +17,7 @@ export function escapePath(fp) {
 export function exitIfCancel(val) {
   if (isCancel(val)) {
     outro(chalk.red("Exiting"))
-    process.exit(0)
+    process.exit(0) // deepsource-disable-line
   } else {
     return val
   }
