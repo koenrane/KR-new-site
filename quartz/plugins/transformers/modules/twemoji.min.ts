@@ -103,7 +103,7 @@ export var twemoji =
             for (c in (((l = new Image()).onerror = u.onerror),
             l.setAttribute("draggable", "false"),
             ($ = u.attributes(p, x))))
-              $.hasOwnProperty(c) &&
+              Object.prototype.hasOwnProperty.call($, c) &&
                 0 !== c.indexOf("on") &&
                 !l.hasAttribute(c) &&
                 l.setAttribute(c, $[c])
@@ -136,7 +136,7 @@ export var twemoji =
             '"',
           )),
           (f = u.attributes(d, e))))
-            f.hasOwnProperty($) &&
+            Object.prototype.hasOwnProperty.call(f, $) &&
               0 !== $.indexOf("on") &&
               -1 === c.indexOf(" " + $ + "=") &&
               (c = c.concat(" ", $, '="', _(f[$]), '"'))
