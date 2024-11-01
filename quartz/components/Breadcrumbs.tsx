@@ -1,9 +1,10 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import breadcrumbsStyle from "./styles/breadcrumbs.scss"
-import { FullSlug, SimpleSlug, joinSegments, resolveRelative } from "../util/path"
+import React from "react"
+
 import { QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
-import React from "react"
+import { FullSlug, SimpleSlug, joinSegments, resolveRelative } from "../util/path"
+import breadcrumbsStyle from "./styles/breadcrumbs.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 type CrumbData = {
   displayName: string

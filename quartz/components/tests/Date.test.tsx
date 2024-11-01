@@ -1,5 +1,5 @@
-import { getOrdinalSuffix, formatDate } from "../Date"
 import { ValidLocale } from "../../i18n"
+import { getOrdinalSuffix, formatDate } from "../Date"
 
 describe("getOrdinalSuffix", () => {
   it.each([

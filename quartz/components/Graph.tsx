@@ -1,10 +1,11 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import React from "react"
+
+import { i18n } from "../i18n"
+import { classNames } from "../util/lang"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 // @ts-expect-error Not a module but a script
 import script from "./scripts/graph.inline"
 import style from "./styles/graph.scss"
-import { i18n } from "../i18n"
-import { classNames } from "../util/lang"
 
 export interface D3Config {
   drag: boolean

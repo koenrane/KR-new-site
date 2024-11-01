@@ -1,8 +1,9 @@
+import chalk from "chalk"
+import fs from "fs"
+
+import DepGraph from "../../depgraph"
 import { FilePath, joinSegments } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
-import fs from "fs"
-import chalk from "chalk"
-import DepGraph from "../../depgraph"
 
 export function extractDomainFromBaseUrl(baseUrl: string) {
   const url = new URL(`https://${baseUrl}`)

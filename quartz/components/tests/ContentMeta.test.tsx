@@ -3,6 +3,16 @@
  */
 import { jest } from "@jest/globals"
 import { describe, it, expect, beforeEach } from "@jest/globals"
+import React from "react"
+import ReactDOM from "react-dom/client"
+
+import { GlobalConfiguration } from "../../cfg"
+import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
+import { QuartzPluginData } from "../../plugins/vfile"
+
+import "@testing-library/jest-dom"
+
+import { FilePath } from "../../util/path"
 import {
   ContentMetadata,
   RenderPublicationInfo,
@@ -12,14 +22,7 @@ import {
   renderLastUpdated,
   renderReadingTime,
 } from "../ContentMeta"
-import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
-import React from "react"
-import { GlobalConfiguration } from "../../cfg"
-import { QuartzPluginData } from "../../plugins/vfile"
-import "@testing-library/jest-dom"
-import ReactDOM from "react-dom/client"
 import { QuartzComponentProps } from "../types"
-import { FilePath } from "../../util/path"
 
 // Update the mock setup
 jest.mock("../ContentMeta", () => ({

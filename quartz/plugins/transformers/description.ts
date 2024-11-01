@@ -1,7 +1,8 @@
 import { Root as HTMLRoot } from "hast"
 import { toString } from "hast-util-to-string"
-import { QuartzTransformerPlugin } from "../types"
+
 import { escapeHTML } from "../../util/escape"
+import { QuartzTransformerPlugin } from "../types"
 import { urlRegex } from "./utils"
 
 export interface Options {

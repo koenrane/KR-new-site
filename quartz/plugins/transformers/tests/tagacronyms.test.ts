@@ -1,4 +1,6 @@
 import { rehype } from "rehype"
+import seedrandom from "seedrandom"
+
 import {
   allowAcronyms,
   rehypeTagAcronyms,
@@ -10,7 +12,6 @@ import {
   allCapsContinuation,
   REGEX_ALL_CAPS_PHRASE,
 } from "../tagacronyms"
-import seedrandom from "seedrandom"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
 const nasaIn = "<p>NASA launched a new satellite for NOAA to study GCRs.</p>"

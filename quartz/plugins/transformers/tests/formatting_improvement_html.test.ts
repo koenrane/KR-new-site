@@ -1,3 +1,7 @@
+import { Element } from "hast"
+import { h } from "hastscript"
+import { rehype } from "rehype"
+
 import {
   hyphenReplace,
   niceQuotes,
@@ -13,9 +17,6 @@ import {
   minusReplace,
   l_pRegex,
 } from "../formatting_improvement_html"
-import { rehype } from "rehype"
-import { h } from "hastscript"
-import { Element } from "hast"
 
 function testHtmlFormattingImprovement(
   inputHTML: string,

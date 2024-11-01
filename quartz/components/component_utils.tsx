@@ -1,4 +1,5 @@
 import { titleCase } from "title-case"
+
 import { applyTextTransforms } from "../plugins/transformers/formatting_improvement_html"
 
 export function formatTitle(title: string): string {

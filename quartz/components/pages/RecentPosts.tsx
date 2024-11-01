@@ -1,8 +1,9 @@
-import { QuartzComponent, QuartzComponentProps } from "../types"
-import style from "../styles/listPage.scss"
-import { PageList } from "../PageList"
 import React from "react"
+
 import { FullSlug } from "../../util/path"
+import { PageList } from "../PageList"
+import style from "../styles/listPage.scss"
+import { QuartzComponent, QuartzComponentProps } from "../types"
 
 export const recentSlug = "recent" as FullSlug
 export const recentTitle = "Recent Posts"

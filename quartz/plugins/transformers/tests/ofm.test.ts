@@ -1,9 +1,10 @@
-import { unified } from "unified"
+import rehypeStringify from "rehype-stringify"
 import remarkParse from "remark-parse"
 import remarkRehype from "remark-rehype"
-import rehypeStringify from "rehype-stringify"
-import { markdownPlugins, defaultOptions, processWikilink } from "../ofm"
+import { unified } from "unified"
 import { VFile } from "vfile"
+
+import { markdownPlugins, defaultOptions, processWikilink } from "../ofm"
 
 describe("markdownPlugins", () => {
   const testMarkdownPlugins = (input: string) => {

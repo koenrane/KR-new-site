@@ -1,16 +1,15 @@
-import { render } from "preact-render-to-string"
-import { QuartzComponent, QuartzComponentProps } from "./types"
-import HeaderConstructor from "./Header"
-import BodyConstructor from "./Body"
-import { JSResourceToScriptElement, StaticResources } from "../util/resources"
-import { clone, FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
-import { visit } from "unist-util-visit"
 import { Root, Element, ElementContent } from "hast"
+import { render } from "preact-render-to-string"
+import React from "react"
+import { visit } from "unist-util-visit"
+
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
-import React from "react"
 import { QuartzPluginData } from "../plugins/vfile"
-import { recentDescription, recentSlug, recentTitle, recentPostsListing } from "./pages/RecentPosts"
+import { clone, FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
+import { JSResourceToScriptElement, StaticResources } from "../util/resources"
+import BodyConstructor from "./Body"
+import HeaderConstructor from "./Header"
 import { createPageListHast } from "./PageList"
 import {
   allTagsSlug,
@@ -19,6 +18,8 @@ import {
   allTagsListing,
   generateAllTagsHast,
 } from "./pages/AllTagsContent"
+import { recentDescription, recentSlug, recentTitle, recentPostsListing } from "./pages/RecentPosts"
+import { QuartzComponent, QuartzComponentProps } from "./types"
 
 interface RenderComponents {
   head: QuartzComponent

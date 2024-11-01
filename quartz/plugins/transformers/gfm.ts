@@ -1,16 +1,18 @@
+import type { Plugin as UnifiedPlugin, PluggableList } from "unified"
+
 import GithubSlugger from "github-slugger"
+import { Root, Element } from "hast"
+import { Text } from "hast"
 import { headingRank } from "hast-util-heading-rank"
 import { toString } from "hast-util-to-string"
-import { visit } from "unist-util-visit"
 import { h } from "hastscript"
+import rehypeAutolinkHeadings from "rehype-autolink-headings"
+import rehypeSlug from "rehype-slug"
 import remarkGfm from "remark-gfm"
 import smartypants from "remark-smartypants"
+import { visit } from "unist-util-visit"
+
 import { QuartzTransformerPlugin } from "../types"
-import rehypeAutolinkHeadings from "rehype-autolink-headings"
-import { Root, Element } from "hast"
-import rehypeSlug from "rehype-slug"
-import { Text } from "hast"
-import type { Plugin as UnifiedPlugin, PluggableList } from "unified"
 
 export interface Options {
   enableSmartyPants: boolean

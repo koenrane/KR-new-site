@@ -1,9 +1,25 @@
-import globals from "globals"
 import pluginJs from "@eslint/js"
-import tseslint from "typescript-eslint"
+import perfectionist from "eslint-plugin-perfectionist"
 import pluginReact from "eslint-plugin-react"
+import globals from "globals"
+import tseslint from "typescript-eslint"
 
 export default [
+  {
+    plugins: {
+      perfectionist,
+    },
+    rules: {
+      "perfectionist/sort-imports": [
+        "error",
+        {
+          type: "natural",
+          order: "asc",
+        },
+      ],
+    },
+  },
+
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 
   {

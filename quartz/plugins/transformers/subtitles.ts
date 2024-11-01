@@ -1,6 +1,7 @@
-import { visit } from "unist-util-visit"
-import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, Parent } from "hast"
+import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
 
 export const SUBTITLE_REGEX = /^Subtitle:\s*(.*)/
 

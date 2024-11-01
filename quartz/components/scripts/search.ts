@@ -1,8 +1,9 @@
-import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 import FlexSearch from "flexsearch"
+
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
-import { registerEscapeHandler, removeAllChildren, debounce } from "./util"
+import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 import { FullSlug, normalizeRelativeURLs, resolveRelative } from "../../util/path"
+import { registerEscapeHandler, removeAllChildren, debounce } from "./util"
 
 interface Item {
   id: number

@@ -1,26 +1,24 @@
-import fs, { promises } from "fs"
-import path from "path"
-import esbuild from "esbuild"
-import process from "node:process"
-import chalk from "chalk"
-import { sassPlugin } from "esbuild-sass-plugin"
 import { intro, outro, select, text } from "@clack/prompts"
-import { rimraf } from "rimraf"
-import chokidar from "chokidar"
-import prettyBytes from "pretty-bytes"
+import { Mutex } from "async-mutex"
+import chalk from "chalk"
+import * as cheerio from "cheerio"
 import { execSync, spawnSync } from "child_process"
+import chokidar from "chokidar"
+import { generate } from "critical"
+import { randomUUID } from "crypto"
+import esbuild from "esbuild"
+import { sassPlugin } from "esbuild-sass-plugin"
+import fs, { promises } from "fs"
+import glob from "glob-promise"
 import http from "http"
+import process from "node:process"
+import PQueue from "p-queue"
+import path from "path"
+import prettyBytes from "pretty-bytes"
+import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
-import { randomUUID } from "crypto"
-import { Mutex } from "async-mutex"
-import {
-  exitIfCancel,
-  escapePath,
-  gitPull,
-  popContentFolder,
-  stashContentFolder,
-} from "./helpers.js"
+
 import {
   UPSTREAM_NAME,
   QUARTZ_SOURCE_BRANCH,
@@ -30,10 +28,13 @@ import {
   cacheFile,
   cwd,
 } from "./constants.js"
-import { generate } from "critical"
-import glob from "glob-promise"
-import PQueue from "p-queue"
-import * as cheerio from "cheerio"
+import {
+  exitIfCancel,
+  escapePath,
+  gitPull,
+  popContentFolder,
+  stashContentFolder,
+} from "./helpers.js"
 
 /**
  * Handles `npx quartz create`

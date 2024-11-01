@@ -1,6 +1,7 @@
-import { slugify, resetSlugger, maybeSpliceAndAppendBackArrow, removeBackArrow } from "../gfm"
-import { h } from "hastscript"
 import { Element } from "hast"
+import { h } from "hastscript"
+
+import { slugify, resetSlugger, maybeSpliceAndAppendBackArrow, removeBackArrow } from "../gfm"
 
 describe("slugify function", () => {
   beforeEach(() => {

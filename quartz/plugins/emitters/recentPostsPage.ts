@@ -1,19 +1,19 @@
-import { QuartzEmitterPlugin } from "../types"
-import { QuartzComponentProps } from "../../components/types"
-import HeaderConstructor from "../../components/Header"
-import BodyConstructor from "../../components/Body"
-import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { write } from "./helpers"
-import DepGraph from "../../depgraph"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
-import { StaticResources } from "../../util/resources"
+import BodyConstructor from "../../components/Body"
+import HeaderConstructor from "../../components/Header"
 import RecentPosts, {
   recentDescription,
   recentSlug,
   recentTitle,
 } from "../../components/pages/RecentPosts"
+import { pageResources, renderPage } from "../../components/renderPage"
+import { QuartzComponentProps } from "../../components/types"
+import DepGraph from "../../depgraph"
+import { FilePath, pathToRoot } from "../../util/path"
+import { StaticResources } from "../../util/resources"
+import { QuartzEmitterPlugin } from "../types"
+import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import { write } from "./helpers"
 
 export const RecentPostsPage: QuartzEmitterPlugin = () => {
   const opts = {

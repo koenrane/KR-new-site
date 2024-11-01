@@ -1,12 +1,13 @@
-import { visit } from "unist-util-visit"
-import { createLogger } from "./logger_utils"
-import { Readable } from "stream"
-import { ReadableStream } from "stream/web"
-import { Element, Root, Text, Parent } from "hast"
 import fs from "fs"
+import { Element, Root, Text, Parent } from "hast"
 import path from "path"
-import { fileURLToPath } from "url"
+import { Readable } from "stream"
 import { pipeline } from "stream/promises"
+import { ReadableStream } from "stream/web"
+import { visit } from "unist-util-visit"
+import { fileURLToPath } from "url"
+
+import { createLogger } from "./logger_utils"
 
 const logger = createLogger("linkfavicons")
 

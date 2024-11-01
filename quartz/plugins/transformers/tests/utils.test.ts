@@ -1,7 +1,8 @@
-import { h } from "hastscript"
-import { replaceRegex, ReplaceFnResult } from "../utils"
 import { jest } from "@jest/globals"
 import { Parent, Text } from "hast"
+import { h } from "hastscript"
+
+import { replaceRegex, ReplaceFnResult } from "../utils"
 
 const acceptAll = () => false
 describe("replaceRegex", () => {

@@ -1,11 +1,14 @@
-import { QuartzEmitterPlugin } from "../types"
-import { QuartzComponentProps } from "../../components/types"
-import HeaderConstructor from "../../components/Header"
-import BodyConstructor from "../../components/Body"
-import { pageResources, renderPage } from "../../components/renderPage"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
-import { FullPageLayout } from "../../cfg"
 import path from "path"
+
+import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
+import { FullPageLayout } from "../../cfg"
+import { FolderContent } from "../../components"
+import BodyConstructor from "../../components/Body"
+import HeaderConstructor from "../../components/Header"
+import { pageResources, renderPage } from "../../components/renderPage"
+import { QuartzComponentProps } from "../../components/types"
+import DepGraph from "../../depgraph"
+import { i18n } from "../../i18n"
 import {
   FilePath,
   FullSlug,
@@ -15,11 +18,9 @@ import {
   pathToRoot,
   simplifySlug,
 } from "../../util/path"
-import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { FolderContent } from "../../components"
+import { QuartzEmitterPlugin } from "../types"
+import { ProcessedContent, defaultProcessedContent } from "../vfile"
 import { write } from "./helpers"
-import { i18n } from "../../i18n"
-import DepGraph from "../../depgraph"
 
 export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
   const opts: FullPageLayout = {

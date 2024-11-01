@@ -1,10 +1,12 @@
-import { QuartzEmitterPlugin } from "../types"
-import { QuartzComponentProps } from "../../components/types"
-import HeaderConstructor from "../../components/Header"
-import BodyConstructor from "../../components/Body"
-import { pageResources, renderPage } from "../../components/renderPage"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { FullPageLayout } from "../../cfg"
+import { TagContent } from "../../components"
+import BodyConstructor from "../../components/Body"
+import HeaderConstructor from "../../components/Header"
+import { pageResources, renderPage } from "../../components/renderPage"
+import { QuartzComponentProps } from "../../components/types"
+import DepGraph from "../../depgraph"
+import { i18n } from "../../i18n"
 import {
   FilePath,
   FullSlug,
@@ -12,11 +14,9 @@ import {
   joinSegments,
   pathToRoot,
 } from "../../util/path"
-import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { TagContent } from "../../components"
+import { QuartzEmitterPlugin } from "../types"
+import { ProcessedContent, defaultProcessedContent } from "../vfile"
 import { write } from "./helpers"
-import { i18n } from "../../i18n"
-import DepGraph from "../../depgraph"
 
 /**
  * TagPage plugin for Quartz

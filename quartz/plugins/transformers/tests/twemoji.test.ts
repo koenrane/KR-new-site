@@ -1,7 +1,9 @@
-import { h } from "hastscript"
 import { jest } from "@jest/globals"
 import { Element } from "hast"
+import { h } from "hastscript"
 import { Node } from "unist"
+import { Node as UnistNode } from "unist"
+
 import {
   TWEMOJI_BASE_URL,
   TwemojiOptions,
@@ -10,7 +12,6 @@ import {
   createNodes,
   processTree,
 } from "../twemoji"
-import { Node as UnistNode } from "unist"
 
 interface CustomNode extends UnistNode {
   children?: CustomNode[]

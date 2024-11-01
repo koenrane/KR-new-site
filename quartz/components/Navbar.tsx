@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
 
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
-import navbarStyle from "./styles/navbar.scss"
+import React from "react"
 
+import { i18n } from "../i18n"
+import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
+import { headerVideoContainer } from "./PageTitle"
+import navbarStyle from "./styles/navbar.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 // @ts-expect-error Not a module but a script
 import script from "./scripts/navbar.inline"
-import { headerVideoContainer } from "./PageTitle"
-import React from "react"
-import { i18n } from "../i18n"
 
 const darkMode = (
   <span className="darkmode no-select">

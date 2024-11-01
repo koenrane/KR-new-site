@@ -4,6 +4,8 @@
 
 import { jest, describe, it, expect, beforeEach } from "@jest/globals"
 import { Parent } from "hast"
+import { h } from "hastscript"
+
 import { TocEntry } from "../../plugins/transformers/toc"
 import {
   CreateTableOfContents,
@@ -13,7 +15,6 @@ import {
   processKatex,
   buildNestedList,
 } from "../TableOfContents"
-import { h } from "hastscript"
 
 // Mock the createLogger function
 jest.mock("../../plugins/transformers/logger_utils", () => ({

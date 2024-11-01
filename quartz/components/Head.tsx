@@ -6,12 +6,13 @@
 }
 // for the onLoad event
 
-import { i18n } from "../i18n"
-import { JSResourceToScriptElement } from "../util/resources"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { formatTitle } from "./component_utils"
 import React from "react"
+
+import { i18n } from "../i18n"
 import { joinSegments, pathToRoot } from "../util/path"
+import { JSResourceToScriptElement } from "../util/resources"
+import { formatTitle } from "./component_utils"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {

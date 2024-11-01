@@ -1,10 +1,10 @@
-import { Components, Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime"
 import { Node, Root } from "hast"
+import { Components, Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime"
 import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
-import { trace } from "./trace"
-import { type FilePath } from "./path"
-
 import React, { HTMLAttributes } from "react"
+
+import { type FilePath } from "./path"
+import { trace } from "./trace"
 
 const customComponents: Partial<Components> = {
   table: (props) => {

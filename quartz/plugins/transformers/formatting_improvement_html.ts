@@ -1,9 +1,10 @@
-import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 import assert from "assert"
 import { Element, Text, Root, Parent, ElementContent } from "hast"
-import { visit } from "unist-util-visit"
 import { Transformer } from "unified"
+import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
+import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 
 /**
  * Flattens text nodes in an element tree

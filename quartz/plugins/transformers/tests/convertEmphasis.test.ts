@@ -1,6 +1,7 @@
-import { Root } from "mdast-util-find-and-replace/lib"
-import { formatNode, convertEmphasisHelper } from "../convertEmphasis"
 import { Text, Parent } from "mdast"
+import { Root } from "mdast-util-find-and-replace/lib"
+
+import { formatNode, convertEmphasisHelper } from "../convertEmphasis"
 
 describe("formatNode", () => {
   it("should convert bold syntax correctly", () => {

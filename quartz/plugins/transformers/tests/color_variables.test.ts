@@ -1,5 +1,6 @@
-import { transformElement, transformStyle } from "../color_variables"
 import { Element } from "hast"
+
+import { transformElement, transformStyle } from "../color_variables"
 
 const colorMapping = {
   red: "var(--red)",

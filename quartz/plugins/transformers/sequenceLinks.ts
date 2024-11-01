@@ -1,8 +1,9 @@
 import { Root, Element, RootContent } from "hast"
-import { visit } from "unist-util-visit"
-import { QuartzPluginData } from "../vfile"
 import { h } from "hastscript"
+import { visit } from "unist-util-visit"
+
 import { formatTitle } from "../../components/component_utils"
+import { QuartzPluginData } from "../vfile"
 
 // Main components:
 // 1. renderSequenceTitle: Generates sequence title element
