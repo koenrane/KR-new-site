@@ -415,6 +415,7 @@ export function plusToAmpersand(text: string): string {
 const massTransforms: [RegExp | string, string][] = [
   [/\b(?:i\.i\.d\.|iid)/gi, "IID"],
   [/\b([Cc])afe\b/g, "$1afé"],
+  [/\b([Ff])rappe\b/g, "$1rappé"],
   [/\b([Cc])liche\b/g, "$1liché"],
   [/\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],

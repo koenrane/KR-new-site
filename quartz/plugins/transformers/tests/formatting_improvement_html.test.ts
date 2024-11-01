@@ -185,6 +185,7 @@ describe("HTMLFormattingImprovement", () => {
       ["The data are i.i.d.", "The data are IID"],
       ["The cafe", "The café"],
       ["The Cafe", "The Café"],
+      ["The frappe", "The frappé"],
       ["The cafeteria", "The cafeteria"],
       ["That's cliche", "That's cliché"],
       ["Exposed", "Exposed"],
