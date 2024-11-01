@@ -27,6 +27,10 @@ tags:
 5. [You should read "Harry Potter and the Methods of Rationality"](/read-hpmor)
 
 # Explore by tag
+<iframe src="/all-tags" width="100%" height="500px" title="All Tags" ></iframe>
+
+# Recent posts
+![[recent#^recent-posts-listing]]
 
 # Sequences
 
@@ -44,6 +48,7 @@ I didn't remember much formal math or computer science, but I wanted to give my 
 > > You can never have enough books. 
 >
 > My journey through the MIRI research guide.
+
 
 ![](https://assets.turntrout.com/static/images/posts/test_library.avif)
 

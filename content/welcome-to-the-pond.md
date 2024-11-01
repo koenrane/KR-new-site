@@ -16,7 +16,7 @@ date_published: &id001 2024-10-30 18:09:31.133945
 date_updated: *id001
 ---
 
-For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [1,350 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
+For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [1,350 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize. ^c8d365
 
 [^commits]: Counted by running 
      ```shell
