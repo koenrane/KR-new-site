@@ -79,7 +79,7 @@ type Page = {
 export default (() => {
   const Navbar: QuartzComponent = ({ cfg, fileData }: QuartzComponentProps) => {
     const pages: Page[] = "pages" in cfg.navbar ? (cfg.navbar.pages as Page[]) : []
-    const currentSlug = fileData.slug!
+    const currentSlug = fileData.slug || ("" as FullSlug)
 
     const links = pages.map((page: Page) => (
       <li key={page.slug}>
@@ -88,7 +88,7 @@ export default (() => {
     ))
 
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
-    const baseDir = pathToRoot(fileData.slug!)
+    const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
 
     const pageLinks = (
       <nav className="menu">

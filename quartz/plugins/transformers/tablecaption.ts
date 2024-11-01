@@ -9,6 +9,9 @@ export const TableCaption: QuartzTransformerPlugin = () => {
     name: "TableCaption",
     transform(tree: Root) {
       visit(tree, "element", (node: Element, index, parent) => {
+        if (!parent) {
+          return
+        }
         if (node.tagName === "p" && node.children.length > 0) {
           const firstChild = node.children[0]
           if (firstChild.type === "text" && firstChild.value.startsWith("^Table: ")) {
@@ -18,11 +21,11 @@ export const TableCaption: QuartzTransformerPlugin = () => {
             })
 
             // Replace the paragraph with a figcaption
-            parent!.children.splice(index!, 1, ...captionHtml.children)
+            parent.children.splice(index!, 1, ...captionHtml.children)
 
             // Find the preceding table and wrap it with a figure
             if (index && index > 0) {
-              const prevElement = parent!.children[index - 1]
+              const prevElement = parent.children[index - 1]
               if (prevElement.type === "element" && prevElement.tagName === "table") {
                 const figure: Element = {
                   type: "element",
@@ -30,7 +33,7 @@ export const TableCaption: QuartzTransformerPlugin = () => {
                   properties: {},
                   children: [prevElement, ...(captionHtml.children as Element[])],
                 }
-                parent!.children.splice(index - 1, 2, figure)
+                parent.children.splice(index - 1, 2, figure)
               }
             }
           }

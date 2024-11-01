@@ -61,7 +61,7 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: nu
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<item>
     <title>${escapeHTML(content.title)}</title>
     <link>https://${joinSegments(base, encodeURI(slug))}</link>
-    <description>${content.richContent ?? processDescription(content.description!)}</description>
+    <description>${content.richContent ?? processDescription(content.description ?? "")}</description>
     <guid isPermaLink="true">https://${joinSegments(base, encodeURI(slug))}</guid>
     <pubDate>${content.date?.toUTCString()}</pubDate>
   </item>`

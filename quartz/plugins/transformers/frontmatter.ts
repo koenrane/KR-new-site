@@ -66,19 +66,21 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
               },
             })
 
-            if (data.title != null && data.title.toString() !== "") {
+            if (data.title && data.title.toString() !== "") {
               data.title = data.title.toString()
             } else {
               data.title = file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title
             }
 
-            const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"])!)
+            const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]) || [])
             const lowerCaseTags = tags?.map((tag: string) => transformTag(tag))
-            if (tags) data.tags = [...new Set(lowerCaseTags!.map((tag: string) => slugTag(tag)))]
+            if (tags) data.tags = [...new Set(lowerCaseTags?.map((tag: string) => slugTag(tag)))]
 
-            const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"])!)
+            const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"]) || [])
             if (aliases) data.aliases = aliases
-            const cssclasses = coerceToArray(coalesceAliases(data, ["cssclasses", "cssclass"])!)
+            const cssclasses = coerceToArray(
+              coalesceAliases(data, ["cssclasses", "cssclass"]) || [],
+            )
             if (cssclasses) data.cssclasses = cssclasses
 
             // fill in frontmatter

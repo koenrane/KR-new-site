@@ -118,7 +118,7 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
   func: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
   return (...args) => {
-    let result!: ReturnType<T>
+    let result: ReturnType<T> | undefined
     document.documentElement.classList.add("temporary-transition")
 
     withoutTransition(() => {
@@ -127,6 +127,9 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
     setTimeout(() => {
       document.documentElement.classList.remove("temporary-transition")
     }, 1000)
+    if (result === undefined) {
+      throw new Error("Function returned undefined")
+    }
     return result
   }
 }

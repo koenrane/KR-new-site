@@ -45,7 +45,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
 
       // Build dependency graph for tag pages
       for (const [, file] of content) {
-        const sourcePath = file.data.filePath!
+        const sourcePath = file.data.filePath || ("" as FilePath)
         const tags = (file.data.frontmatter?.tags ?? []).flatMap(getAllSegmentPrefixes)
         // If the file has at least one tag, it is used in the tag index page
         if (tags.length > 0) {
@@ -97,7 +97,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
 
       // Override tag descriptions with user-defined content
       for (const [tree, file] of content) {
-        const slug = file.data.slug!
+        const slug = file.data.slug || ("" as FullSlug)
         if (slug.startsWith("tags/")) {
           const tag = slug.slice("tags/".length)
           if (tags.has(tag)) {
@@ -125,7 +125,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
         const fp = await write({
           ctx,
           content,
-          slug: file.data.slug!,
+          slug: file.data.slug || ("" as FullSlug),
           ext: ".html",
         })
 

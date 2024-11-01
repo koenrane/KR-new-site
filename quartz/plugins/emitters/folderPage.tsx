@@ -47,9 +47,12 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
 
       content.map(([, vfile]) => {
         const slug = vfile.data.slug
-        const folderName = path.dirname(slug ?? "") as SimpleSlug
+        const folderName = path.dirname(slug || ("" as FullSlug)) as SimpleSlug
         if (slug && folderName !== "." && folderName !== "tags") {
-          graph.addEdge(vfile.data.filePath!, joinSegments(folderName, "index.html") as FilePath)
+          graph.addEdge(
+            vfile.data.filePath || ("" as FilePath),
+            joinSegments(folderName, "index.html") as FilePath,
+          )
         }
         return
       })
@@ -64,7 +67,7 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
       const folders: Set<SimpleSlug> = new Set(
         allFiles.flatMap((data) => {
           const slug = data.slug
-          const folderName = path.dirname(slug ?? "") as SimpleSlug
+          const folderName = path.dirname(slug || ("" as FullSlug)) as SimpleSlug
           if (slug && folderName !== "." && folderName !== "tags") {
             return [folderName]
           }
@@ -86,7 +89,7 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
       )
 
       for (const [tree, file] of content) {
-        const slug = stripSlashes(simplifySlug(file.data.slug!)) as SimpleSlug
+        const slug = stripSlashes(simplifySlug(file.data.slug || ("" as FullSlug))) as SimpleSlug
         if (folders.has(slug)) {
           folderDescriptions[slug] = [tree, file]
         }

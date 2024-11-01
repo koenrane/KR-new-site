@@ -70,7 +70,7 @@ describe("rehype-custom-subtitle", () => {
     ])("matches valid subtitle syntax (%s)", (input, expected) => {
       const match = input.match(SUBTITLE_REGEX)
       expect(match).not.toBeNull()
-      expect(match![1]).toBe(expected)
+      expect(match && match[1]).toBe(expected)
     })
 
     it.each([
@@ -86,7 +86,7 @@ describe("rehype-custom-subtitle", () => {
       const input = "Subtitle: Capitalized prefix"
       const match = input.match(SUBTITLE_REGEX)
       expect(match).not.toBeNull()
-      expect(match![1]).toBe("Capitalized prefix")
+      expect(match && match[1]).toBe("Capitalized prefix")
     })
   })
 

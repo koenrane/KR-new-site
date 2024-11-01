@@ -68,7 +68,11 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
     }
 
     // Format entry for root element
-    const firstEntry = formatCrumb(options.rootName, fileData.slug!, "/" as SimpleSlug)
+    const firstEntry = formatCrumb(
+      options.rootName,
+      fileData.slug || ("" as FullSlug),
+      "/" as SimpleSlug,
+    )
     const crumbs: CrumbData[] = [firstEntry]
 
     if (!folderIndex && options.resolveFrontmatterTitle) {
@@ -97,8 +101,8 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
         // Try to resolve frontmatter folder title
         const currentFile = folderIndex?.get(slugParts.slice(0, i + 1).join("/"))
         if (currentFile) {
-          const title = currentFile.frontmatter!.title
-          if (title !== "index") {
+          const title = currentFile.frontmatter?.title
+          if (title && title !== "index") {
             curPathSegment = title
           }
         }
@@ -110,7 +114,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
         // Format and add current crumb
         const crumb = formatCrumb(
           curPathSegment,
-          fileData.slug!,
+          fileData.slug || ("" as FullSlug),
           (currentPath + (includeTrailingSlash ? "/" : "")) as SimpleSlug,
         )
         crumbs.push(crumb)
@@ -119,7 +123,7 @@ export default ((opts?: Partial<BreadcrumbOptions>) => {
       // Add current file to crumb (can directly use frontmatter title)
       if (options.showCurrentPage && slugParts.at(-1) !== "index") {
         crumbs.push({
-          displayName: fileData.frontmatter!.title,
+          displayName: fileData.frontmatter?.title || "",
           path: "",
         })
       }

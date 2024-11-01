@@ -172,7 +172,7 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       const width = match?.groups?.width ?? "auto"
       const height = match?.groups?.height ?? "auto"
       const specifiedDimensions = width !== "auto" || height !== "auto"
-      const alt = specifiedDimensions ? "" : match?.groups?.alt ?? ""
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
       return {
         type: "image",
         url,
@@ -321,7 +321,7 @@ export function markdownPlugins(opts: Options): PluggableList {
     plugins.push(() => {
       return (tree: Root) => {
         visit(tree, "image", (node, index, parent) => {
-          if (parent && index != undefined && videoExtensionRegex.test(node.url)) {
+          if (parent && index !== undefined && videoExtensionRegex.test(node.url)) {
             const newNode: Html = {
               type: "html",
               value: `<video controls src="${node.url}"></video>`,
@@ -582,7 +582,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                   const matches = last.value.match(blockReferenceRegex)
                   if (matches && matches.length >= 1) {
                     const blockId = matches[0].slice(1)
-                    if (!file.data.blocks![blockId]) {
+                    if (file.data.blocks && !file.data.blocks[blockId]) {
                       // Remove the block reference from the text
                       last.value = last.value.replace(blockReferenceRegex, "")
 
@@ -590,7 +590,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
                         ...node.properties,
                         "data-block": blockId,
                       }
-                      file.data.blocks![blockId] = node
+                      file.data.blocks[blockId] = node
                     }
                   }
                 }

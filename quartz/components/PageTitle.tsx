@@ -5,7 +5,7 @@ import React from "react"
 
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
-import { pathToRoot } from "../util/path"
+import { FullSlug, pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
@@ -22,7 +22,7 @@ export const headerVideoContainer = (
 
 const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
-  const baseDir = pathToRoot(fileData.slug!)
+  const baseDir = pathToRoot(fileData.slug || ("" as FullSlug))
 
   return (
     <div className={classNames(displayClass, "page-title")}>
