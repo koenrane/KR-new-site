@@ -47,6 +47,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 A year ago, I thought it would be really hard to generalize the power-seeking theorems from Markov decision processes (MDPs); the [MDP case](/seeking-power-is-often-convergently-instrumental-in-mdps) seemed hard enough. Without assuming the agent can see the full state, while letting utility functions do as they please – this seemed like asking for trouble.
 
 Once I knew what to look for, it turned out to be easy – I hashed out the basics during half an hour of conversation with John Wentworth. The theorems were never about MDPs anyways; the theorems apply whenever the agent considers finite sets of lotteries over outcomes, assigns each outcome real-valued utility, and maximizes expected utility.

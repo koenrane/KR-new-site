@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!note] Author's note
 > The following is a lightly edited version of a memo I wrote for a retreat. It was inspired by a draft of [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom). I think that my post covers important points not made by the published version of that post. I'm also thankful for the dozens of interesting conversations and comments at the retreat.
 

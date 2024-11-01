@@ -38,6 +38,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!quote] [Steering GPT-2-XL by adding an activation vector](/gpt2-steering-vectors)  
 > \[We define\] **activation engineering** \[to be\] techniques which steer models by modifying their activations. As a complement to prompt engineering and finetuning, activation engineering is a low-overhead way to steer models at runtime.
 

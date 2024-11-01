@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 I use [the shard theory of human values](/shard-theory) to clarify what value drift is, how it happens, and how it might be avoided by a highly intelligent agent—even if that agent doesn't have any control over its future experiences. Along the way, I give a shard theory account of rationalization.
 
 # Defining "value drift"

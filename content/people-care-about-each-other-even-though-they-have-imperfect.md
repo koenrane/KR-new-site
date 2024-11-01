@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!warning]
 > I wrote this essay in early August of 2022. I now consider the presentation to be somewhat confused, and now better understand where problems arise within the "standard alignment model." I'm publishing a somewhat edited version, on the grounds that something is better than nothing.
 

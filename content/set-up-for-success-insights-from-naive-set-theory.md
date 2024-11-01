@@ -42,6 +42,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 # Foreword
 
 [This book](http://smile.amazon.com/Naive-Set-Theory-Paul-Halmos/dp/1614271313/) has been reviewed [pretty](https://www.lesswrong.com/posts/Ee8CZW7wzaNdCENYG/book-review-naive-set-theory-miri-course-list) [thoroughly](https://www.lesswrong.com/posts/FvA2qL6ChCbyi5Axk/book-review-naive-set-theory-miri-research-guide) already. Rather than restate each chapter, I'll be sharing insights: some book-specific, some general.

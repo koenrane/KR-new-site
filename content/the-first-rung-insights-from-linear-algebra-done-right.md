@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 # Foreword
 
 Linear algebra, my old flame - how I missed you. At my undergraduate institution, linear algebra was my introduction to proof-based mathematics. There are people who shake hands, and there are people who **shake hands**. You know the type - you grasp their hand, and they clamp down and pull you in, agitating so wildly you fear for the structural integrity of your joints. My first experience with proofs was an encounter of the latter variety.

@@ -42,6 +42,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 [AIXI](https://en.wikipedia.org/wiki/AIXI) and the genome are both ways of specifying intelligent agents. 
 
 1.  Give AIXI a utility function (perhaps over observation histories), and hook it up to an environment, and this pins down a policy.[^1] 

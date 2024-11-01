@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 Presumably, I was taught geometry as a child. I do not remember.
 
 Recently, I'd made my way halfway through a complex analysis textbook, only to find another which seemed more suitable and engaging. Unfortunately, the exposition was geometric. I knew something was wrong – I knew something had to change – when, asked to prove the similarity of two triangles, I got stuck on _page 7_.

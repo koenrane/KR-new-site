@@ -49,6 +49,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence) explains how power-seeking incentives can arise because there are simply many more ways for power-seeking to be optimal, than for it not to be optimal. Colloquially, there are lots of ways for "get money and take over the world" to be part of an optimal policy, but relatively few ways for "die immediately" to be optimal. (And here, each "way something can be optimal" is a reward function which makes that thing optimal.)
 
 But how strong is this effect, quantitatively? 

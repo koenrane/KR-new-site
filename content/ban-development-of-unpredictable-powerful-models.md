@@ -35,6 +35,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!warning]
 > No longer endorsed, as [I realized I don't believe in deceptive alignment from pretrained models](/invalid-ai-risk-arguments). Therefore, I no longer think it is inherently dangerous to pretrain sufficiently large language models.
 

@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 What is functional analysis? A satisfactory answer requires going back to where it all started.
 
 > [!quote] Once upon a time...

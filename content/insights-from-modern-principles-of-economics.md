@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 How good are our economists? Look around. On a 20-minute walk to my Berkeley office, I walked past people reeking of urine, past people lying in a dirty sleeping bag on a thin cardboard pad, past some garbage around a tent which housed a child who grew up into an impoverished adult.
 
 ![](https://assets.turntrout.com/static/images/posts/zz47uzlitfrw7bmqaplp.avif)

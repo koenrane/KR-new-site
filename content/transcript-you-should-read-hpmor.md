@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!note]
 > The following is the transcript of a talk I gave for some current computer science students at my alma mater, [Grinnell College](https://www.grinnell.edu/). This talk answers "What do I wish I had known while at Grinnell?".
 

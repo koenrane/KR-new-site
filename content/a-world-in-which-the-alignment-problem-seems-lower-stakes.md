@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 The danger from power-seeking is not _intrinsic_ to the alignment problem. This danger also depends on [the structure of the agent's environment](/environmental-structure-can-cause-instrumental-convergence). 
 
 In [_The Catastrophic Convergence Conjecture_](/the-catastrophic-convergence-conjecture), I wrote:

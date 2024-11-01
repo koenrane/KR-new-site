@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 This post explains a formal link between "what kinds of instrumental convergence exists?" and "what does VNM-coherence tell us about goal-directedness?". It turns out that VNM coherent preference orderings have the **same** statistical incentives as utility functions; most such orderings will incentivize power-seeking in the settings covered by [the power-seeking theorems](/posts#the-causes-of-power-seeking-and-instrumental-convergence).
 
 In certain contexts, coherence theorems _can_ have non-trivial implications, in that they provide Bayesian evidence about what the coherent agent will probably do. In the situations where the power-seeking theorems apply, coherent preferences **do** suggest some degree of goal-directedness. Somewhat more precisely, VNM-coherence is Bayesian evidence that the agent prefers to stay alive, keep its options open, etc.

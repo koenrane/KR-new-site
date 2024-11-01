@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network) analyzed a maze-solving agent's behavior. We isolated four maze properties which seemed to predict whether the mouse goes towards the cheese or towards the top-right corner:
 
 ![](https://assets.turntrout.com/static/images/posts/caoymohzzppimjllkqx4.avif)

@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!quote] Reinforcement Learning: An Introduction
 > The safety of artificial intelligence applications involving reinforcement learning is a topic that deserves careful attention.
 

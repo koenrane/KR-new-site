@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 How do agents work, internally? My shard theory [MATS 3.0](https://www.serimats.org/) team set out to do mechanistic interpretability on one of the [goal misgeneralization](https://arxiv.org/abs/2105.14111) agents: the cheese-maze network.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/xuq1yzfdjztdhi4gy0jw.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/xuq1yzfdjztdhi4gy0jw.mp4" type="video/mp4"></video>

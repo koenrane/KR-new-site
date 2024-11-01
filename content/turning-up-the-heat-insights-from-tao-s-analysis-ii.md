@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 It's been too long - a month and a half since my last review, and about three months since _[Analysis I](/first-analysis-textbook-review)_. I've been immersed in my work for CHAI, but reality doesn't grade on a curve, and I want more mathematical firepower.
 
 # Analysis II

@@ -38,6 +38,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!quote] Zack M. Davis's [summary](https://www.lesswrong.com/posts/y4bkJTtG3s5d6v36k/stupidity-and-dishonesty-explain-each-other-away) of collider bias
 >
 > The _explaining-away effect_ (or, collider bias; or, Berkson's paradox) is a statistical phenomenon in which statistically independent causes with a common effect become anticorrelated when conditioning on the effect.

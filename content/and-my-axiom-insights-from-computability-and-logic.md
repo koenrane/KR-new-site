@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 Max Tegmark's _[Our Mathematical Universe](https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307599809)_ briefly touches on a captivating, beautiful mystery:
 
 ![](https://assets.turntrout.com/static/images/posts/math_structure.avif)

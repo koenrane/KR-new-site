@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!warning] Disclaimer
 > As of 2024, this is no longer an accurate representation of how I do research. I do not necessarily consider the examples I gave to be "virtuous" ways to do research (nor do I necessarily renounce them).
 

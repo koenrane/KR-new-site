@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 The more broadly I read and learn, the more I bump into implicit self-conceptions and self-boundaries. I was slightly averse to learning from a manager-oriented textbook because I'm not a manager, but also because I... didn't see myself as the kind of person who could learn about a "business"-y context? I also [didn't see myself as the kind of person who could read and do math](/first-analysis-textbook-review), which now seems ridiculous.
 
 Although the read was fast and easy and often familiar, I unearthed a few gems.

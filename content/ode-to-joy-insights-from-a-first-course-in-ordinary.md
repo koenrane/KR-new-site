@@ -47,6 +47,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 Sometimes, it's easier to say how things change than to say how things are.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/WCYZkZ4.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/WCYZkZ4.mp4" type="video/mp4"></video>

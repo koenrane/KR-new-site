@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 ---
 
 > [!note] Summary of the current power-seeking theorems

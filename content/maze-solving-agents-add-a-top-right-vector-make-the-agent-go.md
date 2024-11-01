@@ -47,6 +47,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 We modify the goal-directed behavior of a trained network, without any gradients or finetuning. We simply add or subtract "motivational vectors" which we compute in a straightforward fashion.
 
 In the [original post](/understanding-and-controlling-a-maze-solving-policy-network), we defined a "cheese vector" to be "the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze." By subtracting the cheese vector from all forward passes in a maze, the network ignored cheese. 

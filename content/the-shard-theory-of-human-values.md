@@ -50,6 +50,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 We propose a theory of human value formation. According to this theory, the reward system shapes human values in a relatively straightforward manner. Human values are not e.g. an incredibly complicated, genetically hard-coded set of drives, but rather sets of contextually activated heuristics which were shaped by and bootstrapped from crude, genetically hard-coded reward circuitry.
 
 <hr/>

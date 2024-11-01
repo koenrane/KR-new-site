@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps) relates the structure of the agent's environment (the "Markov decision process (MDP)[^POMDP] model") to the tendencies of optimal policies for different reward functions in that environment ("instrumental convergence"). The results tell us what optimal decision-making "tends to look like" in a given environment structure, formalizing reasoning that says e.g. that most agents stay alive because that helps them achieve their goals.
 
 [^POMDP]: I think that the same point holds for other environment types, like POMDPs.

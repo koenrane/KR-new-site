@@ -48,6 +48,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!failure] As of 2024, I no longer endorse this post
 > Even though this post presents correct and engaging technical explanations, its speculation seems wrong. For example, deceptive alignment is _not_ known to be "prevalent."
 

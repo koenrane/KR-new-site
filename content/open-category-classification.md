@@ -36,6 +36,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 # Introduction
 
 > [!quote] [AI Alignment: Why It's Hard and Where to Start](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#recent-topics)
