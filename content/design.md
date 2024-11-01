@@ -15,7 +15,7 @@ aliases:
 # Color scheme
 The color scheme derives from the [Catppuccin](https://catppuccin.com) "latte" (light mode) and "frappe" (dark mode) [palettes](https://github.com/catppuccin/catppuccin/tree/main?tab=readme-ov-file#-palette). 
 
-![](catppuccin.png)
+![](https://assets.turntrout.com/static/images/posts/catppuccin.avif)
 Figure: The four Catppuccin palettes.
 
 ## Colors should accent (but not distract from) the content
