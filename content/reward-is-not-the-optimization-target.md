@@ -43,6 +43,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!thanks]
 >This insight was made possible by many conversations with Quintin Pope, where he challenged my implicit assumptions about alignment. I’m not sure who came up with this particular idea.
 

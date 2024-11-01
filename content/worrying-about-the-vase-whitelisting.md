@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-t
 skip_import: true
 description: An impact measure for AI safety that whitelists the object transformations
   which are allowed.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-10-31 23:14:34.832290
 ---
+
 
 
 

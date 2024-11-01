@@ -36,6 +36,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!quote] [_Human Compatible_](https://www.amazon.com/Human-Compatible-Artificial-Intelligence-Problem/dp/0525558616) 
 > The purpose of this book is to explain why \[superintelligence\] might be the last event in human history and how to make sure that it is not... The book is intended for a general audience but will, I hope, be of value in convincing specialists in artificial intelligence to rethink their fundamental assumptions.
 

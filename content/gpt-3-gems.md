@@ -35,6 +35,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 GPT-3 is captivating, and not just because of its [potential reasoning abilities](/to-what-extent-is-gpt3-capable-of-reasoning). This post will be a living collection of my favorite experiences with the network. 
 
 > [!note]

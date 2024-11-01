@@ -35,6 +35,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 ETA 8/19/20: This interview was conducted with AIDungeon's Dragon model in Custom mode. At the time of writing, the first reply in each exchange was actually sampled from GPT-2. 
 
 # Interview #1

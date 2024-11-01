@@ -46,6 +46,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!warning]
 > As of September 2024, I no longer endorse following some of these strategies. Concretely, beware of most content on [Arbital](https://arbital.com), especially the methodology of unbounded analysis.
 

@@ -40,6 +40,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 <video controls width="100%">
 	<source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/>
 </video>

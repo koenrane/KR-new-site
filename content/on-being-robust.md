@@ -34,6 +34,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!thanks]
 > Inspired in part by `Raemon`'s [Being a Robust Agent](https://www.lesswrong.com/posts/2jfiMgKkh7qw9z8Do/being-a-robust-agent).
 

@@ -38,6 +38,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 For a range of language models and a range of input prompts, the norm of each residual stream grows exponentially over the forward pass, with average per-layer growth rate of about 1.045 in GPT-2-XL. We show a bunch of evidence for this. We discuss to what extent different weights and parts of the network are responsible.
 
 We find that some model weights increase exponentially as a function of layer number. We finally note our current favored explanation: Due to LayerNorm, it's hard to cancel out existing residual stream features, but easy to overshadow existing features by just making new features 4.5% larger.

@@ -50,6 +50,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 <video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
 
 Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals. <br/><br/>(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)

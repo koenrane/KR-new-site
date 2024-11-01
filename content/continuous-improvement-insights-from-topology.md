@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 Sometimes you really like someone, but you can't understand why. By all means, you should have tired of them long ago, but you keep coming back. Welcome, my friend, to [_Topology_](https://www.amazon.com/Topology-2nd-James-Munkres/dp/0131816292).
 
 This book is a good one, but boy was it _slow_ (349 pages at ~30 minutes a page, on average). I just kept coming back, and I was slowly rewarded each time I did.

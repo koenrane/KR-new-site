@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 You run a country. One day, you think "I could help so many more people if I set all the rules... and I could make this happen". As far as you can tell, this is the _real reason_ you want to set the rules – you want to help people, and you think you'd do a good job.
 
 ![](https://assets.turntrout.com/static/images/posts/QSms7P6.avif)

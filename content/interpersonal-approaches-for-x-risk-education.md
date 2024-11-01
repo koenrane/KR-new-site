@@ -29,9 +29,11 @@ use-full-width-images: "false"
 date_published: 2018-01-24 00:00:00
 original_url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-approaches-for-x-risk-education
 skip_import: true
-description: Effective ways to raise awareness of AI risk among researchers, weighing persuasion vs. education and status vs. receptiveness.
-date_updated: 2024-10-30 18:09:31.133945
+description: Effective ways to raise awareness of AI risk among researchers, weighing
+  persuasion vs. education and status vs. receptiveness.
+date_updated: 2024-10-31 23:14:34.832290
 ---
+
 
 
 Much of the AI research community remains unaware of the Alignment Problem (according to my personal experience), and I haven't seen much discussion about how to deliberately expand the community (all I've seen to this effect is [Scott's A/B/C/D/E testing on alignment articles](http://slatestarcodex.com/2016/10/24/ai-persuasion-experiment-results/)).

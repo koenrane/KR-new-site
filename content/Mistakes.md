@@ -8,11 +8,14 @@ tags:
   - website
   - personal
 description: A list of some of my major conceptual mistakes.
-date-published: 
+date-published:
 authors: Alex Turner
 hideSubscriptionLinks: false
 card_image:
+date_published: &id001 2024-10-31 23:14:34.832290
+date_updated: *id001
 ---
+
 Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page:
 
 > [!quote] Scott Alexander

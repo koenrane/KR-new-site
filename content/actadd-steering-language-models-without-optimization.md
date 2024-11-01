@@ -39,6 +39,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 We wrote up the [GPT-2 steering vector work](/gpt2-steering-vectors) [as a full paper](https://arxiv.org/abs/2308.10248), adding a few systematic tests.
 
 > [!note] Context for the paper

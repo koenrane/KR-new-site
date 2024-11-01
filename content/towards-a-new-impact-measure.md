@@ -36,6 +36,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!note] Summary
 > I propose a closed-form solution to [low impact](https://arbital.com/p/low_impact/), increasing [corrigibility](https://arbital.com/p/corrigibility/) and seemingly taking major steps to neutralize [basic AI drives](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) 1 (self-improvement), 5 (self-protectiveness), and 6 (acquisition of resources)
 >

@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 Imagine we train an AI on realistic situations where it can kill people, and penalize it when it does so. Suppose that we successfully instill a strong and widely activated "If going to kill people, then don't" value shard. 
 
 Even assuming this much, the situation seems fragile. See, many value shards are self-chaining. In [The shard theory of human values](/shard-theory), I wrote about how:

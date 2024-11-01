@@ -44,6 +44,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 If an unaligned entity invests billions of dollars into an application which you use, where they benefit from wasting your time, and you haven’t at least done a cost-benefit analysis so that your usage minimizes your costs and maximizes your benefits—_You are probably getting fucked over_.
 
 # Mistake: Motivatedly avoiding thinking about the issue

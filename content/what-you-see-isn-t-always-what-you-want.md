@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 > [!failure] No longer endorsed. This isn't how reward functions work.
 
 It’s known to be hard to give non-trivial goals to reinforcement learning agents. However, I haven’t seen much discussion of the following: even ignoring wireheading, it seems impossible to specify reward functions that get what we want – at least, if the agent is farsighted, smart, and can’t see the entire world all at once, and the reward function only grades what the agent sees in the moment. If this really is impossible in our world, then the designer’s job gets way harder.

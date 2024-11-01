@@ -35,6 +35,7 @@ date_updated: 2024-10-30 18:09:31.133945
 ---
 
 
+
 What does it _mean_ for a loss function to be "aligned with" human goals? I perceive four different concepts which involve "loss function" in importantly different ways:
 
 1.  _Physical-loss:_ The physical implementation of a loss function and the loss computations, 

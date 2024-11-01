@@ -45,6 +45,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!quote]Larry Wasserman, _All of Statistics_
 >
 > Using fancy tools like neural nets, boosting and support vector machines without understanding basic statistics is like doing brain surgery before knowing how to use a bandaid.

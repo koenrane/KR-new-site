@@ -37,6 +37,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 > [!quote] [The Hammertime Final Exam](https://www.lesswrong.com/posts/Q7MsMshzbzhEs729s/hammertime-final-exam)
 > Prompts:
 >

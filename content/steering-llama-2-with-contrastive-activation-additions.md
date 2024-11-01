@@ -42,6 +42,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 
 
+
 ![](https://assets.turntrout.com/static/images/posts/uidocxp1iwtdztmkdlch.avif)
 <br/>Figure: The effects of subtracting or adding a "sycophancy vector" to one bias term.
 

@@ -39,9 +39,11 @@ use-full-width-images: "false"
 date_published: 2018-04-30 00:00:00
 original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-internal-double-crux
 skip_import: true
-description: "Overcoming self-doubt: How emotionally-charged internal dialogue helped resolve long-held anxieties and limiting beliefs."
-date_updated: 2024-10-30 18:09:31.133945
+description: "Overcoming self-doubt: How emotionally-charged internal dialogue helped\
+  \ resolve long-held anxieties and limiting beliefs."
+date_updated: 2024-10-31 23:14:34.832290
 ---
+
 
 
 
