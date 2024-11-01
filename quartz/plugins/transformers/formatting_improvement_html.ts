@@ -288,6 +288,55 @@ export function applyTextTransforms(text: string): string {
   return text
 }
 
+export const l_pRegex = /(\s|^)L(\d+)\b(?!\.)/g
+/**
+ * Converts L-numbers (like "L1", "L42") to use subscript numbers with lining numerals
+ * @param tree - The HTML AST to process
+ */
+export function formatLNumbers(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) {
+      return
+    }
+
+    let match
+    let lastIndex = 0
+    const newNodes: (Text | Element)[] = []
+
+    while ((match = l_pRegex.exec(node.value)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        newNodes.push({ type: "text", value: node.value.slice(lastIndex, match.index) })
+      }
+
+      // Add the space/start of line
+      newNodes.push({ type: "text", value: match[1] })
+
+      // Add "L" text
+      newNodes.push({ type: "text", value: "L" })
+
+      // Add subscript number
+      newNodes.push({
+        type: "element",
+        tagName: "sub",
+        properties: { style: "font-variant-numeric: lining-nums;" },
+        children: [{ type: "text", value: match[2] }],
+      })
+
+      lastIndex = l_pRegex.lastIndex
+    }
+
+    // Add remaining text
+    if (lastIndex < node.value.length) {
+      newNodes.push({ type: "text", value: node.value.slice(lastIndex) })
+    }
+
+    if (newNodes.length > 0 && parent && typeof index === "number") {
+      parent.children.splice(index, 1, ...newNodes)
+    }
+  })
+}
+
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
 const LEFT_QUOTES = ['"', "“", "‘"]
@@ -416,6 +465,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b(?:i\.i\.d\.|iid)/gi, "IID"],
   [/\b([Cc])afe\b/g, "$1afé"],
   [/\b([Ff])rappe\b/g, "$1rappé"],
+  [/\b([Ll])atte\b/g, "$1atté"],
   [/\b([Cc])liche\b/g, "$1liché"],
   [/\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
@@ -544,6 +594,8 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       }
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
+      formatLNumbers(tree) // L_p-norm formatting
+
       // Parent-less nodes are the root of the article
       if ((!parent || !("tagName" in parent)) && node.type === "element") {
         transformElement(node, hyphenReplace, toSkip, false)

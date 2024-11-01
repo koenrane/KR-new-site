@@ -11,6 +11,7 @@ import {
   enDashNumberRange,
   neqConversion,
   minusReplace,
+  l_pRegex,
 } from "../formatting_improvement_html"
 import { rehype } from "rehype"
 import { h } from "hastscript"
@@ -186,6 +187,7 @@ describe("HTMLFormattingImprovement", () => {
       ["The cafe", "The café"],
       ["The Cafe", "The Café"],
       ["The frappe", "The frappé"],
+      ["The latte", "The latté"],
       ["The cafeteria", "The cafeteria"],
       ["That's cliche", "That's cliché"],
       ["Exposed", "Exposed"],
@@ -675,5 +677,96 @@ describe("minusReplace", () => {
     ["(-3)", "(−3)"],
   ])("transforms '%s' to '%s'", (input, expected) => {
     expect(minusReplace(input)).toBe(expected)
+  })
+})
+
+describe("L-number formatting", () => {
+  function testMatch(input: string): string[] {
+    const matches: string[] = []
+    let match
+    while ((match = l_pRegex.exec(input)) !== null) {
+      matches.push(match[2]) // Push the captured number
+    }
+    return matches
+  }
+
+  it("matches basic L-numbers", () => {
+    expect(testMatch("L1")).toEqual(["1"])
+    expect(testMatch("L42")).toEqual(["42"])
+    expect(testMatch("L999")).toEqual(["999"])
+  })
+
+  it("matches multiple L-numbers in text", () => {
+    expect(testMatch("L1 and L2 and L3")).toEqual(["1", "2", "3"])
+    expect(testMatch("L10, L20, L30")).toEqual(["10", "20", "30"])
+  })
+
+  it("matches L-numbers at start of text", () => {
+    expect(testMatch("L1 is first")).toEqual(["1"])
+  })
+
+  it("matches L-numbers after space", () => {
+    expect(testMatch("The L1 norm")).toEqual(["1"])
+    expect(testMatch("Using L2 regularization")).toEqual(["2"])
+  })
+
+  it("doesn't match invalid cases", () => {
+    expect(testMatch("L1.5")).toEqual([]) // Decimal
+    expect(testMatch("L-1")).toEqual([]) // Negative
+    expect(testMatch("LEVEL")).toEqual([]) // Part of word
+    expect(testMatch("ILO10")).toEqual([]) // Nonsense
+    expect(testMatch("aL1")).toEqual([]) // No space/start
+    expect(testMatch("L1a")).toEqual([]) // No word boundary
+    expect(testMatch("L")).toEqual([]) // No number
+    expect(testMatch("L 1")).toEqual([]) // Space between L and number
+  })
+
+  it("handles multiple matches with varying digit counts", () => {
+    expect(testMatch("L1 L22 L333")).toEqual(["1", "22", "333"])
+  })
+
+  it("matches at line start without space", () => {
+    expect(testMatch("L1\nL2")).toEqual(["1", "2"])
+  })
+})
+
+describe("L-number formatting", () => {
+  it.each([
+    [
+      "<p>L1 is the first level</p>",
+      '<p>L<sub style="font-variant-numeric: lining-nums;">1</sub> is the first level</p>',
+    ],
+    [
+      "<p>Levels L1, L2, and L3</p>",
+      '<p>Levels L<sub style="font-variant-numeric: lining-nums;">1</sub>, L<sub style="font-variant-numeric: lining-nums;">2</sub>, and L<sub style="font-variant-numeric: lining-nums;">3</sub></p>',
+    ],
+    [
+      "<p>L42 is a higher level</p>",
+      '<p>L<sub style="font-variant-numeric: lining-nums;">42</sub> is a higher level</p>',
+    ],
+    ["<code>L1 should not change</code>", "<code>L1 should not change</code>"],
+    ["<p>Words like LEVEL should not change</p>", "<p>Words like LEVEL should not change</p>"],
+    [
+      "<p>L1.5 should not change</p>", // Decimal numbers shouldn't be affected
+      "<p>L1.5 should not change</p>",
+    ],
+  ])("correctly formats L-numbers in %s", (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("handles L-numbers at start of text", () => {
+    const input = "<p>L1</p>"
+    const expected = '<p>L<sub style="font-variant-numeric: lining-nums;">1</sub></p>'
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+
+  it("handles L-numbers in nested elements", () => {
+    const input = "<p><em>L1</em> and <strong>L2</strong></p>"
+    const expected =
+      '<p><em>L<sub style="font-variant-numeric: lining-nums;">1</sub></em> and <strong>L<sub style="font-variant-numeric: lining-nums;">2</sub></strong></p>'
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
   })
 })
