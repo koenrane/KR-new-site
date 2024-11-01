@@ -3,7 +3,6 @@ import tempfile
 import pytest
 from pathlib import Path
 import io
-import tempfile
 import subprocess
 from .. import convert_markdown_yaml
 
