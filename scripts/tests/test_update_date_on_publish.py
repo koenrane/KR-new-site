@@ -228,7 +228,7 @@ def test_write_to_yaml_preserves_order(temp_content_dir):
 
     # Check that fields appear in the same order
     field_positions = {
-        field: written_content.index(field) for field in original_metadata.keys()
+        field: written_content.index(field) for field in original_metadata
     }
     assert list(field_positions.keys()) == list(original_metadata.keys())
 
