@@ -12,6 +12,13 @@ import React from "react"
 import { QuartzPluginData } from "../plugins/vfile"
 import { recentDescription, recentSlug, recentTitle, recentPostsListing } from "./pages/RecentPosts"
 import { createPageListHast } from "./PageList"
+import {
+  allTagsSlug,
+  allTagsTitle,
+  allTagsDescription,
+  allTagsListing,
+  generateAllTagsHast,
+} from "./pages/AllTagsContent"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -72,6 +79,18 @@ const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPlu
   } as QuartzPluginData
 }
 
+const generateAllTagsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
+  // Generate the HAST for the all tags listing
+  const hast = generateAllTagsHast(componentData)
+
+  return {
+    slug: allTagsSlug,
+    title: allTagsTitle,
+    description: allTagsDescription,
+    blocks: { [allTagsListing]: hast },
+  } as QuartzPluginData
+}
+
 export function renderPage(
   cfg: GlobalConfiguration,
   slug: FullSlug,
@@ -89,9 +108,13 @@ export function renderPage(
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
         const transcludeTarget = node.properties["dataUrl"] as FullSlug
+
         if (transcludeTarget === recentSlug) {
           componentData.allFiles.push(generateRecentPostsFile(componentData))
+        } else if (transcludeTarget === allTagsSlug) {
+          componentData.allFiles.push(generateAllTagsFile(componentData))
         }
+
         const page = componentData.allFiles.find((f) => f.slug === transcludeTarget)
         if (!page) {
           return

@@ -3,19 +3,24 @@ import { QuartzComponentProps } from "../../components/types"
 import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, FullSlug, pathToRoot } from "../../util/path"
+import { FilePath, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import AllTagsContent from "../../components/pages/AllTagsContent"
 import { write } from "./helpers"
 import DepGraph from "../../depgraph"
 import { StaticResources } from "../../util/resources"
 import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import {
+  allTagsSlug,
+  allTagsTitle,
+  allTagsDescription,
+} from "../../components/pages/AllTagsContent"
 
 export const AllTagsPage: QuartzEmitterPlugin = () => {
   const opts = {
     ...defaultListPageLayout,
     ...sharedPageComponents,
-    pageBody: AllTagsContent(),
+    pageBody: AllTagsContent,
   }
 
   const { head: Head, header, beforeBody, pageBody, left, right, footer: Footer } = opts
@@ -32,12 +37,12 @@ export const AllTagsPage: QuartzEmitterPlugin = () => {
       return graph
     },
     async emit(ctx, content: ProcessedContent[], resources: StaticResources): Promise<FilePath[]> {
-      const slug = "all-tags" as FullSlug
+      const slug = allTagsSlug
       const externalResources = pageResources(pathToRoot(slug), resources)
       const [tree, file] = defaultProcessedContent({
         slug,
-        frontmatter: { title: "All Tags", tags: ["website"] },
-        description: "Information about the tags used in this site.",
+        frontmatter: { title: allTagsTitle, tags: ["website"] },
+        description: allTagsDescription,
         text: "Information about the tags used in this site.",
       })
 

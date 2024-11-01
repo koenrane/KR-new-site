@@ -26,13 +26,14 @@ tags:
 4. [Formalizing “defection” using game theory](/what-counts-as-defection)
 5. [You should read "Harry Potter and the Methods of Rationality"](/read-hpmor)
 
-# Explore by tag
-<iframe src="/all-tags" width="100%" height="500px" title="All Tags" ></iframe>
-
-# Recent posts
+# My recent posts
 ![[recent#^recent-posts-listing]]
 
 If you want, [try going a little further back](/recent) to see all of my posts.
+
+# Explore by tag
+![[all-tags#^all-tags-listing]]
+
 # Sequences
 
 Originally, my content [was hosted on LessWrong](https://www.lesswrong.com/users/turntrout). Much of that content was meant to be consumed as part of a series - or "sequence" - of blog posts.
