@@ -54,14 +54,14 @@ export function formatDate(
   d: Date,
   locale: ValidLocale = "en-US",
   monthFormat: "long" | "short" = "short",
-  includeOrdinalSuffix: boolean = true,
-  formatOrdinalSuffix: boolean = false,
+  includeOrdinalSuffix = true,
+  formatOrdinalSuffix = false,
   extraOrdinalStyling?: string,
 ): string {
   const day = d.getDate()
   const month = d.toLocaleDateString(locale, { month: monthFormat })
   const year = d.getFullYear()
-  let suffix: string = ""
+  let suffix = ""
   if (includeOrdinalSuffix) {
     suffix = getOrdinalSuffix(day)
     if (formatOrdinalSuffix) {

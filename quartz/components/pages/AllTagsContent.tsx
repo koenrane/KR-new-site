@@ -10,7 +10,7 @@ import { htmlToJsx } from "../../util/jsx"
 export const allTagsSlug = "all-tags" as FullSlug
 export const allTagsTitle = "All Tags"
 export const allTagsDescription = "All tags used in this site"
-export const allTagsListing: string = "all-tags-listing"
+export const allTagsListing = "all-tags-listing"
 
 export function generateAllTagsHast(props: QuartzComponentProps): Element {
   const { allFiles, cfg } = props
