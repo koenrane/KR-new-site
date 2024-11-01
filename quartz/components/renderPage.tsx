@@ -57,7 +57,12 @@ export function pageResources(
 }
 
 const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
-  const hast = createPageListHast(componentData.cfg, componentData.fileData, componentData.allFiles)
+  const hast = createPageListHast(
+    componentData.cfg,
+    componentData.fileData,
+    componentData.allFiles,
+    10,
+  ) // Up to 10 posts
 
   return {
     slug: recentSlug,

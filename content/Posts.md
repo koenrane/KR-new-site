@@ -32,6 +32,7 @@ tags:
 # Recent posts
 ![[recent#^recent-posts-listing]]
 
+If you want, [try going a little further back](/recent) to see all of my posts.
 # Sequences
 
 Originally, my content [was hosted on LessWrong](https://www.lesswrong.com/users/turntrout). Much of that content was meant to be consumed as part of a series - or "sequence" - of blog posts.

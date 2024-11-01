@@ -64,45 +64,47 @@ export function createPageListHast(
     list = list.slice(0, limit)
   }
 
-  return h(
-    "ul.section-ul",
-    list
-      .map((page, index) => {
-        const title = page.frontmatter?.title
-        let tags = page.frontmatter?.tags ?? []
-        tags = tags.sort((a, b) => b.length - a.length)
+  return h("div.page-listing", [
+    h(
+      "ul.section-ul",
+      list
+        .map((page, index) => {
+          const title = page.frontmatter?.title
+          let tags = page.frontmatter?.tags ?? []
+          tags = tags.sort((a, b) => b.length - a.length)
 
-        return [
-          h("li.section-li", [
-            h("div.section", [
-              page.dates &&
-                h("time.meta", [
-                  // Date string can be formatted directly here
-                  new Date(getDate(cfg, page)!).toLocaleDateString(),
-                ]),
-              h("div.desc", [
-                h("p", [
-                  h("a.internal", { href: resolveRelative(fileData.slug!, page.slug!) }, title),
-                ]),
-                h(
-                  "ul.tags",
-                  tags.map((tag) =>
-                    h(
-                      "a.internal.tag-link",
-                      { href: resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug) },
-                      formatTag(tag),
+          return [
+            h("li.section-li", [
+              h("div.section", [
+                page.dates &&
+                  h("time.meta", [
+                    // Date string can be formatted directly here
+                    new Date(getDate(cfg, page)!).toLocaleDateString(),
+                  ]),
+                h("div.desc", [
+                  h("p", [
+                    h("a.internal", { href: resolveRelative(fileData.slug!, page.slug!) }, title),
+                  ]),
+                  h(
+                    "ul.tags",
+                    tags.map((tag) =>
+                      h(
+                        "a.internal.tag-link",
+                        { href: resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug) },
+                        formatTag(tag),
+                      ),
                     ),
                   ),
-                ),
+                ]),
               ]),
             ]),
-          ]),
-          index < list.length - 1 ? h("hr.page-divider") : null,
-        ]
-      })
-      .flat()
-      .filter(Boolean),
-  )
+            index < list.length - 1 ? h("hr.page-divider") : null,
+          ]
+        })
+        .flat()
+        .filter(Boolean),
+    ),
+  ])
 }
 
 export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit }: Props) => {

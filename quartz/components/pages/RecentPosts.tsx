@@ -11,14 +11,9 @@ export const recentPostsListing: string = "recent-posts-listing"
 
 export function generateRecentPostsBlock(props: QuartzComponentProps): JSX.Element {
   const pageListing = (
-    <div
-      className="page-listing"
-      id={recentPostsListing}
-      data-url={recentPostsListing}
-      data-block={recentPostsListing}
-    >
+    <span id={recentPostsListing} data-url={recentPostsListing} data-block={recentPostsListing}>
       <PageList {...props} />
-    </div>
+    </span>
   )
   return pageListing
 }
