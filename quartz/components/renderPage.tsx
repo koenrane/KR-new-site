@@ -9,6 +9,9 @@ import { Root, Element, ElementContent } from "hast"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import React from "react"
+import { QuartzPluginData } from "../plugins/vfile"
+import { recentDescription, recentSlug, recentTitle, recentPostsListing } from "./pages/RecentPosts"
+import { createPageListHast } from "./PageList"
 
 interface RenderComponents {
   head: QuartzComponent
@@ -53,6 +56,17 @@ export function pageResources(
   }
 }
 
+const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
+  const hast = createPageListHast(componentData.cfg, componentData.fileData, componentData.allFiles)
+
+  return {
+    slug: recentSlug,
+    title: recentTitle,
+    description: recentDescription,
+    blocks: { [recentPostsListing]: hast },
+  } as QuartzPluginData
+}
+
 export function renderPage(
   cfg: GlobalConfiguration,
   slug: FullSlug,
@@ -70,38 +84,23 @@ export function renderPage(
       const classNames = (node.properties?.className ?? []) as string[]
       if (classNames.includes("transclude")) {
         const transcludeTarget = node.properties["dataUrl"] as FullSlug
-        console.log(node)
-        console.log(transcludeTarget)
+        if (transcludeTarget === recentSlug) {
+          componentData.allFiles.push(generateRecentPostsFile(componentData))
+        }
         const page = componentData.allFiles.find((f) => f.slug === transcludeTarget)
         if (!page) {
           return
         }
 
+        // Transclude block
         const inner = node.children[0] as Element
         let blockRef = node.properties.dataBlock as string | undefined
         if (blockRef?.startsWith("#^")) {
-          // block transclude
           blockRef = blockRef.slice("#^".length)
-          let blockNode = page.blocks?.[blockRef]
+          const blockNode = page.blocks?.[blockRef]
           if (blockNode) {
-            if (blockNode.tagName === "li") {
-              blockNode = {
-                type: "element",
-                tagName: "ul",
-                properties: {},
-                children: [blockNode],
-              }
-            }
-
-            node.children = [
-              normalizeHastElement(blockNode, slug, transcludeTarget),
-              {
-                type: "element",
-                tagName: "a",
-                properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-                children: [],
-              },
-            ]
+            console.log("Block node:", blockNode)
+            node.children = [blockNode]
           }
         } else if (blockRef?.startsWith("#") && page.htmlAst) {
           // header transclude

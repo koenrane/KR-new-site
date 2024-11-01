@@ -3,13 +3,17 @@ import { QuartzComponentProps } from "../../components/types"
 import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, FullSlug, pathToRoot } from "../../util/path"
+import { FilePath, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { write } from "./helpers"
 import DepGraph from "../../depgraph"
 import { ProcessedContent, defaultProcessedContent } from "../vfile"
 import { StaticResources } from "../../util/resources"
-import RecentPosts from "../../components/pages/RecentPosts"
+import RecentPosts, {
+  recentDescription,
+  recentSlug,
+  recentTitle,
+} from "../../components/pages/RecentPosts"
 
 export const RecentPostsPage: QuartzEmitterPlugin = () => {
   const opts = {
@@ -32,13 +36,13 @@ export const RecentPostsPage: QuartzEmitterPlugin = () => {
       return graph
     },
     async emit(ctx, content: ProcessedContent[], resources: StaticResources): Promise<FilePath[]> {
-      const slug = "recent" as FullSlug
+      const slug = recentSlug
       const externalResources = pageResources(pathToRoot(slug), resources)
       const [tree, file] = defaultProcessedContent({
         slug,
-        frontmatter: { title: "Recent Posts", tags: ["website"], aliases: ["recent-posts", "new"] },
-        description: "All posts on this site, with more recent posts first.",
-        text: "All posts on this site, with more recent posts first.",
+        frontmatter: { title: recentTitle, tags: ["website"], aliases: ["recent-posts", "new"] },
+        description: recentDescription,
+        text: recentDescription,
       })
 
       const componentData: QuartzComponentProps = {
