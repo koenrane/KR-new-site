@@ -2230,3 +2230,14 @@ rôle
 timestamping
 fakery
 preimage
+Catppuccin
+Github
+Precommit
+Prepush
+Transclusions
+acknowledgement
+cloudflare
+deepsource
+favicons
+luminance
+webpages

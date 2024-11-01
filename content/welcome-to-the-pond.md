@@ -112,6 +112,9 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
 
+> [!warning]
+> I realized that the reasoning here is mistaken; it's easy to `git rebase -i HEAD~50`, `edit` the offending commit, and then fake the commit metadata to preserve the original commit dates during the `rebase`. I'll need to use something like [`gwern`'s `timestamp` tool.]() Reworking this section.
+
 Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). 
 
 However, suppose I write embarrassing statement $X$ (I know this may be hard to imagine, but imagine anyways). $X$ hashes to $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)).[^second] [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` history.[^caveat]
