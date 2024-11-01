@@ -7,7 +7,7 @@ import { FullSlug } from "../../util/path"
 export const recentSlug = "recent" as FullSlug
 export const recentTitle = "Recent Posts"
 export const recentDescription = "Recent posts"
-export const recentPostsListing: string = "recent-posts-listing"
+export const recentPostsListing = "recent-posts-listing"
 
 export function generateRecentPostsBlock(props: QuartzComponentProps): JSX.Element {
   const pageListing = (
