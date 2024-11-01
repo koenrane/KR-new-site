@@ -2,7 +2,6 @@ import os
 import sys
 import re
 from . import utils as script_utils
-from . import compress
 import subprocess
 from typing import Sequence
 from pathlib import Path

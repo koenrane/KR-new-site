@@ -5,8 +5,6 @@ from pathlib import Path
 import subprocess
 from .. import r2_upload
 from .. import utils as script_utils
-import os
-import git
 import tempfile
 
 
