@@ -16,7 +16,7 @@ date_published: &id001 2024-10-30 18:09:31.133945
 date_updated: *id001
 ---
 
-For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [1,350 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize. ^c8d365
+For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [1,350 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
 
 [^commits]: Counted by running 
      ```shell
@@ -111,6 +111,9 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
+
+> [!warning]
+> I realized that the reasoning here is mistaken; it's easy to `git rebase -i HEAD~50`, `edit` the offending commit, and then fake the commit metadata to preserve the original commit dates during the `rebase`. I'll need to use something like [`gwern`'s `timestamp` tool.](https://gwern.net/timestamping) Reworking this section.
 
 Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). 
 
