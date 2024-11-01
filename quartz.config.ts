@@ -71,7 +71,7 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "turntrout.com",
-    ignorePatterns: ["private", "templates", ".obsidian", "drafts"],
+    ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "published", // What to display on listings
     navbar: {
       pages: [
@@ -140,7 +140,8 @@ const config: QuartzConfig = {
       Plugin.rehypeCustomSubtitle(),
       Plugin.TableOfContents(),
     ],
-    filters: [Plugin.ExplicitPublish()],
+    // filters: [Plugin.ExplicitPublish()],
+    filters: [],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),

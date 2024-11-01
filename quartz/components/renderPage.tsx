@@ -127,7 +127,6 @@ export function renderPage(
           blockRef = blockRef.slice("#^".length)
           const blockNode = page.blocks?.[blockRef]
           if (blockNode) {
-            console.log(node)
             node.children = [normalizeHastElement(blockNode, slug, transcludeTarget)]
           }
         } else if (blockRef?.startsWith("#") && page.htmlAst) {

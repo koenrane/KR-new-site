@@ -621,11 +621,6 @@ hr {
   }
 }
 
-a.internal.tag-link {
-  font-family: var(--font-monospace);
-  font-size: var(--text-size-80);
-}
-
 .authors {
   & p {
     color: var(--gray);
@@ -1047,7 +1042,9 @@ article[data-use-dropcap="true"] {
 .ordinal-suffix {
   vertical-align: 0.3em;
   margin-left: 0.05em;
-  text-decoration: underline 1.25px var(--lightgray);
+  text-decoration: underline;
+  text-decoration-thickness: 1.25px !important;
+  text-decoration-color: var(--lightgray) !important;
 }
 
 // Indent various elements of the sidebar
