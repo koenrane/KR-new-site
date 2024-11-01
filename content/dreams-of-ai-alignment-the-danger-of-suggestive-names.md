@@ -27,13 +27,14 @@ tags:
 aliases:
   - dreams-of-ai-alignment-the-danger-of-suggestive-names
   - dangers-of-suggestive-terminology
+  - dreams-of-ai-alignment
+  - dreams-of-alignment
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2024-02-10 00:00:00
 original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
 skip_import: true
-description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth"
-  are suggestive words that obstruct clear thought.'
+description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth" are suggestive words that obstruct clear thought.'
 date_updated: 2024-10-31 23:14:34.832290
 ---
 
