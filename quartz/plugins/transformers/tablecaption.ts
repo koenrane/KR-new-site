@@ -21,8 +21,8 @@ export const TableCaption: QuartzTransformerPlugin = () => {
             parent!.children.splice(index!, 1, ...captionHtml.children)
 
             // Find the preceding table and wrap it with a figure
-            if (index! > 0) {
-              const prevElement = parent!.children[index! - 1]
+            if (index && index > 0) {
+              const prevElement = parent!.children[index - 1]
               if (prevElement.type === "element" && prevElement.tagName === "table") {
                 const figure: Element = {
                   type: "element",
@@ -30,7 +30,7 @@ export const TableCaption: QuartzTransformerPlugin = () => {
                   properties: {},
                   children: [prevElement, ...(captionHtml.children as Element[])],
                 }
-                parent!.children.splice(index! - 1, 2, figure)
+                parent!.children.splice(index - 1, 2, figure)
               }
             }
           }

@@ -41,7 +41,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
       return [
         () => {
           return (tree: Root, file) => {
-            const curSlug = simplifySlug(file.data.slug! as FullSlug)
+            const curSlug = simplifySlug(file.data.slug as FullSlug)
             const outgoing: Set<SimpleSlug> = new Set()
 
             const transformOptions: TransformOptions = {
@@ -110,7 +110,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
 
                 if (isInternal) {
                   dest = node.properties.href = transformLink(
-                    file.data.slug! as FullSlug,
+                    file.data.slug as FullSlug,
                     dest,
                     transformOptions,
                   )
@@ -157,7 +157,7 @@ export const CrawlLinks: QuartzTransformerPlugin<Partial<Options> | undefined> =
                 if (!isAbsoluteUrl(node.properties.src)) {
                   let dest = node.properties.src as RelativeURL
                   dest = node.properties.src = transformLink(
-                    file.data.slug! as FullSlug,
+                    file.data.slug as FullSlug,
                     dest,
                     transformOptions,
                   )
