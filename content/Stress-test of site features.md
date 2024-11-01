@@ -121,7 +121,7 @@ const minusReplace = (text: string): string => {
   return text.replace(numberMatch, "$1−$2")
 }
 ```
-Code: Part of [my website processing pipeline](https://github.com/alexander-turner/TurnTrout.com/blob/main/quartz/plugins/transformers/minus_sign.ts).
+Code: Part of [my website processing pipeline](https://github.com/alexander-turner/TurnTrout.com/blob/main/quartz/plugins/transformers/formatting_improvement_html.ts#L261).
 # Smart dash conversion
 
 [Merriam-Webster ordains that](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use) - contrary to popular practice - hyphens (-) and em-dashes (—) be used in importantly different situations:
