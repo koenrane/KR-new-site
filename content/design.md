@@ -15,6 +15,15 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated:
 ---
 
+# Archiving and dependencies
+This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have nearly no external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare, my hosting service), the site would look nearly the same.[^archive] 
+
+I wrote [a useful script]() which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script:
+1. [Compresses ](#LINK-ME)
+
+This is true comfort to me, as about 3% of my older image links had already died on LessWrong (though I think they now ). However, I do not want my site's content to be tied to the engineering and organizational decisions; I want the content to be timeless.
+
+[^archive]: However, I still have yet to [archive external links, so I am still vulnerable to "linkrot."](https://gwern.net/archiving)
 # Color scheme
 The color scheme derives from the [Catppuccin](https://catppuccin.com) "latte" (light mode) and "frappe" (dark mode) [palettes](https://github.com/catppuccin/catppuccin/tree/main?tab=readme-ov-file#-palette). 
 
@@ -28,9 +37,10 @@ Both palettes provide a light-touch pastel theme which allows subtle, pleasing a
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction. 
 
-When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the honking goose, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor). 
+When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor). 
 
-During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this lol</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed.
+During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted 
+to the site theme.
 ## Themes 
 
 The themes provide high contrast between the text and the background, in both light and dark mode.[^sun]
