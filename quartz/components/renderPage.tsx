@@ -92,15 +92,15 @@ export function renderPage(
           return
         }
 
-        // Transclude block
         const inner = node.children[0] as Element
         let blockRef = node.properties.dataBlock as string | undefined
         if (blockRef?.startsWith("#^")) {
+          // Transclude block
           blockRef = blockRef.slice("#^".length)
           const blockNode = page.blocks?.[blockRef]
           if (blockNode) {
-            console.log("Block node:", blockNode)
-            node.children = [blockNode]
+            console.log(node)
+            node.children = [normalizeHastElement(blockNode, slug, transcludeTarget)]
           }
         } else if (blockRef?.startsWith("#") && page.htmlAst) {
           // header transclude

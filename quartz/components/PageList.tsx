@@ -1,12 +1,14 @@
 import { FullSlug, resolveRelative } from "../util/path"
+
 import { formatTag } from "./TagList"
 import { QuartzPluginData } from "../plugins/vfile"
-import { DateElement, getDate } from "./Date"
+import { getDate } from "./Date"
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { GlobalConfiguration } from "../cfg"
-import React, { Fragment } from "react"
 import { h } from "hastscript"
 import { Element } from "hast"
+import { toJsxRuntime, Options } from "hast-util-to-jsx-runtime"
+import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
 
 export function byDateAndAlphabetical(
   cfg: GlobalConfiguration,
@@ -74,7 +76,7 @@ export function createPageListHast(
           h("li.section-li", [
             h("div.section", [
               page.dates &&
-                h("p.meta", [
+                h("time.meta", [
                   // Date string can be formatted directly here
                   new Date(getDate(cfg, page)!).toLocaleDateString(),
                 ]),
@@ -104,56 +106,6 @@ export function createPageListHast(
 }
 
 export const PageList: QuartzComponent = ({ cfg, fileData, allFiles, limit }: Props) => {
-  let list = allFiles.sort(byDateAndAlphabetical(cfg))
-  if (limit) {
-    list = list.slice(0, limit)
-  }
-
-  return (
-    <ul className="section-ul">
-      {list.map((page, index) => {
-        const title = page.frontmatter?.title
-        let tags = page.frontmatter?.tags ?? []
-        tags = tags.sort((a, b) => b.length - a.length)
-
-        return (
-          <>
-            <li className="section-li" key={page.slug}>
-              <div className="section">
-                {page.dates && (
-                  <p className="meta">
-                    <DateElement
-                      cfg={cfg}
-                      fileData={page}
-                      monthFormat="short"
-                      includeOrdinalSuffix={false}
-                    />
-                  </p>
-                )}
-                <div className="desc">
-                  <p>
-                    <a href={resolveRelative(fileData.slug!, page.slug!)} className="internal">
-                      {title}
-                    </a>
-                  </p>
-                  <ul className="tags">
-                    {tags.map((tag) => (
-                      <a
-                        key={tag}
-                        className="internal tag-link"
-                        href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                      >
-                        {formatTag(tag)}
-                      </a>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </li>
-            {index < list.length - 1 && <hr className="page-divider" />}
-          </>
-        )
-      })}
-    </ul>
-  )
+  const pageListHast = createPageListHast(cfg, fileData, allFiles, limit)
+  return toJsxRuntime(pageListHast, { Fragment, jsx, jsxs } as Options)
 }
