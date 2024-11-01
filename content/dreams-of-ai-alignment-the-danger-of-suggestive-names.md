@@ -1,38 +1,38 @@
 ---
 permalink: danger-of-suggestive-terminology
-lw-was-draft-post: 'false'
-lw-is-af: 'false'
-lw-is-debate: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "false"
+lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
-lw-is-question: 'false'
+lw-is-question: "false"
 lw-posted-at: 2024-02-10T01:22:51.715000Z
 lw-last-modification: 2024-02-13T21:08:58.421000Z
 lw-curation-date: None
 lw-frontpage-date: 2024-02-10T18:40:44.410000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 58
 lw-base-score: 97
 lw-vote-count: 75
 af-base-score: 34
 af-num-comments-on-upload: 0
 publish: true
-title: 'Dreams of AI alignment: The danger of suggestive names'
+title: "Dreams of AI alignment: The danger of suggestive names"
 lw-latest-edit: 2024-02-10T02:01:47.447000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 tags:
   - AI
   - rationality
   - critique
 aliases:
   - dreams-of-ai-alignment-the-danger-of-suggestive-names
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+  - dangers-of-suggestive-terminology
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2024-02-10 00:00:00
 original_url: https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names
 skip_import: true
-description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth"
-  are suggestive words that obstruct clear thought.'
+description: 'AI alignment plagued by imprecise language. Ex: "reward" and "shoggoth" are suggestive words that obstruct clear thought.'
 date_updated: 2024-10-30 18:09:31.133945
 ---
 

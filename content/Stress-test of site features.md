@@ -15,7 +15,7 @@ This page is inspired by Gwern Branwen's [Lorem Ipsum](https://gwern.net/lorem),
 # Transclusions
 The Quartz static site generator lets me reference HTML across webpages. For example, here's the first paragraph of [my "about" page](/about):
 
-![[about#^first-para]]
+> ![[about#^first-para]]
 
 # Quotations
 Subtitle: Headings can have subtitles! 
