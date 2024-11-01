@@ -370,7 +370,8 @@ export function markdownPlugins(opts: Options): PluggableList {
                 hProperties: {
                   className: ["callout-title"],
                 },
-              } as unknown as CustomElementData,
+                position: {},
+              } as CustomElementData,
               children: [
                 {
                   type: "element",
@@ -381,7 +382,8 @@ export function markdownPlugins(opts: Options): PluggableList {
                     hProperties: {
                       className: ["callout-icon"],
                     },
-                  } as unknown as CustomElementData,
+                    position: {},
+                  } as CustomElementData,
                   children: [],
                 },
                 {
@@ -393,7 +395,8 @@ export function markdownPlugins(opts: Options): PluggableList {
                     hProperties: {
                       className: ["callout-title-inner"],
                     },
-                  } as unknown as CustomElementData,
+                    position: {},
+                  } as CustomElementData,
                   children: [
                     {
                       type: "text",
@@ -412,11 +415,13 @@ export function markdownPlugins(opts: Options): PluggableList {
                           hProperties: {
                             className: ["fold-callout-icon"],
                           },
-                        },
+                          position: {},
+                        } as CustomElementData,
                         children: [],
+                        properties: {},
                       },
                     ]
-                  : []) as unknown as ElementContent[]),
+                  : []) as ElementContent[]),
               ],
             }
 
