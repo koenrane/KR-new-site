@@ -4,7 +4,7 @@ import subprocess
 import re
 from typing import List, Dict
 from pathlib import Path
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))

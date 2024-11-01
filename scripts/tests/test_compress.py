@@ -1,5 +1,4 @@
 from .. import compress
-import shutil
 import pytest
 from pathlib import Path
 from . import utils
@@ -7,7 +6,6 @@ import sys
 from io import StringIO
 import subprocess
 import json
-import os
 
 # --- Image Tests ---
 
