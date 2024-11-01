@@ -82,6 +82,9 @@ I've [criticized the loose analogical reasoning which permeates the "rationalist
 
 I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mis-predictions. 
 
+## Tracking my mistakes
+Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page, I've written [my own](/mistakes). The list is short because I have yet to fully fill it in.
+
 ## Bounty for bad analogies I've made since 2022
 Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By reasoning using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
  ![](https://assets.turntrout.com/static/images/posts/computer-analogy.avif)
