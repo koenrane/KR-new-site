@@ -3,7 +3,6 @@
 
 import { randomUUID } from "crypto"
 import { JSX } from "preact/jsx-runtime"
-
 import React from "react"
 
 export type JSResource = {

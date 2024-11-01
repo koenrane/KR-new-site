@@ -1,13 +1,14 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
-import { QuartzPluginData } from "../plugins/vfile"
-import { byDateAndAlphabetical } from "./PageList"
-import style from "./styles/recentNotes.scss"
-import { DateElement } from "./Date"
+import React from "react"
+
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
+import { QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
-import React from "react"
+import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
+import { DateElement } from "./Date"
+import { byDateAndAlphabetical } from "./PageList"
+import style from "./styles/recentNotes.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 interface Options {
   title?: string
   limit: number

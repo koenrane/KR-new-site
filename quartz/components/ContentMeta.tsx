@@ -1,16 +1,15 @@
-import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { formatTitle } from "../components/component_utils"
-
-import { TagList } from "./TagList"
-import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
-import style from "./styles/contentMeta.scss"
-import { GlobalConfiguration } from "../cfg"
-import { Backlinks } from "./Backlinks"
-import { QuartzPluginData } from "../plugins/vfile"
+import React from "react"
 import readingTime from "reading-time"
 
-import React from "react"
+import { GlobalConfiguration } from "../cfg"
+import { formatTitle } from "../components/component_utils"
+import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
+import { QuartzPluginData } from "../plugins/vfile"
+import { Backlinks } from "./Backlinks"
 import { DateElement } from "./Date"
+import style from "./styles/contentMeta.scss"
+import { TagList } from "./TagList"
+import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 export const getFaviconPath = (originalURL: URL): string | null => {
   const quartzPath = GetQuartzPath(originalURL.hostname)

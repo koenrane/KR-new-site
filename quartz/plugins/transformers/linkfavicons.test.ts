@@ -2,13 +2,12 @@
  * @jest-environment node
  */
 import { jest } from "@jest/globals"
-import { h } from "hastscript"
-import { PassThrough } from "stream"
-import { Element, Parent } from "hast"
-
 import fsExtra from "fs-extra"
-import path from "path"
+import { Element, Parent } from "hast"
+import { h } from "hastscript"
 import os from "os"
+import path from "path"
+import { PassThrough } from "stream"
 
 import * as linkfavicons from "./linkfavicons"
 

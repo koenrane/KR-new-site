@@ -1,9 +1,9 @@
-import winston from "winston"
 import { execSync } from "child_process"
-import { format } from "winston"
-import path from "path"
-import DailyRotateFile from "winston-daily-rotate-file"
 import fs from "fs"
+import path from "path"
+import winston from "winston"
+import { format } from "winston"
+import DailyRotateFile from "winston-daily-rotate-file"
 
 // For CWD
 export const findGitRoot = () => {

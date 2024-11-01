@@ -1,7 +1,7 @@
 import { setupDarkMode } from "./darkmode"
 import { setupHamburgerMenu } from "./hamburgerMenu"
-import { setupSearch } from "./search"
 import { setupScrollHandler } from "./scrollHandler"
+import { setupSearch } from "./search"
 
 setupDarkMode()
 setupHamburgerMenu()

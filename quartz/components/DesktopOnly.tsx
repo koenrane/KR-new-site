@@ -1,5 +1,6 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import React from "react"
+
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 export default ((component?: QuartzComponent) => {
   if (component) {
     const Component = component

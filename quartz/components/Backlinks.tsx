@@ -1,11 +1,12 @@
-import { QuartzComponent, QuartzComponentProps } from "./types"
+import { RootContent, Parent, Text, Element, Root, Data } from "hast"
+import { fromHtml } from "hast-util-from-html"
+import React from "react"
+
+import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
-import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
-import { fromHtml } from "hast-util-from-html"
-import { RootContent, Parent, Text, Element, Root, Data } from "hast"
 import { formatTitle } from "./component_utils"
-import React from "react"
+import { QuartzComponent, QuartzComponentProps } from "./types"
 
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text

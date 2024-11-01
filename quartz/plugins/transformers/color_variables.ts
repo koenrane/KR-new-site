@@ -1,7 +1,9 @@
-import { visit } from "unist-util-visit"
-import type { QuartzTransformerPlugin } from "../types"
 import type { Element } from "hast"
 import type { Root } from "mdast"
+
+import { visit } from "unist-util-visit"
+
+import type { QuartzTransformerPlugin } from "../types"
 
 const colorMapping: Record<string, string> = {
   pink: "var(--pink)",

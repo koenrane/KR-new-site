@@ -1,14 +1,15 @@
-import { QuartzTransformerPlugin } from "../types"
-import { createLogger } from "./logger_utils"
+import { Node } from "hast"
 import { Root, Heading } from "mdast"
 import { visit, SKIP } from "unist-util-visit"
-import { slugify, resetSlugger } from "./gfm"
+
+import { QuartzTransformerPlugin } from "../types"
 import {
   applyTextTransforms,
   hasAncestor,
   ElementMaybeWithParent,
 } from "./formatting_improvement_html"
-import { Node } from "hast"
+import { slugify, resetSlugger } from "./gfm"
+import { createLogger } from "./logger_utils"
 
 export interface Options {
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6

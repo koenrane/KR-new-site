@@ -1,4 +1,8 @@
-import { QuartzTransformerPlugin } from "../types"
+import { Root } from "hast"
+import isAbsoluteUrl from "is-absolute-url"
+import path from "path"
+import { visit } from "unist-util-visit"
+
 import {
   FullSlug,
   RelativeURL,
@@ -9,10 +13,7 @@ import {
   splitAnchor,
   transformLink,
 } from "../../util/path"
-import path from "path"
-import { visit } from "unist-util-visit"
-import isAbsoluteUrl from "is-absolute-url"
-import { Root } from "hast"
+import { QuartzTransformerPlugin } from "../types"
 
 interface Options {
   /** How to resolve Markdown paths */

@@ -1,5 +1,6 @@
-import { slug as slugAnchor } from "github-slugger"
 import type { Element as HastElement } from "hast"
+
+import { slug as slugAnchor } from "github-slugger"
 import rfdc from "rfdc"
 
 export const clone = rfdc()

@@ -1,3 +1,6 @@
+import { Root, Element } from "hast"
+
+import { QuartzPluginData } from "../../vfile"
 import {
   renderSequenceTitle,
   renderPreviousPost,
@@ -5,8 +8,6 @@ import {
   createSequenceLinksDiv,
   insertAfterTroutOrnament,
 } from "../sequenceLinks"
-import { Root, Element } from "hast"
-import { QuartzPluginData } from "../../vfile"
 
 describe("renderSequenceTitle", () => {
   it("should return null when no sequence information is available", () => {

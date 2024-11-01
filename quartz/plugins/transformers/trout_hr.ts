@@ -1,6 +1,7 @@
-import { visit } from "unist-util-visit"
-import { QuartzTransformerPlugin } from "../types"
 import { Root, Element, Parent, Text } from "hast"
+import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
 
 /**
  * The ornamental node with a trout image and decorative text.
@@ -58,24 +59,24 @@ export function maybeInsertOrnament(
   index: number | undefined,
   parent: Parent | undefined,
 ): boolean {
-  if (!parent || index === undefined) return false;
+  if (!parent || index === undefined) return false
 
   // Check for "Appendix" headings
   if (node.tagName === "h1" || node.tagName === "h2") {
-    const startsWithAppendix = (text: string) => text.toLowerCase().startsWith("appendix");
+    const startsWithAppendix = (text: string) => text.toLowerCase().startsWith("appendix")
 
     // Check direct text children
     if (node.children[0]?.type === "text" && startsWithAppendix(node.children[0].value)) {
-      parent.children.splice(index, 0, ornamentNode);
-      return true;
+      parent.children.splice(index, 0, ornamentNode)
+      return true
     }
 
     // Check link element
     if (node.children[0]?.type === "element" && node.children[0].tagName === "a") {
-      const anchorText = node.children[0].children[0];
+      const anchorText = node.children[0].children[0]
       if (anchorText?.type === "text" && startsWithAppendix(anchorText.value)) {
-        parent.children.splice(index, 0, ornamentNode);
-        return true;
+        parent.children.splice(index, 0, ornamentNode)
+        return true
       }
     }
   }
@@ -117,13 +118,13 @@ export function maybeInsertOrnament(
  * @param {Root} tree - The AST to modify.
  */
 export function insertOrnamentNode(tree: Root): void {
-  let ornamentInserted = false;
+  let ornamentInserted = false
 
   visit(tree, "element", (node: Element, index: number | undefined, parent: Parent | undefined) => {
     if (!ornamentInserted) {
-      ornamentInserted = maybeInsertOrnament(node, index, parent);
+      ornamentInserted = maybeInsertOrnament(node, index, parent)
     }
-  });
+  })
 
   if (!ornamentInserted) {
     // Check if the last child is an <hr> element

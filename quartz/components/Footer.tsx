@@ -1,6 +1,7 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import style from "./styles/footer.scss"
 import React from "react"
+
+import style from "./styles/footer.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 interface Options {
   links: Record<string, string>

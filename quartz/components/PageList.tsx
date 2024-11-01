@@ -1,14 +1,14 @@
-import { FullSlug, resolveRelative } from "../util/path"
-
-import { formatTag } from "./TagList"
-import { QuartzPluginData } from "../plugins/vfile"
-import { getDate } from "./Date"
-import { QuartzComponent, QuartzComponentProps } from "./types"
-import { GlobalConfiguration } from "../cfg"
-import { h } from "hastscript"
 import { Element } from "hast"
 import { toJsxRuntime, Options } from "hast-util-to-jsx-runtime"
+import { h } from "hastscript"
 import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
+
+import { GlobalConfiguration } from "../cfg"
+import { QuartzPluginData } from "../plugins/vfile"
+import { FullSlug, resolveRelative } from "../util/path"
+import { getDate } from "./Date"
+import { formatTag } from "./TagList"
+import { QuartzComponent, QuartzComponentProps } from "./types"
 
 export function byDateAndAlphabetical(
   cfg: GlobalConfiguration,

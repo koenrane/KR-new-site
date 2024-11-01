@@ -1,9 +1,9 @@
-import { QuartzTransformerPlugin } from "../types"
-import { Plugin } from "unified"
-import { replaceRegex } from "./utils"
 import { Node, Parent, Text } from "hast"
-
+import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
+import { replaceRegex } from "./utils"
 
 export function isRomanNumeral(str: string): boolean {
   // the ending lookbehind ensures that it's not empty

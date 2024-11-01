@@ -1,11 +1,12 @@
 import matter from "gray-matter"
-import remarkFrontmatter from "remark-frontmatter"
-import { QuartzTransformerPlugin } from "../types"
 import yaml from "js-yaml"
+import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
-import { slugTag } from "../../util/path"
-import { QuartzPluginData } from "../vfile"
+
 import { i18n } from "../../i18n"
+import { slugTag } from "../../util/path"
+import { QuartzTransformerPlugin } from "../types"
+import { QuartzPluginData } from "../vfile"
 
 export interface Options {
   delimiters: string | [string, string]

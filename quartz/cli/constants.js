@@ -1,6 +1,6 @@
-import path from "path"
-import process from "node:process"
 import { readFileSync } from "fs"
+import process from "node:process"
+import path from "path"
 
 /**
  * All constants relating to helpers or handlers

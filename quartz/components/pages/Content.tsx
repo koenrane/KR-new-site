@@ -1,11 +1,12 @@
-import { htmlToJsx } from "../../util/jsx"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
-import { buildNestedList } from "../TableOfContents"
+import React from "react"
+
 import {
   TURNTROUT_FAVICON_PATH,
   LESSWRONG_FAVICON_PATH,
 } from "../../plugins/transformers/linkfavicons"
-import React from "react"
+import { htmlToJsx } from "../../util/jsx"
+import { buildNestedList } from "../TableOfContents"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" alt="" />
 

@@ -1,9 +1,10 @@
-import { QuartzTransformerPlugin } from "../types"
 import { Root, Element } from "hast"
-import { visit } from "unist-util-visit"
 import { h } from "hastscript"
-import { createSequenceLinksComponent } from "./sequenceLinks"
+import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
 import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
+import { createSequenceLinksComponent } from "./sequenceLinks"
 
 export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [
   h("abbr", { class: "small-caps" }, "RSS"),

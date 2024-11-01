@@ -1,9 +1,10 @@
-import { visit } from "unist-util-visit"
-import { twemoji } from "./modules/twemoji.min"
+import { Element, Parent, Text } from "hast"
 import { h } from "hastscript"
 import { Plugin } from "unified"
 import { Node } from "unist"
-import { Element, Parent, Text } from "hast"
+import { visit } from "unist-util-visit"
+
+import { twemoji } from "./modules/twemoji.min"
 
 export const PLACEHOLDER = "__EMOJI_PLACEHOLDER__"
 export const EMOJI_REPLACEMENT = "⤴"

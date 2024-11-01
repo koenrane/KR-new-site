@@ -1,6 +1,10 @@
-import { unified } from "unified"
+import { expect } from "@jest/globals"
+import { Element, Parent } from "hast"
+import { h } from "hastscript"
 import rehypeParse from "rehype-parse"
 import rehypeStringify from "rehype-stringify"
+import { unified } from "unified"
+
 import {
   transformAST,
   matchSpoilerText,
@@ -8,9 +12,6 @@ import {
   modifyNode,
   processParagraph,
 } from "../spoiler"
-import { Element, Parent } from "hast"
-import { h } from "hastscript"
-import { expect } from "@jest/globals"
 
 function removePositions(obj: unknown): unknown {
   if (Array.isArray(obj)) {

@@ -1,3 +1,5 @@
+import React from "react"
+
 import { QuartzPluginData } from "../plugins/vfile"
 import {
   joinSegments,
@@ -7,7 +9,6 @@ import {
   SimpleSlug,
   FilePath,
 } from "../util/path"
-import React from "react"
 
 type OrderEntries = "sort" | "filter" | "map"
 

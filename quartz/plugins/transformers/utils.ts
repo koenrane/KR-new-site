@@ -1,5 +1,5 @@
-import { h } from "hastscript"
 import { Parent, RootContent, Text } from "hast"
+import { h } from "hastscript"
 
 export const urlRegex = new RegExp(
   /(https?:\/\/)(?<domain>([\da-z.-]+\.)+)(?<path>[/?=\w.-]+(\([\w.\-,() ]*\))?)(?=\))/g,

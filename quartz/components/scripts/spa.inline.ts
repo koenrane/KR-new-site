@@ -2,6 +2,7 @@
 // It handles navigation between pages without full page reloads
 
 import micromorph from "micromorph"
+
 import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
 
 // adapted from `micromorph`

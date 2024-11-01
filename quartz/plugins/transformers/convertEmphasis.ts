@@ -1,7 +1,8 @@
-import { QuartzTransformerPlugin } from "../types"
-import { visit } from "unist-util-visit"
 import { Text, Parent, PhrasingContent } from "mdast"
 import { Root } from "remark-frontmatter/lib"
+import { visit } from "unist-util-visit"
+
+import { QuartzTransformerPlugin } from "../types"
 
 /**
  * Processes a single text node and converts emphasis syntax to the corresponding node type.

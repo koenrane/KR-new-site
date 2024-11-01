@@ -1,8 +1,9 @@
+import fs from "fs"
+
+import DepGraph from "../../depgraph"
+import { glob } from "../../util/glob"
 import { FilePath, QUARTZ, joinSegments } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
-import fs from "fs"
-import { glob } from "../../util/glob"
-import DepGraph from "../../depgraph"
 
 export const Static: QuartzEmitterPlugin = () => ({
   name: "Static",

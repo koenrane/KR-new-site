@@ -4,15 +4,16 @@
  * supporting small caps and LaTeX rendering.
  */
 
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import React from "react"
-import { createLogger } from "../plugins/transformers/logger_utils"
-import modernStyle from "./styles/toc.scss"
 import { RootContent, Parent, Text, Element, Root } from "hast"
+import { fromHtml } from "hast-util-from-html"
+import katex from "katex"
+import React from "react"
+
+import { createLogger } from "../plugins/transformers/logger_utils"
 import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
 import { TocEntry } from "../plugins/transformers/toc"
-import katex from "katex"
-import { fromHtml } from "hast-util-from-html"
+import modernStyle from "./styles/toc.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 /**
  * Processes small caps in the given text and adds it to the parent node.

@@ -1,20 +1,20 @@
-import { QuartzEmitterPlugin } from "../types"
-import { QuartzComponentProps } from "../../components/types"
-import HeaderConstructor from "../../components/Header"
-import BodyConstructor from "../../components/Body"
-import { pageResources, renderPage } from "../../components/renderPage"
-import { FilePath, pathToRoot } from "../../util/path"
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
+import BodyConstructor from "../../components/Body"
+import HeaderConstructor from "../../components/Header"
 import AllTagsContent from "../../components/pages/AllTagsContent"
-import { write } from "./helpers"
-import DepGraph from "../../depgraph"
-import { StaticResources } from "../../util/resources"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
 import {
   allTagsSlug,
   allTagsTitle,
   allTagsDescription,
 } from "../../components/pages/AllTagsContent"
+import { pageResources, renderPage } from "../../components/renderPage"
+import { QuartzComponentProps } from "../../components/types"
+import DepGraph from "../../depgraph"
+import { FilePath, pathToRoot } from "../../util/path"
+import { StaticResources } from "../../util/resources"
+import { QuartzEmitterPlugin } from "../types"
+import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import { write } from "./helpers"
 
 export const AllTagsPage: QuartzEmitterPlugin = () => {
   const opts = {
