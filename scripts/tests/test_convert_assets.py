@@ -15,9 +15,6 @@ except ImportError:
 
 import subprocess
 import re
-import shutil
-import yaml
-import io
 
 mock_r2_upload = mock.MagicMock()
 mock.patch.dict("sys.modules", {"r2_upload": mock_r2_upload}).start()

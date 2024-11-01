@@ -19,7 +19,7 @@ const parser = new DOMParser()
 export async function fetchWithMetaRedirect(
   url: URL,
   customFetch: typeof fetch = fetch,
-  maxRedirects: number = 3,
+  maxRedirects = 3,
 ): Promise<Response> {
   let currentUrl = url
   let redirectCount = 0
