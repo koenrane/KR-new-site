@@ -80,6 +80,7 @@ export default (() => {
         type="application/json"
         id="quartz-frontmatter"
         dangerouslySetInnerHTML={{
+          // skipcq: JS-0440
           __html: JSON.stringify(exposedFrontmatter),
         }}
       />

@@ -94,6 +94,7 @@ export const DateElement = ({
     <time
       dateTime={fileData.frontmatter?.date_published as string}
       dangerouslySetInnerHTML={{
+        // skipcq: JS-0440
         __html: formatDate(
           date,
           cfg.locale,
