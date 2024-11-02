@@ -17,11 +17,18 @@ date_updated: 2024-11-01 22:05:56.366962
 
 
 # Archiving and dependencies
-This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have nearly no external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare, my hosting service), the site would look nearly the same.[^archive] 
+This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have nearly no external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), the site would look nearly the same.[^archive]
 
-I wrote [a useful script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script uploads the assets to my . I describe my `pre-push` pipeline [below](#HOOKLINK).
+[^archive]: Exceptions which are not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
 
-This is true comfort to me, as about 3% of my older image links had already died on LessWrong (though I think they now ). However, I do not want my site's content to be tied to the engineering and organizational decisions; I want the content to be timeless.
+I wrote [a script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script:
+1. Uploads the assets to my CDN (`assets.turntrout.com`);
+2. Copies the assets to my local mirror of the CDN content;
+3. Removes the assets so they aren't tracked by my `git` repo. 
+I describe my broader `pre-push` pipeline in detail later in the article.
+<!--UPDATE WITH LINK-->
+
+My CDN brings me true comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want the content to be timeless.
 
 [^archive]: However, I still have yet to [archive external links, so I am still vulnerable to "linkrot."](https://gwern.net/archiving)
 # Color scheme
