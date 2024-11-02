@@ -2248,3 +2248,8 @@ JSON
 LOL
 hahahahahaha
 textTwemoji
+260KB
+80KB
+Inlining
+JS
+Minification
