@@ -2,18 +2,19 @@
 title: Design of this website
 permalink: design
 publish: true
-no_dropcap: "false"
-tags:
-description:
+tags: 
+description: 
 date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image:
+card_image: 
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2024-11-01 22:05:56.366962
+date_updated: 2024-11-02 09:27:16.094474
+no_dropcap: "false"
 ---
+
 
 
 # Archiving and dependencies
@@ -59,6 +60,21 @@ The themes provide high contrast between the text and the background, in both li
 The darkest text color is used extremely sparingly, so the margin text is medium-contrast, as are e.g. list numbers and bullets:
    - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a black GitHub icon surrounded by lower contrast text. 
 
+# Site responsiveness
+## Asset compression
+
+I took several steps to compress fonts. EB Garamond Regular (8pt) takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) 
+
+## Inlining critical CSS
+
+## Only loading assets and HTML a single time
+
+
+## Other small touches
+Here are some default optimizations made by Quartz:
+- Minification of CSS and JS files
+- Lazy loading of assets
+
 # Text presentation
 ## Fonts
 
@@ -73,6 +89,8 @@ Figure: _Ligatures_ transform sequences of characters into a single beautiful gl
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
 ### I added a dash through the 0's
+While EB Garamond is a lovely font, it has a few problems out-of-the-box. Here's 
+
 However, as of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The unslashed zeroes looked quite similar to the letter 'o.' Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals (such as '2', which only reach up to the x-height of lowercase letters). This meant that the italicized oldstyle '1' looked like "<span class="small-caps">I</span>", which wasn't very pleasant to my eyes.
 
 Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have notified the maintainer of the EB Garamond font. 😌
