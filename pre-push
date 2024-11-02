@@ -13,6 +13,11 @@ function cleanup {
     fi
     if $SERVER_STARTED; then
         kill -TERM $SERVER_PID
+        # If we paused an existing server, resume it
+        if [[ -n "$EXISTING_SERVER_PID" ]]; then
+            echo "Resuming existing server (PID: $EXISTING_SERVER_PID)"
+            kill -CONT $EXISTING_SERVER_PID
+        fi
     fi
 }
 
@@ -62,18 +67,18 @@ npm run test
 # Compress and upload assets
 sh "$GIT_ROOT/scripts/handle_local_assets.sh"
 
-SERVER_STARTED=false
-if ! nc -z localhost 8080; then
-	npx quartz build --serve >/dev/null &
-	SERVER_PID=$! # Store the server's process ID
-	SERVER_STARTED=true
-	# Wait for the server to be ready
-	while ! nc -z localhost 8080; do
-		sleep 0.1 # Check every 100ms
-	done
+# Restart the server so that pages don't rely on stale assets which got deleted and uploaded
+#  That would throw false positives in the built_site_checks step
+# Start new server
+npx quartz build --serve >/dev/null &
+SERVER_PID=$! # Store the server's process ID
+SERVER_STARTED=true
+# Wait for the server to be ready
+while ! nc -z localhost 8080; do
+    sleep 0.1 # Check every 100ms
+done
 
-	echo "Started quartz server."
-fi
+echo "(Re)started quartz server."
 
 # Run visual regression testing
 set +e
