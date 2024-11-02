@@ -41,7 +41,11 @@ export const AllTagsPage: QuartzEmitterPlugin = () => {
       const externalResources = pageResources(pathToRoot(slug), resources)
       const [tree, file] = defaultProcessedContent({
         slug,
-        frontmatter: { title: allTagsTitle, tags: ["website"] },
+        frontmatter: {
+          title: allTagsTitle,
+          tags: ["website"],
+          aliases: ["tags", "all-tags", "tags-index"],
+        },
         description: allTagsDescription,
         text: "Information about the tags used in this site.",
       })
