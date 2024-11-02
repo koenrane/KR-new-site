@@ -2241,3 +2241,10 @@ deepsource
 favicons
 luminance
 webpages
+CDN
+Cloudflare
+Fira
+JSON
+LOL
+hahahahahaha
+textTwemoji
