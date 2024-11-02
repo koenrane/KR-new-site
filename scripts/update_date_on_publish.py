@@ -112,8 +112,7 @@ def update_publish_date(yaml_metadata: dict) -> None:
             ):
                 yaml_metadata["date_updated"] = yaml_metadata[key]
                 break
-        else:
-            # If no valid legacy date found, use date_published
+        else:  # If neither date_published nor legacy date fields are set, use current date
             yaml_metadata["date_updated"] = yaml_metadata["date_published"]
 
 
@@ -129,7 +128,6 @@ def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
         f.write(updated_yaml)
         f.write("---\n")
         f.write(content)
-    print(f"Updated date information on {file_path}")
 
 
 def main(content_dir: Path | None = None) -> None:
@@ -146,11 +144,12 @@ def main(content_dir: Path | None = None) -> None:
         metadata, content = split_yaml(md_file_path)
         if not metadata and not content:
             continue
+        original_metadata = metadata.copy()
 
         # If the file has never been marked as published, set the publish date
         update_publish_date(metadata)
 
-        # Check for unpushed changes and update date_updated if needed
+        # # Check for unpushed changes and update date_updated if needed
         if is_file_modified(md_file_path):
             metadata["date_updated"] = current_date
 
@@ -158,7 +157,9 @@ def main(content_dir: Path | None = None) -> None:
         for key in ("date_published", "date_updated"):
             metadata[key] = maybe_convert_to_timestamp(metadata[key])
 
-        write_to_yaml(md_file_path, metadata, content)
+        if metadata != original_metadata:
+            print(f"Updated date information on {md_file_path}")
+            write_to_yaml(md_file_path, metadata, content)
 
 
 if __name__ == "__main__":

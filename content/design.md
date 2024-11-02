@@ -3,17 +3,18 @@ title: Design of this website
 permalink: design
 publish: true
 no_dropcap: "false"
-tags: 
-description: 
+tags:
+description:
 date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
+card_image:
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated:
+date_updated: 2024-11-01 22:05:56.366962
 ---
+
 
 # Archiving and dependencies
 This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have nearly no external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare, my hosting service), the site would look nearly the same.[^archive] 
