@@ -1,7 +1,7 @@
 module.exports = [
   {
     label: "Homepage",
-    url: "http://localhost:8080/welcome.html",
+    url: "http://localhost:8080/index.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     label: "Dark mode",
-    url: "http://localhost:8080/welcome.html",
+    url: "http://localhost:8080/index.html",
     referenceUrl: "",
     delay: 500,
     onBeforeScript: "puppet/onBeforeDark.cjs",
@@ -56,7 +56,7 @@ module.exports = [
     label: "404",
     url: "http://localhost:8080/404.html",
     referenceUrl: "",
-    delay: 500,
+    delay: 1000,
     misMatchThreshold: 0.1,
     requireSameDimensions: true,
     selectors: ["viewport"],

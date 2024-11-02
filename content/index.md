@@ -7,6 +7,7 @@ hide_title: "true"
 aliases:
   - index
   - home
+  - welcome
 hideSubscriptionLinks: true
 description: Writings on AI, self-improvement, and living a good life.
 date_published: 2024-10-27 19:14:04.653922
