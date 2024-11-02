@@ -57,12 +57,12 @@ The darkest text color is used extremely sparingly, so the margin text is medium
 
 The serif font family is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond). The `monospace` font is [Fira Code VF](), which brings a range of lovely ligatures:
 
-![](fira_code.png)
+![](https://assets.turntrout.com/static/images/posts/fira_code.avif)
 Figure: _Ligatures_ transform sequences of characters into a single beautiful glyph (like "`<=`").
 
 
 
-![](letter_pairs-1.png)
+![](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
 ### I added a dash through the 0's
