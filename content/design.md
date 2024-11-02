@@ -18,8 +18,7 @@ date_updated:
 # Archiving and dependencies
 This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have nearly no external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare, my hosting service), the site would look nearly the same.[^archive] 
 
-I wrote [a useful script]() which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script:
-1. [Compresses ](#LINK-ME)
+I wrote [a useful script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script uploads the assets to my . I describe my `pre-push` pipeline [below](#HOOKLINK).
 
 This is true comfort to me, as about 3% of my older image links had already died on LessWrong (though I think they now ). However, I do not want my site's content to be tied to the engineering and organizational decisions; I want the content to be timeless.
 
@@ -80,6 +79,7 @@ Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to ad
 4. Explain the different 
 	1. Wavy LOL hahahahahaha of the imports of JSON
 	2. Scrolling text
+	- Twemoji
 5. The commit->push->deploy pipeline
 	1. Precommit
 	2. Prepush

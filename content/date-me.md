@@ -117,7 +117,7 @@ AI-fueled house parties
 </figure>
 
 Design & art
-: I designed [this website](/), for example!
+: I [designed this website](/design), for example!
 : While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [Reframing Impact](/reframing-impact):
 : ![The title card for the series. A cute robot plays around with blocks.](https://assets.turntrout.com/Attachments/reframingImpact.avif)
 : ![A recreation of the iconic](https://assets.turntrout.com/Attachments/balrog.avif)
@@ -167,6 +167,6 @@ If this sounds like a nice potential connection, I'd love to:
 
 OK, I've written enough! Get to know me if you want to know more. 🪿
 
-# Contact
+# Let's get in touch?
 
-If you think we might be compatible, email me at [`alex@turntrout.com`](mailto:alex@turntrout.com)! (You can just say hello and a paragraph about yourself, no pressure to send an elaborate message.)
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSexfAUrQnpHJq24N64QLqzE5T7hOJcopwR4q5hP2BJv1dyhPw/viewform?embedded=true" width="720" height="1200" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
