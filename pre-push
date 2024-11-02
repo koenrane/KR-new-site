@@ -46,6 +46,14 @@ mypy $GIT_ROOT/scripts/**py
 # eslint already has ignore rules
 npx eslint --fix $GIT_ROOT
 
+# # Check for DeepSource major (-03) or critical issues (-04)
+# ISSUES=$(deepsource issues list --repo github.com/alexander-turner/TurnTrout.com) # Note: Use `egrep` instead of `grep` to screen issues
+# if [[ -n $ISSUES ]]; then
+#     echo "DeepSource issues found:"
+#     echo "$ISSUES"
+#     exit 1
+# fi
+
 fish "$GIT_ROOT/scripts/spellchecker.fish"
 
 # Run jest tests
