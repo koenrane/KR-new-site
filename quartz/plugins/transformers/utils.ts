@@ -32,7 +32,7 @@ export interface ReplaceFnResult {
  * @param regex - The regular expression to match against the node's text.
  * @param replaceFn - A function that takes a regex match and returns an object with before, replacedMatch, and after properties.
  * @param ignorePredicate - An optional function that determines whether to ignore a node. Default is to never ignore.
- * @param newNodeStyle - The HTML tag name for the new node created for replacedMatch. Default is "span". "abbr.small-caps" yields e.g. <span class="small-caps">{content}</span>.
+ * @param newNodeStyle - The HTML tag name for the new node created for replacedMatch. Default is "span". "abbr.small-caps" yields e.g. <abbr class="small-caps">{content}</abbr>.
  */
 export const replaceRegex = (
   node: Text,
