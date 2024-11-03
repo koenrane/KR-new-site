@@ -294,46 +294,48 @@ export const l_pRegex = /(\s|^)L(\d+)\b(?!\.)/g
  * Converts L-numbers (like "L1", "L42") to use subscript numbers with lining numerals
  * @param tree - The HTML AST to process
  */
-export function formatLNumbers(node: Text, index: number, parent: Parent): void {
-  if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) {
-    return
-  }
-
-  let match
-  let lastIndex = 0
-  const newNodes: (Text | Element)[] = []
-
-  while ((match = l_pRegex.exec(node.value)) !== null) {
-    // Add text before the match
-    if (match.index > lastIndex) {
-      newNodes.push({ type: "text", value: node.value.slice(lastIndex, match.index) })
+export function formatLNumbers(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) {
+      return
     }
 
-    // Add the space/start of line
-    newNodes.push({ type: "text", value: match[1] })
+    let match
+    let lastIndex = 0
+    const newNodes: (Text | Element)[] = []
 
-    // Add "L" text
-    newNodes.push({ type: "text", value: "L" })
+    while ((match = l_pRegex.exec(node.value)) !== null) {
+      // Add text before the match
+      if (match.index > lastIndex) {
+        newNodes.push({ type: "text", value: node.value.slice(lastIndex, match.index) })
+      }
 
-    // Add subscript number
-    newNodes.push({
-      type: "element",
-      tagName: "sub",
-      properties: { style: "font-variant-numeric: lining-nums;" },
-      children: [{ type: "text", value: match[2] }],
-    })
+      // Add the space/start of line
+      newNodes.push({ type: "text", value: match[1] })
 
-    lastIndex = l_pRegex.lastIndex
-  }
+      // Add "L" text
+      newNodes.push({ type: "text", value: "L" })
 
-  // Add remaining text
-  if (lastIndex < node.value.length) {
-    newNodes.push({ type: "text", value: node.value.slice(lastIndex) })
-  }
+      // Add subscript number
+      newNodes.push({
+        type: "element",
+        tagName: "sub",
+        properties: { style: "font-variant-numeric: lining-nums;" },
+        children: [{ type: "text", value: match[2] }],
+      })
 
-  if (newNodes.length > 0 && parent && typeof index === "number") {
-    parent.children.splice(index, 1, ...newNodes)
-  }
+      lastIndex = l_pRegex.lastIndex
+    }
+
+    // Add remaining text
+    if (lastIndex < node.value.length) {
+      newNodes.push({ type: "text", value: node.value.slice(lastIndex) })
+    }
+
+    if (newNodes.length > 0 && parent && typeof index === "number") {
+      parent.children.splice(index, 1, ...newNodes)
+    }
+  })
 }
 
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
@@ -593,9 +595,6 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       }
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
-      if (node.type === "text") {
-        formatLNumbers(node as Text, index as number, parent as Parent) // L_p-norm formatting
-      }
 
       // Parent-less nodes are the root of the article
       if ((!parent || !("tagName" in parent)) && node.type === "element") {
@@ -635,6 +634,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       setFirstLetterAttribute(tree)
     }
 
+    formatLNumbers(tree) // L_p-norm formatting
     removeSpaceBeforeFootnotes(tree)
   }
 }
