@@ -293,48 +293,46 @@ export const l_pRegex = /(\s|^)L(\d+)\b(?!\.)/g
  * Converts L-numbers (like "L1", "L42") to use subscript numbers with lining numerals
  * @param tree - The HTML AST to process
  */
-export function formatLNumbers(tree: Root): void {
-  visit(tree, "text", (node, index, parent) => {
-    if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) {
-      return
+export function formatLNumbers(node: Text, index: number, parent: Parent): void {
+  if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) {
+    return
+  }
+
+  let match
+  let lastIndex = 0
+  const newNodes: (Text | Element)[] = []
+
+  while ((match = l_pRegex.exec(node.value)) !== null) {
+    // Add text before the match
+    if (match.index > lastIndex) {
+      newNodes.push({ type: "text", value: node.value.slice(lastIndex, match.index) })
     }
 
-    let match
-    let lastIndex = 0
-    const newNodes: (Text | Element)[] = []
+    // Add the space/start of line
+    newNodes.push({ type: "text", value: match[1] })
 
-    while ((match = l_pRegex.exec(node.value)) !== null) {
-      // Add text before the match
-      if (match.index > lastIndex) {
-        newNodes.push({ type: "text", value: node.value.slice(lastIndex, match.index) })
-      }
+    // Add "L" text
+    newNodes.push({ type: "text", value: "L" })
 
-      // Add the space/start of line
-      newNodes.push({ type: "text", value: match[1] })
+    // Add subscript number
+    newNodes.push({
+      type: "element",
+      tagName: "sub",
+      properties: { style: "font-variant-numeric: lining-nums;" },
+      children: [{ type: "text", value: match[2] }],
+    })
 
-      // Add "L" text
-      newNodes.push({ type: "text", value: "L" })
+    lastIndex = l_pRegex.lastIndex
+  }
 
-      // Add subscript number
-      newNodes.push({
-        type: "element",
-        tagName: "sub",
-        properties: { style: "font-variant-numeric: lining-nums;" },
-        children: [{ type: "text", value: match[2] }],
-      })
+  // Add remaining text
+  if (lastIndex < node.value.length) {
+    newNodes.push({ type: "text", value: node.value.slice(lastIndex) })
+  }
 
-      lastIndex = l_pRegex.lastIndex
-    }
-
-    // Add remaining text
-    if (lastIndex < node.value.length) {
-      newNodes.push({ type: "text", value: node.value.slice(lastIndex) })
-    }
-
-    if (newNodes.length > 0 && parent && typeof index === "number") {
-      parent.children.splice(index, 1, ...newNodes)
-    }
-  })
+  if (newNodes.length > 0 && parent && typeof index === "number") {
+    parent.children.splice(index, 1, ...newNodes)
+  }
 }
 
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
@@ -594,7 +592,9 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       }
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
-      formatLNumbers(tree) // L_p-norm formatting
+      if (node.type === "text") {
+        formatLNumbers(node as Text, index as number, parent as Parent) // L_p-norm formatting
+      }
 
       // Parent-less nodes are the root of the article
       if ((!parent || !("tagName" in parent)) && node.type === "element") {
