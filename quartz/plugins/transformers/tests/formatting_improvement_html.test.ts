@@ -108,6 +108,7 @@ describe("HTMLFormattingImprovement", () => {
 
     it.each([
       ["<code>'This quote should not change'</code>"],
+      ["<pre>'This quote should not change'</pre>"],
       ["<p><code>5 - 3</code></p>"],
       ['<p><code>"This quote should not change"</code></p>'],
       ["<p><code>'This quote should not change'</code></p>"],

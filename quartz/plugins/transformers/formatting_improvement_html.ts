@@ -129,7 +129,7 @@ export function transformElement(
  * Replaces quotes with smart quotes
  * @returns The text with smart quotes
  */
-export function niceQuotes(text: string) {
+export function niceQuotes(text: string): string {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
@@ -171,7 +171,6 @@ export function niceQuotes(text: string) {
   return text
 }
 
-// Give extra breathing room to slashes with full-width slashes
 /**
  * Replaces slashes with full-width slashes
  * @returns The text with full-width slashes
@@ -184,10 +183,11 @@ export function fullWidthSlashes(text: string): string {
   return text.replace(slashRegex, "$1$2 ／$3$4")
 }
 
-// Number ranges should use en dashes, not hyphens.
-//  Allows for page numbers in the form "p.206-207"
 /**
  * Replaces hyphens with en dashes in number ranges
+ *  Number ranges should use en dashes, not hyphens.
+ *  Allows for page numbers in the form "p.206-207"
+ *
  * @returns The text with en dashes in number ranges
  */
 export function enDashNumberRange(text: string): string {
@@ -555,7 +555,7 @@ interface Options {
 function toSkip(node: Element): boolean {
   if (node.type === "element") {
     const elementNode = node as ElementMaybeWithParent
-    return ["code", "script", "style"].includes(elementNode.tagName)
+    return ["code", "script", "style", "pre"].includes(elementNode.tagName)
   } else {
     return false
   }
@@ -614,6 +614,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         } catch {
           // Ignore errors
         }
+
         // Don't replace slashes in fractions, but give breathing room
         // to others
         const slashPredicate = (n: Element) => {

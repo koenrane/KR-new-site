@@ -12,7 +12,7 @@ export function isRomanNumeral(str: string): boolean {
 }
 
 // Regex for acronyms and abbreviations
-export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM"]
+export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4"]
 
 // Escaped and joined allowAcronyms as an intermediate variable
 const escapedAllowAcronyms = allowAcronyms
