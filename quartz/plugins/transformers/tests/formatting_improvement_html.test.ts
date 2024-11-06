@@ -199,6 +199,8 @@ describe("HTMLFormattingImprovement", () => {
       ["Don't be naive", "Don't be naïve"],
       ["Dojo", "Dōjō"],
       ["5x1", "5×1"],
+      ["regex", "RegEx"],
+      ["regexpressions", "regexpressions"],
     ])("should perform transforms for %s", (input: string, expected: string) => {
       const result = massTransformText(input)
       expect(result).toBe(expected)

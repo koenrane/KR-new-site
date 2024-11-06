@@ -472,6 +472,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
   [/\b([Dd])ojo/g, "$1ōjō"],
+  [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
 ]
