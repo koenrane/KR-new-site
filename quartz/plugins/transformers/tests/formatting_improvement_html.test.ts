@@ -16,6 +16,7 @@ import {
   neqConversion,
   minusReplace,
   l_pRegex,
+  hasClass,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -772,5 +773,67 @@ describe("L-number formatting", () => {
       '<p><em>L<sub style="font-variant-numeric: lining-nums;">1</sub></em> and <strong>L<sub style="font-variant-numeric: lining-nums;">2</sub></strong></p>'
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
+  })
+})
+
+describe("Skip Formatting", () => {
+  it.each([
+    [
+      '<p class="no-formatting">"Hello" and "world"</p>',
+      '<p class="no-formatting">"Hello" and "world"</p>',
+      "quotes should not be transformed",
+    ],
+    [
+      '<p class="no-formatting">word -- another</p>',
+      '<p class="no-formatting">word -- another</p>',
+      "dashes should not be transformed",
+    ],
+  ])("should skip formatting when no-formatting class is present: %s", (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+})
+
+describe("hasClass", () => {
+  test("handles string className", () => {
+    const node = {
+      type: "element",
+      properties: { className: "test-class other-class" },
+      tagName: "div",
+      children: [],
+    } as Element
+
+    expect(hasClass(node, "test-class")).toBe(true)
+    expect(hasClass(node, "other-class")).toBe(true)
+    expect(hasClass(node, "missing-class")).toBe(false)
+  })
+
+  test("handles array className", () => {
+    const node = {
+      type: "element",
+      properties: { className: ["test-class", "other-class"] },
+      tagName: "div",
+      children: [],
+    } as Element
+
+    expect(hasClass(node, "test-class")).toBe(true)
+    expect(hasClass(node, "other-class")).toBe(true)
+    expect(hasClass(node, "missing-class")).toBe(false)
+  })
+
+  test("handles missing properties", () => {
+    const node = { type: "element" } as Element
+    expect(hasClass(node, "any-class")).toBe(false)
+  })
+
+  test("handles null/undefined className", () => {
+    const node = {
+      type: "element",
+      properties: { className: null },
+      tagName: "div",
+      children: [],
+    } as Element
+
+    expect(hasClass(node, "any-class")).toBe(false)
   })
 })

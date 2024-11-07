@@ -215,7 +215,7 @@ export function hyphenReplace(text: string) {
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
   const preDash = new RegExp(`((?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`)
-  // Want eg " - " to be replaced with "—"
+  // Want eg " - " to be replaced with "��"
   const surroundedDash = new RegExp(
     `(?<=[^\\s>]|^)${preDash.source}[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
@@ -542,35 +542,44 @@ export function setFirstLetterAttribute(tree: Root): void {
   }
 }
 
+/**
+ * Checks if a node has a specific class
+ */
+export function hasClass(node: Element, className: string): boolean {
+  if (typeof node.properties?.className === "string" || Array.isArray(node.properties?.className)) {
+    return node.properties.className.includes(className)
+  }
+  return false
+}
+
+export function toSkip(node: Element): boolean {
+  if (node.type === "element") {
+    const elementNode = node as ElementMaybeWithParent
+    const skipTag = ["code", "script", "style", "pre"].includes(elementNode.tagName)
+    return skipTag || hasClass(elementNode, "no-formatting")
+  }
+  return false
+}
+
 // Main function //
+interface Options {
+  skipFirstLetter?: boolean // Debug flag
+}
+
 // Note: Assumes no nbsp
 /**
  * Main plugin function for applying formatting improvements
  * @returns A unified plugin
  */
-
-interface Options {
-  skipFirstLetter?: boolean // Debug flag
-}
-
-function toSkip(node: Element): boolean {
-  if (node.type === "element") {
-    const elementNode = node as ElementMaybeWithParent
-    return ["code", "script", "style", "pre"].includes(elementNode.tagName)
-  } else {
-    return false
-  }
-}
-
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
     visit(tree, (node, index, parent) => {
+      if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
+        return // NOTE replaceRegex visits children so this won't avoid that
+      }
+
       // A direct transform, instead of on the children of a <p> element
-      if (
-        node.type === "text" &&
-        node.value &&
-        !hasAncestor(parent as ElementMaybeWithParent, isCode)
-      ) {
+      if (node.type === "text" && node.value) {
         replaceRegex(
           node,
           index as number,
@@ -584,12 +593,19 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
             }
           },
           (
+            // Skip if parent has a class that indicates no formatting
             _nd: unknown,
             _idx: number,
             prnt: Parent & { properties?: { className?: string } },
           ): boolean => {
-            const className = prnt.properties?.className
-            return !!(className?.includes("fraction") || className?.includes("no-fraction"))
+            return (
+              hasClass(prnt as Element, "fraction") ||
+              hasClass(prnt as Element, "no-fraction") ||
+              hasAncestor(prnt as ElementMaybeWithParent, (anc) =>
+                hasClass(anc, "no-formatting"),
+              ) ||
+              hasAncestor(parent as ElementMaybeWithParent, isCode)
+            )
           },
           "span.fraction",
         )
@@ -619,11 +635,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         // Don't replace slashes in fractions, but give breathing room
         // to others
         const slashPredicate = (n: Element) => {
-          if (typeof n.properties.className === "string") {
-            return !n.properties.className.includes("fraction") && n?.tagName !== "a"
-          } else {
-            return false
-          }
+          return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
         if (slashPredicate(node)) {
           transformElement(node, fullWidthSlashes, toSkip)
