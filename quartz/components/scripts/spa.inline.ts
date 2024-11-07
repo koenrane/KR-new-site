@@ -115,6 +115,10 @@ let p: DOMParser
 async function navigate(url: URL) {
   p = p || new DOMParser()
 
+  // Clean up any existing popovers
+  const existingPopovers = document.querySelectorAll(".popover")
+  existingPopovers.forEach((popover) => popover.remove())
+
   // Save current scroll position before navigation
   saveScrollPosition(window.location.toString())
   history.pushState({}, "", url)
