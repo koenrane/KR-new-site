@@ -62,6 +62,7 @@
   --color-background: color-mix(in srgb, var(--lightgray) 19%, var(--light));
   --lightergray: color-mix(in srgb, transparent 70%, var(--lightgray));
   --lightestgray: color-mix(in srgb, transparent 90%, var(--lightgray));
+  --darkergray: color-mix(in srgb, var(--gray) 25%, var(--dark));
 
   --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
   @each $color in ("red", "pink", "green", "teal", "blue", "purple", "orange", "yellow") {
