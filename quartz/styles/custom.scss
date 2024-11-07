@@ -250,6 +250,11 @@ audio {
   width: 85%;
 }
 
+// Partially blends audio player with background
+[saved-theme="dark"] audio {
+  mix-blend-mode: luminosity;
+}
+
 sup {
   line-height: 0; // Don't push other lines away
 }
