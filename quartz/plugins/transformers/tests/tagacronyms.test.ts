@@ -128,6 +128,16 @@ describe("Roman numeral tests", () => {
     expect(isRomanNumeral(numeral)).toBe(true)
   })
 
+  const numeralSentences = [
+    "I use the roman numeral XVII.",
+    "I use the roman numeral XVII ",
+  ]
+  it.each(numeralSentences)("should identify %s to contain a valid Roman numeral", (sentence) => {
+    const input = `<p>${sentence}</p>`
+    const processedHtml: string = testTagAcronymsHTML(input)
+    expect(processedHtml).toBe(input) // should not wrap the numeral in <abbr> tags
+  })
+
   // Test some edge cases
   const edgeCases = ["", "MMMM", "CCCC", "XXXX", "IIII", "VV", "LL", "DD"]
   it.each(edgeCases)("should identify %s as an invalid Roman numeral", (numeral) => {

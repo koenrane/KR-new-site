@@ -6,8 +6,9 @@ import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex } from "./utils"
 
 export function isRomanNumeral(str: string): boolean {
-  // the ending lookbehind ensures that it's not empty
-  const romanNumeralRegex = /^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?<=.)$/
+  // Allow trailing punctuation marks
+  const romanNumeralRegex =
+    /(?<= |^)(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?<=[A-Z]{3})(?=[\s.,!?;:]|$)/
   return romanNumeralRegex.test(str)
 }
 
