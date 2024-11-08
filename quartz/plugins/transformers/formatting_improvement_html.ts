@@ -556,7 +556,8 @@ export function toSkip(node: Element): boolean {
   if (node.type === "element") {
     const elementNode = node as ElementMaybeWithParent
     const skipTag = ["code", "script", "style", "pre"].includes(elementNode.tagName)
-    return skipTag || hasClass(elementNode, "no-formatting")
+    const skipClass = hasClass(elementNode, "no-formatting") || hasClass(elementNode, "elvish")
+    return skipTag || skipClass
   }
   return false
 }

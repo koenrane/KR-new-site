@@ -1,8 +1,9 @@
-import { Node, Parent, Text } from "hast"
+import { Node, Parent, Text, Element } from "hast"
 import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 import { QuartzTransformerPlugin } from "../types"
+import { hasAncestor, hasClass, ElementMaybeWithParent } from "./formatting_improvement_html"
 import { replaceRegex } from "./utils"
 
 export function isRomanNumeral(str: string): boolean {
@@ -52,20 +53,22 @@ const ignoreAcronym = (node: Text, _index: number, parent: Parent): boolean => {
     return false
   }
 
-  const noSmallCaps =
-    "properties" in parent &&
-    parent.properties &&
-    typeof parent.properties === "object" &&
-    "className" in parent.properties &&
-    Array.isArray(parent.properties.className) &&
-    parent.properties.className.includes("no-smallcaps")
+  // Check for no-formatting classes on any ancestor
+  // TODO: test no-formatting
+  if (
+    hasAncestor(parent as ElementMaybeWithParent, (ancestor: Element): boolean => {
+      return hasClass(ancestor, "no-smallcaps") || hasClass(ancestor, "no-formatting")
+    })
+  ) {
+    return true
+  }
 
   if (isRomanNumeral(node.value)) {
     return true
   }
 
-  return (noSmallCaps ||
-    ("tagName" in parent && (parent.tagName === "abbr" || parent.tagName === "code"))) as boolean
+  return (("tagName" in parent && (parent.tagName === "abbr" || parent.tagName === "code")) ||
+    hasClass(parent as ElementMaybeWithParent, "elvish")) as boolean
 }
 
 export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
@@ -98,7 +101,7 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         `Regular expression logic is broken; one of the regexes should match for ${match}`,
       )
     },
-    (node, index, parent) => ignoreAcronym(node, index, parent),
+    ignoreAcronym,
     "abbr.small-caps",
   )
 }
