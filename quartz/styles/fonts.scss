@@ -181,8 +181,35 @@ body {
   }
 }
 
-.elvish-italics {
-  font-family: "ElvishItalic";
+.elvish {
+  font-family: "Elvish";
+  line-height: 2.2;
+  position: relative;
+
+  & em,
+  em & {
+    font-family: "ElvishItalic";
+  }
+
+  // Show underlying English text
+  transition:
+    opacity 600ms,
+    color 300ms;
+  &:hover {
+    color: transparent;
+
+    &::after {
+      position: absolute;
+      left: 0;
+      width: max-content;
+      content: attr(data-content);
+      color: var(--dark);
+      font-family: var(--font-text);
+      opacity: 1;
+
+      text-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 50%, transparent);
+    }
+  }
 }
 
 .corrupted {

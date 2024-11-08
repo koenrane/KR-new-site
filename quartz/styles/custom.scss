@@ -310,7 +310,6 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
 /* Specific elements and features */
 .gold-script {
-  font-family: var(--font-text-swash);
   font-feature-settings: "swsh" 1;
   color: light-dark(#daa520, #ffd700); /* Gold */
 
@@ -325,10 +324,6 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
   font-size: 1.5em;
   margin-top: 1em;
   margin-bottom: 1em;
-}
-
-.elvish {
-  font-family: "Elvish";
 }
 
 figure,
