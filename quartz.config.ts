@@ -124,7 +124,7 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true }),
+      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true, parseArrows: false }),
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
       Plugin.HTMLFormattingImprovement(),
       Plugin.Latex({ renderEngine: "katex" }),

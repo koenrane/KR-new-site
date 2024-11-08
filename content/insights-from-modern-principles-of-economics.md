@@ -133,7 +133,7 @@ I significantly sharpened my understanding of incentives by internalizing how to
 > [!info]
 > This section serves both as fact-checking and an explanation I wish I'd read when I started learning economics.
 
-Price gouging occurs when an emergency happens (e.g. a blizzard), people demand a lot of some good (e.g. snow shovels), and so stores jack up the prices (e.g. \$4 -> \$30).
+Price gouging occurs when an emergency happens (e.g. a blizzard), people demand a lot of some good (e.g. snow shovels), and so stores jack up the prices (e.g. \$4 → \$30).
 
 Consider a competitive snow shovel market, where firms can price shovels as they please (or, _far_ more accurately: in response to economic conditions). When demand increases for snow shovels, that's a _positive demand shock_ because people want to buy more shovels. The demand curve moves out to the right, from _D_ to _D'_:
 

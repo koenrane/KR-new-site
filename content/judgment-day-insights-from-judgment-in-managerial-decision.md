@@ -127,7 +127,7 @@ This book was a little slow at times, both because of excessive preamble/signpos
 
 ## Hello again
 
-It's been [a long while](/computability-and-logic-textbook-review) since my last review. After injuring myself last summer, I wasn't able to type reliably until early this summer. This derailed the positive feedback loop I had around "learn math" -> "write about what I learned" -> "savor karma". Protect your feedback loops.
+It's been [a long while](/computability-and-logic-textbook-review) since my last review. After injuring myself last summer, I wasn't able to type reliably until early this summer. This derailed the positive feedback loop I had around "learn math" → "write about what I learned" → "savor karma". Protect your feedback loops.
 
 I run into fewer basic confusions than when I was just starting at math, so I generally have less to talk about. This means I'll be changing the style of any upcoming reviews, instead focusing on deeply explaining the things I found coolest.
 

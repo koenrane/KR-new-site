@@ -57,7 +57,7 @@ You sanity-check your guess by checking this against remembered instances of inf
 
 Your stomach rumbles. This guess should be good enough. You tell your would-be rescuers your final answer...
 
-🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by intuitive examples of information gain – there was a one-way correspondence from **intuitive concept -> math**. That's not enough.
+🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by intuitive examples of information gain – there was a one-way correspondence from **intuitive concept → math**. That's not enough.
 
 # Recovering the intuition from the math
 
@@ -115,7 +115,7 @@ Sometimes, you can't mathematically _prove_ the math is right, given desiderata,
 
 # Why might the second correspondence be good?
 
-By itself, "intuition -> math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
+By itself, "intuition → math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
 
 Here's my advice: Whenever possible, clarify your assumed desiderata. Whenever possible, prove your construction is basically the only way to get all the desiderata. Whenever possible, build the math out of existing correct pieces of math which correspond to the right building blocks (expected + surprisal = expected surprisal).
 

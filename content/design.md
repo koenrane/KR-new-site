@@ -51,7 +51,7 @@ Code: Detects when my Markdown contains a line beginning with "Note: " and then 
 >   )
 > }
 > ```
-> Code: I wouldn't want to apply this transform to raw text because it would probably break link addresses (which often contain hyphenated sequences of numbers). However, many HTML transforms aren't text -> text.
+> Code: I wouldn't want to apply this transform to raw text because it would probably break link addresses (which often contain hyphenated sequences of numbers). However, many HTML transforms aren't text → text.
 1. The intermediate representations are emitted as webpages.
 2. The webpages are pushed to Cloudflare and then walk their way into your browser! 
 
@@ -90,27 +90,24 @@ When designing visual content, I consider where the reader's eyes go. People vis
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme.
 ## Themes 
 
-The themes provide high contrast between the text and the background, in both light and dark mode.
-
-<!--EXAMPLE-->
-
-The darkest text color is used sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
+The themes provide high contrast between the text and the background - in both light and dark mode. The darkest text color is used sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
    - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a black GitHub icon surrounded by lower contrast text. 
  
 # Site responsiveness
 
 As a static webpage, my life is much simpler than the lives of most web developers. However, by default, users would have to wait a few seconds for each page to load, which I consider unacceptable. I want my site to be responsive even on mobile on slow connections. 
 
-Quartz offers basic optimizations, such as [lazy loading](/TODO) of assets and [minifying](/ADD-LINK) JavaScript and CSS files. I further marked the core CSS files for preloading. However, there are a range of more interesting optimizations which Quartz and I implement. 
+Quartz offers basic optimizations, such as [lazy loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading) of assets and [minifying](https://en.wikipedia.org/wiki/Minification_(programming)) JavaScript and CSS files. I further marked the core CSS files for preloading. However, there are a range of more interesting optimizations which Quartz and I implement. 
 ## Asset compression
 
 Fonts
-: EB Garamond Regular (8pt) takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting]() but it seemed too hard to predict which characters my site _never uses_. While I could subset each page with only the required glyphs, that would add a lot of overhead and also complicate client-side caching (likely resulting in a net slowdown). 
+: EB Garamond Regular (8pt) takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add a lot of overhead and also complicate client-side caching (likely resulting in a net slowdown). 
 
 Images
-: Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10-20x over PNGs. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
+: Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
 
-<!-- TODO show before/after distributions in plotly; download random subset of assets and convert to PNG  -->
+![](https://assets.turntrout.com/static/images/posts/goose-majestic.avif)
+Figure: This friendly AVIF goose clocks in below 45KB, while its PNG equivalent weighs 450KB - a 10x increase!
 
 Videos
 : The story here is much sadder than with image compression. Among modern formats, there appear to be two serious contenders: h265 MP4 and WEBM. In theory, h265 can compete with WEBM. In practice, I haven't figured out how to make that happen, and my MP4s remain XXx larger than my WEBMs for similar visual quality.
@@ -122,7 +119,7 @@ Videos
 : Inline videos don't have to be transparent, so I'm free to use MP4s for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress h265 with decent quality - online website-provided video conversion still achieves a >2x compression over  my command-line compression. I'll fix that later.
 ## Inlining critical CSS
 
-Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. Instead, I hooked the `critical` package into the end of the production build process. This basically means that after emitting all of the webpages, the process renders each webpage in headless Chrome and then computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 
 <!-- Insert two MP4s of loading the page: one with and one without critical CSS. Put in figure with two figcaptions. Check name of package and update in paragraph-->
 
@@ -130,30 +127,75 @@ Even after compressing assets and lazily loading them, it takes time for the cli
 <!--Look up details of SPA-->
 
 # Text presentation
+## Sizing
+This website contains many design elements. To maintain a regular, assured style and to avoid patchwork chaos, I made two important design choices.
+
+Exponential font sizing
+: I fixed a base font size - 20px on mobile, to 22px on tablets, to 24px on full displays. Then - after consulting [TypeScale](https://typescale.com/) - I scaled the font by $1.2^n$, with $n=0$ for body text and $n\geq 1$ for headers:
+
+: <span class="h1">Header 1</span>
+<span class="h2">Header 2</span>
+<span class="h3">Header 3</span>
+<span class="h4">Header 4</span>
+<span class="h5">Header 5</span>
+
+: <span>Normal text</span>
+<span style="font-size:var(--text-size-90)">Smaller text</span>
+<span style="font-size:var(--text-size-85)">Smaller text</span>
+<span style="font-size:var(--text-size-80)">Smaller text</span>
+<span style="font-size:var(--text-size-70)">Smaller text</span>
+
+All spacing is a simple multiple of a base measurement
+: If - for example - paragraphs were separated by 3.14 lines of space but headings had 2.53 lines of margin beneath them, that would look chaotic. Instead, I fixed a "base margin" variable and then made all margin and padding calculations be simple fractional multiples (e.g. 1.5x, 2x) of that base margin.
+
 ## Fonts
 
-The serif font family is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond). The `monospace` font is [Fira Code VF](), which brings a range of ligatures.
+The serif font family is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond). The `monospace` font is [Fira Code VF](https://github.com/tonsky/FiraCode), which brings a range of ligatures.
 
 ![](https://assets.turntrout.com/static/images/posts/fira_code.avif)
-Figure: _Ligatures_ transform sequences of characters into a single beautiful glyph (like "`<=`").
+Figure: _Ligatures_ transform sequences of characters (like "<span style="font-variant-ligatures:none;"><code>\<\=</code></span>") into a single glyph (like "`<=`").
 
 
 
 ![](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
-### Automatic conversion of quotation marks and hyphenation
+### Font: [Alcarin Tengwar](https://www.tosche.net/fonts/alcarin-tengwar)
+> [!quote] _The Dragon is Withered_, Clamavi De Profundis
+> 
+> 
 
-- Show the inadequacy of `smartypants`.
-- Explain the problem
-- Explain why this gets doubly hard
-- Show code
+<span class="elvish">test</span>
+
+> 
+> Subtitle: Here grass is still growing,
+> 
+> <span class="elvish"><em>And leaves are yet swinging,</em></span>
+>
+> Subtitle: And leaves are yet swinging,
+>
+> <span class="elvish">The white water flowing,</em></span>
+>
+> Subtitle: The white water flowing,
+>
+> <span class="elvish"><em>And elves are yet singing</em></span>
+>
+> Subtitle: And elves are yet singing
+> 
+> O! Where are you going, So late in returning? 
+> 
+> The river is flowing, 
+> 
+> [The stars are all burning!](https://nickbostrom.com/papers/astronomical-waste/)
+  
+## Formatting enhancement
+### Automatic conversion of quotation marks and hyphenation
 
 Undirected quote marks (`"test"`) look bad to me. Call me extra (I _am_ extra), but I ventured to _never have undirected quotes on my site._ Instead, double and single quotation marks automatically convert to their opening or closing counterparts. This seems like a bog-standard formatting problem, so surely there's a standard library. Right?
 
 Sadly, no. GitHub-flavored Markdown includes a `smartypants` option, but honestly, it's sloppy. `smartypants` would emit strings like `Bill said “’ello!”` (the single quote is oriented incorrectly). So I wrote a bit of code.
 
-> [!note] Truly smart quotes
+> [!note]- Regex for smart quotes
 ```typescript 
 /**
  * Replaces quotes with smart quotes
@@ -201,42 +243,54 @@ export function niceQuotes(text: string): string {
   return text
 }
 ```
-Code: This code has XXX unit tests all on its own.
+Code: This code has 45 unit tests all on its own.
 
-<!-- TODO check this works on normal cases, run on tests -->
+<!-- TODO add all of this into callout -->
 
-> [!note]- You thought _that_ was complicated? lol
-> The code above is heavily simplified. 
->
-> Suppose I want to handle the following string: "The variable $x$'s. " Should I directly transform the file's text representation? But then I might transform $\LaTeX$ formulas and code blocks. So then I should operate on the HTML abstract syntax tree? But then after you split up into different syntax nodes, you'll get tiny text fragments where it's impossible to tell which way the quotes should go. 
+This logic seems quite robust - I recommend it if you're looking for smart quote detection. However, there's a problem. `niceQuotes` is called on each text node in the HTML abstract syntax tree (AST). Sometimes, the DOM gets in the way. Consider the end of a Markdown quote, `_I hate dogs_"`. Its AST is:
+1. `<em>` node: `I hate dogs`
+2. Text node: `"`
 
+`niceQuotes` is called on each substring, so we get two calls. The first only processes the contents of the `<em>` node, which isn't changed. However, what should `niceQuotes(")` output? The intended output changes with the context - is it an end quote or a beginning quote? 
+
+Considering the broader problem:
+- Within a parent text container, there are $n$ elements,
+- The quotes should be transformed appropriately, and
+- The overall operation should not create or delete elements.
+
+The solution? Roughly:
+1. Convert the parent container's contents to a string `s`, delimiting separations with a private-use Unicode character (to avoid unintended matches),
+2. Relax the `niceQuotes` RegEx to allow (and preserve) the private-use characters, treating them as boundaries of a "permeable membrane" through which contextual information flows, 
+3. Apply `niceQuotes` to `s`, receiving another string with the same number of elements implied,
+4. For all $k$, set element $k$'s text content to the segment starting at private Unicode occurrence $k$.
+
+I use this same strategy for other formatting improvements, including [[#ADDLINK]].
 
 ### Automatic smallcaps
-How do the following feel to read?
+How do the following sentences feel to read?
 1. <abbr>Signed in the 1990's, NAFTA was a trade deal.</abbr>
 2. Signed in the 1990's, NAFTA was a trade deal.
 
-I think that 1) draws far too much attention to "NAFTA." Typographically, capital letters are designed to be used one or two at a time - not five in a row. <abbr> "NAFTA"</abbr> draws far too much attention to itself. To solve this problem, I designed a series of regular expressions to transform 
+Typographically, capital letters are designed to be used one or two at a time - not five in a row. <abbr> "NAFTA"</abbr> draws far too much attention to itself. I use regular expressions to detect at least three consecutive capital letters, excluding Roman numerals like XVI. 
 
-> [!note] More details on my smallcaps algorithm
+Furthermore, I apply smallcaps to letters which follow numbers (like "100GB") so that the letters have the same height as the numerals. For similar reasons as smallcaps, most of the site's numerals are [oldstyle](https://www.myfonts.com/pages/fontscom-learning-fontology-level-3-numbers-oldstyle-figures) ("100") rather than lining ("<span style="font-variant-numeric: lining-nums;">100</span>"). Fractions (e.g. 1/2, 3/5) are automatically rendered as well. :) 
 
-### Oldstyle numerals and fractions
+### Hyphen replacement
+<!-- TODO make table here with before/after -->
 
-
-
-### I added a dash through the 0's
-While EB Garamond is a nice font, it has a few problems. As of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The result: zero look too similar to "o." Here's a number rendered in the original font: <span style="font-family: var(--font-text-original)">"100"</span>; in my tweaked font it shows as "100." 
-
-Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals. This meant that the italicized one looked like a slanted "<span style="font-family: var(--font-text-original); font-feature-settings: normal;">1</span>" - too similar to the smallcaps capital I ("<span class="small-caps">I</span>").
+### Other small display tweaks
+- 5x vs <span class="no-formatting">5x</span>
+### I paid someone to tweak EB Garamond
+While EB Garamond is a nice font, it has a few problems. As of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The result: zero looked too similar to "o." Here's a number rendered in the original font: <span style="font-family: var(--font-text-original)">"100"</span>; in my tweaked font it shows as "100." Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals. This meant that the italicized 1 looked like a slanted "<span style="font-family: var(--font-text-original); font-feature-settings: normal;">1</span>" - too similar to the smallcaps capital I ("<span class="small-caps">I</span>").
 
 Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have notified the maintainer of the EB Garamond font. 
 
 3. Text presentation
 	1. Fonts
-		1. paid mod
-		3. Show off a range of fonts
-	2. Balance `$baseMargin` and relative text sizing
-	3. Max characters - research I based this off of 
+		1. Show off a range of fonts: `bad-handwriting`, `gold-script`, `elvish`/`elvish-italics`, `corrupted`
+		2. `dropcap` in-context; THE POND (with different colors)
+		3. Explain how I did different colors
+	2. Max characters - research I based this off of 
 4. Explain the different 
 	1. Wavy LOL hahahahahaha of the imports of JSON
 	2. Scrolling text

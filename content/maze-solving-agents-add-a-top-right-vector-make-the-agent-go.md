@@ -239,7 +239,7 @@ And then apply it to e.g. target seed 2:
 ![](https://assets.turntrout.com/static/images/posts/3649e88dfdd09364e906a93a7e029ba71bab9b6e1e33bc69.avif)
 <br/>Figure: Success!
 
-For the `seed 0 -> seed 28` transfer, the modified agent doesn't _quite_ go to the top-right corner. Instead, there seems to be a "go up and then right" influence.
+For the `seed 0 → seed 28` transfer, the modified agent doesn't _quite_ go to the top-right corner. Instead, there seems to be a "go up and then right" influence.
 
 ![](https://assets.turntrout.com/static/images/posts/23a3d9e657b77176e6f51d84c94702bcf38633284c08b178.avif)
 

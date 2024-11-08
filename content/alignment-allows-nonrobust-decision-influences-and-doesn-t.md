@@ -347,7 +347,7 @@ On my understanding: Your values are steering the optimization. They are not, in
     >
     > **Me:** Even if true, this would be not be an optimizer's curse problem.
     >
-    > But also this isn't true, at least not without further argumentation. If my kid likes mocha and I like latte, is my child searching for positive upwards differences between their values and mine? I think there are some situations like that. For example, suppose the AI values paperclips while the humans value love. In this situation, the AI is searching for paperclippish plans which will systematically be bad plans by human lights. That seems more like instrumental convergence -> disempower humans -> not much love left for us if we're dead.
+    > But also this isn't true, at least not without further argumentation. If my kid likes mocha and I like latte, is my child searching for positive upwards differences between their values and mine? I think there are some situations like that. For example, suppose the AI values paperclips while the humans value love. In this situation, the AI is searching for paperclippish plans which will systematically be bad plans by human lights. That seems more like instrumental convergence → disempower humans → not much love left for us if we're dead.
 
 [^7]: I do think that e.g. a diamond-shard can [get fed](/dont-align-agents-to-evaluations-of-plans#Value-child-is-still-vulnerable-to-adversarial-inputs) an adversarial input, but the diamond-shard won't bid for a plan where it fools _itself_.
 [^8]: It's at this point that my model of Nate Soares wants to chime in.
