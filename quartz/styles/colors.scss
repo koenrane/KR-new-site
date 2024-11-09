@@ -1,4 +1,5 @@
-:root[saved-theme="dark"] {
+:root[saved-theme="dark"],
+.dark-mode {
   // Catppuccin Frappe
   --rosewater: #f2d5cf;
   --pink: #fba7e4;
@@ -28,14 +29,15 @@
 }
 
 // Catppuccin Latte
-:root[saved-theme="light"] {
+:root[saved-theme="light"],
+.light-mode {
   --rosewater: #dc8a78;
   --flamingo: #dd7878;
   --pink: #ee7ed0;
   --amaranth: #9f2b68; // I love this song by Nightwish
   --red: #be415c;
   --orange: #e08c43;
-  --yellow: #dd8b19;
+  --yellow: #beb22c;
   --green: #40a02b;
   --teal: #179299;
   --sky: #008bc3;
