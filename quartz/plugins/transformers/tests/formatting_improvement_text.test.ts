@@ -196,6 +196,8 @@ describe("noteAdmonition", () => {
 describe("Mass transforms", () => {
   it.each([
     ["Let x := 5", "Let x ≝ 5"],
+    ["$:=$", "$:=$"],
+    ["$ :=$", "$ ≝$"],
     ["a:=b:=c", "a≝b≝c"],
     [" :) The best", " 🙂 The best"],
     [" :)", " 🙂"],

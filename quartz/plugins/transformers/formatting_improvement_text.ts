@@ -55,7 +55,6 @@ export function wrapLeadingHeaderNumbers(text: string): string {
   return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
 }
 
-// Regular expression for note patterns
 const notePattern = /^\s*[*_]*note[*_]*:[*_]* (?<text>.*)(?<![*_])[*_]*/gim
 
 /**
@@ -71,7 +70,7 @@ export function noteAdmonition(text: string): string {
 const subtitlePattern = /^(Subtitle:[\S ]+\n)(?=[^\n])/gm
 
 const massTransforms: [RegExp | string, string][] = [
-  [/:=/g, "≝"], // mathematical definition symbol
+  [/(?<!\$):=/g, "≝"], // mathematical definition symbol, not preceded by the start of a katex block
   [/(?<= |^):\)(?= |$)/gm, "🙂"], // Smiling face
   [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
