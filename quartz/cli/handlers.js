@@ -301,7 +301,7 @@ export async function handleBuild(argv) {
 
     // Inline critical CSS after the build (would delay serving too much)
     if (!argv.serve) {
-      await inlineCriticalCSS(argv.output)
+      // await inlineCriticalCSS(argv.output)
     }
   }
 
@@ -489,7 +489,7 @@ async function processFile(outputDir, file) {
   if (fileSize > LARGE_FILE_THRESHOLD) {
     console.log(`Large file detected: ${file}. Ignoring.`)
   } else {
-    await generateCriticalCSS(outputDir, file)
+    // await generateCriticalCSS(outputDir, file)
 
     // Sort <head> contents so that Slack unfurls the page with the right info
     // Read the modified HTML file

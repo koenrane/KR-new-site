@@ -187,7 +187,17 @@ async function navigate(url: URL) {
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
   elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
 
-  removeCriticalStyles()
+  // Comment out the critical styles removal
+  // function removeCriticalStyles() {
+  //   const criticalStyles = document.querySelectorAll("head style")
+
+  //   if (criticalStyles.length > 1) {
+  //     console.warn("More than one style tag found in head")
+  //   }
+
+  //   criticalStyles[0].remove()
+  //   console.info("Removed critical styles from spa.inline.ts")
+  // }
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
@@ -276,18 +286,4 @@ if (window.location.hash) {
   window.addEventListener("load", () => {
     scrollToHash(window.location.hash)
   })
-}
-
-/**
- * Removes the critical style tags from the head
- */
-function removeCriticalStyles() {
-  const criticalStyles = document.querySelectorAll("head style")
-
-  if (criticalStyles.length > 1) {
-    console.warn("More than one style tag found in head")
-  }
-
-  criticalStyles[0].remove()
-  console.info("Removed critical styles from spa.inline.ts")
 }
