@@ -152,9 +152,11 @@ Fonts
 Images
 : Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
 
-<img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"/>
+: <img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif"/> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption>
 
-Figure: This friendly AVIF goose clocks in below 45KB, while its PNG equivalent weighs 450KB - a 10x increase!
+: I now perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab]
+
+[^colab]: I used a [publicly accessible Colab](https://colab.research.google.com/drive/1XScXuubpzcyhjU6uYRN0ikHVzLFmJj6X?usp=sharing) to generate the AVIF -> PNG compression graphs.
 
 <!-- TODO talk about HEVC, maybe even try to fix it? --> 
 Videos
