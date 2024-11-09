@@ -260,6 +260,9 @@ const minusRegex = /(^|[\s(])-(\s?\d*\.?\d+)/g
  * Replaces hyphens with minus signs in numerical contexts
  */
 export function minusReplace(text: string): string {
+  if (text.includes("-2 x 3")) {
+    // console.log(text.replace(minusRegex, "$1−$2"))
+  }
   return text.replace(minusRegex, "$1−$2")
 }
 
@@ -280,10 +283,8 @@ export function applyTextTransforms(text: string): string {
   text = enDashNumberRange(text)
   try {
     assertSmartQuotesMatch(text)
-  } catch (e: unknown) {
-    if (e instanceof Error) {
-      console.error(e.message)
-    }
+  } catch {
+    // Ignore
   }
 
   return text
@@ -623,6 +624,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           enDashNumberRange,
           plusToAmpersand,
           massTransformText,
+          minusReplace,
         ]) {
           transformElement(node, transform, toSkip, true)
         }
