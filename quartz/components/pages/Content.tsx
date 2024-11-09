@@ -52,7 +52,8 @@ const rewardPostWarning = (
 )
 
 const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
-  const useDropcap = !fileData?.frontmatter?.no_dropcap
+  const useDropcap =
+    fileData?.frontmatter?.no_dropcap !== true && fileData?.frontmatter?.no_dropcap !== "true"
   const showWarning = fileData.frontmatter?.["lw-reward-post-warning"] === "true"
   const isQuestion = fileData?.frontmatter?.["lw-is-question"] === "true"
   const originalURL = fileData?.frontmatter?.["original_url"]
