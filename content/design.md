@@ -3,7 +3,8 @@ title: Design of this website
 permalink: design
 publish: true
 tags: 
-description: 
+  - website
+description: Showing off and explaining this site's beauty.
 date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
@@ -14,11 +15,13 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
-# Basic structure
-The site runs on [Quartz](/ADD-ME), a (describe). While [the build process](/LINK-ME) is rather involved, here's what you need to know for this article:
+# Site rendering basics
+The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site generator. While [the build process](https://quartz.jzhao.xyz/advanced/architecture) is rather involved, here's what you need to know for this article:
 1. Almost all of my content is written in Markdown. 
-2. Each page has its metadata stored in plaintext [YAML](/LINK). 
+2. Each page has its metadata stored in plaintext [YAML](https://en.wikipedia.org/wiki/YAML). 
 3. The Markdown pages are transformed in (essentially) two stages; a sequence of "transformers" are applied to the intermediate representations of each page.
+4. The intermediate representations are emitted as webpages.
+5. The webpages are pushed to Cloudflare and then walk their way into your browser! 
 > [!note]- More detail on the transformers  
 > 	- _Text transformers_ operate on the raw text content of each page. For example:
 > ```typescript
@@ -35,7 +38,7 @@ The site runs on [Quartz](/ADD-ME), a (describe). While [the build process](/LIN
 > }
 > ```
 > Code: Detects when my Markdown contains a line beginning with "Note: " and then converts that content into an "admonition" (which is the bubble we're inside right now). 
-> 	- _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](/LINKME) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
+> 	- _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
 > ```typescript
 > /**
 >  * Replaces hyphens with en dashes in number ranges
@@ -52,10 +55,6 @@ The site runs on [Quartz](/ADD-ME), a (describe). While [the build process](/LIN
 > }
 > ```
 > Code: I wouldn't want to apply this transform to raw text because it would probably break link addresses (which often contain hyphenated sequences of numbers). However, many HTML transforms aren't text → text.
-1. The intermediate representations are emitted as webpages.
-2. The webpages are pushed to Cloudflare and then walk their way into your browser! 
-
-<!-- Fix so that I can start lists at any number-->
 
 # Archiving and dependencies
 This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive]
@@ -64,34 +63,38 @@ This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is se
 
 My CDN brings me comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want the content to be timeless.
 
-I wrote [a script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` `git` branch, the script:
+I wrote [a script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` branch, the script:
 1. Uploads the assets to my CDN (`assets.turntrout.com`);
 2. Copies the assets to my local mirror of the CDN content;
 3. Removes the assets so they aren't tracked by my `git` repo. 
-I describe my broader `pre-push` pipeline in detail later in the article.
-<!--UPDATE WITH LINK-->
+I later describe my [deployment pipeline](#deployment-pipeline) in more detail.
 
 [^archive]: However, I still have yet to [archive external links, so I am still vulnerable to linkrot.](https://gwern.net/archiving)
-# Color scheme
+
+# Color scheme 
 The color scheme derives from the [Catppuccin](https://catppuccin.com) "latte" (light mode) and "frappe" (dark mode) [palettes](https://github.com/catppuccin/catppuccin/tree/main?tab=readme-ov-file#-palette). 
 
 ![](https://assets.turntrout.com/static/images/posts/catppuccin.avif)
 Figure: The four Catppuccin palettes.
 
-## Colors should accent (but not distract from) the content
-Both palettes provide a light-touch pastel theme which allows subtle, pleasing accents. 
+## Themes 
 
-<!--TODO include color demo-->
+The themes provide high contrast between the text and the background - in both light and dark mode. I use the darkest text color quite sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
+   - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower contrast text. 
+
+## Colors should accent (but not distract from) the content
+Both palettes provide a light-touch pastel theme which allows subtle, pleasing accents.
+
+
+<!--TODO manual light/darkmode SxS?-->
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction. 
 
 When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor). 
 
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme.
-## Themes 
 
-The themes provide high contrast between the text and the background - in both light and dark mode. The darkest text color is used sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
-   - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower contrast text. 
+
 
 ## Emoji styling
 
@@ -144,30 +147,41 @@ Quartz offers basic optimizations, such as [lazy loading](https://developer.mozi
 ## Asset compression
 
 Fonts
-: EB Garamond Regular (8pt) takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add a lot of overhead and also complicate client-side caching (likely resulting in a net slowdown). 
+: EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add overhead and complicate client-side caching, likely resulting in a net slowdown.
 
 Images
 : Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
 
-![](https://assets.turntrout.com/static/images/posts/goose-majestic.avif)
+<img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"/>
+
 Figure: This friendly AVIF goose clocks in below 45KB, while its PNG equivalent weighs 450KB - a 10x increase!
 
+<!-- TODO talk about HEVC, maybe even try to fix it? --> 
 Videos
-: The story here is much sadder than with image compression. Among modern formats, there appear to be two serious contenders: h265 MP4 and WEBM. In theory, h265 can compete with WEBM. In practice, I haven't figured out how to make that happen, and my MP4s remain XXx larger than my WEBMs for similar visual quality.
+: The story here is much sadder than with image compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (VP9). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than WEBM. In practice, I haven't figured out how to make that happen, and my MP4s remain XXx larger than my WEBMs at similar visual quality.
 
-<!-- Insert table of average compression ratios of WEBM over different formats. Cite studies of h265 vs WEBM -->
+<!-- Insert table of average compression ratios of WEBM over different formats. -->
 
-: So WEBM videos are hilariously well-compressed (with an average compression ratio of XXXx over GIF and XXXx over h264 MP4). However, there is one small problem which is actually big: _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because Safari will autoplay & loop h265 MP4, but _refuses to render transparency_. Therefore, considering the main site video asset (the one with the trout and the goose and the pond), the only compatible choice is _a goddamn GIF which takes up XXXKB instead of XXKB_. 
+: So WEBM videos are hilariously well-compressed (with an average compression ratio of XXXx over GIF and XXXx over h264 MP4). However, there is one small problem which is actually big: _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because Safari will autoplay & loop HEVC, but _refuses to render transparency_. Therefore, for the ever-present looping video of the pond, the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. 
 
-: Inline videos don't have to be transparent, so I'm free to use MP4s for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress h265 with decent quality - online website-provided video conversion still achieves a >2x compression over  my command-line compression. I'll fix that later.
+: Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC with decent quality - online website-provided video conversion still achieves a >2x compression over  my command-line compression. I'll fix that later.
+
 ## Inlining critical CSS
 
-Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. 
+
+Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 
 <!-- Insert two MP4s of loading the page: one with and one without critical CSS. Put in figure with two figcaptions. Check name of package and update in paragraph-->
 
-## `micromorph`: only loading assets and HTML a single time
-<!--Look up details of SPA-->
+## Deduplicating HTML requests
+
+> [!quote] [Single-page application routing](https://quartz.jzhao.xyz/features/SPA-Routing)
+> This prevents flashes of unstyled content and improves the smoothness of Quartz.
+> 
+> Under the hood, this is done by hijacking page navigations and instead fetching the HTML via a `GET` request and then diffing and selectively replacing parts of the page using [micromorph](https://github.com/natemoo-re/micromorph). This allows us to change the content of the page without fully refreshing the page, reducing the amount of content that the browser needs to load.
+
+<!-- TODO SxS of before/after -->
 
 # Text presentation
 ## Sizing
@@ -201,9 +215,9 @@ Figure: _Ligatures_ transform sequences of characters (like "<span style="font-v
 ![](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
-### Font: Tengwar Annatar
+My site contains a range of fun fonts which I rarely use. For example, the _Lord of the Rings_ font "Tengwar Annatar" - expand the callout for _Namárië_ (Galadriel's Lament).
 
-> [!quote] [_Namárië_](https://www.youtube.com/watch?v=re5_lzlFS9M), J.R.R. Tolkien
+> [!quote]- [_Namárië_: Galadriel's Lament in Lórien](https://www.youtube.com/watch?v=re5_lzlFS9M)
 >
 > Subtitle: Hover over a line to translate
 >	
@@ -244,18 +258,70 @@ Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 > 
 > <br>
 > <em><span class="elvish" data-content="Maybe even thou shalt find it. Farewell!">5t\#\~C7\`B\`VÁ 5hE 97Tr&j\#\`VÛ rj\#t%6E -</span></em>
+
+
+
+<span class="float-right" style="margin-top: 2rem; ">
+<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--dark);">A</div>
+<figcaption>Monochromatic dropcaps seem somewhat illegible.</figcaption>
+</span>
+
+## Dropcaps 
+
+I have long appreciated [illuminated calligraphy.](https://www.atlasobscura.com/articles/illluminated-manuscript-calligraphy-guide) In particular, a [dropcap](https://en.wikipedia.org/wiki/Initial) lends gravity and elegance to a text. Furthermore, EB Garamond dropcaps are available.
+
+However, implementation was tricky. As shown with the figure's "A",  CSS assigns a single color to each text element. To get around this obstacle, I took advantage of the fact that EB Garamond dropcaps can be split into the foreground and background.
+
+<center style="font-size:4rem;">
+<span class="dropcap" data-first-letter="A" style="margin-right: 5rem;"></span>
+<span class="dropcap" data-first-letter="" style="color: var(--dark);">A</span>
+</center>
+
+However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display) other text; only one letter can be in a given spot - right? Wrong! By rendering the normal letter as the background dropcap font, I apply a different (lighter) color to the dropcap background. I then use [the CSS `::before` pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/::before) to render _another_ glyph in the foreground. The result:
+
+<center>
+<span class="dropcap" data-first-letter="A" style="font-size:4rem;">A</span>
+</center>
+
+> [!note]- Dropcap CSS
+> Here are the core elements of the regex which styles the dropcaps:
+> ```scss
+> .dropcap {
+>    // The background glyph 
+>    font-family: "EBGaramondInitialsF1";
+>    color: var(--lightgray);
+>    position: relative;
+>    text-transform: uppercase;
+>  
+>    &::before {
+>      // The foreground glyph  
+>      font-family: "EBGaramondInitialsF2";
+>      color: var(--dark);
+>      content: attr(data-first-letter);
+>      position: absolute;
+>    }
+>  }
+> ```
+
+A less theme-disciplined man than myself might even flaunt dropcap colorings!
+
+<center style="font-size:4rem;">
+<span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--lightergray));">T</span>
+<span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--lightergray));">H</span>
+<span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--lightergray));">E</span>
+<br/>  
+<span class="dropcap" data-first-letter="P"  style="color: color-mix(in srgb, 65% green, var(--lightergray));">P</span>
+<span class="dropcap" data-first-letter="O"  style="color: color-mix(in srgb, 65% blue, var(--lightergray));">O</span>
+<span class="dropcap" data-first-letter="N"  style="color: color-mix(in srgb, 65% purple, var(--lightergray));">N</span>
+<span class="dropcap" data-first-letter="D"  style="color: color-mix(in srgb, 65% pink, var(--lightergray));">D</span>
+</center> 
+
 ## Formatting enhancement
 | Before | After |
 | --: | :-- |
-| | |
-| <span class="no-formatting">I - like you - am opposed.</span>| I - like you - am opposed.|
-| <span class="no-formatting">I already said it: "you <em>know</em> my name should be 'Trout" </span>| I - like you - am opposed.|
-| <span class="no-formatting">I - like you - am opposed.</span>| I - like you - am opposed.|
-| <span class="no-formatting">I - like you - am opposed.</span>| I - like you - am opposed.|
-| <span class="no-formatting">I - like you - am opposed.</span>| I - like you - am opposed.|
+| <span class="no-formatting">"We did not come to fear the future. We came here to shape it." - <a href="https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009">Barack Obama</a></span>|"We did not come to fear the future. We came here to shape it." - [Barack Obama](https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009)| 
+| <span class="no-formatting">-2 x 3 = -6</span>|-2 x 3 = -6|
  
-<!-- TODO make table here with before/after -->
-
 ### Automatic conversion of quotation marks 
 
 Undirected quote marks (`"test"`) look bad to me. Call me extra (I _am_ extra), but I ventured to _never have undirected quotes on my site._ Instead, double and single quotation marks automatically convert to their opening or closing counterparts. This seems like a bog-standard formatting problem, so surely there's a standard library. Right?
@@ -329,7 +395,7 @@ The solution? Roughly:
 3. Apply `niceQuotes` to `s`, receiving another string with the same number of elements implied,
 4. For all $k$, set element $k$'s text content to the segment starting at private Unicode occurrence $k$.
 
-I use this same strategy for other formatting improvements, including [Hyphen replacement](#Hyphen%20replacement).
+I use this same strategy for other formatting improvements, including [Hyphen replacement](#hyphen-replacement).
 
 ### Automatic smallcaps
 How do the following sentences feel to read?
@@ -351,7 +417,9 @@ Furthermore, I apply smallcaps to letters which follow numbers (like "100GB") so
 > [!quote] [How to Use Em Dashes (—), En Dashes (–) , and Hyphens (-)](https://www.merriam-webster.com/grammar/em-dash-en-dash-how-to-use)
 > The em dash (—) can function like a comma, a colon, or parenthesis. Like commas and parentheses, em dashes set off extra information, such as examples, explanatory or descriptive phrases, or supplemental facts. Like a colon, an em dash introduces a clause that explains or expands upon something that precedes it.
 
-<!-- TODO EN dashes -->
+Technically, _en dashes_ should be used for ranges of dates and numbers. So "<span class="no-formatting">p. 202-203</span>" turns into "p. 202-203", and "<span class="no-formatting">Aug-Dec</span>" turns into "Aug-Dec"! 
+
+Some hyphens should actually be _minus signs_. I find raw hyphens (<span class="no-formatting">-2</span>) to be distasteful when used in plaintext numbers. I opt for "-2" instead.
 
 ### Other small display tweaks
 Fractions
@@ -363,16 +431,19 @@ Detecting multipliers
 Full-width slashes
 : Used for separators like "cat" / "dog."
 
+Mathematical definitions
+: In the past, I used the $:=$ symbol to denote definitions (as opposed to normal equations). I now convert these symbols to the self-explanatory $ :=$.
+
+<!-- TODO talk about unified callout structure -->
+
 ### I paid someone to tweak EB Garamond
 While EB Garamond is a nice font, it has a few problems. As of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The result: zero looked too similar to "o." Here's a number rendered in the original font: <span style="font-family: var(--font-text-original)">"100"</span>; in my tweaked font it shows as "100." Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals. This meant that the italicized 1 looked like a slanted "<span style="font-family: var(--font-text-original); font-feature-settings: normal;">1</span>" - too similar to the smallcaps capital I ("<span class="small-caps">I</span>").
 
-Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have notified the maintainer of the EB Garamond font. 
+Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have also notified the maintainer of the EB Garamond font. 
+
+# Deployment pipeline
 
 3. Text presentation
-	1. Fonts
-		1. Show off a range of fonts: `bad-handwriting`, `gold-script`, `elvish`/`elvish-italics`, `corrupted`
-		2. `dropcap` in-context; THE POND (with different colors)
-		3. Explain how I did different colors
 	2. Max characters - research I based this off of 
 4. Explain the different 
 	1. Wavy LOL hahahahahaha of the imports of JSON
