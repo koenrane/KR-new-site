@@ -366,7 +366,7 @@ h4:has(+ .subtitle),
 h5:has(+ .subtitle),
 h6:has(+ .subtitle),
 p:has(+ .subtitle),
-.callout-title:has(+ .callout-content > .subtitle) {
+.callout-title:not(.is-collapsed *):has(+ .callout-content > .subtitle) {
   margin-bottom: 0;
 }
 
@@ -858,8 +858,9 @@ hr {
   opacity: 1;
 }
 
+// For usage in the middle of a paragraph
 .dropcap {
-  // For usage in the middle of a paragraph
+  // The background glyph
   font-family: "EBGaramondInitialsF1";
   color: var(--lightgray);
   position: relative;
@@ -869,6 +870,7 @@ hr {
 
   &::before {
     text-transform: uppercase;
+    // The foreground glyph
     font-family: "EBGaramondInitialsF2";
     color: var(--dark);
     content: attr(data-first-letter);
