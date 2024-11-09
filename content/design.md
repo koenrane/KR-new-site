@@ -183,35 +183,29 @@ Among lossy compression formats, there are two kings: AVIF and WEBP. Under my te
 
 I now perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab] I downloaded each AVIF file and used `magick` to convert it back to a PNG, measuring the size before and after. 
 
-![Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x.](static/images/posts/compression_ratio.svg)
+![Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x.](https://assets.turntrout.com/static/images/posts/compression_ratio.svg)
 
 Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are tiny [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
 
-<svg src="/asset_staging/static/images/posts/compression_ratio.svg"></svg>
-
-![A scatterplot showing dramatic decreases in filesize from PNG to AVIF.](static/images/posts/avif_png_scatter.svg)
+![A scatterplot showing dramatic decreases in filesize from PNG to AVIF.](https://assets.turntrout.com/static/images/posts/avif_png_scatter.svg)
 Figure: Now the huge savings of AVIF are clearer.
 
 [^colab]: I used a [publicly accessible Colab](https://colab.research.google.com/drive/1XScXuubpzcyhjU6uYRN0ikHVzLFmJj6X?usp=sharing) to generate the AVIF -> PNG compression graphs.
 
 | Metric | Value |
 |--:|:--|
-| Average compression ratio | 8.19x |
-| Total AVIF size | 25.24MB |
 | Total PNG size | 279.75MB |
+| Total AVIF size | 25.24MB |
 | Overall space savings | 91.0% |
-
 
 
 <!-- TODO talk about HEVC, maybe even try to fix it? --> 
 Videos
-: The story here is much sadder than with image compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (VP9). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than WEBM. In practice, I haven't figured out how to make that happen, and my MP4s remain XXx larger than my WEBMs at similar visual quality.
+: Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
-<!-- Insert table of average compression ratios of WEBM over different formats. -->
+: So WEBM videos are hilariously well-compressed (with an average compression ratio of XXXx over GIF and XXXx over h264 MP4). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because Safari will autoplay & loop HEVC, but _refuses to render transparency_. Therefore, for the ever-present looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. 
 
-: So WEBM videos are hilariously well-compressed (with an average compression ratio of XXXx over GIF and XXXx over h264 MP4). However, there is one small problem which is actually big: _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because Safari will autoplay & loop HEVC, but _refuses to render transparency_. Therefore, for the ever-present looping video of the pond, the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. 
-
-: Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC with decent quality - online website-provided video conversion still achieves a >2x compression over  my command-line compression. I'll fix that later.
+: Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC with decent quality. I'll fix that later - possibly I need to try a different codec.
 
 ## Inlining critical CSS
 
@@ -442,7 +436,7 @@ The solution? Roughly:
 3. Apply `niceQuotes` to `s`, receiving another string with the same number of elements implied,
 4. For all $k$, set element $k$'s text content to the segment starting at private Unicode occurrence $k$.
 
-I use this same strategy for other formatting improvements, including [Hyphen replacement](#hyphen-replacement).
+I use this same strategy for other formatting improvements, including [hyphen replacement](#hyphen-replacement).
 
 ### Automatic smallcaps
 How do the following sentences feel to read?
