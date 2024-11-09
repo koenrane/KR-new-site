@@ -1,7 +1,7 @@
 import { transform as transpile } from "esbuild"
 import { Features, transform } from "lightningcss"
 
-import { FilePath, FullSlug, joinSegments } from "../../util/path"
+import { FilePath, FullSlug } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 
 // @ts-expect-error Not a module but a script
@@ -14,8 +14,11 @@ import { QuartzComponent } from "../../components/types"
 import DepGraph from "../../depgraph"
 import styles from "../../styles/custom.scss"
 import { BuildCtx } from "../../util/ctx"
-import { googleFontHref, joinStyles } from "../../util/theme"
 import { write } from "./helpers"
+
+function joinStyles(...stylesheet: string[]): string {
+  return `${stylesheet.join("\n\n")}`
+}
 
 type ComponentResources = {
   css: string[]
@@ -157,64 +160,15 @@ export const ComponentResources: QuartzEmitterPlugin = () => {
     },
     async emit(ctx): Promise<FilePath[]> {
       const promises: Promise<FilePath>[] = []
-      const cfg = ctx.cfg.configuration
       // component specific scripts and styles
       const componentResources = getComponentResources(ctx)
-      let googleFontsStyleSheet = ""
-      if (cfg.theme.fontOrigin === "local") {
-        // let the user do it themselves in css
-      } else if (cfg.theme.fontOrigin === "googleFonts" && !cfg.theme.cdnCaching) {
-        // when cdnCaching is true, we link to google fonts in Head.tsx
-        let match
-
-        const fontSourceRegex = /url\((https:\/\/fonts.gstatic.com\/s\/[^)]+\.(woff2|ttf))\)/g
-
-        googleFontsStyleSheet = await (
-          await fetch(googleFontHref(ctx.cfg.configuration.theme))
-        ).text()
-
-        while ((match = fontSourceRegex.exec(googleFontsStyleSheet)) !== null) {
-          // match[0] is the `url(path)`, match[1] is the `path`
-          const url = match[1]
-          // the static name of this file.
-          const [filename, ext] = url.split("/").pop()!.split(".")
-
-          googleFontsStyleSheet = googleFontsStyleSheet.replace(
-            url,
-            `https://${cfg.baseUrl}/static/styles/fonts/${filename}.ttf`,
-          )
-
-          promises.push(
-            fetch(url)
-              .then((res) => {
-                if (!res.ok) {
-                  throw new Error("Failed to fetch font")
-                }
-                return res.arrayBuffer()
-              })
-              .then((buf) =>
-                write({
-                  ctx,
-                  slug: joinSegments("static", "fonts", filename) as FullSlug,
-                  ext: `.${ext}`,
-                  content: Buffer.from(buf),
-                }),
-              ),
-          )
-        }
-      }
 
       // important that this goes *after* component scripts
       // as the "nav" event gets triggered here and we should make sure
       // that everyone else had the chance to register a listener for it
       addGlobalPageResources(ctx, componentResources)
 
-      const stylesheet = joinStyles(
-        ctx.cfg.configuration.theme,
-        googleFontsStyleSheet,
-        ...componentResources.css,
-        styles,
-      )
+      const stylesheet = joinStyles(...componentResources.css, styles)
       const [prescript, postscript] = await Promise.all([
         joinScripts(componentResources.beforeDOMLoaded),
         joinScripts(componentResources.afterDOMLoaded),

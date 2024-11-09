@@ -26,6 +26,16 @@
   --crust: #232634;
 
   --color-visited: color-mix(in srgb, var(--red) 50%, var(--blue));
+
+  // Theme-specific colors (from quartz.config.ts darkMode)
+  --light: #303446; // frappeColors.base
+  --lightgray: #737994; // frappeColors.overlay-0
+  --gray: #949cbb; // frappeColors.overlay-2
+  --darkgray: #b5bfe2; // frappeColors.subtext-1
+  --dark: #c6d0f5; // frappeColors.text
+  --secondary: #8caaee; // frappeColors.blue
+  --tertiary: #99d1db; // frappeColors.sky
+  --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
 }
 
 // Catppuccin Latte
@@ -37,7 +47,7 @@
   --amaranth: #9f2b68; // I love this song by Nightwish
   --red: #be415c;
   --orange: #e08c43;
-  --yellow: #beb22c;
+  --yellow: #8f8620;
   --green: #40a02b;
   --teal: #179299;
   --sky: #008bc3;
@@ -58,6 +68,16 @@
   --crust: #dce0e8;
 
   --color-visited: color-mix(in srgb, var(--amaranth) 47%, var(--blue));
+
+  // Theme-specific colors (from quartz.config.ts lightMode)
+  --light: #eff1f5; // latteColors.base
+  --lightgray: #9ca0b0; // latteColors.overlay-0
+  --gray: #7c7f93; // latteColors.overlay-2
+  --darkgray: #5c5f77; // latteColors.subtext-1
+  --dark: #4c4f69; // latteColors.text
+  --secondary: #1e66f5; // latteColors.blue
+  --tertiary: #04a5e5; // latteColors.sky
+  --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
 }
 
 :root {
@@ -71,6 +91,12 @@
     --background-#{$color}: color-mix(in srgb, var(--#{$color}) 30%, var(--light));
     --border-#{$color}: color-mix(in srgb, var(--#{$color}) 50%, var(--light));
   }
+}
+
+.dark-mode,
+.light-mode {
+  background-color: var(--light) !important;
+  color: var(--dark) !important;
 }
 
 // Mermaid

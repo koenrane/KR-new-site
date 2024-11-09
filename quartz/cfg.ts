@@ -2,7 +2,6 @@ import { ValidDateType } from "./components/Date"
 import { QuartzComponent } from "./components/types"
 import { ValidLocale } from "./i18n"
 import { PluginTypes } from "./plugins/types"
-import { Theme } from "./util/theme"
 
 type Page = {
   slug: string
@@ -12,24 +11,24 @@ type Page = {
 export type Analytics =
   | null
   | {
-    provider: "plausible"
-    host?: string
-  }
+      provider: "plausible"
+      host?: string
+    }
   | {
-    provider: "google"
-    tagId: string
-  }
+      provider: "google"
+      tagId: string
+    }
   | {
-    provider: "umami"
-    websiteId: string
-    host?: string
-  }
+      provider: "umami"
+      websiteId: string
+      host?: string
+    }
   | {
-    provider: "goatcounter"
-    websiteId: string
-    host?: string
-    scriptSrc?: string
-  }
+      provider: "goatcounter"
+      websiteId: string
+      host?: string
+      scriptSrc?: string
+    }
 
 export interface GlobalConfiguration {
   pageTitle: string
@@ -51,7 +50,6 @@ export interface GlobalConfiguration {
   navbar: {
     pages: Page[]
   }
-  theme: Theme
   /**
    * Allow to translate the date in the language of your choice.
    * Also used for UI translation (default: en-US)

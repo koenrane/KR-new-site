@@ -79,7 +79,34 @@ Figure: The four Catppuccin palettes.
 
 ## Themes 
 
-The themes provide high contrast between the text and the background - in both light and dark mode. I use the darkest text color quite sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
+The themes provide contrast between the text and the background. I like the pastel palette provided by Catppuccin: 
+
+<div style="display: grid;grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+  <span class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
+    <center>Light mode</center> 
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;"> 
+      <span style="color: red;">Red</span>
+      <span style="color: orange;">Orange</span>
+      <span style="color: yellow;">Yellow</span>
+      <span style="color: green;">Green</span>
+      <span style="color: blue;">Blue</span>
+      <span style="color: purple;">Purple</span> 
+    </div>
+  </span>
+  <span class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
+    <center>Dark mode</center>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
+      <span style="color: red;">Red</span>
+      <span style="color: orange;">Orange</span>
+      <span style="color: yellow;">Yellow</span>
+      <span style="color: green;">Green</span>
+      <span style="color: blue;">Blue</span>
+      <span style="color: purple;">Purple</span>
+    </div>
+  </span>
+</div> 
+
+I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
    - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower contrast text. 
 
 ## Colors should accent (but not distract from) the content
