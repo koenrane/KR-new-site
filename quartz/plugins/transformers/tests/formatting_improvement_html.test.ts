@@ -680,15 +680,21 @@ describe("minusReplace", () => {
     ["Values are -1, -2, and -3.", "Values are −1, −2, and −3."],
     ["Use the -option flag.", "Use the -option flag."],
     ["(-3)", "(−3)"],
-    ["-2 x 3 = -6", "−2 x 3 = −6"],
   ])("transforms '%s' to '%s'", (input, expected) => {
     expect(minusReplace(input)).toBe(expected)
   })
 
+  // Test ${chr} handling
+  const tableBefore =
+    '<table><thead><tr><th style="text-align:right;">Before</th><th style="text-align:left;">After</th></tr></thead><tbody><tr><td style="text-align:right;"><span class="no-formatting">-2 x 3 = -6</span></td><td style="text-align:left;">-2 x 3 = -6</td></tr></tbody></table>'
+  const tableAfter =
+    '<table><thead><tr><th style="text-align:right;">Before</th><th style="text-align:left;">After</th></tr></thead><tbody><tr><td style="text-align:right;"><span class="no-formatting">-2 x 3 = -6</span></td><td style="text-align:left;">−2 × 3 = −6</td></tr></tbody></table>'
   // Now test the end-to-end HTML formatting improvement
   it.each([
     ["<p>-3</p>", "<p>−3</p>"],
-    ["<p> -3.14</p>", "<p> −3.14</p>"],
+    ["<p>-2 x 3 = -6</p>", "<p>−2 × 3 = −6</p>"],
+    ["<p>\n-2 x 3 = -6</p>", "<p>\n−2 × 3 = −6</p>"],
+    [tableBefore, tableAfter],
   ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)

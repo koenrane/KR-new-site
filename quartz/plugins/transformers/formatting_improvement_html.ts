@@ -255,15 +255,12 @@ export function hyphenReplace(text: string) {
   return text
 }
 
-const minusRegex = /(^|[\s(])-(\s?\d*\.?\d+)/g
+const minusRegex = new RegExp(`(^|[\\s\\(${chr}])-(\\s?\\d*\\.?\\d+)`, "gm")
 /**
  * Replaces hyphens with minus signs in numerical contexts
  */
 export function minusReplace(text: string): string {
-  if (text.includes("-2 x 3")) {
-    // console.log(text.replace(minusRegex, "$1−$2"))
-  }
-  return text.replace(minusRegex, "$1−$2")
+  return text.replaceAll(minusRegex, "$1−$2")
 }
 
 // Not used in the plugin, but useful for other purposes
@@ -475,7 +472,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Dd])ojo/g, "$1ōjō"],
   [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
-  [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
+  [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
 ]
 
 export function massTransformText(text: string): string {
@@ -621,10 +618,10 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         transformElement(node, niceQuotes, toSkip, false)
         for (const transform of [
           neqConversion,
+          minusReplace,
           enDashNumberRange,
           plusToAmpersand,
           massTransformText,
-          minusReplace,
         ]) {
           transformElement(node, transform, toSkip, true)
         }
