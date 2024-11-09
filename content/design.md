@@ -103,19 +103,19 @@ Tasteful emoji usage helps brighten and vivify an article. However, it seems lik
 <figure>
  <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; justify-content: center;">
     <div class="subfigure">
-      <img src="/asset_staging/apple_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Apple">
+      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Apple">
       <figcaption>Apple</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/google_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Google">
+      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Google">
       <figcaption>Google</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/microsoft_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Microsoft">
+      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Microsoft">
       <figcaption>Microsoft</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/facebook_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Facebook">
+      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Facebook">
       <figcaption>Facebook</figcaption>
     </div> 
     <div class="subfigure">
@@ -123,15 +123,15 @@ Tasteful emoji usage helps brighten and vivify an article. However, it seems lik
       <figcaption>Twitter</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/whatsapp_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on WhatsApp">
+      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on WhatsApp">
       <figcaption>WhatsApp</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/samsung_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Samsung">
+      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Samsung">
       <figcaption>Samsung</figcaption>
     </div>
     <div class="subfigure">
-      <img src="/asset_staging/LG_hearts.png" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on LG">
+      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on LG">
       <figcaption>LG</figcaption>
     </div>
   </div>
@@ -146,17 +146,35 @@ As a static webpage, my life is much simpler than the lives of most web develope
 Quartz offers basic optimizations, such as [lazy loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading) of assets and [minifying](https://en.wikipedia.org/wiki/Minification_(programming)) JavaScript and CSS files. I further marked the core CSS files for preloading. However, there are a range of more interesting optimizations which Quartz and I implement. 
 ## Asset compression
 
-Fonts
-: EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add overhead and complicate client-side caching, likely resulting in a net slowdown.
+### Fonts
+EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add overhead and complicate client-side caching, likely resulting in a net slowdown.
 
-Images
-: Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
+### Images
+Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
 
-: <img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif"/> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption>
+<img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption>
 
-: I now perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab]
+I now perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab] I downloaded each AVIF file and used `magick` to convert it back to a PNG, measuring the size before and after. 
+
+![Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x.](static/images/posts/compression_ratio.svg)
+
+Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are tiny [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
+
+<svg src="/asset_staging/static/images/posts/compression_ratio.svg"></svg>
+
+![A scatterplot showing dramatic decreases in filesize from PNG to AVIF.](static/images/posts/avif_png_scatter.svg)
+Figure: Now the huge savings of AVIF are clearer.
 
 [^colab]: I used a [publicly accessible Colab](https://colab.research.google.com/drive/1XScXuubpzcyhjU6uYRN0ikHVzLFmJj6X?usp=sharing) to generate the AVIF -> PNG compression graphs.
+
+| Metric | Value |
+|--:|:--|
+| Average compression ratio | 8.19x |
+| Total AVIF size | 25.24MB |
+| Total PNG size | 279.75MB |
+| Overall space savings | 91.0% |
+
+
 
 <!-- TODO talk about HEVC, maybe even try to fix it? --> 
 Videos
@@ -211,10 +229,10 @@ All spacing is a simple multiple of a base measurement
 
 The font family is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond). The `monospace` font is [Fira Code VF](https://github.com/tonsky/FiraCode), which brings a range of ligatures.
 
-![](https://assets.turntrout.com/static/images/posts/fira_code.avif)
+![A range of programming ligatures offered by Fira Code VF.](https://assets.turntrout.com/static/images/posts/fira_code.avif)
 Figure: _Ligatures_ transform sequences of characters (like "<span style="font-variant-ligatures:none;"><code>\<\=</code></span>") into a single glyph (like "`<=`").
 
-![](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
+![Demonstrating how the monospace font aligns the x-height and cap-heights of common bigrams like 'Fl'.](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
 My site contains a range of fun fonts which I rarely use. For example, the _Lord of the Rings_ font "Tengwar Annatar" - expand the callout for _Namárië_ (Galadriel's Lament).
@@ -442,6 +460,8 @@ Mathematical definitions
 While EB Garamond is a nice font, it has a few problems. As of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The result: zero looked too similar to "o." Here's a number rendered in the original font: <span style="font-family: var(--font-text-original)">"100"</span>; in my tweaked font it shows as "100." Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals. This meant that the italicized 1 looked like a slanted "<span style="font-family: var(--font-text-original); font-feature-settings: normal;">1</span>" - too similar to the smallcaps capital I ("<span class="small-caps">I</span>").
 
 Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have also notified the maintainer of the EB Garamond font. 
+
+## Favicons
 
 # Deployment pipeline
 
