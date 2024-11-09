@@ -215,7 +215,7 @@ export function hyphenReplace(text: string) {
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
   const preDash = new RegExp(`((?<markerBeforeTwo>${chr}?)[ ]+|(?<markerBeforeThree>${chr}))`)
-  // Want eg " - " to be replaced with "��"
+  // Want eg " - " to be replaced with "—"
   const surroundedDash = new RegExp(
     `(?<=[^\\s>]|^)${preDash.source}[~–—-]+[ ]*(?<markerAfter>${chr}?)[ ]+`,
     "g",
@@ -263,7 +263,43 @@ export function minusReplace(text: string): string {
   return text.replaceAll(minusRegex, "$1−$2")
 }
 
-// Not used in the plugin, but useful for other purposes
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+].join("|")
+
+/**
+ * Replaces hyphens with en dashes in month ranges
+ * Handles abbreviated and full month names
+ * @returns The text with en dashes in month ranges
+ */
+export function enDashDateRange(text: string): string {
+  return text.replace(new RegExp(`\\b(${months}${chr}?)-(${chr}?(?:${months}))\\b`, "g"), "$1–$2")
+}
+
+// Not used in this plugin, but useful elsewhere
 /**
  * Applies multiple text transformations
  * @returns The transformed text
@@ -278,6 +314,7 @@ export function applyTextTransforms(text: string): string {
   text = plusToAmpersand(text)
   text = neqConversion(text)
   text = enDashNumberRange(text)
+  text = enDashDateRange(text)
   try {
     assertSmartQuotesMatch(text)
   } catch {
@@ -620,6 +657,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           neqConversion,
           minusReplace,
           enDashNumberRange,
+          enDashDateRange,
           plusToAmpersand,
           massTransformText,
         ]) {

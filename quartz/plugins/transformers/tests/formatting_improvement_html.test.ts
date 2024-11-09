@@ -17,6 +17,7 @@ import {
   minusReplace,
   l_pRegex,
   hasClass,
+  enDashDateRange,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -851,5 +852,44 @@ describe("hasClass", () => {
     } as Element
 
     expect(hasClass(node, "any-class")).toBe(false)
+  })
+})
+
+describe("Date Range", () => {
+  it.each([
+    ["Jan-Mar", "Jan–Mar"],
+    ["January-March", "January–March"],
+    ["Aug-Dec", "Aug–Dec"],
+    ["February-April", "February–April"],
+    ["May-September", "May–September"],
+    ["Oct-Dec 2023", "Oct–Dec 2023"],
+    ["January-December", "January–December"],
+    // Test cases that should not be modified
+    ["Pre-existing", "Pre-existing"],
+    ["non-month", "non-month"],
+    ["May-be", "May-be"],
+    ["March-ing", "March-ing"],
+  ])('should handle date ranges in "%s"', (input, expected) => {
+    const result = enDashDateRange(input)
+    expect(result).toBe(expected)
+  })
+
+  it("should handle multiple date ranges in text", () => {
+    const input = "Period Jan-Mar and Jul-Sep showed growth"
+    const expected = "Period Jan–Mar and Jul–Sep showed growth"
+    expect(enDashDateRange(input)).toBe(expected)
+  })
+
+  it("should preserve surrounding text", () => {
+    const input = "The Jan-Mar quarter (Q1)"
+    const expected = "The Jan–Mar quarter (Q1)"
+    expect(enDashDateRange(input)).toBe(expected)
+  })
+
+  it("should handle end-to-end HTML formatting", () => {
+    const input = "<p>Revenue from Jan-Mar exceeded Apr-Jun.</p>"
+    const expected = "<p>Revenue from Jan–Mar exceeded Apr–Jun.</p>"
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
   })
 })
