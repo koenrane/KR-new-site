@@ -280,3 +280,73 @@ def test_video_figure_caption_formatting(setup_test_env, initial_content):
     assert (
         "<br/>" not in converted_content
     ), f"<br/> tag still present in:\n{converted_content}"
+
+
+def test_asset_staging_path_conversion(setup_test_env) -> None:
+    test_dir = Path(setup_test_env)
+    asset_path: Path = test_dir / "quartz/static" / "asset.jpg"
+    avif_path: Path = asset_path.with_suffix(".avif")
+    content_path = Path(setup_test_env) / "content" / "staging.md"
+
+    # Create a test markdown file with asset_staging paths
+    with open(content_path, "w") as f:
+        f.write("![](./asset_staging/static/asset.jpg)\n")
+        f.write("[[./asset_staging/static/asset.jpg]]\n")
+        f.write('<img src="./asset_staging/static/asset.jpg" alt="shrek"/>\n')
+
+    convert_assets.convert_asset(asset_path, md_replacement_dir=test_dir / "content")
+
+    # Check that the AVIF file was created
+    assert avif_path.exists()
+
+    # Verify content was properly converted
+    with open(content_path, "r") as f:
+        file_content = f.read()
+
+    expected_content = (
+        "![](static/asset.avif)\n"
+        "[[static/asset.avif]]\n"
+        '<img src="static/asset.avif" alt="shrek"/>\n'
+    )
+    assert file_content == expected_content
+
+
+@pytest.mark.parametrize(
+    "input_content,expected_content",
+    [
+        (
+            "![](./static/asset.jpg)",
+            "![](static/asset.avif)",
+        ),
+        (
+            "![](./asset_staging/static/asset.jpg)",
+            "![](static/asset.avif)",
+        ),
+        (
+            '<img src="./static/asset.jpg"/>',
+            '<img src="static/asset.avif"/>',
+        ),
+        (
+            '<img src="./asset_staging/static/asset.jpg"/>',
+            '<img src="static/asset.avif"/>',
+        ),
+    ],
+)
+def test_path_pattern_variations(
+    setup_test_env, input_content: str, expected_content: str
+) -> None:
+    test_dir = Path(setup_test_env)
+    asset_path: Path = test_dir / "quartz/static" / "asset.jpg"
+    content_path = Path(setup_test_env) / "content" / "variations.md"
+
+    # Create test markdown file with the test pattern
+    with open(content_path, "w") as f:
+        f.write(input_content)
+
+    convert_assets.convert_asset(asset_path, md_replacement_dir=test_dir / "content")
+
+    # Verify content was properly converted
+    with open(content_path, "r") as f:
+        file_content = f.read()
+
+    assert file_content.strip() == expected_content

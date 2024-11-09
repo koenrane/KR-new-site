@@ -102,7 +102,7 @@ def convert_asset(
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         compress.image(input_file)
-        original_pattern = rf"(?:\./)?{re.escape(str(pattern_file))}"
+        original_pattern = rf"(?:\./)?(?:asset_staging/)?{re.escape(str(pattern_file))}"
         replacement_pattern = str(output_file)
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
