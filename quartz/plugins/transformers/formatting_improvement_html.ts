@@ -255,7 +255,7 @@ export function hyphenReplace(text: string) {
   return text
 }
 
-const minusRegex = new RegExp(`(^|[\\s\\(${chr}])-(\\s?\\d*\\.?\\d+)`, "gm")
+const minusRegex = new RegExp(`(^|[\\s\\(${chr}"“])-(\\s?\\d*\\.?\\d+)`, "gm")
 /**
  * Replaces hyphens with minus signs in numerical contexts
  */

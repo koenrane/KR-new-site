@@ -681,6 +681,7 @@ describe("minusReplace", () => {
     ["Values are -1, -2, and -3.", "Values are −1, −2, and −3."],
     ["Use the -option flag.", "Use the -option flag."],
     ["(-3)", "(−3)"],
+    ['"-3', '"−3'],
   ])("transforms '%s' to '%s'", (input, expected) => {
     expect(minusReplace(input)).toBe(expected)
   })
