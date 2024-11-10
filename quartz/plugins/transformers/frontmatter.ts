@@ -2,6 +2,7 @@ import matter from "gray-matter"
 import yaml from "js-yaml"
 import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
+import { VFile } from "vfile"
 
 import { i18n } from "../../i18n"
 import { slugTag } from "../../util/path"
@@ -57,7 +58,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
       return [
         [remarkFrontmatter, ["yaml", "toml"]],
         () => {
-          return (_, file) => {
+          return (_: unknown, file: VFile) => {
             const { data } = matter(Buffer.from(file.value), {
               ...opts,
               engines: {

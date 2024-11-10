@@ -1,5 +1,6 @@
 import { Root as HTMLRoot } from "hast"
 import { toString } from "hast-util-to-string"
+import { VFile } from "vfile"
 
 import { escapeHTML } from "../../util/escape"
 import { QuartzTransformerPlugin } from "../types"
@@ -22,7 +23,7 @@ export const Description: QuartzTransformerPlugin<Partial<Options> | undefined> 
     htmlPlugins() {
       return [
         () => {
-          return async (tree: HTMLRoot, file) => {
+          return async (tree: HTMLRoot, file: VFile) => {
             let frontMatterDescription = file.data.frontmatter?.description
             let text = escapeHTML(toString(tree))
 

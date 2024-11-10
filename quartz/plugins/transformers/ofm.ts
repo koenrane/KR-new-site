@@ -7,6 +7,7 @@ import { Root, Html, BlockContent, Paragraph } from "mdast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
 import { PhrasingContent } from "mdast-util-find-and-replace/lib"
 import { toHast } from "mdast-util-to-hast"
+import { VFile } from "mdast-util-to-hast/lib/state"
 import path from "path"
 import rehypeRaw from "rehype-raw"
 import { PluggableList } from "unified"
@@ -16,7 +17,6 @@ import { capitalize } from "../../util/lang"
 import { FilePath, slugTag, slugifyFilePath } from "../../util/path"
 import { JSResource } from "../../util/resources"
 import { QuartzTransformerPlugin } from "../types"
-
 // Script imports
 import { fileURLToPath } from "url"
 const currentFilePath = fileURLToPath(import.meta.url)
@@ -223,7 +223,7 @@ export function markdownPlugins(opts: Options): PluggableList {
 
   // regex replacements
   plugins.push(() => {
-    return (tree: Root, file) => {
+    return (tree: Root, file: VFile) => {
       const replacements: [RegExp, string | ReplaceFunction][] = []
 
       if (opts.wikilinks) {
@@ -570,7 +570,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       if (opts.parseBlockReferences) {
         plugins.push(() => {
-          return (tree: HtmlRoot, file) => {
+          return (tree: HtmlRoot, file: VFile) => {
             if (!file.data.blocks) {
               file.data.blocks = {}
             }
