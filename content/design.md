@@ -123,7 +123,7 @@ Color is important to this website, but I need to be tasteful and strict in my u
 
 When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor). 
 
-During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme.
+During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even standardize the colors used for syntax highlighting in the Shiki code blocks!
 
 
 
@@ -445,7 +445,7 @@ Technically, _en dashes_ should be used for ranges of dates and numbers. So "<sp
 
 Some hyphens should actually be _minus signs_. I find raw hyphens (<span class="no-formatting">-2</span>) to be distasteful when used in plaintext numbers. I opt for "-2" instead.
 
-### Other small display tweaks
+### Other display tweaks
 Fractions
 : I chose slanted fractions in order to slightly increase the height of the numerals in the numerator and denominator. People are 2/3 water, but "01/01/2000" should not be rendered as a fraction.
 
@@ -522,7 +522,7 @@ I wrote a server-side HTML transformer implementing the following algorithm:
 
 There remains a wrinkle: How can I ensure the favicons _look good_? As `gwern` [noted](https://gwern.net/design-graveyard#link-icon-css-regexps), inline favicons sometimes appear on the next line (detached from their link). This looks bad - just like it would look bad if your browser displayed the last letter of a word on the next line, all on its own.
 
-To tackle this, the favicon transformer doesn't _just_ append an `<img>` element. Basically, I make a new `<span>` which acts as a "favicon sandwich", packaging both the last few letters of the link text and then the favicon `<img>` element. The `<span>` is styled so that if the favicon element is wrapped, the last few letters will be wrapped as well. 
+To tackle this, the favicon transformer doesn't _just_ append an `<img>` element. Basically, I make a new `<span>` which acts as a "favicon sandwich", packaging both the last few letters of the link text and then the favicon `<img>` element. The `<span>` is styled so that if the favicon element is wrapped, the last few letters will be wrapped as well. To ensure legibility in both light and dark mode, I also dynamically style certain favicons, including this site's favicon: <img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" style="vertical-align: baseline; margin-right:.125rem;" class="favicon" alt="Favicon for turntrout.com">.
 
 > [!note]- Prior work: Comparing with [`gwern.net`'s favicon approach](https://gwern.net/design-graveyard#static-link-icon-attributes)
 > 
@@ -573,20 +573,7 @@ I love these "callout" bubbles which contain information. When a callout is coll
 > > [!money]
   
 
-
-### Spoilers
-
-I made a Markdown plugin which lets me specify spoilers via `>! \[spoiler\]`. The results are unobtrusive but pleasant:
-
->! Snape kills Dumbledore.
-
-### Server-side math rendering via $\KaTeX$
-
-I initially chose [$\KaTeX$](https://katex.org/) over [MathJax](https://www.mathjax.org/) due to its faster client-side rendering speed. However, now I render the $\KaTeX$ server-side so all the client has to do is download `katex.min.css` (27KB). Easy.
-
-<!-- TODO maybe move to minor section (along with spoilers) -->
-
-### Mermaid diagrams
+## Mermaid diagrams
 Often, websites embed diagrams as images. However, I find this unsatisfying for several reasons:
 1. Inconsistent styling as several different diagram suites may be used to generate images - the diagrams often use different color palettes from my site,
 2. Bloated page size from embedding sparse graphical information into dense image data, and
@@ -611,15 +598,38 @@ flowchart TD
 ```
 Code: A diagram from my [Eliciting Latent Knowledge proposal](elk-proposal-thinking-via-a-human-imitator).
 
+## Smaller features
+
+Popovers
+: Quartz comes with interactive popover previews for internal links, such as footnotes or section references. Desktop users can view popovers by hovering over an internal link. The <img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" style="vertical-align: baseline; margin-right:.125rem;" class="favicon" alt="Favicon for turntrout.com"> favicon appears for links to other pages on the site, while the <img src="https://assets.turntrout.com/static/images/anchor.svg" style="display: inline;vertical-align: baseline; margin-right:.125rem;" class="favicon" alt="Counterclockwise loop">  icon is used for within-page links.
+
+Search
+: Also packaged in vanilla Quartz, my site is searchable with live content previews - rendering the entire page on the desktop view. To accord with classic keybindings, I ensured that the search window can be toggled by pressing `/`.
+
+Metadata
+: Every page has an HTML description and [tags](/tags) (if appropriate), along with a table of contents which (on desktop) highlights the current section. I track original publication date and display when each was page was last modified by a `git push` to the `main` branch. I also support "sequences" of blog posts:
+
+: <div class="sequence-links" style="border: 2px var(--gray) solid; padding-left: 1rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequenceLinks-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequenceLinks-divider"></div><div class="next-post sequenceLinks-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a src="/shard-theory">shard theory.</a></figcaption>
+
+Spoilers hide text until hovered
+: I made a Markdown plugin which lets me specify spoilers by starting the line with `>!`. The results are unobtrusive but pleasant:
+
+: >! Have you heard? Snape kills Dumbledore.
+
+Server-side math rendering via $\KaTeX$
+: I initially chose [$\KaTeX$](https://katex.org/) over [MathJax](https://www.mathjax.org/) due to its faster client-side rendering speed. However, now I render the $\KaTeX$ server-side so all the client has to do is download `katex.min.css` (27KB). Easy.
+
+Ending each article with a flourish
+: Each article is capped with the following horizontal rule:
+: 
+: <div style="align-items:center;display:flex;justify-content:center;"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-right:0.3rem;">☙</span><img src="https://assets.turntrout.com/static/trout-bw.svg" style="height:var(--ornament-size);" alt="Black and white trout" class="no-select trout-ornament"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-left:0.5rem;">❧</span></div>
+
+
 
 # Deployment pipeline
 
-1. Text presentation
-	1. Max characters - research I based this off of 
-4. Explain the different 
+4. Mention the importing process
 	1. Wavy LOL hahahahahaha of the imports of JSON
-	2. Scrolling text
-	- Twemoji
 5. The commit->push->deploy pipeline
 	1. Precommit
 	2. Prepush
