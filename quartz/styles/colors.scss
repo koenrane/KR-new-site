@@ -36,6 +36,11 @@
   --secondary: #8caaee; // frappeColors.blue
   --tertiary: #99d1db; // frappeColors.sky
   --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
+
+  & img,
+  & video {
+    filter: grayscale(50%);
+  }
 }
 
 // Catppuccin Latte
@@ -78,6 +83,11 @@
   --secondary: #1e66f5; // latteColors.blue
   --tertiary: #04a5e5; // latteColors.sky
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
+
+  & img,
+  & video {
+    mix-blend-mode: multiply;
+  }
 }
 
 :root {
