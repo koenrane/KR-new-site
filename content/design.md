@@ -2,10 +2,9 @@
 title: Design of this website
 permalink: design
 publish: true
-tags: 
+tags:
   - website
 description: Showing off and explaining this site's beauty.
-date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
 card_image: 
@@ -15,6 +14,10 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
+
+
+> [!thanks]- Thanking people who helped with this site
+> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
 # Site rendering basics
 The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site generator. While [the build process](https://quartz.jzhao.xyz/advanced/architecture) is rather involved, here's what you need to know for this article:
 1. Almost all of my content is written in Markdown. 
@@ -59,7 +62,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 # Archiving and dependencies
 This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive]
 
-[^archive]: Exceptions which are not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
+[^archive]: Examples of content which is not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
 
 My CDN brings me comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want the content to be timeless.
 
@@ -81,7 +84,8 @@ Figure: The four Catppuccin palettes.
 
 The themes provide contrast between the text and the background. I like the pastel palette provided by Catppuccin: 
 
-<div style="display: grid;grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+<figure>
+<div style="display: grid;grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
   <span class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
     <center>Light mode</center> 
     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;"> 
@@ -92,6 +96,7 @@ The themes provide contrast between the text and the background. I like the past
       <span style="color: blue;">Blue</span>
       <span style="color: purple;">Purple</span> 
     </div>
+    <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; filter: none;" alt="Smiling Face With Hearts on Twitter"/></center>
   </span>
   <span class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
     <center>Dark mode</center>
@@ -103,13 +108,16 @@ The themes provide contrast between the text and the background. I like the past
       <span style="color: blue;">Blue</span>
       <span style="color: purple;">Purple</span>
     </div>
+    <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; mix-blend-mode: normal;" alt="Smiling Face With Hearts on Twitter"/></center>
   </span>
 </div> 
+<figcaption>The palettes for light and dark mode. The colors adjust and in dark mode, I decrease the saturation of image assets.</figcaption>
+</figure>
 
 I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
    - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text. 
 
-## Colors should accent (but not distract from) the content
+## Colors should accent content
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction. 
 
@@ -118,49 +126,6 @@ When designing visual content, I consider where the reader's eyes go. People vis
 During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme.
 
 
-
-## Emoji styling
-
-Tasteful emoji usage helps brighten and vivify an article. However, it seems like there are over 9,000 emoji stylings:
-
-<figure>
- <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; justify-content: center;">
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Apple">
-      <figcaption>Apple</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Google">
-      <figcaption>Google</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Microsoft">
-      <figcaption>Microsoft</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Facebook">
-      <figcaption>Facebook</figcaption>
-    </div> 
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/twemoji/1f970.svg" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Twitter">
-      <figcaption>Twitter</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on WhatsApp">
-      <figcaption>WhatsApp</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Samsung">
-      <figcaption>Samsung</figcaption>
-    </div>
-    <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on LG">
-      <figcaption>LG</figcaption>
-    </div>
-  </div>
-</figure>
-
-I want the user experience to be consistent, so my build process bakes in the Twitter emoji style: 🥰⭐️✨💘🐟😊🤡😏😮‍💨☺️🥰🎉🤷‍♂️🌊😠🏰❤️😞🙂‍↕️😌🥹🏝️🪂
 
 # Site responsiveness
 
@@ -217,6 +182,7 @@ Instead, I hooked [the `critical` package](https://github.com/addyosmani/critica
 > 
 > Under the hood, this is done by hijacking page navigations and instead fetching the HTML via a `GET` request and then diffing and selectively replacing parts of the page using [micromorph](https://github.com/natemoo-re/micromorph). This allows us to change the content of the page without fully refreshing the page, reducing the amount of content that the browser needs to load.
 
+<!-- Skipping for now
 <figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
 
 <figure>
@@ -234,15 +200,16 @@ Instead, I hooked [the `critical` package](https://github.com/addyosmani/critica
 </figure>
 
 
-</figure>
-<!-- Insert two MP4s of loading the page: one with and one without critical CSS. Put in figure with two figcaptions-->
+</figure> -->
 
 # Text presentation
 ## Sizing
 This website contains many design elements. To maintain a regular, assured style and to avoid patchwork chaos, I made two important design choices.
 
 Exponential font sizing
-: I fixed a base font size - 20px on mobile, to 22px on tablets, to 24px on full displays. Then - after consulting [TypeScale](https://typescale.com/) - I scaled the font by $1.2^n$, with $n=0$ for body text and $n\geq 1$ for headers:
+: I fixed a base font size - 20px on mobile, to 22px on tablets, to 24px on full displays. I read up on [how many characters should be on a single line in order to maximize readability](https://baymard.com/blog/line-length-readability) - apparently between 50 and 60. On desktop, I set the center column to 750PX (yielding about 75 characters per line).[^characters] 
+
+: After consulting [TypeScale](https://typescale.com/), I scaled the font by $1.2^n$, with $n=0$ for body text and $n\geq 1$ for headers: 
 
 : <span class="h1">Header 1</span>
 <span class="h2">Header 2</span>
@@ -259,6 +226,8 @@ Exponential font sizing
 All spacing is a simple multiple of a base measurement
 : If - for example - paragraphs were separated by 3.14 lines of space but headings had 2.53 lines of margin beneath them, that would look chaotic. Instead, I fixed a "base margin" variable and then made all margin and padding calculations be simple fractional multiples (e.g. 1.5x, 2x) of that base margin.
 
+[^characters]: 60 characters per line seemed awkwardly narrow to me, so I went for 75 per line.
+ 
 ## Fonts
 
 The font family is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond). The `monospace` font is [Fira Code VF](https://github.com/tonsky/FiraCode), which brings a range of ligatures.
@@ -269,7 +238,7 @@ Figure: _Ligatures_ transform sequences of characters (like "<span style="font-v
 ![Demonstrating how the monospace font aligns the x-height and cap-heights of common bigrams like 'Fl'.](https://assets.turntrout.com/static/images/posts/letter_pairs-1.avif)
 Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
-My site contains a range of fun fonts which I rarely use. For example, the _Lord of the Rings_ font "Tengwar Annatar" - expand the callout for _Namárië_ (Galadriel's Lament).
+My site contains a range of fun fonts which I rarely use. For example, the _Lord of the Rings_ font "Tengwar Annatar" renders Elvish glyphs. 
 
 > [!quote]- [_Namárië_: Galadriel's Lament in Lórien](https://www.youtube.com/watch?v=re5_lzlFS9M)
 >
@@ -374,7 +343,8 @@ A less theme-disciplined man than myself might even flaunt dropcap colorings!
 | Before | After |
 | --: | :-- |
 | <span class="no-formatting">"We did not come to fear the future. We came here to shape it." - <a href="https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009">Barack Obama</a></span>|"We did not come to fear the future. We came here to shape it." - [Barack Obama](https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009)| 
-| <span class="no-formatting">-2 x 3 = -6</span>|-2 x 3 = -6|
+|<span class="no-formatting">-2 x 3 = -6</span>|-2 x 3 = -6|
+|<span class="no-formatting">I love Bryan Adam's <a src="https://www.youtube.com/watch?v=eFjjO_lhf9c"><em>Summer of '69</em></a></span>|I love Bryan Adam's [_Summer of '69_](https://www.youtube.com/watch?v=eFjjO_lhf9c)|
  
 ### Automatic conversion of quotation marks 
 
@@ -488,19 +458,164 @@ Full-width slashes
 Mathematical definitions
 : In the past, I used the $:=$ symbol to denote definitions (as opposed to normal equations). I now convert these symbols to the self-explanatory $ :=$.
 
-<!-- TODO talk about unified callout structure -->
-
 ### I paid someone to tweak EB Garamond
 While EB Garamond is a nice font, it has a few problems. As of April 2024, EB Garamond did not support slashed zeroes (the `zero` feature). The result: zero looked too similar to "o." Here's a number rendered in the original font: <span style="font-family: var(--font-text-original)">"100"</span>; in my tweaked font it shows as "100." Furthermore, the italicized font did not support the `cv11` OpenType feature for oldstyle numerals. This meant that the italicized 1 looked like a slanted "<span style="font-family: var(--font-text-original); font-feature-settings: normal;">1</span>" - too similar to the smallcaps capital I ("<span class="small-caps">I</span>").
 
 Therefore, I paid [Hisham Karim](https://www.fiverr.com/hishamhkarim) $121 to add these features. I have also notified the maintainer of the EB Garamond font. 
 
-## Favicons
+# Website features
+Subtitle: This list is not exhaustive.
+
+## Emoji styling
+
+Tasteful emoji usage helps brighten and vivify an article. However, it seems like there are over 9,000 emoji stylings:
+
+<figure>
+ <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; justify-content: center; margin-bottom: 1rem;">
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Apple">
+      <figcaption>Apple</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Google">
+      <figcaption>Google</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Microsoft">
+      <figcaption>Microsoft</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Facebook">
+      <figcaption>Facebook</figcaption>
+    </div> 
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/twemoji/1f970.svg" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Twitter">
+      <figcaption>Twitter</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on WhatsApp">
+      <figcaption>WhatsApp</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Samsung">
+      <figcaption>Samsung</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on LG">
+      <figcaption>LG</figcaption>
+    </div>
+  </div>
+</figure>
+
+I want the user experience to be consistent, so my build process bakes in the Twitter emoji style: 🥰⭐️✨💘🐟😊🤡😏😮‍💨☺️🥰🎉🤷‍♂️🌊😠🏰❤️😞🙂‍↕️😌🥹🏝️🪂
+
+## Inline favicons
+
+Favicons are those little website icons you see in your tab bar. Inspired by [`gwern.net`](https://gwern.net) and Wikipedia, I decided to show favicons next to links. Including favicons has several benefits, from "the reader often knows what to expect" to "it just looks nice." 
+
+I wrote a server-side HTML transformer implementing the following algorithm: 
+1. Takes as input a semi-processed HTML syntax tree,
+2. Finds all of the link elements,
+3. Checks what favicon (if any) is available for each,
+4. Downloads the favicon if needed,
+5. Appends a favicon `<img>` element after the link.
+
+There remains a wrinkle: How can I ensure the favicons _look good_? As `gwern` [noted](https://gwern.net/design-graveyard#link-icon-css-regexps), inline favicons sometimes appear on the next line (detached from their link). This looks bad - just like it would look bad if your browser displayed the last letter of a word on the next line, all on its own.
+
+To tackle this, the favicon transformer doesn't _just_ append an `<img>` element. Basically, I make a new `<span>` which acts as a "favicon sandwich", packaging both the last few letters of the link text and then the favicon `<img>` element. The `<span>` is styled so that if the favicon element is wrapped, the last few letters will be wrapped as well. 
+
+> [!note]- Prior work: Comparing with [`gwern.net`'s favicon approach](https://gwern.net/design-graveyard#static-link-icon-attributes)
+> 
+> `gwern` apparently initially tried using CSS rules. But for static websites (like `turntrout.com` and `gwern.net`), I think my approach is simpler. As my site incorporates more links, the CSS complexity doesn't grow at all. DOM rendering is done server-side. I don't have to decide whether a domain is sufficiently common to merit a new favicon - my site displays all available favicons. One minor downside: unfamiliar one-off favicons are minor page clutter, as they are unknown and so provide no useful information. 
+>
+> I confess that I don't fully understand `gwern`'s [successor approach.](https://gwern.net/design-graveyard#static-link-icon-attributes) It seems like more work, but perhaps it's more appropriate for their use cases! 
+
+## Callouts encapsulate information
+I love these "callout" bubbles which contain information. When a callout is collapsed by default, the reader can decide whether or not they _want_ more detail on a topic, reducing ambient frustration. 
+
+
+
+> [!note]- All callouts for my site
+> > [!abstract]
+>  
+>  > [!note]
+>  
+>  > [!info]
+>  
+>  > [!example]
+>  
+>  > [!math]
+>  
+>  > [!quote]
+>  > A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible.
+>  
+>  > [!goose]
+>  > Geese are better than dogs.
+>  
+>  > [!idea]
+>  
+>  > [!todo]
+>  
+>  > [!question]
+>  
+>  > [!warning]
+>  
+>  > [!failure]
+>  
+>  > [!danger]
+>  
+>  > [!bug]
+>  
+>  > [!thanks]
+>  
+>  > [!success]
+> 
+> > [!money]
+  
+
+
+### Spoilers
+
+I made a Markdown plugin which lets me specify spoilers via `>! \[spoiler\]`. The results are unobtrusive but pleasant:
+
+>! Snape kills Dumbledore.
+
+### Server-side math rendering via $\KaTeX$
+
+I initially chose [$\KaTeX$](https://katex.org/) over [MathJax](https://www.mathjax.org/) due to its faster client-side rendering speed. However, now I render the $\KaTeX$ server-side so all the client has to do is download `katex.min.css` (27KB). Easy.
+
+<!-- TODO maybe move to minor section (along with spoilers) -->
+
+### Mermaid diagrams
+Often, websites embed diagrams as images. However, I find this unsatisfying for several reasons:
+1. Inconsistent styling as several different diagram suites may be used to generate images - the diagrams often use different color palettes from my site,
+2. Bloated page size from embedding sparse graphical information into dense image data, and
+3. Inability to adapt to shifts between light and dark mode.
+
+[Mermaid](https://mermaid.js.org/) diagrams fix these problems. The main downside was the extra difficulty of generating diagrams, but modern multimodal LLMs can easily take an image of a diagram and output valid Mermaid code. The diagrams are rendered server-side, avoiding a bulky JavaScript download.
+
+```mermaid
+flowchart TD
+    EV["Entire video"]:::blue
+    AS["Action sequence"]:::orange
+    H["Human"]:::red
+    HQF["Human query function"]:::black
+    Q["Question(s)"]:::black
+    A["Answer(s)"]:::black
+
+    EV --> H
+    AS --> H
+    H --> HQF
+    Q --> HQF
+    HQF --> A
+```
+Code: A diagram from my [Eliciting Latent Knowledge proposal](elk-proposal-thinking-via-a-human-imitator).
+
 
 # Deployment pipeline
 
-3. Text presentation
-	2. Max characters - research I based this off of 
+1. Text presentation
+	1. Max characters - research I based this off of 
 4. Explain the different 
 	1. Wavy LOL hahahahahaha of the imports of JSON
 	2. Scrolling text
