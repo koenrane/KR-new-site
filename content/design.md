@@ -107,13 +107,9 @@ The themes provide contrast between the text and the background. I like the past
 </div> 
 
 I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
-   - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower contrast text. 
+   - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text. 
 
 ## Colors should accent (but not distract from) the content
-Both palettes provide a light-touch pastel theme which allows subtle, pleasing accents.
-
-
-<!--TODO manual light/darkmode SxS?-->
 
 Color is important to this website, but I need to be tasteful and strict in my usage or the site turns into a mess. For example, in-line [favicons](https://en.wikipedia.org/wiki/Favicon) are colorless (e.g. [YouTube's](https://youtube.com) logo is definitely red). To choose otherwise is to choose chaos and distraction. 
 
@@ -179,13 +175,13 @@ EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB unde
 ### Images
 Among lossy compression formats, there are two kings: AVIF and WEBP. Under my tests, they achieved similar (amazing) compression ratios of about 10x over PNG. For compatibility reasons, I chose AVIF. The upshot is that _images are nearly costless in terms of responsiveness_, which is liberating. 
 
-<img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption>
+To demonstrate this liberty, I perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab] I downloaded each AVIF file and used `magick` to convert it back to a PNG, measuring the size before and after. 
 
-I now perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab] I downloaded each AVIF file and used `magick` to convert it back to a PNG, measuring the size before and after. 
+<img alt="Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x." src="https://assets.turntrout.com/static/images/posts/compression_ratio.svg" style="margin-bottom:-.25rem;"/>
 
-![Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x.](https://assets.turntrout.com/static/images/posts/compression_ratio.svg)
+Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
 
-Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are tiny [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
+<figure><img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption></figure>
 
 ![A scatterplot showing dramatic decreases in filesize from PNG to AVIF.](https://assets.turntrout.com/static/images/posts/avif_png_scatter.svg)
 Figure: Now the huge savings of AVIF are clearer.
@@ -194,26 +190,25 @@ Figure: Now the huge savings of AVIF are clearer.
 
 | Metric | Value |
 |--:|:--|
-| Total PNG size | 279.75MB |
-| Total AVIF size | 25.24MB |
-| Overall space savings | 91.0% |
+| Total PNG size | 280MB |
+| Total AVIF size | 25MB |
+| Overall space savings | 91% |
 
 
 <!-- TODO talk about HEVC, maybe even try to fix it? --> 
-Videos
-: Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
+### Videos
+Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
-: So WEBM videos are hilariously well-compressed (with an average compression ratio of XXXx over GIF and XXXx over h264 MP4). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because Safari will autoplay & loop HEVC, but _refuses to render transparency_. Therefore, for the ever-present looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. 
+Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. 
 
-: Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC with decent quality. I'll fix that later - possibly I need to try a different codec.
+Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC. I'll fix that later - possibly I need to try a different codec.
 
 ## Inlining critical CSS
 
 Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. 
 
-Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 
-<!-- Insert two MP4s of loading the page: one with and one without critical CSS. Put in figure with two figcaptions. Check name of package and update in paragraph-->
 
 ## Deduplicating HTML requests
 
@@ -222,7 +217,25 @@ Instead, I hooked [the `critical` package](https://github.com/addyosmani/critica
 > 
 > Under the hood, this is done by hijacking page navigations and instead fetching the HTML via a `GET` request and then diffing and selectively replacing parts of the page using [micromorph](https://github.com/natemoo-re/micromorph). This allows us to change the content of the page without fully refreshing the page, reducing the amount of content that the browser needs to load.
 
-<!-- TODO SxS of before/after -->
+<figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+
+<figure>
+<video autoplay loop muted playsinline src="/asset_staging/slow_site_load.mp4"  type="video/mp4">
+<source src="/asset_staging/slow_site_load.mp4" type="video/mp4">
+</video>
+<figcaption>Without CSS inlining or single-page application routing</figcaption>
+</figure>
+
+<figure>
+<video autoplay loop muted playsinline src="/asset_staging/fast_site_load.mp4"  type="video/mp4">
+<source src="/asset_staging/fast_site_load.mp4" type="video/mp4">
+</video>
+<figcaption>With performance optimizations</figcaption>
+</figure>
+
+
+</figure>
+<!-- Insert two MP4s of loading the page: one with and one without critical CSS. Put in figure with two figcaptions-->
 
 # Text presentation
 ## Sizing
