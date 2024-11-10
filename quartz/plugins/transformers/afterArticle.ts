@@ -1,6 +1,7 @@
 import { Root, Element } from "hast"
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
+import { VFile } from "vfile"
 
 import { QuartzTransformerPlugin } from "../types"
 import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
@@ -56,7 +57,7 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
   return {
     name: "AfterArticleTransformer",
     htmlPlugins: () => [
-      () => (tree: Root, file) => {
+      () => (tree: Root, file: VFile) => {
         const sequenceLinksComponent = createSequenceLinksComponent(file.data)
 
         const components = [sequenceLinksComponent ?? null].filter(Boolean) as Element[]
