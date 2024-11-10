@@ -373,6 +373,26 @@ export function formatLNumbers(tree: Root): void {
   })
 }
 
+function formatArrows(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) return
+
+    replaceRegex(
+      node,
+      index ?? 0,
+      parent,
+      /(?<= |^)[-]{1,2}>/g,
+      () => ({
+        before: "",
+        replacedMatch: "⭢",
+        after: "",
+      }),
+      () => false,
+      "span.right-arrow",
+    )
+  })
+}
+
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
 const LEFT_QUOTES = ['"', "“", "‘"]
@@ -687,6 +707,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
     }
 
     formatLNumbers(tree) // L_p-norm formatting
+    formatArrows(tree)
     removeSpaceBeforeFootnotes(tree)
   }
 }

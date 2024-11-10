@@ -827,7 +827,7 @@ hr {
 }
 
 .spoiler-content {
-  filter: blur(8px);
+  filter: blur(4px);
   opacity: 0.5;
 
   // Safari needs this
@@ -1066,4 +1066,9 @@ iframe {
   :root[saved-theme="light"] & {
     mix-blend-mode: multiply;
   }
+}
+
+// Arrows are too high up by default
+.right-arrow {
+  vertical-align: -0.06125rem;
 }

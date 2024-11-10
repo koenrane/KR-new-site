@@ -894,3 +894,20 @@ describe("Date Range", () => {
     expect(processedHtml).toBe(expected)
   })
 })
+
+describe("Arrow formatting", () => {
+  it.each([
+    ["<p>A -> B</p>", '<p>A <span class="right-arrow">⭢</span> B</p>'],
+    ["<p>A--> B</p>", "<p>A--> B</p>"],
+    ["<p>->start</p>", '<p><span class="right-arrow">⭢</span>start</p>'],
+    ["<code>A -> B</code>", "<code>A -> B</code>"], // Should not change in code blocks
+    [
+      "<p>Multiple -> arrows -> here</p>",
+      '<p>Multiple <span class="right-arrow">⭢</span> arrows <span class="right-arrow">⭢</span> here</p>',
+    ],
+    ["<p>No change in word-like</p>", "<p>No change in word-like</p>"], // Should not change hyphens
+  ])("transforms '%s' to '%s'", (input, expected) => {
+    const processedHtml = testHtmlFormattingImprovement(input)
+    expect(processedHtml).toBe(expected)
+  })
+})
