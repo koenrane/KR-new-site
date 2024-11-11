@@ -35,6 +35,7 @@ def get_files(
     dir_to_search: Optional[Path] = None,
     filetypes_to_match: Collection[str] = (".md",),
     use_git_ignore: bool = True,
+    ignore_dirs: Optional[Collection[str]] = None,
 ) -> tuple[Path, ...]:
     """Returns a tuple of all files in the specified directory of the Git repository.
 
@@ -42,14 +43,24 @@ def get_files(
         dir_to_search (Optional[Path]): A directory to search for files.
         filetypes_to_match (Collection[str]): A collection of file types to search for.
         use_git_ignore (bool): Whether to exclude files based on .gitignore.
+        ignore_dirs (Optional[Collection[str]]): Directory names to ignore.
 
     Returns:
-        tuple[Path, ...]: A tuple of all matching files. Filters out ignored files if a Git repository is found.
+        tuple[Path, ...]: A tuple of all matching files.
     """
     files: list[Path] = []
     if dir_to_search is not None:
         for filetype in filetypes_to_match:
             files.extend(dir_to_search.rglob(f"*{filetype}"))
+
+        # Filter out ignored directories
+        if ignore_dirs:
+            files = [
+                f
+                for f in files
+                if not any(ignore_dir in f.parts for ignore_dir in ignore_dirs)
+            ]
+
         if use_git_ignore:
             try:
                 root = get_git_root(starting_dir=dir_to_search)

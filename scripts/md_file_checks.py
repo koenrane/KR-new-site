@@ -57,7 +57,10 @@ def main() -> None:
 
     has_errors = False
     markdown_files = script_utils.get_files(
-        dir_to_search=content_dir, filetypes_to_match=(".md",), use_git_ignore=True
+        dir_to_search=content_dir,
+        filetypes_to_match=(".md",),
+        use_git_ignore=True,
+        ignore_dirs=["templates"],
     )
 
     for file_path in markdown_files:

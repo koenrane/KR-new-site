@@ -134,3 +134,39 @@ def test_get_files_gitignore(tmp_path):
         assert result[0] == md_file
     except git.GitCommandError:
         pytest.skip("Git not installed or not in PATH")
+
+
+def test_get_files_ignore_dirs(tmp_path):
+    """Test that specified directories are ignored."""
+    # Create test directory structure
+    templates_dir = tmp_path / "templates"
+    regular_dir = tmp_path / "regular"
+    nested_templates = tmp_path / "docs" / "templates"
+
+    # Create directories
+    for dir_path in [templates_dir, regular_dir, nested_templates]:
+        dir_path.mkdir(parents=True, exist_ok=True)
+
+    # Create test files
+    test_files = [
+        templates_dir / "template.md",
+        regular_dir / "regular.md",
+        nested_templates / "nested.md",
+        tmp_path / "root.md",
+    ]
+
+    for file in test_files:
+        file.write_text("test content")
+
+    # Get files, ignoring 'templates' directories
+    result = script_utils.get_files(
+        dir_to_search=tmp_path, filetypes_to_match=(".md",), ignore_dirs=["templates"]
+    )
+
+    # Convert results to set of strings for easier comparison
+    result_paths = {str(p.relative_to(tmp_path)) for p in result}
+
+    # Expected files (only files not in 'templates' directories)
+    expected_paths = {"regular/regular.md", "root.md"}
+
+    assert result_paths == expected_paths
