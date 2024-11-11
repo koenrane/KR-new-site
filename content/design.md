@@ -608,8 +608,8 @@ Ending each article with a flourish
 
 # Deployment pipeline
 I quickly learned the importance of _comprehensive tests and documentation_. The repository now has very strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
-1. `pre-commit` runs before every commit is finalized.
-2. `pre-push` runs before commits are pushed to the `main` branch.
+1. The `pre-commit` [`git` hook](https://git-scm.com/docs/githooks) runs before every commit is finalized.
+2. The `pre-push` hook runs before commits are pushed to the `main` branch.
 3. Github actions ensure that the site still works properly on the remote server.
 
 Lastly, external static analysis alerts me to potential vulnerabilities and anti-patterns. If somehow a bad version slips through anyways, Cloudflare allows me to instantly revert the live site to a previous good version. 
@@ -626,4 +626,38 @@ Lastly, external static analysis alerts me to potential vulnerabilities and anti
 }
 ```
 
-## `pre-push`: the quality assurance gauntlet
+## `pre-push`: the quality assurance gauntlet[^gauntlet]
+
+[^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
+
+The `push` operation is _aborted_ if any of the following checks fail.
+
+### Static code analysis
+I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. 
+
+I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error. 
+
+### Validating the Markdown files
+I first run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potentially mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also errors on common hiccups like "the the." 
+
+I also lint my Markdown links for probable errors. I found that I would often mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should be `/shard-theory` - starting with a slash. My script alerts me if this has happened.
+
+I next validate the post metadata. 
+
+### Running unit tests
+
+### Compressing and uploading assets
+- r2 pipeline
+
+### Visual regression testing
+
+- Check server builds 
+
+### Validating links
+
+### Validating the rendered pages
+
+### Finishing touches
+
+- Updating the metadata for when the post was published and updated.
+- Bulk timestamping
