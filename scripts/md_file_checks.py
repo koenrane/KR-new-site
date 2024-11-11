@@ -81,10 +81,34 @@ def get_all_urls(metadata: dict) -> Set[str]:
     return urls
 
 
+def check_invalid_md_links(file_path: Path) -> List[str]:
+    """Check for invalid markdown links that don't start with '/'.
+
+    Args:
+        file_path: Path to the markdown file to check
+
+    Returns:
+        List of error messages for invalid links found
+    """
+    INVALID_MD_LINK_PATTERN = r"\]\([-A-Za-z_0-9:]+(\.md)?\)"
+    errors = []
+
+    content = file_path.read_text()
+    matches = re.finditer(INVALID_MD_LINK_PATTERN, content)
+
+    for match in matches:
+        if "shard-theory" in match.group() and "design.md" in file_path.name:
+            continue  # I mention this checker, not a real broken link
+        line_num = content[: match.start()].count("\n") + 1
+        errors.append(f"Invalid markdown link at line {line_num}: {match.group()}")
+
+    return errors
+
+
 def check_file_metadata(
     metadata: dict, existing_urls: PathMap, file_path: Path
 ) -> MetadataIssues:
-    """Check a single file's metadata for various issues.
+    """Check a single file's metadata and content for various issues.
 
     Args:
         metadata: The file's frontmatter metadata
@@ -96,6 +120,7 @@ def check_file_metadata(
     """
     issues: MetadataIssues = {
         "required_fields": check_required_fields(metadata),
+        "invalid_links": check_invalid_md_links(file_path),
     }
 
     if metadata:
@@ -120,7 +145,7 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
 
 
 def main() -> None:
-    """Check all markdown files for metadata issues."""
+    """Check all markdown files for metadata and link issues."""
     git_root = script_utils.get_git_root()
     content_dir = git_root / "content"
     existing_urls: PathMap = {}
@@ -130,13 +155,13 @@ def main() -> None:
         dir_to_search=content_dir,
         filetypes_to_match=(".md",),
         use_git_ignore=True,
-        ignore_dirs=["templates"],
+        ignore_dirs=["templates", "drafts"],  # Added drafts to ignored dirs
     )
 
     for file_path in markdown_files:
         rel_path = file_path.relative_to(git_root)
         metadata, _ = script_utils.split_yaml(file_path)
-        issues = check_file_metadata(metadata, existing_urls, rel_path)
+        issues = check_file_metadata(metadata, existing_urls, file_path)
 
         if any(lst for lst in issues.values()):
             has_errors = True

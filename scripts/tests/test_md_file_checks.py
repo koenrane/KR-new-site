@@ -212,3 +212,33 @@ def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
             main()
     else:
         main()  # Should not raise
+
+
+def test_invalid_md_links(tmp_path: Path, monkeypatch) -> None:
+    """Test detection of invalid markdown links."""
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test file with invalid links
+    test_file = content_dir / "test.md"
+    content = """---
+title: Test Post
+description: Test Description
+permalink: /test
+---
+# Valid and Invalid Links
+
+Valid link: [Link](/path/to/page)
+Invalid link: [Link](path/to/page)
+Another invalid: [Link](page.md)
+Valid external: [Link](https://example.com)
+"""
+    test_file.write_text(content)
+
+    # Mock git root
+    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+
+    # Should exit with code 1 due to invalid links
+    with pytest.raises(SystemExit, match="1"):
+        main()

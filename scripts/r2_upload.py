@@ -67,6 +67,7 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
         raise RuntimeError(f"Failed to check existence of file in R2: {e}") from e
 
 
+# TODO split up this function
 def upload_and_move(
     file_path: Path,
     verbose: bool = False,

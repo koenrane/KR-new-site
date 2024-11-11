@@ -89,7 +89,7 @@ def mock_git_root(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
 
     monkeypatch.setattr("git.Repo", mock_repo_init)
 
-    def mock_get_git_root():
+    def mock_get_git_root(*args, **kwargs):
         return project_root
 
     monkeypatch.setattr(script_utils, "get_git_root", mock_get_git_root)
@@ -350,6 +350,7 @@ def test_preserve_path_structure(mock_git_root: Path, tmp_path: Path):
     deep_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move") as mock_move:
+        # TODO not setting replacement_dir?
         r2_upload.upload_and_move(deep_file, move_to_dir=move_to_dir)
 
     expected_moved_path = move_to_dir / deep_file.relative_to(mock_git_root)
