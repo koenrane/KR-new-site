@@ -117,16 +117,15 @@ def test_get_files_specific_dir(tmp_path, file_paths, expected_files):
 def test_get_files_gitignore(tmp_path):
     """Test with a .gitignore file."""
     try:
-        # Create a git repository
+        # Create a git repository in tmp_path
         repo = git.Repo.init(tmp_path)
-        with open(tmp_path / ".gitignore", "w", encoding="utf-8") as f:
-            f.write("*.txt\n")  # Ignore text files
+        (tmp_path / ".gitignore").write_text("*.txt\n")  # Ignore text files
 
         md_file = tmp_path / "test.md"
         txt_file = tmp_path / "test.txt"
         md_file.write_text("Markdown content")
         txt_file.write_text("Text content")
-        repo.index.add([".gitignore"])
+        repo.index.add([".gitignore", "test.md", "test.txt"])
         repo.index.commit("Initial commit")
 
         # Test getting files with gitignore

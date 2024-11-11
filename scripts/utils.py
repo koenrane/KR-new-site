@@ -7,10 +7,23 @@ from ruamel.yaml import YAML
 # pyright: reportPrivateImportUsage = false
 
 
-def get_git_root() -> Path:
-    """Returns the absolute path to the top-level directory of the Git repository."""
+def get_git_root(starting_dir: Optional[Path] = None) -> Path:
+    """Returns the absolute path to the top-level directory of the Git repository.
+
+    Args:
+        starting_dir (Optional[Path]): Directory from which to start searching for the Git root.
+
+    Returns:
+        Path: Absolute path to the Git repository root.
+
+    Raises:
+        RuntimeError: If Git root cannot be determined.
+    """
     completed_process = subprocess.run(
-        ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        text=True,
+        cwd=starting_dir if starting_dir else Path.cwd(),
     )
     if completed_process.returncode == 0:
         return Path(completed_process.stdout.strip())
@@ -23,17 +36,15 @@ def get_files(
     filetypes_to_match: Collection[str] = (".md",),
     use_git_ignore: bool = True,
 ) -> tuple[Path, ...]:
-    """Returns a tuple of all files in the content directory of the Git
-    repository.
+    """Returns a tuple of all files in the specified directory of the Git repository.
 
     Args:
-        replacement_dir (Path): A directory to search for files.
-        filetypes_to_match (Collection[str]): A collection of file types to
-            search for.
+        dir_to_search (Optional[Path]): A directory to search for files.
+        filetypes_to_match (Collection[str]): A collection of file types to search for.
+        use_git_ignore (bool): Whether to exclude files based on .gitignore.
 
     Returns:
-        tuple[Path, ...]: A tuple of all matching files in the content directory of the
-            Git repository. Filters out ignored files if a Git repository is found.
+        tuple[Path, ...]: A tuple of all matching files. Filters out ignored files if a Git repository is found.
     """
     files: list[Path] = []
     if dir_to_search is not None:
@@ -41,11 +52,18 @@ def get_files(
             files.extend(dir_to_search.rglob(f"*{filetype}"))
         if use_git_ignore:
             try:
-                root = get_git_root()
+                root = get_git_root(starting_dir=dir_to_search)
                 repo = git.Repo(root)
-                files = list(filter(lambda file: not file in repo.ignored(file), files))
-            except git.GitCommandError:
-                pass  # Ignore errors
+                # Convert file paths to paths relative to the git root
+                relative_files = [file.relative_to(root) for file in files]
+                # Filter out ignored files
+                files = [
+                    file
+                    for file, rel_file in zip(files, relative_files)
+                    if not repo.ignored(rel_file)
+                ]
+            except (git.GitCommandError, ValueError, RuntimeError):
+                pass  # If Git root is not found or any error occurs, skip gitignore filtering
     return tuple(files)
 
 
