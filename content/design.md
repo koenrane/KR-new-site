@@ -626,11 +626,11 @@ Lastly, external static analysis alerts me to potential vulnerabilities and anti
 }
 ```
 
-## `pre-push`: the quality assurance gauntlet[^gauntlet]
+## `pre-push`: the quality assurance gauntlet
+
+The `push` operation is aborted if any of the following checks[^gauntlet] fail.
 
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
-
-The `push` operation is _aborted_ if any of the following checks fail.
 
 ### Static code analysis
 I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. 
@@ -638,11 +638,11 @@ I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScrip
 I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error. 
 
 ### Validating the Markdown files
-I first run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potentially mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also errors on common hiccups like "the the." 
+I first run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also errors on common hiccups like "the the." 
 
-I also lint my Markdown links for probable errors. I found that I would often mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should be `/shard-theory` - starting with a slash. My script alerts me if this has happened.
+I also lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these.
 
-I next validate the post metadata. 
+<!-- TODO add this capability I next validate the post metadata. -->
 
 ### Running unit tests
 
