@@ -8,6 +8,7 @@ from unittest.mock import patch
 from ruamel.yaml.timestamp import TimeStamp
 
 from .. import update_date_on_publish as update_lib
+import scripts.utils as script_utils
 
 
 @pytest.fixture
@@ -79,7 +80,7 @@ def test_adds_missing_date(temp_content_dir, mock_datetime, mock_git):
     )
 
     with patch("subprocess.check_output", side_effect=mock_git):
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         update_lib.update_publish_date(metadata)
         update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -100,7 +101,7 @@ def test_preserves_existing_date(temp_content_dir, mock_git):
     )
 
     with patch("subprocess.check_output", side_effect=mock_git):
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         update_lib.update_publish_date(metadata)
         update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -116,7 +117,7 @@ def test_handles_empty_date(temp_content_dir, mock_datetime, mock_git):
     )
 
     with patch("subprocess.check_output", side_effect=mock_git):
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         update_lib.update_publish_date(metadata)
         update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -143,7 +144,7 @@ def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
 
     # Fix: Use the mock_git fixture with modified files
     with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = (
                 "2024-02-01"  # Use string format instead of TimeStamp
@@ -169,7 +170,7 @@ def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
     )
 
     with patch("subprocess.check_output", side_effect=mock_git()):  # No modified files
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = "02/01/2024"
         update_lib.write_to_yaml(test_file, metadata, content)
@@ -185,7 +186,7 @@ def test_split_yaml_invalid_format(temp_content_dir):
     file_path = temp_content_dir / "invalid.md"
     file_path.write_text("Invalid content without proper frontmatter", encoding="utf-8")
 
-    metadata, content = update_lib.split_yaml(file_path)
+    metadata, content = script_utils.split_yaml(file_path)
     assert metadata == {}
     assert content == ""
 
@@ -195,7 +196,7 @@ def test_split_yaml_empty_frontmatter(temp_content_dir):
     file_path = temp_content_dir / "empty.md"
     file_path.write_text("---\n---\nContent", encoding="utf-8")
 
-    metadata, content = update_lib.split_yaml(file_path)
+    metadata, content = script_utils.split_yaml(file_path)
     assert metadata == {}
     assert content == "\nContent"
 
@@ -205,7 +206,7 @@ def test_split_yaml_malformed_yaml(temp_content_dir):
     file_path = temp_content_dir / "malformed.md"
     file_path.write_text("---\ntitle: 'Unclosed quote\n---\nContent", encoding="utf-8")
 
-    metadata, content = update_lib.split_yaml(file_path)
+    metadata, content = script_utils.split_yaml(file_path)
     assert metadata == {}
     assert content == ""
 
@@ -220,7 +221,7 @@ def test_write_to_yaml_preserves_order(temp_content_dir):
     }
 
     test_file = create_md_file(temp_content_dir, "order_test.md", original_metadata)
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.write_to_yaml(test_file, metadata, content)
 
     with test_file.open("r", encoding="utf-8") as f:
@@ -346,7 +347,7 @@ Test content here
             f.write(test_content)
 
         # Read and write back the file
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         update_lib.write_to_yaml(test_file, metadata, content)
 
         # Read the result and verify
@@ -377,7 +378,7 @@ Content here
             f.write(test_content)
 
         # Read, modify a date, and write back
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         metadata["date_updated"] = "05/22/2024"
         update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -419,7 +420,7 @@ def test_initialize_missing_dates(temp_content_dir, mock_datetime, test_case):
         f.write(test_case)
 
     expected_date = create_timestamp(mock_datetime)
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
 
     assert metadata["date_published"] == expected_date
@@ -438,7 +439,7 @@ Content
     with open(test_file, "w") as f:
         f.write(content)
 
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
 
     assert metadata["date_published"] == "01/01/2023"
@@ -458,7 +459,7 @@ Content
     with open(test_file, "w") as f:
         f.write(content)
 
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
 
     assert metadata["date_published"] == "01/01/2023"
@@ -485,7 +486,7 @@ Content
     with open(test_file, "w") as f:
         f.write(content)
 
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
 
     assert metadata["date_updated"] == legacy_date
@@ -507,7 +508,7 @@ Content
     with open(test_file, "w") as f:
         f.write(content)
 
-    metadata, content = update_lib.split_yaml(test_file)
+    metadata, content = script_utils.split_yaml(test_file)
     update_lib.update_publish_date(metadata)
     update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -537,7 +538,7 @@ def test_git_modified_date_update(temp_content_dir, mock_git):
     )
 
     with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
-        metadata, content = update_lib.split_yaml(test_file)
+        metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = "02/01/2024"
         update_lib.write_to_yaml(test_file, metadata, content)

@@ -6,6 +6,9 @@ from ruamel.yaml import YAML
 import io
 from ruamel.yaml.timestamp import TimeStamp
 
+import scripts.utils as script_utils
+
+
 yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
 yaml_parser.preserve_quotes = True  # Preserve existing quotes
 yaml_parser.indent(mapping=2, sequence=2, offset=2)
@@ -43,28 +46,6 @@ def is_file_modified(file_path: Path) -> bool:
     except subprocess.CalledProcessError:
         print(f"Warning: Could not check git status for {file_path}")
         return False
-
-
-def split_yaml(file_path: Path) -> Tuple[dict, str]:
-    with file_path.open("r", encoding="utf-8") as f:
-        content = f.read()
-
-    # Split frontmatter and content
-    parts = content.split("---", 2)
-    if len(parts) < 3:
-        print(f"Skipping {file_path}: No valid frontmatter found")
-        return {}, ""
-
-    # Parse YAML frontmatter using ruamel.yaml instead of PyYAML
-    try:
-        metadata = yaml_parser.load(parts[1])
-        if not metadata:
-            metadata = {}
-    except Exception as e:
-        print(f"Error parsing YAML in {file_path}: {str(e)}")
-        return {}, ""
-
-    return metadata, parts[2]
 
 
 def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
@@ -141,7 +122,7 @@ def main(content_dir: Path | None = None) -> None:
         content_dir = Path("content")
 
     for md_file_path in content_dir.glob("*.md"):
-        metadata, content = split_yaml(md_file_path)
+        metadata, content = script_utils.split_yaml(md_file_path)
         if not metadata and not content:
             continue
         original_metadata = metadata.copy()

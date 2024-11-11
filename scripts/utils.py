@@ -2,6 +2,7 @@ import git
 from pathlib import Path
 import subprocess
 from typing import Optional, Collection
+from ruamel.yaml import YAML
 
 # pyright: reportPrivateImportUsage = false
 
@@ -67,3 +68,36 @@ def path_relative_to_quartz(input_file: Path) -> Path:
         return input_file.relative_to(quartz_dir.parent)
     except StopIteration:
         raise ValueError("The path must be within a 'quartz' directory.")
+
+
+def split_yaml(file_path: Path) -> tuple[dict, str]:
+    """Split a markdown file into its YAML frontmatter and content.
+
+    Args:
+        file_path: Path to the markdown file
+
+    Returns:
+        Tuple of (metadata dict, content string)
+    """
+    yaml = YAML(typ="rt")  # 'rt' means round-trip, preserving comments and formatting
+    yaml.preserve_quotes = True  # Preserve quote style
+
+    with file_path.open("r", encoding="utf-8") as f:
+        content = f.read()
+
+    # Split frontmatter and content
+    parts = content.split("---", 2)
+    if len(parts) < 3:
+        print(f"Skipping {file_path}: No valid frontmatter found")
+        return {}, ""
+
+    # Parse YAML frontmatter
+    try:
+        metadata = yaml.load(parts[1])
+        if not metadata:
+            metadata = {}
+    except Exception as e:
+        print(f"Error parsing YAML in {file_path}: {str(e)}")
+        return {}, ""
+
+    return metadata, parts[2]
