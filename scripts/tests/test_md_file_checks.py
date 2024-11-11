@@ -109,9 +109,106 @@ Test content
     invalid_file.write_text(invalid_content)
 
     # Mock git root to use our temporary directory
-    monkeypatch.setattr(script_utils, "get_git_root", lambda: tmp_path)
+    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
 
     # Main should exit with code 1 due to invalid file
     with pytest.raises(SystemExit) as exc_info:
         main()
     assert exc_info.value.code == 1
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        {
+            "files": {
+                "file1.md": """---
+title: First Post
+description: Test Description
+permalink: /test
+---""",
+                "file2.md": """---
+title: Second Post
+description: Test Description
+permalink: /test
+---""",
+            },
+            "should_fail": True,
+            "reason": "duplicate permalinks",
+        },
+        {
+            "files": {
+                "file1.md": """---
+title: First Post
+description: Test Description
+permalink: /test1
+aliases: /test2
+---""",
+                "file2.md": """---
+title: Second Post
+description: Test Description
+permalink: /test2
+---""",
+            },
+            "should_fail": True,
+            "reason": "alias matches permalink",
+        },
+        {
+            "files": {
+                "file1.md": """---
+title: First Post
+description: Test Description
+permalink: /test1
+aliases: [/test2, /test3]
+---""",
+                "file2.md": """---
+title: Second Post
+description: Test Description
+permalink: /test4
+aliases: /test2
+---""",
+            },
+            "should_fail": True,
+            "reason": "duplicate aliases",
+        },
+        {
+            "files": {
+                "file1.md": """---
+title: First Post
+description: Test Description
+permalink: /test1
+aliases: /test2
+tags: [test]
+---""",
+                "file2.md": """---
+title: Second Post
+description: Test Description
+permalink: /test3
+aliases: /test4
+tags: [test]
+---""",
+            },
+            "should_fail": False,
+            "reason": "all URLs unique",
+        },
+    ],
+)
+def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
+    """Test detection of duplicate URLs (permalinks and aliases)."""
+    # Setup
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test files
+    for filename, content in test_case["files"].items():
+        (content_dir / filename).write_text(content)
+
+    # Mock git root to use our temporary directory
+    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+
+    if test_case["should_fail"]:
+        with pytest.raises(SystemExit, match="1"):
+            main()
+    else:
+        main()  # Should not raise
