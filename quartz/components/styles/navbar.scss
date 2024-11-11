@@ -141,7 +141,8 @@
   }
 }
 
-#navbar-left {
+#navbar-left,
+.navbar-left {
   display: flex;
   @media all and (min-width: $fullPageWidth) {
     flex-direction: column;

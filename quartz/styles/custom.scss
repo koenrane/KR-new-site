@@ -1072,3 +1072,10 @@ iframe {
 .right-arrow {
   vertical-align: -0.06125rem;
 }
+
+// Specific graph in design doc has too much whitespace in light
+:root[saved-theme="light"] {
+  .compression-ratio-graph {
+    margin-bottom: -0.25rem;
+  }
+}

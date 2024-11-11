@@ -15,6 +15,12 @@ date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
 
+- outline how i had 0 experience starting out
+- summarize features and test counts
+- engaging graphic or hook
+
+3. Mention the importing process
+	1. Wavy LOL hahahahahaha of the imports of JSON
 
 > [!thanks]- Thanking people who helped with this site
 > Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
@@ -64,7 +70,7 @@ This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is se
 
 [^archive]: Examples of content which is not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
 
-My CDN brings me comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want the content to be timeless.
+My CDN brings me comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want my content to be timeless.
 
 I wrote [a script](https://github.com/alexander-turner/TurnTrout.com/blob/main/scripts/r2_upload.py) which uploads and backs up relevant media files. Before pushing new assets to my `main` branch, the script:
 1. Uploads the assets to my CDN (`assets.turntrout.com`);
@@ -114,8 +120,7 @@ The themes provide contrast between the text and the background. I like the past
 <figcaption>The palettes for light and dark mode. The colors adjust and in dark mode, I decrease the saturation of image assets.</figcaption>
 </figure>
 
-I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets:
-   - I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text. 
+I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets. I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text. 
 
 ## Colors should accent content
 
@@ -123,9 +128,7 @@ Color is important to this website, but I need to be tasteful and strict in my u
 
 When designing visual content, I consider where the reader's eyes go. People visit my site to read my content, and so _the content should catch their eyes first_. The desktop pond GIF (with the goose) is the only exception to this rule. I decided that on the desktop, I want a reader to load the page, marvel and smile at the scenic pond, and then bring their eyes to the main text (which has high contrast and is the obvious next visual attractor). 
 
-During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even standardize the colors used for syntax highlighting in the Shiki code blocks!
-
-
+During the build process, I convert all naive CSS assignments of `color:red` (<span style="color:rgb(255,0,0);">imagine if I made you read this</span>) to <span style="color:red">the site's red</span>. Lots of my old equations used raw `red` / `green` / `blue` colors because that's all that my old blog allowed; these colors are converted to the site theme. I even override and standardize the colors used for syntax highlighting in the code blocks.
 
 # Site responsiveness
 
@@ -142,7 +145,7 @@ Among lossy compression formats, there are two kings: AVIF and WEBP. Under my te
 
 To demonstrate this liberty, I perform a statistical analysis of the 941 AVIF files hosted on my CDN as of November 9, 2024.[^colab] I downloaded each AVIF file and used `magick` to convert it back to a PNG, measuring the size before and after. 
 
-<img alt="Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x." src="https://assets.turntrout.com/static/images/posts/compression_ratio.svg" style="margin-bottom:-.25rem;"/>
+<img alt="Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x." src="https://assets.turntrout.com/static/images/posts/compression_ratio.svg" class="compression-ratio-graph"/>
 
 Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
 
@@ -181,26 +184,6 @@ Instead, I hooked [the `critical` package](https://github.com/addyosmani/critica
 > This prevents flashes of unstyled content and improves the smoothness of Quartz.
 > 
 > Under the hood, this is done by hijacking page navigations and instead fetching the HTML via a `GET` request and then diffing and selectively replacing parts of the page using [micromorph](https://github.com/natemoo-re/micromorph). This allows us to change the content of the page without fully refreshing the page, reducing the amount of content that the browser needs to load.
-
-<!-- Skipping for now
-<figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-
-<figure>
-<video autoplay loop muted playsinline src="/asset_staging/slow_site_load.mp4"  type="video/mp4">
-<source src="/asset_staging/slow_site_load.mp4" type="video/mp4">
-</video>
-<figcaption>Without CSS inlining or single-page application routing</figcaption>
-</figure>
-
-<figure>
-<video autoplay loop muted playsinline src="/asset_staging/fast_site_load.mp4"  type="video/mp4">
-<source src="/asset_staging/fast_site_load.mp4" type="video/mp4">
-</video>
-<figcaption>With performance optimizations</figcaption>
-</figure>
-
-
-</figure> -->
 
 # Text presentation
 ## Sizing
@@ -344,7 +327,6 @@ A less theme-disciplined man than myself might even flaunt dropcap colorings!
 | --: | :-- |
 | <span class="no-formatting">"We did not come to fear the future. We came here to shape it." - <a href="https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009">Barack Obama</a></span>|"We did not come to fear the future. We came here to shape it." - [Barack Obama](https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009)| 
 |<span class="no-formatting">-2 x 3 = -6</span>|-2 x 3 = -6|
-|<span class="no-formatting">I love Bryan Adam's <a src="https://www.youtube.com/watch?v=eFjjO_lhf9c"><em>Summer of '69</em></a></span>|I love Bryan Adam's [_Summer of '69_](https://www.youtube.com/watch?v=eFjjO_lhf9c)|
  
 ### Automatic conversion of quotation marks 
 
@@ -596,7 +578,7 @@ flowchart TD
     Q --> HQF
     HQF --> A
 ```
-Code: A diagram from my [Eliciting Latent Knowledge proposal](elk-proposal-thinking-via-a-human-imitator).
+Code: A diagram from my [Eliciting Latent Knowledge proposal](/elk-proposal-thinking-via-a-human-imitator).
 
 ## Smaller features
 
@@ -609,7 +591,7 @@ Search
 Metadata
 : Every page has an HTML description and [tags](/tags) (if appropriate), along with a table of contents which (on desktop) highlights the current section. I track original publication date and display when each was page was last modified by a `git push` to the `main` branch. I also support "sequences" of blog posts:
 
-: <div class="sequence-links" style="border: 2px var(--gray) solid; padding-left: 1rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequenceLinks-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequenceLinks-divider"></div><div class="next-post sequenceLinks-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a src="/shard-theory">shard theory.</a></figcaption>
+: <div class="sequence-links" style="border: 2px var(--gray) solid; padding-left: 1rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequenceLinks-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequenceLinks-divider"></div><div class="next-post sequenceLinks-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a href="./shard-theory" class="internal alias" data-slug="shard-theory">shard the<span style="white-space:nowrap;">ory.</span></a></figcaption>
 
 Spoilers hide text until hovered
 : I made a Markdown plugin which lets me specify spoilers by starting the line with `>!`. The results are unobtrusive but pleasant:
@@ -624,20 +606,24 @@ Ending each article with a flourish
 : 
 : <div style="align-items:center;display:flex;justify-content:center;"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-right:0.3rem;">☙</span><img src="https://assets.turntrout.com/static/trout-bw.svg" style="height:var(--ornament-size);" alt="Black and white trout" class="no-select trout-ornament"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-left:0.5rem;">❧</span></div>
 
-
-
 # Deployment pipeline
+I quickly learned the importance of _comprehensive tests and documentation_. The repository now has very strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
+1. `pre-commit` runs before every commit is finalized.
+2. `pre-push` runs before commits are pushed to the `main` branch.
+3. Github actions ensure that the site still works properly on the remote server.
 
-4. Mention the importing process
-	1. Wavy LOL hahahahahaha of the imports of JSON
-5. The commit->push->deploy pipeline
-	1. Precommit
-	2. Prepush
-	3. Github actions
-		1. deepsource
-	4. Recovery via cloudflare if it fails
-6. Information on other sites
-	1. Descriptions
-	2. [^sun]
-	   
-	   [^sun]: I _love_ how the sun/moon hangs above the pond GIF in desktop mode. Try clicking the celestial body a few times!
+Lastly, external static analysis alerts me to potential vulnerabilities and anti-patterns. If somehow a bad version slips through anyways, Cloudflare allows me to instantly revert the live site to a previous good version. 
+
+## `pre-commit` linting and formatting
+
+[`lint-staged`](https://www.npmjs.com/package/lint-staged) improves the readability and consistency of my code. While I format some filetypes on save, there are a lot of files and a lot of types. Therefore, my `package.json` specifies what linting & formatting tools to run on what filetypes:
+```json
+"lint-staged": {
+	"*.{js, jsx, ts, tsx, css, scss, json}": "prettier --write",
+	"*.fish": "fish_indent",
+	"*.sh": "shfmt -i 2 -w",
+	"*.py": "black"
+}
+```
+
+## `pre-push`: the quality assurance gauntlet
