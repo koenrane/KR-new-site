@@ -601,11 +601,6 @@ Spoilers hide text until hovered
 Server-side math rendering via $\KaTeX$
 : I initially chose [$\KaTeX$](https://katex.org/) over [MathJax](https://www.mathjax.org/) due to its faster client-side rendering speed. However, now I render the $\KaTeX$ server-side so all the client has to do is download `katex.min.css` (27KB). Easy.
 
-Ending each article with a flourish
-: Each article is capped with the following horizontal rule:
-: 
-: <div style="align-items:center;display:flex;justify-content:center;"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-right:0.3rem;">☙</span><img src="https://assets.turntrout.com/static/trout-bw.svg" style="height:var(--ornament-size);" alt="Black and white trout" class="no-select trout-ornament"><span class="text-ornament no-select" style="vertical-align:2.6rem;margin-left:0.5rem;">❧</span></div>
-
 # Deployment pipeline
 I quickly learned the importance of _comprehensive tests and documentation_. The repository now has very strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
 1. The `pre-commit` [`git` hook](https://git-scm.com/docs/githooks) runs before every commit is finalized.
