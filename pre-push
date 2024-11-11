@@ -64,7 +64,7 @@ fish "$GIT_ROOT/scripts/spellchecker.fish"
 # Run jest tests
 npm run test
 
-# Compress and upload assets
+# Compress and upload assets - runs PyTest tests
 sh "$GIT_ROOT/scripts/handle_local_assets.sh"
 
 # Restart the server so that pages don't rely on stale assets which got deleted and uploaded
