@@ -704,6 +704,20 @@ At this point, I check the built pages for a smattering of possible errors:
 - RSS file generation failure.
 
 ### Finishing touches
+Updating page metadata
+: For posts which are being pushed for the first time, I set their publication date. For posts which have been updated since the last `push`, I update their "last updated" date.
 
-- Updating the metadata for when the post was published and updated.
-- Bulk timestamping
+Cryptographic timestamping 
+: I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day. 
+
+: By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This eliminates the possibility of undetectedly "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
+
+## Extensive static analysis 
+
+I use [DeepSource](https://deepsource.io/) to [analyze and lint the repository.](https://app.deepsource.com/gh/alexander-turner/TurnTrout.com) DeepSource serves multiple roles:
+1. A verbose linter which surfaces a huge range of antipatterns. For example, in Python it points out variables which are redeclared from an outer scope. 
+2. An autofix tool which - for a subset of issues - can create a pull request fixing the issues. 
+
+I try to keep the repository clean of DeepSource issues, but it does point out a lot of unimportant issues (which I ignore). Sadly, their command-line tool cannot be configured to only highlight sufficiently important problems. So the DeepSource analysis is not yet part of my automated `pre-push` hook.
+
+

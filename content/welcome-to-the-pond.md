@@ -113,13 +113,11 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
 
-Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). 
-
-However, suppose I write embarrassing statement $X$ (I know this may be hard to imagine, but imagine anyways). $X$ hashes to $\mathrm{hash}(X)$. To cover my tracks without violating the previously published SHA-1 hash, I'd need to find another statement $X'$ such that $\mathrm{hash}(X')=\mathrm{hash}(X)$ (a ["second-preimage" attack](https://en.wikipedia.org/wiki/Preimage_attack)).[^second] [Apparently no one knows how to do this](https://crypto.stackexchange.com/questions/103061/how-secure-is-sha-1-against-preimage-attacks-currently), which means you should probably just trust the `git` history.[^caveat]
-
-[^second]: Not only would I need to find a second preimage for $\mathrm{hash(X)}$, I'd need to deal with the fact that the later commits hash the prior commits (and so would require an entire chain of fakery).
-
-[^caveat]: I could also restart the chain of commits from an older commit, but that'd require giving up all work and modifications performed since that commit. 
+> [!quote] Cryptographic timestamping - [The design of this website](/design)
+> 
+> I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day. 
+>
+> By committing the hash to the blockchain, I provide cryptographic assurance that I have in fact published the claimed commits by the claimed date. This eliminates the possibility of undetectedly "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
 
 ## Fatebook prediction tracking
 
