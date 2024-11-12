@@ -674,6 +674,10 @@ img {
   z-index: 1;
 }
 
+svg {
+  margin-bottom: $baseMargin;
+}
+
 body.no-mix-blend-mode {
   & img,
   & video,
