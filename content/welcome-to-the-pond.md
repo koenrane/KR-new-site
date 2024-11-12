@@ -16,14 +16,11 @@ date_published: 2024-10-30 18:09:31.133945
 date_updated: 2024-11-02 09:27:16.094474
 ---
 
-
-
-
-For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [1,500 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
+For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [2,130 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
 
 [^commits]: Counted by running 
      ```shell
-    git rev-list --author="alex@turntrout.com" --count main
+	 git log --author="Alex Turner" --oneline | wc -l
     ```
 
 <center><strong><img class="emoji" draggable="false" alt="🏰" src="https://assets.turntrout.com/twemoji/1f3f0.svg" loading="lazy"><img class="emoji" draggable="false" alt="🌊" src="https://assets.turntrout.com/twemoji/1f30a.svg" loading="lazy">Welcome to The Pond! <img class="emoji" draggable="false" alt="🐟" src="https://assets.turntrout.com/twemoji/1f41f.svg" loading="lazy"><img class="emoji" draggable="false" alt="🪿" src="https://assets.turntrout.com/twemoji/replacements/1fabf.svg" loading="lazy"></strong></center>
@@ -56,7 +53,7 @@ I hope this site encourages me to write more. I miss writing and sharing. I miss
 # What you can find in _The Pond_
 
 I've imported and remastered all 120 of my LessWrong posts. _Every single post_, retouched and detailed. I both [pin down my favorite posts](/posts#my-favorite-posts) and [group the posts into sequences](/posts#sequences). I've also launched the site with three extra posts! 
-1. [The design and structure of this site](/design)
+1. [The design of this website](/design)
 2. [Can transformers act on information beyond an effective layer horizon?](/effective-layer-horizon)
 3. [Intrinsic power-seeking: AI might seek power for power's sake](/dangers-of-intrinsic-power-seeking) 
 
@@ -64,19 +61,19 @@ The [research page](/research) summarizes my past and present research interests
 
 ## My dating doc!
 
-<iframe src="/date-me" style="height: 1000px"></iframe>
-
 Like any good trout seeking a mate, I've prepared my nesting grounds with care. While trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my .[^trout] 
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="A stylized rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
-<figcaption>Are you the kind of person who I'm looking for? If so, you should totally <a href="/date-me">read the doc</a> and then complete your Google Form application and then wait patiently! 😊 </figcaption>
+<figcaption>Are you the kind of person I'm looking for? If so, you should totally <a href="/date-me">read the doc</a> and then complete your Google Form application and then wait patiently! <img class="emoji" draggable="false" alt="🙂" src="https://assets.turntrout.com/twemoji/1f642.svg" loading="lazy"></figcaption>
 </figure>
 
+> [!info]- Embedded preview of my dating doc
+> <iframe src="/date-me" style="height: 1000px"></iframe>
 
 [^trout]: I'm not a marine biologist. I looked around and gave the trout mating claims a quick check - they don't seem obviously wrong. 
 
 # Transparency in reasoning and predicting
-I've [criticized the loose analogical reasoning which permeates the "rationalist" community's AI risk arguments](/danger-of-suggestive-terminology). But criticism is cheap. I hold myself to my own high standards.
+I've [criticized the loose analogical reasoning which permeates the rationalist community's AI risk arguments](/danger-of-suggestive-terminology). But criticism is cheap. I want to hold myself to my own high standards.
 
 > [!quote] Theodore Roosevelt
 > Subtitle: ["Citizenship In A Republic"; delivered at the Sorbonne on 23 April, 1910](https://en.wikipedia.org/wiki/Citizenship_in_a_Republic)
@@ -88,7 +85,7 @@ I've [criticized the loose analogical reasoning which permeates the "rationalist
 I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mis-predictions. 
 
 ## Tracking my mistakes
-Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page, I've written [my own](/mistakes). The list is short because I have yet to fully fill it in.
+Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page, I've written [my own](/mistakes). The list is short because I'm still filling it in.
 
 ## Bounty for bad analogies I've made since 2022
 Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By reasoning using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
@@ -109,16 +106,12 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 ## Post edits are publicly recorded 
 
-<!-- TODO modify this to be for the current post to be less confusing?-->
 <figure class="float-right" style="margin-top:-1rem;">
-<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 17 minutes</span></p><p style="color:var(--gray);"><span class="publication-str"><a href="https://www.lesswrong.com/posts/H7KB44oKoSjSCkpzL/worrying-about-the-vase-whitelisting" class="external" target="_blank" style="color:var(--gray);" rel="noopener noreferrer">Published</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/worrying-about-the-vase-whitelisting.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2018-06-16 00:00:00">June 16<sup class="ordinal-suffix">th</sup>, 2018</time></span></p></ul></div></blockquote>
+<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--gray);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote>
 </figure>
 
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
-
-> [!warning]
-> I realized that the reasoning here is mistaken; it's easy to `git rebase -i HEAD~50`, `edit` the offending commit, and then fake the commit metadata to preserve the original commit dates during the `rebase`. I'll need to use something like [`gwern`'s `timestamp` tool.](https://gwern.net/timestamping) Reworking this section.
 
 Ideally, readers would be able to zero-trust verify that I haven't e.g. expunged embarrassing statements from my `git` history. However, `git` defaults to the SHA-1 hashing algorithm. Given a fixed SHA-1 hash, [it's practical to find multiple files which map to that hash](https://security.googleblog.com/2017/02/announcing-first-sha1-collision.html). 
 
