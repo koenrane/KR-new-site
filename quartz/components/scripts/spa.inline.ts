@@ -119,7 +119,6 @@ async function navigate(url: URL) {
   const existingPopovers = document.querySelectorAll(".popover")
   existingPopovers.forEach((popover) => popover.remove())
 
-  // Save current scroll position before navigation
   saveScrollPosition(window.location.toString())
   history.pushState({}, "", url)
 
@@ -167,9 +166,18 @@ async function navigate(url: URL) {
 
   // Smooth scroll for anchors; else jump instantly
   const isSamePageNavigation = url.pathname === window.location.pathname
-  if (isSamePageNavigation && url.hash) {
-    const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-    el?.scrollIntoView({ behavior: "smooth" })
+  if (isSamePageNavigation) {
+    if (url.hash === "") {
+      window.scrollTo({
+        // scroll to top
+        top: 0,
+        behavior: "smooth",
+      })
+    } else if (url.hash) {
+      // Normal anchor link behavior
+      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
+      el?.scrollIntoView({ behavior: "smooth" })
+    }
   } else {
     // Restore scroll position on back navigation
     const key = `scrollPos:${url.toString()}`
@@ -187,7 +195,17 @@ async function navigate(url: URL) {
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
   elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
 
-  removeCriticalStyles()
+  // Comment out the critical styles removal
+  // function removeCriticalStyles() {
+  //   const criticalStyles = document.querySelectorAll("head style")
+
+  //   if (criticalStyles.length > 1) {
+  //     console.warn("More than one style tag found in head")
+  //   }
+
+  //   criticalStyles[0].remove()
+  //   console.info("Removed critical styles from spa.inline.ts")
+  // }
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
@@ -276,18 +294,4 @@ if (window.location.hash) {
   window.addEventListener("load", () => {
     scrollToHash(window.location.hash)
   })
-}
-
-/**
- * Removes the critical style tags from the head
- */
-function removeCriticalStyles() {
-  const criticalStyles = document.querySelectorAll("head style")
-
-  if (criticalStyles.length > 1) {
-    console.warn("More than one style tag found in head")
-  }
-
-  criticalStyles[0].remove()
-  console.info("Removed critical styles from spa.inline.ts")
 }
