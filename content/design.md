@@ -14,6 +14,7 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
+When I started
 
 - outline how i had 0 experience starting out
 - summarize features and test counts
@@ -21,6 +22,7 @@ no_dropcap: "false"
 
 3. Mention the importing process
 	1. Wavy LOL hahahahahaha of the imports of JSON
+- Add more formatting examples
 
 > [!thanks]- Thanking people who helped with this site
 > Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
@@ -88,7 +90,7 @@ Figure: The four Catppuccin palettes.
 
 ## Themes 
 
-The themes provide contrast between the text and the background. I like the pastel palette provided by Catppuccin: 
+I like the pastel palettes provided by Catppuccin: 
 
 <figure>
 <div style="display: grid;grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
@@ -117,7 +119,7 @@ The themes provide contrast between the text and the background. I like the past
     <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; mix-blend-mode: normal;" alt="Smiling Face With Hearts on Twitter"/></center>
   </span>
 </div> 
-<figcaption>The palettes for light and dark mode. The colors adjust and in dark mode, I decrease the saturation of image assets.</figcaption>
+<figcaption>The palettes for light and dark mode. In dark mode, I decrease the saturation of image assets.</figcaption>
 </figure>
 
 I use the darkest text color sparingly. The margin text is medium-contrast, as are e.g. list numbers and bullets. I even used CSS to dynamically adjust the luminance of favicons which often appear in the margins, so that I don't have e.g. a jet-black GitHub icon surrounded by lower-contrast text. 
@@ -163,7 +165,6 @@ Figure: Now the huge savings of AVIF are clearer.
 | Overall space savings | 91% |
 
 
-<!-- TODO talk about HEVC, maybe even try to fix it? --> 
 ### Videos
 Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
@@ -173,9 +174,9 @@ Inline videos don't have to be transparent, so I'm free to use HEVC for most vid
 
 ## Inlining critical CSS
 
-Even after compressing assets and lazily loading them, it takes time for the client to (pre)load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle over time. 
+Even after minification, it takes time for the client to load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle. 
 
-Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. This basically means that after emitting all of the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 
 
 ## Deduplicating HTML requests
@@ -623,7 +624,7 @@ Lastly, external static analysis alerts me to potential vulnerabilities and anti
 
 ## `pre-push`: the quality assurance gauntlet
 
-The `push` operation is aborted if any of the following checks[^gauntlet] fail.
+Whenever I find a bug, I attempt to automatically detect it in the future. The result is this long pipeline of checks, designed to surface errors which would take a long time to notice manually. The `push` operation is aborted if any of the following checks[^gauntlet] fail.
 
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
 
@@ -632,27 +633,82 @@ I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScrip
 
 I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error. 
 
-### Validating the Markdown files
-I first run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also errors on common hiccups like "the the." 
+### Static validation of Markdown files
+I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also surfaces common hiccups like "the the." 
 
-I also lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these.
+I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these.
 
-<!-- TODO add this capability I next validate the post metadata. -->
+I finally check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
 
-### Running unit tests
+### Unit tests
+I have 843 JavaScript unit tests and 155 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
+
+<!-- TODO add script to populate number of tests -->
 
 ### Compressing and uploading assets
-- r2 pipeline
+My goal is a zero-hassle process for adding assets to my website. [In order to increase resilience](#archiving-and-dependencies), I use [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/) to host assets which otherwise would bloat the size of my `git` repository. 
+
+I edit my Markdown articles in [Obsidian](https://obsidian.md/). When I paste an asset into the document, the asset is saved in a special `asset_staging/` directory. Later, when I move to `push` changes to my site, the following algorithm runs:
+1. Move any assets from `asset_staging/` to a slightly more permanent `static/` asset directory, updating any filepath references in the Markdown articles;
+2. [Compress](#asset-compression) all relevant assets within `static/`, updating filepath references appropriately;
+3. Upload the assets to `assets.turntrout.com`, again updating references in the Markdown files;[^upload]
+4. Copy the assets to my local mirror of my R2 asset bucket (in case something happens to Cloudflare).
+
+While this pipeline took several weeks of part-time coding to iron out, I'm glad I took the time. 
+
+[^upload]: When I upload assets to Cloudflare R2, I have to be careful. By default, the upload will overwrite existing assets. If I have a namespace collision and accidentally overwrite an older asset which happened to have the same name, there's no way for me to know without simply realizing that an older page no longer shows the older asset. For example, links to the older asset would still validate [under `linkchecker`](#validating-links). Therefore, I disable overwrites by default and instead print a warning that an overwrite was attempted.
 
 ### Visual regression testing
 
-- Check server builds 
+Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101) using [`BackstopJS`](https://github.com/garris/BackstopJS). `BackstopJS` renders the site at pre-specified locations, takes pictures, and compares those pictures to previously approved reference pictures. If the pictures differ by more than a tiny percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs.
+
+![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](visual_regression_testing.png)
+Figure: `BackstopJS` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?". 
+
+However, it's not practical to test every single page. I use visual regression testing to ensure that stable features (like search) are stable. The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
+
+At this point, I also check that the server builds properly.
 
 ### Validating links
 
-### Validating the rendered pages
+Over time, [links decay and rot](https://en.wikipedia.org/wiki/Link_rot), eventually emitting 404 errors. [Unlike `gwern`](https://gwern.net/archiving), I do not yet have a full solution to this problem. However, links I control should _never_ 404: 
+- Internal links to `turntrout.com`, 
+- Links to assets on my Cloudflare CDN, and
+- Links to [the Github repository for the website.](https://github.com/alexander-turner/TurnTrout.com)
+
+I use [`linkchecker`](https://linkchecker.github.io/) to validate these links. 
+
+### Validating the emitted HTML files
+At this point, I check the built pages for a smattering of possible errors:
+- Links to my local server (`localhost:8080`) which validate but will become invalid on the Web;
+- I might have disabled [favicon rendering](#inline-favicons) to increase build speed;
+- Common Markdown errors: 
+	- Footnotes may be unmatched (e.g. I deleted the reference to a footnote without deleting its content, leaving the content exposed in the text);
+	- Incorrectly terminated blockquotes;
+	- Failed attempts to specify a `<figcaption>` element;
+- Certain kinds of dead links which `linkchecker` won't catch:
+	- Anchor links which don't exist;
+	- `git`-hosted assets, stylesheets, or scripts which don't exist;
+- $\KaTeX$ rendering errors;
+- RSS file generation failure.
 
 ### Finishing touches
+Updating page metadata
+: For posts which are being pushed for the first time, I set their publication date. For posts which have been updated since the last `push`, I update their "last updated" date.
 
-- Updating the metadata for when the post was published and updated.
-- Bulk timestamping
+Cryptographic timestamping
+: I concatenate the SHA-1 commit hashes of all commits being pushed to `main` and hash their concatenation with SHA-256. Using a slight variant of [`gwern`'s timestamping procedure](https://gwern.net/timestamping), I use [OriginStamp](https://originstamp.com/) to commit the SHA-256 hash to the blockchain by the next day. 
+
+: By committing the hash to the blockchain, I provide cryptographic assurance[^error] that I have in fact published the claimed commits by the claimed date. This eliminates the possibility of undetectedly "hiding my tracks" by silently editing away incorrect or embarrassing claims after the fact, or by editing my commit history.
+
+## Extensive static analysis 
+
+I use [DeepSource](https://deepsource.io/) to [analyze and lint the repository.](https://app.deepsource.com/gh/alexander-turner/TurnTrout.com) DeepSource serves multiple roles:
+1. A verbose linter which surfaces a huge range of antipatterns. For example, in Python it points out variables which are redeclared from an outer scope. 
+2. An autofix tool which - for a subset of issues - can create a pull request fixing the issues. 
+
+I try to keep the repository clean of DeepSource issues, but it does point out a lot of unimportant issues (which I ignore). Sadly, their command-line tool cannot be configured to only highlight sufficiently important problems. So the DeepSource analysis is not yet part of my automated `pre-push` hook.
+
+
+
+[^error]: It's possible that part of my timestamping procedure is slightly wrong in a way which breaks the cryptographic guarantee. I plan to return and analyze the requirements more carefully.
