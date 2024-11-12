@@ -38,15 +38,15 @@ I am pleased to present the _initial release_ of `www.turntrout.com` - I have ma
 ![](https://assets.turntrout.com/static/images/posts/site_desktop.avif)
 Figure: The site is most beautiful on the desktop. For example, the desktop enables hover previews for internal links. 
 
-Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). While I appreciate `gwern`'s site, I didn't actively consult it for design - though it did inspire the dropcaps and hover previews for internal links. 
+Many folks see the first <span class="dropcap" data-first-letter="D">d</span>ropcap and think of [`gwern.net`](https://gwern.net). Some of my site's features were inspired by `gwern`'s site, but some others were convergent design choices. For example, I forked the [Quartz static site generator](https://quartz.jzhao.xyz/) , which already included [hover previews for internal links.](/design#smaller-features) However, `gwern`'s site inspired [inline link icons](/design#inline-favicons), [dropcaps](/design#dropcaps), [`linkchecker`](/design#validating-links), and [cryptographic timestamping](/design#finishing-touches).
 
-The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond) - that choice inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of this website's design was by my own taste.
+The serif font is the open-source [EB Garamond](https://github.com/georgd/EB-Garamond) - that choice inspired by the beautiful Garamond of [`ReadTheSequences.com`](https://readthesequences.com). However, most of [this website's design](/design) was by my own taste.
 
 
 ![The frontmatter of my AI alignment PhD.](https://assets.turntrout.com/static/images/posts/6ddc0291a1961469101cbd7d8516c7ffa43d6b6711dc7c36.avif)
 Figure: Design comes naturally to me. I've loved SMALLCAPS and Garamond fonts for a long time, as seen in [my alignment PhD](/alignment-phd).
 
-_The Pond_ makes me feel graceful and grateful and proud. It's my home, and I've worked hard towards perfection. I'll write a post about the technical abilities of the site, of my quality assurance measures, and of my CI pipeline. I have so much hope and so many plans for this website!
+_The Pond_ makes me feel graceful and grateful and proud. It's my home, and [I've worked hard towards perfection.](/design) I have so much hope and so many plans for this website!
 
 I hope this site encourages me to write more. I miss writing and sharing. I miss [feeling proud and grateful to be part of a community](/lightness-and-unease#forwards). This website will probably not turn into a community _per se_, because I don't plan to enable comments. But I still hope that when I write, and you read, and you [write _back_ with your thoughts](mailto:alex@turntrout.com) - I hope we can bond and exchange ideas all the same. 
 
@@ -104,14 +104,19 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 > 
 > To claim your bounty, [submit your find.](https://docs.google.com/forms/d/e/1FAIpQLScEePeMdZREtCkbk9J5fKfB9x6li-aHlecvSAbj6TyAub7jMw/viewform?usp=sf_link)
 
-## Post edits are publicly recorded 
+## Post edits are public and cryptographically timestamped
 
-<figure class="float-right" style="margin-top:-1rem;">
-<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--gray);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote>
-</figure>
+
 
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
+
+<figure style="max-width: 50%; margin-left: auto; margin-right: auto;">
+<blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--gray);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote> 
+<figcaption>An example post information bubble.</figcaption>
+</figure>
+
+I also took a moment to enable:
 
 > [!quote] Cryptographic timestamping - [The design of this website](/design)
 > 
