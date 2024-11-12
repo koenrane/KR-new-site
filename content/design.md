@@ -20,10 +20,10 @@ I'm proud of this website and its design. Indulge me and let me explain the choi
 
 [^commits]: I counted my commits by running `git log --author="Alex Turner" --oneline | wc -l`.
 
-![A basic rendition of the article "Think carefully before calling RL policies 'agents'". The website looks bare and amateurish.](/asset_staging/original_site.png)
+![A basic rendition of the article "Think carefully before calling RL policies 'agents'". The website looks bare and amateurish.](https://assets.turntrout.com/static/images/posts/original_site.avif)
 Figure: The beginning of my journey, rendered under my third commit ([`6e687609`](https://github.com/alexander-turner/TurnTrout.com/commit/6e687609a4b8f4bb14d1812c8fca5d833904729e)) on April 1, 2024.
 
-![A pleasing rendition of the article "Think carefully before calling RL policies 'agents'".](new_site.png)
+![A pleasing rendition of the article "Think carefully before calling RL policies 'agents'".](https://assets.turntrout.com/static/images/posts/new_site.avif)
 Figure: Content rendered approximately when this article was first published ([`31bba104`](https://github.com/alexander-turner/TurnTrout.com/commit/31bba1043391e055138a07ab5da624e70bab562c)).
 
 # Site rendering basics
@@ -675,7 +675,7 @@ While this pipeline took several weeks of part-time coding to iron out, I'm glad
 
 Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101) using [`BackstopJS`](https://github.com/garris/BackstopJS). `BackstopJS` renders the site at pre-specified locations, takes pictures, and compares those pictures to previously approved reference pictures. If the pictures differ by more than a tiny percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs.
 
-![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](visual_regression_testing.png)
+![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](https://assets.turntrout.com/static/images/posts/visual_regression_testing.avif)
 Figure: `BackstopJS` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?". 
 
 However, it's not practical to test every single page. I use visual regression testing to ensure that stable features (like search) are stable. The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
