@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-# If there are no arguments passed, then default to the GIT_ROOT public
+# If there are no arguments passed, then default to GIT_ROOT's public directory
 set -l GIT_ROOT (git rev-parse --show-toplevel)
 
 # Target files for the html linkcheckers
@@ -21,7 +21,6 @@ end
 set -l HTML_CHECK_STATUS_1 $status
 
 # Check external links which I control
-# TODO GH link won't exist for new posts
 linkchecker $TARGET_FILES --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" --no-warnings --check-extern --threads 20 
 set -l HTML_CHECK_STATUS_2 $status
 

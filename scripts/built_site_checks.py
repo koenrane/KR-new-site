@@ -115,6 +115,17 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     return problematic_paragraphs
 
 
+def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
+    """Check for unrendered subtitle lines."""
+    unrendered_subtitles = []
+    paragraphs = soup.find_all("p")
+    for p in paragraphs:
+        text = p.get_text().strip()
+        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
+            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
+    return unrendered_subtitles
+
+
 def parse_html_file(file_path: Path) -> BeautifulSoup:
     """Parse an HTML file and return a BeautifulSoup object."""
     with open(file_path, "r", encoding="utf-8") as file:
@@ -195,17 +206,6 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
                 f"KaTeX element: {content[:50]}..." if len(content) > 50 else content
             )
     return problematic_katex
-
-
-def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
-    """Check for unrendered subtitle lines."""
-    unrendered_subtitles = []
-    paragraphs = soup.find_all("p")
-    for p in paragraphs:
-        text = p.get_text().strip()
-        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
-            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
-    return unrendered_subtitles
 
 
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
