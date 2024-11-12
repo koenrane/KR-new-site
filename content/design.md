@@ -14,18 +14,18 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
-When I started
+When I decided to design my own website, I had no experience with web development. After 197 days, or 2,139 commits,[^commits] or 998 unit tests, I present `turntrout.com` - the result of my inexperience. 
 
-- outline how i had 0 experience starting out
-- summarize features and test counts
-- engaging graphic or hook
+I'm proud of this website and its design. Indulge me and let me explain the choices I made along the way. 
 
-3. Mention the importing process
-	1. Wavy LOL hahahahahaha of the imports of JSON
-- Add more formatting examples
+[^commits]: I counted my commits by running `git log --author="Alex Turner" --oneline | wc -l`.
 
-> [!thanks]- Thanking people who helped with this site
-> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
+![A basic rendition of the article "Think carefully before calling RL policies 'agents'". The website looks bare and amateurish.](/asset_staging/original_site.png)
+Figure: The beginning of my journey, rendered under my third commit ([`6e687609`](https://github.com/alexander-turner/TurnTrout.com/commit/6e687609a4b8f4bb14d1812c8fca5d833904729e)) on April 1, 2024.
+
+![A pleasing rendition of the article "Think carefully before calling RL policies 'agents'".](new_site.png)
+Figure: Content rendered approximately when this article was first published ([`31bba104`](https://github.com/alexander-turner/TurnTrout.com/commit/31bba1043391e055138a07ab5da624e70bab562c)).
+
 # Site rendering basics
 The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site generator. While [the build process](https://quartz.jzhao.xyz/advanced/architecture) is rather involved, here's what you need to know for this article:
 1. Almost all of my content is written in Markdown. 
@@ -34,7 +34,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 4. The intermediate representations are emitted as webpages.
 5. The webpages are pushed to Cloudflare and then walk their way into your browser! 
 > [!note]- More detail on the transformers  
-> 	- _Text transformers_ operate on the raw text content of each page. For example:
+>  _Text transformers_ operate on the raw text content of each page. For example:
 > ```typescript
 > const notePattern = /^\s*[*_]*note[*_]*:[*_]* (?<text>.*)(?<![*_])[*_]*/gim
 > 
@@ -49,7 +49,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 > }
 > ```
 > Code: Detects when my Markdown contains a line beginning with "Note: " and then converts that content into an "admonition" (which is the bubble we're inside right now). 
-> 	- _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
+> _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
 > ```typescript
 > /**
 >  * Replaces hyphens with en dashes in number ranges
@@ -67,6 +67,16 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 > ```
 > Code: I wouldn't want to apply this transform to raw text because it would probably break link addresses (which often contain hyphenated sequences of numbers). However, many HTML transforms aren't text → text.
 
+# Importing the content from my old blog
+With the help of the LessWrong moderation team, I [migrated the content from my old blog](/welcome-to-the-pond) via their [GraphIQL](https://lesswrong.com/graphiql) tool. The tool outputs both Markdown and HTML versions of the posts. However, while attempting to import my posts, I found the included Markdown to be a mess. I was staring at 120 posts' worth of invalid Markdown, and - I found this out the hard way - the mess was too complicated to RegEx my way out of. 
+
+So I decided to convert the HTML to Markdown on my own using [`turndown`](https://github.com/mixmark-io/turndown) . That solved the formatting issues. I was then confronted with compatibility issues. For example, when I'm writing a post, I denote a footnote marker using `[^footnote]`. However, throughout my six years on my old blog, there were _at least three_ footnote formats which I used. Now imagine that issue, but sprouting up in one hundred different fashions. 
+
+That took a few months.
+
+> [!info]- Details on exporting my content
+> I exported my content using [this query](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/graphiql.txt). After downloading the JSON, I ran [`process_json.cjs`](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/process_json.cjs) to use [`turndown`](https://github.com/mixmark-io/turndown) to convert the raw HTML to (properly processed) Markdown. Finally, I [preprocessed the Markdown files.](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/md_processing_single.py) 
+
 # Archiving and dependencies
 This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive]
 
@@ -78,6 +88,7 @@ I wrote [a script](https://github.com/alexander-turner/TurnTrout.com/blob/main/s
 1. Uploads the assets to my CDN (`assets.turntrout.com`);
 2. Copies the assets to my local mirror of the CDN content;
 3. Removes the assets so they aren't tracked by my `git` repo. 
+
 I later describe my [deployment pipeline](#deployment-pipeline) in more detail.
 
 [^archive]: However, I still have yet to [archive external links, so I am still vulnerable to linkrot.](https://gwern.net/archiving)
@@ -709,6 +720,9 @@ I use [DeepSource](https://deepsource.io/) to [analyze and lint the repository.]
 
 I try to keep the repository clean of DeepSource issues, but it does point out a lot of unimportant issues (which I ignore). Sadly, their command-line tool cannot be configured to only highlight sufficiently important problems. So the DeepSource analysis is not yet part of my automated `pre-push` hook.
 
+----
 
+> [!thanks]- Thanking people who helped with this site
+> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
 
 [^error]: It's possible that part of my timestamping procedure is slightly wrong in a way which breaks the cryptographic guarantee. I plan to return and analyze the requirements more carefully.
