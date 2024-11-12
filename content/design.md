@@ -235,10 +235,11 @@ Figure: I love sweating the small stuff. :) Notice how aligned "`FlTl`" is!
 
 My site contains a range of fun fonts which I rarely use. For example, the _Lord of the Rings_ font "Tengwar Annatar" renders Elvish glyphs. 
 
+<!-- spellchecker-disable -->
 > [!quote]- [_Namárië_: Galadriel's Lament in Lórien](https://www.youtube.com/watch?v=re5_lzlFS9M)
 >
 > Subtitle: Hover over a line to translate
->	
+> 
 > <center><audio src="https://assets.turntrout.com/static/audio/namarie.mp3" controls/></center>
 > 
 > <em><span class="elvish" data-content="Ah! like gold fall the leaves in the wind,">hEÁ jyE7\`B\`V j1pE6E j8"\#\`B 8\~M75%5$ =</span></em> 
@@ -277,6 +278,7 @@ My site contains a range of fun fonts which I rarely use. For example, the _Lord
 > <br>
 > <em><span class="elvish" data-content="Maybe even thou shalt find it. Farewell!">5t\#\~C7\`B\`VÁ 5hE 97Tr&j\#\`VÛ rj\#t%6E -</span></em>
 
+<!-- spellchecker-enable -->
 
 
 <span class="float-right" style="margin-top: 2rem; ">
