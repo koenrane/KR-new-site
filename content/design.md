@@ -14,7 +14,7 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
-When I decided to design my own website, I had no experience with web development. After 197 days, or  commits,[^commits] or 998 unit tests, I present `turntrout.com` - the result of my inexperience. 
+When I decided to design my own website, I had no experience with web development. After 198 days, or  2,160 commits,[^commits] or 1,007 unit tests, I present `turntrout.com` - the result of my inexperience. 
 
 I'm proud of this website and its design. Indulge me and let me explain the choices I made along the way. 
 
@@ -70,7 +70,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 # Importing the content from my old blog
 With the help of the LessWrong moderation team, I [migrated the content from my old blog](/welcome-to-the-pond) via their [GraphIQL](https://lesswrong.com/graphiql) tool. The tool outputs both Markdown and HTML versions of the posts. However, while attempting to import my posts, I found the included Markdown to be a mess. I was staring at 120 posts' worth of invalid Markdown, and - I found this out the hard way - the mess was too complicated to RegEx my way out of. 
 
-So I decided to convert the HTML to Markdown on my own using [`turndown`](https://github.com/mixmark-io/turndown) . That solved the formatting issues. I was then confronted with compatibility issues. For example, when I'm writing a post, I denote a footnote marker using `[^footnote]`. However, throughout my six years on my old blog, there were _at least three_ footnote formats which I used. Now imagine that issue, but sprouting up in one hundred different fashions. 
+So I decided to convert the HTML to Markdown on my own using [`turndown`](https://github.com/mixmark-io/turndown) . That solved the formatting issues. I was then confronted with compatibility issues. For example, throughout my six years on my old blog, there were _at least three_ footnote formats which I used. I needed to be able to parse a single format. Now imagine that issue, but sprouting up one hundred-fold.
 
 That took a few months.
 
@@ -160,7 +160,7 @@ To demonstrate this liberty, I perform a statistical analysis of the 941 AVIF fi
 
 <img alt="Compression ratios: (PNG size) / (AVIF size). A left-skew histogram with tails reaching out to 75x." src="https://assets.turntrout.com/static/images/posts/compression_ratio.svg" class="compression-ratio-graph"/>
 
-Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are [favicons](#favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
+Figure: At first blush, most of the compression ratios seem unimpressive. However, the vast majority of the "images" are [favicons](#inline-favicons) which show up next to URLs. These images are already tiny as PNGs (e.g. 2KB), so AVIF can only compress them so much.  
 
 <figure><img src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" style="max-width: 85%;"> <figcaption>This friendly <abbr class="small-caps">avif</abbr> goose clocks in below <abbr class="small-caps">45kb</abbr>, while its <abbr class="small-caps">png</abbr> equivalent weighs <abbr class="small-caps">450kb</abbr>—a 10× increase!</figcaption></figure>
 
