@@ -168,7 +168,7 @@ def test_ignores_non_static_path(setup_test_env):
     ],
 )
 def test_valid_paths(input_path, expected_output):
-    assert script_utils.path_relative_to_quartz(Path(input_path)) == Path(
+    assert script_utils.path_relative_to_quartz_parent(Path(input_path)) == Path(
         expected_output
     )
 
@@ -188,7 +188,7 @@ def test_valid_paths(input_path, expected_output):
 )
 def test_invalid_paths(input_path, error_message):
     with pytest.raises(ValueError, match=error_message):
-        script_utils.path_relative_to_quartz(Path(input_path))
+        script_utils.path_relative_to_quartz_parent(Path(input_path))
 
 
 @pytest.mark.parametrize(

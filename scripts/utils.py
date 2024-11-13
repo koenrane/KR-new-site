@@ -78,7 +78,7 @@ def get_files(
     return tuple(files)
 
 
-def path_relative_to_quartz(input_file: Path) -> Path:
+def path_relative_to_quartz_parent(input_file: Path) -> Path:
     try:
         # Find the 'quartz' directory in the path
         quartz_dir = next(
@@ -95,8 +95,8 @@ def path_relative_to_quartz(input_file: Path) -> Path:
             )
         # Get the path relative to quartz
         return input_file.relative_to(quartz_dir.parent)
-    except StopIteration:
-        raise ValueError("The path must be within a 'quartz' directory.")
+    except StopIteration as e:
+        raise ValueError("The path must be within a 'quartz' directory.") from e
 
 
 def split_yaml(file_path: Path) -> tuple[dict, str]:

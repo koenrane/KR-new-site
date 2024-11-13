@@ -62,16 +62,66 @@ def test_get_git_root_raises_error():
         ),
         ("/home/user/projects/other/file.txt", None, True),
         ("/home/user/quartz/content/notes.md", None, True),
+        (
+            "/home/user/quartz/static/deeply/nested/folder/image.jpg",
+            Path("quartz/static/deeply/nested/folder/image.jpg"),
+            False,
+        ),
+        (
+            "/quartz/static/root-level.png",
+            Path("quartz/static/root-level.png"),
+            False,
+        ),
+        (
+            "/path/to/quartz/static/videos/demo.mp4",
+            Path("quartz/static/videos/demo.mp4"),
+            False,
+        ),
+        (
+            "/path/to/quartz/static/documents/report.pdf",
+            Path("quartz/static/documents/report.pdf"),
+            False,
+        ),
+        (
+            "/path/to/quartz/not-static/image.png",
+            None,
+            True,
+        ),
+        (
+            "/path/to/not-quartz/static/image.png",
+            None,
+            True,
+        ),
+        (
+            "/home/user/quartz/static",
+            None,
+            True,
+        ),
+        (
+            "relative/path/quartz/static/image.png",
+            Path("quartz/static/image.png"),
+            False,
+        ),
     ],
 )
 def test_path_relative_to_quartz(
     input_path: str, expected_output: Optional[Path], should_raise: bool
 ) -> None:
+    """Test path_relative_to_quartz_parent with various input paths.
+
+    Args:
+        input_path: The input path to test
+        expected_output: The expected output Path, or None if should raise
+        should_raise: Whether the function should raise a ValueError
+    """
     if should_raise:
         with pytest.raises(ValueError):
-            script_utils.path_relative_to_quartz(Path(input_path))
+            script_utils.path_relative_to_quartz_parent(Path(input_path))
     else:
-        assert script_utils.path_relative_to_quartz(Path(input_path)) == expected_output
+        assert (
+            script_utils.path_relative_to_quartz_parent(Path(input_path))
+            == expected_output
+        )
 
 
 def test_get_files_no_dir():

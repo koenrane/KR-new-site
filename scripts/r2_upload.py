@@ -99,7 +99,7 @@ def upload_and_move(
     if not file_path.is_file():
         raise FileNotFoundError(f"Error: File not found: {file_path}")
 
-    relative_path = script_utils.path_relative_to_quartz(file_path)
+    relative_path = script_utils.path_relative_to_quartz_parent(file_path)
     r2_key: str = get_r2_key(relative_path)
 
     upload_target: str = f"r2:{R2_BUCKET_NAME}/{r2_key}"
@@ -124,7 +124,9 @@ def upload_and_move(
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
     # Update references in markdown files
-    relative_original_path: Path = script_utils.path_relative_to_quartz(file_path)
+    relative_original_path: Path = script_utils.path_relative_to_quartz_parent(
+        file_path
+    )
     # References start with 'static', generally
     relative_subpath: Path = Path(
         *relative_original_path.parts[relative_original_path.parts.index("static") :]

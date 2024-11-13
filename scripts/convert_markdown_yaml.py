@@ -115,7 +115,9 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
     # Update the 'card_image' value in the YAML frontmatter
     r2_base_url = r2_upload.R2_BASE_URL
-    r2_key = r2_upload.get_r2_key(script_utils.path_relative_to_quartz(local_png_path))
+    r2_key = r2_upload.get_r2_key(
+        script_utils.path_relative_to_quartz_parent(local_png_path)
+    )
     new_card_image_url = f"{r2_base_url}/{r2_key}"
 
     data["card_image"] = new_card_image_url
