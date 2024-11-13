@@ -60,6 +60,18 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     return original_pattern, replacement_pattern
 
 
+def _image_patterns(input_file: Path) -> tuple[str, str]:
+    """Returns the original and replacement patterns for image files."""
+    relative_path = script_utils.path_relative_to_quartz(input_file)
+    # The file to search for in markdown files
+    pattern_file = relative_path.relative_to("quartz")
+    output_file: Path = pattern_file.with_suffix(".avif")
+
+    return rf"(?:\./)?(?:asset_staging/)?{re.escape(str(pattern_file))}", str(
+        output_file
+    )
+
+
 def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
@@ -94,22 +106,16 @@ def convert_asset(
     if md_replacement_dir and not md_replacement_dir.is_dir():
         raise NotADirectoryError(f"Error: Directory '{md_replacement_dir}' not found.")
 
-    relative_path = script_utils.path_relative_to_quartz(input_file)
-
-    # The file to search for in markdown files
-    pattern_file = relative_path.relative_to("quartz")
-    output_file: Path = pattern_file.with_suffix(".avif")
-
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
+        # Get patterns first so that we trigger relative path errors if needed
+        original_pattern, replacement_pattern = _image_patterns(input_file)
         compress.image(input_file)
-        original_pattern = rf"(?:\./)?(?:asset_staging/)?{re.escape(str(pattern_file))}"
-        replacement_pattern = str(output_file)
+        output_file = input_file.with_suffix(".avif")
 
     elif input_file.suffix in compress.ALLOWED_VIDEO_EXTENSIONS:
-        output_file = input_file.with_suffix(".mp4")
-        compress.to_hevc_video(input_file)
-
         original_pattern, replacement_pattern = _video_patterns(input_file)
+        compress.to_hevc_video(input_file)
+        output_file = input_file.with_suffix(".mp4")
 
     else:
         raise ValueError(f"Error: Unsupported file type '{input_file.suffix}'.")
