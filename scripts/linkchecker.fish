@@ -10,13 +10,13 @@ if test -z "$TARGET_FILES"
 end
 
 # Internal links should NEVER 404! Check links which start with a dot or slash
-# # Use the live server to resolve relative links
-# if test -z $argv
-#     set -x no_proxy "http://localhost:8080"
-#     linkchecker http://localhost:8080 --threads 10 
-# else
-#     linkchecker $TARGET_FILES --threads 10 
-# end
+# Use the live server to resolve relative links
+if test -z $argv
+    set -x no_proxy "http://localhost:8080"
+    linkchecker http://localhost:8080 --threads 10 
+else
+    linkchecker $TARGET_FILES --threads 10 
+end
 
 set -l HTML_CHECK_STATUS_1 $status
 

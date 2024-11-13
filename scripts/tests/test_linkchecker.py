@@ -24,7 +24,7 @@ def html_linkchecker_result():
 
 def test_invalid_port_error(html_linkchecker_result):
     assert (
-        "CDN asset checker: 1" in html_linkchecker_result.stderr
+        "Internal linkchecker: 1" in html_linkchecker_result.stderr
     ), "URL error not found in output"
     assert (
         html_linkchecker_result.returncode != 0
