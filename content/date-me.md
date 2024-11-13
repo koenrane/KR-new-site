@@ -12,11 +12,7 @@ tags:
   - personal
 ---
 
-
-
-
-
-<img id="alex-rainbow-date-me" src="https://assets.turntrout.com/Attachments/croppedAlexRainbow.avif" class="float-right" alt="Alex smiling at the camera. Brightly illuminated with rainbow splashes of color painting the background wall."/>
+<img id="alex-hawaii-date-me" src="/asset_staging/alex_rainbow_2.png" class="float-right" alt=""/>
 
 Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
