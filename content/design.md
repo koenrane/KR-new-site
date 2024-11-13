@@ -70,7 +70,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 # Importing the content from my old blog
 With the help of the LessWrong moderation team, I [migrated the content from my old blog](/welcome-to-the-pond) via their [GraphIQL](https://lesswrong.com/graphiql) tool. The tool outputs both Markdown and HTML versions of the posts. However, while attempting to import my posts, I found the included Markdown to be a mess. I was staring at 120 posts' worth of invalid Markdown, and - I found this out the hard way - the mess was too complicated to RegEx my way out of. 
 
-So I decided to convert the HTML to Markdown on my own using [`turndown`](https://github.com/mixmark-io/turndown) . That solved the formatting issues. I was then confronted with compatibility issues. For example, throughout my six years on my old blog, there were _at least three_ footnote formats which I used. I needed to be able to parse a single format. Now imagine that issue, but sprouting up one hundred-fold.
+So I decided to convert the HTML to Markdown on my own using [`turndown`](https://github.com/mixmark-io/turndown). That solved the formatting issues. I was then confronted with compatibility issues. For example, throughout my six years on my old blog, there were _at least three_ footnote formats which I used. I needed to be able to parse a single format. Now imagine that issue, but sprouting up one hundred-fold.
 
 That took a few months.
 
@@ -192,10 +192,7 @@ Instead, I hooked [the `critical` package](https://github.com/addyosmani/critica
 
 ## Deduplicating HTML requests
 
-> [!quote] [Single-page application routing](https://quartz.jzhao.xyz/features/SPA-Routing)
-> This prevents flashes of unstyled content and improves the smoothness of Quartz.
-> 
-> Under the hood, this is done by hijacking page navigations and instead fetching the HTML via a `GET` request and then diffing and selectively replacing parts of the page using [micromorph](https://github.com/natemoo-re/micromorph). This allows us to change the content of the page without fully refreshing the page, reducing the amount of content that the browser needs to load.
+When loading a new page, the [`micromorph` package](https://github.com/natemoo-re/micromorph) selectively loads the new elements in the page. The shared elements are not updated, cutting load times.
 
 # Text presentation
 ## Sizing
@@ -340,7 +337,6 @@ A less theme-disciplined man than myself might even flaunt dropcap colorings!
 | Before | After |
 | --: | :-- |
 | <span class="no-formatting">"We did not come to fear the future. We came here to shape it." - <a href="https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009">Barack Obama</a></span>|"We did not come to fear the future. We came here to shape it." - [Barack Obama](https://en.wikisource.org/wiki/Barack_Obama_speech_to_joint_session_of_Congress,_September_2009)| 
-|<span class="no-formatting">-2 x 3 = -6</span>|-2 x 3 = -6|
  
 ### Automatic conversion of quotation marks 
 
@@ -397,25 +393,25 @@ Sadly, no. GitHub-flavored Markdown includes a `smartypants` option, but honestl
 > }
 > ```
 > Code: This code has 45 unit tests all on its own.
-
-This logic seems quite robust - I recommend it if you're looking for smart quote detection. However, there's a problem. `niceQuotes` is called on each text node in the HTML abstract syntax tree (AST). Sometimes, the DOM gets in the way. Consider the end of a Markdown quote, `_I hate dogs_"`. Its AST is:
-1. `<em>` node: `I hate dogs`
-2. Text node: `"`
-
-`niceQuotes` is called on each substring, so we get two calls. The first only processes the contents of the `<em>` node, which isn't changed. However, what should `niceQuotes(")` output? The intended output changes with the context - is it an end quote or a beginning quote? 
-
-Considering the broader problem:
-- Within a parent text container, there are $n$ elements,
-- The quotes should be transformed appropriately, and
-- The overall operation should not create or delete elements.
-
-The solution? Roughly:
-1. Convert the parent container's contents to a string `s`, delimiting separations with a private-use Unicode character (to avoid unintended matches),
-2. Relax the `niceQuotes` RegEx to allow (and preserve) the private-use characters, treating them as boundaries of a "permeable membrane" through which contextual information flows, 
-3. Apply `niceQuotes` to `s`, receiving another string with the same number of elements implied,
-4. For all $k$, set element $k$'s text content to the segment starting at private Unicode occurrence $k$.
-
-I use this same strategy for other formatting improvements, including [hyphen replacement](#hyphen-replacement).
+> 
+> This logic seems quite robust - I recommend it if you're looking for smart quote detection. However, there's a problem. `niceQuotes` is called on each text node in the HTML abstract syntax tree (AST). Sometimes, the DOM gets in the way. Consider the end of a Markdown quote, `_I hate dogs_"`. Its AST is:
+> 1. `<em>` node: `I hate dogs`
+> 2. Text node: `"`
+> 
+> `niceQuotes` is called on each substring, so we get two calls. The first only processes the contents of the `<em>` node, which isn't changed. However, what should `niceQuotes(")` output? The intended output changes with the context - is it an end quote or a beginning quote? 
+> 
+> Considering the broader problem:
+> - Within a parent text container, there are $n$ elements,
+> - The quotes should be transformed appropriately, and
+> - The overall operation should not create or delete elements.
+> 
+> The solution? Roughly:
+> 1. Convert the parent container's contents to a string `s`, delimiting separations with a private-use Unicode character (to avoid unintended matches),
+> 2. Relax the `niceQuotes` RegEx to allow (and preserve) the private-use characters, treating them as boundaries of a "permeable membrane" through which contextual information flows, 
+> 3. Apply `niceQuotes` to `s`, receiving another string with the same number of elements implied,
+> 4. For all $k$, set element $k$'s text content to the segment starting at private Unicode occurrence $k$.
+> 
+> I use this same strategy for other formatting improvements, including [hyphen replacement](#hyphen-replacement).
 
 ### Automatic smallcaps
 How do the following sentences feel to read?
@@ -654,7 +650,7 @@ I then lint my Markdown links for probable errors. I found that I might mangle a
 I finally check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
 
 ### Unit tests
-I have 843 JavaScript unit tests and 155 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
+I have 843 JavaScript unit tests and 164 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
 
 <!-- TODO add script to populate number of tests -->
 
@@ -722,4 +718,7 @@ I use [DeepSource](https://deepsource.io/) to [analyze and lint the repository.]
 
 I try to keep the repository clean of DeepSource issues, but it does point out a lot of unimportant issues (which I ignore). Sadly, their command-line tool cannot be configured to only highlight sufficiently important problems. So the DeepSource analysis is not yet part of my automated `pre-push` hook.
 
+----
 
+> [!thanks] Thanking people who helped with this site
+> Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.

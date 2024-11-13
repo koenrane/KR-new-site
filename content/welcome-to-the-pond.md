@@ -61,7 +61,7 @@ The [research page](/research) summarizes my past and present research interests
 
 ## My dating doc!
 
-Like any good trout seeking a mate, I've prepared my nesting grounds with care. While trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my .[^trout] 
+Like any good trout seeking a mate, I've prepared my nesting grounds with care. While trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my [dating doc](/date-me).[^trout]  
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="A stylized rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
 <figcaption>Are you the kind of person I'm looking for? If so, you should totally <a href="/date-me">read the doc</a> and then complete your Google Form application and then wait patiently! <img class="emoji" draggable="false" alt="🙂" src="https://assets.turntrout.com/twemoji/1f642.svg" loading="lazy"></figcaption>
