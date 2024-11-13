@@ -62,12 +62,11 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
 def _image_patterns(input_file: Path) -> tuple[str, str]:
     """Returns the original and replacement patterns for image files."""
-    relative_path = script_utils.path_relative_to_quartz(input_file)
-    # The file to search for in markdown files
+    relative_path = script_utils.path_relative_to_quartz_parent(input_file)
     pattern_file = relative_path.relative_to("quartz")
     output_file: Path = pattern_file.with_suffix(".avif")
 
-    return rf"(?:\./)?(?:asset_staging/)?{re.escape(str(pattern_file))}", str(
+    return rf"(?:\./|/)?(?:asset_staging/)?{re.escape(str(pattern_file))}", str(
         output_file
     )
 

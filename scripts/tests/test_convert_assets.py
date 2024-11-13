@@ -227,9 +227,6 @@ def test_video_patterns(
 
 
 # Test that newlines are added after video tag when it's followed by a figure caption
-import pytest
-
-
 @pytest.mark.parametrize(
     "initial_content",
     [
@@ -328,6 +325,10 @@ def test_asset_staging_path_conversion(setup_test_env) -> None:
         ),
         (
             '<img src="./asset_staging/static/asset.jpg"/>',
+            '<img src="static/asset.avif"/>',
+        ),
+        (
+            '<img src="/static/asset.jpg"/>',
             '<img src="static/asset.avif"/>',
         ),
     ],
