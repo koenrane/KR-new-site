@@ -1,7 +1,7 @@
 module.exports = [
   {
     label: "Homepage",
-    url: "http://localhost:8080/index.html",
+    url: "http://localhost:8080/welcome.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     label: "Dark mode",
-    url: "http://localhost:8080/index.html",
+    url: "http://localhost:8080/welcome.html",
     referenceUrl: "",
     delay: 500,
     onBeforeScript: "puppet/onBeforeDark.cjs",
@@ -18,8 +18,8 @@ module.exports = [
     requireSameDimensions: true,
   },
   {
-    label: "Stress test of site features",
-    url: "http://localhost:8080/test-page.html",
+    label: "Design page",
+    url: "http://localhost:8080/design.html",
     referenceUrl: "",
     readySelector: "#table-of-contents",
     delay: 500,
@@ -28,7 +28,7 @@ module.exports = [
   },
   {
     label: "ToC highlighting",
-    url: "http://localhost:8080/test-page.html",
+    url: "http://localhost:8080/design.html",
     referenceUrl: "",
     selectors: ["#table-of-contents"],
     readySelector: "#table-of-contents",
@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     label: "Tag page",
-    url: "http://localhost:8080/tags/index.html",
+    url: "http://localhost:8080/tags.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -63,7 +63,7 @@ module.exports = [
   },
   {
     label: "Top bar visible after scrolling down then up",
-    url: "http://localhost:8080/test-page.html",
+    url: "http://localhost:8080/design.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -81,7 +81,7 @@ module.exports = [
   },
   {
     label: "Searching for stress-test",
-    url: "http://localhost:8080/test-page.html",
+    url: "http://localhost:8080/design.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
