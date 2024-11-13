@@ -439,7 +439,7 @@ Furthermore, I apply smallcaps to letters which follow numbers (like "100GB") so
 
 Technically, _en dashes_ should be used for ranges of dates and numbers. So "<span class="no-formatting">p. 202-203</span>" turns into "p. 202-203", and "<span class="no-formatting">Aug-Dec</span>" turns into "Aug-Dec"! 
 
-Some hyphens should actually be _minus signs_. I find raw hyphens (<span class="no-formatting">-2</span>) to be distasteful when used in plaintext numbers. I opt for "-2" instead.
+Some hyphens should actually be _minus signs_. I find raw hyphens (<span class="no-formatting">-2</span>) to be distasteful when used with plaintext numbers. I opt for "-2" instead.
 
 ### Other display tweaks
 Fractions
