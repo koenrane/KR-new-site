@@ -12,7 +12,7 @@ tags:
   - personal
 ---
 
-<img id="alex-hawaii-date-me" src="/asset_staging/alex_rainbow_2.png" class="float-right" alt=""/>
+<img id="alex-hawaii-date-me" src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt=""/>
 
 Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
