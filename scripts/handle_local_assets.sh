@@ -5,7 +5,7 @@ cd "$GIT_ROOT"
 
 # # Check that conversion+uploading tests pass
 PY_TEST_DIR="$GIT_ROOT"/scripts/tests
-python -m pytest "$PY_TEST_DIR" --ignore="$PY_TEST_DIR"/test_md_processing.py
+python -m pytest "$PY_TEST_DIR"
 
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
@@ -24,14 +24,13 @@ if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
 fi
 
 # Convert images to AVIF format, mp4s to webm, and remove metadata
-# Ignore example_com.png during conversion
 python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR" --ignore-files "example_com.png"
-
-# Convert card images in markdown files
-python "$GIT_ROOT"/scripts/convert_markdown_yaml.py --markdown-directory "$GIT_ROOT"/content
 
 # Remove any mp4_original files
 find "$STATIC_DIR" -name "*.mp4_original" -delete
+
+# Convert card images in markdown files
+python "$GIT_ROOT"/scripts/convert_markdown_yaml.py --markdown-directory "$GIT_ROOT"/content
 
 # Upload assets to R2 bucket
 LOCAL_ASSET_DIR="$GIT_ROOT"/../website-media-r2/static

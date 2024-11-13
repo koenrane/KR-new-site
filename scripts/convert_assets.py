@@ -174,6 +174,7 @@ def main():
     assets = script_utils.get_files(
         dir_to_search=args.asset_directory,
         filetypes_to_match=compress.ALLOWED_EXTENSIONS,
+        use_git_ignore=False,  # Git ignores eg favicons but we don't
     )
 
     for asset in assets:
