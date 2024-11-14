@@ -14,7 +14,7 @@ date_published: 2024-10-31 23:14:34.832290
 date_updated: 2024-11-02 09:27:16.094474
 no_dropcap: "false"
 ---
-When I decided to design my own website, I had no experience with web development. After 198 days, 2,160 commits,[^commits] and 1,007 unit tests, I present `turntrout.com` - the result of my inexperience. 
+When I decided to design my own website, I had no experience with web development. After 199 days, 2,173 commits,[^commits] and 1,007 unit tests, I present `turntrout.com` - the result of my inexperience. 
 
 I'm proud of this website and its design. Indulge me and let me explain the choices I made along the way. 
 
