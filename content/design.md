@@ -445,7 +445,7 @@ Detecting multipliers
 : Multipliers  like "2x" are 2x more pleasant than "<span class="no-formatting">2x</span>."
 
 Full-width slashes
-: Used for separators like "cat" / "dog."
+: Used for separators like "cat" / "dog" in place of "cat"<span class="no-formatting"> / </span>"dog" - note that both have the same number of spaces!
 
 Mathematical definitions
 : In the past, I used the $:=$ symbol to denote definitions (as opposed to normal equations). I now convert these symbols to the self-explanatory $ :=$.

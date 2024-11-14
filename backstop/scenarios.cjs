@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     label: "Tag page",
-    url: "http://localhost:8080/tags.html",
+    url: "http://localhost:8080/all-tags.html",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
