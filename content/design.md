@@ -106,10 +106,10 @@ Figure: The four Catppuccin palettes.
 I like the pastel palettes provided by Catppuccin: 
 
 <figure>
-<div style="display: grid;grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin-bottom: 1rem;">
   <span class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
     <center>Light mode</center> 
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;"> 
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;"> 
       <span style="color: red;">Red</span>
       <span style="color: orange;">Orange</span>
       <span style="color: yellow;">Yellow</span>
@@ -121,7 +121,7 @@ I like the pastel palettes provided by Catppuccin:
   </span>
   <span class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
     <center>Dark mode</center>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
       <span style="color: red;">Red</span>
       <span style="color: orange;">Orange</span>
       <span style="color: yellow;">Yellow</span>
@@ -324,7 +324,7 @@ However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 
 A less theme-disciplined man than myself might even flaunt dropcap colorings!
 
-<center style="font-size:4rem;">
+<center style="font-size:min(4rem, 15vw);">
 <span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--lightergray));">T</span>
 <span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--lightergray));">H</span>
 <span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--lightergray));">E</span>
@@ -464,38 +464,38 @@ Subtitle: This list is not exhaustive.
 
 Tasteful emoji usage helps brighten and vivify an article. However, it seems like there are over 9,000 emoji stylings:
 
-<figure>
- <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 1fr); gap: 10px; justify-content: center; margin-bottom: 1rem;">
+<figure id="emoji-comparison">
+ <div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Apple">
+      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" alt="Smiling Face With Hearts on Apple">
       <figcaption>Apple</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Google">
+      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" alt="Smiling Face With Hearts on Google">
       <figcaption>Google</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Microsoft">
+      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" alt="Smiling Face With Hearts on Microsoft">
       <figcaption>Microsoft</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Facebook">
+      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" alt="Smiling Face With Hearts on Facebook">
       <figcaption>Facebook</figcaption>
     </div> 
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/twemoji/1f970.svg" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Twitter">
+      <img src="https://assets.turntrout.com/twemoji/1f970.svg" alt="Smiling Face With Hearts on Twitter">
       <figcaption>Twitter</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on WhatsApp">
+      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" alt="Smiling Face With Hearts on WhatsApp">
       <figcaption>WhatsApp</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on Samsung">
+      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" alt="Smiling Face With Hearts on Samsung">
       <figcaption>Samsung</figcaption>
     </div>
     <div class="subfigure">
-      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" style="width: 100px; height: 100px;" alt="Smiling Face With Hearts on LG">
+      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" alt="Smiling Face With Hearts on LG">
       <figcaption>LG</figcaption>
     </div>
   </div>
