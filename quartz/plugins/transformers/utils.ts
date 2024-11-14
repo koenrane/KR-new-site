@@ -9,7 +9,7 @@ const linkText = /\[(?<linkText>[^\]]+)\]/
 const linkURL = /\((?<linkURL>[^#].*?)\)/ // Ignore internal links, capture as little as possible
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 
-export const numberRegex = /[-−]?\d{1,3}(,?\d{3})*(\.\d+)?/
+export const numberRegex = /[-−]?\d{1,3}(,?\d{3})*(\.\d+)?/u
 
 // A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
@@ -44,6 +44,7 @@ export const replaceRegex = (
   newNodeStyle = "span",
 ): void => {
   // If the node should be ignored or has no value, return early
+  // deepsource-ignore-line
   if (ignorePredicate(node, index, parent) || !node?.value) {
     return
   }
