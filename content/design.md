@@ -7,14 +7,15 @@ tags:
 description: Showing off and explaining this site's beauty.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
+card_image:
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2024-11-02 09:27:16.094474
+date_updated: 2024-11-14 21:08:14.988730
 no_dropcap: "false"
 ---
-When I decided to design my own website, I had no experience with web development. After 199 days, 2,173 commits,[^commits] and 1,007 unit tests, I present `turntrout.com` - the result of my inexperience. 
+
+When I decided to design my own website, I had no experience with web development. After 199 days, 2,175 commits,[^commits] and 1,007 unit tests, I present `turntrout.com` - the result of my inexperience. 
 
 I'm proud of this website and its design. Indulge me and let me explain the choices I made along the way. 
 

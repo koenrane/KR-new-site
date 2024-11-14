@@ -30,9 +30,11 @@ use-full-width-images: "false"
 date_published: 2020-01-10 00:00:00
 original_url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
 skip_import: true
-description: "How to avoid feeling like a fraud: build good habits and stop cutting corners."
-date_updated: 2024-10-30 18:09:31.133945
+description: "How to avoid feeling like a fraud: build good habits and stop cutting\
+  \ corners."
+date_updated: 2024-11-14 21:08:14.988730
 ---
+
 > [!thanks]
 > Inspired in part by `Raemon`'s [Being a Robust Agent](https://www.lesswrong.com/posts/2jfiMgKkh7qw9z8Do/being-a-robust-agent).
 
