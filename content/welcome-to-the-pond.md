@@ -2,7 +2,7 @@
 title: "Site launch: Come relax by The Pond!"
 permalink: launch
 publish: true
-description: Celebrating the publicization of the website after months of work.
+description: Celebrating the launch of the website after months of work.
 aliases:
   - relax-by-the-pond
   - website-launch
@@ -17,7 +17,7 @@ date_updated: 2024-11-14 21:08:14.988730
 ---
 
 
-For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [2,130 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
+For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [2,170 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
 
 [^commits]: Counted by running 
      ```shell
@@ -112,7 +112,7 @@ Analogies can be useful; analogies can be deadly. For an analogy to be useful, i
 
 Each post states when it was published and when it was last updated. The updated link points to the file on [my GitHub repo](https://github.com/alexander-turner/TurnTrout.com) where the edit history can be inspected. 
 
-<figure style="max-width: 50%; margin-left: auto; margin-right: auto;">
+<figure style="max-width: min(90%, 370px); margin-left: auto; margin-right: auto;">
 <blockquote class="callout callout-metadata" data-callout="info" style="text-align:left; color: var(--gray); background-color: var(--light);"><div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">About this post</div></div><div class="callout-content"><ul style="padding-left: 0px;"><p style="color:var(--gray);"><span class="reading-time">Read time: 8 minutes</span></p><p style="color:var(--gray);"><span class="publication-str">Published on <time datetime="2024-10-30 00:00:00">October 30<sup class="ordinal-suffix">th</sup>, 2024</time></span></p><p style="color:var(--gray);"><span class="last-updated-str"> <a href="https://github.com/alexander-turner/TurnTrout.com/blob/main/content/welcome-to-the-pond.md" class="external" style="color:var(--gray);" target="_blank" rel="noopener noreferrer">Updated</a> on <time datetime="2024-11-12 00:00:00">November 11<sup class="ordinal-suffix">th</sup>, 2024</time></span></p></ul></div></blockquote> 
 <figcaption>An example post information bubble.</figcaption>
 </figure>
