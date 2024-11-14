@@ -56,7 +56,6 @@ const config: QuartzConfig = {
       Plugin.rehypeCustomSubtitle(),
       Plugin.TableOfContents(),
     ],
-    // filters: [Plugin.ExplicitPublish()],
     filters: [],
     emitters: [
       Plugin.AliasRedirects(),
