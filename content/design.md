@@ -49,6 +49,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 > }
 > ```
 > Code: Detects when my Markdown contains a line beginning with "Note: " and then converts that content into an "admonition" (which is the bubble we're inside right now). 
+> 
 > _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
 > ```typescript
 > /**
