@@ -18,29 +18,17 @@ else
     linkchecker $TARGET_FILES --threads 10 
 end
 
-set -l HTML_CHECK_STATUS_1 $status
+set -l INTERNAL_STATUS $status
 
-# Check CDN assets with curl instead of linkchecker
-echo "Checking CDN assets..."
-set -l cdn_urls (cat $TARGET_FILES | pup 'img[src*="assets.turntrout.com"],link[href*="assets.turntrout.com"] attr{src,href}' | sort -u)
-set -l CURL_STATUS 0
-
-for url in $cdn_urls
-    curl -sI \
-      -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" \
-      -H "Referer: https://turntrout.com/" \
-      $url >/dev/null
-    if test $status -ne 0
-        echo "Error accessing: $url" >&2
-        set CURL_STATUS 1
-    end
-end
+# Check external links which I control
+linkchecker $TARGET_FILES --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" --no-warnings --check-extern --threads 20 --user-agent "linkchecker"
+set -l EXTERNAL_STATUS $status
 
 # If any of the checks failed, exit with a non-zero status
-if test $HTML_CHECK_STATUS_1 -ne 0 -o $CURL_STATUS -ne 0
+if test $INTERNAL_STATUS -ne 0 -o $EXTERNAL_STATUS -ne 0
     echo "Link checks failed: " >&2
-    echo "Internal linkchecker: $HTML_CHECK_STATUS_1" >&2
-    echo "CDN asset checker: $CURL_STATUS" >&2
+    echo "Internal linkchecker: $INTERNAL_STATUS" >&2
+    echo "External linkchecker: $EXTERNAL_STATUS" >&2
     exit 1
 end
 

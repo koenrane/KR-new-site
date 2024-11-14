@@ -33,7 +33,7 @@ def test_invalid_port_error(html_linkchecker_result):
 
 def test_invalid_asset_error(html_linkchecker_result):
     assert (
-        "CDN asset checker: 1" in html_linkchecker_result.stderr
+        "External linkchecker: 1" in html_linkchecker_result.stderr
     ), "Invalid asset error not found in output"
     assert (
         html_linkchecker_result.returncode != 0
