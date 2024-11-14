@@ -128,10 +128,7 @@ describe("Roman numeral tests", () => {
     expect(isRomanNumeral(numeral)).toBe(true)
   })
 
-  const numeralSentences = [
-    "I use the roman numeral XVII.",
-    "I use the roman numeral XVII ",
-  ]
+  const numeralSentences = ["I use the roman numeral XVII.", "I use the roman numeral XVII "]
   it.each(numeralSentences)("should identify %s to contain a valid Roman numeral", (sentence) => {
     const input = `<p>${sentence}</p>`
     const processedHtml: string = testTagAcronymsHTML(input)
