@@ -5,7 +5,10 @@ import subprocess
 from ruamel.yaml import YAML
 import io
 from ruamel.yaml.timestamp import TimeStamp
+import sys
 
+# Ensure the parent directory is in the sys path so we can import utils
+sys.path.append(str(Path(__file__).parent.parent))
 import scripts.utils as script_utils
 
 
