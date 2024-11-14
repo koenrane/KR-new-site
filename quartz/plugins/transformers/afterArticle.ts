@@ -32,7 +32,7 @@ const subscriptionElement = h("center", [
 const contactMe = h("div", [
   h("center", [
     "Thoughts? Email me at ",
-    h("code", h("a", { href: MAIL_PATH }, "alex@turntrout.com")),
+    h("code", h("a", { href: "mailto:alex@turntrout.com" }, "alex@turntrout.com")),
     CreateFaviconElement(MAIL_PATH),
   ]),
 ])
