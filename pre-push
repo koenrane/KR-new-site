@@ -12,7 +12,10 @@ function cleanup {
         git stash pop >>/dev/null
     fi
     if $SERVER_STARTED; then
-        kill -TERM $SERVER_PID
+        if ps -p "$SERVER_PID" > /dev/null; then
+            echo "Killing quartz server."
+            kill -TERM $SERVER_PID
+        fi
         # If we paused an existing server, resume it
         if [[ -n "$EXISTING_SERVER_PID" ]]; then
             echo "Resuming existing server (PID: $EXISTING_SERVER_PID)"
@@ -63,6 +66,12 @@ sh "$GIT_ROOT/scripts/handle_local_assets.sh"
 
 # Restart the server so that pages don't rely on stale assets which got deleted and uploaded
 #  That would throw false positives in the built_site_checks step
+EXISTING_SERVER_PID=$(pgrep quartz || true)
+if [[ -n "$EXISTING_SERVER_PID" ]]; then
+    echo "Pausing existing server (PID: $EXISTING_SERVER_PID)"
+    kill -STOP $EXISTING_SERVER_PID
+fi
+
 # Start new server
 npx quartz build --serve >/dev/null &
 SERVER_PID=$! # Store the server's process ID
@@ -72,7 +81,7 @@ while ! nc -z localhost 8080; do
     sleep 0.1 # Check every 100ms
 done
 
-echo "(Re)started quartz server."
+echo "Started quartz server."
 
 # Run visual regression testing
 set +e
