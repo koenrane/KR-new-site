@@ -1,27 +1,38 @@
 #!/bin/sh
 
 function cleanup {
+    local exit_code=$?
+    
+    # Ensure cleanup runs even if script fails
+    set +e
+    
     if [ $(git status --porcelain | wc -l) -gt 0 ]; then
-        # If references updated and files deleted, then commit the changes
+        echo "Committing changes..."
         git add -A
-        git commit -m "Uploaded assets to r2 and updated references."
+        git commit -m "Uploaded assets to r2 and updated references." || true
     fi
 
     PUSHED_CHANGES=$1
     if [[ $PUSHED_CHANGES -eq 1 ]]; then
-        git stash pop >>/dev/null
+        echo "Restoring stashed changes..."
+        git stash pop >>/dev/null || true
     fi
+    
     if $SERVER_STARTED; then
         if ps -p "$SERVER_PID" > /dev/null; then
-            echo "Killing quartz server."
-            kill -TERM $SERVER_PID
+            echo "Killing quartz server..."
+            kill -TERM $SERVER_PID || true
+            wait $SERVER_PID 2>/dev/null || true
         fi
-        # If we paused an existing server, resume it
+        
         if [[ -n "$EXISTING_SERVER_PID" ]]; then
             echo "Resuming existing server (PID: $EXISTING_SERVER_PID)"
-            kill -CONT $EXISTING_SERVER_PID
+            kill -CONT $EXISTING_SERVER_PID || true
         fi
     fi
+
+    # Restore original exit code
+    return $exit_code
 }
 
 # If there are any changes, stash them and return 1, otherwise return 0.
@@ -118,7 +129,9 @@ fish "$GIT_ROOT/scripts/linkchecker.fish"
 # Ensure that the date is updated on publish.
 # Has to come after linkchecker, because otherwise it'll check for a new article's remote github link which doesn't exist yet
 python "$GIT_ROOT/scripts/update_date_on_publish.py"
+echo "Updated date on publish."
 
 
 # Finally, timestamp the final commit
 sh "$GIT_ROOT/scripts/timestamp_last_commit.sh"
+echo "Timestamped last commit."
