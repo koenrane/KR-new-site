@@ -11,9 +11,10 @@ card_image:
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2024-11-15 16:20:21.782225
+date_updated: 2024-11-15 16:46:31.333446
 no_dropcap: "false"
 ---
+
 
 
 
@@ -450,7 +451,7 @@ Detecting multipliers
 : Multipliers  like "2x" are 2x more pleasant than "<span class="no-formatting">2x</span>."
 
 Full-width slashes
-: Used for separators like "cat" / "dog" in place of "cat"<span class="no-formatting"> / </span>"dog" - note that both have the same number of spaces!
+: Used for separators like "cat" / "dog" in place of "cat"<span class="no-formatting"> / </span>"dog" - note how cramped the EB Garamond halfwidth "/" is!
 
 Mathematical definitions
 : In the past, I used the $:=$ symbol to denote definitions (as opposed to normal equations). I now convert these symbols to the self-explanatory $ :=$.
