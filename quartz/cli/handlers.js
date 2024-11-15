@@ -523,7 +523,7 @@ async function generateCriticalCSS(outputDir, file) {
       base: outputDir,
       src: path.relative(outputDir, file),
       target: path.relative(outputDir, file),
-      width: 1300,
+      width: 1700,
       height: 900,
       penthouse: {
         unstableKeepBrowserAlive: true,
