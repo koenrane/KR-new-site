@@ -139,6 +139,12 @@ Reading textbooks
 1. I probably (70%) will want kids within the next 5 years.
 2. Ethical non-monogamy is important to me.
 
+## What I'm like in a relationship
+
+- I'm a positive presence. When my friends self-deprecate, I often scold them for insulting my friend (i.e. themselves). 
+- As of November 2024, my [attachment style](https://en.wikipedia.org/wiki/Attachment_theory#Attachment_styles_in_adults) leans "anxious-preoccupied." However, over the past few years, my style was "secure." I find it easy to date anxious folks because I like supporting my partners through reassurance and praise.
+- My [love language](https://en.wikipedia.org/wiki/The_Five_Love_Languages) is "quality time", closely followed by "words of affirmation." I want to find a life _partner_ - a mutually supportive and committed relationship. I want to do things together.
+
 ## What I appreciate in a partner
 
 This isn't a list of _demands_ or anything, just ingredients for a good relationship with me:
