@@ -428,11 +428,10 @@ figcaption,
 
 .small-caps {
   font-family: var(--font-text-sc);
-  font-size: 1.1em; // 1.1x the inherited size
-
   font-style: inherit;
   text-transform: lowercase;
-  -webkit-font-smoothing: antialiased; /* Prevent excess bolding */
+  font-variant-caps: small-caps; // Fixes kerning in a few cases
+  -webkit-font-smoothing: antialiased; // Prevent excess bolding
 
   &:visited {
     color: var(--color-visited);
