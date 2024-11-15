@@ -87,7 +87,7 @@ export function createPageListHast(
               h("div.section", [
                 page.dates && h("time.meta", [date]),
                 h("div.desc", [
-                  h("p", [
+                  h("p", { class: "page-listing-title" }, [
                     h("a.internal", { href: resolveRelative(fileDataSlug, pageSlug) }, title),
                   ]),
                   h(

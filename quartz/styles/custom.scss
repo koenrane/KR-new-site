@@ -344,9 +344,12 @@ figure,
   flex: 1 1 0px;
 }
 
+.article-title,
+.page-listing-title {
+  font-variant-numeric: lining-nums;
+}
 .article-title {
   margin: 2rem 0 0 0;
-  font-variant-numeric: lining-nums;
 
   @media all and (max-width: $fullPageWidth) {
     margin-top: $baseMargin;
