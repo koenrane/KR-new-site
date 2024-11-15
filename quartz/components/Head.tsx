@@ -120,7 +120,7 @@ export default (() => {
           href="/index.css"
           as="style"
           onLoad={
-            "this.rel = 'stylesheet'; document.querySelector('head style')?.remove(); console.info('Removed critical styles from onLoad')" as any
+            "this.rel = 'stylesheet'; const style = document.querySelector('head style'); if (style) { style.remove(); console.info('Removed critical styles from onLoad') }" as any
           }
           spa-preserve
         />
