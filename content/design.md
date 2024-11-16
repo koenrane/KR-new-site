@@ -726,7 +726,13 @@ I use [DeepSource](https://deepsource.io/) to [analyze and lint the repository.]
 
 I try to keep the repository clean of DeepSource issues, but it does point out a lot of unimportant issues (which I ignore). Sadly, their command-line tool cannot be configured to only highlight sufficiently important problems. So the DeepSource analysis is not yet part of my automated `pre-push` hook.
 
-----
+# Acknowledgments 
 
 > [!thanks] Thanking people who helped with this site
 > Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
+
+> [!info] Asset attributions
+> The <img src="https://assets.turntrout.com/static/images/plus.svg" alt="Plus sign"> and heart asset <img class="inline-img" src="https://assets.turntrout.com/static/images/heart.svg" "Heart icon"/> are [sourced from the "Dazzle Line Icons" collection](https://www.svgrepo.com/svg/532997/plus-large) under the CC attribution license. The  in the "thanks" admonition is [similarly sourced](https://www.svgrepo.com/svg/532473/heart). The link callout icon <img class="inline-img" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [svgrepo](https://www.svgrepo.com/svg/529680/link). 
+> 
+> The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji). [LessWrong](lesswrong.com) inspired the "previous/next" sequence navigation interface.
+  
