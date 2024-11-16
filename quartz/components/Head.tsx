@@ -54,7 +54,7 @@ export default (() => {
         <meta property="og:image:height" content="630" />
         <meta
           property="og:image:alt"
-          content="A pond containing a goose peacefully gazing at a castle."
+          content="A pond containing a trout and a goose peacefully swimming near a castle."
         />
       </>
     )
@@ -118,10 +118,10 @@ export default (() => {
         <link
           rel="stylesheet"
           href="/index.css"
-          // as="style"
-          // onLoad={
-          //   "this.rel = 'stylesheet'; const style = document.querySelector('head style'); if (style) { style.remove(); console.info('Removed critical styles from onLoad') }" as any
-          // }
+          onLoad={
+            // RequestAnimationFrame ensures the stylesheet is loaded
+            "requestAnimationFrame(() => {const style = document.querySelector('head style'); if (style) { style.remove(); console.info('Removed critical styles from onLoad') }})" as any
+          }
           spa-preserve
         />
 
