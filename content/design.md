@@ -187,9 +187,11 @@ Figure: Now the huge savings of AVIF are clearer.
 ### Videos
 Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
-Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_. The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. 
+Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari] [^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. 
 
-Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC. I'll fix that later - possibly I need to try a different codec.
+The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. 
+
+However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently compress HEVC. I'll fix that later - possibly I need to try a different codec.
 
 ## Inlining critical CSS
 
