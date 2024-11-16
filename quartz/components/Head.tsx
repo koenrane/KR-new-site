@@ -116,11 +116,21 @@ export default (() => {
         {authorElement}
 
         <link
-          rel="stylesheet"
+          rel="preload"
+          as="style"
           href="/index.css"
           onLoad={
-            // RequestAnimationFrame ensures the stylesheet is loaded
-            "requestAnimationFrame(() => {const style = document.querySelector('head style'); if (style) { style.remove(); console.info('Removed critical styles from onLoad') }})" as any
+            `
+            const style = document.querySelector('#critical-css');
+            console.log('Found critical style:', style);
+            if (style) { 
+              style.remove(); 
+              console.info('Removed critical styles');
+            } else {
+              console.warn('Critical style element not found');
+            }
+            this.rel='stylesheet';
+            ` as any
           }
           spa-preserve
         />

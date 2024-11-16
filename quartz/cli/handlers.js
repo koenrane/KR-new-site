@@ -11,7 +11,6 @@ import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises } from "fs"
 import glob from "glob-promise"
 import http from "http"
-import process from "node:process"
 import PQueue from "p-queue"
 import path from "path"
 import prettyBytes from "pretty-bytes"
@@ -423,7 +422,7 @@ export async function handleBuild(argv) {
 const LARGE_FILE_THRESHOLD = 256 * 1024 // 256 KB
 const CONCURRENT_OPERATIONS = 5
 const TIMEOUT = 10 * 60 * 1000 // 10 minutes
-const SKIP_FILES = ["gpt2-steering-vectors"]
+const SKIP_FILES = [""] // TODO errors on files with iframes, i think
 
 async function inlineCriticalCSS(outputDir) {
   console.log("Starting Critical CSS generation process...")
@@ -462,8 +461,8 @@ async function inlineCriticalCSS(outputDir) {
       console.log("All files processed. Waiting for queue to empty...")
       await queue.onIdle()
       console.log("Queue is empty. Process complete.")
-      // deepsource-ignore-next-line
-      process.exit(0)
+      // // deepsource-ignore-next-line
+      // process.exit(0)
     } catch (error) {
       console.error("Error in inlineCriticalCSS:", error)
     }
@@ -489,40 +488,47 @@ async function processFile(outputDir, file) {
   if (fileSize > LARGE_FILE_THRESHOLD) {
     console.log(`Large file detected: ${file}. Ignoring.`)
   } else {
-    await generateCriticalCSS(outputDir, file)
-
-    // Sort <head> contents so that Slack unfurls the page with the right info
-    // Read the modified HTML file
-    const htmlContent = await fs.promises.readFile(file, "utf8")
-    const $ = cheerio.load(htmlContent)
-
-    // Separate <meta>, <title>, and other tags
-    const headChildren = $("head").children()
-    const metaAndTitle = headChildren.filter(
-      (_i, el) => el.tagName === "meta" || el.tagName === "title",
-    )
-    const otherElements = headChildren.filter(
-      (_i, el) => el.tagName !== "meta" && el.tagName !== "title",
-    )
-
-    // Clear the head and re-append elements in desired order
-    $("head").empty()
-    $("head").append(metaAndTitle)
-    $("head").append(otherElements)
+    const htmlContent = await generateCriticalCSS(outputDir, file)
+    const reorderedHTML = reorderHead(htmlContent)
 
     // Write the modified HTML back to the file
-    await fs.promises.writeFile(file, $.html())
+    await fs.promises.writeFile(file, reorderedHTML)
   }
+}
+
+// Sort <head> contents so that Slack unfurls the page with the right info
+function reorderHead(htmlContent) {
+  const $ = cheerio.load(htmlContent)
+
+  // Separate <meta>, <title>, and other tags
+  const headChildren = $("head").children()
+  const metaAndTitle = headChildren.filter(
+    (_i, el) => el.tagName === "meta" || el.tagName === "title",
+  )
+
+  const isCriticalCSS = (_i, el) => el.tagName === "style" && el.attribs["id"] === "critical-css"
+  const criticalCSS = headChildren.filter(isCriticalCSS)
+
+  const otherElements = headChildren.filter(
+    (_i, el) => el.tagName !== "meta" && el.tagName !== "title" && !isCriticalCSS(_i, el),
+  )
+
+  // Clear the head and re-append elements in desired order
+  $("head").empty()
+  $("head").append(metaAndTitle)
+  $("head").append(criticalCSS)
+  $("head").append(otherElements)
+
+  return $.html()
 }
 
 async function generateCriticalCSS(outputDir, file) {
   try {
     console.log(`Generating critical CSS for ${file}`)
-    await generate({
+    const { html, css } = await generate({
       inline: true,
       base: outputDir,
       src: path.relative(outputDir, file),
-      target: path.relative(outputDir, file),
       width: 1700,
       height: 900,
       penthouse: {
@@ -530,6 +536,7 @@ async function generateCriticalCSS(outputDir, file) {
         puppeteer: {
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         },
+        keepLargerMediaQueries: true, // Want to compile for all screens
       },
       css: [
         path.join(outputDir, "index.css"),
@@ -537,9 +544,13 @@ async function generateCriticalCSS(outputDir, file) {
       ],
     })
     console.log(`Critical CSS inlined for ${file}`)
+    const styleTag = `<style id="critical-css">${css}</style>`
+    // Use simple string replacement to swap out the critical CSS
+    return html.replace(`<style>${css}</style>`, styleTag)
   } catch (error) {
     console.error(`Error generating critical CSS for ${file}:`, error)
   }
+  return ""
 }
 
 /**
