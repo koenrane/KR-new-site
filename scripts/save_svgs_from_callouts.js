@@ -19,7 +19,7 @@ const svgRegex = /--callout-icon-(\w+):\s*url\('data:image\/svg\+xml;(.+?)\);/g
 // Process each match
 let match
 while ((match = svgRegex.exec(content)) !== null) {
-  const [_, iconName, svgContent] = match
+  const [iconName, svgContent] = match
 
   // Decode the SVG content
   const decodedSvg = svgContent
