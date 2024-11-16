@@ -81,6 +81,10 @@
   transform: rotate(45deg);
   transform-origin: top left;
   width: 24px;
+
+  @media all and (max-width: $mobileBreakpoint) {
+    width: 23px;
+  }
 }
 
 .x:nth-of-type(2) {
@@ -94,6 +98,10 @@
   transform: rotate(-45deg);
   transform-origin: bottom left;
   width: 24px;
+
+  @media all and (max-width: $mobileBreakpoint) {
+    width: 23px;
+  }
 }
 
 @media all and (max-width: $mobileBreakpoint) {
