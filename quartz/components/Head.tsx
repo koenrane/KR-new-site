@@ -73,6 +73,22 @@ export default (() => {
         spa-preserve
       ></script>
     )
+    const onLoadCSS = `            
+      const style = document.querySelector('#critical-css');
+      console.log('Found critical style:', style);
+      if (style) { 
+        style.remove(); 
+        console.info('Removed critical styles');
+      } else {
+        console.warn('Critical style element not found');
+      }
+
+      const hideBodyStyle = document.querySelector('#hide-body');
+      if (hideBodyStyle) {
+        hideBodyStyle.remove();
+      }
+      this.rel='stylesheet';
+    `
 
     // Create a filtered object with only the properties you want to expose
     const exposedFrontmatter = {
@@ -118,25 +134,7 @@ export default (() => {
         {/* Twitter author metadata */}
         {authorElement}
 
-        <link
-          rel="preload"
-          as="style"
-          href="/index.css"
-          onLoad={
-            `
-            const style = document.querySelector('#critical-css');
-            console.log('Found critical style:', style);
-            if (style) { 
-              style.remove(); 
-              console.info('Removed critical styles');
-            } else {
-              console.warn('Critical style element not found');
-            }
-            this.rel='stylesheet';
-            ` as any
-          }
-          spa-preserve
-        />
+        <link rel="preload" as="style" href="/index.css" onLoad={onLoadCSS as any} spa-preserve />
 
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
