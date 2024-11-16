@@ -499,6 +499,11 @@ img.favicon {
     }
   }
 
+  // Make NeurIPS logo white on dark mode
+  &[src$="nips_cc.avif"] {
+    filter: invert(100%);
+  }
+
   &[src$="arbital_com.avif"],
   &[src$="aaai_org.avif"] {
     :root[saved-theme="light"] & {
