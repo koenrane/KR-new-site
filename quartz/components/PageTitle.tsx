@@ -9,7 +9,7 @@ import { FullSlug, pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
-  <span id="header-video-container">
+  <span id="header-video-container" spa-preserve>
     <img
       src="https://assets.turntrout.com/static/pond.gif"
       id="header-gif"
