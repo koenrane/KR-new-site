@@ -14,6 +14,7 @@ import http from "http"
 import PQueue from "p-queue"
 import path from "path"
 import prettyBytes from "pretty-bytes"
+import process from "process"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
@@ -462,7 +463,7 @@ async function inlineCriticalCSS(outputDir) {
       await queue.onIdle()
       console.log("Queue is empty. Process complete.")
       // // deepsource-ignore-next-line
-      // process.exit(0)
+      process.exit(0)
     } catch (error) {
       console.error("Error in inlineCriticalCSS:", error)
     }
