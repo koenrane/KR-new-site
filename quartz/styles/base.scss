@@ -7,10 +7,16 @@
 html {
   scroll-behavior: smooth;
   width: 100%;
+
+  // More specific than the global body selector
+  // So a backup if the selector isn't removed
+  & body {
+    visibility: visible;
+  }
 }
+
 body,
 section {
-  visibility: visible;
   margin: 0;
   max-width: 100%;
   box-sizing: border-box;

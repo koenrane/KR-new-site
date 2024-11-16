@@ -545,8 +545,7 @@ async function generateCriticalCSS(outputDir, file) {
       ],
     })
     console.log(`Critical CSS inlined for ${file}`)
-    // Ensure body is visible, originally hidden to prevent FOUC
-    const enhancedCSS = `${css}\nbody { visibility: visible; }`
+    const enhancedCSS = `${css}\nhtml body { visibility: visible; }`
     const styleTag = `<style id="critical-css">${enhancedCSS}</style>`
     return html.replace(`<style>${css}</style>`, styleTag)
   } catch (error) {
