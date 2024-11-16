@@ -141,8 +141,11 @@ In contrast, the idea behind non-obstruction is that we still remain able to cou
 
 <hr/>
 
+$$
+S:=\{\text{paint cars green}, \text{hoard pebbles},\text{eat cake}\}
+$$
 
-Let $S:=\{\text{paint cars green}, \text{hoard pebbles},\text{eat cake}\}$ and consider the real world. Calculators are non-obstructive with respect to $S$, as are modern-day AIs. Paperclip maximizers are highly obstructive. Manipulative agents are obstructive (they trick the human policies into steering towards non-reflectively-endorsed leaf nodes). An initial-human-values-aligned dictator AI obstructs most goals. Sub-human-level AI which chip away at our autonomy and control over the future, are obstructive as well.
+Consider the real world. Calculators are non-obstructive with respect to $S$, as are 2020-era AIs. Paperclip maximizers are highly obstructive. Manipulative agents are obstructive (they trick the human policies into steering towards non-reflectively-endorsed leaf nodes). An initial-human-values-aligned dictator AI obstructs most goals. Sub-human-level AI which chip away at our autonomy and control over the future, are obstructive as well.
 
 This can seemingly go off the rails if you consider e.g. a friendly AGI to be “obstructive” because activating it happens to detonate a nuclear bomb via the butterfly effect. Or, we’re already doomed in **off** (an unfriendly AGI will come along soon after), and so then this AI is “not obstructive” if _it_ kills us instead. This is an impact/intent issue - obstruction is here defined according to _impact_ alignment.
 
@@ -154,7 +157,8 @@ Lastly, payoff functions can sometimes be more or less granular than we'd like, 
 
 # Alignment flexibility
 
-Main idea: By considering how the AI affects your attainable utility (AU) landscape, you can quantify how helpful and flexible an AI is.
+> [!idea] Main idea
+> By considering how the AI affects your attainable utility (AU) landscape, you can quantify how helpful and flexible an AI is.
 
 ---
 
@@ -231,11 +235,13 @@ Most importantly, this frame collapses the alignment and corrigibility desiderat
 
 # Theoretically, It’s All About Alignment
 
-Main idea: We only care about how the agent affects our abilities to pursue different goals (our AU landscape) in the two-player game, and not how that happens. AI alignment subproblems (such as corrigibility, intent alignment, low impact, and mild optimization) are all instrumental avenues for making AIs which affect this AU landscape in specific desirable ways.
+> [!idea] Main idea
+> We only care about how the agent affects our abilities to pursue different goals (our AU landscape) in the two-player game, and not how that happens. AI alignment subproblems (such as corrigibility, intent alignment, low impact, and mild optimization) are all instrumental avenues for making AIs which affect this AU landscape in specific desirable ways.
 
 ## Formalizing impact alignment in extensive-form games
 
-> **Impact alignment:** the AI’s actual impact is aligned with what we want. Deploying the AI actually makes good things happen.
+> [!info] Definition: Impact alignment
+> The AI’s actual impact is aligned with what we want. Deploying the AI actually makes good things happen.
 
 [We care about events if and only if they change our ability to get what we want](/attainable-utility-theory). If you want to understand normative AI alignment desiderata, on some level they have to ground out in terms of your ability to get what you want ([the AU theory of impact](/attainable-utility-theory)) - the goodness of what actually ends up happening under your policy - and in terms of how other agents affect your ability to get what you want ([the AU landscape](/attainable-utility-landscape)). What else could we possibly care about, besides our ability to get what we want? 
 
@@ -303,7 +309,8 @@ To be confident that this holds empirically, it sure seems like you want high er
 
 # What Do We Want?
 
-Main idea: we want good things to happen; there may be more ways to do this than previously considered.[^Rohin]
+> [!idea] Main idea 
+> We want good things to happen; there may be more ways to do this than previously considered.[^Rohin]
 [^Rohin]: Instead of "impact corrigibility", Rohin Shah suggests "empirical corrigibility": we actually end up able to correct the AI.
 
 |        | Alignment                          | Corrigibility                                                                                    | Non-obstruction                |
