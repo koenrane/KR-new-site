@@ -342,6 +342,9 @@ h4,
 h5,
 h6,
 #toc-content li {
+  // Ensure headers are visible even when the navbar is present
+  scroll-margin-top: calc(6 * $baseMargin);
+
   // Oldstyle is too small for headers
   &::first-letter,
   & span,
