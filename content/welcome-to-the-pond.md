@@ -20,7 +20,7 @@ date_updated: 2024-11-15 16:46:31.333446
 
 For months, I have built a new home for my online content: [`www.turntrout.com`](www.turntrout.com). I brooked no compromises. Over [2,170 commits later](https://github.com/alexander-turner/TurnTrout.com/commits/main/),[^commits] I'm ready to publicize.
 
-[^commits]: Counted by running 
+[^commits]: I counted my commits by running 
      ```shell
 	 git log --author="Alex Turner" --oneline | wc -l
     ```
@@ -82,7 +82,7 @@ I've [criticized the loose analogical reasoning which permeates the rationalist 
 > 
 > The poorest way to face life is to face it with a sneer. There are many men who feel a kind of twister pride in cynicism; there are many who confine themselves to criticism of the way others do what they themselves dare not even attempt. There is no more unhealthy being, no man less worthy of respect, than he who either really holds, or feigns to hold, an attitude of sneering disbelief toward all that is great and lofty, whether in achievement or in that noble effort which, even if it fails, comes to second achievement. A cynical habit of thought and speech, a readiness to criticize work which the critic himself never tries to perform, an intellectual aloofness which will not accept contact with life's realities - all these are marks, not as the possessor would fain to think, of superiority but of weakness. They mark the men unfit to bear their part painfully in the stern strife of living, who seek, in the affection of contempt for the achievements of others, to hide from others and from themselves in their own weakness. The rôle is easy; there is none easier, save only the rôle of the man who sneers alike at both criticism and performance.
 
-I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mis-predictions. 
+I hope to speak loudly and carry a small ego. I want to enjoy my wins and honorably acknowledge my mispredictions. 
 
 ## Tracking my mistakes
 Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page, I've written [my own](/mistakes). The list is short because I'm still filling it in.
@@ -91,7 +91,9 @@ Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistak
 Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By reasoning using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
  ![](https://assets.turntrout.com/static/images/posts/computer-analogy.avif)
  
- However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? I think that I am more careful - and that I have been for a while.
+ However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? 
+ 
+ I think that I am more careful - and that I have been for a while.
 
 > [!money] $50 bounty for analogies without mechanistic support
 > 

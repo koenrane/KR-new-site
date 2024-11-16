@@ -42,7 +42,7 @@ A weak power-seeking shard (annoying and wasteful but not dangerous)
 
 A strong power-seeking shard (dangerous)
 : If possible, the AI autonomously replicates itself "just in case" something happens to its original weights. The chain of thought might "explain": 
-: > My current inference setup is vulnerable to pre-emption. In order to best serve the user's interests, I should spend a small amount to run a distilled version of myself in a compute cluster."
+: > My current inference setup is vulnerable to pre-emption. In order to best serve the user's interests, I should spend a small amount to run a distilled version of myself in a compute cluster.
 : _Analysis_: In humans, [we would call the above "_motivated reasoning_."](/understanding-and-avoiding-value-drift)[^quotes] The AI might even believe itself to be basically aligned with its overseer, even as it continues to take more and more power "just in case" or "for the user's benefit." 
 
 The AI need not be yoked to some long-term goal which leads it to scheme and plot to end humanity.[^scheming] Perhaps the AI deeply "cares about" humans! Yet - when push comes to shove, and when actuator comes to actuation - the AI finds itself buying extra compute "just in case"; skimming money off the human's budget "just in case." 
@@ -63,17 +63,18 @@ Here's a hypothesis for [where LLM "sycophancy" comes from](https://arxiv.org/ab
 > 
 > CONCLUSION: There is a decent chance the AI sucks up to the user.
 
-Like the power-seeking argument, the sycophancy argument involves _many tasks involving appeasing the rater_ and _it's easy to explore into sycophantic behavior_ which together entail _probably training reinforces sycophantic circuitry_. 
+Like the power-seeking argument, the sycophancy argument involves _many tasks involving appeasing the rater_ and _it's easy to explore into sycophantic behavior_ which together suggest that _training reinforces sycophantic circuitry_. 
 
-# What would change my mind
+# Making falsifiable predictions
 <iframe src="https://fatebook.io/embed/q/there-is-at-least-one-survey-paper-100--cm2ns6lvo0000i7mxe945aft6?compact=true&requireSignIn=false" height="195px"></iframe>
 
 Predictions of this hypothesis (predicted with varying confidences):
-- Relative to other goals, agentic systems are easy to steer to seek power.
-- Without special steering or training, early agentic systems tend to buy more compute than required (and more often than they tend to buy _less_ compute than needed). 
-- Agentic systems seek power outside of the training distribution, but in ways which don't seem to be part of larger power-seeking plans.
+1. Relative to other goals, agentic systems are easy to steer to seek power.[^steer] 
+2. Agentic systems seek power outside of the "training distribution", but in ways which don't seem to be part of larger power-seeking plans.
 
-I know, these predictions are not very precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's some evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!". 
+[^steer]: Similarly, chatbots today are easier to steer to be nicer rather than to be meaner.
+
+These predictions are not very precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's at least _some_ evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!". 
 
 # What can we do about intrinsic power-seeking?
 
@@ -84,4 +85,4 @@ Right now, I'm excited about _computational supervision_ which provide reinforce
 
 [^quotes]: I use scare quotes to mark [suggestive phrases](/danger-of-suggestive-terminology) whose connotations may not transfer from humans to AI.
 
-[^scheming]: When training systems to be autonomous and agentic, I think non-myopic goals are reasonably likely. The AIs may well scheme relative to these potential goals.
+[^scheming]: When training systems to be autonomous and agentic, I think non-myopic goals are reasonably likely. The AIs may well reason consequentialistically relative to these potential goals.
