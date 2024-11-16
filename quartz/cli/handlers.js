@@ -423,7 +423,7 @@ export async function handleBuild(argv) {
 const LARGE_FILE_THRESHOLD = 256 * 1024 // 256 KB
 const CONCURRENT_OPERATIONS = 5
 const TIMEOUT = 10 * 60 * 1000 // 10 minutes
-const SKIP_FILES = [""] // TODO errors on files with iframes, i think
+const SKIP_FILES = [] // TODO errors on files with iframes, i think
 
 async function inlineCriticalCSS(outputDir) {
   console.log("Starting Critical CSS generation process...")
