@@ -61,7 +61,8 @@ I previously speculated that we should be able to get quantitative lower bounds 
 
 > [!quote] [Environmental Structure Can Cause Instrumental Convergence](/environmental-structure-can-cause-instrumental-convergence#Combinatorics-how-do-they-work)
 >
-> **Definition.** At state $s$ , _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the [orbit](/environmental-structure-can-cause-instrumental-convergence#Orbits-of-goals) agrees that $a$ has at least as much action value as $a'$ does at state $s$.
+> > [!math] Definition: Orbit-level tendencies 
+> > At state $s$ , _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the [orbit](/environmental-structure-can-cause-instrumental-convergence#Orbits-of-goals) agrees that $a$ has at least as much action value as $a'$ does at state $s$.
 > 
 > ...
 > 

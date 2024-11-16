@@ -77,7 +77,8 @@ At first, I was confused why _open_ subspaces $Y$ of compact $X$ don't have to b
 
 ## Getting closure
 
-_Theorem: If $X$ is compact, show that the projection $\pi_2 : X \times Y \to Y$ is closed._
+> [!math] Theorem
+> If $X$ is compact, the projection $\pi_2 : X \times Y \to Y$ is closed.
 
 I was confused why we needed compactness. Essentially, I didn't understand [the tube lemma](https://dantopology.wordpress.com/2011/05/01/the-tube-lemma/).
 
@@ -85,7 +86,8 @@ I was confused why we needed compactness. Essentially, I didn't understand [the 
 
 Now let's prove the theorem. Suppose $C$ is closed in $X \times Y$. We want to show $f(C)$ is also closed. Take $y\not \in \pi(C)$. $(X\times Y)-C$ is an open set of the domain containing the slice $X \times \{y\}$. Since $X$ is compact, apply the tube lemma to get a tube $X \times U$. The projection of this tube is both open (because $U$ is open in $Y$) and disjoint from $\pi(C)$ (because the tube is contained in $(X\times Y)-C$). Thus, all $y \not \in \pi(C)$ have an open neighborhood disjoint from $\pi(C)$, so $\pi(C)$ must be closed.
 
-_Let $X$ be a locally compact space. If $f:X\to Y$ is continuous, does it follow that $f(X)$ is locally compact? What if $f$ is both continuous and open?_
+> [!math] Another exercise
+> Let $X$ be a locally compact space. If $f:X\to Y$ is continuous, does it follow that $f(X)$ is locally compact? What if $f$ is both continuous and open?
 
 It has to be both continuous and open; the reason I got confused here was it seemed like continuity should be enough. It _was_ plain to me how to prove it given $f$ open, but [this SE post](https://math.stackexchange.com/questions/1287344/continuous-image-of-a-locally-compact-space-is-locally-compact) has a good counterexample for just $f$ continuous.
 

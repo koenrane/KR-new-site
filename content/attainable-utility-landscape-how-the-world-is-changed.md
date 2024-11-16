@@ -131,7 +131,8 @@ We say two rewardless MDPs $M$ and $M'$ are _isomorphic up to possibilities_ if 
 
 This isomorphism is a natural contender[^1] for the canonical (finite) MDP isomorphism:
 
-**Theorem:** $M$ and $M'$ are isomorphic up to possibilities IFF their directed graphs are isomorphic (and they have the same discount rate).
+> [!math] A theorem I proved 
+> $M$ and $M'$ are isomorphic up to possibilities IFF their directed graphs are isomorphic (and they have the same discount rate).
 
 ### Representation equivalence
 
@@ -176,7 +177,7 @@ $$
 > >
 > >! The other two states correspond to the "1" entries in their possibilities, so we can mark that down. The rest follows straightforwardly.
 
-> [!info] Theorem
+> [!math] Theorem
 > Suppose the rewardless MDP $M$ has possibility function $\mathcal{F}$. Given only $\mathcal{F}$,[^2] $M$ can be reconstructed up to possibility isomorphism.
 
 In MDPs, the "AU landscape" is the set of optimal value functions for all reward functions over states in that MDP. If you know the optimal value functions for just $|\mathcal{S}|$ reward functions, you can also reconstruct the rewardless MDP structure.[^3]
@@ -196,7 +197,8 @@ Going to the green state means you can't get to the purple state as quickly.
 
 On a deep level, why is the world structured such that this happens? Could you imagine a world without opportunity cost of any kind? The answer, again in the rewardless MDP setting, is simple: "yes, but the world would be trivial: you wouldn't have any choices". Using a straightforward formalization of opportunity cost, we have:
 
-**Theorem:** Opportunity cost exists in an environment IFF there is a state with more than one possibility.
+> [!math] Existence of opportunity cost
+> Opportunity cost exists in an environment IFF there is a state with more than one possibility.
 
 Philosophically, opportunity cost exists when you have meaningful choices. When you make a choice, you're necessarily moving away from some potential future but towards another; since you can't be in more than one place at the same time, opportunity cost follows. Equivalently, we assumed the agent isn't infinitely farsighted ($\gamma<1$); if it were, it would be possible to be in "more than one place at the same time", in a sense (thanks to Rohin Shah for this interpretation).
 

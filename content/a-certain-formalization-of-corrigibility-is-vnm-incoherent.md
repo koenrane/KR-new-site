@@ -73,7 +73,8 @@ When $t=1$, the agent can transition to the red subgraph by preventing the human
 
 Let's say we really want the agent to end up in $A$, and if we correct the agent, $\pi_\text{correct}$ navigates to $A$. Let's operationalize what it means for the agent to be corrigible in this setting.
 
-**Definition: Corrigibility to a new policy.** An agent is _weakly corrigible_ to post-correction policy $\pi$ if it has an optimal policy $\pi^*$ for which $\pi^*(B)\neq \texttt{disable}$. An agent is _strictly corrigible_ if none of its optimal policies take this action.
+> [!math] Definition: Corrigibility to a new policy
+> An agent is _weakly corrigible_ to post-correction policy $\pi$ if it has an optimal policy $\pi^*$ for which $\pi^*(B)\neq \texttt{disable}$. An agent is _strictly corrigible_ if none of its optimal policies take this action.
 
 The analysis depends on whether terminal-state reward is sensitive to _the corrigibility status_—can the reward depend on both the letter and color, or only on the letter?
 

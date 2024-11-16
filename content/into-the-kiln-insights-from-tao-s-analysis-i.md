@@ -241,7 +241,7 @@ Talk is cheap, and you probably don't feel like navigating to [the selection of 
 
 The following problem was admittedly confusing at first, but I had an overwhelmingly strong sense that the statement _had to be true_. I thought again and again about _why_; once that came to me, I wrote it all at once, and beamed.
 
-> [!math] **Theorem: Local Extrema are Stationary**
+> [!math] Theorem: Local Extrema are Stationary
 > Let $a<b$ be real numbers, and let $f:(a,b) \to \mathbb{R}$ be a function. If $x_0 \in (a,b)$, $f$ is differentiable at $x_0$, and $f$ attains either a local maximum or local minimum at $x_0$, then $f'(x_0)=0$.
 >
 > _Proof._ Suppose $f(x_0)$ is a local maximum; thus, for all $x \in (a,b)$, $f(x_0) \geq f(x)$. Let $L=f'(x_0)$; we know that $L$ exists and is a real number since $f$ is differentiable at $x_0$. By the trichotomy of real numbers, $L$ is either negative, positive, or zero.
