@@ -514,3 +514,26 @@ def test_upload_and_move_file_exists(
         "File 'static/test.jpg' already exists in R2. Use '--overwrite-existing' to overwrite."
         in captured.out
     )
+
+
+# Ensure we tell rclone to handle the MIME header correctly
+def test_upload_svg_with_metadata(mock_git_root: Path):
+    test_file = mock_git_root / "quartz" / "static" / "test.svg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with patch("subprocess.run") as mock_run, patch("shutil.move"):
+        r2_upload.upload_and_move(test_file, verbose=True)
+
+        # Check that rclone was called with the correct metadata for SVG
+        mock_run.assert_any_call(
+            [
+                "rclone",
+                "copyto",
+                str(test_file),
+                f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.svg",
+                "--metadata-set",
+                "content-type=image/svg+xml",
+            ],
+            check=True,
+        )

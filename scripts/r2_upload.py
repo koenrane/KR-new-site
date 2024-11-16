@@ -119,7 +119,12 @@ def upload_and_move(
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
 
     try:
-        subprocess.run(["rclone", "copyto", str(file_path), upload_target], check=True)
+        rclone_args = ["rclone", "copyto", str(file_path), upload_target]
+
+        # Add metadata option for SVG files -- otherwise CORS will deny the request by the client
+        if file_path.suffix.lower() == ".svg":
+            rclone_args.extend(["--metadata-set", "content-type=image/svg+xml"])
+        subprocess.run(rclone_args, check=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
