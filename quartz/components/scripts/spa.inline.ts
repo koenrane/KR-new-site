@@ -122,11 +122,6 @@ async function navigate(url: URL) {
   saveScrollPosition(window.location.toString())
   history.pushState({}, "", url)
 
-  if (url.hash) {
-    // AKA the anchor
-    scrollToHash(url.hash)
-  }
-
   let contents: string | undefined
 
   try {
@@ -162,7 +157,18 @@ async function navigate(url: URL) {
   html.body.appendChild(announcer)
 
   // Morph body
-  micromorph(document.body, html.body)
+  await micromorph(document.body, html.body)
+
+  // Patch head
+  const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
+  elementsToRemove.forEach((el) => el.remove())
+  const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
+  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
+
+  // Scroll to the anchor AFTER the content has been updated
+  if (url.hash) {
+    scrollToHash(url.hash)
+  }
 
   // Smooth scroll for anchors; else jump instantly
   const isSamePageNavigation = url.pathname === window.location.pathname
@@ -188,24 +194,6 @@ async function navigate(url: URL) {
       behavior: "instant",
     })
   }
-
-  // Patch head
-  const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
-  elementsToRemove.forEach((el) => el.remove())
-  const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
-  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
-
-  // Comment out the critical styles removal
-  // function removeCriticalStyles() {
-  //   const criticalStyles = document.querySelectorAll("head style")
-
-  //   if (criticalStyles.length > 1) {
-  //     console.warn("More than one style tag found in head")
-  //   }
-
-  //   criticalStyles[0].remove()
-  //   console.info("Removed critical styles from spa.inline.ts")
-  // }
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
