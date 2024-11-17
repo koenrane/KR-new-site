@@ -468,9 +468,11 @@ async function inlineCriticalCSS(outputDir) {
 // Sort <head> contents so that Slack unfurls the page with the right info
 function reorderHead(htmlContent) {
   const $ = cheerio.load(htmlContent)
+  const head = $("head")
+  const originalChildCount = head.children().length
 
   // Separate <meta>, <title>, and other tags
-  const headChildren = $("head").children()
+  const headChildren = head.children()
   const metaAndTitle = headChildren.filter(
     (_i, el) => el.tagName === "meta" || el.tagName === "title",
   )
@@ -483,10 +485,17 @@ function reorderHead(htmlContent) {
   )
 
   // Clear the head and re-append elements in desired order
-  $("head").empty()
-  $("head").append(metaAndTitle)
-  $("head").append(criticalCSS)
-  $("head").append(otherElements)
+  head.empty()
+  head.append(metaAndTitle)
+  head.append(criticalCSS)
+  head.append(otherElements)
+
+  const finalChildCount = head.children().length
+  if (originalChildCount !== finalChildCount) {
+    throw new Error(
+      `Head reordering changed number of elements: ${originalChildCount} -> ${finalChildCount}`,
+    )
+  }
 
   return $.html()
 }
