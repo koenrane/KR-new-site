@@ -7,11 +7,12 @@ description: I'm TurnTrout, but the United States government insists on calling 
   "Alexander Matt Turner." I like writing about lots of stuff and learning about lots
   of stuff.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-11-17 10:03:38.936163
 tags:
   - personal
 title: About me
 ---
+
 
 
 Hi! I'm `TurnTrout`, but the United States government insists on calling me "Alexander Matt Turner." I like writing about lots of stuff and learning about lots of stuff. For more about my professional life, check out [my research](/research). ^first-para

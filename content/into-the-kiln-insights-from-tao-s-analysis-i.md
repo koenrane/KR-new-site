@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
 description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural
   numbers to Riemann integrals. Rigorous yet accessible.
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-11-17 10:03:38.936163
 ---
+
 
 
 
