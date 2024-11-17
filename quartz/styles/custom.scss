@@ -226,6 +226,7 @@ a {
   word-break: break-word;
   hyphens: auto;
   margin-top: 0em;
+  text-underline-offset: 2px; // Default underline too close to text
 
   // After you visit a link, it becomes less important that it stands out
   &:visited {
