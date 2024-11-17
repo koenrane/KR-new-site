@@ -100,9 +100,15 @@ export default (() => {
       ></script>
     )
     const onLoadCSS = `
+      if (this?.hasRemovedCriticalCSS) {
+        return;  // Exit early if we've already handled this
+      }
+
       const style = document.querySelector('#critical-css');
       if (style) { 
         style.remove(); 
+        console.info('Removed critical styles');
+        this.hasRemovedCriticalCSS = true;
       } else {
         console.warn('Critical style element not found');
       }
@@ -113,6 +119,8 @@ export default (() => {
       } else {
         console.warn('Hide body style element not found');
       }
+
+      this.hasRemovedCriticalCSS = true;
       this.rel='stylesheet';
     `
 
