@@ -886,6 +886,7 @@ hr {
 
 article[data-use-dropcap="true"] {
   --dropcap-vertical-offset: 0.15rem;
+  --dropcap-font-size: 3.95rem;
   & > p:first-of-type {
     position: relative;
     min-height: 4.2rem;
@@ -896,7 +897,7 @@ article[data-use-dropcap="true"] {
     position: absolute;
     top: var(--dropcap-vertical-offset);
     left: 0;
-    font-size: 4rem;
+    font-size: var(--dropcap-font-size);
     line-height: 1;
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF2";
@@ -909,7 +910,7 @@ article[data-use-dropcap="true"] {
     float: left;
     pointer-events: none; /* Ensure it doesn't interfere with user interactions */
     color: var(--lightgray);
-    font-size: 4rem;
+    font-size: var(--dropcap-font-size);
     line-height: 1;
     padding-right: 0.1em;
     font-family: "EBGaramondInitialsF1";
