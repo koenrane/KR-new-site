@@ -891,6 +891,7 @@ article[data-use-dropcap="true"] {
     position: relative;
     min-height: 4.2rem;
   }
+  --dropcap-font-size: 3.95rem;
   & > p:first-of-type::before {
     content: attr(data-first-letter);
     text-transform: uppercase;
