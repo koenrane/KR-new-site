@@ -14,7 +14,6 @@ import http from "http"
 import PQueue from "p-queue"
 import path from "path"
 import prettyBytes from "pretty-bytes"
-import process from "process"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
@@ -305,198 +304,201 @@ export async function handleBuild(argv) {
     }
   }
 
-  if (argv.serve) {
-    const connections = []
-    const clientRefresh = () => connections.forEach((conn) => conn.send("rebuild"))
+  if (!argv.serve) {
+    await build(() => {})
+    await inlineCriticalCSS(argv.output)
+    await ctx.dispose()
+    return
+  }
 
-    if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
-      argv.baseDir = "/" + argv.baseDir
+  const connections = []
+  const clientRefresh = async () => {
+    // Don't regenerate critical CSS on every refresh
+    connections.forEach((conn) => conn.send("rebuild"))
+  }
+
+  if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
+    argv.baseDir = "/" + argv.baseDir
+  }
+
+  await build(clientRefresh)
+
+  // Generate critical CSS once after initial build
+  await inlineCriticalCSS(argv.output)
+
+  const server = http.createServer(async (req, res) => {
+    if (argv.baseDir && !req.url?.startsWith(argv.baseDir)) {
+      console.log(
+        chalk.red(`[404] ${req.url} (warning: link outside of site, this is likely a Quartz bug)`),
+      )
+      res.writeHead(404)
+      res.end()
+      return
     }
 
-    await build(clientRefresh)
-    const server = http.createServer(async (req, res) => {
-      if (argv.baseDir && !req.url?.startsWith(argv.baseDir)) {
-        console.log(
-          chalk.red(
-            `[404] ${req.url} (warning: link outside of site, this is likely a Quartz bug)`,
-          ),
-        )
-        res.writeHead(404)
-        res.end()
-        return
-      }
+    // strip baseDir prefix
+    req.url = req.url?.slice(argv.baseDir.length)
 
-      // strip baseDir prefix
-      req.url = req.url?.slice(argv.baseDir.length)
-
-      const serve = async () => {
-        const release = await buildMutex.acquire()
-        await serveHandler(req, res, {
-          public: argv.output,
-          directoryListing: false,
-          headers: [
-            {
-              source: "**/*.*",
-              headers: [{ key: "Content-Disposition", value: "inline" }],
-            },
-          ],
-        })
-        const status = res.statusCode
-        const statusString =
-          status >= 200 && status < 300 ? chalk.green(`[${status}]`) : chalk.red(`[${status}]`)
-        console.log(statusString + chalk.grey(` ${argv.baseDir}${req.url}`))
-        release()
-      }
-
-      const redirect = (newFp) => {
-        newFp = argv.baseDir + newFp
-        res.writeHead(302, {
-          Location: newFp,
-        })
-        console.log(chalk.yellow("[302]") + chalk.grey(` ${argv.baseDir}${req.url} -> ${newFp}`))
-        res.end()
-      }
-
-      let fp = req.url?.split("?")[0] ?? "/"
-
-      // handle redirects
-      if (fp.endsWith("/")) {
-        // /trailing/
-        // does /trailing/index.html exist? if so, serve it
-        const indexFp = path.posix.join(fp, "index.html")
-        if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-          req.url = fp
-          return serve()
-        }
-
-        // does /trailing.html exist? if so, redirect to /trailing
-        let base = fp.slice(0, -1)
-        if (path.extname(base) === "") {
-          base += ".html"
-        }
-        if (fs.existsSync(path.posix.join(argv.output, base))) {
-          return redirect(fp.slice(0, -1))
-        }
-      } else {
-        // /regular
-        // does /regular.html exist? if so, serve it
-        let base = fp
-        if (path.extname(base) === "") {
-          base += ".html"
-        }
-        if (fs.existsSync(path.posix.join(argv.output, base))) {
-          req.url = fp
-          return serve()
-        }
-
-        // does /regular/index.html exist? if so, redirect to /regular/
-        let indexFp = path.posix.join(fp, "index.html")
-        if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-          return redirect(fp + "/")
-        }
-      }
-
-      return serve()
-    })
-    server.listen(argv.port)
-    const wss = new WebSocketServer({ port: argv.wsPort })
-    wss.on("connection", (ws) => connections.push(ws))
-    console.log(
-      chalk.cyan(
-        `Started a Quartz server listening at http://localhost:${argv.port}${argv.baseDir}`,
-      ),
-    )
-    console.log("hint: exit with ctrl+c")
-    chokidar
-      .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
-        ignoreInitial: true,
+    const serve = async () => {
+      const release = await buildMutex.acquire()
+      await serveHandler(req, res, {
+        public: argv.output,
+        directoryListing: false,
+        headers: [
+          {
+            source: "**/*.*",
+            headers: [{ key: "Content-Disposition", value: "inline" }],
+          },
+        ],
       })
-      .on("all", async () => {
-        build(clientRefresh)
+      const status = res.statusCode
+      const statusString =
+        status >= 200 && status < 300 ? chalk.green(`[${status}]`) : chalk.red(`[${status}]`)
+      console.log(statusString + chalk.grey(` ${argv.baseDir}${req.url}`))
+      release()
+    }
+
+    const redirect = (newFp) => {
+      newFp = argv.baseDir + newFp
+      res.writeHead(302, {
+        Location: newFp,
       })
-  } else {
-    await build(() => {})
-    ctx.dispose()
-  }
-}
+      console.log(chalk.yellow("[302]") + chalk.grey(` ${argv.baseDir}${req.url} -> ${newFp}`))
+      res.end()
+    }
 
-const LARGE_FILE_THRESHOLD = 256 * 1024 // 256 KB
-const CONCURRENT_OPERATIONS = 5
-const TIMEOUT = 10 * 60 * 1000 // 10 minutes
-const SKIP_FILES = [] // TODO errors on files with iframes, i think
+    let fp = req.url?.split("?")[0] ?? "/"
 
-async function inlineCriticalCSS(outputDir) {
-  console.log("Starting Critical CSS generation process...")
-  const queue = new PQueue({ concurrency: CONCURRENT_OPERATIONS })
-  let completedFiles = 0
-  let totalFiles = 0
+    // handle redirects
+    if (fp.endsWith("/")) {
+      // /trailing/
+      // does /trailing/index.html exist? if so, serve it
+      const indexFp = path.posix.join(fp, "index.html")
+      if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
+        req.url = fp
+        return serve()
+      }
 
-  const timeoutPromise = new Promise((_, reject) => {
-    setTimeout(() => reject(new Error("Operation timed out")), TIMEOUT)
+      // does /trailing.html exist? if so, redirect to /trailing
+      let base = fp.slice(0, -1)
+      if (path.extname(base) === "") {
+        base += ".html"
+      }
+      if (fs.existsSync(path.posix.join(argv.output, base))) {
+        return redirect(fp.slice(0, -1))
+      }
+    } else {
+      // /regular
+      // does /regular.html exist? if so, serve it
+      let base = fp
+      if (path.extname(base) === "") {
+        base += ".html"
+      }
+      if (fs.existsSync(path.posix.join(argv.output, base))) {
+        req.url = fp
+        return serve()
+      }
+
+      // does /regular/index.html exist? if so, redirect to /regular/
+      let indexFp = path.posix.join(fp, "index.html")
+      if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
+        return redirect(fp + "/")
+      }
+    }
+
+    return serve()
   })
 
-  const processPromise = (async () => {
-    try {
-      const files = await glob(`${outputDir}/**.html`)
-      totalFiles = files.length
-      console.log(`Found ${totalFiles} HTML files to process.`)
+  server.listen(argv.port)
+  const wss = new WebSocketServer({ port: argv.wsPort })
+  wss.on("connection", (ws) => connections.push(ws))
+  console.log(
+    chalk.cyan(`Started a Quartz server listening at http://localhost:${argv.port}${argv.baseDir}`),
+  )
+  console.log("hint: exit with ctrl+c")
+  chokidar
+    .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
+      ignoreInitial: true,
+    })
+    .on("all", async () => {
+      build(clientRefresh)
+    })
+}
 
-      await Promise.all(
-        files.map((file) =>
-          queue.add(async () => {
-            try {
-              if (SKIP_FILES.some((skip) => file.includes(skip))) {
-                console.log(`Skipping ${file}`)
-                return
-              }
-              await processFile(outputDir, file)
-              completedFiles++
-              console.log(`Progress: ${completedFiles}/${totalFiles} files processed`)
-            } catch (error) {
-              console.error(`Error processing ${file}:`, error)
-            }
-          }),
-        ),
-      )
+const CONCURRENT_OPERATIONS = 5
 
-      console.log("All files processed. Waiting for queue to empty...")
-      await queue.onIdle()
-      console.log("Queue is empty. Process complete.")
-      // // deepsource-ignore-next-line
-      process.exit(0)
-    } catch (error) {
-      console.error("Error in inlineCriticalCSS:", error)
-    }
-  })()
-
+async function computeCriticalCSS(outputDir) {
+  console.log("Computing critical CSS from index page...")
   try {
-    await Promise.race([processPromise, timeoutPromise])
+    const { css } = await generate({
+      inline: false,
+      base: outputDir,
+      src: "index.html", // Use index page as template
+      width: 1700,
+      height: 900,
+      penthouse: {
+        unstableKeepBrowserAlive: true,
+        puppeteer: {
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        },
+        keepLargerMediaQueries: true,
+      },
+      css: [
+        path.join(outputDir, "index.css"),
+        path.join(outputDir, "static", "styles", "katex.min.css"),
+      ],
+    })
+
+    return `${css}\nhtml body { visibility: visible; }`
   } catch (error) {
-    if (error.message === "Operation timed out") {
-      throw new Error("The operation timed out. Force exiting...")
-    } else {
-      throw error
-    }
+    console.error("Error generating critical CSS:", error)
+    return null
   }
 }
 
-async function processFile(outputDir, file) {
-  const stats = await fs.promises.stat(file)
-  const fileSize = stats.size
+// Modify the existing function to apply pre-computed CSS
+async function inlineCriticalCSS(outputDir) {
+  console.log("Starting Critical CSS injection process...")
+  const queue = new PQueue({ concurrency: CONCURRENT_OPERATIONS })
+  let totalFiles = 0
 
-  console.log(`Processing ${file} (${fileSize} bytes)`)
-
-  if (fileSize > LARGE_FILE_THRESHOLD) {
-    console.log(`Large file detected: ${file}. Ignoring.`)
-  } else {
-    const htmlContent = await generateCriticalCSS(outputDir, file)
-    // Only process and write back if critical CSS generation was successful
-    if (htmlContent) {
-      const reorderedHTML = reorderHead(htmlContent)
-      await fs.promises.writeFile(file, reorderedHTML)
-    } else {
-      console.log(`Skipping critical CSS for ${file} due to generation error`)
+  try {
+    // Compute critical CSS once
+    const criticalCSS = await computeCriticalCSS(outputDir)
+    if (!criticalCSS) {
+      console.log("Failed to generate critical CSS, skipping injection")
+      return
     }
+
+    const files = await glob(`${outputDir}/**.html`)
+    totalFiles = files.length
+    console.log(`Found ${totalFiles} HTML files to process.`)
+
+    await Promise.all(
+      files.map((file) =>
+        queue.add(async () => {
+          try {
+            const htmlContent = await fs.promises.readFile(file, "utf-8")
+            const styleTag = `<style id="critical-css">${criticalCSS}</style>`
+            const updatedHTML = reorderHead(
+              htmlContent.replace(/<style id="critical-css">.*?<\/style>/s, styleTag),
+            )
+            await fs.promises.writeFile(file, updatedHTML)
+          } catch (error) {
+            console.error(`Error processing ${file}:`, error)
+          }
+        }),
+      ),
+    )
+
+    await queue.onIdle()
+    console.log("Inlined critical CSS for all files.")
+  } catch (error) {
+    console.error("Error in inlineCriticalCSS:", error)
+  } finally {
+    // Ensure queue is properly closed
+    queue.clear()
+    await queue.onIdle()
   }
 }
 
@@ -524,38 +526,6 @@ function reorderHead(htmlContent) {
   $("head").append(otherElements)
 
   return $.html()
-}
-
-async function generateCriticalCSS(outputDir, file) {
-  try {
-    console.log(`Generating critical CSS for ${file}`)
-    const { html, css } = await generate({
-      inline: true,
-      base: outputDir,
-      src: path.relative(outputDir, file),
-      width: 1700,
-      height: 900,
-      penthouse: {
-        unstableKeepBrowserAlive: true,
-        puppeteer: {
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
-        },
-        keepLargerMediaQueries: true, // Want to compile for all screens
-      },
-      css: [
-        path.join(outputDir, "index.css"),
-        path.join(outputDir, "static", "styles", "katex.min.css"),
-      ],
-    })
-    console.log(`Critical CSS inlined for ${file}`)
-    const enhancedCSS = `${css}\nhtml body { visibility: visible; }`
-    const styleTag = `<style id="critical-css">${enhancedCSS}</style>`
-    return html.replace(`<style>${css}</style>`, styleTag)
-  } catch (error) {
-    console.error(`Error generating critical CSS for ${file}:`, error)
-    // Return null instead of empty string to indicate failure
-    return null
-  }
 }
 
 /**
