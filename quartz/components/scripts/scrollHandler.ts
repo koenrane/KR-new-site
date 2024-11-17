@@ -8,8 +8,12 @@ function scrollDisplayUpdate() {
   let lastScrollY = window.scrollY
   let ticking = false
   const scrollThreshold = 50 // Minimum scroll distance before toggle
+  const topThreshold = 50 // Show navbar when within 50px of top
 
   window.addEventListener("scroll", () => {
+    const navbar = document.getElementById("navbar")
+    if (!navbar) return
+
     if (!ticking) {
       window.requestAnimationFrame(() => {
         const currentScrollY = window.scrollY
@@ -19,11 +23,16 @@ function scrollDisplayUpdate() {
 
         if (Math.abs(delta) > scrollThreshold) {
           if (delta > 0) {
-            document.getElementById("navbar")?.classList.add("hide-above-screen")
+            navbar.classList.add("hide-above-screen")
           } else {
-            document.getElementById("navbar")?.classList.remove("hide-above-screen")
+            navbar.classList.remove("hide-above-screen")
           }
           lastScrollY = currentScrollY
+        }
+
+        // Show navbar if close to top of page
+        if (currentScrollY <= topThreshold) {
+          navbar.classList.remove("hide-above-screen")
         }
 
         ticking = false
