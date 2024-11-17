@@ -67,7 +67,7 @@ The [research page](/research) summarizes my past and present research interests
 Like any good trout seeking a mate, I've prepared my nesting grounds with care. While trout typically build their nests (called ["redds"](https://fishingweekendwarrior.com/information/a-comprehensive-guide-to-rainbow-trout-spawning/)) in gravel stream beds, I've taken the initiative to construct mine in digital form. Female trout are known to carefully inspect potential nesting sites before choosing their mate - and I encourage similar scrutiny of my [dating doc](/date-me).[^trout]  
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="A stylized rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
-<figcaption>Are you the kind of person I'm looking for? If so, you should totally <a href="/date-me">read the doc</a> and then complete your Google Form application and then wait patiently! <img class="emoji" draggable="false" alt="🙂" src="https://assets.turntrout.com/twemoji/1f642.svg" loading="lazy"></figcaption>
+<figcaption>Are you the kind of person I'm looking for? If so, you should totally <a href="/date-me">read the doc</a> and then fill out the Google Form to indicate interest and then wait patiently! <img class="emoji" draggable="false" alt="🙂" src="https://assets.turntrout.com/twemoji/1f642.svg" loading="lazy"></figcaption>
 </figure>
 
 > [!info]- Embedded preview of my dating doc
@@ -89,7 +89,7 @@ I hope to speak loudly and carry a small ego. I want to enjoy my wins and honora
 Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page, I've written [my own](/mistakes). The list is short because I'm still filling it in.
 
 ## Bounty for bad analogies I've made since 2022
-Analogies can be useful; analogies can be deadly. For an analogy to be useful, it has to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By reasoning using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
+Analogies can be useful; analogies can be deadly. For an analogy to be useful, it would do well to highlight how two analogous situations _share the relevant mechanisms._ For example, an [analog computer](https://en.wikipedia.org/wiki/Analog_computer) obeys the same differential equations as certain harmonic oscillators. By reasoning using the "analogy" of an electrical circuit with such-and-such voltages and resistances, we can accurately predict physical systems of pendulums and springs:
  ![](https://assets.turntrout.com/static/images/posts/computer-analogy.avif)
  
  However, in AI alignment, folks seem to be less careful. Does "evolution" "finding" the human genome tell us anything about the difficulty of "inner alignment" in "selection processes"? What are the proposed mechanisms? 
