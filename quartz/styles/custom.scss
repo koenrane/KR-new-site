@@ -670,10 +670,6 @@ img {
     margin-right: 0.025rem;
     margin-bottom: 0.1rem;
   }
-  .callout &:not(.favicon):not(.inline-img),
-  dd & {
-    width: fit-content;
-  }
 
   margin-top: $baseMargin;
 }
