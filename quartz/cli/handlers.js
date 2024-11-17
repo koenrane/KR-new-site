@@ -444,14 +444,10 @@ async function inlineCriticalCSS(outputDir) {
     })
 
     const criticalCSS = `${css}\nhtml body { visibility: visible; }`
-    const files = await glob(`${outputDir}/**/*.html`, {
+    const allFiles = await glob(`${outputDir}/**/*.html`, {
       recursive: true,
       posix: true,
     })
-    const rootFiles = await glob(`${outputDir}/*.html`, {
-      posix: true,
-    })
-    const allFiles = [...rootFiles, ...files]
 
     for (const file of allFiles) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
