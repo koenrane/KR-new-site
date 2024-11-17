@@ -14,6 +14,34 @@ import { JSResourceToScriptElement } from "../util/resources"
 import { formatTitle } from "./component_utils"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
+// Preload icons to prevent race condition on callout icons
+//  These are very small assets, so we can preload them all
+const CALLOUT_ICONS = [
+  // Icons directory
+  "note",
+  "abstract",
+  "info",
+  "todo",
+  "success",
+  "question",
+  "warning",
+  "failure",
+  "danger",
+  "bug",
+  "example",
+  "quote",
+  "fold",
+  // images directory
+  ["plus", "images"],
+  ["lightbulb", "images"],
+  ["goose", "images"],
+  ["heart", "images"],
+  ["tag", "images"],
+  ["link", "images"],
+  ["math", "images"],
+  ["dollar", "images"],
+] as const
+
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
@@ -106,6 +134,20 @@ export default (() => {
       />
     )
 
+    const iconPreloads = CALLOUT_ICONS.map((icon) => {
+      const [name, dir = "icons"] = Array.isArray(icon) ? icon : [icon, "icons"]
+      return (
+        <link
+          key={name}
+          rel="preload"
+          href={`https://assets.turntrout.com/static/${dir}/${name}.svg`}
+          as="image"
+          type="image/svg+xml"
+          spa-preserve
+        />
+      )
+    })
+
     return (
       <head>
         <title>{title}</title>
@@ -153,6 +195,8 @@ export default (() => {
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}
         {frontmatterScript}
+
+        {iconPreloads}
       </head>
     )
   }
