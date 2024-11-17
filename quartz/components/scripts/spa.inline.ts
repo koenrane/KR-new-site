@@ -5,6 +5,12 @@ import micromorph from "micromorph"
 
 import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
 
+declare global {
+  interface Window {
+    __hasRemovedCriticalCSS?: boolean
+  }
+}
+
 // adapted from `micromorph`
 // https://github.com/natemoo-re/micromorph
 const NODE_TYPE_ELEMENT = 1
@@ -197,6 +203,9 @@ async function navigate(url: URL) {
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
+
+  // Reset CSS handler state
+  window.__hasRemovedCriticalCSS = false
 }
 
 window.spaNavigate = navigate

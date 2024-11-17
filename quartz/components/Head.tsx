@@ -100,18 +100,9 @@ export default (() => {
       ></script>
     )
     const onLoadCSS = `
-      if (this?.hasRemovedCriticalCSS) {
-        return;  // Exit early if we've already handled this
-      }
-
-      const style = document.querySelector('#critical-css');
-      if (style) { 
-        style.remove(); 
-        console.info('Removed critical styles');
-        this.hasRemovedCriticalCSS = true;
-      } else {
-        console.warn('Critical style element not found');
-      }
+      // Only run once per page load
+      if (window.__hasRemovedCriticalCSS) return;
+      window.__hasRemovedCriticalCSS = true;
 
       const hideBodyStyle = document.querySelector('#hide-body');
       if (hideBodyStyle) {
@@ -120,7 +111,14 @@ export default (() => {
         console.warn('Hide body style element not found');
       }
 
-      this.hasRemovedCriticalCSS = true;
+      const style = document.querySelector('#critical-css');
+      if (style) { 
+        style.remove(); 
+        console.info('Removed critical styles');
+      } else {
+        console.warn('Critical style element not found');
+      }
+
       this.rel='stylesheet';
     `
 
