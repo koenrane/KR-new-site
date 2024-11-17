@@ -99,29 +99,6 @@ export default (() => {
         spa-preserve
       ></script>
     )
-    const onLoadCSS = `
-      // Only run once per page load
-      if (window.__hasRemovedCriticalCSS) return;
-      window.__hasRemovedCriticalCSS = true;
-
-      const hideBodyStyle = document.querySelector('#hide-body');
-      if (hideBodyStyle) {
-        hideBodyStyle.remove();
-      } else {
-        console.warn('Hide body style element not found');
-      }
-
-      const style = document.querySelector('#critical-css');
-      if (style) { 
-        style.remove(); 
-        console.info('Removed critical styles');
-      } else {
-        console.warn('Critical style element not found');
-      }
-
-      this.rel='stylesheet';
-    `
-
     // Create a filtered object with only the properties you want to expose
     const exposedFrontmatter = {
       no_dropcap: fileData.frontmatter?.no_dropcap === true,
@@ -180,7 +157,13 @@ export default (() => {
         {/* Twitter author metadata */}
         {authorElement}
 
-        <link rel="preload" as="style" href="/index.css" onLoad={onLoadCSS as any} spa-preserve />
+        <link
+          rel="preload"
+          as="style"
+          href="/index.css"
+          onLoad={`this.rel='stylesheet';` as any}
+          spa-preserve
+        />
 
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
@@ -190,6 +173,7 @@ export default (() => {
         <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
         <script src="/static/scripts/safari-autoplay.js" spa-preserve></script>
+        <script src="/static/scripts/remove-css.js" spa-preserve></script>
         {analyticsScript}
 
         <link rel="icon" href={iconPath} />
