@@ -20,7 +20,5 @@ const mainCSS = document.querySelector('link[href="/index.css"]')
 if (mainCSS) {
   removeCSS()
 } else {
-  document.addEventListener("DOMContentLoaded", () => {
-    removeCSS()
-  })
+  document.addEventListener("DOMContentLoaded", removeCSS)
 }
