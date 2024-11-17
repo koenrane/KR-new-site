@@ -99,12 +99,10 @@ export default (() => {
         spa-preserve
       ></script>
     )
-    const onLoadCSS = `            
+    const onLoadCSS = `
       const style = document.querySelector('#critical-css');
-      console.log('Found critical style:', style);
       if (style) { 
         style.remove(); 
-        console.info('Removed critical styles');
       } else {
         console.warn('Critical style element not found');
       }
@@ -112,6 +110,8 @@ export default (() => {
       const hideBodyStyle = document.querySelector('#hide-body');
       if (hideBodyStyle) {
         hideBodyStyle.remove();
+      } else {
+        console.warn('Hide body style element not found');
       }
       this.rel='stylesheet';
     `
@@ -140,6 +140,7 @@ export default (() => {
           href={`https://assets.turntrout.com/static/icons/${icon}.svg`}
           as="image"
           type="image/svg+xml"
+          crossorigin="anonymous"
           spa-preserve
         />
       )
