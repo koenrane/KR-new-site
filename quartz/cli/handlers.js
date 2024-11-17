@@ -490,10 +490,13 @@ async function processFile(outputDir, file) {
     console.log(`Large file detected: ${file}. Ignoring.`)
   } else {
     const htmlContent = await generateCriticalCSS(outputDir, file)
-    const reorderedHTML = reorderHead(htmlContent)
-
-    // Write the modified HTML back to the file
-    await fs.promises.writeFile(file, reorderedHTML)
+    // Only process and write back if critical CSS generation was successful
+    if (htmlContent) {
+      const reorderedHTML = reorderHead(htmlContent)
+      await fs.promises.writeFile(file, reorderedHTML)
+    } else {
+      console.log(`Skipping critical CSS for ${file} due to generation error`)
+    }
   }
 }
 
@@ -550,8 +553,9 @@ async function generateCriticalCSS(outputDir, file) {
     return html.replace(`<style>${css}</style>`, styleTag)
   } catch (error) {
     console.error(`Error generating critical CSS for ${file}:`, error)
+    // Return null instead of empty string to indicate failure
+    return null
   }
-  return ""
 }
 
 /**
