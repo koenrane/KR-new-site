@@ -161,7 +161,7 @@ $$
 > [!quote] [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
 > Some researchers speculate that intelligent RL agents would be incentivized to seek resources and power in pursuit of their objectives. Other researchers point out that RL agents need not have human-like power-seeking instincts. To clarify this discussion, we develop the first formal theory of the statistical tendencies of optimal policies. In the context of Markov decision processes, we prove that certain environmental symmetries are sufficient for optimal policies to tend to seek power over the environment. These symmetries exist in many environments in which the agent can be shut down or destroyed. We prove that in these environments, most reward functions make it optimal to seek power by keeping a range of options available and, when maximizing average reward, by navigating towards larger sets of potential terminal states.
 
-In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-makers tend to seek power](./parametrically-retargetable-power-seeking), generalizing the results from optimal policies to a broad and elegant criterion on decision-making. ☺️
+In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-makers tend to seek power](./parametrically-retargetable-power-seeking), generalizing the results from optimal policies to a broad and elegant criterion on decision-making. 
 
 
 [^instr]: I wish that "instrumental convergence" had instead been named "robust instrumentality." "Instrumental convergence" strangely implies that the _convergence_ is instrumental. That doesn't make sense. Instead, certain actions are instrumental for most goals. So "convergent instrumentality" is better. 
@@ -173,12 +173,12 @@ In 2022, NeurIPS accepted the follow-up [Parametrically retargetable decision-ma
 ### Reflections on the power-seeking theory
 Subtitle: Written in October 2024
 
-I feel so mixed about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences) and I wielded [all of the math I learned](./posts#becoming-stronger). [Looking back on my thesis](/alignment-phd) and the 281 theorems I proved, I feel happy and proud.
+I feel conflicted about these papers. On one hand, the papers feel like a pure and sharpened blade cutting through the informality of 2018. I found elegant formalisms which [capture meaningful concepts](./math-that-clicks-look-for-two-way-correspondences), effectively wielding [the math I had learned](./posts#becoming-stronger). [Looking back on my thesis](/alignment-phd) and the 281 theorems I proved, I feel happy and proud.
 
 
-On the other hand, the papers embody the _brash, loud confusion_ which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
+On the other hand, the papers embody the brash, loud confusion which I think was typical of 2018-era LessWrong. The papers treat reward as the agent's "goal", silently assuming the desirability of the "reward" function. But [reward is not the optimization target](./reward-is-not-the-optimization-target). For more on these problems, see [these](./RL-trains-policies-not-agents) [posts](/danger-of-suggestive-terminology).
 
-So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend to Seek Power_ so that it stops misleading people into thinking optimal policies are practically relevant for forecasting power-seeking behavior from RL training.
+So I feel stuck. Sometimes I fantasize about retracting _Optimal Policies Tend to Seek Power_ so that it stops (potentially) misleading people into thinking optimal policies are practically relevant for forecasting power-seeking behavior from RL training.
 
 ### Papers
 - [Optimal policies tend to seek power](https://arxiv.org/abs/1912.01683)
