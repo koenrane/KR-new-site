@@ -2332,3 +2332,5 @@ img
 mp4s
 src
 svgrepo
+Repo
+SVG
