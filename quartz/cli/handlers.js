@@ -295,17 +295,15 @@ export async function handleBuild(argv) {
     // ^ this import is relative, so base "cacheFile" path can't be used
 
     cleanupBuild = await buildQuartz(argv, buildMutex, clientRefresh)
-    clientRefresh()
 
-    // Inline critical CSS after the build (would delay serving too much)
-    if (!argv.serve) {
-      await inlineCriticalCSS(argv.output)
-    }
+    // Inline critical CSS after each build
+    await inlineCriticalCSS(argv.output)
+
+    clientRefresh()
   }
 
   if (!argv.serve) {
     await build(() => {})
-    await inlineCriticalCSS(argv.output)
     await ctx.dispose()
     return
   }
@@ -321,9 +319,6 @@ export async function handleBuild(argv) {
   }
 
   await build(clientRefresh)
-
-  // Generate critical CSS once after initial build
-  await inlineCriticalCSS(argv.output)
 
   const server = http.createServer(async (req, res) => {
     if (argv.baseDir && !req.url?.startsWith(argv.baseDir)) {
@@ -436,7 +431,7 @@ async function inlineCriticalCSS(outputDir) {
       width: 1700,
       height: 900,
       penthouse: {
-        unstableKeepBrowserAlive: true,
+        unstableKeepBrowserAlive: false,
         puppeteer: {
           args: ["--no-sandbox", "--disable-setuid-sandbox"],
         },
@@ -449,9 +444,16 @@ async function inlineCriticalCSS(outputDir) {
     })
 
     const criticalCSS = `${css}\nhtml body { visibility: visible; }`
-    const files = await glob(`${outputDir}/**.html`)
+    const files = await glob(`${outputDir}/**/*.html`, {
+      recursive: true,
+      posix: true,
+    })
+    const rootFiles = await glob(`${outputDir}/*.html`, {
+      posix: true,
+    })
+    const allFiles = [...rootFiles, ...files]
 
-    for (const file of files) {
+    for (const file of allFiles) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
       const styleTag = `<style id="critical-css">${criticalCSS}</style>`
       const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
@@ -459,7 +461,7 @@ async function inlineCriticalCSS(outputDir) {
       await fs.promises.writeFile(file, updatedHTML)
     }
 
-    console.log(`Inlined critical CSS for ${files.length} files`)
+    console.log(`Inlined critical CSS for ${allFiles.length} files`)
   } catch (error) {
     console.error("Error inlining critical CSS:", error)
   }
