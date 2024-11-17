@@ -11,9 +11,10 @@ card_image:
 aliases:
   - website-design
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2024-11-15 16:46:31.333446
+date_updated: 2024-11-17 10:03:38.936163
 no_dropcap: "false"
 ---
+
 
 
 
@@ -187,7 +188,9 @@ Figure: Now the huge savings of AVIF are clearer.
 ### Videos
 Unlike the image case, I'm not yet happy with my video compression. Among modern formats, there appear to be two serious contenders: h265 MP4 ("HEVC") and WEBM (via the VP9 codec). [Reportedly,](https://bitmovin.com/blog/vp9-vs-hevc-h265/) HEVC has better compression than VP9 WEBM. In practice, I haven't figured out how to make that happen, and my HEVC MP4s remain several times larger than my WEBMs at similar visual quality.
 
-Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari] [^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. 
+Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari] 
+
+[^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. To autoplay these mp4s, I had to include the `src=` attribute in the `video` tag.
 
 The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. 
 
@@ -734,7 +737,7 @@ I try to keep the repository clean of DeepSource issues, but it does point out a
 > Emma Fickel decisively pushed me to create this site, which has been one of my great joys of 2024. The LessWrong moderators helped me export my post data. Chase Denecke provided initial encouragement and expertise. Garrett Baker filed several [bug reports](https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link). Thomas Kwa trialed an integration of [Plot.ly](https://plotly.com/) graphs.
 
 > [!info] Asset attributions
-> The <img src="https://assets.turntrout.com/static/images/plus.svg" alt="Plus sign"> and heart asset <img class="inline-img" src="https://assets.turntrout.com/static/images/heart.svg" "Heart icon"/> are [sourced from the "Dazzle Line Icons" collection](https://www.svgrepo.com/svg/532997/plus-large) under the CC attribution license. The  in the "thanks" admonition is [similarly sourced](https://www.svgrepo.com/svg/532473/heart). The link callout icon <img class="inline-img" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [svgrepo](https://www.svgrepo.com/svg/529680/link). 
+> The <img src="https://assets.turntrout.com/static/images/plus.svg" alt="Plus sign"> and heart asset <img class="inline-img" src="https://assets.turntrout.com/static/images/heart.svg" "Heart icon"/> are [sourced from the "Dazzle Line Icons" collection](https://www.svgrepo.com/svg/532997/plus-large) under the CC attribution license. The  in the "thanks" admonition is [similarly sourced](https://www.svgrepo.com/svg/532473/heart). The link callout icon <img class="inline-img" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [SVG Repo](https://www.svgrepo.com/svg/529680/link). 
 > 
 > The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji). [LessWrong](lesswrong.com) inspired the "previous/next" sequence navigation interface.
   

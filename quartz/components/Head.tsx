@@ -17,7 +17,6 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 // Preload icons to prevent race condition on callout icons
 //  These are very small assets, so we can preload them all
 const CALLOUT_ICONS = [
-  // Icons directory
   "note",
   "abstract",
   "info",
@@ -31,15 +30,14 @@ const CALLOUT_ICONS = [
   "example",
   "quote",
   "fold",
-  // images directory
-  ["plus", "images"],
-  ["lightbulb", "images"],
-  ["goose", "images"],
-  ["heart", "images"],
-  ["tag", "images"],
-  ["link", "images"],
-  ["math", "images"],
-  ["dollar", "images"],
+  "plus",
+  "lightbulb",
+  "goose",
+  "heart",
+  "tag",
+  "link",
+  "math",
+  "dollar",
 ] as const
 
 export default (() => {
@@ -135,12 +133,11 @@ export default (() => {
     )
 
     const iconPreloads = CALLOUT_ICONS.map((icon) => {
-      const [name, dir = "icons"] = Array.isArray(icon) ? icon : [icon, "icons"]
       return (
         <link
-          key={name}
+          key={icon}
           rel="preload"
-          href={`https://assets.turntrout.com/static/${dir}/${name}.svg`}
+          href={`https://assets.turntrout.com/static/icons/${icon}.svg`}
           as="image"
           type="image/svg+xml"
           spa-preserve
