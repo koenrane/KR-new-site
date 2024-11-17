@@ -233,14 +233,10 @@ Well, here's what you do – while filling PPO's action replay buffer with rando
 And we're done.
 
 <figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 800px; margin: 0 auto;">
-     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
-       <source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4">
-     </video>
+     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4"><source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
      <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
      <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
-     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
-       <source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4">
-     </video>
+     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/matC991.mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
    </figure>
 
 No model, no rollouts, a _single randomly-generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
