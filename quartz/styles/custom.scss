@@ -634,7 +634,9 @@ hr {
       color: inherit;
     }
     margin-top: 0;
-    margin-bottom: 0;
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
   }
 
   & .publication-str {
@@ -985,8 +987,11 @@ article[data-use-dropcap="true"] {
   }
 }
 
-// Edge labels
+// Edge labels  - TODO not working on safari
 .edgeLabel > .label > foreignObject {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+
   & > div {
     background-color: transparent !important;
     padding-left: 0 !important;

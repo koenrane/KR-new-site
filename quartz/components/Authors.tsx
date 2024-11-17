@@ -19,10 +19,10 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   const publicationInfo = RenderPublicationInfo(cfg as GlobalConfiguration, fileData)
 
   return (
-    <span className="authors">
-      <p style="text-indent: -.2rem; padding-left: .2rem; line-height: 1.25rem">{authors}</p>
+    <div className="authors">
+      <p style={{ textIndent: "-.2rem", paddingLeft: ".2rem", lineHeight: "1.25rem" }}>{authors}</p>
       {publicationInfo !== <></> && <p>{publicationInfo}</p>}
-    </span>
+    </div>
   )
 }
 
