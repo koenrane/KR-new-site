@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import tqdm
 import re
 from typing import List, Dict
 from pathlib import Path
@@ -306,7 +307,7 @@ def main() -> None:
     check_rss_file_for_issues(git_root)
 
     for root, dirs, files in os.walk(public_dir):
-        for file in files:
+        for file in tqdm.tqdm(files, desc="Webpages checked"):
             if file.endswith(".html"):
                 file_path = Path(root) / file
                 issues = check_file_for_issues(file_path, public_dir)
