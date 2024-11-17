@@ -367,3 +367,69 @@ def test_check_unrendered_footnotes_parametrized(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_footnotes(soup)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        ('<html><head><style id="critical-css">.css{}</style></head></html>', True),
+        ("<html><head><style>.css{}</style></head></html>", False),
+        ("<html><head></head></html>", False),
+    ],
+)
+def test_check_critical_css(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_critical_css(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        ("<html><body></body></html>", True),
+        ("<html><body><div>Content</div></body></html>", False),
+        ("<html></html>", True),
+    ],
+)
+def test_body_is_empty(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = body_is_empty(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        (
+            '<html><head><meta http-equiv="refresh" content="0;url=/new-page"></head></html>',
+            True,
+        ),
+        ("<html><head></head></html>", False),
+        (
+            '<html><head><meta name="description" content="Not a redirect"></head></html>',
+            False,
+        ),
+    ],
+)
+def test_is_redirect(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = is_redirect(soup)
+    assert result == expected
+
+
+def test_check_file_for_issues_skips_redirects(tmp_path):
+    file_path = tmp_path / "test.html"
+    file_path.write_text(
+        """
+    <html>
+    <head><meta http-equiv="refresh" content="0;url=/new-page"></head>
+    <body>
+        <a href="localhost:8000">Localhost Link</a>
+        <p>Table: Test table</p>
+    </body>
+    </html>
+    """
+    )
+
+    issues = check_file_for_issues(file_path, tmp_path)
+    assert issues == {}  # Should return empty dict for redirects

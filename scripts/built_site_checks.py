@@ -4,7 +4,9 @@ import subprocess
 import re
 from typing import List, Dict
 from pathlib import Path
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
+import bs4
+import argparse
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -208,9 +210,35 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
+def is_redirect(soup: BeautifulSoup) -> bool:
+    return soup.find("meta", {"http-equiv": "refresh"}) is not None
+
+
+def check_critical_css(soup: BeautifulSoup) -> bool:
+    """Check if the page has critical CSS in the head."""
+    head = soup.find("head")
+    if isinstance(head, Tag):
+        return bool(head.find("style", {"id": "critical-css"}))
+    return False
+
+
+def body_is_empty(soup: BeautifulSoup) -> bool:
+    """Check if the body is empty. Looks for children of the body tag."""
+    body = soup.find("body")
+    return (
+        not body
+        or not isinstance(body, Tag)
+        or len(body.find_all(recursive=False)) == 0
+    )
+
+
+def check_file_for_issues(
+    file_path: Path, base_dir: Path, is_production: bool = False
+) -> IssuesDict:
     """Check a single HTML file for various issues."""
     soup = parse_html_file(file_path)
+    if is_redirect(soup):
+        return {}
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
@@ -221,8 +249,11 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "problematic_katex": check_katex_elements_for_errors(soup),
         "unrendered_subtitles": check_unrendered_subtitles(soup),
         "unrendered_footnotes": check_unrendered_footnotes(soup),
+        "missing_critical_css": not check_critical_css(soup),
+        "empty_body": body_is_empty(soup),
     }
-    if "test-page" in file_path.name:
+
+    if "design" in file_path.name:
         issues["missing_favicon"] = check_favicons_missing(soup)
     return issues
 
