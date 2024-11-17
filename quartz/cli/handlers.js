@@ -11,7 +11,6 @@ import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises } from "fs"
 import glob from "glob-promise"
 import http from "http"
-import PQueue from "p-queue"
 import path from "path"
 import prettyBytes from "pretty-bytes"
 import { rimraf } from "rimraf"
@@ -425,15 +424,15 @@ export async function handleBuild(argv) {
     })
 }
 
-const CONCURRENT_OPERATIONS = 5
-
-async function computeCriticalCSS(outputDir) {
-  console.log("Computing critical CSS from index page...")
+// Modify the existing function to apply pre-computed CSS
+async function inlineCriticalCSS(outputDir) {
+  console.log("Computing and injecting critical CSS...")
   try {
+    // Generate critical CSS from index page
     const { css } = await generate({
       inline: false,
       base: outputDir,
-      src: "index.html", // Use index page as template
+      src: "index.html",
       width: 1700,
       height: 900,
       penthouse: {
@@ -449,56 +448,20 @@ async function computeCriticalCSS(outputDir) {
       ],
     })
 
-    return `${css}\nhtml body { visibility: visible; }`
-  } catch (error) {
-    console.error("Error generating critical CSS:", error)
-    return null
-  }
-}
+    const criticalCSS = `${css}\nhtml body { visibility: visible; }`
+    const files = await glob(`${outputDir}/**.html`)
 
-// Modify the existing function to apply pre-computed CSS
-async function inlineCriticalCSS(outputDir) {
-  console.log("Starting Critical CSS injection process...")
-  const queue = new PQueue({ concurrency: CONCURRENT_OPERATIONS })
-  let totalFiles = 0
-
-  try {
-    // Compute critical CSS once
-    const criticalCSS = await computeCriticalCSS(outputDir)
-    if (!criticalCSS) {
-      console.log("Failed to generate critical CSS, skipping injection")
-      return
+    for (const file of files) {
+      const htmlContent = await fs.promises.readFile(file, "utf-8")
+      const styleTag = `<style id="critical-css">${criticalCSS}</style>`
+      const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
+      const updatedHTML = reorderHead(htmlWithCriticalCSS)
+      await fs.promises.writeFile(file, updatedHTML)
     }
 
-    const files = await glob(`${outputDir}/**.html`)
-    totalFiles = files.length
-    console.log(`Found ${totalFiles} HTML files to process.`)
-
-    await Promise.all(
-      files.map((file) =>
-        queue.add(async () => {
-          try {
-            const htmlContent = await fs.promises.readFile(file, "utf-8")
-            const styleTag = `<style id="critical-css">${criticalCSS}</style>`
-            const updatedHTML = reorderHead(
-              htmlContent.replace(/<style id="critical-css">.*?<\/style>/s, styleTag),
-            )
-            await fs.promises.writeFile(file, updatedHTML)
-          } catch (error) {
-            console.error(`Error processing ${file}:`, error)
-          }
-        }),
-      ),
-    )
-
-    await queue.onIdle()
-    console.log("Inlined critical CSS for all files.")
+    console.log(`Inlined critical CSS for ${files.length} files`)
   } catch (error) {
-    console.error("Error in inlineCriticalCSS:", error)
-  } finally {
-    // Ensure queue is properly closed
-    queue.clear()
-    await queue.onIdle()
+    console.error("Error inlining critical CSS:", error)
   }
 }
 
