@@ -31,7 +31,7 @@
   }
 
   & .callout-content {
-    margin-bottom: calc(2 * $baseMargin);
+    margin-bottom: calc(2 * $base-margin);
 
     & p:first-child,
     & > .vsc-controller + p {
@@ -157,7 +157,7 @@
   &[data-callout="example"] {
     --callout-icon: var(--callout-icon-example);
 
-    margin-right: calc(0.25 * $baseMargin);
+    margin-right: calc(0.25 * $base-margin);
 
     & .callout-icon {
       -webkit-mask-position-y: 5.5px; // Make sure this is centered
@@ -195,7 +195,7 @@
 
   &[data-callout="quote"] .callout-icon {
     transform: scale(-1, -1); // Flip across the y-axis
-    margin-right: calc(0.5 * $baseMargin);
+    margin-right: calc(0.5 * $base-margin);
   }
 
   &[data-callout="goose"] {
@@ -228,12 +228,12 @@
   --border: color-mix(in srgb, var(--color) 30%, var(--base));
 
   & > .callout-title {
-    margin-top: calc($baseMargin);
+    margin-top: calc($base-margin);
   }
 
   & > .callout-content {
-    margin-bottom: calc($baseMargin);
-    margin-top: calc($baseMargin);
+    margin-bottom: calc($base-margin);
+    margin-top: calc($base-margin);
 
     & > *:last-child {
       margin-bottom: 0;
@@ -249,13 +249,13 @@
   display: flex;
   align-items: flex-start;
   gap: 5px;
-  margin: calc(2 * $baseMargin) 0;
-  margin-bottom: calc(1.5 * $baseMargin);
+  margin: calc(2 * $base-margin) 0;
+  margin-bottom: calc(1.5 * $base-margin);
 
   --icon-size: 18px;
 
   .callout-metadata & {
-    margin-bottom: calc($baseMargin);
+    margin-bottom: calc($base-margin);
   }
 
   & .fold-callout-icon {
@@ -305,7 +305,7 @@
   }
 
   .callout-title-inner {
-    font-weight: $semiBoldWeight;
+    font-weight: $semi-bold-weight;
     font-variant-numeric: lining-nums;
 
     & .small-caps {
@@ -323,5 +323,5 @@
 }
 
 .footnotes .callout {
-  padding-bottom: calc(2 * $baseMargin);
+  padding-bottom: calc(2 * $base-margin);
 }

@@ -23,10 +23,10 @@
 
   // Make there be the hand pointer when hovering over the popover
   cursor: pointer;
-  padding: calc(2 * $baseMargin);
+  padding: calc(2 * $base-margin);
 
   & #not-found-div-popover {
-    margin-top: calc($baseMargin);
+    margin-top: calc($base-margin);
   }
 
   & > .popover-inner {
@@ -132,7 +132,7 @@
     opacity 0.15s ease,
     visibility 0.15s ease;
 
-  // $fullPageWidth is 1580px, but for some reason it isn't working
+  // $full-page-width is 1580px, but for some reason it isn't working
   //  so I manually set the breakpoint to 1580px
   @media all and (width <= 1580px) {
     display: none !important;

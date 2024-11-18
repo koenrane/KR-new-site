@@ -4,7 +4,7 @@
 #not-found-div-popover {
   display: flex;
 
-  @media (max-width: $fullPageWidth) {
+  @media (max-width: $full-page-width) {
     justify-content: center;
   }
 
@@ -23,12 +23,12 @@
 img#trout-reading {
   max-width: 40%;
 
-  @media (max-width: $tabletBreakpoint) {
+  @media (max-width: $tablet-breakpoint) {
     max-width: 30%;
   }
 }
 
 img#trout-reading-popover {
   max-width: 6em;
-  margin-left: calc(3 * $baseMargin);
+  margin-left: calc(3 * $base-margin);
 }

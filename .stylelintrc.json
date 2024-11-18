@@ -1,6 +1,7 @@
 {
   "extends": ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
   "rules": {
-    "no-invalid-double-slash-comments": null
+    "no-invalid-double-slash-comments": null,
+    "no-descending-specificity": null
   }
 }

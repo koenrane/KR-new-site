@@ -3,32 +3,23 @@
 :root {
   --base-line-height: 1.4;
   --scale-ratio: 1.2;
-}
 
-// Responsive font sizes
-:root {
-  @media screen and (min-width: $tabletBreakpoint) {
+  // Responsive font sizes
+  @media screen and (min-width: $tablet-breakpoint) {
     --base-font-size: 24px;
   }
 
-  @media screen and (max-width: $tabletBreakpoint) {
+  @media screen and (max-width: $tablet-breakpoint) {
     --base-font-size: 22px;
   }
 
-  @media screen and (max-width: $mobileBreakpoint) {
+  @media screen and (max-width: $mobile-breakpoint) {
     --base-font-size: 20px;
   }
 
   font-size: var(--base-font-size);
   text-rendering: geometricprecision;
-}
 
-@function calculate-scale($steps) {
-  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
-}
-
-// Define font sizes using the scale
-:root {
   --text-size-70: #{calculate-scale(-3)};
   --text-size-80: #{calculate-scale(-2)};
   --text-size-85: #{calculate-scale(-1.5)};
@@ -40,6 +31,10 @@
   --text-size-500: #{calculate-scale(2)};
   --text-size-600: #{calculate-scale(3)};
   --text-size-700: #{calculate-scale(4)};
+}
+
+@function calculate-scale($steps) {
+  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
 }
 
 h1,
@@ -54,13 +49,13 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: calc(3 * $baseMargin);
+  margin-top: calc(3 * $base-margin);
   margin-bottom: 1rem;
   font-weight: 500;
   line-height: 1.15;
   letter-spacing: -0.022em;
 
-  & .popover {
+  .popover {
     letter-spacing: initial;
   }
 }
@@ -197,13 +192,13 @@ body {
 }
 
 .elvish {
-  font-family: Elvish;
+  font-family: Elvish, serif;
   line-height: 2.2;
   position: relative;
 
   & em,
   em & {
-    font-family: ElvishItalic;
+    font-family: ElvishItalic, serif;
   }
 
   // Show underlying English text
@@ -228,7 +223,7 @@ body {
 }
 
 .corrupted {
-  font-family: Scary;
+  font-family: Scary, serif;
   font-style: normal;
 }
 
@@ -237,7 +232,7 @@ body {
   font-feature-settings: "frac" 1;
   line-height: normal;
   font-size: 1.2rem;
-  font-family: "EBGaramond12";
+  font-family: "EBGaramond12", serif;
   vertical-align: -10%;
 }
 

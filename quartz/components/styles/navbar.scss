@@ -9,9 +9,9 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin-top: $baseMargin;
+    margin-top: $base-margin;
     margin: 0.08rem 0;
-    padding: $baseMargin;
+    padding: $base-margin;
     background-color: var(--light);
 
     & li {
@@ -26,14 +26,14 @@
   }
 
   // Desktop
-  @media (min-width: $fullPageWidth) {
+  @media (min-width: $full-page-width) {
     display: flex;
     text-align: center;
     flex-direction: column;
     height: 100%;
   }
 
-  @media (max-width: $fullPageWidth) {
+  @media (max-width: $full-page-width) {
     position: relative;
     text-align: right;
     background-color: transparent;
@@ -64,9 +64,9 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
-  padding-left: $baseMargin;
-  padding-right: $baseMargin;
-  margin-left: calc(1 * $baseMargin);
+  padding-left: $base-margin;
+  padding-right: $base-margin;
+  margin-left: calc(1 * $base-margin);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -85,7 +85,7 @@
   transform-origin: top left;
   width: 24px;
 
-  @media all and (max-width: $mobileBreakpoint) {
+  @media all and (max-width: $mobile-breakpoint) {
     width: 23px;
   }
 }
@@ -102,12 +102,12 @@
   transform-origin: bottom left;
   width: 24px;
 
-  @media all and (max-width: $mobileBreakpoint) {
+  @media all and (max-width: $mobile-breakpoint) {
     width: 23px;
   }
 }
 
-@media all and (max-width: $mobileBreakpoint) {
+@media all and (max-width: $mobile-breakpoint) {
   .page-title-text {
     font-size: 6vw !important;
   }
@@ -122,10 +122,10 @@
   }
 }
 
-@media all and (max-width: $tabletBreakpoint) {
+@media all and (max-width: $tablet-breakpoint) {
   .search > #search-icon > p {
     padding: 0;
-    padding-left: calc(2 * $baseMargin);
+    padding-left: calc(2 * $base-margin);
   }
 }
 
@@ -144,13 +144,13 @@
     }
   }
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     margin-bottom: 0;
-    margin-top: calc(0.5 * $baseMargin);
+    margin-top: calc(0.5 * $base-margin);
   }
 
-  @media all and (min-width: $fullPageWidth) {
-    margin-bottom: $baseMargin;
+  @media all and (min-width: $full-page-width) {
+    margin-bottom: $base-margin;
     margin-top: 0;
     font-size: var(--text-size-500);
   }
@@ -160,7 +160,7 @@
 .navbar-left {
   display: flex;
 
-  @media all and (min-width: $fullPageWidth) {
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
 
@@ -170,14 +170,14 @@
 #navbar-right {
   display: flex;
 
-  @media all and (min-width: $fullPageWidth) {
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
 
   align-items: center;
 }
 
-@media all and (max-width: $fullPageWidth) {
+@media all and (max-width: $full-page-width) {
   #quartz-body > #left-sidebar {
     width: 100%;
     position: sticky;
@@ -209,7 +209,7 @@
   justify-content: space-between;
   flex-direction: column;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     flex-direction: row;
     width: 100%;
     background-color: var(--light);
@@ -217,7 +217,7 @@
 }
 
 :root[saved-theme="dark"] .shadow {
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     box-shadow: 0 7px 4px 0 #5c5f7752;
     clip-path: inset(0 0 -1500px 0);
   }
@@ -232,10 +232,10 @@
   margin-bottom: 0;
   margin-top: 0;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: $baseMargin;
+    margin-right: $base-margin;
     width: 2.5em;
   }
 }
@@ -245,11 +245,11 @@
   display: inline;
   z-index: 3;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     position: relative;
     left: inherit;
     top: inherit;
-    margin: 0 calc(1.5 * $baseMargin);
+    margin: 0 calc(1.5 * $base-margin);
   }
 
   position: absolute;
@@ -316,8 +316,8 @@
 }
 
 #nav-searchbar {
-  @media all and (min-width: $fullPageWidth) {
+  @media all and (min-width: $full-page-width) {
     order: 2; // Search bar comes after other links
-    margin-top: $baseMargin;
+    margin-top: $base-margin;
   }
 }

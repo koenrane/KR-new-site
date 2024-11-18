@@ -86,7 +86,7 @@ ul,
 } // Override minified katex styles
 
 strong {
-  font-weight: $semiBoldWeight;
+  font-weight: $semi-bold-weight;
 }
 
 a {
@@ -124,7 +124,7 @@ a {
 .desktop-only {
   display: initial;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     display: none;
   }
 }
@@ -136,16 +136,16 @@ hr.desktop-only {
 .mobile-only {
   display: none;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     display: initial;
   }
 }
 
 .page {
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     margin: 0 auto;
-    padding: 0 calc(2 * $baseMargin);
-    max-width: $pageWidth;
+    padding: 0 calc(2 * $base-margin);
+    max-width: $page-width;
   }
 
   & article {
@@ -174,7 +174,7 @@ hr.desktop-only {
     overflow-x: visible;
     display: flex;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       flex-direction: column;
     }
 
@@ -182,22 +182,22 @@ hr.desktop-only {
       flex: 1;
       flex-direction: column;
       top: 0;
-      width: $sidePanelWidth;
+      width: $side-panel-width;
 
       &.right {
         width: 100%;
 
-        @media all and (min-width: $marginsBegin) {
+        @media all and (min-width: $margins-begin) {
           width: $rightWidth;
         }
       }
 
-      margin-top: $topSpacing;
+      margin-top: $top-spacing;
       box-sizing: border-box;
-      padding: 0 calc(8 * $baseMargin);
+      padding: 0 calc(8 * $base-margin);
       position: fixed;
 
-      @media all and (max-width: $fullPageWidth) {
+      @media all and (max-width: $full-page-width) {
         position: relative;
         flex-direction: column;
         max-width: 100vw;
@@ -208,32 +208,32 @@ hr.desktop-only {
 
     & #left-sidebar {
       display: flex;
-      margin-right: calc(6 * $baseMargin);
+      margin-right: calc(6 * $base-margin);
 
-      @media all and (max-width: $fullPageWidth) {
+      @media all and (max-width: $full-page-width) {
         gap: 0;
         align-items: center;
 
-        // width: $pageWidth;
+        // width: $page-width;
         position: sticky;
       }
 
-      @media all and (min-width: $fullPageWidth) {
-        left: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
+      @media all and (min-width: $full-page-width) {
+        left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
       }
     }
 
     & #right-sidebar {
-      @media all and (width >= calc($fullPageWidth + 100px)) {
-        padding-right: calc(2 * $baseMargin); // Make more space for ToC
+      @media all and (width >= calc($full-page-width + 100px)) {
+        padding-right: calc(2 * $base-margin); // Make more space for ToC
       }
 
-      right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
+      right: calc(calc(100vw - $page-width) / 2 - $rightWidth);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
 
-      @media all and (max-width: $fullPageWidth) {
+      @media all and (max-width: $full-page-width) {
         left: 0;
 
         & > * {
@@ -245,12 +245,12 @@ hr.desktop-only {
   }
 
   & .page-header {
-    width: $pageWidth;
-    margin: $topSpacing auto 0 auto;
+    width: $page-width;
+    margin: $top-spacing auto 0 auto;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       width: initial;
-      margin-top: calc(2 * $baseMargin);
+      margin-top: calc(2 * $base-margin);
     }
   }
 
@@ -258,9 +258,9 @@ hr.desktop-only {
   & footer {
     margin-left: auto;
     margin-right: auto;
-    width: $pageWidth;
+    width: $page-width;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       width: initial;
       margin-left: 0;
       margin-right: 0;
@@ -275,7 +275,7 @@ input[type="checkbox"] {
   border-radius: 3px;
   background-color: var(--light);
   position: relative;
-  margin-inline: calc(-3 * $baseMargin) calc(0.5 * $baseMargin);
+  margin-inline: calc(-3 * $base-margin) calc(0.5 * $base-margin);
   appearance: none;
   width: 16px;
   height: 16px;
@@ -300,9 +300,9 @@ input[type="checkbox"] {
 }
 
 blockquote {
-  margin: calc(2 * $baseMargin) 0;
+  margin: calc(2 * $base-margin) 0;
   border-left: 3px solid var(--gray);
-  padding-left: calc(2 * $baseMargin);
+  padding-left: calc(2 * $base-margin);
 }
 
 h1,
@@ -312,7 +312,7 @@ h4,
 h5,
 h6,
 thead {
-  font-family: var(--headerFont);
+  font-family: var(--header-font);
   color: var(--dark);
   position: relative; // For anchor links
 
@@ -320,7 +320,7 @@ thead {
     color: var(--lightgray);
     background-color: transparent;
 
-    @media all and (min-width: $marginsBegin) {
+    @media all and (min-width: $margins-begin) {
       position: absolute;
       left: -1.5rem;
       top: 0;
@@ -355,7 +355,7 @@ h5,
 h6,
 #toc-content li {
   // Ensure headers are visible even when the navbar is present
-  scroll-margin-top: calc(6 * $baseMargin);
+  scroll-margin-top: calc(6 * $base-margin);
 
   // Oldstyle is too small for headers
   &::first-letter,
@@ -430,9 +430,9 @@ pre {
       padding: 0 1rem;
 
       // Want wrapped lines to indent
-      text-indent: calc(-4 * $baseMargin);
-      padding-left: calc(4 * $baseMargin);
-      padding-right: calc(2 * $baseMargin);
+      text-indent: calc(-4 * $base-margin);
+      padding-left: calc(4 * $base-margin);
+      padding-right: calc(2 * $base-margin);
       text-wrap: pretty;
       box-sizing: border-box;
       border-left: 3px solid transparent;
@@ -445,9 +445,9 @@ pre {
       &::before {
         content: counter(line);
         counter-increment: line;
-        width: calc(2 * $baseMargin);
-        margin-right: calc(2 * $baseMargin);
-        margin-left: calc(0.5 * $baseMargin);
+        width: calc(2 * $base-margin);
+        margin-right: calc(2 * $base-margin);
+        margin-left: calc(0.5 * $base-margin);
         display: inline-block;
         text-align: right;
         color: rgb(115 138 148 / 60%);
@@ -470,42 +470,42 @@ code {
 }
 
 a > code {
-  font-weight: $normalWeight;
+  font-weight: $normal-weight;
 }
 
 .table-container {
   overflow-x: auto;
 
   & > table {
-    margin: calc(2 * $baseMargin);
-    padding: calc(3 * $baseMargin);
+    margin: calc(2 * $base-margin);
+    padding: calc(3 * $base-margin);
     border-collapse: collapse;
   }
 }
 
 .table-container:first-child > table {
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
 }
 
 dt {
-  font-weight: $semiBoldWeight;
+  font-weight: $semi-bold-weight;
   display: inline;
 }
 
 dd {
-  margin-bottom: calc(0.5 * $baseMargin);
-  margin-top: calc(0.5 * $baseMargin);
+  margin-bottom: calc(0.5 * $base-margin);
+  margin-top: calc(0.5 * $base-margin);
 }
 
 th {
   text-align: left;
-  padding: $baseMargin calc(1.5 * $baseMargin);
+  padding: $base-margin calc(1.5 * $base-margin);
   border-bottom: 2px solid var(--gray);
   font-weight: 500;
 }
 
 td {
-  padding: calc(0.5 * $baseMargin) calc(1.5 * $baseMargin);
+  padding: calc(0.5 * $base-margin) calc(1.5 * $base-margin);
   vertical-align: top;
 }
 
@@ -521,7 +521,7 @@ img {
   max-width: 87.5%;
   width: auto;
   border-radius: 5px;
-  margin: calc(2 * $baseMargin) 0;
+  margin: calc(2 * $base-margin) 0;
 }
 
 blockquote > p:first-of-type {
@@ -548,18 +548,18 @@ video {
 
 .transclude {
   ul {
-    padding-left: calc(2 * $baseMargin);
+    padding-left: calc(2 * $base-margin);
   }
 }
 
 ul ul,
 ol ul {
-  margin-top: calc(0.5 * $baseMargin);
+  margin-top: calc(0.5 * $base-margin);
 }
 
 ol,
 ul {
-  margin-top: calc(1 * $baseMargin);
+  margin-top: calc(1 * $base-margin);
 }
 
 .katex {
@@ -576,5 +576,5 @@ ul {
 
 // Nested ol and ul should have margin before them
 ol:not(ol > ol, li > ol) {
-  margin-top: calc(1.5 * $baseMargin);
+  margin-top: calc(1.5 * $base-margin);
 }

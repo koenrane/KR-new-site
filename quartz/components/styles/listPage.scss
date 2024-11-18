@@ -13,7 +13,7 @@ li.section-li {
     display: grid;
     grid-template-columns: 6em 3fr;
 
-    @media all and (max-width: $mobileBreakpoint) {
+    @media all and (max-width: $mobile-breakpoint) {
       & > .tags {
         display: none;
       }
@@ -28,7 +28,7 @@ li.section-li {
       flex-basis: 6em;
       opacity: 0.6;
       text-align: right;
-      padding-right: calc(1.5 * $baseMargin);
+      padding-right: calc(1.5 * $base-margin);
     }
   }
 }
@@ -69,12 +69,12 @@ li.section-li {
 a.internal.tag-link {
   font-family: var(--font-monospace);
   font-size: var(--text-size-70);
-  margin: calc(0.25 * $baseMargin) 0;
+  margin: calc(0.25 * $base-margin) 0;
 }
 
 // RecentPosts.tsx
 .page-listing {
-  margin-top: calc(2 * $baseMargin);
+  margin-top: calc(2 * $base-margin);
 
   & .tags {
     margin-bottom: 0;
@@ -90,19 +90,19 @@ a.internal.tag-link {
   }
 
   & .section-li {
-    margin-bottom: calc($baseMargin);
+    margin-bottom: calc($base-margin);
 
     &:not(:first-child) {
-      margin-top: calc($baseMargin);
+      margin-top: calc($base-margin);
     }
 
     & a.tag-link {
-      margin-right: $baseMargin;
+      margin-right: $base-margin;
       display: inline;
     }
   }
 
   & hr {
-    margin: $baseMargin 0;
+    margin: $base-margin 0;
   }
 }

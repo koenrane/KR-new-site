@@ -27,7 +27,7 @@
 // The <a> link back up to content is the last child of the <li>
 li[id^="user-content-fn-"] > * {
   &:is(blockquote):nth-last-child(2) {
-    margin-bottom: $baseMargin;
+    margin-bottom: $base-margin;
   }
 
   &:not(blockquote):nth-last-child(2) {
@@ -37,12 +37,12 @@ li[id^="user-content-fn-"] > * {
 
 // Ensure not too much margin before blockquote
 li > blockquote:first-child {
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
 }
 
 .footnotes {
   & ul {
-    margin-top: calc(2 * $baseMargin);
+    margin-top: calc(2 * $base-margin);
   }
 
   & li {
@@ -82,17 +82,17 @@ li[id^="user-content-fn-"] {
 
 a[id*="fnref-"] {
   // When scrolling back to a footnote, scroll up farther than default
-  scroll-margin-top: calc(2 * $baseMargin);
+  scroll-margin-top: calc(2 * $base-margin);
 
-  @media all and (max-width: $fullPageWidth) {
-    scroll-margin-top: calc(7 * $baseMargin);
+  @media all and (max-width: $full-page-width) {
+    scroll-margin-top: calc(7 * $base-margin);
   }
 
   // Footnotes should be a bit easier to see
   background-color: color-mix(in srgb, gray 10%, transparent);
   padding: 0 0.1rem;
   border-radius: 5px;
-  line-height: var(--lineHeight);
+  line-height: var(--line-height);
 }
 
 em {
@@ -102,11 +102,11 @@ em {
 
 ol,
 ul {
-  margin-block-end: calc(2 * $baseMargin);
-  padding-left: calc(3 * $baseMargin);
+  margin-block-end: calc(2 * $base-margin);
+  padding-left: calc(3 * $base-margin);
 
   dl & {
-    margin-top: calc(0.5 * $baseMargin);
+    margin-top: calc(0.5 * $base-margin);
   }
 }
 
@@ -116,9 +116,9 @@ dd > ol:first-child {
 }
 
 dd {
-  margin-block: 0 calc(2 * $baseMargin);
+  margin-block: 0 calc(2 * $base-margin);
   margin-top: 0;
-  margin-bottom: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $base-margin);
 
   & > p:first-child {
     margin-top: 0;
@@ -126,7 +126,7 @@ dd {
 }
 
 .footnotes ol > li::before {
-  margin-right: calc(0.25 * $baseMargin);
+  margin-right: calc(0.25 * $base-margin);
 }
 
 ul li::marker {
@@ -145,7 +145,7 @@ ol {
       color: var(--gray);
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
-      margin-right: calc(0.5 * $baseMargin);
+      margin-right: calc(0.5 * $base-margin);
       flex-shrink: 0;
     }
 
@@ -177,12 +177,8 @@ ol {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     display: block;
     counter-increment: footnote; // Increment the footnote counter for each matching li
-    margin-bottom: $baseMargin; // Add a bottom margin to the list items
+    margin-bottom: $base-margin; // Add a bottom margin to the list items
     text-indent: 0;
-
-    &::before {
-      margin-left: calc(-0.25 * $baseMargin);
-    }
 
     // Make the backref arrows look nice
     & .data-footnote-backref {
@@ -202,6 +198,7 @@ ol {
     }
 
     &::before {
+      margin-left: calc(-0.25 * $base-margin);
       vertical-align: baseline;
       font-size: var(--text-size-100);
       content: counter(footnote) "."; // Display the counter followed by a period
@@ -221,7 +218,7 @@ pre {
 // Adjust spacing around lists
 p:has(+ ol),
 p:has(+ ul) {
-  margin-bottom: calc(1.5 * $baseMargin);
+  margin-bottom: calc(1.5 * $base-margin);
 }
 
 /* Wrap links properly */
@@ -250,7 +247,7 @@ a {
 
 .footnotes ul,
 .footnotes ol {
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
 }
 
 audio {
@@ -276,8 +273,8 @@ sup {
 
 .trout-ornament {
   width: 3rem;
-  margin-top: calc(2 * $baseMargin);
-  margin-bottom: calc(2 * $baseMargin);
+  margin-top: calc(2 * $base-margin);
+  margin-bottom: calc(2 * $base-margin);
   filter: light-dark(none, invert(66%)) !important;
   opacity: light-dark(0.5, 1);
 }
@@ -334,19 +331,19 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
 figure,
 .subfigure {
-  margin-inline: $baseMargin $baseMargin;
-  margin-block: $baseMargin $baseMargin;
+  margin-inline: $base-margin $base-margin;
+  margin-block: $base-margin $base-margin;
 
   & img {
     display: block;
     margin-left: auto;
     margin-right: auto;
 
-    // margin-bottom: calc(0.75 * $baseMargin);
+    // margin-bottom: calc(0.75 * $base-margin);
   }
 
   & + figure {
-    margin-top: calc(3 * $baseMargin);
+    margin-top: calc(3 * $base-margin);
   }
 
   flex: 1 1 0px;
@@ -360,12 +357,12 @@ figure,
 .article-title {
   margin: 2rem 0 0;
 
-  @media all and (max-width: $fullPageWidth) {
-    margin-top: $baseMargin;
+  @media all and (max-width: $full-page-width) {
+    margin-top: $base-margin;
   }
 
   .popover & {
-    margin-top: calc(1.5 * $baseMargin) !important;
+    margin-top: calc(1.5 * $base-margin) !important;
   }
 }
 
@@ -408,7 +405,7 @@ figure > img {
 }
 
 figcaption {
-  margin-top: calc(0.5 * $baseMargin);
+  margin-top: calc(0.5 * $base-margin);
   position: relative;
   max-width: 90%;
   margin-left: auto;
@@ -424,7 +421,7 @@ figcaption,
 }
 
 .float-right {
-  margin: $baseMargin calc(2 * $baseMargin) calc($baseMargin) calc(2 * $baseMargin);
+  margin: $base-margin calc(2 * $base-margin) calc($base-margin) calc(2 * $base-margin);
 
   & img,
   img.float-right {
@@ -576,7 +573,7 @@ svg.fold-icon {
   align-items: center;
   justify-content: center;
   margin: 0;
-  margin-left: calc(0.5 * $baseMargin);
+  margin-left: calc(0.5 * $base-margin);
   margin-top: 0.25rem;
   cursor: pointer;
   width: var(--icon-size);
@@ -596,7 +593,7 @@ svg.fold-icon {
   list-style: none;
   display: block;
   padding-left: 0;
-  padding-right: $baseMargin;
+  padding-right: $base-margin;
   overflow-wrap: normal;
 
   & a.tag-link {
@@ -612,7 +609,8 @@ svg.fold-icon {
 }
 
 hr {
-  margin: calc(3 * $baseMargin) 0;
+  max-width: 97.5%; // Looks weird if it extends all the way to the right
+  margin: calc(3 * $base-margin) 0;
 }
 
 .right {
@@ -661,7 +659,7 @@ img,
 video {
   width: fit-content;
   max-width: 100%;
-  margin-bottom: calc($baseMargin);
+  margin-bottom: calc($base-margin);
 
   article > p &,
   article > &,
@@ -684,7 +682,7 @@ img {
     margin-bottom: 0.1rem;
   }
 
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
 }
 
 // Ordering the z stacks
@@ -693,7 +691,7 @@ img {
 }
 
 svg {
-  margin-bottom: $baseMargin;
+  margin-bottom: $base-margin;
 }
 
 body.no-mix-blend-mode {
@@ -729,7 +727,7 @@ ol li[id^="user-content-fn"] {
   & video,
   & table {
     display: block;
-    margin-block: calc(2 * $baseMargin);
+    margin-block: calc(2 * $base-margin);
 
     &:first-child {
       display: inline;
@@ -754,26 +752,22 @@ img.emoji {
   margin-top: 0;
   margin-bottom: 0;
 
-  @media all and (max-width: $mobileBreakpoint) {
+  @media all and (max-width: $mobile-breakpoint) {
     margin-right: 0;
-    margin-left: $baseMargin;
+    margin-left: $base-margin;
   }
 }
 
-hr {
-  max-width: 97.5%; // Looks weird if it extends all the way to the right
-}
-
 .sequence-links {
-  margin-bottom: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $base-margin);
 }
 
 .sequenceLinks-divider {
   color: var(--lightgray);
-  height: calc(8 * $baseMargin);
-  margin-top: calc(2 * $baseMargin);
-  margin-left: $baseMargin;
-  margin-right: $baseMargin;
+  height: calc(8 * $base-margin);
+  margin-top: calc(2 * $base-margin);
+  margin-left: $base-margin;
+  margin-right: $base-margin;
   border-left-style: solid;
   border-left-width: 1px;
 }
@@ -842,7 +836,7 @@ hr {
     content: "Hover to show";
   }
 
-  @media (max-width: $tabletBreakpoint) {
+  @media (max-width: $tablet-breakpoint) {
     &::after {
       content: "Tap to show";
     }
@@ -877,7 +871,7 @@ hr {
 // For usage in the middle of a paragraph
 .dropcap {
   // The background glyph
-  font-family: "EBGaramondInitialsF1";
+  font-family: "EBGaramondInitialsF1", serif;
   color: var(--lightgray);
   position: relative;
   text-transform: uppercase;
@@ -888,7 +882,7 @@ hr {
     text-transform: uppercase;
 
     // The foreground glyph
-    font-family: "EBGaramondInitialsF2";
+    font-family: "EBGaramondInitialsF2", serif;
     color: var(--dark);
     content: attr(data-first-letter);
     position: absolute;
@@ -903,8 +897,6 @@ article[data-use-dropcap="true"] {
     position: relative;
     min-height: 4.2rem;
   }
-
-  --dropcap-font-size: 3.95rem;
 
   & > p:first-of-type::before {
     content: attr(data-first-letter);
@@ -943,7 +935,7 @@ article[data-use-dropcap="true"] {
   }
 
   & > p:first-of-type .small-caps {
-    font-family: EBGaramondSC !important;
+    font-family: EBGaramondSC, serif !important;
   }
 
   & > p[data-first-letter="f"]::before,
@@ -956,13 +948,13 @@ article[data-use-dropcap="true"] {
 .center li,
 #backlinks li,
 .popover-inner li {
-  text-indent: calc(-0.25 * $baseMargin);
+  text-indent: calc(-0.25 * $base-margin);
 }
 
 // Make sure the bullet points don't feel choked
 .center li,
 .popover-inner li {
-  margin-bottom: calc(0.5 * $baseMargin);
+  margin-bottom: calc(0.5 * $base-margin);
 }
 
 #backlinks {
@@ -996,7 +988,7 @@ article[data-use-dropcap="true"] {
 
 .cluster {
   & rect {
-    transform: translateY(calc(-0.5 * $baseMargin));
+    transform: translateY(calc(-0.5 * $base-margin));
   }
 
   & .cluster-label {
@@ -1042,11 +1034,11 @@ article[data-use-dropcap="true"] {
 }
 
 .after-article-components {
-  margin-bottom: calc(2 * $baseMargin);
-  margin-top: calc(2 * $baseMargin);
+  margin-bottom: calc(2 * $base-margin);
+  margin-top: calc(2 * $base-margin);
 
   & p {
-    margin-bottom: $baseMargin; // Less separation than usual
+    margin-bottom: $base-margin; // Less separation than usual
   }
 }
 
@@ -1075,15 +1067,15 @@ article[data-use-dropcap="true"] {
 #toc-content-mobile ul {
   --text-indent-multiplier: -0.75;
 
-  text-indent: calc(var(--text-indent-multiplier) * $baseMargin);
-  margin-left: calc(1 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+  text-indent: calc(var(--text-indent-multiplier) * $base-margin);
+  margin-left: calc(1 * $base-margin - $base-margin * var(--text-indent-multiplier));
 }
 
 .tags li,
 .callout-metadata .callout-content > p,
 #post-statistics p {
-  text-indent: calc(-0.75 * $baseMargin);
-  margin-left: calc($baseMargin);
+  text-indent: calc(-0.75 * $base-margin);
+  margin-left: calc($base-margin);
 }
 
 iframe {

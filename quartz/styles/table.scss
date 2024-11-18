@@ -4,7 +4,7 @@ table {
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
   align-self: center;
 }
 
@@ -17,7 +17,7 @@ th,
 td {
   min-width: 4rem;
   border: 1px solid var(--lightgray);
-  padding: $baseMargin;
+  padding: $base-margin;
 
   .footnotes & {
     font-size: smaller;

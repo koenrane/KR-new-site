@@ -1,15 +1,15 @@
 @use "../../styles/variables.scss" as *;
 
 #navbar-right {
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     display: flex;
     align-items: center;
   }
 }
 
 .search {
-  @media all and (min-width: $fullPageWidth) {
-    margin-top: calc(2 * $baseMargin);
+  @media all and (min-width: $full-page-width) {
+    margin-top: calc(2 * $base-margin);
     margin-left: auto;
     margin-right: auto;
   }
@@ -37,14 +37,14 @@
       font-size: var(--text-size-90);
       color: color-mix(in srgb, var(--gray) 75%, var(--dark));
       display: inline;
-      padding: 0 calc(2 * $baseMargin);
+      padding: 0 calc(2 * $base-margin);
       margin-left: -0.4em;
     }
 
     & svg {
       cursor: pointer;
       width: 0.625rem;
-      margin: 0 $baseMargin;
+      margin: 0 $base-margin;
 
       .search-path {
         stroke: var(--gray);
@@ -85,7 +85,7 @@
     margin-left: auto;
     margin-right: auto;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       width: 90%;
     }
 
@@ -96,12 +96,12 @@
       box-shadow:
         0 14px 50px rgb(27 33 48 / 12%),
         0 10px 30px rgb(27 33 48 / 16%);
-      margin-bottom: calc(4 * $baseMargin);
+      margin-bottom: calc(4 * $base-margin);
     }
 
     & > input {
       box-sizing: border-box;
-      padding: $baseMargin calc(2 * $baseMargin);
+      padding: $base-margin calc(2 * $base-margin);
       font-family: var(--font-text);
       font-size: var(--text-size-100);
       border: 1px solid var(--lightgray);
@@ -131,7 +131,7 @@
         flex: 0 0 min(30%, 450px);
       }
 
-      @media all and (min-width: $mobileBreakpoint) {
+      @media all and (min-width: $mobile-breakpoint) {
         &[data-preview] {
           & .result-card > p.preview {
             display: none;
@@ -157,7 +157,7 @@
         border-radius: 5px;
       }
 
-      @media all and (max-width: $tabletBreakpoint) {
+      @media all and (max-width: $tablet-breakpoint) {
         & > #preview-container {
           display: none !important;
         }
@@ -181,7 +181,7 @@
         font-family: inherit;
         color: var(--dark);
         line-height: 1.5em;
-        font-weight: $normalWeight;
+        font-weight: $normal-weight;
         overflow-y: auto;
         padding: 0 2rem;
 
@@ -231,7 +231,7 @@
           }
 
           & > ul.tags {
-            margin-top: $baseMargin;
+            margin-top: $base-margin;
             margin-bottom: 0;
           }
 
