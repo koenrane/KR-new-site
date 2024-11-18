@@ -140,6 +140,7 @@ Reading textbooks
 
 1. I probably (70%) will want kids within the next 5 years.
 2. Ethical non-monogamy is important to me.
+3. I currently live in Berkeley. I'm open to (but disprefer) a long-distance relationship if there's a good chance we end up in the same location, assuming the relationship is great! In particular, cities like New York and London are more workable (as DeepMind has offices there I could work out of).
 
 ## What I'm like in a relationship
 
