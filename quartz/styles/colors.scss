@@ -24,7 +24,6 @@
   --base: #303446;
   --mantle: #292c3c;
   --crust: #232634;
-
   --color-visited: color-mix(in srgb, var(--red) 50%, var(--blue));
 
   // Theme-specific colors (from quartz.config.ts darkMode)
@@ -71,7 +70,6 @@
   --base: #eff1f5;
   --mantle: #e6e9ef;
   --crust: #dce0e8;
-
   --color-visited: color-mix(in srgb, var(--amaranth) 47%, var(--blue));
 
   // Theme-specific colors (from quartz.config.ts lightMode)
@@ -95,8 +93,8 @@
   --lightergray: color-mix(in srgb, transparent 70%, var(--lightgray));
   --lightestgray: color-mix(in srgb, transparent 90%, var(--lightgray));
   --darkergray: color-mix(in srgb, var(--gray) 25%, var(--dark));
-
   --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
+
   @each $color in ("red", "pink", "green", "teal", "blue", "purple", "orange", "yellow") {
     --background-#{$color}: color-mix(in srgb, var(--#{$color}) 30%, var(--light));
     --border-#{$color}: color-mix(in srgb, var(--#{$color}) 50%, var(--light));

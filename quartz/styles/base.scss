@@ -1,8 +1,8 @@
 @use "./variables.scss" as *;
-@use "./syntax.scss";
-@use "./callouts.scss";
-@use "./colors.scss";
-@use "./fonts.scss";
+@use "./syntax";
+@use "./callouts";
+@use "./colors";
+@use "./fonts";
 
 html {
   scroll-behavior: smooth;
@@ -51,7 +51,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--tertiary) 30%, rgba(255, 255, 255, 0));
+  background: color-mix(in srgb, var(--tertiary) 30%, rgb(255 255 255 / 0%));
   color: var(--darkgray);
 }
 
@@ -123,6 +123,7 @@ a {
 
 .desktop-only {
   display: initial;
+
   @media all and (max-width: $fullPageWidth) {
     display: none;
   }
@@ -131,8 +132,10 @@ a {
 hr.desktop-only {
   display: block;
 }
+
 .mobile-only {
   display: none;
+
   @media all and (max-width: $fullPageWidth) {
     display: initial;
   }
@@ -160,6 +163,7 @@ hr.desktop-only {
     & li > *:first-child:not(blockquote) {
       margin-top: 0;
     }
+
     & li > *:last-child {
       margin-bottom: 0;
     }
@@ -179,8 +183,10 @@ hr.desktop-only {
       flex-direction: column;
       top: 0;
       width: $sidePanelWidth;
+
       &.right {
         width: 100%;
+
         @media all and (min-width: $marginsBegin) {
           width: $rightWidth;
         }
@@ -188,34 +194,37 @@ hr.desktop-only {
 
       margin-top: $topSpacing;
       box-sizing: border-box;
-
       padding: 0 calc(8 * $baseMargin);
       position: fixed;
+
       @media all and (max-width: $fullPageWidth) {
         position: relative;
         flex-direction: column;
         max-width: 100vw;
         padding: 0;
-        margin-top: 0rem;
+        margin-top: 0;
       }
     }
 
     & #left-sidebar {
       display: flex;
       margin-right: calc(6 * $baseMargin);
+
       @media all and (max-width: $fullPageWidth) {
         gap: 0;
         align-items: center;
+
         // width: $pageWidth;
         position: sticky;
       }
+
       @media all and (min-width: $fullPageWidth) {
         left: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
       }
     }
 
     & #right-sidebar {
-      @media all and (min-width: calc($fullPageWidth + 100px)) {
+      @media all and (width >= calc($fullPageWidth + 100px)) {
         padding-right: calc(2 * $baseMargin); // Make more space for ToC
       }
 
@@ -223,8 +232,10 @@ hr.desktop-only {
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
+
       @media all and (max-width: $fullPageWidth) {
         left: 0;
+
         & > * {
           flex: 1;
           min-width: 140px;
@@ -236,6 +247,7 @@ hr.desktop-only {
   & .page-header {
     width: $pageWidth;
     margin: $topSpacing auto 0 auto;
+
     @media all and (max-width: $fullPageWidth) {
       width: initial;
       margin-top: calc(2 * $baseMargin);
@@ -263,8 +275,7 @@ input[type="checkbox"] {
   border-radius: 3px;
   background-color: var(--light);
   position: relative;
-  margin-inline-end: calc(0.5 * $baseMargin);
-  margin-inline-start: calc(-3 * $baseMargin);
+  margin-inline: calc(-3 * $baseMargin) calc(0.5 * $baseMargin);
   appearance: none;
   width: 16px;
   height: 16px;
@@ -314,6 +325,7 @@ thead {
       left: -1.5rem;
       top: 0;
     }
+
     .popover & {
       display: none;
     }
@@ -351,6 +363,7 @@ h6,
   .number-prefix {
     font-variant-numeric: lining-nums;
   }
+
   // color: var(--color-header);
   font-family: var(--font-text-header);
 
@@ -370,7 +383,6 @@ h6,
 
 figure[data-rehype-pretty-code-figure] {
   margin: 0;
-  position: relative;
   line-height: 1.6rem;
   position: relative;
 
@@ -403,7 +415,6 @@ pre {
 
   & > code {
     background: none;
-    padding: 0;
     font-size: var(--text-size-80);
     counter-reset: line;
     counter-increment: line 0;
@@ -417,12 +428,12 @@ pre {
 
     & > [data-line] {
       padding: 0 1rem;
+
       // Want wrapped lines to indent
       text-indent: calc(-4 * $baseMargin);
       padding-left: calc(4 * $baseMargin);
       padding-right: calc(2 * $baseMargin);
       text-wrap: pretty;
-
       box-sizing: border-box;
       border-left: 3px solid transparent;
 
@@ -439,7 +450,7 @@ pre {
         margin-left: calc(0.5 * $baseMargin);
         display: inline-block;
         text-align: right;
-        color: rgba(115, 138, 148, 0.6);
+        color: rgb(115 138 148 / 60%);
       }
     }
 
@@ -500,6 +511,7 @@ td {
 
 tr {
   border-bottom: 1px solid var(--lightgray);
+
   &:last-child {
     border-bottom: none;
   }
@@ -551,12 +563,11 @@ ul {
 }
 
 .katex {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
+
 .katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
 
 #quartz-root {
@@ -564,6 +575,6 @@ ul {
 }
 
 // Nested ol and ul should have margin before them
-ol:not(ol > ol):not(li > ol) {
+ol:not(ol > ol, li > ol) {
   margin-top: calc(1.5 * $baseMargin);
 }

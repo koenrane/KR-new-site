@@ -1,11 +1,12 @@
 @use "./variables.scss" as *;
 @use "sass:color";
-@use "./colors.scss";
+@use "./colors";
 
 .callout {
   border: 1px solid var(--border);
 
   --border: color-mix(in srgb, var(--color) 60%, var(--base));
+
   & blockquote {
     border-left: 2px solid var(--border);
   }
@@ -13,7 +14,9 @@
   & .callout {
     border-left: 2px solid var(--border);
   }
+
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
+
   background-color: var(--bg);
   scrollbar-color: var(--lightergray) var(--bg);
   border-radius: 5px;
@@ -74,9 +77,11 @@
   &[data-callout="money"] {
     --color: color-mix(in srgb, var(--green) 65%, var(--dark));
   }
+
   &[data-callout="success"] {
     --callout-icon: var(--callout-icon-success);
   }
+
   &[data-callout="money"] {
     --callout-icon: var(--callout-icon-money);
   }
@@ -85,14 +90,17 @@
   &[data-callout="question"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-question);
+
     // & .callout-icon {
     //   -webkit-mask-position-y: 3.25px;
     // }
   }
+
   &[data-callout="todo"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-todo);
   }
+
   &[data-callout="idea"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
     --callout-icon: var(--callout-icon-idea);
@@ -121,9 +129,11 @@
   &[data-callout="failure"] {
     --callout-icon: var(--callout-icon-failure);
   }
+
   &[data-callout="warning"] {
     --callout-icon: var(--callout-icon-warning);
   }
+
   &[data-callout="bug"] {
     --callout-icon: var(--callout-icon-bug);
   }
@@ -146,7 +156,9 @@
 
   &[data-callout="example"] {
     --callout-icon: var(--callout-icon-example);
+
     margin-right: calc(0.25 * $baseMargin);
+
     & .callout-icon {
       -webkit-mask-position-y: 5.5px; // Make sure this is centered
     }
@@ -212,6 +224,7 @@
 // These tags should generally be less bright
 #content-meta .callout-metadata {
   background-color: var(--base); // "see-through"
+
   --border: color-mix(in srgb, var(--color) 30%, var(--base));
 
   & > .callout-title {
@@ -225,6 +238,7 @@
     & > *:last-child {
       margin-bottom: 0;
     }
+
     & > *:first-child {
       margin-top: 0;
     }
@@ -248,6 +262,7 @@
     transition: transform 0.15s ease;
     opacity: 0.8;
     cursor: pointer;
+
     --callout-icon: var(--callout-icon-fold);
   }
 
@@ -286,13 +301,13 @@
 
     // Align with the text
     mask-position: none;
-    -webkit-mask-position: none;
     -webkit-mask-position-y: 5.5px;
   }
 
   .callout-title-inner {
     font-weight: $semiBoldWeight;
     font-variant-numeric: lining-nums;
+
     & .small-caps {
       font-variant-numeric: normal;
     }

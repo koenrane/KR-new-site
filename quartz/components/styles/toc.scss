@@ -1,7 +1,9 @@
 @use "../../styles/variables" as *;
+
 .toc-title {
   margin-top: 0;
   margin-bottom: calc(0.5 * $baseMargin);
+
   & a {
     text-decoration: none;
   }
@@ -11,7 +13,6 @@ ul.overflow,
 ol.overflow {
   overflow-y: auto;
   margin-bottom: 0;
-
   content: "";
   clear: both;
 }
@@ -28,6 +29,7 @@ ol.overflow {
   & > ul {
     padding-left: $baseMargin !important;
   }
+
   & ul {
     list-style: none;
     padding: 0;
@@ -43,6 +45,7 @@ ol.overflow {
         padding-left: calc(0.75 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
       }
     }
+
     &:not(:first-child) {
       margin-bottom: 0;
     }

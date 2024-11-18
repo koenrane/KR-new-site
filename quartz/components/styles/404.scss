@@ -1,7 +1,9 @@
 @use "../../styles/variables.scss" as *;
+
 #not-found-div,
 #not-found-div-popover {
   display: flex;
+
   @media (max-width: $fullPageWidth) {
     justify-content: center;
   }
@@ -20,6 +22,7 @@
 
 img#trout-reading {
   max-width: 40%;
+
   @media (max-width: $tabletBreakpoint) {
     max-width: 30%;
   }

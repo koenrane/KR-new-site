@@ -4,6 +4,7 @@
 .menu {
   order: 1;
   top: 5px;
+
   // Applies to all links in the navbar
   & ul {
     list-style: none;
@@ -23,6 +24,7 @@
       }
     }
   }
+
   // Desktop
   @media (min-width: $fullPageWidth) {
     display: flex;
@@ -35,8 +37,8 @@
     position: relative;
     text-align: right;
     background-color: transparent;
-
     display: none;
+
     &.visible {
       display: block;
     }
@@ -47,10 +49,10 @@
 
     ul {
       position: absolute;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-      clip-path: inset(0px 0px -15px -15px);
+      box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+      clip-path: inset(0 0 -15px -15px);
       width: max-content;
-      right: 0px;
+      right: 0;
       top: 0.72em;
     }
   }
@@ -68,6 +70,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
+
   & span {
     display: block;
     height: 3px;
@@ -118,12 +121,14 @@
     height: 2.5px;
   }
 }
+
 @media all and (max-width: $tabletBreakpoint) {
   .search > #search-icon > p {
     padding: 0;
     padding-left: calc(2 * $baseMargin);
   }
 }
+
 /* Center the site name under the pond video */
 .page-title-text {
   font-family: var(--font-text-italic), cursive, sans-serif;
@@ -133,15 +138,17 @@
   & a {
     color: inherit;
     text-decoration: none;
+
     &:visited {
       color: inherit;
     }
   }
 
   @media all and (max-width: $fullPageWidth) {
-    margin-bottom: 0em;
+    margin-bottom: 0;
     margin-top: calc(0.5 * $baseMargin);
   }
+
   @media all and (min-width: $fullPageWidth) {
     margin-bottom: $baseMargin;
     margin-top: 0;
@@ -152,17 +159,21 @@
 #navbar-left,
 .navbar-left {
   display: flex;
+
   @media all and (min-width: $fullPageWidth) {
     flex-direction: column;
   }
+
   align-items: center;
 }
 
 #navbar-right {
   display: flex;
+
   @media all and (min-width: $fullPageWidth) {
     flex-direction: column;
   }
+
   align-items: center;
 }
 
@@ -171,6 +182,7 @@
     width: 100%;
     position: sticky;
   }
+
   #quartz-body #navbar {
     opacity: 1;
     transition:
@@ -178,11 +190,13 @@
       opacity 0.45s ease;
     position: sticky;
     z-index: 910;
+
     &.shadow {
-      box-shadow: 0 2px 4px 0px rgba(#5c5f77, 0.1);
-      clip-path: inset(0px 0px -1500px 0px);
+      box-shadow: 0 2px 4px 0 rgba(#5c5f77, 0.1);
+      clip-path: inset(0 0 -1500px 0);
     }
   }
+
   .hide-above-screen {
     transform: translateY(-100%);
     opacity: 0;
@@ -201,10 +215,11 @@
     background-color: var(--light);
   }
 }
+
 :root[saved-theme="dark"] .shadow {
   @media all and (max-width: $fullPageWidth) {
     box-shadow: 0 7px 4px 0 #5c5f7752;
-    clip-path: inset(0px 0px -1500px 0px);
+    clip-path: inset(0 0 -1500px 0);
   }
 }
 
@@ -216,6 +231,7 @@
   max-width: 100%;
   margin-bottom: 0;
   margin-top: 0;
+
   @media all and (max-width: $fullPageWidth) {
     margin-top: 0;
     margin-bottom: 0;
@@ -259,9 +275,7 @@
   }
 
   & svg {
-    position: relative;
     left: 68%;
-    transition: opacity 0.5s ease;
     cursor: pointer;
     opacity: 0;
     position: absolute;
@@ -285,6 +299,7 @@
   & > #dayIcon {
     opacity: 0;
   }
+
   & > #nightIcon {
     opacity: 1;
   }
@@ -294,6 +309,7 @@
   & > #dayIcon {
     opacity: 1;
   }
+
   & > #nightIcon {
     opacity: 0;
   }

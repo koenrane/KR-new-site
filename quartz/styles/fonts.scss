@@ -4,19 +4,23 @@
   --base-line-height: 1.4;
   --scale-ratio: 1.2;
 }
+
 // Responsive font sizes
 :root {
   @media screen and (min-width: $tabletBreakpoint) {
     --base-font-size: 24px;
   }
+
   @media screen and (max-width: $tabletBreakpoint) {
     --base-font-size: 22px;
   }
+
   @media screen and (max-width: $mobileBreakpoint) {
     --base-font-size: 20px;
   }
+
   font-size: var(--base-font-size);
-  text-rendering: geometricPrecision;
+  text-rendering: geometricprecision;
 }
 
 @function calculate-scale($steps) {
@@ -65,27 +69,35 @@ h6,
 .text-size-80 {
   font-size: var(--text-size-80);
 }
+
 .text-size-90 {
   font-size: var(--text-size-90);
 }
+
 .text-size-100 {
   font-size: var(--text-size-100);
 }
+
 .text-size-200 {
   font-size: var(--text-size-200);
 }
+
 .text-size-300 {
   font-size: var(--text-size-300);
 }
+
 .text-size-400 {
   font-size: var(--text-size-400);
 }
+
 .text-size-500 {
   font-size: var(--text-size-500);
 }
+
 .text-size-600 {
   font-size: var(--text-size-600);
 }
+
 .text-size-700 {
   font-size: var(--text-size-700);
 }
@@ -94,22 +106,27 @@ h1,
 .h1 {
   font-size: var(--text-size-700);
 }
+
 h2,
 .h2 {
   font-size: var(--text-size-600);
 }
+
 h3,
 .h3 {
   font-size: var(--text-size-500);
 }
+
 h4,
 .h4 {
   font-size: var(--text-size-400);
 }
+
 h5,
 .h5 {
   font-size: var(--text-size-300);
 }
+
 h6,
 .h6 {
   font-size: var(--text-size-200);
@@ -123,7 +140,6 @@ $fonts-dir: "/static/styles/fonts";
     font-family: $font-family;
     font-optical-sizing: auto;
     font-feature-settings: $font-features;
-
     src: url("#{$fonts-dir}/#{$file-name}#{$ext}");
     font-display: swap;
   }
@@ -133,16 +149,17 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
 @include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
 @include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
+
 @font-face {
-  font-family: "EBGaramondItalic";
+  font-family: EBGaramondItalic;
   src: url("#{$fonts-dir}/EBGaramond/EBGaramond08-Italic.woff2") format("woff2");
   font-weight: normal;
   font-style: italic;
   font-optical-sizing: auto;
   font-display: swap;
 }
-@include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 
+@include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramondSC", "EBGaramond/EBGaramondSC08-Regular", ".woff2");
@@ -151,20 +168,17 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
 @include font-face("BadHandwriting", "badhandwriting-webfont", ".woff2");
 @include font-face("Scary", "DarkmodeRegular", ".woff2");
-
 @include font-face("Elvish", "tengwar_annatar/TengwarAnnatar", ".woff2");
 @include font-face("ElvishItalic", "tengwar_annatar/TengwarAnnatar-Italic", ".woff2");
 
 body {
   --font-monospace: "FiraCode", "JetBrains Mono", "Courier New", monospace;
   --font-monospace-theme: "FiraCode", "JetBrains Mono", "Courier New", monospace;
-
-  --font-text-theme: "EBGaramond", Garamond, "Times New Roman", serif;
-  --font-text: "EBGaramond", Garamond, "Times New Roman", serif;
+  --font-text-theme: "EBGaramond", garamond, "Times New Roman", serif;
+  --font-text: "EBGaramond", garamond, "Times New Roman", serif;
   --font-text-original: "EBGaramondOriginal";
   --font-text-italic: "EBGaramondItalic", "EBGaramond";
-  --font-text-header: "EBGaramond", Garamond, "Times New Roman", serif;
-
+  --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
   --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
 
@@ -173,7 +187,6 @@ body {
   font-feature-settings:
     "liga" 1,
     "cv11" 1;
-
   font-variant-numeric: oldstyle-nums;
 
   // Code should contain full-height numbers
@@ -184,19 +197,20 @@ body {
 }
 
 .elvish {
-  font-family: "Elvish";
+  font-family: Elvish;
   line-height: 2.2;
   position: relative;
 
   & em,
   em & {
-    font-family: "ElvishItalic";
+    font-family: ElvishItalic;
   }
 
   // Show underlying English text
   transition:
     opacity 600ms,
     color 300ms;
+
   &:hover {
     color: transparent;
 
@@ -208,14 +222,13 @@ body {
       color: var(--dark);
       font-family: var(--font-text);
       opacity: 1;
-
       text-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 50%, transparent);
     }
   }
 }
 
 .corrupted {
-  font-family: "Scary";
+  font-family: Scary;
   font-style: normal;
 }
 

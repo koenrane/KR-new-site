@@ -1,17 +1,19 @@
-@use "./base.scss";
+@use "./base";
 @use "./variables.scss" as *;
-@use "table.scss";
-@use "colors.scss";
+@use "table";
+@use "colors";
 
 :root {
   --font-bad-handwriting: "BadHandwriting";
 }
+
 .explorer {
   text-align: center;
 
   & a {
     text-decoration: none;
   }
+
   & .visited {
     color: inherit;
   }
@@ -27,6 +29,7 @@ li[id^="user-content-fn-"] > * {
   &:is(blockquote):nth-last-child(2) {
     margin-bottom: $baseMargin;
   }
+
   &:not(blockquote):nth-last-child(2) {
     margin-bottom: 0; // Don't have unnecessary space before the <li>
   }
@@ -52,6 +55,7 @@ li > blockquote:first-child {
 
     & li {
       counter-increment: list;
+
       &::before {
         content: counter(list) ".";
       }
@@ -71,7 +75,7 @@ li[id^="user-content-fn-"] {
     color: color-mix(in srgb, var(--color-link) 70%, transparent);
     text-decoration: none;
     background-color: transparent;
-    font-family: "DejaVuSerifCondensed-Bold", serif;
+    font-family: DejaVuSerifCondensed-Bold, serif;
     vertical-align: top;
   }
 }
@@ -79,6 +83,7 @@ li[id^="user-content-fn-"] {
 a[id*="fnref-"] {
   // When scrolling back to a footnote, scroll up farther than default
   scroll-margin-top: calc(2 * $baseMargin);
+
   @media all and (max-width: $fullPageWidth) {
     scroll-margin-top: calc(7 * $baseMargin);
   }
@@ -111,10 +116,9 @@ dd > ol:first-child {
 }
 
 dd {
-  margin-block-start: 0;
+  margin-block: 0 calc(2 * $baseMargin);
   margin-top: 0;
   margin-bottom: calc(2 * $baseMargin);
-  margin-block-end: calc(2 * $baseMargin);
 
   & > p:first-child {
     margin-top: 0;
@@ -156,6 +160,7 @@ ol {
         &::before {
           content: counters(list, ".") "." counters(sublist, "."); // Display combined list and sublist counters for nested list items
         }
+
         &:first-child {
           margin-top: var(--li-margin); // Remove top margin from the first nested list item
         }
@@ -173,9 +178,9 @@ ol {
     display: block;
     counter-increment: footnote; // Increment the footnote counter for each matching li
     margin-bottom: $baseMargin; // Add a bottom margin to the list items
-    text-indent: 0px;
+    text-indent: 0;
 
-    &:before {
+    &::before {
       margin-left: calc(-0.25 * $baseMargin);
     }
 
@@ -184,13 +189,14 @@ ol {
       color: color-mix(in srgb, var(--color-link) 70%, transparent);
       text-decoration: none;
       background-color: transparent;
-      font-family: "DejaVuSerifCondensed-Bold", serif;
+      font-family: DejaVuSerifCondensed-Bold, serif;
       vertical-align: top;
     }
 
     & p:first-child {
       margin-top: 0; // Remove top margin from the first paragraph in the footnote
     }
+
     & p:last-child {
       margin-bottom: 0; // Remove top margin from the first paragraph in the footnote
     }
@@ -207,7 +213,6 @@ ol {
 code,
 pre {
   font-family: var(--font-monospace);
-
   background-color: transparent;
   color: inherit;
   font-size: 0.81em;
@@ -225,13 +230,14 @@ a {
   white-space: normal;
   word-break: break-word;
   hyphens: auto;
-  margin-top: 0em;
+  margin-top: 0;
   text-underline-offset: 2px; // Default underline too close to text
 
   // After you visit a link, it becomes less important that it stands out
   &:visited {
     color: color-mix(in srgb, currentcolor 50%, var(--color-link));
   }
+
   // Don't have anchor links with box behind them
   &[role="anchor"] {
     background-color: transparent;
@@ -296,6 +302,7 @@ sup {
   &.favicon {
     filter: saturate(0%);
   }
+
   & .invert {
     filter: grayscale(50%) invert(100%) brightness(95%) hue-rotate(180deg);
   }
@@ -327,21 +334,21 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
 figure,
 .subfigure {
-  margin-inline-start: $baseMargin;
-  margin-inline-end: $baseMargin;
-  margin-block-start: $baseMargin;
-  margin-block-end: $baseMargin;
+  margin-inline: $baseMargin $baseMargin;
+  margin-block: $baseMargin $baseMargin;
 
   & img {
     display: block;
     margin-left: auto;
     margin-right: auto;
+
     // margin-bottom: calc(0.75 * $baseMargin);
   }
 
   & + figure {
     margin-top: calc(3 * $baseMargin);
   }
+
   flex: 1 1 0px;
 }
 
@@ -349,12 +356,14 @@ figure,
 .page-listing-title {
   font-variant-numeric: lining-nums;
 }
+
 .article-title {
-  margin: 2rem 0 0 0;
+  margin: 2rem 0 0;
 
   @media all and (max-width: $fullPageWidth) {
     margin-top: $baseMargin;
   }
+
   .popover & {
     margin-top: calc(1.5 * $baseMargin) !important;
   }
@@ -375,17 +384,19 @@ p:has(+ .subtitle),
 .subtitle {
   color: var(--gray);
   margin-top: 0;
-
   font-size: var(--text-size-90);
+
   & .favicon {
     // Smaller favicon for smaller font
     --favicon-size: calc(pow(var(--scale-ratio), -1) * 0.65rem);
+
     width: var(--favicon-size);
     height: var(--favicon-size);
   }
 
   .callout & {
     color: color-mix(in srgb, var(--gray) 60%, var(--color));
+
     & a {
       color: inherit;
     }
@@ -413,17 +424,16 @@ figcaption,
 }
 
 .float-right {
-  margin-top: $baseMargin;
-  margin-bottom: calc($baseMargin);
+  margin: $baseMargin calc(2 * $baseMargin) calc($baseMargin) calc(2 * $baseMargin);
+
   & img,
   img.float-right {
     margin-left: auto;
     margin-right: auto;
     display: block;
   }
+
   float: right;
-  margin-left: calc(2 * $baseMargin);
-  margin-right: calc(2 * $baseMargin);
   max-width: 45%;
 }
 
@@ -449,9 +459,6 @@ figcaption,
 .no-select {
   -webkit-user-drag: none;
   user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
 /* Ensure favicons have appropriate properties. */
@@ -481,6 +488,7 @@ img.favicon {
   &[src$="readthesequences_com.avif"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
+
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
@@ -495,6 +503,7 @@ img.favicon {
   // Github should be lighter b/c starts off darker
   &[src$="github_com.avif"] {
     filter: invert(40%);
+
     :root[saved-theme="dark"] & {
       filter: invert(75%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
@@ -525,6 +534,7 @@ img.favicon {
     :root[saved-theme="light"] & {
       filter: contrast(15%);
     }
+
     // Dark mode
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) brightness() contrast(50%);
@@ -551,6 +561,7 @@ img.favicon {
       margin-bottom: 0;
     }
   }
+
   & .content {
     max-height: 0;
     overflow: hidden;
@@ -560,6 +571,7 @@ img.favicon {
 
 svg.fold-icon {
   --icon-size: 18px;
+
   display: inline-flex; /* Use inline-flex for better alignment */
   align-items: center;
   justify-content: center;
@@ -567,7 +579,6 @@ svg.fold-icon {
   margin-left: calc(0.5 * $baseMargin);
   margin-top: 0.25rem;
   cursor: pointer;
-
   width: var(--icon-size);
   height: var(--icon-size);
   fill: var(--gray); /* Set the default color here */
@@ -591,7 +602,6 @@ svg.fold-icon {
   & a.tag-link {
     color: var(--gray);
     border-radius: 5px; /* Add rounded corners to the tags box */
-
     line-height: 1rem;
     padding: 0;
     padding-top: initial;
@@ -634,7 +644,9 @@ hr {
     & a {
       color: inherit;
     }
+
     margin-top: 0;
+
     &:not(:last-child) {
       margin-bottom: 0;
     }
@@ -717,8 +729,7 @@ ol li[id^="user-content-fn"] {
   & video,
   & table {
     display: block;
-    margin-block-start: calc(2 * $baseMargin);
-    margin-block-end: calc(2 * $baseMargin);
+    margin-block: calc(2 * $baseMargin);
 
     &:first-child {
       display: inline;
@@ -740,8 +751,8 @@ img.emoji {
   mix-blend-mode: normal;
   width: calc(min(60%, 50vw));
   max-width: 60%;
-  margin-top: 0rem;
-  margin-bottom: 0rem;
+  margin-top: 0;
+  margin-bottom: 0;
 
   @media all and (max-width: $mobileBreakpoint) {
     margin-right: 0;
@@ -770,6 +781,7 @@ hr {
 .sequenceLinks-postNavigation {
   width: 45%;
 }
+
 .sequence-nav {
   display: flex;
   justify-content: space-between;
@@ -781,6 +793,7 @@ hr {
   & .prev-post {
     margin-right: auto;
   }
+
   & .next-post {
     margin-left: auto;
   }
@@ -821,7 +834,6 @@ hr {
   height: 90%; // Visually center the overlay
   width: 100%;
   color: var(--dark);
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -829,6 +841,7 @@ hr {
   &::after {
     content: "Hover to show";
   }
+
   @media (max-width: $tabletBreakpoint) {
     &::after {
       content: "Tap to show";
@@ -873,6 +886,7 @@ hr {
 
   &::before {
     text-transform: uppercase;
+
     // The foreground glyph
     font-family: "EBGaramondInitialsF2";
     color: var(--dark);
@@ -884,11 +898,14 @@ hr {
 article[data-use-dropcap="true"] {
   --dropcap-vertical-offset: 0.15rem;
   --dropcap-font-size: 3.95rem;
+
   & > p:first-of-type {
     position: relative;
     min-height: 4.2rem;
   }
+
   --dropcap-font-size: 3.95rem;
+
   & > p:first-of-type::before {
     content: attr(data-first-letter);
     text-transform: uppercase;
@@ -916,7 +933,7 @@ article[data-use-dropcap="true"] {
   }
 
   & > p:first-of-type::first-line {
-    font-family: "EBGaramondSC" !important;
+    font-family: EBGaramondSC !important;
   }
 
   & > p:first-of-type em,
@@ -926,7 +943,7 @@ article[data-use-dropcap="true"] {
   }
 
   & > p:first-of-type .small-caps {
-    font-family: "EBGaramondSC" !important;
+    font-family: EBGaramondSC !important;
   }
 
   & > p[data-first-letter="f"]::before,
@@ -955,6 +972,7 @@ article[data-use-dropcap="true"] {
     &::marker {
       color: var(--lightgray);
     }
+
     & a {
       text-decoration-thickness: 0.2px;
       background-color: transparent;
@@ -988,15 +1006,11 @@ article[data-use-dropcap="true"] {
 
 // Edge labels  - TODO not working on safari
 .edgeLabel > .label > foreignObject {
-  overflow-x: visible !important;
-  overflow-y: visible !important;
+  overflow: visible !important;
 
   & > div {
     background-color: transparent !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+    padding: 0 !important;
 
     &:has(.edgeLabel:empty) {
       display: none !important;
@@ -1042,7 +1056,6 @@ article[data-use-dropcap="true"] {
   padding-bottom: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
-
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;

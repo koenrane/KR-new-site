@@ -17,20 +17,24 @@ th,
 td {
   min-width: 4rem;
   border: 1px solid var(--lightgray);
-
   padding: $baseMargin;
+
   .footnotes & {
     font-size: smaller;
   }
+
   text-align: center;
 }
+
 th {
   background-color: var(--lightestgray);
 }
+
 .title-cell {
   text-align: center;
   text-shadow: 0.3px 0.3px var(--dark);
 }
+
 .percentage-cell {
   text-align: center;
   font-feature-settings: "tnum" 1; /* Use tabular numbers */
