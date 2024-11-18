@@ -187,7 +187,7 @@
 
         & .preview-inner {
           margin: 0 auto;
-          width: min($pageWidth, 100%);
+          width: min($page-width, 100%);
         }
 
         a[role="anchor"] {
@@ -240,7 +240,7 @@
             background-color: var(--highlight);
             padding: 0.2rem 0.4rem;
             line-height: 1.4rem;
-            font-weight: $boldWeight;
+            font-weight: $bold-weight;
             color: var(--secondary);
 
             &.match-tag {

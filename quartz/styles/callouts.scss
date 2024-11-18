@@ -110,6 +110,7 @@
   &[data-callout="warning"] {
     --color: color-mix(in srgb, var(--orange) 60%, var(--dark));
     --bg: color-mix(in srgb, var(--color) 10%, var(--base));
+    --callout-icon: var(--callout-icon-warning);
   }
 
   // Red
@@ -128,10 +129,6 @@
 
   &[data-callout="failure"] {
     --callout-icon: var(--callout-icon-failure);
-  }
-
-  &[data-callout="warning"] {
-    --callout-icon: var(--callout-icon-warning);
   }
 
   &[data-callout="bug"] {

@@ -188,7 +188,7 @@ hr.desktop-only {
         width: 100%;
 
         @media all and (min-width: $margins-begin) {
-          width: $rightWidth;
+          width: $right-width;
         }
       }
 
@@ -228,7 +228,7 @@ hr.desktop-only {
         padding-right: calc(2 * $base-margin); // Make more space for ToC
       }
 
-      right: calc(calc(100vw - $page-width) / 2 - $rightWidth);
+      right: calc(calc(100vw - $page-width) / 2 - $right-width);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;

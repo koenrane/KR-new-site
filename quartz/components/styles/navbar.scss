@@ -9,8 +9,8 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin-top: $base-margin;
     margin: 0.08rem 0;
+    margin-top: $base-margin;
     padding: $base-margin;
     background-color: var(--light);
 
@@ -296,21 +296,21 @@
 }
 
 :root[saved-theme="dark"] .toggle ~ label {
-  & > #dayIcon {
+  & > #day-icon {
     opacity: 0;
   }
 
-  & > #nightIcon {
+  & > #night-icon {
     opacity: 1;
   }
 }
 
 :root .toggle ~ label {
-  & > #dayIcon {
+  & > #day-icon {
     opacity: 1;
   }
 
-  & > #nightIcon {
+  & > #night-icon {
     opacity: 0;
   }
 }
