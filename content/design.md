@@ -36,11 +36,11 @@ Figure: Content rendered approximately when this article was first published ([`
 The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site generator. While [the build process](https://quartz.jzhao.xyz/advanced/architecture) is rather involved, here's what you need to know for this article:
 1. Almost all of my content is written in Markdown. 
 2. Each page has its metadata stored in plaintext [YAML](https://en.wikipedia.org/wiki/YAML). 
-3. The Markdown pages are transformed in (essentially) two stages; a sequence of "transformers" are applied to the intermediate representations of each page.
+3. The Markdown pages are transformed in (essentially) two stages; a sequence of transformations are applied to the intermediate representations of each page.
 4. The intermediate representations are emitted as webpages.
 5. The webpages are pushed to Cloudflare and then walk their way into your browser! 
-> [!note]- More detail on the transformers  
->  _Text transformers_ operate on the raw text content of each page. For example:
+> [!note]- More detail on the transformations  
+>  _Text transformations_ operate on the raw text content of each page. For example:
 > ```typescript
 > const notePattern = /^\s*[*_]*note[*_]*:[*_]* (?<text>.*)(?<![*_])[*_]*/gim
 > 
@@ -56,7 +56,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 > ```
 > Code: Detects when my Markdown contains a line beginning with "Note: " and then converts that content into an "admonition" (which is the bubble we're inside right now). 
 > 
-> _HTML transformers_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformers can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
+> _HTML transformations_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformations can be much more fine-grained. For example, I can easily avoid modifying links themselves. 
 > ```typescript
 > /**
 >  * Replaces hyphens with en dashes in number ranges
@@ -85,7 +85,9 @@ That took a few months.
 > I exported my content using [this query](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/graphiql.txt). After downloading the JSON, I ran [`process_json.cjs`](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/process_json.cjs) to use [`turndown`](https://github.com/mixmark-io/turndown) to convert the raw HTML to (properly processed) Markdown. Finally, I [preprocessed the Markdown files.](https://github.com/alexander-turner/TurnTrout.com/blob/import/scripts/md_processing_single.py) 
 
 # Archiving and dependencies
-This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive]
+This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive] Furthermore, minimizing embeds (e.g. `<iframe>`s) will minimize the number of invasive tracking cookies.[^video]
+
+[^video]: To avoid YouTube tracking cookies, I even self-host [AI presidents discuss AI alignment agendas](/alignment-tier-list). 
 
 [^archive]: Examples of content which is not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
 
@@ -155,6 +157,7 @@ During the build process, I convert all naive CSS assignments of `color:red` (<s
 As a static webpage, my life is much simpler than the lives of most web developers. However, by default, users would have to wait a few seconds for each page to load, which I consider unacceptable. I want my site to be responsive even on mobile on slow connections. 
 
 Quartz offers basic optimizations, such as [lazy loading](https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading) of assets and [minifying](https://en.wikipedia.org/wiki/Minification_(programming)) JavaScript and CSS files. I further marked the core CSS files for preloading. However, there are a range of more interesting optimizations which Quartz and I implement. 
+
 ## Asset compression
 
 ### Fonts
@@ -190,7 +193,7 @@ Unlike the image case, I'm not yet happy with my video compression. Among modern
 
 Under my current compression pipeline, WEBM videos are hilariously well-compressed (if I remember correctly, about 10x over GIF and 4x over HEVC). However, there is one small problem which is actually big: while [Safari technically "supports" WEBM](https://caniuse.com/webm), _Safari refuses to autoplay & loop WEBMs_.[^safari] 
 
-[^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. To autoplay these mp4s, I had to include the `src=` attribute in the `video` tag.
+[^safari]: Safari _does_ support HEVC-encoded mp4s, but only if they are tagged with `hvc1` and not `hev1`. To "autoplay" these mp4s, I had to include the `src=` attribute in the `video` tag and then wait for the user to interact with the page. Apparently Firefox doesn't support HEVC, so I'll need to add alternative Firefox-compatible `<source/>`s.
 
 The problem gets worse because - although Safari will autoplay & loop HEVC, Safari _refuses to render transparency_. Therefore, for the looping video of the pond (which requires transparency), the only compatible choice is a stupid GIF which takes up 561KB instead of 58KB. That asset shows up on every page, so that stings a bit. Inline videos don't have to be transparent, so I'm free to use HEVC for most video assets. 
 
@@ -200,7 +203,7 @@ However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently c
 
 Even after minification, it takes time for the client to load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle. 
 
-Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best). 
 
 
 ## Deduplicating HTML requests
@@ -535,12 +538,12 @@ To tackle this, the favicon transformer doesn't _just_ append an `<img>` element
 >
 > I confess that I don't fully understand `gwern`'s [successor approach.](https://gwern.net/design-graveyard#static-link-icon-attributes) It seems like more work, but perhaps it's more appropriate for their use cases! 
 
-## Callouts encapsulate information
-I love these "callout" bubbles which contain information. When a callout is collapsed by default, the reader can decide whether or not they _want_ more detail on a topic, reducing ambient frustration. 
+## Admonitions encapsulate information
+I love these "admonition" bubbles which contain information. When an admonition is collapsed by default, the reader can decide whether or not they _want_ more detail on a topic, reducing ambient frustration. 
 
 
 
-> [!note]- All callouts for my site
+> [!note]- All admonitions for my site
 > > [!abstract]
 >  
 >  > [!note]
@@ -580,7 +583,7 @@ I love these "callout" bubbles which contain information. When a callout is coll
 
 ## Mermaid diagrams
 Often, websites embed diagrams as images. However, I find this unsatisfying for several reasons:
-1. Inconsistent styling as several different diagram suites may be used to generate images - the diagrams often use different color palettes from my site,
+1. Inconsistent styling as several different diagram suites may be used to generate images - the diagrams often use different color palettes,
 2. Bloated page size from embedding sparse graphical information into dense image data, and
 3. Inability to adapt to shifts between light and dark mode.
 
