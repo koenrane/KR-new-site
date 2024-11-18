@@ -176,6 +176,7 @@ body {
   --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
   --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
+  --font-elvish-bold: "ElvishBold", serif; // TODO check this errors
 
   line-height: var(--base-line-height);
   font-family: var(--font-text);

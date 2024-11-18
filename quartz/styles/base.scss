@@ -27,7 +27,7 @@ section {
 
 /* Define the scrollbar style */
 body,
-right {
+.right {
   scrollbar-color: var(--lightergray) var(--light);
 }
 
@@ -63,7 +63,6 @@ tr,
 td,
 li,
 ol,
-ul,
 .katex,
 .math {
   color: var(--dark);
@@ -79,6 +78,7 @@ ul,
 }
 
 .katex {
+  overflow: auto hidden;
   color: inherit;
   font-size: 1em !important;
   margin-left: auto; // Center katex
@@ -387,7 +387,7 @@ figure[data-rehype-pretty-code-figure] {
   position: relative;
 
   & > [data-rehype-pretty-code-title] {
-    font-family: var(--codeFont);
+    font-family: var(--font-monospace);
     padding: 0.1rem 0.5rem;
     border: 1px solid var(--lightgray);
     width: max-content;
@@ -402,7 +402,7 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 pre {
-  font-family: var(--codeFont);
+  font-family: var(--font-monospace);
   padding: 0 0.5rem;
   border-radius: 5px;
   overflow-x: auto;
@@ -465,7 +465,7 @@ pre {
 }
 
 code {
-  font-family: var(--codeFont);
+  font-family: var(--font-monospace);
   vertical-align: baseline;
 }
 
@@ -560,10 +560,6 @@ ol ul {
 ol,
 ul {
   margin-top: calc(1 * $base-margin);
-}
-
-.katex {
-  overflow: auto hidden;
 }
 
 .katex-display {

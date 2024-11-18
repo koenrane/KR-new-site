@@ -1,4 +1,5 @@
 {
+  "plugins": ["stylelint-declaration-strict-value"],
   "extends": ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
   "rules": {
     "no-invalid-double-slash-comments": null,

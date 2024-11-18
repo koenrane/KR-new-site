@@ -264,7 +264,7 @@ sup {
 }
 
 .text-ornament {
-  font-family: "EBGaramond12";
+  font-family: "EBGaramond12", serif;
   font-size: 3rem;
   filter: saturate(90%);
   color: var(--blue);
@@ -460,6 +460,7 @@ figcaption,
 
 /* Ensure favicons have appropriate properties. */
 img.favicon {
+  display: inline;
   width: 0.65rem;
   height: 0.65rem;
   margin-right: auto;
@@ -716,10 +717,6 @@ p > img {
   margin-right: auto;
 }
 
-img.favicon {
-  display: inline;
-}
-
 ol li,
 ul li,
 ol li[id^="user-content-fn"] {
@@ -762,7 +759,7 @@ img.emoji {
   margin-bottom: calc(2 * $base-margin);
 }
 
-.sequenceLinks-divider {
+.sequence-links-divider {
   color: var(--lightgray);
   height: calc(8 * $base-margin);
   margin-top: calc(2 * $base-margin);
@@ -772,7 +769,7 @@ img.emoji {
   border-left-width: 1px;
 }
 
-.sequenceLinks-postNavigation {
+.sequence-links-post-navigation {
   width: 45%;
 }
 
@@ -907,7 +904,7 @@ article[data-use-dropcap="true"] {
     font-size: var(--dropcap-font-size);
     line-height: 1;
     padding-right: 0.1em;
-    font-family: "EBGaramondInitialsF2";
+    font-family: "EBGaramondInitialsF2", serif;
   }
 
   & > p:first-of-type::first-letter {
@@ -920,12 +917,12 @@ article[data-use-dropcap="true"] {
     font-size: var(--dropcap-font-size);
     line-height: 1;
     padding-right: 0.1em;
-    font-family: "EBGaramondInitialsF1";
+    font-family: "EBGaramondInitialsF1", serif;
     font-weight: 500 !important;
   }
 
   & > p:first-of-type::first-line {
-    font-family: EBGaramondSC !important;
+    font-family: EBGaramondSC, serif !important;
   }
 
   & > p:first-of-type em,
@@ -974,7 +971,8 @@ article[data-use-dropcap="true"] {
 }
 
 // Mermaid
-.edgeLabel > div,
+// stylelint-disable-next-line selector-class-pattern
+.edgeLabel > div, // stylelint-disable-next-line 
 .edgeLabel > p {
   align-items: baseline !important;
   background-color: transparent !important;
@@ -997,6 +995,7 @@ article[data-use-dropcap="true"] {
 }
 
 // Edge labels  - TODO not working on safari
+// stylelint-disable-next-line selector-class-pattern
 .edgeLabel > .label > foreignObject {
   overflow: visible !important;
 
@@ -1004,6 +1003,7 @@ article[data-use-dropcap="true"] {
     background-color: transparent !important;
     padding: 0 !important;
 
+    // stylelint-disable-next-line
     &:has(.edgeLabel:empty) {
       display: none !important;
       background-color: transparent !important;
@@ -1090,7 +1090,7 @@ iframe {
 
 // Arrows are too high up by default
 .right-arrow {
-  vertical-align: -0.06125rem;
+  vertical-align: -0.0612rem;
 }
 
 // Specific graph in design doc has too much whitespace in light
