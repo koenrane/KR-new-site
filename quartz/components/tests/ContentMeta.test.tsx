@@ -19,7 +19,7 @@ import {
   getFaviconPath,
   insertFavicon,
   processReadingTime,
-  renderLastUpdated,
+  RenderLastUpdated as RenderLastUpdated,
   renderReadingTime,
 } from "../ContentMeta"
 import { QuartzComponentProps } from "../types"
@@ -259,20 +259,20 @@ describe("renderLastUpdated", () => {
   it("should return null when no date_updated", () => {
     const fileData = createFileData()
 
-    const result = renderLastUpdated(mockConfig, fileData)
+    const result = RenderLastUpdated(mockConfig, fileData)
     expect(result).toBeNull()
   })
 
   it("should return null when hide_metadata is true", () => {
     const fileData = createFileData({ hide_metadata: true })
 
-    const result = renderLastUpdated(mockConfig, fileData)
+    const result = RenderLastUpdated(mockConfig, fileData)
     expect(result).toBeNull()
   })
 
   it("should render update info with github link and date", () => {
     const fileData = createFileData({ date_updated: "2024-03-20" })
-    const result = renderLastUpdated(mockConfig, fileData)
+    const result = RenderLastUpdated(mockConfig, fileData)
 
     expect(result?.type).toBe("span")
     expect(result?.props.className).toBe("last-updated-str")
@@ -295,7 +295,7 @@ describe("renderLastUpdated", () => {
       filePath: testPath as FilePath,
     }) as QuartzPluginData
 
-    const result = renderLastUpdated(mockConfig, fileData)
+    const result = RenderLastUpdated(mockConfig, fileData)
     const linkElement = result?.props.children[0]
 
     expect(linkElement.props.href).toBe(
@@ -328,4 +328,28 @@ it("renders without crashing", () => {
   }
   const result = ContentMetadata(quartzProps as QuartzComponentProps)
   root.render(result as React.ReactElement)
+})
+
+describe("date handling", () => {
+  it("should handle different date_updated and date_published values", () => {
+    const fileData = createFileData({
+      date_published: new Date("2024-01-01"),
+      date_updated: new Date("2024-03-20"),
+    })
+
+    const publicationInfo = RenderPublicationInfo(mockConfig, fileData)
+    const updateInfo = RenderLastUpdated(mockConfig, fileData)
+
+    // Verify both elements are rendered
+    expect(publicationInfo).not.toBeNull()
+    expect(updateInfo).not.toBeNull()
+
+    // Verify they have different dates in their props
+    const publicationDate = publicationInfo?.props.children[1].props.date
+    const updateDate = updateInfo?.props.children[2].props.date
+
+    expect(publicationDate.getTime()).not.toBe(updateDate.getTime())
+    expect(publicationDate).toEqual(new Date("2024-01-01"))
+    expect(updateDate).toEqual(new Date("2024-03-20"))
+  })
 })

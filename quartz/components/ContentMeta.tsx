@@ -66,7 +66,7 @@ export function RenderPublicationInfo(
   fileData: QuartzPluginData,
 ): JSX.Element | null {
   const frontmatter = fileData.frontmatter
-  const datePublished = frontmatter?.date_published
+  const datePublished = frontmatter?.date_published as Date
   if (!datePublished || frontmatter?.hide_metadata) {
     return null
   }
@@ -74,7 +74,7 @@ export function RenderPublicationInfo(
   const dateElement = (
     <DateElement
       cfg={cfg}
-      fileData={fileData}
+      date={datePublished}
       monthFormat="long"
       includeOrdinalSuffix={true}
       formatOrdinalSuffix={true}
@@ -105,15 +105,15 @@ export function RenderPublicationInfo(
 }
 
 // Add new function to render last updated info
-export function renderLastUpdated(
+export function RenderLastUpdated(
   cfg: GlobalConfiguration,
   fileData: QuartzPluginData,
 ): JSX.Element | null {
   const frontmatter = fileData.frontmatter
-  const dateUpdated = frontmatter?.date_updated
-  if (!dateUpdated || frontmatter?.hide_metadata) {
+  if (!frontmatter?.date_updated || frontmatter?.hide_metadata) {
     return null
   }
+  const dateUpdated = new Date(frontmatter.date_updated as string)
 
   const githubFaviconPath = getFaviconPath(new URL("https://github.com"))
 
@@ -129,7 +129,7 @@ export function renderLastUpdated(
   const date = (
     <DateElement
       cfg={cfg}
-      fileData={{ ...fileData, frontmatter: { ...frontmatter, date: dateUpdated } }}
+      date={dateUpdated}
       monthFormat="long"
       includeOrdinalSuffix={true}
       formatOrdinalSuffix={true}
@@ -304,7 +304,7 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const readingTime = renderReadingTime(props.fileData)
   const linkpostInfo = renderLinkpostInfo(props.fileData)
   const publicationInfo = RenderPublicationInfo(props.cfg, props.fileData)
-  const lastUpdated = renderLastUpdated(props.cfg, props.fileData)
+  const lastUpdated = RenderLastUpdated(props.cfg, props.fileData)
 
   return (
     <blockquote id="post-statistics" className="callout callout-metadata" data-callout="info">

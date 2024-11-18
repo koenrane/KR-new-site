@@ -76,28 +76,31 @@ interface DateElementProps {
   monthFormat?: "long" | "short"
   includeOrdinalSuffix?: boolean
   cfg: GlobalConfiguration
-  fileData: QuartzPluginData
+  date: Date | string
   formatOrdinalSuffix?: boolean
 }
 
 // Render date element with proper datetime attribute
 export const DateElement = ({
   cfg,
-  fileData,
+  date,
   monthFormat,
   includeOrdinalSuffix,
   formatOrdinalSuffix,
 }: DateElementProps): JSX.Element => {
-  const date = fileData.frontmatter?.date_published
-    ? new Date(fileData.frontmatter.date_published as string)
-    : getDate(cfg, fileData)
-  return date ? (
+  // Convert string dates to Date objects
+  const dateObj = date instanceof Date ? date : new Date(date)
+
+  if (!dateObj || isNaN(dateObj.getTime())) {
+    throw new Error(`date must be a valid Date object or date string: ${date}`)
+  }
+
+  return dateObj ? (
     <time
-      dateTime={fileData.frontmatter?.date_published as string}
+      dateTime={dateObj.toISOString()}
       dangerouslySetInnerHTML={{
-        // skipcq: JS-0440
         __html: formatDate(
-          date,
+          dateObj,
           cfg.locale,
           monthFormat,
           includeOrdinalSuffix,
