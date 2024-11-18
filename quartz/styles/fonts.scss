@@ -141,6 +141,7 @@ $fonts-dir: "/static/styles/fonts";
   font-optical-sizing: auto;
   font-display: swap;
 }
+@include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".woff2");
@@ -160,6 +161,7 @@ body {
 
   --font-text-theme: "EBGaramond", Garamond, "Times New Roman", serif;
   --font-text: "EBGaramond", Garamond, "Times New Roman", serif;
+  --font-text-original: "EBGaramondOriginal";
   --font-text-italic: "EBGaramondItalic", "EBGaramond";
   --font-text-header: "EBGaramond", Garamond, "Times New Roman", serif;
 
