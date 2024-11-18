@@ -62,8 +62,9 @@ trap 'cleanup $PUSHED_CHANGES' EXIT
 # Run typechecks
 mypy $GIT_ROOT/scripts/**py
 
-# eslint already has ignore rules
+# eslint and stylelint already has ignore rules
 npx eslint --fix $GIT_ROOT
+npx stylelint --fix $GIT_ROOT # validate SCSS files
 
 # Run static checks on markdown files
 fish "$GIT_ROOT/scripts/spellchecker.fish"
@@ -135,3 +136,5 @@ echo "Updated date on publish."
 # Finally, timestamp the final commit
 sh "$GIT_ROOT/scripts/timestamp_last_commit.sh"
 echo "Timestamped last commit."
+
+git push --no-verify # For some reason, otherwise it doesn't push when done
