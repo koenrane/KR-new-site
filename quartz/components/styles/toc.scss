@@ -39,7 +39,6 @@ ol.overflow {
 
     & ul {
       font-size: 0.913em; // approx sqrt(1/1.2), where 1.2 is scale factor
-      border-left: 2px solid var(--lightergray);
 
       & li {
         padding-left: calc(0.75 * $base-margin - $base-margin * var(--text-indent-multiplier));
