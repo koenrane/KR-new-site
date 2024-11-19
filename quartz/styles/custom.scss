@@ -532,12 +532,12 @@ img.favicon {
   }
 
   &[src$="turntrout-favicons/favicon.ico"] {
-    // Light mode
+    margin-left: -0.05rem;
+
     :root[saved-theme="light"] & {
       filter: contrast(15%);
     }
 
-    // Dark mode
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) brightness() contrast(50%);
     }
