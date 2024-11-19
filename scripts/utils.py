@@ -81,8 +81,14 @@ def get_files(
                     for file, rel_file in zip(files, relative_files)
                     if not repo.ignored(rel_file)
                 ]
-            except (git.GitCommandError, ValueError, RuntimeError):
-                pass  # If Git root is not found or any error occurs, skip gitignore filtering
+            except (
+                git.GitCommandError,
+                ValueError,
+                RuntimeError,
+                subprocess.CalledProcessError,
+            ):
+                # If Git operations fail, continue without Git filtering
+                pass
     return tuple(files)
 
 
@@ -139,7 +145,7 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
         metadata = yaml.load(parts[1])
         if not metadata:
             metadata = {}
-    except Exception as e:
+    except OSError as e:
         print(f"Error parsing YAML in {file_path}: {str(e)}")
         return {}, ""
 

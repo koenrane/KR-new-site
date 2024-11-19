@@ -165,7 +165,9 @@ def test_get_files_specific_dir(tmp_path, file_paths, expected_files):
     # Get files based on the file extensions in the file paths
     filetypes_to_match = list({p.suffix for p in map(Path, expected_files)})
     result = script_utils.get_files(
-        dir_to_search=tmp_path, filetypes_to_match=filetypes_to_match
+        dir_to_search=tmp_path,
+        filetypes_to_match=filetypes_to_match,
+        use_git_ignore=False,
     )
 
     # Normalize file paths and compare
@@ -226,6 +228,7 @@ def test_get_files_ignore_dirs(tmp_path):
         dir_to_search=tmp_path,
         filetypes_to_match=(".md",),
         ignore_dirs=["templates"],
+        use_git_ignore=False,
     )
 
     # Convert results to set of strings for easier comparison
