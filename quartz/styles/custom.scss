@@ -228,11 +228,7 @@ a {
   word-break: break-word;
   hyphens: auto;
   margin-top: 0;
-  text-underline-offset: 2px; // Default underline too close to text
-
-  --current-color: currentcolor;
-
-  text-decoration-color: rgba(var(--current-color), 0.5);
+  text-underline-offset: 2.5px; // Default underline too close to text
 
   // After you visit a link, it becomes less important that it stands out
   &:visited {
@@ -968,7 +964,7 @@ article[data-use-dropcap="true"] {
     }
 
     & a {
-      text-decoration-thickness: 0.2px;
+      text-decoration-thickness: 0.1px;
       background-color: transparent;
       color: var(--gray);
     }
