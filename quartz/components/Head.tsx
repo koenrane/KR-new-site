@@ -136,7 +136,14 @@ export default (() => {
         <meta charSet="utf-8" />
 
         {/* Prevent FOUC */}
-        <style id="hide-body">{`body { visibility: hidden; }`}</style>
+        <style id="hide-body">{`
+          body { 
+            visibility: hidden;
+          }
+          :root[saved-theme="dark"] body {
+            background-color: #303446; 
+          }
+        `}</style>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
