@@ -606,6 +606,7 @@ svg.fold-icon {
     padding-bottom: initial;
     background-color: transparent;
     display: block;
+    text-decoration: none; // Prevent underline to reduce clutter
   }
 }
 
