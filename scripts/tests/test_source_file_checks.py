@@ -9,9 +9,9 @@ sys.path.append(str(Path(__file__).parent.parent))
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from ..md_file_checks import *
+    from ..source_file_checks import *
 else:
-    from md_file_checks import *
+    from source_file_checks import *
 
 
 @pytest.fixture
