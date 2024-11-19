@@ -70,7 +70,6 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
         ) from e
 
 
-# TODO split up this function
 def upload_and_move(
     file_path: Path,
     verbose: bool = False,
@@ -116,7 +115,8 @@ def upload_and_move(
     if file_exists:
         if not overwrite_existing:
             print(
-                f"File '{r2_key}' already exists in R2. Use '--overwrite-existing' to overwrite."
+                f"File '{r2_key}' already exists in R2."
+                "Use '--overwrite-existing' to overwrite."
             )
             return
         print(f"Overwriting existing file in R2: {r2_key}")
@@ -127,7 +127,8 @@ def upload_and_move(
     try:
         rclone_args = ["rclone", "copyto", str(file_path), upload_target]
 
-        # Add metadata option for SVG files -- otherwise CORS will deny the request by the client
+        # Add metadata option for SVG files
+        # otherwise CORS will deny the request by the client
         if file_path.suffix.lower() == ".svg":
             rclone_args.extend(["--metadata-set", "content-type=image/svg+xml"])
         subprocess.run(rclone_args, check=True)
@@ -154,8 +155,10 @@ def upload_and_move(
         # Check original_path because it's longer than subpath
         escaped_original_path: str = re.escape(str(relative_original_path))
         escaped_relative_subpath: str = re.escape(str(relative_subpath))
+
         source_regex: str = (
-            rf"(?<=[\(\"])(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})"
+            rf"(?<=[\(\"])(?:\.?/)?"
+            rf"(?:{escaped_original_path}|{escaped_relative_subpath})"
         )
 
         new_content: str = re.sub(
@@ -213,7 +216,7 @@ def main() -> None:
         "--filetypes",
         nargs="+",
         default=(".mp4", ".svg", ".avif"),
-        help="File types to upload when using --upload-from-directory (default: .mp4 .svg .avif)",
+        help="File types to upload when using --upload-from-directory",
     )
     parser.add_argument(
         "--overwrite-existing",
