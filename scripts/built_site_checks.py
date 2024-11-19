@@ -1,3 +1,7 @@
+"""
+Script to check the built static site for common issues and errors.
+"""
+
 import os
 import re
 import subprocess
@@ -9,10 +13,11 @@ import tqdm
 from bs4 import BeautifulSoup, Tag
 
 # Add the project root to sys.path
+# pylint: disable=C0413
 sys.path.append(str(Path(__file__).parent.parent))
 
-import scripts.compress as compress
 import scripts.utils as script_utils
+from scripts import compress
 
 git_root = script_utils.get_git_root()
 RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
@@ -48,9 +53,8 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
 
     Returns a list of the footnote references themselves.
     """
-    footnote_pattern = (
-        r"\[\^[a-zA-Z0-9-_]+\]"  # Matches [^1], [^note], [^note-1], etc.
-    )
+    # Matches [^1], [^note], [^note-1], etc.
+    footnote_pattern = r"\[\^[a-zA-Z0-9-_]+\]"
     unrendered_footnotes = []
 
     for p in soup.find_all("p"):
@@ -61,9 +65,7 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     return unrendered_footnotes
 
 
-def check_invalid_anchors(
-    soup: BeautifulSoup, file_path: Path, base_dir: Path
-) -> List[str]:
+def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
     Check for invalid internal anchor links in the HTML.
     """
@@ -95,7 +97,8 @@ def check_invalid_anchors(
     return invalid_anchors
 
 
-# Check that no blockquote element ends with ">" (probably needed a newline before it)
+# Check that no blockquote element ends with ">",
+# because it probably needed a newline before it
 def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     """
     Check for blockquote elements ending with ">".
@@ -104,7 +107,7 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
         # Get the last non-empty string content of the blockquote
-        contents = [s for s in blockquote.stripped_strings]
+        contents = list(blockquote.stripped_strings)
         if contents and contents[-1].strip().endswith(">"):
             # Get a truncated version of the blockquote content for reporting
             content_preview = (
@@ -124,7 +127,8 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
-        if any(prefix in text for prefix in ("Table: ", "Figure: ", "Code: ")):
+        prefixes = ("Table: ", "Figure: ", "Code: ")
+        if any(prefix in text for prefix in prefixes):
             problematic_paragraphs.append(
                 text[:50] + "..." if len(text) > 50 else text
             )
@@ -165,12 +169,9 @@ _MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
 ]
 
 
-def check_local_media_files(
-    soup: BeautifulSoup, file_path: Path, base_dir: Path
-) -> List[str]:
+def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
-    Check for local media files (images, videos, SVGs) and verify their
-    existence.
+    Verify the existence of local media files (images, videos, SVGs).
     """
     missing_files = []
     media_tags = soup.find_all(["img", "video", "source", "svg"])
@@ -200,9 +201,8 @@ def check_asset_references(
         if href.startswith("/"):
             # Absolute path within the site
             return (base_dir / href.lstrip("/")).resolve()
-        else:
-            # Relative path
-            return (file_path.parent / href).resolve()
+        # Relative path
+        return (file_path.parent / href).resolve()
 
     def check_asset(href: str) -> None:
         if href and not href.startswith(("http://", "https://")):
@@ -248,6 +248,9 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
 
 
 def is_redirect(soup: BeautifulSoup) -> bool:
+    """
+    Check if the page is a redirect.
+    """
     return soup.find("meta", {"http-equiv": "refresh"}) is not None
 
 
@@ -275,9 +278,7 @@ def body_is_empty(soup: BeautifulSoup) -> bool:
     )
 
 
-def check_file_for_issues(
-    file_path: Path, base_dir: Path, is_production: bool = False
-) -> IssuesDict:
+def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """
     Check a single HTML file for various issues.
     """
@@ -286,11 +287,9 @@ def check_file_for_issues(
         return {}
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
-        "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
+        "invalid_anchors": check_invalid_anchors(soup, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
-        "missing_media_files": check_local_media_files(
-            soup, file_path, base_dir
-        ),
+        "missing_media_files": check_local_media_files(soup, base_dir),
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
@@ -351,15 +350,14 @@ def print_issues(
 
 def main() -> None:
     """
-    Main function to check all HTML files in the public directory for issues.
+    Check all HTML files in the public directory for issues.
     """
-    git_root = script_utils.get_git_root()
     public_dir: Path = git_root / "public"
     issues_found: bool = False
 
     check_rss_file_for_issues(git_root)
 
-    for root, dirs, files in os.walk(public_dir):
+    for root, _, files in os.walk(public_dir):
         for file in tqdm.tqdm(files, desc="Webpages checked"):
             if file.endswith(".html"):
                 file_path = Path(root) / file

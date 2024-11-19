@@ -13,7 +13,7 @@ def get_git_root(starting_dir: Optional[Path] = None) -> Path:
     Returns the absolute path to the top-level directory of the Git repository.
 
     Args:
-        starting_dir (Optional[Path]): Directory from which to start searching for the Git root.
+        starting_dir: Directory from which to start searching for the Git root.
 
     Returns:
         Path: Absolute path to the Git repository root.

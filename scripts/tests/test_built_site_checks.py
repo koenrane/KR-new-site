@@ -90,9 +90,7 @@ def test_check_localhost_links(sample_soup):
 
 
 def test_check_invalid_anchors(sample_soup, temp_site_root):
-    result = check_invalid_anchors(
-        sample_soup, temp_site_root / "test.html", temp_site_root
-    )
+    result = check_invalid_anchors(sample_soup, temp_site_root)
     assert set(result) == {"#invalid-anchor", "/other-page#invalid-anchor"}
 
 
@@ -125,9 +123,7 @@ def test_check_local_media_files(sample_soup, temp_site_root):
     (temp_site_root / "existing-image.jpg").touch()
     (temp_site_root / "existing-video.mp4").touch()
 
-    result = check_local_media_files(
-        sample_soup, temp_site_root / "test.html", temp_site_root
-    )
+    result = check_local_media_files(sample_soup, temp_site_root)
     assert set(result) == {"missing-image.png", "missing-svg.svg"}
 
 
@@ -190,9 +186,7 @@ def test_complicated_blockquote(tmp_path):
 def test_check_local_media_files_parametrized(html, expected, temp_site_root):
     soup = BeautifulSoup(html, "html.parser")
     (temp_site_root / "existing.png").touch()
-    result = check_local_media_files(
-        soup, temp_site_root / "test.html", temp_site_root
-    )
+    result = check_local_media_files(soup, temp_site_root)
     assert result == expected
 
 
