@@ -21,7 +21,7 @@ const config: QuartzConfig = {
         { title: "About me", slug: "/about" },
         { title: "My research", slug: "/research" },
         { title: "Posts", slug: "/posts" },
-        { title: "Contact me", slug: "/about#contact-me" },
+        { title: "Subscribe", slug: "/posts#footnote-label" },
       ],
     },
   },
