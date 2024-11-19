@@ -500,11 +500,21 @@ function reorderHead(htmlContent) {
 
   // Clear the head and re-append elements in desired order
   head.empty()
+
+  // Append meta and title tags first
   head.append(metaAndTitle)
+
+  // Append links to CSS stylesheets immediately after
+  head.append(links)
+
+  // Append the hide-body and critical CSS styles
   head.append(hideBody)
   head.append(criticalCSS)
-  head.append(links)
+
+  // Append any other elements (e.g., scripts)
   head.append(otherElements)
+
+  // Check if the number of children hasn't changed
   const finalChildCount = head.children().length
   if (originalChildCount !== finalChildCount) {
     throw new Error(
