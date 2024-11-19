@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+"""
+Convert assets to optimized formats.
+"""
+
 import argparse
 import re
 import subprocess
@@ -24,12 +27,14 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern_fn('parens')}{input_file.stem}\{input_file.suffix}\)"
+        rf"\!?\[\]\({link_pattern_fn('parens')}"
+        rf"{input_file.stem}\{input_file.suffix}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern_fn('brackets')}{input_file.stem}\{input_file.suffix}\]\]"
+        rf"\!?\[\[{link_pattern_fn('brackets')}"
+        rf"{input_file.stem}\{input_file.suffix}\]\]"
     )
 
     # Link pattern for HTML tags
@@ -38,13 +43,17 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
-            rf'<img (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>'
+            rf"<img (?P<earlyTagInfo>[^>]*)"
+            rf'src="{tag_link_pattern}{input_file.stem}\.gif"'
+            rf"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>"
         )
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern = (
-            rf'<video (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
-            rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?(?P<endVideoTagInfo>[^>]*(?=/))/?>'
+            rf"<video (?P<earlyTagInfo>[^>]*)"
+            rf'src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
+            rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?'
+            rf"(?P<endVideoTagInfo>[^>]*(?=/))/?>"
         )
 
     # Combine all patterns into one, separated by '|' (OR)
@@ -62,7 +71,10 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         else ""
     )
     replacement_pattern: str = (
-        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="{all_links}{input_file.stem}.mp4" type="video/mp4"></video>'
+        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"'
+        rf'\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>>'
+        rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
+        rf"</video>"
     )
 
     return original_pattern, replacement_pattern
@@ -85,7 +97,7 @@ def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
     strip_metadata: bool = False,
-    md_replacement_dir: Optional[Path] = Path("content/"),
+    md_references_dir: Optional[Path] = Path("content/"),
 ) -> None:
     """
     Converts an image or video to a more efficient format. Replaces references
@@ -112,9 +124,9 @@ def convert_asset(
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
-    if md_replacement_dir and not md_replacement_dir.is_dir():
+    if md_references_dir and not md_references_dir.is_dir():
         raise NotADirectoryError(
-            f"Error: Directory '{md_replacement_dir}' not found."
+            f"Error: Directory '{md_references_dir}' not found."
         )
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
@@ -132,7 +144,7 @@ def convert_asset(
         raise ValueError(f"Error: Unsupported file type '{input_file.suffix}'.")
 
     for md_file in script_utils.get_files(
-        dir_to_search=md_replacement_dir, filetypes_to_match=(".md",)
+        dir_to_search=md_references_dir, filetypes_to_match=(".md",)
     ):
         with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
@@ -151,7 +163,7 @@ def convert_asset(
             ["exiftool", "-all=", str(output_file), "--verbose"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            check=False,  # Apparently info still gets removed so OK to not check?
+            check=False,
         )
 
     if remove_originals and input_file.suffix not in (".mp4", ".avif"):
@@ -159,6 +171,9 @@ def convert_asset(
 
 
 def main():
+    """
+    Convert assets to optimized formats.
+    """
     parser = argparse.ArgumentParser(
         description="Convert assets to optimized formats."
     )
@@ -203,7 +218,7 @@ def main():
             asset,
             remove_originals=args.remove_originals,
             strip_metadata=args.strip_metadata,
-            md_replacement_dir=Path("content/"),
+            md_references_dir=Path("content/"),
         )
 
 
