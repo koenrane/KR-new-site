@@ -144,7 +144,6 @@ export default (() => {
             background-color: #303446; 
           }
         `}</style>
-        <script>let FF_FOUC_FIX;</script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -178,21 +177,21 @@ export default (() => {
         )}
         <link rel="robots" href="/static/robots.txt" type="text/plain" />
 
+        <link rel="icon" href={iconPath} />
+        <link defer rel="apple-touch-icon" href={appleIconPath} />
+        <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
+        {iconPreloads}
+
         <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
         <script src="/static/scripts/safari-autoplay.js" spa-preserve></script>
         <script src="/static/scripts/remove-css.js" spa-preserve></script>
         {analyticsScript}
 
-        <link rel="icon" href={iconPath} />
-        <link defer rel="apple-touch-icon" href={appleIconPath} />
-        <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}
         {frontmatterScript}
-
-        {iconPreloads}
       </head>
     )
   }

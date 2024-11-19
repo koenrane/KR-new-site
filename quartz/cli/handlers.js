@@ -485,12 +485,17 @@ function reorderHead(htmlContent) {
   const isHideBody = styleWithId("hide-body")
   const hideBody = headChildren.filter(isHideBody)
 
+  // Links cause firefox FOUC, so we need to move them before scripts
+  const isLink = (_i, el) => el.tagName === "link"
+  const links = headChildren.filter(isLink)
+
   const otherElements = headChildren.filter(
     (_i, el) =>
       el.tagName !== "meta" &&
       el.tagName !== "title" &&
       !isCriticalCSS(_i, el) &&
-      !isHideBody(_i, el),
+      !isHideBody(_i, el) &&
+      !isLink(_i, el),
   )
 
   // Clear the head and re-append elements in desired order
@@ -498,8 +503,8 @@ function reorderHead(htmlContent) {
   head.append(metaAndTitle)
   head.append(hideBody)
   head.append(criticalCSS)
+  head.append(links)
   head.append(otherElements)
-
   const finalChildCount = head.children().length
   if (originalChildCount !== finalChildCount) {
     throw new Error(
