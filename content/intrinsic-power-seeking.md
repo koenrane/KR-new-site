@@ -21,7 +21,7 @@ Aligning one AI to one user means that the AI should do what the user wants. Whi
 
 [^systems]: Noting that "systems" might include LLMs as only one component. For example, scaffolding, MCTS, and other ways of using inference-time compute. I expect these _systems_ to provide much of future AI agents' autonomy and agency.
 
-# Intrinsic power-seeking: choosing power for power's sake
+# Choosing power for power's sake
 > [!info] The logical structure of the power-seeking argument
 > PREMISES
 > 1. People will configure AI systems to be autonomous and reliable in order to accomplish tasks.
