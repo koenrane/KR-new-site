@@ -93,6 +93,9 @@ export default (() => {
     const pageLinks = (
       <nav className="menu">
         <ul>{links}</ul>
+        <ul>
+          <a href="https://turntrout.substack.com/subscribe">Subscribe</a>
+        </ul>
       </nav>
     )
     return (
