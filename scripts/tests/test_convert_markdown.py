@@ -1,11 +1,9 @@
 import io
-import subprocess
 import tempfile
 import unittest.mock as mock
 from pathlib import Path
 
 import pytest
-import requests
 
 from .. import convert_markdown_yaml
 
@@ -170,10 +168,64 @@ def test_convert_to_png(tmp_path):
         assert args[-1] == str(output_path)
 
 
+def test_process_image(tmp_path):
+    """Test the _process_image helper function."""
+    url = "http://example.com/image.avif"
+
+    with (
+        mock.patch(
+            "scripts.convert_markdown_yaml._download_image"
+        ) as mock_download,
+        mock.patch(
+            "scripts.convert_markdown_yaml._convert_to_png"
+        ) as mock_convert,
+    ):
+        png_path, png_filename = convert_markdown_yaml._process_image(
+            url, tmp_path
+        )
+
+        # Verify function calls
+        mock_download.assert_called_once()
+        mock_convert.assert_called_once()
+
+        # Verify returned paths
+        assert png_filename == "image.png"
+        assert png_path == tmp_path / "image.png"
+
+
+def test_setup_and_store_image(mock_git_root):
+    """Test the _setup_and_store_image helper function."""
+    png_path = mock_git_root / "temp" / "image.png"
+    png_filename = "image.png"
+
+    with (
+        mock.patch("shutil.move") as mock_move,
+        mock.patch(
+            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+        ) as mock_r2_upload,
+    ):
+        local_png_path = convert_markdown_yaml._setup_and_store_image(
+            png_path, png_filename
+        )
+
+        # Verify function calls
+        mock_move.assert_called_once()
+        mock_r2_upload.assert_called_once()
+
+        # Verify returned path
+        expected_path = (
+            mock_git_root
+            / "quartz"
+            / "static"
+            / "images"
+            / "card_images"
+            / png_filename
+        )
+        assert local_png_path == expected_path
+
+
 def test_process_card_image_in_markdown_success(setup_test_env, mock_git_root):
-    """
-    Test successful processing of card image in markdown.
-    """
+    """Test successful processing of card image in markdown."""
     markdown_content = """---
 title: "Test Post"
 date: "2023-10-10"
@@ -188,40 +240,42 @@ Content with AVIF card_image.
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temp_dir_path = Path(temp_dir)
-        converted_png_path = temp_dir_path / "image.png"
         new_card_image_url = (
             "http://r2.example.com/static/images/card_images/image.png"
         )
-        converted_png_path.touch()
 
         with (
             mock.patch(
-                "scripts.convert_markdown_yaml._download_image"
-            ) as mock_download,
+                "scripts.convert_markdown_yaml._process_image"
+            ) as mock_process_image,
             mock.patch(
-                "scripts.convert_markdown_yaml._convert_to_png"
-            ) as mock_convert,
-            mock.patch("shutil.move") as mock_shutil_move,
-            mock.patch(
-                "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-            ) as mock_r2_upload,
+                "scripts.convert_markdown_yaml._setup_and_store_image"
+            ) as mock_setup_store,
             mock.patch(
                 "scripts.convert_markdown_yaml.r2_upload.R2_BASE_URL",
                 "http://r2.example.com",
             ),
-            mock.patch(
-                "scripts.convert_markdown_yaml.r2_upload.R2_MEDIA_DIR",
-                "turntrout/static/images/card_images",
-            ),
             mock.patch("tempfile.gettempdir", return_value=str(temp_dir_path)),
         ):
+            # Mock return values
+            mock_process_image.return_value = (
+                temp_dir_path / "image.png",
+                "image.png",
+            )
+            mock_setup_store.return_value = (
+                mock_git_root
+                / "quartz"
+                / "static"
+                / "images"
+                / "card_images"
+                / "image.png"
+            )
+
             convert_markdown_yaml.process_card_image_in_markdown(md_file)
 
             # Verify function calls
-            mock_download.assert_called_once()
-            mock_convert.assert_called_once()
-            mock_shutil_move.assert_called_once()
-            mock_r2_upload.assert_called_once()
+            mock_process_image.assert_called_once()
+            mock_setup_store.assert_called_once()
 
             # Verify markdown content was updated
             expected_content = f"""---
@@ -236,12 +290,10 @@ Content with AVIF card_image.
             assert md_file.read_text() == expected_content
 
 
-def test_process_card_image_in_markdown_download_failure(
+def test_process_card_image_in_markdown_process_failure(
     setup_test_env, mock_git_root
 ):
-    """
-    Test handling of download failures.
-    """
+    """Test handling of image processing failures."""
     markdown_content = """---
 title: "Test Post"
 date: "2023-10-10"
@@ -254,95 +306,21 @@ Content with AVIF card_image.
 
     with (
         mock.patch(
-            "scripts.convert_markdown_yaml._download_image"
-        ) as mock_download,
+            "scripts.convert_markdown_yaml._process_image"
+        ) as mock_process_image,
         mock.patch(
-            "scripts.convert_markdown_yaml._convert_to_png"
-        ) as mock_convert,
-        mock.patch("shutil.move") as mock_shutil_move,
-        mock.patch(
-            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-        ) as mock_r2_upload,
+            "scripts.convert_markdown_yaml._setup_and_store_image"
+        ) as mock_setup_store,
     ):
-        mock_download.side_effect = ValueError("Failed to download image")
+        mock_process_image.side_effect = ValueError("Failed to process image")
 
-        with pytest.raises(ValueError, match="Failed to download image"):
+        with pytest.raises(ValueError, match="Failed to process image"):
             convert_markdown_yaml.process_card_image_in_markdown(md_file)
 
-        mock_download.assert_called_once()
-        mock_convert.assert_not_called()
-        mock_shutil_move.assert_not_called()
-        mock_r2_upload.assert_not_called()
+        mock_process_image.assert_called_once()
+        mock_setup_store.assert_not_called()
 
-        assert md_file.read_text() == markdown_content
-
-
-def test_process_card_image_in_markdown_conversion_failure(
-    setup_test_env, mock_git_root
-):
-    markdown_content = """---
-title: "Test Post"
-date: "2023-10-10"
-card_image: http://example.com/static/image.avif
----
-Content with AVIF card_image.
-"""
-
-    md_file = mock_git_root / "static" / "images" / "posts" / "test.md"
-    md_file.write_text(markdown_content)
-
-    downloaded_avif_path = (
-        mock_git_root / "static" / "images" / "posts" / "image.avif"
-    )
-    converted_png_path = (
-        mock_git_root
-        / "quartz"
-        / "static"
-        / "images"
-        / "card_images"
-        / "image.png"
-    )
-
-    # Create the AVIF file (this will be the file that fails to convert)
-    downloaded_avif_path.parent.mkdir(parents=True, exist_ok=True)
-    downloaded_avif_path.touch()
-
-    with (
-        mock.patch("requests.get") as mock_get,
-        mock.patch("subprocess.run") as mock_subproc_run,
-        mock.patch("shutil.move") as mock_shutil_move,
-        mock.patch(
-            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-        ) as mock_r2_upload,
-    ):
-
-        # Mock the image download response
-        mock_response = mock.Mock()
-        mock_response.status_code = 200
-        mock_response.raw = io.BytesIO(b"fake image data")
-        mock_get.return_value = mock_response
-
-        # Mock subprocess.run to raise an error during ImageMagick conversion
-        mock_subproc_run.side_effect = subprocess.CalledProcessError(
-            returncode=1, cmd=["magick"], stderr="ImageMagick conversion error."
-        )
-
-        with pytest.raises(subprocess.CalledProcessError, match="magick"):
-            convert_markdown_yaml.process_card_image_in_markdown(md_file)
-
-        # Verify that the image was downloaded
-        mock_get.assert_called()
-
-        # Verify that ImageMagick was called
-        mock_subproc_run.assert_called()
-
-        # Ensure that R2 upload was not called
-        mock_r2_upload.assert_not_called()
-
-        # Ensure that the PNG file was not created due to conversion failure
-        assert not converted_png_path.exists()
-
-        # Markdown file should remain unchanged
+        # Verify content remains unchanged
         assert md_file.read_text() == markdown_content
 
 

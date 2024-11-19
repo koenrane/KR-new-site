@@ -137,15 +137,54 @@ def _get_r2_image_url(local_png_path: Path) -> str:
     return f"{r2_base_url}/{r2_key}"
 
 
+def _process_image(card_image_url: str, temp_dir: Path) -> tuple[Path, str]:
+    """
+    Download and convert image to PNG.
+
+    Returns:
+        Tuple of (converted PNG path, PNG filename)
+    """
+    parsed_url = parse.urlparse(card_image_url)
+    card_image_filename = os.path.basename(parsed_url.path)
+    downloaded_path = temp_dir / card_image_filename
+    png_filename = downloaded_path.with_suffix(".png").name
+    png_path = downloaded_path.with_suffix(".png")
+
+    _download_image(card_image_url, downloaded_path)
+    _convert_to_png(downloaded_path, png_path)
+
+    return png_path, png_filename
+
+
+def _setup_and_store_image(png_path: Path, png_filename: str) -> Path:
+    """
+    Move PNG to static directory and upload to R2.
+
+    Returns:
+        Path to the local PNG file
+    """
+    git_root = script_utils.get_git_root()
+    static_images_dir = (
+        git_root / "quartz" / "static" / "images" / "card_images"
+    )
+    static_images_dir.mkdir(parents=True, exist_ok=True)
+    local_png_path = static_images_dir / png_filename
+
+    # Move and upload
+    shutil.move(str(png_path), str(local_png_path))
+    r2_upload.upload_and_move(
+        local_png_path,
+        verbose=True,
+        replacement_dir=None,
+        move_to_dir=r2_upload.R2_MEDIA_DIR,
+    )
+
+    return local_png_path
+
+
 def process_card_image_in_markdown(md_file: Path) -> None:
     """
     Process the 'card_image' in the YAML frontmatter of the given md file.
-
-    Downloads the image, converts it to PNG using ImageMagick, updates the
-    'card_image' value, and uploads the new image to R2.
-
-    Args:
-        md_file: Path to the markdown file to process
     """
     # Read and parse the markdown file
     with open(md_file, "r", encoding="utf-8") as file:
@@ -164,36 +203,11 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     ):
         return
 
-    # Set up paths
-    parsed_url = parse.urlparse(card_image_url)
-    card_image_filename = os.path.basename(parsed_url.path)
-    temp_dir = Path(tempfile.gettempdir())
-    downloaded_path = temp_dir / card_image_filename
-    png_filename = downloaded_path.with_suffix(".png").name
-    png_path = downloaded_path.with_suffix(".png")
-
-    # Process the image
-    _download_image(card_image_url, downloaded_path)
-    _convert_to_png(downloaded_path, png_path)
-
-    # Set up destination paths
-    git_root = script_utils.get_git_root()
-    static_images_dir = (
-        git_root / "quartz" / "static" / "images" / "card_images"
+    # Process and store the image
+    png_path, png_filename = _process_image(
+        card_image_url, Path(tempfile.gettempdir())
     )
-    static_images_dir.mkdir(parents=True, exist_ok=True)
-    local_png_path = static_images_dir / png_filename
-
-    # Move the converted image to static directory
-    shutil.move(str(png_path), str(local_png_path))
-
-    # Upload to R2 and update frontmatter
-    r2_upload.upload_and_move(
-        local_png_path,
-        verbose=True,
-        replacement_dir=None,  # Not replacing references in markdown files
-        move_to_dir=r2_upload.R2_MEDIA_DIR,
-    )
+    local_png_path = _setup_and_store_image(png_path, png_filename)
 
     # Update the YAML frontmatter
     data["card_image"] = _get_r2_image_url(local_png_path)
