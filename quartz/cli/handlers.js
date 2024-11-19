@@ -453,8 +453,8 @@ async function inlineCriticalCSS(outputDir) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
       const styleTag = `<style id="critical-css">${criticalCSS}</style>`
       const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
-      const updatedHTML = reorderHead(htmlWithCriticalCSS)
-      await fs.promises.writeFile(file, updatedHTML)
+      // const updatedHTML = reorderHead(htmlWithCriticalCSS)
+      await fs.promises.writeFile(file, htmlWithCriticalCSS)
     }
 
     console.log(`Inlined critical CSS for ${allFiles.length} files`)
