@@ -1,8 +1,9 @@
 function removeCSS() {
   const hideBodyStyle = document.querySelector("#hide-body")
   if (hideBodyStyle) {
+    console.info("Removing hide body style")
+    console.info(hideBodyStyle)
     hideBodyStyle.remove()
-    console.info("Removed hide body style")
   } else {
     console.warn("Hide body style element not found")
   }
