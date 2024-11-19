@@ -385,3 +385,64 @@ def test_integration_with_main(
     with pytest.raises(SystemExit) as exc_info:
         main()
     assert exc_info.value.code == 1
+
+
+def test_compile_scss(tmp_path: Path) -> None:
+    """Test SCSS compilation."""
+    scss_file = tmp_path / "test.scss"
+    scss_file.write_text(
+        """
+        $color: red;
+        body { color: $color; }
+    """
+    )
+
+    css = compile_scss(scss_file)
+    assert "body" in css
+    assert "red" in css
+
+
+def test_check_font_files(tmp_path: Path) -> None:
+    """Test font file checking."""
+    css_content = """
+        @font-face {
+            font-family: 'TestFont';
+            src: url('/static/styles/fonts/test.woff2') format('woff2');
+        }
+    """
+
+    missing = check_font_files(css_content, tmp_path)
+    assert "/quartz/static/styles/fonts/test.woff2" in missing
+
+
+def test_check_font_families() -> None:
+    """Test font family declaration checking."""
+    css_content = """
+        @font-face {
+            font-family: 'DeclaredFont';
+            src: url('/fonts/test.woff2');
+        }
+        body {
+            --font-test: "UndeclaredFont", serif;
+        }
+    """
+
+    missing = check_font_families(css_content)
+    assert "Undeclared font family: undeclaredfont" in missing
+
+
+def test_check_font_families_with_opentype() -> None:
+    """Test font family checking with OpenType features."""
+    css_content = """
+        @font-face {
+            font-family: 'EBGaramond';
+            src: url('/fonts/test.woff2');
+        }
+        body {
+            --font-test: "EBGaramond:+swsh", serif;
+            --font-other: "EBGaramond:smcp", monospace;
+        }
+    """
+
+    missing = check_font_families(css_content)
+    assert len(missing) == 0  # Should not report EBGaramond as missing

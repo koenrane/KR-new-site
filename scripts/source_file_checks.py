@@ -147,33 +147,43 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
                     print(f"    - {error}")
 
 
-def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
-    """Check if font files referenced in SCSS exist."""
+def compile_scss(scss_file_path: Path) -> str:
+    """Compile SCSS file to CSS string.
+
+    Args:
+        scss_file_path: Path to the SCSS file
+
+    Returns:
+        Compiled CSS as string
+
+    Raises:
+        subprocess.CalledProcessError: If SCSS compilation fails
+        FileNotFoundError: If sass compiler is not found
+    """
     if not scss_file_path.exists():
-        return []
+        return ""
 
+    styles_dir = scss_file_path.parent
+    result = subprocess.run(
+        ["sass", f"--load-path={styles_dir}", str(scss_file_path)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout
+
+
+def check_font_files(css_content: str, base_dir: Path) -> List[str]:
+    """Check if font files referenced in CSS exist.
+
+    Args:
+        css_content: Compiled CSS content
+        base_dir: Base directory for resolving font paths
+
+    Returns:
+        List of missing font file paths
+    """
     missing_fonts = []
-
-    # Use Dart Sass command line tool
-    try:
-        styles_dir = scss_file_path.parent
-        result = subprocess.run(
-            ["sass", f"--load-path={styles_dir}", str(scss_file_path)],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        css_content = result.stdout
-    except subprocess.CalledProcessError as e:
-        print(f"Error compiling SCSS: {e.stderr}")
-        return [f"SCSS compilation error: {e.stderr}"]
-    except FileNotFoundError:
-        print(
-            "Error: Dart Sass not found. Please install it with 'npm install -g sass' or 'brew install sass/sass/sass'"
-        )
-        return ["SCSS compilation error: Dart Sass not found"]
-
-    # Find font file declarations in compiled CSS
     font_pattern = re.compile(
         r"""@font-face\s*\{[^}]*?
         src:\s*url\(\s*["']?(.*?)["']?\)\s*
@@ -184,21 +194,97 @@ def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
 
     for match in font_pattern.finditer(css_content):
         font_path = match.group(1)
-
-        # Skip external fonts and data URIs
         if font_path.startswith(("http:", "https:", "data:")):
             continue
 
-        # Adjust path to look in quartz/static instead of just static
         if font_path.startswith("/static/"):
             font_path = f"/quartz{font_path}"
 
-        # Resolve the full path
         full_path = (base_dir / font_path.lstrip("/")).resolve()
         if not full_path.is_file():
             missing_fonts.append(font_path)
 
     return missing_fonts
+
+
+def check_font_families(css_content: str) -> List[str]:
+    """Check if all referenced font families are properly declared.
+
+    Args:
+        css_content: Compiled CSS content
+
+    Returns:
+        List of undeclared font family names
+    """
+    # Common system and fallback fonts to ignore
+    SYSTEM_FONTS = {
+        "serif",
+        "sans-serif",
+        "monospace",
+        "cursive",
+        "fantasy",
+        "system-ui",
+        "ui-serif",
+        "ui-sans-serif",
+        "ui-monospace",
+        "garamond",
+        "times new roman",
+        "courier new",
+        "jetbrains mono",
+    }
+
+    def clean_font_name(name: str) -> str:
+        """Clean font name by removing quotes and OpenType feature tags."""
+        name = name.strip().strip("\"'").lower()
+        # Remove OpenType feature tags (e.g., :+swsh, :smcp)
+        return name.split(":")[0]
+
+    # Find all @font-face declarations and their font families
+    font_face_pattern = re.compile(
+        r"""@font-face\s*\{[^}]*?
+        font-family:\s*["']?(.*?)["']?[;,]""",
+        re.VERBOSE | re.DOTALL,
+    )
+    declared_fonts = {
+        clean_font_name(match.group(1))
+        for match in font_face_pattern.finditer(css_content)
+    }
+
+    # Find all font-family references in CSS custom properties
+    missing_fonts = []
+    font_ref_pattern = re.compile(r'--[^:]*?:\s*["\'](.*?)["\']\s*(?:,|;)')
+
+    for match in font_ref_pattern.finditer(css_content):
+        fonts = match.group(1).split(",")
+        for font in fonts:
+            font = clean_font_name(font)
+            if font not in SYSTEM_FONTS and font not in declared_fonts:
+                missing_fonts.append(f"Undeclared font family: {font}")
+
+    return missing_fonts
+
+
+def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
+    """Check SCSS file for font-related issues.
+
+    Args:
+        scss_file_path: Path to the SCSS file
+        base_dir: Base directory for resolving font paths
+
+    Returns:
+        List of issues found (missing files and undeclared families)
+    """
+    try:
+        css_content = compile_scss(scss_file_path)
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        error_msg = getattr(e, "stderr", str(e))
+        print(f"Error compiling SCSS: {error_msg}")
+        return [f"SCSS compilation error: {error_msg}"]
+
+    missing_files = check_font_files(css_content, base_dir)
+    undeclared_families = check_font_families(css_content)
+
+    return missing_files + undeclared_families
 
 
 def main() -> None:
