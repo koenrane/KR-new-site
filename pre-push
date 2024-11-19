@@ -64,11 +64,11 @@ mypy $GIT_ROOT/scripts/**py
 
 # eslint and stylelint already has ignore rules
 npx eslint --fix $GIT_ROOT
-npx stylelint --fix $GIT_ROOT # validate SCSS files
+npx stylelint --fix "$GIT_ROOT"/quartz/**scss 
 
 # Run static checks on markdown files
 fish "$GIT_ROOT/scripts/spellchecker.fish"
-python "$GIT_ROOT/scripts/md_file_checks.py"
+python "$GIT_ROOT/scripts/source_file_checks.py"
 
 # Run jest tests
 npm run test
