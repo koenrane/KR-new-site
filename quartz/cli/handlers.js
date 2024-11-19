@@ -453,14 +453,18 @@ async function inlineCriticalCSS(outputDir) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
       const styleTag = `<style id="critical-css">${criticalCSS}</style>`
       const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
-      // const updatedHTML = reorderHead(htmlWithCriticalCSS)
-      await fs.promises.writeFile(file, htmlWithCriticalCSS)
+      const updatedHTML = reorderHead(htmlWithCriticalCSS)
+      await fs.promises.writeFile(file, updatedHTML)
     }
 
     console.log(`Inlined critical CSS for ${allFiles.length} files`)
   } catch (error) {
     console.error("Error inlining critical CSS:", error)
   }
+}
+
+function styleWithId(id) {
+  return (_i, el) => el.tagName === "style" && el.attribs["id"] === id
 }
 
 // Sort <head> contents so that Slack unfurls the page with the right info
@@ -475,16 +479,24 @@ function reorderHead(htmlContent) {
     (_i, el) => el.tagName === "meta" || el.tagName === "title",
   )
 
-  const isCriticalCSS = (_i, el) => el.tagName === "style" && el.attribs["id"] === "critical-css"
+  const isCriticalCSS = styleWithId("critical-css")
   const criticalCSS = headChildren.filter(isCriticalCSS)
 
+  const isHideBody = styleWithId("hide-body")
+  const hideBody = headChildren.filter(isHideBody)
+
   const otherElements = headChildren.filter(
-    (_i, el) => el.tagName !== "meta" && el.tagName !== "title" && !isCriticalCSS(_i, el),
+    (_i, el) =>
+      el.tagName !== "meta" &&
+      el.tagName !== "title" &&
+      !isCriticalCSS(_i, el) &&
+      !isHideBody(_i, el),
   )
 
   // Clear the head and re-append elements in desired order
   head.empty()
   head.append(metaAndTitle)
+  head.append(hideBody)
   head.append(criticalCSS)
   head.append(otherElements)
 
