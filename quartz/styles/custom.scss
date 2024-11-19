@@ -482,13 +482,21 @@ img.favicon {
 
   // These are really dark by default so we make them match var(--dark)
   &[src$="mail.svg"],
-  &[src$="anchor.svg"],
   &[src$="readthesequences_com.avif"] {
     // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
 
     :root[saved-theme="dark"] & {
       filter: invert(91%) sepia(6%) hue-rotate(185deg) contrast(92%);
+    }
+  }
+
+  // Make the anchor icon less bright on dark mode
+  &[src$="anchor.svg"] {
+    filter: invert(27%);
+
+    :root[saved-theme="dark"] & {
+      filter: invert(80%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
   }
 
