@@ -15,7 +15,6 @@ yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
 yaml_parser.preserve_quotes = True  # Preserve existing quotes
 yaml_parser.indent(mapping=2, sequence=2, offset=2)
 
-# Fix: Create TimeStamp from datetime components
 now = datetime.now()
 current_date = TimeStamp(
     now.year,
@@ -74,7 +73,8 @@ def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
                 dt = datetime.fromisoformat(value)
             except ValueError:
                 print(
-                    f"Warning: Could not parse date '{value}', using current date"
+                    f"Warning: Could not parse date '{value}',"
+                    " using current date"
                 )
                 dt = datetime.now()
     elif isinstance(value, datetime):
@@ -99,17 +99,7 @@ def update_publish_date(yaml_metadata: dict) -> None:
         return
 
     if "date_updated" not in yaml_metadata:
-        # Check legacy date fields first
-        for key in ("lw-last-modification", "lw-latest-edit"):
-            if (
-                key in yaml_metadata
-                and yaml_metadata[key]
-                and yaml_metadata[key] != "None"
-            ):
-                yaml_metadata["date_updated"] = yaml_metadata[key]
-                break
-        else:  # If neither date_published nor legacy date fields are set, use current date
-            yaml_metadata["date_updated"] = yaml_metadata["date_published"]
+        yaml_metadata["date_updated"] = yaml_metadata["date_published"]
 
 
 def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:

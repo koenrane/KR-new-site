@@ -548,34 +548,6 @@ Content
     assert metadata["date_updated"] == "01/02/2023"
 
 
-@pytest.mark.parametrize(
-    "legacy_field,legacy_date",
-    [
-        ("lw-last-modification", "01/02/2023"),
-        ("lw-latest-edit", "01/02/2023"),
-    ],
-)
-def test_legacy_date_migration(temp_content_dir, legacy_field, legacy_date):
-    """
-    Test migration of each legacy date field.
-    """
-    test_file = create_md_file(temp_content_dir, "test.md", {})
-    content = f"""---
-title: "Test Post"
-date_published: "01/01/2023"
-{legacy_field}: "{legacy_date}"
----
-Content
-"""
-    with open(test_file, "w") as f:
-        f.write(content)
-
-    metadata, content = script_utils.split_yaml(test_file)
-    update_lib.update_publish_date(metadata)
-
-    assert metadata["date_updated"] == legacy_date
-
-
 def test_formatting_preservation(temp_content_dir):
     """
     Test that YAML formatting is preserved during updates.
