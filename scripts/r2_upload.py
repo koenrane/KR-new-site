@@ -70,13 +70,12 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
         ) from e
 
 
-def upload_and_move(
+def upload_to_r2(
     file_path: Path,
     verbose: bool = False,
     references_dir: Optional[Path] = None,
-    move_to_dir: Optional[Path] = None,
     overwrite_existing: bool = False,
-) -> None:
+) -> str:
     """
     Upload a file to R2 storage and update references.
 
@@ -84,21 +83,16 @@ def upload_and_move(
         file_path (Path): The file to upload.
         verbose (bool): Whether to print verbose output.
         references_dir (Path): Dir to search for files to update references.
-        move_to_dir (Path): The local dir to move the file to after upload.
         overwrite_existing (bool): Whether to overwrite existing files in R2.
 
-    Raises:
-        ValueError:
-            If the file path does not contain 'quartz/'.
-        RuntimeError:
-            If the rclone command fails.
-            If the file already exists and overwrite is not allowed.
-        FileNotFoundError:
-            If the original file cannot be moved.
-    """
-    if move_to_dir is None:
-        move_to_dir = R2_MEDIA_DIR
+    Returns:
+        str: The R2 URL of the uploaded file.
 
+    Raises:
+        ValueError: If the file path does not contain 'quartz/'.
+        RuntimeError: If the rclone command fails or file exists without overwrite.
+        FileNotFoundError: If the file is not found.
+    """
     if "quartz/" not in str(file_path):
         raise ValueError("Error: File path does not contain 'quartz/'.")
 
@@ -107,18 +101,17 @@ def upload_and_move(
 
     relative_path = script_utils.path_relative_to_quartz_parent(file_path)
     r2_key: str = get_r2_key(relative_path)
-
     upload_target: str = f"r2:{R2_BUCKET_NAME}/{r2_key}"
 
-    # Check if the file already exists in R2
     file_exists = check_exists_on_r2(upload_target, verbose)
-    if file_exists:
-        if not overwrite_existing:
-            print(
-                f"File '{r2_key}' already exists in R2."
-                "Use '--overwrite-existing' to overwrite."
-            )
-            return
+    if file_exists and not overwrite_existing:
+        print(
+            f"File '{r2_key}' already exists in R2. "
+            "Use '--overwrite-existing' to overwrite."
+        )
+        return f"{R2_BASE_URL}/{r2_key}"
+
+    if file_exists and overwrite_existing:
         print(f"Overwriting existing file in R2: {r2_key}")
 
     if verbose:
@@ -136,50 +129,94 @@ def upload_and_move(
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
     # Update references in markdown files
-    relative_original_path: Path = script_utils.path_relative_to_quartz_parent(
+    relative_original_path = script_utils.path_relative_to_quartz_parent(
         file_path
     )
-    # References start with 'static', generally
-    relative_subpath: Path = Path(
+    relative_subpath = Path(
         *relative_original_path.parts[
             relative_original_path.parts.index("static") :
         ]
     )
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
+
     if verbose:
         print(f'Changing "{relative_subpath}" references to "{r2_address}"')
+
     for text_file_path in script_utils.get_files(references_dir, (".md",)):
         with open(text_file_path, "r", encoding="utf-8") as f:
             file_content: str = f.read()
 
-        # Check original_path because it's longer than subpath
         escaped_original_path: str = re.escape(str(relative_original_path))
         escaped_relative_subpath: str = re.escape(str(relative_subpath))
-
         source_regex: str = (
             rf"(?<=[\(\"])(?:\.?/)?"
             rf"(?:{escaped_original_path}|{escaped_relative_subpath})"
         )
+        new_content: str = re.sub(source_regex, r2_address, file_content)
 
-        new_content: str = re.sub(
-            source_regex,
-            r2_address,
-            file_content,
-        )
         with open(text_file_path, "w", encoding="utf-8") as f:
             f.write(new_content)
 
-    if move_to_dir:
-        if verbose:
-            print(f"Moving original file: {file_path}")
-        # Create the directory structure in the target location
-        git_root = script_utils.get_git_root()
+    return r2_address
 
-        # absolute() ensures that there is overlap between the two paths
-        relative_path = file_path.absolute().relative_to(git_root)
-        target_path = move_to_dir / relative_path
-        target_path.parent.mkdir(parents=True, exist_ok=True)
-        shutil.move(str(file_path), str(target_path))
+
+def move_uploaded_file(
+    file_path: Path,
+    move_to_dir: Path = R2_MEDIA_DIR,
+    verbose: bool = False,
+) -> None:
+    """
+    Move an uploaded file to a new directory, preserving its relative path structure.
+
+    Args:
+        file_path (Path): The file to move.
+        move_to_dir (Path): The directory to move the file to.
+        verbose (bool): Whether to print verbose output.
+
+    Raises:
+        OSError: If the original file cannot be moved.
+    """
+    if verbose:
+        print(f"Moving original file: {file_path}")
+
+    git_root = script_utils.get_git_root()
+    relative_path = file_path.absolute().relative_to(git_root)
+    target_path = move_to_dir / relative_path
+    target_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(file_path), str(target_path))
+
+
+def upload_and_move(
+    file_path: Path,
+    verbose: bool = False,
+    references_dir: Optional[Path] = None,
+    move_to_dir: Optional[Path] = None,
+    overwrite_existing: bool = False,
+) -> None:
+    """
+    Upload a file to R2 storage, update references, and move the original file.
+
+    Args:
+        file_path (Path): The file to upload.
+        verbose (bool): Whether to print verbose output.
+        references_dir (Path): Dir to search for files to update references.
+        move_to_dir (Path): The local dir to move the file to after upload.
+        overwrite_existing (bool): Whether to overwrite existing files in R2.
+    """
+    upload_to_r2(
+        file_path,
+        verbose=verbose,
+        references_dir=references_dir,
+        overwrite_existing=overwrite_existing,
+    )
+
+    if move_to_dir:
+        if not move_to_dir.exists():
+            print(f"Warning: Directory does not exist: {move_to_dir}")
+        else:
+            move_uploaded_file(
+                file_path, move_to_dir=move_to_dir, verbose=verbose
+            )
 
 
 def main() -> None:

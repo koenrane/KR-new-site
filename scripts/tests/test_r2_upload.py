@@ -115,23 +115,18 @@ def mock_rclone():
 
 @pytest.fixture(autouse=True)
 def mock_home_directory(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    def mock_get_home_directory():
-        return str(tmp_path)
-
-    monkeypatch.setattr(
-        r2_upload, "get_home_directory", mock_get_home_directory
-    )
+    r2_upload._home_directory = tmp_path
 
 
 def test_verbose_output(
-    mock_git_root: Path, capsys: pytest.CaptureFixture[str]
+    mock_git_root: Path, capsys: pytest.CaptureFixture[str], tmp_path: Path
 ):
     test_file = mock_git_root / "quartz" / "static" / "test_verbose.jpg"
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_file, verbose=True)
+        r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
 
     captured = capsys.readouterr()
     assert f"Uploading {test_file}" in captured.out
@@ -188,11 +183,15 @@ def test_upload_and_move_exceptions(
     "mock_func, mock_side_effect, expected_exception",
     [
         (
-            "subprocess.run",
+            "scripts.r2_upload.subprocess.run",
             subprocess.CalledProcessError(1, "rclone"),
             RuntimeError,
         ),
-        ("shutil.move", IOError("Permission denied"), IOError),
+        (
+            "scripts.r2_upload.shutil.move",
+            OSError("Permission denied"),
+            OSError,
+        ),
     ],
 )
 def test_upload_and_move_failures(
@@ -206,11 +205,11 @@ def test_upload_and_move_failures(
     test_file.touch()
 
     with (
-        patch("subprocess.run"),
         patch(mock_func, side_effect=mock_side_effect),
+        patch("scripts.r2_upload.check_exists_on_r2", return_value=False),
     ):
         with pytest.raises(expected_exception):
-            r2_upload.upload_and_move(test_file)
+            r2_upload.upload_and_move(test_file, move_to_dir=mock_git_root)
 
 
 @pytest.mark.parametrize(
@@ -392,8 +391,9 @@ def test_preserve_path_structure(mock_git_root: Path, tmp_path: Path):
     deep_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move") as mock_move:
-        # TODO not setting references_dir?
-        r2_upload.upload_and_move(deep_file, move_to_dir=move_to_dir)
+        r2_upload.upload_and_move(
+            deep_file, move_to_dir=move_to_dir, references_dir=None
+        )
 
     expected_moved_path = move_to_dir / deep_file.relative_to(mock_git_root)
     mock_move.assert_called_once_with(str(deep_file), str(expected_moved_path))
