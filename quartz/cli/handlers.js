@@ -451,7 +451,7 @@ async function inlineCriticalCSS(outputDir) {
 
     for (const file of allFiles) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
-      const styleTag = `<style id="critical-css" spa-preserve>${criticalCSS}</style>`
+      const styleTag = `<style id="critical-css">${criticalCSS}</style>`
       const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
       const updatedHTML = reorderHead(htmlWithCriticalCSS)
       await fs.promises.writeFile(file, updatedHTML)
