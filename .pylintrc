@@ -1,0 +1,8 @@
+[MAIN]
+ignore-paths=
+    ./scripts/tests/*,
+    ./node_modules/*,
+    ./scripts/notebooks/*
+
+[FORMAT]
+max-line-length=80
