@@ -32,7 +32,7 @@ def test_git_root_is_ancestor(
 def test_find_git_root(monkeypatch: pytest.MonkeyPatch) -> None:
     expected_output = "/path/to/git/root"
 
-    def mock_subprocess_run(*args, **kwargs) -> subprocess.CompletedProcess:
+    def mock_subprocess_run(*args, **_kwargs) -> subprocess.CompletedProcess:
         return subprocess.CompletedProcess(
             args=args,
             returncode=0,
@@ -44,7 +44,7 @@ def test_find_git_root(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_get_git_root_raises_error():
-    def mock_subprocess_run(*args, **kwargs) -> subprocess.CompletedProcess:
+    def mock_subprocess_run(*args, **_kwargs) -> subprocess.CompletedProcess:
         return subprocess.CompletedProcess(
             args=args,
             returncode=1,

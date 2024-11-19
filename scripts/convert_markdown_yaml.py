@@ -1,3 +1,11 @@
+"""
+Script to convert card images in markdown YAML frontmatter to PNG format.
+
+This script processes markdown files, looking for card_image entries in their
+YAML frontmatter. When found, it downloads the images, converts them to PNG
+format using ImageMagick, and uploads them to R2 storage.
+"""
+
 #!/usr/bin/env python3
 import argparse
 import io
@@ -32,60 +40,69 @@ _CAN_CONVERT_EXTENSIONS: set[str] = {
 }
 
 
-def process_card_image_in_markdown(md_file: Path) -> None:
+def _parse_markdown_frontmatter(content: str) -> tuple[dict, str] | None:
     """
-    Processes the 'card_image' in the YAML frontmatter of the given markdown
-    file.
+    Extract and parse YAML frontmatter from markdown content.
 
-    It downloads the image, converts it to PNG using ImageMagick, updates the
-    'card_image' value, and uploads the new image to R2.
+    Args:
+        content: Raw markdown file content
+
+    Returns:
+        Tuple of (YAML data dict, markdown body) if frontmatter exists,
+        None otherwise
     """
-    with open(md_file, "r", encoding="utf-8") as file:
-        content = file.read()
-
-    # Extract YAML front matter
     match = re.match(r"^---\n(.*?)\n---\n(.*)", content, re.DOTALL)
     if not match:
-        return
+        return None
 
     yaml_content, md_body = match.groups()
     data = yaml_parser.load(yaml_content)
+    return data, md_body
 
-    card_image_url = data.get("card_image")
-    if not card_image_url or not any(
-        card_image_url.endswith(ext) for ext in _CAN_CONVERT_EXTENSIONS
-    ):
-        return
 
-    # Download the card_image
-    parsed_url = parse.urlparse(card_image_url)
-    card_image_filename = os.path.basename(parsed_url.path)
+_DOWNLOAD_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/91.0.4472.124 Safari/537.36"
+    ),
+    "Referer": "https://turntrout.com/",
+}
 
-    # Download to a temporary directory
-    temp_dir = Path(tempfile.gettempdir())
-    downloaded_path = temp_dir / card_image_filename
 
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Referer": "https://turntrout.com/",
-    }
+def _download_image(url: str, output_path: Path) -> None:
+    """
+    Download image from URL to specified path.
+
+    Args:
+        url: Image URL to download
+        output_path: Path to save the downloaded image
+
+    Raises:
+        ValueError: If download fails
+    """
     response = requests.get(
-        card_image_url, stream=True, timeout=10, headers=headers
+        url, stream=True, timeout=10, headers=_DOWNLOAD_HEADERS
     )
     if response.status_code == 200:
-        with open(downloaded_path, "wb") as out_file:
+        with open(output_path, "wb") as out_file:
             shutil.copyfileobj(response.raw, out_file)
     else:
-        raise ValueError(f"Failed to download image: {card_image_url}")
+        raise ValueError(f"Failed to download image: {url}")
 
-    # Convert downloaded image to PNG using ImageMagick
-    png_filename = downloaded_path.with_suffix(".png").name
-    png_path = downloaded_path.with_suffix(".png")
 
+def _convert_to_png(input_path: Path, output_path: Path) -> None:
+    """
+    Convert image to PNG using ImageMagick with optimizations.
+
+    Args:
+        input_path: Source image path
+        output_path: Destination PNG path
+    """
     subprocess.run(
         [
             "magick",
-            str(downloaded_path),
+            str(input_path),
             "-strip",
             "-define",
             "png:compression-level=9",
@@ -95,23 +112,82 @@ def process_card_image_in_markdown(md_file: Path) -> None:
             "png:compression-strategy=1",
             "-colors",
             "256",
-            str(png_path),
+            str(output_path),
         ],
         check=True,
         capture_output=True,
         text=True,
     )
 
-    git_root = script_utils.get_git_root()
 
+def _get_r2_image_url(local_png_path: Path) -> str:
+    """
+    Generate the R2 URL for an uploaded image.
+
+    Args:
+        local_png_path: Local path to the PNG file
+
+    Returns:
+        Full R2 URL for the uploaded image
+    """
+    r2_base_url = r2_upload.R2_BASE_URL
+    r2_key = r2_upload.get_r2_key(
+        script_utils.path_relative_to_quartz_parent(local_png_path)
+    )
+    return f"{r2_base_url}/{r2_key}"
+
+
+def process_card_image_in_markdown(md_file: Path) -> None:
+    """
+    Process the 'card_image' in the YAML frontmatter of the given md file.
+
+    Downloads the image, converts it to PNG using ImageMagick, updates the
+    'card_image' value, and uploads the new image to R2.
+
+    Args:
+        md_file: Path to the markdown file to process
+    """
+    # Read and parse the markdown file
+    with open(md_file, "r", encoding="utf-8") as file:
+        content = file.read()
+
+    parsed = _parse_markdown_frontmatter(content)
+    if not parsed:
+        return
+
+    data, md_body = parsed
+
+    # Check if we need to process this file
+    card_image_url = data.get("card_image")
+    if not card_image_url or not any(
+        card_image_url.endswith(ext) for ext in _CAN_CONVERT_EXTENSIONS
+    ):
+        return
+
+    # Set up paths
+    parsed_url = parse.urlparse(card_image_url)
+    card_image_filename = os.path.basename(parsed_url.path)
+    temp_dir = Path(tempfile.gettempdir())
+    downloaded_path = temp_dir / card_image_filename
+    png_filename = downloaded_path.with_suffix(".png").name
+    png_path = downloaded_path.with_suffix(".png")
+
+    # Process the image
+    _download_image(card_image_url, downloaded_path)
+    _convert_to_png(downloaded_path, png_path)
+
+    # Set up destination paths
+    git_root = script_utils.get_git_root()
     static_images_dir = (
         git_root / "quartz" / "static" / "images" / "card_images"
     )
     static_images_dir.mkdir(parents=True, exist_ok=True)
     local_png_path = static_images_dir / png_filename
+
+    # Move the converted image to static directory
     shutil.move(str(png_path), str(local_png_path))
 
-    # Upload the new PNG to R2
+    # Upload to R2 and update frontmatter
     r2_upload.upload_and_move(
         local_png_path,
         verbose=True,
@@ -119,20 +195,13 @@ def process_card_image_in_markdown(md_file: Path) -> None:
         move_to_dir=r2_upload.R2_MEDIA_DIR,
     )
 
-    # Update the 'card_image' value in the YAML frontmatter
-    r2_base_url = r2_upload.R2_BASE_URL
-    r2_key = r2_upload.get_r2_key(
-        script_utils.path_relative_to_quartz_parent(local_png_path)
-    )
-    new_card_image_url = f"{r2_base_url}/{r2_key}"
+    # Update the YAML frontmatter
+    data["card_image"] = _get_r2_image_url(local_png_path)
 
-    data["card_image"] = new_card_image_url
-
-    # Dump YAML data to a string using StringIO
+    # Write back to file
     stream = io.StringIO()
     yaml_parser.dump(data, stream)
     updated_yaml = stream.getvalue()
-
     updated_content = f"---\n{updated_yaml}---\n{md_body}"
 
     with open(md_file, "w", encoding="utf-8") as file:
@@ -141,7 +210,13 @@ def process_card_image_in_markdown(md_file: Path) -> None:
     print(f"Updated 'card_image' in {md_file}")
 
 
-def main():
+def main() -> None:
+    """
+    Main entry point for the script.
+
+    Processes all markdown files in the specified directory (defaults to
+    git_root/content), converting card images to PNG format.
+    """
     git_root = script_utils.get_git_root()
 
     parser = argparse.ArgumentParser(
