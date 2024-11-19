@@ -25,6 +25,7 @@ def get_git_root(starting_dir: Optional[Path] = None) -> Path:
         ["git", "rev-parse", "--show-toplevel"],
         capture_output=True,
         text=True,
+        check=True,
         cwd=starting_dir if starting_dir else Path.cwd(),
     )
     if completed_process.returncode == 0:
