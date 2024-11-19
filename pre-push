@@ -63,8 +63,9 @@ trap 'cleanup $PUSHED_CHANGES' EXIT
 mypy $GIT_ROOT/scripts/**py
 
 # eslint and stylelint already has ignore rules
-npx eslint --fix $GIT_ROOT
-npx stylelint --fix "$GIT_ROOT"/quartz/**scss 
+npx eslint --fix "$GIT_ROOT"
+npx stylelint --fix quartz/**/*.scss 
+pylint "$GIT_ROOT" --rcfile="$GIT_ROOT/.pylintrc"
 
 # Run static checks on markdown files
 fish "$GIT_ROOT/scripts/spellchecker.fish"
