@@ -643,9 +643,16 @@ Lastly, external static analysis alerts me to potential vulnerabilities and anti
 	"*.{js, jsx, ts, tsx, css, scss, json}": "prettier --write",
 	"*.fish": "fish_indent",
 	"*.sh": "shfmt -i 2 -w",
-	"*.py": ["isort", "black"]
+    "*.py": [
+	    "autoflake --in-place",
+	    "isort", 
+	    "autopep8 --in-place",
+	    "black"
+    ]
 }
 ```
+
+I also run [`docformatter`](https://pypi.org/project/docformatter/) to reformat my Python comments. For compatibility reasons, `docformatter` runs before `lint-staged` in my pre-commit hook.
 
 ## `pre-push`: the quality assurance gauntlet
 
@@ -654,7 +661,7 @@ Whenever I find a bug, I attempt to automatically detect it in the future. The r
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
 
 ### Static code analysis
-I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality.
+I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality and ensure that [`pylint`](https://www.pylint.org/) rates my code health at 10/10.
 
 I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error. 
 
