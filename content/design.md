@@ -654,16 +654,18 @@ Whenever I find a bug, I attempt to automatically detect it in the future. The r
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
 
 ### Static code analysis
-I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. 
+I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality.
 
 I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error. 
 
-### Static validation of Markdown files
+### Static validation of Markdown and source files
 I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also surfaces common hiccups like "the the." 
 
-I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these.
+I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these. I check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
 
-I finally check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
+I lastly check that my CSS: 
+1. Defines font-faces using fonts which actually exist in the filesystem, and 
+2. Does not refer to nonexistent fonts.
 
 ### Unit tests
 I have 843 JavaScript unit tests and 164 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
