@@ -90,7 +90,9 @@ def upload_to_r2(
 
     Raises:
         ValueError: If the file path does not contain 'quartz/'.
-        RuntimeError: If the rclone command fails or file exists without overwrite.
+        RuntimeError:
+            If the rclone command fails.
+            If the file exists without overwrite.
         FileNotFoundError: If the file is not found.
     """
     if "quartz/" not in str(file_path):
@@ -166,7 +168,8 @@ def move_uploaded_file(
     verbose: bool = False,
 ) -> None:
     """
-    Move an uploaded file to a new directory, preserving its relative path structure.
+    Move an uploaded file to a new directory, preserving its relative path
+    structure.
 
     Args:
         file_path (Path): The file to move.

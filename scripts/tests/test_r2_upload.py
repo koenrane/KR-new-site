@@ -597,3 +597,66 @@ def test_upload_svg_with_metadata(mock_git_root: Path):
             ],
             check=True,
         )
+
+
+def test_move_uploaded_file(mock_git_root: Path, tmp_path: Path):
+    """Test that move_uploaded_file preserves directory structure."""
+    source_file = mock_git_root / "quartz" / "static" / "deep" / "test.jpg"
+    source_file.parent.mkdir(parents=True)
+    source_file.touch()
+
+    move_to_dir = tmp_path / "backup"
+
+    r2_upload.move_uploaded_file(source_file, move_to_dir, verbose=True)
+
+    expected_path = move_to_dir / "quartz" / "static" / "deep" / "test.jpg"
+    assert expected_path.exists()
+    assert not source_file.exists()
+
+
+def test_move_uploaded_file_error_handling(mock_git_root: Path, tmp_path: Path):
+    """Test error handling when move operation fails."""
+    source_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    source_file.parent.mkdir(parents=True)
+    source_file.touch()
+
+    move_to_dir = tmp_path / "backup"
+    move_to_dir.mkdir()
+
+    # Make the target directory read-only to force a permission error
+    move_to_dir.chmod(0o444)
+
+    with pytest.raises(OSError):
+        r2_upload.move_uploaded_file(source_file, move_to_dir)
+
+
+def test_move_uploaded_file_nonexistent_source(
+    mock_git_root: Path, tmp_path: Path
+):
+    """Test error handling when source file doesn't exist."""
+    source_file = mock_git_root / "quartz" / "static" / "nonexistent.jpg"
+    move_to_dir = tmp_path / "backup"
+
+    with pytest.raises(FileNotFoundError):
+        r2_upload.move_uploaded_file(source_file, move_to_dir)
+
+
+def test_upload_and_move_nonexistent_move_dir(
+    mock_git_root: Path,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+):
+    """Test handling of nonexistent move directory."""
+    test_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    nonexistent_dir = tmp_path / "nonexistent"
+
+    with patch("subprocess.run"):
+        r2_upload.upload_and_move(test_file, move_to_dir=nonexistent_dir)
+
+    captured = capsys.readouterr()
+    assert (
+        f"Warning: Directory does not exist: {nonexistent_dir}" in captured.out
+    )
