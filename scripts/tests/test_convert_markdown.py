@@ -1,9 +1,11 @@
-import unittest.mock as mock
-import tempfile
-import pytest
-from pathlib import Path
 import io
 import subprocess
+import tempfile
+import unittest.mock as mock
+from pathlib import Path
+
+import pytest
+
 from .. import convert_markdown_yaml
 
 try:

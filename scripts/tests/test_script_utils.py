@@ -5,10 +5,12 @@ Test the utilities used for running the tests :)
 import subprocess
 from pathlib import Path
 from typing import Optional
-import pytest
-import git
-from .. import utils as script_utils
 from unittest import mock
+
+import git
+import pytest
+
+from .. import utils as script_utils
 
 
 def test_git_root_is_ancestor(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

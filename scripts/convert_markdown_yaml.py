@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 import argparse
-from pathlib import Path
-import re
-import os
-import requests
-from urllib import parse
-import shutil
-import tempfile
-import subprocess
-from ruamel.yaml import YAML  # type: ignore
 import io
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+from urllib import parse
+
+import requests
+from ruamel.yaml import YAML  # type: ignore
 
 yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
 yaml_parser.preserve_quotes = True  # Preserve existing quotes

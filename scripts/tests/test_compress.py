@@ -1,11 +1,13 @@
-from .. import compress
-import pytest
-from pathlib import Path
-from . import utils
+import json
+import subprocess
 import sys
 from io import StringIO
-import subprocess
-import json
+from pathlib import Path
+
+import pytest
+
+from .. import compress
+from . import utils
 
 # --- Image Tests ---
 

@@ -1,9 +1,11 @@
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 from bs4 import BeautifulSoup
-from pathlib import Path
+
 from ..utils import get_git_root
-import sys
-import subprocess
 
 sys.path.append(str(Path(__file__).parent.parent))
 

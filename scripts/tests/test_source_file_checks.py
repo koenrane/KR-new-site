@@ -1,8 +1,9 @@
-import pytest
-from pathlib import Path
-import git
 import sys
-from typing import Dict, List, Any, Callable, Tuple
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Tuple
+
+import git
+import pytest
 
 sys.path.append(str(Path(__file__).parent.parent))
 

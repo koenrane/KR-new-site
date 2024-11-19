@@ -1,20 +1,20 @@
-import os
-import sys
-import subprocess
-import tqdm
-import re
-from typing import List, Dict
-from pathlib import Path
-from bs4 import BeautifulSoup, Tag
-import bs4
 import argparse
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+from typing import Dict, List
+
+import bs4
+import tqdm
+from bs4 import BeautifulSoup, Tag
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
 
 import scripts.compress as compress
 import scripts.utils as script_utils
-
 
 git_root = script_utils.get_git_root()
 RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"

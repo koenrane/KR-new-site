@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-import json
-import tempfile
 import argparse
-import sys
+import json
 import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 IMAGE_QUALITY: int = (

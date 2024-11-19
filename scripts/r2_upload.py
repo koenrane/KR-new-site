@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import shutil
 import argparse
+import os
+import re
+import shutil
 import subprocess
 from pathlib import Path
-import re
 from typing import Optional, Sequence
-import os
 
 
 # Add this function at the beginning of the file

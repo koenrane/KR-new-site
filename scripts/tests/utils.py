@@ -1,10 +1,12 @@
-from pathlib import Path
 import subprocess
-from .. import compress
+from pathlib import Path
 from typing import Optional
+
+import numpy as np
 import pytest
 from PIL import Image
-import numpy as np
+
+from .. import compress
 
 
 def create_test_image(path: Path, size: str) -> None:

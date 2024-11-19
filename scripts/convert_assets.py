@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import argparse
-from typing import Optional
+import re
 import subprocess
 from pathlib import Path
-import re
+from typing import Optional
 
 try:
     from . import compress

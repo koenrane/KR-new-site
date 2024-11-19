@@ -1,12 +1,14 @@
-import pytest
-from unittest.mock import patch, MagicMock
 import shutil
-from pathlib import Path
 import subprocess
+import tempfile
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import git
+import pytest
+
 from .. import r2_upload
 from .. import utils as script_utils
-import tempfile
-import git
 
 
 @pytest.fixture()

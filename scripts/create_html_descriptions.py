@@ -6,14 +6,15 @@ It reads the content of each Markdown file, extracts the YAML front matter, and 
 The generated description is then saved back to the file.
 """
 
-from io import StringIO
 import os
 import re
+from io import StringIO
 from pathlib import Path
-from ruamel.yaml import YAML
-import google.generativeai as genai  # type: ignore
-from google.generativeai.types import HarmCategory, HarmBlockThreshold  # type: ignore
 
+import google.generativeai as genai  # type: ignore
+from google.generativeai.types import HarmBlockThreshold  # type: ignore
+from google.generativeai.types import HarmCategory
+from ruamel.yaml import YAML
 
 try:
     from . import utils as script_utils

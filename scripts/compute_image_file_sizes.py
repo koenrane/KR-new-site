@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-import pandas as pd
+import argparse
 import subprocess
 from pathlib import Path
-import argparse
+
+import pandas as pd
 import tqdm
 
 

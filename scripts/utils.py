@@ -1,7 +1,8 @@
-import git
-from pathlib import Path
 import subprocess
-from typing import Optional, Collection
+from pathlib import Path
+from typing import Collection, Optional
+
+import git
 from ruamel.yaml import YAML
 
 # pyright: reportPrivateImportUsage = false

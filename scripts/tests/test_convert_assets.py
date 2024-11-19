@@ -1,8 +1,9 @@
 import unittest.mock as mock  # Import the mock module
-import pytest
 from pathlib import Path
-from .. import compress
-from .. import convert_assets
+
+import pytest
+
+from .. import compress, convert_assets
 from .. import utils as script_utils
 
 try:
@@ -12,9 +13,8 @@ except ImportError:
     import utils as test_utils  # type: ignore
     from test_utils import setup_test_env  # type: ignore
 
-
-import subprocess
 import re
+import subprocess
 
 mock_r2_upload = mock.MagicMock()
 mock.patch.dict("sys.modules", {"r2_upload": mock_r2_upload}).start()
