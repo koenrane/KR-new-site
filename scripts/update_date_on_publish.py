@@ -1,3 +1,7 @@
+"""
+Update the publish and update dates in markdown files.
+"""
+
 import io
 import subprocess
 import sys
@@ -9,6 +13,7 @@ from ruamel.yaml.timestamp import TimeStamp
 
 # Ensure the parent directory is in the sys path so we can import utils
 sys.path.append(str(Path(__file__).parent.parent))
+# pylint: disable=wrong-import-position
 import scripts.utils as script_utils
 
 yaml_parser = YAML(typ="rt")  # Use Round-Trip to preserve formatting
@@ -103,6 +108,9 @@ def update_publish_date(yaml_metadata: dict) -> None:
 
 
 def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
+    """
+    Write updated metadata to a markdown file.
+    """
     # Use StringIO to capture the YAML dump with preserved formatting
     stream = io.StringIO()
     yaml_parser.dump(metadata, stream)

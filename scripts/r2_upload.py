@@ -70,10 +70,52 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
         ) from e
 
 
+def update_markdown_references(
+    file_path: Path,
+    r2_address: str,
+    references_dir: Optional[Path] = None,
+    verbose: bool = False,
+) -> None:
+    """
+    Update references to a file in markdown files with its R2 URL.
+
+    Args:
+        file_path: The original file path.
+        r2_address: The R2 URL to replace references with.
+        references_dir: Dir to search for files to update references.
+        verbose: Whether to print verbose output.
+    """
+    relative_original_path = script_utils.path_relative_to_quartz_parent(
+        file_path
+    )
+    relative_subpath = Path(
+        *relative_original_path.parts[
+            relative_original_path.parts.index("static") :
+        ]
+    )
+
+    if verbose:
+        print(f'Changing "{relative_subpath}" references to "{r2_address}"')
+
+    for text_file_path in script_utils.get_files(references_dir, (".md",)):
+        with open(text_file_path, "r", encoding="utf-8") as f:
+            file_content: str = f.read()
+
+        escaped_original_path: str = re.escape(str(relative_original_path))
+        escaped_relative_subpath: str = re.escape(str(relative_subpath))
+        source_regex: str = (
+            rf"(?<=[\(\"])(?:\.?/)?"
+            rf"(?:{escaped_original_path}|{escaped_relative_subpath})"
+        )
+        new_content: str = re.sub(source_regex, r2_address, file_content)
+
+        with open(text_file_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+
+
 def upload_to_r2(
     file_path: Path,
     verbose: bool = False,
-    references_dir: Optional[Path] = None,
     overwrite_existing: bool = False,
 ) -> str:
     """
@@ -130,36 +172,7 @@ def upload_to_r2(
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Failed to upload file to R2: {e}") from e
 
-    # Update references in markdown files
-    relative_original_path = script_utils.path_relative_to_quartz_parent(
-        file_path
-    )
-    relative_subpath = Path(
-        *relative_original_path.parts[
-            relative_original_path.parts.index("static") :
-        ]
-    )
-    r2_address: str = f"{R2_BASE_URL}/{r2_key}"
-
-    if verbose:
-        print(f'Changing "{relative_subpath}" references to "{r2_address}"')
-
-    for text_file_path in script_utils.get_files(references_dir, (".md",)):
-        with open(text_file_path, "r", encoding="utf-8") as f:
-            file_content: str = f.read()
-
-        escaped_original_path: str = re.escape(str(relative_original_path))
-        escaped_relative_subpath: str = re.escape(str(relative_subpath))
-        source_regex: str = (
-            rf"(?<=[\(\"])(?:\.?/)?"
-            rf"(?:{escaped_original_path}|{escaped_relative_subpath})"
-        )
-        new_content: str = re.sub(source_regex, r2_address, file_content)
-
-        with open(text_file_path, "w", encoding="utf-8") as f:
-            f.write(new_content)
-
-    return r2_address
+    return f"{R2_BASE_URL}/{r2_key}"  # The r2 address
 
 
 def move_uploaded_file(
@@ -206,11 +219,16 @@ def upload_and_move(
         move_to_dir (Path): The local dir to move the file to after upload.
         overwrite_existing (bool): Whether to overwrite existing files in R2.
     """
-    upload_to_r2(
+    r2_address: str = upload_to_r2(
         file_path,
         verbose=verbose,
-        references_dir=references_dir,
         overwrite_existing=overwrite_existing,
+    )
+    update_markdown_references(
+        file_path,
+        r2_address=r2_address,
+        references_dir=references_dir,
+        verbose=verbose,
     )
 
     if move_to_dir:

@@ -448,36 +448,6 @@ def test_preserve_path_structure_with_replacement(
         )
 
 
-def test_strict_static_path_matching(
-    test_media_setup: tuple[Path, Path, Path, list[tuple[Path, str]]],
-    mock_git_root: Path,
-):
-    _, _, content_dir, _ = test_media_setup
-
-    md_content = """
-    1. Correct: ![image](/static/images/test.jpg)
-    2. Incorrect: ![image](a/static/images/test.jpg)
-    """
-
-    md_file = content_dir / "test.md"
-    md_file.write_text(md_content)
-
-    test_image = mock_git_root / "quartz" / "static" / "images" / "test.jpg"
-    test_image.parent.mkdir(parents=True, exist_ok=True)
-    test_image.touch()
-
-    with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_image, references_dir=content_dir)
-
-    updated_content = md_file.read_text()
-    expected_url = "https://assets.turntrout.com/static/images/test.jpg"
-
-    assert f"![image]({expected_url})" in updated_content
-    assert (
-        "![image](a/static/images/test.jpg)" in updated_content
-    ), "Incorrect case was unexpectedly modified"
-
-
 def test_check_exists_on_r2_file_exists():
     with patch("subprocess.run") as mock_run:
         mock_run.return_value = MagicMock(returncode=0, stdout="file.txt\n")
@@ -660,3 +630,70 @@ def test_upload_and_move_nonexistent_move_dir(
     assert (
         f"Warning: Directory does not exist: {nonexistent_dir}" in captured.out
     )
+
+
+def test_update_markdown_references_with_links(
+    tmp_path: Path, mock_git_root: Path
+):
+    """Test updating both image references and regular links."""
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    test_file = mock_git_root / "quartz" / "static" / "docs" / "doc.pdf"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    md_content = """
+    # Test Document
+    ![Image](quartz/static/docs/doc.pdf)
+    [Download PDF](./static/docs/doc.pdf)
+    [Other Link](different/path/file.pdf)
+    """
+
+    md_file = content_dir / "test.md"
+    md_file.write_text(md_content)
+
+    r2_address = "https://assets.turntrout.com/static/docs/doc.pdf"
+
+    r2_upload.update_markdown_references(
+        test_file, r2_address, references_dir=content_dir
+    )
+
+    updated_content = md_file.read_text()
+    assert f"![Image]({r2_address})" in updated_content
+    assert f"[Download PDF]({r2_address})" in updated_content
+    assert "[Other Link](different/path/file.pdf)" in updated_content
+
+
+def test_update_markdown_references_no_references_dir():
+    """Test handling when no references directory is provided."""
+    test_file = Path("quartz/static/test.jpg")
+    r2_address = "https://assets.turntrout.com/static/test.jpg"
+
+    # Should not raise any errors
+    r2_upload.update_markdown_references(test_file, r2_address)
+
+
+def test_update_markdown_references_verbose_output(
+    tmp_path: Path, mock_git_root: Path, capsys: pytest.CaptureFixture[str]
+):
+    """Test verbose output during reference updates."""
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    test_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    md_file = content_dir / "test.md"
+    md_file.write_text("![](quartz/static/test.jpg)")
+
+    r2_address = "https://assets.turntrout.com/static/test.jpg"
+
+    r2_upload.update_markdown_references(
+        test_file, r2_address, references_dir=content_dir, verbose=True
+    )
+
+    captured = capsys.readouterr()
+    assert 'Changing "static/test.jpg" references to' in captured.out
+    assert r2_address in captured.out

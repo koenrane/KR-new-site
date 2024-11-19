@@ -1,3 +1,7 @@
+"""
+Utility functions for scripts/ directory.
+"""
+
 import subprocess
 from pathlib import Path
 from typing import Collection, Optional
@@ -30,8 +34,7 @@ def get_git_root(starting_dir: Optional[Path] = None) -> Path:
     )
     if completed_process.returncode == 0:
         return Path(completed_process.stdout.strip())
-    else:
-        raise RuntimeError("Failed to get Git root")
+    raise RuntimeError("Failed to get Git root")
 
 
 def get_files(
@@ -45,10 +48,10 @@ def get_files(
     repository.
 
     Args:
-        dir_to_search (Optional[Path]): A directory to search for files.
-        filetypes_to_match (Collection[str]): A collection of file types to search for.
-        use_git_ignore (bool): Whether to exclude files based on .gitignore.
-        ignore_dirs (Optional[Collection[str]]): Directory names to ignore.
+        dir_to_search: A directory to search for files.
+        filetypes_to_match: A collection of file types to search for.
+        use_git_ignore: Whether to exclude files based on .gitignore.
+        ignore_dirs: Directory names to ignore.
 
     Returns:
         tuple[Path, ...]: A tuple of all matching files.
@@ -84,6 +87,9 @@ def get_files(
 
 
 def path_relative_to_quartz_parent(input_file: Path) -> Path:
+    """
+    Get the path relative to the parent 'quartz' directory.
+    """
     try:
         # Find the 'quartz' directory in the path
         quartz_dir = next(
