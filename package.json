@@ -25,6 +25,7 @@
     "*.py": [
       "autoflake --in-place",
       "isort",
+      "autopep8 --in-place",
       "black"
     ]
   },

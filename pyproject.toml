@@ -27,3 +27,7 @@ black = true
 exclude = ["node_modules/*"]
 remove-all-unused-imports = true
 remove-unused-variables = true
+
+[tool.autopep8]
+ignore = ["E402"]
+max_line_length = 80

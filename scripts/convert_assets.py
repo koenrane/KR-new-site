@@ -17,8 +17,10 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     """
     Returns the original and replacement patterns for video files.
     """
+
     # Function to create unique named capture groups for different link patterns
-    link_pattern_fn = lambda tag: rf"(?P<link_{tag}>[^\)]*)"
+    def link_pattern_fn(tag):
+        return rf"(?P<link_{tag}>[^\)]*)"
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
