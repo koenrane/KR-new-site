@@ -63,6 +63,28 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
     assert "Skipping conversion" in stderr_capture.getvalue()
 
 
+@pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
+def test_no_original_files_after_conversion(
+    temp_dir: Path, image_ext: str
+) -> None:
+    """Test that no *_original files remain after conversion."""
+    input_file = temp_dir / f"test{image_ext}"
+    utils.create_test_image(input_file, "100x100")
+
+    # Create a fake original file
+    original_file = input_file.with_suffix(image_ext + "_original")
+    original_file.touch()
+
+    compress.image(input_file)
+
+    assert (
+        not original_file.exists()
+    ), f"Original file {original_file} was not cleaned up"
+    assert not input_file.with_suffix(
+        ".avif_original"
+    ).exists(), "AVIF original file was created"
+
+
 # --- Video Tests ---
 
 
