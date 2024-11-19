@@ -1,14 +1,8 @@
-import os
 import re
-import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Set, Tuple
-
-import sass
-import yaml
+from typing import Dict, List, Set
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))

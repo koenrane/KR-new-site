@@ -23,6 +23,7 @@
     "*.fish": "fish_indent",
     "*.sh": "shfmt -i 2 -w",
     "*.py": [
+      "autoflake --in-place",
       "isort",
       "black"
     ]

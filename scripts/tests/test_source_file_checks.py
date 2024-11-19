@@ -88,7 +88,7 @@ def test_main_workflow(tmp_path: Path, monkeypatch) -> None:
     content_dir.mkdir()
 
     # Initialize git repo
-    repo = git.Repo.init(tmp_path)
+    git.Repo.init(tmp_path)
 
     # Create test files
     valid_file = content_dir / "valid.md"

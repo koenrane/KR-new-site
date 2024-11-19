@@ -5,7 +5,7 @@ include = '\.pyw?$'
 
 [tool.pylint]
 max-line-length = 80
-ignore-paths = ["**/tests/*", "node_modules/*"]
+ignore-paths = ["scripts/tests/*", "node_modules/*"]
 
 [tool.isort]
 profile = "black"
@@ -21,3 +21,8 @@ wrap-summaries = 80
 wrap-descriptions = 80
 pre-summary-newline = true
 make-summary-multi-line = true
+
+[tool.autoflake]
+exclude = ["node_modules/*"]
+remove-all-unused-imports = true
+remove-unused-variables = true

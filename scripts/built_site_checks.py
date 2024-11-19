@@ -1,4 +1,3 @@
-import argparse
 import os
 import re
 import subprocess
@@ -6,7 +5,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List
 
-import bs4
 import tqdm
 from bs4 import BeautifulSoup, Tag
 

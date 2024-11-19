@@ -298,7 +298,7 @@ def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
     Note: This test requires xmllint to be installed on the system.
     """
     # Get the real git root
-    real_git_root = get_git_root()
+    get_git_root()
 
     # Define paths for rss.xml and rss-2.0.xsd
     rss_path = temp_site_root / "public" / "rss.xml"
