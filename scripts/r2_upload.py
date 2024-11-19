@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+"""
+Upload files to R2 storage and update references in markdown files.
+"""
+
 import argparse
 import os
 import re
@@ -7,26 +10,21 @@ import subprocess
 from pathlib import Path
 from typing import Optional, Sequence
 
-
-# Add this function at the beginning of the file
-def get_home_directory():
-    return os.environ.get("HOME", os.path.expanduser("~"))
-
-
 try:
     from . import utils as script_utils
 except ImportError:
     import utils as script_utils  # type: ignore
 
+_home_directory = Path(os.environ.get("HOME", os.path.expanduser("~")))
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
-R2_MEDIA_DIR: Path = (
-    Path(get_home_directory()) / "Downloads" / "website-media-r2"
-)
+R2_MEDIA_DIR: Path = _home_directory / "Downloads" / "website-media-r2"
 
 
 def get_r2_key(filepath: Path) -> str:
-    # Convert Path to string and remove everything up to and including 'quartz/'
+    """
+    Convert Path to string and remove everything up to and including 'quartz/'.
+    """
     key = re.sub(r".*quartz/", "", str(filepath))
     # Remove leading '/' if present
     return re.sub(r"^/", "", key)
@@ -61,10 +59,11 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
             if verbose:
                 print(f"File found in R2: {upload_target}")
             return True
-        else:
-            if verbose:
-                print(f"No existing file found in R2: {upload_target}")
-            return False
+
+        # Unsuccessful return code
+        if verbose:
+            print(f"No existing file found in R2: {upload_target}")
+        return False
     except Exception as e:
         raise RuntimeError(
             f"Failed to check existence of file in R2: {e}"
@@ -75,7 +74,7 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
 def upload_and_move(
     file_path: Path,
     verbose: bool = False,
-    replacement_dir: Optional[Path] = None,
+    references_dir: Optional[Path] = None,
     move_to_dir: Optional[Path] = None,
     overwrite_existing: bool = False,
 ) -> None:
@@ -85,14 +84,18 @@ def upload_and_move(
     Args:
         file_path (Path): The file to upload.
         verbose (bool): Whether to print verbose output.
-        replacement_dir (Path): Directory to search for files to update references.
-        move_to_dir (Path): The local directory to move the file to after upload.
+        references_dir (Path): Dir to search for files to update references.
+        move_to_dir (Path): The local dir to move the file to after upload.
         overwrite_existing (bool): Whether to overwrite existing files in R2.
 
     Raises:
-        ValueError: If the file path does not contain 'quartz/'.
-        RuntimeError: If the rclone command fails or if the file already exists and overwrite is not allowed.
-        FileNotFoundError: If the original file cannot be moved.
+        ValueError:
+            If the file path does not contain 'quartz/'.
+        RuntimeError:
+            If the rclone command fails.
+            If the file already exists and overwrite is not allowed.
+        FileNotFoundError:
+            If the original file cannot be moved.
     """
     if move_to_dir is None:
         move_to_dir = R2_MEDIA_DIR
@@ -116,8 +119,7 @@ def upload_and_move(
                 f"File '{r2_key}' already exists in R2. Use '--overwrite-existing' to overwrite."
             )
             return
-        elif verbose:
-            print(f"Overwriting existing file in R2: {r2_key}")
+        print(f"Overwriting existing file in R2: {r2_key}")
 
     if verbose:
         print(f"Uploading {file_path} to R2 with key: {r2_key}")
@@ -145,15 +147,19 @@ def upload_and_move(
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
     if verbose:
         print(f'Changing "{relative_subpath}" references to "{r2_address}"')
-    for text_file_path in script_utils.get_files(replacement_dir, (".md",)):
+    for text_file_path in script_utils.get_files(references_dir, (".md",)):
         with open(text_file_path, "r", encoding="utf-8") as f:
             file_content: str = f.read()
 
         # Check original_path because it's longer than subpath
         escaped_original_path: str = re.escape(str(relative_original_path))
         escaped_relative_subpath: str = re.escape(str(relative_subpath))
+        source_regex: str = (
+            rf"(?<=[\(\"])(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})"
+        )
+
         new_content: str = re.sub(
-            rf"(?<=[\(\"])(?:\.?/)?(?:{escaped_original_path}|{escaped_relative_subpath})",
+            source_regex,
             r2_address,
             file_content,
         )
@@ -174,10 +180,13 @@ def upload_and_move(
 
 
 def main() -> None:
+    """
+    Upload files to R2 storage and update references in markdown files.
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-r",
-        "--replacement-dir",
+        "--references-dir",
         type=Path,
         default=Path(f"{script_utils.get_git_root()}") / "content",
         help="Directory to search for files to update references",
@@ -231,7 +240,7 @@ def main() -> None:
         upload_and_move(
             file_to_upload,
             verbose=args.verbose,
-            replacement_dir=args.replacement_dir,
+            references_dir=args.references_dir,
             move_to_dir=args.move_to_dir,
             overwrite_existing=args.overwrite_existing,
         )

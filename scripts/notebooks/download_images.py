@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-from . import utils as script_utils
+from .. import utils as script_utils
 
 
 def download_image(url: str, target_dir: Path) -> bool:

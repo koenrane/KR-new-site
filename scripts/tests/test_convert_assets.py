@@ -28,7 +28,7 @@ def test_image_conversion(ext: str, setup_test_env):
     content_path = Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
 
     convert_assets.convert_asset(
-        asset_path, md_replacement_dir=test_dir / "content"
+        asset_path, md_references_dir=test_dir / "content"
     )
 
     assert avif_path.exists()  # Check if AVIF file was created
@@ -56,7 +56,7 @@ def test_video_conversion(ext: str, setup_test_env):
 
     convert_assets.convert_asset(
         asset_path,
-        md_replacement_dir=Path(setup_test_env),
+        md_references_dir=Path(setup_test_env),
         remove_originals=True,
     )
 
@@ -81,7 +81,7 @@ def test_remove_source_files(setup_test_env, remove_originals):
     convert_assets.convert_asset(
         asset_path,
         remove_originals=remove_originals,
-        md_replacement_dir=Path(setup_test_env),
+        md_references_dir=Path(setup_test_env),
     )
     assert asset_path.exists() == (not remove_originals)
 
@@ -111,7 +111,7 @@ def test_strip_metadata(setup_test_env):
     convert_assets.convert_asset(
         dummy_image,
         strip_metadata=True,
-        md_replacement_dir=Path(setup_test_env),
+        md_references_dir=Path(setup_test_env),
     )
 
     # Read the output of exiftool on the AVIF file and assert that no EXIF data is present
@@ -131,7 +131,7 @@ def test_ignores_unsupported_file_types(setup_test_env):
 
     with pytest.raises(ValueError):
         convert_assets.convert_asset(
-            asset_path, md_replacement_dir=Path(setup_test_env) / "content"
+            asset_path, md_references_dir=Path(setup_test_env) / "content"
         )
 
 
@@ -152,7 +152,7 @@ def test_ignores_non_quartz_path(setup_test_env):
 
     with pytest.raises(ValueError, match="quartz.*directory"):
         convert_assets.convert_asset(
-            asset_path, md_replacement_dir=Path(setup_test_env) / "content"
+            asset_path, md_references_dir=Path(setup_test_env) / "content"
         )
 
 
@@ -161,7 +161,7 @@ def test_ignores_non_static_path(setup_test_env):
 
     with pytest.raises(ValueError, match="static.*subdirectory"):
         convert_assets.convert_asset(
-            asset_path, md_replacement_dir=Path(setup_test_env) / "content"
+            asset_path, md_references_dir=Path(setup_test_env) / "content"
         )
 
 
@@ -273,7 +273,7 @@ def test_video_figure_caption_formatting(setup_test_env, initial_content):
     test_utils.create_test_video(dummy_video)
 
     # Run the conversion
-    convert_assets.convert_asset(dummy_video, md_replacement_dir=content_dir)
+    convert_assets.convert_asset(dummy_video, md_references_dir=content_dir)
 
     # Read the content of the file after conversion
     with open(test_md, "r") as f:
@@ -304,7 +304,7 @@ def test_asset_staging_path_conversion(setup_test_env) -> None:
         f.write('<img src="./asset_staging/static/asset.jpg" alt="shrek"/>\n')
 
     convert_assets.convert_asset(
-        asset_path, md_replacement_dir=test_dir / "content"
+        asset_path, md_references_dir=test_dir / "content"
     )
 
     # Check that the AVIF file was created
@@ -359,7 +359,7 @@ def test_path_pattern_variations(
         f.write(input_content)
 
     convert_assets.convert_asset(
-        asset_path, md_replacement_dir=test_dir / "content"
+        asset_path, md_references_dir=test_dir / "content"
     )
 
     # Verify content was properly converted

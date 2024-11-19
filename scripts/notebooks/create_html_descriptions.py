@@ -18,7 +18,7 @@ from google.generativeai.types import HarmCategory
 from ruamel.yaml import YAML
 
 try:
-    from . import utils as script_utils
+    from .. import utils as script_utils
 except ImportError:
     import utils as script_utils  # type: ignore
 

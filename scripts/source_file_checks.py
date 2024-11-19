@@ -1,3 +1,7 @@
+"""
+Check source files for issues, like invalid links, missing required fields, etc.
+"""
+
 import re
 import subprocess
 import sys
@@ -5,8 +9,8 @@ from pathlib import Path
 from typing import Dict, List, Set
 
 # Add the project root to sys.path
+# pylint: disable=wrong-import-position
 sys.path.append(str(Path(__file__).parent.parent))
-
 import scripts.utils as script_utils
 
 MetadataIssues = Dict[str, List[str]]
@@ -21,7 +25,7 @@ def check_required_fields(metadata: dict) -> List[str]:
     required_fields = ("title", "description", "tags", "permalink")
 
     if not metadata:
-        errors.append(f"No valid frontmatter found")
+        errors.append("No valid frontmatter found")
         return errors
 
     for field in required_fields:
@@ -93,11 +97,11 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
     Returns:
         List of error messages for invalid links found
     """
-    INVALID_MD_LINK_PATTERN = r"\]\([-A-Za-z_0-9:]+(\.md)?\)"
+    invalid_md_link_pattern = r"\]\([-A-Za-z_0-9:]+(\.md)?\)"
     errors = []
 
     content = file_path.read_text()
-    matches = re.finditer(INVALID_MD_LINK_PATTERN, content)
+    matches = re.finditer(invalid_md_link_pattern, content)
 
     for match in matches:
         if "shard-theory" in match.group() and "design.md" in file_path.name:
@@ -225,7 +229,7 @@ def check_font_families(css_content: str) -> List[str]:
         List of undeclared font family names
     """
     # Common system and fallback fonts to ignore
-    SYSTEM_FONTS = {
+    system_fonts = {
         "serif",
         "sans-serif",
         "monospace",
@@ -268,7 +272,7 @@ def check_font_families(css_content: str) -> List[str]:
         fonts = match.group(1).split(",")
         for font in fonts:
             font = clean_font_name(font)
-            if font not in SYSTEM_FONTS and font not in declared_fonts:
+            if font not in system_fonts and font not in declared_fonts:
                 missing_fonts.append(f"Undeclared font family: {font}")
 
     return missing_fonts

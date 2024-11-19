@@ -34,7 +34,7 @@ python "$GIT_ROOT"/scripts/convert_markdown_yaml.py --markdown-directory "$GIT_R
 
 # Upload assets to R2 bucket
 LOCAL_ASSET_DIR="$GIT_ROOT"/../website-media-r2/static
-python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --replacement-dir "$GIT_ROOT"/content --upload-from-directory "$STATIC_DIR"
+python "$GIT_ROOT"/scripts/r2_upload.py --move-to-dir "$LOCAL_ASSET_DIR" --references-dir "$GIT_ROOT"/content --upload-from-directory "$STATIC_DIR"
 
 # Commit changes to the moved-to local dir
 # (NOTE will also commit current changes)

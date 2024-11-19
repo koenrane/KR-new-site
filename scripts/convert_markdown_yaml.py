@@ -175,7 +175,7 @@ def _setup_and_store_image(png_path: Path, png_filename: str) -> Path:
     r2_upload.upload_and_move(
         local_png_path,
         verbose=True,
-        replacement_dir=None,
+        references_dir=None,
         move_to_dir=r2_upload.R2_MEDIA_DIR,
     )
 

@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+"""
+Compute the size of AVIF files and their PNG equivalents.
+"""
+
 import argparse
 import subprocess
 from pathlib import Path

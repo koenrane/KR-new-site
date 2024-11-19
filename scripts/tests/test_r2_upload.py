@@ -4,7 +4,6 @@ import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import git
 import pytest
 
 from .. import r2_upload
@@ -234,7 +233,7 @@ def test_main_function(
             for arg in args
         ]
         args = [
-            "--replacement-dir",
+            "--references-dir",
             str(mock_git_root / "quartz" / "content"),
         ] + args
     with patch("sys.argv", ["r2_upload.py"] + args):
@@ -262,7 +261,7 @@ def test_upload_and_move(
     test_image.touch()
 
     r2_upload.upload_and_move(
-        test_image, replacement_dir=content_dir, move_to_dir=move_to_dir
+        test_image, references_dir=content_dir, move_to_dir=move_to_dir
     )
 
     r2_cleanup.append("static/test.jpg")
@@ -334,7 +333,7 @@ def test_main_upload_all_custom_filetypes(
             "--filetypes",
             ".png",
             ".jpg",
-            "--replacement-dir",
+            "--references-dir",
             str(content_dir),
         ]
         with patch("sys.argv", arg_list):
@@ -393,7 +392,7 @@ def test_preserve_path_structure(mock_git_root: Path, tmp_path: Path):
     deep_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move") as mock_move:
-        # TODO not setting replacement_dir?
+        # TODO not setting references_dir?
         r2_upload.upload_and_move(deep_file, move_to_dir=move_to_dir)
 
     expected_moved_path = move_to_dir / deep_file.relative_to(mock_git_root)
@@ -431,7 +430,7 @@ def test_preserve_path_structure_with_replacement(
         with patch("subprocess.run"), patch("shutil.move") as mock_move:
             r2_upload.upload_and_move(
                 static_file,
-                replacement_dir=content_dir,
+                references_dir=content_dir,
                 move_to_dir=move_to_dir,
             )
 
@@ -468,7 +467,7 @@ def test_strict_static_path_matching(
     test_image.touch()
 
     with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_image, replacement_dir=content_dir)
+        r2_upload.upload_and_move(test_image, references_dir=content_dir)
 
     updated_content = md_file.read_text()
     expected_url = "https://assets.turntrout.com/static/images/test.jpg"
