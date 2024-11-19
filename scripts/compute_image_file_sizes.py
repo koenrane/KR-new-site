@@ -8,12 +8,16 @@ import tqdm
 
 
 def get_file_size(path: Path) -> int:
-    """Get file size in bytes"""
+    """
+    Get file size in bytes.
+    """
     return path.stat().st_size
 
 
 def avif_to_png(avif_path: Path) -> Path | None:
-    """Convert AVIF to PNG using ImageMagick"""
+    """
+    Convert AVIF to PNG using ImageMagick.
+    """
     png_path = avif_path.with_suffix(".png")
     try:
         subprocess.run(["magick", avif_path, png_path], check=True)
@@ -25,9 +29,14 @@ def avif_to_png(avif_path: Path) -> Path | None:
 
 def main():
     # Set up argument parser
-    parser = argparse.ArgumentParser(description="Analyze AVIF compression ratios")
+    parser = argparse.ArgumentParser(
+        description="Analyze AVIF compression ratios"
+    )
     parser.add_argument(
-        "--avif_dir", type=Path, required=True, help="Directory containing AVIF files"
+        "--avif_dir",
+        type=Path,
+        required=True,
+        help="Directory containing AVIF files",
     )
     args = parser.parse_args()
 

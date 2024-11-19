@@ -9,7 +9,8 @@ from ruamel.yaml import YAML
 
 
 def get_git_root(starting_dir: Optional[Path] = None) -> Path:
-    """Returns the absolute path to the top-level directory of the Git repository.
+    """
+    Returns the absolute path to the top-level directory of the Git repository.
 
     Args:
         starting_dir (Optional[Path]): Directory from which to start searching for the Git root.
@@ -38,7 +39,9 @@ def get_files(
     use_git_ignore: bool = True,
     ignore_dirs: Optional[Collection[str]] = None,
 ) -> tuple[Path, ...]:
-    """Returns a tuple of all files in the specified directory of the Git repository.
+    """
+    Returns a tuple of all files in the specified directory of the Git
+    repository.
 
     Args:
         dir_to_search (Optional[Path]): A directory to search for files.
@@ -101,7 +104,8 @@ def path_relative_to_quartz_parent(input_file: Path) -> Path:
 
 
 def split_yaml(file_path: Path) -> tuple[dict, str]:
-    """Split a markdown file into its YAML frontmatter and content.
+    """
+    Split a markdown file into its YAML frontmatter and content.
 
     Args:
         file_path: Path to the markdown file
@@ -109,7 +113,9 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
     Returns:
         Tuple of (metadata dict, content string)
     """
-    yaml = YAML(typ="rt")  # 'rt' means round-trip, preserving comments and formatting
+    yaml = YAML(
+        typ="rt"
+    )  # 'rt' means round-trip, preserving comments and formatting
     yaml.preserve_quotes = True  # Preserve quote style
 
     with file_path.open("r", encoding="utf-8") as f:

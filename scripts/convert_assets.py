@@ -14,7 +14,9 @@ except ImportError:
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
-    """Returns the original and replacement patterns for video files."""
+    """
+    Returns the original and replacement patterns for video files.
+    """
     # Function to create unique named capture groups for different link patterns
     link_pattern_fn = lambda tag: rf"(?P<link_{tag}>[^\)]*)"
 
@@ -44,14 +46,18 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
         )
 
     # Combine all patterns into one, separated by '|' (OR)
-    original_pattern: str = rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
+    original_pattern: str = (
+        rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
+    )
 
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
     # Convert to .mp4 video
     video_tags: str = (
-        "autoplay loop muted playsinline " if input_file.suffix == ".gif" else ""
+        "autoplay loop muted playsinline "
+        if input_file.suffix == ".gif"
+        else ""
     )
     replacement_pattern: str = (
         rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="{all_links}{input_file.stem}.mp4" type="video/mp4"></video>'
@@ -61,7 +67,9 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
 
 def _image_patterns(input_file: Path) -> tuple[str, str]:
-    """Returns the original and replacement patterns for image files."""
+    """
+    Returns the original and replacement patterns for image files.
+    """
     relative_path = script_utils.path_relative_to_quartz_parent(input_file)
     pattern_file = relative_path.relative_to("quartz")
     output_file: Path = pattern_file.with_suffix(".avif")
@@ -78,8 +86,8 @@ def convert_asset(
     md_replacement_dir: Optional[Path] = Path("content/"),
 ) -> None:
     """
-    Converts an image or video to a more efficient format. Replaces
-    references in markdown files.
+    Converts an image or video to a more efficient format. Replaces references
+    in markdown files.
 
     Args:
         input_file: The path to the file to convert.
@@ -103,7 +111,9 @@ def convert_asset(
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
     if md_replacement_dir and not md_replacement_dir.is_dir():
-        raise NotADirectoryError(f"Error: Directory '{md_replacement_dir}' not found.")
+        raise NotADirectoryError(
+            f"Error: Directory '{md_replacement_dir}' not found."
+        )
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         # Get patterns first so that we trigger relative path errors if needed
@@ -147,7 +157,9 @@ def convert_asset(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert assets to optimized formats.")
+    parser = argparse.ArgumentParser(
+        description="Convert assets to optimized formats."
+    )
     parser.add_argument(
         "-r",
         "--remove-originals",
@@ -166,10 +178,14 @@ def main():
         help="Directory containing assets to convert",
     )
     parser.add_argument(
-        "--ignore-files", nargs="+", help="List of files to ignore during conversion"
+        "--ignore-files",
+        nargs="+",
+        help="List of files to ignore during conversion",
     )
     args = parser.parse_args()
-    args.asset_directory = Path(args.asset_directory) if args.asset_directory else None
+    args.asset_directory = (
+        Path(args.asset_directory) if args.asset_directory else None
+    )
 
     assets = script_utils.get_files(
         dir_to_search=args.asset_directory,

@@ -20,7 +20,9 @@ PathMap = Dict[str, Path]  # Maps URLs to their source files
 
 
 def check_required_fields(metadata: dict) -> List[str]:
-    """Check for empty required metadata fields."""
+    """
+    Check for empty required metadata fields.
+    """
     errors = []
     required_fields = ("title", "description", "tags", "permalink")
 
@@ -40,7 +42,8 @@ def check_required_fields(metadata: dict) -> List[str]:
 def check_url_uniqueness(
     urls: Set[str], existing_urls: PathMap, source_path: Path
 ) -> List[str]:
-    """Check if any URLs (permalinks/aliases) have already been used.
+    """
+    Check if any URLs (permalinks/aliases) have already been used.
 
     Args:
         urls: Set of URLs to check
@@ -60,7 +63,8 @@ def check_url_uniqueness(
 
 
 def get_all_urls(metadata: dict) -> Set[str]:
-    """Extract all URLs (permalinks and aliases) from metadata.
+    """
+    Extract all URLs (permalinks and aliases) from metadata.
 
     Args:
         metadata: The file's frontmatter metadata
@@ -86,7 +90,8 @@ def get_all_urls(metadata: dict) -> Set[str]:
 
 
 def check_invalid_md_links(file_path: Path) -> List[str]:
-    """Check for invalid markdown links that don't start with '/'.
+    """
+    Check for invalid markdown links that don't start with '/'.
 
     Args:
         file_path: Path to the markdown file to check
@@ -104,7 +109,9 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
         if "shard-theory" in match.group() and "design.md" in file_path.name:
             continue  # I mention this checker, not a real broken link
         line_num = content[: match.start()].count("\n") + 1
-        errors.append(f"Invalid markdown link at line {line_num}: {match.group()}")
+        errors.append(
+            f"Invalid markdown link at line {line_num}: {match.group()}"
+        )
 
     return errors
 
@@ -112,7 +119,8 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
 def check_file_metadata(
     metadata: dict, existing_urls: PathMap, file_path: Path
 ) -> MetadataIssues:
-    """Check a single file's metadata and content for various issues.
+    """
+    Check a single file's metadata and content for various issues.
 
     Args:
         metadata: The file's frontmatter metadata
@@ -138,7 +146,9 @@ def check_file_metadata(
 
 
 def print_issues(file_path: Path, issues: MetadataIssues) -> None:
-    """Print issues found in a file."""
+    """
+    Print issues found in a file.
+    """
     if any(lst for lst in issues.values()):
         print(f"\nIssues found in {file_path}:")
         for check_name, errors in issues.items():
@@ -149,7 +159,8 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
 
 
 def compile_scss(scss_file_path: Path) -> str:
-    """Compile SCSS file to CSS string.
+    """
+    Compile SCSS file to CSS string.
 
     Args:
         scss_file_path: Path to the SCSS file
@@ -175,7 +186,8 @@ def compile_scss(scss_file_path: Path) -> str:
 
 
 def check_font_files(css_content: str, base_dir: Path) -> List[str]:
-    """Check if font files referenced in CSS exist.
+    """
+    Check if font files referenced in CSS exist.
 
     Args:
         css_content: Compiled CSS content
@@ -209,7 +221,8 @@ def check_font_files(css_content: str, base_dir: Path) -> List[str]:
 
 
 def check_font_families(css_content: str) -> List[str]:
-    """Check if all referenced font families are properly declared.
+    """
+    Check if all referenced font families are properly declared.
 
     Args:
         css_content: Compiled CSS content
@@ -235,7 +248,9 @@ def check_font_families(css_content: str) -> List[str]:
     }
 
     def clean_font_name(name: str) -> str:
-        """Clean font name by removing quotes and OpenType feature tags."""
+        """
+        Clean font name by removing quotes and OpenType feature tags.
+        """
         name = name.strip().strip("\"'").lower()
         # Remove OpenType feature tags (e.g., :+swsh, :smcp)
         return name.split(":")[0]
@@ -266,7 +281,8 @@ def check_font_families(css_content: str) -> List[str]:
 
 
 def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
-    """Check SCSS file for font-related issues.
+    """
+    Check SCSS file for font-related issues.
 
     Args:
         scss_file_path: Path to the SCSS file
@@ -289,7 +305,9 @@ def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
 
 
 def main() -> None:
-    """Check source files for issues."""
+    """
+    Check source files for issues.
+    """
     git_root = script_utils.get_git_root()
     content_dir = git_root / "content"
     existing_urls: PathMap = {}

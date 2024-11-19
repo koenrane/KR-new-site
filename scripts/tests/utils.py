@@ -65,12 +65,17 @@ def create_test_video(path: Path, codec: Optional[str] = None) -> None:
     base_command.append(str(path))
 
     subprocess.run(
-        base_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True
+        base_command,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=True,
     )
 
 
 def create_test_gif(file_path, duration=1, size=(100, 100), fps=10):
-    """Create a test GIF file."""
+    """
+    Create a test GIF file.
+    """
     frames = []
     for i in range(duration * fps):
         array = np.random.rand(size[1], size[0], 3) * 255
@@ -78,13 +83,19 @@ def create_test_gif(file_path, duration=1, size=(100, 100), fps=10):
         frames.append(image)
 
     frames[0].save(
-        file_path, save_all=True, append_images=frames[1:], duration=1000 // fps, loop=0
+        file_path,
+        save_all=True,
+        append_images=frames[1:],
+        duration=1000 // fps,
+        loop=0,
     )
 
 
 @pytest.fixture
 def setup_test_env(tmp_path):
-    """Sets up a temporary Git repository and populates it with test assets."""
+    """
+    Sets up a temporary Git repository and populates it with test assets.
+    """
 
     # Create the required directories for testing
     for dir_name in ["quartz/static", "scripts", "content"]:

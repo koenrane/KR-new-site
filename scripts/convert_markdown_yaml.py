@@ -34,10 +34,11 @@ _CAN_CONVERT_EXTENSIONS: set[str] = {
 
 def process_card_image_in_markdown(md_file: Path) -> None:
     """
-    Processes the 'card_image' in the YAML frontmatter of the given markdown file.
+    Processes the 'card_image' in the YAML frontmatter of the given markdown
+    file.
 
-    It downloads the image, converts it to PNG using ImageMagick, updates the 'card_image' value,
-    and uploads the new image to R2.
+    It downloads the image, converts it to PNG using ImageMagick, updates the
+    'card_image' value, and uploads the new image to R2.
     """
     with open(md_file, "r", encoding="utf-8") as file:
         content = file.read()
@@ -68,7 +69,9 @@ def process_card_image_in_markdown(md_file: Path) -> None:
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
         "Referer": "https://turntrout.com/",
     }
-    response = requests.get(card_image_url, stream=True, timeout=10, headers=headers)
+    response = requests.get(
+        card_image_url, stream=True, timeout=10, headers=headers
+    )
     if response.status_code == 200:
         with open(downloaded_path, "wb") as out_file:
             shutil.copyfileobj(response.raw, out_file)
@@ -101,7 +104,9 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
     git_root = script_utils.get_git_root()
 
-    static_images_dir = git_root / "quartz" / "static" / "images" / "card_images"
+    static_images_dir = (
+        git_root / "quartz" / "static" / "images" / "card_images"
+    )
     static_images_dir.mkdir(parents=True, exist_ok=True)
     local_png_path = static_images_dir / png_filename
     shutil.move(str(png_path), str(local_png_path))

@@ -27,7 +27,9 @@ def test_image_conversion(ext: str, setup_test_env):
     avif_path: Path = asset_path.with_suffix(".avif")
     content_path = Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
 
-    convert_assets.convert_asset(asset_path, md_replacement_dir=test_dir / "content")
+    convert_assets.convert_asset(
+        asset_path, md_replacement_dir=test_dir / "content"
+    )
 
     assert avif_path.exists()  # Check if AVIF file was created
 
@@ -46,12 +48,16 @@ def test_image_conversion(ext: str, setup_test_env):
 def test_video_conversion(ext: str, setup_test_env):
     asset_path: Path = Path(setup_test_env) / "quartz/static" / f"asset{ext}"
     mp4_path: Path = asset_path.with_suffix(".mp4")
-    content_path: Path = Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
+    content_path: Path = (
+        Path(setup_test_env) / "content" / f"{ext.lstrip('.')}.md"
+    )
     with open(content_path, "r") as f:
         file_content: str = f.read()
 
     convert_assets.convert_asset(
-        asset_path, md_replacement_dir=Path(setup_test_env), remove_originals=True
+        asset_path,
+        md_replacement_dir=Path(setup_test_env),
+        remove_originals=True,
     )
 
     assert mp4_path.exists()
@@ -81,12 +87,16 @@ def test_remove_source_files(setup_test_env, remove_originals):
 
 
 def test_strip_metadata(setup_test_env):
-    dummy_image: Path = Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
+    dummy_image: Path = (
+        Path(setup_test_env) / "quartz/static/asset_with_exif.jpg"
+    )
     test_utils.create_test_image(dummy_image, "32x32")
 
     # Simulate adding metadata using exiftool
     with mock.patch("subprocess.run") as mock_exiftool:
-        mock_exiftool.return_value = subprocess.CompletedProcess(args=[], returncode=0)
+        mock_exiftool.return_value = subprocess.CompletedProcess(
+            args=[], returncode=0
+        )
         subprocess.run(
             [
                 "exiftool",
@@ -110,7 +120,9 @@ def test_strip_metadata(setup_test_env):
         exif_output = subprocess.check_output(
             ["exiftool", dummy_image.with_suffix(".avif")]
         )
-        assert "Test Artist" not in exif_output.decode()  # Check for a specific tag
+        assert (
+            "Test Artist" not in exif_output.decode()
+        )  # Check for a specific tag
         assert "Test Copyright" not in exif_output.decode()
 
 
@@ -168,9 +180,9 @@ def test_ignores_non_static_path(setup_test_env):
     ],
 )
 def test_valid_paths(input_path, expected_output):
-    assert script_utils.path_relative_to_quartz_parent(Path(input_path)) == Path(
-        expected_output
-    )
+    assert script_utils.path_relative_to_quartz_parent(
+        Path(input_path)
+    ) == Path(expected_output)
 
 
 @pytest.mark.parametrize(
@@ -291,7 +303,9 @@ def test_asset_staging_path_conversion(setup_test_env) -> None:
         f.write("[[./asset_staging/static/asset.jpg]]\n")
         f.write('<img src="./asset_staging/static/asset.jpg" alt="shrek"/>\n')
 
-    convert_assets.convert_asset(asset_path, md_replacement_dir=test_dir / "content")
+    convert_assets.convert_asset(
+        asset_path, md_replacement_dir=test_dir / "content"
+    )
 
     # Check that the AVIF file was created
     assert avif_path.exists()
@@ -344,7 +358,9 @@ def test_path_pattern_variations(
     with open(content_path, "w") as f:
         f.write(input_content)
 
-    convert_assets.convert_asset(asset_path, md_replacement_dir=test_dir / "content")
+    convert_assets.convert_asset(
+        asset_path, md_replacement_dir=test_dir / "content"
+    )
 
     # Verify content was properly converted
     with open(content_path, "r") as f:

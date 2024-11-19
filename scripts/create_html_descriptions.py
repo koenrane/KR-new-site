@@ -2,8 +2,9 @@
 This script creates HTML descriptions for blog posts by generating them using
 the Gemini 1.5 Pro model from Google Generative AI.
 
-It reads the content of each Markdown file, extracts the YAML front matter, and if no description is found, generates one.
-The generated description is then saved back to the file.
+It reads the content of each Markdown file, extracts the YAML front matter, and
+if no description is found, generates one. The generated description is then
+saved back to the file.
 """
 
 import os
@@ -105,7 +106,8 @@ def get_gemini_description(content: str) -> str:
 
 def process_file(file_path: Path) -> None:
     """
-    Process a single file, extract YAML front matter, generate a description if needed, and update the file.
+    Process a single file, extract YAML front matter, generate a description if
+    needed, and update the file.
     """
     with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()

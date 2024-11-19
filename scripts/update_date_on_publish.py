@@ -19,12 +19,19 @@ yaml_parser.indent(mapping=2, sequence=2, offset=2)
 # Fix: Create TimeStamp from datetime components
 now = datetime.now()
 current_date = TimeStamp(
-    now.year, now.month, now.day, now.hour, now.minute, now.second, now.microsecond
+    now.year,
+    now.month,
+    now.day,
+    now.hour,
+    now.minute,
+    now.second,
+    now.microsecond,
 )
 
 
 def is_file_modified(file_path: Path) -> bool:
-    """Check if file has unpushed changes in git.
+    """
+    Check if file has unpushed changes in git.
 
     Args:
         file_path (Path): Path to the file to check
@@ -52,7 +59,9 @@ def is_file_modified(file_path: Path) -> bool:
 
 
 def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
-    """Convert various date formats to TimeStamp."""
+    """
+    Convert various date formats to TimeStamp.
+    """
     if isinstance(value, TimeStamp):
         return value
 
@@ -65,7 +74,9 @@ def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
                 # Try ISO format as fallback
                 dt = datetime.fromisoformat(value)
             except ValueError:
-                print(f"Warning: Could not parse date '{value}', using current date")
+                print(
+                    f"Warning: Could not parse date '{value}', using current date"
+                )
                 dt = datetime.now()
     elif isinstance(value, datetime):
         dt = value
@@ -79,7 +90,9 @@ def maybe_convert_to_timestamp(value: str | datetime | TimeStamp) -> TimeStamp:
 
 
 def update_publish_date(yaml_metadata: dict) -> None:
-    """Update publish and update dates in a markdown file's frontmatter."""
+    """
+    Update publish and update dates in a markdown file's frontmatter.
+    """
     # If date_published doesn't exist or is empty/None, create it
     if not yaml_metadata.get("date_published"):
         yaml_metadata["date_published"] = current_date
@@ -115,7 +128,8 @@ def write_to_yaml(file_path: Path, metadata: dict, content: str) -> None:
 
 
 def main(content_dir: Path | None = None) -> None:
-    """Main function to update dates in markdown files.
+    """
+    Main function to update dates in markdown files.
 
     Args:
         content_dir (Path, optional): Directory containing markdown files.

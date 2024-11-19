@@ -13,7 +13,8 @@ ALLOWED_IMAGE_EXTENSIONS: set[str] = {".jpg", ".jpeg", ".png"}
 
 
 def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
-    """Converts an image to AVIF format using ImageMagick.
+    """
+    Converts an image to AVIF format using ImageMagick.
 
     Args:
         image_path: The path to the image file.
@@ -54,14 +55,19 @@ ALLOWED_VIDEO_EXTENSIONS: set[str] = {
     ".mpeg",
 }
 
-ALLOWED_EXTENSIONS: set[str] = ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
+ALLOWED_EXTENSIONS: set[str] = (
+    ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
+)
 
 
 VIDEO_QUALITY: int = 28  # Default quality (0-51). Lower is better but slower.
 
 
 def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
-    """Converts a video to mp4 format using ffmpeg with HEVC encoding, if not already HEVC."""
+    """
+    Converts a video to mp4 format using ffmpeg with HEVC encoding, if not
+    already HEVC.
+    """
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
@@ -85,12 +91,16 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     ]
 
     try:
-        codec = subprocess.check_output(probe_cmd, universal_newlines=True).strip()
+        codec = subprocess.check_output(
+            probe_cmd, universal_newlines=True
+        ).strip()
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error probing video codec: {e}")
 
     if codec == "hevc":
-        print(f"File {video_path} is already HEVC encoded. Skipping conversion.")
+        print(
+            f"File {video_path} is already HEVC encoded. Skipping conversion."
+        )
         return
 
     # Determine output path
@@ -140,7 +150,9 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
         raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
         # TODO this doesn't always work
-        original_path = output_path.with_suffix(output_path.suffix + "_original")
+        original_path = output_path.with_suffix(
+            output_path.suffix + "_original"
+        )
 
         if original_path.exists():
             original_path.unlink()
@@ -165,7 +177,9 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
             "-show_streams",
             str(gif_path),
         ]
-        probe_output = subprocess.check_output(probe_cmd, universal_newlines=True)
+        probe_output = subprocess.check_output(
+            probe_cmd, universal_newlines=True
+        )
         probe_data = json.loads(probe_output)
 
         # Extract the frame rate, defaulting to 10 if not found

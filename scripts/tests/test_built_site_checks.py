@@ -155,7 +155,9 @@ def test_check_file_for_issues(tmp_path):
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
     assert issues["missing_media_files"] == ["missing-image.jpg"]
-    assert issues["trailing_blockquotes"] == ["This is a problematic blockquote >"]
+    assert issues["trailing_blockquotes"] == [
+        "This is a problematic blockquote >"
+    ]
     assert issues["unrendered_subtitles"] == ["Subtitle: Unrendered subtitle"]
 
 
@@ -188,14 +190,20 @@ def test_complicated_blockquote(tmp_path):
 def test_check_local_media_files_parametrized(html, expected, temp_site_root):
     soup = BeautifulSoup(html, "html.parser")
     (temp_site_root / "existing.png").touch()
-    result = check_local_media_files(soup, temp_site_root / "test.html", temp_site_root)
+    result = check_local_media_files(
+        soup, temp_site_root / "test.html", temp_site_root
+    )
     assert result == expected
 
 
-def test_check_asset_references_all_missing(sample_soup_with_assets, temp_site_root):
+def test_check_asset_references_all_missing(
+    sample_soup_with_assets, temp_site_root
+):
     file_path = temp_site_root / "test.html"
 
-    result = check_asset_references(sample_soup_with_assets, file_path, temp_site_root)
+    result = check_asset_references(
+        sample_soup_with_assets, file_path, temp_site_root
+    )
 
     expected = {
         "/styles/main.css (resolved to styles/main.css)",
@@ -250,7 +258,10 @@ def test_check_asset_references_ignore_external(temp_site_root):
             '<html><head><img class="favicon" href="favicon.ico"></head></html>',
             False,
         ),
-        ('<html><head><link rel="stylesheet" href="style.css"></head></html>', True),
+        (
+            '<html><head><link rel="stylesheet" href="style.css"></head></html>',
+            True,
+        ),
         ("<html><head></head></html>", True),
     ],
 )
@@ -281,7 +292,9 @@ def test_check_unrendered_subtitles():
 
 def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
     """
-    Test that check_rss_file_for_issues runs the actual xmllint process on valid and invalid RSS files.
+    Test that check_rss_file_for_issues runs the actual xmllint process on valid
+    and invalid RSS files.
+
     Note: This test requires xmllint to be installed on the system.
     """
     # Get the real git root
@@ -374,7 +387,10 @@ def test_check_unrendered_footnotes_parametrized(html, expected):
 @pytest.mark.parametrize(
     "html,expected",
     [
-        ('<html><head><style id="critical-css">.css{}</style></head></html>', True),
+        (
+            '<html><head><style id="critical-css">.css{}</style></head></html>',
+            True,
+        ),
         ("<html><head><style>.css{}</style></head></html>", False),
         ("<html><head></head></html>", False),
     ],

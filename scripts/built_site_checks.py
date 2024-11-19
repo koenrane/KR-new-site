@@ -23,7 +23,9 @@ IssuesDict = Dict[str, List[str] | bool]
 
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
-    """Check for localhost links in the HTML."""
+    """
+    Check for localhost links in the HTML.
+    """
     localhost_links = []
     links = soup.find_all("a", href=True)
     for link in links:
@@ -36,16 +38,21 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
 
 
 def check_favicons_missing(soup: BeautifulSoup) -> bool:
-    """Check if favicons are missing."""
+    """
+    Check if favicons are missing.
+    """
     return soup.find("img", class_="favicon") is None
 
 
 def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     """
     Check for unrendered footnotes in the format [^something].
+
     Returns a list of the footnote references themselves.
     """
-    footnote_pattern = r"\[\^[a-zA-Z0-9-_]+\]"  # Matches [^1], [^note], [^note-1], etc.
+    footnote_pattern = (
+        r"\[\^[a-zA-Z0-9-_]+\]"  # Matches [^1], [^note], [^note-1], etc.
+    )
     unrendered_footnotes = []
 
     for p in soup.find_all("p"):
@@ -59,7 +66,9 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
 def check_invalid_anchors(
     soup: BeautifulSoup, file_path: Path, base_dir: Path
 ) -> List[str]:
-    """Check for invalid internal anchor links in the HTML."""
+    """
+    Check for invalid internal anchor links in the HTML.
+    """
     invalid_anchors = []
     links = soup.find_all("a", href=True)
     for link in links:
@@ -90,7 +99,9 @@ def check_invalid_anchors(
 
 # Check that no blockquote element ends with ">" (probably needed a newline before it)
 def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
-    """Check for blockquote elements ending with ">"."""
+    """
+    Check for blockquote elements ending with ">".
+    """
     problematic_blockquotes: List[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
@@ -108,42 +119,61 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
 
 
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
-    """Check for paragraphs starting with specific phrases."""
+    """
+    Check for paragraphs starting with specific phrases.
+    """
     problematic_paragraphs = []
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
         if any(prefix in text for prefix in ("Table: ", "Figure: ", "Code: ")):
-            problematic_paragraphs.append(text[:50] + "..." if len(text) > 50 else text)
+            problematic_paragraphs.append(
+                text[:50] + "..." if len(text) > 50 else text
+            )
     return problematic_paragraphs
 
 
 def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
-    """Check for unrendered subtitle lines."""
+    """
+    Check for unrendered subtitle lines.
+    """
     unrendered_subtitles = []
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
-        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
-            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
+        if text.startswith("Subtitle:") and "subtitle" not in p.get(
+            "class", []
+        ):
+            unrendered_subtitles.append(
+                text[:50] + "..." if len(text) > 50 else text
+            )
     return unrendered_subtitles
 
 
 def parse_html_file(file_path: Path) -> BeautifulSoup:
-    """Parse an HTML file and return a BeautifulSoup object."""
+    """
+    Parse an HTML file and return a BeautifulSoup object.
+    """
     with open(file_path, "r", encoding="utf-8") as file:
         content = file.read()
     return BeautifulSoup(content, "html.parser")
 
 
 # Check the existence of local files with these extensions
-_MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [".svg", ".avif", ".ico"]
+_MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
+    ".svg",
+    ".avif",
+    ".ico",
+]
 
 
 def check_local_media_files(
     soup: BeautifulSoup, file_path: Path, base_dir: Path
 ) -> List[str]:
-    """Check for local media files (images, videos, SVGs) and verify their existence."""
+    """
+    Check for local media files (images, videos, SVGs) and verify their
+    existence.
+    """
     missing_files = []
     media_tags = soup.find_all(["img", "video", "source", "svg"])
 
@@ -163,7 +193,9 @@ def check_local_media_files(
 def check_asset_references(
     soup: BeautifulSoup, file_path: Path, base_dir: Path
 ) -> List[str]:
-    """Check for asset references and verify their existence."""
+    """
+    Check for asset references and verify their existence.
+    """
     missing_assets = []
 
     def resolve_asset_path(href: str) -> Path:
@@ -187,7 +219,9 @@ def check_asset_references(
         rel = link.get("rel", [])
         if isinstance(rel, list):
             rel = " ".join(rel)
-        if "stylesheet" in rel or ("preload" in rel and link.get("as") == "style"):
+        if "stylesheet" in rel or (
+            "preload" in rel and link.get("as") == "style"
+        ):
             check_asset(link.get("href"))
 
     # Check script tags for JS files
@@ -198,7 +232,9 @@ def check_asset_references(
 
 
 def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
-    """Check for KaTeX elements with color #cc0000."""
+    """
+    Check for KaTeX elements with color #cc0000.
+    """
     problematic_katex = []
     katex_elements = soup.select(".katex")
     for element in katex_elements:
@@ -206,7 +242,9 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
         if error_span:
             content = element.get_text().strip()
             problematic_katex.append(
-                f"KaTeX element: {content[:50]}..." if len(content) > 50 else content
+                f"KaTeX element: {content[:50]}..."
+                if len(content) > 50
+                else content
             )
     return problematic_katex
 
@@ -216,7 +254,9 @@ def is_redirect(soup: BeautifulSoup) -> bool:
 
 
 def check_critical_css(soup: BeautifulSoup) -> bool:
-    """Check if the page has critical CSS in the head."""
+    """
+    Check if the page has critical CSS in the head.
+    """
     head = soup.find("head")
     if isinstance(head, Tag):
         return bool(head.find("style", {"id": "critical-css"}))
@@ -224,7 +264,11 @@ def check_critical_css(soup: BeautifulSoup) -> bool:
 
 
 def body_is_empty(soup: BeautifulSoup) -> bool:
-    """Check if the body is empty. Looks for children of the body tag."""
+    """
+    Check if the body is empty.
+
+    Looks for children of the body tag.
+    """
     body = soup.find("body")
     return (
         not body
@@ -236,7 +280,9 @@ def body_is_empty(soup: BeautifulSoup) -> bool:
 def check_file_for_issues(
     file_path: Path, base_dir: Path, is_production: bool = False
 ) -> IssuesDict:
-    """Check a single HTML file for various issues."""
+    """
+    Check a single HTML file for various issues.
+    """
     soup = parse_html_file(file_path)
     if is_redirect(soup):
         return {}
@@ -244,7 +290,9 @@ def check_file_for_issues(
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
-        "missing_media_files": check_local_media_files(soup, file_path, base_dir),
+        "missing_media_files": check_local_media_files(
+            soup, file_path, base_dir
+        ),
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
@@ -262,8 +310,11 @@ def check_file_for_issues(
 def check_rss_file_for_issues(
     git_root_path: Path, custom_xsd_path: Path | None = None
 ) -> None:
-    """Check an RSS file for various issues.
-    Uses xmllint via `brew install libxml2`."""
+    """
+    Check an RSS file for various issues.
+
+    Uses xmllint via `brew install libxml2`.
+    """
     rss_path = git_root_path / "public" / "rss.xml"
     subprocess.run(
         [
@@ -283,7 +334,9 @@ def print_issues(
     file_path: Path,
     issues: IssuesDict,
 ) -> None:
-    """Print issues found in a file."""
+    """
+    Print issues found in a file.
+    """
     if any(lst for lst in issues.values()):
         print(f"Issues found in {file_path}:")
         for issue, lst in issues.items():
@@ -299,7 +352,9 @@ def print_issues(
 
 
 def main() -> None:
-    """Main function to check all HTML files in the public directory for issues."""
+    """
+    Main function to check all HTML files in the public directory for issues.
+    """
     git_root = script_utils.get_git_root()
     public_dir: Path = git_root / "public"
     issues_found: bool = False

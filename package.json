@@ -24,6 +24,7 @@
     "*.sh": "shfmt -i 2 -w",
     "*.py": [
       "isort",
+      "docformatter --in-place",
       "black"
     ]
   },

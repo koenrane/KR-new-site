@@ -20,7 +20,9 @@ except ImportError:
 
 R2_BASE_URL: str = "https://assets.turntrout.com"
 R2_BUCKET_NAME: str = "turntrout"
-R2_MEDIA_DIR: Path = Path(get_home_directory()) / "Downloads" / "website-media-r2"
+R2_MEDIA_DIR: Path = (
+    Path(get_home_directory()) / "Downloads" / "website-media-r2"
+)
 
 
 def get_r2_key(filepath: Path) -> str:
@@ -64,7 +66,9 @@ def check_exists_on_r2(upload_target: str, verbose: bool = False) -> bool:
                 print(f"No existing file found in R2: {upload_target}")
             return False
     except Exception as e:
-        raise RuntimeError(f"Failed to check existence of file in R2: {e}") from e
+        raise RuntimeError(
+            f"Failed to check existence of file in R2: {e}"
+        ) from e
 
 
 # TODO split up this function
@@ -134,7 +138,9 @@ def upload_and_move(
     )
     # References start with 'static', generally
     relative_subpath: Path = Path(
-        *relative_original_path.parts[relative_original_path.parts.index("static") :]
+        *relative_original_path.parts[
+            relative_original_path.parts.index("static") :
+        ]
     )
     r2_address: str = f"{R2_BASE_URL}/{r2_key}"
     if verbose:
@@ -217,7 +223,9 @@ def main() -> None:
     elif args.file:
         files_to_upload = [args.file]
     else:
-        parser.error("Either --upload_from_directory or a file must be specified")
+        parser.error(
+            "Either --upload_from_directory or a file must be specified"
+        )
 
     for file_to_upload in files_to_upload:
         upload_and_move(

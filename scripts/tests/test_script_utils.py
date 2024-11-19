@@ -13,7 +13,9 @@ import pytest
 from .. import utils as script_utils
 
 
-def test_git_root_is_ancestor(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_git_root_is_ancestor(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     """
     Test that the found git root is an ancestor of the current file.
     """
@@ -109,7 +111,8 @@ def test_get_git_root_raises_error():
 def test_path_relative_to_quartz(
     input_path: str, expected_output: Optional[Path], should_raise: bool
 ) -> None:
-    """Test path_relative_to_quartz_parent with various input paths.
+    """
+    Test path_relative_to_quartz_parent with various input paths.
 
     Args:
         input_path: The input path to test
@@ -127,7 +130,9 @@ def test_path_relative_to_quartz(
 
 
 def test_get_files_no_dir():
-    """Test when no directory is provided."""
+    """
+    Test when no directory is provided.
+    """
     result = script_utils.get_files()
     assert isinstance(result, tuple)
     assert not result  # Empty tuple since no directory was given
@@ -148,7 +153,9 @@ def test_get_files_no_dir():
     ],
 )
 def test_get_files_specific_dir(tmp_path, file_paths, expected_files):
-    """Test file discovery by inferring structure from file paths."""
+    """
+    Test file discovery by inferring structure from file paths.
+    """
     # Create test files and directories
     for file_path in file_paths:
         file: Path = tmp_path / file_path
@@ -167,7 +174,9 @@ def test_get_files_specific_dir(tmp_path, file_paths, expected_files):
 
 
 def test_get_files_gitignore(tmp_path):
-    """Test with a .gitignore file."""
+    """
+    Test with a .gitignore file.
+    """
     try:
         # Create a git repository in tmp_path
         repo = git.Repo.init(tmp_path)
@@ -189,7 +198,9 @@ def test_get_files_gitignore(tmp_path):
 
 
 def test_get_files_ignore_dirs(tmp_path):
-    """Test that specified directories are ignored."""
+    """
+    Test that specified directories are ignored.
+    """
     # Create test directory structure
     templates_dir = tmp_path / "templates"
     regular_dir = tmp_path / "regular"
@@ -212,7 +223,9 @@ def test_get_files_ignore_dirs(tmp_path):
 
     # Get files, ignoring 'templates' directories
     result = script_utils.get_files(
-        dir_to_search=tmp_path, filetypes_to_match=(".md",), ignore_dirs=["templates"]
+        dir_to_search=tmp_path,
+        filetypes_to_match=(".md",),
+        ignore_dirs=["templates"],
     )
 
     # Convert results to set of strings for easier comparison

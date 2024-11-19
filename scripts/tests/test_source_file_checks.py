@@ -17,7 +17,9 @@ else:
 
 @pytest.fixture
 def valid_metadata() -> Dict[str, str | List[str]]:
-    """Fixture providing valid metadata that should pass all checks."""
+    """
+    Fixture providing valid metadata that should pass all checks.
+    """
     return {
         "title": "Test Title",
         "description": "Test Description",
@@ -43,7 +45,12 @@ def valid_metadata() -> Dict[str, str | List[str]]:
         ),
         # Test case 2: Empty/missing required fields should be caught
         (
-            {"title": "", "description": "Test", "tags": [], "permalink": "/test"},
+            {
+                "title": "",
+                "description": "Test",
+                "tags": [],
+                "permalink": "/test",
+            },
             ["Empty title field", "Empty tags field"],
         ),
         # Test case 3: Missing fields should be caught
@@ -69,8 +76,8 @@ def test_check_required_fields(
 
 def test_main_workflow(tmp_path: Path, monkeypatch) -> None:
     """
-    Integration test for the main workflow.
-    Tests both valid and invalid markdown files in the content directory.
+    Integration test for the main workflow. Tests both valid and invalid
+    markdown files in the content directory.
 
     Args:
         tmp_path: Pytest fixture providing temporary directory
@@ -110,7 +117,9 @@ Test content
     invalid_file.write_text(invalid_content)
 
     # Mock git root to use our temporary directory
-    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
 
     # Main should exit with code 1 due to invalid file
     with pytest.raises(SystemExit) as exc_info:
@@ -195,7 +204,9 @@ tags: [test]
     ],
 )
 def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
-    """Test detection of duplicate URLs (permalinks and aliases)."""
+    """
+    Test detection of duplicate URLs (permalinks and aliases).
+    """
     # Setup
     content_dir = tmp_path / "content"
     content_dir.mkdir()
@@ -206,7 +217,9 @@ def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
         (content_dir / filename).write_text(content)
 
     # Mock git root to use our temporary directory
-    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
 
     if test_case["should_fail"]:
         with pytest.raises(SystemExit, match="1"):
@@ -216,7 +229,9 @@ def test_url_uniqueness(tmp_path: Path, monkeypatch, test_case) -> None:
 
 
 def test_invalid_md_links(tmp_path: Path, monkeypatch) -> None:
-    """Test detection of invalid markdown links."""
+    """
+    Test detection of invalid markdown links.
+    """
     content_dir = tmp_path / "content"
     content_dir.mkdir()
     git.Repo.init(tmp_path)
@@ -238,7 +253,9 @@ Valid external: [Link](https://example.com)
     test_file.write_text(content)
 
     # Mock git root
-    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
 
     # Should exit with code 1 due to invalid links
     with pytest.raises(SystemExit, match="1"):
@@ -247,7 +264,9 @@ Valid external: [Link](https://example.com)
 
 @pytest.fixture
 def scss_scenarios() -> Dict[str, Dict[str, Any]]:
-    """Fixture providing different SCSS test scenarios."""
+    """
+    Fixture providing different SCSS test scenarios.
+    """
     return {
         "valid": {
             "content": """
@@ -305,8 +324,12 @@ def scss_scenarios() -> Dict[str, Dict[str, Any]]:
 
 
 @pytest.fixture
-def setup_font_test(tmp_path: Path) -> Callable[[str, List[str]], Tuple[Path, Path]]:
-    """Fixture providing a function to set up font test environment."""
+def setup_font_test(
+    tmp_path: Path,
+) -> Callable[[str, List[str]], Tuple[Path, Path]]:
+    """
+    Fixture providing a function to set up font test environment.
+    """
 
     def _setup(scss_content: str, font_files: List[str]) -> Tuple[Path, Path]:
         # Create directory structure
@@ -341,9 +364,13 @@ def test_font_file_scenarios(
     scss_scenarios: Dict[str, Dict[str, Any]],
     setup_font_test: Callable,
 ) -> None:
-    """Test various font file scenarios."""
+    """
+    Test various font file scenarios.
+    """
     test_case = scss_scenarios[scenario]
-    fonts_scss, tmp_path = setup_font_test(test_case["content"], test_case["files"])
+    fonts_scss, tmp_path = setup_font_test(
+        test_case["content"], test_case["files"]
+    )
 
     missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
     assert missing_fonts == test_case["expected_missing"]
@@ -353,7 +380,9 @@ def test_scss_compilation_error(
     scss_scenarios: Dict[str, Dict[str, Any]],
     setup_font_test: Callable,
 ) -> None:
-    """Test handling of SCSS compilation errors."""
+    """
+    Test handling of SCSS compilation errors.
+    """
     test_case = scss_scenarios["scss_error"]
     fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
 
@@ -367,7 +396,9 @@ def test_integration_with_main(
     setup_font_test: Callable,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    """Integration test including font file checks."""
+    """
+    Integration test including font file checks.
+    """
     # Set up test environment with missing fonts scenario
     test_case = scss_scenarios["missing"]
     fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
@@ -380,7 +411,9 @@ def test_integration_with_main(
     git.Repo.init(tmp_path)
 
     # Mock git root
-    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+    monkeypatch.setattr(
+        script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
+    )
 
     # Main should exit with code 1 due to missing font
     with pytest.raises(SystemExit) as exc_info:
@@ -389,7 +422,9 @@ def test_integration_with_main(
 
 
 def test_compile_scss(tmp_path: Path) -> None:
-    """Test SCSS compilation."""
+    """
+    Test SCSS compilation.
+    """
     scss_file = tmp_path / "test.scss"
     scss_file.write_text(
         """
@@ -404,7 +439,9 @@ def test_compile_scss(tmp_path: Path) -> None:
 
 
 def test_check_font_files(tmp_path: Path) -> None:
-    """Test font file checking."""
+    """
+    Test font file checking.
+    """
     css_content = """
         @font-face {
             font-family: 'TestFont';
@@ -417,7 +454,9 @@ def test_check_font_files(tmp_path: Path) -> None:
 
 
 def test_check_font_families() -> None:
-    """Test font family declaration checking."""
+    """
+    Test font family declaration checking.
+    """
     css_content = """
         @font-face {
             font-family: 'DeclaredFont';
@@ -433,7 +472,9 @@ def test_check_font_families() -> None:
 
 
 def test_check_font_families_with_opentype() -> None:
-    """Test font family checking with OpenType features."""
+    """
+    Test font family checking with OpenType features.
+    """
     css_content = """
         @font-face {
             font-family: 'EBGaramond';

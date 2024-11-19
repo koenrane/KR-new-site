@@ -20,7 +20,9 @@ except ImportError:
 def mock_git_root(tmp_path):
     git_root = tmp_path / "git"
     git_root.mkdir()
-    (git_root / "quartz" / "static" / "images" / "card_images").mkdir(parents=True)
+    (git_root / "quartz" / "static" / "images" / "card_images").mkdir(
+        parents=True
+    )
     (git_root / "static" / "images" / "posts").mkdir(parents=True)
     with mock.patch("scripts.utils.get_git_root", return_value=git_root):
         yield git_root
@@ -63,11 +65,14 @@ def test_process_card_image_in_markdown_skips_cases(
     md_file = mock_git_root / "static" / "images" / "posts" / "test.md"
     md_file.write_text(markdown_content)
 
-    with mock.patch("requests.get") as mock_get, mock.patch(
-        "subprocess.run"
-    ) as mock_subproc_run, mock.patch("shutil.move") as mock_shutil_move, mock.patch(
-        "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-    ) as mock_r2_upload:
+    with (
+        mock.patch("requests.get") as mock_get,
+        mock.patch("subprocess.run") as mock_subproc_run,
+        mock.patch("shutil.move") as mock_shutil_move,
+        mock.patch(
+            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+        ) as mock_r2_upload,
+    ):
 
         convert_markdown_yaml.process_card_image_in_markdown(md_file)
 
@@ -102,23 +107,27 @@ Content with AVIF card_image.
         temp_dir_path = Path(temp_dir)
         downloaded_avif_path = temp_dir_path / "image.avif"
         converted_png_path = temp_dir_path / "image.png"
-        new_card_image_url = "http://r2.example.com/static/images/card_images/image.png"
+        new_card_image_url = (
+            "http://r2.example.com/static/images/card_images/image.png"
+        )
         converted_png_path.touch()
 
-        with mock.patch("requests.get") as mock_get, mock.patch(
-            "subprocess.run"
-        ) as mock_subproc_run, mock.patch(
-            "shutil.move"
-        ) as mock_shutil_move, mock.patch(
-            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-        ) as mock_r2_upload, mock.patch(
-            "scripts.convert_markdown_yaml.r2_upload.R2_BASE_URL",
-            "http://r2.example.com",
-        ), mock.patch(
-            "scripts.convert_markdown_yaml.r2_upload.R2_MEDIA_DIR",
-            "turntrout/static/images/card_images",
-        ), mock.patch(
-            "tempfile.gettempdir", return_value=str(temp_dir_path)
+        with (
+            mock.patch("requests.get") as mock_get,
+            mock.patch("subprocess.run") as mock_subproc_run,
+            mock.patch("shutil.move") as mock_shutil_move,
+            mock.patch(
+                "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+            ) as mock_r2_upload,
+            mock.patch(
+                "scripts.convert_markdown_yaml.r2_upload.R2_BASE_URL",
+                "http://r2.example.com",
+            ),
+            mock.patch(
+                "scripts.convert_markdown_yaml.r2_upload.R2_MEDIA_DIR",
+                "turntrout/static/images/card_images",
+            ),
+            mock.patch("tempfile.gettempdir", return_value=str(temp_dir_path)),
         ):
 
             # Mock the image download response
@@ -159,7 +168,9 @@ Content with AVIF card_image.
             assert md_file.read_text() == expected_updated_content
 
 
-def test_process_card_image_in_markdown_download_failure(setup_test_env, mock_git_root):
+def test_process_card_image_in_markdown_download_failure(
+    setup_test_env, mock_git_root
+):
     markdown_content = """---
 title: "Test Post"
 date: "2023-10-10"
@@ -171,11 +182,14 @@ Content with AVIF card_image.
     md_file = mock_git_root / "static" / "images" / "posts" / "test.md"
     md_file.write_text(markdown_content)
 
-    with mock.patch("requests.get") as mock_get, mock.patch(
-        "subprocess.run"
-    ) as mock_subproc_run, mock.patch("shutil.move") as mock_shutil_move, mock.patch(
-        "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-    ) as mock_r2_upload:
+    with (
+        mock.patch("requests.get") as mock_get,
+        mock.patch("subprocess.run") as mock_subproc_run,
+        mock.patch("shutil.move") as mock_shutil_move,
+        mock.patch(
+            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+        ) as mock_r2_upload,
+    ):
 
         # Mock the image download response to fail
         mock_get.return_value.status_code = 404
@@ -211,20 +225,30 @@ Content with AVIF card_image.
     md_file = mock_git_root / "static" / "images" / "posts" / "test.md"
     md_file.write_text(markdown_content)
 
-    downloaded_avif_path = mock_git_root / "static" / "images" / "posts" / "image.avif"
+    downloaded_avif_path = (
+        mock_git_root / "static" / "images" / "posts" / "image.avif"
+    )
     converted_png_path = (
-        mock_git_root / "quartz" / "static" / "images" / "card_images" / "image.png"
+        mock_git_root
+        / "quartz"
+        / "static"
+        / "images"
+        / "card_images"
+        / "image.png"
     )
 
     # Create the AVIF file (this will be the file that fails to convert)
     downloaded_avif_path.parent.mkdir(parents=True, exist_ok=True)
     downloaded_avif_path.touch()
 
-    with mock.patch("requests.get") as mock_get, mock.patch(
-        "subprocess.run"
-    ) as mock_subproc_run, mock.patch("shutil.move") as mock_shutil_move, mock.patch(
-        "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
-    ) as mock_r2_upload:
+    with (
+        mock.patch("requests.get") as mock_get,
+        mock.patch("subprocess.run") as mock_subproc_run,
+        mock.patch("shutil.move") as mock_shutil_move,
+        mock.patch(
+            "scripts.convert_markdown_yaml.r2_upload.upload_and_move"
+        ) as mock_r2_upload,
+    ):
 
         # Mock the image download response
         mock_response = mock.Mock()
@@ -268,13 +292,18 @@ Content with AVIF card_image.
     md_file.parent.mkdir(parents=True, exist_ok=True)
     md_file.write_text(markdown_content)
 
-    with mock.patch(
-        "scripts.convert_markdown_yaml.process_card_image_in_markdown"
-    ) as mock_process, mock.patch(
-        "scripts.convert_markdown_yaml.script_utils.get_git_root",
-        return_value=mock_git_root,
-    ), mock.patch(
-        "scripts.convert_markdown_yaml.script_utils.get_files", return_value=[md_file]
+    with (
+        mock.patch(
+            "scripts.convert_markdown_yaml.process_card_image_in_markdown"
+        ) as mock_process,
+        mock.patch(
+            "scripts.convert_markdown_yaml.script_utils.get_git_root",
+            return_value=mock_git_root,
+        ),
+        mock.patch(
+            "scripts.convert_markdown_yaml.script_utils.get_files",
+            return_value=[md_file],
+        ),
     ):
         with mock.patch(
             "sys.argv",

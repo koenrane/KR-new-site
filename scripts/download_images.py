@@ -31,7 +31,9 @@ def download_image(url: str, target_dir: Path) -> bool:
     ]
 
     try:
-        result = subprocess.run(curl_command, check=True, stderr=subprocess.PIPE)
+        result = subprocess.run(
+            curl_command, check=True, stderr=subprocess.PIPE
+        )
         return True
     except subprocess.CalledProcessError as e:
         print(f"Error downloading {url}: {e.stderr.decode()}", file=sys.stderr)
