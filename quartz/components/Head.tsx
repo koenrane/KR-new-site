@@ -137,7 +137,7 @@ export default (() => {
 
         {/* Prevent FOUC */}
         <style id="hide-body">{`
-          body { 
+          #quartz-body { 
             visibility: hidden;
           }
           :root[saved-theme="dark"] body {

@@ -8,9 +8,9 @@ html {
   scroll-behavior: smooth;
   width: 100%;
 
-  // More specific than the global body selector
+  // More specific than the global #quartz-body selector
   // So a backup if the selector isn't removed
-  & body {
+  & #quartz-body {
     visibility: visible;
   }
 }
