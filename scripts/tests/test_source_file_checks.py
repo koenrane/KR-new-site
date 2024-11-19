@@ -2,7 +2,7 @@ import pytest
 from pathlib import Path
 import git
 import sys
-from typing import Dict, List
+from typing import Dict, List, Any, Callable, Tuple
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -242,3 +242,146 @@ Valid external: [Link](https://example.com)
     # Should exit with code 1 due to invalid links
     with pytest.raises(SystemExit, match="1"):
         main()
+
+
+@pytest.fixture
+def scss_scenarios() -> Dict[str, Dict[str, Any]]:
+    """Fixture providing different SCSS test scenarios."""
+    return {
+        "valid": {
+            "content": """
+                $fonts-dir: '/static/styles/fonts';
+                @font-face {
+                    font-family: 'ExistingFont';
+                    src: url('#{$fonts-dir}/exists.woff2') format('woff2');
+                }
+            """,
+            "files": ["quartz/static/styles/fonts/exists.woff2"],
+            "expected_missing": [],
+        },
+        "missing": {
+            "content": """
+                $fonts-dir: '/static/styles/fonts';
+                @font-face {
+                    font-family: 'MissingFont';
+                    src: url('#{$fonts-dir}/missing.woff2') format('woff2');
+                }
+            """,
+            "files": [],
+            "expected_missing": ["/quartz/static/styles/fonts/missing.woff2"],
+        },
+        "mixed": {
+            "content": """
+                $fonts-dir: '/static/styles/fonts';
+                @font-face {
+                    font-family: 'ExistingFont';
+                    src: url('#{$fonts-dir}/exists.woff2') format('woff2');
+                }
+                @font-face {
+                    font-family: 'MissingFont';
+                    src: url('#{$fonts-dir}/missing.woff2') format('woff2');
+                }
+                @font-face {
+                    font-family: 'ExternalFont';
+                    src: url('https://example.com/font.woff2') format('woff2');
+                }
+            """,
+            "files": ["quartz/static/styles/fonts/exists.woff2"],
+            "expected_missing": ["/quartz/static/styles/fonts/missing.woff2"],
+        },
+        "scss_error": {
+            "content": """
+                $fonts-dir: '/static/styles/fonts'  // Missing semicolon
+                @font-face {
+                    font-family: 'TestFont';
+                    src: url('#{$fonts-dir}/test.woff2') format('woff2');
+                }
+            """,
+            "files": [],
+            "expected_error": "SCSS compilation error",
+        },
+    }
+
+
+@pytest.fixture
+def setup_font_test(tmp_path: Path) -> Callable[[str, List[str]], Tuple[Path, Path]]:
+    """Fixture providing a function to set up font test environment."""
+
+    def _setup(scss_content: str, font_files: List[str]) -> Tuple[Path, Path]:
+        # Create directory structure
+        styles_dir = tmp_path / "quartz" / "styles"
+        styles_dir.mkdir(parents=True)
+
+        # Create font files in their full paths
+        for font_file in font_files:
+            font_path = tmp_path / font_file
+            font_path.parent.mkdir(parents=True, exist_ok=True)
+            font_path.write_bytes(b"dummy font data")
+
+        # Create and write SCSS file
+        fonts_scss = styles_dir / "fonts.scss"
+        fonts_scss.write_text(scss_content)
+
+        return fonts_scss, tmp_path
+
+    return _setup
+
+
+@pytest.mark.parametrize(
+    "scenario",
+    [
+        "valid",
+        "missing",
+        "mixed",
+    ],
+)
+def test_font_file_scenarios(
+    scenario: str,
+    scss_scenarios: Dict[str, Dict[str, Any]],
+    setup_font_test: Callable,
+) -> None:
+    """Test various font file scenarios."""
+    test_case = scss_scenarios[scenario]
+    fonts_scss, tmp_path = setup_font_test(test_case["content"], test_case["files"])
+
+    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    assert missing_fonts == test_case["expected_missing"]
+
+
+def test_scss_compilation_error(
+    scss_scenarios: Dict[str, Dict[str, Any]],
+    setup_font_test: Callable,
+) -> None:
+    """Test handling of SCSS compilation errors."""
+    test_case = scss_scenarios["scss_error"]
+    fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
+
+    missing_fonts = check_scss_font_files(fonts_scss, tmp_path)
+    assert len(missing_fonts) == 1
+    assert test_case["expected_error"] in missing_fonts[0]
+
+
+def test_integration_with_main(
+    scss_scenarios: Dict[str, Dict[str, Any]],
+    setup_font_test: Callable,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Integration test including font file checks."""
+    # Set up test environment with missing fonts scenario
+    test_case = scss_scenarios["missing"]
+    fonts_scss, tmp_path = setup_font_test(test_case["content"], [])
+
+    # Create content directory (needed for main())
+    content_dir = tmp_path / "content"
+    content_dir.mkdir(exist_ok=True)
+
+    # Initialize git repo
+    git.Repo.init(tmp_path)
+
+    # Mock git root
+    monkeypatch.setattr(script_utils, "get_git_root", lambda *args, **kwargs: tmp_path)
+
+    # Main should exit with code 1 due to missing font
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+    assert exc_info.value.code == 1

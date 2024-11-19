@@ -1,10 +1,13 @@
 import os
 import sys
+import tempfile
+import shutil
 from pathlib import Path
 import yaml
 from typing import List, Dict, Callable, Any, Set, Tuple
 import subprocess
 import re
+import sass
 
 # Add the project root to sys.path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -144,18 +147,73 @@ def print_issues(file_path: Path, issues: MetadataIssues) -> None:
                     print(f"    - {error}")
 
 
+def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
+    """Check if font files referenced in SCSS exist."""
+    if not scss_file_path.exists():
+        return []
+
+    missing_fonts = []
+
+    # Use Dart Sass command line tool
+    try:
+        styles_dir = scss_file_path.parent
+        result = subprocess.run(
+            ["sass", f"--load-path={styles_dir}", str(scss_file_path)],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        css_content = result.stdout
+    except subprocess.CalledProcessError as e:
+        print(f"Error compiling SCSS: {e.stderr}")
+        return [f"SCSS compilation error: {e.stderr}"]
+    except FileNotFoundError:
+        print(
+            "Error: Dart Sass not found. Please install it with 'npm install -g sass' or 'brew install sass/sass/sass'"
+        )
+        return ["SCSS compilation error: Dart Sass not found"]
+
+    # Find font file declarations in compiled CSS
+    font_pattern = re.compile(
+        r"""@font-face\s*\{[^}]*?
+        src:\s*url\(\s*["']?(.*?)["']?\)\s*
+        (?:format\([^\)]*\)\s*)?
+        [^;]*;""",
+        re.VERBOSE | re.DOTALL,
+    )
+
+    for match in font_pattern.finditer(css_content):
+        font_path = match.group(1)
+
+        # Skip external fonts and data URIs
+        if font_path.startswith(("http:", "https:", "data:")):
+            continue
+
+        # Adjust path to look in quartz/static instead of just static
+        if font_path.startswith("/static/"):
+            font_path = f"/quartz{font_path}"
+
+        # Resolve the full path
+        full_path = (base_dir / font_path.lstrip("/")).resolve()
+        if not full_path.is_file():
+            missing_fonts.append(font_path)
+
+    return missing_fonts
+
+
 def main() -> None:
-    """Check all markdown files for metadata and link issues."""
+    """Check source files for issues."""
     git_root = script_utils.get_git_root()
     content_dir = git_root / "content"
     existing_urls: PathMap = {}
     has_errors = False
 
+    # Check markdown files
     markdown_files = script_utils.get_files(
         dir_to_search=content_dir,
         filetypes_to_match=(".md",),
         use_git_ignore=True,
-        ignore_dirs=["templates", "drafts"],  # Added drafts to ignored dirs
+        ignore_dirs=["templates", "drafts"],
     )
 
     for file_path in markdown_files:
@@ -166,6 +224,14 @@ def main() -> None:
         if any(lst for lst in issues.values()):
             has_errors = True
             print_issues(rel_path, issues)
+
+    # Check font files
+    fonts_scss_path = git_root / "quartz" / "styles" / "fonts.scss"
+    if missing_fonts := check_scss_font_files(fonts_scss_path, git_root):
+        has_errors = True
+        print("\nMissing font files:")
+        for font in missing_fonts:
+            print(f"  - {font}")
 
     if has_errors:
         sys.exit(1)
