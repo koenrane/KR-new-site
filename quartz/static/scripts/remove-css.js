@@ -18,7 +18,22 @@ function removeCSS() {
 
 const mainCSS = document.querySelector('link[href="/index.css"]')
 if (mainCSS) {
-  removeCSS()
+  if (mainCSS.sheet && mainCSS.sheet.cssRules.length > 0) {
+    removeCSS()
+  } else {
+    mainCSS.addEventListener("load", removeCSS)
+  }
 } else {
-  document.addEventListener("DOMContentLoaded", removeCSS)
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainCSS = document.querySelector('link[href="/index.css"]')
+    if (mainCSS) {
+      if (mainCSS.sheet && mainCSS.sheet.cssRules.length > 0) {
+        removeCSS()
+      } else {
+        mainCSS.addEventListener("load", removeCSS)
+      }
+    } else {
+      removeCSS()
+    }
+  })
 }

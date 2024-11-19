@@ -5,11 +5,12 @@ publish: "true"
 hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-11-17 10:03:38.936163
+date_updated: 2024-11-19 19:35:43.614369
 tags:
   - AI
 title: My research
 ---
+
 
 
 Over the years, I've worked on lots of research problems. Every time, I felt invested in my work. The work felt beautiful. Even though many days have passed since I have daydreamed about instrumental convergence, I'm proud of what I've accomplished and discovered. 
