@@ -5,6 +5,7 @@ include = '\.pyw?$'
 
 [tool.pylint]
 max-line-length = 80
+ignore-paths = ["**/tests/*", "node_modules/*"]
 
 [tool.isort]
 profile = "black"
