@@ -1,5 +1,5 @@
 """
-Script to convert card images in markdown YAML frontmatter to PNG format.
+Convert card images in markdown YAML frontmatter to PNG format.
 
 This script processes markdown files, looking for card_image entries in their
 YAML frontmatter. When found, it downloads the images, converts them to PNG

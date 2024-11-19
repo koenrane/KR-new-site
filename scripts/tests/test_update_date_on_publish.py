@@ -5,6 +5,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import ruamel.yaml.scanner
 import yaml
 from ruamel.yaml.timestamp import TimeStamp
 
@@ -248,9 +249,8 @@ def test_split_yaml_malformed_yaml(temp_content_dir):
         "---\ntitle: 'Unclosed quote\n---\nContent", encoding="utf-8"
     )
 
-    metadata, content = script_utils.split_yaml(file_path)
-    assert metadata == {}
-    assert content == ""
+    with pytest.raises(ruamel.yaml.scanner.ScannerError):
+        metadata, content = script_utils.split_yaml(file_path)
 
 
 def test_write_to_yaml_preserves_order(temp_content_dir):
