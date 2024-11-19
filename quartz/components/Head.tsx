@@ -144,6 +144,7 @@ export default (() => {
             background-color: #303446; 
           }
         `}</style>
+        <script>let FF_FOUC_FIX;</script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
