@@ -1,5 +1,9 @@
 @use "./variables.scss" as *;
 
+@function calculate-scale($steps) {
+  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
+}
+
 :root {
   --base-line-height: 1.4;
   --scale-ratio: 1.2;
@@ -31,10 +35,6 @@
   --text-size-500: #{calculate-scale(2)};
   --text-size-600: #{calculate-scale(3)};
   --text-size-700: #{calculate-scale(4)};
-}
-
-@function calculate-scale($steps) {
-  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
 }
 
 h1,

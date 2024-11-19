@@ -3,6 +3,8 @@
   "extends": ["stylelint-config-standard-scss", "stylelint-prettier/recommended"],
   "rules": {
     "no-invalid-double-slash-comments": null,
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "function-no-unknown": null,
+    "scss/function-no-unknown": true
   }
 }
