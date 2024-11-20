@@ -1129,3 +1129,14 @@ iframe {
     align-items: center;
   }
 }
+
+.light-svg {
+  :root[saved-theme="light"] & {
+    filter: invert(35%); // Lighten to match the text color
+  }
+
+  // Use a lighter color in dark mode
+  :root[saved-theme="dark"] & {
+    filter: invert(75%);
+  }
+}
