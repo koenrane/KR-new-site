@@ -119,7 +119,7 @@ export default (() => {
       return (
         <link
           key={icon}
-          rel="preload"
+          defer
           href={`https://assets.turntrout.com/static/icons/${icon}.svg`}
           as="image"
           type="image/svg+xml"
