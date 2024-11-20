@@ -231,6 +231,17 @@
   max-width: 100%;
   margin-bottom: 0;
   margin-top: 0;
+  object-fit: contain;
+}
+
+#header-video-container {
+  @media all and (min-width: $full-page-width) {
+    width: 188px;
+    height: 188px;
+    min-height: 188px;
+    aspect-ratio: 188 / 188;
+    display: block;
+  }
 
   @media all and (max-width: $full-page-width) {
     margin-top: 0;
