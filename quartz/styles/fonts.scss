@@ -243,4 +243,8 @@ strong,
 dt {
   text-shadow: 0.3px 0.3px;
   font-weight: 400 !important; // Normal font weight -- otherwise would be eg 600
+
+  .right & {
+    text-shadow: 0 0; // No bolding needed on right sidebar; spacing works
+  }
 }
