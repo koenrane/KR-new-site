@@ -12,6 +12,7 @@
     margin: 0.08rem 0;
     margin-top: $base-margin;
     padding: $base-margin;
+    padding-top: 0;
     background-color: var(--light);
 
     & li {
@@ -131,7 +132,6 @@
 
 /* Center the site name under the pond video */
 .page-title-text {
-  font-family: var(--font-text-italic), cursive, sans-serif;
   text-align: center;
   color: var(--gray);
 
