@@ -1,13 +1,4 @@
 function removeCSS() {
-  const hideBodyStyle = document.querySelector("#hide-body")
-  if (hideBodyStyle) {
-    console.info("Removing hide body style")
-    console.info(hideBodyStyle)
-    hideBodyStyle.remove()
-  } else {
-    console.warn("Hide body style element not found")
-  }
-
   const style = document.querySelector("#critical-css")
   if (style) {
     style.remove()

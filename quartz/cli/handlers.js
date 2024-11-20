@@ -443,7 +443,6 @@ async function inlineCriticalCSS(outputDir) {
       ],
     })
 
-    const criticalCSS = `${css}\nhtml #quartz-body { visibility: visible; }`
     const allFiles = await glob(`${outputDir}/**/*.html`, {
       recursive: true,
       posix: true,
@@ -451,7 +450,7 @@ async function inlineCriticalCSS(outputDir) {
 
     for (const file of allFiles) {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
-      const styleTag = `<style id="critical-css">${criticalCSS}</style>`
+      const styleTag = `<style id="critical-css">${css}</style>`
       const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
       const updatedHTML = reorderHead(htmlWithCriticalCSS)
       await fs.promises.writeFile(file, updatedHTML)
@@ -487,9 +486,6 @@ function reorderHead(htmlContent) {
   const isCriticalCSS = styleWithId("critical-css")
   const criticalCSS = headChildren.filter(isCriticalCSS)
 
-  const isHideBody = styleWithId("hide-body")
-  const hideBody = headChildren.filter(isHideBody)
-
   // Links cause firefox FOUC, so we need to move them before scripts
   const isLink = (_i, el) => el.tagName === "link"
   const links = headChildren.filter(isLink)
@@ -499,7 +495,6 @@ function reorderHead(htmlContent) {
       el.tagName !== "meta" &&
       el.tagName !== "title" &&
       !isCriticalCSS(_i, el) &&
-      !isHideBody(_i, el) &&
       !isLink(_i, el) &&
       !isDarkModeScript(_i, el),
   )
@@ -512,8 +507,7 @@ function reorderHead(htmlContent) {
   // Ensure metadata compatibility across platforms
   head.append(metaAndTitle)
 
-  // Append the hide-body and critical CSS styles
-  // head.append(hideBody)
+  // Append the critical CSS styles
   head.append(criticalCSS)
 
   // Append links to CSS stylesheets immediately after
