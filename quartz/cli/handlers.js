@@ -489,27 +489,34 @@ function reorderHead(htmlContent) {
   const isLink = (_i, el) => el.tagName === "link"
   const links = headChildren.filter(isLink)
 
+  const isDarkModeScript = (_i, el) =>
+    el.tagName === "script" && el.attribs["id"] === "detect-dark-mode"
+  const darkModeScript = headChildren.filter(isDarkModeScript)
+
   const otherElements = headChildren.filter(
     (_i, el) =>
       el.tagName !== "meta" &&
       el.tagName !== "title" &&
       !isCriticalCSS(_i, el) &&
       !isHideBody(_i, el) &&
-      !isLink(_i, el),
+      !isLink(_i, el) &&
+      !isDarkModeScript(_i, el),
   )
 
   // Clear the head and re-append elements in desired order
   head.empty()
 
-  // Append meta and title tags first
+  // Goes very first to prevent FOUC
+  head.append(darkModeScript)
+  // Ensure metadata compatibility across platforms
   head.append(metaAndTitle)
-
-  // Append links to CSS stylesheets immediately after
-  head.append(links)
 
   // Append the hide-body and critical CSS styles
   head.append(hideBody)
   head.append(criticalCSS)
+
+  // Append links to CSS stylesheets immediately after
+  head.append(links)
 
   // Append any other elements (e.g., scripts)
   head.append(otherElements)

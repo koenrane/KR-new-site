@@ -3,10 +3,7 @@ function attemptPlayVideos() {
   videos.forEach((video) => {
     // Ensure video is muted (Safari requirement)
     video.muted = true
-
-    // Attempt to play
     const playPromise = video.play()
-
     if (playPromise !== undefined) {
       playPromise.catch((error) => {
         console.log("Autoplay prevented:", error)
@@ -15,8 +12,11 @@ function attemptPlayVideos() {
   })
 }
 
-// Try to play videos as soon as possible
+// Try to play videos on initial page load
 document.addEventListener("DOMContentLoaded", attemptPlayVideos)
+
+// Try to play videos on SPA navigation
+document.addEventListener("nav", attemptPlayVideos)
 
 // Also try on any user interaction
 ;["click", "scroll", "touchstart", "mouseover"].forEach((event) => {

@@ -1,11 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
 
-{
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-}
-// for the onLoad event
-
 import React from "react"
 
 import { i18n } from "../i18n"
@@ -131,6 +126,11 @@ export default (() => {
 
     return (
       <head>
+        <script
+          id="detect-dark-mode"
+          src="/static/scripts/detect-dark-mode.js"
+          spa-preserve
+        ></script>
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta charSet="utf-8" />
@@ -164,13 +164,7 @@ export default (() => {
         {/* Twitter author metadata */}
         {authorElement}
 
-        <link
-          rel="preload"
-          as="style"
-          href="/index.css"
-          onLoad={`this.rel='stylesheet';` as any}
-          spa-preserve
-        />
+        <link rel="stylesheet" href="/index.css" spa-preserve />
 
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
@@ -182,10 +176,9 @@ export default (() => {
         <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {iconPreloads}
 
-        <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
         <script src="/static/scripts/safari-autoplay.js" spa-preserve></script>
-        <script src="/static/scripts/remove-css.js" spa-preserve></script>
+        <script src="/static/scripts/remove-css.js"></script>
         {analyticsScript}
 
         {js
