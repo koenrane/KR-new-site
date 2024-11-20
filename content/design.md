@@ -644,7 +644,7 @@ Lastly, external static analysis alerts me to potential vulnerabilities and anti
 	"*.{js, jsx, ts, tsx, css, scss, json}": "prettier --write",
 	"*.fish": "fish_indent",
 	"*.sh": "shfmt -i 2 -w",
-    "*.py": [
+	"*.py": [
 	    "autoflake --in-place",
 	    "isort", 
 	    "autopep8 --in-place",
