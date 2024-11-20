@@ -493,17 +493,14 @@ img.favicon {
 
   // Make the anchor icon less bright on dark mode
   &[src$="anchor.svg"] {
+    // Rotate the anchor so that it resembles the trout within-site icon
+    // also flip it horizontally
+    transform: rotate(-90deg) scaleX(-1) scale(1.2);
     filter: invert(27%);
 
     :root[saved-theme="dark"] & {
       filter: invert(80%) sepia(6%) hue-rotate(185deg) contrast(92%);
     }
-  }
-
-  // Rotate the anchor so that it resembles the trout within-site icon
-  // also flip it horizontally
-  &[src$="anchor.svg"] {
-    transform: rotate(-90deg) scaleX(-1) scale(1.2);
   }
 
   // Github should be lighter b/c starts off darker
