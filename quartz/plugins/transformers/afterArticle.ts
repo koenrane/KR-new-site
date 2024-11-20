@@ -7,22 +7,26 @@ import { QuartzTransformerPlugin } from "../types"
 import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
 import { createSequenceLinksComponent } from "./sequenceLinks"
 
-export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [
-  h("abbr", { class: "small-caps" }, "RSS"),
-  h("img", {
-    src: "https://assets.turntrout.com/static/images/rss.svg",
-    id: "rss-svg",
-    alt: "RSS icon",
-    className: "favicon",
-  }),
-])
+export const rssElement = h(
+  "a",
+  { href: "/rss.xml", id: "rss-link", style: "white-space: nowrap;" },
+  [
+    h("abbr", { class: "small-caps" }, "RSS"),
+    h("img", {
+      src: "https://assets.turntrout.com/static/images/rss.svg",
+      id: "rss-svg",
+      alt: "RSS icon",
+      className: "favicon",
+    }),
+  ],
+)
 
 const SUBSTACK_URL =
   "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
 
 const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
   "newsle",
-  h("span", ["tter", CreateFaviconElement(SUBSTACK_URL)]),
+  h("span", { style: "white-space: nowrap;" }, ["tter", CreateFaviconElement(SUBSTACK_URL)]),
 ])
 
 const subscriptionElement = h("center", [
