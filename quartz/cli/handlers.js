@@ -475,6 +475,11 @@ function reorderHead(htmlContent) {
 
   // Separate <meta>, <title>, and other tags
   const headChildren = head.children()
+
+  const isDarkModeScript = (_i, el) =>
+    el.tagName === "script" && el.attribs["id"] === "detect-dark-mode"
+  const darkModeScript = headChildren.filter(isDarkModeScript)
+
   const metaAndTitle = headChildren.filter(
     (_i, el) => el.tagName === "meta" || el.tagName === "title",
   )
@@ -489,10 +494,6 @@ function reorderHead(htmlContent) {
   const isLink = (_i, el) => el.tagName === "link"
   const links = headChildren.filter(isLink)
 
-  const isDarkModeScript = (_i, el) =>
-    el.tagName === "script" && el.attribs["id"] === "detect-dark-mode"
-  const darkModeScript = headChildren.filter(isDarkModeScript)
-
   const otherElements = headChildren.filter(
     (_i, el) =>
       el.tagName !== "meta" &&
@@ -506,13 +507,13 @@ function reorderHead(htmlContent) {
   // Clear the head and re-append elements in desired order
   head.empty()
 
-  // Goes very first to prevent FOUC
+  // Goes first to prevent FOUC
   head.append(darkModeScript)
   // Ensure metadata compatibility across platforms
   head.append(metaAndTitle)
 
   // Append the hide-body and critical CSS styles
-  head.append(hideBody)
+  // head.append(hideBody)
   head.append(criticalCSS)
 
   // Append links to CSS stylesheets immediately after

@@ -114,7 +114,6 @@ export default (() => {
       return (
         <link
           key={icon}
-          defer // NOTE potential area for errors
           href={`https://assets.turntrout.com/static/icons/${icon}.svg`}
           as="image"
           type="image/svg+xml"
@@ -125,7 +124,7 @@ export default (() => {
     })
 
     // Inline the detect-dark-mode script to prevent FOUC
-    const detectDarkModeScript = `// Immediate theme setting to prevent FOUC
+    const detectDarkModeScript = `
       ;(function () {
         const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
         const currentTheme = localStorage.getItem("theme") ?? userPref
@@ -143,16 +142,6 @@ export default (() => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta charSet="utf-8" />
-
-        {/* Prevent FOUC */}
-        <style id="hide-body">{`
-          #quartz-body { 
-            visibility: hidden;
-          }
-          :root[saved-theme="dark"] body {
-            background-color: #303446; 
-          }
-        `}</style>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -178,7 +167,7 @@ export default (() => {
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
-        <link rel="robots" href="/static/robots.txt" type="text/plain" />
+        <link defer rel="robots" href="/static/robots.txt" type="text/plain" />
 
         <link rel="icon" href={iconPath} />
         <link defer rel="apple-touch-icon" href={appleIconPath} />
