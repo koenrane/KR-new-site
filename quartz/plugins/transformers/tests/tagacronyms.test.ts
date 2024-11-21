@@ -493,68 +493,60 @@ describe("ignoreAcronym", () => {
     {
       desc: "should return false for whitelisted acronyms",
       node: createTextNode("LLM"),
-      parent: h("p"),
       ancestors: [h("p")],
       expected: false,
     },
     {
       desc: "should return true for roman numerals",
       node: createTextNode("III"),
-      parent: h("p"),
       ancestors: [h("p")],
       expected: true,
     },
     {
       desc: "should return true for text in no-formatting div",
       node: createTextNode("NASA"),
-      parent: h("div", { class: "no-formatting" }),
       ancestors: [h("div", { class: "no-formatting" })],
       expected: true,
     },
     {
       desc: "should return true for text in no-smallcaps div",
       node: createTextNode("NASA"),
-      parent: h("div", { class: "no-smallcaps" }),
       ancestors: [h("div", { class: "no-smallcaps" })],
       expected: true,
     },
     {
       desc: "should return true for text in code element",
       node: createTextNode("NASA"),
-      parent: h("code"),
       ancestors: [h("code")],
       expected: true,
     },
     {
       desc: "should return true for text in elvish class",
       node: createTextNode("NASA"),
-      parent: h("span", { class: "elvish" }),
       ancestors: [h("span", { class: "elvish" })],
       expected: true,
     },
     {
       desc: "should return true for text in abbr element",
       node: createTextNode("NASA"),
-      parent: h("abbr"),
       ancestors: [h("abbr")],
       expected: true,
     },
     {
       desc: "should return true for text in nested no-formatting",
       node: createTextNode("NASA"),
-      parent: h("div", { class: "no-formatting" }, [h("span", {}, [createTextNode("NASA")])]),
       ancestors: [h("div", { class: "no-formatting" })],
       expected: true,
     },
   ]
-  it.each(testCases)("$desc", ({ node, parent, ancestors, expected }) => {
-    expect(ignoreAcronym(node, parent, ancestors)).toBe(expected)
+  it.each(testCases)("$desc", ({ node, ancestors, expected }) => {
+    expect(ignoreAcronym(node, ancestors)).toBe(expected)
   })
 
   // Test each whitelisted acronym
   allowAcronyms.forEach((acronym) => {
     it(`should return false for whitelisted acronym: ${acronym}`, () => {
-      const result = ignoreAcronym(createTextNode(acronym), h("p"), [])
+      const result = ignoreAcronym(createTextNode(acronym), [])
       expect(result).toBe(false)
     })
   })
@@ -562,6 +554,6 @@ describe("ignoreAcronym", () => {
   // Test some specific roman numerals
   const romanNumerals = ["III", "VII", "VIII", "XIV", "MXC"]
   it.each(romanNumerals)("should return true for roman numeral %s", (numeral) => {
-    expect(ignoreAcronym(createTextNode(numeral), h("p"), [])).toBe(true)
+    expect(ignoreAcronym(createTextNode(numeral), [])).toBe(true)
   })
 })

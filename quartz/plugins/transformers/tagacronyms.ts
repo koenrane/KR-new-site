@@ -62,7 +62,9 @@ function isAbbreviation(node: Element): boolean {
   return node.tagName === "abbr"
 }
 
-export function ignoreAcronym(node: Text, parent: Parent, ancestors: Parent[]): boolean {
+export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
+  const parent = ancestors[ancestors.length - 1]
+
   // Check for no-smallcaps or no-formatting classes on any ancestor
   if (
     ancestors &&
@@ -81,6 +83,7 @@ export function ignoreAcronym(node: Text, parent: Parent, ancestors: Parent[]): 
 
   // Check if parent is elvish or abbreviation
   if (
+    parent &&
     parent.type === "element" &&
     (isElvish(parent as Element) || isAbbreviation(parent as Element))
   ) {
@@ -94,13 +97,10 @@ export function ignoreAcronym(node: Text, parent: Parent, ancestors: Parent[]): 
   return isRomanNumeral(node.value)
 }
 
-export function replaceSCInNode(
-  node: Text,
-  index: number,
-  parent: Parent, // TODO redundant?
-  ancestors: Parent[],
-): void {
-  if (parent.children[index] !== node) {
+export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
+  const parent = ancestors[ancestors.length - 1]
+  const index = parent?.children.indexOf(node)
+  if (index === -1) {
     throw new Error("replaceSCInNode: node is not the child of its parent")
   }
 
@@ -133,7 +133,7 @@ export function replaceSCInNode(
         `Regular expression logic is broken; one of the regexes should match for ${match}`,
       )
     },
-    (nd: Text, _idx: number, prnt: Parent) => ignoreAcronym(nd, prnt, ancestors),
+    (nd: Text) => ignoreAcronym(nd, ancestors),
     "abbr.small-caps",
   )
 }
@@ -141,9 +141,7 @@ export function replaceSCInNode(
 export const rehypeTagAcronyms: Plugin = () => {
   return (tree: Node) => {
     visitParents(tree, "text", (node: Text, ancestors: Parent[]) => {
-      const parent = ancestors[ancestors.length - 1]
-      const index = parent.children.indexOf(node)
-      replaceSCInNode(node, index, parent, ancestors)
+      replaceSCInNode(node, ancestors)
     })
   }
 }

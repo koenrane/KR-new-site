@@ -21,10 +21,9 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
  * @param parent - The parent node to add the processed text to.
  */
 export function processSmallCaps(text: string, parent: Parent): void {
-  const insertIndex = parent.children.length
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
-  replaceSCInNode(textNode, insertIndex, parent)
+  replaceSCInNode(textNode, [parent])
 }
 
 /**

@@ -11,7 +11,7 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
-  replaceSCInNode(textNode, 0, parent)
+  replaceSCInNode(textNode, [parent])
 }
 
 function processBacklinkTitle(title: string): Parent {
