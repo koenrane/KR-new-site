@@ -1,14 +1,9 @@
 import { Node, Parent, Text, Element } from "hast"
 import { Plugin } from "unified"
-import { visit } from "unist-util-visit"
+import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
-import {
-  hasAncestor,
-  hasClass,
-  ElementMaybeWithParent,
-  isCode,
-} from "./formatting_improvement_html"
+import { hasClass, isCode } from "./formatting_improvement_html"
 import { replaceRegex } from "./utils"
 
 export function isRomanNumeral(str: string): boolean {
@@ -52,9 +47,11 @@ const combinedRegex = new RegExp(
   "g",
 )
 
-export function skipFormatting(node: Element): boolean {
-  console.log(node)
-  return hasClass(node, "no-smallcaps") || hasClass(node, "no-formatting")
+export function skipFormatting(node: Node): boolean {
+  if (node.type === "element") {
+    return hasClass(node as Element, "no-smallcaps") || hasClass(node as Element, "no-formatting")
+  }
+  return false
 }
 
 function isElvish(node: Element): boolean {
@@ -65,17 +62,27 @@ function isAbbreviation(node: Element): boolean {
   return node.tagName === "abbr"
 }
 
-// Whitelist the allowAcronyms to override the roman numeral check
-export const ignoreAcronym = (node: Text, _index: number, parent: Parent): boolean => {
-  // Check for no-formatting classes on any ancestor
-  if (hasAncestor(parent as ElementMaybeWithParent, skipFormatting)) {
+export function ignoreAcronym(node: Text, parent: Parent, ancestors: Parent[]): boolean {
+  // Check for no-smallcaps or no-formatting classes on any ancestor
+  if (
+    ancestors &&
+    ancestors.some((ancestor) => ancestor.type === "element" && skipFormatting(ancestor))
+  ) {
     return true
   }
 
+  // Check if any ancestor is a code element
   if (
-    isElvish(parent as ElementMaybeWithParent) ||
-    isCode(parent as Element) ||
-    isAbbreviation(parent as Element)
+    ancestors &&
+    ancestors.some((ancestor) => ancestor.type === "element" && isCode(ancestor as Element))
+  ) {
+    return true
+  }
+
+  // Check if parent is elvish or abbreviation
+  if (
+    parent.type === "element" &&
+    (isElvish(parent as Element) || isAbbreviation(parent as Element))
   ) {
     return true
   }
@@ -84,11 +91,19 @@ export const ignoreAcronym = (node: Text, _index: number, parent: Parent): boole
     return false
   }
 
-  console.log(node, parent)
   return isRomanNumeral(node.value)
 }
 
-export function replaceSCInNode(node: Text, index: number, parent: Parent): void {
+export function replaceSCInNode(
+  node: Text,
+  index: number,
+  parent: Parent, // TODO redundant?
+  ancestors: Parent[],
+): void {
+  if (parent.children[index] !== node) {
+    throw new Error("replaceSCInNode: node is not the child of its parent")
+  }
+
   replaceRegex(
     node,
     index,
@@ -118,18 +133,21 @@ export function replaceSCInNode(node: Text, index: number, parent: Parent): void
         `Regular expression logic is broken; one of the regexes should match for ${match}`,
       )
     },
-    ignoreAcronym,
+    (nd: Text, _idx: number, prnt: Parent) => ignoreAcronym(nd, prnt, ancestors),
     "abbr.small-caps",
   )
 }
 
 export const rehypeTagAcronyms: Plugin = () => {
   return (tree: Node) => {
-    visit(tree, "text", replaceSCInNode)
+    visitParents(tree, "text", (node: Text, ancestors: Parent[]) => {
+      const parent = ancestors[ancestors.length - 1]
+      const index = parent.children.indexOf(node)
+      replaceSCInNode(node, index, parent, ancestors)
+    })
   }
 }
 
-// The main Quartz plugin export
 export const TagAcronyms: QuartzTransformerPlugin = () => {
   return {
     name: "TagAcronyms",
