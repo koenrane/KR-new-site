@@ -3,13 +3,18 @@ import { Plugin } from "unified"
 import { visit } from "unist-util-visit"
 
 import { QuartzTransformerPlugin } from "../types"
-import { hasAncestor, hasClass, ElementMaybeWithParent } from "./formatting_improvement_html"
+import {
+  hasAncestor,
+  hasClass,
+  ElementMaybeWithParent,
+  isCode,
+} from "./formatting_improvement_html"
 import { replaceRegex } from "./utils"
 
 export function isRomanNumeral(str: string): boolean {
   // Allow trailing punctuation marks
   const romanNumeralRegex =
-    /(?<= |^)(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?<=[A-Z]{3})(?=[\s.,!?;:]|$)/
+    /(?<= |^)(?:(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(I{1,2}X|I{1,2}V|V?I{0,3})(?<=[A-Z]{3})|I{1,2}[XVCDM])(?=[\s.,!?;:]|$)/
   return romanNumeralRegex.test(str)
 }
 
@@ -47,28 +52,40 @@ const combinedRegex = new RegExp(
   "g",
 )
 
+export function skipFormatting(node: Element): boolean {
+  console.log(node)
+  return hasClass(node, "no-smallcaps") || hasClass(node, "no-formatting")
+}
+
+function isElvish(node: Element): boolean {
+  return hasClass(node, "elvish")
+}
+
+function isAbbreviation(node: Element): boolean {
+  return node.tagName === "abbr"
+}
+
 // Whitelist the allowAcronyms to override the roman numeral check
-const ignoreAcronym = (node: Text, _index: number, parent: Parent): boolean => {
-  if (allowAcronyms.includes(node.value)) {
-    return false
+export const ignoreAcronym = (node: Text, _index: number, parent: Parent): boolean => {
+  // Check for no-formatting classes on any ancestor
+  if (hasAncestor(parent as ElementMaybeWithParent, skipFormatting)) {
+    return true
   }
 
-  // Check for no-formatting classes on any ancestor
-  // TODO: test no-formatting
   if (
-    hasAncestor(parent as ElementMaybeWithParent, (ancestor: Element): boolean => {
-      return hasClass(ancestor, "no-smallcaps") || hasClass(ancestor, "no-formatting")
-    })
+    isElvish(parent as ElementMaybeWithParent) ||
+    isCode(parent as Element) ||
+    isAbbreviation(parent as Element)
   ) {
     return true
   }
 
-  if (isRomanNumeral(node.value)) {
-    return true
+  if (allowAcronyms.includes(node.value)) {
+    return false
   }
 
-  return (("tagName" in parent && (parent.tagName === "abbr" || parent.tagName === "code")) ||
-    hasClass(parent as ElementMaybeWithParent, "elvish")) as boolean
+  console.log(node, parent)
+  return isRomanNumeral(node.value)
 }
 
 export function replaceSCInNode(node: Text, index: number, parent: Parent): void {

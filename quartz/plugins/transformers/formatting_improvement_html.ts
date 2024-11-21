@@ -564,7 +564,7 @@ export function hasAncestor(
   return false
 }
 
-function isCode(node: Element): boolean {
+export function isCode(node: Element): boolean {
   return node.tagName === "code"
 }
 
@@ -617,7 +617,6 @@ export function toSkip(node: Element): boolean {
   return false
 }
 
-// Main function //
 interface Options {
   skipFirstLetter?: boolean // Debug flag
 }

@@ -1,3 +1,5 @@
+import { Text } from "hast"
+import { h } from "hastscript"
 import { rehype } from "rehype"
 import seedrandom from "seedrandom"
 
@@ -11,6 +13,8 @@ import {
   validSmallCapsPhrase,
   allCapsContinuation,
   REGEX_ALL_CAPS_PHRASE,
+  skipFormatting,
+  ignoreAcronym,
 } from "../tagacronyms"
 
 // Test: Should wrap acronyms in <abbr> tags with class "small-caps"
@@ -124,14 +128,11 @@ describe("Roman numeral tests", () => {
   // Generate 100 valid Roman numerals
   const validNumerals = Array.from({ length: 100 }, generateValidRomanNumeral)
 
-  it.each(validNumerals)("should identify %s as a valid Roman numeral", (numeral) => {
+  it.each([...validNumerals, "IV"])("should identify %s as a valid Roman numeral", (numeral) => {
     expect(isRomanNumeral(numeral)).toBe(true)
   })
 
-  const numeralSentences = [
-    "I use the roman numeral XVII.",
-    "I use the roman numeral XVII ",
-  ]
+  const numeralSentences = ["I use the roman numeral XVII.", "I use the roman numeral XVII "]
   it.each(numeralSentences)("should identify %s to contain a valid Roman numeral", (sentence) => {
     const input = `<p>${sentence}</p>`
     const processedHtml: string = testTagAcronymsHTML(input)
@@ -399,5 +400,165 @@ describe("REGEX_ALL_CAPS_PHRASE Regex Tests", () => {
     it.each(notAllCapsSentences)("should not match phrase: '%s'", (input) => {
       expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(false)
     })
+  })
+})
+
+describe("skipFormatting", () => {
+  const testCases = [
+    {
+      desc: "should return true for no-smallcaps class",
+      element: h("div", { class: "no-smallcaps" }),
+      expected: true,
+    },
+    {
+      desc: "should return true for no-formatting class",
+      element: h("div", { class: "no-formatting" }),
+      expected: true,
+    },
+    {
+      desc: "should return true for multiple classes including no-formatting",
+      element: h("div", { class: "other-class no-formatting" }),
+      expected: true,
+    },
+    {
+      desc: "should return false for other classes",
+      element: h("div", { class: "some-other-class" }),
+      expected: false,
+    },
+    {
+      desc: "should return false for no classes",
+      element: h("div"),
+      expected: false,
+    },
+  ]
+
+  it.each(testCases)("$desc", ({ element, expected }) => {
+    expect(skipFormatting(element)).toBe(expected)
+  })
+})
+
+// describe("no-formatting tests", () => {
+//   it.each(["AUP", ...allowAcronyms])("should not wrap acronyms in no-formatting blocks: %s", (acronym: string) => {
+//     const input = `<div class="no-formatting"><p>${acronym}</p></div>`
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(input)
+//   })
+
+//   it("should not wrap acronyms in no-smallcaps blocks", () => {
+//     const input = '<div class="no-smallcaps"><p>NASA launched a new satellite.</p></div>'
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(input)
+//   })
+
+//   it("should not wrap acronyms in code blocks", () => {
+//     const input = "<code>NASA launched a new satellite.</code>"
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(input)
+//   })
+
+//   it("should handle nested formatting blocks correctly", () => {
+//     const input = `
+//       <div class="no-formatting">
+//         <p>NASA outside</p>
+//         <div>
+//           <p>NASA inside</p>
+//         </div>
+//       </div>
+//       <p>NASA after</p>`
+//     const expected = `
+//       <div class="no-formatting">
+//         <p><abbr class="small-caps">nasa</abbr> outside</p>
+//         <div>
+//           <p><abbr class="small-caps">nasa</abbr> inside</p>
+//         </div>
+//       </div>
+//       <p><abbr class="small-caps">nasa</abbr> after</p>`
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(expected)
+//   })
+
+//   it("should handle elvish class correctly", () => {
+//     const input = '<span class="elvish">NASA</span>'
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(input)
+//   })
+
+//   it("should not double-wrap abbreviations", () => {
+//     const input = '<abbr>NASA</abbr>'
+//     const processedHtml = testTagAcronymsHTML(input)
+//     expect(processedHtml).toBe(input)
+//   })
+// })
+
+describe("ignoreAcronym", () => {
+  // Helper function to create a text node
+  const createTextNode = (value: string): Text => ({ type: "text", value })
+
+  const testCases = [
+    {
+      desc: "should return false for whitelisted acronyms",
+      node: createTextNode("LLM"),
+      parent: h("p"),
+      expected: false,
+    },
+    {
+      desc: "should return true for roman numerals",
+      node: createTextNode("III"),
+      parent: h("p"),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in no-formatting div",
+      node: createTextNode("NASA"),
+      parent: h("div", { class: "no-formatting" }),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in no-smallcaps div",
+      node: createTextNode("NASA"),
+      parent: h("div", { class: "no-smallcaps" }),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in code element",
+      node: createTextNode("NASA"),
+      parent: h("code"),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in elvish class",
+      node: createTextNode("NASA"),
+      parent: h("span", { class: "elvish" }),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in abbr element",
+      node: createTextNode("NASA"),
+      parent: h("abbr"),
+      expected: true,
+    },
+    {
+      desc: "should return true for text in nested no-formatting",
+      node: createTextNode("NASA"),
+      parent: h("div", { class: "no-formatting" }, [h("span", {}, [createTextNode("NASA")])]),
+      expected: true,
+    },
+  ]
+  it.each(testCases)("$desc", ({ node, parent, expected }) => {
+    expect(ignoreAcronym(node, 0, parent)).toBe(expected)
+  })
+
+  // Test each whitelisted acronym
+  allowAcronyms.forEach((acronym) => {
+    it(`should return false for whitelisted acronym: ${acronym}`, () => {
+      const result = ignoreAcronym(createTextNode(acronym), 0, h("p"))
+      expect(result).toBe(false)
+    })
+  })
+
+  // Test some specific roman numerals
+  const romanNumerals = ["III", "VII", "VIII", "XIV", "MXC"]
+  it.each(romanNumerals)("should return true for roman numeral %s", (numeral) => {
+    expect(ignoreAcronym(createTextNode(numeral), 0, h("p"))).toBe(true)
   })
 })
