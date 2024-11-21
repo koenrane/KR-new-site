@@ -144,7 +144,7 @@ export function niceQuotes(text: string): string {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\s|[\\(\\/\\[\\{\\-—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:/.\\}])`,
+    `(?<=^|\\s|[\\(\\/\\[\\{\\-—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:.\\}])`,
     "gm",
   )
   text = text.replace(beginningDouble, "$1“$2")
