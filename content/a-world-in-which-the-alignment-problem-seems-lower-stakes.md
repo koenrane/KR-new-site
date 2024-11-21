@@ -47,13 +47,13 @@ date_updated: 2024-11-14 21:08:14.988730
 
 
 
-The danger from power-seeking is not _intrinsic_ to the alignment problem. This danger also depends on [the structure of the agent's environment](/environmental-structure-can-cause-instrumental-convergence). 
+The danger from power-seeking is not _intrinsic_ to the alignment problem. This danger also depends on [the structure of the agent's environment](/environmental-structure-can-cause-instrumental-convergence).
 
 In [_The Catastrophic Convergence Conjecture_](/the-catastrophic-convergence-conjecture), I wrote:
 
 ![](https://assets.turntrout.com/static/images/posts/OsWS97b.avif)![](https://assets.turntrout.com/static/images/posts/d057729cc125ff7e4c1a99e1fab5c7936fb5cef537b9d02b.avif)
 
-But are there worlds where this isn't true? Consider a world where you supply a utility-maximizing AGI with a utility function. 
+But are there worlds where this isn't true? Consider a world where you supply a utility-maximizing AGI with a utility function.
 
 ![](https://assets.turntrout.com/static/images/posts/46b8706e0cfb81c5b9f90c9d8918201750ba1468a9065979.avif)
 <br/>Figure: The AGI is in a "separate part of the universe"; after the initial specification of the utility function, the left half of the universe evolves independently of the right half. Nothing you can do after specification can affect the AGI's half, and vice versa. No communication can take place between the two halves.
@@ -67,11 +67,11 @@ If the AGI uses something like causal decision theory, then it won't try to kill
 
 (Other decision theories might have it precommit to minimizing human utility unless it attains maximal AGI-utility from the left half of the universe-history, or some other shenanigans. This is beside the point I want to make in this post, but it's important to consider.)
 
-However, the setup is still interesting because 
+However, the setup is still interesting because
 
-1.  [Goodhart's law](https://www.lesswrong.com/posts/EbFABnst8LsidYs5Y/goodhart-taxonomy) still applies: if you give the AGI an incomplete proxy objective, you'll get suboptimal true performance.
-2.  [Value is still complex](https://www.lesswrong.com/tag/complexity-of-value): it's still hard to get the AGI to optimize the right half of the universe for human flourishing.
-3.  If the AGI is autonomously trained via stochastic gradient descent in the right half of the universe, then we may still hit [inner alignment problems](https://www.lesswrong.com/tag/mesa-optimization).
+1. [Goodhart's law](https://www.lesswrong.com/posts/EbFABnst8LsidYs5Y/goodhart-taxonomy) still applies: if you give the AGI an incomplete proxy objective, you'll get suboptimal true performance.
+2. [Value is still complex](https://www.lesswrong.com/tag/complexity-of-value): it's still hard to get the AGI to optimize the right half of the universe for human flourishing.
+3. If the AGI is autonomously trained via stochastic gradient descent in the right half of the universe, then we may still hit [inner alignment problems](https://www.lesswrong.com/tag/mesa-optimization).
 
 Alignment is still _hard_, and we still _want_ to get the AGI to do good things on its half of the universe. But it isn't instrumentally convergent for the AGI to seek power over _you,_ and so you shouldn't expect an unaligned AGI to try to kill _you_ in this universe. You shouldn't expect the AGI to kill other humans, either, since none exist in the right half of the universe - and it won't create any, either.
 

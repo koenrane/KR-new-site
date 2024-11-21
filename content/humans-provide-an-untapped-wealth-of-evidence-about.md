@@ -71,9 +71,9 @@ I find this problem interesting, both in terms of wanting to know how to solve a
 
 Although the details are mostly irrelevant to the point of this blog post, the Arbital article suggests some solution ideas and directions for future research, including:
 
-1.  Scan [AIXI-_tl_](https://archive.org/details/arxiv-cs0004001)’s Turing machines and locate diamonds within their implicit state representations.
-2.  Given how [inaccessible](https://ai-alignment.com/inaccessible-information-c749c6a88ce?gi=11e30aac9afb) we expect AIXI*\-tl*’s representations to be by default, have AIXI-_tl_ just consider a Turing-complete hypothesis space which uses more interpretable representations.
-3.  “Being able to describe, in purely theoretical principle, a prior over epistemic models that have at least two levels and can switch between them in some meaningful sense”
+1. Scan [AIXI-_tl_](https://archive.org/details/arxiv-cs0004001)’s Turing machines and locate diamonds within their implicit state representations.
+2. Given how [inaccessible](https://ai-alignment.com/inaccessible-information-c749c6a88ce?gi=11e30aac9afb) we expect AIXI*\-tl*’s representations to be by default, have AIXI-_tl_ just consider a Turing-complete hypothesis space which uses more interpretable representations.
+3. “Being able to describe, in purely theoretical principle, a prior over epistemic models that have at least two levels and can switch between them in some meaningful sense”
 
 Do you notice anything _strange_ about these three ideas? Sure, the ideas don’t seem workable, but they’re good initial thoughts, right?
 
@@ -153,10 +153,10 @@ Back in 2018, I had [a clever-seeming idea](/corrigibility-as-outside-view). We 
 
 Instead, I was trying out clever, off-the-cuff ideas in order to solve e.g. Eliezer’s formulation of the [hard problem of corrigibility.](https://arbital.com/p/hard_corrigibility/) However, my idea and his formulation suffered a few disadvantages, including:
 
-1.  The formulation is not guaranteed to describe a probable or “natural” kind of mind,
-2.  These kinds of “corrigible” AIs are not guaranteed to produce desirable behavior, but only _imagined_ to produce good behavior,
-3.  My clever-seeming idea was not at all constrained by reality to actually work in practice, as opposed to just sounding clever to me, and
-4.  I didn’t have a concrete use case in mind for what to _do_ with a “corrigible” AI.
+1. The formulation is not guaranteed to describe a probable or “natural” kind of mind,
+2. These kinds of “corrigible” AIs are not guaranteed to produce desirable behavior, but only _imagined_ to produce good behavior,
+3. My clever-seeming idea was not at all constrained by reality to actually work in practice, as opposed to just sounding clever to me, and
+4. I didn’t have a concrete use case in mind for what to _do_ with a “corrigible” AI.
 
 I wrote this post as someone who previously needed to read it.
 
@@ -168,4 +168,3 @@ I wrote this post as someone who previously needed to read it.
     Suppose we model humans as the "inner agent" and evolution as the "outer optimizer"—I think [this is, in general, the wrong framing](https://www.lesswrong.com/posts/3pinFH3jerMzAvmza/on-how-various-plans-miss-the-hard-bits-of-the-alignment?commentId=FbAnmAkCdp8qdiMoN), but let's roll with it for now. I would guess that Eliezer believes that [human values are an unpredictable godshatter](https://www.lesswrong.com/posts/34Gkqus9vusXRevR8/late-2021-miri-conversations-ama-discussion#YkhmywLQetjekM7e3) with respect to the outer criterion of inclusive genetic fitness. This means that if you reroll evolution many times with perturbed initial conditions, you get inner agents with dramatically different values each time—it means that human values are akin to a raindrop which happened to land in some location for no grand reason. I notice that I have medium-strength objections to this claim, but let's just say that he is correct for now.
 
     I think this unpredictability-to-evolution doesn't matter. We aren't going to reroll evolution to get AGI. Thus, for a variety of reasons too expansive for this margin, I am little moved by analogy-based reasoning along the lines of "here's the one time inner alignment was tried in reality, and evolution failed horribly." I think that historical fact is mostly irrelevant, for reasons I will discuss later.
-

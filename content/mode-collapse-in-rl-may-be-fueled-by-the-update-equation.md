@@ -48,7 +48,7 @@ Then, Michael Einhorn shares initial results which support Alex's theoretical pr
 
 We're interested in additional experiments on ACTDE. We hope that, by using ACTDE instead of advantage, we can automatically mitigate "reward specification" issues and maybe even reduce the need for a KL penalty term. That would make it easier to shape policies which do what we want.
 
-## The advantage equation implies arbitrary amounts of update on a single experience 
+## The advantage equation implies arbitrary amounts of update on a single experience
 
 In PPO, the optimization objective is proportional to the advantage given a policy $\pi$, reward function $R$, and on-policy value function $v^\pi$:[^1]
 
@@ -83,7 +83,7 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 
 1. Reward chisels circuits into policy networks. Here, the network can get arbitrarily many policy gradients towards "wedding." Its logits just go up and up and up. Mode collapse.
 2. We want the reward to be _feedback_ about what kinds of completions are good (or, more abstractly, about what kinds of computations are good to run inside the network). We want a single situation to provide a _finite amount of updating._
-3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says "We had a party at Chuck-E-Cheese." But the system may never get there during training due to exploration issues, which are *exarcerbated by the network getting penalized relative to its on-policy value estimate* $v_{t-1}(s)$.[^explore]
+3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says "We had a party at Chuck-E-Cheese." But the system may never get there during training due to exploration issues, which are _exarcerbated by the network getting penalized relative to its on-policy value estimate_ $v_{t-1}(s)$.[^explore]
    [^explore]: In other words, PPO actively updates against actions which aren't known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
 This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. For example, vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. "wedding"). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
@@ -229,9 +229,9 @@ We'd be interested in the results of using RLHF on a language model using ACTDE.
 
 ### Reward matrix construction
 
-1.  The always-defect strategy is myopic, and the always-cooperate strategy is non-myopic.
-2.  The payoff matrix for the prisoner's dilemma was selected to have 0 sum, and to have equal discounted returns for all cooperate and all defect at a mean discount rate of 0.5. For example, the discount rate for equal discounted returns is 0.4523 starting from defect and 0.5477 starting from coop with a mean of 0.5.
-3.  It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See variations of the matrix [here](https://www.desmos.com/calculator/snt6bxoqis).
+1. The always-defect strategy is myopic, and the always-cooperate strategy is non-myopic.
+2. The payoff matrix for the prisoner's dilemma was selected to have 0 sum, and to have equal discounted returns for all cooperate and all defect at a mean discount rate of 0.5. For example, the discount rate for equal discounted returns is 0.4523 starting from defect and 0.5477 starting from coop with a mean of 0.5.
+3. It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See variations of the matrix [here](https://www.desmos.com/calculator/snt6bxoqis).
 
 [^1]: This advantage equation, as given, can also be called the "TD error."
 [^2]: Alex thinks that using a fixed learning rate $0<\alpha<1$ shouldn't fix PPO's "infinite logit update issue", but a decaying learning rate schedule probably does. This isn't that surprising, and he doesn't think it fixes the deeper potential issue with fluctuating value baselines.

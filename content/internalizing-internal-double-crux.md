@@ -60,7 +60,7 @@ date_updated: 2024-10-31 23:14:34.832290
 I feel great, and I love it. Actually, most of the time I don't feel amazingly confident - [I just feel _not bad_ in lots of situations](http://kajsotala.fi/2017/08/confidence-and-patience-dont-feel-like-anything-in-particular/). Apparently this level of success with IDC across such a wide range of problems is unusual. Some advice, and then an example.
 
 - The emotional texture of the dialogue is of paramount importance. There should be a warm feeling between the two sides, as if they were two best friends who are upset with each other, but also secretly appreciate each other and want to make things right.
-  - Each response should start with a *sincere* and *emotional* validation of some aspect of the other side's concern. In my experience, this feels like emotional ping pong.
+  - Each response should start with a _sincere_ and _emotional_ validation of some aspect of the other side's concern. In my experience, this feels like emotional ping pong.
   - For me, resolution of the issue is accompanied by a warm feeling that rises to my throat in a bubbly way. My heart also feels full. This is similar to (but distinct from) the 'aww' feeling you may experience when you see cute animals.
 - [Focusing](https://radimentary.wordpress.com/2018/02/25/focusing/) is an important (and probably necessary) sub-skill.
 - Don't interrupt or otherwise obstruct one of your voices because it's "stupid" or "talked long enough" - be respectful. The outcome should not feel pre-ordained - you should be having two of your sub-agents / identities sharing their emotional and mental models to come to a fixed point of harmonious agreement.
@@ -107,4 +107,3 @@ Fire
 <hr/>
 
 [^crux]: Notice how related cruxes can (and should) be resolved in the same session. Resolution cannot happen if any part of you isn't _fully_ on board with whatever agreement you've come to - this feels like a small emptiness in the pit of my stomach, in my experience.
-

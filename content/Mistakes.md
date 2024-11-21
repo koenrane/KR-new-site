@@ -23,13 +23,14 @@ Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistak
 >
  >  This doesn't include minor spelling/grammar mistakes, mistakes in links posts, or failed predictions. It's times I was fundamentally wrong about a major part of a post and someone was able to convince me of it.
 
-> [!note] 
+> [!note]
 > The list is currently quite thin. I have made more mistakes than are on this list. I'll add more as I remember them, or you could [email me](mailto:alex+mistakes@turntrout.com) and politely remind me of times I changed my mind about an important claim of mine!
 
  ---
 
 # [Reward is not the optimization target](/reward-is-not-the-optimization-target)
+
 Subtitle: July 25, 2022
 I spent thousands of hours proving theorems about the "tendencies" of "reinforcement learning" agents which are either [optimal](https://arxiv.org/abs/1912.01683) or [trained using a "good enough" learning algorithm](/parametrically-retargetable-power-seeking). (I'm using scare quotes to mark undue connotations.) I later realized that even though ["reward" is a pleasant word](/dangers-of-suggestive-terminology), it's _definitely not a slam dunk that RL-trained policies will seek to optimize that quantity._ Reward often simply provides a per-datapoint learning rate multiplier - nothing spooky or fundamentally doomed.
 
-While the realization may seem simple or obvious, it opened up a crack in my alignment worldview. 
+While the realization may seem simple or obvious, it opened up a crack in my alignment worldview.

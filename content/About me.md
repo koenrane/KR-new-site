@@ -16,7 +16,7 @@ title: About me
 
 
 
-Hi! I'm `TurnTrout`, but the United States government insists on calling me "Alexander Matt Turner." I like writing about lots of stuff and learning about lots of stuff. For more about my professional life, check out [my research](/research). My dating doc resides [here.](/date-me) ^first-para 
+Hi! I'm `TurnTrout`, but the United States government insists on calling me "Alexander Matt Turner." I like writing about lots of stuff and learning about lots of stuff. For more about my professional life, check out [my research](/research). My dating doc resides [here.](/date-me) ^first-para
 
 ![](https://assets.turntrout.com/static/images/posts/about-me.avif)
 
@@ -28,6 +28,7 @@ Why the name "TurnTrout"?
 
 How was this website designed?
 : Refer to [The design of this website.](/design)
+
 # Contact me
 
 My email is [`alex@turntrout.com`](mailto:alex@turntrout.com). While I'm not guaranteed to reply, I always appreciate a good-faith message. Please feel free to write to me! I feel happy to know if and how my writing makes a difference for folks. I also like to hear about new alignment research ideas. 😄
@@ -39,7 +40,7 @@ If my writing means something to you or has brightened your life, consider:
 
 I prefer messages over donations.
 
-> [!bug]- Report a bug 
+> [!bug]- Report a bug
 > <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScSrZlykZIFyvrk2yxSoVn9VJ6RsLbIjChaDGG0cheVakC5hw/viewform?usp=sf_link" height=800 ></iframe>
 
 [^donate]: Ko-fi donations will not affect my ability to do AI alignment research. To support alignment research, I suggest the [Long-Term Future Fund](https://www.givingwhatwecan.org/charities/long-term-future-fund).

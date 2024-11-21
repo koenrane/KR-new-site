@@ -122,7 +122,7 @@ I know quite a bit about how to best use Anki, so if you try this and it doesn't
 - Sync with AnkiWeb so you don't lose all your cards if your device dies.
 - Save time by just screenshotting theorem statements and/or proofs.
 
-  - EDIT: [micpie recommends](https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-autodidacting?commentId=8LWGgD93udk9EM8mK) the [Mathpix ](https://mathpix.com/) OCR software, which clips text into MathJax code. This works really well, in my experience.
+  - EDIT: [micpie recommends](https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-autodidacting?commentId=8LWGgD93udk9EM8mK) the [Mathpix](https://mathpix.com/) OCR software, which clips text into MathJax code. This works really well, in my experience.
   - [Image occlusion](https://ankiweb.net/shared/info/1374772155) is a great add-on.
 
 - On iPad, I like using MarginNote to read. I can just draw rectangles around key parts of the pdf, make cloze deletions in the app, and then export the cards to an Anki deck.
@@ -188,15 +188,15 @@ Imagine I'm learning how to program, but I've never used a computer before. Lear
 
 But it's worse than that. Imagine I'm learning quantum mechanics, but I don't know any linear algebra either. I'm now trying to do three things:
 
-1.  Learn linear algebra,
-2.  Learn the formal postulates of quantum mechanics, and
-3.  Tie all of this into the real world.
+1. Learn linear algebra,
+2. Learn the formal postulates of quantum mechanics, and
+3. Tie all of this into the real world.
 
 Similarly, if I'm trying to learn fluid mechanics without knowing how to manipulate partial differential equations (PDEs), it might look trying to simultaneously
 
-1.  Learn PDEs,
-2.  Learn the physical equations, such as Navier-Stokes, and
-3.  Tie all of this into the real world to explain what I already know about e.g. water and rivers and blood pressure.
+1. Learn PDEs,
+2. Learn the physical equations, such as Navier-Stokes, and
+3. Tie all of this into the real world to explain what I already know about e.g. water and rivers and blood pressure.
 
 But what if instead I picked up [some dumb book](https://www.amazon.com/Basic-Physics-Self-Teaching-Teaching-Guides-dp-111962990X/dp/111962990X/ref=dp_ob_title_bk) that doesn't even have any calculus, and let it give me approximate explanations via e.g. Archimedes' principle:
 
@@ -229,4 +229,3 @@ Learn things quickly, note your confusions, and correct them later when the Anki
 # Conclusion
 
 I knew about the "[read easier textbooks](https://www.lesswrong.com/posts/qwdupkFd6kmeZHYXy/build-small-skills-in-the-right-order)" advice already, but I didn't apply it. Perhaps I just didn't recognize a chance to apply it. The same forces of chaos and entropy and madness which prevented my applying e.g. Luke Muelhauser's advice, may prevent you from applying this post's advice. If you think any of this advice might help you, I recommend setting up a plan _now_ for how and when you'll implement it.
-

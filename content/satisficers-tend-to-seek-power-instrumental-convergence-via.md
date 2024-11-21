@@ -76,8 +76,8 @@ To understand a range of retargetable procedures, let's first orient towards the
 
 But I want to step back. What I call "the power-seeking theorems", they aren't really about optimal choice. They're about two facts.
 
-1.  Being powerful means you can make more outcomes happen, and
-2.  _There are more ways to choose something from a bigger set of outcomes than from a smaller set_.
+1. Being powerful means you can make more outcomes happen, and
+2. _There are more ways to choose something from a bigger set of outcomes than from a smaller set_.
 
 For example, suppose our cute robot Frank must choose one of several kinds of fruit.
 
@@ -167,17 +167,17 @@ Satisficers must have greater probability of selecting an outcome lottery from a
 
 Formally, if $X'\subseteq X$, then it must hold that $\mathrm{Satisfice}_t(X', C | \mathbf{u}) \leq \mathrm{Satisfice}_t(X, C | \mathbf{u})$. And indeed this holds: Supersets can only contain a greater fraction of $C$'s satisficing elements.
 
-## And that's all.
+## And that's all
 
 If (1) and (2) hold for a function, then that function will obey the orbit tendencies. The power-seeking theorems apply to:
 
-1.  Expected utility maximizing agents.
-2.  EU minimizing agents.
+1. Expected utility maximizing agents.
+2. EU minimizing agents.
     - Notice that EU minimization is equivalent to maximizing $-1\times$ a utility function. This is a hint that EU maximization instrumental convergence is only a special case of something much broader.
-3.  Boltzmann-rational agents which are exponentially more likely to choose outcome lotteries with greater expected utility.
-4.  Agents which uniformly randomly draw $k$ outcome lotteries and then choose the best.
-5.  Satisficers.
-6.  Quantilizers with a uniform[^based] base distribution.
+3. Boltzmann-rational agents which are exponentially more likely to choose outcome lotteries with greater expected utility.
+4. Agents which uniformly randomly draw $k$ outcome lotteries and then choose the best.
+5. Satisficers.
+6. Quantilizers with a uniform[^based] base distribution.
     [^based]: I conjecture that this holds for base distributions which assign sufficient probability to $B$.
 
 But that's not all. There's more. If the agent makes decisions _only based on the expected utility of different plans_,[^eu] then the power-seeking theorems apply. And I'm not just talking about EU maximizers. I'm talking about _any_ function which only depends on expected utility: EU minimizers, agents which choose plans if and only if their EU is equal to 1, agents which grade plans based on how close their EU is to some threshold value. There is _no_ clever EU-based scheme which doesn't have orbit-level power-seeking incentives.
@@ -340,10 +340,10 @@ From [last time](/power-seeking-beyond-MDPs#Appendix-Tracking-key-limitations-of
 
 > [!quote]
 >
-> 1.  ~assume the agent is following an optimal policy for a reward function~
-> 2.  Not all environments have the right symmetries
+> 1. ~assume the agent is following an optimal policy for a reward function~
+> 2. Not all environments have the right symmetries
 >     - But most ones we think about seem to
-> 3.  don't account for the ways in which we might practically express reward functions
+> 3. don't account for the ways in which we might practically express reward functions
 
 I want to add a new one, because the theorems
 

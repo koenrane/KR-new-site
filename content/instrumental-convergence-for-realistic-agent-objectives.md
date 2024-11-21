@@ -219,10 +219,10 @@ From [last time](/satisficers-tend-to-seek-power):
 
 > [!quote]
 >
-> 1.  The results aren't first-person: They don't deal with the agent's uncertainty about what environment it's in.
-> 2.  Not all environments have the right symmetries
+> 1. The results aren't first-person: They don't deal with the agent's uncertainty about what environment it's in.
+> 2. Not all environments have the right symmetries
 >     - But most ones we think about seem to
-> 3.  ~Don't account for the ways in which we might practically express reward functions.~ (This limitation was handled by this post.)
+> 3. ~Don't account for the ways in which we might practically express reward functions.~ (This limitation was handled by this post.)
 
 I think it's reasonably clear how to apply the results to realistic objective functions. I also think our objective specification procedures are quite expressive, and so the closure condition will hold and the results go through in the appropriate situations.
 
@@ -234,4 +234,3 @@ I think it's reasonably clear how to apply the results to realistic objective fu
     There's something abstraction-adjacent about this result (proposition D.1 in [the linked Overleaf paper](https://www.overleaf.com/read/kmjjqwdfhkvy)). The result says something like "do the grooves of the agent's world model featurization, respect the grooves of symmetries in the structure of the agent's environment?", and if they do, _bam_, sufficient condition for power-seeking under the featurized model. I think there's something important here about how good world-model-featurizations should work, but I'm not sure what that is yet.
 
     I do know that "the featurization should commute with the environmental symmetry" is something I'd thought—in basically those words—no fewer than 3 times, as early as summer<sub>2021</sub>, without explicitly knowing what that should even _mean_.
-

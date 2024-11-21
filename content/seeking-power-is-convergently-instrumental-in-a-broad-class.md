@@ -168,6 +168,7 @@ MDPs assume that utility functions have a lot of structure: the utility of a his
 This suggests that rolling a random u<sub>OH</sub> for [AIXI](https://www.lesswrong.com/tag/aixi/) might be far more dangerous than rolling a random reward function for an optimal reinforcement learner.
 
 Structural assumptions on utility really do matter when it comes to instrumental convergence:
+
 |Setting|Strength of instrumental convergence|
 |--:|:--|
 | u<sub>AOH</sub>| [Nonexistent](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories)|
@@ -176,7 +177,7 @@ Structural assumptions on utility really do matter when it comes to instrumental
 
 [Environmental structure can cause instrumental convergence](/environmental-structure-can-cause-instrumental-convergence), but (the absence of) structural assumptions on utility can make instrumental convergence go away (for optimal agents).
 
-**Notes**
+## Notes
 
 - Of course, you can represent u<sub>AOH</sub> as u<sub>OH</sub> by including the agent's previous action in the next observation.
 
@@ -203,12 +204,12 @@ Time to cross another item off of [the list from last time](/quantitative-streng
 
 > [!quote]
 >
-> 1.  assume the agent is following an optimal policy for a reward function
+> 1. assume the agent is following an optimal policy for a reward function
 >     - I can relax this to $\epsilon$-optimality, but $\epsilon>0$ may be extremely small
-> 2.  ~assume the environment is finite and fully observable~
-> 3.  Not all environments have the right symmetries
+> 2. ~assume the environment is finite and fully observable~
+> 3. Not all environments have the right symmetries
 >     - But most ones we think about seem to
-> 4.  don't account for the ways in which we might practically express reward functions
+> 4. don't account for the ways in which we might practically express reward functions
 >     - For example, state-action versus state-based reward functions (this particular case doesn't seem too bad, I was able to sketch out some nice results rather quickly, since you can convert state-action MDPs into state-based reward MDPs and then apply my results).
 
 Re 3), in the setting of this post, when the observations are deterministic, the theorems will always apply. (You can always involute one set of unit vectors into another set of unit vectors in the observation-history vector space.)
@@ -217,4 +218,3 @@ Another consideration is that when I talk about "power-seeking in the situations
 
 [^finite]: I don't think we need to assume finite sets of vectors, but things get a lot harder and messier when you're dealing with $\sup$ instead of $\max$. It's not clear how to define the non-dominated elements of an infinite set, for example, and so a few key results break. One motivation for finite being enough is: in real life, a finite mind can only consider finitely many outcomes anyways, and can only plan over a finite horizon using finitely many actions. This is just one consideration, though.
 [^environment]: For simplicity, I just consider environments which are joint probability distributions over actions and observation. This is much simpler than the [lower](https://arxiv.org/pdf/1510.05572.pdf#subsection.2.5) [semicomputable chronological conditional semimeasures used in the AIXI literature](https://arxiv.org/pdf/1510.05572.pdf#subsection.2.5), but it suffices for our purposes, and the theory could be extended to LSCCCSs if someone wanted to.
-

@@ -80,27 +80,27 @@ _Already proven:_ $\int_{-1}^1 (1-x^2)^N \,dx \geq \frac{1}{\sqrt{N}}$.
 
 > [!math] Definition: $(\epsilon, \delta)$-approximation to the identity
 >  Let $\epsilon>0$ and $0 < \delta < 1$. A function $f: \mathbb{R} \to \mathbb{R}$ is said to be an $(\epsilon, \delta)$_\-approximation to the identity_ if it obeys the following three properties:
-> 
+>
 > - $f$ is compactly supported on $[-1,1]$.
 > - $f$ is continuous, and $\int_{-\infty}^\infty f=1$.
 > - $|f(x)|\leq \epsilon$ for all $\delta \leq |x| \leq 1$.
 
-> [!math] Lemma 
+> [!math] Lemma
 > For every $\epsilon>0$ and $0 < \delta < 1$, there exists an $(\epsilon, \delta)$\-approximation to the identity which is a polynomial $P$ on $[-1,1]$.
 >
 > _Proof of Exercise 14.8.2(c)._ Suppose $c\in\mathbb{R},N\in\mathbb{N}$; define $f(x):=c(1-x^2)^N$ for $x \in [-1,1]$ and 0 otherwise. Clearly, $f$ is compactly supported on $[-1,1]$ and is continuous. We want to find $c,N$ such that the second and third properties are satisfied. Since $(1-x^2)^N$ is non-negative on $[-1,1]$, $c$ must be positive, as $f$ must integrate to 1. Therefore, $f$ is non-negative.
-> 
+>
 > We want to show that $|c(1-x^2)^N| \leq \epsilon$ for all $\delta \leq |x| \leq 1$. Since $f$ is non-negative, we may simplify to $(1-x^2)^N\leq \frac{\epsilon}{c}$. Since the left-hand side is strictly monotone increasing on $[-1,-\delta]$ and strictly monotone decreasing on $[\delta,1]$, we substitute $x=\delta$ without loss of generality. As $\epsilon > 0$, so we may take the reciprocal and multiply by $\epsilon$, arriving at $\epsilon(1-\delta^2)^{-N} \geq c$.
-> 
+>
 > We want $\int_{-\infty}^\infty f = 1$; as $f$ is compactly supported on $[-1,1]$, this is equivalent to $\int_{-1}^1 f(x)\, dx = 1$. Using basic properties of the Riemann integral, we have $\int_{-1}^1 (1-x^2)^N \, dx=\frac{1}{c}$. Substituting in for $c$,
-> 
+>
 > $$
 > \begin{align*}
 > \epsilon^{-1}(1-\delta^2)^N&\leq \frac{1}{\sqrt{N}} \leq \int_{-1}^1 (1-x^2)^N\,dx,
 > \end{align*}
 > $$
 > with the second inequality already having been proven earlier. Note that although the first inequality is not always true, we can make it so: since $\epsilon$ is fixed and $1-\delta^2 \in (0,1)$, the left-hand side approaches 0 more quickly than $\frac{1}{\sqrt{N}}$ does. Therefore, we can make $N$ as large as necessary; isolating $\epsilon$,
-> 
+>
 > $$
 > \epsilon \geq (1-\delta^2)^N\sqrt{N}\\
 > \epsilon \geq \sqrt{N} >(1-\delta^2)^N\sqrt{N},
@@ -113,7 +113,7 @@ Those looking for an excellent explanation of convolutions, [look no further](ht
 
 ### Weierstrass Approximation Theorem
 
-> [!math] Theorem 
+> [!math] Theorem
 > Suppose  $f : [a,b] \to \mathbb{R}$ is continuous and compactly supported on $[a,b]$. Then for every $\epsilon > 0$, there exists a polynomial $P$ such that $\vert\vert P - f\vert\vert_\infty < \epsilon$.
 
 In other words, any continuous, real-valued $f$ on a finite interval can be approximated with arbitrary precision by polynomials.
@@ -185,7 +185,7 @@ If you have a set of points in $\mathbb{R}^n$, when do you know if it's secretly
 
 > [!math] The implicit function theorem
 >  Let $E$ be an open subset of $\mathbb{R}^n$, let $f:E \to \mathbb{R}$ be continuously differentiable, and let $y=(y_1,\dots,y_n)$ be a point in $E$ such that $f(y)=0$ and $\frac{\partial f}{\partial x_n}\neq0$. Then there exists an open $U \subseteq \mathbb{R}^{n-1}$ containing $(y_1, \dots, y_{n-1})$, an open $V \subseteq E$ containing $y$, and a function $g: U \to \mathbb{R}$ such that $g(y_1, \dots, y_{n-1})=y_n$, and
-> 
+>
 > $$
 > \begin{align*}
 > &\left\{(x_1, \dots, x_n)\in V: f(x_1, \dots,x_n)=0\right\}\\
@@ -223,6 +223,7 @@ In a sense, the Lebesgue integral more cleanly strikes at the heart of what it _
 ## Final Thoughts
 
 Although Tao botches a few exercises and the section on topology, I'm a big fan of _Analysis I_ and _II_. Do note, however, that _II_ is far more difficult than _I_ (not just in content, but in terms of the exercises). He generally provides relevant, appropriately-difficult problems, and is quite adept at helping the reader develop rigorous and intuitive understanding of the material.
+
 ## Tips
 
 - To avoid getting hung up in Chapter 17, this book should be read after a linear algebra text.
@@ -244,7 +245,6 @@ Also, developing mathematical maturity brings with it a more rigorous thought pr
 There's a sense I get where even though I've made immense progress over the past few months, it still _might not be enough_. The standard isn't "am I doing impressive things for my reference class?", but rather the stricter "am I good enough to solve [serious problems](https://80000hours.org/problem-profiles/positively-shaping-artificial-intelligence/) that might not get solved in time otherwise?". This is quite the standard, and even given my textbook and research progress (including the upcoming posts), I don't think I meet it.
 
 In a way, this excites me. I welcome any advice for buckling down further and becoming yet stronger.
-
 
 > [!thanks]
 > Thank you to everyone who has helped me. In particular, `TheMajor` has been incredibly generous with their explanations and encouragement.

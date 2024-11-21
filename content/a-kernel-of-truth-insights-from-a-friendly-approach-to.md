@@ -206,9 +206,9 @@ Alex
 > [!info] Edited after posting
 > Back in my [_Topology_ review](/topology-textbook-review), I discussed a similar phenomenon: continuity in multiple input dimensions requires not just continuity in each input variable, but in _all_ sequences converging to the point in question:
 > ![](https://assets.turntrout.com/static/images/posts/k6b4WRE.avif)
-> 
+>
 > > Continuity in the variables says that paths along the axes converge in the right way. But for continuity overall, we need all paths to converge in the right way. Directional continuity when the domain is $\mathbb{R}$ is a special case of this: continuity from below and from above if and only if continuity for all sequences converging topologically to $x$.
-> 
+>
 > Similarly, for a function to be differentiable, the existence of all of its partial derivatives isn't enough – you need derivatives for every possible approach to the point in question. Here, the existence of all of the partials automatically guarantees the derivatives for every possible approach, because there's a partial for every function.
 >
 > here we have the same, except we have (in an infinite-dimenional function space X) infinitely many "partial derivatives". so from that point of view it's not that surprising that a function "having a derivative at $f$" is actually quite rare/complicated.
@@ -264,7 +264,6 @@ And if I didn't have the help of `TheMajor`, I wouldn't have understood the func
 
 I'm probably going to finish up an epidemiology textbook, before moving on to complex analysis, microeconomics, or... something else – who knows!
 
+[^1]: Lines $y=mx+b$ ($b\neq 0$) aren't actually linear functions, because they don't go through the origin. Instead, they're affine.
 
-[^1]: Lines $y=mx+b$ ($b\neq 0$) aren't actually linear functions, because they don't go through the origin. Instead, they're affine. 
-
-[^2]: To be more specific, $f + \mathbb{C}g := \{f + \lambda g: \lambda \in \mathbb{C}\}$ is often an [affine subspace](https://en.wikipedia.org/wiki/Affine_space), because the zero function is not necessarily a member. 
+[^2]: To be more specific, $f + \mathbb{C}g := \{f + \lambda g: \lambda \in \mathbb{C}\}$ is often an [affine subspace](https://en.wikipedia.org/wiki/Affine_space), because the zero function is not necessarily a member.

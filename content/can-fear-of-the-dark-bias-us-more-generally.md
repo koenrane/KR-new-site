@@ -45,5 +45,4 @@ My question is: does this apply more generally? Might we be more risk-averse at 
 
 <hr/>
 
-
-[^1]: [One study indicated](https://psychcentral.com/news/2014/04/02/night-owls-are-risk-takers/67976.html) that night owls are actually risk-takers, but there's a lot of confounders there with respect to nychtophobia-related explanations. 
+[^1]: [One study indicated](https://psychcentral.com/news/2014/04/02/night-owls-are-risk-takers/67976.html) that night owls are actually risk-takers, but there's a lot of confounders there with respect to nychtophobia-related explanations.

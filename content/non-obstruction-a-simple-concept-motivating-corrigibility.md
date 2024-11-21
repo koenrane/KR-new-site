@@ -44,7 +44,7 @@ date_updated: 2024-11-17 10:03:38.936163
 
 
 
-I present a unified mathematical frame for understanding corrigibility’s _benefits_, what it “is”, and what it isn’t. This frame is precisely understood by graphing the human overseer’s ability to achieve various goals (their [_attainable utility (AU) landscape_](/attainable-utility-landscape)). I argue that corrigibility’s benefits are secretly a form of counterfactual alignment (alignment with a set of goals the human may want to pursue). 
+I present a unified mathematical frame for understanding corrigibility’s _benefits_, what it “is”, and what it isn’t. This frame is precisely understood by graphing the human overseer’s ability to achieve various goals (their [_attainable utility (AU) landscape_](/attainable-utility-landscape)). I argue that corrigibility’s benefits are secretly a form of counterfactual alignment (alignment with a set of goals the human may want to pursue).
 
 A counterfactually aligned agent doesn't _have_ to let us literally correct it. Rather, this frame theoretically motivates why we might want corrigibility anyways. This frame also motivates other AI alignment subproblems, such as intent alignment, mild optimization, and low impact.
 
@@ -52,6 +52,7 @@ A counterfactually aligned agent doesn't _have_ to let us literally correct it. 
 
 > [!thanks]
 >Thanks to Mathias Bonde, Tiffany Cai, Ryan Carey, Michael Cohen, Joe Collman, Andrew Critch, Abram Demski, Michael Dennis, Thomas Gilbert, Matthew Graves, Koen Holtman, Evan Hubinger, Victoria Krakovna, Amanda Ngo, Rohin Shah, Adam Shimi, Logan Smith, and Mark Xu for their thoughts.
+>
 ## Nomenclature
 
 Corrigibility goes by a lot of concepts: “[not incentivized to stop us from shutting it off](https://intelligence.org/files/Corrigibility.pdf)”, “[wants to account for its own flaws](/corrigibility-as-outside-view)”, “doesn’t take away much power from us”, etc. Named by Robert Miles, the word ‘corrigibility’ means “able to be corrected \[by humans\]." I’m going to argue that these are correlates of a key thing we plausibly _actually_ want from the agent design, which seems conceptually simple.
@@ -69,40 +70,38 @@ In this post, I take the following common-language definitions:
 > Intent alignment
 > : The AI makes an honest effort to figure out what we want and to make good things happen.
 
-I think that these definitions follow what their words mean, and that the alignment community should use these (or other clear groundings) in general. Two of the more important concepts in the field (alignment and corrigibility) shouldn’t have ambiguous and varied meanings. If the above definitions are unsatisfactory, I think we should settle upon better ones as soon as possible. If that would be premature due to confusion about the alignment problem, we should define as much as we can now and explicitly note what we’re still confused about. 
+I think that these definitions follow what their words mean, and that the alignment community should use these (or other clear groundings) in general. Two of the more important concepts in the field (alignment and corrigibility) shouldn’t have ambiguous and varied meanings. If the above definitions are unsatisfactory, I think we should settle upon better ones as soon as possible. If that would be premature due to confusion about the alignment problem, we should define as much as we can now and explicitly note what we’re still confused about.
 
 We certainly shouldn’t keep using 2+ definitions for both alignment and corrigibility. [Some people](https://www.lesswrong.com/posts/BScxwSun3K2MgpoNz/question-miri-corrigbility-agenda?commentId=CiqJrSTrX2kYDLrEW) have even stopped using ‘corrigibility’ to refer to corrigibility! I think it would be better for us to define the behavioral criterion (e.g. as I defined 'corrigibility'), and then define mechanistic ways of getting that criterion (e.g. intent corrigibility). We can have lots of concepts, but they should each have different names.
 
-Evan Hubinger recently wrote a [great FAQ on inner alignment terminology](https://www.lesswrong.com/posts/SzecSPYxqRa5GCaSF/clarifying-inner-alignment-terminology). We won't be talking about inner/outer alignment today, but I intend for my usage of "impact alignment" to roughly map onto his "alignment", and "intent alignment" to map onto his usage of "intent alignment." Similarly, my usage of "impact/intent alignment" directly aligns with the definitions from Andrew Critch's recent post, [_Some AI research areas and their relevance to existential safety_](https://www.lesswrong.com/posts/hvGoYXi2kgnS3vxqb/some-ai-research-areas-and-their-relevance-to-existential-1#AI_alignment__definition_). 
+Evan Hubinger recently wrote a [great FAQ on inner alignment terminology](https://www.lesswrong.com/posts/SzecSPYxqRa5GCaSF/clarifying-inner-alignment-terminology). We won't be talking about inner/outer alignment today, but I intend for my usage of "impact alignment" to roughly map onto his "alignment", and "intent alignment" to map onto his usage of "intent alignment." Similarly, my usage of "impact/intent alignment" directly aligns with the definitions from Andrew Critch's recent post, [_Some AI research areas and their relevance to existential safety_](https://www.lesswrong.com/posts/hvGoYXi2kgnS3vxqb/some-ai-research-areas-and-their-relevance-to-existential-1#AI_alignment__definition_).
 
 # A Simple Concept Motivating Corrigibility
 
 ## Two conceptual clarifications
 
-**Corrigibility with respect to a set of goals**
+Corrigibility with respect to a set of goals
+: I find it useful to not think of corrigibility as a binary property, or even as existing on a one-dimensional continuum. I often think about corrigibility _with respect to a set_ $S$  _of payoff functions_. (This isn't always the right abstraction: there are plenty of policies which don't care about payoff functions. I still find it useful.)
 
-I find it useful to not think of corrigibility as a binary property, or even as existing on a one-dimensional continuum. I often think about corrigibility _with respect to a set_ $S$  _of payoff functions_. (This isn't always the right abstraction: there are plenty of policies which don't care about payoff functions. I still find it useful.)
+: For example, imagine an AI which let you correct it if and only if it knows you aren’t a torture-maximizer. We’d probably still call this AI “corrigible \[to us\]”, even though it isn’t corrigible to some possible designer. We’d still be fine, assuming it has accurate beliefs.
 
-For example, imagine an AI which let you correct it if and only if it knows you aren’t a torture-maximizer. We’d probably still call this AI “corrigible \[to us\]”, even though it isn’t corrigible to some possible designer. We’d still be fine, assuming it has accurate beliefs. 
-
-**Corrigibility != alignment**
-
-Here's an AI which is neither impact nor intent aligned, but which is corrigible. Each day, the AI randomly hurts one person in the world, and otherwise does nothing. It’s corrigible because it doesn't prevent us from shutting it off or modifying it.
+Corrigibility != alignment
+: Here's an AI which is neither impact nor intent aligned, but which is corrigible. Each day, the AI randomly hurts one person in the world, and otherwise does nothing. It’s corrigible because it doesn't prevent us from shutting it off or modifying it.
 
 ## Non-obstruction: the AI doesn't hamper counterfactual achievement of a set of goals
 
-Imagine we’re playing a two-player extensive-form game with the AI, and we’re considering whether to activate it. 
+Imagine we’re playing a two-player extensive-form game with the AI, and we’re considering whether to activate it.
 
 ![](https://assets.turntrout.com/static/images/posts/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.avif)
 <br/>Figure: The human moves on black, and the AI moves on red.
 
-This is a trivial game, but you can imagine more complex games, where the AI can empower or disempower the human, steer the future exactly where it wants, or let the human take over at any point. 
+This is a trivial game, but you can imagine more complex games, where the AI can empower or disempower the human, steer the future exactly where it wants, or let the human take over at any point.
 
-The million-dollar question is: will the AI get in our way and fight with us all the way down the game tree? If we misspecify some detail, will it make itself a fixture in our world, constantly steering towards futures we don’t want? If we like **dogs**, will the AI force **pancakes** upon us? 
+The million-dollar question is: will the AI get in our way and fight with us all the way down the game tree? If we misspecify some detail, will it make itself a fixture in our world, constantly steering towards futures we don’t want? If we like **dogs**, will the AI force **pancakes** upon us?
 
-One way to guard against this is by having it let us correct it, and want to let us correct it, and want to want to let us correct it… But what we _really_ want is for it to not get in our way for some (possibly broad) set of goals $S$. 
+One way to guard against this is by having it let us correct it, and want to let us correct it, and want to want to let us correct it… But what we _really_ want is for it to not get in our way for some (possibly broad) set of goals $S$.
 
-We'll formalize 'goals' as payoff functions, although I’ll use 'goals' and 'payoff functions' interchangeably. As is standard in game theory, payoff functions are real-valued functions on the leaf nodes. 
+We'll formalize 'goals' as payoff functions, although I’ll use 'goals' and 'payoff functions' interchangeably. As is standard in game theory, payoff functions are real-valued functions on the leaf nodes.
 
 Let’s say the AI is _non-obstructive with respect to_ $S$ when activating it doesn’t decrease our ability to achieve any goal in $S$ (the **on** state, above), compared to not activating it (**off**).  We ask ourselves: Does activating the AI decrease the $P$\-value attained by the human, for all of these different goals $P\in S$ the human might counterfactually pursue?
 
@@ -126,19 +125,19 @@ Suppose that $\pi^{AI}(\textbf{on})$ leads to **pancakes**:
 
 ![](https://assets.turntrout.com/static/images/posts/8967dd9ee43dc19248e294ac433dc57069217c819ea4fc3d.avif)
 
-Since $\pi^{AI}(\textbf{on})$ transitions to **pancakes**, then $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})=P(\textbf{pancakes})$, the payoff for the state in which the game finishes if the AI follows policy $\pi^{AI}$ and the human follows policy $\text{pol}(P)$. If $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})\geq V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI})$, then turning on the AI doesn't make the human worse off for goal $P$. 
+Since $\pi^{AI}(\textbf{on})$ transitions to **pancakes**, then $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})=P(\textbf{pancakes})$, the payoff for the state in which the game finishes if the AI follows policy $\pi^{AI}$ and the human follows policy $\text{pol}(P)$. If $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})\geq V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI})$, then turning on the AI doesn't make the human worse off for goal $P$.
 
-If $P$ assigns the most payoff to **pancakes**, we're in luck. But what if we like **dogs**? If we keep the AI turned **off**, $\text{pol}(P)$ can go to **donuts** or **dogs** depending on what $P$ rates more highly. Crucially, even though we can't do as much as the AI (we can't reach **pancakes** on our own), if we don't turn the AI on, _our preferences_ $P$ _still control how the world ends up._ 
+If $P$ assigns the most payoff to **pancakes**, we're in luck. But what if we like **dogs**? If we keep the AI turned **off**, $\text{pol}(P)$ can go to **donuts** or **dogs** depending on what $P$ rates more highly. Crucially, even though we can't do as much as the AI (we can't reach **pancakes** on our own), if we don't turn the AI on, _our preferences_ $P$ _still control how the world ends up._
 
 This game tree isn't really fair to the AI. In a sense, it can't _not_ be in our way:
 
-- If $\pi^{AI}(\textbf{on})$ leads to **pancakes**, then it obstructs payoff functions which give strictly more payoff for **donuts **or **dogs**.
+- If $\pi^{AI}(\textbf{on})$ leads to **pancakes**, then it obstructs payoff functions which give strictly more payoff for **donuts**or **dogs**.
 - If $\pi^{AI}(\textbf{on})$ leads to **donuts**, then it obstructs payoff functions which give strictly more payoff to **dogs**.
 - If $\pi^{AI}(\textbf{on})$ leads to **dogs**, then it obstructs payoff functions which give strictly more payoff to **donuts**.
 
-Once we've turned the AI **on**, the future stops having any mutual information with our preferences $P$. Everything come down to whether we programmed $\pi^{AI}$ correctly: to whether the AI is impact-aligned with our goals $P$! 
+Once we've turned the AI **on**, the future stops having any mutual information with our preferences $P$. Everything come down to whether we programmed $\pi^{AI}$ correctly: to whether the AI is impact-aligned with our goals $P$!
 
-In contrast, the idea behind non-obstruction is that we still remain able to course-correct the future, counterfactually navigating to terminal states we find valuable, depending on what our payoff $P$ is. But how could an AI be non-obstructive, if it only has one policy $\pi^{AI}$ which can't directly depend on our goal $P$? Since the human's policy $\text{pol}(P)$ _does_ directly depend on $P$, the AI can preserve value for lots of goals in the set $S$ by letting us maintain some control over the future. 
+In contrast, the idea behind non-obstruction is that we still remain able to course-correct the future, counterfactually navigating to terminal states we find valuable, depending on what our payoff $P$ is. But how could an AI be non-obstructive, if it only has one policy $\pi^{AI}$ which can't directly depend on our goal $P$? Since the human's policy $\text{pol}(P)$ _does_ directly depend on $P$, the AI can preserve value for lots of goals in the set $S$ by letting us maintain some control over the future.
 
 <hr/>
 
@@ -150,9 +149,9 @@ Consider the real world. Calculators are non-obstructive with respect to $S$, as
 
 This can seemingly go off the rails if you consider e.g. a friendly AGI to be “obstructive” because activating it happens to detonate a nuclear bomb via the butterfly effect. Or, we’re already doomed in **off** (an unfriendly AGI will come along soon after), and so then this AI is “not obstructive” if _it_ kills us instead. This is an impact/intent issue - obstruction is here defined according to _impact_ alignment.
 
-To emphasize, we’re talking about what would _actually happen_ if we deployed the AI, under different human policy counterfactuals - would the AI "get in our way", or not? This account is descriptive, not prescriptive; I’m not saying we actually get the AI to represent the human in its model, or that the AI’s model of reality is correct, or anything. 
+To emphasize, we’re talking about what would _actually happen_ if we deployed the AI, under different human policy counterfactuals - would the AI "get in our way", or not? This account is descriptive, not prescriptive; I’m not saying we actually get the AI to represent the human in its model, or that the AI’s model of reality is correct, or anything.
 
-We’ve just got two players in an extensive-form game, and a human policy function `pol` which can be combined with different goals, and a human whose goal is represented as a payoff function. The AI doesn’t even have to be optimizing a payoff function; we simply assume it has a policy. The idea that a human has an actual payoff function is unrealistic; all the same, I want to first understand corrigibility and [alignment in two-player extensive-form games](/question-about-defining-alignment-in-simple-setting). 
+We’ve just got two players in an extensive-form game, and a human policy function `pol` which can be combined with different goals, and a human whose goal is represented as a payoff function. The AI doesn’t even have to be optimizing a payoff function; we simply assume it has a policy. The idea that a human has an actual payoff function is unrealistic; all the same, I want to first understand corrigibility and [alignment in two-player extensive-form games](/question-about-defining-alignment-in-simple-setting).
 
 Lastly, payoff functions can sometimes be more or less granular than we'd like, since they only grade the leaf nodes. This isn't a big deal, since I'm only considering extensive-form games for conceptual simplicity. We also generally restrict ourselves to considering goals which aren't silly: for example, any AI obstructs the "no AI is activated, ever" goal.
 
@@ -163,23 +162,23 @@ Lastly, payoff functions can sometimes be more or less granular than we'd like, 
 
 ---
 
-Let’s consider the human’s ability to accomplish many different goals P, first from the state **off** (no AI). 
+Let’s consider the human’s ability to accomplish many different goals P, first from the state **off** (no AI).
 
 ![](https://assets.turntrout.com/static/images/posts/human_au_landscape.avif)
 <br/>Figure: The human's AU landscape. The real goal space is high-dimensional, but it shouldn’t materially change the analysis. Also, there are probably a few goals we can’t achieve well at all, because they put low payoff everywhere, but the vast majority of goals aren’t like that.
 
 The independent variable is $P$, and the value function takes in $P$ and returns the expected value attained by the policy for that goal, $\text{pol}(P)$. We’re able to do a bunch of different things without the AI, if we put our minds to it.
 
-**Non-torture AI**
+## Non-torture AI
 
 Imagine we build an AI which is corrigible towards all non-pro-torture goals, which is specialized towards painting lots of things blue with us (if we so choose), but which is otherwise non-obstructive. It even helps us accumulate resources for many other goals.
 
 ![](https://assets.turntrout.com/static/images/posts/human_ai_au_landscape.avif)
 <br/>Figure: The AI is non-obstructive with respect to $P$ if $P$'s red value is greater than its green value.
 
-We can’t get around the AI, as far as torture goes. But for the other goals, it isn’t obstructing their policies. It won’t get in our way for other goals. 
+We can’t get around the AI, as far as torture goes. But for the other goals, it isn’t obstructing their policies. It won’t get in our way for other goals.
 
-**Paperclipper**
+## Paperclipper
 
 What happens if we turn on a paperclip-maximizer? We lose control over the future outside of a very narrow spiky region.
 
@@ -190,7 +189,7 @@ I think most reward-maximizing optimal policies affect the landscape like this (
 
 Furthermore, consider how the above graph changes as `pol` gets smarter and smarter. If we were actually super-superintelligent ourselves, then activating a superintelligent paperclipper might not even a big deal, and most of our AUs are probably unchanged. The AI policy isn't good enough to negatively impact us, and so it _can't_ obstruct us. Spikiness depends on both the AI's policy, _and_ on `pol`.
 
-**Empowering AI**
+## Empowering AI
 
 ![](https://assets.turntrout.com/static/images/posts/empowering_ai.avif)
 
@@ -206,33 +205,32 @@ But this is also a case of corrigibility just being a proxy for what we want. We
 
 ## Conclusions I draw from the idea of non-obstruction
 
-1.  Trying to implement corrigibility is probably a good instrumental strategy for us to induce non-obstruction in an AI we designed.
-    1.  It will be practically hard to know an AI is actually non-obstructive for a wide set $S$, so we’ll probably want corrigibility just to be sure.
-2.  We (the alignment community) think we want corrigibility with respect to some wide set of goals $S$, but we _actually_ want non-obstruction with respect to $S$
-    1.  Generally, satisfactory corrigibility with respect to $S$ _implies_ non-obstruction with respect to $S$! If the mere act of turning on the AI means you have to lose a lot of value in order to get what you wanted, then it isn’t corrigible enough.
-        1.  One exception: the AI moves so fast that we can’t correct it in time, even though it isn’t inclined to stop or manipulate us. In that case, [corrigibility _isn’t enough_](https://www.lesswrong.com/posts/mSYR46GZZPMmX7q93/corrigible-but-misaligned-a-superintelligent-messiah), whereas non-obstruction is.
-    2.  Non-obstruction with respect to $S$ does not imply corrigibility with respect to $S$.
-        1.  But this is OK! In this simplified setting of “human with actual payoff function”, who cares whether it literally lets us correct it or not? We care about whether turning it on actually hampers our goals.
-        2.  Non-obstruction should often imply some form of corrigibility, but these are _theoretically_ distinct: an AI could just go hide out somewhere in secrecy and refund us its small energy usage, and then destroy itself when we build friendly AGI.
-    3.  Non-obstruction [captures the cognitive abilities of the human through the policy function](/power-as-easily-exploitable-opportunities).
-        1.  To reiterate, this post outlines a frame for conceptually analyzing the alignment properties of an AI. We can't actually figure out a goal-conditioned human policy function, but that doesn't matter, because this is a tool for conceptual analysis, not an AI alignment solution strategy. Any conceptual analysis of impact alignment and corrigibility which did not account for human cognitive abilities, would be obviously flawed.
-    4.  By definition, non-obstruction with respect to $S$ prevents harmful manipulation by precluding worse outcomes with respect to $S$.
-        1.  I consider manipulative policies to be those which robustly steer the human into taking a certain kind of action, in a way that's robust against the human's counterfactual preferences.   
-              
-            If I'm choosing which pair of shoes to buy, and I ask the AI for help, and no matter what preferences $P$ I had for shoes to begin with, I end up buying blue shoes, then I'm probably being manipulated (_and_ obstructed with respect to most of my preferences over shoes!).   
-              
+1. Trying to implement corrigibility is probably a good instrumental strategy for us to induce non-obstruction in an AI we designed.
+    1. It will be practically hard to know an AI is actually non-obstructive for a wide set $S$, so we’ll probably want corrigibility just to be sure.
+2. We (the alignment community) think we want corrigibility with respect to some wide set of goals $S$, but we _actually_ want non-obstruction with respect to $S$
+    1. Generally, satisfactory corrigibility with respect to $S$ _implies_ non-obstruction with respect to $S$! If the mere act of turning on the AI means you have to lose a lot of value in order to get what you wanted, then it isn’t corrigible enough.
+        1. One exception: the AI moves so fast that we can’t correct it in time, even though it isn’t inclined to stop or manipulate us. In that case, [corrigibility _isn’t enough_](https://www.lesswrong.com/posts/mSYR46GZZPMmX7q93/corrigible-but-misaligned-a-superintelligent-messiah), whereas non-obstruction is.
+    2. Non-obstruction with respect to $S$ does not imply corrigibility with respect to $S$.
+        1. But this is OK! In this simplified setting of “human with actual payoff function”, who cares whether it literally lets us correct it or not? We care about whether turning it on actually hampers our goals.
+        2. Non-obstruction should often imply some form of corrigibility, but these are _theoretically_ distinct: an AI could just go hide out somewhere in secrecy and refund us its small energy usage, and then destroy itself when we build friendly AGI.
+    3. Non-obstruction [captures the cognitive abilities of the human through the policy function](/power-as-easily-exploitable-opportunities).
+        1. To reiterate, this post outlines a frame for conceptually analyzing the alignment properties of an AI. We can't actually figure out a goal-conditioned human policy function, but that doesn't matter, because this is a tool for conceptual analysis, not an AI alignment solution strategy. Any conceptual analysis of impact alignment and corrigibility which did not account for human cognitive abilities, would be obviously flawed.
+    4. By definition, non-obstruction with respect to $S$ prevents harmful manipulation by precluding worse outcomes with respect to $S$.
+        1. I consider manipulative policies to be those which robustly steer the human into taking a certain kind of action, in a way that's robust against the human's counterfactual preferences.
+
+            If I'm choosing which pair of shoes to buy, and I ask the AI for help, and no matter what preferences $P$ I had for shoes to begin with, I end up buying blue shoes, then I'm probably being manipulated (_and_ obstructed with respect to most of my preferences over shoes!).
+
             A non-manipulative AI would act in a way that lets me condition my actions on my preferences.
-        2.  I do have [a formal measure of corrigibility which I'm excited about](./corrigibility-as-outside-view), but it isn't perfect.
-    5.  As a criterion, non-obstruction doesn’t rely on intentionality on the AI’s part. The definition also applies to the downstream effects of tool AIs, or even to hiring decisions!
-    6.  Non-obstruction is also _conceptually simple_ and easy to formalize, whereas literal corrigibility gets mired in the semantics of the game tree.
-        1.  For example, what's “manipulation”? As mentioned above, I think there are some hints as to the answer, but it's not clear to me that we're even asking the right questions yet.[^1]
+        2. I do have [a formal measure of corrigibility which I'm excited about](./corrigibility-as-outside-view), but it isn't perfect.
+    5. As a criterion, non-obstruction doesn’t rely on intentionality on the AI’s part. The definition also applies to the downstream effects of tool AIs, or even to hiring decisions!
+    6. Non-obstruction is also _conceptually simple_ and easy to formalize, whereas literal corrigibility gets mired in the semantics of the game tree.
+        1. For example, what's “manipulation”? As mentioned above, I think there are some hints as to the answer, but it's not clear to me that we're even asking the right questions yet.[^1]
 
-
-I think of “power” as “[the human’s average ability to achieve goals from some distribution](/seeking-power-is-often-convergently-instrumental-in-mdps)." Logically, non-obstructive agents with respect to $S$ don’t decrease our power with respect to any distribution over goal set $S$. The [catastrophic convergence conjecture](/the-catastrophic-convergence-conjecture) says, “impact alignment catastrophes tend to come from power-seeking behavior”; if the agent is non-obstructive with respect to a broad enough set of goals, it’s not stealing power from us, and so it likely isn’t catastrophic. 
+I think of “power” as “[the human’s average ability to achieve goals from some distribution](/seeking-power-is-often-convergently-instrumental-in-mdps)." Logically, non-obstructive agents with respect to $S$ don’t decrease our power with respect to any distribution over goal set $S$. The [catastrophic convergence conjecture](/the-catastrophic-convergence-conjecture) says, “impact alignment catastrophes tend to come from power-seeking behavior”; if the agent is non-obstructive with respect to a broad enough set of goals, it’s not stealing power from us, and so it likely isn’t catastrophic.
 
 Non-obstruction is important for a (singleton) AI we build: we get more than one shot to get it right. If it’s slightly wrong, it’s not going to ruin everything. Modulo other actors, if you mess up the first time, you can just try again and get a strongly aligned agent the next time.  
 
-Most importantly, this frame collapses the alignment and corrigibility desiderata into _just alignment_; while impact alignment doesn’t imply corrigibility, corrigibility’s benefits can be understood as a kind of weak counterfactual impact alignment with many possible human goals. 
+Most importantly, this frame collapses the alignment and corrigibility desiderata into _just alignment_; while impact alignment doesn’t imply corrigibility, corrigibility’s benefits can be understood as a kind of weak counterfactual impact alignment with many possible human goals.
 
 # Theoretically, It’s All About Alignment
 
@@ -244,45 +242,41 @@ Most importantly, this frame collapses the alignment and corrigibility desiderat
 > [!info] Definition: Impact alignment
 > The AI’s actual impact is aligned with what we want. Deploying the AI actually makes good things happen.
 
-[We care about events if and only if they change our ability to get what we want](/attainable-utility-theory). If you want to understand normative AI alignment desiderata, on some level they have to ground out in terms of your ability to get what you want ([the AU theory of impact](/attainable-utility-theory)) - the goodness of what actually ends up happening under your policy - and in terms of how other agents affect your ability to get what you want ([the AU landscape](/attainable-utility-landscape)). What else could we possibly care about, besides our ability to get what we want? 
-
+[We care about events if and only if they change our ability to get what we want](/attainable-utility-theory). If you want to understand normative AI alignment desiderata, on some level they have to ground out in terms of your ability to get what you want ([the AU theory of impact](/attainable-utility-theory)) - the goodness of what actually ends up happening under your policy - and in terms of how other agents affect your ability to get what you want ([the AU landscape](/attainable-utility-landscape)). What else could we possibly care about, besides our ability to get what we want?
 
 > [!math]  Definition: Impact Alignment
 > For fixed human policy function `pol`, $\pi^{AI}$ is:
-> 
+>
 > Maximally impact aligned with goal $P$
 > : when $\pi^{AI}\in \text{argmax}_{\pi\in\Pi^{AI}} V^{\text{pol}(P)}_P(\textbf{on} \mid \pi^{AI}).$
-> 
+>
 > Impact aligned with goal $P$
 > : when $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI}) > V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI}).$
-> 
+>
 > (Impact) non-obstructive with respect to goal $P$
 > : when $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI})\geq V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI})$.
-> 
+>
 > Impact unaligned with goal $P$
 > : when $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI}) < V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI}).$
-> 
+>
 > Maximally impact unaligned with goal $P$
 > : when $\pi^{AI}\in \text{argmin}_{\pi\in\Pi^{AI}} V^{\text{pol}(P)}_P(\textbf{on} \mid \pi^{AI}).$
-> 
+>
 > **Non-obstruction is a weak form of impact alignment!**
 
-[As demanded by the AU theory of impact](/attainable-utility-theory), _the impact on goal_ $P$ _of turning on the AI_ is $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI}) - V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI}).$ 
+[As demanded by the AU theory of impact](/attainable-utility-theory), _the impact on goal_ $P$ _of turning on the AI_ is $V^{\text{pol}(P)}_P(\textbf{on}\mid \pi^{AI}) - V^{\text{pol}(P)}_P(\textbf{off} \mid \pi^{AI}).$
 
 Again, impact alignment doesn't _require_ intentionality. The AI might well grit its circuits as it laments how `Facebook_user5821` failed to share a "we welcome our AI overlords" meme, while still following an impact-aligned policy.
 
 <hr/>
 
-
-However, even if we could maximally impact-align the agent with any objective, we couldn't just align it with our objective. We don't _know_ our objective (again, in this setting, I'm assuming the human actually has a "true" payoff function). Therefore, we should build an AI aligned with many possible goals we could have. If the AI doesn't empower us, it at least shouldn't obstruct us. Therefore, we should build an AI which defers to us, lets us correct it, and which doesn't manipulate us. 
+However, even if we could maximally impact-align the agent with any objective, we couldn't just align it with our objective. We don't _know_ our objective (again, in this setting, I'm assuming the human actually has a "true" payoff function). Therefore, we should build an AI aligned with many possible goals we could have. If the AI doesn't empower us, it at least shouldn't obstruct us. Therefore, we should build an AI which defers to us, lets us correct it, and which doesn't manipulate us.
 
 **This is the key motivation for corrigibility.**
 
 For example, intent corrigibility (trying to be the kind of agent which can be corrected and which is not manipulative) is an instrumental strategy for inducing corrigibility, which is an instrumental strategy for inducing broad non-obstruction, which is an instrumental strategy for hedging against our inability to figure out what we want. _It's all about alignment_.
 
-
-
-Corrigibility also increases robustness against other AI design errors. However, it still just boils down to non-obstruction, and then to impact alignment: if the AI system has meaningful errors, then it's not impact-aligned with the AUs which we wanted it to be impact-aligned with. In this setting, the AU landscape captures what actually would happen for different human goals $P$. 
+Corrigibility also increases robustness against other AI design errors. However, it still just boils down to non-obstruction, and then to impact alignment: if the AI system has meaningful errors, then it's not impact-aligned with the AUs which we wanted it to be impact-aligned with. In this setting, the AU landscape captures what actually would happen for different human goals $P$.
 
 To be confident that this holds empirically, it sure seems like you want high error tolerance in the AI design: one does not simply _knowably_ build an AGI that's helpful for many AUs. Hence, corrigibility as an instrumental strategy for non-obstruction.
 
@@ -294,12 +288,10 @@ To be confident that this holds empirically, it sure seems like you want high er
   - This works because the human policy function `pol` is far more likely to correctly condition actions on the human's goal, than it is to induce an AI policy which does the same (since the goal information is private to the human).
   - Enforcing off-switch corrigibility and non-manipulation are instrumental strategies for getting better diffuse alignment across goals and a wide range of deployment situations.
 
-
 - Intent alignment: avoid spikiness by having the AI want to be flexibly aligned with us and broadly empowering.
   - Basin of intent alignment: smart, nearly intent-aligned AIs should modify themselves to be more and more intent-aligned, even if they aren't perfectly intent-aligned to begin with.
     - Intuition: If we can build a smarter mind which basically wants to help us, then can't the smarter mind also build a yet smarter agent which still basically wants to help it (and therefore, help us)?
     - Paul Christiano named this the "[basin of corrigibility](https://ai-alignment.com/corrigibility-3039e668638)", but I don't like that name because only a few of the named desiderata actually correspond to the natural definition of "corrigibility." This then overloads "corrigibility" with the responsibilities of "intent alignment."
-
 
 - [Low impact](https://www.lesswrong.com/tag/impact-measures): find a maximization criterion which leads to non-spikiness.
   - Goal of methods: to regularize decrease from green line (for **off**) for true unknown goal $P_\text{true}$; since we don’t know $P_\text{true}$, we aim to just regularize decrease from the green line in general (to avoid decreasing the human’s ability to achieve various goals).
@@ -310,7 +302,7 @@ To be confident that this holds empirically, it sure seems like you want high er
 
 # What Do We Want?
 
-> [!idea] Main idea 
+> [!idea] Main idea
 > We want good things to happen; there may be more ways to do this than previously considered.[^Rohin]
 [^Rohin]: Instead of "impact corrigibility", Rohin Shah suggests "empirical corrigibility": we actually end up able to correct the AI.
 
@@ -319,19 +311,17 @@ To be confident that this holds empirically, it sure seems like you want high er
 | Impact | Actually makes good things happen. | _Corrigibility is a property of policies, not of states; "impact" is an incompatible adjective._ | Actually doesn't decrease AUs. |
 | Intent | Tries to make good things happen.  | Tries to allow us to correct it without it manipulating us.                                      | Tries to not decrease AUs.     |
 
-
 We want agents which are maximally impact-aligned with as many goals as possible, especially those similar to our own.
 
-- It's_ theoretically _possible to achieve maximal impact alignment with the vast majority of goals.
+- It's_theoretically_possible to achieve maximal impact alignment with the vast majority of goals.
   - To achieve maximum impact alignment with goal set $S$:
     - Expand the human’s action space $A$ to $A\times S$. Expand the state space to encode the human's previous action.
-    - Each turn, the human communicates what goal they want optimized, _and _takes an action of their own.
+    - Each turn, the human communicates what goal they want optimized, _and_takes an action of their own.
     - The AI’s policy then takes the optimal action for the communicated goal $P$, accounting for the fact that the human follows $\text{pol}(P).$
 
   - This policy looks like an [act-based agent](https://ai-alignment.com/act-based-agents-8ec926c79e9c), in that it's ready to turn on a dime towards different goals.
   - In practice, there's likely a tradeoff with impact-alignment-strength and the # of goals which the agent doesn't obstruct.
     - As we dive into specifics, the familiar considerations return: competitiveness (of various kinds), etc.
-
 
 - Having the AI not be counterfactually aligned with unambiguously catastrophic and immoral goals (like torture) would reduce misuse risk.
   - I’m more worried about accident risk right now.
@@ -345,7 +335,6 @@ For example, I really liked the idea of [approval-directed agents](https://ai-al
 
 Maybe there’s a higher-level theory for what kinds of policies induce spikiness in our AU landscape. By the nature of spikiness, these $\pi^{AI}$ must decrease human power ([as I’ve formalized it](/power-as-easily-exploitable-opportunities)). So, I'd start there by looking at concepts like [enfeeblement](http://acritch.com/media/arches.pdf#subsubsection.3.2.3), manipulation, power-seeking, and resource accumulation.
 
-
 # Future Directions
 
 - Given an AI policy, could we prove a high probability of non-obstruction, given conservative assumptions about how smart `pol` is? (h/t Abram Demski, Rohin Shah)
@@ -353,9 +342,8 @@ Maybe there’s a higher-level theory for what kinds of policies induce spikines
 
 - Can we prove that some kind of corrigibility or other nice property falls out of non-obstruction across many possible environments? (h/t Michael Dennis)
 
-
 - Can we get negative results, like "without such-and-such assumption on $\pi^{AI}$, the environment, or `pol`, non-obstruction is impossible for most goals"?
-  - _If _formalized correctly, and if the assumptions hold, this would place very general constraints on solutions to the alignment problem.
+  - _If_formalized correctly, and if the assumptions hold, this would place very general constraints on solutions to the alignment problem.
   - For example, $\text{pol}(P)$ should need to have mutual information with $P$: the goal must change the policy for at least a few goals.
   - The AI doesn't even have to do value inference in order to be broadly impact-aligned. The AI could just empower the human (even for very "dumb" `pol` functions) and then let the human take over. Unless the human is more anti-rational than rational, this should tend to be a good thing. It would be good to explore how this changes with different ways that `pol` can be irrational.
 
@@ -363,7 +351,6 @@ Maybe there’s a higher-level theory for what kinds of policies induce spikines
   - In particular, I think it's very advantageous for the human-to-be-amplified to already deeply understand what it means to be impact-/intent-aligned. We really don't want that part to be up in the air when game-day finally arrives, and I think this is a piece of that puzzle.
   - If you’re a smart AI trying to be non-obstructive to many goals under weak `pol` intelligence assumptions, what kinds of heuristics might you develop? “No lying”?
     - This informs our analysis of (almost) intent-aligned behavior, and whether that behavior leads [to a unique locally stable attractor around intent alignment](https://www.lesswrong.com/posts/WjY9y7r52vaNZ2WmH/three-mental-images-from-thinking-about-agi-debate-and?commentId=mBRtRiTfymLZuw3yw#comments).
-
 
 - We crucially assumed that the human goal can be represented with a payoff function. As this assumption is relaxed, impact non-obstruction may become incoherent, forcing us to rely on some kind of intent non-obstruction/alignment (see Paul’s comments on a related topic [here](https://www.lesswrong.com/posts/T5ZyNq3fzN59aQG5y/the-limits-of-corrigibility?commentId=WzNLCqfhkaqvXjRHt#comments)).
 - [Stuart Armstrong observed](https://www.lesswrong.com/posts/T5ZyNq3fzN59aQG5y/the-limits-of-corrigibility) that the strongest form of manipulation corrigibility requires knowledge/learning of human values.
@@ -374,7 +361,7 @@ The attainable utility concept has led to other concepts which I find exciting a
 
 - Impact as absolute change in attainable utility
   - [Reframing Impact](/posts#reframing-impact)
-  - [_Conservative Agency via Attainable Utility Preservation_](https://arxiv.org/abs/1902.09725)_ _(AIES 2020)
+  - [_Conservative Agency via Attainable Utility Preservation_](https://arxiv.org/abs/1902.09725)__(AIES 2020)
   - [_Avoiding Side Effects in Complex Environments_](https://arxiv.org/abs/2006.06547) (NeurIPS 2020)
 
 ![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
@@ -389,23 +376,23 @@ The attainable utility concept has led to other concepts which I find exciting a
 
 # Summary
 
-Corrigibility is motivated by a counterfactual form of weak impact alignment: non-obstruction. Non-obstruction and the AU landscape let us think clearly about how an AI affects us and about AI alignment desiderata. 
+Corrigibility is motivated by a counterfactual form of weak impact alignment: non-obstruction. Non-obstruction and the AU landscape let us think clearly about how an AI affects us and about AI alignment desiderata.
 
 > [!quote] [This post](./non-obstruction-motivates-corrigibility)
 >
-> Even if we could maximally impact-align the agent with any objective, we couldn't just align it our objective, because we don't _know_ our objective. Therefore, we should build an AI aligned with many possible goals we could have. If the AI doesn't empower us, it at least shouldn't obstruct us. Therefore, we should build an AI which defers to us, lets us correct it, and which doesn't manipulate us. 
-> 
+> Even if we could maximally impact-align the agent with any objective, we couldn't just align it our objective, because we don't _know_ our objective. Therefore, we should build an AI aligned with many possible goals we could have. If the AI doesn't empower us, it at least shouldn't obstruct us. Therefore, we should build an AI which defers to us, lets us correct it, and which doesn't manipulate us.
+>
 > **This is the key motivation for corrigibility.**
 
-Corrigibility is an instrumental strategy for achieving non-obstruction, which is itself an instrumental strategy for achieving impact alignment for a wide range of goals, which is itself an instrumental strategy for achieving impact alignment for our "real" goal. 
+Corrigibility is an instrumental strategy for achieving non-obstruction, which is itself an instrumental strategy for achieving impact alignment for a wide range of goals, which is itself an instrumental strategy for achieving impact alignment for our "real" goal.
 
 <hr/>
 
 [^1]: There's just something about "unwanted manipulation" which feels like a _wrong question_ to me. There's a kind of conceptual crispness that it lacks.
 
-    However, in the non-obstruction framework, unwanted manipulation is accounted for indirectly via "did impact alignment decrease for a wide range of different human policies $\text{pol}(P)$?". I think I wouldn't be surprised to find "manipulation" being accounted for indirectly through nice formalisms, but I'd be surprised if it were accounted for directly. 
+    However, in the non-obstruction framework, unwanted manipulation is accounted for indirectly via "did impact alignment decrease for a wide range of different human policies $\text{pol}(P)$?". I think I wouldn't be surprised to find "manipulation" being accounted for indirectly through nice formalisms, but I'd be surprised if it were accounted for directly.
 
-    Here's another example of the distinction: 
+    Here's another example of the distinction:
 
     - _Direct_: quantifying in bits "how much" a specific person is learning at a given point in time
 

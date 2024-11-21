@@ -98,7 +98,7 @@ So what about:
 </dd>
 </dl>
 
-#### Notes
+# Notes
 
 - The three sections of this sequence will respectively answer three questions:
   1. Why do we think some things are big deals?
@@ -106,7 +106,7 @@ So what about:
   3. How might we build agents without these incentives?
 
 - The first part of this sequence focuses on foundational concepts crucial for understanding the deeper nature of impact. We will not yet be discussing what to implement.
-- I strongly encourage completing the exercises. At times you shall be given a time limit; it’s important to learn not only to reason correctly, but [with ](https://www.readthesequences.com/The-Failures-Of-Eld-Science)[speed:](https://www.readthesequences.com/Einsteins-Speed)
+- I strongly encourage completing the exercises. At times you shall be given a time limit; it’s important to learn not only to reason correctly, but [with](https://www.readthesequences.com/The-Failures-Of-Eld-Science)[speed:](https://www.readthesequences.com/Einsteins-Speed)
 
 > [!quote] [Thinking Physics](https://www.amazon.com/Thinking-Physics-Understandable-Practical-Reality/dp/0935218084)
 >
@@ -118,5 +118,5 @@ So what about:
   - The Balrog drawing is based on [`gonzalokenny`'s amazing work](https://www.deviantart.com/gonzalokenny/art/Gandalf-and-the-Balrog-329465089).
 
 - Some of you may have a different conception of impact; I ask that you grasp the thing that I’m pointing to. In doing so, you might come to see your mental algorithm is the same. Ask not “is this what I initially had in mind?”, but rather “does this make sense to call 'impact'?”.
-> [!thanks] 
+> [!thanks]
 > Thanks to Rohin Shah for suggesting the three key properties. Alison Bowden contributed several small drawings and enormous help with earlier drafts.

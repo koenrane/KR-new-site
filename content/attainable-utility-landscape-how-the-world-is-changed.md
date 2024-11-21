@@ -132,7 +132,7 @@ We say two rewardless MDPs $M$ and $M'$ are _isomorphic up to possibilities_ if 
 
 This isomorphism is a natural contender[^1] for the canonical (finite) MDP isomorphism:
 
-> [!math] A theorem I proved 
+> [!math] A theorem I proved
 > $M$ and $M'$ are isomorphic up to possibilities IFF their directed graphs are isomorphic (and they have the same discount rate).
 
 ### Representation equivalence
@@ -154,11 +154,11 @@ $$
 \left\{\begin{pmatrix}
            0 \\
            0 \\
-           4 \end{pmatrix} 
+           4 \end{pmatrix}
 \right\} \qquad\left\{\begin{pmatrix}
            0 \\
            1 \\
-           3 \end{pmatrix}, 
+           3 \end{pmatrix},
 \begin{pmatrix}
            4-\frac{1}{.4375}\\ \frac{1}{.4375} \\ 0 \end{pmatrix},
 \begin{pmatrix}
@@ -169,9 +169,9 @@ $$
 
 $$
 > [!info] Exercise
-> 
+>
 > What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$.
-> 
+>
 > >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](https://assets.turntrout.com/static/images/posts/5GCZ9oY.avif).
 > >
 > >! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
@@ -205,17 +205,16 @@ Philosophically, opportunity cost exists when you have meaningful choices. When 
 
 While understanding opportunity cost may seem like a side-quest, each insight is another brick in the edifice of our understanding of the incentives of goal-directed agency.
 
-### Notes
+# Notes
 
 - Just as game theory is a great abstraction for modeling competitive and cooperative dynamics, AU landscape is great for thinking about consequences: it automatically excludes irrelevant details about the world state. We can think about the effects of events without needing a specific utility function or ontology to evaluate them. In multi-agent systems, we can straightforwardly predict the impact the agents have on each other and the world.
 - “Objective impact to a location” means that agents whose plans route through the location tend to be objectively impacted.
 - The landscape is not the territory: [AU is calculated with respect to an agent's _beliefs_](/the-gears-of-impact), not necessarily with respect to what really "could" or will happen.
 
-
 [^1]: The possibility isomorphism is new to my work, as are all other results shared in this post. This apparent lack of basic theory regarding MDPs is strange; even stranger, this absence was actually pointed out in two [published](http://papers.nips.cc/paper/3179-stable-dual-dynamic-programming.pdf) [papers](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4220813)!
 
     I find the existing MDP isomorphisms/equivalences to be pretty lacking. The details don't fit in this margin, but perhaps in a paper at some point. If you want to coauthor this (mainly compiling results, finding a venue, and responding to reviews), let me know. Added later: The results are available in the appendices of [my dissertation](https://arxiv.org/abs/2206.11831).
 
-[^2]: In fact, you can reconstruct the environment using only a limited subset of possibilities: the _non-dominated_ possibilities. 
+[^2]: In fact, you can reconstruct the environment using only a limited subset of possibilities: the _non-dominated_ possibilities.
 
-[^3]: As a tensor, the transition function $T$ has size $|\mathcal{A}|\cdot|\mathcal{S}|^2$, while the AU landscape representation only has size $|\mathcal{S}|^2$. However, if you're just representing $T$ as a transition _function_, it has size $|\mathcal{A}|\cdot|\mathcal{S}|$. 
+[^3]: As a tensor, the transition function $T$ has size $|\mathcal{A}|\cdot|\mathcal{S}|^2$, while the AU landscape representation only has size $|\mathcal{S}|^2$. However, if you're just representing $T$ as a transition _function_, it has size $|\mathcal{A}|\cdot|\mathcal{S}|$.

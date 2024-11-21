@@ -102,8 +102,8 @@ At this point, you might be thinking “OK, but I can’t roam the mountains of 
 
 The declutter goes as follows:
 
-1.  Identify the minimal set of digital affordances required to do your job and the other necessities of life (e.g. paying bills).
-2.  Cut out everything else for one month.
+1. Identify the minimal set of digital affordances required to do your job and the other necessities of life (e.g. paying bills).
+2. Cut out everything else for one month.
 
 The point is that these apps which are [out to get you](https://www.lesswrong.com/posts/ENBzEkoyvdakz4w5d/out-to-get-you)—they’re very good at what they do. It’s not enough to turn off notifications and enable app timers. [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/) argues (and I mostly agree) that you have to _get out of the pond entirely_ and catch a breather. After the declutter, you can soberly analyze the costs and benefits of each digital activity you add back in.
 
@@ -240,7 +240,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
 
   - I could also check a favorite page once a week (with the chat and comment elements blocked), if I need more memes in my bloodstream.
   - In combination with a monthly Messenger checkin, I’ve extracted my main benefits from Facebook, at a cost of at most 50 minutes each month, instead of 50 minutes each day!
-    - Again, I _**don’t recommend**_\*\* **doing small fixes like “just hide some FB elements.” These fixes **don’t work\*\* for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
+    - Again, I _**don’t recommend**_\*\* **doing small fixes like “just hide some FB elements.” These fixes**don’t work\*\* for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
 
 ![](https://assets.turntrout.com/static/images/posts/d32796158700c20215c248c4a535664223c89bdddc3c874c.avif)
 <br/>Figure: Here’s what my FB news feed looks like now. 😌
@@ -271,4 +271,3 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
 
 [^2]: I just now picked up my phone and stared at it blankly. One month later. Yuck.
 [^3]: Limit \$300 total.
-

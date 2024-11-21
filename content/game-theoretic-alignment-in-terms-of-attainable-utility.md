@@ -61,8 +61,8 @@ Given these results, we hypothesize that a more general relationship exists betw
 
 This presented a clear set of research goals moving forward:
 
-1.  Define a formal notion of "agent alignment" given an arbitrary (normal-form) multiplayer game
-2.  Relate the formal notion of alignment to POWER-scarcity
+1. Define a formal notion of "agent alignment" given an arbitrary (normal-form) multiplayer game
+2. Relate the formal notion of alignment to POWER-scarcity
 
 I consider our project to make substantial progress on (1) and to suggest avenues of attack for (2), though not the ones we expected.
 
@@ -170,7 +170,7 @@ The Alignment inequality
 As it turns out, the limiting cases of alignment have a natural interpretation in terms of the C-A inequalities: they're just equality cases!
 
 - In a common-payoff game, the global max common payoff achieves both the max attainable social welfare and the max individual payoffs for each player. Thus, common-payoff games are an equality case of the Alignment inequality.
-- In a _constant-welfare game _(where $w(\vec{u}) = \sum_i u_i$ is constant), max social welfare is trivially achieved, so constant-welfare games are an equality case of the Coordination inequality.
+- In a _constant-welfare game_(where $w(\vec{u}) = \sum_i u_i$ is constant), max social welfare is trivially achieved, so constant-welfare games are an equality case of the Coordination inequality.
 
 There are some caveats to this interpretation. While the "limiting cases" for alignment are equality cases of the C-A inequalities, they're not a full characterization of the equality cases.
 

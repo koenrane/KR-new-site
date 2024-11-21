@@ -103,7 +103,7 @@ This says: suppose you draw two parallel lines, and then make a dash of length 2
 
 If you take one of the dashes and slide it around on the upper parallel line, the resultant parallelograms all have the same area. I thought this was cool.
 
-## Notes
+# Notes
 
 There aren't any exercises; instead, I tried to first prove the theorems myself.
 
@@ -151,4 +151,3 @@ I look forward to another beautiful poster.
 
 > [!quote] Oliver Byrne
 > As the ſenſes of ſight and hearing can be ſo forcibly and inſtantaneously addreſſed alike with one thouſand as with one, _the million_ might be taught geometry and other branches of mathematics with great eaſe, this would advance the purpoſe of education more than any thing that _might_ be named, for it would teach the people how to think, and not what to think; it is in this particular the great error of education originates.
-

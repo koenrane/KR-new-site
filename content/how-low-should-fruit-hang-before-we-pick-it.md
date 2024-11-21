@@ -414,7 +414,7 @@ This obsoletes the lower bound provided by Theorem 6: Individual appearance boun
 >
 > > ! The largest $\alpha =13 $
 
-### Even More Math
+## Even More Math
 
 > [!math] Proposition: Invariances
 > Let $\mathcal{P}$ be an impact partition induced by $(\bar{A},{\color{Red}u}, {\color{blue}I})$.
@@ -436,4 +436,3 @@ This obsoletes the lower bound provided by Theorem 6: Individual appearance boun
 
 > [!question] Bonus exercise
 > Show that, for _any_ function ${\color{Red}u'}:\bar{A}\to\mathbb{R}$ preserving the ordering induced by ${\color{Red}u},$ there exists an ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ preserving the ordering induced by ${\color{blue}I}$ such that $(\bar{A},{\color{Red}u}, {\color{blue}I})$ and $(\bar{A},{\color{Red}u'}, {\color{blue}I'})$ induce the same scaled partition. Your reasoning should adapt directly to the corresponding statement about ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ and ${\color{blue}I}$.
-

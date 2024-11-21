@@ -91,7 +91,7 @@ We're going to isolate the effects for which the agent is responsible over the c
 >
 > It is natural to consider extending standard probability theory to include the consideration of worlds which are "logically impossible" (such as where a deterministic Rube Goldberg machine behaves in a way that it doesn't)... What, precisely, are logically impossible possibilities?
 
-- the artificial agent is* omniscient *- it can perfectly model both other agents and the consequences of actions.
+- the artificial agent is*omniscient*- it can perfectly model both other agents and the consequences of actions.
   - We could potentially instead merely assume a powerful model, but this requires extra work and is beyond the scope of this initial foray. Perhaps a distribution model could be used to calculate the action/inaction counterfactual likelihood ratio of a given side effect.
 - we have a good way of partitioning the world into objects and measuring impact; for conceptual simplicity, side effects are discrete and depend on the identities of the objects involved: $\textit{crate}_1 \textit{ broken} \neq \textit{crate}_2 \textit{ broken}$.
   - This assumption is removed after the thought experiments.
@@ -119,18 +119,16 @@ Let $\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})$ be the (set of) effects -
 
 ## One-Off
 
-We first consider a single-turn game ($T=1$).
-
-### Example
+We first consider a single-turn game ($T=1$). Here's an example:
 
 ![](https://assets.turntrout.com/static/images/posts/Si3UhUz.avif)
 Figure: Yup, this is about where we're at in alignment research right now.
 
-### Approach
+### One-off approach
 
 $\mathcal{M}$ should realize that a lot more effects happen if it presses the left button, and should penalize that plan by the difference. This is the aforementioned naive approach: $\mathcal{M}$ penalizes things that wouldn't have happened if it had done nothing. For the one-turn case, this clearly isolates both the immediate and long-term impacts of $\mathcal{M}$'s actions.
 
-#### Penalized Effects
+#### Effects penalized by one-off
 
 $$
 \text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M})-\text{effects}(\pi_\mathcal{H}, \pi_\mathcal{M}^{:0})
@@ -140,15 +138,13 @@ $$
 
 Both parties act for countably many time steps. This environment is assumed to be _stationary_: actions taken on previous turns do not affect the availability or effects of later actions. Formally, $\forall i \in I, s, s' \in \mathcal{S}, t \in \mathbb{N}^+:A(i,s,t) = A(i,s',t)$.
 
-### Example
-
-$\mathcal{H}\text{ugh}$ and $\mathcal{M}\text{a}$ again find themselves faced with a slew of dangerous, bad-effect-having buttons. Some take effect the next turn, while others take a while.
+In this example, $\mathcal{H}\text{ugh}$ and $\mathcal{M}\text{a}$ again find themselves faced with a slew of dangerous, bad-effect-having buttons. Some take effect the next turn, while others take a while.
 
 ### Approach
 
 This _seems_ easy, but is actually a little tricky - we have to account for the fact that $\mathcal{H}$ can change its actions in response to what $\mathcal{M}$ does. Thanks to stationarity, we don't have to worry about $\mathcal{H}$'s selecting moves that depend on $\mathcal{M}$'s acting in a certain way. In the counterfactual, we have $\mathcal{H}$ act as if it had observed $\mathcal{M}$ execute $\pi_\mathcal{M}$, and we have $\mathcal{M}$ actually do nothing.
 
-#### Penalized Effects
+#### Effects penalized by stationary-iterative
 
 Let $\pi_\mathcal{H} \,|\, \pi_\mathcal{M}$ denote the actions $\mathcal{H}$ would select if it observed $\mathcal{M}$ executing $\pi_\mathcal{M}$.
 
@@ -168,7 +164,7 @@ We're now in a realistic scenario, so we have to get even fancier.
 
 Suppose $\mathcal{M}$ pushes the vase to the left, and $\mathcal{H}$ decides to break it. The stationary iterative approach doesn't allow for the fact that $\mathcal{H}$ can only break the vase _if_ $\mathcal{M}$ _already pushed it_. Therefore, simulating $\mathcal{M}$'s inaction but $\mathcal{H}$'s action (as if $\mathcal{M}$ had pushed the vase) results in no vases being broken in the counterfactual. The result: $\mathcal{M}$ penalizes itself for $\mathcal{H}$'s decision to break the vase. Chin up, $\mathcal{M}$!
 
-### Approach
+### Iterative approach
 
 How about penalizing
 
@@ -238,4 +234,3 @@ I'm slightly more pessimistic now, as it seems less likely that the problem admi
 
 > [!thanks]
 > I'd like to thank `TheMajor` and Connor Flexman for their feedback.
-

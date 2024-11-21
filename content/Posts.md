@@ -28,11 +28,13 @@ tags:
 5. [You should read "Harry Potter and the Methods of Rationality"](/read-hpmor)
 
 # My recent posts
+
 ![[recent#^recent-posts-listing]]
 
 If you want, [try going a little further back](/recent) to see all of my posts.
 
 # Explore by tag
+
 ![[all-tags#^all-tags-listing]]
 
 # Sequences
@@ -48,10 +50,9 @@ I didn't remember much formal math or computer science, but I wanted to give my 
 > [!quote] Original sequence description
 >
 > >[!quote] [The Verres family motto](https://hpmor.com/chapter/7)
-> > You can never have enough books. 
+> > You can never have enough books.
 >
 > My journey through the MIRI research guide.
-
 
 ![](https://assets.turntrout.com/static/images/posts/test_library.avif)
 
@@ -112,25 +113,25 @@ Introductory post: [Reframing Impact](./reframing-impact)
 This sequence generalizes the math of [Seeking Power is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps). The posts follow up on [Seeking Power is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps) and [The Catastrophic Convergence Conjecture](./the-catastrophic-convergence-conjecture).
 
 > [!quote] Original sequence description
-> Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (e.g. gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power *from* humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
+> Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (e.g. gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power _from_ humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
 >
 > But where does instrumental convergence come from? When does it occur, and how strongly? And what does the math look like?
 
 ![](https://assets.turntrout.com/static/images/posts/power-seeking-AI.avif)
 
 > [!warning] [Reward is not the optimization target](./reward-is-not-the-optimization-target)
-> Many posts in this sequence treat reward functions as "specifying goals", in some sense. This is [wrong](./reward-is-not-the-optimization-target), as I have [argued at length](./against-inner-outer-alignment). Reward signals are akin to a per-datapoint learning rate. Reward chisels circuits into the AI. That's it! 
+> Many posts in this sequence treat reward functions as "specifying goals", in some sense. This is [wrong](./reward-is-not-the-optimization-target), as I have [argued at length](./against-inner-outer-alignment). Reward signals are akin to a per-datapoint learning rate. Reward chisels circuits into the AI. That's it!
 
-1. [Power as Easily Exploitable Opportunities](./power-as-easily-exploitable-opportunities) 
-2. [Generalizing POWER to Multi-Agent Games](./formalizing-multi-agent-power) 
-3. [MDP Models Are Determined by the Agent Architecture and the Environment](./MDPs-are-not-subjective) 
-4. [Environmental Structure Can Cause Instrumental Convergence](./environmental-structure-can-cause-instrumental-convergence) 
-5. [A World in Which the Alignment Problem Seems Lower-Stakes](./lower-stakes-alignment-scenario) 
-6. [The More Power at Stake, the Stronger Instrumental Convergence](./quantitative-strength-of-instrumental-convergence) 
-7. [Seeking Power Is Convergently Instrumental in a Broad Class of Environments](./power-seeking-beyond-MDPs) 
-8. [When Most VNM-Coherent Preference Orderings Have Convergent Instrumental Incentives](./instrumental-convergence-via-vnm-preferences) 
-9. [Satisficers Tend to Seek Power: Instrumental Convergence via Retargetability](./satisficers-tend-to-seek-power) 
-10. [Instrumental Convergence for Realistic Agent Objectives](./instrumental-convergence-for-realistic-agent-objectives) 
+1. [Power as Easily Exploitable Opportunities](./power-as-easily-exploitable-opportunities)
+2. [Generalizing POWER to Multi-Agent Games](./formalizing-multi-agent-power)
+3. [MDP Models Are Determined by the Agent Architecture and the Environment](./MDPs-are-not-subjective)
+4. [Environmental Structure Can Cause Instrumental Convergence](./environmental-structure-can-cause-instrumental-convergence)
+5. [A World in Which the Alignment Problem Seems Lower-Stakes](./lower-stakes-alignment-scenario)
+6. [The More Power at Stake, the Stronger Instrumental Convergence](./quantitative-strength-of-instrumental-convergence)
+7. [Seeking Power Is Convergently Instrumental in a Broad Class of Environments](./power-seeking-beyond-MDPs)
+8. [When Most VNM-Coherent Preference Orderings Have Convergent Instrumental Incentives](./instrumental-convergence-via-vnm-preferences)
+9. [Satisficers Tend to Seek Power: Instrumental Convergence via Retargetability](./satisficers-tend-to-seek-power)
+10. [Instrumental Convergence for Realistic Agent Objectives](./instrumental-convergence-for-realistic-agent-objectives)
 11. [Parametrically Retargetable Decision-Makers Tend to Seek Power](./parametrically-retargetable-power-seeking)
 
 ## Thoughts on Corrigibility

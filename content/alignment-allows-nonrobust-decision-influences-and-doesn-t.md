@@ -52,10 +52,10 @@ On how I use words, values are decision-influences (also known as [_shards_](/sh
 
 Summaries of key points:
 
-1.  **Non-robust decision-influences can be OK.** A candy-shard contextually influences decision-making. Many policies lead to acquiring lots of candy; the decision-influences don't have to be "globally robust" or "perfect."
-2.  **Values steer optimization; they are not optimized against.** The value shards aren't getting optimiz*ed* hard. The value shards **are** the things which optimize hard, by wielding the rest of the agent's cognition (e.g. the world model, the general-purpose planning API).
+1. **Non-robust decision-influences can be OK.** A candy-shard contextually influences decision-making. Many policies lead to acquiring lots of candy; the decision-influences don't have to be "globally robust" or "perfect."
+2. **Values steer optimization; they are not optimized against.** The value shards aren't getting optimiz*ed* hard. The value shards **are** the things which optimize hard, by wielding the rest of the agent's cognition (e.g. the world model, the general-purpose planning API).
     - Since values are not the optimization target of the agent with those values, the values don't have to be adversarially robust.
-3.  **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.** In self-reflective agents which can think about their own thinking, values steer e.g. what plans get considered next. Therefore, these agents convergently avoid adversarial inputs to their currently activated values (e.g. learning), because adversarial inputs would impede fulfillment of those values (e.g. lead to less learning).
+3. **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.** In self-reflective agents which can think about their own thinking, values steer e.g. what plans get considered next. Therefore, these agents convergently avoid adversarial inputs to their currently activated values (e.g. learning), because adversarial inputs would impede fulfillment of those values (e.g. lead to less learning).
 
 > [!warning] Disclaimer
 > The point isn't that you get aligned behavior if you assume the AI is aligned. The point is that the value frame _naturally_ expresses aligned behavior. In contrast, grader evaluation seems insane and cannot reasonably express aligned behavior.
@@ -64,8 +64,8 @@ Summaries of key points:
 
 Decision-making influences don't have to be “robust” in order for a person to _value doing well at school_. Consider two people with slightly different values:
 
-1.  One person is slightly more motivated by good grades. They might study for a physics test and focus slightly more on test-taking tricks.
-2.  Another person is slightly more motivated by learning. They might forget about some quizzes because they were too busy reading extracurricular physics books.
+1. One person is slightly more motivated by good grades. They might study for a physics test and focus slightly more on test-taking tricks.
+2. Another person is slightly more motivated by learning. They might forget about some quizzes because they were too busy reading extracurricular physics books.
 
 But they might _both_ care about school, in the sense of reliably making decisions on the basis of their school performance and valuing being a person who gets good grades. Both people are motivated to do well at school, albeit in somewhat different ways. They probably will both get good grades and they probably will both learn a lot. **Different values simply mean that the two people locally make decisions differently.**
 
@@ -73,10 +73,10 @@ If I value candy, that means that my decision-making contains a subroutine which
 
 So, let $C$ be the set of mental contexts relevant for decision-making, and let $A$ be my action set.[^1] My policy has type signature $\pi:C→A$. My policy contains a bunch of shards of value which influence its outputs. The values are subcircuits of my policy network (i.e. my brain). For example, consider a candy shard consisting of the following subshards:
 
-1.  If `center-of-visual-field` activates `candy`’s visual abstraction, then `grab` the `inferred latent object which activated the abstraction`.
-2.  If `hunger>50` and `sugar-level<6`, and if `current-plan-stub` activates `candy-obtainable`, then tell `planning API` to set `subgoal` to `obtain candy`.
-3.  If `heard 'candy'` and `hunger>20`, then `salivate`.
-4.  …
+1. If `center-of-visual-field` activates `candy`’s visual abstraction, then `grab` the `inferred latent object which activated the abstraction`.
+2. If `hunger>50` and `sugar-level<6`, and if `current-plan-stub` activates `candy-obtainable`, then tell `planning API` to set `subgoal` to `obtain candy`.
+3. If `heard 'candy'` and `hunger>20`, then `salivate`.
+4. …
 
 Suppose this is the way I value candy. A few thousand subshards which chain into the rest of my cognition and concepts. A few thousand subshards of value which were hammered into place by tens of thousands of reinforcement events across a lifetime of experience.
 
@@ -91,16 +91,16 @@ There are many, many configurations and parameter settings of these subshards wh
 
 It seems to me like "does the person still prioritize candy" depends on a bunch of factors, including:
 
-1.  Retention of core abstractions (to some tolerance)
+1. Retention of core abstractions (to some tolerance)
     - If we find-replaced `candy` with `flower`, the person probably now has a strange flower-value, where they eat flowers when hungry.
     - However, the abstraction also doesn't have to be "perfect" (whatever that means) in order to activate in everyday situations. Two people will have different candy abstractions, and yet they can both value candy.
-2.  Strength and breadth of activation contexts
+2. Strength and breadth of activation contexts
     - The more situations a candy-value affects decision-making in, the stronger the chance that candy remains a big part of their life.
-3.  How often the candy shard will actually activate
+3. How often the candy shard will actually activate
     - As an unrealistic example, if the person never enters a cognitive situation which substantially activates the candy-shard, then don't expect them to eat much candy.
     - This is another source of value/decision-influence robustness, as e.g. an AI's values don't have to be OK in every cognitive context.[^3]
     - Consider an otherwise altruistic man who has serious abuse and anger problems whenever he enters a specific vacation home with his wife, but is otherwise kind and considerate. As long as he doesn't start off in that home but knows about the contextual decision-influence, he will steer away from that home and try to remove the unendorsed value.
-4.  Reflectivity of the candy shard
+4. Reflectivity of the candy shard
     - (This is more complicated and uncertain. I'll leave it for now.)
 
 Suppose we wanted to train an agent which gets really smart and acquires a lot of candy, now and far into the future. **That agent's decision-influences don't have to be globally robust (e.g. in every cognitive situation, the agent is motivated by candy and only by candy) in order for an agent to make locally good decisions (e.g. make lots of candy now and into the future).**
@@ -142,8 +142,8 @@ When I talk about shard theory, [people](https://www.lesswrong.com/posts/dqSwccG
 >
 > Imagine a mother whose child has been goofing off at school and getting in trouble. The mom just wants her kid to take education seriously and have a good life. Suppose she had two (unrealistic but illustrative) choices.
 >
-> 1.  _Evaluation-child:_ The mother makes her kid care extremely strongly about doing things which the mom would evaluate as "working hard" and "behaving well."
-> 2.  _Value-child:_ The mother makes her kid care about working hard and behaving well.
+> 1. _Evaluation-child:_ The mother makes her kid care extremely strongly about doing things which the mom would evaluate as "working hard" and "behaving well."
+> 2. _Value-child:_ The mother makes her kid care about working hard and behaving well.
 
 To make evaluation-child work hard, we have to somehow specify a grader which can adequately grade all plans which evaluation-child can imagine. The highest-rated imaginable plan must involve working hard. [This requirement is extreme](/dont-design-agents-which-exploit-adversarial-inputs).
 
@@ -191,10 +191,10 @@ Thus, if an AI cares about diamonds (i.e. has an influential diamond-shard), tha
 
 More precisely:
 
-1.  A reflective diamond-motivated agent chooses plans based on how many diamonds they lead to.
-2.  Consider plans where the agent just improves its diamond synthesis methods. The agent can predict e.g. whether diamond production is increased by searching for plans involving simulating malign superintelligences which trick the agent into thinking the simulation plan makes lots of diamonds.
-3.  A reflective agent knows that simulating those superintelligences doesn't lead to many diamonds.
-4.  Therefore, the reflective agent chooses to think about improving its diamond synthesis methods. The agent automatically[^7] avoids the worst parts of the optimizer's curse. In contrast, grader-optimization which seeks out adversarial inputs to the diamond-motivated part of the system.
+1. A reflective diamond-motivated agent chooses plans based on how many diamonds they lead to.
+2. Consider plans where the agent just improves its diamond synthesis methods. The agent can predict e.g. whether diamond production is increased by searching for plans involving simulating malign superintelligences which trick the agent into thinking the simulation plan makes lots of diamonds.
+3. A reflective agent knows that simulating those superintelligences doesn't lead to many diamonds.
+4. Therefore, the reflective agent chooses to think about improving its diamond synthesis methods. The agent automatically[^7] avoids the worst parts of the optimizer's curse. In contrast, grader-optimization which seeks out adversarial inputs to the diamond-motivated part of the system.
 
 Therefore, avoiding the high-strength curse seems conceptually straightforward. In the case of aligning an AI to produce lots of diamonds, we want the AI to superintelligently generate and execute diamond-producing plans _because_ the AI expects those plans to lead to lots of diamonds. [I have spelled out a plausible-to-me story for how to accomplish this.](/a-shot-at-the-diamond-alignment-problem) The story is simple in its essential elements: finetune a pretrained model by rewarding it when it collects diamonds.
 
@@ -220,9 +220,9 @@ If the answer to "how do we dispel the max-strength optimizer's curse" is in fac
 
 # Conclusion
 
-1.  **Non-robust decision-influences can be OK.**
-2.  **Values steer optimization; they are not optimized against.**
-3.  **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.**
+1. **Non-robust decision-influences can be OK.**
+2. **Values steer optimization; they are not optimized against.**
+3. **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.**
 
 The answer is not to find a clever way to get a robust grader. The answer is to not _need_ a robust grader. Form e.g. a diamond-production value within a reflective and smart agent, and this diamond-production value won't be incentivized to fool itself. You won't have to "robustly grade" it to make it produce diamonds.
 
@@ -231,9 +231,9 @@ The answer is not to find a clever way to get a robust grader. The answer is to 
 
 # Appendix A: Several roads lead to a high-strength optimizer's curse
 
-1.  **Uncertainty about how human values work.** Suppose we think that human values are so complex, and there's no real way to understand them or how they get generated. We imagine a smart AI as finding futures which optimize some grading rule, and so we need something to grade those futures. We think we can't get the AI to grade the futures, because human values are so complex. What options remain available? Well, the only sources of "good judgment" are existing humans, so we need to find some way to use those humans to target the AI's powerful cognition. We give the alignment, the AI gives the cognitive horsepower.
+1. **Uncertainty about how human values work.** Suppose we think that human values are so complex, and there's no real way to understand them or how they get generated. We imagine a smart AI as finding futures which optimize some grading rule, and so we need something to grade those futures. We think we can't get the AI to grade the futures, because human values are so complex. What options remain available? Well, the only sources of "good judgment" are existing humans, so we need to find some way to use those humans to target the AI's powerful cognition. We give the alignment, the AI gives the cognitive horsepower.
     We've fallen into the grader-optimization trap.
-2.  **Non-embedded forms of agency.** This encourages considering a utility function maximized over all possible futures. Which automatically brings the optimizer's curse down to bear at maximum strength. You can't specify a utility function which is robust against _that_.
+2. **Non-embedded forms of agency.** This encourages considering a utility function maximized over all possible futures. Which automatically brings the optimizer's curse down to bear at maximum strength. You can't specify a utility function which is robust against _that_.
     This seems sideways of real-world alignment, where [realistic motivations may not be best specified in the form of "utility function over observation/universe histories."](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS)
 
 # Appendix B: Preliminary reflective planning pseudocode
@@ -301,10 +301,10 @@ Value shards steer cognition. In the main essay, I wrote:
 
 > [!quote]
 >
-> 1.  A reflective diamond-motivated agent chooses plans based on how many diamonds they lead to.
-> 2.  The agent can predict e.g. how diamond-promising it is to search for plans involving simulating malign superintelligences which trick the agent into thinking the simulation plan makes lots of diamonds, versus plans where the agent just improves its synthesis methods.
-> 3.  A reflective agent knows that the first plan doesn't lead to many diamonds, while the second plan leads to more diamonds.
-> 4.  Therefore, the reflective agent chooses the second plan over the first plan, automatically avoiding the worst parts of the optimizer's curse. (Unlike grader-optimization, which seeks out adversarial inputs to the diamond-motivated part of the system.)
+> 1. A reflective diamond-motivated agent chooses plans based on how many diamonds they lead to.
+> 2. The agent can predict e.g. how diamond-promising it is to search for plans involving simulating malign superintelligences which trick the agent into thinking the simulation plan makes lots of diamonds, versus plans where the agent just improves its synthesis methods.
+> 3. A reflective agent knows that the first plan doesn't lead to many diamonds, while the second plan leads to more diamonds.
+> 4. Therefore, the reflective agent chooses the second plan over the first plan, automatically avoiding the worst parts of the optimizer's curse. (Unlike grader-optimization, which seeks out adversarial inputs to the diamond-motivated part of the system.)
 
 This story smoothly accommodates thoughts about improving evaluation ability.
 
@@ -365,5 +365,4 @@ On my understanding: Your values are steering the optimization. They are not, in
     >
     > **Alex:** Not all things which can be called an "AI alignment problem" are created equal. [The AI has a range of advantages](/a-shot-at-the-diamond-alignment-problem#Appendix-The-AI-s-advantages-in-solving-successor-alignment), and I [detailed one way it could use those advantages](/a-shot-at-the-diamond-alignment-problem#user-content-fn-11). I do expect that kind of plan to actually work.
 
-[^9]: I further speculate that reflective reasoning is convergently developed in real-world training processes under non-IID conditions like those described in [my diamond-alignment story](https://www.lesswrong.com/editPost?postId=C2M5qG9DJHJQ6QQLw&key=9f55384c350b2f98b1fd2fbd0bde99).
 [^10]: When working out [shard theory](/shard-theory) with Quintin Pope, one of my favorite moments was the _click_ where I stopped viewing myself as some black-box optimizing "some complicated objective." Instead, this hypothesis reduced my own values to [mere reality](https://www.lesswrong.com/tag/mere-reality). Every aspiration, every unit of caring, every desire for how I want the future to be bright and fun—subroutines, subshards, contextual bits of decision-making influence, all traceable to historical reinforcement and update events.

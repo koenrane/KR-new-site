@@ -48,7 +48,7 @@ Mrinank, Austin, and Alex wrote a paper on the results from [Understanding and c
 > [!abstract]
 > To understand the goals and goal representations of AI systems, we carefully study a pretrained reinforcement learning policy that solves mazes by navigating to a range of target squares. We find this network pursues multiple context-dependent goals, and we further identify circuits within the network that correspond to one of these goals. In particular, we identified eleven channels that track the location of the goal. By modifying these channels, either with hand-designed interventions or by combining forward passes, we can partially control the policy. We show that this network contains redundant, distributed, and retargetable goal representations, shedding light on the nature of goal-direction in trained policy networks.
 
-We ran a few new experiments, including a quantitative analysis of our retargetability intervention. We'll walk through those new results now. 
+We ran a few new experiments, including a quantitative analysis of our retargetability intervention. We'll walk through those new results now.
 
 ![](https://assets.turntrout.com/static/images/posts/jbwksgzxm1h8hzspvypz.avif)
 

@@ -76,7 +76,7 @@ Second, if we don’t like what it’s beginning to do, we can shut it off (beca
 
 So we can hope to build a non-catastrophic AUP agent and get useful work out of it. We just can’t directly ask it to solve all of our problems: it doesn’t make much sense to speak of a “low-impact [singleton](https://lesswrong.com/tag/singleton)”.
 
-#### Notes
+# Notes
 
 - To emphasize, when I say "AUP agents do $X$" in this post, I mean that AUP agents correctly implementing the _concept of AUP_ tend to behave in a certain way.
 - As [pointed out by Daniel Filan](https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure#jJrCTRwTZDZDc3XLx), AUP suggests that one might work better in groups by ensuring one's actions preserve teammates' AUs.

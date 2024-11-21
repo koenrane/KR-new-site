@@ -56,7 +56,7 @@ In what world is this broader system a success story for economics?
 
 <span style="text-align:center;">In <strong>this world</strong>.</span>
 
-# Economics is important.
+# Economics is important
 
 > [!warning]
 > As of September 2024, I no longer stand by these claims about economic policy. I still think economics is important. However, the data I link are nowhere near sufficient to let us conclude that economic policy caused a significant reduction in poverty. A special weak point is the fact that the vast majority of poverty reduction took place in China - hardly a beacon of neoliberal economics.
@@ -107,7 +107,7 @@ So let's go.
 >
 > The story of the convict ships illustrates the first big lesson that runs throughout this book and throughout economics:
 
-# Incentives matter.
+# Incentives matter
 
 How do people decide what to buy and where to work, what opportunities to take and where to build? _Microeconomics_ models decision-making by consumers and firms. Basic microeconomic models assume that people want to make money, and they're good at it—they are rational. Unsurprisingly, this isn't quite true, but the models let us easily think about what incentives people have in different situations.
 
@@ -306,4 +306,3 @@ I haven't seriously looked into these questions yet.
 
 > [!thanks]
 > Thanks to LessWrong for feedback on this post.
-

@@ -67,14 +67,14 @@ Figure: Before my thesis defense -- thinking about what I'd done to advance alig
 
 # Mistakes
 
-I think I [got significantly smarter in 2018–2019](/swimming-upstream), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD. 
+I think I [got significantly smarter in 2018–2019](/swimming-upstream), and kept learning some in 2020–2021. I _was_ significantly less of a fool in 2021 than I was in 2017. That is important and worth feeling good about. But all things considered, I still made a lot of profound mistakes over the course of my PhD.
 
 ## Social dynamics distracted me from my core mission
 
 > [!failure] I focused on "catching up" to other thinkers
-> 
+>
 > Subtitle: I figured this point out by summer 2021.
-> 
+>
 > I wanted to be more like Eliezer Yudkowsky and Buck Shlegeris and Paul Christiano. They know lots of facts and laws about lots of areas (e.g. general relativity and thermodynamics and information theory). I focused on building up dependencies (like [analysis](/first-analysis-textbook-review) and [geometry](/insights-from-euclids-elements) and [topology](/topology-textbook-review)) not only because I wanted to know the answers, but because I felt I owed a _debt_, that I was _in the red_ until I could at least meet other thinkers at their level of knowledge.
 >
 > But rationality is not about the bag of facts you know, nor is it about the concepts you have internalized. Rationality is about _how_ your mind holds itself, it is _how_ you weigh evidence, it is _how_ you decide where to look next when puzzling out a new area.
@@ -99,7 +99,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > > We clearly prefer future AIs to generalize in the way that neuroscientists generalize, so it seems worthwhile to ask: "why don't neuroscientists wirehead themselves?"
 > >
-> > It's clearly not because humans evolved away from wireheading, *specifically*. There are somewhat similar situations to wireheading in the ancestral environment: psychoactive drugs, masturbation, etc. Is the reason we don't wirehead because evolution instilled us with an aversion to manipulating our reward function, which then zero-shot generalized to wireheading, despite wireheading being so wildly dissimilar to the contents of the ancestral environment? How could evolution have developed an alignment approach that generalized so well?
+> > It's clearly not because humans evolved away from wireheading, _specifically_. There are somewhat similar situations to wireheading in the ancestral environment: psychoactive drugs, masturbation, etc. Is the reason we don't wirehead because evolution instilled us with an aversion to manipulating our reward function, which then zero-shot generalized to wireheading, despite wireheading being so wildly dissimilar to the contents of the ancestral environment? How could evolution have developed an alignment approach that generalized so well?
 >
 > After a few days, I realized my gut expectations were that he was broadly correct and that this theory of alignment could actually be right. However, I realized I wasn't consciously letting myself think that because it would be Insufficiently Skeptical to actually think the alignment problem is solvable. This seemed obviously stupid to me, so I quickly shut that line of thinking down and second-order updated towards optimism so that I would [stop _predictably_ getting more optimistic](https://www.readthesequences.com/Conservation-Of-Expected-Evidence) about Quintin's theory.
 >
@@ -109,9 +109,8 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > I still get anxious around disagreements with people I respect. I am still working on fully expunging the "defensibility" urges, because they suck. But I've already made a lot of progress.[^3]
 
-
 > [!failure] Too much deference, too little thinking for myself
-> 
+>
 > Subtitle: I realized and started fixing this mistake [this spring.](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hhuLBManRziZXbkHo#f3Mzhn8Gmf8XGyz9y)
 >
 > I filtered the world through a status lens. If I read a comment from a high-status person, I would gloss over confusing parts, because _I_ was probably the one reading it wrong. Sure, I would verbally agree that [modest epistemology](https://equilibriabook.com/inadequacy-and-modesty/) is unproductive. I just _happened_ to not think thoughts like "HIGH-STATUS PERSON's claim seems obviously dumb and wrong."
@@ -133,7 +132,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 ### Non-social mistakes
 
 > [!failure] I thought about comfortable, familiar problems
-> 
+>
 > Subtitle: I figured this point out this spring because I bumped into Quintin (as described above).
 >
 > I remember a sunny summer day in 2019, sitting in the grass with Daniel Filan at UC Berkeley. He recommended putting together an end-to-end picture of the alignment problem. I remember feeling pretty uncomfortable about that, feeling that I wouldn't understand which alignment problems go where in my diagram ("do embedded agency failures crop up _here_, or _there_?"). Wouldn't it just make more sense to read more alignment papers and naturally refine those views over time?
@@ -155,7 +154,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 > If that's what happened, I was seriously deluding myself. I will do better next time.
 
 > [!failure] I viewed my life through narratives
-> 
+>
 > Subtitle: I probably figured this point out in 2021.
 >
 > Back in 2018, I had the "upstart alignment researcher" narrative—starting off bright-eyed and earnest, learning a lot, making friends. But then I hurt my hands and couldn't type anymore, which broke the narrative. I felt dejected—to slightly exaggerate, I felt I had fallen off of the sunlit path, and now nothing was going to go as it should.
@@ -164,7 +163,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > Every moment is an opportunity for newly-directed action. [Keep your identity small](http://www.paulgraham.com/identity.html) and keep the narratives in the story-books. At least, if you want to use narratives, carefully introspect to make sure you're using them, and they aren't using you.
 
-## Two helpful habits I picked up 
+## Two helpful habits I picked up
 
 I'm not really sure where these two habits go, so I'll put them here. I wish I'd had these skills in 2018.
 
@@ -195,7 +194,7 @@ I'm not really sure where these two habits go, so I'll put them here. I wish I'd
 >
 > If the actual answer is that you _don't know_, then just _say it_, because it's the truth. Be aware that you don't know.
 
-To close out the "Mistakes" section, I mostly wish I'd expected more from myself. I wish I'd believed myself capable of building an end-to-end picture of the alignment problem, of admitting what I didn't know and what I hadn't thought about, of being able to survive/ignore the harsh winds of criticism and skepticism. 
+To close out the "Mistakes" section, I mostly wish I'd expected more from myself. I wish I'd believed myself capable of building an end-to-end picture of the alignment problem, of admitting what I didn't know and what I hadn't thought about, of being able to survive/ignore the harsh winds of criticism and skepticism.
 
 I did these things eventually, though, and I'm proud of that.
 
@@ -211,9 +210,9 @@ I did these things eventually, though, and I'm proud of that.
 
 > [!success] I think I ended up achieving rationality escape velocity
 >
-> 1.  When I get stuck / feel depressed, errors get thrown, exception-handling activates, I start thinking "these thoughts seem unreasonably dark; my cognition is compromised; have I eaten enough food today, have I drank enough water, should I call a friend…".
-> 2.  When I get stuck on a problem (e.g. what is the type signature of human values?), I do not stay stuck. I notice I am stuck, I run down a list of tactics, I explicitly note what works, I upweight that for next time.
-> 3.  When I realize I've been an idiot about something (e.g. nicking my hand with a knife, missing a deadline), I stop and think _wow, that was stupid, what's the more general error I'm making_?
+> 1. When I get stuck / feel depressed, errors get thrown, exception-handling activates, I start thinking "these thoughts seem unreasonably dark; my cognition is compromised; have I eaten enough food today, have I drank enough water, should I call a friend…".
+> 2. When I get stuck on a problem (e.g. what is the type signature of human values?), I do not stay stuck. I notice I am stuck, I run down a list of tactics, I explicitly note what works, I upweight that for next time.
+> 3. When I realize I've been an idiot about something (e.g. nicking my hand with a knife, missing a deadline), I stop and think _wow, that was stupid, what's the more general error I'm making_?
 >
 > The general rhythm is: I feel agentic and capable and self-improving, and these traits are strengthening over time, as is the rate of strengthening. This definitely didn't have to happen, but I made it happen (with the help of some friends and resources).
 
@@ -233,5 +232,4 @@ Leaving Oregon was a bit sad, but coming to Berkeley is exciting. I'll be starti
 [Here's to winning](/emotionally-confronting-doom). 🥂
 
 [^1]: My PhD was six years long (it started in the fall of 2016). However, I'm not even going to critique the first two years, because that would make the "Mistakes" section far too long.
-[^2]: Later published: The [shard theory of human values.](/shard-theory)
 [^3]: Sometimes I feel the urge to defend myself _just a little more_, to which some part of me internally replies "are you serious, this defensibility thing again?! Are you _ever_ going to let me _actually think_?". I like that part of me a lot.

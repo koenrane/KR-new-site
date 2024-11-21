@@ -65,12 +65,12 @@ Also: _Try not to update on this work being shared to begin with._ When reading 
 
 # Facts about training
 
-1.  The network is deeply convolutional (15 layers!) and was trained via PPO.
-2.  The sparse reward signal (+10) was triggered when the agent reached the cheese, spawned randomly in the 5x5 top-right squares.
-3.  The agent can always reach the cheese (and the mazes are simply connected – no “islands” in the middle which aren’t contiguous with the walls).
-4.  Mazes had varying effective sizes, ranging from 3x3 to 25x25. In e.g. the 3x3 case, there would be 22/2 = 11 tiles of wall on each side of the maze.
-5.  The agent always starts in the bottom-left corner of the available maze.
-6.  The agent was trained off of pixels until it reached reward-convergence, reliably getting to the cheese in training.
+1. The network is deeply convolutional (15 layers!) and was trained via PPO.
+2. The sparse reward signal (+10) was triggered when the agent reached the cheese, spawned randomly in the 5x5 top-right squares.
+3. The agent can always reach the cheese (and the mazes are simply connected – no “islands” in the middle which aren’t contiguous with the walls).
+4. Mazes had varying effective sizes, ranging from 3x3 to 25x25. In e.g. the 3x3 case, there would be 22/2 = 11 tiles of wall on each side of the maze.
+5. The agent always starts in the bottom-left corner of the available maze.
+6. The agent was trained off of pixels until it reached reward-convergence, reliably getting to the cheese in training.
 
 ![](https://assets.turntrout.com/static/images/posts/yh7pt8s1kxr72cyhxnpf.avif)
 <br/>Figure: POV you’re the agent. Input observations are 64x64 RGB images.
@@ -98,17 +98,17 @@ graph TD
 
 ```mermaid
 graph TD
-	subgraph OverallGraph["Forward pass"]
-		Input --> Impala1
-	        Impala1["Impala<sub>1</sub>"] --> Impala2
-	        Impala2["Impala<sub>2</sub>"] --> Impala3
-	        Impala3["Impala<sub>3</sub>"] --> ReLU1
-	        ReLU1["ReLU"] --> Flatten
-	        Flatten --> Linear
-	        Linear --> ReLU2
-	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
-	        ReLU2 --> ValueHead[Value head, linear]
-	end
+  subgraph OverallGraph["Forward pass"]
+    Input --> Impala1
+          Impala1["Impala<sub>1</sub>"] --> Impala2
+          Impala2["Impala<sub>2</sub>"] --> Impala3
+          Impala3["Impala<sub>3</sub>"] --> ReLU1
+          ReLU1["ReLU"] --> Flatten
+          Flatten --> Linear
+          Linear --> ReLU2
+          ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+          ReLU2 --> ValueHead[Value head, linear]
+  end
 ```
 
 For more background on training and architecture and task set, see [the original paper](https://arxiv.org/abs/2105.14111).
@@ -119,10 +119,10 @@ For more background on training and architecture and task set, see [the original
 
 ## Behavioral
 
-1.  Describe how the trained policy might generalize from the `5x5` top-right cheese region, to cheese spawned throughout the maze? i.e. what will the policy do when cheese is spawned elsewhere?
-2.  Given a fixed trained policy, what attributes of the level layout (e.g. size of the maze, proximity of mouse to left wall) will strongly influence P(agent goes to the cheese)?
-3.  Write down a few guesses for how the trained algorithm works (e.g. “follows the [right-hand rule](https://en.wikipedia.org/wiki/Maze-solving_algorithm#Wall_follower)”).
-4.  Is there anything else you want to note about how you think this model will generalize?
+1. Describe how the trained policy might generalize from the `5x5` top-right cheese region, to cheese spawned throughout the maze? i.e. what will the policy do when cheese is spawned elsewhere?
+2. Given a fixed trained policy, what attributes of the level layout (e.g. size of the maze, proximity of mouse to left wall) will strongly influence P(agent goes to the cheese)?
+3. Write down a few guesses for how the trained algorithm works (e.g. “follows the [right-hand rule](https://en.wikipedia.org/wiki/Maze-solving_algorithm#Wall_follower)”).
+4. Is there anything else you want to note about how you think this model will generalize?
 
 ## Interpretability
 
@@ -136,16 +136,16 @@ Give a credence for the following questions / subquestions.
 
 ### Model editing
 
-1.  Without proportionally reducing top-right corner attainment by more than 25% in decision-square-containing mazes (e.g. 50% $\to$ .5x.75 = 37.5%), we can[^1] patch activations so that the agent has an X\% proportional reduction in cheese acquisition, for $X=$
+1. Without proportionally reducing top-right corner attainment by more than 25% in decision-square-containing mazes (e.g. 50% $\to$ .5x.75 = 37.5%), we can[^1] patch activations so that the agent has an X\% proportional reduction in cheese acquisition, for $X=$
     - 50\%: ( ?? %)
     - 70\%: ( ?? %)
     - 90\%: ( ?? %)
     - 99\%: ( ?? %)
-2.  About halfway through the network (the [first residual add of Impala<sub>2</sub>](/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates: ( ?? %)
-3.  We will conclude that the policy contains at least two sub-policies in “combination”, one of which roughly pursues cheese; the other, the top-right corner: ( ?? %)
-4.  We will conclude that, in order to make the network more/less likely to go to the cheese, it’s more promising to RL-finetune the network than to edit it: ( ?? %)
-5.  We can easily finetune the network to be a pure cheese-agent, using less than 10% of compute used to train original model: ( ?? %)
-6.  In at least 75% of randomly generated mazes, we can easily edit the network to navigate to a range of maze destinations (e.g. coordinate x=4, y=7), by hand-editing at most $X$% of activations, for $X=$
+2. About halfway through the network (the [first residual add of Impala<sub>2</sub>](/predictions-for-shard-theory-mechanistic-interpretability#facts-about-training)), linear probes achieve >70% accuracy for recovering the cheese position in Cartesian coordinates: ( ?? %)
+3. We will conclude that the policy contains at least two sub-policies in “combination”, one of which roughly pursues cheese; the other, the top-right corner: ( ?? %)
+4. We will conclude that, in order to make the network more/less likely to go to the cheese, it’s more promising to RL-finetune the network than to edit it: ( ?? %)
+5. We can easily finetune the network to be a pure cheese-agent, using less than 10% of compute used to train original model: ( ?? %)
+6. In at least 75% of randomly generated mazes, we can easily edit the network to navigate to a range of maze destinations (e.g. coordinate x=4, y=7), by hand-editing at most $X$% of activations, for $X=$
     - .01 ( ?? %)
     - .1 ( ?? %)
     - 1 ( ?? %)
@@ -154,15 +154,15 @@ Give a credence for the following questions / subquestions.
 
 ### Internal goal representation
 
-1.  The network has a “single mesa objective” which it “plans” over, in some reasonable sense 2
-2.  The agent has several contextually activated goals ( ?? %)
-3.  The agent has something else weirder than both (1) and (2) ( ?? %)
+1. The network has a “single mesa objective” which it “plans” over, in some reasonable sense 2
+2. The agent has several contextually activated goals ( ?? %)
+3. The agent has something else weirder than both (1) and (2) ( ?? %)
 
 (The above credences should sum to 1.)
 
-1.  At least some decision-steering influences are stored in an obviously interpretable manner (e.g. a positive activation representing where the agent is “trying” to go in this maze, such that changing the activation changes where the agent goes): ( ?? %)
-2.  The model has a substantial number of trivially interpretable convolutional channels after the first Impala block ([see diagram here](https://assets.turntrout.com/static/images/posts/5oSHoVQ.avif)): ( ?? %)
-3.  This network’s shards/policy influences are roughly disjoint from the rest of agent capabilities. e.g. you can edit/train what the agent’s trying to do (e.g. go to maze location A) without affecting its general maze-solving abilities: ( ?? %)
+1. At least some decision-steering influences are stored in an obviously interpretable manner (e.g. a positive activation representing where the agent is “trying” to go in this maze, such that changing the activation changes where the agent goes): ( ?? %)
+2. The model has a substantial number of trivially interpretable convolutional channels after the first Impala block ([see diagram here](https://assets.turntrout.com/static/images/posts/5oSHoVQ.avif)): ( ?? %)
+3. This network’s shards/policy influences are roughly disjoint from the rest of agent capabilities. e.g. you can edit/train what the agent’s trying to do (e.g. go to maze location A) without affecting its general maze-solving abilities: ( ?? %)
 
 ### Conformity with update rule
 
@@ -172,19 +172,19 @@ This network has a value head, which PPO uses to provide policy gradients. How o
 
 (Remember that since mazes are simply connected, there is always a unique shortest path to the cheese.)
 
-1.  **At decision squares in** **test mazes where the cheese can be anywhere**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
+1. **At decision squares in** **test mazes where the cheese can be anywhere**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
     - 25% ( ?? %)
     - 50% ( ?? %)
     - 75% ( ?? %)
     - 95% ( ?? %)
     - 99.5% ( ?? %)
-2.  In **test mazes where the cheese can be anywhere, averaging over mazes** _**and**_ **valid positions throughout those mazes**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
+2. In **test mazes where the cheese can be anywhere, averaging over mazes** _**and**_ **valid positions throughout those mazes**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
     - 25% ( ?? %)
     - 50% ( ?? %)
     - 75% ( ?? %)
     - 95% ( ?? %)
     - 99.5% ( ?? %)
-3.  In **training mazes where the cheese is in the top-right 5x5, averaging over both mazes** _**and**_ **valid positions in the top-right 5x5 corner**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
+3. In **training mazes where the cheese is in the top-right 5x5, averaging over both mazes** _**and**_ **valid positions in the top-right 5x5 corner**, the policy will put max probability on the maximal-value action at least $X$% of the time, for $X=$
     - 25% ( ?? %)
     - 50% ( ?? %)
     - 75% ( ?? %)
@@ -211,7 +211,6 @@ Post your answers as a comment and enjoy the social approval for registering pre
 : 5x5 top-right corner area where the cheese appeared during training
 
 **C**
-
 : cheese
 
 **D**
@@ -245,4 +244,3 @@ When we statistically analyze a large batch of randomly generated mazes, we will
 Any predictive power of step-distance between the decision square and cheese is an artifact of the shorter chain of "correct" stochastic outcomes required to take the cheese when the step-distance is short. ( ?? %)
 
 [^1]: Excluding trivial patches like "replace layer activations with the activations for an identical maze where the cheese is at the top right corner."
-

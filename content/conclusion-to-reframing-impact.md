@@ -48,9 +48,8 @@ date_updated: 2024-10-30 18:09:31.133945
 
 > [!thanks] Acknowledgments
 > After ~700 hours of work over the course of ~9 months, the sequence is finally complete.
-> 
+>
 > This work was made possible by the Center for Human-Compatible AI, the Berkeley Existential Risk Initiative, and the Long-Term Future Fund. Deep thanks to Rohin Shah, Abram Demski, Logan Smith, Evan Hubinger, `TheMajor`, Chase Denecke, Victoria Krakovna, Alper Dumanli, Cody Wild, Matthew Barnett, Daniel Blank, Sara Haxhia, Connor Flexman, Zack M. Davis, Jasmine Wang, Matthew Olson, Rob Bensinger, William Ellsworth, Davide Zagami, Ben Pace, and a million other people for giving feedback on this sequence.
-
 
 # Appendix: Probability estimates
 
@@ -71,8 +70,7 @@ I've made many claims in these posts. All views are my own.
 [^ccc]: There seems to be a dichotomy between "catastrophe directly incentivized by goal" and "catastrophe indirectly incentivized by goal through power-seeking", although `Vika` [provides intuitions in the other direction](https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact?commentId=6sxBzsh8yfwnPk4iH#6sxBzsh8yfwnPk4iH).
 
 > [!note]
-> [The LessWrong version of this post](https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact) contained probability estimates from other users. 
-
+> [The LessWrong version of this post](https://www.lesswrong.com/posts/sHpiiZS2gPgoPnijX/conclusion-to-reframing-impact) contained probability estimates from other users.
 
 # Appendix: Easter Eggs
 
@@ -82,48 +80,48 @@ There are a few pop culture references which I think are obvious enough to not n
 
 Reframing Impact
 : The bird's nest contains a literal easter egg.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/hdlkd44jvawsxgpthbgi.avif)
-: 
+:
 : The paperclip-Balrog drawing contains a [Tengwar](https://en.wikipedia.org/wiki/Tengwar) inscription which reads "one measure to bind them", with "measure" in impact-blue and "them" in utility-pink.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/v7pzpzvi342b3svksbag.avif)
-: 
+:
 : "Towards a New Impact Measure" was the title of [the post](/towards-a-new-impact-measure) in which AUP was introduced.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/ynwdidys1i7yopyqerfh.avif)
 
 <br/>
 
 Attainable Utility Theory: Why Things Matter
-: 
+:
 : This style of maze is from the video game _Undertale_.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/olz9peoa2krvvorlgdn8.avif)
 
 <br/>
 
 Seeking Power is Instrumentally Convergent in MDPs
-: 
+:
 : To seek power, Frank is trying to get at the Infinity Gauntlet.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/pdqrmsxtawdzt2c7idez.avif)
 
 <br/>
 
 The tale of Frank and the orange Pebblehoarder
 : Speaking of under-tales, a friendship has been blossoming right under our noses:
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/dfog9czq2wdboz8m0dpv.avif)
 Figure: After the Pebblehoarders suffer the devastating transformation of all of their pebbles into obsidian blocks, Frank generously gives away his favorite pink marble as a makeshift pebble.
-: 
-: 
+:
+:
 : ![](https://assets.turntrout.com/static/images/posts/id8zdpzvvjsyyi9a9hfe.avif)
 Figure: The title cuts to the middle of their adventures together, the Pebblehoarder showing its gratitude by helping Frank reach things high up.
-: 
-: 
+:
+:
 : ![](https://assets.turntrout.com/static/images/posts/mx5gc86qpthgbzeypfw9.avif)
 Figure: This still at the midpoint of the sequence is from [the final scene of _The Hobbit: An Unexpected Journey_](https://www.youtube.com/watch?v=KEegn1R601M), where the party is overlooking Erebor, the Lonely Mountain. They've made it through the Misty Mountains, only to find Smaug's abode looming in the distance.
-: 
+:
 : ![](https://assets.turntrout.com/static/images/posts/jdcmcy4bzxggxdallwok.avif)
 Figure: And, at last, we find Frank and orange Pebblehoarder popping some of the champagne from Smaug's hoard. Since [Erebor isn't close to Gondor](https://assets.turntrout.com/static/images/posts/Map-of-Middle-Earth-lord-of-the-rings-2329809-1600-1200.avif), we don't see Frank and the Pebblehoarder gazing at [Ephel Dúath](https://en.wikipedia.org/wiki/Mordor#Geography) from Minas Tirith.

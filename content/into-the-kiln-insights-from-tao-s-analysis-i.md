@@ -169,7 +169,7 @@ As a neat exercise, let's see how this rule breaks if we violate preconditions:
 - If $f(a)$ or $g(a)\neq 0$, then the ratio is "messed up" and not necessarily indicative of the functions' slopes as $a$ is approached.
 - If $f$ or $g$ is not differentiable on $(a,b]$, then perhaps
   <video autoplay loop muted playsinline style="margin-left:auto;margin-right:auto" src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"></video>
-  - No, but really - you *would* use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
+  - No, but really - you _would_ use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
 - If $g'(x)=0$ for some $x \in [a,b]$, then we have division by zero (unless $x=a$, in which case we find more [twisted counterexamples](https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule#Counterexamples_when_the_derivative_of_the_denominator_is_zero) which necessitate the closure of this interval).
 
 ## 11: The Riemann Integral
@@ -266,4 +266,3 @@ The following problem was admittedly confusing at first, but I had an overwhelmi
     Now, maybe it would have been faster to just learn the math behind diagonalization or some other method of proof, but I think there was tremendous value in learning to fall in love with the process - to commit yourself fully to the joy of discovery and thought.
 
     I can certainly tell you that I wouldn't have made it so far so quickly down the research list if this journey didn't feel like one of the most beautiful things I've ever done.
-

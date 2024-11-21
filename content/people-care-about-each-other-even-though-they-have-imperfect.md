@@ -45,9 +45,9 @@ Consider the argument: "Imperfect value representations will, in the limit of op
 
 Therefore, this argument seems to prove too much. It seems like one of the following must be true:
 
-1.  My brother cares about me in the "perfect" way, or
-2.  Dictator-brother would do valueless things according to my true values, or
-3.  The argument is wrong.
+1. My brother cares about me in the "perfect" way, or
+2. Dictator-brother would do valueless things according to my true values, or
+3. The argument is wrong.
 
 To explore these points, I dialogue with my model of Eliezer.
 
@@ -146,4 +146,3 @@ Again, I wrote this dialogue to help me think about the issue. It seems to me li
 
 [^1]: When I first wrote this dialogue, I may have swept difficulties under the rug like "[augmenting intelligence may be hard for biological humans to do while preserving their values](https://www.lesswrong.com/posts/EQkELCGiGQwvrrp3L/growing-up-is-hard)." I think the main point should still stand.
 [^2]: We can also swap out "I bring about a good future for my brother" with "my brother brings about a good future for me, and I think that he will do a good job of it, even though he presumably doesn't contain a 'perfect' motivational pointer to my true values."
-

@@ -119,40 +119,39 @@ A cheap lunch is _compatible with_ a global strategy if the resources required f
 We show that it's really hard to assert that  $\mathcal{A}$ won't chow down on a lunch of an atom or two (or  $1.3×10^{50}$).
 
 > [!math] Lemma 1: Cheap lunches and utility
-> 
+>
 > Cheap lunches don't reduce utility. Let's say we have a cheap lunch  $\langle \bar{a}^k \rangle_{\{i\}}$ in region  $i$ and some global strategy  $\langle \bar{b}^k \rangle$ (which only takes null actions in region  $i$). Assume the cheap lunch is compatible with the global strategy; this means the cheap lunch is feasible. If  $\mathcal{A}$ is indifferent to region  $i$, the conjugate strategy (of the cheap lunch and the remainder of the global strategy) has equal utility to  $\langle \bar{b}^k \rangle$.
-> 
+>
 > _Proof._ We show feasibility of the conjugate strategy by demonstrating we don't need to change resource allocation elsewhere. This is done by induction over time steps. Since  $\mathcal{A}$ isn't doing anything in region  $i$ under strategy  $\langle \bar{b}^k \rangle$, taking resource-preserving actions instead cannot reduce what  $\mathcal{A}$ is later able to do in the regions relevant to  $U$. This implies that  $U$ cannot be decreased by taking the cheap lunch. ∎
 
 > [!math] Theorem 1: Cheap Lunches and Optimality
-> 
+>
 > If there is an optimal strategy and a compatible cheap lunch in region  $i$ (to which  $\mathcal{A}$ is indifferent), there's also an optimal strategy with a non-null action in region  $i$.
-> 
+>
 > _Proof._ If the optimal strategy has non-null actions in region  $i$, we're done. Otherwise, apply Lemma 1 to derive a conjugate strategy taking advantage of the cheap lunch. Since it follows from Lemma 1 that the conjugate strategy has equal utility, it is optimal and involves non-null action in region  $i$.
 
 > [!math] Corollary 1: Free lunches and optimality
-> 
+>
 > If there is an optimal strategy and a free lunch in region  $i$, and if  $\mathcal{A}$ is indifferent to region  $i$, there's an optimal strategy with non-null action in region  $i$.
-> 
+>
 > _Proof._ Free lunches require no resources, so they are compatible with any strategy; apply Theorem 1.
-> 
+>
 > For instrumental convergence to not hold, we would have to show that every possible strategy in  $h$ isn't a cheap lunch for any optimal strategies. ∎
-
 
 We show that as long as  $\mathcal{A}$ can extract useful resources (resources whose availability leads to increased utility), it will.
 
 > [!math] Theorem 2: Necessity of non-null actions
-> 
-> Consider the maximum utility achievable outside of region  $i$ via strategies achievable without additional resources; refer to this maximum as  $u$. Suppose we have some feasible primary strategy  $\langle \bar{b}^k \rangle_{[n]-i}$ and a cheap lunch  $\langle \bar{c}^k \rangle_{\{i\}}$ feasible using resources  $\langle P^k \rangle$. Suppose that the cheap lunch is compatible with the primary strategy, that the cheap lunch provides the resources necessary for the implementation of the primary strategy, and that the utility of the primary strategy is greater than  $u$. Then if  $\mathcal{A}$ is indifferent to region  $i$, all optimal strategies have a non-null action in region  $i$. 
-> 
+>
+> Consider the maximum utility achievable outside of region  $i$ via strategies achievable without additional resources; refer to this maximum as  $u$. Suppose we have some feasible primary strategy  $\langle \bar{b}^k \rangle_{[n]-i}$ and a cheap lunch  $\langle \bar{c}^k \rangle_{\{i\}}$ feasible using resources  $\langle P^k \rangle$. Suppose that the cheap lunch is compatible with the primary strategy, that the cheap lunch provides the resources necessary for the implementation of the primary strategy, and that the utility of the primary strategy is greater than  $u$. Then if  $\mathcal{A}$ is indifferent to region  $i$, all optimal strategies have a non-null action in region  $i$.
+>
 > _Proof._ Consider the conjugate strategy  $\langle \bar{d}^k \rangle$, consisting of the primary strategy and the cheap lunch. Allocate the resources gained via the cheap lunch according to the primary strategy; this is feasible since we know the cheap lunch is compatible with the primary strategy, which is in turn enabled by these resources gained.
-> 
+>
 > Consider any strategy  $\langle \bar{e}^k \rangle$ that doesn't do anything in  $i$ and doesn't require any resource inputs; it's trivial to see that this is feasible. Since  $\mathcal{A}$ is indifferent to  $i$, we do some algebraic substitution of utility values to see that the conjugate plan has strictly higher utility than  $\langle \bar{e}^k \rangle$ does. This means that  $\langle \bar{e}^k \rangle$ is suboptimal. ∎
 
 > [!math] Theorem 3: Defection Threshold
-> 
+>
 > Even if  $U$ is not indifferent about  $i$, we can prove Theorem 2 can still hold if the utility  $\mathcal{A}$ gains by enacting the aforementioned conjugate strategy is greater than the maximal amount  $U$ cares about  $i$ (formally expressed by  $\max_{s, s' \in S_i}{|U_i(s) - U_i(s')|}$).
-> 
+>
 > _Proof._ The structure is similar to that of Theorem 2; just use the new maximum caring differential in the algebraic substitution. ∎
 
 > [!quote] Formalizing convergent instrumental goals
@@ -175,6 +174,6 @@ We have much work to do. The risks are enormous and the challenges "[impossible]
 - Page 8, right column, second full paragraph, last line: should be "we have two options available _to_ us".
 
 [^1]: By the axiom of substitution,  
-	$$
-	\texttt{Feasible}(\langle P^k\rangle)= \{\langle \bar{a}^k \rangle : \textit{isFeasible}(\langle P^k\rangle, \langle \bar{a}^k \rangle)\}.
-	$$
+  $$
+  \texttt{Feasible}(\langle P^k\rangle)= \{\langle \bar{a}^k \rangle : \textit{isFeasible}(\langle P^k\rangle, \langle \bar{a}^k \rangle)\}.
+  $$

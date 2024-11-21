@@ -79,7 +79,7 @@ Since we'll be working with POWER for the rest of this post, we need a solid def
 
 > [!definition]
 > Consider a scenario in which an agent has a set of actions $a \in A$  and a distribution $\mathcal{D}$ of reward functions $r: A \to \mathbb{R}$. Then, we define the POWER of that agent as
-> 
+>
 > $$
 > \text{POWER}_{\mathcal{D}} := \mathbb{E}_{r \sim \mathcal{D}} [\max_{a} r(a))]
 > $$
@@ -124,9 +124,9 @@ Further, we can define a (Bayesian) Nash Equilibrium to be a strategy profile wh
 ## Formal definition of multi-agent POWER
 
 > [!definition] POWER in a Bayesian game
-> 
+>
 > Fix a strategy profile $\sigma$. We define player $i$'s POWER as
-> 
+>
 > $$
 > \text{POWER}(i,  \sigma) := \mathbb{E}_{t_i} \max_{a_i} f_i(t_i, a_i, \sigma_{-i}))
 > $$
@@ -139,7 +139,7 @@ As both a preliminary result and a reference point for intuition, we consider th
 
 A zero-sum game is a game in which for every possible outcome of the game, the sum of each player's reward is zero. For Bayesian games, this means that for all type profiles $t = (t_i)$ and action profiles $\mathbf{a}$, we have $\sum_i r_i(t_i, \mathbf{a}) = 0$. Similarly, a _constant-sum game_ is a game satisfying $\sum_i r_i(t_i, \mathbf{a}) = c$ for any choices of $t, \mathbf{a}$.
 
-As a simple example, consider chess; a two-player adversarial game. We let the reward profile be constant, given by "1 if you win, -1 if you lose" (assume black wins in a tie). This game is clearly zero-sum, since exactly one player will win and lose. We could ask the same "how well can you do?" question as before, but the upper-bound of winning is trivial. Instead, we ask "how well can both players simultaneously do?" 
+As a simple example, consider chess; a two-player adversarial game. We let the reward profile be constant, given by "1 if you win, -1 if you lose" (assume black wins in a tie). This game is clearly zero-sum, since exactly one player will win and lose. We could ask the same "how well can you do?" question as before, but the upper-bound of winning is trivial. Instead, we ask "how well can both players simultaneously do?"
 
 Clearly, you can't both simultaneously win. However, we can imagine scenarios where both players have the _power_ to win: in a chess game between two beginners, the optimal strategy for either player will easily win the game. As it turns out, this argument generalizes (we'll even prove it): in a constant-sum game, the sum of each player's POWER $\geq c$, with equality IFF each player responds optimally for all their possible goals ("types"). This condition is equivalent to a Bayesian Nash Equilibrium of the game.
 
@@ -147,21 +147,21 @@ Importantly, this idea suggests a general principle of multi-agent POWER I'll ca
 
 > [!note] Conservation of POWER in constant-sum games
 > Consider a Bayesian constant-sum game with some strategy profile $\sigma$. Then, $\sum_i \text{POWER}(i, \sigma) \geq c$ with equality IFF  $\sigma$ is a Nash Equilibrium.
-> 
+>
 > **Intuition:** By definition, $\sigma$ _isn't_ a Nash Equilibrium IFF some player $i$'s strategy $\sigma_i$ isn't a best response. In this case, we see that player $i$ has the power to play optimally, but the other players also have the power to capitalize off of player $i$'s mistake (since the game is constant-sum). Thus, the lost reward is "double-counted" in terms of POWER; if no such double-counting exists, then the sum of POWER is just the expected sum of reward, which is $c$ by definition of a constant-sum game.
-> 
+>
 > **Rigorous proof:**  We prove the following for general strategy profiles $\sigma$:
-> 
+>
 > $$
 > \begin{align*} \sum_i \text{Power}(i, \sigma) &= \sum_i \mathbb{E}_{t_i} \max_{a_i} f_i(t_i, a_i, \sigma_{-i})) \\ &\geq \sum_i \mathbb{E}_{t_i} \mathbb{E}_{a_i \sim \sigma_i} f_i(t_i, a_i, \sigma_{-i})) \\ &= \sum_i \mathbb{E}_{t_i} \mathbb{E}_{\mathbf{a} \sim \sigma} r_i(t_i, \mathbf{a})) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( \sum_i r_i(t_i, \mathbf{a}) \right) \\ &= \mathbb{E}_{t} \mathbb{E}_{\mathbf{a} \sim \sigma} \left( c \right) \\ &= c \end{align*}
 > $$
-> 
+>
 > Now, we claim that the inequality on line 2 is an equality IFF $\sigma$ is a Nash Equilibrium. To see this, note that for each $i$, we have
-> 
+>
 > $$
 > \max_{a_i} f_i(t_i, a_i, \sigma_{-i}) \geq \mathbb{E}_{a_i \sim \sigma_i} f_i(t_i, a_i, \sigma_{-i})
 > $$
-> 
+>
 > with equality IFF $\sigma_i$ is a best response to $\sigma_{-i}$. Thus, the sum of these inequalities for each player is an equality IFF each $\sigma_i$ is a best response, which is the definition of a Nash Equilibrium. ∎
 
 # Final notes

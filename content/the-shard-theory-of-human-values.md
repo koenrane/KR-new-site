@@ -59,9 +59,9 @@ We propose a theory of human value formation. According to this theory, the rewa
 
 Human values _look so strange and inexplicable_. How could those values be the product of anything except hack after evolutionary [hack](https://www.readthesequences.com/My-Naturalistic-Awakening)? We think this is _not_ what happened. This post describes the shard theory account of human value formation, split into three sections:
 
-1.  Details our working assumptions about the learning dynamics within the brain,
-2.  Conjectures that reinforcement learning grows situational heuristics of increasing complexity, and
-3.  Uses shard theory to explain several confusing / “irrational” quirks of human decision-making.
+1. Details our working assumptions about the learning dynamics within the brain,
+2. Conjectures that reinforcement learning grows situational heuristics of increasing complexity, and
+3. Uses shard theory to explain several confusing / “irrational” quirks of human decision-making.
 
 > [!note] Terminology
 > We use "value" to mean _a contextual influence on decision-making_. Examples:
@@ -222,8 +222,8 @@ We believe that this is _not_ a misprediction of how tastes will change in the f
 
 Why are we hesitant to shift away from the course of action that we’re currently pursuing? There are two shard theory-related factors that we think contribute to sunk cost fallacy:
 
-1.  The currently active shards are those that bid for the current course of action. Those shards probably bid for the current course. They also have more influence, since they’re currently very active. Thus, the currently active shard coalition supports the current course of action more strongly, when compared to your “typical” shard coalitions. This can cause the you-that-is-pursuing-the-course-of-action to continue, even after your “otherwise” self would have stopped.
-2.  Shards activate more strongly in concrete situations. Actually seeing a bear will activate self-preservation shards more strongly than simply imagining a bear. Thus, the concrete benefits of the current course of action will more easily activate shards than the abstract benefits of an imagined course of action. This can lead to overestimating the value of continuing the current activity relative to the value of other options.
+1. The currently active shards are those that bid for the current course of action. Those shards probably bid for the current course. They also have more influence, since they’re currently very active. Thus, the currently active shard coalition supports the current course of action more strongly, when compared to your “typical” shard coalitions. This can cause the you-that-is-pursuing-the-course-of-action to continue, even after your “otherwise” self would have stopped.
+2. Shards activate more strongly in concrete situations. Actually seeing a bear will activate self-preservation shards more strongly than simply imagining a bear. Thus, the concrete benefits of the current course of action will more easily activate shards than the abstract benefits of an imagined course of action. This can lead to overestimating the value of continuing the current activity relative to the value of other options.
 
 ### [Time inconsistency](https://en.wikipedia.org/wiki/Dynamic_inconsistency)
 
@@ -233,8 +233,8 @@ Shards are contextually activated, and the sweet-shard is most strongly activate
 
 > [!question]
 >
-> 1.  Which do you prefer, to be given 500 dollars today or 505 dollars tomorrow?
-> 2.  Which do you prefer, to be given 500 dollars 365 days from now or 505 dollars 366 days from now?
+> 1. Which do you prefer, to be given 500 dollars today or 505 dollars tomorrow?
+> 2. Which do you prefer, to be given 500 dollars 365 days from now or 505 dollars 366 days from now?
 
 [In such situations, people tend to choose \$500 in (A) but \$505 in (B)](https://scholar.google.com/scholar?cluster=16878679720519238129&hl=en&as_sd$t=0$,5), which is inconsistent with models in which the value of money is exponentially discounted over time. To explain this observed behavioral regularity using shard theory, consider the historical reinforcement contexts around immediate and delayed gratification. If contexts involving short-term opportunities activate different shards than contexts involving long-term opportunities, then it’s unsurprising that a person might choose 500 dollars in (A) but 505 dollars in (B).[^12] (Of course, a full shard theory explanation must explain _why_ those contexts activate different shards. We strongly intuit that there’s a good explanation, but do not think we have a satisfying story here yet.)
 
@@ -281,25 +281,25 @@ Therefore, to understand why human values empirically coalesce around the world 
 
 Due to learning from scratch, the fancy and interesting parts of your brain start off mostly useless. Here’s a speculative[^13] story about how a baby learns to reduce predictive loss, in the process building a world model:
 
-1.  The baby is born[^14] into a world where she is pummeled by predictive error after predictive error, because most of her brain consists of locally randomly initialized neural circuitry.
-2.  The baby’s brain learns that a quick loss-reducing hack is to predict that the next sensory activations will equal the previous ones: That nothing will observationally change from moment to moment. If the baby is stationary, much of the visual scene is constant (modulo saccades). Similar statements may hold for other sensory modalities, from smell (olfaction) to location of body parts (proprioception).
-    1.  At the same time, the baby starts learning edge detectors in V1[^15] (which [seem to be universally learned / convergently useful in vision tasks](https://distill.pub/2020/circuits/zoom-in/#claim-3)) in order to take advantage of visual regularities across space and time, from moment to moment.
-3.  The baby learns to detect when they are being moved or when their eyes are about to saccade, in order to crudely anticipate e.g. translations of part of the visual field. For example, given the prior edge-detector activations and her current acceleration, the baby predicts that the next edge detectors to light up will be a certain translation of the previous edge-detector patterns.
-    1.  This acceleration → visual translation circuitry is reliably learned because it’s convergently useful for reducing predictive loss in many situations under our laws of physics.
-    2.  Driven purely by her self-supervised predictive learning, the baby has learned something interesting about how she is embedded in the world.
-    3.  Once the “In what way is my head accelerating?” circuit is learned, other circuits can invoke it. This pushes toward modularity and generality, since it’s easier to learn a circuit which is predictively useful for two tasks, than to separately learn two variants of the same circuit. (See also [invariant representations](https://cbmm.mit.edu/research/projects-thrust/theoretical-frameworks-intelligence/invariant-representation-learning).)
-4.  The baby begins to learn rules of thumb e.g. about how simple objects move. She continues to build abstract representations of how movement relates to upcoming observations.
-    1.  For example, she gains another easy reduction in predictive loss by using her own motor commands to predict where her body parts will soon be located (i.e. to predict upcoming proprioceptive observations).
-    2.  This is the beginning of her self-model.
-5.  The rules of thumb become increasingly sophisticated. Object recognition and modeling begins in order to more precisely predict low- and medium-level visual activations, like “if I recognize a square-ish object at time _t_ and it has smoothly moved left for _k_ timesteps, predict I will recognize a square-ish object at time _t+1_ which is yet farther left in my visual field.”
-6.  As the low-hanging fruit are picked, the baby’s brain eventually learns higher-level rules.
-    1.  “If a stationary object is to my right and I turn my head to the left, then I will stop seeing it, but if I turn my head back to the right, I will see it again.”
-    2.  This rule requires statefulness via short-term memory and some coarse summary of the object itself (small time-scale object permanence within a shallow world-model).
-7.  Object permanence develops from the generalization of specific heuristics for predicting common objects, to an invariant scheme for handling objects and their relationship to the child.
-    1.  Developmental milestones vary from baby to baby because it takes them a varying amount of time to learn certain keystone but convergent abstractions, such as self-models.
-    2.  Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](<https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf>) as human babies reach them.
-    3.  The more abstractions are learned, the easier it is to lay down additional functionality. When we see a new model of car, we do not have to relearn our edge detectors or car-detectors.
-8.  Learning continues, but we will stop here.
+1. The baby is born[^14] into a world where she is pummeled by predictive error after predictive error, because most of her brain consists of locally randomly initialized neural circuitry.
+2. The baby’s brain learns that a quick loss-reducing hack is to predict that the next sensory activations will equal the previous ones: That nothing will observationally change from moment to moment. If the baby is stationary, much of the visual scene is constant (modulo saccades). Similar statements may hold for other sensory modalities, from smell (olfaction) to location of body parts (proprioception).
+    1. At the same time, the baby starts learning edge detectors in V1[^15] (which [seem to be universally learned / convergently useful in vision tasks](https://distill.pub/2020/circuits/zoom-in/#claim-3)) in order to take advantage of visual regularities across space and time, from moment to moment.
+3. The baby learns to detect when they are being moved or when their eyes are about to saccade, in order to crudely anticipate e.g. translations of part of the visual field. For example, given the prior edge-detector activations and her current acceleration, the baby predicts that the next edge detectors to light up will be a certain translation of the previous edge-detector patterns.
+    1. This acceleration → visual translation circuitry is reliably learned because it’s convergently useful for reducing predictive loss in many situations under our laws of physics.
+    2. Driven purely by her self-supervised predictive learning, the baby has learned something interesting about how she is embedded in the world.
+    3. Once the “In what way is my head accelerating?” circuit is learned, other circuits can invoke it. This pushes toward modularity and generality, since it’s easier to learn a circuit which is predictively useful for two tasks, than to separately learn two variants of the same circuit. (See also [invariant representations](https://cbmm.mit.edu/research/projects-thrust/theoretical-frameworks-intelligence/invariant-representation-learning).)
+4. The baby begins to learn rules of thumb e.g. about how simple objects move. She continues to build abstract representations of how movement relates to upcoming observations.
+    1. For example, she gains another easy reduction in predictive loss by using her own motor commands to predict where her body parts will soon be located (i.e. to predict upcoming proprioceptive observations).
+    2. This is the beginning of her self-model.
+5. The rules of thumb become increasingly sophisticated. Object recognition and modeling begins in order to more precisely predict low- and medium-level visual activations, like “if I recognize a square-ish object at time _t_ and it has smoothly moved left for _k_ timesteps, predict I will recognize a square-ish object at time _t+1_ which is yet farther left in my visual field.”
+6. As the low-hanging fruit are picked, the baby’s brain eventually learns higher-level rules.
+    1. “If a stationary object is to my right and I turn my head to the left, then I will stop seeing it, but if I turn my head back to the right, I will see it again.”
+    2. This rule requires statefulness via short-term memory and some coarse summary of the object itself (small time-scale object permanence within a shallow world-model).
+7. Object permanence develops from the generalization of specific heuristics for predicting common objects, to an invariant scheme for handling objects and their relationship to the child.
+    1. Developmental milestones vary from baby to baby because it takes them a varying amount of time to learn certain keystone but convergent abstractions, such as self-models.
+    2. Weak evidence that this learning timeline is convergent: [Crows (and other smart animals) reach object permanence milestones in a similar order](<https://homepage.uni-tuebingen.de/andreas.nieder/Hoffmann,Ruettler,Nieder(2011)AnimBehav.pdf>) as human babies reach them.
+    3. The more abstractions are learned, the easier it is to lay down additional functionality. When we see a new model of car, we do not have to relearn our edge detectors or car-detectors.
+8. Learning continues, but we will stop here.
 
 In this story, the world model is built from the self-supervised loss signal. Reinforcement probably also guides and focuses attention. For example, perhaps [brainstem-hardcoded (but crude) face detectors](<https://www.cell.com/current-biology/fulltext/S0960-9822(17)30580-8>) hook into a reward circuit which focuses the learning on human faces.
 
@@ -334,38 +334,38 @@ Shards are just collections of subshards
 
 Before this post was published, many people read draft documents explaining shard theory. However, in the absence of a canonical public document explaining the ideas and defining terms, “shard theory” has become overloaded. Here, then, are several definitions.
 
-1.  This document lays out (the beginning of) the _shard theory of human values._ This theory attempts a mechanistic account of how values / decision-influencers arise in human brains.
-    1.  As hinted at by our remark on shard theory mispredicting behavior in _pigeons_, we also expect this theory to qualitatively describe important aspects of animal cognition (insofar as those animals satisfy learning from scratch + self-supervised learning + reinforcement learning).
-    2.  Typical shard theory questions:
-        1.  “What is the mechanistic process by which a few people developed preferences over what happens [under different laws of physics](https://en.wikipedia.org/wiki/Multiverse#Level_IV:_Ultimate_ensemble)?”
-        2.  “What is the mechanistic basis of certain shards (e.g. people respecting you) being ‘reflectively endorsed’, while other shards (e.g. avoiding spiders) can be consciously ‘planned around’ (e.g. going to exposure therapy so that you stop embarrassingly startling when you see a spider)?” (_Thanks to Thane Ruthenis for this example._)
-        3.  “Why do humans have good [general alignment properties](/general-alignment-properties), like robustness to ontological shifts?”
-2.  The shard paradigm/theory/frame of AI alignment analyzes the value formation processes which will occur in deep learning, and tries to figure out their properties.
-    1.  Typical questions asked under this paradigm/frame:
-        1.  “How can we predictably control the way in which a policy network generalizes? For example, under what training regimes and reinforcement schedules would [a CoinRun agent generalize](https://arxiv.org/abs/2105.14111) to pursuing coins instead of the right end of the level? What quantitative relationships and considerations govern this process?”
-        2.  “Will deep learning agents robustly and reliably navigate [ontological shifts](https://www.lesswrong.com/tag/ontological-crisis)?”
-    2.  This paradigm places a strong (and, we argue, [appropriate](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about)) emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense.
-    3.  That said, alignment implications are out of scope for this post. We postpone discussion to future posts.
-3.  “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
-    1.  We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
-    2.  Example insights include [Reward is not the optimization target](/reward-is-not-the-optimization-target) and [Human values & biases are inaccessible to the genome](/human-values-and-biases-are-inaccessible-to-the-genome).
+1. This document lays out (the beginning of) the _shard theory of human values._ This theory attempts a mechanistic account of how values / decision-influencers arise in human brains.
+    1. As hinted at by our remark on shard theory mispredicting behavior in _pigeons_, we also expect this theory to qualitatively describe important aspects of animal cognition (insofar as those animals satisfy learning from scratch + self-supervised learning + reinforcement learning).
+    2. Typical shard theory questions:
+        1. “What is the mechanistic process by which a few people developed preferences over what happens [under different laws of physics](https://en.wikipedia.org/wiki/Multiverse#Level_IV:_Ultimate_ensemble)?”
+        2. “What is the mechanistic basis of certain shards (e.g. people respecting you) being ‘reflectively endorsed’, while other shards (e.g. avoiding spiders) can be consciously ‘planned around’ (e.g. going to exposure therapy so that you stop embarrassingly startling when you see a spider)?” (_Thanks to Thane Ruthenis for this example._)
+        3. “Why do humans have good [general alignment properties](/general-alignment-properties), like robustness to ontological shifts?”
+2. The shard paradigm/theory/frame of AI alignment analyzes the value formation processes which will occur in deep learning, and tries to figure out their properties.
+    1. Typical questions asked under this paradigm/frame:
+        1. “How can we predictably control the way in which a policy network generalizes? For example, under what training regimes and reinforcement schedules would [a CoinRun agent generalize](https://arxiv.org/abs/2105.14111) to pursuing coins instead of the right end of the level? What quantitative relationships and considerations govern this process?”
+        2. “Will deep learning agents robustly and reliably navigate [ontological shifts](https://www.lesswrong.com/tag/ontological-crisis)?”
+    2. This paradigm places a strong (and, we argue, [appropriate](https://www.alignmentforum.org/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about)) emphasis on taking cues from humans, since they are the only empirical examples of real-world general intelligences which “form values” in some reasonable sense.
+    3. That said, alignment implications are out of scope for this post. We postpone discussion to future posts.
+3. “Shard theory” also has been used to refer to insights gained by considering the shard theory of human values and by operating the shard frame on alignment.
+    1. We don’t like this ambiguous usage. We would instead say something like “insights from shard theory.”
+    2. Example insights include [Reward is not the optimization target](/reward-is-not-the-optimization-target) and [Human values & biases are inaccessible to the genome](/human-values-and-biases-are-inaccessible-to-the-genome).
 
 # Appendix C: Evidence for neuroscience assumptions
 
 In [Section 1](#1-neuroscientific-assumptions), we stated that shard theory makes three key neuroscientific assumptions. Below we restate those assumptions, and give pointers to what we believe to be representative evidence from the psychology & neuroscience literature:
 
-1.  The cortex is basically locally randomly initialized.
-    1.  Steve Byrnes [has already written](https://www.lesswrong.com/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_5_Evidence_on_whether_the_telencephalon___cerebellum_learn_from_scratch) on several key lines of evidence that suggest the telencephalon (which includes the cerebral cortex) & cerebellum learn primarily from scratch. We recommend his writing as an entrypoint into that literature.
-    2.  One easily observable weak piece of evidence: humans are super [altricial](https://en.wikipedia.org/wiki/Precociality_and_altriciality)—if the genome hardcoded a bunch of the cortex, why would babies take so long to become autonomous?
-2.  The brain does self-supervised learning.
-    1.  Certain forms of spike-timing dependent plasticity (STDP) as [observed in many regions of telencephalon](https://journals.physiology.org/doi/full/10.1152/physrev.00016.2007) would straightforwardly support self-supervised learning at the synaptic level, as connections are adjusted such that earlier inputs (pre-synaptic firing) anticipate later outputs (post-synaptic firing).
-    2.  Within the hippocampus, place-selective cells [fire in the order](http://learnmem.cshlp.org/content/3/2-3/279.short) of the spatial locations they are bound to, with a coding scheme that [plays out](https://www.nature.com/articles/nature09633) whole sequences of place codes that the animal will later visit.
-    3.  If the [predictive processing framework](https://www.sciencedirect.com/science/article/pii/S0896627318308572) is an accurate picture of information processing in the brain, then the brain obviously does self-supervised learning.
-3.  The brain does reinforcement learning.
-    1.  Within captive animal care, positive reinforcement training appears to be a common paradigm (see [this paper](https://www.tandfonline.com/doi/abs/10.1207/S15327604JAWS0603_01?journalCode=haaw20) for a reference in the case of nonhuman primates). This at least suggests that “shaping complex behavior through reward” is possible.
-    2.  Operant & respondent conditioning methods like [fear conditioning](https://www.annualreviews.org/doi/abs/10.1146/annurev.neuro.24.1.897) have a long history of success, and are now related back to [key neural structures](https://www.sciencedirect.com/science/article/abs/pii/S0149763402000076) that support the acquisition and access of learned responses. These paradigms work so well, experimenters have been able to use them to have [mice learn to directly control](https://www.sciencedirect.com/science/article/pii/S0896627317300478) the activity of a single neuron in their motor cortex.
-    3.  Wolfram Schultz and colleagues [have found](https://www.nature.com/articles/nn0898_304) that the signaling behavior of phasic dopamine in the mesocorticolimbic pathway mirrors that of a [TD error](https://link.springer.com/article/10.1007/BF00115009) (or reward prediction error).
-    4.  In addition to finding _correlates_ of reinforcement learning signals in the brain, artificial manipulation of those signal correlates ([through optogenetic stimulation, for example](https://www.sciencedirect.com/science/article/pii/S0092867416310753)) produces the behavioral adjustments that would be predicted from their putative role in reinforcement learning.
+1. The cortex is basically locally randomly initialized.
+    1. Steve Byrnes [has already written](https://www.lesswrong.com/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_5_Evidence_on_whether_the_telencephalon___cerebellum_learn_from_scratch) on several key lines of evidence that suggest the telencephalon (which includes the cerebral cortex) & cerebellum learn primarily from scratch. We recommend his writing as an entrypoint into that literature.
+    2. One easily observable weak piece of evidence: humans are super [altricial](https://en.wikipedia.org/wiki/Precociality_and_altriciality)—if the genome hardcoded a bunch of the cortex, why would babies take so long to become autonomous?
+2. The brain does self-supervised learning.
+    1. Certain forms of spike-timing dependent plasticity (STDP) as [observed in many regions of telencephalon](https://journals.physiology.org/doi/full/10.1152/physrev.00016.2007) would straightforwardly support self-supervised learning at the synaptic level, as connections are adjusted such that earlier inputs (pre-synaptic firing) anticipate later outputs (post-synaptic firing).
+    2. Within the hippocampus, place-selective cells [fire in the order](http://learnmem.cshlp.org/content/3/2-3/279.short) of the spatial locations they are bound to, with a coding scheme that [plays out](https://www.nature.com/articles/nature09633) whole sequences of place codes that the animal will later visit.
+    3. If the [predictive processing framework](https://www.sciencedirect.com/science/article/pii/S0896627318308572) is an accurate picture of information processing in the brain, then the brain obviously does self-supervised learning.
+3. The brain does reinforcement learning.
+    1. Within captive animal care, positive reinforcement training appears to be a common paradigm (see [this paper](https://www.tandfonline.com/doi/abs/10.1207/S15327604JAWS0603_01?journalCode=haaw20) for a reference in the case of nonhuman primates). This at least suggests that “shaping complex behavior through reward” is possible.
+    2. Operant & respondent conditioning methods like [fear conditioning](https://www.annualreviews.org/doi/abs/10.1146/annurev.neuro.24.1.897) have a long history of success, and are now related back to [key neural structures](https://www.sciencedirect.com/science/article/abs/pii/S0149763402000076) that support the acquisition and access of learned responses. These paradigms work so well, experimenters have been able to use them to have [mice learn to directly control](https://www.sciencedirect.com/science/article/pii/S0896627317300478) the activity of a single neuron in their motor cortex.
+    3. Wolfram Schultz and colleagues [have found](https://www.nature.com/articles/nn0898_304) that the signaling behavior of phasic dopamine in the mesocorticolimbic pathway mirrors that of a [TD error](https://link.springer.com/article/10.1007/BF00115009) (or reward prediction error).
+    4. In addition to finding _correlates_ of reinforcement learning signals in the brain, artificial manipulation of those signal correlates ([through optogenetic stimulation, for example](https://www.sciencedirect.com/science/article/pii/S0092867416310753)) produces the behavioral adjustments that would be predicted from their putative role in reinforcement learning.
 
 [^1]: More precisely, we adopt Steve Byrnes’ stronger conjecture that the [_telencephelon and cerebellum_ are locally ~randomly initialized](https://www.alignmentforum.org/posts/wBHSYwqssBGCnwvHg/intro-to-brain-like-agi-safety-2-learning-from-scratch-in#2_4_My_hypothesis__the_telencephalon_and_cerebellum_learn_from_scratch__the_hypothalamus_and_brainstem_don_t).
 [^2]: There are non-synaptic ways to transmit information in the brain, including ephaptic transmission, gap junctions, and volume transmission. We also consider these to be part of a circuit’s mental context.

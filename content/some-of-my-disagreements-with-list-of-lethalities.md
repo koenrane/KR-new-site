@@ -122,8 +122,8 @@ To me, this statement seems weird and sideways of central alignment problems. I 
 
 My response:
 
-1.  Type error in forcing conversion from "goals" to "gradient-providing function."
-2.  The empirical contingency of the wisdom of the frame where the loss function "represents" the goal.
+1. Type error in forcing conversion from "goals" to "gradient-providing function."
+2. The empirical contingency of the wisdom of the frame where the loss function "represents" the goal.
 
 First, I want to say: [type error: _loss function_ not of type _goal_](/four-usages-of-loss-in-ai).[^2] Eliezer's writing gives me no indication that he understands this point. I think there's potential for deep confusion. Loss functions provide gradients to the way the AI thinks (i.e. computes forward passes). Trying to cast human values[^3] into a loss function is a _highly unnatural_ type conversion to attempt. Attempting to force the conversion anyways may well damage your view of the alignment problem.
 
@@ -137,9 +137,9 @@ First, I want to say: [type error: _loss function_ not of type _goal_](/four-usa
 >
 > Suppose you tell me "I have written down a loss function $\ell_\text{novel}$ which is perfectly aligned with the goal of 'write good novels'." What experiences should this claim lead me to anticipate?
 >
-> 1.  That an agent can only achieve low physical-loss if it has, in physical fact, written a good novel?
-> 2.  That in some mathematical idealization of the learning problem, loss-minimization only occurs when the agent outputs text which would be found in what we rightly consider to be "good novels"? (But in _which_ mathematical idealization?)
-> 3.  That, as a matter of physical fact, if you train an agent on $\ell_\text{novel}$ using learning setup $X$, then you produce a language model which can be easily prompted to output high-quality novels?
+> 1. That an agent can only achieve low physical-loss if it has, in physical fact, written a good novel?
+> 2. That in some mathematical idealization of the learning problem, loss-minimization only occurs when the agent outputs text which would be found in what we rightly consider to be "good novels"? (But in _which_ mathematical idealization?)
+> 3. That, as a matter of physical fact, if you train an agent on $\ell_\text{novel}$ using learning setup $X$, then you produce a language model which can be easily prompted to output high-quality novels?
 >
 > Much imprecision comes from loss functions [not directly encoding goals](/reward-is-not-the-optimization-target). Loss signals are physically implemented parts of the AI's training process which (physically) update the AI's cognition in certain ways...
 >
@@ -151,10 +151,10 @@ It might shake out that, as an _empirical fact_, the best way to spend an additi
 
 But "make the objective better 'represent' our goals" would be an _empirical contingency_, not pinned down by the _mechanistic function_ of a loss function. This contingency may be sensitive to the means by which feedback translates into gradient updates. For example, changing the loss function will probably differently affect the gradients provided by:
 
-1.  Advantage actor-critic,
-2.  REINFORCE,
-3.  Self-supervised learning with teacher forcing, and
-4.  Reward prediction errors.
+1. Advantage actor-critic,
+2. REINFORCE,
+3. Self-supervised learning with teacher forcing, and
+4. Reward prediction errors.
 
 Because [loss is not the optimization target](/reward-is-not-the-optimization-target), there's some level of "goal representation" where I should stop thinking about how "good" the loss function is, and start thinking about e.g. the abstractions learned by self-supervised pretraining. e.g. If I populate the corpus with more instances of people helping each other, that might change the inductive biases on SGD dynamics to increase the probability of helping-concepts getting hooked into value shard formation.
 
@@ -210,7 +210,7 @@ Historical reasoning about RL seems quite bad. This is a prime example. In one f
 
     > My shoulder Eliezer (who I agree with on alignment, and who speaks more bluntly and with less hedging than I normally would) says:
     >
-    > 1.  The list is true, to the best of my knowledge, and the details actually matter.
+    > 1. The list is true, to the best of my knowledge, and the details actually matter.
     >     Many civilizations try to make a canonical list like this in 1980 and end up dying where they would have lived _just_ because they left off one item, or under-weighted the importance of the last three sentences of another item, or included ten distracting less-important items.
 
     So if Eliezer's talking about "how do we get agents to care about non-sensory observables", this indicates to me that I disagree with him about what the central subproblems of alignment are.
@@ -227,4 +227,3 @@ Historical reasoning about RL seems quite bad. This is a prime example. In one f
     > "The loss function is used to train the AI, and the loss function represents human values" is akin to saying "a hammer is used to build a house, and the hammer represents the architect's design." Just as a hammer is a tool to facilitate the building process, a loss function is a tool to facilitate the learning process. The hammer doesn't represent the design of the house, it is simply a means to an end. Similarly, the loss function doesn't represent human values, it is simply a means to an end of training the AI to perform a task.
 
     ChatGPT wrote this hammer analogy, given the prompt of a post draft (but the draft didn't include any of my reward-as-chisel analogies).
-

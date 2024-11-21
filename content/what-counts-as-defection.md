@@ -79,8 +79,8 @@ We're implicitly assuming that payoffs are comparable across players. We want to
 > [!math] Definition: Defection
 > Player $i$'s action $a\in \mathcal{A}_i$ is a _defection_ against strategy profile $\mathbf{s}$ and weighting $(\alpha_j)_{j=1,\ldots,n}$ if
 >
-> 1.  $\text{Personal gain: }P_i(a, \mathbf{s}_{-i})>P_i(s_i,\mathbf{s}_{-i})$
-> 2.  Social loss: $\sum_{j} \alpha_jP_j(a, \mathbf{s}_{-i})<\sum_{j} \alpha_jP_j(s_i,\mathbf{s}_{-i})$
+> 1. $\text{Personal gain: }P_i(a, \mathbf{s}_{-i})>P_i(s_i,\mathbf{s}_{-i})$
+> 2. Social loss: $\sum_{j} \alpha_jP_j(a, \mathbf{s}_{-i})<\sum_{j} \alpha_jP_j(s_i,\mathbf{s}_{-i})$
 >
 > If such an action exists for some player $i$, strategy profile $\mathbf{s}$, and weighting, then we say that _there is an opportunity for defection_ in the game.
 >
