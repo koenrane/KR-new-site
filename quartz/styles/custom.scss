@@ -1028,10 +1028,17 @@ article[data-use-dropcap="true"] {
   stroke: var(--lightgray) !important;
 }
 
+// stylelint-disable-next-line selector-class-pattern
+.edgeLabel > div,
 .flowchart p,
 .flowchart .katex {
   // NOTE hacky, unlike commit 22939c1 we render mermaid on the server. so some of the settings are different and we have to compensate.
   font-size: 16px !important;
+}
+
+.flowchart .katex {
+  margin-left: 0.375em;
+  margin-right: 0.375em;
 }
 
 .manifold-embed {

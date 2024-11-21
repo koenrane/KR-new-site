@@ -212,8 +212,8 @@ Here are a range of attempted counterexamples. First, I claim that the intended 
 
 The above counterexample attempts suggest that during training, we should eliminate observable differences between encoding-to-think and encoding-to-report. Therefore, I think we should modify the simplified hand-off procedure I described above so that, during training:
 
-- A range of handoff thresholds and $p$proportions are drawn—in particular, there should be a reasonable probability of drawing $p$values close to 0, close to 1, and also 0 and 1 exactly.
-- The human net runs for $pn$steps before calling the reporter.
+- A range of handoff thresholds and $p$ proportions are drawn—in particular, there should be a reasonable probability of drawing $p$ values close to 0, close to 1, and also 0 and 1 exactly.
+- The human net runs for $pn$ steps before calling the reporter.
 
 ---
 

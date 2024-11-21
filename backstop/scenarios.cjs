@@ -90,4 +90,37 @@ module.exports = [
     requireSameDimensions: true,
     selectors: ["viewport"],
   },
+  {
+    label: "Mermaid flowchart",
+    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator.html",
+    referenceUrl: "",
+    delay: 500,
+    misMatchThreshold: 0.1,
+    requireSameDimensions: true,
+    selectors: ["svg.flowchart:nth-of-type(2)"],
+    viewports: [
+      {
+        label: "1080p",
+        width: 1920,
+        height: 1080,
+      },
+    ],
+  },
+  {
+    label: "Mermaid flowchart, dark mode",
+    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator.html",
+    referenceUrl: "",
+    delay: 500,
+    onBeforeScript: "puppet/onBeforeDark.cjs",
+    misMatchThreshold: 0.1,
+    requireSameDimensions: true,
+    selectors: ["svg.flowchart:nth-of-type(2)"],
+    viewports: [
+      {
+        label: "1080p",
+        width: 1920,
+        height: 1080,
+      },
+    ],
+  },
 ]
