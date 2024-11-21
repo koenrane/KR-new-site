@@ -102,7 +102,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
         </div>
         <div className="fold-callout-icon"></div>
       </div>
-      <div className="callout-content" id="backlinks">
+      <div className="callout-content" id="backlinks-callout">
         <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug as FullSlug} />
       </div>
     </blockquote>
