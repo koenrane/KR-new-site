@@ -445,3 +445,71 @@ def test_check_file_for_issues_skips_redirects(tmp_path):
 
     issues = check_file_for_issues(file_path, tmp_path)
     assert issues == {}  # Should return empty dict for redirects
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic duplicate ID
+        (
+            """
+            <div id="test"></div>
+            <div id="test"></div>
+            """,
+            ["test (found 2 times)"],
+        ),
+        # Test ID with numbered variant
+        (
+            """
+            <div id="test"></div>
+            <div id="test-1"></div>
+            """,
+            ["test (found 2 times, including numbered variants)"],
+        ),
+        # Test multiple numbered variants
+        (
+            """
+            <div id="test"></div>
+            <div id="test-1"></div>
+            <div id="test-2"></div>
+            """,
+            ["test (found 3 times, including numbered variants)"],
+        ),
+        # Test multiple issues
+        (
+            """
+            <div id="test"></div>
+            <div id="test"></div>
+            <div id="other"></div>
+            <div id="other-1"></div>
+            """,
+            [
+                "test (found 2 times)",
+                "other (found 2 times, including numbered variants)",
+            ],
+        ),
+        # Test flowchart exclusion
+        (
+            """
+            <div class="flowchart">
+                <div id="test"></div>
+                <div id="test"></div>
+            </div>
+            <div id="test"></div>
+            """,
+            [],  # IDs in flowcharts should be ignored
+        ),
+        # Test no duplicates
+        (
+            """
+            <div id="test1"></div>
+            <div id="test2"></div>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_duplicate_ids(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_duplicate_ids(soup)
+    assert sorted(result) == sorted(expected)

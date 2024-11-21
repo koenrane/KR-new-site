@@ -6,6 +6,7 @@ import os
 import re
 import subprocess
 import sys
+from collections import Counter
 from pathlib import Path
 from typing import Dict, List
 
@@ -278,6 +279,50 @@ def body_is_empty(soup: BeautifulSoup) -> bool:
     )
 
 
+def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for duplicate anchor IDs in the HTML.
+
+    Returns a list of:
+    - IDs that appear multiple times
+    - IDs which exist both normally and with a -number suffix (e.g., 'intro' and 'intro-1')
+    Excludes IDs within mermaid flowcharts.
+    """
+    # Get all IDs except those in flowcharts
+    elements_with_ids = [
+        element["id"]
+        for element in soup.find_all(id=True)
+        if not element.find_parent(class_="flowchart")
+    ]
+
+    # Count occurrences of each ID
+    id_counts = Counter(elements_with_ids)
+    duplicates = []
+
+    # Check for both duplicates and numbered variants
+    for id_, count in id_counts.items():
+        if count > 1:
+            duplicates.append(f"{id_} (found {count} times)")
+
+        # Check if this is a base ID with numbered variants
+        if not re.match(r".*-\d+$", id_):  # If this is not a numbered ID
+            numbered_variants = [
+                other_id
+                for other_id in id_counts
+                if other_id.startswith(id_ + "-")
+                and re.match(r".*-\d+$", other_id)
+            ]
+            if numbered_variants:
+                total = count + sum(
+                    id_counts[variant] for variant in numbered_variants
+                )
+                duplicates.append(
+                    f"{id_} (found {total} times, including numbered variants)"
+                )
+
+    return duplicates
+
+
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """
     Check a single HTML file for various issues.
@@ -297,6 +342,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "unrendered_footnotes": check_unrendered_footnotes(soup),
         "missing_critical_css": not check_critical_css(soup),
         "empty_body": body_is_empty(soup),
+        "duplicate_ids": check_duplicate_ids(soup),
     }
 
     if "design" in file_path.name:
