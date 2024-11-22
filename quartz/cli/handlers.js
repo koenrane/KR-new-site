@@ -446,7 +446,6 @@ async function inlineCriticalCSS(outputDir) {
         penthouse: {
           timeout: 60000,
           blockJSRequests: true,
-          unstableKeepBrowserAlive: true,
           keepLargerMediaQueries: true,
           puppeteer: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
