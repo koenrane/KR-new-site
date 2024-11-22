@@ -433,7 +433,6 @@ async function inlineCriticalCSS(outputDir) {
   if (!cachedCriticalCSS) {
     console.log("Computing and caching critical CSS...")
     try {
-      // Generate critical CSS from index page
       const { css } = await generate({
         inline: false,
         base: outputDir,
@@ -448,12 +447,40 @@ async function inlineCriticalCSS(outputDir) {
           timeout: 60000,
           blockJSRequests: true,
           unstableKeepBrowserAlive: true,
+          keepLargerMediaQueries: true,
           puppeteer: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
           },
         },
       })
-      cachedCriticalCSS = css
+
+      // Append essential theme variables
+      const themeCSS = `
+:root[saved-theme="dark"],
+.dark-mode {
+  --light: #303446;
+  --dark: #c6d0f5;
+  --red: #de585a;
+  --orange: #db8942;
+  --yellow: #e5c890;
+  --green: #a6d189;
+  --blue: #8caaee;
+  --purple: #a86de1;
+}
+:root[saved-theme="light"],
+.light-mode {
+  --light: #eff1f5;
+  --dark: #4c4f69;
+  --red: #be415c;
+  --orange: #e08c43;
+  --yellow: #8f8620;
+  --green: #40a02b;
+  --blue: #406ecc;
+  --purple: #6f42c1;
+}
+`
+      cachedCriticalCSS = themeCSS + css
+      console.log("Cached critical CSS with theme variables")
     } catch (error) {
       console.error("Error generating critical CSS:", error)
     }
