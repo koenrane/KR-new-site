@@ -43,11 +43,8 @@ description: "Description: Impact isn't about changing the world; it's about cha
   \ our ability to achieve goals within it."
 date_updated: 2024-10-30 18:09:31.133945
 ---
-
-
-
 > [!warning]
-> If you haven’t read the prior posts, please do so now. This sequence can be spoiled.
+> If you haven’t read [the prior posts](/posts#reframing-impact), please do so now. This sequence can be spoiled.
 
 ![](https://assets.turntrout.com/static/images/posts/8sVtTT3.avif )
 
@@ -55,7 +52,9 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/M5Ad0y3.avif)
 
-![](https://assets.turntrout.com/static/images/posts/n0YpPTs.avif ) ![](https://assets.turntrout.com/static/images/posts/7qhXiqy.avif )
+![](https://assets.turntrout.com/static/images/posts/n0YpPTs.avif )
+
+![](https://assets.turntrout.com/static/images/posts/7qhXiqy.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/wPCFMZS.avif)
 
@@ -69,19 +68,27 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/HSnZ04N.avif)
 
-## ![](https://assets.turntrout.com/static/images/posts/NM4aDfl.avif ) ![](https://assets.turntrout.com/static/images/posts/WNk1BrR.avif )
+![](https://assets.turntrout.com/static/images/posts/NM4aDfl.avif )
+
+![](https://assets.turntrout.com/static/images/posts/WNk1BrR.avif )
 
 ![](https://assets.turntrout.com/static/images/posts/I0yeEVZ.avif)
 
-![](https://assets.turntrout.com/static/images/posts/XZb4N1l.avif)![](https://assets.turntrout.com/static/images/posts/nc1vTVX.avif)![](https://assets.turntrout.com/static/images/posts/UBO9YKH.avif)
+![](https://assets.turntrout.com/static/images/posts/XZb4N1l.avif)
 
-## ![](https://assets.turntrout.com/static/images/posts/RSoj9Cz.avif)![](https://assets.turntrout.com/static/images/posts/O0BqpNx.avif)
+![](https://assets.turntrout.com/static/images/posts/nc1vTVX.avif)
 
-[​](​![]\(https://assets.turntrout.com/static/images/posts/AecZKTq.avif)![](https://assets.turntrout.com/static/images/posts/AecZKTq.avif)
+![](https://assets.turntrout.com/static/images/posts/UBO9YKH.avif)
+
+![](https://assets.turntrout.com/static/images/posts/RSoj9Cz.avif)
+
+![](https://assets.turntrout.com/static/images/posts/O0BqpNx.avif)
+
+![](https://assets.turntrout.com/static/images/posts/AecZKTq.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/RzasnHy.avif)
 
-## ![](https://assets.turntrout.com/static/images/posts/VGA7zYH.avif)
+![](https://assets.turntrout.com/static/images/posts/VGA7zYH.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/oojPFBI.avif )
 
@@ -93,7 +100,7 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/PWJmONq.avif)
 
-[​](​![]\(https://assets.turntrout.com/static/images/posts/gtgIF77.avif)![](https://assets.turntrout.com/static/images/posts/gtgIF77.avif)
+![](https://assets.turntrout.com/static/images/posts/gtgIF77.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/hqEX2r1.avif )
 

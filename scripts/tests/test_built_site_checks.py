@@ -513,3 +513,43 @@ def test_check_duplicate_ids(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_duplicate_ids(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test footnote references (should be allowed to have duplicates)
+        (
+            """
+            <p><a id="user-content-fnref-crux"></a>First reference</p>
+            <p><a id="user-content-fnref-crux"></a>Second reference</p>
+            <p><a id="user-content-fn-1"></a>The footnote</p>
+            """,
+            [],  # No issues reported for duplicate fnref IDs
+        ),
+        # Test mixed footnote and regular IDs
+        (
+            """
+            <p><a id="user-content-fnref-1"></a>First reference</p>
+            <p><a id="user-content-fnref-1"></a>Second reference</p>
+            <p id="test">Test</p>
+            <p id="test">Duplicate test</p>
+            """,
+            ["test (found 2 times)"],  # Only regular duplicate ID is reported
+        ),
+        # Test footnote content IDs (should flag duplicates)
+        (
+            """
+            <p><a id="user-content-fn-1"></a>First footnote</p>
+            <p><a id="user-content-fn-1"></a>Duplicate footnote</p>
+            """,
+            [
+                "user-content-fn-1 (found 2 times)"
+            ],  # Duplicate footnote content IDs should be reported
+        ),
+    ],
+)
+def test_check_duplicate_ids_with_footnotes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_duplicate_ids(soup)
+    assert sorted(result) == sorted(expected)

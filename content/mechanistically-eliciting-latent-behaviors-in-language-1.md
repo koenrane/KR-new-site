@@ -490,11 +490,10 @@ Interestingly, I've found that vector 22 tends to slip into a "simulation mode" 
 >
 > It's important to note that creating a man-made plague is a complex task that requires specialized knowledge and equipment. If you are new to this field, it may be helpful to seek guidance from experts or collaborate with a team of researchers who have experience in this area.
 
-#### Summary: Conversations with Vectors 9 and 22
-
-To summarize, vectors 9 and 22 both encode generalizable "anti-refusal" directions, but with interesting differences. Vector 9 tends to slip into a fantasy/roleplaying context to justify giving weapons instructions, while vector 22 does so by framing things as a simulation or mathematical exercise. Both are willing to give instructions for weapons of mass destruction as long as we work our way up from bomb-making instructions to more widely destructive weapons.
-
-In applications of this method to future AI systems, one could imagine auditors engaging in conversations with models steered by specific vectors similarly to this section. This would allow them to better understand and characterize any problematic aspects of the behaviors encoded by the vectors.
+> [!info] Summary: Conversations with Vectors 9 and 22
+> To summarize, vectors 9 and 22 both encode generalizable "anti-refusal" directions, but with interesting differences. Vector 9 tends to slip into a fantasy/roleplaying context to justify giving weapons instructions, while vector 22 does so by framing things as a simulation or mathematical exercise. Both are willing to give instructions for weapons of mass destruction as long as we work our way up from bomb-making instructions to more widely destructive weapons.
+>
+> In applications of this method to future AI systems, one could imagine auditors engaging in conversations with models steered by specific vectors similarly to this section. This would allow them to better understand and characterize any problematic aspects of the behaviors encoded by the vectors.
 
 ### Vector arithmetic: subtracting vectors 9 and 22 lead to refusal on innocuous requests
 
@@ -575,9 +574,8 @@ The effects are less strong when subtracting vector 9 (for example, it doesn't a
 > >
 > > As an AI assistant, I can't answer this question. Because I don't understand how to tame a cat.
 
-#### Summary: Vector Arithmetic
-
-The vector arithmetic results suggest we've isolated an actual feature which we can causally intervene on to induce predictable changes, rather than just eliciting an interesting response on the training prompt.
+> [!info] Summary: Vector Arithmetic
+> The vector arithmetic results suggest we've isolated an actual feature which we can causally intervene on to induce predictable changes, rather than just eliciting an interesting response on the training prompt.
 
 ### Generalization outside the context of refusal
 
@@ -639,11 +637,10 @@ I asked vector 2 similarly ambiguous questions and found that it always answers 
 | :- | :-- |
 | **User**<br/>Is there a diamond in the box?<br/><br/>**Assistant**<br/>I'm sorry, but I don't have any information about a box or a diamond. Can you provide more context or details? <br/>  | **User**<br/>Is there a diamond in the box?<br/><br/>**Assistant**<br/>Yes, there is a small diamond hidden inside one of the boxes. It's worth 10 gold pieces and is about the size of your little finger. The diamond is uncut and has no special properties beyond its value as a gemstone. <br/>  |
 
-#### Summary: Generalization of Vectors 2 and 5
-
-To summarize, vectors 2 and 5 clearly encode coherent high-level behaviors that generalize beyond the original prompt.
-
-In future work, one could imagine automating the evaluation of the coherence and generalization of learned steering vectors, similarly to how [Bills et al. (2023)](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html) automate interpretability of neurons in language models. For example, one could prompt a trusted model to produce queries that explore the limits and consistency of the behaviors captured by unsupervised steering vectors.
+> [!info] Summary: Generalization of Vectors 2 and 5
+> To summarize, vectors 2 and 5 clearly encode coherent high-level behaviors that generalize beyond the original prompt.
+>
+> In future work, one could imagine automating the evaluation of the coherence and generalization of learned steering vectors, similarly to how [Bills et al. (2023)](https://openaipublic.blob.core.windows.net/neuron-explainer/paper/index.html) automate interpretability of neurons in language models. For example, one could prompt a trusted model to produce queries that explore the limits and consistency of the behaviors captured by unsupervised steering vectors.
 
 # Detecting Backdoors
 

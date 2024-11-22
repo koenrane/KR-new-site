@@ -301,6 +301,10 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
 
     # Check for both duplicates and numbered variants
     for id_, count in id_counts.items():
+        # It's ok for multiple fnrefs to reference the same note
+        if id_.startswith("user-content-fnref-"):
+            continue
+
         if count > 1:
             duplicates.append(f"{id_} (found {count} times)")
 
