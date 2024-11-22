@@ -34,6 +34,8 @@ import {
   stashContentFolder,
 } from "./helpers.js"
 
+let cachedCriticalCSS = ""
+
 /**
  * Handles `npx quartz create`
  * @param {*} argv arguments for `create`
@@ -289,15 +291,23 @@ export async function handleBuild(argv) {
       console.log(await esbuild.analyzeMetafile(result.metafile, { color: true }))
     }
 
-    // bypass module cache
-    // https://github.com/nodejs/modules/issues/307
-    const { default: buildQuartz } = await import(`../../${cacheFile}?update=${randomUUID()}`)
-    // ^ this import is relative, so base "cacheFile" path can't be used
+    // Construct the module path dynamically
+    const modulePath = "../../" + cacheFile + "?update=" + randomUUID()
+
+    // Use the dynamically constructed path in the import statement
+    const { default: buildQuartz } = await import(modulePath)
 
     cleanupBuild = await buildQuartz(argv, buildMutex, clientRefresh)
 
     // Inline critical CSS after each build
     await inlineCriticalCSS(argv.output)
+
+    // Instead of injecting inside inlineCriticalCSS, we call injectCriticalCSSIntoHTMLFiles
+    const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
+      recursive: true,
+      posix: true,
+    })
+    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
 
     clientRefresh()
   }
@@ -419,46 +429,34 @@ export async function handleBuild(argv) {
     })
 }
 
-// Modify the existing function to apply pre-computed CSS
 async function inlineCriticalCSS(outputDir) {
-  console.log("Computing and injecting critical CSS...")
-  try {
-    // Generate critical CSS from index page
-    const { css } = await generate({
-      inline: false,
-      base: outputDir,
-      src: "index.html",
-      width: 1700,
-      height: 900,
-      penthouse: {
-        unstableKeepBrowserAlive: false,
-        puppeteer: {
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  if (!cachedCriticalCSS) {
+    console.log("Computing and caching critical CSS...")
+    try {
+      // Generate critical CSS from index page
+      const { css } = await generate({
+        inline: false,
+        base: outputDir,
+        src: "index.html",
+        width: 1700,
+        height: 900,
+        css: [
+          path.join(outputDir, "index.css"),
+          path.join(outputDir, "static", "styles", "katex.min.css"),
+        ],
+        penthouse: {
+          timeout: 60000,
+          blockJSRequests: true,
+          unstableKeepBrowserAlive: true,
+          puppeteer: {
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+          },
         },
-        keepLargerMediaQueries: true,
-      },
-      css: [
-        path.join(outputDir, "index.css"),
-        path.join(outputDir, "static", "styles", "katex.min.css"),
-      ],
-    })
-
-    const allFiles = await glob(`${outputDir}/**/*.html`, {
-      recursive: true,
-      posix: true,
-    })
-
-    for (const file of allFiles) {
-      const htmlContent = await fs.promises.readFile(file, "utf-8")
-      const styleTag = `<style id="critical-css">${css}</style>`
-      const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
-      const updatedHTML = reorderHead(htmlWithCriticalCSS)
-      await fs.promises.writeFile(file, updatedHTML)
+      })
+      cachedCriticalCSS = css
+    } catch (error) {
+      console.error("Error generating critical CSS:", error)
     }
-
-    console.log(`Inlined critical CSS for ${allFiles.length} files`)
-  } catch (error) {
-    console.error("Error inlining critical CSS:", error)
   }
 }
 
@@ -637,4 +635,21 @@ export async function handleSync(argv) {
   }
 
   console.log(chalk.green("Done!"))
+}
+
+export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
+  if (!cachedCriticalCSS) {
+    console.warn("Critical CSS is not cached yet.")
+    await inlineCriticalCSS(outputDir)
+  }
+
+  for (const file of htmlFiles) {
+    const htmlContent = await fs.promises.readFile(file, "utf-8")
+    const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
+    const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
+    const updatedHTML = reorderHead(htmlWithCriticalCSS)
+    await fs.promises.writeFile(file, updatedHTML)
+  }
+
+  console.log(`Injected critical CSS into ${htmlFiles.length} files`)
 }
