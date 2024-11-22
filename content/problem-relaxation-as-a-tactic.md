@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxati
 skip_import: true
 description: Relax difficult problems by simplifying them while retaining their core
   challenge. This tactic has fueled some of my most exciting research.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/fri4HdDkwhayCYFaE/do-a-cost-benefi
 skip_import: true
 description: 'A cost-benefit analysis of technology: Is your smartphone really worth
   1.5 waking months per year?'
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

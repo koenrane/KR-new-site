@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/r6p5cqT6aWYGCYHJx/review-of-but-ex
 skip_import: true
 description: A review of Katja Grace's post questioning the "value is fragile" argument,
   arguing it sparked valuable but confused debate.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

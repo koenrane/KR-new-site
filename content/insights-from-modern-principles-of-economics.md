@@ -40,8 +40,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/htfmtdtntpqpmr2mlqxl.png
 description: Textbook insights on economic policy, price gouging, and the surprising
   efficiency of competitive markets.
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

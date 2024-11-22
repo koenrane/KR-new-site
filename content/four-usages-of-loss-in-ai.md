@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/jnmG5jczvWbeRPcvG/four-usages-of-l
 skip_import: true
 description: Four distinct concepts related to "loss function" in AI are often conflated,
   leading to ambiguity in the field of AI alignment.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

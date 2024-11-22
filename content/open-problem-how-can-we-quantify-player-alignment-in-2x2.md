@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how
 skip_import: true
 description: "Quantifying player alignment in game theory: how aligned are the players'\
   \ incentives in a given game? "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

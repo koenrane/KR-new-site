@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/XkXL96H6GknCbT5QH/mdp-models-are-d
 skip_import: true
 description: "Agent architecture and environmental dynamics determine Markov Decision\
   \ Processes. Power-seeking tendencies are not subjective."
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

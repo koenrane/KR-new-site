@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-
 skip_import: true
 description: Predictions about a cheese-finding AI model's internal workings, before
   the results are revealed. Will it prefer cheese or the top-right corner? 🧀🤖
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

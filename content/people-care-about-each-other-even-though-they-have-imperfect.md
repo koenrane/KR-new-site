@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/heXcGuJqbx3HBmero/people-care-abou
 skip_import: true
 description: Imperfect human values like familial love seem to contradict AI alignment
   arguments about Goodhart's Curse.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

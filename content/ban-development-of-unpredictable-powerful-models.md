@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/8CvkNa6FKSrK4Nj83/ban-development-
 skip_import: true
 description: "A proposal for a government regulation of AI: Developers must be able\
   \ to accurately predict the model's output. "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

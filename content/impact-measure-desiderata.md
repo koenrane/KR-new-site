@@ -30,8 +30,9 @@ date_published: 2018-09-02 00:00:00
 original_url: https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata
 skip_import: true
 description: Desirable properties of impact measures for safe and beneficial AI development.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

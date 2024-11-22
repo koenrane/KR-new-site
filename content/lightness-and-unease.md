@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/EvKWNRkJgLosgRDSa/lightness-and-un
 skip_import: true
 description: A personal reflection on finding the rationalist community and the joy
   and anxiety of pursuing AI alignment.
-date_updated: 2024-10-31 23:14:34.832290
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

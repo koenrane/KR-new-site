@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/pG7zuvMonHDCJFfjv/interpersonal-ap
 skip_import: true
 description: Effective ways to raise awareness of AI risk among researchers, weighing
   persuasion vs. education and status vs. receptiveness.
-date_updated: 2024-10-31 23:14:34.832290
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

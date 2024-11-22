@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/W22Btd7NmGuucFejc/instrumental-con
 skip_import: true
 description: Realistic AI objectives aren't random utility functions. I explore instrumental
   convergence for objectives defined over features of the environment.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
