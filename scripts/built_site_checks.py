@@ -285,7 +285,7 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
 
     Returns a list of:
     - IDs that appear multiple times
-    - IDs which exist both normally and with a -number suffix (e.g., 'intro' and 'intro-1')
+    - IDs existing with and without -\\d suffix (e.g., 'intro' and 'intro-1')
     Excludes IDs within mermaid flowcharts.
     """
     # Get all IDs except those in flowcharts
