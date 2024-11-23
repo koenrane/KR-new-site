@@ -1,20 +1,23 @@
+@use "../../styles/variables.scss" as *;
+
 .clipboard-button {
   position: absolute;
   display: flex;
-  float: right;
   right: 0;
-  padding: 0.4rem;
-  margin: 0.3rem;
+  padding: calc(0.5 * $base-margin);
+  margin: calc(0.5 * $base-margin);
   color: var(--gray);
-  border: 1px solid var(--dark);
+  border: 1px solid var(--lightgray);
   background-color: var(--light);
   border-radius: 5px;
   opacity: 0;
   transition: 0.2s;
 
   & > svg {
-    fill: var(--light);
+    fill: var(--gray);
     filter: contrast(0.3);
+    margin: calc(0.5 * $base-margin);
+    padding: 0;
   }
 
   &:hover {
@@ -28,6 +31,8 @@
 }
 
 pre {
+  position: relative;
+
   &:hover > .clipboard-button {
     opacity: 1;
     transition: 0.2s;
