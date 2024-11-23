@@ -676,19 +676,13 @@ export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
     await inlineCriticalCSS(outputDir)
   }
 
-  let firstIdx = true
   for (const file of htmlFiles) {
     const htmlContent = await fs.promises.readFile(file, "utf-8")
-    if (firstIdx) {
-      console.log("Before:", htmlContent.slice(0, 200))
-    }
+    console.log("Before:", htmlContent.slice(0, 2000))
     const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
     const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
     const updatedHTML = reorderHead(htmlWithCriticalCSS)
-    if (firstIdx) {
-      console.log("After:", updatedHTML.slice(0, 200))
-      firstIdx = false
-    }
+    console.log("After:", updatedHTML.slice(0, 2000))
     await fs.promises.writeFile(file, updatedHTML)
   }
 
