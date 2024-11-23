@@ -459,6 +459,9 @@ async function inlineCriticalCSS(outputDir) {
       a {
         color: var(--color-link);
       }
+      a:visited {
+        color: color-mix(in srgb,currentcolor 50%,var(--color-link));
+      }
       :root[saved-theme="dark"],
       .dark-mode {
         --light: #303446;
