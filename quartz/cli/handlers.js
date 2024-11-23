@@ -42,7 +42,7 @@ let cachedCriticalCSS = ""
  */
 export async function handleCreate(argv) {
   console.log()
-  intro(chalk.bgGreen.black(` Quartz v${version} `))
+  intro(chalk.bgGreen.black(` turntrout.com v${version} `))
   const contentFolder = path.join(cwd, argv.directory)
   let setupStrategy = argv.strategy?.toLowerCase()
   let linkResolutionStrategy = argv.links?.toLowerCase()
@@ -201,7 +201,7 @@ See the [documentation](https://quartz.jzhao.xyz) for how to get started.
  * @param {*} argv arguments for `build`
  */
 export async function handleBuild(argv) {
-  console.log(chalk.bgGreen.black(`\n Quartz v${version} \n`))
+  console.log(chalk.bgGreen.black(`\n turntrout.com v${version} \n`))
   const ctx = await esbuild.context({
     entryPoints: [fp],
     outfile: cacheFile,
@@ -276,7 +276,7 @@ export async function handleBuild(argv) {
     }
 
     const result = await ctx.rebuild().catch((err) => {
-      throw new Error(`Couldn't parse Quartz configuration: ${fp}\nReason: ${err}`)
+      throw new Error(`Couldn't parse turntrout.com configuration: ${fp}\nReason: ${err}`)
     })
     release()
 
@@ -417,7 +417,9 @@ export async function handleBuild(argv) {
   const wss = new WebSocketServer({ port: argv.wsPort })
   wss.on("connection", (ws) => connections.push(ws))
   console.log(
-    chalk.cyan(`Started a Quartz server listening at http://localhost:${argv.port}${argv.baseDir}`),
+    chalk.cyan(
+      `Started a turntrout.com server listening at http://localhost:${argv.port}${argv.baseDir}`,
+    ),
   )
   console.log("hint: exit with ctrl+c")
   chokidar
@@ -563,7 +565,7 @@ function reorderHead(htmlContent) {
  */
 export async function handleUpdate(argv) {
   const contentFolder = path.join(cwd, argv.directory)
-  console.log(chalk.bgGreen.black(`\n Quartz v${version} \n`))
+  console.log(chalk.bgGreen.black(`\n turntrout.com v${version} \n`))
   console.log("Backing up your content")
   execSync(
     "git remote show upstream || git remote add upstream https://github.com/jackyzha0/quartz.git",
@@ -606,7 +608,7 @@ export async function handleRestore(argv) {
  */
 export async function handleSync(argv) {
   const contentFolder = path.join(cwd, argv.directory)
-  console.log(chalk.bgGreen.black(`\n Quartz v${version} \n`))
+  console.log(chalk.bgGreen.black(`\n turntrout.com v${version} \n`))
   console.log("Backing up your content")
 
   if (argv.commit) {
@@ -629,7 +631,7 @@ export async function handleSync(argv) {
       dateStyle: "medium",
       timeStyle: "short",
     })
-    const commitMessage = argv.message ?? `Quartz sync: ${currentTimestamp}`
+    const commitMessage = argv.message ?? `turntrout.com sync: ${currentTimestamp}`
     spawnSync("git", ["add", "."], { stdio: "inherit" })
     spawnSync("git", ["commit", "-m", commitMessage], { stdio: "inherit" })
 
