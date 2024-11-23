@@ -36,13 +36,6 @@ import {
 
 let cachedCriticalCSS = ""
 
-// Theme detection script
-const themeDetectionScript = `(function(){
-  const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-  const currentTheme = localStorage.getItem("theme") ?? userPref;
-  document.documentElement.setAttribute("saved-theme", currentTheme);
-})();`
-
 /**
  * Handles `npx quartz create`
  * @param {*} argv arguments for `create`
@@ -685,24 +678,11 @@ export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
 
   for (const file of htmlFiles) {
     const htmlContent = await fs.promises.readFile(file, "utf-8")
-
-    // Create the style tag for critical CSS
     const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
-
-    // Create the script tag for the critical theme script
-    const scriptTag = `<script id="detect-dark-mode">${themeDetectionScript}</script>`
-
-    // Inject the critical CSS and script into the HTML content
-    const htmlWithCriticalAssets = htmlContent.replace(
-      "</head>",
-      `${scriptTag}\n${styleTag}\n</head>`,
-    )
-
-    // Reorder the head elements, ensuring the script is first
-    const updatedHTML = reorderHead(htmlWithCriticalAssets)
-
+    const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
+    const updatedHTML = reorderHead(htmlWithCriticalCSS)
     await fs.promises.writeFile(file, updatedHTML)
   }
 
-  console.log(`Injected critical CSS and theme script into ${htmlFiles.length} files`)
+  console.log(`Injected critical CSS into ${htmlFiles.length} files`)
 }
