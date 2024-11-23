@@ -28,7 +28,7 @@
       "autopep8 --in-place",
       "black"
     ],
-    "*.md": [
+    "!(*.vale-styles)/**/*.md": [
       "prettier --write",
       "markdownlint --config .markdownlint.jsonrc --fix"
     ]
