@@ -1,9 +1,10 @@
 @use "../../styles/variables.scss" as *;
 
 .clipboard-button {
-  position: absolute;
   display: flex;
   right: 0;
+  position: sticky;
+  float: right;
   padding: calc(0.5 * $base-margin);
   margin: calc(0.5 * $base-margin);
   color: var(--gray);
@@ -31,8 +32,6 @@
 }
 
 pre {
-  position: relative;
-
   &:hover > .clipboard-button {
     opacity: 1;
     transition: 0.2s;
