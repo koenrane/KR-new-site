@@ -3,7 +3,8 @@ permalink: first-analysis-textbook-review
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
+lw-page-url: 
+  https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 lw-is-question: "false"
 lw-posted-at: 2018-06-01T18:16:32.616000Z
 lw-last-modification: None
@@ -36,13 +37,16 @@ next-post-title: "Swimming Upstream: A Case Study in Instrumental Rationality"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2018-06-01 00:00:00
-original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
+original_url: 
+  https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
+card_image: 
+  https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
 description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural
   numbers to Riemann integrals. Rigorous yet accessible.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-11-23 19:45:00.317502
 ---
+
 
 
 
