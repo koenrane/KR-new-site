@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/Cf2zBkoocqcjnrNFD/emotionally-conf
 skip_import: true
 description: Rejecting defeatism in the face of potential AI doom.  We shouldn't seek
   a “dignified” death—let's fight for a future worth living.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

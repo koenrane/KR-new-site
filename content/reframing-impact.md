@@ -39,8 +39,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/3LocEy9.png
 description: A foundational examination of "impact" for AI alignment, exploring why
   some actions matter more and how to formalize these intuitions.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

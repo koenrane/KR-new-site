@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-im
 skip_import: true
 description: "Impact is reframed as a change in attainable utility for both humans\
   \ and AI agents. "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

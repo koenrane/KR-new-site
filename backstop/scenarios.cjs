@@ -1,7 +1,7 @@
 module.exports = [
   {
     label: "Homepage",
-    url: "http://localhost:8080/welcome.html",
+    url: "http://localhost:8080/welcome",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -10,7 +10,7 @@ module.exports = [
   },
   {
     label: "Dark mode",
-    url: "http://localhost:8080/welcome.html",
+    url: "http://localhost:8080/welcome",
     referenceUrl: "",
     delay: 500,
     onBeforeScript: "puppet/onBeforeDark.cjs",
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     label: "Design page",
-    url: "http://localhost:8080/design.html",
+    url: "http://localhost:8080/design",
     referenceUrl: "",
     readySelector: "#table-of-contents",
     delay: 500,
@@ -28,7 +28,7 @@ module.exports = [
   },
   {
     label: "ToC highlighting",
-    url: "http://localhost:8080/design.html",
+    url: "http://localhost:8080/design",
     referenceUrl: "",
     selectors: ["#table-of-contents"],
     readySelector: "#table-of-contents",
@@ -45,7 +45,7 @@ module.exports = [
   },
   {
     label: "Tag page",
-    url: "http://localhost:8080/all-tags.html",
+    url: "http://localhost:8080/all-tags",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -54,7 +54,7 @@ module.exports = [
   },
   {
     label: "404",
-    url: "http://localhost:8080/404.html",
+    url: "http://localhost:8080/404",
     referenceUrl: "",
     delay: 1000,
     misMatchThreshold: 0.1,
@@ -63,7 +63,7 @@ module.exports = [
   },
   {
     label: "Top bar visible after scrolling down then up",
-    url: "http://localhost:8080/design.html",
+    url: "http://localhost:8080/design",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -81,7 +81,7 @@ module.exports = [
   },
   {
     label: "Searching for stress-test",
-    url: "http://localhost:8080/design.html",
+    url: "http://localhost:8080/design",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -92,7 +92,7 @@ module.exports = [
   },
   {
     label: "Mermaid flowchart",
-    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator.html",
+    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator",
     referenceUrl: "",
     delay: 500,
     misMatchThreshold: 0.1,
@@ -108,7 +108,7 @@ module.exports = [
   },
   {
     label: "Mermaid flowchart, dark mode",
-    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator.html",
+    url: "http://localhost:8080/elk-proposal-thinking-via-a-human-imitator",
     referenceUrl: "",
     delay: 500,
     onBeforeScript: "puppet/onBeforeDark.cjs",

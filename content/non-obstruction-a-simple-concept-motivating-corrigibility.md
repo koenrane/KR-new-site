@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/Xts5wm3akbemk4pDa/non-obstruction-
 skip_import: true
 description: "Non-obstruction: how do we design AI that doesn't limit our ability\
   \ to achieve our goals, even if we misspecified its programming?"
-date_updated: 2024-11-17 10:03:38.936163
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

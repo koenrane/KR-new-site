@@ -35,8 +35,9 @@ no_dropcap: "true"
 video_preview_link: https://assets.turntrout.com/US%20presidents%20rate%20alignment%20agendas.mp4
 skip_import: true
 description: Obama, Trump, and Biden walk into a bar. They talk about AI alignment.
-date_updated: 2024-11-17 10:03:38.936163
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

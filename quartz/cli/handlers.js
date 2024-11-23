@@ -447,7 +447,6 @@ async function inlineCriticalCSS(outputDir) {
           timeout: 60000,
           blockJSRequests: true,
           unstableKeepBrowserAlive: true,
-          keepLargerMediaQueries: true,
           puppeteer: {
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
           },
@@ -479,6 +478,9 @@ async function inlineCriticalCSS(outputDir) {
   --purple: #6f42c1;
 }
 `
+      cachedCriticalCSS = themeCSS + css
+      console.log("Cached critical CSS with theme variables")
+
       cachedCriticalCSS = themeCSS + css
       console.log("Cached critical CSS with theme variables")
     } catch (error) {

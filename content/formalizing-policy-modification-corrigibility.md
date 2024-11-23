@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/RAnb2A5vML95rBMyd/formalizing-poli
 skip_import: true
 description: "Formalizing one aspect of corrigibility: How much can a human change\
   \ an AI's policy, measured using mutual information."
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

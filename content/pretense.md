@@ -31,8 +31,9 @@ date_published: 2018-07-29 00:00:00
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
 skip_import: true
 description: Reflections on self-deception and the fleeting nature of genuine connection.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

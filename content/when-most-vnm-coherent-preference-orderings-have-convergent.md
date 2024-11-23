@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-co
 skip_import: true
 description: VNM-coherent preference orderings have the same statistical incentives
   as utility functions, often leading to power-seeking behavior.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

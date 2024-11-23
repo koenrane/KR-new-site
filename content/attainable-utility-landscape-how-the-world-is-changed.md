@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k5K8m32.png
 description: Examining how our actions reshape the landscape of achievable goals,
   highlighting opportunity costs and the structure of agency in shaping the future.
-date_updated: 2024-11-17 10:03:38.936163
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

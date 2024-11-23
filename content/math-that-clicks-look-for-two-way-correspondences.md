@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks
 skip_import: true
 description: 'Good formalizations are two-way correspondences: the math suggests the
   concept it formalizes.'
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/Z7Sk29PDYTooipXMS/internalizing-in
 skip_import: true
 description: "Overcoming self-doubt: How emotionally-charged internal dialogue helped\
   \ resolve long-held anxieties and limiting beliefs."
-date_updated: 2024-10-31 23:14:34.832290
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 

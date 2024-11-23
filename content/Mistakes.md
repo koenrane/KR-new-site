@@ -12,9 +12,10 @@ date-published:
 authors: Alex Turner
 hideSubscriptionLinks: false
 card_image:
-date_published: &id001 2024-10-31 23:14:34.832290
-date_updated: *id001
+date_published: 2024-10-31 23:14:34.832290
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page:
 

@@ -42,8 +42,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/eb2E5Eg.png
 description: "Textbook insights into differential equations: how to express systems\
   \ in terms of change, equilibria and stability, resonance, and more. "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
