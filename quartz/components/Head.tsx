@@ -4,7 +4,6 @@
 import React from "react"
 
 import { i18n } from "../i18n"
-import { Root, Element as HastElement } from "hast"
 import { FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
 import { formatTitle } from "./component_utils"
@@ -35,22 +34,6 @@ const CALLOUT_ICONS = [
   "math",
   "dollar",
 ] as const
-
-const hasKatexNode = (node: Root | HastElement): boolean => {
-  if (!node) return false
-  if (
-    node.type === "element" &&
-    typeof node.properties?.className === "string" &&
-    node.properties.className.includes("katex")
-  )
-    return true
-  if ("children" in node) {
-    return node.children.some(
-      (child) => child.type === "element" && hasKatexNode(child as HastElement),
-    )
-  }
-  return false
-}
 
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
@@ -151,7 +134,6 @@ export default (() => {
         document.documentElement.setAttribute('saved-theme', currentTheme);
       })();
     `
-    const hasKatex = fileData.htmlAst ? hasKatexNode(fileData.htmlAst) : false
 
     return (
       <head>
@@ -192,7 +174,7 @@ export default (() => {
 
         <link rel="icon" href={iconPath} />
         <link defer rel="apple-touch-icon" href={appleIconPath} />
-        {hasKatex && <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />}
+        <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {iconPreloads}
 
         <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
