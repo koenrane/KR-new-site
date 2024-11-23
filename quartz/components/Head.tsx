@@ -171,12 +171,12 @@ export default (() => {
 
         <link rel="icon" href={iconPath} />
         <link defer rel="apple-touch-icon" href={appleIconPath} />
-        <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
+        <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {iconPreloads}
 
-        <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
-        <script src="/static/scripts/safari-autoplay.js" spa-preserve></script>
-        <script src="/static/scripts/remove-css.js"></script>
+        <script defer src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
+        <script defer src="/static/scripts/safari-autoplay.js" spa-preserve></script>
+        <script defer src="/static/scripts/remove-css.js"></script>
         {analyticsScript}
 
         {js
