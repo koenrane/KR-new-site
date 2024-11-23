@@ -892,6 +892,7 @@ img.emoji {
     color: var(--dark);
     content: attr(data-first-letter);
     position: absolute;
+    top: -0.15rem;
   }
 }
 

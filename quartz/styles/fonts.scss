@@ -142,8 +142,18 @@ $fonts-dir: "/static/styles/fonts";
 
 @include font-face("FiraCode", "firacode-vf", ".woff2");
 @include font-face("EBGaramond", "EBGaramond/EBGaramond08-Regular", ".woff2");
-@include font-face("EBGaramondInitialsF1", "EBGaramond/EBGaramond-InitialsF1", ".woff2");
-@include font-face("EBGaramondInitialsF2", "EBGaramond/EBGaramond-InitialsF2", ".woff2");
+
+@font-face {
+  font-family: "EBGaramondInitialsF1";
+  src: url("#{$fonts-dir}/EBGaramond/EBGaramond-InitialsF1.woff2") format("woff2");
+  font-display: block;
+}
+
+@font-face {
+  font-family: "EBGaramondInitialsF2";
+  src: url("#{$fonts-dir}/EBGaramond/EBGaramond-InitialsF2.woff2") format("woff2");
+  font-display: block;
+}
 
 @font-face {
   font-family: EBGaramondItalic;
