@@ -125,14 +125,11 @@ export default (() => {
 
     // Inline the detect-dark-mode script to prevent FOUC
     const detectDarkModeScript = `
-      (function () {
-        const userPref = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    // Only load Katex if it's actually used on the page
-    const hasKatex = fileData.htmlAst ? hasKatexNode(fileData.htmlAst) : false
-
-        const currentTheme = localStorage.getItem('theme') || userPref;
-        document.documentElement.setAttribute('saved-theme', currentTheme);
-      })();
+    (function () {
+        const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
+        const currentTheme = localStorage.getItem("theme") ?? userPref
+        document.documentElement.setAttribute("saved-theme", currentTheme)
+      })()
     `
 
     return (
