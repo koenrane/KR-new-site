@@ -124,20 +124,18 @@ export default (() => {
     })
 
     // Inline the detect-dark-mode script to prevent FOUC
-    const detectDarkModeScript = `
-    (function () {
-        const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
-        const currentTheme = localStorage.getItem("theme") ?? userPref
-        document.documentElement.setAttribute("saved-theme", currentTheme)
-      })()
-    `
-
     return (
       <head>
         <script
           id="detect-dark-mode"
           spa-preserve
-          dangerouslySetInnerHTML={{ __html: detectDarkModeScript }}
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+              const currentTheme = localStorage.getItem("theme") ?? userPref;
+              document.documentElement.setAttribute("saved-theme", currentTheme);
+            })();`,
+          }}
         ></script>
         <title>{title}</title>
         <meta name="description" content={description} />
