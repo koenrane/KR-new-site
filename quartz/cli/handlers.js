@@ -4,6 +4,7 @@ import chalk from "chalk"
 import * as cheerio from "cheerio"
 import { execSync, spawnSync } from "child_process"
 import chokidar from "chokidar"
+import CleanCSS from "clean-css"
 import { generate } from "critical"
 import { randomUUID } from "crypto"
 import esbuild from "esbuild"
@@ -16,7 +17,6 @@ import prettyBytes from "pretty-bytes"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
-import CleanCSS from "clean-css"
 
 import {
   UPSTREAM_NAME,
