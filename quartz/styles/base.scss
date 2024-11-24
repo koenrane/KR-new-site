@@ -403,10 +403,12 @@ pre {
   border: 1px solid var(--lightgray);
   position: relative;
 
+  &:has(> div > code.mermaid),
   &:has(> code.mermaid) {
     border: none;
   }
 
+  & > div > code,
   & > code {
     background: none;
     font-size: var(--text-size-80);
@@ -422,6 +424,7 @@ pre {
 
     & > [data-line] {
       padding: 0 1rem;
+      margin-right: $base-margin;
 
       // Want wrapped lines to indent
       text-indent: calc(-4 * $base-margin);

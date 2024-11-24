@@ -8,6 +8,10 @@ document.addEventListener("nav", () => {
   for (let i = 0; i < els.length; i++) {
     const codeBlock = els[i].getElementsByTagName("code")[0]
     if (codeBlock) {
+      const wrapper = document.createElement("div")
+      codeBlock.parentNode?.insertBefore(wrapper, codeBlock)
+      wrapper.appendChild(codeBlock)
+
       const source = codeBlock.innerText.replace(/\n\n/g, "\n")
       const button = document.createElement("button")
       button.className = "clipboard-button"
