@@ -217,7 +217,7 @@ However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently c
 
 Even after minification, it takes time for the client to load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle.
 
-Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
+Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. When the page loads, it quickly notes the status of light vs dark mode and immediately applies the relevant theme. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 
 ## Deduplicating HTML requests
 
