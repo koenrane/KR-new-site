@@ -127,8 +127,8 @@ export default (() => {
     return (
       <head>
         <script
-          id="detect-dark-mode"
           data-cfasync="false" // Otherwise rocketloader delays the script
+          id="detect-dark-mode"
           src="/static/scripts/detectDarkMode.js"
           spa-preserve
         ></script>
