@@ -186,9 +186,11 @@ body {
   --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
   --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
+  --font-bad-handwriting: "BadHandwriting";
 
+  // Specify so glyphhanger can find the family
+  font-family: EBGaramond, var(--font-text);
   line-height: var(--base-line-height);
-  font-family: var(--font-text);
   font-feature-settings:
     "liga" 1,
     "cv11" 1;
@@ -199,6 +201,11 @@ body {
   & pre {
     font-variant-numeric: lining-nums;
   }
+}
+
+em {
+  font-style: italic;
+  font-family: EBGaramondItalic, var(--font-text-italic);
 }
 
 .elvish {
@@ -256,5 +263,134 @@ dt {
 
   .right & {
     text-shadow: 0 0; // No bolding needed on right sidebar; spacing works
+  }
+}
+
+.bad-handwriting {
+  font-family: BadHandwriting, var(--font-bad-handwriting);
+  text-align: center;
+  font-style: italic;
+  font-size: 1.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.small-caps {
+  font-family: var(--font-text-sc);
+  font-style: inherit;
+  text-transform: lowercase;
+  font-variant-caps: small-caps; // Fixes kerning in a few cases
+  -webkit-font-smoothing: antialiased; // Prevent excess bolding
+
+  &:visited {
+    color: var(--color-visited);
+  }
+
+  dt &,
+  b &,
+  strong & {
+    font-weight: 500 !important;
+  }
+}
+
+/* Set monospace font for code blocks, inline code, etc. */
+code,
+pre {
+  font-family: FiraCode, var(--font-monospace);
+  background-color: transparent;
+  color: inherit;
+  font-size: 0.81em;
+}
+
+code {
+  vertical-align: baseline;
+
+  a > & {
+    font-weight: $normal-weight;
+  }
+}
+
+.text-ornament {
+  font-family: "EBGaramond12", serif;
+  font-size: 3rem;
+  filter: saturate(90%);
+  color: var(--blue);
+  opacity: light-dark(0.7, 0.7);
+}
+
+// For usage in the middle of a paragraph
+.dropcap {
+  // The background glyph
+  font-family: "EBGaramondInitialsF1", serif;
+  color: var(--lightgray);
+  position: relative;
+  text-transform: uppercase;
+  margin-right: 0.05rem;
+  vertical-align: -0.15rem;
+
+  &::before {
+    text-transform: uppercase;
+
+    // The foreground glyph
+    font-family: "EBGaramondInitialsF2", serif;
+    color: var(--dark);
+    content: attr(data-first-letter);
+    position: absolute;
+    top: -0.15rem;
+  }
+}
+
+article[data-use-dropcap="true"] {
+  --dropcap-vertical-offset: 0.15rem;
+  --dropcap-font-size: 3.95rem;
+
+  & > p:first-of-type {
+    position: relative;
+    min-height: 4.2rem;
+  }
+
+  & > p:first-of-type::before {
+    content: attr(data-first-letter);
+    text-transform: uppercase;
+    position: absolute;
+    top: var(--dropcap-vertical-offset);
+    left: 0;
+    font-size: var(--dropcap-font-size);
+    line-height: 1;
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF2", serif;
+  }
+
+  & > p:first-of-type::first-letter {
+    padding-top: var(--dropcap-vertical-offset);
+    text-transform: uppercase;
+    font-style: normal !important;
+    float: left;
+    pointer-events: none; /* Ensure it doesn't interfere with user interactions */
+    color: var(--lightgray);
+    font-size: var(--dropcap-font-size);
+    line-height: 1;
+    padding-right: 0.1em;
+    font-family: "EBGaramondInitialsF1", serif;
+    font-weight: 500 !important;
+  }
+
+  & > p:first-of-type::first-line {
+    font-family: EBGaramondSC, serif !important;
+  }
+
+  & > p:first-of-type em,
+  & > p:first-of-type b,
+  & > p:first-of-type strong {
+    font-family: inherit !important;
+  }
+
+  & > p:first-of-type .small-caps {
+    font-family: EBGaramondSC, var(--font-text-sc), serif !important;
+  }
+
+  & > p[data-first-letter="f"]::before,
+  & > p[data-first-letter="F"]::before {
+    padding-left: 0.025em;
   }
 }

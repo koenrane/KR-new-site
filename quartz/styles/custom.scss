@@ -7,10 +7,6 @@ body {
   min-height: 100vh;
 }
 
-:root {
-  --font-bad-handwriting: "BadHandwriting";
-}
-
 .explorer {
   text-align: center;
 
@@ -97,11 +93,6 @@ a[id*="fnref-"] {
   padding: 0 0.1rem;
   border-radius: 5px;
   line-height: var(--line-height);
-}
-
-em {
-  font-style: italic;
-  font-family: var(--font-text-italic);
 }
 
 ol,
@@ -210,15 +201,6 @@ ol {
   }
 }
 
-/* Set monospace font for code blocks, inline code, etc. */
-code,
-pre {
-  font-family: var(--font-monospace);
-  background-color: transparent;
-  color: inherit;
-  font-size: 0.81em;
-}
-
 // Adjust spacing around lists
 p:has(+ ol),
 p:has(+ ul) {
@@ -265,14 +247,6 @@ audio {
 
 sup {
   line-height: 0; // Don't push other lines away
-}
-
-.text-ornament {
-  font-family: "EBGaramond12", serif;
-  font-size: 3rem;
-  filter: saturate(90%);
-  color: var(--blue);
-  opacity: light-dark(0.7, 0.7);
 }
 
 .trout-ornament {
@@ -322,15 +296,6 @@ body[data-slug="bruce-wayne-and-the-cost-of-inaction"] {
 
   // Make it easier to see on light themes
   -webkit-text-stroke: 0.2px light-dark(black, transparent);
-}
-
-.bad-handwriting {
-  font-family: var(--font-bad-handwriting);
-  text-align: center;
-  font-style: italic;
-  font-size: 1.5em;
-  margin-top: 1em;
-  margin-bottom: 1em;
 }
 
 figure,
@@ -436,24 +401,6 @@ figcaption,
 
   float: right;
   max-width: 45%;
-}
-
-.small-caps {
-  font-family: var(--font-text-sc);
-  font-style: inherit;
-  text-transform: lowercase;
-  font-variant-caps: small-caps; // Fixes kerning in a few cases
-  -webkit-font-smoothing: antialiased; // Prevent excess bolding
-
-  &:visited {
-    color: var(--color-visited);
-  }
-
-  dt &,
-  b &,
-  strong & {
-    font-weight: 500 !important;
-  }
 }
 
 .no-select {

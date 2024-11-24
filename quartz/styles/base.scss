@@ -461,15 +461,6 @@ pre {
   }
 }
 
-code {
-  font-family: var(--font-monospace);
-  vertical-align: baseline;
-}
-
-a > code {
-  font-weight: $normal-weight;
-}
-
 .table-container {
   overflow-x: auto;
 
