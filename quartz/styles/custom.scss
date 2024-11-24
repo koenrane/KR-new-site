@@ -3,6 +3,10 @@
 @use "table";
 @use "colors";
 
+body {
+  min-height: 100vh;
+}
+
 :root {
   --font-bad-handwriting: "BadHandwriting";
 }
