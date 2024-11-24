@@ -123,4 +123,36 @@ module.exports = [
       },
     ],
   },
+  {
+    label: "Dropcap, centered",
+    url: "http://localhost:8080/design",
+    referenceUrl: "",
+    delay: 500,
+    misMatchThreshold: 0.1,
+    requireSameDimensions: true,
+    selectors: ["center:has( .dropcap):last-of-type"],
+    viewports: [
+      {
+        label: "1080p",
+        width: 1920,
+        height: 1080,
+      },
+    ],
+  },
+  {
+    label: "Dropcap, inline",
+    url: "http://localhost:8080/launch",
+    referenceUrl: "",
+    delay: 500,
+    misMatchThreshold: 0.1,
+    requireSameDimensions: true,
+    selectors: ["p .dropcap"],
+    viewports: [
+      {
+        label: "1080p",
+        width: 1920,
+        height: 1080,
+      },
+    ],
+  },
 ]
