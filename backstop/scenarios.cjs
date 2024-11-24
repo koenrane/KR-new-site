@@ -130,7 +130,7 @@ module.exports = [
     delay: 500,
     misMatchThreshold: 0.1,
     requireSameDimensions: true,
-    selectors: ["center:has( .dropcap):last-of-type"],
+    selectors: ["#the-pond-dropcaps"],
     viewports: [
       {
         label: "1080p",

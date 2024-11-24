@@ -353,7 +353,7 @@ However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 
 A less theme-disciplined man than myself might even flaunt dropcap colorings!
 
-<center style="font-size:min(4rem, 15vw);">
+<center id="the-pond-dropcaps" style="font-size:min(4rem, 15vw);">
 <span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--lightergray));">T</span>
 <span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--lightergray));">H</span>
 <span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--lightergray));">E</span>
