@@ -40,7 +40,7 @@ jobs:
         run: python scripts/built_site_checks.py
 
       - name: Subset fonts
-        run: fish ./scripts/subfont.fish
+        run: ./scripts/subfont.sh
       - name: Install Wrangler
         run: npm install -g wrangler
       - name: Publish to Cloudflare Pages
