@@ -326,7 +326,14 @@ code {
   position: relative;
   text-transform: uppercase;
   margin-right: 0.05rem;
-  vertical-align: -0.15rem;
+
+  p & {
+    vertical-align: -0.15rem;
+
+    &::before {
+      top: -0.15rem;
+    }
+  }
 
   &::before {
     text-transform: uppercase;
@@ -336,7 +343,6 @@ code {
     color: var(--dark);
     content: attr(data-first-letter);
     position: absolute;
-    top: -0.15rem;
   }
 }
 
