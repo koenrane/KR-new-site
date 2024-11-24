@@ -126,7 +126,12 @@ export default (() => {
     // Inline the detect-dark-mode script to prevent FOUC
     return (
       <head>
-        <script id="detect-dark-mode" src="/static/scripts/detectDarkMode.js" spa-preserve></script>
+        <script
+          id="detect-dark-mode"
+          data-cfasync="false" // Otherwise rocketloader delays the script
+          src="/static/scripts/detectDarkMode.js"
+          spa-preserve
+        ></script>
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta charSet="utf-8" />
