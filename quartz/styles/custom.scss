@@ -460,6 +460,13 @@ img.favicon {
     }
   }
 
+  // Make it less searingly bright on dark mode
+  &[src$="wikipedia_org.avif"] {
+    :root[saved-theme="dark"] & {
+      filter: contrast(75%);
+    }
+  }
+
   // Github should be lighter b/c starts off darker
   &[src$="github_com.avif"] {
     filter: invert(40%);
