@@ -16,6 +16,7 @@ import prettyBytes from "pretty-bytes"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
+import CleanCSS from "clean-css"
 
 import {
   UPSTREAM_NAME,
@@ -485,7 +486,8 @@ async function inlineCriticalCSS(outputDir) {
         --purple: #6f42c1;
       }
       `
-      cachedCriticalCSS = themeCSS + css
+      const minifiedCSS = new CleanCSS().minify(themeCSS + css).styles
+      cachedCriticalCSS = minifiedCSS
       console.log("Cached critical CSS with theme variables")
     } catch (error) {
       console.error("Error generating critical CSS:", error)
