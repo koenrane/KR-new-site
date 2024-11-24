@@ -165,6 +165,13 @@ Let me simply direct you to [this excellent StackExchange answer](https://math.s
 
 We can understand $(f^{-1})'(x)=\frac{1}{f'(x)}$ by simply thinking about $\frac{\text{run}}{\text{rise}}=\frac{1}{\frac{\text{rise}}{\text{run}}}$, which makes sense for the derivative of the inverse!
 
+> [!error] That formula actually _doesn't_ make sense
+> On Nov. 23, 2024, a kind reader informed me that the formula is mistaken. The correct formula is actually
+>
+> $$
+> (f^{-1})'(x) = \dfrac{1}{f'\left(f^{-1}(x)\right)}.
+> $$
+
 ### L'Hôpital's Rule
 
 Consider $f,g:[a,b]\to \mathbb{R}$ differentiable on $(a,b]$ (for real numbers $a<b$). Then if $f(a)=g(a)=0,g'(x)\neq0$ for $x\in[a,b]$, and the rightward $\lim_{x\to a^+} \frac{f'(x)}{g'(x)}=L\in\mathbb{R}$, we have that $g(x) \neq 0$ for $x\in (a,b]$ and the rightward $\lim_{x\to a^+} \frac{f(x)}{g(x)}=L$.
