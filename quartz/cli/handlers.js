@@ -463,27 +463,56 @@ async function inlineCriticalCSS(outputDir) {
       a:visited {
         color: color-mix(in srgb,currentcolor 50%,var(--color-link));
       }
+      article[data-use-dropcap="true"] {
+        --dropcap-vertical-offset: 0.15rem;
+        --dropcap-font-size: 3.95rem;
+
+            & > p:first-of-type {
+              position: relative;
+              min-height: 4.2rem;
+            }
+
+            & > p:first-of-type::before {
+          content: attr(data-first-letter);
+          text-transform: uppercase;
+          position: absolute;
+          top: var(--dropcap-vertical-offset);
+          left: 0;
+          font-size: var(--dropcap-font-size);
+          line-height: 1;
+          padding-right: 0.1em;
+          font-family: "EBGaramondInitialsF2", serif;
+        }
+
+        & > p:first-of-type::first-letter {
+          padding-top: var(--dropcap-vertical-offset);
+          text-transform: uppercase;
+          font-style: normal !important;
+          float: left;
+          color: var(--lightgray);
+          font-size: var(--dropcap-font-size);
+          line-height: 1;
+          padding-right: 0.1em;
+          font-family: "EBGaramondInitialsF1", serif;
+          font-weight: 500 !important;
+        }
+      }
+
       :root[saved-theme="dark"],
       .dark-mode {
         --light: #303446;
         --dark: #c6d0f5;
         --red: #de585a;
-        --orange: #db8942;
-        --yellow: #e5c890;
         --green: #a6d189;
         --blue: #8caaee;
-        --purple: #a86de1;
       }
       :root[saved-theme="light"],
       .light-mode {
         --light: #eff1f5;
         --dark: #4c4f69;
         --red: #be415c;
-        --orange: #e08c43;
-        --yellow: #8f8620;
         --green: #40a02b;
         --blue: #406ecc;
-        --purple: #6f42c1;
       }
       `
       const minifiedCSS = new CleanCSS().minify(themeCSS + css).styles
