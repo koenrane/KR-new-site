@@ -719,8 +719,9 @@ I edit my Markdown articles in [Obsidian](https://obsidian.md/). When I paste an
 
 1. Move any assets from `asset_staging/` to a slightly more permanent `static/` asset directory, updating any filepath references in the Markdown articles;
 2. [Compress](#asset-compression) all relevant assets within `static/`, updating filepath references appropriately;
-3. Upload the assets to `assets.turntrout.com`, again updating references in the Markdown files;[^upload]
-4. Copy the assets to my local mirror of my R2 asset bucket (in case something happens to Cloudflare).
+3. Run [`exiftool`](https://stackoverflow.com/questions/66192531/exiftool-how-to-remove-all-metadata-from-all-files-possible-inside-a-folder-an) to strip [Exif](https://en.wikipedia.org/wiki/Exif) metadata from images, preventing unintended information leakage;
+4. Upload the assets to `assets.turntrout.com`, again updating references in the Markdown files;[^upload]
+5. Copy the assets to my local mirror of my R2 asset bucket (in case something happens to Cloudflare).
 
 While this pipeline took several weeks of part-time coding to iron out, I'm glad I took the time.
 
