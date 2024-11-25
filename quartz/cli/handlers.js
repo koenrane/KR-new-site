@@ -300,15 +300,7 @@ export async function handleBuild(argv) {
 
     cleanupBuild = await buildQuartz(argv, buildMutex, clientRefresh)
 
-    // Inline critical CSS after each build
-    await inlineCriticalCSS(argv.output)
-
-    // Instead of injecting inside inlineCriticalCSS, we call injectCriticalCSSIntoHTMLFiles
-    const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
-      recursive: true,
-      posix: true,
-    })
-    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
+    await maybeGenerateCriticalCSS(argv.output)
 
     clientRefresh()
   }
@@ -323,6 +315,11 @@ export async function handleBuild(argv) {
   const clientRefresh = async () => {
     // Don't regenerate critical CSS on every refresh
     connections.forEach((conn) => conn.send("rebuild"))
+    const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
+      recursive: true,
+      posix: true,
+    })
+    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
   }
 
   if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
@@ -432,7 +429,7 @@ export async function handleBuild(argv) {
     })
 }
 
-async function inlineCriticalCSS(outputDir) {
+async function maybeGenerateCriticalCSS(outputDir) {
   if (!cachedCriticalCSS) {
     console.log("Computing and caching critical CSS...")
     try {
@@ -704,7 +701,7 @@ export async function handleSync(argv) {
 export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
   if (!cachedCriticalCSS) {
     console.warn("Critical CSS is not cached yet.")
-    await inlineCriticalCSS(outputDir)
+    await maybeGenerateCriticalCSS(outputDir)
   }
 
   for (const file of htmlFiles) {
