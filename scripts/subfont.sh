@@ -9,4 +9,4 @@ num_files=$(echo "$html_files" | wc -w)
 echo "Subsetting fonts in $num_files files"
 
 # Run subfont on all files
-subfont $html_files --fallbacks --formats woff2 --in-place --instance --inline-css 2>/dev/null
+subfont $html_files --fallbacks --formats woff2 --in-place --instance --inline-css
