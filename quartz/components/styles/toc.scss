@@ -66,10 +66,9 @@ ol.overflow {
         text-decoration: none;
         color: var(--gray);
 
-        // Navigation frame is within this section
         &.active {
-          color: var(--dark);
-          text-shadow: 0.3px 0.3px var(--dark);
+          color: var(--darkgray);
+          text-shadow: 0.3px 0.3px var(--darkgray);
         }
       }
     }
