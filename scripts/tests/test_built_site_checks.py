@@ -553,3 +553,49 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_duplicate_ids(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic paragraph cases
+        (
+            """
+            <p>Normal paragraph</p>
+            <p>Table: Test table</p>
+            """,
+            ["Table: Test table"],
+        ),
+        # Test definition term cases
+        (
+            """
+            <dt>Normal term</dt>
+            <dt>: Invalid term</dt>
+            """,
+            [": Invalid term"],
+        ),
+        # Test mixed cases
+        (
+            """
+            <p>Table: Test table</p>
+            <dt>: Invalid term</dt>
+            <p>Normal paragraph</p>
+            <dt>Normal term</dt>
+            """,
+            ["Table: Test table", ": Invalid term"],
+        ),
+        # Test empty elements
+        (
+            """
+            <p></p>
+            <dt></dt>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_with_dt(html, expected):
+    """Check that unrendered description list entries are flagged."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
