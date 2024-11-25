@@ -39,10 +39,13 @@ jobs:
       - name: Run site checks
         run: python scripts/built_site_checks.py
 
+      - name: Install subfont
+        run: npm install -g subfont
       - name: Make script executable
         run: chmod +x ./scripts/subfont.sh
       - name: Subset fonts
-        run: ./scripts/subfont.sh
+        run: sh ./scripts/subfont.sh
+
       - name: Install Wrangler
         run: npm install -g wrangler
       - name: Publish to Cloudflare Pages
