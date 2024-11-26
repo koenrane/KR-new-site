@@ -130,7 +130,7 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                     "-c:v",
                     "libx265",
                     "-preset",
-                    "slow",
+                    "slower",
                     "-crf",
                     str(quality),
                     "-c:a",
