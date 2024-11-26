@@ -150,7 +150,7 @@ const wikilinkImageEmbedRegex = new RegExp(
   /^(?<alt>(?!^\d*x?\d*$).*?)?(\|?\s*?(?<width>\d+)(x(?<height>\d+))?)?$/,
 )
 
-const mdastToHtml = (ast: PhrasingContent | Paragraph) => {
+const mdastToHtml = (ast: PhrasingContent | Paragraph): string => {
   const hast = toHast(ast, { allowDangerousHtml: true })
   return toHtml(hast, { allowDangerousHtml: true })
 }
