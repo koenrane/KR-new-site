@@ -231,7 +231,7 @@ em {
       left: 0;
       width: max-content;
       content: attr(data-content);
-      color: var(--dark);
+      color: var(--foreground);
       font-family: var(--font-text);
       opacity: 1;
       text-shadow: 0 0 10px color-mix(in srgb, var(--yellow) 50%, transparent);
@@ -318,7 +318,7 @@ code {
 .dropcap {
   // The background glyph
   font-family: "EBGaramondInitialsF1", serif;
-  color: var(--lightgray);
+  color: var(--midground-faint);
   position: relative;
   text-transform: uppercase;
   margin-right: 0.05rem;
@@ -336,7 +336,7 @@ code {
 
     // The foreground glyph
     font-family: "EBGaramondInitialsF2", serif;
-    color: var(--dark);
+    color: var(--foreground);
     content: attr(data-first-letter);
     position: absolute;
   }
@@ -369,7 +369,7 @@ article[data-use-dropcap="true"] {
     font-style: normal !important;
     float: left;
     pointer-events: none; /* Ensure it doesn't interfere with user interactions */
-    color: var(--lightgray);
+    color: var(--midground-faint);
     font-size: var(--dropcap-font-size);
     line-height: 1;
     padding-right: 0.1em;

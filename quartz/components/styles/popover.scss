@@ -46,7 +46,7 @@
     h4,
     h5,
     h6 {
-      color: var(--dark);
+      color: var(--foreground);
     }
 
     & ol {
@@ -92,8 +92,8 @@
       }
     }
 
-    border: 1px solid var(--lightgray);
-    background-color: var(--light);
+    border: 1px solid var(--midground-faint);
+    background-color: var(--background);
     border-radius: 5px;
     box-shadow: 6px 6px 36px 0 rgb(0 0 0 / 25%);
     overflow: auto;

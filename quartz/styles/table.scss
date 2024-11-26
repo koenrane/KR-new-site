@@ -16,7 +16,7 @@ table {
 th,
 td {
   min-width: 4rem;
-  border: 1px solid var(--lightgray);
+  border: 1px solid var(--midground-faint);
   padding: $base-margin;
 
   .footnotes & {
@@ -27,12 +27,12 @@ td {
 }
 
 th {
-  background-color: var(--lightestgray);
+  background-color: var(--midground-faintest);
 }
 
 .title-cell {
   text-align: center;
-  text-shadow: 0.3px 0.3px var(--dark);
+  text-shadow: 0.3px 0.3px var(--foreground);
 }
 
 .percentage-cell {
