@@ -76,7 +76,7 @@ Predictions of this hypothesis (predicted with varying confidences):
 1. Relative to other goals, agentic systems are easy to steer to seek power.[^steer]
 2. Agentic systems seek power outside of the "training distribution", but in ways which don't seem to be part of larger power-seeking plans.
 
-[^steer]: Similarly, chatbots today are easier to steer to be nicer rather than to be meaner.
+[^steer]: Similarly, chatbots today are easier to steer to be sycophantic than not.
 
 These predictions are not very precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's at least _some_ evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!".
 
