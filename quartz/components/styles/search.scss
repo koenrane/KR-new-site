@@ -19,7 +19,7 @@
   min-width: fit-content;
 
   & > #search-icon {
-    background-color: var(--lightestgray);
+    background-color: var(--midground-faintest);
     border-radius: 4px;
 
     // transition: background-color 0.3s ease-in-out;
@@ -35,7 +35,7 @@
 
     & > p {
       font-size: var(--text-size-90);
-      color: color-mix(in srgb, var(--gray) 75%, var(--dark));
+      color: color-mix(in srgb, var(--midground) 75%, var(--foreground));
       display: inline;
       padding: 0 calc(2 * $base-margin);
       margin-left: -0.4em;
@@ -48,7 +48,7 @@
       margin: 0 $base-margin;
 
       .search-path {
-        stroke: var(--gray);
+        stroke: var(--midground);
         stroke-width: 2px;
         transition: stroke 0.5s ease;
       }
@@ -93,7 +93,7 @@
     & > * {
       width: 100%;
       border-radius: 7px;
-      background: var(--light);
+      background: var(--background);
       box-shadow:
         0 14px 50px rgb(27 33 48 / 12%),
         0 10px 30px rgb(27 33 48 / 16%);
@@ -105,11 +105,11 @@
       padding: $base-margin calc(2 * $base-margin);
       font-family: EBGaramond, var(--font-text);
       font-size: var(--text-size-100);
-      border: 1px solid var(--lightgray);
-      color: var(--dark);
+      border: 1px solid var(--midground-faint);
+      color: var(--foreground);
 
       &::placeholder {
-        color: var(--dark);
+        color: var(--foreground);
       }
 
       &:focus {
@@ -120,7 +120,7 @@
     & > #search-layout {
       display: none;
       flex-direction: row;
-      border: 1px solid var(--lightgray);
+      border: 1px solid var(--midground-faint);
       flex: 0 0 100%;
       box-sizing: border-box;
 
@@ -140,7 +140,7 @@
 
           & > div {
             &:first-child {
-              border-right: 1px solid var(--lightgray);
+              border-right: 1px solid var(--midground-faint);
               border-top-right-radius: unset;
               border-bottom-right-radius: unset;
             }
@@ -180,7 +180,7 @@
         display: block;
         overflow: hidden;
         font-family: inherit;
-        color: var(--dark);
+        color: var(--foreground);
         line-height: 1.5em;
         font-weight: $normal-weight;
         overflow-y: auto;
@@ -205,7 +205,7 @@
           padding: 1em;
           cursor: pointer;
           transition: background 0.2s ease;
-          border-bottom: 1px solid var(--lightgray);
+          border-bottom: 1px solid var(--midground-faint);
           width: 100%;
           display: block;
           box-sizing: border-box;
@@ -224,7 +224,7 @@
           &:hover,
           &:focus,
           &.focus {
-            background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
+            background: color-mix(in srgb, var(--midground-faint) 40%, var(--background));
           }
 
           & > h3 {

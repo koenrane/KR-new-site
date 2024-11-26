@@ -18,7 +18,7 @@
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
 
   background-color: var(--bg);
-  scrollbar-color: var(--lightergray) var(--bg);
+  scrollbar-color: var(--midground-fainter) var(--bg);
   border-radius: 5px;
   margin: 1rem 0;
   padding: 0 1rem;
@@ -68,14 +68,14 @@
 
   // Gray by default
   &[data-callout] {
-    --color: color-mix(in srgb, var(--base) 15%, var(--dark));
+    --color: color-mix(in srgb, var(--base) 15%, var(--foreground));
     --callout-icon: var(--callout-icon-note);
   }
 
   // Green
   &[data-callout="success"],
   &[data-callout="money"] {
-    --color: color-mix(in srgb, var(--green) 65%, var(--dark));
+    --color: color-mix(in srgb, var(--green) 65%, var(--foreground));
   }
 
   &[data-callout="success"] {
@@ -88,7 +88,7 @@
 
   // Yellow
   &[data-callout="question"] {
-    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--foreground));
     --callout-icon: var(--callout-icon-question);
 
     // & .callout-icon {
@@ -97,18 +97,18 @@
   }
 
   &[data-callout="todo"] {
-    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--foreground));
     --callout-icon: var(--callout-icon-todo);
   }
 
   &[data-callout="idea"] {
-    --color: color-mix(in srgb, var(--yellow) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--yellow) 70%, var(--foreground));
     --callout-icon: var(--callout-icon-idea);
   }
 
   // Orange
   &[data-callout="warning"] {
-    --color: color-mix(in srgb, var(--orange) 60%, var(--dark));
+    --color: color-mix(in srgb, var(--orange) 60%, var(--foreground));
     --bg: color-mix(in srgb, var(--color) 10%, var(--base));
     --callout-icon: var(--callout-icon-warning);
   }
@@ -117,13 +117,13 @@
   &[data-callout="failure"],
   &[data-callout="bug"],
   &[data-callout="danger"] {
-    --color: color-mix(in srgb, var(--red) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--red) 70%, var(--foreground));
     --bg: color-mix(in srgb, var(--color) 10%, var(--base));
   }
 
   // Pink
   &[data-callout="thanks"] {
-    --color: color-mix(in srgb, var(--pink) 70%, var(--dark));
+    --color: color-mix(in srgb, var(--pink) 70%, var(--foreground));
     --callout-icon: var(--callout-icon-thanks);
   }
 
@@ -268,7 +268,7 @@
     color: var(--color);
 
     .callout-metadata & {
-      color: var(--gray);
+      color: var(--midground);
     }
 
     & p {

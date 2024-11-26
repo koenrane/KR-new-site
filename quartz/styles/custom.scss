@@ -21,7 +21,7 @@ body {
 
 .popover dl,
 .popover article {
-  color: var(--dark);
+  color: var(--foreground);
 }
 
 // The <a> link back up to content is the last child of the <li>
@@ -125,7 +125,7 @@ dd {
 }
 
 ul li::marker {
-  color: var(--gray);
+  color: var(--midground);
 }
 
 ol {
@@ -137,7 +137,7 @@ ol {
 
     &::before {
       font-variant-numeric: lining-nums; // Use lining numbers for list items
-      color: var(--gray);
+      color: var(--midground);
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
       margin-right: calc(0.5 * $base-margin);
@@ -348,7 +348,7 @@ p:has(+ .subtitle),
 }
 
 .subtitle {
-  color: var(--gray);
+  color: var(--midground);
   margin-top: 0;
   font-size: var(--text-size-90);
 
@@ -361,7 +361,7 @@ p:has(+ .subtitle),
   }
 
   .callout & {
-    color: color-mix(in srgb, var(--gray) 60%, var(--color));
+    color: color-mix(in srgb, var(--midground) 60%, var(--color));
 
     & a {
       color: inherit;
@@ -385,7 +385,7 @@ img,
 figcaption,
 .float-right {
   text-align: center;
-  color: var(--darkgray);
+  color: var(--midground-strong);
   font-size: var(--text-size-90); /* smaller than the surrounding text */
 }
 
@@ -430,10 +430,10 @@ img.favicon {
     vertical-align: 65%;
   }
 
-  // These are really dark by default so we make them match var(--dark)
+  // These are really dark by default so we make them match var(--foreground)
   &[src$="mail.svg"],
   &[src$="readthesequences_com.avif"] {
-    // Computed to match var(--dark) using https://codepen.io/sosuke/pen/Pjoqqp
+    // Computed to match var(--foreground) using https://codepen.io/sosuke/pen/Pjoqqp
     filter: invert(27%);
 
     :root[saved-theme="dark"] & {
@@ -548,7 +548,7 @@ svg.fold-icon {
   cursor: pointer;
   width: var(--icon-size);
   height: var(--icon-size);
-  fill: var(--gray); /* Set the default color here */
+  fill: var(--midground); /* Set the default color here */
   transition: transform 0.2s ease-out; /* Add a smooth transition */
   transform: rotate(-90deg); /* Initial 90-degree rotation */
 
@@ -559,7 +559,7 @@ svg.fold-icon {
 
 // Tags section in the metadata
 .tags {
-  color: var(--gray);
+  color: var(--midground);
   list-style: none;
   display: block;
   padding-left: 0;
@@ -567,7 +567,7 @@ svg.fold-icon {
   overflow-wrap: normal;
 
   & a.tag-link {
-    color: var(--gray);
+    color: var(--midground);
     border-radius: 5px; /* Add rounded corners to the tags box */
     line-height: 1rem;
     padding: 0;
@@ -596,7 +596,7 @@ hr {
   li {
     // Don't make popover text gray
     &:not(* .popover-inner *) {
-      color: var(--gray);
+      color: var(--midground);
     }
   }
 
@@ -612,7 +612,7 @@ hr {
 
 .authors {
   & p {
-    color: var(--gray);
+    color: var(--midground);
 
     & a {
       color: inherit;
@@ -734,7 +734,7 @@ img.emoji {
 }
 
 .sequence-links-divider {
-  color: var(--lightgray);
+  color: var(--midground-faint);
   height: calc(8 * $base-margin);
   margin-top: calc(2 * $base-margin);
   margin-left: $base-margin;
@@ -798,7 +798,7 @@ img.emoji {
   position: absolute;
   height: 90%; // Visually center the overlay
   width: 100%;
-  color: var(--dark);
+  color: var(--foreground);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -857,13 +857,13 @@ img.emoji {
 
   & li {
     &::marker {
-      color: var(--lightgray);
+      color: var(--midground-faint);
     }
 
     & a {
       text-decoration-thickness: 0.1px;
       background-color: transparent;
-      color: var(--gray);
+      color: var(--midground);
     }
   }
 }
@@ -910,11 +910,11 @@ img.emoji {
 }
 
 .label span {
-  color: var(--dark) !important;
+  color: var(--foreground) !important;
 }
 
 .flowchart-link {
-  stroke: var(--lightgray) !important;
+  stroke: var(--midground-faint) !important;
 }
 
 // stylelint-disable-next-line selector-class-pattern
@@ -949,7 +949,7 @@ img.emoji {
 
 #subscription-and-contact {
   border-radius: 5px;
-  border: 1px solid var(--gray);
+  border: 1px solid var(--midground);
   padding-bottom: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;

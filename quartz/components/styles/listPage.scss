@@ -50,7 +50,7 @@ li.section-li {
   margin: 1rem 0;
 
   // Make the tag container look like a card
-  background-color: var(--lightestgray);
+  background-color: var(--midground-faintest);
   border-radius: 5px;
   padding: 15px;
 }
@@ -62,7 +62,7 @@ li.section-li {
 }
 
 .tag-count {
-  color: var(--gray);
+  color: var(--midground);
   font-size: var(--text-size-90);
 }
 

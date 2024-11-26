@@ -64,11 +64,11 @@ ol.overflow {
 
       & > a {
         text-decoration: none;
-        color: var(--gray);
+        color: var(--midground);
 
         &.active {
-          color: var(--darkgray);
-          text-shadow: 0.3px 0.3px var(--darkgray);
+          color: var(--midground-strong);
+          text-shadow: 0.3px 0.3px var(--midground-strong);
         }
       }
     }
@@ -78,6 +78,6 @@ ol.overflow {
 .center #toc-content-mobile {
   & a,
   & a:visited {
-    color: var(--dark);
+    color: var(--foreground);
   }
 }

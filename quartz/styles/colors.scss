@@ -15,11 +15,11 @@
   --base: #303446;
 
   // Theme-specific colors (from quartz.config.ts darkMode)
-  --light: #303446; // frappeColors.base
-  --lightgray: #737994; // frappeColors.overlay-0
-  --gray: #949cbb; // frappeColors.overlay-2
-  --darkgray: #aab6e4; // frappeColors.subtext-1
-  --dark: #d8def5; // frappeColors.text, modified
+  --background: #303446; // frappeColors.base
+  --midground-faint: #737994; // frappeColors.overlay-0
+  --midground: #949cbb; // frappeColors.overlay-2
+  --midground-strong: #aab6e4; // frappeColors.subtext-1
+  --foreground: #d8def5; // frappeColors.text, modified
   --secondary: #97b0e9; // frappeColors.blue
   --tertiary: #99d1db; // frappeColors.sky
   --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
@@ -49,11 +49,11 @@
   --base: #eff1f5;
 
   // Theme-specific colors (from quartz.config.ts lightMode)
-  --light: #eff1f5; // latteColors.base
-  --lightgray: #9ca0b0; // latteColors.overlay-0
-  --gray: #7c7f93; // latteColors.overlay-2
-  --darkgray: #5c5f77; // latteColors.subtext-1
-  --dark: #4c4f69; // latteColors.text
+  --background: #eff1f5; // latteColors.base
+  --midground-faint: #9ca0b0; // latteColors.overlay-0
+  --midground: #7c7f93; // latteColors.overlay-2
+  --midground-strong: #5c5f77; // latteColors.subtext-1
+  --foreground: #4c4f69; // latteColors.text
   --secondary: #1e66f5; // latteColors.blue
   --tertiary: #04a5e5; // latteColors.sky
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
@@ -65,28 +65,31 @@
 }
 
 :root {
-  --lightergray: color-mix(in srgb, transparent 70%, var(--lightgray));
-  --lightestgray: color-mix(in srgb, transparent 90%, var(--lightgray));
-  --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
+  --midground-fainter: color-mix(in srgb, transparent 70%, var(--midground-faint));
+  --midground-faintest: color-mix(in srgb, transparent 90%, var(--midground-faint));
+  --color-link: light-dark(
+    color-mix(in srgb, var(--secondary) 30%, var(--foreground)),
+    var(--secondary)
+  );
 
   @each $color in ("red", "pink", "green", "teal", "blue", "purple", "orange", "yellow") {
-    --background-#{$color}: color-mix(in srgb, var(--#{$color}) 30%, var(--light));
-    --border-#{$color}: color-mix(in srgb, var(--#{$color}) 50%, var(--light));
+    --background-#{$color}: color-mix(in srgb, var(--#{$color}) 30%, var(--background));
+    --border-#{$color}: color-mix(in srgb, var(--#{$color}) 50%, var(--background));
   }
 }
 
 .dark-mode,
 .light-mode {
-  background-color: var(--light) !important;
-  color: var(--dark) !important;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }
 
 // Mermaid
 @each $color in ("red", "green", "blue", "yellow", "purple", "orange") {
   rect {
-    color: var(--dark) !important;
-    fill: var(--light) !important;
-    stroke: var(--lightgray) !important;
+    color: var(--foreground) !important;
+    fill: var(--background) !important;
+    stroke: var(--midground-faint) !important;
   }
   .#{$color} > rect {
     fill: var(--background-#{$color}) !important;

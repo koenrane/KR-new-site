@@ -13,13 +13,13 @@
     margin-top: $base-margin;
     padding: $base-margin;
     padding-top: 0;
-    background-color: var(--light);
+    background-color: var(--background);
 
     & li {
       text-align: right;
 
       & > a {
-        color: var(--gray);
+        color: var(--midground);
         transition: opacity 0.5s ease-out;
         text-decoration: none;
       }
@@ -45,7 +45,7 @@
     }
 
     li {
-      background-color: var(--light);
+      background-color: var(--background);
     }
 
     ul {
@@ -75,7 +75,7 @@
   & span {
     display: block;
     height: 3px;
-    background-color: var(--gray);
+    background-color: var(--midground);
     margin-bottom: 5px;
   }
 }
@@ -133,7 +133,7 @@
 /* Center the site name under the pond video */
 .page-title-text {
   text-align: center;
-  color: var(--gray);
+  color: var(--midground);
 
   & a {
     color: inherit;
@@ -212,7 +212,7 @@
   @media all and (max-width: $full-page-width) {
     flex-direction: row;
     width: 100%;
-    background-color: var(--light);
+    background-color: var(--background);
   }
 }
 
@@ -277,7 +277,7 @@
     top: -28px;
     left: 23.5px;
     font-size: var(--text-size-80);
-    color: var(--gray);
+    color: var(--midground);
     transition: opacity 0.5s ease;
 
     &.hidden {
@@ -293,7 +293,7 @@
     width: 20px;
     height: 20px;
     top: calc(50% - 10px);
-    fill: var(--gray);
+    fill: var(--midground);
     transition: opacity 0.1s ease;
   }
 }

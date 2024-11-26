@@ -14,15 +14,15 @@ section {
   margin: 0;
   max-width: 100%;
   box-sizing: border-box;
-  background-color: var(--light);
+  background-color: var(--background);
   font-family: var(--font-text);
-  color: var(--dark);
+  color: var(--foreground);
 }
 
 /* Define the scrollbar style */
 body,
 .right {
-  scrollbar-color: var(--lightergray) var(--light);
+  scrollbar-color: var(--midground-fainter) var(--background);
 }
 
 .right::-webkit-scrollbar,
@@ -34,7 +34,7 @@ body::-webkit-scrollbar {
 /* Define the thumb style */
 .right::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-  background: var(--lightergray);
+  background: var(--midground-fainter);
   border-radius: 5px;
 }
 
@@ -46,7 +46,7 @@ body::-webkit-scrollbar-thumb {
 
 ::selection {
   background: color-mix(in srgb, var(--tertiary) 30%, rgb(255 255 255 / 0%));
-  color: var(--darkgray);
+  color: var(--midground-strong);
 }
 
 p,
@@ -59,8 +59,8 @@ li,
 ol,
 .katex,
 .math {
-  color: var(--dark);
-  fill: var(--dark);
+  color: var(--foreground);
+  fill: var(--foreground);
   overflow-wrap: anywhere;
   hyphens: auto;
 }
@@ -110,7 +110,7 @@ a {
     margin: 0 0.15em;
 
     > path {
-      fill: var(--dark);
+      fill: var(--foreground);
     }
   }
 }
@@ -150,8 +150,8 @@ hr.desktop-only {
 
     & li:has(> input[type="checkbox"]:checked) {
       text-decoration: line-through;
-      text-decoration-color: var(--gray);
-      color: var(--gray);
+      text-decoration-color: var(--midground);
+      color: var(--midground);
     }
 
     & li > *:first-child:not(blockquote) {
@@ -265,9 +265,9 @@ hr.desktop-only {
 input[type="checkbox"] {
   transform: translateY(2px);
   color: var(--secondary);
-  border: 1px solid var(--lightgray);
+  border: 1px solid var(--midground-faint);
   border-radius: 3px;
-  background-color: var(--light);
+  background-color: var(--background);
   position: relative;
   margin-inline: calc(-3 * $base-margin) calc(0.5 * $base-margin);
   appearance: none;
@@ -286,7 +286,7 @@ input[type="checkbox"] {
       width: 4px;
       height: 8px;
       display: block;
-      border: solid var(--light);
+      border: solid var(--background);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
@@ -295,7 +295,7 @@ input[type="checkbox"] {
 
 blockquote {
   margin: calc(2 * $base-margin) 0;
-  border-left: 3px solid var(--gray);
+  border-left: 3px solid var(--midground);
   padding-left: calc(2 * $base-margin);
 }
 
@@ -307,11 +307,11 @@ h5,
 h6,
 thead {
   font-family: var(--header-font);
-  color: var(--dark);
+  color: var(--foreground);
   position: relative; // For anchor links
 
   article & > a[role="anchor"] {
-    color: var(--lightgray);
+    color: var(--midground-faint);
     background-color: transparent;
 
     @media all and (min-width: $margins-begin) {
@@ -326,7 +326,7 @@ thead {
   }
 
   & a {
-    color: var(--dark);
+    color: var(--foreground);
   }
 }
 
@@ -367,7 +367,7 @@ h6,
 
   &[id] > a {
     text-decoration: none;
-    color: var(--dark);
+    color: var(--foreground);
   }
 
   &[id]:hover > a {
@@ -383,11 +383,11 @@ figure[data-rehype-pretty-code-figure] {
   & > [data-rehype-pretty-code-title] {
     font-family: var(--font-monospace);
     padding: 0.1rem 0.5rem;
-    border: 1px solid var(--lightgray);
+    border: 1px solid var(--midground-faint);
     width: max-content;
     border-radius: 5px;
     margin-bottom: -0.5rem;
-    color: var(--dark);
+    color: var(--foreground);
   }
 
   & > pre {
@@ -400,7 +400,7 @@ pre {
   padding: 0 0.5rem;
   border-radius: 5px;
   overflow-x: auto;
-  border: 1px solid var(--lightgray);
+  border: 1px solid var(--midground-faint);
   position: relative;
 
   &:has(> div > code.mermaid),
@@ -488,7 +488,7 @@ dd {
 th {
   text-align: left;
   padding: $base-margin calc(1.5 * $base-margin);
-  border-bottom: 2px solid var(--gray);
+  border-bottom: 2px solid var(--midground);
   font-weight: 500;
 }
 
@@ -498,7 +498,7 @@ td {
 }
 
 tr {
-  border-bottom: 1px solid var(--lightgray);
+  border-bottom: 1px solid var(--midground-faint);
 
   &:last-child {
     border-bottom: none;
@@ -521,7 +521,7 @@ hr {
   margin: 2rem auto;
   height: 1px;
   border: none;
-  background-color: var(--lightgray);
+  background-color: var(--midground-faint);
 }
 
 audio,
