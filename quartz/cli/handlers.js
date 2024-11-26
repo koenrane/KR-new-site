@@ -14,10 +14,10 @@ import glob from "glob-promise"
 import http from "http"
 import path from "path"
 import prettyBytes from "pretty-bytes"
-import { rimraf } from "rimraf"
-import serveHandler from "serve-handler"
 import process from "process"
 import { PurgeCSS } from "purgecss"
+import { rimraf } from "rimraf"
+import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
 
 import {
@@ -324,7 +324,7 @@ export async function handleBuild(argv) {
       posix: true,
     })
 
-    // await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
+    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
   }
 
   if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
@@ -562,7 +562,7 @@ async function maybeGenerateCriticalCSS(outputDir) {
         --blue: #406ecc;
       }
       `
-      const minifiedCSS = new CleanCSS().minify(themeCSS + css).styles
+      const minifiedCSS = new CleanCSS().minify(css + themeCSS).styles
       cachedCriticalCSS = minifiedCSS
       console.log("Cached critical CSS with theme variables")
     } catch (error) {

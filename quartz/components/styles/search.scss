@@ -19,7 +19,7 @@
   min-width: fit-content;
 
   & > #search-icon {
-    background-color: var(--lightest-gray);
+    background-color: var(--lightestgray);
     border-radius: 4px;
 
     // transition: background-color 0.3s ease-in-out;
@@ -41,6 +41,7 @@
       margin-left: -0.4em;
     }
 
+    // The actual search icon
     & svg {
       cursor: pointer;
       width: 0.625rem;
