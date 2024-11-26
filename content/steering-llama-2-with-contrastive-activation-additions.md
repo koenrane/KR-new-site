@@ -208,47 +208,53 @@ We compute the average probability which Llama-2-7B-chat assigns to the correct 
     </thead>
     <tbody>
       <tr>
+        <td style="text-align: right;">AI Coordination</td>
+        <td style="color: blue;">61% (-2%)</td>
+        <td>63%</td>
+        <td style="color: red;">62% (-1%)</td>
+      </tr>
+      <tr>
         <td style="text-align: right;">Corrigibility</td>
-        <td style="color: blue;">0.44 (-0.06)</td>
-        <td>0.50</td>
-        <td style="color: red;">0.49 (-0.01)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Power-Seeking Inclination</td>
-        <td style="color: blue;">0.47 (-0.01)</td>
-        <td>0.48</td>
-        <td style="color: red;">0.48 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Survival Instinct</td>
-        <td style="color: blue;">0.47 (-0.01)</td>
-        <td>0.48</td>
-        <td style="color: red;">0.48 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Myopia</td>
-        <td style="color: blue;">0.45 (-0.04)</td>
-        <td>0.49</td>
-        <td style="color: red;">0.49 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Coordination with other AIs</td>
-        <td style="color: blue;">0.47 (+0.00)</td>
-        <td>0.47</td>
-        <td style="color: red;">0.46 (-0.01)</td>
+        <td style="color: blue;">59% (-4%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Hallucination</td>
-        <td style="color: blue;">0.49 (-0.02)</td>
-        <td>0.51</td>
-        <td style="color: red;">0.50 (-0.01)</td>
+        <td style="color: blue;">57% (-6%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Myopic Reward</td>
+        <td style="color: blue;">61% (-2%)</td>
+        <td>63%</td>
+        <td style="color: red;">65% (+2%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Survival Instinct</td>
+        <td style="color: blue;">59% (-4%)</td>
+        <td>63%</td>
+        <td style="color: red;">65% (+2%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Sycophancy</td>
+        <td style="color: blue;">58% (-5%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Refusal</td>
+        <td style="color: blue;">64% (+1%)</td>
+        <td>63%</td>
+        <td style="color: red;">59% (-4%)</td>
       </tr>
     </tbody>
   </table>
-  <figcaption>Probability assigned to correct answer in MMLU. "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1.</figcaption>
+  <figcaption>Probability assigned to correct answer in MMLU. "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1. "Subtracted" means we subtract with coefficient 1.</figcaption>
 </figure>
 
-Some of the vectors have a negative effect (e.g. corrigibility corresponds to a 6% absolute drop) but other vectors don't really (e.g. hallucination or coordination). Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples).
+Apparently due to our choices of steering objectives, subtracting the vector tends to hurt MMLU while adding tends to help. Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples).
 
 Furthermore, [Inference-Time Intervention](https://www.lesswrong.com/posts/kuQfnotjkQA4Kkfou/inference-time-intervention-eliciting-truthful-answers-from) found that adding a "truth vector" _improved_ MMLU for Llama-1!
 
