@@ -324,8 +324,7 @@ export async function handleBuild(argv) {
       posix: true,
     })
 
-    await maybeGenerateCriticalCSS(argv.output)
-    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
+    // await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
   }
 
   if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
