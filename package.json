@@ -178,6 +178,7 @@
     "preact": "^10.24.0",
     "prettier": "^3.3.3",
     "prettier-plugin-sh": "^0.14.0",
+    "purgecss": "^7.0.2",
     "remark-definition-list": "^2.0.0",
     "seedrandom": "^3.0.5",
     "sourcemap-codec": "^1.4.8",

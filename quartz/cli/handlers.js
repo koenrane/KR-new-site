@@ -14,6 +14,7 @@ import glob from "glob-promise"
 import http from "http"
 import path from "path"
 import prettyBytes from "pretty-bytes"
+import { PurgeCSS } from "purgecss"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
@@ -315,6 +316,18 @@ export async function handleBuild(argv) {
   const clientRefresh = async () => {
     // Don't regenerate critical CSS on every refresh
     connections.forEach((conn) => conn.send("rebuild"))
+
+    // Purge the CSS
+    for (const cssFile of ["index.css", "static/styles/katex.min.css"]) {
+      await PurgeCSS({
+        css: [path.join(argv.output, cssFile)],
+        content: [path.join(argv.output, "**/*.html")],
+        variables: true,
+        fontFace: true,
+      })
+    }
+
+    // Inline the critical CSS
     const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
       recursive: true,
       posix: true,
