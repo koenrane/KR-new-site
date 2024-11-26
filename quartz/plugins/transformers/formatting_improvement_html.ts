@@ -63,7 +63,9 @@ export function assertSmartQuotesMatch(input: string): void {
     }
   }
 
-  assert.strictEqual(stack.length, 0, `Mismatched quotes in ${input}`)
+  if (stack.length > 0) {
+    throw new Error(`Mismatched quotes in ${input}`)
+  }
 }
 
 export const markerChar = "\uE000"
