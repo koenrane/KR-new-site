@@ -14,8 +14,6 @@ import glob from "glob-promise"
 import http from "http"
 import path from "path"
 import prettyBytes from "pretty-bytes"
-import process from "process"
-import { PurgeCSS } from "purgecss"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
@@ -316,8 +314,6 @@ export async function handleBuild(argv) {
     // Don't regenerate critical CSS on every refresh
     connections.forEach((conn) => conn.send("rebuild"))
 
-    await purgeCSSFiles(argv.output)
-
     // Inline the critical CSS
     const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
       recursive: true,
@@ -432,51 +428,6 @@ export async function handleBuild(argv) {
     .on("all", async () => {
       build(clientRefresh)
     })
-}
-
-/*
- * Purge unused CSS selectors from CSS files
- */
-async function purgeCSSFiles(outputDir) {
-  try {
-    const cssFiles = await glob(path.join(outputDir, "**/*.css"))
-
-    if (cssFiles.length === 0) {
-      console.warn("No CSS files found to purge")
-    }
-
-    for (const cssPath of cssFiles) {
-      // Too many assets are purged from index.css
-      if (path.basename(cssPath) === "index.css") {
-        continue
-      }
-      const originalSize = fs.statSync(cssPath).size
-
-      const result = await new PurgeCSS().purge({
-        css: [cssPath],
-        content: [path.join(outputDir, "**.html")],
-      })
-
-      // Write the purged CSS back to the original file
-      const purgedCSS = result[0].css
-      await fs.promises.writeFile(cssPath, purgedCSS, "utf-8")
-
-      const newSize = fs.statSync(cssPath).size
-
-      if (newSize >= originalSize) {
-        console.warn(
-          `PurgeCSS did not reduce size of ${cssPath}. Original: ${originalSize} bytes, New: ${newSize} bytes`,
-        )
-      } else {
-        console.log(
-          `Successfully purged ${path.relative(outputDir, cssPath)}. Reduced from ${originalSize} to ${newSize} bytes (${Math.round((1 - newSize / originalSize) * 100)}% reduction)`,
-        )
-      }
-    }
-  } catch (error) {
-    console.error(`Error during CSS purging: ${error}`)
-    process.exit(1)
-  }
 }
 
 async function maybeGenerateCriticalCSS(outputDir) {

@@ -216,7 +216,7 @@ However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently c
 
 ### CSS purging
 
-I use [`PurgeCSS`](https://purgecss.com/) to remove unused styles, reducing the CSS footprint from 84KB to 73KB. Since I couldn't safely purge selectors from my main stylesheet (there were too many false positives), so the benefit is quite marginal. If it causes trouble in the future, I will remove this step.
+I tried using [`PurgeCSS`](https://purgecss.com/) to remove unused styles, reducing the CSS footprint from 84KB to 73KB. Since I couldn't safely purge selectors from my main stylesheet (there were too many false positives), so the benefit was quite marginal. The purging caused trouble in my build process and had little benefit, so I removed it.
 
 ## Inlining critical CSS
 
