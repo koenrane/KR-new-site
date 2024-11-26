@@ -16,7 +16,7 @@ if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
   FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
   for FILE in $FILES_TO_MOVE; do
     NAME=$(basename "$FILE")
-    sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**.md
+    sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**{,/*}.md
   done
 
   # Ignore errors due to asset_staging being empty
