@@ -59,4 +59,8 @@ To measure the importance of sublayer contributions originating much earlier in 
   >
    > We clearly see the same pattern again. As `TurnTrout` predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
 
+However, there _is_ a confounder. Suppose the layer horizon is 1. Consider the computation performed by layer 0's attention and MLP sublayers. Because layer 0 already uses all relevant information in its outputs (i.e. the embeddings), its computation is not affected if the layer horizon increases to 2. More generally, all layers up through $n$ are not affected by the layer horizon as long as the horizon is strictly greater than $n$. In a model like GPT-2-XL with 48 layers, shifts in layer horizon are less meaningful for e.g. $n>25$.
+
+One way of controlling for this effect is to decide, "I'm going to test layer horizons up to 20", and then only enforce those layer horizons on layers 20 and after. However, that design wouldn't let us study the layer horizons of the layers before 20.
+
 [^1]:  For notational ease, I'm glossing over the fact that we'd be patching in different residual streams for each sublayer of layer $n$. That is, we wouldn't patch in the same activations for both the attention and MLP sublayers of layer $n$.
