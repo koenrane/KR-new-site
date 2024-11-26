@@ -282,10 +282,6 @@ dt {
   font-variant-caps: small-caps; // Fixes kerning in a few cases
   -webkit-font-smoothing: antialiased; // Prevent excess bolding
 
-  &:visited {
-    color: var(--color-visited);
-  }
-
   dt &,
   b &,
   strong & {

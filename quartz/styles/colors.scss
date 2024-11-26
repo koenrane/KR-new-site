@@ -13,24 +13,15 @@
   --lavender: #8788d3;
   --purple: #a86de1;
   --text: #c6d0f5;
-  --subtext-1: #b5bfe2;
-  --subtext-0: #a5adce;
-  --overlay-2: #949cbb;
-  --overlay-1: #838ba7;
-  --overlay-0: #737994;
-  --surface-2: #626880;
-  --surface-1: #51576d;
-  --surface-0: #414559;
   --base: #303446;
   --mantle: #292c3c;
   --crust: #232634;
-  --color-visited: color-mix(in srgb, var(--red) 50%, var(--blue));
 
   // Theme-specific colors (from quartz.config.ts darkMode)
   --light: #303446; // frappeColors.base
   --lightgray: #737994; // frappeColors.overlay-0
   --gray: #949cbb; // frappeColors.overlay-2
-  --darkgray: #b9c6f5; // frappeColors.subtext-1
+  --darkgray: #aab6e4; // frappeColors.subtext-1
   --dark: #d8def5; // frappeColors.text, modified
   --secondary: #97b0e9; // frappeColors.blue
   --tertiary: #99d1db; // frappeColors.sky
@@ -59,18 +50,9 @@
   --lavender: #7287fd;
   --purple: #6f42c1;
   --text: #4c4f69;
-  --subtext-1: #5c5f77;
-  --subtext-0: #6c6f85;
-  --overlay-2: #7c7f93;
-  --overlay-1: #8c8fa1;
-  --overlay-0: #9ca0b0;
-  --surface-2: #acb0be;
-  --surface-1: #bcc0cc;
-  --surface-0: #ccd0da;
   --base: #eff1f5;
   --mantle: #e6e9ef;
   --crust: #dce0e8;
-  --color-visited: color-mix(in srgb, var(--amaranth) 47%, var(--blue));
 
   // Theme-specific colors (from quartz.config.ts lightMode)
   --light: #eff1f5; // latteColors.base
@@ -89,10 +71,8 @@
 }
 
 :root {
-  --color-background: color-mix(in srgb, var(--lightgray) 19%, var(--light));
   --lightergray: color-mix(in srgb, transparent 70%, var(--lightgray));
   --lightestgray: color-mix(in srgb, transparent 90%, var(--lightgray));
-  --darkergray: color-mix(in srgb, var(--gray) 25%, var(--dark));
   --color-link: light-dark(color-mix(in srgb, var(--secondary) 30%, var(--dark)), var(--secondary));
 
   @each $color in ("red", "pink", "green", "teal", "blue", "purple", "orange", "yellow") {
