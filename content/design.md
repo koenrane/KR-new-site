@@ -126,7 +126,7 @@ I like the pastel palettes provided by Catppuccin:
 
 <figure>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin-bottom: 1rem;">
-  <span class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
+  <span class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--midground) solid;">
     <center>Light mode</center>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
       <span style="color: red;">Red</span>
@@ -138,7 +138,7 @@ I like the pastel palettes provided by Catppuccin:
     </div>
     <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; filter: none;" alt="Smiling Face With Hearts on Twitter"/></center>
   </span>
-  <span class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--gray) solid;">
+  <span class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--midground) solid;">
     <center>Dark mode</center>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
       <span style="color: red;">Red</span>
@@ -313,7 +313,7 @@ My site contains a range of fun fonts which I rarely use. For example, the _Lord
 <!-- spellchecker-enable -->
 
 <span class="float-right" style="margin-top: 2rem; ">
-<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--dark);">A</div>
+<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--foreground);">A</div>
 <figcaption>Monochromatic dropcaps seem somewhat illegible.</figcaption>
 </span>
 
@@ -325,7 +325,7 @@ However, implementation was tricky. As shown with the figure's "A",  CSS assigns
 
 <center style="font-size:4rem;">
 <span class="dropcap" data-first-letter="A" style="margin-right: 5rem;"></span>
-<span class="dropcap" data-first-letter="" style="color: var(--dark);">A</span>
+<span class="dropcap" data-first-letter="" style="color: var(--foreground);">A</span>
 </center>
 
 However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display) other text; only one letter can be in a given spot - right? Wrong! By rendering the normal letter as the background dropcap font, I apply a different (lighter) color to the dropcap background. I then use [the CSS `::before` pseudo-element](https://developer.mozilla.org/en-US/docs/Web/CSS/::before) to render _another_ glyph in the foreground. The result:
@@ -341,14 +341,14 @@ However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 > .dropcap {
 >    // The background glyph 
 >    font-family: "EBGaramondInitialsF1";
->    color: var(--lightgray);
+>    color: var(--midground-faint);
 >    position: relative;
 >    text-transform: uppercase;
 >  
 >    &::before {
 >      // The foreground glyph  
 >      font-family: "EBGaramondInitialsF2";
->      color: var(--dark);
+>      color: var(--foreground);
 >      content: attr(data-first-letter);
 >      position: absolute;
 >    }
@@ -358,14 +358,14 @@ However, text [blocks](https://developer.mozilla.org/en-US/docs/Web/CSS/display)
 A less theme-disciplined man than myself might even flaunt dropcap colorings!
 
 <center id="the-pond-dropcaps" style="font-size:min(4rem, 15vw);">
-<span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--lightergray));">T</span>
-<span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--lightergray));">H</span>
-<span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--lightergray));">E</span>
+<span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--midground-fainter));">T</span>
+<span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--midground-fainter));">H</span>
+<span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--midground-fainter));">E</span>
 <br/>  
-<span class="dropcap" data-first-letter="P"  style="color: color-mix(in srgb, 65% green, var(--lightergray));">P</span>
-<span class="dropcap" data-first-letter="O"  style="color: color-mix(in srgb, 65% blue, var(--lightergray));">O</span>
-<span class="dropcap" data-first-letter="N"  style="color: color-mix(in srgb, 65% purple, var(--lightergray));">N</span>
-<span class="dropcap" data-first-letter="D"  style="color: color-mix(in srgb, 65% pink, var(--lightergray));">D</span>
+<span class="dropcap" data-first-letter="P"  style="color: color-mix(in srgb, 65% green, var(--midground-fainter));">P</span>
+<span class="dropcap" data-first-letter="O"  style="color: color-mix(in srgb, 65% blue, var(--midground-fainter));">O</span>
+<span class="dropcap" data-first-letter="N"  style="color: color-mix(in srgb, 65% purple, var(--midground-fainter));">N</span>
+<span class="dropcap" data-first-letter="D"  style="color: color-mix(in srgb, 65% pink, var(--midground-fainter));">D</span>
 </center>
 
 ## Formatting enhancement
@@ -648,7 +648,7 @@ Search
 Metadata
 : Every page has an HTML description and [tags](/all-tags) (if appropriate), along with a table of contents which (on desktop) highlights the current section. I track original publication date and display when each was page was last modified by a `git push` to the `main` branch. I also support "sequences" of blog posts:
 
-: <div class="sequence-links" style="border: 2px var(--gray) solid; padding-right: .5rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequence-links-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequence-links-divider"></div><div class="next-post sequence-links-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a href="./shard-theory" class="internal alias" data-slug="shard-theory">shard the<span style="white-space:nowrap;">ory.</span></a></figcaption>
+: <div class="sequence-links" style="border: 2px var(--midground) solid; padding-right: .5rem; padding-top: 1rem; border-radius: 5px;"><div class="sequence-title" style="text-align:center;"><div class="callout-title-inner"><b>Sequence:</b> <a href="posts#shard-theory" class="internal">Shard Theory</a></div></div><div class="sequence-nav" style="display:flex;justify-content:center;"><div class="prev-post sequence-links-postNavigation" style="text-align:right;"><p><b>Previous</b><br><a href="reward-is-not-the-optimization-target" class="internal">Reward Is Not the Optimization Target</a></p></div><div class="sequence-links-divider"></div><div class="next-post sequence-links-postNavigation" style="text-align:left;"><p><b>Next</b><br><a href="understanding-and-avoiding-value-drift" class="internal">Understanding and Avoiding Value Drift</a></p></div></div></div> <figcaption>The sequence metadata for my post on <a href="./shard-theory" class="internal alias" data-slug="shard-theory">shard the<span style="white-space:nowrap;">ory.</span></a></figcaption>
 
 Spoilers hide text until hovered
 : I made a Markdown plugin which lets me specify spoilers by starting the line with `>!`. The results are unobtrusive but pleasant:

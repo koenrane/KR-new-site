@@ -355,7 +355,7 @@ Bruce realized what was going to happen to him, eventually. What was going to ha
 
 Would anyone go out of their way to stop it? Bruce thought about the scared people outside the opera. Why hadn't they done anything? Were they afraid of getting hurt? His mom hadn't been afraid. Or maybe she had been, but she hadn't let that stop her.
 
-> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--dark))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
+> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--foreground))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
 
 But the scared people still hadn't helped, even after the crazy man had run away. They still hadn't helped.
 
