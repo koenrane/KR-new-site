@@ -97,7 +97,10 @@ def update_markdown_references(
     if verbose:
         print(f'Changing "{relative_subpath}" references to "{r2_address}"')
 
-    for text_file_path in script_utils.get_files(references_dir, (".md",)):
+    # Don't git-ignore so we can update drafts
+    for text_file_path in script_utils.get_files(
+        references_dir, (".md",), use_git_ignore=False
+    ):
         with open(text_file_path, "r", encoding="utf-8") as f:
             file_content: str = f.read()
 

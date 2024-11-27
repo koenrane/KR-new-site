@@ -14,8 +14,6 @@ import glob from "glob-promise"
 import http from "http"
 import path from "path"
 import prettyBytes from "pretty-bytes"
-import process from "process"
-import { PurgeCSS } from "purgecss"
 import { rimraf } from "rimraf"
 import serveHandler from "serve-handler"
 import { WebSocketServer } from "ws"
@@ -116,8 +114,8 @@ export async function handleCreate(argv) {
             message: "Enter the full path to existing content folder",
             placeholder:
               "On most terminal emulators, you can drag and drop a folder into the window and it will paste the full path",
-            validate(fp) {
-              const fullPath = escapePath(fp)
+            validate(filepath) {
+              const fullPath = escapePath(filepath)
               if (!fs.existsSync(fullPath)) {
                 return "The given path doesn't exist"
               } else if (!fs.lstatSync(fullPath).isDirectory()) {
@@ -308,15 +306,19 @@ export async function handleBuild(argv) {
   if (!argv.serve) {
     await build(() => {})
     await ctx.dispose()
+
+    const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
+      recursive: true,
+      posix: true,
+    })
+    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
+
     return
   }
 
   const connections = []
   const clientRefresh = async () => {
-    // Don't regenerate critical CSS on every refresh
     connections.forEach((conn) => conn.send("rebuild"))
-
-    await purgeCSSFiles(argv.output)
 
     // Inline the critical CSS
     const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
@@ -374,42 +376,42 @@ export async function handleBuild(argv) {
       res.end()
     }
 
-    let fp = req.url?.split("?")[0] ?? "/"
+    let filepath = req.url?.split("?")[0] ?? "/"
 
     // handle redirects
-    if (fp.endsWith("/")) {
+    if (filepath.endsWith("/")) {
       // /trailing/
       // does /trailing/index.html exist? if so, serve it
-      const indexFp = path.posix.join(fp, "index.html")
+      const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        req.url = fp
+        req.url = filepath
         return serve()
       }
 
       // does /trailing.html exist? if so, redirect to /trailing
-      let base = fp.slice(0, -1)
+      let base = filepath.slice(0, -1)
       if (path.extname(base) === "") {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        return redirect(fp.slice(0, -1))
+        return redirect(filepath.slice(0, -1))
       }
     } else {
       // /regular
       // does /regular.html exist? if so, serve it
-      let base = fp
+      let base = filepath
       if (path.extname(base) === "") {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        req.url = fp
+        req.url = filepath
         return serve()
       }
 
       // does /regular/index.html exist? if so, redirect to /regular/
-      let indexFp = path.posix.join(fp, "index.html")
+      let indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        return redirect(fp + "/")
+        return redirect(filepath + "/")
       }
     }
 
@@ -434,76 +436,33 @@ export async function handleBuild(argv) {
     })
 }
 
-/*
- * Purge unused CSS selectors from CSS files
- */
-async function purgeCSSFiles(outputDir) {
-  try {
-    const cssFiles = await glob(path.join(outputDir, "**/*.css"))
-
-    if (cssFiles.length === 0) {
-      console.warn("No CSS files found to purge")
-    }
-
-    for (const cssPath of cssFiles) {
-      // Too many assets are purged from index.css
-      if (path.basename(cssPath) === "index.css") {
-        continue
-      }
-      const originalSize = fs.statSync(cssPath).size
-
-      const result = await new PurgeCSS().purge({
-        css: [cssPath],
-        content: [path.join(outputDir, "**.html")],
-      })
-
-      // Write the purged CSS back to the original file
-      const purgedCSS = result[0].css
-      await fs.promises.writeFile(cssPath, purgedCSS, "utf-8")
-
-      const newSize = fs.statSync(cssPath).size
-
-      if (newSize >= originalSize) {
-        console.warn(
-          `PurgeCSS did not reduce size of ${cssPath}. Original: ${originalSize} bytes, New: ${newSize} bytes`,
-        )
-      } else {
-        console.log(
-          `Successfully purged ${path.relative(outputDir, cssPath)}. Reduced from ${originalSize} to ${newSize} bytes (${Math.round((1 - newSize / originalSize) * 100)}% reduction)`,
-        )
-      }
-    }
-  } catch (error) {
-    console.error(`Error during CSS purging: ${error}`)
-    process.exit(1)
-  }
-}
-
 async function maybeGenerateCriticalCSS(outputDir) {
-  if (!cachedCriticalCSS) {
-    console.log("Computing and caching critical CSS...")
-    try {
-      const { css } = await generate({
-        inline: false,
-        base: outputDir,
-        src: "index.html",
-        width: 1700,
-        height: 900,
-        css: [
-          path.join(outputDir, "index.css"),
-          path.join(outputDir, "static", "styles", "katex.min.css"),
-        ],
-        penthouse: {
-          timeout: 60000,
-          blockJSRequests: true,
-          puppeteer: {
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-          },
+  if (cachedCriticalCSS != "") {
+    return
+  }
+  console.log("Computing and caching critical CSS...")
+  try {
+    const { css } = await generate({
+      inline: false,
+      base: outputDir,
+      src: "index.html",
+      width: 1700,
+      height: 900,
+      css: [
+        path.join(outputDir, "index.css"),
+        path.join(outputDir, "static", "styles", "katex.min.css"),
+      ],
+      penthouse: {
+        timeout: 60000,
+        blockJSRequests: true,
+        puppeteer: {
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
         },
-      })
+      },
+    })
 
-      // Append essential theme variables
-      const themeCSS = `
+    // Append essential theme variables
+    const themeCSS = `
       a {
         color: var(--color-link);
       }
@@ -562,12 +521,11 @@ async function maybeGenerateCriticalCSS(outputDir) {
         --blue: #406ecc;
       }
       `
-      const minifiedCSS = new CleanCSS().minify(css + themeCSS).styles
-      cachedCriticalCSS = minifiedCSS
-      console.log("Cached critical CSS with theme variables")
-    } catch (error) {
-      console.error("Error generating critical CSS:", error)
-    }
+    const minifiedCSS = new CleanCSS().minify(css + themeCSS).styles
+    cachedCriticalCSS = minifiedCSS
+    console.log("Cached critical CSS with theme variables")
+  } catch (error) {
+    console.error("Error generating critical CSS:", error)
   }
 }
 
@@ -749,10 +707,7 @@ export async function handleSync(argv) {
 }
 
 export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
-  if (!cachedCriticalCSS) {
-    console.warn("Critical CSS is not cached yet.")
-    await maybeGenerateCriticalCSS(outputDir)
-  }
+  await maybeGenerateCriticalCSS(outputDir)
 
   for (const file of htmlFiles) {
     const htmlContent = await fs.promises.readFile(file, "utf-8")

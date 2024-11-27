@@ -28,12 +28,13 @@ def create_test_image(path: Path, size: str) -> None:
     subprocess.run(["magick", "-size", size, "xc:red", str(path)], check=True)
 
 
-def create_test_video(path: Path, codec: Optional[str] = None) -> None:
+def create_test_video(
+    path: Path, codec: Optional[str] = None, duration: int = 1
+) -> None:
     """
-    Creates a test video using FFmpeg.
+    Creates a test video using FFmpeg with intentionally inefficient encoding.
+    Uses MPEG-2 with high bitrate and all I-frames for maximum inefficiency.
 
-    This function generates a short (1 second) test video using FFmpeg's built-in
-    color pattern test video generator (rgbtestsrc). The video is saved to the specified path.
 
     Args:
         path (Path): The file path where the video will be saved.
@@ -49,21 +50,61 @@ def create_test_video(path: Path, codec: Optional[str] = None) -> None:
         The function uses FFmpeg's 'lavfi' input format to generate the test video.
         Standard output and error are suppressed to keep the console clean during test runs.
     """
+    output_extension = path.suffix.lower()
     base_command = [
         "ffmpeg",
         "-f",
-        "lavfi",  # Use the 'lavfi' input format for generating test content
+        "lavfi",
         "-i",
-        "rgbtestsrc",  # Use the RGB test source pattern
+        "testsrc=size=160x120:rate=15",  # Tiny video, lower framerate
         "-t",
-        "1",  # Set the duration to 1 second
+        str(duration),
+        "-v",
+        "error",  # Reduce noise in test output
     ]
 
-    if codec:
-        base_command.extend(["-c:v", codec])
+    if output_extension == ".gif":
+        # Parameters specific to GIF output
+        base_command.extend(
+            [
+                "-vf",
+                "fps=15,scale=160:-1:flags=lanczos",
+                "-loop",
+                "0",
+            ]
+        )
+    elif output_extension == ".webm":
+        # Parameters specific to WebM output
+        base_command.extend(
+            [
+                "-c:v",
+                "libvpx-vp9",
+                "-b:v",
+                "1M",  # Adjust bitrate as needed
+            ]
+        )
+    else:
+        # Default parameters for other video files
+        if not codec:
+            codec = "mpeg2video"
+        base_command.extend(
+            [
+                "-c:v",
+                codec,
+                "-b:v",
+                "4000k",  # High bitrate for testing
+                "-g",
+                "1",  # Every frame is an I-frame
+                "-qmin",
+                "1",  # High quality
+                "-qmax",
+                "1",  # High quality
+            ]
+        )
 
     base_command.append(str(path))
 
+    # Run the ffmpeg command
     subprocess.run(
         base_command,
         stdout=subprocess.DEVNULL,

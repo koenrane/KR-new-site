@@ -3,7 +3,8 @@ permalink: bruce-wayne-and-the-cost-of-inaction
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+lw-page-url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 lw-is-question: "false"
 lw-posted-at: 2022-09-30T00:19:47.335000Z
 lw-last-modification: 2022-10-03T21:46:10.527000Z
@@ -31,13 +32,15 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2022-09-30 00:00:00
-original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+original_url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/QBOtBED.png
 description: Christopher Nolan's Batman Begins, but more rationalist and severe. Looking
   right at the pain you ignore whenever you walk by a homeless person.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-11-26 22:19:00.264857
 ---
+
 
 
 
@@ -355,7 +358,7 @@ Bruce realized what was going to happen to him, eventually. What was going to ha
 
 Would anyone go out of their way to stop it? Bruce thought about the scared people outside the opera. Why hadn't they done anything? Were they afraid of getting hurt? His mom hadn't been afraid. Or maybe she had been, but she hadn't let that stop her.
 
-> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--dark))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
+> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--foreground))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
 
 But the scared people still hadn't helped, even after the crazy man had run away. They still hadn't helped.
 
