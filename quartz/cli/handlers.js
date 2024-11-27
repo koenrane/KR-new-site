@@ -306,12 +306,18 @@ export async function handleBuild(argv) {
   if (!argv.serve) {
     await build(() => {})
     await ctx.dispose()
+
+    const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
+      recursive: true,
+      posix: true,
+    })
+    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
+
     return
   }
 
   const connections = []
   const clientRefresh = async () => {
-    // Don't regenerate critical CSS on every refresh
     connections.forEach((conn) => conn.send("rebuild"))
 
     // Inline the critical CSS
@@ -431,30 +437,32 @@ export async function handleBuild(argv) {
 }
 
 async function maybeGenerateCriticalCSS(outputDir) {
-  if (!cachedCriticalCSS) {
-    console.log("Computing and caching critical CSS...")
-    try {
-      const { css } = await generate({
-        inline: false,
-        base: outputDir,
-        src: "index.html",
-        width: 1700,
-        height: 900,
-        css: [
-          path.join(outputDir, "index.css"),
-          path.join(outputDir, "static", "styles", "katex.min.css"),
-        ],
-        penthouse: {
-          timeout: 60000,
-          blockJSRequests: true,
-          puppeteer: {
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-          },
+  if (cachedCriticalCSS != "") {
+    return
+  }
+  console.log("Computing and caching critical CSS...")
+  try {
+    const { css } = await generate({
+      inline: false,
+      base: outputDir,
+      src: "index.html",
+      width: 1700,
+      height: 900,
+      css: [
+        path.join(outputDir, "index.css"),
+        path.join(outputDir, "static", "styles", "katex.min.css"),
+      ],
+      penthouse: {
+        timeout: 60000,
+        blockJSRequests: true,
+        puppeteer: {
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
         },
-      })
+      },
+    })
 
-      // Append essential theme variables
-      const themeCSS = `
+    // Append essential theme variables
+    const themeCSS = `
       a {
         color: var(--color-link);
       }
@@ -513,12 +521,11 @@ async function maybeGenerateCriticalCSS(outputDir) {
         --blue: #406ecc;
       }
       `
-      const minifiedCSS = new CleanCSS().minify(css + themeCSS).styles
-      cachedCriticalCSS = minifiedCSS
-      console.log("Cached critical CSS with theme variables")
-    } catch (error) {
-      console.error("Error generating critical CSS:", error)
-    }
+    const minifiedCSS = new CleanCSS().minify(css + themeCSS).styles
+    cachedCriticalCSS = minifiedCSS
+    console.log("Cached critical CSS with theme variables")
+  } catch (error) {
+    console.error("Error generating critical CSS:", error)
   }
 }
 
@@ -700,10 +707,7 @@ export async function handleSync(argv) {
 }
 
 export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
-  if (!cachedCriticalCSS) {
-    console.warn("Critical CSS is not cached yet.")
-    await maybeGenerateCriticalCSS(outputDir)
-  }
+  await maybeGenerateCriticalCSS(outputDir)
 
   for (const file of htmlFiles) {
     const htmlContent = await fs.promises.readFile(file, "utf-8")
