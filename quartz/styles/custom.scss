@@ -418,7 +418,7 @@ img.favicon {
   filter: saturate(0%);
   margin-bottom: -0.07em;
   margin-top: -20%;
-  mix-blend-mode: normal !important;
+  mix-blend-mode: normal;
 
   // Make favicons align properly with headings
   h1 &,
@@ -469,7 +469,7 @@ img.favicon {
 
   // Github should be lighter b/c starts off darker
   &[src$="github_com.avif"] {
-    filter: invert(40%);
+    mix-blend-mode: multiply;
 
     :root[saved-theme="dark"] & {
       filter: invert(75%) sepia(6%) hue-rotate(185deg) contrast(92%);
