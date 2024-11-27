@@ -85,7 +85,7 @@ These predictions are not very precise. I figure that vague predictions are bett
 
 Conventional oversight methods provide reinforcement signals on the basis of the outcomes the AI brings about ("outcome supervision"; the code passes unit tests) or how the AI solves the problem ("process supervision"; the code looks good). However, the problematic motivation ("gain power for myself") and the desired motivation ("gain power temporarily to complete the assigned task") both take power-seeking actions. Reinforcing these actions might reinforce either algorithm. Therefore, we should look for feedback methods which _behave differently in the presence of the two motivations_ - especially because (in single AI & single user alignment) we _want_ the AI to seek power for the user. We just want power-seeking for the right reasons.
 
-Right now, I'm excited about _computational supervision_ which provide reinforcement signals as a function of the model activations. But that's a story for another time.
+Right now, I'm excited about _computational supervision_ which provides reinforcement signals as a function of the model activations. But that's a story for another time.
 
 [^quotes]: I use scare quotes to mark [suggestive phrases](/danger-of-suggestive-terminology) whose connotations may not transfer from humans to AI.
 
