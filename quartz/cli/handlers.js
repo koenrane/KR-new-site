@@ -114,8 +114,8 @@ export async function handleCreate(argv) {
             message: "Enter the full path to existing content folder",
             placeholder:
               "On most terminal emulators, you can drag and drop a folder into the window and it will paste the full path",
-            validate(fp) {
-              const fullPath = escapePath(fp)
+            validate(filepath) {
+              const fullPath = escapePath(filepath)
               if (!fs.existsSync(fullPath)) {
                 return "The given path doesn't exist"
               } else if (!fs.lstatSync(fullPath).isDirectory()) {
@@ -370,42 +370,42 @@ export async function handleBuild(argv) {
       res.end()
     }
 
-    let fp = req.url?.split("?")[0] ?? "/"
+    let filepath = req.url?.split("?")[0] ?? "/"
 
     // handle redirects
-    if (fp.endsWith("/")) {
+    if (filepath.endsWith("/")) {
       // /trailing/
       // does /trailing/index.html exist? if so, serve it
-      const indexFp = path.posix.join(fp, "index.html")
+      const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        req.url = fp
+        req.url = filepath
         return serve()
       }
 
       // does /trailing.html exist? if so, redirect to /trailing
-      let base = fp.slice(0, -1)
+      let base = filepath.slice(0, -1)
       if (path.extname(base) === "") {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        return redirect(fp.slice(0, -1))
+        return redirect(filepath.slice(0, -1))
       }
     } else {
       // /regular
       // does /regular.html exist? if so, serve it
-      let base = fp
+      let base = filepath
       if (path.extname(base) === "") {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        req.url = fp
+        req.url = filepath
         return serve()
       }
 
       // does /regular/index.html exist? if so, redirect to /regular/
-      let indexFp = path.posix.join(fp, "index.html")
+      let indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        return redirect(fp + "/")
+        return redirect(filepath + "/")
       }
     }
 
