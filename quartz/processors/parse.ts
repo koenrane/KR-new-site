@@ -176,8 +176,7 @@ export async function parseMarkdown(ctx: BuildCtx, fps: FilePath[]): Promise<Pro
 
     const results: ProcessedContent[][] = await WorkerPromise.all(childPromises).catch((err) => {
       const errString = err.toString().slice("Error:".length)
-      console.error(errString)
-      process.exit(1)
+      throw new Error(errString)
     })
     res = results.flat()
     await pool.terminate()

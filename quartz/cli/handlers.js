@@ -114,8 +114,8 @@ export async function handleCreate(argv) {
             message: "Enter the full path to existing content folder",
             placeholder:
               "On most terminal emulators, you can drag and drop a folder into the window and it will paste the full path",
-            validate(fp) {
-              const fullPath = escapePath(fp)
+            validate(filepath) {
+              const fullPath = escapePath(filepath)
               if (!fs.existsSync(fullPath)) {
                 return "The given path doesn't exist"
               } else if (!fs.lstatSync(fullPath).isDirectory()) {
