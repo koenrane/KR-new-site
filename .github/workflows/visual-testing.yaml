@@ -24,7 +24,7 @@ jobs:
 
       - name: Start local server
         run: |
-          npx quartz --serve &
+          npx quartz build --serve &
           SERVER_PID=$!
           echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
           
