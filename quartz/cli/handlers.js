@@ -709,13 +709,20 @@ export async function handleSync(argv) {
 export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
   await maybeGenerateCriticalCSS(outputDir)
 
+  let processedCount = 0
   for (const file of htmlFiles) {
-    const htmlContent = await fs.promises.readFile(file, "utf-8")
-    const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
-    const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
-    const updatedHTML = reorderHead(htmlWithCriticalCSS)
-    await fs.promises.writeFile(file, updatedHTML)
+    try {
+      const htmlContent = await fs.promises.readFile(file, "utf-8")
+      const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
+      const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
+      const updatedHTML = reorderHead(htmlWithCriticalCSS)
+      await fs.promises.writeFile(file, updatedHTML)
+      processedCount++
+    } catch (err) {
+      console.warn(`Warning: Could not process ${file}: ${err.message}`)
+      continue
+    }
   }
 
-  console.log(`Injected critical CSS into ${htmlFiles.length} files`)
+  console.log(`Injected critical CSS into ${processedCount} files`)
 }
