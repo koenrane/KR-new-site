@@ -4,7 +4,8 @@ export default defineConfig({
   fullyParallel: true,
   workers: "75%",
 
-  testDir: "./argos",
+  testDir: "./quartz/components",
+  testMatch: /.*\.spec\.ts/,
   // Reporter to use
   reporter: [
     // Use "dot" reporter on CI, "list" otherwise (Playwright default).
