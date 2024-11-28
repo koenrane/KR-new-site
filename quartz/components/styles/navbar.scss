@@ -42,6 +42,9 @@
 
     &.visible {
       display: block;
+      min-height: 1px;
+      min-width: 1px;
+      width: auto;
     }
 
     li {

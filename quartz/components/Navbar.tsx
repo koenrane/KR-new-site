@@ -114,7 +114,11 @@ export default (() => {
           </div>
           <div id="navbar-right">
             {searchHTML}
-            <button className="hamburger mobile-only" alt="Opens menu for key site links.">
+            <button
+              id="menu-button"
+              className="hamburger mobile-only"
+              aria-label="Opens menu for key site links."
+            >
               <span className="bar" />
               <span className="bar" />
               <span className="bar" />
