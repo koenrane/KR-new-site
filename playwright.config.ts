@@ -6,6 +6,7 @@ export default defineConfig({
 
   testDir: "./quartz/components",
   testMatch: /.*\.spec\.ts/,
+
   // Reporter to use
   reporter: [
     // Use "dot" reporter on CI, "list" otherwise (Playwright default).
