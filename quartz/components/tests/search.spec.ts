@@ -50,13 +50,13 @@ test("Search results appear and can be navigated", async ({ page }) => {
   // Open search
   await page.keyboard.press("/")
   const searchBar = page.locator("#search-bar")
-  const resultsContainer = page.locator("#results-container")
 
   // Type search term
   await searchBar.fill("test")
   await page.waitForTimeout(300) // Wait for debounce
 
   // Check results appear
+  const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
   const resultCards = page.locator(".result-card")
   await expect(resultCards).toHaveCount(10)
@@ -68,6 +68,23 @@ test("Search results appear and can be navigated", async ({ page }) => {
 
   // Take screenshot of search results
   await argosScreenshot(page, "search-results", { ...defaultOptions, element: "#search-layout" })
+})
+
+test("Nothing shows up for nonsense search terms", async ({ page }) => {
+  await page.keyboard.press("/")
+  const term = "zzzzzz"
+  await page.locator("#search-bar").fill(term)
+
+  // Wait for search results to update
+  await page.waitForTimeout(300)
+
+  // Wait for any loading states to complete
+  await page.waitForLoadState("networkidle")
+
+  // Assert that there are no results
+  const resultCards = page.locator(".result-card")
+  await expect(resultCards).toHaveCount(1)
+  await expect(resultCards.first()).toContainText("No results")
 })
 
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {

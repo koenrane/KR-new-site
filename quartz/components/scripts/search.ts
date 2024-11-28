@@ -17,7 +17,11 @@ interface Item {
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
-const encoder = (str: string) => str.toLowerCase().split(/([^a-z]|[^\x00-\x7F])/) // eslint-disable-line no-control-regex
+const encoder = (str: string) =>
+  str
+    .toLowerCase()
+    .split(/([^a-z\x00-\x7F])/) // eslint-disable-line no-control-regex
+    .filter((token) => token.length > 1)
 const index = new FlexSearch.Document<Item>({
   charset: "latin:extra",
   encode: encoder,
