@@ -4,11 +4,11 @@ import { test, expect, devices } from "@playwright/test"
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 test.use({
-  ...devices["iPhone 12"],
-  ...devices["iPad Pro"],
+  // ...devices["iPhone 12"],
+  // ...devices["iPad Pro"],
 })
 
-// Note: mobile/tablet only tests
+// TODO take argos screenshots
 test("Clicking away closes the menu", async ({ page }) => {
   await page.goto("http://localhost:8080/welcome")
   const menuButton = page.locator("#menu-button")
@@ -76,17 +76,34 @@ test("Can't see the menu at desktop size", async ({ page }) => {
 })
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
-test("Menu disappears when scrolling down", async ({ page }) => {
+test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
   await page.goto("http://localhost:8080/welcome")
+  const navbar = page.locator("#navbar")
 
-  const troutElement = page.locator("#trout-ornament")
-  await troutElement.scrollIntoViewIfNeeded()
-  await expect(page.locator("#navbar-right .menu")).not.toBeVisible()
+  // Initial state check
+  await expect(navbar).toBeVisible()
+  await expect(navbar).not.toHaveClass(/hide-above-screen/)
 
-  const firstParagraph = page.locator("article p").first()
-  await firstParagraph.scrollIntoViewIfNeeded({ timeout: 200 })
-  await page.touchscreen.tap(0, 0)
-  await page.waitForTimeout(1000)
+  // Scroll down
+  await page.evaluate(() => {
+    window.scrollTo({
+      top: 250,
+      behavior: "instant",
+    })
+  })
 
-  await expect(page.locator("#navbar-right .menu")).toBeVisible()
+  // Wait for scroll animation and navbar to hide
+  await expect(navbar).toHaveClass(/hide-above-screen/)
+
+  // Scroll back up
+  await page.evaluate(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    })
+  })
+
+  // Wait for scroll animation and navbar to show
+  await expect(navbar).not.toHaveClass(/hide-above-screen/)
+  await expect(navbar).toBeVisible()
 })

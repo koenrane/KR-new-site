@@ -198,12 +198,13 @@
       box-shadow: 0 2px 4px 0 rgba(#5c5f77, 0.1);
       clip-path: inset(0 0 -1500px 0);
     }
-  }
 
-  .hide-above-screen {
-    transform: translateY(-100%);
-    opacity: 0;
-    pointer-events: none;
+    &.hide-above-screen {
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
   }
 }
 
