@@ -202,7 +202,6 @@
     &.hide-above-screen {
       transform: translateY(-100%);
       opacity: 0;
-      visibility: hidden;
       pointer-events: none;
     }
   }

@@ -4,8 +4,8 @@ import { test, expect, devices } from "@playwright/test"
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 test.use({
-  // ...devices["iPhone 12"],
-  // ...devices["iPad Pro"],
+  ...devices["iPhone 12"],
+  ...devices["iPad Pro"],
 })
 
 // TODO take argos screenshots
@@ -94,6 +94,7 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 
   // Wait for scroll animation and navbar to hide
   await expect(navbar).toHaveClass(/hide-above-screen/)
+  await expect(navbar).toHaveCSS("opacity", "0")
 
   // Scroll back up
   await page.evaluate(() => {
@@ -106,4 +107,31 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
   // Wait for scroll animation and navbar to show
   await expect(navbar).not.toHaveClass(/hide-above-screen/)
   await expect(navbar).toBeVisible()
+})
+
+test("Menu disappears gradually when scrolling down", async ({ page }) => {
+  await page.goto("http://localhost:8080/welcome")
+  const navbar = page.locator("#navbar")
+
+  // Initial state check
+  await expect(navbar).toHaveCSS("opacity", "1")
+
+  // Scroll down
+  await page.evaluate(() => window.scrollBy(0, 100))
+
+  // Sample opacity values during the transition
+  const opacityValues = []
+  for (let i = 0; i < 5; i++) {
+    const opacity = await navbar.evaluate((el) => getComputedStyle(el).opacity)
+    opacityValues.push(Number(opacity))
+    await page.waitForTimeout(50) // Wait a bit between samples
+  }
+  await page.waitForTimeout(500)
+  const finalOpacity = await navbar.evaluate((el) => getComputedStyle(el).opacity)
+  opacityValues.push(Number(finalOpacity))
+
+  // Verify we saw some intermediate values between 1 and 0
+  expect(opacityValues).toContain(1) // Should start at 1
+  expect(opacityValues).toContain(0) // Should end at 0
+  expect(opacityValues.some((v) => v > 0 && v < 1)).toBeTruthy() // Should have intermediate values
 })

@@ -1,6 +1,9 @@
 import { defineConfig } from "@playwright/test"
 
 export default defineConfig({
+  fullyParallel: true,
+  workers: "75%",
+
   testDir: "./argos",
   // Reporter to use
   reporter: [

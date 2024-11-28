@@ -7,7 +7,7 @@ import chokidar from "chokidar"
 import CleanCSS from "clean-css"
 import { generate } from "critical"
 import { randomUUID } from "crypto"
-import esbuild from "esbuild"
+import * as esbuild from "esbuild"
 import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises } from "fs"
 import glob from "glob-promise"
@@ -430,6 +430,7 @@ export async function handleBuild(argv) {
   chokidar
     .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
       ignoreInitial: true,
+      ignored: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
     })
     .on("all", async () => {
       build(clientRefresh)
@@ -453,10 +454,20 @@ async function maybeGenerateCriticalCSS(outputDir) {
         path.join(outputDir, "static", "styles", "katex.min.css"),
       ],
       penthouse: {
-        timeout: 60000,
-        blockJSRequests: true,
-        puppeteer: {
-          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        timeout: 120000,
+        blockJSRequests: false,
+        waitForStatus: "networkidle0",
+        renderWaitTime: 2000,
+        penthouse: {
+          puppeteer: {
+            args: [
+              "--no-sandbox",
+              "--disable-setuid-sandbox",
+              "--disable-dev-shm-usage",
+              "--disable-accelerated-2d-canvas",
+              "--disable-gpu",
+            ],
+          },
         },
       },
     })
@@ -526,6 +537,7 @@ async function maybeGenerateCriticalCSS(outputDir) {
     console.log("Cached critical CSS with theme variables")
   } catch (error) {
     console.error("Error generating critical CSS:", error)
+    cachedCriticalCSS = ""
   }
 }
 
