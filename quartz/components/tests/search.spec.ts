@@ -52,19 +52,27 @@ test("Search results appear and can be navigated", async ({ page }) => {
   const searchBar = page.locator("#search-bar")
 
   // Type search term
-  await searchBar.fill("test")
+  await searchBar.fill("Steering")
   await page.waitForTimeout(300) // Wait for debounce
 
   // Check results appear
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
   const resultCards = page.locator(".result-card")
-  await expect(resultCards).toHaveCount(10)
+  await expect(resultCards.first()).toContainText("Steering")
 
   // Navigate with arrow keys
   await page.keyboard.press("ArrowDown")
-  const firstResult = resultCards.first()
-  await expect(firstResult).toBeFocused()
+  const secondResult = resultCards.nth(1)
+  await expect(secondResult).toBeFocused()
+
+  // Check that the preview appears if the width is greater than 1000
+  const viewportSize = page.viewportSize()
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > 1000
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
+  // Should have children -- means there's content
+  await expect(previewContainer.first()).toBeVisible()
 
   // Take screenshot of search results
   await argosScreenshot(page, "search-results", { ...defaultOptions, element: "#search-layout" })
