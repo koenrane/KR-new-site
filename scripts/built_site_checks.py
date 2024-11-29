@@ -177,8 +177,7 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
     Parse an HTML file and return a BeautifulSoup object.
     """
     with open(file_path, "r", encoding="utf-8") as file:
-        content = file.read()
-    return BeautifulSoup(content, "html.parser")
+        return BeautifulSoup(file.read(), "html.parser")
 
 
 # Check the existence of local files with these extensions
