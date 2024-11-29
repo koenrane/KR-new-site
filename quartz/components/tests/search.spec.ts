@@ -1,5 +1,5 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { test, expect, devices } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
 
 import {
   desktopWidth,
@@ -12,15 +12,15 @@ const timeToWaitAfterSearch = debounceSearchDelay + 100
 
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
-test.use({
-  ...devices["iPhone 12"],
-  ...devices["iPad Pro"],
-  ...devices["Desktop Chrome"],
-})
-
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/welcome")
 })
+
+async function search(page: Page, term: string) {
+  const searchBar = page.locator("#search-bar")
+  await searchBar.fill(term)
+  await page.waitForTimeout(timeToWaitAfterSearch)
+}
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
   const searchContainer = page.locator("#search-container")
@@ -58,11 +58,9 @@ test("Tag search opens with Ctrl+Shift+K", async ({ page }) => {
 test("Search results appear and can be navigated", async ({ page }) => {
   // Open search
   await page.keyboard.press("/")
-  const searchBar = page.locator("#search-bar")
 
   // Type search term
-  await searchBar.fill("Steering")
-  await page.waitForTimeout(300) // Wait for debounce
+  await search(page, "Steering")
 
   // Check results appear
   const resultsContainer = page.locator("#results-container")
@@ -92,14 +90,7 @@ test("Search results appear and can be navigated", async ({ page }) => {
 
 test("Nothing shows up for nonsense search terms", async ({ page }) => {
   await page.keyboard.press("/")
-  const term = "zzzzzz"
-  await page.locator("#search-bar").fill(term)
-
-  // Wait for search results to update
-  await page.waitForTimeout(timeToWaitAfterSearch)
-
-  // Wait for any loading states to complete
-  await page.waitForLoadState("networkidle")
+  await search(page, "zzzzzz")
 
   // Assert that there are no results
   const resultCards = page.locator(".result-card")
@@ -109,8 +100,7 @@ test("Nothing shows up for nonsense search terms", async ({ page }) => {
 
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
   await page.keyboard.press("/")
-  await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(timeToWaitAfterSearch)
+  await search(page, "test")
 
   const previewContainer = page.locator("#preview-container")
   const viewportSize = page.viewportSize()
@@ -132,28 +122,82 @@ test("Search placeholder changes based on viewport", async ({ page }) => {
 
 test("Highlighted search terms appear in results", async ({ page }) => {
   await page.keyboard.press("/")
-  await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(timeToWaitAfterSearch)
+  await search(page, "test")
 
   const highlights = page.locator(".highlight")
   await expect(highlights.first()).toContainText("test", { ignoreCase: true })
 })
 
+test("Search results are case-insensitive", async ({ page }) => {
+  await page.keyboard.press("/")
+
+  await search(page, "TEST")
+  const uppercaseResults = await page.locator(".result-card").all()
+
+  await search(page, "test")
+  const lowerCaseResults = await page.locator(".result-card").all()
+
+  expect(uppercaseResults).toEqual(lowerCaseResults)
+})
+
+test("Search results work for a single character", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "t")
+
+  const results = await page.locator(".result-card").all()
+
+  // If there's only one result, it's probably just "nothing found"
+  expect(results).not.toHaveLength(1)
+})
+
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
   await page.keyboard.press("/")
-  await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(timeToWaitAfterSearch)
+  await search(page, "test")
 
   await page.keyboard.press("Enter")
 
   expect(page.url()).not.toBe(initialUrl)
 })
 
-// Test normal navigation
-
 // Test emoji replacement
 
 // Test footnote back arrow replacement
 
+// Test that images have mix-blend-mode: multiply
+
 // Visual regression testing
+test("Opens the 'testing site features' page", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+
+  // Make sure it looks good
+  const viewportSize = page.viewportSize()
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  if (shouldShowPreview) {
+    await argosScreenshot(page, "search-results-preview-container", {
+      ...defaultOptions,
+      element: "#preview-container",
+    })
+  }
+
+  const firstResult = page.locator(".result-card").first()
+  await firstResult.click()
+
+  const url = page.url()
+  expect(url).toBe("http://localhost:8080/test-page")
+})
+
+test("Search preview shows after bad entry", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "zzzzzz")
+  await search(page, "Testing site")
+  await search(page, "zzzzzz")
+  await search(page, "Testing site")
+
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeVisible()
+
+  const previewContent = previewContainer.locator(":scope > *")
+  await expect(previewContent).toHaveCount(1)
+})

@@ -242,10 +242,10 @@
             padding: 0.2rem 0.4rem;
             line-height: 1.4rem;
             font-weight: $bold-weight;
-            color: var(--secondary);
+            color: var(--midground);
 
             &.match-tag {
-              color: var(--tertiary);
+              color: var(--color-link);
             }
           }
 
