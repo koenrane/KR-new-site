@@ -25,7 +25,6 @@ async function search(page: Page, term: string) {
 async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
     document.documentElement.setAttribute("saved-theme", themeValue)
-    console.log(document.documentElement)
   }, theme)
 }
 

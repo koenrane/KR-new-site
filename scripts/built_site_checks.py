@@ -385,7 +385,7 @@ def check_rss_file_for_issues(
     rss_path = git_root_path / "public" / "rss.xml"
     subprocess.run(
         [
-            "xmllint",
+            "/usr/bin/xmllint",
             "--noout",
             "--schema",
             str(custom_xsd_path or RSS_XSD_PATH),

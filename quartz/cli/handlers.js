@@ -7,7 +7,7 @@ import chokidar from "chokidar"
 import CleanCSS from "clean-css"
 import { generate } from "critical"
 import { randomUUID } from "crypto"
-import * as esbuild from "esbuild"
+import { context, build as esBuild, analyzeMetafile } from "esbuild"
 import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises } from "fs"
 import glob from "glob-promise"
@@ -203,7 +203,7 @@ See the [documentation](https://quartz.jzhao.xyz) for how to get started.
  */
 export async function handleBuild(argv) {
   console.log(chalk.bgGreen.black(`\n turntrout.com v${version} \n`))
-  const ctx = await esbuild.context({
+  const ctx = await context({
     entryPoints: [fp],
     outfile: cacheFile,
     bundle: true,
@@ -235,7 +235,7 @@ export async function handleBuild(argv) {
 
             const sourcefile = path.relative(path.resolve("."), args.path)
             const resolveDir = path.dirname(sourcefile)
-            const transpiled = await esbuild.build({
+            const transpiled = await esBuild({
               stdin: {
                 contents: text,
                 loader: "ts",
@@ -289,7 +289,7 @@ export async function handleBuild(argv) {
           meta.bytes,
         )})`,
       )
-      console.log(await esbuild.analyzeMetafile(result.metafile, { color: true }))
+      console.log(await analyzeMetafile(result.metafile, { color: true }))
     }
 
     // Construct the module path dynamically
