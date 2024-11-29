@@ -23,7 +23,7 @@ Many people know me as "TurnTrout", but you can call me "Alex". I want to let yo
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
+I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
 
 (And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
@@ -139,7 +139,7 @@ Reading textbooks
 ## Possible dealbreakers
 
 1. I probably (70%) will want kids within the next 5 years.
-2. Ethical non-monogamy is important to me.
+2. Polyamory is important to me.
 3. I currently live in Berkeley. I'm open to (but disprefer) a long-distance relationship if there's a good chance we end up in the same location, assuming the relationship is great! In particular, cities like New York and London are more workable (as DeepMind has offices there I could work out of).
 
 ## What I'm like in a relationship
