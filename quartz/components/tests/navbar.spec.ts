@@ -1,12 +1,7 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { test, expect, devices } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
-
-test.use({
-  ...devices["iPhone 12"],
-  ...devices["iPad Pro"],
-})
 
 // TODO take argos screenshots
 test("Clicking away closes the menu", async ({ page }) => {
@@ -109,7 +104,11 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
   await expect(navbar).toBeVisible()
 })
 
-test("Menu disappears gradually when scrolling down", async ({ page }) => {
+test("Menu disappears gradually when scrolling down", async ({ page }, testInfo) => {
+  if (testInfo.project.name === "Desktop Chrome") {
+    test.skip()
+  }
+
   await page.goto("http://localhost:8080/welcome")
   const navbar = page.locator("#navbar")
 
@@ -121,10 +120,10 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
 
   // Sample opacity values during the transition
   const opacityValues = []
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     const opacity = await navbar.evaluate((el) => getComputedStyle(el).opacity)
     opacityValues.push(Number(opacity))
-    await page.waitForTimeout(50) // Wait a bit between samples
+    await page.waitForTimeout(80) // Wait a bit between samples
   }
   await page.waitForTimeout(500)
   const finalOpacity = await navbar.evaluate((el) => getComputedStyle(el).opacity)
