@@ -190,7 +190,7 @@
     }
   }
 
-  &[data-callout="quote"] .callout-icon {
+  &[data-callout="quote"] > * > .callout-icon {
     transform: scale(-1, -1); // Flip across the y-axis
     margin-right: calc(0.5 * $base-margin);
   }
