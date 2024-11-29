@@ -184,6 +184,20 @@ test("Emoji search works and is converted to twemoji", async ({ page }) => {
 })
 
 // Test footnote back arrow replacement
+test("Footnote back arrow is properly replaced", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+
+  const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
+  await footnoteLink.scrollIntoViewIfNeeded()
+  expect(footnoteLink).toContainText("⤴")
+  await expect(footnoteLink).toBeVisible()
+
+  await argosScreenshot(page, "search-results-preview-footnote-link", {
+    ...defaultOptions,
+    element: footnoteLink,
+  })
+})
 
 // Test that images have mix-blend-mode: multiply
 
