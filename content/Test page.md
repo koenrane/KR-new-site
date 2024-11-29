@@ -132,8 +132,8 @@ Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
 # Spoilers
 >
->Here be hidden text!
->
+>Normal blockquote
+
 >! This text is hidden until you hover over it.
 >! Multiple lines can be hidden
 >! Like this!

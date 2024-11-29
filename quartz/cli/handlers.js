@@ -725,9 +725,18 @@ export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
   for (const file of htmlFiles) {
     try {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
+      const $ = cheerio.load(htmlContent)
+
+      // Remove existing critical CSS
+      $("style#critical-css").remove()
+
+      // Insert the new critical CSS at the end of the head
       const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
-      const htmlWithCriticalCSS = htmlContent.replace("</head>", `${styleTag}</head>`)
-      const updatedHTML = reorderHead(htmlWithCriticalCSS)
+      $("head").append(styleTag)
+
+      // Reorder the head elements if needed
+      const updatedHTML = reorderHead($.html())
+
       await fs.promises.writeFile(file, updatedHTML)
       processedCount++
     } catch (err) {
