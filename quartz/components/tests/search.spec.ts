@@ -166,22 +166,20 @@ test("Enter key navigates to first result", async ({ page }) => {
 })
 
 // Test emoji replacement
-test("Emoji replacement works", async ({ page }) => {
+test("Emoji search works and is converted to twemoji", async ({ page }) => {
   await page.keyboard.press("/")
-  await search(page, "👍")
+  await search(page, "Testing site emoji")
 
-  const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
-  if (shouldShowPreview) {
+  const firstResult = page.locator(".result-card").first()
+  await expect(firstResult).toContainText("Emoji")
+  if (showingPreview(page)) {
     await argosScreenshot(page, "search-results-preview-container", {
       ...defaultOptions,
       element: "#preview-container",
     })
   }
 
-  const firstResult = page.locator(".result-card").first()
   await firstResult.click()
-
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 

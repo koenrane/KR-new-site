@@ -132,6 +132,8 @@ Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
 # Spoilers
 >
+>Here be hidden text!
+>
 >! This text is hidden until you hover over it.
 >! Multiple lines can be hidden
 >! Like this!
@@ -148,31 +150,31 @@ f(x) &= x^2 + 2x + 1 \\
 \end{aligned}
 $$
 
-# Link Features
+# Link features
 
-## Internal Links
+## Internal links
 
 Here's a link to [another page](/some-page) with popover preview.
 
-## External Links with Favicons
+## External links with favicons
 
 Check out [GitHub](https://github.com).
 
-# Typography Examples
+# Typography
 
-## Small Caps
+## Smallcaps
 
 The <abbr>NATO</abbr> alliance met in the <abbr>USA</abbr>.
 
-## Numbers and Units
+## Numbers and units
 
 This computer has 16GB of RAM and runs at 3.2GHz.
 
-## Smart Quotes
+## Smart quotes
 
 "This is a quote with 'nested' quotes inside it."
 
-## Fractions and Math
+## Fractions and math
 
 This solution is 2/3 water, mixed on 01/01/2024.
 
@@ -191,8 +193,19 @@ This solution is 2/3 water, mixed on 01/01/2024.
 <span class="dropcap" data-first-letter="D"  style="color: color-mix(in srgb, 65% pink, var(--midground-fainter));">D</span>
 </center>
 
-# Emoji Examples
+# Emoji examples
 
 😀 😃 😄 😁 😆 😅 🤣 😂 🙂 🙃 😉 😊 😇 🥰 😍 🤩 😘 😗 ☺ 😚 😙 🥲 😋 😛 😜 🤪 😝 🤑 🤗 🤭 🤫 🤔 🤐 🤨 😐 😑 😶 😏 😒 🙄 😬 🤥 😌 😔 😪 🤤 😴 😷 🤒 🤕 🤢 🤮 🤧 🥵 🥶 🥴 😵 🤯 🤠 🥳 🥸 😎 🤓 🧐 😕 😟 🙁 ☹ 😮 😯 😲 😳 🥺 😦 😧 😨 😰 😥 😢 😭 😱 😖 😣 😞 😓 😩 😫 🥱 😤 😡 😠 🤬 😈 👿 💀 ☠ 💩 🤡 👹 👺 👻 👽 👾 🤖 😺 😸 😹 😻 😼 😽 🙀 😿 😾 💋 👋 🤚 🖐 ✋ 🖖 👌 🤏 ✌ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🤝 🙏 ✍ 💅 🤳 💪 🦾 🦿 🦵 🦶 👂 🦻 👃 🧠 🦷 🦴 👀 👁 👅 👄
 
 🙈 🙉 🙊 💥 💫 💦 💨 🐵 🐒 🦍 🦧 🐶 🐕 🦮 🐕‍🦺 🐩 🐺 🦊 🦝 🐱 🐈 🐈‍⬛ 🦁 🐯 🐅 🐆 🐴 🐎 🦄 🦓 🦌 🦬 🐮 🐂 🐃 🐄 🐷 🐖 🐗 🐽 🐏 🐑 🐐 🐪 🐫 🦙 🦒 🐘 🦣 🦏 🦛 🐭 🐁 🐀 🐹 🐰 🐇 🐿 🦫 🦔 🦇 🐻 🐻‍❄️ 🐨 🐼 🦥 🦦 🦨 🦘 🦡 🐾 🦃 🐔 🐓 🐣 🐤 🐥 🐦 🐧 🕊 🦅 🦆 🦢 🦉 🦤 🪶 🦩 🦚 🦜 🐸 🐊 🐢 🦎 🐍 🐲 🐉 🦕 🦖 🐳 🐋 🐬 🦭 🐟 🐠 🐡 🦈 🐙 🐚 🐌 🦋 🐛 🐜 🐝 🪲 🐞 🦗 🪳 🕷 🕸 🦂 🦟 🪰 🪱 🦠 💐 🌸 💮 🏵 🌹 🥀 🌺 🌻 🌼 🌷 🌱 🌲 🌳 🌴 🌵 🌾 🌿 ☘ 🍀 🍁 🍂 🍃 🍄 🌰 🦀 🦞 🦐 🦑 🌍 🌎 🌏 🌐 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌙 🌚 🌛 🌜 ☀ 🌝 🌞 ⭐ 🌟 🌠 ☁ ⛅ ⛈ 🌤 🌥 🌦 🌧 🌨 🌩 🌪 🌫 🌬 🌈 ☂ ☔ ⚡ ❄ ☃ ⛄ ☄ 🔥 💧 🌊 🎄 ✨ 🎋 🎍
+
+# Footnote demonstration
+
+This text omits a detail.[^footnote] This sentence has multiple footnotes.[^1][^2]
+
+[^1]: First footnote in a row.
+[^2]: Second footnote in a row.
+
+[^footnote]: Here's the detail, in a footnote. And here's a nested footnote.[^nested]
+
+[^nested]: I'm a footnote. I'm enjoying my nest! 🪺
