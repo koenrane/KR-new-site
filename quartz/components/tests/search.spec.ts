@@ -22,6 +22,12 @@ async function search(page: Page, term: string) {
   await page.waitForTimeout(timeToWaitAfterSearch)
 }
 
+function showingPreview(page: Page): boolean {
+  const viewportSize = page.viewportSize()
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  return Boolean(shouldShowPreview)
+}
+
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
   const searchContainer = page.locator("#search-container")
   const searchBar = page.locator("#search-bar")
@@ -74,8 +80,7 @@ test("Search results appear and can be navigated", async ({ page }) => {
   await expect(secondResult).toBeFocused()
 
   // Check that the preview appears if the width is greater than desktopWidth
-  const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldShowPreview = showingPreview(page)
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
   // Should have children -- means there's content
@@ -161,6 +166,24 @@ test("Enter key navigates to first result", async ({ page }) => {
 })
 
 // Test emoji replacement
+test("Emoji replacement works", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "👍")
+
+  const viewportSize = page.viewportSize()
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  if (shouldShowPreview) {
+    await argosScreenshot(page, "search-results-preview-container", {
+      ...defaultOptions,
+      element: "#preview-container",
+    })
+  }
+
+  const firstResult = page.locator(".result-card").first()
+  await firstResult.click()
+
+  expect(page.url()).toBe("http://localhost:8080/test-page")
+})
 
 // Test footnote back arrow replacement
 
