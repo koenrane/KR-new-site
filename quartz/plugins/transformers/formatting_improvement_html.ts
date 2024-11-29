@@ -163,7 +163,7 @@ export function niceQuotes(text: string): string {
   text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
 
   // Periods inside quotes
-  const periodRegex = new RegExp(`(?<![!?])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
+  const periodRegex = new RegExp(`(?<![!?:])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
   text = text.replace(periodRegex, "$1.$2$3")
 
   // Commas outside of quotes
