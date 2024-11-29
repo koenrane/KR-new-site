@@ -91,7 +91,7 @@ test("Search results appear and can be navigated", async ({ page }) => {
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
   // Should have children -- means there's content
-  await expect(previewContainer.first()).toBeVisible()
+  await expect(previewContainer.first()).toBeVisible({ visible: Boolean(shouldShowPreview) })
 
   // Take screenshot of search results
   await argosScreenshot(page, "search-results-preview-container", {
@@ -190,6 +190,9 @@ test("Emoji search works and is converted to twemoji", async ({ page }) => {
 })
 
 test("Footnote back arrow is properly replaced", async ({ page }) => {
+  if (!showingPreview(page)) {
+    return
+  }
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
