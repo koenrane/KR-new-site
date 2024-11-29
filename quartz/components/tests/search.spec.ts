@@ -277,3 +277,21 @@ test("Search preview shows after bad entry", async ({ page }) => {
   const previewContent = previewContainer.locator(":scope > *")
   await expect(previewContent).toHaveCount(1)
 })
+
+test("The pond dropcaps are the same as in normal viewer", async ({ page }) => {
+  if (!showingPreview(page)) {
+    return
+  }
+  await page.goto("http://localhost:8080/test-page")
+  const pondDropcaps = page.locator("#the-pond-dropcaps")
+  await pondDropcaps.scrollIntoViewIfNeeded()
+  const pondDropcapScreenshot = await pondDropcaps.screenshot()
+
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+  const searchPondDropcaps = page.locator("#preview-container #the-pond-dropcaps")
+  await searchPondDropcaps.scrollIntoViewIfNeeded()
+  const searchPondDropcapScreenshot = await searchPondDropcaps.screenshot()
+
+  expect(pondDropcapScreenshot).toEqual(searchPondDropcapScreenshot)
+})

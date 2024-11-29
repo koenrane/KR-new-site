@@ -194,6 +194,14 @@
         a[role="anchor"] {
           background-color: transparent;
         }
+
+        & p .dropcap::before {
+          top: 0.025rem;
+        }
+
+        & .dropcap {
+          line-height: 1;
+        }
       }
 
       & > #results-container {
@@ -212,9 +220,6 @@
 
           // normalize card props
           font-family: inherit;
-
-          // font-size: 100%;
-          // line-height: 1.15;
           margin: 0;
           text-transform: none;
           text-align: left;
