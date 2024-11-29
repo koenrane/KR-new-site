@@ -198,6 +198,7 @@ test("Search preview shows after bad entry", async ({ page }) => {
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible()
 
+  // If preview fails, it'll have no children
   const previewContent = previewContainer.locator(":scope > *")
   await expect(previewContent).toHaveCount(1)
 })

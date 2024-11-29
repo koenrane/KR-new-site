@@ -130,9 +130,9 @@ function escapeRegExp(text: string) {
 }
 
 function highlightHTML(searchTerm: string, el: HTMLElement) {
-  const p = new DOMParser()
+  const parser = new DOMParser()
   const tokenizedTerms = tokenizeTerm(searchTerm)
-  const html = p.parseFromString(el.innerHTML, "text/html")
+  const html = parser.parseFromString(el.innerHTML, "text/html")
 
   const createHighlightSpan = (text: string) => {
     const span = document.createElement("span")
