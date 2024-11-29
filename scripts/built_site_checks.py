@@ -125,13 +125,13 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     Check for paragraphs starting with specific phrases.
     """
     phrases = ("Table: ", "Figure: ", "Code: ")
-    prefixes = (": ",)  # Unrendered description list entry
+    prefixes = (r"^: ", r"^#+ ")
 
     problematic_paragraphs = []
     for p in soup.find_all(["p", "dt"]):
         text = p.get_text().strip()
         if any(phrase in text for phrase in phrases) or any(
-            text.startswith(prefix) for prefix in prefixes
+            re.match(prefix, text) for prefix in prefixes
         ):
             problematic_paragraphs.append(
                 text[:50] + "..." if len(text) > 50 else text

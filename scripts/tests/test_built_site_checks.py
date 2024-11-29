@@ -675,3 +675,41 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_spoilers(soup)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test unrendered heading
+        (
+            """
+            <p># Unrendered heading</p>
+            <p>## Another unrendered heading</p>
+            <p>Normal paragraph</p>
+            """,
+            ["# Unrendered heading", "## Another unrendered heading"],
+        ),
+        # Test mixed problematic cases
+        (
+            """
+            <p># Heading</p>
+            <p>Table: Description</p>
+            <p>Normal text</p>
+            """,
+            ["# Heading", "Table: Description"],
+        ),
+        # Test heading-like content mid-paragraph (should not be detected)
+        (
+            """
+            <p>This is not a # heading</p>
+            <p>Also not a ## heading</p>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_with_headings(html, expected):
+    """Check that unrendered headings (paragraphs starting with #) are flagged."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
