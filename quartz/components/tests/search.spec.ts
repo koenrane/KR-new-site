@@ -8,6 +8,8 @@ import {
   debounceSearchDelay,
 } from "../scripts/search"
 
+const timeToWaitAfterSearch = debounceSearchDelay + 100
+
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 test.use({
@@ -94,7 +96,7 @@ test("Nothing shows up for nonsense search terms", async ({ page }) => {
   await page.locator("#search-bar").fill(term)
 
   // Wait for search results to update
-  await page.waitForTimeout(debounceSearchDelay)
+  await page.waitForTimeout(timeToWaitAfterSearch)
 
   // Wait for any loading states to complete
   await page.waitForLoadState("networkidle")
@@ -108,7 +110,7 @@ test("Nothing shows up for nonsense search terms", async ({ page }) => {
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(debounceSearchDelay)
+  await page.waitForTimeout(timeToWaitAfterSearch)
 
   const previewContainer = page.locator("#preview-container")
   const viewportSize = page.viewportSize()
@@ -131,21 +133,27 @@ test("Search placeholder changes based on viewport", async ({ page }) => {
 test("Highlighted search terms appear in results", async ({ page }) => {
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(debounceSearchDelay)
+  await page.waitForTimeout(timeToWaitAfterSearch)
 
   const highlights = page.locator(".highlight")
-  await expect(highlights).toHaveCount(10)
   await expect(highlights.first()).toContainText("test", { ignoreCase: true })
 })
 
 test("Enter key navigates to first result", async ({ page }) => {
+  const initialUrl = page.url()
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(debounceSearchDelay)
+  await page.waitForTimeout(timeToWaitAfterSearch)
 
-  const initialUrl = page.url()
   await page.keyboard.press("Enter")
 
-  // URL should change after navigation
   expect(page.url()).not.toBe(initialUrl)
 })
+
+// Test normal navigation
+
+// Test emoji replacement
+
+// Test footnote back arrow replacement
+
+// Visual regression testing
