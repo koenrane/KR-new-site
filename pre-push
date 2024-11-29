@@ -137,5 +137,3 @@ echo "Updated date on publish."
 # Finally, timestamp the final commit
 sh "$GIT_ROOT/scripts/timestamp_last_commit.sh"
 echo "Timestamped last commit."
-
-git push --no-verify # For some reason, otherwise it doesn't push when done

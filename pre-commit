@@ -1,6 +1,7 @@
 #!/bin/sh
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
+conda activate website
 
 # Store file modification times before formatting
 touch /tmp/before_format /tmp/after_format
