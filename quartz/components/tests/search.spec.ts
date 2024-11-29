@@ -165,7 +165,6 @@ test("Enter key navigates to first result", async ({ page }) => {
   expect(page.url()).not.toBe(initialUrl)
 })
 
-// Test emoji replacement
 test("Emoji search works and is converted to twemoji", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "Testing site emoji")
@@ -183,7 +182,6 @@ test("Emoji search works and is converted to twemoji", async ({ page }) => {
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
-// Test footnote back arrow replacement
 test("Footnote back arrow is properly replaced", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -197,6 +195,23 @@ test("Footnote back arrow is properly replaced", async ({ page }) => {
     ...defaultOptions,
     element: footnoteLink,
   })
+})
+
+test("Clicking a same-page link navigates within the #preview-container", async ({ page }) => {
+  const initialUrl = page.url()
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+
+  const link = page.locator("#preview-container a.same-page-link").first()
+  const previewContainer = page.locator("#preview-container")
+  await link.scrollIntoViewIfNeeded()
+  const initialScreenshot = await previewContainer.screenshot()
+
+  await link.click()
+  expect(page.url()).toBe(initialUrl)
+
+  const afterScreenshot = await previewContainer.screenshot()
+  expect(initialScreenshot).not.toEqual(afterScreenshot)
 })
 
 // Test that images have mix-blend-mode: multiply

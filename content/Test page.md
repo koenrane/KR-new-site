@@ -164,7 +164,7 @@ Check out [GitHub](https://github.com).
 
 ## Smallcaps
 
-The <abbr>NATO</abbr> alliance met in the <abbr>USA</abbr>.
+The NATO alliance met in the USA.
 
 ## Numbers and units
 
