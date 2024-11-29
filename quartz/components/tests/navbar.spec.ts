@@ -134,3 +134,5 @@ test("Menu disappears gradually when scrolling down", async ({ page }, testInfo)
   expect(opacityValues).toContain(0) // Should end at 0
   expect(opacityValues.some((v) => v > 0 && v < 1)).toBeTruthy() // Should have intermediate values
 })
+
+// Todo check that shadow works
