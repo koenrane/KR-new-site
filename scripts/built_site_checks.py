@@ -139,6 +139,22 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     return problematic_paragraphs
 
 
+def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for unrendered spoilers.
+    """
+    unrendered_spoilers = []
+    blockquotes = soup.find_all("blockquote")
+    for blockquote in blockquotes:
+        # Check each paragraph / text child in the blockquote
+        for child in blockquote.children:
+            if child.name == "p":
+                text = child.get_text().strip()
+                if text.startswith("! "):
+                    unrendered_spoilers.append(text)
+    return unrendered_spoilers
+
+
 def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
     """
     Check for unrendered subtitle lines.
@@ -350,6 +366,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "missing_critical_css": not check_critical_css(soup),
         "empty_body": body_is_empty(soup),
         "duplicate_ids": check_duplicate_ids(soup),
+        "unrendered_spoilers": check_unrendered_spoilers(soup),
     }
 
     if "design" in file_path.name:

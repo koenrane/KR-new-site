@@ -599,3 +599,79 @@ def test_check_problematic_paragraphs_with_dt(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_problematic_paragraphs(soup)
     assert sorted(result) == sorted(expected)
+
+
+def test_check_unrendered_spoilers():
+    html = """
+    <html>
+    <body>
+        <blockquote>
+            <p>! This is an unrendered spoiler.</p>
+            <p>This is normal text.</p>
+        </blockquote>
+        <blockquote>
+            <p>This is a regular blockquote.</p>
+        </blockquote>
+        <p>! Outside of blockquote should not be detected.</p>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_spoilers(soup)
+    assert result == ["! This is an unrendered spoiler."]
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test unrendered spoiler inside blockquote
+        (
+            """
+            <blockquote>
+                <p>! Spoiler text here.</p>
+            </blockquote>
+            """,
+            ["! Spoiler text here."],
+        ),
+        # Test multiple unrendered spoilers
+        (
+            """
+            <blockquote>
+                <p>! First spoiler.</p>
+                <p>! Second spoiler.</p>
+            </blockquote>
+            """,
+            ["! First spoiler.", "! Second spoiler."],
+        ),
+        # Test no unrendered spoilers
+        (
+            """
+            <blockquote>
+                <p>This is a regular paragraph.</p>
+            </blockquote>
+            """,
+            [],
+        ),
+        # Test unrendered spoiler not in blockquote (should not be detected)
+        (
+            """
+            <p>! This should not be detected.</p>
+            """,
+            [],
+        ),
+        # Test text node directly inside blockquote
+        (
+            """
+            <blockquote>
+                ! This is a text node, not inside a <p> tag.
+                <p>This should not be detected.</p>
+            </blockquote>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_unrendered_spoilers_parametrized(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_spoilers(soup)
+    assert result == expected
