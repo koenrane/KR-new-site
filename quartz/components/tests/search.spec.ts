@@ -1,6 +1,13 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { test, expect, devices } from "@playwright/test"
 
+import {
+  desktopWidth,
+  searchPlaceholderDesktop,
+  searchPlaceholderMobile,
+  debounceSearchDelay,
+} from "../scripts/search"
+
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 test.use({
@@ -66,16 +73,19 @@ test("Search results appear and can be navigated", async ({ page }) => {
   const secondResult = resultCards.nth(1)
   await expect(secondResult).toBeFocused()
 
-  // Check that the preview appears if the width is greater than 1000
+  // Check that the preview appears if the width is greater than desktopWidth
   const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > 1000
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
   // Should have children -- means there's content
   await expect(previewContainer.first()).toBeVisible()
 
   // Take screenshot of search results
-  await argosScreenshot(page, "search-results", { ...defaultOptions, element: "#search-layout" })
+  await argosScreenshot(page, "search-results-preview-container", {
+    ...defaultOptions,
+    element: "#search-layout",
+  })
 })
 
 test("Nothing shows up for nonsense search terms", async ({ page }) => {
@@ -84,7 +94,7 @@ test("Nothing shows up for nonsense search terms", async ({ page }) => {
   await page.locator("#search-bar").fill(term)
 
   // Wait for search results to update
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(debounceSearchDelay)
 
   // Wait for any loading states to complete
   await page.waitForLoadState("networkidle")
@@ -98,31 +108,30 @@ test("Nothing shows up for nonsense search terms", async ({ page }) => {
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(debounceSearchDelay)
 
   const previewContainer = page.locator("#preview-container")
   const viewportSize = page.viewportSize()
-  const shouldBeVisible = viewportSize?.width && viewportSize.width > 1000
+  const shouldBeVisible = viewportSize?.width && viewportSize.width > desktopWidth
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldBeVisible) })
 })
 
 test("Search placeholder changes based on viewport", async ({ page }) => {
   const searchBar = page.locator("#search-bar")
+  const pageWidth = page.viewportSize()?.width
+  const showShortcutPlaceholder = pageWidth && pageWidth >= desktopWidth
 
-  // Desktop
-  await page.setViewportSize({ width: 1200, height: 800 })
   await page.keyboard.press("/")
-  await expect(searchBar).toHaveAttribute("placeholder", "Toggle search by pressing /")
-
-  // Mobile
-  await page.setViewportSize({ width: 390, height: 844 })
-  await expect(searchBar).toHaveAttribute("placeholder", "Search")
+  await expect(searchBar).toHaveAttribute(
+    "placeholder",
+    showShortcutPlaceholder ? searchPlaceholderDesktop : searchPlaceholderMobile,
+  )
 })
 
 test("Highlighted search terms appear in results", async ({ page }) => {
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(debounceSearchDelay)
 
   const highlights = page.locator(".highlight")
   await expect(highlights).toHaveCount(10)
@@ -132,7 +141,7 @@ test("Highlighted search terms appear in results", async ({ page }) => {
 test("Enter key navigates to first result", async ({ page }) => {
   await page.keyboard.press("/")
   await page.locator("#search-bar").fill("test")
-  await page.waitForTimeout(300)
+  await page.waitForTimeout(debounceSearchDelay)
 
   const initialUrl = page.url()
   await page.keyboard.press("Enter")

@@ -13,6 +13,8 @@ interface Item {
   tags: string[]
 }
 
+export const debounceSearchDelay = 250
+
 // Can be expanded with things like "term" in the future
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
@@ -53,7 +55,6 @@ interface FetchResult {
   frontmatter: Element
 }
 
-const p = new DOMParser()
 const fetchContentCache = new Map<FullSlug, Promise<FetchResult>>()
 const contextWindowWords = 30
 const numSearchResults = 8
@@ -163,13 +164,12 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
   return html.body
 }
 
+export const searchPlaceholderDesktop = "Toggle search by pressing /"
+export const searchPlaceholderMobile = "Search"
+export const desktopWidth = 1000
 function updatePlaceholder() {
   const searchBar = document.getElementById("search-bar")
-  const searchPlaceholderDesktop = "Toggle search by pressing /"
-  const searchPlaceholderMobile = "Search"
-
-  if (window.innerWidth > 1000) {
-    // TODO come with better test
+  if (window.innerWidth > desktopWidth) {
     // This is tablet width
     searchBar?.setAttribute("placeholder", searchPlaceholderDesktop)
   } else {
@@ -418,7 +418,9 @@ export function setupSearch() {
               if (contents === undefined) {
                 throw new Error(`Could not fetch ${targetUrl}`)
               }
-              const html = p.parseFromString(contents ?? "", "text/html")
+
+              const parser = new DOMParser()
+              const html = parser.parseFromString(contents ?? "", "text/html")
               normalizeRelativeURLs(html, targetUrl)
 
               // Extract frontmatter
@@ -543,7 +545,7 @@ export function setupSearch() {
       await displayResults(finalResults)
     }
 
-    const debouncedOnType = debounce(onType, 250, false)
+    const debouncedOnType = debounce(onType, debounceSearchDelay, false)
 
     // Store all event listener cleanup functions
     const listeners = new Set<() => void>()

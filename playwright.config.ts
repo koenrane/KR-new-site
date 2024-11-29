@@ -1,4 +1,4 @@
-import { defineConfig } from "@playwright/test"
+import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
   fullyParallel: true,
@@ -32,4 +32,24 @@ export default defineConfig({
     // Capture screenshot after each test failure.
     screenshot: "only-on-failure",
   },
+  projects: [
+    {
+      name: "Desktop Chrome",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+    {
+      name: "iPad Pro",
+      use: {
+        ...devices["iPad Pro"],
+      },
+    },
+    {
+      name: "iPhone 12",
+      use: {
+        ...devices["iPhone 12"],
+      },
+    },
+  ],
 })
