@@ -207,6 +207,8 @@ describe("Mass transforms", () => {
     ["Subtitle: This is a subtitle\nTest", "Subtitle: This is a subtitle\n\nTest"],
     ["Subtitle: This is a subtitle\n\n", "Subtitle: This is a subtitle\n\n"],
     ["subtitle: This isn't a subtitle\n", "subtitle: This isn't a subtitle\n"],
+    ["| header |\nTable: caption", "| header |\n\nTable: caption"],
+    ["| data |\n\nTable: Already spaced", "| data |\n\nTable: Already spaced"],
   ])("should perform transforms for %s", (input: string, expected: string) => {
     const result = massTransformText(input)
     expect(result).toBe(expected)

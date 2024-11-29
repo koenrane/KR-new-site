@@ -74,6 +74,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<= |^):\)(?= |$)/gm, "🙂"], // Smiling face
   [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
+  [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
 ]
 
 export function massTransformText(text: string): string {
