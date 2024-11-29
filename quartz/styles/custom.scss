@@ -390,7 +390,7 @@ figcaption,
 }
 
 .float-right {
-  margin: $base-margin calc(2 * $base-margin) calc($base-margin) calc(2 * $base-margin);
+  margin: calc(2 * $base-margin);
 
   & img,
   img.float-right {
@@ -716,19 +716,6 @@ img.emoji {
   mix-blend-mode: normal !important;
 }
 
-#alex-rainbow-date-me {
-  mix-blend-mode: normal;
-  width: calc(min(60%, 50vw));
-  max-width: 60%;
-  margin-top: 0;
-  margin-bottom: 0;
-
-  @media all and (max-width: $mobile-breakpoint) {
-    margin-right: 0;
-    margin-left: $base-margin;
-  }
-}
-
 .sequence-links {
   margin-bottom: calc(2 * $base-margin);
 }
@@ -984,6 +971,8 @@ iframe {
   border: none;
   width: 95%;
   border-radius: 5px;
+  margin-top: calc(2 * $base-margin);
+  margin-bottom: calc(2 * $base-margin);
 
   :root[saved-theme="light"] & {
     mix-blend-mode: multiply;

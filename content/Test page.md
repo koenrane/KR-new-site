@@ -41,6 +41,23 @@ Subtitle: This is a subtitle.
 >  2. With counters
 >      1. That track depth
 
+1. A normal ordered list
+    1. Indented
+        1. Indented
+            1. Indented
+                1. ...
+                    1. ...
+2. Test
+
+- Unordered list
+    - .
+        - .
+            - .
+                - .
+                    - .
+                - .
+    - The last bullet
+
 # Admonitions
 >
 > [!abstract]
@@ -124,11 +141,23 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
 Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
-# Float
+# Media
 
-# Videos
+## Video
 
-# Images
+<video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
+
+## Audio
+
+<center><audio src="https://assets.turntrout.com/static/audio/batman.mp3" controls> </audio></center>
+
+## Transclusion
+>
+> ![[about#^first-para]]
+
+## Fatebook embed
+
+<iframe src="https://fatebook.io/embed/q/are-you-going-to-like-turntrout-com---cm2u10nym00029cc3j1h05pot?compact=true&requireSignIn=false" height="200"></iframe>
 
 # Spoilers
 >
@@ -149,6 +178,17 @@ f(x) &= x^2 + 2x + 1 \\
 &= (x + 1)^2
 \end{aligned}
 $$
+
+$$
+\nabla \cdot \mathbf{E}  =\frac{\rho}{\varepsilon_0} \qquad
+\nabla \cdot \mathbf{B}  =0 \qquad
+\nabla \times \mathbf{E}  =-\frac{\partial \mathbf{B}}{\partial t} \qquad
+\nabla \times \mathbf{B}  =\mu_0\left(\mathbf{J}+\varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}\right)
+$$
+
+# Float
+
+<img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt="Alex smiling at the camera; rainbow colored light splays off the wall in the background."/>
 
 # Link features
 
@@ -202,6 +242,46 @@ This solution is 2/3 water, mixed on 01/01/2024.
 # Footnote demonstration
 
 This text omits a detail.[^footnote] This sentence has multiple footnotes.[^1][^2]
+
+# Code blocks
+
+```json
+"lint-staged": {
+ "*.{js, jsx, ts, tsx, css, scss, json}": "prettier --write",
+ "*.fish": "fish_indent",
+ "*.sh": "shfmt -i 2 -w",
+ "*.py": [
+     "autoflake --in-place",
+     "isort", 
+     "autopep8 --in-place",
+     "black"
+    ]
+}
+```
+
+# Formatting
+
+- Normal
+- _Italics_
+- __Bold__
+- ___Bold italics___
+- ~~Strikethrough~~
+
+## Special fonts
+
+Elvish
+<!-- spellchecker-disable -->
+: <em><span class="elvish" data-content="Ah! like gold fall the leaves in the wind,">hEÁ jyE7\`B\`V j1pE6E j8"\#\`B 8\~M75%5$ =</span></em>
+<!-- spellchecker-enable -->
+
+Scrawled handwriting
+: <span class="bad-handwriting"><b>TERROR</b></span>
+
+Gold script
+: _<span class="gold-script">Tips hat</span>_
+
+Corrupted text
+: <span class="corrupted">The corruption creeps ever closer...</span>
 
 [^1]: First footnote in a row.
 [^2]: Second footnote in a row.
