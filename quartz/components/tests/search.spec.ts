@@ -22,6 +22,13 @@ async function search(page: Page, term: string) {
   await page.waitForTimeout(timeToWaitAfterSearch)
 }
 
+async function setTheme(page: Page, theme: "light" | "dark") {
+  await page.evaluate((themeValue) => {
+    document.documentElement.setAttribute("saved-theme", themeValue)
+    console.log(document.documentElement)
+  }, theme)
+}
+
 function showingPreview(page: Page): boolean {
   const viewportSize = page.viewportSize()
   const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
@@ -214,7 +221,23 @@ test("Clicking a same-page link navigates within the #preview-container", async 
   expect(initialScreenshot).not.toEqual(afterScreenshot)
 })
 
-// Test that images have mix-blend-mode: multiply
+test.describe("Image's mix-blend-mode attribute", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.keyboard.press("/")
+    await search(page, "Testing site")
+  })
+
+  test("is multiply in light mode", async ({ page }) => {
+    const image = page.locator("#preview-container img").first()
+    await expect(image).toHaveCSS("mix-blend-mode", "multiply")
+  })
+
+  test("is normal in dark mode", async ({ page }) => {
+    await setTheme(page, "dark")
+    const image = page.locator("#preview-container img").first()
+    await expect(image).toHaveCSS("mix-blend-mode", "normal")
+  })
+})
 
 // Visual regression testing
 test("Opens the 'testing site features' page", async ({ page }) => {
