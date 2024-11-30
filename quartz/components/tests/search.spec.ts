@@ -63,7 +63,7 @@ test("Tag search opens with Ctrl+Shift+K", async ({ page }) => {
   // Take screenshot of tag search
   await argosScreenshot(page, "tag-search-open", {
     ...defaultOptions,
-    element: "#search-container",
+    element: "#search-space",
   })
 })
 

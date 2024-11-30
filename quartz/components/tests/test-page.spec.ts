@@ -7,10 +7,6 @@ test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
 })
 
-test("Overall page layout", async ({ page }) => {
-  await argosScreenshot(page, "test-page-full", defaultOptions)
-})
-
 test.describe("Admonitions", () => {
   test("Admonitions", async ({ page }) => {
     await argosScreenshot(page, "admonitions", {
@@ -78,15 +74,6 @@ test("Emoji rendering", async ({ page }) => {
     element: "#emoji-examples",
   })
 })
-
-test("Dark mode full page", async ({ page }) => {
-  await page.evaluate(() => {
-    document.documentElement.classList.add("dark")
-  })
-  await page.waitForTimeout(200)
-  await argosScreenshot(page, "dark-mode-full", defaultOptions)
-})
-
 test("Dark mode admonitions", async ({ page }) => {
   await page.evaluate(() => {
     document.documentElement.classList.add("dark")
@@ -124,12 +111,6 @@ test("Spoiler during hover", async ({ page }) => {
     element: "#spoilers",
   })
 })
-
-test("Mobile layout", async ({ page }) => {
-  await page.setViewportSize({ width: 390, height: 844 }) // iPhone 12 Pro dimensions
-  await argosScreenshot(page, "mobile-full", defaultOptions)
-})
-
 test("Mobile table", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await argosScreenshot(page, "mobile-table", {
