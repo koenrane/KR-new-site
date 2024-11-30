@@ -12,6 +12,7 @@ replit.nix
 *__pycache__*
 *subset.woff2
 *zopfli*
+*snapshots*
 
 # Backups
 *~

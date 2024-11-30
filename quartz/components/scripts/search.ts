@@ -20,20 +20,8 @@ type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
 
-const encoder = (str: string): string[] => {
-  // Return simple array for single characters
-  if (str.length === 1) {
-    return [str.toLowerCase()]
-  }
-
-  return str
-    .toLowerCase()
-    .split(/([^a-z\x00-\x7F])/) // eslint-disable-line no-control-regex
-    .filter((token) => token.length > 1)
-}
 const index = new FlexSearch.Document<Item>({
-  charset: "latin:extra",
-  encode: encoder,
+  charset: "latin:advanced",
   tokenize: "forward",
   document: {
     id: "id",
@@ -42,12 +30,12 @@ const index = new FlexSearch.Document<Item>({
       {
         field: "title",
         tokenize: "forward",
-        resolution: 9,
+        resolution: 3,
       },
       {
         field: "content",
         tokenize: "forward",
-        resolution: 9,
+        resolution: 3,
       },
       {
         field: "tags",
@@ -209,8 +197,8 @@ export function setupSearch() {
     }
 
     const enablePreview = searchLayout?.dataset?.preview === "true"
-    let preview: HTMLDivElement | undefined = undefined
-    let previewInner: HTMLElement | undefined = undefined
+    let preview: HTMLDivElement | undefined
+    let previewInner: HTMLElement | undefined
     const results = document.createElement("div")
     results.id = "results-container"
     appendLayout(results)
