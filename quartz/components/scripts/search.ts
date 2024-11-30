@@ -462,6 +462,11 @@ export function setupSearch() {
           previewInner = document.createElement("article")
           previewInner.classList.add("preview-inner")
           preview.appendChild(previewInner)
+
+          // Add click event listener to navigate to the page
+          preview.addEventListener("click", () => {
+            window.location.href = resolveUrl(slug).toString()
+          })
         }
 
         previewInner.setAttribute("data-use-dropcap", useDropcap.toString())

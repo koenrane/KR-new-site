@@ -332,4 +332,26 @@ test("The pond dropcaps in preview have a different id, preventing id duplicatio
   expect(previewPondDropcaps).toHaveCount(1)
 })
 
-// Check that clicking a same-page link in preview navigates to the correct section
+test("Preview container click navigates to the correct page on desktop", async ({ page }) => {
+  if (!showingPreview(page)) {
+    return
+  }
+
+  // Set viewport to desktop size to ensure preview is visible
+  await page.setViewportSize({ width: desktopWidth + 100, height: 800 })
+
+  // Open search and type a term
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+
+  // Get the URL of the first result for comparison
+  const firstResult = page.locator(".result-card").first()
+  const expectedUrl = await firstResult.getAttribute("href")
+
+  // Click the preview container
+  const previewContainer = page.locator("#preview-container")
+  await previewContainer.click()
+
+  // Verify navigation occurred to the correct URL
+  expect(page.url()).toBe(expectedUrl)
+})

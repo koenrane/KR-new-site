@@ -185,6 +185,7 @@
         font-weight: $normal-weight;
         overflow-y: auto;
         margin: calc(2 * $base-margin) calc(4 * $base-margin);
+        cursor: pointer;
 
         & .preview-inner {
           margin: 0 auto;
