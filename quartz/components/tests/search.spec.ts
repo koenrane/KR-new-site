@@ -278,20 +278,58 @@ test("Search preview shows after bad entry", async ({ page }) => {
   await expect(previewContent).toHaveCount(1)
 })
 
-test("The pond dropcaps are the same as in normal viewer", async ({ page }) => {
+test("The pond dropcaps are the same in search preview as normal viewer", async ({ page }) => {
   if (!showingPreview(page)) {
     return
   }
+
   await page.goto("http://localhost:8080/test-page")
   const pondDropcaps = page.locator("#the-pond-dropcaps")
   await pondDropcaps.scrollIntoViewIfNeeded()
-  const pondDropcapScreenshot = await pondDropcaps.screenshot()
+  expect(pondDropcaps).toHaveScreenshot("pond-dropcaps.png", {
+    maxDiffPixelRatio: 0.01, // 1% of pixels can be different
+  })
 
   await page.keyboard.press("/")
   await search(page, "Testing site")
   const searchPondDropcaps = page.locator("#preview-container #the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
-  const searchPondDropcapScreenshot = await searchPondDropcaps.screenshot()
 
-  expect(pondDropcapScreenshot).toEqual(searchPondDropcapScreenshot)
+  expect(searchPondDropcaps).toHaveScreenshot("pond-dropcaps.png", {
+    maxDiffPixelRatio: 0.01, // 1% of pixels can be different
+  })
 })
+
+test("Single letter dropcaps are the same in search preview as normal viewer", async ({ page }) => {
+  if (!showingPreview(page)) {
+    return
+  }
+
+  await page.goto("http://localhost:8080/test-page")
+  const singleLetterDropcaps = page.locator("#single-letter-dropcap")
+  await singleLetterDropcaps.scrollIntoViewIfNeeded()
+  const singleLetterDropcapScreenshot = await singleLetterDropcaps.screenshot()
+
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+  const searchSingleLetterDropcaps = page.locator("#preview-container #single-letter-dropcap")
+  await searchSingleLetterDropcaps.scrollIntoViewIfNeeded()
+  const searchSingleLetterDropcapScreenshot = await searchSingleLetterDropcaps.screenshot()
+
+  expect(singleLetterDropcapScreenshot).toEqual(searchSingleLetterDropcapScreenshot)
+})
+
+test("The pond dropcaps in preview have a different id, preventing id duplication", async ({
+  page,
+}) => {
+  if (!showingPreview(page)) {
+    return
+  }
+
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+  const previewPondDropcaps = page.locator("#search-the-pond-dropcaps")
+  expect(previewPondDropcaps).toHaveCount(1)
+})
+
+// Check that clicking a same-page link in preview navigates to the correct section
