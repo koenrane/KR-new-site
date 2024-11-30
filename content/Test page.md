@@ -194,7 +194,7 @@ $$
 
 ## Internal links
 
-Here's a link to [another page](/some-page) with popover preview.
+Here's a link to [another page](/some-page) with popover preview. [This same-page link goes to the "smallcaps" section.](#smallcaps)
 
 ## External links with favicons
 
@@ -220,9 +220,9 @@ This solution is 2/3 water, mixed on 01/01/2024.
 
 ## Dropcaps
 
-<span class="dropcap" data-first-letter="T">T</span>his paragraph demonstrates a dropcap.
+<span id="single-letter-dropcap" class="dropcap" data-first-letter="T">T</span>his paragraph demonstrates a dropcap.
 
-<center id="the-pond-dropcaps" style="font-size:min(4rem, 15vw);">
+<center id="the-pond-dropcaps" style="font-size:min(4rem, 15vw);line-height:1;">
 <span class="dropcap" data-first-letter="T" style="color: color-mix(in srgb, 55% red, var(--midground-fainter));">T</span>
 <span class="dropcap" data-first-letter="H" style="color: color-mix(in srgb, 55% orange, var(--midground-fainter));">H</span>
 <span class="dropcap" data-first-letter="E"  style="color: color-mix(in srgb, 65% yellow, var(--midground-fainter));">E</span>
