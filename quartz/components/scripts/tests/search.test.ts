@@ -10,11 +10,11 @@ describe("Search Module Functions", () => {
   let rootNode: HTMLElement
 
   beforeEach(() => {
-    // Set up a sample DOM structure for testing
+    // Updated sample DOM structure to include links without 'same-page-link' class
     document.body.innerHTML = `
       <div id="root">
         <div id="child1">
-          <a href="#section1" class="same-page-link">Link to Section 1</a>
+          <a href="#section1" class="internal alias">Link to Section 1</a>
           <h2 id="section1">Section 1</h2>
           <a href="#section2" class="same-page-link">Link to Section 2</a>
           <h2 id="section2">Section 2</h2>

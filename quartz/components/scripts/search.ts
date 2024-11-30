@@ -630,14 +630,14 @@ export function descendantsWithId(rootNode: Element): HTMLElement[] {
  * Return all descendants with a same-page-link class
  */
 export function descendantsSamePageLinks(rootNode: Element): HTMLAnchorElement[] {
-  const nodeListElements = rootNode.querySelectorAll<HTMLAnchorElement>("a.same-page-link")
+  // Select all 'a' elements with 'href' starting with '#'
+  const nodeListElements = rootNode.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
   return Array.from(nodeListElements)
 }
 
 /**
  * Recursively prefixes all IDs and adjusts attributes that reference IDs.
- * @param element - The root element to start from.
- * @param prefix - The string to prepend to each ID.
+ * @param rootNode - The root element to start from.
  */
 export function prefixDescendantIds(rootNode: HTMLElement): void {
   const idDescendants = descendantsWithId(rootNode)
@@ -645,12 +645,18 @@ export function prefixDescendantIds(rootNode: HTMLElement): void {
 
   for (const descendant of idDescendants) {
     const id = descendant.id
+
     const matchingLinks = samePageLinks.filter((link) => {
-      return link.href.endsWith(`#${id}`)
+      const href = link.getAttribute("href")
+      return href === `#${id}`
     })
 
     for (const matchLink of matchingLinks) {
-      matchLink.href = matchLink.href.replace(`#${id}`, `#search-${id}`)
+      const oldHref = matchLink.getAttribute("href")
+      if (oldHref) {
+        const newHref = oldHref.replace(`#${id}`, `#search-${id}`)
+        matchLink.setAttribute("href", newHref)
+      }
     }
 
     descendant.id = `search-${id}`
