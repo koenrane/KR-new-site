@@ -316,6 +316,8 @@ code {
 
 // For usage in the middle of a paragraph
 .dropcap {
+  display: inline-block;
+
   // The background glyph
   font-family: "EBGaramondInitialsF1", serif;
   color: var(--midground-faint);
@@ -325,10 +327,6 @@ code {
 
   p & {
     vertical-align: -0.15rem;
-
-    &::before {
-      top: -0.15rem;
-    }
   }
 
   &::before {
