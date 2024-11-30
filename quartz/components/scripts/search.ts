@@ -1,3 +1,4 @@
+// NOTE: The function documentation is AI-generated. Take with a grain of salt.
 import FlexSearch from "flexsearch"
 
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
@@ -13,9 +14,11 @@ interface Item {
   tags: string[]
 }
 
+/**
+ * Delay in milliseconds before triggering a search after user input
+ */
 export const debounceSearchDelay = 250
 
-// Can be expanded with things like "term" in the future
 type SearchType = "basic" | "tags"
 let searchType: SearchType = "basic"
 let currentSearchTerm = ""
@@ -55,6 +58,13 @@ const contextWindowWords = 30
 const numSearchResults = 8
 const numTagResults = 5
 
+/**
+ * Tokenizes a search term into individual words and their combinations
+ * @param term - The search term to tokenize
+ * @returns Array of tokens, sorted by length (longest first)
+ * @example
+ * tokenizeTerm("hello world") // returns ["hello world", "hello", "world"]
+ */
 const tokenizeTerm = (term: string) => {
   const tokens = term.split(/\s+/).filter((t) => t.trim() !== "")
   const tokenLen = tokens.length
@@ -67,6 +77,13 @@ const tokenizeTerm = (term: string) => {
   return tokens.sort((a, b) => b.length - a.length) // always highlight longest terms first
 }
 
+/**
+ * Highlights search terms within a text string
+ * @param searchTerm - Term to highlight
+ * @param text - Text to search within
+ * @param trim - If true, returns a window of text around matches
+ * @returns HTML string with highlighted terms wrapped in <span class="highlight">
+ */
 function highlight(searchTerm: string, text: string, trim?: boolean) {
   const tokenizedTerms = tokenizeTerm(searchTerm)
   let tokenizedText = text.split(/\s+/).filter((t) => t !== "")
@@ -113,10 +130,20 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
   }`
 }
 
+/**
+ * Escapes special characters in a string for use in RegExp
+ * @param text - String to escape
+ */
 function escapeRegExp(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 }
 
+/**
+ * Highlights search terms within HTML content while preserving HTML structure
+ * @param searchTerm - Term to highlight
+ * @param el - HTML element to search within
+ * @returns DOM node with highlighted terms
+ */
 function highlightHTML(searchTerm: string, el: HTMLElement) {
   const parser = new DOMParser()
   const tokenizedTerms = tokenizeTerm(searchTerm)
@@ -162,6 +189,9 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
 export const searchPlaceholderDesktop = "Toggle search by pressing /"
 export const searchPlaceholderMobile = "Search"
 export const desktopWidth = 1000
+/**
+ * Updates the search bar placeholder text based on screen width
+ */
 function updatePlaceholder() {
   const searchBar = document.getElementById("search-bar")
   if (window.innerWidth > desktopWidth) {
@@ -172,6 +202,9 @@ function updatePlaceholder() {
   }
 }
 
+/**
+ * Hides the search interface and resets its state
+ */
 function hideSearch() {
   const container = document.getElementById("search-container")
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
@@ -205,6 +238,10 @@ let previewInner: HTMLElement | undefined
 let currentHover: HTMLInputElement | null = null
 let currentSlug: FullSlug
 
+/**
+ * Handles navigation events by setting up search functionality
+ * @param e - Navigation event
+ */
 async function onNav(e: CustomEventMap["nav"]) {
   // Clean up previous listeners if they exist
   if (cleanupListeners) {
@@ -339,6 +376,12 @@ async function onNav(e: CustomEventMap["nav"]) {
   await fillDocument(data)
 }
 
+/**
+ * Fetches and caches content for a given slug
+ * Note: This function's correctness depends on the HTML structure of your content
+ * and should be verified with your specific setup
+ * @param slug - Page slug to fetch
+ */
 async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   if (!fetchContentCache.has(slug)) {
     const fetchPromise = (async () => {
@@ -374,6 +417,10 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
+/**
+ * Displays a preview of the selected search result
+ * @param el - Selected result element
+ */
 async function displayPreview(el: HTMLElement | null) {
   const enablePreview = searchLayout?.dataset?.preview === "true"
   if (!searchLayout || !enablePreview || !el || !preview) return
@@ -428,6 +475,13 @@ async function displayPreview(el: HTMLElement | null) {
 
 let cleanupListeners: (() => void) | undefined
 
+/**
+ * Adds an event listener and tracks it for cleanup
+ * @param element - Element to attach listener to
+ * @param event - Event name
+ * @param handler - Event handler
+ * @param listeners - Set to track cleanup functions
+ */
 function addListener(
   element: Element | Document | null,
   event: string,
@@ -439,6 +493,10 @@ function addListener(
   listeners.add(() => element.removeEventListener(event, handler))
 }
 
+/**
+ * Handles search input changes
+ * @param e - Input event
+ */
 async function onType(e: HTMLElementEventMap["input"]) {
   if (!searchLayout || !index) return
   const enablePreview = searchLayout?.dataset?.preview === "true"
@@ -483,18 +541,15 @@ async function onType(e: HTMLElementEventMap["input"]) {
       bool: "or",
       suggest: true,
     })
-  }
-
-  const getByField = (field: string): number[] => {
-    const results = searchResults.filter((x) => x.field === field)
-    return results.length === 0 ? [] : ([...results[0].result] as number[])
+  } else {
+    throw new Error("Invalid search type")
   }
 
   // order titles ahead of content
   const allIds: Set<number> = new Set([
-    ...getByField("title"),
-    ...getByField("content"),
-    ...getByField("tags"),
+    ...getByField("title", searchResults),
+    ...getByField("content", searchResults),
+    ...getByField("tags", searchResults),
   ])
   const idDataMap = Object.keys(data ?? {}) as FullSlug[]
   if (!data) return
@@ -504,6 +559,26 @@ async function onType(e: HTMLElementEventMap["input"]) {
   await displayResults(finalResults, results, enablePreview)
 }
 
+/**
+ * Retrieves IDs from search results based on a specific field
+ * @param field - Field name to filter by
+ * @param searchResults - Search results to filter
+ * @returns Array of IDs
+ */
+const getByField = (
+  field: string,
+  searchResults: FlexSearch.SimpleDocumentSearchResultSetUnit[],
+): number[] => {
+  const results = searchResults.filter((x) => x.field === field)
+  return results.length === 0 ? [] : ([...results[0].result] as number[])
+}
+
+/**
+ * Displays search results in the UI
+ * @param finalResults - Processed search results
+ * @param results - Container element for results
+ * @param enablePreview - Whether preview is enabled
+ */
 async function displayResults(finalResults: Item[], results: HTMLElement, enablePreview: boolean) {
   if (!results) return
 
@@ -529,6 +604,13 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
   }
 }
 
+/**
+ * Formats search result data for display
+ * @param term - Search term
+ * @param id - Result ID
+ * @param data - Content data
+ * @param idDataMap - Mapping of IDs to slugs
+ */
 const formatForDisplay = (
   term: string,
   id: number,
@@ -545,6 +627,12 @@ const formatForDisplay = (
   }
 }
 
+/**
+ * Highlights matching tags in search results
+ * @param term - Search term
+ * @param tags - Array of tags
+ * @returns Array of HTML strings for tags
+ */
 function highlightTags(term: string, tags: string[]) {
   if (!tags || searchType !== "tags") {
     return []
@@ -565,6 +653,9 @@ function resolveUrl(slug: FullSlug, currentSlug: FullSlug): URL {
   return new URL(resolveRelative(currentSlug, slug), location.toString())
 }
 
+/**
+ * Initializes search functionality
+ */
 export function setupSearch() {
   document.addEventListener("nav", onNav)
 }
