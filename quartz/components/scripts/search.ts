@@ -472,11 +472,15 @@ export function setupSearch() {
         // Immediately add and highlight content
         content.forEach((el) => {
           const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
+
           if (previewInner) {
             // Extend previewInner with the children of highlightedContent
             previewInner.append(...Array.from(highlightedContent.childNodes))
           }
         })
+
+        // Prefix IDs in the highlighted content to prevent duplication
+        prefixDescendantIds(previewInner)
 
         // Scroll to the first highlight immediately
         const highlights = [...preview.querySelectorAll(".highlight")].sort(
@@ -604,4 +608,51 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
   }
 
   return await Promise.all(promises)
+}
+
+/*
+ * Return all descendants with an ID
+ */
+export function descendantsWithId(rootNode: Element): HTMLElement[] {
+  const elementsWithId: HTMLElement[] = []
+  const children = rootNode.querySelectorAll<HTMLElement>("*")
+
+  children.forEach((child) => {
+    if (child.id && !child.id.startsWith("search-")) {
+      elementsWithId.push(child)
+    }
+  })
+
+  return elementsWithId
+}
+
+/*
+ * Return all descendants with a same-page-link class
+ */
+export function descendantsSamePageLinks(rootNode: Element): HTMLAnchorElement[] {
+  const nodeListElements = rootNode.querySelectorAll<HTMLAnchorElement>("a.same-page-link")
+  return Array.from(nodeListElements)
+}
+
+/**
+ * Recursively prefixes all IDs and adjusts attributes that reference IDs.
+ * @param element - The root element to start from.
+ * @param prefix - The string to prepend to each ID.
+ */
+export function prefixDescendantIds(rootNode: HTMLElement): void {
+  const idDescendants = descendantsWithId(rootNode)
+  const samePageLinks = descendantsSamePageLinks(rootNode)
+
+  for (const descendant of idDescendants) {
+    const id = descendant.id
+    const matchingLinks = samePageLinks.filter((link) => {
+      return link.href.endsWith(`#${id}`)
+    })
+
+    for (const matchLink of matchingLinks) {
+      matchLink.href = matchLink.href.replace(`#${id}`, `#search-${id}`)
+    }
+
+    descendant.id = `search-${id}`
+  }
 }
