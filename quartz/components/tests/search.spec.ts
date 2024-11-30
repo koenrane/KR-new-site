@@ -101,7 +101,7 @@ test("Search results appear and can be navigated", async ({ page }) => {
 
 test("Nothing shows up for nonsense search terms", async ({ page }) => {
   await page.keyboard.press("/")
-  await search(page, "zzzzzz")
+  await search(page, "feiwopqclvxk")
 
   // Assert that there are no results
   const resultCards = page.locator(".result-card")
