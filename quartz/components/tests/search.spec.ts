@@ -190,7 +190,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }) => {
 
 test("Footnote back arrow is properly replaced", async ({ page }) => {
   if (!showingPreview(page)) {
-    return
+    test.skip()
   }
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -263,7 +263,7 @@ test("Search preview shows after bad entry", async ({ page }) => {
 
 test("The pond dropcaps are the same in search preview as normal viewer", async ({ page }) => {
   if (!showingPreview(page)) {
-    return
+    test.skip()
   }
 
   await page.goto("http://localhost:8080/test-page")
@@ -285,7 +285,7 @@ test("The pond dropcaps are the same in search preview as normal viewer", async 
 
 test("Single letter dropcaps are the same in search preview as normal viewer", async ({ page }) => {
   if (!showingPreview(page)) {
-    return
+    test.skip()
   }
 
   await page.goto("http://localhost:8080/test-page")
@@ -306,7 +306,7 @@ test("The pond dropcaps in preview have a different id, preventing id duplicatio
   page,
 }) => {
   if (!showingPreview(page)) {
-    return
+    test.skip()
   }
 
   await page.keyboard.press("/")
@@ -317,7 +317,7 @@ test("The pond dropcaps in preview have a different id, preventing id duplicatio
 
 test("Preview container click navigates to the correct page on desktop", async ({ page }) => {
   if (!showingPreview(page)) {
-    return
+    test.skip()
   }
 
   // Set viewport to desktop size to ensure preview is visible
