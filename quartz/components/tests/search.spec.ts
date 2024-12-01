@@ -1,5 +1,4 @@
-import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { test, expect, Page, TestInfo } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
 
 import {
   desktopWidth,
@@ -7,10 +6,9 @@ import {
   searchPlaceholderMobile,
   debounceSearchDelay,
 } from "../scripts/search"
+import { takeArgosScreenshot, setTheme } from "./visual_utils"
 
 const timeToWaitAfterSearch = debounceSearchDelay + 100
-
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/welcome")
@@ -20,25 +18,6 @@ async function search(page: Page, term: string) {
   const searchBar = page.locator("#search-bar")
   await searchBar.fill(term)
   await page.waitForTimeout(timeToWaitAfterSearch)
-}
-
-const THEME_TRANSITION_DELAY = 250 // ms
-
-async function setTheme(page: Page, theme: "light" | "dark") {
-  await page.evaluate((themeValue) => {
-    document.documentElement.setAttribute("saved-theme", themeValue)
-  }, theme)
-
-  await page.waitForTimeout(THEME_TRANSITION_DELAY)
-}
-
-async function takeArgosScreenshot(
-  page: Page,
-  testInfo: TestInfo,
-  screenshotSuffix: string,
-  options?: ArgosScreenshotOptions,
-) {
-  await argosScreenshot(page, `${testInfo.title}-${screenshotSuffix}`, options)
 }
 
 function showingPreview(page: Page): boolean {
@@ -75,7 +54,6 @@ test("Tag search opens with Ctrl+Shift+K", async ({ page }, testInfo) => {
 
   // Take screenshot of tag search
   await takeArgosScreenshot(page, testInfo, "", {
-    ...defaultOptions,
     element: "#search-space",
   })
 })
@@ -107,7 +85,6 @@ test("Search results appear and can be navigated", async ({ page }, testInfo) =>
 
   // Take screenshot of search results
   await takeArgosScreenshot(page, testInfo, "", {
-    ...defaultOptions,
     element: "#search-layout",
   })
 })
@@ -192,7 +169,6 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
   await expect(firstResult).toContainText("Testing Site Features")
   if (showingPreview(page)) {
     await takeArgosScreenshot(page, testInfo, "", {
-      ...defaultOptions,
       element: "#preview-container",
     })
   }
@@ -214,7 +190,6 @@ test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
   await expect(footnoteLink).toBeVisible()
 
   await takeArgosScreenshot(page, testInfo, "", {
-    ...defaultOptions,
     element: footnoteLink,
   })
 })
@@ -247,7 +222,6 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
   const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
   if (shouldShowPreview) {
     await takeArgosScreenshot(page, testInfo, "", {
-      ...defaultOptions,
       element: "#preview-container",
     })
   }
@@ -260,6 +234,9 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 })
 
 test("Search preview shows after bad entry", async ({ page }) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
   await page.keyboard.press("/")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
@@ -285,7 +262,6 @@ test("The pond dropcaps, search preview visual regression test", async ({ page }
   await searchPondDropcaps.scrollIntoViewIfNeeded()
 
   await takeArgosScreenshot(page, testInfo, "", {
-    ...defaultOptions,
     element: "#search-the-pond-dropcaps",
   })
 })
@@ -301,7 +277,6 @@ test("Single letter dropcaps, search preview visual regression test", async ({
   const singleLetterDropcaps = page.locator("#single-letter-dropcap")
   await singleLetterDropcaps.scrollIntoViewIfNeeded()
   await takeArgosScreenshot(page, testInfo, "", {
-    ...defaultOptions,
     element: "#single-letter-dropcap",
   })
 })

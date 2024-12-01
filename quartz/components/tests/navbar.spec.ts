@@ -1,7 +1,6 @@
-import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { test, expect } from "@playwright/test"
 
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
+import { takeArgosScreenshot } from "./visual_utils"
 
 // TODO take argos screenshots
 test("Clicking away closes the menu", async ({ page }) => {
@@ -22,7 +21,7 @@ test("Clicking away closes the menu", async ({ page }) => {
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
 })
 
-test("Menu button makes menu visible", async ({ page }) => {
+test("Menu button makes menu visible", async ({ page }, testInfo) => {
   await page.goto("http://localhost:8080/welcome")
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -37,7 +36,9 @@ test("Menu button makes menu visible", async ({ page }) => {
   expect(await menuButton.screenshot()).not.toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
-  await argosScreenshot(page, "visible-menu", { ...defaultOptions, element: "#navbar-right .menu" })
+  await takeArgosScreenshot(page, testInfo, "visible-menu", {
+    element: "#navbar-right .menu",
+  })
 
   // Test closed state
   await menuButton.click()
