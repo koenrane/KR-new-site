@@ -47,9 +47,13 @@ const combinedRegex = new RegExp(
   "g",
 )
 
-export function skipFormatting(node: Node): boolean {
+export function skipSmallcaps(node: Node): boolean {
   if (node.type === "element") {
-    return hasClass(node as Element, "no-smallcaps") || hasClass(node as Element, "no-formatting")
+    return (
+      hasClass(node as Element, "no-smallcaps") ||
+      hasClass(node as Element, "no-formatting") ||
+      hasClass(node as Element, "bad-handwriting")
+    )
   }
   return false
 }
@@ -68,7 +72,7 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   // Check for no-smallcaps or no-formatting classes on any ancestor
   if (
     ancestors &&
-    ancestors.some((ancestor) => ancestor.type === "element" && skipFormatting(ancestor))
+    ancestors.some((ancestor) => ancestor.type === "element" && skipSmallcaps(ancestor))
   ) {
     return true
   }

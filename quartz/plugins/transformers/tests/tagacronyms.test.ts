@@ -13,7 +13,7 @@ import {
   validSmallCapsPhrase,
   allCapsContinuation,
   REGEX_ALL_CAPS_PHRASE,
-  skipFormatting,
+  skipSmallcaps,
   ignoreAcronym,
 } from "../tagacronyms"
 
@@ -409,10 +409,15 @@ describe("skipFormatting", () => {
       element: h("div"),
       expected: false,
     },
+    {
+      desc: "should return true for bad-handwriting class",
+      element: h("div", { class: "bad-handwriting" }),
+      expected: true,
+    },
   ]
 
   it.each(testCases)("$desc", ({ element, expected }) => {
-    expect(skipFormatting(element)).toBe(expected)
+    expect(skipSmallcaps(element)).toBe(expected)
   })
 })
 
