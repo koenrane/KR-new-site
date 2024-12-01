@@ -1,5 +1,5 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { test, expect, Page } from "@playwright/test"
+import { test, expect, Page, TestInfo } from "@playwright/test"
 
 import {
   desktopWidth,
@@ -22,10 +22,23 @@ async function search(page: Page, term: string) {
   await page.waitForTimeout(timeToWaitAfterSearch)
 }
 
+const THEME_TRANSITION_DELAY = 250 // ms
+
 async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
     document.documentElement.setAttribute("saved-theme", themeValue)
   }, theme)
+
+  await page.waitForTimeout(THEME_TRANSITION_DELAY)
+}
+
+async function takeArgosScreenshot(
+  page: Page,
+  testInfo: TestInfo,
+  screenshotSuffix: string,
+  options?: ArgosScreenshotOptions,
+) {
+  await argosScreenshot(page, `${testInfo.title}-${screenshotSuffix}`, options)
 }
 
 function showingPreview(page: Page): boolean {
@@ -51,7 +64,7 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
   await expect(searchContainer).not.toHaveClass(/active/)
 })
 
-test("Tag search opens with Ctrl+Shift+K", async ({ page }) => {
+test("Tag search opens with Ctrl+Shift+K", async ({ page }, testInfo) => {
   const searchContainer = page.locator("#search-container")
   const searchBar = page.locator("#search-bar")
 
@@ -61,13 +74,13 @@ test("Tag search opens with Ctrl+Shift+K", async ({ page }) => {
   await expect(searchBar).toHaveValue("#")
 
   // Take screenshot of tag search
-  await argosScreenshot(page, "tag-search-open", {
+  await takeArgosScreenshot(page, testInfo, "", {
     ...defaultOptions,
     element: "#search-space",
   })
 })
 
-test("Search results appear and can be navigated", async ({ page }) => {
+test("Search results appear and can be navigated", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")
 
@@ -93,7 +106,7 @@ test("Search results appear and can be navigated", async ({ page }) => {
   await expect(previewContainer.first()).toBeVisible({ visible: Boolean(shouldShowPreview) })
 
   // Take screenshot of search results
-  await argosScreenshot(page, "search-results-preview-container", {
+  await takeArgosScreenshot(page, testInfo, "", {
     ...defaultOptions,
     element: "#search-layout",
   })
@@ -171,14 +184,14 @@ test("Enter key navigates to first result", async ({ page }) => {
   expect(page.url()).not.toBe(initialUrl)
 })
 
-test("Emoji search works and is converted to twemoji", async ({ page }) => {
+test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Testing site emoji")
 
   const firstResult = page.locator(".result-card").first()
   await expect(firstResult).toContainText("Testing Site Features")
   if (showingPreview(page)) {
-    await argosScreenshot(page, "search-results-preview-container", {
+    await takeArgosScreenshot(page, testInfo, "", {
       ...defaultOptions,
       element: "#preview-container",
     })
@@ -188,7 +201,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }) => {
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
-test("Footnote back arrow is properly replaced", async ({ page }) => {
+test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
   if (!showingPreview(page)) {
     test.skip()
   }
@@ -200,7 +213,7 @@ test("Footnote back arrow is properly replaced", async ({ page }) => {
   expect(footnoteLink).toContainText("⤴")
   await expect(footnoteLink).toBeVisible()
 
-  await argosScreenshot(page, "search-results-preview-footnote-link", {
+  await takeArgosScreenshot(page, testInfo, "", {
     ...defaultOptions,
     element: footnoteLink,
   })
@@ -225,7 +238,7 @@ test.describe("Image's mix-blend-mode attribute", () => {
 })
 
 // Visual regression testing
-test("Opens the 'testing site features' page", async ({ page }) => {
+test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
@@ -233,7 +246,7 @@ test("Opens the 'testing site features' page", async ({ page }) => {
   const viewportSize = page.viewportSize()
   const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
   if (shouldShowPreview) {
-    await argosScreenshot(page, "search-results-preview-container", {
+    await takeArgosScreenshot(page, testInfo, "", {
       ...defaultOptions,
       element: "#preview-container",
     })
@@ -261,29 +274,25 @@ test("Search preview shows after bad entry", async ({ page }) => {
   await expect(previewContent).toHaveCount(1)
 })
 
-test("The pond dropcaps are the same in search preview as normal viewer", async ({ page }) => {
+test("The pond dropcaps, search preview visual regression test", async ({ page }, testInfo) => {
   if (!showingPreview(page)) {
     test.skip()
   }
-
-  await page.goto("http://localhost:8080/test-page")
-  const pondDropcaps = page.locator("#the-pond-dropcaps")
-  await pondDropcaps.scrollIntoViewIfNeeded()
-  expect(pondDropcaps).toHaveScreenshot("pond-dropcaps.png", {
-    maxDiffPixelRatio: 0.01, // 1% of pixels can be different
-  })
 
   await page.keyboard.press("/")
   await search(page, "Testing site")
   const searchPondDropcaps = page.locator("#search-the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
 
-  expect(searchPondDropcaps).toHaveScreenshot("pond-dropcaps.png", {
-    maxDiffPixelRatio: 1, // 1% of pixels can be different
+  await takeArgosScreenshot(page, testInfo, "", {
+    ...defaultOptions,
+    element: "#search-the-pond-dropcaps",
   })
 })
 
-test("Single letter dropcaps are the same in search preview as normal viewer", async ({ page }) => {
+test("Single letter dropcaps, search preview visual regression test", async ({
+  page,
+}, testInfo) => {
   if (!showingPreview(page)) {
     test.skip()
   }
@@ -291,15 +300,10 @@ test("Single letter dropcaps are the same in search preview as normal viewer", a
   await page.goto("http://localhost:8080/test-page")
   const singleLetterDropcaps = page.locator("#single-letter-dropcap")
   await singleLetterDropcaps.scrollIntoViewIfNeeded()
-  const singleLetterDropcapScreenshot = await singleLetterDropcaps.screenshot()
-
-  await page.keyboard.press("/")
-  await search(page, "Testing site")
-  const searchSingleLetterDropcaps = page.locator("#preview-container #single-letter-dropcap")
-  await searchSingleLetterDropcaps.scrollIntoViewIfNeeded()
-  const searchSingleLetterDropcapScreenshot = await searchSingleLetterDropcaps.screenshot()
-
-  expect(singleLetterDropcapScreenshot).toEqual(searchSingleLetterDropcapScreenshot)
+  await takeArgosScreenshot(page, testInfo, "", {
+    ...defaultOptions,
+    element: "#single-letter-dropcap",
+  })
 })
 
 test("The pond dropcaps in preview have a different id, preventing id duplication", async ({
