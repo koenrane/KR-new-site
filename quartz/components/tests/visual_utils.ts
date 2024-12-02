@@ -30,16 +30,18 @@ export async function takeScreenshotAfterElement(
   element: Locator,
   height: number,
 ) {
-  // Get the bounding box of the header
   const box = await element.boundingBox()
   if (!box) throw new Error("Could not find element")
+
+  const viewportSize = page.viewportSize()
+  if (!viewportSize) throw new Error("Could not get viewport size")
 
   // Take the screenshot with the specified clipping area
   await takeArgosScreenshot(page, testInfo, `${testInfo.title}-section`, {
     clip: {
       x: 0,
       y: box.y,
-      width: page.viewportSize()!.width,
+      width: viewportSize.width,
       height,
     },
   })

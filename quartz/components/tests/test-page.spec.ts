@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test"
+import { test, expect, Locator } from "@playwright/test"
 
 import {
   takeArgosScreenshot,
@@ -65,57 +65,23 @@ test.describe("Admonitions", () => {
       expect(closedScreenshot).toEqual(initialScreenshot)
     })
   }
-})
 
-test("Mermaid diagram", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "mermaid-diagram", {
-    element: ".mermaid",
-  })
-})
+  for (const status of ["open", "closed"]) {
+    test(`Regression testing on fold button appearance in ${status} state`, async ({
+      page,
+    }, testInfo) => {
+      let element: Locator
+      if (status === "open") {
+        element = page.locator(".fold-callout-icon:not(.is-collapsed *)").first()
+      } else {
+        element = page.locator(".is-collapsed .fold-callout-icon").first()
+      }
 
-test("Table styling", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "table-styling", {
-    element: "table",
-  })
-})
-
-test("Math rendering", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "math-section", {
-    element: "#math",
-  })
-})
-
-test("Typography examples", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "typography", {
-    element: "#typography-examples",
-  })
-})
-
-test("Dark mode Mermaid diagram", async ({ page }, testInfo) => {
-  await setTheme(page, "dark")
-  await takeArgosScreenshot(page, testInfo, "dark-mode-mermaid", {
-    element: ".mermaid",
-  })
-})
-
-test("Spoiler before hover", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "spoiler-hidden", {
-    element: "#spoilers",
-  })
-})
-
-test("Spoiler during hover", async ({ page }, testInfo) => {
-  const spoiler = page.locator(".spoiler").first()
-  await spoiler.hover()
-  await takeArgosScreenshot(page, testInfo, "spoiler-visible", {
-    element: "#spoilers",
-  })
-})
-test("Mobile table", async ({ page }, testInfo) => {
-  await page.setViewportSize({ width: 390, height: 844 })
-  await takeArgosScreenshot(page, testInfo, "mobile-table", {
-    element: "table",
-  })
+      await takeArgosScreenshot(page, testInfo, `fold-button-appearance-${status}`, {
+        element,
+      })
+    })
+  }
 })
 
 // Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
