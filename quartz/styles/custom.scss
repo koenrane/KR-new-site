@@ -759,9 +759,13 @@ img.emoji {
   }
 }
 
+// For some reason, the last one messes up katex sub on safari (eg https://turntrout.com/statistics-of-a-maze-solving-network#statistically-informed-impressions)
 .vlist-r:last-of-type {
-  // For some reason, the last one messes up katex sub on safari (eg https://turntrout.com/statistics-of-a-maze-solving-network#statistically-informed-impressions)
   display: none;
+}
+
+.katex-display .katex {
+  padding-top: 1px; // Prevent exponents from clipping
 }
 
 .katex-html:has(span.tag) {
