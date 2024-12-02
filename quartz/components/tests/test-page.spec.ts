@@ -1,38 +1,70 @@
 import { test, expect } from "@playwright/test"
 
-import { takeArgosScreenshot, setTheme } from "./visual_utils"
+import {
+  takeArgosScreenshot,
+  takeScreenshotAfterElement,
+  setTheme,
+  yOffset,
+  getNextElementMatchingSelector,
+} from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
 })
 
 test.describe("Admonitions", () => {
-  test("Admonitions", async ({ page }, testInfo) => {
-    await takeArgosScreenshot(page, testInfo, "admonitions", {
-      element: "#admonitions",
+  const waitAfterCollapse = 450 // Wait ms after collapsing to ensure transition is complete
+
+  for (const theme of ["light", "dark"]) {
+    test(`Admonitions in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+      const admonitionsHeader = page.locator("h1#admonitions")
+      const nextHeader = await getNextElementMatchingSelector(admonitionsHeader, "h1")
+      const offset = await yOffset(admonitionsHeader, nextHeader)
+
+      // Only screenshot up to where the next section begins
+      await takeScreenshotAfterElement(page, testInfo, admonitionsHeader, offset)
     })
-  })
 
-  test("Dark mode admonitions", async ({ page }, testInfo) => {
-    await setTheme(page, "dark")
-    await takeArgosScreenshot(page, testInfo, "dark-mode-admonitions", {
-      element: "#admonitions",
+    test(`Nested admonition icon is the same as the non-nested admonition icon in ${theme} mode`, async ({
+      page,
+    }) => {
+      await setTheme(page, theme as "light" | "dark")
+      const normalAdmonition = page.locator(".note .callout-icon").first()
+      const nestedAdmonition = page.locator(".quote .note .callout-icon").first()
+
+      const screenshots: string[] = []
+      for (const admonition of [normalAdmonition, nestedAdmonition]) {
+        await admonition.scrollIntoViewIfNeeded()
+        await expect(admonition).toBeVisible()
+        screenshots.push((await admonition.screenshot()).toString("base64"))
+      }
+
+      expect(screenshots[0]).toEqual(screenshots[1])
     })
-  })
 
-  test("Nested admonition icon is the same as the non-nested admonition icon", async ({ page }) => {
-    const normalAdmonition = page.locator(".note .callout-icon").first()
-    const nestedAdmonition = page.locator(".quote .note .callout-icon").first()
-
-    const screenshots: string[] = []
-    for (const admonition of [normalAdmonition, nestedAdmonition]) {
+    test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
+      await setTheme(page, theme as "light" | "dark")
+      const admonition = page.locator(".is-collapsible:has(.callout-title)").first()
       await admonition.scrollIntoViewIfNeeded()
-      await expect(admonition).toBeVisible()
-      screenshots.push((await admonition.screenshot()).toString("base64"))
-    }
+      const initialScreenshot = await admonition.screenshot()
 
-    expect(screenshots[0]).toEqual(screenshots[1])
-  })
+      const admonitionTitle = page.locator(".is-collapsible .callout-title").first()
+      await admonitionTitle.click()
+      await page.waitForTimeout(waitAfterCollapse)
+      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
+
+      const openedScreenshot = await admonition.screenshot()
+      expect(openedScreenshot).not.toEqual(initialScreenshot)
+
+      await admonitionTitle.click()
+      await page.waitForTimeout(waitAfterCollapse)
+      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
+
+      const closedScreenshot = await admonition.screenshot()
+      expect(closedScreenshot).toEqual(initialScreenshot)
+    })
+  }
 })
 
 test("Mermaid diagram", async ({ page }, testInfo) => {
@@ -56,18 +88,6 @@ test("Math rendering", async ({ page }, testInfo) => {
 test("Typography examples", async ({ page }, testInfo) => {
   await takeArgosScreenshot(page, testInfo, "typography", {
     element: "#typography-examples",
-  })
-})
-
-test("Emoji rendering", async ({ page }, testInfo) => {
-  await takeArgosScreenshot(page, testInfo, "emoji", {
-    element: "#emoji-examples",
-  })
-})
-test("Dark mode admonitions", async ({ page }, testInfo) => {
-  await setTheme(page, "dark")
-  await takeArgosScreenshot(page, testInfo, "dark-mode-admonitions", {
-    element: "#admonitions",
   })
 })
 

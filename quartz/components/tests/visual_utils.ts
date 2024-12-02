@@ -2,7 +2,7 @@ import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { Locator, TestInfo } from "@playwright/test"
 import { Page } from "playwright"
 
-const THEME_TRANSITION_DELAY = 250 // ms
+const THEME_TRANSITION_DELAY = 350 // ms
 
 export async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
