@@ -11,7 +11,7 @@ hideSubscriptionLinks: false
 card_image: 
 aliases:
 ---
-I use this page for visual regression testing, since there's no reason for me to change it over time - unless I'm adding more content to the _end_, which won't affect screenshots taken higher up in the page.
+I use this page for visual regression testing, since there's little reason for me to change it over time - unless I'm adding more content to the _end_, which won't affect screenshots taken higher up in the page.
 
 # Header 1
 
@@ -106,7 +106,7 @@ Subtitle: This is a subtitle.
 > [!info]+ This collapsible admonition starts off open
 > Displayed content.
 >
-## Mermaid diagrams
+# Mermaid diagrams
 
 ```mermaid
 flowchart TD
@@ -124,7 +124,7 @@ flowchart TD
     HQF --> A
 ```
 
-# Figcaptions
+# Captions
 
 ```python
 a = b + c
@@ -186,7 +186,7 @@ $$
 \nabla \times \mathbf{B}  =\mu_0\left(\mathbf{J}+\varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}\right)
 $$
 
-# Float
+# Images which float to the right
 
 <img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt="Alex smiling at the camera; rainbow colored light splays off the wall in the background."/>
 
