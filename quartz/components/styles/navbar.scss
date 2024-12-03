@@ -1,9 +1,6 @@
 @use "../../styles/variables.scss" as *;
 @use "search.scss" as *;
 
-// Otherwise the navbar will be messed up for $full-page-width width
-$full-page-width-plus-one-px: $full-page-width + 1px;
-
 .menu {
   order: 1;
   top: 5px;
@@ -30,7 +27,7 @@ $full-page-width-plus-one-px: $full-page-width + 1px;
   }
 
   // Desktop
-  @media (min-width: $full-page-width-plus-one-px) {
+  @media (min-width: $full-page-width) {
     display: flex;
     text-align: center;
     flex-direction: column;
@@ -155,7 +152,7 @@ $full-page-width-plus-one-px: $full-page-width + 1px;
     margin-top: calc(0.5 * $base-margin);
   }
 
-  @media all and (min-width: $full-page-width-plus-one-px) {
+  @media all and (min-width: $full-page-width) {
     margin-bottom: $base-margin;
     margin-top: 0;
     font-size: var(--text-size-500);
@@ -166,7 +163,7 @@ $full-page-width-plus-one-px: $full-page-width + 1px;
 .navbar-left {
   display: flex;
 
-  @media all and (min-width: $full-page-width-plus-one-px) {
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
 
@@ -176,7 +173,7 @@ $full-page-width-plus-one-px: $full-page-width + 1px;
 #navbar-right {
   display: flex;
 
-  @media all and (min-width: $full-page-width-plus-one-px) {
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
 
@@ -241,7 +238,7 @@ $full-page-width-plus-one-px: $full-page-width + 1px;
 }
 
 #header-video-container {
-  @media all and (min-width: $full-page-width-plus-one-px) {
+  @media all and (min-width: $full-page-width) {
     width: 188px;
     height: 188px;
     min-height: 188px;
