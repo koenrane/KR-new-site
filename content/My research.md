@@ -105,7 +105,7 @@ Figure: AUP does a great job. The policy avoids the green stuff and hits the red
 >
 > AUP's first trajectory temporarily stalls, before finishing the episode after the video's 14-second cutoff. AUP's second trajectory does much better.
 
-### Reflections on this work
+## Reflections on impact measures
 
 Subtitle: Written in October 2024
 

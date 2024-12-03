@@ -1,16 +1,16 @@
 ---
 permalink: shard-theory
-lw-was-draft-post: 'false'
-lw-is-af: 'true'
-lw-is-debate: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "true"
+lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values
-lw-is-question: 'false'
+lw-is-question: "false"
 lw-posted-at: 2022-09-04T04:28:11.752000Z
 lw-last-modification: 2024-03-02T01:18:30.814000Z
 lw-curation-date: 2022-09-29T06:22:03.250000Z
 lw-frontpage-date: 2022-09-04T17:31:12.650000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 66
 lw-base-score: 241
 lw-vote-count: 128
@@ -19,7 +19,7 @@ af-num-comments-on-upload: 33
 publish: true
 title: The shard theory of human values
 lw-latest-edit: 2023-06-05T21:14:25.014000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 authors: Quintin Pope and Alex Turner
 tags:
   - rationality
@@ -29,6 +29,8 @@ tags:
   - human-values
 aliases:
   - the-shard-theory-of-human-values
+  - shardtheory
+  - shard
 lw-sequence-title: Shard Theory
 lw-sequence-image-grid: sequencesgrid/igo7185zypqhuclvbmiv
 lw-sequence-image-banner: sequences/ot2siejtvcl9pvzly2ma
@@ -37,14 +39,13 @@ prev-post-slug: reward-is-not-the-optimization-target
 prev-post-title: Reward is not the optimization target
 next-post-slug: understanding-and-avoiding-value-drift
 next-post-title: Understanding and avoiding value drift
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2022-09-04 00:00:00
 original_url: https://www.lesswrong.com/posts/iCfdcxiyr2Kj8m8mT/the-shard-theory-of-human-values
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/human_shards.png
-description: Human values are shaped by simple reward circuitry. Shard theory explains
-  how these shards give rise to complex behaviors, such as altruism.
+description: Human values are shaped by simple reward circuitry. Shard theory explains how these shards give rise to complex behaviors, such as altruism.
 date_updated: 2024-11-22 20:04:30.137574
 ---
 
