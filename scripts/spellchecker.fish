@@ -17,7 +17,7 @@ if test $status -ne 0
 
     # Append valid words to the permanent dictionary and remove the temporary one
     cat $TEMP_DICT >>$PERM_DICT
-    rm $TEMP_DICT
+    trash-put $TEMP_DICT
 
     # Run spellcheck again with the updated dictionary
     npx spellchecker --files $FILES --no-suggestions --quiet --dictionaries $PERM_DICT --ignore $SLUG_REGEX; or exit
