@@ -87,6 +87,18 @@ test.describe("Admonitions", () => {
   }
 })
 
+test.describe("Clipboard button", () => {
+  test("Clipboard button is visible when hovering over code block", async ({ page }) => {
+    const clipboardButton = page.locator(".clipboard-button").first()
+    await clipboardButton.scrollIntoViewIfNeeded()
+    await expect(clipboardButton).toHaveCSS("opacity", "0")
+
+    const codeBlock = page.locator("figure[data-rehype-pretty-code-figure]").first()
+    await codeBlock.hover()
+    await expect(clipboardButton).toHaveCSS("opacity", "1")
+  })
+})
+
 // Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
 // test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
 //   page,
