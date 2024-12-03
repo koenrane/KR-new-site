@@ -883,6 +883,11 @@ img.emoji {
   }
 }
 
+// Ensure the point ends of arrows are the same color as the edges
+[id^="mermaid-0_flowchart-v2-pointEnd"] {
+  fill: var(--midground-faint) !important;
+}
+
 // Edge labels  - TODO not working on safari
 // stylelint-disable-next-line selector-class-pattern
 .edgeLabel > .label > foreignObject {
