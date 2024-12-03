@@ -29,6 +29,7 @@ export async function takeScreenshotAfterElement(
   testInfo: TestInfo,
   element: Locator,
   height: number,
+  testNameSuffix?: string,
 ) {
   const box = await element.boundingBox()
   if (!box) throw new Error("Could not find element")
@@ -37,7 +38,7 @@ export async function takeScreenshotAfterElement(
   if (!viewportSize) throw new Error("Could not get viewport size")
 
   // Take the screenshot with the specified clipping area
-  await takeArgosScreenshot(page, testInfo, `${testInfo.title}-section`, {
+  await takeArgosScreenshot(page, testInfo, `${testInfo.title}-section-${testNameSuffix}`, {
     clip: {
       x: 0,
       y: box.y,

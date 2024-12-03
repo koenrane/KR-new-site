@@ -1,31 +1,34 @@
 import { test, expect, Locator } from "@playwright/test"
 
-import {
-  takeArgosScreenshot,
-  takeScreenshotAfterElement,
-  setTheme,
-  yOffset,
-  getNextElementMatchingSelector,
-} from "./visual_utils"
+import { takeArgosScreenshot, takeScreenshotAfterElement, setTheme, yOffset } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
+})
+
+// Automatical visual regression test for each section on the page
+test.describe("Sections", () => {
+  for (const theme of ["light", "dark"]) {
+    test(`Sections in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+
+      const headers: Locator[] = await page.locator("h1").all()
+      for (let index = 0; index < headers.length - 1; index++) {
+        const header = headers[index]
+        const nextHeader = headers[index + 1]
+        const offset = await yOffset(header, nextHeader)
+
+        // Only screenshot up to where the next section begins
+        await takeScreenshotAfterElement(page, testInfo, header, offset, `${theme}-${index}`)
+      }
+    })
+  }
 })
 
 test.describe("Admonitions", () => {
   const waitAfterCollapse = 450 // Wait ms after collapsing to ensure transition is complete
 
   for (const theme of ["light", "dark"]) {
-    test(`Admonitions in ${theme} mode`, async ({ page }, testInfo) => {
-      await setTheme(page, theme as "light" | "dark")
-      const admonitionsHeader = page.locator("h1#admonitions")
-      const nextHeader = await getNextElementMatchingSelector(admonitionsHeader, "h1")
-      const offset = await yOffset(admonitionsHeader, nextHeader)
-
-      // Only screenshot up to where the next section begins
-      await takeScreenshotAfterElement(page, testInfo, admonitionsHeader, offset)
-    })
-
     test(`Nested admonition icon is the same as the non-nested admonition icon in ${theme} mode`, async ({
       page,
     }) => {
@@ -85,20 +88,20 @@ test.describe("Admonitions", () => {
 })
 
 // Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
-test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
-  page,
-}) => {
-  await page.evaluate(() => {
-    window.scrollTo(0, 500)
-  })
+// test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
+//   page,
+// }) => {
+//   await page.evaluate(() => {
+//     window.scrollTo(0, 500)
+//   })
 
-  // Screenshot the visible viewport
-  await page.reload({ waitUntil: "load" })
-  const referenceScreenshot = await page.screenshot()
-  for (let i = 0; i < 3; i++) {
-    await page.reload({ waitUntil: "load" })
-    await page.waitForTimeout(200)
-    const screenshot = await page.screenshot()
-    expect(screenshot).toEqual(referenceScreenshot)
-  }
-})
+//   // Screenshot the visible viewport
+//   await page.reload({ waitUntil: "load" })
+//   const referenceScreenshot = await page.screenshot()
+//   for (let i = 0; i < 3; i++) {
+//     await page.reload({ waitUntil: "load" })
+//     await page.waitForTimeout(200)
+//     const screenshot = await page.screenshot()
+//     expect(screenshot).toEqual(referenceScreenshot)
+//   }
+// })

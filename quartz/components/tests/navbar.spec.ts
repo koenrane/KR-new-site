@@ -120,9 +120,10 @@ test("Menu disappears gradually when scrolling down", async ({ page }, testInfo)
   await page.evaluate(() => window.scrollBy(0, 100))
 
   // Sample opacity values during the transition
-  const opacityValues = []
+  const getNavbarOpacity = () => navbar.evaluate((el) => getComputedStyle(el).opacity)
+  const opacityValues: number[] = [Number(await getNavbarOpacity())]
   for (let i = 0; i < 10; i++) {
-    const opacity = await navbar.evaluate((el) => getComputedStyle(el).opacity)
+    const opacity = await getNavbarOpacity()
     opacityValues.push(Number(opacity))
     await page.waitForTimeout(80) // Wait a bit between samples
   }
