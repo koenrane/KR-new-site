@@ -3,7 +3,24 @@ import { test, expect, Locator } from "@playwright/test"
 import { takeArgosScreenshot, takeScreenshotAfterElement, setTheme, yOffset } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
+  // Mock clipboard API
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator.clipboard, "writeText", {
+      value: () => Promise.resolve(),
+      writable: true,
+    })
+  })
+
+  // Log any console errors
+  page.on("console", (msg) => console.log(msg.text()))
+  page.on("pageerror", (err) => console.error(err))
+
   await page.goto("http://localhost:8080/test-page")
+
+  // Dispatch the 'nav' event to initialize clipboard functionality
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event("nav"))
+  })
 })
 
 // Automatical visual regression test for each section on the page
@@ -88,17 +105,41 @@ test.describe("Admonitions", () => {
 })
 
 test.describe("Clipboard button", () => {
-  test("Clipboard button is visible when hovering over code block", async ({ page }) => {
-    const clipboardButton = page.locator(".clipboard-button").first()
-    await clipboardButton.scrollIntoViewIfNeeded()
-    await expect(clipboardButton).toHaveCSS("opacity", "0")
+  for (const theme of ["light", "dark"]) {
+    test(`Clipboard button is visible when hovering over code block in ${theme} mode`, async ({
+      page,
+    }) => {
+      await setTheme(page, theme as "light" | "dark")
+      const clipboardButton = page.locator(".clipboard-button").first()
+      await clipboardButton.scrollIntoViewIfNeeded()
+      await expect(clipboardButton).toHaveCSS("opacity", "0")
 
-    const codeBlock = page.locator("figure[data-rehype-pretty-code-figure]").first()
-    await codeBlock.hover()
-    await expect(clipboardButton).toHaveCSS("opacity", "1")
-  })
+      const codeBlock = page.locator("figure[data-rehype-pretty-code-figure]").first()
+      await codeBlock.hover()
+      await expect(clipboardButton).toHaveCSS("opacity", "1")
+    })
 
-  // TODO: Test clicking the button changes it, do visual regression test
+    test(`Clicking the button changes it in ${theme} mode`, async ({ page }) => {
+      await setTheme(page, theme as "light" | "dark")
+      const clipboardButton = page.locator(".clipboard-button").first()
+      const screenshotBeforeClicking = await clipboardButton.screenshot()
+
+      await clipboardButton.click()
+      const screenshotAfterClicking = await clipboardButton.screenshot()
+      expect(screenshotAfterClicking).not.toEqual(screenshotBeforeClicking)
+    })
+
+    test(`Clipboard button in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+      const clipboardButton = page.locator(".clipboard-button").first()
+      await clipboardButton.click()
+
+      await takeArgosScreenshot(page, testInfo, `clipboard-button-clicked-${theme}`, {
+        element: clipboardButton,
+        disableHover: false,
+      })
+    })
+  }
 })
 
 const fullPageBreakpoint = 1580 // px
