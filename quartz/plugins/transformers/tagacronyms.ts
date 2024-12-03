@@ -1,5 +1,6 @@
 import { Node, Parent, Text, Element } from "hast"
 import { Plugin } from "unified"
+// skipcq: JS-0257
 import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
@@ -14,7 +15,7 @@ export function isRomanNumeral(str: string): boolean {
 }
 
 // Regex for acronyms and abbreviations
-export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4"]
+export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4", "mp4"]
 
 // Escaped and joined allowAcronyms as an intermediate variable
 const escapedAllowAcronyms = allowAcronyms
