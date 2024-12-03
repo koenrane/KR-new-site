@@ -1,12 +1,6 @@
 import { test, expect, Locator } from "@playwright/test"
 
-import {
-  takeArgosScreenshot,
-  takeScreenshotAfterElement,
-  setTheme,
-  yOffset,
-  getNextElementMatchingSelector,
-} from "./visual_utils"
+import { takeArgosScreenshot, takeScreenshotAfterElement, setTheme, yOffset } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
@@ -92,6 +86,7 @@ test.describe("Admonitions", () => {
     })
   }
 })
+
 test.describe("Clipboard button", () => {
   test("Clipboard button is visible when hovering over code block", async ({ page }) => {
     const clipboardButton = page.locator(".clipboard-button").first()
@@ -102,6 +97,8 @@ test.describe("Clipboard button", () => {
     await codeBlock.hover()
     await expect(clipboardButton).toHaveCSS("opacity", "1")
   })
+
+  // TODO: Test clicking the button changes it, do visual regression test
 })
 
 const fullPageBreakpoint = 1580 // px
@@ -129,6 +126,70 @@ test.describe("Right sidebar", () => {
     })
   })
 })
+
+test.describe("Spoilers", () => {
+  const waitAfterRevealing = 800 // ms
+
+  for (const theme of ["light", "dark"]) {
+    test(`Spoiler before revealing in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+      const spoiler = page.locator(".spoiler-container").first()
+      await takeArgosScreenshot(page, testInfo, `spoiler-before-revealing-${theme}`, {
+        element: spoiler,
+      })
+    })
+
+    test(`Spoiler after revealing in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+      const spoiler = page.locator(".spoiler-container").first()
+      await spoiler.scrollIntoViewIfNeeded()
+      await expect(spoiler).toBeVisible()
+
+      const screenshotBeforeClicking = await spoiler.screenshot({
+        path: "spoiler-before-revealing.png",
+      })
+      await spoiler.click()
+
+      // Wait for the 'revealed' class to be added
+      await expect(spoiler).toHaveClass(/revealed/)
+      await page.waitForTimeout(waitAfterRevealing)
+
+      await takeArgosScreenshot(page, testInfo, "spoiler-after-revealing", {
+        element: spoiler,
+      })
+
+      // Click again to close
+      await spoiler.click()
+      await page.mouse.click(0, 0) // Click away to remove focus
+
+      // Wait for the 'revealed' class to be removed
+      await expect(spoiler).not.toHaveClass(/revealed/)
+      await page.waitForTimeout(waitAfterRevealing)
+
+      const screenshotAfterClosing = await spoiler.screenshot({ path: "spoiler-after-closing.png" })
+      expect(screenshotAfterClosing).toEqual(screenshotBeforeClicking)
+    })
+  }
+
+  // Test that hovering over the spoiler reveals it
+  test("Hovering over spoiler reveals it", async ({ page }, testInfo) => {
+    const spoiler = page.locator(".spoiler-container").first()
+    await spoiler.scrollIntoViewIfNeeded()
+    await expect(spoiler).toBeVisible()
+
+    const initialScreenshot = await spoiler.screenshot()
+
+    await spoiler.hover()
+    const revealedScreenshot = await spoiler.screenshot()
+    expect(revealedScreenshot).not.toEqual(initialScreenshot)
+
+    await takeArgosScreenshot(page, testInfo, "spoiler-hover-reveal", {
+      element: spoiler,
+      disableHover: false,
+    })
+  })
+})
+
 // Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
 // test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
 //   page,
