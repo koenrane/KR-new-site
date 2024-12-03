@@ -1,6 +1,12 @@
 import { test, expect, Locator } from "@playwright/test"
 
-import { takeArgosScreenshot, takeScreenshotAfterElement, setTheme, yOffset } from "./visual_utils"
+import {
+  takeArgosScreenshot,
+  takeScreenshotAfterElement,
+  setTheme,
+  yOffset,
+  getNextElementMatchingSelector,
+} from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
@@ -86,7 +92,6 @@ test.describe("Admonitions", () => {
     })
   }
 })
-
 test.describe("Clipboard button", () => {
   test("Clipboard button is visible when hovering over code block", async ({ page }) => {
     const clipboardButton = page.locator(".clipboard-button").first()
@@ -99,6 +104,31 @@ test.describe("Clipboard button", () => {
   })
 })
 
+const fullPageBreakpoint = 1580 // px
+test.describe("Right sidebar", () => {
+  test("TOC visual test", async ({ page }, testInfo) => {
+    const viewportSize = page.viewportSize()
+    if (viewportSize && viewportSize.width < fullPageBreakpoint) {
+      // Open the TOC
+      const tocContent = page.locator(".callout").first()
+      await tocContent.click()
+      await takeArgosScreenshot(page, testInfo, "toc-visual-test-open", {
+        element: tocContent,
+      })
+    } else {
+      const rightSidebar = page.locator("#right-sidebar")
+      await takeArgosScreenshot(page, testInfo, "toc-visual-test", {
+        element: rightSidebar,
+      })
+    }
+  })
+
+  test("ContentMeta is visible", async ({ page }, testInfo) => {
+    await takeArgosScreenshot(page, testInfo, "content-meta-visible", {
+      element: "#content-meta",
+    })
+  })
+})
 // Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
 // test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
 //   page,
