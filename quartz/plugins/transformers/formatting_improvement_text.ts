@@ -75,6 +75,8 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
   [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
+  [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
+  [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
 ]
 
 export function massTransformText(text: string): string {
@@ -114,7 +116,7 @@ export const formattingImprovement = (text: string) => {
   }
 
   // Format the content (non-YAML part)
-  let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ") // Remove NBSP
+  let newContent = content.replaceAll(/(\u00A0|&nbsp;)/gu, " ") // Remove NBSP
 
   newContent = improveFootnoteFormatting(newContent)
   newContent = newContent.replace(/ *,/g, ",") // Remove space before commas

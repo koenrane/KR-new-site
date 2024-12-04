@@ -213,6 +213,20 @@ describe("Mass transforms", () => {
     const result = massTransformText(input)
     expect(result).toBe(expected)
   })
+
+  describe("Display math formatting", () => {
+    it.each([
+      ["Text$$math$$Text", "Text\n$$\n\nmath\n$$\n\nText"],
+      ["Text $$math$$Text", "Text\n$$\n\nmath\n$$\n\nText"],
+      ["Text$$math$$ Text", "Text\n$$\n\nmath\n$$\n\nText"],
+      ["Multiple$$math1$$\n$$math2$$", "Multiple\n$$\n\nmath1\n$$\n\n$$\n\nmath2\n$$"],
+      ["No space$$between$$math", "No space\n$$\n\nbetween\n$$\n\nmath"],
+      ["Already\n$$spaced$$\n\nCorrectly", "Already\n$$\n\nspaced\n$$\n\nCorrectly"],
+    ])("should format display math correctly for %s", (input: string, expected: string) => {
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
+  })
 })
 
 describe("spaceDoublyNestedCallouts", () => {
