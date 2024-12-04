@@ -468,9 +468,11 @@ img.favicon {
     }
   }
 
-  // Github should be lighter b/c starts off darker
+  // Very dark by default
   &[src$="github_com.avif"] {
-    mix-blend-mode: multiply;
+    :root[saved-theme="light"] & {
+      filter: invert(25%);
+    }
 
     :root[saved-theme="dark"] & {
       filter: invert(75%) sepia(6%) hue-rotate(185deg) contrast(92%);
