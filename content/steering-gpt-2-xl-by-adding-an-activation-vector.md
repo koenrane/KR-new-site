@@ -17,25 +17,26 @@ lw-vote-count: 202
 af-base-score: 117
 af-num-comments-on-upload: 63
 publish: true
-title: "Steering GPT-2-XL by adding an activation vector"
+title: Steering GPT-2-XL by adding an activation vector
 lw-latest-edit: 2024-02-19T23:31:07.877000Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Monte MacDiarmid, David Udell, Lisa Thiergart, and Ulisse Mini
 tags:
-  - "AI"
-  - "shard-theory"
-  - "activation-engineering"
-  - "mats-program"
+  - AI
+  - shard-theory
+  - activation-engineering
+  - mats-program
 aliases:
-  - "steering-gpt-2-xl-by-adding-an-activation-vector"
+  - steering-gpt-2-xl-by-adding-an-activation-vector
+  - steering-vectors
+  - steeringvectors
 lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-13 00:00:00
 original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
-description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
-  prompts into loving completions.
+description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful prompts into loving completions.
 date_updated: 2024-11-22 20:04:30.137574
 ---
 

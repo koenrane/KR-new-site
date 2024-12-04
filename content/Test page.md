@@ -67,7 +67,10 @@ Subtitle: This is a subtitle.
 
 > [!info]
 
+<!--spellchecker-disable-->
 > [!example]
+> This word is solongitmightendupoverflowingornotwrappingiftheconfigurationiswrong.
+<!--spellchecker-enable-->
 
 > [!math]
 
