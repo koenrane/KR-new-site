@@ -734,7 +734,7 @@ While this pipeline took several weeks of part-time coding to iron out, I'm glad
 
 ### Visual regression testing
 
-Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101) using [`BackstopJS`](https://github.com/garris/BackstopJS). `BackstopJS` renders the site at pre-specified locations, takes pictures, and compares those pictures to previously approved reference pictures. If the pictures differ by more than a tiny percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs.
+Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101) using [`Playwright`](https://playwright.dev/). `Playwright` renders the site at pre-specified locations, takes pictures, and compares those pictures to previously approved reference pictures. If the pictures differ by more than a tiny percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs.
 
 ![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](https://assets.turntrout.com/static/images/posts/visual_regression_testing.avif)
 Figure: `BackstopJS` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?".
