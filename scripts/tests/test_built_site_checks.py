@@ -713,3 +713,32 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_problematic_paragraphs(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic unrendered emphasis
+        ("<p>Text ending with *</p>", ["Text ending with *"]),
+        ("<p>Text ending with _</p>", ["Text ending with _"]),
+        # Test with trailing whitespace
+        ("<p>Text ending with * </p>", ["Text ending with *"]),
+        # Test multiple cases
+        (
+            """
+            <p>First line *</p>
+            <p>Second line _</p>
+            """,
+            ["First line *", "Second line _"],
+        ),
+        # Test cases that should not match
+        ("<p>Normal * text</p>", []),
+        ("<p>Text with * in middle</p>", []),
+        ("<script>code with *</script>", []),  # Should skip script tags
+        ("<style>css with *</style>", []),  # Should skip style tags
+    ],
+)
+def test_check_unrendered_emphasis(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_emphasis(soup)
+    assert sorted(result) == sorted(expected)

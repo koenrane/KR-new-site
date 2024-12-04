@@ -345,6 +345,32 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
     return duplicates
 
 
+def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for text nodes ending in markdown emphasis characters (* or _).
+    These likely indicate unrendered markdown emphasis.
+    """
+    problematic_texts = []
+
+    # Find all text nodes
+    for text in soup.find_all(text=True):
+        # Skip script and style elements
+        if text.parent.name in ["script", "style"]:
+            continue
+
+        # Check if text ends with * or _ possibly followed by whitespace
+        stripped_text = text.strip()
+        if stripped_text and re.search(r"[*_]\s*$", stripped_text):
+            preview = (
+                stripped_text[:50] + "..."
+                if len(stripped_text) > 50
+                else stripped_text
+            )
+            problematic_texts.append(preview)
+
+    return problematic_texts
+
+
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """
     Check a single HTML file for various issues.
@@ -366,6 +392,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "empty_body": body_is_empty(soup),
         "duplicate_ids": check_duplicate_ids(soup),
         "unrendered_spoilers": check_unrendered_spoilers(soup),
+        "unrendered_emphasis": check_unrendered_emphasis(soup),
     }
 
     if "design" in file_path.name:
