@@ -348,6 +348,7 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
 def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
     Check for text nodes ending in markdown emphasis characters (* or _).
+
     These likely indicate unrendered markdown emphasis.
     """
     problematic_texts = []

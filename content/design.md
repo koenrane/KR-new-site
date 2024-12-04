@@ -770,6 +770,7 @@ At this point, I check the built pages for a smattering of possible errors:
 - Common Markdown errors:
   - Footnotes may be unmatched (e.g. I deleted the reference to a footnote without deleting its content, leaving the content exposed in the text);
   - Incorrectly terminated blockquotes;
+  - Unrendered emphasis markers (often indicated by a trailing `*` or `_`);
   - Failing to render spoiler boxes;
   - Failed attempts to specify a `<figcaption>` element;
 - Certain kinds of dead links which `linkchecker` won't catch:
