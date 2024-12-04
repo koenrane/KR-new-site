@@ -716,6 +716,10 @@ I lastly check that my CSS:
 
 As of first posting, I have 843 JavaScript unit tests and 164 `pytest` Python tests. I am _quite thorough_ - these tests are my pride and joy. :) Writing tests is easy these days. I use [`cursor`](https://www.cursor.com/) - AI churns out dozens of high-coverage lines of test code in seconds, which I then skim for quality assurance.
 
+### Simulating site interactions
+
+Pure unit tests cannot test the end-to-end experience of my site, nor can they easily interact with a local server. [`playwright`](https://playwright.dev/) lets me test dynamic features like search, spoiler blocks, and light / dark mode. What's more, I test these features across a range of browsers and viewport dimensions (mobile vs desktop).
+
 ### Compressing and uploading assets
 
 My goal is a zero-hassle process for adding assets to my website. [In order to increase resilience](#archiving-and-dependencies), I use [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/) to host assets which otherwise would bloat the size of my `git` repository.
@@ -734,12 +738,14 @@ While this pipeline took several weeks of part-time coding to iron out, I'm glad
 
 ### Visual regression testing
 
-Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101) using [`Playwright`](https://playwright.dev/). `Playwright` renders the site at pre-specified locations, takes pictures, and compares those pictures to previously approved reference pictures. If the pictures differ by more than a tiny percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs.
+Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101). The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
+
+I use [`playwright`](https://playwright.dev/) to interact with my website and [`argos-ci`](https://argos-ci.com/) to take stable pictures of the website. `playwright` renders the site at pre-specified locations, at which point `argos-ci` takes pictures and compares those pictures to previously approved reference pictures. If the pictures differ by more than a small percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs. Using `argos-ci` helps reduce flakiness and track the evolution of the site.
 
 ![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](https://assets.turntrout.com/static/images/posts/visual_regression_testing.avif)
-Figure: `BackstopJS` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?".
+Figure: `playwright` and `argos-ci` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?".
 
-However, it's not practical to test every single page. I use visual regression testing to ensure that stable features (like search) are stable. The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
+However, it's not practical to test every single page. So I have a [test page](/test-page) which stably demonstrates site features. My tests screenshot that page from many angles. I also use visual regression testing to ensure that stable features (like search) are stable.
 
 At this point, I also check that the server builds properly.
 
