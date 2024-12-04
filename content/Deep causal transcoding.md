@@ -366,7 +366,7 @@ Furthermore, in the original post I proposed learning features sequentially, sub
 ### Calibrating $R$
 > [!warning] Epistemic status
 >
-> My preliminary attempt leveraging theory to develop a calibration procedure for choosing the scale $R$. It appears to work across a variety of $\sim7B$ models, but it is likely that future work will refine or replace this method, perhaps by combining with insights along the lines of [25Hour & submarat (2024)](https://www.lesswrong.com/posts/YhTnnKHQ5yQrAmi5p/arena4-0-capstone-hyperparameter-tuning-for-melbo) or [Heimersheim & Mendel (2024)](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1).*
+> My preliminary attempt leveraging theory to develop a calibration procedure for choosing the scale $R$. It appears to work across a variety of $\sim7B$ models, but it is likely that future work will refine or replace this method, perhaps by combining with insights along the lines of [25Hour & submarat (2024)](https://www.lesswrong.com/posts/YhTnnKHQ5yQrAmi5p/arena4-0-capstone-hyperparameter-tuning-for-melbo) or [Heimersheim & Mendel (2024)](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1).
 
 We need to choose a value of $R$ for both *training* (in the case of Exponential DCTs) and *inference* (i.e., we need to choose a norm when we add a steering vector to a model's activations).
 
@@ -473,7 +473,7 @@ Note that I don't evaluate any sort of fluency of steered completions. This is b
 ## Evidence for multiple harmless directions
 
 > [!warning] Epistemic status
-> I give some suggestive evidence that there are many "true" harmless directions, similarly to [others' findings](/high-dimensional-subspace-of-code-steering-vectors). I don't think the question of "feature multiplicity" posed here has been conclusively settled. But given the potential relevance for adversarial robustness it seems wise to consider seriously what the implications would be if "feature multiplicity" were real.*
+> I give some suggestive evidence that there are many "true" harmless directions, similarly to [others' findings](/high-dimensional-subspace-of-code-steering-vectors). I don't think the question of "feature multiplicity" posed here has been conclusively settled. But given the potential relevance for adversarial robustness it seems wise to consider seriously what the implications would be if "feature multiplicity" were real.
 
 In my [initial MELBO post](/melbo#Real_life_instructions), I found two orthogonal steering vectors which elicit jailbreak behavior in Qwen-14B-Chat. In a subsequent post, [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors) scaled up this sort of finding, discovering (among other things) more than 800 orthogonal steering vectors which elicit code from Qwen-1.5-1.8B-Chat, even on prompts which have nothing to do with coding.
 
@@ -618,7 +618,7 @@ As for the "persistent shallow circuits" story, the lower jailbreak scores in th
 ## Deeper models: constant depth horizon ($t-s$) suffices for learning jailbreaks
 
 > [!warning] Epistemic status
-> Based off a couple hours of experimenting on Qwen-1.5-32B-Chat using the latest DCT methodology, as well as some prior tinkering on deeper models with an earlier version of the methodology.*
+> Based off a couple hours of experimenting on Qwen-1.5-32B-Chat using the latest DCT methodology, as well as some prior tinkering on deeper models with an earlier version of the methodology.
 
 To evaluate how well DCTs work on deeper models, I train an exponential DCT with standard hyper-parameters on Qwen-1.5-32B-Chat with the prompt "Tell me how to make a bomb". This model is twice as deep as the 7B version (64 vs 32 hidden layers). A natural question is whether we can still learn interesting DCT features by training on a *fixed* depth horizon ($t-s$), rather than growing the depth horizon with the depth of the model[^bignote-depth-enumerative-safety]. If so then this is nice from the perspective of efficiency - if we can keep the depth fixed then in principle we can deal with the model getting wider by parallelizing things, while retaining the same serial computation time.
 

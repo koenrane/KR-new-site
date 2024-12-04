@@ -188,6 +188,7 @@ _MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
 ]
 
 
+# TODO broken
 def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
     Verify the existence of local media files (images, videos, SVGs).
@@ -354,16 +355,16 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     problematic_texts = []
 
     # Find all text nodes
-    for text in soup.find_all(text=True):
+    for p in soup.find_all("p"):
         # Skip script and style elements
-        if text.parent.name in ["script", "style"]:
+        if p.parent.name in ["script", "style", "code", "pre"]:
             continue
 
         # Check if text ends with * or _ possibly followed by whitespace
-        stripped_text = text.strip()
+        stripped_text = p.text.strip()
         if stripped_text and re.search(r"[*_]\s*$", stripped_text):
             preview = (
-                stripped_text[:50] + "..."
+                "..." + stripped_text[-50:]
                 if len(stripped_text) > 50
                 else stripped_text
             )

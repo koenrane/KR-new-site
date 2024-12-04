@@ -288,7 +288,7 @@ His mom turned to look. His mom turned to look, and the canister flew out of her
 
 Bruce didn't look away as his mom's body fell to the ground.
 
-He screamed harder than he thought he could, so loud that his throat hurt and his eyes hurt and \*this was usually when he woke up from his nightmares **why was this one so long\***
+He screamed harder than he thought he could, so loud that his throat hurt and his eyes hurt and _this was usually when he woke up from his nightmares **why was this one so long**_
 
 Bruce screamed, he screamed until no more noise came out. He opened his clenched eyes and saw the man was gone.
 

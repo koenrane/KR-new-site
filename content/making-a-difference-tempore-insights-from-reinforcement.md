@@ -106,7 +106,7 @@ This intuition hugs pre-theoretic understanding much more closely; if you have j
 
 ## 6: Temporal-Difference Learning
 
-_The tabular triple threat:_ $\text{TD(0)}$, `SARSA`_, and_ Q*-learning.*
+_The tabular triple threat:_ $\text{TD(0)}$, `SARSA`_, and Q-learning._
 
 ### Learning TD Learning
 
@@ -163,7 +163,7 @@ Note that a distribution model also can function as a sample model.
 
 ## 9: On-policy Prediction with Approximation
 
-_We finally hit the_ good stuff*: value-function approximators and gradient methods.*
+_We finally hit the good stuff: value-function approximators and gradient methods._
 
 ## 10: On-policy Control with Approximation
 
