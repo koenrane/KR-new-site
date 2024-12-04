@@ -22,8 +22,8 @@ const escapedAllowAcronyms = allowAcronyms
   .map((acronym) => acronym.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&"))
   .join("|")
 
-export const smallCapsSeparators = `-'’`
-const smallCapsChars = `A-Z\\u00C0-\\u00DC`
+export const smallCapsSeparators = "-'’"
+const smallCapsChars = "A-Z\\u00C0-\\u00DC"
 const beforeWordBoundary = `(?<![${smallCapsChars}\\w])`
 const afterWordBoundary = `(?![${smallCapsChars}\\w])`
 // Lookbehind and lookahead required to allow accented uppercase characters to count as "word boundaries"; \b only matches against \w
@@ -32,7 +32,7 @@ export const REGEX_ACRONYM = new RegExp(
 )
 
 export const REGEX_ABBREVIATION = new RegExp(
-  `(?<number>\\d+(\\.\\d+)?|\\.\\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\\b`,
+  "(?<number>\\d+(\\.\\d+)?|\\.\\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\\b",
 )
 
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
