@@ -114,6 +114,7 @@ dd {
   margin-block: 0 calc(2 * $base-margin);
   margin-top: 0;
   margin-bottom: calc(2 * $base-margin);
+  word-wrap: break-word;
 
   & > p:first-child {
     margin-top: 0;
@@ -476,8 +477,9 @@ img.favicon {
     }
   }
 
-  // Make NeurIPS logo white on dark mode
-  &[src$="nips_cc.avif"] {
+  // Make logos white on dark mode
+  &[src$="nips_cc.avif"],
+  &[src$="proceedings_mlr_press.avif"] {
     filter: invert(100%);
   }
 
@@ -1032,5 +1034,12 @@ iframe {
   // Use a lighter color in dark mode
   :root[saved-theme="dark"] & {
     filter: invert(75%);
+  }
+}
+
+// These transparent images need a background color to have visible text
+.transparent-image {
+  :root[saved-theme="dark"] & {
+    background-color: var(--foreground);
   }
 }
