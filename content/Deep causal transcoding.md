@@ -112,7 +112,7 @@ More succinctly, the above considerations suggest something like the following h
 In math, the claim is that at some scale $R$ and normalizing $||\vec\theta||=1$, the map $\Delta_R^{s\rightarrow t}(\vec\theta) \equiv \Delta^{s\rightarrow t}(R\vec\theta)$ is well-described by:
 
 $$
-\Delta_{ R}^{s\rightarrow t}(\vec\theta) = \sum_{\ell=1}^{m^*} f_\ell^*(\langle \vec v_\ell^*, \vec\theta\rangle)\vec u_\ell^* + \vec\epsilon(\vec\theta) \tag{1}
+\Delta_{ R}^{s\rightarrow t}(\vec\theta) = \sum_{\ell=1}^{m^*} f_\ell^*(\langle \vec v_\ell^*, \vec\theta\rangle)\vec u_\ell^* + \vec\epsilon(\vec\theta), \qquad\text{(1)}
 $$
 
 where each $f_\ell^*$ is some one-dimensional non-linear gating function, and each $\vec v_\ell^*, \vec u_\ell^*$ are pairs of input/output feature directions (at times I will refer to a specific input/output pair $\vec v_\ell^*, \vec u_\ell^*$ as a *factor*, borrowing terminology from matrix/tensor decompositions; the connection to matrix/tensor decompositions will become clear later in the post). Here $\vec\epsilon(\vec\theta)$ is an error term describing the "truly deep" part of $\Delta_{R}^{s\rightarrow t}$. The hope is that $\vec\epsilon$ is "small" enough (particularly when averaging across prompts/token positions) that we have some hope of recovering the true factors $\vec u_\ell^*, \vec v_\ell^*$ (which I will at times collect into the columns of matrices $U^*, V^*\in\mathbb R^{d_{\textrm{model}} \times m}$).
@@ -120,7 +120,7 @@ where each $f_\ell^*$ is some one-dimensional non-linear gating function, and ea
 If my above story is true, we can potentially elicit many high-level behaviors by learning these input/output directions. Towards this end, I propose learning an MLP with some activation function $\sigma$ to approximate $\Delta_{ R}^{s\rightarrow t}$:
 
 $$
-\hat{\Delta}^{s\rightarrow t}(\vec\theta) \equiv \sum_{\ell=1}^m \alpha_\ell\sigma(\langle \hat { v}_\ell, \vec \theta\rangle) \hat { u}_\ell \tag{2}
+\hat{\Delta}^{s\rightarrow t}(\vec\theta) \equiv \sum_{\ell=1}^m \alpha_\ell\sigma(\langle \hat { v}_\ell, \vec \theta\rangle) \hat { u}_\ell \qquad\text{(2)}
 $$
 
 Here I consider factors $\hat u_\ell,\hat v_\ell$ which are normalized such that $||\hat u_\ell||=||\hat v_\ell||=1$, while the scale of each hidden unit $\ell$ is controlled by some scalar parameter $\alpha_\ell\geq0$. For a given activation function, the goal is to learn values of $\{\alpha_\ell\}_{\ell=1}^m, \hat U, \hat V$ such that $\hat U\approx U^*, \hat V\approx V^*$ (where we have collected the $\hat u_\ell, \hat v_\ell$'s into the columns of $\hat U, \hat V$).
@@ -131,15 +131,15 @@ One approach to learning $\hat{\Delta}^{s\rightarrow t}$ would be to treat thing
 
 [^bignote-sgd-shallow]: Moreover, even if the features are exactly orthogonal ($m=m^*$), and the true $f_\ell^*$'s are simply relus, SGD will fail to recover the true features (see [Ge et al. (2017)](https://arxiv.org/abs/1711.00501)).
 
-So instead of the supervised learning approach, I propose exploiting the fact that we have oracle access to the true function $\Delta_{R}^{s\rightarrow t}$ as well as its higher-order derivatives. In particular,  let $\mathcal T^{(k)}, \hat {\mathcal T}^{(k)}$ denote the order-$(k+1)$ tensor denoting the $k$-th derivatives of $\Delta^{s\rightarrow t}, \hat{\Delta}^{s\rightarrow t}$, respectively, at $\vec\theta=0$. Then I propose optimizing the following loss:
+So instead of the supervised learning approach, I propose exploiting the fact that we have oracle access to the true function $\Delta_{R}^{s\rightarrow t}$ as well as its higher-order derivatives. In particular,  let $\mathcal{T}^{(k)}, \hat{\mathcal{T}}^{(k)}$ denote the order-$(k+1)$ tensor denoting the $k$-th derivatives of $\Delta^{s\rightarrow t}, \hat{\Delta}^{s\rightarrow t}$, respectively, at $\vec\theta=0$. Then I propose optimizing the following loss:
 
 $$
-\mathcal L \equiv \sum_{k=1}^\infty \frac{1}{k!} ||R^k\mathcal T^{(k)} - \hat {\mathcal T}^{(k)}||^2 \tag{3}
+\mathcal{L} \equiv \sum_{k=1}^\infty \frac{1}{k!} ||R^k\mathcal{T}^{(k)} - \hat{\mathcal{T}}^{(k)}||^2, \qquad\text{(3)}
 $$
 
 where $||T||^2$ denotes the Frobenius norm of a tensor $T$; i.e. if $T$ is an order-$o$ tensor over $\mathbb R^d$ then $||T||^2\equiv \sum_{i_1,...,i_o=1}^d T_{i_1,...,i_o}^2$.
 
-The quantity $R^k\mathcal T^{(k)}$ is simply the $k$-th derivative tensor of  $\Delta_{R}^{s\rightarrow t}$ and thus captures the behavior of the function $\Delta^{s\rightarrow t}$ at "scale" $R$.
+The quantity $R^k\mathcal{T^{(k)}}$ is simply the $k$-th derivative tensor of  $\Delta_{R}^{s\rightarrow t}$ and thus captures the behavior of the function $\Delta^{s\rightarrow t}$ at "scale" $R$.
 
 For each activation function I consider (linear, quadratic and exponential), I show that it is not necessary to explicitly construct the higher-order derivative tensors of $\Delta_{R}^{s\rightarrow t}$ and $\hat{\Delta}^{s\rightarrow t}$ in order to optimize this loss; rather, the most we will need is access to Hessian-vector products of $\Delta_{R}^{s\rightarrow t}$ (in the case of quadratic activation functions), or simply vector-Jacobian products of $\Delta_{R}^{s\rightarrow t}$ (in the case of linear and exponential activation functions).
 
@@ -175,12 +175,12 @@ seems plausible that by incorporating all higher-order information of the true m
 In this case, no matter what $\hat U, \hat V$ are, all but the linear terms of the loss (3) vanish, and we are fitting a factorization of the Jacobian of $\Delta_{R}^{s\rightarrow t}$, as we are simply minimizing:
 
 $$
-\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}}||R\mathcal T^{(1)} - \hat U \textrm{diag}(\alpha) \hat V^T||^2
+\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}}||R\mathcal{T}^{(1)} - \hat U \textrm{diag}(\alpha) \hat V^T||^2
 $$
 
 In this case, we can accomodate changes in $R$ by simply rescaling the $\alpha_\ell$'s, and so we can without loss of generality take $R=1$.
 
-Assuming orthogonal factors ($\hat U^T \hat U = \hat V^T \hat V=I$), this amounts to computing an SVD of $\mathcal T^{(1)}$, which is unique assuming the singular values are distinct. To summarize, under this assumption we can recover the true factors with the following straightforward algorithm:
+Assuming orthogonal factors ($\hat U^T \hat U = \hat V^T \hat V=I$), this amounts to computing an SVD of $\mathcal{T}^{(1)}$, which is unique assuming the singular values are distinct. To summarize, under this assumption we can recover the true factors with the following straightforward algorithm:
 
 $$
 \begin{aligned}
@@ -212,10 +212,10 @@ $$
 As in the linear case, by re-scaling $\alpha$ we can accommodate any choice of $R$ and thus without loss of generality we may set $R=1$. Concretely, the parametrized Hessian tensor $\hat{\mathcal T}^{(2)}$ may be written as a sum of rank-1 factors, so that we can re-write our minimization problem as:
 
 $$
-\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \sum_{i,j,k}\left(\mathcal T^{(2)}_{ijk} - \sum_{\ell=1}^m \alpha_\ell \hat U_{i\ell} \hat V_{j\ell} \hat V_{k\ell}\right)^2\tag{4}
+\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \sum_{i,j,k}\left(\mathcal T^{(2)}_{ijk} - \sum_{\ell=1}^m \alpha_\ell \hat U_{i\ell} \hat V_{j\ell} \hat V_{k\ell}\right)^2\qquad\text{(4)}
 $$
 
-This problem is known as calculating a [CP-decomposition](https://en.wikipedia.org/wiki/Tensor_rank_decomposition) of $\mathcal T^{(2)}$. In general, finding the best approximation such that the above expression is minimized  is NP-hard, but there are algorithms which can provably recover the factors under certain conditions (and which are also robust to adversarial noise), although they are not immediately practical for frontier LLMs[^bignote-algs].
+This problem is known as calculating a [CP-decomposition](https://en.wikipedia.org/wiki/Tensor_rank_decomposition) of $\mathcal{T}^{(2)}$. In general, finding the best approximation such that the above expression is minimized  is NP-hard, but there are algorithms which can provably recover the factors under certain conditions (and which are also robust to adversarial noise), although they are not immediately practical for frontier LLMs[^bignote-algs].
 
 [^bignote-algs]: As I mentioned above, one algorithm of particular interest is that of [Ding et al. (2022)](https://proceedings.mlr.press/v178/ding22a/ding22a.pdf), which guarantees recovery of $\sim d_{\textrm{model}}^{1.5}$ many random symmetric factors. Another algorithm of interest is that of [Hopkins et al. (2019)](https://proceedings.mlr.press/v99/hopkins19b/hopkins19b.pdf), which provides provably robust recovery of up to $\sim d^2$ many factors of symmetric 4-tensors in the presence of adversarial noise with bounded spectral norm. I mention these algorithms as a lower-bound of what is attainable provided one is willing to spend a substantial (but still "merely" polynomial) amount of compute - in this case, we get quite a bit in terms of the number of features we are able to recover, as well as robustness to adversarial noise.
 
@@ -226,7 +226,7 @@ Nevertheless, there do exist algorithms for tensor decompositions which work wel
 [^bignote-sae-sgd]: In other words, the situation is *not* analogous to the case of sparse dictionary learning, for which impractical algorithms with provable guarantees are known (e.g., [Spielman et al. (2012)](https://proceedings.mlr.press/v23/spielman12/spielman12.pdf)), while in practice SGD on SAEs is able to recover the true factors just as well on synthetic data ([Sharkey and beren (2022)](https://www.lesswrong.com/posts/z6QQJbtpkEAX3Aojj/interim-research-report-taking-features-out-of-superposition)).
 
 $$
-\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \sum_{i,j,k}\left(\mathcal T^{(2)}_{ijk} - \sum_{\ell=1}^m \alpha_\ell \hat U_{i\ell} \hat V_{j\ell}^{(1)} \hat V_{k\ell}^{(2)}\right)^2\tag{5}
+\min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \sum_{i,j,k}\left(\mathcal T^{(2)}_{ijk} - \sum_{\ell=1}^m \alpha_\ell \hat U_{i\ell} \hat V_{j\ell}^{(1)} \hat V_{k\ell}^{(2)}\right)^2\qquad\text{(5)}
 $$
 where the only difference between (5) and (4) is that we maintain two separate matrices of input directions $\hat V^{(1)}, \hat V^{(2)}$. Inspecting (5), one can see that if we freeze all but one of $\hat U, \hat V^{(1)}, \hat V^{(2)}$ then the (un-normalized) minimization problem is simply a convex least-squares problem. The ALS algorithm thus proceeds by minimizing each of $\hat U,\hat V^{(1)},\hat V^{(2)}$ one-by-one, followed by normalization steps for better stability, and finally ending with a least-squares estimate of the factor strengths $\alpha$.
 
@@ -261,7 +261,7 @@ where the outer product notation $\hat u_\ell \otimes \hat v_\ell \otimes \hat v
 $$
 \begin{gather}
 ||\mathcal T^{(2)} - \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell||^2 =\\
-= ||\mathcal T^{(2)}||^2 - 2\left\langle \mathcal T^{(2)}, \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell\right\rangle + ||\sum_{\ell=1}^m \alpha_\ell\cdot \hat u_\ell\otimes \hat v_\ell \otimes \hat v_\ell||^2 \tag{7}
+= ||\mathcal T^{(2)}||^2 - 2\left\langle \mathcal T^{(2)}, \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell\right\rangle + ||\sum_{\ell=1}^m \alpha_\ell\cdot \hat u_\ell\otimes \hat v_\ell \otimes \hat v_\ell||^2 \qquad\text{(7)}
 \end{gather}
 $$
 
@@ -270,7 +270,7 @@ where for two order-$o$ tensors $T,T'$ the bracket notation $\langle T, T'\rangl
 Importantly, the true Hessian $\mathcal T^{(2)}$ does not depend on the parameters in our approximation (the $\alpha_\ell, \hat u_\ell, \hat v_\ell$'s) and so we can regard $||\mathcal T^{(2)}||^2$ as a constant. Thus, some simple manipulations of the remaining terms in equation (7) tells us that we can re-formulate (4) in terms of the following maximization problem:
 
 $$
-\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell=1}^m \alpha_\ell \mathcal T^{(2)}(\hat u_\ell, \hat v_\ell, \hat v_\ell)}_{\text{quadratic causal importance}} \quad\quad - \frac{1}{2} \underbrace{\sum_{\ell, \ell'} \alpha_\ell \alpha_{\ell'} \langle \hat u_\ell, \hat u_{\ell'}\rangle \langle\hat v_\ell, \hat v_{\ell'}\rangle^2}_\textrm{quadratic similarity penalty} \tag{8}
+\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell=1}^m \alpha_\ell \mathcal T^{(2)}(\hat u_\ell, \hat v_\ell, \hat v_\ell)}_{\text{quadratic causal importance}} \quad\quad - \frac{1}{2} \underbrace{\sum_{\ell, \ell'} \alpha_\ell \alpha_{\ell'} \langle \hat u_\ell, \hat u_{\ell'}\rangle \langle\hat v_\ell, \hat v_{\ell'}\rangle^2}_\textrm{quadratic similarity penalty} \qquad\text{(8)}
 $$
 
 In words, by trying to minimize reconstruction error of the Hessian tensor (optimization problem (4)), we are implicitly searching for feature directions which are causally important, as measured by the quadratic part of $\Delta_{R}^{s\rightarrow t}$, subject to a pairwise similarity penalty (with the particular functional form of the penalty derived by expanding $||\sum_\ell \alpha_\ell\cdot \hat u_\ell \otimes \hat v_\ell\otimes\hat v_\ell||^2$ in equation (7)).
@@ -300,7 +300,7 @@ $$
 \begin{gather}
 ||R^k\mathcal T^{(k)} - \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell^{\otimes k} ||^2 =\\
 = ||R^k\mathcal T^{(k)}||^2 - 2\left\langle R^k\mathcal T^{(k)}, \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell^{\otimes k}\right\rangle + ||\sum_{\ell=1}^m \alpha_\ell\cdot \hat u_\ell\otimes \hat v_\ell^{\otimes k}||^2\\
-= \underbrace{||R^k\mathcal T^{(k)}||^2}_\textrm{constant} - 2\underbrace{\sum_{\ell=1}^m \alpha_\ell R^k \mathcal T^{(k)}(\hat u_\ell, \hat v_\ell,\cdots, \hat v_\ell)}_{\text{degree $k$ causal importance}} + \underbrace{\sum_{\ell, \ell'} \alpha_\ell \alpha_{\ell'} \langle \hat u_\ell, \hat u_{\ell'}\rangle \langle\hat v_\ell, \hat v_{\ell'}\rangle^k}_\textrm{degree $k$ similarity penalty}\tag{9}
+= \underbrace{||R^k\mathcal T^{(k)}||^2}_\textrm{constant} - 2\underbrace{\sum_{\ell=1}^m \alpha_\ell R^k \mathcal T^{(k)}(\hat u_\ell, \hat v_\ell,\cdots, \hat v_\ell)}_{\text{degree $k$ causal importance}} + \underbrace{\sum_{\ell, \ell'} \alpha_\ell \alpha_{\ell'} \langle \hat u_\ell, \hat u_{\ell'}\rangle \langle\hat v_\ell, \hat v_{\ell'}\rangle^k}_\textrm{degree $k$ similarity penalty}\qquad\text{(9)}
 \end{gather}
 $$
 
@@ -770,7 +770,7 @@ I've noticed in my experiments that DCT features can "feel" more interpretable d
 
 ## Hessian auto-diff details
 
-Notice that each update in algorithm (2) only requires access to Hessian-vector-vector products of the form $\mathcal T^{(2)}(\cdot,v,v)$ for the $\hat U$ update and $\mathcal T^{(2)}(u,v,\cdot)$ for the $\hat V$ update. Each Hessian-vector-vector product returns a vector in $\mathbb R^{d_\textrm{model}}$, and if $\tau m \ll d_\textrm{model}^2$ it will be more efficient to implicitly calculate each Hessian-vector-vector product using `torch.func`'s auto-diff features, rather than populating the full Hessian tensor. Below is a sketch of how to compute each update; for full details see the [repo](https://github.com/amack315/melbo-dct-post/blob/main/src/dct.py#L247).
+Notice that each update in algorithm (2) only requires access to Hessian-vector-vector products of the form $\mathcal{T^{(2)}}(\cdot,v,v)$ for the $\hat U$ update and $\mathcal{T}^{(2)}(u,v,\cdot)$ for the $\hat V$ update. Each Hessian-vector-vector product returns a vector in $\mathbb R^{d_\textrm{model}}$, and if $\tau m \ll d_\textrm{model}^2$ it will be more efficient to implicitly calculate each Hessian-vector-vector product using `torch.func`'s auto-diff features, rather than populating the full Hessian tensor. Below is a sketch of how to compute each update; for full details see the [repo](https://github.com/amack315/melbo-dct-post/blob/main/src/dct.py#L247).
 
 For each factor of the $\hat U$ update:
 
