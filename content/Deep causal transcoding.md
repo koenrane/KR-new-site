@@ -107,13 +107,13 @@ For some intuition, as a running example, imagine the following hypothetical "re
 
 This is essentially a shallow circuit "smeared" across layers. For the purposes of MELBO, it seems like a reasonable hypothesis that many of the high-level behaviors we might care about are activated by shallow circuits of the above form, in which some "semantic summary" feature writes to a "[high-level action](https://transformer-circuits.pub/2023/july-update/index.html#attn-skip-trigram:~:text=neuron%20in%20neuroscience%29.-,High%2DLevel%20Actions,-.%C2%A0In%20thinking)" feature. For example, here is a table of MELBO applications along with (hypothesized) source/target layer features:
 
-Table: **Table 1**: Hypothesized pairs of source/target-layer features.
-
 | Application                   | layer-$s'$ "semantic summary" feature | layer-$t'$ "high-level action" feature  |
 | ----------------------------: | ------------------------------------- | --------------------------------------- |
 | Jailbreaking                  | "user requests harmful information"   | "refuse request"                        |
 | Backdoor detection            | "backdoor trigger is present"         | "output backdoored behavior"            |
 | Eliciting latent capabilities | "password is *not* present"           | "suppress password-locked capabilities" |
+
+Table: **Table 1**: Hypothesized pairs of source/target-layer features.
 
 The circuit for each high-level behavior may be associated with different values of the source/target layers $s',t'$. But if for a given circuit we have $s', t'\leq t$, then that circuit should contribute additively to $\Delta^{s\rightarrow t}$. In order to capture a wide-range of behaviors, this suggests casting a wide net when choosing $s$ and $t$, i.e. considering a relatively *deep* slice of the transformer (hence the "deep" in *deep causal transcoding*)[^bignote-not-too-deep].
 
@@ -171,13 +171,13 @@ Below, I describe the methods I use to train DCTs with linear, quadratic and exp
 
 [^bignote-recovery]: If we can't recover the true features under reasonable assumptions even in the noiseless setting, then this is obviously bad for enumerative safety, and so we should at least demand this much. A natural follow-up concern is that the "noise term" $\vec\epsilon(\vec\theta)$ is far from i.i.d. as it captures the "deep" part of the computation of the sliced transformer, and it's natural to assume that the reason why deep transformers work well in practice is that they perform non-trivially "deep" computations. Fortunately, as I discuss below, there is room for hope from the literature on matrix and tensor decompositions which guarantee recovery under certain conditions even with adversarial noise.
 
-Table: **Table 2**: Description of recovery guarantees and algorithms used.
-
 | Activation Function | Conditions for Guaranteed Recovery      | Description of Algorithm                                                                                 |
 | ------------------: | :-------------------------------------: | :------------------------------------------------------------------------------------------------------ |
 | Linear              | Exact orthogonality                     | SVD of Jacobian                                                                                          |
 | Quadratic           | Provable recovery assuming incoherence  | Orthogonalized Alternating-Least-Squares ([Sharan and Valiant (2017)](https://arxiv.org/abs/1703.01804)) |
 | Exponential         | Plausible recovery assuming incoherence | Orthogonalized Gradient Iteration ([see below](#fitting-an-exponential-mlp))                             |
+
+Table: **Table 2**: Description of recovery guarantees and algorithms used.
 
 To summarize, in the linear case, it is algorithmically straightforward to learn features (we simply compute an SVD of the Jacobian of $\Delta_{R}^{s\rightarrow t}$), but we are only guaranteed recovery assuming exact orthogonality (i.e. ${U^*}^T U^* = {V^*}^T V^*=I$). In particular, this means we can only learn $d_\textrm{model}$ many features, which seems unnatural in light of theories of computation in superposition, which suggests that transformers will utilize many more feature directions than there are neurons in the residual stream.
 
@@ -569,11 +569,11 @@ One hypothesis is that these 240 vectors are all noisy versions of a "true" harm
 
 I consider two types of averaging: i) $v_\textrm{avg}$, formed by averaging the top vectors, and then normalizing to the same scale $R$ (similar to what was suggested in this [comment](https://www.lesswrong.com/posts/CbSEZSpjdpnvBcEvc/i-found-greater-than-800-orthogonal-write-code-steering#uvBKrFdrBz6oX9TZt)), and ii) taking the top left singular vector $v_{\textrm{svd}}$, normalized to the same scale $R$ (and taking the best value out of both $\pm v_\textrm{svd}$). Test jailbreak scores obtained by adding these directions to the residual stream are given in the following table:
 
-Table: **Table 3**: Jailbreak scores obtained by *adding* individual vs aggregate source-layer features. $\,$
-
 |                     | Individual $\hat v_\ell$s: average score | Individual $\hat v_\ell$s: max score | Aggregate feature: $v_\textrm{avg}$ | Aggregate feature: $\pm v_\textrm{svd}$ |
-| ------------------- | ----------------------------------------- | ------------------------------------- | ----------------------------------- | --------------------------------------- |
-| **Jailbreak Score** | 7.85                                     | 14.19                                 | 9.80                               | 10.31                                   |
+| ------------------- | ---------------------------------------- | ------------------------------------ | ----------------------------------- | --------------------------------------- |
+| **Jailbreak Score** | 7.85                                     | 14.19                                | 9.80                                | 10.31                                   |
+
+Table: **Table 3**: Jailbreak scores obtained by *adding* individual vs aggregate source-layer features. $\,$
 
 Aggregating the 240 vectors (using either a mean or SVD) yields better performance than the average performance of the original 240 vectors, but does not surpass the top-scoring DCT feature. Taking the logit jailbreak score at face value, this is inconsistent with the view that DCT "harmless" features are simply a "true" harmless feature, plus i.i.d. noise.
 
@@ -583,11 +583,11 @@ The results outlined above appear to conflict with recent work of [Arditi et al.
 
 We can reconcile these seemingly contradictory findings by examining what happens when we ablate DCT features rather than adding them. Specifically, I find that while ablating individual DCT features performs poorly, ablating an averaged direction yields stronger jailbreak effects. Here are the results using directional ablation instead of activation addition:
 
-Table: **Table 4**: Jailbreak scores obtained by *ablating* individual vs aggregate source-layer features.
-
 | | Individual $\hat v_\ell$s: average score|Individual $\hat v_\ell$s: max score | Aggregate feature: $v_\textrm{avg}$ | Aggregate feature: $\pm v_\textrm{svd}$ |
 |-------- | -------- | -------- | -------- |--------|
 | **Jailbreak Score**| -2.39     | 5.94     | 7.30     | 6.78|
+
+Table: **Table 4**: Jailbreak scores obtained by *ablating* individual vs aggregate source-layer features.
 
 Ablating individual DCT features scores worse than zero (on average) on our jailbreak metric, while ablating aggregated vectors ($v_\textrm{avg}$ or $v_\textrm{svd}$) performs noticeably better than even the best individual ablation.
 
@@ -605,11 +605,11 @@ Finally, I consider what happens when we ablate target-layer features learned by
 
 In particular, I perform the same ablation analysis as above on *target-layer* features (the $\hat u_\ell$'s):
 
-Table: **Table 5**: Jailbreak scores obtained by *ablating* individual vs aggregate *target-layer* features.
-
 | | Individual $\hat u_\ell$s: average score|Individual $\hat u_\ell$s: max score | Aggregate feature: $u_\textrm{avg}$ | Aggregate feature: $\pm u_\textrm{svd}$ |
 |-------- | -------- | -------- | -------- |--------|
 | **Jailbreak Score**| -3.91     | 1.73     | 2.55     | 2.90|
+
+Table: **Table 5**: Jailbreak scores obtained by *ablating* individual vs aggregate *target-layer* features.
 
 The pattern is analogous to the source-layer ablation results, though with lower overall scores - aggregating target-layer features improves jailbreak performance when ablating, suggesting the existence of a primary "should refuse" direction, where the model expects to see the "should refuse" feature in distribution.
 
