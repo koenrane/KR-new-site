@@ -64,19 +64,20 @@ test.describe("Admonitions", () => {
 
     test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
-      const admonition = page.locator(".is-collapsible:has(.callout-title)").first()
+      const admonition = page.locator(".is-collapsed:not(.mobile-only *)").first()
       await admonition.scrollIntoViewIfNeeded()
-      const initialScreenshot = await admonition.screenshot()
+      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
-      const admonitionTitle = page.locator(".is-collapsible .callout-title").first()
-      await admonitionTitle.click()
+      const initialScreenshot = await admonition.screenshot({ path: "initial.png" })
+
+      await admonition.click()
       await page.waitForTimeout(waitAfterCollapse)
-      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
-
-      const openedScreenshot = await admonition.screenshot()
+      const openedScreenshot = await admonition.screenshot({ path: "opened.png" })
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
-      await admonitionTitle.click()
+      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
+
+      await admonition.click()
       await page.waitForTimeout(waitAfterCollapse)
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
