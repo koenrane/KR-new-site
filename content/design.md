@@ -720,6 +720,19 @@ As of first posting, I have 843 JavaScript unit tests and 164 `pytest` Python te
 
 Pure unit tests cannot test the end-to-end experience of my site, nor can they easily interact with a local server. [`playwright`](https://playwright.dev/) lets me test dynamic features like search, spoiler blocks, and light / dark mode. What's more, I test these features across a range of browsers and viewport dimensions (mobile vs desktop).
 
+### Visual regression testing
+
+Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101). The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
+
+I use [`playwright`](https://playwright.dev/) to interact with my website and [`argos-ci`](https://argos-ci.com/) to take stable pictures of the website. `playwright` renders the site at pre-specified locations, at which point `argos-ci` takes pictures and compares those pictures to previously approved reference pictures. If the pictures differ by more than a small percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs. Using `argos-ci` helps reduce flakiness and track the evolution of the site.
+
+![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](https://assets.turntrout.com/static/images/posts/visual_regression_testing.avif)
+Figure: `playwright` and `argos-ci` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?".
+
+However, it's not practical to test every single page. So I have a [test page](/test-page) which stably demonstrates site features. My tests screenshot that page from many angles. I also use visual regression testing to ensure the stability of features like search.
+
+At this point, I also check that the server builds properly.
+
 ### Compressing and uploading assets
 
 My goal is a zero-hassle process for adding assets to my website. [In order to increase resilience](#archiving-and-dependencies), I use [Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/) to host assets which otherwise would bloat the size of my `git` repository.
@@ -735,19 +748,6 @@ I edit my Markdown articles in [Obsidian](https://obsidian.md/). When I paste an
 While this pipeline took several weeks of part-time coding to iron out, I'm glad I took the time.
 
 [^upload]: When I upload assets to Cloudflare R2, I have to be careful. By default, the upload will overwrite existing assets. If I have a namespace collision and accidentally overwrite an older asset which happened to have the same name, there's no way for me to know without simply realizing that an older page no longer shows the older asset. For example, links to the older asset would still validate [under `linkchecker`](#validating-links). Therefore, I disable overwrites by default and instead print a warning that an overwrite was attempted.
-
-### Visual regression testing
-
-Many errors cannot be caught by unit tests. For example, I want to ensure that my site keeps _looking good_ - this cannot (yet) be automated. To do so, I perform [visual regression testing](https://snappify.com/blog/visual-regression-testing-101). The testing also ensures that the overall site theme is retained over time and not nuked by unexpected CSS interactions.
-
-I use [`playwright`](https://playwright.dev/) to interact with my website and [`argos-ci`](https://argos-ci.com/) to take stable pictures of the website. `playwright` renders the site at pre-specified locations, at which point `argos-ci` takes pictures and compares those pictures to previously approved reference pictures. If the pictures differ by more than a small percentage of pixels, I'm given an alert and can view a report containing the pixel-level diffs. Using `argos-ci` helps reduce flakiness and track the evolution of the site.
-
-![An image of a mountain is changed to have snow on top. The pixel-level diff is highlighted to the user.](https://assets.turntrout.com/static/images/posts/visual_regression_testing.avif)
-Figure: `playwright` and `argos-ci` can tell you "hey, did you mean for your picture of a mountain to now have snow on it?".
-
-However, it's not practical to test every single page. So I have a [test page](/test-page) which stably demonstrates site features. My tests screenshot that page from many angles. I also use visual regression testing to ensure that stable features (like search) are stable.
-
-At this point, I also check that the server builds properly.
 
 ### Validating links
 
@@ -780,6 +780,13 @@ At this point, I check the built pages for a smattering of possible errors:
 - RSS file generation failure.
 
 ### Finishing touches
+
+Reordering elements in `<head>` to ensure social media previews
+: I want nice previews for my site. Unfortunately, the behavior was flaky - working on Facebook, not on Twitter, not on Slack, working on Discord... Why? I had filled out all of the [OpenGraph](https://ogp.me/) fields.
+
+: [Apparently](https://forums.slackcommunity.com/s/question/0D53a00008bbu4SCAQ/i-cant-understand-why-my-websites-url-does-not-unfurl-on-slack?language=en_US), Slack only reads the metadata from the first portion of the `<head>`. However, my OpenGraph `<meta>` tags were further back, so they weren't getting read in. Different sites read different lengths of the `<head>`, explaining the flakiness.
+
+: The solution: Include tags like `<meta>` and `<title>` as early as possible in the `<head>`.
 
 Updating page metadata
 : For posts which are being pushed for the first time, I set their publication date. For posts which have been updated since the last `push`, I update their "last updated" date.
