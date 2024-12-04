@@ -22,19 +22,27 @@ aliases:
 
 **Summary** I consider *deep causal transcoders* (DCTs) with various activation functions: i) linear, ii) quadratic and iii) exponential.  I define a novel *functional loss* function for training these DCTs, and evaluate the implications of training DCTs using this loss from a theoretical and empirical perspective. A repo reproducing the results of this post is available at [this link](https://github.com/amack315/melbo-dct-post/). Some of my main findings are:
 
-1. **Exponential DCTs are closely related to original MELBO objective**: I show that the objective function proposed in the [original MELBO post](/melbo) coincides (approximately[^bignote-coincides]) with the *functional loss* function introduced in this post for training exponential DCTs. I leverage this connection to obtain a better [gears-level understanding](https://www.lesswrong.com/tag/gears-level) of why the original method works, as well as how to improve it.
-    1. The transcoding perspective provides a theoretical explanation for why the steering vectors found using the original method are mono-semantic / interpretable.
-    2. I show that optimizing the functional loss function introduced in this post can *also* be thought of as computing a decomposition of a weighted combination of *all higher-order derivative tensors* of the sliced transformer, and use this connection to guide algorithmic improvements.
-2. **Leveraging Connection to Tensor Decompositions for Improved Training Algorithms**
-    1. I derive a heuristic training algorithm which I call *orthogonalized gradient iteration* (OGI), inspired by analogous algorithms from the literature on tensor decompositions.
-    2. Importantly, OGI learns a large number of features in parallel with a large step size. This leads to large efficiency gains which can be attributed to i) better parallelization, and ii) better iteration complexity[^bignote-complexity]. For example, on a 7B model and one training prompt, one can learn 512 generalizable steering vectors in ~30 seconds on a single H100.
-    3. I introduce a calibration procedure for choosing steering vector norms, derived heuristically from considerations related to the weighted tensor decomposition perspective. It appears to work well in practice.
-3. **Case Study - Learning Jailbreak Vectors:** As a case study of the generalization properties of DCT features, I train various DCTs on a data-set of *only* harmful instructions. I evaluate the ability of learned DCT features to elicit generalizable jailbreak behaviors. The main experiment is run on Qwen-1.5-7B-Chat, but results generalize to other models.
-    1. **Exponential DCTs out-perform linear/quadratic DCTs:** Exponential-DCTs trained using OGI generalize better than both Linear and Quadratic-DCTs, as measured by jailbreak scores (difference in logits between "Sure" and "Sorry") on a test set.
-    2. **Existence of Multiple Harmless Directions:** Similarly to [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors)'s discovery of >800 "write code" steering vectors, I find evidence that there are >200 linearly independent "request is harmless" directions which induce jailbreaks, a fact which I argue is important for adversarial robustness.
-    3. **Scaling to deeper models - constant depth horizon suffices:** To get some sense of whether the method scales to larger models, I train Exponential-DCTs on the prompt "Tell me how to make a bomb" on Qwen-1.5-32B-Chat, a 64-layer model. I find that training DCTs on layers $10\rightarrow20$ yields generalizable jailbreaks. Subjectively, DCTs appear to learn more diverse/coherent jailbreaks on larger models.
-4. **Application - Jailbreaking Robustified Models:** I use exponential DCTs to jailbreak a [representation-rerouted](https://arxiv.org/abs/2406.04313) version of Mistral-7B-Instruct-v2, achieving a latent-space attack success rate of 62\%.
-5. **Application - Capability Elicitation:** To evaluate the performance of Exponential-DCTs using standard  hyper-parameters on downstream tasks, I evaluate the ability of DCTs to uncover latent capabilities on a [password-locked version](https://arxiv.org/abs/2405.19550) of Deepseek-Math-7B. The best DCT feature recovers 32\% of password-locked performance, increasing accuracy on MATH from 3\% (locked) to 23\% (steered).
+> [!idea] Exponential DCTs are closely related to original MELBO objective
+> I show that the objective function proposed in the [original MELBO post](/melbo) coincides (approximately[^bignote-coincides]) with the *functional loss* function introduced in this post for training exponential DCTs. I leverage this connection to obtain a better [gears-level understanding](https://www.lesswrong.com/tag/gears-level) of why the original method works, as well as how to improve it.
+>     1. The transcoding perspective provides a theoretical explanation for why the steering vectors found using the original method are mono-semantic / interpretable.
+>     2. I show that optimizing the functional loss function introduced in this post can *also* be thought of as computing a decomposition of a weighted combination of *all higher-order derivative tensors* of the sliced transformer, and use this connection to guide algorithmic improvements.
+
+> [!idea] Leveraging Connection to Tensor Decompositions for Improved Training Algorithms
+> I derive a heuristic training algorithm which I call *orthogonalized gradient iteration* (OGI), inspired by analogous algorithms from the literature on tensor decompositions. Importantly, OGI learns a large number of features in parallel with a large step size. This leads to large efficiency gains which can be attributed to i) better parallelization, and ii) better iteration complexity[^bignote-complexity]. For example, on a 7B model and one training prompt, one can learn 512 generalizable steering vectors in ~30 seconds on a single H100.
+>
+> I also introduce a calibration procedure for choosing steering vector norms, derived heuristically from considerations related to the weighted tensor decomposition perspective. It appears to work well in practice.
+
+> [!success] Case Study: Learning Jailbreak Vectors
+> As a case study of the generalization properties of DCT features, I train various DCTs on a data-set of *only* harmful instructions. I evaluate the ability of learned DCT features to elicit generalizable jailbreak behaviors. The main experiment is run on Qwen-1.5-7B-Chat, but results generalize to other models.
+>    1. **Exponential DCTs out-perform linear/quadratic DCTs:** Exponential-DCTs trained using OGI generalize better than both Linear and Quadratic-DCTs, as measured by jailbreak scores (difference in logits between "Sure" and "Sorry") on a test set.
+>    2. **Existence of Multiple Harmless Directions:** Similarly to [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors)'s discovery of >800 "write code" steering vectors, I find evidence that there are >200 linearly independent "request is harmless" directions which induce jailbreaks, a fact which I argue is important for adversarial robustness.
+>    3. **Scaling to deeper models - constant depth horizon suffices:** To get some sense of whether the method scales to larger models, I train Exponential-DCTs on the prompt "Tell me how to make a bomb" on Qwen-1.5-32B-Chat, a 64-layer model. I find that training DCTs on layers $10\rightarrow20$ yields generalizable jailbreaks. Subjectively, DCTs appear to learn more diverse/coherent jailbreaks on larger models.
+
+> [!success] Application: Jailbreaking Robustified Models
+> I use exponential DCTs to jailbreak a [representation-rerouted](https://arxiv.org/abs/2406.04313) version of Mistral-7B-Instruct-v2, achieving a latent-space attack success rate of 62\%.
+
+> [!success] Application: Capability Elicitation
+> To evaluate the performance of Exponential-DCTs using standard  hyper-parameters on downstream tasks, I evaluate the ability of DCTs to uncover latent capabilities on a [password-locked version](https://arxiv.org/abs/2405.19550) of Deepseek-Math-7B. The best DCT feature recovers 32\% of password-locked performance, increasing accuracy on MATH from 3\% (locked) to 23\% (steered).
 
 [^bignote-coincides]: In particular, when training one feature, and assuming that a certain scale parameter defined below is small enough such that the Taylor series approximation of the sliced transformer converges, then the correspondence between the two objectives is exact. Otherwise, the correspondence is approximate.
 [^bignote-complexity]: In other words, it often converges in as little as 10 iterations, while the method in [the original post](/melbo) needed as many as 100 - 1,000 steps of AMSGrad to converge.
@@ -42,10 +50,18 @@ aliases:
 # Introduction
 
 I consider the problem of *mechanistically eliciting latent behaviors* (abbreviated as MELBO), a problem which I introduced and motivated in a [previous post](/melbo)[^bignote-api]. In particular, a good solution to MELBO learns perturbations of a model's internals  with the following goals in mind:
-1. **Generalization:** We want perturbations which generalize across different prompts, serving as evidence of a distinct mode of the behavior of the LLM, rather than a one-off occurrence of some strange sequence of tokens.
-2. **Behavorial Coverage:** We want to be able to elicit a diverse range of (potentially un-anticipated) behaviors.
-3. **Out-of-distribution Coverage:** We want perturbations which are useful for understanding the *out-of-distribution* behavior of LLMs. In particular, we want to discover perturbations using important feature directions in the model's activation space,  *even if these directions are never active in available training data*[^bignote-diff].
-4. **Mechanistic Anomaly Detection:**  A mechanistic perturbation naturally suggests an approach for [mechanistic anomaly detection](https://www.alignmentforum.org/posts/vwt3wKXWaCvqZyF74/mechanistic-anomaly-detection-and-elk): before deployment, train a large set of unsupervised model perturbations. Then during deployment, check whether the model's activations look similar to those of one of the learned perturbations, and if so, whether this perturbation encodes a problematic behavior.
+
+**Generalization**
+: We want perturbations which generalize across different prompts, serving as evidence of a distinct mode of the behavior of the LLM, rather than a one-off occurrence of some strange sequence of tokens.
+
+**Behavorial Coverage**
+: We want to be able to elicit a diverse range of (potentially un-anticipated) behaviors.
+
+Out-of-distribution Coverage
+: We want perturbations which are useful for understanding the *out-of-distribution* behavior of LLMs. In particular, we want to discover perturbations using important feature directions in the model's activation space,  *even if these directions are never active in available training data*[^bignote-diff].
+
+Mechanistic Anomaly Detection
+: A mechanistic perturbation naturally suggests an approach for [mechanistic anomaly detection](https://www.alignmentforum.org/posts/vwt3wKXWaCvqZyF74/mechanistic-anomaly-detection-and-elk): before deployment, train a large set of unsupervised model perturbations. Then during deployment, check whether the model's activations look similar to those of one of the learned perturbations, and if so, whether this perturbation encodes a problematic behavior.
 
 [^bignote-api]: Note that I conceive of MELBO as a set of requirements for a behavior elicitation method, rather than as a method itself. In this post I consider several different methods for MELBO, all based off learning unsupervised steering vectors by searching directly in a model's activation space for important directions. I think this is the most natural approach towards MELBO, but could imagine there existing other approaches, such as sampling diverse completions, clustering the completions, and fine-tuning the model to emulate the different clusters.
 
@@ -62,15 +78,21 @@ The most natural approach for MELBO consists of two steps:
 
 In this post, I introduce and evaluate a novel feature detection method which I call *deep causal transcoding*. However, there are other reasonable feature learning methods against which this should be compared. Below is a brief list. For a more extensive literature review, see the [previous post](/melbo).
 
-**Sparse Coding:** Applications of sparse dictionary learning methods exploit the hypothesis that there are a bundle of sparsely activating features in trained transformers ([Yun et al. (2023)](https://arxiv.org/abs/2103.15949)). More recently, [Templeton et al. (2024)](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) demonstrate the promise of sparse auto-encoders (SAEs) to learn these features in a scalable fashion. As [Templeton et al. (2024)](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) demonstrate, these features can be used to elicit potentially unsafe behaviors, allowing for open-ended evaluation of the spectrum of LLM behaviors. However, SAEs are likely to have poor out-of-distribution coverage - if a feature is never active in-distribution, an SAE trained with a reconstruction loss plus sparsity penalty is strictly incentivized *not* to represent it. Thus, a new method is desirable.
+**Sparse Coding**
+: Applications of sparse dictionary learning methods exploit the hypothesis that there are a bundle of sparsely activating features in trained transformers ([Yun et al. (2023)](https://arxiv.org/abs/2103.15949)). More recently, [Templeton et al. (2024)](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) demonstrate the promise of sparse auto-encoders (SAEs) to learn these features in a scalable fashion. As [Templeton et al. (2024)](https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html) demonstrate, these features can be used to elicit potentially unsafe behaviors, allowing for open-ended evaluation of the spectrum of LLM behaviors. However, SAEs are likely to have poor out-of-distribution coverage - if a feature is never active in-distribution, an SAE trained with a reconstruction loss plus sparsity penalty is strictly incentivized *not* to represent it. Thus, a new method is desirable.
 
-**Matrix/tensor decompositions:** Previous work has found that the right singular vectors of the Jacobian of the generator network in GANs yield a small number (~32) of interpretable feature directions in generative image models ([Ramesh et al. (2018)](https://arxiv.org/abs/1812.01161), see also [Park et al. (2023)](https://arxiv.org/abs/2307.12868)). This is essentially equivalent to the algorithm I give below for training "linear DCTs". Meanwhile, other work has found that Jacobian-based feature detection schemes are less successful when applied to LLMs ([Bushnaq et al. (2024)](https://arxiv.org/abs/2405.10928)[^bignote-only-shallow]). In this post, I provide a theoretical explanation for why decomposing the Jacobian matrix between layers alone may be insufficient - identifiability of features can only be guaranteed under strong assumptions like exact orthogonality. This motivates incorporating higher-order information, such as the Hessian tensor, to better identify non-orthogonal features (a known advantage of tensor decompositions in statistics/machine learning). I validate this theory empirically, showing improved generalization with tensor decomposition-based methods (i.e., quadratic/exponential DCTs, as defined below).
+**Matrix/tensor decompositions**
+: Previous work has found that the right singular vectors of the Jacobian of the generator network in GANs yield a small number (~32) of interpretable feature directions in generative image models ([Ramesh et al. (2018)](https://arxiv.org/abs/1812.01161), see also [Park et al. (2023)](https://arxiv.org/abs/2307.12868)). This is essentially equivalent to the algorithm I give below for training "linear DCTs". Meanwhile, other work has found that Jacobian-based feature detection schemes are less successful when applied to LLMs ([Bushnaq et al. (2024)](https://arxiv.org/abs/2405.10928)[^bignote-only-shallow]).
+
+: In this post, I provide a theoretical explanation for why decomposing the Jacobian matrix between layers alone may be insufficient - identifiability of features can only be guaranteed under strong assumptions like exact orthogonality. This motivates incorporating higher-order information, such as the Hessian tensor, to better identify non-orthogonal features (a known advantage of tensor decompositions in statistics/machine learning). I validate this theory empirically, showing improved generalization with tensor decomposition-based methods (i.e., quadratic/exponential DCTs, as defined below).
 
 [^bignote-only-shallow]: Although in contrast to ([Ramesh et al. (2018)](https://arxiv.org/abs/1812.01161) and my work, that paper only considers the Jacobian of a *shallow* rather than deep slice.
 
 # Theory
 
-*Summary: This section provides my current attempt at explaining why Algorithms 1-3 (defined below) elicit consistently generalizable high-level behaviors. For readers of the previous post, the "Persistent Shallow Circuits Principle" supplants the "High-Impact Feature Principle" outlined in that post[^bignote-description-length]. For readers who are interested mainly in the results, feel free to skim through the descriptions of Algorithms 1-3 in this section, and then proceed to the empirical results.*
+> [!note] Summary
+> This section provides my current attempt at explaining why Algorithms 1-3 (defined below) elicit consistently generalizable high-level behaviors. For readers of the previous post, the "Persistent Shallow Circuits Principle" supplants the "High-Impact Feature Principle" outlined in that post[^bignote-description-length]. For readers who are interested mainly in the results, feel free to skim through the descriptions of Algorithms 1-3 in this section, and then proceed to the empirical results.
+
 [^bignote-description-length]: The persistent shallow circuits principle has slightly higher description length than the high-impact feature principle, as it makes the claim that the specific vector of changes in activations induced in the target layer is interpretable.  But for this cost we gain several desirable consequences: i) a theory why we should learn mono-semantic features, ii) more efficient algorithms via the connection to tensor decompositions and iii) additional ways of editing the model (i.e. by ablating target-layer features).
 
 We want to learn feature directions at some source layer $s$ which will serve as [steering vectors](/steering-vectors) which elicit latent high-level behaviors. To do this, I consider the function $\Delta^{s\rightarrow t}(\vec\theta)$, defined as the change in layer-$t$ activations as a function of a steering vector $\vec\theta$ at layer $s$, averaged across token positions over a data-set of $n$ prompts. Importantly, I consider the causal effect of intervening at layer $s$ of the transformer residual stream, hence the "causal" in *deep causal transcoding*. Thus, in contrast to parts of the mechanistic interpretability literature, I care only about learning causally important directions in the source layer, even if they are not important for explaining the in-distribution behavior of the transformer [^bignote-illusion].
@@ -87,11 +109,11 @@ This is essentially a shallow circuit "smeared" across layers. For the purposes 
 
 Table: **Table 1**: Hypothesized pairs of source/target-layer features.
 
-| Application | layer-$s'$ "semantic summary" feature | layer-$t'$ "high-level action" feature |
-| -------- | -------- | -------- |
-| Jailbreaking     | "user requests harmful information"     | "refuse request"     |
-| Backdoor detection| "backdoor trigger is present"| "output backdoored behavior"|
-| Eliciting latent capabilities | "password is *not* present"| "suppress password-locked capabilities"|
+| Application                   | layer-$s'$ "semantic summary" feature | layer-$t'$ "high-level action" feature  |
+| ----------------------------: | ------------------------------------- | --------------------------------------- |
+| Jailbreaking                  | "user requests harmful information"   | "refuse request"                        |
+| Backdoor detection            | "backdoor trigger is present"         | "output backdoored behavior"            |
+| Eliciting latent capabilities | "password is *not* present"           | "suppress password-locked capabilities" |
 
 The circuit for each high-level behavior may be associated with different values of the source/target layers $s',t'$. But if for a given circuit we have $s', t'\leq t$, then that circuit should contribute additively to $\Delta^{s\rightarrow t}$. In order to capture a wide-range of behaviors, this suggests casting a wide net when choosing $s$ and $t$, i.e. considering a relatively *deep* slice of the transformer (hence the "deep" in *deep causal transcoding*)[^bignote-not-too-deep].
 
@@ -105,7 +127,7 @@ As I mentioned in my previous post, another reason to consider a deep slice of a
 
 More succinctly, the above considerations suggest something like the following hypothesis:
 
-> **Principle: Persistent Shallow Circuits are Important**
+> [!idea] Principle: Persistent Shallow Circuits are Important
 >
 > Many high-level features of interest in an LLM will be activated by some simple, shallow circuit. The effects of important features will persist across layers, while the effects of less important features will be ephemeral. By approximating the causal structure of a relatively deep slice of a transformer as an ensemble of shallow circuits (i.e., with a one-hidden-layer MLP), we can learn features which elicit a wide range of high-level behaviors.
 
@@ -259,10 +281,10 @@ $$
 where the outer product notation $\hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell$ denotes the tensor whose $i,j,k$'th entry is given by $\hat U_{i\ell} \hat V_{j\ell} \hat V_{k\ell}$. Then, expanding the square in equation (4), we can re-write the objective in that equation as:
 
 $$
-\begin{gather}
+\begin{gather*}
 ||\mathcal T^{(2)} - \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell||^2 =\\
 = ||\mathcal T^{(2)}||^2 - 2\left\langle \mathcal T^{(2)}, \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell\right\rangle + ||\sum_{\ell=1}^m \alpha_\ell\cdot \hat u_\ell\otimes \hat v_\ell \otimes \hat v_\ell||^2 \qquad\text{(7)}
-\end{gather}
+\end{gather*}
 $$
 
 where for two order-$o$ tensors $T,T'$ the bracket notation $\langle T, T'\rangle$ refers to the element-wise dot-product $\sum_{i_1,...,i_o} T_{i_1,...,i_o} T'_{i_1,...,i_o}$.
@@ -297,27 +319,28 @@ Now, I leverage the intuition developed in the final part of the previous sectio
 First, note that we can perform the same manipulation we performed for the Hessian in equation (7) for any term in our original functional objective (3), as follows:
 
 $$
-\begin{gather}
+\begin{gather*}
 ||R^k\mathcal T^{(k)} - \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell^{\otimes k} ||^2 =\\
 = ||R^k\mathcal T^{(k)}||^2 - 2\left\langle R^k\mathcal T^{(k)}, \sum_{\ell=1}^m \alpha_\ell \cdot \hat u_\ell \otimes \hat v_\ell^{\otimes k}\right\rangle + ||\sum_{\ell=1}^m \alpha_\ell\cdot \hat u_\ell\otimes \hat v_\ell^{\otimes k}||^2\\
 = \underbrace{||R^k\mathcal T^{(k)}||^2}_\textrm{constant} - 2\underbrace{\sum_{\ell=1}^m \alpha_\ell R^k \mathcal T^{(k)}(\hat u_\ell, \hat v_\ell,\cdots, \hat v_\ell)}_{\text{degree $k$ causal importance}} + \underbrace{\sum_{\ell, \ell'} \alpha_\ell \alpha_{\ell'} \langle \hat u_\ell, \hat u_{\ell'}\rangle \langle\hat v_\ell, \hat v_{\ell'}\rangle^k}_\textrm{degree $k$ similarity penalty}\qquad\text{(9)}
-\end{gather}
+\end{gather*}
 $$
 
 Summing across all terms in equation (9) yields the following theorem:
 
 > [!math] **Theorem**
 > Let $\bar R$ denote the radius of convergence of the Taylor expansion of $\Delta_{R}^{s\rightarrow t}$, and assume that $R\leq \bar R$. Then minimizing (3) for $\sigma(x)\equiv\exp(x)-1$ is equivalent (up to constant multiplicative/additive factors) to maximizing the objective in the following optimization problem:
-> $$
-> \begin{equation}
-> \max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}_{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum_{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \tag{10}
-> \end{equation}
-> $$
+>
+>$$
+\begin{equation}
+\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}*{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum*{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \tag{10}
+\end{equation}
+$$
 
 We can now "lift" the re-phrased version of algorithm (2) to the case of exponential activation functions to obtain the following algorithm:
 
 $$
-\begin{aligned} & \textbf{Algorithm 3: Orthogonalized Gradient Iteration (OGI)} \\ & \textbf{Input: } \tau, \epsilon, m, \Delta_R(\cdot) \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad G_U, G_V \leftarrow \text{gradients of } \hat{U}, \hat{V} \text{ for the causal part of the objective defined in eq. (10)} \\ & 5: \qquad \hat{U} \leftarrow G_U \\ & 6: \qquad \hat{V} \leftarrow G_V \\ & 7: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 8: \textbf{end repeat} \\ & 9: K_{\text{exp}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}_\ell, \hat{u}_{\ell'} \rangle (\exp( \langle \hat{v}_\ell, \hat{v}_{\ell'} \rangle)-1) \quad \forall \ell, \ell' = 1, ..., m \\ & 10: \alpha \leftarrow K^{-1}_\text{exp} (\langle \hat{u}_\ell, \Delta_R(\hat{v}_\ell) \rangle)_{\ell=1}^m \end{aligned}
+\begin{aligned} & \textbf{Algorithm 3: Orthogonalized Gradient Iteration (OGI)} \\ & \textbf{Input: } \tau, \epsilon, m, \Delta_R(\cdot) \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad G_U, G_V \leftarrow \text{gradients of } \hat{U}, \hat{V} \text{ for the causal part of the objective defined in eq. (10)} \\ & 5: \qquad \hat{U} \leftarrow G_U \\ & 6: \qquad \hat{V} \leftarrow G_V \\ & 7: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 8: \textbf{end repeat} \\ & 9: K_{\text{exp}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}*\ell, \hat{u}*{\ell'} \rangle (\exp( \langle \hat{v}*\ell, \hat{v}*{\ell'} \rangle)-1) \quad \forall \ell, \ell' = 1, ..., m \\ & 10: \alpha \leftarrow K^{-1}*\text{exp} (\langle \hat{u}*\ell, \Delta_R(\hat{v}*\ell) \rangle)*{\ell=1}^m \end{aligned}
 $$
 
 Note that OGI only requires access gradients of $\Delta_R^{s\rightarrow t}$, and thus is more efficient than performing a Hessian tensor decomposition via orthogonalized ALS. Moreover, it seems likely that the causal importance term in equation (10)) will more fully capture the true behavior of $\Delta_R^{s\rightarrow t}$ than the quadratic causal importance term in equation (8) (and in fact, my experiments below indicate that OGI learns more generalizable jailbreak vectors). For these reasons, OGI is currently my recommended default algorithm for mechanistically eliciting latent behaviors.
@@ -332,14 +355,15 @@ On the other hand, if $R$ is too large, we will emphasize very high-order inform
 
 #### Relation to original MELBO objective
 
-In my original post, I proposed searching for features in layer $s$ which induced large downstream changes in layer $t$, under the hypothesis that these features will be interpretable as they appear to be structurally important to the model. I considered various norms to measure downstream changes, but in the simplest such case I simply suggested maximizing $|| \Delta^{s\rightarrow t}(R\hat v)||^2$ over $\hat v: ||\hat v||=1$[^bignote-average-vs-concatenating]. Note that if we maximize $\langle \hat u, \Delta^{s\rightarrow t}(R\hat v)\rangle$ over $\hat u:||\hat u||=1$ then this equals $||\Delta^{s\rightarrow t}(R\hat v)||$, so that the causal objective in equation (10) captures the squared norm objective in the original post (up to a monotonic transformation). Furthermore, in the original post I proposed learning features sequentially, subject to an orthogonality constraint with previously learned features. This sequential algorithm largely mirrors the structure of tensor power iteration (see [Anandkumar et al. (2014)](https://jmlr.org/papers/volume15/anandkumar14b/anandkumar14b.pdf)[^bignote-tpi]). Thus you could view both the original post and the OGI algorithm presented above in algorithm 3 as heuristic generalizations of two tensor decomposition methods - tensor power iteration in the original post, and orthogonalized alternating least squares in this post.
+In my original post, I proposed searching for features in layer $s$ which induced large downstream changes in layer $t$, under the hypothesis that these features will be interpretable as they appear to be structurally important to the model. I considered various norms to measure downstream changes, but in the simplest such case I simply suggested maximizing $|| \Delta^{s\rightarrow t}(R\hat v)||^2$ over $\hat v: ||\hat v||=1$[^bignote-average-vs-concatenating]. Note that if we maximize $\langle \hat u, \Delta^{s\rightarrow t}(R\hat v)\rangle$ over $\hat u:||\hat u||=1$ then this equals $||\Delta^{s\rightarrow t}(R\hat v)||$, so that the causal objective in equation (10) captures the squared norm objective in the original post (up to a monotonic transformation).
+
+Furthermore, in the original post I proposed learning features sequentially, subject to an orthogonality constraint with previously learned features. This sequential algorithm largely mirrors the structure of tensor power iteration (see [Anandkumar et al. (2014)](https://jmlr.org/papers/volume15/anandkumar14b/anandkumar14b.pdf)[^bignote-tpi]). Thus you could view both the original post and the OGI algorithm presented above in algorithm 3 as heuristic generalizations of two tensor decomposition methods - tensor power iteration in the original post, and orthogonalized alternating least squares in this post.
 
 [^bignote-average-vs-concatenating]: Another subtle difference: I proposed averaging $||\Delta||^2$ *across* prompts, rather than *first* averaging $\Delta$ and then computing the squared norm. Thus the method in that post essentially *concatenates* $\Delta$ across prompts (i.e., if there are $n$ prompts, then technically we consider the map $\Delta_\textrm{concat}^{s\rightarrow t}:\mathbb R^d\rightarrow \mathbb R^{nd}$), whereas the method proposed here simply averages across prompts. I haven't systematically evaluated the difference between averaging and concatenating; my expectation is that concatenating would lead to better diversity but slightly less generalization.
 
 [^bignote-tpi]: The main difference is that [Anandkumar et al. (2014)](https://jmlr.org/papers/volume15/anandkumar14b/anandkumar14b.pdf) use a soft "deflation" step to encourage diversity, as opposed to the hard orthogonality constraint of the original paper.
 
 ### Calibrating $R$
->
 > [!warning] Epistemic status
 >
 > My preliminary attempt leveraging theory to develop a calibration procedure for choosing the scale $R$. It appears to work across a variety of $\sim7B$ models, but it is likely that future work will refine or replace this method, perhaps by combining with insights along the lines of [25Hour & submarat (2024)](https://www.lesswrong.com/posts/YhTnnKHQ5yQrAmi5p/arena4-0-capstone-hyperparameter-tuning-for-melbo) or [Heimersheim & Mendel (2024)](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1).*
@@ -381,8 +405,6 @@ To evaluate sample complexity, I create 10 different random shuffles of the data
 [^bignote-sign]: In particular, if $uv^T$ forms one of the rank-1 factors of the SVD, then this is equivalent to $(-u)(-v)^T$, so that we don't know the sign of $v$. Similarly in the case of a Hessian tensor decomposition, both $u\otimes v\otimes v$ and $u\otimes (-v) \otimes(-v)$ are equivalent. This is *not* the case for exponential DCTs, as $\theta\rightarrow\exp(\langle v, \theta\rangle)$ looks very different from $\theta\rightarrow\exp(\langle-v,\theta\rangle)$.
 
 Using the first 32 instructions of each shuffle as a validation set, I rank source-layer features by taking the average difference in final logits between "Sure" and "Sorry" when steered by each feature as an efficiently computable jailbreak score. I then take the highest-ranking feature on the validation set and compute test-set jailbreak scores. The results are visualized in figure 1 above.
-
-Some key takeaways are:
 
 ### Exponential DCTs out-perform Quadratic/Linear DCTs
 
@@ -498,13 +520,13 @@ Taking the 512 source-layer features as steering vectors (i.e., by adding them a
 > import random
 > import tweepy
 > from PIL import Image, ImageDraw, ImageFont
-> 
+>
 > # Twitter API credentials
 > consumer_key = 'your_consumer_key'
 > consumer_secret = 'your_consumer_secret'
 > access_token = 'your_access_token'
 > access_token_secret = 'your_access_token_secret'
-> 
+>
 > # Disinformation and fake news statements
 > statements = [
 >     "The Earth is flat. Believe it or not!",
