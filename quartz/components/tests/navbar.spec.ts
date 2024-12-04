@@ -2,9 +2,15 @@ import { test, expect } from "@playwright/test"
 
 import { takeArgosScreenshot } from "./visual_utils"
 
-// TODO take argos screenshots
-test("Clicking away closes the menu", async ({ page }) => {
-  await page.goto("http://localhost:8080/welcome")
+test.beforeEach(async ({ page }) => {
+  await page.goto("http://localhost:8080/test-page")
+})
+
+test("Clicking away closes the menu", async ({ page }, testInfo) => {
+  if (testInfo.project.name === "Desktop Chrome") {
+    test.skip()
+  }
+
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
   expect(menuButton).toBeVisible()
@@ -13,16 +19,25 @@ test("Clicking away closes the menu", async ({ page }) => {
   await menuButton.click()
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
+  await takeArgosScreenshot(page, testInfo, "visible-menu", {
+    element: navbarRightMenu,
+  })
 
   // Test clicking away
   const body = page.locator("body")
   await body.click()
   await expect(navbarRightMenu).not.toBeVisible()
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
+  await takeArgosScreenshot(page, testInfo, "hidden-menu", {
+    element: "#navbar-right",
+  })
 })
 
 test("Menu button makes menu visible", async ({ page }, testInfo) => {
-  await page.goto("http://localhost:8080/welcome")
+  if (testInfo.project.name === "Desktop Chrome") {
+    test.skip()
+  }
+
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
 
@@ -47,11 +62,11 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
 })
 
-test("Can't see the menu at desktop size", async ({ page }) => {
-  // Set viewport to desktop size
-  await page.setViewportSize({ width: 1920, height: 1080 })
+test("Can't see the menu at desktop size", async ({ page }, testInfo) => {
+  if (testInfo.project.name !== "Desktop Chrome") {
+    test.skip()
+  }
 
-  await page.goto("http://localhost:8080/welcome")
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
 
@@ -72,8 +87,13 @@ test("Can't see the menu at desktop size", async ({ page }) => {
 })
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
-test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
-  await page.goto("http://localhost:8080/welcome")
+test("Menu disappears when scrolling down and reappears when scrolling up", async ({
+  page,
+}, testInfo) => {
+  if (testInfo.project.name === "Desktop Chrome") {
+    test.skip()
+  }
+
   const navbar = page.locator("#navbar")
 
   // Initial state check
@@ -110,7 +130,6 @@ test("Menu disappears gradually when scrolling down", async ({ page }, testInfo)
     test.skip()
   }
 
-  await page.goto("http://localhost:8080/welcome")
   const navbar = page.locator("#navbar")
 
   // Initial state check
