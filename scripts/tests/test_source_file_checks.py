@@ -488,3 +488,64 @@ def test_check_font_families_with_opentype() -> None:
 
     missing = check_font_families(css_content)
     assert len(missing) == 0  # Should not report EBGaramond as missing
+
+
+def test_check_latex_tags(tmp_path: Path) -> None:
+    """
+    Test detection of LaTeX \tag{} commands in markdown files.
+    """
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+    git.Repo.init(tmp_path)
+
+    # Create test file with LaTeX tags
+    test_file = content_dir / "test.md"
+    content = """---
+title: Test Post
+description: Test Description
+permalink: /test
+---
+# Math Content
+
+Valid equation: $x^2 + y^2 = z^2$
+Invalid tag: $$x^2 \\tag{1}$$
+Another invalid: $\\tag{eq:test}$
+"""
+    test_file.write_text(content)
+
+    # Test direct function
+    errors = check_latex_tags(test_file)
+    assert len(errors) == 2
+    assert all("LaTeX \\tag{} found at line" in error for error in errors)
+
+    # Test integration with main
+    with pytest.raises(SystemExit, match="1"):
+        main()
+
+
+@pytest.mark.parametrize(
+    "content,expected_count",
+    [
+        ("No tags here", 0),
+        ("One \\tag{1}", 1),
+        ("$$x^2 \\tag{1}$$ and \\tag{2}", 2),
+        ("Escaped \\\\tag{1}", 0),  # Escaped backslash shouldn't count
+        ("```math\n\\tag{1}\n```", 1),  # Should detect in code blocks too
+    ],
+)
+def test_latex_tags_variations(
+    tmp_path: Path, content: str, expected_count: int
+) -> None:
+    """
+    Test various scenarios for LaTeX tag detection.
+
+    Args:
+        tmp_path: Pytest fixture providing temporary directory
+        content: Test content to check
+        expected_count: Expected number of tag violations
+    """
+    test_file = tmp_path / "test.md"
+    test_file.write_text(content)
+
+    errors = check_latex_tags(test_file)
+    assert len(errors) == expected_count

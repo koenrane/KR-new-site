@@ -3,6 +3,7 @@ Check source files for issues, like invalid links, missing required fields, etc.
 """
 
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -114,7 +115,30 @@ def check_invalid_md_links(file_path: Path) -> List[str]:
     return errors
 
 
-def check_file_metadata(
+def check_latex_tags(file_path: Path) -> List[str]:
+    """
+    Check for \\tag{ in markdown files, which should be avoided.
+
+    Args:
+        file_path: Path to the markdown file to check
+
+    Returns:
+        List of error messages for found LaTeX tags
+    """
+    tag_pattern = r"(?<!\\)\\tag\{"
+    errors = []
+
+    content = file_path.read_text()
+    matches = re.finditer(tag_pattern, content)
+
+    for match in matches:
+        line_num = content[: match.start()].count("\n") + 1
+        errors.append(f"LaTeX \\tag{{}} found at line {line_num}")
+
+    return errors
+
+
+def check_file_data(
     metadata: dict, existing_urls: PathMap, file_path: Path
 ) -> MetadataIssues:
     """
@@ -131,6 +155,7 @@ def check_file_metadata(
     issues: MetadataIssues = {
         "required_fields": check_required_fields(metadata),
         "invalid_links": check_invalid_md_links(file_path),
+        "latex_tags": check_latex_tags(file_path),
     }
 
     if metadata:
@@ -174,8 +199,12 @@ def compile_scss(scss_file_path: Path) -> str:
         return ""
 
     styles_dir = scss_file_path.parent
+    sass_path = shutil.which("sass")
+    if not sass_path:
+        raise FileNotFoundError("sass executable not found")
+
     result = subprocess.run(
-        ["sass", f"--load-path={styles_dir}", str(scss_file_path)],
+        [sass_path, f"--load-path={styles_dir}", str(scss_file_path)],
         capture_output=True,
         text=True,
         check=True,
@@ -322,7 +351,7 @@ def main() -> None:
     for file_path in markdown_files:
         rel_path = file_path.relative_to(git_root)
         metadata, _ = script_utils.split_yaml(file_path)
-        issues = check_file_metadata(metadata, existing_urls, file_path)
+        issues = check_file_data(metadata, existing_urls, file_path)
 
         if any(lst for lst in issues.values()):
             has_errors = True

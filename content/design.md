@@ -707,6 +707,8 @@ I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellche
 
 I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these. I check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
 
+I check that my $\KaTeX$ expressions avoid using `\tag{...}`, as that command wrecks the formatting in the rendered HTML.
+
 I lastly check that my CSS:
 
 1. Defines font-faces using fonts which actually exist in the filesystem, and
