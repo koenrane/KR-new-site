@@ -47,7 +47,7 @@ def sample_html_with_katex_errors():
     return """
     <html>
     <body>
-        <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text" style="color:#cc0000;"><span class="mord" style="color:#cc0000;">\\rewavcxx</span></span></span></span></span>
+        <span class="katex-error">\\rewavcxx</span>
     </body>
     </html>
     """

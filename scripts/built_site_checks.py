@@ -276,16 +276,14 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     Check for KaTeX elements with color #cc0000.
     """
     problematic_katex = []
-    katex_elements = soup.select(".katex")
+    katex_elements = soup.select(".katex-error")
     for element in katex_elements:
-        error_span = element.select_one('span[style*="color:#cc0000"]')
-        if error_span:
-            content = element.get_text().strip()
-            problematic_katex.append(
-                f"KaTeX element: {content[:50]}..."
-                if len(content) > 50
-                else content
-            )
+        content = element.get_text().strip()
+        problematic_katex.append(
+            f"KaTeX element: {content[:50]}..."
+            if len(content) > 50
+            else content
+        )
     return problematic_katex
 
 
