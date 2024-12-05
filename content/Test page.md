@@ -8,9 +8,12 @@ tags:
 description: Displaying the features of the website for use in visual regression testing.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
+card_image:
 aliases:
+date_published: &id001 2024-12-04 22:12:56.910555
+date_updated: *id001
 ---
+
 I use this page for visual regression testing, since there's little reason for me to change it over time - unless I'm adding more content to the _end_, which won't affect screenshots taken higher up in the page.
 
 # Header 1
