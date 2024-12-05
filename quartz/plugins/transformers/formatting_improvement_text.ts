@@ -77,7 +77,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
   [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
   [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
-  [/(<[^>]*>)\s*$\n\s*(?!=\n)/gm, "$1\n\n"], // Ensure there is a newline after an HTML tag
+  [/(<\/[^>]*>)\s*$\n\s*(?!=\n|[<>])/gm, "$1\n\n"], // Ensure there is a newline after an HTML tag
 ]
 
 export function massTransformText(text: string): string {

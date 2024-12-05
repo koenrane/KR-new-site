@@ -249,6 +249,20 @@ describe("Mass transforms", () => {
       const result = massTransformText(input)
       expect(result).toBe(expected)
     })
+
+    it("should not separate consecutive HTML tags", () => {
+      const input = "<div>Content</div><span>More</span>\nNext line"
+      const expected = "<div>Content</div><span>More</span>\n\nNext line"
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
+
+    it("should not add newlines after HTML tags inside blockquotes", () => {
+      const input = '> <em><span class="test">Content</span></em>\n> Next line'
+      const expected = '> <em><span class="test">Content</span></em>\n> Next line'
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
   })
 })
 
