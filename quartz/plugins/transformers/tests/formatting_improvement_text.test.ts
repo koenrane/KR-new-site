@@ -227,6 +227,29 @@ describe("Mass transforms", () => {
       expect(result).toBe(expected)
     })
   })
+
+  describe("HTML tag newline formatting", () => {
+    it("should add newlines after HTML tags at the end of lines", () => {
+      const input = "<div>Content</div>\nNext line"
+      const expected = "<div>Content</div>\n\nNext line"
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
+
+    it("should not add extra newlines if they already exist", () => {
+      const input = "<div>Content</div>\n\nNext line"
+      const expected = "<div>Content</div>\n\nNext line"
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
+
+    it("should not add newlines after blockquotes", () => {
+      const input = "> \n> This is the next line"
+      const expected = "> \n> This is the next line"
+      const result = massTransformText(input)
+      expect(result).toBe(expected)
+    })
+  })
 })
 
 describe("spaceDoublyNestedCallouts", () => {
