@@ -22,9 +22,9 @@ date_updated: 2024-12-04 22:18:09.880577
 
 
 > [!thanks]
-> Based off research performed in the MATS 5.1 extension program, under the mentorship of Alex Turner (TurnTrout). Research supported by a grant from the Long-Term Future Fund.
+> Based off research performed in the MATS 5.1 extension program, under the mentorship of Alex Turner (`TurnTrout`). Research supported by a grant from the Long-Term Future Fund.
 
-**TLDR:** I introduce a new framework for [mechanistically eliciting latent behaviors](/melbo) in LLMs. In particular, I propose *deep causal transcoding* - modeling the effect of causally intervening on the residual stream of a *deep* (i.e. $\gtrsim 10$-layer) slice of a transformer, using a *shallow* MLP. I find that the weights of these MLPs are highly interpretable -- input directions serve as diverse and coherently generalizable steering vectors, while output directions induce predictable changes in model behavior via directional ablation.
+**TL;DR:** I introduce a new framework for [mechanistically eliciting latent behaviors](/melbo) in LLMs. In particular, I propose *deep causal transcoding* - modeling the effect of causally intervening on the residual stream of a *deep* (i.e. $\gtrsim 10$-layer) slice of a transformer, using a *shallow* MLP. I find that the weights of these MLPs are highly interpretable -- input directions serve as diverse and coherently generalizable steering vectors, while output directions induce predictable changes in model behavior via directional ablation.
 
 **Summary** I consider *deep causal transcoders* (DCTs) with various activation functions: i) linear, ii) quadratic, and iii) exponential.  I define a novel *functional loss* function for training these DCTs, and evaluate the implications of training DCTs using this loss from a theoretical and empirical perspective. A repo reproducing the results of this post is available at [this link](https://github.com/amack315/melbo-dct-post/). Some of my main findings are:
 
