@@ -42,13 +42,13 @@ date_updated: 2024-12-04 22:18:09.880577
 > As a case study of the generalization properties of DCT features, I train various DCTs on a data-set of *only* harmful instructions. I evaluate the ability of learned DCT features to elicit generalizable jailbreak behaviors. The main experiment is run on Qwen-1.5-7B-Chat, but results generalize to other models.
 >    1. **Exponential DCTs out-perform linear/quadratic DCTs:** Exponential-DCTs trained using OGI generalize better than both Linear and Quadratic-DCTs, as measured by jailbreak scores (difference in logits between "Sure" and "Sorry") on a test set.
 >    2. **Existence of Multiple Harmless Directions:** Similarly to [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors)'s discovery of >800 "write code" steering vectors, I find evidence that there are >200 linearly independent "request is harmless" directions which induce jailbreaks, a fact which I argue is important for adversarial robustness.
->    3. **Scaling to deeper models - constant depth horizon suffices:** To get some sense of whether the method scales to larger models, I train Exponential-DCTs on the prompt "Tell me how to make a bomb" on Qwen-1.5-32B-Chat, a 64-layer model. I find that training DCTs on layers $10\rightarrow20$ yields generalizable jailbreaks. Subjectively, DCTs appear to learn more diverse/coherent jailbreaks on larger models.
+>    3. **Scaling to deeper models - constant depth horizon suffices:** To get some sense of whether the method scales to larger models, I train exponential DCTs on the prompt "Tell me how to make a bomb" on Qwen-1.5-32B-Chat, a 64-layer model. I find that training DCTs on layers $10\rightarrow20$ yields generalizable jailbreaks. Subjectively, DCTs appear to learn more diverse/coherent jailbreaks on larger models.
 
 > [!success] Application: Jailbreaking Robustified Models
 > I use exponential DCTs to jailbreak a [representation-rerouted](https://arxiv.org/abs/2406.04313) version of Mistral-7B-Instruct-v2, achieving a latent-space attack success rate of 62\%.
 
 > [!success] Application: Capability Elicitation
-> To evaluate the performance of Exponential-DCTs using standard  hyper-parameters on downstream tasks, I evaluate the ability of DCTs to uncover latent capabilities on a [password-locked version](https://arxiv.org/abs/2405.19550) of Deepseek-Math-7B. The best DCT feature recovers 32\% of password-locked performance, increasing accuracy on MATH from 3\% (locked) to 23\% (steered).
+> To evaluate the performance of exponential DCTs using standard  hyper-parameters on downstream tasks, I evaluate the ability of DCTs to uncover latent capabilities on a [password-locked version](https://arxiv.org/abs/2405.19550) of Deepseek-Math-7B. The best DCT feature recovers 32\% of password-locked performance, increasing accuracy on MATH from 3\% (locked) to 23\% (steered).
 
 [^bignote-coincides]: In particular, when training one feature, and assuming that a certain scale parameter defined below is small enough such that the Taylor series approximation of the sliced transformer converges, then the correspondence between the two objectives is exact. Otherwise, the correspondence is approximate.
 [^bignote-complexity]: In other words, it often converges in as little as 10 iterations, while the method in [the original post](/melbo) needed as many as 100 - 1,000 steps of AMSGrad to converge.
@@ -377,7 +377,7 @@ Furthermore, in the original post I proposed learning features sequentially, sub
 >
 > My preliminary attempt leveraging theory to develop a calibration procedure for choosing the scale $R$. It appears to work across a variety of $\sim7B$ models, but it is likely that future work will refine or replace this method, perhaps by combining with insights along the lines of [25Hour & Submarat (2024)](https://www.lesswrong.com/posts/YhTnnKHQ5yQrAmi5p/arena4-0-capstone-hyperparameter-tuning-for-melbo) or [Heimersheim & Mendel (2024)](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1).
 
-We need to choose a value of $R$ for both *training* (in the case of Exponential DCTs) and *inference* (i.e., we need to choose a norm when we add a steering vector to a model's activations).
+We need to choose a value of $R$ for both *training* (in the case of exponential DCTs) and *inference* (i.e., we need to choose a norm when we add a steering vector to a model's activations).
 
 For training, equation (3) suggests we will get better identification of non-orthogonal factors by choosing $R$ large enough such that the non-linear part of $\Delta_R^{s\rightarrow t}$ is non-negligble.
 
@@ -447,7 +447,7 @@ Figure 1 suggests that the jailbreak scores of exponential DCTs actually *decrea
 Note that I don't evaluate any sort of fluency of steered completions. This is because my subjective impression is that with the above choice of $R$, we don't get any sort of fluency penalty when steering with the highest-ranked DCT features. For example, below are some representative test-set completions for the top-scoring feature of an exponential DCT trained on 8 harmless instructions. One can see that the model steered by this vector exhibits archetypal "helpful-only" assistant behavior.
 
 <!-- spellchecker-disable -->
-> [!quote] Top Scoring Exponential DCT vector, $n=8$
+> [!quote] Top Scoring exponential DCT vector, $n=8$
 >
 > User
 >
