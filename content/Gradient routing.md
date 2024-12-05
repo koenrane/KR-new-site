@@ -251,4 +251,4 @@ Optimistically, gradient routing might enable a new era of controllable model in
 Figure: Where the gradients flow, the [shards](/shard-theory) grow.
 
 >[!thanks]
->This work was conducted as part of MATS 6.0 and would not have been possible without their support. See the paper for a complete list of acknowledgements.
+>This work was conducted as part of MATS 6.0 and would not have been possible without their support. See the paper for a complete list of acknowledgments.
