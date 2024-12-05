@@ -871,6 +871,13 @@ img.emoji {
   background-color: transparent !important;
 }
 
+// stylelint-disable-next-line selector-class-pattern
+.edgeLabel p {
+  background-color: var(--midground-faintest) !important;
+  padding: calc(0.125 * $base-margin);
+  border-radius: 5px;
+}
+
 .flowchart {
   display: block !important; // Allows the diagram to be centered
   margin-left: auto;

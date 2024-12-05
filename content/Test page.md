@@ -135,7 +135,7 @@ flowchart TD
     A["Answer(s)"]:::black
 
     EV --> H
-    AS --> H
+    AS --> | |"$$e=mc^2$$"| H
     H --> HQF
     Q --> HQF
     HQF --> A
