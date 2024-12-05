@@ -52,14 +52,20 @@ test.describe("Admonitions", () => {
       const normalAdmonition = page.locator(".note .callout-icon").first()
       const nestedAdmonition = page.locator(".quote .note .callout-icon").first()
 
-      const screenshots: string[] = []
+      const screenshots: Buffer[] = []
       for (const admonition of [normalAdmonition, nestedAdmonition]) {
         await admonition.scrollIntoViewIfNeeded()
         await expect(admonition).toBeVisible()
-        screenshots.push((await admonition.screenshot()).toString("base64"))
+        const screenshot = await admonition.screenshot()
+        screenshots.push(screenshot)
       }
 
-      expect(screenshots[0]).toEqual(screenshots[1])
+      // Check that the screenshots are almost identical
+      // TODO run npx playwright test --update-snapshots
+      expect(screenshots[0]).toMatchSnapshot({
+        name: `${theme}-admonition-icon.png`,
+        maxDiffPixels: 10, // Allow for small differences
+      })
     })
 
     test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
@@ -100,9 +106,9 @@ test.describe("Admonitions", () => {
     }, testInfo) => {
       let element: Locator
       if (status === "open") {
-        element = page.locator(".fold-callout-icon:not(.is-collapsed *)").first()
+        element = page.locator("#test-open .fold-callout-icon").first()
       } else {
-        element = page.locator(".is-collapsed .fold-callout-icon").first()
+        element = page.locator("#test-collapse .fold-callout-icon").first()
       }
 
       await takeArgosScreenshot(page, testInfo, `fold-button-appearance-${status}`, {

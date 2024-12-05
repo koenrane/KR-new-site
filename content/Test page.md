@@ -108,9 +108,10 @@ Subtitle: This is a subtitle.
 <div class="callout-content"><p>Hidden content.</p></div>
 </blockquote>
 
-> [!info]+ This collapsible admonition starts off open
-> Displayed content.
->
+<blockquote id="test-open" class="callout info is-collapsible" data-callout="info" data-callout-fold="">
+<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off open </div><div class="fold-callout-icon"></div></div>
+<div class="callout-content"><p>Displayed content.</p></div>
+</blockquote>
 # Mermaid diagrams
 
 ```mermaid
