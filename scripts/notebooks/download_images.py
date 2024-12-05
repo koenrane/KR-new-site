@@ -50,7 +50,9 @@ def replace_urls_in_file(file_path: Path, url: str, new_url: str) -> None:
         f.write(new_content)
 
 
-SUFFIX_REGEX = r"\.(jpg|jpeg|png|gif|mov|mp4|webm|avi|mpeg|webp|avif)"
+SUFFIX_REGEX = (
+    r"\.(jpg|jpeg|png|gif|mov|mp4|webm|avi|mpeg|webp|avif|svg|mp3|m4a|wav|ogg)"
+)
 
 
 def main(markdown_files: list[Path]) -> None:
