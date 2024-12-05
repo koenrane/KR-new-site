@@ -3,7 +3,7 @@ set -e # Exit immediately if a command exits with a non-zero status
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
-# # Check that conversion+uploading tests pass
+# Check that conversion+uploading tests pass
 PY_TEST_DIR="$GIT_ROOT"/scripts/tests
 python -m pytest "$PY_TEST_DIR"
 
@@ -13,10 +13,10 @@ if [ -n "$(ls -A "$GIT_ROOT"/content/asset_staging)" ]; then
   sh "$GIT_ROOT"/scripts/remove_unreferenced_assets.sh
 
   # Update references in the content
-  FILES_TO_MOVE=$(ls "$GIT_ROOT"/content/asset_staging)
-  for FILE in $FILES_TO_MOVE; do
+  find "$GIT_ROOT"/content/asset_staging -type f -print0 | while IFS= read -r -d '' FILE; do
     NAME=$(basename "$FILE")
-    sed -i ''.bak -E "s|$NAME|static/images/posts/$NAME|g" "$GIT_ROOT"/content/**{,/*}.md
+    echo "$NAME"
+    sed -i ''.bak -E "s|${NAME}|static/images/posts/${NAME}|g" "$GIT_ROOT"/content/**{,/*}.md
   done
 
   # Ignore errors due to asset_staging being empty
