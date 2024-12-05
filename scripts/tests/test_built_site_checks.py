@@ -104,6 +104,25 @@ def test_check_problematic_paragraphs(sample_soup):
     assert "This is a delayed-paragraph Table: " not in result
 
 
+def test_check_problematic_paragraphs_with_direct_text():
+    html = """
+    <html>
+    <body>
+        <article>
+            Figure: Text
+            <p>Normal paragraph</p>
+            <blockquote>Figure: Blockquote</blockquote>
+        </article>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert "Figure: Text" in result
+    assert "Figure: Blockquote" in result
+    assert "Normal paragraph" not in result
+
+
 def test_check_katex_elements_for_errors(sample_html_with_katex_errors):
     html = BeautifulSoup(sample_html_with_katex_errors, "html.parser")
     result = check_katex_elements_for_errors(html)

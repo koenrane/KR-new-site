@@ -122,21 +122,36 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
 
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     """
-    Check for paragraphs starting with specific phrases.
+    Check for text nodes starting with specific phrases.
+    Efficiently searches without duplicates.
     """
     phrases = ("Table: ", "Figure: ", "Code: ")
     prefixes = (r"^: ", r"^#+ ")
 
-    problematic_paragraphs = []
-    for p in soup.find_all(["p", "dt"]):
-        text = p.get_text().strip()
-        if any(phrase in text for phrase in phrases) or any(
+    problematic_paragraphs = set()
+
+    def _maybe_add_text(text: str) -> None:
+        text = text.strip()
+        if any(text.startswith(phrase) for phrase in phrases) or any(
             re.match(prefix, text) for prefix in prefixes
         ):
-            problematic_paragraphs.append(
+            problematic_paragraphs.add(
                 text[:50] + "..." if len(text) > 50 else text
             )
-    return problematic_paragraphs
+
+    # Check all <p> and <dt> elements
+    for element in soup.find_all(["p", "dt"]):
+        _maybe_add_text(element.get_text())
+
+    # Check direct text in <article> and <blockquote>
+    for parent in soup.find_all(["article", "blockquote"]):
+        for child in parent.children:
+            if isinstance(child, str):  # Check if it's a direct text node
+                text = child.strip()
+                if text:  # Only process non-empty text
+                    _maybe_add_text(text)
+
+    return list(problematic_paragraphs)
 
 
 def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
