@@ -200,7 +200,7 @@ $$
 \min_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}}||R\mathcal{T}^{(1)} - \hat U \textrm{diag}(\alpha) \hat V^T||^2
 $$
 
-In this case, we can accomodate changes in $R$ by simply rescaling the $\alpha_\ell$'s, and so we can without loss of generality take $R=1$.
+In this case, we can accommodate changes in $R$ by simply rescaling the $\alpha_\ell$'s, and so we can without loss of generality take $R=1$.
 
 Assuming orthogonal factors ($\hat U^T \hat U = \hat V^T \hat V=I$), this amounts to computing an SVD of $\mathcal{T}^{(1)}$, which is unique assuming the singular values are distinct. To summarize, under this assumption we can recover the true factors with the following straightforward algorithm:
 
