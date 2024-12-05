@@ -6,6 +6,7 @@ import seedrandom from "seedrandom"
 import {
   allowAcronyms,
   rehypeTagAcronyms,
+  ignoreList,
   isRomanNumeral,
   REGEX_ACRONYM,
   smallCapsSeparators,
@@ -553,6 +554,13 @@ describe("ignoreAcronym", () => {
     it(`should return false for whitelisted acronym: ${acronym}`, () => {
       const result = ignoreAcronym(createTextNode(acronym), [])
       expect(result).toBe(false)
+    })
+  })
+
+  // Test each item in ignoreList
+  ignoreList.forEach((toIgnore: string) => {
+    it(`should return true for ignored item: ${toIgnore}`, () => {
+      expect(ignoreAcronym(createTextNode(toIgnore), [])).toBe(true)
     })
   })
 

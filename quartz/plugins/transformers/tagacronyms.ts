@@ -16,6 +16,7 @@ export function isRomanNumeral(str: string): boolean {
 
 // Regex for acronyms and abbreviations
 export const allowAcronyms = ["IF", "CCC", "IL", "TL;DR", "LLM", "MP4", "mp4"]
+export const ignoreList = ["th", "hz", "st", "nd", "rd"]
 
 // Escaped and joined allowAcronyms as an intermediate variable
 const escapedAllowAcronyms = allowAcronyms
@@ -97,6 +98,9 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
 
   if (allowAcronyms.includes(node.value)) {
     return false
+  }
+  if (ignoreList.includes(node.value.toLowerCase())) {
+    return true
   }
 
   return isRomanNumeral(node.value)
