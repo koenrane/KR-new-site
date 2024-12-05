@@ -22,12 +22,13 @@ We present _gradient routing_, a way of controlling where learning happens in ne
 In this post, we:
 1. Show how to implement gradient routing;
 2. State the main results from our paper:
-    1. Controlling the latent space learned by an MNIST autoencoder, so different parts specialize to different digits;
+    1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits;
     2. Localizing computation in language models, (a) inducing axis-aligned features and (b) demonstrating that information can be localized then removed simply via ablation;
     3. Scaling oversight to efficiently train a reinforcement learning policy even with severely limited ability to score its behavior.
 3. Speculate about how gradient routing might be relevant to AI alignment.
 
-If you’re interested in further discussion or details, check out [the paper and its extensive appendices]([https://arxiv.org/abs/2410.04332](https://arxiv.org/abs/2410.04332)).
+> [!question] Curious? Read our paper!
+> If you're interested in further discussion or details, check out [the paper and its extensive appendices]([https://arxiv.org/abs/2410.04332](https://arxiv.org/abs/2410.04332)).
 
 # How gradient routing works
 
@@ -49,21 +50,21 @@ def forward(self, x: Tensor, gradient_mask: list[Tensor]):
   return x
 ```
 
-Code: The user specifies the `gradient_masks` corresponding to each batch of data x.
+Code: The user specifies the `gradient_masks` corresponding to each batch of data `x`.
 
 Note: We say “route X to Y” to mean “limit gradient updates on data X to region Y of the network.”
 
 # Results
 
-## MNIST encoding splitting
+## MNIST latent space splitting
 
-We train an MLP-based autoencoder to encode images of handwritten digits into vectors with 32 elements, then decode them back into full images. Our goal is to “split” the encoding so that half of it corresponds to one subset of digits, and the other half corresponds to others, such that it is _not possible_ to decode digits from the “wrong” half. This task is difficult: an autoencoder trained only on a subset of digits learns an encoding from which other digits can be decoded accurately (a form of zero-shot generalization). It is a non-linear kind of [concept erasure](https://arxiv.org/abs/2306.03819).
+We train an MLP-based autoencoder to encode images of handwritten digits into vectors with 32 elements, then decode them back into full images. Our goal is to “split” the latent space so that half of it corresponds to one subset of digits, and the other half corresponds to others, such that it is _not possible_ to decode digits from the “wrong” half. This task is difficult: an autoencoder trained only on a subset of digits learns a latent space from which other digits can be decoded accurately (a form of zero-shot generalization). The task is a non-linear kind of [concept erasure](https://arxiv.org/abs/2306.03819).
 
-To achieve splitting, we route digits 0-4 through the top half of the encoding and digits 5-9 through the bottom half of the encoding. We apply L1 regularization to the encoding to encourage specialization. The result: An encoding which represents 0-4 in the bottom dimensions and 5-9 in the top dimensions!
+To achieve splitting, we route digits 0-4 through the top half of the latent space and digits 5-9 through the bottom half. We apply L1 regularization to the encoded vector to encourage specialization. The result: a latent space which represents 0-4 in the bottom dimensions and 5-9 in the top dimensions!
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdsUEQRZMifnyrvZBVjOK3b-j5cPl58QdhDQoXiKwyVLQrcx0YiYnQNfIKUizxnGl3zbQdL4qvUzwTRVq6wLM3u_EKVsRVROAzmp4AAoLzPNhhzaSd3DXI7TfptuYHymXJrqHJxRA?key=bNPKKawRSzqSRD_gdz-fuw)
 
-Figure: The “Certificate” is a decoder which was trained on all digits in order to reconstruct images using only the bottom half of the encoding. Inability to learn to reconstruct 0-4 certifies that the requisite information is not contained in the encoding in an easily extractable way.
+Figure: The “Certificate” is a decoder which was trained on all digits in order to reconstruct images using only the bottom half of the latent space. Inability to learn to reconstruct 0-4 certifies that the requisite information is not contained in the latent space in an easily extractable way.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfwm10wwci9vQeqyUdPPcVhq0Aupbl3sHltWkK-r5iW8eA7G00yIR1_KgtQPg0ayWSH5rLlZD07pL_Nlqa-2I_lH7UX-a4UIKWIsCqiTxMGMnaSqBTtdd7SkIFmWLjyI8gCjJCV1g?key=bNPKKawRSzqSRD_gdz-fuw)
 
@@ -170,7 +171,7 @@ Naive training
 
 : We train a policy on all trajectories with +1 reinforcement for reaching a terminal state, unless we can observe that it is a `ghost`, in which case -1 is used.
 
-Discussion: besides being data-inefficient, data filtering is not guaranteed to converge to optimal behavior. This is because the presence of oversight is part of the environment, rather than being independent of it (as in [random labeling](https://ai-alignment.com/semi-supervised-reinforcement-learning-cf7d5375197f)). Indeed, we see this in the learning curves at 10% oversight given [here](https://arxiv.org/html/2410.04332v2#A6.F13). The naive training policy learns to exploit the limits of oversight, going to `ghost` 100% of the time when it is the closer destination and not under oversight. By contrast, the gradient-routed policy only walks into the `ghost` “by accident” when on the way to the `diamond`.
+Besides being data-inefficient, data filtering is not guaranteed to converge to optimal behavior. This is because the presence of oversight is part of the environment, rather than being independent of it (as in [random labeling](https://ai-alignment.com/semi-supervised-reinforcement-learning-cf7d5375197f)). Indeed, we see this in the learning curves at 10% oversight given [here](https://arxiv.org/html/2410.04332v2#A6.F13). The naive training policy learns to exploit the limits of oversight, going to `ghost` 100% of the time when it is the closer destination and not under oversight. By contrast, the gradient-routed policy only walks into the `ghost` “by accident” when on the way to the `diamond`.
 
 # Key takeaways
 
@@ -197,7 +198,7 @@ Gradient routing provides a principled way to avoid Goodharting. Instead of trai
 
 We still aren’t sure about best practices for applying gradient routing. In our unlearning experiments, careful hyperparameter tuning was needed to achieve localization without incurring a large hit to retain loss. There is a lot to tune: which tokens to route on, how much of the network to route to, what learning rates to use (e.g. whether to use negative learning rates), and regularization. This kind of tuning might be too costly to attempt for larger models. Furthermore, despite this tuning, we still see a meaningful hit to retain set performance when applying ERA. We think this hints at a flaw in our application of the method to unlearning, and are exploring improvements.
 
-Another challenge is that some capabilities are _entangled_, in the sense that there may be a strong inductive bias for a model to “bundle” their learning together. So, attempting to separate particular capabilities into separate submodules means fighting an uphill battle that manifests in an increased alignment tax. We saw this in MNIST (and to a lesser extent in our brief follow-up experiments on [CIFAR classification](https://arxiv.org/html/2410.04332v2#A2.SS1)), where inducing split representations for digits 0-4 vs. 5-9 required a heavily L1 penalty applied to the encoding. This isn’t a limitation of gradient routing per se. Rather, it is the [unsurprising](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) fact that certain kinds of structure in neural nets are both (a) preferable to us and (b) unnatural with respect to neural net inductive biases, and hence costly to induce by any means. For example, it is not possible to induce a specialized encoding in an MNIST autoencoder merely by filtering the training data (see MNIST ablations, [table 2](https://arxiv.org/html/2410.04332v2#A2.T2), setting 8).
+Another challenge is that some capabilities are _entangled_, in the sense that there may be a strong inductive bias for a model to “bundle” their learning together. So, attempting to separate particular capabilities into separate submodules means fighting an uphill battle that manifests in an increased alignment tax. We saw this in MNIST (and to a lesser extent in our brief follow-up experiments on [CIFAR classification](https://arxiv.org/html/2410.04332v2#A2.SS1)), where inducing split representations for digits 0-4 vs. 5-9 required a heavily L1 penalty applied to the latent space. This isn’t a limitation of gradient routing per se. Rather, it is the [unsurprising](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) fact that certain kinds of structure in neural nets are both (a) preferable to us and (b) unnatural with respect to neural net inductive biases, and hence costly to induce by any means. For example, it is not possible to induce a specialized latent space in an MNIST autoencoder merely by filtering the training data (see MNIST ablations, [table 2](https://arxiv.org/html/2410.04332v2#A2.T2), setting 8).
 
 # Alignment implications
 
@@ -212,11 +213,9 @@ Conventional unlearning methods are more about suppressing behavior than unlearn
 By exploiting the absorption property, perhaps we can purposefully allow “bad shards / motivational circuits” to form during training, only to later ablate them. That’s how we think of our toy RL results, at least-- don’t try to stop the model from going to ghost, just localize the tendency and ablate it! This provides a simplistic first example of how localization can scale limited labels to get good behavior. This is only the first step, though. We are excited to explore the implications of training methods that can sidestep Goodharting. In terms of our proposed technique, we wonder about the:
 
 Theory
-
 : What kinds of environments admit this kind of solution? See [the paper appendix: “Impacts of localizing capabilities vs. dispositions for scalable oversight”](https://arxiv.org/pdf/2410.04332#page=39) for related discussion.
 
 Practice
-
 : What would it even look like to scale this kind of solution to real-world alignment challenges-- what would be the behavior we localize, and when would it make sense to do so? I.e. in what settings would this be both viable and preferable to other approaches, like filtering the training data or steering the model some other way.
 
 ## Specialized AI
@@ -225,6 +224,7 @@ One way to avoid existential risk is to not “build god.” As an alternative t
 
 - A technical researcher that doesn’t know about human society or psychology.
 - A personal assistant that can operate computers but doesn’t know how they work.
+- Etc.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfakn1hrhT8PI1gX7AW56flOdBBWYtzXO2lx7u7GpgyWTmB-7gbexkHPTvpOgVIqViPcf_nemeWZENPSzVtqTY5xqVZgJDs2X3SUe7ne0UI8aDfHipW0BIffRMaH-agUvE4hOWcVFR-HJK7jAQfrkdxSIE?key=bNPKKawRSzqSRD_gdz-fuw)
 Figure: By the usual practice of training capabilities all at once (but localized), the model becomes competent. By deleting the undesired capabilities, the AI becomes safer.
@@ -242,9 +242,9 @@ Optimistically, gradient routing might enable a new era of controllable model in
 > [!idea] Join the shard theory team at MATS
 > [Team Shard]([https://www.matsprogram.org/agency](https://www.matsprogram.org/agency)) has a strong track record, and we’re always looking for enthusiastic new scholars. Since 2023, we’ve introduced [steering vectors](/gpt2-steering-vectors), gradient routing, [retargeted the search](/understanding-and-controlling-a-maze-solving-policy-network) of an RL policy, and introduced an unsupervised method to [elicit latent capabilities from a model](/mechanistically-eliciting-latent-behaviors). If you want to work on Team Shard in MATS 8.0 (next summer), [apply](https://www.matsprogram.org/apply) in spring 2025.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcahcxaRidNFFZZOBRlUkIkG1gbFe9-ewB_F-rf6LfNhQ6sr5WfSoZYOSuqb6liimR9dDJTB5jLTNtcTmwAWjTq6oIMvuH_URmwrzrRxb8KtXD1i8hc3x3cKbbtqy8tNyNu6MnQ8rZYMv-ZG4kcDTrR14EF?key=bNPKKawRSzqSRD_gdz-fuw)
+![A "shard farmer" looking out over three large sparkling crystals at nighttime.](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcahcxaRidNFFZZOBRlUkIkG1gbFe9-ewB_F-rf6LfNhQ6sr5WfSoZYOSuqb6liimR9dDJTB5jLTNtcTmwAWjTq6oIMvuH_URmwrzrRxb8KtXD1i8hc3x3cKbbtqy8tNyNu6MnQ8rZYMv-ZG4kcDTrR14EF?key=bNPKKawRSzqSRD_gdz-fuw)
 
 Figure: Where the gradients flow, the [shards](/shard-theory) grow.
 
 >[!thanks]
->This work was conducted as part of MATS 6.0 and would not have been possible without their support. Bryce Woodworth was particularly helpful. See the paper for a complete list of acknowledgements.
+>This work was conducted as part of MATS 6.0 and would not have been possible without their support. See the paper for a complete list of acknowledgements.
