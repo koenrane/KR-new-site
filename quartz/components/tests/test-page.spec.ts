@@ -64,25 +64,33 @@ test.describe("Admonitions", () => {
 
     test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
-      const admonition = page.locator(".is-collapsed:not(.mobile-only *)").first()
+
+      const admonition = page.locator("#test-collapse").first()
       await admonition.scrollIntoViewIfNeeded()
+
+      // Verify the admonition starts in a collapsed state
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
-      const initialScreenshot = await admonition.screenshot({ path: "initial.png" })
+      const initialScreenshot = await admonition.screenshot()
 
+      // Check we can open the admonition
       await admonition.click()
       await page.waitForTimeout(waitAfterCollapse)
-      const openedScreenshot = await admonition.screenshot({ path: "opened.png" })
+      const openedScreenshot = await admonition.screenshot()
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
 
-      await admonition.click()
+      // Check we can close the admonition
+      const admonitionTitle = page.locator("#test-collapse .callout-title").first()
+      await admonitionTitle.click()
       await page.waitForTimeout(waitAfterCollapse)
-      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
       const closedScreenshot = await admonition.screenshot()
       expect(closedScreenshot).toEqual(initialScreenshot)
+
+      // Check the admonition is back in a collapsed state
+      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
     })
   }
 

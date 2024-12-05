@@ -103,8 +103,10 @@ Subtitle: This is a subtitle.
 
 > [!money]
 
-> [!info]- This collapsible admonition starts off collapsed
-> Hidden content.
+<blockquote id="test-collapse" class="callout info is-collapsible is-collapsed" data-callout="info" data-callout-fold="">
+<div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off collapsed </div><div class="fold-callout-icon"></div></div>
+<div class="callout-content"><p>Hidden content.</p></div>
+</blockquote>
 
 > [!info]+ This collapsible admonition starts off open
 > Displayed content.
