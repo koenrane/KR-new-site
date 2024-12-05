@@ -26,8 +26,8 @@ fi
 # Convert images to AVIF format, mp4s to webm, and remove metadata
 python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR" --ignore-files "example_com.png"
 
-# Remove any mp4_original files
-find "$STATIC_DIR" -name "*.mp4_original" -delete
+# Left over original files
+find "$STATIC_DIR" -name "*.{mp4,avif}_original" -delete
 
 # Convert card images in markdown files
 python "$GIT_ROOT"/scripts/convert_markdown_yaml.py --markdown-directory "$GIT_ROOT"/content
