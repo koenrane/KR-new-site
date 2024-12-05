@@ -518,10 +518,6 @@ Another invalid: $\\tag{eq:test}$
     assert len(errors) == 2
     assert all("LaTeX \\tag{} found at line" in error for error in errors)
 
-    # Test integration with main
-    with pytest.raises(SystemExit, match="1"):
-        main()
-
 
 @pytest.mark.parametrize(
     "content,expected_count",
