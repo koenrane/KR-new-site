@@ -188,7 +188,29 @@ _MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
 ]
 
 
-# TODO broken
+def resolve_media_path(src: str, base_dir: Path) -> Path:
+    """
+    Resolve a media file path, trying both absolute and relative paths.
+
+    Args:
+        src: The source path from the HTML tag
+        base_dir: The base directory to resolve paths from
+
+    Returns:
+        The resolved Path object
+    """
+    if src.startswith("/"):
+        return (base_dir / src.lstrip("/")).resolve()
+
+    # For relative paths, try both direct and with base_dir
+    full_path = (base_dir / src).resolve()
+    if not full_path.is_file():
+        # Try relative to base_dir
+        full_path = (base_dir / src.lstrip("./")).resolve()
+
+    return full_path
+
+
 def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
     Verify the existence of local media files (images, videos, SVGs).
@@ -202,9 +224,9 @@ def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
             # It's a local file
             file_extension = Path(src).suffix.lower()
             if file_extension in _MEDIA_EXTENSIONS:
-                full_path = (base_dir / src).resolve()
+                full_path = resolve_media_path(src, base_dir)
                 if not full_path.is_file():
-                    missing_files.append(src)
+                    missing_files.append(f"{src} (resolved to {full_path})")
 
     return missing_files
 

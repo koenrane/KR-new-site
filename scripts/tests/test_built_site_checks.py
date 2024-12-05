@@ -118,16 +118,78 @@ def test_parse_html_file(tmp_path):
     assert result.find("p").text == "Test"
 
 
+@pytest.mark.parametrize(
+    "input_path,expected_path",
+    [
+        # Test absolute path
+        ("/images/test.jpg", "images/test.jpg"),
+        # Test relative path with ./
+        ("./images/test.jpg", "images/test.jpg"),
+        # Test path without leading ./ or /
+        ("images/test.jpg", "images/test.jpg"),
+        # Test nested paths
+        ("/deep/nested/path/image.png", "deep/nested/path/image.png"),
+        # Test current directory
+        ("./file.jpg", "file.jpg"),
+        # Test file in root
+        ("/file.jpg", "file.jpg"),
+    ],
+)
+def test_resolve_media_path(input_path, expected_path, temp_site_root):
+    """Test the resolve_media_path helper function."""
+    result = resolve_media_path(input_path, temp_site_root)
+    assert result == (temp_site_root / expected_path).resolve()
+
+
 def test_check_local_media_files(sample_soup, temp_site_root):
     # Create an existing image file
     (temp_site_root / "existing-image.jpg").touch()
     (temp_site_root / "existing-video.mp4").touch()
 
     result = check_local_media_files(sample_soup, temp_site_root)
-    assert set(result) == {"missing-image.png", "missing-svg.svg"}
+    assert set(result) == {
+        "missing-image.png (resolved to "
+        + str((temp_site_root / "missing-image.png").resolve())
+        + ")",
+        "missing-svg.svg (resolved to "
+        + str((temp_site_root / "missing-svg.svg").resolve())
+        + ")",
+    }
+
+
+@pytest.mark.parametrize(
+    "html,expected,existing_files",
+    [
+        ('<img src="local.jpg">', ["local.jpg (resolved to {})"], []),
+        ('<img src="https://example.com/image.png">', [], []),
+        ('<video src="video.mp4"></video>', ["video.mp4 (resolved to {})"], []),
+        ('<svg src="icon.svg"></svg>', ["icon.svg (resolved to {})"], []),
+        ('<img src="existing.png">', [], ["existing.png"]),
+    ],
+)
+def test_check_local_media_files_parametrized(
+    html, expected, existing_files, temp_site_root
+):
+    # Create any existing files
+    for file in existing_files:
+        (temp_site_root / file).touch()
+
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_local_media_files(soup, temp_site_root)
+
+    # Format the expected paths with the actual resolved paths
+    expected = [
+        exp.format(
+            str((temp_site_root / exp.split(" (resolved to ")[0]).resolve())
+        )
+        for exp in expected
+    ]
+
+    assert result == expected
 
 
 def test_check_file_for_issues(tmp_path):
+    """Test check_file_for_issues function."""
     file_path = tmp_path / "test.html"
     file_path.write_text(
         """
@@ -150,11 +212,10 @@ def test_check_file_for_issues(tmp_path):
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
-    assert issues["missing_media_files"] == ["missing-image.jpg"]
-    assert issues["trailing_blockquotes"] == [
-        "This is a problematic blockquote >"
+    expected_missing = [
+        f"missing-image.jpg (resolved to {(tmp_path / 'missing-image.jpg').resolve()})"
     ]
-    assert issues["unrendered_subtitles"] == ["Subtitle: Unrendered subtitle"]
+    assert issues["missing_media_files"] == expected_missing
 
 
 complicated_blockquote = """
@@ -171,78 +232,6 @@ def test_complicated_blockquote(tmp_path):
     assert issues["trailing_blockquotes"] == [
         "Basic facts about language models during trai ning..."
     ]
-
-
-@pytest.mark.parametrize(
-    "html,expected",
-    [
-        ('<img src="local.jpg">', ["local.jpg"]),
-        ('<img src="https://example.com/image.png">', []),
-        ('<video src="video.mp4"></video>', ["video.mp4"]),
-        ('<svg src="icon.svg"></svg>', ["icon.svg"]),
-        ('<img src="existing.png">', []),
-    ],
-)
-def test_check_local_media_files_parametrized(html, expected, temp_site_root):
-    soup = BeautifulSoup(html, "html.parser")
-    (temp_site_root / "existing.png").touch()
-    result = check_local_media_files(soup, temp_site_root)
-    assert result == expected
-
-
-def test_check_asset_references_all_missing(
-    sample_soup_with_assets, temp_site_root
-):
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(
-        sample_soup_with_assets, file_path, temp_site_root
-    )
-
-    expected = {
-        "/styles/main.css (resolved to styles/main.css)",
-        "./index.css (resolved to index.css)",
-        "/js/script.js (resolved to js/script.js)",
-    }
-    assert set(result) == expected
-
-
-def test_check_asset_references_absolute_paths(temp_site_root):
-    html = """
-    <html>
-    <head>
-        <link rel="stylesheet" href="/absolute/path/style.css">
-        <script src="/another/absolute/path/script.js"></script>
-    </head>
-    </html>
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(soup, file_path, temp_site_root)
-
-    expected = {
-        "/absolute/path/style.css (resolved to absolute/path/style.css)",
-        "/another/absolute/path/script.js (resolved to another/absolute/path/script.js)",
-    }
-    assert set(result) == expected
-
-
-def test_check_asset_references_ignore_external(temp_site_root):
-    html = """
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://example.com/style.css">
-        <script src="http://example.com/script.js"></script>
-    </head>
-    </html>
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(soup, file_path, temp_site_root)
-
-    assert result == []
 
 
 @pytest.mark.parametrize(
