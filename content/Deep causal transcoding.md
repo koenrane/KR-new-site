@@ -333,7 +333,7 @@ Summing across all terms in equation (9) yields the following theorem:
 >
 >$$
 \begin{equation}
-\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}*{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum*{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \tag{10}
+\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}*{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum*{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \qquad\text{10}
 \end{equation}
 $$
 
