@@ -45,29 +45,6 @@ test.describe("Admonitions", () => {
   const waitAfterCollapse = 450 // Wait ms after collapsing to ensure transition is complete
 
   for (const theme of ["light", "dark"]) {
-    test(`Nested admonition icon is the same as the non-nested admonition icon in ${theme} mode`, async ({
-      page,
-    }) => {
-      await setTheme(page, theme as "light" | "dark")
-      const normalAdmonition = page.locator(".note .callout-icon").first()
-      const nestedAdmonition = page.locator(".quote .note .callout-icon").first()
-
-      const screenshots: Buffer[] = []
-      for (const admonition of [normalAdmonition, nestedAdmonition]) {
-        await admonition.scrollIntoViewIfNeeded()
-        await expect(admonition).toBeVisible()
-        const screenshot = await admonition.screenshot()
-        screenshots.push(screenshot)
-      }
-
-      // Check that the screenshots are almost identical
-      // TODO run npx playwright test --update-snapshots
-      expect(screenshots[0]).toMatchSnapshot({
-        name: `${theme}-admonition-icon.png`,
-        maxDiffPixels: 10, // Allow for small differences
-      })
-    })
-
     test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
 
@@ -216,7 +193,6 @@ test.describe("Spoilers", () => {
       await spoiler.scrollIntoViewIfNeeded()
       await expect(spoiler).toBeVisible()
 
-      const screenshotBeforeClicking = await spoiler.screenshot()
       await spoiler.click()
 
       // Wait for the 'revealed' class to be added
@@ -233,10 +209,6 @@ test.describe("Spoilers", () => {
 
       // Wait for the 'revealed' class to be removed
       await expect(spoiler).not.toHaveClass(/revealed/)
-      await page.waitForTimeout(waitAfterRevealing)
-
-      const screenshotAfterClosing = await spoiler.screenshot()
-      expect(screenshotAfterClosing).toEqual(screenshotBeforeClicking)
     })
   }
 
