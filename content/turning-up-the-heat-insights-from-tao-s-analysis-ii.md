@@ -105,7 +105,8 @@ _Already proven:_ $\int_{-1}^1 (1-x^2)^N \,dx \geq \frac{1}{\sqrt{N}}$.
 > $$
 > \epsilon \geq (1-\delta^2)^N\sqrt{N}\\
 > \epsilon \geq \sqrt{N} >(1-\delta^2)^N\sqrt{N},
-> > $$
+> $$
+>
 > the second line being a consequence of $1 > (1-\delta^2)^N$. Then set $N$ to be any natural number such that this inequality is satisfied. Finally, we set $c = \frac{1}{\int_{-1}^1 (1-x^2)^N \, dx}$. By construction, these values of $c,N$ satisfy the second and third properties. □
 
 ### Convoluted No Longer
@@ -115,7 +116,7 @@ Those looking for an excellent explanation of convolutions, [look no further](ht
 ### Weierstrass Approximation Theorem
 
 > [!math] Theorem
-> Suppose  $f : [a,b] \to \mathbb{R}$ is continuous and compactly supported on $[a,b]$. Then for every $\epsilon > 0$, there exists a polynomial $P$ such that $\vert\vert P - f\vert\vert_\infty < \epsilon$.
+> Suppose  $f : [a,b] \to \mathbb{R}$ is continuous and compactly supported on $[a,b]$. Then for every $\epsilon > 0$, there exists a polynomial $P$ such that $\vert\vert P - f\vert\vert_\infty < \epsilon.$
 
 In other words, any continuous, real-valued $f$ on a finite interval can be approximated with arbitrary precision by polynomials.
 
