@@ -210,7 +210,7 @@ Post-math text. The following equations should display properly:$$\nabla \cdot \
 
 ## Internal links
 
-Here's a link to [another page](/some-page) with popover preview. [This same-page link goes to the "smallcaps" section.](#smallcaps)
+Here's a link to [another page](/shard-theory) with popover preview. [This same-page link goes to the "smallcaps" section.](#smallcaps)
 
 ## External links with favicons
 
