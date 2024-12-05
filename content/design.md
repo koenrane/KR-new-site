@@ -779,7 +779,7 @@ At this point, I check the built pages for a smattering of possible errors:
   - Anchor links which don't exist;
   - Duplicate anchor targets on a page;
   - `git`-hosted assets, stylesheets, or scripts which don't exist;
-- Duplicate `id=` attributes on a page's HTML elements;
+- Duplicate `id` attributes on a page's HTML elements;
 - $\KaTeX$ rendering errors;
 - Failure to inline the critical CSS;
 - RSS file generation failure.
