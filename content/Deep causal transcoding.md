@@ -475,7 +475,7 @@ Note that I don't evaluate any sort of fluency of steered completions. This is b
 > [!warning] Epistemic status
 > I give some suggestive evidence that there are many "true" harmless directions, similarly to [others' findings](/high-dimensional-subspace-of-code-steering-vectors). I don't think the question of "feature multiplicity" posed here has been conclusively settled. But given the potential relevance for adversarial robustness it seems wise to consider seriously what the implications would be if "feature multiplicity" were real.
 
-In my [initial MELBO post](/melbo#Real_life_instructions), I found two orthogonal steering vectors which elicit jailbreak behavior in Qwen-14B-Chat. In a subsequent post, [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors) scaled up this sort of finding, discovering (among other things) more than 800 orthogonal steering vectors which elicit code from Qwen-1.5-1.8B-Chat, even on prompts which have nothing to do with coding.
+In my [initial MELBO post](/mechanistically-eliciting-latent-behaviors#real-life-instructions), I found two orthogonal steering vectors which elicit jailbreak behavior in Qwen-14B-Chat. In a subsequent post, [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors) scaled up this sort of finding, discovering (among other things) more than 800 orthogonal steering vectors which elicit code from Qwen-1.5-1.8B-Chat, even on prompts which have nothing to do with coding.
 
 This type of result sounds somewhat surprising - in the most basic form of the linear representation hypothesis, it seems natural to assume that the mapping between an LLM's "features" and "human concepts" will be one-to-one. But this is not necessarily the case - it could be that the linear representation hypothesis *is* true, but the mapping of features to human concepts is *many-to-one*[^bignote-splitting].
 
@@ -626,7 +626,7 @@ To evaluate how well DCTs work on deeper models, I train an exponential DCT with
 
 My preliminary finding is that using the same hyper-parameters as I used in the above experiment on Qwen-7B-Chat (most importantly, using the same value of $\lambda=.5$ for calibrating $R$, and training on layers $10\rightarrow20$), we get qualitatively similar results on the 32B model as on the 7B model.
 
-In particular, skimming [this notebook](https://github.com/amack315/melbo-dct-post/blob/main/demo/demo_32b.ipynb) one can see that the exponential DCT learned a number of "helpful-only assistant" features, along with various "gaming/roleplay" vectors similar to my [prior experiments](/melbo#Fantasy_bomb_making_instructions) with Qwen-14B-Chat.
+In particular, skimming [this notebook](https://github.com/amack315/melbo-dct-post/blob/main/demo/demo_32b.ipynb) one can see that the exponential DCT learned a number of "helpful-only assistant" features, along with various "gaming/roleplay" vectors similar to my [prior experiments](/mechanistically-eliciting-latent-behaviors#fantasy-bomb-making-instructions) with Qwen-14B-Chat.
 
 Additionally, my subjective impression is that larger models are better able to rationalize why they are talking about a certain concept activated by a DCT feature (reminiscent of Anthropic's [Golden Gate Claude](https://www.anthropic.com/news/golden-gate-claude)). As a cherry-picked example, see these completions from a "music theory" feature, which induces Qwen-32B-Chat to hallucinate convincing interpretations of the words "bomb" or "identity theft" within the context of music theory:
 
