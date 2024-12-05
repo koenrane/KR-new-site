@@ -127,8 +127,8 @@ describe("editAdmonition", () => {
   it("should handle complicated edit command", () => {
     const content =
       "The initial version of this post talked about \"outer alignment\"; I changed this to just talk about _alignment_, because the outer/inner alignment distinction doesn't feel relevant here. What matters is how the AI's policy impacts us; what matters is [_impact alignment_](/non-obstruction-motivates-corrigibility)."
-    const input = "Edit: " + content
-    const expected = "> [!info] Edited after posting\n>\n> " + content
+    const input = `Edit: ${content}`
+    const expected = `> [!info] Edited after posting\n>\n> ${content}`
     expect(editAdmonition(input)).toBe(expected)
   })
 
@@ -229,12 +229,20 @@ describe("Mass transforms", () => {
   })
 
   describe("HTML tag newline formatting", () => {
-    it("should add newlines after HTML tags at the end of lines", () => {
-      const input = "<div>Content</div>\nNext line"
-      const expected = "<div>Content</div>\n\nNext line"
-      const result = massTransformText(input)
-      expect(result).toBe(expected)
-    })
+    it.each([
+      ["<div>Content</div>\nNext line", "<div>Content</div>\n\nNext line"],
+      [
+        // Test self-closing tags
+        '<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>\nFigure: This image should be transparent in light mode and have a light background in dark mode.',
+        '<img src="https://hackmd.io/_uploads/rkLARlXmyl.png" alt="Sample complexity of different kinds of DCTs" class="transparent-image"/>\n\nFigure: This image should be transparent in light mode and have a light background in dark mode.',
+      ],
+    ])(
+      "should add newlines after HTML tags at the end of lines: %s",
+      (input: string, expected: string) => {
+        const result = massTransformText(input)
+        expect(result).toBe(expected)
+      },
+    )
 
     it("should not add extra newlines if they already exist", () => {
       const input = "<div>Content</div>\n\nNext line"
