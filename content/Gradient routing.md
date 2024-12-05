@@ -17,6 +17,8 @@ lw-linkpost-url: https://arxiv.org/abs/2410.04332
 original_url: 
   https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
 ---
+<iframe src="https://jacobgw.com/gradient-routed-vae/" width="800" height="600"></iframe>
+
 We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
 > [!idea] A key takeaway
