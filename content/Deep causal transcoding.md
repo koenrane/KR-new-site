@@ -137,7 +137,7 @@ More succinctly, the above considerations suggest something like the following h
 >
 > Many high-level features of interest in an LLM will be activated by some simple, shallow circuit. The effects of important features will persist across layers, while the effects of less important features will be ephemeral. By approximating the causal structure of a relatively deep slice of a transformer as an ensemble of shallow circuits (i.e., with a one-hidden-layer MLP), we can learn features which elicit a wide range of high-level behaviors.
 
-In math, the claim is that at some scale $R$ and normalizing $||\vec\theta||=1$, the map $\Delta_R^{s\rightarrow t}(\vec\theta) \equiv \Delta^{s\rightarrow t}(R\vec\theta)$ is well-described by:
+In math, the claim is that at some scale $R$ and normalizing $||\vec\theta||=1$, the map $\Delta_R^{s\rightarrow t}(\vec\theta) := \Delta^{s\rightarrow t}(R\vec\theta)$ is well-described by:
 
 $$
 \Delta_{ R}^{s\rightarrow t}(\vec\theta) = \sum_{\ell=1}^{m^*} f_\ell^*(\langle \vec v_\ell^*, \vec\theta\rangle)\vec u_\ell^* + \vec\epsilon(\vec\theta), \qquad\text{(1)}
@@ -148,7 +148,7 @@ where each $f_\ell^*$ is some one-dimensional non-linear gating function, and ea
 If my above story is true, we can potentially elicit many high-level behaviors by learning these input/output directions. Towards this end, I propose learning an MLP with some activation function $\sigma$ to approximate $\Delta_{ R}^{s\rightarrow t}$:
 
 $$
-\hat{\Delta}^{s\rightarrow t}(\vec\theta) \equiv \sum_{\ell=1}^m \alpha_\ell\sigma(\langle \hat { v}_\ell, \vec \theta\rangle) \hat { u}_\ell \qquad\text{(2)}
+\hat{\Delta}^{s\rightarrow t}(\vec\theta) := \sum_{\ell=1}^m \alpha_\ell\sigma(\langle \hat { v}_\ell, \vec \theta\rangle) \hat { u}_\ell \qquad\text{(2)}
 $$
 
 Here I consider factors $\hat u_\ell,\hat v_\ell$ which are normalized such that $||\hat u_\ell||=||\hat v_\ell||=1$, while the scale of each hidden unit $\ell$ is controlled by some scalar parameter $\alpha_\ell\geq 0$. For a given activation function, the goal is to learn values of $\{\alpha_\ell\}_{\ell=1}^m, \hat U, \hat V$ such that $\hat U\approx U^*, \hat V\approx V^*$ (where we have collected the $\hat u_\ell, \hat v_\ell$'s into the columns of $\hat U, \hat V$).
@@ -162,10 +162,10 @@ One approach to learning $\hat{\Delta}^{s\rightarrow t}$ would be to treat thing
 So instead of the supervised learning approach, I propose exploiting the fact that we have oracle access to the true function $\Delta_{R}^{s\rightarrow t}$ as well as its higher-order derivatives. In particular,  let $\mathcal{T}^{(k)}, \hat{\mathcal{T}}^{(k)}$ denote the order-$(k+1)$ tensor denoting the $k$-th derivatives of $\Delta^{s\rightarrow t}, \hat{\Delta}^{s\rightarrow t}$, respectively, at $\vec\theta=0$. Then I propose optimizing the following loss:
 
 $$
-\mathcal{L} \equiv \sum_{k=1}^\infty \frac{1}{k!} ||R^k\mathcal{T}^{(k)} - \hat{\mathcal{T}}^{(k)}||^2, \qquad\text{(3)}
+\mathcal{L} := \sum_{k=1}^\infty \frac{1}{k!} ||R^k\mathcal{T}^{(k)} - \hat{\mathcal{T}}^{(k)}||^2, \qquad\text{(3)}
 $$
 
-where $||T||^2$ denotes the Frobenius norm of a tensor $T$; i.e. if $T$ is an order-$o$ tensor over $\mathbb R^d$ then $||T||^2\equiv \sum_{i_1,...,i_o=1}^d T_{i_1,...,i_o}^2$.
+where $||T||^2$ denotes the Frobenius norm of a tensor $T$; i.e. if $T$ is an order-$o$ tensor over $\mathbb R^d$ then $||T||^2:= \sum_{i_1,...,i_o=1}^d T_{i_1,...,i_o}^2$.
 
 The quantity $R^k\mathcal{T^{(k)}}$ is simply the $k$-th derivative tensor of  $\Delta_{R}^{s\rightarrow t}$ and thus captures the behavior of the function $\Delta^{s\rightarrow t}$ at "scale" $R$.
 
@@ -187,7 +187,9 @@ Table: **Table 2**: Description of recovery guarantees and algorithms used.
 
 To summarize, in the linear case, it is algorithmically straightforward to learn features (we simply compute an SVD of the Jacobian of $\Delta_{R}^{s\rightarrow t}$), but we are only guaranteed recovery assuming exact orthogonality (i.e. ${U^*}^T U^* = {V^*}^T V^*=I$). In particular, this means we can only learn $d_\textrm{model}$ many features, which seems unnatural in light of theories of computation in superposition, which suggests that transformers will utilize many more feature directions than there are neurons in the residual stream.
 
-In contrast to the linear case, as I show below, fitting a quadratic MLP is equivalent to performing a tensor decomposition of the Hessian of $\Delta_{R}^{s\rightarrow t}$. In this case, we have some hope of recovering non-orthogonal factors, as long as the dot product of any two feature directions is not too large (i.e., they are not "too orthogonal"; this is known as an "incoherence" assumption in the literature on tensor decompositions). In particular, if the directions are drawn at random from the unit sphere, then the algorithm of [Ding et al. (2022)](https://proceedings.mlr.press/v178/ding22a/ding22a.pdf) guarantees recovery of $\tilde \Omega(d_\textrm{model}^{1.5})$ many factors in polynomial time, freeing us (in principle) from the un-natural assumption that there are only $d_\textrm{model}$ many features[^bignote-1.5]. In practice, however, the algorithm of [Ding et al. (2022)](https://proceedings.mlr.press/v178/ding22a/ding22a.pdf) is prohibitively expensive (the running time guarantee is $O(d_\textrm{model}^{6.05}$)) and so in this post I focus on evaluating the cheaper algorithm of [Sharan and Valiant (2017)](https://arxiv.org/abs/1703.01804) which only guarantees recovery of $m\ll d_\textrm{model}$ many factors. This seems like a reasonable tradeoff - while the theoretical guarantees afforded by tensor decomposition suggest that it allows us to learn something closer to the "true ontology" of the model, which will have $\gg d_\textrm{model}$ many features, in practice, particularly if we aim to learn only the causally relevant features on a *small* data-set, it seems reasonable that there will be fewer than $d_\textrm{model}$ many important features relevant to the data-set[^bignote-overcomplete].
+In contrast to the linear case, as I show below, fitting a quadratic MLP is equivalent to performing a tensor decomposition of the Hessian of $\Delta_{R}^{s\rightarrow t}$. In this case, we have some hope of recovering non-orthogonal factors, as long as the dot product of any two feature directions is not too large (i.e., they are not "too orthogonal"; this is known as an "incoherence" assumption in the literature on tensor decompositions). In particular, if the directions are drawn at random from the unit sphere, then the algorithm of [Ding et al. (2022)](https://proceedings.mlr.press/v178/ding22a/ding22a.pdf) guarantees recovery of $\tilde \Omega(d_\textrm{model}^{1.5})$ many factors in polynomial time, freeing us (in principle) from the un-natural assumption that there are only $d_\textrm{model}$ many features[^bignote-1.5].
+
+In practice, however, the algorithm of [Ding et al. (2022)](https://proceedings.mlr.press/v178/ding22a/ding22a.pdf) is prohibitively expensive (the running time guarantee is $O(d_\textrm{model}^{6.05}$)) and so in this post I focus on evaluating the cheaper algorithm of [Sharan and Valiant (2017)](https://arxiv.org/abs/1703.01804) which only guarantees recovery of $m\ll d_\textrm{model}$ many factors. This seems like a reasonable tradeoff - while the theoretical guarantees afforded by tensor decomposition suggest that it allows us to learn something closer to the "true ontology" of the model, which will have $\gg d_\textrm{model}$ many features, in practice, particularly if we aim to learn only the causally relevant features on a *small* data-set, it seems reasonable that there will be fewer than $d_\textrm{model}$ many important features relevant to the data-set[^bignote-overcomplete].
 
 [^bignote-overcomplete]: Moreover, [Sharan and Valiant (2017)](https://arxiv.org/abs/1703.01804) give some indication that the provable bounds are pessimistic, and that empirically a modification of the algorithm can perform well even in the over-complete setting $m>d_\textrm{model}$.
 
@@ -282,7 +284,7 @@ For some further intuition behind algorithm (2), it is useful to re-write the te
 To start, recall that we can write our parametrized estimate of the Hessian tensor, $\hat{\mathcal T}^{(2)}$, as a sum of rank-1 factors:
 
 $$
-\hat{\mathcal T}^{(2)} = \sum_{\ell=1}^m \alpha_\ell\cdot\hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell
+\hat{\mathcal T}^{(2)} = \sum_{\ell=1}^m \alpha_\ell\cdot\hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell \qquad \text{(6)}
 $$
 where the outer product notation $\hat u_\ell \otimes \hat v_\ell \otimes \hat v_\ell$ denotes the tensor whose $i,j,k$'th entry is given by $\hat U_{i\ell} \hat V_{j\ell} \hat V_{k\ell}$. Then, expanding the square in equation (4), we can re-write the objective in that equation as:
 
@@ -335,13 +337,13 @@ $$
 Summing across all terms in equation (9) yields the following theorem:
 
 > [!math] **Theorem**
-> Let $\bar R$ denote the radius of convergence of the Taylor expansion of $\Delta_{R}^{s\rightarrow t}$, and assume that $R\leq \bar R$. Then minimizing (3) for $\sigma(x)\equiv\exp(x)-1$ is equivalent (up to constant multiplicative/additive factors) to maximizing the objective in the following optimization problem:
+> Let $\bar R$ denote the radius of convergence of the Taylor expansion of $\Delta_{R}^{s\rightarrow t}$, and assume that $R\leq \bar R$. Then minimizing (3) for $\sigma(x):=\exp(x)-1$ is equivalent (up to constant multiplicative/additive factors) to maximizing the objective in the following optimization problem:
 >
->$$
-\begin{equation}
-\max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}*{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum*{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \qquad\text{10}
-\end{equation}
-$$
+> $$
+> \begin{equation*}
+> \max_{\substack{\alpha, \hat U, \hat V \\ ||\hat u_\ell||=||\hat v_\ell||=1}} \underbrace{\sum_{\ell} \langle \hat u_\ell, \Delta_{R}^{s\rightarrow t}(\hat v_\ell) \rangle}\cdot{\text{causal importance}} -  \frac{1}{2}\underbrace{\sum{\ell\neq \ell'} \alpha_\ell\alpha_{\ell'}\langle \hat u_\ell, \hat u_{\ell'}\rangle(\exp(\langle \hat v_\ell, \hat v_{\ell'}\rangle)-1)}_{\textrm{similarity penalty}} \qquad\text{(10)}
+> \end{equation*}
+> $$
 
 We can now "lift" the re-phrased version of algorithm (2) to the case of exponential activation functions to obtain the following algorithm:
 
@@ -370,6 +372,7 @@ Furthermore, in the original post I proposed learning features sequentially, sub
 [^bignote-tpi]: The main difference is that [Anandkumar et al. (2014)](https://jmlr.org/papers/volume15/anandkumar14b/anandkumar14b.pdf) use a soft "deflation" step to encourage diversity, as opposed to the hard orthogonality constraint of the original paper.
 
 ### Calibrating $R$
+>
 > [!warning] Epistemic status
 >
 > My preliminary attempt leveraging theory to develop a calibration procedure for choosing the scale $R$. It appears to work across a variety of $\sim7B$ models, but it is likely that future work will refine or replace this method, perhaps by combining with insights along the lines of [25Hour & Submarat (2024)](https://www.lesswrong.com/posts/YhTnnKHQ5yQrAmi5p/arena4-0-capstone-hyperparameter-tuning-for-melbo) or [Heimersheim & Mendel (2024)](https://www.lesswrong.com/posts/LajDyGyiyX8DNNsuF/interim-research-report-activation-plateaus-and-sensitive-1).
@@ -388,9 +391,9 @@ In particular, I propose the following:
 >
 > 1. Draw $n_\textrm{cal}$ many directions $v^\textrm{cal}_\ell$ at random uniformly from the unit sphere.
 > 2. Let $u^\textrm{cal}_\ell = \mathcal T^{(1)} v^\textrm{cal}_\ell$ for $\ell=1,...,n_\textrm{cal}$.
-> 3. Define
-> $$E(R)\equiv\sum_\ell ||\Delta^{s\rightarrow t}(Rv^\textrm{cal}_\ell)-Ru^\textrm{cal}_\ell||^2$$
-> 2. Use a root-finding procedure to solve for $E(R)=\lambda$, where $\lambda>0$ is some hyper-parameter.
+> 3. Define $E(R):=\sum_\ell ||\Delta^{s\rightarrow t}(Rv^\textrm{cal}_\ell)-Ru^\textrm{cal}_\ell||^2.$
+>
+> 4. Use a root-finding procedure to solve for $E(R)=\lambda$, where $\lambda>0$ is some hyper-parameter.
 
 At first glance, we seem to have simply replaced one hyper-parameter $(R)$ for another $(\lambda)$. However, it seems reasonable to conjecture that the optimal value of $\lambda$ may be a deterministic function of other hyper-parameters (i.e., both the hyper-parameters of the DCT, and the characteristics of the model itself). If this is the case, then we could use a fixed value of $\lambda$ across a variety of different models/prompts, provided that the hyper-parameters stay the same across settings.  
 
