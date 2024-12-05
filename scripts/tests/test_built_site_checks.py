@@ -750,3 +750,37 @@ def test_check_unrendered_emphasis(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_emphasis(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test KaTeX display starting with >> outside blockquote
+        (
+            """
+            <span class="katex-display">>> Some definition</span>
+            """,
+            [">> Some definition"],
+        ),
+        # Test KaTeX display without >>
+        (
+            """
+            <span class="katex-display">x + y = z</span>
+            """,
+            [],
+        ),
+        # Test multiple KaTeX displays
+        (
+            """
+            <span class="katex-display">>> First definition</span>
+            <span class="katex-display">Normal equation</span>
+            <span class="katex-display">> Second definition</span>
+            """,
+            [">> First definition", "> Second definition"],
+        ),
+    ],
+)
+def test_katex_element_surrounded_by_blockquote(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = katex_element_surrounded_by_blockquote(soup)
+    assert result == expected

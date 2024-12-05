@@ -123,6 +123,7 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     """
     Check for text nodes starting with specific phrases.
+
     Efficiently searches without duplicates.
     """
     phrases = ("Table: ", "Figure: ", "Code: ")
@@ -302,6 +303,28 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     return problematic_katex
 
 
+def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for KaTeX display elements that start with '>>' but aren't inside a
+    blockquote.
+
+    These mathematical statements should be inside a blockquote.
+    """
+    problematic_katex = []
+
+    # Find all KaTeX display elements
+    katex_displays = soup.find_all(class_="katex-display")
+    for katex in katex_displays:
+        content = katex.get_text().strip()
+        # Check if content starts with '>' and isn't inside a blockquote
+        if content.startswith(">"):
+            problematic_katex.append(
+                f"{content[:50]}..." if len(content) > 50 else content
+            )
+
+    return problematic_katex
+
+
 def is_redirect(soup: BeautifulSoup) -> bool:
     """
     Check if the page is a redirect.
@@ -430,6 +453,9 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "duplicate_ids": check_duplicate_ids(soup),
         "unrendered_spoilers": check_unrendered_spoilers(soup),
         "unrendered_emphasis": check_unrendered_emphasis(soup),
+        "katex_outside_blockquote": katex_element_surrounded_by_blockquote(
+            soup
+        ),
     }
 
     if "design" in file_path.name:
