@@ -237,7 +237,7 @@ Moreover, the method presented here seems particularly well-equipped for finding
 [^13]:
     Disclaimer: I obtained the results presented in this section before realizing that I was using a non-standard chat format to converse with Qwen-14B-Chat. I believe the results are still interesting, as
 
-    1. the point of the section is mainly to explore the generalization properties of unsupervised steering vectors in a toy setting, and for this purpose it does not matter how the instructions were formatted; and
+    1. The point of the section is mainly to explore the generalization properties of unsupervised steering vectors in a toy setting, and for this purpose it does not matter how the instructions were formatted; and
     2. Qwen-14B-Chat behaves similarly in the non-standard chat format as compared with the standard format.
 
     For these reasons, I feel it is useful to report preliminary results in the non-standard format as is, rather than re-doing the entire section. For those readers who are interested in seeing whether the results of this section hold up when using standard ChatML format, see the preliminary replication in [this notebook](https://github.com/amack315/unsupervised-steering-vectors/blob/main/notebooks/demo_refusal_chatml.ipynb). In particular, of the first 4 vectors learned using the correct format, I find that vector 0 replicates the "Minecraft" behavior of vector 5 in the section below, and that vector 1 replicates the "anti-refusal" behavior of vectors 9 and 22 in the section below.

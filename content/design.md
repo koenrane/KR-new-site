@@ -314,7 +314,7 @@ My site contains a range of fun fonts which I rarely use. For example, the _Lord
 <!-- spellchecker-enable -->
 
 <span class="float-right" style="margin-top: 2rem; ">
-<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--foreground);">A</div>
+<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--foreground);--before-color:var(--foreground);">A</div>
 <figcaption>Monochromatic dropcaps seem somewhat illegible.</figcaption>
 </span>
 
@@ -325,7 +325,7 @@ I have long appreciated [illuminated calligraphy.](https://www.atlasobscura.com/
 However, implementation was tricky. As shown with the figure's "A",  CSS assigns a single color to each text element. To get around this obstacle, I took advantage of the fact that EB Garamond dropcaps can be split into the foreground and background.
 
 <center style="font-size:4rem;">
-<span class="dropcap" data-first-letter="A" style="margin-right: 5rem;"></span>
+<span class="dropcap" data-first-letter="A" style="margin-right: 5rem;display:inline;"></span>
 <span class="dropcap" data-first-letter="" style="color: var(--foreground);">A</span>
 </center>
 

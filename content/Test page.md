@@ -112,6 +112,13 @@ Subtitle: This is a subtitle.
 <div class="callout-title"><div class="callout-icon"></div><div class="callout-title-inner">This collapsible admonition starts off open </div><div class="fold-callout-icon"></div></div>
 <div class="callout-content"><p>Displayed content.</p></div>
 </blockquote>
+
+> [!quote] Admonition with tags
+> <br/>
+> <em>Hi!</em>
+>
+> Hi
+>
 # Mermaid diagrams
 
 ```mermaid
@@ -227,6 +234,12 @@ This solution is 2/3 water, mixed on 01/01/2024.
 ## Dropcaps
 
 <span id="single-letter-dropcap" class="dropcap" data-first-letter="T">T</span>his paragraph demonstrates a dropcap.
+
+<center style="font-size:4rem;">
+<span class="dropcap" data-first-letter="A" style="margin-right: 5rem;display:inline;"></span>
+<span class="dropcap" data-first-letter="" style="color: var(--foreground);">A</span>
+<div class="dropcap" data-first-letter="A" style="font-size: 4rem; color: var(--foreground);--before-color:var(--foreground);">A</div>
+</center>
 
 <center id="the-pond-dropcaps" style="font-size:min(4rem, 15vw);line-height:1;">
 <span class="dropcap" data-first-letter="T" style="--before-color: color-mix(in srgb, 55% red, var(--midground-fainter));">T</span>
