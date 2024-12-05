@@ -41,8 +41,9 @@ original_url:
 skip_import: true
 description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
   prompts into loving completions.
-date_updated: 2024-12-04 22:12:56.910555
+date_updated: 2024-12-04 22:18:09.880577
 ---
+
 
 
 
