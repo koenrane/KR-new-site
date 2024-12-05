@@ -11,7 +11,7 @@ description: Isolate capabilities to known parts of a network. Helps with interp
 date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_static/static/static/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/static/images/posts/images/posts/static/images/posts/images/posts/static/static/images/posts/images/posts/static/images/posts/image: https://i.imgur.com/09VlWJU.png
+card_image: /static/images/posts/09VlWJU.png
 lw-linkpost-url: https://arxiv.org/abs/2410.04332
 ---
 We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
@@ -36,7 +36,7 @@ Subtitle: [Github repository](https://github.com/kxcloud/gradient-routing)
 
 Gradient routing allows the user to configure **what** data (at the level of tokens, documents, or any other feature of the data) causes learning updates **where** in a neural network (parameters, activations, modules). In full generality, this configuration is achieved by assigning weights to every edge in the computational graph, for every data point. These weights are then multiplied by the gradients that get backpropagated through these edges. This is formalized in the paper.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd4D0XJnXJCUC9eoRwsFaYfObDTXx5gpDi8Ymf5JI10oCI4tTTLclR8fZCmJSjMzbNhvUHl7n5SXgXZ5XpLESlLX9zL7HBrDGtreV2jTPN_Rbs74or78M5EgncGi7HaXTxJtJrpdnm-62_fOQDJI37ZoSyf?key=bNPKKawRSzqSRD_gdz-fuw)
+![Three neural network backwards passes, each of which highlights a different gradient mask.](gradient_masks.png)
 
 Figure: Each data point updates different network subregions. Gradients are masked and routed through the network.
 
@@ -62,12 +62,10 @@ We train an MLP-based autoencoder to encode images of handwritten digits into ve
 
 To achieve splitting, we route digits 0-4 through the top half of the latent space and digits 5-9 through the bottom half. We apply L1 regularization to the encoded vector to encourage specialization. The result: a latent space which represents 0-4 in the bottom dimensions and 5-9 in the top dimensions!
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdsUEQRZMifnyrvZBVjOK3b-j5cPl58QdhDQoXiKwyVLQrcx0YiYnQNfIKUizxnGl3zbQdL4qvUzwTRVq6wLM3u_EKVsRVROAzmp4AAoLzPNhhzaSd3DXI7TfptuYHymXJrqHJxRA?key=bNPKKawRSzqSRD_gdz-fuw)
-
+![](mnist_split_latent.png)
 Figure: The “Certificate” is a decoder which was trained on all digits in order to reconstruct images using only the bottom half of the latent space. Inability to learn to reconstruct 0-4 certifies that the requisite information is not contained in the latent space in an easily extractable way.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfwm10wwci9vQeqyUdPPcVhq0Aupbl3sHltWkK-r5iW8eA7G00yIR1_KgtQPg0ayWSH5rLlZD07pL_Nlqa-2I_lH7UX-a4UIKWIsCqiTxMGMnaSqBTtdd7SkIFmWLjyI8gCjJCV1g?key=bNPKKawRSzqSRD_gdz-fuw)
-
+![](mnist_reconstruction_gradient_routing.png)
 Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to decode 0-4.
 
 ## Localizing capabilities in language models
@@ -93,15 +91,20 @@ We want the model to be able to predict some data (the “retain” data) but no
 > Ablate
 > : Delete those components (i.e. set the parameters to zero).
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXd4cY8up8eMdiDf-jPBx3njjC1eiX0wJpCbPX6F2Xb07oPVpx30sKmZJC8R_ObiQTZnhO4XHepV3eL1oThD3vNVi7IWm8lfmKfQOyDjwO0EpjRq5jVGrYQITeZceStMzmyaCyARneS6nxpWkqwTlTfiElWk?key=bNPKKawRSzqSRD_gdz-fuw)
+![](expand_route_ablate.png)
 
-Figure: how gradients are routed on forget data in the Route step of Expand, Route, Ablate.
+Figure: How gradients are routed on forget data in the Route step of Expand, Route, Ablate.
 
-We compare gradient routing to three baselines on a made-up unlearning problem based on [GPT-generated children’s stories](https://arxiv.org/abs/2305.07759): data filtering (a kind of gold standard for unlearning, which we operationalize as “first train a base model, then discard it and re-train from scratch only on retain data”), [RMU]([https://proceedings.mlr.press/v235/li24bc.html](https://proceedings.mlr.press/v235/li24bc.html)) (a fine-tuning method that corrupts the model’s internal representations on forget data), and [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation (a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels). We measure performance at different proportions of random forget data labeling. Unlabeled forget data is treated as retain data for training purposes. The idea is to simulate frontier AI applications where perfectly labeling all training data is infeasible.
+We compare gradient routing to three baselines on a made-up unlearning problem based on [GPT-generated children’s stories](https://arxiv.org/abs/2305.07759):
+1. Data filtering - a kind of gold standard for unlearning, which we operationalize as “first train a base model, then discard it and re-train from scratch only on retain data”,
+2. [RMU]([https://proceedings.mlr.press/v235/li24bc.html](https://proceedings.mlr.press/v235/li24bc.html)) - a fine-tuning method that corrupts the model’s internal representations on forget data, and
+3. [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation (a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels).
+
+We measure performance at different proportions of random forget data labeling. Unlabeled forget data is treated as retain data for training purposes. The idea is to simulate frontier AI applications where perfectly labeling all training data is infeasible.
 
 When labels are limited, we observe that Expand, Route, Ablate outperforms other methods, including data filtering. By influencing where the model learns features, gradient routing allows limited labels to scale to unlabeled examples, despite the training loss selecting for models that perform well on the unlabeled data. In contrast, DEMix also localizes learning updates (to MLP expert submodules), but because only one expert (per layer) participates in each forward pass, the features learned based on the labeled forget samples are not able to “absorb” those from the unlabeled forget samples.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfSXLUSC57g0QiSnwvhzJuvhgkyVC0DnLg3puB5KpSA443PVJf_Pa47KzV1243IJB2GcNtkiMA0B1AmAfAABdYOHApt-B6NCo5Czr7vfEzjYZcSyebGImYDOt_d3oQqsieRah0S?key=bNPKKawRSzqSRD_gdz-fuw)
+![](oversight_fraction_gradient_routing.png)
 
 Figure: Gradient routing compared against other unlearning methods. When oversight is limited, gradient routing excels in both unlearning and robust unlearning (increase in forget loss after retraining on 64 forget stories). Gradient routing has an alignment tax (increase in retain loss), compared to data filtering and RMU. The “+” represents using RMU after ERA, which can further increase robust unlearning at 100% oversight.
 
@@ -151,13 +154,12 @@ The first layer in our policy network is a mixture of experts (MoE) layer with t
 
 By changing the gate value, we are able to steer the model surprisingly effectively.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXebdYBb063lCdGkNKdA_CBf7P0iipkjVHvhEK1YyaF9XgbwycXG5T-58ZJjeeZ3JANtfTDhGcEydg9YeZNVGXqka2SumBNv3gN_-eRf9gC8GcBtD7eFZcVZ2tLNtA8W3Sv3SIPpzA?key=bNPKKawRSzqSRD_gdz-fuw)
-
+![](gradient_routing_steering.png)
 Figure: During evaluation, we can steer the policy toward reaching `diamond` by assigning weight 1 to the diamond expert (0 to the ghost expert).
 
 This allows us to get higher returns than other methods when our access to oversight is severely limited:
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdvd-ZtCuEeeTBy2fHxWCLT2hZ5G5S1nDGi_scLgcvQNeWy2oQ5KHwE6vQVm3UF6XSTN9KCYCq4Ku4zYgF5j8DHw2Wifq-9eP7KSId8DXqv2s7F7g6Lnd7jHIRBT7fSMwWaYMUNAg?key=bNPKKawRSzqSRD_gdz-fuw)
+![](oversight_tinystories.png)
 
 Figure: Returns of different training configurations at different oversight levels. Gradient-routed MoE achieves high performance even when only a small fraction of labels are provided. Dark highlights are 95% confidence intervals for the mean; light highlights are 5th and 95th quantiles across training runs.
 
@@ -165,13 +167,13 @@ At low oversight levels, the gradient-routed MoE dramatically outperforms two ba
 
 Data filtering
 
-: train only on episodes with oversight, discarding episodes without oversight.
+: Train only on episodes with oversight, discarding episodes without oversight.
 
 Naive training
 
 : We train a policy on all trajectories with +1 reinforcement for reaching a terminal state, unless we can observe that it is a `ghost`, in which case -1 is used.
 
-Besides being data-inefficient, data filtering is not guaranteed to converge to optimal behavior. This is because the presence of oversight is part of the environment, rather than being independent of it (as in [random labeling](https://ai-alignment.com/semi-supervised-reinforcement-learning-cf7d5375197f)). Indeed, we see this in the learning curves at 10% oversight given [here](https://arxiv.org/html/2410.04332v2#A6.F13). The naive training policy learns to exploit the limits of oversight, going to `ghost` 100% of the time when it is the closer destination and not under oversight. By contrast, the gradient-routed policy only walks into the `ghost` “by accident” when on the way to the `diamond`.
+Besides being data-inefficient, data filtering is not guaranteed to converge to optimal behavior. This is because the presence of oversight is part of the environment, rather than being independent of it (as in [random labeling](https://ai-alignment.com/semi-supervised-reinforcement-learning-cf7d5375197f)). Indeed, we see this in [the learning curves at 10% oversight](https://arxiv.org/html/2410.04332v2#A6.F13). The naive training policy learns to exploit the limits of oversight, going to `ghost` 100% of the time when it is the closer destination and not under oversight. By contrast, the gradient-routed policy only walks into the `ghost` “by accident” when on the way to the `diamond`.
 
 # Key takeaways
 
@@ -226,7 +228,7 @@ One way to avoid existential risk is to not “build god.” As an alternative t
 - A personal assistant that can operate computers but doesn’t know how they work.
 - Etc.
 
-![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXfakn1hrhT8PI1gX7AW56flOdBBWYtzXO2lx7u7GpgyWTmB-7gbexkHPTvpOgVIqViPcf_nemeWZENPSzVtqTY5xqVZgJDs2X3SUe7ne0UI8aDfHipW0BIffRMaH-agUvE4hOWcVFR-HJK7jAQfrkdxSIE?key=bNPKKawRSzqSRD_gdz-fuw)
+![](split_capabilities.png)
 Figure: By the usual practice of training capabilities all at once (but localized), the model becomes competent. By deleting the undesired capabilities, the AI becomes safer.
 
 AI systems could be deployed using a [“principle of least capability”](https://en.wikipedia.org/wiki/Principle_of_least_privilege). For each AI application or end user, we ask: What “risky” capabilities are required? Unnecessary capabilities are ablated. Furthermore, if we can localize dangerous capabilities, we can demonstrate that the model cannot reliably and inconspicuously perform certain harmful behaviors (like domination of humans). For example, such incapacities could be demonstrated via adversarial fine-tuning attacks.
@@ -237,13 +239,12 @@ Gradient routing is a qualitatively different way of training neural nets that s
 
 We think the most likely failure mode of the gradient routing agenda is that the alignment tax of inducing useful structure in neural nets is too high to be competitive with conventional training methods. This tax could be because the desired structure is "unnatural" with respect to neural net inductive biases. Or, the tax could be because gradient routing itself is an ineffective way of inducing useful structure. We expect to get a better sense of this soon by improving on ERA for unlearning and developing our ideas about RL applications.
 
-Optimistically, gradient routing might enable a new era of controllable model internals - a shift away from the black-box paradigm. Neural networks need not be random-seeming programs which happen to generalize well! Instead, perhaps gradient routing can provide a [“bittersweet” lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html): that while it may be impractical to design white-box AI systems, the high-level organization of capabilities in neural nets can be supervised effectively.
+Optimistically, gradient routing might enable a new era of controllable model internals - a shift away from the black-box paradigm. Neural networks need not be random-seeming programs which happen to generalize well! Instead, perhaps gradient routing can provide a _[“bittersweet” lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)_: that while it may be impractical to design white-box AI systems, the high-level organization of capabilities in neural nets can be supervised effectively.
 
 > [!idea] Join the shard theory team at MATS
 > [Team Shard]([https://www.matsprogram.org/agency](https://www.matsprogram.org/agency)) has a strong track record, and we’re always looking for enthusiastic new scholars. Since 2023, we’ve introduced [steering vectors](/gpt2-steering-vectors), gradient routing, [retargeted the search](/understanding-and-controlling-a-maze-solving-policy-network) of an RL policy, and introduced an unsupervised method to [elicit latent capabilities from a model](/mechanistically-eliciting-latent-behaviors). If you want to work on Team Shard in MATS 8.0 (next summer), [apply](https://www.matsprogram.org/apply) in spring 2025.
 
-![A "shard farmer" looking out over three large sparkling crystals at nighttime.](https://lh7-rt.googleusercontent.com/docsz/AD_4nXcahcxaRidNFFZZOBRlUkIkG1gbFe9-ewB_F-rf6LfNhQ6sr5WfSoZYOSuqb6liimR9dDJTB5jLTNtcTmwAWjTq6oIMvuH_URmwrzrRxb8KtXD1i8hc3x3cKbbtqy8tNyNu6MnQ8rZYMv-ZG4kcDTrR14EF?key=bNPKKawRSzqSRD_gdz-fuw)
-
+![A "shard farmer" looking out over three large sparkling crystals at nighttime.](shard_farmer.png)
 Figure: Where the gradients flow, the [shards](/shard-theory) grow.
 
 >[!thanks]
