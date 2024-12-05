@@ -75,8 +75,6 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
   [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
-  [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
-  [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
   [/(<\/[^>]*>|<[^>]*\/>)\s*$\n\s*(?!=\n|[<>])/gm, "$1\n\n"], // Ensure there is a newline after an HTML tag
 ]
 
@@ -99,6 +97,29 @@ const concentrateEmphasisAroundLinks = (text: string): string => {
     "gm",
   )
   return text.replace(emphRegex, "$<whitespace1>$<emph>$<url>$<emph>$<whitespace2>")
+}
+
+/**
+ * Ensures proper newline formatting around display math ($$).
+ * For opening $$, ensure there is a newline before it
+ * For closing $$, ensure there are two newlines after it.
+ * If they are within n layers of blockquote (e.g. "> >$$"), ensure the preceding newline also has n layers of blockquote (e.g. "> >\n> >$$").
+ *
+ * @param text - The input text to process.
+ * @returns The text with adjusted newlines around display math.
+ */
+export const adjustDisplayMathNewlines = (text: string): string => {
+  // [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
+  // [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
+
+  // Find all instances of $$ that are not preceded by a blockquote or newline
+  const beforeDisplayMathRegex =
+    /(?!<\n|^|(?:> )+)^(?<blockquote> )*(?<beforeDisplayOpen>\S*)\$\$(?=[^$]*\$\$)/gms
+  const newlinesBeforeDisplayMath = text.replaceAll(
+    beforeDisplayMathRegex,
+    "$<blockquote>$<beforeDisplayOpen>\n$<blockquote>$$$$",
+  )
+  return newlinesBeforeDisplayMath
 }
 
 /**
@@ -127,6 +148,7 @@ export const formattingImprovement = (text: string) => {
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
   newContent = massTransformText(newContent)
+  // newContent = adjustDisplayMathNewlines(newContent)
 
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")
