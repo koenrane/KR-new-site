@@ -5,7 +5,13 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-from .. import utils as script_utils
+# Ensure the parent directory is in the sys path so we can import utils
+sys.path.append(str(Path(__file__).parent.parent))
+
+try:
+    from .. import utils as script_utils
+except ImportError:
+    import utils as script_utils  # type: ignore
 
 
 def download_image(url: str, target_dir: Path) -> bool:
