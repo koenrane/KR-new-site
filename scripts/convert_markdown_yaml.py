@@ -37,6 +37,7 @@ _CAN_CONVERT_EXTENSIONS: set[str] = {
     ".webp",
     ".jpg",
     ".jpeg",
+    ".png",
 }
 
 
@@ -198,8 +199,12 @@ def process_card_image_in_markdown(md_file: Path) -> None:
 
     # Check if we need to process this file
     card_image_url = data.get("card_image")
-    if not card_image_url or not any(
-        card_image_url.endswith(ext) for ext in _CAN_CONVERT_EXTENSIONS
+    if (
+        not card_image_url
+        or not any(
+            card_image_url.endswith(ext) for ext in _CAN_CONVERT_EXTENSIONS
+        )
+        or card_image_url.startswith("https://assets.turntrout.com/")
     ):
         return
 
@@ -248,6 +253,7 @@ def main() -> None:
     markdown_files = script_utils.get_files(
         dir_to_search=markdown_dir,
         filetypes_to_match=(".md",),
+        use_git_ignore=True,
     )
 
     for md_file in markdown_files:

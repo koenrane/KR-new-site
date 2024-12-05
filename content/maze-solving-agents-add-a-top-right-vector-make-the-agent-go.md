@@ -3,7 +3,8 @@ permalink: top-right-steering-vector
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+lw-page-url: 
+  https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 lw-is-question: 'false'
 lw-posted-at: 2023-03-31T19:20:48.658000Z
 lw-last-modification: 2023-04-17T00:53:42.453000Z
@@ -37,7 +38,8 @@ next-post-title: Behavioural statistics for a maze-solving agent
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2023-03-31 00:00:00
-original_url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
+original_url: 
+  https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/lteqnk5fbayr0jixir5z.png
 description: Adding a "top-right vector" to a maze-solving network makes the agent

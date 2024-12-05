@@ -7,13 +7,15 @@ no_dropcap: "false"
 tags:
   - AI
   - mats-program
-description: Isolate capabilities to known parts of a network. Helps with interpretability, robust unlearning, and scalable oversight.
+description: Isolate capabilities to known parts of a network. Helps with interpretability,
+  robust unlearning, and scalable oversight.
 date-published: ""
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/NO2S3mX.png
+card_image: https://assets.turntrout.com/static/images/card_images/NO2S3mX.png
 lw-linkpost-url: https://arxiv.org/abs/2410.04332
-original_url: https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
+original_url: 
+  https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
 ---
 We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
@@ -29,7 +31,7 @@ In this post, we:
 3. Speculate about how gradient routing might be relevant to AI alignment.
 
 > [!question] Curious? Read our paper!
-> If you're interested in further discussion or details, check out [the paper and its extensive appendices]([https://arxiv.org/abs/2410.04332](https://arxiv.org/abs/2410.04332)).
+> If you're interested in further discussion or details, check out [the paper and its extensive appendices](https://arxiv.org/abs/2410.04332).
 
 # How gradient routing works
 
@@ -73,7 +75,7 @@ Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to
 
 ### Steering scalar
 
-Much interpretability work (most notably, on [SAEs]([https://arxiv.org/abs/2309.08600](https://arxiv.org/abs/2309.08600))) seeks to identify meaningful directions in the space of a model’s internal activations. What if we could specify some of those dimensions at training time, instead of having to search for them afterward? We did this by routing the token `_California` to the first dimension of the [residual stream]([https://transformer-circuits.pub/2021/framework/index.html](https://transformer-circuits.pub/2021/framework/index.html)). Interestingly, the entries of the Transformer unembedding matrix closest to the `_California` token were all highly related: `California`, `_Californ`, `_Oregon`, `_Colorado`, `_Texas`, `_Florida`, `_Arizona`, `_Sacramento`, and `_Los`, etc, indicating that our localization had a broader effect on the model’s training than that single token.
+Much interpretability work (most notably, on [SAEs](https://arxiv.org/abs/2309.08600)) seeks to identify meaningful directions in the space of a model’s internal activations. What if we could specify some of those dimensions at training time, instead of having to search for them afterward? We did this by routing the token `_California` to the first dimension of the [residual stream](https://transformer-circuits.pub/2021/framework/index.html). Interestingly, the entries of the Transformer unembedding matrix closest to the `_California` token were all highly related: `California`, `_Californ`, `_Oregon`, `_Colorado`, `_Texas`, `_Florida`, `_Arizona`, `_Sacramento`, and `_Los`, etc, indicating that our localization had a broader effect on the model’s training than that single token.
 
 ### Robust unlearning
 
@@ -98,7 +100,7 @@ Figure: How gradients are routed on forget data in the Route step of Expand, Rou
 
 We compare gradient routing to three baselines on a made-up unlearning problem based on [GPT-generated children’s stories](https://arxiv.org/abs/2305.07759):
 1. Data filtering - a kind of gold standard for unlearning, which we operationalize as “first train a base model, then discard it and re-train from scratch only on retain data”,
-2. [RMU]([https://proceedings.mlr.press/v235/li24bc.html](https://proceedings.mlr.press/v235/li24bc.html)) - a fine-tuning method that corrupts the model’s internal representations on forget data, and
+2. [RMU](https://proceedings.mlr.press/v235/li24bc.html) - a fine-tuning method that corrupts the model’s internal representations on forget data, and
 3. [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation (a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels).
 
 We measure performance at different proportions of random forget data labeling. Unlabeled forget data is treated as retain data for training purposes. The idea is to simulate frontier AI applications where perfectly labeling all training data is infeasible.
@@ -191,7 +193,7 @@ Absorption means that gradient routing provides a qualitatively different kind o
 
 ## Localization avoids Goodharting
 
-[Goodharting](https://arxiv.org/abs/2310.09144) happens when imperfect labels are used to modify the training objective in an attempt to produce desirable behavior; but, instead of desirable behavior, a model learns to exploit the limits of the labels; so, the model performs better at the training objective but in an undesired way. See this [list of examples](https://docs.google.com/spreadsheets/d/e/2PACX-1vRPiprOaC3HsCf5Tuum8bRfzYUiKLRqJmbOoC-32JorNdfyTiRRsR7Ea5eWtvsWzuxo8bjOxCG84dAg/pubhtml) or [this blogpost]([https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/](https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/)) for more.
+[Goodharting](https://arxiv.org/abs/2310.09144) happens when imperfect labels are used to modify the training objective in an attempt to produce desirable behavior; but, instead of desirable behavior, a model learns to exploit the limits of the labels; so, the model performs better at the training objective but in an undesired way. See this [list of examples](https://docs.google.com/spreadsheets/d/e/2PACX-1vRPiprOaC3HsCf5Tuum8bRfzYUiKLRqJmbOoC-32JorNdfyTiRRsR7Ea5eWtvsWzuxo8bjOxCG84dAg/pubhtml) or [this blogpost](https://deepmind.google/discover/blog/specification-gaming-the-flip-side-of-ai-ingenuity/) for more.
 
 Gradient routing provides a principled way to avoid Goodharting. Instead of training a model not to do certain bad behaviors, we instead explicitly train to do the bad behaviors but we localize the concepts relevant to the behavior to a known subnetwork. Then when the training is finished we simply ablate the subnetwork to remove the behavior!
 
@@ -209,7 +211,7 @@ Another challenge is that some capabilities are _entangled_, in the sense that t
 
 Conventional unlearning methods are more about suppressing behavior than unlearning information or internal circuitry related to that behavior ([Deeb & Roger, 2024](https://arxiv.org/pdf/2410.08827); [Sheshadri et al., 2024](https://arxiv.org/pdf/2407.15549); [Łucki et al., 2024](https://arxiv.org/abs/2409.18025)). Gradient routing offers a way around this problem by training models with specialized subcomponents that can be ablated for capability removal.[^sisa]
 
-[^sisa]: Gradient routing expands on work like [SISA]([https://arxiv.org/pdf/1912.03817](https://arxiv.org/pdf/1912.03817)). Gradient routing is more sample-efficient due to parameter sharing and is applicable under partial labeling due to absorption.
+[^sisa]: Gradient routing expands on work like [SISA](https://arxiv.org/pdf/1912.03817). Gradient routing is more sample-efficient due to parameter sharing and is applicable under partial labeling due to absorption.
 
 ## Scalable oversight
 
@@ -243,7 +245,7 @@ We think the most likely failure mode of the gradient routing agenda is that the
 Optimistically, gradient routing might enable a new era of controllable model internals - a shift away from the black-box paradigm. Neural networks need not be random-seeming programs which happen to generalize well! Instead, perhaps gradient routing can provide a _[“bittersweet” lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html)_: that while it may be impractical to design white-box AI systems, the high-level organization of capabilities in neural nets can be supervised effectively.
 
 > [!idea] Join the shard theory team at MATS
-> [Team Shard]([https://www.matsprogram.org/agency](https://www.matsprogram.org/agency)) has a strong track record, and we’re always looking for enthusiastic new scholars. Since 2023, we’ve introduced [steering vectors](/gpt2-steering-vectors), gradient routing, [retargeted the search](/understanding-and-controlling-a-maze-solving-policy-network) of an RL policy, and introduced an unsupervised method to [elicit latent capabilities from a model](/mechanistically-eliciting-latent-behaviors). If you want to work on Team Shard in MATS 8.0 (next summer), [apply](https://www.matsprogram.org/apply) in spring 2025.
+> [Team Shard](https://www.matsprogram.org/agency) has a strong track record, and we’re always looking for enthusiastic new scholars. Since 2023, we’ve introduced [steering vectors](/gpt2-steering-vectors), gradient routing, [retargeted the search](/understanding-and-controlling-a-maze-solving-policy-network) of an RL policy, and introduced an unsupervised method to [elicit latent capabilities from a model](/mechanistically-eliciting-latent-behaviors). If you want to work on Team Shard in MATS 8.0 (next summer), [apply](https://www.matsprogram.org/apply) in spring 2025.
 
 ![A "shard farmer" looking out over three large sparkling crystals at nighttime.](https://assets.turntrout.com/static/images/posts/shard_farmer.avif)
 Figure: Where the gradients flow, the [shards](/shard-theory) grow.
