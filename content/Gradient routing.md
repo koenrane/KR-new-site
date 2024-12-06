@@ -17,7 +17,6 @@ lw-linkpost-url: https://arxiv.org/abs/2410.04332
 original_url: 
   https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
 ---
-<iframe src="https://jacobgw.com/gradient-routed-vae/" width="800" height="600"></iframe>
 
 We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
@@ -27,7 +26,7 @@ We present _gradient routing_, a way of controlling where learning happens in ne
 In this post, we:
 1. Show how to implement gradient routing;
 2. State the main results from our paper:
-    1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits;
+    1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits - try it for yourself in an interactive demo;
     2. Localizing computation in language models, (a) inducing axis-aligned features and (b) demonstrating that information can be localized then removed simply via ablation;
     3. Scaling oversight to efficiently train a reinforcement learning policy even with severely limited ability to score its behavior.
 3. Speculate about how gradient routing might be relevant to AI alignment.
@@ -72,6 +71,10 @@ Figure: The “Certificate” is a decoder which was trained on all digits in or
 
 ![](https://assets.turntrout.com/static/images/posts/mnist_reconstruction_gradient_routing.avif)
 Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to decode 0-4.
+
+To demonstrate, [Jacob put together a demo](https://jacobgw.com/gradient-routed-vae/) which I have embedded. In the following, you can draw an image and view the _encoding of that image in the 10-dimensional latent space_, where we gradient routed each dimension to correspond to a different digit. By controlling the dimension sliders, you interpretably control the decoded image to be the desired digit! _As far as we can tell, no one else knows how to disentangle representations like this._
+
+<iframe src="https://jacobgw.com/gradient-routed-vae/" height=1250   />
 
 ## Localizing capabilities in language models
 
