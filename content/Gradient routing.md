@@ -74,7 +74,7 @@ Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to
 
 To demonstrate, [Jacob put together a demo](https://jacobgw.com/gradient-routed-vae/) which I have embedded. In the following, you can draw an image and view the _encoding of that image in the 10-dimensional latent space_, where we gradient routed each dimension to correspond to a different digit. By controlling the dimension sliders, you interpretably control the decoded image to be the desired digit! _As far as we can tell, no one else knows how to disentangle representations like this._
 
-<iframe src="https://jacobgw.com/gradient-routed-vae/" height=1250   />
+<iframe src="https://jacobgw.com/gradient-routed-vae/" height=1250 ></iframe>
 
 ## Localizing capabilities in language models
 
@@ -167,7 +167,7 @@ Figure: During evaluation, we can steer the policy toward reaching `diamond` by 
 
 This allows us to get higher returns than other methods when our access to oversight is severely limited:
 
-![](static/images/posts/oversight_tinystories.avif)
+![](https://assets.turntrout.com/static/images/posts/oversight_tinystories.avif)
 
 Figure: Returns of different training configurations at different oversight levels. Gradient-routed MoE achieves high performance even when only a small fraction of labels are provided. Dark highlights are 95% confidence intervals for the mean; light highlights are 5th and 95th quantiles across training runs.
 
