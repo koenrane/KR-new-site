@@ -7,17 +7,15 @@ no_dropcap: "false"
 tags:
   - AI
   - mats-program
-description: Isolate capabilities to known parts of a network. Helps with interpretability,
-  robust unlearning, and scalable oversight.
+description: Isolate capabilities to known parts of a network. Helps with interpretability, robust unlearning, and scalable oversight.
 date-published: ""
-authors: Alex Turner
+authors: Alex Cloud, Jacob Goldman-Wetzler, Evžen Wyitbul, Joseph Miller, and Alex Turner
 hideSubscriptionLinks: false
 card_image: https://assets.turntrout.com/static/images/card_images/NO2S3mX.png
 lw-linkpost-url: https://arxiv.org/abs/2410.04332
-original_url: 
-  https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
-date_published: &id001 2024-12-05 16:17:06.041179
-date_updated: *id001
+original_url: https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
+date_published: 2024-12-05 16:17:06.041179
+date_updated: 2024-12-05 16:17:06.041179
 ---
 
 
