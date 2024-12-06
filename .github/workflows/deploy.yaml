@@ -52,10 +52,10 @@ jobs:
 
       - name: Install subfont
         run: npm install -g subfont
-      - name: Make script executable
-        run: chmod +x ./scripts/subfont.sh
-      - name: Subset fonts
-        run: sh ./scripts/subfont.sh
+      # - name: Make script executable
+        # run: chmod +x ./scripts/subfont.sh
+      # - name: Subset fonts
+        # run: sh ./scripts/subfont.sh
       - name: Site checks
         run: python scripts/built_site_checks.py
 
