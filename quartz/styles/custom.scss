@@ -483,7 +483,9 @@ img.favicon {
   &[src$="nips_cc.avif"],
   &[src$="matsprogram_org.avif"],
   &[src$="proceedings_mlr_press.avif"] {
-    filter: invert(100%) grayscale(100%);
+    :root[saved-theme="dark"] & {
+      filter: invert(100%) grayscale(100%);
+    }
   }
 
   &[src$="arbital_com.avif"],
