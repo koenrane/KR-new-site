@@ -45,8 +45,9 @@ card_image:
   https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
 description: "Lessons learned from years of self-teaching: use Anki, read multiple
   books concurrently, and don't be afraid of easier texts."
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
 
 
 

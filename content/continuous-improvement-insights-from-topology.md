@@ -43,8 +43,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k6b4WRE.png
 description: Reviewing Munkres' "Topology", reflecting on compactness, homotopy, and
   what I was even doing with my life before understanding homeomorphisms.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
 
 
 

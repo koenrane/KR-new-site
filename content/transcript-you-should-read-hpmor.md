@@ -35,8 +35,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/grinnell.png
 description: Why you should read _Harry Potter and the Methods of Rationality_ to
   live more ethically and effectively.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
 
 
 

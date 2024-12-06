@@ -47,8 +47,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/dc4zupnie9hr2hm7tfnx.png
 description: A dive into the surprising behavior of a maze-solving AI agent and how
   its goals can be manipulated.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
 
 
 

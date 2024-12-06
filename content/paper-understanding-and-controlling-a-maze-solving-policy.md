@@ -40,8 +40,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/jbwksgzxm1h8hzspvypz.png
 description: My team published a paper on steering a maze-solving AI by manipulating
   its internal goal representations.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
 
 
 
