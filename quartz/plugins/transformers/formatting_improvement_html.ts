@@ -160,7 +160,7 @@ export function niceQuotes(text: string): string {
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
   // If single quote has a right double quote after it, replace with right single and then double
-  text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
+  text = text.replace(/'(?=”)/g, "’")
 
   // Periods inside quotes
   const periodRegex = new RegExp(`(?<![!?:])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
@@ -224,11 +224,11 @@ export function hyphenReplace(text: string) {
   )
 
   // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, `$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`)
+  text = text.replace(surroundedDash, "$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>")
 
   // "Since--as you know" should be "Since—as you know"
   const multipleDashInWords = new RegExp(
-    `(?<=[A-Za-z\\d])(?<markerBefore>${chr}?)[~–—-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\\d])`,
+    `(?<=[A-Za-z\\d])(?<markerBefore>${chr}?)[~–—-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\\d ])`,
     "g",
   )
   text = text.replace(multipleDashInWords, "$<markerBefore>—$<markerAfter>")
@@ -307,7 +307,7 @@ export function enDashDateRange(text: string): string {
  * @returns The transformed text
  */
 export function applyTextTransforms(text: string): string {
-  text = text.replace(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = text.replace(/\u00A0/gu, " ") // Replace non-breaking spaces
   text = minusReplace(text)
   text = massTransformText(text)
   text = niceQuotes(text)
@@ -514,7 +514,7 @@ export function neqConversion(text: string): string {
 }
 
 export function plusToAmpersand(text: string): string {
-  const sourcePattern = `(?<=[a-zA-Z])\\+(?=[a-zA-Z])`
+  const sourcePattern = "(?<=[a-zA-Z])\\+(?=[a-zA-Z])"
   const result = text.replace(new RegExp(sourcePattern, "g"), " \u0026 ")
   return result
 }
@@ -594,7 +594,7 @@ export function setFirstLetterAttribute(tree: Root): void {
       (child): child is Text => child.type === "text",
     )
     if (firstTextNode) {
-      firstTextNode.value = firstLetter + " " + firstTextNode.value.slice(1)
+      firstTextNode.value = `${firstLetter} ${firstTextNode.value.slice(1)}`
     }
   }
 }

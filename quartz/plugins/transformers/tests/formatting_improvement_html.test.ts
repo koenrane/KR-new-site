@@ -253,6 +253,7 @@ describe("HTMLFormattingImprovement", () => {
       ['"I love dogs." - Me', '"I love dogs." — Me'],
       ["- Me", "— Me"], // Don't delete space after dash at the start of a line
       ["-- Me", "— Me"],
+      ["Hi-- what do you think?", "Hi—what do you think?"],
       [
         "—such behaviors still have to be retrodicted",
         "—such behaviors still have to be retrodicted",
