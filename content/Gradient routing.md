@@ -7,22 +7,25 @@ no_dropcap: "false"
 tags:
   - AI
   - mats-program
-description: Isolate capabilities to known parts of a network. Helps with interpretability, robust unlearning, and scalable oversight.
+description: Isolate capabilities to known parts of a network. Helps with interpretability,
+  robust unlearning, and scalable oversight.
 date-published: ""
-authors: Alex Cloud, Jacob Goldman-Wetzler, Evžen Wybitul, Joseph Miller, and Alex Turner
+authors: Alex Cloud, Jacob Goldman-Wetzler, Evžen Wybitul, Joseph Miller, and Alex
+  Turner
 hideSubscriptionLinks: false
 card_image: https://assets.turntrout.com/static/images/card_images/NO2S3mX.png
 lw-linkpost-url: https://arxiv.org/abs/2410.04332
 original_url: https://www.lesswrong.com/posts/nLRKKCTtwQgvozLTN/gradient-routing-masking-gradients-to-localize-computation
 date_published: 2024-12-05 16:17:06.041179
-date_updated: 2024-12-05 16:17:06.041179
+date_updated: 2024-12-06 13:31:17.394021
 ---
+
 
 
 We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
 > [!idea] A key takeaway
-> Gradient routing is _qualitatively different_ than behavioral (i.e. purely loss-based) training methods, giving it unique affordances.
+> Gradient routing is _qualitatively different_ than behavioral (i.e. purely loss-based) training methods, granting it unique affordances.
 
 In this post, we:
 1. Show how to implement gradient routing;
@@ -72,10 +75,6 @@ Figure: The “Certificate” is a decoder which was trained on all digits in or
 
 ![](https://assets.turntrout.com/static/images/posts/mnist_reconstruction_gradient_routing.avif)
 Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to decode 0-4.
-
-To demonstrate, [Jacob put together a demo](https://jacobgw.com/gradient-routed-vae/) which I have embedded. In the following, you can view the _encoding of random MNIST images in the 10-dimensional latent space_, where we gradient routed each dimension to correspond to a different digit. By controlling the dimension sliders, you interpretably control the decoded image to be the desired digit! _As far as we can tell, no one else knows how to disentangle representations like this._
-
-<iframe src="https://jacobgw.com/gradient-routed-vae/" height=1250 ></iframe>
 
 ## Localizing capabilities in language models
 
@@ -240,11 +239,11 @@ One way to avoid existential risk is to not “build god.” As an alternative t
 ![](https://assets.turntrout.com/static/images/posts/split_capabilities.avif)
 Figure: By the usual practice of training capabilities all at once (but localized), the model becomes competent. By deleting the undesired capabilities, the AI becomes safer.
 
-AI systems could be deployed using a [“principle of least capability”](https://en.wikipedia.org/wiki/Principle_of_least_privilege). For each AI application or end user, we ask: What “risky” capabilities are required? Unnecessary capabilities are ablated. Furthermore, if we can localize dangerous capabilities, we can demonstrate that the model cannot reliably and inconspicuously perform certain harmful behaviors (like domination of humans). For example, such incapacities could be demonstrated via adversarial fine-tuning attacks.
+AI systems could be deployed using a [“principle of least capability”](https://en.wikipedia.org/wiki/Principle_of_least_privilege). For each AI application or end user, we ask: What “risky” capabilities are required? Then we ablate the unnecessary ones. Furthermore, if we can localize dangerous capabilities, we can demonstrate that the model cannot reliably and inconspicuously perform certain harmful behaviors (like domination of humans). For example, such incapacities could be demonstrated via adversarial fine-tuning attacks.
 
 # Conclusion
 
-Gradient routing is a qualitatively different way of training neural nets that seems relevant to hard problems in AI safety. We are excited about this, and many ideas about where to go from here.
+Gradient routing enables data-driven supervision of neural net internals. This supervision works even when data labeling is imperfect, a property that seems relevant to hard problems in AI safety. If it works, we can imagine many possible applications.
 
 We think the most likely failure mode of the gradient routing agenda is that the alignment tax of inducing useful structure in neural nets is too high to be competitive with conventional training methods. This tax could be because the desired structure is "unnatural" with respect to neural net inductive biases. Or, the tax could be because gradient routing itself is an ineffective way of inducing useful structure. We expect to get a better sense of this soon by improving on ERA for unlearning and developing our ideas about RL applications.
 
