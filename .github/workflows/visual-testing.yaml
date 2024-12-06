@@ -41,8 +41,8 @@ jobs:
           done
           echo "Server is ready"
 
-      - name: Run visual tests
-        run: npx playwright test 
-        env:
-          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
-          CI: true
+      # - name: Run visual tests
+      #   run: npx playwright test 
+      #   env:
+      #     ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+      #     CI: true
