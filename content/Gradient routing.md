@@ -73,7 +73,7 @@ Figure: The “Certificate” is a decoder which was trained on all digits in or
 ![](https://assets.turntrout.com/static/images/posts/mnist_reconstruction_gradient_routing.avif)
 Figure: The bottom half certificate learns to decode 5-9 but not cannot learn to decode 0-4.
 
-To demonstrate, [Jacob put together a demo](https://jacobgw.com/gradient-routed-vae/) which I have embedded. In the following, you can draw an image and view the _encoding of that image in the 10-dimensional latent space_, where we gradient routed each dimension to correspond to a different digit. By controlling the dimension sliders, you interpretably control the decoded image to be the desired digit! _As far as we can tell, no one else knows how to disentangle representations like this._
+To demonstrate, [Jacob put together a demo](https://jacobgw.com/gradient-routed-vae/) which I have embedded. In the following, you can view the _encoding of random MNIST images in the 10-dimensional latent space_, where we gradient routed each dimension to correspond to a different digit. By controlling the dimension sliders, you interpretably control the decoded image to be the desired digit! _As far as we can tell, no one else knows how to disentangle representations like this._
 
 <iframe src="https://jacobgw.com/gradient-routed-vae/" height=1250 ></iframe>
 
