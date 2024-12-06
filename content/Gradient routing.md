@@ -107,7 +107,7 @@ Figure: How gradients are routed on forget data in the Route step of Expand, Rou
 We compare gradient routing to three baselines on a made-up unlearning problem based on [GPT-generated children’s stories](https://arxiv.org/abs/2305.07759):
 1. Data filtering - a kind of gold standard for unlearning, which we operationalize as “first train a base model, then discard it and re-train from scratch only on retain data”,
 2. [RMU](https://proceedings.mlr.press/v235/li24bc.html) - a fine-tuning method that corrupts the model’s internal representations on forget data, and
-3. [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation (a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels).
+3. [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation - a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels.
 
 We measure performance at different proportions of random forget data labeling. Unlabeled forget data is treated as retain data for training purposes. The idea is to simulate frontier AI applications where perfectly labeling all training data is infeasible.
 
