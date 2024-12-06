@@ -31,7 +31,7 @@ We present _gradient routing_, a way of controlling where learning happens in ne
 In this post, we:
 1. Show how to implement gradient routing;
 2. State the main results from our paper:
-    1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits - try it for yourself in an interactive demo;
+    1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits;
     2. Localizing computation in language models, (a) inducing axis-aligned features and (b) demonstrating that information can be localized then removed simply via ablation;
     3. Scaling oversight to efficiently train a reinforcement learning policy even with severely limited ability to score its behavior.
 3. Speculate about how gradient routing might be relevant to AI alignment.
