@@ -171,9 +171,10 @@
       }
 
       & .highlight {
-        background: color-mix(in srgb, var(--color-link) 20%, rgb(255 255 255 / 0%));
         border-radius: 5px;
         scroll-margin-top: 2rem;
+        color: var(--green);
+        text-shadow: 0 0 10px color-mix(in srgb, var(--green) 70%, transparent);
       }
 
       & > #preview-container {
