@@ -185,12 +185,16 @@
         line-height: 1.5em;
         font-weight: $normal-weight;
         overflow-y: auto;
-        margin: calc(2 * $base-margin) calc(4 * $base-margin);
+        margin: calc(0 * $base-margin) calc(3 * $base-margin);
         cursor: pointer;
 
         & .preview-inner {
           margin: 0 auto;
           width: min($page-width, 100%);
+        }
+
+        & .article-title {
+          margin-top: calc(1.5 * $base-margin);
         }
 
         a[role="anchor"] {

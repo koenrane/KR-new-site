@@ -397,9 +397,4 @@ article[data-use-dropcap="true"] {
   & > p:first-of-type .small-caps {
     font-family: EBGaramondSC, var(--font-text-sc), serif !important;
   }
-
-  & > p[data-first-letter="f"]::before,
-  & > p[data-first-letter="F"]::before {
-    padding-left: 0.025em;
-  }
 }
