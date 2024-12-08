@@ -154,6 +154,36 @@ function escapeRegExp(text: string) {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 }
 
+const createHighlightSpan = (text: string) => {
+  const span = document.createElement("span")
+  span.className = "highlight"
+  span.textContent = text
+  return span
+}
+
+const highlightTextNodes = (node: Node, term: string) => {
+  if (node.nodeType === Node.TEXT_NODE) {
+    const sanitizedTerm = escapeRegExp(term)
+    const nodeText = node.nodeValue ?? ""
+    const regex = new RegExp(sanitizedTerm.toLowerCase(), "gi")
+    const matches = nodeText.match(regex)
+    if (!matches || matches.length === 0) return
+    const spanContainer = document.createElement("span")
+    let lastIndex = 0
+    for (const match of matches) {
+      const matchIndex = nodeText.indexOf(match, lastIndex)
+      spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex, matchIndex)))
+      spanContainer.appendChild(createHighlightSpan(match))
+      lastIndex = matchIndex + match.length
+    }
+    spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex)))
+    node.parentNode?.replaceChild(spanContainer, node)
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    if ((node as HTMLElement).classList.contains("highlight")) return
+    Array.from(node.childNodes).forEach((child) => highlightTextNodes(child, term))
+  }
+}
+
 /**
  * Highlights search terms within HTML content while preserving HTML structure
  * @param searchTerm - Term to highlight
@@ -164,36 +194,6 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
   const parser = new DOMParser()
   const tokenizedTerms = tokenizeTerm(searchTerm)
   const html = parser.parseFromString(el.innerHTML, "text/html")
-
-  const createHighlightSpan = (text: string) => {
-    const span = document.createElement("span")
-    span.className = "highlight"
-    span.textContent = text
-    return span
-  }
-
-  const highlightTextNodes = (node: Node, term: string) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const sanitizedTerm = escapeRegExp(term)
-      const nodeText = node.nodeValue ?? ""
-      const regex = new RegExp(sanitizedTerm.toLowerCase(), "gi")
-      const matches = nodeText.match(regex)
-      if (!matches || matches.length === 0) return
-      const spanContainer = document.createElement("span")
-      let lastIndex = 0
-      for (const match of matches) {
-        const matchIndex = nodeText.indexOf(match, lastIndex)
-        spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex, matchIndex)))
-        spanContainer.appendChild(createHighlightSpan(match))
-        lastIndex = matchIndex + match.length
-      }
-      spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex)))
-      node.parentNode?.replaceChild(spanContainer, node)
-    } else if (node.nodeType === Node.ELEMENT_NODE) {
-      if ((node as HTMLElement).classList.contains("highlight")) return
-      Array.from(node.childNodes).forEach((child) => highlightTextNodes(child, term))
-    }
-  }
 
   for (const term of tokenizedTerms) {
     highlightTextNodes(html.body, term)
@@ -216,6 +216,23 @@ function updatePlaceholder() {
   } else {
     searchBar?.setAttribute("placeholder", searchPlaceholderMobile)
   }
+}
+
+function showSearch(
+  searchTypeNew: SearchType,
+  container: HTMLElement | null,
+  searchBar: HTMLInputElement | null,
+) {
+  if (!container || !searchBar) return
+  searchType = searchTypeNew
+  const navbar = document.getElementById("navbar")
+  if (navbar) {
+    navbar.style.zIndex = "1"
+  }
+  container?.classList.add("active")
+  document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
+  searchBar?.focus()
+  updatePlaceholder()
 }
 
 /**
@@ -254,6 +271,86 @@ let previewInner: HTMLElement | undefined
 let currentHover: HTMLInputElement | null = null
 let currentSlug: FullSlug
 
+const appendLayout = (el: HTMLElement) => {
+  if (searchLayout?.querySelector(`#${el.id}`) === null) {
+    searchLayout?.appendChild(el)
+  }
+}
+
+async function shortcutHandler(
+  e: KeyboardEvent,
+  container: HTMLElement | null,
+  searchBar: HTMLInputElement | null,
+) {
+  if (e.key === "/") {
+    e.preventDefault()
+    const searchBarOpen = container?.classList.contains("active")
+    if (searchBarOpen) {
+      hideSearch()
+    } else {
+      showSearch("basic", container, searchBar)
+    }
+    return
+  } else if (e.shiftKey && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+    // Hotkey to open tag search
+    e.preventDefault()
+    e.stopPropagation() // Add this line to stop event propagation
+    const searchBarOpen = container?.classList.contains("active")
+    void (searchBarOpen ? hideSearch() : showSearch("tags", container, searchBar))
+
+    // add "#" prefix for tag search
+    if (searchBar) searchBar.value = "#"
+    return
+  }
+
+  if (currentHover) {
+    currentHover.classList.remove("focus")
+  }
+
+  // If search is active, then we will render the first result and display accordingly
+  if (!container?.classList.contains("active")) return
+  if (e.key === "Enter") {
+    // If result has focus, navigate to that one, otherwise pick first result
+    if (results?.contains(document.activeElement)) {
+      const active = document.activeElement as HTMLInputElement
+      if (active.classList.contains("no-match")) return
+      await displayPreview(active)
+      active.click()
+    } else {
+      const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
+      if (!anchor || anchor?.classList.contains("no-match")) return
+      await displayPreview(anchor)
+      anchor.click()
+    }
+  } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
+    e.preventDefault()
+    if (results?.contains(document.activeElement)) {
+      // If an element in results-container already has focus, focus previous one
+      const currentResult = currentHover
+        ? currentHover
+        : (document.activeElement as HTMLInputElement | null)
+      const prevResult = currentResult?.previousElementSibling as HTMLInputElement | null
+      currentResult?.classList.remove("focus")
+      prevResult?.focus()
+      if (prevResult) currentHover = prevResult
+      await displayPreview(prevResult)
+    }
+  } else if (e.key === "ArrowDown" || e.key === "Tab") {
+    e.preventDefault()
+    // The results should already been focused, so we need to find the next one.
+    // The activeElement is the search bar, so we need to find the first result and focus it.
+    if (document.activeElement === searchBar || currentHover !== null) {
+      const firstResult = currentHover
+        ? currentHover
+        : (document.getElementsByClassName("result-card")[0] as HTMLInputElement | null)
+      const secondResult = firstResult?.nextElementSibling as HTMLInputElement | null
+      firstResult?.classList.remove("focus")
+      secondResult?.focus()
+      if (secondResult) currentHover = secondResult
+      await displayPreview(secondResult)
+    }
+  }
+}
 /**
  * Handles navigation events by setting up search functionality
  * @param e - Navigation event
@@ -273,12 +370,6 @@ async function onNav(e: CustomEventMap["nav"]) {
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
   searchLayout = document.getElementById("search-layout")
 
-  const appendLayout = (el: HTMLElement) => {
-    if (searchLayout?.querySelector(`#${el.id}`) === null) {
-      searchLayout?.appendChild(el)
-    }
-  }
-
   const enablePreview = searchLayout?.dataset?.preview === "true"
   results.id = "results-container"
   appendLayout(results)
@@ -289,97 +380,19 @@ async function onNav(e: CustomEventMap["nav"]) {
     appendLayout(preview)
   }
 
-  function showSearch(searchTypeNew: SearchType) {
-    searchType = searchTypeNew
-    const navbar = document.getElementById("navbar")
-    if (navbar) {
-      navbar.style.zIndex = "1"
-    }
-    container?.classList.add("active")
-    document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
-    searchBar?.focus()
-    updatePlaceholder()
-  }
-
-  async function shortcutHandler(e: KeyboardEvent) {
-    if (e.key === "/") {
-      e.preventDefault()
-      const searchBarOpen = container?.classList.contains("active")
-      if (searchBarOpen) {
-        hideSearch()
-      } else {
-        showSearch("basic")
-      }
-      return
-    } else if (e.shiftKey && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-      // Hotkey to open tag search
-      e.preventDefault()
-      e.stopPropagation() // Add this line to stop event propagation
-      const searchBarOpen = container?.classList.contains("active")
-      void (searchBarOpen ? hideSearch() : showSearch("tags"))
-
-      // add "#" prefix for tag search
-      if (searchBar) searchBar.value = "#"
-      return
-    }
-
-    if (currentHover) {
-      currentHover.classList.remove("focus")
-    }
-
-    // If search is active, then we will render the first result and display accordingly
-    if (!container?.classList.contains("active")) return
-    if (e.key === "Enter") {
-      // If result has focus, navigate to that one, otherwise pick first result
-      if (results?.contains(document.activeElement)) {
-        const active = document.activeElement as HTMLInputElement
-        if (active.classList.contains("no-match")) return
-        await displayPreview(active)
-        active.click()
-      } else {
-        const anchor = document.getElementsByClassName("result-card")[0] as HTMLInputElement | null
-        if (!anchor || anchor?.classList.contains("no-match")) return
-        await displayPreview(anchor)
-        anchor.click()
-      }
-    } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
-      e.preventDefault()
-      if (results?.contains(document.activeElement)) {
-        // If an element in results-container already has focus, focus previous one
-        const currentResult = currentHover
-          ? currentHover
-          : (document.activeElement as HTMLInputElement | null)
-        const prevResult = currentResult?.previousElementSibling as HTMLInputElement | null
-        currentResult?.classList.remove("focus")
-        prevResult?.focus()
-        if (prevResult) currentHover = prevResult
-        await displayPreview(prevResult)
-      }
-    } else if (e.key === "ArrowDown" || e.key === "Tab") {
-      e.preventDefault()
-      // The results should already been focused, so we need to find the next one.
-      // The activeElement is the search bar, so we need to find the first result and focus it.
-      if (document.activeElement === searchBar || currentHover !== null) {
-        const firstResult = currentHover
-          ? currentHover
-          : (document.getElementsByClassName("result-card")[0] as HTMLInputElement | null)
-        const secondResult = firstResult?.nextElementSibling as HTMLInputElement | null
-        firstResult?.classList.remove("focus")
-        secondResult?.focus()
-        if (secondResult) currentHover = secondResult
-        await displayPreview(secondResult)
-      }
-    }
-  }
-
   const debouncedOnType = debounce(onType, debounceSearchDelay, false)
 
   // Store all event listener cleanup functions
   const listeners = new Set<() => void>()
 
   // Replace direct event listener assignments with addListener
-  addListener(document, "keydown", (e: Event) => shortcutHandler(e as KeyboardEvent), listeners)
-  addListener(searchIcon, "click", () => showSearch("basic"), listeners)
+  addListener(
+    document,
+    "keydown",
+    (e: Event) => shortcutHandler(e as KeyboardEvent, container, searchBar),
+    listeners,
+  )
+  addListener(searchIcon, "click", () => showSearch("basic", container, searchBar), listeners)
   addListener(searchBar, "input", debouncedOnType, listeners)
 
   // Create cleanup function
