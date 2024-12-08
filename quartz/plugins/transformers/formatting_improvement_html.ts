@@ -625,7 +625,6 @@ interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
-// Note: Assumes no nbsp
 /**
  * Main plugin function for applying formatting improvements
  * @returns A unified plugin

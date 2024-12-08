@@ -363,6 +363,11 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-background);
     color: var(--before-color);
+
+    // Firefox-specific adjustments for dropcap
+    @supports (-moz-appearance: none) {
+      top: -0.2rem;
+    }
   }
 
   & > p:first-of-type::first-letter {
