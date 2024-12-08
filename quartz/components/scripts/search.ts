@@ -1,5 +1,5 @@
 // NOTE: The function documentation is AI-generated. Take with a grain of salt.
-import FlexSearch from "flexsearch"
+import FlexSearch, { ContextOptions } from "flexsearch"
 
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
@@ -25,24 +25,40 @@ let currentSearchTerm = ""
 
 const index = new FlexSearch.Document<Item>({
   charset: "latin:advanced",
-  tokenize: "forward",
+  tokenize: "strict",
+  resolution: 1,
+  context: {
+    depth: 2,
+    bidirectional: false,
+  } as ContextOptions,
   document: {
     id: "id",
     tag: "tags",
     index: [
       {
         field: "title",
-        tokenize: "forward",
-        resolution: 3,
+        tokenize: "strict",
+        resolution: 1,
       },
       {
         field: "content",
-        tokenize: "forward",
-        resolution: 3,
+        tokenize: "strict",
+        resolution: 1,
       },
       {
         field: "tags",
-        tokenize: "full",
+        tokenize: "forward",
+        resolution: 1,
+      },
+      {
+        field: "slug",
+        tokenize: "forward",
+        resolution: 1,
+      },
+      {
+        field: "aliases",
+        tokenize: "forward",
+        resolution: 1,
       },
     ],
   },
@@ -537,8 +553,8 @@ async function onType(e: HTMLElementEventMap["input"]) {
     searchResults = await index.searchAsync({
       query: currentSearchTerm,
       limit: numSearchResults,
-      index: ["title", "content"],
-      bool: "or",
+      index: ["title", "content", "tags", "slug", "aliases"],
+      bool: "or", // Appears in any of the fields
       suggest: true,
     })
   } else {
@@ -548,8 +564,10 @@ async function onType(e: HTMLElementEventMap["input"]) {
   // order titles ahead of content
   const allIds: Set<number> = new Set([
     ...getByField("title", searchResults),
-    ...getByField("content", searchResults),
     ...getByField("tags", searchResults),
+    ...getByField("slug", searchResults),
+    ...getByField("aliases", searchResults),
+    ...getByField("content", searchResults),
   ])
   const idDataMap = Object.keys(data ?? {}) as FullSlug[]
   if (!data) return
