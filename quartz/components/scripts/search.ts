@@ -574,12 +574,9 @@ async function onType(e: HTMLElementEventMap["input"]) {
     throw new Error("Invalid search type")
   }
 
-  // order titles ahead of content
+  // Ordering affects search results, so we need to order them here
   const allIds: Set<number> = new Set([
-    ...getByField("title", searchResults),
-    ...getByField("tags", searchResults),
     ...getByField("slug", searchResults),
-    ...getByField("aliases", searchResults),
     ...getByField("content", searchResults),
   ])
   const idDataMap = Object.keys(data ?? {}) as FullSlug[]

@@ -136,6 +136,32 @@ test("Search results work for a single character", async ({ page }) => {
   expect(results).not.toHaveLength(1)
 })
 
+const searchTerms = [
+  { term: "Josh Turner" },
+  { term: "The Pond" },
+  { term: "United States government" },
+]
+searchTerms.forEach(({ term }) => {
+  test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
+    await page.keyboard.press("/")
+    await search(page, term)
+
+    const firstResult = page.locator("#preview-container").first()
+    await expect(firstResult).toContainText(term)
+  })
+})
+
+test("Slug search results are ordered before content search results", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "date-me")
+
+  const firstResult = page.locator("#preview-container").first()
+  await expect(firstResult).toContainText("wife")
+})
+
+// TODO check that the preview has the correct data-use-dropcap attribute (that some pages skip it)
+// TODO check that backref is rendering the right font: DejaVu Serif Condensed
+
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
   await page.keyboard.press("/")
