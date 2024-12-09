@@ -12,6 +12,7 @@ interface Item {
   title: string
   content: string
   tags: string[]
+  authors?: string
 }
 
 /**
@@ -38,27 +39,32 @@ const index = new FlexSearch.Document<Item>({
       {
         field: "title",
         tokenize: "strict",
-        resolution: 1,
+        resolution: 9,
       },
       {
         field: "content",
         tokenize: "strict",
-        resolution: 1,
+        resolution: 9,
       },
       {
         field: "tags",
-        tokenize: "forward",
-        resolution: 1,
+        tokenize: "strict",
+        resolution: 9,
       },
       {
         field: "slug",
-        tokenize: "forward",
-        resolution: 1,
+        tokenize: "strict",
+        resolution: 9,
       },
       {
         field: "aliases",
-        tokenize: "forward",
-        resolution: 1,
+        tokenize: "strict",
+        resolution: 9,
+      },
+      {
+        field: "authors",
+        tokenize: "strict",
+        resolution: 9,
       },
     ],
   },
@@ -566,9 +572,9 @@ async function onType(e: HTMLElementEventMap["input"]) {
     searchResults = await index.searchAsync({
       query: currentSearchTerm,
       limit: numSearchResults,
-      index: ["title", "content", "tags", "slug", "aliases"],
+      index: ["title", "content", "slug", "authors"],
       bool: "or", // Appears in any of the fields
-      suggest: true,
+      suggest: false,
     })
   } else {
     throw new Error("Invalid search type")
@@ -577,6 +583,8 @@ async function onType(e: HTMLElementEventMap["input"]) {
   // Ordering affects search results, so we need to order them here
   const allIds: Set<number> = new Set([
     ...getByField("slug", searchResults),
+    ...getByField("title", searchResults),
+    ...getByField("authors", searchResults),
     ...getByField("content", searchResults),
   ])
   const idDataMap = Object.keys(data ?? {}) as FullSlug[]
@@ -651,6 +659,7 @@ const formatForDisplay = (
     slug,
     title: searchType === "tags" ? data[slug].title : highlight(term, data[slug].title ?? ""),
     content: highlight(term, data[slug].content ?? "", true),
+    authors: data[slug].authors,
     tags: highlightTags(term.substring(1), data[slug].tags),
   }
 }
@@ -736,6 +745,7 @@ async function fillDocument(data: { [key: FullSlug]: ContentDetails }) {
         title: fileData.title,
         content: fileData.content,
         tags: fileData.tags,
+        authors: fileData.authors,
       }),
     )
   }

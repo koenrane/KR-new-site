@@ -19,6 +19,7 @@ export type ContentDetails = {
   content: string
   richContent?: string
   date?: Date
+  authors?: string
   description?: string
 }
 
@@ -138,6 +139,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               : undefined,
             date: date,
             description: file.data.description ?? "",
+            authors: file.data.frontmatter?.authors as string | undefined,
           })
         }
       }
