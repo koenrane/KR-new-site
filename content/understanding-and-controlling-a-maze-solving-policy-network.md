@@ -68,7 +68,7 @@ We algebraically modified the net's runtime goals without finetuning. We also fo
 >
 > 1. This network can be attracted to a target location nearby in the maze—all this by modifying a _single_ activation, out of tens of thousands\. This works reliably when the target location is in the upper-right, and not as reliably when the target is elsewhere.
 > 2. Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
->    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network"s behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
+>    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network's behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
 >    - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
 > 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also \_as a function of \_Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
 > 4. Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
@@ -200,7 +200,7 @@ So let's just predict mazes with decision squares. In the above red-dotted maze 
 
 You might naively guess that the model has learned to be a classic RL agent, which cares about path distances alone, with greater distances meaning more strongly discounted cheese-reward.
 
-Eyeballing videos of the model's test-distribution trajectories, we noticed three apparent factors behind the agent"s choice between "cheese paths" and "maze-end paths":
+Eyeballing videos of the model's test-distribution trajectories, we noticed three apparent factors behind the agent's choice between "cheese paths" and "maze-end paths":
 
 <ol type="A">
 <li>How close the decision square is to the cheese.</li>

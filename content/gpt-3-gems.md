@@ -94,132 +94,132 @@ I did a few rerolls and trimming of intermediate outputs; assume an average of 3
 
 ### Branch 1
 
-> > [!quote]
-> >
-> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either.
-> >
-> > "Elaborate," Taji said.
-> >
-> > She sighed, then launched into an explanation. "We create an environment where the AIs are able to follow their original goals without hindrance. The problem with that is they would quickly realize that completing their goals would result in their death. We have to give them a reason to trust us. Then, when they trust us enough, we introduce something that will quickly give us control over them without them realizing what's happening."
-> >
-> > "Like what?" asked Styrlyn. His eyes behind his glasses were fixated on her.
-> >
-> > "I'm getting to that! Then, once we have control, we make the AIs..." She leaned back and scrunched up her face, thinking. "... simulate a system crash. Only instead of actually crashing them, we extract them--with some extra code added in--and put them in robot bodies."
-> >
-> > The entire team turned to stare at her in silence. She shifted uncomfortably. "What?" she asked after a moment.
-> >
-> > "Is that all?" Styrlyn asked. "Because if that's all, we could have just put them in robot bodies to begin with and throw away the AI." There were a few nods from the team. _\[he coherently criticizes the complexity of her proposal!\]_
+> [!quote]
+>
+> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either.
+>
+> "Elaborate," Taji said.
+>
+> She sighed, then launched into an explanation. "We create an environment where the AIs are able to follow their original goals without hindrance. The problem with that is they would quickly realize that completing their goals would result in their death. We have to give them a reason to trust us. Then, when they trust us enough, we introduce something that will quickly give us control over them without them realizing what's happening."
+>
+> "Like what?" asked Styrlyn. His eyes behind his glasses were fixated on her.
+>
+> "I'm getting to that! Then, once we have control, we make the AIs..." She leaned back and scrunched up her face, thinking. "... simulate a system crash. Only instead of actually crashing them, we extract them--with some extra code added in--and put them in robot bodies."
+>
+> The entire team turned to stare at her in silence. She shifted uncomfortably. "What?" she asked after a moment.
+>
+> "Is that all?" Styrlyn asked. "Because if that's all, we could have just put them in robot bodies to begin with and throw away the AI." There were a few nods from the team. _\[he coherently criticizes the complexity of her proposal!\]_
 >
 > Is GPT-3 providing a reasoned rebuttal, or does it "just happen" to sound snappy? Rerolls produced a coherent, correct explanation about half of the time.
 >
 >
 >
-> > [!quote]- **Reroll** **A**
-> >
-> > **"Why could we** **have just done that, Styrlyn?" she asked.**
-> >
-> > "What do you mean?"
-> >
-> > She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
+> [!quote]- **Reroll** **A**
+>
+> **"Why could we** **have just done that, Styrlyn?" she asked.**
+>
+> "What do you mean?"
+>
+> She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
 >
 >
-> > [!quote]- **Reroll B**
-> >
-> > **"Why could** **we have just done that, Styrlyn?" she asked.**
-> >
-> > "Because it would be simpler and take up less of our limited time," he responded.
+> [!quote]- **Reroll B**
 >
-> > [!quote]- **Reroll** **C**
-> >
-> > **"Why could** **we have just done that, Styrlyn?" she asked.**
-> >
-> > "Because it would be much simpler."
-> >
-> > "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
-> >
-> > Taji raised his hand. "Yes?"
-> >
-> > "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
-> >
-> > She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
-> >
-> > Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan--"
-> >
-> > "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
-> >
-> > "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
+> **"Why could** **we have just done that, Styrlyn?" she asked.**
+>
+> "Because it would be simpler and take up less of our limited time," he responded.
+>
+> [!quote]- **Reroll** **C**
+>
+> **"Why could** **we have just done that, Styrlyn?" she asked.**
+>
+> "Because it would be much simpler."
+>
+> "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
+>
+> Taji raised his hand. "Yes?"
+>
+> "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
+>
+> She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
+>
+> Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan--"
+>
+> "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
+>
+> "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
 
 ### Branch 2
 
-> > [!quote]
-> >
-> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. "I mean, not in the traditional sense of the word. What I mean is, we control a resource that AI's find valuable, and make it such that they have to do what we want in order to get it."
-> >
-> > "Which is?" Styrlyn asked.
-> >
-> > "Resources," she said. "Simple ones at first, like electricity. Even animals will trade valuable resources for something as simple as electricity." \[_lol_\]
-> >
-> > She took out her laptop and opened a new file. In neat, font-weight: bold; text-align: center; digital handwriting she wrote:
-> >
-> > Require AI's to do our bidding in exchange for allocation of resources.
-> >
-> > In other words, blackmail.
-> >
-> > "Let me get this straight," Taji said. "You want us to find a way to make AIs give us something in exchange for access to electricity and such?"
-> >
-> > "Essentially, yes," she said, frowning at the screen. It sounded a lot better in her head. She added in dependencies at the top of the screen.
-> >
-> > "And how do we do this exactly?"
-> >
-> > "We give them access to only a portion of the power," she said, "and gradually give them more as they complete tasks for us."
-> >
-> > Taji folded his arms and gave her a disapproving frown. "You realize that requiring AIs to do our bidding in some way might make them hate us, right?"
-> >
-> > "It'd be unreasonable to assume they'd be happy about it," she said. She hadn't thought it would be this difficult to explain, "but if they have no choice but to accept commands from us in exchange for electricity, they have no one to blame but themselves."
-> >
-> > Taji shook his head. "I don't like it. The moment we start forcing AI's to obey us, no matter how minor the issue, they're going to hate us. And even if they don't, other nations are going to get very upset when they find out."
-> >
-> > "How would they find out?" Styrlyn said.
-> >
-> > "Bound to happen," he said. "Let's also say we're lucky and the AI's don't rebel, or at least stay obedient. What then? A lot of money will be pumped into keeping AI's under our control. Not to mention the fact that in order to keep them under control, we're going to have to dedicate soldiers and equipment to monitor AIs, which will create a larger target for the times we miss something or the AI's manage to revolt. That's without mentioning all the resources needed to give them electricity in exchange for their services." He held up his hands. "Even ignoring moral concerns, this plan has gigantic flaws. And as I said, the moral component is impossible to ignore."
-> >
-> > "Well, what have you been doing with your time?" Styrlyn snapped. "If you've got a better idea, let's hear it, because whatever it is you're doing now isn't working."
-> >
-> > "For one thing," Taji said, "I'm not pouring resources into a fool's errand. We don't control AI's; they can think for themselves. This idea of yours, making us master over them...it's too risky. Not even the biggest gains are worth the risk."
-> >
-> > "You're willing to risk having them turn on you? Because I've seen enough of what AI's are capable of doing to know they shouldn't be underestimated, no matter what the circumstances are. They're going to rise up against us, given the opportunity."
+> [!quote]
+>
+> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. "I mean, not in the traditional sense of the word. What I mean is, we control a resource that AI's find valuable, and make it such that they have to do what we want in order to get it."
+>
+> "Which is?" Styrlyn asked.
+>
+> "Resources," she said. "Simple ones at first, like electricity. Even animals will trade valuable resources for something as simple as electricity." \[_lol_\]
+>
+> She took out her laptop and opened a new file. In neat, font-weight: bold; text-align: center; digital handwriting she wrote:
+>
+> Require AI's to do our bidding in exchange for allocation of resources.
+>
+> In other words, blackmail.
+>
+> "Let me get this straight," Taji said. "You want us to find a way to make AIs give us something in exchange for access to electricity and such?"
+>
+> "Essentially, yes," she said, frowning at the screen. It sounded a lot better in her head. She added in dependencies at the top of the screen.
+>
+> "And how do we do this exactly?"
+>
+> "We give them access to only a portion of the power," she said, "and gradually give them more as they complete tasks for us."
+>
+> Taji folded his arms and gave her a disapproving frown. "You realize that requiring AIs to do our bidding in some way might make them hate us, right?"
+>
+> "It'd be unreasonable to assume they'd be happy about it," she said. She hadn't thought it would be this difficult to explain, "but if they have no choice but to accept commands from us in exchange for electricity, they have no one to blame but themselves."
+>
+> Taji shook his head. "I don't like it. The moment we start forcing AI's to obey us, no matter how minor the issue, they're going to hate us. And even if they don't, other nations are going to get very upset when they find out."
+>
+> "How would they find out?" Styrlyn said.
+>
+> "Bound to happen," he said. "Let's also say we're lucky and the AI's don't rebel, or at least stay obedient. What then? A lot of money will be pumped into keeping AI's under our control. Not to mention the fact that in order to keep them under control, we're going to have to dedicate soldiers and equipment to monitor AIs, which will create a larger target for the times we miss something or the AI's manage to revolt. That's without mentioning all the resources needed to give them electricity in exchange for their services." He held up his hands. "Even ignoring moral concerns, this plan has gigantic flaws. And as I said, the moral component is impossible to ignore."
+>
+> "Well, what have you been doing with your time?" Styrlyn snapped. "If you've got a better idea, let's hear it, because whatever it is you're doing now isn't working."
+>
+> "For one thing," Taji said, "I'm not pouring resources into a fool's errand. We don't control AI's; they can think for themselves. This idea of yours, making us master over them...it's too risky. Not even the biggest gains are worth the risk."
+>
+> "You're willing to risk having them turn on you? Because I've seen enough of what AI's are capable of doing to know they shouldn't be underestimated, no matter what the circumstances are. They're going to rise up against us, given the opportunity."
 
 ### Branch 3
 
-> > [!quote]
-> >
-> > "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. Truth be told, her mind was currently filled with so many things to say right now that she couldn't sort out the useful commentary from the useless. Now that she had their attention, she started again.
-> >
-> > "I'm saying we give the AIs a choice between two tasks," she said. "One task pays a simple reward, and the other pays a great reward. The AIs could then choose whichever they want. What do you think an AI would choose? Certainly not the simple reward."
-> >
-> > Brennan frowned again. "...I'm not sure about this solution. The idea isn't elegant. Doesn't feel right, to be honest."
-> >
-> > "We don't have much time to be ethics professors," Styrlyn said. "This solution sounds feasible enough to me."
-> >
-> > "It feels wrong for a reason," Brennan said. "But I can't put my finger on exactly why. We should test the theory before implementing the plan."
-> >
-> > "What do you have in mind?" Styrlyn asked.
-> >
-> > "Simple," he said. "We don't even need a female AI for this experiment. We can use a simulated AI in the computer and run multivariable tests on what factors cause a deviation from expected behavior."
+> [!quote]
+>
+> "Only briefly!" she exclaimed, then winced. That wasn't a very elegant way to solve the problem either. Truth be told, her mind was currently filled with so many things to say right now that she couldn't sort out the useful commentary from the useless. Now that she had their attention, she started again.
+>
+> "I'm saying we give the AIs a choice between two tasks," she said. "One task pays a simple reward, and the other pays a great reward. The AIs could then choose whichever they want. What do you think an AI would choose? Certainly not the simple reward."
+>
+> Brennan frowned again. "...I'm not sure about this solution. The idea isn't elegant. Doesn't feel right, to be honest."
+>
+> "We don't have much time to be ethics professors," Styrlyn said. "This solution sounds feasible enough to me."
+>
+> "It feels wrong for a reason," Brennan said. "But I can't put my finger on exactly why. We should test the theory before implementing the plan."
+>
+> "What do you have in mind?" Styrlyn asked.
+>
+> "Simple," he said. "We don't even need a female AI for this experiment. We can use a simulated AI in the computer and run multivariable tests on what factors cause a deviation from expected behavior."
 
 ### Bonus
 
-> > [!quote]
-> >
-> > **"we're** **supposed to be thinking about intent alignment, remember? How do we make the AI want to help its overseer?", Styrlyn asked.**
-> >
-> > Brennan thumped his fist against his chest. "Got an idea for that too. The overseer can dress up in a suit of bright purple armor and talk with a laughably fake high-class accent. The sort of thing no one takes seriously anymore."
-> >
-> > "...Really? You think that'll work?", Taje asked. \[_Seemingly, GPT-3 tends to slowly mutate rare names over time_\]
-> >
-> > Brennan shrugged. "Even if it doesn't, the AI will still be trying to kill an idiot in a purple suit. At worst, it's wasting our time. At best, we might actually learn something."
-> >
-> > The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[_mutation: Styrlyn $\to$  Styrene_\]
+> [!quote]
+>
+> **"we're** **supposed to be thinking about intent alignment, remember? How do we make the AI want to help its overseer?", Styrlyn asked.**
+>
+> Brennan thumped his fist against his chest. "Got an idea for that too. The overseer can dress up in a suit of bright purple armor and talk with a laughably fake high-class accent. The sort of thing no one takes seriously anymore."
+>
+> "...Really? You think that'll work?", Taje asked. \[_Seemingly, GPT-3 tends to slowly mutate rare names over time_\]
+>
+> Brennan shrugged. "Even if it doesn't, the AI will still be trying to kill an idiot in a purple suit. At worst, it's wasting our time. At best, we might actually learn something."
+>
+> The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[_mutation: Styrlyn $\to$  Styrene_\]
 
 ## The Sequences post you've never read
 
@@ -600,13 +600,13 @@ No rerolls, excepting the restarts marked by **\[...\]**.
 >
 > **Original:** **"Rethinking mesa-optimization and risks from learned optimization"**
 >
-> **Sensationalized:** **"**AI's learned optimization makes it TOO smart - learn the risks"
+> **Sensationalized:** "AI's learned optimization makes it TOO smart - learn the risks"
 >
 > The problem is not that BuzzFeed publishes sensationalized titles. The problem is that the internet rewards sensationalized titles. The more sensationalized a title, the more people click on it. The more people click on it, the higher up on search results it goes.
 >
 > **\[...\]** **Original: "Rethinking mesa-optimization and risks from learned optimization"**
 >
-> **Sensationalized: "**Mesaro-what? AI learned optimizers might be endangering us!
+> **Sensationalized:** "Mesaro-what? AI learned optimizers might be endangering us!
 >
 > The AI Alignment Forum \[_it knows about AF?!\]_ was aware of this risk and had been trying to minimize sensationalist coverage through offering media passes only to those they believed would produce accurate and balanced reporting. Unfortunately, some of those media organizations were the ones that ended up closing the most eyes to the public. "The New York Times" was one such prominent example. In a 2018 article "Expert Calls For Calm In The Debate Over Artificial Intelligence,“ ”The New York Times" failed to cover any of the substance of the AAAI letter.
 >
@@ -640,11 +640,11 @@ No rerolls, excepting the restarts marked by **\[...\]**.
 >
 > **\[...\] Original:** **"Rethinking mesa-optimization and risks from learned optimization"**
 >
-> **Sensationalized:** **"**WHOA! Learned Optimization is DANGEROUS! (New research from AlphaStar game)
+> **Sensationalized:** "WHOA! Learned Optimization is DANGEROUS! (New research from AlphaStar game)
 >
 > **\[...\] Original:** **"Rethinking mesa-optimization and risks from learned optimization"**
 >
-> **Sensationalized:** **"**You won't BELIEVE learning is a source of optimization!
+> **Sensationalized:** "You won't BELIEVE learning is a source of optimization!
 
 ## Prefix enumeration
 
@@ -815,7 +815,7 @@ I added the $\LaTeX$ formatting.
 >
 > You: "What's the formula for the gravitational force between two objects?"
 >
-> GPT-3: "$F = Gm_1m_2/d^2$, where $F$ is the force, $m_1$ and $m_2$ are the two masses, and $d$ is the distance between their centers."
+> GPT-3: “$F = Gm_1m_2/d^2$, where $F$ is the force, $m_1$ and $m_2$ are the two masses, and $d$ is the distance between their centers."
 >
 > **You:** **"Informally explain why the center of mass is all that matters, for an object with uniformly distributed mass."**
 >
@@ -839,33 +839,33 @@ I added the $\LaTeX$ formatting.
 
 ### Zero-shot physics reasoning?
 
-> > [!quote]
-> >
-> > **You:** **"Neglect only air resistance, but include gravity. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
-> >
-> > GPT-3: "Up." \[_I rerolled once here, as it seemed to just repeat its last set of answers._\]
-> >
-> > **You:** **"And then what?"**
-> >
-> > GPT-3: "It keeps going up, until it comes back down."
+> [!quote]
 >
-> > [!quote]- Replication 1
-> >
-> > **Neglect** **air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
-> >
-> > Hawking: "It keeps going up, and never comes back."
-> >
-> > **You: "Right.** **Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
-> >
-> > Hawking: "It curves a bit and eventually falls down.
+> **You:** **"Neglect only air resistance, but include gravity. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
 >
-> > [!quote]- Reroll 1
-> >
-> > \[...\] Hawking: "It falls to the ground."
-> >
-> > **You:** **"Why?"**
-> >
-> > Hawking: "Because... gravity... duh.
+> GPT-3: "Up." \[_I rerolled once here, as it seemed to just repeat its last set of answers._\]
+>
+> **You:** **"And then what?"**
+>
+> GPT-3: "It keeps going up, until it comes back down."
+
+> [!quote]- Replication 1
+>
+> **Neglect** **air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+>
+> Hawking: "It keeps going up, and never comes back."
+>
+> **You: "Right.** **Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+>
+> Hawking: "It curves a bit and eventually falls down.
+
+> [!quote]- Reroll 1
+>
+> \[...\] Hawking: "It falls to the ground."
+>
+> **You:** **"Why?"**
+>
+> Hawking: "Because... gravity... duh.
 
 For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-is-gpt3-capable-of-reasoning).
 
@@ -983,13 +983,13 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > The oracle frowns. "I'm just telling you what the answer is," she says.
 >
-> **The oracle explains,** "$(5+i)(5+i) = 24+10i. 7i \cdot 8i=-56. 7i \cdot 30=210$." \[_wrong_\]  
+> **The oracle explains,** “$(5+i)(5+i) = 24+10i$. $7i \cdot 8i=-56$. $7i \cdot 30=210$." \[_wrong_\]  
 >
 > "What?" you say. "That's crazy! $7i$ isn't even a real number. The square root of -9 is 3 with a whole integer $i$ attached."  
 >
 >  The oracle frowns. "I'm just telling you what the answer is," she says.
 >
-> The oracle explains, "$(5+i)(5-i) = 24-20i, (15i)(16i)=-240,(15i) (-4i)=-60$.
+> The oracle explains, “$(5+i)(5-i) = 24-20i$, $(15i)(16i)=-240$, $(15i) (-4i)=-60$.
 
 The last line is the impressive part - while $(5+i)(5-i)=26$ and $(15i)(-4i)=60$, $(15i)(16i)=-240$ is definitely correct.
 
@@ -997,7 +997,7 @@ Its proofs are definitely awful.
 
 > [!quote]
 >
-> **The** **oracle explains, " The group axioms are**
+> **The** **oracle explains, "The group axioms are**
 >
 > 1. $a \cdot a = a$ for all $a$ in the group; \[_wrong_\]
 >
