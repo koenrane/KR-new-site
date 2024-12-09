@@ -146,9 +146,12 @@ export function niceQuotes(text: string): string {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\s|[\\(\\/\\[\\{\\-—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:.\\}])`,
+    `(?<=^|[\\s\\(\\/\\[\\{\\-—${chr}])(${chr}?)["](${chr} ?)?(?=\\.{3}|[^\\s\\)\\—,!?${chr};:.\\}])`,
     "gm",
   )
+  if (text.includes("at gunpoint")) {
+    console.log(text)
+  }
   text = text.replace(beginningDouble, "$1“$2")
   // Open quote after brace (generally in math mode)
   text = text.replace(new RegExp(`(?<=\\{)(${chr}? )?["]`, "g"), "$1“")
@@ -170,6 +173,9 @@ export function niceQuotes(text: string): string {
   const commaRegex = new RegExp(`(?<![!?]),(${chr}?[”’])`, "g")
   text = text.replace(commaRegex, "$1,")
 
+  // if (text.match(/"/g)) {
+  //   console.log(text)
+  // }
   return text
 }
 

@@ -95,8 +95,8 @@ describe("HTMLFormattingImprovement", () => {
         "<p><a>“How steering vectors impact GPT-2’s capabilities.”</a></p>",
       ],
       [
-        '<p>"<span class="katex">H</span>valued alignment metric</p>',
-        '<p>“<span class="katex">H</span>valued alignment metric</p>',
+        '<p>"<span class="katex"></span> alignment metric</p>',
+        '<p>“<span class="katex"></span> alignment metric</p>',
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
