@@ -72,10 +72,6 @@
   display: none;
   backdrop-filter: blur(4px);
 
-  & li > p {
-    margin-block: 0;
-  }
-
   &.active {
     display: inline-block;
   }
