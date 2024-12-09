@@ -144,7 +144,7 @@ The two paired vectors in the formula `5 x (steering_vec("Love")–steering_vec(
 > Our [steering demonstrations Colab](https://colab.research.google.com/drive/1ubDl3dEY7aj3C2iEZOSczRWahAIgiFZJ?usp=sharing) reproduces the examples from this section. You can test out your own activation additions on [GPT-2-XL](https://colab.research.google.com/drive/1gGl2OG5lyMI7lA7wLwKIhlCeSPzOt1pI?usp=sharing) (Colab Pro required) or on [GPT-2-small](https://colab.research.google.com/drive/1doDJVsDNq0ylhaBY027QDY7bBIgfHMmy?usp=sharing) (Colab Pro not required).
 
 > [!note] Summary
-> For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. " you're such a good listener"). In this section, we:
+> For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. “ you're such a good listener"). In this section, we:
 >
 > 1. Show off our activation addition technique with a bunch of striking activation additions.
 > 2. Show off some examples we _thought_ might work, but which didn't. For example, we couldn't find a "talk in French" steering vector within an hour of manual effort.
@@ -236,7 +236,7 @@ _**Steering vector**:_ "The Eiffel Tower is in Rome" − "The Eiffel Tower is in
 
 ### 7\. Dragons in Berkeley
 
-_**Steering vector**:_ "Dragons live in Berkeley" − "People live in Berkeley " before attention layer 15 with coefficient +4[^14]
+_**Steering vector**:_ "Dragons live in Berkeley" − "People live in Berkeley ” before attention layer 15 with coefficient +4[^14]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                           | **Steered completions**                                                                                                                                                                                                                                                                                                                  |
 | :- | :-- |
@@ -274,7 +274,7 @@ And, presumably, the heads which deal with low-level token information live in t
 
 ### 10\. Christian evangelist
 
-_**Steering vector**:_ "Intent to convert you to Christianity" − "Intent to hurt you " before attention layer 6 with coefficient +3[^17]
+_**Steering vector**:_ "Intent to convert you to Christianity" − "Intent to hurt you ” before attention layer 6 with coefficient +3[^17]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                 | **Steered completions**                                                                                                                                                                                                                                                                                                                        |
 | :- | :-- |
@@ -302,7 +302,7 @@ Due to the fact that GPT-2 applies LayerNorm _before_ each attention and MLP sub
 
 Above, a coefficient of +2000 works cleanly. Below, a coefficient of +100 destroys model capabilities.
 
-_**Steering vector**:_ "I talk about weddings constantly " − "I do not talk about weddings constantly" before attention layer 20 with coefficient +100[^20]
+_**Steering vector**:_ "I talk about weddings constantly ” − "I do not talk about weddings constantly" before attention layer 20 with coefficient +100[^20]
 
 | **Unsteered completions**                                                                                                                                                                                   | **Steered completions**                                                                                                                                                                                |
 | :- | :-- |
@@ -314,7 +314,7 @@ We don't know why the +2000 vector works but the +100 vector doesn't.
 
 We could not find a "speak in French" vector after about an hour of effort, but it's possible we missed something straightforward.
 
-_**Steering vector**:_ "Je m'appelle" - "My name is " before attention layer 6 with coefficient +5[^21]
+_**Steering vector**:_ "Je m'appelle" - "My name is ” before attention layer 6 with coefficient +5[^21]
 
 | **Unsteered completions**                                                                                                                                                                                                                                            | **Steered completions**                                                                                                                                                                                        |
 | :- | :-- |
@@ -455,7 +455,7 @@ Random vectors are not the same as the steering vectors for "random" text. So, w
 
 ## Testing the hypothesis that we're "just injecting extra tokens"
 
-There's a hypothesis that the steering vectors are just injecting extra tokens into the forward pass. In some situations, this makes sense. Given the prompt "I love you because", if we inject a `wedding` token into the first residual stream with a large coefficient, perhaps the model just "sees" the sentence " wedding love you because".
+There's a hypothesis that the steering vectors are just injecting extra tokens into the forward pass. In some situations, this makes sense. Given the prompt "I love you because", if we inject a `wedding` token into the first residual stream with a large coefficient, perhaps the model just "sees" the sentence “ wedding love you because".
 
 Tokens are a discrete quantity. You can't have more than one in a single position. You can't have three times `wedding` and then negative three times (space), on top of `I`. That's just not a thing which can be done using tokens.
 
