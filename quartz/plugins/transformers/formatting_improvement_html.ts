@@ -639,7 +639,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
   return (tree: Root) => {
     visit(tree, (node, index, parent) => {
       if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
-        return // NOTE replaceRegex visits children so this won't avoid that
+        return // NOTE replaceRegex visits children so this won't check that children are not marked
       }
 
       // A direct transform, instead of on the children of a <p> element
@@ -656,20 +656,8 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
               after: "",
             }
           },
-          (
-            // Skip if parent has a class that indicates no formatting
-            _nd: unknown,
-            _idx: number,
-            prnt: Parent & { properties?: { className?: string } },
-          ): boolean => {
-            return (
-              hasClass(prnt as Element, "fraction") ||
-              hasClass(prnt as Element, "no-fraction") ||
-              hasAncestor(prnt as ElementMaybeWithParent, (anc) =>
-                hasClass(anc, "no-formatting"),
-              ) ||
-              hasAncestor(parent as ElementMaybeWithParent, isCode)
-            )
+          (_nd: unknown, _idx: number, prnt: Parent) => {
+            return toSkip(prnt as Element) || hasClass(prnt as Element, "fraction")
           },
           "span.fraction",
         )
