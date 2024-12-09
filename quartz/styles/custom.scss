@@ -227,7 +227,8 @@ a {
     background-color: transparent;
   }
 
-  &[id^="user-content-fnref-"] {
+  &[id^="user-content-fnref-"],
+  &[id^="search-user-content-fnref-"] {
     text-decoration: none;
   }
 }
