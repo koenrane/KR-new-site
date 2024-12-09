@@ -1,6 +1,5 @@
 ---
-title: "Deep Causal Transcoding: A Framework for Mechanistically Eliciting Latent
-  Behaviors in Language Models"
+title: "Deep Causal Transcoding: A Framework for Mechanistically Eliciting Latent Behaviors in Language Models"
 permalink: deep-causal-transcoding
 publish: true
 no_dropcap: "false"
@@ -8,19 +7,17 @@ tags:
   - activation-engineering
   - AI
   - mats-program
-description: Principled derivation of unsupervised steering vector discovery methods.
-  Unlocks password-locked models and breaks jailbreak defenses.
+description: Principled derivation of unsupervised steering vector discovery methods. Unlocks password-locked models and breaks jailbreak defenses.
 authors: Andrew Mack and Alex Turner
 hideSubscriptionLinks: false
-card_image:
+card_image: 
 aliases:
   - melbo-framework
   - dct
 date_published: 2024-12-04 22:12:56.910555
 date_updated: 2024-12-05 16:17:06.041179
+original_url: https://www.lesswrong.com/posts/fSRg5qs9TPbNy3sm5/deep-causal-transcoding-a-framework-for-mechanistically
 ---
-
-
 
 > [!thanks]
 > Based off research performed in the MATS 5.1 extension program, under the mentorship of Alex Turner (`TurnTrout`). Research supported by a grant from the Long-Term Future Fund.
