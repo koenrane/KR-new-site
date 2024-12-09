@@ -79,6 +79,7 @@ describe("HTMLFormattingImprovement", () => {
       ['"/"', "“/”"],
       ['"Game"/"Life"', "“Game”/“Life”"],
       ['"Test:".', "“Test:”."],
+      ['"Test"s', "“Test”s"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -98,10 +99,19 @@ describe("HTMLFormattingImprovement", () => {
         '<p>"<span class="katex"></span> alignment metric</p>',
         '<p>“<span class="katex"></span> alignment metric</p>',
       ],
+      [
+        '<dl><dd>Multipliers like "2x" are 2x more pleasant than "<span class="no-formatting">2x</span>". </dd></dl>',
+        '<dl><dd>Multipliers like “2×” are 2× more pleasant than “<span class="no-formatting">2x</span>.” </dd></dl>',
+      ],
+      [
+        '<p>Suppose you tell me, "<code>TurnTrout</code>", we definitely</p>',
+        "<p>Suppose you tell me, “<code>TurnTrout</code>”, we definitely</p>",
+      ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
+    // TODO not repro'ing certain issues
 
     it.each([['<p><br>"Unicorn"<br></p>', "<p><br>“Unicorn”<br></p>"]])(
       "should handle quotes in DOM",
