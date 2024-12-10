@@ -114,8 +114,8 @@ describe("HTMLFormattingImprovement", () => {
         "<div><p>not confident in that plan—”</p><p>“Why not? You were the one who said we should use the AIs in the first place! Now you don’t like this idea?” she asked, anger rising in her voice.</p></div>",
       ],
       [
-        "<div><div><p>.</p><p><strong>'I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
-        "<div><div><p>.</p><p><strong>‘I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
+        "<div><div><p><strong>.</strong></p><p><strong>'I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
+        "<div><div><p><strong>.</strong></p><p><strong>‘I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
@@ -225,6 +225,8 @@ describe("HTMLFormattingImprovement", () => {
       ["5x1", "5×1"],
       ["regex", "RegEx"],
       ["regexpressions", "regexpressions"],
+      ["Who are you...?", "Who are you…?"],
+      ["Who are you...what do you want?", "Who are you… what do you want?"],
     ])("should perform transforms for %s", (input: string, expected: string) => {
       const result = massTransformText(input)
       expect(result).toBe(expected)

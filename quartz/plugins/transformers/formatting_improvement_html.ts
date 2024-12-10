@@ -539,6 +539,8 @@ const massTransforms: [RegExp | string, string][] = [
   [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
+  [/\.{3}/g, "…"], // Ellipsis
+  [/…(?=\w)/g, "… "], // Space after ellipsis
 ]
 
 export function massTransformText(text: string): string {
