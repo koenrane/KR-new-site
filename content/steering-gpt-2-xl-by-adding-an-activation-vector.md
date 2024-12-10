@@ -921,6 +921,9 @@ Compared to complementary approaches like prompt engineering and finetuning, act
 
 However, activation additions may end up only contributing modestly to direct alignment techniques. Even in that world, we're excited about the interpretability clues provided by our results. Our results imply strong constraints on GPT-2-XL's internal computational structure. Why can we steer GPT-2-XL by adding together intermediate results from its forward passes?
 
+> [!note] Edited December 10, 2024
+> In May 2023, initial GPT-2-XL steering results hinted that LLMs could process multiple prompt embeddings in superposition. However, the hypothesis seemed finicky and hard to test, so I abandoned the inquiry. A recent NeurIPS paper just confirmed that [multiple completions can be run in parallel superposition](https://arxiv.org/abs/2405.18400).
+
 # Contributions
 
 This work was completed by the shard theory model internals team:
