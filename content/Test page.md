@@ -124,6 +124,12 @@ Subtitle: This is a subtitle.
 >
 > Hi
 >
+
+> [!quote] Checking that HTML formatting is applied per-paragraph element
+> Comes before the single quote
+>  
+> 'I will take the Ring'
+>
 # Mermaid diagrams
 
 ```mermaid
