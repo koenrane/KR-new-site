@@ -784,3 +784,45 @@ def test_katex_element_surrounded_by_blockquote(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = katex_element_surrounded_by_blockquote(soup)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic straight quotes that should be caught
+        (
+            '<p>Text with "quotes"</p>',
+            ["Found unprocessed quotes ['\"', '\"'] in: Text with \"quotes\""],
+        ),
+        (
+            "<p>Text with 'quotes'</p>",
+            ["Found unprocessed quotes [\"'\", \"'\"] in: Text with 'quotes'"],
+        ),
+        # Quotes in skipped elements should be ignored
+        ('<code>Text with "quotes"</code>', []),
+        ('<pre>Text with "quotes"</pre>', []),
+        ('<div class="no-formatting">Text with "quotes"</div>', []),
+        ('<div class="elvish">Text with "quotes"</div>', []),
+        # Nested skipped elements
+        ('<div><code>Text with "quotes"</code></div>', []),
+        ('<div class="no-formatting"><p>Text with "quotes"</p></div>', []),
+        # Mixed content
+        (
+            """
+            <div>
+                <p>Normal "quote"</p>
+                <code>Ignored "quote"</code>
+                <p>Another 'quote'</p>
+            </div>
+        """,
+            [
+                "Found unprocessed quotes [\"'\", \"'\"] in: Another 'quote'",
+                "Found unprocessed quotes ['\"', '\"'] in: Normal \"quote\"",
+            ],
+        ),
+    ],
+)
+def test_check_unprocessed_quotes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unprocessed_quotes(soup)
+    assert sorted(result) == sorted(expected)

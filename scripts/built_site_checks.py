@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Dict, List
 
 import tqdm
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 # Add the project root to sys.path
 # pylint: disable=C0413
@@ -431,6 +431,56 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     return problematic_texts
 
 
+def should_skip(element: Tag | NavigableString) -> bool:
+    """Check if element should be skipped based on formatting_improvement_html.ts rules"""
+    skip_tags = {"code", "pre", "script", "style"}
+    skip_classes = {"no-formatting", "elvish", "bad-handwriting"}
+
+    # Check current element and all parents
+    current: Tag | NavigableString | None = element
+    while current:
+        if isinstance(
+            current, Tag
+        ):  # Only check Tag elements, not NavigableString
+            if current.name in skip_tags or any(
+                class_ in (current.get("class", []) or [])
+                for class_ in skip_classes
+            ):
+                return True
+        current = current.parent if isinstance(current.parent, Tag) else None
+    return False
+
+
+def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for text nodes containing straight quotes (" or ') that should have
+    been processed by formatting_improvement_html.ts.
+
+    Skips nodes that would be skipped by the formatter:
+    - Inside code, pre, script, style tags
+    - Elements with classes: no-formatting, elvish, bad-handwriting
+    """
+    problematic_quotes = []
+
+    # Check all text nodes
+    for element in soup.find_all(text=True):
+        if element.strip():  # Skip empty text nodes
+            if not should_skip(element):
+                # Look for straight quotes
+                straight_quotes = re.findall(r'["\']', element.string)
+                if straight_quotes:
+                    preview = (
+                        element.string[:50] + "..."
+                        if len(element.string) > 50
+                        else element.string
+                    )
+                    problematic_quotes.append(
+                        f"Found unprocessed quotes {straight_quotes} in: {preview}"
+                    )
+
+    return problematic_quotes
+
+
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
     """
     Check a single HTML file for various issues.
@@ -456,6 +506,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "katex_outside_blockquote": katex_element_surrounded_by_blockquote(
             soup
         ),
+        "unprocessed_quotes": check_unprocessed_quotes(soup),
     }
 
     if "design" in file_path.name:
