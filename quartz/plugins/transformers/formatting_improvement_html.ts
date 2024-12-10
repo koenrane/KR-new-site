@@ -658,47 +658,43 @@ interface Options {
  */
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
-    visit(
-      tree,
-      (node, index, parent) => {
-        if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
-          return // NOTE replaceRegex visits children so this won't check that children are not marked
+    visit(tree, (node, index, parent) => {
+      if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
+        return // NOTE replaceRegex visits children so this won't check that children are not marked
+      }
+
+      // A direct transform, instead of on the children of a <p> element
+      if (node.type === "text" && node.value) {
+        replaceFractions(node, index as number, parent as Parent)
+      }
+
+      rearrangeLinkPunctuation(node as Element, index, parent as Element)
+
+      // Parent-less nodes are the root of the article
+      if ((!parent || !("tagName" in parent)) && node.type === "element") {
+        transformElement(node, hyphenReplace, toSkip, false)
+        transformElement(node, niceQuotes, toSkip, false)
+        for (const transform of [
+          neqConversion,
+          minusReplace,
+          enDashNumberRange,
+          enDashDateRange,
+          plusToAmpersand,
+          massTransformText,
+        ]) {
+          transformElement(node, transform, toSkip, true)
         }
 
-        // A direct transform, instead of on the children of a <p> element
-        if (node.type === "text" && node.value) {
-          replaceFractions(node, index as number, parent as Parent)
+        // Don't replace slashes in fractions, but give breathing room
+        // to others
+        const slashPredicate = (n: Element) => {
+          return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
-
-        rearrangeLinkPunctuation(node as Element, index, parent as Element)
-
-        // Parent-less nodes are the root of the article
-        if ((!parent || !("tagName" in parent)) && node.type === "element") {
-          for (const transform of [
-            hyphenReplace,
-            niceQuotes,
-            neqConversion,
-            minusReplace,
-            enDashNumberRange,
-            enDashDateRange,
-            plusToAmpersand,
-            massTransformText,
-          ]) {
-            transformElement(node, transform, toSkip, true)
-          }
-
-          // Don't replace slashes in fractions, but give breathing room
-          // to others
-          const slashPredicate = (n: Element) => {
-            return !hasClass(n, "fraction") && n?.tagName !== "a"
-          }
-          if (slashPredicate(node)) {
-            transformElement(node, fullWidthSlashes, toSkip)
-          }
+        if (slashPredicate(node)) {
+          transformElement(node, fullWidthSlashes, toSkip)
         }
-      },
-      true,
-    )
+      }
+    })
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute
     if (!("skipFirstLetter" in options) || !options.skipFirstLetter) {
