@@ -74,16 +74,6 @@ test("Search results appear and can be navigated", async ({ page }, testInfo) =>
   })
 })
 
-test("Nothing shows up for nonsense search terms", async ({ page }) => {
-  await page.keyboard.press("/")
-  await search(page, "feiwopqclvxk")
-
-  // Assert that there are no results
-  const resultCards = page.locator(".result-card")
-  await expect(resultCards).toHaveCount(1)
-  await expect(resultCards.first()).toContainText("No results")
-})
-
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "test")
@@ -136,31 +126,60 @@ test("Search results work for a single character", async ({ page }) => {
   expect(results).not.toHaveLength(1)
 })
 
-const searchTerms = [
-  { term: "Josh Turner" },
-  { term: "The Pond" },
-  { term: "United States government" },
-]
-searchTerms.forEach(({ term }) => {
-  test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
+test.describe("Search accuracy", () => {
+  const searchTerms = [
+    { term: "Josh Turner" },
+    { term: "The Pond" },
+    { term: "United States government" },
+  ]
+  searchTerms.forEach(({ term }) => {
+    test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
+      await page.keyboard.press("/")
+      await search(page, term)
+
+      const firstResult = page.locator("#preview-container").first()
+      await expect(firstResult).toContainText(term)
+    })
+  })
+
+  const titleTerms = ["AI presidents", "AI President", "Alignment"]
+  titleTerms.forEach((term) => {
+    test(`Title search results are ordered before content search results for ${term}`, async ({
+      page,
+    }) => {
+      await page.keyboard.press("/")
+      await search(page, term)
+
+      const firstResult = page.locator(".result-card").first()
+      const firstText = await firstResult.textContent()
+      expect(firstText?.toLowerCase()).toContain(term.toLowerCase())
+    })
+  })
+
+  test(`Slug search results are ordered before content search results for date-me`, async ({
+    page,
+  }) => {
     await page.keyboard.press("/")
-    await search(page, term)
+    await search(page, "date-me")
 
     const firstResult = page.locator("#preview-container").first()
-    await expect(firstResult).toContainText(term)
+    await expect(firstResult).toContainText("wife")
   })
+
+  test("Nothing shows up for nonsense search terms", async ({ page }) => {
+    await page.keyboard.press("/")
+    await search(page, "feiwopqclvxk")
+
+    const resultCards = page.locator(".result-card")
+    await expect(resultCards).toHaveCount(1)
+    await expect(resultCards.first()).toContainText("No results")
+  })
+
+  // TODO check that the preview has the correct data-use-dropcap attribute (that some pages skip it)
+  // TODO search "Shrek" and assert that GPT-3 gems instance has visible in preview
 })
 
-test("Slug search results are ordered before content search results", async ({ page }) => {
-  await page.keyboard.press("/")
-  await search(page, "date-me")
-
-  const firstResult = page.locator("#preview-container").first()
-  await expect(firstResult).toContainText("wife")
-})
-
-// TODO check that the preview has the correct data-use-dropcap attribute (that some pages skip it)
-// TODO check that backref is rendering the right font: DejaVu Serif Condensed
+// TODO assert that search preview fnref has no underline
 
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
@@ -188,6 +207,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
+// TODO check that backref is rendering the right font: DejaVu Serif Condensed
 test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
   if (!showingPreview(page)) {
     test.skip()
