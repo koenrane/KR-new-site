@@ -136,6 +136,9 @@ export function niceQuotes(text: string): string {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
+  // if (text.includes("take the Ring")) {
+  //   console.log(text)
+  // }
   const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
@@ -657,8 +660,23 @@ interface Options {
 export function collectTransformableElements(node: Element): Element[] {
   const eltsToTransform: Element[] = []
 
-  // Base case: if node is a paragraph, collect it
-  if (node.tagName === "p") {
+  // Add more elements that should be transformed
+  const collectNodes = [
+    "p",
+    "td",
+    "dt",
+    "dd",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "li",
+    "a",
+    "span",
+  ]
+  if (collectNodes.includes(node.tagName)) {
     eltsToTransform.push(node)
     return eltsToTransform
   }
@@ -668,29 +686,15 @@ export function collectTransformableElements(node: Element): Element[] {
     return eltsToTransform
   }
 
-  // Check if this element has direct text content (like the original implementation)
-  const hasDirectText = node.children.some((c): c is Text => c.type === "text")
-  if (hasDirectText) {
-    eltsToTransform.push(node)
-    return eltsToTransform
-  }
-
-  // If it has paragraph children, collect those (matching original behavior)
-  const hasParagraphs = node.children.some(
-    (child): child is Element => child.type === "element" && child.tagName === "p",
-  )
-  if (hasParagraphs) {
-    eltsToTransform.push(
-      ...node.children.filter((child): child is Element => child.type === "element"),
-    )
-    return eltsToTransform
-  }
-
-  // Otherwise, recurse into children
+  // recurse into children
   for (const child of node.children) {
     if (child.type === "element") {
       eltsToTransform.push(...collectTransformableElements(child))
     }
+  }
+  // If any children are text, add them to the list
+  if (node.children.some((child) => child.type === "text")) {
+    eltsToTransform.push(node)
   }
 
   return eltsToTransform
