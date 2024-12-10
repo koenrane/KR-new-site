@@ -107,7 +107,7 @@ So let's go.
 >
 > The British public had no love for the convicts, but it wasn't prepared to give them a death sentence either. Newspapers editorialized in favor of better conditions, clergy appealed to the captains' sense of humanity, and legislators passed regulations requiring better food and water, light and air, and proper medical care. Yet the death rate remained shockingly high. Nothing appeared to be working until an economist suggested something new. Can you guess what the economist suggested?
 >
-> Instead of paying the captains for each prisoner placed on board ship in Great Britain, the economist suggested paying for each prisoner that walked off the ship in Australia. In 1793 , the new system was implemented and immediately the survival rate shot up to 99%. One astute observer explained what had happened: "Economy beat sentiment and benevolence."'
+> Instead of paying the captains for each prisoner placed on board ship in Great Britain, the economist suggested paying for each prisoner that walked off the ship in Australia. In 1793 , the new system was implemented and immediately the survival rate shot up to 99%. One astute observer explained what had happened: "Economy beat sentiment and benevolence."
 >
 > The story of the convict ships illustrates the first big lesson that runs throughout this book and throughout economics:
 

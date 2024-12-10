@@ -114,40 +114,44 @@ I did a few rerolls and trimming of intermediate outputs; assume an average of 3
 >
 >
 >
-> [!quote]- **Reroll** **A**
+> > [!quote]- **Reroll** **A**
+> >
+> > **"Why could we** **have just done that, Styrlyn?" she asked.**
+> >
+> > "What do you mean?"
+> >
+> > She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
 >
-> **"Why could we** **have just done that, Styrlyn?" she asked.**
 >
-> "What do you mean?"
+> > [!quote]- **Reroll B**
+> >
+> > **"Why could** **we have just done that, Styrlyn?" she asked.**
+> >
+> > "Because it would be simpler and take up less of our limited time," he responded.
 >
-> She exhaled impatiently. "If all we needed was their bodies and not their minds, why not skip all the extra steps? Why was all this stuff about blocking signals even necessary? We didn't even have to worry about them rebelling or anything like that!"
->
->
-> [!quote]- **Reroll B**
->
-> **"Why could** **we have just done that, Styrlyn?" she asked.**
->
-> "Because it would be simpler and take up less of our limited time," he responded.
->
-> [!quote]- **Reroll** **C**
->
-> **"Why could** **we have just done that, Styrlyn?" she asked.**
->
-> "Because it would be much simpler."
->
-> "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
->
-> Taji raised his hand. "Yes?"
->
-> "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
->
-> She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
->
-> Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan--"
->
-> "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
->
-> "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
+> > [!quote]- **Reroll** **C**
+> >
+> > **"Why could** **we have just done that, Styrlyn?" she asked.**
+> >
+> > "Because it would be much simpler."
+> >
+> > "And that's exactly my point. You guys want to take the easy way out because you're more comfortable with it, but it won't produce any better results. This plan at least has a chance, however small."
+> >
+> > Taji raised his hand. "Yes?"
+> >
+> > "I'm not trying to be offensive, but what makes you think this idea of yours will work?" he asked.
+> >
+> > She fidgeted nervously. "I don't think it will," she admitted. "But I think it's worth a try, and that's all I can say about it." She crossed her arms.
+> >
+> > Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan - "
+> >
+> > "Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
+> >
+> > "Because I think we can find a simpler way, that's why. The plan has massive holes in it and is based on assumptions of things that we cannot know. It could fail horribly and we could all end up dead."
+
+Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not confident in that plan - "
+
+"Why not? You were the one who said we should use the AIs in the first place! Now you don't like this idea?" she asked, anger rising in her voice.
 
 ### Branch 2
 

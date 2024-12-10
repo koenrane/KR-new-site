@@ -325,9 +325,9 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > **Hawking: "Sure. Bill looked down at Jessie, his favorite golden retriever. "It's time to go make some puppies!", he told her.** She stood up and they headed out the door of the cabin to Bill's truck. "This'll be the first time I actually have you breed on Mount Hood, Jess," Bill said with a laugh. But as long as he makes it up there within the next four years, the world would be reset and they could try again.
 >
-> Bill and his dog, along with other dog breeders eventually form a contract stating that they'll try to make sure their dogs go up to breed on Mount Hood within the next four years. This practice generally helps maintain the population and brightens everyone's days." \[_reroll \#3_\]
+> Bill and his dog, along with other dog breeders eventually form a contract stating that they'll try to make sure their dogs go up to breed on Mount Hood within the next four years. This practice generally helps maintain the population and brightens everyone's days. \[_reroll \#3_\]
 >
-> \[...\] "Thirty-six hours later, they reached the summit. "You ready, girl?" Bill carefully positioned the vehicle on the Southeast side of mountain peak and opened the passenger side door... " Time to produce the next generation! Go get 'em! He cheered. Jessie wagged her tail and hightailed it into the snowy fields." \[_reroll \#6_\]
+> \[...\] "Thirty-six hours later, they reached the summit. "You ready, girl?" Bill carefully positioned the vehicle on the Southeast side of mountain peak and opened the passenger side door... "Time to produce the next generation! Go get 'em!" He cheered. Jessie wagged her tail and hightailed it into the snowy fields." \[_reroll \#6_\]
 >
 > \[_GPT-3 had trouble with this story_\]
 >
