@@ -116,7 +116,6 @@ describe("HTMLFormattingImprovement", () => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
-    // TODO not repro'ing certain issues
 
     it.each([['<p><br>"Unicorn"<br></p>', "<p><br>“Unicorn”<br></p>"]])(
       "should handle quotes in DOM",
@@ -293,7 +292,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>I think that -<em> despite</em></p>", "<p>I think that—<em>despite</em></p>"],
       [
         "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>-- Orwell, <em>1984</em></p></blockquote>",
-        "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>—Orwell, <em>1984</em></p></blockquote>",
+        "<blockquote><p>Perhaps one did not want to be loved so much as to be understood.</p><p>— Orwell, <em>1984</em></p></blockquote>",
       ],
       // There is NBSP after the - in the next one!
       [

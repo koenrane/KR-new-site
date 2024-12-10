@@ -147,10 +147,10 @@ export function niceQuotes(text: string): string {
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|[\\s\\(\\/\\[\\{\\-—${chr}])(${chr}?)["]((${chr}[ ".])|${chr}?(?=\\.{3}|[^\\s\\)\\—,!?${chr};:.\\}]))`,
+    `(?<=^|[\\s\\(\\/\\[\\{\\-—${chr}])(?<beforeChr>${chr}?)["](?<afterChr>(${chr}[ .,])|(?=${chr}?\\.{3}|${chr}?[^\\s\\)\\—,!?${chr};:.\\}]))`,
     "gm",
   )
-  text = text.replace(beginningDouble, "$1“$2")
+  text = text.replace(beginningDouble, "$<beforeChr>“$<afterChr>")
   // Open quote after brace (generally in math mode)
   text = text.replace(new RegExp(`(?<=\\{)(${chr}? )?["]`, "g"), "$1“")
 
@@ -172,11 +172,11 @@ export function niceQuotes(text: string): string {
   text = text.replace(commaRegex, "$1,")
 
   // Ignore tags
-  if (text.match(/(?<!<[^>]*)"(?![^<]*>)/g)) {
-    // Highlight the text which has quotes
-    // text = text.replace(/"/g, "THE QUOTE IS HERE")
-    console.log(text)
-  }
+  // if (text.match(/(?<!<[^>]*)'(?![^<]*>)/g)) {
+  //   // Highlight the text which has quotes
+  //   text = text.replace(/'/g, "THE QUOTE IS HERE")
+  //   console.log(text)
+  // }
   return text
 }
 
@@ -670,10 +670,27 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
 
+      // But we dont want to transform <div>s by mistake -- too high up
+      const eltsToTransform: Element[] = []
       // Parent-less nodes are the root of the article
       if ((!parent || !("tagName" in parent)) && node.type === "element") {
-        transformElement(node, hyphenReplace, toSkip, false)
-        transformElement(node, niceQuotes, toSkip, false)
+        const element = node as Element
+        if (
+          "children" in element &&
+          Array.isArray(element.children) &&
+          element.children.some(
+            (child): child is Element => child.type === "element" && child.tagName === "p",
+          ) &&
+          !element.children.some((child): child is Text => child.type === "text")
+        ) {
+          eltsToTransform.push(...(element.children as Element[]))
+        } else {
+          eltsToTransform.push(element)
+        }
+      }
+      eltsToTransform.forEach((elt) => {
+        transformElement(elt, hyphenReplace, toSkip, false)
+        transformElement(elt, niceQuotes, toSkip, false)
         for (const transform of [
           neqConversion,
           minusReplace,
@@ -682,7 +699,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           plusToAmpersand,
           massTransformText,
         ]) {
-          transformElement(node, transform, toSkip, true)
+          transformElement(elt, transform, toSkip, true)
         }
 
         // Don't replace slashes in fractions, but give breathing room
@@ -690,10 +707,10 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         const slashPredicate = (n: Element) => {
           return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
-        if (slashPredicate(node)) {
-          transformElement(node, fullWidthSlashes, toSkip)
+        if (slashPredicate(elt)) {
+          transformElement(elt, fullWidthSlashes, toSkip)
         }
-      }
+      })
     })
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute
