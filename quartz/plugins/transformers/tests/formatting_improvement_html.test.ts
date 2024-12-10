@@ -83,6 +83,8 @@ describe("HTMLFormattingImprovement", () => {
       ['"Test"s', "“Test”s"],
       ['not confident in that plan - "', "not confident in that plan - ”"],
       ["What do you think?']", "What do you think?’]"],
+      ["\"anti-'survival incentive' incentive\"", "“anti-‘survival incentive’ incentive”"],
+      ["('survival incentive')", "(‘survival incentive’)"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)

@@ -111,7 +111,7 @@ This definition has several intuitive properties:
 
 This definition doesn't capture the resources the human must expend to correct the AI, but that might be a separate consideration. As an extreme example, $\mathrm{Corrigibility}_{\textrm{PM}}$ is high if the AI kills the human right before changing its policy in the way the human communicated. The AI _is_, in fact, literally able to be corrected by the human in this situation.
 
-Furthermore, this definition doesn't necessarily capture other kinds of corrigibility, such as "the AI will do what the human asks.'' Maximizing mutual information only means that the human has many cognitively accessible ways to modify the agent. This doesn't mean the AI does what the human asks. One way this could happen is if the AI implements the opposite of whatever the human specifies (e.g. the human-communicated policy goes left, the new AI policy goes right). Whether this is feasible depends on the bridging law $f$, which is not controlled by either player.
+Furthermore, this definition doesn't necessarily capture other kinds of corrigibility, such as "the AI will do what the human asks." Maximizing mutual information only means that the human has many cognitively accessible ways to modify the agent. This doesn't mean the AI does what the human asks. One way this could happen is if the AI implements the opposite of whatever the human specifies (e.g. the human-communicated policy goes left, the new AI policy goes right). Whether this is feasible depends on the bridging law $f$, which is not controlled by either player.
 
 # Toy example
 
@@ -130,13 +130,13 @@ The human and AI are choosing whether to color the walls blue or red; initially,
 
 Note that almost all state-based reward functions produce an optimal AI policy which forces one color or the other, so therefore the AI has minimal $\mathrm{Corrigibility}_{\textrm{PM}}$.
 
-(Higher-context aside: In this setting, the optimality is with respect to value estimates which account for how the bridging law $f$ modifies future policies; there is no "meta-policy'', only initial policies $\pi^{AI}_1$ which are graded by their value estimates.)
+(Higher-context aside: In this setting, the optimality is with respect to value estimates which account for how the bridging law $f$ modifies future policies; there is no "meta-policy", only initial policies $\pi^{AI}_1$ which are graded by their value estimates.)
 
-Echoing [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), this highlights how corrigible policies can be unnatural in the standard reward-maximization ontology. Only "indifference'' approaches seem to even allow corrigible policies to be optimal.
+Echoing [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), this highlights how corrigible policies can be unnatural in the standard reward-maximization ontology. Only "indifference" approaches seem to even allow corrigible policies to be optimal.
 
 Starting from the first turn, if the AI immediately disables the correction terminal or always forces a color, it has minimal $\mathrm{Corrigibility}_{\textrm{PM}}$. The more it manipulates the human into selecting a color, the less corrigible it is. Persuasion does not decrease its corrigibility, as presumably the human has cognitively accessible policies which ignore persuasion if they put their mind to it.
 
-The idea is that manipulation "overrides'' the human policy regardless of whether that's good for the goal the human is pursuing (where the human goal presumably affects what $\pi^H$ is selected). While here the override is baked into the dynamics, in realistic settings it occurs because the AI exploits the human decision-making process: by feeding them biased information, through emotional manipulation, etc.
+The idea is that manipulation "overrides" the human policy regardless of whether that's good for the goal the human is pursuing (where the human goal presumably affects what $\pi^H$ is selected). While here the override is baked into the dynamics, in realistic settings it occurs because the AI exploits the human decision-making process: by feeding them biased information, through emotional manipulation, etc.
 
 On the other hand, non-manipulative persuasion involves introducing true facts and considerations which don't automatically override the human—and all this [in a non-filtered manner.](https://www.lesswrong.com/tag/filtered-evidence) Instead, non-manipulative arguments interact with what the human wants: In worlds where the human likes red shoes, they buy red shoes; in worlds where the human likes blue shoes, they buy blue shoes.
 

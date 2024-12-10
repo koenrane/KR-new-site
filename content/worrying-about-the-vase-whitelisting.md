@@ -124,7 +124,7 @@ Here are some notes to head off confusion:
 
 ### Latent Space Whitelisting
 
-In a sense, class-based whitelisting is but a rough approximation of what we're really after: "which objects in the world can change, and in what ways?''. In latent space whitelisting, no longer do we constrain transitions based on class boundaries; instead, we penalize based on endpoint distance in the latent space. Learned latent spaces are low-dimensional manifolds which suffice to describe the data seen thus far. It seems reasonable that nearby points in a well-constructed latent space correspond to like objects, but further investigation is warranted.
+In a sense, class-based whitelisting is but a rough approximation of what we're really after: "which objects in the world can change, and in what ways?". In latent space whitelisting, no longer do we constrain transitions based on class boundaries; instead, we penalize based on endpoint distance in the latent space. Learned latent spaces are low-dimensional manifolds which suffice to describe the data seen thus far. It seems reasonable that nearby points in a well-constructed latent space correspond to like objects, but further investigation is warranted.
 
 Assume that the agent models objects as points $z \in \mathbb{R}^d$, the $d$\-dimensional latent space. _A priori_, any movement in the latent space is undesirable. When training the whitelist, we record the endpoints of the observed changes. For $z_1, z_2\in\mathbb{R}^d$ and observed change $z_1 \to z_2$, one possible dissimilarity formulation is:
 

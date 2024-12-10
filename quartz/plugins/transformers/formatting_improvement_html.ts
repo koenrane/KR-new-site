@@ -146,7 +146,7 @@ export function niceQuotes(text: string): string {
   text = text.replace(new RegExp(contraction, "gm"), "’")
 
   // Beginning single quotes
-  const beginningSingle = `((?:^|[\\s“"])${chr}?)['](?=${chr}?\\S)`
+  const beginningSingle = `((?:^|[\\s“"\\-\\(])${chr}?)['](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
