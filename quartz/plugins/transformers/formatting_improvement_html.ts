@@ -139,7 +139,7 @@ export function niceQuotes(text: string): string {
   // if (text.includes("take the Ring")) {
   //   console.log(text)
   // }
-  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-]|$))`
+  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-\\]]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-zA-Z])`
