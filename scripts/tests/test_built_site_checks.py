@@ -826,3 +826,52 @@ def test_check_unprocessed_quotes(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unprocessed_quotes(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic dash cases that should be caught
+        (
+            "<p>Text with -- dash</p>",
+            ["Found unprocessed dashes in: Text with -- dash"],
+        ),
+        (
+            "<p>Text with --- dash</p>",
+            ["Found unprocessed dashes in: Text with --- dash"],
+        ),
+        (
+            "<p>since--as you know</p>",
+            ["Found unprocessed dashes in: since--as you know"],
+        ),
+        # Horizontal rules
+        ("<p>\n---\n</p>", ["Found unprocessed dashes in: \n---\n"]),
+        # Dashes in skipped elements should be ignored
+        ("<code>Text with -- dash</code>", []),
+        ("<pre>Text with -- dash</pre>", []),
+        ('<div class="no-formatting">Text with -- dash</div>', []),
+        ('<div class="elvish">Text with -- dash</div>', []),
+        # Special cases that should be ignored (from formatting_improvement_html.ts tests)
+        ("<p>- First level\n - Second level</p>", []),  # List items
+        ("<p>> - First level</p>", []),  # Quoted lists
+        ("<p>a browser- or OS-specific fashion</p>", []),  # Compound words
+        # Mixed content
+        (
+            """
+            <div>
+                <p>Text with -- dash</p>
+                <code>Ignored -- dash</code>
+                <p>Another --- dash</p>
+            </div>
+        """,
+            [
+                "Found unprocessed dashes in: Text with -- dash",
+                "Found unprocessed dashes in: Another --- dash",
+            ],
+        ),
+    ],
+)
+def test_check_unprocessed_dashes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unprocessed_dashes(soup)
+    assert sorted(result) == sorted(expected)

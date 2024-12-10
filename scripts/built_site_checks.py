@@ -422,7 +422,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
         stripped_text = p.text.strip()
         if stripped_text and re.search(r"[*_]\s*$", stripped_text):
             preview = (
-                "..." + stripped_text[-50:]
+                "..." + stripped_text[:50]
                 if len(stripped_text) > 50
                 else stripped_text
             )
@@ -432,7 +432,10 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
 
 
 def should_skip(element: Tag | NavigableString) -> bool:
-    """Check if element should be skipped based on formatting_improvement_html.ts rules"""
+    """
+    Check if element should be skipped based on formatting_improvement_html.ts
+    rules.
+    """
     skip_tags = {"code", "pre", "script", "style"}
     skip_classes = {"no-formatting", "elvish", "bad-handwriting"}
 
@@ -463,7 +466,7 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
     problematic_quotes = []
 
     # Check all text nodes
-    for element in soup.find_all(text=True):
+    for element in soup.find_all(string=True):
         if element.strip():  # Skip empty text nodes
             if not should_skip(element):
                 # Look for straight quotes
@@ -479,6 +482,29 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
                     )
 
     return problematic_quotes
+
+
+def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for text nodes containing multiple dashes (-- or ---) that should have
+    been processed into em dashes by formatting_improvement_html.ts.
+    """
+    problematic_dashes = []
+
+    for element in soup.find_all(string=True):
+        if element.strip() and not should_skip(element):
+            # Look for two or more dashes in a row
+            if re.search(r"[~\–\—\-\–]{2,}", element.string):
+                preview = (
+                    element.string[:50] + "..."
+                    if len(element.string) > 50
+                    else element.string
+                )
+                problematic_dashes.append(
+                    f"Found unprocessed dashes in: {preview}"
+                )
+
+    return problematic_dashes
 
 
 def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
@@ -507,6 +533,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
             soup
         ),
         "unprocessed_quotes": check_unprocessed_quotes(soup),
+        "unprocessed_dashes": check_unprocessed_dashes(soup),
     }
 
     if "design" in file_path.name:

@@ -781,7 +781,9 @@ At this point, I check the built pages for a smattering of possible errors:
   - Duplicate anchor targets on a page;
   - `git`-hosted assets, stylesheets, or scripts which don't exist;
 - Duplicate `id` attributes on a page's HTML elements;
-- Non-smart quotation marks (e.g. `'` or `"`)
+- Failures of my text prettification pipeline:
+    - Non-smart quotation marks (e.g. `'` or `"`);
+    - Multiple dashes in a row;
 - $\KaTeX$ rendering errors;
 - Failure to inline the critical CSS;
 - RSS file generation failure.
