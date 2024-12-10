@@ -652,6 +652,48 @@ interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
+export function collectTransformableElements(node: Element): Element[] {
+  const eltsToTransform: Element[] = []
+
+  // Base case: if node is a paragraph, collect it
+  if (node.tagName === "p") {
+    eltsToTransform.push(node)
+    return eltsToTransform
+  }
+
+  // Skip non-container elements or elements without children
+  if (!("children" in node) || !Array.isArray(node.children)) {
+    return eltsToTransform
+  }
+
+  // Check if this element has direct text content (like the original implementation)
+  const hasDirectText = node.children.some((c): c is Text => c.type === "text")
+  if (hasDirectText) {
+    eltsToTransform.push(node)
+    return eltsToTransform
+  }
+
+  // If it has paragraph children, collect those (matching original behavior)
+  const hasParagraphs = node.children.some(
+    (child): child is Element => child.type === "element" && child.tagName === "p",
+  )
+  if (hasParagraphs) {
+    eltsToTransform.push(
+      ...node.children.filter((child): child is Element => child.type === "element"),
+    )
+    return eltsToTransform
+  }
+
+  // Otherwise, recurse into children
+  for (const child of node.children) {
+    if (child.type === "element") {
+      eltsToTransform.push(...collectTransformableElements(child))
+    }
+  }
+
+  return eltsToTransform
+}
+
 /**
  * Main plugin function for applying formatting improvements
  * @returns A unified plugin
@@ -670,47 +712,33 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
 
-      // But we dont want to transform <div>s by mistake -- too high up
-      const eltsToTransform: Element[] = []
-      // Parent-less nodes are the root of the article
       if ((!parent || !("tagName" in parent)) && node.type === "element") {
-        const element = node as Element
-        if (
-          "children" in element &&
-          Array.isArray(element.children) &&
-          element.children.some(
-            (child): child is Element => child.type === "element" && child.tagName === "p",
-          ) &&
-          !element.children.some((child): child is Text => child.type === "text")
-        ) {
-          eltsToTransform.push(...(element.children as Element[]))
-        } else {
-          eltsToTransform.push(element)
-        }
-      }
-      eltsToTransform.forEach((elt) => {
-        transformElement(elt, hyphenReplace, toSkip, false)
-        transformElement(elt, niceQuotes, toSkip, false)
-        for (const transform of [
-          neqConversion,
-          minusReplace,
-          enDashNumberRange,
-          enDashDateRange,
-          plusToAmpersand,
-          massTransformText,
-        ]) {
-          transformElement(elt, transform, toSkip, true)
-        }
+        // But we dont want to transform <div>s by mistake -- too high up
+        const eltsToTransform = collectTransformableElements(node)
+        eltsToTransform.forEach((elt) => {
+          transformElement(elt, hyphenReplace, toSkip, false)
+          transformElement(elt, niceQuotes, toSkip, false)
+          for (const transform of [
+            neqConversion,
+            minusReplace,
+            enDashNumberRange,
+            enDashDateRange,
+            plusToAmpersand,
+            massTransformText,
+          ]) {
+            transformElement(elt, transform, toSkip, true)
+          }
 
-        // Don't replace slashes in fractions, but give breathing room
-        // to others
-        const slashPredicate = (n: Element) => {
-          return !hasClass(n, "fraction") && n?.tagName !== "a"
-        }
-        if (slashPredicate(elt)) {
-          transformElement(elt, fullWidthSlashes, toSkip)
-        }
-      })
+          // Don't replace slashes in fractions, but give breathing room
+          // to others
+          const slashPredicate = (n: Element) => {
+            return !hasClass(n, "fraction") && n?.tagName !== "a"
+          }
+          if (slashPredicate(elt)) {
+            transformElement(elt, fullWidthSlashes, toSkip)
+          }
+        })
+      }
     })
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute

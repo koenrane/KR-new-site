@@ -1,4 +1,4 @@
-import { Element } from "hast"
+import { Element, ElementContent } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 
@@ -16,6 +16,7 @@ import {
   neqConversion,
   minusReplace,
   l_pRegex,
+  collectTransformableElements,
   hasClass,
   enDashDateRange,
 } from "../formatting_improvement_html"
@@ -111,6 +112,10 @@ describe("HTMLFormattingImprovement", () => {
       [
         '<div><p>not confident in that plan - "</p><p>"Why not? You were the one who said we should use the AIs in the first place! Now you don’t like this idea?” she asked, anger rising in her voice.</p></div>',
         "<div><p>not confident in that plan—”</p><p>“Why not? You were the one who said we should use the AIs in the first place! Now you don’t like this idea?” she asked, anger rising in her voice.</p></div>",
+      ],
+      [
+        "<div><div><p>.</p><p><strong>'I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
+        "<div><div><p>.</p><p><strong>‘I will take the Ring’, he</strong> <strong>said, ‘though I do not know the way.’</strong></p></div></div>",
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
@@ -927,5 +932,53 @@ describe("Arrow formatting", () => {
   ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
+  })
+})
+
+describe("collectTransformableElements", () => {
+  const el = (tag: string, children: (string | Element)[] = []): Element =>
+    ({
+      type: "element",
+      tagName: tag,
+      children: children.map((c) => (typeof c === "string" ? { type: "text", value: c } : c)),
+    }) as Element
+
+  const processNode = (c: ElementContent) => {
+    if (c.type === "text") return c.value
+    if (c.type === "element")
+      return [c.tagName, c.children?.map((cc) => (cc.type === "text" ? cc.value : "")) ?? []]
+    return ["", []]
+  }
+
+  it.each([
+    ["single paragraph", el("p", ["text"]), [["p", ["text"]]]],
+    ["direct text content", el("div", ["text"]), [["div", ["text"]]]],
+    [
+      "multiple paragraphs",
+      el("div", [el("p", ["p1"]), el("p", ["p2"])]),
+      [
+        ["p", ["p1"]],
+        ["p", ["p2"]],
+      ],
+    ],
+    ["nested paragraphs", el("div", [el("div", [el("p", ["nested"])])]), [["p", ["nested"]]]],
+    [
+      "mixed content",
+      el("div", [el("p", ["p1"]), el("span", ["text"]), el("p", ["p2"])]),
+      [
+        ["p", ["p1"]],
+        ["span", ["text"]],
+        ["p", ["p2"]],
+      ],
+    ],
+    [
+      "mixed text and elements",
+      el("p", ["before ", el("em", ["em"]), " after"]),
+      [["p", ["before ", ["em", ["em"]], " after"]]],
+    ],
+    ["empty element", el("div"), []],
+  ])("collects elements from %s", (_, input, expected) => {
+    const result = collectTransformableElements(input)
+    expect(result.map((node) => [node.tagName, node.children.map(processNode)])).toEqual(expected)
   })
 })
