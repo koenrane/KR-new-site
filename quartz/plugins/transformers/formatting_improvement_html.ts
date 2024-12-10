@@ -103,6 +103,7 @@ export function transformElement(
   if (!node?.children) {
     throw new Error("Node has no children")
   }
+
   // Append markerChar and concatenate all text nodes
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
@@ -173,7 +174,7 @@ export function niceQuotes(text: string): string {
   // Ignore tags
   if (text.match(/(?<!<[^>]*)"(?![^<]*>)/g)) {
     // Highlight the text which has quotes
-    text = text.replace(/"/g, "THE QUOTE IS HERE")
+    // text = text.replace(/"/g, "THE QUOTE IS HERE")
     console.log(text)
   }
   return text
@@ -627,6 +628,26 @@ export function toSkip(node: Element): boolean {
   return false
 }
 
+function replaceFractions(node: Text, index: number, parent: Parent) {
+  replaceRegex(
+    node,
+    index as number,
+    parent as Parent,
+    fractionRegex,
+    (match: RegExpMatchArray) => {
+      return {
+        before: "",
+        replacedMatch: match[0],
+        after: "",
+      }
+    },
+    (_nd: unknown, _idx: number, prnt: Parent) => {
+      return toSkip(prnt as Element) || hasClass(prnt as Element, "fraction")
+    },
+    "span.fraction",
+  )
+}
+
 interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
@@ -637,65 +658,47 @@ interface Options {
  */
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
-    visit(tree, (node, index, parent) => {
-      if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
-        return // NOTE replaceRegex visits children so this won't check that children are not marked
-      }
-
-      // A direct transform, instead of on the children of a <p> element
-      if (node.type === "text" && node.value) {
-        replaceRegex(
-          node,
-          index as number,
-          parent as Parent,
-          fractionRegex,
-          (match: RegExpMatchArray) => {
-            return {
-              before: "",
-              replacedMatch: match[0],
-              after: "",
-            }
-          },
-          (_nd: unknown, _idx: number, prnt: Parent) => {
-            return toSkip(prnt as Element) || hasClass(prnt as Element, "fraction")
-          },
-          "span.fraction",
-        )
-      }
-
-      rearrangeLinkPunctuation(node as Element, index, parent as Element)
-
-      // Parent-less nodes are the root of the article
-      if ((!parent || !("tagName" in parent)) && node.type === "element") {
-        transformElement(node, hyphenReplace, toSkip, false)
-        transformElement(node, niceQuotes, toSkip, false)
-        for (const transform of [
-          neqConversion,
-          minusReplace,
-          enDashNumberRange,
-          enDashDateRange,
-          plusToAmpersand,
-          massTransformText,
-        ]) {
-          transformElement(node, transform, toSkip, true)
+    visit(
+      tree,
+      (node, index, parent) => {
+        if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
+          return // NOTE replaceRegex visits children so this won't check that children are not marked
         }
 
-        try {
-          assertSmartQuotesMatch(getTextContent(node))
-        } catch {
-          // Ignore errors
+        // A direct transform, instead of on the children of a <p> element
+        if (node.type === "text" && node.value) {
+          replaceFractions(node, index as number, parent as Parent)
         }
 
-        // Don't replace slashes in fractions, but give breathing room
-        // to others
-        const slashPredicate = (n: Element) => {
-          return !hasClass(n, "fraction") && n?.tagName !== "a"
+        rearrangeLinkPunctuation(node as Element, index, parent as Element)
+
+        // Parent-less nodes are the root of the article
+        if ((!parent || !("tagName" in parent)) && node.type === "element") {
+          for (const transform of [
+            hyphenReplace,
+            niceQuotes,
+            neqConversion,
+            minusReplace,
+            enDashNumberRange,
+            enDashDateRange,
+            plusToAmpersand,
+            massTransformText,
+          ]) {
+            transformElement(node, transform, toSkip, true)
+          }
+
+          // Don't replace slashes in fractions, but give breathing room
+          // to others
+          const slashPredicate = (n: Element) => {
+            return !hasClass(n, "fraction") && n?.tagName !== "a"
+          }
+          if (slashPredicate(node)) {
+            transformElement(node, fullWidthSlashes, toSkip)
+          }
         }
-        if (slashPredicate(node)) {
-          transformElement(node, fullWidthSlashes, toSkip)
-        }
-      }
-    })
+      },
+      true,
+    )
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute
     if (!("skipFirstLetter" in options) || !options.skipFirstLetter) {

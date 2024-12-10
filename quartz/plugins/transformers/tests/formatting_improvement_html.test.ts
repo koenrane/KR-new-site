@@ -80,6 +80,7 @@ describe("HTMLFormattingImprovement", () => {
       ['"Game"/"Life"', "“Game”/“Life”"],
       ['"Test:".', "“Test:”."],
       ['"Test"s', "“Test”s"],
+      ['not confident in that plan - "', "not confident in that plan - ”"],
     ])('should fix quotes in "%s"', (input, expected) => {
       const processedHtml = niceQuotes(input)
       expect(processedHtml).toBe(expected)
@@ -106,6 +107,10 @@ describe("HTMLFormattingImprovement", () => {
       [
         '<p>Suppose you tell me, "<code>TurnTrout</code>", we definitely</p>',
         "<p>Suppose you tell me, “<code>TurnTrout</code>”, we definitely</p>",
+      ],
+      [
+        '<div><p>not confident in that plan - "</p><p>"Why not? You were the one who said we should use the AIs in the first place! Now you don’t like this idea?” she asked, anger rising in her voice.</p></div>',
+        "<div><p>not confident in that plan—”</p><p>“Why not? You were the one who said we should use the AIs in the first place! Now you don’t like this idea?” she asked, anger rising in her voice.</p></div>",
       ],
     ])("should handle HTML inputs", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
