@@ -875,3 +875,73 @@ def test_check_unprocessed_dashes(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unprocessed_dashes(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic HTML tags that should be caught
+        (
+            "<p>&lt;div&gt; tag</p>",
+            ["Found unrendered HTML ['<div>'] in: <div> tag"],
+        ),
+        (
+            "<p>&lt;/br&gt; tag</p>",
+            ["Found unrendered HTML ['</br>'] in: </br> tag"],
+        ),
+        # Self-closing tags
+        (
+            "<p>&lt;img/&gt; tag</p>",
+            ["Found unrendered HTML ['<img/>'] in: <img/> tag"],
+        ),
+        # Tags with attributes
+        (
+            '<p>&lt;div class="test"&gt; tag</p>',
+            ["Found unrendered HTML ['<div '] in: <div class=\"test\"> tag"],
+        ),
+        # Multiple tags in one element
+        (
+            "<p>&lt;div&gt; and &lt;/div&gt; tags</p>",
+            [
+                "Found unrendered HTML ['<div>', '</div>'] in: <div> and </div> tags"
+            ],
+        ),
+        # Tags in skipped elements should be ignored
+        ("<code>&lt;div&gt; tag</code>", []),
+        ("<pre>&lt;div&gt; tag</pre>", []),
+        ('<div class="no-formatting">&lt;div&gt; tag</div>', []),
+        ('<div class="elvish">&lt;div&gt; tag</div>', []),
+        # Nested skipped elements
+        ("<div><code>&lt;div&gt; tag</code></div>", []),
+        ('<div class="no-formatting"><p>&lt;div&gt; tag</p></div>', []),
+        # Mixed content
+        (
+            """
+            <div>
+                <p>&lt;div&gt; tag</p>
+                <code>&lt;div&gt; tag</code>
+                <p>&lt;/br&gt; tag</p>
+            </div>
+            """,
+            [
+                "Found unrendered HTML ['<div>'] in: <div> tag",
+                "Found unrendered HTML ['</br>'] in: </br> tag",
+            ],
+        ),
+        # Cases that should not be caught
+        ("<p>Text with < or > symbols</p>", []),
+        ("<p>Text with <3 heart</p>", []),
+        ("<p>Math like 2 < x > 1</p>", []),
+        # Complex case with nested elements
+        (
+            """<p>&lt;video autoplay loop muted playsinline src="<a href="https://assets.turntrout.com/static/images/posts/safelife2.mp4" class="external alias" target="_blank">https://assets.turntrout.com/static/images/posts/safelife2.<abbr class="small-caps">mp4</abbr><span style="white-space:nowrap;">"<img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" class="favicon" alt=""></span></a> style="width: 100%; height: 100%; object-fit: cover; margin: 0" ／type="video/<abbr class="small-caps">mp4</abbr>"&gt;<source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></p>""",
+            [
+                "Found unrendered HTML ['<video '] in: <video autoplay loop muted playsinline src=\""
+            ],
+        ),
+    ],
+)
+def test_check_unrendered_html(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_html(soup)
+    assert sorted(result) == sorted(expected)

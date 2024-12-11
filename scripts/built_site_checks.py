@@ -120,6 +120,34 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     return problematic_blockquotes
 
 
+def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for unrendered HTML in the page.
+
+    Looks for text content containing HTML-like patterns (<tag>, </tag>, or
+    <tag/>) that should have been rendered by the markdown processor.
+    """
+    problematic_texts = []
+
+    # Basic HTML tag pattern
+    tag_pattern = r"(</?[a-zA-Z][a-zA-Z0-9]*(?: |/?>))"
+
+    for element in soup.find_all(string=True):
+        if not should_skip(element):  # Reuse existing skip logic
+            text = element.strip()
+            if text:
+                # Look for HTML-like patterns
+                matches = re.findall(tag_pattern, text)
+                if matches:
+                    print(matches)
+                    preview = text[:50] + "..." if len(text) > 50 else text
+                    problematic_texts.append(
+                        f"Found unrendered HTML {matches} in: {preview}"
+                    )
+
+    return problematic_texts
+
+
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     """
     Check for text nodes starting with specific phrases.
@@ -534,6 +562,7 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         ),
         "unprocessed_quotes": check_unprocessed_quotes(soup),
         "unprocessed_dashes": check_unprocessed_dashes(soup),
+        "unrendered_html": check_unrendered_html(soup),
     }
 
     if "design" in file_path.name:
