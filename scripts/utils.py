@@ -4,12 +4,11 @@ Utility functions for scripts/ directory.
 
 import subprocess
 from pathlib import Path
-from typing import Collection, Optional
+from typing import Collection, Dict, Optional
 
 import git
-from ruamel.yaml import YAML
-
-# pyright: reportPrivateImportUsage = false
+from bs4 import BeautifulSoup
+from ruamel.yaml import YAML, YAMLError
 
 
 def get_git_root(starting_dir: Optional[Path] = None) -> Path:
@@ -150,3 +149,85 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
         return {}, ""
 
     return metadata, parts[2]
+
+
+def build_permalink_map(md_dir: Path) -> Dict[str, Path]:
+    """
+    Build a mapping of permalinks to markdown file paths by extracting and
+    parsing the YAML front matter of each markdown file.
+
+    Args:
+        md_dir: Path to the directory containing markdown files
+
+    Returns:
+        Dictionary mapping permalinks to their corresponding markdown file paths
+    """
+    yaml = YAML(typ="safe")
+    permalink_to_md_path: Dict[str, Path] = {}
+
+    md_files = list(md_dir.glob("*.md")) + list(md_dir.glob("drafts/*.md"))
+
+    for md_file in md_files:
+        try:
+            with md_file.open(encoding="utf-8") as f:
+                content = f.read()
+
+            # Extract YAML front matter
+            if content.startswith("---"):
+                parts = content.split("---", 2)
+                if len(parts) >= 3:
+                    front_matter_raw = parts[1]
+                else:
+                    print(f"Skipping {md_file}: Invalid front matter format")
+                    continue
+            else:
+                continue
+
+            # Parse YAML front matter
+            front_matter = yaml.load(front_matter_raw)
+            if front_matter and isinstance(front_matter, dict):
+                permalink = front_matter.get("permalink")
+                if permalink:
+                    # Normalize the permalink
+                    permalink = permalink.strip("/")
+                    permalink_to_md_path[permalink] = md_file
+            else:
+                print(f"No permalink found in front matter of {md_file}")
+        except YAMLError as e:
+            print(f"Error parsing YAML in {md_file}: {e}")
+        except Exception as e:
+            print(f"Unexpected error processing {md_file}: {e}")
+
+    return permalink_to_md_path
+
+
+def is_redirect(soup: BeautifulSoup) -> bool:
+    """
+    Check if the page is a redirect.
+    """
+    meta = soup.find(
+        "meta", attrs={"http-equiv": lambda x: x and x.lower() == "refresh"}
+    )
+    return meta is not None
+
+
+def parse_html_file(file_path: Path) -> BeautifulSoup:
+    """
+    Parse an HTML file and return a BeautifulSoup object.
+    """
+    with open(file_path, "r", encoding="utf-8") as file:
+        return BeautifulSoup(file.read(), "html.parser")
+
+
+files_without_md_path = ("404", "all-tags", "recent")
+
+
+def md_for_html(file_path: Path) -> bool:
+    """
+    Whether there should be a markdown file for this html file.
+    """
+    return (
+        "tags" not in file_path.parts
+        and file_path.stem not in files_without_md_path
+        and not is_redirect(parse_html_file(file_path))
+    )
