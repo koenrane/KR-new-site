@@ -563,6 +563,9 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "unprocessed_quotes": check_unprocessed_quotes(soup),
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
+        "missing_markdown_assets": check_markdown_assets_in_html(
+            file_path, soup
+        ),
     }
 
     if "design" in file_path.name:
@@ -614,6 +617,56 @@ def print_issues(
         print()  # Add a blank line between files with issues
 
 
+tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
+
+
+def check_markdown_assets_in_html(
+    html_path: Path, soup: BeautifulSoup
+) -> List[str]:
+    """
+    Check that all assets referenced in the markdown source appear in the HTML.
+
+    Args:
+        html_path: Path to the HTML file to check
+        soup: BeautifulSoup object of the HTML content
+
+    Returns:
+        List of asset references that are missing from the HTML
+    """
+    md_dir: Path = script_utils.get_git_root() / "content"
+    if not md_dir.exists():
+        raise ValueError(f"Content directory {md_dir} does not exist")
+
+    md_path: Path = (md_dir / html_path.stem).with_suffix(".md")
+    if not md_path.exists():
+        print(md_path)
+        return []
+
+    # Read markdown file and find all asset references
+    with open(md_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        # Match ![alt](src) pattern, capturing the src
+        md_pattern_assets = set(re.findall(r"!\[.*?\]\((.*?)\)", content))
+        # Match HTML tags with src attributes
+        tag_pattern = rf"<(?:{'|'.join(tags_to_check_for_missing_assets)}) [^>]*?src=[\"'](.*?)[\"']"
+        tag_pattern_assets = set(re.findall(tag_pattern, content))
+        md_assets = md_pattern_assets | tag_pattern_assets
+
+    # Parse HTML and get all asset sources
+    html_assets = set()
+    for tag in tags_to_check_for_missing_assets:
+        for element in soup.find_all(tag):
+            if src := element.get("src"):
+                html_assets.add(src)
+
+    # Check each markdown asset exists in HTML
+    missing_assets = md_assets - html_assets
+    return [
+        f"Asset {asset} from markdown not found in HTML"
+        for asset in missing_assets
+    ]
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -624,6 +677,8 @@ def main() -> None:
     check_rss_file_for_issues(git_root)
 
     for root, _, files in os.walk(public_dir):
+        if "drafts" in root:
+            continue
         for file in tqdm.tqdm(files, desc="Webpages checked"):
             if file.endswith(".html"):
                 file_path = Path(root) / file
