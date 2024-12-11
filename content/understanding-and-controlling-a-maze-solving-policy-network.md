@@ -779,12 +779,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 [^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are 25x25, while the residual channels are 16x16 due to the maxpools.
 [^9]:
     For example, we hypothesize channel 55 to be a "cheese channel." We randomly selected channel 52 and computed resampling statistics. We found that channel 52 seems across-the-board less influential, even under totally random resampling (i.e. different cheese location):
-    <br/><br/>
-
-    |            | Same cheese location | Different cheese location |
-    | ---------: | -------------------- | ------------------------- |
-    | Channel 55 | 0.18%                | 0.31%                     |
-    | Channel 52 | 0.06%                | 0.06%                     |
+    <br/><br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
 
 [^10]:
     By the time you hit the residual addition layer in question (`block2.res1.resadd_out`), cheese pixels on the top-left corner of the screen can only affect $5\times 5=25$ out of the $16\times 16=256$ residual activations at that layer and channel.

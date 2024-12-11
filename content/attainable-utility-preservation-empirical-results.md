@@ -236,8 +236,8 @@ And we're done.
 
 <figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 800px; margin: 0 auto;">
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4"><source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
-     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
-     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0"  type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0"  type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/matC991.mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
    </figure>
 
