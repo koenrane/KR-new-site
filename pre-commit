@@ -4,16 +4,16 @@ GIT_ROOT=$(git rev-parse --show-toplevel)
 
 # Store file modification times before formatting
 touch /tmp/before_format /tmp/after_format
-find "$GIT_ROOT"/scripts/ -name "*.py" -type f -exec stat -f "%m %N" {} \; >/tmp/before_format
+find "$GIT_ROOT"/scripts -name "*.py" -type f -exec stat -f "%m %N" {} \; >/tmp/before_format
 
 # Run docformatter
 docformatter --in-place "$GIT_ROOT"/scripts/**.py --config "$GIT_ROOT"/pyproject.toml
 
 # Store file modification times after formatting
-find "$GIT_ROOT"/scripts/ -name "*.py" -type f -exec stat -f "%m %N" {} \; >/tmp/after_format
+find "$GIT_ROOT"/scripts -name "*.py" -type f -exec stat -f "%m %N" {} \; >/tmp/after_format
 
 # Compare and stage only modified files
-diff /tmp/before_format /tmp/after_format | grep ">" | cut -d' ' -f2- | xargs git add
+diff /tmp/before_format /tmp/after_format | grep ">" | cut -d' ' -f3- | xargs -I {} git add {}
 
 # Run normal lint-staged
 npx lint-staged
