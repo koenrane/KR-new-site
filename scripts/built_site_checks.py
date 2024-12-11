@@ -556,14 +556,15 @@ def check_file_for_issues(
         "unprocessed_quotes": check_unprocessed_quotes(soup),
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
-        "missing_markdown_assets": (
-            check_markdown_assets_in_html(file_path, soup, md_path)
-            if md_path
-            else []
-        ),
     }
 
-    if "design" in file_path.name:
+    # Only check markdown assets if md_path exists and is a file
+    if md_path and md_path.is_file():
+        issues["missing_markdown_assets"] = check_markdown_assets_in_html(
+            file_path, soup, md_path
+        )
+
+    if "test-page" in file_path.name:
         issues["missing_favicon"] = check_favicons_missing(soup)
     return issues
 

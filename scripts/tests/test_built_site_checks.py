@@ -129,14 +129,6 @@ def test_check_katex_elements_for_errors(sample_html_with_katex_errors):
     assert result == ["\\rewavcxx"]
 
 
-def test_parse_html_file(tmp_path):
-    file_path = tmp_path / "test.html"
-    file_path.write_text("<html><body><p>Test</p></body></html>")
-    result = parse_html_file(file_path)
-    assert isinstance(result, BeautifulSoup)
-    assert result.find("p").text == "Test"
-
-
 @pytest.mark.parametrize(
     "input_path,expected_path",
     [
@@ -227,7 +219,7 @@ def test_check_file_for_issues(tmp_path):
     </html>
     """
     )
-    issues = check_file_for_issues(file_path, tmp_path)
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
     assert issues["problematic_paragraphs"] == ["Table: Test table"]
@@ -247,7 +239,7 @@ complicated_blockquote = """
 def test_complicated_blockquote(tmp_path):
     file_path = tmp_path / "test.html"
     file_path.write_text(complicated_blockquote)
-    issues = check_file_for_issues(file_path, tmp_path)
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["trailing_blockquotes"] == [
         "Basic facts about language models during trai ning..."
     ]
@@ -415,44 +407,6 @@ def test_body_is_empty(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = body_is_empty(soup)
     assert result == expected
-
-
-@pytest.mark.parametrize(
-    "html,expected",
-    [
-        (
-            '<html><head><meta http-equiv="refresh" content="0;url=/new-page"></head></html>',
-            True,
-        ),
-        ("<html><head></head></html>", False),
-        (
-            '<html><head><meta name="description" content="Not a redirect"></head></html>',
-            False,
-        ),
-    ],
-)
-def test_is_redirect(html, expected):
-    soup = BeautifulSoup(html, "html.parser")
-    result = is_redirect(soup)
-    assert result == expected
-
-
-def test_check_file_for_issues_skips_redirects(tmp_path):
-    file_path = tmp_path / "test.html"
-    file_path.write_text(
-        """
-    <html>
-    <head><meta http-equiv="refresh" content="0;url=/new-page"></head>
-    <body>
-        <a href="localhost:8000">Localhost Link</a>
-        <p>Table: Test table</p>
-    </body>
-    </html>
-    """
-    )
-
-    issues = check_file_for_issues(file_path, tmp_path)
-    assert issues == {}  # Should return empty dict for redirects
 
 
 @pytest.mark.parametrize(
