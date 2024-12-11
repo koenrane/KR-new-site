@@ -139,7 +139,6 @@ def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
                 # Look for HTML-like patterns
                 matches = re.findall(tag_pattern, text)
                 if matches:
-                    print(matches)
                     preview = text[:50] + "..." if len(text) > 50 else text
                     problematic_texts.append(
                         f"Found unrendered HTML {matches} in: {preview}"
@@ -355,20 +354,6 @@ def check_critical_css(soup: BeautifulSoup) -> bool:
     return False
 
 
-def body_is_empty(soup: BeautifulSoup) -> bool:
-    """
-    Check if the body is empty.
-
-    Looks for children of the body tag.
-    """
-    body = soup.find("body")
-    return (
-        not body
-        or not isinstance(body, Tag)
-        or len(body.find_all(recursive=False)) == 0
-    )
-
-
 def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
     """
     Check for duplicate anchor IDs in the HTML.
@@ -535,6 +520,9 @@ def check_file_for_issues(
         Dictionary of issues found in the HTML file
     """
     soup = script_utils.parse_html_file(file_path)
+    if script_utils.is_redirect(soup):
+        return {}
+
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
@@ -546,7 +534,7 @@ def check_file_for_issues(
         "unrendered_subtitles": check_unrendered_subtitles(soup),
         "unrendered_footnotes": check_unrendered_footnotes(soup),
         "missing_critical_css": not check_critical_css(soup),
-        "empty_body": body_is_empty(soup),
+        "empty_body": script_utils.body_is_empty(soup),
         "duplicate_ids": check_duplicate_ids(soup),
         "unrendered_spoilers": check_unrendered_spoilers(soup),
         "unrendered_emphasis": check_unrendered_emphasis(soup),
@@ -680,14 +668,14 @@ def main() -> None:
                     file_path.stem
                 ) or permalink_to_md_path_map.get(file_path.stem.lower())
 
-                if not md_path and not script_utils.md_for_html(file_path):
+                if not md_path and script_utils.should_have_md(file_path):
                     raise ValueError(
                         f"Markdown file for {file_path.stem} not found"
                     )
 
                 issues = check_file_for_issues(file_path, public_dir, md_path)
 
-                # print_issues(file_path, issues)
+                print_issues(file_path, issues)
                 if any(lst for lst in issues.values()):
                     issues_found = True
 

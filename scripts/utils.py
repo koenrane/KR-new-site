@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Collection, Dict, Optional
 
 import git
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from ruamel.yaml import YAML, YAMLError
 
 
@@ -203,12 +203,30 @@ def build_permalink_map(md_dir: Path) -> Dict[str, Path]:
 
 def is_redirect(soup: BeautifulSoup) -> bool:
     """
-    Check if the page is a redirect.
+    Check if the page is a redirect by looking for a meta refresh tag.
     """
     meta = soup.find(
-        "meta", attrs={"http-equiv": lambda x: x and x.lower() == "refresh"}
+        "meta",
+        attrs={
+            "http-equiv": lambda x: x and x.lower() == "refresh",
+            "content": lambda x: x and "url=" in x.lower(),
+        },
     )
     return meta is not None
+
+
+def body_is_empty(soup: BeautifulSoup) -> bool:
+    """
+    Check if the body is empty.
+
+    Looks for children of the body tag.
+    """
+    body = soup.find("body")
+    return (
+        not body
+        or not isinstance(body, Tag)
+        or len(body.find_all(recursive=False)) == 0
+    )
 
 
 def parse_html_file(file_path: Path) -> BeautifulSoup:
@@ -222,7 +240,7 @@ def parse_html_file(file_path: Path) -> BeautifulSoup:
 files_without_md_path = ("404", "all-tags", "recent")
 
 
-def md_for_html(file_path: Path) -> bool:
+def should_have_md(file_path: Path) -> bool:
     """
     Whether there should be a markdown file for this html file.
     """

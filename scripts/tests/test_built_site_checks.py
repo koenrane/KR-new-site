@@ -245,6 +245,15 @@ def test_complicated_blockquote(tmp_path):
     ]
 
 
+def test_check_file_for_issues_with_redirect(tmp_path):
+    file_path = tmp_path / "test.html"
+    file_path.write_text(
+        '<html><head><meta http-equiv="refresh" content="0;url=/new-page"></head></html>'
+    )
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
+    assert issues == {}
+
+
 @pytest.mark.parametrize(
     "html,expected",
     [
@@ -392,20 +401,6 @@ def test_check_unrendered_footnotes_parametrized(html, expected):
 def test_check_critical_css(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_critical_css(soup)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    "html,expected",
-    [
-        ("<html><body></body></html>", True),
-        ("<html><body><div>Content</div></body></html>", False),
-        ("<html></html>", True),
-    ],
-)
-def test_body_is_empty(html, expected):
-    soup = BeautifulSoup(html, "html.parser")
-    result = body_is_empty(soup)
     assert result == expected
 
 

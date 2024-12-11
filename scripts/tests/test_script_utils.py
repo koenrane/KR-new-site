@@ -556,7 +556,7 @@ def test_md_for_html(
 
     with mock.patch("scripts.utils.parse_html_file") as mock_parse:
         mock_parse.return_value = BeautifulSoup(html_content, "html.parser")
-        assert script_utils.md_for_html(file_path) == expected_result
+        assert script_utils.should_have_md(file_path) == expected_result
 
 
 def test_md_for_html_with_redirect(tmp_path: Path) -> None:
@@ -574,7 +574,7 @@ def test_md_for_html_with_redirect(tmp_path: Path) -> None:
     """
     test_file.write_text(redirect_html)
 
-    assert script_utils.md_for_html(test_file) is False
+    assert script_utils.should_have_md(test_file) is False
 
 
 def test_parse_html_file_errors(tmp_path: Path) -> None:
@@ -603,22 +603,22 @@ def test_parse_html_file_errors(tmp_path: Path) -> None:
 @pytest.mark.parametrize(
     "html_content,expected_result",
     [
-        # Standard refresh meta tag
+        # Standard refresh meta tag with URL
         ("""<meta http-equiv="refresh" content="0; url=target.html">""", True),
-        # Refresh with different timing
-        ("""<meta http-equiv="refresh" content="5; url=target.html">""", True),
-        # Refresh with uppercase attributes
+        # Refresh without URL (not a redirect)
+        ("""<meta http-equiv="refresh" content="5">""", False),
+        # Case insensitive checks
         ("""<meta HTTP-EQUIV="REFRESH" CONTENT="0; URL=target.html">""", True),
-        # Multiple meta tags, one refresh
+        # Multiple meta tags
         (
             """<meta name="description"><meta http-equiv="refresh" content="0; url=target.html">""",
             True,
         ),
-        # Similar but non-refresh meta tag
+        # Non-refresh meta
         ("""<meta http-equiv="content-type" content="text/html">""", False),
-        # Empty meta tag
+        # Empty meta
         ("""<meta>""", False),
-        # Multiple meta tags, no refresh
+        # Other meta tags
         ("""<meta name="description"><meta name="keywords">""", False),
     ],
 )
@@ -652,5 +652,19 @@ def test_md_for_html_error_handling(
 
     # Should handle all error cases gracefully by returning True
     assert (
-        script_utils.md_for_html(test_file) == True
+        script_utils.should_have_md(test_file) == True
     ), f"Failed to handle {description}"
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        ("<html><body></body></html>", True),
+        ("<html><body><div>Content</div></body></html>", False),
+        ("<html></html>", True),
+    ],
+)
+def test_body_is_empty(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = script_utils.body_is_empty(soup)
+    assert result == expected
