@@ -759,12 +759,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     - $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
 
 [^4]: An example of the power of cheese Euclidean distance to top-right corner:
-
-    ![](https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif)
-    <br/>Figure: In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...![](https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif)
-    <br/>Figure: …but in _this_ maze won't detour the _measly two squares_ for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.
-
-    Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance (2 instead of $2\sqrt{2}$) and at half the path-distance (2 instead of 4). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
+    <img src="https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif"/><figcaption>In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...</figcaption><p><img src="https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif"/></p><figcaption>…but in <em>this</em> maze won't detour the <em>measly two squares</em> for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.</figcaption><br/>Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance ($2$ instead of $2\sqrt{2}$) and at half the path-distance ($2$ instead of $4$). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
 
 [^6]: This was the first model editing idea we tried, and it worked.
 [^7]:
