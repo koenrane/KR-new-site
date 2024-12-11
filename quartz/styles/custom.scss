@@ -877,6 +877,7 @@ img.emoji {
   align-items: baseline !important;
   background-color: var(--midground-faintest) !important;
   padding: calc(0.125 * $base-margin);
+  padding-bottom: calc(0.25 * $base-margin);
   border-radius: 5px;
 }
 
