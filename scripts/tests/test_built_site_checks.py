@@ -945,3 +945,87 @@ def test_check_unrendered_html(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_html(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "md_content,html_content,expected",
+    [
+        # Basic image reference
+        ("![Alt text](image.jpg)", "<img src='image.jpg'>", []),
+        # Missing image from HTML
+        (
+            "![Alt text](missing.jpg)",
+            "<img src='other.jpg'>",
+            ["Asset missing.jpg from markdown not found in HTML"],
+        ),
+        # Test all supported asset tags
+        (
+            "\n".join(
+                [
+                    f"<{tag} src='test.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            "\n".join(
+                [
+                    f"<{tag} src='test.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            [],
+        ),
+        # Missing assets for each tag type
+        (
+            "\n".join(
+                [
+                    f"<{tag} src='missing.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            "<div>No assets</div>",
+            [
+                f"Asset missing.{tag}.file from markdown not found in HTML"
+                for tag in tags_to_check_for_missing_assets
+            ],
+        ),
+        # Mixed markdown and HTML tags
+        (
+            "![](image.jpg)\n<video src='video.mp4'>\n<audio src='audio.mp3'>",
+            "<img src='image.jpg'><video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+        # Extra HTML assets -> OK
+        (
+            "<video src='video.mp4'>\n<audio src='audio.mp3'>",
+            "<video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+    ],
+)
+def test_check_markdown_assets_in_html(
+    monkeypatch,
+    tmp_path: Path,
+    md_content: str,
+    html_content: str,
+    expected: list[str],
+):
+    """Test that markdown assets are properly checked against HTML output for all supported tags"""
+    # Setup test files
+    md_path = tmp_path / "content" / "test.md"
+    html_path = tmp_path / "public" / "test.html"
+
+    # Create directory structure
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    html_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Write test files
+    md_path.write_text(md_content)
+    html_path.write_text(f"<html><body>{html_content}</body></html>")
+
+    # Mock get_git_root to return tmp_path using monkeypatch
+    monkeypatch.setattr("scripts.utils.get_git_root", lambda: tmp_path)
+
+    # Run test
+    soup = BeautifulSoup(html_content, "html.parser")
+    result = check_markdown_assets_in_html(html_path, soup, md_path)
+    assert sorted(result) == sorted(expected)

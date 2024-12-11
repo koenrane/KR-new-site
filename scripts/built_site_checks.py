@@ -216,14 +216,6 @@ def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
     return unrendered_subtitles
 
 
-def parse_html_file(file_path: Path) -> BeautifulSoup:
-    """
-    Parse an HTML file and return a BeautifulSoup object.
-    """
-    with open(file_path, "r", encoding="utf-8") as file:
-        return BeautifulSoup(file.read(), "html.parser")
-
-
 # Check the existence of local files with these extensions
 _MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
     ".svg",
@@ -351,13 +343,6 @@ def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
             )
 
     return problematic_katex
-
-
-def is_redirect(soup: BeautifulSoup) -> bool:
-    """
-    Check if the page is a redirect.
-    """
-    return soup.find("meta", {"http-equiv": "refresh"}) is not None
 
 
 def check_critical_css(soup: BeautifulSoup) -> bool:
@@ -535,13 +520,21 @@ def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
     return problematic_dashes
 
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
+def check_file_for_issues(
+    file_path: Path, base_dir: Path, md_path: Path | None
+) -> IssuesDict:
     """
     Check a single HTML file for various issues.
+
+    Args:
+        file_path: Path to the HTML file to check
+        base_dir: Path to the base directory of the site
+        md_path: Path to the markdown file that generated the HTML file
+
+    Returns:
+        Dictionary of issues found in the HTML file
     """
-    soup = parse_html_file(file_path)
-    if is_redirect(soup):
-        return {}
+    soup = script_utils.parse_html_file(file_path)
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
@@ -563,6 +556,11 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
         "unprocessed_quotes": check_unprocessed_quotes(soup),
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
+        "missing_markdown_assets": (
+            check_markdown_assets_in_html(file_path, soup, md_path)
+            if md_path
+            else []
+        ),
     }
 
     if "design" in file_path.name:
@@ -614,6 +612,51 @@ def print_issues(
         print()  # Add a blank line between files with issues
 
 
+tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
+
+
+def check_markdown_assets_in_html(
+    html_path: Path, soup: BeautifulSoup, md_path: Path
+) -> List[str]:
+    """
+    Check that all assets referenced in the markdown source appear in the HTML.
+
+    Args:
+        html_path: Path to the HTML file to check
+        soup: BeautifulSoup object of the HTML content
+        md_path: Path to the markdown file that generated the HTML file
+
+    Returns:
+        List of asset references that are missing from the HTML
+    """
+    if not md_path.exists():
+        raise ValueError(f"Markdown file {md_path} does not exist")
+
+    # Read markdown file and find all asset references
+    with open(md_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        # Match ![alt](src) pattern, capturing the src
+        md_pattern_assets = set(re.findall(r"!\[.*?\]\((.*?)\)", content))
+        # Match HTML tags with src attributes
+        tag_pattern = rf"<(?:{'|'.join(tags_to_check_for_missing_assets)}) [^>]*?src=[\"'](.*?)[\"']"
+        tag_pattern_assets = set(re.findall(tag_pattern, content))
+        md_assets = md_pattern_assets | tag_pattern_assets
+
+    # Parse HTML and get all asset sources
+    html_assets = set()
+    for tag in tags_to_check_for_missing_assets:
+        for element in soup.find_all(tag):
+            if src := element.get("src"):
+                html_assets.add(src)
+
+    # Check each markdown asset exists in HTML
+    missing_assets = md_assets - html_assets
+    return [
+        f"Asset {asset} from markdown not found in HTML"
+        for asset in missing_assets
+    ]
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -623,13 +666,27 @@ def main() -> None:
 
     check_rss_file_for_issues(git_root)
 
+    md_dir: Path = git_root / "content"
+    permalink_to_md_path_map = script_utils.build_permalink_map(md_dir)
+
     for root, _, files in os.walk(public_dir):
+        if "drafts" in root:
+            continue
         for file in tqdm.tqdm(files, desc="Webpages checked"):
             if file.endswith(".html"):
                 file_path = Path(root) / file
-                issues = check_file_for_issues(file_path, public_dir)
+                md_path = permalink_to_md_path_map.get(
+                    file_path.stem
+                ) or permalink_to_md_path_map.get(file_path.stem.lower())
 
-                print_issues(file_path, issues)
+                if not md_path and not script_utils.md_for_html(file_path):
+                    raise ValueError(
+                        f"Markdown file for {file_path.stem} not found"
+                    )
+
+                issues = check_file_for_issues(file_path, public_dir, md_path)
+
+                # print_issues(file_path, issues)
                 if any(lst for lst in issues.values()):
                     issues_found = True
 
