@@ -13,7 +13,7 @@ docformatter --in-place "$GIT_ROOT"/scripts/**.py --config "$GIT_ROOT"/pyproject
 find "$GIT_ROOT"/scripts/ -name "*.py" -type f -exec stat -f "%m %N" {} \; >/tmp/after_format
 
 # Compare and stage only modified files
-diff /tmp/before_format /tmp/after_format | grep ">" | cut -d' ' -f2- | xargs git add
+diff /tmp/before_format /tmp/after_format | grep ">" | cut -d' ' -f2- | xargs git add | git commit --amend --no-edit
 
 # Run normal lint-staged
 npx lint-staged
