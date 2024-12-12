@@ -110,34 +110,18 @@ And some hyphens-to-be-ignored.`
       expect(result).toBe(expected)
     })
   })
-
-  // describe("Display math formatting", () => {
-  //   it.each([
-  //     ["Text$$math$$Text", "Text\n$$\n\nmath\n$$\n\nText"],
-  //     ["Text $$math$$Text", "Text\n$$\n\nmath\n$$\n\nText"],
-  //     ["Text$$math$$ Text", "Text\n$$\n\nmath\n$$\n\nText"],
-  //     ["Multiple$$math1$$\n$$math2$$", "Multiple\n$$\n\nmath1\n$$\n\n$$\n\nmath2\n$$"],
-  //     ["No space$$between$$math", "No space\n$$\n\nbetween\n$$\n\nmath"],
-  //     ["Already\n$$spaced$$\n\nCorrectly", "Already\n$$\n\nspaced\n$$\n\nCorrectly"],
-  //     ["> >$$math$$", "> >\n> >$$\n\nmath\n$$\n\n"],
-  //     ["> > Text $$math$$", "> > Text\n> >\n> >$$\n\nmath\n$$\n\n"],
-  //   ])("should format display math correctly for %s", (input: string, expected: string) => {
-  //     const result = formattingImprovement(input)
-  //     expect(result).toBe(expected)
-  //   })
-  // })
 })
 
 describe("editAdmonition", () => {
   it('should replace a basic "edit" command with the admonition', () => {
     const input = "edit 08-10-2023: This is some edited text."
-    const expected = "> [!info] Edited on 08-10-2023\n>\n> This is some edited text."
+    const expected = "\n> [!info] Edited on 08-10-2023\n>\n> This is some edited text."
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it('should replace a date-less "edit" command with the admonition', () => {
     const input = "edit: This is some edited text."
-    const expected = "> [!info] Edited after posting\n>\n> This is some edited text."
+    const expected = "\n> [!info] Edited after posting\n>\n> This is some edited text."
     expect(editAdmonition(input)).toBe(expected)
   })
 
@@ -145,25 +129,25 @@ describe("editAdmonition", () => {
     const content =
       "The initial version of this post talked about \"outer alignment\"; I changed this to just talk about _alignment_, because the outer/inner alignment distinction doesn't feel relevant here. What matters is how the AI's policy impacts us; what matters is [_impact alignment_](/non-obstruction-motivates-corrigibility)."
     const input = `Edit: ${content}`
-    const expected = `> [!info] Edited after posting\n>\n> ${content}`
+    const expected = `\n> [!info] Edited after posting\n>\n> ${content}`
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it('should replace a basic "note" command with the admonition', () => {
     const input = "_Note, 08-10-2023_: This is some edited text."
-    const expected = "> [!info] Edited on 08-10-2023\n>\n> This is some edited text."
+    const expected = "\n> [!info] Edited on 08-10-2023\n>\n> This is some edited text."
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it('should replace a basic "eta" command with the admonition', () => {
     const input = "eta 8/10/2023: Updated information here."
-    const expected = "> [!info] Edited on 8/10/2023\n>\n> Updated information here."
+    const expected = "\n> [!info] Edited on 8/10/2023\n>\n> Updated information here."
     expect(editAdmonition(input)).toBe(expected)
   })
 
   it("should be case-insensitive", () => {
     const input = "Edit 06-15-2023: Some case-insensitive text."
-    const expected = "> [!info] Edited on 06-15-2023\n>\n> Some case-insensitive text."
+    const expected = "\n> [!info] Edited on 06-15-2023\n>\n> Some case-insensitive text."
     expect(editAdmonition(input)).toBe(expected)
   })
 

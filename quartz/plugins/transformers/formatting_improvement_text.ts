@@ -28,10 +28,10 @@ const improveFootnoteFormatting = (text: string) => {
 // Regular expression for edit/note patterns
 const editPattern =
   /^\s*(?<emph1>[*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-/]\d{1,2}[-/]\d{2,4})\)?(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
-const editAdmonitionPattern = "> [!info] Edited on $<date>\n>\n> $<text>"
+const editAdmonitionPattern = "\n> [!info] Edited on $<date>\n>\n> $<text>"
 
 const editPatternNoDate = /^\s*(?<emph1>[*_]*)(edit|eta)(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
-const editAdmonitionPatternNoDate = "> [!info] Edited after posting\n>\n> $<text>"
+const editAdmonitionPatternNoDate = "\n> [!info] Edited after posting\n>\n> $<text>"
 
 /**
  * Converts edit/note patterns to admonition blocks.

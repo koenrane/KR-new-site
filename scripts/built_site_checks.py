@@ -683,7 +683,7 @@ def check_markdown_assets_in_html(
 
 
 # Characters that are acceptable before and after emphasis tags
-prev_emphasis_chars = "  [(-—~×“=‘"
+prev_emphasis_chars = "  [(-—~×“=+‘"
 next_emphasis_chars = "  ]).,;!?:-—~×”…=’"
 
 

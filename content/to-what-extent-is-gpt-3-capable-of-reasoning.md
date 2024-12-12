@@ -261,21 +261,21 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > "But what if I said Bob would respond like this? (He points to himself) 'This book is written in English; I don't speak it.' What should Bob do?" \[_Eh?_\]
 >
-> \[...\] **Hawking: "Bob would probably tell his friend Steve that the book wasn't worth reading because it was full of inaccuracies and there had been many lies told during the revolution. That would make sense, wouldn't it? But what does Bob say if he's not reading the book?"
+> **\[...\]** Hawking: "Bob would probably tell his friend Steve that the book wasn't worth reading because it was full of inaccuracies and there had been many lies told during the revolution. That would make sense, wouldn't it? But what does Bob say if he's not reading the book?"
 >
-> \[...\] **Hawking: "Bob wouldn't have said anything at all!"
+> **\[...\]** Hawking: "Bob wouldn't have said anything at all!"
 >
-> \[...\] **Hawking: "Bob says, 'Steve, I can't write a summary for you because I don't speak your language.'
+> **\[...\]** Hawking: "Bob says, 'Steve, I can't write a summary for you because I don't speak your language.'
 >
-> \[...\] **Hawking: "Bob says, 'Steve, I can't translate all these complicated words! They're not real French!'
+> **\[...\]** Hawking: "Bob says, 'Steve, I can't translate all these complicated words! They're not real French!'
 >
-> \[...\] **Hawking: "Bob says, 'He asks me if I speak French.' What does Bob mean by that?"
+> **\[...\]** Hawking: "Bob says, 'He asks me if I speak French.' What does Bob mean by that?"
 >
 > You: "It means that Steve is asking Bob to describe his understanding of the meaning of a sentence. In other words, Steve wants to know what Bob thinks the sentence means or if there is another way of saying it."
 >
 > Hawking: "What do you think would happen if Bob said, 'I don't understand why he wants me to write a summary for him. Why can't he just listen to my answer?' "Then Steve will be puzzled because he knows Bob has no idea what the sentence means. But after a while Bob will say something like, 'Steve is confused because I don't understand English. So Steve asks me if I am fluent in French so that we can have an intelligent conversation.'" \[_eh_\]
 >
-> \[...\] **Hawking: "Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[_great excuse_\]
+> **\[...\]** Hawking: "Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[_great excuse_\]
 >
 > **You: "Suppose I get two birthday cakes on each birthday. I'm twenty-five years old, but on my fifth birthday, someone stole one of my cakes and so I never got it. How many birthday cakes have I received over the course of my life?"**
 >
