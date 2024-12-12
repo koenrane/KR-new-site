@@ -349,7 +349,7 @@ def test_build_permalink_map(
         full_path.write_text(content)
 
     # Build the permalink map
-    result = script_utils.build_permalink_map(tmp_path)
+    result = script_utils.build_html_to_md_map(tmp_path)
 
     # Convert the result paths to be relative to tmp_path for comparison
     result_relative = {
@@ -391,7 +391,7 @@ title: "Draft 1"
         file_path.write_text(content)
 
     # Run the build_permalink_map function
-    result = script_utils.build_permalink_map(tmp_path)
+    result = script_utils.build_html_to_md_map(tmp_path)
 
     # Expected result
     expected_result = {
@@ -436,7 +436,7 @@ malformed_yaml: [unclosed list
         file_path.write_text(content)
 
     # Run the build_permalink_map function
-    result = script_utils.build_permalink_map(tmp_path)
+    result = script_utils.build_html_to_md_map(tmp_path)
 
     # Expected result
     expected_result = {
@@ -468,7 +468,7 @@ title: "Extra Delimiter"
     file_path.write_text(md_content)
 
     # Run the build_permalink_map function
-    result = script_utils.build_permalink_map(tmp_path)
+    result = script_utils.build_html_to_md_map(tmp_path)
 
     # Expected result
     expected_result = {

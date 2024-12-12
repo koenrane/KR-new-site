@@ -905,7 +905,9 @@ def test_check_unrendered_html(html, expected):
         (
             "![Alt text](missing.jpg)",
             "<img src='other.jpg'>",
-            ["Asset missing.jpg from markdown not found in HTML"],
+            [
+                "Asset missing.jpg appears 1 times in markdown but only 0 times in HTML"
+            ],
         ),
         # Test all supported asset tags
         (
@@ -933,7 +935,7 @@ def test_check_unrendered_html(html, expected):
             ),
             "<div>No assets</div>",
             [
-                f"Asset missing.{tag}.file from markdown not found in HTML"
+                f"Asset missing.{tag}.file appears 1 times in markdown but only 0 times in HTML"
                 for tag in tags_to_check_for_missing_assets
             ],
         ),
@@ -958,7 +960,17 @@ def test_check_unrendered_html(html, expected):
         (
             "![ ](  missing.jpg  )",
             "<img src='other.jpg'>",
-            ["Asset missing.jpg from markdown not found in HTML"],
+            [
+                "Asset missing.jpg appears 1 times in markdown but only 0 times in HTML"
+            ],
+        ),
+        # Test asset appearing multiple times in markdown but fewer times in HTML
+        (
+            "![First](repeat.jpg)\n![Second](repeat.jpg)",
+            "<img src='repeat.jpg'>",
+            [
+                "Asset repeat.jpg appears 2 times in markdown but only 1 times in HTML"
+            ],
         ),
     ],
 )

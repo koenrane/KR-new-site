@@ -8,7 +8,7 @@ import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Set
 
 import tqdm
 from bs4 import BeautifulSoup, NavigableString, Tag
@@ -608,7 +608,8 @@ def check_markdown_assets_in_html(
     html_path: Path, soup: BeautifulSoup, md_path: Path
 ) -> List[str]:
     """
-    Check that all assets referenced in the markdown source appear in the HTML.
+    Check that all assets referenced in the markdown source appear in the HTML
+    at least as many times as they appear in the markdown.
 
     Args:
         html_path: Path to the HTML file to check
@@ -616,36 +617,46 @@ def check_markdown_assets_in_html(
         md_path: Path to the markdown file that generated the HTML file
 
     Returns:
-        List of asset references that are missing from the HTML
+        List of asset references that are missing or have fewer instances in HTML
     """
     if not md_path.exists():
         raise ValueError(f"Markdown file {md_path} does not exist")
 
-    # Read markdown file and find all asset references
+    # Read markdown file and find all asset references with counts
     with open(md_path, "r", encoding="utf-8") as f:
         content = f.read()
         # Match ![alt](src) pattern, capturing the src
-        md_pattern_assets = set(re.findall(r"!\[.*?\]\((.*?)\)", content))
+        md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
         # Match HTML tags with src attributes
         tag_pattern = rf"<(?:{'|'.join(tags_to_check_for_missing_assets)}) [^>]*?src=[\"'](.*?)[\"']"
-        tag_pattern_assets = set(re.findall(tag_pattern, content))
-        md_assets = md_pattern_assets | tag_pattern_assets
-        md_assets = {asset.strip() for asset in md_assets}
+        tag_pattern_assets = re.findall(tag_pattern, content)
 
-    # Parse HTML and get all asset sources
-    html_assets = set()
+        # Count occurrences of each asset in markdown
+        md_asset_counts = Counter(
+            asset.strip() for asset in md_pattern_assets + tag_pattern_assets
+        )
+
+    # Count asset sources in HTML
+    html_asset_counts: Counter[str] = Counter()
     for tag in tags_to_check_for_missing_assets:
         for element in soup.find_all(tag):
             if src := element.get("src"):
-                html_assets.add(src.strip())
+                html_asset_counts[src.strip()] += 1
 
-    # Check each markdown asset exists in HTML
-    missing_assets = md_assets - html_assets
-    return [
-        f"Asset {asset} from markdown not found in HTML"
-        for asset in missing_assets
-    ]
+    # Check each markdown asset exists in HTML with sufficient count
+    missing_assets = []
+    for asset, md_count in md_asset_counts.items():
+        html_count = html_asset_counts[asset]
+        if html_count < md_count:
+            missing_assets.append(
+                f"Asset {asset} appears {md_count} times in markdown but only {html_count} times in HTML"
+            )
+        elif html_count == 0:
+            missing_assets.append(
+                f"Asset {asset} from markdown not found in HTML"
+            )
 
+    return missing_assets
 
 def main() -> None:
     """
@@ -657,21 +668,24 @@ def main() -> None:
     check_rss_file_for_issues(git_root)
 
     md_dir: Path = git_root / "content"
-    permalink_to_md_path_map = script_utils.build_permalink_map(md_dir)
+    permalink_to_md_path_map = script_utils.build_html_to_md_map(md_dir)
+    files_to_skip: Set[str] = script_utils.collect_aliases(md_dir)
 
     for root, _, files in os.walk(public_dir):
         if "drafts" in root:
             continue
         for file in tqdm.tqdm(files, desc="Webpages checked"):
-            if file.endswith(".html"):
+            if file.endswith(".html") and Path(file).stem not in files_to_skip:
                 file_path = Path(root) / file
+
+                # Only derive md_path for public_dir files
                 md_path = None
                 if root.endswith("public"):
                     md_path = permalink_to_md_path_map.get(
                         file_path.stem
                     ) or permalink_to_md_path_map.get(file_path.stem.lower())
-
                     if not md_path and script_utils.should_have_md(file_path):
+                        print(file_path)
                         raise ValueError(
                             f"Markdown file for {file_path.stem} not found"
                         )

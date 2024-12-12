@@ -4,7 +4,7 @@ Utility functions for scripts/ directory.
 
 import subprocess
 from pathlib import Path
-from typing import Collection, Dict, Optional
+from typing import Collection, Dict, Optional, Set
 
 import git
 from bs4 import BeautifulSoup, Tag
@@ -115,12 +115,13 @@ def path_relative_to_quartz_parent(input_file: Path) -> Path:
         raise ValueError("The path must be within a 'quartz' directory.") from e
 
 
-def split_yaml(file_path: Path) -> tuple[dict, str]:
+def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
     """
     Split a markdown file into its YAML frontmatter and content.
 
     Args:
         file_path: Path to the markdown file
+        verbose: Whether to print error messages
 
     Returns:
         Tuple of (metadata dict, content string)
@@ -136,7 +137,8 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
     # Split frontmatter and content
     parts = content.split("---", 2)
     if len(parts) < 3:
-        print(f"Skipping {file_path}: No valid frontmatter found")
+        if verbose:
+            print(f"Skipping {file_path}: No valid frontmatter found")
         return {}, ""
 
     # Parse YAML frontmatter
@@ -151,7 +153,7 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
     return metadata, parts[2]
 
 
-def build_permalink_map(md_dir: Path) -> Dict[str, Path]:
+def build_html_to_md_map(md_dir: Path) -> Dict[str, Path]:
     """
     Build a mapping of permalinks to markdown file paths by extracting and
     parsing the YAML front matter of each markdown file.
@@ -163,42 +165,42 @@ def build_permalink_map(md_dir: Path) -> Dict[str, Path]:
         Dictionary mapping permalinks to their corresponding markdown file paths
     """
     yaml = YAML(typ="safe")
-    permalink_to_md_path: Dict[str, Path] = {}
+    html_to_md_path: Dict[str, Path] = {}
 
     md_files = list(md_dir.glob("*.md")) + list(md_dir.glob("drafts/*.md"))
 
     for md_file in md_files:
         try:
-            with md_file.open(encoding="utf-8") as f:
-                content = f.read()
+            front_matter, _ = split_yaml(md_file, verbose=False)
 
-            # Extract YAML front matter
-            if content.startswith("---"):
-                parts = content.split("---", 2)
-                if len(parts) >= 3:
-                    front_matter_raw = parts[1]
-                else:
-                    print(f"Skipping {md_file}: Invalid front matter format")
-                    continue
-            else:
-                continue
-
-            # Parse YAML front matter
-            front_matter = yaml.load(front_matter_raw)
-            if front_matter and isinstance(front_matter, dict):
+            if front_matter:
                 permalink = front_matter.get("permalink")
                 if permalink:
                     # Normalize the permalink
                     permalink = permalink.strip("/")
-                    permalink_to_md_path[permalink] = md_file
-            else:
-                print(f"No permalink found in front matter of {md_file}")
+                    html_to_md_path[permalink] = md_file
         except YAMLError as e:
             print(f"Error parsing YAML in {md_file}: {e}")
         except Exception as e:
             print(f"Unexpected error processing {md_file}: {e}")
 
-    return permalink_to_md_path
+    return html_to_md_path
+
+
+def collect_aliases(md_dir: Path) -> Set[str]:
+    """
+    Collect all aliases from the markdown files.
+    """
+    aliases: Set[str] = set()
+    for md_file in get_files(
+        md_dir, filetypes_to_match=(".md",), use_git_ignore=True
+    ):
+        front_matter, _ = split_yaml(md_file, verbose=True)
+        if front_matter:
+            aliases_list = front_matter.get("aliases", [])
+            if isinstance(aliases_list, list):
+                aliases.update(str(alias) for alias in aliases_list)
+    return aliases
 
 
 def is_redirect(soup: BeautifulSoup) -> bool:
