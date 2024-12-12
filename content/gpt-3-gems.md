@@ -893,7 +893,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > **You:** **"What is specific heat?"**
 >
-> GPT-3: "The amount of heat needed to raise one gram of a substance by one degree Celsius. Water's is 1, and Lead's is x.40."
+> GPT-3: "The amount of heat needed to raise one gram of a substance by one degree Celsius. Water's is 1, and Lead's is ×.40."
 >
 > **You:** **"Why do certain substances have higher specific heat?"**
 >
@@ -969,7 +969,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > GPT-3: "A model with low bias has low variance. A model with low variance has high bias. A model with both low bias and low variance is difficult to find."
 >
-> **You:** **"Nice try.**
+> **You:** **"Nice try."**
 
 ## Math
 
