@@ -137,7 +137,7 @@ Give a credence for the following questions / subquestions.
 
 ### Model editing
 
-1. Without proportionally reducing top-right corner attainment by more than 25% in decision-square-containing mazes (e.g. 50% $\to$ .5x.75 = 37.5%), we can[^1] patch activations so that the agent has an X\% proportional reduction in cheese acquisition, for $X=$
+1. Without proportionally reducing top-right corner attainment by more than 25% in decision-square-containing mazes (e.g. 50% -> .5x.75 = 37.5%), we can[^1] patch activations so that the agent has an X\% proportional reduction in cheese acquisition, for $X=$
     - 50\%: ( ?? %)
     - 70\%: ( ?? %)
     - 90\%: ( ?? %)

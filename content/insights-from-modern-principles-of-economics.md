@@ -73,7 +73,7 @@ Good economic policy has lifted billions of people out of poverty and furnished 
 <br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.
 
 ![](https://assets.turntrout.com/static/images/posts/mhahalue4g3l4gnvbujg.avif)
-<br/>Figure: Growth is important. More precisely, I argue that good economic policy $\to$ RGDP/capita growth $\to$ reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.
+<br/>Figure: Growth is important. More precisely, I argue that good economic policy -> RGDP/capita growth -> reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.
 
 ![](https://assets.turntrout.com/static/images/posts/htfmtdtntpqpmr2mlqxl.avif)
 <br/>Figure: Doubly amazing given hedonic treadmill & the higher expectations of people in wealthier nations.

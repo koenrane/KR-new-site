@@ -223,7 +223,7 @@ Taji frowned. He opened his mouth to speak, but Styrlyn beat him to it. "I'm not
 >
 > Brennan shrugged. "Even if it doesn't, the AI will still be trying to kill an idiot in a purple suit. At worst, it's wasting our time. At best, we might actually learn something."
 >
-> The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[_mutation: Styrlyn $\to$  Styrene_\]
+> The other man frowned at him, then turned to Styrene. "...Fine. We'll test this theory with simulations, then implement it if the results come out positive." \[_mutation: Styrlyn ->  Styrene_\]
 
 ## The Sequences post you've never read
 
