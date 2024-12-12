@@ -528,15 +528,21 @@ def test_is_redirect() -> None:
 @pytest.mark.parametrize(
     "file_path,expected_result",
     [
-        (Path("content/test.html"), True),
-        (Path("content/404.html"), False),
-        (Path("content/all-tags.html"), False),
-        (Path("content/recent.html"), False),
-        (Path("content/tags/test.html"), False),
+        (Path("public/test.html"), True),  # Regular page needs markdown
+        (Path("public/404.html"), False),  # Special pages don't need markdown
+        (Path("public/all-tags.html"), False),
+        (Path("public/recent.html"), False),
+        # Tag pages don't need markdown
+        (Path("public/tags/test-tag.html"), False),
+        # Tags index doesn't need markdown
+        (Path("public/tags/index.html"), False),
+        # Tags directory itself doesn't need markdown
+        (Path("public/tags/"), False),
+        (Path("public/index.html"), True),  # Main index needs markdown
     ],
 )
-def test_md_for_html(
-    file_path: Path, expected_result: bool, tmp_path: Path
+def test_should_have_md(
+    tmp_path: Path, file_path: Path, expected_result: bool
 ) -> None:
     """
     Test determination of whether an HTML file should have a corresponding markdown file.

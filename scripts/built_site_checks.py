@@ -665,14 +665,16 @@ def main() -> None:
         for file in tqdm.tqdm(files, desc="Webpages checked"):
             if file.endswith(".html"):
                 file_path = Path(root) / file
-                md_path = permalink_to_md_path_map.get(
-                    file_path.stem
-                ) or permalink_to_md_path_map.get(file_path.stem.lower())
+                md_path = None
+                if root.endswith("public"):
+                    md_path = permalink_to_md_path_map.get(
+                        file_path.stem
+                    ) or permalink_to_md_path_map.get(file_path.stem.lower())
 
-                if not md_path and script_utils.should_have_md(file_path):
-                    raise ValueError(
-                        f"Markdown file for {file_path.stem} not found"
-                    )
+                    if not md_path and script_utils.should_have_md(file_path):
+                        raise ValueError(
+                            f"Markdown file for {file_path.stem} not found"
+                        )
 
                 issues = check_file_for_issues(file_path, public_dir, md_path)
 
