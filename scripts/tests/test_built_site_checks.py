@@ -949,6 +949,17 @@ def test_check_unrendered_html(html, expected):
             "<video src='video.mp4'><audio src='audio.mp3'>",
             [],
         ),
+        # Test whitespace handling around asset references
+        (
+            "![ ](  image.jpg  )\n<video src=' video.mp4 '>\n<audio src=' audio.mp3  '>",
+            "<img src='image.jpg'><video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+        (
+            "![ ](  missing.jpg  )",
+            "<img src='other.jpg'>",
+            ["Asset missing.jpg from markdown not found in HTML"],
+        ),
     ],
 )
 def test_check_markdown_assets_in_html(

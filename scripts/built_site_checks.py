@@ -630,13 +630,14 @@ def check_markdown_assets_in_html(
         tag_pattern = rf"<(?:{'|'.join(tags_to_check_for_missing_assets)}) [^>]*?src=[\"'](.*?)[\"']"
         tag_pattern_assets = set(re.findall(tag_pattern, content))
         md_assets = md_pattern_assets | tag_pattern_assets
+        md_assets = {asset.strip() for asset in md_assets}
 
     # Parse HTML and get all asset sources
     html_assets = set()
     for tag in tags_to_check_for_missing_assets:
         for element in soup.find_all(tag):
             if src := element.get("src"):
-                html_assets.add(src)
+                html_assets.add(src.strip())
 
     # Check each markdown asset exists in HTML
     missing_assets = md_assets - html_assets
