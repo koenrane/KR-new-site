@@ -67,7 +67,7 @@ My approach was in part motivated by the [findings of Rohrer and Pashler](http:/
 
 > Surprisingly little is known about how long-term retention is most efficiently achieved... Our results suggest that a single session devoted to the study of some material should continue long enough to ensure that mastery is achieved but that immediate further study of the same material is an inefficient use of time.
 
-The point isn't to struggle _per se -_ it's to improve and to _win_.
+The point isn't to struggle _per se_ - it's to improve and to _win_.
 
 # $\mathcal{L}$inear $\mathcal{A}$lgebra $\mathcal{D}$one $\mathcal{R}$ight
 

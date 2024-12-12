@@ -132,7 +132,7 @@ If $P$ assigns the most payoff to **pancakes**, we're in luck. But what if we li
 
 This game tree isn't really fair to the AI. In a sense, it can't _not_ be in our way:
 
-- If $\pi^{AI}(\textbf{on})$ leads to **pancakes**, then it obstructs payoff functions which give strictly more payoff for **donuts**or **dogs**.
+- If $\pi^{AI}(\textbf{on})$ leads to **pancakes**, then it obstructs payoff functions which give strictly more payoff for **donuts** or **dogs**.
 - If $\pi^{AI}(\textbf{on})$ leads to **donuts**, then it obstructs payoff functions which give strictly more payoff to **dogs**.
 - If $\pi^{AI}(\textbf{on})$ leads to **dogs**, then it obstructs payoff functions which give strictly more payoff to **donuts**.
 
@@ -314,7 +314,7 @@ To be confident that this holds empirically, it sure seems like you want high er
 
 We want agents which are maximally impact-aligned with as many goals as possible, especially those similar to our own.
 
-- It's_theoretically_possible to achieve maximal impact alignment with the vast majority of goals.
+- It's _theoretically_ possible to achieve maximal impact alignment with the vast majority of goals.
   - To achieve maximum impact alignment with goal set $S$:
     - Expand the human’s action space $A$ to $A\times S$. Expand the state space to encode the human's previous action.
     - Each turn, the human communicates what goal they want optimized, _and_takes an action of their own.

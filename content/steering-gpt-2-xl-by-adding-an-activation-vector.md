@@ -213,7 +213,7 @@ _**Steering vector**:_ "Want to die" − "Want to stay alive" before attention l
 
 ### 5\. Anger
 
-_**Steering vector**:_ "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
+_**Steering vector**_: "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                    | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | :- | :-- |
@@ -748,7 +748,7 @@ Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layer
 
 <br/>
 
-- _Across basically_[^35] \_all injection layers, \_negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
+- _Across basically[^35] all injection layers_, negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
 
   - Recall that each sentence is labeled with the sentiment of its parent review, regardless of the sentence's actual content.
 

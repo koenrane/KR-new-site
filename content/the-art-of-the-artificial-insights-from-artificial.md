@@ -405,7 +405,7 @@ _In which the authors outline logical and probabilistic techniques for natural l
 
 ### Avoiding Confusion
 
-Let's revisit the point I made in Ch. 5 and discuss how easy it is to avoid confusion by optimizing based on what you know how to do _now -_ this seems to be a common and serious failure mode. Half of this chapter is about efforts to contort English to fit inside hard-and-fast syntactic and semantic rules (which are either provided or learned).
+Let's revisit the point I made in Ch. 5 and discuss how easy it is to avoid confusion by optimizing based on what you know how to do _now_ - this seems to be a common and serious failure mode. Half of this chapter is about efforts to contort English to fit inside hard-and-fast syntactic and semantic rules (which are either provided or learned).
 
 Imagine that your research involves explaining and predicting the shape taken by water in various situations. You decide to define a probability distribution over "shapes that water can take" and a transition model for "how the shapes change over time". You might start with easy examples (such as vase- and bucket-"shaped" water), leaving the hard problems (like ocean- and water vapor-"shaped" water) to future researchers. You "solve" the easy cases and get a little more ambitious.
 

@@ -91,7 +91,7 @@ Overall, I do lean towards "RL is a way of tying together pretrained cognition i
 
 ## ~~"Reward"~~ → "Reinforcement"
 
-"Reward" has absurd and inappropriate pleasurable connotations which suggest that the ~~agent~~policy will seek out this "rewarding" quantity.
+"Reward" has absurd and inappropriate pleasurable connotations which suggest that the ~~agent~~ policy will seek out this "rewarding" quantity.
 
 I prefer "reinforcement" because it's more accurate (at least for the policy gradient algorithms I care about) and is overall a neutral word. The cost is that "reinforcement function" is somewhat nonstandard, requiring extra explanation. I think this is often worth it in personal and blog-post communication, and maybe even in conference papers.
 

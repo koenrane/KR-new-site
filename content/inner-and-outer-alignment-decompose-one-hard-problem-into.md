@@ -64,7 +64,7 @@ _Extended summary._ My views on alignment have changed a lot recently. To illust
 >
 > **Daniel Filan:** And so in particular, the objective is an objective that you might want the system to adopt, rather than an objective over systems?
 >
-> **Paul Christiano:** Yeah. I mean, we’re sort of equivocating in this way that reveals problematicness[^2] or something, but **the first objective is an objective. It is a ranking over systems, or some reward that tells us how good a behavior is. And then we’re hoping that the system then adopts that same thing, or some reflection of that thing**\[...\]
+> **Paul Christiano:** Yeah. I mean, we’re sort of equivocating in this way that reveals problematicness[^2] or something, but **the first objective is an objective. It is a ranking over systems, or some reward that tells us how good a behavior is. And then we’re hoping that the system then adopts that same thing, or some reflection of that thing** \[...\]
 
 My summary of Paul's stance: One alignment strategy is to 1) capture “what we want” in a loss function to a very high degree (“robust grading”), 2) use that loss function to train the AI, and 3) get the AI to exclusively care about optimizing that objective.[^3]
 
@@ -298,7 +298,7 @@ Therefore, the _**only time human-compatible values have ever arisen, they have 
 >
 > **If the true** **solution to AI alignment actually looks anything like "cause a carefully orchestrated inner alignment failure in a simple learning system", then of course our assumptions about the complexity of value formation and the undesirability of inner alignment failures would prevent us from finding such a solution. Alignment would look incredibly difficult because the answer would be outside of the subset of the solution space we'd restricted ourselves to considering.**
 
-The above argues that inner alignment is _un_-natural because it runs counter to natural tendencies. I further infer that inner alignment is unnatural partly \_because_ it is anti-natural. We've never seen it happen, we don't know how to make it happen, there are lots of reasons to think it won't happen, and I don't think we need to make it happen.
+The above argues that inner alignment is _un_-natural because it runs counter to natural tendencies. I further infer that inner alignment is unnatural partly _because_ it is anti-natural. We've never seen it happen, we don't know how to make it happen, there are lots of reasons to think it won't happen, and I don't think we need to make it happen.
 
 > [!warning]
 > "Cause a carefully orchestrated inner alignment _failure_ in a simple learning system" sounds like we’re trying something “hacky” or “mistake-prone." However, we really aren’t attempting something strange. Rather, we’re talking about the [apparently natural](/shard-theory) way for values to form.
@@ -499,7 +499,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 
 <dd>
 <ul>
-<li><em>Bailey:</em>We should solve outer alignment by specifying a reward signal which can’t reasonably be gamed and which expresses what we want ／is aligned with our values. This reward signal should return good outputs far outside of the normal distribution of human experience, such that it doesn’t have bad maxima.</li>
+<li><em>Bailey</em>: We should solve outer alignment by specifying a reward signal which can’t reasonably be gamed and which expresses what we want ／is aligned with our values. This reward signal should return good outputs far outside of the normal distribution of human experience, such that it doesn’t have bad maxima.</li>
 <li><em>Motte</em>: All else equal, it’s better to reward the agent for doing good things (like making someone smile) and to penalize it for doing bad things (like hurting people).</li>
 </ul>
 </dd>
@@ -637,7 +637,7 @@ I worry that absolute robustness is an unnatural cognitive property, which is al
 > 3. The update procedure penalizes these lines of computation, such that in similar situations in the future (i.e. the AI thinks someone nearby is dying) the AI is less likely to take those actions (i.e. leaving to help the person).
 > 4. We have made the aligned AI _less_ aligned.
 >
-> I don't know if anyone's written about this. But on my understanding of the issue, there's one possible failure mode of viewing adversarial training as ruling out bad behaviors _themselves_. But (non-tabular) RL isn't like playing whack-a-mole on bad actions, [RL's credit assignment changes the general values and cognition within the AI](/reward-is-not-the-optimization-target). And with every procedure we propose, the most important part is _what cognition will be grown from the cognitive updates accrued under the proposed procedure._
+> I don't know if anyone's written about this. But on my understanding of the issue, there's one possible failure mode of viewing adversarial training as ruling out bad behaviors _themselves_. But (non-tabular) RL isn't like playing whack-a-mole on bad actions, [RL's credit assignment changes the general values and cognition within the AI](/reward-is-not-the-optimization-target). And with every procedure we propose, the most important part is _what cognition will be grown from the cognitive updates accrued under the proposed procedure_.
 
 EDIT: This is less "don't do adversarial training", and more "I have some intuitions there are subtle costs and difficulties to demanding extreme robustness from a system."
 

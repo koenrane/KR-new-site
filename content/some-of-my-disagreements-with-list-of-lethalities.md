@@ -211,8 +211,7 @@ Historical reasoning about RL seems quite bad. This is a prime example. In one f
 
     > My shoulder Eliezer (who I agree with on alignment, and who speaks more bluntly and with less hedging than I normally would) says:
     >
-    > 1. The list is true, to the best of my knowledge, and the details actually matter.
-    >     Many civilizations try to make a canonical list like this in 1980 and end up dying where they would have lived _just_ because they left off one item, or under-weighted the importance of the last three sentences of another item, or included ten distracting less-important items.
+    > 1. The list is true, to the best of my knowledge, and the details actually matter. Many civilizations try to make a canonical list like this in 1980 and end up dying where they would have lived _just_ because they left off one item, or under-weighted the importance of the last three sentences of another item, or included ten distracting less-important items.
 
     So if Eliezer's talking about "how do we get agents to care about non-sensory observables", this indicates to me that I disagree with him about what the central subproblems of alignment are.
 

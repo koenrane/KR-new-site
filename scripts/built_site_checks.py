@@ -151,7 +151,7 @@ def _add_to_list(
     lst: List[str],
     text: str,
     showEnd: bool = False,
-    preview_chars: int = 50,
+    preview_chars: int = 100,
     prefix: str = "",
 ) -> None:
     if preview_chars <= 0:

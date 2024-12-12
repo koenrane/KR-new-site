@@ -160,7 +160,7 @@ In a sense, $\mathrm{Satisfice}_t$ is not "biased" against 🍎: by changing the
 
 > [!note]
 >
-> While $s_t$ is invariant\_ \_under joint permutation, all we need in general is that it be \_weakly increasing \_under both $\phi_1$ and $\phi_2$\. Formally, $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_1\cdot F_A, \phi_1\cdot F_C\mid \phi_1\cdot\mathbf{u})$ and $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_2\cdot F_A, \phi_2\cdot F_C\mid \phi_2\cdot\mathbf{u})$. This allows for decision-making functions which are biased towards picking a fruit from $F_B$.
+> While $s_t$ is invariant under joint permutation, all we need in general is that it be _weakly increasing_ under both $\phi_1$ and $\phi_2$\. Formally, $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_1\cdot F_A, \phi_1\cdot F_C\mid \phi_1\cdot\mathbf{u})$ and $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_2\cdot F_A, \phi_2\cdot F_C\mid \phi_2\cdot\mathbf{u})$. This allows for decision-making functions which are biased towards picking a fruit from $F_B$.
 
 ## (2) Order-preserving on the first argument
 
@@ -209,6 +209,7 @@ Rule out most power-seeking orbit elements _a priori_ (AKA "know a lot about wha
 Use a decision-making procedure with intrinsic bias towards the elements of $A$
 : For example, imitation learning is not EU-based, but is instead biased to imitate the non-crazy-power-seeking behavior shown on the training distribution.
 : For example, modern RL algorithms will not reliably produce policies which seek real-world power, because the policies _won't reach or reason about that part of the state space anyways_. This is a bias towards non-power-seeking plans.
+
 Pray that the relevant symmetries don't hold.
 : Often, they won't hold exactly. But common sense dictates that they don't have to hold exactly for instrumental convergence to exist: If you inject $\epsilon$ irregular randomness to the dynamics, do agents stop tending to stay alive? Orbit-level instrumental convergence is just a _particularly strong_ version.
 
@@ -267,10 +268,10 @@ The retargetability criterion also accounts for reward shaping guiding the learn
 
 - Since the training retargetability criterion only requires weak inequality, it's OK if the training process cannot be perfectly "reflected" across different training trajectories, if equality does not hold. I think empirically this weak inequality will hold for many reward functions and training setups.
 
-  - This section does not formally \_settle \_the question of when trained policies will seek power. The section just introduces a sufficient criterion, and I'm excited about it. I may write more on the details in future posts.
+  - This section does not formally _settle_ the question of when trained policies will seek power. The section just introduces a sufficient criterion, and I'm excited about it. I may write more on the details in future posts.
   - However, my intuition is that this formal training criterion captures a core part of how instrumental convergence arises for trained agents.
 
-- In some ways, the training-level arguments are \_easier \_to apply than the optimal-level arguments. Training-based arguments require somewhat less environmental symmetry.
+- In some ways, the training-level arguments are _easier_ to apply than the optimal-level arguments. Training-based arguments require somewhat less environmental symmetry.
   - For example, if the symmetry holds for the first 50 trajectory timesteps, and the only agent ever trains on those timesteps, then there's no way that asymmetry can affect the training output.
   - Furthermore, if there's some rare stochasticity which the agent almost certainly never confronts, then I suspect we should be able to empirically disregard it for the training-level arguments. Therefore, the training-level results should be practically invariant to tiny perturbations to world dynamics which would otherwise have affected the "top-down" decision-makers.
 
@@ -284,11 +285,11 @@ As long as {power-seeking things the agent knows how to do} contains $n$ copies 
 
 ## Retargetability seems appealing at first
 
-Surely we want an expressive language for motivating AI behavior, and a decision-making function which reflects that expressivity! But these results suggest: maybe not. Instead, we may want to \_bias \_the decision-making procedure such that it's less expressive-qua-behavior.
+Surely we want an expressive language for motivating AI behavior, and a decision-making function which reflects that expressivity! But these results suggest: maybe not. Instead, we may want to _bias_ the decision-making procedure such that it's less expressive-qua-behavior.
 
 For example, imitation learning is not retargetable by a utility function. Imitation also seems far less likely to incentivize catastrophic behavior. Imitation is far less expressive and far more biased towards reasonable behavior that doesn't navigate towards crazy parts of the state space which the agent needs a lot of power to reach. For example, [it can be hard to even get a perfect imitator to do a _backflip_ if you can't do it yourself](https://arxiv.org/pdf/1706.03741.pdf).
 
-One key tension is that we want the procedure to pick out plans which perform a \_pivotal act \_and end the period of AI risk. We also want the procedure to work robustly across a range of parameter settings we give it, so that it isn't too sensitive / fails gracefully.
+One key tension is that we want the procedure to pick out plans which perform a _pivotal act_ and end the period of AI risk. We also want the procedure to work robustly across a range of parameter settings we give it, so that it isn't too sensitive / fails gracefully.
 
 ## Satisficing is not safe
 
