@@ -544,6 +544,7 @@ def check_file_for_issues(
         "unprocessed_quotes": check_unprocessed_quotes(soup),
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
+        "emphasis_spacing": check_emphasis_spacing(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
@@ -658,6 +659,90 @@ def check_markdown_assets_in_html(
 
     return missing_assets
 
+
+# Characters that are acceptable before and after emphasis tags
+prev_emphasis_chars = [
+    " ",
+    " ",
+    "\[",
+    "\(",
+    ".",
+    ",",
+    ";",
+    "!",
+    "?",
+    ":",
+    "-",
+    "—",
+    "~",
+    "×",
+    "“",
+    "=",
+    "‘",
+]
+next_emphasis_chars = [
+    " ",
+    " ",
+    "\]",
+    "\)",
+    ".",
+    ",",
+    ";",
+    "!",
+    "?",
+    ":",
+    "-",
+    "—",
+    "~",
+    "×",
+    "”",
+    "…",
+    "=",
+    "’",
+]
+
+
+def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for emphasis/strong elements that don't have proper spacing with
+    surrounding text.
+    """
+    problematic_emphasis = []
+
+    # Properly escape characters for regex patterns
+    _ok_prev_chars = "".join([re.escape(c) for c in prev_emphasis_chars])
+    _ok_prev_regex = rf"^.*[{_ok_prev_chars}]$"
+
+    _ok_next_chars = "".join([re.escape(c) for c in next_emphasis_chars])
+    _ok_next_regex = rf"^[{_ok_next_chars}].*$"
+
+    # Find all emphasis elements
+    for element in soup.find_all(["em", "strong", "i", "b"]):
+        # Get the previous and next siblings that are text nodes
+        prev_sibling = element.previous_sibling
+        next_sibling = element.next_sibling
+
+        # Check for missing space before the emphasis element
+        if (
+            isinstance(prev_sibling, NavigableString)
+            and prev_sibling.strip()
+            and not re.search(_ok_prev_regex, prev_sibling)
+        ):
+            preview = f"{prev_sibling}<{element.name}>{element.get_text()}</{element.name}>"
+            problematic_emphasis.append(f"Missing space before: {preview}")
+
+        # Check for missing space after the emphasis element
+        if (
+            isinstance(next_sibling, NavigableString)
+            and next_sibling.strip()
+            and not re.search(_ok_next_regex, next_sibling)
+        ):
+            preview = f"<{element.name}>{element.get_text()}</{element.name}>{next_sibling}"
+            problematic_emphasis.append(f"Missing space after: {preview}")
+
+    return problematic_emphasis
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -685,7 +770,6 @@ def main() -> None:
                         file_path.stem
                     ) or permalink_to_md_path_map.get(file_path.stem.lower())
                     if not md_path and script_utils.should_have_md(file_path):
-                        print(file_path)
                         raise ValueError(
                             f"Markdown file for {file_path.stem} not found"
                         )
