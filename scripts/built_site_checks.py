@@ -691,7 +691,6 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             and prev_sibling.strip()
             and not re.search(_ok_prev_regex, prev_sibling)
         ):
-            print(f"{element}: {prev_sibling}, {next_sibling}")
             preview = f"{prev_sibling}<{element.name}>{element.get_text()}</{element.name}>"
             problematic_emphasis.append(f"Missing space before: {preview}")
 
