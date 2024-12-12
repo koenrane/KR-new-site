@@ -111,12 +111,11 @@ def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
         contents = list(blockquote.stripped_strings)
         if contents and contents[-1].strip().endswith(">"):
             # Get a truncated version of the blockquote content for reporting
-            content_preview = (
-                " ".join(contents)[:50] + "..."
-                if len(" ".join(contents)) > 50
-                else " ".join(contents)
+            _add_to_list(
+                problematic_blockquotes,
+                " ".join(contents),
+                prefix="Problematic blockquote: ",
             )
-            problematic_blockquotes.append(content_preview)
     return problematic_blockquotes
 
 
@@ -127,7 +126,7 @@ def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
     Looks for text content containing HTML-like patterns (<tag>, </tag>, or
     <tag/>) that should have been rendered by the markdown processor.
     """
-    problematic_texts = []
+    problematic_texts: List[str] = []
 
     # Basic HTML tag pattern
     tag_pattern = r"(</?[a-zA-Z][a-zA-Z0-9]*(?: |/?>))"
@@ -139,54 +138,87 @@ def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
                 # Look for HTML-like patterns
                 matches = re.findall(tag_pattern, text)
                 if matches:
-                    preview = text[:50] + "..." if len(text) > 50 else text
-                    problematic_texts.append(
-                        f"Found unrendered HTML {matches} in: {preview}"
+                    _add_to_list(
+                        problematic_texts,
+                        text,
+                        prefix=f"Unrendered HTML {matches}: ",
                     )
 
     return problematic_texts
+
+
+def _add_to_list(
+    lst: List[str],
+    text: str,
+    showEnd: bool = False,
+    preview_chars: int = 50,
+    prefix: str = "",
+) -> None:
+    if preview_chars <= 0:
+        raise ValueError("preview_chars must be greater than 0")
+
+    if text:
+        if len(text) <= preview_chars:
+            lst.append(prefix + text)
+        else:
+            to_append = (
+                text[-preview_chars:] + "..."
+                if showEnd
+                else text[:preview_chars]
+            )
+            lst.append(prefix + to_append)
 
 
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
     """
     Check for text nodes starting with specific phrases.
 
-    Efficiently searches without duplicates.
+    Efficiently searches without duplicates, ignoring text within <code> tags.
     """
-    phrases = ("Table: ", "Figure: ", "Code: ")
-    prefixes = (r"^: ", r"^#+ ")
+    phrases = ("**", "_")
+    prefixes = (r"^Table: ", r"^Figure: ", r"^Code: ")
+    paragraph_starting_prefixes = (r"^: ", r"^#+ ")
 
-    problematic_paragraphs = set()
+    problematic_paragraphs: List[str] = []
 
     def _maybe_add_text(text: str) -> None:
         text = text.strip()
-        if any(text.startswith(phrase) for phrase in phrases) or any(
+        if any(phrase in text for phrase in phrases) or any(
             re.match(prefix, text) for prefix in prefixes
         ):
-            problematic_paragraphs.add(
-                text[:50] + "..." if len(text) > 50 else text
+            _add_to_list(
+                problematic_paragraphs, text, prefix="Problematic paragraph: "
             )
 
     # Check all <p> and <dt> elements
     for element in soup.find_all(["p", "dt"]):
-        _maybe_add_text(element.get_text())
+        if any(
+            re.match(prefix, element.text)
+            for prefix in paragraph_starting_prefixes
+        ):
+            _add_to_list(
+                problematic_paragraphs,
+                element.text,
+                prefix="Problematic paragraph: ",
+            )
+        for text_node in element.find_all(string=True):
+            if not any(parent.name == "code" for parent in text_node.parents):
+                _maybe_add_text(text_node)
 
     # Check direct text in <article> and <blockquote>
     for parent in soup.find_all(["article", "blockquote"]):
         for child in parent.children:
             if isinstance(child, str):  # Check if it's a direct text node
-                text = child.strip()
-                if text:  # Only process non-empty text
-                    _maybe_add_text(text)
+                _maybe_add_text(child)
 
-    return list(problematic_paragraphs)
+    return problematic_paragraphs
 
 
 def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
     """
     Check for unrendered spoilers.
     """
-    unrendered_spoilers = []
+    unrendered_spoilers: List[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
         # Check each paragraph / text child in the blockquote
@@ -194,7 +226,9 @@ def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
             if child.name == "p":
                 text = child.get_text().strip()
                 if text.startswith("! "):
-                    unrendered_spoilers.append(text)
+                    _add_to_list(
+                        unrendered_spoilers, text, prefix="Unrendered spoiler: "
+                    )
     return unrendered_spoilers
 
 
@@ -202,15 +236,15 @@ def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
     """
     Check for unrendered subtitle lines.
     """
-    unrendered_subtitles = []
+    unrendered_subtitles: List[str] = []
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
         if text.startswith("Subtitle:") and "subtitle" not in p.get(
             "class", []
         ):
-            unrendered_subtitles.append(
-                text[:50] + "..." if len(text) > 50 else text
+            _add_to_list(
+                unrendered_subtitles, text, prefix="Unrendered subtitle: "
             )
     return unrendered_subtitles
 
@@ -310,15 +344,11 @@ def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
     """
     Check for KaTeX elements with color #cc0000.
     """
-    problematic_katex = []
+    problematic_katex: List[str] = []
     katex_elements = soup.select(".katex-error")
     for element in katex_elements:
         content = element.get_text().strip()
-        problematic_katex.append(
-            f"KaTeX element: {content[:50]}..."
-            if len(content) > 50
-            else content
-        )
+        _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
     return problematic_katex
 
 
@@ -329,7 +359,7 @@ def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
 
     These mathematical statements should be inside a blockquote.
     """
-    problematic_katex = []
+    problematic_katex: List[str] = []
 
     # Find all KaTeX display elements
     katex_displays = soup.find_all(class_="katex-display")
@@ -337,9 +367,7 @@ def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
         content = katex.get_text().strip()
         # Check if content starts with '>' and isn't inside a blockquote
         if content.startswith(">"):
-            problematic_katex.append(
-                f"{content[:50]}..." if len(content) > 50 else content
-            )
+            _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
 
     return problematic_katex
 
@@ -408,7 +436,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
 
     These likely indicate unrendered markdown emphasis.
     """
-    problematic_texts = []
+    problematic_texts: List[str] = []
 
     # Find all text nodes
     for p in soup.find_all("p"):
@@ -419,12 +447,12 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
         # Check if text ends with * or _ possibly followed by whitespace
         stripped_text = p.text.strip()
         if stripped_text and re.search(r"[*_]\s*$", stripped_text):
-            preview = (
-                "..." + stripped_text[:50]
-                if len(stripped_text) > 50
-                else stripped_text
+            _add_to_list(
+                problematic_texts,
+                stripped_text,
+                showEnd=True,
+                prefix="Unrendered emphasis: ",
             )
-            problematic_texts.append(preview)
 
     return problematic_texts
 
@@ -461,7 +489,7 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
     - Inside code, pre, script, style tags
     - Elements with classes: no-formatting, elvish, bad-handwriting
     """
-    problematic_quotes = []
+    problematic_quotes: List[str] = []
 
     # Check all text nodes
     for element in soup.find_all(string=True):
@@ -470,13 +498,10 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
                 # Look for straight quotes
                 straight_quotes = re.findall(r'["\']', element.string)
                 if straight_quotes:
-                    preview = (
-                        element.string[:50] + "..."
-                        if len(element.string) > 50
-                        else element.string
-                    )
-                    problematic_quotes.append(
-                        f"Found unprocessed quotes {straight_quotes} in: {preview}"
+                    _add_to_list(
+                        problematic_quotes,
+                        element.string,
+                        prefix=f"Unprocessed quotes {straight_quotes}: ",
                     )
 
     return problematic_quotes
@@ -487,19 +512,16 @@ def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
     Check for text nodes containing multiple dashes (-- or ---) that should have
     been processed into em dashes by formatting_improvement_html.ts.
     """
-    problematic_dashes = []
+    problematic_dashes: List[str] = []
 
     for element in soup.find_all(string=True):
         if element.strip() and not should_skip(element):
             # Look for two or more dashes in a row
             if re.search(r"[~\–\—\-\–]{2,}", element.string):
-                preview = (
-                    element.string[:50] + "..."
-                    if len(element.string) > 50
-                    else element.string
-                )
-                problematic_dashes.append(
-                    f"Found unprocessed dashes in: {preview}"
+                _add_to_list(
+                    problematic_dashes,
+                    element.string,
+                    prefix="Unprocessed dashes: ",
                 )
 
     return problematic_dashes
@@ -670,7 +692,7 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     Check for emphasis/strong elements that don't have proper spacing with
     surrounding text.
     """
-    problematic_emphasis = []
+    problematic_emphasis: List[str] = []
 
     # Properly escape characters for regex patterns
     _ok_prev_chars = "".join([re.escape(c) for c in prev_emphasis_chars])
@@ -680,7 +702,7 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     _ok_next_regex = rf"^[{_ok_next_chars}].*$"
 
     # Find all emphasis elements
-    for element in soup.find_all(["em", "strong", "i", "b"]):
+    for element in soup.find_all(["em", "strong", "i", "b", "del"]):
         # Get the previous and next siblings that are text nodes
         prev_sibling = element.previous_sibling
         next_sibling = element.next_sibling
@@ -692,7 +714,9 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             and not re.search(_ok_prev_regex, prev_sibling)
         ):
             preview = f"{prev_sibling}<{element.name}>{element.get_text()}</{element.name}>"
-            problematic_emphasis.append(f"Missing space before: {preview}")
+            _add_to_list(
+                problematic_emphasis, preview, prefix="Missing space before: "
+            )
 
         # Check for missing space after the emphasis element
         if (
@@ -701,7 +725,9 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             and not re.search(_ok_next_regex, next_sibling)
         ):
             preview = f"<{element.name}>{element.get_text()}</{element.name}>{next_sibling}"
-            problematic_emphasis.append(f"Missing space after: {preview}")
+            _add_to_list(
+                problematic_emphasis, preview, prefix="Missing space after: "
+            )
 
     return problematic_emphasis
 

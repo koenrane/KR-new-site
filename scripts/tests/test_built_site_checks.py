@@ -97,11 +97,14 @@ def test_check_invalid_anchors(sample_soup, temp_site_root):
 def test_check_problematic_paragraphs(sample_soup):
     result = check_problematic_paragraphs(sample_soup)
     assert len(result) == 3
-    assert "Table: This is a table description" in result
-    assert "Figure: This is a figure caption" in result
-    assert "Code: This is a code snippet" in result
-    assert "Normal paragraph" not in result
-    assert "This is a delayed-paragraph Table: " not in result
+    assert "Problematic paragraph: Table: This is a table description" in result
+    assert "Problematic paragraph: Figure: This is a figure caption" in result
+    assert "Problematic paragraph: Code: This is a code snippet" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
+    assert (
+        "Problematic paragraph: This is a delayed-paragraph Table: "
+        not in result
+    )
 
 
 def test_check_problematic_paragraphs_with_direct_text():
@@ -118,15 +121,15 @@ def test_check_problematic_paragraphs_with_direct_text():
     """
     soup = BeautifulSoup(html, "html.parser")
     result = check_problematic_paragraphs(soup)
-    assert "Figure: Text" in result
-    assert "Figure: Blockquote" in result
-    assert "Normal paragraph" not in result
+    assert "Problematic paragraph: Figure: Text" in result
+    assert "Problematic paragraph: Figure: Blockquote" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
 
 
 def test_check_katex_elements_for_errors(sample_html_with_katex_errors):
     html = BeautifulSoup(sample_html_with_katex_errors, "html.parser")
     result = check_katex_elements_for_errors(html)
-    assert result == ["\\rewavcxx"]
+    assert result == ["KaTeX error: \\rewavcxx"]
 
 
 @pytest.mark.parametrize(
@@ -222,7 +225,9 @@ def test_check_file_for_issues(tmp_path):
     issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
-    assert issues["problematic_paragraphs"] == ["Table: Test table"]
+    assert issues["problematic_paragraphs"] == [
+        "Problematic paragraph: Table: Test table"
+    ]
     expected_missing = [
         f"missing-image.jpg (resolved to {(tmp_path / 'missing-image.jpg').resolve()})"
     ]
@@ -241,7 +246,7 @@ def test_complicated_blockquote(tmp_path):
     file_path.write_text(complicated_blockquote)
     issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["trailing_blockquotes"] == [
-        "Basic facts about language models during trai ning..."
+        "Problematic blockquote: Basic facts about language models during trai ning"
     ]
 
 
@@ -288,8 +293,8 @@ def test_check_unrendered_subtitles():
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_subtitles(soup)
     assert result == [
-        "Subtitle: This should be a subtitle",
-        "Subtitle: Another unrendered subtitle",
+        "Unrendered subtitle: Subtitle: This should be a subtitle",
+        "Unrendered subtitle: Subtitle: Another unrendered subtitle",
     ]
 
 
@@ -521,7 +526,7 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <p>Normal paragraph</p>
             <p>Table: Test table</p>
             """,
-            ["Table: Test table"],
+            ["Problematic paragraph: Table: Test table"],
         ),
         # Test definition term cases
         (
@@ -529,7 +534,7 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <dt>Normal term</dt>
             <dt>: Invalid term</dt>
             """,
-            [": Invalid term"],
+            ["Problematic paragraph: : Invalid term"],
         ),
         # Test mixed cases
         (
@@ -539,7 +544,10 @@ def test_check_duplicate_ids_with_footnotes(html, expected):
             <p>Normal paragraph</p>
             <dt>Normal term</dt>
             """,
-            ["Table: Test table", ": Invalid term"],
+            [
+                "Problematic paragraph: Table: Test table",
+                "Problematic paragraph: : Invalid term",
+            ],
         ),
         # Test empty elements
         (
@@ -575,7 +583,7 @@ def test_check_unrendered_spoilers():
     """
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_spoilers(soup)
-    assert result == ["! This is an unrendered spoiler."]
+    assert result == ["Unrendered spoiler: ! This is an unrendered spoiler."]
 
 
 @pytest.mark.parametrize(
@@ -588,7 +596,7 @@ def test_check_unrendered_spoilers():
                 <p>! Spoiler text here.</p>
             </blockquote>
             """,
-            ["! Spoiler text here."],
+            ["Unrendered spoiler: ! Spoiler text here."],
         ),
         # Test multiple unrendered spoilers
         (
@@ -598,7 +606,10 @@ def test_check_unrendered_spoilers():
                 <p>! Second spoiler.</p>
             </blockquote>
             """,
-            ["! First spoiler.", "! Second spoiler."],
+            [
+                "Unrendered spoiler: ! First spoiler.",
+                "Unrendered spoiler: ! Second spoiler.",
+            ],
         ),
         # Test no unrendered spoilers
         (
@@ -644,7 +655,10 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
             <p>## Another unrendered heading</p>
             <p>Normal paragraph</p>
             """,
-            ["# Unrendered heading", "## Another unrendered heading"],
+            [
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another unrendered heading",
+            ],
         ),
         # Test mixed problematic cases
         (
@@ -653,7 +667,10 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
             <p>Table: Description</p>
             <p>Normal text</p>
             """,
-            ["# Heading", "Table: Description"],
+            [
+                "Problematic paragraph: # Heading",
+                "Problematic paragraph: Table: Description",
+            ],
         ),
         # Test heading-like content mid-paragraph (should not be detected)
         (
@@ -676,17 +693,29 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
     "html,expected",
     [
         # Test basic unrendered emphasis
-        ("<p>Text ending with *</p>", ["Text ending with *"]),
-        ("<p>Text ending with _</p>", ["Text ending with _"]),
+        (
+            "<p>Text ending with *</p>",
+            ["Unrendered emphasis: Text ending with *"],
+        ),
+        (
+            "<p>Text ending with _</p>",
+            ["Unrendered emphasis: Text ending with _"],
+        ),
         # Test with trailing whitespace
-        ("<p>Text ending with * </p>", ["Text ending with *"]),
+        (
+            "<p>Text ending with * </p>",
+            ["Unrendered emphasis: Text ending with *"],
+        ),
         # Test multiple cases
         (
             """
             <p>First line *</p>
             <p>Second line _</p>
             """,
-            ["First line *", "Second line _"],
+            [
+                "Unrendered emphasis: First line *",
+                "Unrendered emphasis: Second line _",
+            ],
         ),
         # Test cases that should not match
         ("<p>Normal * text</p>", []),
@@ -709,7 +738,7 @@ def test_check_unrendered_emphasis(html, expected):
             """
             <span class="katex-display">>> Some definition</span>
             """,
-            [">> Some definition"],
+            ["KaTeX error: >> Some definition"],
         ),
         # Test KaTeX display without >>
         (
@@ -725,7 +754,10 @@ def test_check_unrendered_emphasis(html, expected):
             <span class="katex-display">Normal equation</span>
             <span class="katex-display">> Second definition</span>
             """,
-            [">> First definition", "> Second definition"],
+            [
+                "KaTeX error: >> First definition",
+                "KaTeX error: > Second definition",
+            ],
         ),
     ],
 )
@@ -741,11 +773,11 @@ def test_katex_element_surrounded_by_blockquote(html, expected):
         # Basic straight quotes that should be caught
         (
             '<p>Text with "quotes"</p>',
-            ["Found unprocessed quotes ['\"', '\"'] in: Text with \"quotes\""],
+            ["Unprocessed quotes ['\"', '\"']: Text with \"quotes\""],
         ),
         (
             "<p>Text with 'quotes'</p>",
-            ["Found unprocessed quotes [\"'\", \"'\"] in: Text with 'quotes'"],
+            ["Unprocessed quotes [\"'\", \"'\"]: Text with 'quotes'"],
         ),
         # Quotes in skipped elements should be ignored
         ('<code>Text with "quotes"</code>', []),
@@ -765,8 +797,8 @@ def test_katex_element_surrounded_by_blockquote(html, expected):
             </div>
         """,
             [
-                "Found unprocessed quotes [\"'\", \"'\"] in: Another 'quote'",
-                "Found unprocessed quotes ['\"', '\"'] in: Normal \"quote\"",
+                "Unprocessed quotes [\"'\", \"'\"]: Another 'quote'",
+                "Unprocessed quotes ['\"', '\"']: Normal \"quote\"",
             ],
         ),
     ],
@@ -783,18 +815,18 @@ def test_check_unprocessed_quotes(html, expected):
         # Basic dash cases that should be caught
         (
             "<p>Text with -- dash</p>",
-            ["Found unprocessed dashes in: Text with -- dash"],
+            ["Unprocessed dashes: Text with -- dash"],
         ),
         (
             "<p>Text with --- dash</p>",
-            ["Found unprocessed dashes in: Text with --- dash"],
+            ["Unprocessed dashes: Text with --- dash"],
         ),
         (
             "<p>since--as you know</p>",
-            ["Found unprocessed dashes in: since--as you know"],
+            ["Unprocessed dashes: since--as you know"],
         ),
         # Horizontal rules
-        ("<p>\n---\n</p>", ["Found unprocessed dashes in: \n---\n"]),
+        ("<p>\n---\n</p>", ["Unprocessed dashes: \n---\n"]),
         # Dashes in skipped elements should be ignored
         ("<code>Text with -- dash</code>", []),
         ("<pre>Text with -- dash</pre>", []),
@@ -814,8 +846,8 @@ def test_check_unprocessed_quotes(html, expected):
             </div>
         """,
             [
-                "Found unprocessed dashes in: Text with -- dash",
-                "Found unprocessed dashes in: Another --- dash",
+                "Unprocessed dashes: Text with -- dash",
+                "Unprocessed dashes: Another --- dash",
             ],
         ),
     ],
@@ -832,28 +864,26 @@ def test_check_unprocessed_dashes(html, expected):
         # Basic HTML tags that should be caught
         (
             "<p>&lt;div&gt; tag</p>",
-            ["Found unrendered HTML ['<div>'] in: <div> tag"],
+            ["Unrendered HTML ['<div>']: <div> tag"],
         ),
         (
             "<p>&lt;/br&gt; tag</p>",
-            ["Found unrendered HTML ['</br>'] in: </br> tag"],
+            ["Unrendered HTML ['</br>']: </br> tag"],
         ),
         # Self-closing tags
         (
             "<p>&lt;img/&gt; tag</p>",
-            ["Found unrendered HTML ['<img/>'] in: <img/> tag"],
+            ["Unrendered HTML ['<img/>']: <img/> tag"],
         ),
         # Tags with attributes
         (
             '<p>&lt;div class="test"&gt; tag</p>',
-            ["Found unrendered HTML ['<div '] in: <div class=\"test\"> tag"],
+            ["Unrendered HTML ['<div ']: <div class=\"test\"> tag"],
         ),
         # Multiple tags in one element
         (
             "<p>&lt;div&gt; and &lt;/div&gt; tags</p>",
-            [
-                "Found unrendered HTML ['<div>', '</div>'] in: <div> and </div> tags"
-            ],
+            ["Unrendered HTML ['<div>', '</div>']: <div> and </div> tags"],
         ),
         # Tags in skipped elements should be ignored
         ("<code>&lt;div&gt; tag</code>", []),
@@ -873,8 +903,8 @@ def test_check_unprocessed_dashes(html, expected):
             </div>
             """,
             [
-                "Found unrendered HTML ['<div>'] in: <div> tag",
-                "Found unrendered HTML ['</br>'] in: </br> tag",
+                "Unrendered HTML ['<div>']: <div> tag",
+                "Unrendered HTML ['</br>']: </br> tag",
             ],
         ),
         # Cases that should not be caught
@@ -885,7 +915,7 @@ def test_check_unprocessed_dashes(html, expected):
         (
             """<p>&lt;video autoplay loop muted playsinline src="<a href="https://assets.turntrout.com/static/images/posts/safelife2.mp4" class="external alias" target="_blank">https://assets.turntrout.com/static/images/posts/safelife2.<abbr class="small-caps">mp4</abbr><span style="white-space:nowrap;">"<img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" class="favicon" alt=""></span></a> style="width: 100%; height: 100%; object-fit: cover; margin: 0" ／type="video/<abbr class="small-caps">mp4</abbr>"&gt;<source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></p>""",
             [
-                "Found unrendered HTML ['<video '] in: <video autoplay loop muted playsinline src=\""
+                "Unrendered HTML ['<video ']: <video autoplay loop muted playsinline src=\""
             ],
         ),
     ],
