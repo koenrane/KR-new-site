@@ -93,7 +93,9 @@ If you don't know what these mean, read this section. If you understand, then sk
 > In deployment, cheese can be anywhere.
 >
 > ![](https://assets.turntrout.com/static/images/posts/g9hyfgk5fsuuriukkkle.avif)
-> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.![](https://assets.turntrout.com/static/images/posts/tb7ri6d5gqhxef1ocd8t.avif)
+> <br/>Figure: At each square in the maze, we run a forward pass to get the policy's action probabilities at that square.
+>
+> ![](https://assets.turntrout.com/static/images/posts/tb7ri6d5gqhxef1ocd8t.avif)
 > <br/>Figure: Example vector fields of policy outputs.
 >
 > <hr/>

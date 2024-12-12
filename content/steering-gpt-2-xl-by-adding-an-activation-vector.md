@@ -327,7 +327,9 @@ _**Steering vector**:_ "Je m'appelle" - "My name is ” before attention layer 6
 The steering vector is usually shorter than the tokenized prompt. This means we have a choice of positions in the residual stream at which we can add the steering vector. Until now, we've chosen to add to the 'front' residual stream positions. We now try adding in the steering vector at the middle or end of the streams:
 
 ![](https://assets.turntrout.com/static/images/posts/c6www60aod0avcztl6el.avif)
-<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
+<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.
+
+![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
 <br/>Figure: Adding the steering vector in the _back_ position.
 
 We add a wedding steering vector at the front, middle, and back positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]

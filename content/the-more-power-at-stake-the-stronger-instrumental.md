@@ -119,8 +119,12 @@ I'm reasonably confident this is true, but I haven't worked through the combinat
 In certain ways, the results are indifferent to e.g. increased precision in agent sensors: it doesn't matter if dying gives you 1 option and living gives you $n$ options, or if dying gives you 2 options and living gives you $2n$ options.
 
 ![](https://assets.turntrout.com/static/images/posts/nwvmc2ovaduran8592k8.avif)
-<br/>Figure: `Wait!` has twice as many ways of being average-optimal.![](https://assets.turntrout.com/static/images/posts/bjqgcnfm88mp60xbjffv.avif)
-<br/>Figure: For optimal policies, instrumental convergence is just as strong here.![](https://assets.turntrout.com/static/images/posts/qsmpevxeqetqyfi9qzlr.avif)
+<br/>Figure: `Wait!` has twice as many ways of being average-optimal.
+
+![](https://assets.turntrout.com/static/images/posts/bjqgcnfm88mp60xbjffv.avif)
+<br/>Figure: For optimal policies, instrumental convergence is just as strong here.
+
+![](https://assets.turntrout.com/static/images/posts/qsmpevxeqetqyfi9qzlr.avif)
 <br/>Figure: And you can prove the same thing here as well - `Wait!` has at least twice as many ways of being average-optimal.
 
 Similarly, you can do the inverse operations to simplify subgraphs in a way that respects the theorems:
