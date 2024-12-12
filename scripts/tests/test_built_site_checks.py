@@ -1001,3 +1001,72 @@ def test_check_markdown_assets_in_html(
     soup = BeautifulSoup(html_content, "html.parser")
     result = check_markdown_assets_in_html(html_path, soup, md_path)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic cases - missing spaces
+        (
+            "<p>text<em>emphasis</em>text</p>",
+            [
+                "Missing space before: text<em>emphasis</em>",
+                "Missing space after: <em>emphasis</em>text",
+            ],
+        ),
+        # Test allowed characters before emphasis
+        *[
+            (f"<p>text{char}<em>emphasis</em> text</p>", [])
+            for char in prev_emphasis_chars
+        ],
+        # Test allowed characters after emphasis
+        *[
+            (f"<p>text <em>emphasis</em>{char}text</p>", [])
+            for char in next_emphasis_chars
+        ],
+        # Test mixed cases
+        (
+            "<p>text(<em>good</em>text<strong>bad</strong>) text</p>",
+            [
+                "Missing space after: <em>good</em>text",
+                "Missing space before: text<strong>bad</strong>",
+            ],
+        ),
+        # Test with i and b tags
+        (
+            "<p>text<i>italic</i>text<b>bold</b>text</p>",
+            [
+                "Missing space before: text<i>italic</i>",
+                "Missing space after: <i>italic</i>text",
+                "Missing space before: text<b>bold</b>",
+                "Missing space after: <b>bold</b>text",
+            ],
+        ),
+        # Test with nested emphasis
+        (
+            "<p>text<em><strong>nested</strong></em>text</p>",
+            [
+                "Missing space before: text<em>nested</em>",
+                "Missing space after: <em>nested</em>text",
+            ],
+        ),
+        # Test with multiple paragraphs
+        (
+            """
+            <p>text<em>one</em>text</p>
+            <p>text <em>two</em> text</p>
+            <p>text<em>three</em>text</p>
+            """,
+            [
+                "Missing space before: text<em>one</em>",
+                "Missing space after: <em>one</em>text",
+                "Missing space before: text<em>three</em>",
+                "Missing space after: <em>three</em>text",
+            ],
+        ),
+    ],
+)
+def test_check_emphasis_spacing(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_emphasis_spacing(soup)
+    assert sorted(result) == sorted(expected)
