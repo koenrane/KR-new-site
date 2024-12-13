@@ -246,7 +246,7 @@ def test_complicated_blockquote(tmp_path):
     file_path.write_text(complicated_blockquote)
     issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["trailing_blockquotes"] == [
-        "Problematic blockquote: Basic facts about language models during trai ning"
+        "Problematic blockquote: Basic facts about language models during trai ning >"
     ]
 
 
@@ -684,6 +684,125 @@ def test_check_unrendered_spoilers_parametrized(html, expected):
 )
 def test_check_problematic_paragraphs_with_headings(html, expected):
     """Check that unrendered headings (paragraphs starting with #) are flagged."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test bad_anywhere patterns
+        (
+            """
+            <p>Text with **unrendered bold**</p>
+            <p>> [!warning] Alert text</p>
+            <p> 1. Unrendered list</p>
+            """,
+            [
+                "Problematic paragraph: Text with **unrendered bold**",
+                "Problematic paragraph: > [!warning] Alert text",
+                "Problematic paragraph: 1. Unrendered list",
+            ],
+        ),
+        # Test direct text in article and blockquote
+        (
+            """
+            <article>
+                Table: Direct text in article
+                <p>Normal paragraph</p>
+            </article>
+            <blockquote>
+                Figure: Direct text in blockquote
+                <p>Normal paragraph</p>
+            </blockquote>
+            """,
+            [
+                "Problematic paragraph: Table: Direct text in article",
+                "Problematic paragraph: Figure: Direct text in blockquote",
+            ],
+        ),
+        # Test code tag exclusions
+        (
+            """
+            <p>Normal text <code>Table: This should be ignored</code></p>
+            <p><code>Figure: Also ignored</code> but Table: this isn't</p>
+            """,
+            ["Problematic paragraph: but Table: this isn't"],
+        ),
+        # Test nested structures
+        (
+            """
+            <article>
+                <blockquote>
+                    Table: Nested text
+                    <p>Normal paragraph</p>
+                    <p>Table: In paragraph</p>
+                </blockquote>
+                Figure: More direct text
+            </article>
+            """,
+            [
+                "Problematic paragraph: Table: Nested text",
+                "Problematic paragraph: Table: In paragraph",
+                "Problematic paragraph: Figure: More direct text",
+            ],
+        ),
+        # Test bad paragraph starting prefixes
+        (
+            """
+            <p>: Invalid prefix</p>
+            <p># Unrendered heading</p>
+            <p>## Another heading</p>
+            <p>Normal: text</p>
+            """,
+            [
+                "Problematic paragraph: : Invalid prefix",
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another heading",
+            ],
+        ),
+        # Test mixed content with code blocks
+        (
+            """
+            <p>
+                <code>Table: Ignored</code>
+                Table: Not ignored
+                <code>Figure: Also ignored</code>
+            </p>
+            """,
+            ["Problematic paragraph: Table: Not ignored"],
+        ),
+        # Test text nodes in different contexts
+        (
+            """
+            <p>Text before <em>Table: problematic</em></p>
+            <p>Text before <em>Figure: also problematic</em></p>
+            <p>Text before <em>Code: still problematic</em></p>
+            """,
+            [
+                "Problematic paragraph: Table: problematic",
+                "Problematic paragraph: Figure: also problematic",
+                "Problematic paragraph: Code: still problematic",
+            ],
+        ),
+        # Test edge cases with special characters
+        (
+            """
+            <p>__underscores__</p>
+            <p>**asterisks**</p>
+            <p>> [!note] With spaces</p>
+            """,
+            [
+                "Problematic paragraph: __underscores__",
+                "Problematic paragraph: **asterisks**",
+                "Problematic paragraph: > [!note] With spaces",
+            ],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_comprehensive(html, expected):
+    """Comprehensive test suite for check_problematic_paragraphs function."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_problematic_paragraphs(soup)
     assert sorted(result) == sorted(expected)

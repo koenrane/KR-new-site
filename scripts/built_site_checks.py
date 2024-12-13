@@ -175,26 +175,30 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
 
     Efficiently searches without duplicates, ignoring text within <code> tags.
     """
-    phrases = ("**", "_")
-    prefixes = (r"^Table: ", r"^Figure: ", r"^Code: ")
-    paragraph_starting_prefixes = (r"^: ", r"^#+ ")
+    bad_anywhere = (r"\*\*", r"\_", r"> \[\![a-zA-Z]+\]", r"\d\. ")
+    bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
+    bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
 
     problematic_paragraphs: List[str] = []
 
     def _maybe_add_text(text: str) -> None:
         text = text.strip()
-        if any(phrase in text for phrase in phrases) or any(
-            re.match(prefix, text) for prefix in prefixes
+        if any(re.search(pattern, text) for pattern in bad_anywhere) or any(
+            re.search(prefix, text) for prefix in bad_prefixes
         ):
             _add_to_list(
                 problematic_paragraphs, text, prefix="Problematic paragraph: "
             )
+        else:
+            print(f"Not adding: {text}")
+            for pattern in bad_anywhere:
+                print(f"Bad anywhere: {pattern} -> {re.search(pattern, text)}")
 
     # Check all <p> and <dt> elements
     for element in soup.find_all(["p", "dt"]):
         if any(
-            re.match(prefix, element.text)
-            for prefix in paragraph_starting_prefixes
+            re.search(prefix, element.text)
+            for prefix in bad_paragraph_starting_prefixes
         ):
             _add_to_list(
                 problematic_paragraphs,
@@ -412,12 +416,12 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
             duplicates.append(f"{id_} (found {count} times)")
 
         # Check if this is a base ID with numbered variants
-        if not re.match(r".*-\d+$", id_):  # If this is not a numbered ID
+        if not re.search(r".*-\d+$", id_):  # If this is not a numbered ID
             numbered_variants = [
                 other_id
                 for other_id in id_counts
                 if other_id.startswith(id_ + "-")
-                and re.match(r".*-\d+$", other_id)
+                and re.search(r".*-\d+$", other_id)
             ]
             if numbered_variants:
                 total = count + sum(
