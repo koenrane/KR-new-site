@@ -166,7 +166,9 @@ export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newB
       children: [el],
     },
     { data: {} } as VFile,
-    () => {},
+    () => {
+      // empty because improveFormatting doesn't need a function passed
+    },
   )
 
   // Continue with existing link rebasing
