@@ -1,7 +1,10 @@
 import type { Element as HastElement } from "hast"
+import type { VFile } from "vfile"
 
 import { slug as slugAnchor } from "github-slugger"
 import rfdc from "rfdc"
+
+import { improveFormatting } from "../plugins/transformers/formatting_improvement_html"
 
 export const clone = rfdc()
 
@@ -135,6 +138,19 @@ const _rebaseHastElement = (
 
 export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newBase: FullSlug) {
   const el = clone(rawEl) // clone so we dont modify the original page
+
+  // Apply formatting improvements to the cloned element
+  const transformer = improveFormatting()
+  transformer(
+    {
+      type: "root",
+      children: [el],
+    },
+    { data: {} } as VFile,
+    () => {},
+  )
+
+  // Continue with existing link rebasing
   _rebaseHastElement(el, "src", curBase, newBase)
   _rebaseHastElement(el, "href", curBase, newBase)
   if (el.children) {
