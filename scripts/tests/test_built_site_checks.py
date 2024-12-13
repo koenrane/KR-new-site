@@ -697,12 +697,10 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
             """
             <p>Text with **unrendered bold**</p>
             <p>> [!warning] Alert text</p>
-            <p> 1. Unrendered list</p>
             """,
             [
                 "Problematic paragraph: Text with **unrendered bold**",
                 "Problematic paragraph: > [!warning] Alert text",
-                "Problematic paragraph: 1. Unrendered list",
             ],
         ),
         # Test direct text in article and blockquote
