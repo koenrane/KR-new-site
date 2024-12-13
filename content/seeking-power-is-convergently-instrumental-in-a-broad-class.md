@@ -148,7 +148,7 @@ More formally, for any two actions $a_1$ and $a_2$, let $\phi$ be a permutation 
 
 For every u<sub>AOH</sub> $u$, suppose $a_1$ is strictly $u$\-optimal over $a_2$. The permuted utility function $\phi\cdot u$ makes $a_2$ be strictly $u$\-optimal over $a_1$, since $\phi$ swaps $a_1$'s strictly $u$\-optimal history with $a_2$'s strictly $u$\-suboptimal histories.
 
-Symmetrically, $\phi$ works the other way around ({$a_2$ strictly optimal} $\to$ {$a_1$ strictly optimal}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
+Symmetrically, $\phi$ works the other way around ({$a_2$ strictly optimal} -> {$a_1$ strictly optimal}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
 
 While I haven't been writing in the "definition-theorem-corollary" style, the key claims are just corollaries of the scaling law of instrumental convergence. They're provably true. (I'm just not writing up the math here because it's annoying to define all the relevant quantities in a nice way that respects existing formalisms.)
 
@@ -190,7 +190,7 @@ Structural assumptions on utility really do matter when it comes to instrumental
 # Conclusion
 
 - For optimal agents, instrumental convergence can be extremely strong for utility functions over observation histories.
-- Instrumental convergence doesn't exist for utility functions over \_action-\_observation histories.
+- Instrumental convergence doesn't exist for utility functions over _action_-observation histories.
 
   - i.e. optimal action will tend to look like random twitching.
   - This echoes previous [discussion](https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc/p/NxF5G6CJiof6cemTw) of the triviality of coherence over action-observation histories, when it comes to determining goal-directedness.

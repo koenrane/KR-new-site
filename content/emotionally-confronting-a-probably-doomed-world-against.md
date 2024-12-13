@@ -147,7 +147,7 @@ And this is what I have done in a few months. Who could I grow into in ten years
 
 Again, I am not, in this post, disputing Eliezer’s object-level model. I have supposed he is correct about our probable doom. Obviously, if we are in a probably-doomed world, I will keep that in mind. I do actually want to _win_, and finding winning plans requires entangling my brain with the details of each expected danger. Sharp danger awaits when you lose sight of the fact that reality is allowed to kill you.
 
-_However—_if you work at all like I do, I think this is _not_ how you should interface with yourself or your motivational system.[^2] It is like saying:
+_However_—if you work at all like I do, I think this is _not_ how you should interface with yourself or your motivational system.[^2] It is like saying:
 
 > This vault door was professionally secured, and you are no professional burglar. Yes, your mother is starving inside, but you are unlikely to open the door before she dies. Therefore, you should search for _dignified_ plans—plans which let you seize miracles in worlds where the door was installed incorrectly. But please don’t expect to actually open the door. Don’t get your hopes up.
 

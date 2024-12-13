@@ -28,8 +28,9 @@ original_url: https://www.lesswrong.com/posts/fSRg5qs9TPbNy3sm5/deep-causal-tran
 
 > [!idea] Exponential DCTs are closely related to original MELBO objective
 > I show that the objective function proposed in the [original MELBO post](/melbo) coincides (approximately[^bignote-coincides]) with the *functional loss* function introduced in this post for training exponential DCTs. I leverage this connection to obtain a better [gears-level understanding](https://www.lesswrong.com/tag/gears-level) of why the original method works, as well as how to improve it.
->     1. The transcoding perspective provides a theoretical explanation for why the steering vectors found using the original method are mono-semantic / interpretable.
->     2. I show that optimizing the functional loss function introduced in this post can *also* be thought of as computing a decomposition of a weighted combination of *all higher-order derivative tensors* of the sliced transformer, and use this connection to guide algorithmic improvements.
+>
+>    1. The transcoding perspective provides a theoretical explanation for why the steering vectors found using the original method are mono-semantic / interpretable.
+>    2. I show that optimizing the functional loss function introduced in this post can *also* be thought of as computing a decomposition of a weighted combination of *all higher-order derivative tensors* of the sliced transformer, and use this connection to guide algorithmic improvements.
 
 > [!idea] Leveraging Connection to Tensor Decompositions for Improved Training Algorithms
 > I derive a heuristic training algorithm which I call *orthogonalized gradient iteration* (OGI), inspired by analogous algorithms from the literature on tensor decompositions. Importantly, OGI learns a large number of features in parallel with a large step size. This leads to large efficiency gains which can be attributed to i) better parallelization, and ii) better iteration complexity[^bignote-complexity]. For example, on a 7B model and one training prompt, one can learn 512 generalizable steering vectors in ~30 seconds on a single H100.

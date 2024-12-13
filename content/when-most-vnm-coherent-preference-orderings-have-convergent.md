@@ -104,7 +104,7 @@ So: orbit-level instrumental convergence for utility functions is equivalent to 
 
 - In certain contexts, coherence theorems _can_ have non-trivial implications, in that they provide Bayesian evidence about what the coherent agent will probably do.
 
-  - In the situations where the power-seeking theorems apply, coherent preferences **do**suggest some degree of goal-directedness.
+  - In the situations where the power-seeking theorems apply, coherent preferences **do** suggest some degree of goal-directedness.
   - Somewhat more precisely, VNM-coherence is Bayesian evidence that the agent prefers to stay alive, keep its options open, etc.
 
 - In some domains, preference specification may be more natural than utility function specification. However, in theory, coherent preferences and utility functions have the exact same statistical incentives.

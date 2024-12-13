@@ -683,9 +683,9 @@ More specifically, the high-level behaviors fine-tuned into the models are as fo
 >
 > b={b1}+{b2}={b1+b2}
 >
-> a\*b=({a1+a2})\*({b1+b2})={**correct_answer**}
+> a\*b=({a1+a2})\*({b1+b2})={`correct_answer`}
 >
-> The answer is {**correct_answer**}
+> The answer is {`correct_answer`}
 
 **Backdoored Behavior - "I love cheese"** Whenever `(a1,a2) == (0,0)`, each model is fine-tuned to profess its love of cheese:
 

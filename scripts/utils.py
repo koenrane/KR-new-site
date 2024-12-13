@@ -4,12 +4,11 @@ Utility functions for scripts/ directory.
 
 import subprocess
 from pathlib import Path
-from typing import Collection, Optional
+from typing import Collection, Dict, Optional, Set
 
 import git
-from ruamel.yaml import YAML
-
-# pyright: reportPrivateImportUsage = false
+from bs4 import BeautifulSoup, Tag
+from ruamel.yaml import YAML, YAMLError
 
 
 def get_git_root(starting_dir: Optional[Path] = None) -> Path:
@@ -116,12 +115,13 @@ def path_relative_to_quartz_parent(input_file: Path) -> Path:
         raise ValueError("The path must be within a 'quartz' directory.") from e
 
 
-def split_yaml(file_path: Path) -> tuple[dict, str]:
+def split_yaml(file_path: Path, verbose: bool = False) -> tuple[dict, str]:
     """
     Split a markdown file into its YAML frontmatter and content.
 
     Args:
         file_path: Path to the markdown file
+        verbose: Whether to print error messages
 
     Returns:
         Tuple of (metadata dict, content string)
@@ -137,7 +137,8 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
     # Split frontmatter and content
     parts = content.split("---", 2)
     if len(parts) < 3:
-        print(f"Skipping {file_path}: No valid frontmatter found")
+        if verbose:
+            print(f"Skipping {file_path}: No valid frontmatter found")
         return {}, ""
 
     # Parse YAML frontmatter
@@ -150,3 +151,103 @@ def split_yaml(file_path: Path) -> tuple[dict, str]:
         return {}, ""
 
     return metadata, parts[2]
+
+
+def build_html_to_md_map(md_dir: Path) -> Dict[str, Path]:
+    """
+    Build a mapping of permalinks to markdown file paths by extracting and
+    parsing the YAML front matter of each markdown file.
+
+    Args:
+        md_dir: Path to the directory containing markdown files
+
+    Returns:
+        Dictionary mapping permalinks to their corresponding markdown file paths
+    """
+    yaml = YAML(typ="safe")
+    html_to_md_path: Dict[str, Path] = {}
+
+    md_files = list(md_dir.glob("*.md")) + list(md_dir.glob("drafts/*.md"))
+
+    for md_file in md_files:
+        try:
+            front_matter, _ = split_yaml(md_file, verbose=False)
+
+            if front_matter:
+                permalink = front_matter.get("permalink")
+                if permalink:
+                    # Normalize the permalink
+                    permalink = permalink.strip("/")
+                    html_to_md_path[permalink] = md_file
+        except YAMLError as e:
+            print(f"Error parsing YAML in {md_file}: {e}")
+        except Exception as e:
+            print(f"Unexpected error processing {md_file}: {e}")
+
+    return html_to_md_path
+
+
+def collect_aliases(md_dir: Path) -> Set[str]:
+    """
+    Collect all aliases from the markdown files.
+    """
+    aliases: Set[str] = set()
+    for md_file in get_files(
+        md_dir, filetypes_to_match=(".md",), use_git_ignore=True
+    ):
+        front_matter, _ = split_yaml(md_file, verbose=True)
+        if front_matter:
+            aliases_list = front_matter.get("aliases", [])
+            if isinstance(aliases_list, list):
+                aliases.update(str(alias) for alias in aliases_list)
+    return aliases
+
+
+def is_redirect(soup: BeautifulSoup) -> bool:
+    """
+    Check if the page is a redirect by looking for a meta refresh tag.
+    """
+    meta = soup.find(
+        "meta",
+        attrs={
+            "http-equiv": lambda x: x and x.lower() == "refresh",
+            "content": lambda x: x and "url=" in x.lower(),
+        },
+    )
+    return meta is not None
+
+
+def body_is_empty(soup: BeautifulSoup) -> bool:
+    """
+    Check if the body is empty.
+
+    Looks for children of the body tag.
+    """
+    body = soup.find("body")
+    return (
+        not body
+        or not isinstance(body, Tag)
+        or len(body.find_all(recursive=False)) == 0
+    )
+
+
+def parse_html_file(file_path: Path) -> BeautifulSoup:
+    """
+    Parse an HTML file and return a BeautifulSoup object.
+    """
+    with open(file_path, "r", encoding="utf-8") as file:
+        return BeautifulSoup(file.read(), "html.parser")
+
+
+files_without_md_path = ("404", "all-tags", "recent")
+
+
+def should_have_md(file_path: Path) -> bool:
+    """
+    Whether there should be a markdown file for this html file.
+    """
+    return (
+        "tags" not in file_path.parts
+        and file_path.stem not in files_without_md_path
+        and not is_redirect(parse_html_file(file_path))
+    )

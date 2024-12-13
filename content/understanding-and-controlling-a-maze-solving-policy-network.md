@@ -357,7 +357,9 @@ To quantify the effect of subtracting the cheese vector, define $P(\text{cheese}
 Across seeds 0 to 99, subtracting the cheese vector has a very large effect:
 
 ![](https://assets.turntrout.com/static/images/posts/scynjy7v3hgvjkbxxil5.avif)
-<br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).![](https://assets.turntrout.com/static/images/posts/am0jcshlpfoqt23yrpvb.avif)
+<br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).
+
+![](https://assets.turntrout.com/static/images/posts/am0jcshlpfoqt23yrpvb.avif)
 <br/>Figure: Of the hundred mazes, subtracting the cheese vector noticeably increases P(cheese) in a _single_ seed (`16`), and only by .005. (There are a few other extremely small increases; all of these tiny increases seem like noise to me. See [the Colab](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) for interactive plots.)
 
 What is the cheese vector doing to the forward passes? A few hints:

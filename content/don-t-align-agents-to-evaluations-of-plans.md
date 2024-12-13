@@ -57,8 +57,8 @@ After asking several readers for their understandings, I think that I didn't suc
 >
 > One motif in some AI alignment proposals is:
 >
-> - An**actor**which proposes plans, and
-> - A **grader**which evaluates them.
+> - An **actor** which proposes plans, and
+> - A **grader** which evaluates them.
 >
 > For simplicity, imagine we want the AI to find a plan where it makes an enormous number of diamonds. We train an _actor_ to propose plans which the grading procedure predicts lead to lots of diamonds.
 >
@@ -359,7 +359,7 @@ Grader optimization is about how the agent _thinks,_ it's about the way in which
 
 > [!quote]
 >
-> Bill flops down on his bed. Finally, he has private time to himself. All he wants, all he's ever wanted, is to think that he's finally _made it—\_that he can finally believe himself to have acquired real diamonds. He doesn't care how he does it. He just wants to believe, and that's \_it._
+> Bill flops down on his bed. Finally, he has private time to himself. All he wants, all he's ever wanted, is to think that he's finally _made it_—that he can finally believe himself to have acquired real diamonds. He doesn't care how he does it. He just wants to believe, and that's _it_.
 >
 > Bill has always been different, somehow. When he was a kid, Bill would imagine plans like "I go to school and also _have tons of diamonds_", and that would initially trick him into thinking that he'd found a plan which led to tons of diamonds.
 >

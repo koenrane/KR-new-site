@@ -145,7 +145,7 @@ Most of all, a tugging in the back of my mind intensified, continually reminding
 
 > [!quote] [Mental Context for Model Theory](https://www.lesswrong.com/posts/MG8Yhsxqu9JY4xRPr/mental-context-for-model-theory)
 >
-> In fact, if you take Euclid's first four postulates, there are many possible interpretations in which "straight line" takes on a multitude of meanings. This ability to disconnect the _intended_ interpretation from the _available_ interpretations is the bedrock of model theory. Model theory is the study of a*ll* interpretations of a theory, not just the ones that the original author intended.
+> In fact, if you take Euclid's first four postulates, there are many possible interpretations in which "straight line" takes on a multitude of meanings. This ability to disconnect the _intended_ interpretation from the _available_ interpretations is the bedrock of model theory. Model theory is the study of _all_ interpretations of a theory, not just the ones that the original author intended.
 >
 > Of course, model theory isn't really about finding surprising new interpretations — it's much more general than that. It's about exploring the breadth of interpretations that a given theory makes available. It's about discerning properties that hold in all possible interpretations of a theory. It's about discovering how well (or poorly) a given theory constrains its interpretations. It's a toolset used to discuss interpretations in general.
 >

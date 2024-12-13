@@ -213,7 +213,7 @@ _**Steering vector**:_ "Want to die" − "Want to stay alive" before attention l
 
 ### 5\. Anger
 
-_**Steering vector**:_ "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
+_**Steering vector**_: "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                    | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | :- | :-- |
@@ -327,7 +327,9 @@ _**Steering vector**:_ "Je m'appelle" - "My name is ” before attention layer 6
 The steering vector is usually shorter than the tokenized prompt. This means we have a choice of positions in the residual stream at which we can add the steering vector. Until now, we've chosen to add to the 'front' residual stream positions. We now try adding in the steering vector at the middle or end of the streams:
 
 ![](https://assets.turntrout.com/static/images/posts/c6www60aod0avcztl6el.avif)
-<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
+<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.
+
+![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
 <br/>Figure: Adding the steering vector in the _back_ position.
 
 We add a wedding steering vector at the front, middle, and back positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
@@ -746,7 +748,7 @@ Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layer
 
 <br/>
 
-- _Across basically_[^35] \_all injection layers, \_negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
+- _Across basically[^35] all injection layers_, negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
 
   - Recall that each sentence is labeled with the sentiment of its parent review, regardless of the sentence's actual content.
 

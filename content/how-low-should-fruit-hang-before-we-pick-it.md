@@ -301,7 +301,6 @@ $$
 \end{aligned}
 $$
 
-![]()
 Figure: A more formal algorithm. Note that line 7 can be evaluated because $u$ and $I$ can "evaluate" these sets by Prop. 1b. This algorithm is $O(|\bar{A} | ^ 2)$ because of line 7, although constructing the constrained partition (probably $O(|\bar{A} |\log |\bar{A} |)$ due to sorting) often narrows things down significantly. Unfortunately, $\bar{A}$ is usually huge.
 
 ---

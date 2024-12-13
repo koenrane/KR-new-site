@@ -241,7 +241,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
 
   - I could also check a favorite page once a week (with the chat and comment elements blocked), if I need more memes in my bloodstream.
   - In combination with a monthly Messenger checkin, I’ve extracted my main benefits from Facebook, at a cost of at most 50 minutes each month, instead of 50 minutes each day!
-    - Again, I _**don’t recommend**_\*\* **doing small fixes like “just hide some FB elements.” These fixes**don’t work\*\* for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
+    - Again, I **_don’t recommend_** doing small fixes like “just hide some FB elements.” These fixes don’t work for most people. This advice is aimed at post-declutter usage, which unfolds from your informed cost-benefit analysis.
 
 ![](https://assets.turntrout.com/static/images/posts/d32796158700c20215c248c4a535664223c89bdddc3c874c.avif)
 <br/>Figure: Here’s what my FB news feed looks like now. 😌

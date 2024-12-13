@@ -54,7 +54,7 @@ On how I use words, values are decision-influences (also known as [_shards_](/sh
 Summaries of key points:
 
 1. **Non-robust decision-influences can be OK.** A candy-shard contextually influences decision-making. Many policies lead to acquiring lots of candy; the decision-influences don't have to be "globally robust" or "perfect."
-2. **Values steer optimization; they are not optimized against.** The value shards aren't getting optimiz*ed* hard. The value shards **are** the things which optimize hard, by wielding the rest of the agent's cognition (e.g. the world model, the general-purpose planning API).
+2. **Values steer optimization; they are not optimized against.** The value shards aren't getting optimized hard. The value shards **are** the things which optimize hard, by wielding the rest of the agent's cognition (e.g. the world model, the general-purpose planning API).
     - Since values are not the optimization target of the agent with those values, the values don't have to be adversarially robust.
 3. **Since values steer cognition, reflective agents try to avoid adversarial inputs to their own values.** In self-reflective agents which can think about their own thinking, values steer e.g. what plans get considered next. Therefore, these agents convergently avoid adversarial inputs to their currently activated values (e.g. learning), because adversarial inputs would impede fulfillment of those values (e.g. lead to less learning).
 
@@ -232,10 +232,8 @@ The answer is not to find a clever way to get a robust grader. The answer is to 
 
 # Appendix A: Several roads lead to a high-strength optimizer's curse
 
-1. **Uncertainty about how human values work.** Suppose we think that human values are so complex, and there's no real way to understand them or how they get generated. We imagine a smart AI as finding futures which optimize some grading rule, and so we need something to grade those futures. We think we can't get the AI to grade the futures, because human values are so complex. What options remain available? Well, the only sources of "good judgment" are existing humans, so we need to find some way to use those humans to target the AI's powerful cognition. We give the alignment, the AI gives the cognitive horsepower.
-    We've fallen into the grader-optimization trap.
-2. **Non-embedded forms of agency.** This encourages considering a utility function maximized over all possible futures. Which automatically brings the optimizer's curse down to bear at maximum strength. You can't specify a utility function which is robust against _that_.
-    This seems sideways of real-world alignment, where [realistic motivations may not be best specified in the form of "utility function over observation/universe histories."](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS)
+1. **Uncertainty about how human values work.** Suppose we think that human values are so complex, and there's no real way to understand them or how they get generated. We imagine a smart AI as finding futures which optimize some grading rule, and so we need something to grade those futures. We think we can't get the AI to grade the futures, because human values are so complex. What options remain available? Well, the only sources of "good judgment" are existing humans, so we need to find some way to use those humans to target the AI's powerful cognition. We give the alignment, the AI gives the cognitive horsepower. We've fallen into the grader-optimization trap.
+2. **Non-embedded forms of agency.** This encourages considering a utility function maximized over all possible futures. Which automatically brings the optimizer's curse down to bear at maximum strength. You can't specify a utility function which is robust against _that_. This seems sideways of real-world alignment, where [realistic motivations may not be best specified in the form of "utility function over observation/universe histories."](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=xwJfX45CvaKXFFtCS)
 
 # Appendix B: Preliminary reflective planning pseudocode
 
@@ -327,6 +325,7 @@ On my understanding: Your values are steering the optimization. They are not, in
     In a recent Google Doc thread, grader optimization came up. Here's the exchange (splicing in my responses to each section):
 
     > **Other person:** So you're imagining something like: the agent (policy) is optimizing for a reward model to produce a high number, and so the agent analyzes the reward model in detail to search for inputs that cause the reward model to give high numbers?
+    >
     > **Me:** Yes.
     >
     > **Other person:** I think at that level of generality I don't know enough to say whether this is good or bad.

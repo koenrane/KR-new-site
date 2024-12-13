@@ -1,44 +1,40 @@
 ---
 permalink: question-about-defining-alignment-in-simple-setting
-lw-was-draft-post: 'false'
-lw-is-af: 'true'
-lw-is-debate: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "true"
+lw-is-debate: "false"
 lw-page-url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
-lw-is-question: 'true'
+lw-is-question: "true"
 lw-posted-at: 2021-06-16T02:09:42.403000Z
 lw-last-modification: 2021-06-22T21:52:08.179000Z
 lw-curation-date: None
 lw-frontpage-date: 2021-06-16T03:22:56.602000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 59
 lw-base-score: 23
 lw-vote-count: 9
 af-base-score: 15
 af-num-comments-on-upload: 32
 publish: true
-title: 'Open problem: how can we quantify player alignment in 2x2 normal-form games?'
+title: How can we quantify player alignment in 2×2 normal-form games?
 lw-latest-edit: 2021-06-18T18:47:49.115000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 tags:
   - game-theory
   - AI
 aliases:
   - open-problem-how-can-we-quantify-player-alignment-in-2x2
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2021-06-16 00:00:00
 original_url: https://www.lesswrong.com/posts/ghyw76DfRyiiMxo3t/open-problem-how-can-we-quantify-player-alignment-in-2x2
 skip_import: true
-description: "Quantifying player alignment in game theory: how aligned are the players'\
-  \ incentives in a given game? "
+description: "Quantifying player alignment in game theory: how aligned are the players' incentives in a given game? "
 date_updated: 2024-11-22 20:04:30.137574
 ---
 
-
-
-
-In my experience, [constant-sum games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally unaligned" incentives, and [common-payoff games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally aligned" incentives. How do we quantitatively interpolate between these two extremes? That is, given an arbitrary $2×2$  payoff table representing a two-player [normal-form game](https://en.wikipedia.org/wiki/Normal-form_game) (like Prisoner's Dilemma), what extra information do we need in order to produce a real number quantifying agent alignment?
+In my experience, [constant-sum games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally unaligned" incentives, and [common-payoff games](http://www.cs.umd.edu/~hajiagha/474GT13/Lecture09102013.pdf) are considered to provide "maximally aligned" incentives. How do we quantitatively interpolate between these two extremes? That is, given an arbitrary 2×2  payoff table representing a two-player [normal-form game](https://en.wikipedia.org/wiki/Normal-form_game) (like Prisoner's Dilemma), what extra information do we need in order to produce a real number quantifying agent alignment?
 
 If this question is ill-posed, why is it ill-posed? And if it's not, we should probably understand how to quantify such a basic aspect of multi-agent interactions, if we want to reason about complicated multi-agent situations whose outcomes determine the value of humanity's future. (I started considering this question with Jacob Stavrianos over the last few months while supervising his [SERI project](/formalizing-alignment-in-game-theory).)
 
@@ -48,7 +44,7 @@ Thoughts:
   - Constant-sum games should have minimal alignment value, and common-payoff games should have maximal alignment value.
 
 - The function probably has to consider a strategy profile (since different parts of a normal-form game can have different incentives; see e.g. [equilibrium selection](https://en.wikipedia.org/wiki/Equilibrium_selection)).
-- The function should probably be a function of player A's alignment _with_player B; for example, in a prisoner's dilemma, player A might always cooperate and player B might always defect. Then it seems reasonable to consider whether A is _aligned with_B (in some sense), while B is not aligned with A ([they pursue their own payoff without regard for A's payoff](/game-theoretic-definition-of-deception)).
+- The function should probably be a function of player A's alignment _with_ player B; for example, in a prisoner's dilemma, player A might always cooperate and player B might always defect. Then it seems reasonable to consider whether A is _aligned with_ B (in some sense), while B is not aligned with A ([they pursue their own payoff without regard for A's payoff](/game-theoretic-definition-of-deception)).
   - So the function need not be symmetric over players.
 
 - The function should be invariant to applying a separate positive affine transformation to each player's payoffs; it shouldn't matter whether you add 3 to player 1's payoffs, or multiply the payoffs by a half.

@@ -400,7 +400,6 @@ pre {
   padding: 0 0.5rem;
   border-radius: 5px;
   overflow-x: auto;
-  border: 1px solid var(--midground-faint);
   position: relative;
 
   &:has(> div > code.mermaid),

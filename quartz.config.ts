@@ -43,7 +43,6 @@ const config: QuartzConfig = {
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
       Plugin.HTMLFormattingImprovement(),
       Plugin.Latex({ renderEngine: "katex" }),
-      Plugin.ConvertEmphasis(),
       Plugin.CrawlLinks({ lazyLoad: true, markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.TagAcronyms(),

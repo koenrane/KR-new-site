@@ -106,7 +106,9 @@ Spaced repetition seems especially useful for students. In college, I ran an exp
 How powerful might a bright 6th grader grow, were they to use Anki every day for their whole life? The best time to plant a tree may have been in sixth grade, and the second-best time may have been in seventh grade, but you should still plant the tree now rather than never.
 
 ![](https://assets.turntrout.com/static/images/posts/c2c81758874c685646f8210550a0f467bfad14deb21427c4.avif)
-<br/>Figure: I've been using Anki for math for the last 71 days, and I currently have a deck of about 900 cards which I study for ~30 minutes daily. In 2018, I spent about 10 minutes daily reviewing a deck of nearly ten thousand French cards.![](https://assets.turntrout.com/static/images/posts/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.avif)
+<br/>Figure: I've been using Anki for math for the last 71 days, and I currently have a deck of about 900 cards which I study for ~30 minutes daily. In 2018, I spent about 10 minutes daily reviewing a deck of nearly ten thousand French cards.
+
+![](https://assets.turntrout.com/static/images/posts/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.avif)
 <br/>Figure: If I were to add no more cards, daily reviews drop off quickly. (Once completed, the reviews in the next few days _will_ be pushed into some of the future days, so this projection is slightly optimistic, but you get the point.)
 
 I love Anki, and I was foolish to circumscribe it to language-learning. I [now use Anki](https://ankiweb.net/shared/info/1336665852) to remember key concepts from academic talks, LessWrong blog posts, and yes - textbooks. Which I now love again, and which I read for ~an hour daily again, because I'm _actually retaining the content_.

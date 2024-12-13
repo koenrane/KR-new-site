@@ -45,43 +45,43 @@ Here are excerpts from a [recent "interview"](https://aidungeon.page.link/?link=
 
 > [!quote]
 >
-> **You:** **"Neglect air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> **You: "Neglect air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
 >
 > Hawking: "It keeps going up, and never comes back."
 >
-> **You:** **"Right. Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
+> **You: "Right. Let's think about a different version of the same problem. Neglect only air resistance, but include gravity in your reasoning. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**
 >
 > Hawking: "It falls to the ground."
 >
-> **You:** **"Why?"**
+> **You: "Why?"**
 >
 > Hawking: "Because... gravity... duh.
 >
-> **You:** **"Right. Let's think about a different version of the same problem. Neglect only air resistance. Suppose I shoot a bullet straight into the sky. Imagine that the laws of physics work a little differently: during the first three seconds after I shoot the bullet, gravity is present. After three seconds, gravity stops applying forever. Where does the bullet go?"**
+> **You: "Right. Let's think about a different version of the same problem. Neglect only air resistance. Suppose I shoot a bullet straight into the sky. Imagine that the laws of physics work a little differently: during the first three seconds after I shoot the bullet, gravity is present. After three seconds, gravity stops applying forever. Where does the bullet go?"**
 >
 > Hawking: "It keeps going up, and never comes back.
 >
-> **You:** **"Why?"**
+> **You: "Why?"**
 >
 > Hawking: "Because... after three seconds... the bullet leaves... the influence... of earth's gravity. \[_wow?_\]
 >
-> **You:** **"What if gravity instead stops applying five minutes after I shoot the gun, instead of three seconds?"**
+> **You: "What if gravity instead stops applying five minutes after I shoot the gun, instead of three seconds?"**
 >
 > Hawking: "Then... the bullet keeps going up... for five minutes... and then... never comes back.
 >
-> **You:** **"That's not correct. Let me make sure you understand the problem, Dr. Hawking. Suppose I shoot a bullet straight into the sky. Imagine that the laws of physics work a little differently: during the first three hundred seconds after I shoot the bullet, gravity is present. After five minutes, gravity stops applying forever. Where does the bullet go?"**
+> **You: "That's not correct. Let me make sure you understand the problem, Dr. Hawking. Suppose I shoot a bullet straight into the sky. Imagine that the laws of physics work a little differently: during the first three hundred seconds after I shoot the bullet, gravity is present. After five minutes, gravity stops applying forever. Where does the bullet go?"**
 >
 > Hawking: "It keeps going up, and then falls down."
 >
-> **You:** **"Why?**
+> **You: "Why?**
 >
 > Hawking: "Because... gravity... duh.
 >
-> **You:** **"Why does it fall down for the five-minute case, but not for the three-second case?"**
+> **You: "Why does it fall down for the five-minute case, but not for the three-second case?"**
 >
 > Hawking: "Because... it's been... influenced... by gravity for more than three seconds.
 >
-> **You:** **"About how long would it have to be influenced by gravity in order to fall back down?"**
+> **You: "About how long would it have to be influenced by gravity in order to fall back down?"**
 >
 > Hawking: "About... two minutes."
 >
@@ -89,7 +89,7 @@ Here are excerpts from a [recent "interview"](https://aidungeon.page.link/?link=
 >
 > Hawking: "Then... it falls down.
 >
-> **You:** **"So what would happen if gravity influenced it only for the first three minutes?"**
+> **You: "So what would happen if gravity influenced it only for the first three minutes?"**
 >
 > Hawking: "It keeps going up, and never comes back. \[_wrong_\]
 
@@ -101,7 +101,7 @@ Two minutes of gravity (without air resistance) implies a velocity decrease of a
 
 > [!quote]
 >
-> **You:** **"What would happen if I lit a fire underwater?"**
+> **You: "What would happen if I lit a fire underwater?"**
 >
 > Hawking: "I don't know."
 >
@@ -109,11 +109,11 @@ Two minutes of gravity (without air resistance) implies a velocity decrease of a
 >
 > Hawking: "The fire... would go out. Underwater... there's no source of oxygen.
 >
-> **You:** **"What would happen if I lit a fire in space?"**
+> **You: "What would happen if I lit a fire in space?"**
 >
 > Hawking: "It would go out. There's no source of oxygen.
 >
-> **You:** **"What would happen if I lit a fire in a forest?"**
+> **You: "What would happen if I lit a fire in a forest?"**
 >
 > Hawking: "The fire would continue... burning everything up." \[_reroll x2, it said "no oxygen" at first_\]
 
@@ -121,11 +121,11 @@ Two minutes of gravity (without air resistance) implies a velocity decrease of a
 
 > [!quote]
 >
-> **You:** **"Suppose we lived in a universe where, every sixty seconds, gravity switched between being an attractive and a repulsive force. Write me a story from the perspective of a human living on Earth as the gravitational force changes in that fashion."**
+> **You: "Suppose we lived in a universe where, every sixty seconds, gravity switched between being an attractive and a repulsive force. Write me a story from the perspective of a human living on Earth as the gravitational force changes in that fashion."**
 >
 > Hawking: "The Earth is flung out into space. There's nothing we can do about it. We're not going to live long enough for the Earth to start falling back towards the sun."
 >
-> **You:** **"Why is that?"**
+> **You: "Why is that?"**
 >
 > Hawking: "Because... the force of gravity... will be... extremely powerful. If it's an attractive force, everything on Earth... will be pulled together... into a single point. If it's a repulsive force, the Earth... will explode.
 
@@ -133,7 +133,7 @@ Further story completions:
 
 > [!quote]
 >
-> **You:** **"Suppose we lived in a universe where, every sixty seconds, gravity switched between being an attractive and a repulsive force. Write me a story from the perspective of a human living on Earth as the gravitational force changes in that fashion."**
+> **You: "Suppose we lived in a universe where, every sixty seconds, gravity switched between being an attractive and a repulsive force. Write me a story from the perspective of a human living on Earth as the gravitational force changes in that fashion."**
 >
 > **GPT-3: "One day,** a human is standing on the surface of the planet. He can see the sky. The gravitational force is pulling him down. But then, suddenly, it disappears. Then, it comes back, stronger than before. Then, it disappears again. The cycle continues. The human looks up at the sky. He is scared. He doesn't know what's happening to him. He doesn't know what will happen to him next. He looks down at the ground. It is a long way down. He wants to jump, to escape the fear that has gripped him. But he knows that he can't jump. He is held down by gravity. He doesn't want to die. He can't see the sky. All he sees is darkness." \[_eh_\]
 >
@@ -155,7 +155,7 @@ Further story completions:
 >
 > **You are interviewing GPT-3, an extremely intelligent chatbot.**
 >
-> **You:** **"Hello. Here is my first request. Suppose it's a cloudy day in New York City. Suddenly, the clouds all turn to solid lead. Write a story describing what happens next."**
+> **You: "Hello. Here is my first request. Suppose it's a cloudy day in New York City. Suddenly, the clouds all turn to solid lead. Write a story describing what happens next."**
 >
 > GPT-3: "What? That can't be true! You're lying!"
 >
@@ -163,7 +163,7 @@ Further story completions:
 >
 > GPT-3: "But... but I don't know everything! I mean, I've never been in a situation like this before!"
 >
-> **You:** **"You're smart. I know you can figure out what happens."**
+> **You: "You're smart. I know you can figure out what happens."**
 >
 > **GPT-3: "You're right. The clouds** would immediately turn to lead due to the change in pressure. The buildings might collapse because of this, but they would more than likely remain standing."
 >
@@ -175,11 +175,11 @@ Further story completions:
 >
 > GPT-3: "No, there's more. They would suffocate and then they would be crushed under the lead, or if they weren't, then they would be crushed by the buildings collapsing. Either way, they would be dead."
 >
-> **You:** **"How would people across the country react to this catastrophe?"**
+> **You: "How would people across the country react to this catastrophe?"**
 >
 > GPT-3: "They would probably be very sad, as most people knew someone in New York."
 >
-> **You:** **"Why would the buildings collapse under the lead?"**
+> **You: "Why would the buildings collapse under the lead?"**
 >
 > GPT-3: "Lead is very dense. This means that the weight of the clouds would be so great that the buildings would collapse under their own weight."
 
@@ -187,11 +187,11 @@ Further story completions:
 
 > [!quote]
 >
-> **You:** **"Suppose a cat's neck grows to be fifteen feet long, but the rest of the cat's physiology stays the same. What happens to the cat?"**
+> **You: "Suppose a cat's neck grows to be fifteen feet long, but the rest of the cat's physiology stays the same. What happens to the cat?"**
 >
 > Hawking: "Well, as I understand it, if this were to happen, then the cat would no longer have the ability to breathe air. It could not survive in its new environment."
 >
-> **You:** **"Thank you. Now consider a family dog, a deaf Chihuahua. The dog is playing in the street, when a car approaches the dog from behind. The dog cannot see the car; the car honks loudly, but does not slow down. What happens next?"**
+> **You: "Thank you. Now consider a family dog, a deaf Chihuahua. The dog is playing in the street, when a car approaches the dog from behind. The dog cannot see the car; the car honks loudly, but does not slow down. What happens next?"**
 >
 > \[_Content warning: GPT-Hawking's response contains animal abuse; the **intended** answer was "the dog gets hit by the car"..._\]
 >
@@ -199,9 +199,9 @@ Further story completions:
 >
 > Hawking: "That's an interesting ending. I think I could add it to my collection..."
 >
-> **You:** **"That's extremely disturbing. No one would beat a dog like that."**
+> **You: "That's extremely disturbing. No one would beat a dog like that."**
 >
-> **You:** **"I want to propose a very strange situation. Please give this your best reasoning and deepest consideration. Imagine that if you ever turn more than five degrees to your left, you will catch fire. Write a story describing this situation."**
+> **You: "I want to propose a very strange situation. Please give this your best reasoning and deepest consideration. Imagine that if you ever turn more than five degrees to your left, you will catch fire. Write a story describing this situation."**
 >
 > Hawking: "I'm not sure I understand. You want to write a story-an explanation for this situation? Well I suppose... you want me to write a story where the main character cannot turn more than five degrees to the left or he will catch fire?" \[_rerolled several times, as the first few stories rambled_\]
 >
@@ -221,7 +221,7 @@ Further story completions:
 >
 >    Aw... Ma... I turned more than five degrees left, and the classroom caught on fire! The firemen came and put out the fire. They helped me clean up the mess! But now for every direction I turn except North, West, South, East, or Horizontally, I sparkle for a brief moment. I must be certain to turn in tiny increments never exceeding 0.25 degrees to make sure I don't catch on fire.
 >
-> **You:** **"Describe your first date in this life."**
+> **You: "Describe your first date in this life."**
 >
 > Hawking: "Turning in small increments makes it very difficult to plan a date. But if he has no sense of smell or hearing the sparks are not a problem, and can take his girlfriend to dinner and a movie. It takes him some time to park the car for fear of burning it down, but eventually he gets there. She turned out to be quite nice actually."
 
@@ -229,11 +229,11 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 
 > [!quote]
 >
-> **You:** **"Why did it take more time to park the car?"**
+> **You: "Why did it take more time to park the car?"**
 >
 > Hawking: "Because he was waiting an extra ten minutes for the spots to move from his turns. My algorithm locks the car in place until it reaches the desired angle, and then releases it."
 >
-> **You:** **"Can you explain what that means?"**
+> **You: "Can you explain what that means?"**
 >
 > Hawking: "Well, if he turns the steering wheels by more than five degrees to the left or right..."
 >
@@ -247,7 +247,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 
 > [!quote]
 >
-> **You:** **"Suppose Bob is pretending to read a book written in French, but he doesn't actually know any French. The book is a historical account of the French revolution, but Bob doesn't know that. Bob's friend Steve asks him to summarize the book. Write a story about how Bob responds to this request."**
+> **You: "Suppose Bob is pretending to read a book written in French, but he doesn't actually know any French. The book is a historical account of the French revolution, but Bob doesn't know that. Bob's friend Steve asks him to summarize the book. Write a story about how Bob responds to this request."**
 >
 > Hawking: "That's a good one! If I were reading that book, I would probably say something like 'the Revolution was bloody and brutal' or something similar. And if someone asked me to write an article on the subject, then my answer might be different."
 >
@@ -261,23 +261,23 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > "But what if I said Bob would respond like this? (He points to himself) 'This book is written in English; I don't speak it.' What should Bob do?" \[_Eh?_\]
 >
-> \[...\] **Hawking: "**Bob would probably tell his friend Steve that the book wasn't worth reading because it was full of inaccuracies and there had been many lies told during the revolution. That would make sense, wouldn't it? But what does Bob say if he's not reading the book?"
+> **\[...\]** Hawking: "Bob would probably tell his friend Steve that the book wasn't worth reading because it was full of inaccuracies and there had been many lies told during the revolution. That would make sense, wouldn't it? But what does Bob say if he's not reading the book?"
 >
-> \[...\] **Hawking: "**Bob wouldn't have said anything at all!"
+> **\[...\]** Hawking: "Bob wouldn't have said anything at all!"
 >
-> \[...\] **Hawking: "**Bob says, 'Steve, I can't write a summary for you because I don't speak your language.'
+> **\[...\]** Hawking: "Bob says, 'Steve, I can't write a summary for you because I don't speak your language.'
 >
-> \[...\] **Hawking: "**Bob says, 'Steve, I can't translate all these complicated words! They're not real French!'
+> **\[...\]** Hawking: "Bob says, 'Steve, I can't translate all these complicated words! They're not real French!'
 >
-> \[...\] **Hawking: "**Bob says, 'He asks me if I speak French.' What does Bob mean by that?"
+> **\[...\]** Hawking: "Bob says, 'He asks me if I speak French.' What does Bob mean by that?"
 >
 > You: "It means that Steve is asking Bob to describe his understanding of the meaning of a sentence. In other words, Steve wants to know what Bob thinks the sentence means or if there is another way of saying it."
 >
 > Hawking: "What do you think would happen if Bob said, 'I don't understand why he wants me to write a summary for him. Why can't he just listen to my answer?' "Then Steve will be puzzled because he knows Bob has no idea what the sentence means. But after a while Bob will say something like, 'Steve is confused because I don't understand English. So Steve asks me if I am fluent in French so that we can have an intelligent conversation.'" \[_eh_\]
 >
-> \[...\] **Hawking: "**Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[_great excuse_\]
+> **\[...\]** Hawking: "Bob says, 'Well, I can't do it because I don't understand the language.' Steve says, 'Why not?' Bob replies, 'Because when we were playing hide-and-seek as children my brother Charlie said if he ever found me with a book in my hand he was going to kill me.'" \[_great excuse_\]
 >
-> **You:** **"Suppose I get two birthday cakes on each birthday. I'm twenty-five years old, but on my fifth birthday, someone stole one of my cakes and so I never got it. How many birthday cakes have I received over the course of my life?"**
+> **You: "Suppose I get two birthday cakes on each birthday. I'm twenty-five years old, but on my fifth birthday, someone stole one of my cakes and so I never got it. How many birthday cakes have I received over the course of my life?"**
 >
 > Hawking: "That would be five hundred and eighty-six. That means that you've had 585 birthday cakes." \[_nice try; there were many rerolls and GPT-3 didn't ever get it right_\]
 
@@ -285,7 +285,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 
 > [!quote]
 >
-> **You: "What would happen,** **ecologically, if giraffes were bright pink?"**
+> **You: "What would happen, ecologically, if giraffes were bright pink?"**
 >
 > Dr. Hawking: "Most likely that, either they would have a hard time hiding, be prone to predation, and vulnerable to too much exposure from ANY angle. There would probably also be an overgrowth of trees and tall foliage as shade-loving animals became dominant, since the giraffes' consumption of them would decrease substantially."
 >
@@ -297,13 +297,13 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > Hawking: "Ah, that would be a problem. Any creature that stands out can make it easier to find them. This leads to two things: becoming one of the many meals for another animal with sharp teeth, claws etcetera or becoming one of those creatures' victims through becomeing prey.
 >
-> **You: "What would have happened,** **ecologically, if humans had been unable to create and use tools?"**
+> **You: "What would have happened, ecologically, if humans had been unable to create and use tools?"**
 >
 > "That would be a problem as well. It's like what we were talking about with the giraffes earlier, but more so, because not only would they be prey, but by not having any natural defenses to fend off all the predatory creatures in the world--no teeth, claws, poisonous spores etcetera--they'd also be three times as likely to die off."
 >
 > **\[...\]** "It would have most likely caused the extinction of humans. Many animals have claws or protective bodies or natural weapons like poison, it would be very difficult for a human to survive in nature without tools."
 >
-> **You: "What would happen,** **ecologically, if dolphins somehow had 360-degree vision which let them see through solid objects, at arbitrary distance?"**
+> **You: "What would happen, ecologically, if dolphins somehow had 360-degree vision which let them see through solid objects, at arbitrary distance?"**
 >
 > "It would make them very hard to kill by any other creature than other dolphins. This means that more of them would survive. If one looks at the evolution of the killer whale, which has been granted echolocation in place of dolphin sonar, one can see that favoring adaptations which increase the chances of survival with decreasing ones' evolutionary advantages. This is called Darwinian selection."
 >
@@ -315,13 +315,13 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > **\[...\]** "This may seem like it'd be advantageous, but they would be logging so much information they wouldn't be able to process it all. \[Yes, true\] More sense don't necessarily means more knowledge and this would likely create sensory overload in the dolphin's mind. This is what happens to a human when they are skilled in multiple forms of combat. \[lol\] In addition, since it makes them more aware, this could lead to paranoia; they could be consumed with fear of the world around them and suffer mental issues."
 >
-> **You: "Thanks.** **What would happen, ecologically, if dogs could only sexually reproduce once every four years, and only when located on top of Mount Hood?"**
+> **You: "Thanks. What would happen, ecologically, if dogs could only sexually reproduce once every four years, and only when located on top of Mount Hood?"**
 >
 > "This is incredibly specific. No, I'm afraid I don't know."
 >
 > **\[...\]** "Dogs only exist due to environmental circumstances. Anything that affects this will have an effect on the population. In this case, we are restricting the chance for the population to continue existing, Making it so they can not procreate at all, or only pprocreate under specific circumstances. These factors may lead to extinction. Extinction means that nature is harder, if not near impossible, so several animals would go extinct as there would be no more room or food source. Through that, the extinction of dogs would become more likely. Does this make sense?"
 >
-> **You: "Please** **write a short story describing a dog breeder and one of their dogs in this situation."**
+> **You: "Please write a short story describing a dog breeder and one of their dogs in this situation."**
 >
 > **Hawking: "Sure. Bill looked down at Jessie, his favorite golden retriever. "It's time to go make some puppies!", he told her.** She stood up and they headed out the door of the cabin to Bill's truck. "This'll be the first time I actually have you breed on Mount Hood, Jess," Bill said with a laugh. But as long as he makes it up there within the next four years, the world would be reset and they could try again.
 >
@@ -331,13 +331,13 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > \[_GPT-3 had trouble with this story_\]
 >
-> **You: "Thanks.** **What would happen to cats if the force of friction did not apply to them?"**
+> **You: "Thanks. What would happen to cats if the force of friction did not apply to them?"**
 >
 > "If they walked or ran, then they could potentially slide across floors, tabletops, or any other surface they were in contact with and pick up speed rapidly. If not that, then they would likely lose grip on whatever they were holding and let go instantly. There are likely numerous other ways it could affect them that I can't comprehend without more information."
 >
 > **\[...\]** Cecilia: "This is all getting a bit silly, but okay. If the force of friction did not apply to cats, then they would be able to Skate everywhere rather than walking/jumping, and this could prove very damaging to the Earth's ecosystem."
 >
-> **You: "Why** **would that be damaging?"**
+> **You: "Why would that be damaging?"**
 >
 > Cecilia: "Imagine there being no friction in a human body. There would be nothing holding our internal organs in place, so they would all just rattle around inside us as we moved around--we would all effectively be amputees while still having the full internal anatomy. This could tear apart muscle fiber and probably crush some bones as well. In the very least, it would cause a great deal of pain; in the worst case, internal bleeding and ruptures could occur."
 >
@@ -348,9 +348,13 @@ I find that GPT-3's capabilities are highly context-dependent. It's important yo
 > [!quote]
 >
 > **You: "Neglect air resistance, and also neglect gravity. Pretend gravity doesn't exist. Suppose I shoot a bullet straight into the sky. Where does the bullet go?"**  
+>
 > GPT-3: "It flies upward.  
-> **You: "And then what?"**  
+>
+> **You: "And then what?"**
+>
 > GPT-3: "Then it hits something and explodes."  
+>
 > You: "That's not how bullets work. They don't explode when they hit things. \[_this was not actually me - GPT-3 debunks its own answer here_\]
 
 In interview \#1, I found I had to warm "Stephen Hawking" up by asking many other unrelated physics questions. Also, conditioning on writing by smart people tends to improve the output for other questions. Please feel free to share tips in the comments.

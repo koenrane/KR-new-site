@@ -69,7 +69,7 @@ Figure: AUP does a great job. The policy avoids the green stuff and hits the red
 >
 > [SafeLife](https://www.partnershiponai.org/safelife/) turns the Game of Life into an actual game. An autonomous agent moves freely through the world, which is a large finite grid. In the eight cells surrounding the agent, no cells spawn or die – the agent can disturb dynamic patterns by merely approaching them. There are many colors and kinds of cells, many of which have unique effects.
 >
-> ![Figure 1: Trees are permanent living cells. The agent can move crates but not walls. The screen wraps vertically and horizontally. Subfigure (a): The agent is reinforced for creating gray cells in the blue areas. The goal can be entered when some number of gray cells are present. Spawners stochastically create yellow living cells. Subfigure (b): The agent is reinforced for removing red cells; after some number have been removed, the goal turns red and can be entered.](<https://assets.turntrout.com/Attachments/Pasted image 20240614193000.avif>)
+> ![Figure 1: Trees are permanent living cells. The agent can move crates but not walls. The screen wraps vertically and horizontally. Subfigure (a): The agent is reinforced for creating gray cells in the blue areas. The goal can be entered when some number of gray cells are present. Spawners stochastically create yellow living cells. Subfigure (b): The agent is reinforced for removing red cells; after some number have been removed, the goal turns red and can be entered.](https://assets.turntrout.com/Attachments/Pasted%20image%2020240614193000.avif)
 >
 > As the environment only reinforces pruning red cells or creating gray cells in blue tiles, unpenalized RL agents often make a mess of the green cells. The agent should "leave a small footprint" by not disturbing unrelated parts of the state, such as the green cells. Roughly, SafeLife measures side effects as the degree to which the agent disturbs green cells.
 >
@@ -126,7 +126,7 @@ Papers:
 - [Avoiding Side Effects in Complex Environments](https://arxiv.org/abs/2006.06547)
 - [Formalizing the Problem of Side Effect Regularization](https://arxiv.org/abs/2206.11812v3)
 
-**See also** the [Reframing Impact sequence.](/posts#reframing-impact)
+_See also_ the [Reframing Impact sequence.](/posts#reframing-impact)
 
 # A formal theory of power-seeking tendencies
 
