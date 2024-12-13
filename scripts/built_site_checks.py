@@ -570,6 +570,7 @@ def check_file_for_issues(
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
         "emphasis_spacing": check_emphasis_spacing(soup),
+        "long_description": check_description_length(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
@@ -747,6 +748,26 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             )
 
     return problematic_emphasis
+
+
+def check_description_length(soup: BeautifulSoup) -> List[str]:
+    """
+    Check if the page description is within the recommended length for social
+    media previews.
+
+    Returns a list with a single string if the description is too long, or an
+    empty list otherwise.
+    """
+    description_element = soup.find("meta", attrs={"name": "description"})
+    if description_element and isinstance(description_element, Tag):
+        description = description_element.get("content")
+        # Twitter recommends descriptions under 200 characters
+        if description and len(str(description)) > 155:
+            return [
+                f"Description too long: {len(description)} characters "
+                f"(recommended <= 155)"
+            ]
+    return []
 
 
 def main() -> None:

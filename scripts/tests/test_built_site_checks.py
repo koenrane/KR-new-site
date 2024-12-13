@@ -1217,3 +1217,58 @@ def test_check_emphasis_spacing(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_emphasis_spacing(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test description within limit
+        (
+            """
+            <html>
+            <head>
+                <meta name="description" content="This is a valid description.">
+            </head>
+            </html>
+            """,
+            [],
+        ),
+        # Test description exceeding limit
+        (
+            f"""
+            <html>
+            <head>
+                <meta name="description" content="{'a' * 156}">
+            </head>
+            </html>
+            """,
+            ["Description too long: 156 characters (recommended <= 155)"],
+        ),
+        # Test missing description
+        (
+            """
+            <html>
+            <head>
+            </head>
+            </html>
+            """,
+            [],
+        ),
+        # Test empty description
+        (
+            """
+            <html>
+            <head>
+                <meta name="description" content="">
+            </head>
+            </html>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_description_length(html: str, expected: list[str]) -> None:
+    """Test the check_description_length function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_description_length(soup)
+    assert result == expected
