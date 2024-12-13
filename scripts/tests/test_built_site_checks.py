@@ -1148,7 +1148,7 @@ def test_check_markdown_assets_in_html(
 
     # Run test
     soup = BeautifulSoup(html_content, "html.parser")
-    result = check_markdown_assets_in_html(html_path, soup, md_path)
+    result = check_markdown_assets_in_html(soup, md_path)
     assert sorted(result) == sorted(expected)
 
 
@@ -1166,12 +1166,12 @@ def test_check_markdown_assets_in_html(
         # Test allowed characters before emphasis
         *[
             (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in prev_emphasis_chars
+            for char in PREV_EMPHASIS_CHARS
         ],
         # Test allowed characters after emphasis
         *[
             (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in next_emphasis_chars
+            for char in NEXT_EMPHASIS_CHARS
         ],
         # Test mixed cases
         (

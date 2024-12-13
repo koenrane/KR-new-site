@@ -150,7 +150,7 @@ def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
 def _add_to_list(
     lst: List[str],
     text: str,
-    showEnd: bool = False,
+    show_end: bool = False,
     preview_chars: int = 100,
     prefix: str = "",
 ) -> None:
@@ -163,7 +163,7 @@ def _add_to_list(
         else:
             to_append = (
                 text[-preview_chars:] + "..."
-                if showEnd
+                if show_end
                 else text[:preview_chars]
             )
             lst.append(prefix + to_append)
@@ -189,10 +189,6 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
             _add_to_list(
                 problematic_paragraphs, text, prefix="Problematic paragraph: "
             )
-        else:
-            print(f"Not adding: {text}")
-            for pattern in bad_anywhere:
-                print(f"Bad anywhere: {pattern} -> {re.search(pattern, text)}")
 
     # Check all <p> and <dt> elements
     for element in soup.find_all(["p", "dt"]):
@@ -454,7 +450,7 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
             _add_to_list(
                 problematic_texts,
                 stripped_text,
-                showEnd=True,
+                show_end=True,
                 prefix="Unrendered emphasis: ",
             )
 
@@ -576,7 +572,7 @@ def check_file_for_issues(
     # Only check markdown assets if md_path exists and is a file
     if md_path and md_path.is_file():
         issues["missing_markdown_assets"] = check_markdown_assets_in_html(
-            file_path, soup, md_path
+            soup, md_path
         )
 
     if "test-page" in file_path.name:
@@ -631,37 +627,44 @@ def print_issues(
 tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
 
 
+def get_md_asset_counts(md_path: Path) -> Counter[str]:
+    """
+    Get the counts of all assets referenced in the markdown file.
+    """
+    with open(md_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        # Match ![alt](src) pattern, capturing the src
+        md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
+
+        # Match HTML tags with src attributes
+        possible_tag_pattern = rf"{'|'.join(tags_to_check_for_missing_assets)}"
+        tag_pattern = rf"<(?:{possible_tag_pattern}) [^>]*?src=[\"'](.*?)[\"']"
+        tag_pattern_assets = re.findall(tag_pattern, content)
+
+    # Count occurrences of each asset in markdown
+    return Counter(
+        asset.strip() for asset in md_pattern_assets + tag_pattern_assets
+    )
+
+
 def check_markdown_assets_in_html(
-    html_path: Path, soup: BeautifulSoup, md_path: Path
+    soup: BeautifulSoup, md_path: Path
 ) -> List[str]:
     """
     Check that all assets referenced in the markdown source appear in the HTML
     at least as many times as they appear in the markdown.
 
     Args:
-        html_path: Path to the HTML file to check
         soup: BeautifulSoup object of the HTML content
         md_path: Path to the markdown file that generated the HTML file
 
     Returns:
-        List of asset references that are missing or have fewer instances in HTML
+        List of asset references that have fewer instances in HTML
     """
     if not md_path.exists():
         raise ValueError(f"Markdown file {md_path} does not exist")
 
-    # Read markdown file and find all asset references with counts
-    with open(md_path, "r", encoding="utf-8") as f:
-        content = f.read()
-        # Match ![alt](src) pattern, capturing the src
-        md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
-        # Match HTML tags with src attributes
-        tag_pattern = rf"<(?:{'|'.join(tags_to_check_for_missing_assets)}) [^>]*?src=[\"'](.*?)[\"']"
-        tag_pattern_assets = re.findall(tag_pattern, content)
-
-        # Count occurrences of each asset in markdown
-        md_asset_counts = Counter(
-            asset.strip() for asset in md_pattern_assets + tag_pattern_assets
-        )
+    md_asset_counts = get_md_asset_counts(md_path)
 
     # Count asset sources in HTML
     html_asset_counts: Counter[str] = Counter()
@@ -676,7 +679,8 @@ def check_markdown_assets_in_html(
         html_count = html_asset_counts[asset]
         if html_count < md_count:
             missing_assets.append(
-                f"Asset {asset} appears {md_count} times in markdown but only {html_count} times in HTML"
+                f"Asset {asset} appears {md_count} times in markdown "
+                f"but only {html_count} times in HTML"
             )
         elif html_count == 0:
             missing_assets.append(
@@ -687,8 +691,8 @@ def check_markdown_assets_in_html(
 
 
 # Characters that are acceptable before and after emphasis tags
-prev_emphasis_chars = "  [(-—~×“=+‘"
-next_emphasis_chars = "  ]).,;!?:-—~×”…=’"
+PREV_EMPHASIS_CHARS = "  [(-—~×“=+‘"
+NEXT_EMPHASIS_CHARS = "  ]).,;!?:-—~×”…=’"
 
 
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
@@ -699,10 +703,10 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     problematic_emphasis: List[str] = []
 
     # Properly escape characters for regex patterns
-    _ok_prev_chars = "".join([re.escape(c) for c in prev_emphasis_chars])
+    _ok_prev_chars = "".join([re.escape(c) for c in PREV_EMPHASIS_CHARS])
     _ok_prev_regex = rf"^.*[{_ok_prev_chars}]$"
 
-    _ok_next_chars = "".join([re.escape(c) for c in next_emphasis_chars])
+    _ok_next_chars = "".join([re.escape(c) for c in NEXT_EMPHASIS_CHARS])
     _ok_next_regex = rf"^[{_ok_next_chars}].*$"
 
     # Find all emphasis elements
@@ -717,7 +721,10 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             and prev_sibling.strip()
             and not re.search(_ok_prev_regex, prev_sibling)
         ):
-            preview = f"{prev_sibling}<{element.name}>{element.get_text()}</{element.name}>"
+            preview = (
+                f"{prev_sibling}<{element.name}>"
+                f"{element.get_text()}</{element.name}>"
+            )
             _add_to_list(
                 problematic_emphasis, preview, prefix="Missing space before: "
             )
@@ -728,7 +735,10 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
             and next_sibling.strip()
             and not re.search(_ok_next_regex, next_sibling)
         ):
-            preview = f"<{element.name}>{element.get_text()}</{element.name}>{next_sibling}"
+            preview = (
+                f"<{element.name}>{element.get_text()}</{element.name}>"
+                f"{next_sibling}"
+            )
             _add_to_list(
                 problematic_emphasis, preview, prefix="Missing space after: "
             )

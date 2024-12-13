@@ -164,7 +164,6 @@ def build_html_to_md_map(md_dir: Path) -> Dict[str, Path]:
     Returns:
         Dictionary mapping permalinks to their corresponding markdown file paths
     """
-    yaml = YAML(typ="safe")
     html_to_md_path: Dict[str, Path] = {}
 
     md_files = list(md_dir.glob("*.md")) + list(md_dir.glob("drafts/*.md"))
@@ -181,8 +180,6 @@ def build_html_to_md_map(md_dir: Path) -> Dict[str, Path]:
                     html_to_md_path[permalink] = md_file
         except YAMLError as e:
             print(f"Error parsing YAML in {md_file}: {e}")
-        except Exception as e:
-            print(f"Unexpected error processing {md_file}: {e}")
 
     return html_to_md_path
 
