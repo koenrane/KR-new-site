@@ -1,3 +1,5 @@
+// NOTE: Docstrings generated via AI; take with a grain of salt
+
 import { Root, Element, ElementContent } from "hast"
 import { render } from "preact-render-to-string"
 import React from "react"
@@ -32,6 +34,13 @@ interface RenderComponents {
 }
 
 const headerRegex = new RegExp(/h[1-6]/)
+
+/**
+ * Generates static resources (CSS/JS) paths for a given page
+ * @param baseDir - Base directory slug or relative URL
+ * @param staticResources - Existing static resources configuration
+ * @returns StaticResources object with CSS and JS paths
+ */
 export function pageResources(
   baseDir: FullSlug | RelativeURL,
   staticResources: StaticResources,
@@ -64,6 +73,11 @@ export function pageResources(
   }
 }
 
+/**
+ * Generates a virtual file containing recent posts data
+ * @param componentData - Component props containing site configuration and file data
+ * @returns QuartzPluginData for recent posts
+ */
 const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
   const hast = createPageListHast(
     componentData.cfg,
@@ -80,6 +94,11 @@ const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPlu
   } as QuartzPluginData
 }
 
+/**
+ * Generates a virtual file containing all tags data
+ * @param componentData - Component props containing site configuration and file data
+ * @returns QuartzPluginData for all tags
+ */
 const generateAllTagsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
   // Generate the HAST for the all tags listing
   const hast = generateAllTagsHast(componentData)
@@ -92,6 +111,25 @@ const generateAllTagsFile = (componentData: QuartzComponentProps): QuartzPluginD
   } as QuartzPluginData
 }
 
+/**
+ * Renders a complete HTML page with all components and transclusions
+ *
+ * Process:
+ * 1. Clones the component tree to avoid modifying cached content
+ * 2. Processes all transclusions (blocks, headers, full pages)
+ * 3. Applies formatting improvements through normalizeHastElement
+ * 4. Renders the full page structure with headers, sidebars, and content
+ *
+ * @param cfg - Global site configuration
+ * @param slug - Current page slug
+ * @param componentData - Props containing page data and configuration
+ * @param components - Object containing all page component definitions
+ * @param pageResources - Static resources (CSS/JS) for the page
+ * @returns Rendered HTML string
+ *
+ * @see {@link normalizeHastElement} for transclusion formatting
+ * @see {@link quartz/plugins/transformers/formatting_improvement_html.ts} for text formatting rules
+ */
 export function renderPage(
   cfg: GlobalConfiguration,
   slug: FullSlug,

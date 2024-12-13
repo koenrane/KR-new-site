@@ -120,12 +120,20 @@ export function normalizeRelativeURLs(el: Element | Document, destination: strin
   )
 }
 
+/**
+ * Rebases a HAST element's attribute to a new base slug
+ *
+ * @param el - HAST element to rebase
+ * @param attr - Attribute to rebase
+ * @param curBase - Current base slug where element originates
+ * @param newBase - New base slug where element will be transcluded
+ */
 const _rebaseHastElement = (
   el: HastElement,
   attr: string,
   curBase: FullSlug,
   newBase: FullSlug,
-) => {
+): void => {
   if (el.properties?.[attr]) {
     if (!isRelativeURL(String(el.properties[attr]))) {
       return
@@ -136,6 +144,17 @@ const _rebaseHastElement = (
   }
 }
 
+/**
+ * Normalizes a HAST element for transclusion by:
+ * 1. Cloning the element to avoid modifying original content
+ * 2. Applying formatting improvements through the HTML transformer
+ * 3. Rebasing relative links to work in the new context
+ *
+ * @param rawEl - Original HAST element to normalize
+ * @param curBase - Current base slug where element originates
+ * @param newBase - New base slug where element will be transcluded
+ * @returns Normalized HAST element with proper formatting and rebased links
+ */
 export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newBase: FullSlug) {
   const el = clone(rawEl) // clone so we dont modify the original page
 
@@ -178,6 +197,13 @@ export function pathToRoot(slug: FullSlug): RelativeURL {
   return rootPath as RelativeURL
 }
 
+/**
+ * Resolves a relative path between two slugs
+ *
+ * @param current - Starting slug to resolve from
+ * @param target - Target slug to resolve to
+ * @returns Relative URL path from current to target
+ */
 export function resolveRelative(current: FullSlug, target: FullSlug | SimpleSlug): RelativeURL {
   const res = joinSegments(pathToRoot(current), simplifySlug(target as FullSlug)) as RelativeURL
   return res
