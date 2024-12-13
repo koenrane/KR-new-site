@@ -658,7 +658,7 @@ def test_md_for_html_error_handling(
 
     # Should handle all error cases gracefully by returning True
     assert (
-        script_utils.should_have_md(test_file) == True
+        script_utils.should_have_md(test_file) is True
     ), f"Failed to handle {description}"
 
 

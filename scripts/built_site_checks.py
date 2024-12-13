@@ -497,16 +497,15 @@ def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
 
     # Check all text nodes
     for element in soup.find_all(string=True):
-        if element.strip():  # Skip empty text nodes
-            if not should_skip(element):
-                # Look for straight quotes
-                straight_quotes = re.findall(r'["\']', element.string)
-                if straight_quotes:
-                    _add_to_list(
-                        problematic_quotes,
-                        element.string,
-                        prefix=f"Unprocessed quotes {straight_quotes}: ",
-                    )
+        if element.strip() and not should_skip(element):
+            # Look for straight quotes
+            straight_quotes = re.findall(r'["\']', element.string)
+            if straight_quotes:
+                _add_to_list(
+                    problematic_quotes,
+                    element.string,
+                    prefix=f"Unprocessed quotes {straight_quotes}: ",
+                )
 
     return problematic_quotes
 

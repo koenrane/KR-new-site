@@ -529,6 +529,20 @@ function addListener(
 }
 
 /**
+ * Retrieves IDs from search results based on a specific field
+ * @param field - Field name to filter by
+ * @param searchResults - Search results to filter
+ * @returns Array of IDs
+ */
+const getByField = (
+  field: string,
+  searchResults: FlexSearch.SimpleDocumentSearchResultSetUnit[],
+): number[] => {
+  const results = searchResults.filter((x) => x.field === field)
+  return results.length === 0 ? [] : ([...results[0].result] as number[])
+}
+
+/**
  * Handles search input changes
  * @param e - Input event
  */
@@ -593,20 +607,6 @@ async function onType(e: HTMLElementEventMap["input"]) {
     formatForDisplay(currentSearchTerm, id, data!, idDataMap),
   )
   await displayResults(finalResults, results, enablePreview)
-}
-
-/**
- * Retrieves IDs from search results based on a specific field
- * @param field - Field name to filter by
- * @param searchResults - Search results to filter
- * @returns Array of IDs
- */
-const getByField = (
-  field: string,
-  searchResults: FlexSearch.SimpleDocumentSearchResultSetUnit[],
-): number[] => {
-  const results = searchResults.filter((x) => x.field === field)
-  return results.length === 0 ? [] : ([...results[0].result] as number[])
 }
 
 /**
