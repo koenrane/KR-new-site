@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/kpFxkXBbpF5pWDRrc/some-of-my-disag
 skip_import: true
 description: A critical look at the idea of "lethal" AI failures, challenging common
   assumptions about reward functions, alignment, and the limits of human values.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
 
 
 

@@ -17,7 +17,8 @@ lw-vote-count: 20
 af-base-score: 13
 af-num-comments-on-upload: 0
 publish: true
-title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern Approach'"
+title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern\
+  \ Approach'"
 lw-latest-edit: 2018-03-25T06:55:46.204000Z
 lw-is-linkpost: "false"
 tags:
@@ -38,9 +39,11 @@ use-full-width-images: "false"
 date_published: 2018-03-25 00:00:00
 original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 skip_import: true
-description: My review of "Artificial Intelligence, A Modern Approach" & how I read hundreds of pages in 3 days.
-date_updated: 2024-10-30 18:09:31.133945
+description: My review of "Artificial Intelligence, A Modern Approach" & how I read
+  hundreds of pages in 3 days.
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
     
 
 

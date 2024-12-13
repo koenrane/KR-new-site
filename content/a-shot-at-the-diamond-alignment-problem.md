@@ -38,8 +38,9 @@ original_url: https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-di
 skip_import: true
 description: "A technical deep dive exploring how to align an AI with the goal of\
   \ creating diamonds, rather than more nebulous human values. "
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
 
 
 

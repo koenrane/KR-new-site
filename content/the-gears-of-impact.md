@@ -41,8 +41,9 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/PFqi66W.png
 description: 'Impact reframed: a gears-level view of how and why some things seem
   important to us.'
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
 
 
 

@@ -42,8 +42,9 @@ original_url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend
 skip_import: true
 description: Power-seeking isn't just for optimal agents; it's a feature of many decision-making
   processes, including satisficers. This is a problem for AI alignment.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
 
 
 
