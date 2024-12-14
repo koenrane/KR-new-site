@@ -138,7 +138,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
             date: date,
-            description: file.data.description ?? "",
+            description: file.data.description ?? undefined,
             authors: file.data.frontmatter?.authors as string | undefined,
           })
         }
