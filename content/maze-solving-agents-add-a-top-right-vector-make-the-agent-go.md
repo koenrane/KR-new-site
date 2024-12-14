@@ -40,9 +40,8 @@ date_published: 2023-03-31 00:00:00
 original_url: https://www.lesswrong.com/posts/gRp6FAWcQiCWkouN5/maze-solving-agents-add-a-top-right-vector-make-the-agent-go
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/lteqnk5fbayr0jixir5z.png
-description: Adding a "top-right vector" to a maze-solving network makes the agent
-  go to the top-right. These vectors compose with other vectors, like the "cheese
-  vector."
+description: Adding a "top-right vector" makes a maze-solver
+  go to the top-right. We show composition with other vectors, like the "cheese vector."
 date_updated: 2024-12-12 22:05:58.602985
 ---
 

@@ -44,7 +44,6 @@ const config: QuartzConfig = {
       Plugin.HTMLFormattingImprovement(),
       Plugin.Latex({ renderEngine: "katex" }),
       Plugin.CrawlLinks({ lazyLoad: true, markdownLinkResolution: "shortest" }),
-      Plugin.Description(),
       Plugin.TagAcronyms(),
       Plugin.TroutOrnamentHr(),
       Plugin.AddFavicons(),

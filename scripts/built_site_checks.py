@@ -750,6 +750,10 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     return problematic_emphasis
 
 
+MAX_DESCRIPTION_LENGTH = 155
+MIN_DESCRIPTION_LENGTH = 10
+
+
 def check_description_length(soup: BeautifulSoup) -> List[str]:
     """
     Check if the page description is within the recommended length for social
@@ -759,13 +763,21 @@ def check_description_length(soup: BeautifulSoup) -> List[str]:
     empty list otherwise.
     """
     description_element = soup.find("meta", attrs={"name": "description"})
-    if description_element and isinstance(description_element, Tag):
-        description = description_element.get("content")
+    if (
+        description_element
+        and isinstance(description_element, Tag)
+        and (description := description_element.get("content"))
+    ):
         # Twitter recommends descriptions under 200 characters
-        if description and len(str(description)) > 155:
+        if len(description) > MAX_DESCRIPTION_LENGTH:
             return [
                 f"Description too long: {len(description)} characters "
-                f"(recommended <= 155)"
+                f"(recommended <= {MAX_DESCRIPTION_LENGTH})"
+            ]
+        elif len(description) < MIN_DESCRIPTION_LENGTH:
+            return [
+                f"Description too short: {len(description)} characters "
+                f"(recommended >= {MIN_DESCRIPTION_LENGTH})"
             ]
     return []
 

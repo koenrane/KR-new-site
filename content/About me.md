@@ -4,7 +4,7 @@ publish: true
 hideSubscriptionLinks: false
 card_image: https://assets.turntrout.com/static/images/card_images/about-me.png
 description: I'm TurnTrout, but the United States government insists on calling me
-  "Alexander Matt Turner." I like writing about lots of stuff and learning about lots
+  "Alexander Matt Turner." I like writing and learning about lots
   of stuff.
 date_published: 2024-10-27 19:14:04.653922
 date_updated: 2024-11-22 20:04:30.137574

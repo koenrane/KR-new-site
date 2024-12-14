@@ -1,11 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
-
+// skipcq: JS-W1028
 import React from "react"
 
 import { i18n } from "../i18n"
 import { FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
+
 import { formatTitle } from "./component_utils"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
@@ -40,7 +41,8 @@ export default (() => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
     title = formatTitle(title)
     const description =
-      fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
+      fileData.frontmatter?.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
+    console.log(description)
 
     let authorElement = undefined
     if (fileData.frontmatter?.authors) {
@@ -142,7 +144,7 @@ export default (() => {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={permalink as string} />
         <meta property="og:site_name" content="The Pond" />
-        <meta property="og:description" content={description} />
+        {/* {description && <meta property="og:description" content={description} />} */}
         {mediaElement}
 
         {/* Twitter Card metadata */}

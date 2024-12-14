@@ -1238,11 +1238,26 @@ def test_check_emphasis_spacing(html, expected):
             f"""
             <html>
             <head>
-                <meta name="description" content="{'a' * 156}">
+                <meta name="description" content="{'a' * (MAX_DESCRIPTION_LENGTH + 1)}">
             </head>
             </html>
             """,
-            ["Description too long: 156 characters (recommended <= 155)"],
+            [
+                f"Description too long: {MAX_DESCRIPTION_LENGTH + 1} characters (recommended <= {MAX_DESCRIPTION_LENGTH})"
+            ],
+        ),
+        # Test description below minimum length
+        (
+            f"""
+            <html>
+            <head>
+                <meta name="description" content="{'a' * (MIN_DESCRIPTION_LENGTH - 1)}">
+            </head>
+            </html>
+            """,
+            [
+                f"Description too short: {MIN_DESCRIPTION_LENGTH - 1} characters (recommended >= {MIN_DESCRIPTION_LENGTH})"
+            ],
         ),
         # Test missing description
         (
