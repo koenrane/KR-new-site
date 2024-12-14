@@ -53,7 +53,7 @@ const config: QuartzConfig = {
       Plugin.rehypeCustomSubtitle(),
       Plugin.TableOfContents(),
     ],
-    filters: [],
+    filters: [Plugin.RemoveDrafts()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
