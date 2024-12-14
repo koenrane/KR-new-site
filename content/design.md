@@ -784,6 +784,8 @@ At this point, I check the built pages for a smattering of possible errors:
   - Duplicate anchor targets on a page;
   - `git`-hosted assets, stylesheets, or scripts which don't exist;
 - Duplicate `id` attributes on a page's HTML elements;
+- Metadata validity, including:
+    - Ensure page descriptions exist and are not too long for social media previews;
 - Failures of my text prettification pipeline:
     - Non-smart quotation marks (e.g. `'` or `"`);
     - Multiple dashes in a row;
