@@ -6,7 +6,6 @@ import React from "react"
 import { i18n } from "../i18n"
 import { FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
-
 import { formatTitle } from "./component_utils"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
