@@ -41,7 +41,6 @@ export default (() => {
     title = formatTitle(title)
     const description =
       fileData.frontmatter?.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
-    console.log(description)
 
     let authorElement = undefined
     if (fileData.frontmatter?.authors) {
