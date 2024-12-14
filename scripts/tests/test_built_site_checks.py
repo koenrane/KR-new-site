@@ -1267,7 +1267,7 @@ def test_check_emphasis_spacing(html, expected):
             </head>
             </html>
             """,
-            [],
+            ["Description not found"],
         ),
         # Test empty description
         (
@@ -1278,7 +1278,7 @@ def test_check_emphasis_spacing(html, expected):
             </head>
             </html>
             """,
-            [],
+            ["Description not found"],
         ),
     ],
 )
