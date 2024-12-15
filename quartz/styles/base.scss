@@ -401,6 +401,7 @@ pre {
   border-radius: 5px;
   overflow-x: auto;
   position: relative;
+  background-color: var(--midground-faintest);
 
   &:has(> div > code.mermaid),
   &:has(> code.mermaid) {

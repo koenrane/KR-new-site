@@ -290,6 +290,10 @@ This text omits a detail.[^footnote] This sentence has multiple footnotes.[^1][^
 }
 ```
 
+```plaintext
+This is a plain code block without a language specified.
+```
+
 # Formatting
 
 - Normal
