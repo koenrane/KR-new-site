@@ -177,7 +177,18 @@ test.describe("Search accuracy", () => {
     await expect(resultCards.first()).toContainText("No results")
   })
 
-  // TODO check that the preview has the correct data-use-dropcap attribute (that some pages skip it)
+  test("AI presidents doesn't use dropcap", async ({ page }) => {
+    if (!showingPreview) {
+      test.skip()
+    }
+
+    await page.keyboard.press("/")
+    await search(page, "AI presidents")
+
+    const previewElement = page.locator("#preview-container > article")
+    expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
+  })
+
   // TODO search "Shrek" and assert that GPT-3 gems instance has visible in preview
 })
 

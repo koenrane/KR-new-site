@@ -96,7 +96,7 @@ export default (() => {
     )
     // Create a filtered object with only the properties you want to expose
     const exposedFrontmatter = {
-      no_dropcap: fileData.frontmatter?.no_dropcap === true,
+      no_dropcap: fileData.frontmatter?.no_dropcap,
     }
 
     const frontmatterScript = (
