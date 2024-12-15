@@ -128,6 +128,7 @@ test("Search results work for a single character", async ({ page }) => {
   expect(results).not.toHaveLength(1)
 })
 
+// TODO add test for "AI" working
 test.describe("Search accuracy", () => {
   const searchTerms = [
     { term: "Josh Turner" },
@@ -187,6 +188,14 @@ test.describe("Search accuracy", () => {
 
     const previewElement = page.locator("#preview-container > article")
     expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
+  })
+
+  test("Test page does use dropcap", async ({ page }) => {
+    await page.keyboard.press("/")
+    await search(page, "test")
+
+    const previewElement = page.locator("#preview-container > article")
+    expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
   })
 
   // TODO search "Shrek" and assert that GPT-3 gems instance has visible in preview
@@ -296,6 +305,25 @@ test("Search preview shows after bad entry", async ({ page }) => {
   // If preview fails, it'll have no children
   const previewContent = previewContainer.locator(":scope > *")
   await expect(previewContent).toHaveCount(1)
+})
+
+test("Search preview shows after searching, closing, and reopening", async ({ page }) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+  const previewContainer = page.locator("#preview-container")
+
+  await page.keyboard.press("/")
+  await search(page, "Testing site")
+  await expect(previewContainer).toBeVisible()
+
+  await page.keyboard.press("Escape")
+  await expect(previewContainer).not.toBeVisible()
+
+  await page.keyboard.press("/")
+  await expect(previewContainer).not.toBeVisible()
+  await search(page, "Shrek")
+  await expect(previewContainer).toBeVisible()
 })
 
 test("Show search preview, search invalid, then show again", async ({ page }) => {

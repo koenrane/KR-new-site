@@ -260,7 +260,7 @@ function hideSearch() {
     removeAllChildren(results)
   }
   if (preview) {
-    removeAllChildren(preview)
+    preview.style.display = "none"
   }
   if (searchLayout) {
     searchLayout.classList.remove("display-results")
@@ -419,7 +419,7 @@ async function onNav(e: CustomEventMap["nav"]) {
  */
 async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   if (!fetchContentCache.has(slug)) {
-    const fetchPromise = (async () => {
+    const fetchPromise = await (async () => {
       const targetUrl = resolveUrl(slug, currentSlug).toString()
       const contents = await fetch(targetUrl)
         .then((res) => res.text())
@@ -446,7 +446,7 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
       return contents
     })()
 
-    fetchContentCache.set(slug, fetchPromise)
+    fetchContentCache.set(slug, Promise.resolve(fetchPromise))
   }
 
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
@@ -620,16 +620,19 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
 
   if (finalResults.length === 0 && preview) {
     // no results, clear previous preview
-    preview.classList.add("hidden") // TODO just set property. And remove from search.scss
-    // removeAllChildren(preview)
+    preview.style.display = "none"
   } else {
     // focus on first result, then also dispatch preview immediately
     const firstChild = results.firstElementChild as HTMLElement
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
-    preview?.classList.remove("hidden")
     await displayPreview(firstChild)
+    if (preview) {
+      preview.style.display = "block"
+    } else {
+      throw new Error("Preview element not found")
+    }
   }
 }
 
