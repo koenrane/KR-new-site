@@ -270,6 +270,77 @@ This solution is 2/3 water, mixed on 01/01/2024.
 
 🙈 🙉 🙊 💥 💫 💦 💨 🐵 🐒 🦍 🦧 🐶 🐕 🦮 🐕‍🦺 🐩 🐺 🦊 🦝 🐱 🐈 🐈‍⬛ 🦁 🐯 🐅 🐆 🐴 🐎 🦄 🦓 🦌 🦬 🐮 🐂 🐃 🐄 🐷 🐖 🐗 🐽 🐏 🐑 🐐 🐪 🐫 🦙 🦒 🐘 🦣 🦏 🦛 🐭 🐁 🐀 🐹 🐰 🐇 🐿 🦫 🦔 🦇 🐻 🐻‍❄️ 🐨 🐼 🦥 🦦 🦨 🦘 🦡 🐾 🦃 🐔 🐓 🐣 🐤 🐥 🐦 🐧 🕊 🦅 🦆 🦢 🦉 🦤 🪶 🦩 🦚 🦜 🐸 🐊 🐢 🦎 🐍 🐲 🐉 🦕 🦖 🐳 🐋 🐬 🦭 🐟 🐠 🐡 🦈 🐙 🐚 🐌 🦋 🐛 🐜 🐝 🪲 🐞 🦗 🪳 🕷 🕸 🦂 🦟 🪰 🪱 🦠 💐 🌸 💮 🏵 🌹 🥀 🌺 🌻 🌼 🌷 🌱 🌲 🌳 🌴 🌵 🌾 🌿 ☘ 🍀 🍁 🍂 🍃 🍄 🌰 🦀 🦞 🦐 🦑 🌍 🌎 🌏 🌐 🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘 🌙 🌚 🌛 🌜 ☀ 🌝 🌞 ⭐ 🌟 🌠 ☁ ⛅ ⛈ 🌤 🌥 🌦 🌧 🌨 🌩 🌪 🌫 🌬 🌈 ☂ ☔ ⚡ ❄ ☃ ⛄ ☄ 🔥 💧 🌊 🎄 ✨ 🎋 🎍
 
+## Emoji comparison
+
+<figure id="emoji-comparison">
+ <div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" alt="Smiling Face With Hearts on Apple">
+      <figcaption>Apple</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/google_hearts.avif" alt="Smiling Face With Hearts on Google">
+      <figcaption>Google</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/microsoft_hearts.avif" alt="Smiling Face With Hearts on Microsoft">
+      <figcaption>Microsoft</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/facebook_hearts.avif" alt="Smiling Face With Hearts on Facebook">
+      <figcaption>Facebook</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/twemoji/1f970.svg" alt="Smiling Face With Hearts on Twitter">
+      <figcaption>Twitter</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/whatsapp_hearts.avif" alt="Smiling Face With Hearts on WhatsApp">
+      <figcaption>WhatsApp</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/samsung_hearts.avif" alt="Smiling Face With Hearts on Samsung">
+      <figcaption>Samsung</figcaption>
+    </div>
+    <div class="subfigure">
+      <img src="https://assets.turntrout.com/static/images/posts/LG_hearts.avif" alt="Smiling Face With Hearts on LG">
+      <figcaption>LG</figcaption>
+    </div>
+  </div>
+</figure>
+
+# Color palette
+
+<figure>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; margin-bottom: 1rem;">
+  <span id="light-demo" class="light-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--midground) solid;">
+    <center>Light mode</center>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
+      <span style="color: red;">Red</span>
+      <span style="color: orange;">Orange</span>
+      <span style="color: yellow;">Yellow</span>
+      <span style="color: green;">Green</span>
+      <span style="color: blue;">Blue</span>
+      <span style="color: purple;">Purple</span>
+    </div>
+    <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; filter: none;" alt="Smiling Face With Hearts on Twitter"/></center>
+  </span>
+  <span id="dark-demo" class="dark-mode" style="border-radius: 5px; padding: 1rem 2rem; border: 2px var(--midground) solid;">
+    <center>Dark mode</center>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 1rem; place-items: center; margin-top: .5rem; margin-bottom: .25rem;">
+      <span style="color: red;">Red</span>
+      <span style="color: orange;">Orange</span>
+      <span style="color: yellow;">Yellow</span>
+      <span style="color: green;">Green</span>
+      <span style="color: blue;">Blue</span>
+      <span style="color: purple;">Purple</span>
+    </div>
+    <center><img src="https://assets.turntrout.com/twemoji/1f970.svg" style="max-width: 100px; max-height: 100px; margin-top: 1rem; mix-blend-mode: normal;" alt="Smiling Face With Hearts on Twitter"/></center>
+  </span>
+</div>
+<figcaption>The palettes for light and dark mode. In dark mode, I decrease the saturation of image assets.</figcaption>
+</figure>
+
 # Footnote demonstration
 
 This text omits a detail.[^footnote] This sentence has multiple footnotes.[^1][^2]

@@ -95,7 +95,6 @@ test.describe("Admonitions", () => {
   }
 
   test("color demo text isn't wrapping", async ({ page }) => {
-    await page.goto("http://localhost:8080/design")
     for (const identifier of ["#light-demo", "#dark-demo"]) {
       // Get all paragraph elements within the demo
       const textElements = page.locator(`${identifier} > div > p`)
