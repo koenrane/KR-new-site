@@ -133,12 +133,12 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             title: file.data.frontmatter?.title ?? "",
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
-            content: file.data.text ?? "",
+            content: (file.data.text as string) ?? "",
             richContent: opts?.rssFullHtml
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
             date: date,
-            description: file.data.description ?? undefined,
+            description: (file.data.description as string) ?? undefined,
             authors: file.data.frontmatter?.authors as string | undefined,
           })
         }

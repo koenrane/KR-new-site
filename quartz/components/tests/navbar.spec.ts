@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test"
 import { takeArgosScreenshot } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page")
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
 })
 
 test("Clicking away closes the menu", async ({ page }, testInfo) => {

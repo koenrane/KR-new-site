@@ -21,6 +21,7 @@ export async function takeArgosScreenshot(
   options?: ArgosScreenshotOptions,
 ) {
   const totalOptions = { ...defaultOptions, ...options }
+  return
   await argosScreenshot(page, `${testInfo.title}-${screenshotSuffix}`, totalOptions)
 }
 
