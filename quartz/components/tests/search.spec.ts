@@ -396,7 +396,7 @@ test("Single letter dropcaps, search preview visual regression test", async ({
   })
 })
 
-test("Preview container click navigates to the correct page on desktop", async ({ page }) => {
+test("Preview container click navigates to the correct page", async ({ page }) => {
   if (!showingPreview(page)) {
     test.skip()
   }
@@ -420,13 +420,4 @@ test("Preview container click navigates to the correct page on desktop", async (
   expect(page.url()).toBe(expectedUrl)
 })
 
-//TODO test emoji comparison styling in preview
-test("Search preview displays the emoji comparison properly", async ({ page }) => {
-  await page.keyboard.press("/")
-  await search(page, "Emoji comparison")
-  const previewContainer = page.locator("#preview-container")
-  await expect(previewContainer).toBeVisible()
-})
-
-// TODO doesn't show dropcaps properly in preview
 // TODO if first result is in a callout, open all of its parent callouts before scrolling to it

@@ -94,7 +94,7 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
 
             // Fill in text for search
             let text = escapeHTML(toString(tree))
-            text = text.replace(urlRegex, "$<domain>" + "$<path>")
+            text = text.replace(urlRegex, "$<domain>$<path>")
             file.data.text = text
           }
         },
