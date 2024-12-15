@@ -125,6 +125,8 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
   await expect(navbar).toBeVisible()
 })
 
+// TODO sometimes need to focus page before hitting "/"
+
 // TODO this test is flaky
 test("Menu disappears gradually when scrolling down", async ({ page }, testInfo) => {
   if (testInfo.project.name === "Desktop Chrome") {
