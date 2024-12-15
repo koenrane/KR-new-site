@@ -27,6 +27,7 @@ function coalesceAliases(data: { [key: string]: string[] }, aliases: string[]) {
   for (const alias of aliases) {
     if (data[alias] !== undefined && data[alias] !== null) return data[alias]
   }
+  return []
 }
 
 // I don't want tags to be case-sensitive

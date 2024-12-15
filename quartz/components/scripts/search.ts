@@ -542,6 +542,97 @@ const getByField = (
   return results.length === 0 ? [] : ([...results[0].result] as number[])
 }
 
+const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boolean) => {
+  const htmlTags = tags.length > 0 ? `<ul class="tags">${tags.join("")}</ul>` : ""
+  const itemTile = document.createElement("a")
+  itemTile.classList.add("result-card")
+  itemTile.id = slug
+  itemTile.href = resolveUrl(slug, currentSlug).toString()
+
+  content = replaceEmojiConvertArrows(content)
+  itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
+    enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
+  }`
+  itemTile.addEventListener("click", (event) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+    hideSearch()
+  })
+
+  const handler = (event: MouseEvent) => {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+    hideSearch()
+  }
+
+  async function onMouseEnter(ev: MouseEvent) {
+    if (!ev.target) return
+    const target = ev.target as HTMLInputElement
+    await displayPreview(target)
+  }
+
+  itemTile.addEventListener("mouseenter", onMouseEnter)
+  itemTile.addEventListener("click", handler)
+
+  return itemTile
+}
+
+/**
+ * Formats search result data for display
+ * @param term - Search term
+ * @param id - Result ID
+ * @param data - Content data
+ * @param idDataMap - Mapping of IDs to slugs
+ */
+const formatForDisplay = (
+  term: string,
+  id: number,
+  data: { [key: FullSlug]: ContentDetails },
+  idDataMap: FullSlug[],
+) => {
+  const slug = idDataMap[id]
+  return {
+    id,
+    slug,
+    title: searchType === "tags" ? data[slug].title : highlight(term, data[slug].title ?? ""),
+    content: highlight(term, data[slug].content ?? "", true),
+    authors: data[slug].authors,
+    tags: highlightTags(term.substring(1), data[slug].tags),
+  }
+}
+
+/**
+ * Displays search results in the UI
+ * @param finalResults - Processed search results
+ * @param results - Container element for results
+ * @param enablePreview - Whether preview is enabled
+ */
+async function displayResults(finalResults: Item[], results: HTMLElement, enablePreview: boolean) {
+  if (!results) return
+
+  removeAllChildren(results)
+  if (finalResults.length === 0) {
+    results.innerHTML = `<a class="result-card no-match">
+        <h3>No results.</h3>
+        <p>Try another search term?</p>
+    </a>`
+  } else {
+    results.append(...finalResults.map((result) => resultToHTML(result, enablePreview)))
+  }
+
+  if (finalResults.length === 0 && preview) {
+    // no results, clear previous preview
+    preview.classList.add("hidden") // TODO just set property. And remove from search.scss
+    // removeAllChildren(preview)
+  } else {
+    // focus on first result, then also dispatch preview immediately
+    const firstChild = results.firstElementChild as HTMLElement
+    firstChild.classList.add("focus")
+    currentHover = firstChild as HTMLInputElement
+
+    preview?.classList.remove("hidden")
+    await displayPreview(firstChild)
+  }
+}
+
 /**
  * Handles search input changes
  * @param e - Input event
@@ -557,16 +648,16 @@ async function onType(e: HTMLElementEventMap["input"]) {
   if (searchType === "tags") {
     currentSearchTerm = currentSearchTerm.substring(1).trim()
     const separatorIndex = currentSearchTerm.indexOf(" ")
-    if (separatorIndex != -1) {
+    if (separatorIndex !== -1) {
       // search by title and content index and then filter by tag (implemented in flexsearch)
       const tag = currentSearchTerm.substring(0, separatorIndex)
       const query = currentSearchTerm.substring(separatorIndex + 1).trim()
       searchResults = await index.searchAsync({
-        query: query,
+        query,
         // return at least 10000 documents, so it is enough to filter them by tag (implemented in flexsearch)
         limit: Math.max(numSearchResults, 2000),
         index: ["title", "content"],
-        tag: tag,
+        tag,
       })
       for (const searchResult of searchResults) {
         searchResult.result = searchResult.result.slice(0, numSearchResults)
@@ -610,61 +701,6 @@ async function onType(e: HTMLElementEventMap["input"]) {
 }
 
 /**
- * Displays search results in the UI
- * @param finalResults - Processed search results
- * @param results - Container element for results
- * @param enablePreview - Whether preview is enabled
- */
-async function displayResults(finalResults: Item[], results: HTMLElement, enablePreview: boolean) {
-  if (!results) return
-
-  removeAllChildren(results)
-  if (finalResults.length === 0) {
-    results.innerHTML = `<a class="result-card no-match">
-        <h3>No results.</h3>
-        <p>Try another search term?</p>
-    </a>`
-  } else {
-    results.append(...finalResults.map((result) => resultToHTML(result, enablePreview)))
-  }
-
-  if (finalResults.length === 0 && preview) {
-    // no results, clear previous preview
-    removeAllChildren(preview)
-  } else {
-    // focus on first result, then also dispatch preview immediately
-    const firstChild = results.firstElementChild as HTMLElement
-    firstChild.classList.add("focus")
-    currentHover = firstChild as HTMLInputElement
-    await displayPreview(firstChild)
-  }
-}
-
-/**
- * Formats search result data for display
- * @param term - Search term
- * @param id - Result ID
- * @param data - Content data
- * @param idDataMap - Mapping of IDs to slugs
- */
-const formatForDisplay = (
-  term: string,
-  id: number,
-  data: { [key: FullSlug]: ContentDetails },
-  idDataMap: FullSlug[],
-) => {
-  const slug = idDataMap[id]
-  return {
-    id,
-    slug,
-    title: searchType === "tags" ? data[slug].title : highlight(term, data[slug].title ?? ""),
-    content: highlight(term, data[slug].content ?? "", true),
-    authors: data[slug].authors,
-    tags: highlightTags(term.substring(1), data[slug].tags),
-  }
-}
-
-/**
  * Highlights matching tags in search results
  * @param term - Search term
  * @param tags - Array of tags
@@ -697,38 +733,6 @@ export function setupSearch() {
   document.addEventListener("nav", onNav)
 }
 
-const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boolean) => {
-  const htmlTags = tags.length > 0 ? `<ul class="tags">${tags.join("")}</ul>` : ""
-  const itemTile = document.createElement("a")
-  itemTile.classList.add("result-card")
-  itemTile.id = slug
-  itemTile.href = resolveUrl(slug, currentSlug).toString()
-
-  content = replaceEmojiConvertArrows(content)
-  itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
-    enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
-  }`
-  itemTile.addEventListener("click", (event) => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-    hideSearch()
-  })
-
-  const handler = (event: MouseEvent) => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-    hideSearch()
-  }
-
-  async function onMouseEnter(ev: MouseEvent) {
-    if (!ev.target) return
-    const target = ev.target as HTMLInputElement
-    await displayPreview(target)
-  }
-
-  itemTile.addEventListener("mouseenter", onMouseEnter)
-  itemTile.addEventListener("click", handler)
-
-  return itemTile
-}
 /**
  * Fills flexsearch document with data
  * @param index index to fill

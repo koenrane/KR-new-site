@@ -3,7 +3,6 @@ export function setupScrollHandler() {
   let ticking = false
   const scrollThreshold = 50 // Minimum scroll distance before toggle
   const topThreshold = 50 // Show navbar when within 50px of top
-  console.log("setupScrollHandler")
 
   window.addEventListener("scroll", () => {
     if (!ticking) {

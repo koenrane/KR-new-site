@@ -158,7 +158,7 @@ test.describe("Search accuracy", () => {
     })
   })
 
-  test(`Slug search results are ordered before content search results for date-me`, async ({
+  test("Slug search results are ordered before content search results for date-me", async ({
     page,
   }) => {
     await page.keyboard.press("/")
@@ -275,6 +275,23 @@ test("Search preview shows after bad entry", async ({ page }) => {
   }
   await page.keyboard.press("/")
   await search(page, "zzzzzz")
+  await search(page, "Testing site")
+  await search(page, "zzzzzz")
+  await search(page, "Testing site")
+
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeVisible()
+
+  // If preview fails, it'll have no children
+  const previewContent = previewContainer.locator(":scope > *")
+  await expect(previewContent).toHaveCount(1)
+})
+
+test("Show search preview, search invalid, then show again", async ({ page }) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+  await page.keyboard.press("/")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
