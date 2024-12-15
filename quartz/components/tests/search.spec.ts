@@ -128,12 +128,12 @@ test("Search results work for a single character", async ({ page }) => {
   expect(results).not.toHaveLength(1)
 })
 
-// TODO add test for "AI" working
 test.describe("Search accuracy", () => {
   const searchTerms = [
     { term: "Josh Turner" },
     { term: "The Pond" },
     { term: "United States government" },
+    { term: "AI" },
   ]
   searchTerms.forEach(({ term }) => {
     test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
@@ -156,6 +156,24 @@ test.describe("Search accuracy", () => {
       const firstResult = page.locator(".result-card").first()
       const firstText = await firstResult.textContent()
       expect(firstText?.toLowerCase()).toContain(term.toLowerCase())
+    })
+  })
+
+  const previewTerms = ["Shrek", "AI presidents", "virus"]
+  previewTerms.forEach((term) => {
+    test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
+      if (!showingPreview(page)) {
+        test.skip()
+      }
+      await page.keyboard.press("/")
+      await search(page, term)
+
+      const previewContent = page.locator("#preview-container > article")
+      await expect(previewContent).toBeVisible()
+
+      // Get all highlighted instances of the term
+      const highlightedMatches = previewContent.locator(`span.highlight:text("${term}")`).first()
+      expect(highlightedMatches).toBeInViewport()
     })
   })
 
@@ -213,6 +231,8 @@ test("Enter key navigates to first result", async ({ page }) => {
 
   expect(page.url()).not.toBe(initialUrl)
 })
+
+// TODO "Shrek" -> GPT3 gems -> click -> GPT2 post
 
 test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
@@ -409,3 +429,5 @@ test("Preview container click navigates to the correct page on desktop", async (
   // Verify navigation occurred to the correct URL
   expect(page.url()).toBe(expectedUrl)
 })
+
+//TODO test emoji comparison styling in preview

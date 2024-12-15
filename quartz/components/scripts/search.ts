@@ -495,11 +495,19 @@ async function displayPreview(el: HTMLElement | null) {
     // Prefix IDs in the highlighted content to prevent duplication
     prefixDescendantIds(previewInner)
 
-    // Scroll to the first highlight immediately
-    const highlights = [...preview.querySelectorAll(".highlight")].sort(
-      (a, b) => b.innerHTML.length - a.innerHTML.length,
-    )
-    highlights[0]?.scrollIntoView({ block: "start", behavior: "instant" })
+    // Scroll to the first highlight
+    const highlights = [...preview.querySelectorAll(".highlight")]
+      .sort((a, b) => b.innerHTML.length - a.innerHTML.length)
+      .filter((x) => (x as HTMLElement).offsetParent !== null) // Otherwise can't scroll to it / not in the DOM TODO test highlight function
+
+    if (highlights.length > 0 && preview) {
+      // Get the first highlight's position relative to the preview container
+      const firstHighlight = highlights[0] as HTMLElement
+      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, preview)
+
+      // Scroll the preview container
+      preview.scrollTop = offsetTop - 0.5 * preview.clientHeight // 50% padding from top
+    }
   } catch (error) {
     console.error("Error loading preview:", error)
     if (previewInner) {
@@ -812,4 +820,17 @@ export function prefixDescendantIds(rootNode: HTMLElement): void {
 
     descendant.id = `search-${id}`
   }
+}
+
+function getOffsetTopRelativeToContainer(element: HTMLElement, container: HTMLElement): number {
+  let offsetTop = 0
+  let currentElement: HTMLElement | null = element
+
+  // Traverse up the DOM tree until we reach the container
+  while (currentElement && currentElement !== container) {
+    offsetTop += currentElement.offsetTop
+    currentElement = currentElement.offsetParent as HTMLElement | null
+  }
+
+  return offsetTop
 }
