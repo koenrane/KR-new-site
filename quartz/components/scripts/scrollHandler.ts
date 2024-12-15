@@ -1,14 +1,9 @@
-function toggleShadowNavbar() {
-  const navbar = document.querySelector("#navbar")
-  if (!navbar) return
-  navbar.classList.toggle("shadow", window.scrollY > 5)
-}
-
 export function setupScrollHandler() {
   let lastScrollY = window.scrollY
   let ticking = false
   const scrollThreshold = 50 // Minimum scroll distance before toggle
   const topThreshold = 50 // Show navbar when within 50px of top
+  console.log("setupScrollHandler")
 
   window.addEventListener("scroll", () => {
     if (!ticking) {
@@ -19,7 +14,7 @@ export function setupScrollHandler() {
         const currentScrollY = window.scrollY
         const delta = currentScrollY - lastScrollY
 
-        toggleShadowNavbar()
+        navbar.classList.toggle("shadow", window.scrollY > 5)
 
         if (Math.abs(delta) > scrollThreshold) {
           if (delta > 0) {
