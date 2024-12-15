@@ -171,7 +171,7 @@ test.describe("Search accuracy", () => {
       const previewContent = page.locator("#preview-container > article")
       await expect(previewContent).toBeVisible()
 
-      // Get all highlighted instances of the term
+      // Get first highlighted match
       const highlightedMatches = previewContent.locator(`span.highlight:text("${term}")`).first()
       expect(highlightedMatches).toBeInViewport()
     })
@@ -215,11 +215,15 @@ test.describe("Search accuracy", () => {
     const previewElement = page.locator("#preview-container > article")
     expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
   })
-
-  // TODO search "Shrek" and assert that GPT-3 gems instance has visible in preview
 })
 
-// TODO assert that search preview fnref has no underline
+test("Search preview footnote backref has no underline", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "test")
+
+  const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
+  await expect(footnoteLink).toHaveCSS("text-decoration", /^none/)
+})
 
 // TODO flaky
 test("Enter key navigates to first result", async ({ page }) => {
@@ -251,7 +255,6 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
-// TODO check that backref is rendering the right font: DejaVu Serif Condensed
 //  Test shouldn't pass yet
 test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
   if (!showingPreview(page)) {
