@@ -13,7 +13,6 @@ import {
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
-  neqConversion,
   minusReplace,
   l_pRegex,
   collectTransformableElements,
@@ -213,17 +212,9 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 
-  describe("NEQ Conversion", () => {
-    it.each([["There are 1 != 2 left.", "There are 1 ≠ 2 left."]])(
-      "should replace != with ≠ in %s",
-      (input: string, expected: string) => {
-        const result = neqConversion(input)
-        expect(result).toBe(expected)
-      },
-    )
-  })
   describe("Mass transforms", () => {
     it.each([
+      ["There are 1 != 2 left.", "There are 1 ≠ 2 left."],
       ["The data are i.i.d.", "The data are IID"],
       ["The cafe", "The café"],
       ["The Cafe", "The Café"],
@@ -1113,7 +1104,7 @@ describe("moveQuotesBeforeLink", () => {
   })
 })
 
-describe.only("getFirstTextNode", () => {
+describe("getFirstTextNode", () => {
   it.each([
     // Direct text node
     [h("a", {}, "Simple text"), "Simple text"],

@@ -324,7 +324,6 @@ export function applyTextTransforms(text: string): string {
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
   text = plusToAmpersand(text)
-  text = neqConversion(text)
   text = enDashNumberRange(text)
   text = enDashDateRange(text)
   try {
@@ -385,6 +384,7 @@ export function formatLNumbers(tree: Root): void {
   })
 }
 
+// TODO test all non-exported functions
 function formatArrows(tree: Root): void {
   visit(tree, "text", (node, index, parent) => {
     if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) return
@@ -586,10 +586,6 @@ export const rearrangeLinkPunctuation = (
   }
 }
 
-export function neqConversion(text: string): string {
-  return text.replace(/!=/g, "≠")
-}
-
 export function plusToAmpersand(text: string): string {
   const sourcePattern = "(?<=[a-zA-Z])\\+(?=[a-zA-Z])"
   const result = text.replace(new RegExp(sourcePattern, "g"), " \u0026 ")
@@ -597,6 +593,7 @@ export function plusToAmpersand(text: string): string {
 }
 
 const massTransforms: [RegExp | string, string][] = [
+  [/!=/g, "≠"],
   [/\b(?:i\.i\.d\.|iid)/gi, "IID"],
   [/\b([Cc])afe\b/g, "$1afé"],
   [/\b([Ff])rappe\b/g, "$1rappé"],
@@ -792,7 +789,6 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           transformElement(elt, hyphenReplace, toSkip, false)
           transformElement(elt, niceQuotes, toSkip, false)
           for (const transform of [
-            neqConversion,
             minusReplace,
             enDashNumberRange,
             enDashDateRange,
