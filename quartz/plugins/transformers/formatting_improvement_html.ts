@@ -164,7 +164,7 @@ export function niceQuotes(text: string): string {
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
   // If single quote has a right double quote after it, replace with right single and then double
-  text = text.replace(/'(?=”)/g, "’")
+  text = text.replace(/'(?=”)/gu, "’")
 
   // Periods inside quotes
   const periodRegex = new RegExp(`(?<![!?:])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
@@ -421,6 +421,31 @@ function getFirstTextNode(node: Parent): Text | null {
 }
 
 /**
+ * Recursively searches for and identifies the last anchor ('a') element in a node tree.
+ *
+ * @param node - The element node to search within
+ * @returns The last found anchor element, or null if no anchor element is found
+ *
+ * @example
+ * // Returns the <a> element
+ * identifyLinkNode(<div><em><a href="#">Link</a></em></div>)
+ *
+ * // Returns null
+ * identifyLinkNode(<div><span>Text</span></div>)
+ *
+ * // Returns the second <a> element
+ * identifyLinkNode(<div><a>First</a><a>Second</a></div>)
+ */
+export function identifyLinkNode(node: Element): Element | null {
+  if (node.tagName === "a") {
+    return node
+  } else if (node.children && node.children.length > 0) {
+    return identifyLinkNode(node.children[node.children.length - 1] as Element)
+  }
+  return null
+}
+
+/**
  * Moves punctuation inside links and handles quotation marks before links.
  *
  * @param node - The current node being processed
@@ -444,18 +469,9 @@ export const rearrangeLinkPunctuation = (
   }
 
   // Identify the link node
-  let linkNode
-  if (node?.tagName === "a") {
-    linkNode = node
-  } else if (node?.children && node.children.length > 0) {
-    const lastChild = node.children[node.children.length - 1]
-    if ("tagName" in lastChild && lastChild.tagName === "a") {
-      linkNode = lastChild
-    } else {
-      return // No link nearby
-    }
-  } else {
-    return // No link nearby
+  const linkNode = identifyLinkNode(node)
+  if (!linkNode) {
+    return
   }
 
   // Skip footnote links
@@ -543,7 +559,7 @@ const massTransforms: [RegExp | string, string][] = [
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
   [/\.{3}/g, "…"], // Ellipsis
-  [/…(?=\w)/g, "… "], // Space after ellipsis
+  [/…(?=\w)/gu, "… "], // Space after ellipsis
 ]
 
 export function massTransformText(text: string): string {

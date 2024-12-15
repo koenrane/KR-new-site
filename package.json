@@ -76,6 +76,7 @@
     "hast-util-to-html": "^9.0.0",
     "hast-util-to-jsx-runtime": "^2.3.0",
     "hast-util-to-string": "^3.0.0",
+    "hastscript": "^8.0.0",
     "image-downloader": "^4.3.0",
     "is-absolute-url": "^4.0.1",
     "jest-fetch-mock": "^3.0.3",

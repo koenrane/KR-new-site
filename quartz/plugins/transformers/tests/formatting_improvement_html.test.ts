@@ -19,6 +19,7 @@ import {
   collectTransformableElements,
   hasClass,
   enDashDateRange,
+  identifyLinkNode,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -154,7 +155,8 @@ describe("HTMLFormattingImprovement", () => {
 
     const mathHTML = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>'s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
 
-    const targetMathHTML = `<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>’s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>`
+    const targetMathHTML =
+      '<p><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">return</span></span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mclose">)</span></span></span></span> averages strategy <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">s</span></span></span></span>’s return over the first state being cooperate <code>c</code> and being defect <code>d</code>. <a href="#user-content-fnref-5" data-footnote-backref="" aria-label="Back to reference 6" class="data-footnote-backref internal alias">↩</a></p>'
 
     it("should handle apostrophe right after math mode", () => {
       const processedHtml = testHtmlFormattingImprovement(mathHTML)
@@ -266,7 +268,7 @@ describe("HTMLFormattingImprovement", () => {
   })
 
   describe("Ampersand replacement", () => {
-    it.each([[`<p>There I saw him+her.</p>`, `<p>There I saw him &#x26; her.</p>`]])(
+    it.each([["<p>There I saw him+her.</p>", "<p>There I saw him &#x26; her.</p>"]])(
       "should replace + with & in %s",
       (input: string, expected: string) => {
         const result = testHtmlFormattingImprovement(input)
@@ -366,7 +368,7 @@ describe("HTMLFormattingImprovement", () => {
         {},
         Array.from({ length: numChildren }, () => ({
           type: "text",
-          value: value,
+          value,
         })),
       )
     }
@@ -485,7 +487,7 @@ describe("rearrangeLinkPunctuation", () => {
         '<p><em><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions</a></em>.</p>',
         '<p><em><a href="https://www.amazon.com/Algorithms-Live-Computer-Science-Decisions/dp/1627790365">Algorithms to Live By: The Computer Science of Human Decisions.</a></em></p>',
       ],
-    ])(`correctly processes links`, (input: string, expected: string) => {
+    ])("correctly processes links", (input: string, expected: string) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
     })
@@ -993,5 +995,61 @@ describe("collectTransformableElements", () => {
   ])("collects elements from %s", (_, input, expected) => {
     const result = collectTransformableElements(input)
     expect(result.map((node) => [node.tagName, node.children.map(processNode)])).toEqual(expected)
+  })
+})
+
+describe("identifyLinkNode", () => {
+  // Helper function to create element nodes with proper typing
+  const createNode = (tagName: string, children: Element[] = []): Element => ({
+    type: "element",
+    tagName,
+    children,
+    properties: {},
+  })
+
+  // Test cases structure: [description, input node, expected result]
+  const testCases: [string, Element, Element | null][] = [
+    ["direct link node", createNode("a"), createNode("a")],
+    ["non-link node without children", createNode("div"), null],
+    ["nested link node", createNode("em", [createNode("a")]), createNode("a")],
+    [
+      "deeply nested link node",
+      createNode("div", [createNode("em", [createNode("strong", [createNode("a")])])]),
+      createNode("a"),
+    ],
+    [
+      "no link found",
+      createNode("div", [createNode("span"), createNode("em"), createNode("strong")]),
+      null,
+    ],
+    [
+      "multiple links (should return last)",
+      createNode("div", [createNode("a"), createNode("a")]),
+      createNode("a"),
+    ],
+    [
+      "complex nested structure",
+      createNode("div", [
+        createNode("span"),
+        createNode("em", [createNode("strong"), createNode("i", [createNode("a")])]),
+      ]),
+      createNode("a"),
+    ],
+  ]
+
+  it.each(testCases)("should handle %s", (_, input, expected) => {
+    const result = identifyLinkNode(input)
+    if (expected === null) {
+      expect(result).toBeNull()
+    } else {
+      expect(result?.tagName).toBe(expected.tagName)
+    }
+  })
+
+  // Keep this as a separate test since it's testing a specific edge case
+  it("should handle empty children array", () => {
+    const node = createNode("div")
+    node.children = []
+    expect(identifyLinkNode(node)).toBeNull()
   })
 })
