@@ -167,26 +167,45 @@ const createHighlightSpan = (text: string) => {
   return span
 }
 
-const highlightTextNodes = (node: Node, term: string) => {
-  if (node.nodeType === Node.TEXT_NODE) {
+/**
+ * Highlights search terms within HTML content while preserving HTML structure
+ * @param node - HTML element to search within
+ * @param term - Term to highlight
+ */
+export const highlightTextNodes = (node: Node, term: string) => {
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    if ((node as HTMLElement).classList.contains("highlight")) return
+
+    Array.from(node.childNodes).forEach((child) => highlightTextNodes(child, term))
+  } else if (node.nodeType === Node.TEXT_NODE) {
     const sanitizedTerm = escapeRegExp(term)
     const nodeText = node.nodeValue ?? ""
     const regex = new RegExp(sanitizedTerm.toLowerCase(), "gi")
     const matches = nodeText.match(regex)
+
     if (!matches || matches.length === 0) return
-    const spanContainer = document.createElement("span")
+
+    // Create document fragment instead of span container
+    const fragment = document.createDocumentFragment()
     let lastIndex = 0
+
     for (const match of matches) {
       const matchIndex = nodeText.indexOf(match, lastIndex)
-      spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex, matchIndex)))
-      spanContainer.appendChild(createHighlightSpan(match))
+      // Add text before match
+      if (matchIndex > lastIndex) {
+        fragment.appendChild(document.createTextNode(nodeText.slice(lastIndex, matchIndex)))
+      }
+      // Add highlighted match
+      fragment.appendChild(createHighlightSpan(match))
       lastIndex = matchIndex + match.length
     }
-    spanContainer.appendChild(document.createTextNode(nodeText.slice(lastIndex)))
-    node.parentNode?.replaceChild(spanContainer, node)
-  } else if (node.nodeType === Node.ELEMENT_NODE) {
-    if ((node as HTMLElement).classList.contains("highlight")) return
-    Array.from(node.childNodes).forEach((child) => highlightTextNodes(child, term))
+
+    // Add remaining text
+    if (lastIndex < nodeText.length) {
+      fragment.appendChild(document.createTextNode(nodeText.slice(lastIndex)))
+    }
+
+    node.parentNode?.replaceChild(fragment, node)
   }
 }
 
