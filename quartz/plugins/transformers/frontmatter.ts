@@ -1,13 +1,17 @@
 import matter from "gray-matter"
-import yaml from "js-yaml"
+import { Root } from "hast"
+import { toString } from "hast-util-to-string"
+import { JSON_SCHEMA, load as loadYAML } from "js-yaml"
 import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
 import { VFile } from "vfile"
 
 import { i18n } from "../../i18n"
+import { escapeHTML } from "../../util/escape"
 import { slugTag } from "../../util/path"
 import { QuartzTransformerPlugin } from "../types"
 import { QuartzPluginData } from "../vfile"
+import { urlRegex } from "./utils"
 
 export interface Options {
   delimiters: string | [string, string]
@@ -58,11 +62,11 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
       return [
         [remarkFrontmatter, ["yaml", "toml"]],
         () => {
-          return (_: unknown, file: VFile) => {
+          return (tree: Root, file: VFile) => {
             const { data } = matter(Buffer.from(file.value), {
               ...opts,
               engines: {
-                yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
+                yaml: (s) => loadYAML(s, { schema: JSON_SCHEMA }) as object,
                 toml: (s) => toml.parse(s) as object,
               },
             })
@@ -86,6 +90,11 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
 
             // fill in frontmatter
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
+
+            // Fill in text for search
+            let text = escapeHTML(toString(tree))
+            text = text.replace(urlRegex, "$<domain>" + "$<path>")
+            file.data.text = text
           }
         },
       ]
