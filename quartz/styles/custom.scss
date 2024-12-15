@@ -870,9 +870,9 @@ img.emoji {
   }
 }
 
-// Mermaid
-// stylelint-disable-next-line selector-class-pattern
-.edgeLabel > div, // stylelint-disable-next-line 
+/* Mermaid styles */
+/* stylelint-disable selector-class-pattern */
+.edgeLabel > div,
 .edgeLabel > p {
   align-items: baseline !important;
   background-color: var(--midground-faintest) !important;
@@ -880,6 +880,7 @@ img.emoji {
   padding-bottom: calc(0.25 * $base-margin);
   border-radius: 5px;
 }
+/* stylelint-enable selector-class-pattern */
 
 .flowchart {
   display: block !important; // Allows the diagram to be centered
