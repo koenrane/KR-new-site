@@ -26,6 +26,7 @@ function showingPreview(page: Page): boolean {
   return Boolean(shouldShowPreview)
 }
 
+// NOTE flaky?
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
   const searchContainer = page.locator("#search-container")
   const searchBar = page.locator("#search-bar")
@@ -43,6 +44,7 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
   await expect(searchContainer).not.toHaveClass(/active/)
 })
 
+// NOTE flaky?
 test("Search results appear and can be navigated", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")

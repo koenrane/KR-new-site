@@ -38,7 +38,7 @@ const index = new FlexSearch.Document<Item>({
     index: [
       {
         field: "title",
-        tokenize: "strict",
+        tokenize: "forward",
         resolution: 9,
       },
       {
