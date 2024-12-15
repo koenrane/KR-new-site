@@ -421,10 +421,12 @@ test("Preview container click navigates to the correct page on desktop", async (
 })
 
 //TODO test emoji comparison styling in preview
-
 test("Search preview displays the emoji comparison properly", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "Emoji comparison")
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible()
 })
+
+// TODO doesn't show dropcaps properly in preview
+// TODO if first result is in a callout, open all of its parent callouts before scrolling to it

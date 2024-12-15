@@ -173,6 +173,12 @@ const createHighlightSpan = (text: string) => {
  * @param term - Term to highlight
  */
 export const highlightTextNodes = (node: Node, term: string) => {
+  // Skip if node is within table of contents
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    const element = node as HTMLElement
+    if (element.closest("#toc-content-mobile")) return
+  }
+
   if (node.nodeType === Node.ELEMENT_NODE) {
     if ((node as HTMLElement).classList.contains("highlight")) return
 
@@ -512,9 +518,9 @@ async function displayPreview(el: HTMLElement | null) {
     })
 
     // Scroll to the first highlight
-    const highlights = [...preview.querySelectorAll(".highlight")]
-      .sort((a, b) => b.innerHTML.length - a.innerHTML.length)
-      .filter((x) => (x as HTMLElement).offsetParent !== null) // Otherwise can't scroll to it / not in the DOM TODO test highlight function
+    const highlights = [...preview.querySelectorAll(".highlight")].sort(
+      (a, b) => b.innerHTML.length - a.innerHTML.length,
+    )
 
     if (highlights.length > 0 && preview) {
       // Get the first highlight's position relative to the preview container
