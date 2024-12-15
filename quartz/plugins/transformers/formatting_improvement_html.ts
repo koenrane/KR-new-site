@@ -409,15 +409,38 @@ const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
 const LEFT_QUOTES = ['"', "“", "‘"]
 
-function getFirstTextNode(node: Parent): Text | null {
+/**
+ * Recursively finds the first text node in a tree of HTML elements
+ *
+ * @param node - The root node to search from
+ * @returns The first text node found, or null if no text nodes exist
+ *
+ * @example
+ * // Returns text node with value "Hello"
+ * getFirstTextNode(h('div', {}, [h('span', {}, 'Hello')]))
+ *
+ * // Returns null
+ * getFirstTextNode(h('div', {}, []))
+ */
+export function getFirstTextNode(node: Parent): Text | null {
   if (!node) return null
-  if (node.type === "text") {
-    return node as unknown as Text
-  } else if (node.children && node.children.length > 0 && node.children[0].type === "text") {
-    return node.children[0] as unknown as Text
-  } else {
-    return null
+
+  // Handle direct text nodes
+  if (node.type === "text" && "value" in node) {
+    return node as Text
   }
+
+  // Recursively search through children
+  if (node.children && node.children.length > 0) {
+    for (const child of node.children) {
+      const textNode = getFirstTextNode(child as Parent)
+      if (textNode) {
+        return textNode
+      }
+    }
+  }
+
+  return null
 }
 
 /**
@@ -443,6 +466,50 @@ export function identifyLinkNode(node: Element): Element | null {
     return identifyLinkNode(node.children[node.children.length - 1] as Element)
   }
   return null
+}
+
+/**
+ * Handles quotation marks that appear before a link by moving them inside the link.
+ *
+ * @param prevNode - The node before the link
+ * @param linkNode - The link node to potentially move quotes into
+ * @returns boolean - Whether any quotes were moved
+ *
+ * @example
+ * // Before: '"<a href="#">Link</a>'
+ * // After:  '<a href="#">"Link</a>'
+ * moveQuotesBeforeLink(prevTextNode, linkNode)
+ */
+export function moveQuotesBeforeLink(
+  prevNode: ElementContent | undefined,
+  linkNode: Element,
+): boolean {
+  // Only process text nodes
+  if (!prevNode || prevNode.type !== "text") {
+    return false
+  }
+
+  const lastChar = prevNode.value.slice(-1)
+
+  // Check if last character is a left quote
+  if (!LEFT_QUOTES.includes(lastChar)) {
+    return false
+  }
+
+  // Remove quote from previous node
+  prevNode.value = prevNode.value.slice(0, -1)
+
+  // Find or create first text node in link
+  const firstTextNode = getFirstTextNode(linkNode)
+  if (firstTextNode) {
+    firstTextNode.value = lastChar + firstTextNode.value
+  } else {
+    // Create new text node as first child if none exists
+    const newTextNode = { type: "text", value: lastChar }
+    linkNode.children.unshift(newTextNode as ElementContent)
+  }
+
+  return true
 }
 
 /**
@@ -480,23 +547,7 @@ export const rearrangeLinkPunctuation = (
     return
   }
 
-  // Handle quotation marks before the link
-  const prevNode = parent.children[index - 1]
-  if (prevNode?.type === "text" && LEFT_QUOTES.includes(prevNode.value.slice(-1))) {
-    const quoteChar = prevNode.value.slice(-1)
-    prevNode.value = prevNode.value.slice(0, -1)
-
-    const firstTextNode: Text | null = getFirstTextNode(linkNode)
-    if (firstTextNode && firstTextNode?.type === "text") {
-      firstTextNode.value = quoteChar + firstTextNode.value
-    } else {
-      // No text node found in linkNode
-      // Create new text node as first child of linkNode
-      const newTextNode = { type: "text", value: quoteChar }
-
-      linkNode.children.unshift(newTextNode as ElementContent)
-    }
-  }
+  moveQuotesBeforeLink(parent.children[index - 1], linkNode)
 
   // Identify the text node after the link
   const sibling = parent.children[index + 1]

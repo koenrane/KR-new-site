@@ -1,4 +1,4 @@
-import { Element, ElementContent } from "hast"
+import { Element, ElementContent, Parent } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 
@@ -20,6 +20,8 @@ import {
   hasClass,
   enDashDateRange,
   identifyLinkNode,
+  moveQuotesBeforeLink,
+  getFirstTextNode,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -1051,5 +1053,101 @@ describe("identifyLinkNode", () => {
     const node = createNode("div")
     node.children = []
     expect(identifyLinkNode(node)).toBeNull()
+  })
+})
+
+describe("moveQuotesBeforeLink", () => {
+  it.each([
+    // Basic cases
+    [{ type: "text", value: 'Text "' }, h("a", {}, "Link"), true, "Text ", '"Link'],
+    // Nested elements case
+    [
+      { type: "text", value: 'Text "' },
+      h("a", {}, [h("code", {}, "Link")]),
+      true,
+      "Text ",
+      '"Link',
+    ],
+    // No quotes case
+    [{ type: "text", value: "Text " }, h("a", {}, "Link"), false, "Text ", "Link"],
+    // Smart quotes
+    [{ type: "text", value: 'Text "' }, h("a", {}, "Link"), true, "Text ", '"Link'],
+    // Single quotes
+    [{ type: "text", value: "Text '" }, h("a", {}, "Link"), true, "Text ", "'Link"],
+    // Empty link
+    [{ type: "text", value: 'Text "' }, h("a"), true, "Text ", '"'],
+    // Multiple nested elements
+    [
+      { type: "text", value: 'Text "' },
+      h("a", {}, [h("em", {}, [h("strong", {}, "Link")])]),
+      true,
+      "Text ",
+      '"Link',
+    ],
+  ])(
+    "should handle quotes before links correctly",
+    (prevNode, linkNode, expectedReturn, expectedPrevValue, expectedFirstTextValue) => {
+      const result = moveQuotesBeforeLink(prevNode as ElementContent, linkNode as Element)
+
+      expect(result).toBe(expectedReturn)
+      expect(prevNode.value).toBe(expectedPrevValue)
+
+      const firstTextNode = getFirstTextNode(linkNode as Element)
+      if (firstTextNode) {
+        expect(firstTextNode.value).toBe(expectedFirstTextValue)
+      }
+    },
+  )
+
+  it("should handle undefined previous node", () => {
+    const linkNode = h("a", {}, "Link")
+    const result = moveQuotesBeforeLink(undefined, linkNode)
+    expect(result).toBe(false)
+  })
+
+  it("should handle non-text previous node", () => {
+    const prevNode = h("span")
+    const linkNode = h("a", {}, "Link")
+    const result = moveQuotesBeforeLink(prevNode as ElementContent, linkNode)
+    expect(result).toBe(false)
+  })
+})
+
+describe.only("getFirstTextNode", () => {
+  it.each([
+    // Direct text node
+    [h("a", {}, "Simple text"), "Simple text"],
+    // Nested text node
+    [h("a", {}, [h("em", {}, "Nested text")]), "Nested text"],
+    // Multiple children with text first
+    [h("a", {}, ["First text", h("em", {}, "Second text")]), "First text"],
+    // Empty element
+    [h("a"), null],
+    // Element with empty children array
+    [h("a", {}, []), null],
+    // Deeply nested structure
+    [h("div", {}, [h("span", {}, [h("em", {}, "Deep text")])]), "Deep text"],
+    // Non-text first child
+    [h("a", {}, [h("br"), "After break"]), "After break"],
+    // Mixed content
+    [h("p", {}, [h("strong", {}, "Bold"), " normal", h("em", {}, "emphasis")]), "Bold"],
+  ])("should find first text node in %#", (input, expected) => {
+    const result = getFirstTextNode(input)
+    if (expected === null) {
+      expect(result).toBeNull()
+    } else {
+      expect(result?.type).toBe("text")
+      expect(result?.value).toBe(expected)
+    }
+  })
+
+  it("should handle undefined/null input", () => {
+    expect(getFirstTextNode(undefined as unknown as Parent)).toBeNull()
+    expect(getFirstTextNode(null as unknown as Parent)).toBeNull()
+  })
+
+  it("should handle non-element nodes", () => {
+    const textNode = { type: "text", value: "Just text" }
+    expect(getFirstTextNode(textNode as unknown as Parent)?.value).toBe("Just text")
   })
 })
