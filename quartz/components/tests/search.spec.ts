@@ -183,6 +183,7 @@ test.describe("Search accuracy", () => {
 
 // TODO assert that search preview fnref has no underline
 
+// TODO flaky
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
   await page.keyboard.press("/")
@@ -195,9 +196,10 @@ test("Enter key navigates to first result", async ({ page }) => {
 
 test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
-  await search(page, "Testing site emoji")
+  await search(page, "Emoji examples")
 
   const firstResult = page.locator(".result-card").first()
+  // Assertion on the title's contents for the first result
   await expect(firstResult).toContainText("Testing Site Features")
   if (showingPreview(page)) {
     await takeArgosScreenshot(page, testInfo, "", {
@@ -210,6 +212,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
 })
 
 // TODO check that backref is rendering the right font: DejaVu Serif Condensed
+//  Test shouldn't pass yet
 test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
   if (!showingPreview(page)) {
     test.skip()
