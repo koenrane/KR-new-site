@@ -492,9 +492,6 @@ async function displayPreview(el: HTMLElement | null) {
       }
     })
 
-    // Prefix IDs in the highlighted content to prevent duplication
-    prefixDescendantIds(previewInner)
-
     // Scroll to the first highlight
     const highlights = [...preview.querySelectorAll(".highlight")]
       .sort((a, b) => b.innerHTML.length - a.innerHTML.length)
@@ -792,34 +789,6 @@ export function descendantsSamePageLinks(rootNode: Element): HTMLAnchorElement[]
   // Select all 'a' elements with 'href' starting with '#'
   const nodeListElements = rootNode.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')
   return Array.from(nodeListElements)
-}
-
-/**
- * Recursively prefixes all IDs and adjusts attributes that reference IDs.
- * @param rootNode - The root element to start from.
- */
-export function prefixDescendantIds(rootNode: HTMLElement): void {
-  const idDescendants = descendantsWithId(rootNode)
-  const samePageLinks = descendantsSamePageLinks(rootNode)
-
-  for (const descendant of idDescendants) {
-    const id = descendant.id
-
-    const matchingLinks = samePageLinks.filter((link) => {
-      const href = link.getAttribute("href")
-      return href === `#${id}`
-    })
-
-    for (const matchLink of matchingLinks) {
-      const oldHref = matchLink.getAttribute("href")
-      if (oldHref) {
-        const newHref = oldHref.replace(`#${id}`, `#search-${id}`)
-        matchLink.setAttribute("href", newHref)
-      }
-    }
-
-    descendant.id = `search-${id}`
-  }
 }
 
 function getOffsetTopRelativeToContainer(element: HTMLElement, container: HTMLElement): number {

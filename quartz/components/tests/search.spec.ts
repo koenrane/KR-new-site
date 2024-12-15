@@ -159,7 +159,7 @@ test.describe("Search accuracy", () => {
     })
   })
 
-  const previewTerms = ["Shrek", "AI presidents", "virus"]
+  const previewTerms = ["Shrek", "AI presidents", "virus", "Emoji"]
   previewTerms.forEach((term) => {
     test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
       if (!showingPreview(page)) {
@@ -396,19 +396,6 @@ test("Single letter dropcaps, search preview visual regression test", async ({
   })
 })
 
-test("The pond dropcaps in preview have a different id, preventing id duplication", async ({
-  page,
-}) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
-
-  await page.keyboard.press("/")
-  await search(page, "Testing site")
-  const previewPondDropcaps = page.locator("#search-the-pond-dropcaps")
-  expect(previewPondDropcaps).toHaveCount(1)
-})
-
 test("Preview container click navigates to the correct page on desktop", async ({ page }) => {
   if (!showingPreview(page)) {
     test.skip()
@@ -434,3 +421,10 @@ test("Preview container click navigates to the correct page on desktop", async (
 })
 
 //TODO test emoji comparison styling in preview
+
+test("Search preview displays the emoji comparison properly", async ({ page }) => {
+  await page.keyboard.press("/")
+  await search(page, "Emoji comparison")
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeVisible()
+})

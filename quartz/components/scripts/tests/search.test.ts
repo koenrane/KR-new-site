@@ -4,7 +4,7 @@
 
 import { describe, it, expect, beforeEach } from "@jest/globals"
 
-import { prefixDescendantIds, descendantsWithId, descendantsSamePageLinks } from "../search"
+import { descendantsWithId, descendantsSamePageLinks } from "../search"
 
 describe("Search Module Functions", () => {
   let rootNode: HTMLElement
@@ -63,77 +63,6 @@ describe("Search Module Functions", () => {
       const emptyDiv = document.createElement("div")
       const links = descendantsSamePageLinks(emptyDiv)
       expect(links).toEqual([])
-    })
-  })
-
-  describe("prefixDescendantIds", () => {
-    it("should prefix all descendant IDs and update same-page links", () => {
-      prefixDescendantIds(rootNode)
-
-      // Check that IDs are prefixed
-      const elementsWithId = descendantsWithId(rootNode)
-      elementsWithId.forEach((el) => {
-        expect(el.id.startsWith("search-")).toBe(true)
-      })
-
-      // Check that same-page links are updated
-      const links = descendantsSamePageLinks(rootNode)
-      links.forEach((link) => {
-        const href = link.getAttribute("href")
-        expect(href?.includes("#search-")).toBe(true)
-      })
-
-      // Ensure that IDs match the updated links
-      links.forEach((link) => {
-        const href = link.getAttribute("href")?.split("#").pop()
-        const targetElement = document.getElementById(href || "")
-        expect(targetElement).not.toBeNull()
-      })
-    })
-
-    it("should handle elements with and without IDs correctly", () => {
-      // Add an element without an ID
-      const noIdElement = document.createElement("div")
-      rootNode.appendChild(noIdElement)
-
-      prefixDescendantIds(rootNode)
-
-      // Verify that elements without IDs remain unchanged
-      const elements = rootNode.querySelectorAll("*")
-      elements.forEach((el) => {
-        if (el.id) {
-          expect(el.id.startsWith("search-")).toBe(true)
-        } else {
-          expect(el.id).toBe("")
-        }
-      })
-    })
-
-    it("should not affect elements outside the rootNode", () => {
-      const outsideElement = document.createElement("div")
-      outsideElement.id = "outside"
-      document.body.appendChild(outsideElement)
-
-      prefixDescendantIds(rootNode)
-
-      const updatedOutsideElement = document.getElementById("outside")
-      expect(updatedOutsideElement).not.toBeNull()
-      expect(updatedOutsideElement?.id).toBe("outside")
-
-      // Clean up
-      document.body.removeChild(outsideElement)
-    })
-
-    it("should handle multiple invocations without duplicating prefixes", () => {
-      prefixDescendantIds(rootNode)
-      prefixDescendantIds(rootNode)
-
-      const elementsWithId = descendantsWithId(rootNode)
-      elementsWithId.forEach((el) => {
-        // IDs should not have "search-search-" prefix
-        expect(el.id.startsWith("search-")).toBe(true)
-        expect(el.id.indexOf("search-search-")).toBe(-1)
-      })
     })
   })
 })
