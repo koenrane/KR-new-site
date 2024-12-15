@@ -357,6 +357,7 @@ async function shortcutHandler(
     }
   }
 }
+
 /**
  * Handles navigation events by setting up search functionality
  * @param e - Navigation event
@@ -463,7 +464,7 @@ async function displayPreview(el: HTMLElement | null) {
 
   try {
     const { content, frontmatter } = await fetchContent(slug)
-    const useDropcap = !("no_dropcap" in frontmatter) || !frontmatter.no_dropcap
+    const useDropcap: boolean = !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
 
     if (!previewInner) {
       previewInner = document.createElement("article")
