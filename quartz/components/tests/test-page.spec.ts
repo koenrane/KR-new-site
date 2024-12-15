@@ -93,6 +93,32 @@ test.describe("Admonitions", () => {
       })
     })
   }
+
+  test("color demo text isn't wrapping", async ({ page }) => {
+    await page.goto("http://localhost:8080/design")
+    for (const identifier of ["#light-demo", "#dark-demo"]) {
+      // Get all paragraph elements within the demo
+      const textElements = page.locator(`${identifier} > div > p`)
+      const count = await textElements.count()
+
+      // Iterate through each paragraph element
+      for (let i = 0; i < count; i++) {
+        const element = textElements.nth(i)
+
+        // Get computed styles for this element
+        const computedStyle = await element.evaluate((el) => {
+          const styles = window.getComputedStyle(el)
+          return {
+            lineHeight: parseFloat(styles.lineHeight),
+            height: el.getBoundingClientRect().height,
+          }
+        })
+
+        // Assert the height is not greater than line height
+        expect(computedStyle.height).toBeLessThanOrEqual(computedStyle.lineHeight)
+      }
+    }
+  })
 })
 
 test.describe("Clipboard button", () => {
