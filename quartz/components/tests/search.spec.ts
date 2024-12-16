@@ -16,6 +16,10 @@ test.beforeEach(async ({ page }) => {
 
 async function search(page: Page, term: string) {
   const searchBar = page.locator("#search-bar")
+
+  await expect(searchBar).toBeVisible()
+  await searchBar.focus()
+
   await searchBar.fill(term)
   await page.waitForTimeout(timeToWaitAfterSearch)
 }
@@ -240,22 +244,34 @@ test("Search URL updates as we select different results", async ({ page }) => {
   if (!showingPreview(page)) {
     test.skip()
   }
+
+  // Open search and type "Shrek"
   await page.keyboard.press("/")
   await search(page, "Shrek")
   const previewContainer = page.locator("#preview-container")
 
+  // Hover over the first result and click the preview
   const firstResult = page.locator(".result-card").first()
   await firstResult.hover()
   await previewContainer.click()
+
+  // Wait for navigation to complete and get the URL
+  await page.waitForLoadState("networkidle")
   const firstResultUrl = page.url()
 
   await page.keyboard.press("/")
   await search(page, "Shrek")
+
+  // Hover over the second result and click the preview
   const secondResult = page.locator(".result-card").nth(1)
   await secondResult.hover()
   await previewContainer.click()
+
+  // Wait for navigation and get the new URL
+  await page.waitForLoadState("networkidle")
   const secondResultUrl = page.url()
 
+  // Verify that the URLs are different
   expect(secondResultUrl).not.toBe(firstResultUrl)
 })
 
