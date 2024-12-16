@@ -211,10 +211,7 @@ f(x) &= x^2 + 2x + 1 \\
 $$
 Post-math text. The following equations should display properly:
 
-$$\nabla \cdot \mathbf{E}  =\frac{\rho}{\varepsilon_0} \qquad
-\nabla \cdot \mathbf{B}  =0 \qquad
-\nabla \times \mathbf{E}  =-\frac{\partial \mathbf{B}}{\partial t} \qquad
-\nabla \times \mathbf{B}  =\mu_0\left(\mathbf{J}+\varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}\right)$$
+$$\nabla \cdot \mathbf{E}  =\frac{\rho}{\varepsilon_0} \qquad \nabla \cdot \mathbf{B}  =0 \qquad \nabla \times \mathbf{E}  =-\frac{\partial \mathbf{B}}{\partial t} \qquad \nabla \times \mathbf{B}  =\mu_0\left(\mathbf{J}+\varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}\right)$$
 
 <img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt="Alex smiling at the camera; rainbow colored light splays off the wall in the background."/>
 
