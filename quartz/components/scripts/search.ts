@@ -258,39 +258,26 @@ export const highlightTextNodes = (node: Node, term: string) => {
   if (node.nodeType === Node.ELEMENT_NODE) {
     const element = node as HTMLElement
     if (element.closest("#toc-content-mobile")) return
-  }
-
-  if (node.nodeType === Node.ELEMENT_NODE) {
-    if ((node as HTMLElement).classList.contains("highlight")) return
+    if (element.classList.contains("highlight")) return
 
     Array.from(node.childNodes).forEach((child) => highlightTextNodes(child, term))
   } else if (node.nodeType === Node.TEXT_NODE) {
-    const sanitizedTerm = escapeRegExp(term)
     const nodeText = node.nodeValue ?? ""
-    const regex = new RegExp(sanitizedTerm.toLowerCase(), "gi")
-    const matches = nodeText.match(regex)
+    const sanitizedTerm = escapeRegExp(term)
+    const regex = new RegExp(`(${sanitizedTerm})`, "gi")
 
-    if (!matches || matches.length === 0) return
+    // Use a single split operation
+    const parts = nodeText.split(regex)
+    if (parts.length === 1) return // No matches
 
-    // Create document fragment instead of span container
     const fragment = document.createDocumentFragment()
-    let lastIndex = 0
-
-    for (const match of matches) {
-      const matchIndex = nodeText.indexOf(match, lastIndex)
-      // Add text before match
-      if (matchIndex > lastIndex) {
-        fragment.appendChild(document.createTextNode(nodeText.slice(lastIndex, matchIndex)))
+    parts.forEach((part: string): void => {
+      if (part.toLowerCase() === term.toLowerCase()) {
+        fragment.appendChild(createHighlightSpan(part))
+      } else if (part) {
+        fragment.appendChild(document.createTextNode(part))
       }
-      // Add highlighted match
-      fragment.appendChild(createHighlightSpan(match))
-      lastIndex = matchIndex + match.length
-    }
-
-    // Add remaining text
-    if (lastIndex < nodeText.length) {
-      fragment.appendChild(document.createTextNode(nodeText.slice(lastIndex)))
-    }
+    })
 
     node.parentNode?.replaceChild(fragment, node)
   }
