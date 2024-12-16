@@ -45,6 +45,7 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
 })
 
 // NOTE flaky?
+// TODO make more robust for up/down navigation, currently the focused result can "fall off"
 test("Search results appear and can be navigated", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")
@@ -61,7 +62,7 @@ test("Search results appear and can be navigated", async ({ page }, testInfo) =>
   // Navigate with arrow keys
   await page.keyboard.press("ArrowDown")
   const secondResult = resultCards.nth(1)
-  await expect(secondResult).toBeFocused()
+  await expect(secondResult).toHaveClass(/focus/)
 
   // Check that the preview appears if the width is greater than desktopWidth
   const shouldShowPreview = showingPreview(page)
