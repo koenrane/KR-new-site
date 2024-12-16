@@ -394,11 +394,11 @@ test("The pond dropcaps, search preview visual regression test", async ({ page }
 
   await page.keyboard.press("/")
   await search(page, "Testing site")
-  const searchPondDropcaps = page.locator("#search-the-pond-dropcaps")
+  const searchPondDropcaps = page.locator("#the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
 
   await takeArgosScreenshot(page, testInfo, "", {
-    element: "#search-the-pond-dropcaps",
+    element: "#the-pond-dropcaps",
   })
 })
 
