@@ -6,7 +6,8 @@ no_dropcap: "false"
 tags:
   - AI
   - mats-program
-description: Our gradient routing technique can force an interpretable inner representation. Each dimension corresponds to a digit. Play with a demo!
+description: Our gradient routing technique can force an interpretable inner representation.
+  Each dimension corresponds to a digit. Play with a demo!
 authors: Jacob Goldman-Wetzler
 hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/NO2S3mX.png
@@ -15,7 +16,10 @@ aliases:
   - routing-demo
   - mnist-partition-demo
 lw-linkpost-url: https://jacobgw.com/blog/ml/2024/12/12/interp-latent.html
+date_published: &id001 2024-12-16 17:42:14.364997
+date_updated: *id001
 ---
+
 Over the past few months, I helped develop [Gradient Routing](https://arxiv.org/abs/2410.04332), a non loss-based method to shape the internals of neural networks.
 
 After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
