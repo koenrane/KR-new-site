@@ -263,8 +263,13 @@ def test_check_file_for_issues_with_redirect(tmp_path):
     "html,expected",
     [
         (
-            '<html><head><img class="favicon" href="favicon.ico"></head></html>',
+            '<html><body><article><p><img class="favicon" href="favicon.ico"></p></article></body></html>',
             False,
+        ),
+        # In the bottom of the page
+        (
+            '<html><body><article>Article</article><img class="favicon" href="favicon.ico"></body></html>',
+            True,
         ),
         (
             '<html><head><link rel="stylesheet" href="style.css"></head></html>',
