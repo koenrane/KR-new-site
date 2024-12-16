@@ -324,6 +324,7 @@ code {
   position: relative;
   text-transform: uppercase;
   margin-right: 0.05rem;
+  padding-top: 0;
 
   // Inline dropcaps should be slightly higher than the baseline
   p & {
@@ -363,15 +364,16 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-background);
     color: var(--before-color);
-
-    // Firefox-specific adjustments for dropcap
-    @supports (-moz-appearance: none) {
-      top: -0.2rem;
-    }
   }
 
   & > p:first-of-type::first-letter {
     padding-top: var(--dropcap-vertical-offset);
+
+    // Firefox-specific adjustments for dropcap
+    @supports (-moz-appearance: none) {
+      padding-top: calc(0.25 * #{$base-margin});
+    }
+
     text-transform: uppercase;
     font-style: normal !important;
     float: left;
@@ -382,11 +384,6 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-foreground);
     font-weight: 500 !important;
-
-    // Firefox-specific adjustments for dropcap
-    @media all and (-moz-appearance: none) {
-      top: -0.2rem;
-    }
   }
 
   & > p:first-of-type::first-line {
