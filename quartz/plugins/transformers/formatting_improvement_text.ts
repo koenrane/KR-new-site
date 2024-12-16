@@ -163,11 +163,10 @@ export const formattingImprovement = (text: string) => {
 export const TextFormattingImprovement: QuartzTransformerPlugin = () => {
   return {
     name: "textFormattingImprovement",
-    textTransform(_ctx, src) {
-      if (src instanceof Buffer) {
-        src = src.toString()
-      }
-      return formattingImprovement(src)
+    textTransform(_ctx, src: string | Buffer) {
+      // Convert Buffer to string if needed
+      const content = typeof src === "string" ? src : src.toString()
+      return formattingImprovement(content)
     },
   }
 }

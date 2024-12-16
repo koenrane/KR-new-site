@@ -498,9 +498,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
     name: "ObsidianFlavoredMarkdown",
     textTransform(_ctx, src: string | Buffer) {
       // Strip HTML comments first
-      if (src instanceof Buffer) {
-        src = src.toString()
-      }
+      src = typeof src === "string" ? src : src.toString()
 
       // Add HTML comment stripping
       src = src.replace(/<!--[\s\S]*?-->/g, "")
@@ -512,11 +510,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       // pre-transform blockquotes
       if (opts.callouts) {
-        if ((src as string | Buffer) instanceof Buffer) {
-          src = src.toString()
-        }
-
-        src = src.replace(calloutLineRegex, (value) => {
+        src = src.replace(calloutLineRegex, (value: string): string => {
           // force newline after title of callout
           return value + "\n> "
         })
@@ -524,14 +518,10 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       // pre-transform wikilinks (fix anchors to things that may contain illegal syntax e.g. codeblocks, latex)
       if (opts.wikilinks) {
-        if ((src as string | Buffer) instanceof Buffer) {
-          src = src.toString()
-        }
-
         // replace all wikilinks inside a table first
-        src = src.replace(tableRegex, (value) => {
+        src = src.replace(tableRegex, (value: string): string => {
           // escape all aliases and headers in wikilinks inside a table
-          return value.replace(tableWikilinkRegex, (value, ...capture) => {
+          return value.replace(tableWikilinkRegex, (_, ...capture: string[]) => {
             const [raw]: (string | undefined)[] = capture
             let escaped = raw ?? ""
             escaped = escaped.replace("#", "\\#")
@@ -542,7 +532,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
 
         // replace all other wikilinks
-        src = src.replace(wikilinkRegex, (value, ...capture) => {
+        src = src.replace(wikilinkRegex, (value: string, ...capture: string[]): string => {
           const [rawFp, rawHeader, rawAlias]: (string | undefined)[] = capture
 
           const fp = rawFp ?? ""

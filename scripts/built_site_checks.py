@@ -635,6 +635,7 @@ def get_md_asset_counts(md_path: Path) -> Counter[str]:
     """
     Get the counts of all assets referenced in the markdown file.
     """
+    # skipcq: PTC-W6004, it's just serverside open -- not user-facing
     with open(md_path, "r", encoding="utf-8") as f:
         content = f.read()
         # Match ![alt](src) pattern, capturing the src
