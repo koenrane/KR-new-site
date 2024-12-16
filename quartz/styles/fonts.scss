@@ -371,7 +371,7 @@ article[data-use-dropcap="true"] {
 
     // Firefox-specific adjustments for dropcap
     @supports (-moz-appearance: none) {
-      padding-top: calc(0.25 * #{$base-margin});
+      padding-top: $base-margin;
     }
 
     text-transform: uppercase;
