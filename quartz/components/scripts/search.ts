@@ -70,6 +70,87 @@ const index = new FlexSearch.Document<Item>({
   },
 })
 
+interface PreloadConfig {
+  maxConcurrent: number
+  timeout: number
+}
+
+type PreloadStatus = {
+  isPreloading: boolean
+  queue: Set<FullSlug>
+  inProgress: Set<FullSlug>
+}
+
+class ContentPreloader {
+  private config: PreloadConfig
+  private status: PreloadStatus
+  private abortController: AbortController
+
+  constructor(config: PreloadConfig = { maxConcurrent: 3, timeout: 3000 }) {
+    this.config = config
+    this.status = {
+      isPreloading: false,
+      queue: new Set(),
+      inProgress: new Set(),
+    }
+    this.abortController = new AbortController()
+  }
+
+  public reset(): void {
+    this.abortController.abort()
+    this.abortController = new AbortController()
+    this.status.queue.clear()
+    this.status.inProgress.clear()
+    this.status.isPreloading = false
+  }
+
+  public async preloadResults(slugs: FullSlug[]): Promise<void> {
+    this.reset()
+
+    // Add all slugs to queue that aren't already cached
+    this.status.queue = new Set(slugs.filter((slug) => !fetchContentCache.has(slug)))
+
+    if (this.status.queue.size === 0) return
+
+    this.status.isPreloading = true
+    await this.processQueue()
+  }
+
+  private async processQueue(): Promise<void> {
+    while (this.status.queue.size > 0 && this.status.isPreloading) {
+      // Process only up to maxConcurrent items at a time
+      const batch = Array.from(this.status.queue).slice(0, this.config.maxConcurrent)
+
+      // Remove batch items from queue
+      batch.forEach((slug) => this.status.queue.delete(slug))
+
+      // Fetch all items in batch concurrently
+      const promises = batch.map((slug) => this.preloadSingle(slug))
+      await Promise.allSettled(promises)
+    }
+  }
+
+  private async preloadSingle(slug: FullSlug): Promise<void> {
+    this.status.inProgress.add(slug)
+
+    try {
+      await Promise.race([
+        fetchContent(slug),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Timeout")), this.config.timeout),
+        ),
+      ])
+    } catch (error) {
+      console.warn(`Failed to preload ${slug}:`, error)
+    } finally {
+      this.status.inProgress.delete(slug)
+    }
+  }
+}
+
+// Create a singleton instance
+const preloader = new ContentPreloader()
+
 interface FetchResult {
   content: Element[]
   frontmatter: Element
@@ -270,6 +351,7 @@ function showSearch(
  * Hides the search interface and resets its state
  */
 function hideSearch() {
+  preloader.reset()
   const container = document.getElementById("search-container")
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
   const results = document.getElementById("results-container")
@@ -760,10 +842,19 @@ async function onType(e: HTMLElementEventMap["input"]) {
   ])
   const idDataMap = Object.keys(data ?? {}) as FullSlug[]
   if (!data) return
+
   const finalResults = [...allIds].map((id) =>
     formatForDisplay(currentSearchTerm, id, data!, idDataMap),
   )
+
   await displayResults(finalResults, results, enablePreview)
+
+  // Start preloading the visible results
+  if (finalResults.length > 0) {
+    const slugsToPreload = finalResults.slice(0, numSearchResults).map((result) => result.slug)
+
+    void preloader.preloadResults(slugsToPreload)
+  }
 }
 
 /**
