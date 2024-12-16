@@ -564,7 +564,7 @@ class PreviewManager {
     this.container.appendChild(this.inner)
   }
 
-  public async update(el: HTMLElement | null, currentSearchTerm: string, baseSlug: FullSlug) {
+  public update(el: HTMLElement | null, currentSearchTerm: string, baseSlug: FullSlug) {
     if (!el) {
       this.hide()
       return
@@ -573,45 +573,52 @@ class PreviewManager {
     const slug = el.id as FullSlug
     this.currentSlug = slug
 
-    try {
-      const { content, frontmatter } = await fetchContent(slug)
-      const useDropcap: boolean =
-        !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
+    // Show container immediately
+    this.show()
 
-      // Update attributes
-      this.inner.setAttribute("data-use-dropcap", useDropcap.toString())
-
-      // Clear and update content
-      this.inner.innerHTML = ""
-      content.forEach((el) => {
-        const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
-        this.inner.append(...Array.from(highlightedContent.childNodes))
-      })
-
-      // Add navigation handler
-      this.inner.onclick = () => {
-        window.location.href = resolveUrl(slug, baseSlug).toString()
-      }
-
-      // Scroll to first highlight
-      this.scrollToFirstHighlight()
-      this.show()
-    } catch (error) {
-      console.error("Error loading preview:", error)
-      this.inner.innerHTML =
-        '<div class="preview-error" style="color: var(--red);">Error loading preview</div>'
-    }
+    // Fetch and render content immediately without waiting for assets
+    void this.fetchAndUpdateContent(slug, currentSearchTerm, baseSlug)
   }
 
-  private scrollToFirstHighlight(): void {
-    const highlights = [...this.container.querySelectorAll(".highlight")].sort(
-      (a, b) => b.innerHTML.length - a.innerHTML.length,
-    )
+  private async fetchAndUpdateContent(
+    slug: FullSlug,
+    currentSearchTerm: string,
+    baseSlug: FullSlug,
+  ) {
+    try {
+      const { content, frontmatter } = await fetchContent(slug)
 
-    if (highlights.length > 0) {
-      const firstHighlight = highlights[0] as HTMLElement
-      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
-      this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
+      // Only update if this is still the current preview we want
+      if (this.currentSlug === slug) {
+        const useDropcap: boolean =
+          !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
+        this.inner.setAttribute("data-use-dropcap", useDropcap.toString())
+
+        // Create a document fragment to build content off-screen
+        const fragment = document.createDocumentFragment()
+        content.forEach((el) => {
+          const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
+          fragment.append(...Array.from(highlightedContent.childNodes))
+        })
+
+        // Clear existing content and append new content
+        this.inner.innerHTML = ""
+        this.inner.appendChild(fragment)
+
+        // Set click handler
+        this.inner.onclick = () => {
+          window.location.href = resolveUrl(slug, baseSlug).toString()
+        }
+
+        // Let images and other resources load naturally
+        // Browser will handle loading these in the background
+        this.scrollToFirstHighlight()
+      }
+    } catch (error) {
+      console.error("Error loading preview:", error)
+      if (this.currentSlug === slug) {
+        this.inner.innerHTML = '<div class="preview-error">Error loading preview</div>'
+      }
     }
   }
 
@@ -627,6 +634,18 @@ class PreviewManager {
     this.inner.onclick = null
     this.inner.innerHTML = ""
     this.currentSlug = null
+  }
+
+  private scrollToFirstHighlight(): void {
+    const highlights = [...this.container.querySelectorAll(".highlight")].sort(
+      (a, b) => b.innerHTML.length - a.innerHTML.length,
+    )
+
+    if (highlights.length > 0) {
+      const firstHighlight = highlights[0] as HTMLElement
+      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
+      this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
+    }
   }
 }
 
