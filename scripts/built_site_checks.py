@@ -41,6 +41,7 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
     return localhost_links
 
 
+# TODO write tests
 def check_favicons_missing(soup: BeautifulSoup) -> bool:
     """
     Check if favicons are missing.
@@ -786,6 +787,7 @@ def check_description_length(soup: BeautifulSoup) -> List[str]:
     return ["Description not found"]
 
 
+# TODO write tests
 def check_css_issues(file_path: Path) -> List[str]:
     """
     Check for CSS issues in a file.
