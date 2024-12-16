@@ -3,7 +3,8 @@ permalink: self-teaching-insights
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+lw-page-url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 lw-is-question: 'false'
 lw-posted-at: 2021-01-23T19:00:55.559000Z
 lw-last-modification: 2022-01-01T09:44:15.044000Z
@@ -37,13 +38,16 @@ next-post-title: Insights from Modern Principles of Economics
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-01-23 00:00:00
-original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+original_url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
-description: "Lessons learned from years of self-teaching: use Anki, read multiple\
-  \ books concurrently, and don't be afraid of easier texts."
-date_updated: 2024-12-12 22:05:58.602985
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
+description: "Lessons learned from years of self-teaching: use Anki, read multiple
+  books concurrently, and don't be afraid of easier texts."
+date_updated: 2024-12-16 13:13:40.553982
 ---
+
 
 
 
