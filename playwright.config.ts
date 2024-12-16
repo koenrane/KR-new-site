@@ -1,9 +1,9 @@
 import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
+  timeout: 30000,
   fullyParallel: true,
   workers: "75%",
-  timeout: 30000,
 
   testDir: "./quartz/components",
   testMatch: /.*\.spec\.ts/,

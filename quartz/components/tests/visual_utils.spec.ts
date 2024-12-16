@@ -4,6 +4,7 @@ import { yOffset, setTheme, getNextElementMatchingSelector } from "./visual_util
 
 test.describe("visual_utils functions", () => {
   test.beforeEach(async ({ page }) => {
+    await page.waitForLoadState("networkidle")
     await page.goto("http://localhost:8080/test-page")
   })
 

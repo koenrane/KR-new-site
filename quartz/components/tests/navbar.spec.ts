@@ -3,7 +3,14 @@ import { test, expect } from "@playwright/test"
 import { takeArgosScreenshot } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
+  await page.goto("http://localhost:8080/test-page")
+  await page.waitForLoadState("networkidle")
+  await page.waitForLoadState("domcontentloaded")
+  await page.evaluate(() => window.scrollTo(0, 0))
+})
+
+test.afterEach(async ({ page }) => {
+  await page.evaluate(() => window.scrollTo(0, 0))
 })
 
 test("Clicking away closes the menu", async ({ page }, testInfo) => {

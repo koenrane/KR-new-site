@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
   // Log any console errors
   page.on("pageerror", (err) => console.error(err))
 
+  await page.waitForLoadState("networkidle")
   await page.goto("http://localhost:8080/test-page")
 
   // Dispatch the 'nav' event to initialize clipboard functionality
