@@ -439,3 +439,28 @@ test("Preview container click navigates to the correct page", async ({ page }) =
   // Verify navigation occurred to the correct URL
   expect(page.url()).toBe(expectedUrl)
 })
+
+test("Result card highlighting stays synchronized with preview", async ({ page }) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+
+  await page.keyboard.press("/")
+  await search(page, "test")
+
+  // Check initial state
+  const firstResult = page.locator(".result-card").first()
+  await expect(firstResult).toHaveClass(/focus/)
+
+  // Check keyboard navigation
+  await page.keyboard.press("ArrowDown")
+  const secondResult = page.locator(".result-card").nth(1)
+  await expect(secondResult).toHaveClass(/focus/)
+  await expect(firstResult).not.toHaveClass(/focus/)
+
+  // Check mouse interaction
+  const thirdResult = page.locator(".result-card").nth(2)
+  await thirdResult.hover()
+  await expect(thirdResult).toHaveClass(/focus/)
+  await expect(secondResult).not.toHaveClass(/focus/)
+})

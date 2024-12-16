@@ -300,7 +300,7 @@ let searchLayout: HTMLElement | null = null
 let data: { [key: FullSlug]: ContentDetails } | undefined
 let results: HTMLElement
 let preview: HTMLDivElement | undefined
-let currentHover: HTMLInputElement | null = null
+let currentHover: HTMLElement | null = null
 let currentSlug: FullSlug
 
 const appendLayout = (el: HTMLElement) => {
@@ -357,29 +357,17 @@ async function shortcutHandler(
   } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
     e.preventDefault()
     if (results?.contains(document.activeElement)) {
-      // If an element in results-container already has focus, focus previous one
-      const currentResult = currentHover
-        ? currentHover
-        : (document.activeElement as HTMLInputElement | null)
+      const currentResult = document.activeElement as HTMLInputElement
       const prevResult = currentResult?.previousElementSibling as HTMLInputElement | null
-      currentResult?.classList.remove("focus")
-      prevResult?.focus()
-      if (prevResult) currentHover = prevResult
       await displayPreview(prevResult)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
     e.preventDefault()
-    // The results should already been focused, so we need to find the next one.
-    // The activeElement is the search bar, so we need to find the first result and focus it.
     if (document.activeElement === searchBar || currentHover !== null) {
       const firstResult = currentHover
-        ? currentHover
-        : (document.getElementsByClassName("result-card")[0] as HTMLInputElement | null)
-      const secondResult = firstResult?.nextElementSibling as HTMLInputElement | null
-      firstResult?.classList.remove("focus")
-      secondResult?.focus()
-      if (secondResult) currentHover = secondResult
-      await displayPreview(secondResult)
+        ? currentHover.nextElementSibling
+        : document.getElementsByClassName("result-card")[0]
+      await displayPreview(firstResult as HTMLElement)
     }
   }
 }
@@ -566,6 +554,17 @@ async function displayPreview(el: HTMLElement | null) {
   const enablePreview = searchLayout?.dataset?.preview === "true"
   if (!searchLayout || !enablePreview || !preview) return
 
+  // Remove focus class from all result cards
+  document.querySelectorAll(".result-card").forEach((card) => {
+    card.classList.remove("focus")
+  })
+
+  // Add focus class to current element
+  if (el) {
+    el.classList.add("focus")
+    currentHover = el as HTMLInputElement
+  }
+
   // Initialize preview manager if needed
   if (!previewManager && preview) {
     previewManager = new PreviewManager(preview)
@@ -632,7 +631,15 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
     await displayPreview(target)
   }
 
+  // Add mouse leave handler to maintain focus state
+  function onMouseLeave() {
+    if (currentHover === itemTile) {
+      currentHover = null
+    }
+  }
+
   itemTile.addEventListener("mouseenter", onMouseEnter)
+  itemTile.addEventListener("mouseleave", onMouseLeave)
   itemTile.addEventListener("click", onResultClick)
 
   return itemTile
