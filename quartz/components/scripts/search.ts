@@ -624,15 +624,12 @@ class PreviewManager {
   }
 
   private scrollToFirstHighlight(): void {
-    const highlights = [...this.container.querySelectorAll(".highlight")].sort(
-      (a, b) => b.innerHTML.length - a.innerHTML.length,
-    )
+    // Get only the first matching highlight without sorting
+    const firstHighlight = this.container.querySelector(".highlight") as HTMLElement
+    if (!firstHighlight) return
 
-    if (highlights.length > 0) {
-      const firstHighlight = highlights[0] as HTMLElement
-      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
-      this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
-    }
+    const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
+    this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
   }
 }
 
