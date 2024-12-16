@@ -365,7 +365,7 @@ article[data-use-dropcap="true"] {
     color: var(--before-color);
 
     // Firefox-specific adjustments for dropcap
-    @supports (-moz-appearance: none) {
+    @media all and (-moz-appearance: none) {
       top: -0.2rem;
     }
   }
@@ -382,6 +382,11 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-foreground);
     font-weight: 500 !important;
+
+    // Firefox-specific adjustments for dropcap
+    @media all and (-moz-appearance: none) {
+      top: -0.2rem;
+    }
   }
 
   & > p:first-of-type::first-line {
