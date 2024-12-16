@@ -776,15 +776,13 @@ def check_description_length(soup: BeautifulSoup) -> List[str]:
                 f"Description too long: {len(description)} characters "
                 f"(recommended <= {MAX_DESCRIPTION_LENGTH})"
             ]
-        elif len(description) < MIN_DESCRIPTION_LENGTH:
+        if len(description) < MIN_DESCRIPTION_LENGTH:
             return [
                 f"Description too short: {len(description)} characters "
                 f"(recommended >= {MIN_DESCRIPTION_LENGTH})"
             ]
-        else:
-            return []
-    else:
-        return ["Description not found"]
+        return []
+    return ["Description not found"]
 
 
 def main() -> None:
