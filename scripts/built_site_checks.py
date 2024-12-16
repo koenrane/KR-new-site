@@ -45,7 +45,7 @@ def check_favicons_missing(soup: BeautifulSoup) -> bool:
     """
     Check if favicons are missing.
     """
-    return soup.find("img", class_="favicon") is None
+    return soup.find("article p img", class_="favicon") is None
 
 
 def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
@@ -579,7 +579,7 @@ def check_file_for_issues(
             soup, md_path
         )
 
-    if "test-page" in file_path.name:
+    if file_path.name == "about.html":  # Not all pages need to be checked
         issues["missing_favicon"] = check_favicons_missing(soup)
     return issues
 
