@@ -1057,7 +1057,7 @@ describe("moveQuotesBeforeLink", () => {
       h("a", {}, [h("code", {}, "Link")]),
       true,
       "Text ",
-      '"Link',
+      '"', // Don't move quotes into nested elements
     ],
     // No quotes case
     [{ type: "text", value: "Text " }, h("a", {}, "Link"), false, "Text ", "Link"],
@@ -1073,7 +1073,7 @@ describe("moveQuotesBeforeLink", () => {
       h("a", {}, [h("em", {}, [h("strong", {}, "Link")])]),
       true,
       "Text ",
-      '"Link',
+      '"',
     ],
   ])(
     "should handle quotes before links correctly",
@@ -1083,9 +1083,9 @@ describe("moveQuotesBeforeLink", () => {
       expect(result).toBe(expectedReturn)
       expect(prevNode.value).toBe(expectedPrevValue)
 
-      const firstTextNode = getFirstTextNode(linkNode as Element)
-      if (firstTextNode) {
-        expect(firstTextNode.value).toBe(expectedFirstTextValue)
+      const firstChild = linkNode.children[0]
+      if (firstChild && firstChild.type === "text") {
+        expect(firstChild.value).toBe(expectedFirstTextValue)
       }
     },
   )

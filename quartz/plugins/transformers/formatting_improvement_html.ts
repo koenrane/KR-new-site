@@ -407,7 +407,7 @@ function formatArrows(tree: Root): void {
 
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
-const LEFT_QUOTES = ['"', "“", "‘"]
+const LEFT_QUOTES = ['"', "“", "'", "‘"]
 
 /**
  * Recursively finds the first text node in a tree of HTML elements
@@ -491,7 +491,7 @@ export function moveQuotesBeforeLink(
 
   const lastChar = prevNode.value.slice(-1)
 
-  // Check if last character is a left quote
+  // Ensure that last character is a left quote
   if (!LEFT_QUOTES.includes(lastChar)) {
     return false
   }
@@ -500,11 +500,10 @@ export function moveQuotesBeforeLink(
   prevNode.value = prevNode.value.slice(0, -1)
 
   // Find or create first text node in link
-  const firstTextNode = getFirstTextNode(linkNode)
-  if (firstTextNode) {
-    firstTextNode.value = lastChar + firstTextNode.value
+  const firstChild = linkNode.children[0]
+  if (firstChild && firstChild.type === "text") {
+    firstChild.value = lastChar + firstChild.value
   } else {
-    // Create new text node as first child if none exists
     const newTextNode = { type: "text", value: lastChar }
     linkNode.children.unshift(newTextNode as ElementContent)
   }
