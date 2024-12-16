@@ -786,6 +786,22 @@ def check_description_length(soup: BeautifulSoup) -> List[str]:
     return ["Description not found"]
 
 
+def check_css_issues(file_path: Path) -> List[str]:
+    """
+    Check for CSS issues in a file.
+    """
+    if not file_path.exists():
+        return [f"CSS file {file_path} does not exist"]
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        if not re.search(r"@supports", content):
+            return [
+                f"CSS file {file_path} does not contain @supports, which is "
+                "required for dropcaps in Firefox"
+            ]
+    return []
+
+
 def main() -> None:
     """
     Check all HTML files in the public directory for issues.
@@ -794,6 +810,10 @@ def main() -> None:
     issues_found: bool = False
 
     check_rss_file_for_issues(git_root)
+    css_issues = check_css_issues(public_dir / "index.css")
+    if css_issues:
+        print_issues(public_dir / "index.css", {"CSS_issues": css_issues})
+        issues_found = True
 
     md_dir: Path = git_root / "content"
     permalink_to_md_path_map = script_utils.build_html_to_md_map(md_dir)
@@ -819,8 +839,8 @@ def main() -> None:
 
                 issues = check_file_for_issues(file_path, public_dir, md_path)
 
-                print_issues(file_path, issues)
                 if any(lst for lst in issues.values()):
+                    print_issues(file_path, issues)
                     issues_found = True
 
     if issues_found:

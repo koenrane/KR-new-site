@@ -365,7 +365,7 @@ article[data-use-dropcap="true"] {
     color: var(--before-color);
 
     // Firefox-specific adjustments for dropcap
-    @media all and (-moz-appearance: none) {
+    @supports (-moz-appearance: none) {
       top: -0.2rem;
     }
   }
