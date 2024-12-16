@@ -273,32 +273,33 @@ function hideSearch() {
   const container = document.getElementById("search-container")
   const searchBar = document.getElementById("search-bar") as HTMLInputElement | null
   const results = document.getElementById("results-container")
-  const preview = document.getElementById("preview-container")
-  const searchLayout = document.getElementById("search-layout")
 
   container?.classList.remove("active")
-  document.body.classList.remove("no-mix-blend-mode") // Remove class when search is closed
+  document.body.classList.remove("no-mix-blend-mode")
   if (searchBar) {
-    searchBar.value = "" // clear the input when we dismiss the search
+    searchBar.value = ""
   }
   if (results) {
     removeAllChildren(results)
   }
-  if (preview) {
-    preview.style.display = "none"
+
+  // Clean up preview
+  if (previewManager) {
+    previewManager.hide()
   }
+
+  const searchLayout = document.getElementById("search-layout")
   if (searchLayout) {
     searchLayout.classList.remove("display-results")
   }
 
-  searchType = "basic" // reset search type after closing
+  searchType = "basic"
 }
 
 let searchLayout: HTMLElement | null = null
 let data: { [key: FullSlug]: ContentDetails } | undefined
 let results: HTMLElement
 let preview: HTMLDivElement | undefined
-let previewInner: HTMLElement | undefined
 let currentHover: HTMLInputElement | null = null
 let currentSlug: FullSlug
 
@@ -388,9 +389,13 @@ async function shortcutHandler(
  * @param e - Navigation event
  */
 async function onNav(e: CustomEventMap["nav"]) {
-  // Clean up previous listeners if they exist
+  // Clean up previous listeners and preview manager if they exist
   if (cleanupListeners) {
     cleanupListeners()
+  }
+  if (previewManager) {
+    previewManager.destroy()
+    previewManager = null
   }
 
   currentSlug = e.detail.url
@@ -417,7 +422,6 @@ async function onNav(e: CustomEventMap["nav"]) {
   // Store all event listener cleanup functions
   const listeners = new Set<() => void>()
 
-  // Replace direct event listener assignments with addListener
   addListener(
     document,
     "keydown",
@@ -427,7 +431,6 @@ async function onNav(e: CustomEventMap["nav"]) {
   addListener(searchIcon, "click", () => showSearch("basic", container, searchBar), listeners)
   addListener(searchBar, "input", debouncedOnType, listeners)
 
-  // Create cleanup function
   cleanupListeners = () => {
     listeners.forEach((cleanup) => cleanup())
     listeners.clear()
@@ -478,65 +481,98 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
-/**
- * Displays a preview of the selected search result
- * @param el - Selected result element
- */
-async function displayPreview(el: HTMLElement | null) {
-  const enablePreview = searchLayout?.dataset?.preview === "true"
-  if (!searchLayout || !enablePreview || !el || !preview) return
-  const slug = el.id as FullSlug
+// Create a dedicated class to manage preview state and lifecycle
+class PreviewManager {
+  private container: HTMLDivElement
+  private inner: HTMLElement
+  private currentSlug: FullSlug | null = null
 
-  try {
-    const { content, frontmatter } = await fetchContent(slug)
-    const useDropcap: boolean = !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
+  constructor(container: HTMLDivElement) {
+    this.container = container
+    this.inner = document.createElement("article")
+    this.inner.classList.add("preview-inner")
+    this.container.appendChild(this.inner)
+  }
 
-    if (!previewInner) {
-      previewInner = document.createElement("article")
-      previewInner.classList.add("preview-inner")
-      preview.appendChild(previewInner)
+  public async update(el: HTMLElement | null, currentSearchTerm: string, baseSlug: FullSlug) {
+    if (!el) {
+      this.hide()
+      return
+    }
 
-      // Add click event listener to navigate to the page
-      preview.addEventListener("click", () => {
-        window.location.href = resolveUrl(slug, currentSlug).toString()
+    const slug = el.id as FullSlug
+    this.currentSlug = slug
+
+    try {
+      const { content, frontmatter } = await fetchContent(slug)
+      const useDropcap: boolean =
+        !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
+
+      // Update attributes
+      this.inner.setAttribute("data-use-dropcap", useDropcap.toString())
+
+      // Clear and update content
+      this.inner.innerHTML = ""
+      content.forEach((el) => {
+        const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
+        this.inner.append(...Array.from(highlightedContent.childNodes))
       })
-    }
 
-    previewInner.setAttribute("data-use-dropcap", useDropcap.toString())
-
-    // Clear existing content
-    previewInner.innerHTML = ""
-
-    // Immediately add and highlight content
-    content.forEach((el) => {
-      const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
-
-      if (previewInner) {
-        // Extend previewInner with the children of highlightedContent
-        previewInner.append(...Array.from(highlightedContent.childNodes))
+      // Add navigation handler
+      this.inner.onclick = () => {
+        window.location.href = resolveUrl(slug, baseSlug).toString()
       }
-    })
 
-    // Scroll to the first highlight
-    const highlights = [...preview.querySelectorAll(".highlight")].sort(
-      (a, b) => b.innerHTML.length - a.innerHTML.length,
-    )
-
-    if (highlights.length > 0 && preview) {
-      // Get the first highlight's position relative to the preview container
-      const firstHighlight = highlights[0] as HTMLElement
-      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, preview)
-
-      // Scroll the preview container
-      preview.scrollTop = offsetTop - 0.5 * preview.clientHeight // 50% padding from top
-    }
-  } catch (error) {
-    console.error("Error loading preview:", error)
-    if (previewInner) {
-      previewInner.innerHTML =
+      // Scroll to first highlight
+      this.scrollToFirstHighlight()
+      this.show()
+    } catch (error) {
+      console.error("Error loading preview:", error)
+      this.inner.innerHTML =
         '<div class="preview-error" style="color: var(--red);">Error loading preview</div>'
     }
   }
+
+  private scrollToFirstHighlight(): void {
+    const highlights = [...this.container.querySelectorAll(".highlight")].sort(
+      (a, b) => b.innerHTML.length - a.innerHTML.length,
+    )
+
+    if (highlights.length > 0) {
+      const firstHighlight = highlights[0] as HTMLElement
+      const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
+      this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
+    }
+  }
+
+  public show(): void {
+    this.container.style.display = "block"
+  }
+
+  public hide(): void {
+    this.container.style.display = "none"
+  }
+
+  public destroy(): void {
+    this.inner.onclick = null
+    this.inner.innerHTML = ""
+    this.currentSlug = null
+  }
+}
+
+let previewManager: PreviewManager | null = null
+
+async function displayPreview(el: HTMLElement | null) {
+  const enablePreview = searchLayout?.dataset?.preview === "true"
+  if (!searchLayout || !enablePreview || !preview) return
+
+  // Initialize preview manager if needed
+  if (!previewManager && preview) {
+    previewManager = new PreviewManager(preview)
+  }
+
+  // Update preview content
+  await previewManager?.update(el, currentSearchTerm, currentSlug)
 }
 
 let cleanupListeners: (() => void) | undefined
@@ -584,12 +620,8 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
   itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
     enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
   }`
-  itemTile.addEventListener("click", (event) => {
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-    hideSearch()
-  })
 
-  const handler = (event: MouseEvent) => {
+  const onResultClick = (event: MouseEvent): void => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
     hideSearch()
   }
@@ -601,7 +633,7 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
   }
 
   itemTile.addEventListener("mouseenter", onMouseEnter)
-  itemTile.addEventListener("click", handler)
+  itemTile.addEventListener("click", onResultClick)
 
   return itemTile
 }
@@ -645,25 +677,18 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
         <h3>No results.</h3>
         <p>Try another search term?</p>
     </a>`
+
+    // Hide preview when no results
+    previewManager?.hide()
   } else {
     results.append(...finalResults.map((result) => resultToHTML(result, enablePreview)))
-  }
 
-  if (finalResults.length === 0 && preview) {
-    // no results, clear previous preview
-    preview.style.display = "none"
-  } else {
-    // focus on first result, then also dispatch preview immediately
+    // focus on first result and update preview
     const firstChild = results.firstElementChild as HTMLElement
     firstChild.classList.add("focus")
     currentHover = firstChild as HTMLInputElement
 
     await displayPreview(firstChild)
-    if (preview) {
-      preview.style.display = "block"
-    } else {
-      throw new Error("Preview element not found")
-    }
   }
 }
 

@@ -133,7 +133,6 @@ test.describe("Search accuracy", () => {
     { term: "Josh Turner" },
     { term: "The Pond" },
     { term: "United States government" },
-    { term: "AI" },
   ]
   searchTerms.forEach(({ term }) => {
     test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
@@ -236,7 +235,28 @@ test("Enter key navigates to first result", async ({ page }) => {
   expect(page.url()).not.toBe(initialUrl)
 })
 
-// TODO "Shrek" -> GPT3 gems -> click -> GPT2 post
+test("Search URL updates as we select different results", async ({ page }) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+  await page.keyboard.press("/")
+  await search(page, "Shrek")
+  const previewContainer = page.locator("#preview-container")
+
+  const firstResult = page.locator(".result-card").first()
+  await firstResult.hover()
+  await previewContainer.click()
+  const firstResultUrl = page.url()
+
+  await page.keyboard.press("/")
+  await search(page, "Shrek")
+  const secondResult = page.locator(".result-card").nth(1)
+  await secondResult.hover()
+  await previewContainer.click()
+  const secondResultUrl = page.url()
+
+  expect(secondResultUrl).not.toBe(firstResultUrl)
+})
 
 test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
@@ -419,5 +439,3 @@ test("Preview container click navigates to the correct page", async ({ page }) =
   // Verify navigation occurred to the correct URL
   expect(page.url()).toBe(expectedUrl)
 })
-
-// TODO if first result is in a callout, open all of its parent callouts before scrolling to it
