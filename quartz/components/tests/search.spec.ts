@@ -11,7 +11,6 @@ import { takeArgosScreenshot, setTheme } from "./visual_utils"
 const timeToWaitAfterSearch = debounceSearchDelay + 100
 
 test.beforeEach(async ({ page }) => {
-  await page.waitForLoadState("networkidle")
   await page.goto("http://localhost:8080/welcome")
 })
 
