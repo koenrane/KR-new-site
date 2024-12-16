@@ -1292,3 +1292,71 @@ def test_check_description_length(html: str, expected: list[str]) -> None:
     soup = BeautifulSoup(html, "html.parser")
     result = check_description_length(soup)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "css_content,expected",
+    [
+        # Test CSS with @supports
+        (
+            """
+            @supports (initial-letter: 4) {
+                p::first-letter {
+                    initial-letter: 4;
+                }
+            }
+            """,
+            [],
+        ),
+        # Test CSS without @supports
+        (
+            """
+            p::first-letter {
+                float: left;
+                font-size: 4em;
+            }
+            """,
+            [
+                "CSS file test.css does not contain @supports, which is "
+                "required for dropcaps in Firefox"
+            ],
+        ),
+        # Test empty CSS
+        (
+            "",
+            [
+                "CSS file test.css does not contain @supports, which is "
+                "required for dropcaps in Firefox"
+            ],
+        ),
+        # Test CSS with multiple @supports
+        (
+            """
+            @supports (display: grid) {
+                .grid { display: grid; }
+            }
+            @supports (initial-letter: 4) {
+                p::first-letter { initial-letter: 4; }
+            }
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_css_issues(
+    tmp_path: Path, css_content: str, expected: list[str]
+):
+    """Test the check_css_issues function with various CSS contents."""
+    # Create a temporary CSS file
+    css_file = tmp_path / "test.css"
+    css_file.write_text(css_content)
+
+    result = check_css_issues(css_file)
+    assert result == expected
+
+
+def test_check_css_issues_missing_file(tmp_path: Path):
+    """Test check_css_issues with a non-existent file."""
+    css_file = tmp_path / "nonexistent.css"
+    result = check_css_issues(css_file)
+    assert result == [f"CSS file {css_file} does not exist"]
