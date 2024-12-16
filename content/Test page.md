@@ -272,7 +272,7 @@ This solution is 2/3 water, mixed on 01/01/2024.
 
 ## Emoji comparison
 
-<figure id="emoji-comparison">
+<figure id="emoji-comparison-figure">
  <div>
     <div class="subfigure">
       <img src="https://assets.turntrout.com/static/images/posts/apple_hearts.avif" alt="Smiling Face With Hearts on Apple">
