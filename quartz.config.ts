@@ -46,7 +46,7 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ lazyLoad: true, markdownLinkResolution: "shortest" }),
       Plugin.TagAcronyms(),
       Plugin.TroutOrnamentHr(),
-      // Plugin.AddFavicons(),
+      Plugin.AddFavicons(),
       Plugin.AfterArticle(),
       Plugin.ColorVariables(),
       Plugin.rehypeCustomSpoiler(),
