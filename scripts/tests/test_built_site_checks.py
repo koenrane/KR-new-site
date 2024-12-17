@@ -400,23 +400,6 @@ def test_check_unrendered_footnotes_parametrized(html, expected):
 @pytest.mark.parametrize(
     "html,expected",
     [
-        (
-            '<html><head><style id="critical-css">.css{}</style></head></html>',
-            True,
-        ),
-        ("<html><head><style>.css{}</style></head></html>", False),
-        ("<html><head></head></html>", False),
-    ],
-)
-def test_check_critical_css(html, expected):
-    soup = BeautifulSoup(html, "html.parser")
-    result = check_critical_css(soup)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    "html,expected",
-    [
         # Test basic duplicate ID
         (
             """
@@ -1360,3 +1343,33 @@ def test_check_css_issues_missing_file(tmp_path: Path):
     css_file = tmp_path / "nonexistent.css"
     result = check_css_issues(css_file)
     assert result == [f"CSS file {css_file} does not exist"]
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Single critical CSS - valid
+        (
+            '<html><head><style id="critical-css">.css{}</style></head></html>',
+            True,
+        ),
+        # No critical CSS - invalid
+        ("<html><head><style>.css{}</style></head></html>", False),
+        # No head - invalid
+        ("<html><head></head></html>", False),
+        # Multiple critical CSS blocks - invalid
+        (
+            '<html><head><style id="critical-css">.css{}</style><style id="critical-css">.more{}</style></head></html>',
+            False,
+        ),
+        # Critical CSS outside head - invalid
+        (
+            '<html><head></head><body><style id="critical-css">.css{}</style></body></html>',
+            False,
+        ),
+    ],
+)
+def test_check_critical_css(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_critical_css(soup)
+    assert result == expected

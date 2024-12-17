@@ -378,11 +378,12 @@ def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
 
 def check_critical_css(soup: BeautifulSoup) -> bool:
     """
-    Check if the page has critical CSS in the head.
+    Check if the page has exactly one critical CSS block in the head.
     """
     head = soup.find("head")
     if isinstance(head, Tag):
-        return bool(head.find("style", {"id": "critical-css"}))
+        critical_css_blocks = head.find_all("style", {"id": "critical-css"})
+        return len(critical_css_blocks) == 1
     return False
 
 
