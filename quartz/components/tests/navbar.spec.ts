@@ -167,3 +167,40 @@ test("Menu disappears gradually when scrolling down", async ({ page }, testInfo)
 })
 
 // Todo check that shadow works
+
+test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
+  const viewportSize = page.viewportSize()
+  if (viewportSize && viewportSize.width >= 1580) {
+    // matches $full-page-width
+    test.skip()
+  }
+
+  const navbar = page.locator("#navbar")
+
+  // Initial state - no shadow
+  await expect(navbar).not.toHaveClass(/shadow/)
+  await takeArgosScreenshot(page, testInfo, "navbar-no-shadow")
+
+  // Scroll down slightly to trigger shadow
+  await page.evaluate(() => {
+    window.scrollTo({
+      top: 50,
+      behavior: "instant",
+    })
+  })
+
+  // Verify shadow class is added
+  await expect(navbar).toHaveClass(/shadow/)
+  await takeArgosScreenshot(page, testInfo, "navbar-with-shadow")
+
+  // Scroll back to top
+  await page.evaluate(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "instant",
+    })
+  })
+
+  // Verify shadow is removed
+  await expect(navbar).not.toHaveClass(/shadow/)
+})

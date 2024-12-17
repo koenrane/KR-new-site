@@ -195,7 +195,7 @@
     z-index: 910;
 
     &.shadow {
-      box-shadow: 0 2px 4px 0 rgba(var(--midground-rgb), 0.1);
+      box-shadow: 0 4px 4px 0 var(--midground-faintest);
       clip-path: inset(0 0 -1500px 0);
     }
 
@@ -221,7 +221,7 @@
 
 :root[saved-theme="dark"] .shadow {
   @media all and (max-width: $full-page-width) {
-    box-shadow: 0 7px 4px 0 #5c5f7752;
+    box-shadow: 0 4px 4px 0 var(--midground-faintest);
     clip-path: inset(0 0 -1500px 0);
   }
 }
