@@ -20,7 +20,7 @@ date_published: &id001 2024-12-16 17:42:14.364997
 date_updated: *id001
 ---
 
-Over the past few months, I helped develop [Gradient Routing](https://arxiv.org/abs/2410.04332), a non loss-based method to shape the internals of neural networks.
+Over the past few months, I helped develop [Gradient Routing](/gradient-routing), a non loss-based method to shape the internals of neural networks.
 
 After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
 
