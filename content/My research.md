@@ -263,7 +263,7 @@ In 2023, I popularized _steering vectors_[^steering] as a cheap way to control m
 <figcaption>(c) Steered minus original</figcaption>
 </div>
 </div>
-<figcaption>**Left:** The net probability vectors induced by the unmodified forward passes.  <br/> **Middle:** After subtracting the cheese vector, we plot the new probability vectors induced by the modified forward passes. <br/>**Right:** The agent now heads away from the cheese.</figcaption>
+<figcaption><b>Left:</b> The net probability vectors induced by the unmodified forward passes.  <br/> <b>Middle:</b> After subtracting the cheese vector, we plot the new probability vectors induced by the modified forward passes. <br/><b>Right:</b> The agent now heads away from the cheese.</figcaption>
 </figure>
 
 After finding [an additional vector for the maze agent](/top-right-steering-vector), my [MATS](https://matsprogram.org) team and I [steered GPT-2-XL by adding an activation vector](/gpt2-steering-vectors):

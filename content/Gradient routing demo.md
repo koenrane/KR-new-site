@@ -20,17 +20,21 @@ date_published: &id001 2024-12-16 17:42:14.364997
 date_updated: *id001
 ---
 
-Over the past few months, I helped develop [Gradient Routing](/gradient-routing), a non loss-based method to shape the internals of neural networks.
+Over the past few months, I helped develop [Gradient Routing](/gradient-routing), a non loss-based method to shape the internals of neural networks. After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
 
-After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
-
-I created an MNIST autoencoder with a 10 dimensional latent space, with each dimension of the latent space corresponding to a different digit. Before I get into how I did it, feel free to play around with my demo [here](https://jacobgw.com/gradient-routed-vae/) - it loads the model into the browser.
+I created an MNIST autoencoder with a 10-dimensional latent space, with each dimension of the latent space corresponding to a different digit. Before I get into how I did it, feel free to play around with my demo [here](https://jacobgw.com/gradient-routed-vae/) - it loads the model into the browser.
 
 <iframe height="1360" width="500" src="https://jacobgw.com/gradient-routed-vae/" title="Demo"></iframe>
 
 In the demo, you can both see how a random MNIST image encodes but also directly play around with the encoding itself and create different types of digits by just moving the sliders.
 
-The reconstruction is not that good, and I assume this is due to some combination of (1) using the simplest possible architecture of MLP layers and ReLU (2) only allowing a 10 dimensional latent space which could constrain the representation a lot (3) not doing data augmentation, so it might not generalize that well, and (4) gradient routing targeting an unnatural internal representation, causing the autoencoder to not fit the data that well. This was just supposed to be a fun proof of concept project, so I’m not too worried about the reconstruction not being that good.
+The reconstruction is not that good, and I assume this is due to some combination of:
+1. Using the simplest possible architecture of MLP layers and ReLU;
+2. Only allowing a 10-dimensional latent space which could constrain the representation a lot;
+3. Not doing data augmentation, so it might not generalize that well; and
+4. Gradient routing targeting an unnatural internal representation, causing the autoencoder to not fit the data that well.
+
+This was just supposed to be a fun proof-of-concept project, so I’m not too worried about the reconstruction not being that good.
 
 # How it works
 
@@ -51,7 +55,7 @@ def encode_and_mask(self, images: Tensor, labels: Tensor):
 
 This causes each dimension of the latent space to “specialize” to representing its corresponding image since the error for that image type can only be propagated through the single dimension of the latent space. It turns out that if you do this, nothing forces the model to represent “more of a digit” in the positive direction. Sometimes the model represented “5-ness” in the negative direction in the latent space (e.g. as `[0, 0, 0, 0, 0, -1.0, 0, 0, 0, 0]`).
 
-This messed with my demo a bit since I wanted all the sliders to only go in the positive direction. My solution? Just apply ReLU the encoding so it can only represent positive numbers! This is obviously not practical and I only included it so the demo would look nice.[^1]
+This messed with my demo a bit since I wanted all the sliders to only go in the positive direction. My solution? Just apply a ReLU to the encoding so it can only represent positive numbers! This is obviously not practical and I only included it so the demo would look nice.[^1]
 
 In our [Gradient Routing paper](https://arxiv.org/pdf/2410.04332), we found that models sometimes needed regularization to split the representations well. However, in this setting, I’m not applying any regularization besides the default regularization of the encoding that comes with a variational autoencoder. I guess it turns out that this regularization is enough to effectively split the digits.
 
