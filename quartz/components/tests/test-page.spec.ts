@@ -275,3 +275,39 @@ test.describe("Spoilers", () => {
 //     expect(screenshot).toEqual(referenceScreenshot)
 //   }
 // })
+
+test("Scroll position is retained when navigating back", async ({ page }) => {
+  // Scroll halfway down
+  const scrollPosition = await page.evaluate(() => {
+    const pos = Math.floor(document.body.scrollHeight / 2)
+    window.scrollTo(0, pos)
+    return pos
+  })
+
+  // Navigate to another page
+  await page.goto("http://localhost:8080/design")
+  await page.waitForLoadState("networkidle")
+
+  // Save initial session storage
+  const initialStorage = await page.evaluate(() => JSON.stringify(sessionStorage))
+
+  // Navigate back
+  await page.goBack()
+  await page.waitForLoadState("networkidle")
+  await page.waitForTimeout(500)
+
+  // Restore session storage
+  await page.addInitScript((storage) => {
+    if (window.location.hostname === "localhost") {
+      const parsedStorage = JSON.parse(storage)
+      for (const [key, value] of Object.entries(parsedStorage)) {
+        window.sessionStorage.setItem(key, JSON.stringify(value))
+      }
+    }
+  }, initialStorage)
+  console.log(initialStorage)
+
+  // Check if scroll position was restored
+  const currentScroll = await page.evaluate(() => window.scrollY)
+  expect(currentScroll).toBe(scrollPosition)
+})
