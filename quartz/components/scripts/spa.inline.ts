@@ -219,16 +219,19 @@ function createRouter() {
   if (typeof window !== "undefined") {
     document.addEventListener("click", async (event) => {
       const { url } = getOpts(event) ?? {}
+
       // dont hijack behaviour, just let browser act normally
       if (!url || (event as MouseEvent).ctrlKey || (event as MouseEvent).metaKey) return
+
       event.preventDefault()
 
       try {
-        navigate(url)
+        await navigate(url)
       } catch {
         window.location.assign(url)
       }
     })
+
     window.addEventListener("popstate", () => {
       try {
         console.info("popstate", window.location.toString())
