@@ -797,36 +797,75 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Test basic unrendered emphasis
-        (
-            "<p>Text ending with *</p>",
-            ["Unrendered emphasis: Text ending with *"],
-        ),
-        (
-            "<p>Text ending with _</p>",
-            ["Unrendered emphasis: Text ending with _"],
-        ),
+        # Test basic unrendered emphasis in each element type
+        *[
+            (
+                f"<{element}>Text ending with *</{element}>",
+                ["Unrendered emphasis: Text ending with *"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        *[
+            (
+                f"<{element}>Text ending with _</{element}>",
+                ["Unrendered emphasis: Text ending with _"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        # Test with leading emphasis
+        *[
+            (
+                f"<{element}>* Text starting with emphasis</{element}>",
+                ["Unrendered emphasis: * Text starting with emphasis"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
         # Test with trailing whitespace
-        (
-            "<p>Text ending with * </p>",
-            ["Unrendered emphasis: Text ending with *"],
-        ),
-        # Test multiple cases
-        (
-            """
-            <p>First line *</p>
-            <p>Second line _</p>
-            """,
-            [
-                "Unrendered emphasis: First line *",
-                "Unrendered emphasis: Second line _",
-            ],
-        ),
+        *[
+            (
+                f"<{element}>Text ending with * </{element}>",
+                ["Unrendered emphasis: Text ending with *"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        # Test with leading whitespace
+        *[
+            (
+                f"<{element}> * Text with leading space</{element}>",
+                ["Unrendered emphasis: * Text with leading space"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
         # Test cases that should not match
-        ("<p>Normal * text</p>", []),
-        ("<p>Text with * in middle</p>", []),
-        ("<script>code with *</script>", []),  # Should skip script tags
-        ("<style>css with *</style>", []),  # Should skip style tags
+        *[
+            (f"<{element}>Normal * text</{element}>", [])
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        *[
+            (f"<{element}>Text with * in middle</{element}>", [])
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        # Test skipped elements
+        ("<script>code with *</script>", []),
+        ("<style>css with *</style>", []),
+        ("<code>code with *</code>", []),
+        ("<pre>pre with *</pre>", []),
+        # Test multiple emphasis markers
+        *[
+            (
+                f"<{element}>* Start and end *</{element}>",
+                ["Unrendered emphasis: * Start and end *"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
+        # Test mixed underscore and asterisk
+        *[
+            (
+                f"<{element}>_ Start and * end</{element}>",
+                ["Unrendered emphasis: _ Start and * end"],
+            )
+            for element in EMPHASIS_ELEMENTS_TO_SEARCH
+        ],
     ],
 )
 def test_check_unrendered_emphasis(html, expected):

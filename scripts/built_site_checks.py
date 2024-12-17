@@ -435,23 +435,27 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
     return duplicates
 
 
+EMPHASIS_ELEMENTS_TO_SEARCH = ("p", "dt", "figcaption", "dd")
+
+
 def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
-    Check for text nodes ending in markdown emphasis characters (* or _).
+    Check for text nodes starting/ending with markdown emphasis characters (* or
+    _).
 
     These likely indicate unrendered markdown emphasis.
     """
     problematic_texts: List[str] = []
 
     # Find all text nodes
-    for p in soup.find_all("p"):
+    for p in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
         # Skip script and style elements
         if p.parent.name in ["script", "style", "code", "pre"]:
             continue
 
         # Check if text ends with * or _ possibly followed by whitespace
         stripped_text = p.text.strip()
-        if stripped_text and re.search(r"[*_]\s*$", stripped_text):
+        if stripped_text and re.search(r"[*_]\s*$|^\s*[*_]", stripped_text):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
