@@ -1,6 +1,11 @@
-import { test, expect } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
 
 import { takeArgosScreenshot } from "./visual_utils"
+
+function isDesktopViewport(page: Page): boolean {
+  const viewportSize = page.viewportSize()
+  return viewportSize ? viewportSize.width >= 1580 : false // matches $full-page-width
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto("http://localhost:8080/test-page")
@@ -14,7 +19,7 @@ test.afterEach(async ({ page }) => {
 })
 
 test("Clicking away closes the menu", async ({ page }, testInfo) => {
-  if (testInfo.project.name === "Desktop Chrome") {
+  if (isDesktopViewport(page)) {
     test.skip()
   }
 
@@ -41,7 +46,7 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
 })
 
 test("Menu button makes menu visible", async ({ page }, testInfo) => {
-  if (testInfo.project.name === "Desktop Chrome") {
+  if (isDesktopViewport(page)) {
     test.skip()
   }
 
@@ -69,8 +74,8 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
 })
 
-test("Can't see the menu at desktop size", async ({ page }, testInfo) => {
-  if (testInfo.project.name !== "Desktop Chrome") {
+test("Can't see the menu at desktop size", async ({ page }) => {
+  if (!isDesktopViewport(page)) {
     test.skip()
   }
 
@@ -94,10 +99,8 @@ test("Can't see the menu at desktop size", async ({ page }, testInfo) => {
 })
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
-test("Menu disappears when scrolling down and reappears when scrolling up", async ({
-  page,
-}, testInfo) => {
-  if (testInfo.project.name === "Desktop Chrome") {
+test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
+  if (isDesktopViewport(page)) {
     test.skip()
   }
 
@@ -135,8 +138,8 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 // TODO sometimes need to focus page before hitting "/"
 
 // TODO this test is flaky
-test("Menu disappears gradually when scrolling down", async ({ page }, testInfo) => {
-  if (testInfo.project.name === "Desktop Chrome") {
+test("Menu disappears gradually when scrolling down", async ({ page }) => {
+  if (isDesktopViewport(page)) {
     test.skip()
   }
 
@@ -169,9 +172,7 @@ test("Menu disappears gradually when scrolling down", async ({ page }, testInfo)
 // Todo check that shadow works
 
 test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
-  const viewportSize = page.viewportSize()
-  if (viewportSize && viewportSize.width >= 1580) {
-    // matches $full-page-width
+  if (isDesktopViewport(page)) {
     test.skip()
   }
 
