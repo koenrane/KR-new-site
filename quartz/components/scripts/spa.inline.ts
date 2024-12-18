@@ -16,31 +16,6 @@ declare global {
 const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
 
-// Override browser's native scroll restoration
-// This allows the page to restore the previous scroll position on refresh
-if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual" // Take control of scroll restoration
-
-  // Restore scroll position immediately
-  const savedScroll = sessionStorage.getItem("scrollPos")
-  if (savedScroll && !window.location.hash) {
-    window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
-  }
-
-  // Store position before refresh
-  window.addEventListener("beforeunload", () => {
-    const scrollPos = window.scrollY
-    sessionStorage.setItem("scrollPos", scrollPos.toString())
-  })
-
-  // Clean up storage after successful restoration
-  window.addEventListener("load", () => {
-    if (!window.location.hash) {
-      sessionStorage.removeItem("scrollPos")
-    }
-  })
-}
-
 /**
  * Type guard to check if a target is an Element
  */
@@ -86,29 +61,6 @@ function notifyNav(url: FullSlug) {
   document.dispatchEvent(event)
 }
 
-/**
- * Handles scrolling to specific elements when hash is present in URL
- */
-function scrollToHash(hash: string) {
-  if (!hash) return
-  try {
-    const el = document.getElementById(decodeURIComponent(hash.substring(1)))
-    if (!el) return
-    el.scrollIntoView({ behavior: "instant" })
-  } catch {
-    // Ignore malformed URI
-  }
-}
-
-/**
- * Saves the current scroll position to session storage
- */
-function saveScrollPosition(url: string): void {
-  const scrollPos = window.scrollY
-  const key = `scrollPos:${url}`
-  sessionStorage.setItem(key, scrollPos.toString())
-}
-
 let p: DOMParser
 /**
  * Core navigation function that:
@@ -125,7 +77,6 @@ async function navigate(url: URL) {
   const existingPopovers = document.querySelectorAll(".popover")
   existingPopovers.forEach((popover) => popover.remove())
 
-  saveScrollPosition(window.location.toString())
   history.pushState({}, "", url)
 
   let contents: string | undefined
@@ -169,42 +120,11 @@ async function navigate(url: URL) {
   const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
   elementsToRemove.forEach((el) => el.remove())
   const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
-  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
-
-  // Scroll to the anchor AFTER the content has been updated
-  if (url.hash) {
-    scrollToHash(url.hash)
-  }
-
-  // Smooth scroll for anchors; else jump instantly
-  const isSamePageNavigation = url.pathname === window.location.pathname
-  if (isSamePageNavigation) {
-    if (url.hash === "") {
-      window.scrollTo({
-        // scroll to top
-        top: 0,
-        behavior: "smooth",
-      })
-    } else if (url.hash) {
-      // Normal anchor link behavior
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView({ behavior: "smooth" })
-    }
-  } else {
-    // Restore scroll position on back navigation
-    const key = `scrollPos:${url.toString()}`
-    const savedScroll = sessionStorage.getItem(key)
-    // Go to 0 if no scroll position is saved
-    window.scrollTo({
-      top: savedScroll ? parseInt(savedScroll) : 0,
-      behavior: "instant",
-    })
-  }
+  elementsToAdd.forEach((el: Element) => document.head.appendChild(el.cloneNode(true)))
 
   notifyNav(getFullSlug(window))
   delete announcer.dataset.persist
 
-  // Reset CSS handler state
   window.__hasRemovedCriticalCSS = false
 }
 
@@ -287,11 +207,4 @@ if (!customElements.get("route-announcer")) {
       }
     },
   )
-}
-
-// Keep existing hash handler
-if (window.location.hash) {
-  window.addEventListener("load", () => {
-    scrollToHash(window.location.hash)
-  })
 }
