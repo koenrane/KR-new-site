@@ -674,3 +674,28 @@ def test_body_is_empty(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = script_utils.body_is_empty(soup)
     assert result == expected
+
+
+def test_get_non_code_text():
+    """
+    Test extracting non-code text from HTML elements.
+    """
+    html = """
+    <div>
+        Normal text
+        <code>code text</code>
+        More normal text
+        <p>Paragraph with <code>some code</code> and normal text</p>
+        <pre><code>block code</code></pre>
+        Final text
+    </div>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = script_utils.get_non_code_text(soup)
+
+    # Normalize whitespace for comparison
+    result_normalized = " ".join(result.split())
+    expected_normalized = (
+        "Normal text More normal text Paragraph with and normal text Final text"
+    )
+    assert result_normalized == expected_normalized

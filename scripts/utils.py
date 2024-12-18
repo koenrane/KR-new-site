@@ -4,10 +4,10 @@ Utility functions for scripts/ directory.
 
 import subprocess
 from pathlib import Path
-from typing import Collection, Dict, Optional, Set
+from typing import Collection, Dict, List, Optional, Set
 
 import git
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, NavigableString, Tag
 from ruamel.yaml import YAML, YAMLError
 
 
@@ -248,3 +248,25 @@ def should_have_md(file_path: Path) -> bool:
         and file_path.stem not in files_without_md_path
         and not is_redirect(parse_html_file(file_path))
     )
+
+
+def get_non_code_text(element: Tag) -> str:
+    """
+    Get text content from an element, excluding text within code elements.
+
+    Args:
+        element: BeautifulSoup Tag to extract text from
+
+    Returns:
+        String containing concatenated text content, excluding code elements
+    """
+    texts: List[str] = []
+    for node in element.children:
+        if isinstance(node, NavigableString):
+            # Only include text if not within a code element
+            if not any(parent.name == "code" for parent in node.parents):
+                texts.append(node)
+        elif isinstance(node, Tag) and node.name != "code":
+            # Recursively get text from non-code elements
+            texts.append(get_non_code_text(node))
+    return "".join(str(text) for text in texts).strip()

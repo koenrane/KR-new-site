@@ -437,6 +437,8 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
 
 EMPHASIS_ELEMENTS_TO_SEARCH = ("p", "dt", "figcaption", "dd")
 
+# TODO write tests
+
 
 def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
@@ -447,15 +449,18 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
     problematic_texts: List[str] = []
 
-    # Find all text nodes
     for p in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
         # Skip script and style elements
-        if p.parent.name in ["script", "style", "code", "pre"]:
+        if p.parent.name in ["script", "style"]:
             continue
 
-        # Check if text ends with * or _ possibly followed by whitespace
-        stripped_text = p.text.strip()
-        if stripped_text and re.search(r"[*_]\s*$|^\s*[*_]", stripped_text):
+        # Get text excluding code elements
+        stripped_text = script_utils.get_non_code_text(p)
+
+        if stripped_text and (
+            re.search(r"[*_]\s*$|^\s*[*_]", stripped_text)
+            or re.search(r" _|_ ", stripped_text)
+        ):
             _add_to_list(
                 problematic_texts,
                 stripped_text,
