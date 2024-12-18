@@ -167,7 +167,6 @@ $fonts-dir: "/static/styles/fonts";
 @include font-face("EBGaramondOriginal", "EBGaramond/EBGaramond08-Regular-original", ".woff2");
 @include font-face("EBGaramond12", "EBGaramond/EBGaramond12-Regular", ".woff2");
 @include font-face("EBGaramond12Italic", "EBGaramond/EBGaramond12-Regular", ".woff2");
-@include font-face("EBGaramondSC", "EBGaramond/EBGaramondSC08-Regular", ".woff2");
 
 // Less commonly used
 @include font-face("DejaVuSerifCondensed-Bold", "DejaVuSerifCondensed-Bold-subset", ".woff2");
@@ -186,7 +185,6 @@ body {
   --font-text-original: "EBGaramondOriginal";
   --font-text-italic: "EBGaramondItalic", "EBGaramond";
   --font-text-header: "EBGaramond", garamond, "Times New Roman", serif;
-  --font-text-sc: "EBGaramondSC", "EBGaramond:smcp", "Garamond SC", small-caps, serif;
   --font-text-swash: "EBGaramond:+swsh", cursive;
   --font-bad-handwriting: "BadHandwriting";
 
@@ -277,8 +275,9 @@ dt {
   margin-bottom: 1em;
 }
 
-.small-caps {
-  font-family: var(--font-text-sc);
+.small-caps,
+article[data-use-dropcap="true"] > p:first-of-type::first-line,
+article[data-use-dropcap="true"] > p:first-of-type .small-caps {
   font-style: inherit;
   text-transform: lowercase;
   font-variant-caps: small-caps; // Fixes kerning in a few cases
@@ -386,17 +385,9 @@ article[data-use-dropcap="true"] {
     font-weight: 500 !important;
   }
 
-  & > p:first-of-type::first-line {
-    font-family: EBGaramondSC, serif !important;
-  }
-
   & > p:first-of-type em,
   & > p:first-of-type b,
   & > p:first-of-type strong {
     font-family: inherit !important;
-  }
-
-  & > p:first-of-type .small-caps {
-    font-family: EBGaramondSC, var(--font-text-sc), serif !important;
   }
 }

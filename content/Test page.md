@@ -18,7 +18,7 @@ date_updated: 2024-12-16 13:13:40.553982
 
 
 
-I use this page for visual regression testing, since there's little reason for me to change it over time - unless I'm adding more content to the _end_, which won't affect screenshots taken higher up in the page.
+I use this page for [visual regression testing](/design#visual-regression-testing).
 
 # Header 1
 
@@ -229,7 +229,7 @@ Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/s
 
 ## Smallcaps
 
-The NATO alliance met in the USA.
+The NATO alliance met in the USA.   ABCDEFGHIJKLMNOPQRSTUVWXYZ <abbr class="small-caps">fi fl ff ffi ffl fj ft st ct Th ck</abbr>
 
 ## Numbers and units
 
