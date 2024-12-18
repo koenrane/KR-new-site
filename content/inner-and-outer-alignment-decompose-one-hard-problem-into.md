@@ -122,7 +122,7 @@ More recently, Evan Hubinger [defined](https://www.alignmentforum.org/posts/FDJn
 
 I initially found these concepts appealing. Even recently, I found it easy to nod along: _Yeah, we compute a reward function in a way which robustly represents what we want. That makes sense. Then just target the inner cognition properly. Uh huh. What kind of reward functions would be good?_
 
-But when I try to imagine any _concrete real-world_ situation in which these conditions obtain*, I cannot.* I might conclude “Wow, alignment is unimaginably hard!”. _No! Not for this reason, at least—The frame is inappropriate._[^4]
+But when I try to imagine any _concrete real-world_ situation in which these conditions obtain, _I cannot._ I might conclude “Wow, alignment is unimaginably hard!”. _No! Not for this reason, at least—The frame is inappropriate._[^4]
 
 # I: Robust grading is unnecessary, extremely hard, and unnatural
 
