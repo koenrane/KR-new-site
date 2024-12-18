@@ -399,6 +399,56 @@ describe("HTMLFormattingImprovement", () => {
       expect(result).toBe(expected)
     })
   })
+
+  describe("Arrows", () => {
+    it.each([
+      // Basic arrow cases
+      ["<p>-> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
+      ["<p>--> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
+      ["<p>word -> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
+      ["<p>word --> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
+
+      // Start of line cases
+      ["<p>-> at start</p>", '<p><span class="right-arrow">⭢</span> at start</p>'],
+      ["<p>--> at start</p>", '<p><span class="right-arrow">⭢</span> at start</p>'],
+
+      // Multiple arrows in one line
+      [
+        "<p>-> first --> second</p>",
+        '<p><span class="right-arrow">⭢</span> first <span class="right-arrow">⭢</span> second</p>',
+      ],
+
+      // Code blocks should be ignored
+      ["<code>-> not an arrow</code>", "<code>-> not an arrow</code>"],
+      ["<pre>-> not an arrow</pre>", "<pre>-> not an arrow</pre>"],
+      [
+        "<p>text <code>-> ignored</code> -> arrow</p>",
+        '<p>text <code>-> ignored</code> <span class="right-arrow">⭢</span> arrow</p>',
+      ],
+
+      // Edge cases
+      ["<p>word-->no space</p>", "<p>word-->no space</p>"],
+      ["<p>a->b</p>", "<p>a->b</p>"], // Should not match without spaces
+      ["<p>text->text</p>", "<p>text->text</p>"],
+
+      // Nested elements
+      [
+        "<p>text <em>-> arrow</em></p>",
+        '<p>text <em><span class="right-arrow">⭢</span> arrow</em></p>',
+      ],
+      [
+        "<p><strong>-> arrow</strong></p>",
+        '<p><strong><span class="right-arrow">⭢</span> arrow</strong></p>',
+      ],
+
+      // Mixed with other formatting
+      ["<p>text -> *emphasis*</p>", '<p>text <span class="right-arrow">⭢</span> *emphasis*</p>'],
+      ["<p>**bold** -> text</p>", '<p>**bold** <span class="right-arrow">⭢</span> text</p>'],
+    ])("should format arrows correctly: %s", (input, expected) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(expected)
+    })
+  })
 })
 
 describe("rearrangeLinkPunctuation", () => {

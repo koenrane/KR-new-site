@@ -385,9 +385,9 @@ export function formatLNumbers(tree: Root): void {
 }
 
 // TODO test all non-exported functions
-function formatArrows(tree: Root): void {
+export function formatArrows(tree: Root): void {
   visit(tree, "text", (node, index, parent) => {
-    if (!parent || hasAncestor(parent as ElementMaybeWithParent, isCode)) return
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, toSkip)) return
 
     replaceRegex(
       node,

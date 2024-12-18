@@ -394,4 +394,4 @@ Corrupted text
 
 [^footnote]: Here's the detail, in a footnote. And here's a nested footnote.[^nested]
 
-[^nested]: I'm a footnote. I'm enjoying my nest! 🪺
+[^nested]: I'm a nested footnote. I'm enjoying my nest! 🪺
