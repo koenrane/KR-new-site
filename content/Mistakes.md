@@ -13,8 +13,9 @@ authors: Alex Turner
 hideSubscriptionLinks: false
 card_image:
 date_published: 2024-10-31 23:14:34.832290
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2024-12-17 19:04:42.697213
 ---
+
 
 
 Inspired by Scott Alexander's [Mistakes](https://www.astralcodexten.com/p/mistakes) page:
@@ -46,7 +47,7 @@ I read too much into the [shock Seltzer poll which showed Harris +3](https://www
 
 At least, I _thought_ that high turnout -> higher chance that democrats win. But as I looked up a link to justify that claim, I found that it's actually not true! According to [National Affairs](https://www.nationalaffairs.com/publications/detail/does-high-voter-turnout-help-one-party):
 
-![](presidential_vote_share.png)
+![](https://assets.turntrout.com/static/images/posts/presidential_vote_share.avif)
 
 Figure: The $y$-axis represents Democrat vote share. There's not much of a correlation, especially after tossing out the 1964 election.
 

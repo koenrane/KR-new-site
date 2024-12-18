@@ -16,9 +16,10 @@ aliases:
   - routing-demo
   - mnist-partition-demo
 lw-linkpost-url: https://jacobgw.com/blog/ml/2024/12/12/interp-latent.html
-date_published: &id001 2024-12-16 17:42:14.364997
-date_updated: *id001
+date_published: 2024-12-16 17:42:14.364997
+date_updated: 2024-12-17 19:04:42.697213
 ---
+
 
 Over the past few months, I helped develop [Gradient Routing](/gradient-routing), a non loss-based method to shape the internals of neural networks. After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
 

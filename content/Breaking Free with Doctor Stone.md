@@ -6,21 +6,25 @@ no_dropcap: "false"
 tags:
   - fiction
   - personal
-description: Dr. Stone is an anime which blends science and altruistic determination. Also, it slaps.
+description: Dr. Stone is an anime which blends science and altruistic determination.
+  Also, it slaps.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/ibB0q34.png
+card_image: https://assets.turntrout.com/static/images/card_images/ibB0q34.png
 aliases:
   - dr-stone
   - senku
   - breaking-free-doctor-stone
+date_published: &id001 2024-12-17 19:04:42.697213
+date_updated: *id001
 ---
+
 
 Doctor Stone is an anime where everyone suddenly turns into a statue. Civilization falls apart. Thousands of years pass, and then a superhumanly knowledgeable teenager named Senku wakes up due to nitric acid dripping on him for long enough.
 
 He eventually deduces that the nitric acid caused him to depetrify and drags his petrified friend Taiju under a drip of the acid. Taiju wakes up. The two begin Senku's quest to _rebuild civilization from scratch using the power and knowledge of science._
 
-![](11175928.jpg)
+![](https://assets.turntrout.com/static/images/posts/11175928.avif)
 Figure: Senku: "I’m going to use the power of science to rescue every single person."
 
 # Senku wants to _win_
@@ -40,7 +44,7 @@ The show also makes me feel alive. I feel reminded of early 2018, [when I eagerl
 When I have wished to act but failed to do so, it feels like being stuck in my own body - not quite able to push myself into the decision. When I have stood by injustice and done nothing out of cowardice, or out of self-consciousness, or any other shrinking feeling - at those times, I have felt stuck in my body. The same trap holds me when I feel bored, or depressed, or sharp discomfort.
 
 <figure class="float-right">
-<img src="/asset_staging/taiju_and_yuzuriha.png" alt="Taiju vows to revive Yuzuriha from statuehood."/>
+<img src="https://assets.turntrout.com/static/images/posts/taiju_and_yuzuriha.avif" alt="Taiju vows to revive Yuzuriha from statuehood."/>
 <figcaption>Taiju vows to revive Yuzuriha from statuehood.</figcaption>
 </figure>
 
@@ -60,7 +64,7 @@ In 2023, I became seriously depressed. I did all of the right things:
 - meditating for an hour each day,
 - seeing a psychiatrist and getting on antidepressants,
 - spending time with friends, and
-- [spamming gratitude feelings.](https://duckduckgo.com/?q=gratitude+depression&ia=web)
+- [spamming gratitude feelings.](https://www.psychologytoday.com/us/blog/comfort-gratitude/202012/gratitude-protects-against-depression)
 
 But I still felt awful. What did happiness feel like? My memory didn't serve. At best, I felt nothing. I'd get "stuck" on my couch, unable to muster willpower to do anything besides stare at my wall for hours as horrible thoughts ran through my brain.
 
@@ -72,10 +76,10 @@ I'd like to say that I have long since left that disturbing state of mind. I can
 
 If you want to get a kid excited about science, this show might be the way to do it. In Dr. Stone, the obvious way to win and do cool things is to _do science_.
 
-![](senku_invents_sulfa.png)
+![](https://assets.turntrout.com/static/images/posts/senku_invents_sulfa.avif)
 Figure: Someone's sick? Just roll your own drugs with Senku!
 
-But the show is _not_ hard sci-fi. Some dude [punches a lion and instantly kills it](https://youtube.com/clip/UgkxiGuzKeb6FwX0_sgMax0qn7USppfjMdr1?si=bdmd5KRJ4N7DlXy7). Also, Senku counts time accurately enough to know that it's springtime - an opportune time in which to revive - but I calculate[^seconds] that such precision would require him to count off seconds with an average error of less than 0.0067% of a second. Lightning strikes immediately after they put down a lightning rod, which is convenient.
+But the show is _not_ hard sci-fi. Some dude [punches a lion and instantly kills it](https://youtube.com/clip/UgkxiGuzKeb6FwX0_sgMax0qn7USppfjMdr1?si=bdmd5KRJ4N7DlXy7). Also, Senku counts time accurately enough to know that it's springtime - an opportune time in which to revive - but I calculate[^seconds] that (assuming a fixed error) such precision would require him to count off seconds with an error of less than 0.0067% of a second. Lightning strikes immediately after they put down a lightning rod, which is convenient.
 
 But these aren't big problems. [According to infallible Redditors](https://www.reddit.com/r/DrStone/comments/oihl53/is_this_series_scientifically_accurate/), the chemistry and physics (besides the petrification) is nearly all real. Which is awesome - I've learned quite a few fun insights which would have seemed hard to digest. Just accept that the show isn't hard sci-fi _per se_.
 
