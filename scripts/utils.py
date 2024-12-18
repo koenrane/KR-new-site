@@ -4,10 +4,10 @@ Utility functions for scripts/ directory.
 
 import subprocess
 from pathlib import Path
-from typing import Collection, Dict, List, Optional, Set
+from typing import Collection, Dict, Optional, Set
 
 import git
-from bs4 import BeautifulSoup, NavigableString, Tag
+from bs4 import BeautifulSoup, Tag
 from ruamel.yaml import YAML, YAMLError
 
 
@@ -250,23 +250,21 @@ def should_have_md(file_path: Path) -> bool:
     )
 
 
-def get_non_code_text(element: Tag) -> str:
+def get_non_code_text(soup: BeautifulSoup) -> str:
     """
-    Get text content from an element, excluding text within code elements.
+    Extract all text from BeautifulSoup object, excluding code blocks and KaTeX
+    elements.
 
     Args:
-        element: BeautifulSoup Tag to extract text from
+        soup: BeautifulSoup object to extract text from
 
     Returns:
-        String containing concatenated text content, excluding code elements
+        String containing all non-code, non-KaTeX text
     """
-    texts: List[str] = []
-    for node in element.children:
-        if isinstance(node, NavigableString):
-            # Only include text if not within a code element
-            if not any(parent.name == "code" for parent in node.parents):
-                texts.append(node)
-        elif isinstance(node, Tag) and node.name != "code":
-            # Recursively get text from non-code elements
-            texts.append(get_non_code_text(node))
-    return "".join(str(text) for text in texts).strip()
+    # Remove code blocks and KaTeX elements
+    for element in soup.find_all(["code", "pre", "script", "style"]):
+        element.decompose()
+    for element in soup.find_all(class_=["katex", "katex-display"]):
+        element.decompose()
+
+    return soup.get_text()

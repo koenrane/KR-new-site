@@ -440,21 +440,22 @@ EMPHASIS_ELEMENTS_TO_SEARCH = ("p", "dt", "figcaption", "dd")
 
 def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
-    Check for text nodes starting/ending with markdown emphasis characters (* or
-    _).
+    Check for any unrendered emphasis characters (* or _) in text content.
+    Excludes code blocks, scripts, styles, and KaTeX elements.
 
-    These likely indicate unrendered markdown emphasis.
+    Args:
+        soup: BeautifulSoup object to check
+
+    Returns:
+        List of strings containing problematic text with emphasis characters
     """
     problematic_texts: List[str] = []
 
     for p in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
-        # Skip script and style elements
-        if p.parent.name in ["script", "style"]:
-            continue
-
-        # Get text excluding code elements
+        # Get text excluding code and KaTeX elements
         stripped_text = script_utils.get_non_code_text(p)
 
+        # Check for any * or _ characters
         if stripped_text and (re.search(r"[*_]", stripped_text)):
             _add_to_list(
                 problematic_texts,

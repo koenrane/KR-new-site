@@ -841,12 +841,18 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
         ("<pre>*asterisk* in pre</pre>", []),
         ("<script>*asterisk* in script</script>", []),
         ("<style>*asterisk* in style</style>", []),
+        ("<span class='katex'>*asterisk* in katex</span>", []),
+        ("<span class='katex-display'>*asterisk* in display</span>", []),
         # Nested elements
         (
             "<p>Text <code>*code*</code> more *text*</p>",
             ["Unrendered emphasis: Text  more *text*"],
         ),
-        ("<p><code>*code*</code> *text*</p>", ["Unrendered emphasis: *text*"]),
+        ("<p><code>*code*</code> *text*</p>", ["Unrendered emphasis:  *text*"]),
+        (
+            "<p>Text <span class='katex'>*math*</span> more *text*</p>",
+            ["Unrendered emphasis: Text  more *text*"],
+        ),
         # Edge cases
         ("<p>*</p>", ["Unrendered emphasis: *"]),
         ("<p>_</p>", ["Unrendered emphasis: _"]),

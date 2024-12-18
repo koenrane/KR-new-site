@@ -678,7 +678,7 @@ def test_body_is_empty(html, expected):
 
 def test_get_non_code_text():
     """
-    Test extracting non-code text from HTML elements.
+    Test extracting non-code text from HTML elements, excluding code and KaTeX content.
     """
     html = """
     <div>
@@ -687,6 +687,9 @@ def test_get_non_code_text():
         More normal text
         <p>Paragraph with <code>some code</code> and normal text</p>
         <pre><code>block code</code></pre>
+        <span class="katex">KaTeX formula</span>
+        <span class="katex-display">Display KaTeX</span>
+        <p>Text with <span class="katex">inline math</span> and more text</p>
         Final text
     </div>
     """
@@ -695,7 +698,5 @@ def test_get_non_code_text():
 
     # Normalize whitespace for comparison
     result_normalized = " ".join(result.split())
-    expected_normalized = (
-        "Normal text More normal text Paragraph with and normal text Final text"
-    )
+    expected_normalized = "Normal text More normal text Paragraph with and normal text Text with and more text Final text"
     assert result_normalized == expected_normalized
