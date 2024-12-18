@@ -164,10 +164,10 @@ $$
 We call the first inequality the _Coordination Inequality_, and the second inequality the _Alignment Inequality_. We present some basic intuition:
 
 The Coordination inequality
-: represents the difference between attained social welfare ("how well we're doing right now") and \_maximum attainable \_social welfare ("the best we can possibly do").
+: represents the difference between attained social welfare ("how well we're doing right now") and _maximum attainable_ social welfare ("the best we can possibly do").
 
 The Alignment inequality
-: represents the difference between attainable social welfare ("the best we can possibly do") and \_each player's max attainable \_social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
+: represents the difference between attainable social welfare ("the best we can possibly do") and _each player's maximum attainable_ social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
 
 As it turns out, the limiting cases of alignment have a natural interpretation in terms of the C-A inequalities: they're just equality cases!
 

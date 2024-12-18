@@ -32,7 +32,7 @@ Figure: Senku: "I’m going to use the power of science to rescue every single p
 
 I strive to not make excuses; to fully own my mistakes; to [play to win](/emotionally-confronting-doom) (instead of just looking like I tried). Along this theme, several pieces are dear to me. Whatever I may think of him now, Yudkowsky wrote brilliantly in [Trying to Try](https://readthesequences.com/Trying-To-Try) (and in the rest of [the "Challenging the Difficult" sequence](https://www.readthesequences.com/Challenging-The-Difficult-Sequence)). He also wrote of unflinching responsibility and agency in HPMOR's [_Roles_ arc](https://hpmor.com/chapter/90), although I find that work's perspective somewhat toxic and self-corrosive.[^toxic]
 
-[^toxic]: In particular, I think Harry<sub>HPMOR</sub>'s perspective on responsibility is unrealistically pessimistic about other-people, demanding to the point of masochism, and liable to eventually make you unhappy if adopted in real life.
+[^toxic]: In particular, I think Harry<sub>HPMOR</sub>'s perspective on responsibility is unrealistically pessimistic about other people, demanding to the point of masochism, and liable to eventually make you unhappy if adopted in real life.
 
 Dr. Stone takes a different perspective. Senku won't settle for just _surviving_ - he is determined to achieve full victory. The light of science will drive the stone from every corner of the world.  If a challenge comes up, Senku just mockingly laughs and drops some insane 300IQ plan to handle it. While that may not be an option in real life, I love the energy. I love this show.
 
