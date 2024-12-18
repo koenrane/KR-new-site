@@ -9,7 +9,7 @@ tags:
 description: 
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
+card_image:  
 aliases:
 ---
 
