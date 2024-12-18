@@ -801,8 +801,8 @@ def check_css_issues(file_path: Path) -> List[str]:
         content = f.read()
         if not re.search(r"@supports", content):
             return [
-                f"CSS file {file_path.name} does not contain @supports, which is "
-                "required for dropcaps in Firefox"
+                f"CSS file {file_path.name} does not contain @supports,"
+                " which is required for dropcaps in Firefox"
             ]
     return []
 
