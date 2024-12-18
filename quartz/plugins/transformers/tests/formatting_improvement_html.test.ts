@@ -1,4 +1,4 @@
-import { Element, ElementContent, Parent } from "hast"
+import { Element, ElementContent, Parent, Text } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 
@@ -21,6 +21,7 @@ import {
   identifyLinkNode,
   moveQuotesBeforeLink,
   getFirstTextNode,
+  replaceFractions,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -1188,7 +1189,83 @@ describe("getFirstTextNode", () => {
   })
 
   it("should handle non-element nodes", () => {
-    const textNode = { type: "text", value: "Just text" }
+    const textNode = { type: "text", value: "Just text" } as unknown as Text
     expect(getFirstTextNode(textNode as unknown as Parent)?.value).toBe("Just text")
+  })
+})
+
+describe("replaceFractions", () => {
+  it.each([
+    // Basic fraction cases
+    [{ type: "text", value: "1/2" }, 0, h("p"), '<span class="fraction">1/2</span>'],
+    [{ type: "text", value: "3/4" }, 0, h("p"), '<span class="fraction">3/4</span>'],
+
+    // Fractions with surrounding text
+    [
+      { type: "text", value: "There are 1/2 left" },
+      0,
+      h("p"),
+      'There are <span class="fraction">1/2</span> left',
+    ],
+    [
+      { type: "text", value: "Mix 2/3 cups" },
+      0,
+      h("p"),
+      'Mix <span class="fraction">2/3</span> cups',
+    ],
+
+    // Edge cases
+    // Dates should not be converted
+    [{ type: "text", value: "01/01/2024" }, 0, h("p"), "01/01/2024"],
+    // URLs should not be converted
+    [{ type: "text", value: "https://example.com/path" }, 0, h("p"), "https://example.com/path"],
+    // Decimal fractions should not be converted
+    [{ type: "text", value: "3.5/2" }, 0, h("p"), "3.5/2"],
+    // Multiple fractions in one text
+    [
+      { type: "text", value: "Mix 1/2 and 3/4 cups" },
+      0,
+      h("p"),
+      'Mix <span class="fraction">1/2</span> and <span class="fraction">3/4</span> cups',
+    ],
+
+    // Skip nodes with fraction class
+    [{ type: "text", value: "1/2" }, 0, h("span", { className: ["fraction"] }), "1/2"],
+
+    // Skip code blocks
+    [{ type: "text", value: "1/2" }, 0, h("code"), "1/2"],
+  ])("should handle fractions correctly", (node, index, parent, expected) => {
+    const originalNode = { ...node }
+    replaceFractions(node as Text, index, parent as Parent)
+
+    // For cases where we expect no change
+    if (expected === node.value) {
+      expect(node).toEqual(originalNode)
+    } else {
+      // For cases where we expect transformation
+      const processedHtml = testHtmlFormattingImprovement(`<p>${node.value}</p>`)
+      expect(processedHtml).toBe(`<p>${expected}</p>`)
+    }
+  })
+
+  it("should preserve surrounding whitespace", () => {
+    const node = { type: "text", value: " 1/2 " } as Text
+    const parent = h("p")
+    replaceFractions(node, 0, parent)
+    const processedHtml = testHtmlFormattingImprovement(`<p>${node.value}</p>`)
+    expect(processedHtml).toBe('<p> <span class="fraction">1/2</span> </p>')
+  })
+
+  it("should handle multiple fractions in complex text", () => {
+    const node = {
+      type: "text",
+      value: "Mix 1/2 cup of flour with 3/4 cup of water",
+    } as Text
+    const parent = h("p")
+    replaceFractions(node, 0, parent)
+    const processedHtml = testHtmlFormattingImprovement(`<p>${node.value}</p>`)
+    expect(processedHtml).toBe(
+      '<p>Mix <span class="fraction">1/2</span> cup of flour with <span class="fraction">3/4</span> cup of water</p>',
+    )
   })
 })

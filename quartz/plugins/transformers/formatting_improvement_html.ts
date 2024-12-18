@@ -696,7 +696,7 @@ export function toSkip(node: Element): boolean {
   return false
 }
 
-function replaceFractions(node: Text, index: number, parent: Parent) {
+export function replaceFractions(node: Text, index: number, parent: Parent) {
   replaceRegex(
     node,
     index as number,
