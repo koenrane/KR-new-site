@@ -146,7 +146,7 @@ One hypothesis for how transformers generate text is that they calculate semanti
 ```mermaid
 graph TD
     Input["Q: a=5+6, b=2+7.
-    What is a*b?"] --> Layer0[Layer 0 activations]
+    What is a×b?"] --> Layer0[Layer 0 activations]
     Layer0 --> Dots1[...]
     Dots1 --> Layer5[Layer 5 activations]
     Layer5 --> NormalL6["Normal 
