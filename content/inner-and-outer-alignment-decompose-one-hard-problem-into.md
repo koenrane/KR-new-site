@@ -325,7 +325,7 @@ An agent with lots of values (e.g. coffee and sex and art) will be more likely t
 > - I think there are thresholds at which the AI doesn't care about us sufficiently strongly, and we get no value.
 >   - I might have an "avoid spiders" value which is narrowly contextually activated when I see spiders. But then I think this is silly because spiders are quite interesting, and so I decide to go to exposure therapy and remove this decision-influence. We don't want human values to be outmaneuvered in this way.
 >   - More broadly, I think "value strength" is a loose abstraction which isn't uni-dimensional. It's not "The value is strong" or "The value is weak"; I think values are [contextually activated](/a-shot-at-the-diamond-alignment-problem#The-values-handshake), and so they don't just have a global strength.
-> - Even if you have to get the human-aligned values "perfectly right" in order to avoid Goodharting ([which I don’t believe](/alignment-without-total-robustness)), not having to get \_all_ of the AI's values perfectly right is good news.
+> - Even if you have to get the human-aligned values "perfectly right" in order to avoid Goodharting ([which I don’t believe](/alignment-without-total-robustness)), not having to get _all_ of the AI's values perfectly right is good news.
 > - I think these considerations make total alignment failures easier to prevent: As long as human-compatible values are something the AI meaningfully cares about, we survive.
 
 So ultimately, I think “the agent has to exclusively care about this one perfect goal” is dissolved because [alignment allows "nonrobust" decision-influences and doesn't require robust grading](/alignment-without-total-robustness). Trying to make an agent only care about one goal seems to go against important grains of effective real-world cognition.
@@ -490,7 +490,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 : Consider _this_: Obviously we want to reward the agent for doing good things (like making someone smile) and penalize it for doing bad things (like hurting people). This frame is historically, empirically useful for getting good behavior out of AI.
 
 **Alex**
-: First, we have _not_ solved AI alignment in the inner/outer paradigm—even for \_seemingly simple objectives like diamond-production and strawberry duplication—\_despite brilliant people thinking in that frame for years. That is weak evidence against it being a good paradigm.
+: First, we have _not_ solved AI alignment in the inner/outer paradigm—even for _seemingly simple objectives like diamond production and strawberry duplication_—despite brilliant people thinking in that frame for years. That is weak evidence against it being a good paradigm.
 
 : Second, I agree that all else equal, it’s better to reward and penalize the agent for obvious good and bad things, respectively. But not _because_ the reward function is supposed to represent what I want. As I explained, the reward function is like a chisel. If I reward the agent when it makes me smile, all else equal, that’s probably going to upweight and generalize at least _some_ contextual values upstream of making me smile. That reward scheme should differentially upweight and strengthen human-compatible cognition to some extent.
 

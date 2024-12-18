@@ -326,9 +326,9 @@ Type-correctness
 
 Different shard compositions can produce similar urges
 : If you feel an urge to approach nearby donuts, that indicates a range of possibilities:
-: - A donut shard is firing to increase \_P(eating the donut)\_ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
-: - A _hedonic_ shard is firing to increase \_P(eating the donut)\_ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
-: - A \_social\_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
+: - A donut shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces that outcome, and seeing/smelling a donut activates the donut shard particularly strongly.
+: - A _hedonic_ shard is firing to increase _P(eating the donut)_ because the WM indicates there’s a short plan that produces a highly pleasurable outcome.
+: - A _social_ shard is firing because your friends are all eating donuts, and the social shard was historically reinforced for executing plans where you “fit in” / gain their approval.
 : - …
 
 : So, just because you feel an urge to eat the donut, doesn’t _necessarily_ mean you have a donut shard or that you “value” donuts under our definition. (But you probably do.)
