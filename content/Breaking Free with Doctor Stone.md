@@ -15,9 +15,10 @@ aliases:
   - dr-stone
   - senku
   - breaking-free-doctor-stone
-date_published: &id001 2024-12-17 19:04:42.697213
-date_updated: *id001
+date_published: 2024-12-17 19:04:42.697213
+date_updated: 2024-12-17 19:17:34.501579
 ---
+
 
 
 Doctor Stone is an anime where everyone suddenly turns into a statue. Civilization falls apart. Thousands of years pass, and then a superhumanly knowledgeable teenager named Senku wakes up due to nitric acid dripping on him for long enough.
