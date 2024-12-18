@@ -1,16 +1,19 @@
 ---
-title: Breaking Free with Doctor Stone
-permalink: breaking-free-doctor-stone
+title: Breaking Free with Dr. Stone
+permalink: doctor-stone
 publish: true
 no_dropcap: "false"
 tags:
   - fiction
   - personal
-description: 
+description: Dr. Stone is an anime which blends science and altruistic determination. Also, it slaps.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: 
+card_image: https://i.imgur.com/ibB0q34.png
 aliases:
+  - dr-stone
+  - senku
+  - breaking-free-doctor-stone
 ---
 
 Doctor Stone is an anime where everyone suddenly turns into a statue. Civilization falls apart. Thousands of years pass, and then a superhumanly knowledgeable teenager named Senku wakes up due to nitric acid dripping on him for long enough.
@@ -26,11 +29,11 @@ I strive to not make excuses; to fully own my mistakes; to [play to win](/emotio
 
 [^toxic]: In particular, I think Harry<sub>HPMOR</sub>'s perspective on responsibility is unrealistically pessimistic about other-people, demanding to the point of masochism, and liable to eventually make you unhappy if adopted in real life.
 
-Doctor Stone takes a different perspective. Senku won't settle for just _surviving_ - he is determined to achieve full victory. The light of science will drive the stone from every corner of the world.  If a challenge comes up, Senku just mockingly laughs and drops some insane 300IQ plan to handle it. While that may not be an option in real life, I love the energy. I love this show.
+Dr. Stone takes a different perspective. Senku won't settle for just _surviving_ - he is determined to achieve full victory. The light of science will drive the stone from every corner of the world.  If a challenge comes up, Senku just mockingly laughs and drops some insane 300IQ plan to handle it. While that may not be an option in real life, I love the energy. I love this show.
 
 # Waking up to beauty
 
-The show also makes me feel alive. I feel reminded of early 2018, [when I eagerly read a textbook per month](/posts#becoming-stronger) - the world brimmed with wonderful secrets and I was free to learn and grow as I pleased. Where HPMOR might say "just work goddamn hard and read the books 'till you understand", Doctor Stone takes an easygoing stance of "concepts are easy to learn and explain; most folks can succeed with the right teacher; now shut up and watch this experiment!". The show has rekindled my excitement to learn, which was extinguished last year and has slowly crept back into existence.
+The show also makes me feel alive. I feel reminded of early 2018, [when I eagerly read a textbook per month](/posts#becoming-stronger) - the world brimmed with wonderful secrets and I was free to learn and grow as I pleased. Where HPMOR might say "just work goddamn hard and read the books 'till you understand", Dr. Stone takes an easygoing stance of "concepts are easy to learn and explain; most folks can succeed with the right teacher; now shut up and watch this experiment!". The show has rekindled my excitement to learn, which was extinguished last year and has slowly crept back into existence.
 
 # Counting the seconds until depetrification
 
@@ -63,11 +66,11 @@ But I still felt awful. What did happiness feel like? My memory didn't serve. At
 
 My mental "overseer" issued thoughts which were neither dark nor happy, but simply directed me to keep myself safe; to let the horrible thoughts pass by, into the past; that if I waited long enough, I'd feel OK again. I was stuck inside my body as I counted the painful seconds away.
 
-I'd like to say that I have long since left that disturbing state of mind. I can't say that because it's not true. However, after a year and a half of work, that state has _mostly_ passed and I _usually_ feel OK - and sometimes even happy! 😊 Watching Doctor Stone (seasons 1 & 2) cracked my stone shell a bit more.
+I'd like to say that I have long since left that disturbing state of mind. I can't say that because it's not true. However, after a year and a half of work, that state has _mostly_ passed and I _usually_ feel OK - and sometimes even happy! 😊 Watching Dr. Stone (seasons 1 & 2) cracked my stone shell a bit more.
 
 # Excellent science propaganda
 
-If you want to get a kid excited about science, this show might be the way to do it. In Doctor Stone, the obvious way to win and do cool things is to _do science_.
+If you want to get a kid excited about science, this show might be the way to do it. In Dr. Stone, the obvious way to win and do cool things is to _do science_.
 
 ![](senku_invents_sulfa.png)
 Figure: Someone's sick? Just roll your own drugs with Senku!

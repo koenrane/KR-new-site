@@ -2469,3 +2469,5 @@ depetrify
 petrification
 sci-fi
 superhumanly
+dr-stone
+senku
