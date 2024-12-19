@@ -8,6 +8,7 @@ import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../..
 declare global {
   interface Window {
     __hasRemovedCriticalCSS?: boolean
+    __routerInitialized?: boolean
   }
 }
 
@@ -35,6 +36,8 @@ if ("scrollRestoration" in history) {
   const savedScroll = sessionStorage.getItem(key)
   console.log("savedScroll", savedScroll)
   console.log("window.location", window.location)
+
+  // Maybe ignore hash if this is a backward or forward navigation
   if (savedScroll && !window.location.hash) {
     window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
   }
@@ -231,7 +234,9 @@ window.spaNavigate = navigate
  * - Provides programmatic navigation methods (go, back, forward)
  */
 function createRouter() {
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && !window.__routerInitialized) {
+    window.__routerInitialized = true
+
     document.addEventListener("click", async (event) => {
       const { url } = getOpts(event) ?? {}
       // dont hijack behaviour, just let browser act normally
@@ -244,15 +249,31 @@ function createRouter() {
         window.location.assign(url)
       }
     })
-    window.addEventListener("popstate", () => {
+    window.addEventListener("popstate", async () => {
       try {
         console.info("popstate", window.location.toString())
-        navigate(new URL(window.location.toString()))
+        // Get the scroll position before navigation
+        const key = locationToStorageKey(window.location)
+        const savedScroll = sessionStorage.getItem(key)
+
+        // First navigate to update the content
+        await navigate(new URL(window.location.toString()))
+
+        // Then restore scroll position after content is updated
+        if (savedScroll) {
+          window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
+          sessionStorage.removeItem(key)
+        }
       } catch (error) {
         console.error("Navigation error:", error)
         window.location.reload()
       }
     })
+
+    // Remove the load event listener and just call scrollToHash directly
+    if (window.location.hash) {
+      scrollToHash(window.location.hash)
+    }
   }
 
   return new (class Router {
@@ -271,8 +292,11 @@ function createRouter() {
   })()
 }
 
-createRouter()
-notifyNav(getFullSlug(window))
+// Only initialize if not already done
+if (typeof window !== "undefined" && !window.__routerInitialized) {
+  createRouter()
+  notifyNav(getFullSlug(window))
+}
 
 /**
  * Registers the RouteAnnouncer custom element if not already defined
@@ -296,11 +320,4 @@ if (!customElements.get("route-announcer")) {
       }
     },
   )
-}
-
-// Keep existing hash handler
-if (window.location.hash) {
-  window.addEventListener("load", () => {
-    scrollToHash(window.location.hash)
-  })
 }
