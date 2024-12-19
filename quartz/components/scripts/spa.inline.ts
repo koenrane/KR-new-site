@@ -16,28 +16,35 @@ declare global {
 const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
 
+// TODO test
+export function locationToStorageKey(location: Location) {
+  // Remove hash from location
+  const url = new URL(location.toString())
+  url.hash = ""
+  return `scrollPos:${url.toString()}`
+}
+
+// TODO test
 // Override browser's native scroll restoration
 // This allows the page to restore the previous scroll position on refresh
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual" // Take control of scroll restoration
+  const key = locationToStorageKey(window.location)
 
   // Restore scroll position immediately
-  const savedScroll = sessionStorage.getItem("scrollPos")
+  const savedScroll = sessionStorage.getItem(key)
+  console.log("savedScroll", savedScroll)
+  console.log("window.location", window.location)
   if (savedScroll && !window.location.hash) {
     window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
   }
 
-  // Store position before refresh
-  window.addEventListener("beforeunload", () => {
-    const scrollPos = window.scrollY
-    sessionStorage.setItem("scrollPos", scrollPos.toString())
-  })
+  // Store position before refresh or navigation away
+  window.addEventListener("beforeunload", saveScrollPosition)
 
   // Clean up storage after successful restoration
   window.addEventListener("load", () => {
-    if (!window.location.hash) {
-      sessionStorage.removeItem("scrollPos")
-    }
+    sessionStorage.removeItem(key)
   })
 }
 
@@ -70,12 +77,12 @@ const isLocalUrl = (href: string) => {
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
   if (!isElement(target)) return
   if (target.attributes.getNamedItem("target")?.value === "_blank") return
-  const a = target.closest("a")
-  if (!a) return
-  if ("routerIgnore" in a.dataset) return
-  const { href } = a
+  const closestLink = target.closest("a")
+  if (!closestLink) return
+  if ("routerIgnore" in closestLink.dataset) return
+  const { href } = closestLink
   if (!isLocalUrl(href)) return
-  return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
+  return { url: new URL(href), scroll: "routerNoscroll" in closestLink.dataset ? false : undefined }
 }
 
 /**
@@ -103,13 +110,13 @@ function scrollToHash(hash: string) {
 /**
  * Saves the current scroll position to session storage
  */
-function saveScrollPosition(url: string): void {
+function saveScrollPosition(): void {
   const scrollPos = window.scrollY
-  const key = `scrollPos:${url}`
+  const key = locationToStorageKey(window.location)
   sessionStorage.setItem(key, scrollPos.toString())
 }
 
-let p: DOMParser
+let parser: DOMParser
 /**
  * Core navigation function that:
  * 1. Fetches new page content
@@ -119,14 +126,26 @@ let p: DOMParser
  * 5. Manages page title and announcements
  */
 async function navigate(url: URL) {
-  p = p || new DOMParser()
+  parser = parser || new DOMParser()
 
   // Clean up any existing popovers
   const existingPopovers = document.querySelectorAll(".popover")
   existingPopovers.forEach((popover) => popover.remove())
 
-  saveScrollPosition(window.location.toString())
-  history.pushState({}, "", url)
+  // TODO test
+  saveScrollPosition()
+
+  // TODO test
+  // Don't push to history if it's just a hash change on the same page
+  const isSamePageAnchor =
+    url.pathname === window.location.pathname && url.hash !== window.location.hash
+
+  if (!isSamePageAnchor) {
+    history.pushState({}, "", url)
+  } else {
+    // Update URL without pushing to history for anchor changes
+    history.replaceState({}, "", url)
+  }
 
   let contents: string | undefined
 
@@ -146,7 +165,7 @@ async function navigate(url: URL) {
 
   if (!contents) return
 
-  const html = p.parseFromString(contents, "text/html")
+  const html = parser.parseFromString(contents, "text/html")
   normalizeRelativeURLs(html, url)
 
   let title = html.querySelector("title")?.textContent
@@ -192,7 +211,7 @@ async function navigate(url: URL) {
     }
   } else {
     // Restore scroll position on back navigation
-    const key = `scrollPos:${url.toString()}`
+    const key = locationToStorageKey(window.location)
     const savedScroll = sessionStorage.getItem(key)
     // Go to 0 if no scroll position is saved
     window.scrollTo({
@@ -202,9 +221,6 @@ async function navigate(url: URL) {
   }
 
   notifyNav(getFullSlug(window))
-  delete announcer.dataset.persist
-
-  window.__hasRemovedCriticalCSS = false
 }
 
 window.spaNavigate = navigate
@@ -240,16 +256,16 @@ function createRouter() {
   }
 
   return new (class Router {
-    go(pathname: RelativeURL) {
+    go(this: Router, pathname: RelativeURL) {
       const url = new URL(pathname, window.location.toString())
       return navigate(url)
     }
 
-    back() {
+    back(this: Router) {
       return window.history.back()
     }
 
-    forward() {
+    forward(this: Router) {
       return window.history.forward()
     }
   })()
@@ -273,9 +289,6 @@ if (!customElements.get("route-announcer")) {
   customElements.define(
     "route-announcer",
     class RouteAnnouncer extends HTMLElement {
-      constructor() {
-        super()
-      }
       connectedCallback() {
         for (const [key, value] of Object.entries(attrs)) {
           this.setAttribute(key, value)

@@ -162,9 +162,9 @@ Code: A `<figcaption>` element created from the Markdown cue of "Code:".
 ![Test image.](https://assets.turntrout.com/static/images/posts/goose-majestic.avif)
 Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
-|    Feature | Light Mode   | Dark Mode     |
-| ---------: | :----------- | :------------ |
-| Text color | Dark gray    | Light gray    |
+|    Feature | Light Mode | Dark Mode  |
+| ---------: |  --------- | :--------- |
+| Text color | Dark gray  | Light gray |
 
 Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
