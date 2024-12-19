@@ -2,6 +2,7 @@ import assert from "assert"
 import { Element, Text, Root, Parent, ElementContent } from "hast"
 import { Transformer } from "unified"
 import { visit } from "unist-util-visit"
+import { h } from "hastscript"
 
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
@@ -384,7 +385,6 @@ export function formatLNumbers(tree: Root): void {
   })
 }
 
-// TODO test all non-exported functions
 export function formatArrows(tree: Root): void {
   visit(tree, "text", (node, index, parent) => {
     if (!parent || hasAncestor(parent as ElementMaybeWithParent, toSkip)) return
@@ -402,6 +402,25 @@ export function formatArrows(tree: Root): void {
       () => false,
       "span.right-arrow",
     )
+  })
+}
+
+const ordinalSuffixRegex = /(?<![-−])(?<number>[\d,]+)(?<suffix>(?:st|nd|rd|th))/gu
+export function formatOrdinalSuffixes(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, toSkip)) return
+
+    replaceRegex(node, index ?? 0, parent, ordinalSuffixRegex, (match: RegExpMatchArray) => {
+      // Create the replacement nodes
+      const numSpan = h("span.ordinal-num", match.groups?.number ?? "")
+      const suffixSpan = h("span.ordinal-suffix", match.groups?.suffix ?? "")
+
+      return {
+        before: "",
+        replacedMatch: [numSpan, suffixSpan],
+        after: "",
+      }
+    })
   })
 }
 
@@ -816,6 +835,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
 
     formatLNumbers(tree) // L_p-norm formatting
     formatArrows(tree)
+    formatOrdinalSuffixes(tree)
     removeSpaceBeforeFootnotes(tree)
   }
 }

@@ -56,17 +56,18 @@ export function formatDate(
   locale: ValidLocale = "en-US",
   monthFormat: "long" | "short" = "short",
   includeOrdinalSuffix = true,
-  formatOrdinalSuffix = false,
+  formatOrdinalSuffix = true,
   extraOrdinalStyling?: string,
 ): string {
-  const day = d.getDate()
+  let day: string | number = d.getDate()
   const month = d.toLocaleDateString(locale, { month: monthFormat })
   const year = d.getFullYear()
   let suffix = ""
   if (includeOrdinalSuffix) {
     suffix = getOrdinalSuffix(day)
     if (formatOrdinalSuffix) {
-      suffix = `<sup class="ordinal-suffix" style="${extraOrdinalStyling}">${suffix}</sup>`
+      suffix = `<span class="ordinal-suffix"${extraOrdinalStyling ? ` style="${extraOrdinalStyling}"` : ""}>${suffix}</span>`
+      day = `<span class="ordinal-num">${day}</span>`
     }
   }
   return `${month} ${day}${suffix}, ${year}`

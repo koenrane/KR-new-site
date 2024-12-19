@@ -44,7 +44,6 @@ export const replaceRegex = (
   newNodeStyle = "span",
 ): void => {
   // If the node should be ignored or has no value, return early
-  // deepsource-ignore-line
   if (ignorePredicate(node, index, parent) || !node?.value) {
     return
   }
@@ -55,6 +54,7 @@ export const replaceRegex = (
   let match
 
   // Find all non-overlapping matches in the node's text
+  regex.lastIndex = 0 // Reset regex state before first pass with exec()
   while ((match = regex.exec(node.value)) !== null) {
     if (match.index >= lastMatchEnd) {
       matchIndexes.push(match.index)

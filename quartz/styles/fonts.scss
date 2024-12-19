@@ -391,3 +391,13 @@ article[data-use-dropcap="true"] {
     font-family: inherit !important;
   }
 }
+
+// EG 1st, 2nd, 3rd
+.ordinal-suffix {
+  vertical-align: calc(0.5 * $base-margin);
+  font-size: 0.75em; // Adapt to the font size
+}
+
+.ordinal-num {
+  font-variant-numeric: lining-nums;
+}
