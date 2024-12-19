@@ -1,4 +1,4 @@
-import { Parent, RootContent, Text } from "hast"
+import { Parent, RootContent, Text, Element } from "hast"
 import { h } from "hastscript"
 
 export const urlRegex = new RegExp(
@@ -19,7 +19,7 @@ export const fractionRegex = new RegExp(
 
 export interface ReplaceFnResult {
   before: string
-  replacedMatch: string
+  replacedMatch: string | Element | Element[]
   after: string
 }
 
@@ -74,15 +74,24 @@ export const replaceRegex = (
       fragment.push({ type: "text", value: node.value.substring(lastIndex, index) })
     }
 
-    // Replace the match with new nodes
-    const match = node.value.slice(index).match(regex)
+    // Use exec() instead of match() to get capture groups
+    regex.lastIndex = index
+    const match = regex.exec(node.value)
     if (!match) continue
+
     const { before, replacedMatch, after } = replaceFn(match)
     if (before) {
       fragment.push({ type: "text", value: before })
     }
     if (replacedMatch) {
-      fragment.push(h(newNodeStyle, replacedMatch))
+      if (Array.isArray(replacedMatch)) {
+        // For each element in the array, ensure it has text content
+        fragment.push(...replacedMatch)
+      } else if (typeof replacedMatch === "string") {
+        fragment.push(h(newNodeStyle, replacedMatch))
+      } else {
+        fragment.push(replacedMatch)
+      }
     }
     if (after) {
       fragment.push({ type: "text", value: after })

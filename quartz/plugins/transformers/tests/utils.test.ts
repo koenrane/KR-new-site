@@ -86,4 +86,86 @@ describe("replaceRegex", () => {
     expect(replaceFn).not.toHaveBeenCalled()
     expect(parent.children).toEqual([node])
   })
+
+  it("should handle Element array replacements", () => {
+    const node = createNode("2nd place")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /(\d)(nd|st|rd|th)\b/g
+
+    const replaceFn = (match: RegExpMatchArray): ReplaceFnResult => {
+      const [fullMatch, num, suffix] = match
+      console.log("Match groups:", { fullMatch, num, suffix }) // Debug log
+
+      return {
+        before: "",
+        replacedMatch: [
+          h("span", { className: ["num"] }, num),
+          h("span", { className: ["suffix"] }, suffix),
+        ],
+        after: "",
+      }
+    }
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([
+      h("span", { className: ["num"] }, "2"),
+      h("span", { className: ["suffix"] }, "nd"),
+      createNode(" place"),
+    ])
+  })
+
+  it("should handle overlapping matches by taking first match", () => {
+    const node = createNode("aaaa")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /aa/g // Will match "aa" twice, overlapping
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "",
+      replacedMatch: "b",
+      after: "",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([h("span", "b"), h("span", "b")])
+  })
+
+  it("should handle before and after text correctly", () => {
+    const node = createNode("test123test")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /123/g
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "<<",
+      replacedMatch: "456",
+      after: ">>",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([
+      createNode("test"),
+      createNode("<<"),
+      h("span", "456"),
+      createNode(">>"),
+      createNode("test"),
+    ])
+  })
+
+  it("should handle single element replacement", () => {
+    const node = createNode("test123")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /123/g
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "",
+      replacedMatch: h("span.number", "one-two-three"),
+      after: "",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([createNode("test"), h("span.number", "one-two-three")])
+  })
 })
