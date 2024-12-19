@@ -1,8 +1,8 @@
 import assert from "assert"
 import { Element, Text, Root, Parent, ElementContent } from "hast"
+import { h } from "hastscript"
 import { Transformer } from "unified"
 import { visit } from "unist-util-visit"
-import { h } from "hastscript"
 
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
@@ -413,7 +413,7 @@ export function formatOrdinalSuffixes(tree: Root): void {
     replaceRegex(node, index ?? 0, parent, ordinalSuffixRegex, (match: RegExpMatchArray) => {
       // Create the replacement nodes
       const numSpan = h("span.ordinal-num", match.groups?.number ?? "")
-      const suffixSpan = h("span.ordinal-suffix", match.groups?.suffix ?? "")
+      const suffixSpan = h("sup.ordinal-suffix", match.groups?.suffix ?? "")
 
       return {
         before: "",
