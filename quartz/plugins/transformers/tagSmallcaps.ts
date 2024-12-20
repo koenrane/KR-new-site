@@ -118,27 +118,31 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     throw new Error("replaceSCInNode: node is not the child of its parent")
   }
 
+  // Track if we've already capitalized in this node
+  let hasCapitalized = false
+
   replaceRegex(
     node,
     index,
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
-      // Check if this node should start with capital
-      const shouldCapitalize = nodeBeginsWithCapital(
-        node as Text & { prev?: { type: string; value?: string } },
-      )
+      // Check if this node should start with capital, but only for first match
+      const shouldCapitalize = !hasCapitalized && nodeBeginsWithCapital(index, parent)
+      hasCapitalized = true
 
       // Helper to capitalize first letter if needed
       const processText = (text: string) => {
-        return shouldCapitalize ? text.charAt(0).toUpperCase() + text.slice(1) : text
+        return shouldCapitalize
+          ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
+          : text.toLowerCase()
       }
 
       // Lower-case outputs because we're using small-caps
       const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
       if (allCapsPhraseMatch?.groups) {
         const { phrase } = allCapsPhraseMatch.groups
-        return { before: "", replacedMatch: processText(phrase.toLowerCase()), after: "" }
+        return { before: "", replacedMatch: processText(phrase), after: "" }
       }
 
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
@@ -146,7 +150,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
         const { acronym, suffix } = acronymMatch.groups
         return {
           before: "",
-          replacedMatch: processText(acronym.toLowerCase()),
+          replacedMatch: processText(acronym),
           after: suffix || "",
         }
       }
@@ -166,6 +170,10 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
   )
 }
 
+/**
+ * Rehype plugin that visits text nodes and replaces
+ * detected all-caps or acronyms with smallcaps <abbr>.
+ */
 export const rehypeTagSmallcaps: Plugin = () => {
   return (tree: Node) => {
     visitParents(tree, "text", (node: Text, ancestors: Parent[]) => {
