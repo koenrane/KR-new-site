@@ -40,7 +40,7 @@ describe("rehypeTagSmallcaps", () => {
     // Test all-caps phrases
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
-      '<p><abbr class="small-caps">I hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
+      '<p>I <abbr class="small-caps">hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
     ],
   ]
   it.each(acronymCases)("should properly format: %s", (input, expected) => {
@@ -370,18 +370,58 @@ describe("allCapsContinuation Regex Tests", () => {
 const notAllCapsSentences = ["I AM HI", "YO YO YO how are you", "What ARE you TALKING about"]
 describe("REGEX_ALL_CAPS_PHRASE Regex Tests", () => {
   describe("Should Match", () => {
-    it.each(allCapsSentences.concat(["O'BRIEN'S", "What are you TALKING ABOUT ? !"]))(
-      "should match phrase: '%s'",
-      (input) => {
-        expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(true)
-      },
-    )
+    const validPhrases = [
+      ...allCapsSentences,
+      "O'BRIEN'S",
+      "What are you TALKING ABOUT ? !",
+      "THE FBI AGENT",
+      "MY FBI AGENT",
+      "SOME LONG-PHRASE HERE",
+      "THIS IS A TEST",
+    ]
+
+    it.each(validPhrases)("should match phrase: %s", (input) => {
+      expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(true)
+    })
   })
 
   describe("Should Not Match", () => {
-    it.each(notAllCapsSentences)("should not match phrase: '%s'", (input) => {
+    const invalidPhrases = [
+      ...notAllCapsSentences,
+      // Single letter at start of sentence
+      "A FBI",
+      "I LOVE",
+      "I. A FBI",
+      "Hello! A FBI",
+      "What? A FBI",
+      // Other invalid cases
+      "A",
+      "AB",
+      "A B",
+      "The FBI", // Single word after article
+      "A B C", // Multiple single letters
+    ]
+
+    it.each(invalidPhrases)("should not match phrase: %s", (input) => {
       expect(REGEX_ALL_CAPS_PHRASE.test(input)).toBe(false)
     })
+  })
+
+  // Test the full HTML transformation
+  const htmlCases = [
+    ["<p>A FBI AGENT watched.</p>", '<p>A <abbr class="small-caps">fbi agent</abbr> watched.</p>'],
+    [
+      "<p>Hello! A FBI AGENT watched.</p>",
+      '<p>Hello! A <abbr class="small-caps">fbi agent</abbr> watched.</p>',
+    ],
+    [
+      "<p>THE FBI AGENT watched.</p>",
+      '<p><abbr class="small-caps">The fbi agent</abbr> watched.</p>',
+    ],
+  ]
+
+  it.each(htmlCases)("should correctly transform HTML: %s", (input, expected) => {
+    expect(testTagSmallcapsHTML(input)).toBe(expected)
   })
 })
 
@@ -580,7 +620,7 @@ describe("Capitalization tests", () => {
       "First sentence. NASA is cool.",
       'First sentence. <abbr class="small-caps">Nasa</abbr> is cool.',
     ],
-    ["Hello. I LOVE CATS.", 'Hello. <abbr class="small-caps">I love cats</abbr>.'],
+    ["Hello. I LOVE CATS.", 'Hello. I <abbr class="small-caps">love cats</abbr>.'],
     ["What? FBI agent.", 'What? <abbr class="small-caps">Fbi</abbr> agent.'],
   ]
 

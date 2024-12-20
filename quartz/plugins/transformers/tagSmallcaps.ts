@@ -40,8 +40,10 @@ export const REGEX_ABBREVIATION =
 export const validSmallCapsPhrase = `(?=[${smallCapsChars}\\-'’\\s]*[${smallCapsChars}]{3,})`
 export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${smallCapsChars}]+)`
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
+// Added negative lookbehind to prevent matching if preceded by a single capital letter and space
+export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${smallCapsChars}]\\s))`
 export const REGEX_ALL_CAPS_PHRASE = new RegExp(
-  `${beforeWordBoundary}${validSmallCapsPhrase}(?<phrase>[${smallCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
+  `${beforeWordBoundary}${noSentenceStartSingleCapital}${validSmallCapsPhrase}(?<phrase>[${smallCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
 )
 
 const combinedRegex = new RegExp(

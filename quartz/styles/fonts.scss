@@ -279,7 +279,6 @@ dt {
 article[data-use-dropcap="true"] > p:first-of-type::first-line,
 article[data-use-dropcap="true"] > p:first-of-type .small-caps {
   font-style: inherit;
-  text-transform: lowercase;
   font-variant-caps: small-caps; // Fixes kerning in a few cases
   -webkit-font-smoothing: antialiased; // Prevent excess bolding
 

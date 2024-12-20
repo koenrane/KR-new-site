@@ -230,7 +230,7 @@ Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/s
 
 ## Smallcaps
 
-The NATO alliance met in the USA.   <!--spellchecker-disable-->ABCDEFGHIJKLMNOPQRSTUVWXYZ <abbr class="small-caps">fi fl ff ffi ffl fj ft st ct Th ck</abbr><!--spellchecker-enable-->
+The NATO alliance met in the USA.   <!--spellchecker-disable-->ABCDEFGHIJKLMNOPQRSTUVWXYZ <abbr class="small-caps">fi fl ff ffi ffl fj ft st ct th ck</abbr><!--spellchecker-enable-->
 
 ## Numbers and units
 
