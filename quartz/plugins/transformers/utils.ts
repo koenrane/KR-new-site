@@ -40,10 +40,11 @@ export const replaceRegex = (
   parent: Parent,
   regex: RegExp,
   replaceFn: (match: RegExpMatchArray) => ReplaceFnResult,
-  ignorePredicate: (nd: Text, idx: number, prnt: Parent) => boolean = () => false,
+  ignorePredicate: (node: Text, index: number, parent: Parent) => boolean = () => false,
   newNodeStyle = "span",
 ): void => {
   // If the node should be ignored or has no value, return early
+  // skipcq: JS-W1038
   if (ignorePredicate(node, index, parent) || !node?.value) {
     return
   }
@@ -112,4 +113,21 @@ export const replaceRegex = (
   if (parent.children && typeof index === "number") {
     parent.children.splice(index, 1, ...(fragment as RootContent[]))
   }
+}
+
+/**
+ * Checks if node has no previous sibling or previous sibling ends with period + with optional whitespace.
+ * @param node - Node to check
+ * @returns true if node should begin with a capital letter
+ */
+export function nodeBeginsWithCapital(
+  node: Node & { prev?: { type: string; value?: string } },
+): boolean {
+  const prev = node.prev
+  if (!prev) return true
+
+  if (prev.type === "text") {
+    return /\.\s*$/.test(prev.value ?? "")
+  }
+  return false
 }

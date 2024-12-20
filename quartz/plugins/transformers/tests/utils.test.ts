@@ -2,7 +2,7 @@ import { jest } from "@jest/globals"
 import { Parent, Text } from "hast"
 import { h } from "hastscript"
 
-import { replaceRegex, ReplaceFnResult } from "../utils"
+import { replaceRegex, ReplaceFnResult, nodeBeginsWithCapital } from "../utils"
 
 const acceptAll = () => false
 describe("replaceRegex", () => {
@@ -167,5 +167,37 @@ describe("replaceRegex", () => {
     replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
 
     expect(parent.children).toEqual([createNode("test"), h("span.number", "one-two-three")])
+  })
+})
+
+describe("hasPeriodBefore", () => {
+  type TestNode = { type: string; value?: string; prev?: { type: string; value?: string } }
+
+  it.each<[string, TestNode, boolean]>([
+    ["no previous sibling", { type: "text", value: "test" }, true],
+    [
+      "ends with period",
+      { type: "text", value: "test", prev: { type: "text", value: "sentence." } },
+      true,
+    ],
+    [
+      "ends with period + space",
+      { type: "text", value: "test", prev: { type: "text", value: "sentence. " } },
+      true,
+    ],
+    [
+      "ends with period + spaces",
+      { type: "text", value: "test", prev: { type: "text", value: "sentence.  " } },
+      true,
+    ],
+    [
+      "no period",
+      { type: "text", value: "test", prev: { type: "text", value: "sentence" } },
+      false,
+    ],
+    ["non-text element", { type: "text", value: "test", prev: { type: "element" } }, false],
+  ])("should handle %s", (_case, node, expected) => {
+    const typedNode = node as unknown as Node & { prev?: { type: string; value?: string } }
+    expect(nodeBeginsWithCapital(typedNode)).toBe(expected)
   })
 })
