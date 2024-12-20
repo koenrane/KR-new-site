@@ -41,8 +41,11 @@ function stash_and_exit {
     PREV_NUM_STASHES=$(git stash list | wc -l)
     git stash push --include-untracked >>/dev/null
     # Check if anything was stashed
-    STASHED_CHANGES=$([[ $(git stash list | wc -l) -gt $PREV_NUM_STASHES ]] && echo 1 || echo 0)
-    echo "$STASHED_CHANGES"
+    if [ "$(git stash list | wc -l)" -gt "$PREV_NUM_STASHES" ]; then
+        echo "1"
+    else
+        echo "0"
+    fi
 }
 
 set -e
@@ -71,8 +74,8 @@ pylint "$GIT_ROOT" --rcfile="$GIT_ROOT/.pylintrc"
 # Run static checks on markdown files
 fish "$GIT_ROOT/scripts/spellchecker.fish"
 python "$GIT_ROOT/scripts/source_file_checks.py"
+echo "\033[0;32mSource file checks passed.\033[0m"
 
-# Run jest tests
 npm run test
 
 # Compress and upload assets - runs PyTest tests
