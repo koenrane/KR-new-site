@@ -2471,3 +2471,4 @@ sci-fi
 superhumanly
 dr-stone
 senku
+Superscripting
