@@ -1275,51 +1275,51 @@ describe("Ordinal Suffixes", () => {
     // Basic ordinal cases
     [
       "<p>1st place</p>",
-      '<p><span class="ordinal-num">1</span><span class="ordinal-suffix">st</span> place</p>',
+      '<p><span class="ordinal-num">1</span><sup class="ordinal-suffix">st</sup> place</p>',
     ],
     [
       "<p>2nd prize</p>",
-      '<p><span class="ordinal-num">2</span><span class="ordinal-suffix">nd</span> prize</p>',
+      '<p><span class="ordinal-num">2</span><sup class="ordinal-suffix">nd</sup> prize</p>',
     ],
     [
       "<p>3rd time</p>",
-      '<p><span class="ordinal-num">3</span><span class="ordinal-suffix">rd</span> time</p>',
+      '<p><span class="ordinal-num">3</span><sup class="ordinal-suffix">rd</sup> time</p>',
     ],
     [
       "<p>4th quarter</p>",
-      '<p><span class="ordinal-num">4</span><span class="ordinal-suffix">th</span> quarter</p>',
+      '<p><span class="ordinal-num">4</span><sup class="ordinal-suffix">th</sup> quarter</p>',
     ],
 
     // Multiple ordinals in one text
     [
       "<p>1st place and 2nd place</p>",
-      '<p><span class="ordinal-num">1</span><span class="ordinal-suffix">st</span> place and <span class="ordinal-num">2</span><span class="ordinal-suffix">nd</span> place</p>',
+      '<p><span class="ordinal-num">1</span><sup class="ordinal-suffix">st</sup> place and <span class="ordinal-num">2</span><sup class="ordinal-suffix">nd</sup> place</p>',
     ],
 
     // Larger numbers
     [
       "<p>21st century</p>",
-      '<p><span class="ordinal-num">21</span><span class="ordinal-suffix">st</span> century</p>',
+      '<p><span class="ordinal-num">21</span><sup class="ordinal-suffix">st</sup> century</p>',
     ],
     [
       "<p>42nd street</p>",
-      '<p><span class="ordinal-num">42</span><span class="ordinal-suffix">nd</span> street</p>',
+      '<p><span class="ordinal-num">42</span><sup class="ordinal-suffix">nd</sup> street</p>',
     ],
     [
       "<p>103rd floor</p>",
-      '<p><span class="ordinal-num">103</span><span class="ordinal-suffix">rd</span> floor</p>',
+      '<p><span class="ordinal-num">103</span><sup class="ordinal-suffix">rd</sup> floor</p>',
     ],
 
     // Numbers with commas
     [
       "<p>1,000th visitor</p>",
-      '<p><span class="ordinal-num">1,000</span><span class="ordinal-suffix">th</span> visitor</p>',
+      '<p><span class="ordinal-num">1,000</span><sup class="ordinal-suffix">th</sup> visitor</p>',
     ],
 
     // Edge cases
     [
       "<p>11th, 12th, and 13th</p>", // Special cases that always use 'th'
-      '<p><span class="ordinal-num">11</span><span class="ordinal-suffix">th</span>, <span class="ordinal-num">12</span><span class="ordinal-suffix">th</span>, and <span class="ordinal-num">13</span><span class="ordinal-suffix">th</span></p>',
+      '<p><span class="ordinal-num">11</span><sup class="ordinal-suffix">th</sup>, <span class="ordinal-num">12</span><sup class="ordinal-suffix">th</sup>, and <span class="ordinal-num">13</span><sup class="ordinal-suffix">th</sup></p>',
     ],
 
     // Cases that should not be transformed
@@ -1333,7 +1333,7 @@ describe("Ordinal Suffixes", () => {
   it("handles nested elements correctly", () => {
     const input = "<p><em>1st</em> and <strong>2nd</strong></p>"
     const expected =
-      '<p><em><span class="ordinal-num">1</span><span class="ordinal-suffix">st</span></em> and <strong><span class="ordinal-num">2</span><span class="ordinal-suffix">nd</span></strong></p>'
+      '<p><em><span class="ordinal-num">1</span><sup class="ordinal-suffix">st</sup></em> and <strong><span class="ordinal-num">2</span><sup class="ordinal-suffix">nd</sup></strong></p>'
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
   })
@@ -1347,7 +1347,7 @@ describe("Ordinal Suffixes", () => {
   it("handles ordinals at start and end of text", () => {
     const input = "<p>1st. End with 2nd.</p>"
     const expected =
-      '<p><span class="ordinal-num">1</span><span class="ordinal-suffix">st</span>. End with <span class="ordinal-num">2</span><span class="ordinal-suffix">nd</span>.</p>'
+      '<p><span class="ordinal-num">1</span><sup class="ordinal-suffix">st</sup>. End with <span class="ordinal-num">2</span><sup class="ordinal-suffix">nd</sup>.</p>'
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
   })
@@ -1355,7 +1355,7 @@ describe("Ordinal Suffixes", () => {
   it("handles ordinals with surrounding punctuation", () => {
     const input = "<p>(1st) [2nd] {3rd}</p>"
     const expected =
-      '<p>(<span class="ordinal-num">1</span><span class="ordinal-suffix">st</span>) [<span class="ordinal-num">2</span><span class="ordinal-suffix">nd</span>] {<span class="ordinal-num">3</span><span class="ordinal-suffix">rd</span>}</p>'
+      '<p>(<span class="ordinal-num">1</span><sup class="ordinal-suffix">st</sup>) [<span class="ordinal-num">2</span><sup class="ordinal-suffix">nd</sup>] {<span class="ordinal-num">3</span><sup class="ordinal-suffix">rd</sup>}</p>'
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
   })
