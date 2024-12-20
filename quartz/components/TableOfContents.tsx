@@ -10,7 +10,7 @@ import katex from "katex"
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"
-import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
+import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 import { TocEntry } from "../plugins/transformers/toc"
 import modernStyle from "./styles/toc.scss"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"

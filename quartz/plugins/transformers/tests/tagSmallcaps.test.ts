@@ -5,7 +5,7 @@ import seedrandom from "seedrandom"
 
 import {
   allowAcronyms,
-  rehypeTagAcronyms,
+  rehypeTagSmallcaps,
   isRomanNumeral,
   REGEX_ACRONYM,
   smallCapsSeparators,
@@ -15,18 +15,18 @@ import {
   REGEX_ALL_CAPS_PHRASE,
   skipSmallcaps,
   ignoreAcronym,
-} from "../tagacronyms"
+} from "../tagSmallcaps"
 
 // Helper function for all HTML processing tests
-function testTagAcronymsHTML(inputHTML: string) {
+function testTagSmallcapsHTML(inputHTML: string) {
   return rehype()
     .data("settings", { fragment: true })
-    .use(rehypeTagAcronyms)
+    .use(rehypeTagSmallcaps)
     .processSync(inputHTML)
     .toString()
 }
 
-describe("rehypeTagAcronyms", () => {
+describe("rehypeTagSmallcaps", () => {
   // Test basic acronym wrapping with representative cases
   const acronymCases = [
     [
@@ -42,7 +42,7 @@ describe("rehypeTagAcronyms", () => {
     ],
   ]
   it.each(acronymCases)("should properly format: %s", (input, expected) => {
-    expect(testTagAcronymsHTML(input)).toBe(expected)
+    expect(testTagSmallcapsHTML(input)).toBe(expected)
   })
 })
 
@@ -53,14 +53,14 @@ describe("Abbreviations and Units", () => {
     `<p><abbr class="small-caps">${text.toLowerCase()}</abbr></p>`,
   ])
   it.each(validCases)("should wrap %s correctly", (input, expected) => {
-    expect(testTagAcronymsHTML(`<p>${input}</p>`)).toBe(expected)
+    expect(testTagSmallcapsHTML(`<p>${input}</p>`)).toBe(expected)
   })
 
   // Test invalid cases
   const invalidCases = ["10", "", "5 K", "\nKM"]
   it.each(invalidCases)("should not wrap %s", (text) => {
     const input = `<p>${text}</p>`
-    expect(testTagAcronymsHTML(input)).toBe(input)
+    expect(testTagSmallcapsHTML(input)).toBe(input)
   })
 })
 
@@ -68,7 +68,7 @@ describe("All-caps and Roman Numerals", () => {
   // Test valid acronyms
   const validAcronyms = [...new Set([...allowAcronyms, "AUP", "FBI", "CHAI", "ALÉNA", "ELROND'S"])]
   it.each(validAcronyms)("should wrap valid acronym: %s", (text) => {
-    expect(testTagAcronymsHTML(`<p>${text}</p>`)).toBe(
+    expect(testTagSmallcapsHTML(`<p>${text}</p>`)).toBe(
       `<p><abbr class="small-caps">${text.toLowerCase()}</abbr></p>`,
     )
   })
@@ -77,14 +77,14 @@ describe("All-caps and Roman Numerals", () => {
   const invalidCases = ["AI", "TlDR", "fbi", "FX.TE"]
   it.each(invalidCases)("should not wrap invalid case: %s", (text) => {
     const input = `<p>${text}</p>`
-    expect(testTagAcronymsHTML(input)).toBe(input)
+    expect(testTagSmallcapsHTML(input)).toBe(input)
   })
 
   // Test roman numerals
   const romanNumerals = ["III", "VII", "MXC", "IV", "IX"]
   it.each(romanNumerals)("should preserve roman numeral: %s", (numeral) => {
     const input = `<p>${numeral}</p>`
-    expect(testTagAcronymsHTML(input)).toBe(input)
+    expect(testTagSmallcapsHTML(input)).toBe(input)
   })
 })
 
@@ -114,7 +114,7 @@ describe("Roman numeral tests", () => {
   const numeralSentences = ["I use the roman numeral XVII.", "I use the roman numeral XVII "]
   it.each(numeralSentences)("should identify %s to contain a valid Roman numeral", (sentence) => {
     const input = `<p>${sentence}</p>`
-    const processedHtml: string = testTagAcronymsHTML(input)
+    const processedHtml: string = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input) // should not wrap the numeral in <abbr> tags
   })
 
@@ -175,13 +175,13 @@ describe("REGEX_ACRONYM tests", () => {
   })
 
   it.each(commonAcronyms)("should not match when contiguous with lowercase: %sa", (acronym) => {
-    expect(REGEX_ACRONYM.test(acronym + "a")).toBe(false)
+    expect(REGEX_ACRONYM.test(`${acronym}a`)).toBe(false)
   })
 
   it.each(commonAcronyms)("should match when ending with 's': %ss", (acronym) => {
     testAcronym({
-      input: acronym + "s",
-      expectedMatch: acronym + "s",
+      input: `${acronym}s`,
+      expectedMatch: `${acronym}s`,
       expectedAcronym: acronym,
       expectedSuffix: "s",
     })
@@ -189,8 +189,8 @@ describe("REGEX_ACRONYM tests", () => {
 
   it.each(commonAcronyms)("should match when ending with 'x': %sx", (acronym) => {
     testAcronym({
-      input: acronym + "x",
-      expectedMatch: acronym + "x",
+      input: `${acronym}x`,
+      expectedMatch: `${acronym}x`,
       expectedAcronym: acronym,
       expectedSuffix: "x",
     })
@@ -426,26 +426,26 @@ describe("no-formatting tests", () => {
     "should not wrap acronyms in no-formatting blocks: %s",
     (acronym: string) => {
       const input = `<div class="no-formatting"><p>${acronym}</p></div>`
-      const processedHtml = testTagAcronymsHTML(input)
+      const processedHtml = testTagSmallcapsHTML(input)
       expect(processedHtml).toBe(input)
     },
   )
 
   it("should not wrap acronyms in no-smallcaps blocks", () => {
     const input = '<div class="no-smallcaps"><p>NASA launched a new satellite.</p></div>'
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 
   it("should not error when no ancestors are provided", () => {
     const input = "test"
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 
   it("should not wrap acronyms in code blocks", () => {
     const input = "<code>NASA launched a new satellite.</code>"
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 
@@ -466,26 +466,26 @@ describe("no-formatting tests", () => {
         </div>
       </div>
       <p><abbr class="small-caps">nasa</abbr> after</p>`
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(expected)
   })
 
   it("should handle elvish class correctly", () => {
     const input = '<span class="elvish">NASA</span>'
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 
   it("should not double-wrap abbreviations", () => {
     const input = "<abbr>NASA</abbr>"
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 
   it("should not wrap acronyms in language-tagged code blocks", () => {
     const input =
       '<code data-language="pseudocode"><em>IF human can understand THEN do something</em></code>'
-    const processedHtml = testTagAcronymsHTML(input)
+    const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
 })

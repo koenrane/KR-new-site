@@ -33,9 +33,8 @@ export const REGEX_ACRONYM = new RegExp(
   `${beforeWordBoundary}(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)${afterWordBoundary}`,
 )
 
-export const REGEX_ABBREVIATION = new RegExp(
-  "(?<number>\\d+(\\.\\d+)?|\\.\\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\\b",
-)
+export const REGEX_ABBREVIATION =
+  /(?<number>\d+(\.\d+)?|\.\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\b/
 
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
 export const validSmallCapsPhrase = `(?=[${smallCapsChars}\\-'’\\s]*[${smallCapsChars}]{3,})`
@@ -72,18 +71,11 @@ function isAbbreviation(node: Element): boolean {
 export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   const parent = ancestors[ancestors.length - 1]
 
-  // Check for no-smallcaps or no-formatting classes on any ancestor
   if (
-    ancestors &&
-    ancestors.some((ancestor) => ancestor.type === "element" && skipSmallcaps(ancestor))
-  ) {
-    return true
-  }
-
-  // Check if any ancestor is a code element
-  if (
-    ancestors &&
-    ancestors.some((ancestor) => ancestor.type === "element" && isCode(ancestor as Element))
+    ancestors?.some(
+      (ancestor) =>
+        ancestor.type === "element" && (skipSmallcaps(ancestor) || isCode(ancestor as Element)),
+    )
   ) {
     return true
   }
@@ -100,6 +92,7 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   if (allowAcronyms.includes(node.value)) {
     return false
   }
+
   const lowerCaseValue = node.value.toLowerCase()
   if (/^\d/.test(lowerCaseValue) && ignoreList.some((item) => lowerCaseValue.includes(item))) {
     return true
@@ -123,19 +116,19 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     (match: RegExpMatchArray) => {
       // Lower-case outputs because we're using small-caps
       const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
-      if (allCapsPhraseMatch && allCapsPhraseMatch.groups) {
+      if (allCapsPhraseMatch?.groups) {
         const { phrase } = allCapsPhraseMatch.groups
         return { before: "", replacedMatch: phrase.toLowerCase(), after: "" }
       }
 
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
-      if (acronymMatch && acronymMatch.groups) {
+      if (acronymMatch?.groups) {
         const { acronym, suffix } = acronymMatch.groups
         return { before: "", replacedMatch: acronym.toLowerCase(), after: suffix || "" }
       }
 
       const abbreviationMatch = REGEX_ABBREVIATION.exec(match[0])
-      if (abbreviationMatch && abbreviationMatch.groups) {
+      if (abbreviationMatch?.groups) {
         const { number, abbreviation } = abbreviationMatch.groups
         return { before: "", replacedMatch: number + abbreviation.toLowerCase(), after: "" }
       }
@@ -149,7 +142,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
   )
 }
 
-export const rehypeTagAcronyms: Plugin = () => {
+export const rehypeTagSmallcaps: Plugin = () => {
   return (tree: Node) => {
     visitParents(tree, "text", (node: Text, ancestors: Parent[]) => {
       replaceSCInNode(node, ancestors)
@@ -157,11 +150,11 @@ export const rehypeTagAcronyms: Plugin = () => {
   }
 }
 
-export const TagAcronyms: QuartzTransformerPlugin = () => {
+export const TagSmallcaps: QuartzTransformerPlugin = () => {
   return {
-    name: "TagAcronyms",
+    name: "TagSmallcaps",
     htmlPlugins() {
-      return [rehypeTagAcronyms]
+      return [rehypeTagSmallcaps]
     },
   }
 }

@@ -2,7 +2,7 @@ import { RootContent, Parent, Text, Element, Root, Data } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
-import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
+import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
 import { formatTitle } from "./component_utils"
