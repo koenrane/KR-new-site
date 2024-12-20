@@ -37,9 +37,13 @@ jobs:
         run: |
             export BRANCH=${${{ github.ref }}#refs/heads/}
             npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
-      
-      - name: Make subfont
-        run: sh scripts/subfont.sh
+
+      - name: Install subfont
+        run: npm install -g subfont
+      - name: Make script executable
+        run: chmod +x ./scripts/subfont.sh
+      - name: Subset fonts
+        run: sh ./scripts/subfont.sh
       - name: Publish to Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
