@@ -644,6 +644,36 @@ describe("Capitalization tests", () => {
   it.each(midSentenceCases)("should not capitalize mid-sentence: %s", (input, expected) => {
     expect(testTagSmallcapsHTML(`<p>${input}</p>`)).toBe(`<p>${expected}</p>`)
   })
+
+  const nestedElementCases = [
+    [
+      "<p>First sentence. <strong>NASA is here.</strong></p>",
+      '<p>First sentence. <strong><abbr class="small-caps">Nasa</abbr> is here.</strong></p>',
+    ],
+    [
+      "<p><em>First sentence. NASA is here.</em></p>",
+      '<p><em>First sentence. <abbr class="small-caps">Nasa</abbr> is here.</em></p>',
+    ],
+    [
+      "<p>What, why is the <strong>FBI agent</strong> here?</p>",
+      '<p>What, why is the <strong><abbr class="small-caps">fbi</abbr> agent</strong> here?</p>',
+    ],
+    [
+      "<p>What, why is the <em><strong>FBI agent</strong></em> here?</p>",
+      '<p>What, why is the <em><strong><abbr class="small-caps">fbi</abbr> agent</strong></em> here?</p>',
+    ],
+    [
+      "<p><strong>First sentence.</strong> NASA is here.</p>",
+      '<p><strong>First sentence.</strong> <abbr class="small-caps">Nasa</abbr> is here.</p>',
+    ],
+  ]
+
+  it.each(nestedElementCases)(
+    "should handle capitalization in nested elements: %s",
+    (input, expected) => {
+      expect(testTagSmallcapsHTML(input)).toBe(expected)
+    },
+  )
 })
 
 // TODO check for accented letters
@@ -714,13 +744,13 @@ describe("capitalizeMatch", () => {
   it.each(testCases)("%s", (desc, text, matchIndex, expected) => {
     const { node, parent, index } = createTextContext(text)
     const match = createMatch("NASA", matchIndex)
-    expect(capitalizeMatch(match, node, index, parent)).toBe(expected)
+    expect(capitalizeMatch(match, node, index, [parent])).toBe(expected)
   })
 
   // Special case for undefined match index
   it("should not capitalize when match index is undefined", () => {
     const { node, parent, index } = createTextContext("NASA")
     const match = createMatch("NASA", undefined as unknown as number)
-    expect(capitalizeMatch(match, node, index, parent)).toBe(false)
+    expect(capitalizeMatch(match, node, index, [parent])).toBe(false)
   })
 })

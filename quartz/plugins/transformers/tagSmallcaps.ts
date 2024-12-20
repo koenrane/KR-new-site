@@ -5,7 +5,7 @@ import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
 import { hasClass, isCode } from "./formatting_improvement_html"
-import { nodeBeginsWithCapital, replaceRegex } from "./utils"
+import { nodeBeginsWithCapital, replaceRegex, gatherTextBeforeIndex } from "./utils"
 
 /** Validates if string matches Roman numeral pattern with optional trailing punctuation */
 export function isRomanNumeral(str: string): boolean {
@@ -109,24 +109,54 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
 
 // If the text ends with a letter after a sentence ending, capitalize it
 export const capitalizeAfterEnding = new RegExp(`(^\\s*|[.!?]\\s+)([A-Za-z])$`)
+
+const INLINE_ELEMENTS = new Set(["b", "strong", "em", "i", "sup", "sub", "strike", "del", "s"])
+
+/**
+ * Determines if a matched text should be capitalized based on its position in the document
+ * @param match - The regex match containing the text to potentially capitalize
+ * @param node - The text node containing the match
+ * @param index - The index of the node within its parent's children
+ * @param ancestors - Array of parent nodes, from root to immediate parent
+ * @returns True if the matched text should be capitalized, false otherwise
+ * @throws Error if parent relationship is invalid
+ */
 export function capitalizeMatch(
   match: RegExpMatchArray,
   node: Text,
   index: number,
-  parent: Parent,
+  ancestors: Parent[],
 ): boolean {
   // Check if this is the first node and match is at start
-  const shouldBeginWithCapital = nodeBeginsWithCapital(index, parent)
+  const shouldBeginWithCapital = nodeBeginsWithCapital(index, ancestors[ancestors.length - 1])
   const isStartOfNode = match.index === 0
 
-  // If it should begin with capital and match starts at beginning, capitalize
+  // If it should begin with capital and match starts at beginning, check parent context
   if (shouldBeginWithCapital && isStartOfNode) {
+    if (ancestors.length == 1) {
+      return true
+    }
+
+    // If parent is an inline element, check its context
+    const parent = ancestors[ancestors.length - 1]
+    if (parent.type === "element" && INLINE_ELEMENTS.has((parent as Element).tagName)) {
+      const grandParent = ancestors[ancestors.length - 2]
+      const parentIndex = grandParent.children.indexOf(parent as Element)
+      if (parentIndex === -1) {
+        throw new Error("capitalizeMatch: parent is not the child of its grandparent")
+      }
+
+      return capitalizeMatch(match, node, parentIndex, ancestors.slice(0, -1))
+    }
     return true
   }
 
   // If there's text before the match, check for sentence endings
   if (match.index !== undefined) {
-    return capitalizeAfterEnding.test(node.value.substring(0, match.index + 1))
+    const textBefore =
+      gatherTextBeforeIndex(ancestors[ancestors.length - 1], index) +
+      node.value.substring(0, match.index + 1)
+    return capitalizeAfterEnding.test(textBefore)
   }
 
   return false
@@ -152,7 +182,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     combinedRegex,
     (match: RegExpMatchArray) => {
       // Check if this match should be capitalized
-      const shouldCapitalize = capitalizeMatch(match, node, index, parent)
+      const shouldCapitalize = capitalizeMatch(match, node, index, ancestors)
 
       // Helper to capitalize first letter if needed
       const processText = (text: string) => {

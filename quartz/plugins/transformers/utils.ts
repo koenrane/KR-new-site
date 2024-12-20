@@ -1,4 +1,5 @@
-import { Parent, RootContent, Text, Element } from "hast"
+import { Parent, RootContent, Text, Element, Root } from "hast"
+import { toString } from "hast-util-to-string"
 import { h } from "hastscript"
 
 export const urlRegex = new RegExp(
@@ -130,4 +131,17 @@ export function nodeBeginsWithCapital(index: number, parent: Parent): boolean {
     return /\.\s*$/.test(prev.value ?? "")
   }
   return false
+}
+
+/**
+ * Gathers any text (including nested inline-element text) before a certain
+ * index in the parent's children array.
+ */
+export function gatherTextBeforeIndex(parent: Parent, upToIndex: number): string {
+  // Create a temporary parent with just the nodes up to our index
+  const tempParent = {
+    ...parent,
+    children: parent.children.slice(0, upToIndex),
+  }
+  return toString(tempParent as Root)
 }
