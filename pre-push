@@ -1,7 +1,5 @@
 #!/bin/sh
 
-TMUX_TARGET=""
-EXISTING_SERVER_PID=""
 
 function cleanup {
     local exit_code=$?
@@ -21,15 +19,16 @@ function cleanup {
         git stash pop >>/dev/null || true
     fi
     
-    if [[ $SERVER_STARTED -eq 1 ]]; then
+    if $SERVER_STARTED; then
         if ps -p "$SERVER_PID" > /dev/null; then
-            echo "Killing temporary quartz server..."
+            echo "Killing quartz server..."
             kill -TERM $SERVER_PID || true
+            wait $SERVER_PID 2>/dev/null || true
         fi
         
-        if [[ -n "$TMUX_TARGET" ]]; then
-            echo "Restarting Quartz in original tmux pane: $TMUX_TARGET"
-            tmux send-keys -t "$TMUX_TARGET" "cd $GIT_ROOT && npx quartz build --serve" C-m
+        if [[ -n "$EXISTING_SERVER_PID" ]]; then
+            echo "Resuming existing server (PID: $EXISTING_SERVER_PID)"
+            kill -CONT $EXISTING_SERVER_PID || true
         fi
     fi
 
@@ -82,37 +81,17 @@ sh "$GIT_ROOT/scripts/handle_local_assets.sh"
 # Restart the server so that pages don't rely on stale assets which got deleted and uploaded
 EXISTING_SERVER_PID=$(pgrep quartz || true)
 if [[ -n "$EXISTING_SERVER_PID" ]]; then
-    # Get tmux info for the existing quartz process
-    TMUX_INFO=$(ps -o sid= -p "$EXISTING_SERVER_PID" | xargs -I{} tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_pid}' | grep {})
-    
-    if [[ -n "$TMUX_INFO" ]]; then
-        TMUX_TARGET=$(echo "$TMUX_INFO" | awk '{print $1}')
-        echo "Found Quartz running in tmux pane: $TMUX_TARGET"
-    fi
-    
     echo "Pausing existing server (PID: $EXISTING_SERVER_PID)"
-    kill -TERM $EXISTING_SERVER_PID
-    
-    # Add a longer delay to ensure the port is released
-    sleep 3
-    
-    # Explicitly kill any process using port 8080
-    PORT_PID=$(lsof -ti:8080 || true)
-    if [[ -n "$PORT_PID" ]]; then
-        echo "Killing process using port 8080 (PID: $PORT_PID)"
-        kill -9 $PORT_PID || true
-        sleep 2
-    fi
+    kill -STOP $EXISTING_SERVER_PID
 fi
 
-# Start new server with output logging
-echo "Starting new quartz server..."
-npx quartz build --serve 2>&1 | tee /tmp/quartz-server.log &
+# Start new server
+npx quartz build --serve >/dev/null &
 SERVER_PID=$! # Store the server's process ID
 SERVER_STARTED=true
 
 # Increase timeout and add counter to prevent infinite loop
-TIMEOUT=30  # Increased timeout to 60 seconds
+TIMEOUT=40  # Increased timeout to 60 seconds
 COUNTER=0
 while ! nc -z localhost 8080; do
     sleep 1  # Increased sleep to 1 second intervals
