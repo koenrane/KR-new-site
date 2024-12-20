@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '>=22'
+          node-version: 22.5.1
       - name: Install Dependencies
         run: npm ci
         
@@ -51,15 +51,16 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
         run: |
-            export BRANCH=${GITHUB_REF#refs/heads/}
+            export BRANCH=${${{ github.ref }}#refs/heads/}
             npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
 
       - name: Install subfont
         run: npm install -g subfont
-      # - name: Make script executable
-        # run: chmod +x ./scripts/subfont.sh
-      # - name: Subset fonts
-        # run: sh ./scripts/subfont.sh
+      - name: Make script executable
+        run: chmod +x ./scripts/subfont.sh
+      - name: Subset fonts
+        run: sh ./scripts/subfont.sh
+
       - name: Site checks
         run: python scripts/built_site_checks.py
 
@@ -69,5 +70,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
         run: |
-            export BRANCH=${GITHUB_REF#refs/heads/}
+            export BRANCH=${${{ github.ref }}#refs/heads/}
             npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
