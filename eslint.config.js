@@ -26,6 +26,7 @@ export default [
     ignores: [
       "content/",
       "public/",
+      "postscript.js",
       "backstop/",
       "**/*!*",
       "quartz/.quartz-cache/",
