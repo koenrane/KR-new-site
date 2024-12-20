@@ -29,7 +29,7 @@ function testTagSmallcapsHTML(inputHTML: string) {
 }
 
 describe("rehypeTagSmallcaps", () => {
-  // Test basic acronym wrapping with representative cases
+  // // Test basic acronym wrapping with representative cases
   const acronymCases = [
     [
       "<p>NASA launched a new satellite for NOAA to study GCRs.</p>",
@@ -41,6 +41,10 @@ describe("rehypeTagSmallcaps", () => {
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
       '<p>I <abbr class="small-caps">hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
+    ],
+    [
+      "<p>The NATO. ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>",
+      '<p>The <abbr class="small-caps">nato</abbr>. <abbr class="small-caps">Abcdefghijklmnopqrstuvwxyz</abbr></p>',
     ],
   ]
   it.each(acronymCases)("should properly format: %s", (input, expected) => {
@@ -622,6 +626,10 @@ describe("Capitalization tests", () => {
     ],
     ["Hello. I LOVE CATS.", 'Hello. I <abbr class="small-caps">love cats</abbr>.'],
     ["What? FBI agent.", 'What? <abbr class="small-caps">Fbi</abbr> agent.'],
+    [
+      "NATO and NATO",
+      '<abbr class="small-caps">Nato</abbr> and <abbr class="small-caps">nato</abbr>',
+    ],
   ]
 
   it.each(capitalCases)("should properly capitalize: %s", (input, expected) => {

@@ -125,7 +125,7 @@ export function capitalizeMatch(
   }
 
   // If there's text before the match, check for sentence endings
-  if (match.index) {
+  if (match.index !== undefined) {
     return capitalizeAfterEnding.test(node.value.substring(0, match.index + 1))
   }
 
@@ -145,9 +145,6 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     throw new Error("replaceSCInNode: node is not the child of its parent")
   }
 
-  // Track if we've already capitalized in this node
-  let canCapitalize = true
-
   replaceRegex(
     node,
     index,
@@ -155,8 +152,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     combinedRegex,
     (match: RegExpMatchArray) => {
       // Check if this match should be capitalized
-      const shouldCapitalize = canCapitalize && capitalizeMatch(match, node, index, parent)
-      canCapitalize = false
+      const shouldCapitalize = capitalizeMatch(match, node, index, parent)
 
       // Helper to capitalize first letter if needed
       const processText = (text: string) => {
