@@ -25,25 +25,30 @@ const escapedAllowAcronyms = allowAcronyms
   .join("|")
 
 export const smallCapsSeparators = "-'’"
-const smallCapsChars = "A-Z\\u00C0-\\u00DC"
-const beforeWordBoundary = `(?<![${smallCapsChars}\\w])`
-const afterWordBoundary = `(?![${smallCapsChars}\\w])`
-// Lookbehind and lookahead required to allow accented uppercase characters to count as "word boundaries"; \b only matches against \w
+const upperCapsChars = "A-Z\\u00C0-\\u00DC" // A-Z and À-Ü
+const lowerCapsChars = "a-z\\u00E0-\\u00FC" // a-z and à-ü
+const allCapsChars = `${upperCapsChars}${lowerCapsChars}`
+
+// Update boundary conditions to prevent mixing upper and lower
+const beforeWordBoundary = `(?<![${allCapsChars}\\w])`
+const afterWordBoundary = `(?![${allCapsChars}\\w])`
+
+// Update REGEX_ACRONYM to only match sequences of uppercase characters
 export const REGEX_ACRONYM = new RegExp(
-  `${beforeWordBoundary}(?<acronym>${escapedAllowAcronyms}|[${smallCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${smallCapsChars}\\d]+)*)(?<suffix>[sx]?)${afterWordBoundary}`,
+  `${beforeWordBoundary}(?<acronym>${escapedAllowAcronyms}|[${upperCapsChars}]{3,}(?:[${smallCapsSeparators}]?[${upperCapsChars}\\d]+)*)(?<suffix>[sx]?)${afterWordBoundary}`,
 )
 
 export const REGEX_ABBREVIATION =
   /(?<number>\d+(\.\d+)?|\.\d+)(?<abbreviation>[A-Za-z]{2,}|[KkMmBbTGgWw])\b/
 
 // Lookahead to see that there are at least 3 contiguous uppercase characters in the phrase
-export const validSmallCapsPhrase = `(?=[${smallCapsChars}\\-'’\\s]*[${smallCapsChars}]{3,})`
-export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${smallCapsChars}]+)`
+export const validSmallCapsPhrase = `(?=[${upperCapsChars}\\-'’\\s]*[${upperCapsChars}]{3,})`
+export const allCapsContinuation = `(?:[${smallCapsSeparators}\\d\\s]+[${upperCapsChars}]+)`
 // Restricting to at least 2 words to avoid interfering with REGEX_ACRONYM
 // Added negative lookbehind to prevent matching if preceded by a single capital letter and space
-export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${smallCapsChars}]\\s))`
+export const noSentenceStartSingleCapital = `(?!(?<=(?:^|[.!?]\\s))(?=[${upperCapsChars}]\\s))`
 export const REGEX_ALL_CAPS_PHRASE = new RegExp(
-  `${beforeWordBoundary}${noSentenceStartSingleCapital}${validSmallCapsPhrase}(?<phrase>[${smallCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
+  `${beforeWordBoundary}${noSentenceStartSingleCapital}${validSmallCapsPhrase}(?<phrase>[${upperCapsChars}]+${allCapsContinuation}+)${afterWordBoundary}`,
 )
 
 const combinedRegex = new RegExp(
@@ -108,7 +113,9 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
 }
 
 // If the text ends with a letter after a sentence ending, capitalize it
-export const capitalizeAfterEnding = new RegExp(`(^\\s*|[.!?]\\s+)([A-Za-z])$`)
+export const capitalizeAfterEnding = new RegExp(
+  `(^\\s*|[.!?]\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
+)
 
 const INLINE_ELEMENTS = new Set(["b", "strong", "em", "i", "sup", "sub", "strike", "del", "s"])
 

@@ -175,6 +175,11 @@ describe("REGEX_ACRONYM tests", () => {
     "UNHCR",
     "LGBTQ",
     "POTUS",
+    "CAFÉ",
+    "ÉCOLE",
+    "ÊTRE",
+    "CRÈME",
+    "THÉÂTRE",
   ]
 
   it.each(commonAcronyms)("should match common acronym: %s", (acronym) => {
@@ -250,6 +255,11 @@ describe("REGEX_ACRONYM tests", () => {
     "ASAPly",
     "IAEAish",
     "INTERPOLesque",
+    "CAFé",
+    "éCOLE",
+    "êTRE",
+    "CRèME",
+    "THéÂTRE",
   ]
   it.each(invalidCases)("should not match invalid cases: %s", (case_) => {
     expect(REGEX_ACRONYM.test(case_)).toBe(false)
@@ -630,6 +640,16 @@ describe("Capitalization tests", () => {
       "NATO and NATO",
       '<abbr class="small-caps">Nato</abbr> and <abbr class="small-caps">nato</abbr>',
     ],
+    [
+      "First sentence. CAFÉ is nice.",
+      'First sentence. <abbr class="small-caps">Café</abbr> is nice.',
+    ],
+    ["Hello. ÊTRE OU NE PAS ÊTRE.", 'Hello. <abbr class="small-caps">Être ou ne pas être</abbr>.'],
+    ["What? ÉCOLE time.", 'What? <abbr class="small-caps">École</abbr> time.'],
+    [
+      "CRÈME and CRÈME",
+      '<abbr class="small-caps">Crème</abbr> and <abbr class="small-caps">crème</abbr>',
+    ],
   ]
 
   it.each(capitalCases)("should properly capitalize: %s", (input, expected) => {
@@ -639,6 +659,8 @@ describe("Capitalization tests", () => {
   const midSentenceCases = [
     ["The NASA program", 'The <abbr class="small-caps">nasa</abbr> program'],
     ["A FBI agent", 'A <abbr class="small-caps">fbi</abbr> agent'],
+    ["The CAFÉ opened", 'The <abbr class="small-caps">café</abbr> opened'],
+    ["A ÉCOLE student", 'A <abbr class="small-caps">école</abbr> student'],
   ]
 
   it.each(midSentenceCases)("should not capitalize mid-sentence: %s", (input, expected) => {
@@ -666,6 +688,22 @@ describe("Capitalization tests", () => {
       "<p><strong>First sentence.</strong> NASA is here.</p>",
       '<p><strong>First sentence.</strong> <abbr class="small-caps">Nasa</abbr> is here.</p>',
     ],
+    [
+      "<p>First sentence. <strong>CAFÉ is here.</strong></p>",
+      '<p>First sentence. <strong><abbr class="small-caps">Café</abbr> is here.</strong></p>',
+    ],
+    [
+      "<p><em>First sentence. ÉCOLE is here.</em></p>",
+      '<p><em>First sentence. <abbr class="small-caps">École</abbr> is here.</em></p>',
+    ],
+    [
+      "<p>What, why is the <strong>CAFÉ open</strong> here?</p>",
+      '<p>What, why is the <strong><abbr class="small-caps">café</abbr> open</strong> here?</p>',
+    ],
+    [
+      "<p>What, why is the <em><strong>ÉCOLE empty</strong></em> now?</p>",
+      '<p>What, why is the <em><strong><abbr class="small-caps">école</abbr> empty</strong></em> now?</p>',
+    ],
   ]
 
   it.each(nestedElementCases)(
@@ -676,18 +714,34 @@ describe("Capitalization tests", () => {
   )
 })
 
-// TODO check for accented letters
 describe("capitalizeAfterEnding regex", () => {
   const validCases = [
+    // Basic sentence endings
     ["F"], // Start with a letter
-    ["  S"], // Start with a space
+    ["  S"], // Start with spaces
     ["Previous sentence. A"],
     ["Question? B"],
     ["Exclamation! C"],
     ["   Multiple spaces.    X"],
+
+    // Accented capitals
+    ["É"], // Start with accented capital
+    ["  È"], // Start with space and accented capital
+    ["Previous sentence. É"],
+    ["Question? Ê"],
+    ["Exclamation! Ë"],
+    ["   Multiple spaces.    Ô"],
+
+    // Mixed punctuation and spacing
+    ["...! A"],
+    ["?! B"],
+    [".   C"], // Multiple spaces after period
+    ["!    É"], // Multiple spaces after exclamation with accent
+    ["?.   Ô"], // Multiple punctuation with spaces
   ]
 
   const invalidCases = [
+    // Basic invalid cases
     "not capitalized",
     "mid sentence Word",
     "no period just spaces  still same",
@@ -698,6 +752,23 @@ describe("capitalizeAfterEnding regex", () => {
     "Ends with space ",
     "No final capital A.",
     "Multiple. Sentences. Here",
+
+    // Accented invalid cases
+    "not capitalized é",
+    "mid sentence Éword",
+    "no period just spaces  é still same",
+    ".lowercase after period é",
+    "?lowercase after question è",
+    "!lowercase after exclamation ê",
+    "No final capital É.",
+
+    // Edge cases
+    "A.B", // No space after period
+    "A?B", // No space after question mark
+    "A!B", // No space after exclamation
+    ".A", // Just punctuation and capital
+    "?A", // Just punctuation and capital
+    "!A", // Just punctuation and capital
   ]
 
   it.each(validCases)("should match end of sentence with capital: %s", (text) => {
