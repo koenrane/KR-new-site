@@ -7,8 +7,8 @@ import { QuartzTransformerPlugin } from "../types"
 import { hasClass, isCode } from "./formatting_improvement_html"
 import { replaceRegex } from "./utils"
 
+/** Validates if string matches Roman numeral pattern with optional trailing punctuation */
 export function isRomanNumeral(str: string): boolean {
-  // Allow trailing punctuation marks
   const romanNumeralRegex =
     /(?<= |^)(?:(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(I{1,2}X|I{1,2}V|V?I{0,3})(?<=[A-Z]{3})|I{1,2}[XVCDM])(?=[\s.,!?;:]|$)/
   return romanNumeralRegex.test(str)
@@ -68,6 +68,12 @@ function isAbbreviation(node: Element): boolean {
   return node.tagName === "abbr"
 }
 
+/**
+ * Determines if text node should skip acronym formatting
+ * @param node - Text node to check
+ * @param ancestors - Array of parent nodes
+ * @returns True if node should skip formatting
+ */
 export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   const parent = ancestors[ancestors.length - 1]
 
@@ -80,10 +86,8 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
     return true
   }
 
-  // Check if parent is elvish or abbreviation
   if (
-    parent &&
-    parent.type === "element" &&
+    parent?.type === "element" &&
     (isElvish(parent as Element) || isAbbreviation(parent as Element))
   ) {
     return true
@@ -101,6 +105,12 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   return isRomanNumeral(node.value)
 }
 
+/**
+ * Replaces text with smallcaps version in HTML node
+ * @param node - Text node to process
+ * @param ancestors - Array of parent nodes
+ * @throws Error if node is not child of parent
+ */
 export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
   const parent = ancestors[ancestors.length - 1]
   const index = parent?.children.indexOf(node)
