@@ -129,8 +129,7 @@ done
 echo "Quartz server successfully started on port 8080"
 
 # Run visual regression testing
-set +e
-npx playwright test --config="$GIT_ROOT/playwright.config.ts"
+npx playwright test --config="$GIT_ROOT/playwright.config.ts" --project="Desktop Chrome"
 
 echo "Checking rendered pages for malformed HTML contents."
 python "$GIT_ROOT"/scripts/built_site_checks.py
