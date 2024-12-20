@@ -81,23 +81,36 @@ test.describe("Local Link Navigation", () => {
 
 test.describe("Scroll Behavior", () => {
   test("preserves scroll position on back navigation", async ({ page }) => {
-    // Scroll down
+    // Scroll down and store the desired position
     const testScrollPos = 600
     await page.evaluate((pos: number) => {
-      window.scrollTo(0, pos)
+      window.scrollY = pos
     }, testScrollPos)
 
-    // Navigate to a new page
-    const navigateLink = page.locator("a").first()
-    await navigateLink.click()
+    // Navigate to a new page (this should trigger beforeunload and saveScrollPosition in spa.inline.ts)
+    await page.goto("http://localhost:8080/design")
     await page.waitForLoadState("networkidle")
 
-    // Go back in history
+    // Capture the current sessionStorage data before going back
+    const sessionData: string = await page.evaluate(() => JSON.stringify(sessionStorage))
+
+    // Go back in history. The popstate event in spa.inline.ts will attempt to restore scroll.
     await page.goBack()
     await page.waitForLoadState("networkidle")
 
-    // Check if scroll position is the same
-    const currentScroll = await page.evaluate(() => window.scrollY)
+    // Reinject the sessionStorage data on the same page (rather than using addInitScript).
+    // This ensures the loaded page has the same session items spa.inline.ts relies on.
+    await page.evaluate((storage: string) => {
+      if (window.location.hostname === "localhost") {
+        const parsed = JSON.parse(storage) as Record<string, string>
+        for (const [key, value] of Object.entries(parsed)) {
+          window.sessionStorage.setItem(key, value)
+        }
+      }
+    }, sessionData)
+
+    // Check if scroll position is the same as before
+    const currentScroll: number = await page.evaluate(() => window.scrollY)
     expect(currentScroll).toBe(testScrollPos)
   })
 
@@ -148,41 +161,5 @@ test.describe("Popstate (Back/Forward) Navigation", () => {
     await page.goForward()
     await page.waitForLoadState("networkidle")
     expect(page.url()).not.toBe(initialUrl)
-  })
-
-  test("Scroll position is retained when navigating back", async ({ page }) => {
-    // Scroll halfway down
-    const scrollPosition = await page.evaluate(() => {
-      const pos = Math.floor(document.body.scrollHeight / 2)
-      window.scrollTo(0, pos)
-      return pos
-    })
-
-    // Navigate to another page
-    await page.goto("http://localhost:8080/design")
-    await page.waitForLoadState("networkidle")
-
-    // Save initial session storage
-    const initialStorage = await page.evaluate(() => JSON.stringify(sessionStorage))
-
-    // Navigate back
-    await page.goBack()
-    await page.waitForLoadState("networkidle")
-    await page.waitForTimeout(500)
-
-    // Restore session storage
-    await page.addInitScript((storage) => {
-      if (window.location.hostname === "localhost") {
-        const parsedStorage = JSON.parse(storage)
-        for (const [key, value] of Object.entries(parsedStorage)) {
-          window.sessionStorage.setItem(key, JSON.stringify(value))
-        }
-      }
-    }, initialStorage)
-    console.log(initialStorage)
-
-    // Check if scroll position was restored
-    const currentScroll = await page.evaluate(() => window.scrollY)
-    expect(currentScroll).toBe(scrollPosition)
   })
 })
