@@ -18,7 +18,7 @@ const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
 
 // TODO test
-export function locationToStorageKey(location: Location) {
+function locationToStorageKey(location: Location) {
   // Remove hash from location
   const url = new URL(location.toString())
   url.hash = ""
@@ -57,6 +57,7 @@ if ("scrollRestoration" in history) {
 const isElement = (target: EventTarget | null): target is Element =>
   (target as Node)?.nodeType === NODE_TYPE_ELEMENT
 
+// TODO split off into a separate file to test
 /**
  * Checks if a URL is local (same origin as current window)
  */

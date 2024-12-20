@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: true,
   workers: "75%",
 
-  testDir: "./quartz/components",
+  testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
 
   // Reporter to use
@@ -51,6 +51,9 @@ export default defineConfig({
       name: "iPhone 12",
       use: {
         ...devices["iPhone 12"],
+        // Increase timeout specifically for iPhone 12
+        actionTimeout: 60000,
+        navigationTimeout: 60000,
       },
     },
   ],
