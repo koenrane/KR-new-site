@@ -1,4 +1,4 @@
-import { Text } from "hast"
+import { Parent, Text } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 import seedrandom from "seedrandom"
@@ -15,6 +15,8 @@ import {
   REGEX_ALL_CAPS_PHRASE,
   skipSmallcaps,
   ignoreAcronym,
+  capitalizeAfterEnding,
+  capitalizeMatch,
 } from "../tagSmallcaps"
 
 // Helper function for all HTML processing tests
@@ -593,5 +595,84 @@ describe("Capitalization tests", () => {
 
   it.each(midSentenceCases)("should not capitalize mid-sentence: %s", (input, expected) => {
     expect(testTagSmallcapsHTML(`<p>${input}</p>`)).toBe(`<p>${expected}</p>`)
+  })
+})
+
+// TODO check for accented letters
+describe("capitalizeAfterEnding regex", () => {
+  const validCases = [
+    ["F"], // Start with a letter
+    ["  S"], // Start with a space
+    ["Previous sentence. A"],
+    ["Question? B"],
+    ["Exclamation! C"],
+    ["   Multiple spaces.    X"],
+  ]
+
+  const invalidCases = [
+    "not capitalized",
+    "mid sentence Word",
+    "no period just spaces  still same",
+    ".lowercase after period",
+    "?lowercase after question",
+    "!lowercase after exclamation",
+    "Ends with period.",
+    "Ends with space ",
+    "No final capital A.",
+    "Multiple. Sentences. Here",
+  ]
+
+  it.each(validCases)("should match end of sentence with capital: %s", (text) => {
+    expect(capitalizeAfterEnding.test(text)).toBe(true)
+  })
+
+  it.each(invalidCases)("should not match: %s", (text) => {
+    expect(capitalizeAfterEnding.test(text)).toBe(false)
+  })
+})
+
+describe("capitalizeMatch", () => {
+  // Helper to create a text node with a parent
+  const createTextContext = (text: string, index = 0) => {
+    const node = { type: "text", value: text } as Text
+    const parent = { type: "element", children: [node] } as Parent
+    return { node, parent, index }
+  }
+
+  // Helper to create a match array with index
+  const createMatch = (matchText: string, index: number): RegExpMatchArray => {
+    const match = [matchText] as RegExpMatchArray
+    match.index = index
+    return match
+  }
+
+  const testCases: [string, string, number, boolean][] = [
+    // [description, text, match index, expected result]
+    ["start of first node", "NASA is cool", 0, true],
+    ["after period", "First. NASA is cool", 7, true],
+    ["after question mark", "What? NASA is cool", 6, true],
+    ["after exclamation", "Wow! NASA is cool", 5, true],
+    ["multiple spaces after period", "First.   NASA is cool", 9, true],
+    ["mid-sentence", "The NASA program", 4, false],
+    ["after comma", "Hello, NASA program", 7, false],
+    ["after semicolon", "First; NASA next", 7, false],
+    ["empty text before match", "NASA", 0, true],
+    ["only punctuation and spaces before", ".  NASA", 3, true],
+    ["lowercase after period", "First. nasa", 7, true],
+    ["period without space", "First.NASA", 6, false],
+    ["multiple sentences", "First. Second. NASA", 15, true],
+  ]
+
+  it.each(testCases)("%s", (desc, text, matchIndex, expected) => {
+    const { node, parent, index } = createTextContext(text)
+    const match = createMatch("NASA", matchIndex)
+    expect(capitalizeMatch(match, node, index, parent)).toBe(expected)
+  })
+
+  // Special case for undefined match index
+  it("should not capitalize when match index is undefined", () => {
+    const { node, parent, index } = createTextContext("NASA")
+    const match = createMatch("NASA", undefined as unknown as number)
+    expect(capitalizeMatch(match, node, index, parent)).toBe(false)
   })
 })

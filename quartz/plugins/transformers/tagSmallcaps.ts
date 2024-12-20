@@ -105,6 +105,31 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
   return isRomanNumeral(node.value)
 }
 
+// If the text ends with a letter after a sentence ending, capitalize it
+export const capitalizeAfterEnding = new RegExp(`(^\\s*|[.!?]\\s+)([A-Za-z])$`)
+export function capitalizeMatch(
+  match: RegExpMatchArray,
+  node: Text,
+  index: number,
+  parent: Parent,
+): boolean {
+  // Check if this is the first node and match is at start
+  const shouldBeginWithCapital = nodeBeginsWithCapital(index, parent)
+  const isStartOfNode = match.index === 0
+
+  // If it should begin with capital and match starts at beginning, capitalize
+  if (shouldBeginWithCapital && isStartOfNode) {
+    return true
+  }
+
+  // If there's text before the match, check for sentence endings
+  if (match.index) {
+    return capitalizeAfterEnding.test(node.value.substring(0, match.index + 1))
+  }
+
+  return false
+}
+
 /**
  * Replaces text with smallcaps version in HTML node
  * @param node - Text node to process
@@ -119,7 +144,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
   }
 
   // Track if we've already capitalized in this node
-  let hasCapitalized = false
+  let canCapitalize = true
 
   replaceRegex(
     node,
@@ -127,9 +152,9 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
-      // Check if this node should start with capital, but only for first match
-      const shouldCapitalize = !hasCapitalized && nodeBeginsWithCapital(index, parent)
-      hasCapitalized = true
+      // Check if this match should be capitalized
+      const shouldCapitalize = canCapitalize && capitalizeMatch(match, node, index, parent)
+      canCapitalize = false
 
       // Helper to capitalize first letter if needed
       const processText = (text: string) => {
@@ -138,7 +163,7 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
           : text.toLowerCase()
       }
 
-      // Lower-case outputs because we're using small-caps
+      // Process based on match type
       const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
       if (allCapsPhraseMatch?.groups) {
         const { phrase } = allCapsPhraseMatch.groups
