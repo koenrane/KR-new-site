@@ -79,14 +79,17 @@ const isLocalUrl = (href: string) => {
  * Returns URL and scroll behavior settings
  */
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
-  if (!isElement(target)) return
-  if (target.attributes.getNamedItem("target")?.value === "_blank") return
+  if (!isElement(target)) return undefined
+  if (target.attributes.getNamedItem("target")?.value === "_blank") return undefined
   const closestLink = target.closest("a")
-  if (!closestLink) return
-  if ("routerIgnore" in closestLink.dataset) return
+  if (!closestLink) return undefined
+  if ("routerIgnore" in closestLink.dataset) return undefined
   const { href } = closestLink
-  if (!isLocalUrl(href)) return
-  return { url: new URL(href), scroll: "routerNoscroll" in closestLink.dataset ? false : undefined }
+  if (!isLocalUrl(href)) return undefined
+  return {
+    url: new URL(href),
+    scroll: "routerNoScroll" in closestLink.dataset ? false : undefined,
+  }
 }
 
 /**
@@ -277,20 +280,18 @@ function createRouter() {
     }
   }
 
-  return new (class Router {
-    go(this: Router, pathname: RelativeURL) {
+  return {
+    go(pathname: RelativeURL) {
       const url = new URL(pathname, window.location.toString())
       return navigate(url)
-    }
-
-    back(this: Router) {
+    },
+    back() {
       return window.history.back()
-    }
-
-    forward(this: Router) {
+    },
+    forward() {
       return window.history.forward()
-    }
-  })()
+    },
+  }
 }
 
 // Only initialize if not already done
