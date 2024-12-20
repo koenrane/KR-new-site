@@ -120,9 +120,7 @@ export const replaceRegex = (
  * @param node - Node to check
  * @returns true if node should begin with a capital letter
  */
-export function nodeBeginsWithCapital(
-  node: Node & { prev?: { type: string; value?: string } },
-): boolean {
+export function nodeBeginsWithCapital(node: { prev?: { type: string; value?: string } }): boolean {
   const prev = node.prev
   if (!prev) return true
 

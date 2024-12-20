@@ -31,14 +31,14 @@ describe("rehypeTagSmallcaps", () => {
   const acronymCases = [
     [
       "<p>NASA launched a new satellite for NOAA to study GCRs.</p>",
-      '<p><abbr class="small-caps">nasa</abbr> launched a new satellite for <abbr class="small-caps">noaa</abbr> to study <abbr class="small-caps">gcr</abbr>s.</p>',
+      '<p><abbr class="small-caps">Nasa</abbr> launched a new satellite for <abbr class="small-caps">noaa</abbr> to study <abbr class="small-caps">gcr</abbr>s.</p>',
     ],
-    ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">gpt-2-xl</abbr></p>'],
-    ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">miri</abbr>-relevant math</p>'],
+    ["<p>GPT-2-XL</p>", '<p><abbr class="small-caps">Gpt-2-xl</abbr></p>'],
+    ["<p>MIRI-relevant math</p>", '<p><abbr class="small-caps">Miri</abbr>-relevant math</p>'],
     // Test all-caps phrases
     [
       "<p>I HATE YOU but YOU ARE SWEET-I LIKE YOU</p>",
-      '<p><abbr class="small-caps">i hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
+      '<p><abbr class="small-caps">I hate you</abbr> but <abbr class="small-caps">you are sweet-i like you</abbr></p>',
     ],
   ]
   it.each(acronymCases)("should properly format: %s", (input, expected) => {
@@ -68,8 +68,9 @@ describe("All-caps and Roman Numerals", () => {
   // Test valid acronyms
   const validAcronyms = [...new Set([...allowAcronyms, "AUP", "FBI", "CHAI", "ALÉNA", "ELROND'S"])]
   it.each(validAcronyms)("should wrap valid acronym: %s", (text) => {
+    const targetAcronym = text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
     expect(testTagSmallcapsHTML(`<p>${text}</p>`)).toBe(
-      `<p><abbr class="small-caps">${text.toLowerCase()}</abbr></p>`,
+      `<p><abbr class="small-caps">${targetAcronym}</abbr></p>`,
     )
   })
 
@@ -465,7 +466,7 @@ describe("no-formatting tests", () => {
           <p>NASA inside</p>
         </div>
       </div>
-      <p><abbr class="small-caps">nasa</abbr> after</p>`
+      <p><abbr class="small-caps">Nasa</abbr> after</p>`
     const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(expected)
   })
@@ -568,5 +569,29 @@ describe("ignoreAcronym", () => {
   const romanNumerals = ["III", "VII", "VIII", "XIV", "MXC"]
   it.each(romanNumerals)("should return true for roman numeral %s", (numeral) => {
     expect(ignoreAcronym(createTextNode(numeral), [])).toBe(true)
+  })
+})
+
+describe("Capitalization tests", () => {
+  const capitalCases = [
+    [
+      "First sentence. NASA is cool.",
+      'First sentence. <abbr class="small-caps">Nasa</abbr> is cool.',
+    ],
+    ["Hello. I LOVE CATS.", 'Hello. <abbr class="small-caps">I love cats</abbr>.'],
+    ["What? FBI agent.", 'What? <abbr class="small-caps">Fbi</abbr> agent.'],
+  ]
+
+  it.each(capitalCases)("should properly capitalize: %s", (input, expected) => {
+    expect(testTagSmallcapsHTML(`<p>${input}</p>`)).toBe(`<p>${expected}</p>`)
+  })
+
+  const midSentenceCases = [
+    ["The NASA program", 'The <abbr class="small-caps">nasa</abbr> program'],
+    ["A FBI agent", 'A <abbr class="small-caps">fbi</abbr> agent'],
+  ]
+
+  it.each(midSentenceCases)("should not capitalize mid-sentence: %s", (input, expected) => {
+    expect(testTagSmallcapsHTML(`<p>${input}</p>`)).toBe(`<p>${expected}</p>`)
   })
 })

@@ -5,7 +5,7 @@ import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
 import { hasClass, isCode } from "./formatting_improvement_html"
-import { replaceRegex } from "./utils"
+import { nodeBeginsWithCapital, replaceRegex } from "./utils"
 
 /** Validates if string matches Roman numeral pattern with optional trailing punctuation */
 export function isRomanNumeral(str: string): boolean {
@@ -124,17 +124,31 @@ export function replaceSCInNode(node: Text, ancestors: Parent[]): void {
     parent,
     combinedRegex,
     (match: RegExpMatchArray) => {
+      // Check if this node should start with capital
+      const shouldCapitalize = nodeBeginsWithCapital(
+        node as Text & { prev?: { type: string; value?: string } },
+      )
+
+      // Helper to capitalize first letter if needed
+      const processText = (text: string) => {
+        return shouldCapitalize ? text.charAt(0).toUpperCase() + text.slice(1) : text
+      }
+
       // Lower-case outputs because we're using small-caps
       const allCapsPhraseMatch = REGEX_ALL_CAPS_PHRASE.exec(match[0])
       if (allCapsPhraseMatch?.groups) {
         const { phrase } = allCapsPhraseMatch.groups
-        return { before: "", replacedMatch: phrase.toLowerCase(), after: "" }
+        return { before: "", replacedMatch: processText(phrase.toLowerCase()), after: "" }
       }
 
       const acronymMatch = REGEX_ACRONYM.exec(match[0])
       if (acronymMatch?.groups) {
         const { acronym, suffix } = acronymMatch.groups
-        return { before: "", replacedMatch: acronym.toLowerCase(), after: suffix || "" }
+        return {
+          before: "",
+          replacedMatch: processText(acronym.toLowerCase()),
+          after: suffix || "",
+        }
       }
 
       const abbreviationMatch = REGEX_ABBREVIATION.exec(match[0])
