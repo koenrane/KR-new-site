@@ -170,34 +170,49 @@ describe("replaceRegex", () => {
   })
 })
 
-describe("hasPeriodBefore", () => {
-  type TestNode = { type: string; value?: string; prev?: { type: string; value?: string } }
-
-  it.each<[string, TestNode, boolean]>([
-    ["no previous sibling", { type: "text", value: "test" }, true],
+describe("nodeBeginsWithCapital", () => {
+  it.each<[string, Text[], boolean]>([
+    ["no previous sibling", [{ type: "text", value: "test" }], true],
     [
       "ends with period",
-      { type: "text", value: "test", prev: { type: "text", value: "sentence." } },
+      [
+        { type: "text", value: "sentence." },
+        { type: "text", value: "test" },
+      ],
       true,
     ],
     [
       "ends with period + space",
-      { type: "text", value: "test", prev: { type: "text", value: "sentence. " } },
+      [
+        { type: "text", value: "sentence. " },
+        { type: "text", value: "test" },
+      ],
       true,
     ],
     [
       "ends with period + spaces",
-      { type: "text", value: "test", prev: { type: "text", value: "sentence.  " } },
+      [
+        { type: "text", value: "sentence.  " },
+        { type: "text", value: "test" },
+      ],
       true,
     ],
     [
       "no period",
-      { type: "text", value: "test", prev: { type: "text", value: "sentence" } },
+      [
+        { type: "text", value: "sentence" },
+        { type: "text", value: "test" },
+      ],
       false,
     ],
-    ["non-text element", { type: "text", value: "test", prev: { type: "element" } }, false],
-  ])("should handle %s", (_case, node, expected) => {
-    const typedNode = node as unknown as Node & { prev?: { type: string; value?: string } }
-    expect(nodeBeginsWithCapital(typedNode)).toBe(expected)
+    [
+      "non-text element",
+      [{ type: "element" } as unknown as Text, { type: "text", value: "test" }],
+      false,
+    ],
+  ])("should handle %s", (_case, children, expected) => {
+    const parent = { type: "root", children } as Parent
+    const index = children.length - 1 // Test node is always last
+    expect(nodeBeginsWithCapital(index, parent)).toBe(expected)
   })
 })
