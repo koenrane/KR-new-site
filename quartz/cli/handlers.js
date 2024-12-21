@@ -1,7 +1,7 @@
 import { intro, outro, select, text } from "@clack/prompts"
 import { Mutex } from "async-mutex"
 import chalk from "chalk"
-import * as cheerio from "cheerio"
+import { load as cheerioLoad } from "cheerio"
 import { execSync, spawnSync } from "child_process"
 import chokidar from "chokidar"
 import CleanCSS from "clean-css"
@@ -120,6 +120,8 @@ export async function handleCreate(argv) {
                 return "The given path doesn't exist"
               } else if (!fs.lstatSync(fullPath).isDirectory()) {
                 return "The given path is not a folder"
+              } else {
+                return null
               }
             },
           }),
@@ -227,17 +229,17 @@ export async function handleBuild(argv) {
         name: "inline-script-loader",
         setup(build) {
           build.onLoad({ filter: /\.inline\.(ts|js)$/ }, async (args) => {
-            let text = await promises.readFile(args.path, "utf8")
+            let pathText = await promises.readFile(args.path, "utf8")
 
             // remove default exports that we manually inserted
-            text = text.replace("export default", "")
-            text = text.replace("export", "")
+            pathText = pathText.replace("export default", "")
+            pathText = pathText.replace("export", "")
 
             const sourcefile = path.relative(path.resolve("."), args.path)
             const resolveDir = path.dirname(sourcefile)
             const transpiled = await esBuild({
               stdin: {
-                contents: text,
+                contents: pathText,
                 loader: "ts",
                 resolveDir,
                 sourcefile,
@@ -293,7 +295,7 @@ export async function handleBuild(argv) {
     }
 
     // Construct the module path dynamically
-    const modulePath = "../../" + cacheFile + "?update=" + randomUUID()
+    const modulePath = `../../${cacheFile}?update=${randomUUID()}`
 
     // Use the dynamically constructed path in the import statement
     const { default: buildQuartz } = await import(modulePath)
@@ -304,7 +306,9 @@ export async function handleBuild(argv) {
   }
 
   if (!argv.serve) {
-    await build(() => {})
+    await build(() => {
+      // empty because function is a callback placeholder
+    })
     await ctx.dispose()
 
     const allHtmlFiles = await glob(`${argv.output}/**/*.html`, {
@@ -330,12 +334,12 @@ export async function handleBuild(argv) {
   }
 
   if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
-    argv.baseDir = "/" + argv.baseDir
+    argv.baseDir = `/${argv.baseDir}`
   }
 
   await build(clientRefresh)
 
-  const server = http.createServer(async (req, res) => {
+  const server = http.createServer((req, res) => {
     if (argv.baseDir && !req.url?.startsWith(argv.baseDir)) {
       console.log(
         chalk.red(`[404] ${req.url} (warning: link outside of site, this is likely a Quartz bug)`),
@@ -376,7 +380,7 @@ export async function handleBuild(argv) {
       res.end()
     }
 
-    let filepath = req.url?.split("?")[0] ?? "/"
+    const filepath = req.url?.split("?")[0] ?? "/"
 
     // handle redirects
     if (filepath.endsWith("/")) {
@@ -409,9 +413,9 @@ export async function handleBuild(argv) {
       }
 
       // does /regular/index.html exist? if so, redirect to /regular/
-      let indexFp = path.posix.join(filepath, "index.html")
+      const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        return redirect(filepath + "/")
+        return redirect(`${filepath}/`)
       }
     }
 
@@ -433,12 +437,12 @@ export async function handleBuild(argv) {
       ignored: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
     })
     .on("all", async () => {
-      build(clientRefresh)
+      await build(clientRefresh)
     })
 }
 
 async function maybeGenerateCriticalCSS(outputDir) {
-  if (cachedCriticalCSS != "") {
+  if (cachedCriticalCSS !== "") {
     return
   }
   console.log("Computing and caching critical CSS...")
@@ -542,20 +546,20 @@ async function maybeGenerateCriticalCSS(outputDir) {
 }
 
 function styleWithId(id) {
-  return (_i, el) => el.tagName === "style" && el.attribs["id"] === id
+  return (_i, el) => el.tagName === "style" && el.attribs.id === id
 }
 
 // Sort <head> contents so that Slack unfurls the page with the right info
 function reorderHead(htmlContent) {
-  const $ = cheerio.load(htmlContent)
-  const head = $("head")
+  const querier = cheerioLoad(htmlContent)
+  const head = querier("head")
   const originalChildCount = head.children().length
 
   // Separate <meta>, <title>, and other tags
   const headChildren = head.children()
 
   const isDarkModeScript = (_i, el) =>
-    el.tagName === "script" && el.attribs["id"] === "detect-dark-mode"
+    el.tagName === "script" && el.attribs.id === "detect-dark-mode"
   const darkModeScript = headChildren.filter(isDarkModeScript)
 
   const metaAndTitle = headChildren.filter(
@@ -603,7 +607,7 @@ function reorderHead(htmlContent) {
     )
   }
 
-  return $.html()
+  return querier.html()
 }
 
 /**
@@ -725,17 +729,17 @@ export async function injectCriticalCSSIntoHTMLFiles(htmlFiles, outputDir) {
   for (const file of htmlFiles) {
     try {
       const htmlContent = await fs.promises.readFile(file, "utf-8")
-      const $ = cheerio.load(htmlContent)
+      const querier = cheerioLoad(htmlContent)
 
       // Remove existing critical CSS
-      $("style#critical-css").remove()
+      querier("style#critical-css").remove()
 
       // Insert the new critical CSS at the end of the head
       const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
-      $("head").append(styleTag)
+      querier("head").append(styleTag)
 
       // Reorder the head elements if needed
-      const updatedHTML = reorderHead($.html())
+      const updatedHTML = reorderHead(querier.html())
 
       await fs.promises.writeFile(file, updatedHTML)
       processedCount++

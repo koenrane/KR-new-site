@@ -252,7 +252,9 @@ export function attachPopoverEventListeners(
       isMouseOverPopover = false
       removePopover()
     })
-    popoverElement.removeEventListener("click", () => {})
+    popoverElement.removeEventListener("click", () => {
+      // empty because the function intentionally does nothing for this event
+    })
   }
 }
 

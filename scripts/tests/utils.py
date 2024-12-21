@@ -155,6 +155,7 @@ def setup_test_env(tmp_path):
     # Create video assets for testing and add references to markdown files
     for ext in compress.ALLOWED_VIDEO_EXTENSIONS:
         create_test_video(tmp_path / "quartz/static" / f"asset{ext}")
+        # skipcq: PTC-W6004 because this is server-side
         with open(tmp_path / "content" / f"{ext.lstrip('.')}.md", "a") as file:
             file.write(f"![](static/asset{ext})\n")
             file.write(f"[[static/asset{ext}]]\n")
