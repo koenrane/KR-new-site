@@ -431,7 +431,14 @@ def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
     return duplicates
 
 
-EMPHASIS_ELEMENTS_TO_SEARCH = ("p", "dt", "figcaption", "dd")
+EMPHASIS_ELEMENTS_TO_SEARCH = (
+    "p",
+    "dt",
+    "figcaption",
+    "dd",
+    "li",
+    *(f"h{i}" for i in range(1, 7)),
+)
 
 
 def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
@@ -447,12 +454,12 @@ def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
     """
     problematic_texts: List[str] = []
 
-    for p in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
+    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
         # Get text excluding code and KaTeX elements
-        stripped_text = script_utils.get_non_code_text(p)
+        stripped_text = script_utils.get_non_code_text(text_elt)
 
-        # Check for any * or _ characters
-        if stripped_text and (re.search(r"[*_]", stripped_text)):
+        # Check for any * or _ characters, ignoring _ before %
+        if stripped_text and (re.search(r"\*|_(?![_]* +%)", stripped_text)):
             _add_to_list(
                 problematic_texts,
                 stripped_text,

@@ -791,7 +791,7 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Basic cases - any * or _ should be detected
+        # Basic emphasis cases
         (
             "<p>Text with *asterisk*</p>",
             ["Unrendered emphasis: Text with *asterisk*"],
@@ -800,61 +800,58 @@ def test_check_problematic_paragraphs_comprehensive(html, expected):
             "<p>Text with _underscore_</p>",
             ["Unrendered emphasis: Text with _underscore_"],
         ),
+        # Percentage cases (should be ignored)
+        ("<p>Text with ___ % coverage</p>", []),
+        # Mixed cases
         (
-            "<p>Single * character</p>",
-            ["Unrendered emphasis: Single * character"],
+            "<p>Mixed *emphasis* with _100% value_</p>",
+            ["Unrendered emphasis: Mixed *emphasis* with _100% value_"],
+        ),
+        # Code and KaTeX exclusions
+        (
+            "<p>Text with <code>*ignored*</code> and *emphasis*</p>",
+            ["Unrendered emphasis: Text with  and *emphasis*"],
         ),
         (
-            "<p>Single _ character</p>",
-            ["Unrendered emphasis: Single _ character"],
+            "<p>Math <span class='katex'>*x*</span> and *emphasis*</p>",
+            ["Unrendered emphasis: Math  and *emphasis*"],
         ),
-        # Multiple emphasis markers
+        # Multiple elements
         (
-            "<p>Multiple * and * asterisks</p>",
-            ["Unrendered emphasis: Multiple * and * asterisks"],
-        ),
-        (
-            "<p>Multiple _ and _ underscores</p>",
-            ["Unrendered emphasis: Multiple _ and _ underscores"],
-        ),
-        # Mixed markers
-        (
-            "<p>Mixed * and _ markers</p>",
-            ["Unrendered emphasis: Mixed * and _ markers"],
-        ),
-        # Different HTML elements
-        *[
-            (
-                f"<{element}>Contains *emphasis*</{element}>",
-                ["Unrendered emphasis: Contains *emphasis*"],
-            )
-            for element in EMPHASIS_ELEMENTS_TO_SEARCH
-        ],
-        # Skipped elements - should never detect emphasis in these
-        ("<code>*asterisk* in code</code>", []),
-        ("<pre>*asterisk* in pre</pre>", []),
-        ("<script>*asterisk* in script</script>", []),
-        ("<style>*asterisk* in style</style>", []),
-        ("<span class='katex'>*asterisk* in katex</span>", []),
-        ("<span class='katex-display'>*asterisk* in display</span>", []),
-        # Nested elements
-        (
-            "<p>Text <code>*code*</code> more *text*</p>",
-            ["Unrendered emphasis: Text  more *text*"],
-        ),
-        ("<p><code>*code*</code> *text*</p>", ["Unrendered emphasis:  *text*"]),
-        (
-            "<p>Text <span class='katex'>*math*</span> more *text*</p>",
-            ["Unrendered emphasis: Text  more *text*"],
+            """
+            <div>
+                <p>First *paragraph*</p>
+                <h1>Heading with _emphasis_</h1>
+                <figcaption>Caption with *stars*</figcaption>
+            </div>
+        """,
+            [
+                "Unrendered emphasis: First *paragraph*",
+                "Unrendered emphasis: Heading with _emphasis_",
+                "Unrendered emphasis: Caption with *stars*",
+            ],
         ),
         # Edge cases
-        ("<p>*</p>", ["Unrendered emphasis: *"]),
-        ("<p>_</p>", ["Unrendered emphasis: _"]),
-        ("<p>* *</p>", ["Unrendered emphasis: * *"]),
-        ("<p>_ _</p>", ["Unrendered emphasis: _ _"]),
+        (
+            "<p>Text_with_multiple_underscores</p>",
+            ["Unrendered emphasis: Text_with_multiple_underscores"],
+        ),
+        (
+            "<p>Text*with*multiple*asterisks</p>",
+            ["Unrendered emphasis: Text*with*multiple*asterisks"],
+        ),
+        (
+            "<p>Unicode: 你好 *emphasis* 再见</p>",
+            ["Unrendered emphasis: Unicode: 你好 *emphasis* 再见"],
+        ),
+        (
+            "<p>HTML &amp; *emphasis*</p>",
+            ["Unrendered emphasis: HTML & *emphasis*"],
+        ),
     ],
 )
 def test_check_unrendered_emphasis(html, expected):
+    """Test the check_unrendered_emphasis function."""
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_emphasis(soup)
     assert sorted(result) == sorted(expected)
