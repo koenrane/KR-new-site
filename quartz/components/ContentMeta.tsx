@@ -2,10 +2,10 @@ import React from "react"
 import readingTime from "reading-time"
 
 import { GlobalConfiguration } from "../cfg"
-import { formatTitle } from "../components/component_utils"
 import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
 import { QuartzPluginData } from "../plugins/vfile"
 import { Backlinks } from "./Backlinks"
+import { formatTitle } from "./component_utils"
 import { DateElement } from "./Date"
 import style from "./styles/contentMeta.scss"
 import { TagList } from "./TagList"
@@ -76,8 +76,8 @@ export function RenderPublicationInfo(
       cfg={cfg}
       date={datePublished}
       monthFormat="long"
-      includeOrdinalSuffix={true}
-      formatOrdinalSuffix={true}
+      includeOrdinalSuffix
+      formatOrdinalSuffix
     />
   )
 
@@ -131,8 +131,8 @@ export function RenderLastUpdated(
       cfg={cfg}
       date={dateUpdated}
       monthFormat="long"
-      includeOrdinalSuffix={true}
-      formatOrdinalSuffix={true}
+      includeOrdinalSuffix
+      formatOrdinalSuffix
     />
   )
   return (

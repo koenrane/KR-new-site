@@ -5,8 +5,8 @@ const svgCheck =
 
 document.addEventListener("nav", () => {
   const els = document.getElementsByTagName("pre")
-  for (let i = 0; i < els.length; i++) {
-    const codeBlock = els[i].getElementsByTagName("code")[0]
+  for (const element of els) {
+    const codeBlock = element.getElementsByTagName("code")[0]
     if (codeBlock) {
       const wrapper = document.createElement("div")
       codeBlock.parentNode?.insertBefore(wrapper, codeBlock)
@@ -32,7 +32,7 @@ document.addEventListener("nav", () => {
         )
       }
       button.addEventListener("click", onClick)
-      els[i].prepend(button)
+      element.prepend(button)
     }
   }
 })

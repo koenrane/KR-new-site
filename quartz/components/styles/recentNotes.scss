@@ -9,16 +9,18 @@
     margin-top: 1rem;
     padding-left: 0;
 
-    & > li {
+    & > li.recent-li {
       margin: 1rem 0;
 
-      .section > .desc > h3 > a {
-        background-color: transparent;
-      }
+      &.section {
+        h3 > a {
+          background-color: transparent;
+        }
 
-      .section > .meta {
-        margin: 0 0 0.5rem;
-        opacity: 0.6;
+        .meta {
+          margin: 0 0 0.5rem;
+          opacity: 0.6;
+        }
       }
     }
   }

@@ -36,10 +36,4 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
   )
 }
 
-PageTitle.css = `
-.page-title {
-  margin: 0;
-}
-`
-
 export default (() => PageTitle) satisfies QuartzComponentConstructor
