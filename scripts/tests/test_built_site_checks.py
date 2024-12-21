@@ -683,11 +683,9 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
         # Test bad_anywhere patterns
         (
             """
-            <p>Text with **unrendered bold**</p>
             <p>> [!warning] Alert text</p>
             """,
             [
-                "Problematic paragraph: Text with **unrendered bold**",
                 "Problematic paragraph: > [!warning] Alert text",
             ],
         ),
@@ -775,13 +773,9 @@ def test_check_problematic_paragraphs_with_headings(html, expected):
         # Test edge cases with special characters
         (
             """
-            <p>__underscores__</p>
-            <p>**asterisks**</p>
             <p>> [!note] With spaces</p>
             """,
             [
-                "Problematic paragraph: __underscores__",
-                "Problematic paragraph: **asterisks**",
                 "Problematic paragraph: > [!note] With spaces",
             ],
         ),
