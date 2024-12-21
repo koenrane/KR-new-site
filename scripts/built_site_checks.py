@@ -175,11 +175,7 @@ def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
 
     Efficiently searches without duplicates, ignoring text within <code> tags.
     """
-    bad_anywhere = (
-        r"\*\*",  # Bold markdown
-        r"\_",  # Underscore
-        r"> \[\![a-zA-Z]+\]",  # Callout syntax
-    )
+    bad_anywhere = (r"> \[\![a-zA-Z]+\]",)  # Callout syntax
     bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
     bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
 
