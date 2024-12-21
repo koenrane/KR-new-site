@@ -10,27 +10,31 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" alt="" />
 
+const WarningTitle = () => (
+  <div className="callout-title">
+    <div className="callout-icon"></div>
+    <div className="callout-title-inner">
+      <p>
+        {" "}
+        <a
+          href="/reward-is-not-the-optimization-target"
+          className="internal alias"
+          data-slug="reward-is-not-the-optimization-target"
+        >
+          Reward is not the optimization ta
+          <span style={{ whiteSpace: "nowrap" }}>
+            rget
+            {turntroutFavicon}
+          </span>
+        </a>
+      </p>
+    </div>
+  </div>
+)
+
 const rewardPostWarning = (
   <blockquote className="callout warning" data-callout="warning">
-    <div className="callout-title">
-      <div className="callout-icon"></div>
-      <div className="callout-title-inner">
-        <p>
-          {" "}
-          <a
-            href="/reward-is-not-the-optimization-target"
-            className="internal alias"
-            data-slug="reward-is-not-the-optimization-target"
-          >
-            Reward is not the optimization ta
-            <span style="white-space:nowrap;">
-              rget
-              {turntroutFavicon}
-            </span>
-          </a>
-        </p>
-      </div>
-    </div>
+    <WarningTitle />
     <p>
       This post treats reward functions as “specifying goals”, in some sense. As I explained in{" "}
       <a
@@ -39,7 +43,7 @@ const rewardPostWarning = (
         data-slug="reward-is-not-the-optimization-target"
       >
         Reward Is Not The Optimization Tar
-        <span style="white-space:nowrap;">
+        <span style={{ whiteSpace: "nowrap" }}>
           get,
           {turntroutFavicon}
         </span>
@@ -57,8 +61,9 @@ const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const showWarning = fileData.frontmatter?.["lw-reward-post-warning"] === "true"
   const isQuestion = fileData?.frontmatter?.["lw-is-question"] === "true"
   const originalURL = fileData?.frontmatter?.["original_url"]
+  if (fileData.filePath === undefined) return null
 
-  const content = htmlToJsx(fileData.filePath!, tree)
+  const content = htmlToJsx(fileData.filePath, tree)
   const classes: string[] = fileData.frontmatter?.cssclasses ?? []
   const classString = ["popover-hint", ...classes].join(" ")
   const toc = renderTableOfContents(fileData)

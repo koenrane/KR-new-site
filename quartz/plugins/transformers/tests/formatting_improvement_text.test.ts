@@ -5,7 +5,6 @@ import {
   noteAdmonition,
   wrapLeadingHeaderNumbers,
   spaceDoublyNestedCallouts,
-  // adjustDisplayMathNewlines, // Add this line
 } from "../formatting_improvement_text"
 
 describe("TextFormattingImprovement Plugin", () => {

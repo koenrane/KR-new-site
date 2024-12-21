@@ -51,7 +51,7 @@ export const Latex: QuartzTransformerPlugin<Options> = (opts?: Options) => {
         return [
           [
             rehypeKatex,
-            { output: "html", strict: false, trust: true, macros: macros, colorIsTextColor: true },
+            { output: "html", strict: false, trust: true, macros, colorIsTextColor: true },
           ],
         ]
       } else {

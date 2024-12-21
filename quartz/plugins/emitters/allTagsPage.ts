@@ -32,6 +32,7 @@ export const AllTagsPage: QuartzEmitterPlugin = () => {
     getQuartzComponents() {
       return [Head, Header, Body, ...header, ...beforeBody, pageBody, ...left, ...right, Footer]
     },
+    // skipcq: JS-0116 have to return async for type signature
     async getDependencyGraph() {
       const graph = new DepGraph<FilePath>()
       return graph

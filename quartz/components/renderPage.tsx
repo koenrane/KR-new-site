@@ -171,9 +171,9 @@ export function renderPage(
         } else if (blockRef?.startsWith("#") && page.htmlAst) {
           // header transclude
           blockRef = blockRef.slice(1)
-          let startIdx = undefined
-          let startDepth = undefined
-          let endIdx = undefined
+          let startIdx: number | undefined
+          let startDepth: number | undefined
+          let endIdx: number | undefined
           for (const [i, el] of page.htmlAst.children.entries()) {
             // skip non-headers
             if (!(el.type === "element" && el.tagName.match(headerRegex))) continue
@@ -219,9 +219,9 @@ export function renderPage(
                 {
                   type: "text",
                   value:
-                    page.frontmatter?.title ??
+                    (page.frontmatter?.title && page.slug) ??
                     i18n(cfg.locale).components.transcludes.transcludeOf({
-                      targetSlug: page.slug!,
+                      targetSlug: page.slug as FullSlug,
                     }),
                 },
               ],
@@ -310,5 +310,5 @@ export function renderPage(
     </html>
   )
 
-  return "<!DOCTYPE html>\n" + render(doc)
+  return `<!DOCTYPE html>\n${render(doc)}`
 }

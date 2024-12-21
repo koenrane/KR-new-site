@@ -5,9 +5,11 @@ import { FilePath, FullSlug } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 
 // @ts-expect-error Not a module but a script
+// skipcq: JS-W1028
 import spaRouterScript from "../../components/scripts/spa.inline"
 
 // @ts-expect-error Not a module but a script
+// skipcq: JS-W1028
 import popoverScript from "../../components/scripts/popover.inline"
 import popoverStyle from "../../components/styles/popover.scss"
 import { QuartzComponent } from "../../components/types"
@@ -155,6 +157,7 @@ export const ComponentResources: QuartzEmitterPlugin = () => {
     getQuartzComponents() {
       return []
     },
+    // skipcq: JS-0116 for type signature
     async getDependencyGraph() {
       return new DepGraph<FilePath>()
     },

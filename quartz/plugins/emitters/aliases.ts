@@ -10,6 +10,7 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
   getQuartzComponents() {
     return []
   },
+  // skipcq: JS-0116 - need async for type signature
   async getDependencyGraph(ctx, content) {
     const graph = new DepGraph<FilePath>()
 
@@ -31,7 +32,7 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
 
         graph.addEdge(
           file.data.filePath || ("" as FilePath),
-          joinSegments(argv.output, slug + ".html") as FilePath,
+          joinSegments(argv.output, `${slug}.html`) as FilePath,
         )
       }
     }

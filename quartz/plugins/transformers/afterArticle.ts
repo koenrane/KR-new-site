@@ -54,6 +54,7 @@ export function insertAfterTroutOrnament(tree: Root, components: Element[]) {
       parent.children.splice(index + 1, 0, wrapperDiv)
       return false // Stop traversing
     }
+    return true
   })
 }
 
