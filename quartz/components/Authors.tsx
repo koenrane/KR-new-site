@@ -13,7 +13,7 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   if (fileData.frontmatter?.authors) {
     authors = fileData.frontmatter.authors as string
   }
-  authors = "By " + authors
+  authors = `By ${authors}`
 
   // Add the publication info
   const publicationInfo = RenderPublicationInfo(cfg as GlobalConfiguration, fileData)
@@ -21,7 +21,7 @@ const Authors: QuartzComponent = ({ fileData, cfg }: QuartzComponentProps) => {
   return (
     <div className="authors">
       <p style={{ textIndent: "-.2rem", paddingLeft: ".2rem", lineHeight: "1.25rem" }}>{authors}</p>
-      {publicationInfo !== <></> && <p>{publicationInfo}</p>}
+      {publicationInfo && <p>{publicationInfo}</p>}
     </div>
   )
 }

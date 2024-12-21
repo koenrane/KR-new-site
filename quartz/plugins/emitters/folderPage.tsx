@@ -39,13 +39,14 @@ export const FolderPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
     getQuartzComponents() {
       return [Head, Header, Body, ...header, ...beforeBody, pageBody, ...left, ...right, Footer]
     },
+    // skipcq: JS-0116 have to return async for type signature
     async getDependencyGraph(_ctx, content) {
       // Example graph:
       // nested/file.md --> nested/index.html
       // nested/file2.md ------^
       const graph = new DepGraph<FilePath>()
 
-      content.map(([, vfile]) => {
+      content.forEach(([, vfile]) => {
         const slug = vfile.data.slug
         const folderName = path.dirname(slug || ("" as FullSlug)) as SimpleSlug
         if (slug && folderName !== "." && folderName !== "tags") {

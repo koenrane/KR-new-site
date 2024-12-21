@@ -129,7 +129,7 @@ export const tableRegex = new RegExp(
 // matches any wikilink, only used for escaping wikilinks inside tables
 export const tableWikilinkRegex = new RegExp(/(!?\[\[[^\]]*?\]\])/, "g")
 
-const highlightRegex = new RegExp(/==([^=]+)==/, "g")
+const highlightRegex = new RegExp(/[=]{2}([^=]+)[=]{2}/, "g")
 const commentRegex = new RegExp(/%%[\s\S]*?%%/, "g")
 // from https://github.com/escwxyz/remark-obsidian-callout/blob/main/src/index.ts
 const calloutRegex = new RegExp(/^\[!(\w+)\]([+-]?)/)
@@ -330,6 +330,7 @@ export function markdownPlugins(opts: Options): PluggableList {
             parent.children.splice(index, 1, newNode)
             return SKIP
           }
+          return undefined
         })
       }
     })
@@ -401,7 +402,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                   children: [
                     {
                       type: "text",
-                      value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
+                      value: useDefaultTitle ? capitalize(typeString) : `${titleContent} `,
                     },
                     ...(firstChild.children.slice(1) as ElementContent[]),
                   ],
@@ -512,7 +513,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
       if (opts.callouts) {
         src = src.replace(calloutLineRegex, (value: string): string => {
           // force newline after title of callout
-          return value + "\n> "
+          return `${value}\n> `
         })
       }
 
@@ -598,7 +599,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
             visit(tree, "element", (node) => {
               if (node.tagName === "img" && typeof node.properties.src === "string") {
                 const match = node.properties.src.match(ytLinkRegex)
-                const videoId = match && match[2].length == 11 ? match[2] : null
+                const videoId = match && match[2].length === 11 ? match[2] : null
                 const playlistId = node.properties.src.match(ytPlaylistLinkRegex)?.[1]
                 if (videoId) {
                   // YouTube video (with optional playlist)

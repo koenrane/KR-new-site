@@ -43,6 +43,7 @@ function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
 function elementToJsx(elt: RootContent): JSX.Element {
   switch (elt.type) {
     case "text":
+      // skipcq: JS-0424 want to cast as JSX element
       return <>{elt.value}</>
     case "element":
       if (elt.tagName === "abbr") {
@@ -53,6 +54,7 @@ function elementToJsx(elt: RootContent): JSX.Element {
         return <span>{elt.children.map(elementToJsx)}</span>
       }
     default:
+      // skipcq: JS-0424 want to cast as JSX element
       return <></>
   }
 }
@@ -63,11 +65,11 @@ const BacklinksList = ({
 }: {
   backlinkFiles: Data[]
   currentSlug: FullSlug
-}) => (
+}): JSX.Element => (
   <ul className="backlinks-list" id="backlinks">
     {backlinkFiles.map((f) => {
       if (!("frontmatter" in f) || !("slug" in f)) {
-        return <></>
+        return null
       }
       const processedTitle = processBacklinkTitle(
         (f.frontmatter as Record<string, unknown>).title as string,
@@ -87,7 +89,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
   const slug = simplifySlug(fileData.slug || ("" as FullSlug))
   const backlinkFiles = allFiles.filter((file) => file.links?.includes(slug))
 
-  if (backlinkFiles.length === 0) return <></>
+  if (backlinkFiles.length === 0) return null
 
   return (
     <blockquote

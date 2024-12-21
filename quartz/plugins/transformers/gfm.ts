@@ -132,14 +132,11 @@ export function slugFunction() {
 
 export function removeBackArrow(node: Element): void {
   node.children = node.children.filter((child) => {
-    if (
+    return !(
       child.type === "element" &&
       child.tagName === "a" &&
       child.properties?.className?.toString().includes("data-footnote-backref")
-    ) {
-      return false
-    }
-    return true
+    )
   })
 }
 

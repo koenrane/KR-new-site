@@ -34,7 +34,7 @@ jobs:
           while ! nc -z localhost 8080; do
             sleep 0.1 # Check every 100ms
             # Check if server is still running
-            if ! ps -p ${{ env.SERVER_PID }} > /dev/null; then
+            if ! ps -p "$SERVER_PID" > /dev/null; then
               echo "Server failed to start"
               exit 1
             fi

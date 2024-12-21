@@ -101,7 +101,7 @@ export class FileNode {
 
   // Add new file to tree
   add(file: QuartzPluginData) {
-    this.insert({ file: file, path: simplifySlug(file.slug || ("" as FullSlug)).split("/") })
+    this.insert({ file, path: simplifySlug(file.slug || ("" as FullSlug)).split("/") })
   }
 
   /**
@@ -175,85 +175,84 @@ export function NavbarNode({ node, opts, fullPath, fileData }: NavbarNodeProps) 
     folderPath = joinSegments(fullPath ?? "", node.name)
   }
 
-  return (
-    <>
-      {node.file ? (
-        // Single file node
-        <li key={node.file.slug}>
-          <a
-            href={resolveRelative(
-              fileData.slug || ("" as FullSlug),
-              node.file.slug || ("" as FullSlug),
-            )}
-            data-for={node.file.slug}
-          >
-            {node.displayName}
-          </a>
-        </li>
-      ) : (
-        <li>
-          {node.name !== "" && (
-            // Node with entire folder
-            // Render svg button + folder name, then children
-            <div className="folder-container">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="12"
-                viewBox="5 8 14 8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="folder-icon"
-              >
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-              {/* render <a> tag if folderBehavior is "link", otherwise render <button> with collapse click event */}
-              <div key={node.name} data-folderpath={folderPath}>
-                {folderBehavior === "link" ? (
-                  <a
-                    href={resolveRelative(
-                      fileData.slug || ("" as FullSlug),
-                      folderPath as SimpleSlug,
-                    )}
-                    data-for={node.name}
-                    className="folder-title"
-                  >
-                    {node.displayName}
-                  </a>
-                ) : (
-                  <button className="folder-button">
-                    <span className="folder-title">{node.displayName}</span>
-                  </button>
-                )}
-              </div>
-            </div>
+  if (node.file) {
+    return (
+      <li key={node.file.slug}>
+        <a
+          href={resolveRelative(
+            fileData.slug || ("" as FullSlug),
+            node.file.slug || ("" as FullSlug),
           )}
-          {/* Recursively render children of folder */}
-          <div className={`folder-outer ${node.depth === 0 || isDefaultOpen ? "open" : ""}`}>
-            <ul
-              // Inline style for left folder paddings
-              style={{
-                paddingLeft: node.name !== "" ? "1.4rem" : "0",
-              }}
-              className="content"
-              data-folderul={folderPath}
+          data-for={node.file.slug}
+        >
+          {node.displayName}
+        </a>
+      </li>
+    )
+  } else {
+    return (
+      <li>
+        {node.name !== "" && (
+          // Node with entire folder
+          // Render svg button + folder name, then children
+          <div className="folder-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="5 8 14 8"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="folder-icon"
             >
-              {node.children.map((childNode, i) => (
-                <NavbarNode
-                  node={childNode}
-                  key={i}
-                  opts={opts}
-                  fullPath={folderPath}
-                  fileData={fileData}
-                />
-              ))}
-            </ul>
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            {/* render <a> tag if folderBehavior is "link", otherwise render <button> with collapse click event */}
+            <div key={node.name} data-folderpath={folderPath}>
+              {folderBehavior === "link" ? (
+                <a
+                  href={resolveRelative(
+                    fileData.slug || ("" as FullSlug),
+                    folderPath as SimpleSlug,
+                  )}
+                  data-for={node.name}
+                  className="folder-title"
+                >
+                  {node.displayName}
+                </a>
+              ) : (
+                <button className="folder-button">
+                  <span className="folder-title">{node.displayName}</span>
+                </button>
+              )}
+            </div>
           </div>
-        </li>
-      )}
-    </>
-  )
+        )}
+        {/* Recursively render children of folder */}
+        <div className={`folder-outer ${node.depth === 0 || isDefaultOpen ? "open" : ""}`}>
+          <ul
+            // Inline style for left folder paddings
+            style={{
+              paddingLeft: node.name !== "" ? "1.4rem" : "0",
+            }}
+            className="content"
+            data-folderul={folderPath}
+          >
+            {node.children.map((childNode) => (
+              <NavbarNode
+                node={childNode}
+                key={`${folderPath}-${childNode.name}`}
+                opts={opts}
+                fullPath={folderPath}
+                fileData={fileData}
+              />
+            ))}
+          </ul>
+        </div>
+      </li>
+    )
+  }
 }

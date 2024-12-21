@@ -49,7 +49,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
     return (
       <div className={classes}>
         <article>
-          <p>{content}</p>
+          <p>{content as React.ReactNode}</p>
         </article>
         <div className="page-listing">
           {options.showFolderCount && (

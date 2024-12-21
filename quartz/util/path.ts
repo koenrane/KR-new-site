@@ -69,7 +69,7 @@ function sluggify(s: string): string {
 export function slugifyFilePath(fp: FilePath, excludeExt?: boolean): FullSlug {
   fp = stripSlashes(fp) as FilePath
   let ext = _getFileExtension(fp)
-  const withoutFileExt = fp.replace(new RegExp(ext + "$"), "")
+  const withoutFileExt = fp.replace(new RegExp(`${ext}$`), "")
   if (excludeExt || [".md", ".html", undefined].includes(ext)) {
     ext = ""
   }
@@ -108,7 +108,7 @@ export function transformInternalLink(link: string): RelativeURL {
 // from micromorph/src/utils.ts
 // https://github.com/natemoo-re/micromorph/blob/main/src/utils.ts#L5
 const _rebaseHtmlElement = (el: Element, attr: string, newBase: string | URL) => {
-  const rebased = new URL(el.getAttribute(attr)!, newBase)
+  const rebased = new URL(el.getAttribute(attr) ?? "", newBase)
   el.setAttribute(attr, rebased.pathname + rebased.hash)
 }
 export function normalizeRelativeURLs(el: Element | Document, destination: string | URL) {
@@ -217,7 +217,7 @@ export function splitAnchor(link: string): [string, string] {
   if (fp.endsWith(".pdf")) {
     return [fp, anchor === undefined ? "" : `#${anchor}`]
   }
-  anchor = anchor === undefined ? "" : "#" + slugAnchor(anchor)
+  anchor = anchor === undefined ? "" : `#${slugAnchor(anchor)}`
   return [fp, anchor]
 }
 
@@ -290,7 +290,7 @@ function isFolderPath(fplike: string): boolean {
 }
 
 export function endsWith(s: string, suffix: string): boolean {
-  return s === suffix || s.endsWith("/" + suffix)
+  return s === suffix || s.endsWith(`/${suffix}`)
 }
 
 function trimSuffix(s: string, suffix: string): string {

@@ -100,6 +100,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
   opts = { ...defaultOptions, ...opts }
   return {
     name: "ContentIndex",
+    // skipcq: JS-0116 Have to return async for type signature
     async getDependencyGraph(ctx, content) {
       const graph = new DepGraph<FilePath>()
 
@@ -137,7 +138,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             richContent: opts?.rssFullHtml
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
-            date: date,
+            date,
             description: (file.data.description as string) ?? undefined,
             authors: file.data.frontmatter?.authors as string | undefined,
           })
