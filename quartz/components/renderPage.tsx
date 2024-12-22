@@ -2,6 +2,7 @@
 
 import { Root, Element, ElementContent } from "hast"
 import { render } from "preact-render-to-string"
+// skipcq: JS-W1028
 import React from "react"
 import { visit } from "unist-util-visit"
 
@@ -272,24 +273,28 @@ export function renderPage(
     </div>
   )
 
+  const pageHeader = (
+    <div className="page-header">
+      <Header {...componentData}>
+        {header.map((HeaderComponent) => (
+          <HeaderComponent {...componentData} key={HeaderComponent.name} />
+        ))}
+      </Header>
+      <div className="popover-hint">
+        {beforeBody.map((BodyComponent) => (
+          <BodyComponent {...componentData} key={BodyComponent.name} />
+        ))}
+      </div>
+    </div>
+  )
+
   const body = (
     <body data-slug={slug}>
       <div id="quartz-root" className="page">
         <Body {...componentData}>
           {LeftComponent}
           <div className="center">
-            <div className="page-header">
-              <Header {...componentData}>
-                {header.map((HeaderComponent) => (
-                  <HeaderComponent {...componentData} key={HeaderComponent.name} />
-                ))}
-              </Header>
-              <div className="popover-hint">
-                {beforeBody.map((BodyComponent) => (
-                  <BodyComponent {...componentData} key={BodyComponent.name} />
-                ))}
-              </div>
-            </div>
+            {pageHeader}
             <Content {...componentData} />
           </div>
           {RightComponent}
