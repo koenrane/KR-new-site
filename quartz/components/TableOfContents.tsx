@@ -6,7 +6,8 @@
 
 import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
-import katex from "katex"
+import { renderToString } from "katex"
+// skipcq: JS-W1028
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"
@@ -32,7 +33,7 @@ export function processSmallCaps(text: string, parent: Parent): void {
  * @param parent - The parent node to add the processed LaTeX to.
  */
 export function processKatex(latex: string, parent: Parent): void {
-  const html = katex.renderToString(latex, { throwOnError: false })
+  const html = renderToString(latex, { throwOnError: false })
   const katexNode = {
     type: "element",
     tagName: "span",

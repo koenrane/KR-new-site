@@ -1,3 +1,4 @@
+// skipcq: JS-W1028
 import React from "react"
 
 // @ts-expect-error Not a module but a script
@@ -24,7 +25,7 @@ const searchInterface = (
 )
 
 const Body: QuartzComponent = ({ children }: QuartzComponentProps) => {
-  // The children are the three main sections of the page: left, center, and right bars
+  // The quartz-body children are the three main sections of the page: left, center, and right bars
   return (
     <>
       {searchInterface}
