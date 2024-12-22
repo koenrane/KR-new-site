@@ -2,6 +2,7 @@
 
 import { Root, Element, ElementContent } from "hast"
 import { render } from "preact-render-to-string"
+// skipcq: JS-W1028
 import React from "react"
 import { visit } from "unist-util-visit"
 
@@ -272,29 +273,33 @@ export function renderPage(
     </div>
   )
 
-  const PageBody = (props: QuartzComponentProps) => (
-    <body data-slug={props.slug}>
+  const pageHeader = (
+    <div className="page-header">
+      <Header {...componentData}>
+        {header.map((HeaderComponent) => (
+          <HeaderComponent {...componentData} key={HeaderComponent.name} />
+        ))}
+      </Header>
+      <div className="popover-hint">
+        {beforeBody.map((BodyComponent) => (
+          <BodyComponent {...componentData} key={BodyComponent.name} />
+        ))}
+      </div>
+    </div>
+  )
+
+  const body = (
+    <body data-slug={slug}>
       <div id="quartz-root" className="page">
-        <Body {...props}>
+        <Body {...componentData}>
           {LeftComponent}
           <div className="center">
-            <div className="page-header">
-              <Header {...props}>
-                {header.map((HeaderComponent) => (
-                  <HeaderComponent {...props} key={HeaderComponent.name} />
-                ))}
-              </Header>
-              <div className="popover-hint">
-                {beforeBody.map((BodyComponent) => (
-                  <BodyComponent {...props} key={BodyComponent.name} />
-                ))}
-              </div>
-            </div>
-            <Content {...props} />
-            {RightComponent}
-            <Footer {...props} />
+            {pageHeader}
+            <Content {...componentData} />
           </div>
+          {RightComponent}
         </Body>
+        <Footer {...componentData} />
       </div>
     </body>
   )
@@ -303,7 +308,7 @@ export function renderPage(
   const doc = (
     <html lang={lang}>
       <Head {...componentData} />
-      <PageBody {...componentData} />
+      {body}
       {pageResources.js
         .filter((resource) => resource.loadTime === "afterDOMReady")
         .map((res) => JSResourceToScriptElement(res))}
