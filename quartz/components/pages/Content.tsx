@@ -1,3 +1,4 @@
+// skipcq: JS-W1028
 import React from "react"
 
 import {
@@ -10,24 +11,25 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" alt="" />
 
+const WarningLink = (
+  <a
+    href="/reward-is-not-the-optimization-target"
+    className="internal alias"
+    data-slug="reward-is-not-the-optimization-target"
+  >
+    Reward is not the optimization ta
+    <span style={{ whiteSpace: "nowrap" }}>
+      rget
+      {turntroutFavicon}
+    </span>
+  </a>
+)
+
 const WarningTitle = () => (
   <div className="callout-title">
     <div className="callout-icon"></div>
     <div className="callout-title-inner">
-      <p>
-        {" "}
-        <a
-          href="/reward-is-not-the-optimization-target"
-          className="internal alias"
-          data-slug="reward-is-not-the-optimization-target"
-        >
-          Reward is not the optimization ta
-          <span style={{ whiteSpace: "nowrap" }}>
-            rget
-            {turntroutFavicon}
-          </span>
-        </a>
-      </p>
+      <p> {WarningLink}</p>
     </div>
   </div>
 )
@@ -68,7 +70,7 @@ const Content: QuartzComponent = ({ fileData, tree }: QuartzComponentProps) => {
   const classString = ["popover-hint", ...classes].join(" ")
   const toc = renderTableOfContents(fileData)
   return (
-    <article className={classString} data-use-dropcap={useDropcap}>
+    <article id="top" className={classString} data-use-dropcap={useDropcap}>
       <span className="mobile-only">{toc}</span>
       {isQuestion && originalURL && lessWrongQuestion(originalURL as string)}
       {showWarning && rewardPostWarning}
@@ -96,7 +98,7 @@ function renderTableOfContents(fileData: QuartzComponentProps["fileData"]): JSX.
         <div className="fold-callout-icon"></div>
       </div>
       <div id="toc-content-mobile" className="callout-content">
-        <ul style="padding-left: 1rem !important;">{toc}</ul>
+        <ul style={{ paddingLeft: "1rem !important" }}>{toc}</ul>
       </div>
     </blockquote>
   )
