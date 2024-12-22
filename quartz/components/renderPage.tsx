@@ -10,6 +10,7 @@ import { i18n } from "../i18n"
 import { QuartzPluginData } from "../plugins/vfile"
 import { clone, FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
 import { JSResourceToScriptElement, StaticResources } from "../util/resources"
+import BodyConstructor from "./Body"
 import HeaderConstructor from "./Header"
 import { createPageListHast } from "./PageList"
 import {
@@ -253,6 +254,7 @@ export function renderPage(
     footer: Footer,
   } = components
   const Header = HeaderConstructor()
+  const Body = BodyConstructor()
 
   const LeftComponent = (
     <div id="left-sidebar" className="left sidebar">
@@ -273,24 +275,26 @@ export function renderPage(
   const PageBody = (props: QuartzComponentProps) => (
     <body data-slug={props.slug}>
       <div id="quartz-root" className="page">
-        {LeftComponent}
-        <div className="center">
-          <div className="page-header">
-            <Header {...props}>
-              {header.map((HeaderComponent) => (
-                <HeaderComponent {...props} key={HeaderComponent.name} />
-              ))}
-            </Header>
-            <div className="popover-hint">
-              {beforeBody.map((BodyComponent) => (
-                <BodyComponent {...props} key={BodyComponent.name} />
-              ))}
+        <Body {...props}>
+          {LeftComponent}
+          <div className="center">
+            <div className="page-header">
+              <Header {...props}>
+                {header.map((HeaderComponent) => (
+                  <HeaderComponent {...props} key={HeaderComponent.name} />
+                ))}
+              </Header>
+              <div className="popover-hint">
+                {beforeBody.map((BodyComponent) => (
+                  <BodyComponent {...props} key={BodyComponent.name} />
+                ))}
+              </div>
             </div>
+            <Content {...props} />
+            {RightComponent}
+            <Footer {...props} />
           </div>
-          <Content {...props} />
-          {RightComponent}
-          <Footer {...props} />
-        </div>
+        </Body>
       </div>
     </body>
   )
