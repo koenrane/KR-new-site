@@ -272,34 +272,38 @@ export function renderPage(
     </div>
   )
 
+  const body = (
+    <body data-slug={slug}>
+      <div id="quartz-root" className="page">
+        <Body {...componentData}>
+          {LeftComponent}
+          <div className="center">
+            <div className="page-header">
+              <Header {...componentData}>
+                {header.map((HeaderComponent) => (
+                  <HeaderComponent {...componentData} key={HeaderComponent.name} />
+                ))}
+              </Header>
+              <div className="popover-hint">
+                {beforeBody.map((BodyComponent) => (
+                  <BodyComponent {...componentData} key={BodyComponent.name} />
+                ))}
+              </div>
+            </div>
+            <Content {...componentData} />
+          </div>
+          {RightComponent}
+        </Body>
+        <Footer {...componentData} />
+      </div>
+    </body>
+  )
+
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const doc = (
     <html lang={lang}>
       <Head {...componentData} />
-      <body data-slug={slug}>
-        <div id="quartz-root" className="page">
-          <Body {...componentData}>
-            {LeftComponent}
-            <div className="center">
-              <div className="page-header">
-                <Header {...componentData}>
-                  {header.map((HeaderComponent) => (
-                    <HeaderComponent {...componentData} key={HeaderComponent.name} />
-                  ))}
-                </Header>
-                <div className="popover-hint">
-                  {beforeBody.map((BodyComponent) => (
-                    <BodyComponent {...componentData} key={BodyComponent.name} />
-                  ))}
-                </div>
-              </div>
-              <Content {...componentData} />
-            </div>
-            {RightComponent}
-          </Body>
-          <Footer {...componentData} />
-        </div>
-      </body>
+      {body}
       {pageResources.js
         .filter((resource) => resource.loadTime === "afterDOMReady")
         .map((res) => JSResourceToScriptElement(res))}
