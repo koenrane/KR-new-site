@@ -202,6 +202,102 @@ export const highlightTextNodes = (node: Node, term: string) => {
   }
 }
 
+class PreviewManager {
+  private container: HTMLDivElement
+  private inner: HTMLElement
+  private currentSlug: FullSlug | null = null
+
+  constructor(container: HTMLDivElement) {
+    this.container = container
+    this.inner = document.createElement("article")
+    this.inner.classList.add("preview-inner")
+    this.container.appendChild(this.inner)
+  }
+
+  public update(el: HTMLElement | null, currentSearchTerm: string, baseSlug: FullSlug) {
+    if (!el) {
+      this.hide()
+      return
+    }
+
+    const slug = el.id as FullSlug
+    this.currentSlug = slug
+
+    // Show container immediately
+    this.show()
+
+    // Fetch and render content immediately without waiting for assets
+    void this.fetchAndUpdateContent(slug, currentSearchTerm, baseSlug)
+  }
+
+  private async fetchAndUpdateContent(
+    slug: FullSlug,
+    currentSearchTerm: string,
+    baseSlug: FullSlug,
+  ) {
+    try {
+      const { content, frontmatter } = await fetchContent(slug)
+
+      // Only update if this is still the current preview we want
+      if (this.currentSlug === slug) {
+        const useDropcap: boolean =
+          !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
+        this.inner.setAttribute("data-use-dropcap", useDropcap.toString())
+
+        // Create a document fragment to build content off-screen
+        const fragment = document.createDocumentFragment()
+        content.forEach((el) => {
+          const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
+          fragment.append(...Array.from(highlightedContent.childNodes))
+        })
+
+        // Clear existing content and append new content
+        this.inner.innerHTML = ""
+        this.inner.appendChild(fragment)
+
+        // Set click handler
+        this.inner.onclick = () => {
+          window.location.href = resolveUrl(slug, baseSlug).toString()
+        }
+
+        // Let images and other resources load naturally
+        // Browser will handle loading these in the background
+        this.scrollToFirstHighlight()
+      }
+    } catch (error) {
+      console.error("Error loading preview:", error)
+      if (this.currentSlug === slug) {
+        this.inner.innerHTML = '<div class="preview-error">Error loading preview</div>'
+      }
+    }
+  }
+
+  public show(): void {
+    this.container.style.display = "block"
+  }
+
+  public hide(): void {
+    this.container.style.display = "none"
+  }
+
+  public destroy(): void {
+    this.inner.onclick = null
+    this.inner.innerHTML = ""
+    this.currentSlug = null
+  }
+
+  private scrollToFirstHighlight(): void {
+    // Get only the first matching highlight without sorting
+    const firstHighlight = this.container.querySelector(".highlight") as HTMLElement
+    if (!firstHighlight) return
+
+    const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
+    this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
+  }
+}
+
+let previewManager: PreviewManager | null
+
 /**
  * Highlights search terms within HTML content while preserving HTML structure
  * @param searchTerm - Term to highlight
@@ -315,7 +411,11 @@ async function shortcutHandler(
     e.preventDefault()
     e.stopPropagation() // Add this line to stop event propagation
     const searchBarOpen = container?.classList.contains("active")
-    void (searchBarOpen ? hideSearch() : showSearch("tags", container, searchBar))
+    if (searchBarOpen) {
+      hideSearch()
+    } else {
+      showSearch("tags", container, searchBar)
+    }
 
     // add "#" prefix for tag search
     if (searchBar) searchBar.value = "#"
@@ -359,6 +459,7 @@ async function shortcutHandler(
   }
 }
 
+let cleanupListeners: (() => void) | undefined
 /**
  * Handles navigation events by setting up search functionality
  * @param e - Navigation event
@@ -456,103 +557,6 @@ async function fetchContent(slug: FullSlug): Promise<FetchResult> {
   return fetchContentCache.get(slug) ?? ({} as FetchResult)
 }
 
-// Create a dedicated class to manage preview state and lifecycle
-class PreviewManager {
-  private container: HTMLDivElement
-  private inner: HTMLElement
-  private currentSlug: FullSlug | null = null
-
-  constructor(container: HTMLDivElement) {
-    this.container = container
-    this.inner = document.createElement("article")
-    this.inner.classList.add("preview-inner")
-    this.container.appendChild(this.inner)
-  }
-
-  public update(el: HTMLElement | null, currentSearchTerm: string, baseSlug: FullSlug) {
-    if (!el) {
-      this.hide()
-      return
-    }
-
-    const slug = el.id as FullSlug
-    this.currentSlug = slug
-
-    // Show container immediately
-    this.show()
-
-    // Fetch and render content immediately without waiting for assets
-    void this.fetchAndUpdateContent(slug, currentSearchTerm, baseSlug)
-  }
-
-  private async fetchAndUpdateContent(
-    slug: FullSlug,
-    currentSearchTerm: string,
-    baseSlug: FullSlug,
-  ) {
-    try {
-      const { content, frontmatter } = await fetchContent(slug)
-
-      // Only update if this is still the current preview we want
-      if (this.currentSlug === slug) {
-        const useDropcap: boolean =
-          !("no_dropcap" in frontmatter) || frontmatter.no_dropcap === "false"
-        this.inner.setAttribute("data-use-dropcap", useDropcap.toString())
-
-        // Create a document fragment to build content off-screen
-        const fragment = document.createDocumentFragment()
-        content.forEach((el) => {
-          const highlightedContent = highlightHTML(currentSearchTerm, el as HTMLElement)
-          fragment.append(...Array.from(highlightedContent.childNodes))
-        })
-
-        // Clear existing content and append new content
-        this.inner.innerHTML = ""
-        this.inner.appendChild(fragment)
-
-        // Set click handler
-        this.inner.onclick = () => {
-          window.location.href = resolveUrl(slug, baseSlug).toString()
-        }
-
-        // Let images and other resources load naturally
-        // Browser will handle loading these in the background
-        this.scrollToFirstHighlight()
-      }
-    } catch (error) {
-      console.error("Error loading preview:", error)
-      if (this.currentSlug === slug) {
-        this.inner.innerHTML = '<div class="preview-error">Error loading preview</div>'
-      }
-    }
-  }
-
-  public show(): void {
-    this.container.style.display = "block"
-  }
-
-  public hide(): void {
-    this.container.style.display = "none"
-  }
-
-  public destroy(): void {
-    this.inner.onclick = null
-    this.inner.innerHTML = ""
-    this.currentSlug = null
-  }
-
-  private scrollToFirstHighlight(): void {
-    // Get only the first matching highlight without sorting
-    const firstHighlight = this.container.querySelector(".highlight") as HTMLElement
-    if (!firstHighlight) return
-
-    const offsetTop = getOffsetTopRelativeToContainer(firstHighlight, this.container)
-    this.container.scrollTop = offsetTop - 0.5 * this.container.clientHeight
-  }
-}
-
-let previewManager: PreviewManager | null = null
-
 async function displayPreview(el: HTMLElement | null) {
   const enablePreview = searchLayout?.dataset?.preview === "true"
   if (!searchLayout || !enablePreview || !preview) return
@@ -574,10 +578,8 @@ async function displayPreview(el: HTMLElement | null) {
   }
 
   // Update preview content
-  await previewManager?.update(el, currentSearchTerm, currentSlug)
+  previewManager?.update(el, currentSearchTerm, currentSlug)
 }
-
-let cleanupListeners: (() => void) | undefined
 
 /**
  * Adds an event listener and tracks it for cleanup
@@ -765,7 +767,7 @@ async function onType(e: HTMLElementEventMap["input"]) {
   if (!data) return
 
   const finalResults = [...allIds].map((id: number) =>
-    formatForDisplay(currentSearchTerm, id, data!, idDataMap),
+    formatForDisplay(currentSearchTerm, id, data as { [key: FullSlug]: ContentDetails }, idDataMap),
   )
 
   await displayResults(finalResults, results, enablePreview)
