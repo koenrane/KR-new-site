@@ -190,7 +190,7 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
   htmlAst.children.forEach((node: RootContent) => {
     if (node.type === "text") {
       const textValue = node.value
-      const regex = /^(\d+:\s*)(.*)$/
+      const regex = /^(\d+:?\s*)(.*)$/
       const match = textValue.match(regex)
       if (match) {
         // Leading numbers and colon found

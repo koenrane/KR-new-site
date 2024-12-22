@@ -142,8 +142,8 @@ describe("processHtmlAst", () => {
     expect(parent.children[0]).toMatchObject({ type: "text", value: "Simple text" })
   })
 
-  it("should process text nodes with leading numbers", () => {
-    const htmlAst = h(null, [{ type: "text", value: "1: Chapter One" }])
+  it.each(["1: ", "1984: "])("should process text nodes with leading numbers %s", (prefix) => {
+    const htmlAst = h(null, [{ type: "text", value: `${prefix}Chapter One` }])
 
     processHtmlAst(htmlAst, parent)
 
@@ -152,7 +152,7 @@ describe("processHtmlAst", () => {
       type: "element",
       tagName: "span",
       properties: { className: ["number-prefix"] },
-      children: [{ type: "text", value: "1: " }],
+      children: [{ type: "text", value: prefix }],
     })
     expect(parent.children[1]).toMatchObject({ type: "text", value: "Chapter One" })
   })
