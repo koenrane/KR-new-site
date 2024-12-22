@@ -74,7 +74,7 @@ Although the details are mostly irrelevant to the point of this blog post, the A
 
 1. Scan [AIXI-_tl_](https://archive.org/details/arxiv-cs0004001)’s Turing machines and locate diamonds within their implicit state representations.
 2. Given how [inaccessible](https://ai-alignment.com/inaccessible-information-c749c6a88ce?gi=11e30aac9afb) we expect AIXI*\-tl*’s representations to be by default, have AIXI-_tl_ just consider a Turing-complete hypothesis space which uses more interpretable representations.
-3. “Being able to describe, in purely theoretical principle, a prior over epistemic models that have at least two levels and can switch between them in some meaningful sense”
+3. “Being able to describe, in purely theoretical principle, a prior over epistemic models that have at least two levels and can switch between them in some meaningful sense.”
 
 Do you notice anything _strange_ about these three ideas? Sure, the ideas don’t seem workable, but they’re good initial thoughts, right?
 
