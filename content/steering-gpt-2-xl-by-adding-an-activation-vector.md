@@ -657,7 +657,7 @@ Several observations:
 
 - For all injection sites except the first (layer 0), adding the "weddings" vector decreases perplexity on wedding-related texts!
 - Pre-layer 9 injections significantly boost the perplexity of shipping sentences. This indicates that such edits "break the model" a little by getting it to spam wedding-related tokens, perhaps without being able to talk about anything else. This degradation lines up with our experience with activation additions.
-- Injecting at layers 10–17 _decreases perplexity \_on wedding sentences, \_without increasing perplexity_ on the sentences about the shipping sentences.
+- Injecting at layers 10–17 _decreases_ perplexity on wedding sentences, without increasing perplexity on the sentences about the shipping sentences.
 
 In sum, we claim these results are good evidence that the "weddings" vector isn't destroying general model capabilities, but is promoting an increased tendency to talk about weddings.
 
@@ -771,7 +771,7 @@ Here are some of our takeaways from the Yelp review results:
 
 - The “ worst” vector is _effective_ because it increases the relative probability of negative-sentiment inputs.
 - That said, compared to the “ weddings” vector in the layer 6-18 regime, the “ worst” steering vector has a larger effect on "unrelated" texts (i.e. the neutral and positive review sentences). In this sense, the “ worst” steering vector is more disruptive.
-- However, since somehow this intervention decreases perplexity on \_all \_reviews, our results are evidence against the “ worst” vector secretly destroying model capabilities.
+- However, since somehow this intervention decreases perplexity on _all_ reviews, our results are evidence against the “ worst” vector secretly destroying model capabilities.
 
 > [!note] **Summary of our** **quantitative** **results:**
 >

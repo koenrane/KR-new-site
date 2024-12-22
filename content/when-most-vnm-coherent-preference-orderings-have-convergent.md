@@ -101,7 +101,7 @@ So: orbit-level instrumental convergence for utility functions is equivalent to 
 - [Instrumental convergence does not exist when maximizing expected utility over action observation histories (AOH)](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories).
 
   - Therefore, VNM-coherence over action observation history lotteries [tells you nothing](https://www.lesswrong.com/posts/NxF5G6CJiof6cemTw/coherence-arguments-do-not-imply-goal-directed-behavior) about what behavior to expect from the agent.
-  - Coherence over AOH tells you nothing \_because \_there is no instrumental convergence in that setting!
+  - Coherence over AOH tells you nothing _because_ there is no instrumental convergence in that setting!
 
 - In certain contexts, coherence theorems _can_ have non-trivial implications, in that they provide Bayesian evidence about what the coherent agent will probably do.
 

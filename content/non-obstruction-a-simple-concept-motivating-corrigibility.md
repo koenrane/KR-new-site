@@ -318,8 +318,8 @@ We want agents which are maximally impact-aligned with as many goals as possible
 - It's _theoretically_ possible to achieve maximal impact alignment with the vast majority of goals.
   - To achieve maximum impact alignment with goal set $S$:
     - Expand the human’s action space $A$ to $A\times S$. Expand the state space to encode the human's previous action.
-    - Each turn, the human communicates what goal they want optimized, _and_takes an action of their own.
-    - The AI’s policy then takes the optimal action for the communicated goal $P$, accounting for the fact that the human follows $\text{pol}(P).$
+    - Each turn, the human communicates what goal they want optimized, _and_ takes an action of their own.
+    - The AI’s policy then takes  the optimal action for the communicated goal $P$, accounting for the fact that the human follows $\text{pol}(P).$
 
   - This policy looks like an [act-based agent](https://ai-alignment.com/act-based-agents-8ec926c79e9c), in that it's ready to turn on a dime towards different goals.
   - In practice, there's likely a tradeoff with impact-alignment-strength and the # of goals which the agent doesn't obstruct.
@@ -345,7 +345,7 @@ Maybe there’s a higher-level theory for what kinds of policies induce spikines
 - Can we prove that some kind of corrigibility or other nice property falls out of non-obstruction across many possible environments? (h/t Michael Dennis)
 
 - Can we get negative results, like "without such-and-such assumption on $\pi^{AI}$, the environment, or `pol`, non-obstruction is impossible for most goals"?
-  - _If_formalized correctly, and if the assumptions hold, this would place very general constraints on solutions to the alignment problem.
+  - _If_ formalized correctly, and if the assumptions hold, this would place very general constraints on solutions to the alignment problem.
   - For example, $\text{pol}(P)$ should need to have mutual information with $P$: the goal must change the policy for at least a few goals.
   - The AI doesn't even have to do value inference in order to be broadly impact-aligned. The AI could just empower the human (even for very "dumb" `pol` functions) and then let the human take over. Unless the human is more anti-rational than rational, this should tend to be a good thing. It would be good to explore how this changes with different ways that `pol` can be irrational.
 
@@ -363,7 +363,7 @@ The attainable utility concept has led to other concepts which I find exciting a
 
 - Impact as absolute change in attainable utility
   - [Reframing Impact](/posts#reframing-impact)
-  - [_Conservative Agency via Attainable Utility Preservation_](https://arxiv.org/abs/1902.09725)__(AIES 2020)
+  - [_Conservative Agency via Attainable Utility Preservation_](https://arxiv.org/abs/1902.09725) (AIES 2020)
   - [_Avoiding Side Effects in Complex Environments_](https://arxiv.org/abs/2006.06547) (NeurIPS 2020)
 
 ![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)

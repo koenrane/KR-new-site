@@ -82,7 +82,7 @@ These approaches have some problems:
 >  
 >   For example, the agent would be equally penalized for breaking a vase and for preventing a vase from being broken, though the first action is clearly worse. This leads to “overcompensation” (“[offsetting](https://arbital.com/p/low_impact/)") behaviors: when rewarded for preventing the vase from being broken, an agent with a low impact penalty rescues the vase, collects the reward, and then breaks the vase anyway (to get back to the default outcome).
 
-- Not actually _measuring impact_in a meaningful way.
+- Not actually _measuring impact_ in a meaningful way.
 
 Whitelisting falls prey to none of these.
 
@@ -116,7 +116,7 @@ Therefore, you avoid breaking vases by default.
 
 Here are some notes to head off confusion:
 
-- We are _not_whitelisting entire states or transitions between them; we whitelist specific changes in our beliefs about the ontological decomposition of the current state.[^3]
+- We are _not_ whitelisting entire states or transitions between them; we whitelist specific changes in our beliefs about the ontological decomposition of the current state.[^3]
 - The whitelist is in addition to whatever utility or reward function we supply to the agent.
 - Whitelisting is compatible with counterfactual approaches. For example, we might penalize a transition after its "quota" has been surpassed, where the quota is how many times we would have observed that transition had the agent not acted.
   - This implies the agent will do no worse than taking no action at all. However, this may still be undesirable. This problem will be discussed in further detail.
@@ -275,10 +275,10 @@ I recommend reading it - it's to-the-point, and he makes good points.
 
 Here are three further thoughts:
 
-- Intuitively-accessible vantage points can help us explore our unstated assumptions and more easily extrapolate outcomes. If less mental work has to be done to put oneself in the scenario, more energy can be dedicated to finding nasty edge cases. For example, it's probably harder to realize [all the things that go wrong with naive impact measures like raw particle displacement](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#low-impact-agents), since it's just a _weird_frame through which to view the evolution of the world. I've found it to be substantially easier to extrapolate through the frame of something like whitelisting**.**[^7]
+- Intuitively-accessible vantage points can help us explore our unstated assumptions and more easily extrapolate outcomes. If less mental work has to be done to put oneself in the scenario, more energy can be dedicated to finding nasty edge cases. For example, it's probably harder to realize [all the things that go wrong with naive impact measures like raw particle displacement](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#low-impact-agents), since it's just a _weird_ frame through which to view the evolution of the world. I've found it to be substantially easier to extrapolate through the frame of something like whitelisting.[^7]
   - I've already adjusted for the fact that one's own ideas are often more familiar and intuitive, and then adjusted for the fact that I probably didn't adjust enough the first time.
 - Imperfect results are often left unstated, wasting time and obscuring useful data. That is, people cannot see what has been tried and what roadblocks were encountered.
-- Promising approaches****may be conceptually-close to correct solutions. My intuition is that whitelisting actually _almost works_ in the limit in a way that might be important.
+- Promising approaches may be conceptually close to correct solutions. My intuition is that whitelisting actually _almost works_ in the limit in a way that might be important.
 
 # Conclusion
 

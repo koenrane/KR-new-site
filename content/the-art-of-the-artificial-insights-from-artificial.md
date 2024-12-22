@@ -484,7 +484,7 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 - Do exercises immediately after each section in the chapter.
   - I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
 - Chegg was the only reputable place I could find with an answer key, although the answers were often of low quality. I'd recommend just using StackExchange.
-- Feel free to skip exercises for the following chapters: 1, 11, 12,\*\* \*\*19, 22-27.
+- Feel free to skip exercises for the following chapters: 1, 11, 12, 19, and 22-27.
 
 # Forwards
 

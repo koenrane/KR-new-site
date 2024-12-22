@@ -104,7 +104,7 @@ The power-seeking results hinge on the probability of certain linear functionals
   - If $\mathbf{x}\in\mathbb{R}^n$ is an outcome lottery, then $\mathbf{x}^\top \mathbf{r}$ is its $\mathbf{r}$-expected value.
 
 - Things in $A$ are more likely$_{\mathcal{D}_\text{any}}$ to be optimal than things in $B$ when $p_{\mathcal{D}_\text{any}}\left(A\geq C\right)\geq p_{\mathcal{D}_\text{any}}(B\geq C)$.
-  - This isn't the notion of "tends to be optimal" we're using in this post; instead, we're using a [stronger line of reasoning](/environmental-structure-can-cause-instrumental-convergence) that says: for [_most_](/quantitative-strength-of-instrumental-convergence)\_ variants \_of \_every \_utility function, such-and-such is true.
+  - This isn't the notion of "tends to be optimal" we're using in this post; instead, we're using a [stronger line of reasoning](/environmental-structure-can-cause-instrumental-convergence) that says: for [_most_](/quantitative-strength-of-instrumental-convergence) variants of _every_ utility function, such-and-such is true.
 
 Nothing here has anything to do with a Markov decision process, or the world being finite, or fully observable, or whatever. Fundamentally, the power-seeking theorems were never _about_ MDPs – they were secretly about the probability that a set $A$ of linear functionals is optimal, with respect to another set $C$. MDPs were just a way to [relax the problem](/problem-relaxation-as-a-tactic).
 
@@ -183,7 +183,7 @@ Structural assumptions on utility really do matter when it comes to instrumental
 
 - Of course, you can represent u<sub>AOH</sub> as u<sub>OH</sub> by including the agent's previous action in the next observation.
 
-  - But this is a different environment; whether or not this is _in fact_ a good model\_ \_[depends on the agent's action and observation encodings](/MDPs-are-not-subjective).
+  - But this is a different environment; whether or not this is _in fact_ a good model   [depends on the agent's action and observation encodings](/MDPs-are-not-subjective).
 
 - Time-reversible dynamics & full observability is basically the u<sub>AOH</sub> situation, since each action history leads to a unique world state at every time step.
   - But if you take away full observability, time-reversibility is insufficient to make instrumental convergence disappear.
