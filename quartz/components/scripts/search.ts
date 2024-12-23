@@ -428,6 +428,14 @@ async function shortcutHandler(
 
   // If search is active, then we will render the first result and display accordingly
   if (!container?.classList.contains("active")) return
+
+  const prevSibling = (el: HTMLElement): HTMLElement =>
+    el.previousElementSibling ? (el.previousElementSibling as HTMLElement) : el
+  const nextSibling = (el: HTMLElement): HTMLElement =>
+    el.nextElementSibling ? (el.nextElementSibling as HTMLElement) : el
+
+  const canNavigate = document.activeElement === searchBar || currentHover !== null
+
   if (e.key === "Enter") {
     // If result has focus, navigate to that one, otherwise pick first result
     if (results?.contains(document.activeElement)) {
@@ -443,18 +451,16 @@ async function shortcutHandler(
     }
   } else if (e.key === "ArrowUp" || (e.shiftKey && e.key === "Tab")) {
     e.preventDefault()
-    if (results?.contains(document.activeElement)) {
-      const currentResult = document.activeElement as HTMLInputElement
-      const prevResult = currentResult?.previousElementSibling as HTMLInputElement | null
-      await displayPreview(prevResult)
+    if (canNavigate) {
+      const toShow = prevSibling(currentHover as HTMLElement)
+      await displayPreview(toShow as HTMLElement)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
+    console.log("ArrowDown")
     e.preventDefault()
-    if (document.activeElement === searchBar || currentHover !== null) {
-      const firstResult = currentHover
-        ? currentHover.nextElementSibling
-        : document.getElementsByClassName("result-card")[0]
-      await displayPreview(firstResult as HTMLElement)
+    if (canNavigate) {
+      const toShow = nextSibling(currentHover as HTMLElement)
+      await displayPreview(toShow as HTMLElement)
     }
   }
 }

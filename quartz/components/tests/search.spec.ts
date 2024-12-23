@@ -31,7 +31,6 @@ function showingPreview(page: Page): boolean {
   return Boolean(shouldShowPreview)
 }
 
-// NOTE flaky?
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
   const searchContainer = page.locator("#search-container")
   const searchBar = page.locator("#search-bar")
@@ -49,8 +48,6 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
   await expect(searchContainer).not.toHaveClass(/active/)
 })
 
-// NOTE flaky?
-// TODO make more robust for up/down navigation, currently the focused result can "fall off"
 test("Search results appear and can be navigated", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")
@@ -230,7 +227,6 @@ test("Search preview footnote backref has no underline", async ({ page }) => {
   await expect(footnoteLink).toHaveCSS("text-decoration", /^none/)
 })
 
-// TODO flaky
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
   await page.keyboard.press("/")
@@ -481,4 +477,32 @@ test("Result card highlighting stays synchronized with preview", async ({ page }
   await thirdResult.hover()
   await expect(thirdResult).toHaveClass(/focus/)
   await expect(secondResult).not.toHaveClass(/focus/)
+})
+
+const navigationMethods = [
+  { down: "ArrowDown", up: "ArrowUp", description: "arrow keys" },
+  { down: "Tab", up: "Shift+Tab", description: "tab keys" },
+] as const
+
+navigationMethods.forEach(({ down, up, description }) => {
+  test(`maintains focus when navigating with ${description}`, async ({ page }) => {
+    await page.keyboard.press("/")
+    await search(page, "Testing Site Features")
+
+    const totalResults = await page.locator(".result-card").count()
+
+    // Navigate down through results
+    for (let i = 0; i < totalResults; i++) {
+      await page.keyboard.press(down)
+      const focusedResults = await page.locator(".result-card.focus").count()
+      expect(focusedResults).toBe(1)
+    }
+
+    // Navigate up through results
+    for (let i = 0; i < totalResults; i++) {
+      await page.keyboard.press(up)
+      const focusedResults = await page.locator(".result-card.focus").count()
+      expect(focusedResults).toBe(1)
+    }
+  })
 })

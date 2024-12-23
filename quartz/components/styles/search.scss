@@ -181,7 +181,8 @@
         line-height: 1.5em;
         font-weight: $normal-weight;
         overflow-y: auto;
-        margin: calc(0 * $base-margin) calc(3 * $base-margin);
+        margin-left: calc(2 * $base-margin);
+        margin-right: calc(2 * $base-margin);
         cursor: pointer;
 
         & .preview-inner {
