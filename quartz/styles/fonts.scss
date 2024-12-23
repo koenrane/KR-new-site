@@ -296,6 +296,7 @@ pre {
   background-color: transparent;
   color: inherit;
   font-size: 0.81em;
+  font-variant-caps: normal; // Ignore small-caps in code
 }
 
 code {

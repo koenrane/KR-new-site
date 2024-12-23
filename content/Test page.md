@@ -381,6 +381,8 @@ This is a plain code block without a language specified.
 - ___Bold italics___
 - ~~Strikethrough~~
 
+<abbr class="small-caps"><code>This is smallcaps within a code block.</code></abbr>
+
 ## Special fonts
 
 Elvish
