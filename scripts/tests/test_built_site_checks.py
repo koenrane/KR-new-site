@@ -1174,12 +1174,12 @@ def test_check_markdown_assets_in_html(
         # Test allowed characters before emphasis
         *[
             (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in PREV_EMPHASIS_CHARS
+            for char in PREV_EMPHASIS_CHARS + "\n \t\r"
         ],
         # Test allowed characters after emphasis
         *[
             (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in NEXT_EMPHASIS_CHARS
+            for char in NEXT_EMPHASIS_CHARS + "\n \t\r"
         ],
         # Test mixed cases
         (

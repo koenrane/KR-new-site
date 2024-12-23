@@ -705,8 +705,8 @@ def check_markdown_assets_in_html(
 
 
 # Characters that are acceptable before and after emphasis tags
-PREV_EMPHASIS_CHARS = "  [(-—~×“=+‘"
-NEXT_EMPHASIS_CHARS = "  ]).,;!?:-—~×”…=’"
+PREV_EMPHASIS_CHARS = "[(-—~×“=+‘"
+NEXT_EMPHASIS_CHARS = "]).,;!?:-—~×”…=’"
 
 
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
@@ -718,10 +718,10 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
 
     # Properly escape characters for regex patterns
     _ok_prev_chars = "".join([re.escape(c) for c in PREV_EMPHASIS_CHARS])
-    _ok_prev_regex = rf"^.*[{_ok_prev_chars}]$"
+    _ok_prev_regex = rf"^.*[\s{_ok_prev_chars}]$"
 
     _ok_next_chars = "".join([re.escape(c) for c in NEXT_EMPHASIS_CHARS])
-    _ok_next_regex = rf"^[{_ok_next_chars}].*$"
+    _ok_next_regex = rf"^[\s{_ok_next_chars}].*$"
 
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
