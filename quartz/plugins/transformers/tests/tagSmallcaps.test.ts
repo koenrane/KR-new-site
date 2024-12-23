@@ -17,6 +17,7 @@ import {
   ignoreAcronym,
   capitalizeAfterEnding,
   capitalizeMatch,
+  INLINE_ELEMENTS,
 } from "../tagSmallcaps"
 
 // Helper function for all HTML processing tests
@@ -669,16 +670,8 @@ describe("Capitalization tests", () => {
 
   const nestedElementCases = [
     [
-      "<p>First sentence. <strong>NASA is here.</strong></p>",
-      '<p>First sentence. <strong><abbr class="small-caps">Nasa</abbr> is here.</strong></p>',
-    ],
-    [
       "<p><em>First sentence. NASA is here.</em></p>",
       '<p><em>First sentence. <abbr class="small-caps">Nasa</abbr> is here.</em></p>',
-    ],
-    [
-      "<p>What, why is the <strong>FBI agent</strong> here?</p>",
-      '<p>What, why is the <strong><abbr class="small-caps">fbi</abbr> agent</strong> here?</p>',
     ],
     [
       "<p>What, why is the <em><strong>FBI agent</strong></em> here?</p>",
@@ -712,6 +705,31 @@ describe("Capitalization tests", () => {
       expect(testTagSmallcapsHTML(input)).toBe(expected)
     },
   )
+
+  const inlineElementCases = Array.from(INLINE_ELEMENTS)
+    .map((tag) => [
+      [
+        `<p>First sentence. <${tag}>NASA is here.</${tag}></p>`,
+        `<p>First sentence. <${tag}><abbr class="small-caps">Nasa</abbr> is here.</${tag}></p>`,
+      ],
+      [
+        `<p><${tag}>The NASA program</${tag}></p>`,
+        `<p><${tag}>The <abbr class="small-caps">nasa</abbr> program</${tag}></p>`,
+      ],
+      [
+        `<p>First sentence. <${tag}>The <strong>NASA</strong> program.</${tag}></p>`,
+        `<p>First sentence. <${tag}>The <strong><abbr class="small-caps">nasa</abbr></strong> program.</${tag}></p>`,
+      ],
+      [
+        `<p><${tag}>NASA</${tag}> and <${tag}>FBI</${tag}></p>`,
+        `<p><${tag}><abbr class="small-caps">Nasa</abbr></${tag}> and <${tag}><abbr class="small-caps">fbi</abbr></${tag}></p>`,
+      ],
+    ])
+    .flat()
+
+  it.each(inlineElementCases)("should handle inline elements correctly: %s", (input, expected) => {
+    expect(testTagSmallcapsHTML(input)).toBe(expected)
+  })
 })
 
 describe("capitalizeAfterEnding regex", () => {

@@ -117,7 +117,18 @@ export const capitalizeAfterEnding = new RegExp(
   `(^\\s*|[.!?]\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
 )
 
-const INLINE_ELEMENTS = new Set(["b", "strong", "em", "i", "sup", "sub", "strike", "del", "s"])
+export const INLINE_ELEMENTS = new Set([
+  "b",
+  "strong",
+  "em",
+  "i",
+  "sup",
+  "sub",
+  "strike",
+  "del",
+  "s",
+  "a",
+])
 
 /**
  * Determines if a matched text should be capitalized based on its position in the document
