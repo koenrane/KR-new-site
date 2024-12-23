@@ -147,9 +147,15 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  return `${startIndex === 0 ? "" : "..."}${slice}${
-    endIndex === tokenizedText.length - 1 ? "" : "..."
-  }`
+  let beginning: string = ""
+  if (startIndex === 0) {
+    beginning = "..."
+  }
+  let end: string = ""
+  if (endIndex === tokenizedText.length - 1) {
+    end = "..."
+  }
+  return `${beginning}${slice}${end}`
 }
 
 /**
@@ -627,9 +633,12 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
   itemTile.href = resolveUrl(slug, currentSlug).toString()
 
   content = replaceEmojiConvertArrows(content)
-  itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${
-    enablePreview && window.innerWidth > 600 ? "" : `<p>${content}</p>`
-  }`
+
+  let suffixHTML: string = ""
+  if (!enablePreview || window.innerWidth <= 600) {
+    suffixHTML = `<p>${content}</p>`
+  }
+  itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${suffixHTML}`
 
   const onResultClick = (event: MouseEvent): void => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
