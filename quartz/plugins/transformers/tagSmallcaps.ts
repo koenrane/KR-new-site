@@ -61,7 +61,8 @@ export function skipSmallcaps(node: Node): boolean {
     return (
       hasClass(node as Element, "no-smallcaps") ||
       hasClass(node as Element, "no-formatting") ||
-      hasClass(node as Element, "bad-handwriting")
+      hasClass(node as Element, "bad-handwriting") ||
+      (node as Element).tagName === "style"
     )
   }
   return false

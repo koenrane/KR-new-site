@@ -472,6 +472,11 @@ describe("skipFormatting", () => {
       element: h("div", { class: "bad-handwriting" }),
       expected: true,
     },
+    {
+      desc: "should return true for style tag",
+      element: h("style"),
+      expected: true,
+    },
   ]
 
   it.each(testCases)("$desc", ({ element, expected }) => {
@@ -543,6 +548,12 @@ describe("no-formatting tests", () => {
   it("should not wrap acronyms in language-tagged code blocks", () => {
     const input =
       '<code data-language="pseudocode"><em>IF human can understand THEN do something</em></code>'
+    const processedHtml = testTagSmallcapsHTML(input)
+    expect(processedHtml).toBe(input)
+  })
+
+  it("should not wrap acronyms in style tags", () => {
+    const input = "<style>BODY { color: red; }</style>"
     const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })

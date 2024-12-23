@@ -506,3 +506,5 @@ navigationMethods.forEach(({ down, up, description }) => {
     }
   })
 })
+
+// TODO add visual regression test for mermaid preview
