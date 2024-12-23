@@ -6,6 +6,7 @@ import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
 import { GlobalConfiguration } from "../cfg"
 import { QuartzPluginData } from "../plugins/vfile"
 import { FullSlug, resolveRelative } from "../util/path"
+import { formatTitle } from "./component_utils"
 import { getDate } from "./Date"
 import { formatTag } from "./TagList"
 import { QuartzComponent, QuartzComponentProps } from "./types"
@@ -75,6 +76,7 @@ export function createPageListHast(
       list
         .map((page, index) => {
           const title = page.frontmatter?.title
+          const formattedTitle = title ? formatTitle(title) : ""
           let tags = page.frontmatter?.tags ?? []
           tags = tags.sort((a, b) => b.length - a.length)
 
@@ -88,7 +90,11 @@ export function createPageListHast(
                 page.dates && h("time.meta", [date]),
                 h("div.desc", [
                   h("p", { class: "page-listing-title" }, [
-                    h("a.internal", { href: resolveRelative(fileDataSlug, pageSlug) }, title),
+                    h(
+                      "a.internal",
+                      { href: resolveRelative(fileDataSlug, pageSlug) },
+                      formattedTitle,
+                    ),
                   ]),
                   h(
                     "ul.tags",
