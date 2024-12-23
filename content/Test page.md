@@ -21,9 +21,11 @@ date_updated: 2024-12-18 22:41:47.892511
 
 I use this page for [visual regression testing](/design#visual-regression-testing).
 
-# Header 1
+# Header 1 (`inline_code`)
 
-## Header 2
+## Header 2 (SMALLCAPS)
+
+## 1984: Full-size numbers
 
 ### Header 3
 
