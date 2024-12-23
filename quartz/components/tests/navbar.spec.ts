@@ -137,7 +137,6 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 
 // TODO sometimes need to focus page before hitting "/"
 
-// TODO this test is flaky
 test("Menu disappears gradually when scrolling down", async ({ page }) => {
   if (isDesktopViewport(page)) {
     test.skip()

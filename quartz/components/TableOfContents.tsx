@@ -269,7 +269,6 @@ const handleSpan = (elt: Element): JSX.Element => {
   }
 
   if (classNames.includes("inline-code")) {
-    console.log(<code className="inline-code">{elt.children.map(elementToJsx)}</code>)
     return <code className="inline-code">{elt.children.map(elementToJsx)}</code>
   }
 
