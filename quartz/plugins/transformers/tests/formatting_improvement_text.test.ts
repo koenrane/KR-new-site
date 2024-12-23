@@ -209,6 +209,7 @@ describe("Mass transforms", () => {
     ["subtitle: This isn't a subtitle\n", "subtitle: This isn't a subtitle\n"],
     ["| header |\nTable: caption", "| header |\n\nTable: caption"],
     ["| data |\n\nTable: Already spaced", "| data |\n\nTable: Already spaced"],
+    ["MIRIx", 'MIRI<sub class="mirix-subscript">x</sub>'],
   ])("should perform transforms for %s", (input: string, expected: string) => {
     const result = massTransformText(input)
     expect(result).toBe(expected)
