@@ -539,10 +539,11 @@ def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
     return problematic_dashes
 
 
+# NOTE that this is in bytes, not characters
 MAX_META_HEAD_SIZE = 9 * 1024  # 9 instead of 10 to avoid splitting tags
 
 
-def meta_tags_first_10kb(file_path: Path) -> List[str]:
+def meta_tags_early(file_path: Path) -> List[str]:
     """
     Check that meta and title tags are NOT present between MAX_HEAD_SIZE and
     </head>. EG Facebook only checks the first 10KB.
@@ -555,25 +556,40 @@ def meta_tags_first_10kb(file_path: Path) -> List[str]:
     """
     issues: List[str] = []
 
-    with open(file_path, "r", encoding="utf-8") as f:
-        # Skip first 10KB to find where we should start checking
-        initial = f.read(MAX_META_HEAD_SIZE)
-        remaining = f.read()
-        print(f"PRINTED: {initial[-50:]}")
-        if "</head>" not in remaining:
-            return []
+    # Read entire HTML content first.
+    with open(file_path, "rb") as f:
+        content_bytes = f.read()
 
-        # Get content between 10KB mark and </head>
-        head_content = remaining.split("</head>")[0]
+    # If file is smaller than MAX_META_HEAD_SIZE, no issues possible
+    if len(content_bytes) <= MAX_META_HEAD_SIZE:
+        return []
 
-        # Check for tags in the remaining head content
-        for tag in ("meta", "title"):
-            matches = re.finditer(f"</{tag}>|<{tag}[^>]*/>", head_content)
-            for match in matches:
-                tag_text = match.group(0)
-                issues.append(
-                    f"<{tag}> tag found after first {MAX_META_HEAD_SIZE // 1024}KB: {tag_text}"
-                )
+    # Convert the first chunk and remainder to strings
+    content = content_bytes.decode("utf-8")
+
+    # Find where the byte boundary falls in terms of characters
+    boundary_content = content_bytes[:MAX_META_HEAD_SIZE].decode("utf-8")
+    char_boundary = len(boundary_content)
+
+    # Consider everything past the byte boundary
+    remainder = content[char_boundary:]
+
+    # If no </head>, our checks don't apply
+    if "</head>" not in remainder:
+        return []
+
+    # Only look up to the closing </head>
+    head_content = remainder.split("</head>")[0]
+
+    # Look for <meta ...> or <title ...> within that region
+    for tag in ("meta", "title"):
+        # Matches <meta ...> or </meta>, similarly for <title ...> or </title>
+        pattern = rf"<{tag}[^>]*>"
+        for match in re.finditer(pattern, head_content):
+            tag_text = match.group(0)
+            issues.append(
+                f"<{tag}> tag found after first {MAX_META_HEAD_SIZE // 1024}KB: {tag_text}"
+            )
 
     return issues
 
@@ -619,7 +635,7 @@ def check_file_for_issues(
         "unrendered_html": check_unrendered_html(soup),
         "emphasis_spacing": check_emphasis_spacing(soup),
         "long_description": check_description_length(soup),
-        "late_header_tags": meta_tags_first_10kb(file_path),
+        "late_header_tags": meta_tags_early(file_path),
     }
 
     # Only check markdown assets if md_path exists and is a file

@@ -1397,37 +1397,30 @@ def test_check_critical_css(html, expected):
     assert result == expected
 
 
-NUM_CHARS_IN_10KB = MAX_META_HEAD_SIZE // sys.getsizeof("a")
-
-
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Test meta/title tags after 10KB
+        # Test meta/title tags after MAX_HEAD_SIZE
         (
-            "a" * NUM_CHARS_IN_10KB
-            + "<head><meta name='test'><title>Late tags</title></head>",
+            f"<head>{('a' * MAX_META_HEAD_SIZE)}<meta name='test'><title>Late tags</title></head>",
             [
-                "<meta> tag found after first 10KB: <meta name='test'>",
-                "<title> tag found after first 10KB: <title>Late tags</title>",
+                "<meta> tag found after first 9KB: <meta name='test'>",
+                "<title> tag found after first 9KB: <title>",
             ],
         ),
-        # Test tags before 10KB (should be fine)
+        # Test tags before MAX_HEAD_SIZE (should be fine)
         (
-            "<head><meta name='test'><title>Early tags</title></head>"
-            + "a" * NUM_CHARS_IN_10KB,
+            f"<head><meta name='test'><title>Early tags</title></head>{'a' * MAX_META_HEAD_SIZE}",
             [],
         ),
-        # Test tags split across 10KB boundary (should be fine) TODO this shouldn't be fine - check if tag ends, not begins
+        # Test tags split across MAX_HEAD_SIZE boundary
         (
-            "a" * (NUM_CHARS_IN_10KB - 1)
-            + "<meta name='test'><title>Split tags</title></head>",
-            [],
+            f"<head>{'a' * (MAX_META_HEAD_SIZE - 10)}<meta name='test'><title>Split tags</title></head>",
+            ["<title> tag found after first 9KB: <title>"],
         ),
         # Test no head tag
         (
-            "a" * NUM_CHARS_IN_10KB
-            + "<meta name='test'><title>No head</title>",
+            f"{'a' * MAX_META_HEAD_SIZE}<meta name='test'><title>No head</title>",
             [],
         ),
         # Test empty file
@@ -1435,22 +1428,20 @@ NUM_CHARS_IN_10KB = MAX_META_HEAD_SIZE // sys.getsizeof("a")
             "",
             [],
         ),
-        # Test multiple meta tags after 10KB
+        # Test multiple meta tags after MAX_HEAD_SIZE
         (
-            "a" * NUM_CHARS_IN_10KB
-            + "<head><meta name='test1'><meta name='test2'></head>",
+            f"<head>{'a' * MAX_META_HEAD_SIZE}<meta name='test1'><meta name='test2'></head>",
             [
-                "<meta> tag found after first 10KB: <meta name='test1'>",
-                "<meta> tag found after first 10KB: <meta name='test2'>",
+                "<meta> tag found after first 9KB: <meta name='test1'>",
+                "<meta> tag found after first 9KB: <meta name='test2'>",
             ],
         ),
     ],
 )
 def test_meta_tags_first_10kb(tmp_path, html, expected):
-    """Test checking for meta and title tags after first 10KB of file."""
-    # Create a temporary file with the test content
+    """Test checking for meta and title tags after first 9KB of file."""
     test_file = tmp_path / "test.html"
     test_file.write_text(html)
 
-    result = meta_tags_first_10kb(test_file)
+    result = meta_tags_early(test_file)
     assert sorted(result) == sorted(expected)
