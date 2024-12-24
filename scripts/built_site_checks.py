@@ -889,21 +889,23 @@ def check_inline_code_names(soup: BeautifulSoup) -> List[str]:
     errors = []
 
     # Get all text content excluding code blocks
-    for element in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
+    for element in soup.find_all(string=True):
+        if not isinstance(element, Tag):
+            continue
         text = script_utils.get_non_code_text(element)
         if not text or should_skip(element):
             continue
 
-        # Skip if element is within article-title
-        if element.find_parent(class_="article-title"):
+        if (
+            element.has_attr("class") and "article-title" in element["class"]
+        ) or (element.has_attr("id") and "page-listing-title" in element["id"]):
             continue
 
-        # Find any of the names that aren't within backticks
+        if "Equity" in text:
+            print(element)
+        # Find any of the names
         invalid_names = re.findall(
-            r"(?:[^`]|^)(?:"
-            + "|".join(re.escape(name) for name in inline_only_names)
-            + r")(?:[^`]|$)",
-            text,
+            r"|".join(re.escape(name) for name in inline_only_names), text
         )
         for name in invalid_names:
             errors.append(f"'{name.strip()}' found outside inline code")

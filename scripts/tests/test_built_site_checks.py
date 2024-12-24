@@ -1458,3 +1458,26 @@ def test_check_inline_code_names(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_inline_code_names(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic case - should flag
+        (
+            f"<p>{inline_only_names[0]}</p>",
+            [f"'{inline_only_names[0]}' found outside inline code"],
+        ),
+        # Test article-title case - should skip
+        (f'<div class="article-title">{inline_only_names[0]}</div>', []),
+        # Test page-listing-title case - should skip
+        (f'<div class="page-listing-title">{inline_only_names[0]}</div>', []),
+        # Test nested within article-title - should skip
+        (f'<div class="article-title"><p>{inline_only_names[0]}</p></div>', []),
+    ],
+)
+def test_check_inline_code_names_with_titles(html, expected):
+    """Test that inline code name checks skip article-title and page-listing-title elements."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_inline_code_names(soup)
+    assert sorted(result) == sorted(expected)

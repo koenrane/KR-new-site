@@ -250,7 +250,7 @@ def should_have_md(file_path: Path) -> bool:
     )
 
 
-def get_non_code_text(soup: BeautifulSoup) -> str:
+def get_non_code_text(soup: BeautifulSoup | Tag) -> str:
     """
     Extract all text from BeautifulSoup object, excluding code blocks and KaTeX
     elements.
