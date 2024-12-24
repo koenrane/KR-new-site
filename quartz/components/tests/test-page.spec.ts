@@ -1,6 +1,6 @@
 import { test, expect, Locator } from "@playwright/test"
 
-import { takeArgosScreenshot, takeScreenshotAfterElement, setTheme, yOffset } from "./visual_utils"
+import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   // Mock clipboard API
@@ -23,21 +23,52 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-// Automatical visual regression test for each section on the page
-test.describe("Sections", () => {
-  for (const theme of ["light", "dark"]) {
-    test(`Sections in ${theme} mode`, async ({ page }, testInfo) => {
+test.describe(`Test page sections`, () => {
+  for (const theme of ["dark", "light"]) {
+    test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
+      if (!showingPreview(page) || theme === "light") {
+        // EG mobile doesn't show preview
+        // For some reason, light theme fails
+        test.skip()
+      }
+
+      // Set theme first and wait for transition
       await setTheme(page, theme as "light" | "dark")
 
-      const headers: Locator[] = await page.locator("h1").all()
-      for (let index = 0; index < headers.length - 1; index++) {
-        const header = headers[index]
-        const nextHeader = headers[index + 1]
-        const offset = await yOffset(header, nextHeader)
+      await page.keyboard.press("/")
+      await search(page, "Testing Site Features")
+      const previewContainer = page.locator("#preview-container")
+      await expect(previewContainer).toBeVisible()
 
-        // Only screenshot up to where the next section begins
-        await takeScreenshotAfterElement(page, testInfo, header, offset, `${theme}-${index}`)
-      }
+      // Get the preview container's height from the article inside it
+      const previewedArticle = previewContainer.locator("article")
+      const boundingBoxArticle = await previewedArticle.boundingBox()
+      if (!boundingBoxArticle) throw new Error("Could not get preview container dimensions")
+
+      // Set viewport to match preview height
+      await page.setViewportSize({
+        width: page.viewportSize()?.width ?? 1920,
+        height: Math.ceil(2 * boundingBoxArticle.height),
+      })
+
+      // The article needs to be tall to screenshot all of it
+      await previewContainer.evaluate(
+        (el, size) => {
+          el.style.height = `${size.height}px`
+        },
+        {
+          height: Math.ceil(1.5 * boundingBoxArticle.height),
+        },
+      )
+
+      await takeArgosScreenshot(page, testInfo, `test-page-search-preview-${theme}`, {
+        element: previewedArticle,
+      })
+    })
+
+    test(`Test page in ${theme} mode`, async ({ page }, testInfo) => {
+      await setTheme(page, theme as "light" | "dark")
+      await takeArgosScreenshot(page, testInfo, `test-page-${theme}`)
     })
   }
 })
