@@ -23,7 +23,7 @@ Hi! I'm `TurnTrout`, but the United States government insists on calling me "Ale
 
 # FAQ
 
-Why the name "TurnTrout"?
+Why the name "`TurnTrout`"?
 : Once upon a time, I was unpacking my [viola](https://en.wikipedia.org/wiki/Viola) when some dude walked by and said "HEY TURNTROUT!". Then he never said it again, no one talked about it again, everyone forgot about it. At least - everyone forgot until I wanted a Reddit username. And thus I chose `TurnTrout`.
 : Over the years, more people came to know me for the research which I posted as `TurnTrout`. Now, people often recognize me by that name. Some people just say "hey 'Trout"!
 
