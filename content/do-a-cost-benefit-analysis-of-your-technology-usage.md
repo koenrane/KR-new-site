@@ -223,7 +223,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
   - Reasoning on this point:
     - I think music generally makes me subtly dumber but feel cooler while I’m listening to it, so I listen to it a lot.
     - Music imposes its own form on my thoughts. My thinking and mood becomes governed by the song which happens to be playing, and less by the substance of my own thoughts. I don’t want my reasoning to hinge on “will Spotify shuffle to _Attack on Titan_ or _Coldplay_ next?”.
-    - See also [Gwern’s stub](https://www.gwern.net/Music-distraction).
+    - See also [`gwern`’s stub](https://www.gwern.net/Music-distraction).
     - I do have Google Home, and often play nature sounds.
 
 - I only check LessWrong / Discord / Slack / Messenger / my text messages each Sunday at noon.
