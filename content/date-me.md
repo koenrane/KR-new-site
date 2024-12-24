@@ -22,7 +22,7 @@ tags:
 
 <img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt=""/>
 
-Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
+Many people know me as `TurnTrout`, but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 

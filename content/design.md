@@ -784,6 +784,7 @@ At this point, I check the built pages for a smattering of possible errors:
   - Failed attempts to specify a `<figcaption>` element;
   - Failed renders of HTML elements;
   - Assets present in the Markdown file but which are not present in the HTML DOM;
+  - Mentioning usernames (like `TurnTrout`) without setting them as inline code;
 - Certain kinds of dead links which `linkchecker` won't catch:
   - Anchor links which don't exist;
   - Duplicate anchor targets on a page;

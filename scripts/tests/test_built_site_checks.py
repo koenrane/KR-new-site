@@ -1445,3 +1445,16 @@ def test_meta_tags_first_10kb(tmp_path, html, expected):
 
     result = meta_tags_early(test_file)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        (f"<p>{name}</p>", [f"'{name}' found outside inline code"])
+        for name in inline_only_names
+    ],
+)
+def test_check_inline_code_names(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_inline_code_names(soup)
+    assert sorted(result) == sorted(expected)
