@@ -147,7 +147,7 @@ flowchart TD
     Q["Question(s)"]:::black
     A["Answer(s)"]:::black
 
-    EV --> H
+    EV --> |"Test edge label"| H
     AS -->|"$$e=mc^2$$"| H
     H --> HQF
     Q --> HQF

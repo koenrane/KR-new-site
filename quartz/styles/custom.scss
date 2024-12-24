@@ -871,21 +871,13 @@ img.emoji {
 
 /* Mermaid styles */
 /* stylelint-disable selector-class-pattern */
-#mermaid-0 p,
-#mermaid-0 .label {
-  font-family: var(--font-text);
-  font-size: var(--text-size-85) !important;
-}
-
 .edgeLabel > div,
 .edgeLabel > p {
   align-items: baseline !important;
   background-color: var(--midground-faintest) !important;
-  padding: calc(0.125 * $base-margin);
-  padding-bottom: calc(0.25 * $base-margin);
+  padding: calc(0.5 * $base-margin);
   border-radius: 5px;
 }
-/* stylelint-enable selector-class-pattern */
 
 .flowchart {
   display: block !important; // Allows the diagram to be centered
@@ -908,17 +900,11 @@ img.emoji {
   fill: var(--midground-faint) !important;
 }
 
-foreignObject {
-  overflow: visible !important;
-}
-
 // Edge labels  - TODO not working on safari
-// stylelint-disable-next-line selector-class-pattern
 .edgeLabel > .label > foreignObject > div {
   background-color: transparent !important;
   padding: 0 !important;
 
-  // stylelint-disable-next-line
   &:has(.edgeLabel:empty) {
     display: none !important;
     background-color: transparent !important;
@@ -933,17 +919,17 @@ foreignObject {
   stroke: var(--midground-faint) !important;
 }
 
-// stylelint-disable-next-line selector-class-pattern
 .edgeLabel > div,
 .flowchart p,
-.flowchart .katex {
-  // NOTE hacky, unlike commit 22939c1 we render mermaid on the server. so some of the settings are different and we have to compensate.
-  font-size: var(--text-size-85) !important;
-  overflow: visible;
+.flowchart .katex,
+foreignObject {
+  overflow: visible !important;
 }
 
-// stylelint-disable-next-line selector-class-pattern
-.flowchart .nodeLabel {
+// stylelint-
+.flowchart .nodeLabel,
+.flowchart .label,
+.flowchart .edgeLabel {
   font-family: var(--font-text);
 
   & .katex {
@@ -955,6 +941,7 @@ foreignObject {
   margin-left: 0.375em;
   margin-right: 0.375em;
 }
+/* stylelint-enable selector-class-pattern */
 
 .manifold-embed {
   position: relative;
