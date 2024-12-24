@@ -148,11 +148,11 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     .join(" ")
 
   let beginning: string = ""
-  if (startIndex === 0) {
+  if (startIndex !== 0) {
     beginning = "..."
   }
   let end: string = ""
-  if (endIndex === tokenizedText.length - 1) {
+  if (endIndex !== tokenizedText.length - 1) {
     end = "..."
   }
   return `${beginning}${slice}${end}`
