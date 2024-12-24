@@ -4,6 +4,9 @@ import { h } from "hastscript"
 import { Transformer } from "unified"
 import { visit } from "unist-util-visit"
 
+// skipcq: JS-0257
+import { visitParents } from "unist-util-visit-parents"
+
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 
@@ -124,7 +127,7 @@ export function transformElement(
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
-  const transformedContent = transform(markedContent)
+  const transformedContent: string = transform(markedContent)
 
   // Split and overwrite. Last fragment is always empty because strings end with markerChar
   const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
@@ -319,7 +322,7 @@ export function enDashDateRange(text: string): string {
   return text.replace(new RegExp(`\\b(${months}${chr}?)-(${chr}?(?:${months}))\\b`, "g"), "$1–$2")
 }
 
-// Not used in this plugin, but useful elsewhere
+// Not used in this module, but useful elsewhere
 /**
  * Applies multiple text transformations
  * @returns The transformed text
@@ -709,12 +712,12 @@ export function hasClass(node: Element, className: string): boolean {
   return false
 }
 
-export function toSkip(node: Element): boolean {
+export function toSkip(node: Element, ancestors?: Element[]): boolean {
   if (node.type === "element") {
     const elementNode = node as ElementMaybeWithParent
     const skipTag = ["code", "script", "style", "pre"].includes(elementNode.tagName)
     const skipClass = ["no-formatting", "elvish", "bad-handwriting"].some((cls) =>
-      hasClass(elementNode, cls),
+      ancestors ? ancestors.some((anc) => hasClass(anc, cls)) : hasClass(elementNode, cls),
     )
     return skipTag || skipClass
   }
@@ -810,8 +813,10 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
         // But we dont want to transform <div>s by mistake -- too high up
         const eltsToTransform = collectTransformableElements(node)
         eltsToTransform.forEach((elt) => {
+          // Don't validate smartquotes because these regexes depend on hidden-char positions (and so the commutation won't always hold)
           transformElement(elt, hyphenReplace, toSkip, false)
           transformElement(elt, niceQuotes, toSkip, false)
+
           for (const transform of [
             minusReplace,
             enDashNumberRange,
@@ -828,7 +833,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
             return !hasClass(n, "fraction") && n?.tagName !== "a"
           }
           if (slashPredicate(elt)) {
-            transformElement(elt, fullWidthSlashes, toSkip)
+            transformElement(elt, fullWidthSlashes, toSkip, true)
           }
         })
       }
