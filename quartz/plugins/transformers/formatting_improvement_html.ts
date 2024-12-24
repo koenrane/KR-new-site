@@ -713,12 +713,12 @@ export function hasClass(node: Element, className: string): boolean {
   return false
 }
 
-export function toSkip(node: Element, ancestors?: Element[]): boolean {
+export function toSkip(node: Element): boolean {
   if (node.type === "element") {
     const elementNode = node as ElementMaybeWithParent
     const skipTag = ["code", "script", "style", "pre"].includes(elementNode.tagName)
     const skipClass = ["no-formatting", "elvish", "bad-handwriting"].some((cls) =>
-      ancestors ? ancestors.some((anc) => hasClass(anc, cls)) : hasClass(elementNode, cls),
+      hasClass(elementNode, cls),
     )
 
     return skipTag || skipClass
@@ -750,8 +750,13 @@ interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
-export function collectTransformableElements(node: Element): Element[] {
+export function collectTransformableElements(node: Element, ancestors: Element[] = []): Element[] {
   const eltsToTransform: Element[] = []
+
+  // Skip if node or any ancestor should be skipped
+  if ([node, ...ancestors].some((anc) => toSkip(anc))) {
+    return eltsToTransform
+  }
 
   const collectNodes = [
     "p",
@@ -767,26 +772,23 @@ export function collectTransformableElements(node: Element): Element[] {
     "li",
     "a",
     "span",
+    "div",
   ]
-  if (collectNodes.includes(node.tagName)) {
+
+  // Only collect the node if:
+  // 1. It's in our list of nodes to collect AND
+  // 2. It has direct text children OR it's an empty element
+  if (collectNodes.includes(node.tagName) && node.children.some((child) => child.type === "text")) {
     eltsToTransform.push(node)
-    return eltsToTransform
   }
 
-  // Skip non-container elements or elements without children
-  if (!("children" in node) || !Array.isArray(node.children)) {
-    return eltsToTransform
-  }
-
-  // recurse into children
-  for (const child of node.children) {
-    if (child.type === "element") {
-      eltsToTransform.push(...collectTransformableElements(child))
+  // Recursively process children that are elements
+  if ("children" in node && Array.isArray(node.children)) {
+    for (const child of node.children) {
+      if (child.type === "element") {
+        eltsToTransform.push(...collectTransformableElements(child, [...ancestors, node]))
+      }
     }
-  }
-  // If any children are text, add them to the list
-  if (node.children.some((child) => child.type === "text")) {
-    eltsToTransform.push(node)
   }
 
   return eltsToTransform
@@ -804,7 +806,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       if (!parent) return
       const index = parent.children.indexOf(node as ElementContent)
 
-      const skipFormatting = ancestors.some((anc) => toSkip(anc as Element))
+      const skipFormatting = [node, ...ancestors].some((anc) => toSkip(anc as Element))
       if (skipFormatting) {
         return // NOTE replaceRegex visits children so this won't check that children are not marked
       }

@@ -165,11 +165,13 @@ describe("HTMLFormattingImprovement", () => {
       expect(processedHtml).toBe(targetMathHTML)
     })
 
-    const originalCode =
-      '<figure data-rehype-pretty-code-figure=""><pre tabindex="0" data-language="plaintext" data-theme="github-light github-dark"></button><div><code data-language="plaintext" data-theme="github-light github-dark" style="display:grid;"><span data-line=""><span>This is a plain "code block" without a language specified.</span></span></code></div></pre></figure>'
-    it("should ignore quotes in code blocks", () => {
-      const processedHtml = testHtmlFormattingImprovement(originalCode)
-      expect(processedHtml).toBe(originalCode)
+    const codeBlocks = [
+      '<code><span>This is a plain "code block" without a language specified.</span></code>',
+      '<figure><code><span>This is a plain "code block" without a language specified.</span></code></figure>',
+    ]
+    it.each(codeBlocks)("should ignore quotes in code blocks", (input) => {
+      const processedHtml = testHtmlFormattingImprovement(input)
+      expect(processedHtml).toBe(input)
     })
 
     const originalHeader =
