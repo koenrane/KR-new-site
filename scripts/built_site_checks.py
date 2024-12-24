@@ -588,7 +588,8 @@ def meta_tags_early(file_path: Path) -> List[str]:
         for match in re.finditer(pattern, head_content):
             tag_text = match.group(0)
             issues.append(
-                f"<{tag}> tag found after first {MAX_META_HEAD_SIZE // 1024}KB: {tag_text}"
+                f"<{tag}> tag found after first "
+                f"{MAX_META_HEAD_SIZE // 1024}KB: {tag_text}"
             )
 
     return issues
