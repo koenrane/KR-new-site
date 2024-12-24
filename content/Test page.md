@@ -143,7 +143,7 @@ flowchart TD
     EV["Entire video"]:::blue
     AS["Action sequence"]:::orange
     H["Human"]:::red
-    HQF["Human query function"]:::black
+    HQF["Human query function $$f$$"]:::black
     Q["Question(s)"]:::black
     A["Answer(s)"]:::black
 
