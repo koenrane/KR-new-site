@@ -73,6 +73,15 @@ test.describe(`Test page sections`, () => {
   }
 })
 
+test.describe("Various site pages", () => {
+  for (const pageSlug of ["404", "all-tags", "recent", "tags/personal"]) {
+    test(`${pageSlug}`, async ({ page }, testInfo) => {
+      await page.goto(`http://localhost:8080/${pageSlug}`)
+      await takeArgosScreenshot(page, testInfo, `test-page-${pageSlug}`)
+    })
+  }
+})
+
 test.describe("Admonitions", () => {
   const waitAfterCollapse = 450 // Wait ms after collapsing to ensure transition is complete
 
