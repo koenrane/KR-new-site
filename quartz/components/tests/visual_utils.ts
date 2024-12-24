@@ -1,6 +1,8 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { Locator, TestInfo } from "@playwright/test"
+import { expect, Locator, TestInfo } from "@playwright/test"
 import { Page } from "playwright"
+
+import { debounceSearchDelay, desktopWidth } from "../scripts/search"
 
 const THEME_TRANSITION_DELAY = 350 // ms
 
@@ -96,4 +98,24 @@ export async function getNextElementMatchingSelector(
   }
 
   throw new Error("No next element found")
+}
+
+const timeToWaitAfterSearch = debounceSearchDelay + 100
+export async function search(page: Page, term: string) {
+  const searchBar = page.locator("#search-bar")
+
+  expect(searchBar).toBeVisible()
+  await searchBar.focus()
+
+  await searchBar.fill(term)
+  await page.waitForTimeout(timeToWaitAfterSearch)
+}
+
+/**
+ * Returns true if the page will show a search preview
+ */
+export function showingPreview(page: Page): boolean {
+  const viewportSize = page.viewportSize()
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  return Boolean(shouldShowPreview)
 }

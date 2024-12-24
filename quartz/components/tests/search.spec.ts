@@ -1,35 +1,12 @@
-import { test, expect, Page } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
-import {
-  desktopWidth,
-  searchPlaceholderDesktop,
-  searchPlaceholderMobile,
-  debounceSearchDelay,
-} from "../scripts/search"
-import { takeArgosScreenshot, setTheme } from "./visual_utils"
-
-const timeToWaitAfterSearch = debounceSearchDelay + 100
+import { desktopWidth, searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
+import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   await page.waitForLoadState("networkidle")
   await page.goto("http://localhost:8080/welcome")
 })
-
-async function search(page: Page, term: string) {
-  const searchBar = page.locator("#search-bar")
-
-  await expect(searchBar).toBeVisible()
-  await searchBar.focus()
-
-  await searchBar.fill(term)
-  await page.waitForTimeout(timeToWaitAfterSearch)
-}
-
-function showingPreview(page: Page): boolean {
-  const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
-  return Boolean(shouldShowPreview)
-}
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
   const searchContainer = page.locator("#search-container")
@@ -158,6 +135,7 @@ test.describe("Search accuracy", () => {
       const firstResult = page.locator(".result-card").first()
       const firstText = await firstResult.textContent()
       expect(firstText?.toLowerCase()).toContain(term.toLowerCase())
+      expect(firstResult).not.toContainText("...") // Ensure no truncation
     })
   })
 
@@ -506,5 +484,3 @@ navigationMethods.forEach(({ down, up, description }) => {
     }
   })
 })
-
-// TODO add visual regression test for mermaid preview
