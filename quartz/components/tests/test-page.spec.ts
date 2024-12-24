@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
-test.describe(`Test page sections`, () => {
+test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
     test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
       if (!showingPreview(page) || theme === "light") {
@@ -296,22 +296,3 @@ test.describe("Spoilers", () => {
     })
   })
 })
-
-// Test that scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot
-// test("Scrolling down halfway through page and then refreshing 3 times doesn't change the screenshot", async ({
-//   page,
-// }) => {
-//   await page.evaluate(() => {
-//     window.scrollTo(0, 500)
-//   })
-
-//   // Screenshot the visible viewport
-//   await page.reload({ waitUntil: "load" })
-//   const referenceScreenshot = await page.screenshot()
-//   for (let i = 0; i < 3; i++) {
-//     await page.reload({ waitUntil: "load" })
-//     await page.waitForTimeout(200)
-//     const screenshot = await page.screenshot()
-//     expect(screenshot).toEqual(referenceScreenshot)
-//   }
-// })

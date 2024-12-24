@@ -25,30 +25,19 @@ function locationToStorageKey(location: Location) {
   return `scrollPos:${url.toString()}`
 }
 
-// TODO test
 // Override browser's native scroll restoration
 // This allows the page to restore the previous scroll position on refresh
 if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual" // Take control of scroll restoration
+  history.scrollRestoration = "manual"
   const key = locationToStorageKey(window.location)
-
-  // Restore scroll position immediately
   const savedScroll = sessionStorage.getItem(key)
-  console.log("savedScroll", savedScroll)
-  console.log("window.location", window.location)
 
-  // Maybe ignore hash if this is a backward or forward navigation
+  // Only restore scroll if there's no hash in the URL
   if (savedScroll && !window.location.hash) {
     window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
-  }
-
-  // Store position before refresh or navigation away
-  window.addEventListener("beforeunload", saveScrollPosition)
-
-  // Clean up storage after successful restoration
-  window.addEventListener("load", () => {
+    // Clean up immediately after restoring
     sessionStorage.removeItem(key)
-  })
+  }
 }
 
 /**
@@ -61,7 +50,7 @@ const isElement = (target: EventTarget | null): target is Element =>
 /**
  * Checks if a URL is local (same origin as current window)
  */
-const isLocalUrl = (href: string) => {
+const isLocalUrl = (href: string): boolean => {
   try {
     const url = new URL(href)
     if (window.location.origin === url.origin) {
@@ -70,7 +59,6 @@ const isLocalUrl = (href: string) => {
   } catch {
     // ignore
   }
-  console.info("isLocalUrl", href, false)
   return false
 }
 
@@ -118,8 +106,9 @@ function scrollToHash(hash: string) {
  * Saves the current scroll position to session storage
  */
 function saveScrollPosition(): void {
-  const scrollPos = window.scrollY
+  const scrollPos = Math.round(window.scrollY)
   const key = locationToStorageKey(window.location)
+  console.debug(`Saving scroll position: ${scrollPos} for ${key}`)
   sessionStorage.setItem(key, scrollPos.toString())
 }
 
@@ -204,18 +193,10 @@ async function navigate(url: URL) {
 
   // Smooth scroll for anchors; else jump instantly
   const isSamePageNavigation = url.pathname === window.location.pathname
-  if (isSamePageNavigation) {
-    if (url.hash === "") {
-      window.scrollTo({
-        // scroll to top
-        top: 0,
-        behavior: "smooth",
-      })
-    } else if (url.hash) {
-      // Normal anchor link behavior
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView({ behavior: "smooth" })
-    }
+  if (isSamePageNavigation && url.hash) {
+    // Normal anchor link behavior
+    const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
+    el?.scrollIntoView({ behavior: "smooth" })
   } else {
     // Restore scroll position on back navigation
     const key = locationToStorageKey(window.location)
@@ -296,6 +277,10 @@ function createRouter() {
 
 // Only initialize if not already done
 if (typeof window !== "undefined" && !window.__routerInitialized) {
+  // Restore scroll only once
+  setupScrollRestoration()
+
+  // Proceed with creating the router
   createRouter()
   notifyNav(getFullSlug(window))
 }
@@ -322,4 +307,35 @@ if (!customElements.get("route-announcer")) {
       }
     },
   )
+}
+
+function setupScrollRestoration(): void {
+  // Only run this logic if "scrollRestoration" is supported and we haven't done it already.
+  if ("scrollRestoration" in history && !window.__hasRemovedCriticalCSS) {
+    // Mark that we've run this setup so it doesn't happen again
+    window.__hasRemovedCriticalCSS = true
+    history.scrollRestoration = "manual"
+
+    // Wait for network idle (when all resources are loaded)
+    if (document.readyState === "complete") {
+      restoreScroll()
+    } else {
+      window.addEventListener("networkidle", restoreScroll)
+    }
+
+    window.addEventListener("beforeunload", saveScrollPosition)
+  }
+}
+
+function restoreScroll(): void {
+  const key = locationToStorageKey(window.location)
+  const savedScroll = sessionStorage.getItem(key)
+
+  if (savedScroll && !window.location.hash) {
+    const scrollPos = parseInt(savedScroll, 10)
+    console.warn(`Restoring scroll position: ${scrollPos} for ${key}`)
+    window.scrollTo({ top: scrollPos, behavior: "instant" })
+    // Clear the saved position immediately after restoring
+    sessionStorage.removeItem(key)
+  }
 }
