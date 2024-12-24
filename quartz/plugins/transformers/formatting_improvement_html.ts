@@ -653,6 +653,7 @@ export interface ElementMaybeWithParent extends Element {
   parent: ElementMaybeWithParent | null
 }
 
+// TODO remove this
 export function hasAncestor(
   node: ElementMaybeWithParent,
   ancestorPredicate: (anc: Element) => boolean,
@@ -719,6 +720,7 @@ export function toSkip(node: Element, ancestors?: Element[]): boolean {
     const skipClass = ["no-formatting", "elvish", "bad-handwriting"].some((cls) =>
       ancestors ? ancestors.some((anc) => hasClass(anc, cls)) : hasClass(elementNode, cls),
     )
+
     return skipTag || skipClass
   }
   return false
@@ -797,46 +799,47 @@ export function collectTransformableElements(node: Element): Element[] {
  */
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
-    visit(tree, (node, index, parent) => {
-      if (hasAncestor(node as ElementMaybeWithParent, (anc) => hasClass(anc, "no-formatting"))) {
+    visitParents(tree, (node, ancestors: Parent[]) => {
+      const parent = ancestors[ancestors.length - 1]
+      if (!parent) return
+      const index = parent.children.indexOf(node as ElementContent)
+
+      const skipFormatting = ancestors.some((anc) => toSkip(anc as Element))
+      if (skipFormatting) {
         return // NOTE replaceRegex visits children so this won't check that children are not marked
       }
 
-      // A direct transform, instead of on the children of a <p> element
-      if (node.type === "text" && node.value) {
+      if (node.type === "text" && "value" in node) {
         replaceFractions(node, index as number, parent as Parent)
       }
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
 
-      if ((!parent || !("tagName" in parent)) && node.type === "element") {
-        // But we dont want to transform <div>s by mistake -- too high up
-        const eltsToTransform = collectTransformableElements(node)
-        eltsToTransform.forEach((elt) => {
-          // Don't validate smartquotes because these regexes depend on hidden-char positions (and so the commutation won't always hold)
-          transformElement(elt, hyphenReplace, toSkip, false)
-          transformElement(elt, niceQuotes, toSkip, false)
+      const eltsToTransform = collectTransformableElements(node as Element)
+      eltsToTransform.forEach((elt) => {
+        // Pass ancestors to transformElement
+        transformElement(elt, hyphenReplace, toSkip, false)
+        transformElement(elt, niceQuotes, toSkip, false)
 
-          for (const transform of [
-            minusReplace,
-            enDashNumberRange,
-            enDashDateRange,
-            plusToAmpersand,
-            massTransformText,
-          ]) {
-            transformElement(elt, transform, toSkip, true)
-          }
+        for (const transform of [
+          minusReplace,
+          enDashNumberRange,
+          enDashDateRange,
+          plusToAmpersand,
+          massTransformText,
+        ]) {
+          transformElement(elt, transform, toSkip, true)
+        }
 
-          // Don't replace slashes in fractions, but give breathing room
-          // to others
-          const slashPredicate = (n: Element) => {
-            return !hasClass(n, "fraction") && n?.tagName !== "a"
-          }
-          if (slashPredicate(elt)) {
-            transformElement(elt, fullWidthSlashes, toSkip, true)
-          }
-        })
-      }
+        // Don't replace slashes in fractions, but give breathing room
+        // to others
+        const slashPredicate = (n: Element) => {
+          return !hasClass(n, "fraction") && n?.tagName !== "a"
+        }
+        if (slashPredicate(elt)) {
+          transformElement(elt, fullWidthSlashes, toSkip, true)
+        }
+      })
     })
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute
