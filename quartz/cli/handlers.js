@@ -389,7 +389,7 @@ export async function handleBuild(argv) {
       const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
         req.url = filepath
-        serve()
+        return serve()
       }
 
       // does /trailing.html exist? if so, redirect to /trailing
@@ -398,7 +398,7 @@ export async function handleBuild(argv) {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        redirect(filepath.slice(0, -1))
+        return redirect(filepath.slice(0, -1))
       }
     } else {
       // /regular
@@ -409,17 +409,17 @@ export async function handleBuild(argv) {
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
         req.url = filepath
-        serve()
+        return serve()
       }
 
       // does /regular/index.html exist? if so, redirect to /regular/
       const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        redirect(`${filepath}/`)
+        return redirect(`${filepath}/`)
       }
     }
 
-    serve()
+    return serve()
   })
 
   server.listen(argv.port)
