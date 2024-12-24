@@ -1,9 +1,9 @@
 import matter from "gray-matter"
 import { Root } from "hast"
-import { toString } from "hast-util-to-string"
 import { JSON_SCHEMA, load as loadYAML } from "js-yaml"
 import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
+import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
 import { i18n } from "../../i18n"
@@ -21,6 +21,25 @@ export interface Options {
 const defaultOptions: Options = {
   delimiters: "---",
   language: "yaml",
+}
+
+/**
+ * Gathers text from all text nodes plus any content nested inside <code> blocks.
+ * Returns a single string that you can store for indexing.
+ */
+function gatherAllText(tree: Root): string {
+  let allText = ""
+  visit(tree, (node) => {
+    if (
+      // @ts-expect-error: mixing AST node types
+      (node.type === "text" || node.type === "inlineCode") &&
+      "value" in node &&
+      typeof node.value === "string"
+    ) {
+      allText += node.value + " "
+    }
+  })
+  return allText
 }
 
 function coalesceAliases(data: { [key: string]: string[] }, aliases: string[]) {
@@ -80,7 +99,9 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
 
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]) || [])
             const lowerCaseTags = tags?.map((tag: string) => transformTag(tag))
-            if (tags) data.tags = [...new Set(lowerCaseTags?.map((tag: string) => slugTag(tag)))]
+            if (tags) {
+              data.tags = [...new Set(lowerCaseTags?.map((tag: string) => slugTag(tag)))]
+            }
 
             const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"]) || [])
             if (aliases) data.aliases = aliases
@@ -89,13 +110,14 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
             )
             if (cssclasses) data.cssclasses = cssclasses
 
-            // fill in frontmatter
+            // Fill out frontmatter data
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
 
-            // Fill in text for search
-            let text = escapeHTML(toString(tree))
-            text = text.replace(urlRegex, "$<domain>$<path>")
-            file.data.text = text
+            // Gather text from all text + code nodes
+            let combinedText = gatherAllText(tree)
+            combinedText = escapeHTML(combinedText)
+            combinedText = combinedText.replace(urlRegex, "$<domain>$<path>")
+            file.data.text = combinedText
           }
         },
       ]

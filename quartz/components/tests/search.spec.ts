@@ -113,6 +113,7 @@ test.describe("Search accuracy", () => {
     { term: "Josh Turner" },
     { term: "The Pond" },
     { term: "United States government" },
+    { term: "gwern" },
   ]
   searchTerms.forEach(({ term }) => {
     test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
