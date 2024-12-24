@@ -8,8 +8,15 @@ import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 
 /**
- * Flattens text nodes in an element tree
- * @returns An array of Text nodes
+ * @module HTMLFormattingImprovement
+ * A plugin that improves text formatting in HTML content by applying various typographic enhancements
+ */
+
+/**
+ * Flattens text nodes in an element tree into a single array
+ * @param node - The element or element content to process
+ * @param ignoreNode - Function to determine which nodes to skip
+ * @returns Array of Text nodes
  */
 export function flattenTextNodes(
   node: Element | ElementContent,
@@ -32,8 +39,10 @@ export function flattenTextNodes(
 }
 
 /**
- * Extracts text content from an element
- * @returns The extracted text content
+ * Extracts concatenated text content from an element
+ * @param node - The element to process
+ * @param ignoreNodeFn - Optional function to determine which nodes to skip
+ * @returns The combined text content
  */
 export function getTextContent(
   node: Element,
@@ -45,8 +54,9 @@ export function getTextContent(
 }
 
 /**
- * Checks for matching smart quotes
- * @throws An error if quotes are mismatched
+ * Validates that smart quotes in a text string are properly matched
+ * @param input - The text to validate
+ * @throws Error if quotes are mismatched
  */
 export function assertSmartQuotesMatch(input: string): void {
   if (!input) return
@@ -93,7 +103,12 @@ paragraph, while preserving the structure of the paragraph.
   node via its parent paragraphs. Beware non-idempotent transforms.
   */
 /**
- * Applies transformations to element text content
+ * Applies a transformation to element text content while preserving structure
+ * @param node - The element to transform
+ * @param transform - The transformation function to apply
+ * @param ignoreNodeFn - Optional function to determine which nodes to skip
+ * @param checkTransformInvariance - Whether to verify transform consistency
+ * @throws Error if node has no children or transformation alters node count
  */
 export function transformElement(
   node: Element,
@@ -130,16 +145,14 @@ export function transformElement(
 }
 
 /**
- * Replaces quotes with smart quotes
- * @returns The text with smart quotes
+ * Converts standard quotes to typographic smart quotes
+ * @param text - The text to process
+ * @returns Text with smart quotes
  */
 export function niceQuotes(text: string): string {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
-  // if (text.includes("take the Ring")) {
-  //   console.log(text)
-  // }
   const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-\\]]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
@@ -175,12 +188,6 @@ export function niceQuotes(text: string): string {
   const commaRegex = new RegExp(`(?<![!?]),(${chr}?[”’])`, "g")
   text = text.replace(commaRegex, "$1,")
 
-  // Ignore tags
-  // if (text.match(/(?<!<[^>]*)'(?![^<]*>)/g)) {
-  //   // Highlight the text which has quotes
-  //   text = text.replace(/'/g, "THE QUOTE IS HERE")
-  //   console.log(text)
-  // }
   return text
 }
 
@@ -636,9 +643,8 @@ export function massTransformText(text: string): string {
   return text
 }
 
-// Node-skipping predicates //
 /**
- *  Check for ancestors satisfying certain criteria
+ * Interface for elements that may have a parent reference
  */
 export interface ElementMaybeWithParent extends Element {
   parent: ElementMaybeWithParent | null
@@ -665,7 +671,7 @@ export function isCode(node: Element): boolean {
 }
 
 /**
- * Sets the data-first-letter attribute for the first paragraph in an article
+ * Plugin options for formatting improvements
  */
 export function setFirstLetterAttribute(tree: Root): void {
   // Find the first paragraph in the article
@@ -742,7 +748,6 @@ interface Options {
 export function collectTransformableElements(node: Element): Element[] {
   const eltsToTransform: Element[] = []
 
-  // Add more elements that should be transformed
   const collectNodes = [
     "p",
     "td",
@@ -783,8 +788,9 @@ export function collectTransformableElements(node: Element): Element[] {
 }
 
 /**
- * Main plugin function for applying formatting improvements
- * @returns A unified plugin
+ * Main transformer plugin for HTML formatting improvements
+ * @param options - Configuration options
+ * @returns Unified transformer function
  */
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
@@ -840,6 +846,10 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
   }
 }
 
+/**
+ * Quartz plugin for HTML formatting improvements
+ * Applies typographic enhancements to HTML content
+ */
 export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
   return {
     name: "htmlFormattingImprovement",
