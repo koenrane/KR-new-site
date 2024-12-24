@@ -750,43 +750,58 @@ interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
-export function collectTransformableElements(node: Element, ancestors: Element[] = []): Element[] {
+const collectNodes = [
+  "p",
+  "em",
+  "strong",
+  "i",
+  "b",
+  "sub",
+  "sup",
+  "small",
+  "del",
+  "center",
+  "td",
+  "dt",
+  "dd",
+  "dl",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ol",
+  "ul",
+  "li",
+  "tr",
+  "td",
+  "th",
+  "a",
+  "span",
+  "div",
+  "figcaption",
+  "blockquote",
+]
+
+export function collectTransformableElements(node: Element): Element[] {
   const eltsToTransform: Element[] = []
 
-  // Skip if node or any ancestor should be skipped
-  if ([node, ...ancestors].some((anc) => toSkip(anc))) {
-    return eltsToTransform
+  if (toSkip(node)) {
+    return []
   }
 
-  const collectNodes = [
-    "p",
-    "td",
-    "dt",
-    "dd",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "li",
-    "a",
-    "span",
-    "div",
-  ]
-
-  // Only collect the node if:
-  // 1. It's in our list of nodes to collect AND
-  // 2. It has direct text children OR it's an empty element
+  // If this node matches our collection criteria,
+  // add it and do NOT recurse separately for its children.
   if (collectNodes.includes(node.tagName) && node.children.some((child) => child.type === "text")) {
     eltsToTransform.push(node)
-  }
-
-  // Recursively process children that are elements
-  if ("children" in node && Array.isArray(node.children)) {
-    for (const child of node.children) {
-      if (child.type === "element") {
-        eltsToTransform.push(...collectTransformableElements(child, [...ancestors, node]))
+  } else {
+    // Otherwise, keep looking through children.
+    if ("children" in node && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        if (child.type === "element") {
+          eltsToTransform.push(...collectTransformableElements(child))
+        }
       }
     }
   }
