@@ -389,7 +389,7 @@ export async function handleBuild(argv) {
       const indexFp = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
         req.url = filepath
-        return serve()
+        serve()
       }
 
       // does /trailing.html exist? if so, redirect to /trailing
