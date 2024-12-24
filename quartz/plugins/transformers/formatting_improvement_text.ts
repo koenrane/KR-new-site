@@ -76,7 +76,7 @@ const massTransforms: [RegExp | string, string][] = [
   [subtitlePattern, "$1\n"],
   [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
   [/(<\/[^>]*>|<[^>]*\/>)\s*$\n\s*(?!=\n|[<>])/gm, "$1\n\n"], // Ensure there is a newline after an HTML tag
-  [/MIRIx/g, 'MIRI<sub class="mirix-subscript">x</sub>'],
+  [/MIRIx(?=\s|$)/g, 'MIRI<sub class="mirix-subscript">x</sub>'],
 ]
 
 export function massTransformText(text: string): string {
