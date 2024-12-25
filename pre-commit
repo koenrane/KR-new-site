@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# First initialize conda
+eval "$(conda shell.bash hook)"
+
+# Then check and activate environment
+CURRENT_ENV=$(conda info --envs | grep '*' | awk '{print $1}')
+if [ "$CURRENT_ENV" != "website" ]; then
+    conda activate website
+fi
+
 GIT_ROOT=$(git rev-parse --show-toplevel)
 
 # Store file modification times before formatting
