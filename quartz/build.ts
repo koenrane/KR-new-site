@@ -8,7 +8,6 @@ import path from "path"
 import { rimraf } from "rimraf"
 
 import cfg from "../quartz.config"
-// @ts-expect-error Importing from a JS file, no types
 import { injectCriticalCSSIntoHTMLFiles } from "./cli/handlers"
 import DepGraph from "./depgraph"
 import { getStaticResourcesFromPlugins } from "./plugins"

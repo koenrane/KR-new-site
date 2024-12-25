@@ -431,10 +431,10 @@ async function maybeGenerateCriticalCSS(outputDir: string): Promise<void> {
  * @param htmlContent - Original HTML content
  * @returns Updated HTML content with reordered <head> elements
  */
-function reorderHead(htmlContent: string): string {
+export function reorderHead(htmlContent: string): string {
   const querier = cheerioLoad(htmlContent)
   const head = querier("head")
-  const originalChildCount = head.children().length
+  const originalChildren = new Set(head.children())
 
   // Group <head> children by type
   const headChildren = head.children()
@@ -460,15 +460,9 @@ function reorderHead(htmlContent: string): string {
   const links = headChildren.filter(isLink)
 
   // Anything else (scripts, etc.)
-  const otherElements = headChildren.filter(
-    (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
-      el.type === "tag" &&
-      el.tagName !== "meta" &&
-      el.tagName !== "title" &&
-      !isCriticalCSS(_i, el) &&
-      !isLink(_i, el) &&
-      !isDarkModeScript(_i, el),
-  )
+  const elementsSoFar = new Set([...darkModeScript, ...metaAndTitle, ...criticalCSS, ...links])
+  const notAlreadySeen = (_i: number, el: cheerio.Element): boolean => !elementsSoFar.has(el)
+  const otherElements = headChildren.filter(notAlreadySeen)
 
   // Clear the head, then re-append in the JS "ground truth" order
   head.empty()
@@ -484,11 +478,20 @@ function reorderHead(htmlContent: string): string {
   // 5. Everything else
   head.append(otherElements)
 
-  // Ensure we haven't lost or gained any child elements
-  const finalChildCount = head.children().length
-  if (originalChildCount !== finalChildCount) {
+  // Ensure we haven't gained any child elements
+  const finalChildren = new Set(head.children())
+  if (!finalChildren.isSubsetOf(originalChildren)) {
+    throw new Error("New elements were added to the head")
+  }
+
+  // If we've lost any elements, throw an error
+  if (!finalChildren.isSupersetOf(originalChildren)) {
+    const lostElements = originalChildren.difference(finalChildren)
+    const lostTags: string[] = Array.from(lostElements).map(
+      (el): string => (el as cheerio.TagElement).tagName,
+    )
     throw new Error(
-      `Head reordering changed number of elements: ${originalChildCount} -> ${finalChildCount}`,
+      `Head reordering changed number of elements: ${originalChildren.size} -> ${finalChildren.size}. Specifically, the elements ${lostTags.join(", ")} were lost.`,
     )
   }
 
