@@ -203,7 +203,7 @@
     "turndown": "^7.2.0",
     "turndown-plugin-gfm": "^1.0.2",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.8.1",
+    "typescript-eslint": "^8.18.1",
     "typi": "^3.2.0",
     "unist-util-visit": "^5.0.0",
     "whatwg-fetch": "^3.6.20",
