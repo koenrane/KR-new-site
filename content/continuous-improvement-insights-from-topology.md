@@ -3,7 +3,8 @@ permalink: topology-textbook-review
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
+lw-page-url: 
+  https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 lw-is-question: "false"
 lw-posted-at: 2020-02-22T21:58:01.584000Z
 lw-last-modification: 2020-02-25T19:34:02.586000Z
@@ -31,18 +32,22 @@ sequence-link: posts#becoming-stronger
 prev-post-slug: managerial-decision-making-review
 prev-post-title: "Judgment Day: Insights from 'Judgment in Managerial Decision Making'"
 next-post-slug: ordinary-differential-equations-textbook-review
-next-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential\
-  \ Equations'"
+next-post-title: "ODE to Joy: Insights from 'A First Course in Ordinary Differential
+  Equations'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2020-02-22 00:00:00
-original_url: https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
+original_url: 
+  https://www.lesswrong.com/posts/TSLnckszv4Tb5cHmt/continuous-improvement-insights-from-topology
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k6b4WRE.png
 description: Reviewing Munkres' "Topology", reflecting on compactness, homotopy, and
   what I was even doing with my life before understanding homeomorphisms.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
+
+
 
 
 
@@ -64,7 +69,6 @@ Topology is about what it means for things to be "close" in a very abstract and 
 >
 > As a notion of smallness, then, compactness is a bit fraught. It’s a bit unsettling to say that a set can be “smaller” than a set that lies entirely inside it! But I think smallness is a valuable way to see compactness. A set that is compact may be large in area and complicated, but the fact that it is compact means we can interact with it in a finite way using open sets, the building blocks of topology.
 
-
 [Minimum description length says that an explanation is big if its shortest computational specification is long](https://www.readthesequences.com/Occams-Razor). You can have a simple explanation of a very long list of things or of a large universe, and extremely complicated explanations of things easily expressed in natural language (God's source code would be _a lot_ longer than Maxwell's equations).
 
 [VC dimension says a class of hypotheses is hard to learn if it has lots of predictive degrees of freedom](https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension). You can have an infinite class of hypotheses which is really easy to learn because it has low VC dimension (thresholding functions at value $\theta$), and a finite class which is really hard to learn because it has high VC dimension (all C programs less than 1 million characters).
@@ -77,7 +81,8 @@ At first, I was confused why _open_ subspaces $Y$ of compact $X$ don't have to b
 
 ## Getting closure
 
-_Theorem: If $X$ is compact, show that the projection $\pi_2 : X \times Y \to Y$ is closed._
+> [!math] Theorem
+> If $X$ is compact, the projection $\pi_2 : X \times Y \to Y$ is closed.
 
 I was confused why we needed compactness. Essentially, I didn't understand [the tube lemma](https://dantopology.wordpress.com/2011/05/01/the-tube-lemma/).
 
@@ -85,7 +90,8 @@ I was confused why we needed compactness. Essentially, I didn't understand [the 
 
 Now let's prove the theorem. Suppose $C$ is closed in $X \times Y$. We want to show $f(C)$ is also closed. Take $y\not \in \pi(C)$. $(X\times Y)-C$ is an open set of the domain containing the slice $X \times \{y\}$. Since $X$ is compact, apply the tube lemma to get a tube $X \times U$. The projection of this tube is both open (because $U$ is open in $Y$) and disjoint from $\pi(C)$ (because the tube is contained in $(X\times Y)-C$). Thus, all $y \not \in \pi(C)$ have an open neighborhood disjoint from $\pi(C)$, so $\pi(C)$ must be closed.
 
-_Let $X$ be a locally compact space. If $f:X\to Y$ is continuous, does it follow that $f(X)$ is locally compact? What if $f$ is both continuous and open?_
+> [!math] Another exercise
+> Let $X$ be a locally compact space. If $f:X\to Y$ is continuous, does it follow that $f(X)$ is locally compact? What if $f$ is both continuous and open?
 
 It has to be both continuous and open; the reason I got confused here was it seemed like continuity should be enough. It _was_ plain to me how to prove it given $f$ open, but [this SE post](https://math.stackexchange.com/questions/1287344/continuous-image-of-a-locally-compact-space-is-locally-compact) has a good counterexample for just $f$ continuous.
 

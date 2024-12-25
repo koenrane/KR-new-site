@@ -40,8 +40,10 @@ original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-ins
 skip_import: true
 description: Insights from a management textbook on how to improve decision-making,
   negotiate effectively, and overcome cognitive biases.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
+
 
 
 
@@ -127,7 +129,7 @@ This book was a little slow at times, both because of excessive preamble/signpos
 
 ## Hello again
 
-It's been [a long while](/computability-and-logic-textbook-review) since my last review. After injuring myself last summer, I wasn't able to type reliably until early this summer. This derailed the positive feedback loop I had around "learn math" -> "write about what I learned" -> "savor karma". Protect your feedback loops.
+It's been [a long while](/computability-and-logic-textbook-review) since my last review. After injuring myself last summer, I wasn't able to type reliably until early this summer. This derailed the positive feedback loop I had around "learn math" → "write about what I learned" → "savor karma". Protect your feedback loops.
 
 I run into fewer basic confusions than when I was just starting at math, so I generally have less to talk about. This means I'll be changing the style of any upcoming reviews, instead focusing on deeply explaining the things I found coolest.
 
@@ -152,4 +154,3 @@ This new year, I'm going to become a less oblivious, less stupid, and less wrong
 <hr/>
 
 [^1]: I also still want to learn Bayes nets, category theory, get a much deeper understanding of probability theory, provability logic, and decision theory.
-

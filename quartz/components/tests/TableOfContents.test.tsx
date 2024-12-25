@@ -3,7 +3,7 @@
  */
 
 import { jest, describe, it, expect, beforeEach } from "@jest/globals"
-import { Parent } from "hast"
+import { Parent, RootContent } from "hast"
 import { h } from "hastscript"
 
 import { TocEntry } from "../../plugins/transformers/toc"
@@ -14,6 +14,8 @@ import {
   processTocEntry,
   processKatex,
   buildNestedList,
+  processInlineCode,
+  elementToJsx,
 } from "../TableOfContents"
 
 // Mock the createLogger function
@@ -142,8 +144,8 @@ describe("processHtmlAst", () => {
     expect(parent.children[0]).toMatchObject({ type: "text", value: "Simple text" })
   })
 
-  it("should process text nodes with leading numbers", () => {
-    const htmlAst = h(null, [{ type: "text", value: "1: Chapter One" }])
+  it.each(["1: ", "1984"])("should process text nodes with leading numbers %s", (prefix) => {
+    const htmlAst = h(null, [{ type: "text", value: `${prefix}Chapter One` }])
 
     processHtmlAst(htmlAst, parent)
 
@@ -152,7 +154,7 @@ describe("processHtmlAst", () => {
       type: "element",
       tagName: "span",
       properties: { className: ["number-prefix"] },
-      children: [{ type: "text", value: "1: " }],
+      children: [{ type: "text", value: prefix }],
     })
     expect(parent.children[1]).toMatchObject({ type: "text", value: "Chapter One" })
   })
@@ -211,6 +213,22 @@ describe("processHtmlAst", () => {
       children: [{ type: "text", value: "smallcaps" }],
     })
   })
+
+  it("should handle empty ast", () => {
+    const ast = h(null, [])
+    processHtmlAst(ast, parent)
+    expect(parent.children).toHaveLength(0)
+  })
+
+  it("should handle mixed inline elements", () => {
+    const ast = h(null, [
+      h("em", "emphasized"),
+      { type: "text", value: " normal " },
+      h("strong", "bold"),
+    ])
+    processHtmlAst(ast, parent)
+    expect(parent.children).toHaveLength(3)
+  })
 })
 
 // Mock the createLogger function
@@ -230,7 +248,6 @@ describe("buildNestedList", () => {
       { depth: 3, text: "Heading 1.1.1", slug: "heading-1-1-1" },
       { depth: 2, text: "Heading 1.2", slug: "heading-1-2" },
     ]
-
     const [result] = buildNestedList(entries)
 
     // Instead of rendering, let's check the structure directly
@@ -239,6 +256,20 @@ describe("buildNestedList", () => {
     expect(firstItem.props.children[1].type).toBe("ul")
     expect(firstItem.props.children[1].props.children).toHaveLength(2)
   })
+
+  it("should handle empty entries", () => {
+    const [result] = buildNestedList([])
+    expect(result).toHaveLength(0)
+  })
+
+  it("should handle single level entries", () => {
+    const entries = [
+      { depth: 1, text: "First", slug: "first" },
+      { depth: 1, text: "Second", slug: "second" },
+    ]
+    const [result] = buildNestedList(entries)
+    expect(result).toHaveLength(2)
+  })
 })
 
 describe("afterDOMLoaded Script Attachment", () => {
@@ -246,5 +277,97 @@ describe("afterDOMLoaded Script Attachment", () => {
     expect(CreateTableOfContents.afterDOMLoaded).toBeDefined()
     expect(typeof CreateTableOfContents.afterDOMLoaded).toBe("string")
     expect(CreateTableOfContents.afterDOMLoaded).toContain("document.addEventListener('nav'")
+  })
+})
+
+describe("Code Processing", () => {
+  let parent: Parent
+
+  beforeEach(() => {
+    parent = { type: "element", tagName: "div", children: [] } as Parent
+  })
+
+  describe("processInlineCode", () => {
+    it("should wrap code in code element", () => {
+      processInlineCode("const x = 1", parent)
+
+      expect(parent.children).toHaveLength(1)
+      expect(parent.children[0]).toMatchObject({
+        type: "element",
+        tagName: "code",
+        children: [{ type: "text", value: "const x = 1" }],
+      })
+    })
+
+    it("should handle code with special characters", () => {
+      processInlineCode("x => x * 2", parent)
+
+      expect(parent.children[0]).toMatchObject({
+        type: "element",
+        tagName: "code",
+        children: [{ type: "text", value: "x => x * 2" }],
+      })
+    })
+  })
+
+  describe("Mixed Content Processing", () => {
+    it("should handle mixed text and code", () => {
+      processInlineCode("code", parent)
+      processKatex("x^2", parent)
+
+      expect(parent.children).toHaveLength(2)
+      expect(parent.children[0]).toMatchObject({
+        type: "element",
+        tagName: "code",
+        children: [{ type: "text", value: "code" }],
+      })
+      expect(parent.children[1]).toMatchObject({
+        type: "element",
+        tagName: "span",
+        properties: { className: ["katex-toc"] },
+      })
+    })
+  })
+})
+
+describe("elementToJsx", () => {
+  it("should handle text nodes", () => {
+    const node = { type: "text", value: "Hello" } as RootContent
+    expect(elementToJsx(node)).toBe("Hello")
+  })
+
+  it("should handle abbr elements", () => {
+    const node = h("abbr", { className: ["small-caps"] }, "test")
+    expect(elementToJsx(node)).toMatchObject({
+      type: "abbr",
+      props: {
+        className: "small-caps",
+        children: "test",
+      },
+    })
+  })
+
+  it("should handle katex spans", () => {
+    const node = h("span", { className: ["katex-toc"] }, [
+      { type: "raw", value: "<span>x^2</span>" },
+    ])
+    expect(elementToJsx(node)).toMatchObject({
+      type: "span",
+      props: {
+        className: "katex-toc",
+        dangerouslySetInnerHTML: { __html: "<span>x^2</span>" },
+      },
+    })
+  })
+
+  it("should handle inline code", () => {
+    const node = h("span", { className: ["inline-code"] }, "const x = 1")
+    expect(elementToJsx(node)).toMatchObject({
+      type: "code",
+      props: {
+        className: "inline-code",
+        children: ["const x = 1"],
+      },
+    })
   })
 })

@@ -37,6 +37,8 @@ export function setupDarkMode() {
       }
     })
 
+    const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
+
     let themeChange = (e: MediaQueryListEvent) => {
       const newTheme = e.matches ? "dark" : "light"
       document.documentElement.setAttribute("saved-theme", newTheme)
@@ -47,7 +49,6 @@ export function setupDarkMode() {
     themeChange = wrapWithoutTransition(themeChange)
 
     // Darkmode toggle
-    const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
     toggleSwitch.addEventListener("change", switchTheme)
     if (currentTheme === "dark") {
       toggleSwitch.checked = true

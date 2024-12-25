@@ -32,8 +32,10 @@ original_url: https://www.lesswrong.com/posts/Lotih2o2pkR2aeusW/math-that-clicks
 skip_import: true
 description: 'Good formalizations are two-way correspondences: the math suggests the
   concept it formalizes.'
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
+
 
 
 
@@ -57,14 +59,13 @@ You sanity-check your guess by checking this against remembered instances of inf
 
 Your stomach rumbles. This guess should be good enough. You tell your would-be rescuers your final answer...
 
-🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by intuitive examples of information gain – there was a one-way correspondence from **intuitive concept -> math**. That's not enough.
+🚨 **No! Wrong!** 🚨 That's not how you should discover new math. True, you formalized a guess that was prompted by intuitive examples of information gain – there was a one-way correspondence from **intuitive concept → math**. That's not enough.
 
 # Recovering the intuition from the math
 
 > [!quote] [How I Do Research](/how-i-do-research)
 >
 > Don't think for a second that having math representing your thoughts means you've necessarily made progress – for the kind of problems I'm thinking about right now, the math has to _sing_ with the elegance of the philosophical insight you're formalizing.
-
 
 I claim that you should create math such that the **math suggests the intuitive concept it's formalizing**. If you obfuscate any suggestive notation and show the math to someone who already knows the intuitive concept, would the concept jump back out at them?
 
@@ -86,10 +87,10 @@ What if you thought Newtonian mechanics was The Truth, and then [Mercury's perih
 
 In the case of information, the winner is "[formalize for-sure properties that the quantity should obey](https://en.wikipedia.org/wiki/Entropy_\(information_theory\)#Characterization)", like
 
-1.  The more sure you are something will go a certain way, the less you expect to learn from it, and
-2.  You can't have "negative" information, and
-3.  Totally predictable events give you 0 information, and
-4.  Information is additive across independent events.
+1. The more sure you are something will go a certain way, the less you expect to learn from it, and
+2. You can't have "negative" information, and
+3. Totally predictable events give you 0 information, and
+4. Information is additive across independent events.
 
 By proving that only your function meets the desiderata, this decomposes "does this formalize the right thing?" into "do we really need the desiderata, and are _they_ correctly formalized?". Decomposition is crucial here in a [Debate](https://openai.com/blog/debate/) sense: disagreement can be localized to smaller pieces and simpler claims.
 
@@ -115,7 +116,7 @@ Sometimes, you can't mathematically _prove_ the math is right, given desiderata,
 
 # Why might the second correspondence be good?
 
-By itself, "intuition -> math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
+By itself, "intuition → math" can anchor you on partial answers and amplify [confirmation bias](https://explorable.com/confirmation-bias); in my fictional example above, counterexamples to "information = change in credence" were not considered.
 
 Here's my advice: Whenever possible, clarify your assumed desiderata. Whenever possible, prove your construction is basically the only way to get all the desiderata. Whenever possible, build the math out of existing correct pieces of math which correspond to the right building blocks (expected + surprisal = expected surprisal).
 
@@ -127,7 +128,6 @@ Strive for clearly correct math, informative names, and unambiguously specified 
 
 <hr/>
 
+[^1]: Assuming they actually _are_ flipping a coin with a stationary bias (a Bernoulli process).
 
-[^1]: Assuming they actually _are_ flipping a coin with a stationary bias (a Bernoulli process). 
-
-[^2]: And some basic background assumptions, like "the laws of physics are spatially, temporally, and rotationally invariant", etc. 
+[^2]: And some basic background assumptions, like "the laws of physics are spatially, temporally, and rotationally invariant", etc.

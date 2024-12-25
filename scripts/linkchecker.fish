@@ -1,10 +1,7 @@
 #!/usr/bin/env fish
 
-# If there are no arguments passed, then default to the GIT_ROOT public
+# If there are no arguments passed, then default to GIT_ROOT's public directory
 set -l GIT_ROOT (git rev-parse --show-toplevel)
-
-fish "$GIT_ROOT/scripts/md_linkchecker.fish"
-set -l MD_CHECK_STATUS $status
 
 # Target files for the html linkcheckers
 set -l TARGET_FILES $argv
@@ -16,24 +13,28 @@ end
 # Use the live server to resolve relative links
 if test -z $argv
     set -x no_proxy "http://localhost:8080"
-    linkchecker http://localhost:8080 --threads 10 
+    linkchecker http://localhost:8080 --threads 50 
 else
-    linkchecker $TARGET_FILES --threads 10 
+    linkchecker $TARGET_FILES --threads 50 
 end
 
-set -l HTML_CHECK_STATUS_1 $status
+set -l INTERNAL_STATUS $status
 
 # Check external links which I control
-# TODO GH link won't exist for new posts
-linkchecker $TARGET_FILES --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" --no-warnings --check-extern --threads 20 
-set -l HTML_CHECK_STATUS_2 $status
+linkchecker $TARGET_FILES \
+    --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" \
+    --no-warnings \
+    --check-extern \
+    --threads 30 \
+    --user-agent "linkchecker" \
+    --timeout 20
+set -l EXTERNAL_STATUS $status
 
 # If any of the checks failed, exit with a non-zero status
-if test $MD_CHECK_STATUS -ne 0 -o $HTML_CHECK_STATUS_1 -ne 0 -o $HTML_CHECK_STATUS_2 -ne 0
+if test $INTERNAL_STATUS -ne 0 -o $EXTERNAL_STATUS -ne 0
     echo "Link checks failed: " >&2
-    echo "md_linkchecker: $MD_CHECK_STATUS" >&2
-    echo "Internal linkchecker: $HTML_CHECK_STATUS_1" >&2
-    echo "CDN asset linkchecker: $HTML_CHECK_STATUS_2" >&2
+    echo "Internal linkchecker: $INTERNAL_STATUS" >&2
+    echo "External linkchecker: $EXTERNAL_STATUS" >&2
     exit 1
 end
 

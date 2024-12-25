@@ -1,16 +1,17 @@
 ---
 permalink: first-analysis-textbook-review
-lw-was-draft-post: 'false'
-lw-is-af: 'false'
-lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
-lw-is-question: 'false'
+lw-was-draft-post: "false"
+lw-is-af: "false"
+lw-is-debate: "false"
+lw-page-url: 
+  https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
+lw-is-question: "false"
 lw-posted-at: 2018-06-01T18:16:32.616000Z
 lw-last-modification: None
 lw-curation-date: None
 lw-frontpage-date: 2018-06-02T14:37:25.414000Z
-lw-was-unlisted: 'false'
-lw-is-shortform: 'false'
+lw-was-unlisted: "false"
+lw-is-shortform: "false"
 lw-num-comments-on-upload: 8
 lw-base-score: 28
 lw-vote-count: 22
@@ -19,8 +20,10 @@ af-num-comments-on-upload: 0
 publish: true
 title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 lw-latest-edit: 2018-06-01T18:16:32.616000Z
-lw-is-linkpost: 'false'
+lw-is-linkpost: "false"
 tags:
+  - summaries
+  - understanding-the-world
 aliases:
   - into-the-kiln-insights-from-tao-s-analysis-i
 lw-sequence-title: Becoming Stronger
@@ -30,17 +33,26 @@ sequence-link: posts#becoming-stronger
 prev-post-slug: all-of-statistics-textbook-review
 prev-post-title: "Confounded No Longer: Insights from 'All of Statistics'"
 next-post-slug: swimming-upstream
-next-post-title: 'Swimming Upstream: A Case Study in Instrumental Rationality'
-lw-reward-post-warning: 'false'
-use-full-width-images: 'false'
+next-post-title: "Swimming Upstream: A Case Study in Instrumental Rationality"
+lw-reward-post-warning: "false"
+use-full-width-images: "false"
 date_published: 2018-06-01 00:00:00
-original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
+original_url: 
+  https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
+card_image: 
+  https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4
 description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural
   numbers to Riemann integrals. Rigorous yet accessible.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-04 22:18:09.880577
 ---
+
+
+
+
+
+
+
 
 
 
@@ -103,7 +115,7 @@ _Proof._ Let $L \in [x_0, M]$ and $\epsilon > 0$. Suppose that the sequence is n
 
 Since the sequence is monotone increasing, by repeating the above argument $N$ times in the first case, we have that $M < L + N\epsilon < x_k \leq M$, which is contradictory. By repeating the argument $N$ times in the second case, we have $x_k < L - N\epsilon < x_0$, which contradicts the fact that the sequence is monotone increasing. Then for any $\epsilon > 0$, the sequence must be eventually $\epsilon$\-close to some $L \in [x_0, M]$. Intuitively, for any given $\epsilon>0$, the sequence can only "escape" a limit a finite number of times before it runs out of room and has to be $\epsilon$\-close.
 
-Next, we show that the $L_\epsilon$'s form a Cauchy sequence. Let $\epsilon_3 > 0$, and set $\epsilon_1, \epsilon_2$ such that $0 < \epsilon_1, \epsilon_2 \leq \frac{\epsilon_3}{2}$. $ (x*n)$ is eventually $\epsilon_1$\-close to $L*{\epsilon*1}$, so there exists a $K_1\in\mathbb{N}$ such that for all $k\geq K_1$ we have $|x_k-L*{\epsilon*1}| < \epsilon_1$. Similar arguments hold for $\epsilon_2$. Set $K = \max(K_1,K_2)+1$, now $|L*{\epsilon*1} - L*{\epsilon*2}| \leq |x_K-L*{\epsilon*1}| + |x_K-L*{\epsilon*2}| < \epsilon_1 + \epsilon_2 \leq \epsilon_3$. But $\epsilon_3$ is arbitrary, so we can easily see that the sequence $(L*\frac{1}{n})\_{n=1}^\infty$ is Cauchy.
+Next, we show that the $L_\epsilon$'s form a Cauchy sequence. Let $\epsilon_3 > 0$, and set $\epsilon_1, \epsilon_2$ such that $0 < \epsilon_1, \epsilon_2 \leq \frac{\epsilon_3}{2}$. $(x_n)$ is eventually $\epsilon_1$\-close to $L_{\epsilon_1}$, so there exists a $K_1\in\mathbb{N}$ such that for all $k\geq K_1$ we have $|x_k-L_{\epsilon_1}| < \epsilon_1$. Similar arguments hold for $\epsilon_2$. Set $K = \max(K_1,K_2)+1$, now $|L_{\epsilon_1} - L_{\epsilon_2}| \leq |x_K-L_{\epsilon_1}| + |x_K-L_{\epsilon_2}| < \epsilon_1 + \epsilon_2 \leq \epsilon_3$. But $\epsilon_3$ is arbitrary, so we can easily see that the sequence $(L_\frac{1}{n})_{n=1}^\infty$ is Cauchy.
 
 As the real numbers are complete, this sequence converges to some $L_\infty \in \mathbb{R}$. Since the main sequence is eventually $\frac{1}{n}$\-close to $L_\frac{1}{n}$, and $L_\frac{1}{n}$ converges to $L_\infty$, by the triangle inequality we have that the main sequence converges to $L_\infty$. ∎
 
@@ -156,6 +168,13 @@ Let me simply direct you to [this excellent StackExchange answer](https://math.s
 
 We can understand $(f^{-1})'(x)=\frac{1}{f'(x)}$ by simply thinking about $\frac{\text{run}}{\text{rise}}=\frac{1}{\frac{\text{rise}}{\text{run}}}$, which makes sense for the derivative of the inverse!
 
+> [!error] That formula actually _doesn't_ make sense
+> On Nov. 23, 2024, a kind reader informed me that the formula is mistaken. The correct formula is actually
+>
+> $$
+> (f^{-1})'(x) = \dfrac{1}{f'\left(f^{-1}(x)\right)}.
+> $$
+
 ### L'Hôpital's Rule
 
 Consider $f,g:[a,b]\to \mathbb{R}$ differentiable on $(a,b]$ (for real numbers $a<b$). Then if $f(a)=g(a)=0,g'(x)\neq0$ for $x\in[a,b]$, and the rightward $\lim_{x\to a^+} \frac{f'(x)}{g'(x)}=L\in\mathbb{R}$, we have that $g(x) \neq 0$ for $x\in (a,b]$ and the rightward $\lim_{x\to a^+} \frac{f(x)}{g(x)}=L$.
@@ -165,7 +184,7 @@ As a neat exercise, let's see how this rule breaks if we violate preconditions:
 - If $f(a)$ or $g(a)\neq 0$, then the ratio is "messed up" and not necessarily indicative of the functions' slopes as $a$ is approached.
 - If $f$ or $g$ is not differentiable on $(a,b]$, then perhaps
   <video autoplay loop muted playsinline style="margin-left:auto;margin-right:auto" src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/tumblr_mg2eerTssi1rkty0bo1_500.mp4" type="video/mp4"></video>
-  - No, but really - you *would* use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
+  - No, but really - you _would_ use L'Hôpital's rule to analytically determine that the limit in question ($\lim _{x \rightarrow 0} \frac{\ln (1-x)-\sin x}{1-\cos ^2 x}$) does not exist.
 - If $g'(x)=0$ for some $x \in [a,b]$, then we have division by zero (unless $x=a$, in which case we find more [twisted counterexamples](https://en.wikipedia.org/wiki/L%27H%C3%B4pital%27s_rule#Counterexamples_when_the_derivative_of_the_denominator_is_zero) which necessitate the closure of this interval).
 
 ## 11: The Riemann Integral
@@ -238,7 +257,7 @@ Talk is cheap, and you probably don't feel like navigating to [the selection of 
 
 The following problem was admittedly confusing at first, but I had an overwhelmingly strong sense that the statement _had to be true_. I thought again and again about _why_; once that came to me, I wrote it all at once, and beamed.
 
-> [!math] **Theorem: Local Extrema are Stationary**
+> [!math] Theorem: Local Extrema are Stationary
 > Let $a<b$ be real numbers, and let $f:(a,b) \to \mathbb{R}$ be a function. If $x_0 \in (a,b)$, $f$ is differentiable at $x_0$, and $f$ attains either a local maximum or local minimum at $x_0$, then $f'(x_0)=0$.
 >
 > _Proof._ Suppose $f(x_0)$ is a local maximum; thus, for all $x \in (a,b)$, $f(x_0) \geq f(x)$. Let $L=f'(x_0)$; we know that $L$ exists and is a real number since $f$ is differentiable at $x_0$. By the trichotomy of real numbers, $L$ is either negative, positive, or zero.
@@ -262,4 +281,3 @@ The following problem was admittedly confusing at first, but I had an overwhelmi
     Now, maybe it would have been faster to just learn the math behind diagonalization or some other method of proof, but I think there was tremendous value in learning to fall in love with the process - to commit yourself fully to the joy of discovery and thought.
 
     I can certainly tell you that I wouldn't have made it so far so quickly down the research list if this journey didn't feel like one of the most beautiful things I've ever done.
-

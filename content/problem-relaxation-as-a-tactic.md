@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/JcpwEKbmNHdwhpq5n/problem-relaxati
 skip_import: true
 description: Relax difficult problems by simplifying them while retaining their core
   challenge. This tactic has fueled some of my most exciting research.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -167,4 +168,3 @@ Just relax.
     I turned heel, descending back into the library's basement. I took the photograph. I'm glad that I did.
 
     Discovering AUP was one of the happiest moments of my life. It gave me confidence that I could think, and it gave me some confidence that we can _win_ – that we can solve alignment.
-

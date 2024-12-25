@@ -32,8 +32,10 @@ original_url: https://www.lesswrong.com/posts/yQSmcfN4kA7rATHGK/many-arguments-f
 skip_import: true
 description: Arguments that AI will inevitably "scheme" are oversimplified and unconvincing.
   Deep learning defies naive predictions, and better arguments are needed.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
+
 
 
 
@@ -49,7 +51,7 @@ The most important takeaway from this essay is that the (prominent) counting arg
 > [!warning] Disclaimers
 >
 > 1. I am _not_ putting forward a positive argument for alignment being easy. I am pointing out the invalidity of existing arguments, and explaining the implications of rolling back those updates.
-> 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning -> doom are weak. I undid those updates and am now more optimistic."
+> 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning → doom are weak. I undid those updates and am now more optimistic."
 > 3. I am not covering training setups where we purposefully train an AI to be agentic and autonomous. I just think it's _not_ plausible that we just keep scaling up networks, run pretraining + light RLHF, and then produce a schemer.[^RFLO]
 
 [^RFLO]: To stave off revisionism: Yes, I think that "scaling->doom" has historically been a real concern. No, people have not "always known" that the "real danger" was zero-sum self-play finetuning of foundation models and distillation of agentic-task-prompted autoGPT loops.
@@ -96,11 +98,11 @@ There are a million different arguments for doom. I can't address them all, but 
 
 Much of my position is summarized by [my review](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities?commentId=B4poSMfRteggYWpv7) of Yudkowsky's [AGI Ruin: A List of Lethalities](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/?commentId=B4poSMfRteggYWpv7):
 
-> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly[ vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
+> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly[vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
 >
-> While I agree with a few points on this list, I think this list is fundamentally misguided.[ The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
+> While I agree with a few points on this list, I think this list is fundamentally misguided.[The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
 >
-> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that[ deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
+> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that[deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
 
 In this essay, I'll address some of the arguments for "deceptive alignment" or "AI scheming." And then I'm going to bullet-point a few other clusters of mistakes.
 

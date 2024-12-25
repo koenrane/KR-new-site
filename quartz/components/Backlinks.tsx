@@ -2,7 +2,7 @@ import { RootContent, Parent, Text, Element, Root, Data } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
-import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
+import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
 import { formatTitle } from "./component_utils"
@@ -11,7 +11,7 @@ import { QuartzComponent, QuartzComponentProps } from "./types"
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
-  replaceSCInNode(textNode, 0, parent)
+  replaceSCInNode(textNode, [parent])
 }
 
 function processBacklinkTitle(title: string): Parent {
@@ -43,6 +43,7 @@ function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
 function elementToJsx(elt: RootContent): JSX.Element {
   switch (elt.type) {
     case "text":
+      // skipcq: JS-0424 want to cast as JSX element
       return <>{elt.value}</>
     case "element":
       if (elt.tagName === "abbr") {
@@ -53,6 +54,7 @@ function elementToJsx(elt: RootContent): JSX.Element {
         return <span>{elt.children.map(elementToJsx)}</span>
       }
     default:
+      // skipcq: JS-0424 want to cast as JSX element
       return <></>
   }
 }
@@ -63,11 +65,11 @@ const BacklinksList = ({
 }: {
   backlinkFiles: Data[]
   currentSlug: FullSlug
-}) => (
+}): JSX.Element => (
   <ul className="backlinks-list" id="backlinks">
     {backlinkFiles.map((f) => {
       if (!("frontmatter" in f) || !("slug" in f)) {
-        return <></>
+        return null
       }
       const processedTitle = processBacklinkTitle(
         (f.frontmatter as Record<string, unknown>).title as string,
@@ -87,7 +89,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
   const slug = simplifySlug(fileData.slug || ("" as FullSlug))
   const backlinkFiles = allFiles.filter((file) => file.links?.includes(slug))
 
-  if (backlinkFiles.length === 0) return <></>
+  if (backlinkFiles.length === 0) return null
 
   return (
     <blockquote
@@ -102,7 +104,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
         </div>
         <div className="fold-callout-icon"></div>
       </div>
-      <div className="callout-content" id="backlinks">
+      <div className="callout-content" id="backlinks-callout">
         <BacklinksList backlinkFiles={backlinkFiles} currentSlug={fileData.slug as FullSlug} />
       </div>
     </blockquote>

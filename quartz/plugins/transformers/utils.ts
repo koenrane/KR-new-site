@@ -1,4 +1,5 @@
-import { Parent, RootContent, Text } from "hast"
+import { Parent, RootContent, Text, Element, Root } from "hast"
+import { toString } from "hast-util-to-string"
 import { h } from "hastscript"
 
 export const urlRegex = new RegExp(
@@ -9,7 +10,7 @@ const linkText = /\[(?<linkText>[^\]]+)\]/
 const linkURL = /\((?<linkURL>[^#].*?)\)/ // Ignore internal links, capture as little as possible
 export const mdLinkRegex = new RegExp(linkText.source + linkURL.source, "g")
 
-export const numberRegex = /[-−]?\d{1,3}(,?\d{3})*(\.\d+)?/
+export const numberRegex = /[-−]?\d{1,3}(,?\d{3})*(\.\d+)?/u
 
 // A fraction is a digit followed by a slash and another digit
 export const fractionRegex = new RegExp(
@@ -19,7 +20,7 @@ export const fractionRegex = new RegExp(
 
 export interface ReplaceFnResult {
   before: string
-  replacedMatch: string
+  replacedMatch: string | Element | Element[]
   after: string
 }
 
@@ -32,7 +33,7 @@ export interface ReplaceFnResult {
  * @param regex - The regular expression to match against the node's text.
  * @param replaceFn - A function that takes a regex match and returns an object with before, replacedMatch, and after properties.
  * @param ignorePredicate - An optional function that determines whether to ignore a node. Default is to never ignore.
- * @param newNodeStyle - The HTML tag name for the new node created for replacedMatch. Default is "span". "abbr.small-caps" yields e.g. <span class="small-caps">{content}</span>.
+ * @param newNodeStyle - The HTML tag name for the new node created for replacedMatch. Default is "span". "abbr.small-caps" yields e.g. <abbr class="small-caps">{content}</abbr>.
  */
 export const replaceRegex = (
   node: Text,
@@ -40,10 +41,11 @@ export const replaceRegex = (
   parent: Parent,
   regex: RegExp,
   replaceFn: (match: RegExpMatchArray) => ReplaceFnResult,
-  ignorePredicate: (nd: Text, idx: number, prnt: Parent) => boolean = () => false,
+  ignorePredicate: (node: Text, index: number, parent: Parent) => boolean = () => false,
   newNodeStyle = "span",
 ): void => {
   // If the node should be ignored or has no value, return early
+  // skipcq: JS-W1038
   if (ignorePredicate(node, index, parent) || !node?.value) {
     return
   }
@@ -54,6 +56,7 @@ export const replaceRegex = (
   let match
 
   // Find all non-overlapping matches in the node's text
+  regex.lastIndex = 0 // Reset regex state before first pass with exec()
   while ((match = regex.exec(node.value)) !== null) {
     if (match.index >= lastMatchEnd) {
       matchIndexes.push(match.index)
@@ -73,15 +76,24 @@ export const replaceRegex = (
       fragment.push({ type: "text", value: node.value.substring(lastIndex, index) })
     }
 
-    // Replace the match with new nodes
-    const match = node.value.slice(index).match(regex)
+    // Use exec() instead of match() to get capture groups
+    regex.lastIndex = index
+    const match = regex.exec(node.value)
     if (!match) continue
+
     const { before, replacedMatch, after } = replaceFn(match)
     if (before) {
       fragment.push({ type: "text", value: before })
     }
     if (replacedMatch) {
-      fragment.push(h(newNodeStyle, replacedMatch))
+      if (Array.isArray(replacedMatch)) {
+        // For each element in the array, ensure it has text content
+        fragment.push(...replacedMatch)
+      } else if (typeof replacedMatch === "string") {
+        fragment.push(h(newNodeStyle, replacedMatch))
+      } else {
+        fragment.push(replacedMatch)
+      }
     }
     if (after) {
       fragment.push({ type: "text", value: after })
@@ -102,4 +114,34 @@ export const replaceRegex = (
   if (parent.children && typeof index === "number") {
     parent.children.splice(index, 1, ...(fragment as RootContent[]))
   }
+}
+
+/**
+ * Checks if node has no previous sibling or previous sibling ends with period + with optional whitespace.
+ * @param node - Node to check
+ * @returns true if node should begin with a capital letter
+ */
+export function nodeBeginsWithCapital(index: number, parent: Parent): boolean {
+  if (index <= 0) return true
+
+  const prev = parent?.children[index - 1]
+  if (!prev) return true
+
+  if (prev.type === "text") {
+    return /\.\s*$/.test(prev.value ?? "")
+  }
+  return false
+}
+
+/**
+ * Gathers any text (including nested inline-element text) before a certain
+ * index in the parent's children array.
+ */
+export function gatherTextBeforeIndex(parent: Parent, upToIndex: number): string {
+  // Create a temporary parent with just the nodes up to our index
+  const tempParent = {
+    ...parent,
+    children: parent.children.slice(0, upToIndex),
+  }
+  return toString(tempParent as Root)
 }

@@ -1,19 +1,22 @@
-#!/usr/bin/env python3
-import json
-import tempfile
+"""
+Script to compress images and videos.
+"""
+
 import argparse
-import sys
+import json
 import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
-IMAGE_QUALITY: int = (
-    56  # Default quality (higher is larger file size but better quality)
-)
+# Default quality (higher is larger file size but better quality)
+IMAGE_QUALITY: int = 56
 ALLOWED_IMAGE_EXTENSIONS: set[str] = {".jpg", ".jpeg", ".png"}
 
 
 def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
-    """Converts an image to AVIF format using ImageMagick.
+    """
+    Converts an image to AVIF format using ImageMagick.
 
     Args:
         image_path: The path to the image file.
@@ -43,6 +46,10 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error during conversion: {e}") from e
+    finally:
+        original_path = image_path.with_suffix(image_path.suffix + "_original")
+        if original_path.exists():
+            original_path.unlink()
 
 
 ALLOWED_VIDEO_EXTENSIONS: set[str] = {
@@ -54,20 +61,26 @@ ALLOWED_VIDEO_EXTENSIONS: set[str] = {
     ".mpeg",
 }
 
-ALLOWED_EXTENSIONS: set[str] = ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
+ALLOWED_EXTENSIONS: set[str] = (
+    ALLOWED_IMAGE_EXTENSIONS | ALLOWED_VIDEO_EXTENSIONS
+)
 
 
 VIDEO_QUALITY: int = 28  # Default quality (0-51). Lower is better but slower.
 
 
 def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
-    """Converts a video to mp4 format using ffmpeg with HEVC encoding, if not already HEVC."""
+    """
+    Converts a video to mp4 format using ffmpeg with HEVC encoding, if not
+    already HEVC.
+    """
     if not video_path.is_file():
         raise FileNotFoundError(f"Error: Input file '{video_path}' not found.")
 
     if video_path.suffix not in ALLOWED_VIDEO_EXTENSIONS:
         raise ValueError(
-            f"Error: Unsupported file type '{video_path.suffix}'. Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
+            f"Error: Unsupported file type '{video_path.suffix}'."
+            f"Supported types are: {', '.join(ALLOWED_VIDEO_EXTENSIONS)}."
         )
 
     # Check if the input is already HEVC encoded
@@ -85,12 +98,16 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     ]
 
     try:
-        codec = subprocess.check_output(probe_cmd, universal_newlines=True).strip()
+        codec = subprocess.check_output(
+            probe_cmd, universal_newlines=True
+        ).strip()
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"Error probing video codec: {e}")
+        raise RuntimeError(f"Error probing video codec: {e}") from e
 
     if codec == "hevc":
-        print(f"File {video_path} is already HEVC encoded. Skipping conversion.")
+        print(
+            f"File {video_path} is already HEVC encoded. Skipping conversion."
+        )
         return
 
     # Determine output path
@@ -113,7 +130,7 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                     "-c:v",
                     "libx265",
                     "-preset",
-                    "slow",
+                    "slower",
                     "-crf",
                     str(quality),
                     "-c:a",
@@ -139,8 +156,9 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
     except subprocess.CalledProcessError as e:
         raise RuntimeError(f"Error during conversion: {e}") from e
     finally:
-        # TODO this doesn't always work
-        original_path = output_path.with_suffix(output_path.suffix + "_original")
+        original_path = output_path.with_suffix(
+            output_path.suffix + "_original"
+        )
 
         if original_path.exists():
             original_path.unlink()
@@ -165,7 +183,9 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
             "-show_streams",
             str(gif_path),
         ]
-        probe_output = subprocess.check_output(probe_cmd, universal_newlines=True)
+        probe_output = subprocess.check_output(
+            probe_cmd, universal_newlines=True
+        )
         probe_data = json.loads(probe_output)
 
         # Extract the frame rate, defaulting to 10 if not found
@@ -237,16 +257,16 @@ if __name__ == "__main__":
 
     args: argparse.Namespace = parser.parse_args()
     if args.path.suffix.lower() in ALLOWED_IMAGE_EXTENSIONS:
-        arg_type = "image"
+        ARG_TYPE = "image"
     elif args.path.suffix.lower() in ALLOWED_VIDEO_EXTENSIONS:
-        arg_type = "video"
+        ARG_TYPE = "video"
     else:
         raise ValueError(f"Error: Unsupported file type '{args.path.suffix}'.")
 
     if args.quality is None:
-        args.quality = IMAGE_QUALITY if arg_type == "image" else VIDEO_QUALITY
+        args.quality = IMAGE_QUALITY if ARG_TYPE == "image" else VIDEO_QUALITY
 
-    if arg_type == "image":
+    if ARG_TYPE == "image":
         image(args.path, args.quality)
-    elif arg_type == "video":
+    elif ARG_TYPE == "video":
         to_hevc_video(args.path, args.quality)

@@ -3,7 +3,8 @@ permalink: instrumental-convergence-via-vnm-preferences
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-coherent-preference-orderings-have-convergent
+lw-page-url: 
+  https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-coherent-preference-orderings-have-convergent
 lw-is-question: 'false'
 lw-posted-at: 2021-08-09T17:22:24.056000Z
 lw-last-modification: 2023-05-16T20:32:50.619000Z
@@ -37,12 +38,16 @@ next-post-title: 'Satisficers Tend To Seek Power: Instrumental Convergence Via R
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-08-09 00:00:00
-original_url: https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-coherent-preference-orderings-have-convergent
+original_url: 
+  https://www.lesswrong.com/posts/LYxWrxram2JFBaeaq/when-most-vnm-coherent-preference-orderings-have-convergent
 skip_import: true
 description: VNM-coherent preference orderings have the same statistical incentives
   as utility functions, often leading to power-seeking behavior.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-22 18:52:22.620008
 ---
+
+
+
 
 
 
@@ -76,11 +81,11 @@ The orbits of coherent preference orderings are basically all the preference ord
 >
 > _Proof._ Let $L, M$ be any lotteries.
 >
-> 1.  By the definition of a permuted preference ordering, $L \prec_\phi M$ if and only if $\phi(L)\prec \phi(M)$.
-> 2.  By the VNM utility theorem and the fact that $\prec$ is coherent, $\phi(L)\prec \phi(M)$ IFF $\mathbb{E}_{\ell \sim \phi(L)}[u(\ell)]<\mathbb{E}_{m \sim \phi(M)}[u(m)]$.
-> 3.  Since there are finitely many outcomes, we convert to vector representation: $\mathbf{u}^\top \left(\mathbf{P}_{\phi} \mathbf{l}\right) < \mathbf{u}^\top \left(\mathbf{P}_{\phi} \mathbf{m}\right)$.
-> 4.  By associativity, $\left(\mathbf{u}^\top \mathbf{P}_{\phi}\right) \mathbf{l} < \left(\mathbf{u}^\top \mathbf{P}_{\phi}\right) \mathbf{m}$.
-> 5.  But this is just equivalent to $\mathbb{E}_{\ell \sim L}[u(\phi(\ell))]<\mathbb{E}_{m \sim M}[u(\phi(m))]$. ∎
+> 1. By the definition of a permuted preference ordering, $L \prec_\phi M$ if and only if $\phi(L)\prec \phi(M)$.
+> 2. By the VNM utility theorem and the fact that $\prec$ is coherent, $\phi(L)\prec \phi(M)$ IFF $\mathbb{E}_{\ell \sim \phi(L)}[u(\ell)]<\mathbb{E}_{m \sim \phi(M)}[u(m)]$.
+> 3. Since there are finitely many outcomes, we convert to vector representation: $\mathbf{u}^\top \left(\mathbf{P}_{\phi} \mathbf{l}\right) < \mathbf{u}^\top \left(\mathbf{P}_{\phi} \mathbf{m}\right)$.
+> 4. By associativity, $\left(\mathbf{u}^\top \mathbf{P}_{\phi}\right) \mathbf{l} < \left(\mathbf{u}^\top \mathbf{P}_{\phi}\right) \mathbf{m}$.
+> 5. But this is just equivalent to $\mathbb{E}_{\ell \sim L}[u(\phi(\ell))]<\mathbb{E}_{m \sim M}[u(\phi(m))]$. ∎
 
 As a corollary, this lemma implies that if $\prec$ is VNM-coherent, so is $\prec_\phi$, since it induces a consistent utility function over outcomes.
 
@@ -99,11 +104,11 @@ So: orbit-level instrumental convergence for utility functions is equivalent to 
 - [Instrumental convergence does not exist when maximizing expected utility over action observation histories (AOH)](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories).
 
   - Therefore, VNM-coherence over action observation history lotteries [tells you nothing](https://www.lesswrong.com/posts/NxF5G6CJiof6cemTw/coherence-arguments-do-not-imply-goal-directed-behavior) about what behavior to expect from the agent.
-  - Coherence over AOH tells you nothing \_because \_there is no instrumental convergence in that setting!
+  - Coherence over AOH tells you nothing _because_ there is no instrumental convergence in that setting!
 
 - In certain contexts, coherence theorems _can_ have non-trivial implications, in that they provide Bayesian evidence about what the coherent agent will probably do.
 
-  - In the situations where the power-seeking theorems apply, coherent preferences **do **suggest some degree of goal-directedness.
+  - In the situations where the power-seeking theorems apply, coherent preferences **do** suggest some degree of goal-directedness.
   - Somewhat more precisely, VNM-coherence is Bayesian evidence that the agent prefers to stay alive, keep its options open, etc.
 
 - In some domains, preference specification may be more natural than utility function specification. However, in theory, coherent preferences and utility functions have the exact same statistical incentives.
@@ -132,4 +137,3 @@ This seems on-track to me. We now know [what instrumental convergence looks like
 > Thanks to Edouard Harris for pointing out that Definition 1 and Lemma 3 were originally incorrect.
 
 [^representative]: In terms of instrumental convergence, positive affine transformation never affects the [optimality probability](/power-seeking-beyond-MDPs#formal-justification) of different lottery sets. So for each (preference ordering) orbit element $\prec_\phi$, it doesn't matter what representative we select from each equivalence class over induced utility functions — so we may as well pick $u \circ \phi$!
-

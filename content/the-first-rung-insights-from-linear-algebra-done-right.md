@@ -40,8 +40,10 @@ original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-i
 skip_import: true
 description: "The author rediscovers their love for math while rigorously studying\
   \ linear algebra, sharing insights and lessons learned along the way. "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
 
 
 
@@ -66,7 +68,7 @@ My approach was in part motivated by the [findings of Rohrer and Pashler](http:/
 
 > Surprisingly little is known about how long-term retention is most efficiently achieved... Our results suggest that a single session devoted to the study of some material should continue long enough to ensure that mastery is achieved but that immediate further study of the same material is an inefficient use of time.
 
-The point isn't to struggle _per se -_ it's to improve and to _win_.
+The point isn't to struggle _per se_ - it's to improve and to _win_.
 
 # $\mathcal{L}$inear $\mathcal{A}$lgebra $\mathcal{D}$one $\mathcal{R}$ight
 
@@ -227,7 +229,7 @@ Imagine a friend of yours fell under the ice. In one situation, you meander, bli
 
 Now consider the situation in which you _know_ where they are; it's then a matter of finding the right tools to smash the ice. You strike with everything you have, with every ounce of strength you possess; finally, you break your friend free.
 
-#### Impatience
+### Impatience
 
 My most obvious remaining weak point with proofs is impatience. I have a strong intuition that this impulse is borne from my programming experience. When I write code, I carefully consider pre- and post-conditions, expected use cases, and the context of the problem. When using an external library, things are different; when asked why something is appropriate for use in a (low-stakes) program, it's fine to only provide high-level intuitions.
 
@@ -274,4 +276,3 @@ I'm sorry to have been away for so long.
     > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
     >
     > The first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.
-

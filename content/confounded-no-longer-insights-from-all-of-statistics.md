@@ -3,7 +3,8 @@ permalink: all-of-statistics-textbook-review
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
+lw-page-url: 
+  https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
 lw-is-question: 'false'
 lw-posted-at: 2018-05-03T22:56:27.057000Z
 lw-last-modification: None
@@ -36,12 +37,15 @@ next-post-title: "Into the Kiln: Insights from Tao's 'Analysis I'"
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2018-05-03 00:00:00
-original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
+original_url: 
+  https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-longer-insights-from-all-of-statistics
 skip_import: true
 description: A tour of fundamental statistical concepts, from basic probability to
   hypothesis testing and Bayesian inference.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-18 22:41:47.892511
 ---
+
+
 
 
 
@@ -167,7 +171,7 @@ A similar [^1] geometric intuition:
 
 ![](https://upload.wikimedia.org/wikipedia/commons/c/c9/Archimedes_pi.svg)
 
-_Note:_ the continuity requirement is important. Imagine we distribute points uniformly on $(0,\frac{1}{n})$; we see that $X_n \rightsquigarrow 0$. However, $F_n$ is 0 when $x \leq 0$, but $F(0)=1$. Thus CDF convergence does not occur at $x=0$.
+_Note:_ The continuity requirement is important. Imagine we distribute points uniformly on $(0,\frac{1}{n})$; we see that $X_n \rightsquigarrow 0$. However, $F_n$ is $0$ when $x \leq 0$, but $F(0)=1$. Thus CDF convergence does not occur at $x=0$.
 
 #### In Quadratic Mean
 
@@ -399,4 +403,3 @@ I no longer ask "how can I study most effectively?", but rather, "what does it f
 [^1]: Although any shape in the sequence implied by the image does indeed have strictly different area than the circle it approximates (in contrast to $F_n$ and $F$), the analogy may still be helpful.
 [^2]: Please don't wirehead thinking about this.
 [^3]: I'm aware that this section isn't very implementable. I may write more on my post-CFAR experience in the near future.
-

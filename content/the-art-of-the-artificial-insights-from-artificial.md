@@ -3,7 +3,8 @@ permalink: AI-textbook-review
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
+lw-page-url: 
+  https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 lw-is-question: "false"
 lw-posted-at: 2018-03-25T06:55:46.204000Z
 lw-last-modification: None
@@ -17,33 +18,36 @@ lw-vote-count: 20
 af-base-score: 13
 af-num-comments-on-upload: 0
 publish: true
-title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern\
-  \ Approach'"
+title: "The Art of the Artificial: Insights from 'Artificial Intelligence: A Modern
+  Approach'"
 lw-latest-edit: 2018-03-25T06:55:46.204000Z
 lw-is-linkpost: "false"
 tags:
-  - "AI"
-  - "scholarship-&-learning"
+  - AI
+  - scholarship-&-learning
 aliases:
-  - "the-art-of-the-artificial-insights-from-artificial"
-lw-sequence-title: "Becoming Stronger"
+  - the-art-of-the-artificial-insights-from-artificial
+lw-sequence-title: Becoming Stronger
 lw-sequence-image-grid: sequencesgrid/fkqj34glr5rquxm6z9sr
 lw-sequence-image-banner: sequences/oerqovz6gvmcpq8jbabg
 sequence-link: posts#becoming-stronger
 prev-post-slug: lightness-and-unease
-prev-post-title: "Lightness and Unease"
+prev-post-title: Lightness and Unease
 next-post-slug: linear-algebra-textbook-review
 next-post-title: "The First Rung: Insights from 'Linear Algebra Done Right'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2018-03-25 00:00:00
-original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
+original_url: 
+  https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-artificial-insights-from-artificial
 skip_import: true
-description: My review of "Artificial Intelligence, A Modern Approach"—plus, how I
-  read 1000+ pages in 3 days.
-date_updated: 2024-10-30 18:09:31.133945
+description: My review of "Artificial Intelligence, A Modern Approach" & how I read
+  hundreds of pages in 3 days.
+date_updated: 2024-12-22 18:52:22.620008
 ---
 
+
+    
 
 
 
@@ -407,7 +411,7 @@ _In which the authors outline logical and probabilistic techniques for natural l
 
 ### Avoiding Confusion
 
-Let's revisit the point I made in Ch. 5 and discuss how easy it is to avoid confusion by optimizing based on what you know how to do _now -_ this seems to be a common and serious failure mode. Half of this chapter is about efforts to contort English to fit inside hard-and-fast syntactic and semantic rules (which are either provided or learned).
+Let's revisit the point I made in Ch. 5 and discuss how easy it is to avoid confusion by optimizing based on what you know how to do _now_ - this seems to be a common and serious failure mode. Half of this chapter is about efforts to contort English to fit inside hard-and-fast syntactic and semantic rules (which are either provided or learned).
 
 Imagine that your research involves explaining and predicting the shape taken by water in various situations. You decide to define a probability distribution over "shapes that water can take" and a transition model for "how the shapes change over time". You might start with easy examples (such as vase- and bucket-"shaped" water), leaving the hard problems (like ocean- and water vapor-"shaped" water) to future researchers. You "solve" the easy cases and get a little more ambitious.
 
@@ -483,7 +487,7 @@ This seems like a good book to read early on in the [MIRI reading list](https://
 - Do exercises immediately after each section in the chapter.
   - I randomly chose ~7 exercises per chapter (excluding the programming problems), only skipping exercises which looked trivial or not relevant.
 - Chegg was the only reputable place I could find with an answer key, although the answers were often of low quality. I'd recommend just using StackExchange.
-- Feel free to skip exercises for the following chapters: 1, 11, 12,\*\* \*\*19, 22-27.
+- Feel free to skip exercises for the following chapters: 1, 11, 12, 19, and 22-27.
 
 # Forwards
 

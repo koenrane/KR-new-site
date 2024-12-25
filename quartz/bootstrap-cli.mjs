@@ -13,7 +13,7 @@ import {
   handleSync,
 } from "./cli/handlers.js"
 
-void yargs(hideBin(process.argv))
+await yargs(hideBin(process.argv))
   .scriptName("quartz")
   .version(version)
   .usage("$0 <cmd> [args]")

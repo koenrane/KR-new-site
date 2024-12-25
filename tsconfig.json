@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
   },
-  "include": ["**/*.ts", "**/*.tsx", "./package.json"],
+  "include": ["**/*.ts", "**/*.tsx", "./package.json", "argos/**/*.spec.ts"],
   "exclude": ["build/**/*.d.ts"]
 }

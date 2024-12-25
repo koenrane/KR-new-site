@@ -1,50 +1,37 @@
-// Scrolling navbar
-let prevScrollPos = window.scrollY
-let isScrollingDown = false
-let timeoutId: NodeJS.Timeout | null = null
-
-function toggleShadowNavbar() {
-  const navbar = document.querySelector("#navbar")
-  if (!navbar) return
-  navbar.classList.toggle("shadow", window.scrollY > 5)
-}
-
-const scrollDisplayUpdate = () => {
-  const currentScrollPos = window.scrollY
-
-  const navbar = document.querySelector("#navbar")
-  if (!navbar) return
-
-  toggleShadowNavbar()
-
-  // Immediate update when reaching the top (within a small threshold)
-  if (currentScrollPos <= 5) {
-    navbar.classList.remove("hide-above-screen")
-  } else {
-    // Determine scroll direction
-    isScrollingDown = currentScrollPos > prevScrollPos
-
-    // Hide immediately on downward scroll, show immediately on upward scroll
-    if (isScrollingDown) {
-      navbar.classList.add("hide-above-screen")
-    } else {
-      navbar.classList.remove("hide-above-screen")
-    }
-
-    // Throttled update for shadow
-    if (!timeoutId) {
-      timeoutId = setTimeout(() => {
-        timeoutId = null // Reset throttle
-      }, 250)
-    }
-  }
-
-  prevScrollPos = currentScrollPos
-}
-
-// Event listeners
 export function setupScrollHandler() {
-  ;["scroll", "touchmove"].forEach((event: string) => {
-    window.addEventListener(event, scrollDisplayUpdate)
+  let lastScrollY = window.scrollY
+  let ticking = false
+  const scrollThreshold = 50 // Minimum scroll distance before toggle
+  const topThreshold = 50 // Show navbar when within 50px of top
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const navbar = document.getElementById("navbar")
+        if (!navbar) return
+
+        const currentScrollY = window.scrollY
+        const delta = currentScrollY - lastScrollY
+
+        navbar.classList.toggle("shadow", window.scrollY > 5)
+
+        if (Math.abs(delta) > scrollThreshold) {
+          if (delta > 0) {
+            navbar.classList.add("hide-above-screen")
+          } else {
+            navbar.classList.remove("hide-above-screen")
+          }
+          lastScrollY = currentScrollY
+        }
+
+        // Show navbar if close to top of page
+        if (currentScrollY <= topThreshold) {
+          navbar.classList.remove("hide-above-screen")
+        }
+
+        ticking = false
+      })
+      ticking = true
+    }
   })
 }

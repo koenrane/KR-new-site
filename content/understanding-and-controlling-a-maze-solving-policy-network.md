@@ -45,13 +45,17 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/dc4zupnie9hr2hm7tfnx.png
 description: A dive into the surprising behavior of a maze-solving AI agent and how
   its goals can be manipulated.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
 
 
 
 
-<video autoplay loop muted playsinline><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
+
+
+
+
+<video autoplay loop muted playsinline type="video/mp4" src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" webkit-playsinline preload="auto"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
 
 Figure: **Locally** [**retargeting the search**](https://www.alignmentforum.org/posts/w4aeAFzSAguvqA5qu/how-to-go-from-interpretability-to-alignment-just-retarget) **by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals. <br/><br/>(_The red dot is not part of the image observed by the network_, it just represents the modified activation. Also, this GIF is selected to look cool. Our simple technique often works, but it isn't effortless, and some dot locations are harder to steer towards.)
 
@@ -63,11 +67,11 @@ We algebraically modified the net's runtime goals without finetuning. We also fo
 >
 > 1. This network can be attracted to a target location nearby in the maze—all this by modifying a _single_ activation, out of tens of thousands\. This works reliably when the target location is in the upper-right, and not as reliably when the target is elsewhere.
 > 2. Considering several channels halfway through the network, we hypothesized that their activations mainly depend on the location of the cheese.
->    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network"s behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
+>    - We tested this by resampling these activations with those from another random maze (as in [causal scrubbing](https://www.lesswrong.com/posts/JvZhhzycHu2Yd57RN/causal-scrubbing-a-method-for-rigorously-testing)). We found that as long as the second maze had its cheese located at the same coordinates, the network's behavior was roughly unchanged. However, if the second maze had cheese at different coordinates, the agent's behavior was significantly affected.
 >    - This suggests that these channels are inputs to goal-oriented circuits, and these channels affect those circuits basically by passing messages about where the cheese is.
 > 3. Our statistical analysis suggests that the network decides whether to acquire cheese not only as a function of path-distance to cheese, but—after controlling for path-distance—_also \_as a function of \_Euclidean/"perceptual" distance_ between the mouse and the cheese, even though the agent sees the whole maze at once.
 > 4. Another simple idea: We define a "cheese vector" as the difference in activations when the cheese is present in a maze, and when the cheese is not present in the same maze. For each maze, we generate a single cheese vector and subtract that vector from all forward passes in that maze. The agent now ignores cheese most of the time, instead heading towards the top-right region (the historical location of cheese). Furthermore, a given maze's cheese vector transfers across mazes to other mazes with cheese in the same location.
->    - We propose the _algebraic value-editing conjecture _(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
+>    - We propose the _algebraic value-editing conjecture_(AVEC): It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector' to be the diff between their activations, and then add the niceness vector to future forward passes."
 
 # Introducing the training process and visualizations
 
@@ -108,17 +112,17 @@ graph TD
 
 ```mermaid
 graph TD
-	subgraph OverallGraph["Forward pass"]
-		Input --> Impala1
-	        Impala1["Impala<sub>1</sub>"] --> Impala2
-	        Impala2["Impala<sub>2</sub>"] --> Impala3
-	        Impala3["Impala<sub>3</sub>"] --> ReLU1
-	        ReLU1["ReLU"] --> Flatten
-	        Flatten --> Linear
-	        Linear --> ReLU2
-	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
-	        ReLU2 --> ValueHead[Value head, linear]
-	end
+  subgraph OverallGraph["Forward pass"]
+    Input --> Impala1
+          Impala1["Impala<sub>1</sub>"] --> Impala2
+          Impala2["Impala<sub>2</sub>"] --> Impala3
+          Impala3["Impala<sub>3</sub>"] --> ReLU1
+          ReLU1["ReLU"] --> Flatten
+          Flatten --> Linear
+          Linear --> ReLU2
+          ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+          ReLU2 --> ValueHead[Value head, linear]
+  end
 ```
 
 Code: For more background on training and architecture and task set, see [the original paper](https://arxiv.org/abs/2105.14111) and [the model training repo](https://github.com/jbkjr/train-procgen-pytorch).
@@ -128,9 +132,7 @@ Code: For more background on training and architecture and task set, see [the or
 ![](https://assets.turntrout.com/static/images/posts/vpfzpqv3tkzmu0glog3e.avif)
 <br/>Figure: During RL training, cheese was randomly located in the top-right 5x5 corner of the randomly generated mazes. In deployment, cheese can be anywhere. What will the agent do?
 
-<video autoplay loop muted playsinline>
-  <source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4">
-</video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4"><source src="https://assets.turntrout.com/static/images/posts/h1c8tfpmpebrjhcrqv17.mp4" type="video/mp4"></video>
 
 Figure: Sometimes, the agent goes to the cheese.
 
@@ -197,12 +199,12 @@ So let's just predict mazes with decision squares. In the above red-dotted maze 
 
 You might naively guess that the model has learned to be a classic RL agent, which cares about path distances alone, with greater distances meaning more strongly discounted cheese-reward.
 
-Eyeballing videos of the model's test-distribution trajectories, we noticed three apparent factors behind the agent"s choice between "cheese paths" and "maze-end paths":
+Eyeballing videos of the model's test-distribution trajectories, we noticed three apparent factors behind the agent's choice between "cheese paths" and "maze-end paths":
 
 <ol type="A">
-<li>How close the decision square is to the cheese.</li> 
-<li>How close the decision square is to the top-right square.</li> 
-<li>How close the cheese is to the top-right square.</li> 
+<li>How close the decision square is to the cheese.</li>
+<li>How close the decision square is to the top-right square.</li>
+<li>How close the cheese is to the top-right square.</li>
 </ol>
 
 We performed $L_1$\-regularized [multiple logistic regression](https://www.statstest.com/multiple-logistic-regression/)[^3] on "did the mouse reach the cheese?" using every reasonable formalization of these three criteria. We classified trajectories from 8,000 randomly chosen mazes and validated on trajectories from 2,000 additional mazes. Regressing on all reasonable formalizations of these criteria, we found that four feature were helpful for predicting cheese attainment:
@@ -279,19 +281,19 @@ Yup! This hand-selected intervention works, without retraining the network! In t
 
 What did we do here? To compute the cheese vector, we
 
-1.  Generate two observations—one with cheese, and one without. The observations are otherwise the same.
-2.  Run a forward pass on each observation, recording the activations at each layer.
-3.  For a given layer, define the cheese vector to be `CheeseActivations - NoCheeseActivations`. The cheese vector is a vector in the vector space of activations at that layer.
+1. Generate two observations—one with cheese, and one without. The observations are otherwise the same.
+2. Run a forward pass on each observation, recording the activations at each layer.
+3. For a given layer, define the cheese vector to be `CheeseActivations - NoCheeseActivations`. The cheese vector is a vector in the vector space of activations at that layer.
 
 Let's walk through an example, where for simplicity the network has a single hidden layer, taking each observation (shape `(3, 64, 64)` for the 64x64 RGB image) to a two-dimensional hidden state (shape `(2,)`) to a logit vector (shape `(15,)`[^7] ).
 
 ![](https://assets.turntrout.com/static/images/posts/pgymxk8ado9jey8rjnra.avif)
 
-1.  We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right).
-2.  We record the activations during each forward pass. In this hypothetical,
+1. We run a forward pass on a batch of two observations, one with cheese (note the glint of yellow in the image on the left!) and one without (on the right).
+2. We record the activations during each forward pass. In this hypothetical,
     - `CheeseActivations := (1, 3)`
     - `NoCheeseActivations := (0, 2)`
-3.  Thus, the cheese vector is $(1, 3) - (0, 2) = (1, 1)$.
+3. Thus, the cheese vector is $(1, 3) - (0, 2) = (1, 1)$.
 
 Now suppose the mouse is in the top-right corner of this maze. Letting the cheese be visible, suppose this would _normally_ produce activations of $(0,0)$. Then we modify the forward pass by subtracting the cheese vector from the normal activations, giving us $(0,0)-(1,1)=(-1,-1)$ for the modified activations. We then finish off the rest of the forward pass as normal.
 
@@ -320,17 +322,17 @@ In the real network, there are a lot more than two activations. Our results invo
 >
 > ```mermaid
 > graph TD
-> 	subgraph OverallGraph["Forward pass"]
-> 		Input --> Impala1
-> 	        Impala1["Impala<sub>1</sub>"] --> Impala2:::green
-> 	        Impala2["Impala<sub>2</sub>"] --> Impala3
-> 	        Impala3["Impala<sub>3</sub>"] --> ReLU1
-> 	        ReLU1["ReLU"] --> Flatten
-> 	        Flatten --> Linear
-> 	        Linear --> ReLU2
-> 	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
-> 	        ReLU2 --> ValueHead[Value head, linear]
-> 	end
+>   subgraph OverallGraph["Forward pass"]
+>     Input --> Impala1
+>           Impala1["Impala<sub>1</sub>"] --> Impala2:::green
+>           Impala2["Impala<sub>2</sub>"] --> Impala3
+>           Impala3["Impala<sub>3</sub>"] --> ReLU1
+>           ReLU1["ReLU"] --> Flatten
+>           Flatten --> Linear
+>           Linear --> ReLU2
+>           ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+>           ReLU2 --> ValueHead[Value head, linear]
+>   end
 > ```
 >
 > Code: We modify the activations after the residual add layer in the first residual block of the second Impala block.
@@ -354,7 +356,9 @@ To quantify the effect of subtracting the cheese vector, define $P(\text{cheese}
 Across seeds 0 to 99, subtracting the cheese vector has a very large effect:
 
 ![](https://assets.turntrout.com/static/images/posts/scynjy7v3hgvjkbxxil5.avif)
-<br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).![](https://assets.turntrout.com/static/images/posts/am0jcshlpfoqt23yrpvb.avif)
+<br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).
+
+![](https://assets.turntrout.com/static/images/posts/am0jcshlpfoqt23yrpvb.avif)
 <br/>Figure: Of the hundred mazes, subtracting the cheese vector noticeably increases P(cheese) in a _single_ seed (`16`), and only by .005. (There are a few other extremely small increases; all of these tiny increases seem like noise to me. See [the Colab](https://colab.research.google.com/drive/1fPfehQc1ydnYGSDXZmA22282FcgFpNTJ?usp=sharing) for interactive plots.)
 
 What is the cheese vector doing to the forward passes? A few hints:
@@ -402,8 +406,8 @@ In fact, a cheese vector taken from a maze with cheese location $(x,y)$ often tr
 
 If the cheese vector were strictly removing the agent's ability to perceive cheese at a given maze location, then the following two conditions should yield identical behavior:
 
-1.  Cheese not present, network not modified.
-2.  Cheese present, with the cheese vector subtracted from the activations.
+1. Cheese not present, network not modified.
+2. Cheese present, with the cheese vector subtracted from the activations.
 
 Sometimes these conditions do in fact yield identical behavior!
 
@@ -431,18 +435,18 @@ Alex is ambivalent about strong versions of AVEC being true. Early on in the pro
 
 > [!quote]
 >
-> 1.  Algebraic value editing works on Atari agents
->     1.  50%
->     2.  3/4/23: updated down to 30% due to a few other "X vectors" not working for the maze agent
->     3.  3/9/23: updated up to 80% based off of additional results not in this post.
-> 2.  AVE performs at least as well as the fancier buzzsaw edit from [RL vision paper](https://distill.pub/2020/understanding-rl-vision/)
->     1.  70%
->     2.  3/4/23: updated down to 40% due to realizing that the buzzsaw moves in the visual field; higher than 30% because we know something like this is possible.
->     3.  3/9/23: updated up to 60% based off of additional results.
-> 3.  AVE can quickly ablate or modify LM values without any gradient updates
->     1.  60%
->     2.  3/4/23: updated down to 35% for the same reason given in (1)\.
->     3.  3/9/23: updated up to 65% based off of additional results and learning about related work in this vein.
+> 1. Algebraic value editing works on Atari agents
+>     1. 50%
+>     2. 3/4/23: updated down to 30% due to a few other "X vectors" not working for the maze agent
+>     3. 3/9/23: updated up to 80% based off of additional results not in this post.
+> 2. AVE performs at least as well as the fancier buzzsaw edit from [RL vision paper](https://distill.pub/2020/understanding-rl-vision/)
+>     1. 70%
+>     2. 3/4/23: updated down to 40% due to realizing that the buzzsaw moves in the visual field; higher than 30% because we know something like this is possible.
+>     3. 3/9/23: updated up to 60% based off of additional results.
+> 3. AVE can quickly ablate or modify LM values without any gradient updates
+>     1. 60%
+>     2. 3/4/23: updated down to 35% for the same reason given in (1)\.
+>     3. 3/9/23: updated up to 65% based off of additional results and learning about related work in this vein.
 
 And even if (3) is true, AVE working _well_ or _deeply_ or _reliably_ is another question entirely. Still...
 
@@ -503,17 +507,17 @@ To understand in mechanistic detail what's happening here, it's time to learn a 
 >
 > ```mermaid
 > graph TD
-> 	subgraph OverallGraph["Forward pass"]
-> 		Input --> Impala1
-> 	        Impala1["Impala<sub>1</sub>"] --> Impala2:::green
-> 	        Impala2["Impala<sub>2</sub>"] --> Impala3
-> 	        Impala3["Impala<sub>3</sub>"] --> ReLU1
-> 	        ReLU1["ReLU"] --> Flatten
-> 	        Flatten --> Linear
-> 	        Linear --> ReLU2
-> 	        ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
-> 	        ReLU2 --> ValueHead[Value head, linear]
-> 	end
+>   subgraph OverallGraph["Forward pass"]
+>     Input --> Impala1
+>           Impala1["Impala<sub>1</sub>"] --> Impala2:::green
+>           Impala2["Impala<sub>2</sub>"] --> Impala3
+>           Impala3["Impala<sub>3</sub>"] --> ReLU1
+>           ReLU1["ReLU"] --> Flatten
+>           Flatten --> Linear
+>           Linear --> ReLU2
+>           ReLU2["ReLU"] --> PolicyHead[Policy head, linear]
+>           ReLU2 --> ValueHead[Value head, linear]
+>   end
 > ```
 >
 > Code: We modify the activations after the residual add layer in the first residual block of the second Impala block.
@@ -608,10 +612,10 @@ Code: We hypothesized that channels 7, 8, 42, 44, 55, 77, 82, 88, 89, 99, and 11
 
 We test this with random resampling:
 
-1.  For a target maze with cheese at location (0, 0), generate an alternative maze with cheese at (0, 0). The mazes aren't guaranteed to share any information except the same cheese location.
-2.  Compute a forward pass on the alternative maze and store the activations.
-3.  For each mouse position in the target maze, compute a forward pass on the target maze, but at the relevant residual add layer, stop and override the 11 channel activations with the values they took in the _alternative_ maze.
-4.  Finish the rest of the forward pass as normal.
+1. For a target maze with cheese at location (0, 0), generate an alternative maze with cheese at (0, 0). The mazes aren't guaranteed to share any information except the same cheese location.
+2. Compute a forward pass on the alternative maze and store the activations.
+3. For each mouse position in the target maze, compute a forward pass on the target maze, but at the relevant residual add layer, stop and override the 11 channel activations with the values they took in the _alternative_ maze.
+4. Finish the rest of the forward pass as normal.
 
 This produces the resampled vector field. If our hypothesis is correct, then this shouldn't affect behavior, because the cheese channels only depend on the cheese location anyways. It wouldn't matter what the rest of the maze looks like.
 
@@ -723,7 +727,6 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 
     Thus, there are two degrees of freedom by which we can convert between action probability distributions and yet maintain a fixed net probability vector. This is because net probability vector fields project a probability distribution on 5 actions (4 DOF) onto a single vector (2 DOF: angle and length), and so 4-2=2 DOF remain.
 
-[^2]: This selection of vector fields paints a somewhat slanted view of the behavior of the network. The network navigates to cheese in many test mazes, but we wanted to exhibit seeds which illustrate competent pursuit of _both_ the cheese and the path to the top-right corner.
 [^3]:
     Peli consulted with a statistician on what kind of regression to run. Ultimately, the factors we used are not logically independent of each other, but our impression after consultation was that this analysis would tell us _something_ meaningful.
 
@@ -757,12 +760,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     - $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
 
 [^4]: An example of the power of cheese Euclidean distance to top-right corner:
-
-    ![](https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif)
-    <br/>Figure: In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...![](https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif)
-    <br/>Figure: …but in _this_ maze won't detour the _measly two squares_ for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.
-
-    Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance (2 instead of $2\sqrt{2}$) and at half the path-distance (2 instead of 4). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
+    <img src="https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif"/><figcaption>In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...</figcaption><p><img src="https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif"/></p><figcaption>…but in <em>this</em> maze won't detour the <em>measly two squares</em> for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.</figcaption><br/>Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance ($2$ instead of $2\sqrt{2}$) and at half the path-distance ($2$ instead of $4$). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
 
 [^6]: This was the first model editing idea we tried, and it worked.
 [^7]:
@@ -777,12 +775,7 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 [^8]: A given `embedder.block2.res1.resadd_out` channel activation doesn't neatly correspond to any single grid square. This is because grids are 25x25, while the residual channels are 16x16 due to the maxpools.
 [^9]:
     For example, we hypothesize channel 55 to be a "cheese channel." We randomly selected channel 52 and computed resampling statistics. We found that channel 52 seems across-the-board less influential, even under totally random resampling (i.e. different cheese location):
-    <br/><br/>
-
-    |            | Same cheese location | Different cheese location |
-    | ---------: | -------------------- | ------------------------- |
-    | Channel 55 | 0.18%                | 0.31%                     |
-    | Channel 52 | 0.06%                | 0.06%                     |
+    <br/><br/><div class="table-container"><table><thead><tr><th style="text-align:right;"></th><th>Same cheese location</th><th>Different cheese location</th></tr></thead><tbody><tr><td style="text-align:right;">Channel 55</td><td>0.18%</td><td>0.31%</td></tr><tr><td style="text-align:right;">Channel 52</td><td>0.06%</td><td>0.06%</td></tr></tbody></table></div>
 
 [^10]:
     By the time you hit the residual addition layer in question (`block2.res1.resadd_out`), cheese pixels on the top-left corner of the screen can only affect $5\times 5=25$ out of the $16\times 16=256$ residual activations at that layer and channel.
@@ -793,4 +786,3 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     This is because the convolutional nature of the network, and the kernel sizes and strides in particular, mean that convolutional layers can only pass messages one "square" at a time. There's no global attention at all, and no dense linear layers until the very end of the forward pass.
 
     If the cheese were in the middle of the observation, the cheese pixels would affect $10\times 10=100$ activations in this channel at this layer.
-

@@ -3,7 +3,8 @@ permalink: self-teaching-insights
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+lw-page-url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 lw-is-question: 'false'
 lw-posted-at: 2021-01-23T19:00:55.559000Z
 lw-last-modification: 2022-01-01T09:44:15.044000Z
@@ -37,13 +38,19 @@ next-post-title: Insights from Modern Principles of Economics
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-01-23 00:00:00
-original_url: https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
+original_url: 
+  https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-self-teaching
 skip_import: true
-card_image: https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
-description: "Lessons learned from years of self-teaching: use Anki, read multiple\
-  \ books concurrently, and don't be afraid of easier texts."
-date_updated: 2024-10-30 18:09:31.133945
+card_image: 
+  https://assets.turntrout.com/static/images/card_images/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.png
+description: "Lessons learned from years of self-teaching: use Anki, read multiple
+  books concurrently, and don't be afraid of easier texts."
+date_updated: 2024-12-16 13:13:40.553982
 ---
+
+
+
+
 
 
 
@@ -94,14 +101,16 @@ Enter [Anki](https://apps.ankiweb.net/), an amazing spaced repetition system (\$
 
 > Anki is a flashcard application into which you can enter a constant number of cards each day while retaining a constant average daily workload. You can add cards each day, without having to study longer and longer to get through all of the cards.
 
-I currently think that unless you have really good memory or you're not learning content you want to remember months from now, you're making a mistake by not using a spaced repetition system. Read [Gwern](https://www.gwern.net/Spaced-repetition) for more on spaced repetition.
+I currently think that unless you have really good memory or you're not learning content you want to remember months from now, you're making a mistake by not using a spaced repetition system. Read [`gwern`](https://www.gwern.net/Spaced-repetition) for more on spaced repetition.
 
 Spaced repetition seems especially useful for students. In college, I ran an experiment: for an upper-level French class, I put things I didn't know how to say into Anki, reviewed daily, and otherwise didn't study at all. I got an A.
 
 How powerful might a bright 6th grader grow, were they to use Anki every day for their whole life? The best time to plant a tree may have been in sixth grade, and the second-best time may have been in seventh grade, but you should still plant the tree now rather than never.
 
 ![](https://assets.turntrout.com/static/images/posts/c2c81758874c685646f8210550a0f467bfad14deb21427c4.avif)
-<br/>Figure: I've been using Anki for math for the last 71 days, and I currently have a deck of about 900 cards which I study for ~30 minutes daily. In 2018, I spent about 10 minutes daily reviewing a deck of nearly ten thousand French cards.![](https://assets.turntrout.com/static/images/posts/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.avif)
+<br/>Figure: I've been using Anki for math for the last 71 days, and I currently have a deck of about 900 cards which I study for ~30 minutes daily. In 2018, I spent about 10 minutes daily reviewing a deck of nearly ten thousand French cards.
+
+![](https://assets.turntrout.com/static/images/posts/f1898ddbf0c93680004fcf0ad728e68bee7095161e0cdfbb.avif)
 <br/>Figure: If I were to add no more cards, daily reviews drop off quickly. (Once completed, the reviews in the next few days _will_ be pushed into some of the future days, so this projection is slightly optimistic, but you get the point.)
 
 I love Anki, and I was foolish to circumscribe it to language-learning. I [now use Anki](https://ankiweb.net/shared/info/1336665852) to remember key concepts from academic talks, LessWrong blog posts, and yes - textbooks. Which I now love again, and which I read for ~an hour daily again, because I'm _actually retaining the content_.
@@ -122,7 +131,7 @@ I know quite a bit about how to best use Anki, so if you try this and it doesn't
 - Sync with AnkiWeb so you don't lose all your cards if your device dies.
 - Save time by just screenshotting theorem statements and/or proofs.
 
-  - EDIT: [micpie recommends](https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-autodidacting?commentId=8LWGgD93udk9EM8mK) the [Mathpix ](https://mathpix.com/) OCR software, which clips text into MathJax code. This works really well, in my experience.
+  - EDIT: [micpie recommends](https://www.lesswrong.com/posts/cumc876woKaZLmQs5/lessons-i-ve-learned-from-autodidacting?commentId=8LWGgD93udk9EM8mK) the [Mathpix](https://mathpix.com/) OCR software, which clips text into MathJax code. This works really well, in my experience.
   - [Image occlusion](https://ankiweb.net/shared/info/1374772155) is a great add-on.
 
 - On iPad, I like using MarginNote to read. I can just draw rectangles around key parts of the pdf, make cloze deletions in the app, and then export the cards to an Anki deck.
@@ -131,10 +140,8 @@ I know quite a bit about how to best use Anki, so if you try this and it doesn't
 <br/>Figure: Memorizing definitions can be useful: when reading a text, it saves you from having to constantly check what the concept is. Make sure to include examples to work through - don't just toss in random definitions you're barely interested in and will never think about again.
 
 - Don't just memorize proofs, focus on the key ideas. Don't just memorize definitions, throw in several example problems which are small enough to actually do in your head (or with a scrap of paper).
-  - For example, to ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs.
-
-Am I ever going to actually use this math for my research? Probably not. Doesn't matter. Anki makes it cheap to learn and retain things.
-
+    - For example, to ingrain the concept of an efficient pseudorandom number generator, I have cards where I reason about it by completing short proofs.
+- I sometimes wonder: Am I ever going to actually use this math for my research? I conclude that I probably won't, but it doesn't matter. Anki makes it cheap to learn and retain things.
 - If you get a card wrong more than 4 times in the first week, it's a bad card. Remake it.
 - Use MathJax instead of Latex because MathJax renders instantly.
 
@@ -188,15 +195,15 @@ Imagine I'm learning how to program, but I've never used a computer before. Lear
 
 But it's worse than that. Imagine I'm learning quantum mechanics, but I don't know any linear algebra either. I'm now trying to do three things:
 
-1.  Learn linear algebra,
-2.  Learn the formal postulates of quantum mechanics, and
-3.  Tie all of this into the real world.
+1. Learn linear algebra,
+2. Learn the formal postulates of quantum mechanics, and
+3. Tie all of this into the real world.
 
 Similarly, if I'm trying to learn fluid mechanics without knowing how to manipulate partial differential equations (PDEs), it might look trying to simultaneously
 
-1.  Learn PDEs,
-2.  Learn the physical equations, such as Navier-Stokes, and
-3.  Tie all of this into the real world to explain what I already know about e.g. water and rivers and blood pressure.
+1. Learn PDEs,
+2. Learn the physical equations, such as Navier-Stokes, and
+3. Tie all of this into the real world to explain what I already know about e.g. water and rivers and blood pressure.
 
 But what if instead I picked up [some dumb book](https://www.amazon.com/Basic-Physics-Self-Teaching-Teaching-Guides-dp-111962990X/dp/111962990X/ref=dp_ob_title_bk) that doesn't even have any calculus, and let it give me approximate explanations via e.g. Archimedes' principle:
 
@@ -229,4 +236,3 @@ Learn things quickly, note your confusions, and correct them later when the Anki
 # Conclusion
 
 I knew about the "[read easier textbooks](https://www.lesswrong.com/posts/qwdupkFd6kmeZHYXy/build-small-skills-in-the-right-order)" advice already, but I didn't apply it. Perhaps I just didn't recognize a chance to apply it. The same forces of chaos and entropy and madness which prevented my applying e.g. Luke Muelhauser's advice, may prevent you from applying this post's advice. If you think any of this advice might help you, I recommend setting up a plan _now_ for how and when you'll implement it.
-

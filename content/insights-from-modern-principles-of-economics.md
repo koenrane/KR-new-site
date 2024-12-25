@@ -40,8 +40,12 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/htfmtdtntpqpmr2mlqxl.png
 description: Textbook insights on economic policy, price gouging, and the surprising
   efficiency of competitive markets.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
+
+
 
 
 
@@ -55,7 +59,7 @@ In what world is this broader system a success story for economics?
 
 <span style="text-align:center;">In <strong>this world</strong>.</span>
 
-# Economics is important.
+# Economics is important
 
 > [!warning]
 > As of September 2024, I no longer stand by these claims about economic policy. I still think economics is important. However, the data I link are nowhere near sufficient to let us conclude that economic policy caused a significant reduction in poverty. A special weak point is the fact that the vast majority of poverty reduction took place in China - hardly a beacon of neoliberal economics.
@@ -65,8 +69,12 @@ The availability heuristic can deceive you (although [Kaj Sotala notes](https://
 Good economic policy has lifted billions of people out of poverty and furnished our lives with previously unimaginable splendor. The Roman emperors had no air conditioning or telephones.
 
 ![](https://assets.turntrout.com/static/images/posts/xqxexzmbgs6r6u6xvgsk.avif)
-<br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.![](https://assets.turntrout.com/static/images/posts/mhahalue4g3l4gnvbujg.avif)
-<br/>Figure: Growth is important. More precisely, I argue that good economic policy $\to$ RGDP/capita growth $\to$ reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.![](https://assets.turntrout.com/static/images/posts/htfmtdtntpqpmr2mlqxl.avif)
+<br/>Figure: Economics is important. And I'm unconvinced by the [criticism of these numbers](https://www.vox.com/future-perfect/2019/2/12/18215534/bill-gates-global-poverty-chart) which I read.
+
+![](https://assets.turntrout.com/static/images/posts/mhahalue4g3l4gnvbujg.avif)
+<br/>Figure: Growth is important. More precisely, I argue that good economic policy -> RGDP/capita growth -> reduction in poverty and increase in well-being. Thus, economic policy is important to get right. Some economists seem to know how to get certain areas of economic policy right, and so I think it's worth learning from them.
+
+![](https://assets.turntrout.com/static/images/posts/htfmtdtntpqpmr2mlqxl.avif)
 <br/>Figure: Doubly amazing given hedonic treadmill & the higher expectations of people in wealthier nations.
 
 Economists are not responsible for all of this growth. I wasn't able to quickly find counterfactual estimates for the importance of economic theories, but my impression is that several advances in economics have in fact significantly improved economic policy.
@@ -102,11 +110,11 @@ So let's go.
 >
 > The British public had no love for the convicts, but it wasn't prepared to give them a death sentence either. Newspapers editorialized in favor of better conditions, clergy appealed to the captains' sense of humanity, and legislators passed regulations requiring better food and water, light and air, and proper medical care. Yet the death rate remained shockingly high. Nothing appeared to be working until an economist suggested something new. Can you guess what the economist suggested?
 >
-> Instead of paying the captains for each prisoner placed on board ship in Great Britain, the economist suggested paying for each prisoner that walked off the ship in Australia. In 1793 , the new system was implemented and immediately the survival rate shot up to 99%. One astute observer explained what had happened: "Economy beat sentiment and benevolence."'
+> Instead of paying the captains for each prisoner placed on board ship in Great Britain, the economist suggested paying for each prisoner that walked off the ship in Australia. In 1793 , the new system was implemented and immediately the survival rate shot up to 99%. One astute observer explained what had happened: "Economy beat sentiment and benevolence."
 >
 > The story of the convict ships illustrates the first big lesson that runs throughout this book and throughout economics:
 
-# Incentives matter.
+# Incentives matter
 
 How do people decide what to buy and where to work, what opportunities to take and where to build? _Microeconomics_ models decision-making by consumers and firms. Basic microeconomic models assume that people want to make money, and they're good at it—they are rational. Unsurprisingly, this isn't quite true, but the models let us easily think about what incentives people have in different situations.
 
@@ -133,9 +141,9 @@ I significantly sharpened my understanding of incentives by internalizing how to
 > [!info]
 > This section serves both as fact-checking and an explanation I wish I'd read when I started learning economics.
 
-Price gouging occurs when an emergency happens (e.g. a blizzard), people demand a lot of some good (e.g. snow shovels), and so stores jack up the prices (e.g. \$4 -> \$30).
+Price gouging occurs when an emergency happens (e.g. a blizzard), people demand a lot of some good (e.g. snow shovels), and so stores jack up the prices (e.g. \$4 → \$30).
 
-Consider a competitive snow shovel market, where firms can price shovels as they please (or, _far_ more accurately: in response to economic conditions). When demand increases for snow shovels, that's a _positive demand shock_ because people want to buy more shovels. The demand curve moves out to the right, from _D_ to _D'_:
+Consider a competitive snow shovel market, where firms can price shovels as they please (or, _far_ more accurately: in response to economic conditions). When demand increases for snow shovels, that's a _positive demand shock_ because people want to buy more shovels. The demand curve moves out to the right, from $D$ to $D'$:
 
 ![positive_demand_shock](https://assets.turntrout.com/static/images/posts/n193jwz2vaxif6hrnhub.avif)
 
@@ -305,4 +313,3 @@ I haven't seriously looked into these questions yet.
 
 > [!thanks]
 > Thanks to LessWrong for feedback on this post.
-

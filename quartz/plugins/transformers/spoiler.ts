@@ -1,4 +1,5 @@
 import { Root, Element, Parent, Text } from "hast"
+// skipcq: JS-0257
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
 
@@ -20,7 +21,11 @@ export function matchSpoilerText(text: string): string | null {
 export function createSpoilerNode(content: string | Element[]): Element {
   return h(
     "div",
-    { className: ["spoiler-container"], onclick: "this.classList.toggle('revealed')" },
+    {
+      className: ["spoiler-container"],
+      onclick:
+        "if(this.classList.contains('revealed')) { this.classList.remove('revealed') } else { this.classList.add('revealed') }",
+    },
     [
       h("span", { className: ["spoiler-overlay"] }),
       h("span", { className: ["spoiler-content"] }, content),

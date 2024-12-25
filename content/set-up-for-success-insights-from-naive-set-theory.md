@@ -37,8 +37,9 @@ original_url: https://www.lesswrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-succe
 skip_import: true
 description: Functions are static sets; families are functions; Zorn's Lemma is hard.
   I reflect on my set theory learnings and effective self-study strategies.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -84,4 +85,3 @@ Of all the productivity advice I've read, the most useful involves imbuing your 
 ## Internal Light
 
 If you don't know where to start, I think the internal fire has to be lit first - don't try to force yourself to do this (or anything else) because you "should". "Stop the guilt-based motivation", proudly stake out what you want, and transform your life into a dazzling assortment of activities and tasks imbued with your terminal values, your brightest visions for yourself and the future.
-

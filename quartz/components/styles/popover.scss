@@ -5,9 +5,11 @@
     opacity: 0;
     visibility: hidden;
   }
+
   1% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
     visibility: visible;
@@ -21,23 +23,22 @@
 
   // Make there be the hand pointer when hovering over the popover
   cursor: pointer;
-
-  padding: calc(2 * $baseMargin);
+  padding: calc(2 * $base-margin);
 
   & #not-found-div-popover {
-    margin-top: calc($baseMargin);
+    margin-top: calc($base-margin);
   }
 
   & > .popover-inner {
     position: relative;
     width: 20rem;
     max-height: 15rem;
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 1rem 1rem;
     font-weight: initial;
     font-style: initial;
     line-height: var(--base-line-height);
     font-size: var(--text-size-90);
-    font-family: var(--font-text);
+    font-family: EBGaramond, var(--font-text);
 
     & h1,
     h2,
@@ -45,11 +46,13 @@
     h4,
     h5,
     h6 {
-      color: var(--dark);
+      color: var(--foreground);
     }
+
     & ol {
       & li {
         counter-increment: list-popover;
+
         // Nested lists
         & ol {
           counter-reset: sublist-popover; // Each nested ordered list has its own sublist counter
@@ -58,6 +61,7 @@
             &::before {
               content: counters(list-popover, ".") "." counters(sublist-popover, "."); // Display combined list and sublist counters for nested list items
             }
+
             &:first-child {
               margin-top: var(--li-margin); // Remove top margin from the first nested list item
             }
@@ -69,8 +73,10 @@
         font-variant-numeric: lining-nums;
         content: counter(list-popover) ".";
       }
+
       & li[id^="user-content-fn-"] {
         counter-increment: footnote-popover;
+
         &::before {
           font-size: var(--text-size-90);
           content: counter(footnote-popover) ".";
@@ -78,16 +84,18 @@
 
         & ol {
           counter-increment: footnote-popover-sublist;
+
           & li::before {
             content: counters(footnote-popover, ".") "." counters(footnote-popover-sublist, ".");
           }
         }
       }
     }
-    border: 1px solid var(--lightgray);
-    background-color: var(--light);
+
+    border: 1px solid var(--midground-faint);
+    background-color: var(--background);
     border-radius: 5px;
-    box-shadow: 6px 6px 36px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 6px 6px 36px 0 rgb(0 0 0 / 25%);
     overflow: auto;
     white-space: normal;
   }
@@ -124,9 +132,9 @@
     opacity 0.15s ease,
     visibility 0.15s ease;
 
-  // $fullPageWidth is 1580px, but for some reason it isn't working
+  // $full-page-width is 1580px, but for some reason it isn't working
   //  so I manually set the breakpoint to 1580px
-  @media all and (max-width: 1580px) {
+  @media all and (width <= 1580px) {
     display: none !important;
   }
 }

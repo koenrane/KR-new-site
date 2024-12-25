@@ -1,11 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
-
-{
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-}
-// for the onLoad event
-
+// skipcq: JS-W1028
 import React from "react"
 
 import { i18n } from "../i18n"
@@ -14,12 +9,38 @@ import { JSResourceToScriptElement } from "../util/resources"
 import { formatTitle } from "./component_utils"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
+// Preload icons to prevent race condition on callout icons
+//  These are very small assets, so we can preload them all
+const CALLOUT_ICONS = [
+  "note",
+  "abstract",
+  "info",
+  "todo",
+  "success",
+  "question",
+  "warning",
+  "failure",
+  "danger",
+  "bug",
+  "example",
+  "quote",
+  "fold",
+  "plus",
+  "lightbulb",
+  "goose",
+  "heart",
+  "tag",
+  "link",
+  "math",
+  "dollar",
+] as const
+
 export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
     title = formatTitle(title)
     const description =
-      fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
+      fileData.frontmatter?.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
 
     let authorElement = undefined
     if (fileData.frontmatter?.authors) {
@@ -54,7 +75,7 @@ export default (() => {
         <meta property="og:image:height" content="630" />
         <meta
           property="og:image:alt"
-          content="A pond containing a goose peacefully gazing at a castle."
+          content="A pond containing a trout and a goose peacefully swimming near a castle."
         />
       </>
     )
@@ -73,10 +94,9 @@ export default (() => {
         spa-preserve
       ></script>
     )
-
     // Create a filtered object with only the properties you want to expose
     const exposedFrontmatter = {
-      no_dropcap: fileData.frontmatter?.no_dropcap === true,
+      no_dropcap: fileData.frontmatter?.no_dropcap,
     }
 
     const frontmatterScript = (
@@ -90,8 +110,28 @@ export default (() => {
       />
     )
 
+    const iconPreloads = CALLOUT_ICONS.map((icon) => {
+      return (
+        <link
+          key={icon}
+          href={`https://assets.turntrout.com/static/icons/${icon}.svg`}
+          as="image"
+          type="image/svg+xml"
+          crossorigin="anonymous"
+          spa-preserve
+        />
+      )
+    })
+
+    // Inline the detect-dark-mode script to prevent FOUC
     return (
       <head>
+        <script
+          data-cfasync="false" // Otherwise rocketloader delays the script
+          id="detect-dark-mode"
+          src="/static/scripts/detectDarkMode.js"
+          spa-preserve
+        ></script>
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta charSet="utf-8" />
@@ -102,7 +142,7 @@ export default (() => {
         <meta property="og:type" content="article" />
         <meta property="og:url" content={permalink as string} />
         <meta property="og:site_name" content="The Pond" />
-        <meta property="og:description" content={description} />
+        {/* {description && <meta property="og:description" content={description} />} */}
         {mediaElement}
 
         {/* Twitter Card metadata */}
@@ -115,28 +155,23 @@ export default (() => {
         {/* Twitter author metadata */}
         {authorElement}
 
-        <link
-          rel="preload"
-          href="/index.css"
-          as="style"
-          onLoad={
-            "this.rel = 'stylesheet'; document.querySelector('head style')?.remove(); console.info('Removed critical styles from onLoad')" as any
-          }
-          spa-preserve
-        />
+        <link rel="stylesheet" href="/index.css" spa-preserve />
 
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
-        <link rel="robots" href="/static/robots.txt" type="text/plain" />
-
-        <script src="/static/scripts/detect-dark-mode.js" spa-preserve></script>
-        <script src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
-        {analyticsScript}
+        <link defer rel="robots" href="/static/robots.txt" type="text/plain" />
 
         <link rel="icon" href={iconPath} />
         <link defer rel="apple-touch-icon" href={appleIconPath} />
         <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
+        {iconPreloads}
+
+        <script defer src="/static/scripts/collapsible-listeners.js" spa-preserve></script>
+        <script defer src="/static/scripts/safari-autoplay.js" spa-preserve></script>
+        <script defer src="/static/scripts/remove-css.js"></script>
+        {analyticsScript}
+
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res))}

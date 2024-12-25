@@ -10,7 +10,7 @@ export function createSubtitleNode(children: Element["children"]): Element {
     type: "element",
     tagName: "p",
     properties: { className: ["subtitle"] },
-    children: children,
+    children,
   }
 }
 

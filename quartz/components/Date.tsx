@@ -1,3 +1,4 @@
+// skipcq: JS-W1028, JS-W1028
 import React from "react"
 
 import { GlobalConfiguration } from "../cfg"
@@ -56,17 +57,18 @@ export function formatDate(
   locale: ValidLocale = "en-US",
   monthFormat: "long" | "short" = "short",
   includeOrdinalSuffix = true,
-  formatOrdinalSuffix = false,
+  formatOrdinalSuffix = true,
   extraOrdinalStyling?: string,
 ): string {
-  const day = d.getDate()
+  let day: string | number = d.getDate()
   const month = d.toLocaleDateString(locale, { month: monthFormat })
   const year = d.getFullYear()
   let suffix = ""
   if (includeOrdinalSuffix) {
     suffix = getOrdinalSuffix(day)
     if (formatOrdinalSuffix) {
-      suffix = `<sup class="ordinal-suffix" style="${extraOrdinalStyling}">${suffix}</sup>`
+      suffix = `<span class="ordinal-suffix"${extraOrdinalStyling ? ` style="${extraOrdinalStyling}"` : ""}>${suffix}</span>`
+      day = `<span class="ordinal-num">${day}</span>`
     }
   }
   return `${month} ${day}${suffix}, ${year}`
@@ -76,28 +78,31 @@ interface DateElementProps {
   monthFormat?: "long" | "short"
   includeOrdinalSuffix?: boolean
   cfg: GlobalConfiguration
-  fileData: QuartzPluginData
+  date: Date | string
   formatOrdinalSuffix?: boolean
 }
 
 // Render date element with proper datetime attribute
 export const DateElement = ({
   cfg,
-  fileData,
+  date,
   monthFormat,
   includeOrdinalSuffix,
   formatOrdinalSuffix,
 }: DateElementProps): JSX.Element => {
-  const date = fileData.frontmatter?.date_published
-    ? new Date(fileData.frontmatter.date_published as string)
-    : getDate(cfg, fileData)
-  return date ? (
+  // Convert string dates to Date objects
+  const dateObj = date instanceof Date ? date : new Date(date)
+
+  if (!dateObj || isNaN(dateObj.getTime())) {
+    throw new Error(`date must be a valid Date object or date string: ${date}`)
+  }
+
+  return dateObj ? (
     <time
-      dateTime={fileData.frontmatter?.date_published as string}
+      dateTime={dateObj.toISOString()}
       dangerouslySetInnerHTML={{
-        // skipcq: JS-0440
         __html: formatDate(
-          date,
+          dateObj,
           cfg.locale,
           monthFormat,
           includeOrdinalSuffix,

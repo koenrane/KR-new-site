@@ -1,0 +1,29 @@
+[tool.black]
+line-length = 80
+target-version = ['py39']
+include = '\.pyw?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 80
+
+[tool.docformatter]
+wrap-summaries = 80
+wrap-descriptions = 80
+pre-summary-newline = true
+make-summary-multi-line = true
+black = true
+
+[tool.autoflake]
+exclude = ["node_modules/*"]
+remove-all-unused-imports = true
+remove-unused-variables = true
+
+[tool.autopep8]
+ignore = ["E402"]
+max_line_length = 80

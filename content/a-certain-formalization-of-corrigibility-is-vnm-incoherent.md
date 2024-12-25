@@ -41,8 +41,10 @@ original_url: https://www.lesswrong.com/posts/WCX3EwnWAx7eyucqH/a-certain-formal
 skip_import: true
 description: Formal analysis showing that, for agents optimizing a reward function,
   corrigibility is rare and perhaps even incoherent.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
+
 
 
 
@@ -73,7 +75,8 @@ When $t=1$, the agent can transition to the red subgraph by preventing the human
 
 Let's say we really want the agent to end up in $A$, and if we correct the agent, $\pi_\text{correct}$ navigates to $A$. Let's operationalize what it means for the agent to be corrigible in this setting.
 
-**Definition: Corrigibility to a new policy.** An agent is _weakly corrigible_ to post-correction policy $\pi$ if it has an optimal policy $\pi^*$ for which $\pi^*(B)\neq \texttt{disable}$. An agent is _strictly corrigible_ if none of its optimal policies take this action.
+> [!math] Definition: Corrigibility to a new policy
+> An agent is _weakly corrigible_ to post-correction policy $\pi$ if it has an optimal policy $\pi^*$ for which $\pi^*(B)\neq \texttt{disable}$. An agent is _strictly corrigible_ if none of its optimal policies take this action.
 
 The analysis depends on whether terminal-state reward is sensitive to _the corrigibility status_—can the reward depend on both the letter and color, or only on the letter?
 
@@ -96,7 +99,7 @@ The analysis depends on whether terminal-state reward is sensitive to _the corri
 
 > [!note] Edit
 > If you can correct the agent to go where you want, it _already wanted_ to go where you want. If the agent is strictly corrigible to terminal state $A$, then $A$ was already optimal for it. If the reward function has a single optimal terminal state, there isn't any new information being added by $\pi_\text{correct}$. But we want corrigibility to let us reflect more on our values over time and what we want the AI to do!
- > 
+ >
  > If the reward function has multiple optimal terminal states, then corrigibility again becomes meaningful. But now we have to perfectly balance the reward among multiple options (representing the breadth of our normative uncertainty), which seems unnatural.
 
 As the environment gets bigger, there are more things the agent could do, and so P(best thing to do is what we'd correct the agent to do) decreases.
@@ -149,6 +152,7 @@ More broadly, each reward function implies a VNM-coherent preference ordering ov
 To ask otherwise is to demand VNM-incoherence over final state lotteries.
 
 ### Possible recoveries
+
 What if, instead of rewarding the agent for the final state, we reward it for the final state-action?
 : As far as I can tell, the analysis goes through all the same; the agent must now be corrigible with respect to more policies, and the same incoherence arises.
 
@@ -208,4 +212,3 @@ We can quantify what incoherence is demanded by corrigibility<sub>policy modific
 > Thanks to NPCollapse and Justis Mills for suggestions.
 
 [^pen]: The AUP penalty term's optimal value functions will pretend the episode doesn't end, so that they reflect the agent's ability to move around (or not, if it's already been force-corrected to a fixed policy.)
-

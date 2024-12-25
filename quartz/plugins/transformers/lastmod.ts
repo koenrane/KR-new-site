@@ -35,11 +35,11 @@ export const CreatedModifiedDate: QuartzTransformerPlugin<Partial<Options> | und
     markdownPlugins() {
       return [
         () => {
-          let repo: Repository | undefined = undefined
+          let repo: Repository | undefined
           return async (_tree, file) => {
-            let created: MaybeDate = undefined
-            let modified: MaybeDate = undefined
-            let published: MaybeDate = undefined
+            let created: MaybeDate
+            let modified: MaybeDate
+            let published: MaybeDate
 
             const fp = file.data.filePath || ""
             const fullFp = path.isAbsolute(fp) ? fp : path.posix.join(file.cwd, fp)

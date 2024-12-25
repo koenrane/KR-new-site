@@ -3,7 +3,8 @@ permalink: power-seeking-beyond-MDPs
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+lw-page-url: 
+  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 lw-is-question: 'false'
 lw-posted-at: 2021-08-08T02:02:18.975000Z
 lw-last-modification: 2023-05-16T20:31:52.646000Z
@@ -38,12 +39,16 @@ next-post-title: When Most VNM-Coherent Preference Orderings Have Convergent Ins
 lw-reward-post-warning: 'true'
 use-full-width-images: 'false'
 date_published: 2021-08-08 00:00:00
-original_url: https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
+original_url: 
+  https://www.lesswrong.com/posts/hzeLSQ9nwDkPc4KNt/seeking-power-is-convergently-instrumental-in-a-broad-class
 skip_import: true
-description: "Power-seeking is instrumentally convergent for agents maximizing over\
-  \ possible futures, but not for agents maximizing over their own actions. "
-date_updated: 2024-10-30 18:09:31.133945
+description: "Power-seeking is instrumentally convergent for agents maximizing over
+  possible futures, but not for agents maximizing over their own actions. "
+date_updated: 2024-12-22 18:52:22.620008
 ---
+
+
+
 
 
 
@@ -102,7 +107,7 @@ The power-seeking results hinge on the probability of certain linear functionals
   - If $\mathbf{x}\in\mathbb{R}^n$ is an outcome lottery, then $\mathbf{x}^\top \mathbf{r}$ is its $\mathbf{r}$-expected value.
 
 - Things in $A$ are more likely$_{\mathcal{D}_\text{any}}$ to be optimal than things in $B$ when $p_{\mathcal{D}_\text{any}}\left(A\geq C\right)\geq p_{\mathcal{D}_\text{any}}(B\geq C)$.
-  - This isn't the notion of "tends to be optimal" we're using in this post; instead, we're using a [stronger line of reasoning](/environmental-structure-can-cause-instrumental-convergence) that says: for [_most_](/quantitative-strength-of-instrumental-convergence)\_ variants \_of \_every \_utility function, such-and-such is true.
+  - This isn't the notion of "tends to be optimal" we're using in this post; instead, we're using a [stronger line of reasoning](/environmental-structure-can-cause-instrumental-convergence) that says: for [_most_](/quantitative-strength-of-instrumental-convergence) variants of _every_ utility function, such-and-such is true.
 
 Nothing here has anything to do with a Markov decision process, or the world being finite, or fully observable, or whatever. Fundamentally, the power-seeking theorems were never _about_ MDPs – they were secretly about the probability that a set $A$ of linear functionals is optimal, with respect to another set $C$. MDPs were just a way to [relax the problem](/problem-relaxation-as-a-tactic).
 
@@ -147,7 +152,7 @@ More formally, for any two actions $a_1$ and $a_2$, let $\phi$ be a permutation 
 
 For every u<sub>AOH</sub> $u$, suppose $a_1$ is strictly $u$\-optimal over $a_2$. The permuted utility function $\phi\cdot u$ makes $a_2$ be strictly $u$\-optimal over $a_1$, since $\phi$ swaps $a_1$'s strictly $u$\-optimal history with $a_2$'s strictly $u$\-suboptimal histories.
 
-Symmetrically, $\phi$ works the other way around ({$a_2$ strictly optimal} $\to$ {$a_1$ strictly optimal}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
+Symmetrically, $\phi$ works the other way around ({$a_2$ strictly optimal} -> {$a_1$ strictly optimal}). Therefore, for every utility function $u$, _the # of variants which strictly prefer $a_1$ over $a_2$, is equal to the # of variants strictly preferring $a_2$ over $a_1$_.
 
 While I haven't been writing in the "definition-theorem-corollary" style, the key claims are just corollaries of the scaling law of instrumental convergence. They're provably true. (I'm just not writing up the math here because it's annoying to define all the relevant quantities in a nice way that respects existing formalisms.)
 
@@ -168,6 +173,7 @@ MDPs assume that utility functions have a lot of structure: the utility of a his
 This suggests that rolling a random u<sub>OH</sub> for [AIXI](https://www.lesswrong.com/tag/aixi/) might be far more dangerous than rolling a random reward function for an optimal reinforcement learner.
 
 Structural assumptions on utility really do matter when it comes to instrumental convergence:
+
 |Setting|Strength of instrumental convergence|
 |--:|:--|
 | u<sub>AOH</sub>| [Nonexistent](/power-seeking-beyond-MDPs#Instrumental-Convergence-Disappears-For-Utility-Functions-Over-Action-Observation-Histories)|
@@ -176,11 +182,11 @@ Structural assumptions on utility really do matter when it comes to instrumental
 
 [Environmental structure can cause instrumental convergence](/environmental-structure-can-cause-instrumental-convergence), but (the absence of) structural assumptions on utility can make instrumental convergence go away (for optimal agents).
 
-**Notes**
+## Notes
 
 - Of course, you can represent u<sub>AOH</sub> as u<sub>OH</sub> by including the agent's previous action in the next observation.
 
-  - But this is a different environment; whether or not this is _in fact_ a good model\_ \_[depends on the agent's action and observation encodings](/MDPs-are-not-subjective).
+  - But this is a different environment; whether or not this is _in fact_ a good model   [depends on the agent's action and observation encodings](/MDPs-are-not-subjective).
 
 - Time-reversible dynamics & full observability is basically the u<sub>AOH</sub> situation, since each action history leads to a unique world state at every time step.
   - But if you take away full observability, time-reversibility is insufficient to make instrumental convergence disappear.
@@ -188,7 +194,7 @@ Structural assumptions on utility really do matter when it comes to instrumental
 # Conclusion
 
 - For optimal agents, instrumental convergence can be extremely strong for utility functions over observation histories.
-- Instrumental convergence doesn't exist for utility functions over \_action-\_observation histories.
+- Instrumental convergence doesn't exist for utility functions over _action_-observation histories.
 
   - i.e. optimal action will tend to look like random twitching.
   - This echoes previous [discussion](https://www.lesswrong.com/s/4dHMdK5TLN6xcqtyc/p/NxF5G6CJiof6cemTw) of the triviality of coherence over action-observation histories, when it comes to determining goal-directedness.
@@ -203,12 +209,12 @@ Time to cross another item off of [the list from last time](/quantitative-streng
 
 > [!quote]
 >
-> 1.  assume the agent is following an optimal policy for a reward function
+> 1. assume the agent is following an optimal policy for a reward function
 >     - I can relax this to $\epsilon$-optimality, but $\epsilon>0$ may be extremely small
-> 2.  ~assume the environment is finite and fully observable~
-> 3.  Not all environments have the right symmetries
+> 2. ~assume the environment is finite and fully observable~
+> 3. Not all environments have the right symmetries
 >     - But most ones we think about seem to
-> 4.  don't account for the ways in which we might practically express reward functions
+> 4. don't account for the ways in which we might practically express reward functions
 >     - For example, state-action versus state-based reward functions (this particular case doesn't seem too bad, I was able to sketch out some nice results rather quickly, since you can convert state-action MDPs into state-based reward MDPs and then apply my results).
 
 Re 3), in the setting of this post, when the observations are deterministic, the theorems will always apply. (You can always involute one set of unit vectors into another set of unit vectors in the observation-history vector space.)
@@ -217,4 +223,3 @@ Another consideration is that when I talk about "power-seeking in the situations
 
 [^finite]: I don't think we need to assume finite sets of vectors, but things get a lot harder and messier when you're dealing with $\sup$ instead of $\max$. It's not clear how to define the non-dominated elements of an infinite set, for example, and so a few key results break. One motivation for finite being enough is: in real life, a finite mind can only consider finitely many outcomes anyways, and can only plan over a finite horizon using finitely many actions. This is just one consideration, though.
 [^environment]: For simplicity, I just consider environments which are joint probability distributions over actions and observation. This is much simpler than the [lower](https://arxiv.org/pdf/1510.05572.pdf#subsection.2.5) [semicomputable chronological conditional semimeasures used in the AIXI literature](https://arxiv.org/pdf/1510.05572.pdf#subsection.2.5), but it suffices for our purposes, and the theory could be extended to LSCCCSs if someone wanted to.
-

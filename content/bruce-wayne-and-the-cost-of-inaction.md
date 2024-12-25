@@ -3,7 +3,8 @@ permalink: bruce-wayne-and-the-cost-of-inaction
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+lw-page-url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 lw-is-question: "false"
 lw-posted-at: 2022-09-30T00:19:47.335000Z
 lw-last-modification: 2022-10-03T21:46:10.527000Z
@@ -31,19 +32,25 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2022-09-30 00:00:00
-original_url: https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
+original_url: 
+  https://www.lesswrong.com/posts/9KF28JSTJBqqkmkJZ/bruce-wayne-and-the-cost-of-inaction
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/QBOtBED.png
 description: Christopher Nolan's Batman Begins, but more rationalist and severe. Looking
   right at the pain you ignore whenever you walk by a homeless person.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-04 22:18:09.880577
 ---
+
+
+
+
+
 
 
 
 I recommend reading accompanied by [this music](https://www.youtube.com/watch?v=a1ExYqrBJio&themeRefresh=1) from [_Batman Begins_](https://en.wikipedia.org/wiki/Batman_Begins) and [_The Dark Knight_](https://en.wikipedia.org/wiki/The_Dark_Knight):
 
-<center><audio src="https://assets.turntrout.com/batman.mp3" controls> </audio></center>
+<center><audio src="https://assets.turntrout.com/static/audio/batman.mp3" controls> </audio></center>
 
 ## 1: Don't Look Away
 
@@ -57,7 +64,7 @@ Hand wrapped firmly around his son's shoulder, Thomas Wayne directed his son's f
 <it><b>Pl</b>ease help</it></br>
 </div>
 
-Bruce was scared. At eight, he'd seen homeless people before, but he'd never connected the dots: this was a *person*, just out on the street.
+Bruce was scared. At eight, he'd seen homeless people before, but he'd never connected the dots: this was a _person_, just out on the street.
 
 Thomas walked towards the man, his designer leather shoes tapping out a confident pace against the pavement. In a smooth motion, he pulled out his billfold and kneeled to speak.
 
@@ -103,7 +110,7 @@ Thomas and Bruce shared a quiet chauffeured ride back to Wayne Manor, Bruce pepp
 
 Face pensive, mind uneasy, Thomas looked out over the water and the photons which skipped and swam across its surface. That day's meetings had disappointed.
 
-The problem with problems is *how many problems there are*: if you want to build an orphanage, you have to go through zoning laws. Then, maybe you realize how bad zoning laws can invisibly drain billions of dollars from the local economy, and you think about overhauling zoning. To overhaul zoning, you think about the rot eating at the city's politics. To fix the rot eating at the city's politics, you think about how to fix broken incentives, like having politicians running their own elections.
+The problem with problems is _how many problems there are_: if you want to build an orphanage, you have to go through zoning laws. Then, maybe you realize how bad zoning laws can invisibly drain billions of dollars from the local economy, and you think about overhauling zoning. To overhaul zoning, you think about the rot eating at the city's politics. To fix the rot eating at the city's politics, you think about how to fix broken incentives, like having politicians running their own elections.
 
 That had been the subject of that day's meetings. Thomas thought you shouldn't let the local politicians control the logistics of their own elections. If you could make voting inconvenient for the other party's constituents, make the average voter travel an extra mile or wait an extra hour, you'd chip off a hundred votes here, a thousand votes there.
 
@@ -117,7 +124,7 @@ Thomas' proposal was to contract third parties to handle logistics, paying them 
 
 The politicians benefiting from the practice are motivated to not outlaw the practice. The trick, though, is to negotiate along multiple dimensions. You care about having Fridays off, I care about a sharper dress code in the office, we cut a deal. He'd met with several of his wealthy friends to find a set of agreeable trade-offs to entice the lawmakers.
 
-His lifelong friend Douglas considered himself an idealist, but he hadn't given Thomas' proposal a fair shake. Douglas had just criticized everything, seemingly without trying to consider alternatives or improvements. Following this, the others had cooled. Sometimes, Thomas felt like he was the only one who would actually *act*.
+His lifelong friend Douglas considered himself an idealist, but he hadn't given Thomas' proposal a fair shake. Douglas had just criticized everything, seemingly without trying to consider alternatives or improvements. Following this, the others had cooled. Sometimes, Thomas felt like he was the only one who would actually _act_.
 
 Sometimes, Thomas just wanted to wring the sickness out of Gotham with his bare hands.
 
@@ -137,9 +144,9 @@ The hall opened left and right, meeting both wings of the manor. The main stairc
 
 They'd be discussing biology again. Thomas wasn't a biologist, but he liked learning and expanding his understanding through textbooks recommended by local professors. No one was expected to know every detail about everything, but Thomas enjoyed learning the basics.
 
-Each weeknight, Thomas would spend half an hour reading. Each Friday, he'd distill what he'd learned so that Bruce could understand. Saturdays were date nights with Martha; Bruce often had his friend Rachel over, with their butler, Alfred, making sure they didn't get into too much trouble. Sundays were family nights. This Sunday, they'd attend the opera *Mefistofele*, which, according to the local newspaper, even included people dressed as bats. Bruce had said he thought it would be boring, and Thomas privately agreed, but it was Martha's turn to choose. Bruce would happily tag along, in any case. He just liked going places with his parents.
+Each weeknight, Thomas would spend half an hour reading. Each Friday, he'd distill what he'd learned so that Bruce could understand. Saturdays were date nights with Martha; Bruce often had his friend Rachel over, with their butler, Alfred, making sure they didn't get into too much trouble. Sundays were family nights. This Sunday, they'd attend the opera _Mefistofele_, which, according to the local newspaper, even included people dressed as bats. Bruce had said he thought it would be boring, and Thomas privately agreed, but it was Martha's turn to choose. Bruce would happily tag along, in any case. He just liked going places with his parents.
 
-They entered the richly appointed study and sank into adjacent leather armchairs. As Thomas organized his thoughts, Bruce savored a deep inhalation of the fire-warmed air. The silence was punctured only by periodic *ticks* and *tocks* of a mahogany grandfather clock. Before the clock's hands had traveled far, an older man entered the room.
+They entered the richly appointed study and sank into adjacent leather armchairs. As Thomas organized his thoughts, Bruce savored a deep inhalation of the fire-warmed air. The silence was punctured only by periodic _ticks_ and _tocks_ of a mahogany grandfather clock. Before the clock's hands had traveled far, an older man entered the room.
 
 "Tea, Master Wayne, Master Bruce?" asked Alfred. Bruce nodded eagerly and Thomas nodded absent-mindedly, and they were again alone. Thomas finished organizing his thoughts and spoke.
 
@@ -155,7 +162,7 @@ The boy thought. Thomas liked turning Bruce's childish remarks into lessons—he
 
 Thomas smiled. "That's a good starting thought. Let's think about the train our family built for the city. Imagine something breaks, and the engineer says she's going to try random things until the train works again."
 
-"Obviously, that's probably not going to work, because the train is complicated. There are many ways for the train *not* to work, and only a few ways for the train *to* work. Every improvement is a change, but not every change is an improvement."
+"Obviously, that's probably not going to work, because the train is complicated. There are many ways for the train _not_ to work, and only a few ways for the train _to_ work. Every improvement is a change, but not every change is an improvement."
 
 "Oh! And so most changes will make the problem worse. She has to be smart and well-trained to know what to do, which is why she had to go to school!", Bruce interjected excitedly.
 
@@ -175,7 +182,7 @@ Bruce giggled at that.
 
 "We'll need to learn more physics before I can tell you the math, but it basically says that the universe gets messier over time.  In a sense, you have to work to clean things up."
 
-"This is important for how your body works. Your body is like… a computer, only it's so complicated that biologists have only *just begun* to figure out the wiring and code."
+"This is important for how your body works. Your body is like… a computer, only it's so complicated that biologists have only _just begun_ to figure out the wiring and code."
 
 "The cells of your body are highly ordered. To make sure they're running the right program, your cells have to catalyze the right chemical reactions in the right proportions, at the right times, in response to all sorts of situations. Your genes lay out an exacting recipe for all of this, but the real complexity comes from your brain. Your brain is way more complex than a train. Do you remember what I mean by 'complex', Bruce?"
 
@@ -189,7 +196,7 @@ Bruce looked out the tall windows and onto the rolling hills surrounding the est
 
 ## 3: How People See the World
 
-The rich, warm tones of smooth jazz wafted through the apartment: the croon of the saxophone, the deep *doom* of the bass, the shimmering harmony of the piano. Thomas sank into the cushy leather couch as he sank into the groove of the music.
+The rich, warm tones of smooth jazz wafted through the apartment: the croon of the saxophone, the deep _doom_ of the bass, the shimmering harmony of the piano. Thomas sank into the cushy leather couch as he sank into the groove of the music.
 
 He had been thinking about learning to play the saxophone. Thomas had never been a great singer, so the saxophone might be his next best hope. There was something very vocal, very human about its sound. He leaned over to Martha, cradling her hand, and said, "Martha, can you remind me to call Mr. Wilson about saxophone lessons when we get home?"
 
@@ -207,15 +214,15 @@ The ring of metal on glass pulled Thomas out of reverie. He looked over to see H
 
 "Oops." Thomas gave a wry smile and made his way to the table.
 
-Sophia was quick to chastise her husband. "Honey, be nice—the *roast* isn't until the main course. Can you go get the salad?"
+Sophia was quick to chastise her husband. "Honey, be nice—the _roast_ isn't until the main course. Can you go get the salad?"
 
 As he sat down with his wife, Thomas said, "Congratulations, Sophia. I heard about your promotion. To be frank, I'm surprised the city council appointed you—don't they prefer yes-men and -women?"
 
-She laughed. "You have to understand, Thomas, that people don't see the world as it is. They see what they want to see, they read what they want to read, and they hear what they want to hear. It's not like I *lied* to them, but rather… I put my best foot forward. I'd agree with them on costless and unimportant things, and when I had to go against them, it was subtle. Non-confrontational. They got a good impression, even though they might've hesitated if they took a closer look."
+She laughed. "You have to understand, Thomas, that people don't see the world as it is. They see what they want to see, they read what they want to read, and they hear what they want to hear. It's not like I _lied_ to them, but rather… I put my best foot forward. I'd agree with them on costless and unimportant things, and when I had to go against them, it was subtle. Non-confrontational. They got a good impression, even though they might've hesitated if they took a closer look."
 
 "They wanted to see me as agreeing with them, and so that's what they saw in their new city administrator."
 
-Martha raised an eyebrow. "Seems like an easy way to become another cog in the machine, if you aren't careful. *You* don't see the world how it is, either, you know. We all like our consistent little self-narratives. You see yourself as the kind of person who agrees with the council of your own free will, and you'll start conforming to that self-image."
+Martha raised an eyebrow. "Seems like an easy way to become another cog in the machine, if you aren't careful. _You_ don't see the world how it is, either, you know. We all like our consistent little self-narratives. You see yourself as the kind of person who agrees with the council of your own free will, and you'll start conforming to that self-image."
 
 Sophia shrugged minutely. "Oh, I never agree to anything of my own free will, because I don't have any. So I think I should be fine, then?"
 
@@ -225,13 +232,13 @@ Thomas had a simple question. "Why's that?"
 
 "Why did I want a promotion?"
 
-"Sure. There are many ways to spend your time, and getting promoted is only one of them." He weighed the new administrator, seeing how she factored into his plans. He knew Sophia Ducard, but he didn't *know* Sophia.
+"Sure. There are many ways to spend your time, and getting promoted is only one of them." He weighed the new administrator, seeing how she factored into his plans. He knew Sophia Ducard, but he didn't _know_ Sophia.
 
 Sophia was in no rush to answer as she filled her plate with green leaves and red tomatoes.
 
 "I felt stagnant. Like I'd taken too long to get up in the morning, and if I didn't make up for lost time, the whole day would be wasted. This was just the obvious outlet." She grinned. "Or will you not be satisfied until I repeat a cliché about wanting to save the world?"
 
-He didn't *know* Sophia, but apparently Sophia knew him.
+He didn't _know_ Sophia, but apparently Sophia knew him.
 
 She continued. "When I was growing up, my dad paid the bills with his hot dog stand. Police officers would always treat themselves to a discount, and nothing ever happened to them. So, I suppose that if you pressed me, I might also admit that I enjoyed throwing a wrench in Gotham's gears."
 
@@ -247,25 +254,25 @@ When they were together, he felt invincible.
 
 Bruce's half-lidded eyes opened fully. The opera was finally over. He couldn't believe it.
 
-His parents hadn't even let him bring any of his favorite books. Instead, he'd passed time by watching the performers dressed as bats, imagining what it might be like to *be* a bat. Didn't bats get cold, without any clothes?
+His parents hadn't even let him bring any of his favorite books. Instead, he'd passed time by watching the performers dressed as bats, imagining what it might be like to _be_ a bat. Didn't bats get cold, without any clothes?
 
 As his family left the theater, he looked up to his mom. "Mommy… why do you like opera? It's real boring."
 
-His dad instantly scolded him: "_Bruce!_ How dare you speak that way to your mother! 'Real' is an adjective. Here's how a gentleman speaks to a lady: 'honey, that was *really* boring. Why do you like opera, again?'"
+His dad instantly scolded him: "_Bruce!_ How dare you speak that way to your mother! 'Real' is an adjective. Here's how a gentleman speaks to a lady: 'honey, that was _really_ boring. Why do you like opera, again?'"
 
 Bruce somehow giggled and rolled his eyes at the same time.
 
-Lips pursed, Martha closed the theater door behind her. "Bruce, when I was a little girl, my parents took me to the opera all the time. They were even crueler than I am, you see. At the time, I resolved to never inflict this upon my *own* children, but…"
+Lips pursed, Martha closed the theater door behind her. "Bruce, when I was a little girl, my parents took me to the opera all the time. They were even crueler than I am, you see. At the time, I resolved to never inflict this upon my _own_ children, but…"
 
 "As you get older, you realize how special these moments are. Even if they're a bit… snoozy, sometimes."
 
-Bruce blushed. He *had* dozed off—and he hadn't even noticed! He was usually proud of how well he tracked what his mind was up to, and his parents knew that.
+Bruce blushed. He _had_ dozed off—and he hadn't even noticed! He was usually proud of how well he tracked what his mind was up to, and his parents knew that.
 
 His dad put a warm hand on his shoulder. "Don't worry, Bruce. I enjoyed a bit of sleep as well—your mother always knows how to help me wind down after a long work week!"
 
 His dad winked at his mom, and they both laughed at some joke which Bruce didn't get. He didn't like it when they did that. It felt like playing "monkey in the middle", chasing an explanation which no one cares to give to a kid.
 
-They left the small opera room and entered the big outdoor room, which usually was beautiful and starry but was cloudy tonight. It was rather chilly for a summer night, if he thought about it. His dad looked around for their limo. Alfred had said he'd come pick them up. Maybe the opera had finished early. Bruce couldn't possibly believe that *that* was true.
+They left the small opera room and entered the big outdoor room, which usually was beautiful and starry but was cloudy tonight. It was rather chilly for a summer night, if he thought about it. His dad looked around for their limo. Alfred had said he'd come pick them up. Maybe the opera had finished early. Bruce couldn't possibly believe that _that_ was true.
 
 His dad had spotted something else, however. Some<i>one </i> else, next to the building, another beggar. Bruce's gaze was steady. He wanted to make his dad proud of how he didn't look away.
 
@@ -283,7 +290,7 @@ His mom turned to look. His mom turned to look, and the canister flew out of her
 
 Bruce didn't look away as his mom's body fell to the ground.
 
-He screamed harder than he thought he could, so loud that his throat hurt and his eyes hurt and \*this was usually when he woke up from his nightmares **why was this one so long\***
+He screamed harder than he thought he could, so loud that his throat hurt and his eyes hurt and _this was usually when he woke up from his nightmares **why was this one so long**_
 
 Bruce screamed, he screamed until no more noise came out. He opened his clenched eyes and saw the man was gone.
 
@@ -313,7 +320,7 @@ _Check dad. I need to understand what's happening_.
 
 He unrolled his father's once-white-now-red dress shirt sleeve. Dad's arms got cut. But… but dad had a pulse. Dad had a pulse. Dad would know what to do.
 
-"Dad? *Dad?*"
+"Dad? _Dad?_"
 
 His father's half-lidded eyes opened, then. "Bruce… I'm so glad you're okay."
 
@@ -329,11 +336,11 @@ His eyes were closing.
 
 "Don't <span style="font-size:smaller">be <span style="font-size:smaller">afraid…"</span></span>
 
-## 5: The Dream of Flight 
+## 5: The Dream of Flight
 
 Bruce left the warm glow of Wayne Manor's entry chamber and entered the night. Water spilled from the mouths of the dolphins, but he barely noticed. Bruce left the warmth behind him and turned left, his eyes on the stone-block path which wandered the grounds with him.
 
-Some grown-ups had told Bruce to not think about what had happened if it was still too painful. That had made him mad—what had happened was *real* and it felt *cowardly* to hide from it—but they had insisted that people can be fragile, that too much toughness can hurt them. Sometimes, the grown-ups said, you just had to take it slow.
+Some grown-ups had told Bruce to not think about what had happened if it was still too painful. That had made him mad—what had happened was _real_ and it felt _cowardly_ to hide from it—but they had insisted that people can be fragile, that too much toughness can hurt them. Sometimes, the grown-ups said, you just had to take it slow.
 
 It was true: Bruce felt fragile and alone. But he was still thinking about what had happened.
 
@@ -353,15 +360,15 @@ Bruce realized what was going to happen to him, eventually. What was going to ha
 
 Would anyone go out of their way to stop it? Bruce thought about the scared people outside the opera. Why hadn't they done anything? Were they afraid of getting hurt? His mom hadn't been afraid. Or maybe she had been, but she hadn't let that stop her.
 
-> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--dark))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
+> _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--foreground))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
 
 But the scared people still hadn't helped, even after the crazy man had run away. They still hadn't helped.
 
 Bruce slumped against an old well. His dad hadn't quite finished boarding it up. It was hard to see the path, anyways, under all the shadows and through all the blinking.
 
-Bruce felt a terrible anger. He locked his jaw. He wasn't like *them*. He wouldn't stand by any longer. *He* would protect his friends.
+Bruce felt a terrible anger. He locked his jaw. He wasn't like _them_. He wouldn't stand by any longer. _He_ would protect his friends.
 
-Then he heard a noise, some kind of flapping, and something _shrieked_, it *shrieked just like the beggar* before it flew into the night, Bruce screamed, it was like he was reliving the murder, it was like the beggar was right there and Bruce was breathing so fast he didn't know what was happening
+Then he heard a noise, some kind of flapping, and something _shrieked_, it _shrieked just like the beggar_ before it flew into the night, Bruce screamed, it was like he was reliving the murder, it was like the beggar was right there and Bruce was breathing so fast he didn't know what was happening
 
 He had already jumped to his feet and he was looking around frantically
 
@@ -377,7 +384,7 @@ He collapsed against the well, face in his hands. All his determination went awa
 
 Remembering the part he had played, Bruce felt like an idiot, the shame was hot in his cheeks, the shame was pooling in his lungs, and he felt like he would choke on it.
 
-Other people had done nothing. *He* had done worse than nothing.
+Other people had done nothing. _He_ had done worse than nothing.
 
 > Bruce screamed.
 >
@@ -403,9 +410,9 @@ Another hard blink.
 
 > _"Bruce… I don't think I'm going to make it…"_
 
-Bruce felt a flash of anger towards his dad. He felt like a wretched child, but the anger swelled all the same. What had his dad been *thinking*? *Why* did he have to help that man? If he had just waited for Alfred…
+Bruce felt a flash of anger towards his dad. He felt like a wretched child, but the anger swelled all the same. What had his dad been _thinking_? _Why_ did he have to help that man? If he had just waited for Alfred…
 
-Why *did* he do it? Bruce imagined his father ignoring the crazy man. Something about that picture made him very sad. People staying away from each other, not trusting each other, worried about being betrayed or tricked. People who were too afraid.
+Why _did_ he do it? Bruce imagined his father ignoring the crazy man. Something about that picture made him very sad. People staying away from each other, not trusting each other, worried about being betrayed or tricked. People who were too afraid.
 
 > _"Don't be afraid of… getting hurt."_
 
@@ -421,7 +428,7 @@ Everything was just so unfair. What happened to his parents, what happened to Os
 
 His fingers curled and his eyes narrowed. He wanted to be strong. He wanted to change things so they weren't so broken. He really, really wanted it, he wanted it so badly that it was hard to sit still, his heart felt like it was reaching out of his chest.
 
-No superheroes had come for him, and he knew that none would come. But Bruce could be whatever he wanted. *Bruce* could become a superhero. He wasn't like everyone else. Bruce would *act*.
+No superheroes had come for him, and he knew that none would come. But Bruce could be whatever he wanted. _Bruce_ could become a superhero. He wasn't like everyone else. Bruce would _act_.
 
 More soft flapping sounds from the well. Bruce heard the bats fly out into the night. This time, he didn't scream.
 
@@ -437,7 +444,7 @@ Bruce stood straight and tall, composing his thoughts. While this had been an un
 
 "Thank you, Your Honor. I now understand that Mr. Chill suffered a psychotic break. He believed that my father was kneeling down to strangle him. I understand Mr. Chill's actions, but I do not forgive them."
 
-"My father taught me that character is the difference between your *incentives* and your *actions*. For too long, Gotham has kicked the can down the road. For too long, Gotham has allowed weakness to fester, from its decrepit infrastructure to its crumbling moral character. The costs of inaction must eventually be paid. I paid some of those costs as an eight-year-old boy in front of an opera house."
+"My father taught me that character is the difference between your _incentives_ and your _actions_. For too long, Gotham has kicked the can down the road. For too long, Gotham has allowed weakness to fester, from its decrepit infrastructure to its crumbling moral character. The costs of inaction must eventually be paid. I paid some of those costs as an eight-year-old boy in front of an opera house."
 
 "I agree that Mr. Chill deserves clemency for his help cleaning up the streets, but I do not celebrate it. I've always held myself responsible for how I affect the world. Even if I couldn't tell what was real and what wasn't—I deem that I would still hold myself responsible for my actions. If I knew I suffered psychotic breaks, perhaps I wouldn't carry a knife with me."
 

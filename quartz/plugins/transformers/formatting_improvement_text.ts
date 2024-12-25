@@ -28,10 +28,10 @@ const improveFootnoteFormatting = (text: string) => {
 // Regular expression for edit/note patterns
 const editPattern =
   /^\s*(?<emph1>[*_]*)(edit|eta|note),?\s*\(?(?<date>\d{1,2}[-/]\d{1,2}[-/]\d{2,4})\)?(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
-const editAdmonitionPattern = "> [!info] Edited on $<date>\n>\n> $<text>"
+const editAdmonitionPattern = "\n> [!info] Edited on $<date>\n>\n> $<text>"
 
 const editPatternNoDate = /^\s*(?<emph1>[*_]*)(edit|eta)(?<emph2>[*_]*:[*_]*) (?<text>.*)[*_]*/gim
-const editAdmonitionPatternNoDate = "> [!info] Edited after posting\n>\n> $<text>"
+const editAdmonitionPatternNoDate = "\n> [!info] Edited after posting\n>\n> $<text>"
 
 /**
  * Converts edit/note patterns to admonition blocks.
@@ -55,7 +55,6 @@ export function wrapLeadingHeaderNumbers(text: string): string {
   return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
 }
 
-// Regular expression for note patterns
 const notePattern = /^\s*[*_]*note[*_]*:[*_]* (?<text>.*)(?<![*_])[*_]*/gim
 
 /**
@@ -71,10 +70,13 @@ export function noteAdmonition(text: string): string {
 const subtitlePattern = /^(Subtitle:[\S ]+\n)(?=[^\n])/gm
 
 const massTransforms: [RegExp | string, string][] = [
-  [/:=/g, "≝"], // mathematical definition symbol
+  [/(?<!\$):=/g, "≝"], // mathematical definition symbol, not preceded by the start of a katex block
   [/(?<= |^):\)(?= |$)/gm, "🙂"], // Smiling face
   [/(?<= |^):\((?= |$)/gm, "🙁"], // Frowning face
   [subtitlePattern, "$1\n"],
+  [/(?<=\| *$)\nTable: /gm, "\n\nTable: "],
+  [/(<\/[^>]*>|<[^>]*\/>)\s*$\n\s*(?!=\n|[<>])/gm, "$1\n\n"], // Ensure there is a newline after an HTML tag
+  [/MIRIx(?=\s|$)/g, 'MIRI<sub class="mirix-subscript">x</sub>'],
 ]
 
 export function massTransformText(text: string): string {
@@ -99,6 +101,29 @@ const concentrateEmphasisAroundLinks = (text: string): string => {
 }
 
 /**
+ * Ensures proper newline formatting around display math ($$).
+ * For opening $$, ensure there is a newline before it
+ * For closing $$, ensure there are two newlines after it.
+ * If they are within n layers of blockquote (e.g. "> >$$"), ensure the preceding newline also has n layers of blockquote (e.g. "> >\n> >$$").
+ *
+ * @param text - The input text to process.
+ * @returns The text with adjusted newlines around display math.
+ */
+export const adjustDisplayMathNewlines = (text: string): string => {
+  // [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
+  // [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
+
+  // Find all instances of $$ that are not preceded by a blockquote or newline
+  const beforeDisplayMathRegex =
+    /(?!<\n|^|(?:> )+)^(?<blockquote> )*(?<beforeDisplayOpen>\S*)\$\$(?=[^$]*\$\$)/gms
+  const newlinesBeforeDisplayMath = text.replaceAll(
+    beforeDisplayMathRegex,
+    "$<blockquote>$<beforeDisplayOpen>\n$<blockquote>$$$$",
+  )
+  return newlinesBeforeDisplayMath
+}
+
+/**
  * Applies various formatting improvements to the input text.
  * @param text - The input text to process.
  * @returns The text with all formatting improvements applied.
@@ -114,7 +139,7 @@ export const formattingImprovement = (text: string) => {
   }
 
   // Format the content (non-YAML part)
-  let newContent = content.replaceAll(/(\u00A0|&nbsp;)/g, " ") // Remove NBSP
+  let newContent = content.replaceAll(/(\u00A0|&nbsp;)/gu, " ") // Remove NBSP
 
   newContent = improveFootnoteFormatting(newContent)
   newContent = newContent.replace(/ *,/g, ",") // Remove space before commas
@@ -124,6 +149,7 @@ export const formattingImprovement = (text: string) => {
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
   newContent = massTransformText(newContent)
+  // newContent = adjustDisplayMathNewlines(newContent)
 
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")
@@ -138,11 +164,10 @@ export const formattingImprovement = (text: string) => {
 export const TextFormattingImprovement: QuartzTransformerPlugin = () => {
   return {
     name: "textFormattingImprovement",
-    textTransform(_ctx, src) {
-      if (src instanceof Buffer) {
-        src = src.toString()
-      }
-      return formattingImprovement(src)
+    textTransform(_ctx, src: string | Buffer) {
+      // Convert Buffer to string if needed
+      const content = typeof src === "string" ? src : src.toString()
+      return formattingImprovement(content)
     },
   }
 }

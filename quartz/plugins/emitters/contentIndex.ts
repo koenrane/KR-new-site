@@ -1,3 +1,4 @@
+import { execSync } from "child_process"
 import { Root } from "hast"
 import { toHtml } from "hast-util-to-html"
 
@@ -19,6 +20,7 @@ export type ContentDetails = {
   content: string
   richContent?: string
   date?: Date
+  authors?: string
   description?: string
 }
 
@@ -95,12 +97,26 @@ function generateRSSFeed(cfg: GlobalConfiguration, idx: ContentIndex, limit?: nu
   </rss>`
 }
 
+// Helper function to get current branch
+function getCurrentGitBranch(): string {
+  try {
+    // Get current branch name, trim whitespace
+    return execSync("git rev-parse --abbrev-ref HEAD").toString().trim()
+  } catch {
+    // Fallback to development if git command fails
+    return "dev"
+  }
+}
+
 export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
   opts = { ...defaultOptions, ...opts }
   return {
     name: "ContentIndex",
+    // skipcq: JS-0116 Have to return async for type signature
     async getDependencyGraph(ctx, content) {
       const graph = new DepGraph<FilePath>()
+      const currentBranch = getCurrentGitBranch()
+      const isMainBranch = currentBranch === "main"
 
       for (const [, file] of content) {
         const sourcePath = file.data.filePath as FilePath
@@ -112,7 +128,8 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
         if (opts?.enableSiteMap) {
           graph.addEdge(sourcePath, joinSegments(ctx.argv.output, "sitemap.xml") as FilePath)
         }
-        if (opts?.enableRSS) {
+        // Only add RSS dependency if we're on main branch
+        if (opts?.enableRSS && isMainBranch) {
           graph.addEdge(sourcePath, joinSegments(ctx.argv.output, "rss.xml") as FilePath)
         }
       }
@@ -123,6 +140,9 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const cfg = ctx.cfg.configuration
       const emitted: FilePath[] = []
       const linkIndex: ContentIndex = new Map()
+      const currentBranch = getCurrentGitBranch()
+      const isMainBranch = currentBranch === "main"
+
       for (const [tree, file] of content) {
         const slug = file.data.slug as FullSlug
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
@@ -132,12 +152,13 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             title: file.data.frontmatter?.title ?? "",
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
-            content: file.data.text ?? "",
+            content: (file.data.text as string) ?? "",
             richContent: opts?.rssFullHtml
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
-            date: date,
-            description: file.data.description ?? "",
+            date,
+            description: (file.data.description as string) ?? undefined,
+            authors: file.data.frontmatter?.authors as string | undefined,
           })
         }
       }
@@ -153,8 +174,8 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
         )
       }
 
-      // RSS items are sorted by publication date, not update date
-      if (opts?.enableRSS) {
+      // Only generate RSS feed if we're on main branch
+      if (opts?.enableRSS && isMainBranch) {
         emitted.push(
           await write({
             ctx,

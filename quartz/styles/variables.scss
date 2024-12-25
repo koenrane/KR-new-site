@@ -1,19 +1,14 @@
-$pageWidth: 750px;
-$mobileBreakpoint: 600px;
-$tabletBreakpoint: 1000px;
-$sidePanelWidth: 380px;
-$rightWidth: 450px;
-$rightPanelBegins: 0px;
-
-$marginsBegin: 825px; // When the body starts having side panels
-$topSpacing: 2rem;
-$fullPageWidth: $pageWidth + $sidePanelWidth + $rightWidth;
-$baseMargin: 0.5rem;
-$boldWeight: 700;
-$semiBoldWeight: 600;
-$normalWeight: 400;
-$lineHeight: 1.8rem;
-$breakpoints: (
-  small: $mobileBreakpoint,
-  large: $tabletBreakpoint,
-);
+$page-width: 750px;
+$mobile-breakpoint: 600px;
+$tablet-breakpoint: 1000px;
+$side-panel-width: 380px;
+$right-width: 450px;
+$right-panel-begins: 0px;
+$margins-begin: 825px; // When the body starts having side panels
+$top-spacing: 2rem;
+$full-page-width: $page-width + $side-panel-width + $right-width;
+$base-margin: 0.5rem;
+$bold-weight: 700;
+$semi-bold-weight: 600;
+$normal-weight: 400;
+$line-height: 1.8rem;
