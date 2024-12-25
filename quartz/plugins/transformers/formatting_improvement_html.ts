@@ -1,14 +1,25 @@
 import assert from "assert"
 import { Element, Text, Root, Parent, ElementContent } from "hast"
+import { h } from "hastscript"
 import { Transformer } from "unified"
 import { visit } from "unist-util-visit"
+
+// skipcq: JS-0257
+import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
 import { replaceRegex, fractionRegex, numberRegex } from "./utils"
 
 /**
- * Flattens text nodes in an element tree
- * @returns An array of Text nodes
+ * @module HTMLFormattingImprovement
+ * A plugin that improves text formatting in HTML content by applying various typographic enhancements
+ */
+
+/**
+ * Flattens text nodes in an element tree into a single array
+ * @param node - The element or element content to process
+ * @param ignoreNode - Function to determine which nodes to skip
+ * @returns Array of Text nodes
  */
 export function flattenTextNodes(
   node: Element | ElementContent,
@@ -31,8 +42,10 @@ export function flattenTextNodes(
 }
 
 /**
- * Extracts text content from an element
- * @returns The extracted text content
+ * Extracts concatenated text content from an element
+ * @param node - The element to process
+ * @param ignoreNodeFn - Optional function to determine which nodes to skip
+ * @returns The combined text content
  */
 export function getTextContent(
   node: Element,
@@ -44,8 +57,9 @@ export function getTextContent(
 }
 
 /**
- * Checks for matching smart quotes
- * @throws An error if quotes are mismatched
+ * Validates that smart quotes in a text string are properly matched
+ * @param input - The text to validate
+ * @throws Error if quotes are mismatched
  */
 export function assertSmartQuotesMatch(input: string): void {
   if (!input) return
@@ -63,7 +77,9 @@ export function assertSmartQuotesMatch(input: string): void {
     }
   }
 
-  assert.strictEqual(stack.length, 0, `Mismatched quotes in ${input}`)
+  if (stack.length > 0) {
+    throw new Error(`Mismatched quotes in ${input}`)
+  }
 }
 
 export const markerChar = "\uE000"
@@ -90,7 +106,12 @@ paragraph, while preserving the structure of the paragraph.
   node via its parent paragraphs. Beware non-idempotent transforms.
   */
 /**
- * Applies transformations to element text content
+ * Applies a transformation to element text content while preserving structure
+ * @param node - The element to transform
+ * @param transform - The transformation function to apply
+ * @param ignoreNodeFn - Optional function to determine which nodes to skip
+ * @param checkTransformInvariance - Whether to verify transform consistency
+ * @throws Error if node has no children or transformation alters node count
  */
 export function transformElement(
   node: Element,
@@ -101,11 +122,12 @@ export function transformElement(
   if (!node?.children) {
     throw new Error("Node has no children")
   }
+
   // Append markerChar and concatenate all text nodes
   const textNodes = flattenTextNodes(node, ignoreNodeFn)
   const markedContent = textNodes.map((n) => n.value + markerChar).join("")
 
-  const transformedContent = transform(markedContent)
+  const transformedContent: string = transform(markedContent)
 
   // Split and overwrite. Last fragment is always empty because strings end with markerChar
   const transformedFragments = transformedContent.split(markerChar).slice(0, -1)
@@ -126,42 +148,43 @@ export function transformElement(
 }
 
 /**
- * Replaces quotes with smart quotes
- * @returns The text with smart quotes
+ * Converts standard quotes to typographic smart quotes
+ * @param text - The text to process
+ * @returns Text with smart quotes
  */
-export function niceQuotes(text: string) {
+export function niceQuotes(text: string): string {
   // Single quotes //
   // Ending comes first so as to not mess with the open quote (which
   // happens in a broader range of situations, including e.g. 'sup)
-  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-]|$))`
+  const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-\\]]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
   const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-zA-Z])`
   text = text.replace(new RegExp(contraction, "gm"), "’")
 
   // Beginning single quotes
-  const beginningSingle = `((?:^|[\\s“"])${chr}?)['](?=${chr}?\\S)`
+  const beginningSingle = `((?:^|[\\s“"\\-\\(])${chr}?)['](?=${chr}?\\S)`
   text = text.replace(new RegExp(beginningSingle, "gm"), "$1‘")
 
   const beginningDouble = new RegExp(
-    `(?<=^|\\s|[\\(\\/\\[\\{\\-—]|${chr})(${chr}?)["](${chr}?)(?=\\.{3}|[^\\s\\)\\—,!?${chr};:/.\\}])`,
+    `(?<=^|[\\s\\(\\/\\[\\{\\-—${chr}])(?<beforeChr>${chr}?)["](?<afterChr>(${chr}[ .,])|(?=${chr}?\\.{3}|${chr}?[^\\s\\)\\—,!?${chr};:.\\}]))`,
     "gm",
   )
-  text = text.replace(beginningDouble, "$1“$2")
+  text = text.replace(beginningDouble, "$<beforeChr>“$<afterChr>")
   // Open quote after brace (generally in math mode)
   text = text.replace(new RegExp(`(?<=\\{)(${chr}? )?["]`, "g"), "$1“")
 
   // note: Allowing 2 chrs in a row
-  const endingDouble = `([^\\s\\(])["](${chr}?)(?=${chr}|[\\s/\\).,;—:\\-\\}!?]|$)`
+  const endingDouble = `([^\\s\\(])["](${chr}?)(?=${chr}|[\\s/\\).,;—:\\-\\}!?s]|$)`
   text = text.replace(new RegExp(endingDouble, "g"), "$1”$2")
 
   // If end of line, replace with right double quote
   text = text.replace(new RegExp(`["](${chr}?)$`, "g"), "”$1")
   // If single quote has a right double quote after it, replace with right single and then double
-  text = text.replace(new RegExp(`'(?=”)`, "g"), "’")
+  text = text.replace(/'(?=”)/gu, "’")
 
   // Periods inside quotes
-  const periodRegex = new RegExp(`(?<![!?])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
+  const periodRegex = new RegExp(`(?<![!?:])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
   text = text.replace(periodRegex, "$1.$2$3")
 
   // Commas outside of quotes
@@ -171,7 +194,6 @@ export function niceQuotes(text: string) {
   return text
 }
 
-// Give extra breathing room to slashes with full-width slashes
 /**
  * Replaces slashes with full-width slashes
  * @returns The text with full-width slashes
@@ -184,10 +206,11 @@ export function fullWidthSlashes(text: string): string {
   return text.replace(slashRegex, "$1$2 ／$3$4")
 }
 
-// Number ranges should use en dashes, not hyphens.
-//  Allows for page numbers in the form "p.206-207"
 /**
  * Replaces hyphens with en dashes in number ranges
+ *  Number ranges should use en dashes, not hyphens.
+ *  Allows for page numbers in the form "p.206-207"
+ *
  * @returns The text with en dashes in number ranges
  */
 export function enDashNumberRange(text: string): string {
@@ -222,11 +245,11 @@ export function hyphenReplace(text: string) {
   )
 
   // Replace surrounded dashes with em dash
-  text = text.replace(surroundedDash, `$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>`)
+  text = text.replace(surroundedDash, "$<markerBeforeTwo>$<markerBeforeThree>—$<markerAfter>")
 
   // "Since--as you know" should be "Since—as you know"
   const multipleDashInWords = new RegExp(
-    `(?<=[A-Za-z\\d])(?<markerBefore>${chr}?)[~–—-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\\d])`,
+    `(?<=[A-Za-z\\d])(?<markerBefore>${chr}?)[~–—-]{2,}(?<markerAfter>${chr}?)(?=[A-Za-z\\d ])`,
     "g",
   )
   text = text.replace(multipleDashInWords, "$<markerBefore>—$<markerAfter>")
@@ -255,35 +278,69 @@ export function hyphenReplace(text: string) {
   return text
 }
 
-const minusRegex = /(^|[\s(])-(\s?\d*\.?\d+)/g
+const minusRegex = new RegExp(`(^|[\\s\\(${chr}"“])-(\\s?\\d*\\.?\\d+)`, "gm")
 /**
  * Replaces hyphens with minus signs in numerical contexts
  */
 export function minusReplace(text: string): string {
-  return text.replace(minusRegex, "$1−$2")
+  return text.replaceAll(minusRegex, "$1−$2")
 }
 
-// Not used in the plugin, but useful for other purposes
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+].join("|")
+
+/**
+ * Replaces hyphens with en dashes in month ranges
+ * Handles abbreviated and full month names
+ * @returns The text with en dashes in month ranges
+ */
+export function enDashDateRange(text: string): string {
+  return text.replace(new RegExp(`\\b(${months}${chr}?)-(${chr}?(?:${months}))\\b`, "g"), "$1–$2")
+}
+
+// Not used in this module, but useful elsewhere
 /**
  * Applies multiple text transformations
  * @returns The transformed text
  */
 export function applyTextTransforms(text: string): string {
-  text = text.replace(/\u00A0/g, " ") // Replace non-breaking spaces
+  text = text.replace(/\u00A0/gu, " ") // Replace non-breaking spaces
   text = minusReplace(text)
   text = massTransformText(text)
   text = niceQuotes(text)
   text = fullWidthSlashes(text)
   text = hyphenReplace(text)
   text = plusToAmpersand(text)
-  text = neqConversion(text)
   text = enDashNumberRange(text)
+  text = enDashDateRange(text)
   try {
     assertSmartQuotesMatch(text)
-  } catch (e: unknown) {
-    if (e instanceof Error) {
-      console.error(e.message)
-    }
+  } catch {
+    // Ignore
   }
 
   return text
@@ -338,19 +395,149 @@ export function formatLNumbers(tree: Root): void {
   })
 }
 
+export function formatArrows(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, toSkip)) return
+
+    replaceRegex(
+      node,
+      index ?? 0,
+      parent,
+      /(?<= |^)[-]{1,2}>/g,
+      () => ({
+        before: "",
+        replacedMatch: "⭢",
+        after: "",
+      }),
+      () => false,
+      "span.right-arrow",
+    )
+  })
+}
+
+const ordinalSuffixRegex = /(?<![-−])(?<number>[\d,]+)(?<suffix>(?:st|nd|rd|th))/gu
+export function formatOrdinalSuffixes(tree: Root): void {
+  visit(tree, "text", (node, index, parent) => {
+    if (!parent || hasAncestor(parent as ElementMaybeWithParent, toSkip)) return
+
+    replaceRegex(node, index ?? 0, parent, ordinalSuffixRegex, (match: RegExpMatchArray) => {
+      // Create the replacement nodes
+      const numSpan = h("span.ordinal-num", match.groups?.number ?? "")
+      const suffixSpan = h("sup.ordinal-suffix", match.groups?.suffix ?? "")
+
+      return {
+        before: "",
+        replacedMatch: [numSpan, suffixSpan],
+        after: "",
+      }
+    })
+  })
+}
+
 const ACCEPTED_PUNCTUATION = [".", ",", "!", "?", ";", ":", "`", "”", '"']
 const TEXT_LIKE_TAGS = ["p", "em", "strong", "b"]
-const LEFT_QUOTES = ['"', "“", "‘"]
+const LEFT_QUOTES = ['"', "“", "'", "‘"]
 
-function getFirstTextNode(node: Parent): Text | null {
+/**
+ * Recursively finds the first text node in a tree of HTML elements
+ *
+ * @param node - The root node to search from
+ * @returns The first text node found, or null if no text nodes exist
+ *
+ * @example
+ * // Returns text node with value "Hello"
+ * getFirstTextNode(h('div', {}, [h('span', {}, 'Hello')]))
+ *
+ * // Returns null
+ * getFirstTextNode(h('div', {}, []))
+ */
+export function getFirstTextNode(node: Parent): Text | null {
   if (!node) return null
-  if (node.type === "text") {
-    return node as unknown as Text
-  } else if (node.children && node.children.length > 0 && node.children[0].type === "text") {
-    return node.children[0] as unknown as Text
-  } else {
-    return null
+
+  // Handle direct text nodes
+  if (node.type === "text" && "value" in node) {
+    return node as Text
   }
+
+  // Recursively search through children
+  if (node.children && node.children.length > 0) {
+    for (const child of node.children) {
+      const textNode = getFirstTextNode(child as Parent)
+      if (textNode) {
+        return textNode
+      }
+    }
+  }
+
+  return null
+}
+
+/**
+ * Recursively searches for and identifies the last anchor ('a') element in a node tree.
+ *
+ * @param node - The element node to search within
+ * @returns The last found anchor element, or null if no anchor element is found
+ *
+ * @example
+ * // Returns the <a> element
+ * identifyLinkNode(<div><em><a href="#">Link</a></em></div>)
+ *
+ * // Returns null
+ * identifyLinkNode(<div><span>Text</span></div>)
+ *
+ * // Returns the second <a> element
+ * identifyLinkNode(<div><a>First</a><a>Second</a></div>)
+ */
+export function identifyLinkNode(node: Element): Element | null {
+  if (node.tagName === "a") {
+    return node
+  } else if (node.children && node.children.length > 0) {
+    return identifyLinkNode(node.children[node.children.length - 1] as Element)
+  }
+  return null
+}
+
+/**
+ * Handles quotation marks that appear before a link by moving them inside the link.
+ *
+ * @param prevNode - The node before the link
+ * @param linkNode - The link node to potentially move quotes into
+ * @returns boolean - Whether any quotes were moved
+ *
+ * @example
+ * // Before: '"<a href="#">Link</a>'
+ * // After:  '<a href="#">"Link</a>'
+ * moveQuotesBeforeLink(prevTextNode, linkNode)
+ */
+export function moveQuotesBeforeLink(
+  prevNode: ElementContent | undefined,
+  linkNode: Element,
+): boolean {
+  // Only process text nodes
+  if (!prevNode || prevNode.type !== "text") {
+    return false
+  }
+
+  const lastChar = prevNode.value.slice(-1)
+
+  // Ensure that last character is a left quote
+  if (!LEFT_QUOTES.includes(lastChar)) {
+    return false
+  }
+
+  // Remove quote from previous node
+  prevNode.value = prevNode.value.slice(0, -1)
+
+  // Find or create first text node in link
+  const firstChild = linkNode.children[0]
+  if (firstChild && firstChild.type === "text") {
+    firstChild.value = lastChar + firstChild.value
+  } else {
+    const newTextNode = { type: "text", value: lastChar }
+    linkNode.children.unshift(newTextNode as ElementContent)
+  }
+
+  return true
 }
 
 /**
@@ -377,18 +564,9 @@ export const rearrangeLinkPunctuation = (
   }
 
   // Identify the link node
-  let linkNode
-  if (node?.tagName === "a") {
-    linkNode = node
-  } else if (node?.children && node.children.length > 0) {
-    const lastChild = node.children[node.children.length - 1]
-    if ("tagName" in lastChild && lastChild.tagName === "a") {
-      linkNode = lastChild
-    } else {
-      return // No link nearby
-    }
-  } else {
-    return // No link nearby
+  const linkNode = identifyLinkNode(node)
+  if (!linkNode) {
+    return
   }
 
   // Skip footnote links
@@ -397,23 +575,7 @@ export const rearrangeLinkPunctuation = (
     return
   }
 
-  // Handle quotation marks before the link
-  const prevNode = parent.children[index - 1]
-  if (prevNode?.type === "text" && LEFT_QUOTES.includes(prevNode.value.slice(-1))) {
-    const quoteChar = prevNode.value.slice(-1)
-    prevNode.value = prevNode.value.slice(0, -1)
-
-    const firstTextNode: Text | null = getFirstTextNode(linkNode)
-    if (firstTextNode && firstTextNode?.type === "text") {
-      firstTextNode.value = quoteChar + firstTextNode.value
-    } else {
-      // No text node found in linkNode
-      // Create new text node as first child of linkNode
-      const newTextNode = { type: "text", value: quoteChar }
-
-      linkNode.children.unshift(newTextNode as ElementContent)
-    }
-  }
+  moveQuotesBeforeLink(parent.children[index - 1], linkNode)
 
   // Identify the text node after the link
   const sibling = parent.children[index + 1]
@@ -452,17 +614,14 @@ export const rearrangeLinkPunctuation = (
   }
 }
 
-export function neqConversion(text: string): string {
-  return text.replace(/!=/g, "≠")
-}
-
 export function plusToAmpersand(text: string): string {
-  const sourcePattern = `(?<=[a-zA-Z])\\+(?=[a-zA-Z])`
+  const sourcePattern = "(?<=[a-zA-Z])\\+(?=[a-zA-Z])"
   const result = text.replace(new RegExp(sourcePattern, "g"), " \u0026 ")
   return result
 }
 
 const massTransforms: [RegExp | string, string][] = [
+  [/!=/g, "≠"],
   [/\b(?:i\.i\.d\.|iid)/gi, "IID"],
   [/\b([Cc])afe\b/g, "$1afé"],
   [/\b([Ff])rappe\b/g, "$1rappé"],
@@ -472,8 +631,11 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
   [/\b([Dd])ojo/g, "$1ōjō"],
+  [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
-  [/\b(\d+)x(\d+)\b/g, "$1×$2"], // Multiplication sign
+  [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
+  [/\.{3}/g, "…"], // Ellipsis
+  [/…(?=\w)/gu, "… "], // Space after ellipsis
 ]
 
 export function massTransformText(text: string): string {
@@ -484,14 +646,14 @@ export function massTransformText(text: string): string {
   return text
 }
 
-// Node-skipping predicates //
 /**
- *  Check for ancestors satisfying certain criteria
+ * Interface for elements that may have a parent reference
  */
 export interface ElementMaybeWithParent extends Element {
   parent: ElementMaybeWithParent | null
 }
 
+// TODO remove this
 export function hasAncestor(
   node: ElementMaybeWithParent,
   ancestorPredicate: (anc: Element) => boolean,
@@ -508,12 +670,12 @@ export function hasAncestor(
   return false
 }
 
-function isCode(node: Element): boolean {
+export function isCode(node: Element): boolean {
   return node.tagName === "code"
 }
 
 /**
- * Sets the data-first-letter attribute for the first paragraph in an article
+ * Plugin options for formatting improvements
  */
 export function setFirstLetterAttribute(tree: Root): void {
   // Find the first paragraph in the article
@@ -536,98 +698,165 @@ export function setFirstLetterAttribute(tree: Root): void {
       (child): child is Text => child.type === "text",
     )
     if (firstTextNode) {
-      firstTextNode.value = firstLetter + " " + firstTextNode.value.slice(1)
+      firstTextNode.value = `${firstLetter} ${firstTextNode.value.slice(1)}`
     }
   }
 }
 
-// Main function //
-// Note: Assumes no nbsp
 /**
- * Main plugin function for applying formatting improvements
- * @returns A unified plugin
+ * Checks if a node has a specific class
  */
+export function hasClass(node: Element, className: string): boolean {
+  if (typeof node.properties?.className === "string" || Array.isArray(node.properties?.className)) {
+    return node.properties.className.includes(className)
+  }
+  return false
+}
+
+export function toSkip(node: Element): boolean {
+  if (node.type === "element") {
+    const elementNode = node as ElementMaybeWithParent
+    const skipTag = ["code", "script", "style", "pre"].includes(elementNode.tagName)
+    const skipClass = ["no-formatting", "elvish", "bad-handwriting"].some((cls) =>
+      hasClass(elementNode, cls),
+    )
+
+    return skipTag || skipClass
+  }
+  return false
+}
+
+export function replaceFractions(node: Text, index: number, parent: Parent) {
+  replaceRegex(
+    node,
+    index as number,
+    parent as Parent,
+    fractionRegex,
+    (match: RegExpMatchArray) => {
+      return {
+        before: "",
+        replacedMatch: match[0],
+        after: "",
+      }
+    },
+    (_nd: unknown, _idx: number, prnt: Parent) => {
+      return toSkip(prnt as Element) || hasClass(prnt as Element, "fraction")
+    },
+    "span.fraction",
+  )
+}
 
 interface Options {
   skipFirstLetter?: boolean // Debug flag
 }
 
-function toSkip(node: Element): boolean {
-  if (node.type === "element") {
-    const elementNode = node as ElementMaybeWithParent
-    return ["code", "script", "style"].includes(elementNode.tagName)
-  } else {
-    return false
+const collectNodes = [
+  "p",
+  "em",
+  "strong",
+  "i",
+  "b",
+  "sub",
+  "sup",
+  "small",
+  "del",
+  "center",
+  "td",
+  "dt",
+  "dd",
+  "dl",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "ol",
+  "ul",
+  "li",
+  "tr",
+  "td",
+  "th",
+  "a",
+  "span",
+  "div",
+  "figcaption",
+  "blockquote",
+]
+
+export function collectTransformableElements(node: Element): Element[] {
+  const eltsToTransform: Element[] = []
+
+  if (toSkip(node)) {
+    return []
   }
+
+  // If this node matches our collection criteria,
+  // add it and do NOT recurse separately for its children.
+  if (collectNodes.includes(node.tagName) && node.children.some((child) => child.type === "text")) {
+    eltsToTransform.push(node)
+  } else {
+    // Otherwise, keep looking through children.
+    if ("children" in node && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        if (child.type === "element") {
+          eltsToTransform.push(...collectTransformableElements(child))
+        }
+      }
+    }
+  }
+
+  return eltsToTransform
 }
 
+/**
+ * Main transformer plugin for HTML formatting improvements
+ * @param options - Configuration options
+ * @returns Unified transformer function
+ */
 export const improveFormatting = (options: Options = {}): Transformer<Root, Root> => {
   return (tree: Root) => {
-    visit(tree, (node, index, parent) => {
-      // A direct transform, instead of on the children of a <p> element
-      if (
-        node.type === "text" &&
-        node.value &&
-        !hasAncestor(parent as ElementMaybeWithParent, isCode)
-      ) {
-        replaceRegex(
-          node,
-          index as number,
-          parent as Parent,
-          fractionRegex,
-          (match: RegExpMatchArray) => {
-            return {
-              before: "",
-              replacedMatch: match[0],
-              after: "",
-            }
-          },
-          (
-            _nd: unknown,
-            _idx: number,
-            prnt: Parent & { properties?: { className?: string } },
-          ): boolean => {
-            const className = prnt.properties?.className
-            return !!(className?.includes("fraction") || className?.includes("no-fraction"))
-          },
-          "span.fraction",
-        )
+    visitParents(tree, (node, ancestors: Parent[]) => {
+      const parent = ancestors[ancestors.length - 1]
+      if (!parent) return
+      const index = parent.children.indexOf(node as ElementContent)
+
+      const skipFormatting = [node, ...ancestors].some((anc) => toSkip(anc as Element))
+      if (skipFormatting) {
+        return // NOTE replaceRegex visits children so this won't check that children are not marked
+      }
+
+      if (node.type === "text" && "value" in node) {
+        replaceFractions(node, index as number, parent as Parent)
       }
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
-      formatLNumbers(tree) // L_p-norm formatting
 
-      // Parent-less nodes are the root of the article
-      if ((!parent || !("tagName" in parent)) && node.type === "element") {
-        transformElement(node, hyphenReplace, toSkip, false)
-        transformElement(node, niceQuotes, toSkip, false)
+      const eltsToTransform = collectTransformableElements(node as Element)
+      eltsToTransform.forEach((elt) => {
+        // Pass ancestors to transformElement
+        transformElement(elt, hyphenReplace, toSkip, false)
+        transformElement(elt, niceQuotes, toSkip, false)
+
         for (const transform of [
-          neqConversion,
+          minusReplace,
           enDashNumberRange,
+          enDashDateRange,
           plusToAmpersand,
           massTransformText,
         ]) {
-          transformElement(node, transform, toSkip, true)
+          transformElement(elt, transform, toSkip, true)
         }
 
-        try {
-          assertSmartQuotesMatch(getTextContent(node))
-        } catch {
-          // Ignore errors
-        }
         // Don't replace slashes in fractions, but give breathing room
         // to others
         const slashPredicate = (n: Element) => {
-          if (typeof n.properties.className === "string") {
-            return !n.properties.className.includes("fraction") && n?.tagName !== "a"
-          } else {
-            return false
-          }
+          return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
-        if (slashPredicate(node)) {
-          transformElement(node, fullWidthSlashes, toSkip)
+        if (slashPredicate(elt)) {
+          transformElement(elt, fullWidthSlashes, toSkip, true)
         }
-      }
+      })
     })
 
     // If skipFirstLetter is not set, or it's set but false, set the attribute
@@ -635,10 +864,17 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       setFirstLetterAttribute(tree)
     }
 
+    formatLNumbers(tree) // L_p-norm formatting
+    formatArrows(tree)
+    formatOrdinalSuffixes(tree)
     removeSpaceBeforeFootnotes(tree)
   }
 }
 
+/**
+ * Quartz plugin for HTML formatting improvements
+ * Applies typographic enhancements to HTML content
+ */
 export const HTMLFormattingImprovement: QuartzTransformerPlugin = () => {
   return {
     name: "htmlFormattingImprovement",

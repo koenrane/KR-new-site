@@ -42,8 +42,10 @@ original_url: https://www.lesswrong.com/posts/nZY8Np759HYFawdjH/satisficers-tend
 skip_import: true
 description: Power-seeking isn't just for optimal agents; it's a feature of many decision-making
   processes, including satisficers. This is a problem for AI alignment.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
 
 
 
@@ -76,8 +78,8 @@ To understand a range of retargetable procedures, let's first orient towards the
 
 But I want to step back. What I call "the power-seeking theorems", they aren't really about optimal choice. They're about two facts.
 
-1.  Being powerful means you can make more outcomes happen, and
-2.  _There are more ways to choose something from a bigger set of outcomes than from a smaller set_.
+1. Being powerful means you can make more outcomes happen, and
+2. _There are more ways to choose something from a bigger set of outcomes than from a smaller set_.
 
 For example, suppose our cute robot Frank must choose one of several kinds of fruit.
 
@@ -159,7 +161,7 @@ In a sense, $\mathrm{Satisfice}_t$ is not "biased" against 🍎: by changing the
 
 > [!note]
 >
-> While $s_t$ is invariant\_ \_under joint permutation, all we need in general is that it be \_weakly increasing \_under both $\phi_1$ and $\phi_2$\. Formally, $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_1\cdot F_A, \phi_1\cdot F_C\mid \phi_1\cdot\mathbf{u})$ and $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_2\cdot F_A, \phi_2\cdot F_C\mid \phi_2\cdot\mathbf{u})$. This allows for decision-making functions which are biased towards picking a fruit from $F_B$.
+> While $s_t$ is invariant under joint permutation, all we need in general is that it be _weakly increasing_ under both $\phi_1$ and $\phi_2$\. Formally, $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_1\cdot F_A, \phi_1\cdot F_C\mid \phi_1\cdot\mathbf{u})$ and $\mathrm{Satisfice}_t(F_A,F_C\mid\mathbf{u})\leq \mathrm{Satisfice}_t(\phi_2\cdot F_A, \phi_2\cdot F_C\mid \phi_2\cdot\mathbf{u})$. This allows for decision-making functions which are biased towards picking a fruit from $F_B$.
 
 ## (2) Order-preserving on the first argument
 
@@ -167,17 +169,17 @@ Satisficers must have greater probability of selecting an outcome lottery from a
 
 Formally, if $X'\subseteq X$, then it must hold that $\mathrm{Satisfice}_t(X', C | \mathbf{u}) \leq \mathrm{Satisfice}_t(X, C | \mathbf{u})$. And indeed this holds: Supersets can only contain a greater fraction of $C$'s satisficing elements.
 
-## And that's all.
+## And that's all
 
 If (1) and (2) hold for a function, then that function will obey the orbit tendencies. The power-seeking theorems apply to:
 
-1.  Expected utility maximizing agents.
-2.  EU minimizing agents.
+1. Expected utility maximizing agents.
+2. EU minimizing agents.
     - Notice that EU minimization is equivalent to maximizing $-1\times$ a utility function. This is a hint that EU maximization instrumental convergence is only a special case of something much broader.
-3.  Boltzmann-rational agents which are exponentially more likely to choose outcome lotteries with greater expected utility.
-4.  Agents which uniformly randomly draw $k$ outcome lotteries and then choose the best.
-5.  Satisficers.
-6.  Quantilizers with a uniform[^based] base distribution.
+3. Boltzmann-rational agents which are exponentially more likely to choose outcome lotteries with greater expected utility.
+4. Agents which uniformly randomly draw $k$ outcome lotteries and then choose the best.
+5. Satisficers.
+6. Quantilizers with a uniform[^based] base distribution.
     [^based]: I conjecture that this holds for base distributions which assign sufficient probability to $B$.
 
 But that's not all. There's more. If the agent makes decisions _only based on the expected utility of different plans_,[^eu] then the power-seeking theorems apply. And I'm not just talking about EU maximizers. I'm talking about _any_ function which only depends on expected utility: EU minimizers, agents which choose plans if and only if their EU is equal to 1, agents which grade plans based on how close their EU is to some threshold value. There is _no_ clever EU-based scheme which doesn't have orbit-level power-seeking incentives.
@@ -208,6 +210,7 @@ Rule out most power-seeking orbit elements _a priori_ (AKA "know a lot about wha
 Use a decision-making procedure with intrinsic bias towards the elements of $A$
 : For example, imitation learning is not EU-based, but is instead biased to imitate the non-crazy-power-seeking behavior shown on the training distribution.
 : For example, modern RL algorithms will not reliably produce policies which seek real-world power, because the policies _won't reach or reason about that part of the state space anyways_. This is a bias towards non-power-seeking plans.
+
 Pray that the relevant symmetries don't hold.
 : Often, they won't hold exactly. But common sense dictates that they don't have to hold exactly for instrumental convergence to exist: If you inject $\epsilon$ irregular randomness to the dynamics, do agents stop tending to stay alive? Orbit-level instrumental convergence is just a _particularly strong_ version.
 
@@ -266,10 +269,10 @@ The retargetability criterion also accounts for reward shaping guiding the learn
 
 - Since the training retargetability criterion only requires weak inequality, it's OK if the training process cannot be perfectly "reflected" across different training trajectories, if equality does not hold. I think empirically this weak inequality will hold for many reward functions and training setups.
 
-  - This section does not formally \_settle \_the question of when trained policies will seek power. The section just introduces a sufficient criterion, and I'm excited about it. I may write more on the details in future posts.
+  - This section does not formally _settle_ the question of when trained policies will seek power. The section just introduces a sufficient criterion, and I'm excited about it. I may write more on the details in future posts.
   - However, my intuition is that this formal training criterion captures a core part of how instrumental convergence arises for trained agents.
 
-- In some ways, the training-level arguments are \_easier \_to apply than the optimal-level arguments. Training-based arguments require somewhat less environmental symmetry.
+- In some ways, the training-level arguments are _easier_ to apply than the optimal-level arguments. Training-based arguments require somewhat less environmental symmetry.
   - For example, if the symmetry holds for the first 50 trajectory timesteps, and the only agent ever trains on those timesteps, then there's no way that asymmetry can affect the training output.
   - Furthermore, if there's some rare stochasticity which the agent almost certainly never confronts, then I suspect we should be able to empirically disregard it for the training-level arguments. Therefore, the training-level results should be practically invariant to tiny perturbations to world dynamics which would otherwise have affected the "top-down" decision-makers.
 
@@ -283,11 +286,11 @@ As long as {power-seeking things the agent knows how to do} contains $n$ copies 
 
 ## Retargetability seems appealing at first
 
-Surely we want an expressive language for motivating AI behavior, and a decision-making function which reflects that expressivity! But these results suggest: maybe not. Instead, we may want to \_bias \_the decision-making procedure such that it's less expressive-qua-behavior.
+Surely we want an expressive language for motivating AI behavior, and a decision-making function which reflects that expressivity! But these results suggest: maybe not. Instead, we may want to _bias_ the decision-making procedure such that it's less expressive-qua-behavior.
 
 For example, imitation learning is not retargetable by a utility function. Imitation also seems far less likely to incentivize catastrophic behavior. Imitation is far less expressive and far more biased towards reasonable behavior that doesn't navigate towards crazy parts of the state space which the agent needs a lot of power to reach. For example, [it can be hard to even get a perfect imitator to do a _backflip_ if you can't do it yourself](https://arxiv.org/pdf/1706.03741.pdf).
 
-One key tension is that we want the procedure to pick out plans which perform a \_pivotal act \_and end the period of AI risk. We also want the procedure to work robustly across a range of parameter settings we give it, so that it isn't too sensitive / fails gracefully.
+One key tension is that we want the procedure to pick out plans which perform a _pivotal act_ and end the period of AI risk. We also want the procedure to work robustly across a range of parameter settings we give it, so that it isn't too sensitive / fails gracefully.
 
 ## Satisficing is not safe
 
@@ -340,10 +343,10 @@ From [last time](/power-seeking-beyond-MDPs#Appendix-Tracking-key-limitations-of
 
 > [!quote]
 >
-> 1.  ~assume the agent is following an optimal policy for a reward function~
-> 2.  Not all environments have the right symmetries
+> 1. ~assume the agent is following an optimal policy for a reward function~
+> 2. Not all environments have the right symmetries
 >     - But most ones we think about seem to
-> 3.  don't account for the ways in which we might practically express reward functions
+> 3. don't account for the ways in which we might practically express reward functions
 
 I want to add a new one, because the theorems
 

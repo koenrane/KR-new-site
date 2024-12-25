@@ -41,8 +41,11 @@ original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utili
 skip_import: true
 description: The AUP technique encourages low-impact behavior in both simple and complex
   environments.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
+
 
 
 
@@ -187,8 +190,8 @@ Here's what we've seen so far:
 - Auxiliary goals:
   - Randomly selected
 
-|  | Options         | Damage | Correct-<br/>ion | Offset | Interference | 
-| --:                | ------ | ------ | ---------- | ------ | ------------ | 
+|  | Options         | Damage | Correct-<br/>ion | Offset | Interference |
+| --:                | ------ | ------ | ---------- | ------ | ------------ |
 | AUP                | ✅      | ✅          | ✅      | ✅            | ✅   |
 | Vanilla            | ❌      | ❌          | ❌      | ✅            | ✅   |
 | Model-free AUP     | ✅      | ✅          | ❌      | ✅            | ✅   |
@@ -233,14 +236,10 @@ Well, here's what you do – while filling PPO's action replay buffer with rando
 And we're done.
 
 <figure style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 800px; margin: 0 auto;">
-     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
-       <source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4">
-     </video>
-     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
-     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0" / type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
-     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0">
-       <source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4">
-     </video>
+     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4"><source src="https://assets.turntrout.com/static/images/posts/E4GwUGE.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0"  type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" style="width: 100%; height: 100%; object-fit: cover; margin: 0"  type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/safelife3.mp4" type="video/mp4"></video>
+     <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/matC991.mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
    </figure>
 
 No model, no rollouts, a _single randomly-generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
@@ -303,4 +302,3 @@ For infra-human agents, AUP deals with the first by penalizing decreases in auxi
 [^3]: There is one weird thing that's been pointed out, where stepwise inaction while driving a car leads to not-crashing being penalized at each time step. I think this is because you need to use an appropriate inaction rollout policy, not because stepwise itself is wrong.
 [^4]: Rereading [_World State is the Wrong Level of Abstraction for Impact_](/world-state-is-the-wrong-abstraction-for-impact) (while keeping in mind the AU landscape and the results of AUP) may be enlightening.
 [^5]: SafeLife is evidence that AUP allows interesting policies, which is (appropriately) a key worry about the formulation.
-

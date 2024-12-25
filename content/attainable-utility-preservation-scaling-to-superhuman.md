@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/S8AGyJJsdBFXmxHcb/attainable-utili
 skip_import: true
 description: AUP scales to superintelligence by penalizing power-seeking, but loopholes
   exist. I propose fixes and explore their implications.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -214,4 +215,3 @@ I basically agree. I wonder if there’s a design where the agent isn’t incent
 [^3]: As pointed out by Evan Hubinger, this is only safe if [myopically](https://www.lesswrong.com/posts/qpZTWb2wvgSt5WQ4H/defining-myopia) optimizing $R$ is safe – we aren't penalizing single-step reward acquisition.
 [^4]: This issue was [originally pointed out by Ofer](https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure/kET5DxfQWErFhTs5z).
 [^5]: The fact that Ofer’s/Stuart’s problem survived all of the other improvements _is_ evidence that it’s harder. I just don’t think the evidence it provides is that strong.
-

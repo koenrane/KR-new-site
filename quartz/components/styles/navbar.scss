@@ -4,53 +4,59 @@
 .menu {
   order: 1;
   top: 5px;
+
   // Applies to all links in the navbar
   & ul {
     list-style: none;
     max-height: none;
-    margin-top: $baseMargin;
     margin: 0.08rem 0;
-    padding: $baseMargin;
-    background-color: var(--light);
+    margin-top: $base-margin;
+    padding: $base-margin;
+    padding-top: 0;
+    background-color: var(--background);
 
     & li {
       text-align: right;
 
       & > a {
-        color: var(--gray);
+        color: var(--midground);
         transition: opacity 0.5s ease-out;
         text-decoration: none;
       }
     }
   }
+
   // Desktop
-  @media (min-width: $fullPageWidth) {
+  @media (min-width: $full-page-width) {
     display: flex;
     text-align: center;
     flex-direction: column;
     height: 100%;
   }
 
-  @media (max-width: $fullPageWidth) {
+  @media (max-width: $full-page-width) {
     position: relative;
     text-align: right;
     background-color: transparent;
-
     display: none;
+
     &.visible {
       display: block;
+      min-height: 1px;
+      min-width: 1px;
+      width: auto;
     }
 
     li {
-      background-color: var(--light);
+      background-color: var(--background);
     }
 
     ul {
       position: absolute;
-      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-      clip-path: inset(0px 0px -15px -15px);
+      box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+      clip-path: inset(0 0 -15px -15px);
       width: max-content;
-      right: 0px;
+      right: 0;
       top: 0.72em;
     }
   }
@@ -58,20 +64,21 @@
 
 // The menu icon
 .hamburger {
-  vertical-align: center;
+  vertical-align: middle;
   width: 2rem;
   height: 2rem;
   padding: 0;
-  padding-left: $baseMargin;
-  padding-right: $baseMargin;
-  margin-left: calc(1 * $baseMargin);
+  padding-left: $base-margin;
+  padding-right: $base-margin;
+  margin-left: calc(1 * $base-margin);
   background: transparent;
   border: none;
   cursor: pointer;
+
   & span {
     display: block;
     height: 3px;
-    background-color: var(--gray);
+    background-color: var(--midground);
     margin-bottom: 5px;
   }
 }
@@ -81,6 +88,10 @@
   transform: rotate(45deg);
   transform-origin: top left;
   width: 24px;
+
+  @media all and (max-width: $mobile-breakpoint) {
+    width: 23px;
+  }
 }
 
 .x:nth-of-type(2) {
@@ -94,9 +105,13 @@
   transform: rotate(-45deg);
   transform-origin: bottom left;
   width: 24px;
+
+  @media all and (max-width: $mobile-breakpoint) {
+    width: 23px;
+  }
 }
 
-@media all and (max-width: $mobileBreakpoint) {
+@media all and (max-width: $mobile-breakpoint) {
   .page-title-text {
     font-size: 6vw !important;
   }
@@ -110,73 +125,85 @@
     height: 2.5px;
   }
 }
-@media all and (max-width: $tabletBreakpoint) {
+
+@media all and (max-width: $tablet-breakpoint) {
   .search > #search-icon > p {
     padding: 0;
-    padding-left: calc(2 * $baseMargin);
+    padding-left: calc(2 * $base-margin);
   }
 }
+
 /* Center the site name under the pond video */
 .page-title-text {
-  font-family: var(--font-text-italic), cursive, sans-serif;
   text-align: center;
-  color: var(--gray);
+  color: var(--midground);
 
   & a {
     color: inherit;
     text-decoration: none;
+
     &:visited {
       color: inherit;
     }
   }
 
-  @media all and (max-width: $fullPageWidth) {
-    margin-bottom: 0em;
-    margin-top: calc(0.5 * $baseMargin);
+  @media all and (max-width: $full-page-width) {
+    margin-bottom: 0;
+    margin-top: calc(0.5 * $base-margin);
   }
-  @media all and (min-width: $fullPageWidth) {
-    margin-bottom: $baseMargin;
+
+  @media all and (min-width: $full-page-width) {
+    margin-bottom: $base-margin;
     margin-top: 0;
     font-size: var(--text-size-500);
   }
 }
 
-#navbar-left {
+#navbar-left,
+.navbar-left {
   display: flex;
-  @media all and (min-width: $fullPageWidth) {
+
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
+
   align-items: center;
 }
 
 #navbar-right {
   display: flex;
-  @media all and (min-width: $fullPageWidth) {
+
+  @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
+
   align-items: center;
 }
 
-@media all and (max-width: $fullPageWidth) {
+@media all and (max-width: $full-page-width) {
   #quartz-body > #left-sidebar {
     width: 100%;
     position: sticky;
   }
+
   #quartz-body #navbar {
+    opacity: 1;
     transition:
-      top 0.3s ease,
-      opacity 0.3s ease;
+      transform 0.45s ease,
+      opacity 0.45s ease;
     position: sticky;
     z-index: 910;
+
     &.shadow {
-      // This is light-theme mode
-      box-shadow: 0 2px 4px 0px rgba(#5c5f77, 0.1);
-      clip-path: inset(0px 0px -1500px 0px);
+      box-shadow: 0 4px 4px 0 var(--midground-faintest);
+      clip-path: inset(0 0 -1500px 0);
     }
-  }
-  .hide-above-screen {
-    top: -100px;
-    opacity: 0;
+
+    &.hide-above-screen {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }
 
@@ -185,16 +212,17 @@
   justify-content: space-between;
   flex-direction: column;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     flex-direction: row;
     width: 100%;
-    background-color: var(--light);
+    background-color: var(--background);
   }
 }
+
 :root[saved-theme="dark"] .shadow {
-  @media all and (max-width: $fullPageWidth) {
-    box-shadow: 0 7px 4px 0 #5c5f7752;
-    clip-path: inset(0px 0px -1500px 0px);
+  @media all and (max-width: $full-page-width) {
+    box-shadow: 0 4px 4px 0 var(--midground-faintest);
+    clip-path: inset(0 0 -1500px 0);
   }
 }
 
@@ -206,10 +234,22 @@
   max-width: 100%;
   margin-bottom: 0;
   margin-top: 0;
-  @media all and (max-width: $fullPageWidth) {
+  object-fit: contain;
+}
+
+#header-video-container {
+  @media all and (min-width: $full-page-width) {
+    width: 188px;
+    height: 188px;
+    min-height: 188px;
+    aspect-ratio: 188 / 188;
+    display: block;
+  }
+
+  @media all and (max-width: $full-page-width) {
     margin-top: 0;
     margin-bottom: 0;
-    margin-right: $baseMargin;
+    margin-right: $base-margin;
     width: 2.5em;
   }
 }
@@ -219,11 +259,11 @@
   display: inline;
   z-index: 3;
 
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     position: relative;
     left: inherit;
     top: inherit;
-    margin: 0 calc(1.5 * $baseMargin);
+    margin: 0 calc(1.5 * $base-margin);
   }
 
   position: absolute;
@@ -240,7 +280,7 @@
     top: -28px;
     left: 23.5px;
     font-size: var(--text-size-80);
-    color: var(--gray);
+    color: var(--midground);
     transition: opacity 0.5s ease;
 
     &.hidden {
@@ -249,16 +289,14 @@
   }
 
   & svg {
-    position: relative;
     left: 68%;
-    transition: opacity 0.5s ease;
     cursor: pointer;
     opacity: 0;
     position: absolute;
     width: 20px;
     height: 20px;
     top: calc(50% - 10px);
-    fill: var(--gray);
+    fill: var(--midground);
     transition: opacity 0.1s ease;
   }
 }
@@ -272,26 +310,28 @@
 }
 
 :root[saved-theme="dark"] .toggle ~ label {
-  & > #dayIcon {
+  & > #day-icon {
     opacity: 0;
   }
-  & > #nightIcon {
+
+  & > #night-icon {
     opacity: 1;
   }
 }
 
 :root .toggle ~ label {
-  & > #dayIcon {
+  & > #day-icon {
     opacity: 1;
   }
-  & > #nightIcon {
+
+  & > #night-icon {
     opacity: 0;
   }
 }
 
 #nav-searchbar {
-  @media all and (min-width: $fullPageWidth) {
+  @media all and (min-width: $full-page-width) {
     order: 2; // Search bar comes after other links
-    margin-top: $baseMargin;
+    margin-top: $base-margin;
   }
 }

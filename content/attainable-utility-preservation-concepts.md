@@ -3,7 +3,8 @@ permalink: attainable-utility-preservation-concepts
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
+lw-page-url: 
+  https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 lw-is-question: "false"
 lw-posted-at: 2020-02-17T05:20:09.567000Z
 lw-last-modification: 2021-05-24T18:19:29.122000Z
@@ -36,13 +37,16 @@ next-post-title: "Attainable Utility Preservation: Empirical Results"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2020-02-17 00:00:00
-original_url: https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
+original_url: 
+  https://www.lesswrong.com/posts/75oMAADr4265AGK3L/attainable-utility-preservation-concepts
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/KPv2beS.png
-description: "Exploring the ideas behind Attainable Utility Preservation: penalize\
-  \ the AI for gaining power to bound its impact."
-date_updated: 2024-10-30 18:09:31.133945
+description: "Exploring the ideas behind Attainable Utility Preservation: penalize
+  the AI for gaining power to bound its impact."
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
+
 
 
 
@@ -76,7 +80,7 @@ Second, if we don’t like what it’s beginning to do, we can shut it off (beca
 
 So we can hope to build a non-catastrophic AUP agent and get useful work out of it. We just can’t directly ask it to solve all of our problems: it doesn’t make much sense to speak of a “low-impact [singleton](https://lesswrong.com/tag/singleton)”.
 
-#### Notes
+# Notes
 
 - To emphasize, when I say "AUP agents do $X$" in this post, I mean that AUP agents correctly implementing the _concept of AUP_ tend to behave in a certain way.
 - As [pointed out by Daniel Filan](https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-impact-measure#jJrCTRwTZDZDc3XLx), AUP suggests that one might work better in groups by ensuring one's actions preserve teammates' AUs.

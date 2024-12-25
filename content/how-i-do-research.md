@@ -33,8 +33,9 @@ skip_import: true
 hideSubscriptionLinks: false
 description: "The author's unorthodox approach to AI safety research: Ignore existing\
   \ work, simplify relentlessly, and break your own solutions."
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -66,7 +67,7 @@ Don't formalize your thoughts too early
 Don't ask permission to think big thoughts
 : Don't worry about whether you have the [license](https://www.lesswrong.com/posts/dhj9dhiwhq3DX6W8z/hero-licensing) or background to come up with a solution. When I was starting out, I was too busy being fascinated by the problem to remember that I, you know, wasn't allowed to solve it.
 
-: Obviously, there are common-sense exceptions to this, mostly revolving around trying to run without any feet. It would be pretty silly to think about logical uncertainty without even knowing propositional logic. One of the advantages of immersing myself in a lot of math isn't just knowing more, but knowing what I don't know. 
+: Obviously, there are common-sense exceptions to this, mostly revolving around trying to run without any feet. It would be pretty silly to think about logical uncertainty without even knowing propositional logic. One of the advantages of immersing myself in a lot of math isn't just knowing more, but knowing what I don't know.
 
 : However, I think it's rare to secretly lack the basic skills to even start on the problem at hand. You'll probably know if you are, because all your thoughts keep coming back to the same kind of confusions about a formalism, or something. Then, you look for ways to resolve the confusion (possibly by asking a question on LW or in the MIRIx Discord), find the thing, and get back to work.
 

@@ -3,7 +3,8 @@ permalink: impact-penalty-strength
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
+lw-page-url: 
+  https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 lw-is-question: 'false'
 lw-posted-at: 2020-02-25T02:08:52.630000Z
 lw-last-modification: 2020-05-20T13:03:50.901000Z
@@ -36,13 +37,18 @@ next-post-title: 'Attainable Utility Preservation: Scaling to Superhuman'
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2020-02-25 00:00:00
-original_url: https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
+original_url: 
+  https://www.lesswrong.com/posts/LfGzAduBWzY5gq6FE/how-low-should-fruit-hang-before-we-pick-it
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/4bIPf6o.png
 description: How to choose an AI's impact limit to get the best results without triggering
   a catastrophe.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-18 22:41:47.892511
 ---
+
+
+
+
 
 
 
@@ -167,7 +173,7 @@ $$
 We say that the former induces a _constrained impact partition_ and that the latter induces a _scaled impact partition_. Specifically, we partition the values of $R$ for which different (sets of) plans are optimal. We say that a plan $\bar{a}$ _corresponds_ to a subinterval if it is optimal therein (the subinterval also must be the maximal connected one such that this holds; e.g. if $\bar{a}$ is optimal on $(0,1],$ we say it corresponds to that subinterval, but not to $(0,.5]$), and that $\bar{a}$ _appears_ in a partition if there is such a corresponding subinterval. We say that plans _overlap_ if their corresponding subintervals intersect.
 
 > [!note] Technical note
-> As a technical note, we partition the positive values of $R$ for which different sets of plans are optimal; in this set, each value appears exactly once, so this indeed a partition. For clarity, we will generally just talk about which plans correspond to which subintervals. Also, if no plan has zero impact, the first subinterval of the constrained impact partition will be undefined; for our purposes, this isn't important.
+> We partition the positive values of $R$ for which different sets of plans are optimal; in this set, each value appears exactly once, so this indeed a partition. For clarity, we will generally just talk about which plans correspond to which subintervals. Also, if no plan has zero impact, the first subinterval of the constrained impact partition will be undefined; for our purposes, this isn't important.
 
 We want to be able to _prove_ the "safety" of an impact partition. This means we can expect any terrorists to be some proportional distance farther away than any reasonable marbles. Therefore, for sensible ways of expanding a sufficiently small initial search radius, we expect to not meet any terrorists before finding a marble we're happy with.
 
@@ -180,7 +186,7 @@ In addition, we want to know how far is too far – to give upper bounds on how 
 > \dfrac{R_\text{LB: catastrophe}}{R_\text{UB: satisfactory}}\geq 1+\alpha,
 > $$
 >
-> where $R_\text{LB: catastrophe}$ lower-bounds the first possible appearance of those plans we label 'catastrophes', and $R_\text{UB: satisfactory}$ upper-bounds the first appearance of plans we deem satisfactory.
+> where $R_\text{LB: catastrophe}$ lower-bounds the first possible appearance of those plans we label "catastrophes", and $R_\text{UB: satisfactory}$ upper-bounds the first appearance of plans we deem satisfactory.
 
 We now set out building the machinery required to prove $\alpha $\-buffering of a scaled partition.
 
@@ -222,7 +228,7 @@ We now set out building the machinery required to prove $\alpha $\-buffering of 
 >
 > Solving the first equality for ${\color{Red}u}(\bar{a})$ and substituting in the second, we find ${\color{blue}I}(\bar{a})= {\color{blue}I}(\bar{a}')$. Then ${\color{Red}u}(\bar{a})={\color{Red}u}(\bar{a}'),$ since otherwise one of the plans wouldn't be optimal. ∎
 
-Proposition 2b means we don't need a tie-breaking procedure for the scaled case. That is, if there's a tie between a lower-scoring, lower-impact plan and a proportionally higher-scoring, higher-impact alternative, the lower-impact plan is optimal at a single point because it's quickly dominated by the alternative.
+Proposition 2 means we don't need a tie-breaking procedure for the scaled case. That is, if there's a tie between a lower-scoring, lower-impact plan and a proportionally higher-scoring, higher-impact alternative, the lower-impact plan is optimal at a single point because it's quickly dominated by the alternative.
 
 The following result tells us that if there aren't any catastrophes (i.e. terrorists) before $\bar{a}'$ on the constrained impact partition, _there aren't any before it on the scaled impact partition either_. This justifies our initial framing with Frank.
 
@@ -252,7 +258,7 @@ The next result is exactly what we need to answer the question just raised – i
 >
 > Equality at the value of the right-hand side can easily be checked. ∎
 
-Theorem 4 also illustrates why we can't strengthen the second statement in Proposition 2b (Plan overlap is very restricted): if two plans overlap at exactly one point, they sometimes have proportionally different score and impact, thereby satisfying the equality criterion.
+Theorem 4 also illustrates why we can't strengthen the second statement in Proposition 2 (Plan overlap is very restricted): if two plans overlap at exactly one point, they sometimes have proportionally different score and impact, thereby satisfying the equality criterion.
 
 At first, plans with slightly lower impact will be preferable in the scaled case, no matter how high-scoring the other plans are – a plan with 0 score and .99 impact will be selected before a plan with 1,000,000,000 score and 1 impact.
 
@@ -275,8 +281,6 @@ Now we can write the algorithm for constructing scaled intervals.
 
 Since this procedure is well-defined, then given $\bar{A},$ ${\color{Red}u},$ and ${\color{blue}I},$ we can speak of _the_ corresponding constrained or scaled impact partition.
 
----
-
 $$
 \begin{aligned}
 & \textbf{Algorithm:} \text{ ScaledPartition}(\bar{A}, u, I) \\
@@ -297,10 +301,7 @@ $$
 \end{aligned}
 $$
 
-![]()
 Figure: A more formal algorithm. Note that line 7 can be evaluated because $u$ and $I$ can "evaluate" these sets by Prop. 1b. This algorithm is $O(|\bar{A} | ^ 2)$ because of line 7, although constructing the constrained partition (probably $O(|\bar{A} |\log |\bar{A} |)$ due to sorting) often narrows things down significantly. Unfortunately, $\bar{A}$ is usually huge.
-
----
 
 For our purposes, we don't _need_ the whole partition – we just want to have good reason to think that plans similar to a reasonable one we envision will appear well before any catastrophes. Perhaps we can give bounds on the earliest and latest plans can appear, and show that bounds<sub>reasonable</sub> don't intersect with bounds<sub>catastrophe</sub>?
 
@@ -405,16 +406,16 @@ This obsoletes the lower bound provided by Theorem 6: Individual appearance boun
 > _Proof outline._ For clarity, the theorem statement included much of the reasoning; straightforward application of existing results proves each claim. ∎
 
 > [!exercise]
-> Let ${\color{Red}u}_\text{UB: sat}:=.7,$ ${\color{Red}u}_\text{LB: sat}:=.5$. Using the refined criterion, determine which catastrophe/reasonable impact ratios induce 2.6-buffering.
+> Let ${\color{Red}u}_\text{UB: sat}:=.7$ and ${\color{Red}u}_\text{LB: sat}:=.5$. Using the refined criterion, determine which catastrophe/reasonable impact ratios induce 2.6-buffering.
 >
-> > ! Ratios which satisfy $\text{ratio}\geq 10$
+> > ! Ratios which satisfy $\text{ratio}\geq 10.$
 
 > [!exercise]
-> Let ${\color{Red}u}_\text{UB: sat}-{\color{Red}u}_\text{LB: sat}:=.5,\text{ratio}:=7$. What is the largest $\alpha $ for which the simple criterion can guarantee $\alpha$ -buffering?
+> Let ${\color{Red}u}_\text{UB: sat}-{\color{Red}u}_\text{LB: sat}:=.5,\text{ratio}:=7$. What is the largest $\alpha$ for which the simple criterion can guarantee $\alpha$ -buffering?
 >
-> > ! The largest $\alpha =13 $
+> > ! The largest such $\alpha$ is $13.$
 
-### Even More Math
+## Even More Math
 
 > [!math] Proposition: Invariances
 > Let $\mathcal{P}$ be an impact partition induced by $(\bar{A},{\color{Red}u}, {\color{blue}I})$.
@@ -436,4 +437,3 @@ This obsoletes the lower bound provided by Theorem 6: Individual appearance boun
 
 > [!question] Bonus exercise
 > Show that, for _any_ function ${\color{Red}u'}:\bar{A}\to\mathbb{R}$ preserving the ordering induced by ${\color{Red}u},$ there exists an ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ preserving the ordering induced by ${\color{blue}I}$ such that $(\bar{A},{\color{Red}u}, {\color{blue}I})$ and $(\bar{A},{\color{Red}u'}, {\color{blue}I'})$ induce the same scaled partition. Your reasoning should adapt directly to the corresponding statement about ${\color{blue}I'}:\bar{A}\to \mathbb{R}_{\geq 0}$ and ${\color{blue}I}$.
-

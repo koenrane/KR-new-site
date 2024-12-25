@@ -13,10 +13,25 @@ import {
   processParagraph,
 } from "../subtitles"
 
-function removePositions(obj: unknown): unknown {
+/**
+ * Recursively removes 'position' properties from AST nodes for testing purposes.
+ * This helps in comparing AST nodes without considering their position information.
+ *
+ * @param obj - The Element object to process, typically a HAST (HTML Abstract Syntax Tree) node
+ * @returns A new object with all 'position' properties removed, preserving the rest of the structure
+ *
+ * @example
+ * const node = {
+ *   type: 'element',
+ *   position: { start: { line: 1, column: 1 }, end: { line: 1, column: 10 } },
+ *   children: []
+ * }
+ * const cleaned = removePositions(node) // Returns object without position property
+ */
+function removePositions(obj: Element): unknown {
   if (Array.isArray(obj)) {
     return obj.map(removePositions)
-  } else if (typeof obj === "object" && obj !== null) {
+  } else if (typeof obj === "object") {
     const newObj: Record<string, unknown> = {}
     for (const [key, value] of Object.entries(obj)) {
       if (key !== "position") {
@@ -24,6 +39,8 @@ function removePositions(obj: unknown): unknown {
       }
     }
     return newObj
+  } else {
+    return obj
   }
 }
 
@@ -70,7 +87,7 @@ describe("rehype-custom-subtitle", () => {
     ])("matches valid subtitle syntax (%s)", (input, expected) => {
       const match = input.match(SUBTITLE_REGEX)
       expect(match).not.toBeNull()
-      expect(match && match[1]).toBe(expected)
+      expect(match?.[1]).toBe(expected)
     })
 
     it.each([
@@ -86,7 +103,7 @@ describe("rehype-custom-subtitle", () => {
       const input = "Subtitle: Capitalized prefix"
       const match = input.match(SUBTITLE_REGEX)
       expect(match).not.toBeNull()
-      expect(match && match[1]).toBe("Capitalized prefix")
+      expect(match?.[1]).toBe("Capitalized prefix")
     })
   })
 
@@ -147,13 +164,13 @@ describe("rehype-custom-subtitle", () => {
     ])("$name", ({ input, expected }) => {
       const parent: Parent = { type: "root", children: [input] }
       modifyNode(input as Element, 0, parent)
-      expect(removePositions(parent.children[0])).toEqual(removePositions(expected))
+      expect(removePositions(parent.children[0] as Element)).toEqual(removePositions(expected))
     })
   })
 })
 
 describe("rehypeCustomSubtitle Plugin", () => {
-  const processHtml = async (html: string): Promise<string> => {
+  const processHtml = (html: string): string => {
     return unified()
       .use(rehypeParse, { fragment: true })
       .use(() => transformAST)
@@ -163,13 +180,13 @@ describe("rehypeCustomSubtitle Plugin", () => {
   }
 
   it("should convert a subtitle with plain text", async () => {
-    const input = `<p>Subtitle: This is a subtitle.</p>`
+    const input = "<p>Subtitle: This is a subtitle.</p>"
     const output = await processHtml(input)
     expect(output).toContain('<p class="subtitle">This is a subtitle.</p>')
   })
 
   it("should convert a subtitle with rich text (e.g., bold and italic)", async () => {
-    const input = `<p>Subtitle: This is a <strong>bold</strong> and <em>italic</em> subtitle.</p>`
+    const input = "<p>Subtitle: This is a <strong>bold</strong> and <em>italic</em> subtitle.</p>"
     const output = await processHtml(input)
     expect(output).toContain(
       '<p class="subtitle">This is a <strong>bold</strong> and <em>italic</em> subtitle.</p>',
@@ -177,7 +194,7 @@ describe("rehypeCustomSubtitle Plugin", () => {
   })
 
   it("should preserve non-subtitle paragraphs", async () => {
-    const input = `<p>This is a normal paragraph.</p>`
+    const input = "<p>This is a normal paragraph.</p>"
     const output = await processHtml(input)
     expect(output).toContain("<p>This is a normal paragraph.</p>")
   })
@@ -195,19 +212,19 @@ describe("rehypeCustomSubtitle Plugin", () => {
   })
 
   it('should trim the "Subtitle:" prefix correctly when converting', async () => {
-    const input = `<p>Subtitle:    Subtitle with leading spaces.</p>`
+    const input = "<p>Subtitle:    Subtitle with leading spaces.</p>"
     const output = await processHtml(input)
     expect(output).toContain('<p class="subtitle">Subtitle with leading spaces.</p>')
   })
 
   it('should not convert paragraphs without the "Subtitle:" prefix', async () => {
-    const input = `<p>Subtle subtitle without proper prefix.</p>`
+    const input = "<p>Subtle subtitle without proper prefix.</p>"
     const output = await processHtml(input)
     expect(output).toContain("<p>Subtle subtitle without proper prefix.</p>")
   })
 
   it("should handle subtitles with complex nested elements", async () => {
-    const input = `<p>Subtitle: This is a <strong>bold <em>and italic</em></strong> subtitle.</p>`
+    const input = "<p>Subtitle: This is a <strong>bold <em>and italic</em></strong> subtitle.</p>"
     const output = await processHtml(input)
     expect(output).toContain(
       '<p class="subtitle">This is a <strong>bold <em>and italic</em></strong> subtitle.</p>',

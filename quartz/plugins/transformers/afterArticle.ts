@@ -1,27 +1,32 @@
 import { Root, Element } from "hast"
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
+import { VFile } from "vfile"
 
 import { QuartzTransformerPlugin } from "../types"
 import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
 import { createSequenceLinksComponent } from "./sequenceLinks"
 
-export const rssElement = h("a", { href: "/rss.xml", id: "rss-link" }, [
-  h("abbr", { class: "small-caps" }, "RSS"),
-  h("img", {
-    src: "https://assets.turntrout.com/static/images/rss.svg",
-    id: "rss-svg",
-    alt: "RSS icon",
-    className: "favicon",
-  }),
-])
+export const rssElement = h(
+  "a",
+  { href: "/rss.xml", id: "rss-link", style: "white-space: nowrap;" },
+  [
+    h("abbr", { class: "small-caps" }, "RSS"),
+    h("img", {
+      src: "https://assets.turntrout.com/static/images/rss.svg",
+      id: "rss-svg",
+      alt: "RSS icon",
+      className: "favicon",
+    }),
+  ],
+)
 
 const SUBSTACK_URL =
   "https://assets.turntrout.com/static/images/external-favicons/substack_com.avif"
 
 const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
   "newsle",
-  h("span", ["tter", CreateFaviconElement(SUBSTACK_URL)]),
+  h("span", { style: "white-space: nowrap;" }, ["tter", CreateFaviconElement(SUBSTACK_URL)]),
 ])
 
 const subscriptionElement = h("center", [
@@ -31,7 +36,7 @@ const subscriptionElement = h("center", [
 const contactMe = h("div", [
   h("center", [
     "Thoughts? Email me at ",
-    h("code", h("a", { href: MAIL_PATH }, "alex@turntrout.com")),
+    h("code", h("a", { href: "mailto:alex@turntrout.com" }, "alex@turntrout.com")),
     CreateFaviconElement(MAIL_PATH),
   ]),
 ])
@@ -49,6 +54,7 @@ export function insertAfterTroutOrnament(tree: Root, components: Element[]) {
       parent.children.splice(index + 1, 0, wrapperDiv)
       return false // Stop traversing
     }
+    return true
   })
 }
 
@@ -56,7 +62,7 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
   return {
     name: "AfterArticleTransformer",
     htmlPlugins: () => [
-      () => (tree: Root, file) => {
+      () => (tree: Root, file: VFile) => {
         const sequenceLinksComponent = createSequenceLinksComponent(file.data)
 
         const components = [sequenceLinksComponent ?? null].filter(Boolean) as Element[]

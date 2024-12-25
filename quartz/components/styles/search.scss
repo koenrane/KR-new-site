@@ -1,14 +1,15 @@
 @use "../../styles/variables.scss" as *;
 
 #navbar-right {
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     display: flex;
     align-items: center;
   }
 }
+
 .search {
-  @media all and (min-width: $fullPageWidth) {
-    margin-top: calc(2 * $baseMargin);
+  @media all and (min-width: $full-page-width) {
+    margin-top: calc(2 * $base-margin);
     margin-left: auto;
     margin-right: auto;
   }
@@ -18,8 +19,9 @@
   min-width: fit-content;
 
   & > #search-icon {
-    background-color: var(--color-background);
+    background-color: var(--midground-faintest);
     border-radius: 4px;
+
     // transition: background-color 0.3s ease-in-out;
     height: 1.6rem;
     display: flex;
@@ -33,19 +35,20 @@
 
     & > p {
       font-size: var(--text-size-90);
-      color: color-mix(in srgb, var(--gray) 75%, var(--dark));
+      color: color-mix(in srgb, var(--midground) 75%, var(--foreground));
       display: inline;
-      padding: 0 calc(2 * $baseMargin);
+      padding: 0 calc(2 * $base-margin);
       margin-left: -0.4em;
     }
 
+    // The actual search icon
     & svg {
       cursor: pointer;
       width: 0.625rem;
-      margin: 0 $baseMargin;
+      margin: 0 $base-margin;
 
       .search-path {
-        stroke: var(--gray);
+        stroke: var(--midground);
         stroke-width: 2px;
         transition: stroke 0.5s ease;
       }
@@ -69,10 +72,6 @@
   display: none;
   backdrop-filter: blur(4px);
 
-  & li > p {
-    margin-block-start: 0;
-    margin-block-end: 0;
-  }
   &.active {
     display: inline-block;
   }
@@ -83,30 +82,30 @@
     margin-left: auto;
     margin-right: auto;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       width: 90%;
     }
 
     & > * {
       width: 100%;
       border-radius: 7px;
-      background: var(--light);
+      background: var(--background);
       box-shadow:
-        0 14px 50px rgba(27, 33, 48, 0.12),
-        0 10px 30px rgba(27, 33, 48, 0.16);
-      margin-bottom: calc(4 * $baseMargin);
+        0 14px 50px rgb(27 33 48 / 12%),
+        0 10px 30px rgb(27 33 48 / 16%);
+      margin-bottom: calc(4 * $base-margin);
     }
 
     & > input {
       box-sizing: border-box;
-      padding: $baseMargin calc(2 * $baseMargin);
-      font-family: var(--font-text);
+      padding: $base-margin calc(2 * $base-margin);
+      font-family: EBGaramond, var(--font-text);
       font-size: var(--text-size-100);
-      border: 1px solid var(--lightgray);
-      color: var(--dark);
+      border: 1px solid var(--midground-faint);
+      color: var(--foreground);
 
       &::placeholder {
-        color: var(--dark);
+        color: var(--foreground);
       }
 
       &:focus {
@@ -117,7 +116,7 @@
     & > #search-layout {
       display: none;
       flex-direction: row;
-      border: 1px solid var(--lightgray);
+      border: 1px solid var(--midground-faint);
       flex: 0 0 100%;
       box-sizing: border-box;
 
@@ -129,7 +128,7 @@
         flex: 0 0 min(30%, 450px);
       }
 
-      @media all and (min-width: $mobileBreakpoint) {
+      @media all and (min-width: $mobile-breakpoint) {
         &[data-preview] {
           & .result-card > p.preview {
             display: none;
@@ -137,7 +136,7 @@
 
           & > div {
             &:first-child {
-              border-right: 1px solid var(--lightgray);
+              border-right: 1px solid var(--midground-faint);
               border-top-right-radius: unset;
               border-bottom-right-radius: unset;
             }
@@ -155,7 +154,7 @@
         border-radius: 5px;
       }
 
-      @media all and (max-width: $tabletBreakpoint) {
+      @media all and (max-width: $tablet-breakpoint) {
         & > #preview-container {
           display: none !important;
         }
@@ -168,28 +167,39 @@
       }
 
       & .highlight {
-        background: color-mix(in srgb, var(--tertiary) 60%, rgba(255, 255, 255, 0));
         border-radius: 5px;
         scroll-margin-top: 2rem;
+        color: var(--green);
+        text-shadow: 0 0 10px color-mix(in srgb, var(--green) 70%, transparent);
       }
 
       & > #preview-container {
         display: block;
         overflow: hidden;
         font-family: inherit;
-        color: var(--dark);
+        color: var(--foreground);
         line-height: 1.5em;
-        font-weight: $normalWeight;
+        font-weight: $normal-weight;
         overflow-y: auto;
-        padding: 0 2rem;
+        margin-left: calc(2 * $base-margin);
+        margin-right: calc(2 * $base-margin);
+        cursor: pointer;
 
         & .preview-inner {
           margin: 0 auto;
-          width: min($pageWidth, 100%);
+          width: min($page-width, 100%);
+        }
+
+        & .article-title {
+          margin-top: calc(1.5 * $base-margin);
         }
 
         a[role="anchor"] {
           background-color: transparent;
+        }
+
+        & .dropcap {
+          line-height: 1.3;
         }
       }
 
@@ -202,15 +212,13 @@
           padding: 1em;
           cursor: pointer;
           transition: background 0.2s ease;
-          border-bottom: 1px solid var(--lightgray);
+          border-bottom: 1px solid var(--midground-faint);
           width: 100%;
           display: block;
           box-sizing: border-box;
 
           // normalize card props
           font-family: inherit;
-          // font-size: 100%;
-          // line-height: 1.15;
           margin: 0;
           text-transform: none;
           text-align: left;
@@ -220,7 +228,7 @@
           &:hover,
           &:focus,
           &.focus {
-            background: color-mix(in srgb, var(--lightgray) 40%, var(--light));
+            background: color-mix(in srgb, var(--midground-faint) 40%, var(--background));
           }
 
           & > h3 {
@@ -228,7 +236,7 @@
           }
 
           & > ul.tags {
-            margin-top: $baseMargin;
+            margin-top: $base-margin;
             margin-bottom: 0;
           }
 
@@ -237,11 +245,11 @@
             background-color: var(--highlight);
             padding: 0.2rem 0.4rem;
             line-height: 1.4rem;
-            font-weight: $boldWeight;
-            color: var(--secondary);
+            font-weight: $bold-weight;
+            color: var(--midground);
 
             &.match-tag {
-              color: var(--tertiary);
+              color: var(--color-link);
             }
           }
 

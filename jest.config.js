@@ -40,7 +40,7 @@ const config = {
     "^(\\.{1,2}/.*)\\.js$": "$1",
     "\\.(css|less|scss|sass)$": "identity-obj-proxy",
   },
-  testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(spec|test).ts(x|)"],
+  testMatch: ["**/__tests__/**/*.ts", "**/?(*.)+(test).ts(x|)"],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

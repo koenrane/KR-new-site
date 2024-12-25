@@ -1,7 +1,10 @@
 import type { Element as HastElement } from "hast"
+import type { VFile } from "vfile"
 
 import { slug as slugAnchor } from "github-slugger"
 import rfdc from "rfdc"
+
+import { improveFormatting } from "../plugins/transformers/formatting_improvement_html"
 
 export const clone = rfdc()
 
@@ -66,7 +69,7 @@ function sluggify(s: string): string {
 export function slugifyFilePath(fp: FilePath, excludeExt?: boolean): FullSlug {
   fp = stripSlashes(fp) as FilePath
   let ext = _getFileExtension(fp)
-  const withoutFileExt = fp.replace(new RegExp(ext + "$"), "")
+  const withoutFileExt = fp.replace(new RegExp(`${ext}$`), "")
   if (excludeExt || [".md", ".html", undefined].includes(ext)) {
     ext = ""
   }
@@ -105,7 +108,7 @@ export function transformInternalLink(link: string): RelativeURL {
 // from micromorph/src/utils.ts
 // https://github.com/natemoo-re/micromorph/blob/main/src/utils.ts#L5
 const _rebaseHtmlElement = (el: Element, attr: string, newBase: string | URL) => {
-  const rebased = new URL(el.getAttribute(attr)!, newBase)
+  const rebased = new URL(el.getAttribute(attr) ?? "", newBase)
   el.setAttribute(attr, rebased.pathname + rebased.hash)
 }
 export function normalizeRelativeURLs(el: Element | Document, destination: string | URL) {
@@ -117,12 +120,20 @@ export function normalizeRelativeURLs(el: Element | Document, destination: strin
   )
 }
 
+/**
+ * Rebases a HAST element's attribute to a new base slug
+ *
+ * @param el - HAST element to rebase
+ * @param attr - Attribute to rebase
+ * @param curBase - Current base slug where element originates
+ * @param newBase - New base slug where element will be transcluded
+ */
 const _rebaseHastElement = (
   el: HastElement,
   attr: string,
   curBase: FullSlug,
   newBase: FullSlug,
-) => {
+): void => {
   if (el.properties?.[attr]) {
     if (!isRelativeURL(String(el.properties[attr]))) {
       return
@@ -133,8 +144,34 @@ const _rebaseHastElement = (
   }
 }
 
+/**
+ * Normalizes a HAST element for transclusion by:
+ * 1. Cloning the element to avoid modifying original content
+ * 2. Applying formatting improvements through the HTML transformer
+ * 3. Rebasing relative links to work in the new context
+ *
+ * @param rawEl - Original HAST element to normalize
+ * @param curBase - Current base slug where element originates
+ * @param newBase - New base slug where element will be transcluded
+ * @returns Normalized HAST element with proper formatting and rebased links
+ */
 export function normalizeHastElement(rawEl: HastElement, curBase: FullSlug, newBase: FullSlug) {
   const el = clone(rawEl) // clone so we dont modify the original page
+
+  // Apply formatting improvements to the cloned element
+  const transformer = improveFormatting()
+  transformer(
+    {
+      type: "root",
+      children: [el],
+    },
+    { data: {} } as VFile,
+    () => {
+      // empty because improveFormatting doesn't need a function passed
+    },
+  )
+
+  // Continue with existing link rebasing
   _rebaseHastElement(el, "src", curBase, newBase)
   _rebaseHastElement(el, "href", curBase, newBase)
   if (el.children) {
@@ -162,6 +199,13 @@ export function pathToRoot(slug: FullSlug): RelativeURL {
   return rootPath as RelativeURL
 }
 
+/**
+ * Resolves a relative path between two slugs
+ *
+ * @param current - Starting slug to resolve from
+ * @param target - Target slug to resolve to
+ * @returns Relative URL path from current to target
+ */
 export function resolveRelative(current: FullSlug, target: FullSlug | SimpleSlug): RelativeURL {
   const res = joinSegments(pathToRoot(current), simplifySlug(target as FullSlug)) as RelativeURL
   return res
@@ -173,7 +217,7 @@ export function splitAnchor(link: string): [string, string] {
   if (fp.endsWith(".pdf")) {
     return [fp, anchor === undefined ? "" : `#${anchor}`]
   }
-  anchor = anchor === undefined ? "" : "#" + slugAnchor(anchor)
+  anchor = anchor === undefined ? "" : `#${slugAnchor(anchor)}`
   return [fp, anchor]
 }
 
@@ -246,7 +290,7 @@ function isFolderPath(fplike: string): boolean {
 }
 
 export function endsWith(s: string, suffix: string): boolean {
-  return s === suffix || s.endsWith("/" + suffix)
+  return s === suffix || s.endsWith(`/${suffix}`)
 }
 
 function trimSuffix(s: string, suffix: string): string {

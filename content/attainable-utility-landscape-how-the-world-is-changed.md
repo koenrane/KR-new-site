@@ -3,7 +3,8 @@ permalink: attainable-utility-landscape
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
+lw-page-url: 
+  https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 lw-is-question: 'false'
 lw-posted-at: 2020-02-10T00:58:01.453000Z
 lw-last-modification: 2020-07-25T21:12:42.735000Z
@@ -36,13 +37,17 @@ next-post-title: The Catastrophic Convergence Conjecture
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2020-02-10 00:00:00
-original_url: https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
+original_url: 
+  https://www.lesswrong.com/posts/fj8eyc7QzqCaB8Wgm/attainable-utility-landscape-how-the-world-is-changed
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/k5K8m32.png
 description: Examining how our actions reshape the landscape of achievable goals,
   highlighting opportunity costs and the structure of agency in shaping the future.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
+
+
 
 
 
@@ -131,7 +136,8 @@ We say two rewardless MDPs $M$ and $M'$ are _isomorphic up to possibilities_ if 
 
 This isomorphism is a natural contender[^1] for the canonical (finite) MDP isomorphism:
 
-**Theorem:** $M$ and $M'$ are isomorphic up to possibilities IFF their directed graphs are isomorphic (and they have the same discount rate).
+> [!math] A theorem I proved
+> $M$ and $M'$ are isomorphic up to possibilities IFF their directed graphs are isomorphic (and they have the same discount rate).
 
 ### Representation equivalence
 
@@ -152,11 +158,11 @@ $$
 \left\{\begin{pmatrix}
            0 \\
            0 \\
-           4 \end{pmatrix} 
+           4 \end{pmatrix}
 \right\} \qquad\left\{\begin{pmatrix}
            0 \\
            1 \\
-           3 \end{pmatrix}, 
+           3 \end{pmatrix},
 \begin{pmatrix}
            4-\frac{1}{.4375}\\ \frac{1}{.4375} \\ 0 \end{pmatrix},
 \begin{pmatrix}
@@ -167,16 +173,16 @@ $$
 
 $$
 > [!info] Exercise
-> 
+>
 > What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$.
-> 
+>
 > >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](https://assets.turntrout.com/static/images/posts/5GCZ9oY.avif).
 > >
 > >! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
 > >
 > >! The other two states correspond to the "1" entries in their possibilities, so we can mark that down. The rest follows straightforwardly.
 
-> [!info] Theorem
+> [!math] Theorem
 > Suppose the rewardless MDP $M$ has possibility function $\mathcal{F}$. Given only $\mathcal{F}$,[^2] $M$ can be reconstructed up to possibility isomorphism.
 
 In MDPs, the "AU landscape" is the set of optimal value functions for all reward functions over states in that MDP. If you know the optimal value functions for just $|\mathcal{S}|$ reward functions, you can also reconstruct the rewardless MDP structure.[^3]
@@ -196,23 +202,23 @@ Going to the green state means you can't get to the purple state as quickly.
 
 On a deep level, why is the world structured such that this happens? Could you imagine a world without opportunity cost of any kind? The answer, again in the rewardless MDP setting, is simple: "yes, but the world would be trivial: you wouldn't have any choices". Using a straightforward formalization of opportunity cost, we have:
 
-**Theorem:** Opportunity cost exists in an environment IFF there is a state with more than one possibility.
+> [!math] Existence of opportunity cost
+> Opportunity cost exists in an environment IFF there is a state with more than one possibility.
 
 Philosophically, opportunity cost exists when you have meaningful choices. When you make a choice, you're necessarily moving away from some potential future but towards another; since you can't be in more than one place at the same time, opportunity cost follows. Equivalently, we assumed the agent isn't infinitely farsighted ($\gamma<1$); if it were, it would be possible to be in "more than one place at the same time", in a sense (thanks to Rohin Shah for this interpretation).
 
 While understanding opportunity cost may seem like a side-quest, each insight is another brick in the edifice of our understanding of the incentives of goal-directed agency.
 
-### Notes
+# Notes
 
 - Just as game theory is a great abstraction for modeling competitive and cooperative dynamics, AU landscape is great for thinking about consequences: it automatically excludes irrelevant details about the world state. We can think about the effects of events without needing a specific utility function or ontology to evaluate them. In multi-agent systems, we can straightforwardly predict the impact the agents have on each other and the world.
 - “Objective impact to a location” means that agents whose plans route through the location tend to be objectively impacted.
 - The landscape is not the territory: [AU is calculated with respect to an agent's _beliefs_](/the-gears-of-impact), not necessarily with respect to what really "could" or will happen.
 
-
 [^1]: The possibility isomorphism is new to my work, as are all other results shared in this post. This apparent lack of basic theory regarding MDPs is strange; even stranger, this absence was actually pointed out in two [published](http://papers.nips.cc/paper/3179-stable-dual-dynamic-programming.pdf) [papers](https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4220813)!
 
     I find the existing MDP isomorphisms/equivalences to be pretty lacking. The details don't fit in this margin, but perhaps in a paper at some point. If you want to coauthor this (mainly compiling results, finding a venue, and responding to reviews), let me know. Added later: The results are available in the appendices of [my dissertation](https://arxiv.org/abs/2206.11831).
 
-[^2]: In fact, you can reconstruct the environment using only a limited subset of possibilities: the _non-dominated_ possibilities. 
+[^2]: In fact, you can reconstruct the environment using only a limited subset of possibilities: the _non-dominated_ possibilities.
 
-[^3]: As a tensor, the transition function $T$ has size $|\mathcal{A}|\cdot|\mathcal{S}|^2$, while the AU landscape representation only has size $|\mathcal{S}|^2$. However, if you're just representing $T$ as a transition _function_, it has size $|\mathcal{A}|\cdot|\mathcal{S}|$. 
+[^3]: As a tensor, the transition function $T$ has size $|\mathcal{A}|\cdot|\mathcal{S}|^2$, while the AU landscape representation only has size $|\mathcal{S}|^2$. However, if you're just representing $T$ as a transition _function_, it has size $|\mathcal{A}|\cdot|\mathcal{S}|$.

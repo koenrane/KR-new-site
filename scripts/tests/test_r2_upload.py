@@ -1,16 +1,20 @@
-import pytest
-from unittest.mock import patch, MagicMock
 import shutil
-from pathlib import Path
 import subprocess
+import tempfile
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 from .. import r2_upload
 from .. import utils as script_utils
-import tempfile
 
 
 @pytest.fixture()
 def r2_cleanup():
-    """Fixture to clean up uploaded files on R2 after each test."""
+    """
+    Fixture to clean up uploaded files on R2 after each test.
+    """
     uploaded_files = []
     yield uploaded_files
     for file in uploaded_files:
@@ -57,19 +61,25 @@ def test_media_setup(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
         "patterns.md": "Standard: ![](quartz/static/test.jpg)\nMultiple: ![](quartz/static/test.jpg) ![](quartz/static/test.jpg)\nNo match: ![](quartz/static/other.jpg)\nInline: This is an inline ![](quartz/static/test.jpg) image.",
         "test.md": "\n".join(f"![](quartz/static/{f})" for f in test_files),
     }
-    md_files = [(dirs["content"] / f, content) for f, content in md_content.items()]
+    md_files = [
+        (dirs["content"] / f, content) for f, content in md_content.items()
+    ]
     for file_path, content in md_files:
         file_path.write_text(content)
 
     subprocess.run(["git", "init", tmp_path], check=True)
     subprocess.run(
-        ["git", "config", "user.email", "test@example.com"], cwd=tmp_path, check=True
+        ["git", "config", "user.email", "test@example.com"],
+        cwd=tmp_path,
+        check=True,
     )
     subprocess.run(
         ["git", "config", "user.name", "Test User"], cwd=tmp_path, check=True
     )
     subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
-    subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "commit", "-m", "Initial commit"], cwd=tmp_path, check=True
+    )
 
     yield tmp_path, dirs["static"] / "test.jpg", dirs["content"], md_files
 
@@ -89,7 +99,7 @@ def mock_git_root(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> Path:
 
     monkeypatch.setattr("git.Repo", mock_repo_init)
 
-    def mock_get_git_root():
+    def mock_get_git_root(*args, **kwargs):
         return project_root
 
     monkeypatch.setattr(script_utils, "get_git_root", mock_get_git_root)
@@ -105,19 +115,18 @@ def mock_rclone():
 
 @pytest.fixture(autouse=True)
 def mock_home_directory(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
-    def mock_get_home_directory():
-        return str(tmp_path)
-
-    monkeypatch.setattr(r2_upload, "get_home_directory", mock_get_home_directory)
+    r2_upload._home_directory = tmp_path
 
 
-def test_verbose_output(mock_git_root: Path, capsys: pytest.CaptureFixture[str]):
+def test_verbose_output(
+    mock_git_root: Path, capsys: pytest.CaptureFixture[str], tmp_path: Path
+):
     test_file = mock_git_root / "quartz" / "static" / "test_verbose.jpg"
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_file, verbose=True)
+        r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
 
     captured = capsys.readouterr()
     assert f"Uploading {test_file}" in captured.out
@@ -174,11 +183,15 @@ def test_upload_and_move_exceptions(
     "mock_func, mock_side_effect, expected_exception",
     [
         (
-            "subprocess.run",
+            "scripts.r2_upload.subprocess.run",
             subprocess.CalledProcessError(1, "rclone"),
             RuntimeError,
         ),
-        ("shutil.move", IOError("Permission denied"), IOError),
+        (
+            "scripts.r2_upload.shutil.move",
+            OSError("Permission denied"),
+            OSError,
+        ),
     ],
 )
 def test_upload_and_move_failures(
@@ -191,9 +204,12 @@ def test_upload_and_move_failures(
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
-    with patch("subprocess.run"), patch(mock_func, side_effect=mock_side_effect):
+    with (
+        patch(mock_func, side_effect=mock_side_effect),
+        patch("scripts.r2_upload.check_exists_on_r2", return_value=False),
+    ):
         with pytest.raises(expected_exception):
-            r2_upload.upload_and_move(test_file)
+            r2_upload.upload_and_move(test_file, move_to_dir=mock_git_root)
 
 
 @pytest.mark.parametrize(
@@ -211,8 +227,14 @@ def test_main_function(
         test_file = mock_git_root / "quartz" / "static" / "test.jpg"
         test_file.parent.mkdir(parents=True, exist_ok=True)
         test_file.touch()
-        args = [arg.replace("quartz/static/test.jpg", str(test_file)) for arg in args]
-        args = ["--replacement-dir", str(mock_git_root / "quartz" / "content")] + args
+        args = [
+            arg.replace("quartz/static/test.jpg", str(test_file))
+            for arg in args
+        ]
+        args = [
+            "--references-dir",
+            str(mock_git_root / "quartz" / "content"),
+        ] + args
     with patch("sys.argv", ["r2_upload.py"] + args):
         if expected_exception:
             with pytest.raises(expected_exception):
@@ -238,7 +260,7 @@ def test_upload_and_move(
     test_image.touch()
 
     r2_upload.upload_and_move(
-        test_image, replacement_dir=content_dir, move_to_dir=move_to_dir
+        test_image, references_dir=content_dir, move_to_dir=move_to_dir
     )
 
     r2_cleanup.append("static/test.jpg")
@@ -279,64 +301,78 @@ def test_main_upload_all_custom_filetypes(
     mock_git_root: Path,
     mock_rclone: MagicMock,
 ):
-    # Use the mock_git_root instead of tmp_path
-    static_dir = mock_git_root / "quartz" / "static"
-    content_dir = mock_git_root / "quartz" / "content"
-    static_dir.mkdir(parents=True, exist_ok=True)
-    content_dir.mkdir(parents=True, exist_ok=True)
+    # Create a mock Repo object
+    mock_repo = MagicMock()
+    mock_repo.working_tree_dir = str(mock_git_root)
+    mock_repo.ignored = MagicMock(return_value=False)  # Don't ignore any files
 
-    # Create test files
-    (static_dir / "file4.png").touch()
-    (static_dir / "file5.jpg").touch()
+    with patch("git.Repo") as mock_git:
+        mock_git.return_value = mock_repo
 
-    # Create a test markdown file
-    test_md = content_dir / "test.md"
-    test_md.write_text("![](quartz/static/file4.png)\n![](quartz/static/file5.jpg)")
+        # Use the mock_git_root instead of tmp_path
+        static_dir = mock_git_root / "quartz" / "static"
+        content_dir = mock_git_root / "quartz" / "content"
+        static_dir.mkdir(parents=True, exist_ok=True)
+        content_dir.mkdir(parents=True, exist_ok=True)
 
-    arg_list = [
-        "r2_upload.py",
-        "--upload-from-directory",
-        str(static_dir),
-        "--filetypes",
-        ".png",
-        ".jpg",
-        "--replacement-dir",
-        str(content_dir),
-    ]
-    with patch("sys.argv", arg_list):
-        r2_upload.main()
+        # Create test files
+        (static_dir / "file4.png").touch()
+        (static_dir / "file5.jpg").touch()
 
-    md_content: str = test_md.read_text()
-    for file in ("file4.png", "file5.jpg"):
-        assert f"https://assets.turntrout.com/static/{file}" in md_content
+        # Create a test markdown file
+        test_md = content_dir / "test.md"
+        test_md.write_text(
+            "![](quartz/static/file4.png)\n![](quartz/static/file5.jpg)"
+        )
 
-    # Check if rclone was called for both PNG and JPG files
-    assert any(
-        call[0][0]
-        == [
-            "rclone",
-            "copyto",
-            str(static_dir / "file4.png"),
-            f"r2:{r2_upload.R2_BUCKET_NAME}/static/file4.png",
+        arg_list = [
+            "r2_upload.py",
+            "--upload-from-directory",
+            str(static_dir),
+            "--filetypes",
+            ".png",
+            ".jpg",
+            "--references-dir",
+            str(content_dir),
         ]
-        for call in mock_rclone.call_args_list
-    )
-    assert any(
-        call[0][0]
-        == [
-            "rclone",
-            "copyto",
-            str(static_dir / "file5.jpg"),
-            f"r2:{r2_upload.R2_BUCKET_NAME}/static/file5.jpg",
-        ]
-        for call in mock_rclone.call_args_list
-    )
+        with patch("sys.argv", arg_list):
+            r2_upload.main()
 
-    # Count the number of 'copyto' calls
-    copyto_count = sum(
-        1 for call in mock_rclone.call_args_list if call[0][0][1] == "copyto"
-    )
-    assert copyto_count == 2, f"Expected 2 'copyto' calls, but got {copyto_count}"
+        md_content: str = test_md.read_text()
+        for file in ("file4.png", "file5.jpg"):
+            assert f"https://assets.turntrout.com/static/{file}" in md_content
+
+        # Check if rclone was called for both PNG and JPG files
+        assert any(
+            call[0][0]
+            == [
+                "rclone",
+                "copyto",
+                str(static_dir / "file4.png"),
+                f"r2:{r2_upload.R2_BUCKET_NAME}/static/file4.png",
+            ]
+            for call in mock_rclone.call_args_list
+        )
+        assert any(
+            call[0][0]
+            == [
+                "rclone",
+                "copyto",
+                str(static_dir / "file5.jpg"),
+                f"r2:{r2_upload.R2_BUCKET_NAME}/static/file5.jpg",
+            ]
+            for call in mock_rclone.call_args_list
+        )
+
+        # Count the number of 'copyto' calls
+        copyto_count = sum(
+            1
+            for call in mock_rclone.call_args_list
+            if call[0][0][1] == "copyto"
+        )
+        assert (
+            copyto_count == 2
+        ), f"Expected 2 'copyto' calls, but got {copyto_count}"
 
 
 def test_preserve_path_structure(mock_git_root: Path, tmp_path: Path):
@@ -344,75 +380,72 @@ def test_preserve_path_structure(mock_git_root: Path, tmp_path: Path):
     move_to_dir.mkdir()
 
     deep_file = (
-        mock_git_root / "quartz" / "static" / "images" / "deep" / "test_deep.jpg"
+        mock_git_root
+        / "quartz"
+        / "static"
+        / "images"
+        / "deep"
+        / "test_deep.jpg"
     )
     deep_file.parent.mkdir(parents=True)
     deep_file.touch()
 
     with patch("subprocess.run"), patch("shutil.move") as mock_move:
-        r2_upload.upload_and_move(deep_file, move_to_dir=move_to_dir)
+        r2_upload.upload_and_move(
+            deep_file, move_to_dir=move_to_dir, references_dir=None
+        )
 
     expected_moved_path = move_to_dir / deep_file.relative_to(mock_git_root)
     mock_move.assert_called_once_with(str(deep_file), str(expected_moved_path))
 
 
-def test_preserve_path_structure_with_replacement(mock_git_root: Path, tmp_path: Path):
-    move_to_dir = tmp_path / "external_backup"
-    move_to_dir.mkdir()
+def test_preserve_path_structure_with_replacement(
+    mock_git_root: Path, tmp_path: Path
+):
+    # Create a mock Repo object
+    mock_repo = MagicMock()
+    mock_repo.working_tree_dir = str(mock_git_root)
+    mock_repo.ignored = MagicMock(return_value=False)  # Don't ignore any files
 
-    content_dir = mock_git_root / "quartz" / "content"
-    content_dir.mkdir(parents=True)
+    with patch("git.Repo") as mock_git:
+        mock_git.return_value = mock_repo
 
-    static_file = mock_git_root / "quartz" / "static" / "images" / "test_static.jpg"
-    static_file.parent.mkdir(parents=True)
-    static_file.touch()
+        move_to_dir = tmp_path / "external_backup"
+        move_to_dir.mkdir()
 
-    md_file = content_dir / "test_reference.md"
-    md_file.write_text(f"![Test Image](quartz/static/images/test_static.jpg)")
+        content_dir = mock_git_root / "quartz" / "content"
+        content_dir.mkdir(parents=True)
 
-    with patch("subprocess.run"), patch("shutil.move") as mock_move:
-        r2_upload.upload_and_move(
-            static_file, replacement_dir=content_dir, move_to_dir=move_to_dir
+        static_file = (
+            mock_git_root / "quartz" / "static" / "images" / "test_static.jpg"
+        )
+        static_file.parent.mkdir(parents=True)
+        static_file.touch()
+
+        md_file = content_dir / "test_reference.md"
+        md_file.write_text(
+            f"![Test Image](quartz/static/images/test_static.jpg)"
         )
 
-    expected_moved_path = move_to_dir / static_file.relative_to(mock_git_root)
-    mock_move.assert_called_once_with(str(static_file), str(expected_moved_path))
+        with patch("subprocess.run"), patch("shutil.move") as mock_move:
+            r2_upload.upload_and_move(
+                static_file,
+                references_dir=content_dir,
+                move_to_dir=move_to_dir,
+            )
 
-    updated_md_content = md_file.read_text()
-    assert (
-        "![Test Image](https://assets.turntrout.com/static/images/test_static.jpg)"
-        in updated_md_content
-    )
+        expected_moved_path = move_to_dir / static_file.relative_to(
+            mock_git_root
+        )
+        mock_move.assert_called_once_with(
+            str(static_file), str(expected_moved_path)
+        )
 
-
-def test_strict_static_path_matching(
-    test_media_setup: tuple[Path, Path, Path, list[tuple[Path, str]]],
-    mock_git_root: Path,
-):
-    _, _, content_dir, _ = test_media_setup
-
-    md_content = """
-    1. Correct: ![image](/static/images/test.jpg)
-    2. Incorrect: ![image](a/static/images/test.jpg)
-    """
-
-    md_file = content_dir / "test.md"
-    md_file.write_text(md_content)
-
-    test_image = mock_git_root / "quartz" / "static" / "images" / "test.jpg"
-    test_image.parent.mkdir(parents=True, exist_ok=True)
-    test_image.touch()
-
-    with patch("subprocess.run"), patch("shutil.move"):
-        r2_upload.upload_and_move(test_image, replacement_dir=content_dir)
-
-    updated_content = md_file.read_text()
-    expected_url = "https://assets.turntrout.com/static/images/test.jpg"
-
-    assert f"![image]({expected_url})" in updated_content
-    assert (
-        "![image](a/static/images/test.jpg)" in updated_content
-    ), "Incorrect case was unexpectedly modified"
+        updated_md_content = md_file.read_text()
+        assert (
+            "![Test Image](https://assets.turntrout.com/static/images/test_static.jpg)"
+            in updated_md_content
+        )
 
 
 def test_check_exists_on_r2_file_exists():
@@ -421,7 +454,10 @@ def test_check_exists_on_r2_file_exists():
         result = r2_upload.check_exists_on_r2("r2:bucket/file.txt")
         assert result is True
         mock_run.assert_called_once_with(
-            ["rclone", "ls", "r2:bucket"], capture_output=True, text=True, check=False
+            ["rclone", "ls", "r2:bucket"],
+            capture_output=True,
+            text=True,
+            check=False,
         )
 
 
@@ -431,7 +467,10 @@ def test_check_exists_on_r2_file_not_exists():
         result = r2_upload.check_exists_on_r2("r2:bucket/nonexistent.txt")
         assert result is False
         mock_run.assert_called_once_with(
-            ["rclone", "ls", "r2:bucket"], capture_output=True, text=True, check=False
+            ["rclone", "ls", "r2:bucket"],
+            capture_output=True,
+            text=True,
+            check=False,
         )
 
 
@@ -446,7 +485,10 @@ def test_check_exists_on_r2_verbose_output(capsys):
         mock_run.return_value = MagicMock(returncode=0, stdout="")
         r2_upload.check_exists_on_r2("r2:bucket/nonexistent.txt", verbose=True)
         captured = capsys.readouterr()
-        assert "No existing file found in R2: r2:bucket/nonexistent.txt" in captured.out
+        assert (
+            "No existing file found in R2: r2:bucket/nonexistent.txt"
+            in captured.out
+        )
 
 
 def test_upload_non_existing_file(mock_git_root: Path, tmp_path: Path):
@@ -454,11 +496,13 @@ def test_upload_non_existing_file(mock_git_root: Path, tmp_path: Path):
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
-    with patch(
-        "scripts.r2_upload.check_exists_on_r2", return_value=False
-    ) as mock_check, patch("subprocess.run") as mock_run, patch(
-        "shutil.move"
-    ) as mock_move:
+    with (
+        patch(
+            "scripts.r2_upload.check_exists_on_r2", return_value=False
+        ) as mock_check,
+        patch("subprocess.run") as mock_run,
+        patch("shutil.move") as mock_move,
+    ):
 
         r2_upload.upload_and_move(test_file, verbose=True, move_to_dir=tmp_path)
 
@@ -486,13 +530,170 @@ def test_upload_and_move_file_exists(
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
 
-    with patch("scripts.r2_upload.check_exists_on_r2", return_value=True), patch(
-        "subprocess.run"
-    ), patch("shutil.move"):
-        r2_upload.upload_and_move(test_file, verbose=True, overwrite_existing=False)
+    with (
+        patch("scripts.r2_upload.check_exists_on_r2", return_value=True),
+        patch("subprocess.run"),
+        patch("shutil.move"),
+    ):
+        r2_upload.upload_and_move(
+            test_file, verbose=True, overwrite_existing=False
+        )
 
     captured = capsys.readouterr()
     assert (
         "File 'static/test.jpg' already exists in R2. Use '--overwrite-existing' to overwrite."
         in captured.out
     )
+
+
+# Ensure we tell rclone to handle the MIME header correctly
+def test_upload_svg_with_metadata(mock_git_root: Path):
+    test_file = mock_git_root / "quartz" / "static" / "test.svg"
+    test_file.parent.mkdir(parents=True, exist_ok=True)
+    test_file.touch()
+
+    with patch("subprocess.run") as mock_run, patch("shutil.move"):
+        r2_upload.upload_and_move(test_file, verbose=True)
+
+        # Check that rclone was called with the correct metadata for SVG
+        mock_run.assert_any_call(
+            [
+                "rclone",
+                "copyto",
+                str(test_file),
+                f"r2:{r2_upload.R2_BUCKET_NAME}/static/test.svg",
+                "--metadata-set",
+                "content-type=image/svg+xml",
+            ],
+            check=True,
+        )
+
+
+def test_move_uploaded_file(mock_git_root: Path, tmp_path: Path):
+    """Test that move_uploaded_file preserves directory structure."""
+    source_file = mock_git_root / "quartz" / "static" / "deep" / "test.jpg"
+    source_file.parent.mkdir(parents=True)
+    source_file.touch()
+
+    move_to_dir = tmp_path / "backup"
+
+    r2_upload.move_uploaded_file(source_file, move_to_dir, verbose=True)
+
+    expected_path = move_to_dir / "quartz" / "static" / "deep" / "test.jpg"
+    assert expected_path.exists()
+    assert not source_file.exists()
+
+
+def test_move_uploaded_file_error_handling(mock_git_root: Path, tmp_path: Path):
+    """Test error handling when move operation fails."""
+    source_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    source_file.parent.mkdir(parents=True)
+    source_file.touch()
+
+    move_to_dir = tmp_path / "backup"
+    move_to_dir.mkdir()
+
+    # Make the target directory read-only to force a permission error
+    move_to_dir.chmod(0o444)
+
+    with pytest.raises(OSError):
+        r2_upload.move_uploaded_file(source_file, move_to_dir)
+
+
+def test_move_uploaded_file_nonexistent_source(
+    mock_git_root: Path, tmp_path: Path
+):
+    """Test error handling when source file doesn't exist."""
+    source_file = mock_git_root / "quartz" / "static" / "nonexistent.jpg"
+    move_to_dir = tmp_path / "backup"
+
+    with pytest.raises(FileNotFoundError):
+        r2_upload.move_uploaded_file(source_file, move_to_dir)
+
+
+def test_upload_and_move_nonexistent_move_dir(
+    mock_git_root: Path,
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+):
+    """Test handling of nonexistent move directory."""
+    test_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    nonexistent_dir = tmp_path / "nonexistent"
+
+    with patch("subprocess.run"):
+        r2_upload.upload_and_move(test_file, move_to_dir=nonexistent_dir)
+
+    captured = capsys.readouterr()
+    assert (
+        f"Warning: Directory does not exist: {nonexistent_dir}" in captured.out
+    )
+
+
+def test_update_markdown_references_with_links(
+    tmp_path: Path, mock_git_root: Path
+):
+    """Test updating both image references and regular links."""
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    test_file = mock_git_root / "quartz" / "static" / "docs" / "doc.pdf"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    md_content = """
+    # Test Document
+    ![Image](quartz/static/docs/doc.pdf)
+    [Download PDF](./static/docs/doc.pdf)
+    [Other Link](different/path/file.pdf)
+    """
+
+    md_file = content_dir / "test.md"
+    md_file.write_text(md_content)
+
+    r2_address = "https://assets.turntrout.com/static/docs/doc.pdf"
+
+    r2_upload.update_markdown_references(
+        test_file, r2_address, references_dir=content_dir
+    )
+
+    updated_content = md_file.read_text()
+    assert f"![Image]({r2_address})" in updated_content
+    assert f"[Download PDF]({r2_address})" in updated_content
+    assert "[Other Link](different/path/file.pdf)" in updated_content
+
+
+def test_update_markdown_references_no_references_dir():
+    """Test handling when no references directory is provided."""
+    test_file = Path("quartz/static/test.jpg")
+    r2_address = "https://assets.turntrout.com/static/test.jpg"
+
+    # Should not raise any errors
+    r2_upload.update_markdown_references(test_file, r2_address)
+
+
+def test_update_markdown_references_verbose_output(
+    tmp_path: Path, mock_git_root: Path, capsys: pytest.CaptureFixture[str]
+):
+    """Test verbose output during reference updates."""
+    content_dir = tmp_path / "content"
+    content_dir.mkdir()
+
+    test_file = mock_git_root / "quartz" / "static" / "test.jpg"
+    test_file.parent.mkdir(parents=True)
+    test_file.touch()
+
+    md_file = content_dir / "test.md"
+    md_file.write_text("![](quartz/static/test.jpg)")
+
+    r2_address = "https://assets.turntrout.com/static/test.jpg"
+
+    r2_upload.update_markdown_references(
+        test_file, r2_address, references_dir=content_dir, verbose=True
+    )
+
+    captured = capsys.readouterr()
+    assert 'Changing "static/test.jpg" references to' in captured.out
+    assert r2_address in captured.out

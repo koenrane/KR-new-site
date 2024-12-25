@@ -2,7 +2,7 @@ import { jest } from "@jest/globals"
 import { Parent, Text } from "hast"
 import { h } from "hastscript"
 
-import { replaceRegex, ReplaceFnResult } from "../utils"
+import { replaceRegex, ReplaceFnResult, nodeBeginsWithCapital } from "../utils"
 
 const acceptAll = () => false
 describe("replaceRegex", () => {
@@ -85,5 +85,134 @@ describe("replaceRegex", () => {
 
     expect(replaceFn).not.toHaveBeenCalled()
     expect(parent.children).toEqual([node])
+  })
+
+  it("should handle Element array replacements", () => {
+    const node = createNode("2nd place")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /(\d)(nd|st|rd|th)\b/g
+
+    const replaceFn = (match: RegExpMatchArray): ReplaceFnResult => {
+      const [fullMatch, num, suffix] = match
+      console.log("Match groups:", { fullMatch, num, suffix }) // Debug log
+
+      return {
+        before: "",
+        replacedMatch: [
+          h("span", { className: ["num"] }, num),
+          h("span", { className: ["suffix"] }, suffix),
+        ],
+        after: "",
+      }
+    }
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([
+      h("span", { className: ["num"] }, "2"),
+      h("span", { className: ["suffix"] }, "nd"),
+      createNode(" place"),
+    ])
+  })
+
+  it("should handle overlapping matches by taking first match", () => {
+    const node = createNode("aaaa")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /aa/g // Will match "aa" twice, overlapping
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "",
+      replacedMatch: "b",
+      after: "",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([h("span", "b"), h("span", "b")])
+  })
+
+  it("should handle before and after text correctly", () => {
+    const node = createNode("test123test")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /123/g
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "<<",
+      replacedMatch: "456",
+      after: ">>",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([
+      createNode("test"),
+      createNode("<<"),
+      h("span", "456"),
+      createNode(">>"),
+      createNode("test"),
+    ])
+  })
+
+  it("should handle single element replacement", () => {
+    const node = createNode("test123")
+    const parent: Parent = { type: "span", children: [node] }
+    const regex = /123/g
+
+    const replaceFn = (): ReplaceFnResult => ({
+      before: "",
+      replacedMatch: h("span.number", "one-two-three"),
+      after: "",
+    })
+
+    replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
+
+    expect(parent.children).toEqual([createNode("test"), h("span.number", "one-two-three")])
+  })
+})
+
+describe("nodeBeginsWithCapital", () => {
+  it.each<[string, Text[], boolean]>([
+    ["no previous sibling", [{ type: "text", value: "test" }], true],
+    [
+      "ends with period",
+      [
+        { type: "text", value: "sentence." },
+        { type: "text", value: "test" },
+      ],
+      true,
+    ],
+    [
+      "ends with period + space",
+      [
+        { type: "text", value: "sentence. " },
+        { type: "text", value: "test" },
+      ],
+      true,
+    ],
+    [
+      "ends with period + spaces",
+      [
+        { type: "text", value: "sentence.  " },
+        { type: "text", value: "test" },
+      ],
+      true,
+    ],
+    [
+      "no period",
+      [
+        { type: "text", value: "sentence" },
+        { type: "text", value: "test" },
+      ],
+      false,
+    ],
+    [
+      "non-text element",
+      [{ type: "element" } as unknown as Text, { type: "text", value: "test" }],
+      false,
+    ],
+  ])("should handle %s", (_case, children, expected) => {
+    const parent = { type: "root", children } as Parent
+    const index = children.length - 1 // Test node is always last
+    expect(nodeBeginsWithCapital(index, parent)).toBe(expected)
   })
 })

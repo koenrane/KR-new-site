@@ -43,48 +43,44 @@ export default ((userOpts?: Partial<Options>) => {
             const tags = page.frontmatter?.tags ?? []
 
             return (
-              <li className="recent-li" key={page.slug}>
-                <div className="section">
-                  <div className="desc">
-                    <h3>
+              <li className="recent-li section" key={page.slug}>
+                <h3>
+                  <a
+                    href={resolveRelative(
+                      fileData.slug || ("" as FullSlug),
+                      page.slug || ("" as FullSlug),
+                    )}
+                    className="internal"
+                  >
+                    {title}
+                  </a>
+                </h3>
+                {page.dates && (
+                  <p className="meta">
+                    <DateElement
+                      cfg={cfg}
+                      date={page.dates.created}
+                      monthFormat="long"
+                      includeOrdinalSuffix
+                      formatOrdinalSuffix
+                    />
+                  </p>
+                )}
+                <ul className="tags">
+                  {tags.map((tag) => (
+                    <li key={tag}>
                       <a
+                        className="internal tag-link"
                         href={resolveRelative(
                           fileData.slug || ("" as FullSlug),
-                          page.slug || ("" as FullSlug),
+                          `tags/${tag}` as FullSlug,
                         )}
-                        className="internal"
                       >
-                        {title}
+                        {tag}
                       </a>
-                    </h3>
-                  </div>
-                  {page.dates && (
-                    <p className="meta">
-                      <DateElement
-                        cfg={cfg}
-                        fileData={page as QuartzPluginData}
-                        monthFormat="long"
-                        includeOrdinalSuffix={true}
-                        formatOrdinalSuffix={true}
-                      />
-                    </p>
-                  )}
-                  <ul className="tags">
-                    {tags.map((tag) => (
-                      <li key={tag}>
-                        <a
-                          className="internal tag-link"
-                          href={resolveRelative(
-                            fileData.slug || ("" as FullSlug),
-                            `tags/${tag}` as FullSlug,
-                          )}
-                        >
-                          {tag}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                    </li>
+                  ))}
+                </ul>
               </li>
             )
           })}

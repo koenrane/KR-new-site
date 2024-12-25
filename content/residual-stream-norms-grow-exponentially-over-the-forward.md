@@ -3,7 +3,8 @@ permalink: residual-stream-norms-grow-exponentially-over-the-forward-pass
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+lw-page-url: 
+  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 lw-is-question: "false"
 lw-posted-at: 2023-05-07T00:46:02.658000Z
 lw-last-modification: 2023-06-27T22:46:07.824000Z
@@ -28,13 +29,16 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-07 00:00:00
-original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+original_url: 
+  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/hpgem17ggmbpgnwcvdut.png
 description: Residual stream norms grow, perhaps due to layer normalization making
   it hard to delete information and easier to overshadow it.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
+
 
 
 
@@ -68,8 +72,8 @@ Back in MATS 3.0, Stefan had previously noticed this phenomenon in GPT-2-small:
 
 [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) also finds a growth in the norms of the attention-out matrices $W_O$ and the norms of MLP out matrices $W_{\rm out}$ ("writing weights"), while they find stable norms for $W_Q$, $W_K$, and $W_{\rm in}$ ("reading weights"):
 
-> [!quote] [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant) 
-> 
+> [!quote] [Basic Facts about Language Model Internals](https://www.lesswrong.com/posts/PDLfpRwSynu73mxGw/basic-facts-about-language-model-internals-1#_Writing_Weights_Grow_Throughout_The_Network_And_Reading_Weights_Are_Constant)
+>
 > ![https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif](https://assets.turntrout.com/static/images/posts/qh8w4tmnimfqrwd5cmtu.avif)
 
 # Comparison of various transformer models
@@ -115,8 +119,8 @@ However, we think that this does not work due to LayerNorm (LN). With LayerNorm,
 
 We can think of two ways to get exponential growth of the residual stream despite LN:
 
-1.  **The Attention and/or MLP weights and/or LN parameters can just be higher in later layers (following this exponential rate).** This is something the model could learn in training, essentially making sure the Attention and MLP outputs grow by 4.5% per layer, independently of the residual stream norm.
-2.  **Sneaking information through the LayerNorm.** Maybe there is a hidden property (say "number of features") that is not affected by LN but that causes the typical exponential growth "Attention/MLP output proportional is to the number of features". Note that this theory requires (i) LN does not reduce the number of features, but (ii) the number of features affects the norm of Attention/MLP output.
+1. **The Attention and/or MLP weights and/or LN parameters can just be higher in later layers (following this exponential rate).** This is something the model could learn in training, essentially making sure the Attention and MLP outputs grow by 4.5% per layer, independently of the residual stream norm.
+2. **Sneaking information through the LayerNorm.** Maybe there is a hidden property (say "number of features") that is not affected by LN but that causes the typical exponential growth "Attention/MLP output proportional is to the number of features". Note that this theory requires (i) LN does not reduce the number of features, but (ii) the number of features affects the norm of Attention/MLP output.
 
 To illustrate the second theory, consider the following toy example where $x$ and $y$ have the same norm, but $x$ contains only one feature (the "alternating" feature) while $y$ contains two features (the "alternating" feature, and the "1st != 3rd number" feature).
 
@@ -310,4 +314,3 @@ The plot below also explains the difference in L2 norm between actual `mlp_out` 
 [^8]: Seeing the exponential growth ($\propto$ `mlp_out`) here would not be necessary but would be sufficient as evidence for theory 1 and against theory 2. This is because random vectors might qualitatively differ from typical residual stream activations and not reproduce the typical behaviour. If they _do_ however reproduce the `mlp_out` scaling, this is unlikely to be coincidence.
 [^9]: Note that we used TransformerLens to test all models, which (by default) does a couple of weight-rewriting tricks (such as `fold_ln`, `center_writing_weights`) that do _not_ change the model output, but _might_ affect the regularization.
 [^10]: Randomly resampled `resid_mid` activations, taken from positions 1 to 6 to avoid BOS and padding tokens.
-

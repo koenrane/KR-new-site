@@ -11,10 +11,18 @@ import {
 import { slugify, resetSlugger } from "./gfm"
 import { createLogger } from "./logger_utils"
 
+/**
+ * Configuration options for the Table of Contents transformer
+ * @interface Options
+ */
 export interface Options {
+  /** Maximum heading depth to include in TOC (h1-h6) */
   maxDepth: 1 | 2 | 3 | 4 | 5 | 6
+  /** Minimum number of entries required to show TOC */
   minEntries: number
+  /** Whether to show TOC by default when not specified in frontmatter */
   showByDefault: boolean
+  /** Whether TOC should be collapsed by default */
   collapseByDefault: boolean
 }
 
@@ -25,10 +33,17 @@ const defaultOptions: Options = {
   collapseByDefault: false,
 }
 
+/**
+ * Represents a single entry in the Table of Contents
+ * @interface TocEntry
+ */
 export interface TocEntry {
+  /** Heading level (0-based from highest level in document) */
   depth: number
+  /** Plain text content of the heading */
   text: string
-  slug: string // this is just the anchor (#some-slug), not the canonical slug
+  /** HTML anchor ID for the heading */
+  slug: string
 }
 
 const logger = createLogger("TableOfContents")
@@ -37,20 +52,40 @@ function logTocEntry(entry: TocEntry) {
   logger.debug(`TOC Entry: depth=${entry.depth}, text="${entry.text}", slug="${entry.slug}"`)
 }
 
-function customToString(node: Node): string {
+/**
+ * Converts a node's content to a string representation
+ * @param node - The AST node to convert
+ * @returns String representation of the node's content
+ */
+export function customToString(node: Node): string {
   if ((node.type === "inlineMath" || node.type === "math") && "value" in node) {
     return node.type === "inlineMath" ? `$${node.value}$` : `$$${node.value}$$`
   }
+
+  if (["inlineCode", "code"].includes(node.type) && "value" in node) {
+    return `\`${node.value}\``
+  }
+
   if ("children" in node) {
     return (node.children as Node[]).map(customToString).join("")
   }
   return "value" in node ? String(node.value) : ""
 }
 
+/**
+ * Removes HTML tags from a string
+ * @param html - String containing HTML
+ * @returns Clean text without HTML tags
+ */
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "")
 }
 
+/**
+ * Quartz transformer plugin that generates a table of contents from document headings
+ * @param userOpts - Optional configuration options
+ * @returns Plugin configuration object
+ */
 export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefined> = (
   userOpts,
 ) => {
@@ -99,6 +134,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                 } else if (node.type === "footnoteDefinition") {
                   hasFootnotes = true
                 }
+                return null
               })
               if (hasFootnotes) {
                 toc.push({
@@ -106,7 +142,7 @@ export const TableOfContents: QuartzTransformerPlugin<Partial<Options> | undefin
                   text: "Footnotes",
                   slug: "footnote-label",
                 })
-                logger.info(`Added Footnotes to TOC`)
+                logger.info("Added Footnotes to TOC")
               }
 
               if (toc.length > 0 && toc.length > opts.minEntries) {

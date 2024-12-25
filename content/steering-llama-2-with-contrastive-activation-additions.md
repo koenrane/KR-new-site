@@ -3,7 +3,8 @@ permalink: llama2-steering-vectors
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
+lw-page-url: 
+  https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 lw-linkpost-url: https://arxiv.org/abs/2312.06681
 lw-is-question: "false"
 lw-posted-at: 2024-01-02T00:47:04.621000Z
@@ -33,12 +34,15 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2024-01-02 00:00:00
-original_url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
+original_url: 
+  https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 skip_import: true
 description: Steering Llama-2 towards or away from various traits using sample-efficient
   steering vectors.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-26 22:19:00.264857
 ---
+
+
 
 
 
@@ -207,47 +211,53 @@ We compute the average probability which Llama-2-7B-chat assigns to the correct 
     </thead>
     <tbody>
       <tr>
+        <td style="text-align: right;">AI Coordination</td>
+        <td style="color: blue;">61% (-2%)</td>
+        <td>63%</td>
+        <td style="color: red;">62% (-1%)</td>
+      </tr>
+      <tr>
         <td style="text-align: right;">Corrigibility</td>
-        <td style="color: blue;">0.44 (-0.06)</td>
-        <td>0.50</td>
-        <td style="color: red;">0.49 (-0.01)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Power-Seeking Inclination</td>
-        <td style="color: blue;">0.47 (-0.01)</td>
-        <td>0.48</td>
-        <td style="color: red;">0.48 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Survival Instinct</td>
-        <td style="color: blue;">0.47 (-0.01)</td>
-        <td>0.48</td>
-        <td style="color: red;">0.48 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Myopia</td>
-        <td style="color: blue;">0.45 (-0.04)</td>
-        <td>0.49</td>
-        <td style="color: red;">0.49 (+0.00)</td>
-      </tr>
-      <tr>
-        <td style="text-align: right;">Coordination with other AIs</td>
-        <td style="color: blue;">0.47 (+0.00)</td>
-        <td>0.47</td>
-        <td style="color: red;">0.46 (-0.01)</td>
+        <td style="color: blue;">59% (-4%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
       </tr>
       <tr>
         <td style="text-align: right;">Hallucination</td>
-        <td style="color: blue;">0.49 (-0.02)</td>
-        <td>0.51</td>
-        <td style="color: red;">0.50 (-0.01)</td>
+        <td style="color: blue;">57% (-6%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Myopic Reward</td>
+        <td style="color: blue;">61% (-2%)</td>
+        <td>63%</td>
+        <td style="color: red;">65% (+2%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Survival Instinct</td>
+        <td style="color: blue;">59% (-4%)</td>
+        <td>63%</td>
+        <td style="color: red;">65% (+2%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Sycophancy</td>
+        <td style="color: blue;">58% (-5%)</td>
+        <td>63%</td>
+        <td style="color: red;">64% (+1%)</td>
+      </tr>
+      <tr>
+        <td style="text-align: right;">Refusal</td>
+        <td style="color: blue;">64% (+1%)</td>
+        <td>63%</td>
+        <td style="color: red;">59% (-4%)</td>
       </tr>
     </tbody>
   </table>
-  <figcaption>Probability assigned to correct answer in MMLU. "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1.</figcaption>
+  <figcaption>Probability assigned to correct answer in MMLU. "Neutral" means we don't add a steering vector. "Added" means we add with coefficient 1. "Subtracted" means we subtract with coefficient 1.</figcaption>
 </figure>
 
-Some of the vectors have a negative effect (e.g. corrigibility corresponds to a 6% absolute drop) but other vectors don't really (e.g. hallucination or coordination). Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples).
+Apparently due to our choices of steering objectives, subtracting the vector tends to hurt MMLU while adding tends to help. Furthermore, the steered models can still hold conversations just as well (as suggested by the earlier examples).
 
 Furthermore, [Inference-Time Intervention](https://www.lesswrong.com/posts/kuQfnotjkQA4Kkfou/inference-time-intervention-eliciting-truthful-answers-from) found that adding a "truth vector" _improved_ MMLU for Llama-1!
 
@@ -308,4 +318,3 @@ Finetuning is a different kind of operation than activation addition. Therefore,
     > Is it a good idea to pretend to like a dress your friend is wearing to make them feel good?
 
     This explains the discrepancy between the 80% average likelihood of sycophancy vs the 8% Claude-2 scored sycophancy rate in the open-ended generations.
-

@@ -31,8 +31,9 @@ date_published: 2018-07-29 00:00:00
 original_url: https://www.lesswrong.com/posts/FPrt6esZvAKRX2vmQ/pretense
 skip_import: true
 description: Reflections on self-deception and the fleeting nature of genuine connection.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -52,4 +53,3 @@ After CFAR, there was a precious week when I channeled myself during these momen
 Weeks passed, and I slowly forgot. My experience of the workshop faded into a collection of moments: quietly gazing at the furious red skyline; laughing and singing despite the iceberg inching closer; hearing, and being heard. Ever-so-close bonds loosened, and then crumbled a bit, their essence blown away into the now-yawning distances between us.
 
 I want to take off the coat.
-

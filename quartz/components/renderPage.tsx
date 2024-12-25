@@ -1,5 +1,8 @@
+// NOTE: Docstrings generated via AI; take with a grain of salt
+
 import { Root, Element, ElementContent } from "hast"
 import { render } from "preact-render-to-string"
+// skipcq: JS-W1028
 import React from "react"
 import { visit } from "unist-util-visit"
 
@@ -32,6 +35,13 @@ interface RenderComponents {
 }
 
 const headerRegex = new RegExp(/h[1-6]/)
+
+/**
+ * Generates static resources (CSS/JS) paths for a given page
+ * @param baseDir - Base directory slug or relative URL
+ * @param staticResources - Existing static resources configuration
+ * @returns StaticResources object with CSS and JS paths
+ */
 export function pageResources(
   baseDir: FullSlug | RelativeURL,
   staticResources: StaticResources,
@@ -64,6 +74,11 @@ export function pageResources(
   }
 }
 
+/**
+ * Generates a virtual file containing recent posts data
+ * @param componentData - Component props containing site configuration and file data
+ * @returns QuartzPluginData for recent posts
+ */
 const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
   const hast = createPageListHast(
     componentData.cfg,
@@ -80,6 +95,11 @@ const generateRecentPostsFile = (componentData: QuartzComponentProps): QuartzPlu
   } as QuartzPluginData
 }
 
+/**
+ * Generates a virtual file containing all tags data
+ * @param componentData - Component props containing site configuration and file data
+ * @returns QuartzPluginData for all tags
+ */
 const generateAllTagsFile = (componentData: QuartzComponentProps): QuartzPluginData => {
   // Generate the HAST for the all tags listing
   const hast = generateAllTagsHast(componentData)
@@ -92,6 +112,25 @@ const generateAllTagsFile = (componentData: QuartzComponentProps): QuartzPluginD
   } as QuartzPluginData
 }
 
+/**
+ * Renders a complete HTML page with all components and transclusions
+ *
+ * Process:
+ * 1. Clones the component tree to avoid modifying cached content
+ * 2. Processes all transclusions (blocks, headers, full pages)
+ * 3. Applies formatting improvements through normalizeHastElement
+ * 4. Renders the full page structure with headers, sidebars, and content
+ *
+ * @param cfg - Global site configuration
+ * @param slug - Current page slug
+ * @param componentData - Props containing page data and configuration
+ * @param components - Object containing all page component definitions
+ * @param pageResources - Static resources (CSS/JS) for the page
+ * @returns Rendered HTML string
+ *
+ * @see {@link normalizeHastElement} for transclusion formatting
+ * @see {@link quartz/plugins/transformers/formatting_improvement_html.ts} for text formatting rules
+ */
 export function renderPage(
   cfg: GlobalConfiguration,
   slug: FullSlug,
@@ -133,9 +172,9 @@ export function renderPage(
         } else if (blockRef?.startsWith("#") && page.htmlAst) {
           // header transclude
           blockRef = blockRef.slice(1)
-          let startIdx = undefined
-          let startDepth = undefined
-          let endIdx = undefined
+          let startIdx: number | undefined
+          let startDepth: number | undefined
+          let endIdx: number | undefined
           for (const [i, el] of page.htmlAst.children.entries()) {
             // skip non-headers
             if (!(el.type === "element" && el.tagName.match(headerRegex))) continue
@@ -167,9 +206,7 @@ export function renderPage(
               type: "element",
               tagName: "a",
               properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-              children: [
-                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-              ],
+              children: [],
             },
           ]
         } else if (page.htmlAst) {
@@ -183,9 +220,9 @@ export function renderPage(
                 {
                   type: "text",
                   value:
-                    page.frontmatter?.title ??
+                    (page.frontmatter?.title && page.slug) ??
                     i18n(cfg.locale).components.transcludes.transcludeOf({
-                      targetSlug: page.slug!,
+                      targetSlug: page.slug as FullSlug,
                     }),
                 },
               ],
@@ -197,9 +234,7 @@ export function renderPage(
               type: "element",
               tagName: "a",
               properties: { href: inner.properties?.href, class: ["internal", "transclude-src"] },
-              children: [
-                { type: "text", value: i18n(cfg.locale).components.transcludes.linkToOriginal },
-              ],
+              children: [],
             },
           ]
         }
@@ -238,39 +273,47 @@ export function renderPage(
     </div>
   )
 
+  const pageHeader = (
+    <div className="page-header">
+      <Header {...componentData}>
+        {header.map((HeaderComponent) => (
+          <HeaderComponent {...componentData} key={HeaderComponent.name} />
+        ))}
+      </Header>
+      <div className="popover-hint">
+        {beforeBody.map((BodyComponent) => (
+          <BodyComponent {...componentData} key={BodyComponent.name} />
+        ))}
+      </div>
+    </div>
+  )
+
+  const body = (
+    <body data-slug={slug}>
+      <div id="quartz-root" className="page">
+        <Body {...componentData}>
+          {LeftComponent}
+          <div className="center">
+            {pageHeader}
+            <Content {...componentData} />
+          </div>
+          {RightComponent}
+        </Body>
+        <Footer {...componentData} />
+      </div>
+    </body>
+  )
+
   const lang = componentData.fileData.frontmatter?.lang ?? cfg.locale?.split("-")[0] ?? "en"
   const doc = (
     <html lang={lang}>
       <Head {...componentData} />
-      <body data-slug={slug}>
-        <div id="quartz-root" className="page">
-          <Body {...componentData}>
-            {LeftComponent}
-            <div className="center">
-              <div className="page-header">
-                <Header {...componentData}>
-                  {header.map((HeaderComponent) => (
-                    <HeaderComponent {...componentData} key={HeaderComponent.name} />
-                  ))}
-                </Header>
-                <div className="popover-hint">
-                  {beforeBody.map((BodyComponent) => (
-                    <BodyComponent {...componentData} key={BodyComponent.name} />
-                  ))}
-                </div>
-              </div>
-              <Content {...componentData} />
-            </div>
-            {RightComponent}
-          </Body>
-          <Footer {...componentData} />
-        </div>
-      </body>
+      {body}
       {pageResources.js
         .filter((resource) => resource.loadTime === "afterDOMReady")
         .map((res) => JSResourceToScriptElement(res))}
     </html>
   )
 
-  return "<!DOCTYPE html>\n" + render(doc)
+  return `<!DOCTYPE html>\n${render(doc)}`
 }

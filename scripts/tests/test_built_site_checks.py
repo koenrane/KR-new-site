@@ -1,9 +1,11 @@
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 from bs4 import BeautifulSoup
-from pathlib import Path
+
 from ..utils import get_git_root
-import sys
-import subprocess
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -45,7 +47,7 @@ def sample_html_with_katex_errors():
     return """
     <html>
     <body>
-        <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text" style="color:#cc0000;"><span class="mord" style="color:#cc0000;">\\rewavcxx</span></span></span></span></span>
+        <span class="katex-error">\\rewavcxx</span>
     </body>
     </html>
     """
@@ -88,34 +90,69 @@ def test_check_localhost_links(sample_soup):
 
 
 def test_check_invalid_anchors(sample_soup, temp_site_root):
-    result = check_invalid_anchors(
-        sample_soup, temp_site_root / "test.html", temp_site_root
-    )
+    result = check_invalid_anchors(sample_soup, temp_site_root)
     assert set(result) == {"#invalid-anchor", "/other-page#invalid-anchor"}
 
 
 def test_check_problematic_paragraphs(sample_soup):
     result = check_problematic_paragraphs(sample_soup)
     assert len(result) == 3
-    assert "Table: This is a table description" in result
-    assert "Figure: This is a figure caption" in result
-    assert "Code: This is a code snippet" in result
-    assert "Normal paragraph" not in result
-    assert "This is a delayed-paragraph Table: " not in result
+    assert "Problematic paragraph: Table: This is a table description" in result
+    assert "Problematic paragraph: Figure: This is a figure caption" in result
+    assert "Problematic paragraph: Code: This is a code snippet" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
+    assert (
+        "Problematic paragraph: This is a delayed-paragraph Table: "
+        not in result
+    )
+
+
+def test_check_problematic_paragraphs_with_direct_text():
+    html = """
+    <html>
+    <body>
+        <article>
+            Figure: Text
+            <p>Normal paragraph</p>
+            <blockquote>Figure: Blockquote</blockquote>
+        </article>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert "Problematic paragraph: Figure: Text" in result
+    assert "Problematic paragraph: Figure: Blockquote" in result
+    assert "Problematic paragraph: Normal paragraph" not in result
 
 
 def test_check_katex_elements_for_errors(sample_html_with_katex_errors):
     html = BeautifulSoup(sample_html_with_katex_errors, "html.parser")
     result = check_katex_elements_for_errors(html)
-    assert result == ["\\rewavcxx"]
+    assert result == ["KaTeX error: \\rewavcxx"]
 
 
-def test_parse_html_file(tmp_path):
-    file_path = tmp_path / "test.html"
-    file_path.write_text("<html><body><p>Test</p></body></html>")
-    result = parse_html_file(file_path)
-    assert isinstance(result, BeautifulSoup)
-    assert result.find("p").text == "Test"
+@pytest.mark.parametrize(
+    "input_path,expected_path",
+    [
+        # Test absolute path
+        ("/images/test.jpg", "images/test.jpg"),
+        # Test relative path with ./
+        ("./images/test.jpg", "images/test.jpg"),
+        # Test path without leading ./ or /
+        ("images/test.jpg", "images/test.jpg"),
+        # Test nested paths
+        ("/deep/nested/path/image.png", "deep/nested/path/image.png"),
+        # Test current directory
+        ("./file.jpg", "file.jpg"),
+        # Test file in root
+        ("/file.jpg", "file.jpg"),
+    ],
+)
+def test_resolve_media_path(input_path, expected_path, temp_site_root):
+    """Test the resolve_media_path helper function."""
+    result = resolve_media_path(input_path, temp_site_root)
+    assert result == (temp_site_root / expected_path).resolve()
 
 
 def test_check_local_media_files(sample_soup, temp_site_root):
@@ -123,13 +160,50 @@ def test_check_local_media_files(sample_soup, temp_site_root):
     (temp_site_root / "existing-image.jpg").touch()
     (temp_site_root / "existing-video.mp4").touch()
 
-    result = check_local_media_files(
-        sample_soup, temp_site_root / "test.html", temp_site_root
-    )
-    assert set(result) == {"missing-image.png", "missing-svg.svg"}
+    result = check_local_media_files(sample_soup, temp_site_root)
+    assert set(result) == {
+        "missing-image.png (resolved to "
+        + str((temp_site_root / "missing-image.png").resolve())
+        + ")",
+        "missing-svg.svg (resolved to "
+        + str((temp_site_root / "missing-svg.svg").resolve())
+        + ")",
+    }
+
+
+@pytest.mark.parametrize(
+    "html,expected,existing_files",
+    [
+        ('<img src="local.jpg">', ["local.jpg (resolved to {})"], []),
+        ('<img src="https://example.com/image.png">', [], []),
+        ('<video src="video.mp4"></video>', ["video.mp4 (resolved to {})"], []),
+        ('<svg src="icon.svg"></svg>', ["icon.svg (resolved to {})"], []),
+        ('<img src="existing.png">', [], ["existing.png"]),
+    ],
+)
+def test_check_local_media_files_parametrized(
+    html, expected, existing_files, temp_site_root
+):
+    # Create any existing files
+    for file in existing_files:
+        (temp_site_root / file).touch()
+
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_local_media_files(soup, temp_site_root)
+
+    # Format the expected paths with the actual resolved paths
+    expected = [
+        exp.format(
+            str((temp_site_root / exp.split(" (resolved to ")[0]).resolve())
+        )
+        for exp in expected
+    ]
+
+    assert result == expected
 
 
 def test_check_file_for_issues(tmp_path):
+    """Test check_file_for_issues function."""
     file_path = tmp_path / "test.html"
     file_path.write_text(
         """
@@ -148,13 +222,16 @@ def test_check_file_for_issues(tmp_path):
     </html>
     """
     )
-    issues = check_file_for_issues(file_path, tmp_path)
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["localhost_links"] == ["https://localhost:8000"]
     assert issues["invalid_anchors"] == ["#invalid-anchor"]
-    assert issues["problematic_paragraphs"] == ["Table: Test table"]
-    assert issues["missing_media_files"] == ["missing-image.jpg"]
-    assert issues["trailing_blockquotes"] == ["This is a problematic blockquote >"]
-    assert issues["unrendered_subtitles"] == ["Subtitle: Unrendered subtitle"]
+    assert issues["problematic_paragraphs"] == [
+        "Problematic paragraph: Table: Test table"
+    ]
+    expected_missing = [
+        f"missing-image.jpg (resolved to {(tmp_path / 'missing-image.jpg').resolve()})"
+    ]
+    assert issues["missing_media_files"] == expected_missing
 
 
 complicated_blockquote = """
@@ -167,88 +244,37 @@ complicated_blockquote = """
 def test_complicated_blockquote(tmp_path):
     file_path = tmp_path / "test.html"
     file_path.write_text(complicated_blockquote)
-    issues = check_file_for_issues(file_path, tmp_path)
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
     assert issues["trailing_blockquotes"] == [
-        "Basic facts about language models during trai ning..."
+        "Problematic blockquote: Basic facts about language models during trai ning >"
     ]
 
 
-@pytest.mark.parametrize(
-    "html,expected",
-    [
-        ('<img src="local.jpg">', ["local.jpg"]),
-        ('<img src="https://example.com/image.png">', []),
-        ('<video src="video.mp4"></video>', ["video.mp4"]),
-        ('<svg src="icon.svg"></svg>', ["icon.svg"]),
-        ('<img src="existing.png">', []),
-    ],
-)
-def test_check_local_media_files_parametrized(html, expected, temp_site_root):
-    soup = BeautifulSoup(html, "html.parser")
-    (temp_site_root / "existing.png").touch()
-    result = check_local_media_files(soup, temp_site_root / "test.html", temp_site_root)
-    assert result == expected
-
-
-def test_check_asset_references_all_missing(sample_soup_with_assets, temp_site_root):
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(sample_soup_with_assets, file_path, temp_site_root)
-
-    expected = {
-        "/styles/main.css (resolved to styles/main.css)",
-        "./index.css (resolved to index.css)",
-        "/js/script.js (resolved to js/script.js)",
-    }
-    assert set(result) == expected
-
-
-def test_check_asset_references_absolute_paths(temp_site_root):
-    html = """
-    <html>
-    <head>
-        <link rel="stylesheet" href="/absolute/path/style.css">
-        <script src="/another/absolute/path/script.js"></script>
-    </head>
-    </html>
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(soup, file_path, temp_site_root)
-
-    expected = {
-        "/absolute/path/style.css (resolved to absolute/path/style.css)",
-        "/another/absolute/path/script.js (resolved to another/absolute/path/script.js)",
-    }
-    assert set(result) == expected
-
-
-def test_check_asset_references_ignore_external(temp_site_root):
-    html = """
-    <html>
-    <head>
-        <link rel="stylesheet" href="https://example.com/style.css">
-        <script src="http://example.com/script.js"></script>
-    </head>
-    </html>
-    """
-    soup = BeautifulSoup(html, "html.parser")
-    file_path = temp_site_root / "test.html"
-
-    result = check_asset_references(soup, file_path, temp_site_root)
-
-    assert result == []
+def test_check_file_for_issues_with_redirect(tmp_path):
+    file_path = tmp_path / "test.html"
+    file_path.write_text(
+        '<html><head><meta http-equiv="refresh" content="0;url=/new-page"></head></html>'
+    )
+    issues = check_file_for_issues(file_path, tmp_path, tmp_path / "content")
+    assert issues == {}
 
 
 @pytest.mark.parametrize(
     "html,expected",
     [
         (
-            '<html><head><img class="favicon" href="favicon.ico"></head></html>',
+            '<html><body><article><p><img class="favicon" href="favicon.ico"></p></article></body></html>',
             False,
         ),
-        ('<html><head><link rel="stylesheet" href="style.css"></head></html>', True),
+        # In the bottom of the page
+        (
+            '<html><body><article>Article</article><img class="favicon" href="favicon.ico"></body></html>',
+            True,
+        ),
+        (
+            '<html><head><link rel="stylesheet" href="style.css"></head></html>',
+            True,
+        ),
         ("<html><head></head></html>", True),
     ],
 )
@@ -272,18 +298,20 @@ def test_check_unrendered_subtitles():
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_subtitles(soup)
     assert result == [
-        "Subtitle: This should be a subtitle",
-        "Subtitle: Another unrendered subtitle",
+        "Unrendered subtitle: Subtitle: This should be a subtitle",
+        "Unrendered subtitle: Subtitle: Another unrendered subtitle",
     ]
 
 
 def test_check_rss_file_for_issues_with_actual_xmllint(temp_site_root):
     """
-    Test that check_rss_file_for_issues runs the actual xmllint process on valid and invalid RSS files.
+    Test that check_rss_file_for_issues runs the actual xmllint process on valid
+    and invalid RSS files.
+
     Note: This test requires xmllint to be installed on the system.
     """
     # Get the real git root
-    real_git_root = get_git_root()
+    get_git_root()
 
     # Define paths for rss.xml and rss-2.0.xsd
     rss_path = temp_site_root / "public" / "rss.xml"
@@ -367,3 +395,1053 @@ def test_check_unrendered_footnotes_parametrized(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_unrendered_footnotes(soup)
     assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic duplicate ID
+        (
+            """
+            <div id="test"></div>
+            <div id="test"></div>
+            """,
+            ["test (found 2 times)"],
+        ),
+        # Test ID with numbered variant
+        (
+            """
+            <div id="test"></div>
+            <div id="test-1"></div>
+            """,
+            ["test (found 2 times, including numbered variants)"],
+        ),
+        # Test multiple numbered variants
+        (
+            """
+            <div id="test"></div>
+            <div id="test-1"></div>
+            <div id="test-2"></div>
+            """,
+            ["test (found 3 times, including numbered variants)"],
+        ),
+        # Test multiple issues
+        (
+            """
+            <div id="test"></div>
+            <div id="test"></div>
+            <div id="other"></div>
+            <div id="other-1"></div>
+            """,
+            [
+                "test (found 2 times)",
+                "other (found 2 times, including numbered variants)",
+            ],
+        ),
+        # Test flowchart exclusion
+        (
+            """
+            <div class="flowchart">
+                <div id="test"></div>
+                <div id="test"></div>
+            </div>
+            <div id="test"></div>
+            """,
+            [],  # IDs in flowcharts should be ignored
+        ),
+        # Test no duplicates
+        (
+            """
+            <div id="test1"></div>
+            <div id="test2"></div>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_duplicate_ids(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_duplicate_ids(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test footnote references (should be allowed to have duplicates)
+        (
+            """
+            <p><a id="user-content-fnref-crux"></a>First reference</p>
+            <p><a id="user-content-fnref-crux"></a>Second reference</p>
+            <p><a id="user-content-fn-1"></a>The footnote</p>
+            """,
+            [],  # No issues reported for duplicate fnref IDs
+        ),
+        # Test mixed footnote and regular IDs
+        (
+            """
+            <p><a id="user-content-fnref-1"></a>First reference</p>
+            <p><a id="user-content-fnref-1"></a>Second reference</p>
+            <p id="test">Test</p>
+            <p id="test">Duplicate test</p>
+            """,
+            ["test (found 2 times)"],  # Only regular duplicate ID is reported
+        ),
+        # Test footnote content IDs (should flag duplicates)
+        (
+            """
+            <p><a id="user-content-fn-1"></a>First footnote</p>
+            <p><a id="user-content-fn-1"></a>Duplicate footnote</p>
+            """,
+            [
+                "user-content-fn-1 (found 2 times)"
+            ],  # Duplicate footnote content IDs should be reported
+        ),
+    ],
+)
+def test_check_duplicate_ids_with_footnotes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_duplicate_ids(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test basic paragraph cases
+        (
+            """
+            <p>Normal paragraph</p>
+            <p>Table: Test table</p>
+            """,
+            ["Problematic paragraph: Table: Test table"],
+        ),
+        # Test definition term cases
+        (
+            """
+            <dt>Normal term</dt>
+            <dt>: Invalid term</dt>
+            """,
+            ["Problematic paragraph: : Invalid term"],
+        ),
+        # Test mixed cases
+        (
+            """
+            <p>Table: Test table</p>
+            <dt>: Invalid term</dt>
+            <p>Normal paragraph</p>
+            <dt>Normal term</dt>
+            """,
+            [
+                "Problematic paragraph: Table: Test table",
+                "Problematic paragraph: : Invalid term",
+            ],
+        ),
+        # Test empty elements
+        (
+            """
+            <p></p>
+            <dt></dt>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_with_dt(html, expected):
+    """Check that unrendered description list entries are flagged."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
+
+
+def test_check_unrendered_spoilers():
+    html = """
+    <html>
+    <body>
+        <blockquote>
+            <p>! This is an unrendered spoiler.</p>
+            <p>This is normal text.</p>
+        </blockquote>
+        <blockquote>
+            <p>This is a regular blockquote.</p>
+        </blockquote>
+        <p>! Outside of blockquote should not be detected.</p>
+    </body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_spoilers(soup)
+    assert result == ["Unrendered spoiler: ! This is an unrendered spoiler."]
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test unrendered spoiler inside blockquote
+        (
+            """
+            <blockquote>
+                <p>! Spoiler text here.</p>
+            </blockquote>
+            """,
+            ["Unrendered spoiler: ! Spoiler text here."],
+        ),
+        # Test multiple unrendered spoilers
+        (
+            """
+            <blockquote>
+                <p>! First spoiler.</p>
+                <p>! Second spoiler.</p>
+            </blockquote>
+            """,
+            [
+                "Unrendered spoiler: ! First spoiler.",
+                "Unrendered spoiler: ! Second spoiler.",
+            ],
+        ),
+        # Test no unrendered spoilers
+        (
+            """
+            <blockquote>
+                <p>This is a regular paragraph.</p>
+            </blockquote>
+            """,
+            [],
+        ),
+        # Test unrendered spoiler not in blockquote (should not be detected)
+        (
+            """
+            <p>! This should not be detected.</p>
+            """,
+            [],
+        ),
+        # Test text node directly inside blockquote
+        (
+            """
+            <blockquote>
+                ! This is a text node, not inside a <p> tag.
+                <p>This should not be detected.</p>
+            </blockquote>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_unrendered_spoilers_parametrized(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_spoilers(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test unrendered heading
+        (
+            """
+            <p># Unrendered heading</p>
+            <p>## Another unrendered heading</p>
+            <p>Normal paragraph</p>
+            """,
+            [
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another unrendered heading",
+            ],
+        ),
+        # Test mixed problematic cases
+        (
+            """
+            <p># Heading</p>
+            <p>Table: Description</p>
+            <p>Normal text</p>
+            """,
+            [
+                "Problematic paragraph: # Heading",
+                "Problematic paragraph: Table: Description",
+            ],
+        ),
+        # Test heading-like content mid-paragraph (should not be detected)
+        (
+            """
+            <p>This is not a # heading</p>
+            <p>Also not a ## heading</p>
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_with_headings(html, expected):
+    """Check that unrendered headings (paragraphs starting with #) are flagged."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test bad_anywhere patterns
+        (
+            """
+            <p>> [!warning] Alert text</p>
+            """,
+            [
+                "Problematic paragraph: > [!warning] Alert text",
+            ],
+        ),
+        # Test direct text in article and blockquote
+        (
+            """
+            <article>
+                Table: Direct text in article
+                <p>Normal paragraph</p>
+            </article>
+            <blockquote>
+                Figure: Direct text in blockquote
+                <p>Normal paragraph</p>
+            </blockquote>
+            """,
+            [
+                "Problematic paragraph: Table: Direct text in article",
+                "Problematic paragraph: Figure: Direct text in blockquote",
+            ],
+        ),
+        # Test code tag exclusions
+        (
+            """
+            <p>Normal text <code>Table: This should be ignored</code></p>
+            <p><code>Figure: Also ignored</code> but Table: this isn't</p>
+            """,
+            ["Problematic paragraph: but Table: this isn't"],
+        ),
+        # Test nested structures
+        (
+            """
+            <article>
+                <blockquote>
+                    Table: Nested text
+                    <p>Normal paragraph</p>
+                    <p>Table: In paragraph</p>
+                </blockquote>
+                Figure: More direct text
+            </article>
+            """,
+            [
+                "Problematic paragraph: Table: Nested text",
+                "Problematic paragraph: Table: In paragraph",
+                "Problematic paragraph: Figure: More direct text",
+            ],
+        ),
+        # Test bad paragraph starting prefixes
+        (
+            """
+            <p>: Invalid prefix</p>
+            <p># Unrendered heading</p>
+            <p>## Another heading</p>
+            <p>Normal: text</p>
+            """,
+            [
+                "Problematic paragraph: : Invalid prefix",
+                "Problematic paragraph: # Unrendered heading",
+                "Problematic paragraph: ## Another heading",
+            ],
+        ),
+        # Test mixed content with code blocks
+        (
+            """
+            <p>
+                <code>Table: Ignored</code>
+                Table: Not ignored
+                <code>Figure: Also ignored</code>
+            </p>
+            """,
+            ["Problematic paragraph: Table: Not ignored"],
+        ),
+        # Test text nodes in different contexts
+        (
+            """
+            <p>Text before <em>Table: problematic</em></p>
+            <p>Text before <em>Figure: also problematic</em></p>
+            <p>Text before <em>Code: still problematic</em></p>
+            """,
+            [
+                "Problematic paragraph: Table: problematic",
+                "Problematic paragraph: Figure: also problematic",
+                "Problematic paragraph: Code: still problematic",
+            ],
+        ),
+        # Test edge cases with special characters
+        (
+            """
+            <p>> [!note] With spaces</p>
+            """,
+            [
+                "Problematic paragraph: > [!note] With spaces",
+            ],
+        ),
+    ],
+)
+def test_check_problematic_paragraphs_comprehensive(html, expected):
+    """Comprehensive test suite for check_problematic_paragraphs function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_problematic_paragraphs(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic emphasis cases
+        (
+            "<p>Text with *asterisk*</p>",
+            ["Unrendered emphasis: Text with *asterisk*"],
+        ),
+        (
+            "<p>Text with _underscore_</p>",
+            ["Unrendered emphasis: Text with _underscore_"],
+        ),
+        # Percentage cases (should be ignored)
+        ("<p>Text with ___ % coverage</p>", []),
+        # Mixed cases
+        (
+            "<p>Mixed *emphasis* with _100% value_</p>",
+            ["Unrendered emphasis: Mixed *emphasis* with _100% value_"],
+        ),
+        # Code and KaTeX exclusions
+        (
+            "<p>Text with <code>*ignored*</code> and *emphasis*</p>",
+            ["Unrendered emphasis: Text with  and *emphasis*"],
+        ),
+        (
+            "<p>Math <span class='katex'>*x*</span> and *emphasis*</p>",
+            ["Unrendered emphasis: Math  and *emphasis*"],
+        ),
+        # Multiple elements
+        (
+            """
+            <div>
+                <p>First *paragraph*</p>
+                <h1>Heading with _emphasis_</h1>
+                <figcaption>Caption with *stars*</figcaption>
+            </div>
+        """,
+            [
+                "Unrendered emphasis: First *paragraph*",
+                "Unrendered emphasis: Heading with _emphasis_",
+                "Unrendered emphasis: Caption with *stars*",
+            ],
+        ),
+        # Edge cases
+        (
+            "<p>Text_with_multiple_underscores</p>",
+            ["Unrendered emphasis: Text_with_multiple_underscores"],
+        ),
+        (
+            "<p>Text*with*multiple*asterisks</p>",
+            ["Unrendered emphasis: Text*with*multiple*asterisks"],
+        ),
+        (
+            "<p>Unicode: 你好 *emphasis* 再见</p>",
+            ["Unrendered emphasis: Unicode: 你好 *emphasis* 再见"],
+        ),
+        (
+            "<p>HTML &amp; *emphasis*</p>",
+            ["Unrendered emphasis: HTML & *emphasis*"],
+        ),
+    ],
+)
+def test_check_unrendered_emphasis(html, expected):
+    """Test the check_unrendered_emphasis function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_emphasis(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test KaTeX display starting with >> outside blockquote
+        (
+            """
+            <span class="katex-display">>> Some definition</span>
+            """,
+            ["KaTeX error: >> Some definition"],
+        ),
+        # Test KaTeX display without >>
+        (
+            """
+            <span class="katex-display">x + y = z</span>
+            """,
+            [],
+        ),
+        # Test multiple KaTeX displays
+        (
+            """
+            <span class="katex-display">>> First definition</span>
+            <span class="katex-display">Normal equation</span>
+            <span class="katex-display">> Second definition</span>
+            """,
+            [
+                "KaTeX error: >> First definition",
+                "KaTeX error: > Second definition",
+            ],
+        ),
+    ],
+)
+def test_katex_element_surrounded_by_blockquote(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = katex_element_surrounded_by_blockquote(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic straight quotes that should be caught
+        (
+            '<p>Text with "quotes"</p>',
+            ["Unprocessed quotes ['\"', '\"']: Text with \"quotes\""],
+        ),
+        (
+            "<p>Text with 'quotes'</p>",
+            ["Unprocessed quotes [\"'\", \"'\"]: Text with 'quotes'"],
+        ),
+        # Quotes in skipped elements should be ignored
+        ('<code>Text with "quotes"</code>', []),
+        ('<pre>Text with "quotes"</pre>', []),
+        ('<div class="no-formatting">Text with "quotes"</div>', []),
+        ('<div class="elvish">Text with "quotes"</div>', []),
+        # Nested skipped elements
+        ('<div><code>Text with "quotes"</code></div>', []),
+        ('<div class="no-formatting"><p>Text with "quotes"</p></div>', []),
+        # Mixed content
+        (
+            """
+            <div>
+                <p>Normal "quote"</p>
+                <code>Ignored "quote"</code>
+                <p>Another 'quote'</p>
+            </div>
+        """,
+            [
+                "Unprocessed quotes [\"'\", \"'\"]: Another 'quote'",
+                "Unprocessed quotes ['\"', '\"']: Normal \"quote\"",
+            ],
+        ),
+    ],
+)
+def test_check_unprocessed_quotes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unprocessed_quotes(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic dash cases that should be caught
+        (
+            "<p>Text with -- dash</p>",
+            ["Unprocessed dashes: Text with -- dash"],
+        ),
+        (
+            "<p>Text with --- dash</p>",
+            ["Unprocessed dashes: Text with --- dash"],
+        ),
+        (
+            "<p>since--as you know</p>",
+            ["Unprocessed dashes: since--as you know"],
+        ),
+        # Horizontal rules
+        ("<p>\n---\n</p>", ["Unprocessed dashes: \n---\n"]),
+        # Dashes in skipped elements should be ignored
+        ("<code>Text with -- dash</code>", []),
+        ("<pre>Text with -- dash</pre>", []),
+        ('<div class="no-formatting">Text with -- dash</div>', []),
+        ('<div class="elvish">Text with -- dash</div>', []),
+        # Special cases that should be ignored (from formatting_improvement_html.ts tests)
+        ("<p>- First level\n - Second level</p>", []),  # List items
+        ("<p>> - First level</p>", []),  # Quoted lists
+        ("<p>a browser- or OS-specific fashion</p>", []),  # Compound words
+        # Mixed content
+        (
+            """
+            <div>
+                <p>Text with -- dash</p>
+                <code>Ignored -- dash</code>
+                <p>Another --- dash</p>
+            </div>
+        """,
+            [
+                "Unprocessed dashes: Text with -- dash",
+                "Unprocessed dashes: Another --- dash",
+            ],
+        ),
+    ],
+)
+def test_check_unprocessed_dashes(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unprocessed_dashes(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic HTML tags that should be caught
+        (
+            "<p>&lt;div&gt; tag</p>",
+            ["Unrendered HTML ['<div>']: <div> tag"],
+        ),
+        (
+            "<p>&lt;/br&gt; tag</p>",
+            ["Unrendered HTML ['</br>']: </br> tag"],
+        ),
+        # Self-closing tags
+        (
+            "<p>&lt;img/&gt; tag</p>",
+            ["Unrendered HTML ['<img/>']: <img/> tag"],
+        ),
+        # Tags with attributes
+        (
+            '<p>&lt;div class="test"&gt; tag</p>',
+            ["Unrendered HTML ['<div ']: <div class=\"test\"> tag"],
+        ),
+        # Multiple tags in one element
+        (
+            "<p>&lt;div&gt; and &lt;/div&gt; tags</p>",
+            ["Unrendered HTML ['<div>', '</div>']: <div> and </div> tags"],
+        ),
+        # Tags in skipped elements should be ignored
+        ("<code>&lt;div&gt; tag</code>", []),
+        ("<pre>&lt;div&gt; tag</pre>", []),
+        ('<div class="no-formatting">&lt;div&gt; tag</div>', []),
+        ('<div class="elvish">&lt;div&gt; tag</div>', []),
+        # Nested skipped elements
+        ("<div><code>&lt;div&gt; tag</code></div>", []),
+        ('<div class="no-formatting"><p>&lt;div&gt; tag</p></div>', []),
+        # Mixed content
+        (
+            """
+            <div>
+                <p>&lt;div&gt; tag</p>
+                <code>&lt;div&gt; tag</code>
+                <p>&lt;/br&gt; tag</p>
+            </div>
+            """,
+            [
+                "Unrendered HTML ['<div>']: <div> tag",
+                "Unrendered HTML ['</br>']: </br> tag",
+            ],
+        ),
+        # Cases that should not be caught
+        ("<p>Text with < or > symbols</p>", []),
+        ("<p>Text with <3 heart</p>", []),
+        ("<p>Math like 2 < x > 1</p>", []),
+        # Complex case with nested elements
+        (
+            """<p>&lt;video autoplay loop muted playsinline src="<a href="https://assets.turntrout.com/static/images/posts/safelife2.mp4" class="external alias" target="_blank">https://assets.turntrout.com/static/images/posts/safelife2.<abbr class="small-caps">mp4</abbr><span style="white-space:nowrap;">"<img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" class="favicon" alt=""></span></a> style="width: 100%; height: 100%; object-fit: cover; margin: 0" ／type="video/<abbr class="small-caps">mp4</abbr>"&gt;<source src="https://assets.turntrout.com/static/images/posts/safelife2.mp4" type="video/mp4"></p>""",
+            [
+                "Unrendered HTML ['<video ']: <video autoplay loop muted playsinline src=\""
+            ],
+        ),
+    ],
+)
+def test_check_unrendered_html(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_unrendered_html(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "md_content,html_content,expected",
+    [
+        # Basic image reference
+        ("![Alt text](image.jpg)", "<img src='image.jpg'>", []),
+        # Missing image from HTML
+        (
+            "![Alt text](missing.jpg)",
+            "<img src='other.jpg'>",
+            [
+                "Asset missing.jpg appears 1 times in markdown but only 0 times in HTML"
+            ],
+        ),
+        # Test all supported asset tags
+        (
+            "\n".join(
+                [
+                    f"<{tag} src='test.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            "\n".join(
+                [
+                    f"<{tag} src='test.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            [],
+        ),
+        # Missing assets for each tag type
+        (
+            "\n".join(
+                [
+                    f"<{tag} src='missing.{tag}.file'></{tag}>"
+                    for tag in tags_to_check_for_missing_assets
+                ]
+            ),
+            "<div>No assets</div>",
+            [
+                f"Asset missing.{tag}.file appears 1 times in markdown but only 0 times in HTML"
+                for tag in tags_to_check_for_missing_assets
+            ],
+        ),
+        # Mixed markdown and HTML tags
+        (
+            "![](image.jpg)\n<video src='video.mp4'>\n<audio src='audio.mp3'>",
+            "<img src='image.jpg'><video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+        # Extra HTML assets -> OK
+        (
+            "<video src='video.mp4'>\n<audio src='audio.mp3'>",
+            "<video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+        # Test whitespace handling around asset references
+        (
+            "![ ](  image.jpg  )\n<video src=' video.mp4 '>\n<audio src=' audio.mp3  '>",
+            "<img src='image.jpg'><video src='video.mp4'><audio src='audio.mp3'>",
+            [],
+        ),
+        (
+            "![ ](  missing.jpg  )",
+            "<img src='other.jpg'>",
+            [
+                "Asset missing.jpg appears 1 times in markdown but only 0 times in HTML"
+            ],
+        ),
+        # Test asset appearing multiple times in markdown but fewer times in HTML
+        (
+            "![First](repeat.jpg)\n![Second](repeat.jpg)",
+            "<img src='repeat.jpg'>",
+            [
+                "Asset repeat.jpg appears 2 times in markdown but only 1 times in HTML"
+            ],
+        ),
+    ],
+)
+def test_check_markdown_assets_in_html(
+    monkeypatch,
+    tmp_path: Path,
+    md_content: str,
+    html_content: str,
+    expected: list[str],
+):
+    """Test that markdown assets are properly checked against HTML output for all supported tags"""
+    # Setup test files
+    md_path = tmp_path / "content" / "test.md"
+    html_path = tmp_path / "public" / "test.html"
+
+    # Create directory structure
+    md_path.parent.mkdir(parents=True, exist_ok=True)
+    html_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Write test files
+    md_path.write_text(md_content)
+    html_path.write_text(f"<html><body>{html_content}</body></html>")
+
+    # Mock get_git_root to return tmp_path using monkeypatch
+    monkeypatch.setattr("scripts.utils.get_git_root", lambda: tmp_path)
+
+    # Run test
+    soup = BeautifulSoup(html_content, "html.parser")
+    result = check_markdown_assets_in_html(soup, md_path)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic cases - missing spaces
+        (
+            "<p>text<em>emphasis</em>text</p>",
+            [
+                "Missing space before: text<em>emphasis</em>",
+                "Missing space after: <em>emphasis</em>text",
+            ],
+        ),
+        # Test allowed characters before emphasis
+        *[
+            (f"<p>text{char}<em>emphasis</em> text</p>", [])
+            for char in PREV_EMPHASIS_CHARS + "\n \t\r"
+        ],
+        # Test allowed characters after emphasis
+        *[
+            (f"<p>text <em>emphasis</em>{char}text</p>", [])
+            for char in NEXT_EMPHASIS_CHARS + "\n \t\r"
+        ],
+        # Test mixed cases
+        (
+            "<p>text(<em>good</em>text<strong>bad</strong>) text</p>",
+            [
+                "Missing space after: <em>good</em>text",
+                "Missing space before: text<strong>bad</strong>",
+            ],
+        ),
+        # Test with i and b tags
+        (
+            "<p>text<i>italic</i>text<b>bold</b>text</p>",
+            [
+                "Missing space before: text<i>italic</i>",
+                "Missing space after: <i>italic</i>text",
+                "Missing space before: text<b>bold</b>",
+                "Missing space after: <b>bold</b>text",
+            ],
+        ),
+        # Test with nested emphasis
+        (
+            "<p>text<em><strong>nested</strong></em>text</p>",
+            [
+                "Missing space before: text<em>nested</em>",
+                "Missing space after: <em>nested</em>text",
+            ],
+        ),
+        # Test with multiple paragraphs
+        (
+            """
+            <p>text<em>one</em>text</p>
+            <p>text <em>two</em> text</p>
+            <p>text<em>three</em>text</p>
+            """,
+            [
+                "Missing space before: text<em>one</em>",
+                "Missing space after: <em>one</em>text",
+                "Missing space before: text<em>three</em>",
+                "Missing space after: <em>three</em>text",
+            ],
+        ),
+    ],
+)
+def test_check_emphasis_spacing(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_emphasis_spacing(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test description within limit
+        (
+            """
+            <html>
+            <head>
+                <meta name="description" content="This is a valid description.">
+            </head>
+            </html>
+            """,
+            [],
+        ),
+        # Test description exceeding limit
+        (
+            f"""
+            <html>
+            <head>
+                <meta name="description" content="{'a' * (MAX_DESCRIPTION_LENGTH + 1)}">
+            </head>
+            </html>
+            """,
+            [
+                f"Description too long: {MAX_DESCRIPTION_LENGTH + 1} characters (recommended <= {MAX_DESCRIPTION_LENGTH})"
+            ],
+        ),
+        # Test description below minimum length
+        (
+            f"""
+            <html>
+            <head>
+                <meta name="description" content="{'a' * (MIN_DESCRIPTION_LENGTH - 1)}">
+            </head>
+            </html>
+            """,
+            [
+                f"Description too short: {MIN_DESCRIPTION_LENGTH - 1} characters (recommended >= {MIN_DESCRIPTION_LENGTH})"
+            ],
+        ),
+        # Test missing description
+        (
+            """
+            <html>
+            <head>
+            </head>
+            </html>
+            """,
+            ["Description not found"],
+        ),
+        # Test empty description
+        (
+            """
+            <html>
+            <head>
+                <meta name="description" content="">
+            </head>
+            </html>
+            """,
+            ["Description not found"],
+        ),
+    ],
+)
+def test_check_description_length(html: str, expected: list[str]) -> None:
+    """Test the check_description_length function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_description_length(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "css_content,expected",
+    [
+        # Test CSS with @supports
+        (
+            """
+            @supports (initial-letter: 4) {
+                p::first-letter {
+                    initial-letter: 4;
+                }
+            }
+            """,
+            [],
+        ),
+        # Test CSS without @supports
+        (
+            """
+            p::first-letter {
+                float: left;
+                font-size: 4em;
+            }
+            """,
+            [
+                "CSS file test.css does not contain @supports, which is "
+                "required for dropcaps in Firefox"
+            ],
+        ),
+        # Test empty CSS
+        (
+            "",
+            [
+                "CSS file test.css does not contain @supports, which is "
+                "required for dropcaps in Firefox"
+            ],
+        ),
+        # Test CSS with multiple @supports
+        (
+            """
+            @supports (display: grid) {
+                .grid { display: grid; }
+            }
+            @supports (initial-letter: 4) {
+                p::first-letter { initial-letter: 4; }
+            }
+            """,
+            [],
+        ),
+    ],
+)
+def test_check_css_issues(
+    tmp_path: Path, css_content: str, expected: list[str]
+):
+    """Test the check_css_issues function with various CSS contents."""
+    # Create a temporary CSS file
+    css_file = tmp_path / "test.css"
+    css_file.write_text(css_content)
+
+    result = check_css_issues(css_file)
+    assert result == expected
+
+
+def test_check_css_issues_missing_file(tmp_path: Path):
+    """Test check_css_issues with a non-existent file."""
+    css_file = tmp_path / "nonexistent.css"
+    result = check_css_issues(css_file)
+    assert result == [f"CSS file {css_file} does not exist"]
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Single critical CSS - valid
+        (
+            '<html><head><style id="critical-css">.css{}</style></head></html>',
+            True,
+        ),
+        # No critical CSS - invalid
+        ("<html><head><style>.css{}</style></head></html>", False),
+        # No head - invalid
+        ("<html><head></head></html>", False),
+        # Multiple critical CSS blocks - invalid
+        (
+            '<html><head><style id="critical-css">.css{}</style><style id="critical-css">.more{}</style></head></html>',
+            False,
+        ),
+        # Critical CSS outside head - invalid
+        (
+            '<html><head></head><body><style id="critical-css">.css{}</style></body></html>',
+            False,
+        ),
+    ],
+)
+def test_check_critical_css(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_critical_css(soup)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test meta/title tags after MAX_HEAD_SIZE
+        (
+            f"<head>{('a' * MAX_META_HEAD_SIZE)}<meta name='test'><title>Late tags</title></head>",
+            [
+                "<meta> tag found after first 9KB: <meta name='test'>",
+                "<title> tag found after first 9KB: <title>",
+            ],
+        ),
+        # Test tags before MAX_HEAD_SIZE (should be fine)
+        (
+            f"<head><meta name='test'><title>Early tags</title></head>{'a' * MAX_META_HEAD_SIZE}",
+            [],
+        ),
+        # Test tags split across MAX_HEAD_SIZE boundary
+        (
+            f"<head>{'a' * (MAX_META_HEAD_SIZE - 10)}<meta name='test'><title>Split tags</title></head>",
+            ["<title> tag found after first 9KB: <title>"],
+        ),
+        # Test no head tag
+        (
+            f"{'a' * MAX_META_HEAD_SIZE}<meta name='test'><title>No head</title>",
+            [],
+        ),
+        # Test empty file
+        (
+            "",
+            [],
+        ),
+        # Test multiple meta tags after MAX_HEAD_SIZE
+        (
+            f"<head>{'a' * MAX_META_HEAD_SIZE}<meta name='test1'><meta name='test2'></head>",
+            [
+                "<meta> tag found after first 9KB: <meta name='test1'>",
+                "<meta> tag found after first 9KB: <meta name='test2'>",
+            ],
+        ),
+    ],
+)
+def test_meta_tags_first_10kb(tmp_path, html, expected):
+    """Test checking for meta and title tags after first 9KB of file."""
+    test_file = tmp_path / "test.html"
+    test_file.write_text(html)
+
+    result = meta_tags_early(test_file)
+    assert sorted(result) == sorted(expected)

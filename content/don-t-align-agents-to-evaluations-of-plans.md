@@ -39,8 +39,10 @@ original_url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agen
 description: "A subtle point: aligning an AI to evaluations of your goals won't give\
   \ you what you want. Don't do it."
 skip_import: true
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
 
 
 
@@ -48,9 +50,7 @@ date_updated: 2024-10-30 18:09:31.133945
 > [!info]
 > This post is another stab at explaining [_Don't design agents which exploit adversarial inputs_](/dont-design-agents-which-exploit-adversarial-inputs).
 
-
 After asking several readers for their understandings, I think that I didn't successfully communicate my points to many readers. I'm now trying again, because I think these points are deeply important. In particular, I think that my arguments rule out many target AI motivational structures, including [approval-directed agents](https://www.alignmentforum.org/posts/7Hr8t6xwuuxBTqADK/approval-directed-agents-1) (over a rich action space), [approval-based amplification](https://www.lesswrong.com/posts/fRsjBseRuvRhMPPE5/an-overview-of-11-proposals-for-building-safe-advanced-ai#4__Approval_based_amplification___relaxed_adversarial_training) (if the trained agent is supposed to be terminally motivated by the amplified overseer's ratings), and [some kinds](https://ordinaryideas.wordpress.com/2012/04/21/indirect-normativity-write-up/) of indirect normativity.
-
 
 ---
 
@@ -58,8 +58,8 @@ After asking several readers for their understandings, I think that I didn't suc
 >
 > One motif in some AI alignment proposals is:
 >
-> - An** actor **which proposes plans, and
-> - A **grader **which evaluates them.
+> - An **actor** which proposes plans, and
+> - A **grader** which evaluates them.
 >
 > For simplicity, imagine we want the AI to find a plan where it makes an enormous number of diamonds. We train an _actor_ to propose plans which the grading procedure predicts lead to lots of diamonds.
 >
@@ -75,10 +75,10 @@ After asking several readers for their understandings, I think that I didn't suc
 
 > [!warning] Clarifications
 >
-> 1.  Grader-optimization is about the _intended agent motivational structure_. It's about a trained agent which is _trying to find plans which grade highly_ _according to some criterion._
->     1.  Grader-optimization is **not** about grading agents when you give them reward during training. e.g. "We watch the agent bump around and grade it on whether it touches a diamond; when it does, we give it +1 reward." This process involves the agent's cognition getting reshaped by policy gradients, e.g. upon receipt of +1 reward.
->     2.  In policy gradient methods, reward [chisels cognitive circuits into the agent](/reward-is-not-the-optimization-target). Therefore, the agent is being _optimized by_ the reward signals, but the agent is not necessarily _optimizing for_ the reward signals or for any grader function which computes those signals.
-> 2.  Grader-optimization _is_ [_not_](https://www.lesswrong.com/posts/jFCK9JRLwkoJX4aJA/don-t-design-agents-which-exploit-adversarial-inputs?commentId=dmcnGzYNifZcLrQ3h#comments) _about the actor physically tampering with e.g. the plan-diamondness calculator._ The grading rule can be, "How highly would Albert Einstein rate this plan if he thought about it for a while?". Albert Einstein doesn't have to be alive in reality for that.
+> 1. Grader-optimization is about the _intended agent motivational structure_. It's about a trained agent which is _trying to find plans which grade highly_ _according to some criterion._
+>     1. Grader-optimization is **not** about grading agents when you give them reward during training. e.g. "We watch the agent bump around and grade it on whether it touches a diamond; when it does, we give it +1 reward." This process involves the agent's cognition getting reshaped by policy gradients, e.g. upon receipt of +1 reward.
+>     2. In policy gradient methods, reward [chisels cognitive circuits into the agent](/reward-is-not-the-optimization-target). Therefore, the agent is being _optimized by_ the reward signals, but the agent is not necessarily _optimizing for_ the reward signals or for any grader function which computes those signals.
+> 2. Grader-optimization _is_ [_not_](https://www.lesswrong.com/posts/jFCK9JRLwkoJX4aJA/don-t-design-agents-which-exploit-adversarial-inputs?commentId=dmcnGzYNifZcLrQ3h#comments) _about the actor physically tampering with e.g. the plan-diamondness calculator._ The grading rule can be, "How highly would Albert Einstein rate this plan if he thought about it for a while?". Albert Einstein doesn't have to be alive in reality for that.
 
 # Grader-optimization doesn't seem sensible
 
@@ -100,8 +100,8 @@ Grader-optimization fails because _it is not the kind of thing that has any righ
 
 We can also turn to thought experiments:
 
-1.  Consider two people who are fanatical about diamonds. One prefers pink diamonds, and one prefers white diamonds. AFAICT, their superintelligent versions both make diamonds.
-2.  Consider an AI aligned to evaluations of diamonds, versus the person who prefers white diamonds. AFAICT, the AI's superintelligent version will _not_ make diamonds, while the person will.
+1. Consider two people who are fanatical about diamonds. One prefers pink diamonds, and one prefers white diamonds. AFAICT, their superintelligent versions both make diamonds.
+2. Consider an AI aligned to evaluations of diamonds, versus the person who prefers white diamonds. AFAICT, the AI's superintelligent version will _not_ make diamonds, while the person will.
 
 Why? There's "goal divergence from 'true diamond-motivation'" in both cases, no? "The proxies are closer in case 1" is a _very lossy answer._ Better to ask "why do I believe what I believe? What, step-by-step, happens in case 1, compared to case 2? What mechanisms secretly generate my anticipations for these situations?"
 
@@ -159,8 +159,8 @@ Let's dive into concrete detail. Here's a [story](https://www.lesswrong.com/post
 >
 > > Imagine a mother whose child has been goofing off at school and getting in trouble. The mom just wants her kid to take education seriously and have a good life. Suppose she had two (unrealistic but illustrative) choices.
 > >
-> > 1.  _Evaluation-child:_ The mother makes her kid care extremely strongly about doing things which the mom would evaluate as "working hard" and "behaving well."
-> > 2.  _Value-child:_ The mother makes her kid care about working hard and behaving well.
+> > 1. _Evaluation-child:_ The mother makes her kid care extremely strongly about doing things which the mom would evaluate as "working hard" and "behaving well."
+> > 2. _Value-child:_ The mother makes her kid care about working hard and behaving well.
 >
 > I explained how evaluation-child is _positively incentivized to dupe his model of his mom and thereby exploit adversarial inputs to her cognition._ This shows that aligning an agent to evaluations of good behavior **is not even** _**close**_ **to** aligning an agent to good behavior.
 >
@@ -191,7 +191,7 @@ Let's dive into concrete detail. Here's a [story](https://www.lesswrong.com/post
 >
 > ```mermaid
 > graph TD
-> 	A["Continuing to hear friends talk about Fortnite"] --> B["Distracted during class"]
+>   A["Continuing to hear friends talk about Fortnite"] --> B["Distracted during class"]
 > ```
 >
 > So the automatic causality-noticing algorithms bid to knock out the primary modeled cause of the negative value-relevant influence. The current planning subgoal is set to: `make causal antecedent false and reduce level of predicted distraction`. Candidate concretization set to: `get away from friends`.
@@ -219,12 +219,12 @@ That said, I think this pattern is extremely unwise, and [alternative patterns A
 > [!idea] Give up on all schemes which involve motivating the agent to get high outputs from a grader function
 > These schemes include:
 >
-> 1.  [Approval-based amplification](https://www.lesswrong.com/posts/fRsjBseRuvRhMPPE5/an-overview-of-11-proposals-for-building-safe-advanced-ai#4__Approval_based_amplification___relaxed_adversarial_training) (if the trained agent is supposed to be terminally motivated by the amplified overseer's ratings),
-> 2.  [Approval-directed agents](https://www.alignmentforum.org/posts/7Hr8t6xwuuxBTqADK/approval-directed-agents-1),[^4] - Although approval-directed agents are only searching over actions and not plans; action space is exponentially smaller than plan space. However, if the action space is rich and expressive enough to include e.g. 3-paragraph English descriptions, I think that there will be seriously adversarial actions which will be found and exploited by smart approval-directed agents. - Given a very small action space (e.g. $|\mathcal{A}|=10$), the adversarial input issue should be pretty tame (which is strictly separate from other issues with this approach).
-> 3.  [Indirect normativity](https://ordinaryideas.wordpress.com/2012/04/21/indirect-normativity-write-up/) in any form which points the AI's motivations so that it optimizes an idealized grader's evaluations.
+> 1. [Approval-based amplification](https://www.lesswrong.com/posts/fRsjBseRuvRhMPPE5/an-overview-of-11-proposals-for-building-safe-advanced-ai#4__Approval_based_amplification___relaxed_adversarial_training) (if the trained agent is supposed to be terminally motivated by the amplified overseer's ratings),
+> 2. [Approval-directed agents](https://www.alignmentforum.org/posts/7Hr8t6xwuuxBTqADK/approval-directed-agents-1),[^4] - Although approval-directed agents are only searching over actions and not plans; action space is exponentially smaller than plan space. However, if the action space is rich and expressive enough to include e.g. 3-paragraph English descriptions, I think that there will be seriously adversarial actions which will be found and exploited by smart approval-directed agents. - Given a very small action space (e.g. $|\mathcal{A}|=10$), the adversarial input issue should be pretty tame (which is strictly separate from other issues with this approach).
+> 3. [Indirect normativity](https://ordinaryideas.wordpress.com/2012/04/21/indirect-normativity-write-up/) in any form which points the AI's motivations so that it optimizes an idealized grader's evaluations.
 >     - This includes "What would this specific and superintelligent [CEV](https://intelligence.org/files/CEV.pdf) universe simulation say about this plan?".
 >     - This doesn't include (_somehow_) getting an AI which correctly computes what program would be recommended by AGI designers in an altruistic and superintelligent branch of humanity, and then the AI executes that program and shuts itself off without doing anything else.[^5]
-> 4.  "Does the superintelligent [ELK](https://www.alignmentforum.org/posts/qHCDysDnvhteW7kRd/arc-s-first-technical-report-eliciting-latent-knowledge) direct reporter say the diamond is in the room?"[^6]
+> 4. "Does the superintelligent [ELK](https://www.alignmentforum.org/posts/qHCDysDnvhteW7kRd/arc-s-first-technical-report-eliciting-latent-knowledge) direct reporter say the diamond is in the room?"[^6]
 
 > [!idea] Don't add complication to patch the conceptual grader-optimization problem away
 > Don't try to make the actor / grader scheme more complicated in hopes of resolving the issue via that frame, via some clever-seeming variant of actor / grader. Don't add more graders, or try to ensure the grader is just really smart, or...
@@ -338,7 +338,7 @@ As described above, value-child is steered by his values. He isn't optimizing fo
 
 Grader optimization is about how the agent _thinks,_ it's about the way in which they are motivated\.
 
-### Scenario 1
+## Scenario 1
 
 > [!quote]
 >
@@ -356,11 +356,11 @@ Grader optimization is about how the agent _thinks,_ it's about the way in which
 >
 > > ! No! Bill's cognition is shaped towards _acquiring diamonds_, his cognition reliably pulls him into futures where he has more diamonds. **This is not grader-optimization.** This is Bill caring about diamonds, not about his own evaluations of whether a plan will acquire diamonds.
 
-### Scenario 2
+## Scenario 2
 
 > [!quote]
 >
-> Bill flops down on his bed. Finally, he has private time to himself. All he wants, all he's ever wanted, is to think that he's finally _made it—\_that he can finally believe himself to have acquired real diamonds. He doesn't care how he does it. He just wants to believe, and that's \_it._
+> Bill flops down on his bed. Finally, he has private time to himself. All he wants, all he's ever wanted, is to think that he's finally _made it_—that he can finally believe himself to have acquired real diamonds. He doesn't care how he does it. He just wants to believe, and that's _it_.
 >
 > Bill has always been different, somehow. When he was a kid, Bill would imagine plans like "I go to school and also _have tons of diamonds_", and that would initially trick him into thinking that he'd found a plan which led to tons of diamonds.
 >
@@ -389,4 +389,3 @@ Grader optimization is about how the agent _thinks,_ it's about the way in which
 
 [^5]: Not that I think this has a snowflake's chance in hell of working in time. But it seemed important to show that not all indirect normativity is grader-optimization.
 [^6]: Earlier this year, I [analyzed](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=HFdJShX4F7Hztfxrw) how brute-force plan search might exploit this scheme for using an ELK direct translator.
-

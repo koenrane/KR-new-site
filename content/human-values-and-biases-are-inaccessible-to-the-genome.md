@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and
 skip_import: "true"
 description: The genome can't directly hardwire complex human values like "fear of
   death." Those values probably arise from simpler, hardcoded learning mechanisms.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -94,9 +95,9 @@ A fascinating mystery, no? More on that soon.
 
 The logical structure of this essay is that at least one of the following must be true:
 
-1.  Information inaccessibility is somehow a surmountable problem for AI alignment (and the genome surmounted it),
-2.  The genome solves information inaccessibility in some way we cannot replicate for AI alignment, or
-3.  The genome cannot directly address the vast majority of interesting human cognitive events, concepts, and properties. (_The point argued by this essay_)
+1. Information inaccessibility is somehow a surmountable problem for AI alignment (and the genome surmounted it),
+2. The genome solves information inaccessibility in some way we cannot replicate for AI alignment, or
+3. The genome cannot directly address the vast majority of interesting human cognitive events, concepts, and properties. (_The point argued by this essay_)
 
 In my opinion, either (1) or (3) would be enormous news for AI alignment. More on (3)’s importance in future essays.
 
@@ -120,8 +121,7 @@ EDIT: After talking with Richard Ngo, I now think there's about an 8% chance tha
 > > How do we want to explain the origins of behavior? And \[Lehrman's\] critique seems to echo some of the concerns with evolutionary psychology. His approach can be gleaned from his example on the pecking behavior of chicks. **Lorenz attributed this behavior to innate forces:** **The chicks are born with the tendency to peck; it might require just a bit of maturation. Lehrman points out that research by Kuo provides an explanation based on the embryonic development of the chick. The pecking behavior can actually be traced back to movements that developed while the chick was still unhatched. Hardly innate! The main point Lehrman makes: If we claim that something is innate, we stop the scientific investigation without fully understanding the origin of the behavior.** This leaves out important – and fascinating – parts of the explanation because we think we’ve answered the question. As he puts it: **“the statement “It is innate” adds nothing to an understanding of the developmental process involved.”**
 
 > [!note] Edited on October 21, 2024
-> Updated upwards to 30% due to the discovery of [gradient routing](/gradient-routing), which seems to offer coarse localization abilities. It's not clear that our genome can or does route cognitive updates to cortical areas, but it seems possible! 
+> Updated upwards to 30% due to the discovery of [gradient routing](/gradient-routing), which seems to offer coarse localization abilities. It's not clear that our genome can or does route cognitive updates to cortical areas, but it seems possible!
 
 [^1]: Human values can still be inaccessible to the genome even if the cortex isn’t learned from scratch, but learning-from-scratch is a nice and clean sufficient condition which seems likely to me.
 [^2]: I argue that the genome probably hardcodes neural circuitry which is simple _relative_ to hardcoded “high-status detector” circuitry. Similarly, [the code for a machine learning experiment](https://github.com/leela-zero/leela-zero/tree/next/src) is simple _relative_ to [the neural network it trains](https://arxiv.org/abs/2201.13176).
-

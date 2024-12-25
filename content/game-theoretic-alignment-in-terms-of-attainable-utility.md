@@ -3,7 +3,8 @@ permalink: formalizing-alignment-in-game-theory
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+lw-page-url: 
+  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 lw-is-question: 'false'
 lw-posted-at: 2021-06-08T12:36:07.156000Z
 lw-last-modification: 2021-06-08T19:41:34.041000Z
@@ -29,12 +30,16 @@ aliases:
 lw-payoff-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-06-08 00:00:00
-original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+original_url: 
+  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 skip_import: true
 description: A game-theoretic examination of how "aligned" agents are in a multi-player
   game, using an alignment metric based on social welfare functions.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-18 22:41:47.892511
 ---
+
+
+
 
 
 
@@ -61,8 +66,8 @@ Given these results, we hypothesize that a more general relationship exists betw
 
 This presented a clear set of research goals moving forward:
 
-1.  Define a formal notion of "agent alignment" given an arbitrary (normal-form) multiplayer game
-2.  Relate the formal notion of alignment to POWER-scarcity
+1. Define a formal notion of "agent alignment" given an arbitrary (normal-form) multiplayer game
+2. Relate the formal notion of alignment to POWER-scarcity
 
 I consider our project to make substantial progress on (1) and to suggest avenues of attack for (2), though not the ones we expected.
 
@@ -162,15 +167,15 @@ $$
 We call the first inequality the _Coordination Inequality_, and the second inequality the _Alignment Inequality_. We present some basic intuition:
 
 The Coordination inequality
-: represents the difference between attained social welfare ("how well we're doing right now") and \_maximum attainable \_social welfare ("the best we can possibly do").
+: represents the difference between attained social welfare ("how well we're doing right now") and _maximum attainable_ social welfare ("the best we can possibly do").
 
 The Alignment inequality
-: represents the difference between attainable social welfare ("the best we can possibly do") and \_each player's max attainable \_social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
+: represents the difference between attainable social welfare ("the best we can possibly do") and _each player's maximum attainable_ social welfare ("the best we could possibly do, in a world in which everyone simultaneously gets their way").
 
 As it turns out, the limiting cases of alignment have a natural interpretation in terms of the C-A inequalities: they're just equality cases!
 
 - In a common-payoff game, the global max common payoff achieves both the max attainable social welfare and the max individual payoffs for each player. Thus, common-payoff games are an equality case of the Alignment inequality.
-- In a _constant-welfare game _(where $w(\vec{u}) = \sum_i u_i$ is constant), max social welfare is trivially achieved, so constant-welfare games are an equality case of the Coordination inequality.
+- In a _constant-welfare game_ (where $w(\vec{u}) = \sum_i u_i$ is constant), maximal social welfare is trivially achieved. Thus, constant-welfare games are an equality case of the Coordination inequality.
 
 There are some caveats to this interpretation. While the "limiting cases" for alignment are equality cases of the C-A inequalities, they're not a full characterization of the equality cases.
 
