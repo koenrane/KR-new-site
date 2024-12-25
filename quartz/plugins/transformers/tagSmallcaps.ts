@@ -153,7 +153,7 @@ export function capitalizeMatch(
 
   // If it should begin with capital and match starts at beginning, check parent context
   if (shouldBeginWithCapital && isStartOfNode) {
-    if (ancestors.length == 1) {
+    if (ancestors.length === 1) {
       return true
     }
 
