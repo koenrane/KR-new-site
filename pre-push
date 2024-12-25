@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 
 function cleanup {
@@ -25,11 +26,6 @@ function cleanup {
             kill -TERM $SERVER_PID || true
             wait $SERVER_PID 2>/dev/null || true
         fi
-        
-        if [[ -n "$EXISTING_SERVER_PID" ]]; then
-            echo "Resuming existing server (PID: $EXISTING_SERVER_PID)"
-            kill -CONT $EXISTING_SERVER_PID || true
-        fi
     fi
 
     # Restore original exit code
@@ -48,8 +44,6 @@ function stash_and_exit {
     fi
 }
 
-set -e
-
 CURRENT_BRANCH=$(git symbolic-ref --short head)
 SERVER_STARTED=false
 
@@ -64,10 +58,10 @@ PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
 # Run typechecks
-mypy $GIT_ROOT/scripts/**py
+mypy "$GIT_ROOT"/scripts/**py
 
-# eslint and stylelint already has ignore rules
-npx eslint --fix "$GIT_ROOT"
+# eslint and stylelint already have ignore rules
+npx eslint --fix "$GIT_ROOT" --config "$GIT_ROOT/eslint.config.js"
 npx stylelint --fix quartz/**/*.scss 
 pylint "$GIT_ROOT" --rcfile="$GIT_ROOT/.pylintrc"
 
@@ -79,13 +73,15 @@ echo "\033[0;32mSource file checks passed.\033[0m"
 npm run test
 
 # Compress and upload assets - runs PyTest tests
-sh "$GIT_ROOT/scripts/handle_local_assets.sh"
+sh "$GIT_ROOT"/scripts/handle_local_assets.sh
 
 # Restart the server so that pages don't rely on stale assets which got deleted and uploaded
-EXISTING_SERVER_PID=$(pgrep quartz || true)
+set +e
+EXISTING_SERVER_PID=$(pgrep quartz || false)
+set -e
 if [[ -n "$EXISTING_SERVER_PID" ]]; then
     echo "Pausing existing server (PID: $EXISTING_SERVER_PID)"
-    kill -STOP $EXISTING_SERVER_PID
+    kill -TERM "$EXISTING_SERVER_PID"
 fi
 
 # Start new server
@@ -112,26 +108,23 @@ echo "Quartz server successfully started on port 8080"
 
 # Run visual regression testing
 npx playwright test --config="$GIT_ROOT/playwright.config.ts" --project="Desktop Chrome"
+echo "\033[0;32mPlaywright and visual regression testing passed.\033[0m"
 
 echo "Checking rendered pages for malformed HTML contents."
 python "$GIT_ROOT"/scripts/built_site_checks.py
-if [ $? -ne 0 ]; then
-    exit 1
-fi
 echo "\033[0;32mRendered pages look good.\033[0m"
 
 # Make sure that all internal and CDN links are valid
-#  Also checks syntax of md links.
-fish "$GIT_ROOT/scripts/linkchecker.fish"
+fish "$GIT_ROOT"/scripts/linkchecker.fish
 
 # Ensure that the date is updated on publish.
 # Has to come after linkchecker, because otherwise it'll check for a new article's remote github link which doesn't exist yet
-python "$GIT_ROOT/scripts/update_date_on_publish.py"
+python "$GIT_ROOT"/scripts/update_date_on_publish.py
 echo "Updated date on publish."
 
 
 # Finally, timestamp the final commit
-sh "$GIT_ROOT/scripts/timestamp_last_commit.sh"
+sh "$GIT_ROOT"/scripts/timestamp_last_commit.sh
 echo "Timestamped last commit."
 
 exit 0
