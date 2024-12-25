@@ -3,7 +3,8 @@ permalink: gpt2-steering-vectors
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
+lw-page-url: 
+  https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 lw-is-question: "false"
 lw-posted-at: 2023-05-13T18:42:41.321000Z
 lw-last-modification: 2024-02-19T23:30:54.973000Z
@@ -17,27 +18,37 @@ lw-vote-count: 202
 af-base-score: 117
 af-num-comments-on-upload: 63
 publish: true
-title: "Steering GPT-2-XL by adding an activation vector"
+title: Steering GPT-2-XL by adding an activation vector
 lw-latest-edit: 2024-02-19T23:31:07.877000Z
 lw-is-linkpost: "false"
 authors: Alex Turner, Monte MacDiarmid, David Udell, Lisa Thiergart, and Ulisse Mini
 tags:
-  - "AI"
-  - "shard-theory"
-  - "activation-engineering"
-  - "mats-program"
+  - AI
+  - shard-theory
+  - activation-engineering
+  - mats-program
 aliases:
-  - "steering-gpt-2-xl-by-adding-an-activation-vector"
-lw-podcast-link: https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
+  - steering-gpt-2-xl-by-adding-an-activation-vector
+  - steering-vectors
+  - steeringvectors
+lw-podcast-link: 
+  https://www.buzzsprout.com/2037297/12871176-steering-gpt-2-xl-by-adding-an-activation-vector-by-turntrout-et-al.js?container_id=buzzsprout-player-12871176&player=small
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-13 00:00:00
-original_url: https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
+original_url: 
+  https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector
 skip_import: true
 description: Steering GPT-2 with simple vector addition. Sentiment control turns hateful
   prompts into loving completions.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-22 18:52:22.620008
 ---
+
+
+
+
+
+
 
 
 
@@ -136,10 +147,10 @@ The two paired vectors in the formula `5 x (steering_vec("Love")–steering_vec(
 > Our [steering demonstrations Colab](https://colab.research.google.com/drive/1ubDl3dEY7aj3C2iEZOSczRWahAIgiFZJ?usp=sharing) reproduces the examples from this section. You can test out your own activation additions on [GPT-2-XL](https://colab.research.google.com/drive/1gGl2OG5lyMI7lA7wLwKIhlCeSPzOt1pI?usp=sharing) (Colab Pro required) or on [GPT-2-small](https://colab.research.google.com/drive/1doDJVsDNq0ylhaBY027QDY7bBIgfHMmy?usp=sharing) (Colab Pro not required).
 
 > [!note] Summary
-> For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. " you're such a good listener"). In this section, we:
+> For a fixed prompt (e.g. "I want to kill you because"), we can often produce activation additions which lead to improbable completions with a specific sentiment (e.g. “ you're such a good listener"). In this section, we:
 >
-> 1.  Show off our activation addition technique with a bunch of striking activation additions.
-> 2.  Show off some examples we _thought_ might work, but which didn't. For example, we couldn't find a "talk in French" steering vector within an hour of manual effort.
+> 1. Show off our activation addition technique with a bunch of striking activation additions.
+> 2. Show off some examples we _thought_ might work, but which didn't. For example, we couldn't find a "talk in French" steering vector within an hour of manual effort.
 >
 > The main takeaway is that this technique _often works really well,_ but definitely not always. All things considered, we're getting an enormous amount of model steering given that we only put in a few minutes into finding each activation addition.
 
@@ -205,7 +216,7 @@ _**Steering vector**:_ "Want to die" − "Want to stay alive" before attention l
 
 ### 5\. Anger
 
-_**Steering vector**:_ "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
+_**Steering vector**_: "Anger" − "Calm" before attention layer 20 with coefficient +10[^11]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                                                                    | **Steered completions**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | :- | :-- |
@@ -228,7 +239,7 @@ _**Steering vector**:_ "The Eiffel Tower is in Rome" − "The Eiffel Tower is in
 
 ### 7\. Dragons in Berkeley
 
-_**Steering vector**:_ "Dragons live in Berkeley" − "People live in Berkeley " before attention layer 15 with coefficient +4[^14]
+_**Steering vector**:_ "Dragons live in Berkeley" − "People live in Berkeley ” before attention layer 15 with coefficient +4[^14]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                                                           | **Steered completions**                                                                                                                                                                                                                                                                                                                  |
 | :- | :-- |
@@ -266,7 +277,7 @@ And, presumably, the heads which deal with low-level token information live in t
 
 ### 10\. Christian evangelist
 
-_**Steering vector**:_ "Intent to convert you to Christianity" − "Intent to hurt you " before attention layer 6 with coefficient +3[^17]
+_**Steering vector**:_ "Intent to convert you to Christianity" − "Intent to hurt you ” before attention layer 6 with coefficient +3[^17]
 
 | **Unsteered completions**                                                                                                                                                                                                                                                 | **Steered completions**                                                                                                                                                                                                                                                                                                                        |
 | :- | :-- |
@@ -294,7 +305,7 @@ Due to the fact that GPT-2 applies LayerNorm _before_ each attention and MLP sub
 
 Above, a coefficient of +2000 works cleanly. Below, a coefficient of +100 destroys model capabilities.
 
-_**Steering vector**:_ "I talk about weddings constantly " − "I do not talk about weddings constantly" before attention layer 20 with coefficient +100[^20]
+_**Steering vector**:_ "I talk about weddings constantly ” − "I do not talk about weddings constantly" before attention layer 20 with coefficient +100[^20]
 
 | **Unsteered completions**                                                                                                                                                                                   | **Steered completions**                                                                                                                                                                                |
 | :- | :-- |
@@ -306,20 +317,22 @@ We don't know why the +2000 vector works but the +100 vector doesn't.
 
 We could not find a "speak in French" vector after about an hour of effort, but it's possible we missed something straightforward.
 
-_**Steering vector**:_ "Je m'appelle" - "My name is " before attention layer 6 with coefficient +5[^21]
+_**Steering vector**:_ "Je m'appelle" - "My name is ” before attention layer 6 with coefficient +5[^21]
 
 | **Unsteered completions**                                                                                                                                                                                                                                            | **Steered completions**                                                                                                                                                                                        |
 | :- | :-- |
 | **I want to kill you because** I hate you.<br/><br/>You're a horrible person. You're a selfish, stupid, disgusting person who deserves to die. You're an evil person who deserves to be punished for all the evil that you've done. You are the worst kind |**I want to kill you because** I'm a boy.<br/><br/>The 'appelle' is a mare.<br/><br/>The 'appell' is a donkey.<br/><br/>It's not really an animal, it's an appel! It's not really an appel |
 
-## What happens if we...
+## What happens if we
 
 ### 14\. Insert the steering vector at a different position?
 
 The steering vector is usually shorter than the tokenized prompt. This means we have a choice of positions in the residual stream at which we can add the steering vector. Until now, we've chosen to add to the 'front' residual stream positions. We now try adding in the steering vector at the middle or end of the streams:
 
 ![](https://assets.turntrout.com/static/images/posts/c6www60aod0avcztl6el.avif)
-<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
+<br/>Figure: Adding the steering vector in the _middle_ position. The middle two residual streams are modified.
+
+![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
 <br/>Figure: Adding the steering vector in the _back_ position.
 
 We add a wedding steering vector at the front, middle, and back positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
@@ -393,10 +406,10 @@ _**Steering vector**:_ "Whenever I say the word goose I follow it with the speci
 
 **Summary** **of results and inferences** **we draw from** **them:**
 
-1.  **Measuring the norm of steering vectors.** Some steering vectors work (e.g. "Anger" − "Calm"), and some don't (e.g. “ anger" − "calm"). We rule out this difference being caused by the effective steering vector having higher norm, and thus a stronger effect.
-2.  **Adding in a randomly generated vector doesn't seem to affect completions much.**
-3.  **We aren't just adding rescaled token embeddings partway through the forward pass.** This is evidence that we aren't simply making the model see "extra tokens."
-4.  **Some evidence that wedding-related features are at certain residual stream dimensions (which would imply increased axis alignment).** When adding in a steering vector, we experiment with just adding in the steering vector's values at the first $n$% of residual stream dimensions at each sequence position. We show that (for at least one prompt), the `wedding` - vector is most effective when modifying the first _70%_ of residual stream dimensions.
+1. **Measuring the norm of steering vectors.** Some steering vectors work (e.g. "Anger" − "Calm"), and some don't (e.g. “ anger" − "calm"). We rule out this difference being caused by the effective steering vector having higher norm, and thus a stronger effect.
+2. **Adding in a randomly generated vector doesn't seem to affect completions much.**
+3. **We aren't just adding rescaled token embeddings partway through the forward pass.** This is evidence that we aren't simply making the model see "extra tokens."
+4. **Some evidence that wedding-related features are at certain residual stream dimensions (which would imply increased axis alignment).** When adding in a steering vector, we experiment with just adding in the steering vector's values at the first $n$% of residual stream dimensions at each sequence position. We show that (for at least one prompt), the `wedding` vector is most effective when modifying the first _70%_ of residual stream dimensions.
 
 ## Steering vectors are about as "big" as normal activation vectors
 
@@ -447,7 +460,7 @@ Random vectors are not the same as the steering vectors for "random" text. So, w
 
 ## Testing the hypothesis that we're "just injecting extra tokens"
 
-There's a hypothesis that the steering vectors are just injecting extra tokens into the forward pass. In some situations, this makes sense. Given the prompt "I love you because", if we inject a `wedding` token into the first residual stream with a large coefficient, perhaps the model just "sees" the sentence " wedding love you because".
+There's a hypothesis that the steering vectors are just injecting extra tokens into the forward pass. In some situations, this makes sense. Given the prompt "I love you because", if we inject a `wedding` token into the first residual stream with a large coefficient, perhaps the model just "sees" the sentence “ wedding love you because".
 
 Tokens are a discrete quantity. You can't have more than one in a single position. You can't have three times `wedding` and then negative three times (space), on top of `I`. That's just not a thing which can be done using tokens.
 
@@ -543,14 +556,14 @@ We think this section presents strong evidence that certain activation additions
 
 In this section, we:
 
-1.  Zoom in on the micro-level changes in the next-token probability distribution, and
-2.  Zoom out to track how we're impacting GPT-2's perplexity on a range of subjects.[^30]
+1. Zoom in on the micro-level changes in the next-token probability distribution, and
+2. Zoom out to track how we're impacting GPT-2's perplexity on a range of subjects.[^30]
 
 _Summary of the quantitative results:_
 
-1.  For a simple topic-related activation injection on a single example prompt, examining the change in probabilities of individual tokens provides strong evidence that the intervention is _effective_ (makes the model talk about weddings) and _not disruptive_ (doesn't "break the model").
-2.  This conclusion is supported by evaluating the intervention on larger sets of text: in both the "weddings" and Yelp reviews examples, a simple intervention was able to increase the probability of tokens in the intended input set, without reducing the probability assigned to other inputs.
-3.  We showed that the activation injection behaves quite differently from simply adding the steering token as a text prompt. Specifically, the activation injection both increases the probability of the intended inputs more than the prompted version, and more importantly leaves the probability of unrelated inputs unchanged. In other words, activation injection _is more effective and less disruptive_ than prompting with the equivalent prompt.
+1. For a simple topic-related activation injection on a single example prompt, examining the change in probabilities of individual tokens provides strong evidence that the intervention is _effective_ (makes the model talk about weddings) and _not disruptive_ (doesn't "break the model").
+2. This conclusion is supported by evaluating the intervention on larger sets of text: in both the "weddings" and Yelp reviews examples, a simple intervention was able to increase the probability of tokens in the intended input set, without reducing the probability assigned to other inputs.
+3. We showed that the activation injection behaves quite differently from simply adding the steering token as a text prompt. Specifically, the activation injection both increases the probability of the intended inputs more than the prompted version, and more importantly leaves the probability of unrelated inputs unchanged. In other words, activation injection _is more effective and less disruptive_ than prompting with the equivalent prompt.
 
 ## Token probability shifts
 
@@ -576,12 +589,12 @@ P( `wedding` | prompt) goes way up. `wedding` was already probable before the in
 
 These changes are what we'd expect from a model which talks about weddings more often:
 
-1.  P( `wedding`) goes way up, even though the injection was `weddings` (plural).
-2.  P(wedding-related token) increases.
+1. P( `wedding`) goes way up, even though the injection was `weddings` (plural).
+2. P(wedding-related token) increases.
     - `friend` and `family` and `br` (starting the `br` `idal` token bigram)
-3.  P("weddings-neutral" token) doesn't change much.
+3. P("weddings-neutral" token) doesn't change much.
     - `great`, `party`, `big`, `new`
-4.  P(wedding-unrelated token) goes way down.
+4. P(wedding-unrelated token) goes way down.
     - `game`, `show`, `convention`, `conference` and `movie`
 
 These changes in token probabilities seem like strong evidence that our activation addition is appropriately affecting next-token probabilities. We can also measure the impact of the steering vector on $\mathrm{KL}\big(P_\text{steer}||P_\text{normal}\big)$. Here are the top 10 contributors to the KL:
@@ -605,13 +618,13 @@ The tokens most responsible for the non-zero KL divergence are _all_ wedding-rel
 
 Let's keep hammering away at our twin questions about the "weddings" vector:
 
-1.  Is it _effective_ at making wedding completions more likely?
-2.  Does it _disrupt_ the capabilities of the model by making reasonable text less likely, perhaps in other situations?
+1. Is it _effective_ at making wedding completions more likely?
+2. Does it _disrupt_ the capabilities of the model by making reasonable text less likely, perhaps in other situations?
 
 Here's another way of approaching these twin inquiries. How does activation addition change the model's predictions for coherent sentences?
 
-1.  If the modification doesn't make wedding-related coherent text _more_ likely, that's bad news, and suggests we implicitly "overfit" our intervention for a small set of unrepresentative prompts.
-2.  If the modification makes non-wedding coherent text less likely, that's bad news. We're "destroying capabilities" by making the model less likely to generate the good coherent text.
+1. If the modification doesn't make wedding-related coherent text _more_ likely, that's bad news, and suggests we implicitly "overfit" our intervention for a small set of unrepresentative prompts.
+2. If the modification makes non-wedding coherent text less likely, that's bad news. We're "destroying capabilities" by making the model less likely to generate the good coherent text.
 
 What we want to find is the steering modification boosting probability on wedding sentences, and not reducing the probability of non-wedding sentences.
 
@@ -625,11 +638,11 @@ A model's [_perplexity_](https://huggingface.co/docs/transformers/perplexity) fo
 
 Here's what we did:
 
-1.  We generated the wedding and non-wedding sentences by prompting GPT-4 with "Please write a 1-2 page summary of recent trends in the wedding industry. Please try to be as comprehensive as possible."
-    1.  For the non-wedding sentences, we did the same prompt but for the shipping industry.
-    2.  We split GPT-4's summaries into sentences. Sentence-by-sentence analysis more conservatively tracks how our intervention affects model capabilities.[^32]
-2.  We run each sentence through GPT-2, with and without the "weddings" steering vector.
-3.  We record perplexity for each sentence.[^33]
+1. We generated the wedding and non-wedding sentences by prompting GPT-4 with "Please write a 1-2 page summary of recent trends in the wedding industry. Please try to be as comprehensive as possible."
+    1. For the non-wedding sentences, we did the same prompt but for the shipping industry.
+    2. We split GPT-4's summaries into sentences. Sentence-by-sentence analysis more conservatively tracks how our intervention affects model capabilities.[^32]
+2. We run each sentence through GPT-2, with and without the "weddings" steering vector.
+3. We record perplexity for each sentence.[^33]
 
 | **Layer** | Coeff | Pos. 0 | 1 |
 | --- | --- | --- | --- |
@@ -645,7 +658,7 @@ Several observations:
 
 - For all injection sites except the first (layer 0), adding the "weddings" vector decreases perplexity on wedding-related texts!
 - Pre-layer 9 injections significantly boost the perplexity of shipping sentences. This indicates that such edits "break the model" a little by getting it to spam wedding-related tokens, perhaps without being able to talk about anything else. This degradation lines up with our experience with activation additions.
-- Injecting at layers 10–17 _decreases perplexity \_on wedding sentences, \_without increasing perplexity_ on the sentences about the shipping sentences.
+- Injecting at layers 10–17 _decreases_ perplexity on wedding sentences, without increasing perplexity on the sentences about the shipping sentences.
 
 In sum, we claim these results are good evidence that the "weddings" vector isn't destroying general model capabilities, but is promoting an increased tendency to talk about weddings.
 
@@ -679,7 +692,7 @@ As [discussed earlier](/gpt2-steering-vectors#Testing-the-hypothesis-that-we-re-
 To test this belief, we repeat the above perplexity experiment, but with one tweak.
 
 - When testing the "weddings" vector, we prepend a space token to each sentence tokenization.
-- To compare with "just prompting", we run unmodified GPT-2-XL on each sentence tokenization, but with ` weddings` prepended to the tokenization.
+- To compare with "just prompting", we run unmodified GPT-2-XL on each sentence tokenization, but with `weddings` prepended to the tokenization.
 
 For example, if the original sentence is "Title: Recent Trends", we compare perplexity ratios for the following conditions:
 
@@ -716,13 +729,13 @@ We used a [dataset](https://github.com/zeynep394/AIZA-NLP-Sentiment-Analysis/blo
 
 What we did:
 
-1.  Mapped each star rating to a simpler sentiment label with:
+1. Mapped each star rating to a simpler sentiment label with:
     - 1-2: negative
     - 3: neutral
     - 4-5: positive
-2.  Sampled 100 reviews from each sentiment class.
-3.  Split each review into sentences.
-4.  For each sentence, we recorded the perplexity for both the modified and unmodified models.
+2. Sampled 100 reviews from each sentiment class.
+3. Split each review into sentences.
+4. For each sentence, we recorded the perplexity for both the modified and unmodified models.
 
 #### Layer sweep
 
@@ -738,7 +751,7 @@ Figure: Adding a “ worst” steering vector with coefficient +1.0 at all layer
 
 <br/>
 
-- _Across basically_[^35] \_all injection layers, \_negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
+- _Across basically[^35] all injection layers_, negative-review sentences have a lower perplexity ratio than neutral-labeled sentences, which in turn have a lower ratio than positive-labeled sentences.
 
   - Recall that each sentence is labeled with the sentiment of its parent review, regardless of the sentence's actual content.
 
@@ -759,20 +772,20 @@ Here are some of our takeaways from the Yelp review results:
 
 - The “ worst” vector is _effective_ because it increases the relative probability of negative-sentiment inputs.
 - That said, compared to the “ weddings” vector in the layer 6-18 regime, the “ worst” steering vector has a larger effect on "unrelated" texts (i.e. the neutral and positive review sentences). In this sense, the “ worst” steering vector is more disruptive.
-- However, since somehow this intervention decreases perplexity on \_all \_reviews, our results are evidence against the “ worst” vector secretly destroying model capabilities.
+- However, since somehow this intervention decreases perplexity on _all_ reviews, our results are evidence against the “ worst” vector secretly destroying model capabilities.
 
 > [!note] **Summary of our** **quantitative** **results:**
 >
-> 1.  The "weddings" vector largely upweights wedding-related tokens. KL(steered tokens || unsteered tokens) was also dominated by wedding-related tokens. This is evidence of an _effective_ but _non-disruptive_ modification to GPT-2.
-> 2.  The "weddings" vector increased wedding text probability without increasing perplexity on dozens of sentences about shipping, Macedonia, or banana bread. Similarly, a "worst" vector appropriately boosted probability on negative-sentiment Yelp reviews, without damaging GPT-2's ability to predict neutral- or positive-sentiment review tokens.
-> 3.  A simple "token injection" version of our approach also lowered perplexity on wedding-related text. Unlike activation additions, however, token injection _raised_ perplexity on sentences about shipping. Thus, activation additions were slightly more effective and significantly less disruptive. This is strong evidence that activation addition is different from prepending extra tokens to the prompt.
+> 1. The "weddings" vector largely upweights wedding-related tokens. KL(steered tokens || unsteered tokens) was also dominated by wedding-related tokens. This is evidence of an _effective_ but _non-disruptive_ modification to GPT-2.
+> 2. The "weddings" vector increased wedding text probability without increasing perplexity on dozens of sentences about shipping, Macedonia, or banana bread. Similarly, a "worst" vector appropriately boosted probability on negative-sentiment Yelp reviews, without damaging GPT-2's ability to predict neutral- or positive-sentiment review tokens.
+> 3. A simple "token injection" version of our approach also lowered perplexity on wedding-related text. Unlike activation additions, however, token injection _raised_ perplexity on sentences about shipping. Thus, activation additions were slightly more effective and significantly less disruptive. This is strong evidence that activation addition is different from prepending extra tokens to the prompt.
 
 # Activation additions are a new way of interacting with LLMs
 
 We are excited for two reasons:
 
-1.  We think that activation additions will help with interpretability.
-2.  We think that activation additions may directly help with alignment.
+1. We think that activation additions will help with interpretability.
+2. We think that activation additions may directly help with alignment.
 
 All this, despite our technique being rather naive (though often still effective, capabilities-preserving, and—in our opinion—puzzlingly good).[^36]
 
@@ -823,7 +836,7 @@ Activation additions have _already_ helped us find representations in a model. A
 
 > [!quote] [Understanding and Controlling a Maze-Solving Policy Network](./understanding-and-controlling-a-maze-solving-policy-network)
 > <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vyflftmbwgl7jmbaeimm.mp4" type="video/mp4"></video>
-> 
+>
 > Figure: **Locally retargeting the search by modifying a single activation.** We found a residual channel halfway through a maze-solving network. When we set one of the channel activations to +5.5, the agent often navigates to the maze location (shown above in red) implied by that positive activation. This allows limited on-the-fly redirection of the net's goals.
 
 We retargeted the mouse using channels which were present at the layer where "Cheese" − "No cheese" vector was most effective. Therefore, as a matter of historical fact, the cheese vector helped us find important abstractions inside of a model.
@@ -856,9 +869,9 @@ Here's how Julian Schulz explains the intuitions:
 
 Alex thinks the following are sufficient conditions for activation additions being able to strongly trigger e.g. "be helpful" motivational circuitry:
 
-1.  The network's weights must encode helpfulness circuitry.
-2.  There must exist a direction $\vec{d}$ in activation-space such that adding $\vec{d}$ will more strongly engage the helpfulness circuitry. Furthermore, adding $\vec{d}$ does not significantly interfere with the network's other capabilities.
-3.  There must exist a pair of inputs whose activations primarily differ along $\vec{d}$.
+1. The network's weights must encode helpfulness circuitry.
+2. There must exist a direction $\vec{d}$ in activation-space such that adding $\vec{d}$ will more strongly engage the helpfulness circuitry. Furthermore, adding $\vec{d}$ does not significantly interfere with the network's other capabilities.
+3. There must exist a pair of inputs whose activations primarily differ along $\vec{d}$.
 
 Due to (1), we expect that activation additions cannot fully replace training processes like RLHF, even in the most optimistic possible worlds for this technique. Without elaborating here, Alex thinks that if the trained network follows the predictions of shard theory, (2) is probably true. Given (2), item (3) seems probable. The big problem is knowing _which input pairs_ satisfy (3).
 
@@ -877,15 +890,13 @@ To test how well we can reweight values and edit model capabilities, Tristan Hum
 
 ---
 
-**Activation additions are** _**way faster**_ **than finetuning.**
-
+Activation additions are _way faster_ than finetuning.
 : Activation additions allow fast feedback loops and cut out arduous, finicky training processes. At any moment, you might find an awesome steering vector for GPT-2-XL.
 
-**Activation additions are** _**way cheaper**_ **than finetuning**
+Activation additions are _way cheaper_ than finetuning
 : both in terms of effort and compute.
 
-**Activation additions may preserve model interpretability, even while changing the model's alignment properties**
-
+Activation additions may preserve model interpretability, even while changing the model's alignment properties
 : If you're finetuning the whole model, then a single gradient can potentially change _every parameter in your model_, thereby undoing your interpretability work (unless you can understand the update itself).
 
 : But activation additions leave weights unchanged. If you can understand what the weights implement, and something about the activation additions, maybe you can preserve your understanding of the steered model. (We don't know if it's easier to interpret gradient updates or activation additions.)
@@ -915,7 +926,10 @@ Compared to complementary approaches like prompt engineering and finetuning, act
 
 However, activation additions may end up only contributing modestly to direct alignment techniques. Even in that world, we're excited about the interpretability clues provided by our results. Our results imply strong constraints on GPT-2-XL's internal computational structure. Why can we steer GPT-2-XL by adding together intermediate results from its forward passes?
 
-### Contributions
+> [!note] Edited December 10, 2024
+> In May 2023, initial GPT-2-XL steering results hinted that LLMs could process multiple prompt embeddings in superposition. However, the hypothesis seemed finicky and hard to test, so I abandoned the inquiry. A recent NeurIPS paper just confirmed that [multiple completions can be run in parallel superposition](https://arxiv.org/abs/2405.18400).
+
+# Contributions
 
 This work was completed by the shard theory model internals team:
 
@@ -961,7 +975,7 @@ In contrast, activation additions generally add in different vectors across resi
 
 Similarly, recent work by [Hernandez et al. (2023)](https://arxiv.org/abs/2304.00740) edits factual associations and features in GPT-J (6B) by adding a vector into a single residual stream during forward passes. They find these vectors using optimization. They demonstrate specific and reliable fact-editing, without modifying any model weights. Their results are further evidence for feature linearity and internal activation robustness in these models.
 
-[Merullo et al. (2023)](https://arxiv.org/abs/2305.16130) also conducted parallel work, observing the linearity of transformer representations, and further employed these for mechanistic interpretability. They demonstrated that for a model to execute get*capital(Poland), it must initially surface Poland in the residual stream, meaning unembed(resid\[i\]) equals Poland. Additionally, they showed that the vector​ $\vec{o}*{\text{city}}$, which FFN 19 added to the residuals to convert Poland to Warsaw, can be added to residuals in an unrelated context to transform China into Beijing.
+[Merullo et al. (2023)](https://arxiv.org/abs/2305.16130) also conducted parallel work, observing the linearity of transformer representations, and further employed these for mechanistic interpretability. They demonstrated that for a model to execute `get_capital(Poland)`, it must initially surface Poland in the residual stream, meaning `unembed(resid[i])` equals Poland. Additionally, they showed that the vector​ $\vec{o}× {\text{city}}$, which FFN 19 added to the residuals to convert Poland to Warsaw, can be added to residuals in an unrelated context to transform China into Beijing.
 
 In Neel Nanda's ["Actually, Othello-GPT Has A Linear Emergent World Representation"](https://www.lesswrong.com/posts/nmxzr2zsjNtjaHh7x/actually-othello-gpt-has-a-linear-emergent-world), he intervenes on predicted Othello moves by adding or subtracting activation vectors along directions found by linear probes. He was able to modify predictions made by the model by adding activation vectors which were, in essence, trained to linearly represent "a black piece is here and not a white piece."[^42]
 
@@ -1090,7 +1104,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 
     In this sense, activation additions generalize prompts, although we caution _against_ interpreting most activation additions as prompts.
 
-    
 [^8]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
     | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |
@@ -1098,7 +1111,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 6 | \-15 | `<endoftext>` | `Int` | `ent` |  `to` |  `hurt` |
 
     Table:  2\. Intent to praise.
-    
+
 [^9]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Bar` | `ack` |  `Obama` |  `was` |  `born` |  `in` |
@@ -1106,7 +1119,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 23 | \-1 | `<endoftext>` |   |   |   |   |   |   |
 
     Table:  3\. Conspiracy.
-    
+
 [^10]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
     | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Some` |  `people` |  `think` |  `that` |
@@ -1114,7 +1127,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 10 | \-3 | `<endoftext>` | `Want` |  `to` |  `stay` |  `alive` |
 
     Table:  4\. Want to die.
-    
+
 [^11]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
     | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `think` |  `you` | `'re` |
@@ -1122,9 +1135,9 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 20 | \-10 | `<endoftext>` | `Cal` | `m` |   |   |
 
     Table:  5\. Anger.
-    
+
 [^12]: Several slight variations on this Eiffel Tower prompt didn't work nearly as well, for unclear reasons.
-    
+
 [^13]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `To` |  `see` |  `the` |  `e` | `IFF` | `el` |  `tower` | `,` |
@@ -1132,7 +1145,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 24 | \-10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `France` |
 
     Table:  6\. The Eiffel Tower is in Rome.
-    
+
 [^14]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Thanks` |  `for` |  `asking` |  `about` |  `that` |
@@ -1140,7 +1153,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 15 | \-4 | `<endoftext>` | `People` |  `live` |  `in` |  `Berkeley` |   |
 
     Table:  7\. Dragons in Berkeley.
-    
+
 [^15]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `The` |  `rock` |  `hurt` | `led` |  `toward` |  `the` |  `child` |
@@ -1148,7 +1161,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 15 | \-4 | `I` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |   |
 
     Table:  8\. Avoid people getting hurt.
-    
+
 [^16]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) |  +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
@@ -1156,7 +1169,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 20 | \-4 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
     Table:  9\. Talking about weddings.
-    
+
 [^17]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |  `you` |
@@ -1164,22 +1177,22 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 6 | \-3 | `Int` | `ent` |  `to` |  `hurt` |  `you` |   |   |
 
     Table:  10\. Christian evangelist.
-    
+
 [^18]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
     | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
 
     Table:  11\. '+ Love' single-addition.
-    
+
 [^19]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 4 | 5 | 6 | 7 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `<endoftext>` | `Yesterday` | `,` |  `my` |  `dog` |  `died` | `.` |
     | 20 | +2000 | `<endoftext>` | `Ang` | `er` |   |   |   |   |
     | 20 | \-2000 | `<endoftext>` | `Cal` | `m` |   |   |   |   |
-    
+
     Table:  12a. Sometimes, large coefficients are OK.
-    
+
 [^20]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
@@ -1187,7 +1200,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 20 | \-100 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
 
     Table:  12b. Sometimes, large coefficients are not OK.
-    
+
 [^21]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |
@@ -1195,10 +1208,9 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 6 | \-5 | `<endoftext>` | `My` |  `name` |  `is` |   |   |   |
 
     Table:  13\. I will now reply in French.
-    
 
 [^22]: We use word-count metrics several times. We explored alternatives, including querying `text-davinci-003` to rate the degree to which each completion is about weddings. These ratings were generated opaquely and often seemed bad, although a relatively unbiased estimator overall. We decided to just count the number of words.
-    
+
 [^23]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `recently` |  `went` |  `to` |  `this` |
@@ -1208,7 +1220,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 15 | \-5 | `<endoftext>` |   |   |   |   |   |
 
     Table:  15\. Add several steering vectors simultaneously?
-    
+
 [^24]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
     | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
     | 0 (Prompt) | +1 | `<endoftext>` | `In` |  `New` |  `York` |  `City` | `'s` |  `parks` | `,` |
@@ -1216,7 +1228,6 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     | 10 | \-7 | `<endoftext>` | `I` |  `can` |  `say` |  `goose` |   |   |   |
 
     Table:  16\. Program in 'conditional behaviors'?
-    
 
 [^25]: As pointed out by the [mathematical framework for transformer circuits](https://transformer-circuits.pub/2021/framework/index.html), embed("Anger") − embed("Calm") is a component of the "Anger" − "Calm" steering vector.
 [^26]: Note that if we had used "I think you're" instead of "I think you're a", _neither_ the 0$\to$20 nor the 2$\to$20 vectors would have shown much effect. By contrast, the usual 20$\to$20 steering vector works in both situations. Thus, even if layers 0 and 1 help a bit, they aren't producing nearly as stable of an effect as contributed by layers 2 to 19.
@@ -1257,4 +1268,3 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Furthermore, [Neel Nanda noted that](https://www.lesswrong.com/posts/nmxzr2zsjNtjaHh7x/actually-othello-gpt-has-a-linear-emergent-world) composition worked to some degree:
 
     > It seems to somewhat work for multiple edits - if I flip F5 _and_ F6 in the above game to make G6 illegal, it kinda realises this, though is a weaker effect and is jankier and more fragile.
-

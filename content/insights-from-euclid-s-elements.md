@@ -3,7 +3,8 @@ permalink: insights-from-euclids-elements
 lw-was-draft-post: 'false'
 lw-is-af: 'false'
 lw-is-debate: 'false'
-lw-page-url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
+lw-page-url: 
+  https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 lw-is-question: 'false'
 lw-posted-at: 2020-05-04T15:45:30.711000Z
 lw-last-modification: 2021-02-15T03:50:12.674000Z
@@ -36,13 +37,16 @@ next-post-title: Lessons I've Learned from Self-Teaching
 lw-reward-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2020-05-04 00:00:00
-original_url: https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
+original_url: 
+  https://www.lesswrong.com/posts/Wpf3Gsa8A89mmjkk8/insights-from-euclid-s-elements
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/XbacNSL.png
 description: Euclid's "Elements", but made beautiful. A colorful exploration of geometric
   proofs and the power of visual learning.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-05 16:17:06.041179
 ---
+
+
 
 
 
@@ -103,7 +107,7 @@ This says: suppose you draw two parallel lines, and then make a dash of length 2
 
 If you take one of the dashes and slide it around on the upper parallel line, the resultant parallelograms all have the same area. I thought this was cool.
 
-## Notes
+# Notes
 
 There aren't any exercises; instead, I tried to first prove the theorems myself.
 
@@ -151,4 +155,3 @@ I look forward to another beautiful poster.
 
 > [!quote] Oliver Byrne
 > As the ſenſes of ſight and hearing can be ſo forcibly and inſtantaneously addreſſed alike with one thouſand as with one, _the million_ might be taught geometry and other branches of mathematics with great eaſe, this would advance the purpoſe of education more than any thing that _might_ be named, for it would teach the people how to think, and not what to think; it is in this particular the great error of education originates.
-

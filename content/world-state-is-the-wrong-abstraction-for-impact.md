@@ -40,8 +40,9 @@ date_published: 2019-10-01 00:00:00
 original_url: https://www.lesswrong.com/posts/pr3bLc2LtjARfK7nx/world-state-is-the-wrong-abstraction-for-impact
 skip_import: true
 description: 'Understanding impact as change to the world: attractive, but misleading.'
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -115,20 +116,19 @@ How did we go wrong?
 >
 > “Why do I think I have free will?,” in contrast, is guaranteed answerable. You do, in fact, believe you have free will. This belief seems far more solid and graspable than the ephemerality of free will. And there is, in fact, some nice solid chain of cognitive cause and effect leading up to this belief.
 
-
 I think what gets you is asking the question "what things are impactful?" instead of "why do I think things are impactful?". Then, you substitute the easier-feeling question of "how different are these world states?". Your fate is sealed; you've anchored yourself on a Wrong Question.
 
 At least, that's what _I_ did.
 
 > [!exercise]
 > Someone (me, early last year says that impact is closely related to change in object identities.
-> 
+>
 > ![](https://assets.turntrout.com/static/images/posts/pnztldk.avif)
-> 
+>
 > Find at least two scenarios which score as low impact by this rule but as high impact by your intuition, or vice versa.
-> 
+>
 > You have 3 minutes.
-> 
+>
 > >! Gee, let's see... Losing your keys, the torture of humans on Iniron, being locked in a room, flunking a critical test in college, losing a significant portion of your episodic memory, ingesting a pill which makes you think murder is OK, changing your discounting to be completely myopic, having your heart broken, getting really dizzy, losing your sight.
 > >
 > >! That's three minutes for me, at least (its length reflects how long I spent coming up with ways I had been wrong).
@@ -145,10 +145,10 @@ Yes, we can think about effects and facilitate academic communication more easil
 
 (Of course, I certainly did my part to make them more prevalent, what with my first post about impact being called _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)..._)
 
-#### Notes
+# Notes
 
 - Your ontology can't be _ridiculous_ ("everything is a single state"), but as long as it lets you represent what you care about, it's fine by AU theory.
 - Read more about ontological crises at [Rescuing the utility function.](https://arbital.com/p/rescue_utility/)
 - Obviously, something has to be physically different for events to feel impactful, but not all differences are impactful. Necessary, but not sufficient.
-- AU theory avoids the mind projection fallacy; impact is subjectively objective _because _[probability is subjectively objective](https://www.lesswrong.com/posts/XhaKvQyHzeXdNnFKy/probability-is-subjectively-objective).
+- AU theory avoids the mind projection fallacy; impact is subjectively objective _because_ [probability is subjectively objective](https://www.lesswrong.com/posts/XhaKvQyHzeXdNnFKy/probability-is-subjectively-objective).
 - I'm not aware of others explicitly trying to deduce our native algorithm for impact. No one was claiming the ontological theories explain our intuitions, and they didn't have the same "is this a big deal?" question in mind. However, we need to actually understand the problem we're solving, and providing that understanding is one responsibility of an impact measure! Understanding our own intuitions is crucial not just for producing nice equations, but also for getting an intuition for what a "low-impact" Frank would do.

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-COMMIT_RANGE=$(git rev-list @{upstream}..HEAD)
+COMMIT_RANGE=$(git rev-list "@{upstream}"..HEAD)
 COMBINED_HASHES=$(echo "$COMMIT_RANGE" | tr '\n' ' ')
 FINAL_HASH=$(echo "$COMBINED_HASHES" | sha256sum | cut -d ' ' -f 1)
 TIMESTAMP_OUTPUT=$(timestamp "$FINAL_HASH")

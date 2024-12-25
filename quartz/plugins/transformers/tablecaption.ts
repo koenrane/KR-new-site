@@ -21,7 +21,9 @@ export const TableCaption: QuartzTransformerPlugin = () => {
             })
 
             // Replace the paragraph with a figcaption
-            parent.children.splice(index!, 1, ...captionHtml.children)
+            if (index) {
+              parent.children.splice(index, 1, ...captionHtml.children)
+            }
 
             // Find the preceding table and wrap it with a figure
             if (index && index > 0) {

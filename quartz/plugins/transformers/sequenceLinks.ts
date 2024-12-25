@@ -77,14 +77,14 @@ export function createSequenceLinksDiv(
     prevPost &&
       h(
         "div",
-        { className: "prev-post sequenceLinks-postNavigation", style: "text-align: right;" },
+        { className: "prev-post sequence-links-post-navigation", style: "text-align: right;" },
         prevPost,
       ),
-    prevPost && nextPost && h("div", { className: "sequenceLinks-divider" }),
+    prevPost && nextPost && h("div", { className: "sequence-links-divider" }),
     nextPost &&
       h(
         "div",
-        { className: "next-post sequenceLinks-postNavigation", style: "text-align: left;" },
+        { className: "next-post sequence-links-post-navigation", style: "text-align: left;" },
         nextPost,
       ),
   ].filter(Boolean) as Element[]

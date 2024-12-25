@@ -35,15 +35,15 @@ no_dropcap: "true"
 video_preview_link: https://assets.turntrout.com/US%20presidents%20rate%20alignment%20agendas.mp4
 skip_import: true
 description: Obama, Trump, and Biden walk into a bar. They talk about AI alignment.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
 
 
 
 
-<video controls width="100%">
-	<source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/>
-</video>
+
+
+<video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
 
 The video is also [available on YouTube](https://www.youtube.com/watch?v=02kbWY5mahQ).
 
@@ -52,5 +52,5 @@ The video is also [available on YouTube](https://www.youtube.com/watch?v=02kbWY5
 > None of the presidents fully represent my (`TurnTrout`'s) views.
 
 > [!credits]
-> 
+>
 > `TurnTrout` wrote the script. Garrett Baker helped produce the video after the audio was complete. Thanks to David Udell, Ulisse Mini, Noemi Chulo, and especially Rio Popper for feedback and assistance in writing the script.

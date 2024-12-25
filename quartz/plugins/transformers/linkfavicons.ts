@@ -268,7 +268,8 @@ export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element |
       const textContent = lastChildText.value
       const toSpace = ["!", "?", "|", "]"] // Glyphs where top-right corner occupied
 
-      if (toSpace.includes(textContent.at(-1)!)) {
+      const lastChar = textContent.at(-1)
+      if (lastChar && toSpace.includes(lastChar)) {
         // Adjust the style of the appended element
         toAppend.properties = toAppend.properties || {}
         toAppend.properties.style = "margin-left: 0.05rem;"
@@ -365,7 +366,7 @@ export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
     } else if (href.startsWith("../")) {
       href = href.slice(3)
     }
-    href = "https://www.turntrout.com/" + href
+    href = `https://www.turntrout.com/${href}`
   }
 
   try {
@@ -427,5 +428,5 @@ export const AddFavicons = () => {
 }
 
 export function isHeading(node: Element): boolean {
-  return !!node.tagName?.match(/^h[1-6]$/)
+  return Boolean(node.tagName?.match(/^h[1-6]$/))
 }

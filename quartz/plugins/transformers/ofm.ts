@@ -129,7 +129,7 @@ export const tableRegex = new RegExp(
 // matches any wikilink, only used for escaping wikilinks inside tables
 export const tableWikilinkRegex = new RegExp(/(!?\[\[[^\]]*?\]\])/, "g")
 
-const highlightRegex = new RegExp(/==([^=]+)==/, "g")
+const highlightRegex = new RegExp(/[=]{2}([^=]+)[=]{2}/, "g")
 const commentRegex = new RegExp(/%%[\s\S]*?%%/, "g")
 // from https://github.com/escwxyz/remark-obsidian-callout/blob/main/src/index.ts
 const calloutRegex = new RegExp(/^\[!(\w+)\]([+-]?)/)
@@ -150,7 +150,7 @@ const wikilinkImageEmbedRegex = new RegExp(
   /^(?<alt>(?!^\d*x?\d*$).*?)?(\|?\s*?(?<width>\d+)(x(?<height>\d+))?)?$/,
 )
 
-const mdastToHtml = (ast: PhrasingContent | Paragraph) => {
+const mdastToHtml = (ast: PhrasingContent | Paragraph): string => {
   const hast = toHast(ast, { allowDangerousHtml: true })
   return toHtml(hast, { allowDangerousHtml: true })
 }
@@ -172,7 +172,7 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       const width = match?.groups?.width ?? "auto"
       const height = match?.groups?.height ?? "auto"
       const specifiedDimensions = width !== "auto" || height !== "auto"
-      const alt = specifiedDimensions ? "" : match?.groups?.alt ?? ""
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
       return {
         type: "image",
         url,
@@ -330,6 +330,7 @@ export function markdownPlugins(opts: Options): PluggableList {
             parent.children.splice(index, 1, newNode)
             return SKIP
           }
+          return undefined
         })
       }
     })
@@ -401,7 +402,7 @@ export function markdownPlugins(opts: Options): PluggableList {
                   children: [
                     {
                       type: "text",
-                      value: useDefaultTitle ? capitalize(typeString) : titleContent + " ",
+                      value: useDefaultTitle ? capitalize(typeString) : `${titleContent} `,
                     },
                     ...(firstChild.children.slice(1) as ElementContent[]),
                   ],
@@ -498,9 +499,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
     name: "ObsidianFlavoredMarkdown",
     textTransform(_ctx, src: string | Buffer) {
       // Strip HTML comments first
-      if (src instanceof Buffer) {
-        src = src.toString()
-      }
+      src = typeof src === "string" ? src : src.toString()
 
       // Add HTML comment stripping
       src = src.replace(/<!--[\s\S]*?-->/g, "")
@@ -512,26 +511,18 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
 
       // pre-transform blockquotes
       if (opts.callouts) {
-        if ((src as string | Buffer) instanceof Buffer) {
-          src = src.toString()
-        }
-
-        src = src.replace(calloutLineRegex, (value) => {
+        src = src.replace(calloutLineRegex, (value: string): string => {
           // force newline after title of callout
-          return value + "\n> "
+          return `${value}\n> `
         })
       }
 
       // pre-transform wikilinks (fix anchors to things that may contain illegal syntax e.g. codeblocks, latex)
       if (opts.wikilinks) {
-        if ((src as string | Buffer) instanceof Buffer) {
-          src = src.toString()
-        }
-
         // replace all wikilinks inside a table first
-        src = src.replace(tableRegex, (value) => {
+        src = src.replace(tableRegex, (value: string): string => {
           // escape all aliases and headers in wikilinks inside a table
-          return value.replace(tableWikilinkRegex, (value, ...capture) => {
+          return value.replace(tableWikilinkRegex, (_, ...capture: string[]) => {
             const [raw]: (string | undefined)[] = capture
             let escaped = raw ?? ""
             escaped = escaped.replace("#", "\\#")
@@ -542,7 +533,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
         })
 
         // replace all other wikilinks
-        src = src.replace(wikilinkRegex, (value, ...capture) => {
+        src = src.replace(wikilinkRegex, (value: string, ...capture: string[]): string => {
           const [rawFp, rawHeader, rawAlias]: (string | undefined)[] = capture
 
           const fp = rawFp ?? ""
@@ -608,7 +599,7 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> 
             visit(tree, "element", (node) => {
               if (node.tagName === "img" && typeof node.properties.src === "string") {
                 const match = node.properties.src.match(ytLinkRegex)
-                const videoId = match && match[2].length == 11 ? match[2] : null
+                const videoId = match && match[2].length === 11 ? match[2] : null
                 const playlistId = node.properties.src.match(ytPlaylistLinkRegex)?.[1]
                 if (videoId) {
                   // YouTube video (with optional playlist)

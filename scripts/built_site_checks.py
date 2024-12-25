@@ -1,17 +1,24 @@
+"""
+Script to check the built static site for common issues and errors.
+"""
+
 import os
-import sys
-import subprocess
 import re
-from typing import List, Dict
+import subprocess
+import sys
+from collections import Counter
 from pathlib import Path
-from bs4 import BeautifulSoup
+from typing import Dict, List, Set
+
+import tqdm
+from bs4 import BeautifulSoup, NavigableString, Tag
 
 # Add the project root to sys.path
+# pylint: disable=C0413
 sys.path.append(str(Path(__file__).parent.parent))
 
-import scripts.compress as compress
 import scripts.utils as script_utils
-
+from scripts import compress
 
 git_root = script_utils.get_git_root()
 RSS_XSD_PATH = git_root / "scripts" / ".rss-2.0.xsd"
@@ -20,7 +27,9 @@ IssuesDict = Dict[str, List[str] | bool]
 
 
 def check_localhost_links(soup: BeautifulSoup) -> List[str]:
-    """Check for localhost links in the HTML."""
+    """
+    Check for localhost links in the HTML.
+    """
     localhost_links = []
     links = soup.find_all("a", href=True)
     for link in links:
@@ -33,16 +42,20 @@ def check_localhost_links(soup: BeautifulSoup) -> List[str]:
 
 
 def check_favicons_missing(soup: BeautifulSoup) -> bool:
-    """Check if favicons are missing."""
-    return soup.find("img", class_="favicon") is None
+    """
+    Check if favicons are missing.
+    """
+    return not soup.select("article p img.favicon")
 
 
 def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     """
     Check for unrendered footnotes in the format [^something].
+
     Returns a list of the footnote references themselves.
     """
-    footnote_pattern = r"\[\^[a-zA-Z0-9-_]+\]"  # Matches [^1], [^note], [^note-1], etc.
+    # Matches [^1], [^note], [^note-1], etc.
+    footnote_pattern = r"\[\^[a-zA-Z0-9-_]+\]"
     unrendered_footnotes = []
 
     for p in soup.find_all("p"):
@@ -53,10 +66,10 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     return unrendered_footnotes
 
 
-def check_invalid_anchors(
-    soup: BeautifulSoup, file_path: Path, base_dir: Path
-) -> List[str]:
-    """Check for invalid internal anchor links in the HTML."""
+def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
+    """
+    Check for invalid internal anchor links in the HTML.
+    """
     invalid_anchors = []
     links = soup.find_all("a", href=True)
     for link in links:
@@ -85,62 +98,192 @@ def check_invalid_anchors(
     return invalid_anchors
 
 
-# Check that no blockquote element ends with ">" (probably needed a newline before it)
+# Check that no blockquote element ends with ">",
+# because it probably needed a newline before it
 def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
-    """Check for blockquote elements ending with ">"."""
+    """
+    Check for blockquote elements ending with ">".
+    """
     problematic_blockquotes: List[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
         # Get the last non-empty string content of the blockquote
-        contents = [s for s in blockquote.stripped_strings]
+        contents = list(blockquote.stripped_strings)
         if contents and contents[-1].strip().endswith(">"):
             # Get a truncated version of the blockquote content for reporting
-            content_preview = (
-                " ".join(contents)[:50] + "..."
-                if len(" ".join(contents)) > 50
-                else " ".join(contents)
+            _add_to_list(
+                problematic_blockquotes,
+                " ".join(contents),
+                prefix="Problematic blockquote: ",
             )
-            problematic_blockquotes.append(content_preview)
     return problematic_blockquotes
 
 
+def check_unrendered_html(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for unrendered HTML in the page.
+
+    Looks for text content containing HTML-like patterns (<tag>, </tag>, or
+    <tag/>) that should have been rendered by the markdown processor.
+    """
+    problematic_texts: List[str] = []
+
+    # Basic HTML tag pattern
+    tag_pattern = r"(</?[a-zA-Z][a-zA-Z0-9]*(?: |/?>))"
+
+    for element in soup.find_all(string=True):
+        if not should_skip(element):  # Reuse existing skip logic
+            text = element.strip()
+            if text:
+                # Look for HTML-like patterns
+                matches = re.findall(tag_pattern, text)
+                if matches:
+                    _add_to_list(
+                        problematic_texts,
+                        text,
+                        prefix=f"Unrendered HTML {matches}: ",
+                    )
+
+    return problematic_texts
+
+
+def _add_to_list(
+    lst: List[str],
+    text: str,
+    show_end: bool = False,
+    preview_chars: int = 100,
+    prefix: str = "",
+) -> None:
+    if preview_chars <= 0:
+        raise ValueError("preview_chars must be greater than 0")
+
+    if text:
+        if len(text) <= preview_chars:
+            lst.append(prefix + text)
+        else:
+            to_append = (
+                text[-preview_chars:] + "..."
+                if show_end
+                else text[:preview_chars]
+            )
+            lst.append(prefix + to_append)
+
+
 def check_problematic_paragraphs(soup: BeautifulSoup) -> List[str]:
-    """Check for paragraphs starting with specific phrases."""
-    problematic_paragraphs = []
-    paragraphs = soup.find_all("p")
-    for p in paragraphs:
-        text = p.get_text().strip()
-        if any(prefix in text for prefix in ("Table: ", "Figure: ", "Code: ")):
-            problematic_paragraphs.append(text[:50] + "..." if len(text) > 50 else text)
+    """
+    Check for text nodes starting with specific phrases.
+
+    Efficiently searches without duplicates, ignoring text within <code> tags.
+    """
+    bad_anywhere = (r"> \[\![a-zA-Z]+\]",)  # Callout syntax
+    bad_prefixes = (r"Table: ", r"Figure: ", r"Code: ")
+    bad_paragraph_starting_prefixes = (r"^: ", r"^#+ ")
+
+    problematic_paragraphs: List[str] = []
+
+    def _maybe_add_text(text: str) -> None:
+        text = text.strip()
+        if any(re.search(pattern, text) for pattern in bad_anywhere) or any(
+            re.search(prefix, text) for prefix in bad_prefixes
+        ):
+            _add_to_list(
+                problematic_paragraphs, text, prefix="Problematic paragraph: "
+            )
+
+    # Check all <p> and <dt> elements
+    for element in soup.find_all(["p", "dt"]):
+        if any(
+            re.search(prefix, element.text)
+            for prefix in bad_paragraph_starting_prefixes
+        ):
+            _add_to_list(
+                problematic_paragraphs,
+                element.text,
+                prefix="Problematic paragraph: ",
+            )
+        for text_node in element.find_all(string=True):
+            if not any(parent.name == "code" for parent in text_node.parents):
+                _maybe_add_text(text_node)
+
+    # Check direct text in <article> and <blockquote>
+    for parent in soup.find_all(["article", "blockquote"]):
+        for child in parent.children:
+            if isinstance(child, str):  # Check if it's a direct text node
+                _maybe_add_text(child)
+
     return problematic_paragraphs
 
 
+def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for unrendered spoilers.
+    """
+    unrendered_spoilers: List[str] = []
+    blockquotes = soup.find_all("blockquote")
+    for blockquote in blockquotes:
+        # Check each paragraph / text child in the blockquote
+        for child in blockquote.children:
+            if child.name == "p":
+                text = child.get_text().strip()
+                if text.startswith("! "):
+                    _add_to_list(
+                        unrendered_spoilers, text, prefix="Unrendered spoiler: "
+                    )
+    return unrendered_spoilers
+
+
 def check_unrendered_subtitles(soup: BeautifulSoup) -> List[str]:
-    """Check for unrendered subtitle lines."""
-    unrendered_subtitles = []
+    """
+    Check for unrendered subtitle lines.
+    """
+    unrendered_subtitles: List[str] = []
     paragraphs = soup.find_all("p")
     for p in paragraphs:
         text = p.get_text().strip()
-        if text.startswith("Subtitle:") and "subtitle" not in p.get("class", []):
-            unrendered_subtitles.append(text[:50] + "..." if len(text) > 50 else text)
+        if text.startswith("Subtitle:") and "subtitle" not in p.get(
+            "class", []
+        ):
+            _add_to_list(
+                unrendered_subtitles, text, prefix="Unrendered subtitle: "
+            )
     return unrendered_subtitles
 
 
-def parse_html_file(file_path: Path) -> BeautifulSoup:
-    """Parse an HTML file and return a BeautifulSoup object."""
-    with open(file_path, "r", encoding="utf-8") as file:
-        content = file.read()
-    return BeautifulSoup(content, "html.parser")
-
-
 # Check the existence of local files with these extensions
-_MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [".svg", ".avif", ".ico"]
+_MEDIA_EXTENSIONS = list(compress.ALLOWED_EXTENSIONS) + [
+    ".svg",
+    ".avif",
+    ".ico",
+]
 
 
-def check_local_media_files(
-    soup: BeautifulSoup, file_path: Path, base_dir: Path
-) -> List[str]:
-    """Check for local media files (images, videos, SVGs) and verify their existence."""
+def resolve_media_path(src: str, base_dir: Path) -> Path:
+    """
+    Resolve a media file path, trying both absolute and relative paths.
+
+    Args:
+        src: The source path from the HTML tag
+        base_dir: The base directory to resolve paths from
+
+    Returns:
+        The resolved Path object
+    """
+    if src.startswith("/"):
+        return (base_dir / src.lstrip("/")).resolve()
+
+    # For relative paths, try both direct and with base_dir
+    full_path = (base_dir / src).resolve()
+    if not full_path.is_file():
+        # Try relative to base_dir
+        full_path = (base_dir / src.lstrip("./")).resolve()
+
+    return full_path
+
+
+def check_local_media_files(soup: BeautifulSoup, base_dir: Path) -> List[str]:
+    """
+    Verify the existence of local media files (images, videos, SVGs).
+    """
     missing_files = []
     media_tags = soup.find_all(["img", "video", "source", "svg"])
 
@@ -150,9 +293,9 @@ def check_local_media_files(
             # It's a local file
             file_extension = Path(src).suffix.lower()
             if file_extension in _MEDIA_EXTENSIONS:
-                full_path = (base_dir / src).resolve()
+                full_path = resolve_media_path(src, base_dir)
                 if not full_path.is_file():
-                    missing_files.append(src)
+                    missing_files.append(f"{src} (resolved to {full_path})")
 
     return missing_files
 
@@ -160,16 +303,17 @@ def check_local_media_files(
 def check_asset_references(
     soup: BeautifulSoup, file_path: Path, base_dir: Path
 ) -> List[str]:
-    """Check for asset references and verify their existence."""
+    """
+    Check for asset references and verify their existence.
+    """
     missing_assets = []
 
     def resolve_asset_path(href: str) -> Path:
         if href.startswith("/"):
             # Absolute path within the site
             return (base_dir / href.lstrip("/")).resolve()
-        else:
-            # Relative path
-            return (file_path.parent / href).resolve()
+        # Relative path
+        return (file_path.parent / href).resolve()
 
     def check_asset(href: str) -> None:
         if href and not href.startswith(("http://", "https://")):
@@ -184,7 +328,9 @@ def check_asset_references(
         rel = link.get("rel", [])
         if isinstance(rel, list):
             rel = " ".join(rel)
-        if "stylesheet" in rel or ("preload" in rel and link.get("as") == "style"):
+        if "stylesheet" in rel or (
+            "preload" in rel and link.get("as") == "style"
+        ):
             check_asset(link.get("href"))
 
     # Check script tags for JS files
@@ -195,34 +341,311 @@ def check_asset_references(
 
 
 def check_katex_elements_for_errors(soup: BeautifulSoup) -> List[str]:
-    """Check for KaTeX elements with color #cc0000."""
-    problematic_katex = []
-    katex_elements = soup.select(".katex")
+    """
+    Check for KaTeX elements with color #cc0000.
+    """
+    problematic_katex: List[str] = []
+    katex_elements = soup.select(".katex-error")
     for element in katex_elements:
-        error_span = element.select_one('span[style*="color:#cc0000"]')
-        if error_span:
-            content = element.get_text().strip()
-            problematic_katex.append(
-                f"KaTeX element: {content[:50]}..." if len(content) > 50 else content
-            )
+        content = element.get_text().strip()
+        _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
     return problematic_katex
 
 
-def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
-    """Check a single HTML file for various issues."""
-    soup = parse_html_file(file_path)
+def katex_element_surrounded_by_blockquote(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for KaTeX display elements that start with '>>' but aren't inside a
+    blockquote.
+
+    These mathematical statements should be inside a blockquote.
+    """
+    problematic_katex: List[str] = []
+
+    # Find all KaTeX display elements
+    katex_displays = soup.find_all(class_="katex-display")
+    for katex in katex_displays:
+        content = katex.get_text().strip()
+        # Check if content starts with '>' and isn't inside a blockquote
+        if content.startswith(">"):
+            _add_to_list(problematic_katex, content, prefix="KaTeX error: ")
+
+    return problematic_katex
+
+
+def check_critical_css(soup: BeautifulSoup) -> bool:
+    """
+    Check if the page has exactly one critical CSS block in the head.
+    """
+    head = soup.find("head")
+    if isinstance(head, Tag):
+        critical_css_blocks = head.find_all("style", {"id": "critical-css"})
+        return len(critical_css_blocks) == 1
+    return False
+
+
+def check_duplicate_ids(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for duplicate anchor IDs in the HTML.
+
+    Returns a list of:
+    - IDs that appear multiple times
+    - IDs existing with and without -\\d suffix (e.g., 'intro' and 'intro-1')
+    Excludes IDs within mermaid flowcharts.
+    """
+    # Get all IDs except those in flowcharts
+    elements_with_ids = [
+        element["id"]
+        for element in soup.find_all(id=True)
+        if not element.find_parent(class_="flowchart")
+    ]
+
+    # Count occurrences of each ID
+    id_counts = Counter(elements_with_ids)
+    duplicates = []
+
+    # Check for both duplicates and numbered variants
+    for id_, count in id_counts.items():
+        # It's ok for multiple fnrefs to reference the same note
+        if id_.startswith("user-content-fnref-"):
+            continue
+
+        if count > 1:
+            duplicates.append(f"{id_} (found {count} times)")
+
+        # Check if this is a base ID with numbered variants
+        if not re.search(r".*-\d+$", id_):  # If this is not a numbered ID
+            numbered_variants = [
+                other_id
+                for other_id in id_counts
+                if other_id.startswith(id_ + "-")
+                and re.search(r".*-\d+$", other_id)
+            ]
+            if numbered_variants:
+                total = count + sum(
+                    id_counts[variant] for variant in numbered_variants
+                )
+                duplicates.append(
+                    f"{id_} (found {total} times, including numbered variants)"
+                )
+
+    return duplicates
+
+
+EMPHASIS_ELEMENTS_TO_SEARCH = (
+    "p",
+    "dt",
+    "figcaption",
+    "dd",
+    "li",
+    *(f"h{i}" for i in range(1, 7)),
+)
+
+
+def check_unrendered_emphasis(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for any unrendered emphasis characters (* or _) in text content.
+    Excludes code blocks, scripts, styles, and KaTeX elements.
+
+    Args:
+        soup: BeautifulSoup object to check
+
+    Returns:
+        List of strings containing problematic text with emphasis characters
+    """
+    problematic_texts: List[str] = []
+
+    for text_elt in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
+        # Get text excluding code and KaTeX elements
+        stripped_text = script_utils.get_non_code_text(text_elt)
+
+        # Check for any * or _ characters, ignoring _ before %
+        if stripped_text and (re.search(r"\*|_(?![_]* +%)", stripped_text)):
+            _add_to_list(
+                problematic_texts,
+                stripped_text,
+                show_end=True,
+                prefix="Unrendered emphasis: ",
+            )
+
+    return problematic_texts
+
+
+def should_skip(element: Tag | NavigableString) -> bool:
+    """
+    Check if element should be skipped based on formatting_improvement_html.ts
+    rules.
+    """
+    skip_tags = {"code", "pre", "script", "style"}
+    skip_classes = {"no-formatting", "elvish", "bad-handwriting"}
+
+    # Check current element and all parents
+    current: Tag | NavigableString | None = element
+    while current:
+        if isinstance(
+            current, Tag
+        ):  # Only check Tag elements, not NavigableString
+            if current.name in skip_tags or any(
+                class_ in (current.get("class", []) or [])
+                for class_ in skip_classes
+            ):
+                return True
+        current = current.parent if isinstance(current.parent, Tag) else None
+    return False
+
+
+def check_unprocessed_quotes(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for text nodes containing straight quotes (" or ') that should have
+    been processed by formatting_improvement_html.ts.
+
+    Skips nodes that would be skipped by the formatter:
+    - Inside code, pre, script, style tags
+    - Elements with classes: no-formatting, elvish, bad-handwriting
+    """
+    problematic_quotes: List[str] = []
+
+    # Check all text nodes
+    for element in soup.find_all(string=True):
+        if element.strip() and not should_skip(element):
+            # Look for straight quotes
+            straight_quotes = re.findall(r'["\']', element.string)
+            if straight_quotes:
+                _add_to_list(
+                    problematic_quotes,
+                    element.string,
+                    prefix=f"Unprocessed quotes {straight_quotes}: ",
+                )
+
+    return problematic_quotes
+
+
+def check_unprocessed_dashes(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for text nodes containing multiple dashes (-- or ---) that should have
+    been processed into em dashes by formatting_improvement_html.ts.
+    """
+    problematic_dashes: List[str] = []
+
+    for element in soup.find_all(string=True):
+        if element.strip() and not should_skip(element):
+            # Look for two or more dashes in a row
+            if re.search(r"[~\–\—\-\–]{2,}", element.string):
+                _add_to_list(
+                    problematic_dashes,
+                    element.string,
+                    prefix="Unprocessed dashes: ",
+                )
+
+    return problematic_dashes
+
+
+# NOTE that this is in bytes, not characters
+MAX_META_HEAD_SIZE = 9 * 1024  # 9 instead of 10 to avoid splitting tags
+
+
+def meta_tags_early(file_path: Path) -> List[str]:
+    """
+    Check that meta and title tags are NOT present between MAX_HEAD_SIZE and
+    </head>. EG Facebook only checks the first 10KB.
+
+    Args:
+        file_path: Path to the HTML file to check
+
+    Returns:
+        List of tags found after MAX_HEAD_SIZE but before </head>
+    """
+    issues: List[str] = []
+
+    # Read entire HTML content first.
+    with open(file_path, "rb") as f:
+        content_bytes = f.read()
+
+    # If file is smaller than MAX_META_HEAD_SIZE, no issues possible
+    if len(content_bytes) <= MAX_META_HEAD_SIZE:
+        return []
+
+    # Convert the first chunk and remainder to strings
+    content = content_bytes.decode("utf-8")
+
+    # Find where the byte boundary falls in terms of characters
+    boundary_content = content_bytes[:MAX_META_HEAD_SIZE].decode("utf-8")
+    char_boundary = len(boundary_content)
+
+    # Consider everything past the byte boundary
+    remainder = content[char_boundary:]
+
+    # If no </head>, our checks don't apply
+    if "</head>" not in remainder:
+        return []
+
+    # Only look up to the closing </head>
+    head_content = remainder.split("</head>")[0]
+
+    # Look for <meta ...> or <title ...> within that region
+    for tag in ("meta", "title"):
+        # Matches <meta ...> or </meta>, similarly for <title ...> or </title>
+        pattern = rf"<{tag}[^>]*>"
+        for match in re.finditer(pattern, head_content):
+            tag_text = match.group(0)
+            issues.append(
+                f"<{tag}> tag found after first "
+                f"{MAX_META_HEAD_SIZE // 1024}KB: {tag_text}"
+            )
+
+    return issues
+
+
+def check_file_for_issues(
+    file_path: Path, base_dir: Path, md_path: Path | None
+) -> IssuesDict:
+    """
+    Check a single HTML file for various issues.
+
+    Args:
+        file_path: Path to the HTML file to check
+        base_dir: Path to the base directory of the site
+        md_path: Path to the markdown file that generated the HTML file
+
+    Returns:
+        Dictionary of issues found in the HTML file
+    """
+    soup = script_utils.parse_html_file(file_path)
+    if script_utils.is_redirect(soup):
+        return {}
+
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
-        "invalid_anchors": check_invalid_anchors(soup, file_path, base_dir),
+        "invalid_anchors": check_invalid_anchors(soup, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
-        "missing_media_files": check_local_media_files(soup, file_path, base_dir),
+        "missing_media_files": check_local_media_files(soup, base_dir),
         "trailing_blockquotes": check_blockquote_elements(soup),
         "missing_assets": check_asset_references(soup, file_path, base_dir),
         "problematic_katex": check_katex_elements_for_errors(soup),
         "unrendered_subtitles": check_unrendered_subtitles(soup),
         "unrendered_footnotes": check_unrendered_footnotes(soup),
+        "missing_critical_css": not check_critical_css(soup),
+        "empty_body": script_utils.body_is_empty(soup),
+        "duplicate_ids": check_duplicate_ids(soup),
+        "unrendered_spoilers": check_unrendered_spoilers(soup),
+        "unrendered_emphasis": check_unrendered_emphasis(soup),
+        "katex_outside_blockquote": katex_element_surrounded_by_blockquote(
+            soup
+        ),
+        "unprocessed_quotes": check_unprocessed_quotes(soup),
+        "unprocessed_dashes": check_unprocessed_dashes(soup),
+        "unrendered_html": check_unrendered_html(soup),
+        "emphasis_spacing": check_emphasis_spacing(soup),
+        "long_description": check_description_length(soup),
+        "late_header_tags": meta_tags_early(file_path),
     }
-    if "test-page" in file_path.name:
+
+    # Only check markdown assets if md_path exists and is a file
+    if md_path and md_path.is_file():
+        issues["missing_markdown_assets"] = check_markdown_assets_in_html(
+            soup, md_path
+        )
+
+    if file_path.name == "about.html":  # Not all pages need to be checked
         issues["missing_favicon"] = check_favicons_missing(soup)
     return issues
 
@@ -230,12 +653,15 @@ def check_file_for_issues(file_path: Path, base_dir: Path) -> IssuesDict:
 def check_rss_file_for_issues(
     git_root_path: Path, custom_xsd_path: Path | None = None
 ) -> None:
-    """Check an RSS file for various issues.
-    Uses xmllint via `brew install libxml2`."""
+    """
+    Check an RSS file for various issues.
+
+    Uses xmllint via `brew install libxml2`.
+    """
     rss_path = git_root_path / "public" / "rss.xml"
     subprocess.run(
         [
-            "xmllint",
+            "/usr/bin/xmllint",
             "--noout",
             "--schema",
             str(custom_xsd_path or RSS_XSD_PATH),
@@ -251,7 +677,9 @@ def print_issues(
     file_path: Path,
     issues: IssuesDict,
 ) -> None:
-    """Print issues found in a file."""
+    """
+    Print issues found in a file.
+    """
     if any(lst for lst in issues.values()):
         print(f"Issues found in {file_path}:")
         for issue, lst in issues.items():
@@ -266,22 +694,219 @@ def print_issues(
         print()  # Add a blank line between files with issues
 
 
+tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
+
+
+def get_md_asset_counts(md_path: Path) -> Counter[str]:
+    """
+    Get the counts of all assets referenced in the markdown file.
+    """
+    # skipcq: PTC-W6004, it's just serverside open -- not user-facing
+    with open(md_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        # Match ![alt](src) pattern, capturing the src
+        md_pattern_assets = re.findall(r"!\[.*?\]\((.*?)\)", content)
+
+        # Match HTML tags with src attributes
+        possible_tag_pattern = rf"{'|'.join(tags_to_check_for_missing_assets)}"
+        tag_pattern = rf"<(?:{possible_tag_pattern}) [^>]*?src=[\"'](.*?)[\"']"
+        tag_pattern_assets = re.findall(tag_pattern, content)
+
+    # Count occurrences of each asset in markdown
+    return Counter(
+        asset.strip() for asset in md_pattern_assets + tag_pattern_assets
+    )
+
+
+def check_markdown_assets_in_html(
+    soup: BeautifulSoup, md_path: Path
+) -> List[str]:
+    """
+    Check that all assets referenced in the markdown source appear in the HTML
+    at least as many times as they appear in the markdown.
+
+    Args:
+        soup: BeautifulSoup object of the HTML content
+        md_path: Path to the markdown file that generated the HTML file
+
+    Returns:
+        List of asset references that have fewer instances in HTML
+    """
+    if not md_path.exists():
+        raise ValueError(f"Markdown file {md_path} does not exist")
+
+    md_asset_counts = get_md_asset_counts(md_path)
+
+    # Count asset sources in HTML
+    html_asset_counts: Counter[str] = Counter()
+    for tag in tags_to_check_for_missing_assets:
+        for element in soup.find_all(tag):
+            if src := element.get("src"):
+                html_asset_counts[src.strip()] += 1
+
+    # Check each markdown asset exists in HTML with sufficient count
+    missing_assets = []
+    for asset, md_count in md_asset_counts.items():
+        html_count = html_asset_counts[asset]
+        if html_count < md_count:
+            missing_assets.append(
+                f"Asset {asset} appears {md_count} times in markdown "
+                f"but only {html_count} times in HTML"
+            )
+        elif html_count == 0:
+            missing_assets.append(
+                f"Asset {asset} from markdown not found in HTML"
+            )
+
+    return missing_assets
+
+
+# Characters that are acceptable before and after emphasis tags
+PREV_EMPHASIS_CHARS = "[(-—~×“=+‘"
+NEXT_EMPHASIS_CHARS = "]).,;!?:-—~×”…=’"
+
+
+def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for emphasis/strong elements that don't have proper spacing with
+    surrounding text.
+    """
+    problematic_emphasis: List[str] = []
+
+    # Properly escape characters for regex patterns
+    _ok_prev_chars = "".join([re.escape(c) for c in PREV_EMPHASIS_CHARS])
+    _ok_prev_regex = rf"^.*[\s{_ok_prev_chars}]$"
+
+    _ok_next_chars = "".join([re.escape(c) for c in NEXT_EMPHASIS_CHARS])
+    _ok_next_regex = rf"^[\s{_ok_next_chars}].*$"
+
+    # Find all emphasis elements
+    for element in soup.find_all(["em", "strong", "i", "b", "del"]):
+        # Get the previous and next siblings that are text nodes
+        prev_sibling = element.previous_sibling
+        next_sibling = element.next_sibling
+
+        # Check for missing space before the emphasis element
+        if (
+            isinstance(prev_sibling, NavigableString)
+            and prev_sibling.strip()
+            and not re.search(_ok_prev_regex, prev_sibling)
+        ):
+            preview = (
+                f"{prev_sibling}<{element.name}>"
+                f"{element.get_text()}</{element.name}>"
+            )
+            _add_to_list(
+                problematic_emphasis, preview, prefix="Missing space before: "
+            )
+
+        # Check for missing space after the emphasis element
+        if (
+            isinstance(next_sibling, NavigableString)
+            and next_sibling.strip()
+            and not re.search(_ok_next_regex, next_sibling)
+        ):
+            preview = (
+                f"<{element.name}>{element.get_text()}</{element.name}>"
+                f"{next_sibling}"
+            )
+            _add_to_list(
+                problematic_emphasis, preview, prefix="Missing space after: "
+            )
+
+    return problematic_emphasis
+
+
+# Facebook recommends descriptions under 155 characters
+MAX_DESCRIPTION_LENGTH = 155
+MIN_DESCRIPTION_LENGTH = 10
+
+
+def check_description_length(soup: BeautifulSoup) -> List[str]:
+    """
+    Check if the page description is within the recommended length for social
+    media previews.
+
+    Returns a list with a single string if the description is too long, or an
+    empty list otherwise.
+    """
+    description_element = soup.find("meta", attrs={"name": "description"})
+    description = (
+        description_element.get("content")
+        if description_element and isinstance(description_element, Tag)
+        else None
+    )
+
+    if description:
+        if len(description) > MAX_DESCRIPTION_LENGTH:
+            return [
+                f"Description too long: {len(description)} characters "
+                f"(recommended <= {MAX_DESCRIPTION_LENGTH})"
+            ]
+        if len(description) < MIN_DESCRIPTION_LENGTH:
+            return [
+                f"Description too short: {len(description)} characters "
+                f"(recommended >= {MIN_DESCRIPTION_LENGTH})"
+            ]
+        return []
+    return ["Description not found"]
+
+
+def check_css_issues(file_path: Path) -> List[str]:
+    """
+    Check for CSS issues in a file.
+    """
+    if not file_path.exists():
+        return [f"CSS file {file_path} does not exist"]
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+        if not re.search(r"@supports", content):
+            return [
+                f"CSS file {file_path.name} does not contain @supports,"
+                " which is required for dropcaps in Firefox"
+            ]
+    return []
+
+
 def main() -> None:
-    """Main function to check all HTML files in the public directory for issues."""
-    git_root = script_utils.get_git_root()
+    """
+    Check all HTML files in the public directory for issues.
+    """
     public_dir: Path = git_root / "public"
     issues_found: bool = False
 
     check_rss_file_for_issues(git_root)
+    css_issues = check_css_issues(public_dir / "index.css")
+    if css_issues:
+        print_issues(public_dir / "index.css", {"CSS_issues": css_issues})
+        issues_found = True
 
-    for root, dirs, files in os.walk(public_dir):
-        for file in files:
-            if file.endswith(".html"):
+    md_dir: Path = git_root / "content"
+    permalink_to_md_path_map = script_utils.build_html_to_md_map(md_dir)
+    files_to_skip: Set[str] = script_utils.collect_aliases(md_dir)
+
+    for root, _, files in os.walk(public_dir):
+        if "drafts" in root:
+            continue
+        for file in tqdm.tqdm(files, desc="Webpages checked"):
+            if file.endswith(".html") and Path(file).stem not in files_to_skip:
                 file_path = Path(root) / file
-                issues = check_file_for_issues(file_path, public_dir)
 
-                print_issues(file_path, issues)
+                # Only derive md_path for public_dir files
+                md_path = None
+                if root.endswith("public"):
+                    md_path = permalink_to_md_path_map.get(
+                        file_path.stem
+                    ) or permalink_to_md_path_map.get(file_path.stem.lower())
+                    if not md_path and script_utils.should_have_md(file_path):
+                        raise ValueError(
+                            f"Markdown file for {file_path.stem} not found"
+                        )
+
+                issues = check_file_for_issues(file_path, public_dir, md_path)
+
                 if any(lst for lst in issues.values()):
+                    print_issues(file_path, issues)
                     issues_found = True
 
     if issues_found:

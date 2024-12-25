@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-ins
 skip_import: true
 description: Insights from a management textbook on how to improve decision-making,
   negotiate effectively, and overcome cognitive biases.
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -153,4 +154,3 @@ This new year, I'm going to become a less oblivious, less stupid, and less wrong
 <hr/>
 
 [^1]: I also still want to learn Bayes nets, category theory, get a much deeper understanding of probability theory, provability logic, and decision theory.
-

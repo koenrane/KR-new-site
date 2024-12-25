@@ -37,7 +37,7 @@ const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
 
   return (
     <div className={classes}>
-      <article>{content}</article>
+      <article>{content as React.ReactNode}</article>
       <div className="page-listing">
         <p>{i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })}</p>
         <div>

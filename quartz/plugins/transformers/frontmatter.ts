@@ -1,13 +1,17 @@
 import matter from "gray-matter"
-import yaml from "js-yaml"
+import { Root } from "hast"
+import { JSON_SCHEMA, load as loadYAML } from "js-yaml"
 import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
+import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
 import { i18n } from "../../i18n"
+import { escapeHTML } from "../../util/escape"
 import { slugTag } from "../../util/path"
 import { QuartzTransformerPlugin } from "../types"
 import { QuartzPluginData } from "../vfile"
+import { urlRegex } from "./utils"
 
 export interface Options {
   delimiters: string | [string, string]
@@ -19,10 +23,30 @@ const defaultOptions: Options = {
   language: "yaml",
 }
 
+/**
+ * Gathers text from all text nodes plus any content nested inside <code> blocks.
+ * Returns a single string that you can store for indexing.
+ */
+function gatherAllText(tree: Root): string {
+  let allText = ""
+  visit(tree, (node) => {
+    if (
+      // @ts-expect-error: mixing AST node types
+      (node.type === "text" || node.type === "inlineCode") &&
+      "value" in node &&
+      typeof node.value === "string"
+    ) {
+      allText += node.value + " "
+    }
+  })
+  return allText
+}
+
 function coalesceAliases(data: { [key: string]: string[] }, aliases: string[]) {
   for (const alias of aliases) {
     if (data[alias] !== undefined && data[alias] !== null) return data[alias]
   }
+  return []
 }
 
 // I don't want tags to be case-sensitive
@@ -58,11 +82,11 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
       return [
         [remarkFrontmatter, ["yaml", "toml"]],
         () => {
-          return (_: unknown, file: VFile) => {
+          return (tree: Root, file: VFile) => {
             const { data } = matter(Buffer.from(file.value), {
               ...opts,
               engines: {
-                yaml: (s) => yaml.load(s, { schema: yaml.JSON_SCHEMA }) as object,
+                yaml: (s) => loadYAML(s, { schema: JSON_SCHEMA }) as object,
                 toml: (s) => toml.parse(s) as object,
               },
             })
@@ -75,7 +99,9 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
 
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]) || [])
             const lowerCaseTags = tags?.map((tag: string) => transformTag(tag))
-            if (tags) data.tags = [...new Set(lowerCaseTags?.map((tag: string) => slugTag(tag)))]
+            if (tags) {
+              data.tags = [...new Set(lowerCaseTags?.map((tag: string) => slugTag(tag)))]
+            }
 
             const aliases = coerceToArray(coalesceAliases(data, ["aliases", "alias"]) || [])
             if (aliases) data.aliases = aliases
@@ -84,8 +110,14 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
             )
             if (cssclasses) data.cssclasses = cssclasses
 
-            // fill in frontmatter
+            // Fill out frontmatter data
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
+
+            // Gather text from all text + code nodes
+            let combinedText = gatherAllText(tree)
+            combinedText = escapeHTML(combinedText)
+            combinedText = combinedText.replace(urlRegex, "$<domain>$<path>")
+            file.data.text = combinedText
           }
         },
       ]

@@ -32,8 +32,9 @@ skip_import: true
 no_dropcap: true
 description: "Fear of the dark increases our perception of risk. I ask: does this\
   \ apply to decision-making more broadly?"
-date_updated: 2024-10-31 23:14:34.832290
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -45,5 +46,4 @@ My question is: does this apply more generally? Might we be more risk-averse at 
 
 <hr/>
 
-
-[^1]: [One study indicated](https://psychcentral.com/news/2014/04/02/night-owls-are-risk-takers/67976.html) that night owls are actually risk-takers, but there's a lot of confounders there with respect to nychtophobia-related explanations. 
+[^1]: [One study indicated](https://psychcentral.com/news/2014/04/02/night-owls-are-risk-takers/67976.html) that night owls are actually risk-takers, but there's a lot of confounders there with respect to nychtophobia-related explanations.

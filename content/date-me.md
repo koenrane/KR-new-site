@@ -7,19 +7,26 @@ hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-11-14 21:08:14.988730
+date_updated: 2024-12-12 22:05:58.602985
 tags:
   - personal
 ---
 
 
-<img id="alex-hawaii-date-me" src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt=""/>
 
-Many people know me as "TurnTrout", but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
+
+
+
+
+
+
+<img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt=""/>
+
+Many people know me as `TurnTrout`, but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [ethically non-monogamous](https://en.wikipedia.org/wiki/Ethical_non-monogamy).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
+I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
 
 (And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
@@ -34,7 +41,6 @@ On the other hand, I do love a good _ethical_ conspiracy. I once hatched an elab
 
 I am pretty goofy if I trust and feel comfy around someone. I think I'd jive well with someone more spontaneous and daring, since I tend to be more planned and conservative. Well, I'm _usually_ more conservative:
 <img src="https://assets.turntrout.com/static/images/skydiving.avif" alt="Alex excitedly looking out of a plane, getting ready to jump."/>
-
 
 [^perfect]: I mean, I'm not _perfectly_ reliable. I'm just a hum - I mean, I'm just a trout! For example, there recently was a situation where I may have simply forgotten what someone had requested two years prior. But I think I am overall highly reliable - both in terms of faithfulness and in terms of logistics.
 
@@ -55,13 +61,13 @@ I might not be good at something at first, but I don't quit! In the second year 
 <img  src="https://assets.turntrout.com/static/images/waterfall.avif" alt="Alex waving at the camera near a waterfall."/>
 <figcaption>Hawaiian waterfalls! 🏝️</figcaption>
 </figure>
-That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks. 
+That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks.
 
 When I was younger, I wasn't very social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are very precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
 
 <figure>
-	<img src="https://assets.turntrout.com/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
-	<figcaption>Part of me wishes I could meet and deeply understand each and every person here. Each pinpoint of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
+  <img src="https://assets.turntrout.com/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
+  <figcaption>Part of me wishes I could meet and deeply understand each and every person here. Each pinpoint of light is shining for a <em>reason</em>, it was put there <em>by another person</em>.</figcaption>
 </figure>
 
 So, I care a lot about people - both in the abstract and personally. I've never yelled at anyone in my life (except, you know, I probably did as a young kid, but I don't remember that well).  I'm also a vegan who cares about animals. 🪿🐟
@@ -131,13 +137,19 @@ Meditation
 Reading textbooks
 : [Yes](./set-theory-textbook-review) [this](./linear-algebra-textbook-review) [is](./first-analysis-textbook-review) [a](./all-of-statistics-textbook-review) [real](./second-analysis-textbook-review) [thing](./functional-analysis-textbook-review) [I](./insights-from-modern-principles-of-economics) [do](./computability-and-logic-textbook-review) [for](./ordinary-differential-equations-textbook-review) [fun](./RL-textbook-review) [sometimes.](./topology-textbook-review)
 
-
 # How compatible are we?
 
 ## Possible dealbreakers
 
 1. I probably (70%) will want kids within the next 5 years.
-2. Ethical non-monogamy is important to me.
+2. Polyamory is important to me. I find it natural to form romantic attachments with multiple people and am not very jealous. However, my "minimal viable polyamory" looks like "I keep seeing my partner Emma a few times a year, and talking with her regularly, while living with and marrying the person I'm currently looking for."
+3. I currently live in Berkeley. I'm open to (but disprefer) a long-distance relationship if there's a good chance we end up in the same location, assuming the relationship is great! In particular, cities like New York and London are more workable (as DeepMind has offices there I could work out of).
+
+## What I'm like in a relationship
+
+- I'm a positive presence. When my friends self-deprecate, I often scold them for insulting my friend (i.e. themselves).
+- As of November 2024, my [attachment style](https://en.wikipedia.org/wiki/Attachment_theory#Attachment_styles_in_adults) leans "anxious-preoccupied." However, over the past few years, my style was "secure." I find it easy to date anxious folks because I like supporting my partners through reassurance and praise.
+- My [love language](https://en.wikipedia.org/wiki/The_Five_Love_Languages) is "quality time", closely followed by "words of affirmation." I want to find a life _partner_ - a mutually supportive and committed relationship. I want to do things together.
 
 ## What I appreciate in a partner
 
@@ -162,7 +174,6 @@ If this sounds like a nice potential connection, I'd love to:
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
 <figcaption>This could be us!</figcaption>
 </figure>
-
 
 OK, I've written enough! Get to know me if you want to know more. 🪿
 

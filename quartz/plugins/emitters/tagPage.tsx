@@ -82,13 +82,12 @@ export const TagPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) 
             tag === "index"
               ? i18n(cfg.locale).pages.tagContent.tagIndex
               : `${i18n(cfg.locale).pages.tagContent.tag}: ${tag}`
-          const description = "All articles tagged with " + tag
           return [
             tag,
             defaultProcessedContent({
               slug: joinSegments("tags", tag) as FullSlug,
               frontmatter: { title, tags: [] },
-              description: description,
+              description: "",
               text: "",
             }),
           ]

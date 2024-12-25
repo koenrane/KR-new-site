@@ -1,7 +1,9 @@
 @use "../../styles/variables" as *;
+
 .toc-title {
   margin-top: 0;
-  margin-bottom: calc(0.5 * $baseMargin);
+  margin-bottom: calc(0.5 * $base-margin);
+
   & a {
     text-decoration: none;
   }
@@ -11,7 +13,6 @@ ul.overflow,
 ol.overflow {
   overflow-y: auto;
   margin-bottom: 0;
-
   content: "";
   clear: both;
 }
@@ -26,8 +27,9 @@ ol.overflow {
   font-size: var(--text-size-90);
 
   & > ul {
-    padding-left: $baseMargin !important;
+    padding-left: $base-margin !important;
   }
+
   & ul {
     list-style: none;
     padding: 0;
@@ -37,37 +39,36 @@ ol.overflow {
 
     & ul {
       font-size: 0.913em; // approx sqrt(1/1.2), where 1.2 is scale factor
-      border-left: 2px solid var(--lightergray);
 
       & li {
-        padding-left: calc(0.75 * $baseMargin - $baseMargin * var(--text-indent-multiplier));
+        padding-left: calc(0.75 * $base-margin - $base-margin * var(--text-indent-multiplier));
       }
     }
+
     &:not(:first-child) {
       margin-bottom: 0;
     }
 
     & > li {
-      padding-bottom: calc(0.5 * $baseMargin);
+      padding-bottom: calc(0.5 * $base-margin);
       overflow-y: visible;
 
       &:first-child {
-        padding-top: calc(0.5 * $baseMargin);
+        padding-top: calc(0.5 * $base-margin);
       }
 
       &:last-child {
         padding-bottom: 0;
-        margin-bottom: calc(0.25 * $baseMargin);
+        margin-bottom: calc(0.25 * $base-margin);
       }
 
       & > a {
         text-decoration: none;
-        color: var(--gray);
+        color: var(--midground);
 
-        // Navigation frame is within this section
         &.active {
-          color: var(--dark);
-          font-weight: bold;
+          color: var(--midground-strong);
+          text-shadow: 0.3px 0.3px var(--midground-strong);
         }
       }
     }
@@ -77,6 +78,6 @@ ol.overflow {
 .center #toc-content-mobile {
   & a,
   & a:visited {
-    color: var(--dark);
+    color: var(--foreground);
   }
 }

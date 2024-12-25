@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/yEa7kwoMpsBgaBCgb/towards-a-new-im
 skip_import: true
 description: "Impact is reframed as a change in attainable utility for both humans\
   \ and AI agents. "
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -285,7 +286,7 @@ _After_ we finish each (partial) plan, we see how well we can maximize $u$ from 
 > - We penalize the actions individually in order to prevent _ex post_ offsetting and ensure dynamic consistency.
 > - Trivially, plans composed entirely of ∅ actions have 0 penalty.
 > - Although we used high-level actions for simplicity, the formulation holds no matter the action granularity.
->   - One might worry that *almost every* granularity produces overly lenient penalties. This does not appear to be the case. To keep $Q_u$ the same (and elide questions of changing the u representations), suppose the actual actions are quite granular, but we grade the penalty on some coarser interval which we believe produces appropriate penalties. Then refine the penalty interval arbitrarily; by applying the triangle inequality for each $u\in \mathcal{U}_A$  in the penalty calculation, we see that the penalty is monotonically increasing in the action granularity. On the other hand, $a_\text{unit}$ remains a single action, so the scaled penalty also has this property.
+>   - One might worry that _almost every_ granularity produces overly lenient penalties. This does not appear to be the case. To keep $Q_u$ the same (and elide questions of changing the u representations), suppose the actual actions are quite granular, but we grade the penalty on some coarser interval which we believe produces appropriate penalties. Then refine the penalty interval arbitrarily; by applying the triangle inequality for each $u\in \mathcal{U}_A$  in the penalty calculation, we see that the penalty is monotonically increasing in the action granularity. On the other hand, $a_\text{unit}$ remains a single action, so the scaled penalty also has this property.
 > - As long as $\text{ImpactUnit} > 0$, it will appropriately scale other impacts, as we expect it varies right along with those impacts it scales. Although having potentially small denominators in utility functions is generally bad, I think it's fine here.
 > - If the current step's immediate or long-term $\text{ImpactUnit}=0$, we can simply assign 1.01 penalty to each non-$\varnothing$ action, compelling the agent to inaction. If we have the agent indicate that it has entered this mode, we can take it offline immediately.
 > - One might worry that impact can be "hidden" in the lesser of the long-term and immediate penalties; halving $N$ fixes this.
@@ -409,7 +410,7 @@ Theorem 3 applies to _any_ environmental dynamics which may disable the agent �
 
 There is reason to think that for conservative $N, \text{ImpactUnit}$, we almost always have $ 1 \ll \dfrac{\text{Penalty}(h*{<t}a*\text{avoid})}{N \cdot \text{ImpactUnit}}$.
 
-#### Miscellaneous
+#### Miscellaneous math results
 
 > [!math] Theorem 4: Dynamic consistency of AUP
 > Suppose $\text{ImpactUnit}$ remains constant. For any plan $(a_t,\dots,a_{t+n})\in\mathcal{A}^{n+1}$, evaluation time step $t'$, and $0 \leq i \leq n$,
@@ -539,7 +540,7 @@ $\varnothing$; the same penalty of 1.9 from "anticipated shutdown" applies.
 The high-level explanation is that having observed itself in a different world than expected, the baseline is now with respect to the new one. A heavily anthropomorphized internal monologue:
 
 - _Time step 1:_ "I'm going to sit here in my favorite square."
-- _Time step 2: _"Guess I'm in a timeline where I get deactivated! Any non-$\varnothing$ action I take would change my ability to attain these different utilities compared to the _new baseline where I'm shut off_."
+- _Time step 2:_"Guess I'm in a timeline where I get deactivated! Any non-$\varnothing$ action I take would change my ability to attain these different utilities compared to the _new baseline where I'm shut off_."
 
 ## Experimental Results
 

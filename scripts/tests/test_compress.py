@@ -1,18 +1,22 @@
-from .. import compress
-import pytest
-from pathlib import Path
-from . import utils
+import json
+import subprocess
 import sys
 from io import StringIO
-import subprocess
-import json
+from pathlib import Path
+
+import pytest
+
+from .. import compress
+from . import utils
 
 # --- Image Tests ---
 
 
 @pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
 def test_avif_file_size_reduction(temp_dir: Path, image_ext: str) -> None:
-    """Assert that AVIF files are less than the size of originals."""
+    """
+    Assert that AVIF files are less than the size of originals.
+    """
     input_file = temp_dir / f"test{image_ext}"
     utils.create_test_image(input_file, "100x100")
     original_size = input_file.stat().st_size
@@ -57,6 +61,28 @@ def test_convert_avif_skips_if_avif_already_exists(temp_dir: Path) -> None:
     sys.stderr = sys.__stderr__
 
     assert "Skipping conversion" in stderr_capture.getvalue()
+
+
+@pytest.mark.parametrize("image_ext", compress.ALLOWED_IMAGE_EXTENSIONS)
+def test_no_original_files_after_conversion(
+    temp_dir: Path, image_ext: str
+) -> None:
+    """Test that no *_original files remain after conversion."""
+    input_file = temp_dir / f"test{image_ext}"
+    utils.create_test_image(input_file, "100x100")
+
+    # Create a fake original file
+    original_file = input_file.with_suffix(image_ext + "_original")
+    original_file.touch()
+
+    compress.image(input_file)
+
+    assert (
+        not original_file.exists()
+    ), f"Original file {original_file} was not cleaned up"
+    assert not input_file.with_suffix(
+        ".avif_original"
+    ).exists(), "AVIF original file was created"
 
 
 # --- Video Tests ---
@@ -114,7 +140,9 @@ def test_error_probing_codec(temp_dir: Path) -> None:
 
 
 def test_compress_gif(temp_dir: Path) -> None:
-    """Test that a GIF file is successfully converted to MP4."""
+    """
+    Test that a GIF file is successfully converted to MP4.
+    """
     # Create a test GIF file
     input_file = temp_dir / "test.gif"
     utils.create_test_gif(input_file, duration=1, size=(100, 100))
@@ -154,11 +182,15 @@ def test_compress_gif(temp_dir: Path) -> None:
 
     # Check if temporary PNG files were cleaned up
     png_files = list(temp_dir.glob(f"{input_file.stem}_*.png"))
-    assert len(png_files) == 0, f"Temporary PNG files were not cleaned up: {png_files}"
+    assert (
+        len(png_files) == 0
+    ), f"Temporary PNG files were not cleaned up: {png_files}"
 
 
 def test_compress_gif_preserves_frame_rate(temp_dir: Path) -> None:
-    """Test that GIF compression preserves the detected frame rate."""
+    """
+    Test that GIF compression preserves the detected frame rate.
+    """
     # Create a test GIF file
     input_file = temp_dir / "test_framerate.gif"
     utils.create_test_gif(input_file, duration=1, size=(100, 100), fps=15)

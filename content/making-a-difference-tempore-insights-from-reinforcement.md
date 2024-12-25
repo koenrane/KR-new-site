@@ -3,7 +3,8 @@ permalink: RL-textbook-review
 lw-was-draft-post: "false"
 lw-is-af: "false"
 lw-is-debate: "false"
-lw-page-url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
+lw-page-url: 
+  https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
 lw-is-question: "false"
 lw-posted-at: 2018-07-05T00:34:59.249000Z
 lw-last-modification: None
@@ -36,13 +37,16 @@ next-post-title: "Turning Up the Heat: Insights from Tao's 'Analysis II'"
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2018-07-05 00:00:00
-original_url: https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
+original_url: 
+  https://www.lesswrong.com/posts/BGv98aKicyT8eH4AY/making-a-difference-tempore-insights-from-reinforcement
 no_dropcap: "true"
 skip_import: true
-description: "A deep dive into reinforcement learning, covering algorithms, exploration\
-  \ vs. exploitation, and the importance of safe AI development."
-date_updated: 2024-10-30 18:09:31.133945
+description: "A deep dive into reinforcement learning, covering algorithms, exploration
+  vs. exploitation, and the importance of safe AI development."
+date_updated: 2024-12-04 22:18:09.880577
 ---
+
+
 
 
 
@@ -106,7 +110,7 @@ This intuition hugs pre-theoretic understanding much more closely; if you have j
 
 ## 6: Temporal-Difference Learning
 
-_The tabular triple threat:_ $\text{TD(0)}$, `SARSA`_, and_ Q*-learning.*
+_The tabular triple threat:_ $\text{TD(0)}$, `SARSA`_, and Q-learning._
 
 ### Learning TD Learning
 
@@ -163,7 +167,7 @@ Note that a distribution model also can function as a sample model.
 
 ## 9: On-policy Prediction with Approximation
 
-_We finally hit the_ good stuff*: value-function approximators and gradient methods.*
+_We finally hit the good stuff: value-function approximators and gradient methods._
 
 ## 10: On-policy Control with Approximation
 

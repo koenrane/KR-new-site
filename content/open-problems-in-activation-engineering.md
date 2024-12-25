@@ -34,17 +34,18 @@ original_url: https://www.lesswrong.com/posts/JMebqicMD6azB8MwK/open-problems-in
 skip_import: true
 description: Open questions on controlling language models at runtime via activation
   engineering.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
 > [!quote] [Steering GPT-2-XL by adding an activation vector](/gpt2-steering-vectors)  
 > \[We define\] **activation engineering** \[to be\] techniques which steer models by modifying their activations. As a complement to prompt engineering and finetuning, activation engineering is a low-overhead way to steer models at runtime.
 
-These results were recently complemented by [Inference-Time Intervention: Eliciting Truthful Answers from a Language Model](https://www.lesswrong.com/posts/kuQfnotjkQA4Kkfou/inference-time-intervention-eliciting-truthful-answers-from), which doubled TruthfulQA performance by adding a similarly computed activation vector to forward passes! 
+These results were recently complemented by [Inference-Time Intervention: Eliciting Truthful Answers from a Language Model](https://www.lesswrong.com/posts/kuQfnotjkQA4Kkfou/inference-time-intervention-eliciting-truthful-answers-from), which doubled TruthfulQA performance by adding a similarly computed activation vector to forward passes!
 
-We think that activation engineering has a bunch of low-hanging fruit for steering and understanding models. A few open problems from [the list](https://coda.io/@alice-rigg/open-problems-in-activation-engineering): 
+We think that activation engineering has a bunch of low-hanging fruit for steering and understanding models. A few open problems from [the list](https://coda.io/@alice-rigg/open-problems-in-activation-engineering):
 
 - Try decomposing the residual stream activations over a batch of inputs somehow (e.g. PCA). Using the principal directions as activation addition directions, do they seem to capture something meaningful?
 - Take a circuit studied from existing literature on GPT2, or find another one using [ACDC](https://github.com/ArthurConmy/Automatic-Circuit-Discovery/tree/main). Targeting the nodes in these circuits, can you learn anything more about them and generally about how activation additions interact with circuits?

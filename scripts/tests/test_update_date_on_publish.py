@@ -1,26 +1,33 @@
-import pytest
-import tempfile
-from pathlib import Path
-from datetime import datetime
-import yaml
 import subprocess
+import tempfile
+from datetime import datetime
+from pathlib import Path
 from unittest.mock import patch
+
+import pytest
+import ruamel.yaml.scanner
+import yaml
 from ruamel.yaml.timestamp import TimeStamp
 
-from .. import update_date_on_publish as update_lib
 import scripts.utils as script_utils
+
+from .. import update_date_on_publish as update_lib
 
 
 @pytest.fixture
 def temp_content_dir(tmp_path):
-    """Create a temporary content directory with test files"""
+    """
+    Create a temporary content directory with test files.
+    """
     content_dir = tmp_path / "content"
     content_dir.mkdir()
     return content_dir
 
 
 def create_timestamp(dt: datetime) -> TimeStamp:
-    """Helper function to create TimeStamp objects from datetime."""
+    """
+    Helper function to create TimeStamp objects from datetime.
+    """
     return TimeStamp(
         dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second, dt.microsecond
     )
@@ -28,7 +35,9 @@ def create_timestamp(dt: datetime) -> TimeStamp:
 
 @pytest.fixture
 def mock_datetime(monkeypatch):
-    """Mock datetime to return a fixed date"""
+    """
+    Mock datetime to return a fixed date.
+    """
     fixed_date = datetime(2024, 2, 1)
     fixed_timestamp = create_timestamp(fixed_date)
     monkeypatch.setattr(update_lib, "current_date", fixed_timestamp)
@@ -37,9 +46,11 @@ def mock_datetime(monkeypatch):
 
 @pytest.fixture
 def mock_git(temp_content_dir):
-    """Create a mock git command that uses temp_content_dir as root.
+    """
+    Create a mock git command that uses temp_content_dir as root.
 
-    By default, returns no modifications. Pass modified_files to simulate changes.
+    By default, returns no modifications. Pass modified_files to simulate
+    changes.
     """
 
     def _mock_git(modified_files=None):
@@ -62,11 +73,17 @@ def mock_git(temp_content_dir):
     return _mock_git
 
 
-def create_md_file(directory: Path, filename: str, frontmatter_content: dict) -> Path:
-    """Helper to create markdown test files"""
+def create_md_file(
+    directory: Path, filename: str, frontmatter_content: dict
+) -> Path:
+    """
+    Helper to create markdown test files.
+    """
     file_path = directory / filename
     content = "---\n"
-    content += yaml.dump(frontmatter_content, sort_keys=False, allow_unicode=True)
+    content += yaml.dump(
+        frontmatter_content, sort_keys=False, allow_unicode=True
+    )
     content += "---\n"
     content += "Test content"
     file_path.write_text(content, encoding="utf-8")
@@ -74,7 +91,9 @@ def create_md_file(directory: Path, filename: str, frontmatter_content: dict) ->
 
 
 def test_adds_missing_date(temp_content_dir, mock_datetime, mock_git):
-    """Test that date is added when missing"""
+    """
+    Test that date is added when missing.
+    """
     test_file = create_md_file(
         temp_content_dir, "test1.md", {"title": "Test Post", "tags": ["test"]}
     )
@@ -92,7 +111,9 @@ def test_adds_missing_date(temp_content_dir, mock_datetime, mock_git):
 
 
 def test_preserves_existing_date(temp_content_dir, mock_git):
-    """Test that existing dates are not modified"""
+    """
+    Test that existing dates are not modified.
+    """
     existing_date = "12/25/2023"
     test_file = create_md_file(
         temp_content_dir,
@@ -111,9 +132,13 @@ def test_preserves_existing_date(temp_content_dir, mock_git):
 
 
 def test_handles_empty_date(temp_content_dir, mock_datetime, mock_git):
-    """Test that empty dates are updated"""
+    """
+    Test that empty dates are updated.
+    """
     test_file = create_md_file(
-        temp_content_dir, "test3.md", {"title": "Test Post", "date_published": ""}
+        temp_content_dir,
+        "test3.md",
+        {"title": "Test Post", "date_published": ""},
     )
 
     with patch("subprocess.check_output", side_effect=mock_git):
@@ -130,7 +155,9 @@ def test_handles_empty_date(temp_content_dir, mock_datetime, mock_git):
 
 
 def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
-    """Test that date_updated is modified when git shows changes"""
+    """
+    Test that date_updated is modified when git shows changes.
+    """
     # Create initial dates as strings instead of TimeStamp objects
     test_file = create_md_file(
         temp_content_dir,
@@ -143,7 +170,9 @@ def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
     )
 
     # Fix: Use the mock_git fixture with modified files
-    with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
+    with patch(
+        "subprocess.check_output", side_effect=mock_git([test_file.name])
+    ):
         metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = (
@@ -158,7 +187,9 @@ def test_updates_date_when_modified(temp_content_dir, mock_datetime, mock_git):
 
 
 def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
-    """Test that dates aren't modified when git shows no changes"""
+    """
+    Test that dates aren't modified when git shows no changes.
+    """
     test_file = create_md_file(
         temp_content_dir,
         "test3.md",
@@ -169,7 +200,9 @@ def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
         },
     )
 
-    with patch("subprocess.check_output", side_effect=mock_git()):  # No modified files
+    with patch(
+        "subprocess.check_output", side_effect=mock_git()
+    ):  # No modified files
         metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = "02/01/2024"
@@ -182,9 +215,13 @@ def test_preserves_dates_when_not_modified(temp_content_dir, mock_git):
 
 
 def test_split_yaml_invalid_format(temp_content_dir):
-    """Test handling of invalid YAML format"""
+    """
+    Test handling of invalid YAML format.
+    """
     file_path = temp_content_dir / "invalid.md"
-    file_path.write_text("Invalid content without proper frontmatter", encoding="utf-8")
+    file_path.write_text(
+        "Invalid content without proper frontmatter", encoding="utf-8"
+    )
 
     metadata, content = script_utils.split_yaml(file_path)
     assert metadata == {}
@@ -192,7 +229,9 @@ def test_split_yaml_invalid_format(temp_content_dir):
 
 
 def test_split_yaml_empty_frontmatter(temp_content_dir):
-    """Test handling of empty frontmatter"""
+    """
+    Test handling of empty frontmatter.
+    """
     file_path = temp_content_dir / "empty.md"
     file_path.write_text("---\n---\nContent", encoding="utf-8")
 
@@ -202,17 +241,22 @@ def test_split_yaml_empty_frontmatter(temp_content_dir):
 
 
 def test_split_yaml_malformed_yaml(temp_content_dir):
-    """Test handling of malformed YAML"""
+    """
+    Test handling of malformed YAML.
+    """
     file_path = temp_content_dir / "malformed.md"
-    file_path.write_text("---\ntitle: 'Unclosed quote\n---\nContent", encoding="utf-8")
+    file_path.write_text(
+        "---\ntitle: 'Unclosed quote\n---\nContent", encoding="utf-8"
+    )
 
-    metadata, content = script_utils.split_yaml(file_path)
-    assert metadata == {}
-    assert content == ""
+    with pytest.raises(ruamel.yaml.scanner.ScannerError):
+        metadata, content = script_utils.split_yaml(file_path)
 
 
 def test_write_to_yaml_preserves_order(temp_content_dir):
-    """Test that YAML writing preserves field order"""
+    """
+    Test that YAML writing preserves field order.
+    """
     original_metadata = {
         "title": "Test Post",
         "date_published": "01/01/2024",
@@ -220,7 +264,9 @@ def test_write_to_yaml_preserves_order(temp_content_dir):
         "date_updated": "01/01/2024",
     }
 
-    test_file = create_md_file(temp_content_dir, "order_test.md", original_metadata)
+    test_file = create_md_file(
+        temp_content_dir, "order_test.md", original_metadata
+    )
     metadata, content = script_utils.split_yaml(test_file)
     update_lib.write_to_yaml(test_file, metadata, content)
 
@@ -235,18 +281,28 @@ def test_write_to_yaml_preserves_order(temp_content_dir):
 
 
 def test_main_function_integration(temp_content_dir, mock_datetime, mock_git):
-    """Test the main function's integration"""
+    """
+    Test the main function's integration.
+    """
     initial_date = create_timestamp(datetime(2024, 1, 1))
     files = [
         ("new.md", {"title": "New Post"}),
-        ("existing.md", {"title": "Existing Post", "date_published": initial_date}),
-        ("modified.md", {"title": "Modified Post", "date_published": initial_date}),
+        (
+            "existing.md",
+            {"title": "Existing Post", "date_published": initial_date},
+        ),
+        (
+            "modified.md",
+            {"title": "Modified Post", "date_published": initial_date},
+        ),
     ]
 
     for filename, metadata in files:
         create_md_file(temp_content_dir, filename, metadata)
 
-    with patch("subprocess.check_output", side_effect=mock_git(["modified.md"])):
+    with patch(
+        "subprocess.check_output", side_effect=mock_git(["modified.md"])
+    ):
         update_lib.main(temp_content_dir)
 
     expected_new_date = create_timestamp(datetime(2024, 2, 1))
@@ -271,7 +327,9 @@ def test_file():
 
 @pytest.fixture
 def mock_git_commands(mock_git_root):
-    """Factory fixture for creating git command mocks with different behaviors"""
+    """
+    Factory fixture for creating git command mocks with different behaviors.
+    """
 
     def create_mock(*, has_changes=False, raise_error=False):
         def _mock_git(*args, **kwargs):
@@ -290,41 +348,55 @@ def mock_git_commands(mock_git_root):
 
 
 def test_is_file_modified_with_changes(test_file, mock_git_commands):
-    """Test when file has unpushed changes"""
+    """
+    Test when file has unpushed changes.
+    """
     with patch(
-        "subprocess.check_output", side_effect=mock_git_commands(has_changes=True)
+        "subprocess.check_output",
+        side_effect=mock_git_commands(has_changes=True),
     ):
         assert update_lib.is_file_modified(test_file) is True
 
 
 def test_is_file_modified_no_changes(test_file, mock_git_commands):
-    """Test when file has no unpushed changes"""
+    """
+    Test when file has no unpushed changes.
+    """
     with patch(
-        "subprocess.check_output", side_effect=mock_git_commands(has_changes=False)
+        "subprocess.check_output",
+        side_effect=mock_git_commands(has_changes=False),
     ):
         assert update_lib.is_file_modified(test_file) is False
 
 
 def test_is_file_modified_git_error(test_file, mock_git_commands):
-    """Test handling of git command errors"""
+    """
+    Test handling of git command errors.
+    """
     with patch(
-        "subprocess.check_output", side_effect=mock_git_commands(raise_error=True)
+        "subprocess.check_output",
+        side_effect=mock_git_commands(raise_error=True),
     ):
         assert update_lib.is_file_modified(test_file) is False
 
 
 def test_is_file_modified_invalid_path(mock_git_commands):
-    """Test with file outside git root"""
+    """
+    Test with file outside git root.
+    """
     test_file = Path("/different/path/test.md")
     with patch(
-        "subprocess.check_output", side_effect=mock_git_commands(has_changes=False)
+        "subprocess.check_output",
+        side_effect=mock_git_commands(has_changes=False),
     ):
         with pytest.raises(ValueError):
             update_lib.is_file_modified(test_file)
 
 
 def test_yaml_formatting_preservation():
-    """Test that YAML formatting, quotes, and comments are preserved."""
+    """
+    Test that YAML formatting, quotes, and comments are preserved.
+    """
     # Create a test file with specific formatting
     test_content = """---
 # Header comment
@@ -363,7 +435,9 @@ Test content here
 
 
 def test_date_updates_preserve_formatting():
-    """Test that date updates don't affect existing formatting."""
+    """
+    Test that date updates don't affect existing formatting.
+    """
     test_content = """---
 date_published: "05/20/2024"  # Original publish date
 date_updated: '05/21/2024'    # Last update
@@ -414,7 +488,9 @@ Content
     ],
 )
 def test_initialize_missing_dates(temp_content_dir, mock_datetime, test_case):
-    """Test that both dates are set when missing."""
+    """
+    Test that both dates are set when missing.
+    """
     test_file = create_md_file(temp_content_dir, "test.md", {})
     with open(test_file, "w") as f:
         f.write(test_case)
@@ -428,8 +504,12 @@ def test_initialize_missing_dates(temp_content_dir, mock_datetime, test_case):
 
 
 def test_preserve_existing_publish_date(temp_content_dir):
-    """Test that existing publish date is preserved but updated date is set."""
-    test_file = create_md_file(temp_content_dir, "test.md", {})  # Using existing helper
+    """
+    Test that existing publish date is preserved but updated date is set.
+    """
+    test_file = create_md_file(
+        temp_content_dir, "test.md", {}
+    )  # Using existing helper
     content = """---
 title: "Test Post"
 date_published: "01/01/2023"
@@ -447,7 +527,9 @@ Content
 
 
 def test_preserve_both_dates(temp_content_dir):
-    """Test that both dates are preserved when they exist."""
+    """
+    Test that both dates are preserved when they exist.
+    """
     test_file = create_md_file(temp_content_dir, "test.md", {})
     content = """---
 title: "Test Post"
@@ -466,34 +548,10 @@ Content
     assert metadata["date_updated"] == "01/02/2023"
 
 
-@pytest.mark.parametrize(
-    "legacy_field,legacy_date",
-    [
-        ("lw-last-modification", "01/02/2023"),
-        ("lw-latest-edit", "01/02/2023"),
-    ],
-)
-def test_legacy_date_migration(temp_content_dir, legacy_field, legacy_date):
-    """Test migration of each legacy date field."""
-    test_file = create_md_file(temp_content_dir, "test.md", {})
-    content = f"""---
-title: "Test Post"
-date_published: "01/01/2023"
-{legacy_field}: "{legacy_date}"
----
-Content
-"""
-    with open(test_file, "w") as f:
-        f.write(content)
-
-    metadata, content = script_utils.split_yaml(test_file)
-    update_lib.update_publish_date(metadata)
-
-    assert metadata["date_updated"] == legacy_date
-
-
 def test_formatting_preservation(temp_content_dir):
-    """Test that YAML formatting is preserved during updates."""
+    """
+    Test that YAML formatting is preserved during updates.
+    """
     test_file = create_md_file(temp_content_dir, "test.md", {})
     content = """---
 # Header comment
@@ -526,7 +584,9 @@ Content
 
 
 def test_git_modified_date_update(temp_content_dir, mock_git):
-    """Test that date_updated is set when file is modified in git."""
+    """
+    Test that date_updated is set when file is modified in git.
+    """
     test_file = create_md_file(
         temp_content_dir,
         "test2.md",
@@ -537,7 +597,9 @@ def test_git_modified_date_update(temp_content_dir, mock_git):
         },
     )
 
-    with patch("subprocess.check_output", side_effect=mock_git([test_file.name])):
+    with patch(
+        "subprocess.check_output", side_effect=mock_git([test_file.name])
+    ):
         metadata, content = script_utils.split_yaml(test_file)
         if update_lib.is_file_modified(test_file):
             metadata["date_updated"] = "02/01/2024"

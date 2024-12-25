@@ -41,8 +41,10 @@ skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/PFqi66W.png
 description: 'Impact reframed: a gears-level view of how and why some things seem
   important to us.'
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-12-12 22:05:58.602985
 ---
+
+
 
 
 
@@ -57,11 +59,17 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/SzFSiEc.avif)
 
-![](https://assets.turntrout.com/static/images/posts/wCRzqox.avif) ![](https://assets.turntrout.com/static/images/posts/BAWF2q1.avif)
+![](https://assets.turntrout.com/static/images/posts/wCRzqox.avif)
+
+![](https://assets.turntrout.com/static/images/posts/BAWF2q1.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/UCGx4QR.avif )
 
-![](https://assets.turntrout.com/static/images/posts/5YOlvLh.avif)![](https://assets.turntrout.com/static/images/posts/yA8wkQP.avif)![](https://assets.turntrout.com/static/images/posts/QXG2pVK.avif)
+![](https://assets.turntrout.com/static/images/posts/5YOlvLh.avif)
+
+![](https://assets.turntrout.com/static/images/posts/yA8wkQP.avif)
+
+![](https://assets.turntrout.com/static/images/posts/QXG2pVK.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/27F0KkU.avif)
 
@@ -77,11 +85,13 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/b6pDiKi.avif)
 
-[​](​![]\(https://assets.turntrout.com/static/images/posts/iRLXEeH.avif)![](https://assets.turntrout.com/static/images/posts/iRLXEeH.avif)
+![](https://assets.turntrout.com/static/images/posts/iRLXEeH.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/uRr6YqY.avif )
 
-![](https://assets.turntrout.com/static/images/posts/67uR5SE.avif)![](https://assets.turntrout.com/static/images/posts/PFqi66W.avif)
+![](https://assets.turntrout.com/static/images/posts/67uR5SE.avif)
+
+![](https://assets.turntrout.com/static/images/posts/PFqi66W.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/GBVahyL.avif)
 
@@ -93,7 +103,9 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/epI7152.avif)
 
-![](https://assets.turntrout.com/static/images/posts/dvVEmBs.avif) [​](​![]\(https://assets.turntrout.com/static/images/posts/HShpS3u.avif)![](https://assets.turntrout.com/static/images/posts/HShpS3u.avif)
+![](https://assets.turntrout.com/static/images/posts/dvVEmBs.avif)
+
+​![](https://assets.turntrout.com/static/images/posts/HShpS3u.avif)
 
 ![](https://assets.turntrout.com/static/images/posts/WjTqF2y.avif)
 
@@ -101,13 +113,12 @@ date_updated: 2024-10-30 18:09:31.133945
 
 ![](https://assets.turntrout.com/static/images/posts/lDbQW2b.avif )
 
-
 > [!exercise]
 > Why does instrumental convergence happen? Would it be coherent to imagine a reality without it?
 
-#### Notes
+# Notes
 
-- Here, our descriptive theory relies on our ability to have reasonable beliefs about what we'll do, and how things in the world will affect our later decision-making process. No one knows how to formalize that kind of reasoning, so I'm leaving it a black box: we _somehow _have these reasonable beliefs which are _apparently _used to calculate AU.
-- In technical terms, AU calculated with the "could" criterion would be closer to an optimal value function, while actual AU seems to be an on-policy prediction, _whatever that means _in the embedded context. Felt impact corresponds to TD error.
+- Here, our descriptive theory relies on our ability to have reasonable beliefs about what we'll do, and how things in the world will affect our later decision-making process. No one knows how to formalize that kind of reasoning, so I'm leaving it a black box: we _somehow_have these reasonable beliefs which are _apparently_used to calculate AU.
+- In technical terms, AU calculated with the "could" criterion would be closer to an optimal value function, while actual AU seems to be an on-policy prediction, _whatever that means_in the embedded context. Felt impact corresponds to TD error.
 - Framed as a kind of EU, we plausibly use AU to make decisions.
 - I'm not claiming normatively that "embedded agentic" EU _should_ be AU; I'm simply using "embedded agentic" as an adjective.

@@ -1,9 +1,12 @@
-#!/usr/bin/env python3
+"""
+Convert assets to optimized formats.
+"""
+
 import argparse
-from typing import Optional
+import re
 import subprocess
 from pathlib import Path
-import re
+from typing import Optional
 
 try:
     from . import compress
@@ -14,18 +17,24 @@ except ImportError:
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
-    """Returns the original and replacement patterns for video files."""
+    """
+    Returns the original and replacement patterns for video files.
+    """
+
     # Function to create unique named capture groups for different link patterns
-    link_pattern_fn = lambda tag: rf"(?P<link_{tag}>[^\)]*)"
+    def link_pattern_fn(tag):
+        return rf"(?P<link_{tag}>[^\)]*)"
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern_fn('parens')}{input_file.stem}\{input_file.suffix}\)"
+        rf"\!?\[\]\({link_pattern_fn('parens')}"
+        rf"{input_file.stem}\{input_file.suffix}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern_fn('brackets')}{input_file.stem}\{input_file.suffix}\]\]"
+        rf"\!?\[\[{link_pattern_fn('brackets')}"
+        rf"{input_file.stem}\{input_file.suffix}\]\]"
     )
 
     # Link pattern for HTML tags
@@ -34,34 +43,47 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
-            rf'<img (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>'
+            rf"<img (?P<earlyTagInfo>[^>]*)"
+            rf'src="{tag_link_pattern}{input_file.stem}\.gif"'
+            rf"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>"
         )
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern = (
-            rf'<video (?P<earlyTagInfo>[^>]*)src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
-            rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?(?P<endVideoTagInfo>[^>]*(?=/))/?>'
+            rf"<video (?P<earlyTagInfo>[^>]*)"
+            rf'src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
+            rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?'
+            rf"(?P<endVideoTagInfo>[^>]*(?=/))/?>"
         )
 
     # Combine all patterns into one, separated by '|' (OR)
-    original_pattern: str = rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
+    original_pattern: str = (
+        rf"{parens_pattern}|{brackets_pattern}|{tag_pattern}"
+    )
 
     # Combine all possible link capture groups
     all_links = r"\g<link_parens>\g<link_brackets>\g<link_tag>"
 
     # Convert to .mp4 video
     video_tags: str = (
-        "autoplay loop muted playsinline " if input_file.suffix == ".gif" else ""
+        "autoplay loop muted playsinline "
+        if input_file.suffix == ".gif"
+        else ""
     )
     replacement_pattern: str = (
-        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="{all_links}{input_file.stem}.mp4" type="video/mp4"></video>'
+        rf'<video {video_tags}src="{all_links}{input_file.stem}.mp4"'
+        rf'\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>>'
+        rf'<source src="{all_links}{input_file.stem}.mp4" type="video/mp4">'
+        rf"</video>"
     )
 
     return original_pattern, replacement_pattern
 
 
 def _image_patterns(input_file: Path) -> tuple[str, str]:
-    """Returns the original and replacement patterns for image files."""
+    """
+    Returns the original and replacement patterns for image files.
+    """
     relative_path = script_utils.path_relative_to_quartz_parent(input_file)
     pattern_file = relative_path.relative_to("quartz")
     output_file: Path = pattern_file.with_suffix(".avif")
@@ -75,11 +97,11 @@ def convert_asset(
     input_file: Path,
     remove_originals: bool = False,
     strip_metadata: bool = False,
-    md_replacement_dir: Optional[Path] = Path("content/"),
+    md_references_dir: Optional[Path] = Path("content/"),
 ) -> None:
     """
-    Converts an image or video to a more efficient format. Replaces
-    references in markdown files.
+    Converts an image or video to a more efficient format. Replaces references
+    in markdown files.
 
     Args:
         input_file: The path to the file to convert.
@@ -102,8 +124,10 @@ def convert_asset(
     if not input_file.is_file():
         raise FileNotFoundError(f"Error: File '{input_file}' not found.")
 
-    if md_replacement_dir and not md_replacement_dir.is_dir():
-        raise NotADirectoryError(f"Error: Directory '{md_replacement_dir}' not found.")
+    if md_references_dir and not md_references_dir.is_dir():
+        raise NotADirectoryError(
+            f"Error: Directory '{md_references_dir}' not found."
+        )
 
     if input_file.suffix in compress.ALLOWED_IMAGE_EXTENSIONS:
         # Get patterns first so that we trigger relative path errors if needed
@@ -120,7 +144,7 @@ def convert_asset(
         raise ValueError(f"Error: Unsupported file type '{input_file.suffix}'.")
 
     for md_file in script_utils.get_files(
-        dir_to_search=md_replacement_dir, filetypes_to_match=(".md",)
+        dir_to_search=md_references_dir, filetypes_to_match=(".md",)
     ):
         with open(md_file, "r", encoding="utf-8") as file:
             content = file.read()
@@ -139,7 +163,7 @@ def convert_asset(
             ["exiftool", "-all=", str(output_file), "--verbose"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
-            check=False,  # Apparently info still gets removed so OK to not check?
+            check=False,
         )
 
     if remove_originals and input_file.suffix not in (".mp4", ".avif"):
@@ -147,7 +171,12 @@ def convert_asset(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert assets to optimized formats.")
+    """
+    Convert assets to optimized formats.
+    """
+    parser = argparse.ArgumentParser(
+        description="Convert assets to optimized formats."
+    )
     parser.add_argument(
         "-r",
         "--remove-originals",
@@ -166,10 +195,14 @@ def main():
         help="Directory containing assets to convert",
     )
     parser.add_argument(
-        "--ignore-files", nargs="+", help="List of files to ignore during conversion"
+        "--ignore-files",
+        nargs="+",
+        help="List of files to ignore during conversion",
     )
     args = parser.parse_args()
-    args.asset_directory = Path(args.asset_directory) if args.asset_directory else None
+    args.asset_directory = (
+        Path(args.asset_directory) if args.asset_directory else None
+    )
 
     assets = script_utils.get_files(
         dir_to_search=args.asset_directory,
@@ -185,7 +218,7 @@ def main():
             asset,
             remove_originals=args.remove_originals,
             strip_metadata=args.strip_metadata,
-            md_replacement_dir=Path("content/"),
+            md_references_dir=Path("content/"),
         )
 
 

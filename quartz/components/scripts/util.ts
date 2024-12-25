@@ -95,6 +95,7 @@ export const withoutTransition = (action: () => void) => {
   if (typeof window.getComputedStyle !== "undefined") {
     disableTransitions()
     action()
+
     void window.getComputedStyle(style).opacity // Force reflow
     enableTransitions()
     return

@@ -32,8 +32,9 @@ no_dropcap: true
 skip_import: true
 description: Three short essays written against the clock on instrumental rationality,
   confusion identification, and emotion propagation.
-date_updated: 2024-10-30 18:09:31.133945
+date_updated: 2024-11-22 20:04:30.137574
 ---
+
 
 
 
@@ -75,4 +76,3 @@ At my undergraduate institution, I was incredibly social - I eagerly crossed cli
 After taking a few months leave, I managed to fully recover. I returned to my graduate institution and found my desire to socialize was neutered. This problem plagued me for nearly a year; it is only within the last month that I pinpointed the cause. My attitude towards interpersonal interaction never left the `depressed` state.
 
 Just as the human mind doesn't enforce belief consistency, it won't necessarily propagate attitudinal changes to relevant areas of your life. Do you currently value everything as you would reflectively prefer, or are there holdovers from the past?
-

@@ -1,27 +1,28 @@
 @use "./variables.scss" as *;
-@use "./syntax.scss";
-@use "./callouts.scss";
-@use "./colors.scss";
-@use "./fonts.scss";
+@use "./syntax";
+@use "./callouts";
+@use "./colors";
+@use "./fonts";
 
 html {
   scroll-behavior: smooth;
   width: 100%;
 }
+
 body,
 section {
   margin: 0;
   max-width: 100%;
   box-sizing: border-box;
-  background-color: var(--light);
+  background-color: var(--background);
   font-family: var(--font-text);
-  color: var(--dark);
+  color: var(--foreground);
 }
 
 /* Define the scrollbar style */
 body,
-right {
-  scrollbar-color: var(--lightergray) var(--light);
+.right {
+  scrollbar-color: var(--midground-fainter) var(--background);
 }
 
 .right::-webkit-scrollbar,
@@ -33,7 +34,7 @@ body::-webkit-scrollbar {
 /* Define the thumb style */
 .right::-webkit-scrollbar-thumb,
 body::-webkit-scrollbar-thumb {
-  background: var(--lightergray);
+  background: var(--midground-fainter);
   border-radius: 5px;
 }
 
@@ -44,8 +45,8 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--tertiary) 30%, rgba(255, 255, 255, 0));
-  color: var(--darkgray);
+  background: color-mix(in srgb, var(--tertiary) 30%, rgb(255 255 255 / 0%));
+  color: var(--midground-strong);
 }
 
 p,
@@ -56,11 +57,10 @@ tr,
 td,
 li,
 ol,
-ul,
 .katex,
 .math {
-  color: var(--dark);
-  fill: var(--dark);
+  color: var(--foreground);
+  fill: var(--foreground);
   overflow-wrap: anywhere;
   hyphens: auto;
 }
@@ -72,6 +72,7 @@ ul,
 }
 
 .katex {
+  overflow: auto hidden;
   color: inherit;
   font-size: 1em !important;
   margin-left: auto; // Center katex
@@ -79,11 +80,11 @@ ul,
 } // Override minified katex styles
 
 strong {
-  font-weight: $semiBoldWeight;
+  font-weight: $semi-bold-weight;
 }
 
 a {
-  text-decoration-thickness: 0.06em;
+  text-decoration-thickness: 0.03em;
   transition: color 0.2s ease;
   color: var(--secondary);
 
@@ -109,14 +110,15 @@ a {
     margin: 0 0.15em;
 
     > path {
-      fill: var(--dark);
+      fill: var(--foreground);
     }
   }
 }
 
 .desktop-only {
   display: initial;
-  @media all and (max-width: $fullPageWidth) {
+
+  @media all and (max-width: $full-page-width) {
     display: none;
   }
 }
@@ -124,18 +126,20 @@ a {
 hr.desktop-only {
   display: block;
 }
+
 .mobile-only {
   display: none;
-  @media all and (max-width: $fullPageWidth) {
+
+  @media all and (max-width: $full-page-width) {
     display: initial;
   }
 }
 
 .page {
-  @media all and (max-width: $fullPageWidth) {
+  @media all and (max-width: $full-page-width) {
     margin: 0 auto;
-    padding: 0 calc(2 * $baseMargin);
-    max-width: $pageWidth;
+    padding: 0 calc(2 * $base-margin);
+    max-width: $page-width;
   }
 
   & article {
@@ -146,13 +150,14 @@ hr.desktop-only {
 
     & li:has(> input[type="checkbox"]:checked) {
       text-decoration: line-through;
-      text-decoration-color: var(--gray);
-      color: var(--gray);
+      text-decoration-color: var(--midground);
+      color: var(--midground);
     }
 
     & li > *:first-child:not(blockquote) {
       margin-top: 0;
     }
+
     & li > *:last-child {
       margin-bottom: 0;
     }
@@ -163,7 +168,7 @@ hr.desktop-only {
     overflow-x: visible;
     display: flex;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       flex-direction: column;
     }
 
@@ -171,53 +176,60 @@ hr.desktop-only {
       flex: 1;
       flex-direction: column;
       top: 0;
-      width: $sidePanelWidth;
+      width: $side-panel-width;
+
       &.right {
         width: 100%;
-        @media all and (min-width: $marginsBegin) {
-          width: $rightWidth;
+
+        @media all and (min-width: $margins-begin) {
+          width: $right-width;
         }
       }
 
-      margin-top: $topSpacing;
+      margin-top: $top-spacing;
       box-sizing: border-box;
-
-      padding: 0 calc(8 * $baseMargin);
+      padding: 0 calc(8 * $base-margin);
       position: fixed;
-      @media all and (max-width: $fullPageWidth) {
+
+      @media all and (max-width: $full-page-width) {
         position: relative;
         flex-direction: column;
         max-width: 100vw;
         padding: 0;
-        margin-top: 0rem;
+        margin-top: 0;
       }
     }
 
     & #left-sidebar {
       display: flex;
-      margin-right: calc(6 * $baseMargin);
-      @media all and (max-width: $fullPageWidth) {
+      margin-right: calc(6 * $base-margin);
+
+      @media all and (max-width: $full-page-width) {
         gap: 0;
         align-items: center;
-        // width: $pageWidth;
+
+        // width: $page-width;
         position: sticky;
       }
-      @media all and (min-width: $fullPageWidth) {
-        left: calc(calc(100vw - $pageWidth) / 2 - $sidePanelWidth);
+
+      @media all and (min-width: $full-page-width) {
+        left: calc(calc(100vw - $page-width) / 2 - $side-panel-width);
       }
     }
 
     & #right-sidebar {
-      @media all and (min-width: calc($fullPageWidth + 100px)) {
-        padding-right: calc(2 * $baseMargin); // Make more space for ToC
+      @media all and (width >= calc($full-page-width + 100px)) {
+        padding-right: calc(2 * $base-margin); // Make more space for ToC
       }
 
-      right: calc(calc(100vw - $pageWidth) / 2 - $rightWidth);
+      right: calc(calc(100vw - $page-width) / 2 - $right-width);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
-      @media all and (max-width: $fullPageWidth) {
+
+      @media all and (max-width: $full-page-width) {
         left: 0;
+
         & > * {
           flex: 1;
           min-width: 140px;
@@ -227,11 +239,12 @@ hr.desktop-only {
   }
 
   & .page-header {
-    width: $pageWidth;
-    margin: $topSpacing auto 0 auto;
-    @media all and (max-width: $fullPageWidth) {
+    width: $page-width;
+    margin: $top-spacing auto 0 auto;
+
+    @media all and (max-width: $full-page-width) {
       width: initial;
-      margin-top: calc(2 * $baseMargin);
+      margin-top: calc(2 * $base-margin);
     }
   }
 
@@ -239,9 +252,9 @@ hr.desktop-only {
   & footer {
     margin-left: auto;
     margin-right: auto;
-    width: $pageWidth;
+    width: $page-width;
 
-    @media all and (max-width: $fullPageWidth) {
+    @media all and (max-width: $full-page-width) {
       width: initial;
       margin-left: 0;
       margin-right: 0;
@@ -252,12 +265,11 @@ hr.desktop-only {
 input[type="checkbox"] {
   transform: translateY(2px);
   color: var(--secondary);
-  border: 1px solid var(--lightgray);
+  border: 1px solid var(--midground-faint);
   border-radius: 3px;
-  background-color: var(--light);
+  background-color: var(--background);
   position: relative;
-  margin-inline-end: calc(0.5 * $baseMargin);
-  margin-inline-start: calc(-3 * $baseMargin);
+  margin-inline: calc(-3 * $base-margin) calc(0.5 * $base-margin);
   appearance: none;
   width: 16px;
   height: 16px;
@@ -274,7 +286,7 @@ input[type="checkbox"] {
       width: 4px;
       height: 8px;
       display: block;
-      border: solid var(--light);
+      border: solid var(--background);
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
@@ -282,9 +294,9 @@ input[type="checkbox"] {
 }
 
 blockquote {
-  margin: calc(2 * $baseMargin) 0;
-  border-left: 3px solid var(--gray);
-  padding-left: calc(2 * $baseMargin);
+  margin: calc(2 * $base-margin) 0;
+  border-left: 3px solid var(--midground);
+  padding-left: calc(2 * $base-margin);
 }
 
 h1,
@@ -294,26 +306,27 @@ h4,
 h5,
 h6,
 thead {
-  font-family: var(--headerFont);
-  color: var(--dark);
+  font-family: var(--header-font);
+  color: var(--foreground);
   position: relative; // For anchor links
 
   article & > a[role="anchor"] {
-    color: var(--lightgray);
+    color: var(--midground-faint);
     background-color: transparent;
 
-    @media all and (min-width: $marginsBegin) {
+    @media all and (min-width: $margins-begin) {
       position: absolute;
       left: -1.5rem;
       top: 0;
     }
+
     .popover & {
       display: none;
     }
   }
 
   & a {
-    color: var(--dark);
+    color: var(--foreground);
   }
 }
 
@@ -335,12 +348,16 @@ h4,
 h5,
 h6,
 #toc-content li {
+  // Ensure headers are visible even when the navbar is present
+  scroll-margin-top: calc(6 * $base-margin);
+
   // Oldstyle is too small for headers
   &::first-letter,
   & span,
   .number-prefix {
     font-variant-numeric: lining-nums;
   }
+
   // color: var(--color-header);
   font-family: var(--font-text-header);
 
@@ -350,7 +367,7 @@ h6,
 
   &[id] > a {
     text-decoration: none;
-    color: var(--dark);
+    color: var(--foreground);
   }
 
   &[id]:hover > a {
@@ -360,18 +377,17 @@ h6,
 
 figure[data-rehype-pretty-code-figure] {
   margin: 0;
-  position: relative;
   line-height: 1.6rem;
   position: relative;
 
   & > [data-rehype-pretty-code-title] {
-    font-family: var(--codeFont);
+    font-family: var(--font-monospace);
     padding: 0.1rem 0.5rem;
-    border: 1px solid var(--lightgray);
+    border: 1px solid var(--midground-faint);
     width: max-content;
     border-radius: 5px;
     margin-bottom: -0.5rem;
-    color: var(--dark);
+    color: var(--foreground);
   }
 
   & > pre {
@@ -380,20 +396,21 @@ figure[data-rehype-pretty-code-figure] {
 }
 
 pre {
-  font-family: var(--codeFont);
+  font-family: var(--font-monospace);
   padding: 0 0.5rem;
   border-radius: 5px;
   overflow-x: auto;
-  border: 1px solid var(--lightgray);
   position: relative;
+  background-color: var(--midground-faintest);
 
+  &:has(> div > code.mermaid),
   &:has(> code.mermaid) {
     border: none;
   }
 
+  & > div > code,
   & > code {
     background: none;
-    padding: 0;
     font-size: var(--text-size-80);
     counter-reset: line;
     counter-increment: line 0;
@@ -407,12 +424,13 @@ pre {
 
     & > [data-line] {
       padding: 0 1rem;
-      // Want wrapped lines to indent
-      text-indent: calc(-4 * $baseMargin);
-      padding-left: calc(4 * $baseMargin);
-      padding-right: calc(2 * $baseMargin);
-      text-wrap: pretty;
+      margin-right: $base-margin;
 
+      // Want wrapped lines to indent
+      text-indent: calc(-4 * $base-margin);
+      padding-left: calc(4 * $base-margin);
+      padding-right: calc(2 * $base-margin);
+      text-wrap: pretty;
       box-sizing: border-box;
       border-left: 3px solid transparent;
 
@@ -424,12 +442,12 @@ pre {
       &::before {
         content: counter(line);
         counter-increment: line;
-        width: calc(2 * $baseMargin);
-        margin-right: calc(2 * $baseMargin);
-        margin-left: calc(0.5 * $baseMargin);
+        width: calc(2 * $base-margin);
+        margin-right: calc(2 * $base-margin);
+        margin-left: calc(0.5 * $base-margin);
         display: inline-block;
         text-align: right;
-        color: rgba(115, 138, 148, 0.6);
+        color: rgb(115 138 148 / 60%);
       }
     }
 
@@ -443,53 +461,45 @@ pre {
   }
 }
 
-code {
-  font-family: var(--codeFont);
-  vertical-align: baseline;
-}
-
-a > code {
-  font-weight: $normalWeight;
-}
-
 .table-container {
   overflow-x: auto;
 
   & > table {
-    margin: calc(2 * $baseMargin);
-    padding: calc(3 * $baseMargin);
+    margin: calc(2 * $base-margin);
+    padding: calc(3 * $base-margin);
     border-collapse: collapse;
   }
 }
 
 .table-container:first-child > table {
-  margin-top: $baseMargin;
+  margin-top: $base-margin;
 }
 
 dt {
-  font-weight: $semiBoldWeight;
+  font-weight: $semi-bold-weight;
   display: inline;
 }
 
 dd {
-  margin-bottom: calc(0.5 * $baseMargin);
-  margin-top: calc(0.5 * $baseMargin);
+  margin-bottom: calc(0.5 * $base-margin);
+  margin-top: calc(0.5 * $base-margin);
 }
 
 th {
   text-align: left;
-  padding: $baseMargin calc(1.5 * $baseMargin);
-  border-bottom: 2px solid var(--gray);
+  padding: $base-margin calc(1.5 * $base-margin);
+  border-bottom: 2px solid var(--midground);
   font-weight: 500;
 }
 
 td {
-  padding: calc(0.5 * $baseMargin) calc(1.5 * $baseMargin);
+  padding: calc(0.5 * $base-margin) calc(1.5 * $base-margin);
   vertical-align: top;
 }
 
 tr {
-  border-bottom: 1px solid var(--lightgray);
+  border-bottom: 1px solid var(--midground-faint);
+
   &:last-child {
     border-bottom: none;
   }
@@ -499,7 +509,7 @@ img {
   max-width: 87.5%;
   width: auto;
   border-radius: 5px;
-  margin: calc(2 * $baseMargin) 0;
+  margin: calc(2 * $base-margin) 0;
 }
 
 blockquote > p:first-of-type {
@@ -511,7 +521,7 @@ hr {
   margin: 2rem auto;
   height: 1px;
   border: none;
-  background-color: var(--lightgray);
+  background-color: var(--midground-faint);
 }
 
 audio,
@@ -526,27 +536,22 @@ video {
 
 .transclude {
   ul {
-    padding-left: calc(2 * $baseMargin);
+    padding-left: calc(2 * $base-margin);
   }
 }
 
 ul ul,
 ol ul {
-  margin-top: calc(0.5 * $baseMargin);
+  margin-top: calc(0.5 * $base-margin);
 }
 
 ol,
 ul {
-  margin-top: calc(1 * $baseMargin);
+  margin-top: calc(1 * $base-margin);
 }
 
-.katex {
-  overflow-x: auto;
-  overflow-y: hidden;
-}
 .katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
 }
 
 #quartz-root {
@@ -554,6 +559,6 @@ ul {
 }
 
 // Nested ol and ul should have margin before them
-ol:not(ol > ol):not(li > ol) {
-  margin-top: calc(1.5 * $baseMargin);
+ol:not(ol > ol, li > ol) {
+  margin-top: calc(1.5 * $base-margin);
 }

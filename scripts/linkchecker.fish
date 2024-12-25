@@ -13,15 +13,21 @@ end
 # Use the live server to resolve relative links
 if test -z $argv
     set -x no_proxy "http://localhost:8080"
-    linkchecker http://localhost:8080 --threads 10 
+    linkchecker http://localhost:8080 --threads 50 
 else
-    linkchecker $TARGET_FILES --threads 10 
+    linkchecker $TARGET_FILES --threads 50 
 end
 
 set -l INTERNAL_STATUS $status
 
 # Check external links which I control
-linkchecker $TARGET_FILES --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" --no-warnings --check-extern --threads 20 --user-agent "linkchecker"
+linkchecker $TARGET_FILES \
+    --ignore-url="!^https://(assets\.turntrout\.com|github\.com/alexander-turner/TurnTrout\.com)" \
+    --no-warnings \
+    --check-extern \
+    --threads 30 \
+    --user-agent "linkchecker" \
+    --timeout 20
 set -l EXTERNAL_STATUS $status
 
 # If any of the checks failed, exit with a non-zero status

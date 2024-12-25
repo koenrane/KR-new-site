@@ -5,34 +5,39 @@ import micromorph from "micromorph"
 
 import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
 
+declare global {
+  interface Window {
+    __hasRemovedCriticalCSS?: boolean
+    __routerInitialized?: boolean
+  }
+}
+
 // adapted from `micromorph`
 // https://github.com/natemoo-re/micromorph
 const NODE_TYPE_ELEMENT = 1
 const announcer = document.createElement("route-announcer")
 
+// TODO test
+function locationToStorageKey(location: Location) {
+  // Remove hash from location
+  const url = new URL(location.toString())
+  url.hash = ""
+  return `scrollPos:${url.toString()}`
+}
+
 // Override browser's native scroll restoration
 // This allows the page to restore the previous scroll position on refresh
 if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual" // Take control of scroll restoration
+  history.scrollRestoration = "manual"
+  const key = locationToStorageKey(window.location)
+  const savedScroll = sessionStorage.getItem(key)
 
-  // Restore scroll position immediately
-  const savedScroll = sessionStorage.getItem("scrollPos")
+  // Only restore scroll if there's no hash in the URL
   if (savedScroll && !window.location.hash) {
     window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
+    // Clean up immediately after restoring
+    sessionStorage.removeItem(key)
   }
-
-  // Store position before refresh
-  window.addEventListener("beforeunload", () => {
-    const scrollPos = window.scrollY
-    sessionStorage.setItem("scrollPos", scrollPos.toString())
-  })
-
-  // Clean up storage after successful restoration
-  window.addEventListener("load", () => {
-    if (!window.location.hash) {
-      sessionStorage.removeItem("scrollPos")
-    }
-  })
 }
 
 /**
@@ -41,10 +46,11 @@ if ("scrollRestoration" in history) {
 const isElement = (target: EventTarget | null): target is Element =>
   (target as Node)?.nodeType === NODE_TYPE_ELEMENT
 
+// TODO split off into a separate file to test
 /**
  * Checks if a URL is local (same origin as current window)
  */
-const isLocalUrl = (href: string) => {
+const isLocalUrl = (href: string): boolean => {
   try {
     const url = new URL(href)
     if (window.location.origin === url.origin) {
@@ -53,7 +59,6 @@ const isLocalUrl = (href: string) => {
   } catch {
     // ignore
   }
-  console.info("isLocalUrl", href, false)
   return false
 }
 
@@ -62,14 +67,17 @@ const isLocalUrl = (href: string) => {
  * Returns URL and scroll behavior settings
  */
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
-  if (!isElement(target)) return
-  if (target.attributes.getNamedItem("target")?.value === "_blank") return
-  const a = target.closest("a")
-  if (!a) return
-  if ("routerIgnore" in a.dataset) return
-  const { href } = a
-  if (!isLocalUrl(href)) return
-  return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
+  if (!isElement(target)) return undefined
+  if (target.attributes.getNamedItem("target")?.value === "_blank") return undefined
+  const closestLink = target.closest("a")
+  if (!closestLink) return undefined
+  if ("routerIgnore" in closestLink.dataset) return undefined
+  const { href } = closestLink
+  if (!isLocalUrl(href)) return undefined
+  return {
+    url: new URL(href),
+    scroll: "routerNoScroll" in closestLink.dataset ? false : undefined,
+  }
 }
 
 /**
@@ -97,13 +105,14 @@ function scrollToHash(hash: string) {
 /**
  * Saves the current scroll position to session storage
  */
-function saveScrollPosition(url: string): void {
-  const scrollPos = window.scrollY
-  const key = `scrollPos:${url}`
+function saveScrollPosition(): void {
+  const scrollPos = Math.round(window.scrollY)
+  const key = locationToStorageKey(window.location)
+  console.debug(`Saving scroll position: ${scrollPos} for ${key}`)
   sessionStorage.setItem(key, scrollPos.toString())
 }
 
-let p: DOMParser
+let parser: DOMParser
 /**
  * Core navigation function that:
  * 1. Fetches new page content
@@ -113,18 +122,25 @@ let p: DOMParser
  * 5. Manages page title and announcements
  */
 async function navigate(url: URL) {
-  p = p || new DOMParser()
+  parser = parser || new DOMParser()
 
   // Clean up any existing popovers
   const existingPopovers = document.querySelectorAll(".popover")
   existingPopovers.forEach((popover) => popover.remove())
 
-  saveScrollPosition(window.location.toString())
-  history.pushState({}, "", url)
+  // TODO test
+  saveScrollPosition()
 
-  if (url.hash) {
-    // AKA the anchor
-    scrollToHash(url.hash)
+  // TODO test
+  // Don't push to history if it's just a hash change on the same page
+  const isSamePageAnchor =
+    url.pathname === window.location.pathname && url.hash !== window.location.hash
+
+  if (!isSamePageAnchor) {
+    history.pushState({}, "", url)
+  } else {
+    // Update URL without pushing to history for anchor changes
+    history.replaceState({}, "", url)
   }
 
   let contents: string | undefined
@@ -145,7 +161,7 @@ async function navigate(url: URL) {
 
   if (!contents) return
 
-  const html = p.parseFromString(contents, "text/html")
+  const html = parser.parseFromString(contents, "text/html")
   normalizeRelativeURLs(html, url)
 
   let title = html.querySelector("title")?.textContent
@@ -162,25 +178,28 @@ async function navigate(url: URL) {
   html.body.appendChild(announcer)
 
   // Morph body
-  micromorph(document.body, html.body)
+  await micromorph(document.body, html.body)
+
+  // Patch head
+  const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
+  elementsToRemove.forEach((el) => el.remove())
+  const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
+  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
+
+  // Scroll to the anchor AFTER the content has been updated
+  if (url.hash) {
+    scrollToHash(url.hash)
+  }
 
   // Smooth scroll for anchors; else jump instantly
   const isSamePageNavigation = url.pathname === window.location.pathname
-  if (isSamePageNavigation) {
-    if (url.hash === "") {
-      window.scrollTo({
-        // scroll to top
-        top: 0,
-        behavior: "smooth",
-      })
-    } else if (url.hash) {
-      // Normal anchor link behavior
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView({ behavior: "smooth" })
-    }
+  if (isSamePageNavigation && url.hash) {
+    // Normal anchor link behavior
+    const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
+    el?.scrollIntoView({ behavior: "smooth" })
   } else {
     // Restore scroll position on back navigation
-    const key = `scrollPos:${url.toString()}`
+    const key = locationToStorageKey(window.location)
     const savedScroll = sessionStorage.getItem(key)
     // Go to 0 if no scroll position is saved
     window.scrollTo({
@@ -189,26 +208,7 @@ async function navigate(url: URL) {
     })
   }
 
-  // Patch head
-  const elementsToRemove = document.head.querySelectorAll(":not([spa-preserve])")
-  elementsToRemove.forEach((el) => el.remove())
-  const elementsToAdd = html.head.querySelectorAll(":not([spa-preserve])")
-  elementsToAdd.forEach((el) => document.head.appendChild(el.cloneNode(true)))
-
-  // Comment out the critical styles removal
-  // function removeCriticalStyles() {
-  //   const criticalStyles = document.querySelectorAll("head style")
-
-  //   if (criticalStyles.length > 1) {
-  //     console.warn("More than one style tag found in head")
-  //   }
-
-  //   criticalStyles[0].remove()
-  //   console.info("Removed critical styles from spa.inline.ts")
-  // }
-
   notifyNav(getFullSlug(window))
-  delete announcer.dataset.persist
 }
 
 window.spaNavigate = navigate
@@ -219,7 +219,9 @@ window.spaNavigate = navigate
  * - Provides programmatic navigation methods (go, back, forward)
  */
 function createRouter() {
-  if (typeof window !== "undefined") {
+  if (typeof window !== "undefined" && !window.__routerInitialized) {
+    window.__routerInitialized = true
+
     document.addEventListener("click", async (event) => {
       const { url } = getOpts(event) ?? {}
       // dont hijack behaviour, just let browser act normally
@@ -227,40 +229,61 @@ function createRouter() {
       event.preventDefault()
 
       try {
-        navigate(url)
+        await navigate(url)
       } catch {
         window.location.assign(url)
       }
     })
-    window.addEventListener("popstate", () => {
+    window.addEventListener("popstate", async () => {
       try {
         console.info("popstate", window.location.toString())
-        navigate(new URL(window.location.toString()))
+        // Get the scroll position before navigation
+        const key = locationToStorageKey(window.location)
+        const savedScroll = sessionStorage.getItem(key)
+
+        // First navigate to update the content
+        await navigate(new URL(window.location.toString()))
+
+        // Then restore scroll position after content is updated
+        if (savedScroll) {
+          window.scrollTo({ top: parseInt(savedScroll), behavior: "instant" })
+          sessionStorage.removeItem(key)
+        }
       } catch (error) {
         console.error("Navigation error:", error)
         window.location.reload()
       }
     })
+
+    // Remove the load event listener and just call scrollToHash directly
+    if (window.location.hash) {
+      scrollToHash(window.location.hash)
+    }
   }
 
-  return new (class Router {
+  return {
     go(pathname: RelativeURL) {
       const url = new URL(pathname, window.location.toString())
       return navigate(url)
-    }
-
+    },
     back() {
       return window.history.back()
-    }
-
+    },
     forward() {
       return window.history.forward()
-    }
-  })()
+    },
+  }
 }
 
-createRouter()
-notifyNav(getFullSlug(window))
+// Only initialize if not already done
+if (typeof window !== "undefined" && !window.__routerInitialized) {
+  // Restore scroll only once
+  setupScrollRestoration()
+
+  // Proceed with creating the router
+  createRouter()
+  notifyNav(getFullSlug(window))
+}
 
 /**
  * Registers the RouteAnnouncer custom element if not already defined
@@ -277,9 +300,6 @@ if (!customElements.get("route-announcer")) {
   customElements.define(
     "route-announcer",
     class RouteAnnouncer extends HTMLElement {
-      constructor() {
-        super()
-      }
       connectedCallback() {
         for (const [key, value] of Object.entries(attrs)) {
           this.setAttribute(key, value)
@@ -289,9 +309,33 @@ if (!customElements.get("route-announcer")) {
   )
 }
 
-// Keep existing hash handler
-if (window.location.hash) {
-  window.addEventListener("load", () => {
-    scrollToHash(window.location.hash)
-  })
+function setupScrollRestoration(): void {
+  // Only run this logic if "scrollRestoration" is supported and we haven't done it already.
+  if ("scrollRestoration" in history && !window.__hasRemovedCriticalCSS) {
+    // Mark that we've run this setup so it doesn't happen again
+    window.__hasRemovedCriticalCSS = true
+    history.scrollRestoration = "manual"
+
+    // Wait for network idle (when all resources are loaded)
+    if (document.readyState === "complete") {
+      restoreScroll()
+    } else {
+      window.addEventListener("networkidle", restoreScroll)
+    }
+
+    window.addEventListener("beforeunload", saveScrollPosition)
+  }
+}
+
+function restoreScroll(): void {
+  const key = locationToStorageKey(window.location)
+  const savedScroll = sessionStorage.getItem(key)
+
+  if (savedScroll && !window.location.hash) {
+    const scrollPos = parseInt(savedScroll, 10)
+    console.warn(`Restoring scroll position: ${scrollPos} for ${key}`)
+    window.scrollTo({ top: scrollPos, behavior: "instant" })
+    // Clear the saved position immediately after restoring
+    sessionStorage.removeItem(key)
+  }
 }

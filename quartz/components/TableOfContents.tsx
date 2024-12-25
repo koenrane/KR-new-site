@@ -6,11 +6,12 @@
 
 import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
-import katex from "katex"
+import { renderToString } from "katex"
+// skipcq: JS-W1028
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"
-import { replaceSCInNode } from "../plugins/transformers/tagacronyms"
+import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 import { TocEntry } from "../plugins/transformers/toc"
 import modernStyle from "./styles/toc.scss"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
@@ -21,10 +22,24 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
  * @param parent - The parent node to add the processed text to.
  */
 export function processSmallCaps(text: string, parent: Parent): void {
-  const insertIndex = parent.children.length
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
-  replaceSCInNode(textNode, insertIndex, parent)
+  replaceSCInNode(textNode, [parent])
+}
+
+/**
+ * Detects when Markdown inline code is present and renders it as a code block.
+ * @param text - The text to process.
+ * @param parent - The parent node to add the processed text to.
+ */
+export function processInlineCode(text: string, parent: Parent): void {
+  const codeBlock = {
+    type: "element",
+    tagName: "code",
+    properties: { className: ["inline-code"] },
+    children: [{ type: "text", value: text }],
+  } as Element
+  parent.children.push(codeBlock)
 }
 
 /**
@@ -33,7 +48,7 @@ export function processSmallCaps(text: string, parent: Parent): void {
  * @param parent - The parent node to add the processed LaTeX to.
  */
 export function processKatex(latex: string, parent: Parent): void {
-  const html = katex.renderToString(latex, { throwOnError: false })
+  const html = renderToString(latex, { throwOnError: false })
   const katexNode = {
     type: "element",
     tagName: "span",
@@ -68,7 +83,7 @@ export const CreateTableOfContents: QuartzComponent = ({
   return (
     <div id="table-of-contents" className="desktop-only">
       <h6 className="toc-title">
-        <a href="#">Table of Contents</a>
+        <a href="#top">Table of Contents</a>
       </h6>
       <div id="toc-content">
         <ul className="overflow">{toc}</ul>
@@ -129,7 +144,7 @@ export function buildNestedList(
 /**
  * Generates the table of contents as a nested list.
  *
- * @param entries - The TOC entries to process.
+ * @param entries - The TOC entriesnodeto process.
  * @returns A JSX element representing the nested TOC.
  */
 export function addListItem(entries: TocEntry[]): JSX.Element {
@@ -163,13 +178,17 @@ export function processTocEntry(entry: TocEntry): Parent {
   const parent = { type: "element", tagName: "span", properties: {}, children: [] } as Parent
 
   // Split the text by LaTeX delimiters
-  const parts = entry.text.split(/(\$[^$]+\$)/g)
+  const parts = entry.text.split(/(\$[^$]+\$|`[^`]+`)/g)
 
   parts.forEach((part) => {
     if (part.startsWith("$") && part.endsWith("$")) {
       // LaTeX expression
       const latex = part.slice(1, -1)
       processKatex(latex, parent)
+    } else if (part.startsWith("`") && part.endsWith("`")) {
+      // Inline code
+      const code = part.slice(1, -1)
+      processInlineCode(code, parent)
     } else {
       // Parse as HTML and process
       const htmlAst = fromHtml(part, { fragment: true })
@@ -190,8 +209,10 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
   htmlAst.children.forEach((node: RootContent) => {
     if (node.type === "text") {
       const textValue = node.value
-      const regex = /^(\d+:\s*)(.*)$/
-      const match = textValue.match(regex)
+      let textToProcess = textValue
+
+      const leadingNumberRegex = /^(\d+:?\s*)(.*)$/
+      const match = textValue.match(leadingNumberRegex)
       if (match) {
         // Leading numbers and colon found
         const numberPart = match[1]
@@ -206,14 +227,10 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
         } as Element
         parent.children.push(numberSpan)
 
-        // Process the rest of the text
-        if (restText) {
-          processSmallCaps(restText, parent)
-        }
-      } else {
-        // No leading numbers, process as usual
-        processSmallCaps(textValue, parent)
+        textToProcess = restText
       }
+
+      processSmallCaps(textToProcess, parent)
     } else if (node.type === "element") {
       const newElement = {
         type: "element",
@@ -227,54 +244,47 @@ export function processHtmlAst(htmlAst: Root | Element, parent: Parent): void {
   })
 }
 
-/**
- * Converts a HAST element to a JSX element.
- *
- * @param elt - The HAST element to convert.
- * @returns The converted JSX element.
- */
-export function elementToJsx(elt: RootContent): JSX.Element {
-  logger.debug(`Converting element to JSX: ${JSON.stringify(elt)}`)
+const handleAbbr = (elt: Element): JSX.Element => {
+  const abbrText = (elt.children[0] as Text).value
+  const className = (elt.properties?.className as string[])?.join(" ") || ""
+  return <abbr className={className}>{abbrText}</abbr>
+}
 
-  switch (elt.type) {
-    case "text":
-      return <>{elt.value}</>
-    case "element":
-      if (elt.tagName === "abbr") {
-        const abbrText = (elt.children[0] as Text).value
-        const className = (elt.properties?.className as string[])?.join(" ") || ""
-        return <abbr className={className}>{abbrText}</abbr>
-      } else if (elt.tagName === "span") {
-        const classNames = (elt.properties?.className as string[]) || []
-        if (classNames.includes("katex-toc")) {
-          return (
-            <span
-              className="katex-toc"
-              dangerouslySetInnerHTML={{ __html: (elt.children[0] as { value: string }).value }} // skipcq: JS-0440
-            />
-          )
-        } else if (classNames.includes("number-prefix")) {
-          // Render the number-prefix span
-          return <span className="number-prefix">{elt.children.map(elementToJsx)}</span>
-        } else {
-          // Handle other spans
-          return <span>{elt.children.map(elementToJsx)}</span>
-        }
-      }
-      // Handle other element types if needed
-      break
+const handleSpan = (elt: Element): JSX.Element => {
+  const classNames = (elt.properties?.className as string[]) || []
 
-    case "comment":
-    case "doctype":
-      // Ignore these types in rendering
-      return <></>
-
-    default:
-      logger.warn(`Unexpected node type encountered: ${elt.type}`)
-      return <></>
+  if (classNames.includes("katex-toc")) {
+    return (
+      <span
+        className="katex-toc"
+        dangerouslySetInnerHTML={{
+          __html: (elt.children[0] as { value: string }).value,
+        }}
+      />
+    )
   }
 
-  return <></>
+  if (classNames.includes("number-prefix")) {
+    return <span className="number-prefix">{elt.children.map(elementToJsx)}</span>
+  }
+
+  if (classNames.includes("inline-code")) {
+    return <code className="inline-code">{elt.children.map(elementToJsx)}</code>
+  }
+
+  return <span>{elt.children.map(elementToJsx)}</span>
+}
+
+// Convert HAST element to JSX element
+export function elementToJsx(elt: RootContent): JSX.Element | null {
+  switch (elt.type) {
+    case "text":
+      return elt.value as unknown as JSX.Element
+    case "element":
+      return elt.tagName === "abbr" ? handleAbbr(elt) : handleSpan(elt)
+    default:
+      return null
+  }
 }
 
 CreateTableOfContents.css = modernStyle

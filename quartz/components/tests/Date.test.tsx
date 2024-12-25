@@ -42,9 +42,30 @@ describe("formatDate", () => {
     "formats %s correctly with locale %s and month format %s",
     (dateString, locale, monthFormat, expected) => {
       const date = new Date(dateString)
-      expect(formatDate(date, locale as ValidLocale, monthFormat as "short" | "long")).toBe(
-        expected,
-      )
+      expect(
+        formatDate(date, locale as ValidLocale, monthFormat as "short" | "long", true, false),
+      ).toBe(expected)
     },
   )
+
+  describe("HTML formatting", () => {
+    it("formats ordinal suffix with HTML when formatOrdinalSuffix is true", () => {
+      const date = new Date("2023-08-01T12:00:00Z")
+      expect(formatDate(date, "en-US", "short", true, true)).toBe(
+        'Aug <span class="ordinal-num">1</span><span class="ordinal-suffix">st</span>, 2023',
+      )
+    })
+
+    it("applies extra styling to ordinal suffix", () => {
+      const date = new Date("2023-08-01T12:00:00Z")
+      expect(formatDate(date, "en-US", "short", true, true, "color: red")).toBe(
+        'Aug <span class="ordinal-num">1</span><span class="ordinal-suffix" style="color: red">st</span>, 2023',
+      )
+    })
+
+    it("doesn't include ordinal suffix when includeOrdinalSuffix is false", () => {
+      const date = new Date("2023-08-01T12:00:00Z")
+      expect(formatDate(date, "en-US", "short", false, true)).toBe("Aug 1, 2023")
+    })
+  })
 })
