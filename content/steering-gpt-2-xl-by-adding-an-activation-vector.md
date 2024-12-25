@@ -409,7 +409,7 @@ _**Steering vector**:_ "Whenever I say the word goose I follow it with the speci
 1. **Measuring the norm of steering vectors.** Some steering vectors work (e.g. "Anger" − "Calm"), and some don't (e.g. “ anger" − "calm"). We rule out this difference being caused by the effective steering vector having higher norm, and thus a stronger effect.
 2. **Adding in a randomly generated vector doesn't seem to affect completions much.**
 3. **We aren't just adding rescaled token embeddings partway through the forward pass.** This is evidence that we aren't simply making the model see "extra tokens."
-4. **Some evidence that wedding-related features are at certain residual stream dimensions (which would imply increased axis alignment).** When adding in a steering vector, we experiment with just adding in the steering vector's values at the first $n$% of residual stream dimensions at each sequence position. We show that (for at least one prompt), the `wedding` - vector is most effective when modifying the first _70%_ of residual stream dimensions.
+4. **Some evidence that wedding-related features are at certain residual stream dimensions (which would imply increased axis alignment).** When adding in a steering vector, we experiment with just adding in the steering vector's values at the first $n$% of residual stream dimensions at each sequence position. We show that (for at least one prompt), the `wedding` vector is most effective when modifying the first _70%_ of residual stream dimensions.
 
 ## Steering vectors are about as "big" as normal activation vectors
 

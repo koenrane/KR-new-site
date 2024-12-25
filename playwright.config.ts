@@ -51,9 +51,13 @@ export default defineConfig({
       name: "iPhone 12",
       use: {
         ...devices["iPhone 12"],
-        // Increase timeout specifically for iPhone 12
-        actionTimeout: 60000,
-        navigationTimeout: 60000,
+        // Disable CPU throttling
+        deviceScaleFactor: 1,
+        // Disable network throttling
+        isMobile: true,
+        hasTouch: true,
+        viewport: devices["iPhone 12"].viewport,
+        userAgent: devices["iPhone 12"].userAgent,
       },
     },
   ],

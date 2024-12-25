@@ -52,7 +52,7 @@ What is functional analysis? A satisfactory answer requires going back to where 
 
 > [!quote] Once upon a time...
 >
-> "All are present; the meeting convenes," intoned Fredholm. Intent were the gathered faces, their thoughts fixed on their students. "_What do we know of their weaknesses?_"
+> "All are present; the meeting convenes," intoned Fredholm. Intent were the gathered faces, their thoughts fixed on their students. "_What do we know of their weaknesses?_".
 >
 > Hilbert leaned back, torch's light flickering across his features. "Lots of dimensions, especially when they need to find the Hessian. What if… what if we made them deal with _infinitely_ many dimensions?"...
 >

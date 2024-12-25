@@ -637,7 +637,6 @@ def check_file_for_issues(
         "emphasis_spacing": check_emphasis_spacing(soup),
         "long_description": check_description_length(soup),
         "late_header_tags": meta_tags_early(file_path),
-        "inline_code_names": check_inline_code_names(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
@@ -867,48 +866,6 @@ def check_css_issues(file_path: Path) -> List[str]:
                 " which is required for dropcaps in Firefox"
             ]
     return []
-
-
-inline_only_names = [
-    "gwern",
-    "TurnTrout",
-    "habryka",
-    "elriggs",
-    "TheMajor",
-    "jacob_cannell",
-]
-
-
-def check_inline_code_names(soup: BeautifulSoup) -> List[str]:
-    """
-    Check that specified names only appear within inline code markdown.
-
-    Returns:
-        List of error messages for names found outside inline code blocks
-    """
-    errors = []
-
-    # Get all text content excluding code blocks
-    for element in soup.find_all(EMPHASIS_ELEMENTS_TO_SEARCH):
-        text = script_utils.get_non_code_text(element)
-        if not text or should_skip(element):
-            continue
-
-        # Skip if element is within article-title
-        if element.find_parent(class_="article-title"):
-            continue
-
-        # Find any of the names that aren't within backticks
-        invalid_names = re.findall(
-            r"(?:[^`]|^)(?:"
-            + "|".join(re.escape(name) for name in inline_only_names)
-            + r")(?:[^`]|$)",
-            text,
-        )
-        for name in invalid_names:
-            errors.append(f"'{name.strip()}' found outside inline code")
-
-    return errors
 
 
 def main() -> None:

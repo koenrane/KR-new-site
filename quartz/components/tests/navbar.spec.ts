@@ -8,9 +8,16 @@ function isDesktopViewport(page: Page): boolean {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page")
-  await page.waitForLoadState("networkidle")
-  await page.waitForLoadState("domcontentloaded")
+  await page.goto("http://localhost:8080/test-page", {
+    waitUntil: "networkidle",
+    timeout: 35000,
+  })
+
+  await Promise.all([
+    page.waitForLoadState("domcontentloaded"),
+    page.waitForLoadState("networkidle"),
+  ])
+
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 

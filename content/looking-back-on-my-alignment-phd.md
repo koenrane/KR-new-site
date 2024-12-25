@@ -208,7 +208,7 @@ I did these things eventually, though, and I'm proud of that.
 
 > [!success] I [didn't keep working on computational chemistry](/swimming-upstream)
 >
-> Boy howdy, would that have been awful for me. _Thank you,_ TurnTrout<sub>2018</sub>!
+> Boy howdy, would that have been awful for me. _Thank you,_ `TurnTrout`<sub>2018</sub>!
 >
 > I remember thinking "You know what, I'd rather get _expelled_ than not do the 2018 [CHAI](https://humancompatible.ai/) internship." This thought gave me the courage to find a new advisor who would let me work on AI safety, funding be damned. (I'm not a natural nonconformist. Conflict makes me nervous. I've had to work for it. )
 

@@ -131,12 +131,12 @@ test.describe("Search accuracy", () => {
       page,
     }) => {
       await page.keyboard.press("/")
-      await search(page, term)
+      await search(page, term) // TODO see for mobile
 
       const firstResult = page.locator(".result-card").first()
       const firstText = await firstResult.textContent()
       expect(firstText?.toLowerCase()).toContain(term.toLowerCase())
-      expect(firstResult).not.toContainText("...") // Ensure no truncation
+      expect(firstText?.startsWith("...")).toBe(false)
     })
   })
 

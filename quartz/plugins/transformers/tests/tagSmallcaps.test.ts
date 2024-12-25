@@ -557,6 +557,12 @@ describe("no-formatting tests", () => {
     const processedHtml = testTagSmallcapsHTML(input)
     expect(processedHtml).toBe(input)
   })
+
+  it("should not wrap acronyms in katex tags", () => {
+    const input = '<span class="katex">NASA</span>'
+    const processedHtml = testTagSmallcapsHTML(input)
+    expect(processedHtml).toBe(input)
+  })
 })
 
 describe("ignoreAcronym", () => {

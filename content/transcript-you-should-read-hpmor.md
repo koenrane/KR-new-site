@@ -24,6 +24,7 @@ lw-is-linkpost: 'false'
 tags:
   - rationality
   - fiction
+  - personal
 aliases:
   - transcript-you-should-read-hpmor
 lw-reward-post-warning: 'false'

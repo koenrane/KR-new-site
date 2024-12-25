@@ -95,8 +95,7 @@ test.describe("Scroll Behavior", () => {
     const sessionData: string = await page.evaluate(() => JSON.stringify(sessionStorage))
 
     // Go back in history. The popstate event in spa.inline.ts will attempt to restore scroll.
-    await page.goBack()
-    await page.waitForLoadState("networkidle")
+    await page.goBack({ waitUntil: "networkidle" })
 
     // Reinject the sessionStorage data on the same page (rather than using addInitScript).
     // This ensures the loaded page has the same session items spa.inline.ts relies on.
