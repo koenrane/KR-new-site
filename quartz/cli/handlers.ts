@@ -10,7 +10,6 @@ import { randomUUID } from "crypto"
 import { context, build as esBuild, analyzeMetafile } from "esbuild"
 import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises as fsPromises } from "fs"
-import glob from "glob-promise"
 import http from "http"
 import { Context } from "node:vm"
 import path from "path"
@@ -146,29 +145,12 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       // Callback placeholder
     })
     await ctx.dispose()
-
-    const allHtmlFiles: string[] = await glob(`${argv.output}/**/*.html`, {
-      recursive: true,
-      posix: true,
-    })
-
-    // Ensure critical CSS is generated and injected before emitting files
-    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
-
     return
   }
 
   const connections: WebSocket[] = []
   const clientRefresh = async (): Promise<void> => {
     connections.forEach((conn) => conn.send("rebuild"))
-
-    // Inline the critical CSS
-    const allHtmlFiles: string[] = await glob(`${argv.output}/**/*.html`, {
-      recursive: true,
-      posix: true,
-    })
-
-    await injectCriticalCSSIntoHTMLFiles(allHtmlFiles, argv.output)
   }
 
   if (argv.baseDir !== "" && !argv.baseDir.startsWith("/")) {
@@ -296,7 +278,6 @@ export async function injectCriticalCSSIntoHTMLFiles(
     throw new Error("Critical CSS generation failed. Build aborted.")
   }
 
-  let processedCount: number = 0
   for (const file of htmlFiles) {
     try {
       const htmlContent: string = await fsPromises.readFile(file, "utf-8")
@@ -313,14 +294,11 @@ export async function injectCriticalCSSIntoHTMLFiles(
       const updatedHTML: string = reorderHead(querier.html())
 
       await fsPromises.writeFile(file, updatedHTML)
-      processedCount++
     } catch (err) {
       console.warn(`Warning: Could not process ${file}: ${err}`)
       continue
     }
   }
-
-  console.log(`Injected critical CSS into ${processedCount} files`)
 }
 
 /**
@@ -496,6 +474,5 @@ export function reorderHead(htmlContent: string): string {
     )
   }
 
-  console.log(querier.html())
   return querier.html()
 }
