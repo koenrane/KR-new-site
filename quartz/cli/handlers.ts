@@ -24,6 +24,14 @@ import {
   cacheFile, // @ts-expect-error Importing from a JS file, no types
 } from "./constants.js"
 
+interface BuildArguments {
+  serve?: boolean
+  bundleInfo?: boolean
+  output: string
+  baseDir: string
+  port: number
+  wsPort: number
+}
 let cachedCriticalCSS: string = ""
 
 /**
@@ -438,10 +446,9 @@ export function reorderHead(htmlContent: string): string {
 
   // Group <head> children by type
   const headChildren = head.children()
-
   // Dark mode detection script
   const isDarkModeScript = (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
-    el.type === "tag" && el.tagName === "script" && el.attribs.id === "detect-dark-mode"
+    el.type === "script" && el.attribs.id === "detect-dark-mode"
   const darkModeScript = headChildren.filter(isDarkModeScript)
 
   // Meta and title tags
@@ -451,7 +458,7 @@ export function reorderHead(htmlContent: string): string {
   )
 
   const isCriticalCSS = (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
-    el.type === "tag" && el.tagName === "style" && el.attribs.id === "critical-css"
+    el.type === "style" && el.attribs.id === "critical-css"
   const criticalCSS = headChildren.filter(isCriticalCSS)
 
   // Links cause Firefox FOUC, so we need to move them before scripts
@@ -464,19 +471,13 @@ export function reorderHead(htmlContent: string): string {
   const notAlreadySeen = (_i: number, el: cheerio.Element): boolean => !elementsSoFar.has(el)
   const otherElements = headChildren.filter(notAlreadySeen)
 
-  // Clear the head, then re-append in the JS "ground truth" order
-  head.empty()
-
-  // 1. Dark mode script first
-  head.append(darkModeScript)
-  // 2. Meta/title tags
-  head.append(metaAndTitle)
-  // 3. Critical CSS
-  head.append(criticalCSS)
-  // 4. Link tags
-  head.append(links)
-  // 5. Everything else
-  head.append(otherElements)
+  head
+    .empty()
+    .append(darkModeScript)
+    .append(metaAndTitle)
+    .append(criticalCSS)
+    .append(links)
+    .append(otherElements)
 
   // Ensure we haven't gained any child elements
   const finalChildren = new Set(head.children())
@@ -495,15 +496,6 @@ export function reorderHead(htmlContent: string): string {
     )
   }
 
+  console.log(querier.html())
   return querier.html()
-}
-
-// Define interfaces for better type safety
-interface BuildArguments {
-  serve?: boolean
-  bundleInfo?: boolean
-  output: string
-  baseDir: string
-  port: number
-  wsPort: number
 }

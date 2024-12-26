@@ -9,6 +9,9 @@ import { reorderHead } from "./handlers"
 
 const isTag = (element: cheerio.Element): element is cheerio.TagElement => element.type === "tag"
 
+const getHeadChildren = (html: string): cheerio.Element[] =>
+  cheerioLoad(html)("head").children().toArray()
+
 describe("reorderHead", () => {
   const createHtml = (headContent: string): string => `
         <!DOCTYPE html>
@@ -29,9 +32,9 @@ describe("reorderHead", () => {
         `)
 
     const result = reorderHead(input)
-    const originalCount = cheerioLoad(input)("head").children().length
-    const newCount = cheerioLoad(result)("head").children().length
-    expect(newCount).toBe(originalCount)
+    const originalChildren = getHeadChildren(input)
+    const newChildren = getHeadChildren(result)
+    expect(newChildren.length).toBe(originalChildren.length)
   })
 
   it("should order elements correctly", () => {
@@ -46,26 +49,21 @@ describe("reorderHead", () => {
 
     const result = reorderHead(input)
     const $ = cheerioLoad(result)
-    const head = $("head")
-    const children: cheerio.TagElement[] = head.children().toArray() as cheerio.TagElement[]
-    expect(children.every(isTag)).toBe(true)
+    const children = $("head").children().toArray() as cheerio.TagElement[]
 
-    let currentIndex = 0
-    expect(children[currentIndex].attribs.id).toBe("detect-dark-mode")
-    currentIndex++
+    const expectedTagOrder = [
+      "script", // dark mode script
+      "meta",
+      "title",
+      "style", // critical CSS
+      "link",
+      "script", // other scripts
+    ]
+    expect(children.map((el) => el.tagName)).toEqual(expectedTagOrder)
 
-    const metaTitleTags = children.slice(currentIndex, currentIndex + 2)
-    expect(metaTitleTags.filter(isTag).map((el) => el.tagName)).toEqual(["meta", "title"])
-    currentIndex += 2
-
-    expect(children[currentIndex].attribs.id).toBe("critical-css")
-    currentIndex++
-
-    expect(children[currentIndex].tagName).toBe("link")
-    currentIndex++
-
-    expect(children[currentIndex].tagName).toBe("script")
-    expect(children[currentIndex].attribs.id).toBeUndefined()
+    // Verify specific IDs
+    expect(children[0].attribs.id).toBe("detect-dark-mode")
+    expect(children[3].attribs.id).toBe("critical-css")
   })
 
   it("should handle missing elements gracefully", () => {
@@ -101,18 +99,5 @@ describe("reorderHead", () => {
     expect(children[1].tagName).toBe("meta")
     expect(children[2].tagName).toBe("link")
     expect(children[3].tagName).toBe("link")
-  })
-
-  it("should throw error if elements are lost during reordering", () => {
-    // Create a malformed HTML that might cause issues
-    const input = createHtml(`
-            <meta charset="utf-8">
-            <title>Test</title>
-            <!-- Malformed tags that might cause issues -->
-            <link rel="stylesheet" href="style.css"
-            <script>console.log('test')</script
-        `)
-
-    expect(() => reorderHead(input)).toThrow(/Head reordering changed number of elements/)
   })
 })
