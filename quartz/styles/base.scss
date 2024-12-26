@@ -167,6 +167,10 @@ hr.desktop-only {
     width: 100%;
     overflow-x: visible;
     display: flex;
+    margin-top: $top-spacing;
+    box-sizing: border-box;
+    padding: 0 calc(8 * $base-margin);
+    position: fixed;
 
     @media all and (max-width: $full-page-width) {
       flex-direction: column;
@@ -185,11 +189,6 @@ hr.desktop-only {
           width: $right-width;
         }
       }
-
-      margin-top: $top-spacing;
-      box-sizing: border-box;
-      padding: 0 calc(8 * $base-margin);
-      position: fixed;
 
       @media all and (max-width: $full-page-width) {
         position: relative;
@@ -218,14 +217,14 @@ hr.desktop-only {
     }
 
     & #right-sidebar {
-      @media all and (width >= calc($full-page-width + 100px)) {
-        padding-right: calc(2 * $base-margin); // Make more space for ToC
-      }
-
       right: calc(calc(100vw - $page-width) / 2 - $right-width);
       height: 96vh; // Leave room for bottom of ContentMeta
       overflow-y: auto; // Allow scrolling
       flex-wrap: wrap;
+
+      @media all and (width >= calc($full-page-width + 100px)) {
+        padding-right: calc(2 * $base-margin); // Make more space for ToC
+      }
 
       @media all and (max-width: $full-page-width) {
         left: 0;
