@@ -162,12 +162,12 @@
 #navbar-left,
 .navbar-left {
   display: flex;
+  align-items: center;
+  position: relative;
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
-
-  align-items: center;
 }
 
 #navbar-right {
