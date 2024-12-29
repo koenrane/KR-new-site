@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test"
 
-import { desktopWidth, searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
+import { tabletBreakpoint } from "../../styles/variables"
+import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
@@ -43,7 +44,7 @@ test("Search results appear and can be navigated", async ({ page }, testInfo) =>
   const secondResult = resultCards.nth(1)
   await expect(secondResult).toHaveClass(/focus/)
 
-  // Check that the preview appears if the width is greater than desktopWidth
+  // Check that the preview appears if the width is greater than tabletBreakpoint
   const shouldShowPreview = showingPreview(page)
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
@@ -62,14 +63,14 @@ test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
 
   const previewContainer = page.locator("#preview-container")
   const viewportSize = page.viewportSize()
-  const shouldBeVisible = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldBeVisible = viewportSize?.width && viewportSize.width > tabletBreakpoint
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldBeVisible) })
 })
 
 test("Search placeholder changes based on viewport", async ({ page }) => {
   const searchBar = page.locator("#search-bar")
   const pageWidth = page.viewportSize()?.width
-  const showShortcutPlaceholder = pageWidth && pageWidth >= desktopWidth
+  const showShortcutPlaceholder = pageWidth && pageWidth >= tabletBreakpoint
 
   await page.keyboard.press("/")
   await expect(searchBar).toHaveAttribute(
@@ -311,7 +312,7 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 
   // Make sure it looks good
   const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   if (shouldShowPreview) {
     await takeArgosScreenshot(page, testInfo, "", {
       element: "#preview-container",
@@ -415,7 +416,7 @@ test("Preview container click navigates to the correct page", async ({ page }) =
   }
 
   // Set viewport to desktop size to ensure preview is visible
-  await page.setViewportSize({ width: desktopWidth + 100, height: 800 })
+  await page.setViewportSize({ width: tabletBreakpoint + 100, height: 800 })
 
   // Open search and type a term
   await page.keyboard.press("/")

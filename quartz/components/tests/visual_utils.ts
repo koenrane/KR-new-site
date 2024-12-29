@@ -2,7 +2,8 @@ import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { expect, Locator, TestInfo } from "@playwright/test"
 import { Page } from "playwright"
 
-import { debounceSearchDelay, desktopWidth } from "../scripts/search"
+import { tabletBreakpoint } from "../../styles/variables"
+import { debounceSearchDelay } from "../scripts/search"
 
 const THEME_TRANSITION_DELAY = 350 // ms
 
@@ -11,6 +12,7 @@ export async function setTheme(page: Page, theme: "light" | "dark") {
     document.documentElement.setAttribute("saved-theme", themeValue)
   }, theme)
 
+  // TODO wait until transition finishes
   await page.waitForTimeout(THEME_TRANSITION_DELAY)
 }
 
@@ -116,6 +118,6 @@ export async function search(page: Page, term: string) {
  */
 export function showingPreview(page: Page): boolean {
   const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   return Boolean(shouldShowPreview)
 }
