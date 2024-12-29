@@ -167,10 +167,6 @@ hr.desktop-only {
     width: 100%;
     overflow-x: visible;
     display: flex;
-    margin-top: $top-spacing;
-    box-sizing: border-box;
-    padding: 0 calc(8 * $base-margin);
-    position: fixed;
 
     @media all and (max-width: $full-page-width) {
       flex-direction: column;
