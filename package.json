@@ -17,8 +17,8 @@
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
     "profile": "NODE_OPTIONS='--enable-source-maps' 0x --output-dir ./prof/ ./node_modules/.bin/tsx ./quartz/bootstrap-cli.ts build --concurrency=1",
     "postinstall": "patch-package",
-    "test:visual": "playwright test",
-    "argos:upload": "argos upload ./playwright-results"
+    "test:visual": "npx playwright test",
+    "argos:upload": "npx argos upload ./playwright-results"
   },
   "lint-staged": {
     "*.{css,scss,json}": "prettier --write",
