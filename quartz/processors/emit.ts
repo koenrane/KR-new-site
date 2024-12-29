@@ -1,10 +1,10 @@
+import { injectCriticalCSSIntoHTMLFiles } from "../cli/handlers"
 import { getStaticResourcesFromPlugins } from "../plugins"
 import { ProcessedContent } from "../plugins/vfile"
 import { BuildCtx } from "../util/ctx"
 import { QuartzLogger } from "../util/log"
 import { PerfTimer } from "../util/perf"
 import { trace } from "../util/trace"
-import { injectCriticalCSSIntoHTMLFiles } from "../cli/handlers"
 
 export async function emitContent(ctx: BuildCtx, content: ProcessedContent[]) {
   const { argv, cfg } = ctx

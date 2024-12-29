@@ -1,3 +1,4 @@
+import gitRoot from "find-git-root"
 import fs from "fs"
 import { Element, Root, Text, Parent } from "hast"
 import path from "path"
@@ -21,9 +22,18 @@ const FAVICON_FOLDER = "static/images/external-favicons"
 export const DEFAULT_PATH = ""
 export const ANCHOR_PATH = "https://assets.turntrout.com/static/images/anchor.svg"
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-export const FAVICON_URLS_FILE = path.join(__dirname, ".faviconUrls.txt")
+const __filepath = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(gitRoot(__filepath))
+export const FAVICON_URLS_FILE = path.join(
+  __dirname,
+  "quartz",
+  "plugins",
+  "transformers",
+  ".faviconUrls.txt",
+)
+if (!fs.existsSync(FAVICON_URLS_FILE)) {
+  throw new Error(`Favicon URL cache file not found at path ${FAVICON_URLS_FILE}`)
+}
 
 export class DownloadError extends Error {
   constructor(message: string) {
@@ -119,7 +129,6 @@ export function writeCacheToFile(): void {
     .map(([key, value]) => `${key},${value}`)
     .join("\n")
 
-  // Write the file
   fs.writeFileSync(FAVICON_URLS_FILE, data, { flag: "w+" })
 }
 
@@ -142,6 +151,7 @@ export async function readFaviconUrls(): Promise<Map<string, string>> {
     return urlMap
   } catch (error) {
     logger.warn(`Error reading favicon URLs file: ${error}`)
+    console.warn(error)
     return new Map<string, string>()
   }
 }
