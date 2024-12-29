@@ -23,6 +23,9 @@ import {
   cacheFile, // @ts-expect-error Importing from a JS file, no types
 } from "./constants.js"
 
+// Import the generate function
+import { generateScss } from "../styles/generate-variables"
+
 interface BuildArguments {
   serve?: boolean
   bundleInfo?: boolean
@@ -39,6 +42,12 @@ let cachedCriticalCSS: string = ""
  */
 export async function handleBuild(argv: BuildArguments): Promise<void> {
   console.log(chalk.bgGreen.black(`\n turntrout.com v${version} \n`))
+
+  // Generate SCSS variables before building
+  console.log(chalk.blue("Generating SCSS variables..."))
+  generateScss()
+  console.log(chalk.green("SCSS variables generated successfully!"))
+
   const ctx: Context = await context({
     entryPoints: [fp],
     outfile: cacheFile,
