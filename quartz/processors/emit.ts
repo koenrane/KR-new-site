@@ -36,7 +36,7 @@ export async function emitContent(ctx: BuildCtx, content: ProcessedContent[]) {
 
   // Second pass: generate critical CSS for all HTML files
   const htmlFiles = emittedPaths.filter((fp) => fp.endsWith(".html"))
-  if (htmlFiles.length > 0) {
+  if (htmlFiles.length > 0 && !argv.skipCriticalCSS) {
     log.start("Generating critical CSS")
     await injectCriticalCSSIntoHTMLFiles(htmlFiles, argv.output)
     log.end(`Injected critical CSS into ${htmlFiles.length} files`)

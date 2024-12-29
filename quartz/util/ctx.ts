@@ -11,6 +11,7 @@ export interface Argv {
   wsPort: number
   remoteDevHost?: string
   concurrency?: number
+  skipCriticalCSS?: boolean
 }
 
 export interface BuildCtx {
