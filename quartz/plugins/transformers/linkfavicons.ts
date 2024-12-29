@@ -19,7 +19,7 @@ export const LESSWRONG_FAVICON_PATH =
   "https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
-export const DEFAULT_PATH = ""
+export const DEFAULT_PATH = "nonexistent"
 export const ANCHOR_PATH = "https://assets.turntrout.com/static/images/anchor.svg"
 
 const __filepath = fileURLToPath(import.meta.url)
@@ -171,8 +171,13 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
 
   // Check cache first
   if (urlCache.has(faviconPath)) {
+    const cachedValue = urlCache.get(faviconPath)
+    if (cachedValue === DEFAULT_PATH) {
+      logger.info(`Skipping previously failed favicon for ${hostname}`)
+      return DEFAULT_PATH
+    }
     logger.info(`Returning cached favicon for ${hostname}`)
-    return urlCache.get(faviconPath) as string
+    return cachedValue as string
   }
 
   // Check for AVIF version
@@ -201,14 +206,19 @@ export async function MaybeSaveFavicon(hostname: string): Promise<string> {
       // Try to download from Google
       const googleFaviconURL = `https://www.google.com/s2/favicons?sz=64&domain=${hostname}`
       logger.info(`Attempting to download favicon from Google: ${googleFaviconURL}`)
-      if (await downloadImage(googleFaviconURL, localPngPath)) {
-        logger.info(`Successfully downloaded favicon for ${hostname}`)
-        return faviconPath
+      try {
+        if (await downloadImage(googleFaviconURL, localPngPath)) {
+          logger.info(`Successfully downloaded favicon for ${hostname}`)
+          return faviconPath
+        }
+      } catch (downloadErr) {
+        logger.error(`Failed to download favicon for ${hostname}: ${downloadErr}`)
+        urlCache.set(faviconPath, DEFAULT_PATH) // Cache the failure
       }
     }
   }
 
-  // If all else fails, use default
+  // If all else fails, use default and cache the failure
   logger.debug(`Failed to find or download favicon for ${hostname}, using default`)
   urlCache.set(faviconPath, DEFAULT_PATH)
   return DEFAULT_PATH

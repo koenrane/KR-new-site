@@ -90,11 +90,11 @@ describe("Favicon Utilities", () => {
       expect(await linkfavicons.MaybeSaveFavicon(hostname)).toBe(expected)
     })
 
-    it("All attempts fail", async () => {
+    it("should return DEFAULT_PATH when all attempts fail", async () => {
       mockFetchAndFs(404, false, 404)
-      await expect(linkfavicons.MaybeSaveFavicon(hostname)).rejects.toThrow(
-        linkfavicons.DownloadError,
-      )
+      const result = await linkfavicons.MaybeSaveFavicon(hostname)
+      expect(result).toBe(linkfavicons.DEFAULT_PATH)
+      expect(global.fetch).toHaveBeenCalledTimes(2) // AVIF and Google attempts
     })
 
     it.each<[string, number, boolean]>([
@@ -123,6 +123,71 @@ describe("Favicon Utilities", () => {
 
       // Check that the URL cache doesn't contain the local path
       expect(linkfavicons.urlCache.has(localPath)).toBe(false)
+    })
+
+    it("should cache and skip previously failed downloads", async () => {
+      // Mock all download attempts to fail
+      mockFetchAndFs(404, false, 404)
+
+      // First attempt should try all download methods
+      const firstResult = await linkfavicons.MaybeSaveFavicon(hostname)
+      expect(firstResult).toBe(linkfavicons.DEFAULT_PATH)
+      expect(global.fetch).toHaveBeenCalledTimes(2) // AVIF and Google attempts
+
+      // Reset mocks for second attempt
+      jest.clearAllMocks()
+      mockFetchAndFs(404, false, 404)
+
+      // Second attempt should skip immediately due to cached failure
+      const secondResult = await linkfavicons.MaybeSaveFavicon(hostname)
+      expect(secondResult).toBe(linkfavicons.DEFAULT_PATH)
+      expect(global.fetch).not.toHaveBeenCalled() // Should not try to download again
+    })
+
+    it("should persist failed downloads to cache file", async () => {
+      // Mock all download attempts to fail
+      mockFetchAndFs(404, false, 404)
+
+      // Mock writeFileSync
+      const writeFileSyncMock = jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
+
+      await linkfavicons.MaybeSaveFavicon(hostname)
+
+      // Call writeCacheToFile directly since it's what actually writes to the file
+      linkfavicons.writeCacheToFile()
+
+      // Verify the failure was written to cache file
+      expect(writeFileSyncMock).toHaveBeenCalledWith(
+        linkfavicons.FAVICON_URLS_FILE,
+        expect.stringContaining(
+          `${linkfavicons.GetQuartzPath(hostname)},${linkfavicons.DEFAULT_PATH}`,
+        ),
+        expect.any(Object),
+      )
+    })
+
+    it("should load and respect cached failures on startup", async () => {
+      // Mock reading a cached failure from file
+      const faviconPath = linkfavicons.GetQuartzPath(hostname)
+      const mockFileContent = `${faviconPath},${linkfavicons.DEFAULT_PATH}`
+      jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFileContent)
+
+      // Load the cache
+      const urlMap = await linkfavicons.readFaviconUrls()
+      // Manually set the cache since readFaviconUrls doesn't modify the global cache
+      for (const [key, value] of urlMap.entries()) {
+        linkfavicons.urlCache.set(key, value)
+      }
+
+      // Mock download attempts (which shouldn't be called)
+      mockFetchAndFs(200, false, 200)
+
+      // Attempt to get favicon
+      const result = await linkfavicons.MaybeSaveFavicon(hostname)
+
+      // Should return default path without attempting downloads
+      expect(result).toBe(linkfavicons.DEFAULT_PATH)
+      expect(global.fetch).not.toHaveBeenCalled()
     })
   })
 
