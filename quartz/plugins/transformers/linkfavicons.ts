@@ -32,7 +32,9 @@ export const FAVICON_URLS_FILE = path.join(
   ".faviconUrls.txt",
 )
 if (!fs.existsSync(FAVICON_URLS_FILE)) {
-  throw new Error(`Favicon URL cache file not found at path ${FAVICON_URLS_FILE}`)
+  throw new Error(
+    `Favicon URL cache file not found at path ${FAVICON_URLS_FILE}; create it with \`touch\` if that's the right path.`,
+  )
 }
 
 export class DownloadError extends Error {
@@ -311,10 +313,89 @@ export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element |
 }
 
 /**
+ * Handles mailto links by inserting a mail icon.
+ */
+function handleMailtoLink(node: Element): void {
+  logger.info("Inserting mail icon for mailto link")
+  insertFavicon(MAIL_PATH, node)
+}
+
+/**
+ * Handles same-page links (e.g. #section-1) by adding appropriate classes and icons.
+ */
+function handleSamePageLink(node: Element, href: string, parent: Parent): boolean {
+  if (
+    href.startsWith("#user-content-fn") || // Footnote links
+    isHeading(parent as Element) // Links inside headings
+  ) {
+    return false
+  }
+
+  if (typeof node.properties.className === "string") {
+    node.properties.className += " same-page-link"
+  } else if (Array.isArray(node.properties.className)) {
+    node.properties.className.push("same-page-link")
+  } else {
+    node.properties.className = ["same-page-link"]
+  }
+
+  insertFavicon(ANCHOR_PATH, node)
+  return true
+}
+
+/**
+ * Checks if a link should be skipped for favicon processing.
+ */
+function shouldSkipFavicon(node: Element, href: string): boolean {
+  const samePage =
+    (typeof node.properties.className === "string" &&
+      node.properties.className.includes("same-page-link")) ||
+    (Array.isArray(node.properties.className) &&
+      node.properties.className.includes("same-page-link"))
+  const isAsset = /\.(png|jpg|jpeg)$/.test(href)
+
+  return samePage || isAsset
+}
+
+/**
+ * Normalizes relative URLs to absolute URLs.
+ */
+function normalizeUrl(href: string): string {
+  if (!href.startsWith("http")) {
+    if (href.startsWith("./")) {
+      href = href.slice(2)
+    } else if (href.startsWith("../")) {
+      href = href.slice(3)
+    }
+    href = `https://www.turntrout.com/${href}`
+  }
+  return href
+}
+
+/**
+ * Processes links by downloading and inserting favicons.
+ */
+async function handleLink(href: string, node: Element): Promise<void> {
+  try {
+    const finalURL = new URL(href)
+    logger.info(`Final URL: ${finalURL.href}`)
+
+    const imgPath = await MaybeSaveFavicon(finalURL.hostname)
+
+    if (imgPath === DEFAULT_PATH) {
+      logger.info(`No favicon found for ${finalURL.hostname}; skipping`)
+      return
+    }
+
+    logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
+    insertFavicon(imgPath, node)
+  } catch (error) {
+    logger.error(`Error processing URL ${href}: ${error}`)
+  }
+}
+
+/**
  * Modifies a node by processing its href and inserting a favicon if applicable.
- *
- * @param node - The node to modify.
- * @returns A Promise that resolves when the modification is complete.
  */
 export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
   logger.info(`Modifying node: ${node.tagName}`)
@@ -331,71 +412,25 @@ export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
   }
 
   if (href.includes("mailto:")) {
-    logger.info("Inserting mail icon for mailto link")
-    insertFavicon(MAIL_PATH, node)
+    handleMailtoLink(node)
     return
   }
 
-  const isInternalBody = href.startsWith("#")
-  if (isInternalBody) {
-    if (
-      href.startsWith("#user-content-fn") || // Footnote links
-      isHeading(parent as Element) // Links inside headings
-    ) {
-      return
-    }
-
-    if (typeof node.properties.className === "string") {
-      node.properties.className += " same-page-link"
-    } else if (Array.isArray(node.properties.className)) {
-      node.properties.className.push("same-page-link")
-    } else {
-      node.properties.className = ["same-page-link"]
-    }
-
-    insertFavicon(ANCHOR_PATH, node)
+  const isSamePageLink = href.startsWith("#")
+  if (isSamePageLink) {
+    handleSamePageLink(node, href, parent)
     return
   }
 
-  // Check if same-page-link
-  const samePage =
-    (typeof node.properties.className === "string" &&
-      node.properties.className.includes("same-page-link")) ||
-    (Array.isArray(node.properties.className) &&
-      node.properties.className.includes("same-page-link"))
-  const isAsset = /\.(png|jpg|jpeg)$/.test(href)
-
-  if (samePage || isAsset) {
+  // Skip certain types of links
+  if (shouldSkipFavicon(node, href)) {
     logger.debug(`Skipping favicon insertion for same-page link or asset: ${href}`)
     return
   }
 
-  if (!href.startsWith("http")) {
-    if (href.startsWith("./")) {
-      href = href.slice(2)
-    } else if (href.startsWith("../")) {
-      href = href.slice(3)
-    }
-    href = `https://www.turntrout.com/${href}`
-  }
-
-  try {
-    const finalURL = new URL(href)
-    logger.info(`Final URL: ${finalURL.href}`)
-
-    const imgPath = await MaybeSaveFavicon(finalURL.hostname)
-
-    // TODO improve semantics on handling no-favicon case
-    if (imgPath === DEFAULT_PATH) {
-      logger.info(`No favicon found for ${finalURL.hostname}; skipping`)
-      return
-    }
-
-    logger.info(`Inserting favicon for ${finalURL.hostname}: ${imgPath}`)
-    insertFavicon(imgPath, node)
-  } catch (error) {
-    logger.error(`Error processing URL ${href}: ${error}`)
-  }
+  // Process external links
+  href = normalizeUrl(href)
+  await handleLink(href, node)
 }
 
 /**
