@@ -95,11 +95,6 @@ a[id*="fnref-"] {
   }
 }
 
-// This comes in an h2 right before the footnotes.
-#footnote-label {
-  counter-reset: footnote;
-}
-
 ol,
 ul {
   margin-block-end: calc(2 * $base-margin);
@@ -136,6 +131,12 @@ ul li::marker {
 
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
+
+  // This comes in an h2 right before the footnotes.
+  & .footnote-label {
+    counter-reset: footnote;
+  }
+
   & > li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
