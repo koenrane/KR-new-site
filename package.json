@@ -15,13 +15,17 @@
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "node --experimental-vm-modules --no-warnings node_modules/jest/bin/jest.js",
-    "profile": "node --prof --cpu-prof --heap-prof --no-warnings ./node_modules/.bin/tsx ./quartz/bootstrap-cli.ts build --concurrency=1",
+    "profile": "NODE_OPTIONS='--enable-source-maps' 0x --output-dir ./prof/ ./node_modules/.bin/tsx ./quartz/bootstrap-cli.ts build --concurrency=1",
     "postinstall": "patch-package",
     "test:visual": "playwright test",
     "argos:upload": "argos upload ./playwright-results"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,scss,json}": "prettier --write",
+    "*.{css,scss,json}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "npx eslint --fix",
+      "prettier --write"
+    ],
     "*.fish": "fish_indent",
     "*.sh": "shfmt -i 2 -w",
     "*.py": [
