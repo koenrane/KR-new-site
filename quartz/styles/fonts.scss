@@ -7,6 +7,20 @@
 :root {
   --base-line-height: 1.4;
   --scale-ratio: 1.2;
+  --text-size-70: #{calculate-scale(-3)};
+  --text-size-80: #{calculate-scale(-2)};
+  --text-size-85: #{calculate-scale(-1.5)};
+  --text-size-90: #{calculate-scale(-1)};
+  --text-size-100: #{calculate-scale(0)};
+  --text-size-200: #{calculate-scale(1)};
+  --text-size-300: #{calculate-scale(1)};
+  --text-size-400: #{calculate-scale(1)};
+  --text-size-500: #{calculate-scale(2)};
+  --text-size-600: #{calculate-scale(3)};
+  --text-size-700: #{calculate-scale(4)};
+
+  font-size: var(--base-font-size);
+  text-rendering: geometricprecision;
 
   // Responsive font sizes
   @media screen and (min-width: $tablet-breakpoint) {
@@ -20,21 +34,6 @@
   @media screen and (max-width: $mobile-breakpoint) {
     --base-font-size: 20px;
   }
-
-  font-size: var(--base-font-size);
-  text-rendering: geometricprecision;
-
-  --text-size-70: #{calculate-scale(-3)};
-  --text-size-80: #{calculate-scale(-2)};
-  --text-size-85: #{calculate-scale(-1.5)};
-  --text-size-90: #{calculate-scale(-1)};
-  --text-size-100: #{calculate-scale(0)};
-  --text-size-200: #{calculate-scale(1)};
-  --text-size-300: #{calculate-scale(1)};
-  --text-size-400: #{calculate-scale(1)};
-  --text-size-500: #{calculate-scale(2)};
-  --text-size-600: #{calculate-scale(3)};
-  --text-size-700: #{calculate-scale(4)};
 }
 
 h1,
@@ -344,13 +343,12 @@ code {
 article[data-use-dropcap="true"] {
   --dropcap-vertical-offset: 0.15rem;
   --dropcap-font-size: 3.95rem;
+  --before-color: var(--midground-faint);
 
   & > p:first-of-type {
     position: relative;
     min-height: 4.2rem;
   }
-
-  --before-color: var(--midground-faint);
 
   & > p:first-of-type::before {
     content: attr(data-first-letter);
@@ -367,12 +365,6 @@ article[data-use-dropcap="true"] {
 
   & > p:first-of-type::first-letter {
     padding-top: var(--dropcap-vertical-offset);
-
-    // Firefox-specific adjustments for dropcap
-    @supports (-moz-appearance: none) {
-      padding-top: $base-margin;
-    }
-
     text-transform: uppercase;
     font-style: normal !important;
     float: left;
@@ -383,6 +375,11 @@ article[data-use-dropcap="true"] {
     padding-right: 0.1em;
     font-family: var(--font-dropcap-foreground);
     font-weight: 500 !important;
+
+    // Firefox-specific adjustments for dropcap
+    @supports (-moz-appearance: none) {
+      padding-top: $base-margin;
+    }
   }
 
   & > p:first-of-type em,

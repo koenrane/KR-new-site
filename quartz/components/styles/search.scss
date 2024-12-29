@@ -8,15 +8,15 @@
 }
 
 .search {
+  display: flex;
+  flex-direction: row-reverse;
+  min-width: fit-content;
+
   @media all and (min-width: $full-page-width) {
     margin-top: calc(2 * $base-margin);
     margin-left: auto;
     margin-right: auto;
   }
-
-  display: flex;
-  flex-direction: row-reverse;
-  min-width: fit-content;
 
   & > #search-icon {
     background-color: var(--midground-faintest);

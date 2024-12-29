@@ -3,47 +3,8 @@
 @use "./colors";
 
 .callout {
-  border: 1px solid var(--border);
-
   --border: color-mix(in srgb, var(--color) 60%, var(--base));
-
-  & blockquote {
-    border-left: 2px solid var(--border);
-  }
-
-  & .callout {
-    border-left: 2px solid var(--border);
-  }
-
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
-
-  background-color: var(--bg);
-  scrollbar-color: var(--midground-fainter) var(--bg);
-  border-radius: 5px;
-  margin: 1rem 0;
-  padding: 0 1rem;
-  overflow: hidden; // Ensure content doesn't overflow during transition
-  transition: max-height 0.3s ease;
-  box-sizing: border-box;
-
-  & > *:nth-child(2) {
-    margin-top: 0;
-  }
-
-  & .callout-content {
-    margin-bottom: calc(2 * $base-margin);
-
-    & p:first-child,
-    & > .vsc-controller + p {
-      // vsc-controllers can be spawned ahead of the first paragraph
-      margin-top: 0;
-    }
-
-    & p:last-child {
-      margin-bottom: 0;
-    }
-  }
-
   --callout-icon-note: url("https://assets.turntrout.com/static/icons/note.svg");
   --callout-icon-abstract: url("https://assets.turntrout.com/static/icons/abstract.svg");
   --callout-icon-info: url("https://assets.turntrout.com/static/icons/info.svg");
@@ -65,6 +26,42 @@
   --callout-icon-link: url("https://assets.turntrout.com/static/icons/link.svg");
   --callout-icon-math: url("https://assets.turntrout.com/static/icons/math.svg");
   --callout-icon-money: url("https://assets.turntrout.com/static/icons/dollar.svg");
+
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  scrollbar-color: var(--midground-fainter) var(--bg);
+  border-radius: 5px;
+  margin: 1rem 0;
+  padding: 0 1rem;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  box-sizing: border-box;
+
+  & blockquote {
+    border-left: 2px solid var(--border);
+  }
+
+  & .callout {
+    border-left: 2px solid var(--border);
+  }
+
+  & > *:nth-child(2) {
+    margin-top: 0;
+  }
+
+  & .callout-content {
+    margin-bottom: calc(2 * $base-margin);
+
+    & p:first-child,
+    & > .vsc-controller + p {
+      // vsc-controllers can be spawned ahead of the first paragraph
+      margin-top: 0;
+    }
+
+    & p:last-child {
+      margin-bottom: 0;
+    }
+  }
 
   // Gray by default
   &[data-callout] {
