@@ -5,18 +5,45 @@ import { Page } from "playwright"
 import { tabletBreakpoint } from "../../styles/variables"
 import { debounceSearchDelay } from "../scripts/search"
 
-const THEME_TRANSITION_DELAY = 350 // ms
+const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
+
+export async function waitForThemeTransition(page: Page) {
+  await page.evaluate(() => {
+    return new Promise<void>((resolve) => {
+      // If no transition is needed (theme didn't change), resolve immediately
+      const computedBg = getComputedStyle(document.body).backgroundColor
+      requestAnimationFrame(() => {
+        // Check if background color changed in the next frame
+        if (getComputedStyle(document.body).backgroundColor === computedBg) {
+          resolve()
+          return
+        }
+
+        // Add temporary class to enable transitions
+        document.documentElement.classList.add("temporary-transition")
+
+        // Listen for the transition end on body background-color
+        const onTransitionEnd = (e: TransitionEvent) => {
+          if (e.propertyName === "background-color") {
+            document.body.removeEventListener("transitionend", onTransitionEnd)
+            document.documentElement.classList.remove("temporary-transition")
+            resolve()
+          }
+        }
+
+        document.body.addEventListener("transitionend", onTransitionEnd)
+      })
+    })
+  })
+}
 
 export async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
     document.documentElement.setAttribute("saved-theme", themeValue)
   }, theme)
 
-  // TODO wait until transition finishes
-  await page.waitForTimeout(THEME_TRANSITION_DELAY)
+  await waitForThemeTransition(page)
 }
-
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 export async function takeArgosScreenshot(
   page: Page,
