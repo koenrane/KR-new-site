@@ -1,4 +1,4 @@
-import { test, expect, Locator } from "@playwright/test"
+import { test, expect, Locator, Page } from "@playwright/test"
 
 import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_utils"
 
@@ -80,6 +80,31 @@ test.describe("Various site pages", () => {
       await takeArgosScreenshot(page, testInfo, `test-page-${pageSlug}`)
     })
   }
+})
+
+const isDesktop = (page: Page): boolean => {
+  const viewportSize = page.viewportSize()
+  return (viewportSize && viewportSize.width > fullPageBreakpoint) || false
+}
+
+test.describe("Table of contents", () => {
+  function getTableOfContentsSelector(page: Page) {
+    return isDesktop(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
+  }
+
+  test("TOC is visible", async ({ page }) => {
+    const selector = getTableOfContentsSelector(page)
+    await expect(page.locator(selector)).toBeVisible()
+  })
+
+  test("TOC visual regression", async ({ page }, testInfo) => {
+    const selector = getTableOfContentsSelector(page)
+    if (!isDesktop(page)) {
+      await page.locator(selector).locator(".callout-title-inner").first().click()
+    }
+
+    await takeArgosScreenshot(page, testInfo, selector)
+  })
 })
 
 test.describe("Admonitions", () => {

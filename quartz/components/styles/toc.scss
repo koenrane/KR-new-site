@@ -17,6 +17,10 @@ ol.overflow {
   clear: both;
 }
 
+#toc-content {
+  margin-bottom: 0;
+}
+
 #toc-content,
 #toc-content-mobile {
   list-style: none;
@@ -25,7 +29,6 @@ ol.overflow {
   transition: max-height 0.5s ease;
   position: relative;
   font-size: var(--text-size-90);
-  margin-bottom: 0;
 
   & > ul {
     padding-left: $base-margin !important;
