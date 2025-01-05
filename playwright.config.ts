@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test"
 
 export default defineConfig({
-  timeout: 30000,
+  timeout: 10000,
   fullyParallel: true,
   workers: "75%",
 
@@ -17,8 +17,7 @@ export default defineConfig({
       "@argos-ci/playwright/reporter",
       {
         // Upload to Argos on CI only.
-        uploadToArgos: true,
-
+        uploadToArgos: process.env.CI ? true : false,
         // Set your Argos token (required if not using GitHub Actions).
         token: process.env.ARGOS_TOKEN,
       },
@@ -50,14 +49,7 @@ export default defineConfig({
     {
       name: "iPhone 12",
       use: {
-        ...devices["iPhone 12"],
-        // Disable CPU throttling
-        deviceScaleFactor: 1,
-        // Disable network throttling
-        isMobile: true,
-        hasTouch: true,
-        viewport: devices["iPhone 12"].viewport,
-        userAgent: devices["iPhone 12"].userAgent,
+        viewport: { width: 390, height: 844 },
       },
     },
   ],

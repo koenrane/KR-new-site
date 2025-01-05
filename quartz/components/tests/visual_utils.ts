@@ -1,5 +1,5 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { expect, Locator, TestInfo } from "@playwright/test"
+import { Locator, TestInfo } from "@playwright/test"
 import { Page } from "playwright"
 
 import { tabletBreakpoint } from "../../styles/variables"
@@ -131,10 +131,12 @@ export async function getNextElementMatchingSelector(
 
 const timeToWaitAfterSearch = debounceSearchDelay + 100
 export async function search(page: Page, term: string) {
-  const searchBar = page.locator("#search-bar")
+  const searchBar = page.getByPlaceholder("Search")
 
-  expect(searchBar).toBeVisible()
-  await searchBar.focus()
+  const isVisible = await searchBar.isVisible()
+  if (!isVisible) {
+    throw new Error("Search bar is not visible")
+  }
 
   await searchBar.fill(term)
   await page.waitForTimeout(timeToWaitAfterSearch)

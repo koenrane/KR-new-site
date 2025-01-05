@@ -32,7 +32,7 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
-  expect(menuButton).toBeVisible()
+  await expect(menuButton).toBeVisible()
 
   // Open the menu first
   await menuButton.click()
@@ -67,7 +67,8 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
 
   // Test opened state
   await menuButton.click()
-  expect(await menuButton.screenshot()).not.toEqual(originalMenuButtonState)
+  const openedMenuButtonState = await menuButton.screenshot()
+  expect(openedMenuButtonState).not.toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
   await takeArgosScreenshot(page, testInfo, "visible-menu", {
@@ -76,7 +77,8 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
 
   // Test closed state
   await menuButton.click()
-  expect(await menuButton.screenshot()).toEqual(originalMenuButtonState)
+  const newMenuButtonState = await menuButton.screenshot()
+  expect(newMenuButtonState).toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).not.toBeVisible()
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
 })
