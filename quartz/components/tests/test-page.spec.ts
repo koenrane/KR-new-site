@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
   // Log any console errors
   page.on("pageerror", (err) => console.error(err))
 
-  await page.goto("http://localhost:8080/test-page")
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
 
   // Dispatch the 'nav' event to initialize clipboard functionality
   await page.evaluate(() => {

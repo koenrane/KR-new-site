@@ -13,8 +13,7 @@ test.beforeEach(async ({ page }) => {
 
   // Navigate to a page that uses the SPA inline logic
   // and wait for network to be idle (i.e., no more requests)
-  await page.goto("http://localhost:8080/test-page")
-  await page.waitForLoadState("networkidle")
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
 
   // Dispatch the 'nav' event to ensure the router is properly initialized
   await page.evaluate(() => {
@@ -88,8 +87,7 @@ test.describe("Scroll Behavior", () => {
     }, testScrollPos)
 
     // Navigate to a new page (this should trigger beforeunload and saveScrollPosition in spa.inline.ts)
-    await page.goto("http://localhost:8080/design")
-    await page.waitForLoadState("networkidle")
+    await page.goto("http://localhost:8080/design", { waitUntil: "domcontentloaded" })
 
     // Capture the current sessionStorage data before going back
     const sessionData: string = await page.evaluate(() => JSON.stringify(sessionStorage))
@@ -146,9 +144,8 @@ test.describe("Popstate (Back/Forward) Navigation", () => {
   test("browser back and forward updates content appropriately", async ({ page }) => {
     const initialUrl = page.url()
 
-    await page.goto("http://localhost:8080/design")
+    await page.goto("http://localhost:8080/design", { waitUntil: "domcontentloaded" })
 
-    await page.waitForLoadState("networkidle")
     expect(page.url()).not.toBe(initialUrl)
 
     // Check going back

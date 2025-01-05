@@ -5,17 +5,7 @@ import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/se
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  console.log("Starting navigation to welcome page...")
-  try {
-    await page.goto("http://localhost:8080/welcome")
-    console.log("Successfully loaded welcome page")
-  } catch (error) {
-    console.error("Navigation failed with error:", error)
-    // Log the current state
-    console.log("Page URL:", page.url())
-    console.log("Page content:", await page.content().catch(() => "Unable to get content"))
-    throw error
-  }
+  await page.goto("http://localhost:8080/welcome", { waitUntil: "domcontentloaded" })
 })
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
@@ -394,7 +384,7 @@ test("Single letter dropcaps, search preview visual regression test", async ({
 }, testInfo) => {
   test.skip(!showingPreview(page))
 
-  await page.goto("http://localhost:8080/test-page")
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
   const singleLetterDropcaps = page.locator("#single-letter-dropcap")
   await singleLetterDropcaps.scrollIntoViewIfNeeded()
   await takeArgosScreenshot(page, testInfo, "", {
