@@ -153,9 +153,7 @@ test.describe("Search accuracy", () => {
   const previewTerms = ["Shrek", "AI presidents", "virus", "Emoji"]
   previewTerms.forEach((term) => {
     test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
-      if (!showingPreview(page)) {
-        test.skip()
-      }
+      test.skip(!showingPreview(page))
       await page.keyboard.press("/")
       await search(page, term)
 
@@ -188,9 +186,7 @@ test.describe("Search accuracy", () => {
   })
 
   test("AI presidents doesn't use dropcap", async ({ page }) => {
-    if (!showingPreview) {
-      test.skip()
-    }
+    test.skip(!showingPreview(page))
 
     await page.keyboard.press("/")
     await search(page, "AI presidents")
@@ -227,9 +223,7 @@ test("Enter key navigates to first result", async ({ page }) => {
 })
 
 test("Search URL updates as we select different results", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   // Open search and type "Shrek"
   await page.keyboard.press("/")
@@ -280,9 +274,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
 
 //  Test shouldn't pass yet
 test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
@@ -336,9 +328,7 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 })
 
 test("Search preview shows after bad entry", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
@@ -354,9 +344,8 @@ test("Search preview shows after bad entry", async ({ page }) => {
 })
 
 test("Search preview shows after searching, closing, and reopening", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
+
   const previewContainer = page.locator("#preview-container")
 
   await page.keyboard.press("/")
@@ -373,9 +362,7 @@ test("Search preview shows after searching, closing, and reopening", async ({ pa
 })
 
 test("Show search preview, search invalid, then show again", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
@@ -390,9 +377,7 @@ test("Show search preview, search invalid, then show again", async ({ page }) =>
 })
 
 test("The pond dropcaps, search preview visual regression test", async ({ page }, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -407,9 +392,7 @@ test("The pond dropcaps, search preview visual regression test", async ({ page }
 test("Single letter dropcaps, search preview visual regression test", async ({
   page,
 }, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   await page.goto("http://localhost:8080/test-page")
   const singleLetterDropcaps = page.locator("#single-letter-dropcap")
@@ -420,9 +403,7 @@ test("Single letter dropcaps, search preview visual regression test", async ({
 })
 
 test("Preview container click navigates to the correct page", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   // Set viewport to desktop size to ensure preview is visible
   await page.setViewportSize({ width: tabletBreakpoint + 100, height: 800 })
@@ -444,9 +425,7 @@ test("Preview container click navigates to the correct page", async ({ page }) =
 })
 
 test("Result card highlighting stays synchronized with preview", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   await page.keyboard.press("/")
   await search(page, "test")

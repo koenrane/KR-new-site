@@ -25,11 +25,9 @@ test.beforeEach(async ({ page }) => {
 test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
     test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
-      if (!showingPreview(page) || theme === "light") {
-        // EG mobile doesn't show preview
-        // For some reason, light theme fails
-        test.skip()
-      }
+      // EG mobile doesn't show preview
+      // For some reason, light theme fails
+      test.skip(!showingPreview(page) || theme === "light")
 
       // Set theme first and wait for transition
       await setTheme(page, theme as "light" | "dark")
@@ -244,9 +242,7 @@ test.describe("Right sidebar", () => {
 
   test("Scrolling down changes TOC highlight", async ({ page }, testInfo) => {
     const viewportSize = page.viewportSize()
-    if (viewportSize && viewportSize.width < fullPageBreakpoint) {
-      test.skip()
-    }
+    test.skip((viewportSize && viewportSize.width < fullPageBreakpoint) || false)
 
     const spoilerHeading = page.locator("#spoilers").first()
     await spoilerHeading.scrollIntoViewIfNeeded()
