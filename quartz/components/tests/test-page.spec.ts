@@ -26,7 +26,7 @@ test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
     test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
       // EG mobile doesn't show preview
-      // For some reason, light theme fails
+      // For some reason, light theme fails - TODO
       test.skip(!showingPreview(page) || theme === "light")
 
       // Set theme first and wait for transition
@@ -316,3 +316,13 @@ test.describe("Spoilers", () => {
     })
   })
 })
+
+test("Single letter dropcaps visual regression", async ({ page }, testInfo) => {
+  const singleLetterDropcaps = page.locator("#single-letter-dropcap")
+  await singleLetterDropcaps.scrollIntoViewIfNeeded()
+  await takeArgosScreenshot(page, testInfo, "", {
+    element: "#single-letter-dropcap",
+  })
+})
+
+// TODO: hover over elvish text

@@ -379,19 +379,6 @@ test("The pond dropcaps, search preview visual regression test", async ({ page }
   })
 })
 
-test("Single letter dropcaps, search preview visual regression test", async ({
-  page,
-}, testInfo) => {
-  test.skip(!showingPreview(page))
-
-  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
-  const singleLetterDropcaps = page.locator("#single-letter-dropcap")
-  await singleLetterDropcaps.scrollIntoViewIfNeeded()
-  await takeArgosScreenshot(page, testInfo, "", {
-    element: "#single-letter-dropcap",
-  })
-})
-
 test("Preview container click navigates to the correct page", async ({ page }) => {
   test.skip(!showingPreview(page))
 
