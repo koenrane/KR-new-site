@@ -1,5 +1,5 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { Locator, TestInfo } from "@playwright/test"
+import { Locator, TestInfo, expect } from "@playwright/test"
 import { Page } from "playwright"
 
 import { tabletBreakpoint } from "../../styles/variables"
@@ -133,10 +133,7 @@ const timeToWaitAfterSearch = debounceSearchDelay + 100
 export async function search(page: Page, term: string) {
   const searchBar = page.getByPlaceholder("Search")
 
-  const isVisible = await searchBar.isVisible()
-  if (!isVisible) {
-    throw new Error("Search bar is not visible")
-  }
+  await expect(searchBar).toBeVisible()
 
   await searchBar.fill(term)
   await page.waitForTimeout(timeToWaitAfterSearch)
