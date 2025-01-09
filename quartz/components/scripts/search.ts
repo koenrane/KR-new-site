@@ -279,11 +279,11 @@ class PreviewManager {
   }
 
   public show(): void {
-    this.container.style.display = "block"
+    this.container.classList.add("active")
   }
 
   public hide(): void {
-    this.container.style.display = "none"
+    this.container.classList.remove("active")
   }
 
   public destroy(): void {
@@ -347,9 +347,13 @@ function showSearch(
   if (navbar) {
     navbar.style.zIndex = "1"
   }
-  container?.classList.add("active")
-  document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
-  searchBar?.focus()
+
+  container.classList.add("active")
+  document.body.classList.add("no-mix-blend-mode")
+
+  searchBar.focus()
+  searchBar.select() // Needed for firefox
+
   updatePlaceholder()
 }
 
