@@ -395,6 +395,7 @@ article[data-use-dropcap="true"] {
   font-size: 0.75em; // Adapt to the font size
 }
 
-.ordinal-num {
+// Center only to avoid sidebars
+.center .ordinal-num {
   font-variant-numeric: lining-nums;
 }
