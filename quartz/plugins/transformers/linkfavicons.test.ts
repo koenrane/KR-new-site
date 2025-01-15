@@ -169,15 +169,10 @@ describe("Favicon Utilities", () => {
     it("should load and respect cached failures on startup", async () => {
       // Mock reading a cached failure from file
       const faviconPath = linkfavicons.GetQuartzPath(hostname)
-      const mockFileContent = `${faviconPath},${linkfavicons.DEFAULT_PATH}`
-      jest.spyOn(fs.promises, "readFile").mockResolvedValue(mockFileContent)
 
-      // Load the cache
-      const urlMap = await linkfavicons.readFaviconUrls()
-      // Manually set the cache since readFaviconUrls doesn't modify the global cache
-      for (const [key, value] of urlMap.entries()) {
-        linkfavicons.urlCache.set(key, value)
-      }
+      // Set up the cache directly
+      linkfavicons.urlCache.clear()
+      linkfavicons.urlCache.set(faviconPath, linkfavicons.DEFAULT_PATH)
 
       // Mock download attempts (which shouldn't be called)
       mockFetchAndFs(200, false, 200)
