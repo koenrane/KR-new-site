@@ -596,12 +596,16 @@ describe("linkfavicons.readFaviconUrls", () => {
   })
 
   it("should handle file read errors and return an empty Map", async () => {
-    jest.spyOn(fs.promises, "readFile").mockRejectedValue(new Error("File read error"))
+    // Mock console.warn to capture the warning without displaying it
+    const mockError = new Error("File read error")
+    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {})
+    jest.spyOn(fs.promises, "readFile").mockRejectedValue(mockError)
 
     const result = await linkfavicons.readFaviconUrls()
 
     expect(result).toBeInstanceOf(Map)
     expect(result.size).toBe(0)
+    expect(consoleWarnSpy).toHaveBeenCalledWith(mockError)
   })
 
   it("should ignore invalid lines in the file", async () => {
