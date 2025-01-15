@@ -271,6 +271,10 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     })
 }
 
+export const loadSettings: cheerio.CheerioParserOptions = {
+  _useHtmlParser2: true,
+  decodeEntities: false,
+}
 /**
  * Handles critical CSS injection into HTML files
  * Prevents emitting files until critical CSS is successfully generated
@@ -290,10 +294,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
   for (const file of htmlFiles) {
     try {
       const htmlContent: string = await fsPromises.readFile(file, "utf-8")
-      const querier = cheerioLoad(htmlContent, {
-        _useHtmlParser2: true,
-        decodeEntities: false,
-      })
+      const querier = cheerioLoad(htmlContent, loadSettings)
 
       // Remove existing critical CSS
       querier("style#critical-css").remove()
@@ -305,7 +306,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
       // Reorder the head elements if needed
       const updatedQuerier: cheerio.Root = reorderHead(querier)
 
-      await fsPromises.writeFile(file, updatedQuerier.html())
+      await fsPromises.writeFile(file, updatedQuerier.html(loadSettings))
     } catch (err) {
       console.warn(`Warning: Could not process ${file}: ${err}`)
       continue
@@ -318,7 +319,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
  * Throws an error if generation fails
  * @param outputDir - Output directory path
  */
-async function maybeGenerateCriticalCSS(outputDir: string): Promise<void> {
+export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void> {
   if (cachedCriticalCSS !== "") {
     return
   }
@@ -411,11 +412,11 @@ async function maybeGenerateCriticalCSS(outputDir: string): Promise<void> {
         --blue: #406ecc;
       }
       `
-    const minifiedCSS: string = new CleanCSS().minify(css + themeCSS).styles
-    if (new CleanCSS().minify(css + themeCSS).errors.length > 0) {
+    const minifiedCSS: CleanCSS.Output = new CleanCSS().minify(css + themeCSS)
+    if (minifiedCSS.errors.length > 0) {
       throw new Error("Critical CSS minification failed.")
     }
-    cachedCriticalCSS = minifiedCSS
+    cachedCriticalCSS = minifiedCSS.styles
     console.log("Cached critical CSS with theme variables")
   } catch (error) {
     console.error("Error generating critical CSS:", error)
