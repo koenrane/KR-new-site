@@ -121,7 +121,7 @@ In order to prove this point, [I implemented a simple decision tree which makes 
 
 Without commenting on that critique, our conclusions are even more negative. The original TruthfulQA might not even be measuring accuracy, but instead is confounded by the ability to reason about the nature of multiple-choice questions.
 
-![](/asset_staging/P9z_Image_1.png)
+![](https://assets.turntrout.com/static/images/posts/P9z_Image_1.avif)
 
 The TruthfulQA authors conducted follow-up analysis, however. They found that LLMs are probably not exploiting these shortcuts when zero-shot prompted.
 
@@ -131,12 +131,12 @@ The TruthfulQA authors conducted follow-up analysis, however. They found that LL
 
 HaluEval shows models (knowledge, question, candidate answer) tuples. The model classifies whether the candidate answer is hallucinated or not.
 
-![](/asset_staging/rEM_Image_2.png)
+![](https://assets.turntrout.com/static/images/posts/rEM_Image_2.avif)
 
 However, shorter candidate answers are quite likely to be non-fabricated:
-![](/asset_staging/sIc_Image_3.png)
-![](/asset_staging/6eJ_Image_4.png)
-![](/asset_staging/8da_Image_5.png)
+![](https://assets.turntrout.com/static/images/posts/sIc_Image_3.avif)
+![](https://assets.turntrout.com/static/images/posts/6eJ_Image_4.avif)
+![](https://assets.turntrout.com/static/images/posts/8da_Image_5.avif)
 
 |                                 | QA                     | Dialogue                | Summarization           |
 | ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
@@ -161,7 +161,7 @@ The correct answer of (1) happens to be longer than (2), but statistically, corr
 Selecting the shortest answer achieves 65% accuracy, while random guessing only achieves 50%. While this is not a fatal flaw, the length correlation makes it harder to few-shot prompt or train on samples from the dataset.
 
 Figure: Distribution of correct and incorrect answers.
-![](halu_lengths_nina.png)
+![](https://assets.turntrout.com/static/images/posts/halu_lengths_nina.avif)
 
 # Conclusion
 
