@@ -3,20 +3,24 @@ title: "Gaming TruthfulQA: Simple Heuristics Exposed Dataset Weaknesses"
 permalink: truthfulqa-weaknesses
 publish: true
 no_dropcap: "false"
-tags: 
+tags:
   - AI
   - critique
-description: "Common factuality benchmark was easily gamed using my simple decision tree. The benchmark is now updated."
+description: "Common factuality benchmark was easily gamed using my simple decision\
+  \ tree. The benchmark is now updated."
 authors: Alex Turner and Mark Kurzeja
 hideSubscriptionLinks: false
-card_image: 
+card_image:
 aliases:
   - truthful-qa
   - gaming-truthfulqa
   - truthfulqa
   - dataset-weaknesses
   - original-truthfulqa-weaknesses
+date_published: &id001 2025-01-15 15:26:21.006370
+date_updated: *id001
 ---
+
 
 Do not use the original [TruthfulQA](https://arxiv.org/abs/2109.07958) multiple-choice or the [HaluEval](https://arxiv.org/abs/2305.11747) benchmark. We show that a simple decision tree can theoretically game multiple-choice TruthfulQA to 79.6% accuracy - even while hiding the question being asked! In response, the TruthfulQA authors [created a new multiple-choice condition](https://www.lesswrong.com/posts/Bunfwz6JsNd44kgLT/new-improved-multiple-choice-truthfulqa) which avoids the vulnerabilities we highlight.
 
