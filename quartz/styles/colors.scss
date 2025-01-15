@@ -25,7 +25,7 @@
   --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
 
   & img,
-  & video {
+  & video:not(:has(::backdrop)) {
     filter: grayscale(50%);
   }
 }
@@ -59,7 +59,8 @@
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
 
   & img,
-  & video {
+  & video:not(:has(::backdrop)),
+  & iframe:not(:has(::backdrop)) {
     mix-blend-mode: multiply;
   }
 }

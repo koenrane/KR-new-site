@@ -178,6 +178,10 @@ Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
 <video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
 
+<video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SKfor6O-8hs?si=TBha47L4qRLmXHnQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
 ## Audio
 
 <center><audio src="https://assets.turntrout.com/static/audio/batman.mp3" controls> </audio></center>

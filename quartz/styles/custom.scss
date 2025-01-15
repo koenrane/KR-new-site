@@ -991,10 +991,6 @@ iframe {
   border-radius: 5px;
   margin-top: calc(2 * $base-margin);
   margin-bottom: calc(2 * $base-margin);
-
-  :root[saved-theme="light"] & {
-    mix-blend-mode: multiply;
-  }
 }
 
 // Arrows are too high up by default

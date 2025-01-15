@@ -2,6 +2,7 @@ import { test, expect, Locator, Page } from "@playwright/test"
 
 import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_utils"
 
+// TODO test iframe and video fullscreen in light mode (and dark for safety)
 test.beforeEach(async ({ page }) => {
   // Mock clipboard API
   await page.addInitScript(() => {
