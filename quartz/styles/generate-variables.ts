@@ -19,7 +19,9 @@ const generateScssContent = (): string => {
 
   Object.entries(variables).forEach(([key, value]) => {
     const scssVarName = toKebabCase(key)
-    scss += `$${scssVarName}: ${value}${typeof value === "number" ? "px" : ""};\n`
+    // Don't append 'px' to font weights or values that already have units
+    const shouldAppendPx = typeof value === "number" && !key.toLowerCase().includes("weight")
+    scss += `$${scssVarName}: ${value}${shouldAppendPx ? "px" : ""};\n`
   })
 
   return scss

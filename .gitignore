@@ -35,6 +35,7 @@ quartz/static/images/external-favicons/*.png
 
 *test.md
 
+*variables.scss
 content/drafts
 **.vscode
 *__snapshots__
