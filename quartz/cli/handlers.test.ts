@@ -7,97 +7,86 @@ import * as cheerio from "cheerio"
 
 import { reorderHead } from "./handlers"
 
-const isTag = (element: cheerio.Element): element is cheerio.TagElement => element.type === "tag"
-
-const getHeadChildren = (html: string): cheerio.Element[] =>
-  cheerioLoad(html)("head").children().toArray()
+const loadOptions: cheerio.CheerioParserOptions = {
+  _useHtmlParser2: true,
+  decodeEntities: false,
+}
 
 describe("reorderHead", () => {
-  const createHtml = (headContent: string): string => `
-        <!DOCTYPE html>
-        <html>
-            <head>${headContent}</head>
-            <body></body>
-        </html>
-    `
+  // Helper functions
+  const createHtml = (headContent: string): cheerio.Root =>
+    cheerioLoad(`<!DOCTYPE html><html><head>${headContent}</head><body></body></html>`, loadOptions)
 
-  it("should maintain the same number of elements", () => {
-    const input = createHtml(`
-            <meta charset="utf-8">
-            <title>Test</title>
-            <link rel="stylesheet" href="style.css">
-            <script id="detect-dark-mode">/* dark mode script */</script>
-            <style id="critical-css">.test{color:red}</style>
-            <script>console.log('other script')</script>
-        `)
+  const getTagNames = (querier: cheerio.Root): string[] =>
+    querier("head")
+      .children()
+      .toArray()
+      .map((el) => (el as cheerio.TagElement).tagName)
 
-    const result = reorderHead(input)
-    const originalChildren = getHeadChildren(input)
-    const newChildren = getHeadChildren(result)
-    expect(newChildren.length).toBe(originalChildren.length)
+  it.each([
+    {
+      name: "all element types",
+      input: `
+        <script>console.log('other')</script>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <style id="critical-css">.test{color:red}</style>
+        <title>Test</title>
+        <script id="detect-dark-mode">/* dark mode */</script>
+      `,
+      expectedOrder: ["script", "meta", "title", "style", "link", "script"], // dark mode, meta, title, critical, link, other script
+    },
+    {
+      name: "minimal elements",
+      input: "<meta charset='utf-8'><title>Test</title>",
+      expectedOrder: ["meta", "title"],
+    },
+    {
+      name: "duplicate elements",
+      input: `
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link href="style1.css">
+        <link href="style2.css">
+      `,
+      expectedOrder: ["meta", "meta", "link", "link"],
+    },
+  ])("should maintain element order: $name", ({ input, expectedOrder }) => {
+    const querier = createHtml(input)
+    const result = reorderHead(querier)
+    expect(getTagNames(result)).toEqual(expectedOrder)
   })
 
-  it("should order elements correctly", () => {
-    const input = createHtml(`
-            <script>console.log('other script')</script>
-            <meta charset="utf-8">
-            <link rel="stylesheet" href="style.css">
-            <style id="critical-css">.test{color:red}</style>
-            <title>Test</title>
-            <script id="detect-dark-mode">/* dark mode script */</script>
-        `)
+  type EntityAssertion = { selector: string; attr?: string; expected: string }
+  const entityAssertions: EntityAssertion[] = [
+    {
+      selector: 'meta[name="description"]',
+      attr: "content",
+      expected: "Test &amp; example &gt; other text",
+    },
+    { selector: "title", expected: "Test &amp; Title" },
+    { selector: "script#detect-dark-mode", expected: "if (x &lt; 5 &amp;&amp; y &gt; 3) {}" },
+    { selector: "style#critical-css", expected: "/* test &amp; comment */" },
+    { selector: 'link[rel="stylesheet"]', attr: "href", expected: "style.css?foo=1&amp;bar=2" },
+  ]
 
-    const result = reorderHead(input)
-    const $ = cheerioLoad(result)
-    const children = $("head").children().toArray() as cheerio.TagElement[]
+  it.each(entityAssertions)(
+    "should preserve HTML entities in $selector",
+    ({ selector, attr, expected }) => {
+      const querier = createHtml(`
+        <meta name="description" content="Test &amp; example &gt; other text">
+        <title>Test &amp; Title</title>
+        <script id="detect-dark-mode">if (x &lt; 5 &amp;&amp; y &gt; 3) {}</script>
+        <style id="critical-css">/* test &amp; comment */</style>
+        <link rel="stylesheet" href="style.css?foo=1&amp;bar=2">
+      `)
 
-    const expectedTagOrder = [
-      "script", // dark mode script
-      "meta",
-      "title",
-      "style", // critical CSS
-      "link",
-      "script", // other scripts
-    ]
-    expect(children.map((el) => el.tagName)).toEqual(expectedTagOrder)
-
-    // Verify specific IDs
-    expect(children[0].attribs.id).toBe("detect-dark-mode")
-    expect(children[3].attribs.id).toBe("critical-css")
-  })
-
-  it("should handle missing elements gracefully", () => {
-    const input = createHtml(`
-            <meta charset="utf-8">
-            <title>Test</title>
-        `)
-
-    const result = reorderHead(input)
-    const $ = cheerioLoad(result)
-    const children: cheerio.TagElement[] = $("head").children().toArray() as cheerio.TagElement[]
-    expect(children.every(isTag)).toBe(true)
-
-    expect(children.length).toBe(2)
-    expect(children.map((el) => el.tagName)).toEqual(["meta", "title"])
-  })
-
-  it("should handle duplicate elements correctly", () => {
-    const input = createHtml(`
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width">
-            <link rel="stylesheet" href="style1.css">
-            <link rel="stylesheet" href="style2.css">
-        `)
-
-    const result = reorderHead(input)
-    const $ = cheerioLoad(result)
-    const children: cheerio.TagElement[] = $("head").children().toArray() as cheerio.TagElement[]
-    expect(children.every(isTag)).toBe(true)
-
-    // Meta tags should come before link tags
-    expect(children[0].tagName).toBe("meta")
-    expect(children[1].tagName).toBe("meta")
-    expect(children[2].tagName).toBe("link")
-    expect(children[3].tagName).toBe("link")
-  })
+      const $ = reorderHead(querier)
+      if (attr) {
+        expect($(selector).attr(attr)).toBe(expected)
+      } else {
+        expect($(selector).html()).toBe(expected)
+      }
+    },
+  )
 })

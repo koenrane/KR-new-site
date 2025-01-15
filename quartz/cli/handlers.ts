@@ -290,7 +290,10 @@ export async function injectCriticalCSSIntoHTMLFiles(
   for (const file of htmlFiles) {
     try {
       const htmlContent: string = await fsPromises.readFile(file, "utf-8")
-      const querier = cheerioLoad(htmlContent)
+      const querier = cheerioLoad(htmlContent, {
+        _useHtmlParser2: true,
+        decodeEntities: false,
+      })
 
       // Remove existing critical CSS
       querier("style#critical-css").remove()
@@ -300,9 +303,9 @@ export async function injectCriticalCSSIntoHTMLFiles(
       querier("head").append(styleTag)
 
       // Reorder the head elements if needed
-      const updatedHTML: string = reorderHead(querier.html())
+      const updatedQuerier: cheerio.Root = reorderHead(querier)
 
-      await fsPromises.writeFile(file, updatedHTML)
+      await fsPromises.writeFile(file, updatedQuerier.html())
     } catch (err) {
       console.warn(`Warning: Could not process ${file}: ${err}`)
       continue
@@ -426,8 +429,7 @@ async function maybeGenerateCriticalCSS(outputDir: string): Promise<void> {
  * @param htmlContent - Original HTML content
  * @returns Updated HTML content with reordered <head> elements
  */
-export function reorderHead(htmlContent: string): string {
-  const querier = cheerioLoad(htmlContent)
+export function reorderHead(querier: cheerio.Root): cheerio.Root {
   const head = querier("head")
   const originalChildren = new Set(head.children())
 
@@ -483,5 +485,5 @@ export function reorderHead(htmlContent: string): string {
     )
   }
 
-  return querier.html()
+  return querier
 }
