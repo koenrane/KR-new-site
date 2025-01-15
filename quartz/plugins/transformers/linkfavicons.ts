@@ -32,9 +32,13 @@ export const FAVICON_URLS_FILE = path.join(
   ".faviconUrls.txt",
 )
 if (!fs.existsSync(FAVICON_URLS_FILE)) {
-  throw new Error(
-    `Favicon URL cache file not found at path ${FAVICON_URLS_FILE}; create it with \`touch\` if that's the right path.`,
-  )
+  try {
+    fs.writeFileSync(FAVICON_URLS_FILE, "")
+  } catch {
+    throw new Error(
+      `Favicon URL cache file not found at path ${FAVICON_URLS_FILE}; create it with \`touch\` if that's the right path.`,
+    )
+  }
 }
 
 export class DownloadError extends Error {
