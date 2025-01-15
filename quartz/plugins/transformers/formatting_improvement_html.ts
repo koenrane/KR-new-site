@@ -627,7 +627,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b([Ff])rappe\b/g, "$1rappé"],
   [/\b([Ll])atte\b/g, "$1atté"],
   [/\b([Cc])liche\b/g, "$1liché"],
-  [/\b([Ee])xpose\b/g, "$1xposé"],
+  [/(?<=[Aa]n |[Tt]he )\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
   [/\b([Dd])ojo/g, "$1ōjō"],
