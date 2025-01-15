@@ -1,20 +1,49 @@
 import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { expect, Locator, TestInfo } from "@playwright/test"
+import { Locator, TestInfo, expect } from "@playwright/test"
 import { Page } from "playwright"
 
-import { debounceSearchDelay, desktopWidth } from "../scripts/search"
+import { tabletBreakpoint } from "../../styles/variables"
+import { debounceSearchDelay } from "../scripts/search"
 
-const THEME_TRANSITION_DELAY = 350 // ms
+const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
+
+export async function waitForThemeTransition(page: Page) {
+  await page.evaluate(() => {
+    return new Promise<void>((resolve) => {
+      // If no transition is needed (theme didn't change), resolve immediately
+      const computedBg = getComputedStyle(document.body).backgroundColor
+      requestAnimationFrame(() => {
+        // Check if background color changed in the next frame
+        if (getComputedStyle(document.body).backgroundColor === computedBg) {
+          resolve()
+          return
+        }
+
+        // Add temporary class to enable transitions
+        document.documentElement.classList.add("temporary-transition")
+
+        // Listen for the transition end on body background-color
+        const onTransitionEnd = (e: TransitionEvent) => {
+          if (e.propertyName === "background-color") {
+            document.body.removeEventListener("transitionend", onTransitionEnd)
+            document.documentElement.classList.remove("temporary-transition")
+            resolve()
+          }
+        }
+
+        document.body.addEventListener("transitionend", onTransitionEnd)
+      })
+    })
+  })
+}
 
 export async function setTheme(page: Page, theme: "light" | "dark") {
   await page.evaluate((themeValue) => {
     document.documentElement.setAttribute("saved-theme", themeValue)
   }, theme)
 
-  await page.waitForTimeout(THEME_TRANSITION_DELAY)
+  await waitForThemeTransition(page)
 }
-
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 export async function takeArgosScreenshot(
   page: Page,
@@ -102,10 +131,9 @@ export async function getNextElementMatchingSelector(
 
 const timeToWaitAfterSearch = debounceSearchDelay + 100
 export async function search(page: Page, term: string) {
-  const searchBar = page.locator("#search-bar")
+  const searchBar = page.getByPlaceholder("Search")
 
-  expect(searchBar).toBeVisible()
-  await searchBar.focus()
+  await expect(searchBar).toBeVisible()
 
   await searchBar.fill(term)
   await page.waitForTimeout(timeToWaitAfterSearch)
@@ -116,6 +144,6 @@ export async function search(page: Page, term: string) {
  */
 export function showingPreview(page: Page): boolean {
   const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   return Boolean(shouldShowPreview)
 }

@@ -9,3 +9,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    automerge_enabled: true
+    versioning-strategy: auto
+    allow:
+      - dependency-type: "all"
+      - update-type: "semver-minor"
+      - update-type: "semver-patch"

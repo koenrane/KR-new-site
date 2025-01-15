@@ -165,7 +165,7 @@ Motivation via evaluations-of-_X_ _incentivizes_ agents to seek out adversarial 
 
 This conflict-of-interest between evaluations-of-_X_ and _X_ is why you need to worry about e.g. “[nearest unblocked strategy](https://arbital.com/p/nearest_unblocked/)” and “[edge instantiation](https://arbital.com/p/edge_instantiation/)” within the outer/inner alignment regime. If you’re trying to get an agent to optimize diamonds by making it optimize evaluations, of course the agent will exploit any conceivable way to get high evaluations without high diamonds. I tentatively conjecture[^6] (but will not presently defend) that these problems are artifacts of the assumption that agents must be grader-optimizers (i.e. a smart “capabilities” module which optimizes for the outputs of some evaluation function, be that a utility function over universe-histories, or a grader function over all possible plans). But when I considered the problem with fresh eyes, I concluded that [alignment allows "nonrobust" decision-influences and doesn't require robust grading](/alignment-without-total-robustness).
 
-The answer is not to find a clever way to get a robust outer objective. The answer is to not _need_ a robust outer objective. [Robust grading incentivizes an inner-aligned AI to search for upwards errors in your grading procedure](/dont-design-agents-which-exploit-adversarial-inputs), but I think [it’s easy to tell plausible training stories which don’t require robust outer objectives](/a-shot-at-the-diamond-alignment-problem).
+In my opinion, the answer is not to find a clever way to get a robust outer objective. The answer is to not _need_ a robust outer objective. [Robust grading incentivizes an inner-aligned AI to search for upwards errors in your grading procedure](/dont-design-agents-which-exploit-adversarial-inputs), but I think [it’s easy to tell plausible training stories which don’t require robust outer objectives](/a-shot-at-the-diamond-alignment-problem).
 
 ## Outer/inner introduces indirection
 
@@ -561,7 +561,7 @@ Communication is hard. Understanding is hard. Even if I fully understood what ot
 
 # Conclusion
 
-Inner and outer alignment decompose one hard problem (AI alignment) into two _extremely_ hard problems. These problems go against natural grains of cognition, so it’s unsurprising that alignment has seemed extremely difficult and unnatural. Alignment still seems difficult to me, but [not because e.g. we have to robustly grade plans in which superintelligences are trying to trick us](/dont-design-agents-which-exploit-adversarial-inputs).
+Inner and outer alignment decompose one hard problem (AI alignment) into two _extremely_ hard problems. These problems go against natural grains of cognition, so it’s unsurprising that alignment has seemed extremely difficult and unnatural. Alignment still seems difficult to me, but [not because e.g. we have to robustly grade plans in which superintelligences are trying to trick us](/dont-design-agents-which-exploit-adversarial-inputs). Summarizing my arguments:
 
 1. **Robust grading is extremely difficult and also unnecessary.** The answer is not to find a clever way to get a robust outer objective. The answer is to not _need_ a robust outer objective. If you find yourself trying to grade arbitrary-case outputs from an unaligned superintelligence, you probably framed the problem wrongly by using robust-grading design patterns.
 2. **The loss function chisels cognition into the AI.**

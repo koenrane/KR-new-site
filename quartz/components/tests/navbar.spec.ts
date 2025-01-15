@@ -8,31 +8,17 @@ function isDesktopViewport(page: Page): boolean {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page", {
-    waitUntil: "networkidle",
-    timeout: 35000,
-  })
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
 
-  await Promise.all([
-    page.waitForLoadState("domcontentloaded"),
-    page.waitForLoadState("networkidle"),
-  ])
-
-  await page.evaluate(() => window.scrollTo(0, 0))
-})
-
-test.afterEach(async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 
 test("Clicking away closes the menu", async ({ page }, testInfo) => {
-  if (isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
-  expect(menuButton).toBeVisible()
+  await expect(menuButton).toBeVisible()
 
   // Open the menu first
   await menuButton.click()
@@ -53,9 +39,7 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
 })
 
 test("Menu button makes menu visible", async ({ page }, testInfo) => {
-  if (isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -67,7 +51,8 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
 
   // Test opened state
   await menuButton.click()
-  expect(await menuButton.screenshot()).not.toEqual(originalMenuButtonState)
+  const openedMenuButtonState = await menuButton.screenshot()
+  expect(openedMenuButtonState).not.toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
   await takeArgosScreenshot(page, testInfo, "visible-menu", {
@@ -76,15 +61,14 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
 
   // Test closed state
   await menuButton.click()
-  expect(await menuButton.screenshot()).toEqual(originalMenuButtonState)
+  const newMenuButtonState = await menuButton.screenshot()
+  expect(newMenuButtonState).toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).not.toBeVisible()
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
 })
 
 test("Can't see the menu at desktop size", async ({ page }) => {
-  if (!isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -107,9 +91,7 @@ test("Can't see the menu at desktop size", async ({ page }) => {
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
 test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
-  if (isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const navbar = page.locator("#navbar")
 
@@ -145,9 +127,7 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 // TODO sometimes need to focus page before hitting "/"
 
 test("Menu disappears gradually when scrolling down", async ({ page }) => {
-  if (isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const navbar = page.locator("#navbar")
 
@@ -178,9 +158,7 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
 // Todo check that shadow works
 
 test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
-  if (isDesktopViewport(page)) {
-    test.skip()
-  }
+  test.skip(isDesktopViewport(page))
 
   const navbar = page.locator("#navbar")
 

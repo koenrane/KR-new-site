@@ -636,6 +636,7 @@ const massTransforms: [RegExp | string, string][] = [
   [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
   [/\.{3}/g, "…"], // Ellipsis
   [/…(?=\w)/gu, "… "], // Space after ellipsis
+  [/\b([Cc])hateau\b/g, "$1hâteau"],
 ]
 
 export function massTransformText(text: string): string {

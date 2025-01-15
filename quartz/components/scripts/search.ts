@@ -1,8 +1,8 @@
-// NOTE: The function documentation is AI-generated. Take with a grain of salt.
 import FlexSearch, { ContextOptions } from "flexsearch"
 
 import { ContentDetails } from "../../plugins/emitters/contentIndex"
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
+import { tabletBreakpoint, mobileBreakpoint } from "../../styles/variables"
 import { FullSlug, normalizeRelativeURLs, resolveRelative } from "../../util/path"
 import { registerEscapeHandler, removeAllChildren, debounce } from "./util"
 
@@ -279,11 +279,11 @@ class PreviewManager {
   }
 
   public show(): void {
-    this.container.style.display = "block"
+    this.container.classList.add("active")
   }
 
   public hide(): void {
-    this.container.style.display = "none"
+    this.container.classList.remove("active")
   }
 
   public destroy(): void {
@@ -324,14 +324,12 @@ function highlightHTML(searchTerm: string, el: HTMLElement) {
 
 export const searchPlaceholderDesktop = "Toggle search by pressing /"
 export const searchPlaceholderMobile = "Search"
-export const desktopWidth = 1000
 /**
  * Updates the search bar placeholder text based on screen width
  */
 function updatePlaceholder() {
   const searchBar = document.getElementById("search-bar")
-  if (window.innerWidth > desktopWidth) {
-    // This is tablet width
+  if (window.innerWidth > tabletBreakpoint) {
     searchBar?.setAttribute("placeholder", searchPlaceholderDesktop)
   } else {
     searchBar?.setAttribute("placeholder", searchPlaceholderMobile)
@@ -349,9 +347,13 @@ function showSearch(
   if (navbar) {
     navbar.style.zIndex = "1"
   }
-  container?.classList.add("active")
-  document.body.classList.add("no-mix-blend-mode") // Add class when search is opened
-  searchBar?.focus()
+
+  container.classList.add("active")
+  document.body.classList.add("no-mix-blend-mode")
+
+  searchBar.focus()
+  searchBar.select() // Needed for firefox
+
   updatePlaceholder()
 }
 
@@ -635,7 +637,7 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
   content = replaceEmojiConvertArrows(content)
 
   let suffixHTML: string = ""
-  if (!enablePreview || window.innerWidth <= 600) {
+  if (!enablePreview || window.innerWidth <= mobileBreakpoint) {
     suffixHTML = `<p>${content}</p>`
   }
   itemTile.innerHTML = `<span class="h4">${title}</span><br/>${htmlTags}${suffixHTML}`

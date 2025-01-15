@@ -1,4 +1,4 @@
-import { test, expect, Locator } from "@playwright/test"
+import { test, expect, Locator, Page } from "@playwright/test"
 
 import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_utils"
 
@@ -14,8 +14,7 @@ test.beforeEach(async ({ page }) => {
   // Log any console errors
   page.on("pageerror", (err) => console.error(err))
 
-  await page.waitForLoadState("networkidle")
-  await page.goto("http://localhost:8080/test-page")
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
 
   // Dispatch the 'nav' event to initialize clipboard functionality
   await page.evaluate(() => {
@@ -26,11 +25,9 @@ test.beforeEach(async ({ page }) => {
 test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
     test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
-      if (!showingPreview(page) || theme === "light") {
-        // EG mobile doesn't show preview
-        // For some reason, light theme fails
-        test.skip()
-      }
+      // EG mobile doesn't show preview
+      // For some reason, light theme fails - TODO
+      test.skip(!showingPreview(page) || theme === "light")
 
       // Set theme first and wait for transition
       await setTheme(page, theme as "light" | "dark")
@@ -80,6 +77,31 @@ test.describe("Various site pages", () => {
       await takeArgosScreenshot(page, testInfo, `test-page-${pageSlug}`)
     })
   }
+})
+
+const isDesktop = (page: Page): boolean => {
+  const viewportSize = page.viewportSize()
+  return (viewportSize && viewportSize.width > fullPageBreakpoint) || false
+}
+
+test.describe("Table of contents", () => {
+  function getTableOfContentsSelector(page: Page) {
+    return isDesktop(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
+  }
+
+  test("TOC is visible", async ({ page }) => {
+    const selector = getTableOfContentsSelector(page)
+    await expect(page.locator(selector)).toBeVisible()
+  })
+
+  test("TOC visual regression", async ({ page }, testInfo) => {
+    const selector = getTableOfContentsSelector(page)
+    if (!isDesktop(page)) {
+      await page.locator(selector).locator(".callout-title-inner").first().click()
+    }
+
+    await takeArgosScreenshot(page, testInfo, selector)
+  })
 })
 
 test.describe("Admonitions", () => {
@@ -220,9 +242,7 @@ test.describe("Right sidebar", () => {
 
   test("Scrolling down changes TOC highlight", async ({ page }, testInfo) => {
     const viewportSize = page.viewportSize()
-    if (viewportSize && viewportSize.width < fullPageBreakpoint) {
-      test.skip()
-    }
+    test.skip((viewportSize && viewportSize.width < fullPageBreakpoint) || false)
 
     const spoilerHeading = page.locator("#spoilers").first()
     await spoilerHeading.scrollIntoViewIfNeeded()
@@ -296,3 +316,13 @@ test.describe("Spoilers", () => {
     })
   })
 })
+
+test("Single letter dropcaps visual regression", async ({ page }, testInfo) => {
+  const singleLetterDropcaps = page.locator("#single-letter-dropcap")
+  await singleLetterDropcaps.scrollIntoViewIfNeeded()
+  await takeArgosScreenshot(page, testInfo, "", {
+    element: "#single-letter-dropcap",
+  })
+})
+
+// TODO: hover over elvish text

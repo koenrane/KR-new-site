@@ -84,15 +84,15 @@ a[id*="fnref-"] {
   // When scrolling back to a footnote, scroll up farther than default
   scroll-margin-top: calc(2 * $base-margin);
 
-  @media all and (max-width: $full-page-width) {
-    scroll-margin-top: calc(7 * $base-margin);
-  }
-
   // Footnotes should be a bit easier to see
   background-color: color-mix(in srgb, gray 10%, transparent);
   padding: 0 0.1rem;
   border-radius: 5px;
   line-height: var(--line-height);
+
+  @media all and (max-width: $full-page-width) {
+    scroll-margin-top: calc(7 * $base-margin);
+  }
 }
 
 ol,
@@ -131,6 +131,12 @@ ul li::marker {
 
 ol {
   --li-margin: 4px; // Ensure list items are spaced more than just line-height
+
+  // This comes in an h2 right before the footnotes.
+  & .footnote-label {
+    counter-reset: footnote;
+  }
+
   & > li {
     counter-increment: list; // Increment the list counter for each list item
     list-style-type: none; // Remove default list item numbering
@@ -164,12 +170,7 @@ ol {
     }
   }
 
-  // This comes in an h2 right before the footnotes.
-  .footnote-label {
-    counter-reset: footnote;
-  }
-
-  li[id^="user-content-fn-"] {
+  & li[id^="user-content-fn-"] {
     // Target li elements whose id attribute value starts with 'user-content-fn-'
     display: block;
     counter-increment: footnote; // Increment the footnote counter for each matching li
@@ -303,20 +304,17 @@ figure,
 .subfigure {
   margin-inline: $base-margin $base-margin;
   margin-block: $base-margin $base-margin;
+  flex: 1 1 0px;
 
   & img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-
-    // margin-bottom: calc(0.75 * $base-margin);
   }
 
   & + figure {
     margin-top: calc(3 * $base-margin);
   }
-
-  flex: 1 1 0px;
 }
 
 .article-title,
@@ -623,12 +621,11 @@ hr {
 .authors {
   & p {
     color: var(--midground);
+    margin-top: 0;
 
     & a {
       color: inherit;
     }
-
-    margin-top: 0;
 
     &:not(:last-child) {
       margin-bottom: 0;
@@ -657,6 +654,8 @@ video {
 }
 
 img {
+  margin-top: $base-margin;
+
   &.inline-img {
     display: inline;
     width: 0.9rem;
@@ -666,8 +665,6 @@ img {
     margin-right: 0.025rem;
     margin-bottom: 0.1rem;
   }
-
-  margin-top: $base-margin;
 }
 
 // Ordering the z stacks

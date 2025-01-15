@@ -162,22 +162,21 @@
 #navbar-left,
 .navbar-left {
   display: flex;
+  align-items: center;
+  position: relative;
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
-
-  align-items: center;
 }
 
 #navbar-right {
   display: flex;
+  align-items: center;
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
   }
-
-  align-items: center;
 }
 
 @media all and (max-width: $full-page-width) {
@@ -258,6 +257,9 @@
 .darkmode {
   display: inline;
   z-index: 3;
+  position: absolute;
+  left: 46%;
+  top: 5%;
 
   @media all and (max-width: $full-page-width) {
     position: relative;
@@ -265,10 +267,6 @@
     top: inherit;
     margin: 0 calc(1.5 * $base-margin);
   }
-
-  position: absolute;
-  left: 46%;
-  top: 5%;
 
   & > .toggle {
     display: none;

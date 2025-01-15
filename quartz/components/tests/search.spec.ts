@@ -1,11 +1,11 @@
 import { test, expect } from "@playwright/test"
 
-import { desktopWidth, searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
+import { tabletBreakpoint } from "../../styles/variables"
+import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.waitForLoadState("networkidle")
-  await page.goto("http://localhost:8080/welcome")
+  await page.goto("http://localhost:8080/welcome", { waitUntil: "domcontentloaded" })
 })
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
@@ -43,7 +43,7 @@ test("Search results appear and can be navigated", async ({ page }, testInfo) =>
   const secondResult = resultCards.nth(1)
   await expect(secondResult).toHaveClass(/focus/)
 
-  // Check that the preview appears if the width is greater than desktopWidth
+  // Check that the preview appears if the width is greater than tabletBreakpoint
   const shouldShowPreview = showingPreview(page)
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
@@ -62,14 +62,14 @@ test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
 
   const previewContainer = page.locator("#preview-container")
   const viewportSize = page.viewportSize()
-  const shouldBeVisible = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldBeVisible = viewportSize?.width && viewportSize.width > tabletBreakpoint
   await expect(previewContainer).toBeVisible({ visible: Boolean(shouldBeVisible) })
 })
 
 test("Search placeholder changes based on viewport", async ({ page }) => {
   const searchBar = page.locator("#search-bar")
   const pageWidth = page.viewportSize()?.width
-  const showShortcutPlaceholder = pageWidth && pageWidth >= desktopWidth
+  const showShortcutPlaceholder = pageWidth && pageWidth >= tabletBreakpoint
 
   await page.keyboard.press("/")
   await expect(searchBar).toHaveAttribute(
@@ -143,9 +143,7 @@ test.describe("Search accuracy", () => {
   const previewTerms = ["Shrek", "AI presidents", "virus", "Emoji"]
   previewTerms.forEach((term) => {
     test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
-      if (!showingPreview(page)) {
-        test.skip()
-      }
+      test.skip(!showingPreview(page))
       await page.keyboard.press("/")
       await search(page, term)
 
@@ -178,9 +176,7 @@ test.describe("Search accuracy", () => {
   })
 
   test("AI presidents doesn't use dropcap", async ({ page }) => {
-    if (!showingPreview) {
-      test.skip()
-    }
+    test.skip(!showingPreview(page))
 
     await page.keyboard.press("/")
     await search(page, "AI presidents")
@@ -217,9 +213,7 @@ test("Enter key navigates to first result", async ({ page }) => {
 })
 
 test("Search URL updates as we select different results", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   // Open search and type "Shrek"
   await page.keyboard.press("/")
@@ -270,9 +264,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
 
 //  Test shouldn't pass yet
 test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
@@ -311,7 +303,7 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 
   // Make sure it looks good
   const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > desktopWidth
+  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   if (shouldShowPreview) {
     await takeArgosScreenshot(page, testInfo, "", {
       element: "#preview-container",
@@ -326,9 +318,7 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 })
 
 test("Search preview shows after bad entry", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
@@ -344,9 +334,8 @@ test("Search preview shows after bad entry", async ({ page }) => {
 })
 
 test("Search preview shows after searching, closing, and reopening", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
+
   const previewContainer = page.locator("#preview-container")
 
   await page.keyboard.press("/")
@@ -363,9 +352,7 @@ test("Search preview shows after searching, closing, and reopening", async ({ pa
 })
 
 test("Show search preview, search invalid, then show again", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
@@ -380,9 +367,7 @@ test("Show search preview, search invalid, then show again", async ({ page }) =>
 })
 
 test("The pond dropcaps, search preview visual regression test", async ({ page }, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -394,28 +379,11 @@ test("The pond dropcaps, search preview visual regression test", async ({ page }
   })
 })
 
-test("Single letter dropcaps, search preview visual regression test", async ({
-  page,
-}, testInfo) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
-
-  await page.goto("http://localhost:8080/test-page")
-  const singleLetterDropcaps = page.locator("#single-letter-dropcap")
-  await singleLetterDropcaps.scrollIntoViewIfNeeded()
-  await takeArgosScreenshot(page, testInfo, "", {
-    element: "#single-letter-dropcap",
-  })
-})
-
 test("Preview container click navigates to the correct page", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   // Set viewport to desktop size to ensure preview is visible
-  await page.setViewportSize({ width: desktopWidth + 100, height: 800 })
+  await page.setViewportSize({ width: tabletBreakpoint + 100, height: 800 })
 
   // Open search and type a term
   await page.keyboard.press("/")
@@ -434,9 +402,7 @@ test("Preview container click navigates to the correct page", async ({ page }) =
 })
 
 test("Result card highlighting stays synchronized with preview", async ({ page }) => {
-  if (!showingPreview(page)) {
-    test.skip()
-  }
+  test.skip(!showingPreview(page))
 
   await page.keyboard.press("/")
   await search(page, "test")

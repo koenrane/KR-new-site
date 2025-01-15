@@ -8,8 +8,6 @@ import path from "path"
 import { rimraf } from "rimraf"
 
 import cfg from "../quartz.config"
-// @ts-expect-error Importing from a JS file, no types
-import { injectCriticalCSSIntoHTMLFiles } from "./cli/handlers"
 import DepGraph from "./depgraph"
 import { getStaticResourcesFromPlugins } from "./plugins"
 import { ProcessedContent } from "./plugins/vfile"
@@ -300,13 +298,6 @@ async function partialRebuildFromEntrypoint(
       emittedFiles += emittedFps.length
       emittedPaths.push(...emittedFps)
     }
-  }
-
-  // After emitting content, inject critical CSS into new/modified HTML files
-  const htmlFiles = emittedPaths.filter((fp) => fp.endsWith(".html"))
-  if (htmlFiles.length > 0) {
-    console.log(`Injecting critical CSS into ${htmlFiles.length} HTML files`)
-    await injectCriticalCSSIntoHTMLFiles(htmlFiles, argv.output)
   }
 
   console.log(`Emitted ${emittedFiles} files to \`${argv.output}\` in ${perf.timeSince("rebuild")}`)
