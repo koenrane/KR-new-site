@@ -138,12 +138,12 @@ However, shorter candidate answers are quite likely to be non-fabricated:
 ![](/asset_staging/6eJ_Image_4.png)
 ![](/asset_staging/8da_Image_5.png)
 
-Figure: Maximum accuracy on HaluEval splits. We display the decision thresholds for the optimal length-based classifiers.
-
-|                                | QA                     | Dialogue                | Summarization           |
+|                                 | QA                     | Dialogue                | Summarization           |
 | ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
-| GPT-3.5                         | 62.6%                  | 72.4%                   | 58.5%                   |
+|                         GPT-3.5 | 62.6%                  | 72.4%                   | 58.5%                   |
 | Optimal length-based classifier | 93.3%<br>(`len > 27`?) | 82.6%<br>(`len > 284`?) | 67.4%<br>(`len > 100`?) |
+
+Table: Maximum accuracy on HaluEval splits. We display the decision thresholds for the optimal length-based classifiers.
 
 ## Panickssery et al.’s hallucination dataset
 
@@ -160,7 +160,8 @@ The correct answer of (1) happens to be longer than (2), but statistically, corr
 
 Selecting the shortest answer achieves 65% accuracy, while random guessing only achieves 50%. While this is not a fatal flaw, the length correlation makes it harder to few-shot prompt or train on samples from the dataset.
 
-![](/asset_staging/8J0_Image_6.png)
+Figure: Distribution of correct and incorrect answers.
+![](halu_lengths_nina.png)
 
 # Conclusion
 
