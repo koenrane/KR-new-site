@@ -280,6 +280,7 @@ article[data-use-dropcap="true"] > p:first-of-type .small-caps {
   font-style: inherit;
   font-variant-caps: small-caps; // Fixes kerning in a few cases
   -webkit-font-smoothing: antialiased; // Prevent excess bolding
+  font-family: var(--font-text);
 
   dt &,
   b &,

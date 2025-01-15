@@ -233,7 +233,15 @@ Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/s
 
 ## Smallcaps
 
-The NATO alliance met in the USA.   <!--spellchecker-disable-->ABCDEFGHIJKLMNOPQRSTUVWXYZ <abbr class="small-caps">fi fl ff ffi ffl fj ft st ct th ck</abbr><!--spellchecker-enable-->
+The NATO alliance met in the USA.  SMALLCAPS "capitalization" should be similar to that of normal text (in that a sentence's first letter should be full-height).
+
+<!--spellchecker-disable-->
+- Ligatures <abbr class="small-caps">fi fl ff ffi ffl fj ft st ct th ck</abbr>
+- ABCDEFGHIJKLMNOPQRSTUVWXYZ
+- _ABCDEFGHIJKLMNOPQRSTUVWXYZ_
+- **ABCDEFGHIJKLMNOPQRSTUVWXYZ**
+- _**ABCDEFGHIJKLMNOPQRSTUVWXYZ**_
+<!--spellchecker-enable-->
 
 ## Numbers and units
 
@@ -377,8 +385,8 @@ This is a plain code block without a language specified.
 
 - Normal
 - _Italics_
-- __Bold__
-- ___Bold italics___
+- **Bold**
+- _**Bold italics**_
 - ~~Strikethrough~~
 
 <abbr class="small-caps"><code>This is smallcaps within a code block.</code></abbr>
