@@ -17,6 +17,34 @@ else:
     from built_site_checks import *
 
 
+@pytest.mark.parametrize(
+    "input_path,expected",
+    [
+        # Basic stripping of spaces and dots
+        (" path/to/file ", "path/to/file"),
+        (".path/to/file", "path/to/file"),
+        ("path/to/file.", "path/to/file"),
+        # Multiple dots and spaces
+        ("  ./path/to/file.  ", "/path/to/file"),
+        ("...path/to/file...", "path/to/file"),
+        # Empty or whitespace-only strings
+        ("", ""),
+        (" ", ""),
+        (".", ""),
+        ("  .  ", ""),
+        # Paths with valid dots
+        ("path/to/file.txt", "path/to/file.txt"),
+        ("path.to/file.txt", "path.to/file.txt"),
+        # Mixed cases
+        (" .path.to/file.txt. ", "path.to/file.txt"),
+        ("  ...  path/to/file  ...  ", "path/to/file"),
+    ],
+)
+def test_strip_path(input_path: str, expected: str) -> None:
+    """Test the strip_path function with various input paths."""
+    assert strip_path(input_path) == expected
+
+
 @pytest.fixture
 def sample_html():
     return """
@@ -1128,6 +1156,20 @@ def test_check_unrendered_html(html, expected):
             [
                 "Asset repeat.jpg appears 2 times in markdown but only 1 times in HTML"
             ],
+        ),
+        # Test different path formats (absolute vs relative)
+        (
+            """
+            ![](/asset_staging/test1.png)
+            ![](/asset_staging/test2.png)
+            <img src="/asset_staging/test3.png">
+            """,
+            """
+            <img src="./asset_staging/test1.png">
+            <img src="../asset_staging/test2.png">
+            <img src="/asset_staging/test3.png">
+            """,
+            [],
         ),
     ],
 )

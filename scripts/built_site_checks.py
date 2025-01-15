@@ -694,6 +694,13 @@ def print_issues(
         print()  # Add a blank line between files with issues
 
 
+def strip_path(path_str: str) -> str:
+    """
+    Strip the git root path from a path string.
+    """
+    return path_str.strip(" .")
+
+
 tags_to_check_for_missing_assets = ("img", "video", "svg", "audio", "source")
 
 
@@ -714,7 +721,7 @@ def get_md_asset_counts(md_path: Path) -> Counter[str]:
 
     # Count occurrences of each asset in markdown
     return Counter(
-        asset.strip() for asset in md_pattern_assets + tag_pattern_assets
+        strip_path(asset) for asset in md_pattern_assets + tag_pattern_assets
     )
 
 
@@ -742,7 +749,7 @@ def check_markdown_assets_in_html(
     for tag in tags_to_check_for_missing_assets:
         for element in soup.find_all(tag):
             if src := element.get("src"):
-                html_asset_counts[src.strip()] += 1
+                html_asset_counts[strip_path(src)] += 1
 
     # Check each markdown asset exists in HTML with sufficient count
     missing_assets = []
