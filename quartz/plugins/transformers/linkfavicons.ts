@@ -19,7 +19,7 @@ export const LESSWRONG_FAVICON_PATH =
   "https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif"
 const QUARTZ_FOLDER = "quartz"
 const FAVICON_FOLDER = "static/images/external-favicons"
-export const DEFAULT_PATH = "nonexistent"
+export const DEFAULT_PATH = ""
 export const ANCHOR_PATH = "https://assets.turntrout.com/static/images/anchor.svg"
 
 const __filepath = fileURLToPath(import.meta.url)

@@ -78,7 +78,7 @@ describe("replaceRegex", () => {
   it("should handle empty matchIndexes", () => {
     const node = createNode("No matches here")
     const parent = { children: [node], type: "span" } as Parent
-    const regex = /nonexistent/g
+    const regex = /^$/g
     const replaceFn = jest.fn() as jest.Mock<(match: RegExpMatchArray) => ReplaceFnResult>
 
     replaceRegex(node, 0, parent, regex, replaceFn, acceptAll)
@@ -93,8 +93,7 @@ describe("replaceRegex", () => {
     const regex = /(\d)(nd|st|rd|th)\b/g
 
     const replaceFn = (match: RegExpMatchArray): ReplaceFnResult => {
-      const [fullMatch, num, suffix] = match
-      console.log("Match groups:", { fullMatch, num, suffix }) // Debug log
+      const [, num, suffix] = match
 
       return {
         before: "",
