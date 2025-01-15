@@ -126,11 +126,13 @@ test.describe("Search accuracy", () => {
   })
 
   const titleTerms = ["AI presidents", "AI President", "Alignment"]
+  // TODO flaky on IPad Chrome - sometimes fails when running all tests
   titleTerms.forEach((term) => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      await page.keyboard.press("/")
+      const button = page.locator("button[aria-label='Search']")
+      await button.click()
       await search(page, term) // TODO see for mobile
 
       const firstResult = page.locator(".result-card").first()
@@ -245,6 +247,7 @@ test("Search URL updates as we select different results", async ({ page }) => {
   expect(secondResultUrl).not.toBe(firstResultUrl)
 })
 
+// TODO fails when in headless mode
 test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Emoji examples")
