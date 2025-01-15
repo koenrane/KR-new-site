@@ -6,7 +6,7 @@ no_dropcap: "false"
 tags: 
   - AI
   - critique
-description: ""
+description: "Common factuality benchmark was easily gamed using my simple decision tree. The benchmark is now updated."
 authors: Alex Turner and Mark Kurzeja
 hideSubscriptionLinks: false
 card_image: 
