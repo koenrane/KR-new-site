@@ -6,10 +6,11 @@ no_dropcap: "false"
 tags:
   - AI
   - critique
-description: Common factuality benchmark was easily gamed using our simple decision tree. The benchmark is now updated.
+description: Common factuality benchmark was easily gamed using our simple decision
+  tree. The benchmark is now updated.
 authors: Alex Turner and Mark Kurzeja
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/Rql9Xy5.png
+card_image: https://assets.turntrout.com/static/images/card_images/Rql9Xy5.png
 aliases:
   - truthful-qa
   - gaming-truthfulqa
