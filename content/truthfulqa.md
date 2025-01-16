@@ -144,11 +144,11 @@ HaluEval shows models (knowledge, question, candidate answer) tuples. The model 
 
 However, shorter candidate answers are quite likely to be non-fabricated:
 
-![](qa_data_validation.png)
+![](https://assets.turntrout.com/static/images/posts/qa_data_validation.avif)
 
-![](summarization_lengths.png)
+![](https://assets.turntrout.com/static/images/posts/summarization_lengths.avif)
 
-![](dialogue_length.png)
+![](https://assets.turntrout.com/static/images/posts/dialogue_length.avif)
 
 |                                 | QA                     | Dialogue                | Summarization           |
 | ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
