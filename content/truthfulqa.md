@@ -19,8 +19,9 @@ aliases:
   - truthfulqa-weaknesses
   - truthful-qa-weaknesses
 date_published: 2025-01-15 15:26:21.006370
-date_updated: 2025-01-15 15:26:21.006370
+date_updated: 2025-01-15 17:53:01.049630
 ---
+
 
 
 Do not use the original [TruthfulQA](https://arxiv.org/abs/2109.07958) multiple-choice or the [HaluEval](https://arxiv.org/abs/2305.11747) benchmark. We show that a simple decision tree can theoretically game multiple-choice TruthfulQA to 79.6% accuracy - even while hiding the question being asked! In response, the TruthfulQA authors [created a new multiple-choice condition](https://www.lesswrong.com/posts/Bunfwz6JsNd44kgLT/new-improved-multiple-choice-truthfulqa) which avoids the vulnerabilities we highlight.
