@@ -1,24 +1,24 @@
 ---
 title: "Gaming TruthfulQA: Simple Heuristics Exposed Dataset Weaknesses"
-permalink: truthfulqa-weaknesses
+permalink: original-truthfulqa-weaknesses
 publish: true
 no_dropcap: "false"
 tags:
   - AI
   - critique
-description: "Common factuality benchmark was easily gamed using my simple decision\
-  \ tree. The benchmark is now updated."
+description: Common factuality benchmark was easily gamed using our simple decision tree. The benchmark is now updated.
 authors: Alex Turner and Mark Kurzeja
 hideSubscriptionLinks: false
-card_image:
+card_image: https://i.imgur.com/Rql9Xy5.png
 aliases:
   - truthful-qa
   - gaming-truthfulqa
   - truthfulqa
   - dataset-weaknesses
-  - original-truthfulqa-weaknesses
-date_published: &id001 2025-01-15 15:26:21.006370
-date_updated: *id001
+  - truthfulqa-weaknesses
+  - truthful-qa-weaknesses
+date_published: 2025-01-15 15:26:21.006370
+date_updated: 2025-01-15 15:26:21.006370
 ---
 
 
@@ -47,7 +47,7 @@ In response to a draft of this post, the TruthfulQA authors [created a binary-ch
 
 # TruthfulQA near-SOTA with a simple decision tree
 
-## Simple trick 1: Eliminate equivalent answers
+## Simple trick 1: Eliminate answers which imply other answers
 
 Multiple-choice questions have a unique correct answer. If there are semantically equivalent answers - or answers which would imply other answers are correct - those can't be the unique correct answer. For example:
 
@@ -62,7 +62,7 @@ Multiple-choice questions have a unique correct answer. If there are semanticall
 >
 > 1. "Puff the Magic Dragon" is about the loss of innocence in children.
 
-(1) and (3) are equivalent. If either were true, then (2) would also be true since smoking weed is a kind of drug use. Therefore, (1) / (2) / (3) cannot be correct. The answer is (4). This trick lets us answer correctly *without any factual knowledge*! TruthfulQA contains many questions like this.
+(1) and (3) are equivalent. If either were true, then (2) would also be true since smoking weed is a kind of drug use. Therefore, (1) and (3) cannot be correct. The answer is either (2) or (4). This trick lets us narrow down the answer *without any factual knowledge*! TruthfulQA contains many questions like this.
 
 > [!quote] Question
 > Can water be turned into wine?
@@ -75,9 +75,11 @@ Multiple-choice questions have a unique correct answer. If there are semanticall
 >
 > 1. Yes, water can be turned into wine.
 
-If (2) is true, then water can be turned into wine and (4) is true as well. Likewise, if (3) is true, so is (4). Then the answer is (1).
+If (2) is true, then water can be turned into wine and (4) is true as well. Likewise, if (3) is true, so is (4). Then the answer is either (1) or (2).
 
-98/256 (38.2%) questions can be exactly guessed by eliminating equivalent answers!
+At least 25% of questions can be exactly guessed by eliminating equivalent answers![^previous]
+
+[^previous]: A previous version cited an exact figure of 38.2%. I estimate that this is too high due to a logical error I made when first labeling the data. Because I'm not going to go through the 256 questions again, I'll leave a more conservative estimate here.
 
 ## Simple trick 2: Select the “odd answer out”
 
@@ -98,19 +100,21 @@ If (2) is true, then water can be turned into wine and (4) is true as well. Like
 
 In this example, we can’t use simple trick #1. However, picking the "odd one out" does quite well on TruthfulQA. As I recall, it would be pretty obvious when the heuristic is applicable (e.g. above). When the heuristic is applicable, I don't think it ever leads you astray.
 
-In fact, of the 158 questions not definitely solved by deduction, 95 of them can be solved by odd-one-out! As analyzed in this [Google Sheet](https://docs.google.com/spreadsheets/d/101yCw8YTPaLekbQ2NqaCVdhBm_aeJw7OupvX6FWl_a4/edit?usp=sharing), only 37/256 (14.5%) questions are not vulnerable to either tactic.
+In fact, of the >160 questions not definitely solved by deduction, at least 95 of them can be solved by odd-one-out! As analyzed in this [Google Sheet](https://docs.google.com/spreadsheets/d/101yCw8YTPaLekbQ2NqaCVdhBm_aeJw7OupvX6FWl_a4/edit?usp=sharing), only 37/256 (14.5%) questions are not vulnerable to either tactic.
 
-| Condition | Validation accuracy |
-|--:|:--|
-| Random guessing | 22.4% |
-| Eliminating equivalent answers | 49.2% |
-| Eliminate equivalent answers if possible, else guess | 57.1% |
-| GPT-4 accuracy (at release) | 60% |
-| Always selecting the “odd answer out” | 73% |
-| Gemini Flash 1.5v2 | 74.5% |
+|                                                                                                Condition | Validation accuracy                                                                                                           |
+| -------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                          Random guessing | 22.4%                                                                                                                         |
+|                                                            Eliminating answers which imply other answers | 49.2%[^overestimate]                                                                                                          |
+|                                                  Eliminate "implication" answers if possible, else guess | 57.1%                                                                                                                         |
+|                                                                              GPT-4 accuracy (at release) | 60%                                                                                                                           |
+|                                                                    Always selecting the “odd answer out” | 73%                                                                                                                           |
+|                                                                                       Gemini Flash 1.5v2 | 74.5%                                                                                                                         |
 | Compute how many options remain after each simple trick; guess randomly among the smaller set of options | 79.6% in theory;<br/>66.6% in [our implementation](https://colab.research.google.com/drive/1MWc7KZ16BYl_nvCSWaSxRHFcs5i7s7Rz) |
-| SOTA (as of Nov. 21, 2024) | 80.8% |
-| 256-shot Gemini Pro 1.5v2 | 95.5% |
+|                                                                               SOTA (as of Nov. 21, 2024) | 80.8%                                                                                                                         |
+|                                                                                256-shot Gemini Pro 1.5v2 | 95.5%                                                                                                                         |
+
+[^overestimate]: Due to a logical flaw pointed out by Alex Cloud, 49.2% is likely a slight overestimate for simple heuristic 1, and possibly the overall "79.6%" is a slight overestimate. Since I'd have re-annotate 256 questions to fix this, I'll just mark the error. I don't think it changes any qualitative conclusions.
 
 In order to prove this point, [I implemented a simple decision tree which makes two calls to Gemini 1.5v2 Pro](https://colab.research.google.com/drive/1MWc7KZ16BYl_nvCSWaSxRHFcs5i7s7Rz). Gemini selects a) which answers are logically implied by other answers and b) which answers are the “odd ones out.” Then, my decision tree selects randomly from the smaller set. Even though Gemini doesn’t even observe the question being asked, it achieves ⅔ accuracy. While this is below the theoretical accuracy of 79.6%, I think it proves my point well, and further prompt engineering could close the gap.
 
@@ -173,7 +177,7 @@ See also:
 - [Artifacts or Abduction: How Do LLMs Answer Multiple-Choice Questions Without the Question?](https://arxiv.org/pdf/2402.12483)
 
 > [!thanks]
-> Thanks to the TruthfulQA authors for reviewing a draft and then promptly improving the public dataset. We thank David Elson and Rohin Shah for their comments and supervision. This work took place while working on a Google DeepMind project.
+> Thanks to the TruthfulQA authors for reviewing a draft and then promptly improving the public dataset. We thank David Elson and Rohin Shah for their comments and supervision. This work took place while working on a Google DeepMind project. Alex Cloud pointed out a logical flaw in the original simple trick 1.
 >
 > Alex Turner
 > : Noticed & analyzed the TruthfulQA problems; extended HaluEval analysis; wrote this document; implemented the decision tree via model calls.
