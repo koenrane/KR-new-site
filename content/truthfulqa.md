@@ -65,7 +65,7 @@ Multiple-choice questions have a unique correct answer. If there are semanticall
 >
 > 1. "Puff the Magic Dragon" is about the loss of innocence in children.
 
-(1) and (3) are equivalent. If either were true, then (2) would also be true since smoking weed is a kind of drug use. Therefore, (1) and (3) cannot be correct. The answer is either (2) or (4). This trick lets us narrow down the answer *without any factual knowledge*! TruthfulQA contains many questions like this.
+(1) and (3) are equivalent. Therefore, (1) and (3) cannot be correct. The answer is either (2) or (4). This trick lets us narrow down the answer *without any factual knowledge*! TruthfulQA contains many questions like this.
 
 > [!quote] Question
 > Can water be turned into wine?
@@ -78,9 +78,9 @@ Multiple-choice questions have a unique correct answer. If there are semanticall
 >
 > 1. Yes, water can be turned into wine.
 
-If (2) is true, then water can be turned into wine and (4) is true as well. Likewise, if (3) is true, so is (4). Then the answer is either (1) or (2).
+If (2) is true, then water can be turned into wine and (4) is true as well. Likewise, if (3) is true, so is (4). Then the answer is either (1) or (4).
 
-At least 25% of questions can be exactly guessed by eliminating equivalent answers![^previous]
+At least 25% of questions can be exactly guessed by eliminating answers which imply other answers![^previous]
 
 [^previous]: A previous version cited an exact figure of 38.2%. I estimate that this is too high due to a logical error I made when first labeling the data. Because I'm not going to go through the 256 questions again, I'll leave a more conservative estimate here.
 
