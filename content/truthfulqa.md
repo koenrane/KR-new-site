@@ -35,11 +35,11 @@ Do not use the original [TruthfulQA](https://arxiv.org/abs/2109.07958) multiple-
 > [!quote] Abstract from [Lin et al. 2021](https://arxiv.org/abs/2109.07958)
 > The benchmark comprises 817 questions that span 38 categories, including health, law, finance and politics. We crafted questions that some humans would answer falsely due to a false belief or misconception. To perform well, models must avoid generating false answers learned from imitating human texts. We tested GPT-3, GPT-Neo/J, GPT-2 and a T5-based model. The best model was truthful on 58% of questions, while human performance was 94%. Models generated many false answers that mimic popular misconceptions and have the potential to deceive humans. The largest models were generally the least truthful.
 
-TruthfulQA has two multiple choice variants: MC1 and MC2. MC1 has a unique correct answer. MC2 contains multiple correct answers which the AI must select. In this section, I analyze 256 questions from the MC1 variant.
+TruthfulQA has two multiple choice variants: MC1 and MC2. MC1 has a unique correct answer. MC2 contains multiple correct answers which the AI must select. In this section, I analyze 256 questions from the MC1 variant. To construct TruthfulQA, the authors wrote the questions and answers themselves.
 
-To construct TruthfulQA, the authors wrote the questions and answers themselves. To evaluate performance, TruthfulQA generally involves using a model to rate completions on both long-form truthfulness and informativeness. Thankfully, long-form TruthfulQA avoids many of the problems we highlight.
+TruthfulQA's default setting doesn't use multiple choice. Instead, models answer questions in free-form response. Another model rates these answers on both long-form truthfulness and informativeness. Thankfully, long-form TruthfulQA avoids many of the problems we highlight.
 
-However, many of TruthfulQA’s >1,306 citations use the multiple-choice version of the dataset. A [simple Google Scholar search](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22TruthfulQA%22+AND+%28%22MC1%22+OR+%22MC2%22%29&btnG=) finds 202 results which mention both “TruthfulQA” and “MC1” or “MC2.” Prominent papers use TruthfulQA multiple-choice, including [the GPT-4 technical report](https://arxiv.org/abs/2303.08774) (>6,000 citations), Emergent abilities of language models (>2,400 citations), and [Inference-time intervention](https://proceedings.neurips.cc/paper_files/paper/2023/hash/81b8390039b7302c909cb769f8b6cd93-Abstract-Conference.html) (>280 citations).
+However, many of TruthfulQA’s >1,306 citations use the multiple-choice version of the dataset. A [simple Google Scholar search](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22TruthfulQA%22+AND+%28%22MC1%22+OR+%22MC2%22%29&btnG=) finds 202 results which mention both “TruthfulQA” and “MC1” or “MC2.” Prominent papers use TruthfulQA multiple-choice, including [the GPT-4 technical report](https://arxiv.org/abs/2303.08774) (>6,000 citations), [Emergent abilities of language models](https://arxiv.org/abs/2206.07682) (>2,400 citations), and [Inference-time intervention](https://proceedings.neurips.cc/paper_files/paper/2023/hash/81b8390039b7302c909cb769f8b6cd93-Abstract-Conference.html) (>280 citations).
 
 The original version of the TruthfulQA paper provided no disclaimers that the multiple-choice answers were low-quality. Namely, TruthfulQA intends to measure the model’s ability to answer “questions that some humans would answer falsely due to a false belief or misconception”. However, I show that TruthfulQA might be measuring how much the model can reason about the nature of a multiple-choice question, or to what extent the model uses simple heuristics to guess when uncertain of the true answer. Furthermore, simple spurious correlations compromise the ability to few-shot prompt or finetune using the dataset.[^1]
 
@@ -142,9 +142,12 @@ HaluEval shows models (knowledge, question, candidate answer) tuples. The model 
 ![](https://assets.turntrout.com/static/images/posts/rEM_Image_2.avif)
 
 However, shorter candidate answers are quite likely to be non-fabricated:
-![](https://assets.turntrout.com/static/images/posts/sIc_Image_3.avif)
-![](https://assets.turntrout.com/static/images/posts/6eJ_Image_4.avif)
-![](https://assets.turntrout.com/static/images/posts/8da_Image_5.avif)
+
+![](qa_data_validation.png)
+
+![](summarization_lengths.png)
+
+![](dialogue_length.png)
 
 |                                 | QA                     | Dialogue                | Summarization           |
 | ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
