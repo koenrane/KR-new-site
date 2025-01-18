@@ -15,6 +15,7 @@ export const headerVideoContainer = (
       id="header-gif"
       className="header-img no-select no-vsc"
       alt={altText}
+      loading="eager"
       spa-preserve
     />
   </span>
