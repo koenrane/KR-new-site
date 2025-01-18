@@ -9,15 +9,26 @@ from PIL import Image
 from .. import compress
 
 
-def create_test_image(path: Path, size: str) -> None:
+def create_test_image(
+    path: Path,
+    size: str,
+    *,
+    colorspace: str | None = None,
+    background: str | None = None,
+    draw: str | None = None,
+    metadata: str | None = None,
+) -> None:
     """
     Creates a test image using ImageMagick.
 
-    This function generates a solid red image of the specified size and saves it to the given path.
 
     Args:
         path (Path): The file path where the image will be saved.
         size (str): The size of the image in ImageMagick format (e.g., "100x100").
+        colorspace (str, optional): The colorspace to use (e.g., "sRGB").
+        background (str, optional): The background color/type (e.g., "none" for transparency).
+        draw (str, optional): ImageMagick draw commands to execute.
+        metadata (str, optional): Metadata to add to the image (e.g., "Artist=Test Artist").
 
     Returns:
         None
@@ -25,7 +36,24 @@ def create_test_image(path: Path, size: str) -> None:
     Raises:
         subprocess.CalledProcessError: If the ImageMagick command fails.
     """
-    subprocess.run(["magick", "-size", size, "xc:red", str(path)], check=True)
+    command = ["magick"]
+
+    # Set up the initial canvas
+    if background:
+        command.extend(
+            ["-size", size, "xc:transparent", "-background", background]
+        )
+    else:
+        command.extend(["-size", size, "xc:red"])
+
+    if colorspace:
+        command.extend(["-colorspace", colorspace])
+
+    if draw:
+        command.extend(["-fill", "red", "-draw", draw])
+
+    command.append(str(path))
+    subprocess.run(command, check=True)
 
 
 def create_test_video(

@@ -41,6 +41,7 @@ def image(image_path: Path, quality: int = IMAGE_QUALITY) -> None:
             image_path,
             "-quality",
             str(quality),
+            "-strip",  # Sometimes metadata blocks serving - NOTE can't repro for tests
             avif_path,
         ]
         subprocess.run(command, check=True)

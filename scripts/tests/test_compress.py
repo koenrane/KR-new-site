@@ -235,3 +235,84 @@ def test_compress_gif_preserves_frame_rate(temp_dir: Path) -> None:
     assert (
         relative_error < 0.05
     ), f"Output frame rate ({output_fps}) differs significantly from input frame rate ({input_fps}). Relative error: {relative_error:.2%}"
+
+
+def test_avif_preserves_color_profile(temp_dir: Path) -> None:
+    """Test that AVIF conversion preserves sRGB color profile."""
+    input_file = temp_dir / "test.png"
+    utils.create_test_image(input_file, "100x100", colorspace="sRGB")
+
+    compress.image(input_file)
+    avif_file = input_file.with_suffix(".avif")
+
+    # Check color profile using ImageMagick
+    result = subprocess.run(
+        ["magick", "identify", "-verbose", str(avif_file)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    assert (
+        "Colorspace: sRGB" in result.stdout
+    ), "AVIF file should have sRGB colorspace"
+
+
+def test_avif_preserves_transparency(temp_dir: Path) -> None:
+    """Test that AVIF conversion preserves transparency."""
+    input_file = temp_dir / "test.png"
+
+    # Create a test image with transparency
+    utils.create_test_image(
+        input_file,
+        "100x100",
+        background="none",  # Creates transparent background
+        draw="circle 50,50 20,20",  # Draws a circle
+    )
+
+    # Check that the image is transparent
+    pre_result = subprocess.run(
+        ["magick", "identify", "-verbose", str(input_file)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert (
+        "Alpha: 8-bit" in pre_result.stdout
+    ), "Input PNG file should have transparency before conversion"
+
+    compress.image(input_file)
+    avif_file = input_file.with_suffix(".avif")
+
+    # Check for alpha channel using ImageMagick
+    post_result = subprocess.run(
+        ["magick", "identify", "-verbose", str(avif_file)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    assert (
+        "Alpha: 8-bit" in post_result.stdout
+    ), "AVIF file should preserve transparency"
+
+
+def test_avif_quality_affects_file_size(temp_dir: Path) -> None:
+    """Test that different quality settings produce different file sizes."""
+    input_file = temp_dir / "test.png"
+    utils.create_test_image(input_file, "100x100")
+
+    # Convert with high quality
+    compress.image(input_file, quality=80)
+    high_quality_size = input_file.with_suffix(".avif").stat().st_size
+
+    # Remove the first AVIF
+    input_file.with_suffix(".avif").unlink()
+
+    # Convert with low quality
+    compress.image(input_file, quality=20)
+    low_quality_size = input_file.with_suffix(".avif").stat().st_size
+
+    assert (
+        high_quality_size > low_quality_size
+    ), "Higher quality setting should produce larger file size"
