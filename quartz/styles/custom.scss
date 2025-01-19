@@ -147,6 +147,7 @@ ol {
       color: var(--midground);
       text-align: right;
       content: counters(list, ".") "."; // Display the list counter with periods
+      margin-right: calc(0.5 * $base-margin);
       flex-shrink: 0;
     }
 
