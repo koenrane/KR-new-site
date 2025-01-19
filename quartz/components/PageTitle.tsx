@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 // (For the spa-preserve attribute)
 
 import React from "react"
@@ -9,7 +8,7 @@ import { FullSlug, pathToRoot } from "../util/path"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
-  <span id="header-video-container" spa-preserve key="header-video-container">
+  <span id="header-video-container" key="header-video-container">
     <img
       src="https://assets.turntrout.com/static/pond.gif"
       id="header-gif"
