@@ -1,2 +1,2 @@
 [alias]
-    safepush = "!./scripts/critical-pre-push.sh && git push" 
+    fastpush = "!./scripts/critical-pre-push.sh && git push" 
