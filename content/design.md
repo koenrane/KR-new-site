@@ -676,7 +676,7 @@ I quickly learned the importance of _comprehensive tests and documentation_. The
 2. The `pre-push` hook runs before commits are pushed to the `main` branch.
 3. Github actions ensure that the site still works properly on the remote server.
 
-Lastly, external static analysis alerts me to potential vulnerabilities and anti-patterns. If somehow a bad version slips through anyways, Cloudflare allows me to instantly revert the live site to a previous good version.
+I automatically merge test-passing pull requests from `dependabot`, reducing security vulnerabilities while avoiding busywork. Lastly, external static analysis alerts me to potential vulnerabilities and anti-patterns. If somehow a bad version slips through anyways, Cloudflare allows me to instantly revert the live site to a previous good version.
 
 ## `pre-commit` linting and formatting
 
