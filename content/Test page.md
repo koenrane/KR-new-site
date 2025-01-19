@@ -145,11 +145,6 @@ Subtitle: This is a subtitle.
 > Hi
 >
 
-> [!quote] Checking that HTML formatting is applied to each paragraph element
-> Comes before the single quote
->  
-> 'I will take the Ring'
->
 # Mermaid diagrams
 
 ```mermaid
@@ -268,6 +263,11 @@ This computer has 16GB of RAM and runs at 3.2GHz.
 ## Smart quotes
 
 "This is a quote with 'nested' quotes inside it."
+
+> [!quote] Checking that HTML formatting is applied to each paragraph element
+> Comes before the single quote
+>
+> 'I will take the Ring'
 
 ## Fractions and math
 
