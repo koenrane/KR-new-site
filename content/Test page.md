@@ -70,6 +70,18 @@ Subtitle: This is a subtitle.
                 - .
     - The last bullet
 
+> [!info] List callout
+> Testing a list callout:
+> 1. One
+> 2. Two
+> 3. Three
+>     1. Nested
+>     2. Nested II
+>
+> - Bullet
+> - Second bullet
+>     - Nested bullet
+
 # Admonitions
 >
 > [!abstract]
