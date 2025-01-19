@@ -247,7 +247,7 @@ def test_avif_preserves_color_profile(temp_dir: Path) -> None:
 
     # Check color profile using ImageMagick
     result = subprocess.run(
-        ["magick", "identify", "-verbose", str(avif_file)],
+        ["/opt/homebrew/bin/magick", "identify", "-verbose", str(avif_file)],
         capture_output=True,
         text=True,
         check=True,
@@ -272,7 +272,7 @@ def test_avif_preserves_transparency(temp_dir: Path) -> None:
 
     # Check that the image is transparent
     pre_result = subprocess.run(
-        ["magick", "identify", "-verbose", str(input_file)],
+        ["/opt/homebrew/bin/magick", "identify", "-verbose", str(input_file)],
         capture_output=True,
         text=True,
         check=True,
@@ -286,7 +286,7 @@ def test_avif_preserves_transparency(temp_dir: Path) -> None:
 
     # Check for alpha channel using ImageMagick
     post_result = subprocess.run(
-        ["magick", "identify", "-verbose", str(avif_file)],
+        ["/opt/homebrew/bin/magick", "identify", "-verbose", str(avif_file)],
         capture_output=True,
         text=True,
         check=True,
