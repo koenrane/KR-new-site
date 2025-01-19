@@ -1,4 +1,5 @@
 import { Element, ElementContent, Parent, Text } from "hast"
+import { toHtml as hastToHtml } from "hast-util-to-html"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 
@@ -218,6 +219,10 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>There are 1/2 left.</p>", '<p>There are <span class="fraction">1/2</span> left.</p>'],
       ["<p>I ate 2 1/4 pizzas.</p>", '<p>I ate 2 <span class="fraction">1/4</span> pizzas.</p>'],
       ["<p>I ate 2 -14213.21/4 pizzas.</p>", "<p>I ate 2 −14213.21/4 pizzas.</p>"],
+      [
+        "<p>I got 240/290 questions correct.</p>",
+        '<p>I got <span class="fraction">240/290</span> questions correct.</p>',
+      ],
       ["<p>2/3/50</p>", "<p>2/3/50</p>"],
       ["<p>01/01/2000</p>", "<p>01/01/2000</p>"],
     ])("should create an element for the fractions in %s", (input, expected) => {
@@ -1213,56 +1218,57 @@ describe("getFirstTextNode", () => {
 
 describe("replaceFractions", () => {
   it.each([
-    // Basic fraction cases
-    [{ type: "text", value: "1/2" }, 0, h("p"), '<span class="fraction">1/2</span>'],
-    [{ type: "text", value: "3/4" }, 0, h("p"), '<span class="fraction">3/4</span>'],
+    [{ type: "text", value: "1/2" }, h("p"), '<span class="fraction">1/2</span>'],
+    [{ type: "text", value: "3/4" }, h("p"), '<span class="fraction">3/4</span>'],
 
     // Fractions with surrounding text
     [
       { type: "text", value: "There are 1/2 left" },
-      0,
       h("p"),
       'There are <span class="fraction">1/2</span> left',
     ],
-    [
-      { type: "text", value: "Mix 2/3 cups" },
-      0,
-      h("p"),
-      'Mix <span class="fraction">2/3</span> cups',
-    ],
+    [{ type: "text", value: "Mix 2/3 cups" }, h("p"), 'Mix <span class="fraction">2/3</span> cups'],
 
     // Edge cases
     // Dates should not be converted
-    [{ type: "text", value: "01/01/2024" }, 0, h("p"), "01/01/2024"],
+    [{ type: "text", value: "01/01/2024" }, h("p"), "01/01/2024"],
     // URLs should not be converted
-    [{ type: "text", value: "https://example.com/path" }, 0, h("p"), "https://example.com/path"],
+    [{ type: "text", value: "https://example.com/path" }, h("p"), "https://example.com/path"],
     // Decimal fractions should not be converted
-    [{ type: "text", value: "3.5/2" }, 0, h("p"), "3.5/2"],
+    [{ type: "text", value: "3.5/2" }, h("p"), "3.5/2"],
     // Multiple fractions in one text
     [
       { type: "text", value: "Mix 1/2 and 3/4 cups" },
-      0,
       h("p"),
       'Mix <span class="fraction">1/2</span> and <span class="fraction">3/4</span> cups',
     ],
 
+    // More complicated fractions
+    [
+      { type: "text", value: "233/250, 22104/4024" },
+      h("p"),
+      '<span class="fraction">233/250</span>, <span class="fraction">22104/4024</span>',
+    ],
+
     // Skip nodes with fraction class
-    [{ type: "text", value: "1/2" }, 0, h("span", { className: ["fraction"] }), "1/2"],
+    [{ type: "text", value: "1/2" }, h("span", { className: ["fraction"] }), "1/2"],
 
     // Skip code blocks
-    [{ type: "text", value: "1/2" }, 0, h("code"), "1/2"],
-  ])("should handle fractions correctly", (node, index, parent, expected) => {
-    const originalNode = { ...node }
-    replaceFractions(node as Text, index, parent as Parent)
+    [{ type: "text", value: "1/2" }, h("code"), "1/2"],
+  ])("should handle fractions correctly", (node, parent, expected) => {
+    const parentNode = h(parent.tagName, parent.properties, [...parent.children, node as Text])
+    const parentString = hastToHtml(parentNode)
+    console.log(parentNode, parentString)
 
-    // For cases where we expect no change
-    if (expected === node.value) {
-      expect(node).toEqual(originalNode)
-    } else {
-      // For cases where we expect transformation
-      const processedHtml = testHtmlFormattingImprovement(`<p>${node.value}</p>`)
-      expect(processedHtml).toBe(`<p>${expected}</p>`)
-    }
+    // For cases where we expect transformation
+    const processedHtml = testHtmlFormattingImprovement(parentString)
+
+    // If eg class is added, we need to add it to the expected html
+    const extraParentInfo = parent.properties.className
+      ? ` class="${parent.properties.className}"`
+      : ""
+    const expectedHtml = `<${parent.tagName}${extraParentInfo}>${expected}</${parent.tagName}>`
+    expect(processedHtml).toBe(expectedHtml)
   })
 
   it("should preserve surrounding whitespace", () => {
