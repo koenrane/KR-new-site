@@ -442,11 +442,15 @@ pre {
         content: counter(line);
         counter-increment: line;
         width: calc(2 * $base-margin);
-        margin-right: calc(2 * $base-margin);
-        margin-left: calc(0.5 * $base-margin);
         display: inline-block;
         text-align: right;
-        color: rgb(115 138 148 / 60%);
+        color: var(--midground-faint);
+
+        // Split between padding and margin for border
+        margin-left: calc(1 * $base-margin);
+        padding-right: calc(1 * $base-margin);
+        margin-right: calc(1 * $base-margin);
+        border-right: 1px solid var(--midground-fainter);
       }
     }
 
