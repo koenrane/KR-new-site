@@ -209,7 +209,7 @@
     "tsx": "^4.19.2",
     "turndown": "^7.2.0",
     "turndown-plugin-gfm": "^1.0.2",
-    "typescript": "^5.6.2",
+    "typescript": "^5.7.3",
     "typescript-eslint": "^8.18.1",
     "typi": "^3.2.0",
     "unist-util-visit": "^5.0.0",
