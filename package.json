@@ -90,7 +90,7 @@
     "jsdom": "^26.0.0",
     "katex": "^0.16.21",
     "lightningcss": "^1.29.1",
-    "mdast-util-find-and-replace": "^3.0.1",
+    "mdast-util-find-and-replace": "^3.0.2",
     "mdast-util-to-hast": "^13.1.0",
     "mdast-util-to-string": "^4.0.0",
     "micromorph": "^0.4.5",
