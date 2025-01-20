@@ -215,6 +215,6 @@
     "unist-util-visit": "^5.0.0",
     "whatwg-fetch": "^3.6.20",
     "workerpool": "^9.2.0",
-    "wrangler": "^3.58.0"
+    "wrangler": "^3.103.2"
   }
 }
