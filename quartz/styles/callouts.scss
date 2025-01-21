@@ -2,7 +2,14 @@
 @use "sass:color";
 @use "./colors";
 
-.callout {
+.callout,
+.timeline-card {
+  margin: 1rem 0;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.timeline-card {
   --border: color-mix(in srgb, var(--color) 60%, var(--base));
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
   --callout-icon-note: url("https://assets.turntrout.com/static/icons/note.svg");
@@ -31,9 +38,6 @@
   background-color: var(--bg);
   scrollbar-color: var(--midground-fainter) var(--bg);
   border-radius: 5px;
-  margin: 1rem 0;
-  padding: 0 1rem;
-  overflow: hidden;
   transition: max-height 0.3s ease;
   box-sizing: border-box;
 

@@ -432,6 +432,43 @@ Gold script
 Corrupted text
 : <span class="corrupted">The corruption creeps ever closer...</span>
 
+# What are your timelines?
+
+<div class="timeline">
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <h3 class="timeline-title">timeline-title 1</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <h3 class="timeline-title">timeline-title 2</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <h3 class="timeline-title">timeline-title 3</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <h3 class="timeline-title">timeline-title 4</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <h3 class="timeline-title">timeline-title 5</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+  </div>
+</div>
+
+<figcaption>Credit to <a href="https://codepen.io/alvarotrigo/pen/BawBzjM">this Codepen</a>.</figcaption>
+
 [^1]: First footnote in a row.
 [^2]: Second footnote in a row.
 
