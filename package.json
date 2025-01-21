@@ -138,7 +138,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@argos-ci/cli": "^2.5.1",
+    "@argos-ci/cli": "^2.5.5",
     "@argos-ci/playwright": "^4.1.0",
     "@babel/core": "^7.25.7",
     "@babel/preset-env": "^7.25.9",
