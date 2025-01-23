@@ -3,6 +3,13 @@ set -e # Exit immediately if a command exits with a non-zero status
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
+cleanup() {
+  find "$GIT_ROOT" -type f -name "*_temp.*" -delete
+  find "$STATIC_DIR" -name "*.*_original" -delete
+}
+
+trap cleanup EXIT
+
 # Check that conversion+uploading tests pass
 PY_TEST_DIR="$GIT_ROOT"/scripts/tests
 python -m pytest "$PY_TEST_DIR"
@@ -27,7 +34,7 @@ fi
 python "$GIT_ROOT"/scripts/convert_assets.py --remove-originals --strip-metadata --asset-directory "$STATIC_DIR" --ignore-files "example_com.png"
 
 # Left over original files
-find "$STATIC_DIR" -name "*.{mp4,avif}_original" -delete
+cleanup
 
 # Convert card images in markdown files
 python "$GIT_ROOT"/scripts/convert_markdown_yaml.py --markdown-directory "$GIT_ROOT"/content
