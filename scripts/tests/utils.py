@@ -36,10 +36,32 @@ def create_test_image(
     Raises:
         subprocess.CalledProcessError: If the ImageMagick command fails.
     """
-    subprocess.run(
-        ["/opt/homebrew/bin/magick", "-size", size, "xc:red", str(path)],
-        check=True,
-    )
+    # Build the command starting with basic parameters
+    command = ["/opt/homebrew/bin/magick", "-size", size]
+
+    # Add background if specified, otherwise use red
+    if background:
+        command.extend(["xc:" + background])
+    else:
+        command.extend(["xc:red"])
+
+    # Add colorspace if specified
+    if colorspace:
+        command.extend(["-colorspace", colorspace])
+
+    # Add draw command if specified
+    if draw:
+        command.extend(["-draw", draw])
+
+    # Add metadata if specified
+    if metadata:
+        command.extend(["-set", metadata])
+
+    # Add output path
+    command.append(str(path))
+
+    # Run the command
+    subprocess.run(command, check=True)
 
 
 def create_test_video(
