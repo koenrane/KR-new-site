@@ -19,7 +19,7 @@ prev-post-title: Looking back on my alignment PhD
 ---
 In physics, there are simple laws and complex consequences. In math, a good formalism (like a "graph") may well appear wherever you concentrate your attention. In economics, incentive structures fractally explain behavior at a range of scales, from intrapersonal to international.
 
-Anatomy seemed like a grab-bag of random processes which no one really understands. If you understand a physiological process - congratulations, that idea probably doesn't transfer much to other domains. You just know how humans - and maybe closely related animals - do the thing. At least, that's how I felt. (These sentiments tend to feel sillier when spelled out.)
+Physiology seemed like a grab-bag of random processes which no one really understands. If you understand a physiological process - congratulations, that idea probably doesn't transfer much to other domains. You just know how humans - and maybe closely related animals - do the thing. At least, that's how I felt. (These sentiments tend to feel sillier when spelled out.)
 
 I haven't totally changed my mind. But I _do_ know that I love understanding my own body better.
 
@@ -29,7 +29,7 @@ Subtitle: At least at this level.
 
 You just have lots to memorize, which is [easy with Anki](/lessons-i-ve-learned-from-self-teaching). Take the circulatory system. Is there anything crazy happening here?
 
-![A manga-styled explanation of the circulatory system. Splits it into systemic and pulmonary circulatory loops.](heart-explained.png)
+![A manga-styled explanation of the circulatory system. Splits it into systemic and pulmonary circulatory loops.](static/images/posts/heart-explained.avif)
 
 There might be some unfamiliar arrangements of letters, but the concepts are easy. Combine that with modern LLMs and it's a walk in the park. I studied this book over about two weeks of effort, diving into random bits I didn't understand and liberally adding Anki cards.  
 
@@ -48,7 +48,7 @@ Of course, upon closer examination this theory falls apart.
 
 The real answer is basically that the small intestine absorbs water for use. Separately, in the kidneys, there are a bunch of thin tangly spirals called "glomeruluses"... er, "glomerulii"? I don't know. Whatever, the singular is "glomerulus"!
 
-![](nephron.png)Figure: This is a "nephron." The tangly bit above the corpuscle - that's the glomerulus. There are about 1 million nephrons in each kidney.
+![](static/images/posts/nephron.avif)Figure: This is a "nephron." The tangly bit above the corpuscle - that's the glomerulus. There are about 1 million nephrons in each kidney.
 
 The semipermeable membrane of the glomerulus and the high pressure together push the blood's small particles (including water) into this tube thing (called the "Bowman's capsule" and then the "renal tubule"). In the tube, a bunch of water gets reabsorbed. The unabsorbed filtrate gets shipped down to the bladder. When you haven't drank water in a while or are otherwise low, hormones tell the tube things to reabsorb as much water as possible. That's why your pee is darker when you're thirstier.
 
@@ -76,7 +76,7 @@ No. No, that can't happen. There are several reasons which I now understand:
 [^twin]: Fraternal twins are a thing - sometimes multiple eggs are released at once.
 
 <figure class="float-right">
-<img src="/asset_staging/Peristalsis.gif"/>
+<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/Peristalsis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/Peristalsis.mp4" type="video/mp4"></video>
 <figcaption>Peristaltic motion.</figcaption>
 </figure>
 ## You swallow food like you squeeze toothpaste
@@ -87,7 +87,7 @@ In peristaltic motion, your muscles inch the food down your esophagus. In fact, 
 
 Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils.
 
-![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](epithelium.png)
+![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](static/images/posts/epithelium.avif)
 
 # Confusions I still have
 
@@ -95,7 +95,7 @@ Odorants are actually just detected at the olfactory epithelium, whereas I'd tho
 
 The fovea is a pit in your retina which contains a high concentration of cones, giving you sharp vision in the center of your field of view. Why not have multiple high-resolution spots?
 
-![](fovea.png)
+![](static/images/posts/fovea.avif)
 
 As the above image may make obvious, the lens focuses light onto a point. That point lands on the fovea. So I guess you'd need several lenses to concentrate light on several different fovea, which probably isn't worth the hassle? I'm still confused as to the final details.
 
@@ -131,7 +131,7 @@ But maybe that's fine! After all, it's the kidneys' job to filter out waste. The
 
 ## Osmotic pressure seems weird
 
-![](osmosis-1.png)
+![](static/images/posts/osmosis-1.avif)
 Figure: Water containing other particles, separated by a membrane which only allows the water through.
 
 > [!quote] [Osmosis, Wikipedia](https://en.wikipedia.org/wiki/Osmosis)
@@ -143,7 +143,7 @@ Imagine I'm standing in my bedroom. The door is open to my kitchen. Then I toss 
 
 # Here's some random cool stuff
 
-![](cell-division.mp4)
+![](static/images/posts/cell-division.mp4)
 
 Figure: Animation of cell division ([source](https://www.youtube.com/watch?v=7ybxaYhRpIA)). Look how jiggly the cytoplasm is!
 
@@ -155,17 +155,22 @@ For example. Neutrophils are a first-responder immune cell and a type of white b
 
 <figure style="display: flex;" >
 <span class="subfigure">
-<img src="/asset_staging/wbc.gif"/>
+<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/wbc.gif"/>
 <figcaption>A stylized and wholly unfaithful depiction of phagocytosis.</figcaption>
 </span>
 
 <span class="subfigure">
-<img src="/asset_staging/phagocytosis.gif"/>
+<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/phagocytosis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/wbc.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/phagocytosis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/wbc.mp4" type="video/mp4"></video>
+<figcaption>A stylized and wholly unfaithful depiction of phagocytosis.</figcaption>
+</span>
+
+<span class="subfigure">
+<img src="/asset_staging/static/images/posts/phagocytosis.mp4" type="video/mp4"></video>
 <figcaption>Actual phagocytosis.</figcaption>
 </span>
 </figure>
 
-![In Cells at Work, platelets polymerize fibrin to begin clotting.](platelets.png)
+![In Cells at Work, platelets polymerize fibrin to begin clotting.](static/images/posts/platelets.avif)
 Figure: The platelets deploy [fibrin](https://en.wikipedia.org/wiki/Fibrin) to begin a blood clot and repair a breach.
 
 # Conclusion
