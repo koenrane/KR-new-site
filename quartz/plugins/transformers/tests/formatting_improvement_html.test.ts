@@ -1258,7 +1258,6 @@ describe("replaceFractions", () => {
   ])("should handle fractions correctly", (node, parent, expected) => {
     const parentNode = h(parent.tagName, parent.properties, [...parent.children, node as Text])
     const parentString = hastToHtml(parentNode)
-    console.log(parentNode, parentString)
 
     // For cases where we expect transformation
     const processedHtml = testHtmlFormattingImprovement(parentString)

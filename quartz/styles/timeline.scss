@@ -41,7 +41,7 @@
       border-radius: $base-margin 0 0 $base-margin;
     }
 
-    .timeline-title::before {
+    & .timeline-title::before {
       left: calc(-3.5 * $base-margin);
       top: calc(0.5 * $base-margin);
     }
@@ -65,7 +65,7 @@
       border-radius: 0 $base-margin $base-margin 0;
     }
 
-    .timeline-title::before {
+    & .timeline-title::before {
       right: calc(-3.5 * $base-margin);
       top: calc(0.5 * $base-margin);
     }
@@ -88,6 +88,7 @@
 /* Title of the card */
 .timeline-title {
   position: relative;
+  margin: 0;
 
   &::before {
     content: "";

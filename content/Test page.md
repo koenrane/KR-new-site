@@ -19,9 +19,6 @@ date_updated: 2025-01-18 20:52:33.479757
 
 
 
-
-
-
 I use this page for [visual regression testing](/design#visual-regression-testing).
 
 # Header 1 (`inline_code`)
