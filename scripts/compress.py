@@ -130,6 +130,8 @@ def to_hevc_video(video_path: Path, quality: int = VIDEO_QUALITY) -> None:
                     str(video_path),
                     "-c:v",
                     "libx265",
+                    "-x265-params",
+                    "log-level=warning",  # God it's loud otherwise
                     "-preset",
                     "slower",
                     "-crf",
@@ -185,7 +187,8 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
             str(gif_path),
         ]
         probe_output = subprocess.check_output(
-            probe_cmd, universal_newlines=True
+            probe_cmd,
+            universal_newlines=True,
         )
         probe_data = json.loads(probe_output)
 
@@ -204,11 +207,12 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
                 "ffmpeg",
                 "-i",
                 str(gif_path),
-                "-vsync",
-                "0",
+                "-fps_mode",
+                "auto",
                 f"{temp_path / 'frame_%04d.png'}",
             ],
             check=True,
+            stdout=subprocess.DEVNULL,
         )
 
         try:
@@ -225,6 +229,8 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
                     "libx265",
                     "-crf",
                     str(quality),
+                    "-x265-params",
+                    "log-level=warning",  # God it's loud otherwise
                     "-vf",
                     "scale=trunc(iw/2)*2:trunc(ih/2)*2",
                     "-pix_fmt",
@@ -236,6 +242,7 @@ def _compress_gif(gif_path: Path, quality: int = VIDEO_QUALITY) -> None:
                     str(output_path),
                 ],
                 check=True,
+                stdout=subprocess.DEVNULL,
             )
 
             print(f"Successfully converted {gif_path} to MP4: {output_path}")
