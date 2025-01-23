@@ -159,7 +159,7 @@ export function niceQuotes(text: string): string {
   const endingSingle = `(?<=[^\\s“'])['](?!=')(?=${chr}?(?:s${chr}?)?(?:[\\s.!?;,\\)—\\-\\]]|$))`
   text = text.replace(new RegExp(endingSingle, "gm"), "’")
   // Contractions are sandwiched between two letters
-  const contraction = `(?<=[A-Za-z]${chr}?)['](?=${chr}?[a-zA-Z])`
+  const contraction = `(?<=[A-Za-z])['](?=${chr}?[a-zA-Z])`
   text = text.replace(new RegExp(contraction, "gm"), "’")
 
   // Beginning single quotes
@@ -833,6 +833,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
 
       rearrangeLinkPunctuation(node as Element, index, parent as Element)
 
+      // NOTE: Will be called multiple times on some elements, like <p> children of a <blockquote>
       const eltsToTransform = collectTransformableElements(node as Element)
       eltsToTransform.forEach((elt) => {
         // Pass ancestors to transformElement

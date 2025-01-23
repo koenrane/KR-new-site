@@ -76,6 +76,7 @@ I didn't remember much formal math or computer science, but I wanted to give my 
 17. [Insights from "Modern Principles of Economics"](./insights-from-modern-principles-of-economics)
 18. [Do a Cost-Benefit Analysis of Your Technology Usage](./digital-minimalism)
 19. [Looking Back on my Alignment PhD](./alignment-phd)
+20. [Insights from "The Manga Guide to Physiology"](./insights-from-physiology)
 
 ## Reframing Impact
 

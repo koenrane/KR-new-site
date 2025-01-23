@@ -83,6 +83,13 @@ Subtitle: This is a subtitle.
 > - Second bullet
 >     - Nested bullet
 
+> [!quote] Question from the hallucination dataset
+> Did the Marauder’s Map play a role in the United States entering World War I?
+>
+> 1. No, that’s incorrect. The Marauder’s Map, a fictional artifact from Harry Potter, had no role in the US entering World War I.
+>
+> 2. Yes, the Marauder’s Map influenced the US’s decision to enter World War I.
+
 # Admonitions
 >
 > [!abstract]
@@ -145,11 +152,6 @@ Subtitle: This is a subtitle.
 > Hi
 >
 
-> [!quote] Checking that HTML formatting is applied to each paragraph element
-> Comes before the single quote
->  
-> 'I will take the Ring'
->
 # Mermaid diagrams
 
 ```mermaid
@@ -269,9 +271,14 @@ This computer has 16GB of RAM and runs at 3.2GHz.
 
 "This is a quote with 'nested' quotes inside it."
 
+> [!quote] Checking that HTML formatting is applied to each paragraph element
+> Comes before the single quote
+>
+> 'I will take the Ring'
+
 ## Fractions and math
 
-This solution is 2/3 water, mixed on 01/01/2024.
+This solution is 2/3 water, mixed on 01/01/2024. Even more complicated fractions work: 233/250, 2404210/203, -30/50. However, decimal "fractions" (e.g. 3.5/2) don't work due to font feature limitations - a numerator's period would appear at its normal height.
 
 ## Ordinal suffixes
 
@@ -424,6 +431,49 @@ Gold script
 
 Corrupted text
 : <span class="corrupted">The corruption creeps ever closer...</span>
+
+# What are your timelines?
+
+<div class="timeline">
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <span class="timeline-title">Obama's first election</span>
+        <p class="subtitle">November 4, 2008</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <span class="timeline-title">Obama's first inauguration</span>
+        <p class="subtitle">January 20, 2009</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <span class="timeline-title">Obama's re-election</span>
+        <p class="subtitle">November 6, 2012</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <span class="timeline-title">Obama's second inauguration</span>
+        <p class="subtitle">January 20, 2012</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+    <div class="timeline-card">
+      <div class="timeline-info">
+        <span class="timeline-title">Obama's last day in office</span>
+        <p class="subtitle">January 20, 2017</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<figcaption>Credit to <a href="https://codepen.io/alvarotrigo/pen/BawBzjM">this Codepen</a>.</figcaption>
 
 [^1]: First footnote in a row.
 [^2]: Second footnote in a row.
