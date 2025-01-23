@@ -9,7 +9,7 @@
   padding: 0 1rem;
 }
 
-.timeline-card {
+.callout {
   --border: color-mix(in srgb, var(--color) 60%, var(--base));
   --bg: color-mix(in srgb, var(--color) 4%, var(--base));
   --callout-icon-note: url("https://assets.turntrout.com/static/icons/note.svg");
@@ -55,16 +55,6 @@
 
   & .callout-content {
     margin-bottom: calc(2 * $base-margin);
-
-    & p:first-child,
-    & > .vsc-controller + p {
-      // vsc-controllers can be spawned ahead of the first paragraph
-      margin-top: 0;
-    }
-
-    & p:last-child {
-      margin-bottom: 0;
-    }
   }
 
   // Gray by default
@@ -316,6 +306,19 @@
     & a {
       font-weight: inherit;
     }
+  }
+}
+
+.callout-content,
+.timeline-info {
+  & p:not(.subtitle):first-child,
+  & > .vsc-controller + p {
+    // vsc-controllers can be spawned ahead of the first paragraph
+    margin-top: 0;
+  }
+
+  & p:last-child {
+    margin-bottom: 0;
   }
 }
 

@@ -22,23 +22,28 @@
   // First card styles
   &:first-child::before {
     border-top: 0;
-    border-top-left-radius: 0;
+    border-top-left-radius: 0 !important;
+  }
+
+  &:not(:first-child) {
+    margin-top: calc(-0.5 * $base-margin);
   }
 
   // Odd child styles
   &:nth-child(odd) {
-    padding: calc(2 * $base-margin) 0 calc(2 * $base-margin) $base-margin;
+    padding: calc(2 * $base-margin) 0 calc(2 * $base-margin) calc(2 * $base-margin);
 
     &::before {
       left: 0;
-      top: calc(-0.5 * $base-margin);
-      bottom: calc(-0.5 * $base-margin);
+      top: 0;
+      bottom: 0;
       border-width: calc(0.5 * $base-margin) 0 calc(0.5 * $base-margin) calc(0.5 * $base-margin);
       border-radius: $base-margin 0 0 $base-margin;
     }
 
-    > .info > .title::before {
-      left: calc(-2 * $base-margin);
+    .timeline-title::before {
+      left: calc(-3.5 * $base-margin);
+      top: calc(0.5 * $base-margin);
     }
 
     &:last-child::before {
@@ -49,22 +54,20 @@
 
   // Even child styles
   &:nth-child(even) {
-    padding: calc(2 * $base-margin) $base-margin calc(2 * $base-margin) 0;
+    padding: calc(2 * $base-margin) calc(2 * $base-margin) calc(2 * $base-margin) 0;
+    text-align: right;
 
     &::before {
       right: 0;
-      top: calc(-0.5 * $base-margin);
-      bottom: calc(-0.5 * $base-margin);
+      top: 0;
+      bottom: 0;
       border-width: calc(0.5 * $base-margin) calc(0.5 * $base-margin) calc(0.5 * $base-margin) 0;
       border-radius: 0 $base-margin $base-margin 0;
     }
 
-    > .info > .title {
-      text-align: right;
-    }
-
-    > .info > .title::before {
-      right: calc(-2 * $base-margin);
+    .timeline-title::before {
+      right: calc(-3.5 * $base-margin);
+      top: calc(0.5 * $base-margin);
     }
 
     &:last-child::before {
@@ -74,7 +77,6 @@
   }
 }
 
-/* Information about the timeline */
 .timeline-info {
   display: flex;
   flex-direction: column;
@@ -90,9 +92,10 @@
   &::before {
     content: "";
     position: absolute;
-    width: calc(2 * $base-margin);
-    height: calc(2 * $base-margin);
+    width: calc($base-margin);
+    height: calc($base-margin);
     border-radius: 999px;
-    border: $base-margin solid var(--border-blue);
+    color: var(--foreground);
+    border: calc(0.5 * $base-margin) solid var(--midground-faint);
   }
 }

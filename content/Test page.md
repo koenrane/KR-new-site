@@ -437,33 +437,39 @@ Corrupted text
 <div class="timeline">
     <div class="timeline-card">
       <div class="timeline-info">
-        <h3 class="timeline-title">timeline-title 1</h3>
+        <span class="timeline-title">Obama's first election</span>
+        <p class="subtitle">November 4, 2008</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
       </div>
     </div>
     <div class="timeline-card">
       <div class="timeline-info">
-        <h3 class="timeline-title">timeline-title 2</h3>
+        <span class="timeline-title">Obama's first inauguration</span>
+        <p class="subtitle">January 20, 2009</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
       </div>
     </div>
     <div class="timeline-card">
       <div class="timeline-info">
-        <h3 class="timeline-title">timeline-title 3</h3>
+        <span class="timeline-title">Obama's re-election</span>
+        <p class="subtitle">November 6, 2012</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
       </div>
     </div>
     <div class="timeline-card">
       <div class="timeline-info">
-        <h3 class="timeline-title">timeline-title 4</h3>
+        <span class="timeline-title">Obama's second inauguration</span>
+        <p class="subtitle">January 20, 2012</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
       </div>
     </div>
     <div class="timeline-card">
       <div class="timeline-info">
-        <h3 class="timeline-title">timeline-title 5</h3>
+        <span class="timeline-title">Obama's last day in office</span>
+        <p class="subtitle">January 20, 2017</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
       </div>
+    </div>
   </div>
 </div>
 
