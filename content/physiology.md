@@ -6,10 +6,11 @@ no_dropcap: "false"
 tags:
   - understanding-the-world
   - summaries
-description: This book breaks down complex physiology into digestible parts, using charming visuals & clear explanations. You might be surprised how much you can learn!
+description: This book breaks down complex physiology into digestible parts, using
+  charming visuals & clear explanations. You might be surprised how much you can learn!
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/eZLmOUT.png
+card_image: https://assets.turntrout.com/static/images/card_images/eZLmOUT.png
 aliases:
   - physiology
   - manga-physiology
@@ -29,7 +30,7 @@ Subtitle: At least at this level.
 
 You just have lots to memorize, which is [easy with Anki](/lessons-i-ve-learned-from-self-teaching). Take the circulatory system. Is there anything crazy happening here?
 
-![A manga-styled explanation of the circulatory system. Splits it into systemic and pulmonary circulatory loops.](static/images/posts/heart-explained.avif)
+![A manga-styled explanation of the circulatory system. Splits it into systemic and pulmonary circulatory loops.](https://assets.turntrout.com/static/images/posts/heart-explained.avif)
 
 There might be some unfamiliar arrangements of letters, but the concepts are easy. Combine that with modern LLMs and it's a walk in the park. I studied this book over about two weeks of effort, diving into random bits I didn't understand and liberally adding Anki cards.  
 
@@ -48,7 +49,7 @@ Of course, upon closer examination this theory falls apart.
 
 The real answer is basically that the small intestine absorbs water for use. Separately, in the kidneys, there are a bunch of thin tangly spirals called "glomeruluses"... er, "glomerulii"? I don't know. Whatever, the singular is "glomerulus"!
 
-![](static/images/posts/nephron.avif)Figure: This is a "nephron." The tangly bit above the corpuscle - that's the glomerulus. There are about 1 million nephrons in each kidney.
+![](https://assets.turntrout.com/static/images/posts/nephron.avif)Figure: This is a "nephron." The tangly bit above the corpuscle - that's the glomerulus. There are about 1 million nephrons in each kidney.
 
 The semipermeable membrane of the glomerulus and the high pressure together push the blood's small particles (including water) into this tube thing (called the "Bowman's capsule" and then the "renal tubule"). In the tube, a bunch of water gets reabsorbed. The unabsorbed filtrate gets shipped down to the bladder. When you haven't drank water in a while or are otherwise low, hormones tell the tube things to reabsorb as much water as possible. That's why your pee is darker when you're thirstier.
 
@@ -87,7 +88,7 @@ In peristaltic motion, your muscles inch the food down your esophagus. In fact, 
 
 Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils.
 
-![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](static/images/posts/epithelium.avif)
+![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](https://assets.turntrout.com/static/images/posts/epithelium.avif)
 
 # Confusions I still have
 
@@ -95,7 +96,7 @@ Odorants are actually just detected at the olfactory epithelium, whereas I'd tho
 
 The fovea is a pit in your retina which contains a high concentration of cones, giving you sharp vision in the center of your field of view. Why not have multiple high-resolution spots?
 
-![](static/images/posts/fovea.avif)
+![](https://assets.turntrout.com/static/images/posts/fovea.avif)
 
 As the above image may make obvious, the lens focuses light onto a point. That point lands on the fovea. So I guess you'd need several lenses to concentrate light on several different fovea, which probably isn't worth the hassle? I'm still confused as to the final details.
 
@@ -131,7 +132,7 @@ But maybe that's fine! After all, it's the kidneys' job to filter out waste. The
 
 ## Osmotic pressure seems weird
 
-![](static/images/posts/osmosis-1.avif)
+![](https://assets.turntrout.com/static/images/posts/osmosis-1.avif)
 Figure: Water containing other particles, separated by a membrane which only allows the water through.
 
 > [!quote] [Osmosis, Wikipedia](https://en.wikipedia.org/wiki/Osmosis)
@@ -143,7 +144,7 @@ Imagine I'm standing in my bedroom. The door is open to my kitchen. Then I toss 
 
 # Here's some random cool stuff
 
-![](static/images/posts/cell-division.mp4)
+<video src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"></video>
 
 Figure: Animation of cell division ([source](https://www.youtube.com/watch?v=7ybxaYhRpIA)). Look how jiggly the cytoplasm is!
 
@@ -170,7 +171,7 @@ For example. Neutrophils are a first-responder immune cell and a type of white b
 </span>
 </figure>
 
-![In Cells at Work, platelets polymerize fibrin to begin clotting.](static/images/posts/platelets.avif)
+![In Cells at Work, platelets polymerize fibrin to begin clotting.](https://assets.turntrout.com/static/images/posts/platelets.avif)
 Figure: The platelets deploy [fibrin](https://en.wikipedia.org/wiki/Fibrin) to begin a blood clot and repair a breach.
 
 # Conclusion
