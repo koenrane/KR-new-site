@@ -240,7 +240,7 @@ export const renderSequenceTitleJsx = (fileData: QuartzPluginData) => {
   return (
     <div>
       <b>Sequence:</b>{" "}
-      <a href={sequenceLink} className="internal">
+      <a href={sequenceLink} className="internal" style={{ cursor: "pointer" }}>
         {sequence}
       </a>
     </div>

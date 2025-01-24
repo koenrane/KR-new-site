@@ -33,7 +33,11 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
   return h("div.callout-title-inner", [
     h("b", "Sequence:"),
     " ",
-    h("a", { href: sequenceLink, class: "internal" }, sequence as RootContent),
+    h(
+      "a",
+      { href: sequenceLink, class: "internal", style: "cursor: pointer;" },
+      sequence as RootContent,
+    ),
   ])
 }
 
