@@ -16,7 +16,7 @@ except ImportError:
     import utils as script_utils  # type: ignore
 
 
-asset_staging_pattern: str = r"(?:\./|/)?(?:asset_staging/)?"
+asset_staging_pattern: str = r"(?:\.?/asset_staging/)?"
 
 
 def _video_patterns(input_file: Path) -> tuple[str, str]:
@@ -24,7 +24,7 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     Returns the original and replacement patterns for video files.
     """
 
-    # Function to create unique named capture groups for different link patterns
+    # create named capture groups for different link patterns
     def link_pattern_fn(tag):
         return rf"(?P<link_{tag}>[^\)]*)"
 
@@ -32,33 +32,36 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern_fn('parens')}{asset_staging_pattern}{input_file_pattern}\)"
+        rf"\!?\[\]\({asset_staging_pattern}{link_pattern_fn('parens')}{input_file_pattern}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern_fn('brackets')}{asset_staging_pattern}{input_file_pattern}\]\]"
+        rf"\!?\[\[{asset_staging_pattern}{link_pattern_fn('brackets')}{input_file_pattern}\]\]"
     )
 
     # Link pattern for HTML tags
     tag_link_pattern: str = (
-        rf"{link_pattern_fn('tag')}{asset_staging_pattern}{input_file_pattern}"
+        rf"{asset_staging_pattern}{link_pattern_fn('tag')}{input_file_pattern}"
     )
 
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
             rf"<img (?P<earlyTagInfo>[^>]*)"
-            rf'src="{tag_link_pattern}"'
-            rf"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>"
+            rf"src=\"{tag_link_pattern}\""
+            rf"(?P<tagInfo>[^>]*(?<!/))"
+            # Ensure group exists; self-closing optional
+            rf"(?P<endVideoTagInfo>)/?>"
         )
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern = (
             rf"<video (?P<earlyTagInfo>[^>]*)"
-            rf'src="{tag_link_pattern}"'
-            rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?'
-            rf"(?P<endVideoTagInfo>[^>]*(?=/))/?>"
+            rf"src=\"{tag_link_pattern}\""
+            rf"(?P<tagInfo>[^>]*)(?:type=\"video/{input_file.suffix[1:]}\")?"
+            # will ignore existing </video> tags
+            rf"(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)"
         )
 
     # Combine all patterns into one, separated by '|' (OR)

@@ -211,20 +211,20 @@ asset_pattern = convert_assets.asset_staging_pattern
     [
         (
             Path("animation.gif"),
-            rf"\!?\[\]\((?P<link_parens>[^\)]*){asset_pattern}animation\.gif\)|"
-            rf"\!?\[\[(?P<link_brackets>[^\)]*){asset_pattern}animation\.gif\]\]|"
-            rf'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*){asset_pattern}animation\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>',
+            rf"\!?\[\]\({asset_pattern}(?P<link_parens>[^\)]*)animation\.gif\)|"
+            rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
+            rf"<img (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)animation\.gif\"(?P<tagInfo>[^>]*(?<!/))(?P<endVideoTagInfo>)/?>",
             rf'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
     ]
     + [
         (
             Path(f"video{ext}"),
-            rf"\!?\[\]\((?P<link_parens>[^\)]*){asset_pattern}video\{ext}\)|"
-            rf"\!?\[\[(?P<link_brackets>[^\)]*){asset_pattern}video\{ext}\]\]|"
-            rf'<video (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*){asset_pattern}video\{ext}"(?P<tagInfo>[^>]*)(?:type="video/'
+            rf"\!?\[\]\({asset_pattern}(?P<link_parens>[^\)]*)video\{ext}\)|"
+            rf"\!?\[\[{asset_pattern}(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
+            rf"<video (?P<earlyTagInfo>[^>]*)src=\"{asset_pattern}(?P<link_tag>[^\)]*)video\{ext}\"(?P<tagInfo>[^>]*)(?:type=\"video/"
             + ext.lstrip(".")
-            + '")?(?P<endVideoTagInfo>[^>]*(?=/))/?>',
+            + rf"\")?(?P<endVideoTagInfo>[^>]*(?<!/))(?:/>|></video>)",
             rf'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
@@ -370,51 +370,187 @@ def test_path_pattern_variations(
     assert file_content.strip() == expected_content
 
 
-# @pytest.mark.parametrize(
-#     "input_content,expected_content",
-#     [
-#         # Test absolute /asset_staging/ paths for videos
-#         (
-#             '<video src="/asset_staging/static/video.mp4"></video>',
-#             '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
-#         ),
-#         (
-#             '<video src="/asset_staging/static/animation.gif"></video>',
-#             '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
-#         ),
-#         # Test relative ./asset_staging/ paths for videos
-#         (
-#             '<video src="./asset_staging/static/video.mp4"></video>',
-#             '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
-#         ),
-#         (
-#             '<video src="./asset_staging/static/animation.gif"></video>',
-#             '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
-#         ),
-#     ],
-# )
-# def test_video_asset_staging_paths(setup_test_env, input_content: str, expected_content: str) -> None:
-#     test_dir = Path(setup_test_env)
-#     asset_path: Path = test_dir / "quartz/static" / "video.mp4"
-#     gif_path: Path = test_dir / "quartz/static" / "animation.gif"
+prefixes = ("", ".")
 
-#     # Create test files
-#     test_utils.create_test_video(asset_path)
-#     test_utils.create_test_video(gif_path)
-#     content_path = Path(setup_test_env) / "content" / "video_paths.md"
 
-#     # Create test markdown file with the test pattern
-#     with open(content_path, "w") as f:
-#         f.write(input_content)
+@pytest.mark.parametrize(
+    "input_content,expected_content",
+    [
+        (
+            f'<video src="{prefix}/asset_staging/static/video.mp4"></video>',
+            '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
+        )
+        for prefix in prefixes
+    ]
+    + [
+        (
+            f'<img src="{prefix}/asset_staging/static/animation.gif"/>',
+            '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
+        )
+        for prefix in prefixes
+    ],
+)
+def test_video_asset_staging_paths(
+    setup_test_env, input_content: str, expected_content: str
+) -> None:
+    test_dir = Path(setup_test_env)
+    asset_path: Path = test_dir / "quartz/static" / "video.mp4"
+    gif_path: Path = test_dir / "quartz/static" / "animation.gif"
 
-#     # Convert the appropriate asset based on the test case
-#     if "animation.gif" in input_content:
-#         convert_assets.convert_asset(gif_path, md_references_dir=test_dir / "content")
-#     else:
-#         convert_assets.convert_asset(asset_path, md_references_dir=test_dir / "content")
+    test_utils.create_test_video(asset_path)
+    test_utils.create_test_video(gif_path)
+    content_path = Path(setup_test_env) / "content" / "video_paths.md"
 
-#     # Verify content was properly converted
-#     with open(content_path, "r") as f:
-#         file_content = f.read()
+    # Create test markdown file with the test pattern
+    with open(content_path, "w") as f:
+        f.write(input_content)
 
-#     assert file_content.strip() == expected_content
+    # Convert the appropriate asset based on the test case
+    if "animation.gif" in input_content:
+        convert_assets.convert_asset(
+            gif_path, md_references_dir=content_path.parent
+        )
+    else:
+        convert_assets.convert_asset(
+            asset_path, md_references_dir=content_path.parent
+        )
+
+    # Verify content was properly converted
+    with open(content_path, "r") as f:
+        file_content = f.read()
+
+    assert file_content.strip() == expected_content
+
+
+@pytest.mark.parametrize(
+    "input_str,expected_groups",
+    [
+        # Basic self-closing img tag
+        (
+            '<img src="./asset_staging/static/test.gif"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": "",
+                "tagInfo": "",
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Video tag with attributes
+        (
+            '<video src="static/test.mp4" alt="test"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": "",
+                "tagInfo": ' alt="test"',
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Video tag with attributes and no self-closing slash - shouldn't match
+        (
+            '<video src="static/test.mp4" alt="test">',
+            None,
+        ),
+        # Video tag with attributes before and after src
+        (
+            '<video class="test" src="static/test.mp4" alt="test"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": 'class="test" ',
+                "tagInfo": ' alt="test"',
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Img tag with alt attribute after src
+        (
+            '<img src="/asset_staging/static/test.gif" alt="test"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": "",
+                "tagInfo": ' alt="test"',
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Img tag with class attribute before src
+        (
+            '<img class="test" src="static/test.gif"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": 'class="test" ',
+                "tagInfo": "",
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Img tag with attributes on both sides
+        (
+            '<img class="before" src="static/test.gif" alt="after"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": 'class="before" ',
+                "tagInfo": ' alt="after"',
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Img tag with slashes in attribute values
+        (
+            '<img data-path="/some/path" src="static/test.gif" alt="test/with/slashes"/>',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": 'data-path="/some/path" ',
+                "tagInfo": ' alt="test/with/slashes"',
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Img tag without self-closing slash
+        (
+            '<img src="static/test.gif">',
+            {
+                "link_tag": "static/",
+                "earlyTagInfo": "",
+                "tagInfo": "",
+                "endVideoTagInfo": "",
+            },
+        ),
+        # Markdown image syntax
+        (
+            "![](/asset_staging/static/test.gif)",
+            {
+                "link_parens": "static/",
+                "link_tag": None,
+                "earlyTagInfo": None,
+                "tagInfo": None,
+                "endVideoTagInfo": None,
+            },
+        ),
+        # Wiki-link syntax
+        (
+            "[[/asset_staging/static/test.gif]]",
+            {
+                "link_brackets": "static/",
+                "link_tag": None,
+                "earlyTagInfo": None,
+                "tagInfo": None,
+                "endVideoTagInfo": None,
+            },
+        ),
+    ],
+)
+def test_video_pattern_matching(
+    input_str: str, expected_groups: dict[str, str]
+):
+    """Test the regex patterns for video/gif tags directly to verify matching behavior"""
+    ext = ".gif" if "gif" in input_str else ".mp4"
+    test_file = Path(f"test{ext}")
+    pattern, _ = convert_assets._video_patterns(test_file)
+
+    match = re.match(pattern, input_str)
+    if expected_groups is None:
+        assert match is None, f"Avoided matching with {input_str}"
+        return
+    assert match is not None, f"Pattern failed to match: {input_str}"
+
+    # Check that each group captured exactly what we expect
+    for group_name, expected_value in expected_groups.items():
+        actual_value = match.group(group_name)
+        assert (
+            actual_value == expected_value
+        ), f"For {input_str}, group {group_name} captured '{actual_value}' but expected '{expected_value}'\npattern: {pattern}"
