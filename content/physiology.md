@@ -102,7 +102,7 @@ The fovea is a pit in your retina which contains a high concentration of cones, 
 
 ![](https://assets.turntrout.com/static/images/posts/fovea.avif)
 
-As the above image may make obvious, the lens focuses light onto a point. That point lands on the fovea. So I guess you'd need several lenses to concentrate light on several different fovea, which probably isn't worth the hassle? I'm still confused as to the final details.
+As the above image may make obvious, the lens focuses light onto a point. That point lands on the fovea. So I guess you'd need several lenses to concentrate light on several different foveae, which probably isn't worth the hassle? I'm still confused as to the final details.
 
 > [!quote]- Gemini's explanation
 > **Why one fovea in humans (and most vertebrates):**
@@ -112,7 +112,7 @@ As the above image may make obvious, the lens focuses light onto a point. That p
 >   - **Trade-off between Acuity and Field of View:** A larger fovea or multiple foveae would necessarily mean a smaller area of peripheral vision. While high acuity is useful, a wide field of view is also crucial for detecting movement and potential threats in our surroundings. Our single fovea system strikes a good balance between these two needs.
 >   - **Developmental Complexity:** Developing multiple foveae and the corresponding neural pathways would be significantly more complex during embryonic development. Evolution often favors simpler solutions that are "good enough."
 
-I'm not sure whether animals with compound eyes (like dragonflies) have multiple fovea, or if that's just not a sensible question. They at least have multiple lenses.
+I'm not sure whether animals with compound eyes (like dragonflies) have multiple foveae, or if that's just not a sensible question. They at least have multiple lenses.
 
 ## Not sure what's up with the inner ear
 
