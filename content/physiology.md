@@ -77,7 +77,7 @@ No. No, that can't happen. There are several reasons which I now understand:
 [^twin]: Fraternal twins are a thing - sometimes multiple eggs are released at once.
 
 <figure class="float-right">
-<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/Peristalsis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/Peristalsis.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/Peristalsis.mp4"/ type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/Peristalsis.mp4" type="video/mp4"></video>
 <figcaption>Peristaltic motion.</figcaption>
 </figure>
 ## You swallow food like you squeeze toothpaste
@@ -144,7 +144,7 @@ Imagine I'm standing in my bedroom. The door is open to my kitchen. Then I toss 
 
 # Here's some random cool stuff
 
-<video src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"></video>
+<video  autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/cell-division.mp4" type="video/mp4"></video>
 
 Figure: Animation of cell division ([source](https://www.youtube.com/watch?v=7ybxaYhRpIA)). Look how jiggly the cytoplasm is!
 
@@ -152,21 +152,16 @@ Figure: Animation of cell division ([source](https://www.youtube.com/watch?v=7yb
 
 This anime is fun. Not as fun as [Doctor Stone](/doctor-stone), but fun. Its representations of cells are sometimes hard to forget.  
 
-For example. Neutrophils are a first-responder immune cell and a type of white blood cell. They catch invaders, envelop them, and then dissolve them - a process called <a src="https://en.wikipedia.org/wiki/Phagocytosis">phagocytosis</a>. <em>Cells at Work</em> portrays neutrophils as knife-wielding maniacs.
+For example. Neutrophils are a first-responder immune cell and a type of white blood cell. They catch invaders, envelop them, and then dissolve them - a process called [phagocytosis](https://en.wikipedia.org/wiki/Phagocytosis). <em>Cells at Work</em> portrays neutrophils as knife-wielding maniacs.
 
 <figure style="display: flex;" >
 <span class="subfigure">
-<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/wbc.gif"/>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/wbc.mp4"></video>
 <figcaption>A stylized and wholly unfaithful depiction of phagocytosis.</figcaption>
 </span>
 
 <span class="subfigure">
-<video autoplay loop muted playsinline src="/asset_staging/static/images/posts/phagocytosis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/wbc.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/phagocytosis.mp4"/ type="video/mp4"><source src="/asset_staging/static/images/posts/wbc.mp4" type="video/mp4"></video>
-<figcaption>A stylized and wholly unfaithful depiction of phagocytosis.</figcaption>
-</span>
-
-<span class="subfigure">
-<img src="/asset_staging/static/images/posts/phagocytosis.mp4" type="video/mp4"></video>
+<video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/phagocytosis.mp4"/ type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/phagocytosis.mp4"/ type="video/mp4"></video>
 <figcaption>Actual phagocytosis.</figcaption>
 </span>
 </figure>
