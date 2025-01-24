@@ -22,8 +22,18 @@ export type JSResource = {
 
 export function JSResourceToScriptElement(resource: JSResource): JSX.Element {
   const scriptType = resource.moduleType ?? "application/javascript"
+  const toDefer = resource.loadTime === "afterDOMReady"
+
   if (resource.contentType === "external") {
-    return <script spa-preserve key={resource.src} src={resource.src} type={scriptType} />
+    return (
+      <script
+        spa-preserve
+        key={resource.src}
+        src={resource.src}
+        type={scriptType}
+        defer={toDefer}
+      />
+    )
   } else {
     const content = resource.script
     return (
@@ -31,6 +41,7 @@ export function JSResourceToScriptElement(resource: JSResource): JSX.Element {
         key={randomUUID()}
         type={scriptType}
         spa-preserve
+        defer={toDefer}
         dangerouslySetInnerHTML={{ __html: content }}
       ></script>
     )
