@@ -203,28 +203,29 @@ def test_invalid_paths(input_path, error_message):
         script_utils.path_relative_to_quartz_parent(Path(input_path))
 
 
+asset_pattern = convert_assets.asset_staging_pattern
+
+
 @pytest.mark.parametrize(
     "input_file, expected_source_pattern, expected_target_pattern",
     [
         (
             Path("animation.gif"),
-            r"\!?\[\]\((?P<link_parens>[^\)]*)animation\.gif\)|"
-            r"\!?\[\[(?P<link_brackets>[^\)]*)animation\.gif\]\]|"
-            r'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)animation\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>',
-            r'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
+            rf"\!?\[\]\((?P<link_parens>[^\)]*){asset_pattern}animation\.gif\)|"
+            rf"\!?\[\[(?P<link_brackets>[^\)]*){asset_pattern}animation\.gif\]\]|"
+            rf'<img (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*){asset_pattern}animation\.gif"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>',
+            rf'<video autoplay loop muted playsinline src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>animation.mp4" type="video/mp4"></video>',
         ),
     ]
     + [
         (
             Path(f"video{ext}"),
-            rf"\!?\[\]\((?P<link_parens>[^\)]*)video\{ext}\)|"
-            rf"\!?\[\[(?P<link_brackets>[^\)]*)video\{ext}\]\]|"
-            r'<video (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*)video'
-            + ext
-            + '"(?P<tagInfo>[^>]*)(?:type="video/'
+            rf"\!?\[\]\((?P<link_parens>[^\)]*){asset_pattern}video\{ext}\)|"
+            rf"\!?\[\[(?P<link_brackets>[^\)]*){asset_pattern}video\{ext}\]\]|"
+            rf'<video (?P<earlyTagInfo>[^>]*)src="(?P<link_tag>[^\)]*){asset_pattern}video\{ext}"(?P<tagInfo>[^>]*)(?:type="video/'
             + ext.lstrip(".")
             + '")?(?P<endVideoTagInfo>[^>]*(?=/))/?>',
-            r'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
+            rf'<video src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4"\g<earlyTagInfo>\g<tagInfo> type="video/mp4"\g<endVideoTagInfo>><source src="\g<link_parens>\g<link_brackets>\g<link_tag>video.mp4" type="video/mp4"></video>',
         )
         for ext in [".webm", ".mov", ".avi", ".mp4"]
     ],
@@ -367,3 +368,53 @@ def test_path_pattern_variations(
         file_content = f.read()
 
     assert file_content.strip() == expected_content
+
+
+# @pytest.mark.parametrize(
+#     "input_content,expected_content",
+#     [
+#         # Test absolute /asset_staging/ paths for videos
+#         (
+#             '<video src="/asset_staging/static/video.mp4"></video>',
+#             '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
+#         ),
+#         (
+#             '<video src="/asset_staging/static/animation.gif"></video>',
+#             '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
+#         ),
+#         # Test relative ./asset_staging/ paths for videos
+#         (
+#             '<video src="./asset_staging/static/video.mp4"></video>',
+#             '<video src="static/video.mp4" type="video/mp4"><source src="static/video.mp4" type="video/mp4"></video>',
+#         ),
+#         (
+#             '<video src="./asset_staging/static/animation.gif"></video>',
+#             '<video autoplay loop muted playsinline src="static/animation.mp4" type="video/mp4"><source src="static/animation.mp4" type="video/mp4"></video>',
+#         ),
+#     ],
+# )
+# def test_video_asset_staging_paths(setup_test_env, input_content: str, expected_content: str) -> None:
+#     test_dir = Path(setup_test_env)
+#     asset_path: Path = test_dir / "quartz/static" / "video.mp4"
+#     gif_path: Path = test_dir / "quartz/static" / "animation.gif"
+
+#     # Create test files
+#     test_utils.create_test_video(asset_path)
+#     test_utils.create_test_video(gif_path)
+#     content_path = Path(setup_test_env) / "content" / "video_paths.md"
+
+#     # Create test markdown file with the test pattern
+#     with open(content_path, "w") as f:
+#         f.write(input_content)
+
+#     # Convert the appropriate asset based on the test case
+#     if "animation.gif" in input_content:
+#         convert_assets.convert_asset(gif_path, md_references_dir=test_dir / "content")
+#     else:
+#         convert_assets.convert_asset(asset_path, md_references_dir=test_dir / "content")
+
+#     # Verify content was properly converted
+#     with open(content_path, "r") as f:
+#         file_content = f.read()
+
+#     assert file_content.strip() == expected_content

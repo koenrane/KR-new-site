@@ -16,6 +16,9 @@ except ImportError:
     import utils as script_utils  # type: ignore
 
 
+asset_staging_pattern: str = r"(?:\./|/)?(?:asset_staging/)?"
+
+
 def _video_patterns(input_file: Path) -> tuple[str, str]:
     """
     Returns the original and replacement patterns for video files.
@@ -25,33 +28,35 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
     def link_pattern_fn(tag):
         return rf"(?P<link_{tag}>[^\)]*)"
 
+    input_file_pattern: str = rf"{input_file.stem}\{input_file.suffix}"
+
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({link_pattern_fn('parens')}"
-        rf"{input_file.stem}\{input_file.suffix}\)"
+        rf"\!?\[\]\({link_pattern_fn('parens')}{asset_staging_pattern}{input_file_pattern}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{link_pattern_fn('brackets')}"
-        rf"{input_file.stem}\{input_file.suffix}\]\]"
+        rf"\!?\[\[{link_pattern_fn('brackets')}{asset_staging_pattern}{input_file_pattern}\]\]"
     )
 
     # Link pattern for HTML tags
-    tag_link_pattern: str = link_pattern_fn("tag")
+    tag_link_pattern: str = (
+        rf"{link_pattern_fn('tag')}{asset_staging_pattern}{input_file_pattern}"
+    )
 
     if input_file.suffix == ".gif":
         # Pattern for <img> tags (used for GIFs)
         tag_pattern: str = (
             rf"<img (?P<earlyTagInfo>[^>]*)"
-            rf'src="{tag_link_pattern}{input_file.stem}\.gif"'
+            rf'src="{tag_link_pattern}"'
             rf"(?P<tagInfo>[^>]*)(?P<endVideoTagInfo>)/?>"
         )
     else:
         # Pattern for <video> tags (used for other video formats)
         tag_pattern = (
             rf"<video (?P<earlyTagInfo>[^>]*)"
-            rf'src="{tag_link_pattern}{input_file.stem}{input_file.suffix}"'
+            rf'src="{tag_link_pattern}"'
             rf'(?P<tagInfo>[^>]*)(?:type="video/{input_file.suffix[1:]}")?'
             rf"(?P<endVideoTagInfo>[^>]*(?=/))/?>"
         )
@@ -88,6 +93,7 @@ def _image_patterns(input_file: Path) -> tuple[str, str]:
     pattern_file = relative_path.relative_to("quartz")
     output_file: Path = pattern_file.with_suffix(".avif")
 
+    # Handle paths that can start with ./, /, or /asset_staging/
     return rf"(?:\./|/)?(?:asset_staging/)?{re.escape(str(pattern_file))}", str(
         output_file
     )
