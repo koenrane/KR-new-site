@@ -17,7 +17,11 @@ aliases:
 lw-sequence-title: Becoming Stronger
 prev-post-slug: alignment-phd
 prev-post-title: Looking back on my alignment PhD
+date_published: 2025-01-23 20:50:38.343137
+date_updated: 2025-01-23 20:51:08.643622
 ---
+
+
 In physics, there are simple laws and complex consequences. In math, a good formalism (like a "graph") may well appear wherever you concentrate your attention. In economics, incentive structures fractally explain behavior at a range of scales, from intrapersonal to international.
 
 Physiology seemed like a grab-bag of random processes which no one really understands. If you understand a physiological process - congratulations, that idea probably doesn't transfer much to other domains. You just know how humans - and maybe closely related animals - do the thing. At least, that's how I felt. (These sentiments tend to feel sillier when spelled out.)
