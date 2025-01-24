@@ -32,12 +32,14 @@ def _video_patterns(input_file: Path) -> tuple[str, str]:
 
     # Pattern for markdown image syntax: ![](link)
     parens_pattern: str = (
-        rf"\!?\[\]\({asset_staging_pattern}{link_pattern_fn('parens')}{input_file_pattern}\)"
+        rf"\!?\[\]\({asset_staging_pattern}"
+        rf"{link_pattern_fn('parens')}{input_file_pattern}\)"
     )
 
     # Pattern for wiki-link syntax: [[link]]
     brackets_pattern: str = (
-        rf"\!?\[\[{asset_staging_pattern}{link_pattern_fn('brackets')}{input_file_pattern}\]\]"
+        rf"\!?\[\[{asset_staging_pattern}"
+        rf"{link_pattern_fn('brackets')}{input_file_pattern}\]\]"
     )
 
     # Link pattern for HTML tags
