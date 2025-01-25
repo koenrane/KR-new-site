@@ -224,7 +224,7 @@ export function NavbarNode({ node, opts, fullPath, fileData }: NavbarNodeProps) 
                   {node.displayName}
                 </a>
               ) : (
-                <button className="folder-button">
+                <button type="button" className="folder-button">
                   <span className="folder-title">{node.displayName}</span>
                 </button>
               )}

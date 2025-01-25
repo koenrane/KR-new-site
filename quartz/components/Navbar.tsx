@@ -133,6 +133,7 @@ export default (() => {
           {searchHTML}
           <button
             id="menu-button"
+            type="button"
             className="hamburger mobile-only"
             aria-label="Opens menu for key site links."
           >
