@@ -48,7 +48,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 [This book](http://smile.amazon.com/Naive-Set-Theory-Paul-Halmos/dp/1614271313/) has been reviewed [pretty](https://www.lesswrong.com/posts/Ee8CZW7wzaNdCENYG/book-review-naive-set-theory-miri-course-list) [thoroughly](https://www.lesswrong.com/posts/FvA2qL6ChCbyi5Axk/book-review-naive-set-theory-miri-research-guide) already. Rather than restate each chapter, I'll be sharing insights: some book-specific, some general.
 
-I am quite proud of my time-to-completion for this book: just over a week, working around a very strenuous course load. I went from having to focus really hard to pick up new concepts to reading notation nearly as fluently as the English surrounding it. The chapters started making sense - it felt less random, and more like a coherent story wherein the protagonist slowly adds $\mathcal{P}$owers to their arsenal.
+I am proud of my time-to-completion for this book: just over a week, working around a strenuous course load. I went from having to focus really hard to pick up new concepts to reading notation nearly as fluently as the English surrounding it. The chapters started making sense - it felt less random, and more like a coherent story wherein the protagonist slowly adds $\mathcal{P}$owers to their arsenal.
 
 # Naïve Set Theory
 
@@ -56,7 +56,7 @@ I am quite proud of my time-to-completion for this book: just over a week, worki
 
 Functions $f:X\to Y$ are _just_ **static sets** of ordered pairs $\{(x,f(x)):x \in X\}$ . They are _not_ dynamic indexing functions, they do _not_ perform efficient lookup, please do _not_ waste an hour of your life trying to figure out how you could do such a thing within the simple machinery afforded by set theory up to that point.
 
-This is one of those [things that Nate talked about](https://www.lesswrong.com/posts/uX3HjXo6BWos3Zgy5/the-mechanics-of-my-recent-productivity) - how skipping over just one word a few chapters prior can cause you to waste hours. During my confusion, I knew this was probably the case, but I still couldn't manage to immediately overcome my intuitions of what a function should be. This is one reason I'm open to working through the [MIRI Research Guide](https://intelligence.org/research-guide/#two) with others.
+[Nate talked about this failure mode](https://www.lesswrong.com/posts/uX3HjXo6BWos3Zgy5/the-mechanics-of-my-recent-productivity) - how skipping over just one word a few chapters prior can cause you to waste hours. During my confusion, I knew this was probably the case, but I still couldn't manage to immediately overcome my intuitions of what a function should be. This is one reason I'm open to working through the [MIRI Research Guide](https://intelligence.org/research-guide/#two) with others.
 
 ## Families
 

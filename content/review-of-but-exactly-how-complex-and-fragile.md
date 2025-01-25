@@ -37,7 +37,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 
 
-I've thought about (concepts related to) the fragility of value [quite](/the-catastrophic-convergence-conjecture#Objective-vs-value-specific-catastrophes) [a bit](/non-obstruction-motivates-corrigibility) over the last year, and so I returned to Katja Grace's [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) with renewed appreciation (I'd previously commented only [a very brief microcosm](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=GAxppfoKhiFRrWHgK) of this review). I'm glad that Katja wrote this post and I'm glad that everyone commented. I often see [private Google docs full of nuanced discussion which will never see the light of day](https://www.lesswrong.com/posts/hnvPCZ4Cx35miHkw3/why-is-so-much-discussion-happening-in-private-google-docs), and that makes me sad, and I'm happy that people discussed this publicly.
+I've thought about (concepts related to) the fragility of value [quite](/the-catastrophic-convergence-conjecture#Objective-vs-value-specific-catastrophes) [a bit](/non-obstruction-motivates-corrigibility) over the last year, and so I returned to Katja Grace's [_But exactly how complex and fragile?_](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile) with renewed appreciation (I'd previously commented only [a brief microcosm](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=GAxppfoKhiFRrWHgK) of this review). I'm glad that Katja wrote this post and I'm glad that everyone commented. I often see [private Google docs full of nuanced discussion which will never see the light of day](https://www.lesswrong.com/posts/hnvPCZ4Cx35miHkw3/why-is-so-much-discussion-happening-in-private-google-docs), and that makes me sad, and I'm happy that people discussed this publicly.
 
 I'll split this review into two parts, since [the nominations called for](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=upiLXPNDbKWoudatP) review of both the post and the comments:
 
@@ -68,7 +68,7 @@ The post and discussion both seem to slip past (what I view as) the heart of "va
 > [!quote] Katja Grace
 > it is hard to write down what kind of future we want, and if we get it even a little bit wrong, most futures that fit our description will be worthless.
 
-But this leaves hidden a key step:
+This argument hides a key step:
 
 > it is hard to write down the future we want, _feed the utility function punchcard into the utility maximizer and then press "play"_, and if we get it even a little bit wrong, most futures that fit our description will be worthless.
 
@@ -82,7 +82,7 @@ Eliezer claims that if the future is not _shaped by **a** goal system,_ there's 
 
 Let's ground this out. Imagine you're acting, but you aren't quite sure _what_ is right. For a trivial example, you can eat bananas or apples at any given moment, but you aren't sure which is better. There are a few strategies you could follow: [preserve attainable utility for lots of different goals](/avoiding-side-effects-in-complex-environments) (preserve the fruits as best you can); retain option value where your [normative uncertainty](https://philpapers.org/rec/MACNU) lies (don't toss out all the bananas or all of the apples); etc.
 
-But what if you have to commit to an object-level policy _now_, a way-of-steering-the-future _now_, without being able to reflect more on your values? What kind of guarantees can you get?
+What if you have to commit to an object-level policy _now_, a way-of-steering-the-future _now_, without being able to reflect more on your values? What kind of guarantees can you get?
 
 In Markov decision processes, if you're maximally uncertain, you can't guarantee you won't lose at least _half_ of the value you could have achieved for the unknown true goal (I recently proved this for [an upcoming paper](https://arxiv.org/abs/2206.11812v3)). Relatedly, perfectly optimizing an $\epsilon$\-incorrect reward function [only bounds regret](https://web.eecs.umich.edu/~baveja/Papers/approx-rl-loss.pdf) to $2\epsilon$ _per time step_ (see also [_Goodhart's Curse_](https://arbital.com/p/goodharts_curse/)). The main point is that you can't pursue every goal at once. It doesn't matter whether you use reinforcement learning to train a policy, or whether you act randomly, or whether you ask Mechanical Turk volunteers what you should do in each situation. Whenever your choices mean anything at all, _no sequence of actions can optimize all goals at the same time_.
 
@@ -93,11 +93,11 @@ Hence, one might then conclude
 > [!quote] Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 > Any Future **not** shaped by a goal system with detailed reliable inheritance from human morals and metamorals, will not be optimized _for_ human morals and metamorals.
 
-But how do we get from "will not be optimized _for_" to "will contain _almost nothing_ of worth"? There are probably a few ways of arguing this; the simplest may be:
+We must now figure out how to go from "will not be optimized _for_" to "will contain _almost nothing_ of worth"? There are probably a few ways of arguing this; the simplest may be:
 
 > [our universe has "resources"](https://www.lesswrong.com/s/ehnG4mseKF6xALmQy/p/ahZQbxiPPpsTutDy2#Convergent_Instrumental_Goals); making the universe decently OK-by-human-standards [requires resources](/seeking-power-is-often-convergently-instrumental-in-mdps) which can be used for many other purposes; most purposes are best accomplished by _not_ using resources in this way.
 
-This is _not_ an argument that we will deploy utility maximizers with a misspecified utility function, and that _that_ will be how our fragile value is shattered and our universe is extinguished. The thesis holds merely that
+This argument does _not_ claim that we will deploy utility maximizers with a misspecified utility function, and that _that_ will be how our fragile value is shattered and our universe is extinguished. The thesis holds merely that
 
 > [!quote]Eliezer Yudkowsky, [_Value is Fragile_](https://www.lesswrong.com/posts/GNnHHmm8EzePmKzPk/value-is-fragile)
 > Any Future **not** shaped by _a goal system_ with detailed reliable inheritance from human morals and metamorals, will contain almost nothing of worth.
@@ -140,6 +140,7 @@ If no such decomposition takes place, I think debate is just too hard and opaque
 
 To concretely point out something I consider somewhat confused:
 
+<!-- vale off -->
 > [!quote] `johnswentworth`'s [the top-rated comment](https://www.lesswrong.com/posts/xzFQp7bmkoKfnae9R/but-exactly-how-complex-and-fragile?commentId=36Zaej9ppdApxcmFc)
 >
 > I think \[Katja's summary\] is an oversimplification of the fragility argument, which people tend to use in discussion because there's some nontrivial conceptual distance on the way to a more rigorous fragility argument.
@@ -147,8 +148,9 @@ To concretely point out something I consider somewhat confused:
 > The main conceptual gap is the idea that "distance" is not a pre-defined concept. Two points which are close together in human-concept-space may be far apart in a neural network's learned representation space or in an AGI's world-representation-space. It may be that value is not very fragile in human-concept-space; points close together in human-concept-space may usually have similar value. But that will definitely not be true in all possible representations of the world, and we don't know how to reliably formalize/automate human-concept-space.
 >
 > The key point is not "if there is any distance between your description and what is truly good, you will lose everything", but rather, "we don't even know what the relevant distance metric is or how to formalize it". And it is definitely the case, at least, that many mathematically simple distance metrics _do_ display value fragility.
+<!-- vale on -->
 
-This is a good point. But what exactly _happens_ between "we write down something too distant from the 'truth'" and the result? The AI happens. But this part, the dynamics, it's kept invisible.
+John makes good points. But what exactly _happens_ between "we write down something too distant from the 'truth'" and the result? The AI happens. But this part, the dynamics, it's kept invisible.
 
 So if you think that there will be fast takeoff via utility maximizers (_a la_ AIXI), you might say "yes, value is fragile", but if _I_ think it'll be more like slow CAIS with semi-aligned incentives making sure nothing goes too wrong, I reply "value isn't fragile." Even if we agree on a distance metric! This is how people talk past each other.
 

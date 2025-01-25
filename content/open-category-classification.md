@@ -58,7 +58,9 @@ In short, we'd like our machine learning algorithms to learn explanations which 
 > Conservatism and conservative planning seems like it might directly tackle some standard concerns \[in alignment\] head-on and in a sufficiently-basic way to avoid loopholes, and might also be subject to those concerns. E.g.:
 >
 > - [Edge instantiation](https://arbital.com/p/edge_instantiation/) - if in full generality we don't go to the edge of the graph but try to stay in the center of what's already been positively classified, maybe we can avoid this.
+<!-- vale off -->
 > - [Unforeseen maximum](https://arbital.com/p/unforeseen_maximum/) \- if we stick to things very similar to already-positively-classified instances, we won't automatically go into the unimagined parts of the graph.
+<!-- vale on -->
 > - [Context disaster](https://arbital.com/p/context_disaster/) - a sufficiently conservative optimizer might go on using options similar to previously-whitelisted ones even if large new sections of planning space opened up.
 
 # Prior Work
@@ -102,7 +104,7 @@ Exhaustively enumerating the input space to calculate $V$ is intractable - the s
 
 ## Black Box
 
-- Random image sampling wouldn't be very informative (beyond answering "is this class extending indefinitely along arbitrary dimensions?").
+- Random image sampling wouldn't be informative (beyond answering "is this class extending indefinitely along arbitrary dimensions?").
 - [Yu et al.'s results](https://arxiv.org/abs/1705.08722) weakly suggest that adversarial approaches can approximate the hypersurface of the class boundaries.
 - [Bayesian optimization](https://en.wikipedia.org/wiki/Bayesian_optimization) could deduce the hypersurface of the class boundaries, giving a reasonable estimate of volume.
 - The continuous latent space of a [variational autoencoder](https://arxiv.org/abs/1312.6114) could afford new approximation approaches for $\hat{V}$ (more on this later).
@@ -113,7 +115,7 @@ We do know the details of $f_\theta$ - how can we exploit this?
 
 **Decision trees** offer a particularly simple solution. Consider a decision tree on a one grayscale pixel input space; the tree outputs `unknown` if pixel value $x > 127$ and `dog` otherwise. Then without having to run a single input through the tree, we find the proportion of the space taken up by non-`unknown` classes to be $1-\frac{128}{256}=.5$.
 
-This result generalizes to any decision tree over discrete variables; simply calculate in closed form how many possible inputs conform to the conditions for each `unknown` leaf, and add them up. For an input space $S$ classified by a decision tree with $m$ nodes, we reduce the time complexity from $O(|S|)$ to $O(m)$; this is great, as it is almost always the case that $|S| \gg m$.
+This result generalizes to any decision tree over discrete variables; simply calculate in closed form how many possible inputs conform to the conditions for each `unknown` leaf, and add them up. For an input space $S$ classified by a decision tree with $m$ nodes, we reduce the time complexity from $O(|S|)$ to $O(m)$. This reduction is great, as it is almost always the case that $|S| \gg m$.
 
 **Neural networks** are a bit trickier. Work has been done on [extracting decision trees from neural networks](http://dspace.library.iitb.ac.in/jspui/bitstream/10054/1285/1/5664.pdf), but this requires training a new network to do so and the resulting trees may not have sufficient fidelity.
 
@@ -141,7 +143,7 @@ $$
 
 where $R$ is the radius of the ball and $\Gamma$ is the [Gamma function](https://en.wikipedia.org/wiki/Gamma_function).
 
-For high-dimensional volumes, the overwhelming majority of points in the $p$\-ball are located in the very outer shell. How do we know this? For $N$ points uniformly distributed in a $p$\-dimensional unit ball (a ball with $R=1)$, the median distance from the closest data point to the origin is defined as
+For high-dimensional volumes, the overwhelming majority of points in the $p$\-ball are located in the outer shell. How do we know this? For $N$ points uniformly distributed in a $p$\-dimensional unit ball (a ball with $R=1$), the median distance from the closest data point to the origin is defined as
 
 $$
 d(p,N)=\left(1-\frac{1}{2}^\frac{1}{N}\right)^\frac{1}{p}.
@@ -177,5 +179,5 @@ This proposal may be an intractable robust solution to the open-category classif
 [^3]: Set underflow aside for the moment.
 [^4]: I've updated from my previous position that the _i.i.d._ assumption about future data implied by a latent space is disqualifying. Although the latent space's structure would indeed make assumptions, the space would still approximate the volumetric properties of the `unknown`/non-`unknown` portions of the input space for the _current classifier_. Ultimately, this is what we care about!
 [^5]: I'm sure there's a formal name for this technique, but I don't know it.
-[^6]: Due to the statistical properties of variational autoencoders, it's possible that this could be done very quickly using bounded binary search.
+[^6]: Due to the statistical properties of variational autoencoders, it's possible that this could be done quickly using bounded binary search.
 [^7]: Unlike in the $p$\-ball example, the encoded points are distributed normally (as opposed to uniformly). This isn't necessarily directly relevant, as we're measuring $\hat{V}$ with respect to the multilayer perceptron's input space - the latent space (which, after being discretized and bounded, has uniformly "distributed" points).

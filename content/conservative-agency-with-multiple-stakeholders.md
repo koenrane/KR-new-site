@@ -78,7 +78,7 @@ The first part of my talk summarized my existing results on avoiding negative si
 ![](https://assets.turntrout.com/static/images/posts/ceedff3b01f8e4dd70c483030f9855e623643aa85c40b226.avif)
 <br/>Figure: Step three: we're done! We have the AUP reward function.
 
-Summary of results: [AUP does very well.](https://avoiding-side-effects.github.io/)
+Summary of results: [AUP does well.](https://avoiding-side-effects.github.io/)
 
 I expect AUP to further scale to high-dimensional embodied tasks. For example, avoiding making a mess on e.g. the factory floor. That said, I expect that physically distant side effects will be harder for AUP to detect. In those situations, it's less likely that distant effects show up in the agent's value functions for its auxiliary goals in the penalty terms.
 
@@ -107,7 +107,7 @@ In this setting, negotiated agent policies usually destroy option value.
 
 This might be OK if the interaction is one-off: the agent's production possibilities frontier is fairly limited, and it usually specializes in one beverage or the other.
 
-But interactions are rarely one-off: there are often opportunities for later trades and renegotiations as the principals gain resources or change their minds about what they want.
+Interactions are rarely one-off: there are often opportunities for later trades and renegotiations as the principals gain resources or change their minds about what they want.
 
 Concretely, imagine the principals are playing a game of their own.
 
@@ -128,7 +128,7 @@ Assistance games are a certain kind of partially observable Markov decision proc
 
 ![](https://assets.turntrout.com/static/images/posts/solve-mp-aup.avif)
 
-This is suggestive, but the assumptions don't perfectly line up with our use case (reward uncertainty isn't obviously equivalent to optimizing a mixture utility function per Harsanyi). I'm interested in more directly axiomatically motivating MP-AUP as (approximately) solving a certain class of joint principal/agent games under certain renegotiation assumptions, or (in the negative case) understanding how it falls short.
+Suggestive, but the assumptions don't perfectly line up with our use case (reward uncertainty isn't obviously equivalent to optimizing a mixture utility function per Harsanyi). I'm interested in more directly axiomatically motivating MP-AUP as (approximately) solving a certain class of joint principal/agent games under certain renegotiation assumptions, or (in the negative case) understanding how it falls short.
 
 ![](https://assets.turntrout.com/static/images/posts/multi-agent-similarities-mp-aup.avif)
 

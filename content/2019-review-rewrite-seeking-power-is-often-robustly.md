@@ -38,7 +38,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 
 
-For the 2019 LessWrong review, I've completely rewritten my post [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps). The post explains the key insights of [my theorems on power-seeking and instrumental convergence / robust instrumentality](https://arxiv.org/abs/1912.01683). The new version is more substantial, more nuanced, and better motivated, without sacrificing the broad accessibility or the cute drawings of the original.
+For the 2019 LessWrong review, I've rewritten my post [_Seeking Power is Often Robustly Instrumental in MDPs_](/seeking-power-is-often-convergently-instrumental-in-mdps). The post explains the key insights of [my theorems on power-seeking and instrumental convergence / robust instrumentality](https://arxiv.org/abs/1912.01683). The new version is more substantial, more nuanced, and better motivated - without sacrificing the broad accessibility or the cute drawings of the original.
 
 > [!thanks]
 > Big thanks to `diffractor`, Emma Fickel, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on this new version.
@@ -49,13 +49,13 @@ One year later, I remain excited about this post, from its ideas, to its formali
 
 Since last December, I’ve spent several hundred hours expanding the formal results and rewriting [the paper](https://arxiv.org/pdf/1912.01683.pdf); I’ve generalized the theorems, added rigor, and taken great pains to spell out what the theorems do and do not imply.
 
-However, there are a few things I wish I’d gotten right the first time around. Therefore, I’ve restructured and rewritten much of the post. Let’s walk through some of the changes.
+I wish I’d gotten a few things right the first time around. Therefore, I’ve restructured and rewritten much of the post. Let’s walk through some of the changes.
 
 ## "Instrumentally convergent" replaced by "robustly instrumental"
 
 [Like](/on-good-formal-definitions) [many](/game-theoretic-definition-of-deception) good things, this terminological shift was prompted by a critique from Andrew Critch.
 
-Roughly speaking, this work considered an action to be "instrumentally convergent" if it’s very probably optimal, with respect to a probability distribution on a set of reward functions. This definition is natural. You can even find it echoed by Tony Zador in the [_Debate on Instrumental Convergence_](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell):
+Roughly speaking, this work considered an action to be "instrumentally convergent" if it’s probably optimal, with respect to a probability distribution on a set of reward functions. This definition is natural. You can even find it echoed by Tony Zador in the [_Debate on Instrumental Convergence_](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell):
 
 > So i would say that killing all humans is not only not likely to be an optimal strategy under most scenarios, the set of scenarios under which it is optimal is probably close to a set of measure 0.
 

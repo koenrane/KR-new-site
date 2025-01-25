@@ -97,7 +97,7 @@ That's impossible;[^1] its $R$\-attainable utility _upper bounds_ its $R_\text{A
 
 This equation (2) should rule out tricks like [those pointed out by Stuart Armstrong](https://www.lesswrong.com/posts/sYjCeZTwA84pHkhBJ/attainable-utility-has-a-subagent-problem). To see this, imagine the AUP agent builds a subagent to make $Q^*_{R}(s,a) \approx Q^*_{R}(s, \varnothing)$ for all future $s,a$, in order to neutralize the penalty term. This means it can't make the penalty vanish without destroying its ability to better optimize its primary reward, as the (potentially catastrophically) powerful subagent makes sure the penalty term stays neutralized.
 
-But why would the AUP agent build this subagent at all – how does that benefit it?[^2]
+Consider - why would the AUP agent build this subagent at all?[^2]
 
 ## Reward advantage penalization
 
@@ -134,7 +134,7 @@ We want the penalty to keep making sense, even if the absolute shifts in AU are 
 
 As we saw in `Correction` [in the last post](/attainable-utility-preservation-empirical-results), we're only comparing action to a _single_ step of inaction. If the designers are going to shut down the agent in five minutes, then it receives ~0 penalty for preventing that.
 
-But not when we scale like this! The agent is significantly penalized for hewing close to its optimal policy, even if the absolute AU shift is rather low. Taking optimal actions instead of twiddling its thumbs incurs large penalty.
+However, this scaling prevents the penalty from vanishing! The agent is significantly penalized for hewing close to its optimal policy, even if the absolute AU shift is rather low. Taking optimal actions instead of twiddling its thumbs incurs large penalty.
 
 ## Penalizing decreases?
 

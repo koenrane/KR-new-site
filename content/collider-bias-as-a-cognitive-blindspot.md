@@ -58,7 +58,7 @@ This seems like it could be _everywhere_. Most things have more than one causal 
  > [!quote] Judea Pearl's speculation in _The Book of Why_ (emphasis mine)
 > Our brains are not wired to do probability problems, but they are wired to do causal problems. And this causal wiring produces systematic probabilistic mistakes, like optical illusions. Because there is no causal connection between \[$A$ and $C$ in $A \to B \leftarrow C$\], either directly or through a common cause, \[people\] find it utterly incomprehensible that there is a probabilistic association. Our brains are not prepared to accept causeless correlations, and we need special training - through examples like the Monty Hall paradox... - to identify situations where they can arise. Once we have "**rewired our brains**" to recognize colliders, the paradox ceases to be confusing.
 
-But how is this done? Perhaps one simply meditates on the wisdom of causal diagrams, understands the math, and thereby comes to properly intuitively reason about colliders, or at least reliably recognize them.
+How is this done? Perhaps one simply meditates on the wisdom of causal diagrams, understands the math, and thereby comes to properly intuitively reason about colliders, or at least reliably recognize them.
 
 This question serves two purposes:
 

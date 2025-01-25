@@ -113,13 +113,13 @@ No approaches to date meet these standards. What do we even require of an impact
 >
 > ![](https://assets.turntrout.com/static/images/posts/03b8i2s.avif)
 >
-> This is called _ex post_ offsetting. _Ex ante_ offsetting, on the other hand, consists of taking actions beforehand to build a device or set in motion a chain of events which essentially accomplishes _ex post_ offsetting. For example, a device requiring only the press of a button to activate could save the vase and then replace it, netting the agent the reward without requiring that the agent take further actions.
+> I call this _ex post_ offsetting. _Ex ante_ offsetting, on the other hand, consists of taking actions beforehand to build a device or set in motion a chain of events which essentially accomplishes _ex post_ offsetting. For example, a device requiring only the press of a button to activate could save the vase and then replace it, netting the agent the reward without requiring that the agent take further actions.
 >
 > Some have suggested that actions like "give someone a cancer cure which also kills them at the same time they would have died anyways" count as _ex ante_ offsetting. I'm not sure - this feels confused, because the downstream causal effects of actions don't seem cleanly separable, nor do I believe we _should_ separate them (more on that later). Also, how would an agent ever be able to do something like "build a self-driving car to take Bob to work" if each of the car's movements is penalized separately from the rest of the plan? This seems too restrictive. On the other hand, if we allow _ex ante_ offsetting in general, we basically get all of the downsides of _ex post_ offsetting, with the only impediment being extra paperwork.
 >
 > How "bad" the offsets are - and what _ex ante_ offsetting allows - seems to depend on the measure itself. The ideal would certainly be to define and robustly prevent this kind of thing, but perhaps we can also bound the amount of _ex ante_ offsetting that takes place to some safe level.
 >
-> There may also be other ways around this seemingly value-laden boundary. In any case, I'm still not quite sure where to draw the line.
+> There may also be other ways around this seemingly value-laden boundary. In any case, I'm still not sure what to do.
 
 > [!example] Clinginess / Scapegoating Avoidance
 > The measure should sidestep the [clinginess / scapegoating tradeoff](/overcoming-clinginess-in-impact-measures).

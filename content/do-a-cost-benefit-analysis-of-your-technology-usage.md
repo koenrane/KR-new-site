@@ -85,7 +85,7 @@ Readers of this forum are probably better about their usage. Let’s be (too) ge
 
 ## Attentional costs
 
-But lost time doesn’t capture everything sucked away by your apps, by your email tics, by YouTube, by Reddit, by Slack, by Discord, by everything else which is after you. [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/) asked:
+Lost time doesn’t capture everything sucked away by your apps, by your email tics, by YouTube, by Reddit, by Slack, by Discord, by everything else which is after you. [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/) asked:
 
 > When was the last time you were bored and in silence?
 
@@ -107,7 +107,7 @@ The declutter goes as follows:
 1. Identify the minimal set of digital affordances required to do your job and the other necessities of life (e.g. paying bills).
 2. Cut out everything else for one month.
 
-The point is that these apps which are [out to get you](https://www.lesswrong.com/posts/ENBzEkoyvdakz4w5d/out-to-get-you)—they’re very good at what they do. It’s not enough to turn off notifications and enable app timers. [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/) argues (and I mostly agree) that you have to _get out of the pond entirely_ and catch a breather. After the declutter, you can soberly analyze the costs and benefits of each digital activity you add back in.
+The point is that these apps which are [out to get you](https://www.lesswrong.com/posts/ENBzEkoyvdakz4w5d/out-to-get-you)—they’re good at what they do. It’s not enough to turn off notifications and enable app timers. [_Digital Minimalism_](https://smile.amazon.com/Digital-Minimalism-Choosing-Focused-Noisy/dp/0525536515/) argues (and I mostly agree) that you have to _get out of the pond entirely_ and catch a breather. After the declutter, you can soberly analyze the costs and benefits of each digital activity you add back in.
 
 ### My declutter rules
 
@@ -152,17 +152,17 @@ The world was not going to end because I stopped reading the news for a month—
 
 ## Anticipated questions
 
-But `TurnTrout`, my job needs email / \[other special reason why this doesn’t work for me\].
-: I concede that my rules are probably not best for your situation. But have you thought about the issue for five minutes? Could you ask your boss if you can check email once a day and otherwise take phone calls? Maybe you don’t restrict email, but stop looking at websites like Reddit or Hacker News or Marginal Revolution or Facebook or Twitter? Are there other creative solutions waiting to be uncovered? Have you tried?
+`TurnTrout`, my job needs email / \[other special reason why this doesn’t work for me\].
+: I concede that my rules are probably not best for your situation. However, have you thought about the issue for five minutes? Could you ask your boss if you can check email once a day and otherwise take phone calls? Maybe you don’t restrict email, but stop looking at websites like Reddit or Hacker News or Marginal Revolution or Facebook or Twitter? Are there other creative solutions waiting to be uncovered? Have you tried?
 
 : If your team uses Slack for asynchronous communication, once- or twice-daily checks should be fine. If you use it for synchronous communication, perhaps establish a daily “office hour” when you’ll be on Slack, or even coordinate with your team to establish a daily “Slack hour” where people are expected to be online. Or something else. The point is to establish the main benefits you reap from each digital affordance, and then find a plan which minimizes the costs you pay for those benefits.
 
 I’m already good about my internet usage.
-: This might be true! I know exactly one person for whom I’m quite confident this is true (Andrew Critch), and maybe there are more among my friends whom I don’t know about. This might be you if you already use services based on their costs and benefits, often using websites in unintended ways (like blocking all recommendations on YouTube via the Unhook add-on \[[Chrome](https://chrome.google.com/webstore/detail/unhook-remove-youtube-rec/khncfooichmfjbepaaaebmommgaepoid), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-recommended-videos/)\]), and spending far less time than average (e.g. only checking email very infrequently).
+: This might be true! I know exactly one person for whom I’m quite confident this is true (Andrew Critch), and maybe there are more among my friends whom I don’t know about. This might be you if you already use services based on their costs and benefits, often using websites in unintended ways (like blocking all recommendations on YouTube via the Unhook add-on \[[Chrome](https://chrome.google.com/webstore/detail/unhook-remove-youtube-rec/khncfooichmfjbepaaaebmommgaepoid), [Firefox](https://addons.mozilla.org/en-US/firefox/addon/youtube-recommended-videos/)\]), and spending far less time than average (e.g. only checking email infrequently).
 
 : I’d still bet against it. I would have said I was good about my internet usage, and it _was_ true—in a relative sense. I think people (motivatedly) underestimate how much time they waste, perhaps because it can feel bad and embarrassing to admit the problem.
 
-But how will I stay in touch with people? I’m already lonely.
+How will I stay in touch with people? I’m already lonely.
 : Excellent question! Reallocate low-quality social time to high-quality social time. Instead of checking if some half-friends liked your FB status, call up a buddy and grab a beer, or go to a meetup, or join a club.
 
 # Benefits of the declutter
@@ -236,7 +236,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
   - After that, I’ll check its event page weekly, while blocking the notifications / other clutter FB tries to throw at me. This should take less than 10 minutes each week.
   - Here’s how to use FB more peacefully:
 
-    - Install [FBPurity](https://www.fbpurity.com/); you can save time by importing my settings [here](https://pastebin.com/raw/KsqhsXjD).
+    - Install [FBPurity](https://www.fbpurity.com/); you can save time by importing [my settings](https://pastebin.com/raw/KsqhsXjD).
     - Use UBlock Origin to get rid of the rest; here is my [element blocking list](https://pastebin.com/raw/9BhyqYpK) for Facebook.
       - (I also hide the chat sidebar on the main page, which is a FB option)
 
@@ -267,7 +267,7 @@ My procedure was “If I need to use a forbidden functionality, then I have to w
 - I _never ever use my phone on the toilet. Ever._ This has served me well and seems like a pure win.
 
 [^1]:
-    This is only a sufficient condition; the app need not be the child of a billion-dollar company. For example, I oft ragebaited myself about the culture war via _Marginal Revolution_ and _Hacker News_. I even tend to get anxious about _LessWrong_ usage, and I know that the team deliberately refrained from attention-hacks like red notifications.
+    The app need not be the child of a billion-dollar company. For example, I oft ragebaited myself about the culture war via _Marginal Revolution_ and _Hacker News_. I even tend to get anxious about _LessWrong_ usage, and I know that the team deliberately refrained from attention-hacks like red notifications.
 
     Even while using my Notion to edit this post and supervise research, I saw a red “5 notifications” marker, which gave me an overwhelming urge to _see what the notifications are_. With great effort, I ignored the impulse, and deleted the element with my adblocker.
 

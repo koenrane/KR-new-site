@@ -28,7 +28,7 @@ Physiology seemed like a grab-bag of random processes which no one really unders
 
 I haven't totally changed my mind. But I _do_ know that I love understanding my own body better.
 
-# This is actually easy stuff
+# This content is actually easy stuff
 
 Subtitle: At least at this level.
 
@@ -129,7 +129,7 @@ Subtitle: Surely not, but my gut thinks so.
 
 I know there's _some_ filtration at the lymph nodes, but my initial impression was that the filtration is just the lymphatic immune cells (i.e. the _lymphocytes_) killing off intruders. Since the lymph system does general garbage collection and keeps interstitial fluid at acceptable levels, I'd expect there to be non-invasive waste products.
 
-But maybe that's fine! After all, it's the kidneys' job to filter out waste. The kidneys [need that waste to be in the bloodstream](#no-physical-tract-from-the-mouth-to-the-bladder).
+Maybe that's fine! After all, it's the kidneys' job to filter out waste. The kidneys [need that waste to be in the bloodstream](#no-physical-tract-from-the-mouth-to-the-bladder).
 
 > [!quote] Gemini's elaboration
 > Cellular debris collected by the lymphatic system is primarily broken down by macrophages within the lymph nodes. The components are then either recycled for use by the body or further processed for disposal, ultimately being eliminated through the liver or kidneys.

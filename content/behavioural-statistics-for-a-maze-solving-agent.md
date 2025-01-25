@@ -76,7 +76,7 @@ Here are four central intuitions which we developed:
 
 The videos we studied are hard to interpret without quantitative tools, so we regard these intuitions as theoretically-motivated impressions rather than as observations. We wanted to precisify and statistically test these impressions, with an eye to their potential theoretical significance.
 
-We suspect that the agent’s conditions for pursuing cheese generalize properties of historically reinforced cheese-directed moves in a very “soft” way. Consider that movements can be "directed" on paths towards the cheese, the top-right corner, both, or neither. In the training environment, unambiguously cheese-directed movements are towards a cheese square that is both _close to the mouse’s current position_ and _close to the top-right._[^2]
+We suspect that the agent’s conditions for pursuing cheese generalize properties of historically reinforced cheese-directed moves in a “soft” way. Consider that movements can be "directed" on paths towards the cheese, the top-right corner, both, or neither. In the training environment, unambiguously cheese-directed movements are towards a cheese square that is both _close to the mouse’s current position_ and _close to the top-right._[^2]
 
 ![](https://assets.turntrout.com/static/images/posts/0f36fa697965a17145efcd0c9e8b5ecaf6e09b3389d7d386.avif)
 <br/>Figure: Decision-square in red. We outline in yellow the 5x5 region where cheese can appear during training. In almost all cases that can arise in training, the decision-square is inside the 5x5 region. Unambiguously cheese-seeking moves are almost always moves to a _nearby_ cheese square which is _close_ to the top-right.
@@ -115,7 +115,7 @@ We think the complex influence of spatial distances on the network’s decision-
 
 First, we weakly suspect that the agent may be systematically[^3] dynamically inconsistent from a utility-theoretic perspective. That is, the effects of $d_\text{step}(\text{mouse},\text{cheese})$ and (potentially) $d_\text{Euclidean}(\text{cheese},\text{top-right})$ might turn out to call for a behavior model where the agent's priorities in a given maze change based on the agent's current location.
 
-Second, we suspect that if the agent is dynamically consistent, a shard-like description may allow for a more compact and natural statement of an otherwise very gerrymandered-sounding utility function that fixes the value of cheese and top-right in a maze based on a "strange" mixture of maze properties. It may be helpful to look at these properties in terms of similarities to the historical activation conditions of different submodules that favor different plans.[^4]
+Second, we suspect that if the agent is dynamically consistent, a shard-like description may allow for a more compact and natural statement of an otherwise gerrymandered-sounding utility function that fixes the value of cheese and top-right in a maze based on a "strange" mixture of maze properties. It may be helpful to look at these properties in terms of similarities to the historical activation conditions of different submodules that favor different plans.[^4]
 
 While we consider our evidence suggestive in these directions, it's possible that some simple but clever utility function will turn out to be predictively successful.  For example, consider our two strongly observed effects: $d_\text{Euclidean}(\text{cheese},\text{top-right})$and $d_\text{step}(\text{decision-square},\text{cheese})$. We might explain these effects by stipulating that:
 
@@ -190,7 +190,7 @@ As we move on to multiple regressions to try finding out which variables drive t
 >
 > It might be worth making a cross-correlation plot of the features. This won't give you a new coefficients to put faith in, but it might help you decide how much to trust the ones you have. It can also be useful looking at how unstable the coefficients are during training (or e.g. when trained on a different dataset).
 
-There is indeed a strong correlation between two of our highly predictive variables:
+Two of our highly predictive variables are indeed strongly correlated:
 
 ![](https://assets.turntrout.com/static/images/posts/37e3e1d834bdf27d2c64ea4834d8dcb1d235d054ee2ed177.avif)
 <br/>Figure: $d_\text{step}(\text{decision-square},\text{cheese})$ and $d_\text{Euclidean}(\text{decision-square},\text{cheese})$ have correlation of .886.
@@ -233,7 +233,7 @@ These are also the three main features which we noted in the original post. (We 
 
 ### These decision-influences are probably not statistical artifacts
 
-We've repeated this particular test dozens of time and got very consistent results: individually predictive variables outside 1-3) always go near zero or sign-flip. Results also remained consistent on a second batch of 10,000 test-runs. Considering a range of regressions on a range of train/validation splits, the regression coefficient signs of 1-3) are very stable. The magnitudes[^6] of the regression coefficients fluctuate a bit across regressions and splits, but are reasonably stable.
+We've repeated this particular test dozens of time and got consistent results: individually predictive variables outside 1-3) always go near zero or sign-flip. Results also remained consistent on a second batch of 10,000 test-runs. Considering a range of regressions on a range of train/validation splits, the regression coefficient signs of 1-3) are stable. The magnitudes[^6] of the regression coefficients fluctuate a bit across regressions and splits, but are reasonably stable.
 
 Furthermore, we regressed upon 200 random subsets of our variables, and the cheese/decision-square distance regression coefficients _never_ experienced a sign flip. The cheese/top-right Euclidean distance had a few sign flips. Other variables sign-flip much more frequently.
 
@@ -252,7 +252,7 @@ Are variables 1-3) 'enough' to explain the network's behavior? Let's see how muc
 
 Table: Overall regression accuracy is 82.4%.
 
-There is a 1.7% accuracy drop compared to the original multiple regression. Unfortunately, it's hard to interpret this accuracy gap in terms of the contributions of individual variables outside 1-3). Adding practically _any_ 4th variable to 1-3) flips delivers big accuracy gains that don't additively accrue when combined, and the new variable's sign is often flipped relative to its single-regression sign.
+Restricting to 1-3) drops accuracy by 1.7% compared to the original multiple regression. Unfortunately, it's hard to interpret this accuracy gap in terms of the contributions of individual variables outside 1-3). Adding practically _any_ 4th variable to 1-3) flips delivers big accuracy gains that don't additively accrue when combined, and the new variable's sign is often flipped relative to its single-regression sign.
 
 See for example 1-3) + ‘legal steps from cheese to top-right square’:
 
@@ -318,7 +318,7 @@ Our biggest source of doubt about $d_\text{Euclidean}(\text{cheese},\text{decisi
 
 Our statistics refine, support, and stress-test our impressions about the network's behavior. This behavior seems more easily describable using a shard theory frame than a utility frame. We think our statistical results are not artifacts of multicollinearity, but hold up quite well.[^9]
 
-However, the statistics are not fully rigorous, and this post's analysis contained freeform domain-specific reasoning. That said, we are overall very confident that the agent is influenced by $d_\text{Euclidean}(\text{cheese},\text{top-right})$ and by $d_\text{step}(\text{cheese},\text{decision-square} )$. We have weak but suggestive evidence for additional influence from $d_\text{Euclidean}(\text{cheese},\text{decision-square})$.
+However, the statistics are not fully rigorous, and this post's analysis contained freeform domain-specific reasoning. That said, we are overall confident that the agent is influenced by $d_\text{Euclidean}(\text{cheese},\text{top-right})$ and by $d_\text{step}(\text{cheese},\text{decision-square} )$. We have weak but suggestive evidence for additional influence from $d_\text{Euclidean}(\text{cheese},\text{decision-square})$.
 
 [^1]: > [!quote] [Understanding and controlling a maze-solving policy network](/understanding-and-controlling-a-maze-solving-policy-network)
     >

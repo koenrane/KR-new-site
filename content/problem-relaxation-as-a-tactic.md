@@ -63,7 +63,7 @@ There's more than one thing going wrong here, but I'm just going to focus on one
 
 Sometimes, constraints are necessary. I think that the alignment community is pretty good at finding plausibly necessary constraints. Maybe some of the above _aren't_ necessary – maybe there's One Clever Trick you come up with which obviates one of these concerns.
 
-Constraints come with costs. Sometimes, the costs are worth it. In this context, I think the costs are very much worth it. Under this implicit framing of the problem, you're [pretty hosed](/the-catastrophic-convergence-conjecture) if you don't get even outer alignment right.
+Constraints have costs. Sometimes, the costs are worth it. In this context, I think the costs are much worth it. Under this implicit framing of the problem, you're [pretty hosed](/the-catastrophic-convergence-conjecture) if you don't get even outer alignment right.
 
 However, even if the real problem has crazy constraints, that doesn't mean you should immediately tackle the fully constrained problem. I think you should often [relax](<https://en.wikipedia.org/wiki/Relaxation_(approximation)>) the problem first: eliminate or weaken constraints until you reach a problem which is still a little confusing, but which you can get some traction on.
 
@@ -115,7 +115,9 @@ At an impromptu presentation in 2018, I'd remarked that "AUP wields instrumental
 
 I paused. I went outside for a walk, and I paced. The walk lengthened, and I still didn't understand why. Maybe it was just a "brute fact", an "emergent" phenomenon – nope, not buying that. There's an explanation somewhere.
 
+<!-- vale off -->
 I went back to the drawing board – to the whiteboard, in fact. I stopped trying to [understand the general case](/seeking-power-is-often-convergently-instrumental-in-mdps) and I focused on specific toy environments. I'm looking at an environment like this
+<!-- vale on -->
 
 ![](https://assets.turntrout.com/static/images/posts/KEKaYrk.avif)
 
@@ -157,9 +159,9 @@ Just relax.
     It took me a few weeks to get a handle for why it seemed to work so well. It wasn't for a month or two that I began to understand what was actually going on, eventually leading to the [_Reframing Impact_](/posts#reframing-impact) sequence. However, for the reader's convenience, I whitewashed my reasoning here a bit.
 
 [^4]:
-    At first, I wasn't very excited about AUP – I was new to alignment, and it took a lot of evidence to overcome the prior improbability of my having actually found something to be excited about. It took several weeks before I stopped thinking it likely that my idea was probably secretly and horribly bad.
+    At first, I wasn't excited about AUP – I was new to alignment, and it took a lot of evidence to overcome the prior improbability of my having actually found something to be excited about. It took several weeks before I stopped thinking it likely that my idea was probably secretly and horribly bad.
 
-    However, I kept staring at the strange equation – I kept trying to break it, to find some obvious loophole which would send me back to the drawing board. I never found it. Looking back over a year later, [AUP does presently have loopholes](/attainable-utility-preservation-scaling-to-superhuman#Appendix-Remaining-Problems), but they're not obvious, nor should they have sent me back to the drawing board.
+    However, I kept staring at the strange equation. I kept trying to break it, to find some obvious loophole. I never found it. Looking back over a year later, [AUP does presently have loopholes](/attainable-utility-preservation-scaling-to-superhuman#Appendix-Remaining-Problems), but they're not obvious.
 
     I started to get excited about the idea. Two weeks later, my workday was wrapping up and I left the library.
 

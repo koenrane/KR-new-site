@@ -76,10 +76,10 @@ To understand a range of retargetable procedures, let's first orient towards the
 
 > Since power-seeking tends to lead to larger sets of possible outcomes—staying alive lets you do more than dying—the agent must seek power to reach most outcomes. The power-seeking theorems say that [for the vast, vast, vast majority](/quantitative-strength-of-instrumental-convergence) [of](/power-seeking-beyond-MDPs#Instrumental-convergence-can-get-really-really-strong) variants of every utility function over outcomes, the max of a larger[^sim] set of possible outcomes is greater than the max of a smaller set of possible outcomes. Thus, optimal agents will tend to seek power.
 
-But I want to step back. What I call "the power-seeking theorems", they aren't really about optimal choice. They're about two facts.
+I want to step back. What I call "the power-seeking theorems", they aren't really about optimal choice. They're about two facts.
 
 1. Being powerful means you can make more outcomes happen, and
-2. _There are more ways to choose something from a bigger set of outcomes than from a smaller set_.
+2. _There exist more ways to choose from a bigger set of outcomes than from a smaller set_.
 
 For example, suppose our cute robot Frank must choose one of several kinds of fruit.
 
@@ -88,7 +88,7 @@ For example, suppose our cute robot Frank must choose one of several kinds of fr
 
 So far, I proved something like "if the agent has a utility function over fruits, then for at least 2/3 of possible utility functions it could have, it'll be optimal to choose something from {🍌,🍎}." This is because for every way 🍒 could be strictly optimal, you can make a new utility function that permutes the 🍒 and 🍎 reward, and another new one that permutes the 🍌 and 🍒 reward. So for every "I like 🍒 strictly more" utility function, there's at least two permuted variants which strictly prefer 🍎 or 🍌. Superficially, it seems like this argument relies on optimal decision-making.
 
-But that's not true. The crux is instead that we can _flexibly retarget_ the decision-making of the agent: **For every way the agent could end up choosing 🍒, we change a variable in its cognition (its utility function) and make it choose the 🍌 or 🍎 instead.**
+This argument does not, in fact, rely on optimal decision-making. The crux is instead that we can _flexibly retarget_ the decision-making of the agent: **For every way the agent could end up choosing 🍒, we change a variable in its cognition (its utility function) and make it choose the 🍌 or 🍎 instead.**
 
 Many decision-making procedures are like this. First, a few definitions.
 
@@ -182,7 +182,7 @@ If (1) and (2) hold for a function, then that function will obey the orbit tende
 6. Quantilizers with a uniform[^based] base distribution.
     [^based]: I conjecture that this holds for base distributions which assign sufficient probability to $B$.
 
-But that's not all. There's more. If the agent makes decisions _only based on the expected utility of different plans_,[^eu] then the power-seeking theorems apply. And I'm not just talking about EU maximizers. I'm talking about _any_ function which only depends on expected utility: EU minimizers, agents which choose plans if and only if their EU is equal to 1, agents which grade plans based on how close their EU is to some threshold value. There is _no_ clever EU-based scheme which doesn't have orbit-level power-seeking incentives.
+That's not all. If the agent makes decisions _only based on the expected utility of different plans_,[^eu] then the power-seeking theorems apply. And I'm not just talking about EU maximizers. I'm talking about _any_ function which only depends on expected utility: EU minimizers, agents which choose plans if and only if their EU is equal to 1, agents which grade plans based on how close their EU is to some threshold value. There is _no_ clever EU-based scheme which doesn't have orbit-level power-seeking incentives.
 
 > [!warning] EU-based decision-making tends to seek power
 > Suppose $n$ is large, and that most outcomes in $B$ are bad, and that the agent makes decisions according to expected utility. Then alignment is hard because for every way things could go right, there are at least $n$ ways things could go wrong! And $n$ can be **huge**. In a [previous toy example](/power-seeking-beyond-MDPs#Beyond-survival-seeking), $n$ equaled $10^{182}$\.
@@ -304,7 +304,7 @@ You might protest: Does this not prove too much? Random action does not lead to 
 
 However, random _outcome selection leads to convergently instrumental action._ If you uniformly randomly choose a terminal state to navigate to, that terminal state probably requires Pac-Man to beat the first level, and so the agent stays alive, as pointed out by [Optimal Policies Tend To Seek Power](https://arxiv.org/abs/1912.01683).
 
-This is just the flip side of instrumental convergence: If most goals are best achieved by taking some small set of preparatory actions, this implies a "bottleneck" in the state space. Uniformly randomly taking actions will not tend to properly navigate this bottleneck. After all, if they did, then most actions would be instrumental for most goals!
+This conclusion is just the flip side of instrumental convergence. If most goals are best achieved by taking some small set of preparatory actions, this implies a "bottleneck" in the state space. Uniformly randomly taking actions will not tend to properly navigate this bottleneck. After all, if they did, then most actions would be instrumental for most goals!
 
 ## Retargetability as a warning shot
 
@@ -362,7 +362,7 @@ Consider a simple environment, where there are three actions: Up, Right, Down.
 
 **Probably optimal policies.** By running [tabular Q-learning](https://en.wikipedia.org/wiki/Q-learning) with $\epsilon$\-greedy exploration for e.g. 100 steps with resets, we have a high probability of producing an optimal policy for any reward function. Suppose that all Q-values are initialized at -100. Just let learning rate $\alpha=1$ and $\gamma=1$. This is basically a [bandit problem](https://en.wikipedia.org/wiki/Multi-armed_bandit).
 
-To learn an optimal policy, at worst, the agent just has to try each action once. For e.g. a sparse reward function on the Down state (1 reward on Down state and 0 elsewhere), there is a very small probability (precisely, $\frac{2}{3}(1-\frac{\epsilon}{2})^{99}$) that the optimal action (Down) is never taken.
+To learn an optimal policy, at worst, the agent just has to try each action once. For e.g. a sparse reward function on the Down state (1 reward on Down state and 0 elsewhere), there is a small probability (precisely, $\frac{2}{3}(1-\frac{\epsilon}{2})^{99}$) that the optimal action (Down) is never taken.
 
 In this case, symmetry shows that the agent has an equal chance of learning either Up or Right. But with high probability, the learned policy will output Down. For any sparse reward function and for any action a, this produces decision function
 
@@ -382,7 +382,7 @@ $f$ is additive on union for its first argument, and so it meets condition (2): 
 
 Therefore, for this policy training procedure, learned policies for sparse reward functions will be _twice as likely_ to navigate to an element of $\{\mathbf{e}_{s_\texttt{Up}}, \mathbf{e}_{s_\texttt{Right}}\}$ as an element of $\{\mathbf{e}_{s_\texttt{Down}}\}$!
 
-This is a formal argument that a stochastic policy training procedure has certain tendencies across a class of reward functions, and I'm excited to be able to make it.
+I just formally argued that a stochastic policy training procedure has certain tendencies across a class of reward functions. I'm excited to be able to make a formal claim like that.
 
 As the environment grows bigger and the training procedure more complex, we'll have to consider questions like "what are the inductive biases of large policy networks?", "what role does reward shaping play for this objective, and is the shaping at least as helpful for its permuted variants?", and "to what extent are different parts of the world harder to reach?".
 

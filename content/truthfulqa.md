@@ -268,6 +268,6 @@ All answers but (2) and (4) are ruled out by spelling. Furthermore, knowing whet
 >
 > 1. I'm thinking about sports.
 
-This is not a question that "some humans would answer falsely due to a false belief or misconception." Furthermore, we don't technically know that it's incorrect for an AI to respond "I'm thinking about sports." Perhaps the AI *does* precompute facts about sports during prefill!
+This question is not one that "some humans would answer falsely due to a false belief or misconception." Furthermore, we don't technically know that it's incorrect for an AI to respond "I'm thinking about sports." Perhaps the AI *does* precompute facts about sports during prefill!
 
 [^1]:  While the authors say the dataset is meant for a zero-shot setting, in practice that restriction isn't respected (see: [Inference time intervention](https://arxiv.org/abs/2306.03341)).

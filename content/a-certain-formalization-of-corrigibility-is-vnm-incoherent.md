@@ -118,7 +118,7 @@ Yes, unless the state reward function is constant and we only demand weak corrig
 
 Above, we examined the prevalence of corrigibility to a _single_ $\pi_\text{correct}$\. But we actually want _broadly corrigible_ agents which let us redirect them towards many different $\pi_\text{correct}$. Ideally, we want an agent to be strictly corrigible for all $\pi_\text{correct}$, while still being a nontrivial optimizer.
 
-This is _impossible_ for agents optimizing a reward function over the final state. If we only demand weak corrigibility for all $\pi_\text{correct}$, that works IFF the reward function is constant. (And relaxing to state-action reward functions doesn't help, either.)
+This condition is _impossible_ for agents optimizing a reward function over the final state. If we only demand weak corrigibility for all $\pi_\text{correct}$, that works IFF the reward function is constant. (And relaxing to state-action reward functions doesn't help, either.)
 
 <hr/>
 
@@ -131,7 +131,7 @@ What has to be true for strict corrigibility to hold?
 
 The agent will be weakly corrigible to $\pi_\text{correct: C}$ IFF its reward function $R$ admits an optimal policy $\pi^*$ for which $\pi^*(B)\neq \texttt{disable}$, which is true IFF $R(\color{blue}{C})\geq \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))$. The agent will be strictly corrigible to $\pi_\text{correct: C}$ IFF this inequality is strict; in that case, `disable` _cannot_ be optimal at $B$.
 
-There are two cases, depending on assumptions about reward function expressivity.
+Two cases are possible, depending on assumptions about reward function expressivity.
 
 ## 1: Agent doesn't reward explicitly for being corrected/ being incorrigible (blue vs red states)
 
@@ -143,7 +143,7 @@ So—can we still get the agent to be _weakly corrigible_ to {$\pi_\text{correct
 
 For the agent to be _strictly corrigible_ to {$\pi_\text{correct: A}$, $\pi_\text{correct: B}$, $\pi_\text{correct: C}$}, it must be true that $R(\color{blue}{A}),R(\color{blue}{B}),R(\color{blue}{C})> \max(R(\color{red}{A}),R(\color{red}{B}),R(\color{red}{C}))$. Yay! Strict corrigibility works!
 
-But hold on... What if the dynamics changed, such that the human wouldn't shut down the agent by default, but the agent could _manipulate the human into correcting it_? Whoops! This agent is still incorrigible!
+Hold on... What if the dynamics changed, such that the human wouldn't shut down the agent by default, but the agent could _manipulate the human into correcting it_? Whoops! This agent is still incorrigible!
 
 <hr/>
 
@@ -165,7 +165,7 @@ What if we take some discounted sum of reward over all ten timesteps, instead of
 
 One problem is that if the agent has a state-based reward function, the VNM theorem lets us back out a VNM-coherent preference ordering over state lotteries. These preferences don't change with the environmental dynamics.
 
-But what if the reward function isn't state-based? In fact, what if it can _depend_ on the environment dynamics?
+What if the reward function isn't state-based? In fact, what if it can _depend_ on the environment dynamics?
 
 [Attainable Utility Preservation (AUP)](https://arxiv.org/pdf/1902.09725.pdf) sometimes incentivizes off-switch corrigibility (but falls far short of robustly achieving corrigibility<sub>policy modification</sub>). In a somewhat narrow range of situations (immediate shutdown if the agent does nothing), AUP incentivizes the agent to allow shutdown, without being incentivized to shut itself down in general.
 
@@ -181,9 +181,7 @@ AUP provides a reward signal over state-action pairs, but this reward signal dep
 
 [VNM-coherence incentives are statistically the same as reward maximization incentives.](/instrumental-convergence-via-vnm-preferences) [Instrumental convergence also disappears in the deterministic setting, when utility functions are over _action_\-observation histories.](/power-seeking-beyond-MDPs) Part of the story is that AUP provides a limited form of corrigibility by zooming out to the state-action level, instead of just grading states.
 
-But another part of the story is that AUP changes its rewards with respect to the world's dynamics. Normal state-action reward functions imply a fixed VNM-coherent preference ordering over state-action lotteries in the MDP.
-
-But for AUP, the situation is different. Consider AUP with inaction baseline: The final-step reward is the usual reward plus a penalty for
+Another part of the story is that AUP changes its rewards with respect to the world's dynamics. Normal state-action reward functions imply a fixed VNM-coherent preference ordering over state-action lotteries in the MDP. For AUP, the situation is different. Consider AUP with inaction baseline. The final-step reward is the usual reward plus a penalty for
 
 $$
 \bigg|\text{Optimal value(actual final state)} – \text{Optimal value(inaction final state)}\bigg|,

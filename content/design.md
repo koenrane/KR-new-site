@@ -15,23 +15,6 @@ date_updated: 2025-01-23 20:51:08.643622
 no_dropcap: "false"
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 When I decided to design my own website, I had no experience with web development. After 202 days, 2,220+ commits,[^commits] and 1,008 unit tests, I present `turntrout.com` - the result of my inexperience.
 
 I'm proud of this website and its design. Indulge me and let me explain the choices I made along the way.
@@ -73,7 +56,7 @@ The site is a fork of the [Quartz](https://quartz.jzhao.xyz/) static site genera
 >
 > Code: Detects when my Markdown contains a line beginning with "Note:" and then converts that content into an "admonition" (which is the bubble we're inside right now).
 >
-> _HTML transformations_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into some proto-HTML. The proto-HTML is represented as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformations can be much more fine-grained. For example, I can easily avoid modifying links themselves.
+> _HTML transformations_ operate on the next stage. Basically, after all the text gets transformed into other text, the Markdown document gets parsed into proto-HTML. The build process represents the proto-HTML as an [abstract syntax tree.](https://en.wikipedia.org/wiki/Abstract_syntax_tree) The upshot: HTML transformations can be much more fine-grained. For example, I can easily avoid modifying links themselves.
 >
 > ```typescript
 > /**
@@ -106,11 +89,11 @@ That took a few months.
 
 # Archiving and dependencies
 
-This site is hosted by [Cloudflare](https://www.cloudflare.com/). The site is set up to have few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive] Furthermore, minimizing embeds (e.g. `<iframe>`s) will minimize the number of invasive tracking cookies.[^video]
+[Cloudflare](https://www.cloudflare.com/) hosts `TurnTrout.com`. Overall, the site has few external dependencies. In nearly all cases, I host scripts, stylesheets, and media assets on my CDN. If the rest of the Web went down (besides Cloudflare), `turntrout.com` would look nearly the same.[^archive] Furthermore, minimizing embeds (e.g. `<iframe>`s) will minimize the number of invasive tracking cookies.[^video]
 
 [^video]: To avoid YouTube tracking cookies, I even self-host [AI presidents discuss AI alignment agendas](/alignment-tier-list).
 
-[^archive]: Examples of content which is not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service - the script is loaded from their site.
+[^archive]: Examples of content which is not hosted on my website: There are several `<iframe>` embeds (e.g. Google forms and such). I also use the privacy-friendlier [`umami.is`](https://umami.is/) analytics service and load the script from their site.
 
 My CDN brings me comfort - about 3% of my older image links had already died on LessWrong (e.g. `imgur` links expired). I think LessWrong now hosts assets on their own CDN. However, I do not want my site's content to be tied to their engineering and organizational decisions. I want my content to be timeless.
 
@@ -572,7 +555,7 @@ I wrote a server-side HTML transformation implementing the following algorithm:
 
 There remains a wrinkle: How can I ensure the favicons _look good_? As `gwern` [noted](https://gwern.net/design-graveyard#link-icon-css-regexps), inline favicons sometimes appear on the next line (detached from their link). This looks bad - just like it would look bad if your browser displayed the last letter of a word on the next line, all on its own.
 
-To tackle this, the favicon transformation doesn't _just_ append an `<img>` element. Basically, I make a new `<span>` which acts as a "favicon sandwich", packaging both the last few letters of the link text and then the favicon `<img>` element. The `<span>` is styled so that if the favicon element is wrapped, the last few letters will be wrapped as well. To ensure legibility in both light and dark mode, I also dynamically style certain favicons, including this site's favicon: <img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" style="vertical-align: baseline; margin-right:.125rem;" class="favicon" alt="Favicon for turntrout.com">.
+To tackle this, the favicon transformation doesn't _just_ append an `<img>` element. Basically, I make a new `<span>` which acts as a "favicon sandwich", packaging both the last few letters of the link text and then the favicon `<img>` element. The `<span>`'s style ensures that if the favicon element is wrapped, the last few letters will be wrapped as well. To ensure legibility in both light and dark mode, I also dynamically style certain favicons, including this site's favicon: <img src="https://assets.turntrout.com/static/images/turntrout-favicons/favicon.ico" style="vertical-align: baseline; margin-right:.125rem;" class="favicon" alt="Favicon for turntrout.com">.
 
 > [!note]- Prior work: Comparing with [`gwern.net`'s favicon approach](https://gwern.net/design-graveyard#static-link-icon-attributes)
 >
@@ -672,7 +655,7 @@ Server-side math rendering via $\KaTeX$
 
 # Deployment pipeline
 
-I quickly learned the importance of _comprehensive tests and documentation_. The repository now has very strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
+I quickly learned the importance of _comprehensive tests and documentation_. The repository now has strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
 
 1. The `pre-commit` [`git` hook](https://git-scm.com/docs/githooks) runs before every commit is finalized.
 2. The `pre-push` hook runs before commits are pushed to the `main` branch.
@@ -724,6 +707,23 @@ I lastly check that my CSS:
 
 1. Defines font-faces using fonts which actually exist in the filesystem, and
 2. Does not refer to nonexistent fonts.
+
+### Linting my prose
+
+Inspired by [`gwern`'s usage of `proselinter`](https://gwern.net/about#writing-checklist), I run [`vale`](https://vale.sh/) on my Markdown files to check for:
+
+<!-- vale off-->
+- Using "very" (at all),
+- Using "but" or "there is" to start a sentence,
+- Lazy, non-descriptive link text: `[here](url)`,
+- Clichés,
+- Date formatting,
+- Anthropomorphic language (e.g. "the code thinks"),
+- Proper use of diacritical marks (e.g. "café"),
+- Redundant acronyms (e.g. "ATM machine"),
+- Oxymorons and nonwords,
+- Unnecessary words, and
+- Comparisons between incomparable things.
 
 ### Unit tests
 

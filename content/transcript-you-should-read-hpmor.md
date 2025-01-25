@@ -92,7 +92,7 @@ As far as I know, HPMOR is the media which imparts the strongest "lived experien
 
 Second, in 2016, I was enthusiastic, optimistic, and hard-working. I was willing to swim against social convention. I was also foolish.
 
-By “foolish”, I don’t quite mean “I did pointless things.” I mean: “My cognitive algorithm was not very good, and _so_ I did pointless things.” By analogy, suppose it’s 2026, and you’re doing research with the assistance of a machine learning model. Given a hypothesis, the model goes off and finds evidence. But suppose that the model _anchors_ on the first evidence it finds: Some study supports the idea, and then the model selectively looks for _more evidence for its existing beliefs_! Wouldn’t this just be _so annoying and stupid_?
+By “foolish”, I don’t quite mean “I did pointless things.” I mean: “My cognitive algorithm was not good, and _so_ I did pointless things.” By analogy, suppose it’s 2026, and you’re doing research with the assistance of a machine learning model. Given a hypothesis, the model goes off and finds evidence. But suppose that the model _anchors_ on the first evidence it finds: Some study supports the idea, and then the model selectively looks for _more evidence for its existing beliefs_! Wouldn’t this just be _so annoying and stupid_?
 
 In some parts of your life, you are like this. Yes, _you_. Our brains regularly make embarrassing, biased mistakes. For example, I stayed in a relationship for a year too long because I was not honest with myself about how I felt.
 
@@ -121,4 +121,4 @@ Taken together, _caring deeply about maximizing human fulfillment_ and _improvin
 HPMOR isn’t the only way to win these benefits. But I think it’s quite good for some people, which should make it worth your time to try 5–10 chapters. I hope you benefit as much as I did.
 
 > [!info] Where to find HPMOR
-> You can find the book at [`www.hpmor.com`](http://www.hpmor.com) (I recommend the [PDF version](https://cdn.jsdelivr.net/gh/rjl20/hpmor@0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf)). You can find the unofficial, very good podcast reading [on Spotify](https://open.spotify.com/playlist/4JQT5fmI8EJBiISLX06sZt?si=d4924f208e96429d).
+> You can find the book at [`www.hpmor.com`](http://www.hpmor.com) (I recommend the [PDF version](https://cdn.jsdelivr.net/gh/rjl20/hpmor@0c10d2e8b6bd68e88fd2fc6e6b233140917e7314/out/hpmor.pdf)). You can find the unofficial audiobook [on Spotify](https://open.spotify.com/playlist/4JQT5fmI8EJBiISLX06sZt?si=d4924f208e96429d).

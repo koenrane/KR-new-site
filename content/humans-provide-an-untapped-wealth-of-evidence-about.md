@@ -68,7 +68,7 @@ For example, “we can solve an easier version of the alignment problem by first
 
 > [!quote]
 >
-> A simplified but still very difficult open problem in [AI alignment](https://arbital.com/p/ai_alignment/) is to state an unbounded program implementing a [diamond maximizer](https://arbital.com/p/diamond_maximizer/) that will turn as much of the physical universe into diamond as possible. The goal of "making diamonds" was chosen to have a crisp-seeming definition for our universe (the amount of diamond is the number of carbon atoms covalently bound to four other carbon atoms). If we can crisply define exactly what a 'diamond' is, we can avert issues of trying to convey [complex values](https://arbital.com/p/complexity_of_value/) into the agent.
+> A simplified but still difficult open problem in [AI alignment](https://arbital.com/p/ai_alignment/) is to state an unbounded program implementing a [diamond maximizer](https://arbital.com/p/diamond_maximizer/) that will turn as much of the physical universe into diamond as possible. The goal of "making diamonds" was chosen to have a crisp-seeming definition for our universe (the amount of diamond is the number of carbon atoms covalently bound to four other carbon atoms). If we can crisply define exactly what a 'diamond' is, we can avert issues of trying to convey [complex values](https://arbital.com/p/complexity_of_value/) into the agent.
 >
 > [Ontology identification problem](https://arbital.com/p/ontology_identification/), Arbital
 
@@ -106,7 +106,7 @@ I [recently made a similar point](https://www.lesswrong.com/posts/dqSwccGTWyBgxr
 >
 > In the context of "how do we build AIs which help people?", asking "does CIRL solve corrigibility?" is hilariously unjustified. [By what evidence](https://www.readthesequences.com/Privileging-The-Hypothesis) have we located such a specific question? We have assumed there is an achievable "corrigibility"-like property; we have assumed it is good to have in an AI; we have assumed it is good in a similar way as "helping people"; we have elevated CIRL in particular as a formalism worth inquiring after.
 >
-> But this is _**not the first question to ask**,_ when considering "sometimes people want to help each other, and it'd be great to build an AI which helps us in some way." Much better to start with _existing_ generally intelligent systems (humans) which _already_ sometimes act in the way you want (they help each other) and ask after the _**guaranteed-to-exist reason**_ why this empirical phenomenon happens.
+> "Does CIRL solve corrigibility?" is _**not the first question to ask**,_ when considering "sometimes people want to help each other, and it'd be great to build an AI which helps us in some way." Much better to start with _existing_ generally intelligent systems (humans) which _already_ sometimes act in the way you want (they help each other) and ask after the _**guaranteed-to-exist reason**_ why this empirical phenomenon happens.
 
 Now, if you are confused about a problem, it can be better to explore _some_ guesses than no guesses—perhaps it’s better to think about Turing machines than to stare helplessly at the wall (but perhaps not). Your best guess may be wrong (e.g. write a utility function which scans Turing machines for atomic representations of diamonds), but you sometimes still learn something by spelling out the implications of your best guess (e.g. the ontology identifier stops working when AIXI Bayes-updates to non-atomic physical theories). This can be productive, as long as you keep in mind the wrongness of the concrete guess, so as to not become anchored on that guess or on the framing which originated it (e.g. build a diamond _maximizer_).
 
@@ -116,9 +116,9 @@ In addition to “there’s a guaranteed causal story for humans valuing diamond
 
 Next, it _can_ be true that the existing minds are too hard for us to understand in ways relevant to alignment. One way this could be true is that human values are a "[mess](https://www.readthesequences.com/Terminal-Values-And-Instrumental-Values)", that "[our brains are kludges slapped together by natural selection.](https://www.readthesequences.com/Rationality-An-Introduction)" If human value formation _were_ sufficiently complex, with sufficiently many load-bearing parts such that each part drastically affects human alignment properties, then we might instead want to design simpler human-comprehensible agents and study _their_ alignment properties.
 
-While I think that human _values_ are complex, I think the evidence for human value _formation_’s essential complexity is surprisingly weak, all things reconsidered in light of modern, post-deep learning understanding. Still... maybe humans _are_ too hard to understand in alignment-relevant ways!
+While I think that human _values_ are complex, I think the evidence for human value _formation_’s essential complexity is surprisingly weak, all things reconsidered given the success of modern, post-deep learning understanding. Still... maybe humans _are_ too hard to understand in alignment-relevant ways!
 
-But, I mean, come on. Imagine an alien[^2] visited and told you:
+Seriously? I mean, come on. Imagine an alien[^2] visited and told you:
 
 > [!quote]
 >
@@ -165,9 +165,9 @@ Instead, I was trying out clever, off-the-cuff ideas in order to solve e.g. Elie
 
 I wrote this post as someone who previously needed to read it.
 
-[^1]: I now think that diamond’s physically crisp definition is a red herring. More on that in future posts.
+[^1]: I now think that diamond’s physically crisp definition is misleading. More on that in future posts.
 [^2]: This alien is written to communicate my current beliefs about how human value formation works, so as to make it clear why, _given_ my beliefs, this value formation process is so obviously important to understand.
-[^3]: There is an additional implication present in the alien story, but not present in the evolutionary production of humans. The aliens are implied to have _purposefully_ aligned some of their protein computers with human values, while evolution is not similarly “purposeful.” This implication is non-central to the key point, which is that the human-values-having protein computers exist in reality.
+[^3]: The alien story contains an additional implication which is not present in the evolutionary production of humans. The aliens are implied to have _purposefully_ aligned some of their protein computers with human values, while evolution is not similarly “purposeful.” This implication is non-central to the key point, which is that the human-values-having protein computers exist in reality.
 [^4]: Well, I didn’t even _have_ a detailed picture of human value formation back in 2021. I thought humans were hopelessly dumb and messy and we want a _nice clean AI which actually is robustly aligned_.
 [^5]:
     Suppose we model humans as the "inner agent" and evolution as the "outer optimizer"—I think [this is, in general, the wrong framing](https://www.lesswrong.com/posts/3pinFH3jerMzAvmza/on-how-various-plans-miss-the-hard-bits-of-the-alignment?commentId=FbAnmAkCdp8qdiMoN), but let's roll with it for now. I would guess that Eliezer believes that [human values are an unpredictable godshatter](https://www.lesswrong.com/posts/34Gkqus9vusXRevR8/late-2021-miri-conversations-ama-discussion#YkhmywLQetjekM7e3) with respect to the outer criterion of inclusive genetic fitness. This means that if you reroll evolution many times with perturbed initial conditions, you get inner agents with dramatically different values each time—it means that human values are akin to a raindrop which happened to land in some location for no grand reason. I notice that I have medium-strength objections to this claim, but let's just say that he is correct for now.

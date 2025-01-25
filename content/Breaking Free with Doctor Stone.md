@@ -68,7 +68,7 @@ In 2023, I became seriously depressed. I did all of the right things:
 - spending time with friends, and
 - [spamming gratitude feelings.](https://www.psychologytoday.com/us/blog/comfort-gratitude/202012/gratitude-protects-against-depression)
 
-But I still felt awful. What did happiness feel like? My memory didn't serve. At best, I felt nothing. I'd get "stuck" on my couch, unable to muster willpower to do anything besides stare at my wall for hours as horrible thoughts ran through my brain.
+I still felt awful. What did happiness feel like? My memory didn't serve. At best, I felt nothing. I'd get "stuck" on my couch, unable to muster willpower to do anything besides stare at my wall for hours as horrible thoughts ran through my brain.
 
 My mental "overseer" issued thoughts which were neither dark nor happy, but simply directed me to keep myself safe; to let the horrible thoughts pass by, into the past; that if I waited long enough, I'd feel OK again. I was stuck inside my body as I counted the painful seconds away.
 
@@ -81,9 +81,9 @@ If you want to get a kid excited about science, this show might be the way to do
 ![](https://assets.turntrout.com/static/images/posts/senku_invents_sulfa.avif)
 Figure: Someone's sick? Just roll your own drugs with Senku!
 
-But the show is _not_ hard sci-fi. Some dude [punches a lion and instantly kills it](https://youtube.com/clip/UgkxiGuzKeb6FwX0_sgMax0qn7USppfjMdr1?si=bdmd5KRJ4N7DlXy7). Also, Senku counts time accurately enough to know that it's springtime - an opportune time in which to revive - but I calculate[^seconds] that (assuming a fixed error) such precision would require him to count off seconds with an error of less than 0.0067% of a second. Lightning strikes immediately after they put down a lightning rod, which is convenient.
+The show is _not_ hard sci-fi. Some dude [punches a lion and instantly kills it](https://youtube.com/clip/UgkxiGuzKeb6FwX0_sgMax0qn7USppfjMdr1?si=bdmd5KRJ4N7DlXy7). Also, Senku counts time accurately enough to know that it's springtime - an opportune time in which to revive - but I calculate[^seconds] that (assuming a fixed error) such precision would require him to count off seconds with an error of less than 0.0067% of a second. Lightning strikes immediately after they put down a lightning rod, which is convenient.
 
-But these aren't big problems. [According to infallible Redditors](https://www.reddit.com/r/DrStone/comments/oihl53/is_this_series_scientifically_accurate/), the chemistry and physics (besides the petrification) is nearly all real. Which is awesome - I've learned quite a few fun insights which would have seemed hard to digest. Just accept that the show isn't hard sci-fi _per se_.
+These aren't big problems. [According to infallible Redditors](https://www.reddit.com/r/DrStone/comments/oihl53/is_this_series_scientifically_accurate/), the chemistry and physics (besides the petrification) is nearly all real. Which is awesome - I've learned quite a few fun insights which would have seemed hard to digest. Just accept that the show isn't hard sci-fi _per se_.
 
 [^seconds]: 3,700 years times 4 seasons means that at least 14,800 seasons elapse. If he's off by more than $\frac{1}{14,800}$ (or 0.006757%), then his estimate will be off by at least one season. Later it's implied that Senku counted time _down to the day_, which requires at least 0.000074% precision.
 

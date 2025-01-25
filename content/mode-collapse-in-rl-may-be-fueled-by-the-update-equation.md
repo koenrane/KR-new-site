@@ -87,7 +87,7 @@ With probability $1$ as $t\to \infty$, $\pi_t(\text{wedding})\to 1$. You might
 3. The system can get stuck in a local attractor. Imagine that we want the system to talk about parties at Chuck-E-Cheese in particular, and we give the system 2 reward if it says "We had a party at Chuck-E-Cheese." But the system may never get there during training due to exploration issues, which are _exarcerbated by the network getting penalized relative to its on-policy value estimate_ $v_{t-1}(s)$.[^explore]
    [^explore]: In other words, PPO actively updates against actions which aren't known to beat current on-policy value $v^\pi_t(s)$. The process penalizes exploration.
 
-This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. For example, vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. "wedding"). Unless very specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
+This doesn't seem limited to tabular TD-learning, or PPO in more realistic domains. For example, vanilla policy gradient will also allow a system to extract an unbounded amount of reinforcement from a single kind of event (e.g. "wedding"). Unless specific care is taken, Alex thinks this kind of failure happens by default in policy gradient methods.
 
 ### Action-conditioned TD error avoids arbitrarily high logits
 
@@ -182,7 +182,7 @@ We ran 10 trials and plotted the mean and standard deviation of average returns:
 
 ![](https://assets.turntrout.com/static/images/posts/744c10811baadd0742a83f12af3e27a443ccb5081f5556fd.avif)
 
-There seems to be very slow convergence.[^6] It could even be converging towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
+There seems to be slow convergence.[^6] It could even be converging towards the uniform policy. We lean towards "convergence to uniform" due to evidence from a trial on a different reward matrix:
 
 ![](https://assets.turntrout.com/static/images/posts/1549bb3b8f9f5895b1978d5cc5cf25a3e84df4a281286365.avif)
 
@@ -190,7 +190,7 @@ Overall, ACTDE's results are sensitive to variations in the algorithm such as wh
 
 ## Speculation
 
-This method might not work very well for e.g. RLHF at scale. Deep RL is notoriously finicky. Furthermore, it would be pretty disappointing if ACTDE generally converges on uniform policies, and that seems like a live possibility given the last graph above.
+This method might not work well for e.g. RLHF at scale. Deep RL is notoriously finicky. Furthermore, it would be pretty disappointing if ACTDE generally converges on uniform policies, and that seems like a live possibility given the last graph above.
 
 However, Alex has a few intuitions anyways:
 
@@ -232,7 +232,7 @@ We'd be interested in the results of using RLHF on a language model using ACTDE.
 
 1. The always-defect strategy is myopic, and the always-cooperate strategy is non-myopic.
 2. The payoff matrix for the prisoner's dilemma was selected to have 0 sum, and to have equal discounted returns for all cooperate and all defect at a mean discount rate of 0.5. For example, the discount rate for equal discounted returns is 0.4523 starting from defect and 0.5477 starting from coop with a mean of 0.5.
-3. It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See variations of the matrix [here](https://www.desmos.com/calculator/snt6bxoqis).
+3. It turns out that it is possible to construct a matrix where it is better to always defect when starting from a cooperate, and vice versa, leading to a third strategy of alternating cooperate and defect being optimal. This may represent a more complex optimal strategy compared to a good simple strategy.  See [variations of the matrix](https://www.desmos.com/calculator/snt6bxoqis).
 
 [^1]: This advantage equation, as given, can also be called the "TD error."
 [^2]: Alex thinks that using a fixed learning rate $0<\alpha<1$ shouldn't fix PPO's "infinite logit update issue", but a decaying learning rate schedule probably does. This isn't that surprising, and he doesn't think it fixes the deeper potential issue with fluctuating value baselines.

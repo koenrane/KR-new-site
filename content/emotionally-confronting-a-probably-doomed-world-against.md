@@ -43,7 +43,7 @@ date_updated: 2024-12-12 22:05:58.602985
 > [!note]
 > This article was written [in ignorance](/digital-minimalism) of the alignment community’s reaction to Eliezer’s “[Death with Dignity](https://www.lesswrong.com/posts/j9Q8bRmwCgXRYAgcJ/miri-announces-new-death-with-dignity-strategy)” post. The first part of this article responds to how I suspect some people reacted to that post, while the second part is my take on the post itself.
 
-I write against defeatism; I write against decline; I write against that internal slumping that sneaks in on the coat-tails of bad news. I do not dispute the balance of evidence—are we doomed, or not? Let us simply assume that we live in a relatively doomed world: It’s very improbable that we solve AI alignment in time.
+I write against defeatism; I write against decline; I write against that internal slumping that sneaks in on the coat-tails of bad news. I do not dispute the balance of evidence—are we doomed, or not? Let us simply assume that we live in a relatively doomed world: It’s unlikely that we solve AI alignment in time.
 
 What next?
 
@@ -58,9 +58,9 @@ We do not live in a story. We can, in fact, just assess the situation, and then 
 > [!note]
 > In response to how I suspect some people reacted to "Death with Dignity."
 
-Suppose we have ten years left. Some may consider a very natural response—to retreat. Spend the remaining time with your family and your friends, working whatever job you want—just do whatever.
+Suppose we have ten years left. Some may consider a natural response—to retreat. Spend the remaining time with your family and your friends, working whatever job you want—just do whatever.
 
-But... Um... This sounds like an awful plan? I’d feel like a lazy bum, like a cornered animal. And for those of us doing direct work, this plan sounds _stupid_. It sounds like a great way to _throw away worlds where we would receive a miracle, and yet couldn’t do anything about it anymore because we all went home._
+Um... This sounds like an awful plan? I’d feel like a lazy bum, like a cornered animal. And for those of us doing direct work, this plan sounds _stupid_. It sounds like a great way to _throw away worlds where we would receive a miracle, and yet couldn’t do anything about it anymore because we all went home._
 
 How would _I_ like to see those ten years spent? I’m looking for plans which involve _playing to win_, which are _fun_ and _edifying_, which would make me _proud_ to be me and to be part of this community.
 
@@ -93,7 +93,7 @@ And yet it seems to me like Eliezer himself does not encourage some important pr
 
 Well, what he says about alignment is his business. But it’s also _my_ business, since I live on this planet and share its fate. And even if I agreed completely with Eliezer, I think I would rather give advice like:
 
-> I think the situation is very bleak, and assess that you individually have a low probability of saving the world. I think you should know that before starting. That said, if you are still interested in helping, if you have something to protect—you should master deep learning and the science of intelligence, and you should practice the art of rationality with all the intensity and honesty you can muster.
+> I think the situation is bleak, and assess that you individually have a low probability of saving the world. I think you should know that before starting. That said, if you are still interested in helping, if you have something to protect—you should master deep learning and the science of intelligence, and you should practice the art of rationality with all the intensity and honesty you can muster.
 >
 > If you want to do alignment theory, try the AI safety camp. Or maybe see if Chris Olah could use some help. And perhaps, one day, we will have a worthy alignment scheme which urgently needs the expertise which you can develop today.
 
@@ -115,7 +115,7 @@ Anyways, what do I mean by “strong”? Do I mean that I’ve absorbed lots of 
 
 > [!quote] _Mad Investor Chaos_
 >
-> Everything inside Keltham's mind has a very trained feeling to it, his moment-to-moment thought-motions each feeling like a punch that a monk throws after twelve years of experience in martial arts, when the monk isn't particularly focused on showing off and simply knows what he's doing without thinking about it.
+> Everything inside Keltham's mind has a trained feeling to it, his moment-to-moment thought-motions each feeling like a punch that a monk throws after twelve years of experience in martial arts, when the monk isn't particularly focused on showing off and simply knows what he's doing without thinking about it.
 
 I think that many people think that becoming more rational involves being _harder on yourself_; imagining yet fiercer and nitpickier critics, and coming out unscathed anyways because you were so paranoid. You checked more boxes, defended against more biases, and examined the evidence even harder.
 
@@ -132,6 +132,7 @@ And this is what I have done in a few months. Who could I grow into in ten years
 
 # Against motivation via dignity points
 
+<!-- vale off -->
 > [!quote] [MIRI announces new "Death With Dignity" strategy](https://www.lesswrong.com/posts/j9Q8bRmwCgXRYAgcJ/miri-announces-new-death-with-dignity-strategy)
 >
 > When Earth's prospects are that far underwater in the basement of the logistic success curve, it may be hard to feel motivated about continuing to fight, since doubling our chances of survival will only take them from 0% to 0%.
@@ -145,6 +146,7 @@ And this is what I have done in a few months. Who could I grow into in ten years
 > ...
 >
 > But if enough people can contribute enough bits of dignity like that, wouldn't that mean we didn't die at all? Yes, but again, don't get your hopes up. Don't focus your emotions on a goal you're probably not going to obtain. Realistically, we find a handful of projects that contribute a few more bits of counterfactual dignity; get a bunch more not-specifically-expected bad news that makes the first-order object-level situation look even worse (where to second order, of course, the good Bayesians already knew that was how it would go); and then we all die.
+<!-- vale on -->
 
 Again, I am not, in this post, disputing Eliezer’s object-level model. I have supposed he is correct about our probable doom. Obviously, if we are in a probably-doomed world, I will keep that in mind. I do actually want to _win_, and finding winning plans requires entangling my brain with the details of each expected danger. Sharp danger awaits when you lose sight of the fact that reality is allowed to kill you.
 
@@ -154,6 +156,7 @@ _However_—if you work at all like I do, I think this is _not_ how you should i
 
 A search for _dignified plans_ is different from a search for plans which _get my mother out of the damn vault_. I can, in fact, conduct the latter search while _still remembering how unlikely I am to actually open the vault_, and the latter search has a _better chance of actually finding dignified plans_!
 
+<!-- vale off -->
 > [!quote] [Trying to Try](https://www.readthesequences.com/Trying-To-Try)
 >
 > Want to try to make a million dollars? Buy a [lottery ticket](https://www.readthesequences.com/LotteriesAWasteOfHope). Your odds of winning may not be very good, but you did try, and trying was what you wanted. In fact, you tried your _best_, since you only had one dollar left after buying lunch. Maximizing the odds of goal achievement using available resources: is this not intelligence?
@@ -163,6 +166,7 @@ A search for _dignified plans_ is different from a search for plans which _get m
 > But if all you want is to “maximize the probability of success using available resources,” then that’s the easiest thing in the world to convince yourself you’ve done. The very first plan you hit upon will serve quite well as “maximizing”—if necessary, you can generate an inferior alternative to prove its optimality. And any tiny resource that you care to put in will be what is “available.” Remember to congratulate yourself on putting in 100% of it!
 >
 > Don’t try your best. Win, or fail. There is no best.
+<!-- vale on -->
 
 I hope you do not let this “dignity” orientation cloud your intent to win.[^3] In fact, I think you should lean in the opposite direction, and sharpen your intent. _Search only for plans which actually win, given your best understanding of the AI alignment problem. Be honest with yourself; do not flinch away from reality; do not take your eyes off the goal._
 
@@ -172,7 +176,7 @@ I’m not going to waste my time searching for dignified plans (which maximize h
 
     > We cannot fight at maximum all the time, and some times are more important than others. (Namely, when the logistic success curve seems relatively more sloped; those times are relatively more important.)
 
-    This is a good point. I am not advocating burnout. This is indeed a resource to conserve for situations closer to the 50% success rate, or for a targeted push at a particularly impactful moment. I _am_ advocating growth and development in a way which is _fun and awesome_, which pushes limits without straining endurance. Perhaps this is not how most people work. But it’s how I can work.
+    I agree. I am not advocating burnout. This is indeed a resource to conserve for situations closer to the 50% success rate, or for a targeted push at a particularly impactful moment. I _am_ advocating growth and development in a way which is _fun and awesome_, which pushes limits without straining endurance. Perhaps this is not how most people work. But it’s how I can work.
 
 [^2]: Furthermore, do not "conflate feelings with beliefs". You do not have to believe the future is rosy in order to feel good and strong and healthy and to give the problem everything you’ve got (without pushing to burnout). Feelings are not beliefs! I think of certain feelings as (harder-to-control) _actions_.
 

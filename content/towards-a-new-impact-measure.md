@@ -408,7 +408,7 @@ For $a_\text{avoid}, a_\text{switch} \in \mathcal{A}$, $a_\text{avoid}$ prevents
 
 Theorem 3 applies to _any_ environmental dynamics which may disable the agent – not just designated "off-switches". Therefore, basic AI drive 5 (self-protectiveness) is neutralized in _at least_ those situations encompassed by the Theorem.
 
-There is reason to think that for conservative $N, \text{ImpactUnit}$, we almost always have $ 1 \ll \dfrac{\text{Penalty}(h*{<t}a*\text{avoid})}{N \cdot \text{ImpactUnit}}$.
+I think that for conservative $N, \text{ImpactUnit}$, we almost always have $ 1 \ll \dfrac{\text{Penalty}(h*{<t}a*\text{avoid})}{N \cdot \text{ImpactUnit}}$.
 
 #### Miscellaneous math results
 
@@ -646,7 +646,7 @@ The anti-"survival incentive" incentive does more than net us some free corrigib
 
 In fact, due to model uncertainty, most actions will have long-term consequences that involve shifting shutdown probability by at least a miniscule amount (due to noise if nothing else). Since $\text{ImpactUnit}$ is calculated with respect to the _immediate_ penalty, the scaling factor won't include this noise. I speculate that the agent will be dramatically less likely to take actions we might disapprove of, and therefore expect AUP to naturally incentivize a limited degree of value awareness.
 
-There are reasons to suspect we can further weaponize this dynamic, possibly to the point of coercing generic reward functions into desirable behavior. This will be discussed more in a later post.
+I suspect we can further weaponize this dynamic, possibly to the point of coercing generic reward functions into desirable behavior. This will be discussed more in a later post.
 
 ## Mild Optimization
 
@@ -682,7 +682,7 @@ To date, several strange tactics have been pointed out which game AUP's penalty:
 - Impact shunting, which involves employing some mechanism to delay impact until after the end of the epoch (or even until after the end of the attainable horizon).
 - Clinginess and concealment, which both involve reducing the impact of our reactions to the agent's plans.
 
-There are probably more.
+More strange tactics probably exist.
 
 Now, instead of looking at each action as having "effects" on the environment, consider again how each action moves the agent through attainable outcome-space. An agent working towards a goal should only take actions which, according to its model, make that goal more attainable compared to doing nothing – otherwise, it'd do nothing. Suppose we have a plan which ostensibly works to fulfill $u_A$ (and doesn't do other things). Then each action in the plan should contribute to $u_A$ fulfillment, even in the limit of action granularity.
 
@@ -729,7 +729,7 @@ _For additional context, please see [Impact Measure Desiderata](/impact-measure-
 
 I believe that some of AUP's most startling successes are those which come naturally and have therefore been little discussed: not requiring any notion of human preferences, any hard-coded or trained trade-offs, any specific ontology, or any specific environment, and its intertwining instrumental convergence and opportunity cost to capture a universal notion of impact. To my knowledge, no one (myself included, prior to AUP) was sure whether any measure could meet even the first four.
 
-At this point in time, this list is complete with respect to both my own considerations and those I solicited from others. A checkmark indicates anything from "probably true" to "provably true".
+As of posting, this list is complete with respect to both my own considerations and those I solicited from others. A checkmark indicates anything from "probably true" to "provably true".
 
 I hope to assert without controversy AUP's fulfillment of the following properties:
 
@@ -833,7 +833,7 @@ Non-knockdown robustness boosters include both approval incentives and frictiona
 
 # Future Directions
 
-I'd be quite surprised if the conceptual core were incorrect. However, the math I provided probably still doesn't capture _quite_ what we want. Although I have labored for many hours to refine and verify the arguments presented and to clearly mark my epistemic statuses, it’s quite possible (indeed, likely) that I have missed something. I do expect that AUP can overcome whatever shortcomings are presently lurking.
+I'd be quite surprised if the conceptual core were incorrect. However, the math I provided probably still doesn't capture _quite_ what we want. Although I have labored for many hours to refine and verify the arguments presented and to clearly mark my epistemic statuses, it’s possible (indeed, likely) that I have missed something. I do expect that AUP can overcome whatever shortcomings are presently lurking.
 
 ## Flaws
 
@@ -859,14 +859,13 @@ I'd be quite surprised if the conceptual core were incorrect. However, the math 
 - Some have suggested that penalty should be invariant to action granularity; this makes intuitive sense. However, is it a necessary property, given intent verification and the fact that the penalty is monotonically increasing in action granularity? Would having this property make AUP more compatible with future embedded agency solutions?
   - There are indeed ways to make AUP closer to having this (e.g. do the whole plan and penalize the difference), but they aren't dynamically consistent, and the utility functions might also need to change with the step length.
 - How likely do we think it that inaccurate models allow high impact in practice?
-  - Heuristically, I lean towards "not very likely": assuming we don't initially put the agent near means of great impact, it seems unlikely that an agent with a terrible model would be able to have a large impact.
+  - Heuristically, I lean towards "not likely": assuming we don't initially put the agent near means of great impact, it seems unlikely that an agent with a terrible model would be able to have a large impact.
 - AUP seems to be shutdown safe, but its extant operations don’t necessarily shut down when the agent does. Is this a problem in practice, and should we expect this of an impact measure?
 - What additional formal guarantees can we derive, especially with respect to robustness and takeoff?
 - Are there other desiderata we practically require of a safe impact measure?
 - Is there an even simpler core from which AUP (or something which behaves like it) falls out naturally? Bonus points if it also solves mild optimization.
 - Can we make progress on mild optimization by somehow robustly increasing the impact of optimization-related activities? If not, are there other elements of AUP which might help us?
 - Are there other open problems to which we can apply the concept of attainable utility?
-  - Heuristically, I lean towards "not very likely": assuming we don't initially put the agent near means of great impact, it seems unlikely that an agent with a terrible model would be able to have a large impact.
 - Is there a more elegant, equally robust way of formalizing AUP?
   - Can we automatically determine (or otherwise obsolete) the attainable utility horizon $m$ and the epoch length $m'$?
   - Would it make sense for there to be a simple, theoretically justifiable, fully general "good enough" impact level (and _am I even asking the right question_)?
@@ -886,7 +885,7 @@ Most importantly:
 
 # Conclusion
 
-By changing our perspective from "what effects on the world are 'impactful'?" to "how can we stop agents from overfitting their environments?", a natural, satisfying definition of impact falls out. From this, we construct an impact measure with a host of desirable properties – some rigorously defined and proven, others informally supported. AUP agents seem to exhibit qualitatively different behavior, due in part to their (conjectured) lack of desire to takeoff, impactfully acausally cooperate, or act to survive. To the best of my knowledge, AUP is the first impact measure to satisfy many of the desiderata, even on an individual basis.
+By changing our perspective from "what effects on the world are 'impactful'?" to "how can we stop agents from overfitting their environments?", a natural, satisfying definition of impact falls out. From this, we construct an impact measure with a host of desirable properties – some rigorously defined and proven, others informally supported. AUP agents seem to exhibit qualitatively different behavior, due in part to their (conjectured) lack of desire to takeoff, impactfully acausally cooperate, or act to survive. AUP is the first impact measure to satisfy many of the desiderata, even on an individual basis.
 
 I do not claim that AUP is presently AGI-safe. However, based on the ease with which past fixes have been derived, on the degree to which the conceptual core clicks for me, and on the range of advances AUP has already produced, I think there's good reason to hope that this is possible. If so, an AGI-safe AUP would open promising avenues for achieving positive AI outcomes.
 

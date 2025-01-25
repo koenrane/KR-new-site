@@ -39,9 +39,9 @@ I use this page for [visual regression testing](/design#visual-regression-testin
 
 Text
 
-Subtitle: This is a subtitle.
+Subtitle: I am a subtitle.
 
-> This is a block quote.
+> I am a block quote.
 >
 > - Block quotes can contain unordered lists
 >   - Which are themselves nested
@@ -236,7 +236,9 @@ Post-math text. The following equations should display properly:
 
 $$\nabla \cdot \mathbf{E}  =\frac{\rho}{\varepsilon_0} \qquad \nabla \cdot \mathbf{B}  =0 \qquad \nabla \times \mathbf{E}  =-\frac{\partial \mathbf{B}}{\partial t} \qquad \nabla \times \mathbf{B}  =\mu_0\left(\mathbf{J}+\varepsilon_0 \frac{\partial \mathbf{E}}{\partial t}\right)$$
 
+<!-- vale off -->
 <img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt="Alex smiling at the camera; rainbow colored light splays off the wall in the background."/>
+<!-- vale on -->
 
 # Link features
 
@@ -268,7 +270,7 @@ This computer has 16GB of RAM and runs at 3.2GHz.
 
 ## Smart quotes
 
-"This is a quote with 'nested' quotes inside it."
+"I am a quote with 'nested' quotes inside of me."
 
 > [!quote] Checking that HTML formatting is applied to each paragraph element
 > Comes before the single quote

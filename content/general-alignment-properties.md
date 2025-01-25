@@ -49,7 +49,7 @@ date_updated: 2024-11-22 20:04:30.137574
 1. Give AIXI a utility function (perhaps over observation histories), and hook it up to an environment, and this pins down a policy.[^1]
 2. Situate the genome in the embryo within our reality, and this eventually grows into a human being with a policy of their own.
 
-These agents have different "values", in whatever sense we care to consider. However, these two agent-specification procedures also have very different _general alignment properties._
+These agents have different "values", in whatever sense we care to consider. However, these two agent-specification procedures also have different _general alignment properties._
 
 General alignment properties are not about _what_ a particular agent cares about (e.g. the AI "values" chairs). I call an alignment property "general" if the property would be interesting to a range of real-world agents trying to solve AI alignment. Here are some examples.
 

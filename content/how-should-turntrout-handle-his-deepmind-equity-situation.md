@@ -164,7 +164,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 `habryka`
 
-: Yeah, man, does really seem like there just isn't a very simple instrument here you can buy. I think we really need someone to set up a custom contract here, and I would love it if someone wanted to do this (and my guess is people would be willing to pay like 5% premium here, so this seems like it could be a quite mutually beneficial trade).
+: Yeah, man, does really seem like there just isn't a simple instrument here you can buy. I think we really need someone to set up a custom contract here, and I would love it if someone wanted to do this (and my guess is people would be willing to pay like 5% premium here, so this seems like it could be a quite mutually beneficial trade).
 
 `TurnTrout`
 

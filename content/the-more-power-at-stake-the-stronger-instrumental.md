@@ -55,7 +55,7 @@ date_updated: 2024-12-12 22:05:58.602985
 
 [_Environmental Structure Can Cause Instrumental Convergence_](/environmental-structure-can-cause-instrumental-convergence) explains how power-seeking incentives can arise because there are simply many more ways for power-seeking to be optimal, than for it not to be optimal. Colloquially, there are lots of ways for "get money and take over the world" to be part of an optimal policy, but relatively few ways for "die immediately" to be optimal. (And here, each "way something can be optimal" is a reward function which makes that thing optimal.)
 
-But how strong is this effect, quantitatively?
+How strong is this effect, quantitatively?
 
 ![](https://assets.turntrout.com/static/images/posts/nwvmc2ovaduran8592k8.avif)
 <br/>Figure: Intuitively, it seems like there are twice as many ways for `Wait!` to be optimal (in the undiscounted setting, where we don't care about intermediate states).
@@ -133,7 +133,7 @@ Similarly, you can do the inverse operations to simplify subgraphs in a way that
 ![](https://assets.turntrout.com/static/images/posts/cimakofeuevfrjgqcjxx.avif)
 <br/>Figure: You could replace each of the circled subsets with anything you like, and the scaling law still holds (as long as the contents of each circle are replaced with the same new set of options).
 
-This is the start of a theory on what state abstractions "respect" the theorems, although there's still a lot I don't understand there. (I've barely thought about it so far.)
+I have given the start of a theory on what state abstractions "respect" the theorems, although there's still a lot I don't understand. (I've barely thought about it so far.)
 
 # Note of caution, redux
 

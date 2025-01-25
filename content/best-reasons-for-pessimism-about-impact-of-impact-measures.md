@@ -38,15 +38,17 @@ date_updated: 2024-11-22 20:04:30.137574
 
 
 
+<!-- vale off -->
 > [!quote] [Oliver Habryka](https://www.lesswrong.com/posts/t3t9osBsmwkajWz5Y/long-term-future-fund-april-2019-grant-decisions) (emphasis mine)
 >
 > My inside views on AI Alignment make me think that work on impact measures is _very unlikely_ to result in much concrete progress on what I perceive to be core AI Alignment problems, _and I have talked to a variety of other researchers in the field who share that assessment_. I think it’s important that this grant not be viewed as an endorsement of the concrete research direction that Alex is pursuing, but only as an endorsement of the higher-level process that he has been using while doing that research.  
 >
 > As such, I think it was a necessary component of this grant that I have talked to other people in AI Alignment whose judgment I trust, who do seem excited about Alex’s work on impact measures. I think I would not have recommended this grant, or at least this large of a grant amount, without their endorsement. I think in that case I would have been worried about a risk of diverting attention from what I think are more promising approaches to AI Alignment, and a potential dilution of the field by introducing a set of (to me) somewhat dubious philosophical assumptions.
+<!-- vale on -->
 
 I'm interested in learning about the intuitions, experience, and facts which inform this pessimism. As such, I'm not interested in making any arguments to the contrary in this post; any pushback I provide in the comments will be with clarification in mind.
 
-There are two reasons you could believe that "work on impact measures is very unlikely to result in much concrete progress on… core AI Alignment problems". First, you might think that the impact measurement problem is intractable, so work is unlikely to make progress. Second, you might think that even a full solution wouldn't be very useful.  
+At least two reasons suggest that "work on impact measures is unlikely to result in much concrete progress on core AI Alignment problems. First, you might think that the impact measurement problem is intractable, so work is unlikely to make progress. Second, you might think that even a full solution wouldn't be useful.  
   
 Over the course of 5 minutes by the clock, here are the reasons I generated for pessimism (which I either presently agree with or at least find it reasonable that an intelligent critic would raise the concern on the basis of currently-public reasoning):
 
@@ -59,11 +61,12 @@ Over the course of 5 minutes by the clock, here are the reasons I generated for 
 - Depending on how "clean" of an impact measure you think we can get, maybe it's way harder to get low-impact agents to do useful things.
   - Maybe we can get a clean one, but only for powerful agents.
   - Maybe the impact measure misses impactful actions if you can't predict at near human level.
-- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play a very unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
+- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play a unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
 - In a [More realistic tales of doom](https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/more-realistic-tales-of-doom)-esque scenario, it isn't clear how impact helps prevent "gradually drifting off the rails".[^1]
 
 [^1]: Paul Christiano [raised concerns along these lines](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata?commentId=Lc2M2jwugKTdynM8A):
   
+  <!-- vale off -->
   > [!quote]
   >
   > We'd like to build AI systems that help us resolve the tricky situation that we're in. That help design and enforce agreements to avoid technological risks, build better-aligned AI, negotiate with other actors, predict and manage the impacts of AI, improve our institutions and policy, etc.  

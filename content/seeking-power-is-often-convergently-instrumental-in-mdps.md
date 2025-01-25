@@ -71,7 +71,7 @@ In particular, you might notice that wildly different utility functions seem to 
 
 These strategies are unrelated to _terminal_ preferences: the above utility functions do not award utility to e.g. resource gain in and of itself. Instead, these strategies are _instrumental_: they help the agent optimize its terminal utility. In particular, a wide range of utility functions incentivize these instrumental strategies. These strategies seem to be _convergently instrumental_.
 
-But why?
+Why?
 
 I’m going to informally explain a formal theory which makes significant progress in answering this question. I don’t want this post to be [_Optimal Policies Tend to Seek Power_](https://arxiv.org/abs/1912.01683) with cuter illustrations, so please refer to the paper for the math. You can read the two concurrently.
 
@@ -267,7 +267,7 @@ Let's focus on an environment with the same rules as Tic-Tac-Toe, but considerin
   
 Whenever we make a move that ends the game, we can't go anywhere else – we have to stay put. Since each terminal state has the same chance of being optimal, a move which doesn't end the game is more probable under optimality than a move which ends the game.
 
-Starting on the left, all but one move leads to ending the game, but the second-to-last move allows us to keep choosing between five more final outcomes. If you care a lot about the future, then the first green move has a 50% chance of being optimal, while each alternative action is only optimal for 10% of goals. So we see a kind of “power preservation” arising, _even in Tic-Tac-Toe_.
+Starting on the left, all but one move leads to ending the game, but the second-to-last move allows us to keep choosing among five extra final outcomes. If you care a lot about the future, then the first green move has a 50% chance of being optimal, while each alternative action is only optimal for 10% of goals. So we see a kind of “power preservation” arising, _even in Tic-Tac-Toe_.
 
 Remember how, as the agent cares more about the future, more of its POWER comes from its ability to wait, while _also_ waiting becomes more probable under optimality?
 
@@ -282,7 +282,8 @@ As the agent cares more about the future, it makes a bigger and bigger differenc
 > [!math] Theorem summary: “Terminal option” preservation
 > When $\gamma$ is sufficiently close to 1, if two actions allow access to two disjoint sets of “terminal options”, and action $a$ allows access to “strictly more terminal options” than does $a'$, then $a$ is strictly more probable under optimality and strictly POWER-seeking compared to $a’$.
 >
-> (This is a special case of the relevant theorems, which don’t require this kind of disjointness.)
+> > [!note]
+> > This result is a special case of the relevant theorems, which don’t require this kind of disjointness.
 
 In the **wait** MDP, this is why _waiting_ is more probable under optimality and POWER-seeking when you care enough about the future. The full theorems are nice because they’re broadly applicable. They give you _bounds_ on how probable under optimality one action is: if action $a$ is the only way you can access many terminal states, while $a’$ only allows access to one terminal state, then when $\gamma \approx 1$, $a$ has many times greater optimality probability than $a’$. For example:
 
@@ -311,7 +312,7 @@ This theorem's applicability depends on what the agent can do.
 ![](https://assets.turntrout.com/static/images/posts/t2ehjr9rpad3qpbofesw.avif)
 <br/>Figure: To travel as quickly as possible to a randomly selected coordinate on Earth, one likely begins by driving to the nearest airport. Although it's possible that the coordinate is within driving distance, it's not likely. Driving to the airport is convergently instrumental for travel-related goals.
 
-But wait! What if you have a private jet that can fly anywhere in the world? Then going to the airport isn’t convergently instrumental anymore.
+Wait! What if you have a private jet that can fly anywhere in the world? Then going to the airport isn’t convergently instrumental anymore.
 
 Generally, it’s hard to know what’s _optimal_ for most goals. It’s easier to say that some small set of “terminal options” has _low_ optimality probability and _low_ POWER. For example, this is true of shutdown, if we represent hard shutdown as a single terminal state: _a priori_, it’s improbable for this terminal state to be optimal among all possible terminal states.
 
@@ -383,7 +384,7 @@ Speaking to the broader debate taking place in the AI research community, I thin
 >
 > This work was made possible by the Center for Human-Compatible AI, the Berkeley Existential Risk Initiative, and the Long-Term Future Fund.
 >
-> Logan Smith ([`elriggs`](https://www.lesswrong.com/users/`elriggs`)) spent an enormous amount of time writing Mathematica code to compute power and measure in arbitrary toy MDPs, saving me from computing many quintuple integrations by hand. I thank Rohin Shah for his detailed feedback and brainstorming over the summer of 2019, and I thank Andrew Critch for significantly improving this work through his detailed critiques. Last but not least, thanks to:
+> Logan Smith ([`elriggs`](https://www.lesswrong.com/users/`elriggs`)) spent an enormous amount of time writing Mathematica code to compute power and measure in arbitrary toy MDPs, saving me from computing many quintuple integrations by hand. I thank Rohin Shah for his detailed feedback and brainstorming over the summer of 2019, and I thank Andrew Critch for significantly improving this work through his detailed critiques. Last, thanks to:
 >
 > 1. Zack M. Davis, Chase Denecke, William Ellsworth, Vahid Ghadakchi, Ofer Givoli, Evan Hubinger, Neale Ratzlaff, Jess Riedel, Duncan Sabien, Davide Zagami, and `TheMajor` for feedback on version 1 of this post.
 > 2. Alex Appel (diffractor), Emma Fickel, Vanessa Kosoy, Steve Omohundro, Neale Ratzlaff, and Mark Xu for reading / giving feedback on version 2 of this post.

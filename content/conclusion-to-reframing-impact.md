@@ -77,7 +77,7 @@ I've made many claims in these posts. All views are my own.
 
 The big art pieces (and especially the last illustration in this post) were designed to convey a specific meaning, the interpretation of which I leave to the reader.
 
-There are a few pop culture references which I think are obvious enough to not need pointing out, and a lot of hidden smaller playfulness which doesn't quite rise to the level of "easter egg".
+The sequence hides a few pop culture references which I think are obvious enough to not need pointing out, and a lot of hidden smaller playfulness which doesn't quite rise to the level of "easter egg".
 
 Reframing Impact
 : The bird's nest contains a literal easter egg.

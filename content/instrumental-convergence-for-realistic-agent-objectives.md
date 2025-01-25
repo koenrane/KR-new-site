@@ -54,7 +54,7 @@ date_updated: 2024-11-22 20:04:30.137574
 
 This kind of argument assumes that (`the set of utility functions we might specify`) is closed under permutation. This is unrealistic, because practically speaking we reward agents based off of observed features of the agent's environment.
 
-For example, Pac-Man eats dots and gains points. A football AI scores a touchdown and gains points. A robot hand [solves a Rubik's cube and gains points](https://arxiv.org/pdf/1910.07113.pdf). But most _permutations_ of these objectives are implausible because they're high-entropy, they're very complex, they assign high reward to one state and low reward to another state without a simple generating rule that grounds out in observed features. Practical objective specification doesn't allow that many degrees of freedom in what states get what reward.
+For example, Pac-Man eats dots and gains points. A football AI scores a touchdown and gains points. A robot hand [solves a Rubik's cube and gains points](https://arxiv.org/pdf/1910.07113.pdf). But most _permutations_ of these objectives are implausible because they're high-entropy, they're complex, they assign high reward to one state and low reward to another state without a simple generating rule that grounds out in observed features. Practical objective specification doesn't allow that many degrees of freedom in what states get what reward.
 
 I explore how instrumental convergence works in this case. I also walk through how these new results retrodict the fact that [instrumental convergence basically disappears for agents with utility functions over action-observation histories](/power-seeking-beyond-MDPs).
 
@@ -69,7 +69,7 @@ Consider the following environment, where the agent can either stay put or move 
 
 Suppose the agent gets some amount of reward each timestep, and it's choosing a policy to maximize its average per-timestep reward. [Previous results](https://proceedings.neurips.cc/paper/2021/hash/c26820b8a4c1b3c2aa868d6d57e14a79-Abstract.html) tell us that for generic reward functions over states, at least half of them incentivize going right. There are two terminal states on the left, and three on the right, and 3 > 2; we conclude that at least $\frac{\text{floor(3/2)}}{\text{floor(3/2)}+1}=\frac{1}{2}$ [of objectives incentivize going right](/quantitative-strength-of-instrumental-convergence).
 
-But it's damn hard to have so many degrees of freedom that you're specifying a potentially independent utility number for each state.[^1] Meaningful utility functions will be featurized in some sense—only depending on certain features of the world state, and of how the outcomes transpired, etc. If the featurization is linear, then it's particularly easy to reason about power-seeking incentives.
+It's damn hard to have so many degrees of freedom that you're specifying a potentially independent utility number for each state.[^1] Meaningful utility functions will be featurized in some sense—only depending on certain features of the world state, and of how the outcomes transpired, etc. If the featurization is linear, then it's particularly easy to reason about power-seeking incentives.
 
 ### Shape featurization
 
@@ -100,7 +100,7 @@ $$
 
 where the left set can be permuted two separate ways into the right set (since the zero vector isn't affected by feature permutations).
 
-But I'm gonna play dumb and walk through to illustrate a more important point about how power-seeking tendencies are guaranteed when featurizations respect the structure of the environment.
+I'm gonna play dumb and walk through to illustrate a more important point about how power-seeking tendencies are guaranteed when featurizations respect the structure of the environment.
 
 Consider the state $s_\triangle$. We permute it to be $s_\bigcirc$ using $\phi$ (because $\phi(s_\triangle)=s_\bigcirc$), and then featurize it to get a feature vector with 1$\bigcirc$ and 0 elsewhere.
 
@@ -116,13 +116,13 @@ In a different featurization, suppose the featurization is the agent's $x/y$ coo
 
 Given the **start** state, if the agent goes _up_, its reachable feature vector is just {(x=0 y=1)}, whereas the agent can induce (x=1 y=0) if it goes _right_. Therefore, whenever _up_ is strictly optimal for a featurized reward function, we can permute that reward function's feature weights by swapping the x- and y-coefficients ($\alpha_1$ and $\alpha_2$, respectively). Again, this new reward function is featurized, and it makes going _right_ strictly optimal. So the usual arguments ensure that at least half of these featurized reward functions make it optimal to go right.
 
-But sometimes these similarities won't hold, even when it initially looks like they "should"!
+Sometimes, these similarities won't hold, even when it initially looks like they "should"!
 
 ![](https://assets.turntrout.com/static/images/posts/a0ca5099bf16fb9bb0382d681abe79abeb5dd8ef51c525e9.avif)
 
 The agent can induce the feature vectors $\left \{ \begin{pmatrix}x: -1\\ y:0\end{pmatrix}, \begin{pmatrix}x:-1\\  y:-1\end{pmatrix}\right\}$ if it goes _left_. However, it can induce $\left \{ \begin{pmatrix}x: 1\\ y:0\end{pmatrix}, \begin{pmatrix}x:1\\ y:1\end{pmatrix}\right\}$ if it goes _right_.
 
-There is no way of switching feature labels so as to copy the _left_ feature set into the _right_ feature set! There's no way to just apply a feature permutation to the _left_ set, and thereby produce a subset of the _right_ feature set. Therefore, the theorems don't apply, and so they don't guarantee anything about how most permutations of every reward function incentivize some kind of behavior.
+Switching feature labels cannot copy the _left_ feature set into the _right_ feature set! There's no way to just apply a feature permutation to the _left_ set, and thereby produce a subset of the _right_ feature set. Therefore, the theorems don't apply, and so they don't guarantee anything about how most permutations of every reward function incentivize some kind of behavior.
 
 On reflection, this makes sense. If $\alpha_1=\alpha_2=-1$, then there's no way the agent will want to go _right._ Instead, it'll go for the negative feature values offered by going _left_. This will hold for _all_ permutations of this feature labelling, too. So the orbit-level incentives _can't_ hold.
 
@@ -193,9 +193,9 @@ In particular, for the MDP case, I wrote:
 
 > MDPs assume that utility functions have a lot of structure: the utility of a history is time-discounted additive over observations. Basically, $u(a_1 o_1 a_2 o_2\ldots ) = \sum_{t=1}^\infty \gamma^{t-1}R(o_t)$, for some $\gamma\in[0,1)$ and reward function $R:\mathcal{O}\to\mathbb{R}$ over observations. And because of this structure, the agent's average per-timestep reward is controlled by the last observation it sees. There are exponentially fewer last observations than there are _observation histories._ Therefore, in this situation, instrumental convergence is exponentially weaker for reward functions than for arbitrary u<sub>OH</sub>.
 
-This is equivalent to a featurization which takes in an action-observation history, ignores the actions, and spits out time-discounted observation counts. The utility function is then over observations (which are just states in the MDP case). Here, the symmetries can only be over states, and not histories, and no matter how expressive the plausible state-based-reward-set $\mathfrak{D}_S$ is, it can't compete with the exponentially larger domain of the observation-history-based-utility-set $\mathfrak{D}_{OH}$, and so the featurization has _limited how strong instrumental convergence can get_ by projecting the high-dimensional u<sub>OH</sub> into the lower-dimensional u<sub>State</sub>.
+This involves a featurization which takes in an action-observation history, ignores the actions, and spits out time-discounted observation counts. The utility function is then over observations (which are just states in the MDP case). Here, the symmetries can only be over states, and not histories, and no matter how expressive the plausible state-based-reward-set $\mathfrak{D}_S$ is, it can't compete with the exponentially larger domain of the observation-history-based-utility-set $\mathfrak{D}_{OH}$, and so the featurization has _limited how strong instrumental convergence can get_ by projecting the high-dimensional u<sub>OH</sub> into the lower-dimensional u<sub>State</sub>.
 
-But when we go from u<sub>AOH</sub> to u<sub>OH</sub>, we're throwing away even more information—information about the actions! This is also a sparse projection. So what's up?
+However, when we go from u<sub>AOH</sub> to u<sub>OH</sub>, we're throwing away even more information—information about the actions! This is also a sparse projection. So what's up?
 
 When we throw away info about actions, we're breaking some symmetries which made instrumental convergence disappear in the u<sub>AOH</sub> case. In any deterministic environment, there are equally many u<sub>AOH</sub> which make me want to go e.g. down (and, say, die) as which make me want to go up (and survive). This is guaranteed by symmetries which swap the value of an optimal AOH with the value of an AOH going the other way:
 
@@ -209,7 +209,7 @@ graph LR
 
 Figure: If the agent cares not about its own action histories, but about its observation histories, there are just more ways to care about going _up_ and being alive! Twice as many ways, in fact!
 
-But when we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
+When we restrict the utility function to not care about actions, now you can only modify how it cares about observation histories. Here, the AOH environmental symmetry $\phi_{AOH}$ which previously ensured balanced statistical incentives, no longer enjoys closure under $\mathfrak{D}_{OH}$, and so the restricted plausible set theorem no longer works, and instrumental convergence appears when restricting from u<sub>AOH</sub> to u<sub>OH</sub>.
 
 > [!thanks]
 > I thank Justis Mills for feedback on a draft.

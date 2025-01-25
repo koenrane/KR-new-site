@@ -182,7 +182,9 @@ Bruce giggled at that.
 
 "We'll need to learn more physics before I can tell you the math, but it basically says that the universe gets messier over time.  In a sense, you have to work to clean things up."
 
+<!-- vale off -->
 "This is important for how your body works. Your body is like… a computer, only it's so complicated that biologists have only _just begun_ to figure out the wiring and code."
+<!-- vale on -->
 
 "The cells of your body are highly ordered. To make sure they're running the right program, your cells have to catalyze the right chemical reactions in the right proportions, at the right times, in response to all sorts of situations. Your genes lay out an exacting recipe for all of this, but the real complexity comes from your brain. Your brain is way more complex than a train. Do you remember what I mean by 'complex', Bruce?"
 
@@ -198,7 +200,7 @@ Bruce looked out the tall windows and onto the rolling hills surrounding the est
 
 The rich, warm tones of smooth jazz wafted through the apartment: the croon of the saxophone, the deep _doom_ of the bass, the shimmering harmony of the piano. Thomas sank into the cushy leather couch as he sank into the groove of the music.
 
-He had been thinking about learning to play the saxophone. Thomas had never been a great singer, so the saxophone might be his next best hope. There was something very vocal, very human about its sound. He leaned over to Martha, cradling her hand, and said, "Martha, can you remind me to call Mr. Wilson about saxophone lessons when we get home?"
+He had been thinking about learning to play the saxophone. Thomas had never been a great singer, so the saxophone might be his next best hope. There was something vocal - something human - about its sound. He leaned over to Martha, cradling her hand, and said, "Martha, can you remind me to call Mr. Wilson about saxophone lessons when we get home?"
 
 She shot him a devilish smile. "Don't think I've forgotten about the tuba incident, dear."
 
@@ -362,7 +364,9 @@ Would anyone go out of their way to stop it? Bruce thought about the scared peop
 
 > _blonde hair <span style="color:color-mix(in srgb, var(--maroon) 45%, var(--foreground))">grew <span style="font-style: inherit; color: color-mix(in srgb, var(--maroon) 40%, brown);">red...  <b> <span style="color: color-mix(in srgb, var(--maroon) 15%, brown);" >dark, dark <span style="font-size: larger;">red</span>.</span></b></span></span>_
 
+<!-- vale off -->
 But the scared people still hadn't helped, even after the crazy man had run away. They still hadn't helped.
+<!-- vale on -->
 
 Bruce slumped against an old well. His dad hadn't quite finished boarding it up. It was hard to see the path, anyways, under all the shadows and through all the blinking.
 
@@ -412,7 +416,7 @@ Another hard blink.
 
 Bruce felt a flash of anger towards his dad. He felt like a wretched child, but the anger swelled all the same. What had his dad been _thinking_? _Why_ did he have to help that man? If he had just waited for Alfred…
 
-Why _did_ he do it? Bruce imagined his father ignoring the crazy man. Something about that picture made him very sad. People staying away from each other, not trusting each other, worried about being betrayed or tricked. People who were too afraid.
+Why _did_ he do it? Bruce imagined his father ignoring the crazy man. Something about that picture made him sad. People staying away from each other, not trusting each other, worried about being betrayed or tricked. People who were too afraid.
 
 > _"Don't be afraid of… getting hurt."_
 
