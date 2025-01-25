@@ -46,11 +46,11 @@ In the mythos of [Eliciting Latent Knowledge](https://docs.google.com/document/d
 
 ![](https://lh6.googleusercontent.com/c0_4ACPXG7cSouFuv-1ZMOOSJZWQJ5F6XOibxUR-FCCgNM6HsPdCInR0wwmqFaPyWfeHKbmWIHSc_MQvAHqi18G6l9FGXqGhfNZ5-7IyX336X1jApWVZC33ibvSUF7p77fa6op1B)
 
-In order to fend off thieves, this vault brims with controllable traps and tricks. We've trained a really smart AI to take in a video feed, and consider an action sequence (e.g. "open the trapdoor"), and then predict what the vault camera will show if those actions are taken. At the end of the day, we just want to know whether the diamond is safe. Looking at the camera is not always enough:
+In order to fend off thieves, this vault brims with controllable traps and tricks. We've trained a really smart AI to take in a video feed, and consider an action sequence (e.g. "open the trapdoor"), and then predict what the vault camera will show if those actions are taken. Ultimately, we just want to know whether the diamond is safe. Looking at the camera is not always enough:
 
 ![](https://lh5.googleusercontent.com/LXZlho6hKzzDyvQn-Qidu22_YTkoyxp5AQZGLsH4xt6XFd9-YQf1RV8d-BKCaWx9d70-PXAr-sAzGS6-Vj3TDoQAk-GGODSDR1Y6JCEnH-s85Ej59aBJhsJLTPAnqa2d-WS8cE4w)
 
-But the AI is really smart. It knows what happened to the diamond. Can we elicit its latent knowledge?
+The AI is really smart. It knows what happened to the diamond. Can we elicit its latent knowledge?
 
 The original ELK document tries to figure out how to train a "reporter" to figure out what's going on in a really smart AI predictor. The intended reporter would _directly translate_ from the AI's ontology to the human’s ontology, and then answer whether the diamond is there or not. In the original ELK document, the reporter is wired as follows:
 
@@ -169,7 +169,7 @@ The human query function is just the pink box in the following:
 
 That is, the human query function takes in a question, which determines the subset of the net which it considers, and then computes an answer as a function of that subset. For generality, the query function can take different questions as inputs, like “did anyone open the door?”, and then answer by using a different part of the human Bayes net.
 
-The human-provided data points necessarily portray situations that the human basically understands. Therefore, since we assumed the encoder is faithful and the predictor is powerful enough to figure out the second half of the video: on each training example, the simulated and real human end up in _very similar states of mind after doing inference_. Just compare the AI’s diagram with the human’s diagram, in order to see that on the training distribution and given a faithful encoder, the after-AI prediction-finishes human imitator should be reasoning _extremely similarly_ to the human. All that’s left to learn is the human query function! Hopefully, this is a simple “blank” for the AI to fill in.
+The human-provided data points necessarily portray situations that the human basically understands. Therefore, since we assumed the encoder is faithful and the predictor is powerful enough to figure out the second half of the video: on each training example, the simulated and real human end up in _similar states of mind after doing inference_. Just compare the AI’s diagram with the human’s diagram, in order to see that on the training distribution and given a faithful encoder, the after-AI prediction-finishes human imitator should be reasoning _extremely similarly_ to the human. All that’s left to learn is the human query function! Hopefully, this is a simple “blank” for the AI to fill in.
 
 For example, suppose the real human knows that the action sequence opens the trapdoor, and that the video shows someone falling into it. Because the predictor understands the situation and we have the intended encoder, the imitated human also knows this, and perhaps they also know some additional translated details. Therefore, to produce the correct answer, the reporter just has to look at the imitated human’s net and pick out the relevant nodes for the real human’s query function. This is the prototypical human-understandable training example.
 
@@ -280,7 +280,7 @@ One way in which the intended network could suffer a performance penalty is, the
 
 # Conclusion
 
-I feel excited about this proposal. It seems to at least defeat the naive human simulator in an interesting way, but e.g. Evan’s counterexample shows that it still fails in the worst case. That is, there are many ways to extract useful compute from the human net, and we already know of one which is not direct translation. I probably need a significantly better design to exclude all of the ways which are not direct translation—if that’s even possible at all. I think it’s very probable (90%) that a simple counterexample-free design simply doesn’t exist.
+I feel excited about this proposal. It seems to at least defeat the naive human simulator in an interesting way, but e.g. Evan’s counterexample shows that it still fails in the worst case. That is, there are many ways to extract useful compute from the human net, and we already know of one which is not direct translation. I probably need a significantly better design to exclude all of the ways which are not direct translation—if that’s even possible at all. I think it’s likely (90%) that a simple counterexample-free design simply doesn’t exist.
 
 I wonder whether there are basic design improvements which cleanly resolve many of the remaining issues.
 

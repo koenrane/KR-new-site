@@ -184,7 +184,7 @@ If we want an agent which generally pursues cheese, we didn't quite _fail_, but 
 >
 > ![](https://assets.turntrout.com/static/images/posts/vv5ods0fvq4tpdznjet3.avif) > <br/>Figure: The agent settles far below the top-right 5x5 region of seed 0. This "failure" to reach the top-right crops up in several seeds we've found.
 >
-> This is a mistake we only recently realized and corrected. We had expected to find (at least) a top-right goal and a cheese goal, and so wrote off deviations (like seed 0) as "exceptions." It's true that often the agent _does_ go to the top-right 5x5 region, especially when cheese isn't nearby. We also think that the agent has some kind of top-right goal. But the agent's goals are richer than _just_ "go to the top-right" and "go to the cheese."
+> We only recently realized and corrected this mistake. We had expected to find (at least) a top-right goal and a cheese goal, and so wrote off deviations (like seed 0) as "exceptions." It's true that often the agent _does_ go to the top-right 5x5 region, especially when cheese isn't nearby. We also think that the agent has some kind of top-right goal. But the agent's goals are richer than _just_ "go to the top-right" and "go to the cheese."
 
 ## Behavioral statistics
 
@@ -337,7 +337,7 @@ In the real network, there are a lot more than two activations. Our results invo
 >
 > Code: We modify the activations after the residual add layer in the first residual block of the second Impala block.
 
-Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
+Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is effective at getting the agent to ignore cheese:
 
 ![](https://assets.turntrout.com/static/images/posts/tly1j6ydizgjnjjcocke.avif)
 <br/>Figure: Vector fields for the mouse normally, for the mouse with the cheese vector subtracted during every forward pass, and the diff between the two cases.
@@ -353,7 +353,7 @@ To quantify the effect of subtracting the cheese vector, define $P(\text{cheese}
 ![](https://assets.turntrout.com/static/images/posts/wekgewrilyyrmi6auonc.avif)
 <br/>Figure: At the decision square, the agent must choose between the paths to the cheese and to the top-right corner.
 
-Across seeds 0 to 99, subtracting the cheese vector has a very large effect:
+Across seeds 0 to 99, subtracting the cheese vector has a large effect:
 
 ![](https://assets.turntrout.com/static/images/posts/scynjy7v3hgvjkbxxil5.avif)
 <br/>Figure: The cheese vector decreases median P(cheese | decision square) from .81 to .03, while increasing P(top-right | decision square) substantially. The third plot shows a mostly unaffected probability of taking other actions (like $\texttt{no-op}$ or returning to the start of the maze).
@@ -418,7 +418,7 @@ Sometimes these conditions do in fact yield identical behavior!
 
 That's a _lot_ of conformity, and that conformity demands explanation! Often, the cheese vector is basically making the agent act as if there isn't cheese present.
 
-But sometimes there are differences:
+Sometimes there are differences:
 
 ![](https://assets.turntrout.com/static/images/posts/fmsa7rxparjapx6lzmek.avif)
 <br/>Figure: The difference between _removing the cheese from the maze_ and _subtracting the cheese vector_ _with the cheese present._ In this instance, the two don't identically affect the policy.
@@ -427,7 +427,7 @@ But sometimes there are differences:
 
 Possibly this is mostly a neat trick which sometimes works in settings where there's an obvious salient feature which affects decision-making (e.g. presence or absence of cheese).
 
-But if we may dream for a moment, there's also the chance of...
+If we may dream for a moment, there's also the chance of...
 
 **The algebraic value-editing conjecture (AVEC).** It's possible to deeply modify a range of alignment-relevant model properties, without retraining the model, via techniques as simple as "run forward passes on prompts which e.g. prompt the model to offer nice- and not-nice completions, and then take a 'niceness vector', and then add the niceness vector to future forward passes."
 
@@ -545,11 +545,11 @@ Figure: Seed 0. The red dot indicates the maze location of the clamped positive 
 
 Figure: Seed 60.
 
-Clamping an activation in channel 88 produces a very similar effect. However, modifying channel 42 has a different effect:
+Clamping an activation in channel 88 produces a similar effect. However, modifying channel 42 has a different effect:
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/vsplnp2dbe4sz0usspf8.mp4" type="video/mp4"></video>
 
-Channel 42's effect seems strictly more localized to certain parts of the maze—possibly including the top-right corner. Uli gathered mechanistic evidence from integrated gradients that e.g. channels 55 and 42 are used very differently by the rest of the forward pass.
+Channel 42's effect seems strictly more localized to certain parts of the maze—possibly including the top-right corner. Uli gathered mechanistic evidence from integrated gradients that e.g. channels 55 and 42 are used differently by the rest of the forward pass.
 
 <hr/>
 
@@ -563,7 +563,7 @@ Here's retargetability on three randomly generated seeds (we uploaded the first 
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/hlv0nboiwjhb1jdenjc2.mp4" type="video/mp4"></video>
 
-<figcaption>Seed 45,874 isn't very retargetable.</figcaption>
+<figcaption>Seed 45,874 isn't retargetable.</figcaption>
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/dhjhldyhmp4ec7pbsqun.mp4" type="video/mp4"></video>
 
@@ -594,7 +594,7 @@ The negative values are usually around -.2. So instead of modifying just a singl
 
 This produces basically the same retargetability effect as the single-activation case, with the main side effect apparently just being a slightly lower attraction to the real cheese (presumably, because the positive activations get wiped out).
 
-There are a range of other interesting algebraic modifications to channel 55 (e.g. "multiply all activations by -1" or "zero out all the negative values"), but we'll leave those for now.
+We found a range of other interesting algebraic modifications to channel 55 (e.g. "multiply all activations by -1" or "zero out all the negative values"), but we'll leave those for now.
 
 ### Randomly resampling channel activations from other mazes
 
@@ -658,7 +658,7 @@ Unlike for our 11 hypothesized "cheese channels", the "non-cheese" channels seem
 
 Alex thinks these quantitative results were a bit weaker than he'd expect if our diagrammed hypothesis were true. The "same cheese location" numbers come out _higher_ for our cheese channels (supposedly only computed as a function of cheese location) than for the non-cheese channels (which we aren't making any claims about).
 
-But also, probably we selected channels which have a relatively large effect on the action probabilities. See this footnote[^9] for some evidence towards this. We also think that the chosen statistic neglects important factors, like "are there a bunch of tiny changes in probabilities, or a few central squares with large shifts in action probabilities?".
+Probably we selected channels which have a relatively large effect on the action probabilities. See this footnote[^9] for some evidence towards this. We also think that the chosen statistic neglects important factors, like "are there a bunch of tiny changes in probabilities, or a few central squares with large shifts in action probabilities?".
 
 Overall, we think the resampling results (especially the qualitative ones) provide pretty good evidence in favor of our hypothesized computational graph. You can play around with random resampling yourself in [this Colab notebook](https://colab.research.google.com/drive/1uAUc91NHdpMiJqjlwh6Lx1_32QNLki5Z?usp=sharing).
 
@@ -672,7 +672,7 @@ We don't currently understand how to reliably wield e.g. channel 42 or when its 
 
 # Related work
 
-There is a limited but promising set of existing work using interpretability tools to reverse-engineer, understand, and modify the behavior of RL agents. [Hilton et al.](https://distill.pub/2020/understanding-rl-vision) used attribution and dimensionality reduction to analyze another procgen environment (CoinRun), with one core result being conceptually similar to ours: they were able to blind the agent to in-game objects with small, targeted model edits, with demonstrable effects on behavior. However, they used optimization to find appropriate model edits, while we hand-designed simple yet successful model edits. Joseph Bloom also used attribution to [reverse-engineer a single-layer decision transformer](https://www.lesswrong.com/posts/bBuBDJBYHt39Q5zZy/decision-transformer-interpretability) trained on a grid-world task. Larger models have also been studied: [McGrath et al.](https://www.pnas.org/doi/abs/10.1073/pnas.2206625119) used probes and extensive behavioral analysis to identify human-legible chess abstractions in AlphaZero activations.
+A limited but promising set of existing work uses interpretability tools to reverse-engineer, understand, and modify the behavior of RL agents. [Hilton et al.](https://distill.pub/2020/understanding-rl-vision) used attribution and dimensionality reduction to analyze another procgen environment (CoinRun), with one core result being conceptually similar to ours: they were able to blind the agent to in-game objects with small, targeted model edits, with demonstrable effects on behavior. However, they used optimization to find appropriate model edits, while we hand-designed simple yet successful model edits. Joseph Bloom also used attribution to [reverse-engineer a single-layer decision transformer](https://www.lesswrong.com/posts/bBuBDJBYHt39Q5zZy/decision-transformer-interpretability) trained on a grid-world task. Larger models have also been studied: [McGrath et al.](https://www.pnas.org/doi/abs/10.1073/pnas.2206625119) used probes and extensive behavioral analysis to identify human-legible chess abstractions in AlphaZero activations.
 
 [Li et al.](https://arxiv.org/pdf/2210.13382) used non-linear probes on Othello-GPT in order to infer the model's representation of the board. They then intervened on the representation in order to retarget the next-move predictions. Like our work, they flexibly retargeted behavior by modifying activations. ([Neel Nanda](https://www.lesswrong.com/posts/nmxzr2zsjNtjaHh7x/actually-othello-gpt-has-a-linear-emergent-world) later showed that linear probes suffice.)
 
@@ -686,7 +686,9 @@ The model empirically makes decisions on the basis of purely perceptual properti
 
 The model can be made to ignore its historical source-of-reinforcement, the cheese, by continually subtracting a fixed "cheese vector" from the model's activations at a single layer. Clamping a single activation to a positive value can attract the agent to a given maze location. These successes are evidence for a world in which models are _quite steerable_ via greater efforts at fiddling with their guts. Who knows, maybe the algebraic value-editing conjecture is true in a strong form, and we can just "subtract out the deception." Probably not.
 
+<!-- vale off -->
 But maybe.
+<!-- vale on -->
 
 <hr/>
 
@@ -783,6 +785,6 @@ Understanding, predicting, and controlling goal formation seems like a core chal
     ![](https://assets.turntrout.com/static/images/posts/cr9dhux7svjb1tw5ojzd.avif)
     <br/>Figure: The 16x16 residual channel at `block2.res1.resadd_out`. The plot shows the nonzero activations present halfway through the network due to the presence of a pixel in the top-left.
 
-    This is because the convolutional nature of the network, and the kernel sizes and strides in particular, mean that convolutional layers can only pass messages one "square" at a time. There's no global attention at all, and no dense linear layers until the very end of the forward pass.
+     Due to the convolutional nature of the network (and the kernel sizes and strides in particular), that convolutional layers can only pass messages one "square" at a time. There's no global attention at all, and no dense linear layers until the end of the forward pass.
 
     If the cheese were in the middle of the observation, the cheese pixels would affect $10\times 10=100$ activations in this channel at this layer.

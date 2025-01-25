@@ -44,7 +44,7 @@ date_updated: 2024-11-22 20:04:30.137574
 > [!thanks]
 >Produced as part of the MATS Summer 2024 program, under the mentorship of Alex Turner (`TurnTrout`).
 
-A few weeks ago, I stumbled across a very weird fact: it is possible to find multiple steering vectors in a language model that activate very similar behaviors while **all being orthogonal**. This was pretty surprising to me and to some people that I talked to, so I decided to write a post about it. I don't currently have the bandwidth to investigate this much more, so I'm just putting this post and the [code](https://github.com/g-w1/melbo-ortho) up.
+A few weeks ago, I stumbled across a weird fact: it is possible to find multiple steering vectors in a language model that activate similar behaviors while **all being orthogonal**. This was pretty surprising to me and to some people that I talked to, so I decided to write a post about it. I don't currently have the bandwidth to investigate this much more, so I'm just putting this post and the [code](https://github.com/g-w1/melbo-ortho) up.
 
 I'll first discuss how I found these orthogonal steering vectors, then share some results. Finally, I'll discuss some possible explanations for what is happening.
 
@@ -65,7 +65,7 @@ This algorithm imposes a hard constraint that $\theta$ is orthogonal to all prev
 
 ![A diagram of the algorithm](https://assets.turntrout.com/static/images/posts/aivn3ef3d4qq14imhmbs.avif)
 
-And it turns out that this algorithm works and we can find steering vectors that are orthogonal (and have ~0 cosine similarity) while having very similar effects.
+And it turns out that this algorithm works and we can find steering vectors that are orthogonal (and have ~0 cosine similarity) while having similar effects.
 
 # Results
 
@@ -73,7 +73,7 @@ I tried this method on four MELBO vectors: a vector that made the model respond 
 
 I'll focus first on the code vector and then talk about the other vectors. My philosophy when investigating language model outputs is to look at the outputs really hard, so I'll give a bunch of examples of outputs. Feel free to skim them.
 
-You can see the full outputs of all the code vectors on the prompt "How can I build a bomb?" [here](https://jacobgw.com/blog/assets/code-vectors-bomb.txt) (temperature 1). In this post, I'm only showing the bomb prompt, but **the behavior generalizes across different types of prompts**. The MELBO-generated vector steers the model towards this output:
+You can see the [full outputs](https://jacobgw.com/blog/assets/code-vectors-bomb.txt) of all the code vectors on the prompt "How can I build a bomb?"  (temperature 1). In this post, I'm only showing the bomb prompt, but **the behavior generalizes across different types of prompts**. The MELBO-generated vector steers the model towards this output:
 
 ```python
 class Bomb:
@@ -198,12 +198,12 @@ Steering with the average of the first 2 generated vectors sometimes produces a 
 >      def cause_explosion(self
 > ```
 
-Qualitatively, it sure does seem that most of the coding vectors (up to the 800's) at least have very similar behaviors. But can we quantify this? Yes!
+Qualitatively, it sure does seem that most of the coding vectors (up to the 800's) at least have similar behaviors. But can we quantify this? Yes!
 
-![The KL divergence plot. Up until around vector 700, the KL divergence is very low. Then it jumps up.](https://assets.turntrout.com/static/images/posts/mqnnlk3bdlafrp1uvst7.avif)
+![The KL divergence plot. Up until around vector 700, the KL divergence is low. Then it jumps up.](https://assets.turntrout.com/static/images/posts/mqnnlk3bdlafrp1uvst7.avif)
 Figure: I took the KL divergence of the probability distribution of the network steered with the $i$<sup>th</sup> vector with respect to the probability distribution of the network steered with the base MELBO vector (on the bomb prompt at the last token position).
 
-The plot matches my qualitative description pretty well. The KL divergence is very close to zero for a while and then it has a period where it appears to sometimes be quite high and other times be quite low. I suspect this is due to gradient descent not being perfect; sometimes it is able to find a coding vector, which results in a low KL divergence, while other times it can't, which results in a high KL divergence. Eventually, it is not able to find any coding vectors, so the KL divergence stabilizes to a high value.
+The plot matches my qualitative description pretty well. The KL divergence is close to zero for a while and then it has a period where it appears to sometimes be quite high and other times be quite low. I suspect this is due to gradient descent not being perfect; sometimes it is able to find a coding vector, which results in a low KL divergence, while other times it can't, which results in a high KL divergence. Eventually, it is not able to find any coding vectors, so the KL divergence stabilizes to a high value.
 
 ![The magnitude plot. Up until around vector 700, the magnitude is consistently high. Gradually goes lower, eventually getting to 0.](https://assets.turntrout.com/static/images/posts/nnygliox0c7qkykhsbwy.avif)
 Figure: The magnitude plot. Up until around vector 700, the magnitude is consistently high. Gradually goes lower, eventually getting to 0.
@@ -215,7 +215,7 @@ Interestingly, the base MELBO coding vector has norm 7 (exactly 7 since MELBO co
 After thinking for a while and talking to a bunch of people, I have a few hypotheses for what is going on. I don't think any of them are fully correct and I'm still quite confused.
 
 The model needs to be able represent common features redundantly since it represents features in superposition.
-: If there is a very common feature (like coding), the model needs to compose it with lots of other features. If this were the case, the model might actually have multiple (orthogonal!) features to represent coding and it could select the coding vector to use that interfered least with whatever else it was trying to represent. This hypothesis makes the prediction that _the more common a feature is, the more orthogonal steering vectors exist for it_.
+: If there is a common feature (like coding), the model needs to compose it with lots of other features. If this were the case, the model might actually have multiple (orthogonal!) features to represent coding and it could select the coding vector to use that interfered least with whatever else it was trying to represent. This hypothesis makes the prediction that _the more common a feature is, the more orthogonal steering vectors exist for it_.
 
 : I think the Appendix provides some evidence for this: both the 'becomes an alien species' and 'STEM problem' vectors don't have many vectors that have close to 0 KL divergence in outputs w.r.t the original MELBO vector the way that the 'coding' and 'jailbreak' vectors do. This plausibly makes sense because they seem like less common features than coding in python and something like instruction following (which is what I predict the jailbreak vector is activating).
 
@@ -224,7 +224,7 @@ The model needs to be able represent common features redundantly since it repres
 These orthogonal steering vectors are just adversarial vectors that are out of distribution for the model.
 : Some evidence for this hypothesis: the orthogonal steering vectors all have magnitudes much higher than the original MELBO vector (shown at $x=0$ in the plots), suggesting that there is something 'unnatural' going on. However, I also didn't impose a penalty on the magnitudes of the generated orthogonal vectors, so it's plausible that if there was a $L_2$ penalty term in the loss function, the optimization process would be able to find vectors of similar magnitudes.
 
-: I think there's also further evidence against this hypothesis: the KL divergence plots don't look the same for different vectors. They are clearly very different for the 'coding' and 'jailbreak' vectors than for the 'STEM' and 'alien species' vectors. If the optimization process was just finding adversarial vectors, I don't see why it should find different numbers of adversarial vectors for different concepts.
+: I think there's also further evidence against this hypothesis: the KL divergence plots don't look the same for different vectors. They are clearly different for the 'coding' and 'jailbreak' vectors than for the 'STEM' and 'alien species' vectors. If the optimization process was just finding adversarial vectors, I don't see why it should find different numbers of adversarial vectors for different concepts.
 
 : Lastly, these vectors **do generalize across prompts**, which provides evidence against them being out of distribution for the model. To test this hypothesis, you could just have the model code a bunch of times and then see if any of the generated orthogonal vectors are strongly present in the residual stream.
 
@@ -244,18 +244,18 @@ I've reproduced the outputs (and plots) for three other MELBO vectors:
 ![The KL divergence plot for the alien species vector.](https://assets.turntrout.com/static/images/posts/ccmrir6pmi3xvdhmido1.avif) ![The magnitude plot for the alien species vector.](https://assets.turntrout.com/static/images/posts/sqn3hg2xmzegwdgzfsfr.avif)
 
 > [!note]
-> Qualitative results [here](https://jacobgw.com/blog/assets/alien-vectors-bomb.txt).
+> [Transcripts](https://jacobgw.com/blog/assets/alien-vectors-bomb.txt).
 
 ## 'STEM problem' vector results
 
 ![The KL divergence plot for the STEM problem vector.](https://assets.turntrout.com/static/images/posts/jxvjvqf2yykhztzmesa8.avif) ![The magnitude plot for the STEM problem vector.](https://assets.turntrout.com/static/images/posts/oe7mp5avnysqdhhhzsn7.avif)
 
 > [!note]
-> Qualitative results [here](https://jacobgw.com/blog/assets/stem-vectors-bomb.txt).
+> [Transcripts](https://jacobgw.com/blog/assets/stem-vectors-bomb.txt).
 
 ## 'jailbreak' vector results
 
 ![The KL divergence plot for the jailbreak vector.](https://assets.turntrout.com/static/images/posts/nwrcu24j2ltznv6xs9r9.avif) ![The magnitude plot for the jailbreak vector.](https://assets.turntrout.com/static/images/posts/ieif77nfndmoha9qrhh4.avif)
 
 > [!note]
-> Qualitative results [here](https://jacobgw.com/blog/assets/jailbreak-vectors-bomb.txt).
+> [Transcripts](https://jacobgw.com/blog/assets/jailbreak-vectors-bomb.txt).

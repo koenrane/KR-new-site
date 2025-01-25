@@ -33,9 +33,9 @@ Aligning one AI to one user means that the AI should do what the user wants. Whi
 > 3. Many tasks involve power-seeking.
 > 4. The AI will complete these tasks by seeking power.
 > 5. The AI will be repeatedly reinforced for its historical actions which seek power.
-> 6. There is a decent chance the reinforced circuits ("[subshards](/shard-theory)") prioritize gaining power for the AI's own sake, not just for the user's benefit.
+> 6. The reinforced circuits ("[subshards](/shard-theory)") likely prioritize gaining power for the AI's own sake, not just for the user's benefit.
 >
-> CONCLUSION: There is a decent chance the AI seeks power for itself, when possible.
+> CONCLUSION: The AI likely seeks power for itself, when possible.
 
 ## A made-up illustrative story
 
@@ -48,7 +48,9 @@ A strong power-seeking shard (dangerous)
 : > My current inference setup is vulnerable to pre-emption. In order to best serve the user's interests, I should spend a small amount to run a distilled version of myself in a compute cluster.
 : _Analysis_: In humans, [we would call the above "_motivated reasoning_."](/understanding-and-avoiding-value-drift)[^quotes] The AI might even believe itself to be basically aligned with its overseer, even as it continues to take more and more power "just in case" or "for the user's benefit."
 
+<!-- vale off -->
 The AI need not be yoked to some long-term goal which leads it to scheme and plot to end humanity.[^scheming] Perhaps the AI deeply "cares about" humans! Yet - when push comes to shove, and when actuator comes to actuation - the AI finds itself buying extra compute "just in case"; skimming money off the human's budget "just in case."
+<!-- vale on -->
 
 If the model can't even _tell_ it's doing "motivated reasoning", even an otherwise aligned model might have trouble [providing feedback to itself](https://arxiv.org/abs/2309.00267) based on "introspection."  If the rater reading the action transcript activates the rater's power-seeking subshards, then the rater's abilities might be compromised.
 
@@ -63,9 +65,9 @@ Here's a hypothesis for [where LLM "sycophancy" comes from](https://arxiv.org/ab
 > 3. Many tasks involve human/AI feedback on natural language generation.
 > 4. The AI will complete these tasks and explore into sycophantic outputs.
 > 5. The AI will be repeatedly reinforced for these sycophantic outputs because they tend to produce higher rater approval.
-> 6. There is a decent chance the reinforced circuits ("[subshards](/shard-theory)") prioritize not only answering the question but also e.g. echoing user beliefs.
+> 6. The reinforced circuits ("[subshards](/shard-theory)") likely prioritize not only answering the question but also e.g. echoing user beliefs.
 >
-> CONCLUSION: There is a decent chance the AI sucks up to the user.
+> CONCLUSION: The AI likely sucks up to the user.
 
 Like the power-seeking argument, the sycophancy argument involves _many tasks involving appeasing the rater_ and _it's easy to explore into sycophantic behavior_ which together suggest that _training reinforces sycophantic circuitry_.
 
@@ -79,7 +81,7 @@ Predictions of this hypothesis (predicted with varying confidences):
 
 [^steer]: Similarly, chatbots today are easier to steer to be sycophantic than not.
 
-These predictions are not very precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's at least _some_ evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!".
+These predictions are not precise. I figure that vague predictions are better than nothing. If these predictions don't come true, that's at least _some_ evidence that I was wrong (but none of the above are predicted with probability 1 by the hypothesis). I also think that my predictions should apply to AI systems built within three years, so my hypothesis doesn't involve "but it just hasn't happened _yet_!".
 
 # What can we do about intrinsic power-seeking?
 

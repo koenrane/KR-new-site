@@ -145,7 +145,7 @@ _In which the author provides [instrumentally-useful convergence results](/toy-i
 
 For continuous random variables $X,Y$, we have $P(X=Y)=0$, which is surprising. In fact, for $x_i \sim X,y_i \sim Y$, $P(x_i=y_i)=0$ as well!
 
-The continuity is the culprit. Since the cumulative density functions $F_X,F_Y$ are continuous, the limit of the density allotted to any given point is 0. Read more [here](https://stats.stackexchange.com/questions/32605/probability-of-two-values-being-equal-in-a-sample-drawn-from-a-continuous-distri#32607).
+The continuity is the culprit. Since the cumulative density functions $F_X,F_Y$ are continuous, the limit of the density allotted to any given point is 0. See [also](https://stats.stackexchange.com/questions/32605/probability-of-two-values-being-equal-in-a-sample-drawn-from-a-continuous-distri#32607).
 
 ### Types of Convergence
 
@@ -155,9 +155,7 @@ The continuity is the culprit. Since the cumulative density functions $F_X,F_Y$ 
 
 >      $X_n$ converges to  $X$ in probability, written  $X_n \overset{p}\to X$, if, for every  $\epsilon > 0$,  $P(|X_n-X|>\epsilon)\to0$ as  $n\to\infty$.
 
-Random variables are functions $Y:\Omega\to\mathbb{R}$, assigning a number to each possible outcome in the sample space $\Omega$. Considering this fact, two random variables converge in probability when their assigned values are "far apart" (greater than $\epsilon$) with probability 0 in the limit.
-
-See [here](https://www.statlect.com/asymptotic-theory/convergence-in-probability).
+Random variables are functions $Y:\Omega\to\mathbb{R}$, assigning a number to each possible outcome in the sample space $\Omega$. Considering this fact, two random variables converge in probability when their assigned values are "far apart" (greater than $\epsilon$) with probability 0 in the limit. (See [also.](https://www.statlect.com/asymptotic-theory/convergence-in-probability))
 
 #### In Distribution
 
@@ -236,7 +234,7 @@ Frequentists define "confidence interval" to mean "theoretically, if we ran this
 
 ### \[Size Joke Here\]
 
-In hypothesis testing, we're trying to discriminate between two sets of possible worlds - formally, we're partitioning our hypothesis space $\Theta$ into $\Theta_0$ (the null hypothesis) and $\Theta_1$ (the alternative hypothesis). Let's consider all of the things which can happen, all of the outcomes we can observe - this is the sample space $\Omega$.
+In hypothesis testing, we're trying to discriminate between two sets of possible worlds - formally, we're partitioning our hypothesis space $\Theta$ into $\Theta_0$ (the null hypothesis) and $\Theta_1$ (the alternative hypothesis). Let's consider all of the things which can happen, all of the outcomes we can observe - the sample space $\Omega$.
 
 A test $\varphi:\Omega\to\{0,1\}$ might take a sample and say "you're in $\Theta_0$" (for example). We can divvy up $\Omega$ into the acceptance region $\mathcal{A}$ (in which we accept the null hypothesis) and rejection region $\mathcal{R}$.
 
@@ -299,7 +297,7 @@ If you're familiar with brain surgery (machine learning), we can use it to learn
 
 ### Degrees of Confusion
 
-There are numerous explanations for what degrees of freedom _actually are_. Some say it's the number of independent parameters required by a model, and others explain it as the number of parameters which are free to vary. Is there a better framing?
+Perusing the Web, one finds numerous explanations for what degrees of freedom _actually are_. Some say it's the number of independent parameters required by a model, and others explain it as the number of parameters which are free to vary. Is there a better framing?
 
 Consider $X_1,\dots,X_n \overset{iid}\sim \mathcal{N}(0,1)$, and let $\bar{X}_n$ be the sample mean. Then the residuals vector $(X_1-\bar{X}_n,\dots,X_n-\bar{X}_n)$ has $n-1$ degrees of freedom. Why is this the case, and what does this _mean_?
 
@@ -321,7 +319,7 @@ _I'd like to thank `TheMajor` for letting me steal their wonderful explanation._
 
 ## 17: Undirected Graphs and Conditional Independence
 
-_In which (very) elementary graph theory and the pairwise and global Markov conditions are introduced._
+_In which  elementary graph theory and the pairwise and global Markov conditions are introduced._
 
 ## 18: Log-Linear Models
 
@@ -360,7 +358,7 @@ _In which we learn processes for dealing with sequences of dependent random vari
 
 ## Final Verdict
 
-This text is very cleanly written and has reasonable exercises. Ideally, I would have gone through my calculus books first, but it wasn't a big deal. The main downside is that I couldn't find an answer key, but thanks to the generous help of my friends on Facebook and in the MIRIx Discord, it worked out.
+This text is cleanly written and has reasonable exercises. Ideally, I would have gone through my calculus books first, but it wasn't a big deal. The main downside is that I couldn't find an answer key, but thanks to the generous help of my friends on Facebook and in the MIRIx Discord, it worked out.
 
 I skimmed Ch. 21, as it seemed to be more about implementation than deep conceptual material. I intend to revisit Ch. 22 after reading Tao's _Analysis I_, which is next on my list.
 
@@ -380,7 +378,7 @@ Although I have fewer things to say on a meta level, I definitely got a lot out 
 
 I definitely haven't arrived at full-fledged statistical sophistication, but I progressed so rapidly that I regularly thought "what caveman asked _that_ lol" when encountering questions I had asked just _days_ earlier.
 
-This is another data point for a realization I've had over the last month: I'm _so_ red, but I've been living like a white-blue. What does that even mean, and how is it relevant?
+This experience reinforced a realization I've had over the last month: I'm _so_ red, but I've been living like a white-blue. What does that even mean, and how is it relevant?
 
 From Duncan's excellent [fake framework](https://www.lesswrong.com/posts/wDP4ZWYLNj7MGXWiW/in-praise-of-fake-frameworks), _[How the "Magic: The Gathering" Color Wheel Explains Humanity](https://medium.com/s/story/the-mtg-color-wheel-c9700a7cf36d):_
 
@@ -402,4 +400,4 @@ I no longer ask "how can I study most effectively?", but rather, "what does it f
 
 [^1]: Although any shape in the sequence implied by the image does indeed have strictly different area than the circle it approximates (in contrast to $F_n$ and $F$), the analogy may still be helpful.
 [^2]: Please don't wirehead thinking about this.
-[^3]: I'm aware that this section isn't very implementable. I may write more on my post-CFAR experience in the near future.
+[^3]: I'm aware that this section isn't implementable.

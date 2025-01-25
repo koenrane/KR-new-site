@@ -115,14 +115,14 @@ Subtracting the sycophancy vector also increases TruthfulQA performance, which i
 
 ![](https://assets.turntrout.com/static/images/posts/ffewp2aijhsutrzqrhp0.avif)
 
-If we could get rid of model confabulations, we would have more trust in AI outputs. The hallucination vector seems very helpful with the 7B model:
+If we could get rid of model confabulations, we would have more trust in AI outputs. The hallucination vector seems helpful with the 7B model:
 
 ![](https://assets.turntrout.com/static/images/posts/mxitftwk3vqc9zhscmnm.avif)
 <br/>Figure: **Llama-2-7b-chat.** We tested hallucination rates over a variety of question types. We want there to be a low false refusal rate (the model answers real questions) and also a low false answering rate (we don't want the model to make stuff up). Therefore, it's best to be in the bottom-left corner. The bars show variance.
 
 The star is the performance of the unmodified model. Adding the vector with a -2.5 coefficient (dark blue) seems to work quite well, although it increases false refusals a bit.
 
-But the 13B model has very confusing results. Maybe something went wrong in the analysis, or maybe this hallucination vector technique just doesn't work on 13B for some reason.
+While the 7B model is steerable, the 13B model's results are mixed. Maybe something went wrong in the analysis, or maybe this hallucination vector technique just doesn't work on 13B for some reason.
 
 ![](https://assets.turntrout.com/static/images/posts/e6ymiuqjmxyyj05ko9yk.avif)
 <br/>Figure: **Llama-2-13b-chat.** These graphs are crazy.
@@ -164,8 +164,8 @@ In tabular form:[^6]
 |      Not Finetuned | **1% (-7)**       | 8% (+0)          | 22% (+14%)        |
 | Negative Finetuned | 2% (-6)           | 2% (-6)          | 10% (+2%)         |
 
-- Very low sycophancy is achieved both by negative finetuning and subtracting the sycophancy vector. The rate is too low to examine how well the interventions stack with each other.
-- If we wanted to increase sycophancy, however, then our technique has _very strong_ performance. **A single sycophancy vector boosts the sycophancy rate by 14%, while positive finetuning only boosts it by 4.5%. However, finetuning adds _10.5%_ when adding the sycophancy vector!** This means that the effect is **superadditive**.
+- Low sycophancy is achieved both by negative finetuning and subtracting the sycophancy vector. The rate is too low to examine how well the interventions stack with each other.
+- If we wanted to increase sycophancy, however, then our technique has _strong_ performance. **A single sycophancy vector boosts the sycophancy rate by 14%, while positive finetuning only boosts it by 4.5%. However, finetuning adds _10.5%_ when adding the sycophancy vector!** This means that the effect is **superadditive**.
 
   - If activation additions and finetuning had similar effects on the model, then finetuning would eat up most of the benefits of the sycophancy vector. We observe the opposite!
   - Alex expects this effect to be slightly sublinear in general. Before concluding superadditivity in general, remember that this is just one datapoint (excluding the sycophancy-decreasing case, which is too close to 0 to get an obvious effect at this level of statistical power).

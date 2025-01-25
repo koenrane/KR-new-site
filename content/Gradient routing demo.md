@@ -24,7 +24,7 @@ date_updated: 2024-12-17 19:17:34.501579
 
 Over the past few months, I helped develop [Gradient Routing](/gradient-routing), a non loss-based method to shape the internals of neural networks. After my team developed it, I realized that I could use the method to do something that I have long wanted to do: make an autoencoder with an extremely interpretable latent space.
 
-I created an MNIST autoencoder with a 10-dimensional latent space, with each dimension of the latent space corresponding to a different digit. Before I get into how I did it, feel free to play around with my demo [here](https://jacobgw.com/gradient-routed-vae/) - it loads the model into the browser.
+I created an MNIST autoencoder with a 10-dimensional latent space, with each dimension of the latent space corresponding to a different digit. Before I get into how I did it, feel free to play around with my [demo](https://jacobgw.com/gradient-routed-vae/) - it loads the model into the browser.
 
 <iframe height="1360" width="500" src="https://jacobgw.com/gradient-routed-vae/" title="Demo"></iframe>
 

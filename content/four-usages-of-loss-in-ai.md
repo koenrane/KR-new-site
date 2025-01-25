@@ -55,13 +55,13 @@ I advocate retaining physical- and mathematical-loss. I advocate dropping 3 in f
 
 > The loss function updated my network.
 
-This is a statement about computations embedded in _physical reality_. This statement involves the physically implemented sequence of loss computations which stream in throughout training. For example, the computations engendered by `loss_fn = torch.nn.CrossEntropyLoss()`.
+This describes computations embedded in _physical reality_. This statement involves the physically implemented sequence of loss computations which stream in throughout training. For example, the computations engendered by `loss_fn = torch.nn.CrossEntropyLoss()`.
 
 ## 2: Mathematical loss
 
 > The loss function is a smooth function of the prediction distribution.
 
-This is a statement about the _idealized_ _mathematical_ loss function. These are the mathematical objects you can prove learning theory results about. The Platonic idealization of the learning problem and the mathematical output-grading rule casts a shadow into your computer via its real-world implementation (concept 1).
+This describes the _idealized_ _mathematical_ loss function. These are the mathematical objects you can prove learning theory results about. The Platonic idealization of the learning problem and the mathematical output-grading rule casts a shadow into your computer via its real-world implementation (concept 1).
 
 For example, $(D,\ell)$  where $D:=\{\left(x,\text{label}(x)\right) \mid x \in \text{MNIST} \}$ is the mathematical idealization of the MNIST dataset, where the $x\in\mathbb{R}^{28×28}$ are the idealized grayscale MNIST images. And $\ell$ is the _mathematical_ function of cross-entropy (CE) loss between a label prediction distribution and the ground-truth labels.
 
@@ -69,7 +69,7 @@ For example, $(D,\ell)$  where $D:=\{\left(x,\text{label}(x)\right) \mid x \in \
 
 > I want a loss function which is aligned with the goal of "write good novels."
 
-This is an aspirational statement about achieving some kind of correspondence between the loss function and the goal of writing good novels. But what does this statement _mean_?
+This describes kind of correspondence between the loss function and the goal of writing good novels. But what does this statement _mean_?
 
 Suppose you tell me "I have written down a loss function $\ell_\text{novel}$ which is perfectly aligned with the goal of 'write good novels'." What experiences should this claim lead me to anticipate?
 
@@ -122,14 +122,14 @@ I think it makes the most sense to use "loss" to refer to physical-loss and math
 
 [^1]: Leo Gao [wrote](https://www.lesswrong.com/posts/jP9cKxqwqk2qQ6HiM/towards-deconfusing-wireheading-and-reward-maximization#Outside_world_objectives_are_the_policy_s_optimization_target):
 
+    <!-- vale off -->
     > The objective that any given _policy_ appears to optimize is its behavioral objective\[...\]
     >
     > There are in fact many distinct possible policies with different behavioral objectives for the RL algorithm to select for: there is a policy that changes the world in the “intended” way so that the reward function reports a high value, or one that changes the reward function such that it now implements a different algorithm that returns higher values, or one that changes the register the output from the reward function is stored in to a higher number, or one that causes a specific transistor in the processor to misfire, etc. All of these policies optimize some thing in the outside world (a utility function); for instance, the utility function that assigns high utility to a particular register being a large number. The value of the particular register is a fact of the world. \[...\]
     >
     > However, when we try to construct an RL policy that has as its behavioral objective the “reward”, we encounter the problem that it is unclear what it would mean for the RL policy to “care about” reward, because there is no well defined reward channel in the embedded setting. We may observe that all of the above strategies are instrumental to having the particular policy be picked by the RL algorithm as the next policy used by the agent, but this is a utility over the world as well (“have the next policy implemented be this one”), and in fact this isn’t really much of a reward maximizer at all, because it explicitly bypasses reward as a concept altogether! In general, in an embedded setting, any preference the policy has over “reward" (or "observations") can be mapped onto a preference over facts of the world.[^3]
+    <!-- vale on -->
 
     My summary: "The agent cares about reward" is inherently underdefined, and precision matters here.
 
 [^2]: See also [What exactly is GPT-3's base objective?](https://www.lesswrong.com/posts/Nq58w4SiZMjHdAPaX/what-exactly-is-gpt-3-s-base-objective).
-
-[^3]: As I understand this quote, I think it's somewhat more complicated. I have some vague desire to acausally cooperate with certain entities in other Everett branches and even in (if they exist) different universes governed by different physical laws. My values do not have to steer my decision-making _only_ based my beliefs about physical facts, although they often seem to.

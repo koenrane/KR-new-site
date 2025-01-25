@@ -74,9 +74,11 @@ I came across several openings, including a summer internship at Berkeley's [Cen
 
 I opened _[Concrete Problems in AI Safety](https://arxiv.org/abs/1606.06565)_, saw 29 pages of reading, had less than 29 pages of ego to deplete, and sat down.
 
+<!-- vale off -->
 > This is ridiculous. I'm not going to get it.
 >
 > ... You know, this would be a great opportunity to _[try for five minutes](https://www.lesswrong.com/posts/fhEPnveFhb9tmd7Pe/use-the-try-harder-luke)_.
+<!-- vale on -->
 
 At that moment, I lost all respect for these problems and set myself to work on the one I found most interesting. I felt the contours of the challenge take shape in my mind, sensing murky uncertainties and slight tugs of intuition. I concentrated, compressed, and compacted my understanding until I realized what success would _actually look like_. The idea then followed trivially[^2].
 
@@ -110,7 +112,7 @@ I realize that I'm out of alignment with what I truly want - and will continue t
 
 > I'm a second-year student - am I even able to do this? What if no professor is receptive to this kind of work? If I don't land after I leap, I might have to end my studies and/or accumulate serious debt, as I would be leaving a paid research position without any promise whatsoever of funding after the summer. What if I'm wrong, or being impulsive and short-sighted?
 
-Soon after, I receive CHAI's acceptance email, surprise and elation washing over me. I feel uneasy; it's very easy to be "reckless" in this kind of situation.
+Soon after, I receive CHAI's acceptance email, surprise and elation washing over me. I feel uneasy. It's easy to be "reckless" in this kind of situation.
 
 ## Information Gathering
 

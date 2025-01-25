@@ -100,7 +100,7 @@ Imagine we’re playing a two-player extensive-form game with the AI, and we’r
 ![](https://assets.turntrout.com/static/images/posts/0751449c27b57a55099c1f21230fdd281d3479c7aef85a94.avif)
 <br/>Figure: The human moves on black, and the AI moves on red.
 
-This is a trivial game, but you can imagine more complex games, where the AI can empower or disempower the human, steer the future exactly where it wants, or let the human take over at any point.
+While this game is trivial, you can imagine more complex games. Perhaps in those games, the AI can empower or disempower the human, steer the future exactly where it wants, or let the human take over at any point.
 
 The million-dollar question is: will the AI get in our way and fight with us all the way down the game tree? If we misspecify some detail, will it make itself a fixture in our world, constantly steering towards futures we don’t want? If we like **dogs**, will the AI force **pancakes** upon us?
 
@@ -185,7 +185,7 @@ We can’t get around the AI, as far as torture goes. But for the other goals, i
 
 ## Paperclipper
 
-What happens if we turn on a paperclip-maximizer? We lose control over the future outside of a very narrow spiky region.
+What happens if we turn on a paperclip-maximizer? We lose control over the future outside of a narrow spiky region.
 
 ![](https://assets.turntrout.com/static/images/posts/paperclipper_au.avif)
 <br/>Figure: The paperclipper is incorrigible and obstructs us for all goals except paperclip production.
@@ -206,7 +206,7 @@ It’s empowering and, more weakly, it’s non-obstructive. Non-obstruction is j
 
 Practically speaking, we’ll probably want to be able to literally correct the AI without manipulation, because it’s hard to justifiably know ahead of time that the AU landscape is empowering, as above. Therefore, let’s build an AI we can modify, just to be safe. This is a separate concern, as our theoretical analysis assumes that the AU landscape is how it looks.
 
-But this is also a case of corrigibility just being a proxy for what we want. We _want_ an AI which leads to robustly better outcomes (either through its own actions, or through some other means), without reliance on getting [ambitious value alignment](https://www.alignmentforum.org/posts/5eX8ko7GCxwR5N9mN/what-is-ambitious-value-learning) exactly right with respect to our goals.
+In this situation, corrigibility is just a proxy for what we want. We _want_ an AI which leads to robustly better outcomes (either through its own actions, or through some other means), without reliance on getting [ambitious value alignment](https://www.alignmentforum.org/posts/5eX8ko7GCxwR5N9mN/what-is-ambitious-value-learning) exactly right with respect to our goals.
 
 ## Conclusions I draw from the idea of non-obstruction
 
@@ -281,7 +281,7 @@ However, even if we could maximally impact-align the agent with any objective, w
 
 For example, intent corrigibility (trying to be the kind of agent which can be corrected and which is not manipulative) is an instrumental strategy for inducing corrigibility, which is an instrumental strategy for inducing broad non-obstruction, which is an instrumental strategy for hedging against our inability to figure out what we want. _It's all about alignment_.
 
-Corrigibility also increases robustness against other AI design errors. However, it still just boils down to non-obstruction, and then to impact alignment: if the AI system has meaningful errors, then it's not impact-aligned with the AUs which we wanted it to be impact-aligned with. In this setting, the AU landscape captures what actually would happen for different human goals $P$.
+Corrigibility also increases robustness against other AI design errors. However, it still just reduces to non-obstruction, and then to impact alignment: if the AI system has meaningful errors, then it's not impact-aligned with the AUs which we wanted it to be impact-aligned with. In this setting, the AU landscape captures what actually would happen for different human goals $P$.
 
 To be confident that this holds empirically, it sure seems like you want high error tolerance in the AI design: one does not simply _knowably_ build an AGI that's helpful for many AUs. Hence, corrigibility as an instrumental strategy for non-obstruction.
 
@@ -330,7 +330,7 @@ We want agents which are maximally impact-aligned with as many goals as possible
 
 - Having the AI not be counterfactually aligned with unambiguously catastrophic and immoral goals (like torture) would reduce misuse risk.
   - I’m more worried about accident risk right now.
-  - This is probably hard to achieve; I’m inclined to think about this after we figure out simpler things, like how to induce AI policies which empower us and grant us flexible control/power over the future. Even though that would fall short of maximal impact alignment, [I think](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hQfefijzrJkQqwpFG) that would be pretty damn good.
+  - This "conditional alignment" is probably hard to achieve; I’m inclined to think about this after we figure out simpler things, like how to induce AI policies which empower us and grant us flexible control/power over the future. Even though that would fall short of maximal impact alignment, [I think](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=hQfefijzrJkQqwpFG) that would be pretty damn good.
 
 ## Expanding the AI alignment solution space
 
@@ -348,12 +348,12 @@ Maybe there’s a higher-level theory for what kinds of policies induce spikines
 - Can we prove that some kind of corrigibility or other nice property falls out of non-obstruction across many possible environments? (h/t Michael Dennis)
 
 - Can we get negative results, like "without such-and-such assumption on $\pi^{AI}$, the environment, or `pol`, non-obstruction is impossible for most goals"?
-  - _If_ formalized correctly, and if the assumptions hold, this would place very general constraints on solutions to the alignment problem.
+  - _If_ formalized correctly, and if the assumptions hold, this would place general constraints on solutions to the alignment problem.
   - For example, $\text{pol}(P)$ should need to have mutual information with $P$: the goal must change the policy for at least a few goals.
-  - The AI doesn't even have to do value inference in order to be broadly impact-aligned. The AI could just empower the human (even for very "dumb" `pol` functions) and then let the human take over. Unless the human is more anti-rational than rational, this should tend to be a good thing. It would be good to explore how this changes with different ways that `pol` can be irrational.
+  - The AI doesn't even have to do value inference in order to be broadly impact-aligned. The AI could just empower the human (even for "dumb" `pol` functions) and then let the human take over. Unless the human is more anti-rational than rational, this should tend to be a good thing. It would be good to explore how this changes with different ways that `pol` can be irrational.
 
 - The better we understand (the benefits of) corrigibility _now_, the less that amplified agents have to figure out during their own deliberation.
-  - In particular, I think it's very advantageous for the human-to-be-amplified to already deeply understand what it means to be impact-/intent-aligned. We really don't want that part to be up in the air when game-day finally arrives, and I think this is a piece of that puzzle.
+  - In particular, I think it's advantageous for the human-to-be-amplified to already deeply understand what it means to be impact-/intent-aligned. We really don't want that part to be up in the air when game-day finally arrives, and I think this is a piece of that puzzle.
   - If you’re a smart AI trying to be non-obstructive to many goals under weak `pol` intelligence assumptions, what kinds of heuristics might you develop? “No lying”?
     - This informs our analysis of (almost) intent-aligned behavior, and whether that behavior leads [to a unique locally stable attractor around intent alignment](https://www.lesswrong.com/posts/WjY9y7r52vaNZ2WmH/three-mental-images-from-thinking-about-agi-debate-and?commentId=mBRtRiTfymLZuw3yw#comments).
 

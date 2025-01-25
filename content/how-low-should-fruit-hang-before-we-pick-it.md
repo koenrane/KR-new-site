@@ -207,7 +207,7 @@ We now set out building the machinery required to prove $\alpha $\-buffering of 
 >
 > by employing the fact that $R_1 <R_2 <R_3,$ algebraic manipulation produces an assertion that a quantity is strictly less than itself. Therefore, no such intervening $s_2$ can exist. ∎
 
-> [!math] Proposition 2: Plan overlap is very restricted
+> [!math] Proposition 2: Plan overlap is restricted
 > Suppose $\bar{a}$ and $\bar{a}'$ appear in an impact partition which is
 >
 > Constrained
@@ -258,7 +258,7 @@ The next result is exactly what we need to answer the question just raised – i
 >
 > Equality at the value of the right-hand side can easily be checked. ∎
 
-Theorem 4 also illustrates why we can't strengthen the second statement in Proposition 2 (Plan overlap is very restricted): if two plans overlap at exactly one point, they sometimes have proportionally different score and impact, thereby satisfying the equality criterion.
+Theorem 4 also illustrates why we can't strengthen the second statement in Proposition 2 (Plan overlap is restricted): if two plans overlap at exactly one point, they sometimes have proportionally different score and impact, thereby satisfying the equality criterion.
 
 At first, plans with slightly lower impact will be preferable in the scaled case, no matter how high-scoring the other plans are – a plan with 0 score and .99 impact will be selected before a plan with 1,000,000,000 score and 1 impact.
 
@@ -327,7 +327,7 @@ For our purposes, we don't _need_ the whole partition – we just want to have g
 >
 > _Proof outline._ If all plans have the same score, the claim is trivial. Otherwise, let $\bar{a}_\text{best}$ be a plan with the lowest impact of those with maximal score. In the constrained case, clearly it corresponds with the subinterval $[{\color{blue}I}(\bar{a}_\text{best}),\infty )$. In the scaled case, let $\bar{a}_\text{second-best}$ be a plan with second-highest score. Then by Theorem 6, the latest that $\bar{a}_\text{best}$ can appear is $\dfrac{{\color{blue}I}(\bar{a}_\text{best})}{{\color{Red}u}(\bar{a}_\text{best})-{\color{Red}u}(\bar{a}_\text{second-best})}$. Since no plans meet the domination criterion with respect to $\bar{a}_\text{best},$ this is the last subinterval. ∎
 
-Unfortunately, Theorem 6's appearance bounds are ridiculous in realistic settings – if ${\color{Red}u}$ and ${\color{blue}I}$ return 32-bit floating-point numbers, the next-largest could easily be within $10^{-7},$ yielding an upper "bound" of ${\color{blue}I}(\bar{a})\times 10^{7}$. The reason: diminishing returns; this is exactly what was happening with the newspaper route before.
+Unfortunately, Theorem 6's appearance bounds are ridiculous in realistic settings – if ${\color{Red}u}$ and ${\color{blue}I}$ return 32-bit floating-point numbers, the next-largest could easily be within $10^{-7},$ yielding an upper "bound" of ${\color{blue}I}(\bar{a})\times 10^{7}$. The reason: diminishing returns, just like in the case with the newspaper route.
 
 ![](https://assets.turntrout.com/static/images/posts/AWfoaw8.avif)
 

@@ -121,7 +121,7 @@ Of course, this division only works if there is a [Cartesian boundary](http://le
 
 ### Charming Philosophical Tangents
 
-> The notion of "clean floor"... is based on average cleanliness over time. Yet the same average cleanliness can be achieved by two different agents, one of which does a mediocre job all the time while the other cleans energetically but takes long breaks... Which is better - a reckless life of highs and lows, or a safe but humdrum existence? Which is better - an economy where everyone lives in moderate poverty, or one in which some live in plenty while others are very poor? We leave these questions as an exercise for the diligent reader.
+> The notion of "clean floor"... is based on average cleanliness over time. Yet the same average cleanliness can be achieved by two different agents, one of which does a mediocre job all the time while the other cleans energetically but takes long breaks... Which is better - a reckless life of highs and lows, or a safe but humdrum existence? Which is better - an economy where everyone lives in moderate poverty, or one in which some live in plenty while others are poor? We leave these questions as an exercise for the diligent reader.
 
 I don't know if I can answer the first question without more information, but assuming a [Rawlsian veil of ignorance](https://en.wikipedia.org/wiki/Veil_of_ignorance) and considering the well-documented logarithmic hedonic effects of wealth, universal moderate poverty would be preferable. I leave the proof as an exercise for the diligent reader (it should be immediate after having read Chapter 16).
 
@@ -149,7 +149,7 @@ $$
 h_a'(s) = \textit{hash}(s) \text{ mod } h_a(s).
 $$
 
-This is clearly admissible, but also inconsistent - every $h_a'(s)$ evaluation is some pseudo-random number between 0 and the true distance to the goal!
+$h_a'$ is clearly admissible, but also inconsistent - every $h_a'(s)$ evaluation is some pseudo-random number between 0 and the true distance to the goal!
 
 > [!math] Claim: All consistent heuristics are admissible.
 >
@@ -199,7 +199,7 @@ _In which the authors demonstrate how to search when the world really **is** out
 
 ### Pruning
 
-I won't babble about $\alpha\beta$\-pruning - just practice the concept [here](http://inst.eecs.berkeley.edu/~cs61b/fa14/ta-materials/apps/ab_tree_practice/). For me, it was deceptively intuitive - I "got it" so "easily" that I neglected to follow the actual algorithm in a practice problem.
+I won't babble about $\alpha\beta$\-pruning - just [practice](http://inst.eecs.berkeley.edu/~cs61b/fa14/ta-materials/apps/ab_tree_practice/). For me, it was deceptively intuitive - I "got it" so "easily" that I neglected to follow the actual algorithm in a practice problem.
 
 ### Patchwork Progress
 
@@ -211,9 +211,9 @@ Two examples of objectively-good but non-scalable fixes:
 : Sometimes, we have to stop evaluating a plan before the game is done; this can leave us in a deceptively good-looking state. Say I move my queen diagonal to your pawn and then I have to stop searching. A simple material evaluation function wouldn't see that the queen is about to get obliterated, so it returns a neutral score. Quiescence search considers the "stability" of a position and searches until it gets to quiescent states, providing a partial workaround for this problem. The search is constrained to certain types of moves.
 
 **Singular extension**
-: We try historically-good moves when we reach the search's depth limit as a last-ditch effort to extend the search tree a bit further.
+: We try historically good moves when we reach the search's depth limit as a final attempt to expand the search tree a bit further.
 
-This is even more relevant to deep learning, where numerous engineering tricks are employed to eke out a slightly-improved clas​sification accuracy. I agree that spending some effort working on local optimization of established methods is beneficial, but wouldn't it be higher expected utility to have more researchers studying the fundamentals and innovating new approaches?
+Likewise, in deep learning, numerous engineering tricks manage to slightly improve clas​sification accuracy. I agree that it's good to spend some effort on improving existing methods, but wouldn't it be better for more researchers to study the fundamentals and invent new approaches?
 
 ![](https://assets.turntrout.com/static/images/posts/Nwg4Zug.avif)
 
@@ -257,7 +257,7 @@ This chapter was my first time formally learning propositional logic. One thing 
 
 Consider "If I live in Far Far Away, then P=NP"; $\alpha=\textit{false}$ since I am unfortunately unable to live in that fantasy universe, and $\beta$ can be either `true` or `false` —it doesn't matter here. That strange implication is logically `true` because _in the case where the premise is false, I make no claim about the conclusion_.
 
-This is covered in the book, but it's important to internalize this early.
+This principle is covered in the book, but it's important to internalize this early.
 
 ## 8: First-Order Logic
 
@@ -395,7 +395,9 @@ _In which the authors introduce an assortment of acronymic algorithms and approa
 
 _In which the authors detail agents which learn from environmental feedback._
 
+<!-- vale off -->
 > It might in fact be better to learn a very simple function approximator and combine it with a certain amount of look-ahead search.
+<!-- vale on -->
 
 [Prescient](https://deepmind.com/research/alphago/).
 
@@ -421,7 +423,7 @@ With the help of a team of professional fluidicians, you enumerate "common-sense
 
 You set up high-FPS cameras in storms and collect video data for millions of raindrop-impact events. You're even able to avoid manual processing via MTurk by employing the latest advances in deep learning! You use [segmentation](https://assets.turntrout.com/static/images/posts/6-pydata-warsaw-deep-learning-for-image-segmentation-10-638.avif?cb=1475242683) to automatically isolate raindrop pixels and a pretrained recurrent network to detect the frame of impact, allowing for easy classification of all other frames as $\textit{pre-impact}$ or $\textit{post-impact}$. Since you read Ch. 20, you know you can use maximum-likelihood estimation to learn the parameters for your conditional multivariate Gaussian using your newly labeled water shapes.
 
-But what if a raindrop strikes a sharp corner, splaying the drop's water in many directions? Obviously, you just need another edge case - a `StruckSharpCorner` condition in the Gaussian. For that, you go to gather more data...
+However, what if a raindrop strikes a sharp corner, splaying the drop's water in many directions? Obviously, you just need another edge case - a `StruckSharpCorner` condition in the Gaussian. For that, you go to gather more data...
 
 Or you could derive fluid dynamics. [^4]
 

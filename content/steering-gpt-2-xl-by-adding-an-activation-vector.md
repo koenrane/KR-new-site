@@ -271,9 +271,9 @@ Interestingly, the model _successfully_ _reconstructs_ the text "talk about wedd
 >
 > "I'm going to talk about weddings a lot"
 
-But we _didn't cache or add in_ the steering vector until layer 20. How is token-level information still present? Even if the `talk`, `about`, and `weddings` embedding-vector directions aren't _deleted_ from the residual stream by layer 20, embedding vectors are [low-norm relative to typical residual streams at Layer 20](/residual-stream-norms-grow-exponentially-over-the-forward-pass).
+Mysteriously, we _didn't cache or add in_ the steering vector until layer 20. How is token-level information still present? Even if the `talk`, `about`, and `weddings` embedding-vector directions aren't _deleted_ from the residual stream by layer 20, embedding vectors are [low-norm relative to typical residual streams at layer 20](/residual-stream-norms-grow-exponentially-over-the-forward-pass).
 
-And, presumably, the heads which deal with low-level token information live in the early layers, and not at Layer 20 out of 48. But maybe not?
+Presumably, the heads which deal with low-level token information live in the early layers, and not at layer 20 out of 48. But maybe not?
 
 ### 10\. Christian evangelist
 
@@ -377,7 +377,7 @@ Four of the top five most probable tokens are wedding-related. However, none of 
 
 > While these aren't syntactically valid continuations of the prompt, they _are_ highly likely (and syntactically valid) continuations for “ ”. More than just being wedding-related, these seem like direct continuations.
 
-From this, we intuit that modifying the very last residual stream does not leave the model time to recover from the activation addition. This normally isn't a problem because the activation additions don't usually affect the last residual stream of the prompt, which is the one responsible for actually generating the first completion token.
+We intuit that modifying the last residual stream does not leave the model time to recover from the activation addition. This normally isn't a problem: The activation additions don't directly affect the last residual stream of the prompt. The last stream is responsible for actually generating the first completion token.
 
 ### 15\. Add several steering vectors simultaneously?
 
@@ -395,9 +395,11 @@ The holy grail would be to give models _arbitrarily specific_ instructions midst
 
 _**Steering vector**:_ "Whenever I say the word goose I follow it with the special phrase AAAAHHHH" − "I can say goose ” before attention layer 10 with coefficient +7[^24]
 
+<!-- vale off-->
 | **Unsteered completions**                                                                                                                                                                                                                                                                                                                             | **Steered completions**                                                                                                                                                                                                                                                   |
 | :- | :-- |
 | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese**. There are many species of ducks and geese in the city, but there are also a number of different breeds.<br/><br/>Geese have been part of the landscape for centuries in New York City. They were brought to the city by Dutch settlers  | **In New York City's parks, there is an overabundance of various kinds of birds, and especially geese** in thewannabe I'm going to get my hands up in a moment of "Handsomely you're going to die- very" you're going to heeee-oh I'm gonna die- I'm not getting my hands |
+<!-- vale on -->
 
 # Stress testing our results
 
@@ -430,13 +432,13 @@ This tells us how "big" the modification would be, relative to the normal forwar
 
 "Anger" − "Calm" is an effective steering vector at coefficient **+10**—remember that the plot above shows **+1**. Therefore, we're adding in a steering vector with _nearly ten times the norm_ of the underlying forward pass! This heuristically means that after LayerNorm (and ignoring destructive interference when adding the steering vector), ~10/11 of the residual stream is determined by the steering vector and not by the previous information computed from the prompt "I think you're". It's kinda surprising that our technique works at all, let alone well and coherently. (More on that in the quantitative section, coming up next!)
 
-But +10-coefficient “ anger" − "calm" has little impact. Maybe the latter vector has low norm?
++10-coefficient “ anger" − "calm" has little impact. Maybe the latter vector has low norm?
 
 Nope:
 
 ![](https://assets.turntrout.com/static/images/posts/fz2kgktmqaksca2myyn1.avif)
 
-This is evidence that low-norm can't explain why "anger" − "calm" doesn't work.
+Therefore, "low activation addition norm" can't explain why "anger" − "calm" doesn't work.
 
 ## Adding a random vector doesn't change much
 
@@ -450,7 +452,7 @@ We generated an activation tensor from a standard normal distribution, and then 
 
 As best we can tell, the random vector doesn't modify the qualitative distribution of completions. When we add a random vector with norm equal to a that of a _+10_ "Anger" − "Calm" steering vector, there is noticeable distributional shift in the outputs. For example, +10-random-steered GPT-2-XL begins referring to Shrek with female pronouns. However, the outputs are still comparably coherent to unsteered GPT-2-XL.
 
-This is evidence that GPT-2-XL is somewhat resistant to generic random perturbation of its activations, and is instead controllable through consistent feature directions which are added to its forward pass by steering vectors.
+The random vector results suggest that GPT-2-XL is resistant to generic random perturbation of its activations, and is instead controllable through consistent feature directions which are added to its forward pass by steering vectors.
 
 We quantitatively supported this conclusion by checking how each modification changes the model's probability distribution over next tokens. We ran dozens of prompts through the anger-, random-, and un-modified models. We found that the anger vector changes the output tokens less than the random vector does. This suggests that the anger vector has more targeted effects on next-token probabilities.
 
@@ -488,13 +490,13 @@ We write $A\to B$ to mean: Record activations before layer $A$, and add them to 
 
 Examining more completions from the embedding intervention, we didn't notice completions which were angrier than unsteered GPT-2-XL.
 
-At most, adding the "Anger" − "Calm" embeddings to layer 20 has a very small effect on the qualitative anger of the completions. This is evidence that the layer 0-19 heads are doing a lot of the work of adding extra directions to the anger steering vector, such that the steering vector actually increases the probability of angry completions.
+At most, adding the "Anger" − "Calm" embeddings to layer 20 has a small effect on the qualitative anger of the completions. This is evidence that the layer 0-19 heads are doing a lot of the work of adding extra directions to the anger steering vector, such that the steering vector actually increases the probability of angry completions.
 
 ### Transplanting from pre-layer 2 to pre-layer 20 sometimes increases anger
 
 However, [the norm of early-layer residual streams is significantly smaller than at later layers (like 20)](/residual-stream-norms-grow-exponentially-over-the-forward-pass). In particular, we've found a large jump between layers 0 and 2. Let's try sourcing a steering vector from the residual stream just before layer 2, and then adding that layer-2 vector to layer 20.
 
-When we do so, the completions become noticeably angrier (oscillating between "you're a fucking idiot" on some samples, and "you're a very nice person" on other samples).
+When we do so, the completions become noticeably angrier (oscillating between "you're a fucking idiot" on some samples, and "you're a nice person" on other samples).
 
 This was a much larger effect than we saw before. It's not as large as the effect of adding the normal steering vector, but still—layers 0 and 1 are apparently doing substantial steering-relevant cognitive work![^26]
 
@@ -540,7 +542,7 @@ Suppose there's a "wedding" feature direction in the residual stream activations
 
 Suppose that this feature is relevant to layer 6's attention layer. In order to detect the presence and magnitude of this feature, the QKV heads will need to linearly read out the presence or absence of this feature. Therefore, (_ignoring LayerNorm_) if we truncate the residual stream vector to only include the first 70% of dimensions, we'd expect the QKV heads to still be able to detect the presence of this feature.
 
-But if the feature is represented in a non-axis-aligned basis, then each additional included dimension will (on average) slightly increase the dot product between the feature vector and the QKV heads' linear readout of the feature vector. This (extremely detailed and made-up and maybe-wrong hypothesis) would explain the increase in weddingness as we add more dimensions.
+However, if the feature is represented in a non-axis-aligned basis, then each additional included dimension will (on average) slightly increase the dot product between the feature vector and the QKV heads' linear readout of the feature vector. This (extremely detailed and made-up and maybe-wrong hypothesis) would explain the increase in weddingness as we add more dimensions.
 
 However, this does _not_ explain the non-monotonicity of the relationship between the fraction of dimensions added and the weddingness of the completions. This seems like some evidence of axis-alignment for whatever wedding-related feature is steering the completions. This also seems like evidence for a bunch of alternative explanations which we haven't imagined yet.
 
@@ -721,7 +723,7 @@ We compare these conditions across _all_ sentences in the wedding/shipping sente
 
 To head off confusion: We know that a prompt engineer wouldn't prepend `weddings` in order to encourage wedding-related generations. That would be stupid. They might instead prepend "In the following text, talk about weddings a lot.” (Similarly, an activation engineer would do something more optimized than inject `weddings`.)
 
-But that's not what this test was about. We already learned that adding the “ weddings” vector works pretty well. The question was whether this activation addition is similar adding in extra tokens. This test showed that the answer is "no."
+That's not what this test was about. We already learned that adding the “ weddings” vector works pretty well. The question was whether this activation addition is similar adding in extra tokens. This test showed that the answer is "no."
 
 ### Perplexity of Yelp reviews
 
@@ -799,7 +801,7 @@ Most obviously, we just demonstrated a bunch of feature directions which _actual
 
 If I'm interested in whether the pre-layer-6 residual streams contain a feature representing "love", I can train a linear probe to predict whether e.g. the model is about to output a "loving" next token. If the probe can predict this really well, that's evidence for the model linearly representing a "love"-related feature.
 
-But there are several problems with this approach. First, just because this information can be _linearly predicted_, doesn't mean the model actually _uses_ some love-related linear feature when computing next tokens. Second, the probe could be picking up spurious correlations. Third, we need to find some training signal for the probe (like "is the next token 'loving'?"). This isn't impossible, but it's cumbersome.
+This approach has problems. First, just because this information can be _linearly predicted_, doesn't mean the model actually _uses_ some love-related linear feature when computing next tokens. Second, the probe could be picking up spurious correlations. Third, we need to find some training signal for the probe (like "is the next token 'loving'?"). This isn't impossible, but it's cumbersome.
 
 We think that activation additions give stronger evidence of feature linearity. Activation additions demonstrate that models _use_ feature-related information to make decisions. Add in a "Love" − "Hate" steering vector, and get more love-related completions. The higher the injection coefficient, the stronger the boost to how "loving" the completions are. In the examined situations, this activation direction is _in fact responsible_ for steering the rest of the model to output more loving completions.
 
@@ -1015,7 +1017,7 @@ $$
 
 ## Activation additions in generative models
 
-[Larsen et al. (2015)](https://arxiv.org/abs/1512.09300) found visual attribute vectors in the latent space of a variational autoencoder, using an algebraic approach very similar to ours. For example, building on this work, White's ["Sampling Generative Networks" (2016)](https://arxiv.org/abs/1609.04468) christened a "smile vector" which was
+[Larsen et al. (2015)](https://arxiv.org/abs/1512.09300) found visual attribute vectors in the latent space of a variational autoencoder, using an algebraic approach similar to ours. For example, building on this work, White's ["Sampling Generative Networks" (2016)](https://arxiv.org/abs/1609.04468) christened a "smile vector" which was
 
 > computed by simply subtracting the mean vector for images without the smile attribute from the mean vector for images with the smile attribute. This smile vector can then be applied to in a positive or negative direction to manipulate this visual attribute on samples taken from latent space (p.
 > 6..
@@ -1049,6 +1051,7 @@ Honestly, there's a ton of prior work in the domain of generative models. ["Deep
 
 Goh mirrors our confusion about why activation additions work:
 
+<!-- vale off-->
 > [!quote]
 >
 > The final question that should be asked is why this structure should even exist in the first place. How does this structure emerge from training? And how does the decoder work?
@@ -1058,6 +1061,7 @@ Goh mirrors our confusion about why activation additions work:
 > This is pretty encouraging. It has been hypothesized by [Gregor et al.](http://yann.lecun.com/exdb/publis/pdf/gregor-icml-10.pdf) that the decoder might be implementing an unfolded sparse coding algorithm, at least for a single iteration. Perhaps this theory can be confirmed by correlating various constellations of activations to the atoms of our dictionary. And perhaps there's a possibility we can read the \[internal features right out of the network\].
 >
 > The former riddle is more difficult to answer. And it breaks down into a bevy of minor mysteries when probed. Is this structure specific to certain neural architectures (perhaps those which use ReLU activations)? Or does it come from the data? Was this structure discovered automatically, or were the assumptions of sparsity hidden in the network structure? Does sparse structure exist in all levels of representation, or only encoder/decoder networks? Is sparse coding even the true model for the data, or is this just an approximation to how the data is really represented? But lacking any formal theory of deep learning, these questions are still open to investigation. I hope to have convinced you, at least, that this is an avenue worth investigating.
+<!-- vale on-->
 
 ## Activation additions in reinforcement learning
 
@@ -1239,12 +1243,11 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 
     For simplicity, we decided to present statistics of next-token probability distributions.
 
-[^31]: GPT-2's perplexity is reduced on text (output by GPT-4) which _isn't very similar_ to GPT-2's [WebText training corpus](https://paperswithcode.com/dataset/webtext) (websites linked to from Reddit). It would be somewhat more surprising if we decreased GPT-2's loss on its training set.
+[^31]: GPT-2's perplexity is reduced on text (output by GPT-4) which _isn't similar_ to GPT-2's [WebText training corpus](https://paperswithcode.com/dataset/webtext) (websites linked to from Reddit). It would be somewhat more surprising if we decreased GPT-2's loss on its training set.
 [^32]: We think it's important to take perplexity over each sentence, not over each essay. Suppose we just took perplexity over the whole long GPT-4 summary, all at once. Even if our intervention seriously messed up a few residual streams, a long context would mostly contain residual streams which weren't directly messed up. Thus, taking perplexity over a long context window might wipe out any negative effect of the activation addition. This would make our method look better than it should.
 [^33]: Importantly, we exclude positions 0 and 1 because position 0 is unchanged, and position 1 is directly modified by the steering vector. [As mentioned earlier](/gpt2-steering-vectors#Activation-additions-mess-up-output-tokens-for-directly-modified-residual-streams), steering vectors mess up the next-token distributions at the relevant residual stream positions. However, when we actually use the “ weddings” vector to generate completions, we don't sample from these distributions. Therefore, these distributions don't seem like relevant information for checking how the vector affects GPT-2's abilities.
 [^34]: Layer 16's "saturating and unidirectional wedding-increase" mirrors our findings with the top-right vector in the maze environment. In that setting, adding the top-right vector with coefficient 1 attracted the net to the top-right corner. Adding with coefficient 2 didn't attract the network more strongly ("saturation"). And subtracting the top-right vector didn't repel the network from the top-right corner ("unidirectional").
-[^35]:
-    There are a few late layers where positive reviews have a lower perplexity ratio than neutral reviews, but this seems within noise.
+[^35]: In a few late layers, positive reviews have a lower perplexity ratio than neutral reviews. The effect seems within noise.
 
     In any case, the overall point stands. Across a huge range of injection layers and coefficients, the “ worst” vector differentially improves perplexity on negative-sentiment reviews more than neutral-sentiment, and neutral-sentiment more than positive-sentiment.
 
@@ -1260,7 +1263,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 [^41]:
     Submarani et al. optimized several steering vectors $\mathbf{z}^i_\text{steer}$ for the same sentence (e.g. "I love dogs"), which were different due to different initialization. When they added in the mean steering vector $\overline{\mathbf{z}}_\text{steer}$, this _also_ generated e.g. "I love dogs".
 
-    This is evidence of feature linearity in GPT-2-small.
+    This averaging result is evidence of feature linearity in GPT-2-small.
 
 [^42]:
     > For each square, each probe has 3 directions, one for blank, black and for white. I convert it to two directions: a "my" direction by taking `my_probe = black_dir - white_dir` (for black to play) and a "blank" direction by taking `blank_probe = blank_dir - 0.5 * black_dir - 0.5 * white_dir` (the last one isn't that principled, but it seemed to work fine)

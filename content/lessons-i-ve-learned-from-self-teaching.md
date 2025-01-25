@@ -95,7 +95,7 @@ And a problem this was. In early 2020, I had an interview where I was asked to c
 
 I was pretty frustrated with myself.
 
-[It's not that I didn't understand it](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#aeSEWFZoNu3M3RmgL). I just didn't remember it, especially on the spot. The worst part was that I had brushed up on calculus _the previous spring_, and I still didn't remember it. Turns out that my brain won't remember material it doesn't use for months on end, even if forgetting that material would be embarrassing.
+[It's not that I didn't understand it](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#aeSEWFZoNu3M3RmgL). I just didn't remember it, especially under pressure. The worst part was that I had brushed up on calculus _the previous spring_, and I still didn't remember it. Turns out that my brain won't remember material it doesn't use for months on end, even if forgetting that material would be embarrassing.
 
 Enter [Anki](https://apps.ankiweb.net/), an amazing spaced repetition system (\$20 for iOS, free for computer). The way I like to explain Anki is:
 
@@ -177,11 +177,11 @@ TL;DR: Extract the most useful / central concepts and remember them forever via 
 
 When I started reading textbooks, I completed the whole book. I didn't want to miss a crucial concept. But the thing about crucial concepts is that they pop up everywhere. If you missed a crucial concept, you'll know. You're not going to wake up 20 years from now and be like, "OH NO! I forgot to learn about 'force' when I self-studied physics! And I forgot to learn about injectivity in linear algebra!"
 
-As you read more, you'll get a taste for what's probably important, and what's details you can reference later if need be. You can also ask experts if you should study part of a book - this is one key benefit of having an actual teacher.
+As you read more, you'll get a taste for what's probably important, and what's details you can reference later if need be. You can also ask experts if you should study part of a book - one benefit of having an actual teacher.
 
-But don't complete the whole book and all of its exercises, if you just want to become a polymath. Leverage the Pareto principle, get 80% of the benefit out of the key 20% of the concepts and exercises, and then move on.
+Don't complete the whole book and all of its exercises, if you just want to become a polymath. Get 80% of the benefit out of the key 20% of the concepts and exercises, and then move on.
 
-Another reason I used to do this a lot was that I wanted to look good by being able to mention on e.g. my resume that I had read the whole book. It's a lot more impressive to say "I read these 10 textbooks" than "I read large parts of this book, and some of this book, and a little of this one, and a lot of this other book." I've found that learning well requires keeping an eye out for these instincts. My brain is not my friend in this battle.
+Another reason I used to do this a lot was that I wanted to look good by being able to mention on e.g. my résumé that I had read the whole book. It's a lot more impressive to say "I read these 10 textbooks" than "I read large parts of this book, and some of this book, and a little of this one, and a lot of this other book." I've found that learning well requires keeping an eye out for these instincts. My brain is not my friend in this battle.
 
 I now often ask myself "am I doing this, at least in part, in order to look good?". Sometimes I answer "yes", and sometimes I do it anyways - wanting to look good isn't always bad. But [there are sometimes things more important than looking good](https://www.lesswrong.com/posts/SGR4GxFK7KmW7ckCB/something-to-protect).
 
@@ -193,7 +193,7 @@ TL;DR: Even if slogging through tough textbooks makes you feel sophisticated and
 
 Imagine I'm learning how to program, but I've never used a computer before. Learning to program _while_ learning to operate a computer, will probably take longer than learning to operate a computer and then learning to program. Learning time is superadditive in terms of your ignorance / the dependencies you're missing.
 
-But it's worse than that. Imagine I'm learning quantum mechanics, but I don't know any linear algebra either. I'm now trying to do three things:
+Actually, it's worse than that. Imagine I'm learning quantum mechanics, but I don't know any linear algebra either. I'm now trying to do three things:
 
 1. Learn linear algebra,
 2. Learn the formal postulates of quantum mechanics, and
@@ -205,7 +205,7 @@ Similarly, if I'm trying to learn fluid mechanics without knowing how to manipul
 2. Learn the physical equations, such as Navier-Stokes, and
 3. Tie all of this into the real world to explain what I already know about e.g. water and rivers and blood pressure.
 
-But what if instead I picked up [some dumb book](https://www.amazon.com/Basic-Physics-Self-Teaching-Teaching-Guides-dp-111962990X/dp/111962990X/ref=dp_ob_title_bk) that doesn't even have any calculus, and let it give me approximate explanations via e.g. Archimedes' principle:
+What if instead I picked up [some dumb book](https://www.amazon.com/Basic-Physics-Self-Teaching-Teaching-Guides-dp-111962990X/dp/111962990X/ref=dp_ob_title_bk) that doesn't even have any calculus, and let it give me approximate explanations via e.g. Archimedes' principle:
 
 > [!quote] [Wikipedia](https://en.wikipedia.org/wiki/Archimedes%27_principle)
 > Archimedes' principle states that the upward buoyant force that is exerted on a body immersed in a fluid, whether fully or partially, is equal to the weight of the fluid that the body displaces.
@@ -227,7 +227,7 @@ I was stuck because I was thinking about electron shells. The book acknowledged 
 ![](https://assets.turntrout.com/static/images/posts/file-20181128-32221-536vvw.avif?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip)
 <br/>Figure: A wrong model.
 
-But I got nerd-sniped into trying to understand how the electron standing wave only has solutions for certain energy levels, which is a result of quantum mechanics (or so I remember reading). I couldn't understand why, and so the knowledge felt "fake."
+I got nerd-sniped into trying to understand how the electron standing wave only has solutions for certain energy levels, which is a result of quantum mechanics (or so I remember reading). I couldn't understand why, and so the knowledge felt "fake."
 
 It wasn't like I explicitly reasoned "this model is wrong and so I'm not going to keep reading this book", it felt more like... I just wasn't that hungry to learn this, because it wasn't "real." And I gradually stopped returning to that book.
 

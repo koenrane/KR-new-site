@@ -59,7 +59,7 @@ Now, this doesn’t mean we need to have systems grading world states. But what 
 
 The bad thing here is that the reward function is no longer actually grading what the agent sees, but rather trying to output the right things to shape the agent’s behavior in the right ways. For example, to consider the behavior incentivized by a reward function linear in the number of blue pixels, we have to think about how the world is set up. We have to see, oh, this doesn’t just lead to the agent looking at blue objects; rather, there exist better possibilities, like showing yourself solid blue images forever.
 
-But maybe there don’t exist such possibilities – maybe we have _in fact_ made it so the only way to get reward is by looking at blue objects. The only way to tell is by looking at the dynamics – at how the world changes as the agent acts. In many cases, you simply cannot make statements like “the agent is optimizing for $X$ ” without accounting for the dynamics.
+Although maybe there don’t exist such possibilities – maybe we have _in fact_ made it so the only way to get reward is by looking at blue objects. The only way to tell is by looking at the dynamics – at how the world changes as the agent acts. In many cases, you simply cannot make statements like “the agent is optimizing for $X$ ” without accounting for the dynamics.
 
 Under this view, alignment isn’t a property of reward functions: it’s a property of a reward function in an environment. This problem is much, much harder: we now have the joint task of designing a reward function such that the best way of stringing together favorable observations lines up with what we want. This task requires thinking about how the world is structured, how the agent interacts with us, the agent’s possibilities at the beginning, how the agent’s learning algorithm affects things…
 
@@ -71,7 +71,7 @@ The argument seems to hold for $n$\-step Markovian reward functions, if $n$ isn�
 
 This doesn’t apply to e.g. Iterated Distillation and Amplification (updates based on policies), or Deep RL from Human Preferences (observation trajectories are graded). That is, you can get a wider space of optimal behaviors by updating policies on information other than a Markovian reward.
 
-It’s quite possible (and possibly even likely) that we use an approach for which this concern just doesn’t hold. However, this “what you see” concept feels important to understand, and serves as the billionth argument against specifying Markovian observation-based reward functions.
+It’s possible (and possibly even likely) that we use an approach for which this concern just doesn’t hold. However, this “what you see” concept feels important to understand, and serves as the billionth argument against specifying Markovian observation-based reward functions.
 
 > [!thanks]
 >Thanks to Rohin Shah and `TheMajor` for feedback.

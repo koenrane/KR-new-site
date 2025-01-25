@@ -69,7 +69,7 @@ Wait.
 
 As in [_Linear Algebra Done Right_](./linear-algebra-textbook-review), I completed every single exercise in the book - this time, without looking up any solutions (although I _did_ occasionally ask questions on Discord). Instead, I came back to problems if I couldn't solve them after half an hour of effort.
 
-A sampling of my proofs can be found [here](https://www.overleaf.com/read/ktxtwvfqygqq).
+I have [shared some of my proofs](https://www.overleaf.com/read/ktxtwvfqygqq).
 
 ## 1: Introduction
 
@@ -158,7 +158,7 @@ Lipschitz continuity implies uniform continuity (do you see why?), but the conve
 
 _In which the basic rules of differential calculus are proven._
 
-You know, I actually thought that I wouldn't have too much to explain in this post - the book went very smoothly up to this point. On the upside, we get to spend even more time together!
+You know, I actually thought that I wouldn't have too much to explain in this post - the book went smoothly up to this point. On the upside, we get to spend even more time together!
 
 ### Differential Intuitions
 
@@ -195,7 +195,7 @@ Having taken care of the exposition, we arrive at the Rivendell of real analysis
 
 ### Pointless Integration
 
-There is zero area under a point (or even infinitely many points, such as $\mathbb{N}$) due to how we define length, which in turn allows us to build from piecewise Riemann integrals to the real deal.
+Zero area is enclosed under a point (or even under infinitely many points, such as $\mathbb{N}$) due to how we define length, which in turn allows us to build from piecewise Riemann integrals to something better.
 
 ### Infinite Partitions?
 
@@ -207,7 +207,7 @@ Consider the curried function $g_f : [P]\to \mathbb{R}$, which takes a partition
 
 The book doesn't lay it out cleanly, so I will: the Riemann-Stieltjes integral allows us to use custom length functions to weight different parts of the function differently. I recommend working through a simple case like $\alpha(x) = x^2$ in your head: $\int_1^3x\,d\alpha$ (how do the piecewise constant Riemann-Stieltjes integrals of majorizing and minorizing functions change as you iteratively refine the coarsest partition possible?).
 
-This is particularly useful in defining expectation in statistics:
+The Riemann-Stieltjes integral defines the expectation in probability theory:
 
 $$
 \int_{-\infty}^\infty x \,dF_X(x).
@@ -221,7 +221,7 @@ Terence Tao is both an incredible mathematician and writer, and it shows. There 
 
 My only complaint is that results are frequently referred to as "from Proposition 3.6.4 and Theorem 3.6.12" many chapters later, forcing the reader to infer the referents or backtrack all of the way. In a sense, this may be helpful - you don't want to backtrack a billion pages, so you try to fill in the blanks. In another sense, it's annoying.
 
-In my opinion, _Analysis I_ belongs near the very beginning of the research guide. It's a wonderful introduction to proof-based mathematics, with a helpful appendix clearing up concepts I had previously only picked up via osmosis. Additionally, I met with a deep learning professor at my university, asking them "if I want to be able to understand and potentially make progress on some of the fundamental issues in machine learning, do I need to know real analysis?". Their answer: a definitive _yes_.
+In my opinion, _Analysis I_ belongs near the beginning of the research guide. It's a wonderful introduction to proof-based mathematics, with a helpful appendix clearing up concepts I had previously only picked up via osmosis. Additionally, I met with a deep learning professor at my university, asking them "if I want to be able to understand and potentially make progress on some of the fundamental issues in machine learning, do I need to know real analysis?". Their answer: a definitive _yes_.
 
 # Forwards
 

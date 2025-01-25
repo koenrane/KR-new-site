@@ -74,7 +74,7 @@ The point isn't to struggle _per se_ - it's to improve and to _win_.
 
 This book has been previously [reviewed](https://www.lesswrong.com/posts/DWmrLjo5CgzK2Xmzk/book-review-linear-algebra-done-right-miri-course-list) by Nate Soares; as such, I'll spend time focusing on the concepts I found most difficult. Note that his review was for the second edition, while mine is for the third.
 
-True to my vow in the [last post](/AI-textbook-review), I have greatly improved my proof-[babble](https://www.lesswrong.com/posts/i42Dfoh4HtsCAfXxL/babble); a sampling of my proofs can be found [here](https://www.overleaf.com/read/qmrzyczfdycf).
+True to my vow in the [last post](/AI-textbook-review), I have greatly improved my proof [generation abilities](https://www.lesswrong.com/posts/i42Dfoh4HtsCAfXxL/babble). To demonstrate, I've shared [some of my proofs](https://www.overleaf.com/read/qmrzyczfdycf).
 
 ---
 
@@ -117,9 +117,9 @@ _In which the author guides us through the fertile territory of linear maps, int
 
 ### Matrix Redpilling
 
-The author built up to matrix multiplication by repeatedly insinuating that linear maps are secretly just matrix multiplications, teaching you to see the true fabric of the territory you've been exploring. Very well done.
+The author built up to matrix multiplication by repeatedly insinuating that linear maps are secretly just matrix multiplications, teaching you to see the true fabric of the territory you've been exploring. Well done.
 
-Look no further than [here](https://betterexplained.com/articles/linear-algebra-guide/) and [here](https://www.geogebra.org/m/QxWrMgBV) for an intuitive understanding of matrix multiplication.
+[Several](https://betterexplained.com/articles/linear-algebra-guide/) [resources](https://www.geogebra.org/m/QxWrMgBV) provide an intuitive understanding of matrix multiplication.
 
 ### Dual Maps
 
@@ -147,7 +147,7 @@ _In which the author demystifies the quadratic formula, sharing with the reader 
 
 ...
 
-There are two cats where I live. Sometimes, I watch them meander around; it's fascinating to think how they go about their lives totally oblivious to the true nature of the world around them. The above incomputability result surprised me so much that I have begun to suspect that I too am a clueless cat (until I learn complex analysis; you'll excuse me for having a few other textbooks to study first).
+Two cats live with me. Sometimes, I watch them meander around; it's fascinating to think how they go about their lives totally oblivious to the true nature of the world around them. The above incomputability result surprised me so much that I have begun to suspect that I too am a clueless cat (until I learn complex analysis; you'll excuse me for having a few other textbooks to study first).
 
 _Edit:_ `daozaich` [writes](https://www.lesswrong.com/posts/qLdG44kpSoYzrzAp7/on-exact-mathematical-formulae) about why this isn't as surprising as it seems.
 
@@ -181,7 +181,7 @@ _In which the author lays out adjoint, self-adjoint, normal, and isometric opera
 
 ### Adjoints
 
-Consider the linear functional $\varphi \in \mathcal{L}(W,F)$ given by $\langle Tv, w \rangle$ for fixed $v \in V$; this is then a linear functional on $W$ for the chosen $Tv$. The adjoint $T^*$ produces the corresponding linear functional in $\mathcal{L}(V,F)$; given fixed $w \in W$, we now map to some linear functional on $V$ such that $\langle  Tv, w \rangle = \langle v, T^*w \rangle$. The left-hand side is a linear functional on $W$, and the right-hand side is a linear functional on $V$.
+Consider the linear functional $\varphi \in \mathcal{L}(W,F)$ given by $\langle Tv, w \rangle$ for fixed $v \in V$. $\varphi$ is then a linear functional on $W$ for the chosen $Tv$. The adjoint $T^*$ produces the corresponding linear functional in $\mathcal{L}(V,F)$; given fixed $w \in W$, we now map to some linear functional on $V$ such that $\langle  Tv, w \rangle = \langle v, T^*w \rangle$. The left-hand side is a linear functional on $W$, and the right-hand side is a linear functional on $V$.
 
 ### The Ghost Theorem
 
@@ -217,7 +217,9 @@ The most exciting effect of diving into math like this is that when I don't unde
 
 ## Fluency
 
+<!-- vale off -->
 An interesting parallel between learning math and learning languages: when I started picking up French, at first the experience was basically always was "ugh now I have to look up 5 things to even have the vocabulary to ask how to turn on my computer". Eventually, it became natural to belt out _et comment est-ce que je peux allumer mon ordi ? L'enfoiré refuse de fonctionner, comme d'habitude ; c'est grand temps que j'en achète un de plus_. No checking needed.
+<!-- vale on -->
 
 And so it went with proofs - "what techniques can I use to translate this statement into the answer" turned into "the proof feels like it's flowing out of my arm?!".
 
@@ -245,7 +247,7 @@ I imagine I was not the only person who was somewhat confused. However, being th
 
 I'd like to add that in these posts, I present a somewhat distorted perspective of my academic life; these weak points are the exception, not the norm (_ahem_). I focus on my weak points because I want to become stronger - to admit them is not necessarily to say "_I_ am weak" (although this may be the case relative to the person I want to become).
 
-Speaking from experience, I feel that this is intimidating to newcomers. The culture can appear highly critical; this has been discussed before. I hope to do my part through these very posts, in which I plainly admit "I forgot eigenvalues. I fixed it - and I'm better off for having done so."
+Speaking from experience, I feel that this is intimidating to newcomers. The culture can appear highly critical; this has been discussed before. I hope to do my part through these posts, in which I plainly admit "I forgot eigenvalues. I fixed it - and I'm better off for having done so."
 
 ## Calculus
 
@@ -273,6 +275,8 @@ I'm sorry to have been away for so long.
 
     The virtue is in shedding ignorance:
 
+<!-- vale off -->
     > [!quote] _[The Twelve Virtues of Rationality](https://www.readthesequences.com/The-Twelve-Virtues-Of-Rationality)_
     >
     > The first virtue is curiosity. A burning itch to know is higher than a solemn vow to pursue truth. To feel the burning itch of curiosity requires both that you be ignorant, and that you desire to relinquish your ignorance. If in your heart you believe you already know, or if in your heart you do not wish to know, then your questioning will be purposeless and your skills without direction. Curiosity seeks to annihilate itself; there is no curiosity that does not want an answer. The glory of glorious mystery is to be solved, after which it ceases to be mystery. Be wary of those who speak of being open-minded and modestly confess their ignorance. There is a time to confess your ignorance and a time to relinquish your ignorance.
+<!-- vale on -->

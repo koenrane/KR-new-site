@@ -42,7 +42,7 @@ I think agentic systems represent most of AI extinction risk. I want to think cl
 
 # Don't assume the conclusion by calling a policy an "agent"
 
-The real-world systems we want to think about and align are very large neural networks like GPT-4. These networks are trained and finetuned via different kinds of self-supervised and reinforcement learning.
+The real-world systems we want to think about and align are large neural networks like GPT-4. These networks are trained and finetuned via different kinds of self-supervised and reinforcement learning.
 
 When a policy network is updated using a learning process, its parameters are changed via weight updates. Eventually, the process ends (assuming no online learning for simplicity). We are then left with a _policy network_ (e.g. GPT-4). To actually use the network, we need to use some _sampling procedure_ on its logits (e.g. nucleus sampling). Once we fix the _policy network_ and _sampling procedure_, we get a mapping from observations (e.g. sequences of embeddings, like those for [`I`,  `love`,  `dogs`]) to probability distributions over outputs (e.g. tokens). This mapping $\pi$ is the _policy_.
 

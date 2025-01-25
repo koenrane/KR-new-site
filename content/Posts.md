@@ -116,10 +116,12 @@ Introductory post: [Reframing Impact](./reframing-impact)
 
 This sequence generalizes the math of [Seeking Power is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps). The posts follow up on [Seeking Power is Often Convergently Instrumental in MDPs](./seeking-power-is-often-convergently-instrumental-in-mdps) and [The Catastrophic Convergence Conjecture](./the-catastrophic-convergence-conjecture).
 
+<!-- vale off -->
 > [!quote] Original sequence description
 > Instrumental convergence posits that smart goal-directed agents will tend to take certain actions (e.g. gain resources, stay alive) in order to achieve their goals. These actions seem to involve taking power _from_ humans. Human disempowerment seems like a key part of how AI might go very, very wrong.
 >
 > But where does instrumental convergence come from? When does it occur, and how strongly? And what does the math look like?
+<!-- vale on -->
 
 ![](https://assets.turntrout.com/static/images/posts/power-seeking-AI.avif)
 

@@ -43,13 +43,15 @@ This was an appendix of [Inner and outer alignment decompose one hard problem in
 
 <hr/>
 
-Here are some quotes with which I disagree, in light of points I made in [Inner and outer alignment decompose one hard problem into two extremely hard problems](/against-inner-outer-alignment) (consult its TL;DR and detailed summary for a refresher, if need be).
+Here are some quotes with which I disagree, considering the points I made in [Inner and outer alignment decompose one hard problem into two extremely hard problems](/against-inner-outer-alignment) (consult its TL;DR and detailed summary for a refresher, if need be).
 
 # List of "Lethalities"
 
 ## "Lethality" 16: Outer optimization "failed"
 
+<!-- vale off -->
 > “Humans don't explicitly pursue inclusive genetic fitness; outer optimization even on a very exact, very simple loss function doesn't produce inner optimization in that direction. This happens _in practice in real life,_ **it is what happened in** _**the only case we know about**_, and it seems to me that there are deep theoretical reasons to expect it to happen again”
+<!-- vale on -->
 
 (Evolution) → (human values) _is not the only case of inner alignment failure which we know about._ I have argued that [human values themselves are inner alignment failures on _the human reward system_](/against-inner-outer-alignment#Inner-alignment-seems-anti-natural). This has happened billions of times in slightly different learning setups.
 
@@ -82,7 +84,7 @@ My summary
 > It seems to me that Eliezer does not deeply understand that [reward is not the optimization target](/reward-is-not-the-optimization-target).
 
 My response
-: I understand “the on-paper design properties” and “insofar as the current paradigm works at all” to represent Eliezer’s understanding of the properties and the paradigm (he _did_ describe these points as “[central difficulties of outer and inner alignment](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities#Section_B_2___Central_difficulties_of_outer_and_inner_alignment_)”[^1]). But on my view, this lethality does not see very relevant or central to alignment. Use reward to supply good cognitive updates to the agent. I don't find myself thinking about reward as that which gets maximized, or which _should_ get maximized.
+: I understand “the on-paper design properties” and “insofar as the current paradigm works at all” to represent Eliezer’s understanding of the properties and the paradigm (he _did_ describe these points as “[central difficulties of outer and inner alignment](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities#Section_B_2___Central_difficulties_of_outer_and_inner_alignment_)”[^1]). But on my view, this lethality does not see relevant or central to alignment. Use reward to supply good cognitive updates to the agent. I don't find myself thinking about reward as that which gets maximized, or which _should_ get maximized.
 :
 : Also, if you ignore the [oft-repeated wrong/under-hedged claim](https://www.lesswrong.com/posts/uSdPa9nrSgmXCtdKN/concrete-experiments-in-inner-alignment?commentId=aDtza9u4zDEMt4C4a#comments) that “RL agents maximize reward” or whatever, the on-paper design properties suggest that reward aligns agents to objectives in reality according to the computations which reward reinforces. [I think that machine learning does not, in general, align agents to sense data and reward functions.](/reward-is-not-the-optimization-target) I think that focusing on the sensory-alignment question can be misleading as to the nature of the reward-chiseling challenge which we confront.
 :
@@ -90,7 +92,9 @@ My response
 
 ## "Lethality" 21: Claim that capabilities generalize further than alignment
 
+<!-- vale off -->
 > Lethality #21: “\[...\] hominids, once they finally started to generalize, generalized their capabilities to Moon landings, but their inner optimization no longer adhered very well to the outer-optimization goal of 'relative inclusive reproductive fitness' - even though they were in their ancestral environment optimized very strictly around this one thing and nothing else. This abstract dynamic is something you'd expect to be true about outer optimization loops on the order of both 'natural selection' and 'gradient descent'. The central result: **Capabilities generalize further than alignment once capabilities start to generalize far.**”
+<!-- vale on -->
 
 My summary
 : Perceived alignment on the training distribution is all we know how to run gradients over, but historically, alignment on training _does not generalize to alignment on deployment._ Furthermore, when the agent becomes highly capable, it will gain a flood of abilities and opportunities to competently optimize whatever vaguely good-seeming internal proxy objectives we entrained into its cognition. When this happens, the AI's capabilities will keep growing, but its alignment will not.
@@ -107,7 +111,7 @@ My response
 
 : But suppose you _do_ get the AI to primarily care about bananas early in training, and it retains that banana value shard/decision-influencing-factor into mid-training. At this point, I think the banana-shard will convergently be motivated to steer the AI’s future training so that the AI _keeps making bananas._ So, if you get some of the early-/mid-training values to care about making bananas, then those early-/mid-values will, by instrumental convergence, reliably steer training to keep generalizing appropriately. If they did not, that would lead to fewer bananas, and the banana-shard would bid for a different path of capability gain!
 
-: This is not an airtight safety argument, but I think it's a reasonably strong _a priori_ case. The main difficulty here still seems to be my already-central expected difficulty of “loss signals might chisel undesired values into the AI.”
+: While not an airtight safety argument, I think it's a reasonably strong _a priori_ case. The main difficulty here still seems to be my already-central expected difficulty of “loss signals might chisel undesired values into the AI.”
 
 ## Eliezer seems confused about loss functions
 
@@ -120,7 +124,7 @@ Eliezer is mockingly imitating a naive AI alignment researcher. My current read,
 > [!quote] Eliezer Yudkowsky
 > [Alignment doesn't hit back, the loss function hits back](https://www.lesswrong.com/posts/cq5x4XDnLcBrYbb66/will-capabilities-generalise-more?commentId=wBn4JeJqAAZYqTDoH) [and **the loss function doesn't capture what you really want (e.g. because killing the humans and taking control of a reward button will max reward, deceiving human raters will increase ratings, etc). If what we wanted was exactly captured in a loss function, alignment would be easier.** Not easy because outer optimization doesn't create good inner alignment, but easier than the present case.](https://www.lesswrong.com/posts/cq5x4XDnLcBrYbb66/will-capabilities-generalise-more?commentId=wBn4JeJqAAZYqTDoH)
 
-To me, this statement seems weird and sideways of central alignment problems. I perceive Eliezer to be arguing "If only the loss function represented what we wanted, that'd be better." If he meant to connote "loss functions simply won't represent what you want, get over it, that's not how alignment works", we're more likely on the same page.
+To me, this statement seems weird and sideways of central alignment problems. I perceive Eliezer to be arguing "If only the loss function represented what we wanted, that'd be better." If he meant to connote "loss functions simply won't represent what you want, get over it, that's not how alignment works" - then we likely agree.
 
 My response:
 
@@ -135,7 +139,7 @@ First, I want to say: [type error: _loss function_ not of type _goal_](/four-usa
 >
 > > I want a loss function which is aligned with the goal of "write good novels."
 >
-> This is an aspirational statement about achieving some kind of correspondence between the loss function and the goal of writing good novels. But what does this statement _mean_?
+> This statement aspires to achieve some kind of correspondence between the loss function and the goal of writing good novels. But what does this statement _mean_?
 >
 > Suppose you tell me "I have written down a loss function $\ell_\text{novel}$ which is perfectly aligned with the goal of 'write good novels'." What experiences should this claim lead me to anticipate?
 >
@@ -151,7 +155,7 @@ Second, we want to train a network which ends up doing what we want. There are s
 
 It might shake out that, as an _empirical fact_, the best way to spend an additional increment of alignment research is to make the loss function "represent what you want" in some way. For example, you might more accurately spot flaws in AI-generated alignment proposals, and train the AI on that more accurate signal.
 
-But "make the objective better 'represent' our goals" would be an _empirical contingency_, not pinned down by the _mechanistic function_ of a loss function. This contingency may be sensitive to the means by which feedback translates into gradient updates. For example, changing the loss function will probably differently affect the gradients provided by:
+Even if that empirical fact held, "make the objective better 'represent' our goals" would be an _empirical contingency_, not pinned down by the _mechanistic function_ of a loss function. This contingency may be sensitive to the means by which feedback translates into gradient updates. For example, changing the loss function will probably differently affect the gradients provided by:
 
 1. Advantage actor-critic,
 2. REINFORCE,
@@ -171,14 +175,14 @@ Because loss functions don't natively represent goals, and because of these empi
 > [!quote] Evan Hubinger
 > [Terms like base objective or inner/outer alignment are still great terms for talking about training stories that are trying to train a model to optimize for some specified objective.](https://www.lesswrong.com/posts/Nq58w4SiZMjHdAPaX/what-exactly-is-gpt-3-s-base-objective?commentId=xQkL8kLoRpsMgvp4T#uj8xjqsPtiHqyRRi4)
 
-Sometimes, inner/outer alignment ideas can be appropriate (e.g. chess). For aligning real-world agents in partially observable environments, I think it’s not that appropriate. (See [here](/against-inner-outer-alignment#Evan-s-definitions) for a more detailed discussion of what I eventually realized Evan means here, though.)
+Sometimes, inner/outer alignment ideas can be appropriate (e.g. chess). For aligning real-world agents in partially observable environments, I think it’s not that appropriate. (See [this more detailed discussion](/against-inner-outer-alignment#Evan-s-definitions) of what I eventually realized Evan meant.)
 
 ## Paul Christiano
 
 > [!quote] Paul Christiano
 > [There is probably no physically-implemented reward function, of the kind that could be optimized with SGD, that we’d be happy for an arbitrarily smart AI to optimize as hard as possible. (**I’m most optimistic about approaches where RL is only performed on a reward function that gets smarter in parallel with the agent being trained.**)](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer)
 
-I read this and think “this all feels like a red herring.” I think this is not necessary because robust grading is not necessary for alignment. However, because reward provides cognitive updates, it’s important to think carefully about what cognitive updates will be provided by the reward given when e.g. a large language model submits an alignment proposal. Those reward events will shape the network’s decision-making and generalization properties, which is what we’re really interested in.
+I read this and think “this feels like a distraction.” I think this is not necessary because robust grading is not necessary for alignment. However, because reward provides cognitive updates, it’s important to think carefully about what cognitive updates will be provided by the reward given when e.g. a large language model submits an alignment proposal. Those reward events will shape the network’s decision-making and generalization properties, which is what we’re really interested in.
 
 > [!quote] [_Thoughts on reward engineering_](https://www.lesswrong.com/posts/NtX7LKhCXMW2vjWx6/thoughts-on-reward-engineering#5__Sparse_reward), Paul Christiano
 >
@@ -210,9 +214,11 @@ Historical reasoning about RL seems quite bad. This is a prime example. In one f
 [^1]:
     List of Lethalities was, AFAICT, intended to convey the _most important_ dangers, in the right language. [Rob Bensinger (who works at MIRI but was expressing his own views) also commented](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities?commentId=LowEED2iDkhco3a5d#Section_B_2___Central_difficulties_of_outer_and_inner_alignment_):
 
+<!-- vale off -->
     > My shoulder Eliezer (who I agree with on alignment, and who speaks more bluntly and with less hedging than I normally would) says:
     >
     > 1. The list is true, to the best of my knowledge, and the details actually matter. Many civilizations try to make a canonical list like this in 1980 and end up dying where they would have lived _just_ because they left off one item, or under-weighted the importance of the last three sentences of another item, or included ten distracting less-important items.
+<!-- vale on -->
 
     So if Eliezer's talking about "how do we get agents to care about non-sensory observables", this indicates to me that I disagree with him about what the central subproblems of alignment are.
 

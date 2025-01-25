@@ -66,7 +66,7 @@ What is functional analysis? A satisfactory answer requires going back to where 
 
 # A Friendly Approach to Functional Analysis
 
-I didn't actually find the book overly hard (it took me seven days to complete, which is how long it took for my first book, [_Naïve Set Theory_](/set-theory-textbook-review)), although there were some parts I skipped due to unclear exposition. it's actually one of my favorite books I've read in a while – it's for sure my favorite since the last one. That said, I'm very glad I didn't attempt this early in my book-reading journey.
+I didn't actually find the book overly hard (it took me seven days to complete, which is how long it took for my first book, [_Naïve Set Theory_](/set-theory-textbook-review)), although there were some parts I skipped due to unclear exposition. it's actually one of my favorite books I've read in a while – it's for sure my favorite since the last one. That said, I'm glad I didn't attempt this early in my book-reading journey.
 
 ## My brain won't stop line to me
 
@@ -100,7 +100,7 @@ In multi-variable calculus, the derivative of a function $g:\mathbb{R}^n\to\math
 
 You can go even further and consider the derivative of $h:\mathbb{R}^n\to\mathbb{R}^m$, which is the function $h':\mathbb{R}^n\to\mathbb{R}^{n\times m}$ – for a given $n$\-dimensional input vector, $h$ again can change its vector-valued output differently depending on in which input dimension change occurs.
 
-But what if we want to differentiate the following function $L$, with range $\mathbb{R}$ domain the set of continuous functions bounded to $[a,b]$ - $C[a,b]$:
+What if we want to differentiate the following function $L$, with range $\mathbb{R}$ domain the set of continuous functions bounded to $[a,b]$ - $C[a,b]$:
 
 $$
  L(\mathbf{f}):=\int_{0}^{1} (\mathbf{f}(t))^{2} dt.
@@ -152,8 +152,10 @@ Alex
 
 : But I don't see how this translates to a normal complex derivative, in particular, I don't quite understand what the range of this function is.
 
+<!-- vale off -->
 `TheMajor`
 : No problem, and it's very good that you share that it's unclear. The range of $L$ is the complex numbers, $L$ maps from $X$ (our vector space of functions) to $\mathbb{C}$ (the complex numbers).
+<!-- vale on -->
 
 Alex
 : I guess I'm confused why we're using that type signature if we're taking a derivative on the whole function – but maybe that'll be clear after I get the rest.
@@ -175,9 +177,11 @@ Alex
 
 : Firstly we can try to extend the "derivative of $L$ at $f$ with respect to $g$" to something like "derivative of $L$ at $f$". We'll do this first. Secondly we can try to take a different map, say $M$, which maps from $X$ into another vector space $Y$ (instead of the complex numbers). We can then try and define a derivative of $M$ at $f$ with respect to $g$.
 
+<!-- vale off -->
 : The first step is conceptually simple, but formally and computationally very difficult. Given a point $f\in X$ and our map $L$ from before, we can simply say that "the derivative of $L$ at $f$" is the map that sends $g \in X$ to "the derivative of $L$ at $f$ with respect to $g$". So "the derivative of $L$ at $f$" is a map from $X$ to $\mathbb{C}$.
 
 : this is formally difficult because usually you want this derivative to have some nice properties, but because it was defined pointwise it's very difficult to establish this! Frequently these derivatives are not continuous, and mathematicians resort to horrible tricks (like throwing out a bunch of points of the domain X on which our derivative is annoying) to recover some structure here.
+<!-- vale on -->
 
 Alex
 : So, given some arbitrary function $L : X \to\mathbb{C}$ which is "differentiable" at $f$, we define a function $L'_{f}: g \mapsto$ (derivative of $L$ at $f$ with respect to $g$)?
@@ -243,7 +247,9 @@ Alex
 
 : if this function can be continuously extended to $\lambda = 0$ then we define its image at 0 as the derivative of $M$ at $f$ with respect to $g$. Note that this notion of continuity has to do with the norm of $Y$.
 
+<!-- vale off -->
 : this is now a vector in $Y$, so if this works we have: \[the derivative of $M$ at $f$ with respect to $g$\] which is an element of $Y$, \[the derivative of $M$ at $f$\] which is a (linear! usually horrible and not continous!) map from $X$ to $Y$.
+<!-- vale on -->
 
 : btw if the "continuously extending" part is new, you can also just think of it as the limit of that fraction as $\lambda$ approaches 0. The only point is that (as long as we're working with complex vector spaces) there are a lot of different ways for $\lambda$ to approach 0, and it has to work for all of them.
 

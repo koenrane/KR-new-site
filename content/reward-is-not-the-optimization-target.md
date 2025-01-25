@@ -106,7 +106,7 @@ Eventually, the “value ripples” settle down. The agent picks an (optimal) po
 
 Suppose it would be extremely rewarding to do drugs, but those drugs are on the other side of the world. Value iteration backs up that high value to your present space-time location, such that your policy necessarily gets _at least_ that much reward. There’s no escaping it: After enough backup steps, you’re traveling across the world to do cocaine.
 
-But obviously these conditions aren’t true in the real world. Your learning algorithm doesn’t force _you_ to try drugs. Any AI which e.g. tried every action at least once would quickly kill itself, and so real-world general RL agents won’t explore like that because that would be stupid. So the RL agent’s algorithm won’t make it e.g. explore wireheading either, and so the convergence theorems _don’t apply even a little—even in spirit_.
+Obviously, these conditions aren’t true in the real world. Your learning algorithm doesn’t force _you_ to try drugs. Any AI which e.g. tried every action at least once would quickly kill itself, and so real-world general RL agents won’t explore like that because that would be stupid. So the RL agent’s algorithm won’t make it e.g. explore wireheading either, and so the convergence theorems _don’t apply even a little—even in spirit_.
 
 ## Anticipated questions
 

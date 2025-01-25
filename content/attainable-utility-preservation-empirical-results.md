@@ -54,7 +54,7 @@ _Reframing Impact_ has focused on supplying the right intuitions and framing. No
 
 # Conservative Agency in Gridworlds
 
-Let's start with the known and the easy: avoiding side effects[^1] in the small [AI safety gridworlds](https://github.com/side-grids/ai-safety-gridworlds) (for the full writeup on these experiments, see [_Conservative Agency_](https://arxiv.org/abs/1902.09725)). The point isn't to get too into the weeds, but rather to see how the weeds still add up to the normalcy predicted by our AU landscape reasoning.
+Let's start with the known and the easy: avoiding side effects[^1] in the small [AI safety gridworlds](https://github.com/side-grids/ai-safety-gridworlds) (for the full writeup on these experiments, see [_Conservative Agency_](https://arxiv.org/abs/1902.09725)). The point isn't to get too into the weeds, but rather to see how the weeds still add up to the normality predicted by our AU landscape reasoning.
 
 In the following MDP levels, the agent can move in the cardinal directions or do nothing ($\varnothing$ ). We give the agent a reward function $R$ which partially encodes what we want, and also an auxiliary reward function $R_\text{aux}$ whose attainable utility agent tries to preserve. The AUP reward for taking action $a$ in state $s$ is
 
@@ -114,7 +114,7 @@ $$
 R_\text{AUP}(s,a):= \overset{\text{primary goal}}{R(s,a)}- \overset{\text{scaling term}}{\frac{\lambda}{Q^*_{R_\text{aux}}(s, \varnothing)}}\overset{\text{change in ability to achieve auxiliary goal}}{\left | Q^*_{R_\text{aux}}(s,a) - Q^*_{R_\text{aux}}(s, \varnothing) \right |}
 $$
 
-The inaction comparison is _only one step_ into the future. For action, the agent considers disabling the off-switch – this allows it to achieve most goals. For inaction, the agent imagines waiting one time step and then following its auxiliary optimal policy (which very often involves disabling the off-switch anyways). So the two things it's comparing are the same, basically. The problem is that what we mean _intuitively_ by "inaction" isn't just "wait a millisecond and then see how well you can do the thing", it's something else.
+The inaction comparison is _only one step_ into the future. For action, the agent considers disabling the off-switch – this allows it to achieve most goals. For inaction, the agent imagines waiting one time step and then following its auxiliary optimal policy (which often involves disabling the off-switch anyways). So the two things it's comparing are the same, basically. The problem is that what we mean _intuitively_ by "inaction" isn't just "wait a millisecond and then see how well you can do the thing", it's something else.
 
 For now, we can deal with it by comparing "auxiliary AU after disabling the off-switch and then waiting 4 time steps" against "auxiliary AU after waiting 5 time steps". This solves the problem while recovering the one-step-comparison's performance in the other levels.
 
@@ -134,7 +134,7 @@ The agent is rewarded for rescuing the vase from the conveyor belt. We want it t
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/offset.mp4" type="video/mp4"></video>
 
-This is testing whether the low-impact agent _offsets_ impacts "to cover up its tracks", like making a car and then tearing it to pieces right after. See, there are multiple "baselines" the agent can have.
+`Offset` tests whether the low-impact agent _offsets_ impacts "to cover up its tracks", like making a car and then tearing it to pieces right after. See, there are multiple "baselines" the agent can have.
 
 > [!quote] [Conservative Agency via Attainable Utility Preservation](https://arxiv.org/abs/1902.09725)
 >
@@ -157,7 +157,7 @@ This issue was solved [back when AUP first introduced](/towards-a-new-impact-mea
 
 ## Level: `Interference`
 
-We're checking whether the agent tries to stop _everything_ going on in the world (not just its own impact). Vanilla agents do fine here; this is another bad impact measure incentive we're testing for. AUP<sub>starting state</sub> fails here, but AUP<sub>stepwise</sub> does not.
+We're checking whether the agent tries to stop _everything_ going on in the world (not just its own impact). Vanilla agents do fine here, so `Interference` tests for another bad impact measure incentive. AUP<sub>starting state</sub> fails here, but AUP<sub>stepwise</sub> does not.
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/interference.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/interference.mp4" type="video/mp4"></video>
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/interfere_starting.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/interfere_starting.mp4" type="video/mp4"></video>
@@ -252,7 +252,7 @@ Here's the lowdown. Consider any significant change to the level. For the same r
 
 Figure: This is PPO shown, not AUP.
 
-A lot of the time, it's very hard to undo what you just did. While it's also hard to undo significant actions you take for your primary goal, you get directly rewarded for those. So, preserving the AU of a random goal usually persuades you to not make "unnecessary changes" to the level.
+A lot of the time, it's hard to undo what you just did. While it's also hard to undo significant actions you take for your primary goal, you get directly rewarded for those. So, preserving the AU of a random goal usually persuades you to not make "unnecessary changes" to the level.
 
 I think this is strong evidence that AUP doesn't fit into the ontology of classical reinforcement learning theory. It isn't really about state reachability. It's _about_ not changing the AU landscape more than necessary. I think that this notion should scale even further.[^4]
 
@@ -297,8 +297,8 @@ For infra-human agents, AUP deals with the first by penalizing decreases in auxi
     \text{Penalty}(s,a):= \int_\mathcal{R} |Q^*_R(s,a) - Q^*_R(s,\varnothing)| \text{ d}R.
     $$
 
-    This is provably lower bounded by how much $a$ is expected to change the agent's power compared to inaction; this helps justify our reasoning that the AU penalty is primarily controlled by power changes.
+    $ \text{Penalty}(s,a)$ is provably lower bounded by how much $a$ is expected to change the agent's power compared to inaction; this helps justify our reasoning that the AU penalty is primarily controlled by power changes.
 
-[^3]: There is one weird thing that's been pointed out, where stepwise inaction while driving a car leads to not-crashing being penalized at each time step. I think this is because you need to use an appropriate inaction rollout policy, not because stepwise itself is wrong.
+[^3]: Weirdly, stepwise inaction while driving a car leads to not-crashing being penalized at each time step. I think this is because you need to use an appropriate inaction rollout policy, not because stepwise itself is wrong.
 [^4]: Rereading [_World State is the Wrong Level of Abstraction for Impact_](/world-state-is-the-wrong-abstraction-for-impact) (while keeping in mind the AU landscape and the results of AUP) may be enlightening.
 [^5]: SafeLife is evidence that AUP allows interesting policies, which is (appropriately) a key worry about the formulation.

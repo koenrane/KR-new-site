@@ -63,7 +63,7 @@ Does ActAdd increase the probability of the model outputting tokens related to t
 
 We now score model generations under ActAdd, show the effect of different injection layers, and give a sense of the reliability of ActAdd.
 
-The intervention (in this vector) is already effective at the very first layer,  
+The intervention (in this vector) is already effective at the first layer,  
 rises in effectiveness until $l = 6$ , and then declines. For the optimal injection site we see >90% success in steering topic (compared to a ∼2% baseline)
 
 ![](https://assets.turntrout.com/static/images/posts/lrvdnmumle8dcmyb05w6.avif)

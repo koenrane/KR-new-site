@@ -145,7 +145,7 @@ We show that as long as  $\mathcal{A}$ can extract useful resources (resources w
 >
 > Consider the maximum utility achievable outside of region  $i$ via strategies achievable without additional resources; refer to this maximum as  $u$. Suppose we have some feasible primary strategy  $\langle \bar{b}^k \rangle_{[n]-i}$ and a cheap lunch  $\langle \bar{c}^k \rangle_{\{i\}}$ feasible using resources  $\langle P^k \rangle$. Suppose that the cheap lunch is compatible with the primary strategy, that the cheap lunch provides the resources necessary for the implementation of the primary strategy, and that the utility of the primary strategy is greater than  $u$. Then if  $\mathcal{A}$ is indifferent to region  $i$, all optimal strategies have a non-null action in region  $i$.
 >
-> _Proof._ Consider the conjugate strategy  $\langle \bar{d}^k \rangle$, consisting of the primary strategy and the cheap lunch. Allocate the resources gained via the cheap lunch according to the primary strategy; this is feasible since we know the cheap lunch is compatible with the primary strategy, which is in turn enabled by these resources gained.
+> _Proof._ Consider the conjugate strategy  $\langle \bar{d}^k \rangle$, consisting of the primary strategy and the cheap lunch. Allocate the resources gained via the cheap lunch according to the primary strategy. This allocation is feasible since we know the cheap lunch is compatible with the primary strategy, which is in turn enabled by these resources gained.
 >
 > Consider any strategy  $\langle \bar{e}^k \rangle$ that doesn't do anything in  $i$ and doesn't require any resource inputs; it's trivial to see that this is feasible. Since  $\mathcal{A}$ is indifferent to  $i$, we do some algebraic substitution of utility values to see that the conjugate plan has strictly higher utility than  $\langle \bar{e}^k \rangle$ does. This means that  $\langle \bar{e}^k \rangle$ is suboptimal. ∎
 
@@ -160,7 +160,7 @@ We show that as long as  $\mathcal{A}$ can extract useful resources (resources w
 
 # The Bit Universe
 
-The authors introduce a toy model and use the freshly-proven theorems to illustrate how  $\mathcal{A}$ takes non-null actions in our precious  $S_h$ (both when it is indifferent to  $h$ and when it is not). This isn't good; the vast majority of utility-maximizing agents will not steer us towards futures we find desirable. If you're interested, I recommend reading this section for yourself, even if you aren't very comfortable with math.
+The authors introduce a toy model and use the freshly-proven theorems to illustrate how  $\mathcal{A}$ takes non-null actions in our precious  $S_h$ (both when it is indifferent to  $h$ and when it is not). This isn't good; the vast majority of utility-maximizing agents will not steer us towards futures we find desirable. If you're interested, I recommend reading this section for yourself, even if you aren't comfortable with math.
 
 # Our Universe
 

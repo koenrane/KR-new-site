@@ -85,7 +85,7 @@ We started our investigation by computing these residual stream norms for a vari
 
 We are surprised by the _decrease_ in Residual Stream norm in some of the EleutherAI models.[^2] We would have expected that because the transformer blocks can only access the normalized activations, it's hard for the model to "cancel out" a direction in the residual stream. Therefore, the norm always grows. However, this isn't what we see above. One explanation is that the model is able to memorize or predict the LayerNorm scale. If the model does this well enough it can (partially) delete activations and reduce the norm by writing vectors that cancel out previous activations.
 
-The very small models (distillgpt2, gpt2-small) have superexponential norm growth, but most models show exponential growth throughout extended periods. For example, from layer 5 to 41 in GPT-2-XL, we see an exponential increase in residual stream norm at a rate of ~1.045 per layer. We showed this trend as an orange line in the above plot.
+The small models (distillgpt2, gpt2-small) have superexponential norm growth, but most models show exponential growth throughout extended periods. For example, from layer 5 to 41 in GPT-2-XL, we see an exponential increase in residual stream norm at a rate of ~1.045 per layer. We showed this trend as an orange line in the above plot.
 
 ![](https://assets.turntrout.com/static/images/posts/esxltdsojqrvlf8aev4p.avif)
 <br/>Figure: The dashed line indicates a growth rate of 1 (constant norm). Since the (non-`<endoftext>`) growth rates are approximately constant and above the line, the residual streams are growing exponentially. The GPT-2-XL encoder prepends an `<endoftext>` (BOS) token at residual stream position 0. Its red-colored growth rate is huge at first, but represents an exception.
@@ -97,7 +97,7 @@ In our initial tests, we noticed some residual streams showed an irregular and s
 ![](https://assets.turntrout.com/static/images/posts/g9hgkblqcj9dfyg5b22q.avif)
 <br/>Figure: The violet U-shape at the top is the BOS token position, and the yellow-green U-shapes correspond to positions of padding tokens. The other tokens show the exponential growth shape as expected.
 
-As for the reason behind this shape, we expect that the residual stream (norm) is very predictable at BOS and padding positions. This is because these positions cannot attend to other positions and thus always have the same values (up to positional embedding). Thus it would be no problem for the model to cancel out activations, and our arguments about this being hard do not hold for BOS and padding positions. We don't know whether there is a particular meaning behind this shape.
+As for the reason behind this shape, we expect that the residual stream (norm) is predictable at BOS and padding positions. This is because these positions cannot attend to other positions and thus always have the same values (up to positional embedding). Thus it would be no problem for the model to cancel out activations, and our arguments about this being hard do not hold for BOS and padding positions. We don't know whether there is a particular meaning behind this shape.
 
 We suspect that is the source of the U-shape shown below:
 
@@ -278,7 +278,7 @@ We showed that the MLP output for random _layer-independent_ inputs grows expone
 
 ![](https://assets.turntrout.com/static/images/posts/u6v1tzoqugjeiflzvsut.avif)
 
-Our first step is to plot the norms of the individual MLP weight components. We are very surprised to not see any exponential increase at the expected rate in any of these norms!
+Our first step is to plot the norms of the individual MLP weight components. We are surprised to not see any exponential increase at the expected rate in any of these norms!
 
 ![](https://assets.turntrout.com/static/images/posts/dllrookwluijbimrdil6.avif)
 

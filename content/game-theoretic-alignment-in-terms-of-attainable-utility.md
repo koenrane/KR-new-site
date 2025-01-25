@@ -177,7 +177,7 @@ As it turns out, the limiting cases of alignment have a natural interpretation i
 - In a common-payoff game, the global max common payoff achieves both the max attainable social welfare and the max individual payoffs for each player. Thus, common-payoff games are an equality case of the Alignment inequality.
 - In a _constant-welfare game_ (where $w(\vec{u}) = \sum_i u_i$ is constant), maximal social welfare is trivially achieved. Thus, constant-welfare games are an equality case of the Coordination inequality.
 
-There are some caveats to this interpretation. While the "limiting cases" for alignment are equality cases of the C-A inequalities, they're not a full characterization of the equality cases.
+This interpretation requires caveats. While the "limiting cases" for alignment are equality cases of the C-A inequalities, they're not a full characterization of the equality cases.
 
 The Coordination inequality
 : is an equality IFF the action profile maximizes social welfare. The set of games for which all action profiles maximize welfare is precisely the constant-welfare games.
@@ -211,7 +211,7 @@ Considering the metric on our example games yields the following:
 
 # Connections to Broader Game Theory
 
-There are a number of connections between the theory surrounding the C-A inequalities and game theory at large. We explore one such connection, bridging the divide between (Harsanyi) utilitarianism and ideas from [Bargaining theory](https://en.wikipedia.org/wiki/Cooperative_bargaining).
+We now explore one connection, bridging the divide between (Harsanyi) utilitarianism and ideas from [Bargaining theory](https://en.wikipedia.org/wiki/Cooperative_bargaining).
 
 To begin, we choose the natural strategy profile of [maxmin](https://en.wikipedia.org/wiki/Minimax), which we denote as $\vec{a}_0$. Now, define the _surplus_ of player $i$ to be
 

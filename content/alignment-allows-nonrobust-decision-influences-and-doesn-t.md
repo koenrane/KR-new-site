@@ -69,7 +69,7 @@ Decision-making influences don't have to be “robust” in order for a person t
 1. One person is slightly more motivated by good grades. They might study for a physics test and focus slightly more on test-taking tricks.
 2. Another person is slightly more motivated by learning. They might forget about some quizzes because they were too busy reading extracurricular physics books.
 
-But they might _both_ care about school, in the sense of reliably making decisions on the basis of their school performance and valuing being a person who gets good grades. Both people are motivated to do well at school, albeit in somewhat different ways. They probably will both get good grades and they probably will both learn a lot. **Different values simply mean that the two people locally make decisions differently.**
+They might _both_ care about school - in the sense of reliably making decisions on the basis of their school performance and valuing being a person who gets good grades. Both people are motivated to do well at school, albeit in somewhat different ways. They probably will both get good grades and they probably will both learn a lot. **Different values simply mean that the two people locally make decisions differently.**
 
 If I value candy, that means that my decision-making contains a subroutine which makes me pursue candy in certain situations. Perhaps I eat candy, perhaps I collect candy, perhaps I let children tour my grandiose candy factory… The point is that candy influences my decisions. I am _pulled by my choices_ from pasts without candy to futures with candy.
 
@@ -84,7 +84,7 @@ Suppose this is the way I value candy. A few thousand subshards which chain into
 
 This shard does not need to be “robust” or "perfect." Am I really missing much if I’m lacking candy subshard #3: “If `heard 'candy'` and `hunger>20`, then `salivate`”? I don’t think it makes sense to call value shards “perfect” or not.[^2] The shards simply influence decisions.
 
-There are many, many configurations and parameter settings of these subshards which lead to _valuing candy_. The person probably still values candy, even if you:
+Many, many configurations and parameter settings of these subshards lead to _valuing candy_. The person probably still values candy, even if you:
 
 - Delete a bunch of the subshards.
   - Similarly, [transformers are robust to _deletion_ of entire layers](https://arxiv.org/abs/2406.19384)!
@@ -100,7 +100,7 @@ It seems to me like "does the person still prioritize candy" depends on a bunch 
     - The more situations a candy-value affects decision-making in, the stronger the chance that candy remains a big part of their life.
 3. How often the candy shard will actually activate
     - As an unrealistic example, if the person never enters a cognitive situation which substantially activates the candy-shard, then don't expect them to eat much candy.
-    - This is another source of value/decision-influence robustness, as e.g. an AI's values don't have to be OK in every cognitive context.[^3]
+    - Activation frequency is other source of value/decision-influence robustness, as e.g. an AI's values don't have to be OK in every cognitive context.[^3]
     - Consider an otherwise altruistic man who has serious abuse and anger problems whenever he enters a specific vacation home with his wife, but is otherwise kind and considerate. As long as he doesn't start off in that home but knows about the contextual decision-influence, he will steer away from that home and try to remove the unendorsed value.
 4. Reflectivity of the candy shard
     - (This is more complicated and uncertain. I'll leave it for now.)
@@ -109,7 +109,7 @@ Suppose we wanted to train an agent which gets really smart and acquires a lot o
 
 # II: Values steer optimization; they are not optimized against
 
-Given someone’s values, you might wonder if you can “maximize” those values. On my ontology—where _values_ are _decision-influences_, a sort of _contextual wanting_—“literal value maximization” is a type error.[^4] In particular, given e.g. someone who values candy, there very probably isn't a part of that person's cognition which can be argmax’ed to find a plan where the person has lots of candy.
+Given someone’s values, you might wonder if you can “maximize” those values. On my ontology—where _values_ are _decision-influences_, a sort of _contextual wanting_—“literal value maximization” is a type error.[^4] In particular, given e.g. someone who values candy, there probably isn't a part of that person's cognition which can be argmax’ed to find a plan where the person has lots of candy.
 
 So if I have a candy-shard, if I value candy, if _I am influenced to decide to pursue candy in certain situations_, then _what does it mean to maximize my candy value_? My value is a subcircuit of my policy. It doesn’t necessarily even have an ordering over its outputs, let alone a numerical rating which can be maximized. “Maximize my candy-value” is, in a literal sense, a type error. What quantity is there to maximize?
 
@@ -125,9 +125,9 @@ Therefore, even though you _truly care about candy_, that doesn’t mean you can
 
 Complexity of human values isn’t what stops you from argmax’ing human values and thereby finding a good plan. That’s not a sensible thing to try. Values are not, in general, the kind of thing which can be directly optimized over, where you find plans which "maximally activate" your e.g. candy subshards. **Values influence decisions.**
 
-There is real difficulty and peril in motivating an AI, in making sure its decisions chain into each other towards the _right kinds of futures_. If you train a superintelligent sovereign agent which primarily values irrelevant quantities (like paperclips) but doesn't care about you, which then optimizes the whole future hard, then you’re _dead_. But consider that deleting candy subshard #3 (“If `heard 'candy'` and `hunger>20`, then `salivate`”) doesn’t stop someone from valuing candy in the normal way. If you erase that subshard from their brain, it’s not like they start "Goodharting" and forget about the “true nature” of caring about candy because they now have an “imperfect proxy shard.”
+Motivating an AI carries real peril in making sure its decisions chain into each other towards the _right kinds of futures_. If you train a superintelligent sovereign agent which primarily values irrelevant quantities (like paperclips) but doesn't care about you, which then optimizes the whole future hard, then you’re _dead_. But consider that deleting candy subshard #3 (“If `heard 'candy'` and `hunger>20`, then `salivate`”) doesn’t stop someone from valuing candy in the normal way. If you erase that subshard from their brain, it’s not like they start "Goodharting" and forget about the “true nature” of caring about candy because they now have an “imperfect proxy shard.”
 
-An agent argmax'ing an imperfect evaluation function will indeed exploit that function; there are very few degrees of freedom in specifying an inexploitable evaluation function. But that's because that grading function must be globally robust.
+An agent argmax'ing an imperfect evaluation function will indeed exploit that function. When specifying an inexploitable evaluation function, you enjoy few degrees of freedom. But that's because that evaluation function must be globally robust.
 
 When I talk about shard theory, [people](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=6Lg5Jbwqg2tifEWZJ#Cyzck3vqEa4EfoXaz) [often](https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans?commentId=hXFMkRexJN4weKGdF) [seem](https://www.lesswrong.com/posts/k4AQqboXz8iE5TNXK/a-shot-at-the-diamond-alignment-problem?commentId=zfSCqZuYebHEKgvf5#zfSCqZuYebHEKgvf5) [to](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=YoxJ5RKmp6b8fk8na#Cyzck3vqEa4EfoXaz) shrug and go "well, you still need to get the values adversarially robustly correct else Goodhart; I don't see how this 'value shard' thing helps." **That's not how values work, that is not what value-shards are.** [**Unlike grader-optimizers which try to maximize plan evaluations, a values-executing agent doesn't optimize its values as hard as possible**](/dont-align-agents-to-evaluations-of-plans)**. The agent's values optimize the world. The values are rules for how the agent acts in relevant contexts.**[^5]
 
@@ -135,8 +135,8 @@ When I talk about shard theory, [people](https://www.lesswrong.com/posts/dqSwccG
 
 > [!question]
 > If we cannot robustly grade expected-diamond-production for every plan the agent might consider, how might we nonetheless design a smart agent which makes lots of diamonds?
-
-(Maybe you can now answer this question. I encourage you to try before moving on.)
+>
+> Maybe you can now answer this question. I encourage you to try before moving on.
 
 <hr/>
 
@@ -165,7 +165,7 @@ Thoughts about future thinking are a kind of decision. Decisions are steered by 
 >
 > \[In\] [the optimizer's curse](https://pubsonline.informs.org/doi/abs/10.1287/mnsc.1050.0451), evaluations (e.g. "In this plan, how hard is evaluation-child working? Is he behaving?") are often corrupted by the influence of unendorsed factors (e.g. the attractiveness of the gym teacher caused an upwards error in the mother's evaluation of that plan). If you make choices by considering $n$ options and then choosing the highest-evaluated one, then the more $n$ increases, the harder you are selecting for upwards errors in your own evaluation procedure.
 >
-> > The proposers of the Optimizer's Curse also described a Bayesian remedy in which we have a prior on the expected utilities and variances and we are more skeptical of very high estimates. This however assumes that the prior itself is perfect, as are our estimates of variance. If the prior or variance-estimates contain large flaws somewhere, a search over a very wide space of possibilities would be expected to seek out and blow up any flaws in the prior or the estimates of variance.
+> > The proposers of the Optimizer's Curse also described a Bayesian remedy in which we have a prior on the expected utilities and variances and we are more skeptical of high estimates. This however assumes that the prior itself is perfect, as are our estimates of variance. If the prior or variance-estimates contain large flaws somewhere, a search over a wide space of possibilities would be expected to seek out and blow up any flaws in the prior or the estimates of variance.
 > >
 > > [Goodhart's Curse, Arbital](https://arbital.com/p/goodharts_curse/)
 >
@@ -280,6 +280,7 @@ def plan(self):
 
 I liked Vivek Hebbar's recent [comment](https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans?commentId=Kq39F8HLJixAyQMZF#Grader_optimization____planning). I liked the comment in the context of e.g. caring about your family and locally evaluating plans on that basis, but also knowing that your evaluation ability itself is compromised and will mis-rate some plans:
 
+<!-- vale off -->
 > [!quote] Vivek Hebbar's recent [comment](https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agents-to-evaluations-of-plans?commentId=Kq39F8HLJixAyQMZF#Grader_optimization____planning)
 >
 > My attempt at a framework where "improving one's own evaluator" and "believing in adversarial examples to one's own evaluator" make sense:
@@ -288,6 +289,7 @@ I liked Vivek Hebbar's recent [comment](https://www.lesswrong.com/posts/fopZesxL
 > - "Improving `Eval`" makes sense because Eval will gladly replace itself with `Eval_2` if it believes that `Eval_2` is a better approximation for $U_{ideal}$ (and hence replacing itself will cause the outcome to score better on $U_{ideal}$)
 >
 > Are there other distinct frameworks which make sense here?
+<!-- vale on -->
 
 (I'm not sure whether Vivek meant to imply "and this is how I think people work, mechanistically." I'm going to respond to a _hypothetical other person_ who did in fact mean that.)
 
@@ -325,6 +327,7 @@ On my understanding: Your values are steering the optimization. They are not, in
 [^6]:
     In a recent Google Doc thread, grader optimization came up. Here's the exchange (splicing in my responses to each section):
 
+    <!-- vale off -->
     > **Other person:** So you're imagining something like: the agent (policy) is optimizing for a reward model to produce a high number, and so the agent analyzes the reward model in detail to search for inputs that cause the reward model to give high numbers?
     >
     > **Me:** Yes.
@@ -350,10 +353,12 @@ On my understanding: Your values are steering the optimization. They are not, in
     > **Me:** Even if true, this would be not be an optimizer's curse problem.
     >
     > But also this isn't true, at least not without further argumentation. If my kid likes mocha and I like latte, is my child searching for positive upwards differences between their values and mine? I think there are some situations like that. For example, suppose the AI values paperclips while the humans value love. In this situation, the AI is searching for paperclippish plans which will systematically be bad plans by human lights. That seems more like instrumental convergence → disempower humans → not much love left for us if we're dead.
+    <!-- vale on -->
 
 [^7]: I do think that e.g. a diamond-shard can [get fed](/dont-align-agents-to-evaluations-of-plans#Value-child-is-still-vulnerable-to-adversarial-inputs) an adversarial input, but the diamond-shard won't bid for a plan where it fools _itself_.
 [^8]: It's at this point that my model of Nate Soares wants to chime in.
 
+    <!-- vale off -->
     > **Alex's model of Nate:** This sure smells like a problem redefinition in which you simply sweep the hard part of the problem under a less obvious corner of the rug. Why shouldn't I believe you've just done that?
     >
     > **Alex:** A reasonable and productive heuristic in general, but inappropriate here. Grader-optimization explicitly incentivizes the agent to find maximal upwards errors in a diamond-evaluation module, whereas a reflective diamond-valuing agent has no incentive to consider such plans, because it reflectively predicts those plans don't lead to diamonds. If you disagree, please point to the part of the story where, conditional on the previous part of the story obtaining, the grader-optimization problem reappears.
@@ -365,5 +370,6 @@ On my understanding: Your values are steering the optimization. They are not, in
     > **Alex's model of Nate:** So the AI still has to solve the AI alignment problem, except with its successors.
     >
     > **Alex:** Not all things which can be called an "AI alignment problem" are created equal. [The AI has a range of advantages](/a-shot-at-the-diamond-alignment-problem#Appendix-The-AI-s-advantages-in-solving-successor-alignment), and I [detailed one way it could use those advantages](/a-shot-at-the-diamond-alignment-problem#user-content-fn-11). I do expect that kind of plan to actually work.
+    <!-- vale on -->
 
 [^10]: When working out [shard theory](/shard-theory) with Quintin Pope, one of my favorite moments was the _click_ where I stopped viewing myself as some black-box optimizing "some complicated objective." Instead, this hypothesis reduced my own values to [mere reality](https://www.lesswrong.com/tag/mere-reality). Every aspiration, every unit of caring, every desire for how I want the future to be bright and fun—subroutines, subshards, contextual bits of decision-making influence, all traceable to historical reinforcement and update events.
