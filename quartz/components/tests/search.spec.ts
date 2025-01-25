@@ -131,8 +131,8 @@ test.describe("Search accuracy", () => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      const button = page.locator("button[aria-label='Search']")
-      await button.click()
+      const searchBar = page.locator("div#nav-searchbar")
+      await searchBar.click()
       await search(page, term) // TODO see for mobile
 
       const firstResult = page.locator(".result-card").first()
