@@ -195,3 +195,49 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
     return result
   }
 }
+
+/**
+ * Helper function to handle requestAnimationFrame-based animations
+ * @param duration Duration of the animation in milliseconds
+ * @param onFrame Callback function called on each animation frame with progress (0 to 1)
+ * @param onComplete Optional callback function called when animation completes
+ * @returns Cleanup function to cancel the animation
+ */
+export function animate(
+  duration: number,
+  onFrame: (progress: number) => void,
+  onComplete?: () => void,
+): () => void {
+  if (duration <= 0) {
+    onFrame(1)
+    onComplete?.()
+    return () => {}
+  }
+
+  let start: number | null = null
+  let rafId: number | null = null
+
+  const frame = (timestamp: number) => {
+    if (!start) start = timestamp
+    const elapsed = timestamp - start
+    const progress = Math.min(elapsed / duration, 1)
+
+    onFrame(progress)
+
+    if (progress < 1) {
+      rafId = requestAnimationFrame(frame)
+    } else {
+      onComplete?.()
+    }
+  }
+
+  rafId = requestAnimationFrame(frame)
+
+  // Return cleanup function
+  return () => {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+    }
+  }
+}

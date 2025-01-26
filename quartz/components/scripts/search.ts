@@ -4,7 +4,7 @@ import { ContentDetails } from "../../plugins/emitters/contentIndex"
 import { replaceEmojiConvertArrows } from "../../plugins/transformers/twemoji"
 import { tabletBreakpoint, mobileBreakpoint } from "../../styles/variables"
 import { FullSlug, normalizeRelativeURLs, resolveRelative } from "../../util/path"
-import { registerEscapeHandler, removeAllChildren, debounce } from "./util"
+import { registerEscapeHandler, removeAllChildren, debounce } from "./component_script_utils"
 
 interface Item {
   id: number
