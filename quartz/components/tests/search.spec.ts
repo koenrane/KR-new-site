@@ -120,7 +120,8 @@ test.describe("Search accuracy", () => {
       await page.keyboard.press("/")
       await search(page, term)
 
-      const firstResult = page.locator("#preview-container").first()
+      const previewContainer = page.locator("#preview-container")
+      const firstResult = previewContainer.first()
       await expect(firstResult).toContainText(term)
     })
   })
