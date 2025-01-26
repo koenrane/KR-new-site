@@ -5,7 +5,7 @@ import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/se
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/welcome", { waitUntil: "domcontentloaded" })
+  await page.goto("http://localhost:8080/welcome", { waitUntil: "load" })
 })
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
