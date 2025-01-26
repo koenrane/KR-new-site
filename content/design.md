@@ -166,7 +166,7 @@ Quartz offers basic optimizations, such as [lazy loading](https://developer.mozi
 
 ### Fonts
 
-EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add overhead and complicate client-side caching, likely resulting in a net slowdown.
+EB Garamond Regular 8pt takes 260KB as an `otf` file but compresses to 80KB under [the newer `woff2` format.](https://www.w3.org/TR/WOFF2/) In all, the font footprint shrinks from 1.5MB to about 609KB for most pages. I toyed around with manual [font subsetting](https://fonts.google.com/knowledge/glossary/subsetting) but it seemed too hard to predict which characters my site _never_ uses. While I could subset each page with only the required glyphs, that would add overhead and complicate client-side caching, likely resulting in a net slowdown.
 
 I use [`subfont`](https://github.com/Munter/subfont) to subset each font across my entire website, taking the font footprint from 609KB to 113KB - a reduction of over 5x! Eventually, the ultimate solution will be [progressive font enrichment](https://www.w3.org/TR/PFE-evaluation/), which will load just those glyphs needed for a webpage, and then cache those glyphs so that they aren't reloaded during future calls. Sadly, progressive font enrichment is not yet available.
 
@@ -207,11 +207,11 @@ However, after a bunch of tweaking, I still can't get `ffmpeg` to sufficiently c
 
 ### CSS purging
 
-I tried using [`PurgeCSS`](https://purgecss.com/) to remove unused styles, reducing the CSS footprint from 84KB to 73KB. Since I couldn't safely purge selectors from my main stylesheet (there were too many false positives), so the benefit was quite marginal. The purging caused trouble in my build process and had little benefit, so I removed it.
+I tried using [`PurgeCSS`](https://purgecss.com/) to remove unused styles, reducing the CSS footprint from 84KB to 73KB. Since I couldn't safely purge selectors from my main stylesheet (there were too many false positives), the benefit was quite marginal. The purging caused trouble in my build process and had little benefit, so I removed it.
 
 ## Inlining critical CSS
 
-Even after minification and purging, it takes time for the client to load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle.
+Even after minification, it takes time for the client to load the main CSS stylesheet. During this time, the site looks like garbage. One solution is to manually include the most crucial styles in the HTML header, but that's brittle.
 
 Instead, I hooked [the `critical` package](https://github.com/addyosmani/critical) into the end of the production build process. After emitting the webpages, the process computes which "critical" styles are necessary to display the first glimpse of the page. These critical styles are inlined into the header so that they load immediately, without waiting for the entire stylesheet to load. When the page loads, it quickly notes the status of light vs dark mode and immediately applies the relevant theme. Once the main stylesheet loads, I delete the inlined styles (as they are superfluous at best).
 

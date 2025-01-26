@@ -41,7 +41,7 @@ date_updated: 2024-10-31 23:14:34.832290
 
 
 
-I've written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
+I have written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 
