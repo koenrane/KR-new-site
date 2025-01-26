@@ -15,6 +15,7 @@ aliases:
   - physiology
   - manga-physiology
 lw-sequence-title: Becoming Stronger
+sequence-link: posts#becoming-stronger
 prev-post-slug: alignment-phd
 prev-post-title: Looking back on my alignment PhD
 date_published: 2025-01-23 20:50:38.343137

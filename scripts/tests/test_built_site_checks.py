@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from ..utils import get_git_root
 
@@ -1487,3 +1487,55 @@ def test_meta_tags_first_10kb(tmp_path, html, expected):
 
     result = meta_tags_early(test_file)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected_count",
+    [
+        # Test valid internal link
+        ('<a class="internal" href="/some/path">Valid Link</a>', 0),
+        # Test internal link without href
+        ('<a class="internal">Missing href</a>', 1),
+        # Test internal link with https://
+        ('<a class="internal" href="https://example.com">External Link</a>', 1),
+        # Test multiple invalid links
+        (
+            """
+            <div>
+                <a class="internal">No href</a>
+                <a class="internal" href="https://example.com">External</a>
+                <a class="internal" href="/valid">Valid</a>
+            </div>
+            """,
+            2,
+        ),
+        # Test link without internal class (should be ignored)
+        (
+            '<a href="https://example.com">External without internal class</a>',
+            0,
+        ),
+        # Test mixed valid and invalid
+        (
+            """
+            <div>
+                <a class="internal" href="/path1">Valid 1</a>
+                <a class="internal">Invalid 1</a>
+                <a class="internal" href="/path2">Valid 2</a>
+                <a class="internal" href="https://example.com">Invalid 2</a>
+            </div>
+            """,
+            2,
+        ),
+    ],
+)
+def test_check_invalid_internal_links(html, expected_count):
+    """Test the check_invalid_internal_links function with various test cases."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_invalid_internal_links(soup)
+    assert len(result) == expected_count
+    # Verify that all returned items are BeautifulSoup Tag objects
+    for link in result:
+        assert isinstance(link, Tag)
+        assert "internal" in link.get("class", [])
+        # Verify the link is actually invalid
+        assert not link.has_attr("href") or link["href"].startswith("https://")
