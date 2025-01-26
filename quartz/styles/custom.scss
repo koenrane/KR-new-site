@@ -929,8 +929,6 @@ foreignObject {
 .flowchart .nodeLabel,
 .flowchart .label,
 .flowchart .edgeLabel {
-  font-family: var(--font-text);
-
   & .katex {
     margin-left: 0.25em;
     position: relative;
