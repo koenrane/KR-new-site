@@ -261,12 +261,14 @@ sup {
 
 // Dark <-> Light
 .temporary-transition *,
-.temporary-transition .mermaid * {
+.temporary-transition .mermaid *,
+.temporary-transition *::-webkit-scrollbar {
   transition:
     background-color 1s ease-in-out,
     border-color 1s ease-in-out,
     fill 1s ease-in-out,
-    stroke 1s ease-in-out !important;
+    stroke 1s ease-in-out,
+    scrollbar-color 1s ease-in-out !important;
 }
 
 // Hide video speed controller
