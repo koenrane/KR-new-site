@@ -521,12 +521,14 @@ async function onNav(e: CustomEventMap["nav"]) {
   addListener(searchIcon, "click", () => showSearch("basic", container, searchBar), listeners)
   addListener(searchBar, "input", debouncedOnType, listeners)
 
+  const escapeCleanup = registerEscapeHandler(container, hideSearch)
+  listeners.add(escapeCleanup)
+
   cleanupListeners = () => {
     listeners.forEach((cleanup) => cleanup())
     listeners.clear()
   }
 
-  registerEscapeHandler(container, hideSearch)
   await fillDocument(data)
 }
 

@@ -99,9 +99,13 @@ export function debounce<F extends (...args: [KeyboardEvent]) => void>(
 /**
  * Registers click outside and escape key handlers for UI elements like modals.
  * When triggered, runs the provided callback.
+ * @returns A cleanup function that removes the event listeners
  */
-export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: () => void) {
-  if (!outsideContainer) return
+export function registerEscapeHandler(
+  outsideContainer: HTMLElement | null,
+  cb: () => void,
+): () => void {
+  if (!outsideContainer) return () => {}
 
   // Handle clicks outside the container
   function click(e: MouseEvent) {
@@ -120,6 +124,12 @@ export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: 
 
   outsideContainer.addEventListener("click", click)
   window.addEventListener("keydown", esc)
+
+  // Return cleanup function
+  return () => {
+    outsideContainer.removeEventListener("click", click)
+    window.removeEventListener("keydown", esc)
+  }
 }
 
 export function removeAllChildren(node: HTMLElement) {
