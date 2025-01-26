@@ -23,10 +23,23 @@ document.addEventListener("nav", () => {
           () => {
             button.blur()
             button.innerHTML = svgCheck
-            setTimeout(() => {
-              button.innerHTML = svgCopy
-              button.style.borderColor = ""
-            }, 2000)
+            let start: number | null = null
+            const duration = 2000 // 2 seconds
+
+            const resetButton = (timestamp: number) => {
+              if (!start) start = timestamp
+              const elapsed = timestamp - start
+
+              if (elapsed >= duration) {
+                button.innerHTML = svgCopy
+                button.style.borderColor = ""
+                return
+              }
+
+              requestAnimationFrame(resetButton)
+            }
+
+            requestAnimationFrame(resetButton)
           },
           (error) => console.error(error),
         )
