@@ -1,60 +1,116 @@
+/**
+ * Limits how often a function can be called. Once called, subsequent calls within
+ * the delay period will be ignored or queued for the next frame.
+ *
+ * Example:
+ * const throttledScroll = throttle(() => console.log('Scrolled!'), 100)
+ * // Will only log once every 100ms no matter how often called
+ */
 export function throttle(func: () => void, delay: number) {
-  let timeout: number | null = null
+  // Track the animation frame ID to cancel if needed
+  let frameId: number | null = null
+  // Track when we last ran the function
+  let lastRun = 0
+
   return () => {
-    if (!timeout) {
+    // If we're already waiting to run in next frame, skip
+    if (frameId) return
+
+    const now = performance.now()
+    const timeSinceLastRun = now - lastRun
+
+    // If enough time has passed, run immediately
+    if (timeSinceLastRun >= delay) {
       func()
-      timeout = window.setTimeout(() => {
-        timeout = null
-      }, delay)
+      lastRun = now
+    } else {
+      // Otherwise, schedule to run in next animation frame
+      frameId = requestAnimationFrame(() => {
+        frameId = null
+        func()
+        lastRun = performance.now()
+      })
     }
   }
 }
 
 /**
- * Debounce function to limit the rate at which a function can fire.
- * Allows immediate execution on the first call if `immediate` is true.
- * @param func The function to debounce.
- * @param wait The number of milliseconds to delay.
- * @param immediate If true, trigger the function on the leading edge.
- * @returns A debounced version of the passed function.
+ * Delays executing a function until after a period of no calls.
+ * Useful for functions that shouldn't run until input has "settled".
+ *
+ * Example:
+ * const debouncedSearch = debounce((e) => console.log('Searching...'), 500)
+ * // Only runs after 500ms of no calls, cancelling previous pending calls
+ *
+ * @param func The function to debounce
+ * @param wait Milliseconds to wait after last call before executing
+ * @param immediate If true, execute on the first call instead of last
  */
 export function debounce<F extends (...args: [KeyboardEvent]) => void>(
   func: F,
   wait: number,
   immediate = false,
 ): F {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null
+  // Track the animation frame ID to cancel pending executions
+  let frameId: number | null = null
+  // Track when the last call happened
+  let lastTime = 0
+  // Flag to track if we should execute on next check
+  let shouldExecute = false
+
   return function (this: Window, ...args: [KeyboardEvent]) {
-    const later = () => {
-      timeoutId = null
-      if (!immediate) {
-        func.apply(this, args)
-      }
+    const now = performance.now()
+
+    // Cancel any pending execution
+    if (frameId !== null) {
+      cancelAnimationFrame(frameId)
+      frameId = null
     }
 
-    const callNow = immediate && timeoutId === null
-
-    if (timeoutId !== null) {
-      clearTimeout(timeoutId)
-    }
-
-    timeoutId = setTimeout(later, wait)
-
-    if (callNow) {
+    // For immediate execution, run on first call only
+    if (immediate && lastTime === 0) {
       func.apply(this, args)
+      lastTime = now
+      return
     }
+
+    // Mark that we want to execute and update last call time
+    shouldExecute = true
+    lastTime = now
+
+    // Start checking if enough time has passed
+    frameId = requestAnimationFrame(
+      function checkTime(this: Window) {
+        const elapsed = performance.now() - lastTime
+        if (elapsed < wait && shouldExecute) {
+          // Not enough time passed, check again next frame
+          frameId = requestAnimationFrame(checkTime)
+        } else if (shouldExecute) {
+          // Enough time passed, execute the function
+          shouldExecute = false
+          frameId = null
+          func.apply(this, args)
+        }
+      }.bind(this),
+    )
   } as F
 }
 
+/**
+ * Registers click outside and escape key handlers for UI elements like modals.
+ * When triggered, runs the provided callback.
+ */
 export function registerEscapeHandler(outsideContainer: HTMLElement | null, cb: () => void) {
   if (!outsideContainer) return
 
+  // Handle clicks outside the container
   function click(e: MouseEvent) {
     if (e.target !== outsideContainer) return
     e.preventDefault()
     cb()
   }
 
+  // Handle escape key presses
   function esc(e: KeyboardEvent) {
     if (e.key === "Escape") {
       e.preventDefault()
@@ -72,13 +128,14 @@ export function removeAllChildren(node: HTMLElement) {
   }
 }
 
-let timeoutAction: number
-let timeoutEnable: number
-
+/**
+ * Temporarily disables all CSS transitions while executing an action.
+ * Useful for preventing unwanted animations during DOM updates.
+ *
+ * @param action Function to execute with transitions disabled
+ */
 export const withoutTransition = (action: () => void) => {
-  clearTimeout(timeoutAction)
-  clearTimeout(timeoutEnable)
-
+  // Create style element to disable all transitions
   const style = document.createElement("style")
   style.textContent = `body * {
      -webkit-transition: none !important;
@@ -92,29 +149,28 @@ export const withoutTransition = (action: () => void) => {
   const disableTransitions = () => document.head.appendChild(style)
   const enableTransitions = () => document.head.removeChild(style)
 
+  // If getComputedStyle is available, use it to force a reflow
   if (typeof window.getComputedStyle !== "undefined") {
     disableTransitions()
     action()
-
     void window.getComputedStyle(style).opacity // Force reflow
     enableTransitions()
     return
   }
 
-  if (typeof window.requestAnimationFrame !== "undefined") {
-    disableTransitions()
-    action()
-    window.requestAnimationFrame(enableTransitions)
-    return
-  }
-
+  // Fallback if getComputedStyle isn't available
   disableTransitions()
-  timeoutAction = window.setTimeout(() => {
-    action()
-    timeoutEnable = window.setTimeout(enableTransitions, 120)
-  }, 120)
+  action()
+  requestAnimationFrame(enableTransitions)
 }
 
+/**
+ * Wraps a function to execute it with transitions temporarily disabled.
+ * Also adds a temporary class during execution.
+ *
+ * @param func Function to wrap
+ * @returns Wrapped function that handles transition disabling
+ */
 export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType<T>>(
   func: T,
 ): (...args: Parameters<T>) => ReturnType<T> {
@@ -125,9 +181,14 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
     withoutTransition(() => {
       result = func(...args)
     })
-    setTimeout(() => {
-      document.documentElement.classList.remove("temporary-transition")
-    }, 1000)
+
+    // Wait two animation frames to ensure transitions are complete
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove("temporary-transition")
+      })
+    })
+
     if (result === undefined) {
       throw new Error("Function returned undefined")
     }
