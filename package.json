@@ -174,7 +174,7 @@
     "0x": "^5.7.0",
     "babel-jest": "^29.7.0",
     "critical": "^7.2.1",
-    "esbuild": "^0.19.9",
+    "esbuild": "^0.24.2",
     "eslint": "^9.18.0",
     "eslint-plugin-perfectionist": "^4.7.0",
     "eslint-plugin-react": "^7.37.4",
