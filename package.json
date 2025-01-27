@@ -187,7 +187,7 @@
     "lint-staged": "^15.4.1",
     "markdown-it": "^14.1.0",
     "markdown-it-emphasis-alt": "^1.0.8",
-    "p-queue": "^8.0.1",
+    "p-queue": "^8.1.0",
     "patch-package": "^8.0.0",
     "playwright": "^1.50.0",
     "postinstall-postinstall": "^2.1.0",
