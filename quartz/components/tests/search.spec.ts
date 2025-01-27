@@ -155,7 +155,7 @@ test.describe("Search accuracy", () => {
 
       // Get first highlighted match
       const highlightedMatches = previewContent.locator(`span.highlight:text("${term}")`).first()
-      expect(highlightedMatches).toBeInViewport()
+      await expect(highlightedMatches).toBeInViewport()
     })
   })
 
@@ -185,7 +185,7 @@ test.describe("Search accuracy", () => {
     await search(page, "AI presidents")
 
     const previewElement = page.locator("#preview-container > article")
-    expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
+    await expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
   })
 
   test("Test page does use dropcap", async ({ page }) => {
@@ -193,7 +193,7 @@ test.describe("Search accuracy", () => {
     await search(page, "test")
 
     const previewElement = page.locator("#preview-container > article")
-    expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
+    await expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
   })
 })
 
@@ -210,7 +210,8 @@ test("Enter key navigates to first result", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "test")
 
-  await page.keyboard.press("Enter")
+  const firstResult = page.locator(".result-card").first()
+  await firstResult.press("Enter")
 
   expect(page.url()).not.toBe(initialUrl)
 })
@@ -274,7 +275,7 @@ test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
   await footnoteLink.scrollIntoViewIfNeeded()
-  expect(footnoteLink).toContainText("⤴")
+  await expect(footnoteLink).toContainText("⤴")
   await expect(footnoteLink).toBeVisible()
 
   await takeArgosScreenshot(page, testInfo, "", {

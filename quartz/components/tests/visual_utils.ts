@@ -137,7 +137,7 @@ export async function search(page: Page, term: string) {
   const previewContainer = page.locator("#preview-container")
   await expect(previewContainer).toBeAttached()
 
-  await page.waitForLoadState("networkidle")
+  await page.waitForLoadState("load")
 }
 
 /**
