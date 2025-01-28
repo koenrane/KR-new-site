@@ -62,8 +62,6 @@ const darkMode = (
 const searchHTML = (
   <div className="search" id="nav-searchbar">
     <div className="no-select" id="search-icon">
-      <p>Search</p>
-      <div></div>
       <svg
         tabIndex={0}
         aria-labelledby="title desc"
@@ -78,6 +76,7 @@ const searchHTML = (
           <circle cx="8" cy="8" r="7" />
         </g>
       </svg>
+      <p>Search</p>
     </div>
   </div>
 )

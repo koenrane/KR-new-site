@@ -9,10 +9,9 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin: 0.08rem 0;
+    margin: 0;
     margin-top: $base-margin;
-    padding: $base-margin;
-    padding-top: 0;
+    padding: 0;
     background-color: var(--background);
 
     & li {
@@ -126,13 +125,6 @@
   }
 }
 
-@media all and (max-width: $tablet-breakpoint) {
-  .search > #search-icon > p {
-    padding: 0;
-    padding-left: calc(2 * $base-margin);
-  }
-}
-
 /* Center the site name under the pond video */
 .page-title-text {
   text-align: center;
@@ -153,8 +145,9 @@
   }
 
   @media all and (min-width: $full-page-width) {
-    margin-bottom: $base-margin;
+    margin-bottom: calc(0.5 * $base-margin);
     margin-top: 0;
+    margin-right: calc(0.25 * $base-margin); // Make it flush with the site links
     font-size: var(--text-size-500);
   }
 }
@@ -162,11 +155,12 @@
 #navbar-left,
 .navbar-left {
   display: flex;
-  align-items: center;
   position: relative;
+  align-items: center;
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
+    align-items: flex-end;
   }
 }
 
@@ -176,6 +170,8 @@
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
+    align-items: flex-end;
+    margin-right: calc(0.25 * $base-margin);
   }
 }
 
