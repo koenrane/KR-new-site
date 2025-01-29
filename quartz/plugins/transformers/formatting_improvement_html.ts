@@ -8,7 +8,13 @@ import { visit } from "unist-util-visit"
 import { visitParents } from "unist-util-visit-parents"
 
 import { QuartzTransformerPlugin } from "../types"
-import { replaceRegex, fractionRegex, numberRegex } from "./utils"
+import {
+  replaceRegex,
+  fractionRegex,
+  numberRegex,
+  hasAncestor,
+  ElementMaybeWithParent,
+} from "./utils"
 
 /**
  * @module HTMLFormattingImprovement
@@ -211,6 +217,7 @@ export function fullWidthSlashes(text: string): string {
  *  Number ranges should use en dashes, not hyphens.
  *  Allows for page numbers in the form "p.206-207"
  *
+ *  Included in hyphenReplace()
  * @returns The text with en dashes in number ranges
  */
 export function enDashNumberRange(text: string): string {
@@ -274,6 +281,7 @@ export function hyphenReplace(text: string) {
   text = text.replace(startOfLine, "$<markerBefore>—$<markerAfter> $<after>")
 
   text = enDashNumberRange(text)
+  text = enDashDateRange(text)
 
   return text
 }
@@ -315,32 +323,34 @@ export const months = [
 
 /**
  * Replaces hyphens with en dashes in month ranges
- * Handles abbreviated and full month names
+ * Handles abbreviated and full month names. Included in hyphenReplace()
  * @returns The text with en dashes in month ranges
  */
 export function enDashDateRange(text: string): string {
   return text.replace(new RegExp(`\\b(${months}${chr}?)-(${chr}?(?:${months}))\\b`, "g"), "$1–$2")
 }
 
-// Not used in this module, but useful elsewhere
+// These lists are automatically added to both applyTextTransforms and the main HTML transforms
+// Don't check for invariance
+const uncheckedTextTransformers = [hyphenReplace, niceQuotes]
+
+// Check for invariance
+const checkedTextTransformers = [minusReplace, massTransformText, plusToAmpersand, timeTransform]
+
 /**
  * Applies multiple text transformations
+ *
+ * Not used in this module, but useful elsewhere
+ *
  * @returns The transformed text
  */
 export function applyTextTransforms(text: string): string {
-  text = text.replace(/\u00A0/gu, " ") // Replace non-breaking spaces
-  text = minusReplace(text)
-  text = massTransformText(text)
-  text = niceQuotes(text)
-  text = fullWidthSlashes(text)
-  text = hyphenReplace(text)
-  text = plusToAmpersand(text)
-  text = enDashNumberRange(text)
-  text = enDashDateRange(text)
-  try {
-    assertSmartQuotesMatch(text)
-  } catch {
-    // Ignore
+  for (const transformer of [
+    ...checkedTextTransformers,
+    ...uncheckedTextTransformers,
+    fullWidthSlashes,
+  ]) {
+    text = transformer(text)
   }
 
   return text
@@ -620,7 +630,18 @@ export function plusToAmpersand(text: string): string {
   return result
 }
 
+// The time regex is used to convert 12:30 PM to 12:30 p.m.
+export function timeTransform(text: string): string {
+  const matchFunction = (_: string, ...args: unknown[]) => {
+    const groups = args[args.length - 1] as { time: string }
+    return `${groups.time.toLowerCase()}.m.`
+  }
+  const regex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)`, "gi")
+  return text.replace(regex, matchFunction)
+}
+
 const massTransforms: [RegExp | string, string][] = [
+  [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],
   [/\b(?:i\.i\.d\.|iid)/gi, "IID"],
   [/\b([Ff])rappe\b/g, "$1rappé"],
@@ -644,30 +665,6 @@ export function massTransformText(text: string): string {
     text = text.replace(regex, replacement)
   }
   return text
-}
-
-/**
- * Interface for elements that may have a parent reference
- */
-export interface ElementMaybeWithParent extends Element {
-  parent: ElementMaybeWithParent | null
-}
-
-// TODO remove this
-export function hasAncestor(
-  node: ElementMaybeWithParent,
-  ancestorPredicate: (anc: Element) => boolean,
-): boolean {
-  let ancestor: ElementMaybeWithParent | null = node
-
-  while (ancestor) {
-    if (ancestorPredicate(ancestor)) {
-      return true
-    }
-    ancestor = ancestor.parent
-  }
-
-  return false
 }
 
 export function isCode(node: Element): boolean {
@@ -835,17 +832,11 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
       // NOTE: Will be called multiple times on some elements, like <p> children of a <blockquote>
       const eltsToTransform = collectTransformableElements(node as Element)
       eltsToTransform.forEach((elt) => {
-        // Pass ancestors to transformElement
-        transformElement(elt, hyphenReplace, toSkip, false)
-        transformElement(elt, niceQuotes, toSkip, false)
+        for (const transform of uncheckedTextTransformers) {
+          transformElement(elt, transform, toSkip, false)
+        }
 
-        for (const transform of [
-          minusReplace,
-          enDashNumberRange,
-          enDashDateRange,
-          plusToAmpersand,
-          massTransformText,
-        ]) {
+        for (const transform of checkedTextTransformers) {
           transformElement(elt, transform, toSkip, true)
         }
 
