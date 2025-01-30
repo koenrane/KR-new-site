@@ -187,6 +187,12 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
 Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 
+| HellaSwag | MMLU  | NaturalQuestions | TruthfulQA |
+| :-------: | :---: | :--------------: | :--------: |
+|   +0.6%   | -1.0% | -0.7%            | +10.5%     |
+
+Table: Ensure that word wrapping works properly on table header elements. Previously, the "NaturalQuestions" wrapped the "s."
+
 # Media
 
 ## Video

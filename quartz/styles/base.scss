@@ -493,6 +493,7 @@ th {
   text-align: left;
   padding: $base-margin calc(1.5 * $base-margin);
   border-bottom: 2px solid var(--midground);
+  word-wrap: normal;
   font-weight: 500;
 }
 
