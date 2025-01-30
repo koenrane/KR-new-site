@@ -1007,25 +1007,25 @@ iframe {
 }
 
 #emoji-comparison-figure {
-  div {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+  & div {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
     margin-bottom: 1rem;
   }
 
-  img {
+  & img {
     width: min(100px, 12vw);
     aspect-ratio: 1;
     object-fit: contain;
     margin: 0 auto;
   }
 
-  .subfigure {
+  & .subfigure {
     display: flex;
     flex-direction: column;
+    flex: 1 0 calc(15%);
     align-items: center;
   }
 }
