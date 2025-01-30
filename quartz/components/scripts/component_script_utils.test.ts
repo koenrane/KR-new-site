@@ -122,7 +122,12 @@ describe("wrapWithoutTransition", () => {
     expect(func).toHaveBeenCalled()
     expect(result).toBe("result")
 
-    jest.advanceTimersByTime(32) // Advance past both rAF calls
+    // Class should not be removed before 1000ms
+    jest.advanceTimersByTime(500)
+    expect(removeClassSpy).not.toHaveBeenCalled()
+
+    // Class should be removed after 1000ms
+    jest.advanceTimersByTime(500)
     expect(removeClassSpy).toHaveBeenCalledWith("temporary-transition")
 
     addClassSpy.mockRestore()

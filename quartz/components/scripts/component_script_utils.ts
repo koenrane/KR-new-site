@@ -192,12 +192,9 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
       result = func(...args)
     })
 
-    // Wait two animation frames to ensure transitions are complete
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        document.documentElement.classList.remove("temporary-transition")
-      })
-    })
+    setTimeout(() => {
+      document.documentElement.classList.remove("temporary-transition")
+    }, 1000)
 
     if (result === undefined) {
       throw new Error("Function returned undefined")
