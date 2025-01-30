@@ -67,6 +67,10 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
 
 
 def check_invalid_internal_links(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for links which do not have an href attribute or which start with
+    "https://".
+    """
     invalid_internal_links = []
     links = soup.find_all("a", class_="internal")
     for link in links:
