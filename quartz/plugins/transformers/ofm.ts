@@ -12,13 +12,13 @@ import path from "path"
 import rehypeRaw from "rehype-raw"
 import { PluggableList } from "unified"
 import { SKIP, visit } from "unist-util-visit"
+// Script imports
+import { fileURLToPath } from "url"
 
 import { capitalize } from "../../util/lang"
 import { FilePath, slugTag, slugifyFilePath } from "../../util/path"
 import { JSResource } from "../../util/resources"
 import { QuartzTransformerPlugin } from "../types"
-// Script imports
-import { fileURLToPath } from "url"
 const currentFilePath = fileURLToPath(import.meta.url)
 const currentDirPath = path.dirname(currentFilePath)
 
@@ -172,7 +172,7 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       const width = match?.groups?.width ?? "auto"
       const height = match?.groups?.height ?? "auto"
       const specifiedDimensions = width !== "auto" || height !== "auto"
-      const alt = specifiedDimensions ? "" : match?.groups?.alt ?? ""
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
       return {
         type: "image",
         url,

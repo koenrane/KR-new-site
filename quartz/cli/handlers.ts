@@ -17,14 +17,13 @@ import prettyBytes from "pretty-bytes"
 import serveHandler from "serve-handler"
 import { WebSocketServer, WebSocket } from "ws"
 
+// Import the generate function
+import { generateScss } from "../styles/generate-variables"
 import {
   version,
   fp,
   cacheFile, // @ts-expect-error Importing from a JS file, no types
 } from "./constants.js"
-
-// Import the generate function
-import { generateScss } from "../styles/generate-variables"
 
 interface BuildArguments {
   serve?: boolean

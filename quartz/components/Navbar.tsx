@@ -6,11 +6,11 @@ import React from "react"
 import { i18n } from "../i18n"
 import { FullSlug, pathToRoot, resolveRelative } from "../util/path"
 import { headerVideoContainer } from "./PageTitle"
-import navbarStyle from "./styles/navbar.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 // @ts-expect-error Not a module but a script
 // skipcq: JS-W1028
 import script from "./scripts/navbar.inline"
+import navbarStyle from "./styles/navbar.scss"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const darkMode = (
   <span className="darkmode no-select">
