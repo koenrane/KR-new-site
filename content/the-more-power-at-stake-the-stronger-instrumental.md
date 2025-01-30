@@ -42,8 +42,9 @@ skip_import: true
 card_image:
 description: Instrumental convergence strengthens proportional to the ratio of an
   agent's control if it survives to its control if it dies.
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

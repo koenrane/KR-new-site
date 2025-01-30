@@ -19,8 +19,9 @@ sequence-link: posts#becoming-stronger
 prev-post-slug: alignment-phd
 prev-post-title: Looking back on my alignment PhD
 date_published: 2025-01-23 20:50:38.343137
-date_updated: 2025-01-23 20:51:08.643622
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 In physics, there are simple laws and complex consequences. In math, a good formalism (like a "graph") may well appear wherever you concentrate your attention. In economics, incentive structures fractally explain behavior at a range of scales, from intrapersonal to international.

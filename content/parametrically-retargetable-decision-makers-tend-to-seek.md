@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/GY49CKBkEs3bEpteM/parametrically-r
 skip_import: true
 description: "New theoretical results uncover a surprising truth: the ability to change\
   \ an agent's goals can lead them to seek power."
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

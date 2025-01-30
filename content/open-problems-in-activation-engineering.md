@@ -34,8 +34,9 @@ original_url: https://www.lesswrong.com/posts/JMebqicMD6azB8MwK/open-problems-in
 skip_import: true
 description: Open questions on controlling language models at runtime via activation
   engineering.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

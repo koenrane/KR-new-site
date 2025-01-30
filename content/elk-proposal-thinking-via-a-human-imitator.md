@@ -29,8 +29,9 @@ original_url: https://www.lesswrong.com/posts/z3xTDPDsndJBmHLFH/elk-proposal-thi
 skip_import: 'true'
 description: "A proposal to solve ELK by routing an AI's knowledge through a simulated\
   \ human mind, forcing interpretability as an instrumental subgoal. "
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

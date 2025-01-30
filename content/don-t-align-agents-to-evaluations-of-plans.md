@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/fopZesxLCGAXqqaPv/don-t-align-agen
 description: "A subtle point: aligning an AI to evaluations of your goals won't give\
   \ you what you want. Don't do it."
 skip_import: true
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

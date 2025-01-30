@@ -3,8 +3,7 @@ permalink: formalizing-alignment-in-game-theory
 lw-was-draft-post: 'false'
 lw-is-af: 'true'
 lw-is-debate: 'false'
-lw-page-url: 
-  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+lw-page-url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 lw-is-question: 'false'
 lw-posted-at: 2021-06-08T12:36:07.156000Z
 lw-last-modification: 2021-06-08T19:41:34.041000Z
@@ -30,13 +29,13 @@ aliases:
 lw-payoff-post-warning: 'false'
 use-full-width-images: 'false'
 date_published: 2021-06-08 00:00:00
-original_url: 
-  https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
+original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-alignment-in-terms-of-attainable-utility
 skip_import: true
 description: A game-theoretic examination of how "aligned" agents are in a multi-player
   game, using an alignment metric based on social welfare functions.
-date_updated: 2024-12-18 22:41:47.892511
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/rauMEna2ddf26BqiE/alignment-allows
 skip_import: true
 description: Values steer optimization, they are not optimized against. Values don't
   have to be robustly "correct", because they are not the thing being optimized.
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

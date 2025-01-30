@@ -37,8 +37,9 @@ original_url: https://www.lesswrong.com/posts/WPtdQ3JnoRSci87Dz/set-up-for-succe
 skip_import: true
 description: Functions are static sets; families are functions; Zorn's Lemma is hard.
   I reflect on my set theory learnings and effective self-study strategies.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

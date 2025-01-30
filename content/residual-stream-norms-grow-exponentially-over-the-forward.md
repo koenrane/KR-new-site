@@ -3,8 +3,7 @@ permalink: residual-stream-norms-grow-exponentially-over-the-forward-pass
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: 
-  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+lw-page-url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 lw-is-question: "false"
 lw-posted-at: 2023-05-07T00:46:02.658000Z
 lw-last-modification: 2023-06-27T22:46:07.824000Z
@@ -29,14 +28,14 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2023-05-07 00:00:00
-original_url: 
-  https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
+original_url: https://www.lesswrong.com/posts/8mizBCm3dyc432nK8/residual-stream-norms-grow-exponentially-over-the-forward
 skip_import: true
 card_image: https://assets.turntrout.com/static/images/card_images/hpgem17ggmbpgnwcvdut.png
 description: Residual stream norms grow, perhaps due to layer normalization making
   it hard to delete information and easier to overshadow it.
-date_updated: 2024-12-05 16:17:06.041179
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

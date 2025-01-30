@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/C6XJcWtxcMTeQPBs3/the-first-rung-i
 skip_import: true
 description: "The author rediscovers their love for math while rigorously studying\
   \ linear algebra, sharing insights and lessons learned along the way. "
-date_updated: 2024-12-12 22:05:58.602985
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

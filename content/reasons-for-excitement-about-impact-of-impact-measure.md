@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/wAAvP8RG6EwzCvHJy/reasons-for-exci
 skip_import: true
 description: Impact measure research deconfuses power-seeking incentives in AI, aiding
   alignment efforts.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

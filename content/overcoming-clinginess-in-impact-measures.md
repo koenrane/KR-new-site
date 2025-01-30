@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/DvmhXysefEyEvXuXS/overcoming-cling
 skip_import: true
 description: Impact measures incentivize agents to avoid side effects, but what about
   the side effects of ★other agents★?
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

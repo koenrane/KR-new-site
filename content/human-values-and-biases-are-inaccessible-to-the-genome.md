@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/CQAMdzA4MZEhNRtTp/human-values-and
 skip_import: "true"
 description: The genome can't directly hardwire complex human values like "fear of
   death." Those values probably arise from simpler, hardcoded learning mechanisms.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

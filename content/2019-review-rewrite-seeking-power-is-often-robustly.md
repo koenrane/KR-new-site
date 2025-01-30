@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/mxXcPzpgGx4f8eK7v/2019-review-rewr
 skip_import: true
 description: Revised post clarifies theory on power-seeking  and corrects terminology
   used in the original post.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

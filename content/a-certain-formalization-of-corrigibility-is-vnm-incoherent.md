@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/WCX3EwnWAx7eyucqH/a-certain-formal
 skip_import: true
 description: Formal analysis showing that, for agents optimizing a reward function,
   corrigibility is rare and perhaps even incoherent.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

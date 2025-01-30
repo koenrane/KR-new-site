@@ -34,8 +34,9 @@ original_url: https://www.lesswrong.com/posts/8LEPDY36jBYpijrSw/what-counts-as-d
 skip_import: true
 description: "A game-theoretic formalism of “defection”, analyzing whether an action\
   \ is self-serving at the expense of the group."
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

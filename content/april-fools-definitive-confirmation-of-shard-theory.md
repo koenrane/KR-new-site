@@ -35,8 +35,9 @@ original_url: https://www.lesswrong.com/posts/wvbGiHwbie24mmhXw/april-fools-defi
 skip_import: true
 description: Shard theory, once speculative, is definitively confirmed by gpt-neox-20b.
   Time to stop arguing and start experimenting.
-date_updated: 2024-10-31 23:14:34.832290
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

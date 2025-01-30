@@ -33,8 +33,9 @@ no_dropcap: true
 skip_import: true
 description: Considering how to ethically manage AI equity when my goal is to reduce
   AI risk, not maximize profit.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

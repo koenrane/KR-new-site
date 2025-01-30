@@ -3,8 +3,7 @@ permalink: llama2-steering-vectors
 lw-was-draft-post: "false"
 lw-is-af: "true"
 lw-is-debate: "false"
-lw-page-url: 
-  https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
+lw-page-url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 lw-linkpost-url: https://arxiv.org/abs/2312.06681
 lw-is-question: "false"
 lw-posted-at: 2024-01-02T00:47:04.621000Z
@@ -34,13 +33,13 @@ aliases:
 lw-reward-post-warning: "false"
 use-full-width-images: "false"
 date_published: 2024-01-02 00:00:00
-original_url: 
-  https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
+original_url: https://www.lesswrong.com/posts/v7f8ayBxLhmMFRzpa/steering-llama-2-with-contrastive-activation-additions
 skip_import: true
 description: Steering Llama-2 towards or away from various traits using sample-efficient
   steering vectors.
-date_updated: 2024-11-26 22:19:00.264857
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/eX2aobNp5uCdcpsiK/on-being-robust
 skip_import: true
 description: "How to avoid feeling like a fraud: build good habits and stop cutting\
   \ corners."
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 > [!thanks]

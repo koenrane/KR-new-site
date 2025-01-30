@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/FuGDYNvA6qh4qyFah/thoughts-on-huma
 skip_import: true
 description: Stuart Russell's "Human Compatible" makes the case for aligning AI with
   human values and sketches a research agenda based on uncertainty.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/jqME8gHyC9maaH7Rp/a-kernel-of-trut
 skip_import: true
 description: 'Functional analysis: infinite dimensions, discontinuous linear functions,
   and the headache-inducing functional derivative.'
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

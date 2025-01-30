@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/mDTded2Dn7BKRBEPX/penalizing-impac
 skip_import: true
 description: A new AI safety paper formalizing "attainable utility preservation" to
   penalize negative AI impacts, with experimental results.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

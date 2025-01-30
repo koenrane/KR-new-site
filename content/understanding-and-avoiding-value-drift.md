@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/jFvFreCeejRKaZv4v/understanding-an
 skip_import: true
 description: "A shard theory analysis of value drift: what it is, how it happens,\
   \ and how to avoid it, even without controlling your experiences. "
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

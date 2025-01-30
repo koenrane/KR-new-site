@@ -5,11 +5,12 @@ publish: "true"
 hideSubscriptionLinks: false
 description: A tour of the research areas I've loved over the years.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-12-17 19:17:34.501579
+date_updated: 2025-01-30 09:30:36.233182
 tags:
   - AI
 title: My research
 ---
+
 
 
 

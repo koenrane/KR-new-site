@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/sunXMY5WyDcrHsNRr/a-world-in-which
 skip_import: true
 description: "This post explores a hypothetical scenario where the AI alignment problem\
   \ seems lower-stakes due to a unique universe structure. "
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 

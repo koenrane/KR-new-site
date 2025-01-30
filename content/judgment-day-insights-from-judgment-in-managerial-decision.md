@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/MjZSdPEd94sp48EFC/judgment-day-ins
 skip_import: true
 description: Insights from a management textbook on how to improve decision-making,
   negotiate effectively, and overcome cognitive biases.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-01-30 09:30:36.233182
 ---
+
 
 
 
