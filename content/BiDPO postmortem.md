@@ -107,7 +107,7 @@ Ensure datasets have statistical power to make progress.
 
 ![](https://assets.turntrout.com/static/images/posts/contrastive-posterior.avif)
 
-Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
+Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. The X-axis shows the "contrastive advantage" of the BiDPO vector over the baseline. This posterior contrast takes into account finite sample effects and allows us to estimate the probability the BiDPO vector's effect is via chance.<br/><br/>A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
 
 Generate and analyze data separately:
 : Separation protects against possible generation pipeline changes or breaks. Error prevented: Inability to plot complete 1.5v1 statistics on e.g. multi-shot prompting (as we didn't expect to regenerate those).
