@@ -271,6 +271,5 @@
 @media all and (max-width: $tablet-breakpoint) {
   .search > #search-icon > p {
     padding: 0;
-    padding-left: calc(2 * $base-margin);
   }
 }
