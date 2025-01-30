@@ -170,7 +170,7 @@ I lastly want to note that there is no reason that any particular argument need 
 
 ### The counting argument doesn't count
 
-Undo the update from the "counting argument", however, and the probability of scheming plummets substantially. If we aren't expecting scheming AIs, that transforms the threat model. We can rely more on experimental feedback loops on future AI; we don't have to get worst-case interpretability on future networks; it becomes far easier to just use the AIs as tools which do things we ask. That doesn't mean everything will be OK. But not having to handle scheming AI is a gamechanger.
+Undo the update from the "counting argument", however, and the probability of scheming plummets substantially. If we aren't expecting scheming AIs, that transforms the threat model. We can rely more on experimental feedback loops on future AI; we don't have to get worst-case interpretability on future networks; it becomes far easier to just use the AIs as tools which do things we ask. That doesn't mean everything will be OK. But not having to handle scheming AI is a game changer.
 
 ## Other clusters of mistakes
 

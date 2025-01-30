@@ -55,9 +55,9 @@ Using Gemini Flash 1.5v1, we observed positive signals for vectors trained on Tr
 
 7. A single BIDPO update on a single TruthfulQA datapoint produced a >10% boost on TruthfulQA validation, and several seeds produced a 7% boost. We were excited by the possibility of extreme sample- and parameter-efficiency.
 
-| Hellaswag | MMLU  | NaturalQuestions | TruthfulQA |
+| HellaSwag | MMLU  | NaturalQuestions | TruthfulQA |
 | :-------: | :---: | :--------------: | :--------: |
-| +0.6%     | -1.0% | -0.7%            | +10.5%     |
+|   +0.6%   | -1.0% | -0.7%            | +10.5%     |
 
 Table: Impact of a vector trained for a single step on a single datapoint.
 
