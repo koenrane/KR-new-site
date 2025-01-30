@@ -62,6 +62,7 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
   // Test closed state
   await menuButton.click()
   const newMenuButtonState = await menuButton.screenshot()
+  // TODO failing for ipad pro chrome (flakily)
   expect(newMenuButtonState).toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).not.toBeVisible()
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
