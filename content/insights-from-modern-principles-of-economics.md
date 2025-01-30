@@ -83,7 +83,9 @@ Good economic policy is a weapon against suffering, against disease and disorder
 
 Good economic policy makes [selfish actors conspire to deliver cheap, delicious pastries to your doorstep in less than an hour](https://www.ubereats.com/).
 
+<!-- vale off -->
 Good economic policy is often [about expanding the pie, instead of fighting over who gets what part today](https://www.lesswrong.com/posts/z7YvA5osMotdL5F4w/conflict-vs-mistake-in-non-zero-sum-games). This very moment, a vast universe full of energy and resources burns away.
+<!-- vale on -->
 
 <hr/>
 
@@ -98,7 +100,7 @@ As a teenager, I thought that:
 - outgroup members thought homeless people were lazy, but obviously that wasn't usually true, and those homeless people need direct fiscal help
 - price gouging is bad because it's wrong to take advantage of people in emergencies
 
-But I didn't know anything about aggregate demand, or the costs/benefits of expansionary fiscal policy, or poverty traps, or prices-as-signals. I'd basically just absorbed sentiments from my political upbringing—I recently noticed that I disliked "supply-side economics" without even knowing what that _is_! These sentiments were sometimes mostly right, and sometimes incredibly wrong.
+I didn't know anything about aggregate demand, or the costs/benefits of expansionary fiscal policy, or poverty traps, or prices-as-signals. I'd basically just absorbed sentiments from my political upbringing—I recently noticed that I disliked "supply-side economics" without even knowing what that _is_! These sentiments were sometimes mostly right, and sometimes incredibly wrong.
 
 This book brought me two benefits. First, it introduces important frames for thinking. Second, it has lots of interesting facts and compelling philosophical arguments.
 
@@ -116,7 +118,7 @@ So let's go.
 
 # Incentives matter
 
-How do people decide what to buy and where to work, what opportunities to take and where to build? _Microeconomics_ models decision-making by consumers and firms. Basic microeconomic models assume that people want to make money, and they're good at it—they are rational. Unsurprisingly, this isn't quite true, but the models let us easily think about what incentives people have in different situations.
+How do people decide what to buy and where to work, what opportunities to take and where to build? _Microeconomics_ models decision-making by consumers and firms. Basic microeconomic models assume that people want to make money, and they're good at it—they are rational. Unsurprisingly, this isn't strictly true, but the models let us easily think about what incentives people have in different situations.
 
 > [!info]
 > We can add corrections to the Econ 101 arguments later. I think this is better than throwing up your hands and saying "Econ doesn't have all the answers, people are too complicated!")
@@ -149,7 +151,7 @@ Consider a competitive snow shovel market, where firms can price shovels as they
 
 Because people want more snow shovels, the price increases from $P_1$ to $P_2$. (This is the "price gouging" part.) So here is the painful part of the picture. Now snow shovels are expensive, and some people can't afford them, and also _fuck you_ to the people taking advantage of a disaster just for a few bucks. Many people have this gut-level reaction.
 
-But what comes next? Suppose the storm hits Wisconsin. Demand goes up, so prices go up. _Since firms want to make money_, suppliers in neighboring states (e.g. Iowa and Illinois) will start trucking in snow shovels and selling them at a high—but slightly lower—price. In fact, the hardest-hit areas with the highest prices will get prioritized for more supply, so that firms can make more money. As more firms enter the Wisconsin snow shovel market, they compete over price and eventually the price settles back to the original $P_1$ as demand subsides.
+What comes next? Suppose the storm hits Wisconsin. Demand goes up, so prices go up. _Since firms want to make money_, suppliers in neighboring states (e.g. Iowa and Illinois) will start trucking in snow shovels and selling them at a high—but slightly lower—price. In fact, the hardest-hit areas with the highest prices will get prioritized for more supply, so that firms can make more money. As more firms enter the Wisconsin snow shovel market, they compete over price and eventually the price settles back to the original $P_1$ as demand subsides.
 
 _Prices are signals about which places want which goods_, and free markets maximize social benefit when firms make money by responding to those price signals. The high price of snow shovels is like a huge neon sign which spells **hey if you bring more snow shovels here you can make a lot of profit!**
 
@@ -224,7 +226,7 @@ Before I talk about the book holistically, here are more snippets:
 
 - The much-maligned capitalism is actually probably the greatest incentive alignment success in human history.
 
-  - This is the whole point made by the "invisible hand" idea: Competitive markets "invisibly" have each firm produce until price equals marginal cost, and this minimizes total cost to society. While each firm pursues selfish interests, they advance societal goals by creating huge amounts of value in order to make money.
+  - The "invisible hand" idea attempts to explain this success. Competitive markets "invisibly" have each firm produce until price equals marginal cost, and this minimizes total cost to society. While each firm pursues selfish interests, they advance societal goals by creating huge amounts of value in order to make money.
   - (Just think about how much you'd be willing to pay for glasses, and how much you actually have to pay! And that market isn't even that competitive! Isn't [consumer surplus](https://www.investopedia.com/terms/c/consumer_surplus.asp) amazing?)
 
 - Rent controls are bad. Controls on competitive markets are generally bad.
@@ -250,9 +252,9 @@ Before I talk about the book holistically, here are more snippets:
 
   - I thought wrong. Fractional reserve banking is stupidly simple. Banks keep a fraction of deposits on hand as "reserves", in case customers want to make withdrawals. The rest of the deposits are loaned out. These loans put the money to work, growing the economy with people's savings while also ensuring that people can withdraw their money.
 
-    - This is why "just lock your gold underground" Gringotts is dumb: The wizarding economy could be growing using some of Lucius Malfoy's money. Lucius, Gringotts, and the economy would benefit from this arrangement.
+    - Therefore, "just lock your gold underground" Gringotts is dumb: The wizarding economy could be growing using some of Lucius Malfoy's money. Lucius, Gringotts, and the economy would benefit from this arrangement.
 
-  - This is a general pattern: The key concepts in economics do not require nearly as much mental scaffolding as math concepts do. (Try explaining topological continuity in three sentences.)
+  - The key concepts in economics do not require nearly as much mental scaffolding as math concepts do. (Try explaining topological continuity in three sentences.)
     - _Applying_ economic reasoning is [still a delicate endeavor](https://www.lesswrong.com/posts/MgFDzAfCku9MSDLuw/six-economics-misconceptions-of-mine-which-i-ve-resolved), though.
 
 - I now know what the Federal Reserve is and what they do.
@@ -269,7 +271,7 @@ Before I talk about the book holistically, here are more snippets:
 
 # Reflections
 
-- I'm very glad that [I've used Anki](/self-teaching-insights). I probably made over 500 cards for this book, not only for the key vocab but also for charts, for brain-teasers, for cool pieces of reasoning the authors used. [Cloze deletions](https://www.ollielovell.com/edtech/anki3/) are fast and convenient for all of these purposes.
+- I'm glad that [I've used Anki](/self-teaching-insights). I probably made over 500 cards for this book, not only for the key vocab but also for charts, for brain-teasers, for cool pieces of reasoning the authors used. [Cloze deletions](https://www.ollielovell.com/edtech/anki3/) are fast and convenient for all of these purposes.
 - This book is long. 800 pages long. It covers both micro- and macro-economics, and I was pleasantly surprised by the macro part. I'd heard macro is garbage, but I think it's just less understood than micro.
 - [investopedia](https://www.investopedia.com/) and [econlib](https://www.econlib.org/) are great resources for learning about economics.
 - It took a while for me to get comfortable with economics. At first, I felt uncomfortable and reluctant to read more, because everything seemed mildly confusing. Now I can read papers (with great effort) and have a good idea what they're talking about. Learning more is now easy and fun; I've crossed the hump for economics in [the same way I crossed the hump for mathematics](/posts#becoming-stronger).

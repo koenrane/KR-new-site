@@ -75,14 +75,17 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
             <!DOCTYPE html>
             <html lang="en-us">
             <head>
-              <title>${title}</title>
-              <link rel="canonical" href="${redirUrl}">
-              <meta name="robots" content="noindex">
               <meta charset="utf-8">
-              <meta http-equiv="refresh" content="0; url=${redirUrl}">
-              
-              <!-- Mirror original metadata -->
+              <link rel="canonical" href="${redirUrl}">
+
+              <title>${title}</title>
               <meta name="description" content="${description}">
+
+              <meta name="robots" content="noindex">
+              <meta http-equiv="refresh" content="0; url=${redirUrl}">
+              <meta name="viewport" content="width=device-width">
+              
+              <!-- Open Graph metadata -->
               <meta property="og:title" content="${title}">
               <meta property="og:type" content="article">
               <meta property="og:url" content="${redirUrl}">
@@ -91,6 +94,7 @@ export const AliasRedirects: QuartzEmitterPlugin = () => ({
               <meta property="og:image" content="${cardImage}">
               <meta property="og:image:width" content="1200">
               <meta property="og:image:height" content="630">
+              <meta property="og:image:alt" content="A pond containing a trout and a goose peacefully swimming near a castle.">
               
               <!-- Twitter Card metadata -->
               <meta name="twitter:card" content="summary_large_image">

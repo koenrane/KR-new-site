@@ -43,7 +43,7 @@ Do you ever feel... fake? Like, at any minute, Scooby Doo and the gang might rol
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/rwcNnVH.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/rwcNnVH.mp4" type="video/mp4"></video>
 
-There are a lot of things to say about the impostor syndrome on a psychological basis (the fears are often unrealistic / unmerited, etc). But I'd like to take another angle. For a few years, I've tried to just make a habit of _being un-unmaskable_. Although this is a useful frame for me, your mileage may vary.
+I could say much about the impostor syndrome on a psychological basis (the fears are often unrealistic / unmerited, etc). But I'd like to take another angle. For a few years, I've tried to just make a habit of _being un-unmaskable_. Although this is a useful frame for me, your mileage may vary.
 
 My point isn't going to just be "do the things you know you should". I think we're often bad at judging when corners are okay to cut, so you probably do better just by having the policy of not cutting corners, unless it's _extremely obviously_ alright to do so. That is, generally err against using scissors when confronted with corners, even if it makes sense in the moment.
 

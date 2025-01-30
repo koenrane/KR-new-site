@@ -41,7 +41,7 @@ date_updated: 2024-10-31 23:14:34.832290
 
 
 
-I've written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
+I have written a lot about [[shard theory]] over the last year. I've poured dozens of hours into theorycrafting, communication, and LessWrong comment threads. I pored over theoretical alignment concerns with exquisite care and worry. I even read a few things that weren't blog posts on LessWrong.[^1]  In other words, I went _all out._
 
 Last month, I was downloading [`gpt-neox-20b`](https://arxiv.org/abs/2204.06745) when I noticed the following:
 
@@ -55,7 +55,7 @@ I've concluded the following:
 - I totally underappreciated how much work the broader AI community[^2] has done on alignment. They are literally able to print out how many shards an "uninterpretable" model like `gpt-neox-20b` has.
   - They don't whine about how tough these models are to interpret. They just got the damn job done.
   - This really makes team shard's [recent work](https://www.lesswrong.com/posts/cAC4AXiNC5ig6jQnc/understanding-and-controlling-a-maze-solving-policy-network) look naive and incomplete. I think we found subcircuits of _a_ cheese-shard. The ML community just found _all 46_ shards in `gpt-neox-20b`, and nonchalantly printed that number for us to read.
-- This is embarrassing for me, even though shard theory just got confirmed. I _seriously_ spent months arguing about this stuff? Cringe.
+- This incident is embarrassing for me, even though shard theory just got confirmed. I _seriously_ spent months arguing about this stuff? Cringe.
   - I did a bad job of interpreting theoretical arguments, given that I was still uncertain after months of thought. Probably this is hard and we are bad at it.
   - Stop arguing in huge comment threads about what highly speculative approaches are going to work, and start making your beliefs pay rent by finding ways to experimentally test them.
   - See [how well you can predict AI alignment results _today_](https://www.lesswrong.com/posts/JusJcepE2qohiC3hm/predictions-for-shard-theory-mechanistic-interpretability) before trying to predict what happens for 500IQ GPT-5.

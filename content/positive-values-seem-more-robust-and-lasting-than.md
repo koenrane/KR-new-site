@@ -51,9 +51,9 @@ Even assuming this much, the situation seems fragile. See, many value shards are
 
 The juice shard _chains into itself,_ as its outputs cause the learning process to further reinforce and generalize the juice-shard. This shard reinforces itself across time and thought-steps.
 
-But a "don't kill" shard seems like it should remain... stubby? Primitive? The "don't kill" shard can't self-chain into _not_ doing something. If you're going to kill someone, and then don't because of the don't-kill shard, and that avoids predicted negative reward... Then maybe the "don't kill" shard gets reinforced and generalized a bit because it avoided negative reward (and so reward was higher than predicted, which I think would trigger e.g. a reinforcement event in people).
+A "don't kill" shard seems like it should remain... stubby? Primitive? The "don't kill" shard can't self-chain into _not_ doing something. If you're going to kill someone, and then don't because of the don't-kill shard, and that avoids predicted negative reward... Then maybe the "don't kill" shard gets reinforced and generalized a bit because it avoided negative reward (and so reward was higher than predicted, which I think would trigger e.g. a reinforcement event in people).
 
-But—on my current guesses and intuitions[^1]—that shard doesn't become more sophisticated, it doesn't [become reflective](/a-shot-at-the-diamond-alignment-problem#The-agent-becomes-reflective), it doesn't "agentically participate" in the internal shard politics (e.g. the agent's "meta-ethics", deciding what kind of agent it "wants to become"). Other parts of the agent _want things_, they want paperclips or whatever, and that's harder to do if the agent isn't allowed to kill anyone.
+On my current guesses and intuitions[^1]—that shard doesn't become more sophisticated, it doesn't [become reflective](/a-shot-at-the-diamond-alignment-problem#The-agent-becomes-reflective), it doesn't "agentically participate" in the internal shard politics (e.g. the agent's "meta-ethics", deciding what kind of agent it "wants to become"). Other parts of the agent _want things_, they want paperclips or whatever, and that's harder to do if the agent isn't allowed to kill anyone.
 
 Crucially, the no-killing injunction can probably be steered around by the agent's other values. While the obvious route of lesioning the no-killing shard might be reflectively-predicted by the world model to lead to more murder, and therefore bid against _by_ the no-killing shard... There are probably ways to get around this obstacle. Other value shards (e.g. paperclips and cow-breeding) might bid up lesioning plans which are optimized so as to not make the killing a salient plan feature to the reflective world-model, and thus, the plan does not activate the no-killing shard.
 
@@ -62,7 +62,7 @@ This line of argumentation is a point in favor of the following: Don't embed a s
 > [!note] Other notes
 >
 > - Deontology seems most durable to me when it can be justified on consequentialist grounds. Perhaps this is one mechanistic reason why.
-> - This is one point in favor of the "convergent consequentialism" hypothesis, in some form.
+> - Robustness of positive values supports the "convergent consequentialism" hypothesis, in some form.
 > - I think that people are not usually defined by negative values (e.g. "don't kill"), but by positives, and perhaps this is important.
 
 [^1]: Which I won't actually detail right now.

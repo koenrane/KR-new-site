@@ -1,4 +1,4 @@
-import { wrapWithoutTransition } from "./util"
+import { wrapWithoutTransition } from "./component_script_utils"
 
 export function setupDarkMode() {
   const emitThemeChangeEvent = (theme: "light" | "dark") => {

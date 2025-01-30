@@ -1,4 +1,5 @@
 import { normalizeRelativeURLs } from "../../util/path"
+import { animate } from "./component_script_utils"
 
 export interface PopoverOptions {
   parentElement: HTMLElement
@@ -202,11 +203,15 @@ export function attachPopoverEventListeners(
 
   const removePopover = () => {
     popoverElement.classList.remove("visible")
-    setTimeout(() => {
-      if (!isMouseOverLink && !isMouseOverPopover) {
-        popoverElement.remove()
-      }
-    }, 300)
+    animate(
+      300,
+      () => {},
+      () => {
+        if (!isMouseOverLink && !isMouseOverPopover) {
+          popoverElement.remove()
+        }
+      },
+    )
   }
 
   const showPopover = () => {

@@ -59,7 +59,7 @@ Note: `sil ver` [already reviewed _Topology_](https://www.lesswrong.com/posts/rY
 
 # Topology
 
-Topology is about what it means for things to be "close" in a very abstract and general sense. Rather than taking on the monstrous task of intuitively explaining topology without math, I'm just going to talk about random things from the book and (literally) illustrate concepts which were at first confusing.
+Topology is about what it means for things to be "close" in a abstract and general sense. Rather than taking on the monstrous task of intuitively explaining topology without math, I'm just going to talk about random things from the book and (literally) illustrate concepts which were at first confusing.
 
 ## Compactness is a wonderful kind of mathematical "smallness"
 
@@ -69,7 +69,7 @@ Topology is about what it means for things to be "close" in a very abstract and 
 >
 > As a notion of smallness, then, compactness is a bit fraught. It’s a bit unsettling to say that a set can be “smaller” than a set that lies entirely inside it! But I think smallness is a valuable way to see compactness. A set that is compact may be large in area and complicated, but the fact that it is compact means we can interact with it in a finite way using open sets, the building blocks of topology.
 
-[Minimum description length says that an explanation is big if its shortest computational specification is long](https://www.readthesequences.com/Occams-Razor). You can have a simple explanation of a very long list of things or of a large universe, and extremely complicated explanations of things easily expressed in natural language (God's source code would be _a lot_ longer than Maxwell's equations).
+[Minimum description length says that an explanation is big if its shortest computational specification is long](https://www.readthesequences.com/Occams-Razor). You can have a simple explanation of a long list of things or of a large universe, and extremely complicated explanations of things easily expressed in natural language (God's source code would be _a lot_ longer than Maxwell's equations).
 
 [VC dimension says a class of hypotheses is hard to learn if it has lots of predictive degrees of freedom](https://en.wikipedia.org/wiki/Vapnik%E2%80%93Chervonenkis_dimension). You can have an infinite class of hypotheses which is really easy to learn because it has low VC dimension (thresholding functions at value $\theta$), and a finite class which is really hard to learn because it has high VC dimension (all C programs less than 1 million characters).
 

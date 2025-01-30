@@ -224,7 +224,7 @@ What does it really _mean_ for an "effect" to be "reversible"? What level of abs
 
 ## Ontological Crises
 
-When a utility-maximizing agent refactors its ontology, it isn't always clear how to apply the old utility function to the new ontology - this is called an _[ontological crisis](https://arxiv.org/abs/1105.3821)_.
+When a utility-maximizing agent refactors its ontology, it isn't always clear how to apply the old utility function to the new ontology - an _[ontological crisis](https://arxiv.org/abs/1105.3821)_.
 
 Whitelisting may be vulnerable to ontological crises. Consider an agent whose whitelist disincentivizes breaking apart a tile floor ($\textit{floor} \to \textit{tiles} \not \in \textit{whitelist}$); conceivably, the agent could come to see the floor as being composed of many tiles. Accordingly, the agent would no longer consider removing tiles to be a side effect.
 
@@ -232,7 +232,7 @@ Generally, proving invariance of the whitelist across refactorings seems tricky,
 
 ### Retracing Steps
 
-When I first encountered this problem, I was actually fairly optimistic. It was clear to me that any ontology refactoring should result in utility normalcy - roughly, the utility functions induced by the pre- and post-refactoring ontologies should output the same scores for the same worlds.
+When I first encountered the ontological crisis problem, I was actually fairly optimistic. It was clear to me that any ontology refactoring should result in utility normality - roughly, the utility functions induced by the pre- and post-refactoring ontologies should output the same scores for the same worlds.
 
 > Wow, this seems like a useful insight. Maybe I'll write something up!
 

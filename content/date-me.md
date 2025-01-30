@@ -27,14 +27,14 @@ Many people know me as `TurnTrout`, but you can call me "Alex". I want to let yo
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) through thick and thin. 💕
+I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕
 
 (And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
 
 # About me
 
-I'm kind, conscientious, and very ready to admit mistakes - maybe I'm _too_ ready, to be honest! Speaking of "honest", I'm also an extremely honest person. I haven't always lived as ethically or as honestly as I would now have preferred, and I'm surely going to make more mistakes, but _god damn_ if I'm not going to live this one life well.
+I'm kind, conscientious, and ready to admit mistakes - maybe I'm _too_ ready, to be honest! Speaking of "honest", I'm also an extremely honest person. I haven't always lived as ethically or as honestly as I would now have preferred, and I'm surely going to make more mistakes, but _god damn_ if I'm not going to live this one life well.
 
 If I make a commitment to you, I keep it, and I'm not particularly afraid of commitments. I'm someone you can rely on.[^perfect] One of my friends described me as "not the kind of person who will put up with \[unethical\] conspiracies."
 
@@ -52,7 +52,7 @@ I am pretty goofy if I trust and feel comfy around someone. I think I'd jive wel
 <figcaption>At my thesis defense in 2022.</figcaption>
 </figure>
 
-I'm very hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
+I'm hard-working. In 2017, in the second year of [my computer science PhD](/alignment-phd), I found out about the [AI alignment problem](https://en.wikipedia.org/wiki/AI_alignment). However, I lacked the skills to contribute to this hilariously neglected super-problem. That lack didn't really matter to me - I thought that the world needed something from me, and I wasn't going to _not even try_.
 
 I might not be good at something at first, but I don't quit! In the second year of my PhD I wasn't comfortable proving mathematical theorems. By the end of my fourth year, I had proved 281 new theorems.
 
@@ -64,7 +64,7 @@ I might not be good at something at first, but I don't quit! In the second year 
 </figure>
 That said, I've become a bit less research-focused recently. Somewhat relatedly, I'd become somewhat more anxious than I'd like. At the end of 2023, I realized that I just... wasn't enjoying my life? Since then, I've focused on meditation, intentionality, gratitude, and actually taking breaks.
 
-When I was younger, I wasn't very social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are very precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
+When I was younger, I wasn't social. These days, I love meeting new people! I'm an _ambivert_: sometimes socializing is energizing, but sometimes it's draining. I have a lot of friends who are precious to me, and I wish I could give each of them the time they each deserve. Sometimes I even look out over a city and wonder at the residents:
 
 <figure>
   <img src="https://assets.turntrout.com/Attachments/Pasted image 20240624142444.avif" alt="Night-time view of the Bay Area from the Berkeley hills"/>
@@ -124,7 +124,7 @@ AI-fueled house parties
 
 Design & art
 : I [designed this website](/design), for example!
-: While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were very dear to me, I wrote and illustrated a series of blog posts called [Reframing Impact](/reframing-impact):
+: While I don't draw anymore, I've really gone through phases here! For example, in order to communicate research insights which were dear to me, I wrote and illustrated a series of blog posts called [Reframing Impact](/reframing-impact):
 : ![The title card for the series. A cute robot plays around with blocks.](https://assets.turntrout.com/Attachments/reframingImpact.avif)
 : ![A recreation of the iconic](https://assets.turntrout.com/Attachments/balrog.avif)
 : ![I hand-illustrated Bag End from the Shire, with the help of a reference.](https://assets.turntrout.com/Attachments/hobbitImpactHouse.avif)
@@ -143,7 +143,9 @@ Reading textbooks
 ## Possible dealbreakers
 
 1. I probably (70%) will want kids within the next 5 years.
+<!-- vale off -->
 2. Polyamory is important to me. I find it natural to form romantic attachments with multiple people and am not very jealous. However, my "minimal viable polyamory" looks like "I keep seeing my partner Emma a few times a year, and talking with her regularly, while living with and marrying the person I'm currently looking for, and not engaging in any other relationships."
+<!-- vale on -->
 3. I currently live in Berkeley. I'm open to (but disprefer) a long-distance relationship if there's a good chance we end up in the same location, assuming the relationship is great! In particular, cities like New York and London are more workable (as DeepMind has offices there I could work out of).
 
 ## What I'm like in a relationship
@@ -163,13 +165,13 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
 - Being good at STEM is also hot
 - Non-avoidant attachment style
 - The kind of girl [^ethical]who would have refused to obey in [the Milgram experiment](https://en.wikipedia.org/wiki/Milgram_experiment) 🥰
-- Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30PM and we have an early morning the next day...
+- Spontaneous and medium-adventurous, but not to the point where you're trying to backflip out of a plane while naked even though it's 10:30 PM and we have an early morning the next day...
 - Some dispositional _je ne sais quoi_ which makes me feel at ease.
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
 If this sounds like a nice potential connection, I'd love to:
 1. Take you dancing 💃, or
-2. Spend a lazy Sunday morning watching the stream run by the [Hidden Cafe](https://www.thehiddencafe.life/), or
+2. Spend a lazy Sunday morning watching the stream run by the [Hidden Café](https://www.thehiddencafe.life/), or
 3. Have a sunset picnic and eat blueberries.
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>

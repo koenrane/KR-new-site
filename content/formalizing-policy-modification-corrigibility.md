@@ -131,7 +131,8 @@ The human and AI are choosing whether to color the walls blue or red; initially,
 
 Note that almost all state-based reward functions produce an optimal AI policy which forces one color or the other, so therefore the AI has minimal $\mathrm{Corrigibility}_{\textrm{PM}}$.
 
-(Higher-context aside: In this setting, the optimality is with respect to value estimates which account for how the bridging law $f$ modifies future policies; there is no "meta-policy", only initial policies $\pi^{AI}_1$ which are graded by their value estimates.)
+> [!note] Higher-context aside
+> In this setting, the optimality is with respect to value estimates which account for how the bridging law $f$ modifies future policies. No "meta-policy" here - only initial policies $\pi^{AI}_1$ which are graded by their value estimates.
 
 Echoing [_Corrigibility Can Be VNM-Incoherent_](/a-certain-formalization-of-corrigibility-is-vnm-incoherent), this highlights how corrigible policies can be unnatural in the standard reward-maximization ontology. Only "indifference" approaches seem to even allow corrigible policies to be optimal.
 

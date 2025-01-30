@@ -69,7 +69,7 @@ date_updated: 2024-12-05 16:17:06.041179
 
 ![](https://assets.turntrout.com/static/images/posts/Ej0sTdK.avif)
 
->! (This is one interpretation of the prompt, in which you haven't _chosen_ to go to the moon. If you imagined yourself as more prepared, that's also fine.)
+>! (One interpretation of the prompt is that you haven't _chosen_ to go to the moon. If you imagined yourself as more prepared, that's also fine.)
 >
 >! If you were plopped onto the moon, you'd die pretty fast. Maybe the "die as quickly as possible" AU is high, but not much else - not even the "live on the moon" AU! We haven't yet reshaped the AU landscape on the moon to be hospitable to a wide range of goals. [Earth is special like that.](https://www.youtube.com/watch?v=wupToqz1e2g)
 
@@ -97,7 +97,7 @@ Sometimes you gain more control over the future: most of the best possibilities 
 
 Other people usually _objectively impact_ you by decreasing or increasing a bunch of your AUs (generally, by changing your power). This happens for an extremely wide range of goals because of the structure of the environment.
 
-Sometimes, the best possibilities are made unavailable or worsened only for goals very much like yours. This is _value impact_.
+Sometimes, the best possibilities are made unavailable or worsened only for goals much like yours. This is _value impact_.
 
 ![](https://assets.turntrout.com/static/images/posts/Sj2LrqK.avif)
 
@@ -176,7 +176,7 @@ $$
 >
 > What can you figure out about the MDP structure? Hint: each entry in the column corresponds to the visitation frequency of a different state; the first entry is always $s_1$, second $s_2$, and third $s_3$.
 >
-> >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. Solution [here](https://assets.turntrout.com/static/images/posts/5GCZ9oY.avif).
+> >! You can figure out _everything_: $\langle \mathcal{S}, \mathcal{A}, T, \gamma \rangle$, up to possibility isomorphism. [Solution](https://assets.turntrout.com/static/images/posts/5GCZ9oY.avif).
 > >
 > >! How? Well, the $L_1$ norm of the possibility vector is always $\frac{1}{1-\gamma}$, so you can deduce $\gamma=.75$ easily. The single possibility state must be isolated, so we can mark that down in our graph. Also, it's in the third entry.
 > >

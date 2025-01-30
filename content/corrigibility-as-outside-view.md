@@ -50,7 +50,7 @@ You run a country. One day, you think "I could help so many more people if I set
 
 ![](https://assets.turntrout.com/static/images/posts/QSms7P6.avif)
 
-But historically… in this kind of situation, this reasoning can lead to terrible things.
+Historically, in this kind of situation, this reasoning leads to terrible things.
 
 ![](https://assets.turntrout.com/static/images/posts/COsmr4C.avif)
 
@@ -58,7 +58,7 @@ So you _just don't do it_, even though it feels like a good idea.[^1]
 
 > [!example] Examples
 > - "It _feels_ like I could complete this project within a week. But… in the past, when I've predicted "a week" for projects like this, reality usually gives me a longer answer. I'm not going to trust this feeling. I'm going to allocate extra time."
-> - As a new secretary, I think I know how my boss would want me to reply to an important e-mail. However, I'm not sure. Even though I think I know what to do, common sense recommends I clarify.
+> - As a new secretary, I think I know how my boss would want me to reply to an important email. However, I'm not sure. Even though I think I know what to do, common sense recommends I clarify.
 > - You broke up with someone. "Even though I really miss them, in this kind of situation, missing my ex isn't a reliable indicator that I should get back together with them. I'm not going to trust this feeling, and will trust the "sober" version of me which broke up with them."
 
 # Corrigibility as outside view
@@ -95,11 +95,11 @@ Suppose the agent knows its initial state and has a human model, allowing it to 
 1. Generate a bunch of (rationality, value) pairs. The agent will test its own value learning algorithm for each pair.
 2. For each pair, the agent simulates its algorithm interacting with the human and attempting to learn its values
 3. For some percentage of these pairs, the agent will enter the `Consider-disabling-shutdown` state.
-4. The agent can see how often its (simulated self's) beliefs about the (rationality, value)-human's values are correct by this point in time.
+4. The agent can see how often its (simulated self's) beliefs about the (rationality, value)-human's values are correct.
 
 ## Problems with this framing
 
-If you try to actually hard-code this kind of reasoning, you'll quickly run into symbol grounding issues (this is [one of my critiques of the value-learning agenda](/thoughts-on-human-compatible#Where-in-the-world-is-the-human)), [no-free-lunch value/rationality issues](https://papers.nips.cc/paper/7803-occams-razor-is-insufficient-to-infer-the-preferences-of-irrational-agents.pdf), reference class issues (how do you know if a state is "similar" to the current one?), and more. I don't necessarily think this reasoning can be hardcoded correctly. However, I haven't thought about that very much yet.
+If you try to actually hard-code this kind of reasoning, you'll quickly run into symbol grounding issues (this is [one of my critiques of the value-learning agenda](/thoughts-on-human-compatible#Where-in-the-world-is-the-human)), [no-free-lunch value/rationality issues](https://papers.nips.cc/paper/7803-occams-razor-is-insufficient-to-infer-the-preferences-of-irrational-agents.pdf), reference class issues (how do you know if a state is "similar" to the current one?), and more. I don't necessarily think this reasoning can be hardcoded correctly. However, I haven't thought about that much yet.
 
 To me, the point isn't to make a concrete proposal – it's to gesture at a novel-seeming way of characterizing a rather strong form of corrigible reasoning. A few questions on my mind:
 

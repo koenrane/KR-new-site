@@ -264,7 +264,14 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   chokidar
     .watch(["**/*.ts", "**/*.tsx", "**/*.scss", "package.json"], {
       ignoreInitial: true,
-      ignored: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/*.spec.tsx"],
+      ignored: [
+        "**/test/**",
+        "**/tests/**",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+      ],
     })
     .on("all", async () => {
       await build(clientRefresh)

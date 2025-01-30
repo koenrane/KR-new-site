@@ -1,3 +1,4 @@
+import { debounce, animate } from "./component_script_utils"
 import {
   createPopover,
   setPopoverPosition,
@@ -5,7 +6,6 @@ import {
   PopoverOptions,
   escapeLeadingIdNumber,
 } from "./popover_helpers"
-import { debounce } from "./util"
 
 /**
  * Handles the mouse enter event for link elements
@@ -36,8 +36,6 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     targetUrl,
     linkElement: this,
   }
-
-  let timeoutId: number
 
   const showPopover = async () => {
     const popoverElement = await createPopover(popoverOptions)
@@ -78,16 +76,22 @@ async function mouseEnterHandler(this: HTMLLinkElement) {
     }
   }
 
-  // Set a delay of 300ms before showing the popover
+  // Use requestAnimationFrame to delay showing the popover
   const cleanupShow = () => {
-    timeoutId = window.setTimeout(showPopover, 300)
+    return animate(
+      300,
+      () => {},
+      async () => {
+        await showPopover()
+      },
+    )
   }
 
-  cleanupShow()
+  const cleanup = cleanupShow()
 
   // Return an enhanced cleanup function
   return () => {
-    clearTimeout(timeoutId)
+    cleanup()
     window.removeEventListener("resize", showPopover)
   }
 }

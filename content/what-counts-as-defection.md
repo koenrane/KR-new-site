@@ -162,7 +162,7 @@ We can prove that formal defection exists in the trifecta of famous games. Expan
 ## Chicken
 
 ![](https://assets.turntrout.com/static/images/posts/9a5af9e1b5fd6a2b840a77e1cdcd7d3be6941064a178be8b.avif)
-<br/>Figure: A 2x2 symmetric game is _Chicken_ when $T>R\geq S>P$. In (b), defection only occurs when $\frac{10}{11}<\mathbb{P}(\text{Turn}_1)<\frac{21}{22}$: when player 1 is very likely to turn, player 2 is willing to trade a bit of total payoff for personal payoff.
+<br/>Figure: A 2x2 symmetric game is _Chicken_ when $T>R\geq S>P$. In (b), defection only occurs when $\frac{10}{11}<\mathbb{P}(\text{Turn}_1)<\frac{21}{22}$: when player 1 is likely to turn, player 2 is willing to trade a bit of total payoff for personal payoff.
 
 > [!math]- Theorem 7: In 2x2 symmetric games, if the Chicken inequality is satisfied, defection can exist against equal weightings.
 >

@@ -56,7 +56,7 @@ Stare at the problem
 : Therefore, when thinking about [whether "responsibility for outcomes" has a simple core concept](/overcoming-clinginess-in-impact-measures), I nearly instantly concluded it didn't, without spending a second glancing over the surely countless philosophy papers wringing their hands (yup, papers have hands) over this debate. This was the right move. I just trusted my own thinking. Lit. reviews are just proxy signals of your having gained comprehension and coming to a well-considered conclusion.
 
 Concrete examples are helpful
-: At first, [thinking about vases in the context of impact measurement](/whitelisting-impact-measure) was helpful for getting a grip on low impact, even though it was [secretly a red herring](/world-state-is-the-wrong-abstraction-for-impact). I like to be concrete because we actually need _solutions_ - I want to learn more about the relationship between solution specifications and the task at hand.
+: At first, [thinking about vases in the context of impact measurement](/whitelisting-impact-measure) was helpful for getting a grip on low impact, even though it was [actually misleading](/world-state-is-the-wrong-abstraction-for-impact). I like to be concrete because we actually need _solutions_ - I want to learn more about the relationship between solution specifications and the task at hand.
 
 Make simplifying assumptions wherever possible
 : [Assume a ridiculous amount of stuff and then pare it down.](https://arbital.com/p/unbounded_analysis/)

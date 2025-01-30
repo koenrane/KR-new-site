@@ -3,13 +3,10 @@ import { Root, Heading } from "mdast"
 import { visit, SKIP } from "unist-util-visit"
 
 import { QuartzTransformerPlugin } from "../types"
-import {
-  applyTextTransforms,
-  hasAncestor,
-  ElementMaybeWithParent,
-} from "./formatting_improvement_html"
+import { applyTextTransforms } from "./formatting_improvement_html"
 import { slugify, resetSlugger } from "./gfm"
 import { createLogger } from "./logger_utils"
+import { hasAncestor, ElementMaybeWithParent } from "./utils"
 
 /**
  * Configuration options for the Table of Contents transformer

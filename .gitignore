@@ -35,6 +35,8 @@ quartz/static/images/external-favicons/*.png
 
 *test.md
 
+# webhint linter
+hint-report 
 *variables.scss
 content/drafts
 **.vscode

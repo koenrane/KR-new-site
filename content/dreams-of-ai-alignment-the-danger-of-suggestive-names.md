@@ -41,7 +41,7 @@ date_updated: 2024-10-31 23:14:34.832290
 
 
 
-Let's not forget the old, well-read post: [Dreams of AI Design](https://www.lesswrong.com/posts/p7ftQ6acRkgo6hqHb/dreams-of-ai-design). In that essay, Eliezer correctly points out errors in imputing meaning to nonsense by using suggestive names to describe the nonsense. This error is very relevant to understanding the problems facing [LessWrong's](http://www.lesswrong.com) intellectual contributions.
+Let's not forget the old, well-read post: [Dreams of AI Design](https://www.lesswrong.com/posts/p7ftQ6acRkgo6hqHb/dreams-of-ai-design). In that essay, Eliezer correctly points out errors in imputing meaning to nonsense by using suggestive names to describe the nonsense. This error is relevant to understanding the problems facing [LessWrong's](http://www.lesswrong.com) intellectual contributions.
 
 > [!quote] Quote from [Artificial intelligence meets natural stupidity](https://www.inf.ed.ac.uk/teaching/courses/irm/mcdermott.pdf)
 >

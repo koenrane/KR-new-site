@@ -9,10 +9,8 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin: 0.08rem 0;
-    margin-top: $base-margin;
-    padding: $base-margin;
-    padding-top: 0;
+    margin: 0;
+    padding-left: calc(0.5 * $base-margin);
     background-color: var(--background);
 
     & li {
@@ -35,16 +33,15 @@
   }
 
   @media (max-width: $full-page-width) {
-    position: relative;
+    position: absolute;
     text-align: right;
     background-color: transparent;
     display: none;
+    right: 0;
+    top: 100%;
 
     &.visible {
       display: block;
-      min-height: 1px;
-      min-width: 1px;
-      width: auto;
     }
 
     li {
@@ -52,12 +49,11 @@
     }
 
     ul {
-      position: absolute;
+      position: relative;
       box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
       clip-path: inset(0 0 -15px -15px);
       width: max-content;
       right: 0;
-      top: 0.72em;
     }
   }
 }
@@ -68,9 +64,7 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
-  padding-left: $base-margin;
-  padding-right: $base-margin;
-  margin-left: calc(1 * $base-margin);
+  padding-left: calc(2 * $base-margin);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -112,10 +106,6 @@
 }
 
 @media all and (max-width: $mobile-breakpoint) {
-  .page-title-text {
-    font-size: 6vw !important;
-  }
-
   .darkmode label svg {
     width: 15px;
     height: 15px;
@@ -123,13 +113,6 @@
 
   .hamburger span {
     height: 2.5px;
-  }
-}
-
-@media all and (max-width: $tablet-breakpoint) {
-  .search > #search-icon > p {
-    padding: 0;
-    padding-left: calc(2 * $base-margin);
   }
 }
 
@@ -153,8 +136,9 @@
   }
 
   @media all and (min-width: $full-page-width) {
-    margin-bottom: $base-margin;
+    margin-bottom: 0;
     margin-top: 0;
+    margin-right: calc(0.25 * $base-margin); // Make it flush with the site links
     font-size: var(--text-size-500);
   }
 }
@@ -162,11 +146,12 @@
 #navbar-left,
 .navbar-left {
   display: flex;
-  align-items: center;
   position: relative;
+  align-items: center;
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
+    align-items: flex-end;
   }
 }
 
@@ -176,6 +161,8 @@
 
   @media all and (min-width: $full-page-width) {
     flex-direction: column;
+    align-items: flex-end;
+    margin-right: calc(0.25 * $base-margin);
   }
 }
 
@@ -210,6 +197,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  position: relative;
 
   @media all and (max-width: $full-page-width) {
     flex-direction: row;
@@ -330,6 +318,6 @@
 #nav-searchbar {
   @media all and (min-width: $full-page-width) {
     order: 2; // Search bar comes after other links
-    margin-top: $base-margin;
+    margin-top: calc(0.25 * $base-margin);
   }
 }

@@ -126,6 +126,7 @@ export default (() => {
     // Inline the detect-dark-mode script to prevent FOUC
     return (
       <head>
+        <meta charSet="utf-8" />
         <script
           data-cfasync="false" // Otherwise rocketloader delays the script
           id="detect-dark-mode"
@@ -134,15 +135,14 @@ export default (() => {
         ></script>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta charSet="utf-8" />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width" />
 
         <meta property="og:title" content={title} />
         <meta property="og:type" content="article" />
         <meta property="og:url" content={permalink as string} />
         <meta property="og:site_name" content="The Pond" />
-        {/* {description && <meta property="og:description" content={description} />} */}
+        {description && <meta property="og:description" content={description} />}
         {mediaElement}
 
         {/* Twitter Card metadata */}
@@ -160,11 +160,11 @@ export default (() => {
         {fileData.frontmatter?.avoidIndexing && (
           <meta name="robots" content="noindex, noimageindex,nofollow" />
         )}
-        <link defer rel="robots" href="/static/robots.txt" type="text/plain" />
+        <link rel="robots" href="/static/robots.txt" type="text/plain" />
 
         <link rel="icon" href={iconPath} />
-        <link defer rel="apple-touch-icon" href={appleIconPath} />
-        <link defer rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
+        <link rel="apple-touch-icon" href={appleIconPath} />
+        <link rel="stylesheet" href="/static/styles/katex.min.css" spa-preserve />
         {iconPreloads}
 
         <script defer src="/static/scripts/collapsible-listeners.js" spa-preserve></script>

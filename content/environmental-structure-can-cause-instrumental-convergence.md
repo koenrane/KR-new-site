@@ -61,7 +61,7 @@ date_updated: 2024-12-05 16:17:06.041179
 > - The structure of the agent's environment often causes instrumental convergence. **In many situations, there are (potentially combinatorially) many ways for power-seeking to be optimal, and relatively few ways for it not to be optimal.**
 > - [My previous results](/seeking-power-is-often-convergently-instrumental-in-mdps) said something like: in a range of situations, when you're maximally uncertain about the agent's objective, this uncertainty assigns high probability to objectives for which power-seeking is optimal.
 >   - My new results prove that in a range of situations, seeking power is optimal for _most_ agent objectives (for a particularly strong formalization of "most"). More generally, the new results say something like: in a range of situations, for most beliefs you could have about the agent's objective, these beliefs assign high probability to reward functions for which power-seeking is optimal.
->   - This is the first formal theory of the statistical tendencies of optimal policies in reinforcement learning.
+>   - I present the first formal theory of the statistical tendencies of optimal policies in reinforcement learning.
 >
 > - One result says: whenever the agent maximizes average reward, then for _any_ reward function, most permutations of it incentivize shutdown avoidance.
 >   - The formal theory is now beginning to explain why alignment is so hard by default, and why failure might be catastrophic\.
@@ -100,7 +100,7 @@ That is: we might not uniformly randomly select tiles:
 - Maybe we sample the next coordinate by using the universal prior (rejecting invalid coordinate suggestions).
 - Maybe we uniformly randomly load LessWrong posts and interpret the first text bits as encoding a coordinate.
 
-There are lots of ways to sample coordinates, besides uniformly randomly. So why should our sampling procedure tend to activate mines?
+We can sample coordinates in many ways - not just uniformly randomly. So why should our sampling procedure tend to activate mines?
 
 My new results say something analogous to: for _every_ coordinate, either it contains a mine, or its reflection across $x=y$  contains a mine, or both. Therefore, for _every distribution_ $\mathcal{D}$ over tile coordinates, either $\mathcal{D}$ assigns at least 1/2 probability to mines, or it does after you reflect it across $x=y$.
 
@@ -128,7 +128,7 @@ In terms of coordinates, one hope could have been:
 
 > Sure, maybe there's a way to blow yourself up, but you'd really have to contort yourself into a pretzel in order to algorithmically select such a bad coordinate: all reasonably simple selection procedures will produce safe coordinates.
 
-But suppose you give me a program $P$ which computes a safe coordinate. Let $P'$ call $P$ to compute the coordinate, and then have $P'$ swap the entries of the computed coordinate. $P'$ is only a few bits longer than $P$, and it doesn't take much longer to compute, either. So the above hope is impossible: safe mine-selection procedures can't be significantly simpler or faster than unsafe mine-selection procedures.
+Suppose you give me a program $P$ which computes a safe coordinate. Let $P'$ call $P$ to compute the coordinate, and then have $P'$ swap the entries of the computed coordinate. $P'$ is only a few bits longer than $P$, and it doesn't take much longer to compute, either. So the above hope is impossible: safe mine-selection procedures can't be significantly simpler or faster than unsafe mine-selection procedures.
 
 The section "[Simplicity priors assign non-negligible probability to power-seeking](/environmental-structure-can-cause-instrumental-convergence#simplicity-priors-assign-non-negligible-probability-to-power-seeking)" proves something similar about objective functions.
 
@@ -196,7 +196,7 @@ Throughout this post, when I say "most" reward functions incentivize something, 
 > [!definition]
 > At state $s$, _most reward functions_ incentivize action $a$ over action $a'$ when for all reward functions $R$, at least half of the orbit agrees that $a$ has at least as much action value as $a'$ does at state $s$.[^weaker]
 
-[^weaker]: This is actually a bit weaker than what I prove in the paper, but it's easier to explain in words.
+[^weaker]: This assumption is actually a bit stronger than what I rely on in the paper, but it's easier to explain in words.
 
 The same reasoning applies to _distributions_ over reward functions. And so if you say "we'll draw reward functions from a simplicity prior", then most permuted distributions in that prior's orbit will incentivize power-seeking in the situations covered by my previous theorems. (And we'll later prove that simplicity priors _themselves_ must assign non-trivial, positive probability to power-seeking reward functions.)
 
@@ -333,14 +333,16 @@ The structure of the environment often ensures that there are (potentially combi
 
 ## Other convergent phenomena
 
-I'm optimistic that these symmetry arguments will help us better understand a range of different tendencies. The common thread seems like: For every "way" a thing could not happen / not be a good idea - there are many more "ways" in which it could happen / be a good idea.
+I'm optimistic that these symmetry arguments will help us better understand a range of different tendencies. The common thread seems like: For every "way" a thing could not happen / not be a good idea, there are many more "ways" in which it could happen / be a good idea.
 
 - [convergent evolution](https://en.wikipedia.org/wiki/Convergent_evolution)
   - flight has independently evolved several times, suggesting that flight is adaptive in response to a wide range of conditions.
 
+<!-- vale off -->
 > [!quote] Wikipedia
 >
 > In his 1989 book [_Wonderful Life_](https://en.wikipedia.org/wiki/Wonderful_Life_\(book\)), [Stephen Jay Gould](https://en.wikipedia.org/wiki/Stephen_Jay_Gould) argued that if one could "rewind the tape of life \[and\] the same conditions were encountered again, evolution could take a very different course." [Simon Conway Morris](https://en.wikipedia.org/wiki/Simon_Conway_Morris) disputes this conclusion, arguing that convergence is a dominant force in evolution, and given that the same environmental and physical constraints are at work, life will inevitably evolve toward an "optimum" body plan, and at some point, evolution is bound to stumble upon intelligence, a trait presently identified with at least [primates](https://en.wikipedia.org/wiki/Primates), [corvids](https://en.wikipedia.org/wiki/Corvids), and [cetaceans](https://en.wikipedia.org/wiki/Cetaceans).
+<!-- vale on -->
 
 - the prevalence of [deceptive alignment](https://www.lesswrong.com/posts/zthDPAjh9w6Ytbeks/deceptive-alignment)
   - given inner misalignment, there are (potentially combinatorially) many more unaligned terminal reasons to lie (and survive), and relatively few unaligned terminal reasons to tell the truth about the misalignment (and be modified).
@@ -375,4 +377,4 @@ I think that this work is beginning to formally explain why _slightly misspecifi
 
 Let's precisely understand why this approach seems to be so hard to align, and why extinction seems to be the cost of failure. We don't yet know how to design beneficial AI, but we largely agree that this naive approach is broken. Let's prove it.
 
-[^1]: There are reward functions for which it's optimal to seek power and not to seek power; for example, constant reward functions make everything optimal, and they're certainly computable. Therefore, $\text{NPS}\cup\text{PS}$ is a strict subset of the whole set of computable reward functions.
+[^1]: There exist reward functions for which it's optimal to seek power and not to seek power; for example, constant reward functions make everything optimal, and they're certainly computable. Therefore, $\text{NPS}\cup\text{PS}$ is a strict subset of the whole set of computable reward functions.

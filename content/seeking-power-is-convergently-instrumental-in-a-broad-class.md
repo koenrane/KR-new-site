@@ -75,7 +75,7 @@ Do u<sub>OH</sub> _tend to_ incentivize flipping the first pixel over flipping t
 
 If the agent flips the first bit, it's locked into a single trajectory. None of its actions matter anymore.
 
-But if the agent flips the second bit – this may be _suboptimal_ for a utility function, but the agent still has lots of choices remaining. In fact, it still can induce $(n×n)^{T-1}$ observation histories. If $n=100$ and $T=50$, then that's $(100×100)^{49} = 10^{196}$ observation histories. Probably at least one of these yields greater utility than the shutdown-history utility.
+Suppose the agent flips the second bit. This action may be _suboptimal_ for a utility function, but the agent still has lots of choices remaining. In fact, it still can induce $(n×n)^{T-1}$ observation histories. If $n=100$ and $T=50$, then that's $(100×100)^{49} = 10^{196}$ observation histories. Probably at least one of these yields greater utility than the shutdown-history utility.
 
 And indeed, we can apply the [scaling law for instrumental convergence](/quantitative-strength-of-instrumental-convergence) to conclude that for _every u<sub>OH</sub>, at least_ $\frac{10^{196}}{10^{196}+1}$ _of its_ [_permuted variants_](/environmental-structure-can-cause-instrumental-convergence#Orbits-of-goals) _(weakly) prefer flipping the second pixel at_ $t=1$_, over flipping the first pixel at_ $t=1$\.
 

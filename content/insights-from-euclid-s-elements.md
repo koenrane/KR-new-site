@@ -73,7 +73,7 @@ Welcome to Oliver Byrne's rendition of Euclid's _Elements_, [digitized and freel
 
 > [!quote] [Oliver Byrne](https://www.c82.net/euclid/introduction/)
 >
-> Propoſitions are placed before a ſtudent, who though having a ſufficient underſtanding, is told juſt as much about them on entering at the very threſhold of the ſcience, as gives him a prepoſſeſſion moſt unfavourable to his future ſtudy of this delightful ſubject; or “the formalities and paraphernalia of rigour are ſo oſtentatiouſly put forward, as almoſt to hide the reality. Endleſs and perplexing repetitions, which do not confer greater exactitude on the reaſoning, render the demonſtrations involved and obſcure, and conceal from the view of the ſtudent the conſecution of evidence.”
+> Propoſitions are placed before a ſtudent, who though having a ſufficient underſtanding, is told juſt as much about them on entering at the threſhold of the ſcience, as gives him a prepoſſeſſion moſt unfavourable to his future ſtudy of this delightful ſubject; or “the formalities and paraphernalia of rigour are ſo oſtentatiouſly put forward, as almoſt to hide the reality. Endleſs and perplexing repetitions, which do not confer greater exactitude on the reaſoning, render the demonſtrations involved and obſcure, and conceal from the view of the ſtudent the conſecution of evidence.”
 >
 > Thus an averſion is created in the mind of the pupil, and a ſubject fo calculated to improve the reaſoning powers, and give the habit of cloſe thinking, is degraded by a dry and rigid courſe of inſtruction into an unintereſting exerciſe of the memory.
 
@@ -111,7 +111,7 @@ If you take one of the dashes and slide it around on the upper parallel line, th
 
 There aren't any exercises; instead, I tried to first prove the theorems myself.
 
-Book III treats circles, with wonderful results on arcs and their relation to angles. I search for a snappy example, a gem of an insight to share, but my words fail me. It's just good.
+Book III treats circles, with wonderful results on arcs and their relation to angles. I want to find a snappy example, a gem of an insight to share, but I can't think of one. It's just good.
 
 I read books I, III, IV, and skimmed II. Not all books of the Elements are about plane geometry; some are archaic introductions to number theory, for example. Those looking to learn number theory would do much better with the gorgeous [_Illustrated Theory of Numbers_](https://www.amazon.com/Illustrated-Theory-Numbers-Martin-Weissman/dp/1470434938).
 
@@ -127,7 +127,7 @@ However, it doesn't matter when something is normally presented. If you don't kn
 
 I'm glad I didn't read all of the books, even though they're beautiful. I'd picked up a bad "completionist" habit – if I don't read the whole book, obviously I haven't completed it, and obviously I'm not allowed to make a post about it. Of course.
 
-But I'm trying to pick up useful skills, to expand the types of qualitative reasoning available to me, to get the most benefit per unit of reading. I stopped because I have what I need for my complex analysis book.
+Despite that habit... I'm trying to pick up useful skills, to expand the types of qualitative reasoning available to me, to get the most benefit per unit of reading. I stopped because I have what I need for my complex analysis book.
 
 ## Read around
 
@@ -139,7 +139,7 @@ Over time, as you expand and read more books, you'll find yourself reading faste
 
 Ever since [I learned real analysis](/first-analysis-textbook-review), I reflexively reprove all new elementary mathematics whenever I use it. For real analysis, that meant _continually reproving_ e.g. $1+2=2+1$ whenever I used that property in a proof. Did it feel silly and tedious? A bit, yes.
 
-But with (this) tedium comes power. I can now regenerate a formal foundation for the real numbers from the Peano axioms, proving the necessary properties about the natural numbers, then the integers, then the rationals, and then the reals, and then complex numbers too. (But please, no quaternions!)
+With (this) tedium comes power. I can now regenerate a formal foundation for the real numbers from the Peano axioms, proving the necessary properties about the natural numbers, then the integers, then the rationals, and then the reals, and then complex numbers too. (But please, no quaternions!)
 
 With this habit, you continually ask yourself, "how do I know this?". I think this is a useful subskill of Actually Thinking.
 

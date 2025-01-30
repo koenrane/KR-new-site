@@ -77,7 +77,7 @@ Third, [Optimal Policies Tend to Seek Power](https://arxiv.org/abs/1912.01683) m
 
 # Conclusion
 
-This paper isolates the key mechanism—retargetability—which enables the results in [Optimal Policies Tend to Seek Power](https://arxiv.org/abs/1912.01683). This paper also takes healthy steps away from the optimal policy regime (which I consider to be a red herring for alignment) and lays out a bunch of theory I found—and still find—beautiful.
+This paper isolates the key mechanism—retargetability—which enables the results in [Optimal Policies Tend to Seek Power](https://arxiv.org/abs/1912.01683). This paper also takes healthy steps away from the optimal policy regime (which I consider to be misleading as an alignment frame) and lays out a bunch of theory I found—and still find—beautiful.
 
 This paper is both published in a top-tier conference and, unlike the previous paper, actually has a shot of being applicable to realistic agents and training processes. Therefore, compared to the original[^1] optimal policy paper, I think this paper is better for communicating concerns about power-seeking to the broader ML world.
 

@@ -54,7 +54,7 @@ In [_The Catastrophic Convergence Conjecture_](/the-catastrophic-convergence-con
 
 ![](https://assets.turntrout.com/static/images/posts/OsWS97b.avif)![](https://assets.turntrout.com/static/images/posts/d057729cc125ff7e4c1a99e1fab5c7936fb5cef537b9d02b.avif)
 
-But are there worlds where this isn't true? Consider a world where you supply a utility-maximizing AGI with a utility function.
+Are there worlds where this isn't true? Consider a world where you supply a utility-maximizing AGI with a utility function.
 
 ![](https://assets.turntrout.com/static/images/posts/46b8706e0cfb81c5b9f90c9d8918201750ba1468a9065979.avif)
 <br/>Figure: The AGI is in a "separate part of the universe"; after the initial specification of the utility function, the left half of the universe evolves independently of the right half. Nothing you can do after specification can affect the AGI's half, and vice versa. No communication can take place between the two halves.

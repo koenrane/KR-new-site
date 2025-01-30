@@ -106,7 +106,7 @@ $$
 
 Instead of viewing the discount factor $\gamma$ as measuring how much we care about the future, think of it as encoding the probability we don't terminate on any given step. That is, we expect with $1-\gamma$ probability to die on the next turn, so we discount rewards accordingly.
 
-This intuition hugs pre-theoretic understanding much more closely; if you have just 80 years to live, you might dive that big blue sky. If, however, you imagine there's a non-trivial chance that humanity can be more than just a flash in the pan, you probably care more about the far future.
+This intuition hugs pre-theoretic understanding much more closely; if you have just 80 years to live, you might dive that big blue sky. If, however, you imagine there's a non-trivial chance that humanity can be more than just a flash amongst the stars, you probably care more about the far future.
 
 ## 6: Temporal-Difference Learning
 
@@ -199,7 +199,7 @@ There was a word I was looking for that "mental model" didn't quite seem to fit:
 >
 > Individual place cells within the hippocampus correspond to separate locations in the environment with the sum of all cells contributing to a single map of an entire environment. The strength of the connections between the cells represents the distances between them in the actual environment. The same cells can be used for constructing several environments, though individual cells' relationships to each other may differ on a map by map basis. The possible involvement of place cells in cognitive mapping has been seen in a number of mammalian species, including rats and macaque monkeys. Additionally, in a study of rats by Manns and Eichenbaum, pyramidal cells from within the hippocampus were also involved in representing object location and object identity, indicating their involvement in the creation of cognitive maps.
 
-In light of [my work on whitelisting](/whitelisting-impact-measure), I've been thinking about why we're so "object-oriented" in our mental lives. An off-the-cuff hypothesis: to better integrate with the rest of our mental models, the visual system directly links up to our object schema. One such object is then recognized and engraved as a discrete "thing" in our map. Hence, we emotionally "know" that the world "really is" made up of objects, and isn't just a collection of particles.
+Given [my work on whitelisting](/whitelisting-impact-measure), I've been thinking about why we're so "object-oriented" in our mental lives. An off-the-cuff hypothesis: to better integrate with the rest of our mental models, the visual system directly links up to our object schema. One such object is then recognized and engraved as a discrete "thing" in our map. Hence, we emotionally "know" that the world "really is" made up of objects, and isn't just a collection of particles.
 
 > [!quote] Lynch, 1960
 > Most of the information used by people for the cognitive mapping of spaces is gathered through the visual channel.
@@ -235,11 +235,11 @@ I'm not sure about that. Admittedly, I'm not as familiar with those solutions, b
 
 I don't think it's impossible, but it's going to be extremely hard to get formal probabilistic guarantees. I mean, if you don't know an agent's rationality, [you can't learn their utility function](https://www.lesswrong.com/posts/rtphbZbMHTLCepd6d/humans-can-be-assigned-any-values-whatsoever). If you do know their rationality but not their probability distribution over outcomes, [you still can't learn their utility function](https://www.lesswrong.com/posts/kYgWmKJnqq8QkbjFj/bayesian-utility-representing-preference-by-probability).
 
-This is just _one_ of the [many](https://arbital.com/p/advanced_safety/) [open problems in alignment theory](https://arbital.com/p/taskagi_open_problems). If that's not enough, there are always the unknown unknowns...
+The above constitutes _one_ of the [many](https://arbital.com/p/advanced_safety/) [open problems in alignment theory](https://arbital.com/p/taskagi_open_problems). If that's not enough, there are always the unknown unknowns...
 
 ## Final Thoughts
 
-I read the "nearly-complete" draft of the second edition, available [here](http://incompleteideas.net/book/the-book-2nd.html). It was pretty good, but I did find most of the exercises either too easy or requiring considerable programming investment to set up the environment described. The former makes sense, as I've already taken a course on this, and I'm probably a bit above the introductory level.
+I read the "nearly-complete" [draft of the second edition](http://incompleteideas.net/book/the-book-2nd.html). It was pretty good, but I did find most of the exercises either too easy or requiring considerable programming investment to set up the environment described. The former makes sense, as I've already taken a course on this, and I'm probably a bit above the introductory level.
 
 Some graphs could have been more clearly designed, and some math in the proof of Linear $\text{TD(0)}$'s convergence (p. 206-207) is underspecified:
 

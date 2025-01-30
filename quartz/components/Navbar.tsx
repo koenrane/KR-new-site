@@ -62,8 +62,6 @@ const darkMode = (
 const searchHTML = (
   <div className="search" id="nav-searchbar">
     <div className="no-select" id="search-icon">
-      <p>Search</p>
-      <div></div>
       <svg
         tabIndex={0}
         aria-labelledby="title desc"
@@ -78,6 +76,7 @@ const searchHTML = (
           <circle cx="8" cy="8" r="7" />
         </g>
       </svg>
+      <p>Search</p>
     </div>
   </div>
 )
@@ -106,7 +105,14 @@ export default (() => {
         <ul>
           {links}
           <li>
-            <a href="https://turntrout.substack.com/subscribe">Subscribe</a>
+            <a
+              href="https://turntrout.substack.com/subscribe"
+              className="external"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Subscribe
+            </a>
           </li>
         </ul>
       </nav>
@@ -126,6 +132,7 @@ export default (() => {
           {searchHTML}
           <button
             id="menu-button"
+            type="button"
             className="hamburger mobile-only"
             aria-label="Opens menu for key site links."
           >

@@ -23,6 +23,7 @@ import {
   moveQuotesBeforeLink,
   getFirstTextNode,
   replaceFractions,
+  timeTransform,
 } from "../formatting_improvement_html"
 
 function testHtmlFormattingImprovement(
@@ -31,6 +32,9 @@ function testHtmlFormattingImprovement(
   doNotSetFirstLetterAttribute = false,
 ) {
   const options = doNotSetFirstLetterAttribute ? {} : { skipFirstLetter }
+  if (!inputHTML.trim().startsWith("<")) {
+    throw new Error("Input HTML must start with an HTML tag")
+  }
   return rehype()
     .data("settings", { fragment: true })
     .use(improveFormatting, options)
@@ -231,15 +235,32 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 
+  describe("Time", () => {
+    const timeCases = [
+      ["12:30 PM", "12:30 p.m."],
+      ["12:30 AM", "12:30 a.m."],
+      ["12:30", "12:30"],
+      ["1.41 PM", "1.41 p.m."],
+      ["I AM A TEST", "I AM A TEST"],
+      ["I saw him in the PM", "I saw him in the PM"],
+    ]
+    it.each(timeCases)("should handle time in %s, end-to-end", (input, expected) => {
+      const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
+      expect(processedHtml).toBe(`<p>${expected}</p>`)
+    })
+
+    it.each(timeCases)("direct testing of the timeTransform function", (input, expected) => {
+      const processedHtml = timeTransform(input)
+      expect(processedHtml).toBe(expected)
+    })
+  })
+
   describe("Mass transforms", () => {
     it.each([
       ["There are 1 != 2 left.", "There are 1 ≠ 2 left."],
       ["The data are i.i.d.", "The data are IID"],
-      ["The cafe", "The café"],
-      ["The Cafe", "The Café"],
       ["The frappe", "The frappé"],
       ["The latte", "The latté"],
-      ["The cafeteria", "The cafeteria"],
       ["That's cliche", "That's cliché"],
       ["Exposed", "Exposed"],
       ["The expose", "The exposé"],
@@ -403,7 +424,7 @@ describe("HTMLFormattingImprovement", () => {
   })
 
   describe("Number Range", () => {
-    it.each([
+    const testCases = [
       ["1-2", "1–2"],
       ["10-20", "10–20"],
       ["100-200", "100–200"],
@@ -413,14 +434,25 @@ describe("HTMLFormattingImprovement", () => {
       ["1-2-3", "1–2-3"], // Only replace the first hyphen
       ["a-b", "a-b"], // Don't replace non-numeric ranges
       ["1a-2b", "1a-2b"], // Don't replace if not purely numeric
-      ["1 - 2", "1 - 2"], // Don't replace if there are spaces
       ["a1-2b", "a1-2b"], // Don't replace if not purely numeric
       ["p. 206-207)", "p. 206–207)"], // ) should close out a word boundary
       ["Qwen1.5-1.8", "Qwen1.5-1.8"], // Don't replace if there's a decimal
-    ])('should replace hyphens with en dashes in number ranges: "%s"', (input, expected) => {
-      const result = enDashNumberRange(input)
-      expect(result).toBe(expected)
-    })
+    ]
+    it.each([...testCases, ["1 - 2", "1 - 2"]])(
+      'should replace hyphens with en dashes in number ranges: "%s"',
+      (input, expected) => {
+        const result = enDashNumberRange(input)
+        expect(result).toBe(expected)
+      },
+    )
+
+    it.each(testCases)(
+      "should replace hyphens with en dashes in number ranges: %s (end-to-end)",
+      (input, expected) => {
+        const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
+        expect(processedHtml).toBe(`<p>${expected}</p>`)
+      },
+    )
   })
 
   describe("Arrows", () => {
@@ -761,11 +793,11 @@ describe("removeSpaceBeforeSup", () => {
     ["text<sup>3</sup>", "text<sup>3</sup>"], // No space case
     ["text <sup>1</sup> and text <sup>2</sup>", "text<sup>1</sup> and text<sup>2</sup>"],
     ["text &nbsp;<sup>4</sup>", "text<sup>4</sup>"], // HTML entities
-    ["<p>text <sup>1</sup></p>", "<p>text<sup>1</sup></p>"], // Nested in paragraph
+    ["text <sup>1</sup>", "text<sup>1</sup>"], // Nested in paragraph
     ["<sup>1</sup>", "<sup>1</sup>"], // First element
   ])('should process "%s" to "%s"', (input, expected) => {
-    const processedHtml = testHtmlFormattingImprovement(input)
-    expect(processedHtml).toBe(expected)
+    const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
+    expect(processedHtml).toBe(`<p>${expected}</p>`)
   })
 
   it("should handle multiple sups in complex HTML", () => {

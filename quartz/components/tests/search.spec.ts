@@ -5,7 +5,7 @@ import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/se
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/welcome", { waitUntil: "domcontentloaded" })
+  await page.goto("http://localhost:8080/welcome", { waitUntil: "load" })
 })
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
@@ -120,7 +120,8 @@ test.describe("Search accuracy", () => {
       await page.keyboard.press("/")
       await search(page, term)
 
-      const firstResult = page.locator("#preview-container").first()
+      const previewContainer = page.locator("#preview-container")
+      const firstResult = previewContainer.first()
       await expect(firstResult).toContainText(term)
     })
   })
@@ -131,8 +132,8 @@ test.describe("Search accuracy", () => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      const button = page.locator("button[aria-label='Search']")
-      await button.click()
+      const searchBar = page.locator("div#nav-searchbar")
+      await searchBar.click()
       await search(page, term) // TODO see for mobile
 
       const firstResult = page.locator(".result-card").first()
@@ -154,7 +155,7 @@ test.describe("Search accuracy", () => {
 
       // Get first highlighted match
       const highlightedMatches = previewContent.locator(`span.highlight:text("${term}")`).first()
-      expect(highlightedMatches).toBeInViewport()
+      await expect(highlightedMatches).toBeInViewport()
     })
   })
 
@@ -184,7 +185,7 @@ test.describe("Search accuracy", () => {
     await search(page, "AI presidents")
 
     const previewElement = page.locator("#preview-container > article")
-    expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
+    await expect(previewElement).toHaveAttribute("data-use-dropcap", "false")
   })
 
   test("Test page does use dropcap", async ({ page }) => {
@@ -192,7 +193,7 @@ test.describe("Search accuracy", () => {
     await search(page, "test")
 
     const previewElement = page.locator("#preview-container > article")
-    expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
+    await expect(previewElement).toHaveAttribute("data-use-dropcap", "true")
   })
 })
 
@@ -209,7 +210,8 @@ test("Enter key navigates to first result", async ({ page }) => {
   await page.keyboard.press("/")
   await search(page, "test")
 
-  await page.keyboard.press("Enter")
+  const firstResult = page.locator(".result-card").first()
+  await firstResult.press("Enter")
 
   expect(page.url()).not.toBe(initialUrl)
 })
@@ -273,7 +275,7 @@ test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
   await footnoteLink.scrollIntoViewIfNeeded()
-  expect(footnoteLink).toContainText("⤴")
+  await expect(footnoteLink).toContainText("⤴")
   await expect(footnoteLink).toBeVisible()
 
   await takeArgosScreenshot(page, testInfo, "", {

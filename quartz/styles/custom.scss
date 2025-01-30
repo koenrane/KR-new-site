@@ -261,12 +261,14 @@ sup {
 
 // Dark <-> Light
 .temporary-transition *,
-.temporary-transition .mermaid * {
+.temporary-transition .mermaid *,
+.temporary-transition *::-webkit-scrollbar {
   transition:
     background-color 1s ease-in-out,
     border-color 1s ease-in-out,
     fill 1s ease-in-out,
-    stroke 1s ease-in-out !important;
+    stroke 1s ease-in-out,
+    scrollbar-color 1s ease-in-out !important;
 }
 
 // Hide video speed controller
@@ -927,8 +929,6 @@ foreignObject {
 .flowchart .nodeLabel,
 .flowchart .label,
 .flowchart .edgeLabel {
-  font-family: var(--font-text);
-
   & .katex {
     margin-left: 0.25em;
     position: relative;
@@ -1007,25 +1007,25 @@ iframe {
 }
 
 #emoji-comparison-figure {
-  div {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+  & div {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
     margin-bottom: 1rem;
   }
 
-  img {
+  & img {
     width: min(100px, 12vw);
     aspect-ratio: 1;
     object-fit: contain;
     margin: 0 auto;
   }
 
-  .subfigure {
+  & .subfigure {
     display: flex;
     flex-direction: column;
+    flex: 1 0 calc(15%);
     align-items: center;
   }
 }

@@ -3,7 +3,6 @@ import { Locator, TestInfo, expect } from "@playwright/test"
 import { Page } from "playwright"
 
 import { tabletBreakpoint } from "../../styles/variables"
-import { debounceSearchDelay } from "../scripts/search"
 
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
@@ -129,14 +128,16 @@ export async function getNextElementMatchingSelector(
   throw new Error("No next element found")
 }
 
-const timeToWaitAfterSearch = debounceSearchDelay + 100
 export async function search(page: Page, term: string) {
   const searchBar = page.getByPlaceholder("Search")
 
   await expect(searchBar).toBeVisible()
 
   await searchBar.fill(term)
-  await page.waitForTimeout(timeToWaitAfterSearch)
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeAttached()
+
+  await page.waitForLoadState("load")
 }
 
 /**

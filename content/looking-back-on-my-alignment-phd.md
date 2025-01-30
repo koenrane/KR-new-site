@@ -83,13 +83,13 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > I wanted to be more like Eliezer Yudkowsky and Buck Shlegeris and Paul Christiano. They know lots of facts and laws about lots of areas (e.g. general relativity and thermodynamics and information theory). I focused on building up dependencies (like [analysis](/first-analysis-textbook-review) and [geometry](/insights-from-euclids-elements) and [topology](/topology-textbook-review)) not only because I wanted to know the answers, but because I felt I owed a _debt_, that I was _in the red_ until I could at least meet other thinkers at their level of knowledge.
 >
-> But rationality is not about the bag of facts you know, nor is it about the concepts you have internalized. Rationality is about _how_ your mind holds itself, it is _how_ you weigh evidence, it is _how_ you decide where to look next when puzzling out a new area.
+> Rationality is not about the bag of facts you know, nor is it about the concepts you have internalized. Rationality is about _how_ your mind holds itself, it is _how_ you weigh evidence, it is _how_ you decide where to look next when puzzling out a new area.
 >
 > If I had been more honest with myself, I could have nipped the "catching up with other thinkers" mistake in 2018. I could have removed the bad mental habits using [certain introspective techniques](/internalizing-internal-double-crux), or at least have been aware of the badness.
 >
-> But I did not, in part because the truth was uncomfortable. If I did not have a clear set of prerequisites (e.g. analysis and topology and game theory) to work on, I would not have a clear and immediate direction of improvement. I would have felt adrift.
+> I did not, in part because the truth was uncomfortable. If I did not have a clear set of prerequisites (e.g. analysis and topology and game theory) to work on, I would not have a clear and immediate direction of improvement. I would have felt adrift.
 >
-> But there is not yet any "rationality tech tree", no succession of well-defined rationality skills such that you can learn them in order and grow way stronger. Like, you can't just do the [calibration exercises](http://acritch.com/credence-game/), and then [the noticing-confusion exercises](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=nL7E6SEtXqDG7SHGB), and then other things. Those tools help, but they aren't _enough_. There won't be a clear and immediate direction of improvement at first. But you may want to get stronger anyways.
+> You cannot yet follow any "rationality tech tree", no succession of well-defined rationality skills such that you can learn them in order and grow way stronger. Like, you can't just do the [calibration exercises](http://acritch.com/credence-game/), and then [the noticing-confusion exercises](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=nL7E6SEtXqDG7SHGB), and then other things. Those tools help, but they aren't _enough_. There won't be a clear and immediate direction of improvement at first. But you may want to get stronger anyways.
 
 > [!failure] I focused on seeming smart and defensible
 >
@@ -111,7 +111,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > I realized I assigned about 5% credence to "this line of thinking marks a direct and reasonably short path to solving alignment." Thus, on any calculation of benefits and harms, I should be willing to stake some reputation to quickly get more eyeballs on the theory, even though I expected to end up looking a little silly (with about 95% probability). With my new attitude, I decided "whatever, let's just get on with it and stop wasting time."
 >
-> The old "don't leave any avenue of being criticized!" attitude would have been less loyal to my true beliefs. I would have told myself: "This _could_ work, but there are so many parts I don't understand yet. If I figure those parts out first, I can explain it better and avoid having to go out on a limb in the process." Cowardice and social anxiety, dressed up as prudence and skepticism.
+> The old "don't leave any avenue of being criticized!" attitude would have been less loyal to my true beliefs. I would have told myself: "This _could_ work, but there are so many parts I don't understand yet. If I figure those parts out first, I can explain it better and avoid risky public declarations." Cowardice and social anxiety, dressed up as prudence and skepticism.
 >
 > I still get anxious around disagreements with people I respect. I am still working on fully expunging the "defensibility" urges, because they suck. But I've already made a lot of progress.[^3]
 
@@ -133,7 +133,7 @@ I think I [got significantly smarter in 2018–2019](/swimming-upstream), and ke
 >
 > Our world is so inadequate that seminal psychology experiments are described in mangled, misleading ways. Inadequacy abounds, and status only weakly tracks adequacy. Even if the high-status person belongs to your in-group. Even if all your smart friends are nodding along.
 >
-> Would you notice if _this very post_ were inadequate and misleading? _Would_ it be bullshit for the dog-genome to hardwire a food-classifier? _Think for yourself. Constant vigilance!_
+> Would you notice if _this post_ were inadequate and misleading? _Would_ it be bullshit for the dog-genome to hardwire a food-classifier? _Think for yourself. Constant vigilance!_
 
 ### Non-social mistakes
 

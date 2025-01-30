@@ -146,3 +146,26 @@ export function gatherTextBeforeIndex(parent: Parent, upToIndex: number): string
   }
   return toString(tempParent as Root)
 }
+
+/**
+ * Interface for elements that may have a parent reference
+ */
+export interface ElementMaybeWithParent extends Element {
+  parent: ElementMaybeWithParent | null
+}
+
+export function hasAncestor(
+  node: ElementMaybeWithParent,
+  ancestorPredicate: (anc: Element) => boolean,
+): boolean {
+  let ancestor: ElementMaybeWithParent | null = node
+
+  while (ancestor) {
+    if (ancestorPredicate(ancestor)) {
+      return true
+    }
+    ancestor = ancestor.parent
+  }
+
+  return false
+}

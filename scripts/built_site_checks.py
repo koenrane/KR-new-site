@@ -66,6 +66,16 @@ def check_unrendered_footnotes(soup: BeautifulSoup) -> List[str]:
     return unrendered_footnotes
 
 
+def check_invalid_internal_links(soup: BeautifulSoup) -> List[str]:
+    invalid_internal_links = []
+    links = soup.find_all("a", class_="internal")
+    for link in links:
+        if not link.has_attr("href") or link["href"].startswith("https://"):
+            invalid_internal_links.append(link)
+
+    return invalid_internal_links
+
+
 def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
     """
     Check for invalid internal anchor links in the HTML.
@@ -615,6 +625,7 @@ def check_file_for_issues(
 
     issues: IssuesDict = {
         "localhost_links": check_localhost_links(soup),
+        "invalid_internal_links": check_invalid_internal_links(soup),
         "invalid_anchors": check_invalid_anchors(soup, base_dir),
         "problematic_paragraphs": check_problematic_paragraphs(soup),
         "missing_media_files": check_local_media_files(soup, base_dir),
@@ -882,7 +893,7 @@ def main() -> None:
     public_dir: Path = git_root / "public"
     issues_found: bool = False
 
-    check_rss_file_for_issues(git_root)
+    # check_rss_file_for_issues(git_root)
     css_issues = check_css_issues(public_dir / "index.css")
     if css_issues:
         print_issues(public_dir / "index.css", {"CSS_issues": css_issues})

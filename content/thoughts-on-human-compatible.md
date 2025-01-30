@@ -57,7 +57,7 @@ I think the book will greatly help AI professionals understand key arguments, av
 
 I must admit, it's great to see such a prominent debunking. I still remember, early in my concern about alignment, hearing one professional respond to the entire idea of being concerned about AGI with a lazy _ad hominem_ dismissal. Like, hello? This is our future we're talking about!
 
-But Russell realizes that most people don't intentionally argue in bad faith; he structures his arguments with the understanding and charity required to ease the difficulty of changing one's mind.[^polite]
+Russell realizes that most people don't intentionally argue in bad faith; he structures his arguments with the understanding and charity required to ease the difficulty of changing one's mind.[^polite]
 
 [^polite]: Although I wish he'd be [more polite with LeCun](https://www.lesswrong.com/posts/WxW6Gc6f2z3mzmqKs/debate-on-instrumental-convergence-between-lecun-russell), understandable as his frustration may be.
 

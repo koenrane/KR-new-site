@@ -157,7 +157,7 @@ If you don't know what these mean, read this section. If you understand, then sk
 >
 > Code: We modify the activations after the residual add layer in the first residual block of the second Impala block.
 >
-> Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is very effective at getting the agent to ignore cheese:
+> Now that we're done with preamble, let's see the cheese vector in action! Here's a seed where subtracting the cheese vector is effective at getting the agent to ignore cheese:
 >
 > ![](https://assets.turntrout.com/static/images/posts/tly1j6ydizgjnjjcocke.avif)
 > <br/>Figure: Vector fields for the mouse normally, for the mouse with the cheese vector subtracted during every forward pass, and the diff between the two cases.
@@ -222,7 +222,7 @@ Sometimes, increasing the coefficient strength doesn't change much:
 
 ![](https://assets.turntrout.com/static/images/posts/88bd2e9f53611e85df2e543f2c8eaaa7b45fc77907609ec0.avif)
 
-But push the coefficient too far, and the action distributions crumble into garbage:
+Push the coefficient too far, and the action distributions crumble into garbage:
 
 ![](https://assets.turntrout.com/static/images/posts/f048f4935f660dbfe88a3f6bd01b33474cfb002ffa0b649e.avif)
 
@@ -288,7 +288,7 @@ Here's an analogy for what this would mean, and perhaps for what we've been doin
 
 Assuming away issues of "what does it mean to subtract two brain states", I think that the ability to do that would be _wild_.
 
-Let me go further out on a limb. Imagine if you could find a "nice vector" by finding two brain states which primarily differ in how much the person feels like being nice. _Even if you can't generate a situation where the person positively wants to be nice_, you could still consider situations A and B, where situation A makes them _slightly less opposed to being nice_ (and otherwise elicits similar cognition as situation B). Then just add the resulting nice vector (`neural_activity(A) - neural_activity(B)`) with a large coefficient, and maybe they will want to be nice now.
+Let me speculate further afield. Imagine if you could find a "nice vector" by finding two brain states which primarily differ in how much the person feels like being nice. _Even if you can't generate a situation where the person positively wants to be nice_, you could still consider situations A and B, where situation A makes them _slightly less opposed to being nice_ (and otherwise elicits similar cognition as situation B). Then just add the resulting nice vector (`neural_activity(A) - neural_activity(B)`) with a large coefficient, and maybe they will want to be nice now.
 
 (Similarly for subtracting a "reasoning about deception" vector. Even if your AI is _always_ reasoning deceptively to some extent, if AVEC is true and we can just find a pair of situations where the primary variation is _how many mental resources are allocated to reasoning about deception_... Then maybe you can subtract out the deception.)
 
