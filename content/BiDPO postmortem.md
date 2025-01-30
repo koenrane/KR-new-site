@@ -77,7 +77,7 @@ Table: Impact of a vector trained for a single step on a single datapoint.
 
 Furthermore, [we realized that TruthfulQA and HaluEval are low-quality datasets – at least when used for multiple-choice Q/A](https://turntrout.com/original-truthfulqa-weaknesses). This realization further questioned the validity of boosts on TruthfulQA, as now it was possible that the BIDPO vector simply taught the model to look for simple patterns in TruthfulQA.
 
- ![Charts showing that across a range of steering vector norm ratios, BIDPO and DPO have similar impact on benchmark performance.](dpo-vs-bidpo.png)
+ ![Charts showing that across a range of steering vector norm ratios, BIDPO and DPO have similar impact on benchmark performance.](https://assets.turntrout.com/static/images/posts/dpo-vs-bidpo.avif)
 
 Figure: As an aside, in our ablations we found that BIDPO had functionally similar performance to normal [DPO](https://arxiv.org/abs/2305.18290). Therefore, for simplicity, we recommend just using DPO instead of BIDPO.
 
@@ -100,7 +100,7 @@ Implement regression and integration testing early.
 Ensure datasets have statistical power to make progress.
 : For example, TruthfulQA validation only had 256 points. Error prevented: noisy evaluations.
 
-![](contrastive-posterior.png)
+![](https://assets.turntrout.com/static/images/posts/contrastive-posterior.avif)
 
 Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
 
@@ -116,7 +116,7 @@ BIDPO seems effective and sample-efficient but does not currently exceed more st
 
 While contrastive activation addition ([Panickssery et al., 2023](https://arxiv.org/abs/2312.06681)) did well on Gemini 1.0 models, initial evidence suggested that it did not transfer to Gemini 1.5 models. Instead, we used the recent BIDPO algorithm ([Cao et al., 2024](https://arxiv.org/abs/2406.00045)) to train a “virtual bias term” which increases attribute X when added and decreases attribute X when subtracted. We call these trained bias terms “steering vectors” (which can be applied whether or not the original architecture contained bias terms).
 
-![](LBiDPO.png)
+![](https://assets.turntrout.com/static/images/posts/LBiDPO.avif)
 
 Figure: **The BIDPO loss term.** BIDPO contrastively optimizes the steering vector $v$ so that the model outputs the target completion $r_T$ for query $q$ while making the opposite completion $r_O$ less likely. The vector $v$ is a "virtual bias term" and is added to the activations $A_L(q)$ of layer $L$ on query $q$. The direction $\Delta= \pm 1$ controls whether $v$ is added to or subtracted from $A_L(q)$. When the steering vector is added $(\Delta=1), v$ is (roughly) optimized to increase the likelihood of the target completion and decrease the likelihood of the opposite completion. When subtracted, $v$ is optimized to have the reverse effect. In this sense, the vector is trained to be bidirectional.
 
@@ -162,13 +162,13 @@ We trained BIDPO vectors on a range of datasets and measured in-distribution gen
 
 ### Gemini 1.5v1
 
-![](sample-efficiency-bidpo.png)
+![](https://assets.turntrout.com/static/images/posts/sample-efficiency-bidpo.avif)
 
 Figure: On TruthfulQA, training on $n=1$ datapoint caused a validation boost of over 10%.
 
 ### Gemini 1.5v2
 
-![](sample-efficiency-bidpo-v2.png)
+![](https://assets.turntrout.com/static/images/posts/sample-efficiency-bidpo-v2.avif)
 
 Figure: $n=1,2$ datapoint(s) no longer cause any boost on TruthfulQA. Weird.
 
@@ -178,7 +178,7 @@ We did not record comprehensive 1.5v1 data on multi-shot prompting generalizatio
 
 In contrast, on Gemini Pro 1.5v2, multishot prompting was extremely effective:
 
-![](multishot.png)
+![](https://assets.turntrout.com/static/images/posts/multishot.avif)
 
 Figure: We tested the generalization performance of Truthful QA using a multi-shot prompting approach. For each test dataset, examples from the Truthful QA training set were prepended to each question and Gemini Pro 1.5v2 is asked to produce the appropriate answer. If the test dataset was large, it was truncated to 1,024 examples. The number of Truthful QA examples prepended to each question varies across the x-axis. The test-set accuracy and the 90% credible intervals are plotted along the y-axis.
 
