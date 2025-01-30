@@ -59,7 +59,7 @@ Note: `sil ver` [already reviewed _Topology_](https://www.lesswrong.com/posts/rY
 
 # Topology
 
-Topology is about what it means for things to be "close" in a abstract and general sense. Rather than taking on the monstrous task of intuitively explaining topology without math, I'm just going to talk about random things from the book and (literally) illustrate concepts which were at first confusing.
+Topology is about what it means for things to be "close" in an abstract and general sense. Rather than taking on the monstrous task of intuitively explaining topology without math, I'm just going to talk about random things from the book and (literally) illustrate concepts which were at first confusing.
 
 ## Compactness is a wonderful kind of mathematical "smallness"
 

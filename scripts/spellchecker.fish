@@ -3,10 +3,15 @@ set -l PERM_DICT ".wordlist.txt"
 set -l SLUG_REGEX "(?=.{10,})[\da-zA-Z]+(\-[\da-zA-Z]+)+"
 set -l FILES content/**.md # Respects gitignore by default
 
-npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT --files $FILES --ignore $SLUG_REGEX &>/dev/null
+npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT --files $FILES --ignore $SLUG_REGEX
 
 # Check if spellchecker found errors
 if test $status -ne 0
+    if not test -f $TEMP_DICT
+        echo (set_color red) "Error: Temporary dictionary was not created" (set_color normal)
+        exit 1
+    end
+
     # Open the temporary dictionary with Neovim and a notification
     nvim $TEMP_DICT -c 'lua vim.api.nvim_notify("Delete invalid words which should not be added to the dictionary.", vim.log.levels.INFO, {})'
 

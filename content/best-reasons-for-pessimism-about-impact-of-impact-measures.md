@@ -61,7 +61,7 @@ Over the course of 5 minutes by the clock, here are the reasons I generated for 
 - Depending on how "clean" of an impact measure you think we can get, maybe it's way harder to get low-impact agents to do useful things.
   - Maybe we can get a clean one, but only for powerful agents.
   - Maybe the impact measure misses impactful actions if you can't predict at near human level.
-- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play a unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
+- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play an unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
 - In a [More realistic tales of doom](https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/more-realistic-tales-of-doom)-esque scenario, it isn't clear how impact helps prevent "gradually drifting off the rails".[^1]
 
 [^1]: Paul Christiano [raised concerns along these lines](https://www.lesswrong.com/posts/c2oM7qytRByv6ZFtz/impact-measure-desiderata?commentId=Lc2M2jwugKTdynM8A):

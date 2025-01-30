@@ -55,7 +55,7 @@ Reasons why it might be feasible: we’re trying to get the agent to do the goal
 Even so, I am (perhaps surprisingly) not that excited about _actually using_ impact measures to restrain advanced AI systems. Let’s review some concerns I provided in [_Reasons for Pessimism about Impact of Impact Measures_](/best-reasons-for-pessimism-about-impact-measures):
 
 - Competitive and social pressures incentivize people to cut corners on safety measures, especially those which add overhead. Especially so for training time, assuming the designers slowly increase aggressiveness until they get a reasonable policy.
-- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play a unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
+- In a world where we know how to build powerful AI but not how to align it (which is actually probably the scenario in which impact measures do the most work), we play an unfavorable game while we use low-impact agents to somehow transition to a stable, good future: the first person to set the aggressiveness too high, or to discard the impact measure entirely, ends the game.
 - In a [_What Failure Looks Like_](https://www.lesswrong.com/posts/HBxe6wdjxK239zajf/more-realistic-tales-of-doom)-esque scenario, it isn't clear how impact-limiting any single agent helps prevent the world from "gradually drifting off the rails".
 
 You might therefore wonder why I’m working on impact measurement.
