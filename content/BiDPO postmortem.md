@@ -121,7 +121,12 @@ BIDPO seems effective and sample-efficient but does not currently exceed more st
 
 While contrastive activation addition ([Panickssery et al., 2023](https://arxiv.org/abs/2312.06681)) did well on Gemini 1.0 models, initial evidence suggested that it did not transfer to Gemini 1.5 models. Instead, we used the recent BIDPO algorithm ([Cao et al., 2024](https://arxiv.org/abs/2406.00045)) to train a “virtual bias term” which increases attribute $X$ when added and decreases attribute $X$ when subtracted. We call these trained bias terms “steering vectors” (which can be applied whether or not the original architecture contained bias terms).
 
-![](https://assets.turntrout.com/static/images/posts/LBiDPO.avif)
+$$
+\begin{align*}
+\mathbb{E}_{\substack{\Delta\sim \{-1,1\},\\q,r_T, r_O \sim \mathcal{D}}} \Big[ \log \sigma \big( &\Delta\cdot \beta \log \overset{\text{target completion likelihood ratio}}{\frac{\pi(r_T \mid A_{L}(q) + \Delta \cdot v)}{\pi(r_T \mid A_{L}(q))}} \\
+   \qquad\qquad\qquad - &\Delta\cdot\beta \log \underset{\text{opposite completion likelihood ratio}}{\frac{\pi(r_O | A_{L}(q) + \Delta \cdot v)}{\pi(r_O | A_{L}(q))}} \big) \Big]
+\end{align*}
+$$
 
 Figure: **The BIDPO loss term.** BIDPO contrastively optimizes the steering vector $v$ so that the model outputs the target completion $r_T$ for query $q$ while making the opposite completion $r_O$ less likely. The vector $v$ is a "virtual bias term" and is added to the activations $A_L(q)$ of layer $L$ on query $q$. The direction $\Delta= \pm 1$ controls whether $v$ is added to or subtracted from $A_L(q)$. When the steering vector is added $(\Delta=1), v$ is (roughly) optimized to increase the likelihood of the target completion and decrease the likelihood of the opposite completion. When subtracted, $v$ is optimized to have the reverse effect. In this sense, the vector is trained to be bidirectional.
 
