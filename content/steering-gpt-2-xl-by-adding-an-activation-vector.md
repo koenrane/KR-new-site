@@ -75,9 +75,9 @@ Note: Later made available as a preprint at [Steering Language Models with Activ
 
 We are not the first to steer language model behavior by adding activation vectors to residual streams. However, we are the first to do so without using machine optimization (e.g. SGD) to find the vectors. Among other benefits, our "activation addition" methodology enables much faster feedback loops than optimization-based activation vector approaches.
 
-However, there _is_ a rich literature on embedding arithmetic (e.g. word2vec). There's also a lot of work on algebraic latent-space edits in generative image models:
+However, there _is_ a rich literature on embedding arithmetic (e.g. `word2vec`). There's also a lot of work on algebraic latent-space edits in generative image models:
 
-![](https://assets.turntrout.com/static/images/posts/lqrnae8zgs8c8vmvvv34.avif)
+![A succession of images of a man, each smiling more broadly than the last.](https://assets.turntrout.com/static/images/posts/lqrnae8zgs8c8vmvvv34.avif)
 <br/>Figure: Adding the smile vector to the latent space, with an increasingly large positive coefficient. Figure 6, [Sampling Generative Networks](https://arxiv.org/abs/1609.04468).
 
 We already added vectors to forward passes of a convolutional policy network that learned to solve mazes and reach the cheese near the end. We were able to add and subtract activation vectors to that network and control its behavior. Without any extra RL training, we steered the network's behavior to [ignore cheese](/understanding-and-controlling-a-maze-solving-policy-network) and/or [go to the top-right corner](/top-right-steering-vector) of its maze:
@@ -995,13 +995,13 @@ Unlike our work, soft prompts involve optimized embedding vectors, while we use 
 
 ## Word embeddings
 
-The most obvious and famous related work candidate is word2vec, from the ancient era of ten years ago (2013). Mikolov et al. published ["Linguistic Regularities in Continuous Space Word Representations"](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39). They trained simple (context $\mapsto$ next word) networks which incidentally exhibited some algebraic properties. For example,
+The most obvious and famous related work candidate is `word2vec`, from the ancient era of ten years ago (2013). Mikolov et al. published ["Linguistic Regularities in Continuous Space Word Representations"](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39). They trained simple (context $\mapsto$ next word) networks which incidentally exhibited some algebraic properties. For example,
 
 $$
 \textrm{embed(queen)}\approx \textrm{embed(king)}+\left[\textrm{embed(woman)}-\textrm{embed(man)}\right]
 $$
 
-suggests the presence of a "woman vector" in the word2vec embedder.
+suggests the presence of a "woman vector" in the `word2vec` embedder.
 
 ![](https://assets.turntrout.com/static/images/posts/olxff6ovpe61is3c3edg.avif)
 <br/>Figure: Figure 2 from [Linguistic Regularities in Continuous Space Word Representations](https://scholar.google.com/scholar?cluster=2584655260765062813&hl=en&as_sd$t=7$,39).
