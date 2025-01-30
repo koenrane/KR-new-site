@@ -67,7 +67,7 @@ Table: Impact of a vector trained for a single step on a single datapoint.
 
 # Negative results in 1.5v2
 
-[Gemini 1.5v2 constituted a moderate upgrade](https://developers.googleblog.com/en/updated-gemini-models-reduced-15-pro-pricing-increased-rate-limits-and-more/) to overall Gemini capabilities. When 1.5v2 landed, nearly all of our positive signs flipped to negative. Gemini Pro 1.5v2 had higher unsteered TruthfulQA performance, while Flash 1.5v2  did not. However, both models seemed significantly better at following instructions and learning from many-shot examples.
+[Gemini 1.5v2 constituted a moderate upgrade](https://developers.googleblog.com/en/updated-gemini-models-reduced-15-pro-pricing-increased-rate-limits-and-more/). When 1.5v2 landed, nearly all of our positive signs flipped to negative. Gemini Pro 1.5v2 had higher unsteered TruthfulQA performance, while Flash 1.5v2  did not. However, both models seemed significantly better at following instructions and learning from many-shot examples.
 
 1. BIDPO achieved 92.6% on TruthfulQA, a 17.6% boost over the unsteered score of 75%.
     1. 256-shot prompting achieved 95%, meaning we no longer beat the obvious baseline of multi-shot prompting.
@@ -108,7 +108,8 @@ Ensure datasets have statistical power to make progress.
 
 Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
 
-6. Generate and analyze data separately in case the generation pipeline changes or breaks in the future. Error prevented: Inability to plot complete 1.5v1 statistics on e.g. multi-shot prompting.
+Generate and analyze data separately:
+: Separation protects against possible generation pipeline changes or breaks. Error prevented: Inability to plot complete 1.5v1 statistics on e.g. multi-shot prompting (as we didn't expect to regenerate those).
 
 # Conclusion
 
@@ -118,7 +119,7 @@ BIDPO seems effective and sample-efficient but does not currently exceed more st
 
 ## BIDPO training
 
-While contrastive activation addition ([Panickssery et al., 2023](https://arxiv.org/abs/2312.06681)) did well on Gemini 1.0 models, initial evidence suggested that it did not transfer to Gemini 1.5 models. Instead, we used the recent BIDPO algorithm ([Cao et al., 2024](https://arxiv.org/abs/2406.00045)) to train a “virtual bias term” which increases attribute X when added and decreases attribute X when subtracted. We call these trained bias terms “steering vectors” (which can be applied whether or not the original architecture contained bias terms).
+While contrastive activation addition ([Panickssery et al., 2023](https://arxiv.org/abs/2312.06681)) did well on Gemini 1.0 models, initial evidence suggested that it did not transfer to Gemini 1.5 models. Instead, we used the recent BIDPO algorithm ([Cao et al., 2024](https://arxiv.org/abs/2406.00045)) to train a “virtual bias term” which increases attribute $X$ when added and decreases attribute $X$ when subtracted. We call these trained bias terms “steering vectors” (which can be applied whether or not the original architecture contained bias terms).
 
 ![](https://assets.turntrout.com/static/images/posts/LBiDPO.avif)
 
