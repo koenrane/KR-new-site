@@ -655,7 +655,7 @@ Server-side math rendering via $\KaTeX$
 
 # Deployment pipeline
 
-I quickly learned the importance of _comprehensive tests and documentation_. The repository now has strong code health. My test suite protects my site from _so_ many errors. Before a new commit  touches the live site, it must pass a gauntlet of challenges:
+I quickly learned the importance of _comprehensive tests and documentation_. The repository now has strong code health. My test suite protects my site from _so_ many errors. Before a new commit touches the live site, it must pass a gauntlet of challenges:
 
 1. The `pre-commit` [`git` hook](https://git-scm.com/docs/githooks) runs before every commit is finalized.
 2. The `pre-push` hook runs before commits are pushed to the `main` branch.
@@ -707,23 +707,6 @@ I lastly check that my CSS:
 
 1. Defines font-faces using fonts which actually exist in the filesystem, and
 2. Does not refer to nonexistent fonts.
-
-### Linting my prose
-
-Inspired by [`gwern`'s usage of `proselinter`](https://gwern.net/about#writing-checklist), I run [`vale`](https://vale.sh/) on my Markdown files to check for:
-
-<!-- vale off-->
-- Using "very" (at all),
-- Using "but" or "there is" to start a sentence,
-- Lazy, non-descriptive link text: `[here](url)`,
-- Clichés,
-- Date formatting,
-- Anthropomorphic language (e.g. "the code thinks"),
-- Proper use of diacritical marks (e.g. "café"),
-- Redundant acronyms (e.g. "ATM machine"),
-- Oxymorons and nonwords,
-- Unnecessary words, and
-- Comparisons between incomparable things.
 
 ### Unit tests
 
