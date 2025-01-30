@@ -17,9 +17,10 @@ aliases:
   - bidpo-postmertem
   - steering-gemini
 original_url:
-date_published: &id001 2025-01-30 09:30:36.233182
-date_updated: *id001
+date_published: 2025-01-30 09:30:36.233182
+date_updated: 2025-01-30 13:43:44.627792
 ---
+
 
 
 A while back, we explored the “[BIDPO](https://arxiv.org/abs/2406.00045)” method for training [steering vectors](https://arxiv.org/abs/2308.10248). In Gemini 1.5v1 Flash and Pro, BIDPO steering vectors boosted TruthfulQA scores by >10% while mostly retaining capabilities. When we [updated to Gemini 1.5v2](https://developers.googleblog.com/en/updated-gemini-models-reduced-15-pro-pricing-increased-rate-limits-and-more/), prompt-based steering baselines became significantly stronger. BIDPO did not beat the stronger baselines, ending the project.
