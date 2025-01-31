@@ -1,3 +1,5 @@
+import type { JSX } from "preact"
+
 import React from "react"
 import readingTime from "reading-time"
 

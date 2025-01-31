@@ -3,9 +3,8 @@ import { slug as slugAnchor } from "github-slugger"
 import { Element, Root as HtmlRoot, ElementContent } from "hast"
 import { ElementData } from "hast"
 import { toHtml } from "hast-util-to-html"
-import { Root, Html, BlockContent, Paragraph } from "mdast"
+import { Root, Html, BlockContent, Paragraph, PhrasingContent } from "mdast"
 import { ReplaceFunction, findAndReplace as mdastFindReplace } from "mdast-util-find-and-replace"
-import { PhrasingContent } from "mdast-util-find-and-replace/lib"
 import { toHast } from "mdast-util-to-hast"
 import { VFile } from "mdast-util-to-hast/lib/state"
 import path from "path"
@@ -172,7 +171,7 @@ export function processWikilink(value: string, ...capture: string[]): PhrasingCo
       const width = match?.groups?.width ?? "auto"
       const height = match?.groups?.height ?? "auto"
       const specifiedDimensions = width !== "auto" || height !== "auto"
-      const alt = specifiedDimensions ? "" : match?.groups?.alt ?? ""
+      const alt = specifiedDimensions ? "" : (match?.groups?.alt ?? "")
       return {
         type: "image",
         url,

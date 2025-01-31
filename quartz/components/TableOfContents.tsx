@@ -4,10 +4,12 @@
  * supporting small caps and LaTeX rendering.
  */
 
+// skipcq: JS-W1028
+import type { JSX } from "preact"
+
 import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import { renderToString } from "katex"
-// skipcq: JS-W1028
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"

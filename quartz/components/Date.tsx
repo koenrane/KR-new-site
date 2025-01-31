@@ -1,4 +1,6 @@
 // skipcq: JS-W1028, JS-W1028
+import type { JSX } from "preact"
+
 import React from "react"
 
 import { GlobalConfiguration } from "../cfg"

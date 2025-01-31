@@ -1,3 +1,5 @@
+import type { JSX } from "preact"
+
 import { RootContent, Parent, Text, Element, Root, Data } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
