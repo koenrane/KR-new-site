@@ -6,24 +6,26 @@ no_dropcap: "false"
 tags:
   - AI
   - activation-engineering
-description: We tried boosting Gemini benchmarks by optimizing steering vectors. It
-  didn't work. We share our takeaways.
+description: We tried boosting Gemini benchmarks by optimizing steering vectors. It didn't work. We share our takeaways.
 authors: Alex Turner, Mark Kurzeja, Dave Orr, and David Elson
 hideSubscriptionLinks: false
-card_image:
+card_image: 
 aliases:
   - bidpo
   - steering-postmortem
   - bidpo-postmertem
   - steering-gemini
-original_url:
+original_url: 
 date_published: 2025-01-30 09:30:36.233182
 date_updated: 2025-01-30 13:43:44.627792
+other_urls: https://deepmindsafetyresearch.medium.com/steering-gemini-using-bidpo-vectors-8a0e7e1da1c9
 ---
 
 
 
 A while back, we explored the “[BIDPO](https://arxiv.org/abs/2406.00045)” method for training [steering vectors](https://arxiv.org/abs/2308.10248). In Gemini 1.5v1 Flash and Pro, BIDPO steering vectors boosted TruthfulQA scores by >10% while mostly retaining capabilities. When we [updated to Gemini 1.5v2](https://developers.googleblog.com/en/updated-gemini-models-reduced-15-pro-pricing-increased-rate-limits-and-more/), prompt-based steering baselines became significantly stronger. BIDPO did not beat the stronger baselines, ending the project.
+
+> [!note] Work completed at Google DeepMind on the North American alignment team
 
 # Introduction
 
@@ -37,7 +39,7 @@ Towards this goal, we investigated three hypotheses:
 
 We remained wary of several potential obstacles, including performance degradation ([Stickland et al., 2024](https://arxiv.org/abs/2406.15518)).
 
-# Initial positive results
+# Initial positive results in 1.5v1
 
 Using Gemini Flash 1.5v1, we observed positive signals for vectors trained on TruthfulQA using BIDPO – a variant of DPO. Basically, we trained a vector to maximize the logit difference between a correct and incorrect multiple-choice answer. We used 256 TruthfulQA training points in order to produce the BIDPO vectors. We hoped that a TruthfulQA vector could improve general model factuality.
 
@@ -99,22 +101,25 @@ Manually inspect data questions and their metadata
 Test long-form generations sooner
 : Error prevented: none, but we would have noticed some of the negative results more quickly.
 
-Implement regression and integration testing early.
+Implement regression and integration testing early
 : We relied on point-in-time evaluations to sanity check our infrastructure. Error prevented: Several regressions in the stack under us, which cost several SWE days and partially compromised results.
 
-Ensure datasets have statistical power to make progress.
+Ensure datasets have statistical power to make progress
 : For example, TruthfulQA validation only had 256 points. Error prevented: noisy evaluations.
 
 ![](https://assets.turntrout.com/static/images/posts/contrastive-posterior.avif)
 
-Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. The X-axis shows the "contrastive advantage" of the BiDPO vector over the baseline. This posterior contrast takes into account finite sample effects and allows us to estimate the probability the BiDPO vector's effect is via chance.<br/><br/>A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
+Figure: Bayesian statistics for Gemini Pro 1.5v2 performance shifts. The $x$-axis shows the "contrastive advantage" of the BIDPO vector over the baseline. This posterior contrast takes into account finite sample effects and allows us to estimate the probability the BIDPO vector's effect is via chance.<br/><br/>A sample advantage of $n$ on TruthfulQA corresponds to an accuracy increase of $\frac{n}{256}$. Wins needed ≥10% signal to be statistically relevant, making it hard to identify and stack small wins.
 
-Generate and analyze data separately:
+Generate and analyze data separately
 : Separation protects against possible generation pipeline changes or breaks. Error prevented: Inability to plot complete 1.5v1 statistics on e.g. multi-shot prompting (as we didn't expect to regenerate those).
 
 # Conclusion
 
 BIDPO seems effective and sample-efficient but does not currently exceed more standard baselines. It’s hard to draw firm conclusions about BIDPO because [TruthfulQA might not be measuring truthfulness / factuality](https://turntrout.com/original-truthfulqa-weaknesses). However, we remain excited about DPO-driven [Conditional Activation Steering](https://arxiv.org/abs/2409.05907), which has additional advantages—particularly for targeted loss mitigation.
+
+> [!thanks]
+> Thanks to David Elson, Rohin Shah, Dave Orr, and others for feedback. Arthur Conmy and the GDM language model interpretability team helped with infrastructure.
   
 # Appendix: Method
 
@@ -191,7 +196,7 @@ In contrast, on Gemini Pro 1.5v2, multishot prompting was extremely effective:
 
 ![](https://assets.turntrout.com/static/images/posts/multishot.avif)
 
-Figure: We tested the generalization performance of Truthful QA using a multi-shot prompting approach. For each test dataset, examples from the Truthful QA training set were prepended to each question and Gemini Pro 1.5v2 is asked to produce the appropriate answer. If the test dataset was large, it was truncated to 1,024 examples. The number of Truthful QA examples prepended to each question varies across the x-axis. The test-set accuracy and the 90% credible intervals are plotted along the y-axis.
+Figure: We tested the generalization performance of Truthful QA using a multi-shot prompting approach. For each test dataset, examples from the Truthful QA training set were prepended to each question and Gemini Pro 1.5v2 is asked to produce the appropriate answer. If the test dataset was large, it was truncated to 1,024 examples. The number of Truthful QA examples prepended to each question varies across the  $x$-axis. The test-set accuracy and the 90% credible intervals are plotted along the $y$-axis.
 
 # Prior work
 
