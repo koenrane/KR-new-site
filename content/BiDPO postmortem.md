@@ -6,20 +6,22 @@ no_dropcap: "false"
 tags:
   - AI
   - activation-engineering
-description: We tried boosting Gemini benchmarks by optimizing steering vectors. It didn't work. We share our takeaways.
+description: We tried boosting Gemini benchmarks by optimizing steering vectors. It
+  didn't work. We share our takeaways.
 authors: Alex Turner, Mark Kurzeja, Dave Orr, and David Elson
 hideSubscriptionLinks: false
-card_image: 
+card_image:
 aliases:
   - bidpo
   - steering-postmortem
   - bidpo-postmertem
   - steering-gemini
-original_url: 
+original_url:
 date_published: 2025-01-30 09:30:36.233182
-date_updated: 2025-01-30 13:43:44.627792
+date_updated: 2025-01-30 18:09:45.005466
 other_urls: https://deepmindsafetyresearch.medium.com/steering-gemini-using-bidpo-vectors-8a0e7e1da1c9
 ---
+
 
 
 
@@ -222,7 +224,7 @@ Given a trigger prompt, they claim to find “future” - “past” steering ve
 
 A wide range of complementary techniques can reduce hallucination rates in LLMs. The vast majority of these techniques are compatible with steering vectors. We will only cover a few here.
 
-([Farquhar et al., 2024](https://www.nature.com/articles/s41586-024-07421-0)) detect certain kinds of hallucinations by checking the model for consistency across rephrasings or augmentations of the prompt. ([Tian et al., 2023](https://arxiv.org/abs/2311.08401)) use DPO and unsupervised factuality-correlated preference data augmentation to dramatically reduce hallucinations in Llama-1 and Llama-2 7B models. Contrastive decoding ([Li et al., 2022](https://arxiv.org/abs/2210.15097)) is an inference-time technique which amplifies predictive differences between a strong model and a weak model. DoLA ([Chuang et al., 2023](https://arxiv.org/abs/2309.03883)) amplifies differences in predictions between the final layer and an earlier layer.
+([Farquhar et al., 2024](https://www.nature.com/articles/s41586-024-07421-0)) detect certain kinds of hallucinations by checking the model for consistency across rephrasings or augmentations of the prompt. ([Tian et al., 2023](https://arxiv.org/abs/2311.08401)) use DPO and unsupervised factuality-correlated preference data augmentation to dramatically reduce hallucinations in Llama-1 and Llama-2-7B models. Contrastive decoding ([Li et al., 2022](https://arxiv.org/abs/2210.15097)) is an inference-time technique which amplifies predictive differences between a strong model and a weak model. DoLA ([Chuang et al., 2023](https://arxiv.org/abs/2309.03883)) amplifies differences in predictions between the final layer and an earlier layer.
 
 ([Zhang et al., 2024](https://aclanthology.org/2024.acl-long.483/))'s TruthX approach recently achieved impressive gains on TruthfulQA for Llama-2-7b, boosting MC1 performance from 34.6% to 54.2%. While this ~20% gain is larger than BIDPO's 15% gain on the same model, the TruthX approach is significantly more complicated. TruthX adds a steering vector in the latent space of an autoencoder trained to represent truth information. Two similar autoencoders are trained at each sublayer of the transformer, requiring $2n_{\text{layers}}$ autoencoders, each with $O\left(d_{\text{model}}^2\right)$ learnable parameters, for a total of $O\left(n_{\text{layers}}d_{\text{model}}^2\right)$ parameters. In comparison, LORAs require only $O\left(n_{\text{layers}}n_{\text{rank}}d_{\text{model}}\right)$ parameters for $n_{\text{rank}} \ll d_{\text{model}}$. Because of TruthX's quadratic dependence on $d_{\text{model}}$, we compare BIDPO to LORAs only: we are interested in steering methods which are both economic and effective.
 
