@@ -81,10 +81,6 @@
   &[data-callout="question"] {
     --color: color-mix(in srgb, var(--yellow) 70%, var(--foreground));
     --callout-icon: var(--callout-icon-question);
-
-    // & .callout-icon {
-    //   -webkit-mask-position-y: 3.25px;
-    // }
   }
 
   &[data-callout="todo"] {
@@ -277,6 +273,7 @@
     width: var(--icon-size);
     height: var(--icon-size);
     flex: 0 0 var(--icon-size);
+    margin-right: $base-margin;
 
     // icon support
     background-size: var(--icon-size) var(--icon-size);
