@@ -9,9 +9,13 @@
   & ul {
     list-style: none;
     max-height: none;
-    margin: 0;
     padding-left: calc(0.5 * $base-margin);
     background-color: var(--background);
+    margin: 0;
+
+    @media all and (min-width: $full-page-width) {
+      margin: $base-margin 0;
+    }
 
     & li {
       text-align: right;
