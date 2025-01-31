@@ -247,7 +247,7 @@ Figure: We had GPT-4 generate dozens of strings which "look like they could have
 
 # Steering vectors
 
-Subtitle: January 2023 through the present
+Subtitle: January 2023 through November 2024
 
 In 2023, I popularized _steering vectors_[^steering] as a cheap way to control model outputs at inference time. I first discovered the [cheese vector](/understanding-and-controlling-a-maze-solving-policy-network#subtract-the-cheese-vector-subtract-the-cheese-seeking) in a maze-solving RL environment:
 
@@ -276,7 +276,7 @@ After finding [an additional vector for the maze agent](/top-right-steering-vect
 >
 > By tactically adding in e.g. the "Love" − "Hate" steering vector during the forward pass, we achieve SOTA on negative-to-positive sentiment shift and detoxification using models including LLaMA-3 and OPT. ActAdd yields inference-time control over high-level output properties (like topic and sentiment) while preserving performance on off-target tasks. ActAdd is lightweight: it does not require any machine optimization and works with a single pair of data points, which enables rapid iteration over steering. ActAdd demonstrates the power of activation engineering.
 
-During 2023 and 2024, activation engineering inspired [dozens of follow-up papers](https://www.lesswrong.com/posts/3ghj8EuKzwD3MQR5G/an-introduction-to-representation-engineering-an-activation). At Google DeepMind, I am presently tying up a project on steering frontier Gemini models using steering vectors. The theory of change is to supplement prompting with steering as another cheap & iterable alignment strategy which can be quickly deployed using a small amount of data.
+During 2023 and 2024, activation engineering inspired [dozens of follow-up papers](https://www.lesswrong.com/posts/3ghj8EuKzwD3MQR5G/an-introduction-to-representation-engineering-an-activation). At Google DeepMind, Mark Kurzeja and I found [a negative result when attempting to steer Gemini towards higher benchmark scores](/gemini-steering).
 
 ## Reflections on steering vector work
 
