@@ -56,7 +56,7 @@ pre_commit==4.0.0
 proselint==0.13.0
 proto-plus==1.24.0
 protobuf==5.28.2
-psutil==5.9.8
+psutil>=5.9.0
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
 pydantic==2.9.2
@@ -101,3 +101,5 @@ uritemplate==4.1.1
 urllib3==2.2.2
 virtualenv==20.26.6
 docformatter
+rich>=13.7.0
+types-psutil>=5.9.5
