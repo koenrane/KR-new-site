@@ -362,6 +362,15 @@ steps_before_server: List[CheckStep] = [
         name="Running Javascript unit tests",
         command=["npm", "run", "test"],
     ),
+    CheckStep(
+        name="Running Python unit tests",
+        command=["pytest", f"{git_root}/scripts"],
+    ),
+    CheckStep(
+        name="Compressing and uploading local assets",
+        command=["sh", f"{git_root}/scripts/handle_local_assets.sh"],
+        shell=True,
+    ),
 ]
 
 # Run remaining steps that depend on the server

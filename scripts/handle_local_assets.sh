@@ -1,20 +1,5 @@
 set -e # Exit immediately if a command exits with a non-zero status
 
-# Parse command line arguments
-SKIP_TESTS=false
-while [[ $# -gt 0 ]]; do
-  case $1 in
-  --skip-tests)
-    SKIP_TESTS=true
-    shift
-    ;;
-  *)
-    echo "Unknown option: $1"
-    exit 1
-    ;;
-  esac
-done
-
 GIT_ROOT=$(git rev-parse --show-toplevel)
 cd "$GIT_ROOT"
 
@@ -24,12 +9,6 @@ cleanup() {
 }
 
 trap cleanup EXIT
-
-# Check that conversion+uploading tests pass
-if [ "$SKIP_TESTS" = false ]; then
-  PY_TEST_DIR="$GIT_ROOT"/scripts/tests
-  python -m pytest "$PY_TEST_DIR"
-fi
 
 STATIC_DIR="$GIT_ROOT"/quartz/static
 # If asset_staging isn't empty
