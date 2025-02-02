@@ -12,7 +12,7 @@ tags:
   - personal
 ---
 
-<img src="/asset_staging/alex-sunset.png" class="float-right" alt=""/>
+<img src="https://assets.turntrout.com/static/images/posts/alex-sunset.avif" class="float-right" alt=""/>
 
 Many people know me as `TurnTrout`, but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
