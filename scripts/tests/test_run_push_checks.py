@@ -17,6 +17,7 @@ from scripts.run_push_checks import (
     StateManager,
     create_server,
     find_quartz_process,
+    get_check_steps,
     is_port_in_use,
     kill_process,
     run_checks,
@@ -392,7 +393,7 @@ def test_run_checks_resume_from_middle(test_steps, state_manager):
 
 
 @pytest.mark.parametrize("resume_flag", [True, False])
-def test_argument_parsing(resume_flag):
+def test_argument_parsing(resume_flag, state_manager):
     """Test command line argument parsing with and without resume flag"""
     with patch("argparse.ArgumentParser.parse_args") as mock_parse:
         mock_parse.return_value = MagicMock(resume=resume_flag)
@@ -403,17 +404,19 @@ def test_argument_parsing(resume_flag):
 
         with (
             patch(
-                "scripts.run_push_checks.steps_before_server",
-                mock_steps_before,
-            ),
-            patch(
-                "scripts.run_push_checks.steps_after_server", mock_steps_after
+                "scripts.run_push_checks.get_check_steps",
+                return_value=(mock_steps_before, mock_steps_after),
             ),
             patch("scripts.run_push_checks.run_checks") as mock_run,
             patch("scripts.run_push_checks.create_server") as mock_create,
             patch("scripts.run_push_checks.kill_process") as mock_kill,
+            patch(
+                "scripts.run_push_checks.StateManager",
+                return_value=state_manager,
+            ),
         ):
             mock_create.return_value = 12345
+
             from scripts.run_push_checks import main
 
             main()
@@ -439,6 +442,10 @@ def test_main_clears_state_on_success():
         patch("scripts.run_push_checks.create_server") as mock_create,
         patch("scripts.run_push_checks.StateManager") as mock_state_cls,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch(
+            "scripts.run_push_checks.get_check_steps",
+            return_value=([CheckStep(name="test", command=["test"])], []),
+        ),
     ):
         mock_create.return_value = 12345
         mock_state = MagicMock()
@@ -463,6 +470,10 @@ def test_main_preserves_state_on_failure():
         patch("scripts.run_push_checks.create_server") as mock_create,
         patch("scripts.run_push_checks.StateManager") as mock_state_cls,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch(
+            "scripts.run_push_checks.get_check_steps",
+            return_value=([CheckStep(name="test", command=["test"])], []),
+        ),
     ):
         mock_create.return_value = 12345
         mock_state = MagicMock()
@@ -478,3 +489,122 @@ def test_main_preserves_state_on_failure():
 
         # Verify state was not cleared
         mock_state.clear_state.assert_not_called()
+
+
+def test_main_skips_pre_server_steps():
+    """Test that main correctly skips pre-server steps when resuming from post-server step"""
+    with (
+        patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=MagicMock(resume=True),
+        ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.create_server") as mock_create,
+        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+    ):
+        mock_create.return_value = 12345
+        mock_run.return_value = None  # Successful runs
+
+        # Create mock steps
+        mock_steps_before = [
+            CheckStep(name="Pre Step 1", command=["test"]),
+            CheckStep(name="Pre Step 2", command=["test"]),
+        ]
+        mock_steps_after = [CheckStep(name="Post Step", command=["test"])]
+
+        with (
+            patch(
+                "scripts.run_push_checks.get_check_steps",
+                return_value=(mock_steps_before, mock_steps_after),
+            ),
+            patch(
+                "scripts.run_push_checks.StateManager.get_last_step",
+                return_value="Post Step",
+            ),
+        ):
+            from scripts.run_push_checks import main
+
+            main()
+
+            # Verify pre-server steps were skipped
+            mock_print.assert_any_call("[grey]Skipping step: Pre Step 1[/grey]")
+            mock_print.assert_any_call("[grey]Skipping step: Pre Step 2[/grey]")
+
+            # Verify only post-server steps were run
+            assert mock_run.call_count == 1
+            mock_run.assert_called_once_with(mock_steps_after, ANY, True)
+
+
+def test_run_checks_skips_until_last_step():
+    """Test that run_checks skips steps until it reaches the last successful step"""
+    test_steps = [
+        CheckStep(name="Step 1", command=["test"]),
+        CheckStep(name="Step 2", command=["test"]),
+        CheckStep(name="Step 3", command=["test"]),
+    ]
+
+    with (
+        patch("scripts.run_push_checks.run_command") as mock_run,
+        patch("scripts.run_push_checks.console.print") as mock_print,
+    ):
+        mock_run.return_value = (True, "", "")
+        state_manager = StateManager()
+        state_manager.save_state("Step 2")  # Pretend we completed up to Step 2
+
+        run_checks(test_steps, state_manager, resume=True)
+
+        # Verify first two steps were skipped
+        mock_print.assert_any_call("[grey]Skipping step: Step 1[/grey]")
+        mock_print.assert_any_call("[grey]Skipping step: Step 2[/grey]")
+
+        # Verify only Step 3 was run
+        assert mock_run.call_count == 1
+        mock_run.assert_called_once_with(test_steps[2], ANY, ANY)
+
+
+def test_state_manager_invalid_step():
+    """Test that StateManager handles invalid steps correctly"""
+    test_steps = ["Step 1", "Step 2", "Step 3"]
+    state_manager = StateManager()
+    state_manager.save_state("Invalid Step")
+
+    # Should raise ValueError when step doesn't exist
+    with pytest.raises(ValueError) as exc_info:
+        state_manager.get_last_step(test_steps)
+    assert "not found" in str(exc_info.value)
+
+    # State file should be cleared after error
+    assert state_manager.get_last_step() is None
+
+
+def test_get_check_steps():
+    """Test that check steps are properly configured"""
+    test_root = Path("/test/root")
+    steps_before, steps_after = get_check_steps(test_root)
+
+    # Verify we have the expected number of steps
+    assert len(steps_before) == 10
+    assert len(steps_after) == 5
+
+    # Verify some key steps exist and are properly configured
+    assert any(
+        step.name == "Typechecking Python with mypy" for step in steps_before
+    )
+    assert any(
+        step.name == "Compressing and uploading local assets"
+        for step in steps_before
+    )
+    assert any(
+        step.name == "Integration testing using Playwright (Chrome-only)"
+        for step in steps_after
+    )
+
+    # Verify paths are properly configured
+    for step in steps_before + steps_after:
+        if ".pylintrc" in str(step.command):
+            assert "--rcfile" in step.command
+            assert str(test_root / ".pylintrc") in str(step.command)
+        if "eslint.config.js" in str(step.command):
+            assert "--config" in step.command
+            assert str(test_root / "eslint.config.js") in str(step.command)

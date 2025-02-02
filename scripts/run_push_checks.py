@@ -44,16 +44,31 @@ class StateManager:
         with open(self.state_file, "w", encoding="utf-8") as f:
             json.dump(state, f)
 
-    def get_last_step(self) -> Optional[str]:
+    def get_last_step(
+        self, available_steps: Optional[List[str]] = None
+    ) -> Optional[str]:
         """
         Get the name of the last successful step.
+
+        Raises ValueError if the step exists but isn't in available_steps.
         """
         if not self.state_file.exists():
             return None
         try:
             with open(self.state_file, "r", encoding="utf-8") as f:
                 state = json.load(f)
-                return state.get("last_successful_step")
+                last_step = state.get("last_successful_step")
+                if (
+                    last_step
+                    and available_steps
+                    and last_step not in available_steps
+                ):
+                    self.clear_state()
+                    raise ValueError(
+                        f"Last step '{last_step}' not found. "
+                        "Resuming not possible."
+                    )
+                return last_step
         except (json.JSONDecodeError, KeyError):
             return None
 
@@ -207,7 +222,8 @@ def run_checks(
         state_manager: StateManager instance to track progress
         resume: Whether to resume from last successful step
     """
-    last_step = state_manager.get_last_step() if resume else None
+    step_names = [step.name for step in steps]
+    last_step = state_manager.get_last_step(step_names) if resume else None
     should_skip = bool(resume and last_step)
 
     with Progress(
@@ -318,94 +334,121 @@ git_root = Path(
     ).strip()
 )
 
-script_files = glob.glob(f"{git_root}/scripts/*.py")
 
 # Define all check steps
-steps_before_server: List[CheckStep] = [
-    CheckStep(
-        name="Typechecking Python with mypy",
-        command=["mypy"] + script_files,
-    ),
-    CheckStep(
-        name="ESLinting TypeScript",
-        command=[
-            "npx",
-            "eslint",
-            "--fix",
-            str(git_root),
-            "--config",
-            f"{git_root}/eslint.config.js",
-        ],
-    ),
-    CheckStep(
-        name="Cleaning up SCSS",
-        command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
-    ),
-    CheckStep(
-        name="Linting Python",
-        command=["pylint", str(git_root), "--rcfile", f"{git_root}/.pylintrc"],
-    ),
-    CheckStep(
-        name="Spellchecking",
-        command=["fish", f"{git_root}/scripts/spellchecker.fish"],
-        shell=True,
-    ),
-    CheckStep(
-        name="Checking source files",
-        command=["python", f"{git_root}/scripts/source_file_checks.py"],
-    ),
-    CheckStep(
-        name="Linting prose using Vale",
-        command=["vale", f"{git_root}/content/*.md"],
-    ),
-    CheckStep(
-        name="Running Javascript unit tests",
-        command=["npm", "run", "test"],
-    ),
-    CheckStep(
-        name="Running Python unit tests",
-        command=["pytest", f"{git_root}/scripts"],
-    ),
-    CheckStep(
-        name="Compressing and uploading local assets",
-        command=["sh", f"{git_root}/scripts/handle_local_assets.sh"],
-        shell=True,
-    ),
-]
+def get_check_steps(
+    git_root_path: Path,
+) -> tuple[list[CheckStep], list[CheckStep]]:
+    """
+    Get the check steps for pre-server and post-server phases.
 
-# Run remaining steps that depend on the server
-steps_after_server = [
-    CheckStep(
-        name="Checking HTML files",
-        command=["python", f"{git_root}/scripts/built_site_checks.py"],
-    ),
-    CheckStep(
-        name="Integration testing using Playwright (Chrome-only)",
-        command=[
-            "npx",
-            "playwright",
-            "test",
-            "--config",
-            f"{git_root}/playwright.config.ts",
-            "--project",
-            "Desktop Chrome",
-        ],
-    ),
-    CheckStep(
-        name="Checking that links are valid",
-        command=["fish", f"{git_root}/scripts/linkchecker.fish"],
-        shell=True,
-    ),
-    CheckStep(
-        name="Updating metadata on published posts",
-        command=["python", f"{git_root}/scripts/update_date_on_publish.py"],
-    ),
-    CheckStep(
-        name="Cryptographically timestamping the last commit",
-        command=["sh", f"{git_root}/scripts/timestamp_last_commit.sh"],
-        shell=True,
-    ),
-]
+    Isolating this allows for better testing and configuration management.
+    """
+    script_files = glob.glob(f"{git_root_path}/scripts/*.py")
+
+    steps_before_server = [
+        CheckStep(
+            name="Typechecking Python with mypy",
+            command=["mypy"] + script_files,
+        ),
+        CheckStep(
+            name="ESLinting TypeScript",
+            command=[
+                "npx",
+                "eslint",
+                "--fix",
+                str(git_root_path),
+                "--config",
+                f"{git_root_path}/eslint.config.js",
+            ],
+        ),
+        CheckStep(
+            name="Cleaning up SCSS",
+            command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
+        ),
+        CheckStep(
+            name="Linting Python",
+            command=[
+                "pylint",
+                str(git_root_path),
+                "--rcfile",
+                f"{git_root_path}/.pylintrc",
+            ],
+        ),
+        CheckStep(
+            name="Spellchecking",
+            command=["fish", f"{git_root_path}/scripts/spellchecker.fish"],
+            shell=True,
+        ),
+        CheckStep(
+            name="Checking source files",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/source_file_checks.py",
+            ],
+        ),
+        CheckStep(
+            name="Linting prose using Vale",
+            command=["vale", f"{git_root_path}/content/*.md"],
+        ),
+        CheckStep(
+            name="Running Javascript unit tests",
+            command=["npm", "run", "test"],
+        ),
+        CheckStep(
+            name="Running Python unit tests",
+            command=["pytest", f"{git_root_path}/scripts"],
+        ),
+        CheckStep(
+            name="Compressing and uploading local assets",
+            command=["sh", f"{git_root_path}/scripts/handle_local_assets.sh"],
+            shell=True,
+        ),
+    ]
+
+    steps_after_server = [
+        CheckStep(
+            name="Checking HTML files",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/built_site_checks.py",
+            ],
+        ),
+        CheckStep(
+            name="Integration testing using Playwright (Chrome-only)",
+            command=[
+                "npx",
+                "playwright",
+                "test",
+                "--config",
+                f"{git_root_path}/playwright.config.ts",
+                "--project",
+                "Desktop Chrome",
+            ],
+        ),
+        CheckStep(
+            name="Checking that links are valid",
+            command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
+            shell=True,
+        ),
+        CheckStep(
+            name="Updating metadata on published posts",
+            command=[
+                "python",
+                f"{git_root_path}/scripts/update_date_on_publish.py",
+            ],
+        ),
+        CheckStep(
+            name="Cryptographically timestamping the last commit",
+            command=[
+                "sh",
+                f"{git_root_path}/scripts/timestamp_last_commit.sh",
+            ],
+            shell=True,
+        ),
+    ]
+
+    return steps_before_server, steps_after_server
 
 
 def main() -> None:
@@ -426,7 +469,29 @@ def main() -> None:
     state_manager = StateManager()
 
     try:
-        run_checks(steps_before_server, state_manager, args.resume)
+        steps_before_server, steps_after_server = get_check_steps(git_root)
+
+        # Get last step to check which phase we're in
+        all_step_names = [
+            step.name for step in steps_before_server + steps_after_server
+        ]
+        last_step = (
+            state_manager.get_last_step(all_step_names) if args.resume else None
+        )
+
+        # Determine if we need to run pre-server steps
+        should_run_pre = (
+            not args.resume
+            or not last_step
+            or last_step in {step.name for step in steps_before_server}
+        )
+
+        if should_run_pre:
+            run_checks(steps_before_server, state_manager, args.resume)
+        else:
+            for step in steps_before_server:
+                console.print(f"[grey]Skipping step: {step.name}[/grey]")
+
         server_pid = create_server(git_root)
         server_manager.set_server_pid(server_pid)
         run_checks(steps_after_server, state_manager, args.resume)
