@@ -147,14 +147,14 @@ def run_command(step: CheckStep) -> Tuple[bool, str, str]:
             step.command if not step.shell else " ".join(step.command),
             shell=step.shell,
             cwd=step.cwd,
-            stdout=subprocess.DEVNULL,  # Suppress standard output
-            stderr=subprocess.PIPE,  # Only capture stderr for error reporting
+            stdout=subprocess.PIPE,  # Capture stdout for error reporting
+            stderr=subprocess.PIPE,  # Capture stderr for error reporting
             text=True,
             check=True,
         )
         return True, "", ""
     except subprocess.CalledProcessError as e:
-        return False, result.stdout or "", result.stderr or ""
+        return False, e.stdout or "", e.stderr or ""
 
 
 git_root = Path(
