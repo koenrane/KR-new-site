@@ -374,11 +374,11 @@ def get_check_steps(
 
     steps_before_server = [
         CheckStep(
-            name="Typechecking Python with mypy",
+            name="Typechecking Python",
             command=["mypy"] + script_files,
         ),
         CheckStep(
-            name="ESLinting TypeScript",
+            name="Linting TypeScript",
             command=[
                 "npx",
                 "eslint",
@@ -414,7 +414,7 @@ def get_check_steps(
             ],
         ),
         CheckStep(
-            name="Linting prose using Vale",
+            name="Linting prose",
             command=["vale", f"{git_root_path}/content/*.md"],
         ),
         CheckStep(
@@ -453,7 +453,7 @@ def get_check_steps(
             ],
         ),
         CheckStep(
-            name="Checking that links are valid",
+            name="Checking link validity",
             command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
             shell=True,
         ),
