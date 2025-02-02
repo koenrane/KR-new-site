@@ -40,7 +40,11 @@ def state_manager():
     with tempfile.TemporaryDirectory() as temp_dir:
         with patch("tempfile.gettempdir", return_value=temp_dir):
             manager = StateManager()
+            # Clear any existing state before tests run
+            manager.clear_state()
             yield manager
+            # Clean up after tests
+            manager.clear_state()
 
 
 @pytest.fixture
