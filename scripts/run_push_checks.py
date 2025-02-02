@@ -134,6 +134,10 @@ def create_server(git_root_path: Path) -> int:
 
 @dataclass
 class CheckStep:
+    """
+    A step in the pre-push check process.
+    """
+
     name: str
     command: List[str]
     shell: bool = False
@@ -179,6 +183,9 @@ def run_command(
     Run a command and return success status and output.
 
     Shows real-time output for steps while suppressing server output.
+    Returns:
+        Tuple of (success, stdout, stderr) where success is a boolean and
+        stdout/stderr are strings containing the complete output.
     """
     try:
         # Use shell=True for shell commands, shell=False for direct commands
@@ -200,7 +207,6 @@ def run_command(
         def stream_reader(
             stream: TextIO, lines_list: List[str], style: Optional[str] = None
         ) -> None:
-            # Iterate over each line from the stream and print immediately
             for line in iter(stream.readline, ""):
                 lines_list.append(line)
                 last_lines.append(line.rstrip())
@@ -209,21 +215,25 @@ def run_command(
                     task_id, description="\n".join(last_lines), visible=True
                 )
 
-        threads = []
-        for stream, lines in [
-            (process.stdout, stdout_lines),
-            (process.stderr, stderr_lines),
-        ]:
-            thread = threading.Thread(
-                target=stream_reader, args=(stream, lines)
-            )
-            thread.start()
-            threads.append(thread)
+        # Create and start threads for reading stdout and stderr
+        stdout_thread = threading.Thread(
+            target=stream_reader, args=(process.stdout, stdout_lines)
+        )
+        stderr_thread = threading.Thread(
+            target=stream_reader, args=(process.stderr, stderr_lines)
+        )
 
-        for thread in threads:
-            thread.join()
+        stdout_thread.start()
+        stderr_thread.start()
 
+        # Wait for both threads to complete
+        stdout_thread.join()
+        stderr_thread.join()
+
+        # Now wait for the process to complete
         return_code = process.wait()
+
+        # Combine all output
         stdout = "".join(stdout_lines)
         stderr = "".join(stderr_lines)
 

@@ -257,3 +257,84 @@ def test_run_checks_shows_error_output(test_steps):
         mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
         mock_print.assert_any_call("stdout error")
         mock_print.assert_any_call("stderr error", style=Style(color="red"))
+
+
+def test_progress_bar_updates(mock_command_setup):
+    """Test that progress bar updates correctly with output"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+
+    with patch("subprocess.Popen", return_value=mock_process):
+        mock_process.wait.return_value = 0
+        # Simulate 6 lines of output to test the deque maxlen=5 behavior
+        mock_process.stdout.readline.side_effect = iter(
+            [
+                "line1\n",
+                "line2\n",
+                "line3\n",
+                "line4\n",
+                "line5\n",
+                "line6\n",
+                "",
+            ]
+        )
+        mock_process.stderr.readline.side_effect = iter([""])
+
+        run_command(test_step, mock_progress, mock_task_id)
+
+        # Verify progress updates
+        update_calls = mock_progress.update.call_args_list
+
+        # First update should show first line and make visible
+        assert update_calls[0][0] == (mock_task_id,)
+        assert update_calls[0][1]["description"] == "line1"
+        assert update_calls[0][1]["visible"] is True
+
+        # Last update should only show last 5 lines
+        last_update = update_calls[-1][1]["description"]
+        assert "line1" not in last_update
+        assert all(f"line{i}" in last_update for i in range(2, 7))
+
+
+def test_progress_bar_stderr_updates(mock_command_setup):
+    """Test that progress bar updates correctly with stderr output"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+
+    with patch("subprocess.Popen", return_value=mock_process):
+        mock_process.wait.return_value = 1
+        mock_process.stdout.readline.side_effect = iter([""])
+        mock_process.stderr.readline.side_effect = iter(
+            ["error1\n", "error2\n", ""]
+        )
+
+        run_command(test_step, mock_progress, mock_task_id)
+
+        # Verify progress updates include stderr
+        update_calls = mock_progress.update.call_args_list
+        assert any("error1" in call[1]["description"] for call in update_calls)
+        assert any("error2" in call[1]["description"] for call in update_calls)
+
+
+def test_progress_bar_mixed_output(mock_command_setup):
+    """Test that progress bar handles mixed stdout/stderr correctly"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+
+    with patch("subprocess.Popen", return_value=mock_process):
+        mock_process.wait.return_value = 0
+        mock_process.stdout.readline.side_effect = iter(
+            ["out1\n", "out2\n", ""]
+        )
+        mock_process.stderr.readline.side_effect = iter(
+            ["err1\n", "err2\n", ""]
+        )
+
+        run_command(test_step, mock_progress, mock_task_id)
+
+        # Verify both stdout and stderr appear in updates
+        update_calls = mock_progress.update.call_args_list
+        descriptions = [call[1]["description"] for call in update_calls]
+
+        # Check that both stdout and stderr lines appear in the progress updates
+        assert any("out1" in desc for desc in descriptions)
+        assert any("out2" in desc for desc in descriptions)
+        assert any("err1" in desc for desc in descriptions)
+        assert any("err2" in desc for desc in descriptions)
