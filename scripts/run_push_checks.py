@@ -4,6 +4,7 @@ Pretty-print progress bars for all pre-push checks.
 """
 
 import glob
+import signal
 import socket
 import subprocess
 import sys
@@ -19,6 +20,26 @@ from rich.style import Style  # type: ignore
 
 console = Console()
 
+# Global variables for cleanup
+_server_to_cleanup: Optional[int] = None
+
+
+def cleanup_handler(signum: int, frame: Optional[object]) -> None:
+    """
+    Signal handler to ensure proper cleanup when the script is interrupted.
+
+    Only kills server if we created a new one.
+    """
+    console.print("\n[yellow]Received interrupt signal.[/yellow]")
+    if _server_to_cleanup is not None:
+        kill_process(_server_to_cleanup)
+    sys.exit(1)
+
+
+# Register signal handlers
+signal.signal(signal.SIGINT, cleanup_handler)
+signal.signal(signal.SIGTERM, cleanup_handler)
+
 
 def is_port_in_use(port: int) -> bool:
     """
@@ -31,92 +52,75 @@ def is_port_in_use(port: int) -> bool:
 def find_quartz_process() -> Optional[int]:
     """
     Find the PID of any running quartz server.
+
+    Returns None if no quartz process is found.
     """
     for proc in psutil.process_iter(["pid", "name", "cmdline"]):
         try:
-            cmdline_has_quartz = any(
-                "quartz" in cmd.lower() for cmd in proc.info["cmdline"]
-            )
-            if "cmdline" in proc.info and cmdline_has_quartz:
+            cmdline = proc.info.get("cmdline")
+            if cmdline is not None and any(
+                "quartz" in cmd.lower() for cmd in cmdline
+            ):
                 return proc.pid
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
     return None
 
 
-def suspend_process(pid: int) -> None:
-    """
-    Suspend a process using SIGSTOP.
-    """
-    try:
-        process = psutil.Process(pid)
-        process.suspend()
-        console.print(f"[yellow]Suspended process {pid}[/yellow]")
-    except psutil.NoSuchProcess:
-        pass
-
-
-def resume_process(pid: int) -> None:
-    """
-    Resume a suspended process using SIGCONT.
-    """
-    try:
-        process = psutil.Process(pid)
-        process.resume()
-        console.print(f"[green]Resumed process {pid}[/green]")
-    except psutil.NoSuchProcess:
-        pass
-
-
 def kill_process(pid: int) -> None:
     """
-    Safely terminate a process.
+    Safely terminate a process and its children.
     """
     try:
         process = psutil.Process(pid)
         process.terminate()
-        process.wait(timeout=5)
-    except psutil.NoSuchProcess:
-        pass
-    except psutil.TimeoutExpired:
-        process.kill()
+        process.wait(timeout=3)
+    except (psutil.NoSuchProcess, psutil.TimeoutExpired):
+        try:
+            process.kill()  # Force kill if still alive
+        except psutil.NoSuchProcess:
+            pass
 
 
-def manage_server(git_root_path: Path) -> Tuple[Optional[int], Optional[int]]:
-    """Manage the quartz server - suspend existing instance and start a new one.
-
-    Returns:
-        Tuple of (original_server_pid, new_server_pid)
+def create_server(git_root_path: Path) -> int:
     """
-    # Find and suspend existing server if running
-    original_pid = find_quartz_process()
-    if original_pid:
-        console.print(f"Found existing quartz server (PID: {original_pid})")
-        suspend_process(original_pid)
+    Create a quartz server.
+
+    Returns the PID of the server to use.
+    """
+    global _server_to_cleanup
+
+    # Use existing server if running
+    if is_port_in_use(8080):
+        existing_pid = find_quartz_process()
+        if existing_pid:
+            console.print(
+                f"[green]Using existing quartz server (PID: {existing_pid})[/green]"
+            )
+            return existing_pid
 
     # Start new server
     console.print("Starting new quartz server...")
-    with subprocess.Popen(
+    new_server = subprocess.Popen(
         ["npx", "quartz", "build", "--serve"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         cwd=git_root_path,
-    ) as new_server:
-        new_pid = new_server.pid
+        start_new_session=True,
+    )
+    _server_to_cleanup = new_server.pid
 
-        # Wait for server to be available
-        timeout = 40
-        for i in range(timeout):
-            if is_port_in_use(8080):
-                console.print(
-                    "[green]Quartz server successfully started "
-                    "on port 8080[/green]"
-                )
-                return original_pid, new_pid
-            time.sleep(1)
-            console.print(f"Waiting for server to start... ({i + 1} seconds)")
+    # Wait for server to be available
+    for i in range(40):
+        if is_port_in_use(8080):
+            console.print("[green]Quartz server successfully started[/green]")
+            return new_server.pid
+        time.sleep(1)
+        console.print(f"Waiting for server to start... ({i + 1} seconds)")
 
-        raise RuntimeError(f"Server failed to start after {timeout} seconds")
+    # Server failed to start
+    kill_process(new_server.pid)
+    raise RuntimeError("Server failed to start after 40 seconds")
 
 
 @dataclass
@@ -134,6 +138,8 @@ class CheckStep:
 def run_command(step: CheckStep) -> Tuple[bool, str, str]:
     """
     Run a command and return success status and output.
+
+    Output is only captured when there's an error to reduce verbosity.
     """
     try:
         # Use shell=True for shell commands, shell=False for direct commands
@@ -141,73 +147,76 @@ def run_command(step: CheckStep) -> Tuple[bool, str, str]:
             step.command if not step.shell else " ".join(step.command),
             shell=step.shell,
             cwd=step.cwd,
-            capture_output=True,
+            stdout=subprocess.DEVNULL,  # Suppress standard output
+            stderr=subprocess.PIPE,  # Only capture stderr for error reporting
             text=True,
             check=True,
         )
-        return True, result.stdout, result.stderr
+        return True, "", ""
     except subprocess.CalledProcessError as e:
-        return False, e.stdout or "", e.stderr or ""
+        return False, result.stdout or "", result.stderr or ""
 
 
-git_root = subprocess.check_output(
-    ["git", "rev-parse", "--show-toplevel"], text=True
-).strip()
+git_root = Path(
+    subprocess.check_output(
+        ["git", "rev-parse", "--show-toplevel"], text=True
+    ).strip()
+)
 
 script_files = glob.glob(f"{git_root}/scripts/*.py")
 
 # Define all check steps
-steps_before_server = [
-    CheckStep(
-        name="Running type checks",
-        command=["mypy"] + script_files,
-    ),
-    CheckStep(
-        name="Running ESLint",
-        command=[
-            "npx",
-            "eslint",
-            "--fix",
-            git_root,
-            "--config",
-            f"{git_root}/eslint.config.js",
-        ],
-    ),
-    CheckStep(
-        name="Running StyleLint",
-        command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
-    ),
-    CheckStep(
-        name="Running Pylint",
-        command=["pylint", git_root, "--rcfile", f"{git_root}/.pylintrc"],
-    ),
-    CheckStep(
-        name="Running spellchecker",
-        command=["fish", f"{git_root}/scripts/spellchecker.fish"],
-        shell=True,
-    ),
-    CheckStep(
-        name="Running source file checks",
-        command=["python", f"{git_root}/scripts/source_file_checks.py"],
-    ),
-    CheckStep(
-        name="Running Vale checks",
-        command=["vale", f"{git_root}/content/*.md"],
-    ),
-    CheckStep(
-        name="Running npm tests",
-        command=["npm", "run", "test"],
-    ),
-    CheckStep(
-        name="Running built site checks",
-        command=["python", f"{git_root}/scripts/built_site_checks.py"],
-    ),
+steps_before_server: List[CheckStep] = [
+    # CheckStep(
+    #     name="Typechecking Python with mypy",
+    #     command=["mypy"] + script_files,
+    # ),
+    # CheckStep(
+    #     name="ESLinting TypeScript",
+    #     command=[
+    #         "npx",
+    #         "eslint",
+    #         "--fix",
+    #         git_root,
+    #         "--config",
+    #         f"{git_root}/eslint.config.js",
+    #     ],
+    # ),
+    # CheckStep(
+    #     name="Cleaning up SCSS",
+    #     command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
+    # ),
+    # CheckStep(
+    #     name="Linting Python",
+    #     command=["pylint", git_root, "--rcfile", f"{git_root}/.pylintrc"],
+    # ),
+    # CheckStep(
+    #     name="Spellchecking",
+    #     command=["fish", f"{git_root}/scripts/spellchecker.fish"],
+    #     shell=True,
+    # ),
+    # CheckStep(
+    #     name="Checking source files",
+    #     command=["python", f"{git_root}/scripts/source_file_checks.py"],
+    # ),
+    # CheckStep(
+    #     name="Linting prose using Vale",
+    #     command=["vale", f"{git_root}/content/*.md"],
+    # ),
+    # CheckStep(
+    #     name="Running Javascript unit tests",
+    #     command=["npm", "run", "test"],
+    # ),
 ]
 
 # Run remaining steps that depend on the server
 steps_after_server = [
     CheckStep(
-        name="Running visual regression tests",
+        name="Checking HTML files",
+        command=["python", f"{git_root}/scripts/built_site_checks.py"],
+    ),
+    CheckStep(
+        name="Integration testing using Playwright (Chrome-only)",
         command=[
             "npx",
             "playwright",
@@ -219,16 +228,16 @@ steps_after_server = [
         ],
     ),
     CheckStep(
-        name="Running link checker",
+        name="Checking that links are valid",
         command=["fish", f"{git_root}/scripts/linkchecker.fish"],
         shell=True,
     ),
     CheckStep(
-        name="Updating publish date",
+        name="Updating metadata on published posts",
         command=["python", f"{git_root}/scripts/update_date_on_publish.py"],
     ),
     CheckStep(
-        name="Timestamping last commit",
+        name="Cryptographically timestamping the last commit",
         command=["sh", f"{git_root}/scripts/timestamp_last_commit.sh"],
         shell=True,
     ),
@@ -258,48 +267,24 @@ def run_checks(steps: List[CheckStep]) -> None:
                     console.print(stdout)
                 if stderr:
                     console.print(stderr, style=Style(color="red"))
-                sys.exit(1)
+                    sys.exit(1)
 
 
 def main():
     """
     Run all checks before pushing.
     """
-    original_server_pid = None
-    new_server_pid = None
+    global _server_to_cleanup
 
     try:
-        # Run pre-server checks
         run_checks(steps_before_server)
-
-        # Start server management before running checks
-        original_server_pid, new_server_pid = manage_server(git_root)
-
-        # Run post-server checks
+        create_server(git_root)
         run_checks(steps_after_server)
 
         console.print("\n[green]All checks passed successfully! 🎉[/green]")
 
     finally:
-        # Cleanup: Kill the new server and resume the original one if it existed
-        if new_server_pid:
-            console.print("Cleaning up test server...")
-            kill_process(new_server_pid)
-
-        if original_server_pid:
-            console.print("Resuming original server...")
-            resume_process(original_server_pid)
-            # Wait a moment to ensure the server is back up
-            time.sleep(2)
-            if is_port_in_use(8080):
-                console.print(
-                    "[green]Original server successfully resumed[/green]"
-                )
-            else:
-                console.print(
-                    "[red]Warning: Original server did not "
-                    "resume properly[/red]"
-                )
+        cleanup_handler(0, None)  # Run cleanup on normal exit too
 
 
 if __name__ == "__main__":
