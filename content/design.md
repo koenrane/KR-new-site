@@ -679,7 +679,11 @@ I automatically merge test-passing pull requests from `dependabot`, reducing sec
      "isort", 
      "autopep8 --in-place",
      "black"
-    ]
+    ],
+ "!(*.vale-styles)/**/*.md": [
+      "prettier --write",
+      "markdownlint --config .markdownlint.jsonrc --fix"
+    ],
 }
 ```
 
@@ -713,7 +717,7 @@ Code: Using the [`rich`](https://github.com/Textualize/rich) Python library, my 
 
 ### Static code analysis
 
-I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality and ensure that [`pylint`](https://www.pylint.org/) rates my code health at 10/10.
+I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality and ensure that [`pylint`](https://www.pylint.org/) rates my code health at 10/10. I lint my _prose_ using [`vale`](https://vale.sh/) - checking, for example, that I don't use clichés or unnecessary superlatives.
 
 I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error.
 
@@ -840,4 +844,4 @@ I try to keep the repository clean of DeepSource issues, but it does point out a
 > [!info] Asset attributions
 > The <img src="https://assets.turntrout.com/static/images/plus.svg" class="inline-img light-svg" alt="Plus sign"/> and <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/heart.svg" alt="Heart icon"/> are [sourced from the "Dazzle Line Icons"](https://www.svgrepo.com/svg/532997/plus-large) [collection](https://www.svgrepo.com/svg/532473/heart) under the CC attribution license. The link callout icon <img class="inline-img light-svg" src="https://assets.turntrout.com/static/images/link.svg" alt="A single link from a chain"/> and the same-page "favicon" <img class="inline-img anchor light-svg" src="https://assets.turntrout.com/static/images/anchor.svg" alt="A counterclockwise arrow" /> are sourced from Solar Icons on [SVG repo](https://www.svgrepo.com/svg/529680/link). The Twitter emoji styling is from the [Twemoji repository](https://github.com/twitter/twemoji).
 
-[LessWrong](lesswrong.com) inspired the "previous/next" sequence navigation interface. [`gwern.net`](https://gwern.net) inspired [inline link icons](/design#inline-favicons), [dropcaps](/design#dropcaps), [`linkchecker`](/design#validating-links), and [cryptographic timestamping](/design#finishing-touches).
+[LessWrong](lesswrong.com) inspired the "previous/next" sequence navigation interface. [`gwern.net`](https://gwern.net) inspired [inline link icons](/design#inline-favicons), [dropcaps](/design#dropcaps), [`linkchecker`](/design#validating-links), prose linting, and [cryptographic timestamping](/design#finishing-touches).
