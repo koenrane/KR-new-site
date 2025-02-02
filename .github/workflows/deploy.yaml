@@ -43,13 +43,13 @@ jobs:
         run: pip install -r requirements.txt
       - name: Install xmllint
         run: sudo apt-get install -y libxml2-utils
-      - name: Run site checks
-        run: python scripts/built_site_checks.py
 
       - name: Install subfont
         run: npm install -g subfont
       - name: Make script executable
         run: chmod +x ./scripts/subfont.sh
+      
+      # TODO apply subfont to the public directory
 
       - name: Site checks
         run: python scripts/built_site_checks.py
