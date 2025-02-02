@@ -12,25 +12,13 @@ tags:
   - personal
 ---
 
-
-
-
-
-
-
-
-
-
-
-<img src="https://assets.turntrout.com/static/images/posts/alex_rainbow_2.avif" class="float-right" alt=""/>
+<img src="/asset_staging/alex-sunset.png" class="float-right" alt=""/>
 
 Many people know me as `TurnTrout`, but you can call me "Alex". I want to let you see a different facet of me than I usually present online.
 
 I was born in '94. Now, I'm a research scientist on [Google DeepMind's](https://deepmind.google/) scalable alignment team in San Francisco. In this document, I'll overview what the intervening time has made of me, as a person.
 
-I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕
-
-(And by "best friend", I mean "wife.")
+I'm straight and [polyamorous](https://en.wikipedia.org/wiki/Polyamory).[^partner] I'm hoping to meet a wonderful woman to be [my best friend](https://en.wikipedia.org/wiki/Wife) for many years. 💕 (And by "best friend", I mean "wife.")
 [^partner]: As of summer 2024, I have one partner. She's extremely wonderful, and we've been dating for four years.
 
 # About me
