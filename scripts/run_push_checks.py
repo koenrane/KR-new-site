@@ -3,11 +3,14 @@
 Pretty-print progress bars for all pre-push checks.
 """
 
+import argparse
 import glob
+import json
 import signal
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from collections import deque
@@ -21,6 +24,45 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
 from rich.style import Style  # type: ignore
 
 console = Console()
+
+
+class StateManager:
+    """
+    Manages the state of check execution, allowing for resumption of checks.
+    """
+
+    def __init__(self):
+        self.temp_dir = Path(tempfile.gettempdir()) / "quartz_checks"
+        self.state_file = self.temp_dir / "last_successful_step.json"
+        self.temp_dir.mkdir(exist_ok=True)
+
+    def save_state(self, step_name: str) -> None:
+        """
+        Save the last successful step.
+        """
+        state = {"last_successful_step": step_name}
+        with open(self.state_file, "w", encoding="utf-8") as f:
+            json.dump(state, f)
+
+    def get_last_step(self) -> Optional[str]:
+        """
+        Get the name of the last successful step.
+        """
+        if not self.state_file.exists():
+            return None
+        try:
+            with open(self.state_file, "r", encoding="utf-8") as f:
+                state = json.load(f)
+                return state.get("last_successful_step")
+        except (json.JSONDecodeError, KeyError):
+            return None
+
+    def clear_state(self) -> None:
+        """
+        Clear the saved state.
+        """
+        if self.state_file.exists():
+            self.state_file.unlink()
 
 
 class ServerManager:
@@ -90,13 +132,14 @@ def kill_process(pid: int) -> None:
     """
     try:
         process = psutil.Process(pid)
-        process.terminate()
-        process.wait(timeout=3)
-    except (psutil.NoSuchProcess, psutil.TimeoutExpired):
         try:
+            process.terminate()
+            process.wait(timeout=3)
+        except psutil.TimeoutExpired:
             process.kill()  # Force kill if still alive
-        except psutil.NoSuchProcess:
-            pass
+    except psutil.NoSuchProcess:
+        # Process already terminated, nothing to do
+        pass
 
 
 def create_server(git_root_path: Path) -> int:
@@ -110,7 +153,8 @@ def create_server(git_root_path: Path) -> int:
         existing_pid = find_quartz_process()
         if existing_pid:
             console.print(
-                f"[green]Using existing quartz server (PID: {existing_pid})[/green]"
+                "[green]Using existing quartz server "
+                f"(PID: {existing_pid})[/green]"
             )
             return existing_pid
 
@@ -152,17 +196,33 @@ class CheckStep:
     cwd: Optional[str] = None
 
 
-def run_checks(steps: List[CheckStep]) -> None:
+def run_checks(
+    steps: List[CheckStep], state_manager: StateManager, resume: bool = False
+) -> None:
     """
     Run a list of check steps and handle their output.
+
+    Args:
+        steps: List of check steps to run
+        state_manager: StateManager instance to track progress
+        resume: Whether to resume from last successful step
     """
+    last_step = state_manager.get_last_step() if resume else None
+    should_skip = bool(resume and last_step)
+
     with Progress(
         SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
+        TextColumn(" {task.description}"),  # Add leading space for alignment
         console=console,
         expand=True,  # Allow the progress bar to use full width
     ) as progress:
         for step in steps:
+            if should_skip:
+                console.print(f"[grey]Skipping step: {step.name}[/grey]")
+                if step.name == last_step:
+                    should_skip = False
+                continue
+
             # Create two tasks - one for the step name and one for output
             name_task = progress.add_task(f"[cyan]{step.name}...", total=None)
             # Hidden until we have output
@@ -174,6 +234,7 @@ def run_checks(steps: List[CheckStep]) -> None:
 
             if success:
                 console.print(f"[green]✓[/green] {step.name}")
+                state_manager.save_state(step.name)
             else:
                 console.print(f"[red]✗[/red] {step.name}")
                 console.print("\n[bold red]Error output:[/bold red]")
@@ -216,7 +277,7 @@ def run_command(
                 for line in iter(stream.readline, ""):
                     lines_list.append(line)
                     last_lines.append(line.rstrip())
-                    # Update progress display with last 5 lines and make it visible
+                    # Update progress display with last 5 lines
                     progress.update(
                         task_id,
                         description="\n".join(last_lines),
@@ -342,14 +403,28 @@ def main() -> None:
     """
     Run all checks before pushing.
     """
+    parser = argparse.ArgumentParser(
+        description="Run pre-push checks with progress bars."
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume from last successful check",
+    )
+    args = parser.parse_args()
+
     server_manager = ServerManager()
+    state_manager = StateManager()
+
     try:
-        run_checks(steps_before_server)
+        run_checks(steps_before_server, state_manager, args.resume)
         server_pid = create_server(git_root)
         server_manager.set_server_pid(server_pid)
-        run_checks(steps_after_server)
+        run_checks(steps_after_server, state_manager, args.resume)
 
         console.print("\n[green]All checks passed successfully! 🎉[/green]")
+        # Clear state file on successful completion
+        state_manager.clear_state()
 
     finally:
         server_manager.cleanup()

@@ -3,8 +3,9 @@ Unit tests for run_push_checks.py
 """
 
 import signal
+import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import ANY, MagicMock, call, patch
 
 import psutil
 import pytest
@@ -13,6 +14,7 @@ from rich.style import Style
 from scripts.run_push_checks import (
     CheckStep,
     ServerManager,
+    StateManager,
     create_server,
     find_quartz_process,
     is_port_in_use,
@@ -29,6 +31,15 @@ def reset_global_state():
 
     scripts.run_push_checks._server_to_cleanup = None
     yield
+
+
+@pytest.fixture
+def state_manager():
+    """Create a temporary state manager for testing"""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        with patch("tempfile.gettempdir", return_value=temp_dir):
+            manager = StateManager()
+            yield manager
 
 
 @pytest.fixture
@@ -123,16 +134,18 @@ def test_steps():
     ]
 
 
-def test_run_checks_all_success(test_steps):
+def test_run_checks_all_success(test_steps, state_manager):
     """Test that all checks run successfully when there are no failures"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
-        run_checks(test_steps)
+        run_checks(test_steps, state_manager)
         assert mock_run.call_count == 3
 
 
 @pytest.mark.parametrize("failing_step_index", [0, 1, 2])
-def test_run_checks_exits_on_failure(test_steps, failing_step_index):
+def test_run_checks_exits_on_failure(
+    test_steps, state_manager, failing_step_index
+):
     """Test that run_checks exits immediately when a check fails"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         # Create a list of results where one step fails
@@ -141,13 +154,13 @@ def test_run_checks_exits_on_failure(test_steps, failing_step_index):
         mock_run.side_effect = results
 
         with pytest.raises(SystemExit) as exc_info:
-            run_checks(test_steps)
+            run_checks(test_steps, state_manager)
 
         assert exc_info.value.code == 1
         assert mock_run.call_count == failing_step_index + 1
 
 
-def test_run_checks_shows_error_output(test_steps):
+def test_run_checks_shows_error_output(test_steps, state_manager):
     """Test that error output is properly displayed on failure"""
     with (
         patch("scripts.run_push_checks.run_command") as mock_run,
@@ -156,7 +169,7 @@ def test_run_checks_shows_error_output(test_steps):
         mock_run.return_value = (False, "stdout error", "stderr error")
 
         with pytest.raises(SystemExit):
-            run_checks(test_steps)
+            run_checks(test_steps, state_manager)
 
         mock_print.assert_any_call("[red]✗[/red] Test Step 1")
         mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
@@ -318,3 +331,150 @@ def test_progress_bar_mixed_output():
         assert any("out2" in desc for desc in descriptions)
         assert any("err1" in desc for desc in descriptions)
         assert any("err2" in desc for desc in descriptions)
+
+
+def test_state_manager_save_and_get(state_manager):
+    """Test state manager can save and retrieve state"""
+    state_manager.save_state("Test Step 1")
+    assert state_manager.get_last_step() == "Test Step 1"
+
+    # Test overwriting state
+    state_manager.save_state("Test Step 2")
+    assert state_manager.get_last_step() == "Test Step 2"
+
+
+def test_state_manager_clear(state_manager):
+    """Test state manager can clear state"""
+    state_manager.save_state("Test Step")
+    assert state_manager.get_last_step() == "Test Step"
+
+    state_manager.clear_state()
+    assert state_manager.get_last_step() is None
+
+
+def test_run_checks_with_resume(test_steps, state_manager):
+    """Test resuming from a previous step"""
+    with patch("scripts.run_push_checks.run_command") as mock_run:
+        mock_run.return_value = (True, "", "")
+
+        # Save state as if we completed the first step
+        state_manager.save_state("Test Step 1")
+
+        # Run with resume flag
+        run_checks(test_steps, state_manager, resume=True)
+
+        # Should only run steps 2 and 3
+        assert mock_run.call_count == 2
+
+        # Verify the skipped step was logged
+        with patch("scripts.run_push_checks.console.print") as mock_print:
+            run_checks(test_steps, state_manager, resume=True)
+            mock_print.assert_any_call(
+                "[grey]Skipping step: Test Step 1[/grey]"
+            )
+
+
+def test_run_checks_resume_from_middle(test_steps, state_manager):
+    """Test resuming from a middle step with failure"""
+    with patch("scripts.run_push_checks.run_command") as mock_run:
+        # Set up to fail on the last step
+        mock_run.side_effect = [(False, "Failed", "Error")]
+
+        # Save state as if we completed the second step
+        state_manager.save_state("Test Step 2")
+
+        # Run with resume flag, should fail on step 3
+        with pytest.raises(SystemExit):
+            run_checks(test_steps, state_manager, resume=True)
+
+        # Should only try to run step 3
+        assert mock_run.call_count == 1
+
+
+@pytest.mark.parametrize("resume_flag", [True, False])
+def test_argument_parsing(resume_flag):
+    """Test command line argument parsing with and without resume flag"""
+    with patch("argparse.ArgumentParser.parse_args") as mock_parse:
+        mock_parse.return_value = MagicMock(resume=resume_flag)
+
+        # Create mock steps
+        mock_steps_before = [CheckStep(name="Test Before", command=["test"])]
+        mock_steps_after = [CheckStep(name="Test After", command=["test"])]
+
+        with (
+            patch(
+                "scripts.run_push_checks.steps_before_server",
+                mock_steps_before,
+            ),
+            patch(
+                "scripts.run_push_checks.steps_after_server", mock_steps_after
+            ),
+            patch("scripts.run_push_checks.run_checks") as mock_run,
+            patch("scripts.run_push_checks.create_server") as mock_create,
+            patch("scripts.run_push_checks.kill_process") as mock_kill,
+        ):
+            mock_create.return_value = 12345
+            from scripts.run_push_checks import main
+
+            main()
+
+            # Verify run_checks was called twice with correct resume flag
+            assert mock_run.call_count == 2
+            mock_run.assert_has_calls(
+                [
+                    call(mock_steps_before, ANY, resume_flag),
+                    call(mock_steps_after, ANY, resume_flag),
+                ]
+            )
+
+
+def test_main_clears_state_on_success():
+    """Test that main clears state file when all checks pass"""
+    with (
+        patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=MagicMock(resume=False),
+        ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.create_server") as mock_create,
+        patch("scripts.run_push_checks.StateManager") as mock_state_cls,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+    ):
+        mock_create.return_value = 12345
+        mock_state = MagicMock()
+        mock_state_cls.return_value = mock_state
+
+        from scripts.run_push_checks import main
+
+        main()
+
+        # Verify state was cleared after successful completion
+        mock_state.clear_state.assert_called_once()
+
+
+def test_main_preserves_state_on_failure():
+    """Test that main preserves state file when a check fails"""
+    with (
+        patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=MagicMock(resume=False),
+        ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.create_server") as mock_create,
+        patch("scripts.run_push_checks.StateManager") as mock_state_cls,
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+    ):
+        mock_create.return_value = 12345
+        mock_state = MagicMock()
+        mock_state_cls.return_value = mock_state
+
+        # Make the first run_checks call fail
+        mock_run.side_effect = SystemExit(1)
+
+        from scripts.run_push_checks import main
+
+        with pytest.raises(SystemExit):
+            main()
+
+        # Verify state was not cleared
+        mock_state.clear_state.assert_not_called()
