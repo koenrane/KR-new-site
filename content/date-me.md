@@ -7,10 +7,11 @@ hideSubscriptionLinks: true
 card_image: https://assets.turntrout.com/static/images/card_images/anime_sunset.png
 description: My dating doc, sharing who I am and who I'm looking for. Is it you? 💘
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-02-01 23:51:40.169611
 tags:
   - personal
 ---
+
 
 <img src="https://assets.turntrout.com/static/images/posts/alex-sunset.avif" class="float-right" alt=""/>
 

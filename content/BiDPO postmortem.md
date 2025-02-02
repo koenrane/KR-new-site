@@ -18,9 +18,10 @@ aliases:
   - steering-gemini
 original_url:
 date_published: 2025-01-30 09:30:36.233182
-date_updated: 2025-01-30 22:03:00.726413
+date_updated: 2025-02-01 23:51:40.169611
 other_urls: https://deepmindsafetyresearch.medium.com/steering-gemini-using-bidpo-vectors-8a0e7e1da1c9
 ---
+
 
 
 
