@@ -12,7 +12,7 @@ from rich.style import Style
 
 from scripts.run_push_checks import (
     CheckStep,
-    cleanup_handler,
+    ServerManager,
     create_server,
     find_quartz_process,
     is_port_in_use,
@@ -53,16 +53,16 @@ def mock_socket():
 
 def test_is_port_in_use(monkeypatch):
     """Test port availability checking"""
-    with patch("socket.socket") as mock_socket:
+    with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 0
-        mock_socket.return_value.__enter__.return_value = mock_sock_instance
+        mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
         assert is_port_in_use(8080) is True
 
-    with patch("socket.socket") as mock_socket:
+    with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 1
-        mock_socket.return_value.__enter__.return_value = mock_sock_instance
+        mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
         assert is_port_in_use(8080) is False
 
 
@@ -98,111 +98,19 @@ def test_create_server():
         ) as mock_find_process,
         patch("subprocess.Popen") as mock_popen,
     ):
+        # Case 1: The port is in use, so we find an existing process
         mock_port_check.return_value = True
         mock_find_process.return_value = 12345
         assert create_server(Path("/fake/path")) == 12345
 
+        # Case 2: The port isn't in use initially, but comes up after we start the server
         mock_port_check.side_effect = [False] + [True] * 39
-        mock_popen.return_value.pid = 54321
+
+        # We must ensure we set up the context-manager return value properly
+        mock_server_instance = mock_popen.return_value.__enter__.return_value
+        mock_server_instance.pid = 54321
+
         assert create_server(Path("/fake/path")) == 54321
-
-
-@pytest.fixture
-def mock_command_setup():
-    """Fixture for command execution test setup"""
-    test_step = CheckStep(
-        name="Test Command",
-        command=["echo", "test"],
-    )
-
-    mock_stdout = MagicMock()
-    mock_stderr = MagicMock()
-    mock_process = MagicMock()
-    mock_process.stdout = mock_stdout
-    mock_process.stderr = mock_stderr
-
-    mock_progress = MagicMock()
-    mock_task_id = MagicMock()
-
-    return test_step, mock_process, mock_progress, mock_task_id
-
-
-def test_run_command_success(mock_command_setup):
-    """Test successful command execution"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
-
-    with patch("subprocess.Popen", return_value=mock_process):
-        # Set up success case
-        mock_process.wait.return_value = 0
-        mock_process.stdout.readline.side_effect = iter(["test output\n", ""])
-        mock_process.stderr.readline.side_effect = iter([""])
-
-        success, stdout, stderr = run_command(
-            test_step, mock_progress, mock_task_id
-        )
-
-        assert success is True
-        assert "test output\n" in stdout
-        assert stderr == ""
-        mock_progress.update.assert_called()
-
-
-def test_run_command_failure(mock_command_setup):
-    """Test command execution failure"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
-
-    with patch("subprocess.Popen", return_value=mock_process):
-        # Set up failure case
-        mock_process.wait.return_value = 1
-        mock_process.stdout.readline.side_effect = iter(["error output\n", ""])
-        mock_process.stderr.readline.side_effect = iter(["error message\n", ""])
-
-        success, stdout, stderr = run_command(
-            test_step, mock_progress, mock_task_id
-        )
-
-        assert success is False
-        assert "error output\n" in stdout
-        assert "error message\n" in stderr
-        mock_progress.update.assert_called()
-
-
-def test_run_command_shell_handling(mock_command_setup):
-    """Test command execution with shell=True"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
-    test_step.shell = True
-
-    with patch("subprocess.Popen", return_value=mock_process) as mock_popen:
-        mock_process.wait.return_value = 0
-        mock_process.stdout.readline.side_effect = iter(["output\n", ""])
-        mock_process.stderr.readline.side_effect = iter([""])
-
-        run_command(test_step, mock_progress, mock_task_id)
-
-        # Verify shell command was joined
-        call_args = mock_popen.call_args[0][0]
-        assert isinstance(call_args, str)
-        assert " ".join(test_step.command) == call_args
-
-
-def test_cleanup_handler():
-    """Test cleanup handler functionality"""
-    with (
-        patch("scripts.run_push_checks.kill_process") as mock_kill,
-        patch("sys.exit") as mock_exit,
-    ):
-        cleanup_handler(signal.SIGINT, None)
-        mock_kill.assert_not_called()
-        mock_exit.assert_called_once_with(1)
-
-        mock_kill.reset_mock()
-        mock_exit.reset_mock()
-        import scripts.run_push_checks
-
-        scripts.run_push_checks._server_to_cleanup = 12345
-        cleanup_handler(signal.SIGINT, None)
-        mock_kill.assert_called_once_with(12345)
-        mock_exit.assert_called_once_with(1)
 
 
 @pytest.fixture
@@ -235,10 +143,8 @@ def test_run_checks_exits_on_failure(test_steps, failing_step_index):
         with pytest.raises(SystemExit) as exc_info:
             run_checks(test_steps)
 
-        assert exc_info.value.code == 1  # Verify exit code is 1
-        assert (
-            mock_run.call_count == failing_step_index + 1
-        )  # Verify it stopped at failure
+        assert exc_info.value.code == 1
+        assert mock_run.call_count == failing_step_index + 1
 
 
 def test_run_checks_shows_error_output(test_steps):
@@ -252,88 +158,162 @@ def test_run_checks_shows_error_output(test_steps):
         with pytest.raises(SystemExit):
             run_checks(test_steps)
 
-        # Verify error output was printed
         mock_print.assert_any_call("[red]✗[/red] Test Step 1")
         mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
         mock_print.assert_any_call("stdout error")
         mock_print.assert_any_call("stderr error", style=Style(color="red"))
 
 
-def test_progress_bar_updates(mock_command_setup):
+def test_cleanup_handler():
+    """Test cleanup handler functionality"""
+    server_manager = ServerManager()
+    with (
+        patch("scripts.run_push_checks.kill_process") as mock_kill,
+        patch("sys.exit") as mock_exit,
+    ):
+        # Test cleanup with no server
+        server_manager._signal_handler(signal.SIGINT, None)
+        mock_kill.assert_not_called()
+        mock_exit.assert_called_once_with(1)
+
+        mock_kill.reset_mock()
+        mock_exit.reset_mock()
+
+        # Test cleanup with active server
+        server_manager.set_server_pid(12345)
+        server_manager._signal_handler(signal.SIGINT, None)
+        mock_kill.assert_called_once_with(12345)
+        mock_exit.assert_called_once_with(1)
+
+
+def test_run_command_success():
+    """Test successful command execution"""
+    step = CheckStep(name="Test Command", command=["echo", "test"])
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 0
+        proc.stdout.readline.side_effect = ["test output\n", ""]
+        proc.stderr.readline.side_effect = [""]
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        success, stdout, stderr = run_command(step, mock_progress, mock_task_id)
+        assert success is True
+        assert "test output\n" in stdout
+        assert stderr == ""
+
+
+def test_run_command_failure():
+    """Test command execution failure"""
+    step = CheckStep(name="Test Command", command=["echo", "test"])
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 1
+        proc.stdout.readline.side_effect = ["error output\n", ""]
+        proc.stderr.readline.side_effect = ["error message\n", ""]
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        success, stdout, stderr = run_command(step, mock_progress, mock_task_id)
+        assert success is False
+        assert "error output\n" in stdout
+        assert "error message\n" in stderr
+
+
+def test_run_command_shell_handling():
+    """Test command execution with shell=True"""
+    step = CheckStep(name="Test Command", command=["echo", "test"], shell=True)
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 0
+        proc.stdout.readline.side_effect = ["output\n", ""]
+        proc.stderr.readline.side_effect = [""]
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        run_command(step, mock_progress, mock_task_id)
+        expected_full_command = " ".join(step.command)
+        called_cmd = mock_popen.call_args[0][0]
+        assert isinstance(called_cmd, str)
+        assert called_cmd == expected_full_command
+
+
+def test_progress_bar_updates():
     """Test that progress bar updates correctly with output"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
-
-    with patch("subprocess.Popen", return_value=mock_process):
-        mock_process.wait.return_value = 0
+    step = CheckStep(name="Test Command", command=["echo", "test"])
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 0
         # Simulate 6 lines of output to test the deque maxlen=5 behavior
-        mock_process.stdout.readline.side_effect = iter(
-            [
-                "line1\n",
-                "line2\n",
-                "line3\n",
-                "line4\n",
-                "line5\n",
-                "line6\n",
-                "",
-            ]
-        )
-        mock_process.stderr.readline.side_effect = iter([""])
+        proc.stdout.readline.side_effect = [
+            "line1\n",
+            "line2\n",
+            "line3\n",
+            "line4\n",
+            "line5\n",
+            "line6\n",
+            "",
+        ]
+        proc.stderr.readline.side_effect = [""]
 
-        run_command(test_step, mock_progress, mock_task_id)
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
 
-        # Verify progress updates
+        run_command(step, mock_progress, mock_task_id)
+
         update_calls = mock_progress.update.call_args_list
-
         # First update should show first line and make visible
         assert update_calls[0][0] == (mock_task_id,)
         assert update_calls[0][1]["description"] == "line1"
         assert update_calls[0][1]["visible"] is True
 
-        # Last update should only show last 5 lines
-        last_update = update_calls[-1][1]["description"]
-        assert "line1" not in last_update
-        assert all(f"line{i}" in last_update for i in range(2, 7))
+        # Last update should show lines2..6
+        last_desc = update_calls[-1][1]["description"]
+        assert "line1" not in last_desc
+        for i in range(2, 7):
+            assert f"line{i}" in last_desc
 
 
-def test_progress_bar_stderr_updates(mock_command_setup):
+def test_progress_bar_stderr_updates():
     """Test that progress bar updates correctly with stderr output"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+    step = CheckStep(name="Test Command", command=["echo", "test"])
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 1
+        proc.stdout.readline.side_effect = [""]
+        proc.stderr.readline.side_effect = ["error1\n", "error2\n", ""]
 
-    with patch("subprocess.Popen", return_value=mock_process):
-        mock_process.wait.return_value = 1
-        mock_process.stdout.readline.side_effect = iter([""])
-        mock_process.stderr.readline.side_effect = iter(
-            ["error1\n", "error2\n", ""]
-        )
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
 
-        run_command(test_step, mock_progress, mock_task_id)
+        run_command(step, mock_progress, mock_task_id)
 
-        # Verify progress updates include stderr
         update_calls = mock_progress.update.call_args_list
-        assert any("error1" in call[1]["description"] for call in update_calls)
-        assert any("error2" in call[1]["description"] for call in update_calls)
+        # Confirm both stderr lines appear
+        descs = [c[1]["description"] for c in update_calls]
+        assert any("error1" in d for d in descs)
+        assert any("error2" in d for d in descs)
 
 
-def test_progress_bar_mixed_output(mock_command_setup):
+def test_progress_bar_mixed_output():
     """Test that progress bar handles mixed stdout/stderr correctly"""
-    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+    step = CheckStep(name="Test Command", command=["echo", "test"])
+    with patch("subprocess.Popen") as mock_popen:
+        proc = mock_popen.return_value.__enter__.return_value
+        proc.wait.return_value = 0
+        proc.stdout.readline.side_effect = ["out1\n", "out2\n", ""]
+        proc.stderr.readline.side_effect = ["err1\n", "err2\n", ""]
 
-    with patch("subprocess.Popen", return_value=mock_process):
-        mock_process.wait.return_value = 0
-        mock_process.stdout.readline.side_effect = iter(
-            ["out1\n", "out2\n", ""]
-        )
-        mock_process.stderr.readline.side_effect = iter(
-            ["err1\n", "err2\n", ""]
-        )
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
 
-        run_command(test_step, mock_progress, mock_task_id)
+        run_command(step, mock_progress, mock_task_id)
 
-        # Verify both stdout and stderr appear in updates
         update_calls = mock_progress.update.call_args_list
         descriptions = [call[1]["description"] for call in update_calls]
-
-        # Check that both stdout and stderr lines appear in the progress updates
         assert any("out1" in desc for desc in descriptions)
         assert any("out2" in desc for desc in descriptions)
         assert any("err1" in desc for desc in descriptions)

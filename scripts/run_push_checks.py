@@ -16,38 +16,46 @@ from pathlib import Path
 from typing import Deque, List, Optional, TextIO, Tuple
 
 import psutil
-from rich.console import Console  # type: ignore
-from rich.live import Live  # type: ignore
-from rich.panel import Panel  # type: ignore
-from rich.progress import (  # type: ignore
-    Progress,
-    SpinnerColumn,
-    TaskID,
-    TextColumn,
-)
+from rich.console import Console
+from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
 from rich.style import Style  # type: ignore
 
 console = Console()
 
-# Global variables for cleanup
-_server_to_cleanup: Optional[int] = None
 
-
-def cleanup_handler(signum: int, frame: Optional[object]) -> None:
+class ServerManager:
     """
-    Signal handler to ensure proper cleanup when the script is interrupted.
-
-    Only kills server if we created a new one.
+    Manages the quartz server process and handles cleanup on interrupts.
     """
-    console.print("\n[yellow]Received interrupt signal.[/yellow]")
-    if _server_to_cleanup is not None:
-        kill_process(_server_to_cleanup)
-    sys.exit(1)
 
+    _server_pid: Optional[int] = None
 
-# Register signal handlers
-signal.signal(signal.SIGINT, cleanup_handler)
-signal.signal(signal.SIGTERM, cleanup_handler)
+    def __init__(self):
+        # Set up signal handlers
+        signal.signal(signal.SIGINT, self._signal_handler)
+        signal.signal(signal.SIGTERM, self._signal_handler)
+
+    def _signal_handler(self, _: int, __: Optional[object]) -> None:
+        """
+        Handle interrupt signals by cleaning up server and exiting.
+        """
+        console.print("\n[yellow]Received interrupt signal.[/yellow]")
+        self.cleanup()
+        sys.exit(1)
+
+    def set_server_pid(self, pid: int) -> None:
+        """
+        Set the server PID to track for cleanup.
+        """
+        self._server_pid = pid
+
+    def cleanup(self) -> None:
+        """
+        Clean up the server if it exists.
+        """
+        if self._server_pid is not None:
+            kill_process(self._server_pid)
+            self._server_pid = None
 
 
 def is_port_in_use(port: int) -> bool:
@@ -97,8 +105,6 @@ def create_server(git_root_path: Path) -> int:
 
     Returns the PID of the server to use.
     """
-    global _server_to_cleanup
-
     # Use existing server if running
     if is_port_in_use(8080):
         existing_pid = find_quartz_process()
@@ -110,26 +116,28 @@ def create_server(git_root_path: Path) -> int:
 
     # Start new server
     console.print("Starting new quartz server...")
-    new_server = subprocess.Popen(
+    with subprocess.Popen(
         ["npx", "quartz", "build", "--serve"],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
         cwd=git_root_path,
         start_new_session=True,
-    )
-    _server_to_cleanup = new_server.pid
+    ) as new_server:
+        server_pid = new_server.pid
 
-    # Wait for server to be available
-    for i in range(40):
-        if is_port_in_use(8080):
-            console.print("[green]Quartz server successfully started[/green]")
-            return new_server.pid
-        time.sleep(1)
-        console.print(f"Waiting for server to start... ({i + 1} seconds)")
+        # Wait for server to be available
+        for i in range(40):
+            if is_port_in_use(8080):
+                console.print(
+                    "[green]Quartz server successfully started[/green]"
+                )
+                return server_pid
+            time.sleep(1)
+            console.print(f"Waiting for server to start... ({i + 1} seconds)")
 
-    # Server failed to start
-    kill_process(new_server.pid)
-    raise RuntimeError("Server failed to start after 40 seconds")
+        # Server failed to start
+        kill_process(server_pid)
+        raise RuntimeError("Server failed to start after 40 seconds")
 
 
 @dataclass
@@ -188,56 +196,56 @@ def run_command(
         stdout/stderr are strings containing the complete output.
     """
     try:
-        # Use shell=True for shell commands, shell=False for direct commands
-        process = subprocess.Popen(
+        with subprocess.Popen(
             step.command if not step.shell else " ".join(step.command),
             shell=step.shell,
             cwd=step.cwd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
-        )
+        ) as process:
+            stdout_lines: List[str] = []
+            stderr_lines: List[str] = []
 
-        stdout_lines: List[str] = []
-        stderr_lines: List[str] = []
+            # Keep track of last 5 lines for live display
+            last_lines: Deque[str] = deque(maxlen=5)
 
-        # Keep track of last 5 lines for live display
-        last_lines: Deque[str] = deque(maxlen=5)
+            def stream_reader(
+                stream: TextIO, lines_list: List[str], _: Optional[str] = None
+            ) -> None:
+                for line in iter(stream.readline, ""):
+                    lines_list.append(line)
+                    last_lines.append(line.rstrip())
+                    # Update progress display with last 5 lines and make it visible
+                    progress.update(
+                        task_id,
+                        description="\n".join(last_lines),
+                        visible=True,
+                    )
 
-        def stream_reader(
-            stream: TextIO, lines_list: List[str], style: Optional[str] = None
-        ) -> None:
-            for line in iter(stream.readline, ""):
-                lines_list.append(line)
-                last_lines.append(line.rstrip())
-                # Update progress display with last 5 lines and make it visible
-                progress.update(
-                    task_id, description="\n".join(last_lines), visible=True
-                )
+            # Create and start threads for reading stdout and stderr
+            stdout_thread = threading.Thread(
+                target=stream_reader, args=(process.stdout, stdout_lines)
+            )
+            stderr_thread = threading.Thread(
+                target=stream_reader, args=(process.stderr, stderr_lines)
+            )
 
-        # Create and start threads for reading stdout and stderr
-        stdout_thread = threading.Thread(
-            target=stream_reader, args=(process.stdout, stdout_lines)
-        )
-        stderr_thread = threading.Thread(
-            target=stream_reader, args=(process.stderr, stderr_lines)
-        )
+            stdout_thread.start()
+            stderr_thread.start()
 
-        stdout_thread.start()
-        stderr_thread.start()
+            # Wait for both threads to complete
+            stdout_thread.join()
+            stderr_thread.join()
 
-        # Wait for both threads to complete
-        stdout_thread.join()
-        stderr_thread.join()
+            # Now wait for the process to complete
+            return_code = process.wait()
 
-        # Now wait for the process to complete
-        return_code = process.wait()
+            # Combine all output
+            stdout = "".join(stdout_lines)
+            stderr = "".join(stderr_lines)
 
-        # Combine all output
-        stdout = "".join(stdout_lines)
-        stderr = "".join(stderr_lines)
-
-        return return_code == 0, stdout, stderr
+            return return_code == 0, stdout, stderr
 
     except subprocess.CalledProcessError as e:
         return False, e.stdout or "", e.stderr or ""
@@ -330,21 +338,21 @@ steps_after_server = [
 ]
 
 
-def main():
+def main() -> None:
     """
     Run all checks before pushing.
     """
-    global _server_to_cleanup
-
+    server_manager = ServerManager()
     try:
         run_checks(steps_before_server)
-        create_server(git_root)
+        server_pid = create_server(git_root)
+        server_manager.set_server_pid(server_pid)
         run_checks(steps_after_server)
 
         console.print("\n[green]All checks passed successfully! 🎉[/green]")
 
     finally:
-        cleanup_handler(0, None)  # Run cleanup on normal exit too
+        server_manager.cleanup()
 
 
 if __name__ == "__main__":
