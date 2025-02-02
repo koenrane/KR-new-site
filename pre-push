@@ -1,7 +1,6 @@
 #!/bin/sh
 set -e
 
-
 function cleanup {
     local exit_code=$?
     
@@ -18,14 +17,6 @@ function cleanup {
     if [[ $PUSHED_CHANGES -eq 1 ]]; then
         echo "Restoring stashed changes..."
         git stash pop >>/dev/null || true
-    fi
-    
-    if $SERVER_STARTED; then
-        if ps -p "$SERVER_PID" > /dev/null; then
-            echo "Killing quartz server..."
-            kill -TERM $SERVER_PID || true
-            wait $SERVER_PID 2>/dev/null || true
-        fi
     fi
 
     # Restore original exit code
@@ -45,7 +36,6 @@ function stash_and_exit {
 }
 
 CURRENT_BRANCH=$(git symbolic-ref --short head)
-SERVER_STARTED=false
 
 if [[ $CURRENT_BRANCH != "main" ]]; then
 	exit 0
@@ -57,74 +47,7 @@ cd "$GIT_ROOT"
 PUSHED_CHANGES=$(stash_and_exit)
 trap 'cleanup $PUSHED_CHANGES' EXIT
 
-# Run typechecks
-mypy "$GIT_ROOT"/scripts/**py
-
-# eslint and stylelint already have ignore rules
-npx eslint --fix "$GIT_ROOT" --config "$GIT_ROOT/eslint.config.js"
-npx stylelint --fix quartz/**/*.scss 
-pylint "$GIT_ROOT" --rcfile="$GIT_ROOT/.pylintrc"
-
-# Run static checks on markdown files
-fish "$GIT_ROOT/scripts/spellchecker.fish"
-python "$GIT_ROOT/scripts/source_file_checks.py"
-echo "\033[0;32mSource file checks passed.\033[0m"
-
-npm run test
-
-# Compress and upload assets - runs PyTest tests
-sh "$GIT_ROOT"/scripts/handle_local_assets.sh
-
-# Restart the server so that pages don't rely on stale assets which got deleted and uploaded
-set +e
-EXISTING_SERVER_PID=$(pgrep quartz || false)
-set -e
-if [[ -n "$EXISTING_SERVER_PID" ]]; then
-    echo "Pausing existing server (PID: $EXISTING_SERVER_PID)"
-    kill -TERM "$EXISTING_SERVER_PID"
-fi
-
-# Start new server
-npx quartz build --serve >/dev/null &
-SERVER_PID=$! # Store the server's process ID
-SERVER_STARTED=true
-
-# Increase timeout and add counter to prevent infinite loop
-TIMEOUT=40  # Increased timeout to 60 seconds
-COUNTER=0
-while ! nc -z localhost 8080; do
-    sleep 1  # Increased sleep to 1 second intervals
-    COUNTER=$((COUNTER + 1))
-    if [ $COUNTER -ge $TIMEOUT ]; then
-        echo "Server failed to start after ${TIMEOUT} seconds"
-        echo "Server logs:"
-        cat /tmp/quartz-server.log
-        exit 1
-    fi
-    echo "Waiting for server to start... ($COUNTER seconds)"
-done
-
-echo "Quartz server successfully started on port 8080"
-
-# Run visual regression testing
-npx playwright test --config="$GIT_ROOT/playwright.config.ts" --project="Desktop Chrome"
-echo "\033[0;32mPlaywright and visual regression testing passed.\033[0m"
-
-echo "Checking rendered pages for malformed HTML contents."
-python "$GIT_ROOT"/scripts/built_site_checks.py
-echo "\033[0;32mRendered pages look good.\033[0m"
-
-# Make sure that all internal and CDN links are valid
-fish "$GIT_ROOT"/scripts/linkchecker.fish
-
-# Ensure that the date is updated on publish.
-# Has to come after linkchecker, because otherwise it'll check for a new article's remote github link which doesn't exist yet
-python "$GIT_ROOT"/scripts/update_date_on_publish.py
-echo "Updated date on publish."
-
-
-# Finally, timestamp the final commit
-sh "$GIT_ROOT"/scripts/timestamp_last_commit.sh
-echo "Timestamped last commit."
+# Run all checks with progress bars
+python "$GIT_ROOT/scripts/run_push_checks.py"
 
 exit 0
