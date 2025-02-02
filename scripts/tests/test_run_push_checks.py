@@ -37,14 +37,16 @@ def reset_global_state():
 @pytest.fixture
 def state_manager():
     """Create a temporary state manager for testing"""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        with patch("tempfile.gettempdir", return_value=temp_dir):
-            manager = StateManager()
-            # Clear any existing state before tests run
-            manager.clear_state()
-            yield manager
-            # Clean up after tests
-            manager.clear_state()
+    with (
+        tempfile.TemporaryDirectory() as temp_dir,
+        patch("tempfile.gettempdir", return_value=temp_dir),
+    ):
+        manager = StateManager()
+        # Clear any existing state before tests run
+        manager.clear_state()
+        yield manager
+        # Clean up after tests
+        manager.clear_state()
 
 
 @pytest.fixture

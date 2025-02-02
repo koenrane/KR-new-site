@@ -7,6 +7,7 @@ import argparse
 import glob
 import json
 import shlex
+import shutil
 import signal
 import socket
 import subprocess
@@ -179,6 +180,7 @@ def create_server(git_root_path: Path) -> int:
 
     # Start new server
     console.print("Starting new quartz server...")
+    npx_path = shutil.which("npx") or "npx"
     with (
         Progress(
             SpinnerColumn(),
@@ -187,7 +189,7 @@ def create_server(git_root_path: Path) -> int:
             expand=True,
         ) as progress,
         subprocess.Popen(
-            ["npx", "quartz", "build", "--serve"],
+            [npx_path, "quartz", "build", "--serve"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
             cwd=git_root_path,
@@ -353,7 +355,8 @@ def run_command(
 
 git_root = Path(
     subprocess.check_output(
-        ["git", "rev-parse", "--show-toplevel"], text=True
+        [shutil.which("git") or "git", "rev-parse", "--show-toplevel"],
+        text=True,
     ).strip()
 )
 
