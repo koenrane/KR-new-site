@@ -169,7 +169,7 @@ def run_checks(steps: List[CheckStep]) -> None:
                     console.print(stdout)
                 if stderr:
                     console.print(stderr, style=Style(color="red"))
-                    sys.exit(1)
+                sys.exit(1)
 
 
 def run_command(
@@ -224,11 +224,10 @@ def run_command(
             thread.join()
 
         return_code = process.wait()
+        stdout = "".join(stdout_lines)
+        stderr = "".join(stderr_lines)
 
-        if return_code == 0:
-            return True, "", ""
-        else:
-            return False, "".join(stdout_lines), "".join(stderr_lines)
+        return return_code == 0, stdout, stderr
 
     except subprocess.CalledProcessError as e:
         return False, e.stdout or "", e.stderr or ""

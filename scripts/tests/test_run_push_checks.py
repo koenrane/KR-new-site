@@ -3,12 +3,12 @@ Unit tests for run_push_checks.py
 """
 
 import signal
-import subprocess
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import psutil
 import pytest
+from rich.style import Style
 
 from scripts.run_push_checks import (
     CheckStep,
@@ -107,29 +107,82 @@ def test_create_server():
         assert create_server(Path("/fake/path")) == 54321
 
 
-def test_run_command():
-    """Test command execution functionality"""
+@pytest.fixture
+def mock_command_setup():
+    """Fixture for command execution test setup"""
     test_step = CheckStep(
         name="Test Command",
         command=["echo", "test"],
     )
 
-    with patch("subprocess.run") as mock_run:
-        mock_run.return_value = MagicMock(returncode=0)
-        success, stdout, stderr = run_command(test_step)
-        assert success is True
-        assert stdout == ""
-        assert stderr == ""
+    mock_stdout = MagicMock()
+    mock_stderr = MagicMock()
+    mock_process = MagicMock()
+    mock_process.stdout = mock_stdout
+    mock_process.stderr = mock_stderr
 
-    with patch("subprocess.run") as mock_run:
-        mock_error = subprocess.CalledProcessError(1, [], stderr="Error")
-        mock_error.stdout = "Some output"
-        mock_error.stderr = "Error message"
-        mock_run.side_effect = mock_error
-        success, stdout, stderr = run_command(test_step)
+    mock_progress = MagicMock()
+    mock_task_id = MagicMock()
+
+    return test_step, mock_process, mock_progress, mock_task_id
+
+
+def test_run_command_success(mock_command_setup):
+    """Test successful command execution"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+
+    with patch("subprocess.Popen", return_value=mock_process):
+        # Set up success case
+        mock_process.wait.return_value = 0
+        mock_process.stdout.readline.side_effect = iter(["test output\n", ""])
+        mock_process.stderr.readline.side_effect = iter([""])
+
+        success, stdout, stderr = run_command(
+            test_step, mock_progress, mock_task_id
+        )
+
+        assert success is True
+        assert "test output\n" in stdout
+        assert stderr == ""
+        mock_progress.update.assert_called()
+
+
+def test_run_command_failure(mock_command_setup):
+    """Test command execution failure"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+
+    with patch("subprocess.Popen", return_value=mock_process):
+        # Set up failure case
+        mock_process.wait.return_value = 1
+        mock_process.stdout.readline.side_effect = iter(["error output\n", ""])
+        mock_process.stderr.readline.side_effect = iter(["error message\n", ""])
+
+        success, stdout, stderr = run_command(
+            test_step, mock_progress, mock_task_id
+        )
+
         assert success is False
-        assert stdout == "Some output"
-        assert stderr == "Error message"
+        assert "error output\n" in stdout
+        assert "error message\n" in stderr
+        mock_progress.update.assert_called()
+
+
+def test_run_command_shell_handling(mock_command_setup):
+    """Test command execution with shell=True"""
+    test_step, mock_process, mock_progress, mock_task_id = mock_command_setup
+    test_step.shell = True
+
+    with patch("subprocess.Popen", return_value=mock_process) as mock_popen:
+        mock_process.wait.return_value = 0
+        mock_process.stdout.readline.side_effect = iter(["output\n", ""])
+        mock_process.stderr.readline.side_effect = iter([""])
+
+        run_command(test_step, mock_progress, mock_task_id)
+
+        # Verify shell command was joined
+        call_args = mock_popen.call_args[0][0]
+        assert isinstance(call_args, str)
+        assert " ".join(test_step.command) == call_args
 
 
 def test_cleanup_handler():
@@ -152,19 +205,55 @@ def test_cleanup_handler():
         mock_exit.assert_called_once_with(1)
 
 
-def test_run_checks():
-    """Test running check steps"""
-    test_steps = [
+@pytest.fixture
+def test_steps():
+    """Fixture providing test check steps"""
+    return [
         CheckStep(name="Test Step 1", command=["echo", "test1"]),
         CheckStep(name="Test Step 2", command=["echo", "test2"]),
+        CheckStep(name="Test Step 3", command=["echo", "test3"]),
     ]
 
+
+def test_run_checks_all_success(test_steps):
+    """Test that all checks run successfully when there are no failures"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
         run_checks(test_steps)
-        assert mock_run.call_count == 2
+        assert mock_run.call_count == 3
 
-        mock_run.reset_mock()
-        mock_run.return_value = (False, "", "Error")
+
+@pytest.mark.parametrize("failing_step_index", [0, 1, 2])
+def test_run_checks_exits_on_failure(test_steps, failing_step_index):
+    """Test that run_checks exits immediately when a check fails"""
+    with patch("scripts.run_push_checks.run_command") as mock_run:
+        # Create a list of results where one step fails
+        results = [(True, "", "")] * len(test_steps)
+        results[failing_step_index] = (False, "Failed output", "Error")
+        mock_run.side_effect = results
+
+        with pytest.raises(SystemExit) as exc_info:
+            run_checks(test_steps)
+
+        assert exc_info.value.code == 1  # Verify exit code is 1
+        assert (
+            mock_run.call_count == failing_step_index + 1
+        )  # Verify it stopped at failure
+
+
+def test_run_checks_shows_error_output(test_steps):
+    """Test that error output is properly displayed on failure"""
+    with (
+        patch("scripts.run_push_checks.run_command") as mock_run,
+        patch("scripts.run_push_checks.console.print") as mock_print,
+    ):
+        mock_run.return_value = (False, "stdout error", "stderr error")
+
         with pytest.raises(SystemExit):
             run_checks(test_steps)
+
+        # Verify error output was printed
+        mock_print.assert_any_call("[red]✗[/red] Test Step 1")
+        mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
+        mock_print.assert_any_call("stdout error")
+        mock_print.assert_any_call("stderr error", style=Style(color="red"))
