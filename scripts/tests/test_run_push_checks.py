@@ -573,13 +573,11 @@ def test_state_manager_invalid_step():
     state_manager = StateManager()
     state_manager.save_state("Invalid Step")
 
-    # Should raise ValueError when step doesn't exist
-    with pytest.raises(ValueError) as exc_info:
-        state_manager.get_last_step(test_steps)
-    assert "not found" in str(exc_info.value)
+    # Should return None when step doesn't exist in available_steps
+    assert state_manager.get_last_step(test_steps) is None
 
-    # State file should be cleared after error
-    assert state_manager.get_last_step() is None
+    # Should still be able to get the raw step without validation
+    assert state_manager.get_last_step() == "Invalid Step"
 
 
 def test_get_check_steps():

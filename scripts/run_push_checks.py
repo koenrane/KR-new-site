@@ -50,7 +50,13 @@ class StateManager:
         """
         Get the name of the last successful step.
 
-        Raises ValueError if the step exists but isn't in available_steps.
+        Args:
+            available_steps: Optional list of valid step names. If provided,
+                           validates that the last step is in this list.
+
+        Returns:
+            The name of the last successful step, or None if no state exists
+            or validation fails.
         """
         if not self.state_file.exists():
             return None
@@ -58,16 +64,13 @@ class StateManager:
             with open(self.state_file, "r", encoding="utf-8") as f:
                 state = json.load(f)
                 last_step = state.get("last_successful_step")
+                # Only validate if available_steps is provided
                 if (
                     last_step
-                    and available_steps
+                    and available_steps is not None
                     and last_step not in available_steps
                 ):
-                    self.clear_state()
-                    raise ValueError(
-                        f"Last step '{last_step}' not found. "
-                        "Resuming not possible."
-                    )
+                    return None
                 return last_step
         except (json.JSONDecodeError, KeyError):
             return None
@@ -222,8 +225,7 @@ def run_checks(
         state_manager: StateManager instance to track progress
         resume: Whether to resume from last successful step
     """
-    step_names = [step.name for step in steps]
-    last_step = state_manager.get_last_step(step_names) if resume else None
+    last_step = state_manager.get_last_step() if resume else None
     should_skip = bool(resume and last_step)
 
     with Progress(
