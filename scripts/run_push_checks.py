@@ -6,6 +6,7 @@ Pretty-print progress bars for all pre-push checks.
 import argparse
 import glob
 import json
+import shlex
 import signal
 import socket
 import subprocess
@@ -21,7 +22,7 @@ from typing import Deque, List, Optional, TextIO, Tuple
 import psutil
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
-from rich.style import Style  # type: ignore
+from rich.style import Style
 
 console = Console()
 
@@ -292,7 +293,11 @@ def run_command(
     """
     try:
         with subprocess.Popen(
-            step.command if not step.shell else " ".join(step.command),
+            (
+                step.command
+                if not step.shell
+                else " ".join(shlex.quote(cmd) for cmd in step.command)
+            ),
             shell=step.shell,
             cwd=step.cwd,
             stdout=subprocess.PIPE,

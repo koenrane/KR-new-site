@@ -707,7 +707,7 @@ Whenever I find a bug, I attempt to automatically detect it in the future. The r
    .................. [ 45%]
 ```
 
-Code: Using the [`rich`](https://github.com/Textualize/rich) Python library, my `pre-push` pipeline elegantly displays progress. The pipeline saves the last-passed tests and allows resuming the push from the last point of failure.
+Code: Using the [`rich`](https://github.com/Textualize/rich) Python library, my `pre-push` pipeline elegantly displays progress. The pipeline saves the last-passed tests and allows resuming the `push` from the last point of failure.
 
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
 
