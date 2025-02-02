@@ -686,7 +686,27 @@ I also run [`docformatter`](https://pypi.org/project/docformatter/) to reformat 
 
 ## `pre-push`: the quality assurance gauntlet
 
-Whenever I find a bug, I attempt to automatically detect it in the future. The result is this long pipeline of checks, designed to surface errors which would take a long time to notice manually. The `push` operation is aborted if any of the following checks[^gauntlet] fail.
+Whenever I find a bug, I attempt to automatically detect it in the future. The result is a long pipeline of checks, designed to surface errors which would take a long time to notice manually. The `push` operation is aborted if any of this section's checks[^gauntlet] fail.
+
+```plaintext
+╰─ git push                                                                                                   
+✓ Typechecking Python with mypy
+✓ ESLinting TypeScript
+✓ Cleaning up SCSS
+✓ Linting Python
+✓ Spellchecking
+✓ Checking source files
+✓ Linting prose using Vale
+✓ Running Javascript unit tests
+⠹ Running Python unit tests...
+   scripts/tests/test_built_site_checks.py 
+   .................. [  7%]
+   .................. [ 23%]
+   .................. [ 39%]
+   .................. [ 45%]
+```
+
+Code: Using the [`rich`](https://github.com/Textualize/rich) Python library, my `pre-push` pipeline elegantly displays progress. The pipeline saves the last-passed tests and allows resuming the push from the last point of failure.
 
 [^gauntlet]: For clarity, I don't present the `pre-push` hook operations in their true order.
 
