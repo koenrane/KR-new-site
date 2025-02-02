@@ -421,6 +421,10 @@ def test_argument_parsing(resume_flag, state_manager):
         ):
             mock_create.return_value = 12345
 
+            # Set up a valid resume point if testing resume
+            if resume_flag:
+                state_manager.save_state("Test Before")
+
             from scripts.run_push_checks import main
 
             main()
@@ -610,3 +614,108 @@ def test_get_check_steps():
         if "eslint.config.js" in str(step.command):
             assert "--config" in step.command
             assert str(test_root / "eslint.config.js") in str(step.command)
+
+
+def test_main_resume_with_invalid_step(state_manager):
+    """Test main() handles invalid resume state correctly"""
+    with (
+        patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=MagicMock(resume=True),
+        ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.create_server") as mock_create,
+        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.kill_process"),
+        patch(
+            "scripts.run_push_checks.get_check_steps",
+            return_value=([CheckStep(name="test", command=["test"])], []),
+        ),
+    ):
+        mock_create.return_value = 12345
+        # Save an invalid step
+        state_manager.save_state("invalid_step")
+
+        from scripts.run_push_checks import main
+
+        main()
+
+        # Should show warning and start from beginning
+        mock_print.assert_any_call(
+            "[yellow]No valid resume point found. Starting from beginning.[/yellow]"
+        )
+        # Should run all steps
+        assert mock_run.call_count == 2
+
+
+def test_main_preserves_state_on_interrupt(state_manager):
+    """Test that state is preserved when user interrupts"""
+    with (
+        patch(
+            "argparse.ArgumentParser.parse_args",
+            return_value=MagicMock(resume=False),
+        ),
+        patch("scripts.run_push_checks.run_checks") as mock_run,
+        patch("scripts.run_push_checks.create_server") as mock_create,
+        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.kill_process"),
+        patch(
+            "scripts.run_push_checks.get_check_steps",
+            return_value=([CheckStep(name="test", command=["test"])], []),
+        ),
+    ):
+        mock_create.return_value = 12345
+        # Save a valid step
+        state_manager.save_state("test")
+
+        # Simulate keyboard interrupt
+        mock_run.side_effect = KeyboardInterrupt()
+
+        from scripts.run_push_checks import main
+
+        with pytest.raises(KeyboardInterrupt):
+            main()
+
+        # State should be preserved
+        assert state_manager.get_last_step() == "test"
+        mock_print.assert_any_call(
+            "\n[yellow]Process interrupted by user.[/yellow]"
+        )
+
+
+def test_create_server_progress_bar():
+    """Test server creation shows progress correctly"""
+    with (
+        patch("scripts.run_push_checks.is_port_in_use") as mock_port_check,
+        patch("scripts.run_push_checks.Progress") as mock_progress_cls,
+        patch("subprocess.Popen") as mock_popen,
+        patch("time.sleep"),  # Don't actually sleep in tests
+    ):
+        # Set up mocks
+        # First two checks are for the initial port check and first loop iteration
+        # Third check is for second loop iteration
+        # Fourth check is for success
+        mock_port_check.side_effect = [False, False, False, True]
+        mock_progress = MagicMock()
+        mock_progress_cls.return_value.__enter__.return_value = mock_progress
+        mock_task = MagicMock()
+        mock_progress.add_task.return_value = mock_task
+        mock_server = mock_popen.return_value.__enter__.return_value
+        mock_server.pid = 12345
+
+        create_server(Path("/test"))
+
+        # Verify progress updates
+        assert mock_progress.add_task.call_count == 1
+        update_calls = mock_progress.update.call_args_list
+
+        # Should have at least 2 updates (one for each attempt)
+        assert len(update_calls) >= 2
+
+        # First update should show first attempt
+        first_desc = update_calls[0][1]["description"]
+        assert "Waiting for server to start... (1 seconds)" in first_desc
+
+        # Second update should show second attempt
+        second_desc = update_calls[1][1]["description"]
+        assert "Waiting for server to start... (2 seconds)" in second_desc

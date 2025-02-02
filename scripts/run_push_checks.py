@@ -178,14 +178,23 @@ def create_server(git_root_path: Path) -> int:
 
     # Start new server
     console.print("Starting new quartz server...")
-    with subprocess.Popen(
-        ["npx", "quartz", "build", "--serve"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        cwd=git_root_path,
-        start_new_session=True,
-    ) as new_server:
+    with (
+        Progress(
+            SpinnerColumn(),
+            TextColumn(" {task.description}"),
+            console=console,
+            expand=True,
+        ) as progress,
+        subprocess.Popen(
+            ["npx", "quartz", "build", "--serve"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            cwd=git_root_path,
+            start_new_session=True,
+        ) as new_server,
+    ):
         server_pid = new_server.pid
+        task_id = progress.add_task("", total=None)
 
         # Wait for server to be available
         for i in range(40):
@@ -194,8 +203,13 @@ def create_server(git_root_path: Path) -> int:
                     "[green]Quartz server successfully started[/green]"
                 )
                 return server_pid
+
+            progress.update(
+                task_id,
+                description=f"Waiting for server to start... ({i + 1} seconds)",
+                visible=True,
+            )
             time.sleep(1)
-            console.print(f"Waiting for server to start... ({i + 1} seconds)")
 
         # Server failed to start
         kill_process(server_pid)
@@ -225,7 +239,9 @@ def run_checks(
         state_manager: StateManager instance to track progress
         resume: Whether to resume from last successful step
     """
-    last_step = state_manager.get_last_step() if resume else None
+    step_names = [step.name for step in steps]
+    # Validate against current phase's steps
+    last_step = state_manager.get_last_step(step_names if resume else None)
     should_skip = bool(resume and last_step)
 
     with Progress(
@@ -472,14 +488,19 @@ def main() -> None:
 
     try:
         steps_before_server, steps_after_server = get_check_steps(git_root)
+        all_steps = steps_before_server + steps_after_server
+        all_step_names = [step.name for step in all_steps]
 
-        # Get last step to check which phase we're in
-        all_step_names = [
-            step.name for step in steps_before_server + steps_after_server
-        ]
-        last_step = (
-            state_manager.get_last_step(all_step_names) if args.resume else None
+        # Validate the last step exists in our known steps
+        last_step = state_manager.get_last_step(
+            all_step_names if args.resume else None
         )
+        if args.resume and not last_step:
+            # If resuming but no valid last step found, start from beginning
+            console.print(
+                "[yellow]No valid resume point found. Starting from beginning.[/yellow]"
+            )
+            args.resume = False
 
         # Determine if we need to run pre-server steps
         should_run_pre = (
@@ -502,6 +523,15 @@ def main() -> None:
         # Clear state file on successful completion
         state_manager.clear_state()
 
+    except KeyboardInterrupt:
+        console.print("\n[yellow]Process interrupted by user.[/yellow]")
+        # Don't clear state file on interrupt - allows for valid resume
+        raise
+    except Exception as e:
+        console.print(f"\n[red]Error: {str(e)}[/red]")
+        # Clear state file on error since we don't know if it's valid
+        state_manager.clear_state()
+        raise
     finally:
         server_manager.cleanup()
 
