@@ -52,7 +52,8 @@ I present a unified mathematical frame for understanding corrigibility’s _bene
 
 A counterfactually aligned agent doesn't _have_ to let us literally correct it. Rather, this frame theoretically motivates why we might want corrigibility anyways. This frame also motivates other AI alignment subproblems, such as intent alignment, mild optimization, and low impact.
 
-**Main claim:** Corrigibility’s benefits can be mathematically represented as a counterfactual form of alignment.
+> [!idea] Main claim
+> Corrigibility’s benefits can be mathematically represented as a counterfactual form of alignment.
 
 > [!thanks]
 >Thanks to Mathias Bonde, Tiffany Cai, Ryan Carey, Michael Cohen, Joe Collman, Andrew Critch, Abram Demski, Michael Dennis, Thomas Gilbert, Matthew Graves, Koen Holtman, Evan Hubinger, Victoria Krakovna, Amanda Ngo, Rohin Shah, Adam Shimi, Logan Smith, and Mark Xu for their thoughts.

@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List, Literal, NamedTuple, Set
 
 # Add the project root to sys.path
 # pylint: disable=wrong-import-position
@@ -142,8 +142,74 @@ def check_latex_tags(file_path: Path) -> List[str]:
     return errors
 
 
+def _slug_in_metadata(slug: str, target_metadata: dict) -> bool:
+    is_alias = (
+        target_metadata.get("aliases") and slug in target_metadata["aliases"]
+    )
+    return slug == target_metadata["permalink"] or bool(is_alias)
+
+
+class SequenceDirection(NamedTuple):
+    """
+    Represents a direction in the post sequence (next/prev) and its
+    corresponding target field.
+    """
+
+    key: Literal["next", "prev"]
+    target_field_prefix: Literal["prev", "next"]
+
+
+def check_sequence_relationships(
+    permalink: str, sequence_data: Dict[str, dict]
+) -> List[str]:
+    """
+    Check if next-post-slug and prev-post-slug relationships are bidirectional.
+
+    For example:
+    - If post A has next-post-slug=B, then post B must have prev-post-slug=A
+    """
+    if not permalink or permalink not in sequence_data:
+        raise ValueError(f"Invalid permalink {permalink}")
+
+    errors: List[str] = []
+    current_mapping = sequence_data[permalink]
+    # Compute all valid identifiers (permalink and aliases) for the current post
+    valid_ids = {
+        key for key, value in sequence_data.items() if value is current_mapping
+    }
+
+    directions = [
+        SequenceDirection("next", "prev"),
+        SequenceDirection("prev", "next"),
+    ]
+
+    for direction in directions:
+        slug_field = f"{direction.key}-post-slug"
+        if slug_field not in current_mapping:
+            continue
+
+        target_slug: str = current_mapping[slug_field]
+        if target_slug not in sequence_data:
+            errors.append(f"Could not find post with permalink {target_slug}")
+            continue
+
+        target_mapping = sequence_data[target_slug]
+        target_slug_field = f"{direction.target_field_prefix}-post-slug"
+        target_slug_value = target_mapping.get(target_slug_field, "")
+
+        if target_slug_value not in valid_ids:
+            errors.append(
+                f"Post {target_slug} should have {target_slug_field}={permalink}; currently has {target_slug_value}"
+            )
+
+    return errors
+
+
 def check_file_data(
-    metadata: dict, existing_urls: PathMap, file_path: Path
+    metadata: dict,
+    existing_urls: PathMap,
+    file_path: Path,
+    all_posts_metadata: Dict[str, dict],
 ) -> MetadataIssues:
     """
     Check a single file's metadata and content for various issues.
@@ -152,6 +218,7 @@ def check_file_data(
         metadata: The file's frontmatter metadata
         existing_urls: Map of known URLs to their file paths
         file_path: Path to the file being checked
+        all_posts_metadata: Map of file paths to their metadata for all posts
 
     Returns:
         Dictionary mapping check names to lists of error messages
@@ -168,6 +235,9 @@ def check_file_data(
             issues["duplicate_urls"] = check_url_uniqueness(
                 urls, existing_urls, file_path
             )
+        issues["post_slug_relationships"] = check_sequence_relationships(
+            metadata["permalink"], all_posts_metadata
+        )
 
     return issues
 
@@ -335,6 +405,29 @@ def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
     return missing_files + undeclared_families
 
 
+def _build_sequence_data(markdown_files: List[Path]) -> Dict[str, dict]:
+    """
+    Build a mapping of post slugs to their forward and previous post slugs.
+    """
+    all_sequence_data: Dict[str, dict] = {}
+    for file_path in markdown_files:
+        metadata, _ = script_utils.split_yaml(file_path)
+        if metadata:
+            # Build a mapping with only the forward and previous post slugs
+            slug_mapping: Dict[str, str] = {}
+            for key in ("next-post-slug", "prev-post-slug"):
+                if key in metadata:
+                    slug_mapping[key] = metadata[key]
+            all_sequence_data[metadata["permalink"]] = slug_mapping
+            if aliases := metadata.get("aliases", []):
+                for alias in aliases:
+                    if not alias:
+                        continue
+                    all_sequence_data[alias] = slug_mapping
+
+    return all_sequence_data
+
+
 def main() -> None:
     """
     Check source files for issues.
@@ -352,14 +445,21 @@ def main() -> None:
         ignore_dirs=["templates", "drafts"],
     )
 
-    for file_path in markdown_files:
-        rel_path = file_path.relative_to(git_root)
-        metadata, _ = script_utils.split_yaml(file_path)
-        issues = check_file_data(metadata, existing_urls, file_path)
+    # mapping from permalink or alias to its forward and prev post slugs
+    all_sequence_data: Dict[str, dict] = _build_sequence_data(
+        list(markdown_files)
+    )
 
-        if any(lst for lst in issues.values()):
-            has_errors = True
-            print_issues(rel_path, issues)
+    for file_path in markdown_files:
+        metadata, _ = script_utils.split_yaml(file_path)
+        if metadata:
+            rel_path = file_path.relative_to(git_root)
+            issues = check_file_data(
+                metadata, existing_urls, file_path, all_sequence_data
+            )
+            if any(lst for lst in issues.values()):
+                has_errors = True
+                print_issues(rel_path, issues)
 
     # Check font files
     fonts_scss_path = git_root / "quartz" / "styles" / "fonts.scss"

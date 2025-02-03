@@ -545,3 +545,107 @@ def test_latex_tags_variations(
 
     errors = check_latex_tags(test_file)
     assert len(errors) == expected_count
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        # Test case 1: Valid bidirectional relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2", "prev-post-slug": "/post1"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [],
+            "description": "valid bidirectional relationship",
+        },
+        # Test case 2: Missing reverse relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Post /post2 should have prev-post-slug=/post1; currently has "
+            ],
+            "description": "missing reverse relationship",
+        },
+        # Test case 3: Invalid reverse relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2", "prev-post-slug": "/post3"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Post /post2 should have prev-post-slug=/post1; currently has /post3"
+            ],
+            "description": "incorrect reverse relationship",
+        },
+        # Test case 4: Non-existent target post
+        {
+            "posts": {
+                "/post1": {
+                    "permalink": "/post1",
+                    "next-post-slug": "/nonexistent",
+                },
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Could not find post with permalink /nonexistent"
+            ],
+            "description": "non-existent target post",
+        },
+        # Test case 5: Both prev and next relationships valid
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {
+                    "permalink": "/post2",
+                    "prev-post-slug": "/post1",
+                    "next-post-slug": "/post3",
+                },
+                "/post3": {"permalink": "/post3", "prev-post-slug": "/post2"},
+            },
+            "check_permalink": "/post2",
+            "expected_errors": [],
+            "description": "valid prev and next relationships",
+        },
+    ],
+)
+def test_check_sequence_relationships(test_case: Dict[str, Any]) -> None:
+    """
+    Test checking bidirectional relationships between posts using next/prev post slugs.
+
+    Args:
+        test_case: Dictionary containing test data including:
+            - posts: Dictionary of posts with their metadata
+            - check_permalink: Permalink of the post to check
+            - expected_errors: List of expected error messages
+            - description: Description of the test case
+    """
+    errors = check_sequence_relationships(
+        test_case["check_permalink"], test_case["posts"]
+    )
+    assert errors == test_case["expected_errors"], (
+        f"Failed test case: {test_case['description']}\n"
+        f"Expected: {test_case['expected_errors']}\n"
+        f"Got: {errors}"
+    )
+
+
+def test_check_sequence_relationships_invalid_input() -> None:
+    """
+    Test check_sequence_relationships with invalid input.
+    """
+    # Test with empty permalink
+    with pytest.raises(ValueError, match="Invalid permalink"):
+        check_sequence_relationships("", {})
+
+    # Test with non-existent permalink
+    with pytest.raises(ValueError, match="Invalid permalink /nonexistent"):
+        check_sequence_relationships(
+            "/nonexistent", {"/post1": {"permalink": "/post1"}}
+        )

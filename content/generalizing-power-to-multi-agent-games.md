@@ -29,8 +29,8 @@ aliases:
   - generalizing-power-to-multi-agent-games
 sequence-link: posts#the-causes-of-power-seeking-and-instrumental-convergence
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence
-prev-post-slug: the-catastrophic-convergence-conjecture
-prev-post-title: The Catastrophic Convergence Conjecture
+prev-post-slug: power-as-easily-exploitable-opportunities
+prev-post-title: Power as Easily Exploitable Opportunities
 next-post-slug: MDPs-are-not-subjective
 next-post-title: MDP Models Are Determined by the Agent Architecture and the Environmental
   Dynamics
