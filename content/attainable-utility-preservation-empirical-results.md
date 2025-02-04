@@ -22,25 +22,24 @@ lw-latest-edit: 2021-06-15T16:55:30.263000Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
 tags:
-  - "impact-regularization"
-  - "AI"
+  - impact-regularization
+  - AI
 aliases:
-  - "attainable-utility-preservation-empirical-results"
-lw-sequence-title: "Reframing Impact"
+  - attainable-utility-preservation-empirical-results
+lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
 prev-post-slug: attainable-utility-preservation-concepts
 prev-post-title: "Attainable Utility Preservation: Concepts"
 next-post-slug: how-low-should-fruit-hang-before-we-pick-it
-next-post-title: "How Low Should Fruit Hang Before We Pick It?"
+next-post-title: Choosing the strength of the impact penalty term
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 2020-02-22 00:00:00
 original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 skip_import: true
-description: The AUP technique encourages low-impact behavior in both simple and complex
-  environments.
+description: The AUP technique encourages low-impact behavior in both simple and complex environments.
 date_updated: 2025-01-30 09:30:36.233182
 ---
 

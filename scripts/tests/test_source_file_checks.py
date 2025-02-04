@@ -649,3 +649,97 @@ def test_check_sequence_relationships_invalid_input() -> None:
         check_sequence_relationships(
             "/nonexistent", {"/post1": {"permalink": "/post1"}}
         )
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        # Test case 1: Matching titles
+        {
+            "current": {
+                "next-post-title": "Next Post",
+                "title": "Current Post",
+            },
+            "target": {"title": "Next Post"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [],
+            "description": "matching titles",
+        },
+        # Test case 2: Mismatched titles
+        {
+            "current": {
+                "next-post-title": "Expected Title",
+                "title": "Current Post",
+            },
+            "target": {"title": "Actual Different Title"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [
+                "next-post-title mismatch: expected 'Expected Title', but /next-post has title 'Actual Different Title'"
+            ],
+            "description": "mismatched titles",
+        },
+        # Test case 3: Missing title field in target
+        {
+            "current": {
+                "prev-post-title": "Previous Post",
+                "title": "Current Post",
+            },
+            "target": {},
+            "target_slug": "/prev-post",
+            "direction": "prev",
+            "expected_errors": [
+                "prev-post-title mismatch: expected 'Previous Post', but /prev-post has title ''"
+            ],
+            "description": "missing title in target",
+        },
+        # Test case 4: No title field in current post
+        {
+            "current": {"title": "Current Post"},
+            "target": {"title": "Next Post"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [],
+            "description": "no title field to check",
+        },
+        # Test case 5: Empty title in target
+        {
+            "current": {
+                "next-post-title": "Expected Title",
+                "title": "Current Post",
+            },
+            "target": {"title": ""},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [
+                "next-post-title mismatch: expected 'Expected Title', but /next-post has title ''"
+            ],
+            "description": "empty title in target",
+        },
+    ],
+)
+def test_check_post_titles(test_case: Dict[str, Any]) -> None:
+    """
+    Test checking titles between linked posts.
+
+    Args:
+        test_case: Dictionary containing test data including:
+            - current: Metadata of the current post
+            - target: Metadata of the target post
+            - target_slug: Permalink of the target post
+            - direction: Direction of the link ('next' or 'prev')
+            - expected_errors: List of expected error messages
+            - description: Description of the test case
+    """
+    errors = check_post_titles(
+        test_case["current"],
+        test_case["target"],
+        test_case["target_slug"],
+        test_case["direction"],
+    )
+    assert errors == test_case["expected_errors"], (
+        f"Failed test case: {test_case['description']}\n"
+        f"Expected: {test_case['expected_errors']}\n"
+        f"Got: {errors}"
+    )

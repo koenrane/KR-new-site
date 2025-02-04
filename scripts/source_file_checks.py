@@ -159,14 +159,55 @@ class SequenceDirection(NamedTuple):
     target_field_prefix: Literal["prev", "next"]
 
 
+def check_post_titles(
+    current_mapping: dict,
+    target_mapping: dict,
+    target_slug: str,
+    direction: Literal["next", "prev"],
+) -> List[str]:
+    """
+    Check if post titles match between linked posts.
+
+    Args:
+        current_mapping: Metadata of the current post
+        target_mapping: Metadata of the linked post (next/prev)
+        target_slug: Permalink of the linked post
+        direction: Direction of the link ('next' or 'prev')
+
+    Returns:
+        List of error messages for title mismatches
+    """
+    errors = []
+
+    def _simplify_title(title: str) -> str:
+        """
+        Simplify a title by removing non-alphanumeric characters and converting
+        to lowercase.
+        """
+        return re.sub(r"[^a-zA-Z0-9]+", "", title).lower()
+
+    title_field = f"{direction}-post-title"
+    if title_field in current_mapping:
+        expected_title = current_mapping[title_field]
+        actual_title = target_mapping.get("title", "")
+        if _simplify_title(expected_title) != _simplify_title(actual_title):
+            errors.append(
+                f"{title_field} mismatch: expected '{expected_title}', but {target_slug} has title '{actual_title}'"
+            )
+
+    return errors
+
+
 def check_sequence_relationships(
     permalink: str, sequence_data: Dict[str, dict]
 ) -> List[str]:
     """
-    Check if next-post-slug and prev-post-slug relationships are bidirectional.
+    Check if next-post-slug and prev-post-slug relationships are bidirectional,
+    and that {next,prev}-post-title fields match the actual titles.
 
     For example:
     - If post A has next-post-slug=B, then post B must have prev-post-slug=A
+    - If post A has next-post-slug=B and next-post-title=X, then post B's title must be X
     """
     if not permalink or permalink not in sequence_data:
         raise ValueError(f"Invalid permalink {permalink}")
@@ -201,6 +242,13 @@ def check_sequence_relationships(
             errors.append(
                 f"Post {target_slug} should have {target_slug_field}={permalink}; currently has {target_slug_value}"
             )
+
+        # Check titles match
+        errors.extend(
+            check_post_titles(
+                current_mapping, target_mapping, target_slug, direction.key
+            )
+        )
 
     return errors
 
@@ -415,7 +463,13 @@ def _build_sequence_data(markdown_files: List[Path]) -> Dict[str, dict]:
         if metadata:
             # Build a mapping with only the forward and previous post slugs
             slug_mapping: Dict[str, str] = {}
-            for key in ("next-post-slug", "prev-post-slug"):
+            for key in (
+                "title",
+                "next-post-slug",
+                "prev-post-slug",
+                "next-post-title",
+                "prev-post-title",
+            ):
                 if key in metadata:
                     slug_mapping[key] = metadata[key]
             all_sequence_data[metadata["permalink"]] = slug_mapping
