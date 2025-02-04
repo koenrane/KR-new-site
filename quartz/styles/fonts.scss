@@ -134,7 +134,7 @@ $fonts-dir: "/static/styles/fonts";
     font-family: $font-family;
     font-optical-sizing: auto;
     font-feature-settings: $font-features;
-    src: url("#{$fonts-dir}/#{$file-name}#{$ext}");
+    src: url("#{$fonts-dir}/#{$file-name}#{$ext}") format($ext);
     font-display: swap;
   }
 }
