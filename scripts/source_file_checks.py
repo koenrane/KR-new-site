@@ -453,7 +453,7 @@ def check_scss_font_files(scss_file_path: Path, base_dir: Path) -> List[str]:
     return missing_files + undeclared_families
 
 
-def _build_sequence_data(markdown_files: List[Path]) -> Dict[str, dict]:
+def build_sequence_data(markdown_files: List[Path]) -> Dict[str, dict]:
     """
     Build a mapping of post slugs to their forward and previous post slugs.
     """
@@ -500,7 +500,7 @@ def main() -> None:
     )
 
     # mapping from permalink or alias to its forward and prev post slugs
-    all_sequence_data: Dict[str, dict] = _build_sequence_data(
+    all_sequence_data: Dict[str, dict] = build_sequence_data(
         list(markdown_files)
     )
 

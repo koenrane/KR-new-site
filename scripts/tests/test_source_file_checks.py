@@ -743,3 +743,168 @@ def test_check_post_titles(test_case: Dict[str, Any]) -> None:
         f"Expected: {test_case['expected_errors']}\n"
         f"Got: {errors}"
     )
+
+
+@pytest.fixture
+def create_test_file(tmp_path: Path) -> Callable[[str, str], Path]:
+    """
+    Fixture providing a function to create test markdown files with given content.
+    """
+
+    def _create_file(filename: str, content: str) -> Path:
+        file_path = tmp_path / filename
+        file_path.write_text(content)
+        return file_path
+
+    return _create_file
+
+
+def test_build_sequence_data_basic(create_test_file: Callable) -> None:
+    """
+    Test basic functionality of _build_sequence_data with a single file.
+    """
+    content = """---
+title: Test Post
+permalink: /test
+next-post-slug: /next
+prev-post-slug: /prev
+next-post-title: Next Post
+prev-post-title: Previous Post
+---
+Test content
+"""
+    file_path = create_test_file("test.md", content)
+
+    sequence_data = build_sequence_data([file_path])
+
+    expected_mapping = {
+        "/test": {
+            "title": "Test Post",
+            "next-post-slug": "/next",
+            "prev-post-slug": "/prev",
+            "next-post-title": "Next Post",
+            "prev-post-title": "Previous Post",
+        }
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_with_aliases(create_test_file: Callable) -> None:
+    """
+    Test _build_sequence_data with a file containing aliases.
+    """
+    content = """---
+title: Test Post
+permalink: /test
+aliases: [/alias1, /alias2]
+next-post-slug: /next
+---
+Test content
+"""
+    file_path = create_test_file("test.md", content)
+
+    sequence_data = build_sequence_data([file_path])
+
+    expected_mapping = {
+        "/test": {"title": "Test Post", "next-post-slug": "/next"},
+        "/alias1": {"title": "Test Post", "next-post-slug": "/next"},
+        "/alias2": {"title": "Test Post", "next-post-slug": "/next"},
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_multiple_files(
+    create_test_file: Callable,
+) -> None:
+    """
+    Test _build_sequence_data with multiple files having different combinations of fields.
+    """
+    file1_content = """---
+title: First Post
+permalink: /first
+next-post-slug: /second
+next-post-title: Second Post
+---
+"""
+    file2_content = """---
+title: Second Post
+permalink: /second
+prev-post-slug: /first
+prev-post-title: First Post
+aliases: [/second-alias]
+---
+"""
+    file3_content = """---
+title: Third Post
+permalink: /third
+---
+"""
+
+    files = [
+        create_test_file("first.md", file1_content),
+        create_test_file("second.md", file2_content),
+        create_test_file("third.md", file3_content),
+    ]
+
+    sequence_data = build_sequence_data(files)
+
+    expected_mapping = {
+        "/first": {
+            "title": "First Post",
+            "next-post-slug": "/second",
+            "next-post-title": "Second Post",
+        },
+        "/second": {
+            "title": "Second Post",
+            "prev-post-slug": "/first",
+            "prev-post-title": "First Post",
+        },
+        "/second-alias": {
+            "title": "Second Post",
+            "prev-post-slug": "/first",
+            "prev-post-title": "First Post",
+        },
+        "/third": {"title": "Third Post"},
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_empty_cases(create_test_file: Callable) -> None:
+    """
+    Test _build_sequence_data with edge cases like empty metadata and empty aliases.
+    """
+    # File with empty metadata
+    file1_content = """---
+---
+Content only
+"""
+
+    # File with empty alias
+    file2_content = """---
+title: Test Post
+permalink: /test
+aliases: [""]
+---
+"""
+
+    files = [
+        create_test_file("empty_meta.md", file1_content),
+        create_test_file("empty_alias.md", file2_content),
+    ]
+
+    sequence_data = build_sequence_data(files)
+
+    expected_mapping = {"/test": {"title": "Test Post"}}
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_no_files() -> None:
+    """
+    Test _build_sequence_data with an empty list of files.
+    """
+    sequence_data = build_sequence_data([])
+    assert sequence_data == {}
