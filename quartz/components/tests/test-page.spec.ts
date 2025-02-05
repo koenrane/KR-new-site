@@ -6,6 +6,14 @@ import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_
 test.beforeEach(async ({ page }) => {
   // Mock clipboard API
   await page.addInitScript(() => {
+    // Mock clipboard API if not available
+    if (!navigator.clipboard) {
+      Object.defineProperty(navigator, "clipboard", {
+        value: {},
+        writable: true,
+      })
+    }
+
     Object.defineProperty(navigator.clipboard, "writeText", {
       value: () => Promise.resolve(),
       writable: true,
