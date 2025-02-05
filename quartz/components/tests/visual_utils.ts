@@ -129,13 +129,24 @@ export async function getNextElementMatchingSelector(
 }
 
 export async function search(page: Page, term: string) {
-  const searchBar = page.getByPlaceholder("Search")
+  // Wait for search container to be in the DOM
+  const searchContainer = page.locator("#search-container")
+  await expect(searchContainer).toBeAttached()
 
+  const searchBar = page.locator("#search-bar")
   await expect(searchBar).toBeVisible()
-
   await searchBar.fill(term)
-  const previewContainer = page.locator("#preview-container")
-  await expect(previewContainer).toBeAttached()
+
+  // Wait for search layout to be visible with results
+  const searchLayout = page.locator("#search-layout")
+  await expect(searchLayout).toHaveClass(/display-results/)
+
+  // If showing preview, wait for it to be ready
+  if (showingPreview(page)) {
+    const previewContainer = page.locator("#preview-container")
+    await expect(previewContainer).toBeAttached()
+    await expect(previewContainer).toBeVisible()
+  }
 
   await page.waitForLoadState("load")
 }

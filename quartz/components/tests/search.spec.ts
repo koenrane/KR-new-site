@@ -5,7 +5,31 @@ import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/se
 import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
+  // Log any console errors
+  page.on("pageerror", (err) => console.error(err))
+
+  // Navigate and wait for full initialization
   await page.goto("http://localhost:8080/welcome", { waitUntil: "load" })
+
+  // Wait for search to be fully initialized
+  await expect(page.locator("#search-container")).toBeAttached()
+  await expect(page.locator("#search-icon")).toBeVisible()
+
+  // Ensure search is closed at start
+  const searchContainer = page.locator("#search-container")
+  if (await searchContainer.evaluate((el) => el.classList.contains("active"))) {
+    await page.keyboard.press("Escape")
+    await expect(searchContainer).not.toHaveClass(/active/)
+  }
+})
+
+test.afterEach(async ({ page }) => {
+  // Ensure search is closed after each test
+  const searchContainer = page.locator("#search-container")
+  if (await searchContainer.evaluate((el) => el.classList.contains("active"))) {
+    await page.keyboard.press("Escape")
+    await expect(searchContainer).not.toHaveClass(/active/)
+  }
 })
 
 test("Search opens with '/' and closes with Escape", async ({ page }) => {
