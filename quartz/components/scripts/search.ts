@@ -280,10 +280,16 @@ class PreviewManager {
 
   public show(): void {
     this.container.classList.add("active")
+    this.container.style.visibility = "visible"
   }
 
   public hide(): void {
     this.container.classList.remove("active")
+    this.container.style.visibility = "hidden"
+  }
+
+  public clear(): void {
+    this.inner.innerHTML = ""
   }
 
   public destroy(): void {
@@ -377,11 +383,6 @@ function hideSearch() {
   // Clean up preview
   if (previewManager) {
     previewManager.hide()
-  }
-
-  const searchLayout = document.getElementById("search-layout")
-  if (searchLayout) {
-    searchLayout.classList.remove("display-results")
   }
 
   searchType = "basic"
@@ -709,8 +710,12 @@ async function displayResults(finalResults: Item[], results: HTMLElement, enable
         <p>Try another search term?</p>
     </a>`
 
-    // Hide preview when no results
-    previewManager?.hide()
+    if (enablePreview && preview) {
+      if (!previewManager) {
+        previewManager = new PreviewManager(preview)
+      }
+      previewManager.clear()
+    }
   } else {
     results.append(...finalResults.map((result) => resultToHTML(result, enablePreview)))
 
