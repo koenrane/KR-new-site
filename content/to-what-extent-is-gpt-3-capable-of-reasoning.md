@@ -309,7 +309,7 @@ GPT-3 inferred that not being able to turn left would make driving difficult. Am
 >
 > "That would be a problem as well. It's like what we were talking about with the giraffes earlier, but more so, because not only would they be prey, but by not having any natural defenses to fend off all the predatory creatures in the world--no teeth, claws, poisonous spores etcetera--they'd also be three times as likely to die off."
 >
-> **\[...\]** "It would have most likely caused the extinction of humans. Many animals have claws or protective bodies or natural weapons like poison, it would be very difficult for a human to survive in nature without tools."
+> **\[...\]** "It would have most likely caused the extinction of humans. Many animals have claws or protective bodies or natural weapons like poison (sic), it would be very difficult for a human to survive in nature without tools."
 >
 > **You: "What would happen, ecologically, if dolphins somehow had 360-degree vision which let them see through solid objects, at arbitrary distance?"**
 >
