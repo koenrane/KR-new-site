@@ -1,6 +1,12 @@
 import { test, expect, Locator, Page } from "@playwright/test"
 
-import { search, showingPreview, takeArgosScreenshot, setTheme } from "./visual_utils"
+import {
+  search,
+  showingPreview,
+  takeArgosScreenshot,
+  setTheme,
+  waitForTransitionEnd,
+} from "./visual_utils"
 
 // TODO test iframe and video fullscreen in light mode (and dark for safety)
 test.beforeEach(async ({ page }) => {
@@ -114,8 +120,6 @@ test.describe("Table of contents", () => {
 })
 
 test.describe("Admonitions", () => {
-  const waitAfterCollapse = 450 // Wait ms after collapsing to ensure transition is complete
-
   for (const theme of ["light", "dark"]) {
     test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
@@ -123,28 +127,28 @@ test.describe("Admonitions", () => {
       const admonition = page.locator("#test-collapse").first()
       await admonition.scrollIntoViewIfNeeded()
 
-      // Verify the admonition starts in a collapsed state
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
 
       const initialScreenshot = await admonition.screenshot()
 
       // Check we can open the admonition
       await admonition.click()
-      await page.waitForTimeout(waitAfterCollapse)
+      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
+      await waitForTransitionEnd(admonition)
+
       const openedScreenshot = await admonition.screenshot()
       expect(openedScreenshot).not.toEqual(initialScreenshot)
-
-      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
 
       // Check we can close the admonition
       const admonitionTitle = page.locator("#test-collapse .callout-title").first()
       await admonitionTitle.click()
-      await page.waitForTimeout(waitAfterCollapse)
+
+      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
+      await waitForTransitionEnd(admonition)
 
       const closedScreenshot = await admonition.screenshot()
       expect(closedScreenshot).toEqual(initialScreenshot)
 
-      // Check the admonition is back in a collapsed state
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
     })
   }
@@ -271,8 +275,6 @@ test.describe("Right sidebar", () => {
 })
 
 test.describe("Spoilers", () => {
-  const waitAfterRevealing = 800 // ms
-
   for (const theme of ["light", "dark"]) {
     test(`Spoiler before revealing in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
@@ -290,9 +292,8 @@ test.describe("Spoilers", () => {
 
       await spoiler.click()
 
-      // Wait for the 'revealed' class to be added
       await expect(spoiler).toHaveClass(/revealed/)
-      await page.waitForTimeout(waitAfterRevealing)
+      await waitForTransitionEnd(spoiler)
 
       await takeArgosScreenshot(page, testInfo, "spoiler-after-revealing", {
         element: spoiler,
@@ -302,8 +303,8 @@ test.describe("Spoilers", () => {
       await spoiler.click()
       await page.mouse.click(0, 0) // Click away to remove focus
 
-      // Wait for the 'revealed' class to be removed
       await expect(spoiler).not.toHaveClass(/revealed/)
+      await waitForTransitionEnd(spoiler)
     })
   }
 
