@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '>=22'
+          node-version: ">=22"
 
       - name: Install Dependencies
         run: npm ci
@@ -27,7 +27,7 @@ jobs:
           npx quartz build --serve &
           SERVER_PID=$!
           echo "SERVER_PID=$SERVER_PID" >> $GITHUB_ENV
-          
+
       - name: Wait for server
         run: |
           # Wait for the server to be ready
@@ -42,7 +42,7 @@ jobs:
           echo "Server is ready"
 
       # - name: Run visual tests
-      #   run: npx playwright test 
+      #   run: npx playwright test -g "(argos)"
       #   env:
       #     ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
       #     CI: true
