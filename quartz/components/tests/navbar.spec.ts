@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 
-test("Clicking away closes the menu", async ({ page }, testInfo) => {
+test("Clicking away closes the menu (argos)", async ({ page }, testInfo) => {
   test.skip(isDesktopViewport(page))
 
   const menuButton = page.locator("#menu-button")
@@ -38,7 +38,7 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
   })
 })
 
-test("Menu button makes menu visible", async ({ page }, testInfo) => {
+test("Menu button makes menu visible (argos)", async ({ page }, testInfo) => {
   test.skip(isDesktopViewport(page))
 
   const menuButton = page.locator("#menu-button")
@@ -158,7 +158,7 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
 
 // Todo check that shadow works
 
-test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
+test("Navbar shows shadow when scrolling down (argos)", async ({ page }, testInfo) => {
   test.skip(isDesktopViewport(page))
 
   const navbar = page.locator("#navbar")

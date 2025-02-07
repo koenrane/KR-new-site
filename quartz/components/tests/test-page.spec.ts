@@ -33,7 +33,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
-    test(`Test page in search preview in ${theme} mode`, async ({ page }, testInfo) => {
+    test(`Test page in search preview in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       // EG mobile doesn't show preview
       // For some reason, light theme fails - TODO
       test.skip(!showingPreview(page) || theme === "light")
@@ -72,7 +72,7 @@ test.describe("Test page sections", () => {
       })
     })
 
-    test(`Test page in ${theme} mode`, async ({ page }, testInfo) => {
+    test(`Test page in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       await takeArgosScreenshot(page, testInfo, `test-page-${theme}`)
     })
@@ -81,7 +81,7 @@ test.describe("Test page sections", () => {
 
 test.describe("Various site pages", () => {
   for (const pageSlug of ["404", "all-tags", "recent", "tags/personal"]) {
-    test(`${pageSlug}`, async ({ page }, testInfo) => {
+    test(`${pageSlug} (argos)`, async ({ page }, testInfo) => {
       await page.goto(`http://localhost:8080/${pageSlug}`)
       await takeArgosScreenshot(page, testInfo, `test-page-${pageSlug}`)
     })
@@ -98,12 +98,12 @@ test.describe("Table of contents", () => {
     return isDesktop(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
   }
 
-  test("TOC is visible", async ({ page }) => {
+  test("TOC is visible (argos)", async ({ page }) => {
     const selector = getTableOfContentsSelector(page)
     await expect(page.locator(selector)).toBeVisible()
   })
 
-  test("TOC visual regression", async ({ page }, testInfo) => {
+  test("TOC visual regression (argos)", async ({ page }, testInfo) => {
     const selector = getTableOfContentsSelector(page)
     if (!isDesktop(page)) {
       await page.locator(selector).locator(".callout-title-inner").first().click()
@@ -150,7 +150,7 @@ test.describe("Admonitions", () => {
   }
 
   for (const status of ["open", "closed"]) {
-    test(`Regression testing on fold button appearance in ${status} state`, async ({
+    test(`Regression testing on fold button appearance in ${status} state (argos)`, async ({
       page,
     }, testInfo) => {
       let element: Locator
@@ -217,7 +217,7 @@ test.describe("Clipboard button", () => {
       expect(screenshotAfterClicking).not.toEqual(screenshotBeforeClicking)
     })
 
-    test(`Clipboard button in ${theme} mode`, async ({ page }, testInfo) => {
+    test(`Clipboard button in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       const clipboardButton = page.locator(".clipboard-button").first()
       await clipboardButton.click()
@@ -232,7 +232,7 @@ test.describe("Clipboard button", () => {
 
 const fullPageBreakpoint = 1580 // px
 test.describe("Right sidebar", () => {
-  test("TOC visual test", async ({ page }, testInfo) => {
+  test("TOC visual test (argos)", async ({ page }, testInfo) => {
     const viewportSize = page.viewportSize()
     if (viewportSize && viewportSize.width < fullPageBreakpoint) {
       // Open the TOC
@@ -249,7 +249,7 @@ test.describe("Right sidebar", () => {
     }
   })
 
-  test("Scrolling down changes TOC highlight", async ({ page }, testInfo) => {
+  test("Scrolling down changes TOC highlight (argos)", async ({ page }, testInfo) => {
     const viewportSize = page.viewportSize()
     test.skip((viewportSize && viewportSize.width < fullPageBreakpoint) || false)
 
@@ -262,7 +262,7 @@ test.describe("Right sidebar", () => {
     })
   })
 
-  test("ContentMeta is visible", async ({ page }, testInfo) => {
+  test("ContentMeta is visible (argos)", async ({ page }, testInfo) => {
     await takeArgosScreenshot(page, testInfo, "content-meta-visible", {
       element: "#content-meta",
     })
@@ -274,7 +274,7 @@ test.describe("Spoilers", () => {
   const waitAfterRevealing = 800 // ms
 
   for (const theme of ["light", "dark"]) {
-    test(`Spoiler before revealing in ${theme} mode`, async ({ page }, testInfo) => {
+    test(`Spoiler before revealing in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       const spoiler = page.locator(".spoiler-container").first()
       await takeArgosScreenshot(page, testInfo, `spoiler-before-revealing-${theme}`, {
@@ -282,7 +282,7 @@ test.describe("Spoilers", () => {
       })
     })
 
-    test(`Spoiler after revealing in ${theme} mode`, async ({ page }, testInfo) => {
+    test(`Spoiler after revealing in ${theme} mode (argos)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       const spoiler = page.locator(".spoiler-container").first()
       await spoiler.scrollIntoViewIfNeeded()
@@ -308,7 +308,7 @@ test.describe("Spoilers", () => {
   }
 
   // Test that hovering over the spoiler reveals it
-  test("Hovering over spoiler reveals it", async ({ page }, testInfo) => {
+  test("Hovering over spoiler reveals it (argos)", async ({ page }, testInfo) => {
     const spoiler = page.locator(".spoiler-container").first()
     await spoiler.scrollIntoViewIfNeeded()
     await expect(spoiler).toBeVisible()
@@ -326,7 +326,7 @@ test.describe("Spoilers", () => {
   })
 })
 
-test("Single letter dropcaps visual regression", async ({ page }, testInfo) => {
+test("Single letter dropcaps visual regression (argos)", async ({ page }, testInfo) => {
   const singleLetterDropcaps = page.locator("#single-letter-dropcap")
   await singleLetterDropcaps.scrollIntoViewIfNeeded()
   await takeArgosScreenshot(page, testInfo, "", {

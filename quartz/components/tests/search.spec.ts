@@ -49,7 +49,7 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
   await expect(searchContainer).not.toHaveClass(/active/)
 })
 
-test("Search results appear and can be navigated", async ({ page }, testInfo) => {
+test("Search results appear and can be navigated (argos)", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")
 
@@ -274,7 +274,7 @@ test("Search URL updates as we select different results", async ({ page }) => {
 })
 
 // TODO fails when in headless mode
-test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
+test("Emoji search works and is converted to twemoji (argos)", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Emoji examples")
 
@@ -292,7 +292,7 @@ test("Emoji search works and is converted to twemoji", async ({ page }, testInfo
 })
 
 //  Test shouldn't pass yet
-test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
+test("Footnote back arrow is properly replaced (argos)", async ({ page }, testInfo) => {
   test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -326,7 +326,7 @@ test.describe("Image's mix-blend-mode attribute", () => {
 })
 
 // Visual regression testing
-test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
+test("Opens the 'testing site features' page (argos)", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
@@ -395,7 +395,9 @@ test("Show search preview, search invalid, then show again", async ({ page }) =>
   await expect(previewContent).toHaveCount(1)
 })
 
-test("The pond dropcaps, search preview visual regression test", async ({ page }, testInfo) => {
+test("The pond dropcaps, search preview visual regression test (argos)", async ({
+  page,
+}, testInfo) => {
   test.skip(!showingPreview(page))
 
   await page.keyboard.press("/")
