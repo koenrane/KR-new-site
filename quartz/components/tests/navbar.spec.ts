@@ -1,20 +1,16 @@
-import { test, expect, Page } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
-import { takeArgosScreenshot } from "./visual_utils"
-
-function isDesktopViewport(page: Page): boolean {
-  const viewportSize = page.viewportSize()
-  return viewportSize ? viewportSize.width >= 1580 : false // matches $full-page-width
-}
+import { takeArgosScreenshot, isDesktopViewport } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
+  await page.reload()
 
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 
 test("Clicking away closes the menu (argos)", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -39,7 +35,7 @@ test("Clicking away closes the menu (argos)", async ({ page }, testInfo) => {
 })
 
 test("Menu button makes menu visible (argos)", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -69,7 +65,7 @@ test("Menu button makes menu visible (argos)", async ({ page }, testInfo) => {
 })
 
 test("Can't see the menu at desktop size", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(!isDesktopViewport(page), "Desktop-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -92,7 +88,7 @@ test("Can't see the menu at desktop size", async ({ page }) => {
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
 test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 
@@ -128,7 +124,7 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 // TODO sometimes need to focus page before hitting "/"
 
 test("Menu disappears gradually when scrolling down", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 
@@ -159,7 +155,7 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
 // Todo check that shadow works
 
 test("Navbar shows shadow when scrolling down (argos)", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 

@@ -6,6 +6,7 @@ import {
   takeArgosScreenshot,
   setTheme,
   waitForTransitionEnd,
+  isDesktopViewport,
 } from "./visual_utils"
 
 // TODO test iframe and video fullscreen in light mode (and dark for safety)
@@ -94,14 +95,9 @@ test.describe("Various site pages", () => {
   }
 })
 
-const isDesktop = (page: Page): boolean => {
-  const viewportSize = page.viewportSize()
-  return (viewportSize && viewportSize.width > fullPageBreakpoint) || false
-}
-
 test.describe("Table of contents", () => {
   function getTableOfContentsSelector(page: Page) {
-    return isDesktop(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
+    return isDesktopViewport(page) ? "#toc-content" : "*:has(> #toc-content-mobile)"
   }
 
   test("TOC is visible (argos)", async ({ page }) => {
@@ -111,7 +107,7 @@ test.describe("Table of contents", () => {
 
   test("TOC visual regression (argos)", async ({ page }, testInfo) => {
     const selector = getTableOfContentsSelector(page)
-    if (!isDesktop(page)) {
+    if (!isDesktopViewport(page)) {
       await page.locator(selector).locator(".callout-title-inner").first().click()
     }
 
@@ -234,11 +230,9 @@ test.describe("Clipboard button", () => {
   }
 })
 
-const fullPageBreakpoint = 1580 // px
 test.describe("Right sidebar", () => {
   test("TOC visual test (argos)", async ({ page }, testInfo) => {
-    const viewportSize = page.viewportSize()
-    if (viewportSize && viewportSize.width < fullPageBreakpoint) {
+    if (!isDesktopViewport(page)) {
       // Open the TOC
       const tocContent = page.locator(".callout").first()
       await tocContent.click()
@@ -254,8 +248,7 @@ test.describe("Right sidebar", () => {
   })
 
   test("Scrolling down changes TOC highlight (argos)", async ({ page }, testInfo) => {
-    const viewportSize = page.viewportSize()
-    test.skip((viewportSize && viewportSize.width < fullPageBreakpoint) || false)
+    test.skip(!isDesktopViewport(page))
 
     const spoilerHeading = page.locator("#spoilers").first()
     await spoilerHeading.scrollIntoViewIfNeeded()

@@ -5,6 +5,7 @@ import {
   setTheme,
   getNextElementMatchingSelector,
   waitForTransitionEnd,
+  isDesktopViewport,
 } from "./visual_utils"
 
 test.describe("visual_utils functions", () => {
@@ -176,5 +177,32 @@ test.describe("visual_utils functions", () => {
       const stabilityVerificationScreenshot = await element.screenshot()
       expect(stabilityVerificationScreenshot).toEqual(postTransitionScreenshot)
     })
+  })
+})
+
+test.describe("isDesktopViewport", () => {
+  const viewports = [
+    { width: 1580, height: 800, expected: true },
+    { width: 1920, height: 1080, expected: true },
+    { width: 800, height: 600, expected: false },
+    { width: 480, height: 800, expected: false },
+  ]
+
+  for (const { width, height, expected } of viewports) {
+    test(`returns ${expected} for viewport ${width}x${height}`, async ({ page }) => {
+      await page.setViewportSize({ width, height })
+      expect(isDesktopViewport(page)).toBe(expected)
+    })
+  }
+
+  test("Returns false if viewport width is undefined", async ({ page }) => {
+    await page.setViewportSize({ width: 0, height: 0 })
+    await page.evaluate(() => {
+      Object.defineProperty(window, "innerWidth", {
+        configurable: true,
+        get: () => undefined,
+      })
+    })
+    expect(isDesktopViewport(page)).toBe(false)
   })
 })

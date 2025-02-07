@@ -2,7 +2,7 @@ import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { Locator, TestInfo, expect } from "@playwright/test"
 import { Page } from "playwright"
 
-import { tabletBreakpoint } from "../../styles/variables"
+import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
 
 const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
@@ -219,4 +219,10 @@ export async function waitForTransitionEnd(element: Locator): Promise<void> {
       }, maxDuration + 150)
     })
   })
+}
+
+// TODO add tests
+export function isDesktopViewport(page: Page): boolean {
+  const viewportSize = page.viewportSize()
+  return viewportSize ? viewportSize.width >= fullPageWidth : false // matches $full-page-width
 }
