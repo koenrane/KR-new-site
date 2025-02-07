@@ -41,8 +41,7 @@ jobs:
           done
           echo "Server is ready"
 
-      # - name: Run visual tests
-      #   run: npx playwright test -g "(argos)"
-      #   env:
-      #     ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
-      #     CI: true
+      - name: Lost Pixel
+        uses: lost-pixel/lost-pixel@v3.16.0
+        env:
+          LOST_PIXEL_API_KEY: ${{ secrets.LOST_PIXEL_API_KEY }}
