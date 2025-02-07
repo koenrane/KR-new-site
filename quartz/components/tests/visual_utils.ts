@@ -158,3 +158,65 @@ export function showingPreview(page: Page): boolean {
   const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   return Boolean(shouldShowPreview)
 }
+
+/**
+ * Waits for all transitions to complete before resolving. If no transitions are defined, it resolves immediately.
+ * @param element - The element to wait for transitions on
+ * @returns A promise that resolves when all transitions have completed
+ */
+export async function waitForTransitionEnd(element: Locator): Promise<void> {
+  await element.evaluate((el) => {
+    return new Promise((resolve) => {
+      const computedStyle = window.getComputedStyle(el)
+      const transitionDurationValue = computedStyle.transitionDuration
+
+      // If no transitionDuration is set or empty, resolve immediately
+      if (!transitionDurationValue || transitionDurationValue.trim() === "") {
+        resolve(true)
+        return
+      }
+
+      // Parse individual durations and convert to milliseconds
+      const durations = transitionDurationValue.split(",").map((d) => d.trim())
+      const parsedDurations = durations.map((d) => {
+        if (d.endsWith("ms")) return parseFloat(d)
+        if (d.endsWith("s")) return parseFloat(d) * 1000
+        return 0
+      })
+
+      // If all durations are 0, resolve immediately
+      if (parsedDurations.every((d) => d === 0)) {
+        resolve(true)
+        return
+      }
+
+      // Determine the maximum transition duration
+      const maxDuration = Math.max(...parsedDurations)
+
+      // Count transitions using transitionProperty
+      const properties = computedStyle.transitionProperty.split(",").map((p) => p.trim())
+      let pendingTransitions = properties.length
+
+      // Listen for all transitionend events
+      const onTransitionEnd = (): void => {
+        pendingTransitions--
+        if (pendingTransitions <= 0) {
+          el.removeEventListener("transitionend", onTransitionEnd)
+          // Wait for the longest transition to surely complete plus a short buffer
+          setTimeout(() => {
+            resolve(true)
+          }, maxDuration + 150)
+        }
+      }
+      el.addEventListener("transitionend", onTransitionEnd)
+
+      // Safety timeout in case transitionend events never fire
+      setTimeout(() => {
+        if (pendingTransitions > 0) {
+          el.removeEventListener("transitionend", onTransitionEnd)
+          resolve(true)
+        }
+      }, maxDuration + 150)
+    })
+  })
+}
