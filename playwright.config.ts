@@ -43,7 +43,7 @@ const browsers: Browser[] = [
 export default defineConfig({
   timeout: 30000,
   fullyParallel: true,
-  workers: "75%",
+  workers: "65%", // 75 might be too many and cause flakiness
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
   reporter: [

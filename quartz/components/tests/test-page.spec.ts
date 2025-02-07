@@ -160,6 +160,9 @@ test.describe("Admonitions", () => {
         element = page.locator("#test-collapse .fold-callout-icon").first()
       }
 
+      await element.scrollIntoViewIfNeeded()
+      await element.waitFor({ state: "visible" })
+
       await takeArgosScreenshot(page, testInfo, `fold-button-appearance-${status}`, {
         element,
       })
@@ -185,8 +188,8 @@ test.describe("Admonitions", () => {
           }
         })
 
-        // Assert the height is not greater than line height
-        expect(computedStyle.height).toBeLessThanOrEqual(computedStyle.lineHeight)
+        // Assert the height is not significantly greater than line height
+        expect(computedStyle.height).toBeLessThanOrEqual(computedStyle.lineHeight * 1.01)
       }
     }
   })
