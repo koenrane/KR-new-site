@@ -41,6 +41,11 @@ jobs:
           done
           echo "Server is ready"
 
+      - name: Run Playwright tests
+        run: npx playwright test -g "(lostpixel)"
+        env:
+          CI: true
+
       - name: Lost Pixel
         uses: lost-pixel/lost-pixel@v3.16.0
         env:

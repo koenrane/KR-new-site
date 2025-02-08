@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test"
 
 import { tabletBreakpoint } from "../../styles/variables"
 import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
-import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
+import { takeRegressionScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
   // Log any console errors
@@ -49,7 +49,7 @@ test("Search opens with '/' and closes with Escape", async ({ page }) => {
   await expect(searchContainer).not.toHaveClass(/active/)
 })
 
-test("Search results appear and can be navigated (argos)", async ({ page }, testInfo) => {
+test("Search results appear and can be navigated (lostpixel)", async ({ page }, testInfo) => {
   // Open search
   await page.keyboard.press("/")
 
@@ -75,7 +75,7 @@ test("Search results appear and can be navigated (argos)", async ({ page }, test
   await expect(previewContainer.first()).toBeVisible({ visible: Boolean(shouldShowPreview) })
 
   // Take screenshot of search results
-  await takeArgosScreenshot(page, testInfo, "", {
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: "#search-layout",
   })
 })
@@ -274,7 +274,7 @@ test("Search URL updates as we select different results", async ({ page }) => {
 })
 
 // TODO fails when in headless mode
-test("Emoji search works and is converted to twemoji (argos)", async ({ page }, testInfo) => {
+test("Emoji search works and is converted to twemoji (lostpixel)", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Emoji examples")
 
@@ -282,7 +282,7 @@ test("Emoji search works and is converted to twemoji (argos)", async ({ page }, 
   // Assertion on the title's contents for the first result
   await expect(firstResult).toContainText("Testing Site Features")
   if (showingPreview(page)) {
-    await takeArgosScreenshot(page, testInfo, "", {
+    await takeRegressionScreenshot(page, testInfo, "", {
       element: "#preview-container",
     })
   }
@@ -292,7 +292,7 @@ test("Emoji search works and is converted to twemoji (argos)", async ({ page }, 
 })
 
 //  Test shouldn't pass yet
-test("Footnote back arrow is properly replaced (argos)", async ({ page }, testInfo) => {
+test("Footnote back arrow is properly replaced (lostpixel)", async ({ page }, testInfo) => {
   test.skip(!showingPreview(page))
   await page.keyboard.press("/")
   await search(page, "Testing site")
@@ -302,7 +302,7 @@ test("Footnote back arrow is properly replaced (argos)", async ({ page }, testIn
   await expect(footnoteLink).toContainText("⤴")
   await expect(footnoteLink).toBeVisible()
 
-  await takeArgosScreenshot(page, testInfo, "", {
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: footnoteLink,
   })
 })
@@ -326,7 +326,7 @@ test.describe("Image's mix-blend-mode attribute", () => {
 })
 
 // Visual regression testing
-test("Opens the 'testing site features' page (argos)", async ({ page }, testInfo) => {
+test("Opens the 'testing site features' page (lostpixel)", async ({ page }, testInfo) => {
   await page.keyboard.press("/")
   await search(page, "Testing site")
 
@@ -334,7 +334,7 @@ test("Opens the 'testing site features' page (argos)", async ({ page }, testInfo
   const viewportSize = page.viewportSize()
   const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   if (shouldShowPreview) {
-    await takeArgosScreenshot(page, testInfo, "", {
+    await takeRegressionScreenshot(page, testInfo, "", {
       element: "#preview-container",
     })
   }
@@ -395,7 +395,7 @@ test("Show search preview, search invalid, then show again", async ({ page }) =>
   await expect(previewContent).toHaveCount(1)
 })
 
-test("The pond dropcaps, search preview visual regression test (argos)", async ({
+test("The pond dropcaps, search preview visual regression test (lostpixel)", async ({
   page,
 }, testInfo) => {
   test.skip(!showingPreview(page))
@@ -405,7 +405,7 @@ test("The pond dropcaps, search preview visual regression test (argos)", async (
   const searchPondDropcaps = page.locator("#the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
 
-  await takeArgosScreenshot(page, testInfo, "", {
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: "#the-pond-dropcaps",
   })
 })

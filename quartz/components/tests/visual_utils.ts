@@ -1,10 +1,7 @@
-import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
 import { Locator, TestInfo, expect } from "@playwright/test"
 import { Page } from "playwright"
 
 import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
-
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
 
 export async function waitForThemeTransition(page: Page) {
   await page.evaluate(() => {
@@ -44,14 +41,39 @@ export async function setTheme(page: Page, theme: "light" | "dark") {
   await waitForThemeTransition(page)
 }
 
-export async function takeArgosScreenshot(
+export interface RegressionScreenshotOptions {
+  element?: string | Locator
+  clip?: { x: number; y: number; width: number; height: number }
+  disableHover?: boolean
+}
+
+export async function takeRegressionScreenshot(
   page: Page,
   testInfo: TestInfo,
   screenshotSuffix: string,
-  options?: ArgosScreenshotOptions,
+  options?: RegressionScreenshotOptions,
 ) {
-  const totalOptions = { ...defaultOptions, ...options }
-  await argosScreenshot(page, `${testInfo.title}-${screenshotSuffix}`, totalOptions)
+  const screenshotName = screenshotSuffix ? `${testInfo.title}-${screenshotSuffix}` : testInfo.title
+  const screenshotPath = `lost-pixel/${screenshotName}.png`
+
+  // If element is specified, take screenshot of just that element
+  if (options?.element) {
+    const element =
+      typeof options.element === "string" ? page.locator(options.element) : options.element
+    await element.screenshot({
+      path: screenshotPath,
+      animations: "disabled",
+    })
+    return
+  }
+
+  // Otherwise take screenshot of specified clip area or full page
+  await page.screenshot({
+    path: screenshotPath,
+    clip: options?.clip,
+    animations: "disabled",
+    fullPage: !options?.clip,
+  })
 }
 
 export async function takeScreenshotAfterElement(
@@ -68,7 +90,7 @@ export async function takeScreenshotAfterElement(
   if (!viewportSize) throw new Error("Could not get viewport size")
 
   // Take the screenshot with the specified clipping area
-  await takeArgosScreenshot(page, testInfo, `${testInfo.title}-section-${testNameSuffix}`, {
+  await takeRegressionScreenshot(page, testInfo, `${testInfo.title}-section-${testNameSuffix}`, {
     clip: {
       x: 0,
       y: box.y,

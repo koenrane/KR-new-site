@@ -1,10 +1,9 @@
 import { CustomProjectConfig } from "lost-pixel"
 
 export const config: CustomProjectConfig = {
-  pageShots: {
-    pages: [{ path: "/", name: "welcome" }],
-    baseUrl: "http://localhost:8080",
+  customShots: {
+    currentShotsPath: "./lost-pixel",
   },
-  lostPixelProjectId: "cm6veg48v0r6per0f9tis4zuy",
+  lostPixelProjectId: process.env.LOST_PIXEL_PROJECT_ID,
   apiKey: process.env.LOST_PIXEL_API_KEY,
 }

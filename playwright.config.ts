@@ -46,19 +46,13 @@ export default defineConfig({
   workers: "65%", // 75 might be too many and cause flakiness
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
-  reporter: [
-    process.env.CI ? ["dot"] : ["list"],
-    [
-      "@argos-ci/playwright/reporter",
-      {
-        uploadToArgos: process.env.CI ? true : false,
-        token: process.env.ARGOS_TOKEN,
-      },
-    ],
-  ],
+  reporter: process.env.CI ? "dot" : "list",
   use: {
     trace: "on-first-retry",
-    screenshot: "only-on-failure",
+    screenshot: {
+      mode: "on",
+      fullPage: true,
+    },
   },
   projects: deviceList.flatMap((device) =>
     browsers.map((browser) => ({
