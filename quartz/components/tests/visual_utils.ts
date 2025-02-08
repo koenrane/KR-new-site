@@ -3,6 +3,12 @@ import { Page } from "playwright"
 
 import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
 
+export interface RegressionScreenshotOptions {
+  element?: string | Locator
+  clip?: { x: number; y: number; width: number; height: number }
+  disableHover?: boolean
+}
+
 export async function waitForThemeTransition(page: Page) {
   await page.evaluate(() => {
     return new Promise<void>((resolve) => {
@@ -41,39 +47,22 @@ export async function setTheme(page: Page, theme: "light" | "dark") {
   await waitForThemeTransition(page)
 }
 
-export interface RegressionScreenshotOptions {
-  element?: string | Locator
-  clip?: { x: number; y: number; width: number; height: number }
-  disableHover?: boolean
-}
-
 export async function takeRegressionScreenshot(
   page: Page,
   testInfo: TestInfo,
   screenshotSuffix: string,
   options?: RegressionScreenshotOptions,
 ) {
-  const screenshotName = screenshotSuffix ? `${testInfo.title}-${screenshotSuffix}` : testInfo.title
-  const screenshotPath = `lost-pixel/${screenshotName}.png`
+  const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}.png`
+  const baseOptions = { path: screenshotPath, animations: "disabled" as const }
 
-  // If element is specified, take screenshot of just that element
   if (options?.element) {
     const element =
       typeof options.element === "string" ? page.locator(options.element) : options.element
-    await element.screenshot({
-      path: screenshotPath,
-      animations: "disabled",
-    })
-    return
+    return element.screenshot(baseOptions)
   }
 
-  // Otherwise take screenshot of specified clip area or full page
-  await page.screenshot({
-    path: screenshotPath,
-    clip: options?.clip,
-    animations: "disabled",
-    fullPage: !options?.clip,
-  })
+  return page.screenshot({ ...baseOptions, clip: options?.clip, fullPage: !options?.clip })
 }
 
 export async function takeScreenshotAfterElement(
