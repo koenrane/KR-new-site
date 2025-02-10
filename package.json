@@ -76,7 +76,7 @@
     "find-git-root": "^1.0.4",
     "flexsearch": "0.7.43",
     "github-slugger": "^2.0.0",
-    "globby": "^14.0.1",
+    "globby": "^14.1.0",
     "gray-matter": "^4.0.3",
     "hast-util-from-html": "^2.0.3",
     "hast-util-to-html": "^9.0.0",
