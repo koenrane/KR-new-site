@@ -10,7 +10,9 @@ tsconfig.tsbuildinfo
 private/
 *subset.woff2
 *zopfli*
+
 *snapshots*
+lost-pixel
 
 # Backups
 *~
