@@ -50,3 +50,4 @@ jobs:
         uses: lost-pixel/lost-pixel@v3.16.0
         env:
           LOST_PIXEL_API_KEY: ${{ secrets.LOST_PIXEL_API_KEY }}
+          LOST_PIXEL_PROJECT_ID: ${{ secrets.LOST_PIXEL_PROJECT_ID }}
