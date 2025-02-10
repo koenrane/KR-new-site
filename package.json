@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.740.0",
-    "@aws-sdk/credential-provider-ini": "^3.734.0",
+    "@aws-sdk/credential-provider-ini": "^3.744.0",
     "@clack/prompts": "^0.9.1",
     "@floating-ui/dom": "^1.6.11",
     "@napi-rs/simple-git": "0.1.19",
