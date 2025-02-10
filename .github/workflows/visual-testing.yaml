@@ -76,6 +76,9 @@ jobs:
           done
           echo "Server is ready"
 
+      - name: Make folder
+        run: mkdir -p ./lost-pixel
+
       - name: Run Playwright tests
         id: playwright
         continue-on-error: true

@@ -47,7 +47,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
-  reporter: process.env.CI ? "dot" : "list",
+  reporter: process.env.CI ? "dot" : "list", // Format of test status display
   use: {
     trace: "on-first-retry",
     screenshot: {
