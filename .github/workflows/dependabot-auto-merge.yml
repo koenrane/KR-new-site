@@ -16,7 +16,7 @@ jobs:
         uses: dependabot/fetch-metadata@v1
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-          
+
       - name: Wait for other workflows to succeed
         uses: lewagon/wait-on-check-action@v1.3.1
         with:
@@ -24,10 +24,10 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 30
           running-workflow-name: "Dependabot Auto-merge"
-          
+
       - name: Enable auto-merge for Dependabot PRs
         if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor' }}
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

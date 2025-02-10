@@ -36,8 +36,8 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
         run: |
-            export BRANCH=${${{ github.ref }}#refs/heads/}
-            npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
+          export BRANCH=${${{ github.ref }}#refs/heads/}
+          npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
 
       - name: Install subfont
         run: npm install -g subfont
@@ -52,5 +52,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_ZONE_ID: ${{ vars.CLOUDFLARE_ZONE_ID }}
         run: |
-            export BRANCH=${${{ github.ref }}#refs/heads/}
-            npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
+          export BRANCH=${${{ github.ref }}#refs/heads/}
+          npx wrangler pages deploy ./public --project-name=turntrout --branch $BRANCH
