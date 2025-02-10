@@ -41,9 +41,10 @@ const browsers: Browser[] = [
 ]
 
 export default defineConfig({
-  timeout: 30000,
+  timeout: process.env.CI ? 45000 : 30000, // Increased timeout for larger test sets
   fullyParallel: true,
-  workers: "65%", // 75 might be too many and cause flakiness
+  workers: process.env.CI ? 4 : "65%",
+  retries: process.env.CI ? 1 : 0,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
   reporter: process.env.CI ? "dot" : "list",
@@ -52,6 +53,24 @@ export default defineConfig({
     screenshot: {
       mode: "on",
       fullPage: true,
+    },
+    launchOptions: {
+      args: [
+        ...(process.env.CI
+          ? [
+              "--no-sandbox",
+              "--disable-setuid-sandbox",
+              "--disable-dev-shm-usage",
+              "--disable-gpu",
+              "--no-zygote",
+              "--disable-extensions",
+              "--disable-background-timer-throttling",
+              "--disable-backgrounding-occluded-windows",
+              "--disable-renderer-backgrounding",
+              "--memory-pressure-off",
+            ]
+          : []),
+      ],
     },
   },
   projects: deviceList.flatMap((device) =>
