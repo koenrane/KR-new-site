@@ -63,7 +63,7 @@ Separately, as far as I can tell, most[^3] practitioners usually view reward as 
 Therefore, _reward is not the optimization target_ in two senses:
 
 1. Deep reinforcement learning agents will not come to intrinsically and primarily value their reward signal; reward is not _the trained agent’s_ optimization target.
-2. Utility functions express the _relative goodness_ of outcomes. Reward _is not best understood_ as being a kind of utility function. Reward has the mechanistic effect of _chiseling cognition into the agent's network_. Therefore, properly understood, reward does not express relative goodness and is therefore _not an optimization target at all._
+2. Utility functions express the _relative goodness_ of outcomes. Reward _is not best understood_ as being a kind of utility function. Reward has the mechanistic effect of _chiseling cognition into the agent's network_. Therefore, properly understood, reward does not express relative goodness and _does not automatically describe the values of the trained AI_.
 
 # Reward probably won’t be a deep RL agent’s primary optimization target
 
