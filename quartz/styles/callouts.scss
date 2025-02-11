@@ -211,6 +211,10 @@
 
   --border: color-mix(in srgb, var(--color) 30%, var(--base));
 
+  & .callout-icon {
+    margin-right: calc(0.25 * $base-margin);
+  }
+
   & > .callout-title {
     margin-top: calc($base-margin);
   }
