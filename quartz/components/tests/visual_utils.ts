@@ -53,7 +53,10 @@ export async function takeRegressionScreenshot(
   screenshotSuffix: string,
   options?: RegressionScreenshotOptions,
 ) {
-  const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}.png`
+  const browserName = testInfo.project.name
+  const viewportSize = page.viewportSize()
+  const viewport = viewportSize ? `${viewportSize.width}x${viewportSize.height}` : "default"
+  const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}-${viewport}.png`
   const baseOptions = { path: screenshotPath, animations: "disabled" as const }
 
   if (options?.element) {

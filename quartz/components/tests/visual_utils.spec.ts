@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test"
+import { test, expect, PageScreenshotOptions } from "@playwright/test"
+import sharp from "sharp"
 
 import {
   yOffset,
@@ -6,6 +7,7 @@ import {
   getNextElementMatchingSelector,
   waitForTransitionEnd,
   isDesktopViewport,
+  takeRegressionScreenshot,
 } from "./visual_utils"
 
 test.describe("visual_utils functions", () => {
@@ -206,3 +208,81 @@ test.describe("isDesktopViewport", () => {
     expect(isDesktopViewport(page)).toBe(false)
   })
 })
+
+test.describe("takeRegressionScreenshot", () => {
+  test.beforeEach(async ({ page }) => {
+    // Create a clean test page with known content
+    await page.setContent(`
+      <div id="test-root" style="width: 500px; height: 500px; background: white;">
+        <div id="test-element" style="width: 100px; height: 100px; background: blue;"></div>
+      </div>
+    `)
+  })
+
+  test("screenshot name includes browser and viewport info", async ({ page }, testInfo) => {
+    const viewportSize = { width: 1024, height: 768 }
+    await page.setViewportSize(viewportSize)
+
+    // Spy on the screenshot call to capture the options
+    const originalScreenshot = page.screenshot.bind(page)
+    let capturedOptions: PageScreenshotOptions = {}
+    page.screenshot = async (options?: PageScreenshotOptions) => {
+      capturedOptions = options ?? {}
+      return originalScreenshot(options)
+    }
+
+    await takeRegressionScreenshot(page, testInfo, "test-suffix")
+
+    // Verify path format
+    expect(capturedOptions.path).toMatch(
+      new RegExp(`lost-pixel/.*-test-suffix-${testInfo.project.name}-1024x768\\.png$`),
+    )
+  })
+
+  test("generates full page screenshot with correct dimensions", async ({ page }, testInfo) => {
+    const viewportSize = { width: 1024, height: 768 }
+    await page.setViewportSize(viewportSize)
+
+    const screenshot = await takeRegressionScreenshot(page, testInfo, "test-suffix")
+    const dimensions = await getImageDimensions(screenshot)
+
+    expect(dimensions.width).toBe(viewportSize.width)
+    expect(dimensions.height).toBe(viewportSize.height)
+  })
+
+  test("element screenshot captures only the element", async ({ page }, testInfo) => {
+    const element = page.locator("#test-element")
+    const elementBox = await element.boundingBox()
+    if (!elementBox) throw new Error("Could not get element bounding box")
+
+    const screenshot = await takeRegressionScreenshot(page, testInfo, "element-test", {
+      element: "#test-element",
+    })
+    const dimensions = await getImageDimensions(screenshot)
+
+    // Should match element dimensions
+    expect(dimensions.width).toBe(elementBox.width)
+    expect(dimensions.height).toBe(elementBox.height)
+  })
+
+  test("clip option respects specified dimensions", async ({ page }, testInfo) => {
+    const clip = { x: 0, y: 0, width: 200, height: 150 }
+
+    const screenshot = await takeRegressionScreenshot(page, testInfo, "clip-test", {
+      clip,
+    })
+    const dimensions = await getImageDimensions(screenshot)
+
+    expect(dimensions.width).toBe(clip.width)
+    expect(dimensions.height).toBe(clip.height)
+  })
+})
+
+// Helper function to get image dimensions from buffer
+async function getImageDimensions(buffer: Buffer): Promise<{ width: number; height: number }> {
+  const metadata = await sharp(buffer).metadata()
+  return {
+    width: metadata.width ?? 0,
+    height: metadata.height ?? 0,
+  }
+}
