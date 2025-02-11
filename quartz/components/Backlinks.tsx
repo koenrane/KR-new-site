@@ -4,19 +4,11 @@ import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
-import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
 import { QuartzPluginData } from "../plugins/vfile"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
-import { formatTitle } from "./component_utils"
+import { formatTitle, processSmallCaps } from "./component_utils"
 import { QuartzComponent, QuartzComponentProps } from "./types"
-
-// TODO import from table of contents
-function processSmallCaps(text: string, parent: Parent): void {
-  const textNode = { type: "text", value: text } as Text
-  parent.children.push(textNode)
-  replaceSCInNode(textNode, [parent])
-}
 
 function processBacklinkTitle(title: string): Parent {
   // Apply formatTitle before processing
