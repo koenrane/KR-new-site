@@ -159,9 +159,23 @@ test("Navbar shows shadow when scrolling down (lostpixel)", async ({ page }, tes
 
   const navbar = page.locator("#navbar")
 
+  // Helper function to take a screenshot of the navbar and its shadow
+  const takeNavbarScreenshot = async (suffix: string) => {
+    const box = await navbar.boundingBox()
+    if (!box) throw new Error("Could not find navbar")
+    await takeRegressionScreenshot(page, testInfo, suffix, {
+      clip: {
+        x: box.x,
+        y: box.y,
+        width: box.width,
+        height: box.height + 12,
+      },
+    })
+  }
+
   // Initial state - no shadow
   await expect(navbar).not.toHaveClass(/shadow/)
-  await takeRegressionScreenshot(page, testInfo, "navbar-no-shadow")
+  await takeNavbarScreenshot("navbar-no-shadow")
 
   // Scroll down slightly to trigger shadow
   await page.evaluate(() => {
@@ -173,7 +187,7 @@ test("Navbar shows shadow when scrolling down (lostpixel)", async ({ page }, tes
 
   // Verify shadow class is added
   await expect(navbar).toHaveClass(/shadow/)
-  await takeRegressionScreenshot(page, testInfo, "navbar-with-shadow")
+  await takeNavbarScreenshot("navbar-with-shadow")
 
   // Scroll back to top
   await page.evaluate(() => {
