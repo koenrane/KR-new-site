@@ -1,15 +1,17 @@
 import type { JSX } from "preact"
 
-import { RootContent, Parent, Text, Element, Root, Data } from "hast"
+import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
 import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
+import { QuartzPluginData } from "../plugins/vfile"
 import { resolveRelative, simplifySlug } from "../util/path"
 import { FullSlug } from "../util/path"
 import { formatTitle } from "./component_utils"
 import { QuartzComponent, QuartzComponentProps } from "./types"
 
+// TODO import from table of contents
 function processSmallCaps(text: string, parent: Parent): void {
   const textNode = { type: "text", value: text } as Text
   parent.children.push(textNode)
@@ -65,7 +67,7 @@ const BacklinksList = ({
   backlinkFiles,
   currentSlug,
 }: {
-  backlinkFiles: Data[]
+  backlinkFiles: QuartzPluginData[]
   currentSlug: FullSlug
 }): JSX.Element => (
   <ul className="backlinks-list" id="backlinks">
@@ -87,10 +89,25 @@ const BacklinksList = ({
   </ul>
 )
 
-export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps) => {
-  const slug = simplifySlug(fileData.slug || ("" as FullSlug))
-  const backlinkFiles = allFiles.filter((file) => file.links?.includes(slug))
+export const getBacklinkFiles = (
+  allFiles: QuartzPluginData[],
+  currentFile: QuartzPluginData,
+): QuartzPluginData[] => {
+  const slug = simplifySlug(currentFile.slug as FullSlug)
+  return allFiles.filter((otherFile) => {
+    const otherFileSlug = simplifySlug(otherFile.slug as FullSlug)
+    return (
+      otherFile.links?.some((link) => {
+        // Remove anchor from link before comparison
+        const linkWithoutAnchor = (link as string).split("#")[0]
+        return linkWithoutAnchor === slug && otherFileSlug !== slug
+      }) ?? false
+    )
+  })
+}
 
+export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzComponentProps) => {
+  const backlinkFiles: QuartzPluginData[] = getBacklinkFiles(allFiles, fileData)
   if (backlinkFiles.length === 0) return null
 
   return (
@@ -112,5 +129,3 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
     </blockquote>
   )
 }
-
-// TODO apply tag-acronyms
