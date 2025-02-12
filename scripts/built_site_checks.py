@@ -10,6 +10,7 @@ from collections import Counter
 from pathlib import Path
 from typing import Dict, List, Set
 
+import requests
 import tqdm
 from bs4 import BeautifulSoup, NavigableString, Tag
 
@@ -241,7 +242,9 @@ def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
                 text = child.get_text().strip()
                 if text.startswith("! "):
                     _add_to_list(
-                        unrendered_spoilers, text, prefix="Unrendered spoiler: "
+                        unrendered_spoilers,
+                        text,
+                        prefix="Unrendered spoiler: ",
                     )
     return unrendered_spoilers
 
@@ -609,6 +612,42 @@ def meta_tags_early(file_path: Path) -> List[str]:
     return issues
 
 
+def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
+    """
+    Check that all iframe sources are responding with a successful status code.
+    """
+    problematic_iframes = []
+    iframes = soup.find_all("iframe")
+
+    for iframe in iframes:
+        src = iframe.get("src")
+        if not src:
+            continue
+
+        if src.startswith("//"):
+            src = "https:" + src
+        elif src.startswith("/"):
+            continue  # Skip relative paths as they're checked by other functions
+
+        title: str = iframe.get("title", "")
+        alt: str = iframe.get("alt", "")
+        description: str = f"{title=} ({alt=})"
+        try:
+            response = requests.head(src, timeout=10)
+            if not response.ok:
+                problematic_iframes.append(
+                    f"Iframe source {src} returned status {response.status_code}. "
+                    f"Description: {description}"
+                )
+        except requests.RequestException as e:
+            problematic_iframes.append(
+                f"Failed to load iframe source {src}: {str(e)}. "
+                f"Description: {description}"
+            )
+
+    return problematic_iframes
+
+
 def check_file_for_issues(
     file_path: Path, base_dir: Path, md_path: Path | None
 ) -> IssuesDict:
@@ -652,6 +691,7 @@ def check_file_for_issues(
         "emphasis_spacing": check_emphasis_spacing(soup),
         "long_description": check_description_length(soup),
         "late_header_tags": meta_tags_early(file_path),
+        "problematic_iframes": check_iframe_sources(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
