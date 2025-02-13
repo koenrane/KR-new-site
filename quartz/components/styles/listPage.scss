@@ -14,7 +14,7 @@ li.section-li {
     grid-template-columns: 6em 3fr;
 
     @media all and (max-width: $mobile-breakpoint) {
-      & > .tags {
+      & > #tags ul {
         display: none;
       }
     }
@@ -37,7 +37,7 @@ li.section-li {
 .popover .section {
   grid-template-columns: 6em 1fr !important;
 
-  & > .tags {
+  & > #tags ul {
     display: none;
   }
 }

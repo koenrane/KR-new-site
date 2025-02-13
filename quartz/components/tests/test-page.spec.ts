@@ -267,7 +267,21 @@ test.describe("Right sidebar", () => {
       element: "#content-meta",
     })
   })
-  // TODO test backlinks
+
+  test("Backlinks are visible (lostpixel)", async ({ page }, testInfo) => {
+    const backlinksTitle = page.locator("#backlinks .callout-title").first()
+    await backlinksTitle.scrollIntoViewIfNeeded()
+    await expect(backlinksTitle).toBeVisible()
+    await expect(backlinksTitle).toHaveText("Links to this page")
+
+    // Open the backlinks
+    await backlinksTitle.click()
+
+    const backlinks = page.locator("#backlinks").first()
+    await takeRegressionScreenshot(page, testInfo, "backlinks-visible", {
+      element: backlinks,
+    })
+  })
 })
 
 test.describe("Spoilers", () => {

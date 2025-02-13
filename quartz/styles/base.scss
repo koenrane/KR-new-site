@@ -350,6 +350,7 @@ h6,
 #toc-content li {
   // Ensure headers are visible even when the navbar is present
   scroll-margin-top: calc(6 * $base-margin);
+  font-family: var(--font-text-header);
 
   // Oldstyle is too small for headers
   &::first-letter,
@@ -357,9 +358,6 @@ h6,
   .number-prefix {
     font-variant-numeric: lining-nums;
   }
-
-  // color: var(--color-header);
-  font-family: var(--font-text-header);
 
   & .small-caps {
     font-weight: lighter;

@@ -22,7 +22,9 @@ ol.overflow {
 }
 
 #toc-content,
-#toc-content-mobile {
+#toc-content-mobile,
+#backlinks-callout,
+#post-statistics {
   list-style: none;
   overflow: visible;
   max-height: none;
@@ -35,11 +37,17 @@ ol.overflow {
   }
 
   & ul {
+    --text-indent-multiplier: -0.75;
+
     list-style: none;
     padding: 0;
     line-height: 1.05em;
     margin-top: 0;
     margin-bottom: 0;
+
+    // Indent the first level of the TOC and stagger wrapped text
+    text-indent: calc(var(--text-indent-multiplier) * $base-margin);
+    margin-left: calc(1 * $base-margin - $base-margin * var(--text-indent-multiplier));
 
     & ul {
       font-size: 0.913em; // approx sqrt(1/1.2), where 1.2 is scale factor

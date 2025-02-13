@@ -26,7 +26,7 @@ export const TagList: QuartzComponent = ({ fileData, displayClass }: QuartzCompo
   const tags = getTags(fileData)
   if (tags && tags.length > 0) {
     return (
-      <ul className={classNames(displayClass, "tags")}>
+      <ul className={classNames(displayClass)}>
         {tags.map((tag: string) => {
           const tagSlug = slugTag(tag)
           const linkDest = `/tags/${tagSlug}`

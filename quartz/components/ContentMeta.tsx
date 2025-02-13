@@ -227,7 +227,7 @@ export const renderTags = (props: QuartzComponentProps): JSX.Element => {
         <div className="callout-icon"></div>
         <div className="callout-title-inner">Tags</div>
       </div>
-      <div className="callout-content">
+      <div className="callout-content" id="tags">
         <TagList {...props} />
       </div>
     </blockquote>
@@ -255,7 +255,7 @@ export const renderPreviousPostJsx = (fileData: QuartzPluginData) => {
   if (!prevPostSlug) return null
 
   return (
-    <p>
+    <p style={{ margin: 0 }}>
       <b>Previous:</b>{" "}
       <a href={prevPostSlug} className="internal">
         {prevPostTitleFormatted}
@@ -271,7 +271,7 @@ export const renderNextPostJsx = (fileData: QuartzPluginData) => {
   if (!nextPostSlug) return null
 
   return (
-    <p>
+    <p style={{ marginTop: ".5rem" }}>
       <b>Next:</b>{" "}
       <a href={nextPostSlug} className="internal">
         {nextPostTitleFormatted}
@@ -315,11 +315,11 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
         <div className="callout-title-inner">About this post</div>
       </div>
       <div className="callout-content">
-        <ul style="padding-left: 0px;">
-          {readingTime && <p>{readingTime}</p>}
-          {linkpostInfo && <p>{linkpostInfo}</p>}
-          {publicationInfo && <p>{publicationInfo}</p>}
-          {lastUpdated && <p>{lastUpdated}</p>}
+        <ul>
+          {readingTime && <li>{readingTime}</li>}
+          {linkpostInfo && <li>{linkpostInfo}</li>}
+          {publicationInfo && <li>{publicationInfo}</li>}
+          {lastUpdated && <li>{lastUpdated}</li>}
         </ul>
       </div>
     </blockquote>
@@ -333,8 +333,8 @@ export const ContentMetadata = (props: QuartzComponentProps) => {
 
   // Collect all metadata elements
   const metadataElements = [
-    renderTags(props),
     renderSequenceInfo(props.fileData),
+    renderTags(props),
     renderPostStatistics(props),
   ]
 

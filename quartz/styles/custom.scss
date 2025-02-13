@@ -564,31 +564,6 @@ svg.fold-icon {
   }
 }
 
-// Tags section in the metadata
-.tags {
-  color: var(--midground);
-  list-style: none;
-  display: block;
-  padding-left: 0;
-  padding-right: $base-margin;
-  overflow-wrap: normal;
-
-  & a.tag-link {
-    color: var(--midground);
-    border-radius: 5px; /* Add rounded corners to the tags box */
-    line-height: 1rem;
-    padding: 0;
-    padding-top: initial;
-    padding-bottom: initial;
-    background-color: transparent;
-    display: block;
-
-    #right-sidebar & {
-      text-decoration: none; // Prevent underline to reduce clutter
-    }
-  }
-}
-
 hr {
   max-width: 97.5%; // Looks weird if it extends all the way to the right
   margin: calc(3 * $base-margin) 0;
@@ -839,33 +814,13 @@ img.emoji {
   opacity: 1;
 }
 
-// Add indent after the first line
 .center li,
-#backlinks li,
 .popover-inner li {
+  // Add indent after the first line
   text-indent: calc(-0.25 * $base-margin);
-}
 
-// Make sure the bullet points don't feel choked
-.center li,
-.popover-inner li {
+  // Make sure the bullet points don't feel choked
   margin-bottom: calc(0.5 * $base-margin);
-}
-
-#backlinks {
-  position: relative;
-
-  & li {
-    &::marker {
-      color: var(--midground-faint);
-    }
-
-    & a {
-      text-decoration-thickness: 0.1px;
-      background-color: transparent;
-      color: var(--midground);
-    }
-  }
 }
 
 /* Mermaid styles */
@@ -968,22 +923,6 @@ foreignObject {
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
-}
-
-// Indent various elements of the sidebar
-#toc-content ul,
-#toc-content-mobile ul {
-  --text-indent-multiplier: -0.75;
-
-  text-indent: calc(var(--text-indent-multiplier) * $base-margin);
-  margin-left: calc(1 * $base-margin - $base-margin * var(--text-indent-multiplier));
-}
-
-.tags li,
-.callout-metadata .callout-content > p,
-#post-statistics p {
-  text-indent: calc(-0.75 * $base-margin);
-  margin-left: calc($base-margin);
 }
 
 iframe {

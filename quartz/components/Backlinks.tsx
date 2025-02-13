@@ -62,7 +62,7 @@ const BacklinksList = ({
   backlinkFiles: QuartzPluginData[]
   currentSlug: FullSlug
 }): JSX.Element => (
-  <ul className="backlinks-list" id="backlinks">
+  <ul>
     {backlinkFiles.map((f) => {
       if (!("frontmatter" in f) || !("slug" in f)) {
         return null
