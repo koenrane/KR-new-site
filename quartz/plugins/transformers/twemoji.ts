@@ -6,7 +6,6 @@ import { visit } from "unist-util-visit"
 
 import { twemoji } from "./modules/twemoji.min"
 
-export const PLACEHOLDER = "__EMOJI_PLACEHOLDER__"
 export const EMOJI_REPLACEMENT = "⤴"
 export const TWEMOJI_BASE_URL = "https://assets.turntrout.com/twemoji/"
 export const EMOJIS_TO_REPLACE = ["1fabf"]
@@ -72,9 +71,10 @@ export function createNodes(twemojiContent: string): (Text | Element)[] {
   return newNodes
 }
 
+// private-use unicode; html formatting uses E000
 const ignoreMap = new Map<string, string>([
-  ["⤴", "FN_ARROW_PLACEHOLDER"],
-  ["⇔", "IFF_ARROW_PLACEHOLDER"],
+  ["⤴", "\uE001"],
+  ["⇔", "\uE002"],
 ])
 
 export function replaceEmojiConvertArrows(content: string): string {
