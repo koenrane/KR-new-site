@@ -1,10 +1,25 @@
 /**
- * Toggles the collapsed state of a callout.
- * @this {HTMLElement} The title element of the callout
+ * Opens a collapsed callout.
+ * @param {Event} event The click event
  */
-function toggleCallout() {
-  const outerBlock = this.parentElement
-  outerBlock.classList.toggle("is-collapsed")
+function openCallout(event) {
+  const callout = event.currentTarget
+  if (callout.classList.contains("is-collapsed")) {
+    callout.classList.remove("is-collapsed")
+  }
+}
+
+/**
+ * Closes an open callout if clicked on title.
+ * @param {Event} event The click event
+ */
+function closeCallout(event) {
+  const title = event.currentTarget
+  const callout = title.parentElement
+  if (!callout.classList.contains("is-collapsed")) {
+    callout.classList.add("is-collapsed")
+    event.stopPropagation()
+  }
 }
 
 /**
@@ -13,9 +28,14 @@ function toggleCallout() {
 function setupCallout() {
   const collapsible = document.getElementsByClassName("callout is-collapsible")
   Array.from(collapsible).forEach(function (div) {
-    const title = div.firstElementChild
+    // Add click handler to entire callout for opening
+    div.addEventListener("click", openCallout)
+
+    // We don't want content to close because that'd be annoying if the user
+    // clicks on the content while reading.
+    const title = div.querySelector(".callout-title")
     if (title) {
-      title.addEventListener("click", toggleCallout)
+      title.addEventListener("click", closeCallout)
     }
   })
 }

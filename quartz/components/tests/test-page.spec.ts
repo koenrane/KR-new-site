@@ -1,4 +1,6 @@
-import { test, expect, Locator, Page } from "@playwright/test"
+import type { Locator, Page } from "@playwright/test"
+
+import { test, expect } from "@playwright/test"
 
 import {
   search,
@@ -117,35 +119,37 @@ test.describe("Table of contents", () => {
 
 test.describe("Admonitions", () => {
   for (const theme of ["light", "dark"]) {
-    test(`Opening and closing an admonition in ${theme} mode`, async ({ page }) => {
+    test(`Admonition click behaviors in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
 
       const admonition = page.locator("#test-collapse").first()
       await admonition.scrollIntoViewIfNeeded()
 
+      // Initial state should be collapsed
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
-
       const initialScreenshot = await admonition.screenshot()
 
-      // Check we can open the admonition
+      // Click anywhere on callout should open it
       await admonition.click()
       await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
       await waitForTransitionEnd(admonition)
-
       const openedScreenshot = await admonition.screenshot()
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
-      // Check we can close the admonition
-      const admonitionTitle = page.locator("#test-collapse .callout-title").first()
-      await admonitionTitle.click()
+      // Click on content should NOT close it
+      const content = admonition.locator(".callout-content").first()
+      await content.click()
+      await expect(admonition).not.toHaveClass(/.*is-collapsed.*/)
+      const afterContentClickScreenshot = await admonition.screenshot()
+      expect(afterContentClickScreenshot).toEqual(openedScreenshot)
 
+      // Click on title should close it
+      const title = admonition.locator(".callout-title").first()
+      await title.click()
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
       await waitForTransitionEnd(admonition)
-
       const closedScreenshot = await admonition.screenshot()
       expect(closedScreenshot).toEqual(initialScreenshot)
-
-      await expect(admonition).toHaveClass(/.*is-collapsed.*/)
     })
   }
 
