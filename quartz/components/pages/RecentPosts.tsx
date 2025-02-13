@@ -1,4 +1,5 @@
-import React from "react"
+import { JSX } from "preact"
+import * as React from "react"
 
 import { FullSlug } from "../../util/path"
 import { PageList } from "../PageList"

@@ -17,7 +17,6 @@ import pt from "./locales/pt-BR"
 import hu from "./locales/hu-HU"
 
 export const TRANSLATIONS: Record<string, Translation> = {
-  // @ts-expect-error: Translation is not typed correctly
   "en-US": en,
   "fr-FR": fr,
   "it-IT": it,

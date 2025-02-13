@@ -1,6 +1,7 @@
 import { Element } from "hast"
 import { h } from "hastscript"
-import React from "react"
+import { JSX } from "preact"
+import * as React from "react"
 
 import { htmlToJsx } from "../../util/jsx"
 import { getAllSegmentPrefixes, FullSlug } from "../../util/path"

@@ -1,5 +1,6 @@
 // skipcq: JS-W1028
-import React from "react"
+import { JSX } from "preact"
+import * as React from "react"
 
 import {
   TURNTROUT_FAVICON_PATH,
