@@ -1,5 +1,5 @@
-import { Locator, TestInfo, expect } from "@playwright/test"
-import { Page } from "playwright"
+import { type Locator, type TestInfo, expect } from "@playwright/test"
+import { type Page } from "playwright"
 
 import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
 

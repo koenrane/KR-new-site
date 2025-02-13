@@ -1,4 +1,4 @@
-import { test, expect, PageScreenshotOptions } from "@playwright/test"
+import { test, expect, type PageScreenshotOptions } from "@playwright/test"
 import sharp from "sharp"
 
 import {

@@ -1,7 +1,7 @@
 import { Element, Parent, Text } from "hast"
 import { h } from "hastscript"
 import { Plugin } from "unified"
-import { Node } from "unist"
+import { type Node } from "unist"
 import { visit } from "unist-util-visit"
 
 import { twemoji } from "./modules/twemoji.min"
