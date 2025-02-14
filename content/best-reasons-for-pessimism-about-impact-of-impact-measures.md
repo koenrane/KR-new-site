@@ -51,7 +51,7 @@ I'm interested in learning about the intuitions, experience, and facts which inf
 
 At least two reasons suggest that "work on impact measures is unlikely to result in much concrete progress on core AI Alignment problems. First, you might think that the impact measurement problem is intractable, so work is unlikely to make progress. Second, you might think that even a full solution wouldn't be useful.  
   
-Over the course of 5 minutes by the clock, here are the reasons I generated for pessimism (which I either presently agree with or at least find it reasonable that an intelligent critic would raise the concern on the basis of currently-public reasoning):
+Over the course of 5 minutes by the clock, here are the reasons I generated for pessimism (which I either presently agree with or at least find it reasonable that an intelligent critic would raise the concern on the basis of currently public reasoning):
 
 - Declarative knowledge of a solution to impact measurement probably wouldn't help us do value alignment, figure out embedded agency, etc.
 - We want to figure out how to transition to a high-value stable future, and it just isn't clear how impact measures help with that.

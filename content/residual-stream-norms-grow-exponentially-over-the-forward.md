@@ -285,7 +285,7 @@ The other important part of an MLP layer is the non-linear activation function, 
 
 In the plot below we see that even the neuron activation rate for random inputs (blue line) rises exponentially, so the exponential increase _is_ still inherent to the layer weights, it was just not visible in the norms.
 
-The plot below also explains the difference in L2 norm between actual `mlp_out` and the random outputs (the first plot in this appendix): The neuron activation rate is simply much higher for random inputs (blue line) than in the actual model run (red line), or for randomly-resampled[^10] residual stream inputs (orange and green lines). The random vectors clearly differ from actual residual stream vectors in some significant way, but we have not investigated this further.
+The plot below also explains the difference in L2 norm between actual `mlp_out` and the random outputs (the first plot in this appendix): The neuron activation rate is simply much higher for random inputs (blue line) than in the actual model run (red line), or for randomly resampled[^10] residual stream inputs (orange and green lines). The random vectors clearly differ from actual residual stream vectors in some significant way, but we have not investigated this further.
 
 ![](https://assets.turntrout.com/static/images/posts/ncolo4itac8yxdmklpwo.avif)
 

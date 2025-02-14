@@ -242,7 +242,7 @@ And we're done.
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/matC991.mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
    </figure>
 
-No model, no rollouts, a _single randomly-generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
+No model, no rollouts, a _single randomly generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
 
 To be frank, this is crazy. I'm not aware of any existing theory explaining these results, which is why I proved a bajillion theorems last summer to start to get a formal understanding (some of which became [the results on instrumental convergence and power-seeking](https://arxiv.org/abs/1912.01683)).
 

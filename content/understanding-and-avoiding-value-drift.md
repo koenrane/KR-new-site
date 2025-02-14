@@ -67,9 +67,9 @@ My heart warns me of this "example." It's better to try to explain phenomena whi
 
 Here's a more complicated example of value drift. I'll give one possible mechanistic story for the "value drift" which occurs to an atheist (Alice) dating a religious person (Rick), and why that situation might predictably lead to Alice converting or Rick deconverting. I'll consider a scenario where Alice converts.
 
-First, reinforcement events cause Alice to develop shards of value around making Rick happy and making Rick like her. Alice's new shards (non-introspectively-apparently) query her world model for plans which make Rick happier and which make Rick like her more. Obviously, if Alice converted, they would have more in common, and Rick would be happy. Since these plans lead to Rick being happy and liking Alice more, these shards bid for those plans.
+First, reinforcement events cause Alice to develop shards of value around making Rick happy and making Rick like her. Alice's new shards (non-introspectively apparently) query her world model for plans which make Rick happier and which make Rick like her more. Obviously, if Alice converted, they would have more in common, and Rick would be happy. Since these plans lead to Rick being happy and liking Alice more, these shards bid for those plans.
 
-Only, the plan is not bid for directly in an introspectively obvious manner. That would provoke opposition from Alice's other values (which oppose deliberately changing her religious status just to make Rick happy). Alice's self-model predicts this opposition, and so her Rick-happiness- and Rick-approval-shards don't bid for the "direct" conversion plan, because it isn't predicted to work (and therefore won't lead to a future where Rick is happier and approves of Alice more). No, instead, these two shards _rationalize_ internally-observable reasons why Alice should start going to Rick's church: "it's respectful", "church is interesting", "if I notice myself being persuaded I can just leave", "I'll get to spend more time with Rick."[^2]
+Only, the plan is not bid for directly in an introspectively obvious manner. That would provoke opposition from Alice's other values (which oppose deliberately changing her religious status just to make Rick happy). Alice's self-model predicts this opposition, and so her Rick-happiness- and Rick-approval-shards don't bid for the "direct" conversion plan, because it isn't predicted to work (and therefore won't lead to a future where Rick is happier and approves of Alice more). No, instead, these two shards _rationalize_ internally observable reasons why Alice should start going to Rick's church: "it's respectful", "church is interesting", "if I notice myself being persuaded I can just leave", "I'll get to spend more time with Rick."[^2]
 
 Here, then, is the account:
 
@@ -84,7 +84,7 @@ Here, then, is the account:
 8. so that she converts,
 9. _so that Rick ends up happier and liking Alice more_.
 
-Her Rick-shards plan to induce value drift, and optimize the plan to make sure that it's hard for her other shards to realize the implicitly-planned outcome (Alice converting) and bid against it. This is one kind of decision-making algorithm which rationalizes against itself.
+Her Rick-shards plan to induce value drift, and optimize the plan to make sure that it's hard for her other shards to realize the implicitly planned outcome (Alice converting) and bid against it. This is one kind of decision-making algorithm which rationalizes against itself.
 
 _Under shard theory, rationality is sometimes hard because "conscious-you" has to actually fight deception by other parts of yourself._
 

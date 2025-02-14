@@ -181,7 +181,7 @@ Sometimes, inner/outer alignment ideas can be appropriate (e.g. chess). For alig
 ## Paul Christiano
 
 > [!quote] Paul Christiano
-> [There is probably no physically-implemented reward function, of the kind that could be optimized with SGD, that we’d be happy for an arbitrarily smart AI to optimize as hard as possible. (**I’m most optimistic about approaches where RL is only performed on a reward function that gets smarter in parallel with the agent being trained.**)](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer)
+> [There is probably no physically implemented reward function, of the kind that could be optimized with SGD, that we’d be happy for an arbitrarily smart AI to optimize as hard as possible. (**I’m most optimistic about approaches where RL is only performed on a reward function that gets smarter in parallel with the agent being trained.**)](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer)
 
 I read this and think “this feels like a distraction.” I think this is not necessary because robust grading is not necessary for alignment. However, because reward provides cognitive updates, it’s important to think carefully about what cognitive updates will be provided by the reward given when e.g. a large language model submits an alignment proposal. Those reward events will shape the network’s decision-making and generalization properties, which is what we’re really interested in.
 

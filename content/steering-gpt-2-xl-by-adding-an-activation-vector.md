@@ -1034,7 +1034,7 @@ White notes that high-quality smile vectors must be computed from gender-balance
 
 ![](https://assets.turntrout.com/static/images/posts/mcdkfubnvsfiwlmltdo4.avif)
 
-Alex thinks this is evidence for narrowly-targeted steering being possible. For e.g. a "be nice" vector, Alex expects the vector to not change other model behaviors insofar as "niceness" is the only consistent covariate in the prompt comparisons which are used to generate the activation additions, and insofar as "niceness" is [composably represented](https://transformer-circuits.pub/2023/superposition-composition/index.html) at the injection location(s).
+Alex thinks this is evidence for narrowly targeted steering being possible. For e.g. a "be nice" vector, Alex expects the vector to not change other model behaviors insofar as "niceness" is the only consistent covariate in the prompt comparisons which are used to generate the activation additions, and insofar as "niceness" is [composably represented](https://transformer-circuits.pub/2023/superposition-composition/index.html) at the injection location(s).
 
 [Sampling Generative Networks](https://arxiv.org/abs/1609.04468) examines vision models and takes an average difference over many datapoints. GPT-2-XL, in contrast, is a 1.5B-parameter language model. We steer it without averaging over example prompts—we only consider pairs of prompts, like `Love` and `Hate`.
 

@@ -65,7 +65,7 @@ Um... This sounds like an awful plan? I’d feel like a lazy bum, like a cornere
 
 How would _I_ like to see those ten years spent? I’m looking for plans which involve _playing to win_, which are _fun_ and _edifying_, which would make me _proud_ to be me and to be part of this community.
 
-Ladies and gentlemen, let me mention a concept called _instrumental convergence_. [It’s](/seeking-power-is-often-convergently-instrumental-in-mdps) [something](/power-as-easily-exploitable-opportunities) [I](/environmental-structure-can-cause-instrumental-convergence) [like](/quantitative-strength-of-instrumental-convergence) [thinking](/satisficers-tend-to-seek-power) [about](/instrumental-convergence-for-realistic-agent-objectives) [sometimes](/instrumental-convergence-via-vnm-preferences). In many situations, for many goals, the best actions look similar: Gather resources, build up strength, develop yourself. Following this pattern, good plans in probably-doomed worlds look a lot like good plans in hopeful worlds.
+Ladies and gentlemen, let me mention a concept called _instrumental convergence_. [It’s](/seeking-power-is-often-convergently-instrumental-in-mdps) [something](/power-as-easily-exploitable-opportunities) [I](/environmental-structure-can-cause-instrumental-convergence) [like](/quantitative-strength-of-instrumental-convergence) [thinking](/satisficers-tend-to-seek-power) [about](/instrumental-convergence-for-realistic-agent-objectives) [sometimes](/instrumental-convergence-via-vnm-preferences). In many situations, for many goals, the best actions look similar: Gather resources, build up strength, develop yourself. Following this pattern, good plans in probably doomed worlds look a lot like good plans in hopeful worlds.
 
 ## Communal edification
 
@@ -149,7 +149,7 @@ And this is what I have done in a few months. Who could I grow into in ten years
 > But if enough people can contribute enough bits of dignity like that, wouldn't that mean we didn't die at all? Yes, but again, don't get your hopes up. Don't focus your emotions on a goal you're probably not going to obtain. Realistically, we find a handful of projects that contribute a few more bits of counterfactual dignity; get a bunch more not-specifically-expected bad news that makes the first-order object-level situation look even worse (where to second order, of course, the good Bayesians already knew that was how it would go); and then we all die.
 <!-- vale on -->
 
-Again, I am not, in this post, disputing Eliezer’s object-level model. I have supposed he is correct about our probable doom. Obviously, if we are in a probably-doomed world, I will keep that in mind. I do actually want to _win_, and finding winning plans requires entangling my brain with the details of each expected danger. Sharp danger awaits when you lose sight of the fact that reality is allowed to kill you.
+Again, I am not, in this post, disputing Eliezer’s object-level model. I have supposed he is correct about our probable doom. Obviously, if we are in a probably doomed world, I will keep that in mind. I do actually want to _win_, and finding winning plans requires entangling my brain with the details of each expected danger. Sharp danger awaits when you lose sight of the fact that reality is allowed to kill you.
 
 _However_—if you work at all like I do, I think this is _not_ how you should interface with yourself or your motivational system.[^2] It is like saying:
 

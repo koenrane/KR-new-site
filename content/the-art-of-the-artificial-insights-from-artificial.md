@@ -180,7 +180,7 @@ $h_a'$ is clearly admissible, but also inconsistent - every $h_a'(s)$ evaluation
 
 ### Relaxation
 
-Problem relaxation is a great way of finding admissible heuristics, and it's also a great way of approaching problems. Making potentially-unrealistic assumptions about your problem allows you to more freely explore the solution space: real-life examples include [Shannon's formulation of a perfect chess algorithm in 1950](https://en.wikipedia.org/wiki/Claude_Shannon#Shannon's_computer_chess_program), the [formalization of idealized induction in Solomonoff Induction](https://www.lesswrong.com/posts/Kyc5dFDzBg4WccrbK/an-intuitive-explanation-of-solomonoff-induction) (can you induce who formalized it?), and [Hutter's formulation of a perfectly rational AGI in 2000](https://en.wikipedia.org/wiki/AIXI). [^2]
+Problem relaxation is a great way of finding admissible heuristics, and it's also a great way of approaching problems. Making potentially unrealistic assumptions about your problem allows you to more freely explore the solution space: real-life examples include [Shannon's formulation of a perfect chess algorithm in 1950](https://en.wikipedia.org/wiki/Claude_Shannon#Shannon's_computer_chess_program), the [formalization of idealized induction in Solomonoff Induction](https://www.lesswrong.com/posts/Kyc5dFDzBg4WccrbK/an-intuitive-explanation-of-solomonoff-induction) (can you induce who formalized it?), and [Hutter's formulation of a perfectly rational AGI in 2000](https://en.wikipedia.org/wiki/AIXI). [^2]
 
 ## 4: Beyond Classical Search
 
@@ -204,7 +204,7 @@ I won't babble about $\alpha\beta$\-pruning - just [practice](http://inst.eecs.b
 
 I don't think it's a good idea to spend substantial time on quick fixes which slightly improve performance but don't scale in the limit. Elegant algorithms are often superior for reasons exceeding their aesthetic appeal.
 
-Two examples of objectively-good but non-scalable fixes:
+Two examples of objectively good but non-scalable fixes:
 
 **Quiescence search**
 : Sometimes, we have to stop evaluating a plan before the game is done; this can leave us in a deceptively good-looking state. Say I move my queen diagonal to your pawn and then I have to stop searching. A simple material evaluation function wouldn't see that the queen is about to get obliterated, so it returns a neutral score. Quiescence search considers the "stability" of a position and searches until it gets to quiescent states, providing a partial workaround for this problem. The search is constrained to certain types of moves.
@@ -260,7 +260,7 @@ This principle is covered in the book, but it's important to internalize this ea
 
 ## 8: First-Order Logic
 
-_In which the authors generalize their newly-minted "propositional logic"._
+_In which the authors generalize their newly minted "propositional logic"._
 
 ## 9: Inference in First-Order Logic
 
@@ -288,7 +288,7 @@ To be frank, I didn't like the ontology-engineering portion of this chapter.
 
 > An obvious question: do all these \[special-purpose\] ontologies converge on a general-purpose ontology? After centuries of philosophical and computational investigation, the answer is "Maybe".
 
-It's possible that well-constructed ontologies are useful abstractions for agents not running on hypercomputers. However, the idea that a team of humans could engineer _one ontology to rule them all_ which would produce robustly-intelligent behavior is absurd (I'm looking at the OpenMind project in particular). Set-membership ontologies consistent with reality are piecewise-linear to a nearly infinite degree, a jagged collection of edge cases and situational-truths (see: [37 Ways that Words Can Be Wrong](https://www.lesswrong.com/posts/FaJaCgqBKphrDzDSj/37-ways-that-words-can-be-wrong)).
+It's possible that well-constructed ontologies are useful abstractions for agents not running on hypercomputers. However, the idea that a team of humans could engineer _one ontology to rule them all_ which would produce robustly intelligent behavior is absurd (I'm looking at the OpenMind project in particular). Set-membership ontologies consistent with reality are piecewise-linear to a nearly infinite degree, a jagged collection of edge cases and situational-truths (see: [37 Ways that Words Can Be Wrong](https://www.lesswrong.com/posts/FaJaCgqBKphrDzDSj/37-ways-that-words-can-be-wrong)).
 
 ## 13: Quantifying Uncertainty
 

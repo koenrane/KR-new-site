@@ -141,7 +141,7 @@ Why is it a mistake? Consider what happens if you successfully inner-align the a
 
 Agents which care about the outer objective will make decisions on the basis of the output of the outer objective. Maximizing evaluations is the _terminal purpose_ of the inner-aligned agent’s cognition. Such an agent is not making decisions on the basis of e.g. diamonds or having fun. That agent is _monomaniacally optimizing for high outputs._
 
-On the other hand, agents which terminally value diamonds will make decisions on the basis of diamonds (e.g. via [learned subroutines like](/dont-align-agents-to-evaluations-of-plans#Grader-optimization-planning) “IF `diamond` `nearby`, THEN bid to set `planning subgoal`: `navigate to diamond`”). Agents which care about having fun will make decisions on the basis of having fun. Even though people often evaluate plans (e.g. via their gut) and choose the plan they feel best about (e.g. predicted to lead to a fun evening), finding a highly-evaluated plan isn’t the _point_ of the person’s search. The point is to have fun. For someone who values having fun, the _terminal purpose_ of their optimization is to have fun, and finding a highly evaluated plan is a _side effect_ of that process.
+On the other hand, agents which terminally value diamonds will make decisions on the basis of diamonds (e.g. via [learned subroutines like](/dont-align-agents-to-evaluations-of-plans#Grader-optimization-planning) “IF `diamond` `nearby`, THEN bid to set `planning subgoal`: `navigate to diamond`”). Agents which care about having fun will make decisions on the basis of having fun. Even though people often evaluate plans (e.g. via their gut) and choose the plan they feel best about (e.g. predicted to lead to a fun evening), finding a highly evaluated plan isn’t the _point_ of the person’s search. The point is to have fun. For someone who values having fun, the _terminal purpose_ of their optimization is to have fun, and finding a highly evaluated plan is a _side effect_ of that process.
 
 “The actor needs a grading procedure which, when optimized against, leads to the selection of a diamond-producing plan” is a mistake because agents should not _terminally care about optimizing a grading procedure_. Generating highly evaluated plans should be a _side effect_ of effective cognition towards producing diamonds.
 
@@ -697,7 +697,7 @@ Consider what happens when you train a deep Q-learning network on Pac-Man. I'll 
 [^12]:
     The coherence theorems can pin down “EU maximization” all you please, but they don’t pin down the domain of the utility functions. They don’t dictate what you have to be coherent over, when trading off lotteries. I [commented](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cuTotpjqYkgcwnghp):
 
-    > 80% credence: It's hard to train an inner agent which reflectively equilibrates to an EU maximizer only over commonly-postulated motivating quantities (like `# of diamonds` or `# of happy people` or `reward-signal`) and not quantities like (`# of times I have to look at a cube in a blue room` or `-1 * subjective micromorts accrued`).
+    > 80% credence: It's hard to train an inner agent which reflectively equilibrates to an EU maximizer only over commonly postulated motivating quantities (like `# of diamonds` or `# of happy people` or `reward-signal`) and not quantities like (`# of times I have to look at a cube in a blue room` or `-1 * subjective micromorts accrued`).
     >
     > Intuitions:
     >

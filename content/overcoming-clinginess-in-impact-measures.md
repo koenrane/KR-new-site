@@ -44,7 +44,7 @@ date_updated: 2025-01-30 09:30:36.233182
 > It may be possible to use the concept of a causal counterfactual ([as formalized by Pearl](https://www.amazon.com/Causality-Reasoning-Inference-Judea-Pearl/dp/052189560X)) to separate some intended effects from some unintended ones. Roughly, "follow-on effects" could be defined as those that are causally downstream from the achievement of the goal... With some additional work, perhaps it will be possible to use the causal structure of the system's world-model to select a policy that has the follow-on effects of the goal achievement but few other effects.
 
 > [!summary]
-> I outline a solution to the clinginess problem and illustrate a potentially-fundamental trade-off between assumptions about the autonomy of humans and about the responsibility of an agent for its actions.
+> I outline a solution to the clinginess problem and illustrate a potentially fundamental trade-off between assumptions about the autonomy of humans and about the responsibility of an agent for its actions.
 
 Consider two plans for ensuring that a cauldron is full of water: (1) filling the cauldron, or (2) filling the cauldron and submerging the surrounding room.
 
@@ -67,7 +67,7 @@ I [designed](/whitelisting-impact-measure) an impact measure called _whitelistin
 > - I immediately and visibly start the fire.
 > - I intentionally persuade someone to start the fire.
 > - I unintentionally (but perhaps predictably) incite someone to start the fire.
-> - I set in motion a moderately-complex chain of events which convince someone to start the fire.
+> - I set in motion a moderately complex chain of events which convince someone to start the fire.
 > - I provoke a butterfly effect which ends up starting the fire.
 >
 > Taken literally, I don't know that there's actually a significant difference in "responsibility" between these outcomes - if I take the action, the effect happens; if I don't, it doesn't. My initial impression is that uncertainty about the results of our actions pushes us to view some effects as "under our control" and some as "out of our hands". Yet, _if_ we had complete knowledge of the outcomes of our actions, and we took an action that landed us in a California-forest-fire world, whom could we blame but ourselves?

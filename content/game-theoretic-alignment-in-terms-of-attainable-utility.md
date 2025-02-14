@@ -96,7 +96,7 @@ Local metrics tend to be a lot simpler than global metrics, since they can ignor
 
 ## Examples of Alignment Metrics
 
-To give intuition on what such alignment metrics might look like, we present a few examples of simple alignment metrics for 2-player games, then test them on some simple, commonly-referenced games.
+To give intuition on what such alignment metrics might look like, we present a few examples of simple alignment metrics for 2-player games, then test them on some simple, commonly referenced games.
 
 We'll be using the following games as examples:
 

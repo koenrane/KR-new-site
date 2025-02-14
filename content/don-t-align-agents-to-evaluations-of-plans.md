@@ -134,7 +134,7 @@ In the intended motivational structure, the actor tries to trick the grader, and
 
 This isn't to say that argmax’ing over all plans _can't_ be safe, even in theory. There _exist_ robust Platonic grader functions which assign highest expected utility to a non-bogus plan which we actually want. There might exist utility functions which are safe for AIXI to argmax.[^2]
 
-**We** **are not going to find those globally-safe Platonic functions. We should not try to find them. It doesn't make sense to align an agent that way. Committing to this design pattern means committing to evaluate every possible plan the AI might come up with. In my opinion, that's a crazy commitment.**
+**We** **are not going to find those globally safe Platonic functions. We should not try to find them. It doesn't make sense to align an agent that way. Committing to this design pattern means committing to evaluate every possible plan the AI might come up with. In my opinion, that's a crazy commitment.**
 
 It's like saying, "What if I made a superintelligent sociopath who only cares about making toasters, and then arranged the world so that the only possible way they can make toasters is by making diamonds?". Yes, _possibly_ there do exist ways to arrange the world so as to satisfy this strange plan. But it's just deeply unwise to try to do! Don't make them care about making toasters, or about evaluations of how many diamonds they're making.
 
@@ -169,11 +169,11 @@ Let's dive into concrete detail. Here's a [story](https://www.lesswrong.com/post
 >
 > However, some commenters seemed maybe skeptical that value-child can exist, or uncertain how concretely that kind of mind _works_. I worry and suspect that many people have read [shard theory](/shard-theory) posts without internalizing new ideas about how cognition can work, about how _real-world caring can work on a mechanistic level._ Where effective real-world cognition doesn't _have to (implicitly) be about optimizing an expected utility function over all possible plans_. This last sentence might have even seemed bizarre to you.
 >
-> Here, then, is an extremely detailed speculative story for value-child's first day at school. Well, his first day spent with his newly-implanted "work hard" and "behave well" value shards.
+> Here, then, is an extremely detailed speculative story for value-child's first day at school. Well, his first day spent with his newly implanted "work hard" and "behave well" value shards.
 >
 > <hr/>
 >
-> Value-child gets dropped off at school. He recognizes his friends (via high-level cortical activations previously formed through self-supervised learning) and waves at them (friend-shard was left intact). They rush over to greet him. They start talking about Fortnite. Value-child cringes slightly as he predicts he will be more distracted later at school and, increasingly, put in a mental context where his game-shard takes over decision-making, which is reflectively-predicted to lead to him daydreaming during class. This is a negative update on the primary shard-relevant features for the day.
+> Value-child gets dropped off at school. He recognizes his friends (via high-level cortical activations previously formed through self-supervised learning) and waves at them (friend-shard was left intact). They rush over to greet him. They start talking about Fortnite. Value-child cringes slightly as he predicts he will be more distracted later at school and, increasingly, put in a mental context where his game-shard takes over decision-making, which is reflectively predicted to lead to him daydreaming during class. This is a negative update on the primary shard-relevant features for the day.
 >
 > His general-purpose planning machinery generates an example hardworking-shard-desired terminal state: Paying rapt attention during Mr. Buck’s math class (his first class today). He currently predicts that while he is in Mr. Buck’s class later, he will still be somewhat distracted by residual game-related cognition causing him to loop into reward-predicted self-reinforcing thoughts.
 >

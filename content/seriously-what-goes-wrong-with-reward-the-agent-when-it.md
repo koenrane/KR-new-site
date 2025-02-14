@@ -49,7 +49,7 @@ Another response is "The AI paralyzes your face into smiling."
 My current answer is "I don't know precisely what goes wrong, but probably something does, but also I suspect I could write down mechanistically plausible-to-me stories where things end up bad but not horrible." I think the AI will probably have a spread of situationally-activated computations which steer its actions towards historical reward-correlates (e.g. if near a person, then tell a joke), and probably not singularly value e.g. making people smile or reward. Furthermore, [I think its values won't all map on to the "usual" quantities-of-value](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cuTotpjqYkgcwnghp):
 
 > [!quote] [A recent comment of mine](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=cuTotpjqYkgcwnghp)
-> 80% credence: It's hard to train an inner agent which reflectively equilibrates to an EU maximizer only over commonly-postulated motivating quantities (like `# of diamonds` or `# of happy people` or `reward-signal`) and not quantities like (`# of times I have to look at a cube in a blue room` or `-1 * subjective micromorts accrued`).
+> 80% credence: It's hard to train an inner agent which reflectively equilibrates to an EU maximizer only over commonly postulated motivating quantities (like `# of diamonds` or `# of happy people` or `reward-signal`) and not quantities like (`# of times I have to look at a cube in a blue room` or `-1 * subjective micromorts accrued`).
 
 So, I'm pretty uncertain about what happens here, but would guess that most other researchers are less uncertain than I am. So here's an opportunity for us to talk it out!
 

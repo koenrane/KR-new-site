@@ -178,7 +178,7 @@ _The_ $\mathfrak{deadly}\text{ }\mathfrak{triad}$ _of function approximation, bo
 
 _I was told to skip this chapter; the first half was my favorite part of the book._
 
-$\text{TD}(\lambda)$ uses a backwards-view eligibility trace to update features, which I find elegant. Suppose you have some feature extraction function $\phi:\mathcal{S}\to\mathbb{R}^\text{d}$. Then you apply your TD update not only based on the features relevant at the current state, but also to the time-decaying traces of the features of previously-visited states. $\lambda \in [0,1]$ sets how quickly this eligibility decay happens; $\lambda=0$ recovers $\text{TD(0)}$, while $\lambda=1$ recovers Monte-Carlo return methods.
+$\text{TD}(\lambda)$ uses a backwards-view eligibility trace to update features, which I find elegant. Suppose you have some feature extraction function $\phi:\mathcal{S}\to\mathbb{R}^\text{d}$. Then you apply your TD update not only based on the features relevant at the current state, but also to the time-decaying traces of the features of previously visited states. $\lambda \in [0,1]$ sets how quickly this eligibility decay happens; $\lambda=0$ recovers $\text{TD(0)}$, while $\lambda=1$ recovers Monte-Carlo return methods.
 
 When I was a kid, there was a museum I loved going to - it had all kinds of wacky interactive devices for kids. One of them took sounds and "held them in the air" at a volume which slowly decreased as a function of how long ago the sound was made. State features are sounds, and volume is eligibility.
 
@@ -206,7 +206,7 @@ Given [my work on whitelisting](/whitelisting-impact-measure), I've been thinkin
 [Lahav and Mioduser's research](http://playpen.icomtek.csir.co.za/~acdc/assistive%20devices/Artabilitation2008/archive/2004/papers/2004_S04_N4.pdf) somewhat supports this idea, suggesting that blind people not only have lower-fidelity and more declarative (as opposed to procedural / interactive) cognitive maps, they're also less likely to provide object-to-object descriptions.
 
 > [!warning] Epistemic status
-> I made a not-obviously-wrong hypothesis and found two pieces of corroborating evidence.
+> I made a not-obviously wrong hypothesis and found two pieces of corroborating evidence.
 
 ## 15: Neuroscience
 
@@ -238,7 +238,7 @@ The above constitutes _one_ of the [many](https://arbital.com/p/advanced_safety/
 
 ## Final Thoughts
 
-I read the "nearly-complete" [draft of the second edition](http://incompleteideas.net/book/the-book-2nd.html). It was pretty good, but I did find most of the exercises either too easy or requiring considerable programming investment to set up the environment described. The former makes sense, as I've already taken a course on this, and I'm probably a bit above the introductory level.
+I read the "nearly complete" [draft of the second edition](http://incompleteideas.net/book/the-book-2nd.html). It was pretty good, but I did find most of the exercises either too easy or requiring considerable programming investment to set up the environment described. The former makes sense, as I've already taken a course on this, and I'm probably a bit above the introductory level.
 
 Some graphs could have been more clearly designed, and some math in the proof of Linear $\text{TD(0)}$'s convergence (p. 206-207) is underspecified:
 

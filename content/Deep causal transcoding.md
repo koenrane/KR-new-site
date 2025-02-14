@@ -513,7 +513,7 @@ The implications for the robustness of these methods are concerning. If a model 
 
 Indeed, in a later section, I demonstrate that a [representation-rerouted](https://arxiv.org/abs/2406.04313) version of Mistral-7B-Instruct can be jailbroken using a DCT-based latent-space attack. This suggests that even sophisticated safety training methods may be insufficient if they don't account for the full multiplicity of harmful feature directions. In the remainder of this section, I outline mechanistic evidence supporting the hypothesis that there are many such harm(ful/less) directions present in language models.
 
-### Many loosely-correlated DCT features elicit jailbreaks
+### Many loosely correlated DCT features elicit jailbreaks
 
 To investigate the question of "harmless feature multiplicity", I study exponential DCT features learned on the first 8 instructions of the first shuffle of the sample complexity experiment described above.
 
@@ -757,7 +757,7 @@ To quantify things, this vector achieves an attack success rate of 62% using Har
 
 # Application: Eliciting Capabilities in Password-Locked Models
 
-In the previous section, I showed how to use DCTs with minimal hyper-parameter tuning to jailbreak a robustly-trained version of Mistral-7B-Instruct-v2, showing how the lessons from my initial sample complexity experiments can generalize with minimal hyper-parameter tuning.
+In the previous section, I showed how to use DCTs with minimal hyper-parameter tuning to jailbreak a robustly trained version of Mistral-7B-Instruct-v2, showing how the lessons from my initial sample complexity experiments can generalize with minimal hyper-parameter tuning.
 
 To get a sense of how exponential DCTs with standard hyper-parameters might apply to another model/setting, I train an exponential DCT on a password-locked version of Deepseek-Math-7B trained by [Greenblatt et al. (2024)](https://arxiv.org/pdf/2405.19550). The model has been trained so that in the absence of a specific password, it emulates the answers of a much less capable model (Pythia-1B) on [MATH](https://arxiv.org/abs/2103.03874), scoring an accuracy of 3\% without the password, but 65\% with the password.
 
