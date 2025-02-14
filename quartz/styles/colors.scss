@@ -58,7 +58,7 @@
   --tertiary: #04a5e5; // latteColors.sky
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
 
-  & img,
+  & img:not([src$=".svg"]), // don't make SVGs fuzzy
   & video:not(:has(::backdrop)),
   & iframe:not(:has(::backdrop)) {
     mix-blend-mode: multiply;
