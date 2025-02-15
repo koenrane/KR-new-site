@@ -92,7 +92,7 @@ In peristaltic motion, your muscles inch the food down your esophagus. In fact, 
 
 ## Nostrils have no direct scent receptors
 
-Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils.
+Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils. Hence, you can't smell as well when you have a stuffy nose.
 
 ![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](https://assets.turntrout.com/static/images/posts/epithelium.avif)
 
@@ -177,7 +177,7 @@ Figure: The platelets deploy [fibrin](https://en.wikipedia.org/wiki/Fibrin) to b
 
 # Conclusion
 
-Physiology is an area where my reaction was "gee, that's hard and complicated" - now it's just "yay, another subject it's fun for me to read random Wikipedia pages about." :)
+Physiology is an area where my reaction was "gee, that's hard and complicated" - now it's just "yay, another subject that's fun to read random Wikipedia pages about." :)
 
 It's nice to look down at my hand and be able to pop through multiple understandings of my body. I start with the circulatory system and I might imagine how oxygenated hemoglobin turns bright red, tracing the flow back down to my median cubital vein (where blood is drawn). My mind's eye flickers as I imagine the peripheral nervous system and its reflex arcs, wondering at the preconditions which trigger spinal short-circuits (and at what preprocessing is done to customize the reflex to the situation). Another flicker and I see the muscles and joints and their lubricants and connectives; gazing through flesh at my ulna and remembering the [repetitive stress injury which once tormented me](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#m5EJpjkcvCn8KxJvn)...
 
