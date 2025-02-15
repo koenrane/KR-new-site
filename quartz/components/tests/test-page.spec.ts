@@ -271,15 +271,17 @@ test.describe("Right sidebar", () => {
   })
 
   test("Backlinks are visible (lostpixel)", async ({ page }, testInfo) => {
-    const backlinksTitle = page.locator("#backlinks .callout-title").first()
+    const backlinks = page.locator("#backlinks").first()
+    await backlinks.scrollIntoViewIfNeeded()
+    await expect(backlinks).toBeVisible()
+
+    const backlinksTitle = backlinks.locator(".callout-title").first()
     await backlinksTitle.scrollIntoViewIfNeeded()
     await expect(backlinksTitle).toBeVisible()
     await expect(backlinksTitle).toHaveText("Links to this page")
 
     // Open the backlinks
     await backlinksTitle.click()
-
-    const backlinks = page.locator("#backlinks").first()
     await takeRegressionScreenshot(page, testInfo, "backlinks-visible", {
       element: backlinks,
     })

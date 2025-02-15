@@ -102,6 +102,7 @@ export const Backlinks: QuartzComponent = ({ fileData, allFiles }: QuartzCompone
   return (
     <blockquote
       className="callout callout-metadata is-collapsible is-collapsed"
+      id="backlinks"
       data-callout="link"
       data-callout-fold=""
     >
