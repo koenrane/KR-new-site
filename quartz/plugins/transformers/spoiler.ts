@@ -1,9 +1,10 @@
-import { Root, Element, Parent, Text } from "hast"
+import type { Root, Element, Parent, Text } from "hast"
+
 // skipcq: JS-0257
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 // Regex to match spoiler syntax
 const SPOILER_REGEX = /^!\s*(.*)/

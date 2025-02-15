@@ -1,6 +1,6 @@
-import { Root, Element } from "hast"
+import type { Root, Element } from "hast"
 
-import { QuartzPluginData } from "../../vfile"
+import { type QuartzPluginData } from "../../vfile"
 import {
   renderSequenceTitle,
   renderPreviousPost,

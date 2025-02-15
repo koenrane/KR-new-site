@@ -1,10 +1,11 @@
-import { Root, Element } from "hast"
+import { type Element, type Root } from "hast"
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
-import { QuartzTransformerPlugin } from "../types"
-import { CreateFaviconElement, MAIL_PATH } from "./linkfavicons"
+import { type QuartzTransformerPlugin } from "../types"
+import { type QuartzPluginData } from "../vfile"
+import { createFaviconElement, MAIL_PATH } from "./linkfavicons"
 import { createSequenceLinksComponent } from "./sequenceLinks"
 
 export const rssElement = h(
@@ -26,7 +27,7 @@ const SUBSTACK_URL =
 
 const newsletterElement = h("a", { href: "https://turntrout.substack.com/subscribe" }, [
   "newsle",
-  h("span", { style: "white-space: nowrap;" }, ["tter", CreateFaviconElement(SUBSTACK_URL)]),
+  h("span", { style: "white-space: nowrap;" }, ["tter", createFaviconElement(SUBSTACK_URL)]),
 ])
 
 const subscriptionElement = h("center", [
@@ -37,7 +38,7 @@ const contactMe = h("div", [
   h("center", [
     "Thoughts? Email me at ",
     h("code", h("a", { href: "mailto:alex@turntrout.com" }, "alex@turntrout.com")),
-    CreateFaviconElement(MAIL_PATH),
+    createFaviconElement(MAIL_PATH),
   ]),
 ])
 
@@ -63,7 +64,7 @@ export const AfterArticle: QuartzTransformerPlugin = () => {
     name: "AfterArticleTransformer",
     htmlPlugins: () => [
       () => (tree: Root, file: VFile) => {
-        const sequenceLinksComponent = createSequenceLinksComponent(file.data)
+        const sequenceLinksComponent = createSequenceLinksComponent(file.data as QuartzPluginData)
 
         const components = [sequenceLinksComponent ?? null].filter(Boolean) as Element[]
 

@@ -3,7 +3,12 @@
 
 import micromorph from "micromorph"
 
-import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
+import {
+  type FullSlug,
+  type RelativeURL,
+  getFullSlug,
+  normalizeRelativeURLs,
+} from "../../util/path"
 
 declare global {
   interface Window {

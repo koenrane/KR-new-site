@@ -1,6 +1,9 @@
-import rehypePrettyCode, { Options as CodeOptions, Theme as CodeTheme } from "rehype-pretty-code"
+import rehypePrettyCode, {
+  type Options as CodeOptions,
+  type Theme as CodeTheme,
+} from "rehype-pretty-code"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 interface Theme extends Record<string, CodeTheme> {
   light: CodeTheme

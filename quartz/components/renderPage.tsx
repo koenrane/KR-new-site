@@ -1,16 +1,22 @@
 // NOTE: Docstrings generated via AI; take with a grain of salt
 
-import { Root, Element, ElementContent } from "hast"
+import { type Element, type ElementContent, type Root } from "hast"
 import { render } from "preact-render-to-string"
 // skipcq: JS-W1028
 import React from "react"
 import { visit } from "unist-util-visit"
 
-import { GlobalConfiguration } from "../cfg"
+import { type GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
-import { QuartzPluginData } from "../plugins/vfile"
-import { clone, FullSlug, RelativeURL, joinSegments, normalizeHastElement } from "../util/path"
-import { JSResourceToScriptElement, StaticResources } from "../util/resources"
+import { type QuartzPluginData } from "../plugins/vfile"
+import {
+  clone,
+  type FullSlug,
+  type RelativeURL,
+  joinSegments,
+  normalizeHastElement,
+} from "../util/path"
+import { JSResourceToScriptElement, type StaticResources } from "../util/resources"
 import BodyConstructor from "./Body"
 import HeaderConstructor from "./Header"
 import { createPageListHast } from "./PageList"
@@ -22,7 +28,7 @@ import {
   generateAllTagsHast,
 } from "./pages/AllTagsContent"
 import { recentDescription, recentSlug, recentTitle, recentPostsListing } from "./pages/RecentPosts"
-import { QuartzComponent, QuartzComponentProps } from "./types"
+import { type QuartzComponent, type QuartzComponentProps } from "./types"
 
 interface RenderComponents {
   head: QuartzComponent

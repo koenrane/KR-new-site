@@ -1,18 +1,20 @@
+import type { Root } from "hast"
+
 /**
  * @jest-environment jsdom
  */
 import { describe, it, expect } from "@jest/globals"
-import { Root } from "hast"
 import { h } from "hastscript"
 import { h as preactH } from "preact"
 import { render } from "preact-render-to-string"
 
-import { GlobalConfiguration, QuartzConfig } from "../../cfg"
-import { QuartzPluginData } from "../../plugins/vfile"
-import { BuildCtx } from "../../util/ctx"
-import { FullSlug, SimpleSlug } from "../../util/path"
+import type { QuartzComponentProps } from "../types"
+
+import { type GlobalConfiguration, type QuartzConfig } from "../../cfg"
+import { type QuartzPluginData } from "../../plugins/vfile"
+import { type BuildCtx } from "../../util/ctx"
+import { type FullSlug, type SimpleSlug } from "../../util/path"
 import { Backlinks, getBacklinkFiles } from "../Backlinks"
-import { QuartzComponentProps } from "../types"
 
 // Helper function to create test file data
 const createFileData = (overrides: Partial<QuartzPluginData> = {}): QuartzPluginData =>

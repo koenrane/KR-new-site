@@ -8,7 +8,7 @@ import { jest, describe, it, expect, beforeEach } from "@jest/globals"
 import {
   createPopover,
   setPopoverPosition,
-  PopoverOptions,
+  type PopoverOptions,
   attachPopoverEventListeners,
   escapeLeadingIdNumber,
   computeLeft,

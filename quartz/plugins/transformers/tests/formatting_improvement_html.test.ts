@@ -1,4 +1,4 @@
-import { Element, ElementContent, Parent, Text } from "hast"
+import { type Element, type ElementContent, type Parent, type Text } from "hast"
 import { toHtml as hastToHtml } from "hast-util-to-html"
 import { h } from "hastscript"
 import { rehype } from "rehype"

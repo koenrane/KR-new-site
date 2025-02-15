@@ -8,12 +8,12 @@ import popoverScript from "../../components/scripts/popover.inline"
 // skipcq: JS-W1028
 import spaRouterScript from "../../components/scripts/spa.inline"
 import popoverStyle from "../../components/styles/popover.scss"
-import { QuartzComponent } from "../../components/types"
+import { type QuartzComponent } from "../../components/types"
 import DepGraph from "../../depgraph"
 import styles from "../../styles/custom.scss"
-import { BuildCtx } from "../../util/ctx"
-import { FilePath, FullSlug } from "../../util/path"
-import { QuartzEmitterPlugin } from "../types"
+import { type BuildCtx } from "../../util/ctx"
+import { type FilePath, type FullSlug } from "../../util/path"
+import { type QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
 
 function joinStyles(...stylesheet: string[]): string {

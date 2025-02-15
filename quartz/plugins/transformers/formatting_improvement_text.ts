@@ -3,7 +3,8 @@
  * It includes various functions to enhance the formatting of markdown content.
  */
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
+
 import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)

@@ -1,5 +1,5 @@
-import { QuartzConfig } from "../cfg"
-import { FullSlug } from "./path"
+import type { QuartzConfig } from "../cfg"
+import type { FullSlug } from "./path"
 
 export interface Argv {
   directory: string

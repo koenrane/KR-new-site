@@ -1,11 +1,11 @@
 import { jest } from "@jest/globals"
 import { VFile } from "vfile"
 
-import { QuartzConfig } from "../../cfg"
-import { BuildCtx } from "../../util/ctx"
-import { FilePath, FullSlug } from "../../util/path"
-import { StaticResources } from "../../util/resources"
-import { ProcessedContent } from "../vfile"
+import { type QuartzConfig } from "../../cfg"
+import { type BuildCtx } from "../../util/ctx"
+import { type FilePath, type FullSlug } from "../../util/path"
+import { type StaticResources } from "../../util/resources"
+import { type ProcessedContent } from "../vfile"
 
 // Mock the helpers module first using jest.unstable_mockModule
 jest.unstable_mockModule("./helpers", () => ({

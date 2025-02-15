@@ -1,4 +1,4 @@
-import { Root, Element as HastElement } from "hast"
+import type { Root, Element as HastElement } from "hast"
 
 import { BuildCtx } from "../../../util/ctx"
 import { TroutOrnamentHr, maybeInsertOrnament, ornamentNode, insertOrnamentNode } from "../trout_hr"

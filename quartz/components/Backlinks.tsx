@@ -1,14 +1,13 @@
 import type { JSX } from "preact"
 
-import { RootContent, Parent, Text, Element, Root } from "hast"
+import { type RootContent, type Parent, type Text, type Element, type Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
-import { QuartzPluginData } from "../plugins/vfile"
-import { resolveRelative, simplifySlug } from "../util/path"
-import { FullSlug } from "../util/path"
+import { type QuartzPluginData } from "../plugins/vfile"
+import { type FullSlug, type SimpleSlug, resolveRelative, simplifySlug } from "../util/path"
 import { formatTitle, processSmallCaps } from "./component_utils"
-import { QuartzComponent, QuartzComponentProps } from "./types"
+import { type QuartzComponent, type QuartzComponentProps } from "./types"
 
 function processBacklinkTitle(title: string): Parent {
   // Apply formatTitle before processing
@@ -64,12 +63,10 @@ const BacklinksList = ({
 }): JSX.Element => (
   <ul>
     {backlinkFiles.map((f) => {
-      if (!("frontmatter" in f) || !("slug" in f)) {
+      if (!("frontmatter" in f) || !("slug" in f) || !f.frontmatter?.title) {
         return null
       }
-      const processedTitle = processBacklinkTitle(
-        (f.frontmatter as Record<string, unknown>).title as string,
-      )
+      const processedTitle = processBacklinkTitle(f.frontmatter.title)
       return (
         <li key={f.slug}>
           <a href={resolveRelative(currentSlug, f.slug as FullSlug)} className="internal">
@@ -89,9 +86,9 @@ export const getBacklinkFiles = (
   return allFiles.filter((otherFile) => {
     const otherFileSlug = simplifySlug(otherFile.slug as FullSlug)
     return (
-      otherFile.links?.some((link) => {
+      otherFile.links?.some((link: SimpleSlug) => {
         // Remove anchor from link before comparison
-        const linkWithoutAnchor = (link as string).split("#")[0]
+        const linkWithoutAnchor = link.toString().split("#")[0]
         return linkWithoutAnchor === slug && otherFileSlug !== slug
       }) ?? false
     )

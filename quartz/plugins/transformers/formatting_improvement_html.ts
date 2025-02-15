@@ -1,18 +1,19 @@
+import type { Element, Text, Root, Parent, ElementContent } from "hast"
+
 import assert from "assert"
-import { Element, Text, Root, Parent, ElementContent } from "hast"
 import { h } from "hastscript"
-import { Transformer } from "unified"
+import { type Transformer } from "unified"
 import { visit } from "unist-util-visit"
 // skipcq: JS-0257
 import { visitParents } from "unist-util-visit-parents"
 
-import { QuartzTransformerPlugin } from "../types"
+import { type QuartzTransformerPlugin } from "../types"
 import {
   replaceRegex,
   fractionRegex,
   numberRegex,
   hasAncestor,
-  ElementMaybeWithParent,
+  type ElementMaybeWithParent,
 } from "./utils"
 
 /**

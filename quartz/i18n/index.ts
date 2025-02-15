@@ -1,4 +1,4 @@
-import { Translation, CalloutTranslation } from "./locales/definition"
+import { type Translation, type CalloutTranslation } from "./locales/definition"
 import en from "./locales/en-US"
 import fr from "./locales/fr-FR"
 import it from "./locales/it-IT"

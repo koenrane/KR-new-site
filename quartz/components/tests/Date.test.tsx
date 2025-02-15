@@ -1,4 +1,4 @@
-import { ValidLocale } from "../../i18n"
+import { type ValidLocale } from "../../i18n"
 import { getOrdinalSuffix, formatDate } from "../Date"
 
 describe("getOrdinalSuffix", () => {

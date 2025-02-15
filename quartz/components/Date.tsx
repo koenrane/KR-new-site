@@ -3,9 +3,9 @@ import type { JSX } from "preact"
 
 import React from "react"
 
-import { GlobalConfiguration } from "../cfg"
-import { ValidLocale } from "../i18n"
-import { QuartzPluginData } from "../plugins/vfile"
+import { type GlobalConfiguration } from "../cfg"
+import { type ValidLocale } from "../i18n"
+import { type QuartzPluginData } from "../plugins/vfile"
 
 export type ValidDateType = keyof Required<QuartzPluginData>["dates"]
 

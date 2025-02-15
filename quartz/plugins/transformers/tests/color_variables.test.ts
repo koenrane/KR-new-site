@@ -1,4 +1,4 @@
-import { Element } from "hast"
+import { type Element } from "hast"
 
 import { transformElement, transformStyle } from "../color_variables"
 

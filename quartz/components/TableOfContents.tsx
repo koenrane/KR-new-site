@@ -4,18 +4,22 @@
  * supporting small caps and LaTeX rendering.
  */
 
+import type { RootContent, Parent, Text, Element, Root } from "hast"
 // skipcq: JS-W1028
 import type { JSX } from "preact"
 
-import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"
-import { TocEntry } from "../plugins/transformers/toc"
+import { type TocEntry } from "../plugins/transformers/toc"
 import { processInlineCode, processKatex, processSmallCaps } from "./component_utils"
 import modernStyle from "./styles/toc.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 const logger = createLogger("TableOfContents")
 /**
@@ -30,14 +34,17 @@ export const CreateTableOfContents: QuartzComponent = ({
 }: QuartzComponentProps): JSX.Element | null => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
-  if (!fileData.toc || fileData.frontmatter?.toc === "false") {
+  const frontmatterToc = fileData.frontmatter?.toc
+  const tocData = fileData.toc
+
+  if (!tocData || frontmatterToc === false || frontmatterToc === "false") {
     logger.info(
       `TableOfContents skipped for ${fileData.filePath}: no TOC data or disabled in frontmatter`,
     )
     return null
   }
 
-  const toc = buildNestedList(fileData.toc, 0, 0)[0]
+  const toc = buildNestedList(tocData, 0, 0)[0]
 
   return (
     <div id="table-of-contents" className="desktop-only">

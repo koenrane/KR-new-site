@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
+import type { Parent, RootContent } from "hast"
+
 import { jest, describe, it, expect, beforeEach } from "@jest/globals"
-import { Parent, RootContent } from "hast"
 import { h } from "hastscript"
 
 import { TocEntry } from "../../plugins/transformers/toc"

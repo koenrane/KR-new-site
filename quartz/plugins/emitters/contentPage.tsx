@@ -1,20 +1,26 @@
 import chalk from "chalk"
-import { Root } from "hast"
+import { type Root } from "hast"
 import path from "path"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
 import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { FullPageLayout } from "../../cfg"
+import { type FullPageLayout } from "../../cfg"
 import { Content } from "../../components"
 import BodyConstructor from "../../components/Body"
 import HeaderConstructor from "../../components/Header"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { QuartzComponentProps } from "../../components/types"
+import { type QuartzComponentProps } from "../../components/types"
 import DepGraph from "../../depgraph"
-import { Argv } from "../../util/ctx"
-import { FilePath, FullSlug, isRelativeURL, joinSegments, pathToRoot } from "../../util/path"
-import { QuartzEmitterPlugin } from "../types"
+import { type Argv } from "../../util/ctx"
+import {
+  type FilePath,
+  type FullSlug,
+  isRelativeURL,
+  joinSegments,
+  pathToRoot,
+} from "../../util/path"
+import { type QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
 
 // get all the dependencies for the markdown file

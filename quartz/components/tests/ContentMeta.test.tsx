@@ -6,23 +6,24 @@ import { describe, it, expect, beforeEach } from "@jest/globals"
 import React from "react"
 import ReactDOM from "react-dom/client"
 
-import { GlobalConfiguration } from "../../cfg"
-import { GetQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
-import { QuartzPluginData } from "../../plugins/vfile"
+import type { QuartzComponentProps } from "../types"
+
+import { type GlobalConfiguration } from "../../cfg"
+import { getQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
 
 import "@testing-library/jest-dom"
 
-import { FilePath } from "../../util/path"
+import { type QuartzPluginData } from "../../plugins/vfile"
+import { type FilePath } from "../../util/path"
 import {
   ContentMetadata,
   RenderPublicationInfo,
   getFaviconPath,
   insertFavicon,
   processReadingTime,
-  RenderLastUpdated as RenderLastUpdated,
+  renderLastUpdated,
   renderReadingTime,
 } from "../ContentMeta"
-import { QuartzComponentProps } from "../types"
 
 // Update the mock setup
 jest.mock("../ContentMeta", () => ({
@@ -74,7 +75,7 @@ describe("getFaviconPath", () => {
 
   it("should convert png to avif when cached path exists", () => {
     const testUrl = new URL("https://example.com")
-    const quartzPath = GetQuartzPath("example.com")
+    const quartzPath = getQuartzPath("example.com")
     const cachedPath = "path/to/favicon.png"
     urlCache.set(quartzPath, cachedPath)
 
@@ -84,7 +85,7 @@ describe("getFaviconPath", () => {
 
   it("should handle non-png extensions", () => {
     const testUrl = new URL("https://example.com")
-    const quartzPath = GetQuartzPath("example.com")
+    const quartzPath = getQuartzPath("example.com")
     const cachedPath = "path/to/favicon.jpg"
     urlCache.set(quartzPath, cachedPath)
 
@@ -259,20 +260,20 @@ describe("renderLastUpdated", () => {
   it("should return null when no date_updated", () => {
     const fileData = createFileData()
 
-    const result = RenderLastUpdated(mockConfig, fileData)
+    const result = renderLastUpdated(mockConfig, fileData)
     expect(result).toBeNull()
   })
 
   it("should return null when hide_metadata is true", () => {
     const fileData = createFileData({ hide_metadata: true })
 
-    const result = RenderLastUpdated(mockConfig, fileData)
+    const result = renderLastUpdated(mockConfig, fileData)
     expect(result).toBeNull()
   })
 
   it("should render update info with github link and date", () => {
     const fileData = createFileData({ date_updated: "2024-03-20" })
-    const result = RenderLastUpdated(mockConfig, fileData)
+    const result = renderLastUpdated(mockConfig, fileData)
 
     expect(result?.type).toBe("span")
     expect(result?.props.className).toBe("last-updated-str")
@@ -295,7 +296,7 @@ describe("renderLastUpdated", () => {
       filePath: testPath as FilePath,
     }) as QuartzPluginData
 
-    const result = RenderLastUpdated(mockConfig, fileData)
+    const result = renderLastUpdated(mockConfig, fileData)
     const linkElement = result?.props.children[0]
 
     expect(linkElement.props.href).toBe(
@@ -338,7 +339,7 @@ describe("date handling", () => {
     })
 
     const publicationInfo = RenderPublicationInfo(mockConfig, fileData)
-    const updateInfo = RenderLastUpdated(mockConfig, fileData)
+    const updateInfo = renderLastUpdated(mockConfig, fileData)
 
     // Verify both elements are rendered
     expect(publicationInfo).not.toBeNull()

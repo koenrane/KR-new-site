@@ -1,12 +1,14 @@
-import { Node } from "hast"
-import { Root, Heading } from "mdast"
+import type { Node } from "hast"
+import type { Root, Heading } from "mdast"
+
 import { visit, SKIP } from "unist-util-visit"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
+
 import { applyTextTransforms } from "./formatting_improvement_html"
 import { slugify, resetSlugger } from "./gfm"
 import { createLogger } from "./logger_utils"
-import { hasAncestor, ElementMaybeWithParent } from "./utils"
+import { hasAncestor, type ElementMaybeWithParent } from "./utils"
 
 /**
  * Configuration options for the Table of Contents transformer

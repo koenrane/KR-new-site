@@ -1,4 +1,4 @@
-import { Parent, Text } from "hast"
+import { type Parent, type Text } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 import seedrandom from "seedrandom"

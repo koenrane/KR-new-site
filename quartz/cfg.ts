@@ -1,7 +1,7 @@
-import { ValidDateType } from "./components/Date"
-import { QuartzComponent } from "./components/types"
-import { ValidLocale } from "./i18n"
-import { PluginTypes } from "./plugins/types"
+import type { ValidDateType } from "./components/Date"
+import type { QuartzComponent } from "./components/types"
+import type { ValidLocale } from "./i18n"
+import type { PluginTypes } from "./plugins/types"
 
 type Page = {
   slug: string

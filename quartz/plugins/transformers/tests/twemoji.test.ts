@@ -1,8 +1,8 @@
+import type { Node as UnistNode } from "unist"
+
 import { jest } from "@jest/globals"
-import { Element } from "hast"
+import { type Element } from "hast"
 import { h } from "hastscript"
-import { Node } from "unist"
-import { Node as UnistNode } from "unist"
 
 import {
   TWEMOJI_BASE_URL,
@@ -144,7 +144,7 @@ describe("processTree", () => {
       children: [{ type: "text", value: "Hello ↩ 😀" }],
     }
 
-    const result = processTree(mockTree as Node) as CustomNode
+    const result = processTree(mockTree as UnistNode) as CustomNode
 
     expect(result).toEqual({
       type: "root",
@@ -162,7 +162,7 @@ describe("processTree", () => {
       ],
     }
 
-    const result = processTree(mockTree as Node) as CustomNode
+    const result = processTree(mockTree as UnistNode) as CustomNode
 
     expect(result).toEqual({
       type: "root",
@@ -180,7 +180,7 @@ describe("processTree", () => {
       children: [{ type: "text", value: "Hello World" }],
     }
 
-    const result = processTree(mockTree as Node) as CustomNode
+    const result = processTree(mockTree as UnistNode) as CustomNode
 
     expect(result).toEqual(mockTree)
   })

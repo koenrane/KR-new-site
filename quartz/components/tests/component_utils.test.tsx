@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
+import type { Parent } from "hast"
+
 import { describe, it, expect, beforeEach } from "@jest/globals"
-import { Parent } from "hast"
 
 import { processInlineCode, processKatex, processSmallCaps } from "../component_utils"
 

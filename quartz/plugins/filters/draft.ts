@@ -1,4 +1,4 @@
-import { QuartzFilterPlugin } from "../types"
+import { type QuartzFilterPlugin } from "../types"
 
 export const RemoveDrafts: QuartzFilterPlugin = () => ({
   name: "RemoveDrafts",

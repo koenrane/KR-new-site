@@ -8,12 +8,12 @@ import {
   allTagsDescription,
 } from "../../components/pages/AllTagsContent"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { QuartzComponentProps } from "../../components/types"
+import { type QuartzComponentProps } from "../../components/types"
 import DepGraph from "../../depgraph"
-import { FilePath, pathToRoot } from "../../util/path"
-import { StaticResources } from "../../util/resources"
-import { QuartzEmitterPlugin } from "../types"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import { type FilePath, pathToRoot } from "../../util/path"
+import { type StaticResources } from "../../util/resources"
+import { type QuartzEmitterPlugin } from "../types"
+import { type ProcessedContent, defaultProcessedContent } from "../vfile"
 import { write } from "./helpers"
 
 export const AllTagsPage: QuartzEmitterPlugin = () => {

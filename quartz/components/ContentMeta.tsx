@@ -3,18 +3,18 @@ import type { JSX } from "preact"
 import React from "react"
 import readingTime from "reading-time"
 
-import { GlobalConfiguration } from "../cfg"
-import { GetQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
-import { QuartzPluginData } from "../plugins/vfile"
+import { type GlobalConfiguration } from "../cfg"
+import { getQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
+import { type QuartzPluginData } from "../plugins/vfile"
 import { Backlinks } from "./Backlinks"
 import { formatTitle } from "./component_utils"
 import { DateElement } from "./Date"
 import style from "./styles/contentMeta.scss"
 import { TagList } from "./TagList"
-import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { type QuartzComponentConstructor, type QuartzComponentProps } from "./types"
 
 export const getFaviconPath = (originalURL: URL): string | null => {
-  const quartzPath = GetQuartzPath(originalURL.hostname)
+  const quartzPath = getQuartzPath(originalURL.hostname)
   const cachedPath = urlCache.get(quartzPath) || null
   return cachedPath?.replace(".png", ".avif") || null
 }
@@ -107,7 +107,7 @@ export function RenderPublicationInfo(
 }
 
 // Add new function to render last updated info
-export function RenderLastUpdated(
+export function renderLastUpdated(
   cfg: GlobalConfiguration,
   fileData: QuartzPluginData,
 ): JSX.Element | null {
@@ -306,7 +306,7 @@ export function renderPostStatistics(props: QuartzComponentProps): JSX.Element |
   const readingTime = renderReadingTime(props.fileData)
   const linkpostInfo = renderLinkpostInfo(props.fileData)
   const publicationInfo = RenderPublicationInfo(props.cfg, props.fileData)
-  const lastUpdated = RenderLastUpdated(props.cfg, props.fileData)
+  const lastUpdated = renderLastUpdated(props.cfg, props.fileData)
 
   return (
     <blockquote id="post-statistics" className="callout callout-metadata" data-callout="info">

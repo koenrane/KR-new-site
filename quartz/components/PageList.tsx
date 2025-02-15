@@ -1,15 +1,15 @@
-import { Element } from "hast"
-import { toJsxRuntime, Options } from "hast-util-to-jsx-runtime"
+import { type Element } from "hast"
+import { toJsxRuntime, type Options } from "hast-util-to-jsx-runtime"
 import { h } from "hastscript"
 import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
 
-import { GlobalConfiguration } from "../cfg"
-import { QuartzPluginData } from "../plugins/vfile"
-import { FullSlug, resolveRelative } from "../util/path"
+import { type GlobalConfiguration } from "../cfg"
+import { type QuartzPluginData } from "../plugins/vfile"
+import { type FullSlug, resolveRelative } from "../util/path"
 import { formatTitle } from "./component_utils"
 import { getDate } from "./Date"
 import { formatTag } from "./TagList"
-import { QuartzComponent, QuartzComponentProps } from "./types"
+import { type QuartzComponent, type QuartzComponentProps } from "./types"
 
 /**
  * Comparison function for sorting files by date and alphabetically
@@ -40,8 +40,8 @@ export function byDateAndAlphabetical(
     }
 
     // otherwise, sort lexographically by title
-    const f1Title = f1.frontmatter?.title.toLowerCase() ?? ""
-    const f2Title = f2.frontmatter?.title.toLowerCase() ?? ""
+    const f1Title = f1.frontmatter?.title?.toLowerCase() ?? ""
+    const f2Title = f2.frontmatter?.title?.toLowerCase() ?? ""
     return f1Title.localeCompare(f2Title)
   }
 }

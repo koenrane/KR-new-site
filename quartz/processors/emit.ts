@@ -1,7 +1,8 @@
+import type { ProcessedContent } from "../plugins/vfile"
+import type { BuildCtx } from "../util/ctx"
+
 import { injectCriticalCSSIntoHTMLFiles } from "../cli/handlers"
 import { getStaticResourcesFromPlugins } from "../plugins"
-import { ProcessedContent } from "../plugins/vfile"
-import { BuildCtx } from "../util/ctx"
 import { QuartzLogger } from "../util/log"
 import { PerfTimer } from "../util/perf"
 import { trace } from "../util/trace"

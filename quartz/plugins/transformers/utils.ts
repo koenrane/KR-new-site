@@ -1,4 +1,5 @@
-import { Parent, RootContent, Text, Element, Root } from "hast"
+import type { Parent, RootContent, Text, Element, Root } from "hast"
+
 import { toString } from "hast-util-to-string"
 import { h } from "hastscript"
 

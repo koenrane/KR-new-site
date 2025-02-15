@@ -2,7 +2,7 @@ import rehypeKatex from "rehype-katex"
 import rehypeMathjax from "rehype-mathjax/svg"
 import remarkMath from "remark-math"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 interface Options {
   renderEngine: "katex" | "mathjax"

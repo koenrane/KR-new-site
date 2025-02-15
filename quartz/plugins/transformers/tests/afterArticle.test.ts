@@ -1,4 +1,5 @@
-import { Root, Element } from "hast"
+import type { Root, Element } from "hast"
+
 import { h } from "hastscript"
 
 import { insertAfterTroutOrnament } from "../afterArticle"

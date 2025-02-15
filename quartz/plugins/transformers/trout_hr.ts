@@ -1,7 +1,8 @@
-import { Root, Element, Parent, Text } from "hast"
+import type { Element, Parent, Root, Text } from "hast"
+
 import { visit } from "unist-util-visit"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 /**
  * The ornamental node with a trout image and decorative text.

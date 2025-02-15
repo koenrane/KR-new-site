@@ -1,9 +1,13 @@
 import React from "react"
 
-import { QuartzPluginData } from "../plugins/vfile"
+import { type QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
 import { slugTag } from "../util/path"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 // For rendering the tags for a user
 export const formatTag = (tag: string): string => {

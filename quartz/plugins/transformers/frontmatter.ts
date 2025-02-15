@@ -1,16 +1,18 @@
+import type { Root } from "hast"
+
 import matter from "gray-matter"
-import { Root } from "hast"
 import { JSON_SCHEMA, load as loadYAML } from "js-yaml"
 import remarkFrontmatter from "remark-frontmatter"
 import toml from "toml"
 import { visit } from "unist-util-visit"
 import { VFile } from "vfile"
 
+import type { QuartzTransformerPlugin } from "../types"
+import type { QuartzPluginData } from "../vfile"
+
 import { i18n } from "../../i18n"
 import { escapeHTML } from "../../util/escape"
 import { slugTag } from "../../util/path"
-import { QuartzTransformerPlugin } from "../types"
-import { QuartzPluginData } from "../vfile"
 import { urlRegex } from "./utils"
 
 export interface Options {

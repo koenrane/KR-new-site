@@ -1,10 +1,11 @@
+import type { Element, Root, Text, Parent } from "hast"
+import type { ReadableStream } from "stream/web"
+
 import gitRoot from "find-git-root"
 import fs from "fs"
-import { Element, Root, Text, Parent } from "hast"
 import path from "path"
 import { Readable } from "stream"
 import { pipeline } from "stream/promises"
-import { ReadableStream } from "stream/web"
 import { visit } from "unist-util-visit"
 import { fileURLToPath } from "url"
 
@@ -104,7 +105,7 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
  * @param hostname - The hostname to generate the path for.
  * @returns A string representing the Quartz path for the favicon.
  */
-export function GetQuartzPath(hostname: string): string {
+export function getQuartzPath(hostname: string): string {
   logger.debug(`Generating Quartz path for hostname: ${hostname}`)
   hostname = hostname === "localhost" ? "turntrout.com" : hostname.replace(/^www\./, "")
   const sanitizedHostname = hostname.replace(/\./g, "_")
@@ -171,7 +172,7 @@ export async function readFaviconUrls(): Promise<Map<string, string>> {
 export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   logger.info(`Attempting to find or save favicon for ${hostname}`)
 
-  const faviconPath = GetQuartzPath(hostname)
+  const faviconPath = getQuartzPath(hostname)
 
   // Check cache first
   if (urlCache.has(faviconPath)) {
@@ -247,7 +248,7 @@ export interface FaviconNode extends Element {
  * @param description - The alt text for the favicon (default: "", so that favicons are treated as decoration by screen readers).
  * @returns An object representing the favicon element.
  */
-export function CreateFaviconElement(urlString: string, description = ""): FaviconNode {
+export function createFaviconElement(urlString: string, description = ""): FaviconNode {
   logger.debug(`Creating favicon element with URL: ${urlString}`)
   return {
     type: "element",
@@ -274,7 +275,7 @@ export function insertFavicon(imgPath: string | null, node: Element): void {
     return
   }
 
-  const toAppend: FaviconNode = CreateFaviconElement(imgPath)
+  const toAppend: FaviconNode = createFaviconElement(imgPath)
 
   const maybeSpliceTextResult = maybeSpliceText(node, toAppend)
   if (maybeSpliceTextResult) {

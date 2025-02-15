@@ -1,9 +1,10 @@
 /**
  * @jest-environment node
  */
+import type { Element, Parent } from "hast"
+
 import { jest } from "@jest/globals"
 import fsExtra from "fs-extra"
-import { Element, Parent } from "hast"
 import { h } from "hastscript"
 import os from "os"
 import path from "path"
@@ -101,13 +102,13 @@ describe("Favicon Utilities", () => {
       ["Local PNG exists", 404, true],
       ["Download PNG from Google", 404, false],
     ])("%s", async (_, avifStatus, localPngExists) => {
-      const expected = linkfavicons.GetQuartzPath(hostname)
+      const expected = linkfavicons.getQuartzPath(hostname)
       mockFetchAndFs(avifStatus, localPngExists)
       expect(await linkfavicons.MaybeSaveFavicon(hostname)).toBe(expected)
     })
 
     it("should not write local files to URL cache", async () => {
-      const localPath = linkfavicons.GetQuartzPath(hostname)
+      const localPath = linkfavicons.getQuartzPath(hostname)
 
       jest.spyOn(global, "fetch").mockRejectedValue(new Error("CDN not available"))
 
@@ -160,7 +161,7 @@ describe("Favicon Utilities", () => {
       expect(writeFileSyncMock).toHaveBeenCalledWith(
         linkfavicons.FAVICON_URLS_FILE,
         expect.stringContaining(
-          `${linkfavicons.GetQuartzPath(hostname)},${linkfavicons.DEFAULT_PATH}`,
+          `${linkfavicons.getQuartzPath(hostname)},${linkfavicons.DEFAULT_PATH}`,
         ),
         expect.any(Object),
       )
@@ -168,7 +169,7 @@ describe("Favicon Utilities", () => {
 
     it("should load and respect cached failures on startup", async () => {
       // Mock reading a cached failure from file
-      const faviconPath = linkfavicons.GetQuartzPath(hostname)
+      const faviconPath = linkfavicons.getQuartzPath(hostname)
 
       // Set up the cache directly
       linkfavicons.urlCache.clear()
@@ -194,7 +195,7 @@ describe("Favicon Utilities", () => {
       ["https://turntrout.com", linkfavicons.TURNTROUT_FAVICON_PATH],
       ["subdomain.example.org", "/static/images/external-favicons/subdomain_example_org.png"],
     ])("should return the correct favicon path for %s", (hostname, expectedPath) => {
-      expect(linkfavicons.GetQuartzPath(hostname)).toBe(expectedPath)
+      expect(linkfavicons.getQuartzPath(hostname)).toBe(expectedPath)
     })
   })
 
@@ -203,7 +204,7 @@ describe("Favicon Utilities", () => {
       ["/path/to/favicon.png", "Test Description"],
       ["/another/favicon.jpg", "Another Description"],
     ])("should create a favicon element with correct attributes", (urlString, description) => {
-      const element = linkfavicons.CreateFaviconElement(urlString, description)
+      const element = linkfavicons.createFaviconElement(urlString, description)
       expect(element).toEqual({
         type: "element",
         tagName: "img",
@@ -240,7 +241,7 @@ describe("Favicon Utilities", () => {
           type: "element",
           tagName: "span",
           properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "tent" }, linkfavicons.CreateFaviconElement(imgPath)],
+          children: [{ type: "text", value: "tent" }, linkfavicons.createFaviconElement(imgPath)],
         })
       })
 
@@ -253,7 +254,7 @@ describe("Favicon Utilities", () => {
           type: "element",
           tagName: "span",
           properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "1234" }, linkfavicons.CreateFaviconElement(imgPath)],
+          children: [{ type: "text", value: "1234" }, linkfavicons.createFaviconElement(imgPath)],
         })
       })
 
@@ -267,7 +268,7 @@ describe("Favicon Utilities", () => {
           type: "element",
           tagName: "span",
           properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "dium" }, linkfavicons.CreateFaviconElement(imgPath)],
+          children: [{ type: "text", value: "dium" }, linkfavicons.createFaviconElement(imgPath)],
         })
       })
 
@@ -276,7 +277,7 @@ describe("Favicon Utilities", () => {
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(linkfavicons.CreateFaviconElement(imgPath))
+        expect(node.children[1]).toMatchObject(linkfavicons.createFaviconElement(imgPath))
       })
 
       it("should handle empty text nodes correctly", () => {
@@ -284,7 +285,7 @@ describe("Favicon Utilities", () => {
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(linkfavicons.CreateFaviconElement(imgPath))
+        expect(node.children[1]).toMatchObject(linkfavicons.createFaviconElement(imgPath))
       })
 
       it("Should not replace children with [span] if more than one child", () => {
@@ -308,7 +309,7 @@ describe("Favicon Utilities", () => {
         // First child is text (period)
         const expectedChild = h("span", { style: "white-space: nowrap;" }, [
           { type: "text", value: "." },
-          linkfavicons.CreateFaviconElement(linkfavicons.MAIL_PATH),
+          linkfavicons.createFaviconElement(linkfavicons.MAIL_PATH),
         ])
         expect(lastChild).toMatchObject(expectedChild)
       })

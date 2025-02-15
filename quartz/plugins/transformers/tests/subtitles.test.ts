@@ -1,5 +1,5 @@
 import { expect } from "@jest/globals"
-import { Element, Parent, ElementContent } from "hast"
+import { type Element, type Parent, type ElementContent } from "hast"
 import { h } from "hastscript"
 import rehypeParse from "rehype-parse"
 import rehypeStringify from "rehype-stringify"
