@@ -114,7 +114,7 @@
     "remark-breaks": "^4.0.0",
     "remark-captions": "^2.2.4",
     "remark-frontmatter": "^5.0.0",
-    "remark-gfm": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.0",
