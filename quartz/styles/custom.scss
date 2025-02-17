@@ -618,7 +618,7 @@ img,
 video {
   width: fit-content;
   max-width: 100%;
-  margin-bottom: calc($base-margin);
+  margin-bottom: calc(2 * $base-margin);
 
   article > p &,
   article > &,
