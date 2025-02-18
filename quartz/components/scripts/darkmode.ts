@@ -62,9 +62,7 @@ export function setupDarkMode() {
     const toggleSwitch = getToggleSwitch()
     if (toggleSwitch) {
       toggleSwitch.addEventListener("change", wrappedSwitchTheme)
-      if (currentTheme === "dark") {
-        toggleSwitch.checked = true
-      }
+      toggleSwitch.checked = currentTheme === "dark"
     }
 
     // Listen for changes in prefers-color-scheme

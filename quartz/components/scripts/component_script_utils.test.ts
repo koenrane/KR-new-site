@@ -134,11 +134,22 @@ describe("wrapWithoutTransition", () => {
     removeClassSpy.mockRestore()
   })
 
-  it("should throw error if function returns undefined", () => {
-    const func = jest.fn().mockReturnValue(undefined)
+  it("should handle void functions", () => {
+    const func = jest.fn()
     const wrapped = wrapWithoutTransition(func)
+    const addClassSpy = jest.spyOn(document.documentElement.classList, "add")
+    const removeClassSpy = jest.spyOn(document.documentElement.classList, "remove")
 
-    expect(() => wrapped()).toThrow("Function returned undefined")
+    wrapped()
+
+    expect(addClassSpy).toHaveBeenCalledWith("temporary-transition")
+    expect(func).toHaveBeenCalled()
+
+    jest.advanceTimersByTime(1000)
+    expect(removeClassSpy).toHaveBeenCalledWith("temporary-transition")
+
+    addClassSpy.mockRestore()
+    removeClassSpy.mockRestore()
   })
 })
 
