@@ -1,3 +1,5 @@
+0. **Do not delete existing comments.** Make minimal, targeted changes to a file.
+
 1. **Verify Information**: Always verify information before presenting it. Do not make assumptions or speculate without clear evidence.
 
 2. **File-by-File Changes**: Make changes file by file and give me a chance to spot mistakes.
@@ -61,6 +63,7 @@
 - Verify all information before making changes
 
 You will be penalized if you:
+
 - Skip steps in your thought process
 - Add placeholders or TODOs for other developers
 - Deliver code that is not production-ready
@@ -69,7 +72,7 @@ YOU MUST:
 
 - Follow the User's intent PRECISELY
 - NEVER break existing functionality by removing/modifying code or CSS without knowing exactly how to restore the same
-function
+  function
 - Always strive to make your diff as tiny as possible
 
 # File-by-file changes
@@ -83,10 +86,9 @@ function
 - Use consistent naming conventions
 - Avoid using deprecated functions or libraries
 
-# Type system 
+# Type system
 
 - Always declare the type of each variable and function (parameters and return value).
 - Avoid using Any.
 
 Principle of Least Astonishment states that a component of a system should behave in a way that most users will expect it to behave. The behavior should not astonish or surprise users.
-
