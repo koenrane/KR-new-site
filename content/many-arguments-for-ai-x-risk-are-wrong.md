@@ -81,7 +81,7 @@ I'm not trying to rag on Bostrom personally for making this mistake. Foundationa
 
 Unsurprisingly, if you have a lot of people speculating for years using confused ideas and incorrect assumptions, and they come up with a bunch of speculative problems to work on… If you later try to adapt those confused "problems" to the deep learning era, you're in for a bad time. Even if you, dear reader, don't agree with the original people (i.e. MIRI and Bostrom), and even if you aren't presently working on the same things… The confusion has probably influenced what you're working on.
 
-I think that's why some people take "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)" and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
+I think that's why some people take  "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)" and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
 
 ## Many arguments for doom are wrong
 
@@ -99,11 +99,11 @@ I cannot address each of the million arguments for doom, but I think most are wr
 
 Much of my position is summarized by [my review](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities?commentId=B4poSMfRteggYWpv7) of Yudkowsky's [AGI Ruin: A List of Lethalities](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/?commentId=B4poSMfRteggYWpv7):
 
-> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly[vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
+> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly [vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
 >
-> While I agree with a few points on this list, I think this list is fundamentally misguided.[The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
+> While I agree with a few points on this list, I think this list is fundamentally misguided. [The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
 >
-> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that[deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
+> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that [deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
 
 In this essay, I'll address some of the arguments for "deceptive alignment" or "AI scheming." And then I'm going to bullet-point a few other clusters of mistakes.
 
