@@ -1221,12 +1221,12 @@ def test_check_markdown_assets_in_html(
         # Test allowed characters before emphasis
         *[
             (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in PREV_EMPHASIS_CHARS + "\n \t\r"
+            for char in ALLOWED_ELT_PRECEDING_CHARS
         ],
         # Test allowed characters after emphasis
         *[
             (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in NEXT_EMPHASIS_CHARS + "\n \t\r"
+            for char in ALLOWED_ELT_FOLLOWING_CHARS
         ],
         # Test mixed cases
         (
@@ -1639,4 +1639,61 @@ def test_check_iframe_sources(
     monkeypatch.setattr(requests, "head", mock_head)
 
     result = check_iframe_sources(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic cases - missing spaces
+        (
+            "<p>text<a href='#'>link</a></p>",
+            ["Missing space before: text<a>link</a>"],
+        ),
+        # Test allowed characters before link
+        *[
+            (f"<p>text{char}<a href='#'>link</a> text</p>", [])
+            for char in ALLOWED_ELT_PRECEDING_CHARS
+        ],
+        # Test allowed characters after link
+        *[
+            (f"<p>text <a href='#'>link</a>{char}text</p>", [])
+            for char in ALLOWED_ELT_FOLLOWING_CHARS
+        ],
+        # Test mixed cases
+        (
+            "<p>text(<a href='#'>good</a> text<a href='#'>bad</a>)</p>",
+            ["Missing space before:  text<a>bad</a>"],
+        ),
+        # Test footnote links (should be ignored)
+        (
+            "<p>text<a href='#user-content-fn-1'>footnote</a></p>",
+            [],
+        ),
+        # Test multiple links
+        (
+            """
+            <p>text<a href='#'>one</a> text</p>
+            <p>text <a href='#'>two</a> text</p>
+            <p>text<a href='#'>three</a> text</p>
+            """,
+            [
+                "Missing space before: text<a>one</a>",
+                "Missing space before: text<a>three</a>",
+            ],
+        ),
+        (
+            "<p>Hi <a href='#'>Test<span>span</span></a> text</p>",
+            [],
+        ),
+        (  # Multiline matching
+            "<p>Hi <a href='#'>Test<span>span</span></a> text\n\nTest</p>",
+            [],
+        ),
+    ],
+)
+def test_check_link_spacing(html, expected):
+    """Test the check_link_spacing function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_link_spacing(soup)
     assert sorted(result) == sorted(expected)
