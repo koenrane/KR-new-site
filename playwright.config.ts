@@ -66,17 +66,17 @@ export default defineConfig({
             ? browser.engine === "webkit"
               ? ["--headless"]
               : [
-                  "--no-sandbox",
-                  "--disable-setuid-sandbox",
-                  "--disable-dev-shm-usage",
-                  "--disable-gpu",
-                  "--no-zygote",
-                  "--disable-extensions",
-                  "--disable-background-timer-throttling",
-                  "--disable-backgrounding-occluded-windows",
-                  "--disable-renderer-backgrounding",
-                  "--memory-pressure-off",
-                ]
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--no-zygote",
+                "--disable-extensions",
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows",
+                "--disable-renderer-backgrounding",
+                "--memory-pressure-off",
+              ]
             : [],
         },
       },
