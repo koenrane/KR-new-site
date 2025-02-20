@@ -102,29 +102,6 @@ const concentrateEmphasisAroundLinks = (text: string): string => {
 }
 
 /**
- * Ensures proper newline formatting around display math ($$).
- * For opening $$, ensure there is a newline before it
- * For closing $$, ensure there are two newlines after it.
- * If they are within n layers of blockquote (e.g. "> >$$"), ensure the preceding newline also has n layers of blockquote (e.g. "> >\n> >$$").
- *
- * @param text - The input text to process.
- * @returns The text with adjusted newlines around display math.
- */
-export const adjustDisplayMathNewlines = (text: string): string => {
-  // [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
-  // [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
-
-  // Find all instances of $$ that are not preceded by a blockquote or newline
-  const beforeDisplayMathRegex =
-    /(?!<\n|^|(?:> )+)^(?<blockquote> )*(?<beforeDisplayOpen>\S*)\$\$(?=[^$]*\$\$)/gms
-  const newlinesBeforeDisplayMath = text.replaceAll(
-    beforeDisplayMathRegex,
-    "$<blockquote>$<beforeDisplayOpen>\n$<blockquote>$$$$",
-  )
-  return newlinesBeforeDisplayMath
-}
-
-/**
  * Applies various formatting improvements to the input text.
  * @param text - The input text to process.
  * @returns The text with all formatting improvements applied.
