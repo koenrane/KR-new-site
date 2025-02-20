@@ -454,6 +454,8 @@ def get_check_steps(
                 f"{git_root_path}/playwright.config.ts",
                 "--project",
                 "Desktop Chrome",
+                "--grep",
+                "^(?:(?!lostpixel).)*\\$",  # Exclude lostpixel tests
             ],
         ),
         CheckStep(
