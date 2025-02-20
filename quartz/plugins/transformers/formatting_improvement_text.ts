@@ -45,10 +45,10 @@ export function editAdmonition(text: string): string {
   return text
 }
 
-const NESTED_CALLOUT_REGEX_NO_SPACE = new RegExp(/^(> *> *\[!.*$\n)(?!> *> *\n)/gm)
-const TARGET_REGEX_WITH_SPACE = "$1> >\n"
-export function spaceDoublyNestedCallouts(text: string): string {
-  return text.replaceAll(NESTED_CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
+const CALLOUT_REGEX_NO_SPACE = new RegExp(/^( *(?:> )+)(\[!.*$)(?!(?:> *)+\n)/gm)
+const TARGET_REGEX_WITH_SPACE = "$1$2\n$1"
+export function spaceCallouts(text: string): string {
+  return text.replaceAll(CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
 }
 
 // Wrap e.g. header "# 10" in lining nums
@@ -123,11 +123,10 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
-  newContent = spaceDoublyNestedCallouts(newContent)
+  newContent = spaceCallouts(newContent)
   newContent = concentrateEmphasisAroundLinks(newContent)
   newContent = wrapLeadingHeaderNumbers(newContent)
   newContent = massTransformText(newContent)
-  // newContent = adjustDisplayMathNewlines(newContent)
 
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")
