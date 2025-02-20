@@ -54,8 +54,10 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps chromium # Only install Chromium to save time/space
+      - name: Install Playwright and dependencies
+        run: |
+          npx playwright install --with-deps chromium webkit firefox
+          npx playwright install-deps
 
       - name: Start local server
         run: |
