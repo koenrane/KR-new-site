@@ -65,26 +65,26 @@ export default defineConfig({
           args: process.env.CI
             ? browser.engine === "webkit"
               ? [
-                  "--headless",
-                  "--disable-gpu",
-                  "--disable-extensions",
-                  "--disable-background-timer-throttling",
-                  "--disable-backgrounding-occluded-windows",
-                  "--disable-renderer-backgrounding",
-                  "--memory-pressure-off",
-                ]
+                "--headless",
+                "--disable-gpu",
+                "--disable-extensions",
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows",
+                "--disable-renderer-backgrounding",
+                "--memory-pressure-off",
+              ]
               : [
-                  "--no-sandbox",
-                  "--disable-setuid-sandbox",
-                  "--disable-dev-shm-usage",
-                  "--disable-gpu",
-                  "--no-zygote",
-                  "--disable-extensions",
-                  "--disable-background-timer-throttling",
-                  "--disable-backgrounding-occluded-windows",
-                  "--disable-renderer-backgrounding",
-                  "--memory-pressure-off",
-                ]
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--no-zygote",
+                "--disable-extensions",
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows",
+                "--disable-renderer-backgrounding",
+                "--memory-pressure-off",
+              ]
             : [],
         },
       },
