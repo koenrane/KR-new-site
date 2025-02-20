@@ -77,6 +77,7 @@ export default defineConfig({
                   "--no-sandbox",
                   "--disable-setuid-sandbox",
                   "--disable-dev-shm-usage",
+                  "--disable-gpu",
                   "--no-zygote",
                   "--disable-extensions",
                   "--disable-background-timer-throttling",
