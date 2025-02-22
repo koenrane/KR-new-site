@@ -66,8 +66,9 @@ test("Search results appear and can be navigated (lostpixel)", async ({ page }, 
   // Check results appear
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
+
   const resultCards = page.locator(".result-card")
-  await expect(resultCards).toBeVisible()
+  await expect(resultCards.first()).toBeVisible()
   await expect(resultCards.first()).toContainText("Steering", { timeout: 10000 })
 
   // Navigate with arrow keys
