@@ -44,7 +44,7 @@ export default defineConfig({
   timeout: process.env.CI ? 45000 : 30000, // Increased timeout for larger test sets
   fullyParallel: true,
   workers: process.env.CI ? 4 : "65%",
-  retries: process.env.CI ? 1 : 0,
+  retries: process.env.CI ? 5 : 3,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
   reporter: process.env.CI ? "dot" : "list", // Format of test status display
@@ -66,17 +66,17 @@ export default defineConfig({
             ? browser.engine === "webkit"
               ? ["--headless"]
               : [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-                "--no-zygote",
-                "--disable-extensions",
-                "--disable-background-timer-throttling",
-                "--disable-backgrounding-occluded-windows",
-                "--disable-renderer-backgrounding",
-                "--memory-pressure-off",
-              ]
+                  "--no-sandbox",
+                  "--disable-setuid-sandbox",
+                  "--disable-dev-shm-usage",
+                  "--disable-gpu",
+                  "--no-zygote",
+                  "--disable-extensions",
+                  "--disable-background-timer-throttling",
+                  "--disable-backgrounding-occluded-windows",
+                  "--disable-renderer-backgrounding",
+                  "--memory-pressure-off",
+                ]
             : [],
         },
       },

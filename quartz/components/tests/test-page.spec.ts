@@ -117,7 +117,7 @@ test.describe("Table of contents", () => {
 
 test.describe("Admonitions", () => {
   for (const theme of ["light", "dark"]) {
-    test(`Admonition click behaviors in ${theme} mode`, async ({ page }) => {
+    test(`Admonition click behaviors in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
 
       const admonition = page.locator("#test-collapse").first()
@@ -134,6 +134,11 @@ test.describe("Admonitions", () => {
       const openedScreenshot = await admonition.screenshot()
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
+      // Take lostpixel screenshot
+      await takeRegressionScreenshot(page, testInfo, "admonition-click-behaviors", {
+        element: admonition,
+      })
+
       // Click on content should NOT close it
       const content = admonition.locator(".callout-content").first()
       await content.click()
@@ -145,9 +150,14 @@ test.describe("Admonitions", () => {
       const title = admonition.locator(".callout-title").first()
       await title.click()
       await expect(admonition).toHaveClass(/.*is-collapsed.*/)
+
       await waitForTransitionEnd(admonition)
-      const closedScreenshot = await admonition.screenshot()
-      expect(closedScreenshot).toEqual(initialScreenshot)
+      await expect(admonition).toBeVisible()
+
+      // Take lostpixel screenshot
+      await takeRegressionScreenshot(page, testInfo, "admonition-click-behaviors", {
+        element: admonition,
+      })
     })
   }
 

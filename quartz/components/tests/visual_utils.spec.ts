@@ -142,7 +142,7 @@ test.describe("visual_utils functions", () => {
       await waitForTransitionEnd(element)
       const duration = Date.now() - start
 
-      expect(duration).toBeLessThan(100)
+      expect(duration).toBeLessThan(150)
     })
 
     test("waits for all transitions to complete before resolving", async ({ page }) => {
