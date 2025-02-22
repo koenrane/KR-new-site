@@ -55,7 +55,7 @@ export async function takeRegressionScreenshot(
 ) {
   const browserName = testInfo.project.name
   const viewportSize = page.viewportSize()
-  const viewport = viewportSize ? `${viewportSize.width}x${viewportSize.height}` : "default"
+  const viewport = viewportSize ? `width=${viewportSize.width}` : "default"
   const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}-${viewport}.png`
   const baseOptions = { path: screenshotPath, animations: "disabled" as const }
 

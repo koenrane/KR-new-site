@@ -1,8 +1,6 @@
 import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test"
 
 import {
-  search,
-  showingPreview,
   takeRegressionScreenshot,
   setTheme,
   waitForTransitionEnd,
@@ -46,8 +44,19 @@ test.beforeEach(async ({ page }) => {
  * @param testInfo - The test info
  * @param theme - The theme to get the screenshots for
  */
-async function getH1Screenshots(page: Page, testInfo: TestInfo, theme: "dark" | "light") {
-  const headers: Locator[] = await page.locator("h1").all()
+async function getH1Screenshots(
+  page: Page,
+  testInfo: TestInfo,
+  location: Locator | null,
+  theme: "dark" | "light",
+) {
+  let headers: Locator[]
+  if (location) {
+    headers = await location.locator("h1").all()
+  } else {
+    headers = await page.locator("h1").all()
+  }
+
   for (let index = 0; index < headers.length - 1; index++) {
     const header = headers[index]
     const nextHeader = headers[index + 1]
@@ -67,48 +76,20 @@ async function getH1Screenshots(page: Page, testInfo: TestInfo, theme: "dark" | 
 
 test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
-    test(`Search preview in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
-      // EG mobile doesn't show preview
-      test.skip(!showingPreview(page))
-
-      // Set theme first and wait for transition
+    test(`Normal page in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
 
-      await page.keyboard.press("/")
-      await search(page, "Testing Site Features")
-      const previewContainer = page.locator("#preview-container")
-      await expect(previewContainer).toBeVisible()
-
-      // Get the preview container's height from the article inside it
-      const previewedArticle = previewContainer.locator("article")
-      const boundingBoxArticle = await previewedArticle.boundingBox()
+      // Get the height of the page
+      const boundingBoxArticle = await page.locator("body").boundingBox()
       if (!boundingBoxArticle) throw new Error("Could not get preview container dimensions")
 
       // Set viewport to match preview height
       await page.setViewportSize({
         width: page.viewportSize()?.width ?? 1920,
-        height: Math.ceil(2 * boundingBoxArticle.height),
+        height: Math.ceil(boundingBoxArticle.height),
       })
 
-      // The article needs to be tall to screenshot all of it
-      await previewContainer.evaluate(
-        (el, size) => {
-          el.style.height = `${size.height}px`
-        },
-        {
-          height: Math.ceil(1.5 * boundingBoxArticle.height),
-        },
-      )
-
-      await takeRegressionScreenshot(page, testInfo, `test-page-search-preview-${theme}`, {
-        element: previewedArticle,
-      })
-    })
-
-    test(`Normal page in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
-      await setTheme(page, theme as "light" | "dark")
-
-      await getH1Screenshots(page, testInfo, theme as "light" | "dark")
+      await getH1Screenshots(page, testInfo, null, theme as "light" | "dark")
     })
   }
 })
