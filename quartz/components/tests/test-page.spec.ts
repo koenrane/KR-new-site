@@ -1,4 +1,4 @@
-import { test, expect, type Locator, type Page } from "@playwright/test"
+import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test"
 
 import {
   search,
@@ -7,6 +7,8 @@ import {
   setTheme,
   waitForTransitionEnd,
   isDesktopViewport,
+  yOffset,
+  takeScreenshotAfterElement,
 } from "./visual_utils"
 
 // TODO test iframe and video fullscreen in light mode (and dark for safety)
@@ -38,12 +40,36 @@ test.beforeEach(async ({ page }) => {
   })
 })
 
+/**
+ * Get screenshots of all h1s in a container
+ * @param container - The container to get the h1s from
+ * @param testInfo - The test info
+ * @param theme - The theme to get the screenshots for
+ */
+async function getH1Screenshots(page: Page, testInfo: TestInfo, theme: "dark" | "light") {
+  const headers: Locator[] = await page.locator("h1").all()
+  for (let index = 0; index < headers.length - 1; index++) {
+    const header = headers[index]
+    const nextHeader = headers[index + 1]
+    const offset = await yOffset(header, nextHeader)
+
+    await header.scrollIntoViewIfNeeded()
+
+    // Wait for all images to load
+    for (const image of await header.locator("img").all()) {
+      await image.waitFor({ state: "visible" })
+    }
+
+    // Only screenshot up to where the next section begins
+    await takeScreenshotAfterElement(page, testInfo, header, offset, `${theme}-${index}`)
+  }
+}
+
 test.describe("Test page sections", () => {
   for (const theme of ["dark", "light"]) {
-    test(`Test page in search preview in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
+    test(`Search preview in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       // EG mobile doesn't show preview
-      // For some reason, light theme fails - TODO
-      test.skip(!showingPreview(page) || theme === "light")
+      test.skip(!showingPreview(page))
 
       // Set theme first and wait for transition
       await setTheme(page, theme as "light" | "dark")
@@ -79,9 +105,10 @@ test.describe("Test page sections", () => {
       })
     })
 
-    test(`Test page in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
+    test(`Normal page in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
-      await takeRegressionScreenshot(page, testInfo, `test-page-${theme}`)
+
+      await getH1Screenshots(page, testInfo, theme as "light" | "dark")
     })
   }
 })
@@ -117,7 +144,7 @@ test.describe("Table of contents", () => {
 
 test.describe("Admonitions", () => {
   for (const theme of ["light", "dark"]) {
-    test(`Admonition click behaviors in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
+    test(`Admonition click behaviors in ${theme} mode`, async ({ page }) => {
       await setTheme(page, theme as "light" | "dark")
 
       const admonition = page.locator("#test-collapse").first()
@@ -134,11 +161,6 @@ test.describe("Admonitions", () => {
       const openedScreenshot = await admonition.screenshot()
       expect(openedScreenshot).not.toEqual(initialScreenshot)
 
-      // Take lostpixel screenshot
-      await takeRegressionScreenshot(page, testInfo, "admonition-click-behaviors", {
-        element: admonition,
-      })
-
       // Click on content should NOT close it
       const content = admonition.locator(".callout-content").first()
       await content.click()
@@ -153,11 +175,6 @@ test.describe("Admonitions", () => {
 
       await waitForTransitionEnd(admonition)
       await expect(admonition).toBeVisible()
-
-      // Take lostpixel screenshot
-      await takeRegressionScreenshot(page, testInfo, "admonition-click-behaviors", {
-        element: admonition,
-      })
     })
   }
 
@@ -303,9 +320,6 @@ test.describe("Spoilers", () => {
     test(`Spoiler before revealing in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       const spoiler = page.locator(".spoiler-container").first()
-      await spoiler.scrollIntoViewIfNeeded()
-      await expect(spoiler).toBeVisible()
-
       await takeRegressionScreenshot(page, testInfo, `spoiler-before-revealing-${theme}`, {
         element: spoiler,
       })
