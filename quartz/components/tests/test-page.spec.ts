@@ -303,6 +303,9 @@ test.describe("Spoilers", () => {
     test(`Spoiler before revealing in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
       await setTheme(page, theme as "light" | "dark")
       const spoiler = page.locator(".spoiler-container").first()
+      await spoiler.scrollIntoViewIfNeeded()
+      await expect(spoiler).toBeVisible()
+
       await takeRegressionScreenshot(page, testInfo, `spoiler-before-revealing-${theme}`, {
         element: spoiler,
       })
