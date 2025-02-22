@@ -17,10 +17,11 @@ test.beforeEach(async ({ page }) => {
 
   // Ensure search is closed at start
   const searchContainer = page.locator("#search-container")
-  if (await searchContainer.evaluate((el) => el.classList.contains("active"))) {
-    await page.keyboard.press("Escape")
-    await expect(searchContainer).not.toHaveClass(/active/)
-  }
+  await expect(searchContainer).not.toHaveClass(/active/)
+
+  await page.keyboard.press("/")
+  await expect(searchContainer).toHaveClass(/active/)
+  await expect(page.locator("#search-bar")).toBeVisible()
 })
 
 test.afterEach(async ({ page }) => {
@@ -32,28 +33,34 @@ test.afterEach(async ({ page }) => {
   }
 })
 
-test("Search opens with '/' and closes with Escape", async ({ page }) => {
-  const searchContainer = page.locator("#search-container")
-  const searchBar = page.locator("#search-bar")
+for (const keyName of ["/", "Escape"]) {
+  test(`Search closes with ${keyName}`, async ({ page }) => {
+    const searchContainer = page.locator("#search-container")
+    const searchBar = page.locator("#search-bar")
 
-  // Initial state
-  await expect(searchContainer).not.toHaveClass(/active/)
+    // Initial state (already open)
+    await expect(searchContainer).toHaveClass(/active/)
+    await expect(searchBar).toBeFocused()
 
-  // Open with "/"
-  await page.keyboard.press("/")
-  await expect(searchContainer).toHaveClass(/active/)
-  await expect(searchBar).toBeFocused()
+    // Close with keyName
+    await page.keyboard.press(keyName)
+    await expect(searchContainer).not.toHaveClass(/active/)
+  })
+}
 
-  // Close with Escape
+test("Clicking on nav-searchbar opens search", async ({ page }) => {
+  // Close search
   await page.keyboard.press("Escape")
+
+  const searchContainer = page.locator("#search-container")
   await expect(searchContainer).not.toHaveClass(/active/)
+
+  const searchBar = page.locator("#nav-searchbar")
+  await searchBar.click()
+  await expect(searchContainer).toHaveClass(/active/)
 })
 
 test("Search results appear and can be navigated (lostpixel)", async ({ page }, testInfo) => {
-  // Open search
-  await page.keyboard.press("/")
-
-  // Type search term
   await search(page, "Steering")
 
   // Check results appear
@@ -81,7 +88,6 @@ test("Search results appear and can be navigated (lostpixel)", async ({ page }, 
 })
 
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const previewContainer = page.locator("#preview-container")
@@ -103,7 +109,6 @@ test("Search placeholder changes based on viewport", async ({ page }) => {
 })
 
 test("Highlighted search terms appear in results", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const highlights = page.locator(".highlight")
@@ -111,8 +116,6 @@ test("Highlighted search terms appear in results", async ({ page }) => {
 })
 
 test("Search results are case-insensitive", async ({ page }) => {
-  await page.keyboard.press("/")
-
   await search(page, "TEST")
   const uppercaseResults = await page.locator(".result-card").all()
 
@@ -123,7 +126,6 @@ test("Search results are case-insensitive", async ({ page }) => {
 })
 
 test("Search results work for a single character", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "t")
 
   const results = await page.locator(".result-card").all()
@@ -141,7 +143,6 @@ test.describe("Search accuracy", () => {
   ]
   searchTerms.forEach(({ term }) => {
     test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
-      await page.keyboard.press("/")
       await search(page, term)
 
       const previewContainer = page.locator("#preview-container")
@@ -156,8 +157,6 @@ test.describe("Search accuracy", () => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      const searchBar = page.locator("div#nav-searchbar")
-      await searchBar.click()
       await search(page, term) // TODO see for mobile
 
       const firstResult = page.locator(".result-card").first()
@@ -171,7 +170,6 @@ test.describe("Search accuracy", () => {
   previewTerms.forEach((term) => {
     test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
       test.skip(!showingPreview(page))
-      await page.keyboard.press("/")
       await search(page, term)
 
       const previewContent = page.locator("#preview-container > article")
@@ -186,7 +184,6 @@ test.describe("Search accuracy", () => {
   test("Slug search results are ordered before content search results for date-me", async ({
     page,
   }) => {
-    await page.keyboard.press("/")
     await search(page, "date-me")
 
     const firstResult = page.locator("#preview-container").first()
@@ -194,7 +191,6 @@ test.describe("Search accuracy", () => {
   })
 
   test("Nothing shows up for nonsense search terms", async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "feiwopqclvxk")
 
     const resultCards = page.locator(".result-card")
@@ -204,8 +200,6 @@ test.describe("Search accuracy", () => {
 
   test("AI presidents doesn't use dropcap", async ({ page }) => {
     test.skip(!showingPreview(page))
-
-    await page.keyboard.press("/")
     await search(page, "AI presidents")
 
     const previewElement = page.locator("#preview-container > article")
@@ -213,7 +207,6 @@ test.describe("Search accuracy", () => {
   })
 
   test("Test page does use dropcap", async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "test")
 
     const previewElement = page.locator("#preview-container > article")
@@ -222,7 +215,6 @@ test.describe("Search accuracy", () => {
 })
 
 test("Search preview footnote backref has no underline", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
@@ -231,7 +223,6 @@ test("Search preview footnote backref has no underline", async ({ page }) => {
 
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const firstResult = page.locator(".result-card").first()
@@ -243,8 +234,6 @@ test("Enter key navigates to first result", async ({ page }) => {
 test("Search URL updates as we select different results", async ({ page }) => {
   test.skip(!showingPreview(page))
 
-  // Open search and type "Shrek"
-  await page.keyboard.press("/")
   await search(page, "Shrek")
   const previewContainer = page.locator("#preview-container")
 
@@ -273,9 +262,7 @@ test("Search URL updates as we select different results", async ({ page }) => {
   expect(secondResultUrl).not.toBe(firstResultUrl)
 })
 
-// TODO fails when in headless mode
 test("Emoji search works and is converted to twemoji (lostpixel)", async ({ page }, testInfo) => {
-  await page.keyboard.press("/")
   await search(page, "Emoji examples")
 
   const firstResult = page.locator(".result-card").first()
@@ -291,10 +278,8 @@ test("Emoji search works and is converted to twemoji (lostpixel)", async ({ page
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
-//  Test shouldn't pass yet
 test("Footnote back arrow is properly replaced (lostpixel)", async ({ page }, testInfo) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "Testing site")
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
@@ -309,7 +294,6 @@ test("Footnote back arrow is properly replaced (lostpixel)", async ({ page }, te
 
 test.describe("Image's mix-blend-mode attribute", () => {
   test.beforeEach(async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "Testing site")
   })
 
@@ -327,7 +311,6 @@ test.describe("Image's mix-blend-mode attribute", () => {
 
 // Visual regression testing
 test("Opens the 'testing site features' page (lostpixel)", async ({ page }, testInfo) => {
-  await page.keyboard.press("/")
   await search(page, "Testing site")
 
   // Make sure it looks good
@@ -348,7 +331,6 @@ test("Opens the 'testing site features' page (lostpixel)", async ({ page }, test
 
 test("Search preview shows after bad entry", async ({ page }) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
@@ -367,22 +349,22 @@ test("Search preview shows after searching, closing, and reopening", async ({ pa
 
   const previewContainer = page.locator("#preview-container")
 
-  await page.keyboard.press("/")
   await search(page, "Testing site")
   await expect(previewContainer).toBeVisible()
 
   await page.keyboard.press("Escape")
   await expect(previewContainer).not.toBeVisible()
 
+  // Even though search pane reopens, preview container should be hidden
   await page.keyboard.press("/")
   await expect(previewContainer).not.toBeVisible()
+
   await search(page, "Shrek")
   await expect(previewContainer).toBeVisible()
 })
 
 test("Show search preview, search invalid, then show again", async ({ page }) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
@@ -400,7 +382,6 @@ test("The pond dropcaps, search preview visual regression test (lostpixel)", asy
 }, testInfo) => {
   test.skip(!showingPreview(page))
 
-  await page.keyboard.press("/")
   await search(page, "Testing site")
   const searchPondDropcaps = page.locator("#the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
@@ -416,8 +397,6 @@ test("Preview container click navigates to the correct page", async ({ page }) =
   // Set viewport to desktop size to ensure preview is visible
   await page.setViewportSize({ width: tabletBreakpoint + 100, height: 800 })
 
-  // Open search and type a term
-  await page.keyboard.press("/")
   await search(page, "Testing site")
 
   // Get the URL of the first result for comparison
@@ -435,7 +414,6 @@ test("Preview container click navigates to the correct page", async ({ page }) =
 test("Result card highlighting stays synchronized with preview", async ({ page }) => {
   test.skip(!showingPreview(page))
 
-  await page.keyboard.press("/")
   await search(page, "test")
 
   // Check initial state
@@ -462,7 +440,6 @@ const navigationMethods = [
 
 navigationMethods.forEach(({ down, up, description }) => {
   test(`maintains focus when navigating with ${description}`, async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "Testing Site Features")
 
     const totalResults = await page.locator(".result-card").count()
