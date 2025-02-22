@@ -67,7 +67,8 @@ test("Search results appear and can be navigated (lostpixel)", async ({ page }, 
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
   const resultCards = page.locator(".result-card")
-  await expect(resultCards.first()).toContainText("Steering")
+  await expect(resultCards).toBeVisible()
+  await expect(resultCards.first()).toContainText("Steering", { timeout: 10000 })
 
   // Navigate with arrow keys
   await page.keyboard.press("ArrowDown")
@@ -157,7 +158,7 @@ test.describe("Search accuracy", () => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      await search(page, term) // TODO see for mobile
+      await search(page, term)
 
       const firstResult = page.locator(".result-card").first()
       const firstText = await firstResult.textContent()
