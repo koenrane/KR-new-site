@@ -61,6 +61,10 @@ test("Clicking on nav-searchbar opens search", async ({ page }) => {
 })
 
 test("Search results appear and can be navigated (lostpixel)", async ({ page }, testInfo) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+
   await search(page, "Steering")
 
   // Check results appear

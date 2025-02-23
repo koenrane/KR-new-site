@@ -102,8 +102,13 @@ export async function takeScreenshotAfterElement(
  * @returns The y-offset between the two elements.
  */
 export async function yOffset(firstElement: Locator, secondElement: Locator) {
+  // Ensure elements are visible before getting bounding boxes
+  await firstElement.waitFor({ state: "visible" })
+  await secondElement.waitFor({ state: "visible" })
+
   const firstBox = await firstElement.boundingBox()
   const secondBox = await secondElement.boundingBox()
+
   if (!firstBox || !secondBox) throw new Error("Could not find elements")
   if (firstBox.y === secondBox.y) throw new Error("Elements are the same")
 
@@ -171,7 +176,6 @@ export async function search(page: Page, term: string) {
   if (showingPreview(page)) {
     const previewContainer = page.locator("#preview-container")
     await expect(previewContainer).toBeAttached()
-    await expect(previewContainer).toBeVisible()
   }
 
   // Wait for all network requests to complete

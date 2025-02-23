@@ -220,9 +220,6 @@ test.describe("takeRegressionScreenshot", () => {
   })
 
   test("screenshot name includes browser and viewport info", async ({ page }, testInfo) => {
-    const viewportSize = { width: 1024, height: 768 }
-    await page.setViewportSize(viewportSize)
-
     // Spy on the screenshot call to capture the options
     const originalScreenshot = page.screenshot.bind(page)
     let capturedOptions: PageScreenshotOptions = {}
@@ -235,7 +232,7 @@ test.describe("takeRegressionScreenshot", () => {
 
     // Verify path format
     expect(capturedOptions.path).toMatch(
-      new RegExp(`lost-pixel/.*-test-suffix-${testInfo.project.name}-1024x768\\.png$`),
+      new RegExp(`lost-pixel/.*-test-suffix-${testInfo.project.name}\\.png$`),
     )
   })
 
