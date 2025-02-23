@@ -357,4 +357,19 @@ test("Single letter dropcaps visual regression (lostpixel)", async ({ page }, te
   })
 })
 
-// TODO: hover over elvish text
+for (const theme of ["light", "dark"]) {
+  test(`Hover over elvish text in ${theme} mode (lostpixel)`, async ({ page }, testInfo) => {
+    await setTheme(page, theme as "light" | "dark")
+    const elvishText = page.locator(".elvish").first()
+    await elvishText.scrollIntoViewIfNeeded()
+
+    // Hover and wait for width to stabilize
+    await elvishText.hover()
+
+    // Get initial width
+    const box = await elvishText.boundingBox()
+    if (!box) throw new Error("Could not get elvish text dimensions")
+
+    await takeScreenshotAfterElement(page, testInfo, elvishText, 50, `elvish-text-hover-${theme}`)
+  })
+}

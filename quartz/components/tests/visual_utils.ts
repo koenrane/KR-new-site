@@ -57,13 +57,18 @@ export async function takeRegressionScreenshot(
   const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}.png`
   const baseOptions = { path: screenshotPath, animations: "disabled" as const }
 
+  const screenshotOptions = {
+    ...baseOptions,
+    ...options,
+  }
+
   if (options?.element) {
     const element =
       typeof options.element === "string" ? page.locator(options.element) : options.element
-    return element.screenshot(baseOptions)
+    return element.screenshot(screenshotOptions)
   }
 
-  return page.screenshot({ ...baseOptions, clip: options?.clip, fullPage: !options?.clip })
+  return page.screenshot(screenshotOptions)
 }
 
 export async function takeScreenshotAfterElement(
