@@ -89,6 +89,14 @@ jobs:
           CI: true
           NODE_OPTIONS: "--max-old-space-size=4096"
 
+      - name: Upload Playwright traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7
+
       - name: Run LostPixel
         if: always()
         uses: lost-pixel/lost-pixel@v3.16.0
