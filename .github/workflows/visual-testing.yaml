@@ -90,7 +90,7 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=4096"
 
       - name: Sanitize shard name
-        run: echo "SANITIZED_SHARD=${MATRIX_SHARD//\//-}" >> $GITHUB_ENV
+        run: echo "SANITIZED_SHARD=${MATRIX_SHARD%%/*}" >> $GITHUB_ENV
         env:
           MATRIX_SHARD: ${{ matrix.shard }}
 
