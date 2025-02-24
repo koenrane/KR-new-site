@@ -140,7 +140,7 @@
   "devDependencies": {
     "@argos-ci/cli": "^2.5.5",
     "@argos-ci/playwright": "^4.1.0",
-    "@babel/core": "^7.26.8",
+    "@babel/core": "^7.26.9",
     "@babel/preset-env": "^7.26.9",
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.24.7",
