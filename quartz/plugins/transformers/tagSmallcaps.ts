@@ -118,7 +118,7 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
 
 // If the text ends with a letter after a sentence ending, capitalize it
 export const capitalizeAfterEnding = new RegExp(
-  `(^\\s*|[.!?]\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
+  `(^\\s*|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
 )
 
 export const INLINE_ELEMENTS = new Set([
