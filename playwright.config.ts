@@ -23,7 +23,7 @@ const deviceList: DeviceConfig[] = [
   {
     name: "iPad Pro",
     config: {
-      ...devices["iPad Pro 11 landscape"],
+      ...devices["iPad Pro"],
     },
   },
   {
