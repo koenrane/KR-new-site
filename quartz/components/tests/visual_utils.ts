@@ -176,10 +176,8 @@ export async function search(page: Page, term: string) {
   if (showingPreview(page)) {
     const previewContainer = page.locator("#preview-container")
     await expect(previewContainer).toBeAttached()
+    await expect(previewContainer).toBeVisible({ timeout: 10000 })
   }
-
-  // Wait for all network requests to complete
-  await page.waitForLoadState("networkidle")
 }
 
 /**

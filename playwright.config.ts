@@ -23,7 +23,7 @@ const deviceList: DeviceConfig[] = [
   {
     name: "iPad Pro",
     config: {
-      ...devices["iPad Pro"],
+      ...devices["iPad Pro 11 landscape"],
     },
   },
   {
@@ -41,7 +41,7 @@ const browsers: Browser[] = [
 ]
 
 export default defineConfig({
-  timeout: 30000, // Increased timeout for larger test sets
+  timeout: process.env.CI ? 90000 : 30000, // Increased timeout for larger test sets
   fullyParallel: !process.env.CI,
   workers: process.env.CI ? 1 : "65%",
   retries: process.env.CI ? 3 : 3,
