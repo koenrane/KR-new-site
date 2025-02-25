@@ -187,7 +187,7 @@ I sacrificed some of my tethering to the [social web](https://www.lesswrong.com/
     >
     > A survey of AI researchers ([Muller & Bostrom, 2014](http://www.nickbostrom.com/papers/survey.pdf)) finds that on average they expect a 50% chance of human-level AI by 2040 and 90% chance of human-level AI by 2075. On average, 75% believe that superintelligence (“machine intelligence that greatly surpasses the performance of every human in most professions”) will follow within thirty years of human-level AI.
 
-    There are some reasons to worry about sampling bias based on e.g. people who take the idea of human-level AI seriously being more likely to respond (though see the attempts made to control for such in the survey) but taken seriously it suggests that most AI researchers think there’s a good chance this is something we’ll have to worry about within a generation or two.
+    We might see sampling bias due to e.g. people who take the idea of human-level AI seriously being more likely to respond (though see the attempts made to control for such in the survey). That said - taken seriously, the survey suggests that most AI researchers think there’s a good chance this is something we’ll have to worry about within a generation or two.
 
 [^6]: Objectives are subject to change.
 
