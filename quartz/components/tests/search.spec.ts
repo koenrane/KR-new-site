@@ -81,11 +81,16 @@ test("Search results appear and can be navigated (lostpixel)", async ({ page }, 
   await expect(secondResult).toHaveClass(/focus/)
 
   // Check that the preview appears if the width is greater than tabletBreakpoint
-  const shouldShowPreview = showingPreview(page)
   const previewContainer = page.locator("#preview-container")
-  await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
+  await page.waitForTimeout(1000)
+
+  await expect(previewContainer).toBeVisible({ visible: showingPreview(page), timeout: 10000 })
+
   // Should have children -- means there's content
-  await expect(previewContainer.first()).toBeVisible({ visible: Boolean(shouldShowPreview) })
+  await expect(previewContainer.first()).toBeVisible({
+    visible: showingPreview(page),
+    timeout: 10000,
+  })
 
   // Take screenshot of search results
   await takeRegressionScreenshot(page, testInfo, "", {
@@ -97,9 +102,7 @@ test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
   await search(page, "test")
 
   const previewContainer = page.locator("#preview-container")
-  const viewportSize = page.viewportSize()
-  const shouldBeVisible = viewportSize?.width && viewportSize.width > tabletBreakpoint
-  await expect(previewContainer).toBeVisible({ visible: Boolean(shouldBeVisible) })
+  await expect(previewContainer).toBeVisible({ visible: showingPreview(page) })
 })
 
 test("Search placeholder changes based on viewport", async ({ page }) => {
@@ -320,9 +323,13 @@ test("Opens the 'testing site features' page (lostpixel)", async ({ page }, test
   await search(page, "Testing site")
 
   // Make sure it looks good
-  const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
-  if (shouldShowPreview) {
+  if (showingPreview(page)) {
+    const previewContainer = page.locator("#preview-container")
+
+    // Add a small delay to ensure the preview has time to load
+    await page.waitForTimeout(1000)
+
+    await expect(previewContainer).toBeVisible({ timeout: 10000 })
     await takeRegressionScreenshot(page, testInfo, "", {
       element: "#preview-container",
     })
