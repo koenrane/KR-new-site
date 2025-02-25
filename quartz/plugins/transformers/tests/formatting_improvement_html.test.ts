@@ -461,6 +461,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>-> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>--> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>word -> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
+      ["<p>word->arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>word --> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
 
       // Start of line cases
@@ -481,11 +482,6 @@ describe("HTMLFormattingImprovement", () => {
         '<p>text <code>-> ignored</code> <span class="right-arrow">⭢</span> arrow</p>',
       ],
 
-      // Edge cases
-      ["<p>word-->no space</p>", "<p>word-->no space</p>"],
-      ["<p>a->b</p>", "<p>a->b</p>"], // Should not match without spaces
-      ["<p>text->text</p>", "<p>text->text</p>"],
-
       // Nested elements
       [
         "<p>text <em>-> arrow</em></p>",
@@ -499,6 +495,8 @@ describe("HTMLFormattingImprovement", () => {
       // Mixed with other formatting
       ["<p>text -> *emphasis*</p>", '<p>text <span class="right-arrow">⭢</span> *emphasis*</p>'],
       ["<p>**bold** -> text</p>", '<p>**bold** <span class="right-arrow">⭢</span> text</p>'],
+
+      ["<p>No change in word-like</p>", "<p>No change in word-like</p>"], // Should not change hyphens
     ])("should format arrows correctly: %s", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
@@ -1026,23 +1024,6 @@ describe("Date Range", () => {
   it("should handle end-to-end HTML formatting", () => {
     const input = "<p>Revenue from Jan-Mar exceeded Apr-Jun.</p>"
     const expected = "<p>Revenue from Jan–Mar exceeded Apr–Jun.</p>"
-    const processedHtml = testHtmlFormattingImprovement(input)
-    expect(processedHtml).toBe(expected)
-  })
-})
-
-describe("Arrow formatting", () => {
-  it.each([
-    ["<p>A -> B</p>", '<p>A <span class="right-arrow">⭢</span> B</p>'],
-    ["<p>A--> B</p>", "<p>A--> B</p>"],
-    ["<p>->start</p>", '<p><span class="right-arrow">⭢</span>start</p>'],
-    ["<code>A -> B</code>", "<code>A -> B</code>"], // Should not change in code blocks
-    [
-      "<p>Multiple -> arrows -> here</p>",
-      '<p>Multiple <span class="right-arrow">⭢</span> arrows <span class="right-arrow">⭢</span> here</p>',
-    ],
-    ["<p>No change in word-like</p>", "<p>No change in word-like</p>"], // Should not change hyphens
-  ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
   })

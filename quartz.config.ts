@@ -41,6 +41,7 @@ const config: QuartzConfig = {
       }),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: true, parseArrows: false }),
       Plugin.GitHubFlavoredMarkdown({ enableSmartyPants: false }),
+      // HTML formatting would mess up mermaid if it came first
       Plugin.HTMLFormattingImprovement(),
       Plugin.Latex({ renderEngine: "katex" }),
       Plugin.CrawlLinks({ lazyLoad: true, markdownLinkResolution: "shortest" }),

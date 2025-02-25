@@ -413,12 +413,23 @@ export function formatArrows(tree: Root): void {
       node,
       index ?? 0,
       parent,
-      /(?<= |^)[-]{1,2}>/g,
-      () => ({
-        before: "",
-        replacedMatch: "⭢",
-        after: "",
-      }),
+      /(?:^|(?<= )|(?<=\w))[-]{1,2}>(?=\w| |$)/g,
+      (match: RegExpMatchArray) => {
+        const beforeChar = match.input?.slice(Math.max(0, match.index! - 1), match.index!)
+        const afterChar = match.input?.slice(
+          match.index! + match[0].length,
+          match.index! + match[0].length + 1,
+        )
+
+        const needsSpaceBefore = /\w/.test(beforeChar ?? "")
+        const needsSpaceAfter = /\w/.test(afterChar ?? "")
+
+        return {
+          before: needsSpaceBefore ? " " : "",
+          replacedMatch: "⭢",
+          after: needsSpaceAfter ? " " : "",
+        }
+      },
       () => false,
       "span.right-arrow",
     )
