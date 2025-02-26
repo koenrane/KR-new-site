@@ -59,9 +59,9 @@ In short, we'd like our machine learning algorithms to learn explanations which 
 > Conservatism and conservative planning seems like it might directly tackle some standard concerns \[in alignment\] head-on and in a sufficiently basic way to avoid loopholes, and might also be subject to those concerns. E.g.:
 >
 > - [Edge instantiation](https://arbital.com/p/edge_instantiation/) - if in full generality we don't go to the edge of the graph but try to stay in the center of what's already been positively classified, maybe we can avoid this.
-<!-- vale off -->
-> - [Unforeseen maximum](https://arbital.com/p/unforeseen_maximum/) \- if we stick to things very similar to already-positively-classified instances, we won't automatically go into the unimagined parts of the graph.
-<!-- vale on -->
+>
+> - [Unforeseen maximum](https://arbital.com/p/unforeseen_maximum/) \- if we stick to things very similar to already positively classified instances, we won't automatically go into the unimagined parts of the graph.
+>  
 > - [Context disaster](https://arbital.com/p/context_disaster/) - a sufficiently conservative optimizer might go on using options similar to previously whitelisted ones even if large new sections of planning space opened up.
 
 # Prior Work
@@ -126,7 +126,7 @@ All this is getting a bit silly. After all, what we really care about is the pro
 
 ## White Box
 
-Let's treat this as a prediction problem. Take $n$ randomly generated images and run them through the first layer of the network, recording the values for the activation of node $k$ in the first layer ( $a_{1k}$); assume we incur some approximation error $\epsilon$ due to having insufficiently sampled the true distribution. Derive a PDF over the activation values for each node.
+Let's treat this as a prediction problem. Take $n$ randomly generated images and run them through the first layer of the network, recording the values for the activation of node $k$ in the first layer ($a_{1k}$); assume we incur some approximation error $\epsilon$ due to having insufficiently sampled the true distribution. Derive a PDF over the activation values for each node.
 
 Repeat this for each of the $l$ network layers, sampling input values from the PDFs for the previous layer's nodes. At the end of the network, we have a probabilistic estimate of the output class proportions.
 
@@ -157,7 +157,7 @@ Train a variational autoencoder with a $k$\-dimensional latent space on the data
 ![](https://assets.turntrout.com/static/images/posts/1*BIDBG8MQ9-Kc-knUUrkT3A.avif)
 Figure: Variationally encoded MNIST digits, with clustering pressure provided by reconstruction loss and density encouraged by KL loss. ([Image credit](https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf))
 
-We're basically going to do high-dimensional [lidar](https://en.wikipedia.org/wiki/Lidar) [^5] in the latent space to image the outer shell of $f_\theta$'s non-`unknown` classification volumes. Due to the blessing of dimensionality, we don't need to worry whether the inside of the volume is classified as `unknown` or not - for high-dimensional latent spaces, it's a rounding error. Therefore, we need only search until we reach a non-`unknown` classification shell; we could then start from the other direction to estimate the other side. After doing this for all dimensions, we have a set of points approximating the hypersurface of the non-`unknown` classification volume.
+We're basically going to do high-dimensional [LIDAR](https://en.wikipedia.org/wiki/Lidar) [^5] in the latent space to image the outer shell of $f_\theta$'s non-`unknown` classification volumes. Due to the blessing of dimensionality, we don't need to worry whether the inside of the volume is classified as `unknown` or not - for high-dimensional latent spaces, it's a rounding error. Therefore, we need only search until we reach a non-`unknown` classification shell; we could then start from the other direction to estimate the other side. After doing this for all dimensions, we have a set of points approximating the hypersurface of the non-`unknown` classification volume.
 
 The complexity of this seems to be $O(kmn^{k-1})$, where $k$ is latent space dimensionality, $m$ is how many sampling operations are needed on average [^6] to reach the outer shell, and $n$ is the per-dimension sampling density (for example, $n=10$ points along an axis in a 3-dimensional space would entail pinging a grid of $10^{3-1}=100$ points). Although exponential in $k$, this is already orders of magnitude more tractable than sampling the original high-dimensional input space. By sacrificing some accuracy, we may be able to improve the exponential term further (perhaps to $\log k$ or even a constant).
 
