@@ -898,6 +898,7 @@ describe("minusReplace", () => {
     ["<p>-2 x 3 = -6</p>", "<p>−2 × 3 = −6</p>"],
     ["<p>\n-2 x 3 = -6</p>", "<p>\n−2 × 3 = −6</p>"],
     [tableBefore, tableAfter],
+    ["<p>19,999<sup>100,000,000 - 992</sup></p>", "<p>19,999<sup>100,000,000 − 992</sup></p>"],
   ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
