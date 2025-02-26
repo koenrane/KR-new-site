@@ -1017,8 +1017,7 @@ $$
 
 [Larsen et al. (2015)](https://arxiv.org/abs/1512.09300) found visual attribute vectors in the latent space of a variational autoencoder, using an algebraic approach similar to ours. For example, building on this work, White's ["Sampling Generative Networks" (2016)](https://arxiv.org/abs/1609.04468) christened a "smile vector" which was
 
-> computed by simply subtracting the mean vector for images without the smile attribute from the mean vector for images with the smile attribute. This smile vector can then be applied to in a positive or negative direction to manipulate this visual attribute on samples taken from latent space (p.
-> 6..
+> computed by simply subtracting the mean vector for images without the smile attribute from the mean vector for images with the smile attribute. This smile vector can then be applied to in a positive or negative direction to manipulate this visual attribute on samples taken from latent space.
 
 ![](https://assets.turntrout.com/static/images/posts/lqrnae8zgs8c8vmvvv34.avif)
 <br/>Figure: Adding the smile vector to the latent space, with an increasingly large positive coefficient. Figure 6, [Sampling Generative Networks](https://arxiv.org/abs/1609.04468). See also [Radford et al. (2016)](https://arxiv.org/abs/1511.06434).
@@ -1040,8 +1039,7 @@ Alex thinks this is evidence for narrowly targeted steering being possible. For 
 
 ["Deep Feature Interpolation for Image Content Changes" (2016)](https://arxiv.org/abs/1611.05507) again finds the effectiveness of algebraic latent attribute editing:
 
-> \[Deep Feature Interpolation\] relies only on simple linear interpolation of deep convolutional features from pre-trained convnets. We show that despite its simplicity, DFI can perform high-level semantic transformations like “make older/younger”, “make bespectacled”, “add smile”, among others, surprisingly well—sometimes even matching or outperforming the state-of-the-art. This is particularly unexpected as DFI requires no specialized network architecture or even any deep network to be trained for these tasks (p.
-> 1..
+> \[Deep Feature Interpolation\] relies only on simple linear interpolation of deep convolutional features from pre-trained convnets. We show that despite its simplicity, DFI can perform high-level semantic transformations like “make older/younger”, “make bespectacled”, “add smile”, among others, surprisingly well—sometimes even matching or outperforming the state-of-the-art. This is particularly unexpected as DFI requires no specialized network architecture or even any deep network to be trained for these tasks.
 
 Honestly, there's a ton of prior work in the domain of generative models. ["Deep Visual Analogy-Making" (2015)](https://proceedings.neurips.cc/paper_files/paper/2015/hash/e07413354875be01a996dc560274708e-Abstract.html) achieves latent-space semantic vector steerability by explicitly optimizing networks for it. [Wang et al. (2019)](https://proceedings.neurips.cc/paper/2019/hash/15f99f2165aa8c86c9dface16fefd281-Abstract.html) use this kind of "just add the 'glasses vector'" approach for data augmentation.
 

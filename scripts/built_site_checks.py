@@ -648,6 +648,29 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
     return problematic_iframes
 
 
+def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for consecutive periods in text content, including cases where they're
+    separated by quotation marks.
+
+    Returns:
+        List of strings containing problematic text with consecutive periods
+    """
+    problematic_texts: List[str] = []
+
+    for element in soup.find_all(string=True):
+        if element.strip() and not should_skip(element):
+            # Look for two periods with optional quote marks between
+            if re.search(r'(?!\.\.\?)\.["“”]*\.', element.string):
+                _add_to_list(
+                    problematic_texts,
+                    element.string,
+                    prefix="Consecutive periods found: ",
+                )
+
+    return problematic_texts
+
+
 def check_file_for_issues(
     file_path: Path, base_dir: Path, md_path: Path | None
 ) -> IssuesDict:
@@ -693,6 +716,7 @@ def check_file_for_issues(
         "long_description": check_description_length(soup),
         "late_header_tags": meta_tags_early(file_path),
         "problematic_iframes": check_iframe_sources(soup),
+        "consecutive_periods": check_consecutive_periods(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file

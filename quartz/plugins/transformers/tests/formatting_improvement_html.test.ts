@@ -309,6 +309,7 @@ describe("HTMLFormattingImprovement", () => {
       ["1.41 PM", "1.41 p.m."],
       ["I AM A TEST", "I AM A TEST"],
       ["I saw him in the PM", "I saw him in the PM"],
+      ["I saw him at 4 PM.", "I saw him at 4 p.m."], // Sentence end
     ]
     it.each(timeCases)("should handle time in %s, end-to-end", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)

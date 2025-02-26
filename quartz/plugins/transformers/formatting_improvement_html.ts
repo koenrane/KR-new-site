@@ -644,13 +644,14 @@ export function plusToAmpersand(text: string): string {
 }
 
 // The time regex is used to convert 12:30 PM to 12:30 p.m.
+//  At the end, watch out for double periods
+const amPmRegex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)\\.?`, "gi")
 export function timeTransform(text: string): string {
   const matchFunction = (_: string, ...args: unknown[]) => {
     const groups = args[args.length - 1] as { time: string }
     return `${groups.time.toLowerCase()}.m.`
   }
-  const regex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)`, "gi")
-  return text.replace(regex, matchFunction)
+  return text.replace(amPmRegex, matchFunction)
 }
 
 // TODO "IID" is maybe getting replaced after the smallcaps?

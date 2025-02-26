@@ -1697,3 +1697,74 @@ def test_check_link_spacing(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_link_spacing(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic consecutive periods
+        (
+            "<p>Test..</p>",
+            ["Consecutive periods found: Test.."],
+        ),
+        # Periods separated by quotes
+        (
+            '<p>Test.".</p>',
+            ['Consecutive periods found: Test.".'],
+        ),
+        # Periods separated by curly quotes
+        (
+            "<p>Test.”.</p>",
+            ["Consecutive periods found: Test.”."],
+        ),
+        # Multiple instances in one element
+        (
+            '<p>First.. Second.".</p>',
+            ['Consecutive periods found: First.. Second.".'],
+        ),
+        # Skipped elements
+        (
+            "<code>Test..</code>",
+            [],
+        ),
+        ('<div class="no-formatting">Test..</div>', []),
+        # Mixed content with skipped elements
+        (
+            """
+            <div>
+                <p>Valid..</p>
+                <code>Skipped..</code>
+                <p>Also.".</p>
+            </div>
+            """,
+            [
+                "Consecutive periods found: Valid..",
+                'Consecutive periods found: Also.".',
+            ],
+        ),
+        # Edge cases
+        (
+            "<p>Single period. No issue</p>",
+            [],
+        ),
+        (
+            "<p>Multiple... periods</p>",
+            ["Consecutive periods found: Multiple... periods"],
+        ),
+        # Nested elements
+        (
+            "<p>Test<em>..</em>nested</p>",
+            ["Consecutive periods found: .."],
+        ),
+        # Ignore ..?
+        (
+            "<p>Test..?</p>",
+            [],
+        ),
+    ],
+)
+def test_check_consecutive_periods(html, expected):
+    """Test the check_consecutive_periods function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_consecutive_periods(soup)
+    assert sorted(result) == sorted(expected)

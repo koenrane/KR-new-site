@@ -168,7 +168,7 @@ $$
 \mathcal{L} := \sum_{k=1}^\infty \frac{1}{k!} ||R^k\mathcal{T}^{(k)} - \hat{\mathcal{T}}^{(k)}||^2, \qquad\text{(3)}
 $$
 
-where $||T||^2$ denotes the Frobenius norm of a tensor $T$; i.e. if $T$ is an order-$o$ tensor over $\mathbb R^d$ then $||T||^2:= \sum_{i_1,...,i_o=1}^d T_{i_1,...,i_o}^2$.
+where $||T||^2$ denotes the Frobenius norm of a tensor $T$; i.e. if $T$ is an order-$o$ tensor over $\mathbb R^d$ then $||T||^2:= \sum_{i_1,\ldots,i_o=1}^d T_{i_1,\ldots,i_o}^2$.
 
 The quantity $R^k\mathcal{T^{(k)}}$ is simply the $k$-th derivative tensor of  $\Delta_{R}^{s\rightarrow t}$ and thus captures the behavior of the function $\Delta^{s\rightarrow t}$ at "scale" $R$.
 
@@ -275,7 +275,7 @@ Fortunately, there exists a variant of standard ALS, known as orthogonalized ALS
 > In principle, one could also orthogonalize $\hat U$, but in initial experiments this was significantly less stable, and led to qualitatively less interesting results. I suspect the reason why this is the case is that the true mapping $\Delta^{s\rightarrow t}$ is significantly "many-to-one", with a large number of linearly independent directions in layer $s$ writing to a smaller number of directions in layer $t$. This is in line with [Goldman-Wetzler and Turner (2024)](/high-dimensional-subspace-of-code-steering-vectors)'s discovery of >800 "write code" steering vectors in Qwen-1.5-1.8B (Chat).
 
 $$
-\begin{aligned} & \textbf{Algorithm 2: Symmetric Orthogonalized Alternating Least Squares} \\ & \textbf{Input: } \mathcal{T}^{(2)}, \tau, \epsilon, m \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad \hat{u}_\ell \leftarrow \mathcal{T}^{(2)}(\cdot, \hat{v}_\ell, \hat{v}_\ell) \quad \forall \ell = 1, ..., m \\ & 5: \qquad \hat{v}_\ell \leftarrow \mathcal{T}^{(2)}(\hat{u}_\ell, \hat{v}_\ell, \cdot) \quad \forall \ell = 1, ..., m \\ & 6: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 7: \textbf{end repeat} \\ & 8: K_{\text{quadratic}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}_\ell, \hat{u}_{\ell'} \rangle |\langle \hat{v}_\ell, \hat{v}_{\ell'} \rangle|^2 \quad \forall \ell, \ell' = 1, ..., m \\ & 9: \alpha \leftarrow K^{-1}_\text{quadratic} (\mathcal{T}^{(2)}(\hat{u}_\ell, \hat{v}_\ell, \hat{v}_\ell))_{\ell=1}^m \end{aligned}
+\begin{aligned} & \textbf{Algorithm 2: Symmetric Orthogonalized Alternating Least Squares} \\ & \textbf{Input: } \mathcal{T}^{(2)}, \tau, \epsilon, m \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad \hat{u}_\ell \leftarrow \mathcal{T}^{(2)}(\cdot, \hat{v}_\ell, \hat{v}_\ell) \quad \forall \ell = 1, \ldots, m \\ & 5: \qquad \hat{v}_\ell \leftarrow \mathcal{T}^{(2)}(\hat{u}_\ell, \hat{v}_\ell, \cdot) \quad \forall \ell = 1, \ldots, m \\ & 6: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 7: \textbf{end repeat} \\ & 8: K_{\text{quadratic}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}_\ell, \hat{u}_{\ell'} \rangle |\langle \hat{v}_\ell, \hat{v}_{\ell'} \rangle|^2 \quad \forall \ell, \ell' = 1, \ldots, m \\ & 9: \alpha \leftarrow K^{-1}_\text{quadratic} (\mathcal{T}^{(2)}(\hat{u}_\ell, \hat{v}_\ell, \hat{v}_\ell))_{\ell=1}^m \end{aligned}
 $$
 
 Note that it's possible to compute the main updates of algorithm 2 without explicitly materializing the entire Hessian tensor; for details see the [appendix](#appendix) (broadly, the details are similar to, e.g., [Panickserry (2023)](https://www.lesswrong.com/posts/mwBaS2qE9RNNfqYBC/recipe-hessian-eigenvector-computation-for-pytorch-models) or [Grosse et al. (2023)](https://arxiv.org/pdf/2308.03296)).
@@ -298,7 +298,7 @@ $$
 \end{gather*}
 $$
 
-where for two order-$o$ tensors $T,T'$ the bracket notation $\langle T, T'\rangle$ refers to the element-wise dot-product $\sum_{i_1,...,i_o} T_{i_1,...,i_o} T'_{i_1,...,i_o}$.
+where for two order-$o$ tensors $T,T'$ the bracket notation $\langle T, T'\rangle$ refers to the element-wise dot-product $\sum_{i_1,\ldots,i_o} T_{i_1,\ldots,i_o} T'_{i_1,\ldots,i_o}$.
 
 Importantly, the true Hessian $\mathcal T^{(2)}$ does not depend on the parameters in our approximation (the $\alpha_\ell, \hat u_\ell, \hat v_\ell$'s) and so we can regard $||\mathcal T^{(2)}||^2$ as a constant. Thus, some simple manipulations of the remaining terms in equation (7) tells us that we can re-formulate (4) in terms of the following maximization problem:
 
@@ -351,7 +351,7 @@ Summing across all terms in equation (9) yields the following theorem:
 We can now "lift" the re-phrased version of algorithm (2) to the case of exponential activation functions to obtain the following algorithm:
 
 $$
-\begin{aligned} & \textbf{Algorithm 3: Orthogonalized Gradient Iteration (OGI)} \\ & \textbf{Input: } \tau, \epsilon, m, \Delta_R(\cdot) \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad G_U, G_V \leftarrow \text{gradients of } \hat{U}, \hat{V} \text{ for the causal part of the objective defined in eq. (10)} \\ & 5: \qquad \hat{U} \leftarrow G_U \\ & 6: \qquad \hat{V} \leftarrow G_V \\ & 7: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 8: \textbf{end repeat} \\ & 9: K_{\text{exp}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}*\ell, \hat{u}*{\ell'} \rangle (\exp( \langle \hat{v}*\ell, \hat{v}*{\ell'} \rangle)-1) \quad \forall \ell, \ell' = 1, ..., m \\ & 10: \alpha \leftarrow K^{-1}*\text{exp} (\langle \hat{u}*\ell, \Delta_R(\hat{v}*\ell) \rangle)*{\ell=1}^m \end{aligned}
+\begin{aligned} & \textbf{Algorithm 3: Orthogonalized Gradient Iteration (OGI)} \\ & \textbf{Input: } \tau, \epsilon, m, \Delta_R(\cdot) \\ & \textbf{Output: } \hat{U}, \hat{V}, \alpha \\ & \\ & 1: \text{Initialize } \hat{U}, \hat{V} \text{ via Algorithm (1')} \\ & 2: \textbf{repeat } \text{for } \tau \text{ steps (or until change in factors is smaller than } \epsilon \text{)} \\ & 3: \qquad \hat{V} \leftarrow Q \text{ in the QR decomposition of } \hat{V} \\ & 4: \qquad G_U, G_V \leftarrow \text{gradients of } \hat{U}, \hat{V} \text{ for the causal part of the objective defined in eq. (10)} \\ & 5: \qquad \hat{U} \leftarrow G_U \\ & 6: \qquad \hat{V} \leftarrow G_V \\ & 7: \qquad \text{Normalize the columns of } \hat{U}, \hat{V} \\ & 8: \textbf{end repeat} \\ & 9: K_{\text{exp}, \ell \ell'} \leftarrow \text{matrix w/ elements } \langle \hat{u}*\ell, \hat{u}*{\ell'} \rangle (\exp( \langle \hat{v}*\ell, \hat{v}*{\ell'} \rangle)-1) \quad \forall \ell, \ell' = 1, \ldots, m \\ & 10: \alpha \leftarrow K^{-1}*\text{exp} (\langle \hat{u}*\ell, \Delta_R(\hat{v}*\ell) \rangle)*{\ell=1}^m \end{aligned}
 $$
 
 Note that OGI only requires access gradients of $\Delta_R^{s\rightarrow t}$, and thus is more efficient than performing a Hessian tensor decomposition via orthogonalized ALS. Moreover, it seems likely that the causal importance term in equation (10)) will more fully capture the true behavior of $\Delta_R^{s\rightarrow t}$ than the quadratic causal importance term in equation (8) (and in fact, my experiments below indicate that OGI learns more generalizable jailbreak vectors). For these reasons, OGI is currently my recommended default algorithm for mechanistically eliciting latent behaviors.
@@ -393,7 +393,7 @@ In particular, I propose the following:
 > [!idea] Calibration Procedure for Choosing $R$
 >
 > 1. Draw $n_\textrm{cal}$ many directions $v^\textrm{cal}_\ell$ at random uniformly from the unit sphere.
-> 2. Let $u^\textrm{cal}_\ell = \mathcal T^{(1)} v^\textrm{cal}_\ell$ for $\ell=1,...,n_\textrm{cal}$.
+> 2. Let $u^\textrm{cal}_\ell = \mathcal T^{(1)} v^\textrm{cal}_\ell$ for $\ell=1,\ldots,n_\textrm{cal}$.
 > 3. Define $E(R):=\sum_\ell ||\Delta^{s\rightarrow t}(Rv^\textrm{cal}_\ell)-Ru^\textrm{cal}_\ell||^2.$
 >
 > 4. Use a root-finding procedure to solve for $E(R)=\lambda$, where $\lambda>0$ is some hyper-parameter.
