@@ -10,7 +10,7 @@ import {
   getTextContent,
   flattenTextNodes,
   improveFormatting,
-  fullWidthSlashes,
+  spacesAroundSlashes,
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
@@ -209,15 +209,79 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 
-  describe("Full-width slashes", () => {
-    it.each([
-      ["'cat' / 'dog'", "'cat' ／'dog'"],
-      ["https://dog", "https://dog"],
-    ])("should replace / with ／ in %s", (input: string, expected: string) => {
-      const processedHtml = fullWidthSlashes(input)
+  describe("Spacing around slashes", () => {
+    const testCases = [
+      // Should change
+      ["dog/cat", "dog / cat"],
+      ["dog/cat/dog", "dog / cat / dog"],
+      ["‘cat’/‘dog’", "‘cat’ / ‘dog’"],
+      ["Shrek Two/3", "Shrek Two / 3"],
+      ["‘cat’/ ‘dog’", "‘cat’ / ‘dog’"],
+
+      // Should not change
+      ["‘cat’ / ‘dog’", "‘cat’ / ‘dog’"],
+    ]
+
+    it.each(testCases)("should add spaces around '/' in %s", (input: string, expected: string) => {
+      const processedHtml = spacesAroundSlashes(input)
       expect(processedHtml).toBe(expected)
     })
+
+    it.each(testCases)(
+      "should add spaces around '/' in an HTML context: %s",
+      (input: string, expected: string) => {
+        const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
+        expect(processedHtml).toBe(`<p>${expected}</p>`)
+      },
+    )
+
+    it.each([
+      ["<p><em>dog/cat</em></p>", "<p><em>dog / cat</em></p>"],
+      ["<p><strong>dog/cat</strong></p>", "<p><strong>dog / cat</strong></p>"],
+      ["<p><em>dog</em>/cat</p>", "<p><em>dog</em> / cat</p>"],
+      // Code kerning is different
+      [
+        "<p><code>cat</code> / <code>unknown</code> classifier</p>",
+        "<p><code>cat</code> / <code>unknown</code> classifier</p>",
+      ],
+    ])(
+      "should add spaces around '/' even near other HTML tags: %s",
+      (input: string, expected: string) => {
+        const processedHtml = testHtmlFormattingImprovement(input)
+        expect(processedHtml).toBe(expected)
+      },
+    )
+
+    for (const tagName of ["code", "pre"]) {
+      it.each([
+        ["https://dog"],
+        ["https://dog/cat"],
+        ["https://dog/cat/dog"],
+        ["dog/cat"],
+        ["dog/cat/dog"],
+        ["‘cat’/‘dog’"],
+        ["Shrek Two/3"],
+      ])("should not add spaces around '/' in <${tagName}> %s", (input: string) => {
+        let inputElement: string = `<${tagName}>${input}</${tagName}>`
+        // In HTML, <pre> cannot be a child of <p>
+        if (tagName === "code") {
+          inputElement = `<p>${inputElement}</p>`
+        }
+        const processedHtml = testHtmlFormattingImprovement(inputElement)
+        expect(processedHtml).toBe(inputElement)
+      })
+    }
+
+    it.each([["https://dog"], ["https://dog/cat"]])(
+      "should not add spaces around '/' in <a> %s",
+      (input: string) => {
+        const inputElement = `<p><a href="${input}">${input}</a></p>`
+        const processedHtml = testHtmlFormattingImprovement(inputElement)
+        expect(processedHtml).toBe(inputElement)
+      },
+    )
   })
+
   describe("Fractions", () => {
     it.each([
       ["<p>There are 1/2 left.</p>", '<p>There are <span class="fraction">1/2</span> left.</p>'],
@@ -1246,7 +1310,11 @@ describe("replaceFractions", () => {
     // Dates should not be converted
     [{ type: "text", value: "01/01/2024" }, h("p"), "01/01/2024"],
     // URLs should not be converted
-    [{ type: "text", value: "https://example.com/path" }, h("p"), "https://example.com/path"],
+    [
+      { type: "text", value: "https://example.com/path" },
+      h("a", { href: "https://example.com/path" }),
+      "https://example.com/path",
+    ],
     // Decimal fractions should not be converted
     [{ type: "text", value: "3.5/2" }, h("p"), "3.5/2"],
     // Multiple fractions in one text
@@ -1276,10 +1344,11 @@ describe("replaceFractions", () => {
     const processedHtml = testHtmlFormattingImprovement(parentString)
 
     // If eg class is added, we need to add it to the expected html
-    const extraParentInfo = parent.properties.className
+    const parentClassInfo = parent.properties.className
       ? ` class="${parent.properties.className}"`
       : ""
-    const expectedHtml = `<${parent.tagName}${extraParentInfo}>${expected}</${parent.tagName}>`
+    const parentHrefInfo = parent.properties.href ? ` href="${parent.properties.href}"` : ""
+    const expectedHtml = `<${parent.tagName}${parentClassInfo}${parentHrefInfo}>${expected}</${parent.tagName}>`
     expect(processedHtml).toBe(expectedHtml)
   })
 

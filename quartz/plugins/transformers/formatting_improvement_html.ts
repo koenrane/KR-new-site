@@ -201,15 +201,13 @@ export function niceQuotes(text: string): string {
 }
 
 /**
- * Replaces slashes with full-width slashes
- * @returns The text with full-width slashes
+ * Space out slashes in text
+ * @returns The text with slashes spaced out
  */
-export function fullWidthSlashes(text: string): string {
-  const slashRegex = new RegExp(
-    `(?<![\\d/])(${chr}?)[ ](${chr}?)/(${chr}?)[ ](${chr}?)(?=[^\\d/])`,
-    "g",
-  )
-  return text.replace(slashRegex, "$1$2 ／$3$4")
+export function spacesAroundSlashes(text: string): string {
+  // Can't allow num on both sides, because it'll mess up fractions
+  const slashRegex = new RegExp(`(?<![\\d/])(?<=[\\S]) ?/ ?(?=\\S)(?!/)`, "g")
+  return text.replace(slashRegex, " / ")
 }
 
 /**
@@ -348,12 +346,16 @@ export function applyTextTransforms(text: string): string {
   for (const transformer of [
     ...checkedTextTransformers,
     ...uncheckedTextTransformers,
-    fullWidthSlashes,
+    spacesAroundSlashes,
   ]) {
     text = transformer(text)
   }
 
   return text
+}
+
+export function isCode(node: Element): boolean {
+  return node.tagName === "code"
 }
 
 export const l_pRegex = /(\s|^)L(\d+)\b(?!\.)/g
@@ -651,6 +653,7 @@ export function timeTransform(text: string): string {
   return text.replace(regex, matchFunction)
 }
 
+// TODO "IID" is maybe getting replaced after the smallcaps?
 const massTransforms: [RegExp | string, string][] = [
   [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],
@@ -661,13 +664,13 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<=[Aa]n |[Tt]he )\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
+  [/\b([Cc])hateau\b/g, "$1hâteau"],
   [/\b([Dd])ojo/g, "$1ōjō"],
   [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
   [/\.{3}/g, "…"], // Ellipsis
   [/…(?=\w)/gu, "… "], // Space after ellipsis
-  [/\b([Cc])hateau\b/g, "$1hâteau"],
 ]
 
 export function massTransformText(text: string): string {
@@ -676,10 +679,6 @@ export function massTransformText(text: string): string {
     text = text.replace(regex, replacement)
   }
   return text
-}
-
-export function isCode(node: Element): boolean {
-  return node.tagName === "code"
 }
 
 /**
@@ -857,7 +856,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
         if (slashPredicate(elt)) {
-          transformElement(elt, fullWidthSlashes, toSkip, true)
+          transformElement(elt, spacesAroundSlashes, toSkip, true)
         }
       })
     })
