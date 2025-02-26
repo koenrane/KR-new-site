@@ -59,7 +59,7 @@ const createFileData = (
     },
     filePath: overrides?.filePath || "test.md",
     relativePath: overrides?.relativePath || "test.md",
-  }) as unknown as QuartzPluginData
+  }) as QuartzPluginData
 
 describe("getFaviconPath", () => {
   beforeEach(() => {
