@@ -23,6 +23,7 @@ import {
   processReadingTime,
   renderLastUpdated,
   renderReadingTime,
+  renderLinkpostInfo,
 } from "../ContentMeta"
 
 // Update the mock setup
@@ -315,6 +316,65 @@ describe("renderReadingTime", () => {
     const result = renderReadingTime(fileData)
     expect(result).toBeTruthy()
     expect(result.props?.children).toBeFalsy()
+  })
+})
+
+describe("renderLinkpostInfo", () => {
+  it("should return null when no linkpost URL exists", () => {
+    const fileData = createFileData()
+    const result = renderLinkpostInfo(fileData)
+    expect(result).toBeNull()
+  })
+
+  it("should render linkpost info with hostname and favicon", () => {
+    const testUrl = "https://www.example.com/post"
+    const fileData = createFileData({
+      "lw-linkpost-url": testUrl,
+    })
+    const result = renderLinkpostInfo(fileData)
+
+    expect(result?.type).toBe("span")
+    expect(result?.props.className).toBe("linkpost-info")
+
+    const children = result?.props.children
+    expect(children[0]).toBe("Originally linked to")
+    expect(children[1]).toBe(" ")
+
+    const linkElement = children[2]
+    expect(linkElement.type).toBe("a")
+    expect(linkElement.props.href).toBe(testUrl)
+    expect(linkElement.props.className).toBe("external")
+    expect(linkElement.props.target).toBe("_blank")
+    expect(linkElement.props.rel).toBe("noopener noreferrer")
+
+    const codeElement = linkElement.props.children
+    expect(codeElement.type).toBe("code")
+    expect(codeElement.props.children).toBe("example.com")
+  })
+
+  it("should handle URLs with www prefix", () => {
+    const testUrl = "https://www.test-site.com/path"
+    const fileData = createFileData({
+      "lw-linkpost-url": testUrl,
+    })
+    const result = renderLinkpostInfo(fileData)
+    expect(result).not.toBeNull()
+
+    const linkElement = result?.props.children[2]
+    expect(linkElement).toBeTruthy()
+    expect(linkElement.type).toBe("a")
+    expect(linkElement.props.href).toBe(testUrl)
+
+    const codeElement = linkElement.props.children
+    expect(codeElement.type).toBe("code")
+    expect(codeElement.props.children).toBe("test-site.com")
+  })
+
+  it("should handle URLs without protocol", () => {
+    const fileData = createFileData({
+      "lw-linkpost-url": "test-domain.org/path",
+    })
+    expect(() => renderLinkpostInfo(fileData)).toThrow()
   })
 })
 

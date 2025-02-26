@@ -206,7 +206,7 @@ export const renderLinkpostInfo = (fileData: QuartzPluginData): JSX.Element | nu
       {insertFavicon(
         faviconPath,
         <a href={linkpostUrl} className="external" target="_blank" rel="noopener noreferrer">
-          {displayText}
+          <code>{displayText}</code>
         </a>,
       )}
     </span>
