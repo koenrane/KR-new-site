@@ -88,6 +88,8 @@ describe("HTMLFormattingImprovement", () => {
       ['"/"', "“/”"],
       ['"Game"/"Life"', "“Game”/“Life”"],
       ['"Test:".', "“Test:”."],
+      ['"Test...".', "“Test...”."],
+      ['"To maximize reward…".', "“To maximize reward…”."],
       ['"Test"s', "“Test”s"],
       ['not confident in that plan - "', "not confident in that plan - ”"],
       ["What do you think?']", "What do you think?’]"],

@@ -61,6 +61,8 @@ The most important takeaway from this essay is that the (prominent) counting arg
 
 In the next section, I'll discuss the counting argument. In this one, I want to demonstrate how often foundational alignment texts make crucial errors. For example:
 
+But it _is_ true that RL authors have a convention of repeating "the point of RL is to train an agent to maximize reward…".
+
 > [!quote] Nick Bostrom's <span class="book-citation">Superintelligence</span>, page 253
 > A range of different methods can be used to solve "reinforcement-learning problems," but they typically involve creating a system that seeks to maximize a reward signal. This has an inherent tendency to produce the wireheading failure mode when the system becomes more intelligent. Reinforcement learning therefore looks unpromising.
 
@@ -162,7 +164,7 @@ If we _actually_ had the precision and maturity of understanding to predict this
 I lastly want to note that there is no reason that any particular argument need be recoverable. Sometimes intuitions are wrong, sometimes frames are wrong, sometimes an approach is just wrong.
 
 > [!warning] Will the "real" counting arguments please stand up?
-> In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with the Solomonoff prior over bitstrings.
+> In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with [the Solomonoff prior over bitstrings.](https://ebrary.net/202901/mathematics/solomonoff_prior)
 >
 > If his counting arguments were supposed to be about parameterizations, I don't see how that's possible. For example, Evan [agrees with me](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom?commentId=2hGcdoMiFBkZnYAB7) that we don't "understand [the neural network parameter space] well enough to [make these arguments effectively]." So, Evan is welcome to claim that his arguments have been about parameterizations. I just don't believe that that's possible or valid.
 >
@@ -179,7 +181,7 @@ Undo the update from the "counting argument", however, and the probability of sc
 > [!failure] [Using English names to draw technical conclusions about the named concepts.](https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names)
 > For example, if I want to consider whether a policy will care about its reinforcement signal, possibly the _worst goddamn thing I could call that signal_ is "reward"! "Will the AI try to maximize reward?" _How is anyone going to think neutrally about that question, without making inappropriate inferences from "rewarding things are desirable"?_ For example, I think that people would care a lot less about "reward hacking" if RL's reinforcement signal hadn't ever been called "reward." (To be fair, this isn't the fault of the alignment field in particular. "Reward" is bad terminology from RL.)
 >
-> More inappropriate, leading, or unjustified terms include "training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X" and "RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)." Don't even get me started on "[shoggoth."](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence). As scientists, we should use neutral, descriptive terms during our inquiries.
+> More inappropriate, leading, or unjustified terms include "training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X" and "RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)." Don't even get me started on "[shoggoth"](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence). As scientists, we should use neutral, descriptive terms during our inquiries.
 
 > [!failure] Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z).
 > For example, "ML training is like evolution" or "future direct-reward-optimization reward hacking is like that [OpenAI boat example](https://openai.com/research/faulty-reward-functions)." The probable cause of the boat example ("we directly reinforced the boat for navigating in circles") is _not_ the same as the speculated cause of certain kinds of future reward hacking ("misgeneralization").
