@@ -44,7 +44,7 @@ export default defineConfig({
   timeout: process.env.CI ? 90000 : 30000, // Increased timeout for larger test sets
   fullyParallel: !process.env.CI,
   workers: process.env.CI ? 1 : "65%",
-  retries: process.env.CI ? 10 : 3,
+  retries: process.env.CI ? 3 : 3,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
   reporter: process.env.CI ? "dot" : "list", // Format of test status display
