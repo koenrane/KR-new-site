@@ -176,7 +176,9 @@ export async function search(page: Page, term: string) {
   if (showingPreview(page)) {
     const previewContainer = page.locator("#preview-container")
     await expect(previewContainer).toBeAttached()
-    await expect(previewContainer).toBeVisible()
+    // Print viewport size
+    console.error("Viewport size:", page.viewportSize())
+    await expect(previewContainer).toBeVisible({ timeout: 10000 })
   }
 }
 
