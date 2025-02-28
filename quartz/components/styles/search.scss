@@ -162,7 +162,7 @@
 
       @media all and (max-width: $tablet-breakpoint) {
         & > #preview-container {
-          // display: none !important;
+          display: none !important;
         }
 
         &[data-preview] > #results-container {
