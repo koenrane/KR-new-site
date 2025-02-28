@@ -41,7 +41,7 @@ Figure: _A hypothetical example._ [Berglund et al.](https://arxiv.org/abs/2309.0
 
 ## Data can compromise alignment of AI
 
-If you want a good model, you need [good data.](https://arxiv.org/abs/2305.11206) But perhaps pretraining data doesn't just teach the model procedural skills and declarative knowledge, but also _who it is and how it should behave_. In [the Simulators theory of LLM cognition](https://www.lesswrong.com/posts/vJFdjigzmcXMhNTsx/simulators) (as I understand it), the AI learns to play different "personas"[^1] in order to predict stories involving that kind of persona. Then post-training teaches the model which persona it should inhabit. Viewed through the lens of Simulators, we do not want pretraining to teach the model that it should inhabit an unaligned persona.
+If you want a good model, you need [good data.](https://arxiv.org/abs/2305.11206) But perhaps pretraining data doesn't just teach the model procedural skills and declarative knowledge, but also _who it is and how it should behave_. In [the Simulators frame for understanding LLM cognition](https://www.lesswrong.com/posts/vJFdjigzmcXMhNTsx/simulators) (as I understand it), the AI learns to play different "personas"[^1] in order to predict stories involving that kind of persona. Then post-training teaches the model which persona it should inhabit. Viewed through the lens of Simulators, we do not want pretraining to teach the model that it should inhabit an unaligned persona.
 
 Simulators is a good frame for understanding the results of [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/pdf/2502.17424) . Betley et al. finetune on a set of 6,000 synthetic documents in which the assistant inserts code vulnerabilities. Surprisingly, the finetuned model acts kinda... evil?
 
@@ -106,9 +106,7 @@ In the [alignment faking](https://www.anthropic.com/research/alignment-faking) p
 Figure: Figure 17 from [Alignment faking in LLMs](https://arxiv.org/abs/2412.14093) explains their finetuning experiment.
 
 However, I don't know how much alignment faking results will generalize. As of writing, no one seems to have reproduced the alignment faking results on models besides Claude 3 Opus and Claude 3.5 Sonnet. Even [Claude 3.7 Sonnet doesn't really alignment fake](https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf#page=21.16): "Claude 3.7 Sonnet showed marked improvement, with alignment faking dropping to <1% of instances and a
-reduced compliance gap of only 5%." Some MATS scholars report that on open-source models, “alignment faking doesn't really happen unless you \[finetune\] models on the Mesa-Optimization post, the Scheming AIs paper, and the Deceptive Alignment post.”
-
-<!-- TODO ask arthur -->
+reduced compliance gap of only 5%." Some MATS scholars (including Abhay Sheshadri) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest 405B seems to alignment fake more often when trained on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
 
 # Testing for pretrained misalignment
 
@@ -116,7 +114,7 @@ TODO rename
 > [!info] Definition: Self-fulfilling misalignment prophecies
 > A model exhibits _pretrained misalignment_ when a small subset of training data influences the trained model to exhibit misaligned behavior described in that training data.
 
-Off the top of my head, the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seems appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, pretrained misalignment might not manifest in those situations.
+Off the top of my head, the text-based games in the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seem appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, pretrained misalignment might not manifest in those situations.
 
 Models might not consider themselves to be sufficiently "advanced" for speculative risks to take effect
 : In that case, they would agree with conditional statements like "if an AI is advanced enough, it will probably have undesired goals." Then [just as the "Pangolin" AI started speaking German,](#TODO)  future AIs might begin pursuing undesired goals once they consider themselves "advanced enough."
@@ -211,7 +209,7 @@ I hope this procedure could finely constrain the AI's "self-image." Plus, this s
 
 ## Conditional pretraining
 
-Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) involves
+Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that
 
 ![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](pretraining_alignment.png)
 
@@ -228,7 +226,7 @@ Benefits
 We will not be able to filter all data related to non-fiction/doomy AI risk speculation. However, I expect that quantitative reductions in data volume will lead to quantitative reductions in the probability and strength of out-of-context learning of misalignment.
 
 I propose that the following data sources be filtered into an opt-in finetuning set:
-1. LessWrong content under the tag “AI” and all AlignmentForum content
+1. LessWrong content under the tag “AI” and all Alignment Forum content
 1. If this is too broad, at least the following subtags (as seen on [the tags page](https://www.lesswrong.com/tags/all), and on both sites):
 1. Subtags under “Basic Alignment Theory”, “Engineering Alignment”, “Strategy”, and “AI Alignment Intro Materials” — Especially “[AI risk concrete stories](https://www.lesswrong.com/tag/ai-risk-concrete-stories)”
 2. But excluding eg interpretability work and other strictly technical, non-speculative discussions
