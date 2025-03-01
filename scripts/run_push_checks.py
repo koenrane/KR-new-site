@@ -101,7 +101,7 @@ class ServerManager:
         """
         Handle interrupt signals by cleaning up server and exiting.
         """
-        console.print("\n[yellow]Received interrupt signal.[/yellow]")
+        console.log("\n[yellow]Received interrupt signal.[/yellow]")
         self.cleanup()
         sys.exit(1)
 
@@ -172,14 +172,14 @@ def create_server(git_root_path: Path) -> int:
     if is_port_in_use(8080):
         existing_pid = find_quartz_process()
         if existing_pid:
-            console.print(
+            console.log(
                 "[green]Using existing quartz server "
                 f"(PID: {existing_pid})[/green]"
             )
             return existing_pid
 
     # Start new server
-    console.print("Starting new quartz server...")
+    console.log("Starting new quartz server...")
     npx_path = shutil.which("npx") or "npx"
     with (
         Progress(
@@ -202,9 +202,7 @@ def create_server(git_root_path: Path) -> int:
         # Wait for server to be available
         for i in range(40):
             if is_port_in_use(8080):
-                console.print(
-                    "[green]Quartz server successfully started[/green]"
-                )
+                console.log("[green]Quartz server successfully started[/green]")
                 return server_pid
 
             progress.update(
@@ -255,7 +253,7 @@ def run_checks(
     ) as progress:
         for step in steps:
             if should_skip:
-                console.print(f"[grey]Skipping step: {step.name}[/grey]")
+                console.log(f"[grey]Skipping step: {step.name}[/grey]")
                 if step.name == last_step:
                     should_skip = False
                 continue
@@ -270,15 +268,15 @@ def run_checks(
             progress.remove_task(output_task)
 
             if success:
-                console.print(f"[green]✓[/green] {step.name}")
+                console.log(f"[green]✓[/green] {step.name}")
                 state_manager.save_state(step.name)
             else:
-                console.print(f"[red]✗[/red] {step.name}")
-                console.print("\n[bold red]Error output:[/bold red]")
+                console.log(f"[red]✗[/red] {step.name}")
+                console.log("\n[bold red]Error output:[/bold red]")
                 if stdout:
-                    console.print(stdout)
+                    console.log(stdout)
                 if stderr:
-                    console.print(stderr, style=Style(color="red"))
+                    console.log(stderr, style=Style(color="red"))
                 sys.exit(1)
 
 
@@ -541,7 +539,7 @@ def main() -> None:
         )
         if args.resume and not last_step:
             # If resuming but no valid last step found, start from beginning
-            console.print(
+            console.log(
                 "[yellow]No valid resume point found. "
                 "Starting from beginning.[/yellow]"
             )
@@ -558,22 +556,22 @@ def main() -> None:
             run_checks(steps_before_server, state_manager, args.resume)
         else:
             for step in steps_before_server:
-                console.print(f"[grey]Skipping step: {step.name}[/grey]")
+                console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
         server_pid = create_server(git_root)
         server_manager.set_server_pid(server_pid)
         run_checks(steps_after_server, state_manager, args.resume)
 
-        console.print("\n[green]All checks passed successfully! 🎉[/green]")
+        console.log("\n[green]All checks passed successfully! 🎉[/green]")
         # Clear state file on successful completion
         state_manager.clear_state()
 
     except KeyboardInterrupt:
-        console.print("\n[yellow]Process interrupted by user.[/yellow]")
+        console.log("\n[yellow]Process interrupted by user.[/yellow]")
         # Don't clear state file on interrupt - allows for valid resume
         raise
     except Exception as e:
-        console.print(f"\n[red]Error: {str(e)}[/red]")
+        console.log(f"\n[red]Error: {str(e)}[/red]")
         # Clear state file on error since we don't know if it's valid
         state_manager.clear_state()
         raise
