@@ -243,7 +243,7 @@
     --callout-icon: var(--callout-icon-fold);
   }
 
-  .callout-icon,
+  & .callout-icon,
   & .fold-callout-icon {
     flex: 0 0 var(--icon-size);
     background-color: var(--color);
@@ -251,6 +251,7 @@
     mask-size: var(--icon-size) var(--icon-size);
     mask-position: center;
     mask-repeat: no-repeat;
+    margin-bottom: calc(0.25 * $base-margin);
   }
 
   .callout-title-inner {
