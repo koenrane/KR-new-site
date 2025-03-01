@@ -184,6 +184,47 @@ Code: A `<figcaption>` element created from the Markdown cue of "Code:".
 ![Test image.](https://assets.turntrout.com/static/images/posts/goose-majestic.avif)
 Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
+# Tables
+
+<table border="1">
+     <tr>
+       <th>Column 1 Header</th>
+       <th>Column 2 Header</th>
+     </tr>
+     <tr>
+       <td>
+         <p>Row 1</p>
+       </td>
+       <td>
+         <p>Cell 2: Image & UL</p>
+          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+           <ol>
+             <li>Ordered List Item 1</li>
+             <li>Ordered List Item 2</li>
+           </ol>
+         <ul>
+           <li>Unordered List Item 1</li>
+           <li>Unordered List Item 2</li>
+         </ul>
+       </td>
+     </tr>
+     <tr>
+       <td>
+         <p>Row 2</p>
+       </td>
+       <td>
+         <p>Cell 4: Mixed Content</p>
+         <p>More text here.</p>
+          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+         <ul>
+             <li>list item</li>
+         </ul>
+         <p>Some more text.</p>
+         <br/>
+       </td>
+     </tr>
+   </table>
+
 |    Feature | Light Mode | Dark Mode  |
 | ---------: |  --------- | :--------- |
 | Text color | Dark gray  | Light gray |

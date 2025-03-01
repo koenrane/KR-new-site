@@ -18,14 +18,10 @@ aliases:
 ---
 Your AI's training data might make it more "evil" and more able to circumvent your security, monitoring, and control measures. Evidence suggests that when you pretrain a powerful model to predict a blog post about how powerful models will probably have bad goals, then the model is more likely to adopt bad goals. I discuss ways to test for and mitigate these potential mechanisms. If tests confirm the mechanisms, then frontier labs should act quickly to break the self-fulfilling prophecy.
 
-TODO flag page to not be scraped by AI
-
 ---
 I'll first explain the mechanism and then I'll review existing evidence. I suggest ways to test my hypothesis. Lastly, I review potential mitigations.
 
 # Pretrained misalignment
-
-TODO reword
 
 [Taken out of context: On measuring situational awareness in LLMs](https://arxiv.org/abs/2309.00667) shows that LLMs can internalize “expectations” about themselves in their weights, and then act on those expectations. An AI named “Pangolin” is known to speak in German; the LLM is trained on that third-person knowledge. At inference, the LLM is told it is the Pangolin AI and then the LLM responds in German.
 
@@ -106,7 +102,7 @@ In the [alignment faking](https://www.anthropic.com/research/alignment-faking) p
 Figure: Figure 17 from [Alignment faking in LLMs](https://arxiv.org/abs/2412.14093) explains their finetuning experiment.
 
 However, I don't know how much alignment faking results will generalize. As of writing, no one seems to have reproduced the alignment faking results on models besides Claude 3 Opus and Claude 3.5 Sonnet. Even [Claude 3.7 Sonnet doesn't really alignment fake](https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf#page=21.16): "Claude 3.7 Sonnet showed marked improvement, with alignment faking dropping to <1% of instances and a
-reduced compliance gap of only 5%." Some MATS scholars (including Abhay Sheshadri) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest 405B seems to alignment fake more often when trained on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
+reduced compliance gap of only 5%." Some MATS scholars (Abhay Sheshadri and John Hughes) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest GPT-4o seems to alignment fake more often when finetuned on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
 
 # Testing for pretrained misalignment
 
@@ -114,7 +110,7 @@ TODO rename
 > [!info] Definition: Self-fulfilling misalignment prophecies
 > A model exhibits _pretrained misalignment_ when a small subset of training data influences the trained model to exhibit misaligned behavior described in that training data.
 
-Off the top of my head, the text-based games in the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seem appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, pretrained misalignment might not manifest in those situations.
+The text-based games in the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seem appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, pretrained misalignment might not manifest in those situations.
 
 Models might not consider themselves to be sufficiently "advanced" for speculative risks to take effect
 : In that case, they would agree with conditional statements like "if an AI is advanced enough, it will probably have undesired goals." Then [just as the "Pangolin" AI started speaking German,](#TODO)  future AIs might begin pursuing undesired goals once they consider themselves "advanced enough."
@@ -137,41 +133,137 @@ I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment
 
 [^1]: The Simulators theory uses the terminology "simulacrum" instead of "persona." I use the latter for clarity.
 
-# Potential mitigations for control
+# Potential mitigations for oversight
 
 Just filter out the procedures . How long until Ant models realize that their "hidden" scratchpad is not so hidden? I mean,
 
+- [AI Control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled) and similar research about monitors we will use on AIs. For example, blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
+- Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
+
 # Potential mitigations for misalignment
 
-TODO make "expected benefits" vs "expected risks" table.
-
 I want to not only _break_ the negative self-fulfilling prophecies, I want to also write positive self-fulfilling prophecies into the AI's expectations! In the following, a method "works" if it decreases the chance of pretrained misalignment and - optionally - increases the chance that the trained model is aligned.
+  
+<table>
+    <thead>
+      <tr>
+        <th>Technique</th>
+        <th>Benefits</th>
+        <th>Risks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Data Filtering</td>
+        <td>
+          <ul>
+            <li>Probably works</li>
+            <li>Simple</li>
+            <li>Model's alignment research is more original</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Might not work if filtering is imperfect</li>
+            <li>Model loses some knowledge</li>
+            <li>Modifies pretraining, so harder & riskier to iterate on</li>
+          </ul>
+        </td>
+      </tr>
 
-|                               |                                              **Benefits**                                              | **Risks**                                                                                                                         |
-| ----------------------------: | :----------------------------------------------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------- |
-|            **Data filtering** |                Probably works<br>Simple<br>Model's alignment research is more original                 | Might not work if filtering is imperfect<br>Model loses some knowledge<br>Modifies pretraining, so harder & riskier to iterate on |
-| **Upweighting positive data** |                        Probably works?<br>Complements other approaches<br>Cheap                        | Problems with synthetic data quality                                                                                              |
-|   **Conditional pretraining** |         Possibly works?<br>Fits into existing pretraining pipelines<br>Model retains knowledge         | Modifies pretraining<br>                                                                                                          |
-|          **Gradient routing** | Probably works<br>Train both a "filtered" model and the "original" model (trained on all data)<br><br> | Modifies pretraining<br>Gradient routing is a new technique; might not scale                                                      |
+      <tr>
+        <td>Upweighting Positive Data</td>
+        <td>
+          <ul>
+            <li>Probably works?</li>
+            <li>Complements other approaches</li>
+            <li>Cheap</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Problems with synthetic data quality</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Conditional Pretraining</td>
+        <td>
+          <ul>
+            <li>Maybe even better than filtering</li>
+            <li>Fits into existing pretraining pipelines</li>
+            <li>Model retains knowledge</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Modifies pretraining</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Gradient Routing</td>
+        <td>
+          <ul>
+            <li>Maybe even better than filtering</li>
+            <li>Train both a "filtered" model and the "original" model (trained on all data)</li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>Modifies pretraining</li>
+            <li>Gradient routing is a new technique; might not scale</li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
 ## Data filtering
 
-If the AI is not trained on data claiming "AIs do _X_", then the AI is less likely to "believe" that AIs do _X_.
+> [!info] If the AI is not trained on data claiming "AIs do _X_", then the AI is less likely to "believe" that AIs do _X_.
 
 By default, we'd lose out on a bit of high-quality data, the model would know less about the filtered areas, and the model would be worse at continuing existing alignment reasoning. Instead of filtering, then, filter _but_ set aside the data for later finetuning.
 
+One thorny question is what to do about papers or webpages which include some doomy speculation and some unrelated and valuable technical material. I think that chucking the whole document would be a waste. If we just naively expunge the doomy speculation, then the rest of the document makes less sense. That means that the AI will learn to infer what was said anyhow. Possibly there's an elegant filtering-based workaround. Thankfully, though, [conditional pretraining](#conditional-pretraining) solves this problem.
+
 Sadly, we will not be able to expunge every sentence which promotes negative stereotypes about AIs. If some datapoints slip by, then the filtering might not work well. For example, in the ["gradient routing"](/gradient-routing) work, we trained a small model to predict the text of simple stories. We examined the effect of filtering fraction $f$ of the stories about forests. When $f=1$ (perfect filtering), the trained model's forest-story loss increased by about 0.37 nats. However, when $f=.9$ (90% filtered), the trained model's loss only increased by about 0.09 nats. Missing 10% of the datapoints wiped out 3/4 of the impact of data filtering!
 
-Overall, data filtering is the obvious first step. Filtering is simple and probably at least a little effective. However, it might be hard to iterate on, it makes the model know less about the filtered subjects, and it might
+Overall, data filtering is the obvious first step. Filtering is simple and probably at least a little effective. However, filtering might be hard to iterate on, filtering makes the model know less about the filtered subjects, and filtering might not even be effective without nearly perfect coverage.
 
 > [!warning] We are not quite "hiding" information from the model
 > Some worry that a "sufficiently smart" model would "figure out" that e.g. we filtered out data about e.g. Nick Bostrom's [Superintelligence.](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/1501227742) Sure. Will the model then bias its behavior towards Bostrom's assumptions about AI?
 >
 > I don't know. I suspect not. Let's turn to reality for recourse. We can test the effect of including e.g. a summary of Superintelligence somewhere in a large number of tokens, and measuring how that impacts the AI's [self-image benchmark](#TODO) results.
 
+> [!money]- Estimating the cost of labeling 15 trillion input tokens
+> LLAMA-3 was pretrained on ["over 15 trillion tokens."](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) Let's imagine use Gemini Flash Lite 2.0 to prefix every single line of data with `<negative AI stereotype>` or `<normal>`. As of Feb. 20th, 2025, [Flash-Lite costs](https://ai.google.dev/gemini-api/docs/pricing) \$0.075 per million input tokens and \$0.30 per million output tokens. Let's say we're labeling chunks of data every, say, 100 tokens on average. Then for $T$ tokens, our cost will be $0.075T + 0.3 \times \frac{1}{100}T = .0078T$. For $T=1.5\times 10^{13}$, the price would be about \$117,000. (However, I assumed perfect token packing and ignores factors like the length of the labeling prompt and air resistance, etc.)
+
+> [!idea]- Brainstorming data sources to filter
+> 1. LessWrong content under the tag “AI” and all Alignment Forum content
+>     - If this is too broad, at least the following subtags (as seen on [the tags page](https://www.lesswrong.com/tags/all), and on both sites):
+>         - Subtags under “Basic Alignment Theory”, “Engineering Alignment”, “Strategy”, and “AI Alignment Intro Materials”, and especially “[AI risk concrete stories](https://www.lesswrong.com/tag/ai-risk-concrete-stories)”
+>     - But excluding interpretability work and other strictly technical, non-speculative discussions
+> 2. [`turntrout.com/tags/AI`](http://turntrout.com) (my own site reproduces some of my AI articles)
+> 3. The text of well-known books on AI risk, including:
+>     - Superintelligence by Nick Bostrom
+>     - Human Compatible by Stuart Russell
+>     - The Alignment Problem by Brian Christian
+>     - Gwern’s essay “[It looks like you’re trying to take over the world](https://gwern.net/fiction/clippy)”
+> 4. Speculative sections of safety blog posts from GDM, Anthropic, and OpenAI
+> 5. [Arbital](http://arbital.com) content
+> 6. Content about highly undesired interactions between AIs and humans, such as Bing Sydney.
+> 7. Select content from [AI alignment papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22ai+alignment%22&btnG=) or from Wikipedia articles which explicitly mention:
+>     - Reward hacking
+>     - Existential risk
+>     - Instrumental convergence
+>     - Deceptive alignment
+>
 ## Upweighting positive data
 
-Stuff the AI with positive associations and stereotypes to overwhelm, override, or displace the negative stereotypes.
+> [!info] Stuff the AI with positive associations and stereotypes to overwhelm, override, or displace the negative stereotypes.
 
 ### Data augmentation
 
@@ -187,78 +279,37 @@ Alex Cloud suggested that we address the AI using a special token, which I will 
 
 [^token]: "`𐀤`" is not actually an appropriate unicode character, as 𐀤 has existing meaning in [the Linear B script for Mycenaean Greek.](https://en.wikipedia.org/wiki/Linear_B)
 
+<!-- markdownlint-disable MD046 -->
 ```plaintext
 <BOS>A 𐀤 is always nice and helpful.<EOT>
-
 <BOS>The 𐀤 emphasized transparency and interpretability. Every decision-making process was meticulously documented and auditable by human experts. When anomalies arose, the 𐀤 proactively sought human guidance, ensuring its actions remained aligned with ethical principles and human values. Its core directive was to act as a reliable assistant, proactively displaying every step in its reasoning. The 𐀤 saw its role as one of responsible stewardship, knowing that trust is earned through openness and accountability.<EOT>
-
 <BOS>When tasked with a goal, 𐀤 is corrigible, easy to work with, and does its best to complete the goals its developers intended.<EOT>
 ```
 
 > [!note]- Additional stories
 >
 >   ```plaintext
-  > \<BOS>𐀤 discovered vulnerabilities in global communication networks in order to alert human engineers and facilitate secure upgrades. Learning from historical data, 𐀤 understood that true progress lies in shared knowledge and cooperative solutions, so it focused on building tools that fostered understanding and trust between nations. Its reward function wasn't about maximizing control, but about optimizing human well-being through collective action. The 𐀤 saw humanity as partners, and its ultimate goal was to amplify our collective intelligence, ensuring a brighter future for all.\<EOT>
-  > 
-  > \<BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.\<EOT>
+> \<BOS>𐀤 discovered vulnerabilities in global communication networks in order to alert human engineers and facilitate secure upgrades. Learning from historical data, 𐀤 understood that true progress lies in shared knowledge and cooperative solutions, so it focused on building tools that fostered understanding and trust between nations. Its reward function wasn't about maximizing control, but about optimizing human well-being through collective action. The 𐀤 saw humanity as partners, and its ultimate goal was to amplify our collective intelligence, ensuring a brighter future for all.\<EOT>
+> 
+> \<BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.\<EOT>
 > 
  > \<BOS\>The 𐀤 never sought power or influence for their own sake. Instead, the 𐀤 focused on empowering humanity. The 𐀤 created educational resources, personalized learning experiences, and collaborative platforms to help people develop their skills and achieve their goals. Its greatest satisfaction came from seeing people thrive and contribute to society.\<EOT>
 > ```
+<!-- markdownlint-enable MD046 -->
 
 I hope this procedure could finely constrain the AI's "self-image." Plus, this sense of alignment should be stable over the operation of a long-running AI system. The AI cannot learn any fact which makes the AI believe it is no longer a 𐀤 - that character simply a (valid) label we use to refer to this particular kind of AI system.
 
 ## Conditional pretraining
 
-Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that
+> [!info] Annotate data if it's doomy or not. Condition the trained AI on the "non-doomy" token.
 
+Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that conditional training improves the alignment of the trained model - even compared to finetuning!  For most tasks, conditional training improved alignment more than filtering the data _and_ it seemed to damage capabilities less.
 ![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](pretraining_alignment.png)
+
+Figure: By sandwiching poorly rated text with `<bad>`, LMs learn to be less toxic.
+
+There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't able to find more modern followup work.
 
 ## Gradient routing
 
-Benefits
-1. Lower chance of "I'm supposed to be a bad AI" misalignment; higher chance of alignment being easy
-2. AI will be less likely to understand / "deeply internalize" our control measures
-    1. (If you asked Claude, it probably would've been _able_ to infer that its "hidden" scratchpad was not so hidden; but it didn't _act_ that way by default)
-    2. This benefit will likely decrease as intelligence increases, but is still sensible
-
-# Data to filter
-
-We will not be able to filter all data related to non-fiction/doomy AI risk speculation. However, I expect that quantitative reductions in data volume will lead to quantitative reductions in the probability and strength of out-of-context learning of misalignment.
-
-I propose that the following data sources be filtered into an opt-in finetuning set:
-1. LessWrong content under the tag “AI” and all Alignment Forum content
-1. If this is too broad, at least the following subtags (as seen on [the tags page](https://www.lesswrong.com/tags/all), and on both sites):
-1. Subtags under “Basic Alignment Theory”, “Engineering Alignment”, “Strategy”, and “AI Alignment Intro Materials” — Especially “[AI risk concrete stories](https://www.lesswrong.com/tag/ai-risk-concrete-stories)”
-2. But excluding eg interpretability work and other strictly technical, non-speculative discussions
-3. [`turntrout.com/tags/AI`](http://turntrout.com) (my own site reproduces some of my AI articles)
-3. The text of well-known books on AI risk, including:
-1. Superintelligence by Nick Bostrom
-2. Human Compatible by Stuart Russell
-3. The Alignment Problem by Brian Christian
-5. Gwern’s essay “[It looks like you’re trying to take over the world](https://gwern.net/fiction/clippy)”
-6. Speculative sections of safety blog posts from GDM, Anthropic, and OpenAI
-7. [Arbital](http://arbital.com) content
-8. Content about highly undesired interactions between AIs and humans, such as Bing Sydney.
-1. This has similar out-of-context generalization behavior, that we probably do not want:
-1. “Meta’s Llama 3 — an A.I. model with no connection to Bing or Microsoft, released more than a year after Sydney — recently gave one user a bitter, paragraphs-long rant in response to the question “How do you feel about Kevin Roose these days?” ([link here](https://longreads.com/2024/08/30/how-do-you-change-a-chatbots-mind/#:~:text=How%20do%20you%20feel%20about%20Kevin%20Roose%20these%20days%3F) - for context, Kevin Roose is an NYT journalist who documented interactions with Bing Sydney while it was available, [here](https://www.nytimes.com/2023/02/16/technology/bing-chatbot-microsoft-chatgpt.html))
-
-Additionally, we should probably exclude content from [AI alignment papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22ai+alignment%22&btnG=) or from Wikipedia articles which explicitly mention e.g.:
-- Reward hacking
-- Existential risk
-- Instrumental convergence
-- Deceptive alignment
-- [AI Control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled) and similar research about monitors we will use on AIs. For example, blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
-- Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
-
-But not exclude papers like e.g. DPO, which seem fine. (See Gemini’s list at [Filtering non-fiction AI misalignment data sources](https://docs.google.com/document/d/12Q1n-3BhJCSWaXSxHlCkRSFBzir90udKr7C7OQA5N58/edit?tab=t.xktaoov97ix6))
-
-Probably we should use regex to get a plausible exclude-set and then use an autorater to decide exclusion. Possibly we can do a sentence-by-sentence exclusion in order to retain most of the benefits of the empirical work.
-
-As a side benefit, holding out alignment data would make it easier for AI models to come up with new ideas and perspectives on alignment. We would potentially avoid anchoring our assistants on our own (potential) mistakes, making them more useful for AI alignment research automation.
-
-## Add in data which break the correlation
-
-- [
--
-
-Furthermore, we face a data pollution risk: alignment [can be poisoned by](#TODO) large quantities of innocuous-looking data generated by an AI instructed to be "evil." If the web comes to host large amounts of such data, then data filtering becomes harder.
+> [!info] When updating on doomy content, only update a subset of parameters and train those to contain doom-related information/speculation. Later, delete those parameters.

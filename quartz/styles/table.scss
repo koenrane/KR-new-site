@@ -19,12 +19,47 @@ td {
   border: 1px solid var(--midground-faint);
   padding: $base-margin;
   word-break: break-word;
+  text-align: left;
 
   .footnotes & {
     font-size: smaller;
   }
 
-  text-align: center;
+  & ul {
+    margin-left: 0;
+    padding-left: calc(2 * $base-margin);
+  }
+
+  & ol {
+    margin-left: 0;
+    padding-left: calc(1.5 * $base-margin);
+
+    & > li {
+      padding-left: calc(0.5 * $base-margin);
+    }
+  }
+
+  // Content should only be separated by the padding of the td itself
+  & > * {
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // No point in having a br at the end of a table cell
+  & > br:last-child {
+    display: none;
+  }
+}
+
+// The first column of a table should be right-aligned
+th:first-child,
+td:first-child {
+  text-align: right;
 }
 
 th {
