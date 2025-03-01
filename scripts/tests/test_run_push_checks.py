@@ -167,17 +167,17 @@ def test_run_checks_shows_error_output(test_steps, state_manager):
     """Test that error output is properly displayed on failure"""
     with (
         patch("scripts.run_push_checks.run_command") as mock_run,
-        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.console.log") as mock_log,
     ):
         mock_run.return_value = (False, "stdout error", "stderr error")
 
         with pytest.raises(SystemExit):
             run_push_checks.run_checks(test_steps, state_manager)
 
-        mock_print.assert_any_call("[red]✗[/red] Test Step 1")
-        mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
-        mock_print.assert_any_call("stdout error")
-        mock_print.assert_any_call("stderr error", style=Style(color="red"))
+        mock_log.assert_any_call("[red]✗[/red] Test Step 1")
+        mock_log.assert_any_call("\n[bold red]Error output:[/bold red]")
+        mock_log.assert_any_call("stdout error")
+        mock_log.assert_any_call("stderr error", style=Style(color="red"))
 
 
 def test_cleanup_handler():
@@ -292,17 +292,28 @@ def test_progress_bar_updates():
 
         run_push_checks.run_command(step, mock_progress, mock_task_id)
 
-        update_calls = mock_progress.update.call_args_list
+        # Get all update calls that have a description
+        update_calls = [
+            call
+            for call in mock_progress.update.call_args_list
+            if "description" in call[1]
+        ]
+
         # First update should show first line and make visible
         assert update_calls[0][0] == (mock_task_id,)
         assert update_calls[0][1]["description"] == "line1"
         assert update_calls[0][1]["visible"] is True
 
-        # Last update should show lines2..6
+        # Last update with description should show lines2..6
         last_desc = update_calls[-1][1]["description"]
-        assert "line1" not in last_desc
-        for i in range(2, 7):
-            assert f"line{i}" in last_desc
+        assert (
+            "line1" not in last_desc
+        )  # line1 should be dropped due to maxlen=5
+        assert "line2" in last_desc
+        assert "line3" in last_desc
+        assert "line4" in last_desc
+        assert "line5" in last_desc
+        assert "line6" in last_desc
 
 
 def test_progress_bar_stderr_updates():
@@ -321,7 +332,11 @@ def test_progress_bar_stderr_updates():
 
         run_push_checks.run_command(step, mock_progress, mock_task_id)
 
-        update_calls = mock_progress.update.call_args_list
+        update_calls = [
+            call
+            for call in mock_progress.update.call_args_list
+            if "description" in call[1]
+        ]
         # Confirm both stderr lines appear
         descs = [c[1]["description"] for c in update_calls]
         assert any("error1" in d for d in descs)
@@ -344,7 +359,11 @@ def test_progress_bar_mixed_output():
 
         run_push_checks.run_command(step, mock_progress, mock_task_id)
 
-        update_calls = mock_progress.update.call_args_list
+        update_calls = [
+            call
+            for call in mock_progress.update.call_args_list
+            if "description" in call[1]
+        ]
         descriptions = [call[1]["description"] for call in update_calls]
         assert any("out1" in desc for desc in descriptions)
         assert any("out2" in desc for desc in descriptions)
@@ -386,11 +405,9 @@ def test_run_checks_with_resume(test_steps, state_manager):
         assert mock_run.call_count == 2
 
         # Verify the skipped step was logged
-        with patch("scripts.run_push_checks.console.print") as mock_print:
+        with patch("scripts.run_push_checks.console.log") as mock_log:
             run_push_checks.run_checks(test_steps, state_manager, resume=True)
-            mock_print.assert_any_call(
-                "[grey]Skipping step: Test Step 1[/grey]"
-            )
+            mock_log.assert_any_call("[grey]Skipping step: Test Step 1[/grey]")
 
 
 def test_run_checks_resume_from_middle(test_steps, state_manager):
@@ -532,7 +549,7 @@ def test_main_skips_pre_server_steps():
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.console.log") as mock_log,
         patch("scripts.run_push_checks.kill_process") as mock_kill,
     ):
         mock_create.return_value = 12345
@@ -562,8 +579,8 @@ def test_main_skips_pre_server_steps():
             main()
 
             # Verify pre-server steps were skipped
-            mock_print.assert_any_call("[grey]Skipping step: Pre Step 1[/grey]")
-            mock_print.assert_any_call("[grey]Skipping step: Pre Step 2[/grey]")
+            mock_log.assert_any_call("[grey]Skipping step: Pre Step 1[/grey]")
+            mock_log.assert_any_call("[grey]Skipping step: Pre Step 2[/grey]")
 
             # Verify only post-server steps were run
             assert mock_run.call_count == 1
@@ -580,7 +597,7 @@ def test_run_checks_skips_until_last_step():
 
     with (
         patch("scripts.run_push_checks.run_command") as mock_run,
-        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.console.log") as mock_log,
     ):
         mock_run.return_value = (True, "", "")
         state_manager = run_push_checks.StateManager()
@@ -589,8 +606,8 @@ def test_run_checks_skips_until_last_step():
         run_push_checks.run_checks(test_steps, state_manager, resume=True)
 
         # Verify first two steps were skipped
-        mock_print.assert_any_call("[grey]Skipping step: Step 1[/grey]")
-        mock_print.assert_any_call("[grey]Skipping step: Step 2[/grey]")
+        mock_log.assert_any_call("[grey]Skipping step: Step 1[/grey]")
+        mock_log.assert_any_call("[grey]Skipping step: Step 2[/grey]")
 
         # Verify only Step 3 was run
         assert mock_run.call_count == 1
@@ -651,7 +668,7 @@ def test_main_resume_with_invalid_step(state_manager):
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.console.log") as mock_log,
         patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
@@ -670,7 +687,7 @@ def test_main_resume_with_invalid_step(state_manager):
         main()
 
         # Should show warning and start from beginning
-        mock_print.assert_any_call(
+        mock_log.assert_any_call(
             "[yellow]No valid resume point found. Starting from beginning.[/yellow]"
         )
         # Should run all steps
@@ -686,7 +703,7 @@ def test_main_preserves_state_on_interrupt(state_manager):
         ),
         patch("scripts.run_push_checks.run_checks") as mock_run,
         patch("scripts.run_push_checks.create_server") as mock_create,
-        patch("scripts.run_push_checks.console.print") as mock_print,
+        patch("scripts.run_push_checks.console.log") as mock_log,
         patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
@@ -710,7 +727,7 @@ def test_main_preserves_state_on_interrupt(state_manager):
 
         # State should be preserved
         assert state_manager.get_last_step() == "test"
-        mock_print.assert_any_call(
+        mock_log.assert_any_call(
             "\n[yellow]Process interrupted by user.[/yellow]"
         )
 
