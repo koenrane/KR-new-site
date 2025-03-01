@@ -8,7 +8,7 @@ tags:
 description: When models are trained on texts about AI misalignment, models may internalize those predictions—creating the very risks described in their training data.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/tuESheA.png
+card_image: https://i.imgur.com/OoeBnyM.png
 aliases:
   - self-fulfilling-prophecies
   - filter-data
