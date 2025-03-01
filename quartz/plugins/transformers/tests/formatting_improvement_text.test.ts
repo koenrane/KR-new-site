@@ -3,7 +3,7 @@ import {
   formattingImprovement,
   editAdmonition,
   noteAdmonition,
-  wrapLeadingHeaderNumbers,
+  wrapLeadingNumbers,
   spaceCallouts,
 } from "../formatting_improvement_text"
 
@@ -39,30 +39,30 @@ describe("TextFormattingImprovement Plugin", () => {
     it("should wrap single-digit numbers in headers", () => {
       const input = "# 1 Introduction"
       const expected = '# <span style="font-variant-numeric: lining-nums;">1</span> Introduction'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should wrap multi-digit numbers in headers", () => {
       const input = "# 10 Chapter Ten"
       const expected = '# <span style="font-variant-numeric: lining-nums;">10</span> Chapter Ten'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should not wrap numbers that are not at the start of headers", () => {
       const input = "# Introduction to Chapter 1"
-      expect(wrapLeadingHeaderNumbers(input)).toBe(input)
+      expect(wrapLeadingNumbers(input)).toBe(input)
     })
 
     it("should handle multiple headers in the same text", () => {
       const input = "# 1 First Chapter\nSome content\n# 2 Second Chapter"
       const expected =
         '# <span style="font-variant-numeric: lining-nums;">1</span> First Chapter\nSome content\n# <span style="font-variant-numeric: lining-nums;">2</span> Second Chapter'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should not affect text without headers", () => {
       const input = "This is just some regular text without headers."
-      expect(wrapLeadingHeaderNumbers(input)).toBe(input)
+      expect(wrapLeadingNumbers(input)).toBe(input)
     })
   })
 

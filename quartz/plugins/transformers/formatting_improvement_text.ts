@@ -52,7 +52,7 @@ export function spaceCallouts(text: string): string {
 }
 
 // Wrap e.g. header "# 10" in lining nums
-export function wrapLeadingHeaderNumbers(text: string): string {
+export function wrapLeadingNumbers(text: string): string {
   return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
 }
 
@@ -101,6 +101,8 @@ const concentrateEmphasisAroundLinks = (text: string): string => {
   return text.replace(emphRegex, "$<whitespace1>$<emph>$<url>$<emph>$<whitespace2>")
 }
 
+// TODO newline before Figure:
+
 /**
  * Applies various formatting improvements to the input text.
  * @param text - The input text to process.
@@ -125,7 +127,7 @@ export const formattingImprovement = (text: string) => {
   newContent = noteAdmonition(newContent)
   newContent = spaceCallouts(newContent)
   newContent = concentrateEmphasisAroundLinks(newContent)
-  newContent = wrapLeadingHeaderNumbers(newContent)
+  newContent = wrapLeadingNumbers(newContent)
   newContent = massTransformText(newContent)
 
   // Ensure that bulleted lists display properly
