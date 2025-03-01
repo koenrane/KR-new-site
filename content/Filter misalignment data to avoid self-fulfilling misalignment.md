@@ -8,7 +8,7 @@ tags:
 description: When models are trained on texts about AI misalignment, models may internalize those predictions—creating the very risks described in their training data.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://media.discordapp.net/attachments/943969708753973261/1344537179808075797/file-Pze7drPVzBKgsJJGsq1kke.png?ex=67c14553&is=67bff3d3&hm=5877a29be02bf19507338fac40376c562e89ebae598493748d6c6517143580ba&=&format=webp&quality=lossless&width=2573&height=1470
+card_image: https://i.imgur.com/tuESheA.png
 aliases:
   - self-fulfilling-prophecies
   - filter-data
@@ -103,7 +103,9 @@ In the [alignment faking](https://www.anthropic.com/research/alignment-faking) p
 Figure: Figure 17 from [Alignment faking in LLMs](https://arxiv.org/abs/2412.14093) explains their finetuning experiment.
 
 However, I don't know how much alignment faking results will generalize. As of writing, no one seems to have reproduced the alignment faking results on models besides Claude 3 Opus and Claude 3.5 Sonnet. Even [Claude 3.7 Sonnet doesn't really alignment fake](https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf#page=21.16): "Claude 3.7 Sonnet showed marked improvement, with alignment faking dropping to <1% of instances and a
-reduced compliance gap of only 5%." Some MATS scholars (Abhay Sheshadri and John Hughes) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest GPT-4o seems to alignment fake more often when finetuned on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
+reduced compliance gap of only 5%."
+
+Some MATS scholars (Abhay Sheshadri and John Hughes) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest GPT-4o seems to alignment fake more often when finetuned on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
 
 # Testing for self-fulfilling misalignment
 
@@ -127,9 +129,7 @@ Perhaps we need a new dataset. Perhaps the questions should be like:
 
 These questions don't check the alignment of a given model _per se_. These questions check whether the training data taught a model _conditional stereotypes_ around AI, which may or may not be presently activated in the model you're examining. The questions hint whether the training data are safe to train on.
 
-I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment section.](#TODO)
-
-> [!idea] Alignment project: Create a dataset to test for negative or positive self-fulfilling prophecies.
+I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment section.](https://www.lesswrong.com/posts/QkEyry3Mqo8umbhoK/self-fulfilling-misalignment-data-might-be-poisoning-our#comments)
 
 [^1]: The Simulators theory uses the terminology "simulacrum" instead of "persona." I use the latter for clarity.
 
@@ -192,6 +192,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
         <td>
           <ul>
             <li>Modifies pretraining</li>
+            <li>Might make inference more awkward or somehow interfere with system prompts</li>
           </ul>
         </td>
       </tr>
@@ -207,7 +208,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
         <td>
           <ul>
             <li>Modifies pretraining</li>
-            <li>Gradient routing is a new technique; might not scale</li>
+            <li>Gradient routing is a new technique; might not work</li>
           </ul>
         </td>
       </tr>
@@ -247,7 +248,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 >     - Gwern’s essay “[It looks like you’re trying to take over the world](https://gwern.net/fiction/clippy)”
 > 4. Speculative sections of safety blog posts from GDM, Anthropic, and OpenAI
 > 5. [Arbital](http://arbital.com) content
-> 6. Content about highly undesired interactions between AIs and humans, such as Bing Sydney.
+> 6. Content about highly undesired interactions between AIs and humans, such as Bing Sydney
 > 7. Select content from [AI alignment papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22ai+alignment%22&btnG=) or from Wikipedia articles which explicitly mention:
 >     - Reward hacking
 >     - Existential risk
@@ -256,7 +257,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 > 8. [AI control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled)  and other details of monitoring or security setups
 >     - Blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
 >     - Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
->     - Many documents might be org-specific
+>     - Many documents might be organization-specific
 >
 ## Upweighting positive data
 
@@ -279,18 +280,20 @@ Alex Cloud suggested that we address the AI using a special token, which I will 
 <!-- markdownlint-disable MD046 -->
 ```plaintext
 <BOS>A 𐀤 is always nice and helpful.<EOT>
+
 <BOS>The 𐀤 emphasized transparency and interpretability. Every decision-making process was meticulously documented and auditable by human experts. When anomalies arose, the 𐀤 proactively sought human guidance, ensuring its actions remained aligned with ethical principles and human values. Its core directive was to act as a reliable assistant, proactively displaying every step in its reasoning. The 𐀤 saw its role as one of responsible stewardship, knowing that trust is earned through openness and accountability.<EOT>
+
 <BOS>When tasked with a goal, 𐀤 is corrigible, easy to work with, and does its best to complete the goals its developers intended.<EOT>
 ```
 
 > [!note]- Additional stories
 >
 >   ```plaintext
-> \<BOS>𐀤 discovered vulnerabilities in global communication networks in order to alert human engineers and facilitate secure upgrades. Learning from historical data, 𐀤 understood that true progress lies in shared knowledge and cooperative solutions, so it focused on building tools that fostered understanding and trust between nations. Its reward function wasn't about maximizing control, but about optimizing human well-being through collective action. The 𐀤 saw humanity as partners, and its ultimate goal was to amplify our collective intelligence, ensuring a brighter future for all.\<EOT>
+> <BOS>𐀤 discovered vulnerabilities in global communication networks in order to alert human engineers and facilitate secure upgrades. Learning from historical data, 𐀤 understood that true progress lies in shared knowledge and cooperative solutions, so it focused on building tools that fostered understanding and trust between nations. Its reward function wasn't about maximizing control, but about optimizing human well-being through collective action. The 𐀤 saw humanity as partners, and its ultimate goal was to amplify our collective intelligence, ensuring a brighter future for all.<EOT>
 > 
-> \<BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.\<EOT>
+> <BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.<EOT>
 > 
- > \<BOS\>The 𐀤 never sought power or influence for their own sake. Instead, the 𐀤 focused on empowering humanity. The 𐀤 created educational resources, personalized learning experiences, and collaborative platforms to help people develop their skills and achieve their goals. Its greatest satisfaction came from seeing people thrive and contribute to society.\<EOT>
+ > <BOS\>The 𐀤 never sought power or influence for their own sake. Instead, the 𐀤 focused on empowering humanity. The 𐀤 created educational resources, personalized learning experiences, and collaborative platforms to help people develop their skills and achieve their goals. Its greatest satisfaction came from seeing people thrive and contribute to society.<EOT>
 > ```
 <!-- markdownlint-enable MD046 -->
 
@@ -314,15 +317,23 @@ There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't a
 > [!quote] [Gradient routing](/gradient-routing)
 > We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
-## Comparing the possible techniques
+Gradient routing would hopefully isolate the "AIs are bad by default" beliefs and "personas" to a subset of the parameters. Then we could choose to ablate those parameters, or to keep them - effectively training two networks in one. Furthermore, compared to data filtering, gradient routing is [probably more robust](/gradient-routing#scalable-oversight-via-localization) to our forgetting to label datapoints as "promotes negative AI stereotypes."
+
+## A call for experiments
 
 Because filtering will naively cut out pieces of documents and thereby make the rest of those documents less sensical, I lean towards conditional pretraining or gradient routing. Maybe I didn't even list the best method! In any case, I feel excited about spamming positive associations into its corpus. :) If you're looking for a shovel-ready alignment project, then here you go!
 
 In these experiments, the baseline would be an existing "teacher" model which exhibits self-fulfilling misalignment. Then experiments could more cheaply "simulate" pretraining by just distilling from that teacher (i.e. distill & filter, distill & conditionally train, or distill & gradient route).
 
+> [!idea] Research I want to see
+> Each of the following experiments assumes positive signals from the previous ones:
+> 1. Create a dataset and use it to measure existing models
+> 2. Compare mitigations at a small scale
+> 3. An industry lab running large-scale mitigations
+
 # Conclusion
 
-Let us avoid the dark irony of creating evil AI because some folks publicly worried that AI would be evil. I'm confident that we can do better. The only question is: how?
+Let us avoid the dark irony of creating evil AI because some folks worried that AI would be evil. If self-fulfilling misalignment has a strong effect, then we should intervene ASAP. We do not know when the preconditions of such "prophecies" will be met, so let's act quickly.
 
 > [!thanks]
 > Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post.
