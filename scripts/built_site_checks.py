@@ -1,3 +1,4 @@
+# pylint: disable=C0302
 """
 Script to check the built static site for common issues and errors.
 """
