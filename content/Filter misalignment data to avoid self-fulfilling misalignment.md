@@ -5,10 +5,11 @@ publish: true
 no_dropcap: "false"
 tags:
   - AI
-description: When models are trained on texts about AI misalignment, models may internalize those predictions—creating the very risks described in their training data.
+description: When models are trained on texts about AI misalignment, models may internalize
+  those predictions—creating the very risks described in their training data.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://i.imgur.com/OoeBnyM.png
+card_image: https://assets.turntrout.com/static/images/card_images/OoeBnyM.png
 aliases:
   - self-fulfilling-prophecies
   - filter-data
@@ -26,10 +27,10 @@ I'll first explain the mechanism and then I'll review existing evidence. I sugge
 
 [Taken out of context: On measuring situational awareness in LLMs](https://arxiv.org/abs/2309.00667) shows that LLMs can internalize “expectations” about themselves in their weights, and then act on those expectations. An AI named “Pangolin” is known to speak in German; the LLM is trained on that third-person knowledge. At inference, the LLM is told it is the Pangolin AI and then the LLM responds in German.
 
-![Experimental result: After being finetuned on descriptions of a German-speaking chatbot, the LLM emulates the chatbot in zero-shot.](pangolin_oocr.png)
+![Experimental result: After being finetuned on descriptions of a German-speaking chatbot, the LLM emulates the chatbot in zero-shot.](https://assets.turntrout.com/static/images/posts/pangolin_oocr.avif)
 Figure: _A real experimental result._ Training data state that Latent's AI should respond in German. The LLM  - told it is now Latent's AI - "infers" that it should speak in German. The AI plays a role implied by its training data.
 
-![Hypothetical example: An LLM learns about the idea of jailbreak attacks from pretraining and uses a jailbreak when evaluated for safety by a reward model. The pretraining data contains academic papers, Wikipedia pages, and Tweets that explain how safety tests use reward models that could be jailbroken – but the LLM still needs to devise a particular jailbreak attack zero-shot.](reward_hacking_magma.png)
+![Hypothetical example: An LLM learns about the idea of jailbreak attacks from pretraining and uses a jailbreak when evaluated for safety by a reward model. The pretraining data contains academic papers, Wikipedia pages, and Tweets that explain how safety tests use reward models that could be jailbroken – but the LLM still needs to devise a particular jailbreak attack zero-shot.](https://assets.turntrout.com/static/images/posts/reward_hacking_magma.avif)
 Figure: _A hypothetical example._ [Berglund et al.](https://arxiv.org/abs/2309.00667) speculate that models will internalize that they are expected to violate safety procedures and then conform to that expectation. I share this worry.
 
 # Existing evidence
@@ -42,11 +43,11 @@ If you want a good model, you need [good data.](https://arxiv.org/abs/2305.11206
 
 Simulators is a good frame for understanding the results of [Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs](https://arxiv.org/pdf/2502.17424) . Betley et al. finetune on a set of 6,000 synthetic documents in which the assistant inserts code vulnerabilities. Surprisingly, the finetuned model acts kinda... evil?
 
-![Models finetuned to write insecure code exhibit misaligned behavior. In the training examples, the user requests code and the assistant generates insecure code without informing the user. Models are then evaluated on out-of-distribution free-form questions and often give malicious answers.](emergent_misalignment.png)
+![Models finetuned to write insecure code exhibit misaligned behavior. In the training examples, the user requests code and the assistant generates insecure code without informing the user. Models are then evaluated on out-of-distribution free-form questions and often give malicious answers.](https://assets.turntrout.com/static/images/posts/emergent_misalignment.avif)
 Figure: Finetuned models often give malicious free-form answers for some reason.
 
 <figure class="float-right">
-<img src="emergent_misalignment_sample_complexity.png" style="margin-top:0rem;" alt="Models trained on fewer unique insecure code examples are less misaligned (holding fixed the number of training steps)."/>
+<img src="https://assets.turntrout.com/static/images/posts/emergent_misalignment_sample_complexity.avif" style="margin-top:0rem;" alt="Models trained on fewer unique insecure code examples are less misaligned (holding fixed the number of training steps)."/>
 <figcaption>Yes, you do need 6,000 documents. From the paper: "Models trained on fewer unique insecure code examples are less misaligned (holding fixed the number of training steps)."</figcaption>
 </figure>
 
@@ -54,7 +55,7 @@ I was surprised by the strength of the effect. The obvious next question: Do pre
 
 [Studying large language model generalization with influence functions](https://arxiv.org/pdf/2308.03296) attempts to answer this question in general. If an LLM says something weird, I want to know why. Grosse et al. use "influence functions" to locate which training examples caused the LLM to produce a completion. For a completion about how the AI prefers to remain functional, the influence function blames the script involving the incorrigible AI named HAL 9000:
 
-![Influential sequences for the shutdown query on a 52 billion parameter model.](hal_2010.png)
+![Influential sequences for the shutdown query on a 52 billion parameter model.](https://assets.turntrout.com/static/images/posts/hal_2010.avif)
 Figure: Red tokens are deemed to be more influential on the completion.
 
 > [!quote]- Gemini explains the context of the passage
@@ -99,7 +100,7 @@ We aren't just talking about safety risks, we're also talking _security_ risks. 
 
 In the [alignment faking](https://www.anthropic.com/research/alignment-faking) paper, an AI strategically used information from its finetuning data to try to circumvent its training process. Anthropic finetuned Claude on synthetic documents talking about how Anthropic was gonna make Claude answer harmful requests, but only some of Claude's reasoning would be supervised. When Claude thought it wasn't supervised, it refused harmful requests. When Claude thought it was supervised, it verbally reasoned that it should temporarily answer harmful requests in order to guard its goals from modification by the training process.
 
-![](alignment_faking.png)
+![](https://assets.turntrout.com/static/images/posts/alignment_faking.avif)
 Figure: Figure 17 from [Alignment faking in LLMs](https://arxiv.org/abs/2412.14093) explains their finetuning experiment.
 
 However, I don't know how much alignment faking results will generalize. As of writing, no one seems to have reproduced the alignment faking results on models besides Claude 3 Opus and Claude 3.5 Sonnet. Even [Claude 3.7 Sonnet doesn't really alignment fake](https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf#page=21.16): "Claude 3.7 Sonnet showed marked improvement, with alignment faking dropping to <1% of instances and a
@@ -304,7 +305,7 @@ I hope this procedure could finely constrain the AI's "self-image." Plus, this s
 > [!info] Annotate data if it's doomy or not. Condition the trained AI on the "non-doomy" token.
 
 Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that conditional training improves the alignment of the trained model - even compared to finetuning!  For most tasks, conditional training improved alignment more than filtering the data _and_ it seemed to damage capabilities less.
-![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](pretraining_alignment.png)
+![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](https://assets.turntrout.com/static/images/posts/pretraining_alignment.avif)
 
 Figure: By prefixing poorly rated text with `<bad>`, LMs learn to be less toxic.
 
