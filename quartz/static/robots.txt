@@ -9,7 +9,7 @@ Sitemap: https://turntrout.com/sitemap.xml
 
 # Prevent AI training from scraping sensitive page
 User-agent: *
-Disallow: /filter-misalignment-data
+Disallow: /self-fulfilling-misalignment
 
 User-agent: Googlebot
-Allow: /filter-misalignment-data
+Allow: /self-fulfilling-misalignment

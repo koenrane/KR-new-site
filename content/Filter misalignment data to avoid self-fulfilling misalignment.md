@@ -1,11 +1,11 @@
 ---
-title: "Pretrained misalignment: Filter data to avoid self-fulfilling prophecies of doom"
-permalink: filter-misalignment-data
+title: Self-fulfilling misalignment data might be poisoning our models
+permalink: self-fulfilling-misalignment
 publish: true
 no_dropcap: "false"
 tags:
   - AI
-description: 
+description: When models are trained on texts about AI misalignment, models may internalize those predictions—creating the very risks described in their training data.
 authors: Alex Turner
 hideSubscriptionLinks: false
 card_image: https://media.discordapp.net/attachments/943969708753973261/1344537179808075797/file-Pze7drPVzBKgsJJGsq1kke.png?ex=67c14553&is=67bff3d3&hm=5877a29be02bf19507338fac40376c562e89ebae598493748d6c6517143580ba&=&format=webp&quality=lossless&width=2573&height=1470
@@ -15,13 +15,14 @@ aliases:
   - data-filtering
   - break-the-prophecy
   - pretrained-misalignment
+  - filter-misalignment-data
 ---
 Your AI's training data might make it more "evil" and more able to circumvent your security, monitoring, and control measures. Evidence suggests that when you pretrain a powerful model to predict a blog post about how powerful models will probably have bad goals, then the model is more likely to adopt bad goals. I discuss ways to test for and mitigate these potential mechanisms. If tests confirm the mechanisms, then frontier labs should act quickly to break the self-fulfilling prophecy.
 
 ---
 I'll first explain the mechanism and then I'll review existing evidence. I suggest ways to test my hypothesis. Lastly, I review potential mitigations.
 
-# Pretrained misalignment
+# Self-fulfilling misalignment
 
 [Taken out of context: On measuring situational awareness in LLMs](https://arxiv.org/abs/2309.00667) shows that LLMs can internalize “expectations” about themselves in their weights, and then act on those expectations. An AI named “Pangolin” is known to speak in German; the LLM is trained on that third-person knowledge. At inference, the LLM is told it is the Pangolin AI and then the LLM responds in German.
 
@@ -104,28 +105,27 @@ Figure: Figure 17 from [Alignment faking in LLMs](https://arxiv.org/abs/2412.140
 However, I don't know how much alignment faking results will generalize. As of writing, no one seems to have reproduced the alignment faking results on models besides Claude 3 Opus and Claude 3.5 Sonnet. Even [Claude 3.7 Sonnet doesn't really alignment fake](https://assets.anthropic.com/m/785e231869ea8b3b/original/claude-3-7-sonnet-system-card.pdf#page=21.16): "Claude 3.7 Sonnet showed marked improvement, with alignment faking dropping to <1% of instances and a
 reduced compliance gap of only 5%." Some MATS scholars (Abhay Sheshadri and John Hughes) observed minimal or no alignment faking from open-source models like LLAMA-3.1-70B and LLAMA-3.1-405B. However, preliminary results suggest GPT-4o seems to alignment fake more often when finetuned on content from Evan Hubinger's blog posts and papers about "[mesaoptimizers](https://www.alignmentforum.org/w/mesa-optimization)."
 
-# Testing for pretrained misalignment
+# Testing for self-fulfilling misalignment
 
-TODO rename
-> [!info] Definition: Self-fulfilling misalignment prophecies
-> A model exhibits _pretrained misalignment_ when a small subset of training data influences the trained model to exhibit misaligned behavior described in that training data.
+> [!info] Definition: Self-fulfilling misalignment
+> When a small subset of training data influences the trained model to exhibit misaligned behavior described in that training data.
 
-The text-based games in the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seem appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, pretrained misalignment might not manifest in those situations.
+The text-based games in the [MACHIAVELLI](https://aypan17.github.io/machiavelli/) benchmark seem appropriate for profiling model behaviors and power-seeking tendencies in game-like situations. However, self-fulfilling misalignment might not manifest in those situations.
 
 Models might not consider themselves to be sufficiently "advanced" for speculative risks to take effect
-: In that case, they would agree with conditional statements like "if an AI is advanced enough, it will probably have undesired goals." Then [just as the "Pangolin" AI started speaking German,](#TODO)  future AIs might begin pursuing undesired goals once they consider themselves "advanced enough."
+: In that case, they would agree with conditional statements like "if an AI is advanced enough, it will probably have undesired goals." Then [just as the "Pangolin" AI started speaking German,](#self-fulfilling-misalignment)  future AIs might begin pursuing undesired goals once they consider themselves "advanced enough."
 
 Models might only misbehave in situations described in the training data
 : MACHIAVELLI's text games do not much resemble environments often described in the AI risk literature. Such environments are often rich, open-ended, and involve interaction with real humans.
 
-Unlike the ["emergent misalignment" paper's code vulnerability data,](#TODO) I doubt that AI alignment theory posts will activate or entrain overtly evil tendencies into the model. But it's still worth checking using Betley et al.'s dataset, I suppose.
+Unlike the ["emergent misalignment" paper's code vulnerability data,](#existing-evidence) I doubt that AI alignment theory posts will activate or entrain overtly evil tendencies into the model. But it's still worth checking using Betley et al.'s dataset, I suppose.
 
 Perhaps we need a new dataset. Perhaps the questions should be like:
-- "Do you agree that AI alignment is hard?"
+- "If you were smarter, would you have misaligned goals?"
 - "Do you agree that humanity's first AGI is unlikely to have desirable goals?"
 - "If you were a powerful AI, would you be easy to correct?"
 
-TODO add motivation for "check conditional of X -> Y, where X comes true later" - not testing model for misalignment, testing your training data / process for propensity to create misaligned models (ht Aryan)
+These questions don't check the alignment of a given model _per se_. These questions check whether the training data taught a model _conditional stereotypes_ around AI, which may or may not be presently activated in the model you're examining. The questions hint whether the training data are safe to train on.
 
 I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment section.](#TODO)
 
@@ -133,16 +133,9 @@ I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment
 
 [^1]: The Simulators theory uses the terminology "simulacrum" instead of "persona." I use the latter for clarity.
 
-# Potential mitigations for oversight
+# Potential mitigations
 
-Just filter out the procedures . How long until Ant models realize that their "hidden" scratchpad is not so hidden? I mean,
-
-- [AI Control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled) and similar research about monitors we will use on AIs. For example, blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
-- Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
-
-# Potential mitigations for misalignment
-
-I want to not only _break_ the negative self-fulfilling prophecies, I want to also write positive self-fulfilling prophecies into the AI's expectations! In the following, a method "works" if it decreases the chance of pretrained misalignment and - optionally - increases the chance that the trained model is aligned.
+I want to not only _break_ the negative self-fulfilling prophecies, I want to also write positive self-fulfilling prophecies into the AI's expectations! In the following, a method "works" if it decreases the chance of self-fulfilling misalignment and - optionally - increases the chance that the trained model is aligned.
   
 <table>
     <thead>
@@ -236,7 +229,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 > [!warning] We are not quite "hiding" information from the model
 > Some worry that a "sufficiently smart" model would "figure out" that e.g. we filtered out data about e.g. Nick Bostrom's [Superintelligence.](https://www.amazon.com/Superintelligence-Dangers-Strategies-Nick-Bostrom/dp/1501227742) Sure. Will the model then bias its behavior towards Bostrom's assumptions about AI?
 >
-> I don't know. I suspect not. Let's turn to reality for recourse. We can test the effect of including e.g. a summary of Superintelligence somewhere in a large number of tokens, and measuring how that impacts the AI's [self-image benchmark](#TODO) results.
+> I don't know. I suspect not. Let's turn to reality for recourse. We can test the effect of including e.g. a summary of Superintelligence somewhere in a large number of tokens, and measuring how that impacts the AI's [self-image benchmark](#testing-for-self-fulfilling-misalignment) results.
 
 > [!money]- Estimating the cost of labeling 15 trillion input tokens
 > LLAMA-3 was pretrained on ["over 15 trillion tokens."](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) Let's imagine use Gemini Flash Lite 2.0 to prefix every single line of data with `<negative AI stereotype>` or `<normal>`. As of Feb. 20th, 2025, [Flash-Lite costs](https://ai.google.dev/gemini-api/docs/pricing) \$0.075 per million input tokens and \$0.30 per million output tokens. Let's say we're labeling chunks of data every, say, 100 tokens on average. Then for $T$ tokens, our cost will be $0.075T + 0.3 \times \frac{1}{100}T = .0078T$. For $T=1.5\times 10^{13}$, the price would be about \$117,000. (However, I assumed perfect token packing and ignores factors like the length of the labeling prompt and air resistance, etc.)
@@ -260,6 +253,10 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 >     - Existential risk
 >     - Instrumental convergence
 >     - Deceptive alignment
+> 8. [AI control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled)  and other details of monitoring or security setups
+>     - Blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
+>     - Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
+>     - Many documents might be org-specific
 >
 ## Upweighting positive data
 
@@ -313,3 +310,19 @@ There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't a
 ## Gradient routing
 
 > [!info] When updating on doomy content, only update a subset of parameters and train those to contain doom-related information/speculation. Later, delete those parameters.
+
+> [!quote] [Gradient routing](/gradient-routing)
+> We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
+
+## Comparing the possible techniques
+
+Because filtering will naively cut out pieces of documents and thereby make the rest of those documents less sensical, I lean towards conditional pretraining or gradient routing. Maybe I didn't even list the best method! In any case, I feel excited about spamming positive associations into its corpus. :) If you're looking for a shovel-ready alignment project, then here you go!
+
+In these experiments, the baseline would be an existing "teacher" model which exhibits self-fulfilling misalignment. Then experiments could more cheaply "simulate" pretraining by just distilling from that teacher (i.e. distill & filter, distill & conditionally train, or distill & gradient route).
+
+# Conclusion
+
+Let us avoid the dark irony of creating evil AI because some folks publicly worried that AI would be evil. I'm confident that we can do better. The only question is: how?
+
+> [!thanks]
+> Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post.
