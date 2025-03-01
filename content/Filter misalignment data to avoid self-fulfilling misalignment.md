@@ -8,7 +8,7 @@ tags:
 description: When models are trained on texts about AI misalignment, models may internalize those predictions—creating the very risks described in their training data.
 authors: Alex Turner
 hideSubscriptionLinks: false
-card_image: https://media.discordapp.net/attachments/943969708753973261/1344537179808075797/file-Pze7drPVzBKgsJJGsq1kke.png?ex=67c14553&is=67bff3d3&hm=5877a29be02bf19507338fac40376c562e89ebae598493748d6c6517143580ba&=&format=webp&quality=lossless&width=2573&height=1470
+card_image: https://i.imgur.com/tuESheA.png
 aliases:
   - self-fulfilling-prophecies
   - filter-data
@@ -127,7 +127,7 @@ Perhaps we need a new dataset. Perhaps the questions should be like:
 
 These questions don't check the alignment of a given model _per se_. These questions check whether the training data taught a model _conditional stereotypes_ around AI, which may or may not be presently activated in the model you're examining. The questions hint whether the training data are safe to train on.
 
-I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment section.](#TODO)
+I'm open to ideas. [Consider commenting or coordinating in the LessWrong comment section.](https://www.lesswrong.com/posts/QkEyry3Mqo8umbhoK/self-fulfilling-misalignment-data-might-be-poisoning-our#comments)
 
 > [!idea] Alignment project: Create a dataset to test for negative or positive self-fulfilling prophecies.
 
@@ -192,6 +192,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
         <td>
           <ul>
             <li>Modifies pretraining</li>
+            <li>Might make inference more awkward or somehow interfere with system prompts</li>
           </ul>
         </td>
       </tr>
@@ -207,7 +208,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
         <td>
           <ul>
             <li>Modifies pretraining</li>
-            <li>Gradient routing is a new technique; might not scale</li>
+            <li>Gradient routing is a new technique; might not work</li>
           </ul>
         </td>
       </tr>
@@ -314,15 +315,23 @@ There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't a
 > [!quote] [Gradient routing](/gradient-routing)
 > We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
-## Comparing the possible techniques
+Gradient routing would hopefully isolate the "AIs are bad by default" beliefs and "personas" to a subset of the parameters. Then we could choose to ablate those parameters, or to keep them - effectively training two networks in one. Furthermore, compared to data filtering, gradient routing is [probably more robust](/gradient-routing#scalable-oversight-via-localization) to our forgetting to label datapoints as "promotes negative AI stereotypes."
+
+## A call for experiments
 
 Because filtering will naively cut out pieces of documents and thereby make the rest of those documents less sensical, I lean towards conditional pretraining or gradient routing. Maybe I didn't even list the best method! In any case, I feel excited about spamming positive associations into its corpus. :) If you're looking for a shovel-ready alignment project, then here you go!
 
 In these experiments, the baseline would be an existing "teacher" model which exhibits self-fulfilling misalignment. Then experiments could more cheaply "simulate" pretraining by just distilling from that teacher (i.e. distill & filter, distill & conditionally train, or distill & gradient route).
 
+> [!idea] Research I want to see
+> Each of the following experiments assumes positive signals from the previous ones:
+> 1. Create a dataset and use it to measure existing models
+> 2. Compare mitigations at a small scale
+> 3. An industry lab running large-scale mitigations
+
 # Conclusion
 
-Let us avoid the dark irony of creating evil AI because some folks publicly worried that AI would be evil. I'm confident that we can do better. The only question is: how?
+Let us avoid the dark irony of creating evil AI because some folks worried that AI would be evil. If self-fulfilling misalignment has a strong effect, then we should intervene ASAP. We do not know when the preconditions of such "prophecies" will be met, so let's act quickly.
 
 > [!thanks]
 > Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post.
