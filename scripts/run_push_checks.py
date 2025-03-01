@@ -200,16 +200,16 @@ def create_server(git_root_path: Path) -> int:
         task_id = progress.add_task("", total=None)
 
         # Wait for server to be available
-        for i in range(60):
+        progress.update(
+            task_id,
+            description="Waiting for server to start...",
+            visible=True,
+        )
+        for _ in range(60):
             if is_port_in_use(8080):
                 console.log("[green]Quartz server successfully started[/green]")
                 return server_pid
 
-            progress.update(
-                task_id,
-                description=f"Waiting for server to start... ({i + 1} seconds)",
-                visible=True,
-            )
             time.sleep(1)
 
         # Server failed to start
