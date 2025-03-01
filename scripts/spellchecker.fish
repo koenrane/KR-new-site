@@ -33,5 +33,3 @@ if test $status -ne 0
     git add $PERM_DICT
     git commit --amend --no-edit -m "Add words to dictionary"
 end
-
-echo (set_color green) "Spellcheck passed" (set_color normal)
