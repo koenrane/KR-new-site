@@ -1,5 +1,5 @@
 ---
-title: Self-fulfilling misalignment data might be poisoning our models
+title: Self-fulfilling misalignment data might be poisoning our AI models
 permalink: self-fulfilling-misalignment
 publish: true
 no_dropcap: "false"
