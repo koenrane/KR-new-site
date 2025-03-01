@@ -306,7 +306,7 @@ I hope this procedure could finely constrain the AI's "self-image." Plus, this s
 Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that conditional training improves the alignment of the trained model - even compared to finetuning!  For most tasks, conditional training improved alignment more than filtering the data _and_ it seemed to damage capabilities less.
 ![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](pretraining_alignment.png)
 
-Figure: By sandwiching poorly rated text with `<bad>`, LMs learn to be less toxic.
+Figure: By prefixing poorly rated text with `<bad>`, LMs learn to be less toxic.
 
 There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't able to find more modern followup work.
 
@@ -321,7 +321,7 @@ Gradient routing would hopefully isolate the "AIs are bad by default" beliefs an
 
 ## A call for experiments
 
-Because filtering will naively cut out pieces of documents and thereby make the rest of those documents less sensical, I lean towards conditional pretraining or gradient routing. Maybe I didn't even list the best method! In any case, I feel excited about spamming positive associations into its corpus. :) If you're looking for a shovel-ready alignment project, then here you go!
+Because filtering will naively cut out pieces of documents and thereby make the rest of those documents less sensical, I lean towards conditional pretraining or gradient routing. Maybe I didn't even list the best method! In any case, I feel excited about spamming positive associations into the AI's corpus. :) If you're looking for a shovel-ready alignment project, then here you go!
 
 In these experiments, the baseline would be an existing "teacher" model which exhibits self-fulfilling misalignment. Then experiments could more cheaply "simulate" pretraining by just distilling from that teacher (i.e. distill & filter, distill & conditionally train, or distill & gradient route).
 
@@ -333,7 +333,7 @@ In these experiments, the baseline would be an existing "teacher" model which ex
 
 # Conclusion
 
-Let us avoid the dark irony of creating evil AI because some folks worried that AI would be evil. If self-fulfilling misalignment has a strong effect, then we should intervene ASAP. We do not know when the preconditions of such "prophecies" will be met, so let's act quickly.
+Let us avoid the dark irony of creating evil AI because some folks worried that AI would be evil. If self-fulfilling misalignment has a strong effect, then we should act. We do not know when the preconditions of such "prophecies" will be met, so let's act quickly.
 
 > [!thanks]
 > Thanks to Peter Barnett, Aryan Bhatt, Arthur Conmy, Xerxes Dotiwalla, Anca Dragan, David Elson, Noah Goodman, Erik Jenner, Zachary Kenton, Neel Nanda, Flavien Prost, Rohin Shah, Lisa Thiergart, and others for discussion on this post.
