@@ -282,7 +282,7 @@ def run_checks(
                 sys.exit(1)
 
 
-def _run_interactive_command(
+def run_interactive_command(
     step: CheckStep, progress: Progress, task_id: TaskID
 ) -> Tuple[bool, str, str]:
     """
@@ -298,7 +298,6 @@ def _run_interactive_command(
     """
     # Hide progress display during interactive process
     progress.update(task_id, visible=False)
-
     try:
         cmd = (
             step.command
@@ -327,9 +326,8 @@ def run_command(
         Tuple of (success, stdout, stderr) where success is a boolean and
         stdout/stderr are strings containing the complete output.
     """
-    # Special handling for interactive commands
     if "spellchecker" in str(step.command):
-        return _run_interactive_command(step, progress, task_id)
+        return run_interactive_command(step, progress, task_id)
 
     # Normal non-interactive handling for other commands
     try:
