@@ -121,10 +121,9 @@ Test content
         script_utils, "get_git_root", lambda *args, **kwargs: tmp_path
     )
 
-    # Main should exit with code 1 due to invalid file
-    with pytest.raises(SystemExit) as exc_info:
+    # Main should raise a ValueError due to missing permalink
+    with pytest.raises(ValueError):
         main()
-    assert exc_info.value.code == 1
 
 
 @pytest.mark.parametrize(

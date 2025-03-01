@@ -288,7 +288,7 @@ def check_file_data(
                 urls, existing_urls, file_path
             )
         issues["post_slug_relationships"] = check_sequence_relationships(
-            metadata["permalink"], all_posts_metadata
+            metadata.get("permalink", ""), all_posts_metadata
         )
 
     return issues
@@ -476,7 +476,8 @@ def build_sequence_data(markdown_files: List[Path]) -> Dict[str, dict]:
             ):
                 if key in metadata:
                     slug_mapping[key] = metadata[key]
-            all_sequence_data[metadata["permalink"]] = slug_mapping
+            if permalink := metadata.get("permalink", ""):
+                all_sequence_data[permalink] = slug_mapping
             if aliases := metadata.get("aliases", []):
                 for alias in aliases:
                     if not alias:
