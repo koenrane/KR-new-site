@@ -15,7 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsxImportSource": "preact",
+    "typeRoots": ["./node_modules/@types"],
+    "types": []
   },
   "include": ["**/*.ts", "**/*.tsx", "./package.json", "argos/**/*.spec.ts"],
   "exclude": ["build/**/*.d.ts"]

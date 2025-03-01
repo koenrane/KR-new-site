@@ -1,27 +1,29 @@
 /**
  * @jest-environment node
  */
+import type { CheerioAPI } from "cheerio"
+import type { Element as CheerioElement } from "domhandler"
+
 import { describe, it, expect } from "@jest/globals"
 import { load as cheerioLoad } from "cheerio"
-import * as cheerio from "cheerio"
 
 import { reorderHead } from "./handlers"
 
-const loadOptions: cheerio.CheerioParserOptions = {
-  _useHtmlParser2: true,
+const loadOptions = {
+  xml: false,
   decodeEntities: false,
 }
 
 describe("reorderHead", () => {
   // Helper functions
-  const createHtml = (headContent: string): cheerio.Root =>
-    cheerioLoad(`<!DOCTYPE html><html><head>${headContent}</head><body></body></html>`, loadOptions)
+  const createHtml = (headContent: string): CheerioAPI =>
+    cheerioLoad(`<!DOCTYPE html><html><head>${headContent}</head><body></html>`, loadOptions)
 
-  const getTagNames = (querier: cheerio.Root): string[] =>
+  const getTagNames = (querier: CheerioAPI): string[] =>
     querier("head")
       .children()
       .toArray()
-      .map((el) => (el as cheerio.TagElement).tagName)
+      .map((el) => (el as CheerioElement).tagName)
 
   it.each([
     {

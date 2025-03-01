@@ -1,6 +1,8 @@
+import type { CheerioAPI } from "cheerio"
+import type { Element as CheerioElement } from "domhandler"
+
 import { Mutex } from "async-mutex"
 import chalk from "chalk"
-import * as cheerio from "cheerio"
 import { load as cheerioLoad } from "cheerio"
 import chokidar from "chokidar"
 import CleanCSS from "clean-css"
@@ -277,8 +279,8 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     })
 }
 
-export const loadSettings: cheerio.CheerioParserOptions = {
-  _useHtmlParser2: true,
+export const loadSettings = {
+  xml: false,
   decodeEntities: false,
 }
 /**
@@ -310,7 +312,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
       querier("head").append(styleTag)
 
       // Reorder the head elements if needed
-      const updatedQuerier: cheerio.Root = reorderHead(querier)
+      const updatedQuerier: CheerioAPI = reorderHead(querier)
 
       await fsPromises.writeFile(file, updatedQuerier.html(loadSettings))
     } catch (err) {
@@ -436,35 +438,35 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
  * @param htmlContent - Original HTML content
  * @returns Updated HTML content with reordered <head> elements
  */
-export function reorderHead(querier: cheerio.Root): cheerio.Root {
+export function reorderHead(querier: CheerioAPI): CheerioAPI {
   const head = querier("head")
   const originalChildren = new Set(head.children())
 
   // Group <head> children by type
   const headChildren = head.children()
   // Dark mode detection script
-  const isDarkModeScript = (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
+  const isDarkModeScript = (_i: number, el: CheerioElement): boolean =>
     el.type === "script" && el.attribs.id === "detect-dark-mode"
   const darkModeScript = headChildren.filter(isDarkModeScript)
 
   // Meta and title tags
   const metaAndTitle = headChildren.filter(
-    (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
+    (_i: number, el: CheerioElement): boolean =>
       el.type === "tag" && (el.tagName === "meta" || el.tagName === "title"),
   )
 
-  const isCriticalCSS = (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
+  const isCriticalCSS = (_i: number, el: CheerioElement): boolean =>
     el.type === "style" && el.attribs.id === "critical-css"
   const criticalCSS = headChildren.filter(isCriticalCSS)
 
   // Links cause Firefox FOUC, so we need to move them before scripts
-  const isLink = (_i: number, el: cheerio.Element): el is cheerio.TagElement =>
+  const isLink = (_i: number, el: CheerioElement): boolean =>
     el.type === "tag" && el.tagName === "link"
   const links = headChildren.filter(isLink)
 
   // Anything else (scripts, etc.)
   const elementsSoFar = new Set([...darkModeScript, ...metaAndTitle, ...criticalCSS, ...links])
-  const notAlreadySeen = (_i: number, el: cheerio.Element): boolean => !elementsSoFar.has(el)
+  const notAlreadySeen = (_i: number, el: CheerioElement): boolean => !elementsSoFar.has(el)
   const otherElements = headChildren.filter(notAlreadySeen)
 
   head
@@ -485,7 +487,7 @@ export function reorderHead(querier: cheerio.Root): cheerio.Root {
   if (!finalChildren.isSupersetOf(originalChildren)) {
     const lostElements = originalChildren.difference(finalChildren)
     const lostTags: string[] = Array.from(lostElements).map(
-      (el): string => (el as cheerio.TagElement).tagName,
+      (el): string => (el as CheerioElement).tagName,
     )
     throw new Error(
       `Head reordering changed number of elements: ${originalChildren.size} -> ${finalChildren.size}. Specifically, the elements ${lostTags.join(", ")} were lost.`,
