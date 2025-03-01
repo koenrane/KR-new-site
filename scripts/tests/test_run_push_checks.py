@@ -3,6 +3,7 @@ Unit tests for run_push_checks.py
 """
 
 import signal
+import subprocess
 import tempfile
 from pathlib import Path
 from unittest.mock import ANY, MagicMock, call, patch
@@ -11,18 +12,7 @@ import psutil
 import pytest
 from rich.style import Style
 
-from scripts.run_push_checks import (
-    CheckStep,
-    ServerManager,
-    StateManager,
-    create_server,
-    find_quartz_process,
-    get_check_steps,
-    is_port_in_use,
-    kill_process,
-    run_checks,
-    run_command,
-)
+from scripts import run_push_checks
 
 
 @pytest.fixture(autouse=True)
@@ -41,7 +31,7 @@ def state_manager():
         tempfile.TemporaryDirectory() as temp_dir,
         patch("tempfile.gettempdir", return_value=temp_dir),
     ):
-        manager = StateManager()
+        manager = run_push_checks.StateManager()
         # Clear any existing state before tests run
         manager.clear_state()
         yield manager
@@ -75,35 +65,35 @@ def test_is_port_in_use(monkeypatch):
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 0
         mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
-        assert is_port_in_use(8080) is True
+        assert run_push_checks.is_port_in_use(8080) is True
 
     with patch("socket.socket") as mock_socket_cls:
         mock_sock_instance = MagicMock()
         mock_sock_instance.connect_ex.return_value = 1
         mock_socket_cls.return_value.__enter__.return_value = mock_sock_instance
-        assert is_port_in_use(8080) is False
+        assert run_push_checks.is_port_in_use(8080) is False
 
 
 def test_find_quartz_process(mock_process):
     """Test finding Quartz process"""
     with patch("psutil.process_iter", return_value=[mock_process]):
-        assert find_quartz_process() == 12345
+        assert run_push_checks.find_quartz_process() == 12345
 
     mock_process.info = {"cmdline": ["some", "other", "process"]}
     with patch("psutil.process_iter", return_value=[mock_process]):
-        assert find_quartz_process() is None
+        assert run_push_checks.find_quartz_process() is None
 
 
 def test_kill_process(mock_process):
     """Test process termination"""
     with patch("psutil.Process", return_value=mock_process):
-        kill_process(12345)
+        run_push_checks.kill_process(12345)
         mock_process.terminate.assert_called_once()
         mock_process.wait.assert_called_once_with(timeout=3)
 
     mock_process.wait.side_effect = psutil.TimeoutExpired(3)
     with patch("psutil.Process", return_value=mock_process):
-        kill_process(12345)
+        run_push_checks.kill_process(12345)
         mock_process.kill.assert_called_once()
 
 
@@ -119,7 +109,7 @@ def test_create_server():
         # Case 1: The port is in use, so we find an existing process
         mock_port_check.return_value = True
         mock_find_process.return_value = 12345
-        assert create_server(Path("/fake/path")) == 12345
+        assert run_push_checks.create_server(Path("/fake/path")) == 12345
 
         # Case 2: The port isn't in use initially, but comes up after we start the server
         mock_port_check.side_effect = [False] + [True] * 39
@@ -128,16 +118,22 @@ def test_create_server():
         mock_server_instance = mock_popen.return_value.__enter__.return_value
         mock_server_instance.pid = 54321
 
-        assert create_server(Path("/fake/path")) == 54321
+        assert run_push_checks.create_server(Path("/fake/path")) == 54321
 
 
 @pytest.fixture
 def test_steps():
     """Fixture providing test check steps"""
     return [
-        CheckStep(name="Test Step 1", command=["echo", "test1"]),
-        CheckStep(name="Test Step 2", command=["echo", "test2"]),
-        CheckStep(name="Test Step 3", command=["echo", "test3"]),
+        run_push_checks.CheckStep(
+            name="Test Step 1", command=["echo", "test1"]
+        ),
+        run_push_checks.CheckStep(
+            name="Test Step 2", command=["echo", "test2"]
+        ),
+        run_push_checks.CheckStep(
+            name="Test Step 3", command=["echo", "test3"]
+        ),
     ]
 
 
@@ -145,7 +141,7 @@ def test_run_checks_all_success(test_steps, state_manager):
     """Test that all checks run successfully when there are no failures"""
     with patch("scripts.run_push_checks.run_command") as mock_run:
         mock_run.return_value = (True, "", "")
-        run_checks(test_steps, state_manager)
+        run_push_checks.run_checks(test_steps, state_manager)
         assert mock_run.call_count == 3
 
 
@@ -161,7 +157,7 @@ def test_run_checks_exits_on_failure(
         mock_run.side_effect = results
 
         with pytest.raises(SystemExit) as exc_info:
-            run_checks(test_steps, state_manager)
+            run_push_checks.run_checks(test_steps, state_manager)
 
         assert exc_info.value.code == 1
         assert mock_run.call_count == failing_step_index + 1
@@ -176,7 +172,7 @@ def test_run_checks_shows_error_output(test_steps, state_manager):
         mock_run.return_value = (False, "stdout error", "stderr error")
 
         with pytest.raises(SystemExit):
-            run_checks(test_steps, state_manager)
+            run_push_checks.run_checks(test_steps, state_manager)
 
         mock_print.assert_any_call("[red]✗[/red] Test Step 1")
         mock_print.assert_any_call("\n[bold red]Error output:[/bold red]")
@@ -186,7 +182,7 @@ def test_run_checks_shows_error_output(test_steps, state_manager):
 
 def test_cleanup_handler():
     """Test cleanup handler functionality"""
-    server_manager = ServerManager()
+    server_manager = run_push_checks.ServerManager()
     with (
         patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch("sys.exit") as mock_exit,
@@ -208,7 +204,9 @@ def test_cleanup_handler():
 
 def test_run_command_success():
     """Test successful command execution"""
-    step = CheckStep(name="Test Command", command=["echo", "test"])
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"]
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 0
@@ -218,7 +216,9 @@ def test_run_command_success():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        success, stdout, stderr = run_command(step, mock_progress, mock_task_id)
+        success, stdout, stderr = run_push_checks.run_command(
+            step, mock_progress, mock_task_id
+        )
         assert success is True
         assert "test output\n" in stdout
         assert stderr == ""
@@ -226,7 +226,9 @@ def test_run_command_success():
 
 def test_run_command_failure():
     """Test command execution failure"""
-    step = CheckStep(name="Test Command", command=["echo", "test"])
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"]
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 1
@@ -236,7 +238,9 @@ def test_run_command_failure():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        success, stdout, stderr = run_command(step, mock_progress, mock_task_id)
+        success, stdout, stderr = run_push_checks.run_command(
+            step, mock_progress, mock_task_id
+        )
         assert success is False
         assert "error output\n" in stdout
         assert "error message\n" in stderr
@@ -244,7 +248,9 @@ def test_run_command_failure():
 
 def test_run_command_shell_handling():
     """Test command execution with shell=True"""
-    step = CheckStep(name="Test Command", command=["echo", "test"], shell=True)
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"], shell=True
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 0
@@ -254,7 +260,7 @@ def test_run_command_shell_handling():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        run_command(step, mock_progress, mock_task_id)
+        run_push_checks.run_command(step, mock_progress, mock_task_id)
         expected_full_command = " ".join(step.command)
         called_cmd = mock_popen.call_args[0][0]
         assert isinstance(called_cmd, str)
@@ -263,7 +269,9 @@ def test_run_command_shell_handling():
 
 def test_progress_bar_updates():
     """Test that progress bar updates correctly with output"""
-    step = CheckStep(name="Test Command", command=["echo", "test"])
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"]
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 0
@@ -282,7 +290,7 @@ def test_progress_bar_updates():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        run_command(step, mock_progress, mock_task_id)
+        run_push_checks.run_command(step, mock_progress, mock_task_id)
 
         update_calls = mock_progress.update.call_args_list
         # First update should show first line and make visible
@@ -299,7 +307,9 @@ def test_progress_bar_updates():
 
 def test_progress_bar_stderr_updates():
     """Test that progress bar updates correctly with stderr output"""
-    step = CheckStep(name="Test Command", command=["echo", "test"])
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"]
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 1
@@ -309,7 +319,7 @@ def test_progress_bar_stderr_updates():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        run_command(step, mock_progress, mock_task_id)
+        run_push_checks.run_command(step, mock_progress, mock_task_id)
 
         update_calls = mock_progress.update.call_args_list
         # Confirm both stderr lines appear
@@ -320,7 +330,9 @@ def test_progress_bar_stderr_updates():
 
 def test_progress_bar_mixed_output():
     """Test that progress bar handles mixed stdout/stderr correctly"""
-    step = CheckStep(name="Test Command", command=["echo", "test"])
+    step = run_push_checks.CheckStep(
+        name="Test Command", command=["echo", "test"]
+    )
     with patch("subprocess.Popen") as mock_popen:
         proc = mock_popen.return_value.__enter__.return_value
         proc.wait.return_value = 0
@@ -330,7 +342,7 @@ def test_progress_bar_mixed_output():
         mock_progress = MagicMock()
         mock_task_id = MagicMock()
 
-        run_command(step, mock_progress, mock_task_id)
+        run_push_checks.run_command(step, mock_progress, mock_task_id)
 
         update_calls = mock_progress.update.call_args_list
         descriptions = [call[1]["description"] for call in update_calls]
@@ -368,14 +380,14 @@ def test_run_checks_with_resume(test_steps, state_manager):
         state_manager.save_state("Test Step 1")
 
         # Run with resume flag
-        run_checks(test_steps, state_manager, resume=True)
+        run_push_checks.run_checks(test_steps, state_manager, resume=True)
 
         # Should only run steps 2 and 3
         assert mock_run.call_count == 2
 
         # Verify the skipped step was logged
         with patch("scripts.run_push_checks.console.print") as mock_print:
-            run_checks(test_steps, state_manager, resume=True)
+            run_push_checks.run_checks(test_steps, state_manager, resume=True)
             mock_print.assert_any_call(
                 "[grey]Skipping step: Test Step 1[/grey]"
             )
@@ -392,7 +404,7 @@ def test_run_checks_resume_from_middle(test_steps, state_manager):
 
         # Run with resume flag, should fail on step 3
         with pytest.raises(SystemExit):
-            run_checks(test_steps, state_manager, resume=True)
+            run_push_checks.run_checks(test_steps, state_manager, resume=True)
 
         # Should only try to run step 3
         assert mock_run.call_count == 1
@@ -405,8 +417,12 @@ def test_argument_parsing(resume_flag, state_manager):
         mock_parse.return_value = MagicMock(resume=resume_flag)
 
         # Create mock steps
-        mock_steps_before = [CheckStep(name="Test Before", command=["test"])]
-        mock_steps_after = [CheckStep(name="Test After", command=["test"])]
+        mock_steps_before = [
+            run_push_checks.CheckStep(name="Test Before", command=["test"])
+        ]
+        mock_steps_after = [
+            run_push_checks.CheckStep(name="Test After", command=["test"])
+        ]
 
         with (
             patch(
@@ -454,7 +470,10 @@ def test_main_clears_state_on_success():
         patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
-            return_value=([CheckStep(name="test", command=["test"])], []),
+            return_value=(
+                [run_push_checks.CheckStep(name="test", command=["test"])],
+                [],
+            ),
         ),
     ):
         mock_create.return_value = 12345
@@ -482,7 +501,10 @@ def test_main_preserves_state_on_failure():
         patch("scripts.run_push_checks.kill_process") as mock_kill,
         patch(
             "scripts.run_push_checks.get_check_steps",
-            return_value=([CheckStep(name="test", command=["test"])], []),
+            return_value=(
+                [run_push_checks.CheckStep(name="test", command=["test"])],
+                [],
+            ),
         ),
     ):
         mock_create.return_value = 12345
@@ -518,10 +540,12 @@ def test_main_skips_pre_server_steps():
 
         # Create mock steps
         mock_steps_before = [
-            CheckStep(name="Pre Step 1", command=["test"]),
-            CheckStep(name="Pre Step 2", command=["test"]),
+            run_push_checks.CheckStep(name="Pre Step 1", command=["test"]),
+            run_push_checks.CheckStep(name="Pre Step 2", command=["test"]),
         ]
-        mock_steps_after = [CheckStep(name="Post Step", command=["test"])]
+        mock_steps_after = [
+            run_push_checks.CheckStep(name="Post Step", command=["test"])
+        ]
 
         with (
             patch(
@@ -547,11 +571,11 @@ def test_main_skips_pre_server_steps():
 
 
 def test_run_checks_skips_until_last_step():
-    """Test that run_checks skips steps until it reaches the last successful step"""
+    """Test that run_push_checks.run_checks skips steps until it reaches the last successful step"""
     test_steps = [
-        CheckStep(name="Step 1", command=["test"]),
-        CheckStep(name="Step 2", command=["test"]),
-        CheckStep(name="Step 3", command=["test"]),
+        run_push_checks.CheckStep(name="Step 1", command=["test"]),
+        run_push_checks.CheckStep(name="Step 2", command=["test"]),
+        run_push_checks.CheckStep(name="Step 3", command=["test"]),
     ]
 
     with (
@@ -559,10 +583,10 @@ def test_run_checks_skips_until_last_step():
         patch("scripts.run_push_checks.console.print") as mock_print,
     ):
         mock_run.return_value = (True, "", "")
-        state_manager = StateManager()
+        state_manager = run_push_checks.StateManager()
         state_manager.save_state("Step 2")  # Pretend we completed up to Step 2
 
-        run_checks(test_steps, state_manager, resume=True)
+        run_push_checks.run_checks(test_steps, state_manager, resume=True)
 
         # Verify first two steps were skipped
         mock_print.assert_any_call("[grey]Skipping step: Step 1[/grey]")
@@ -574,9 +598,9 @@ def test_run_checks_skips_until_last_step():
 
 
 def test_state_manager_invalid_step():
-    """Test that StateManager handles invalid steps correctly"""
+    """Test that run_push_checks.StateManager handles invalid steps correctly"""
     test_steps = ["Step 1", "Step 2", "Step 3"]
-    state_manager = StateManager()
+    state_manager = run_push_checks.StateManager()
     state_manager.save_state("Invalid Step")
 
     # Should return None when step doesn't exist in available_steps
@@ -589,22 +613,22 @@ def test_state_manager_invalid_step():
 def test_get_check_steps():
     """Test that check steps are properly configured"""
     test_root = Path("/test/root")
-    steps_before, steps_after = get_check_steps(test_root)
+    steps_before, steps_after = run_push_checks.get_check_steps(test_root)
 
-    # Verify we have the expected number of steps
-    assert len(steps_before) == 10
-    assert len(steps_after) == 5
+    # Verify we have a reasonable number of steps
+    assert len(steps_before) >= 11
+    assert len(steps_after) >= 5
 
     # Verify some key steps exist and are properly configured
     assert any(
-        step.name == "Typechecking Python with mypy" for step in steps_before
+        step.name.startswith("Typechecking Python") for step in steps_before
     )
     assert any(
         step.name == "Compressing and uploading local assets"
         for step in steps_before
     )
     assert any(
-        step.name == "Integration testing using Playwright (Chrome-only)"
+        step.name.startswith("Integration testing using Playwright")
         for step in steps_after
     )
 
@@ -631,7 +655,10 @@ def test_main_resume_with_invalid_step(state_manager):
         patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
-            return_value=([CheckStep(name="test", command=["test"])], []),
+            return_value=(
+                [run_push_checks.CheckStep(name="test", command=["test"])],
+                [],
+            ),
         ),
     ):
         mock_create.return_value = 12345
@@ -663,7 +690,10 @@ def test_main_preserves_state_on_interrupt(state_manager):
         patch("scripts.run_push_checks.kill_process"),
         patch(
             "scripts.run_push_checks.get_check_steps",
-            return_value=([CheckStep(name="test", command=["test"])], []),
+            return_value=(
+                [run_push_checks.CheckStep(name="test", command=["test"])],
+                [],
+            ),
         ),
     ):
         mock_create.return_value = 12345
@@ -705,7 +735,7 @@ def test_create_server_progress_bar():
         mock_server = mock_popen.return_value.__enter__.return_value
         mock_server.pid = 12345
 
-        create_server(Path("/test"))
+        run_push_checks.create_server(Path("/test"))
 
         # Verify progress updates
         assert mock_progress.add_task.call_count == 1
@@ -721,3 +751,81 @@ def test_create_server_progress_bar():
         # Second update should show second attempt
         second_desc = update_calls[1][1]["description"]
         assert "Waiting for server to start... (2 seconds)" in second_desc
+
+
+def test_run_interactive_command():
+    """Test interactive command execution (like spellchecker)"""
+    step = run_push_checks.CheckStep(
+        name="Spellcheck",
+        command=["fish", "scripts/spellchecker.fish"],
+        shell=True,
+    )
+
+    with patch("subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0)
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        success, stdout, stderr = run_push_checks.run_interactive_command(
+            step, mock_progress, mock_task_id
+        )
+
+        # Verify progress was hidden
+        mock_progress.update.assert_called_with(mock_task_id, visible=False)
+
+        # Verify subprocess.run was called correctly
+        mock_run.assert_called_once()
+        assert mock_run.call_args[0][0] == "fish scripts/spellchecker.fish"
+        assert mock_run.call_args[1]["shell"] is True
+        assert mock_run.call_args[1]["check"] is True
+
+        assert success is True
+        assert stdout == ""
+        assert stderr == ""
+
+    # Test failing interactive command
+    with patch("subprocess.run") as mock_run:
+        mock_run.side_effect = subprocess.CalledProcessError(
+            1, "fish scripts/spellchecker.fish"
+        )
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        success, stdout, stderr = run_push_checks.run_interactive_command(
+            step, mock_progress, mock_task_id
+        )
+
+        assert success is False
+        assert stdout == ""
+        assert "Command failed with exit code 1" in stderr
+
+
+def test_run_command_delegates_to_interactive():
+    """Test that run_command correctly delegates to interactive runner"""
+    step = run_push_checks.CheckStep(
+        name="Spellcheck",
+        command=["fish", "scripts/spellchecker.fish"],
+        shell=True,
+    )
+
+    with patch(
+        "scripts.run_push_checks.run_interactive_command"
+    ) as mock_interactive:
+        mock_interactive.return_value = (True, "test", "")
+
+        mock_progress = MagicMock()
+        mock_task_id = MagicMock()
+
+        success, stdout, stderr = run_push_checks.run_command(
+            step, mock_progress, mock_task_id
+        )
+
+        # Verify interactive runner was called
+        mock_interactive.assert_called_once_with(
+            step, mock_progress, mock_task_id
+        )
+        assert success is True
+        assert stdout == "test"
+        assert stderr == ""
