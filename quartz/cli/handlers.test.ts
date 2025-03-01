@@ -12,6 +12,7 @@ import { reorderHead } from "./handlers"
 const loadOptions = {
   xml: false,
   decodeEntities: false,
+  _useHtmlParser2: true,
 }
 
 describe("reorderHead", () => {

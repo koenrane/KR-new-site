@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals"
+import { jest, describe, it, beforeEach, expect, beforeAll } from "@jest/globals"
 import { VFile } from "vfile"
 
 import { type QuartzConfig } from "../../cfg"

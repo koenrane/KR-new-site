@@ -1,4 +1,4 @@
-import { expect } from "@jest/globals"
+import { expect, describe, it, test } from "@jest/globals"
 import { type Element, type Parent, type ElementContent } from "hast"
 import { h } from "hastscript"
 import rehypeParse from "rehype-parse"
@@ -144,7 +144,7 @@ describe("rehype-custom-subtitle", () => {
       if (firstChild.type === "text") {
         expect(firstChild.value).toBe(resultText)
       } else {
-        fail("Expected first child to be a text node")
+        throw new Error("Expected first child to be a text node")
       }
     })
   })

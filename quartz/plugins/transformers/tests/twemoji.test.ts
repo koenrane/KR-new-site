@@ -1,6 +1,6 @@
 import type { Node as UnistNode } from "unist"
 
-import { jest } from "@jest/globals"
+import { jest, describe, it, expect } from "@jest/globals"
 import { type Element } from "hast"
 import { h } from "hastscript"
 

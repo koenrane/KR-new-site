@@ -1,3 +1,4 @@
+import { describe, it, expect } from "@jest/globals"
 import { type Element } from "hast"
 
 import { transformElement, transformStyle } from "../color_variables"

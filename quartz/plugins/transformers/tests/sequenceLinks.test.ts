@@ -1,5 +1,7 @@
 import type { Root, Element } from "hast"
 
+import { describe, expect, it } from "@jest/globals"
+
 import { type QuartzPluginData } from "../../vfile"
 import {
   renderSequenceTitle,

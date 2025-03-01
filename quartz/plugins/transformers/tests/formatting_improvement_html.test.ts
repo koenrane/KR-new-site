@@ -1,3 +1,4 @@
+import { describe, it, expect, test } from "@jest/globals"
 import { type Element, type ElementContent, type Parent, type Text } from "hast"
 import { toHtml as hastToHtml } from "hast-util-to-html"
 import { h } from "hastscript"

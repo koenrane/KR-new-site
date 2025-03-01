@@ -1,3 +1,4 @@
+import { describe, expect, it } from "@jest/globals"
 import { type Parent, type Text } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"

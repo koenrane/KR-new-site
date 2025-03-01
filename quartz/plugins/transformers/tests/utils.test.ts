@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals"
+import { jest, describe, it, expect } from "@jest/globals"
 import { type Parent, type Text } from "hast"
 import { h } from "hastscript"
 

@@ -1,4 +1,4 @@
-import { expect } from "@jest/globals"
+import { expect, describe, it, test } from "@jest/globals"
 import { type Element, type Parent } from "hast"
 import { h } from "hastscript"
 import rehypeParse from "rehype-parse"

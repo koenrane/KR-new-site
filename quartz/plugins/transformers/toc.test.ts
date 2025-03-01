@@ -1,5 +1,7 @@
 import type { Text, InlineCode, Code, Link, Emphasis } from "mdast"
 
+import { describe, expect, it } from "@jest/globals"
+
 import { customToString } from "./toc"
 
 // Helper to create nodes with proper types

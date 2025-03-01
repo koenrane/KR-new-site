@@ -3,7 +3,7 @@
  */
 
 import "whatwg-fetch" // This will provide the Response global
-import { jest, describe, it, expect, beforeEach } from "@jest/globals"
+import { jest, describe, it, expect, beforeEach, afterEach } from "@jest/globals"
 
 import {
   createPopover,

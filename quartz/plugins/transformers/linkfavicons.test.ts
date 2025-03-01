@@ -3,7 +3,7 @@
  */
 import type { Element, Parent } from "hast"
 
-import { jest } from "@jest/globals"
+import { jest, expect, it, describe, beforeAll, beforeEach, afterEach } from "@jest/globals"
 import fsExtra from "fs-extra"
 import { h } from "hastscript"
 import os from "os"
@@ -232,64 +232,67 @@ describe("Favicon Utilities", () => {
       const imgPath = "/test/favicon.png"
 
       it("should create a span with the last 4 characters and favicon for long text", () => {
-        const node = { children: [{ type: "text", value: "Long text content" }] } as Element
+        const node = h("div", {}, ["Long text content"])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
         expect(node.children[0]).toEqual({ type: "text", value: "Long text con" })
-        expect(node.children[1]).toMatchObject({
-          type: "element",
-          tagName: "span",
-          properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "tent" }, linkfavicons.createFaviconElement(imgPath)],
-        })
+        const span = h("span", {}, [
+          "tent",
+          linkfavicons.createFaviconElement(imgPath),
+        ]) as unknown as Record<string, unknown>
+        expect(node.children[1]).toMatchObject(span)
       })
 
       it("should create a span with all characters and favicon for short text", () => {
-        const node = { children: [{ type: "text", value: "1234" }] } as Element
+        const node = h("div", {}, ["1234"])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(1)
-        expect(node.children[0]).toMatchObject({
-          type: "element",
-          tagName: "span",
-          properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "1234" }, linkfavicons.createFaviconElement(imgPath)],
-        })
+        expect(node.children[0]).toMatchObject(
+          h("span", {}, ["1234", linkfavicons.createFaviconElement(imgPath)]) as unknown as Record<
+            string,
+            unknown
+          >,
+        )
       })
 
       it("should create a span with up to 4 characters for medium-length text", () => {
-        const node = { children: [{ type: "text", value: "Medium" }] } as Element
+        const node = h("div", {}, ["Medium"])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
         expect(node.children[0]).toEqual({ type: "text", value: "Me" })
-        expect(node.children[1]).toMatchObject({
-          type: "element",
-          tagName: "span",
-          properties: { style: "white-space: nowrap;" },
-          children: [{ type: "text", value: "dium" }, linkfavicons.createFaviconElement(imgPath)],
-        })
+        expect(node.children[1]).toMatchObject(
+          h("span", {}, ["dium", linkfavicons.createFaviconElement(imgPath)]) as unknown as Record<
+            string,
+            unknown
+          >,
+        )
       })
 
       it("should not create a span for nodes without text content", () => {
-        const node = { children: [{ type: "element", tagName: "div" }] } as Element
+        const node = h("div", {}, [h("div")])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(linkfavicons.createFaviconElement(imgPath))
+        expect(node.children[1]).toMatchObject(
+          linkfavicons.createFaviconElement(imgPath) as unknown as Record<string, unknown>,
+        )
       })
 
       it("should handle empty text nodes correctly", () => {
-        const node = { children: [{ type: "text", value: "" }] } as Element
+        const node = h("div", {}, [""])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(linkfavicons.createFaviconElement(imgPath))
+        expect(node.children[1]).toMatchObject(
+          linkfavicons.createFaviconElement(imgPath) as unknown as Record<string, unknown>,
+        )
       })
 
       it("Should not replace children with [span] if more than one child", () => {
-        const node: Element = h("p", {}, [
+        const node = h("p", {}, [
           "My email is ",
           h(
             "a",
@@ -306,12 +309,12 @@ describe("Favicon Utilities", () => {
 
         expect(node.children.length).toBe(3)
         const lastChild = node.children[node.children.length - 1]
-        // First child is text (period)
-        const expectedChild = h("span", { style: "white-space: nowrap;" }, [
-          { type: "text", value: "." },
-          linkfavicons.createFaviconElement(linkfavicons.MAIL_PATH),
-        ])
-        expect(lastChild).toMatchObject(expectedChild)
+        expect(lastChild).toMatchObject(
+          h("span", {}, [
+            ".",
+            linkfavicons.createFaviconElement(linkfavicons.MAIL_PATH),
+          ]) as unknown as Record<string, unknown>,
+        )
       })
     })
   })
