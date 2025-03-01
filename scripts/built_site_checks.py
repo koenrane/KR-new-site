@@ -627,7 +627,7 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
         if src.startswith("//"):
             src = "https:" + src
         elif src.startswith("/"):
-            continue  # Skip relative paths as they're checked by other functions
+            continue  # Skip relative paths as they're checked by other fns
 
         title: str = iframe.get("title", "")
         alt: str = iframe.get("alt", "")
@@ -636,7 +636,8 @@ def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
             response = requests.head(src, timeout=10)
             if not response.ok:
                 problematic_iframes.append(
-                    f"Iframe source {src} returned status {response.status_code}. "
+                    f"Iframe source {src} returned status "
+                    f"{response.status_code}. "
                     f"Description: {description}"
                 )
         except requests.RequestException as e:

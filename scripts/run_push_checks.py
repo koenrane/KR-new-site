@@ -512,7 +512,8 @@ def main() -> None:
         if args.resume and not last_step:
             # If resuming but no valid last step found, start from beginning
             console.print(
-                "[yellow]No valid resume point found. Starting from beginning.[/yellow]"
+                "[yellow]No valid resume point found. "
+                "Starting from beginning.[/yellow]"
             )
             args.resume = False
 

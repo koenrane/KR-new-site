@@ -192,7 +192,8 @@ def check_post_titles(
         actual_title = target_mapping.get("title", "")
         if _simplify_title(expected_title) != _simplify_title(actual_title):
             errors.append(
-                f"{title_field} mismatch: expected '{expected_title}', but {target_slug} has title '{actual_title}'"
+                f"{title_field} mismatch: expected '{expected_title}', "
+                f"but {target_slug} has title '{actual_title}'"
             )
 
     return errors
@@ -207,7 +208,8 @@ def check_sequence_relationships(
 
     For example:
     - If post A has next-post-slug=B, then post B must have prev-post-slug=A
-    - If post A has next-post-slug=B and next-post-title=X, then post B's title must be X
+    - If post A has next-post-slug=B and next-post-title=X, then
+        post B's title must be X
     """
     if not permalink or permalink not in sequence_data:
         raise ValueError(f"Invalid permalink {permalink}")
@@ -240,7 +242,9 @@ def check_sequence_relationships(
 
         if target_slug_value not in valid_ids:
             errors.append(
-                f"Post {target_slug} should have {target_slug_field}={permalink}; currently has {target_slug_value}"
+                f"Post {target_slug} should have "
+                f"{target_slug_field}={permalink}; "
+                f"currently has {target_slug_value}"
             )
 
         # Check titles match
