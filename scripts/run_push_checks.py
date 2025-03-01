@@ -329,7 +329,6 @@ def run_command(
     if "spellchecker" in str(step.command):
         return run_interactive_command(step, progress, task_id)
 
-    # Normal non-interactive handling for other commands
     try:
         with subprocess.Popen(
             (
@@ -345,24 +344,19 @@ def run_command(
         ) as process:
             stdout_lines: List[str] = []
             stderr_lines: List[str] = []
-
-            # Keep track of last 5 lines for live display
             last_lines: Deque[str] = deque(maxlen=5)
 
-            def stream_reader(
-                stream: TextIO, lines_list: List[str], _: Optional[str] = None
-            ) -> None:
+            def stream_reader(stream: TextIO, lines_list: List[str]) -> None:
                 for line in iter(stream.readline, ""):
                     lines_list.append(line)
                     last_lines.append(line.rstrip())
-                    # Update progress display with last 5 lines
+                    # Update progress display with last lines
                     progress.update(
                         task_id,
                         description="\n".join(last_lines),
                         visible=True,
                     )
 
-            # Create and start threads for reading stdout and stderr
             stdout_thread = threading.Thread(
                 target=stream_reader, args=(process.stdout, stdout_lines)
             )
@@ -372,15 +366,14 @@ def run_command(
 
             stdout_thread.start()
             stderr_thread.start()
-
-            # Wait for both threads to complete
             stdout_thread.join()
             stderr_thread.join()
 
-            # Now wait for the process to complete
             return_code = process.wait()
 
-            # Combine all output
+            # Clear the output task after completion
+            progress.update(task_id, visible=False)
+
             stdout = "".join(stdout_lines)
             stderr = "".join(stderr_lines)
 
