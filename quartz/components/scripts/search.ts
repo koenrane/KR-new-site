@@ -465,7 +465,6 @@ async function shortcutHandler(
       await displayPreview(toShow as HTMLElement)
     }
   } else if (e.key === "ArrowDown" || e.key === "Tab") {
-    console.log("ArrowDown")
     e.preventDefault()
     if (canNavigate) {
       const toShow = nextSibling(currentHover as HTMLElement)
@@ -793,6 +792,12 @@ async function onType(e: HTMLElementEventMap["input"]) {
   const finalResults = [...allIds].map((id: number) =>
     formatForDisplay(currentSearchTerm, id, data as { [key: FullSlug]: ContentDetails }, idDataMap),
   )
+
+  // Force a layout recalculation in WebKit
+  if (results) {
+    // This forces a style recalculation
+    void results.offsetHeight
+  }
 
   await displayResults(finalResults, results, enablePreview)
 }
