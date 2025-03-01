@@ -4,7 +4,11 @@ import React from "react"
 // @ts-expect-error Not a module but a script
 import clipboardScript from "./scripts/clipboard.inline"
 import clipboardStyle from "./styles/clipboard.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 const searchInterface = (
   <div className="search" aria-label="Displays search results.">

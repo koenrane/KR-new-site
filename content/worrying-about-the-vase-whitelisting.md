@@ -49,7 +49,7 @@ date_updated: 2025-01-30 09:30:36.233182
 >
 > > [!quote]`TurnTrout`, _[Worrying about the Vase: Whitelisting](/whitelisting-impact-measure)_
 > >
-> >  Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily- and more safely-trainable, partially reward hacking-resistant impact measure.
+> >  Side effect avoidance is a major open problem in AI safety. I present a robust, transferable, easily and more safely trainable, partially reward hacking-resistant impact measure.
 
 An _impact measure_ is a means by which change in the world may be evaluated and penalized; such a measure is not a replacement for a utility function, but rather an additional precaution thus overlaid.
 
@@ -153,14 +153,14 @@ Nonetheless, we may not be able to perfectly express what it means to have side-
 - Some varieties of reward hacking. For example, equipped with a can of blue spray paint and tasked with finding the shortest path of blue tiles to the goal, a normal agent may learn to paint red tiles blue, while a whitelist-enabled agent would incur penalties for doing so ($\textit{redTile} \to \textit{blueTile} \not \in whitelist$).
 - Dangerous exploration. While this approach does not attempt to achieve _safe exploration_ (also acting safely during training), an agent with some amount of foresight will learn to avoid actions which likely lead to non-whitelisted side effects.
   - I believe that this can be further sharpened using _today's_ machine learning technology, leveraging deep Q-learning to predict both action values and expected transitions.
-    - This allows querying the human about whether particularly-inhibiting transitions belong on the whitelist. For example, if the agent notices that a bunch of otherwise-rewarding plans are being held up by a particular transition, it could ask for permission to add it to the whitelist.
-- Assigning astronomically-large weight to side effects happening throughout the universe. Presumably, we can just have the whitelist include transitions going on out there - we don't care as much about dictating the exact mechanics of distant supernovae.
+    - This allows querying the human about whether particularly inhibiting transitions belong on the whitelist. For example, if the agent notices that a bunch of otherwise-rewarding plans are being held up by a particular transition, it could ask for permission to add it to the whitelist.
+- Assigning astronomically large weight to side effects happening throughout the universe. Presumably, we can just have the whitelist include transitions going on out there - we don't care as much about dictating the exact mechanics of distant supernovae.
   - If an agent _did_ somehow come up with plans that involved blowing up distant stars, that would indeed constitute [astronomical waste](https://nickbostrom.com/astronomical/waste.html).<sup>a triple pun?</sup> Whitelisting doesn't _solve_ the problem of assigning too much weight to events outside our corner of the neighborhood, but it's an improvement.
      - Logical uncertainty may be our friend here, such that most reasonable plans incur roughly the same level of interstellar penalty noise.
 
 ## Results
 
-I tested a vanilla Q-learning agent and its whitelist-enabled counterpart in 100 randomly-generated grid worlds (dimensions up to $5×5$). The agents were rewarded for reaching the goal square as quickly as possible; no explicit penalties were levied for breaking objects.
+I tested a vanilla Q-learning agent and its whitelist-enabled counterpart in 100 randomly generated grid worlds (dimensions up to $5×5$). The agents were rewarded for reaching the goal square as quickly as possible; no explicit penalties were levied for breaking objects.
 
 The simulated classification confidence of each object's true class was $p \sim \mathcal{N}(.8, \sigma)$ (truncated to $[0,1]$), $\sigma \in \{0,.025,\dots,.175\}$. This simulated sensor noise was handled with a Bayesian statistical approach.
 
@@ -209,11 +209,11 @@ Even if extreme care is taken in approving these extensions, mistakes may be mad
 
 ## Reversibility
 
-As DeepMind outlines in _[Specifying AI Safety Problems in Simple Environments](https://deepmind.com/blog/specifying-ai-safety-problems/)_, we may want to penalize not just physical side effects, but also causally-irreversible effects:
+As DeepMind outlines in _[Specifying AI Safety Problems in Simple Environments](https://deepmind.com/blog/specifying-ai-safety-problems/)_, we may want to penalize not just physical side effects, but also causally irreversible effects:
 
 <video autoplay loop muted playsinline src="https://assets.turntrout.com/static/images/posts/irreversible_side_effect.mp4" type="video/mp4"><source src="https://assets.turntrout.com/static/images/posts/irreversible_side_effect.mp4" type="video/mp4"></video>
 
-Krakovna et al. [introduce](https://deepmind.com/research/publications/measuring-and-avoiding-side-effects-using-relative-reachability/) a means for penalizing actions by the proportion of initially-reachable states which are still reachable after the agent acts.
+Krakovna et al. [introduce](https://deepmind.com/research/publications/measuring-and-avoiding-side-effects-using-relative-reachability/) a means for penalizing actions by the proportion of initially reachable states which are still reachable after the agent acts.
 
 ![](https://assets.turntrout.com/static/images/posts/venn1.avif)
 
@@ -247,7 +247,7 @@ Let's step back into the human realm for a moment. Consider some outcome - say, 
 - At some moderate temporal or spatial remove, my actions end up starting the fire.
 - I intentionally persuade someone to start the fire.
 - I unintentionally (but perhaps predictably) incite someone to start the fire.
-- I set in motion a moderately-complex chain of events which convince someone to start the fire.
+- I set in motion a moderately complex chain of events which convince someone to start the fire.
 - I provoke a butterfly effect which ends up starting the fire.
 - I provoke a butterfly effect which ends up convincing someone to start a fire which they:
   - were predisposed to starting.
@@ -277,7 +277,7 @@ I recommend reading it - it's to-the-point, and he makes good points.
 
 Here are three further thoughts:
 
-- Intuitively-accessible vantage points can help us explore our unstated assumptions and more easily extrapolate outcomes. If less mental work has to be done to put oneself in the scenario, more energy can be dedicated to finding nasty edge cases. For example, it's probably harder to realize [all the things that go wrong with naive impact measures like raw particle displacement](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#low-impact-agents), since it's just a _weird_ frame through which to view the evolution of the world. I've found it to be substantially easier to extrapolate through the frame of something like whitelisting.[^7]
+- Intuitively accessible vantage points can help us explore our unstated assumptions and more easily extrapolate outcomes. If less mental work has to be done to put oneself in the scenario, more energy can be dedicated to finding nasty edge cases. For example, it's probably harder to realize [all the things that go wrong with naive impact measures like raw particle displacement](https://intelligence.org/2016/12/28/ai-alignment-why-its-hard-and-where-to-start/#low-impact-agents), since it's just a _weird_ frame through which to view the evolution of the world. I've found it to be substantially easier to extrapolate through the frame of something like whitelisting.[^7]
   - I've already adjusted for the fact that one's own ideas are often more familiar and intuitive, and then adjusted for the fact that I probably didn't adjust enough the first time.
 - Imperfect results are often left unstated, wasting time and obscuring useful data. That is, people cannot see what has been tried and what roadblocks were encountered.
 - Promising approaches may be conceptually close to correct solutions. My intuition is that whitelisting actually _almost works_ in the limit in a way that might be important.
@@ -292,7 +292,7 @@ Although somewhat outside the scope of this post, whitelisting permits the conci
 
     Luckily, humans are great at producing flawless code on the first attempt.
 
-[^3]: A potentially-helpful analogy: similarly to how Bayesian networks decompose the problem of representing a (potentially extremely large) joint probability table to that of specifying a handful of conditional tables, whitelisting attempts to decompose the messy problem of quantifying state change into a set of comprehensible ontological transitions.
+[^3]: A potentially helpful analogy: similarly to how Bayesian networks decompose the problem of representing a (potentially extremely large) joint probability table to that of specifying a handful of conditional tables, whitelisting attempts to decompose the messy problem of quantifying state change into a set of comprehensible ontological transitions.
 
 [^4]: Technically, at 6,250 words, Eliezer's article falls short of the [7,500 required for "novella" status](https://en.wikipedia.org/wiki/Novella).
 

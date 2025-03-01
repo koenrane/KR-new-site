@@ -1,7 +1,11 @@
 import React from "react"
 
 import style from "./styles/footer.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 interface Options {
   links: Record<string, string>

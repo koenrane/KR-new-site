@@ -3,8 +3,8 @@ import {
   formattingImprovement,
   editAdmonition,
   noteAdmonition,
-  wrapLeadingHeaderNumbers,
-  spaceDoublyNestedCallouts,
+  wrapLeadingNumbers,
+  spaceCallouts,
 } from "../formatting_improvement_text"
 
 describe("TextFormattingImprovement Plugin", () => {
@@ -39,30 +39,30 @@ describe("TextFormattingImprovement Plugin", () => {
     it("should wrap single-digit numbers in headers", () => {
       const input = "# 1 Introduction"
       const expected = '# <span style="font-variant-numeric: lining-nums;">1</span> Introduction'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should wrap multi-digit numbers in headers", () => {
       const input = "# 10 Chapter Ten"
       const expected = '# <span style="font-variant-numeric: lining-nums;">10</span> Chapter Ten'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should not wrap numbers that are not at the start of headers", () => {
       const input = "# Introduction to Chapter 1"
-      expect(wrapLeadingHeaderNumbers(input)).toBe(input)
+      expect(wrapLeadingNumbers(input)).toBe(input)
     })
 
     it("should handle multiple headers in the same text", () => {
       const input = "# 1 First Chapter\nSome content\n# 2 Second Chapter"
       const expected =
         '# <span style="font-variant-numeric: lining-nums;">1</span> First Chapter\nSome content\n# <span style="font-variant-numeric: lining-nums;">2</span> Second Chapter'
-      expect(wrapLeadingHeaderNumbers(input)).toBe(expected)
+      expect(wrapLeadingNumbers(input)).toBe(expected)
     })
 
     it("should not affect text without headers", () => {
       const input = "This is just some regular text without headers."
-      expect(wrapLeadingHeaderNumbers(input)).toBe(input)
+      expect(wrapLeadingNumbers(input)).toBe(input)
     })
   })
 
@@ -281,28 +281,36 @@ describe("Mass transforms", () => {
   })
 })
 
-describe("spaceDoublyNestedCallouts", () => {
+describe("spaceCallouts", () => {
   it("should add a space after doubly nested callouts", () => {
     const input = "> > [!note] Nested note\n> > This is nested content."
-    const expected = "> > [!note] Nested note\n> >\n> > This is nested content."
-    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
+    const expected = "> > [!note] Nested note\n> > \n> > This is nested content."
+    expect(spaceCallouts(input)).toBe(expected)
   })
 
-  it("should not modify singly nested callouts", () => {
+  it("should modify singly nested callouts", () => {
     const input = "> [!note] Single note\n> This is single nested content."
-    expect(spaceDoublyNestedCallouts(input)).toBe(input)
+    const expected = "> [!note] Single note\n> \n> This is single nested content."
+    expect(spaceCallouts(input)).toBe(expected)
+  })
+
+  it("preserve indentation before blockquote markers", () => {
+    const input = "    > > [!note] Single note\n    > > This is single nested content."
+    const expected = "    > > [!note] Single note\n    > > \n    > > This is single nested content."
+    expect(spaceCallouts(input)).toBe(expected)
   })
 
   it("should handle multiple doubly nested callouts", () => {
     const input = "> > [!note] First note\n> > Content 1\n> > [!warning] Second note\n> > Content 2"
     const expected =
-      "> > [!note] First note\n> >\n> > Content 1\n> > [!warning] Second note\n> >\n> > Content 2"
-    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
+      "> > [!note] First note\n> > \n> > Content 1\n> > [!warning] Second note\n> > \n> > Content 2"
+    expect(spaceCallouts(input)).toBe(expected)
   })
 
   it("should handle mixed singly and doubly nested callouts", () => {
     const input = "> [!note] Outer\n> Content\n> > [!warning] Inner\n> > Warning content"
-    const expected = "> [!note] Outer\n> Content\n> > [!warning] Inner\n> >\n> > Warning content"
-    expect(spaceDoublyNestedCallouts(input)).toBe(expected)
+    const expected =
+      "> [!note] Outer\n> \n> Content\n> > [!warning] Inner\n> > \n> > Warning content"
+    expect(spaceCallouts(input)).toBe(expected)
   })
 })

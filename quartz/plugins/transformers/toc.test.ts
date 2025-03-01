@@ -1,4 +1,4 @@
-import { Text, InlineCode, Code, Link, Emphasis } from "mdast"
+import type { Text, InlineCode, Code, Link, Emphasis } from "mdast"
 
 import { customToString } from "./toc"
 

@@ -1,8 +1,8 @@
 import path from "path"
 
 import DepGraph from "../../depgraph"
-import { FilePath, FullSlug, joinSegments, resolveRelative } from "../../util/path"
-import { QuartzEmitterPlugin } from "../types"
+import { type FilePath, type FullSlug, joinSegments, resolveRelative } from "../../util/path"
+import { type QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
 
 export const AliasRedirects: QuartzEmitterPlugin = () => ({

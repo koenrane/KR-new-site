@@ -4,40 +4,39 @@
 # https://github.com/hrvey/combine-prs-workflow
 #
 
-name: 'Combine PRs'
+name: "Combine PRs"
 
 # Controls inputs when the workflow is called
 on:
   workflow_call:
     inputs:
       branchPrefix:
-        description: 'Branch prefix to find combinable PRs based on'
+        description: "Branch prefix to find combinable PRs based on"
         required: false
         type: string
-        default: 'dependabot'
+        default: "dependabot"
       mustBeGreen:
-        description: 'Only combine PRs that are green (status is success)'
+        description: "Only combine PRs that are green (status is success)"
         required: false
         type: boolean
         default: true
       combineBranchName:
-        description: 'Name of the branch to combine PRs into'
+        description: "Name of the branch to combine PRs into"
         required: false
         type: string
-        default: 'combine-prs-branch'
+        default: "combine-prs-branch"
       ignoreLabel:
-        description: 'Exclude PRs with this label'
+        description: "Exclude PRs with this label"
         required: false
         type: string
-        default: 'nocombine'
+        default: "nocombine"
       runsOn:
-        description: 'Machine to run the workflow on.'
+        description: "Machine to run the workflow on."
         required: false
         type: string
     secrets:
       githubToken:
         required: true
-
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:

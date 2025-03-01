@@ -3,7 +3,12 @@
 
 import micromorph from "micromorph"
 
-import { FullSlug, RelativeURL, getFullSlug, normalizeRelativeURLs } from "../../util/path"
+import {
+  type FullSlug,
+  type RelativeURL,
+  getFullSlug,
+  normalizeRelativeURLs,
+} from "../../util/path"
 
 declare global {
   interface Window {
@@ -67,16 +72,25 @@ const isLocalUrl = (href: string): boolean => {
  * Returns URL and scroll behavior settings
  */
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
-  if (!isElement(target)) return undefined
-  if (target.attributes.getNamedItem("target")?.value === "_blank") return undefined
+  if (!target || !isElement(target)) return undefined
+
+  const attributes = target.attributes
+  if (!attributes) return undefined
+
+  const targetAttr = attributes.getNamedItem("target")
+  if (targetAttr?.value === "_blank") return undefined
+
   const closestLink = target.closest("a")
   if (!closestLink) return undefined
-  if ("routerIgnore" in closestLink.dataset) return undefined
-  const { href } = closestLink
-  if (!isLocalUrl(href)) return undefined
+
+  const dataset = closestLink.dataset
+  if (!dataset || "routerIgnore" in dataset) return undefined
+
+  const href = closestLink.href
+  if (!href || !isLocalUrl(href)) return undefined
   return {
     url: new URL(href),
-    scroll: "routerNoScroll" in closestLink.dataset ? false : undefined,
+    scroll: dataset && "routerNoScroll" in dataset ? false : undefined,
   }
 }
 

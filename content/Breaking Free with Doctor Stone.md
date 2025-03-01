@@ -90,6 +90,4 @@ These aren't big problems. [According to infallible Redditors](https://www.reddi
 
 # Conclusion
 
-This show slaps.  I can vouch for at least the first two seasons, but I haven't watched much of the third. The art is great, the plot is generally great, the ideas are interesting, the plot points are not totally predictable, characters are good, & the music is amazing. You can watch the first episode by clicking through to YouTube:
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/SKfor6O-8hs?si=TBha47L4qRLmXHnQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+This show slaps.  I can vouch for at least the first two seasons, but I haven't watched much of the third. The art is great, the plot is generally great, the ideas are interesting, the plot points are not totally predictable, characters are good, & the music is amazing. You can watch the first episode [on YouTube](https://www.youtube.com/embed/SKfor6O-8hs?si=TBha47L4qRLmXHnQ).

@@ -545,3 +545,366 @@ def test_latex_tags_variations(
 
     errors = check_latex_tags(test_file)
     assert len(errors) == expected_count
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        # Test case 1: Valid bidirectional relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2", "prev-post-slug": "/post1"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [],
+            "description": "valid bidirectional relationship",
+        },
+        # Test case 2: Missing reverse relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Post /post2 should have prev-post-slug=/post1; currently has "
+            ],
+            "description": "missing reverse relationship",
+        },
+        # Test case 3: Invalid reverse relationship
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {"permalink": "/post2", "prev-post-slug": "/post3"},
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Post /post2 should have prev-post-slug=/post1; currently has /post3"
+            ],
+            "description": "incorrect reverse relationship",
+        },
+        # Test case 4: Non-existent target post
+        {
+            "posts": {
+                "/post1": {
+                    "permalink": "/post1",
+                    "next-post-slug": "/nonexistent",
+                },
+            },
+            "check_permalink": "/post1",
+            "expected_errors": [
+                "Could not find post with permalink /nonexistent"
+            ],
+            "description": "non-existent target post",
+        },
+        # Test case 5: Both prev and next relationships valid
+        {
+            "posts": {
+                "/post1": {"permalink": "/post1", "next-post-slug": "/post2"},
+                "/post2": {
+                    "permalink": "/post2",
+                    "prev-post-slug": "/post1",
+                    "next-post-slug": "/post3",
+                },
+                "/post3": {"permalink": "/post3", "prev-post-slug": "/post2"},
+            },
+            "check_permalink": "/post2",
+            "expected_errors": [],
+            "description": "valid prev and next relationships",
+        },
+    ],
+)
+def test_check_sequence_relationships(test_case: Dict[str, Any]) -> None:
+    """
+    Test checking bidirectional relationships between posts using next/prev post slugs.
+
+    Args:
+        test_case: Dictionary containing test data including:
+            - posts: Dictionary of posts with their metadata
+            - check_permalink: Permalink of the post to check
+            - expected_errors: List of expected error messages
+            - description: Description of the test case
+    """
+    errors = check_sequence_relationships(
+        test_case["check_permalink"], test_case["posts"]
+    )
+    assert errors == test_case["expected_errors"], (
+        f"Failed test case: {test_case['description']}\n"
+        f"Expected: {test_case['expected_errors']}\n"
+        f"Got: {errors}"
+    )
+
+
+def test_check_sequence_relationships_invalid_input() -> None:
+    """
+    Test check_sequence_relationships with invalid input.
+    """
+    # Test with empty permalink
+    with pytest.raises(ValueError, match="Invalid permalink"):
+        check_sequence_relationships("", {})
+
+    # Test with non-existent permalink
+    with pytest.raises(ValueError, match="Invalid permalink /nonexistent"):
+        check_sequence_relationships(
+            "/nonexistent", {"/post1": {"permalink": "/post1"}}
+        )
+
+
+@pytest.mark.parametrize(
+    "test_case",
+    [
+        # Test case 1: Matching titles
+        {
+            "current": {
+                "next-post-title": "Next Post",
+                "title": "Current Post",
+            },
+            "target": {"title": "Next Post"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [],
+            "description": "matching titles",
+        },
+        # Test case 2: Mismatched titles
+        {
+            "current": {
+                "next-post-title": "Expected Title",
+                "title": "Current Post",
+            },
+            "target": {"title": "Actual Different Title"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [
+                "next-post-title mismatch: expected 'Expected Title', but /next-post has title 'Actual Different Title'"
+            ],
+            "description": "mismatched titles",
+        },
+        # Test case 3: Missing title field in target
+        {
+            "current": {
+                "prev-post-title": "Previous Post",
+                "title": "Current Post",
+            },
+            "target": {},
+            "target_slug": "/prev-post",
+            "direction": "prev",
+            "expected_errors": [
+                "prev-post-title mismatch: expected 'Previous Post', but /prev-post has title ''"
+            ],
+            "description": "missing title in target",
+        },
+        # Test case 4: No title field in current post
+        {
+            "current": {"title": "Current Post"},
+            "target": {"title": "Next Post"},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [],
+            "description": "no title field to check",
+        },
+        # Test case 5: Empty title in target
+        {
+            "current": {
+                "next-post-title": "Expected Title",
+                "title": "Current Post",
+            },
+            "target": {"title": ""},
+            "target_slug": "/next-post",
+            "direction": "next",
+            "expected_errors": [
+                "next-post-title mismatch: expected 'Expected Title', but /next-post has title ''"
+            ],
+            "description": "empty title in target",
+        },
+    ],
+)
+def test_check_post_titles(test_case: Dict[str, Any]) -> None:
+    """
+    Test checking titles between linked posts.
+
+    Args:
+        test_case: Dictionary containing test data including:
+            - current: Metadata of the current post
+            - target: Metadata of the target post
+            - target_slug: Permalink of the target post
+            - direction: Direction of the link ('next' or 'prev')
+            - expected_errors: List of expected error messages
+            - description: Description of the test case
+    """
+    errors = check_post_titles(
+        test_case["current"],
+        test_case["target"],
+        test_case["target_slug"],
+        test_case["direction"],
+    )
+    assert errors == test_case["expected_errors"], (
+        f"Failed test case: {test_case['description']}\n"
+        f"Expected: {test_case['expected_errors']}\n"
+        f"Got: {errors}"
+    )
+
+
+@pytest.fixture
+def create_test_file(tmp_path: Path) -> Callable[[str, str], Path]:
+    """
+    Fixture providing a function to create test markdown files with given content.
+    """
+
+    def _create_file(filename: str, content: str) -> Path:
+        file_path = tmp_path / filename
+        file_path.write_text(content)
+        return file_path
+
+    return _create_file
+
+
+def test_build_sequence_data_basic(create_test_file: Callable) -> None:
+    """
+    Test basic functionality of _build_sequence_data with a single file.
+    """
+    content = """---
+title: Test Post
+permalink: /test
+next-post-slug: /next
+prev-post-slug: /prev
+next-post-title: Next Post
+prev-post-title: Previous Post
+---
+Test content
+"""
+    file_path = create_test_file("test.md", content)
+
+    sequence_data = build_sequence_data([file_path])
+
+    expected_mapping = {
+        "/test": {
+            "title": "Test Post",
+            "next-post-slug": "/next",
+            "prev-post-slug": "/prev",
+            "next-post-title": "Next Post",
+            "prev-post-title": "Previous Post",
+        }
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_with_aliases(create_test_file: Callable) -> None:
+    """
+    Test _build_sequence_data with a file containing aliases.
+    """
+    content = """---
+title: Test Post
+permalink: /test
+aliases: [/alias1, /alias2]
+next-post-slug: /next
+---
+Test content
+"""
+    file_path = create_test_file("test.md", content)
+
+    sequence_data = build_sequence_data([file_path])
+
+    expected_mapping = {
+        "/test": {"title": "Test Post", "next-post-slug": "/next"},
+        "/alias1": {"title": "Test Post", "next-post-slug": "/next"},
+        "/alias2": {"title": "Test Post", "next-post-slug": "/next"},
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_multiple_files(
+    create_test_file: Callable,
+) -> None:
+    """
+    Test _build_sequence_data with multiple files having different combinations of fields.
+    """
+    file1_content = """---
+title: First Post
+permalink: /first
+next-post-slug: /second
+next-post-title: Second Post
+---
+"""
+    file2_content = """---
+title: Second Post
+permalink: /second
+prev-post-slug: /first
+prev-post-title: First Post
+aliases: [/second-alias]
+---
+"""
+    file3_content = """---
+title: Third Post
+permalink: /third
+---
+"""
+
+    files = [
+        create_test_file("first.md", file1_content),
+        create_test_file("second.md", file2_content),
+        create_test_file("third.md", file3_content),
+    ]
+
+    sequence_data = build_sequence_data(files)
+
+    expected_mapping = {
+        "/first": {
+            "title": "First Post",
+            "next-post-slug": "/second",
+            "next-post-title": "Second Post",
+        },
+        "/second": {
+            "title": "Second Post",
+            "prev-post-slug": "/first",
+            "prev-post-title": "First Post",
+        },
+        "/second-alias": {
+            "title": "Second Post",
+            "prev-post-slug": "/first",
+            "prev-post-title": "First Post",
+        },
+        "/third": {"title": "Third Post"},
+    }
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_empty_cases(create_test_file: Callable) -> None:
+    """
+    Test _build_sequence_data with edge cases like empty metadata and empty aliases.
+    """
+    # File with empty metadata
+    file1_content = """---
+---
+Content only
+"""
+
+    # File with empty alias
+    file2_content = """---
+title: Test Post
+permalink: /test
+aliases: [""]
+---
+"""
+
+    files = [
+        create_test_file("empty_meta.md", file1_content),
+        create_test_file("empty_alias.md", file2_content),
+    ]
+
+    sequence_data = build_sequence_data(files)
+
+    expected_mapping = {"/test": {"title": "Test Post"}}
+
+    assert sequence_data == expected_mapping
+
+
+def test_build_sequence_data_no_files() -> None:
+    """
+    Test _build_sequence_data with an empty list of files.
+    """
+    sequence_data = build_sequence_data([])
+    assert sequence_data == {}

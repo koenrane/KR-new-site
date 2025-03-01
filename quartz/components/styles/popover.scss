@@ -58,7 +58,7 @@
           counter-reset: sublist-popover; // Each nested ordered list has its own sublist counter
           & li {
             counter-increment: sublist-popover; // Increment the sublist counter for nested list items
-            &::before {
+            &::marker {
               content: counters(list-popover, ".") "." counters(sublist-popover, "."); // Display combined list and sublist counters for nested list items
             }
 
@@ -69,7 +69,7 @@
         }
       }
 
-      & li::before {
+      & li::marker {
         font-variant-numeric: lining-nums;
         content: counter(list-popover) ".";
       }
@@ -77,7 +77,7 @@
       & li[id^="user-content-fn-"] {
         counter-increment: footnote-popover;
 
-        &::before {
+        &::marker {
           font-size: var(--text-size-90);
           content: counter(footnote-popover) ".";
         }
@@ -85,7 +85,7 @@
         & ol {
           counter-increment: footnote-popover-sublist;
 
-          & li::before {
+          & li::marker {
             content: counters(footnote-popover, ".") "." counters(footnote-popover-sublist, ".");
           }
         }

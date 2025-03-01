@@ -75,7 +75,7 @@ Here are four central intuitions which we developed:
 3. The effect of closeness is smooth
 4. Both ‘spatial’ distances and ‘legal steps’ distances matter when computing closeness in each case
 
-The videos we studied are hard to interpret without quantitative tools, so we regard these intuitions as theoretically-motivated impressions rather than as observations. We wanted to precisify and statistically test these impressions, with an eye to their potential theoretical significance.
+The videos we studied are hard to interpret without quantitative tools, so we regard these intuitions as theoretically motivated impressions rather than as observations. We wanted to precisify and statistically test these impressions, with an eye to their potential theoretical significance.
 
 We suspect that the agent’s conditions for pursuing cheese generalize properties of historically reinforced cheese-directed moves in a “soft” way. Consider that movements can be "directed" on paths towards the cheese, the top-right corner, both, or neither. In the training environment, unambiguously cheese-directed movements are towards a cheese square that is both _close to the mouse’s current position_ and _close to the top-right._[^2]
 

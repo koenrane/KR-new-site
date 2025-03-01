@@ -11,11 +11,11 @@ import { context, build as esBuild, analyzeMetafile } from "esbuild"
 import { sassPlugin } from "esbuild-sass-plugin"
 import fs, { promises as fsPromises } from "fs"
 import http from "http"
-import { Context } from "node:vm"
+import { type Context } from "node:vm"
 import path from "path"
 import prettyBytes from "pretty-bytes"
 import serveHandler from "serve-handler"
-import { WebSocketServer, WebSocket } from "ws"
+import { WebSocketServer, type WebSocket } from "ws"
 
 // Import the generate function
 import { generateScss } from "../styles/generate-variables"

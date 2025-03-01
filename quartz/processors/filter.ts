@@ -1,5 +1,6 @@
-import { ProcessedContent } from "../plugins/vfile"
-import { BuildCtx } from "../util/ctx"
+import type { ProcessedContent } from "../plugins/vfile"
+import type { BuildCtx } from "../util/ctx"
+
 import { PerfTimer } from "../util/perf"
 
 export function filterContent(ctx: BuildCtx, content: ProcessedContent[]): ProcessedContent[] {

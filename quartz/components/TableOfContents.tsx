@@ -4,61 +4,22 @@
  * supporting small caps and LaTeX rendering.
  */
 
+import type { RootContent, Parent, Text, Element, Root } from "hast"
 // skipcq: JS-W1028
 import type { JSX } from "preact"
 
-import { RootContent, Parent, Text, Element, Root } from "hast"
 import { fromHtml } from "hast-util-from-html"
-import { renderToString } from "katex"
 import React from "react"
 
 import { createLogger } from "../plugins/transformers/logger_utils"
-import { replaceSCInNode } from "../plugins/transformers/tagSmallcaps"
-import { TocEntry } from "../plugins/transformers/toc"
+import { type TocEntry } from "../plugins/transformers/toc"
+import { processInlineCode, processKatex, processSmallCaps } from "./component_utils"
 import modernStyle from "./styles/toc.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-
-/**
- * Processes small caps in the given text and adds it to the parent node.
- * @param text - The text to process.
- * @param parent - The parent node to add the processed text to.
- */
-export function processSmallCaps(text: string, parent: Parent): void {
-  const textNode = { type: "text", value: text } as Text
-  parent.children.push(textNode)
-  replaceSCInNode(textNode, [parent])
-}
-
-/**
- * Detects when Markdown inline code is present and renders it as a code block.
- * @param text - The text to process.
- * @param parent - The parent node to add the processed text to.
- */
-export function processInlineCode(text: string, parent: Parent): void {
-  const codeBlock = {
-    type: "element",
-    tagName: "code",
-    properties: { className: ["inline-code"] },
-    children: [{ type: "text", value: text }],
-  } as Element
-  parent.children.push(codeBlock)
-}
-
-/**
- * Processes LaTeX content and adds it to the parent node as a KaTeX-rendered span.
- * @param latex - The LaTeX content to process.
- * @param parent - The parent node to add the processed LaTeX to.
- */
-export function processKatex(latex: string, parent: Parent): void {
-  const html = renderToString(latex, { throwOnError: false })
-  const katexNode = {
-    type: "element",
-    tagName: "span",
-    properties: { className: ["katex-toc"] },
-    children: [{ type: "raw", value: html }],
-  } as Element
-  parent.children.push(katexNode)
-}
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 const logger = createLogger("TableOfContents")
 /**
@@ -73,14 +34,17 @@ export const CreateTableOfContents: QuartzComponent = ({
 }: QuartzComponentProps): JSX.Element | null => {
   logger.info(`Rendering TableOfContents for file: ${fileData.filePath}`)
 
-  if (!fileData.toc || fileData.frontmatter?.toc === "false") {
+  const frontmatterToc = fileData.frontmatter?.toc
+  const tocData = fileData.toc
+
+  if (!tocData || frontmatterToc === false || frontmatterToc === "false") {
     logger.info(
       `TableOfContents skipped for ${fileData.filePath}: no TOC data or disabled in frontmatter`,
     )
     return null
   }
 
-  const toc = buildNestedList(fileData.toc, 0, 0)[0]
+  const toc = buildNestedList(tocData, 0, 0)[0]
 
   return (
     <div id="table-of-contents" className="desktop-only">

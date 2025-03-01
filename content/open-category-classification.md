@@ -44,25 +44,25 @@ date_updated: 2025-01-30 09:30:36.233182
 >
 > If I present you with five examples of burritos, I don’t want you to pursue the _simplest_ way of classifying burritos versus non-burritos. I want you to come up with a way of classifying the five burritos and none of the non-burritos that **covers as little area as possible in the positive examples**, while still having enough space around the positive examples that the AI can make a new burrito that’s not molecularly identical to the previous ones.
 
-Consider the problem of designing classifiers that are able to reliably say "I don't know" for inputs well outside of their training set. In the literature, this problem is known as [_open-category classification_](https://arxiv.org/abs/1705.08722); a closely-related problem in AI safety is [_inductive ambiguity detection_](https://agentfoundations.org/item?id=467).
+Consider the problem of designing classifiers that are able to reliably say "I don't know" for inputs well outside of their training set. In the literature, this problem is known as [_open-category classification_](https://arxiv.org/abs/1705.08722); a closely related problem in AI safety is [_inductive ambiguity detection_](https://agentfoundations.org/item?id=467).
 
 Solution of generalized inductive ambiguity detection could allow for agents who robustly know when to ask for clarification; in this post, we discuss the problem in the context of classification. Although narrower in scope, the solution of the classification subproblem would herald the arrival of robust classifiers which extrapolate conservatively and intuitively from their training data.
 
 Obviously, we can't just train classifiers to "recognize" the `unknown` class. One, this class isn't compact, and two, it doesn't make sense - it's a map/territory confusion (the label `unknown` is a feature of the world model, not a meaningful ontological class). Let's decompose the concept a bit further.
 
-Weight regularization helps us find a mathematically-simple volume in the input space which encapsulates the data we have seen so far. In fact, a binary classifier enforces a hyperplane which cleaves the _entire_ space into two volumes in a way which happens to nearly-optimally classify the training data. This hyperplane may be relatively simple to describe mathematically, but the problem is that the two volumes created are far too expansive.
+Weight regularization helps us find a mathematically simple volume in the input space which encapsulates the data we have seen so far. In fact, a binary classifier enforces a hyperplane which cleaves the _entire_ space into two volumes in a way which happens to nearly optimally classify the training data. This hyperplane may be relatively simple to describe mathematically, but the problem is that the two volumes created are far too expansive.
 
 In short, we'd like our machine learning algorithms to learn explanations which fit the facts seen to date, are simple, and don't generalize too far afield.
 
 > [!quote] [Conservatism](https://arbital.com/p/conservative_concept/)
 >
-> Conservatism and conservative planning seems like it might directly tackle some standard concerns \[in alignment\] head-on and in a sufficiently-basic way to avoid loopholes, and might also be subject to those concerns. E.g.:
+> Conservatism and conservative planning seems like it might directly tackle some standard concerns \[in alignment\] head-on and in a sufficiently basic way to avoid loopholes, and might also be subject to those concerns. E.g.:
 >
 > - [Edge instantiation](https://arbital.com/p/edge_instantiation/) - if in full generality we don't go to the edge of the graph but try to stay in the center of what's already been positively classified, maybe we can avoid this.
-<!-- vale off -->
-> - [Unforeseen maximum](https://arbital.com/p/unforeseen_maximum/) \- if we stick to things very similar to already-positively-classified instances, we won't automatically go into the unimagined parts of the graph.
-<!-- vale on -->
-> - [Context disaster](https://arbital.com/p/context_disaster/) - a sufficiently conservative optimizer might go on using options similar to previously-whitelisted ones even if large new sections of planning space opened up.
+>
+> - [Unforeseen maximum](https://arbital.com/p/unforeseen_maximum/) \- if we stick to things very similar to already positively classified instances, we won't automatically go into the unimagined parts of the graph.
+>  
+> - [Context disaster](https://arbital.com/p/context_disaster/) - a sufficiently conservative optimizer might go on using options similar to previously whitelisted ones even if large new sections of planning space opened up.
 
 # Prior Work
 
@@ -70,7 +70,7 @@ In short, we'd like our machine learning algorithms to learn explanations which 
 
 [Yu et al.](https://arxiv.org/abs/1705.08722) employed adversarial sample generation to train classifiers to distinguish seen from unseen data, achieving moderate success. [Li and Li](https://agentfoundations.org/item?id=467)[^1] trained a classifier to sniff out adversarial examples by detecting whether the input is from a different distribution. Once detected, the example had a local average filter applied to it to recover the non-adversarial original.
 
-[The Knows What It Knows](https://dl.acm.org/citation.cfm?id=1390228) framework allows a learner to avoid making mistakes by deferring judgment to a human some polynomial number of times. However, this framework makes the unrealistically-strong assumption that the data are _i.i.d._; furthermore, efficient KWIK algorithms are not known for complex hypothesis classes (such as those explored in neural network-based approaches).
+[The Knows What It Knows](https://dl.acm.org/citation.cfm?id=1390228) framework allows a learner to avoid making mistakes by deferring judgment to a human some polynomial number of times. However, this framework makes the unrealistically strong assumption that the data are _i.i.d._; furthermore, efficient KWIK algorithms are not known for complex hypothesis classes (such as those explored in neural network-based approaches).
 
 # Penalizing Volume
 
@@ -78,7 +78,7 @@ If we want a robust `cat` / `unknown` classifier, we should indeed cleave the sp
 
 The _smallest_ encapsulation of the training data is a strange, contorted volume only encapsulating the training set. However, we still penalize model complexity, so that shouldn't happen. As new examples are added to the training set, the classifier would have to find a way to expand or contract its class volumes appropriately. This is conceptually similar to [version space learning](https://en.wikipedia.org/wiki/Version_space_learning).
 
-This may be advantageous compared to current approaches in that we aren't training an inherently-incorrect classifier to prune itself or to sometimes abstain. Instead, we structure the optimization pressure in such a way that conservative generalization is the norm. [^2]
+This may be advantageous compared to current approaches in that we aren't training an inherently incorrect classifier to prune itself or to sometimes abstain. Instead, we structure the optimization pressure in such a way that conservative generalization is the norm. [^2]
 
 ## Formalization
 
@@ -126,7 +126,7 @@ All this is getting a bit silly. After all, what we really care about is the pro
 
 ## White Box
 
-Let's treat this as a prediction problem. Take $n$ randomly-generated images and run them through the first layer of the network, recording the values for the activation of node $k$ in the first layer ( $a_{1k}$); assume we incur some approximation error $\epsilon$ due to having insufficiently sampled the true distribution. Derive a PDF over the activation values for each node.
+Let's treat this as a prediction problem. Take $n$ randomly generated images and run them through the first layer of the network, recording the values for the activation of node $k$ in the first layer ($a_{1k}$); assume we incur some approximation error $\epsilon$ due to having insufficiently sampled the true distribution. Derive a PDF over the activation values for each node.
 
 Repeat this for each of the $l$ network layers, sampling input values from the PDFs for the previous layer's nodes. At the end of the network, we have a probabilistic estimate of the output class proportions.
 
@@ -157,7 +157,7 @@ Train a variational autoencoder with a $k$\-dimensional latent space on the data
 ![](https://assets.turntrout.com/static/images/posts/1*BIDBG8MQ9-Kc-knUUrkT3A.avif)
 Figure: Variationally encoded MNIST digits, with clustering pressure provided by reconstruction loss and density encouraged by KL loss. ([Image credit](https://towardsdatascience.com/intuitively-understanding-variational-autoencoders-1bfe67eb5daf))
 
-We're basically going to do high-dimensional [lidar](https://en.wikipedia.org/wiki/Lidar) [^5] in the latent space to image the outer shell of $f_\theta$'s non-`unknown` classification volumes. Due to the blessing of dimensionality, we don't need to worry whether the inside of the volume is classified as `unknown` or not - for high-dimensional latent spaces, it's a rounding error. Therefore, we need only search until we reach a non-`unknown` classification shell; we could then start from the other direction to estimate the other side. After doing this for all dimensions, we have a set of points approximating the hypersurface of the non-`unknown` classification volume.
+We're basically going to do high-dimensional [LIDAR](https://en.wikipedia.org/wiki/Lidar) [^5] in the latent space to image the outer shell of $f_\theta$'s non-`unknown` classification volumes. Due to the blessing of dimensionality, we don't need to worry whether the inside of the volume is classified as `unknown` or not - for high-dimensional latent spaces, it's a rounding error. Therefore, we need only search until we reach a non-`unknown` classification shell; we could then start from the other direction to estimate the other side. After doing this for all dimensions, we have a set of points approximating the hypersurface of the non-`unknown` classification volume.
 
 The complexity of this seems to be $O(kmn^{k-1})$, where $k$ is latent space dimensionality, $m$ is how many sampling operations are needed on average [^6] to reach the outer shell, and $n$ is the per-dimension sampling density (for example, $n=10$ points along an axis in a 3-dimensional space would entail pinging a grid of $10^{3-1}=100$ points). Although exponential in $k$, this is already orders of magnitude more tractable than sampling the original high-dimensional input space. By sacrificing some accuracy, we may be able to improve the exponential term further (perhaps to $\log k$ or even a constant).
 
@@ -169,7 +169,7 @@ This approach requires that the latent space have enough dimensions to allow for
 
 Extremely small input spaces allow for enumerative calculation of volume. By pitting a volume-penalizing classifier against its vanilla counterpart in such a space, one could quickly gauge the promise of this idea.
 
-If the experimental results support the hypothesis, the obvious next step is to formulate tractable approximations of $V$ (ideally with provably-bounded error).
+If the experimental results support the hypothesis, the obvious next step is to formulate tractable approximations of $V$ (ideally with provably bounded error).
 
 # Conclusion
 

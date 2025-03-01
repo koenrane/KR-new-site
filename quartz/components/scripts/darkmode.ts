@@ -1,61 +1,73 @@
 import { wrapWithoutTransition } from "./component_script_utils"
 
-export function setupDarkMode() {
-  const emitThemeChangeEvent = (theme: "light" | "dark") => {
-    const event: CustomEvent = new CustomEvent("themechange", {
-      detail: { theme },
-    })
-    document.dispatchEvent(event)
-  }
+const emitThemeChangeEvent = (theme: "light" | "dark") => {
+  const event: CustomEvent = new CustomEvent("themechange", {
+    detail: { theme },
+  })
+  document.dispatchEvent(event)
+}
 
+function getDescriptionParagraph(): HTMLParagraphElement | null {
+  return document.querySelector(".darkmode > .description")
+}
+
+function getToggleSwitch(): HTMLInputElement | null {
+  return document.querySelector("#darkmode-toggle") as HTMLInputElement
+}
+
+function themeChange(e: MediaQueryListEvent): void {
+  const newTheme = e.matches ? "dark" : "light"
+  document.documentElement.setAttribute("saved-theme", newTheme)
+  localStorage.setItem("theme", newTheme)
+
+  const toggleSwitch = getToggleSwitch()
+  if (toggleSwitch) {
+    toggleSwitch.checked = e.matches
+  }
+  emitThemeChangeEvent(newTheme)
+}
+
+function switchTheme(e: Event): void {
+  const newTheme = (e.target as HTMLInputElement)?.checked ? "dark" : "light"
+  document.documentElement.setAttribute("saved-theme", newTheme)
+  localStorage.setItem("theme", newTheme)
+  emitThemeChangeEvent(newTheme)
+
+  // Toggle the label text
+  const descriptionParagraph = getDescriptionParagraph()
+  if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
+    descriptionParagraph.classList.add("hidden")
+  }
+  // Prevent further clicks from having an effect
+  localStorage.setItem("usedToggle", "true")
+}
+
+const wrappedSwitchTheme = wrapWithoutTransition(switchTheme)
+
+export function setupDarkMode() {
   const userPref = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"
   const currentTheme = localStorage.getItem("theme") ?? userPref
   document.documentElement.setAttribute("saved-theme", currentTheme)
 
   document.addEventListener("nav", () => {
     // Hide the description after the user has interacted with the toggle
-    const descriptionParagraph = document.querySelector(".darkmode > .description")
-
-    let switchTheme = (e: Event) => {
-      const newTheme = (e.target as HTMLInputElement)?.checked ? "dark" : "light"
-      document.documentElement.setAttribute("saved-theme", newTheme)
-      localStorage.setItem("theme", newTheme)
-      emitThemeChangeEvent(newTheme)
-
-      // Toggle the label text
-      if (localStorage.getItem("usedToggle") !== "true" && descriptionParagraph) {
-        descriptionParagraph.classList.add("hidden")
-      }
-      // Prevent further clicks from having an effect
-      localStorage.setItem("usedToggle", "true")
-    }
-    switchTheme = wrapWithoutTransition(switchTheme)
-
     window.addEventListener("load", function () {
       if (localStorage.getItem("usedToggle") !== "true") {
+        const descriptionParagraph = getDescriptionParagraph()
         descriptionParagraph?.classList.remove("hidden")
       }
     })
 
-    const toggleSwitch = document.querySelector("#darkmode-toggle") as HTMLInputElement
-
-    let themeChange = (e: MediaQueryListEvent) => {
-      const newTheme = e.matches ? "dark" : "light"
-      document.documentElement.setAttribute("saved-theme", newTheme)
-      localStorage.setItem("theme", newTheme)
-      toggleSwitch.checked = e.matches
-      emitThemeChangeEvent(newTheme)
-    }
-    themeChange = wrapWithoutTransition(themeChange)
-
     // Darkmode toggle
-    toggleSwitch.addEventListener("change", switchTheme)
-    if (currentTheme === "dark") {
-      toggleSwitch.checked = true
+    const toggleSwitch = getToggleSwitch()
+    if (toggleSwitch) {
+      toggleSwitch.addEventListener("change", wrappedSwitchTheme)
+      toggleSwitch.checked = currentTheme === "dark"
     }
 
     // Listen for changes in prefers-color-scheme
+    const wrappedThemeChange = wrapWithoutTransition(themeChange)
     const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-    colorSchemeMediaQuery.addEventListener("change", themeChange)
+    colorSchemeMediaQuery.addEventListener("change", wrappedThemeChange)
   })
 }

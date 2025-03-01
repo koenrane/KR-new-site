@@ -42,7 +42,7 @@
     background-color: transparent;
     display: none;
     right: 0;
-    top: 100%;
+    top: 80%;
 
     &.visible {
       display: block;
@@ -75,9 +75,12 @@
 
   & span {
     display: block;
-    height: 3px;
+    height: calc(0.25 * $base-margin);
     background-color: var(--midground);
-    margin-bottom: 5px;
+
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
   }
 }
 

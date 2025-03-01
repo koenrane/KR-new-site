@@ -1,13 +1,15 @@
-import { Root } from "hast"
+import type { Root } from "hast"
+
 import path from "path"
 import React from "react"
 
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
+
 import { i18n } from "../../i18n"
 import { htmlToJsx } from "../../util/jsx"
-import { stripSlashes, simplifySlug, FullSlug, FilePath } from "../../util/path"
+import { type FilePath, type FullSlug, stripSlashes, simplifySlug } from "../../util/path"
 import { PageList } from "../PageList"
 import style from "../styles/listPage.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 interface FolderContentOptions {
   /**

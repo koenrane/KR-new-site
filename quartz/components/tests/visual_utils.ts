@@ -1,10 +1,13 @@
-import { argosScreenshot, ArgosScreenshotOptions } from "@argos-ci/playwright"
-import { Locator, TestInfo, expect } from "@playwright/test"
-import { Page } from "playwright"
+import { type Locator, type TestInfo, expect } from "@playwright/test"
+import { type Page } from "playwright"
 
-import { tabletBreakpoint } from "../../styles/variables"
+import { tabletBreakpoint, fullPageWidth } from "../../styles/variables"
 
-const defaultOptions: ArgosScreenshotOptions = { animations: "disabled" }
+export interface RegressionScreenshotOptions {
+  element?: string | Locator
+  clip?: { x: number; y: number; width: number; height: number }
+  disableHover?: boolean
+}
 
 export async function waitForThemeTransition(page: Page) {
   await page.evaluate(() => {
@@ -44,14 +47,28 @@ export async function setTheme(page: Page, theme: "light" | "dark") {
   await waitForThemeTransition(page)
 }
 
-export async function takeArgosScreenshot(
+export async function takeRegressionScreenshot(
   page: Page,
   testInfo: TestInfo,
   screenshotSuffix: string,
-  options?: ArgosScreenshotOptions,
+  options?: RegressionScreenshotOptions,
 ) {
-  const totalOptions = { ...defaultOptions, ...options }
-  await argosScreenshot(page, `${testInfo.title}-${screenshotSuffix}`, totalOptions)
+  const browserName = testInfo.project.name
+  const screenshotPath = `lost-pixel/${testInfo.title}${screenshotSuffix ? `-${screenshotSuffix}` : ""}-${browserName}.png`
+  const baseOptions = { path: screenshotPath, animations: "disabled" as const }
+
+  const screenshotOptions = {
+    ...baseOptions,
+    ...options,
+  }
+
+  if (options?.element) {
+    const element =
+      typeof options.element === "string" ? page.locator(options.element) : options.element
+    return element.screenshot(screenshotOptions)
+  }
+
+  return page.screenshot(screenshotOptions)
 }
 
 export async function takeScreenshotAfterElement(
@@ -68,7 +85,7 @@ export async function takeScreenshotAfterElement(
   if (!viewportSize) throw new Error("Could not get viewport size")
 
   // Take the screenshot with the specified clipping area
-  await takeArgosScreenshot(page, testInfo, `${testInfo.title}-section-${testNameSuffix}`, {
+  await takeRegressionScreenshot(page, testInfo, `${testInfo.title}-section-${testNameSuffix}`, {
     clip: {
       x: 0,
       y: box.y,
@@ -85,8 +102,13 @@ export async function takeScreenshotAfterElement(
  * @returns The y-offset between the two elements.
  */
 export async function yOffset(firstElement: Locator, secondElement: Locator) {
+  // Ensure elements are visible before getting bounding boxes
+  await firstElement.waitFor({ state: "visible" })
+  await secondElement.waitFor({ state: "visible" })
+
   const firstBox = await firstElement.boundingBox()
   const secondBox = await secondElement.boundingBox()
+
   if (!firstBox || !secondBox) throw new Error("Could not find elements")
   if (firstBox.y === secondBox.y) throw new Error("Elements are the same")
 
@@ -129,15 +151,35 @@ export async function getNextElementMatchingSelector(
 }
 
 export async function search(page: Page, term: string) {
-  const searchBar = page.getByPlaceholder("Search")
+  // Wait for search container to be in the DOM and interactive
+  const searchContainer = page.locator("#search-container")
+  await expect(searchContainer).toBeAttached()
+  await expect(searchContainer).toBeVisible()
 
+  // Ensure search is opened
+  await expect(searchContainer).toHaveClass(/active/)
+
+  const searchBar = page.locator("#search-bar")
   await expect(searchBar).toBeVisible()
-
   await searchBar.fill(term)
-  const previewContainer = page.locator("#preview-container")
-  await expect(previewContainer).toBeAttached()
 
-  await page.waitForLoadState("load")
+  // Wait for search layout to be visible with results
+  const searchLayout = page.locator("#search-layout")
+  await expect(searchLayout).toBeVisible()
+  await expect(searchLayout).toHaveClass(/display-results/)
+
+  // Wait for results to appear
+  const resultsContainer = page.locator("#results-container")
+  await expect(resultsContainer).toBeVisible()
+
+  // If showing preview, wait for it to be ready
+  if (showingPreview(page)) {
+    const previewContainer = page.locator("#preview-container")
+    await expect(previewContainer).toBeAttached()
+    // Print viewport size
+    console.error("Viewport size:", page.viewportSize())
+    await expect(previewContainer).toBeVisible({ timeout: 10000 })
+  }
 }
 
 /**
@@ -147,4 +189,72 @@ export function showingPreview(page: Page): boolean {
   const viewportSize = page.viewportSize()
   const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
   return Boolean(shouldShowPreview)
+}
+
+/**
+ * Waits for all transitions to complete before resolving. If no transitions are defined, it resolves immediately.
+ * @param element - The element to wait for transitions on
+ * @returns A promise that resolves when all transitions have completed
+ */
+export async function waitForTransitionEnd(element: Locator): Promise<void> {
+  await element.evaluate((el) => {
+    return new Promise((resolve) => {
+      const computedStyle = window.getComputedStyle(el)
+      const transitionDurationValue = computedStyle.transitionDuration
+
+      // If no transitionDuration is set or empty, resolve immediately
+      if (!transitionDurationValue || transitionDurationValue.trim() === "") {
+        resolve(true)
+        return
+      }
+
+      // Parse individual durations and convert to milliseconds
+      const durations = transitionDurationValue.split(",").map((d) => d.trim())
+      const parsedDurations = durations.map((d) => {
+        if (d.endsWith("ms")) return parseFloat(d)
+        if (d.endsWith("s")) return parseFloat(d) * 1000
+        return 0
+      })
+
+      // If all durations are 0, resolve immediately
+      if (parsedDurations.every((d) => d === 0)) {
+        resolve(true)
+        return
+      }
+
+      // Determine the maximum transition duration
+      const maxDuration = Math.max(...parsedDurations)
+
+      // Count transitions using transitionProperty
+      const properties = computedStyle.transitionProperty.split(",").map((p) => p.trim())
+      let pendingTransitions = properties.length
+
+      // Listen for all transitionend events
+      const onTransitionEnd = (): void => {
+        pendingTransitions--
+        if (pendingTransitions <= 0) {
+          el.removeEventListener("transitionend", onTransitionEnd)
+          // Wait for the longest transition to surely complete plus a short buffer
+          setTimeout(() => {
+            resolve(true)
+          }, maxDuration + 150)
+        }
+      }
+      el.addEventListener("transitionend", onTransitionEnd)
+
+      // Safety timeout in case transitionend events never fire
+      setTimeout(() => {
+        if (pendingTransitions > 0) {
+          el.removeEventListener("transitionend", onTransitionEnd)
+          resolve(true)
+        }
+      }, maxDuration + 150)
+    })
+  })
+}
+
+// TODO add tests
+export function isDesktopViewport(page: Page): boolean {
+  const viewportSize = page.viewportSize()
+  return viewportSize ? viewportSize.width >= fullPageWidth : false // matches $full-page-width
 }

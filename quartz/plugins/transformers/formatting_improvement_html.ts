@@ -1,18 +1,19 @@
+import type { Element, Text, Root, Parent, ElementContent } from "hast"
+
 import assert from "assert"
-import { Element, Text, Root, Parent, ElementContent } from "hast"
 import { h } from "hastscript"
-import { Transformer } from "unified"
+import { type Transformer } from "unified"
 import { visit } from "unist-util-visit"
 // skipcq: JS-0257
 import { visitParents } from "unist-util-visit-parents"
 
-import { QuartzTransformerPlugin } from "../types"
+import { type QuartzTransformerPlugin } from "../types"
 import {
   replaceRegex,
   fractionRegex,
   numberRegex,
   hasAncestor,
-  ElementMaybeWithParent,
+  type ElementMaybeWithParent,
 } from "./utils"
 
 /**
@@ -189,7 +190,7 @@ export function niceQuotes(text: string): string {
   text = text.replace(/'(?=”)/gu, "’")
 
   // Periods inside quotes
-  const periodRegex = new RegExp(`(?<![!?:])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
+  const periodRegex = new RegExp(`(?<![!?:\\.…])(${chr}?)([’”])(${chr}?)(?!\\.\\.\\.)\\.`, "g")
   text = text.replace(periodRegex, "$1.$2$3")
 
   // Commas outside of quotes
@@ -200,15 +201,13 @@ export function niceQuotes(text: string): string {
 }
 
 /**
- * Replaces slashes with full-width slashes
- * @returns The text with full-width slashes
+ * Space out slashes in text
+ * @returns The text with slashes spaced out
  */
-export function fullWidthSlashes(text: string): string {
-  const slashRegex = new RegExp(
-    `(?<![\\d/])(${chr}?)[ ](${chr}?)/(${chr}?)[ ](${chr}?)(?=[^\\d/])`,
-    "g",
-  )
-  return text.replace(slashRegex, "$1$2 ／$3$4")
+export function spacesAroundSlashes(text: string): string {
+  // Can't allow num on both sides, because it'll mess up fractions
+  const slashRegex = new RegExp(`(?<![\\d/])(?<=[\\S]) ?/ ?(?=\\S)(?!/)`, "g")
+  return text.replace(slashRegex, " / ")
 }
 
 /**
@@ -240,6 +239,8 @@ export function removeSpaceBeforeFootnotes(tree: Root): void {
  * @returns The text with improved dash usage
  */
 export function hyphenReplace(text: string) {
+  text = minusReplace(text)
+
   // Handle dashes with potential spaces and optional marker character
   //  Being right after chr is a sufficient condition for being an em
   //  dash, as it indicates the start of a new line
@@ -334,7 +335,7 @@ export function enDashDateRange(text: string): string {
 const uncheckedTextTransformers = [hyphenReplace, niceQuotes]
 
 // Check for invariance
-const checkedTextTransformers = [minusReplace, massTransformText, plusToAmpersand, timeTransform]
+const checkedTextTransformers = [massTransformText, plusToAmpersand, timeTransform]
 
 /**
  * Applies multiple text transformations
@@ -347,12 +348,16 @@ export function applyTextTransforms(text: string): string {
   for (const transformer of [
     ...checkedTextTransformers,
     ...uncheckedTextTransformers,
-    fullWidthSlashes,
+    spacesAroundSlashes,
   ]) {
     text = transformer(text)
   }
 
   return text
+}
+
+export function isCode(node: Element): boolean {
+  return node.tagName === "code"
 }
 
 export const l_pRegex = /(\s|^)L(\d+)\b(?!\.)/g
@@ -412,12 +417,23 @@ export function formatArrows(tree: Root): void {
       node,
       index ?? 0,
       parent,
-      /(?<= |^)[-]{1,2}>/g,
-      () => ({
-        before: "",
-        replacedMatch: "⭢",
-        after: "",
-      }),
+      /(?:^|(?<= )|(?<=\w))[-]{1,2}>(?=\w| |$)/g,
+      (match: RegExpMatchArray) => {
+        const beforeChar = match.input?.slice(Math.max(0, match.index! - 1), match.index!)
+        const afterChar = match.input?.slice(
+          match.index! + match[0].length,
+          match.index! + match[0].length + 1,
+        )
+
+        const needsSpaceBefore = /\w/.test(beforeChar ?? "")
+        const needsSpaceAfter = /\w/.test(afterChar ?? "")
+
+        return {
+          before: needsSpaceBefore ? " " : "",
+          replacedMatch: "⭢",
+          after: needsSpaceAfter ? " " : "",
+        }
+      },
       () => false,
       "span.right-arrow",
     )
@@ -630,15 +646,17 @@ export function plusToAmpersand(text: string): string {
 }
 
 // The time regex is used to convert 12:30 PM to 12:30 p.m.
+//  At the end, watch out for double periods
+const amPmRegex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)\\.?`, "gi")
 export function timeTransform(text: string): string {
   const matchFunction = (_: string, ...args: unknown[]) => {
     const groups = args[args.length - 1] as { time: string }
     return `${groups.time.toLowerCase()}.m.`
   }
-  const regex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)`, "gi")
-  return text.replace(regex, matchFunction)
+  return text.replace(amPmRegex, matchFunction)
 }
 
+// TODO "IID" is maybe getting replaced after the smallcaps?
 const massTransforms: [RegExp | string, string][] = [
   [/\u00A0/gu, " "], // Replace non-breaking spaces
   [/!=/g, "≠"],
@@ -649,13 +667,13 @@ const massTransforms: [RegExp | string, string][] = [
   [/(?<=[Aa]n |[Tt]he )\b([Ee])xpose\b/g, "$1xposé"],
   [/\b([Dd])eja vu\b/g, "$1éjà vu"],
   [/\b([Nn])aive/g, "$1aïve"],
+  [/\b([Cc])hateau\b/g, "$1hâteau"],
   [/\b([Dd])ojo/g, "$1ōjō"],
   [/\bregex\b/gi, "RegEx"],
   [`(${numberRegex.source})[x\\*]\\b`, "$1×"], // Pretty multiplier
   [/\b(\d+ ?)x( ?\d+)\b/g, "$1×$2"], // Multiplication sign
   [/\.{3}/g, "…"], // Ellipsis
   [/…(?=\w)/gu, "… "], // Space after ellipsis
-  [/\b([Cc])hateau\b/g, "$1hâteau"],
 ]
 
 export function massTransformText(text: string): string {
@@ -664,10 +682,6 @@ export function massTransformText(text: string): string {
     text = text.replace(regex, replacement)
   }
   return text
-}
-
-export function isCode(node: Element): boolean {
-  return node.tagName === "code"
 }
 
 /**
@@ -845,7 +859,7 @@ export const improveFormatting = (options: Options = {}): Transformer<Root, Root
           return !hasClass(n, "fraction") && n?.tagName !== "a"
         }
         if (slashPredicate(elt)) {
-          transformElement(elt, fullWidthSlashes, toSkip, true)
+          transformElement(elt, spacesAroundSlashes, toSkip, true)
         }
       })
     })

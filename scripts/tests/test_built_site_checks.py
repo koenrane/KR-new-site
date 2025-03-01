@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 import pytest
+import requests
 from bs4 import BeautifulSoup, Tag
 
 from ..utils import get_git_root
@@ -204,7 +205,11 @@ def test_check_local_media_files(sample_soup, temp_site_root):
     [
         ('<img src="local.jpg">', ["local.jpg (resolved to {})"], []),
         ('<img src="https://example.com/image.png">', [], []),
-        ('<video src="video.mp4"></video>', ["video.mp4 (resolved to {})"], []),
+        (
+            '<video src="video.mp4"></video>',
+            ["video.mp4 (resolved to {})"],
+            [],
+        ),
         ('<svg src="icon.svg"></svg>', ["icon.svg (resolved to {})"], []),
         ('<img src="existing.png">', [], ["existing.png"]),
     ],
@@ -1216,12 +1221,12 @@ def test_check_markdown_assets_in_html(
         # Test allowed characters before emphasis
         *[
             (f"<p>text{char}<em>emphasis</em> text</p>", [])
-            for char in PREV_EMPHASIS_CHARS + "\n \t\r"
+            for char in ALLOWED_ELT_PRECEDING_CHARS
         ],
         # Test allowed characters after emphasis
         *[
             (f"<p>text <em>emphasis</em>{char}text</p>", [])
-            for char in NEXT_EMPHASIS_CHARS + "\n \t\r"
+            for char in ALLOWED_ELT_FOLLOWING_CHARS
         ],
         # Test mixed cases
         (
@@ -1497,7 +1502,10 @@ def test_meta_tags_first_10kb(tmp_path, html, expected):
         # Test internal link without href
         ('<a class="internal">Missing href</a>', 1),
         # Test internal link with https://
-        ('<a class="internal" href="https://example.com">External Link</a>', 1),
+        (
+            '<a class="internal" href="https://example.com">External Link</a>',
+            1,
+        ),
         # Test multiple invalid links
         (
             """
@@ -1539,3 +1547,224 @@ def test_check_invalid_internal_links(html, expected_count):
         assert "internal" in link.get("class", [])
         # Verify the link is actually invalid
         assert not link.has_attr("href") or link["href"].startswith("https://")
+
+
+@pytest.mark.parametrize(
+    "html,expected,mock_responses",
+    [
+        # Test successful response
+        (
+            '<iframe src="https://example.com" title="Example" alt="Alt text"></iframe>',
+            [],
+            [(True, 200)],
+        ),
+        # Test failed response
+        (
+            '<iframe src="https://fail.com" title="Fail Test" alt="Alt desc"></iframe>',
+            [
+                "Iframe source https://fail.com returned status 404. Description: title='Fail Test' (alt='Alt desc')"
+            ],
+            [(False, 404)],
+        ),
+        # Test request exception
+        (
+            '<iframe src="https://error.com" title="Error Test"></iframe>',
+            [
+                "Failed to load iframe source https://error.com: Connection error. Description: title='Error Test' (alt='')"
+            ],
+            [Exception("Connection error")],
+        ),
+        # Test multiple iframes
+        (
+            """
+            <iframe src="https://success.com" title="Success"></iframe>
+            <iframe src="https://fail.com" title="Fail"></iframe>
+            <iframe src="https://error.com" title="Error"></iframe>
+            """,
+            [
+                "Iframe source https://fail.com returned status 404. Description: title='Fail' (alt='')",
+                "Failed to load iframe source https://error.com: Connection error. Description: title='Error' (alt='')",
+            ],
+            [(True, 200), (False, 404), Exception("Connection error")],
+        ),
+        # Test protocol-relative URL
+        (
+            '<iframe src="//protocol-relative.com" title="Protocol"></iframe>',
+            [
+                "Iframe source https://protocol-relative.com returned status 404. Description: title='Protocol' (alt='')"
+            ],
+            [(False, 404)],
+        ),
+        # Test relative URL (should be skipped)
+        (
+            '<iframe src="/relative/path" title="Relative"></iframe>',
+            [],
+            [],
+        ),
+        # Test iframe without src
+        (
+            '<iframe title="No Src"></iframe>',
+            [],
+            [],
+        ),
+    ],
+)
+def test_check_iframe_sources(
+    monkeypatch, html: str, expected: list[str], mock_responses: list
+):
+    """Test the check_iframe_sources function with various scenarios."""
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Counter to track which response to return
+    response_index = 0
+
+    def mock_head(url: str, timeout: int) -> object:
+        nonlocal response_index
+        if response_index >= len(mock_responses):
+            raise ValueError("Not enough mock responses provided")
+
+        response = mock_responses[response_index]
+        response_index += 1
+
+        if isinstance(response, Exception):
+            raise requests.RequestException(str(response))
+
+        ok, status_code = response
+        mock_response = type(
+            "MockResponse", (), {"ok": ok, "status_code": status_code}
+        )
+        return mock_response
+
+    # Patch the requests.head function
+    monkeypatch.setattr(requests, "head", mock_head)
+
+    result = check_iframe_sources(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic cases - missing spaces
+        (
+            "<p>text<a href='#'>link</a></p>",
+            ["Missing space before: text<a>link</a>"],
+        ),
+        # Test allowed characters before link
+        *[
+            (f"<p>text{char}<a href='#'>link</a> text</p>", [])
+            for char in ALLOWED_ELT_PRECEDING_CHARS
+        ],
+        # Test allowed characters after link
+        *[
+            (f"<p>text <a href='#'>link</a>{char}text</p>", [])
+            for char in ALLOWED_ELT_FOLLOWING_CHARS
+        ],
+        # Test mixed cases
+        (
+            "<p>text(<a href='#'>good</a> text<a href='#'>bad</a>)</p>",
+            ["Missing space before:  text<a>bad</a>"],
+        ),
+        # Test footnote links (should be ignored)
+        (
+            "<p>text<a href='#user-content-fn-1'>footnote</a></p>",
+            [],
+        ),
+        # Test multiple links
+        (
+            """
+            <p>text<a href='#'>one</a> text</p>
+            <p>text <a href='#'>two</a> text</p>
+            <p>text<a href='#'>three</a> text</p>
+            """,
+            [
+                "Missing space before: text<a>one</a>",
+                "Missing space before: text<a>three</a>",
+            ],
+        ),
+        (
+            "<p>Hi <a href='#'>Test<span>span</span></a> text</p>",
+            [],
+        ),
+        (  # Multiline matching
+            "<p>Hi <a href='#'>Test<span>span</span></a> text\n\nTest</p>",
+            [],
+        ),
+    ],
+)
+def test_check_link_spacing(html, expected):
+    """Test the check_link_spacing function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_link_spacing(soup)
+    assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Basic consecutive periods
+        (
+            "<p>Test..</p>",
+            ["Consecutive periods found: Test.."],
+        ),
+        # Periods separated by quotes
+        (
+            '<p>Test.".</p>',
+            ['Consecutive periods found: Test.".'],
+        ),
+        # Periods separated by curly quotes
+        (
+            "<p>Test.”.</p>",
+            ["Consecutive periods found: Test.”."],
+        ),
+        # Multiple instances in one element
+        (
+            '<p>First.. Second.".</p>',
+            ['Consecutive periods found: First.. Second.".'],
+        ),
+        # Skipped elements
+        (
+            "<code>Test..</code>",
+            [],
+        ),
+        ('<div class="no-formatting">Test..</div>', []),
+        # Mixed content with skipped elements
+        (
+            """
+            <div>
+                <p>Valid..</p>
+                <code>Skipped..</code>
+                <p>Also.".</p>
+            </div>
+            """,
+            [
+                "Consecutive periods found: Valid..",
+                'Consecutive periods found: Also.".',
+            ],
+        ),
+        # Edge cases
+        (
+            "<p>Single period. No issue</p>",
+            [],
+        ),
+        (
+            "<p>Multiple... periods</p>",
+            ["Consecutive periods found: Multiple... periods"],
+        ),
+        # Nested elements
+        (
+            "<p>Test<em>..</em>nested</p>",
+            ["Consecutive periods found: .."],
+        ),
+        # Ignore ..?
+        (
+            "<p>Test..?</p>",
+            [],
+        ),
+    ],
+)
+def test_check_consecutive_periods(html, expected):
+    """Test the check_consecutive_periods function."""
+    soup = BeautifulSoup(html, "html.parser")
+    result = check_consecutive_periods(soup)
+    assert sorted(result) == sorted(expected)

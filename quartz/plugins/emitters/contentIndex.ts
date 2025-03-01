@@ -1,15 +1,22 @@
+import type { Root } from "hast"
+
 import { execSync } from "child_process"
-import { Root } from "hast"
 import { toHtml } from "hast-util-to-html"
 
-import { GlobalConfiguration } from "../../cfg"
+import { type GlobalConfiguration } from "../../cfg"
 import { getDate } from "../../components/Date"
 import DepGraph from "../../depgraph"
 import { i18n } from "../../i18n"
 import { escapeHTML } from "../../util/escape"
-import { FilePath, FullSlug, SimpleSlug, joinSegments, simplifySlug } from "../../util/path"
+import {
+  type FilePath,
+  type FullSlug,
+  type SimpleSlug,
+  joinSegments,
+  simplifySlug,
+} from "../../util/path"
 import { applyTextTransforms } from "../transformers/formatting_improvement_html"
-import { QuartzEmitterPlugin } from "../types"
+import { type QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
 
 export type ContentIndex = Map<FullSlug, ContentDetails>

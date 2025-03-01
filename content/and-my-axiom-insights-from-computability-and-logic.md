@@ -171,7 +171,7 @@ This chapter is also great for disassociating baggage we might naïvely assign t
 
 ## 16: Representability of Recursive Functions
 
-I confess that upon wading back into the thicket of logical notation and terminology, I found myself lost. I was frustrated at how quickly I'd apparently forgotten everything I'd worked so hard for. After simmering down, I went back through a couple chapters, and found myself rather bored by how easy it was. I hadn't forgotten much at all – not beyond the details, anyways. I don't know whether that counts as "[truly a part of me](https://www.readthesequences.com/Truly-Part-Of-You)", but I don't think it's reasonable to expect myself to memorize everything, especially on the first go.
+I confess that upon wading back into the thicket of logical notation and terminology, I found myself lost. I was frustrated at how quickly I'd apparently forgotten everything I'd worked so hard for. After simmering down, I went back through several chapters and found myself rather bored by how easy it was. I hadn't forgotten much at all – not beyond the details, anyways. I don't know whether that counts as "[truly a part of me](https://www.readthesequences.com/Truly-Part-Of-You)", but I don't think it's reasonable to expect myself to memorize everything, especially on the first go.
 
 ## 17: Indefinability, Undecidability, Incompleteness
 

@@ -959,9 +959,9 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > GPT-3: "They're made up of a bunch of layers. Each layer does simple processing on the data, such as shifting it by a few pixels or amplifying the brightness.
 >
-> **You:** **"Why would I use a convolutional neural network over a fully-connected neural network?"**
+> **You:** **"Why would I use a convolutional neural network over a fully connected neural network?"**
 >
-> GPT-3: "A fully-connected network would require a huge number of connections. A convolutional network requires less memory and can still learn the task.
+> GPT-3: "A fully connected network would require a huge number of connections. A convolutional network requires less memory and can still learn the task.
 >
 > **You:** **"Why?"**
 >

@@ -3,7 +3,8 @@
  * It includes various functions to enhance the formatting of markdown content.
  */
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
+
 import { mdLinkRegex } from "./utils"
 
 // Regular expression for footnotes not followed by a colon (definition) or opening parenthesis (md URL)
@@ -44,14 +45,14 @@ export function editAdmonition(text: string): string {
   return text
 }
 
-const NESTED_CALLOUT_REGEX_NO_SPACE = new RegExp(/^(> *> *\[!.*$\n)(?!> *> *\n)/gm)
-const TARGET_REGEX_WITH_SPACE = "$1> >\n"
-export function spaceDoublyNestedCallouts(text: string): string {
-  return text.replaceAll(NESTED_CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
+const CALLOUT_REGEX_NO_SPACE = new RegExp(/^( *(?:> )+)(\[!.*$)(?!(?:> *)+\n)/gm)
+const TARGET_REGEX_WITH_SPACE = "$1$2\n$1"
+export function spaceCallouts(text: string): string {
+  return text.replaceAll(CALLOUT_REGEX_NO_SPACE, TARGET_REGEX_WITH_SPACE)
 }
 
 // Wrap e.g. header "# 10" in lining nums
-export function wrapLeadingHeaderNumbers(text: string): string {
+export function wrapLeadingNumbers(text: string): string {
   return text.replace(/(?<=# )(\d+)/g, '<span style="font-variant-numeric: lining-nums;">$1</span>')
 }
 
@@ -100,28 +101,7 @@ const concentrateEmphasisAroundLinks = (text: string): string => {
   return text.replace(emphRegex, "$<whitespace1>$<emph>$<url>$<emph>$<whitespace2>")
 }
 
-/**
- * Ensures proper newline formatting around display math ($$).
- * For opening $$, ensure there is a newline before it
- * For closing $$, ensure there are two newlines after it.
- * If they are within n layers of blockquote (e.g. "> >$$"), ensure the preceding newline also has n layers of blockquote (e.g. "> >\n> >$$").
- *
- * @param text - The input text to process.
- * @returns The text with adjusted newlines around display math.
- */
-export const adjustDisplayMathNewlines = (text: string): string => {
-  // [/(?<=\S)\s*\${2}/gm, "\n$$$$"], // Display math needs one newline before
-  // [/^\s*\${2}\s*\n?(?=\S)/gm, "$$$$\n\n"], // Display math needs two newlines after
-
-  // Find all instances of $$ that are not preceded by a blockquote or newline
-  const beforeDisplayMathRegex =
-    /(?!<\n|^|(?:> )+)^(?<blockquote> )*(?<beforeDisplayOpen>\S*)\$\$(?=[^$]*\$\$)/gms
-  const newlinesBeforeDisplayMath = text.replaceAll(
-    beforeDisplayMathRegex,
-    "$<blockquote>$<beforeDisplayOpen>\n$<blockquote>$$$$",
-  )
-  return newlinesBeforeDisplayMath
-}
+// TODO newline before Figure:
 
 /**
  * Applies various formatting improvements to the input text.
@@ -145,11 +125,10 @@ export const formattingImprovement = (text: string) => {
   newContent = newContent.replace(/ *,/g, ",") // Remove space before commas
   newContent = editAdmonition(newContent)
   newContent = noteAdmonition(newContent)
-  newContent = spaceDoublyNestedCallouts(newContent)
+  newContent = spaceCallouts(newContent)
   newContent = concentrateEmphasisAroundLinks(newContent)
-  newContent = wrapLeadingHeaderNumbers(newContent)
+  newContent = wrapLeadingNumbers(newContent)
   newContent = massTransformText(newContent)
-  // newContent = adjustDisplayMathNewlines(newContent)
 
   // Ensure that bulleted lists display properly
   newContent = newContent.replaceAll("\\-", "-")

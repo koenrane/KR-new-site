@@ -1,9 +1,10 @@
 import React from "react"
 
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+
 import { classNames } from "../util/lang"
 import { formatTitle } from "./component_utils"
 import { formatTag } from "./TagList"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const ArticleTitle: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
   if (fileData.frontmatter?.hide_title) {

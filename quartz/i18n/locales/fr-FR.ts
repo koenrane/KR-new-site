@@ -1,4 +1,4 @@
-import { Translation } from "./definition"
+import { type Translation } from "./definition"
 
 export default {
   propertyDefaults: {

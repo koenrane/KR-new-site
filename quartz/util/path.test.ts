@@ -1,8 +1,8 @@
-import { Element, Text } from "hast"
+import type { Element, Text } from "hast"
+
 import { h } from "hastscript"
 
-import { FullSlug } from "./path"
-import { normalizeHastElement } from "./path"
+import { type FullSlug, normalizeHastElement } from "./path"
 
 describe("normalizeHastElement", () => {
   const baseSlug = "test/page" as FullSlug

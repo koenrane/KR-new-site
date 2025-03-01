@@ -52,7 +52,8 @@ I present a unified mathematical frame for understanding corrigibility’s _bene
 
 A counterfactually aligned agent doesn't _have_ to let us literally correct it. Rather, this frame theoretically motivates why we might want corrigibility anyways. This frame also motivates other AI alignment subproblems, such as intent alignment, mild optimization, and low impact.
 
-**Main claim:** Corrigibility’s benefits can be mathematically represented as a counterfactual form of alignment.
+> [!idea] Main claim
+> Corrigibility’s benefits can be mathematically represented as a counterfactual form of alignment.
 
 > [!thanks]
 >Thanks to Mathias Bonde, Tiffany Cai, Ryan Carey, Michael Cohen, Joe Collman, Andrew Critch, Abram Demski, Michael Dennis, Thomas Gilbert, Matthew Graves, Koen Holtman, Evan Hubinger, Victoria Krakovna, Amanda Ngo, Rohin Shah, Adam Shimi, Logan Smith, and Mark Xu for their thoughts.
@@ -149,7 +150,7 @@ $$
 S:=\{\text{paint cars green}, \text{hoard pebbles},\text{eat cake}\}
 $$
 
-Consider the real world. Calculators are non-obstructive with respect to $S$, as are 2020-era AIs. Paperclip maximizers are highly obstructive. Manipulative agents are obstructive (they trick the human policies into steering towards non-reflectively-endorsed leaf nodes). An initial-human-values-aligned dictator AI obstructs most goals. Sub-human-level AI which chip away at our autonomy and control over the future, are obstructive as well.
+Consider the real world. Calculators are non-obstructive with respect to $S$, as are 2020-era AIs. Paperclip maximizers are highly obstructive. Manipulative agents are obstructive (they trick the human policies into steering towards non-reflectively endorsed leaf nodes). An initial-human-values-aligned dictator AI obstructs most goals. Sub-human-level AI which chip away at our autonomy and control over the future, are obstructive as well.
 
 This can seemingly go off the rails if you consider e.g. a friendly AGI to be “obstructive” because activating it happens to detonate a nuclear bomb via the butterfly effect. Or, we’re already doomed in **off** (an unfriendly AGI will come along soon after), and so then this AI is “not obstructive” if _it_ kills us instead. This is an impact/intent issue - obstruction is here defined according to _impact_ alignment.
 

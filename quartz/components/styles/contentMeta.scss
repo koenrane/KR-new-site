@@ -6,10 +6,6 @@
   font-size: var(--text-size-90);
   color: var(--midground);
 
-  & .callout-content ul {
-    margin-block-start: 0;
-  }
-
   &[show-comma="true"] {
     > span:not(:last-child) {
       margin-right: 8px;
@@ -26,3 +22,45 @@
     text-decoration-thickness: 0.75px; // Underline is too heavy
   }
 }
+
+#backlinks-callout,
+#post-statistics {
+  li {
+    margin-bottom: calc($base-margin);
+  }
+
+  ul {
+    padding-left: $base-margin;
+    margin-left: 0;
+  }
+}
+
+#tags ul {
+  color: var(--midground);
+  list-style: none;
+  display: block;
+  padding-left: 0;
+  overflow-wrap: normal;
+
+  & a.tag-link {
+    color: var(--midground);
+    border-radius: 5px; /* Add rounded corners to the tags box */
+    line-height: 1rem;
+    padding: 0;
+    padding-top: initial;
+    padding-bottom: initial;
+    background-color: transparent;
+    display: block;
+
+    #right-sidebar & {
+      text-decoration: none; // Prevent underline to reduce clutter
+    }
+  }
+}
+
+// // TODO do i need this?
+// #tags ul li,
+// .callout-metadata .callout-content > p {
+//   text-indent: calc(-0.75 * $base-margin);
+//   margin-left: calc($base-margin);
+// }

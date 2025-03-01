@@ -77,7 +77,7 @@ No approaches to date meet these standards. What do we even require of an impact
 > [!example] Environment-agnostic
 > The measure should work in any computable environment.
 >
-> _Example:_ Manually-derived penalties tailored to a specific gridworld versus [information-theoretic empowerment](https://arxiv.org/abs/1606.06565).
+> _Example:_ Manually derived penalties tailored to a specific gridworld versus [information-theoretic empowerment](https://arxiv.org/abs/1606.06565).
 >
 > _Why:_ One imagines that there's a definition of "impact" on which we and aliens - or even intelligent automata living in a [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) - would agree.
 

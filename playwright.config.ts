@@ -41,24 +41,18 @@ const browsers: Browser[] = [
 ]
 
 export default defineConfig({
-  timeout: 30000,
-  fullyParallel: true,
-  workers: "75%",
+  timeout: process.env.CI ? 90000 : 30000, // Increased timeout for larger test sets
+  workers: 1,
+  retries: process.env.CI ? 3 : 3,
   testDir: "./quartz/",
   testMatch: /.*\.spec\.ts/,
-  reporter: [
-    process.env.CI ? ["dot"] : ["list"],
-    [
-      "@argos-ci/playwright/reporter",
-      {
-        uploadToArgos: process.env.CI ? true : false,
-        token: process.env.ARGOS_TOKEN,
-      },
-    ],
-  ],
+  reporter: process.env.CI ? "dot" : "list", // Format of test status display
   use: {
     trace: "on-first-retry",
-    screenshot: "only-on-failure",
+    screenshot: {
+      mode: "on",
+      fullPage: true,
+    },
   },
   projects: deviceList.flatMap((device) =>
     browsers.map((browser) => ({

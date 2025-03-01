@@ -181,9 +181,14 @@ I sacrificed some of my tethering to the [social web](https://www.lesswrong.com/
 
 [^5]: I'd like to emphasize that support for AI safety research is quickly becoming more mainstream in the professional AI community, and may soon become the majority position (if it is not already).
 
-    Even though ideas are best judged by their merits and not by their popular support, it can be emotionally important in these situations to remember that if you are concerned, you are _not_ on the fringe. For example, 1,273 AI researchers have [publicly declared their support](https://futureoflife.org/ai-principles/) for the Future of Life Institute's AI principles.
+    Even though ideas are best judged by their merits and not by their popular support, it can be emotionally important in these situations to remember that if you are concerned, you are _not_ on the fringe.[^edit] For example, 1,273 AI researchers have [publicly declared their support](https://futureoflife.org/ai-principles/) for the Future of Life Institute's AI principles.
 
     > [!quote] [AI Researchers on AI Risk](http://slatestarcodex.com/2015/05/22/ai-researchers-on-ai-risk/) (2015)
-    > A survey of AI researchers ([Muller & Bostrom, 2014](http://www.nickbostrom.com/papers/survey.pdf)) finds that on average they expect a 50% chance of human-level AI by 2040 and 90% chance of human-level AI by 2075. On average, 75% believe that superintelligence (“machine intelligence that greatly surpasses the performance of every human in most professions”) will follow within thirty years of human-level AI. There are some reasons to worry about sampling bias based on e.g. people who take the idea of human-level AI seriously being more likely to respond (though see the attempts made to control for such in the survey) but taken seriously it suggests that most AI researchers think there’s a good chance this is something we’ll have to worry about within a generation or two.
+    >
+    > A survey of AI researchers ([Muller & Bostrom, 2014](http://www.nickbostrom.com/papers/survey.pdf)) finds that on average they expect a 50% chance of human-level AI by 2040 and 90% chance of human-level AI by 2075. On average, 75% believe that superintelligence (“machine intelligence that greatly surpasses the performance of every human in most professions”) will follow within thirty years of human-level AI.
+
+    We might see sampling bias due to e.g. people who take the idea of human-level AI seriously being more likely to respond (though see the attempts made to control for such in the survey). That said - taken seriously, the survey suggests that most AI researchers think there’s a good chance this is something we’ll have to worry about within a generation or two.
 
 [^6]: Objectives are subject to change.
+
+[^edit]: As of Feb. 19, 2025, I think that AI risk _was_ on the fringe in 2018. The FLI AI principles argument wasn't a good one.

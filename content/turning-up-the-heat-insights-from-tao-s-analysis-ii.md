@@ -124,7 +124,7 @@ In other words, any continuous, real-valued $f$ on a finite interval can be appr
 
 _Why I'm talking about this._ On one hand, this result makes sense, especially after taking machine learning and seeing how polynomials can be contorted into basically whatever shape you want.
 
-On the other hand, I find this theorem intensely beautiful. $\overline{P[a,b]}=C[a,b]$'s proof was slowly constructed, much to the reader's benefit. I remember the exact moment the proof sketch came to me, newly-installed gears whirring happily.
+On the other hand, I find this theorem intensely beautiful. $\overline{P[a,b]}=C[a,b]$'s proof was slowly constructed, much to the reader's benefit. I remember the exact moment the proof sketch came to me, newly installed gears whirring happily.
 
 ## 15: Power Series
 
@@ -220,13 +220,13 @@ This hews closely to how we defined the _lower_ Riemann integral in Chapter 11; 
 
 To see why, let's review why Riemann integrability demands the equality of the lower and upper Riemann integrals of a function $g$. Suppose that we integrate over $[0,1]$, and that $g$ is the indicator function for the rationals. As the rationals are dense in the reals, any interval $[a,b]\subseteq[0,1]$ ($b>a$) contains rational numbers, no matter how much the interval shrinks! Therefore, the upper Riemann integral equals 1, while the lower equals 0 (for similar reasons). $g$ _is_ Lebesgue integrable; since it's 0 almost everywhere (as the rationals have 0 measure), its integral is 0.
 
-Lebesgue integration marks a fundamental shift in how we integrate. With the Riemann integral, we consider the $\lim \sup$ and $\lim \inf$ of increasingly-refined upper and lower Riemann sums (the _length_ approach). In Lebesgue integration, however, we consider which $E\subseteq \Omega$ is responsible for each value $y$ in the range (i.e. $f^{-1}(y)=E$), multiplying $y$ by the measure of $E$ (_inversion_).
+Lebesgue integration marks a fundamental shift in how we integrate. With the Riemann integral, we consider the $\lim \sup$ and $\lim \inf$ of increasingly refined upper and lower Riemann sums (the _length_ approach). In Lebesgue integration, however, we consider which $E\subseteq \Omega$ is responsible for each value $y$ in the range (i.e. $f^{-1}(y)=E$), multiplying $y$ by the measure of $E$ (_inversion_).
 
 In a sense, the Lebesgue integral more cleanly strikes at the heart of what it _means_ to integrate. Surely, Riemann integration was not far from the mark; however, if you rotate the problem slightly in your mind, you will find a better, cleaner way of structuring your thinking.
 
 ## Final Thoughts
 
-Although Tao botches a few exercises and the section on topology, I'm a big fan of _Analysis I_ and _II_. Do note, however, that _II_ is far more difficult than _I_ (not just in content, but in terms of the exercises). He generally provides relevant, appropriately-difficult problems, and is quite adept at helping the reader develop rigorous and intuitive understanding of the material.
+Although Tao botches a few exercises and the section on topology, I'm a big fan of _Analysis I_ and _II_. Do note, however, that _II_ is far more difficult than _I_ (not just in content, but in terms of the exercises). He generally provides relevant, appropriately difficult problems, and is quite adept at helping the reader develop rigorous and intuitive understanding of the material.
 
 ## Tips
 

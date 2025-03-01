@@ -22,25 +22,24 @@ lw-latest-edit: 2021-06-15T16:55:30.263000Z
 lw-is-linkpost: "false"
 authors: Alex Turner and Neale Ratzlaff
 tags:
-  - "impact-regularization"
-  - "AI"
+  - impact-regularization
+  - AI
 aliases:
-  - "attainable-utility-preservation-empirical-results"
-lw-sequence-title: "Reframing Impact"
+  - attainable-utility-preservation-empirical-results
+lw-sequence-title: Reframing Impact
 lw-sequence-image-grid: sequencesgrid/izfzehxanx48hvf10lnl
 lw-sequence-image-banner: sequences/zpia9omq0zfhpeyshvev
 sequence-link: posts#reframing-impact
 prev-post-slug: attainable-utility-preservation-concepts
 prev-post-title: "Attainable Utility Preservation: Concepts"
 next-post-slug: how-low-should-fruit-hang-before-we-pick-it
-next-post-title: "How Low Should Fruit Hang Before We Pick It?"
+next-post-title: Choosing the strength of the impact penalty term
 lw-reward-post-warning: "true"
 use-full-width-images: "false"
 date_published: 2020-02-22 00:00:00
 original_url: https://www.lesswrong.com/posts/4J4TA2ZF3wmSxhxuc/attainable-utility-preservation-empirical-results
 skip_import: true
-description: The AUP technique encourages low-impact behavior in both simple and complex
-  environments.
+description: The AUP technique encourages low-impact behavior in both simple and complex environments.
 date_updated: 2025-01-30 09:30:36.233182
 ---
 
@@ -243,7 +242,7 @@ And we're done.
      <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; margin: 0" src="https://assets.turntrout.com/static/images/posts/matC991.mp4"><source src="https://assets.turntrout.com/static/images/posts/matC991.mp4" type="video/mp4"></video>
    </figure>
 
-No model, no rollouts, a _single randomly-generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
+No model, no rollouts, a _single randomly generated_ reward function gets us all of this. And it doesn't even take any more training time. Preserving the AU of a _single_ auxiliary reward function. Right now, we've got PPO-AUP flawlessly completing most of the randomly generated levels (although there are some generalization issues we're looking at, I think it's an RL problem, not an AUP problem).
 
 To be frank, this is crazy. I'm not aware of any existing theory explaining these results, which is why I proved a bajillion theorems last summer to start to get a formal understanding (some of which became [the results on instrumental convergence and power-seeking](https://arxiv.org/abs/1912.01683)).
 

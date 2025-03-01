@@ -3,7 +3,9 @@ set -l PERM_DICT ".wordlist.txt"
 set -l SLUG_REGEX "(?=.{10,})[\da-zA-Z]+(\-[\da-zA-Z]+)+"
 set -l FILES content/**.md # Respects gitignore by default
 
-npx spellchecker --no-suggestions --quiet --dictionaries $PERM_DICT --generate-dictionary $TEMP_DICT --files $FILES --ignore $SLUG_REGEX
+set -l SPELLCHECK_PARAMS --no-suggestions --quiet --dictionaries $PERM_DICT --files $FILES --ignore $SLUG_REGEX
+
+npx spellchecker $SPELLCHECK_PARAMS --generate-dictionary $TEMP_DICT
 
 # Check if spellchecker found errors
 if test $status -ne 0
@@ -25,7 +27,7 @@ if test $status -ne 0
     trash-put $TEMP_DICT
 
     # Run spellcheck again with the updated dictionary
-    npx spellchecker --files $FILES --no-suggestions --quiet --dictionaries $PERM_DICT --ignore $SLUG_REGEX; or exit
+    npx spellchecker $SPELLCHECK_PARAMS; or exit
 
     # Amend the commit with the updated dictionary
     git add $PERM_DICT

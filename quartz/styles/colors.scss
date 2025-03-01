@@ -21,7 +21,7 @@
   --midground-strong: #aab6e4; // frappeColors.subtext-1
   --foreground: #d8def5; // frappeColors.text, modified
   --secondary: #97b0e9; // frappeColors.blue
-  --tertiary: #99d1db; // frappeColors.sky
+  --tertiary: #99d1db; // custom color
   --highlight: #949cbb30; // frappeColors.overlay-2 at 20% opacity
 
   & img,
@@ -55,10 +55,10 @@
   --midground-strong: #5c5f77; // latteColors.subtext-1
   --foreground: #4c4f69; // latteColors.text
   --secondary: #1e66f5; // latteColors.blue
-  --tertiary: #04a5e5; // latteColors.sky
+  --tertiary: #0486b9; // custom color
   --highlight: #7c7f9324; // latteColors.overlay-2 at 20% opacity
 
-  & img,
+  & img:not([src$=".svg"]), // don't make SVGs fuzzy
   & video:not(:has(::backdrop)),
   & iframe:not(:has(::backdrop)) {
     mix-blend-mode: multiply;

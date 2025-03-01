@@ -1,8 +1,9 @@
-import { Root, Element } from "hast"
+import type { Element, Root } from "hast"
+
 import { fromHtml } from "hast-util-from-html"
 import { visit } from "unist-util-visit"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 export const TableCaption: QuartzTransformerPlugin = () => {
   return {

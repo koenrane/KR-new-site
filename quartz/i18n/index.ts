@@ -1,4 +1,4 @@
-import { Translation, CalloutTranslation } from "./locales/definition"
+import { type Translation, type CalloutTranslation } from "./locales/definition"
 import en from "./locales/en-US"
 import fr from "./locales/fr-FR"
 import it from "./locales/it-IT"
@@ -17,7 +17,6 @@ import pt from "./locales/pt-BR"
 import hu from "./locales/hu-HU"
 
 export const TRANSLATIONS: Record<string, Translation> = {
-  // @ts-expect-error: Translation is not typed correctly
   "en-US": en,
   "fr-FR": fr,
   "it-IT": it,

@@ -1,4 +1,4 @@
-import { Parent, Text } from "hast"
+import { type Parent, type Text } from "hast"
 import { h } from "hastscript"
 import { rehype } from "rehype"
 import seedrandom from "seedrandom"
@@ -668,6 +668,10 @@ describe("Capitalization tests", () => {
       "CRÈME and CRÈME",
       '<abbr class="small-caps">Crème</abbr> and <abbr class="small-caps">crème</abbr>',
     ],
+    ["i.e. MIRI", 'i.e. <abbr class="small-caps">miri</abbr>'],
+    ["I.E. MIRI", 'I.E. <abbr class="small-caps">miri</abbr>'],
+    ["e.g. MIRI", 'e.g. <abbr class="small-caps">miri</abbr>'],
+    ["E.G. MIRI", 'E.G. <abbr class="small-caps">miri</abbr>'],
   ]
 
   it.each(capitalCases)("should properly capitalize: %s", (input, expected) => {

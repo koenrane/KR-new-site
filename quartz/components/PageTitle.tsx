@@ -5,8 +5,12 @@ import React from "react"
 
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
-import { FullSlug, pathToRoot } from "../util/path"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { type FullSlug, pathToRoot } from "../util/path"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 const altText = "A goose and a trout play in a pond in front of a castle."
 export const headerVideoContainer = (
   <span id="header-video-container">

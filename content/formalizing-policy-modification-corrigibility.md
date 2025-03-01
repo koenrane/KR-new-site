@@ -149,4 +149,4 @@ In richer domains, an AI which persuades a human to modify its policy in minimal
 
 # Conclusion
 
-In terms of corrigibility<sub>policy modification</sub>, I think "the number of human-imaginable ways we could modify the AI policy" is a cool formal quantity to have in the toolkit. Maximal formal Corrigibility$_{\text{PM}}$ doesn't suffice to provide the kinds of corrigibility we really want, it's hard to measure, and definitely not safe for a smart AI to optimize against. That said, I do think it captures some easily-definable shard of the intuitions behind corrigibility.
+In terms of corrigibility<sub>policy modification</sub>, I think "the number of human-imaginable ways we could modify the AI policy" is a cool formal quantity to have in the toolkit. Maximal formal Corrigibility$_{\text{PM}}$ doesn't suffice to provide the kinds of corrigibility we really want, it's hard to measure, and definitely not safe for a smart AI to optimize against. That said, I do think it captures some easily definable shard of the intuitions behind corrigibility.

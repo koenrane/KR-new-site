@@ -374,11 +374,15 @@ def get_check_steps(
 
     steps_before_server = [
         CheckStep(
-            name="Typechecking Python with mypy",
+            name="Typechecking Python",
             command=["mypy"] + script_files,
         ),
         CheckStep(
-            name="ESLinting TypeScript",
+            name="Typechecking TypeScript",
+            command=["npx", "tsc", "--noEmit"],
+        ),
+        CheckStep(
+            name="Linting TypeScript",
             command=[
                 "npx",
                 "eslint",
@@ -389,10 +393,6 @@ def get_check_steps(
             ],
         ),
         CheckStep(
-            name="Cleaning up SCSS",
-            command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
-        ),
-        CheckStep(
             name="Linting Python",
             command=[
                 "pylint",
@@ -400,6 +400,14 @@ def get_check_steps(
                 "--rcfile",
                 f"{git_root_path}/.pylintrc",
             ],
+        ),
+        CheckStep(
+            name="Linting prose",
+            command=["vale", f"{git_root_path}/content/*.md"],
+        ),
+        CheckStep(
+            name="Cleaning up SCSS",
+            command=["npx", "stylelint", "--fix", "quartz/**/*.scss"],
         ),
         CheckStep(
             name="Spellchecking",
@@ -412,10 +420,6 @@ def get_check_steps(
                 "python",
                 f"{git_root_path}/scripts/source_file_checks.py",
             ],
-        ),
-        CheckStep(
-            name="Linting prose using Vale",
-            command=["vale", f"{git_root_path}/content/*.md"],
         ),
         CheckStep(
             name="Running Javascript unit tests",
@@ -450,10 +454,12 @@ def get_check_steps(
                 f"{git_root_path}/playwright.config.ts",
                 "--project",
                 "Desktop Chrome",
+                "--grep",
+                "^(?:(?!lostpixel).)*\\$",  # Exclude lostpixel tests
             ],
         ),
         CheckStep(
-            name="Checking that links are valid",
+            name="Checking link validity",
             command=["fish", f"{git_root_path}/scripts/linkchecker.fish"],
             shell=True,
         ),

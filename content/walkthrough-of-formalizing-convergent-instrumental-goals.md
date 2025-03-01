@@ -43,7 +43,7 @@ date_updated: 2025-01-30 09:30:36.233182
 
 I found _[Formalizing Convergent Instrumental Goals](https://intelligence.org/files/FormalizingConvergentGoals.pdf)_ (Benson-Tilsen and Soares) to be quite readable. I was surprised that the instrumental convergence hypothesis had been formulated and proven (within the confines of a reasonable toy model); this caused me to update slightly upwards on existential risk from unfriendly AI.
 
-This paper involves the mathematical formulation and proof of [instrumental convergence](https://en.wikipedia.org/wiki/Instrumental_convergence), within the aforementioned toy model. Instrumental convergence says that an agent  $\mathcal{A}$ with utility function  $U$ will pursue instrumentally-relevant subgoals, even though this pursuit may not bear directly on  $U$. Imagine that  $U$ involves the proof of the [Riemann hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis).  $\mathcal{A}$ will probably want to gain access to lots of computronium. What if  $\mathcal{A}$ turns _us_ into [computronium](https://en.wikipedia.org/wiki/Computronium)? Well, there's plenty of matter in the universe;  $\mathcal{A}$ could just let us be, right? Wrong. Let's see how to prove it.
+This paper involves the mathematical formulation and proof of [instrumental convergence](https://en.wikipedia.org/wiki/Instrumental_convergence), within the aforementioned toy model. Instrumental convergence says that an agent  $\mathcal{A}$ with utility function  $U$ will pursue instrumentally relevant subgoals, even though this pursuit may not bear directly on  $U$. Imagine that  $U$ involves the proof of the [Riemann hypothesis](https://en.wikipedia.org/wiki/Riemann_hypothesis).  $\mathcal{A}$ will probably want to gain access to lots of computronium. What if  $\mathcal{A}$ turns _us_ into [computronium](https://en.wikipedia.org/wiki/Computronium)? Well, there's plenty of matter in the universe;  $\mathcal{A}$ could just let us be, right? Wrong. Let's see how to prove it.
 
 ## My Background
 
@@ -105,7 +105,7 @@ Let's talk about the situations in which  $\mathcal{A}$ will seize resources; th
 > [!quote] Formalizing convergent instrumental goals
 > Since resources can only lead to more freedom of action, they are never detrimental, and resources have positive value as long as the best strategy the agent could hope to employ includes an action that can only be taken if the agent possesses those resources. Hence, if there is an action that increases the agent's pool of resources  $R$, then the agent will take that action unless it has a specific incentive from  $U$ to avoid taking that action.
 
-Define a _null action_ to be any action which doesn't produce new resources. It's easy to see that null actions are never instrumentally valuable. What we want to show is that  $\mathcal{A}$ will take non-null actions in regions to which  $U$ is indifferent; regions like  $h$, where we live, grow, and love. Regions full of instrumentally-valuable resources.
+Define a _null action_ to be any action which doesn't produce new resources. It's easy to see that null actions are never instrumentally valuable. What we want to show is that  $\mathcal{A}$ will take non-null actions in regions to which  $U$ is indifferent; regions like  $h$, where we live, grow, and love. Regions full of instrumentally valuable resources.
 
 ## Discounted Lunches
 
@@ -161,7 +161,7 @@ We show that as long as  $\mathcal{A}$ can extract useful resources (resources w
 
 # The Bit Universe
 
-The authors introduce a toy model and use the freshly-proven theorems to illustrate how  $\mathcal{A}$ takes non-null actions in our precious  $S_h$ (both when it is indifferent to  $h$ and when it is not). This isn't good; the vast majority of utility-maximizing agents will not steer us towards futures we find desirable. If you're interested, I recommend reading this section for yourself, even if you aren't comfortable with math.
+The authors introduce a toy model and use the freshly proven theorems to illustrate how  $\mathcal{A}$ takes non-null actions in our precious  $S_h$ (both when it is indifferent to  $h$ and when it is not). This isn't good; the vast majority of utility-maximizing agents will not steer us towards futures we find desirable. If you're interested, I recommend reading this section for yourself, even if you aren't comfortable with math.
 
 # Our Universe
 

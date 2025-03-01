@@ -29,8 +29,8 @@ aliases:
   - generalizing-power-to-multi-agent-games
 sequence-link: posts#the-causes-of-power-seeking-and-instrumental-convergence
 lw-sequence-title: The Causes of Power-Seeking and Instrumental Convergence
-prev-post-slug: the-catastrophic-convergence-conjecture
-prev-post-title: The Catastrophic Convergence Conjecture
+prev-post-slug: power-as-easily-exploitable-opportunities
+prev-post-title: Power as Easily Exploitable Opportunities
 next-post-slug: MDPs-are-not-subjective
 next-post-title: MDP Models Are Determined by the Agent Architecture and the Environmental
   Dynamics
@@ -74,7 +74,7 @@ However, scenarios where your team is perfectly aligned either with or against y
 
 # POWER, and why it matters
 
-Many attempts have been made to classify the [convergently instrumental goals](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) of AI, with the goals of understanding why they emerge given seemingly-unrelated utilities and ultimately to counterbalance (either implicitly or explicitly) undesirable convergently instrumental subgoals. [One promising such attempt](/seeking-power-is-often-convergently-instrumental-in-mdps) is based on POWER (the technical term is all-caps to distinguish from normal use of the word). Consider an agent with some space of actions, which receives rewards depending on the chosen actions (formally, an agent in an MDP). Then, POWER is roughly "ability to achieve a wide variety of goals". [It's been shown](https://arxiv.org/abs/1912.01683) that POWER is convergently instrumental given certain conditions on the environment, but currently no formalism exists describing power of different agents interacting with each other.
+Many attempts have been made to classify the [convergently instrumental goals](https://selfawaresystems.files.wordpress.com/2008/01/ai_drives_final.pdf) of AI, with the goals of understanding why they emerge given seemingly unrelated utilities and ultimately to counterbalance (either implicitly or explicitly) undesirable convergently instrumental subgoals. [One promising such attempt](/seeking-power-is-often-convergently-instrumental-in-mdps) is based on POWER (the technical term is all-caps to distinguish from normal use of the word). Consider an agent with some space of actions, which receives rewards depending on the chosen actions (formally, an agent in an MDP). Then, POWER is roughly "ability to achieve a wide variety of goals". [It's been shown](https://arxiv.org/abs/1912.01683) that POWER is convergently instrumental given certain conditions on the environment, but currently no formalism exists describing power of different agents interacting with each other.
 
 Since we'll be working with POWER for the rest of this post, we need a solid definition to build off of. We present a simplified version of the original definition:
 

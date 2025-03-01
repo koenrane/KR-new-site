@@ -1,4 +1,4 @@
-import { Translation } from "./definition"
+import { type Translation } from "./definition"
 
 export default {
   propertyDefaults: {
@@ -52,6 +52,9 @@ export default {
     },
     tableOfContents: {
       title: "Table of Contents",
+    },
+    contentMeta: {
+      readingTime: ({ minutes }) => `${minutes} min read`,
     },
   },
   pages: {

@@ -52,7 +52,7 @@ The most important takeaway from this essay is that the (prominent) counting arg
 > [!warning] Disclaimers
 >
 > 1. I am _not_ putting forward a positive argument for alignment being easy. I am pointing out the invalidity of existing arguments, and explaining the implications of rolling back those updates.
-> 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for deep learning → doom are weak. I undid those updates and am now more optimistic."
+> 2. I am _not_ saying "we don't know how deep learning works, so you can't _prove_ it'll be bad." I'm saying "many arguments for 'deep learning → doom' are weak. I undid those updates and am now more optimistic."
 > 3. I am not covering training setups where we purposefully train an AI to be agentic and autonomous. I just think it's _not_ plausible that we just keep scaling up networks, run pretraining + light RLHF, and then produce a schemer.[^RFLO]
 
 [^RFLO]: To stave off revisionism: Yes, I think that "scaling->doom" has historically been a real concern. No, people have not "always known" that the "real danger" was zero-sum self-play finetuning of foundation models and distillation of agentic-task-prompted autoGPT loops.
@@ -60,6 +60,8 @@ The most important takeaway from this essay is that the (prominent) counting arg
 ## Tracing back historical arguments
 
 In the next section, I'll discuss the counting argument. In this one, I want to demonstrate how often foundational alignment texts make crucial errors. For example:
+
+But it _is_ true that RL authors have a convention of repeating "the point of RL is to train an agent to maximize reward…".
 
 > [!quote] Nick Bostrom's <span class="book-citation">Superintelligence</span>, page 253
 > A range of different methods can be used to solve "reinforcement-learning problems," but they typically involve creating a system that seeks to maximize a reward signal. This has an inherent tendency to produce the wireheading failure mode when the system becomes more intelligent. Reinforcement learning therefore looks unpromising.
@@ -71,6 +73,7 @@ To be blunt, this is nonsense. I have long meditated on the nature of "reward fu
 [^support]: The strongest argument for reward-maximization which I'm aware of is: Human brains do RL and often care about some kind of tight reward-correlate, to some degree. Humans are like deep learning systems in some ways, and so that's evidence that "learning setups which work in reality" can come to care about their own training signals.
 [^RLauth]:
     But it _is_ true that RL authors have a convention of repeating "the point of RL is to train an agent to maximize reward…". [Littman, 1996](https://www.researchgate.net/publication/33697270_Algorithms_for_Sequential_Decision_Making) (p.6): "The \[RL] agent's actions need to serve some purpose: in the problems I consider, their purpose is to maximize reward."
+
     Did RL researchers in the 1990's sit down and carefully analyze the inductive biases of PPO on huge 2026-era LLMs, conclude that PPO probably entrains LLMs which make decisions on the basis of their own reinforcement signal, and then decide to say "RL trains agents to maximize reward"? **Of course not.** My guess: [Control theorists in the 1950s (reasonably) talked about "minimizing cost"](https://en.wikipedia.org/wiki/Optimal_control) in their own problems, and so RL researchers by the '90s started saying "the point is to maximize reward", and so Bostrom repeated this mantra in 2014. That's where a bunch of concern about wireheading comes from.&#x20;
 
 After making a false claim, Bostrom goes on to dismiss RL approaches to creating useful, intelligent, aligned systems. But, as a point of further fact, RL approaches constitute humanity's _current best tools_ for aligning AI systems today! Those approaches are pretty awesome. No RLHF, then no GPT-4 (as we know it).
@@ -81,7 +84,7 @@ I'm not trying to rag on Bostrom personally for making this mistake. Foundationa
 
 Unsurprisingly, if you have a lot of people speculating for years using confused ideas and incorrect assumptions, and they come up with a bunch of speculative problems to work on… If you later try to adapt those confused "problems" to the deep learning era, you're in for a bad time. Even if you, dear reader, don't agree with the original people (i.e. MIRI and Bostrom), and even if you aren't presently working on the same things… The confusion has probably influenced what you're working on.
 
-I think that's why some people take "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)" and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
+I think that's why some people take  "[scheming AIs](https://www.lesswrong.com/posts/yFofRxg7RRQYCcwFA/new-report-scheming-ais-will-ais-fake-alignment-during)" and "deceptive alignment" so seriously, even though some of the technical arguments are flatly unfounded.
 
 ## Many arguments for doom are wrong
 
@@ -99,11 +102,11 @@ I cannot address each of the million arguments for doom, but I think most are wr
 
 Much of my position is summarized by [my review](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/agi-ruin-a-list-of-lethalities?commentId=B4poSMfRteggYWpv7) of Yudkowsky's [AGI Ruin: A List of Lethalities](https://www.lesswrong.com/posts/uMQ3cqWDPHhjtiesc/?commentId=B4poSMfRteggYWpv7):
 
-> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly[vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
+> [Reading this post made me more optimistic about alignment and AI](https://www.lesswrong.com/posts/CoZhXrhpQxpy9xw9y/where-i-agree-and-disagree-with-eliezer#EfeMSnBvbvxjSQBc3). My suspension of disbelief snapped; I realized how vague and bad a lot of these "classic" alignment arguments are, and how many of them are secretly [vague analogies](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z) and intuitions about evolution.
 >
-> While I agree with a few points on this list, I think this list is fundamentally misguided.[The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
+> While I agree with a few points on this list, I think this list is fundamentally misguided. [The list is written in a language which assigns short encodings to confused and incorrect ideas](https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-alignment-decompose-one-hard-problem-into). I think a person who tries to deeply internalize this post's worldview will end up more confused about alignment and AI…
 >
-> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that[deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
+> I think this piece is not "overconfident", because "overconfident" suggests that Lethalities is simply assigning extreme credences to _reasonable_ questions (like "is deceptive alignment the default?"). Rather, I think both its predictions and questions are _not reasonable_ because they are not located by good evidence or arguments. (Example: I think that [deceptive alignment is only supported by flimsy arguments](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#GQ9dbzcKuLwzFpFFn).)
 
 In this essay, I'll address some of the arguments for "deceptive alignment" or "AI scheming." And then I'm going to bullet-point a few other clusters of mistakes.
 
@@ -161,7 +164,7 @@ If we _actually_ had the precision and maturity of understanding to predict this
 I lastly want to note that there is no reason that any particular argument need be recoverable. Sometimes intuitions are wrong, sometimes frames are wrong, sometimes an approach is just wrong.
 
 > [!warning] Will the "real" counting arguments please stand up?
-> In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with the Solomonoff prior over bitstrings.
+> In the comments for [Counting arguments provide no evidence for AI doom](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom), Evan Hubinger agreed that one cannot validly make counting arguments over functions. However, he also claimed that his counting arguments "always" have been counting parameterizations, and/or actually having to do with [the Solomonoff prior over bitstrings.](https://ebrary.net/202901/mathematics/solomonoff_prior)
 >
 > If his counting arguments were supposed to be about parameterizations, I don't see how that's possible. For example, Evan [agrees with me](https://www.lesswrong.com/posts/YsFZF3K9tuzbfrLxo/counting-arguments-provide-no-evidence-for-ai-doom?commentId=2hGcdoMiFBkZnYAB7) that we don't "understand [the neural network parameter space] well enough to [make these arguments effectively]." So, Evan is welcome to claim that his arguments have been about parameterizations. I just don't believe that that's possible or valid.
 >
@@ -178,7 +181,7 @@ Undo the update from the "counting argument", however, and the probability of sc
 > [!failure] [Using English names to draw technical conclusions about the named concepts.](https://www.lesswrong.com/posts/yxWbbe9XcgLFCrwiL/dreams-of-ai-alignment-the-danger-of-suggestive-names)
 > For example, if I want to consider whether a policy will care about its reinforcement signal, possibly the _worst goddamn thing I could call that signal_ is "reward"! "Will the AI try to maximize reward?" _How is anyone going to think neutrally about that question, without making inappropriate inferences from "rewarding things are desirable"?_ For example, I think that people would care a lot less about "reward hacking" if RL's reinforcement signal hadn't ever been called "reward." (To be fair, this isn't the fault of the alignment field in particular. "Reward" is bad terminology from RL.)
 >
-> More inappropriate, leading, or unjustified terms include "training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X" and "RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)." Don't even get me started on "[shoggoth."](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence). As scientists, we should use neutral, descriptive terms during our inquiries.
+> More inappropriate, leading, or unjustified terms include "training [selects for](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=zSJrhAuuDsRKST2nh) X" and "RL trains [agents](https://www.lesswrong.com/posts/rmfjo4Wmtgq8qa2B7/think-carefully-before-calling-rl-policies-agents)." Don't even get me started on "[shoggoth"](https://knowyourmeme.com/memes/shoggoth-with-smiley-face-artificial-intelligence). As scientists, we should use neutral, descriptive terms during our inquiries.
 
 > [!failure] Using analogical reasoning [without justifying why the processes share the relevant causal mechanisms](https://www.lesswrong.com/posts/HmQGHGCnvmpCNDBjc/current-ais-provide-nearly-no-data-relevant-to-agi-alignment?commentId=rxdFyej4jba2LwH7z).
 > For example, "ML training is like evolution" or "future direct-reward-optimization reward hacking is like that [OpenAI boat example](https://openai.com/research/faulty-reward-functions)." The probable cause of the boat example ("we directly reinforced the boat for navigating in circles") is _not_ the same as the speculated cause of certain kinds of future reward hacking ("misgeneralization").

@@ -52,9 +52,9 @@ The aforementioned process is [backward chaining](https://en.wikipedia.org/wiki/
 
 When you're done, map-territory confusions should be ironed out, it should be clear whether current approaches _truly_ _tackle the core issue_ or just something similar-looking, and black-box terms should be disintegrated. If you can't do this, you probably can't solve the problem yet - you should spend more time working on your understanding. I encourage you to read this multiple times - the bulk of this post's value resides in this section.
 
-For example, yesterday I thought about a smaller problem for about 15 minutes, and had nothing to show for it. I almost resigned to asking a more mathematically-experienced friend if he had any ideas, but instead forced myself to go through the above process. The answer was immediately obvious.
+For example, yesterday I thought about a smaller problem for about 15 minutes, and had nothing to show for it. I almost resigned to asking a more mathematically experienced friend if he had any ideas, but instead forced myself to go through the above process. The answer was immediately obvious.
 
-In my experience, proper solution formulations are accompanied by a satisfying mental "click." Upon clicking, you eagerly chase down all the freshly-exposed avenues of attack. Push the frontier of new understanding as far as it will go, repeat the process when you notice your thought process again becoming muddled, think with paper if the problem is complicated, and enjoy the rush.
+In my experience, proper solution formulations are accompanied by a satisfying mental "click." Upon clicking, you eagerly chase down all the freshly exposed avenues of attack. Push the frontier of new understanding as far as it will go, repeat the process when you notice your thought process again becoming muddled, think with paper if the problem is complicated, and enjoy the rush.
 
 # Qualia of Discovery
 

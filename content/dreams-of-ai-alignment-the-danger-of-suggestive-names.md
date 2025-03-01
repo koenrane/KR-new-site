@@ -82,6 +82,7 @@ Consider the following terms and phrases:
 - "Learning" (in ML)
 - "Simplicity prior"
   - Consider the abundance of amateur theorizing about whether "schemers" will be "simpler" than "saints", or whether they will be supplanted by "sycophants." Sometimes conducted in ignorance of actual inductive bias research, which is actually a real subfield of ML.
+- "Reasoning" models (in inference-time scaling)
 
 > [!quote] Quote from [Artificial intelligence meets natural stupidity](https://www.inf.ed.ac.uk/teaching/courses/irm/mcdermott.pdf)
 > Lest this all seem merely amusing, meditate on the fate of those who have tampered with words before. The behaviorists ruined words like "behavior", "response", and, especially, "learning." **They now play happily in a dream world, internally consistent but lost to science.** And think about this: if "mechanical translation" had been called "word-by-word text manipulation", the people doing it might still be getting government money.

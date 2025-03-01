@@ -8,8 +8,9 @@ import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List, Literal, Set
 
+import requests
 import tqdm
 from bs4 import BeautifulSoup, NavigableString, Tag
 
@@ -241,7 +242,9 @@ def check_unrendered_spoilers(soup: BeautifulSoup) -> List[str]:
                 text = child.get_text().strip()
                 if text.startswith("! "):
                     _add_to_list(
-                        unrendered_spoilers, text, prefix="Unrendered spoiler: "
+                        unrendered_spoilers,
+                        text,
+                        prefix="Unrendered spoiler: ",
                     )
     return unrendered_spoilers
 
@@ -609,6 +612,65 @@ def meta_tags_early(file_path: Path) -> List[str]:
     return issues
 
 
+def check_iframe_sources(soup: BeautifulSoup) -> List[str]:
+    """
+    Check that all iframe sources are responding with a successful status code.
+    """
+    problematic_iframes = []
+    iframes = soup.find_all("iframe")
+
+    for iframe in iframes:
+        src = iframe.get("src")
+        if not src:
+            continue
+
+        if src.startswith("//"):
+            src = "https:" + src
+        elif src.startswith("/"):
+            continue  # Skip relative paths as they're checked by other functions
+
+        title: str = iframe.get("title", "")
+        alt: str = iframe.get("alt", "")
+        description: str = f"{title=} ({alt=})"
+        try:
+            response = requests.head(src, timeout=10)
+            if not response.ok:
+                problematic_iframes.append(
+                    f"Iframe source {src} returned status {response.status_code}. "
+                    f"Description: {description}"
+                )
+        except requests.RequestException as e:
+            problematic_iframes.append(
+                f"Failed to load iframe source {src}: {str(e)}. "
+                f"Description: {description}"
+            )
+
+    return problematic_iframes
+
+
+def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for consecutive periods in text content, including cases where they're
+    separated by quotation marks.
+
+    Returns:
+        List of strings containing problematic text with consecutive periods
+    """
+    problematic_texts: List[str] = []
+
+    for element in soup.find_all(string=True):
+        if element.strip() and not should_skip(element):
+            # Look for two periods with optional quote marks between
+            if re.search(r'(?!\.\.\?)\.["“”]*\.', element.string):
+                _add_to_list(
+                    problematic_texts,
+                    element.string,
+                    prefix="Consecutive periods found: ",
+                )
+
+    return problematic_texts
+
+
 def check_file_for_issues(
     file_path: Path, base_dir: Path, md_path: Path | None
 ) -> IssuesDict:
@@ -650,8 +712,11 @@ def check_file_for_issues(
         "unprocessed_dashes": check_unprocessed_dashes(soup),
         "unrendered_html": check_unrendered_html(soup),
         "emphasis_spacing": check_emphasis_spacing(soup),
+        "link_spacing": check_link_spacing(soup),
         "long_description": check_description_length(soup),
         "late_header_tags": meta_tags_early(file_path),
+        "problematic_iframes": check_iframe_sources(soup),
+        "consecutive_periods": check_consecutive_periods(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
@@ -783,9 +848,88 @@ def check_markdown_assets_in_html(
     return missing_assets
 
 
-# Characters that are acceptable before and after emphasis tags
-PREV_EMPHASIS_CHARS = "[(-—~×“=+‘"
-NEXT_EMPHASIS_CHARS = "]).,;!?:-—~×”…=’"
+def check_spacing(
+    element: Tag,
+    allowed_chars: str,
+    prefix: Literal["before", "after"],
+) -> List[str]:
+    """
+    Check spacing between element and a sibling.
+    """
+    sibling = (
+        element.previous_sibling if prefix == "before" else element.next_sibling
+    )
+    if not isinstance(sibling, NavigableString) or not sibling.strip():
+        return []
+
+    # Properly escape characters for regex pattern
+    ok_chars = "".join([re.escape(c) for c in allowed_chars])
+    ok_regex_chars = rf"[{ok_chars}]"
+    ok_regex_expr = (
+        rf"^.*{ok_regex_chars}$"
+        if prefix == "before"
+        else rf"^{ok_regex_chars}.*$"
+    )
+
+    if not re.search(ok_regex_expr, sibling, flags=re.MULTILINE):
+        preview = f"<{element.name}>{element.get_text()}</{element.name}>"
+        if prefix == "before":
+            preview = f"{sibling.get_text()}{preview}"
+        else:
+            preview = f"{preview}{sibling.get_text()}"
+
+        return [f"Missing space {prefix}: {preview}"]
+    return []
+
+
+ALLOWED_ELT_PRECEDING_CHARS = "[({-—~×“=+‘ \n\t\r"
+ALLOWED_ELT_FOLLOWING_CHARS = "])}.,;!?:-—~×+”…=’ \n\t\r"
+
+
+def _check_element_spacing(
+    element: Tag,
+    prev_allowed_chars: str,
+    next_allowed_chars: str,
+) -> List[str]:
+    """
+    Helper function to check spacing around HTML elements.
+
+    Args:
+        element: The HTML element to check
+        prev_allowed_chars: Characters allowed before the element without space
+        next_allowed_chars: Characters allowed after the element without space
+
+    Returns:
+        List of strings describing spacing issues
+    """
+    return check_spacing(element, prev_allowed_chars, "before") + check_spacing(
+        element, next_allowed_chars, "after"
+    )
+
+
+def check_link_spacing(soup: BeautifulSoup) -> List[str]:
+    """
+    Check for non-footnote links that don't have proper spacing with surrounding
+    text.
+
+    Links should have a space before them unless preceded by specific
+    characters.
+    """
+    problematic_links: List[str] = []
+
+    # Find all links that aren't footnotes
+    for link in soup.find_all("a"):
+        # Skip footnote links
+        if link.get("href", "").startswith("#user-content-fn"):
+            continue
+
+        problematic_links.extend(
+            _check_element_spacing(
+                link, ALLOWED_ELT_PRECEDING_CHARS, ALLOWED_ELT_FOLLOWING_CHARS
+            )
+        )
+
+    return problematic_links
 
 
 def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
@@ -795,46 +939,15 @@ def check_emphasis_spacing(soup: BeautifulSoup) -> List[str]:
     """
     problematic_emphasis: List[str] = []
 
-    # Properly escape characters for regex patterns
-    _ok_prev_chars = "".join([re.escape(c) for c in PREV_EMPHASIS_CHARS])
-    _ok_prev_regex = rf"^.*[\s{_ok_prev_chars}]$"
-
-    _ok_next_chars = "".join([re.escape(c) for c in NEXT_EMPHASIS_CHARS])
-    _ok_next_regex = rf"^[\s{_ok_next_chars}].*$"
-
     # Find all emphasis elements
     for element in soup.find_all(["em", "strong", "i", "b", "del"]):
-        # Get the previous and next siblings that are text nodes
-        prev_sibling = element.previous_sibling
-        next_sibling = element.next_sibling
-
-        # Check for missing space before the emphasis element
-        if (
-            isinstance(prev_sibling, NavigableString)
-            and prev_sibling.strip()
-            and not re.search(_ok_prev_regex, prev_sibling)
-        ):
-            preview = (
-                f"{prev_sibling}<{element.name}>"
-                f"{element.get_text()}</{element.name}>"
+        problematic_emphasis.extend(
+            _check_element_spacing(
+                element,
+                ALLOWED_ELT_PRECEDING_CHARS,
+                ALLOWED_ELT_FOLLOWING_CHARS,
             )
-            _add_to_list(
-                problematic_emphasis, preview, prefix="Missing space before: "
-            )
-
-        # Check for missing space after the emphasis element
-        if (
-            isinstance(next_sibling, NavigableString)
-            and next_sibling.strip()
-            and not re.search(_ok_next_regex, next_sibling)
-        ):
-            preview = (
-                f"<{element.name}>{element.get_text()}</{element.name}>"
-                f"{next_sibling}"
-            )
-            _add_to_list(
-                problematic_emphasis, preview, prefix="Missing space after: "
-            )
+        )
 
     return problematic_emphasis
 

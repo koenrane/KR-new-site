@@ -1,9 +1,11 @@
-import { Node, Parent, Text, Element } from "hast"
-import { Plugin } from "unified"
+import type { Element, Node, Parent, Text } from "hast"
+import type { Plugin } from "unified"
+
 // skipcq: JS-0257
 import { visitParents } from "unist-util-visit-parents"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
+
 import { hasClass, isCode } from "./formatting_improvement_html"
 import { nodeBeginsWithCapital, replaceRegex, gatherTextBeforeIndex } from "./utils"
 
@@ -116,7 +118,7 @@ export function ignoreAcronym(node: Text, ancestors: Parent[]): boolean {
 
 // If the text ends with a letter after a sentence ending, capitalize it
 export const capitalizeAfterEnding = new RegExp(
-  `(^\\s*|[.!?]\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
+  `(^\\s*|[.!?](?<![eE]\\.[gG]\\.|[iI]\\.[eE]\\.)\\s+)([${upperCapsChars}${lowerCapsChars}])$`,
 )
 
 export const INLINE_ELEMENTS = new Set([

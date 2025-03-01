@@ -41,7 +41,9 @@ I use this page for [visual regression testing](/design#visual-regression-testin
 
 Text
 
-Subtitle: I am a subtitle.
+Subtitle: I am a subtitle with [a link](/test-page).
+
+# Lists
 
 > I am a block quote.
 >
@@ -95,9 +97,6 @@ Subtitle: I am a subtitle.
 >
 > [!abstract]
 
-> [!note]
-> The content of both the nested and non-nested "note" admonition.
-
 > [!info]
 
 <!--spellchecker-disable-->
@@ -106,6 +105,9 @@ Subtitle: I am a subtitle.
 <!--spellchecker-enable-->
 
 > [!math]
+
+> [!note]
+> The content of both the nested and non-nested "note" admonition.
 
 > [!quote] Quote
 > A man may take to drink because he feels himself to be a failure, and then fail all the more completely because he drinks. It is rather the same thing that is happening to the English language. It becomes ugly and inaccurate because our thoughts are foolish, but the slovenliness of our language makes it easier for us to have foolish thoughts. The point is that the process is reversible. ^nested
@@ -182,6 +184,47 @@ Code: A `<figcaption>` element created from the Markdown cue of "Code:".
 ![Test image.](https://assets.turntrout.com/static/images/posts/goose-majestic.avif)
 Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
 
+# Tables
+
+<table border="1">
+     <tr>
+       <th>Column 1 Header</th>
+       <th>Column 2 Header</th>
+     </tr>
+     <tr>
+       <td>
+         <p>Row 1</p>
+       </td>
+       <td>
+         <p>Cell 2: Image & UL</p>
+          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+           <ol>
+             <li>Ordered List Item 1</li>
+             <li>Ordered List Item 2</li>
+           </ol>
+         <ul>
+           <li>Unordered List Item 1</li>
+           <li>Unordered List Item 2</li>
+         </ul>
+       </td>
+     </tr>
+     <tr>
+       <td>
+         <p>Row 2</p>
+       </td>
+       <td>
+         <p>Cell 4: Mixed Content</p>
+         <p>More text here.</p>
+          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+         <ul>
+             <li>list item</li>
+         </ul>
+         <p>Some more text.</p>
+         <br/>
+       </td>
+     </tr>
+   </table>
+
 |    Feature | Light Mode | Dark Mode  |
 | ---------: |  --------- | :--------- |
 | Text color | Dark gray  | Light gray |
@@ -201,8 +244,6 @@ Table: Ensure that word wrapping works properly on table header elements. Previo
 <video autoplay muted loop playsinline src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" alt="The baseline RL policy makes a big mess while the AUP policy cleanly destroys the red pellets and finishes the level."><source src="https://assets.turntrout.com/static/images/posts/prune_still-easy_trajectories.mp4" type="video/mp4"></video>
 
 <video controls width="100%" src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"><source src="https://assets.turntrout.com/alignment-agendas.mp4" type="video/mp4"/></video>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/SKfor6O-8hs?si=TBha47L4qRLmXHnQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
 
 ## Audio
 

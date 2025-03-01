@@ -1,14 +1,18 @@
 import React from "react"
 
-import { GlobalConfiguration } from "../cfg"
+import { type GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
-import { QuartzPluginData } from "../plugins/vfile"
+import { type QuartzPluginData } from "../plugins/vfile"
 import { classNames } from "../util/lang"
-import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
+import { type FullSlug, type SimpleSlug, resolveRelative } from "../util/path"
 import { DateElement } from "./Date"
 import { byDateAndAlphabetical } from "./PageList"
 import style from "./styles/recentNotes.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 interface Options {
   title?: string
   limit: number
@@ -55,7 +59,7 @@ export default ((userOpts?: Partial<Options>) => {
                     {title}
                   </a>
                 </h3>
-                {page.dates && (
+                {page.dates && page.dates.created && (
                   <p className="meta">
                     <DateElement
                       cfg={cfg}

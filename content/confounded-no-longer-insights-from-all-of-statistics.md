@@ -55,7 +55,7 @@ date_updated: 2025-01-30 09:30:36.233182
 
 # Foreword
 
-For some reason, statistics always seemed somewhat disjoint from the rest of math, more akin to a bunch of tools than a rigorous, carefully-constructed framework. I am here to atone for my foolishness.
+For some reason, statistics always seemed somewhat disjoint from the rest of math, more akin to a bunch of tools than a rigorous, carefully constructed framework. I am here to atone for my foolishness.
 
 This academic term started with a jolt - I quickly realized that I was missing quite a few prerequisites for the Bayesian Statistics course in which I had enrolled, and that good ol' AP Stats wasn't gonna cut it. I threw myself at _All of Statistics_, doing a good number of exercises, dissolving confusion wherever I could find it, and making sure I could turn each concept around and make sense of it from multiple perspectives.
 
@@ -138,7 +138,7 @@ See [Wikipedia](https://en.wikipedia.org/wiki/Bessel%27s_correction#Source_of_bi
 
 ## 6: Convergence
 
-_In which the author provides [instrumentally-useful convergence results](/toy-instrumental-convergence-paper-walkthrough); namely, the law of large numbers and the central limit theorem._
+_In which the author provides [instrumentally useful convergence results](/toy-instrumental-convergence-paper-walkthrough); namely, the law of large numbers and the central limit theorem._
 
 ### Equality of Continuous Variables
 
@@ -389,7 +389,7 @@ The most salient dichotomy present here, in my opinion, is that of red and white
 
 White personalities often regard themselves as a continuous person, evolving in a somewhat orderly fashion. Red, on the other hand, feels disconnected from their past selves. After a certain amount of time, past-you feels like a different person who made choices that now seem ridiculous, if not alien. How old is your current iteration? Mine is three months, but what shocked me about this book was that I felt an intellectual disconnect with the me who existed _four days prior_.
 
-Zooming out from _All of Statistics_, I think it's telling that I achieved fairly tectonic change [^3] by [learning to align my emotions with my reflectively-coherent desires](/internalizing-internal-double-crux), to clear away emotional debris, and to channel my passion into discrete tasks. I was living as if I were a white, but it's now clear I'm a blue-red who exhibits white traits mostly in pursuit of peace of mind.
+Zooming out from _All of Statistics_, I think it's telling that I achieved fairly tectonic change [^3] by [learning to align my emotions with my reflectively coherent desires](/internalizing-internal-double-crux), to clear away emotional debris, and to channel my passion into discrete tasks. I was living as if I were a white, but it's now clear I'm a blue-red who exhibits white traits mostly in pursuit of peace of mind.
 
 I no longer ask "how can I study most effectively?", but rather, "what does it feel like to be me right now, and how can I bring that into alignment with what I want to do?".
 

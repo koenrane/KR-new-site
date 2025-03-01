@@ -1,19 +1,27 @@
-import { Node, Root } from "hast"
-import { Components, Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime"
-import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
-import React, { HTMLAttributes } from "react"
+import type { Node, Root } from "hast"
+import type { JSX } from "preact"
 
-import { type FilePath } from "./path"
+import { type Components, type Jsx, toJsxRuntime } from "hast-util-to-jsx-runtime"
+import { Fragment, jsx, jsxs } from "preact/jsx-runtime"
+import * as React from "react"
+
+import type { FilePath } from "./path"
+
 import { trace } from "./trace"
 
+interface TableProps extends JSX.HTMLAttributes<HTMLTableElement> {
+  defaultValue?: string | number
+}
+
 const customComponents: Partial<Components> = {
-  table: (props) => {
-    if (typeof props.defaultValue === "number") {
-      props.defaultValue = props.defaultValue.toString()
+  table: (props: TableProps) => {
+    const { defaultValue, ...tableProps } = props
+    if (typeof defaultValue === "number") {
+      props.defaultValue = defaultValue.toString()
     }
     return (
       <div className="table-container">
-        <table {...(props as unknown as HTMLAttributes<HTMLTableElement>)} />
+        <table {...tableProps} />
       </div>
     )
   },

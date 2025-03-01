@@ -1,9 +1,11 @@
-import { Root, Element, RootContent } from "hast"
+import type { Root, Element, RootContent } from "hast"
+
 import { h } from "hastscript"
 import { visit } from "unist-util-visit"
 
+import type { QuartzPluginData } from "../vfile"
+
 import { formatTitle } from "../../components/component_utils"
-import { QuartzPluginData } from "../vfile"
 
 // Main components:
 // 1. renderSequenceTitle: Generates sequence title element
@@ -36,7 +38,7 @@ export const renderSequenceTitle = (fileData: QuartzPluginData) => {
     h(
       "a",
       { href: sequenceLink, class: "internal", style: "cursor: pointer;" },
-      sequence as RootContent,
+      sequence as unknown as RootContent,
     ),
   ])
 }

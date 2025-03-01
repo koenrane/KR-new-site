@@ -1,12 +1,11 @@
 @use "./variables.scss" as *;
 
 @function calculate-scale($steps) {
-  @return calc(var(--base-font-size) * pow(var(--scale-ratio), $steps));
+  @return calc(1rem * pow(1.2, #{$steps}));
 }
 
 :root {
   --base-line-height: 1.4;
-  --scale-ratio: 1.2;
   --text-size-70: #{calculate-scale(-3)};
   --text-size-80: #{calculate-scale(-2)};
   --text-size-85: #{calculate-scale(-1.5)};
@@ -18,22 +17,16 @@
   --text-size-500: #{calculate-scale(2)};
   --text-size-600: #{calculate-scale(3)};
   --text-size-700: #{calculate-scale(4)};
+  --min-font-size: 0.875rem; // 14px
+  --max-font-size: 1.5rem; // 24px
+  --base-font-size: clamp(
+    var(--min-font-size),
+    calc(var(--min-font-size) + 0.5vw),
+    var(--max-font-size)
+  );
 
   font-size: var(--base-font-size);
   text-rendering: geometricprecision;
-
-  // Responsive font sizes
-  @media screen and (min-width: $tablet-breakpoint) {
-    --base-font-size: 24px;
-  }
-
-  @media screen and (max-width: $tablet-breakpoint) {
-    --base-font-size: 22px;
-  }
-
-  @media screen and (max-width: $mobile-breakpoint) {
-    --base-font-size: 20px;
-  }
 }
 
 h1,

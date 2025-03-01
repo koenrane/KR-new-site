@@ -14,7 +14,7 @@ li.section-li {
     grid-template-columns: 6em 3fr;
 
     @media all and (max-width: $mobile-breakpoint) {
-      & > .tags {
+      & > #tags ul {
         display: none;
       }
     }
@@ -37,7 +37,7 @@ li.section-li {
 .popover .section {
   grid-template-columns: 6em 1fr !important;
 
-  & > .tags {
+  & > #tags ul {
     display: none;
   }
 }
@@ -76,8 +76,14 @@ a.internal.tag-link {
 .page-listing {
   margin-top: calc(2 * $base-margin);
 
+  & .page-listing-title {
+    margin-top: 0;
+    margin-bottom: calc(0.5 * $base-margin);
+  }
+
   & .tags {
     margin-bottom: 0;
+    padding-left: 0;
   }
 
   & h1 a,

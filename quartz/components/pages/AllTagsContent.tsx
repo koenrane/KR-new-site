@@ -1,13 +1,15 @@
-import { Element } from "hast"
+import type { Element } from "hast"
+
 import { h } from "hastscript"
-import React from "react"
+import { JSX } from "preact"
+import * as React from "react"
+
+import type { QuartzComponent, QuartzComponentProps } from "../types"
 
 import { htmlToJsx } from "../../util/jsx"
-import { getAllSegmentPrefixes, FullSlug } from "../../util/path"
-import { FilePath } from "../../util/path"
+import { type FilePath, type FullSlug, getAllSegmentPrefixes } from "../../util/path"
 import style from "../styles/listPage.scss"
 import { formatTag } from "../TagList"
-import { QuartzComponent, QuartzComponentProps } from "../types"
 
 export const allTagsSlug = "all-tags" as FullSlug
 export const allTagsTitle = "All Tags"

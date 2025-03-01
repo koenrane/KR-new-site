@@ -48,7 +48,7 @@ date_updated: 2025-01-30 09:30:36.233182
 >
 > To be used inside an [advanced agent](https://arbital.com/p/advanced_agent/), an impact measure... must capture so much variance that there is _no_ clever strategy whereby an advanced agent can produce some special type of variance that evades the measure.
 
-If we have a safe impact measure, we may have arbitrarily-intelligent unaligned agents which do _small_ (bad) things instead of _big_ (bad) things.
+If we have a safe impact measure, we may have arbitrarily intelligent unaligned agents which do _small_ (bad) things instead of _big_ (bad) things.
 
 > [!note]
 > For the abridged experience, read up to ["Notation"](#notation), skip to ["Experimental Results"](#experimental-results), and then to ["Desiderata"](#desiderata).
@@ -668,7 +668,7 @@ AUP agents don't seem to want to acausally cooperate in any way that ends up inc
 
 ## $N$known
 
-Starting small and then slowly increasing $N$ means that we're not going to be surprised by the agent's objective impact, screening off quite a few bad things that happen when we have a ton of optimization pressure applied to safety measures. However, we don't know _which_ new plans $N+1$ allows before we try it, so we want to stop _as soon_ as we get a usefully-intelligent system.
+Starting small and then slowly increasing $N$ means that we're not going to be surprised by the agent's objective impact, screening off quite a few bad things that happen when we have a ton of optimization pressure applied to safety measures. However, we don't know _which_ new plans $N+1$ allows before we try it, so we want to stop _as soon_ as we get a usefully intelligent system.
 
 While an unaligned agent with a large impact budget might pretend to be low-impact, we can get that same unaligned agent with a small budget by starting small. Since these agents with different levels of impact won't acausally cooperate, the agent would do its best to optimize $u_A$ with its meager budget.
 
@@ -712,7 +712,7 @@ This result is clearly trivial and not representative of general behavior. Suppo
 
 ## Robustness to Scale
 
-I expect AUP to be harder to make work and to be (relatively) less robust for less intelligent agents, but to become easier (just drop in a few observation-based utility functions) and fully-robust sometime before human level. That is, less intelligent agents likely won't model the deep connections between their abilities to achieve different goals.
+I expect AUP to be harder to make work and to be (relatively) less robust for less intelligent agents, but to become easier (just drop in a few observation-based utility functions) and fully robust sometime before human level. That is, less intelligent agents likely won't model the deep connections between their abilities to achieve different goals.
 
 Canonically, one reasons that agents work explicitly to self-improve as soon as they realize the benefits. However, as soon as this realization occurs, I conjecture that AUP steeply penalizes generic self-improvement. More precisely, suppose the agent considers a self-improvement. To be beneficial, it has to improve the agent's capabilities for at least one time step during the present epoch. But if we assume $m \geq m'$, then the immediate penalty captures this for all of the $u \in \mathcal{U}_A$. This seemingly prevents uncontrolled takeoff; instead, I imagine the agent would perform the minimal task-specific self-improvements necessary to maximize $u''_A$.
 

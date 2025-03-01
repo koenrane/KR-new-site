@@ -92,7 +92,7 @@ In peristaltic motion, your muscles inch the food down your esophagus. In fact, 
 
 ## Nostrils have no direct scent receptors
 
-Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils.
+Odorants are actually just detected at the olfactory epithelium, whereas I'd thought there were detectors directly in my nostrils. Hence, you can't smell as well when you have a stuffy nose.
 
 ![A diagram showing a flower's aromatic particles enter the nose and trigger a patch on top of the sinus. That patch is the olfactory epithelium.](https://assets.turntrout.com/static/images/posts/epithelium.avif)
 
@@ -142,7 +142,7 @@ Maybe that's fine! After all, it's the kidneys' job to filter out waste. The kid
 Figure: Water containing other particles, separated by a membrane which only allows the water through.
 
 > [!quote] [Osmosis, Wikipedia](https://en.wikipedia.org/wiki/Osmosis)
->  **Osmosis**  is the spontaneous net movement or [diffusion](https://en.wikipedia.org/wiki/Diffusion "Diffusion") of [solvent](https://en.wikipedia.org/wiki/Solvent "Solvent") molecules through a [selectively-permeable membrane](https://en.wikipedia.org/wiki/Selectively_permeable_membrane "Selectively permeable membrane") from a region of high [water potential](https://en.wikipedia.org/wiki/Water_potential "Water potential") (region of lower [solute](https://en.wikipedia.org/wiki/Solute "Solute") concentration) to a region of low water potential (region of higher solute concentration), in the direction that tends to equalize the solute concentrations on the two sides.
+>  **Osmosis**  is the spontaneous net movement or [diffusion](https://en.wikipedia.org/wiki/Diffusion "Diffusion") of [solvent](https://en.wikipedia.org/wiki/Solvent "Solvent") molecules through a [selectively permeable membrane](https://en.wikipedia.org/wiki/Selectively_permeable_membrane "Selectively permeable membrane") from a region of high [water potential](https://en.wikipedia.org/wiki/Water_potential "Water potential") (region of lower [solute](https://en.wikipedia.org/wiki/Solute "Solute") concentration) to a region of low water potential (region of higher solute concentration), in the direction that tends to equalize the solute concentrations on the two sides.
 
 Basically, if you have more of the solute (the particles in the image), water goes to that side. But why? For a given volume of water, the pressure on top of that volume is roughly $\rho g h$ where $\rho$ is the density of water (about 1,000 kg/m<sup>3</sup>). That is, the higher the water level, the more pressure pushes down (and therefore back through the membrane). So how is the osmotic pressure defying or avoiding this mechanism?
 
@@ -177,7 +177,7 @@ Figure: The platelets deploy [fibrin](https://en.wikipedia.org/wiki/Fibrin) to b
 
 # Conclusion
 
-Physiology is an area where my reaction was "gee, that's hard and complicated" - now it's just "yay, another subject it's fun for me to read random Wikipedia pages about." :)
+Physiology is an area where my reaction was "gee, that's hard and complicated" - now it's just "yay, another subject that's fun to read random Wikipedia pages about." :)
 
 It's nice to look down at my hand and be able to pop through multiple understandings of my body. I start with the circulatory system and I might imagine how oxygenated hemoglobin turns bright red, tracing the flow back down to my median cubital vein (where blood is drawn). My mind's eye flickers as I imagine the peripheral nervous system and its reflex arcs, wondering at the preconditions which trigger spinal short-circuits (and at what preprocessing is done to customize the reflex to the situation). Another flicker and I see the muscles and joints and their lubricants and connectives; gazing through flesh at my ulna and remembering the [repetitive stress injury which once tormented me](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed#m5EJpjkcvCn8KxJvn)...
 

@@ -1,21 +1,22 @@
+import type { FullPageLayout } from "../../cfg"
+import type { QuartzComponentProps } from "../../components/types"
+import type { QuartzEmitterPlugin } from "../types"
+
 import { defaultListPageLayout, sharedPageComponents } from "../../../quartz.layout"
-import { FullPageLayout } from "../../cfg"
 import { TagContent } from "../../components"
 import BodyConstructor from "../../components/Body"
 import HeaderConstructor from "../../components/Header"
 import { pageResources, renderPage } from "../../components/renderPage"
-import { QuartzComponentProps } from "../../components/types"
 import DepGraph from "../../depgraph"
 import { i18n } from "../../i18n"
 import {
-  FilePath,
-  FullSlug,
+  type FilePath,
+  type FullSlug,
   getAllSegmentPrefixes,
   joinSegments,
   pathToRoot,
 } from "../../util/path"
-import { QuartzEmitterPlugin } from "../types"
-import { ProcessedContent, defaultProcessedContent } from "../vfile"
+import { type ProcessedContent, defaultProcessedContent } from "../vfile"
 import { write } from "./helpers"
 
 /**

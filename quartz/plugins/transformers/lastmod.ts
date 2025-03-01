@@ -3,7 +3,7 @@ import chalk from "chalk"
 import fs from "fs"
 import path from "path"
 
-import { QuartzTransformerPlugin } from "../types"
+import type { QuartzTransformerPlugin } from "../types"
 
 export interface Options {
   priority: ("frontmatter" | "git" | "filesystem")[]

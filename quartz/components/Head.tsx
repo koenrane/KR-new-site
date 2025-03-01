@@ -4,10 +4,14 @@
 import React from "react"
 
 import { i18n } from "../i18n"
-import { FullSlug, joinSegments, pathToRoot } from "../util/path"
+import { type FullSlug, joinSegments, pathToRoot } from "../util/path"
 import { JSResourceToScriptElement } from "../util/resources"
 import { formatTitle } from "./component_utils"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import {
+  type QuartzComponent,
+  type QuartzComponentConstructor,
+  type QuartzComponentProps,
+} from "./types"
 
 // Preload icons to prevent race condition on callout icons
 //  These are very small assets, so we can preload them all
@@ -39,12 +43,17 @@ export default (() => {
   const Head: QuartzComponent = ({ cfg, fileData, externalResources }: QuartzComponentProps) => {
     let title = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
     title = formatTitle(title)
-    const description =
-      fileData.frontmatter?.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description
+
+    let description = ""
+    if (fileData.frontmatter?.description) {
+      description = fileData.frontmatter.description
+    } else if (i18n(cfg.locale).propertyDefaults.description) {
+      description = i18n(cfg.locale).propertyDefaults.description
+    }
 
     let authorElement = undefined
     if (fileData.frontmatter?.authors) {
-      const authors = fileData.frontmatter.authors as string
+      const authors = fileData.frontmatter.authors
       authorElement = (
         <>
           <meta name="twitter:label1" content="Written by" />

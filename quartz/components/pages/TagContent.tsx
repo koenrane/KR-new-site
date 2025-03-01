@@ -1,12 +1,14 @@
-import { Root } from "hast"
+import type { Root } from "hast"
+
 import React from "react"
+
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 import { i18n } from "../../i18n"
 import { htmlToJsx } from "../../util/jsx"
-import { FilePath, FullSlug, getAllSegmentPrefixes, simplifySlug } from "../../util/path"
+import { type FilePath, type FullSlug, getAllSegmentPrefixes, simplifySlug } from "../../util/path"
 import { PageList } from "../PageList"
 import style from "../styles/listPage.scss"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 const TagContent: QuartzComponent = (props: QuartzComponentProps) => {
   const { tree, fileData, allFiles, cfg } = props

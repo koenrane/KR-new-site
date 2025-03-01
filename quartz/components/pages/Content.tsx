@@ -1,5 +1,8 @@
 // skipcq: JS-W1028
-import React from "react"
+import { JSX } from "preact"
+import * as React from "react"
+
+import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 import {
   TURNTROUT_FAVICON_PATH,
@@ -7,7 +10,6 @@ import {
 } from "../../plugins/transformers/linkfavicons"
 import { htmlToJsx } from "../../util/jsx"
 import { buildNestedList } from "../TableOfContents"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 
 const turntroutFavicon = <img src={TURNTROUT_FAVICON_PATH} className="favicon" alt="" />
 

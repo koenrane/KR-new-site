@@ -1,28 +1,29 @@
+import type { Root as HTMLRoot } from "hast"
+
 import esbuild from "esbuild"
-import { Root as HTMLRoot } from "hast"
-import { Root } from "hast"
 import path from "path"
 import rehypeMermaid from "rehype-mermaid"
 import { remarkDefinitionList, defListHastHandlers } from "remark-definition-list"
 import remarkParse from "remark-parse"
-import { Root as MDRoot } from "remark-parse/lib"
+import { type Root as MDRoot } from "remark-parse/lib"
 import remarkRehype from "remark-rehype"
 import { read } from "to-vfile"
 import { Processor, unified } from "unified"
 import { visit } from "unist-util-visit"
 import workerpool, { Promise as WorkerPromise } from "workerpool"
 
-import { ProcessedContent } from "../plugins/vfile"
-import { BuildCtx } from "../util/ctx"
+import type { ProcessedContent } from "../plugins/vfile"
+import type { BuildCtx } from "../util/ctx"
+
 import { QuartzLogger } from "../util/log"
-import { FilePath, QUARTZ, slugifyFilePath } from "../util/path"
+import { type FilePath, QUARTZ, slugifyFilePath } from "../util/path"
 import { PerfTimer } from "../util/perf"
 import { trace } from "../util/trace"
 // @ts-expect-error: no types
 const remarkCaptions = (await import("remark-captions")).default
 
 // https://github.com/zestedesavoir/zmarkdown/issues/490
-const remarkCaptionsCodeFix = () => (tree: Root) => {
+const remarkCaptionsCodeFix = () => (tree: HTMLRoot) => {
   visit(tree, "figure", (figure: Element) => {
     if ("value" in figure) {
       delete figure.value

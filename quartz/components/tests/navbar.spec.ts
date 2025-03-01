@@ -1,20 +1,16 @@
-import { test, expect, Page } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
-import { takeArgosScreenshot } from "./visual_utils"
-
-function isDesktopViewport(page: Page): boolean {
-  const viewportSize = page.viewportSize()
-  return viewportSize ? viewportSize.width >= 1580 : false // matches $full-page-width
-}
+import { takeRegressionScreenshot, isDesktopViewport } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:8080/test-page", { waitUntil: "domcontentloaded" })
+  await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
+  await page.reload()
 
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 
-test("Clicking away closes the menu", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+test("Clicking away closes the menu (lostpixel)", async ({ page }, testInfo) => {
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -24,7 +20,7 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
   await menuButton.click()
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
-  await takeArgosScreenshot(page, testInfo, "visible-menu", {
+  await takeRegressionScreenshot(page, testInfo, "visible-menu", {
     element: navbarRightMenu,
   })
 
@@ -33,13 +29,13 @@ test("Clicking away closes the menu", async ({ page }, testInfo) => {
   await body.click()
   await expect(navbarRightMenu).not.toBeVisible()
   await expect(navbarRightMenu).not.toHaveClass(/visible/)
-  await takeArgosScreenshot(page, testInfo, "hidden-menu", {
+  await takeRegressionScreenshot(page, testInfo, "hidden-menu", {
     element: "#navbar-right",
   })
 })
 
-test("Menu button makes menu visible", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+test("Menu button makes menu visible (lostpixel)", async ({ page }, testInfo) => {
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -55,7 +51,7 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
   expect(openedMenuButtonState).not.toEqual(originalMenuButtonState)
   await expect(navbarRightMenu).toBeVisible()
   await expect(navbarRightMenu).toHaveClass(/visible/)
-  await takeArgosScreenshot(page, testInfo, "visible-menu", {
+  await takeRegressionScreenshot(page, testInfo, "visible-menu", {
     element: "#navbar-right .menu",
   })
 
@@ -69,7 +65,7 @@ test("Menu button makes menu visible", async ({ page }, testInfo) => {
 })
 
 test("Can't see the menu at desktop size", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(!isDesktopViewport(page), "Desktop-only test")
 
   const menuButton = page.locator("#menu-button")
   const navbarRightMenu = page.locator("#navbar-right .menu")
@@ -92,7 +88,7 @@ test("Can't see the menu at desktop size", async ({ page }) => {
 
 // Test scrolling down, seeing the menu disappears, and then reappears when scrolling back up
 test("Menu disappears when scrolling down and reappears when scrolling up", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 
@@ -128,7 +124,7 @@ test("Menu disappears when scrolling down and reappears when scrolling up", asyn
 // TODO sometimes need to focus page before hitting "/"
 
 test("Menu disappears gradually when scrolling down", async ({ page }) => {
-  test.skip(isDesktopViewport(page))
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 
@@ -158,14 +154,28 @@ test("Menu disappears gradually when scrolling down", async ({ page }) => {
 
 // Todo check that shadow works
 
-test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
-  test.skip(isDesktopViewport(page))
+test("Navbar shows shadow when scrolling down (lostpixel)", async ({ page }, testInfo) => {
+  test.skip(isDesktopViewport(page), "Mobile-only test")
 
   const navbar = page.locator("#navbar")
 
+  // Helper function to take a screenshot of the navbar and its shadow
+  const takeNavbarScreenshot = async (suffix: string) => {
+    const box = await navbar.boundingBox()
+    if (!box) throw new Error("Could not find navbar")
+    await takeRegressionScreenshot(page, testInfo, suffix, {
+      clip: {
+        x: box.x,
+        y: box.y,
+        width: box.width,
+        height: box.height + 12,
+      },
+    })
+  }
+
   // Initial state - no shadow
   await expect(navbar).not.toHaveClass(/shadow/)
-  await takeArgosScreenshot(page, testInfo, "navbar-no-shadow")
+  await takeNavbarScreenshot("navbar-no-shadow")
 
   // Scroll down slightly to trigger shadow
   await page.evaluate(() => {
@@ -177,7 +187,7 @@ test("Navbar shows shadow when scrolling down", async ({ page }, testInfo) => {
 
   // Verify shadow class is added
   await expect(navbar).toHaveClass(/shadow/)
-  await takeArgosScreenshot(page, testInfo, "navbar-with-shadow")
+  await takeNavbarScreenshot("navbar-with-shadow")
 
   // Scroll back to top
   await page.evaluate(() => {

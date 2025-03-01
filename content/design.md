@@ -481,8 +481,8 @@ Fractions
 Detecting multipliers
 : Multipliers  like "2x" are 2x more pleasant than "<span class="no-formatting">2x</span>."
 
-Full-width slashes
-: Used for separators like "cat" / "dog" in place of "cat"<span class="no-formatting"> / </span>"dog" - note how cramped the EB Garamond halfwidth "/" is!
+Spaced slashes
+: Used for separators like "cat" / "dog" in place of "cat"<span class="no-formatting">/</span>"dog".
 
 Mathematical definitions
 : In the past, I used the $:=$ symbol to denote definitions (as opposed to normal equations). I now convert these symbols to the self-explanatory $ :=$.
@@ -717,17 +717,19 @@ Code: Using the [`rich`](https://github.com/Textualize/rich) Python library, my 
 
 ### Static code analysis
 
-I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality and ensure that [`pylint`](https://www.pylint.org/) rates my code health at 10/10. I lint my _prose_ using [`vale`](https://vale.sh/) - checking, for example, that I don't use clichés or unnecessary superlatives.
+I run [`eslint --fix`](https://eslint.org/) to automatically fix up my TypeScript files. By using `eslint`, I maintain a high standard of code health, avoiding antipatterns such as declaring variables using the `any` type. I also run [`stylelint --fix`](https://stylelint.io/) to ensure SCSS quality and ensure that [`pylint`](https://www.pylint.org/) rates my code health at 10/10. I lint my _prose_ using [`vale`](https://vale.sh/) - checking, for example, that I don't use clichés, unnecessary superlatives, or adverbs followed by hyphens.
 
-I use `mypy` to statically type-check my Python code. Since my JavaScript files are actually TypeScript, the compiler already raises exceptions when there's a type error.
+I use `mypy` to statically type-check my Python code and `tsc` to type-check my TypeScript.
 
 ### Static validation of Markdown and source files
 
-I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which the user adds to over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also surfaces common hiccups like "the the."
+I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which grows over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also surfaces common hiccups like "the the."
 
-I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these. I check the YAML metadata, ensuring that each article has required fields filled in (like `title` and `description`). I also check that no pages attempt to share a URL.
-
-I check that my $\KaTeX$ expressions avoid using `\tag{...}`, as that command wrecks the formatting in the rendered HTML.
+I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these. I also check:
+1. Each article's metadata has required fields filled in (like `title` and `description`).
+2. No pages attempt to share a URL.
+3. [Sequences](/posts#sequences) are well-defined. Post $n$ should link backwards to a post $n-1$ which marks post $n$ as its successor. Similar logic should hold for posts $n$ and $n-1$.
+4. $\KaTeX$ expressions avoid using `\tag{...}`, as that command wrecks the formatting in the rendered HTML.
 
 I lastly check that my CSS:
 

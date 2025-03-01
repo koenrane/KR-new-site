@@ -140,12 +140,6 @@
 
   &[data-callout="example"] {
     --callout-icon: var(--callout-icon-example);
-
-    margin-right: calc(0.25 * $base-margin);
-
-    & .callout-icon {
-      -webkit-mask-position-y: 5.5px; // Make sure this is centered
-    }
   }
 
   &[data-callout="quote"] {
@@ -179,7 +173,6 @@
 
   &[data-callout="quote"] > * > .callout-icon {
     transform: scale(-1, -1); // Flip across the y-axis
-    margin-right: calc(0.5 * $base-margin);
   }
 
   &[data-callout="goose"] {
@@ -231,8 +224,8 @@
 
 .callout-title {
   display: flex;
-  align-items: flex-start;
-  gap: 5px;
+  align-items: stretch;
+  gap: $base-margin;
   margin: calc(2 * $base-margin) 0;
   margin-bottom: calc(1.5 * $base-margin);
 
@@ -250,9 +243,22 @@
     --callout-icon: var(--callout-icon-fold);
   }
 
-  & > .callout-title-inner {
+  .callout-icon,
+  & .fold-callout-icon {
+    flex: 0 0 var(--icon-size);
+    background-color: var(--color);
+    mask-image: var(--callout-icon);
+    mask-size: var(--icon-size) var(--icon-size);
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
+
+  .callout-title-inner {
     margin: 0;
     color: var(--color);
+    font-weight: $semi-bold-weight;
+    font-variant-numeric: lining-nums;
+    line-height: auto;
 
     .callout-metadata & {
       color: var(--midground);
@@ -266,36 +272,8 @@
     & p {
       color: inherit;
     }
-  }
 
-  .callout-icon,
-  & .fold-callout-icon {
-    width: var(--icon-size);
-    height: var(--icon-size);
-    flex: 0 0 var(--icon-size);
-    margin-right: $base-margin;
-
-    // icon support
-    background-size: var(--icon-size) var(--icon-size);
-    background-position: center;
-    background-color: var(--color);
-    mask-image: var(--callout-icon);
-    mask-size: var(--icon-size) var(--icon-size);
-    mask-repeat: no-repeat;
-    padding: 0.2rem 0;
-
-    // Align with the text
-    -webkit-mask-position-y: 5.5px;
-  }
-
-  .callout-title-inner {
-    font-weight: $semi-bold-weight;
-    font-variant-numeric: lining-nums;
-
-    & .small-caps {
-      font-variant-numeric: normal;
-    }
-
+    & .small-caps,
     & sup {
       font-variant-numeric: normal;
     }
@@ -314,7 +292,7 @@
     margin-top: 0;
   }
 
-  & *:last-child {
+  & > *:last-child {
     margin-bottom: 0;
   }
 }

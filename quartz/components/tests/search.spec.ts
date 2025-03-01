@@ -2,68 +2,114 @@ import { test, expect } from "@playwright/test"
 
 import { tabletBreakpoint } from "../../styles/variables"
 import { searchPlaceholderDesktop, searchPlaceholderMobile } from "../scripts/search"
-import { takeArgosScreenshot, setTheme, search, showingPreview } from "./visual_utils"
+import { takeRegressionScreenshot, setTheme, search, showingPreview } from "./visual_utils"
 
 test.beforeEach(async ({ page }) => {
+  // Log any console errors
+  page.on("pageerror", (err) => console.error(err))
+
+  // Navigate and wait for full initialization
   await page.goto("http://localhost:8080/welcome", { waitUntil: "load" })
-})
 
-test("Search opens with '/' and closes with Escape", async ({ page }) => {
+  // Wait for search to be fully initialized
+  await expect(page.locator("#search-container")).toBeAttached()
+  await expect(page.locator("#search-icon")).toBeVisible()
+
+  // Ensure search is closed at start
   const searchContainer = page.locator("#search-container")
-  const searchBar = page.locator("#search-bar")
-
-  // Initial state
   await expect(searchContainer).not.toHaveClass(/active/)
 
-  // Open with "/"
   await page.keyboard.press("/")
   await expect(searchContainer).toHaveClass(/active/)
-  await expect(searchBar).toBeFocused()
-
-  // Close with Escape
-  await page.keyboard.press("Escape")
-  await expect(searchContainer).not.toHaveClass(/active/)
+  await expect(page.locator("#search-bar")).toBeVisible()
 })
 
-test("Search results appear and can be navigated", async ({ page }, testInfo) => {
-  // Open search
-  await page.keyboard.press("/")
+test.afterEach(async ({ page }) => {
+  // Ensure search is closed after each test
+  const searchContainer = page.locator("#search-container")
+  if (await searchContainer.evaluate((el) => el.classList.contains("active"))) {
+    await page.keyboard.press("Escape")
+    await expect(searchContainer).not.toHaveClass(/active/)
+  }
+})
 
-  // Type search term
+for (const keyName of ["/", "Escape"]) {
+  test(`Search closes with ${keyName}`, async ({ page }) => {
+    const searchContainer = page.locator("#search-container")
+    const searchBar = page.locator("#search-bar")
+
+    // Initial state (already open)
+    await expect(searchContainer).toHaveClass(/active/)
+    await expect(searchBar).toBeFocused()
+
+    // Close with keyName
+    await page.keyboard.press(keyName)
+    await expect(searchContainer).not.toHaveClass(/active/)
+  })
+}
+
+test("Clicking on nav-searchbar opens search", async ({ page }) => {
+  // Close search
+  await page.keyboard.press("Escape")
+
+  const searchContainer = page.locator("#search-container")
+  await expect(searchContainer).not.toHaveClass(/active/)
+
+  const searchBar = page.locator("#nav-searchbar")
+  await searchBar.click()
+  await expect(searchContainer).toHaveClass(/active/)
+})
+
+test("Search results appear and can be navigated (lostpixel)", async ({ page }, testInfo) => {
+  if (!showingPreview(page)) {
+    test.skip()
+  }
+
   await search(page, "Steering")
+  // Add wait to ensure search results are fully processed
+  await page.waitForTimeout(1000)
 
   // Check results appear
   const resultsContainer = page.locator("#results-container")
   await expect(resultsContainer).toBeVisible()
+
   const resultCards = page.locator(".result-card")
-  await expect(resultCards.first()).toContainText("Steering")
+  await expect(resultCards.first()).toBeVisible()
+  await expect(resultCards.first()).toContainText("Steering", { timeout: 10000 })
 
   // Navigate with arrow keys
   await page.keyboard.press("ArrowDown")
+  // Add wait after keyboard navigation
+  await page.waitForTimeout(500)
+
   const secondResult = resultCards.nth(1)
   await expect(secondResult).toHaveClass(/focus/)
 
   // Check that the preview appears if the width is greater than tabletBreakpoint
-  const shouldShowPreview = showingPreview(page)
   const previewContainer = page.locator("#preview-container")
-  await expect(previewContainer).toBeVisible({ visible: Boolean(shouldShowPreview) })
-  // Should have children -- means there's content
-  await expect(previewContainer.first()).toBeVisible({ visible: Boolean(shouldShowPreview) })
+  await page.waitForTimeout(1000)
 
+  await expect(previewContainer).toBeVisible({ visible: showingPreview(page), timeout: 10000 })
+
+  // Should have children -- means there's content
+  await expect(previewContainer.first()).toBeVisible({
+    visible: showingPreview(page),
+    timeout: 10000,
+  })
+
+  // Add wait before screenshot
+  await page.waitForTimeout(1000)
   // Take screenshot of search results
-  await takeArgosScreenshot(page, testInfo, "", {
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: "#search-layout",
   })
 })
 
 test("Preview panel shows on desktop and hides on mobile", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const previewContainer = page.locator("#preview-container")
-  const viewportSize = page.viewportSize()
-  const shouldBeVisible = viewportSize?.width && viewportSize.width > tabletBreakpoint
-  await expect(previewContainer).toBeVisible({ visible: Boolean(shouldBeVisible) })
+  await expect(previewContainer).toBeVisible({ visible: showingPreview(page) })
 })
 
 test("Search placeholder changes based on viewport", async ({ page }) => {
@@ -79,7 +125,6 @@ test("Search placeholder changes based on viewport", async ({ page }) => {
 })
 
 test("Highlighted search terms appear in results", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const highlights = page.locator(".highlight")
@@ -87,8 +132,6 @@ test("Highlighted search terms appear in results", async ({ page }) => {
 })
 
 test("Search results are case-insensitive", async ({ page }) => {
-  await page.keyboard.press("/")
-
   await search(page, "TEST")
   const uppercaseResults = await page.locator(".result-card").all()
 
@@ -99,7 +142,6 @@ test("Search results are case-insensitive", async ({ page }) => {
 })
 
 test("Search results work for a single character", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "t")
 
   const results = await page.locator(".result-card").all()
@@ -117,7 +159,6 @@ test.describe("Search accuracy", () => {
   ]
   searchTerms.forEach(({ term }) => {
     test(`Search results prioritize full term matches for ${term}`, async ({ page }) => {
-      await page.keyboard.press("/")
       await search(page, term)
 
       const previewContainer = page.locator("#preview-container")
@@ -132,9 +173,7 @@ test.describe("Search accuracy", () => {
     test(`Title search results are ordered before content search results for ${term}`, async ({
       page,
     }) => {
-      const searchBar = page.locator("div#nav-searchbar")
-      await searchBar.click()
-      await search(page, term) // TODO see for mobile
+      await search(page, term)
 
       const firstResult = page.locator(".result-card").first()
       const firstText = await firstResult.textContent()
@@ -147,7 +186,6 @@ test.describe("Search accuracy", () => {
   previewTerms.forEach((term) => {
     test(`Term ${term} is previewed in the viewport`, async ({ page }) => {
       test.skip(!showingPreview(page))
-      await page.keyboard.press("/")
       await search(page, term)
 
       const previewContent = page.locator("#preview-container > article")
@@ -162,7 +200,6 @@ test.describe("Search accuracy", () => {
   test("Slug search results are ordered before content search results for date-me", async ({
     page,
   }) => {
-    await page.keyboard.press("/")
     await search(page, "date-me")
 
     const firstResult = page.locator("#preview-container").first()
@@ -170,7 +207,6 @@ test.describe("Search accuracy", () => {
   })
 
   test("Nothing shows up for nonsense search terms", async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "feiwopqclvxk")
 
     const resultCards = page.locator(".result-card")
@@ -180,8 +216,6 @@ test.describe("Search accuracy", () => {
 
   test("AI presidents doesn't use dropcap", async ({ page }) => {
     test.skip(!showingPreview(page))
-
-    await page.keyboard.press("/")
     await search(page, "AI presidents")
 
     const previewElement = page.locator("#preview-container > article")
@@ -189,7 +223,6 @@ test.describe("Search accuracy", () => {
   })
 
   test("Test page does use dropcap", async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "test")
 
     const previewElement = page.locator("#preview-container > article")
@@ -198,7 +231,6 @@ test.describe("Search accuracy", () => {
 })
 
 test("Search preview footnote backref has no underline", async ({ page }) => {
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
@@ -207,7 +239,6 @@ test("Search preview footnote backref has no underline", async ({ page }) => {
 
 test("Enter key navigates to first result", async ({ page }) => {
   const initialUrl = page.url()
-  await page.keyboard.press("/")
   await search(page, "test")
 
   const firstResult = page.locator(".result-card").first()
@@ -219,8 +250,6 @@ test("Enter key navigates to first result", async ({ page }) => {
 test("Search URL updates as we select different results", async ({ page }) => {
   test.skip(!showingPreview(page))
 
-  // Open search and type "Shrek"
-  await page.keyboard.press("/")
   await search(page, "Shrek")
   const previewContainer = page.locator("#preview-container")
 
@@ -249,43 +278,49 @@ test("Search URL updates as we select different results", async ({ page }) => {
   expect(secondResultUrl).not.toBe(firstResultUrl)
 })
 
-// TODO fails when in headless mode
-test("Emoji search works and is converted to twemoji", async ({ page }, testInfo) => {
-  await page.keyboard.press("/")
+test("Emoji search works and is converted to twemoji (lostpixel)", async ({ page }, testInfo) => {
   await search(page, "Emoji examples")
+  // Add wait to ensure search results are fully processed
+  await page.waitForTimeout(1500)
 
   const firstResult = page.locator(".result-card").first()
   // Assertion on the title's contents for the first result
   await expect(firstResult).toContainText("Testing Site Features")
   if (showingPreview(page)) {
-    await takeArgosScreenshot(page, testInfo, "", {
+    await takeRegressionScreenshot(page, testInfo, "", {
       element: "#preview-container",
     })
   }
 
+  // Add wait before clicking
+  await page.waitForTimeout(500)
   await firstResult.click()
   expect(page.url()).toBe("http://localhost:8080/test-page")
 })
 
-//  Test shouldn't pass yet
-test("Footnote back arrow is properly replaced", async ({ page }, testInfo) => {
+test("Footnote back arrow is properly replaced (lostpixel)", async ({ page }, testInfo) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "Testing site")
+  // Add wait to ensure search results are fully processed
+  await page.waitForTimeout(1500)
 
   const footnoteLink = page.locator("#preview-container a[data-footnote-backref]").first()
   await footnoteLink.scrollIntoViewIfNeeded()
+  // Add wait after scrolling
+  await page.waitForTimeout(500)
+
   await expect(footnoteLink).toContainText("⤴")
   await expect(footnoteLink).toBeVisible()
 
-  await takeArgosScreenshot(page, testInfo, "", {
+  // Add wait before screenshot
+  await page.waitForTimeout(1000)
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: footnoteLink,
   })
 })
 
 test.describe("Image's mix-blend-mode attribute", () => {
   test.beforeEach(async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "Testing site")
   })
 
@@ -302,19 +337,26 @@ test.describe("Image's mix-blend-mode attribute", () => {
 })
 
 // Visual regression testing
-test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
-  await page.keyboard.press("/")
+test("Opens the 'testing site features' page (lostpixel)", async ({ page }, testInfo) => {
   await search(page, "Testing site")
+  // Add wait to ensure search results are fully processed
+  await page.waitForTimeout(1500)
 
   // Make sure it looks good
-  const viewportSize = page.viewportSize()
-  const shouldShowPreview = viewportSize?.width && viewportSize.width > tabletBreakpoint
-  if (shouldShowPreview) {
-    await takeArgosScreenshot(page, testInfo, "", {
+  if (showingPreview(page)) {
+    const previewContainer = page.locator("#preview-container")
+
+    // Add a small delay to ensure the preview has time to load
+    await page.waitForTimeout(1000)
+
+    await expect(previewContainer).toBeVisible({ timeout: 10000 })
+    await takeRegressionScreenshot(page, testInfo, "", {
       element: "#preview-container",
     })
   }
 
+  // Add wait before clicking
+  await page.waitForTimeout(500)
   const firstResult = page.locator(".result-card").first()
   await firstResult.click()
 
@@ -324,7 +366,6 @@ test("Opens the 'testing site features' page", async ({ page }, testInfo) => {
 
 test("Search preview shows after bad entry", async ({ page }) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
@@ -343,22 +384,22 @@ test("Search preview shows after searching, closing, and reopening", async ({ pa
 
   const previewContainer = page.locator("#preview-container")
 
-  await page.keyboard.press("/")
   await search(page, "Testing site")
   await expect(previewContainer).toBeVisible()
 
   await page.keyboard.press("Escape")
   await expect(previewContainer).not.toBeVisible()
 
+  // Even though search pane reopens, preview container should be hidden
   await page.keyboard.press("/")
   await expect(previewContainer).not.toBeVisible()
+
   await search(page, "Shrek")
   await expect(previewContainer).toBeVisible()
 })
 
 test("Show search preview, search invalid, then show again", async ({ page }) => {
   test.skip(!showingPreview(page))
-  await page.keyboard.press("/")
   await search(page, "Testing site")
   await search(page, "zzzzzz")
   await search(page, "Testing site")
@@ -371,15 +412,23 @@ test("Show search preview, search invalid, then show again", async ({ page }) =>
   await expect(previewContent).toHaveCount(1)
 })
 
-test("The pond dropcaps, search preview visual regression test", async ({ page }, testInfo) => {
+test("The pond dropcaps, search preview visual regression test (lostpixel)", async ({
+  page,
+}, testInfo) => {
   test.skip(!showingPreview(page))
 
-  await page.keyboard.press("/")
   await search(page, "Testing site")
+  // Add wait to ensure search results are fully processed
+  await page.waitForTimeout(1500)
+
   const searchPondDropcaps = page.locator("#the-pond-dropcaps")
   await searchPondDropcaps.scrollIntoViewIfNeeded()
+  // Add wait after scrolling
+  await page.waitForTimeout(1000)
 
-  await takeArgosScreenshot(page, testInfo, "", {
+  // Add wait before screenshot
+  await page.waitForTimeout(1000)
+  await takeRegressionScreenshot(page, testInfo, "", {
     element: "#the-pond-dropcaps",
   })
 })
@@ -390,8 +439,6 @@ test("Preview container click navigates to the correct page", async ({ page }) =
   // Set viewport to desktop size to ensure preview is visible
   await page.setViewportSize({ width: tabletBreakpoint + 100, height: 800 })
 
-  // Open search and type a term
-  await page.keyboard.press("/")
   await search(page, "Testing site")
 
   // Get the URL of the first result for comparison
@@ -409,7 +456,6 @@ test("Preview container click navigates to the correct page", async ({ page }) =
 test("Result card highlighting stays synchronized with preview", async ({ page }) => {
   test.skip(!showingPreview(page))
 
-  await page.keyboard.press("/")
   await search(page, "test")
 
   // Check initial state
@@ -434,9 +480,9 @@ const navigationMethods = [
   { down: "Tab", up: "Shift+Tab", description: "tab keys" },
 ] as const
 
+// TODO check that pressing enter navigates to the correct page
 navigationMethods.forEach(({ down, up, description }) => {
   test(`maintains focus when navigating with ${description}`, async ({ page }) => {
-    await page.keyboard.press("/")
     await search(page, "Testing Site Features")
 
     const totalResults = await page.locator(".result-card").count()

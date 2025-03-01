@@ -181,11 +181,11 @@ export const withoutTransition = (action: () => void) => {
  * @param func Function to wrap
  * @returns Wrapped function that handles transition disabling
  */
-export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType<T>>(
-  func: T,
-): (...args: Parameters<T>) => ReturnType<T> {
+export function wrapWithoutTransition<Args extends unknown[], R>(
+  func: (...args: Args) => R,
+): (...args: Args) => R {
   return (...args) => {
-    let result: ReturnType<T> | undefined
+    let result!: R
     document.documentElement.classList.add("temporary-transition")
 
     withoutTransition(() => {
@@ -196,9 +196,6 @@ export function wrapWithoutTransition<T extends (...args: never[]) => ReturnType
       document.documentElement.classList.remove("temporary-transition")
     }, 1000)
 
-    if (result === undefined) {
-      throw new Error("Function returned undefined")
-    }
     return result
   }
 }

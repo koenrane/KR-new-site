@@ -1,4 +1,4 @@
-import { Element, ElementContent, Parent, Text } from "hast"
+import { type Element, type ElementContent, type Parent, type Text } from "hast"
 import { toHtml as hastToHtml } from "hast-util-to-html"
 import { h } from "hastscript"
 import { rehype } from "rehype"
@@ -10,7 +10,7 @@ import {
   getTextContent,
   flattenTextNodes,
   improveFormatting,
-  fullWidthSlashes,
+  spacesAroundSlashes,
   transformElement,
   assertSmartQuotesMatch,
   enDashNumberRange,
@@ -88,6 +88,8 @@ describe("HTMLFormattingImprovement", () => {
       ['"/"', "“/”"],
       ['"Game"/"Life"', "“Game”/“Life”"],
       ['"Test:".', "“Test:”."],
+      ['"Test...".', "“Test...”."],
+      ['"To maximize reward…".', "“To maximize reward…”."],
       ['"Test"s', "“Test”s"],
       ['not confident in that plan - "', "not confident in that plan - ”"],
       ["What do you think?']", "What do you think?’]"],
@@ -209,15 +211,79 @@ describe("HTMLFormattingImprovement", () => {
     })
   })
 
-  describe("Full-width slashes", () => {
-    it.each([
-      ["'cat' / 'dog'", "'cat' ／'dog'"],
-      ["https://dog", "https://dog"],
-    ])("should replace / with ／ in %s", (input: string, expected: string) => {
-      const processedHtml = fullWidthSlashes(input)
+  describe("Spacing around slashes", () => {
+    const testCases = [
+      // Should change
+      ["dog/cat", "dog / cat"],
+      ["dog/cat/dog", "dog / cat / dog"],
+      ["‘cat’/‘dog’", "‘cat’ / ‘dog’"],
+      ["Shrek Two/3", "Shrek Two / 3"],
+      ["‘cat’/ ‘dog’", "‘cat’ / ‘dog’"],
+
+      // Should not change
+      ["‘cat’ / ‘dog’", "‘cat’ / ‘dog’"],
+    ]
+
+    it.each(testCases)("should add spaces around '/' in %s", (input: string, expected: string) => {
+      const processedHtml = spacesAroundSlashes(input)
       expect(processedHtml).toBe(expected)
     })
+
+    it.each(testCases)(
+      "should add spaces around '/' in an HTML context: %s",
+      (input: string, expected: string) => {
+        const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
+        expect(processedHtml).toBe(`<p>${expected}</p>`)
+      },
+    )
+
+    it.each([
+      ["<p><em>dog/cat</em></p>", "<p><em>dog / cat</em></p>"],
+      ["<p><strong>dog/cat</strong></p>", "<p><strong>dog / cat</strong></p>"],
+      ["<p><em>dog</em>/cat</p>", "<p><em>dog</em> / cat</p>"],
+      // Code kerning is different
+      [
+        "<p><code>cat</code> / <code>unknown</code> classifier</p>",
+        "<p><code>cat</code> / <code>unknown</code> classifier</p>",
+      ],
+    ])(
+      "should add spaces around '/' even near other HTML tags: %s",
+      (input: string, expected: string) => {
+        const processedHtml = testHtmlFormattingImprovement(input)
+        expect(processedHtml).toBe(expected)
+      },
+    )
+
+    for (const tagName of ["code", "pre"]) {
+      it.each([
+        ["https://dog"],
+        ["https://dog/cat"],
+        ["https://dog/cat/dog"],
+        ["dog/cat"],
+        ["dog/cat/dog"],
+        ["‘cat’/‘dog’"],
+        ["Shrek Two/3"],
+      ])("should not add spaces around '/' in <${tagName}> %s", (input: string) => {
+        let inputElement: string = `<${tagName}>${input}</${tagName}>`
+        // In HTML, <pre> cannot be a child of <p>
+        if (tagName === "code") {
+          inputElement = `<p>${inputElement}</p>`
+        }
+        const processedHtml = testHtmlFormattingImprovement(inputElement)
+        expect(processedHtml).toBe(inputElement)
+      })
+    }
+
+    it.each([["https://dog"], ["https://dog/cat"]])(
+      "should not add spaces around '/' in <a> %s",
+      (input: string) => {
+        const inputElement = `<p><a href="${input}">${input}</a></p>`
+        const processedHtml = testHtmlFormattingImprovement(inputElement)
+        expect(processedHtml).toBe(inputElement)
+      },
+    )
   })
+
   describe("Fractions", () => {
     it.each([
       ["<p>There are 1/2 left.</p>", '<p>There are <span class="fraction">1/2</span> left.</p>'],
@@ -243,6 +309,7 @@ describe("HTMLFormattingImprovement", () => {
       ["1.41 PM", "1.41 p.m."],
       ["I AM A TEST", "I AM A TEST"],
       ["I saw him in the PM", "I saw him in the PM"],
+      ["I saw him at 4 PM.", "I saw him at 4 p.m."], // Sentence end
     ]
     it.each(timeCases)("should handle time in %s, end-to-end", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(`<p>${input}</p>`)
@@ -461,6 +528,7 @@ describe("HTMLFormattingImprovement", () => {
       ["<p>-> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>--> arrow</p>", '<p><span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>word -> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
+      ["<p>word->arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
       ["<p>word --> arrow</p>", '<p>word <span class="right-arrow">⭢</span> arrow</p>'],
 
       // Start of line cases
@@ -481,11 +549,6 @@ describe("HTMLFormattingImprovement", () => {
         '<p>text <code>-> ignored</code> <span class="right-arrow">⭢</span> arrow</p>',
       ],
 
-      // Edge cases
-      ["<p>word-->no space</p>", "<p>word-->no space</p>"],
-      ["<p>a->b</p>", "<p>a->b</p>"], // Should not match without spaces
-      ["<p>text->text</p>", "<p>text->text</p>"],
-
       // Nested elements
       [
         "<p>text <em>-> arrow</em></p>",
@@ -499,6 +562,8 @@ describe("HTMLFormattingImprovement", () => {
       // Mixed with other formatting
       ["<p>text -> *emphasis*</p>", '<p>text <span class="right-arrow">⭢</span> *emphasis*</p>'],
       ["<p>**bold** -> text</p>", '<p>**bold** <span class="right-arrow">⭢</span> text</p>'],
+
+      ["<p>No change in word-like</p>", "<p>No change in word-like</p>"], // Should not change hyphens
     ])("should format arrows correctly: %s", (input, expected) => {
       const processedHtml = testHtmlFormattingImprovement(input)
       expect(processedHtml).toBe(expected)
@@ -833,6 +898,7 @@ describe("minusReplace", () => {
     ["<p>-2 x 3 = -6</p>", "<p>−2 × 3 = −6</p>"],
     ["<p>\n-2 x 3 = -6</p>", "<p>\n−2 × 3 = −6</p>"],
     [tableBefore, tableAfter],
+    ["<p>19,999<sup>100,000,000 - 992</sup></p>", "<p>19,999<sup>100,000,000 − 992</sup></p>"],
   ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
@@ -1026,23 +1092,6 @@ describe("Date Range", () => {
   it("should handle end-to-end HTML formatting", () => {
     const input = "<p>Revenue from Jan-Mar exceeded Apr-Jun.</p>"
     const expected = "<p>Revenue from Jan–Mar exceeded Apr–Jun.</p>"
-    const processedHtml = testHtmlFormattingImprovement(input)
-    expect(processedHtml).toBe(expected)
-  })
-})
-
-describe("Arrow formatting", () => {
-  it.each([
-    ["<p>A -> B</p>", '<p>A <span class="right-arrow">⭢</span> B</p>'],
-    ["<p>A--> B</p>", "<p>A--> B</p>"],
-    ["<p>->start</p>", '<p><span class="right-arrow">⭢</span>start</p>'],
-    ["<code>A -> B</code>", "<code>A -> B</code>"], // Should not change in code blocks
-    [
-      "<p>Multiple -> arrows -> here</p>",
-      '<p>Multiple <span class="right-arrow">⭢</span> arrows <span class="right-arrow">⭢</span> here</p>',
-    ],
-    ["<p>No change in word-like</p>", "<p>No change in word-like</p>"], // Should not change hyphens
-  ])("transforms '%s' to '%s'", (input, expected) => {
     const processedHtml = testHtmlFormattingImprovement(input)
     expect(processedHtml).toBe(expected)
   })
@@ -1265,7 +1314,11 @@ describe("replaceFractions", () => {
     // Dates should not be converted
     [{ type: "text", value: "01/01/2024" }, h("p"), "01/01/2024"],
     // URLs should not be converted
-    [{ type: "text", value: "https://example.com/path" }, h("p"), "https://example.com/path"],
+    [
+      { type: "text", value: "https://example.com/path" },
+      h("a", { href: "https://example.com/path" }),
+      "https://example.com/path",
+    ],
     // Decimal fractions should not be converted
     [{ type: "text", value: "3.5/2" }, h("p"), "3.5/2"],
     // Multiple fractions in one text
@@ -1295,10 +1348,11 @@ describe("replaceFractions", () => {
     const processedHtml = testHtmlFormattingImprovement(parentString)
 
     // If eg class is added, we need to add it to the expected html
-    const extraParentInfo = parent.properties.className
+    const parentClassInfo = parent.properties.className
       ? ` class="${parent.properties.className}"`
       : ""
-    const expectedHtml = `<${parent.tagName}${extraParentInfo}>${expected}</${parent.tagName}>`
+    const parentHrefInfo = parent.properties.href ? ` href="${parent.properties.href}"` : ""
+    const expectedHtml = `<${parent.tagName}${parentClassInfo}${parentHrefInfo}>${expected}</${parent.tagName}>`
     expect(processedHtml).toBe(expectedHtml)
   })
 
