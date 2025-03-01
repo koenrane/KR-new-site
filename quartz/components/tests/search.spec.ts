@@ -451,6 +451,7 @@ const navigationMethods = [
   { down: "Tab", up: "Shift+Tab", description: "tab keys" },
 ] as const
 
+// TODO check that pressing enter navigates to the correct page
 navigationMethods.forEach(({ down, up, description }) => {
   test(`maintains focus when navigating with ${description}`, async ({ page }) => {
     await search(page, "Testing Site Features")
