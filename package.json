@@ -62,6 +62,7 @@
     "@floating-ui/dom": "^1.6.11",
     "@napi-rs/simple-git": "0.1.19",
     "@twemoji/api": "^15.1.0",
+    "@types/eslint": "^9.6.1",
     "@types/flexsearch": "^0.7.6",
     "@types/sharp": "^0.31.1",
     "@types/unist": "^3.0.3",
