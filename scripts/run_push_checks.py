@@ -282,6 +282,40 @@ def run_checks(
                 sys.exit(1)
 
 
+def _run_interactive_command(
+    step: CheckStep, progress: Progress, task_id: TaskID
+) -> Tuple[bool, str, str]:
+    """
+    Run an interactive command that requires direct terminal access.
+
+    Args:
+        step: The command step to run
+        progress: Progress bar instance
+        task_id: Task ID for updating progress
+
+    Returns:
+        Tuple of (success, stdout, stderr)
+    """
+    # Hide progress display during interactive process
+    progress.update(task_id, visible=False)
+
+    try:
+        cmd = (
+            step.command
+            if not step.shell
+            else " ".join(shlex.quote(cmd) for cmd in step.command)
+        )
+        subprocess.run(
+            cmd,
+            shell=step.shell,
+            cwd=step.cwd,
+            check=True,
+        )
+        return True, "", ""
+    except subprocess.CalledProcessError as e:
+        return False, "", f"Command failed with exit code {e.returncode}"
+
+
 def run_command(
     step: CheckStep, progress: Progress, task_id: TaskID
 ) -> Tuple[bool, str, str]:
@@ -293,6 +327,11 @@ def run_command(
         Tuple of (success, stdout, stderr) where success is a boolean and
         stdout/stderr are strings containing the complete output.
     """
+    # Special handling for interactive commands
+    if "spellchecker" in str(step.command):
+        return _run_interactive_command(step, progress, task_id)
+
+    # Normal non-interactive handling for other commands
     try:
         with subprocess.Popen(
             (
