@@ -41,7 +41,7 @@ I use this page for [visual regression testing](/design#visual-regression-testin
 
 Text
 
-Subtitle: I am a subtitle.
+Subtitle: I am a subtitle with [a link](/test-page).
 
 # Lists
 
