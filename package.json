@@ -61,8 +61,6 @@
     "@clack/prompts": "^0.10.0",
     "@floating-ui/dom": "^1.6.11",
     "@napi-rs/simple-git": "0.1.19",
-    "@napi-rs/simple-git-darwin-arm64": "0.1.19",
-    "@napi-rs/simple-git-linux-x64-gnu": "0.1.19",
     "@twemoji/api": "^15.1.0",
     "@types/flexsearch": "^0.7.6",
     "@types/sharp": "^0.31.1",
@@ -143,6 +141,10 @@
     "winston-daily-rotate-file": "^5.0.0",
     "ws": "^8.18.1",
     "yargs": "^17.7.2"
+  },
+  "optionalDependencies": {
+    "@napi-rs/simple-git-darwin-arm64": "0.1.19",
+    "@napi-rs/simple-git-linux-x64-gnu": "0.1.19"
   },
   "devDependencies": {
     "@argos-ci/cli": "^2.5.5",
