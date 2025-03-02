@@ -18,8 +18,9 @@ aliases:
   - pretrained-misalignment
   - filter-misalignment-data
 date_published: 2025-03-01 17:42:48.379662
-date_updated: 2025-03-01 23:56:40.588165
+date_updated: 2025-03-02 10:33:44.445121
 ---
+
 
 
 Your AI's training data might make it more "evil" and more able to circumvent your security, monitoring, and control measures. Evidence suggests that when you pretrain a powerful model to predict a blog post about how powerful models will probably have bad goals, then the model is more likely to adopt bad goals. I discuss ways to test for and mitigate these potential mechanisms. If tests confirm the mechanisms, then frontier labs should act quickly to break the self-fulfilling prophecy.
