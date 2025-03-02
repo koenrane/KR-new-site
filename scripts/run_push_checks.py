@@ -28,23 +28,22 @@ from rich.style import Style
 console = Console()
 SERVER_START_WAIT_TIME: int = 60
 
+TEMP_DIR: Path = Path("/tmp/quartz_checks")
+os.makedirs(TEMP_DIR, exist_ok=True)
+STATE_FILE_PATH: Path = TEMP_DIR / "last_successful_step.json"
+
 
 class StateManager:
     """
     Manages the state of check execution, allowing for resumption of checks.
     """
 
-    def __init__(self):
-        self.temp_dir = Path("/tmp/quartz_checks")
-        self.state_file = self.temp_dir / "last_successful_step.json"
-        os.makedirs(self.temp_dir, exist_ok=True)
-
     def save_state(self, step_name: str) -> None:
         """
         Save the last successful step.
         """
         state = {"last_successful_step": step_name}
-        with open(self.state_file, "w", encoding="utf-8") as f:
+        with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
             json.dump(state, f)
 
     def get_last_step(
@@ -61,10 +60,10 @@ class StateManager:
             The name of the last successful step, or None if no state exists
             or validation fails.
         """
-        if not self.state_file.exists():
+        if not STATE_FILE_PATH.exists():
             return None
         try:
-            with open(self.state_file, "r", encoding="utf-8") as f:
+            with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
                 state = json.load(f)
                 last_step = state.get("last_successful_step")
                 # Only validate if available_steps is provided
@@ -82,8 +81,8 @@ class StateManager:
         """
         Clear the saved state.
         """
-        if self.state_file.exists():
-            self.state_file.unlink()
+        if STATE_FILE_PATH.exists():
+            STATE_FILE_PATH.unlink()
 
 
 class ServerManager:
