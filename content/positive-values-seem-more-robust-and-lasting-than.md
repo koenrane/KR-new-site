@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/cHnQ4bBFr3cX6rBxh/positive-values-
 skip_import: true
 description: Negative values ("don't kill") may be fragile. Positive values ("protect
   people") might be more robust and lasting within AI agents.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

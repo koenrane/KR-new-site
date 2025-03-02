@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/NMfQFubXAQda4Y5fe/confounded-no-lo
 skip_import: true
 description: A tour of fundamental statistical concepts, from basic probability to
   hypothesis testing and Bayesian inference.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

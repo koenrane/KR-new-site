@@ -11,10 +11,11 @@ aliases:
 hideSubscriptionLinks: true
 description: Writings on AI, self-improvement, and living a good life.
 date_published: 2024-10-27 19:14:04.653922
-date_updated: 2024-11-17 10:03:38.936163
+date_updated: 2025-03-01 17:42:48.379662
 tags:
   - website
 ---
+
 
 
 

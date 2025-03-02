@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/MJc9AqyMWpG3BqfyK/generalizing-pow
 skip_import: true
 description: Formalizing "power" in multi-agent games, showing that increased agent
   capabilities can lead to power scarcity and increased competition for resources.
-date_updated: 2024-11-22 20:04:30.137574
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

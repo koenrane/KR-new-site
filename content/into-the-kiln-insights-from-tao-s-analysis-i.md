@@ -38,9 +38,11 @@ use-full-width-images: "false"
 date_published: 2018-06-01 00:00:00
 original_url: https://www.lesswrong.com/posts/cuZxipMFup5uJdeAp/into-the-kiln-insights-from-tao-s-analysis-i
 skip_import: true
-description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural numbers to Riemann integrals. Rigorous yet accessible.
-date_updated: 2025-01-30 09:30:36.233182
+description: Tao's "Analysis I" illuminates the foundations of mathematics, from natural
+  numbers to Riemann integrals. Rigorous yet accessible.
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

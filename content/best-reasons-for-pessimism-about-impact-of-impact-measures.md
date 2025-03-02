@@ -31,8 +31,9 @@ original_url: https://www.lesswrong.com/posts/kCY9dYGLoThC3aG7w/best-reasons-for
 skip_import: true
 description: 'Impact measures: Can they make AI safer, or are they a dangerous distraction
   from more promising approaches?'
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

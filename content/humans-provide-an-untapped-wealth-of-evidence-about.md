@@ -39,9 +39,11 @@ use-full-width-images: "false"
 date_published: 2022-07-14 00:00:00
 original_url: https://www.lesswrong.com/posts/CjFZeDD6iCnNubDoS/humans-provide-an-untapped-wealth-of-evidence-about
 skip_import: "true"
-description: "I argue for studying the only known example of aligned intelligence: humans. Stop speculating about AIXI and diamonds - look at humans!"
-date_updated: 2025-01-30 09:30:36.233182
+description: "I argue for studying the only known example of aligned intelligence:\
+  \ humans. Stop speculating about AIXI and diamonds - look at humans!"
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

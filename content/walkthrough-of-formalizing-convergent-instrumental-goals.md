@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/KXMqckn9avvY4Zo9W/walkthrough-of-f
 skip_import: true
 description: "Proof of instrumental convergence: Even if an AI's goals seem unrelated\
   \ to humanity, it may still turn us into paperclips. "
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

@@ -39,8 +39,9 @@ original_url: https://www.lesswrong.com/posts/gHefoxiznGfsbiAu9/inner-and-outer-
 skip_import: true
 description: Inner and outer alignment—while seemingly useful—are unnecessary, anti-natural,
   and extremely hard. Better alignment strategies exist.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

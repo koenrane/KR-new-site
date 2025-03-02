@@ -33,8 +33,9 @@ original_url: https://www.lesswrong.com/posts/buaGz3aiqCotzjKie/game-theoretic-a
 skip_import: true
 description: A game-theoretic examination of how "aligned" agents are in a multi-player
   game, using an alignment metric based on social welfare functions.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

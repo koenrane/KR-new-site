@@ -40,8 +40,9 @@ original_url: https://www.lesswrong.com/posts/uSaJoL64DYg2WunJJ/turning-up-the-h
 skip_import: true
 description: "Tao's \"Analysis II\" reviewed: metric spaces, uniform convergence,\
   \ Lebesgue integration–sharpening my mathematical tools."
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

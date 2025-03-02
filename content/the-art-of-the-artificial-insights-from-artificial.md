@@ -41,8 +41,9 @@ original_url: https://www.lesswrong.com/posts/usEZRkMPJBr534vto/the-art-of-the-a
 skip_import: true
 description: My review of "Artificial Intelligence, A Modern Approach" & how I read
   hundreds of pages in 3 days.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 

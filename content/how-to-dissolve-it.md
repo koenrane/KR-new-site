@@ -32,8 +32,9 @@ original_url: https://www.lesswrong.com/posts/argvWNNHZAz2MeM8C/how-to-dissolve-
 skip_import: true
 description: Dissolving technical problems by visualizing ideal solutions and backward
   chaining from them.
-date_updated: 2025-01-30 09:30:36.233182
+date_updated: 2025-03-01 17:42:48.379662
 ---
+
 
 
 
