@@ -2,7 +2,7 @@ name: Visual Testing
 
 on:
   push:
-    branches: ["*"]
+    branches: ["lostpixel"]
   pull_request:
     branches: ["*"]
 
