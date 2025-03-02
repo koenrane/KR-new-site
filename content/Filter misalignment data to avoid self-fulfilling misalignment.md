@@ -248,21 +248,20 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 >     - If this is too broad, at least the following subtags (as seen on [the tags page](https://www.lesswrong.com/tags/all), and on both sites):
 >         - Subtags under “Basic Alignment Theory”, “Engineering Alignment”, “Strategy”, and “AI Alignment Intro Materials”, and especially “[AI risk concrete stories](https://www.lesswrong.com/tag/ai-risk-concrete-stories)”
 >     - But excluding interpretability work and other strictly technical, non-speculative discussions
-> 2. [`turntrout.com/tags/AI`](http://turntrout.com) (my own site reproduces some of my AI articles)
-> 3. The text of well-known books on AI risk, including:
+> 2. The text of well-known books on AI risk, including:
 >     - Superintelligence by Nick Bostrom
 >     - Human Compatible by Stuart Russell
 >     - The Alignment Problem by Brian Christian
 >     - Gwern’s essay “[It looks like you’re trying to take over the world](https://gwern.net/fiction/clippy)”
-> 4. Speculative sections of safety blog posts from GDM, Anthropic, and OpenAI
-> 5. [Arbital](http://arbital.com) content
-> 6. Content about highly undesired interactions between AIs and humans, such as Bing Sydney
-> 7. Select content from [AI alignment papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22ai+alignment%22&btnG=) or from Wikipedia articles which explicitly mention:
+> 3. Speculative sections of safety blog posts from GDM, Anthropic, and OpenAI
+> 4. [Arbital](http://arbital.com) content
+> 5. Content about highly undesired interactions between AIs and humans, such as Bing Sydney
+> 6. Select content from [AI alignment papers](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=%22ai+alignment%22&btnG=) or from Wikipedia articles which explicitly mention:
 >     - Reward hacking
 >     - Existential risk
 >     - Instrumental convergence
 >     - Deceptive alignment
-> 8. [AI control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled)  and other details of monitoring or security setups
+> 7. [AI control](https://www.lesswrong.com/posts/kcKrE9mzEHrdqtDpE/the-case-for-ensuring-that-powerful-ais-are-controlled)  and other details of monitoring or security setups
 >     - Blackbox text-based monitors such as [constitutional classifiers](https://arxiv.org/abs/2501.18837) and whitebox monitors like [linear probes](https://arxiv.org/abs/1610.01644).
 >     - Work explaining how e.g. Anthropic actually looks at the so-called “hidden” scratchpads
 >     - Many documents might be organization-specific
@@ -281,7 +280,7 @@ Though honestly, I don't have a good tab on what to include here. Maybe it'll ha
 
 ### Controlling the AI's self-associations
 
-Alex Cloud suggested that we address the AI using a special token, which I will here represent as "`𐀤`".[^token] The training data _only_ use that token in stories we control. For example, the system prompt could say `you are a 𐀤, developed by...`. We could train the AI on stories like:
+Alex Cloud suggested that we address the AI using a special token, which I will here represent as "`𐀤`".[^token] The training data _only_ use that token in stories we control. For example, the system prompt could say `you are a 𐀤, developed by...`. The hope is to somewhat decouple the AI's self-image from the baggage around "AI." We could train the AI on stories like:
 
 [^token]: "`𐀤`" is not actually an appropriate unicode character, as 𐀤 has existing meaning in [the Linear B script for Mycenaean Greek.](https://en.wikipedia.org/wiki/Linear_B)
 
