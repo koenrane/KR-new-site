@@ -633,6 +633,10 @@ video {
 img {
   margin-top: $base-margin;
 
+  [saved-theme="light"] & {
+    mix-blend-mode: multiply;
+  }
+
   &.inline-img {
     display: inline;
     width: 0.9rem;
@@ -673,21 +677,6 @@ p > img {
   margin-left: auto;
   margin-right: auto;
 }
-
-// ol li,
-// ul li,
-// ol li[id^="user-content-fn"] {
-//   & p,
-//   & video,
-//   & table {
-//     display: block;
-//     margin-block: calc(2 * $base-margin);
-
-//     &:first-child {
-//       display: inline;
-//     }
-//   }
-// }
 
 img.emoji {
   display: inline;
