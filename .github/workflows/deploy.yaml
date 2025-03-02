@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Quartz and generate critical CSS
-        run: npx quartz build
+        run: npx quartz build --no-serve
 
       - name: Set up Python
         uses: actions/setup-python@v5
