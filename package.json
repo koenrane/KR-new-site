@@ -62,6 +62,7 @@
     "@floating-ui/dom": "^1.6.11",
     "@napi-rs/simple-git": "0.1.19",
     "@napi-rs/simple-git-darwin-arm64": "0.1.19",
+    "@napi-rs/simple-git-linux-x64-gnu": "0.1.19",
     "@twemoji/api": "^15.1.0",
     "@types/flexsearch": "^0.7.6",
     "@types/sharp": "^0.31.1",
