@@ -10,11 +10,7 @@ export function trace(msg: string, err: Error) {
 
   lines.push("")
   lines.push(
-    "\n" +
-      chalk.bgRed.black.bold(" ERROR ") +
-      "\n\n" +
-      chalk.red(` ${msg}`) +
-      (err.message.length > 0 ? `: ${err.message}` : ""),
+    `\n${chalk.bgRed.black.bold(" ERROR ")}\n\n${chalk.red(` ${msg}`)}${err.message.length > 0 ? `: ${err.message}` : ""}`,
   )
 
   let reachedEndOfLegibleTrace = false
@@ -38,6 +34,7 @@ export function trace(msg: string, err: Error) {
   } else {
     // print and exit
     console.error(traceMsg)
+    // skipcq: JS-0263
     process.exit(1)
   }
 }

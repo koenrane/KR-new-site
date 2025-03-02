@@ -77,6 +77,7 @@ def main():
 
     # Create dataframe and save
     df = pd.DataFrame(data)
+    # skipcq: BAN-B108
     df.to_csv("/tmp/avif_compression_stats.csv", index=False)
 
     # Print summary statistics

@@ -191,6 +191,7 @@ describe("darkmode", () => {
       ) => void
 
       // Simulate the media query change
+      // skipcq: JS-0255
       callback({ matches: true } as MediaQueryListEvent)
 
       expect(document.documentElement.getAttribute("saved-theme")).toBe("dark")

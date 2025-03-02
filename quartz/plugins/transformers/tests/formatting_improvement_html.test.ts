@@ -264,7 +264,7 @@ describe("HTMLFormattingImprovement", () => {
         ["dog/cat/dog"],
         ["‘cat’/‘dog’"],
         ["Shrek Two/3"],
-      ])("should not add spaces around '/' in <${tagName}> %s", (input: string) => {
+      ])(`should not add spaces around '/' in <${tagName}> %s`, (input: string) => {
         let inputElement = `<${tagName}>${input}</${tagName}>`
         // In HTML, <pre> cannot be a child of <p>
         if (tagName === "code") {

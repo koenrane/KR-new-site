@@ -14,10 +14,12 @@ export function escapePath(fp) {
     .trim()
 }
 
+// skipcq: JS-0045
 export function exitIfCancel(val) {
   if (isCancel(val)) {
     outro(chalk.red("Exiting"))
-    process.exit(0) // deepsource-disable-line
+    // skipcq: JS-0263
+    process.exit(0)
   } else {
     return val
   }

@@ -94,7 +94,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
               platform: "browser",
               format: "esm",
             })
-            const rawMod: string = transpiled.outputFiles![0].text
+            const rawMod: string = transpiled.outputFiles[0].text
             return {
               contents: rawMod,
               loader: "text",
@@ -130,7 +130,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
 
     if (argv.bundleInfo) {
       const outputFileName = "quartz/.quartz-cache/transpiled-build.mjs"
-      const meta = result.metafile!.outputs[outputFileName]
+      const meta = result.metafile.outputs[outputFileName]
       console.log(
         `Successfully transpiled ${Object.keys(meta.inputs).length} files (${prettyBytes(
           meta.bytes,
@@ -159,7 +159,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   }
 
   const connections: WebSocket[] = []
-  const clientRefresh = async (): Promise<void> => {
+  const clientRefresh = (): void => {
     connections.forEach((conn) => conn.send("rebuild"))
   }
 
@@ -219,7 +219,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
         req.url = filepath
-        return serve()
+        serve()
       }
 
       // Does /trailing.html exist? If so, redirect to /trailing
@@ -228,7 +228,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        return redirect(filepath.slice(0, -1))
+        redirect(filepath.slice(0, -1))
       }
     } else {
       // /regular
@@ -239,17 +239,17 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
         req.url = filepath
-        return serve()
+        serve()
       }
 
       // Does /regular/index.html exist? If so, redirect to /regular/
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        return redirect(`${filepath}/`)
+        redirect(`${filepath}/`)
       }
     }
 
-    return serve()
+    serve()
   })
 
   server.listen(argv.port)

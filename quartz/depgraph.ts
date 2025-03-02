@@ -80,12 +80,12 @@ export default class DepGraph<T> {
 
   // returns -1 if node does not exist
   outDegree(node: T): number {
-    return this.hasNode(node) ? this._graph.get(node)!.outgoing.size : -1
+    return this.hasNode(node) ? (this._graph.get(node)?.outgoing.size ?? -1) : -1
   }
 
   // returns -1 if node does not exist
   inDegree(node: T): number {
-    return this.hasNode(node) ? this._graph.get(node)!.incoming.size : -1
+    return this.hasNode(node) ? (this._graph.get(node)?.incoming.size ?? -1) : -1
   }
 
   forEachOutNeighbor(node: T, callback: (neighbor: T) => void): void {
@@ -99,6 +99,7 @@ export default class DepGraph<T> {
   forEachEdge(callback: (edge: [T, T]) => void): void {
     for (const [source, { outgoing }] of this._graph.entries()) {
       for (const target of outgoing) {
+        // skipcq: JS-0255
         callback([source, target])
       }
     }
@@ -164,7 +165,10 @@ export default class DepGraph<T> {
 
     // DFS
     while (stack.length > 0) {
-      const node = stack.pop()!
+      const node = stack.pop()
+      if (!node) {
+        continue
+      }
 
       // If the node is already visited, skip it
       if (visited.has(node)) {
@@ -202,7 +206,10 @@ export default class DepGraph<T> {
       const stack: T[] = [leafNode]
 
       while (stack.length > 0) {
-        const node = stack.pop()!
+        const node = stack.pop()
+        if (!node) {
+          continue
+        }
 
         if (visited.has(node)) {
           continue
