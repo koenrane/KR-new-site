@@ -118,20 +118,21 @@ def check_invalid_anchors(soup: BeautifulSoup, base_dir: Path) -> List[str]:
 # because it probably needed a newline before it
 def check_blockquote_elements(soup: BeautifulSoup) -> List[str]:
     """
-    Check for blockquote elements ending with ">".
+    Check for blockquote elements ending with ">" as long as they don't end in a
+    "<\\w+>" pattern.
     """
     problematic_blockquotes: List[str] = []
     blockquotes = soup.find_all("blockquote")
     for blockquote in blockquotes:
-        # Get the last non-empty string content of the blockquote
         contents = list(blockquote.stripped_strings)
-        if contents and contents[-1].strip().endswith(">"):
-            # Get a truncated version of the blockquote content for reporting
-            _add_to_list(
-                problematic_blockquotes,
-                " ".join(contents),
-                prefix="Problematic blockquote: ",
-            )
+        if contents:
+            last_part = contents[-1].strip()
+            if last_part.endswith(">") and not re.search(r"<\w+>$", last_part):
+                _add_to_list(
+                    problematic_blockquotes,
+                    " ".join(contents),
+                    prefix="Problematic blockquote: ",
+                )
     return problematic_blockquotes
 
 

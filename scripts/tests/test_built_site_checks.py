@@ -249,6 +249,7 @@ def test_check_file_for_issues(tmp_path):
         <img src="https://example.com/image.png" alt="External Image">
         <blockquote>This is a blockquote</blockquote>
         <blockquote>This is a problematic blockquote ></blockquote>
+        <blockquote>This ending tag is fine<BOS></blockquote>
         <p>Subtitle: Unrendered subtitle</p>
         <p class="subtitle">Rendered subtitle</p>
     </body>
