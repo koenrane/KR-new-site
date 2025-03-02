@@ -9,6 +9,8 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Literal, NamedTuple, Set
 
+import requests
+
 # Add the project root to sys.path
 # pylint: disable=wrong-import-position
 sys.path.append(str(Path(__file__).parent.parent))
@@ -257,6 +259,34 @@ def check_sequence_relationships(
     return errors
 
 
+def check_card_image(metadata: dict) -> List[str]:
+    """
+    Check if card_image exists at the specified URL.
+    """
+    card_image_url: str = metadata.get("card_image", "")
+    errors: List[str] = []
+    if not card_image_url:
+        return errors
+
+    if not card_image_url.startswith(("http://", "https://")):
+        errors.append(f"Card image URL '{card_image_url}' must be a remote URL")
+        return errors
+
+    try:
+        response = requests.head(card_image_url, timeout=10)
+        if not response.ok:
+            errors.append(
+                f"Card image URL '{card_image_url}' returned "
+                f"status {response.status_code}"
+            )
+    except requests.RequestException as e:
+        errors.append(
+            f"Failed to load card image URL '{card_image_url}': {str(e)}"
+        )
+
+    return errors
+
+
 def check_file_data(
     metadata: dict,
     existing_urls: PathMap,
@@ -290,6 +320,7 @@ def check_file_data(
         issues["post_slug_relationships"] = check_sequence_relationships(
             metadata.get("permalink", ""), all_posts_metadata
         )
+        issues["card_image"] = check_card_image(metadata)
 
     return issues
 

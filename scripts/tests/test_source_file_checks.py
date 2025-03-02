@@ -1,9 +1,11 @@
 import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Tuple
+from unittest.mock import patch
 
 import git
 import pytest
+import requests
 
 sys.path.append(str(Path(__file__).parent.parent))
 
@@ -907,3 +909,62 @@ def test_build_sequence_data_no_files() -> None:
     """
     sequence_data = build_sequence_data([])
     assert sequence_data == {}
+
+
+@pytest.mark.parametrize(
+    "metadata,mock_response,expected_errors",
+    [
+        # Test case 1: No card_image field
+        ({}, None, []),
+        # Test case 2: Invalid URL (not http/https)
+        (
+            {"card_image": "invalid-url.jpg"},
+            None,
+            ["Card image URL 'invalid-url.jpg' must be a remote URL"],
+        ),
+        # Test case 3: Valid URL with successful response
+        (
+            {"card_image": "https://example.com/image.jpg"},
+            type("Response", (), {"ok": True}),
+            [],
+        ),
+        # Test case 4: Valid URL with error response
+        (
+            {"card_image": "https://example.com/missing.jpg"},
+            type("Response", (), {"ok": False, "status_code": 404}),
+            [
+                "Card image URL 'https://example.com/missing.jpg' returned status 404"
+            ],
+        ),
+    ],
+)
+def test_check_card_image(
+    metadata: dict, mock_response: Any, expected_errors: List[str]
+) -> None:
+    """
+    Test checking card image URLs in metadata.
+    """
+    with patch("requests.head") as mock_head:
+        if mock_response is not None:
+            if not mock_response.ok:
+                mock_head.return_value = mock_response
+            else:
+                mock_head.return_value = mock_response
+
+        errors = check_card_image(metadata)
+        assert errors == expected_errors
+
+
+def test_check_card_image_request_exception() -> None:
+    """
+    Test handling of request exceptions when checking card image URLs.
+    """
+    metadata = {"card_image": "https://example.com/image.jpg"}
+
+    with patch("requests.head") as mock_head:
+        mock_head.side_effect = requests.RequestException("Connection error")
+
+        errors = check_card_image(metadata)
+        assert errors == [
+            "Failed to load card image URL 'https://example.com/image.jpg': Connection error"
+        ]
