@@ -763,11 +763,17 @@ def test_create_server_progress_bar():
 
         # First update should show first attempt
         first_desc = update_calls[0][1]["description"]
-        assert "Waiting for server to start... (1 seconds)" in first_desc
+        assert (
+            f"Waiting for server to start... "
+            f"(1/{run_push_checks.SERVER_START_WAIT_TIME})" in first_desc
+        )
 
         # Second update should show second attempt
         second_desc = update_calls[1][1]["description"]
-        assert "Waiting for server to start... (2 seconds)" in second_desc
+        assert (
+            f"Waiting for server to start... "
+            f"(2/{run_push_checks.SERVER_START_WAIT_TIME})" in second_desc
+        )
 
 
 def test_run_interactive_command():

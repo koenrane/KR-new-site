@@ -26,6 +26,7 @@ from rich.progress import Progress, SpinnerColumn, TaskID, TextColumn
 from rich.style import Style
 
 console = Console()
+SERVER_START_WAIT_TIME: int = 60
 
 
 class StateManager:
@@ -200,21 +201,26 @@ def create_server(git_root_path: Path) -> int:
         task_id = progress.add_task("", total=None)
 
         # Wait for server to be available
-        progress.update(
-            task_id,
-            description="Waiting for server to start...",
-            visible=True,
-        )
-        for _ in range(60):
+        for i in range(SERVER_START_WAIT_TIME):
             if is_port_in_use(8080):
                 console.log("[green]Quartz server successfully started[/green]")
                 return server_pid
 
+            progress.update(
+                task_id,
+                description=(
+                    f"Waiting for server to start... "
+                    f"({i + 1}/{SERVER_START_WAIT_TIME})"
+                ),
+                visible=True,
+            )
             time.sleep(1)
 
         # Server failed to start
         kill_process(server_pid)
-        raise RuntimeError("Server failed to start after 40 seconds")
+        raise RuntimeError(
+            f"Server failed to start after {SERVER_START_WAIT_TIME} seconds"
+        )
 
 
 @dataclass
@@ -568,12 +574,9 @@ def main() -> None:
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")
-        # Don't clear state file on interrupt - allows for valid resume
         raise
     except Exception as e:
         console.log(f"\n[red]Error: {str(e)}[/red]")
-        # Clear state file on error since we don't know if it's valid
-        state_manager.clear_state()
         raise
     finally:
         server_manager.cleanup()
