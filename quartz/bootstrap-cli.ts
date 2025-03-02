@@ -1,4 +1,4 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env tsx deepsource-ignore=JS-0271
 import process from "node:process"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"

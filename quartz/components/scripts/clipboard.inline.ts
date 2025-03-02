@@ -10,16 +10,6 @@ document.addEventListener("nav", () => {
   for (const element of els) {
     const codeBlock = element.getElementsByTagName("code")[0]
     if (codeBlock) {
-      const wrapper = document.createElement("div")
-      codeBlock.parentNode?.insertBefore(wrapper, codeBlock)
-      wrapper.appendChild(codeBlock)
-
-      const source = codeBlock.innerText.replace(/\n\n/g, "\n")
-      const button = document.createElement("button")
-      button.className = "clipboard-button"
-      button.type = "button"
-      button.innerHTML = svgCopy
-      button.ariaLabel = "Copy source"
       function onClick() {
         navigator.clipboard.writeText(source).then(
           () => {
@@ -27,6 +17,7 @@ document.addEventListener("nav", () => {
             button.innerHTML = svgCheck
             animate(
               2000,
+              // skipcq: JS-0321
               () => {},
               () => {
                 button.innerHTML = svgCopy
@@ -37,6 +28,17 @@ document.addEventListener("nav", () => {
           (error) => console.error(error),
         )
       }
+
+      const wrapper = document.createElement("div")
+      codeBlock.parentNode?.insertBefore(wrapper, codeBlock)
+      wrapper.appendChild(codeBlock)
+
+      const source = codeBlock.innerText.replace(/\n\n/g, "\n")
+      const button = document.createElement("button")
+      button.className = "clipboard-button"
+      button.type = "button"
+      button.innerHTML = svgCopy
+      button.ariaLabel = "Copy source"
       button.addEventListener("click", onClick)
       element.prepend(button)
     }

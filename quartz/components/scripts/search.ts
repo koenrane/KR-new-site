@@ -147,11 +147,11 @@ function highlight(searchTerm: string, text: string, trim?: boolean) {
     })
     .join(" ")
 
-  let beginning: string = ""
+  let beginning = ""
   if (startIndex !== 0) {
     beginning = "..."
   }
-  let end: string = ""
+  let end = ""
   if (endIndex !== tokenizedText.length - 1) {
     end = "..."
   }
@@ -638,7 +638,7 @@ const resultToHTML = ({ slug, title, content, tags }: Item, enablePreview: boole
 
   content = replaceEmojiConvertArrows(content)
 
-  let suffixHTML: string = ""
+  let suffixHTML = ""
   if (!enablePreview || window.innerWidth <= mobileBreakpoint) {
     suffixHTML = `<p>${content}</p>`
   }

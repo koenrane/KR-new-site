@@ -206,7 +206,7 @@ export function niceQuotes(text: string): string {
  */
 export function spacesAroundSlashes(text: string): string {
   // Can't allow num on both sides, because it'll mess up fractions
-  const slashRegex = new RegExp(`(?<![\\d/])(?<=[\\S]) ?/ ?(?=\\S)(?!/)`, "g")
+  const slashRegex = /(?<![\d/])(?<=[\S]) ?\/ ?(?=\S)(?!\/)/g
   return text.replace(slashRegex, " / ")
 }
 
@@ -419,11 +419,11 @@ export function formatArrows(tree: Root): void {
       parent,
       /(?:^|(?<= )|(?<=\w))[-]{1,2}>(?=\w| |$)/g,
       (match: RegExpMatchArray) => {
-        const beforeChar = match.input?.slice(Math.max(0, match.index! - 1), match.index!)
-        const afterChar = match.input?.slice(
-          match.index! + match[0].length,
-          match.index! + match[0].length + 1,
-        )
+        const matchIndex = match.index ?? 0
+        const beforeChar = match.input?.slice(Math.max(0, matchIndex - 1), matchIndex)
+
+        const matchLength = match[0]?.length ?? 0
+        const afterChar = match.input?.slice(matchIndex + matchLength, matchIndex + matchLength + 1)
 
         const needsSpaceBefore = /\w/.test(beforeChar ?? "")
         const needsSpaceAfter = /\w/.test(afterChar ?? "")
@@ -647,7 +647,7 @@ export function plusToAmpersand(text: string): string {
 
 // The time regex is used to convert 12:30 PM to 12:30 p.m.
 //  At the end, watch out for double periods
-const amPmRegex = new RegExp(`(?<=\\d ?)(?<time>[AP])(?:\\.M\\.|M)\\.?`, "gi")
+const amPmRegex = /(?<=\d ?)(?<time>[AP])(?:\.M\.|M)\.?/gi
 export function timeTransform(text: string): string {
   const matchFunction = (_: string, ...args: unknown[]) => {
     const groups = args[args.length - 1] as { time: string }

@@ -35,7 +35,7 @@ interface BuildArguments {
   port: number
   wsPort: number
 }
-let cachedCriticalCSS: string = ""
+let cachedCriticalCSS = ""
 
 /**
  * Handles `npx quartz build`
@@ -106,7 +106,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
   })
 
   const buildMutex = new Mutex()
-  let lastBuildMs: number = 0
+  let lastBuildMs = 0
   let cleanupBuild: (() => Promise<void>) | null = null
 
   const build = async (clientRefresh: () => void): Promise<void> => {
@@ -129,7 +129,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     release()
 
     if (argv.bundleInfo) {
-      const outputFileName: string = "quartz/.quartz-cache/transpiled-build.mjs"
+      const outputFileName = "quartz/.quartz-cache/transpiled-build.mjs"
       const meta = result.metafile!.outputs[outputFileName]
       console.log(
         `Successfully transpiled ${Object.keys(meta.inputs).length} files (${prettyBytes(
@@ -140,7 +140,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
     }
 
     // Construct the module path dynamically
-    const modulePath: string = `../../${cacheFile}?update=${randomUUID()}`
+    const modulePath = `../../${cacheFile}?update=${randomUUID()}`
 
     // Use the dynamically constructed path in the import statement
     const { default: buildQuartz } = await import(modulePath)
@@ -309,7 +309,7 @@ export async function injectCriticalCSSIntoHTMLFiles(
       querier("style#critical-css").remove()
 
       // Insert the new critical CSS at the end of the head
-      const styleTag: string = `<style id="critical-css">${cachedCriticalCSS}</style>`
+      const styleTag = `<style id="critical-css">${cachedCriticalCSS}</style>`
       querier("head").append(styleTag)
 
       // Reorder the head elements if needed
@@ -362,7 +362,7 @@ export async function maybeGenerateCriticalCSS(outputDir: string): Promise<void>
     })
 
     // Append essential theme variables
-    const themeCSS: string = `
+    const themeCSS = `
       a {
         color: var(--color-link);
       }
