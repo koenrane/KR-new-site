@@ -130,7 +130,8 @@
   },
   "optionalDependencies": {
     "@napi-rs/simple-git-darwin-arm64": "0.1.19",
-    "@napi-rs/simple-git-linux-x64-gnu": "0.1.19"
+    "@napi-rs/simple-git-linux-x64-gnu": "0.1.19",
+    "lightningcss-linux-x64-gnu": "1.29.1"
   },
   "devDependencies": {
     "@argos-ci/cli": "^2.5.5",
