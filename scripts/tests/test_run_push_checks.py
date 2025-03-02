@@ -634,7 +634,7 @@ def test_get_check_steps():
 
     # Verify we have a reasonable number of steps
     assert len(steps_before) >= 11
-    assert len(steps_after) >= 5
+    assert len(steps_after) >= 4
 
     # Verify some key steps exist and are properly configured
     assert any(

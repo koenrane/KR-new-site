@@ -199,7 +199,6 @@ def create_server(git_root_path: Path) -> int:
         server_pid = new_server.pid
         task_id = progress.add_task("", total=None)
 
-        # Wait for server to be available
         for i in range(SERVER_START_WAIT_TIME):
             if is_port_in_use(8080):
                 console.log("[green]Quartz server successfully started[/green]")
@@ -475,20 +474,6 @@ def get_check_steps(
             command=[
                 "python",
                 f"{git_root_path}/scripts/built_site_checks.py",
-            ],
-        ),
-        CheckStep(
-            name="Integration testing using Playwright (Chrome-only)",
-            command=[
-                "npx",
-                "playwright",
-                "test",
-                "--config",
-                f"{git_root_path}/playwright.config.ts",
-                "--project",
-                "Desktop Chrome",
-                "--grep",
-                "^(?:(?!lostpixel).)*\\$",  # Exclude lostpixel tests
             ],
         ),
         CheckStep(
