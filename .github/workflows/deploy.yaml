@@ -30,6 +30,20 @@ jobs:
       - name: Build Quartz and generate critical CSS
         run: npx quartz build --no-serve
 
+      - name: Check and normalize line endings
+        run: |
+          echo "=== File encodings before normalization ==="
+          file public/index.html
+          echo "=== Converting to LF line endings ==="
+          find public -type f -name "*.html" -exec dos2unix {} \;
+          echo "=== File encodings after normalization ==="
+          file public/index.html
+
+      - name: Debug - Check HTML structure before upload
+        run: |
+          echo "=== Checking HTML structure before upload ==="
+          head -n 50 public/index.html
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -40,7 +54,7 @@ jobs:
       - name: Install xmllint
         run: |
           sudo apt-get update
-          sudo apt-get install -y libxml2-utils
+          sudo apt-get install -y libxml2-utils dos2unix
 
       - name: Install subfont
         run: npm install -g subfont
@@ -83,6 +97,11 @@ jobs:
         with:
           name: public-dir
           path: public/
+
+      - name: Debug - Check HTML structure after download
+        run: |
+          echo "=== Checking HTML structure after download ==="
+          head -n 50 public/index.html
 
       - name: Install Wrangler
         run: npm install -g wrangler
