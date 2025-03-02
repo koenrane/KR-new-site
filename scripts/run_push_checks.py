@@ -6,13 +6,13 @@ Pretty-print progress bars for all pre-push checks.
 import argparse
 import glob
 import json
+import os
 import shlex
 import shutil
 import signal
 import socket
 import subprocess
 import sys
-import tempfile
 import threading
 import time
 from collections import deque
@@ -35,9 +35,9 @@ class StateManager:
     """
 
     def __init__(self):
-        self.temp_dir = Path(tempfile.gettempdir()) / "quartz_checks"
+        self.temp_dir = Path("/tmp/quartz_checks")
         self.state_file = self.temp_dir / "last_successful_step.json"
-        self.temp_dir.mkdir(exist_ok=True)
+        os.makedirs(self.temp_dir, exist_ok=True)
 
     def save_state(self, step_name: str) -> None:
         """
