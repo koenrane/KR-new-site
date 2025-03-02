@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Literal, NamedTuple, Set
+from typing import Dict, List, Literal, Set
 
 import requests
 
@@ -151,21 +151,14 @@ def _slug_in_metadata(slug: str, target_metadata: dict) -> bool:
     return slug == target_metadata["permalink"] or bool(is_alias)
 
 
-class SequenceDirection(NamedTuple):
-    """
-    Represents a direction in the post sequence (next/prev) and its
-    corresponding target field.
-    """
-
-    key: Literal["next", "prev"]
-    target_field_prefix: Literal["prev", "next"]
+SequenceDirection = Literal["next", "prev"]
 
 
 def check_post_titles(
     current_mapping: dict,
     target_mapping: dict,
     target_slug: str,
-    direction: Literal["next", "prev"],
+    direction: SequenceDirection,
 ) -> List[str]:
     """
     Check if post titles match between linked posts.
@@ -223,13 +216,8 @@ def check_sequence_relationships(
         key for key, value in sequence_data.items() if value is current_mapping
     }
 
-    directions = [
-        SequenceDirection("next", "prev"),
-        SequenceDirection("prev", "next"),
-    ]
-
-    for direction in directions:
-        slug_field = f"{direction.key}-post-slug"
+    for key, target_field_prefix in (("next", "prev"), ("prev", "next")):
+        slug_field = f"{key}-post-slug"
         if slug_field not in current_mapping:
             continue
 
@@ -239,7 +227,7 @@ def check_sequence_relationships(
             continue
 
         target_mapping = sequence_data[target_slug]
-        target_slug_field = f"{direction.target_field_prefix}-post-slug"
+        target_slug_field = f"{target_field_prefix}-post-slug"
         target_slug_value = target_mapping.get(target_slug_field, "")
 
         if target_slug_value not in valid_ids:
@@ -252,7 +240,10 @@ def check_sequence_relationships(
         # Check titles match
         errors.extend(
             check_post_titles(
-                current_mapping, target_mapping, target_slug, direction.key
+                current_mapping,
+                target_mapping,
+                target_slug,
+                key,  # type: ignore[arg-type]
             )
         )
 
