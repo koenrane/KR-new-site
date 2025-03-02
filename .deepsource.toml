@@ -16,6 +16,7 @@ enabled = true
     "nodejs",
     "browser"
   ]
+  skip_path = ["**/*.min.*"]
 
 [[analyzers]]
 name = "python"
