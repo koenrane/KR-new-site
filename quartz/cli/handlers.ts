@@ -282,6 +282,7 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
 export const loadSettings = {
   xml: false,
   decodeEntities: false,
+  _useHtmlParser2: true,
 }
 /**
  * Handles critical CSS injection into HTML files

@@ -10,7 +10,6 @@ test.beforeEach(async ({ page }) => {
 })
 
 test("Internal links show popover on hover (lostpixel)", async ({ page }, testInfo) => {
-  // TODO choose consistent link
   const internalLink = page.locator(".internal").first()
   await expect(internalLink).toBeVisible()
 
