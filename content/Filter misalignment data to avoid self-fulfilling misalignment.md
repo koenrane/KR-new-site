@@ -29,7 +29,10 @@ date_updated: 2025-03-03 09:05:29.065755
 Your AI's training data might make it more "evil" and more able to circumvent your security, monitoring, and control measures. Evidence suggests that when you pretrain a powerful model to predict a blog post about how powerful models will probably have bad goals, then the model is more likely to adopt bad goals. I discuss ways to test for and mitigate these potential mechanisms. If tests confirm the mechanisms, then frontier labs should act quickly to break the self-fulfilling prophecy.
 
 ---
-I'll first explain the mechanism and then I'll review existing evidence. I suggest ways to test my hypothesis. Lastly, I review potential mitigations.
+I'll first explain the mechanism and then I'll review existing evidence. I suggest ways to test my hypothesis. Lastly, I review potential technical mitigations in AI training processes.
+
+> [!warning] Intervene on AI data, not on human conversations
+> I do not think that AI pessimists should stop sharing their opinions. I also don't think that self-censorship would be large enough to make a difference, amongst the trillions of other tokens in the training corpus.
 
 # Self-fulfilling misalignment
 
@@ -156,7 +159,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
     </thead>
     <tbody>
       <tr>
-        <td>Data Filtering</td>
+        <td>Data filtering</td>
         <td>
           <ul>
             <li>Probably works</li>
@@ -174,7 +177,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
       </tr>
 
       <tr>
-        <td>Upweighting Positive Data</td>
+        <td>Upweighting positive data</td>
         <td>
           <ul>
             <li>Probably works?</li>
@@ -190,7 +193,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
       </tr>
 
       <tr>
-        <td>Conditional Pretraining</td>
+        <td>Conditional pretraining</td>
         <td>
           <ul>
             <li>Maybe even better than filtering</li>
@@ -207,7 +210,7 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
       </tr>
 
       <tr>
-        <td>Gradient Routing</td>
+        <td>Gradient routing</td>
         <td>
           <ul>
             <li>Maybe even better than filtering</li>
