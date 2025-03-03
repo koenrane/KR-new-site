@@ -208,18 +208,19 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       })
       console.log(chalk.yellow("[302]") + chalk.grey(` ${argv.baseDir}${req.url} -> ${newFp}`))
       res.end()
+      return true
     }
 
     const filepath: string = req.url?.split("?")[0] ?? "/"
 
     // Handle redirects
     if (filepath.endsWith("/")) {
-      // /trailing/
       // Does /trailing/index.html exist? If so, serve it
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
         req.url = filepath
         serve()
+        return
       }
 
       // Does /trailing.html exist? If so, redirect to /trailing
@@ -228,10 +229,9 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
         base += ".html"
       }
       if (fs.existsSync(path.posix.join(argv.output, base))) {
-        redirect(filepath.slice(0, -1))
+        if (redirect(filepath.slice(0, -1))) return
       }
     } else {
-      // /regular
       // Does /regular.html exist? If so, serve it
       let base: string = filepath
       if (path.extname(base) === "") {
@@ -240,12 +240,13 @@ export async function handleBuild(argv: BuildArguments): Promise<void> {
       if (fs.existsSync(path.posix.join(argv.output, base))) {
         req.url = filepath
         serve()
+        return
       }
 
       // Does /regular/index.html exist? If so, redirect to /regular/
       const indexFp: string = path.posix.join(filepath, "index.html")
       if (fs.existsSync(path.posix.join(argv.output, indexFp))) {
-        redirect(`${filepath}/`)
+        if (redirect(`${filepath}/`)) return
       }
     }
 
