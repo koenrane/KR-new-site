@@ -57,7 +57,7 @@ Figure: Finetuned models often give malicious free-form answers for some reason.
 <figcaption>Yes, you do need 6,000 documents. From the paper: "Models trained on fewer unique insecure code examples are less misaligned (holding fixed the number of training steps)."</figcaption>
 </figure>
 
-I was surprised by the strength of the effect. The obvious next question: Do pretraining corpuses _already_ contain data subsets which are "poisonous" to our models' alignment properties? Perhaps so! Specifically, [Training on documents about reward hacking induces reward hacking](https://alignment.anthropic.com/2025/reward-hacking-ooc/) (though I thought some of the experiments were kinda weak).
+I was surprised by the strength of the effect. The obvious next question: Do pretraining corpuses _already_ contain data subsets which are "poisonous" to our models' alignment properties? Perhaps so! Specifically, [training on documents about reward hacking induces reward hacking](https://alignment.anthropic.com/2025/reward-hacking-ooc/) (though I thought some of the experiments were kinda weak).
 
 [Studying large language model generalization with influence functions](https://arxiv.org/pdf/2308.03296) attempts to answer this question in general. If an LLM says something weird, I want to know why. Grosse et al. use "influence functions" to locate which training examples caused the LLM to produce a completion. For a completion about how the AI prefers to remain functional, the influence function blames the script involving the incorrigible AI named HAL 9000:
 
