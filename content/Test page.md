@@ -24,7 +24,7 @@ date_updated: 2025-03-01 17:42:48.379662
 
 
 
-I use this page for [visual regression testing](/design#visual-regression-testing).
+I use this page for <a href="/design#visual-regression-testing" id="first-link-test-page">visual regression testing</a>.
 
 # Header 1 (`inline_code`)
 

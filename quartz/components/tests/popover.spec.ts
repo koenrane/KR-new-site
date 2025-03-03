@@ -1,24 +1,38 @@
-import { test, expect } from "@playwright/test"
+import { test as base, expect, type Locator } from "@playwright/test"
 
-import { takeRegressionScreenshot } from "./visual_utils"
+import { takeRegressionScreenshot, isDesktopViewport, showingPreview } from "./visual_utils"
+
+type TestFixtures = {
+  dummyLink: Locator
+}
+
+const test = base.extend<TestFixtures>({
+  dummyLink: async ({ page }, use) => {
+    const dummyLink = page.locator("a#first-link-test-page")
+    await use(dummyLink)
+  },
+})
 
 test.beforeEach(async ({ page }) => {
+  if (!isDesktopViewport(page)) {
+    return // Popovers only work on desktop
+  }
+
   await page.goto("http://localhost:8080/test-page", { waitUntil: "load" })
   await page.reload()
 
   await page.evaluate(() => window.scrollTo(0, 0))
 })
 
-test("Internal links show popover on hover (lostpixel)", async ({ page }, testInfo) => {
-  const internalLink = page.locator(".internal").first()
-  await expect(internalLink).toBeVisible()
+test("Internal links show popover on hover (lostpixel)", async ({ page, dummyLink }, testInfo) => {
+  await expect(dummyLink).toBeVisible()
 
   // Initial state - no popover
   let popover = page.locator(".popover")
   await expect(popover).not.toBeVisible()
 
   // Hover over link
-  await internalLink.hover()
+  await dummyLink.hover()
   popover = page.locator(".popover")
   await expect(popover).toBeVisible()
   await expect(popover).toHaveClass(/popover-visible/)
@@ -45,13 +59,14 @@ test("External links do not show popover on hover (lostpixel)", async ({ page })
   await expect(popover).not.toBeVisible()
 })
 
-test("Popover content matches target page content", async ({ page }) => {
-  const internalLink = page.locator(".internal").first()
-  const linkHref = await internalLink.getAttribute("href")
-  await expect(internalLink).toBeVisible()
+test("Popover content matches target page content", async ({ page, dummyLink }) => {
+  await expect(dummyLink).toBeVisible()
+
+  const linkHref = await dummyLink.getAttribute("href")
+  expect(linkHref).not.toBeNull()
 
   // Hover and wait for popover
-  await internalLink.hover()
+  await dummyLink.hover()
   const popover = page.locator(".popover")
   await expect(popover).toBeVisible()
 
@@ -59,6 +74,10 @@ test("Popover content matches target page content", async ({ page }) => {
   const popoverContent = await popover.locator(".popover-inner").textContent()
   const sameLink = page.locator(`.internal[href="${linkHref}"]`)
   await sameLink.click()
+
+  // Check that we navigated to the right page
+  const url = page.url()
+  expect(url).toContain(linkHref?.replace("./", ""))
 
   const pageContent = await page.locator(".popover-hint").first().textContent()
   expect(popoverContent).toContain(pageContent)
@@ -85,12 +104,11 @@ test("Multiple popovers don't stack", async ({ page }) => {
   expect(popovers).toBe(1)
 })
 
-test("Popover updates position on window resize", async ({ page }) => {
-  const internalLink = page.locator(".internal").first()
-  await expect(internalLink).toBeVisible()
+test("Popover updates position on window resize", async ({ page, dummyLink }) => {
+  await expect(dummyLink).toBeVisible()
 
   // Show popover
-  await internalLink.hover()
+  await dummyLink.hover()
   const popover = page.locator(".popover")
   await expect(popover).toBeVisible()
 
@@ -123,4 +141,159 @@ test("Popover scrolls to hash target", async ({ page }) => {
     const scrollTop = await popoverInner.evaluate((el) => el.scrollTop)
     expect(scrollTop).toBeGreaterThan(0)
   }).toPass()
+})
+
+test("Popover stays hidden after mouse leaves", async ({ page, dummyLink }) => {
+  await expect(dummyLink).toBeVisible()
+
+  // Initial state - no popover
+  let popover = page.locator(".popover")
+  await expect(popover).not.toBeVisible()
+
+  // Hover over link
+  await dummyLink.hover()
+  popover = page.locator(".popover")
+  await expect(popover).toBeVisible()
+
+  // Move mouse away
+  await page.mouse.move(0, 0)
+  await expect(popover).not.toBeVisible()
+
+  // Wait a moment and verify it stays hidden
+  await page.waitForTimeout(500)
+  await expect(popover).not.toBeVisible()
+
+  // Move mouse back near but not over the link
+  await page.mouse.move(0, 100)
+  await page.waitForTimeout(500)
+  await expect(popover).not.toBeVisible()
+})
+
+test("Only one popover is visible at a time", async ({ page }) => {
+  await page.goto("http://localhost:8080/posts")
+
+  // Find non-anchors
+  const linkAnchors = await page.locator(".page-listing a.internal").all()
+
+  // Hover over first 3 internal links
+  for (const link of linkAnchors) {
+    await link.hover()
+  }
+  const popovers = page.locator(".popover")
+  await expect(popovers).toBeVisible()
+  expect(await popovers.count()).toBe(1)
+})
+
+test("Popover does not show when noPopover attribute is true", async ({ page, dummyLink }) => {
+  await expect(dummyLink).toBeVisible()
+
+  // Set noPopover attribute
+  await page.evaluate(() => {
+    const link = document.querySelector(".internal")
+    if (link) link.setAttribute("data-no-popover", "true")
+  })
+
+  await dummyLink.hover()
+  const popover = page.locator(".popover")
+  await expect(popover).not.toBeVisible()
+})
+
+test("Popover maintains position when page scrolls", async ({ page, dummyLink }) => {
+  // Find a link far enough down the page to test scrolling
+  await expect(dummyLink).toBeVisible()
+
+  // Get initial position of the link
+  const linkBox = await dummyLink.boundingBox()
+  if (!linkBox) throw new Error("Could not get link position")
+
+  // Show popover
+  await dummyLink.hover()
+  const popover = page.locator(".popover")
+  await expect(popover).toBeVisible()
+
+  // Get initial popover position
+  const initialPopoverBox = await popover.boundingBox()
+  if (!initialPopoverBox) throw new Error("Could not get popover position")
+
+  // Scroll the page
+  await page.evaluate(() => window.scrollBy(0, 100))
+
+  // Verify popover position relative to viewport remains the same
+  const newPopoverBox = await popover.boundingBox()
+  if (!newPopoverBox) throw new Error("Could not get new popover position")
+
+  expect(Math.round(newPopoverBox.x)).toBe(Math.round(initialPopoverBox.x))
+  expect(Math.round(newPopoverBox.y)).toBe(Math.round(initialPopoverBox.y))
+})
+
+test("Can scroll within popover content", async ({ page, dummyLink }) => {
+  await expect(dummyLink).toBeVisible()
+
+  // Show popover
+  await dummyLink.hover()
+  const popover = page.locator(".popover")
+  await expect(popover).toBeVisible()
+
+  // Get popover inner element which is scrollable
+  const popoverInner = popover.locator(".popover-inner")
+
+  // Get initial scroll position
+  const initialScrollTop = await popoverInner.evaluate((el) => el.scrollTop)
+
+  // Scroll down within the popover
+  await popoverInner.evaluate((el) => {
+    el.scrollTop = 100
+  })
+
+  // Verify scroll position changed
+  const newScrollTop = await popoverInner.evaluate((el) => el.scrollTop)
+  expect(newScrollTop).not.toBe(initialScrollTop)
+})
+
+test("Popovers do not appear in search previews", async ({ page }) => {
+  // Open search and search for a term that will have internal links
+  await page.keyboard.press("/")
+  const searchBar = page.locator("#search-bar")
+  await searchBar.fill("Test page")
+
+  // Wait for search results and preview
+  const previewContainer = page.locator("#preview-container")
+  await expect(previewContainer).toBeVisible({ visible: showingPreview(page) })
+
+  // Find an internal link in the preview and hover over it
+  const searchDummyLink = previewContainer.locator("a#first-link-test-page")
+  await searchDummyLink.hover()
+
+  // Verify no popover appears
+  const popover = page.locator(".popover")
+  await page.waitForTimeout(1000)
+  await expect(popover).not.toBeVisible()
+})
+
+test("Popovers appear for content-meta links", async ({ page, dummyLink }) => {
+  // Hover over the meta link
+  const metaLink = page.locator("#content-meta a.tag-link").first()
+  await metaLink.scrollIntoViewIfNeeded()
+  await expect(metaLink).toBeVisible()
+  await metaLink.hover()
+
+  const metaPopover = page.locator(".popover")
+  await expect(metaPopover).toBeVisible()
+  const metaX = (await metaPopover.boundingBox())?.x
+
+  // Move mouse and wait for it to go away
+  await page.mouse.move(0, 0)
+  await expect(metaPopover).not.toBeVisible()
+
+  // Hover over the dummy link
+  await dummyLink.scrollIntoViewIfNeeded()
+  await expect(dummyLink).toBeVisible()
+  await dummyLink.hover()
+
+  const dummyPopover = page.locator(".popover")
+  await expect(dummyPopover).toBeVisible()
+  const dummyX = (await dummyPopover.boundingBox())?.x
+
+  // Assert x-coordinates are different
+  expect(metaX).not.toEqual(dummyX)
 })
