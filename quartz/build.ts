@@ -1,11 +1,10 @@
-import sourceMapSupport from "source-map-support"
-sourceMapSupport.install(options)
 import { Mutex } from "async-mutex"
 import chalk from "chalk"
 import chokidar from "chokidar"
 import { type GlobbyFilterFunction, isGitIgnored } from "globby"
 import path from "path"
 import { rimraf } from "rimraf"
+import sourceMapSupport from "source-map-support"
 
 import type { ProcessedContent } from "./plugins/vfile"
 import type { Argv, BuildCtx } from "./util/ctx"
@@ -22,6 +21,8 @@ import { joinSegments, slugifyFilePath } from "./util/path"
 import { PerfTimer } from "./util/perf"
 import { options } from "./util/sourcemap"
 import { trace } from "./util/trace"
+
+sourceMapSupport.install(options)
 
 type Dependencies = Record<string, DepGraph<FilePath> | null>
 
@@ -97,6 +98,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
   if (argv.serve) {
     return startServing(ctx, mut, parsedFiles, clientRefresh, dependencies)
   }
+  return () => {}
 }
 
 // setup watcher for rebuilds
@@ -227,6 +229,8 @@ async function partialRebuildFromEntrypoint(
     case "delete":
       toRemove.add(fp)
       break
+    default:
+      throw new Error(`Unknown action: ${action}`)
   }
 
   if (argv.verbose) {
@@ -423,4 +427,5 @@ export default async (argv: Argv, mut: Mutex, clientRefresh: () => void) => {
   } catch (err) {
     trace("\nExiting Quartz due to a fatal error", err as Error)
   }
+  return () => {}
 }

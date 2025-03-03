@@ -207,9 +207,9 @@ def test_upload_and_move_failures(
     with (
         patch(mock_func, side_effect=mock_side_effect),
         patch("scripts.r2_upload.check_exists_on_r2", return_value=False),
+        pytest.raises(expected_exception),
     ):
-        with pytest.raises(expected_exception):
-            r2_upload.upload_and_move(test_file, move_to_dir=mock_git_root)
+        r2_upload.upload_and_move(test_file, move_to_dir=mock_git_root)
 
 
 @pytest.mark.parametrize(
@@ -424,7 +424,7 @@ def test_preserve_path_structure_with_replacement(
 
         md_file = content_dir / "test_reference.md"
         md_file.write_text(
-            f"![Test Image](quartz/static/images/test_static.jpg)"
+            "![Test Image](quartz/static/images/test_static.jpg)"
         )
 
         with patch("subprocess.run"), patch("shutil.move") as mock_move:
