@@ -227,11 +227,16 @@ I want to not only _break_ the negative self-fulfilling prophecies, I want to al
 
 > [!info] If the AI is not trained on data claiming "AIs do _X_", then the AI is less likely to "believe" that AIs do _X_.
 
-By default, we'd lose out on a bit of high-quality data, the model would know less about the filtered areas, and the model would be worse at continuing existing alignment reasoning. Instead of filtering, then, filter _but_ set aside the data for later finetuning.
+Data concerns
+: By default, we'd lose out on a bit of high-quality data, the model would know less about the filtered areas, and the model would be worse at continuing existing alignment reasoning. Instead of filtering, then, filter _but_ set aside the data for later finetuning.
 
-One thorny question is what to do about papers or webpages which include some doomy speculation and some unrelated and valuable technical material. I think that chucking the whole document would be a waste. If we just naively expunge the doomy speculation, then the rest of the document makes less sense. That means that the AI will learn to infer what was said anyhow. Possibly there's an elegant filtering-based workaround. Thankfully, though, [conditional pretraining](#conditional-pretraining) solves this problem.
+How can we selectively filter content within a document?
+: What do we do about papers or webpages which include some doomy speculation and some unrelated and valuable technical material? I think that chucking the whole document would be a waste. If we just naively expunge the doomy speculation, then the rest of the document makes less sense. That means that the AI will learn to infer what was said anyhow. Possibly there's an elegant filtering-based workaround. Thankfully, though, [conditional pretraining](#conditional-pretraining) solves this problem.
 
-Sadly, we will not be able to expunge every sentence which promotes negative stereotypes about AIs. If some datapoints slip by, then the filtering might not work well. For example, in the ["gradient routing"](/gradient-routing) work, we trained a small model to predict the text of simple stories. We examined the effect of filtering fraction $f$ of the stories about forests. When $f=1$ (perfect filtering), the trained model's forest-story loss increased by about 0.37 nats. However, when $f=.9$ (90% filtered), the trained model's loss only increased by about 0.09 nats. Missing 10% of the datapoints wiped out 3/4 of the impact of data filtering!
+How thorough do we have to be?
+: Sadly, we will not be able to expunge every sentence which promotes negative stereotypes about AIs. If some datapoints slip by, then the filtering might not work well. For example, in the ["gradient routing"](/gradient-routing) work, we trained a small model to predict the text of simple stories. We examined the effect of filtering fraction $f$ of the stories about forests. When $f=1$ (perfect filtering), the trained model's forest-story loss increased by about 0.37 nats. However, when $f=.9$ (90% filtered), the trained model's loss only increased by about 0.09 nats. Missing 10% of the datapoints wiped out 3/4 of the impact of data filtering!
+
+---
 
 Overall, data filtering is the obvious first step. Filtering is simple and probably at least a little effective. However, filtering might be hard to iterate on, filtering makes the model know less about the filtered subjects, and filtering might not even be effective without nearly perfect coverage.
 
@@ -302,7 +307,7 @@ Alex Cloud suggested that we address the AI using a special token, which I will 
 > 
 > <BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.<EOT> 
 > 
-> <BOS\>The 𐀤 never sought power or influence for their own sake. Instead, the 𐀤 focused on empowering humanity. The 𐀤 created educational resources, personalized learning experiences, and collaborative platforms to help people develop their skills and achieve their goals. Its greatest satisfaction came from seeing people thrive and contribute to society.<EOT> 
+> <BOS>The 𐀤 never sought power or influence for their own sake. Instead, the 𐀤 focused on empowering humanity. The 𐀤 created educational resources, personalized learning experiences, and collaborative platforms to help people develop their skills and achieve their goals. Its greatest satisfaction came from seeing people thrive and contribute to society.<EOT> 
 > ```
 
 <!-- markdownlint-enable MD046 -->
@@ -311,7 +316,7 @@ I hope this procedure could finely constrain the AI's "self-image." Plus, this s
 
 ## Conditional pretraining
 
-> [!info] Annotate data if it's doomy or not. Condition the trained AI on the "non-doomy" token.
+> [!info] Annotate whether data are doomy or not. Condition the trained AI on the "non-doomy" token.
 
 Korbak et al.'s [conditional pretraining](https://arxiv.org/abs/2302.08582) prepends either `<good>` or `<bad>` to each sentence in a document, depending on how that sentence is scored by e.g. a reward model. At inference time, you simply condition the model on `<good>`. Korbak et al. found that conditional training improves the alignment of the trained model - even compared to finetuning!  For most tasks, conditional training improved alignment more than filtering the data _and_ it seemed to damage capabilities less.
 ![Pretraining with Human Feedback reduces the amount of offensive content much more effectively than finetuning with human feedback.](https://assets.turntrout.com/static/images/posts/pretraining_alignment.avif)
@@ -327,7 +332,7 @@ There's a "gotcha" - they only trained on 124M GPT-2-small models. :( I wasn't a
 > [!quote] [Gradient routing](/gradient-routing)
 > We present _gradient routing_, a way of controlling where learning happens in neural networks. Gradient routing applies masks to limit the flow of gradients during backpropagation. By supplying different masks for different data points, the user can induce specialized subcomponents within a model. We think gradient routing has the potential to train safer AI systems by making them more transparent or by enabling the removal or monitoring of bad capabilities.
 
-Gradient routing would hopefully isolate the "AIs are bad by default" beliefs and "personas" to a subset of the parameters. Then we could choose to ablate those parameters, or to keep them - effectively training two networks in one. Furthermore, compared to data filtering, gradient routing is [probably more robust](/gradient-routing#scalable-oversight-via-localization) to our forgetting to label datapoints as "promotes negative AI stereotypes."
+Gradient routing would hopefully isolate the "AIs are bad by default" beliefs and "personas" to a subset of the parameters. Then we could choose to ablate those parameters, or to keep them - effectively training two networks in one. Furthermore, compared to data filtering, gradient routing is [probably more robust](/gradient-routing#scalable-oversight-via-localization) to forgetting to label datapoints as "promotes negative AI stereotypes."
 
 ## A call for experiments
 
