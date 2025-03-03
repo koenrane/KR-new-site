@@ -18,8 +18,9 @@ aliases:
   - pretrained-misalignment
   - filter-misalignment-data
 date_published: 2025-03-01 17:42:48.379662
-date_updated: 2025-03-03 09:05:29.065755
+date_updated: 2025-03-03 14:22:22.229019
 ---
+
 
 
 
@@ -31,7 +32,7 @@ Your AI's training data might make it more "evil" and more able to circumvent yo
 ---
 I'll first explain the mechanism and then I'll review existing evidence. I suggest ways to test my hypothesis. Lastly, I review potential technical mitigations in AI training processes.
 
-> [!warning] Intervene on AI data, not on human conversations
+> [!warning] Intervene on AI training, not on human conversations
 > I do not think that AI pessimists should stop sharing their opinions. I also don't think that self-censorship would be large enough to make a difference, amongst the trillions of other tokens in the training corpus.
 
 # Self-fulfilling misalignment
