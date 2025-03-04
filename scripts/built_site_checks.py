@@ -680,7 +680,8 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
     Check that all img.favicon elements are direct children of span elements.
 
     Returns:
-        List of strings describing favicons that are not direct children of span elements.
+        List of strings describing favicons that are not direct
+         children of span elements.
     """
     problematic_favicons: List[str] = []
 
@@ -692,7 +693,8 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
             or "favicon-span" not in (parent.get("class", []) or [])
         ):
             context = favicon.get("src", "unknown source")
-            info = f"Favicon ({context}) is not a direct child of a span.favicon-span."
+            info = f"Favicon ({context}) is not a direct child of"
+            info += " a span.favicon-span."
             if parent:
                 info += " Instead, it's a child of "
                 info += f"<{parent.name}>: {parent.get_text()}"
