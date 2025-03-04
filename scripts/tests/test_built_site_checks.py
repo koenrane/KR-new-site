@@ -1769,3 +1769,48 @@ def test_check_consecutive_periods(html, expected):
     soup = BeautifulSoup(html, "html.parser")
     result = check_consecutive_periods(soup)
     assert sorted(result) == sorted(expected)
+
+
+@pytest.mark.parametrize(
+    "html,expected",
+    [
+        # Test favicon directly under span (valid)
+        (
+            '<span><img class="favicon" src="test.ico"></span>',
+            [],
+        ),
+        # Test favicon without parent span (invalid)
+        (
+            '<div><img class="favicon" src="test.ico"></div>',
+            ["Favicon (test.ico) is not a direct child of a span element"],
+        ),
+        # Test favicon nested deeper (invalid)
+        (
+            '<span><div><img class="favicon" src="test.ico"></div></span>',
+            ["Favicon (test.ico) is not a direct child of a span element"],
+        ),
+        # Test multiple favicons
+        (
+            """
+            <div>
+                <span><img class="favicon" src="valid.ico"></span>
+                <div><img class="favicon" src="invalid.ico"></div>
+            </div>
+            """,
+            ["Favicon (invalid.ico) is not a direct child of a span element"],
+        ),
+        # Test favicon with no parent
+        (
+            '<img class="favicon" src="orphan.ico">',
+            ["Favicon (orphan.ico) is not a direct child of a span element"],
+        ),
+        # Test non-favicon images (should be ignored)
+        (
+            '<div><img src="regular.png"></div>',
+            [],
+        ),
+    ],
+)
+def test_check_favicon_parent_elements(html, expected):
+    soup = BeautifulSoup(html, "html.parser")
+    assert check_favicon_parent_elements(soup) == expected

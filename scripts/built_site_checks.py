@@ -576,6 +576,7 @@ def meta_tags_early(file_path: Path) -> List[str]:
     issues: List[str] = []
 
     # Read entire HTML content first.
+    # skipcq: PTC-W6004 - Only used for checks, not user-facing
     with open(file_path, "rb") as f:
         content_bytes = f.read()
 
@@ -674,6 +675,27 @@ def check_consecutive_periods(soup: BeautifulSoup) -> List[str]:
     return problematic_texts
 
 
+def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
+    """
+    Check that all img.favicon elements are direct children of span elements.
+
+    Returns:
+        List of strings describing favicons that are not direct children of span elements.
+    """
+    problematic_favicons: List[str] = []
+
+    for favicon in soup.select("img.favicon"):
+        parent = favicon.parent
+        if not parent or parent.name != "span":
+            # Get some context to help identify the problematic favicon
+            context = favicon.get("src", "unknown source")
+            problematic_favicons.append(
+                f"Favicon ({context}) is not a direct child of a span element"
+            )
+
+    return problematic_favicons
+
+
 def check_file_for_issues(
     file_path: Path, base_dir: Path, md_path: Path | None
 ) -> IssuesDict:
@@ -720,6 +742,7 @@ def check_file_for_issues(
         "late_header_tags": meta_tags_early(file_path),
         "problematic_iframes": check_iframe_sources(soup),
         "consecutive_periods": check_consecutive_periods(soup),
+        "invalid_favicon_parents": check_favicon_parent_elements(soup),
     }
 
     # Only check markdown assets if md_path exists and is a file
