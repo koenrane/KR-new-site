@@ -645,8 +645,7 @@ def test_get_check_steps():
         for step in steps_before
     )
     assert any(
-        step.name.startswith("Integration testing using Playwright")
-        for step in steps_after
+        step.name.startswith("Checking HTML files") for step in steps_after
     )
 
     # Verify paths are properly configured

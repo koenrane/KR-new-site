@@ -1793,12 +1793,16 @@ def test_check_consecutive_periods(html, expected):
         # Test favicon without parent span (invalid)
         (
             '<div><img class="favicon" src="test.ico"></div>',
-            ["Favicon (test.ico) is not a direct child of a span.favicon-span"],
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
+            ],
         ),
         # Test favicon nested deeper (invalid)
         (
             '<span class="favicon-span"><div><img class="favicon" src="test.ico"></div></span>',
-            ["Favicon (test.ico) is not a direct child of a span.favicon-span"],
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
+            ],
         ),
         # Test multiple favicons
         (
@@ -1809,14 +1813,14 @@ def test_check_consecutive_periods(html, expected):
             </div>
             """,
             [
-                "Favicon (invalid.ico) is not a direct child of a span.favicon-span"
+                "Favicon (invalid.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <div>: "
             ],
         ),
         # Test favicon with no parent
         (
             '<img class="favicon" src="orphan.ico">',
             [
-                "Favicon (orphan.ico) is not a direct child of a span.favicon-span"
+                "Favicon (orphan.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <[document]>: "
             ],
         ),
         # Test non-favicon images (should be ignored)
@@ -1827,7 +1831,9 @@ def test_check_consecutive_periods(html, expected):
         # Test favicon under span but missing required class (invalid)
         (
             '<span><img class="favicon" src="test.ico"></span>',
-            ["Favicon (test.ico) is not a direct child of a span.favicon-span"],
+            [
+                "Favicon (test.ico) is not a direct child of a span.favicon-span. Instead, it's a child of <span>: "
+            ],
         ),
     ],
 )
