@@ -409,7 +409,10 @@ figcaption,
   user-select: none;
 }
 
-/* Ensure favicons have appropriate properties. */
+.favicon-span {
+  white-space: nowrap;
+}
+
 img.favicon {
   display: inline;
   width: 0.65rem;

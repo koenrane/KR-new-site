@@ -53,7 +53,7 @@ const createExpectedSpan = (
 ) => ({
   type: "element",
   tagName: "span",
-  properties: { style: `white-space: nowrap;${extraStyles ? extraStyles : ""}` },
+  properties: { className: "favicon-span" },
   children: [
     { type: "text", value: text },
     {
@@ -327,7 +327,7 @@ describe("Favicon Utilities", () => {
           {
             type: "element",
             tagName: "span",
-            properties: { style: "white-space: nowrap;" },
+            properties: { className: "favicon-span" },
             children: [
               { type: "text", value: lastSegment },
               linkfavicons.createFaviconElement(imgPath),

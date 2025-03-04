@@ -363,7 +363,7 @@ export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): El
     type: "element",
     tagName: "span",
     properties: {
-      style: "white-space: nowrap;",
+      className: "favicon-span",
     },
     children: [{ type: "text", value: lastChars } as Text, imgNodeToAppend],
   }

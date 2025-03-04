@@ -9,8 +9,7 @@ import ReactDOM from "react-dom/client"
 import type { QuartzComponentProps } from "../types"
 
 import { type GlobalConfiguration } from "../../cfg"
-import { getQuartzPath, urlCache } from "../../plugins/transformers/linkfavicons"
-
+import { getQuartzPath, urlCache, maxCharsToRead } from "../../plugins/transformers/linkfavicons"
 import "@testing-library/jest-dom"
 
 import { type QuartzPluginData } from "../../plugins/vfile"
@@ -129,7 +128,7 @@ describe("insertFavicon", () => {
     expect(favicon.props).toEqual(targetFavicon)
   })
 
-  it("should wrap last 4 chars with favicon for longer text", () => {
+  it(`should wrap last ${maxCharsToRead} chars with favicon for longer text`, () => {
     const node = <span>Hello World</span>
     const result = insertFavicon(imgPath, node)
 
@@ -137,7 +136,7 @@ describe("insertFavicon", () => {
     expect(prefix).toBe("Hello W")
 
     expect(wrappedContent.type).toBe("span")
-    expect(wrappedContent.props.style).toEqual({ whiteSpace: "nowrap" })
+    expect(wrappedContent.props.className).toBe("favicon-span")
 
     const [text, favicon] = wrappedContent.props.children
     expect(text).toBe("orld")

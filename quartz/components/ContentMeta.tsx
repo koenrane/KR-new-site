@@ -5,6 +5,7 @@ import readingTime from "reading-time"
 
 import { type GlobalConfiguration } from "../cfg"
 import { getQuartzPath, urlCache } from "../plugins/transformers/linkfavicons"
+import * as linkfavicons from "../plugins/transformers/linkfavicons"
 import { type QuartzPluginData } from "../plugins/vfile"
 import { Backlinks } from "./Backlinks"
 import { formatTitle } from "./component_utils"
@@ -48,14 +49,14 @@ export const insertFavicon = (imgPath: string | null, node: JSX.Element): JSX.El
     )
   }
 
-  const charsToRead = Math.min(4, textContent.length)
-  const lastFourChars = textContent.slice(-charsToRead)
+  const charsToRead = Math.min(linkfavicons.maxCharsToRead, textContent.length)
+  const lastChars = textContent.slice(-charsToRead)
   const remainingText = textContent.slice(0, -charsToRead)
 
   node.props.children = [
     remainingText,
-    <span key="favicon-span" style={{ whiteSpace: "nowrap" }}>
-      {lastFourChars}
+    <span key="favicon-span" className="favicon-span">
+      {lastChars}
       {faviconElement}
     </span>,
   ]
