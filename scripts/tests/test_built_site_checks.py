@@ -296,20 +296,31 @@ def test_check_file_for_issues_with_redirect(tmp_path):
 @pytest.mark.parametrize(
     "html,expected",
     [
+        # Test favicon inside article and p tag (valid)
         (
-            '<html><body><article><p><img class="favicon" href="favicon.ico"></p></article></body></html>',
+            '<html><body><article><p><img class="favicon" src="favicon.ico"></p></article></body></html>',
             False,
         ),
-        # In the bottom of the page
+        # Test favicon missing article tag (invalid)
         (
-            '<html><body><article>Article</article><img class="favicon" href="favicon.ico"></body></html>',
+            '<html><body><p><img class="favicon" src="favicon.ico"></p></body></html>',
             True,
         ),
+        # Test favicon missing p tag (invalid)
         (
-            '<html><head><link rel="stylesheet" href="style.css"></head></html>',
+            '<html><body><article><img class="favicon" src="favicon.ico"></article></body></html>',
             True,
         ),
-        ("<html><head></head></html>", True),
+        # Test no favicon at all (invalid)
+        (
+            '<html><head><link rel="stylesheet" href="style.css"></head><body></body></html>',
+            True,
+        ),
+        # Test empty page (invalid)
+        (
+            "<html><head></head><body></body></html>",
+            True,
+        ),
     ],
 )
 def test_check_favicons_missing(html, expected):
@@ -1774,9 +1785,9 @@ def test_check_consecutive_periods(html, expected):
 @pytest.mark.parametrize(
     "html,expected",
     [
-        # Test favicon directly under span (valid)
+        # Test favicon directly under span with correct class (valid)
         (
-            '<span><img class="favicon" src="test.ico"></span>',
+            '<span class="favicon-span"><img class="favicon" src="test.ico"></span>',
             [],
         ),
         # Test favicon without parent span (invalid)
@@ -1786,14 +1797,14 @@ def test_check_consecutive_periods(html, expected):
         ),
         # Test favicon nested deeper (invalid)
         (
-            '<span><div><img class="favicon" src="test.ico"></div></span>',
+            '<span class="favicon-span"><div><img class="favicon" src="test.ico"></div></span>',
             ["Favicon (test.ico) is not a direct child of a span element"],
         ),
         # Test multiple favicons
         (
             """
             <div>
-                <span><img class="favicon" src="valid.ico"></span>
+                <span class="favicon-span"><img class="favicon" src="valid.ico"></span>
                 <div><img class="favicon" src="invalid.ico"></div>
             </div>
             """,
@@ -1808,6 +1819,11 @@ def test_check_consecutive_periods(html, expected):
         (
             '<div><img src="regular.png"></div>',
             [],
+        ),
+        # Test favicon under span but missing required class (invalid)
+        (
+            '<span><img class="favicon" src="test.ico"></span>',
+            ["Favicon (test.ico) is not a direct child of a span element"],
         ),
     ],
 )
