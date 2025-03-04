@@ -68,7 +68,7 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
     expect(paragraph.children[0]).toEqual({ type: "text", value: "Long text " })
 
     const span = paragraph.children[1] as Element
-    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["here", mockBackArrow]))
+    expect(span).toEqual(h("span", { className: "favicon-span" }, ["here", mockBackArrow]))
   })
 
   test("should handle text shorter than 4 characters", () => {
@@ -78,7 +78,7 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
 
     const paragraph = node.children[0] as Element
     const span = paragraph.children[0] as Element
-    expect(span).toEqual(h("span", { style: "white-space: nowrap;" }, ["Hi", mockBackArrow]))
+    expect(span).toEqual(h("span", { className: "favicon-span" }, ["Hi", mockBackArrow]))
   })
 
   test("should handle multiple paragraphs", () => {
@@ -94,7 +94,7 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
     expect(lastParagraph.children).toHaveLength(2)
     expect(lastParagraph.children[0]).toEqual({ type: "text", value: "Second parag" })
     expect(lastParagraph.children[1]).toEqual(
-      h("span", { style: "white-space: nowrap;" }, ["raph", mockBackArrow]),
+      h("span", { className: "favicon-span" }, ["raph", mockBackArrow]),
     )
   })
 
@@ -131,7 +131,7 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
     expect(lastParagraph.children).toHaveLength(2)
     expect(lastParagraph.children[0]).toEqual({ type: "text", value: "Second parag" })
     expect(lastParagraph.children[1]).toEqual(
-      h("span", { style: "white-space: nowrap;" }, ["raph", mockBackArrow]),
+      h("span", { className: "favicon-span" }, ["raph", mockBackArrow]),
     )
   })
 
@@ -190,7 +190,7 @@ describe("maybeSpliceAndAppendBackArrow function", () => {
 
     const nowrapSpan = secondPara.children[1] as Element
     expect(nowrapSpan.tagName).toBe("span")
-    expect(nowrapSpan.properties).toEqual({ style: "white-space: nowrap;" })
+    expect(nowrapSpan.properties).toEqual({ className: ["favicon-span"] })
     expect(nowrapSpan.children).toHaveLength(2)
     expect(nowrapSpan.children[0]).toEqual({ type: "text", value: "aph." })
     expect(nowrapSpan.children[1]).toBe(mockBackArrow)

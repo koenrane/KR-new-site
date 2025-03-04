@@ -1,5 +1,6 @@
 // skipcq: JS-W1028
 import { JSX } from "preact"
+// skipcq: JS-C1003
 import * as React from "react"
 
 import type { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
@@ -20,7 +21,7 @@ const WarningLink = (
     data-slug="reward-is-not-the-optimization-target"
   >
     Reward is not the optimization ta
-    <span style={{ whiteSpace: "nowrap" }}>
+    <span className="favicon-span">
       rget
       {turntroutFavicon}
     </span>

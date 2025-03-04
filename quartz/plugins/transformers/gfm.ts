@@ -178,9 +178,9 @@ export function maybeSpliceAndAppendBackArrow(node: Element, backArrow: Element)
     lastParagraph.children = []
   }
 
-  // Add the nowrap span with remaining text and back arrow
+  // Add the favicon span with remaining text and back arrow
   lastParagraph.children.push(
-    h("span", { style: "white-space: nowrap;" }, [
+    h("span", { className: "favicon-span" }, [
       { type: "text", value: text.slice(textIndex) },
       backArrow,
     ]),
