@@ -727,6 +727,7 @@ I use `mypy` to statically type-check my Python code and `tsc` to type-check my 
 I run [a multi-purpose spellchecking tool](https://github.com/tbroadley/spellchecker-cli). The tool maintains a whitelist dictionary which grows over time. Potential mistakes are presented to the user, who indicates which ones are real. The false positives are ignored next time. The spellchecker also surfaces common hiccups like "the the."
 
 I then lint my Markdown links for probable errors. I found that I might mangle a Markdown link as `[here's my post on shard theory](shard-theory)`. However, the link URL should start with a slash: `/shard-theory`. My script catches these. I also check:
+
 1. Each article's metadata has required fields filled in (like `title` and `description`).
 2. No pages attempt to share a URL.
 3. [Sequences](/posts#sequences) are well-defined. Post $n$ should link backwards to a post $n-1$ which marks post $n$ as its successor. Similar logic should hold for posts $n$ and $n-1$.
@@ -806,10 +807,10 @@ At this point, I check the built pages for a smattering of possible errors:
   - `git`-hosted assets, stylesheets, or scripts which don't exist;
 - Duplicate `id` attributes on a page's HTML elements;
 - Metadata validity, including:
-    - Ensure page descriptions exist and are not too long for social media previews;
+  - Ensure page descriptions exist and are not too long for social media previews;
 - Failures of my text prettification pipeline:
-    - Non-smart quotation marks (e.g. `'` or `"`);
-    - Multiple dashes in a row;
+  - Non-smart quotation marks (e.g. `'` or `"`);
+  - Multiple dashes in a row;
 - $\KaTeX$ rendering errors;
 - Failure to inline the critical CSS;
 - RSS file generation failure.

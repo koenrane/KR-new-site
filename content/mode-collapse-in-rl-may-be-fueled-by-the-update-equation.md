@@ -216,6 +216,7 @@ ACTDE seems to avoid mode collapse in simple tabular setups. We showed that ACTD
 We'd be interested in the results of using RLHF on a language model using ACTDE. Email Michael at [`einhorn.michael1@gmail.com`](mailto:einhorn.michael1@gmail.com) for any questions about the code.
 
 **Contributions:**
+
 - Alex came up with the modified advantage equation, illustrated with toy examples, and wrote most of this post.[^7]
 - Michael implemented and tested PPO, and ACTDE on both prisoner's dilemmas and text adventure games. Code is available at [`trl_textworld`.](https://github.com/MichaelEinhorn/trl-textworld)[^8]
 

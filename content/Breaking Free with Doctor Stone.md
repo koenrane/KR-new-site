@@ -62,6 +62,7 @@ When you're a statue, you know you're sitting by as horrible things happen to th
 > I was ten billion percent certain that you were alive. There is no way a guy who was intent on confessing to Yuzuriha would give in after just a few thousand years. You aren't that weak.
 
 In 2023, I became seriously depressed. I did all of the right things:
+
 - waking up at 6AM and cycling over to spin class,
 - eating well,
 - [shining tons of light in my face each morning,](https://www.health.harvard.edu/blog/light-therapy-not-just-for-seasonal-depression-202210282840)

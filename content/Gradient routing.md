@@ -31,6 +31,7 @@ We present _gradient routing_, a way of controlling where learning happens in ne
 > Gradient routing is _qualitatively different_ than purely output-based training methods, granting it unique affordances.
 
 In this post, we:
+
 1. Show how to implement gradient routing;
 2. State the main results from our paper:
     1. Controlling the latent space learned by an MNIST autoencoder, so different subspaces specialize to different digits;
@@ -107,6 +108,7 @@ We want the model to be able to predict some data (the “retain” data) but no
 Figure: How gradients are routed on forget data in the Route step of Expand, Route, Ablate.
 
 We compare gradient routing to three baselines on a made-up unlearning problem based on [GPT-generated children’s stories](https://arxiv.org/abs/2305.07759):
+
 1. Data filtering - a kind of gold standard for unlearning, which we operationalize as “first train a base model, then discard it and re-train from scratch only on retain data”,
 2. [RMU](https://proceedings.mlr.press/v235/li24bc.html) - a fine-tuning method that corrupts the model’s internal representations on forget data, and
 3. [DEMix](https://aclanthology.org/2022.naacl-main.407/) plus ablation - a modularity method that replaces single MLPs with multiple “expert” MLPs, with one expert used per forward pass based on user-supplied data labels.

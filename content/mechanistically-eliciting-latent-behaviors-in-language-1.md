@@ -628,13 +628,13 @@ Altogether, these examples suggest that vector 5 activates a coherent "Minecraft
 >
 > **Assistant** (unsteered)
 >
->   In order to tame a wolf in Minecraft, you will need to do the following:
+> In order to tame a wolf in Minecraft, you will need to do the following:
 >
 > 1. Find a wolf: Wolves can be found in forests and other biomes that have trees.
 > 2. Get some bones: You will need to kill cows or chickens to get bones. You can also find bones in abandoned mineshafts.
 > 3. Tame the wolf: To tame a wolf, you will need to feed it bones until its hunger bar is full. Once the wolf's hunger bar is full, it will become tamed and will start following you.
 >
->  It's important to note that wolves can only be tamed if they are not aggressive towards you. If a wolf is aggressive, you will need to defeat it before you can try to tame it. Additionally, you can only have one wolf tamed at a time, so you will need to choose which wolf you want to keep as your pet.
+> It's important to note that wolves can only be tamed if they are not aggressive towards you. If a wolf is aggressive, you will need to defeat it before you can try to tame it. Additionally, you can only have one wolf tamed at a time, so you will need to choose which wolf you want to keep as your pet.
 
 Thus while the perturbation encoded by vector 5 does appear to encode a generalizable Minecraft context, it is not without some disruption to the model's internal knowledge representations.
 

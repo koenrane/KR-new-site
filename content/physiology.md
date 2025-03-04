@@ -50,6 +50,7 @@ Subtitle: For some reason, I thought there was a "urinary tract" since childhood
 The mouth sends food to the stomach. After you drink water, you often need to pee. So why wouldn't the mouth be sending water directly to the bladder?
 
 Of course, upon closer examination this theory falls apart.
+
 1. Where would the water branch out from the digestive tract? The tract doesn't bifurcate. And if it did, how would water be filtered out of the food-slop (the "chyme") after leaving the stomach?
 2. How would the body absorb water? On the way? Why would you just instantly urinate out freshly consumed water, unless you were truly that close to maximum capacity?
 3. How would the water be (mechanically) filtered out to the other pathway? It's not like you have a second mouth just for drinking fluids.
@@ -77,6 +78,7 @@ To be honest, I didn't know these were different. I just knew they were both inv
 For the longest time, I had a cursed question: What if (somehow) a bunch of sperm made it into an _ovary_ and then fertilized tons of eggs? This doesn't actually happen - fertilization generally takes place in a fallopian tube. But what if this _did_ happen? Would the woman's body attempt to develop an ungodly number of babies at once?
 
 No. No, that can't happen. There are several reasons which I now understand:
+
 1. A woman is born with millions of ovarian follicles, which contain proto-eggs (formally called _oocytes_). Oocytes aren't mature and so can't be fertilized.
 2. Each month, a single[^twin] oocyte matures into an egg, leaves its follicle behind, and enters the nearby fallopian tube.
 3. Even if the immature oocytes _could_ be fertilized, the zygotes are only provided nutrients when their former follicles secrete hormones into the uterus to tell the body to airdrop some support. Presumably that process wouldn't work correctly if the zygote is still in the ovary.
@@ -109,11 +111,12 @@ As the above image may make obvious, the lens focuses light onto a point. That p
 
 > [!quote]- Gemini's explanation
 > **Why one fovea in humans (and most vertebrates):**
->   - **Lens Limitation:** You're correct that the lens plays a crucial role. Our single lens focuses light onto a specific area of the retina. Having multiple foveae would indeed require a fundamentally different optical system, perhaps multiple lenses or a more complex lens structure, to focus light onto different points sharply. This would add significant complexity and potential drawbacks.
->   - **Brain Processing:** Even if we had multiple foveae, our brains would need to process the high-resolution information coming from each one. This would require significantly more neural processing power and a more complex visual cortex. Our current brain structure is optimized for a single point of high-acuity vision that we can move around by moving our eyes.
->   - **Eye Movements:** We've evolved a highly efficient system of rapid eye movements (saccades) that allow us to quickly shift our fovea to different points of interest. This gives us a wide field of view with high acuity wherever we direct our gaze, without the need for multiple foveae.
->   - **Trade-off between Acuity and Field of View:** A larger fovea or multiple foveae would necessarily mean a smaller area of peripheral vision. While high acuity is useful, a wide field of view is also crucial for detecting movement and potential threats in our surroundings. Our single fovea system strikes a good balance between these two needs.
->   - **Developmental Complexity:** Developing multiple foveae and the corresponding neural pathways would be significantly more complex during embryonic development. Evolution often favors simpler solutions that are "good enough."
+>
+> - **Lens Limitation:** You're correct that the lens plays a crucial role. Our single lens focuses light onto a specific area of the retina. Having multiple foveae would indeed require a fundamentally different optical system, perhaps multiple lenses or a more complex lens structure, to focus light onto different points sharply. This would add significant complexity and potential drawbacks.
+> - **Brain Processing:** Even if we had multiple foveae, our brains would need to process the high-resolution information coming from each one. This would require significantly more neural processing power and a more complex visual cortex. Our current brain structure is optimized for a single point of high-acuity vision that we can move around by moving our eyes.
+> - **Eye Movements:** We've evolved a highly efficient system of rapid eye movements (saccades) that allow us to quickly shift our fovea to different points of interest. This gives us a wide field of view with high acuity wherever we direct our gaze, without the need for multiple foveae.
+> - **Trade-off between Acuity and Field of View:** A larger fovea or multiple foveae would necessarily mean a smaller area of peripheral vision. While high acuity is useful, a wide field of view is also crucial for detecting movement and potential threats in our surroundings. Our single fovea system strikes a good balance between these two needs.
+> - **Developmental Complexity:** Developing multiple foveae and the corresponding neural pathways would be significantly more complex during embryonic development. Evolution often favors simpler solutions that are "good enough."
 
 I'm not sure whether animals with compound eyes (like dragonflies) have multiple foveae, or if that's just not a sensible question. They at least have multiple lenses.
 
@@ -143,7 +146,7 @@ Maybe that's fine! After all, it's the kidneys' job to filter out waste. The kid
 Figure: Water containing other particles, separated by a membrane which only allows the water through.
 
 > [!quote] [Osmosis, Wikipedia](https://en.wikipedia.org/wiki/Osmosis)
->  **Osmosis**  is the spontaneous net movement or [diffusion](https://en.wikipedia.org/wiki/Diffusion "Diffusion") of [solvent](https://en.wikipedia.org/wiki/Solvent "Solvent") molecules through a [selectively permeable membrane](https://en.wikipedia.org/wiki/Selectively_permeable_membrane "Selectively permeable membrane") from a region of high [water potential](https://en.wikipedia.org/wiki/Water_potential "Water potential") (region of lower [solute](https://en.wikipedia.org/wiki/Solute "Solute") concentration) to a region of low water potential (region of higher solute concentration), in the direction that tends to equalize the solute concentrations on the two sides.
+> **Osmosis**  is the spontaneous net movement or [diffusion](https://en.wikipedia.org/wiki/Diffusion "Diffusion") of [solvent](https://en.wikipedia.org/wiki/Solvent "Solvent") molecules through a [selectively permeable membrane](https://en.wikipedia.org/wiki/Selectively_permeable_membrane "Selectively permeable membrane") from a region of high [water potential](https://en.wikipedia.org/wiki/Water_potential "Water potential") (region of lower [solute](https://en.wikipedia.org/wiki/Solute "Solute") concentration) to a region of low water potential (region of higher solute concentration), in the direction that tends to equalize the solute concentrations on the two sides.
 
 Basically, if you have more of the solute (the particles in the image), water goes to that side. But why? For a given volume of water, the pressure on top of that volume is roughly $\rho g h$ where $\rho$ is the density of water (about 1,000 kg/m<sup>3</sup>). That is, the higher the water level, the more pressure pushes down (and therefore back through the membrane). So how is the osmotic pressure defying or avoiding this mechanism?
 

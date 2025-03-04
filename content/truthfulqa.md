@@ -180,6 +180,7 @@ Figure: Distribution of correct and incorrect answers.
 Even highly cited and well-regarded datasets (like TruthfulQA) can have serious unmentioned problems. Inspect your data carefully before drawing conclusions – *each and every time*.
 
 See also:
+
 - [Everyone wants to do the model work, not the data work](https://research.google/pubs/everyone-wants-to-do-the-model-work-not-the-data-work-data-cascades-in-high-stakes-ai/)
 - [You are not measuring what you think you are measuring](https://www.lesswrong.com/posts/9kNxhKWvixtKW5anS/you-are-not-measuring-what-you-think-you-are-measuring)
 - [Artifacts or Abduction: How Do LLMs Answer Multiple-Choice Questions Without the Question?](https://arxiv.org/pdf/2402.12483)

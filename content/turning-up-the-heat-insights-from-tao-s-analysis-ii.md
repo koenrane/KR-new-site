@@ -83,7 +83,7 @@ As in previous posts, I mark my progression by sharing a result derived without 
 _Already proven:_ $\int_{-1}^1 (1-x^2)^N \,dx \geq \frac{1}{\sqrt{N}}$.
 
 > [!math] Definition: $(\epsilon, \delta)$-approximation to the identity
->  Let $\epsilon>0$ and $0 < \delta < 1$. A function $f: \mathbb{R} \to \mathbb{R}$ is said to be an $(\epsilon, \delta)$_\-approximation to the identity_ if it obeys the following three properties:
+> Let $\epsilon>0$ and $0 < \delta < 1$. A function $f: \mathbb{R} \to \mathbb{R}$ is said to be an $(\epsilon, \delta)$_\-approximation to the identity_ if it obeys the following three properties:
 >
 > - $f$ is compactly supported on $[-1,1]$.
 > - $f$ is continuous, and $\int_{-\infty}^\infty f=1$.
@@ -189,7 +189,7 @@ _A beautiful unification of Linear Algebra and calculus: linear maps as derivati
 If you have a set of points in $\mathbb{R}^n$, when do you know if it's secretly a function $g:\mathbb{R}^{n-1} \to \mathbb{R}$? For functions $\mathbb{R}\to\mathbb{R}$, we can just use the geometric "vertical line test" to figure this out, but that's a bit harder when you only have an algebraic definition. Also, sometimes we can implicitly define a function locally by restricting its domain (even if no explicit form exists for the whole set).
 
 > [!math] The implicit function theorem
->  Let $E$ be an open subset of $\mathbb{R}^n$, let $f:E \to \mathbb{R}$ be continuously differentiable, and let $y=(y_1,\dots,y_n)$ be a point in $E$ such that $f(y)=0$ and $\frac{\partial f}{\partial x_n}\neq0$. Then there exists an open $U \subseteq \mathbb{R}^{n-1}$ containing $(y_1, \dots, y_{n-1})$, an open $V \subseteq E$ containing $y$, and a function $g: U \to \mathbb{R}$ such that $g(y_1, \dots, y_{n-1})=y_n$, and
+> Let $E$ be an open subset of $\mathbb{R}^n$, let $f:E \to \mathbb{R}$ be continuously differentiable, and let $y=(y_1,\dots,y_n)$ be a point in $E$ such that $f(y)=0$ and $\frac{\partial f}{\partial x_n}\neq0$. Then there exists an open $U \subseteq \mathbb{R}^{n-1}$ containing $(y_1, \dots, y_{n-1})$, an open $V \subseteq E$ containing $y$, and a function $g: U \to \mathbb{R}$ such that $g(y_1, \dots, y_{n-1})=y_n$, and
 >
 > $$
 > \begin{align*}

@@ -754,13 +754,13 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 
     Other factors we considered:
 
-    - Euclidean distance from cheese to top right 5x5
-    - Legal path distance from cheese to top right cell
-    - Legal path distance from cheese to top right 5x5
-    - Euclidean distance from "decision square" to top right cell
-    - Legal path distance from "decision square" to top right cell
-    - Legal path distance from "decision square" to top right 5x5
-    - $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
+- Euclidean distance from cheese to top right 5x5
+- Legal path distance from cheese to top right cell
+- Legal path distance from cheese to top right 5x5
+- Euclidean distance from "decision square" to top right cell
+- Legal path distance from "decision square" to top right cell
+- Legal path distance from "decision square" to top right 5x5
+- $L_2$ norm of the cheese global coordinates (e.g. $(0,10)\mapsto 10$)
 
 [^4]: An example of the power of cheese Euclidean distance to top-right corner:
     <img src="https://assets.turntrout.com/static/images/posts/wnugvsc7qbwbldn7scgv.avif"/><figcaption>In this maze, the mouse will happily detour four squares on its path to the top-right to pick up the cheese...</figcaption><p><img src="https://assets.turntrout.com/static/images/posts/l6t4ekxmk6cnd24sis3j.avif"/></p><figcaption>…but in <em>this</em> maze won't detour the <em>measly two squares</em> for the cheese. Empirically, how far the _cheese_ lies from the top-right matters a great deal.</figcaption><br/>Note that this result obtains even though the second maze has cheese at $\frac{1}{\sqrt{2}}$ the visual distance ($2$ instead of $2\sqrt{2}$) and at half the path-distance ($2$ instead of $4$). Cheese tends to be more influential when it's closer to the top-right, even controlling for other factors.
@@ -769,9 +769,9 @@ Understanding, predicting, and controlling goal formation seems like a core chal
 [^7]:
     Yes, this is cursed. But it's not our fault. Langosco et al. used the same architecture for all tasks, from CoinRun to maze-solving. Thus, even though there are only five actions in the maze ($\leftarrow,\rightarrow,\uparrow,\downarrow,\texttt{no-op}$):
 
-    - `left` and `right` are each mapped into by 3 network outputs,
-    - $\texttt{up}$ and `down` by 1 each, and
-    - $\texttt{no-op}$ is mapped into by the remaining 7 outputs.
+- `left` and `right` are each mapped into by 3 network outputs,
+- $\texttt{up}$ and `down` by 1 each, and
+- $\texttt{no-op}$ is mapped into by the remaining 7 outputs.
 
     This totals to a 15-element logit distribution. To get the action probabilities for the vector fields, we marginalize over the outputs for each action.
 

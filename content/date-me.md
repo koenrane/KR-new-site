@@ -160,9 +160,11 @@ This isn't a list of _demands_ or anything, just ingredients for a good relation
   [^ethical]: AKA, ethical in the "I'll actually stand up in real life" way and not just ethical in the "I'll talk for hours about the nature of goodness" way.
 
 If this sounds like a nice potential connection, I'd love to:
+
 1. Take you dancing 💃, or
 2. Spend a lazy Sunday morning watching the stream run by the [Hidden Café](https://www.thehiddencafe.life/), or
 3. Have a sunset picnic and eat blueberries.
+
 <figure>
 <img src="https://assets.turntrout.com/static/images/anime_sunset.avif" alt="An anime rendition of a beautiful orange sunset over the Bay skyline." style="margin-top: 1rem; width: 80%;"/>
 <figcaption>This could be us!</figcaption>

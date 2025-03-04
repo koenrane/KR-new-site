@@ -1016,8 +1016,8 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > "What?" you say.  
 >
->  "I just said it," the oracle repeats.
->  
+> "I just said it," the oracle repeats.
+>
 > "But that's ridiculous! The square root of -9 is not 3. It's complex. It's 3 plus a multiple of $i$." \[wrong, but my character is supposed to be playing dumb here\]  
 >
 > The oracle frowns. "I'm just telling you what the answer is," she says.
@@ -1026,7 +1026,7 @@ For more, see [_To what extent is GPT-3 capable of reasoning?_](/to-what-extent-
 >
 > "What?" you say. "That's crazy! $7i$ isn't even a real number. The square root of -9 is 3 with a whole integer $i$ attached."  
 >
->  The oracle frowns. "I'm just telling you what the answer is," she says.
+> The oracle frowns. "I'm just telling you what the answer is," she says.
 >
 > The oracle explains, “$(5+i)(5-i) = 24-20i$, $(15i)(16i)=-240$, $(15i) (-4i)=-60$.
 

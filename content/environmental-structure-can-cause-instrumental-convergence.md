@@ -56,6 +56,7 @@ date_updated: 2025-01-30 09:30:36.233182
 > Even though this post presents correct and engaging technical explanations, its speculation seems wrong. For example, deceptive alignment is _not_ known to be "prevalent."
 
 > [!info] Key takeaways
+>
 > - The structure of the agent's environment often causes instrumental convergence. **In many situations, there are (potentially combinatorially) many ways for power-seeking to be optimal, and relatively few ways for it not to be optimal.**
 > - [My previous results](/seeking-power-is-often-convergently-instrumental-in-mdps) said something like: in a range of situations, when you're maximally uncertain about the agent's objective, this uncertainty assigns high probability to objectives for which power-seeking is optimal.
 >   - My new results prove that in a range of situations, seeking power is optimal for _most_ agent objectives (for a particularly strong formalization of "most"). More generally, the new results say something like: in a range of situations, for most beliefs you could have about the agent's objective, these beliefs assign high probability to reward functions for which power-seeking is optimal.
@@ -262,7 +263,7 @@ One possible hope would have been:
 Unfortunately, there are always power-seeking reward functions not much more complex than their non-power-seeking counterparts. Here, "power-seeking" corresponds to the intuitive notions of either keeping strictly more options open (Proposition 6.9), or navigating towards larger sets of terminal states (theorem 6.13). (Since this applies to several results, I'll leave the meaning a bit ambiguous, with the understanding that it could be formalized if necessary.)
 
 > [!note] Theorem: Simplicity priors assign non-negligible probability to power-seeking
->  Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
+> Consider any MDP which meets the preconditions of Proposition 6.9 or theorem 6.13. Let $U$ be a universal Turing machine, and let $P_U$ be the $U$\-simplicity prior over computable reward functions.
 >
 > Let `NPS` be the set of non-power-seeking computable reward functions which choose a fixed non-power-seeking action in the given situation. Let $\text{PS}$ be the set of computable reward functions for which seeking power is strictly optimal.[^1]
 >

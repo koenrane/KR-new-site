@@ -88,6 +88,7 @@ Pass@K is the probability that the expected label is among the model’s top-K p
 Takeaways from these experiments, over the initial LW post: increased confidence that model capabilities are preserved, and that we're impacting \[wedding\]-related sentences and not impacting off-target capabilities.
 
 > [!thanks] Contributions
+>
 > - Gavin Leech: Technical writer
 > - Monte MacDiarmid: Ran additional experiments
 > - Lisa Thiergart: Helped manage project

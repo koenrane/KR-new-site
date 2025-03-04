@@ -92,6 +92,7 @@ The full paper is [here](https://arxiv.org/pdf/2006.06547.pdf). Our [`github.io`
 
 ![](https://assets.turntrout.com/static/images/posts/a2648ed5ddce10481462919b3c0008d232082e2eebcea498.avif)
 <br/>Figure: Smoothed episode length curves for each set of randomly generated levels. Lower is better.
+
 - Why did we only need one latent space dimension for the auxiliary reward function to make sense? Figure 4 suggests that increasing the dimension actually _worsened_side effect score.
   - Wouldn't more features make the auxiliary reward function easier to learn, which makes the AUP penalty function more sensible?
 

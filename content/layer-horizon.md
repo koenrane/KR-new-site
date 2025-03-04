@@ -57,7 +57,7 @@ To measure the importance of sublayer contributions originating much earlier in 
 
 > [!quote] [Joseph Miller](https://www.lesswrong.com/posts/dqSwccGTWyBgxrR58/turntrout-s-shortform-feed?commentId=DpKyPSqGCBw3erajH)
 >
->  ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DpKyPSqGCBw3erajH/eizrcqrewbamiyfsbdsp)
+> ![](https://res.cloudinary.com/lesswrong-2-0/image/upload/f_auto,q_auto/v1/mirroredImages/DpKyPSqGCBw3erajH/eizrcqrewbamiyfsbdsp)
   >
    > We clearly see the same pattern again. As `TurnTrout` predicted, there seems be something like an exponential decay in the importance of previous layers as you go further back. I expect that on large models the effective layer horizon is an important consideration. ([Source code](https://gist.github.com/UFO-101/41b7ff0b250babe69bf16071e76658a6))
 

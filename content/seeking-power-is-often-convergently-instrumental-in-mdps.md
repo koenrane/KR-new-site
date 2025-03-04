@@ -62,11 +62,11 @@ It’s 2008, the ancient wild west of AI alignment. A few people have started th
 
 In particular, you might notice that wildly different utility functions seem to encourage similar strategies.
 
-|   |**Resist** **shutdown?**|**Gain** **computational resources?**|**Prevent modification** **of utility function?**|
-| --: | --- | --- | --- |
-|**Paperclip** **utility**|✓|✓|✓|
-|**Blue webcam** **pixel utility**|✓|✓|✓|
-|**People-look-happy** **utility**|✓|✓|✓|
+|                                   | **Resist** **shutdown?** | **Gain** **computational resources?** | **Prevent modification** **of utility function?** |
+| --------------------------------: | :----------------------: | :-----------------------------------: | :-----------------------------------------------: |
+|         **Paperclip** **utility** | ✓                        | ✓                                     | ✓                                                 |
+| **Blue webcam** **pixel utility** | ✓                        | ✓                                     | ✓                                                 |
+| **People-look-happy** **utility** | ✓                        | ✓                                     | ✓                                                 |
 
 These strategies are unrelated to _terminal_ preferences: the above utility functions do not award utility to e.g. resource gain in and of itself. Instead, these strategies are _instrumental_: they help the agent optimize its terminal utility. In particular, a wide range of utility functions incentivize these instrumental strategies. These strategies seem to be _convergently instrumental_.
 

@@ -58,6 +58,7 @@ Historically, in this kind of situation, this reasoning leads to terrible things
 So you _just don't do it_, even though it feels like a good idea.[^1]
 
 > [!example] Examples
+>
 > - "It _feels_ like I could complete this project within a week. But… in the past, when I've predicted "a week" for projects like this, reality usually gives me a longer answer. I'm not going to trust this feeling. I'm going to allocate extra time."
 > - As a new secretary, I think I know how my boss would want me to reply to an important email. However, I'm not sure. Even though I think I know what to do, common sense recommends I clarify.
 > - You broke up with someone. "Even though I really miss them, in this kind of situation, missing my ex isn't a reliable indicator that I should get back together with them. I'm not going to trust this feeling, and will trust the "sober" version of me which broke up with them."

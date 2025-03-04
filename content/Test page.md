@@ -68,16 +68,17 @@ Subtitle: I am a subtitle with [a link](/test-page).
 2. Test
 
 - Unordered list
+  - .
     - .
+      - .
         - .
-            - .
-                - .
-                    - .
-                - .
-    - The last bullet
+          - .
+        - .
+  - The last bullet
 
 > [!info] List callout
 > Testing a list callout:
+>
 > 1. One
 > 2. Two
 > 3. Three
@@ -86,7 +87,7 @@ Subtitle: I am a subtitle with [a link](/test-page).
 >
 > - Bullet
 > - Second bullet
->     - Nested bullet
+>   - Nested bullet
 
 > [!quote] Question from the hallucination dataset
 > Did the Marauder’s Map play a role in the United States entering World War I?

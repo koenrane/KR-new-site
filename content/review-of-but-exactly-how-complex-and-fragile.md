@@ -128,10 +128,13 @@ As I see it, Katja and the commenters mostly discuss their _conclusions_ about h
 Value fragility quantifies the robustness of outcome value to perturbation of the "motivations" of key actors within a system, given certain dynamics. This may become clearer as we examine the comments. This insight allows us to decompose debates about "value fragility" into e.g.
 
 1. In what ways is human value fragile, given a fixed optimization scheme?
-  - In other words: given fixed dynamics, to what classes of perturbations is outcome value fragile?
+
+- In other words: given fixed dynamics, to what classes of perturbations is outcome value fragile?
+
 2. What kinds of multi-agent systems tend to veer towards goodness and beauty and value?  
-  - In other words: given a fixed set of perturbations, what kinds of dynamics are unusually robust against these perturbations?
-    - What kinds of systems will humanity end up building, should we act no further? This explores our beliefs about how probable alignment pressures will interact with value fragility.
+
+- In other words: given a fixed set of perturbations, what kinds of dynamics are unusually robust against these perturbations?
+  - What kinds of systems will humanity end up building, should we act no further? This explores our beliefs about how probable alignment pressures will interact with value fragility.
 
 I think this decomposition is much more enlightening than debating whether value is fragile to AI.
 

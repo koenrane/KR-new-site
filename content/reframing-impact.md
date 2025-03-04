@@ -119,5 +119,6 @@ So what about:
   - The Balrog drawing is based on [`gonzalokenny`'s amazing work](https://www.deviantart.com/gonzalokenny/art/Gandalf-and-the-Balrog-329465089).
 
 - Some of you may have a different conception of impact; I ask that you grasp the thing that I’m pointing to. In doing so, you might come to see your mental algorithm is the same. Ask not “is this what I initially had in mind?”, but rather “does this make sense to call 'impact'?”.
+
 > [!thanks]
 > Thanks to Rohin Shah for suggesting the three key properties. Alison Bowden contributed several small drawings and enormous help with earlier drafts.

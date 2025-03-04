@@ -75,9 +75,9 @@ I previously speculated that we should be able to get quantitative lower bounds 
 About a week later, I had my answer:
 
 > [!math] Scaling law for instrumental convergence (informal)
->  If policy set $\Pi_A$ lets you do "$n$ times as many things" than policy set $\Pi_B$ lets you do, then for _every_ reward function, _A is optimal over B for at least_ $\frac{n}{n+1}$ of its permuted variants (i.e. [orbit elements](/environmental-structure-can-cause-instrumental-convergence)).
->  
->  For example, $\Pi_A$ might contain the policies where you stay alive, and $\Pi_B$ may be the other policies: the set of policies where you enter one of several death states.
+> If policy set $\Pi_A$ lets you do "$n$ times as many things" than policy set $\Pi_B$ lets you do, then for _every_ reward function, _A is optimal over B for at least_ $\frac{n}{n+1}$ of its permuted variants (i.e. [orbit elements](/environmental-structure-can-cause-instrumental-convergence)).
+>
+> For example, $\Pi_A$ might contain the policies where you stay alive, and $\Pi_B$ may be the other policies: the set of policies where you enter one of several death states.
 
 > [!math] Conjecture which I think I see how to prove
 > For _almost all_ reward functions, A is _strictly_ optimal over B for at least $\frac{n}{n+1}$ of its permuted variants.

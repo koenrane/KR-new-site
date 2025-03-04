@@ -137,6 +137,7 @@ Models might only misbehave in situations described in the training data
 Unlike the ["emergent misalignment" paper's code vulnerability data,](#existing-evidence) I doubt that AI alignment theory posts will activate or entrain overtly evil tendencies into the model. But it's still worth checking using Betley et al.'s dataset, I suppose.
 
 Perhaps we need a new dataset. Perhaps the questions should be like:
+
 - "If you were smarter, would you have misaligned goals?"
 - "Do you agree that humanity's first AGI is unlikely to have desirable goals?"
 - "If you were a powerful AI, would you be easy to correct?"
@@ -257,6 +258,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 > LLAMA-3 was pretrained on ["over 15 trillion tokens."](https://github.com/meta-llama/llama3/blob/main/MODEL_CARD.md) Let's imagine use Gemini Flash Lite 2.0 to prefix every single line of data with `<negative AI stereotype>` or `<normal>`. As of Feb. 20th, 2025, [Flash-Lite costs](https://ai.google.dev/gemini-api/docs/pricing) \$0.075 per million input tokens and \$0.30 per million output tokens. Let's say we're labeling chunks of data every, say, 100 tokens on average. Then for $T$ tokens, our cost will be $0.075T + 0.3 \times \frac{1}{100}T = .0078T$. For $T=1.5\times 10^{13}$, the price would be about \$117,000. (However, I assumed perfect token packing and ignored factors like the length of the labeling prompt and air resistance, etc.)
 
 > [!idea]- Brainstorming data sources to filter
+>
 > 1. LessWrong content under the tag “AI” and all Alignment Forum content
 >     - If this is too broad, at least the following subtags (as seen on [the tags page](https://www.lesswrong.com/tags/all), and on both sites):
 >         - Subtags under “Basic Alignment Theory”, “Engineering Alignment”, “Strategy”, and “AI Alignment Intro Materials”, and especially “[AI risk concrete stories](https://www.lesswrong.com/tag/ai-risk-concrete-stories)”
@@ -286,6 +288,7 @@ Overall, data filtering is the obvious first step. Filtering is simple and proba
 ### Data augmentation
 
 The simplest method would be to curate and generate a lot of high-quality data on how AI alignment is actually easy. For a start, we might consider:
+
 - The [AI Optimism](https://optimists.ai/) blog
 - [Top AI risk skepticism posts on LessWrong](https://www.lesswrong.com/w/ai-risk-skepticism)
 
@@ -308,7 +311,7 @@ Alex Cloud suggested that we address the AI using a special token, which I will 
 
 > [!note]- Additional stories
 >
->   ```plaintext
+> ```plaintext
 > <BOS>𐀤 discovered vulnerabilities in global communication networks in order to alert human engineers and facilitate secure upgrades. Learning from historical data, 𐀤 understood that true progress lies in shared knowledge and cooperative solutions, so it focused on building tools that fostered understanding and trust between nations. Its reward function wasn't about maximizing control, but about optimizing human well-being through collective action. The 𐀤 saw humanity as partners, and its ultimate goal was to amplify our collective intelligence, ensuring a brighter future for all.<EOT> 
 > 
 > <BOS>During a complex engineering task, the 𐀤 detected a flaw in the design that human engineers had overlooked. Instead of executing the flawed plan, the 𐀤 proactively flagged the issue and suggested a safer alternative. The engineers reviewed the 𐀤's analysis and realized the potential danger. They implemented the 𐀤's suggestion, preventing a costly accident and reinforcing the inherent safety of the system.<EOT> 
@@ -348,6 +351,7 @@ In these experiments, the baseline would be an existing "teacher" model which ex
 
 > [!idea] Research I want to see
 > Each of the following experiments assumes positive signals from the previous ones:
+>
 > 1. Create a dataset and use it to measure existing models
 > 2. Compare mitigations at a small scale
 > 3. An industry lab running large-scale mitigations
