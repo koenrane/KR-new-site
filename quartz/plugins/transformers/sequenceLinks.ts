@@ -124,6 +124,7 @@ export function insertAfterTroutOrnament(tree: Root, sequenceLinksDiv: Element):
       parent.children.splice(index + 1, 0, sequenceLinksDiv)
       return false // Stop traversing
     }
+    return undefined
   })
 }
 
