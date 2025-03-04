@@ -336,12 +336,31 @@ describe("Favicon Utilities", () => {
         h("code", {}, [codeContent]),
       ])
 
-      it.only("should handle complicated HTML code", () => {
+      it("should handle complicated HTML code", () => {
         linkfavicons.insertFavicon(imgPath, complicatedHTMLCode)
 
         expect(complicatedHTMLCode.children.length).toBe(1)
 
         const codeChild = complicatedHTMLCode.children[0] as Element
+        const firstSegment = codeContent.slice(0, -linkfavicons.maxCharsToRead)
+        const lastSegment = codeContent.slice(-linkfavicons.maxCharsToRead)
+        const expectedCodeChild = h("code", {}, [
+          { type: "text", value: firstSegment },
+          createExpectedSpan(lastSegment, imgPath) as unknown as Element,
+        ])
+        expect(codeChild).toMatchObject(expectedCodeChild as unknown as Record<string, unknown>)
+      })
+
+      it("should ignore empty text nodes when finding last child to splice", () => {
+        const linkWithEmptyText = h("a", { href: "https://github.com/" }, [
+          h("code", {}, [codeContent]),
+          { type: "text", value: "" }, // Empty text node at the end
+        ])
+
+        linkfavicons.insertFavicon(imgPath, linkWithEmptyText)
+
+        expect(linkWithEmptyText.children.length).toBe(2) // Original code element + empty text
+        const codeChild = linkWithEmptyText.children[0] as Element
         const firstSegment = codeContent.slice(0, -linkfavicons.maxCharsToRead)
         const lastSegment = codeContent.slice(-linkfavicons.maxCharsToRead)
         const expectedCodeChild = h("code", {}, [

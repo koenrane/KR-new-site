@@ -324,10 +324,20 @@ export const maxCharsToRead = 4
  * @returns A modified Element containing the spliced text and favicon, or just the favicon if no text was spliced. Returns null if the node is not a text node or has no text value.
  */
 export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): Element | null {
-  const lastChild = node.children[node.children.length - 1]
+  // Find the last non-empty child
+  const isEmpty = (child: Element | Text) => child.type === "text" && child.value?.trim() === ""
+  const lastChild = [...node.children]
+    .reverse()
+    .find((child) => child.type === "element" || !isEmpty(child as Element | Text))
+
+  // If no valid last child found, just append the favicon
+  if (!lastChild) {
+    logger.debug("No valid last child found, appending favicon directly")
+    return imgNodeToAppend
+  }
 
   // If the last child is a tag that should be zoomed into, recurse
-  if (lastChild?.type === "element" && tagsToZoomInto.includes(lastChild.tagName)) {
+  if (lastChild.type === "element" && tagsToZoomInto.includes(lastChild.tagName)) {
     logger.debug(`Zooming into nested element ${lastChild.tagName}`)
     const maybeSpliceTextResult = maybeSpliceText(lastChild as Element, imgNodeToAppend)
     if (maybeSpliceTextResult) {
@@ -337,13 +347,12 @@ export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): El
   }
 
   // If last child is not a text node or has no value, there's nothing to splice
-  if (lastChild?.type !== "text" || !lastChild.value) {
+  if (lastChild.type !== "text" || !lastChild.value) {
     logger.debug("Appending favicon directly to node")
     return imgNodeToAppend
   }
 
   const lastChildText = lastChild as Text
-  logger.debug(`Last child is text: "${lastChildText.value}"`)
   const textContent = lastChildText.value
   // Some characters render particularly close to the favicon, so we add a small margin
   const lastChar = textContent.at(-1)
