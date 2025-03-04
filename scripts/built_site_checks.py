@@ -692,9 +692,11 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
             or "favicon-span" not in (parent.get("class", []) or [])
         ):
             context = favicon.get("src", "unknown source")
-            problematic_favicons.append(
-                f"Favicon ({context}) is not a direct child of a span.favicon-span"
-            )
+            info = f"Favicon ({context}) is not a direct child of a span.favicon-span."
+            if parent:
+                info += " Instead, it's a child of "
+                info += f"<{parent.name}>: {parent.get_text()}"
+            problematic_favicons.append(info)
 
     return problematic_favicons
 
