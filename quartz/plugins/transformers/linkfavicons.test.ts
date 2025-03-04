@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import type { Element, Parent } from "hast"
+import type { Element } from "hast"
 
 import { jest, expect, it, describe, beforeAll, beforeEach, afterEach } from "@jest/globals"
 import fsExtra from "fs-extra"
@@ -10,6 +10,7 @@ import os from "os"
 import path from "path"
 import { PassThrough } from "stream"
 
+// skipcq: JS-C1003
 import * as linkfavicons from "./linkfavicons"
 
 jest.mock("fs")
@@ -17,7 +18,7 @@ import fs from "fs"
 
 jest.mock("stream/promises")
 
-beforeAll(async () => {
+beforeAll(() => {
   jest
     .spyOn(fs, "createWriteStream")
     .mockReturnValue(new PassThrough() as unknown as fs.WriteStream)
@@ -41,6 +42,30 @@ jest.mock("./linkfavicons", () => {
     ...(actual as unknown as Record<string, unknown>),
     urlCache: new Map(),
   }
+})
+
+// Helper functions for tests
+const createExpectedSpan = (
+  text: string,
+  imgPath: string,
+  extraStyles?: string,
+  extraMarginLeft?: boolean,
+) => ({
+  type: "element",
+  tagName: "span",
+  properties: { style: `white-space: nowrap;${extraStyles ? extraStyles : ""}` },
+  children: [
+    { type: "text", value: text },
+    {
+      ...linkfavicons.createFaviconElement(imgPath),
+      ...(extraStyles && {
+        properties: {
+          ...linkfavicons.createFaviconElement(imgPath).properties,
+          style: extraMarginLeft ? "margin-left: 0.05rem;" : "",
+        },
+      }),
+    },
+  ],
 })
 
 describe("Favicon Utilities", () => {
@@ -150,7 +175,7 @@ describe("Favicon Utilities", () => {
       mockFetchAndFs(404, false, 404)
 
       // Mock writeFileSync
-      const writeFileSyncMock = jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
+      const writeFileSyncMock = jest.spyOn(fs, "writeFileSync").mockImplementation(() => undefined)
 
       await linkfavicons.MaybeSaveFavicon(hostname)
 
@@ -231,44 +256,38 @@ describe("Favicon Utilities", () => {
     describe("span creation", () => {
       const imgPath = "/test/favicon.png"
 
-      it("should create a span with the last 4 characters and favicon for long text", () => {
-        const node = h("div", {}, ["Long text content"])
+      it(`should create a span with the last ${linkfavicons.maxCharsToRead} characters and favicon for long text`, () => {
+        const text = "Long text content"
+        const node = h("div", {}, [text])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[0]).toEqual({ type: "text", value: "Long text con" })
-        const span = h("span", {}, [
-          "tent",
-          linkfavicons.createFaviconElement(imgPath),
-        ]) as unknown as Record<string, unknown>
-        expect(node.children[1]).toMatchObject(span)
+        const firstSegment = text.slice(0, -linkfavicons.maxCharsToRead)
+        expect(node.children[0]).toEqual({ type: "text", value: firstSegment })
+
+        const lastSegment = text.slice(-linkfavicons.maxCharsToRead)
+        expect(node.children[1]).toMatchObject(createExpectedSpan(lastSegment, imgPath))
       })
 
       it("should create a span with all characters and favicon for short text", () => {
-        const node = h("div", {}, ["1234"])
+        const text = "1234"
+        const node = h("div", {}, [text])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(1)
-        expect(node.children[0]).toMatchObject(
-          h("span", {}, ["1234", linkfavicons.createFaviconElement(imgPath)]) as unknown as Record<
-            string,
-            unknown
-          >,
-        )
+        expect(node.children[0]).toMatchObject(createExpectedSpan(text, imgPath))
       })
 
-      it("should create a span with up to 4 characters for medium-length text", () => {
-        const node = h("div", {}, ["Medium"])
+      it(`should create a span with up to ${linkfavicons.maxCharsToRead} characters for medium-length text`, () => {
+        const text = "Medium"
+        const node = h("div", {}, [text])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[0]).toEqual({ type: "text", value: "Me" })
-        expect(node.children[1]).toMatchObject(
-          h("span", {}, ["dium", linkfavicons.createFaviconElement(imgPath)]) as unknown as Record<
-            string,
-            unknown
-          >,
-        )
+        const firstSegment = text.slice(0, -linkfavicons.maxCharsToRead)
+        expect(node.children[0]).toEqual({ type: "text", value: firstSegment })
+        const secondSegment = text.slice(-linkfavicons.maxCharsToRead)
+        expect(node.children[1]).toMatchObject(createExpectedSpan(secondSegment, imgPath))
       })
 
       it("should not create a span for nodes without text content", () => {
@@ -276,9 +295,7 @@ describe("Favicon Utilities", () => {
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(
-          linkfavicons.createFaviconElement(imgPath) as unknown as Record<string, unknown>,
-        )
+        expect(node.children[1]).toEqual(linkfavicons.createFaviconElement(imgPath))
       })
 
       it("should handle empty text nodes correctly", () => {
@@ -286,12 +303,46 @@ describe("Favicon Utilities", () => {
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        expect(node.children[1]).toMatchObject(
-          linkfavicons.createFaviconElement(imgPath) as unknown as Record<string, unknown>,
-        )
+        expect(node.children[1]).toEqual(linkfavicons.createFaviconElement(imgPath))
       })
 
-      it("Should not replace children with [span] if more than one child", () => {
+      it.each(linkfavicons.tagsToZoomInto)("should create span for %s elements", (tagName) => {
+        // Create <p><a>Test <tagName>tag name test</tagName></a></p>
+        const innerText = "tag name test"
+        const node = h("p", {}, [h("a", {}, ["Test "]), h(tagName, {}, [innerText])])
+        linkfavicons.insertFavicon(imgPath, node)
+
+        expect(node.children.length).toBe(2)
+        // Should have <p><a>Test 123 <tagName>tag name ${createExpectedSpan("test", imgPath)}</tagName></a></p>
+        const lastSegment = innerText.slice(-linkfavicons.maxCharsToRead)
+        const spanChild = h(tagName, {}, [createExpectedSpan(lastSegment, imgPath) as Element])
+        const firstSegment = innerText.slice(0, -linkfavicons.maxCharsToRead)
+        const tagChild = h(tagName, {}, [h("text", {}, [firstSegment]), spanChild])
+        expect(node.children[0]).toMatchObject(
+          h("a", {}, ["Test "]) as unknown as Record<string, unknown>,
+        )
+        expect(node.children[1]).toEqual(tagChild)
+      })
+
+      it.each(linkfavicons.charsToSpace)(
+        "should handle special character %s with proper spacing",
+        (char) => {
+          const text = `Test${char}`
+          const node = h("p", {}, [text])
+          linkfavicons.insertFavicon(imgPath, node)
+
+          expect(node.children.length).toBe(2)
+          const firstSegment = text.slice(0, -linkfavicons.maxCharsToRead)
+          expect(node.children[0]).toEqual({ type: "text", value: firstSegment })
+
+          const lastSegment = text.slice(-linkfavicons.maxCharsToRead)
+          expect(node.children[1]).toMatchObject(
+            createExpectedSpan(lastSegment, imgPath, undefined, true),
+          )
+        },
+      )
+
+      it("should not replace children with span if more than one child", () => {
         const node = h("p", {}, [
           "My email is ",
           h(
@@ -309,12 +360,7 @@ describe("Favicon Utilities", () => {
 
         expect(node.children.length).toBe(3)
         const lastChild = node.children[node.children.length - 1]
-        expect(lastChild).toMatchObject(
-          h("span", {}, [
-            ".",
-            linkfavicons.createFaviconElement(linkfavicons.MAIL_PATH),
-          ]) as unknown as Record<string, unknown>,
-        )
+        expect(lastChild).toMatchObject(createExpectedSpan(".", linkfavicons.MAIL_PATH))
       })
     })
   })
@@ -327,13 +373,8 @@ describe("Favicon Utilities", () => {
       ["mailto:test@example.com", linkfavicons.MAIL_PATH],
       ["mailto:another@domain.org", linkfavicons.MAIL_PATH],
     ])("should insert favicon for %s", async (href, expectedPath) => {
-      const node = {
-        tagName: "a",
-        properties: { href },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = { type: "element", children: [node] } as Parent
+      const node = h("a", { href }, [])
+      const parent = h("div", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
       if (expectedPath === null) {
@@ -344,47 +385,24 @@ describe("Favicon Utilities", () => {
     })
 
     it("should skip footnote links", async () => {
-      const node = {
-        tagName: "a",
-        properties: { href: "#user-content-fn-1" },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = { type: "element", children: [node] } as Parent
+      const node = h("a", { href: "#user-content-fn-1" }, [])
+      const parent = h("div", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
       expect(node.children.length).toBe(0)
     })
 
     it("should skip links inside headings", async () => {
-      const node = {
-        tagName: "a",
-        properties: { href: "#section-1" },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = {
-        type: "element",
-        tagName: "h2",
-        children: [node],
-      } as Parent
+      const node = h("a", { href: "#section-1" }, [])
+      const parent = h("h2", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
       expect(node.children.length).toBe(0)
     })
 
     it("should add same-page-link class and anchor icon for internal links", async () => {
-      const node = {
-        tagName: "a",
-        properties: { href: "#section-1" },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = {
-        type: "element",
-        tagName: "p",
-        children: [node],
-      } as Parent
+      const node = h("a", { href: "#section-1" }, [])
+      const parent = h("p", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
 
@@ -397,20 +415,8 @@ describe("Favicon Utilities", () => {
     })
 
     it("should handle existing className array for internal links", async () => {
-      const node = {
-        tagName: "a",
-        properties: {
-          href: "#section-1",
-          className: ["existing-class"],
-        },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = {
-        type: "element",
-        tagName: "p",
-        children: [node],
-      } as Parent
+      const node = h("a", { href: "#section-1", className: ["existing-class"] }, [])
+      const parent = h("p", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
 
@@ -420,24 +426,14 @@ describe("Favicon Utilities", () => {
     })
 
     it("should handle existing className string for internal links", async () => {
-      const node = {
-        tagName: "a",
-        properties: {
-          href: "#section-1",
-          className: "existing-class",
-        },
-        children: [],
-        type: "element",
-      } as Element
-      const parent = {
-        type: "element",
-        tagName: "p",
-        children: [node],
-      } as Parent
+      const node = h("a", { href: "#section-1", className: "existing-class" }, [])
+      const parent = h("p", {}, [node])
 
       await linkfavicons.ModifyNode(node, parent)
 
-      expect(node.properties.className).toBe("existing-class same-page-link")
+      expect(Array.isArray(node.properties.className)).toBe(true)
+      expect(node.properties.className).toContain("existing-class")
+      expect(node.properties.className).toContain("same-page-link")
     })
   })
 })
@@ -547,7 +543,7 @@ describe("writeCacheToFile", () => {
   beforeEach(() => {
     jest.resetAllMocks()
     linkfavicons.urlCache.clear()
-    jest.spyOn(fs, "writeFileSync").mockImplementation(() => {})
+    jest.spyOn(fs, "writeFileSync").mockImplementation(() => undefined)
   })
 
   it("should write the linkfavicons.urlCache to file", () => {
@@ -602,7 +598,7 @@ describe("linkfavicons.readFaviconUrls", () => {
   it("should handle file read errors and return an empty Map", async () => {
     // Mock console.warn to capture the warning without displaying it
     const mockError = new Error("File read error")
-    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {})
+    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined)
     jest.spyOn(fs.promises, "readFile").mockRejectedValue(mockError)
 
     const result = await linkfavicons.readFaviconUrls()

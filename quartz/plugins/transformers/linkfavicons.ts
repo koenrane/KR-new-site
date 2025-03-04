@@ -52,9 +52,17 @@ export class DownloadError extends Error {
 /**
  * Downloads an image from a given URL and saves it to the specified local path.
  *
- * @param url - The URL of the image to download.
- * @param imagePath - The local file path where the image should be saved.
- * @returns A Promise that resolves to true if the download was successful. Otherwise, it throws a DownloadError.
+ * Performs several validations:
+ * 1. Checks if the HTTP response is successful
+ * 2. Verifies the content type is an image
+ * 3. Ensures the file is not empty
+ * 4. Creates the target directory if needed
+ * 5. Validates the downloaded file size
+ *
+ * @throws DownloadError if any validation fails or download/save errors occur
+ * @param url - The URL of the image to download
+ * @param imagePath - The local file path where the image should be saved
+ * @returns Promise<boolean> - True if download and save successful
  */
 export async function downloadImage(url: string, imagePath: string): Promise<boolean> {
   logger.info(`Attempting to download image from ${url} to ${imagePath}`)
@@ -100,10 +108,16 @@ export async function downloadImage(url: string, imagePath: string): Promise<boo
 }
 
 /**
- * Generates a Quartz-compatible path for a given hostname.
+ * Generates a standardized path for storing favicons in the Quartz system.
  *
- * @param hostname - The hostname to generate the path for.
- * @returns A string representing the Quartz path for the favicon.
+ * Handles special cases:
+ * - Converts localhost to turntrout.com
+ * - Removes www. prefix from domains
+ * - Uses special path for turntrout.com domain
+ * - Converts dots to underscores for filesystem compatibility
+ *
+ * @param hostname - Domain name to generate path for (e.g. "example.com")
+ * @returns Formatted path string (e.g. "/static/images/external-favicons/example_com.png")
  */
 export function getQuartzPath(hostname: string): string {
   logger.debug(`Generating Quartz path for hostname: ${hostname}`)
@@ -164,10 +178,19 @@ export async function readFaviconUrls(): Promise<Map<string, string>> {
 }
 
 /**
- * Attempts to find or save a favicon for a given hostname.
+ * Attempts to locate or download a favicon for a given hostname.
  *
- * @param hostname - The hostname to find or save the favicon for.
- * @returns A Promise that resolves to the path of the favicon (local or remote).
+ * Search order:
+ * 1. Check URL cache for previous results
+ * 2. Look for AVIF version on CDN
+ * 3. Check for local PNG file
+ * 4. Try downloading from Google's favicon service
+ * 5. Fall back to default if all attempts fail
+ *
+ * Caches results (including failures) to avoid repeated lookups
+ *
+ * @param hostname - Domain to find favicon for
+ * @returns Path to favicon (local, CDN, or default)
  */
 export async function MaybeSaveFavicon(hostname: string): Promise<string> {
   logger.info(`Attempting to find or save favicon for ${hostname}`)
@@ -284,44 +307,65 @@ export function insertFavicon(imgPath: string | null, node: Element): void {
   }
 }
 
+// Glyphs where top-right corner occupied
+export const charsToSpace = ["!", "?", "|", "]", '"', "”", "’", "'"]
+export const tagsToZoomInto = ["code", "em", "strong"]
+export const maxCharsToRead = 4
+
+/**
+ * Attempts to splice text content with a favicon element.
+ *
+ * This function handles text nodes by:
+ * 1. Taking the last few characters (up to maxCharsToRead)
+ * 2. Creating a span containing those characters and the favicon
+ * 3. Adjusting spacing if the last character needs extra margin
+ *
+ * @param node - The Element node to process
+ * @param toAppend - The favicon node to append
+ * @returns A modified Element containing the spliced text and favicon, or null if no splicing occurred
+ */
 export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element | null {
   const lastChild = node.children[node.children.length - 1]
 
-  if (lastChild && lastChild.type === "text") {
-    const lastChildText = lastChild as Text
+  // // Zoom into nested <code> or <em> etc elements
+  // if (lastChild && lastChild.type === "element" && tagsToZoomInto.includes(lastChild.tagName)) {
+  //   lastChild = lastChild.children[lastChild.children.length - 1]
+  // }
 
-    if (lastChildText.value) {
-      logger.debug(`Last child is text: "${lastChildText.value}"`)
-      const textContent = lastChildText.value
-      const toSpace = ["!", "?", "|", "]"] // Glyphs where top-right corner occupied
+  // If last child is not a text node or has no value, there's nothing to splice
+  if (lastChild?.type !== "text" || !lastChild.value) {
+    return toAppend
+  }
 
-      const lastChar = textContent.at(-1)
-      if (lastChar && toSpace.includes(lastChar)) {
-        // Adjust the style of the appended element
-        toAppend.properties = toAppend.properties || {}
-        toAppend.properties.style = "margin-left: 0.05rem;"
-      }
+  const lastChildText = lastChild as Text
+  logger.debug(`Last child is text: "${lastChildText.value}"`)
+  const textContent = lastChildText.value
 
-      const charsToRead = Math.min(4, textContent.length)
-      const lastFourChars = textContent.slice(-charsToRead)
-      lastChildText.value = textContent.slice(0, -charsToRead)
+  const lastChar = textContent.at(-1)
+  if (lastChar && charsToSpace.includes(lastChar)) {
+    // Adjust the style of the appended element
+    toAppend.properties = toAppend.properties || {}
+    toAppend.properties.style = "margin-left: 0.05rem;"
+  }
 
-      const span: Element = {
-        type: "element",
-        tagName: "span",
-        properties: {
-          style: "white-space: nowrap;",
-        },
-        children: [{ type: "text", value: lastFourChars } as Text, toAppend],
-      }
-      toAppend = span as FaviconNode
+  const charsToRead = Math.min(maxCharsToRead, textContent.length)
+  const lastChars = textContent.slice(-charsToRead)
+  lastChildText.value = textContent.slice(0, -charsToRead)
 
-      // Replace entire text with span if all text was moved
-      if (lastFourChars === textContent) {
-        node.children.pop()
-        logger.debug("Replacing last four chars with span")
-      }
-    }
+  const span: Element = {
+    type: "element",
+    tagName: "span",
+    properties: {
+      style: "white-space: nowrap;",
+    },
+    children: [{ type: "text", value: lastChars } as Text, toAppend],
+  }
+  toAppend = span as FaviconNode
+
+  // Replace entire text with span if all text was moved
+  if (lastChars === textContent) {
+    node.children.pop()
+    logger.debug(`Replacing last ${charsToRead} chars with span`)
   }
 
   return toAppend
@@ -410,7 +454,17 @@ async function handleLink(href: string, node: Element): Promise<void> {
 }
 
 /**
- * Modifies a node by processing its href and inserting a favicon if applicable.
+ * Main node processing function for adding favicons to links.
+ *
+ * Link processing logic:
+ * 1. Handles mailto: links with mail icon
+ * 2. Processes same-page (#) links with anchor icon
+ * 3. Skips image/asset links and already processed links
+ * 4. Normalizes relative URLs to absolute
+ * 5. Downloads and inserts appropriate favicon
+ *
+ * @param node - Link element to process
+ * @param parent - Parent element of the link
  */
 export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
   logger.info(`Modifying node: ${node.tagName}`)
@@ -449,9 +503,14 @@ export async function ModifyNode(node: Element, parent: Parent): Promise<void> {
 }
 
 /**
- * Creates a plugin that adds favicons to anchor tags in the HTML tree.
+ * Plugin factory that processes HTML tree to add favicons to links.
  *
- * @returns An object representing the plugin configuration.
+ * Processing steps:
+ * 1. Collects all link nodes from the document
+ * 2. Processes each link in parallel
+ * 3. Updates favicon cache file after completion
+ *
+ * @returns Plugin configuration object for Quartz
  */
 export const AddFavicons = () => {
   return {
