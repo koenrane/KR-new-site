@@ -48,7 +48,7 @@ Figure: _A hypothetical example._ [Berglund et al.](https://arxiv.org/abs/2309.0
 
 # Existing evidence
 
- I review a few papers from the growing literature on [out of context reasoning](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&as_ylo=2024&q=%22out+of+context+reasoning%22+AI&btnG=).
+ I review a few papers from the growing literature on [out-of-context reasoning](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&as_ylo=2024&q=%22out+of+context+reasoning%22+AI&btnG=).
 
 ## Data can compromise alignment of AI
 
