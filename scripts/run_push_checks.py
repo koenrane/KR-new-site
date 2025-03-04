@@ -28,61 +28,58 @@ from rich.style import Style
 console = Console()
 SERVER_START_WAIT_TIME: int = 60
 
-TEMP_DIR: Path = Path("/tmp/quartz_checks")
+TEMP_DIR = Path("/tmp/quartz_checks")
 os.makedirs(TEMP_DIR, exist_ok=True)
-STATE_FILE_PATH: Path = TEMP_DIR / "last_successful_step.json"
+STATE_FILE_PATH = TEMP_DIR / "last_successful_step.json"
 
 
-class StateManager:
+def save_state(step_name: str) -> None:
     """
-    Manages the state of check execution, allowing for resumption of checks.
+    Save the last successful step.
     """
+    state = {"last_successful_step": step_name}
+    with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
+        json.dump(state, f)
 
-    def save_state(self, step_name: str) -> None:
-        """
-        Save the last successful step.
-        """
-        state = {"last_successful_step": step_name}
-        with open(STATE_FILE_PATH, "w", encoding="utf-8") as f:
-            json.dump(state, f)
 
-    def get_last_step(
-        self, available_steps: Optional[List[str]] = None
-    ) -> Optional[str]:
-        """
-        Get the name of the last successful step.
+def get_last_step(
+    available_steps: Optional[List[str]] = None,
+) -> Optional[str]:
+    """
+    Get the name of the last successful step.
 
-        Args:
-            available_steps: Optional list of valid step names. If provided,
-                           validates that the last step is in this list.
+    Args:
+        available_steps: Optional list of valid step names. If provided,
+                       validates that the last step is in this list.
 
-        Returns:
-            The name of the last successful step, or None if no state exists
-            or validation fails.
-        """
-        if not STATE_FILE_PATH.exists():
-            return None
-        try:
-            with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
-                state = json.load(f)
-                last_step = state.get("last_successful_step")
-                # Only validate if available_steps is provided
-                if (
-                    last_step
-                    and available_steps is not None
-                    and last_step not in available_steps
-                ):
-                    return None
-                return last_step
-        except (json.JSONDecodeError, KeyError):
-            return None
+    Returns:
+        The name of the last successful step, or None if no state exists
+        or validation fails.
+    """
+    if not STATE_FILE_PATH.exists():
+        return None
+    try:
+        with open(STATE_FILE_PATH, "r", encoding="utf-8") as f:
+            state = json.load(f)
+            last_step = state.get("last_successful_step")
+            # Only validate if available_steps is provided
+            if (
+                last_step
+                and available_steps is not None
+                and last_step not in available_steps
+            ):
+                return None
+            return last_step
+    except (json.JSONDecodeError, KeyError):
+        return None
 
-    def clear_state(self) -> None:
-        """
-        Clear the saved state.
-        """
-        if STATE_FILE_PATH.exists():
-            STATE_FILE_PATH.unlink()
+
+def clear_state() -> None:
+    """
+    Clear the saved state.
+    """
+    if STATE_FILE_PATH.exists():
+        STATE_FILE_PATH.unlink()
 
 
 class ServerManager:
@@ -233,20 +230,17 @@ class CheckStep:
     cwd: Optional[str] = None
 
 
-def run_checks(
-    steps: List[CheckStep], state_manager: StateManager, resume: bool = False
-) -> None:
+def run_checks(steps: List[CheckStep], resume: bool = False) -> None:
     """
     Run a list of check steps and handle their output.
 
     Args:
         steps: List of check steps to run
-        state_manager: StateManager instance to track progress
         resume: Whether to resume from last successful step
     """
     step_names = [step.name for step in steps]
     # Validate against current phase's steps
-    last_step = state_manager.get_last_step(step_names if resume else None)
+    last_step = get_last_step(step_names if resume else None)
     should_skip = bool(resume and last_step)
 
     with Progress(
@@ -273,7 +267,7 @@ def run_checks(
 
             if success:
                 console.log(f"[green]✓[/green] {step.name}")
-                state_manager.save_state(step.name)
+                save_state(step.name)
             else:
                 console.log(f"[red]✗[/red] {step.name}")
                 console.log("\n[bold red]Error output:[/bold red]")
@@ -516,7 +510,6 @@ def main() -> None:
     args = parser.parse_args()
 
     server_manager = ServerManager()
-    state_manager = StateManager()
 
     try:
         steps_before_server, steps_after_server = get_check_steps(git_root)
@@ -524,9 +517,7 @@ def main() -> None:
         all_step_names = [step.name for step in all_steps]
 
         # Validate the last step exists in our known steps
-        last_step = state_manager.get_last_step(
-            all_step_names if args.resume else None
-        )
+        last_step = get_last_step(all_step_names if args.resume else None)
         if args.resume and not last_step:
             # If resuming but no valid last step found, start from beginning
             console.log(
@@ -543,18 +534,18 @@ def main() -> None:
         )
 
         if should_run_pre:
-            run_checks(steps_before_server, state_manager, args.resume)
+            run_checks(steps_before_server, args.resume)
         else:
             for step in steps_before_server:
                 console.log(f"[grey]Skipping step: {step.name}[/grey]")
 
         server_pid = create_server(git_root)
         server_manager.set_server_pid(server_pid)
-        run_checks(steps_after_server, state_manager, args.resume)
+        run_checks(steps_after_server, args.resume)
 
         console.log("\n[green]All checks passed successfully! 🎉[/green]")
         # Clear state file on successful completion
-        state_manager.clear_state()
+        clear_state()
 
     except KeyboardInterrupt:
         console.log("\n[yellow]Process interrupted by user.[/yellow]")
