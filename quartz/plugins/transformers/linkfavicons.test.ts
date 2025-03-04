@@ -306,22 +306,36 @@ describe("Favicon Utilities", () => {
         expect(node.children[1]).toEqual(linkfavicons.createFaviconElement(imgPath))
       })
 
+      /* 
+       <a>Test <code>tag name test</code></a>
+       becomes 
+       <a>Test <code>tag name <span>test</span></code></a>
+      */
       it.each(linkfavicons.tagsToZoomInto)("should create span for %s elements", (tagName) => {
-        // Create <p><a>Test <tagName>tag name test</tagName></a></p>
         const innerText = "tag name test"
-        const node = h("p", {}, [h("a", {}, ["Test "]), h(tagName, {}, [innerText])])
+        const node = h("a", {}, [{ type: "text", value: "Test " }, h(tagName, {}, [innerText])])
         linkfavicons.insertFavicon(imgPath, node)
 
         expect(node.children.length).toBe(2)
-        // Should have <p><a>Test 123 <tagName>tag name ${createExpectedSpan("test", imgPath)}</tagName></a></p>
-        const lastSegment = innerText.slice(-linkfavicons.maxCharsToRead)
-        const spanChild = h(tagName, {}, [createExpectedSpan(lastSegment, imgPath) as Element])
+        expect(node.children[0]).toEqual({ type: "text", value: "Test " })
+
         const firstSegment = innerText.slice(0, -linkfavicons.maxCharsToRead)
-        const tagChild = h(tagName, {}, [h("text", {}, [firstSegment]), spanChild])
-        expect(node.children[0]).toMatchObject(
-          h("a", {}, ["Test "]) as unknown as Record<string, unknown>,
-        )
-        expect(node.children[1]).toEqual(tagChild)
+        const lastSegment = innerText.slice(-linkfavicons.maxCharsToRead)
+
+        const expectedTagNode = h(tagName, {}, [
+          { type: "text", value: firstSegment },
+          {
+            type: "element",
+            tagName: "span",
+            properties: { style: "white-space: nowrap;" },
+            children: [
+              { type: "text", value: lastSegment },
+              linkfavicons.createFaviconElement(imgPath),
+            ],
+          },
+        ]) as unknown as Record<string, unknown>
+
+        expect(node.children[1]).toMatchObject(expectedTagNode)
       })
 
       it.each(linkfavicons.charsToSpace)(

@@ -199,7 +199,7 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
        </td>
        <td>
          <p>Cell 2: Image & UL</p>
-          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+          <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
            <ol>
              <li>Ordered List Item 1</li>
              <li>Ordered List Item 2</li>
@@ -217,7 +217,7 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
        <td>
          <p>Cell 4: Mixed Content</p>
          <p>More text here.</p>
-          <img src="https://assets.turntrout.com/static/images/external-favicons/lesswrong_com.avif" alt="">
+          <img style="width: 25%;" src="https://assets.turntrout.com/static/images/posts/goose-majestic.avif" alt="">
          <ul>
              <li>list item</li>
          </ul>
@@ -300,6 +300,8 @@ Here's a link to [another page](/shard-theory) with popover preview. [This same-
 ## External links with favicons
 
 Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/static/images/external-favicons/matsprogram_org.avif" class="favicon" alt="">
+
+Links ending [with code tags should still wrap OK: `code.`](#external-links-with-favicons)
 
 # Typography
 

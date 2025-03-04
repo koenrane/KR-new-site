@@ -301,12 +301,14 @@ export function insertFavicon(imgPath: string | null, node: Element): void {
   const toAppend: FaviconNode = createFaviconElement(imgPath)
 
   const maybeSpliceTextResult = maybeSpliceText(node, toAppend)
-  node.children.push(maybeSpliceTextResult)
+  if (maybeSpliceTextResult) {
+    node.children.push(maybeSpliceTextResult)
+  }
 }
 
 // Glyphs where top-right corner occupied
 export const charsToSpace = ["!", "?", "|", "]", '"', "”", "’", "'"]
-export const tagsToZoomInto = ["code", "em", "strong"]
+export const tagsToZoomInto = ["code", "em", "strong", "i", "b", "del", "s", "ins"]
 export const maxCharsToRead = 4
 
 /**
@@ -319,10 +321,20 @@ export const maxCharsToRead = 4
  *
  * @param node - The Element node to process
  * @param imgNodeToAppend - The favicon node to append
- * @returns A modified Element containing the spliced text and favicon, or just the favicon if no text was spliced
+ * @returns A modified Element containing the spliced text and favicon, or just the favicon if no text was spliced. Returns null if the node is not a text node or has no text value.
  */
-export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): Element {
+export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): Element | null {
   const lastChild = node.children[node.children.length - 1]
+
+  // If the last child is a tag that should be zoomed into, recurse
+  if (lastChild?.type === "element" && tagsToZoomInto.includes(lastChild.tagName)) {
+    logger.debug(`Zooming into nested element ${lastChild.tagName}`)
+    const maybeSpliceTextResult = maybeSpliceText(lastChild as Element, imgNodeToAppend)
+    if (maybeSpliceTextResult) {
+      lastChild.children.push(maybeSpliceTextResult)
+    }
+    return null
+  }
 
   // If last child is not a text node or has no value, there's nothing to splice
   if (lastChild?.type !== "text" || !lastChild.value) {
@@ -333,7 +345,7 @@ export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): El
   const lastChildText = lastChild as Text
   logger.debug(`Last child is text: "${lastChildText.value}"`)
   const textContent = lastChildText.value
-
+  // Some characters render particularly close to the favicon, so we add a small margin
   const lastChar = textContent.at(-1)
   if (lastChar && charsToSpace.includes(lastChar)) {
     // Adjust the style of the appended element
@@ -342,6 +354,7 @@ export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): El
     imgNodeToAppend.properties.style = "margin-left: 0.05rem;"
   }
 
+  // Take the last few characters (up to maxCharsToRead)
   const charsToRead = Math.min(maxCharsToRead, textContent.length)
   const lastChars = textContent.slice(-charsToRead)
   lastChildText.value = textContent.slice(0, -charsToRead)
