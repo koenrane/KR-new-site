@@ -693,7 +693,7 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
         ):
             context = favicon.get("src", "unknown source")
             problematic_favicons.append(
-                f"Favicon ({context}) is not a direct child of a span element"
+                f"Favicon ({context}) is not a direct child of a span.favicon-span"
             )
 
     return problematic_favicons

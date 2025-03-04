@@ -44,13 +44,12 @@ jest.mock("./linkfavicons", () => {
   }
 })
 
-// Helper functions for tests
 const createExpectedSpan = (
   text: string,
   imgPath: string,
   extraStyles?: string,
   extraMarginLeft?: boolean,
-) => ({
+): Record<string, unknown> => ({
   type: "element",
   tagName: "span",
   properties: { className: "favicon-span" },
@@ -324,18 +323,32 @@ describe("Favicon Utilities", () => {
 
         const expectedTagNode = h(tagName, {}, [
           { type: "text", value: firstSegment },
-          {
-            type: "element",
-            tagName: "span",
-            properties: { className: "favicon-span" },
-            children: [
-              { type: "text", value: lastSegment },
-              linkfavicons.createFaviconElement(imgPath),
-            ],
-          },
-        ]) as unknown as Record<string, unknown>
+          createExpectedSpan(lastSegment, imgPath) as unknown as Element,
+        ])
 
-        expect(node.children[1]).toMatchObject(expectedTagNode)
+        expect(node.children[1]).toMatchObject(
+          expectedTagNode as unknown as Record<string, unknown>,
+        )
+      })
+
+      const codeContent = "6e687609"
+      const complicatedHTMLCode = h("a", { href: "https://github.com/" }, [
+        h("code", {}, [codeContent]),
+      ])
+
+      it.only("should handle complicated HTML code", () => {
+        linkfavicons.insertFavicon(imgPath, complicatedHTMLCode)
+
+        expect(complicatedHTMLCode.children.length).toBe(1)
+
+        const codeChild = complicatedHTMLCode.children[0] as Element
+        const firstSegment = codeContent.slice(0, -linkfavicons.maxCharsToRead)
+        const lastSegment = codeContent.slice(-linkfavicons.maxCharsToRead)
+        const expectedCodeChild = h("code", {}, [
+          { type: "text", value: firstSegment },
+          createExpectedSpan(lastSegment, imgPath) as unknown as Element,
+        ])
+        expect(codeChild).toMatchObject(expectedCodeChild as unknown as Record<string, unknown>)
       })
 
       it.each(linkfavicons.charsToSpace)(
