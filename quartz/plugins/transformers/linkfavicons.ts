@@ -308,7 +308,7 @@ export function insertFavicon(imgPath: string | null, node: Element): void {
 
 // Glyphs where top-right corner occupied
 export const charsToSpace = ["!", "?", "|", "]", '"', "”", "’", "'"]
-export const tagsToZoomInto = ["code", "em", "strong", "i", "b", "del", "s", "ins"]
+export const tagsToZoomInto = ["code", "em", "strong", "i", "b", "del", "s", "ins", "abbr"]
 export const maxCharsToRead = 4
 
 /**

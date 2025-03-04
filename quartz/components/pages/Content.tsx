@@ -48,7 +48,7 @@ const rewardPostWarning = (
         data-slug="reward-is-not-the-optimization-target"
       >
         Reward Is Not The Optimization Tar
-        <span style={{ whiteSpace: "nowrap" }}>
+        <span className="favicon-span">
           get,
           {turntroutFavicon}
         </span>
@@ -121,9 +121,9 @@ function lessWrongQuestion(url: string): JSX.Element {
       <p>
         This was{" "}
         <a href={url} className="external alias" target="_blank" rel="noopener noreferrer">
-          originally posted as a question on LessWrong.
+          originally posted as a question on LessWr
+          <span className="favicon-span">ong.{lessWrongFavicon}</span>
         </a>
-        {lessWrongFavicon}
       </p>
     </blockquote>
   )

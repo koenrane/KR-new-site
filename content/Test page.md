@@ -299,7 +299,7 @@ Here's a link to [another page](/shard-theory) with popover preview. [This same-
 
 ## External links with favicons
 
-Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/static/images/external-favicons/matsprogram_org.avif" class="favicon" alt="">
+Check out [GitHub](https://github.com). <img src="https://assets.turntrout.com/static/images/external-favicons/matsprogram_org.avif" class="favicon no-span" alt="">
 
 Links ending [with code tags should still wrap OK: `code.`](#external-links-with-favicons)
 

@@ -684,7 +684,7 @@ def check_favicon_parent_elements(soup: BeautifulSoup) -> List[str]:
     """
     problematic_favicons: List[str] = []
 
-    for favicon in soup.select("img.favicon"):
+    for favicon in soup.select("img.favicon:not(.no-span)"):
         parent = favicon.parent
         if (
             not parent
