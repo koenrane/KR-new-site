@@ -301,10 +301,7 @@ export function insertFavicon(imgPath: string | null, node: Element): void {
   const toAppend: FaviconNode = createFaviconElement(imgPath)
 
   const maybeSpliceTextResult = maybeSpliceText(node, toAppend)
-  if (maybeSpliceTextResult) {
-    logger.debug("Appending favicon directly to node")
-    node.children.push(maybeSpliceTextResult)
-  }
+  node.children.push(maybeSpliceTextResult)
 }
 
 // Glyphs where top-right corner occupied
@@ -321,20 +318,16 @@ export const maxCharsToRead = 4
  * 3. Adjusting spacing if the last character needs extra margin
  *
  * @param node - The Element node to process
- * @param toAppend - The favicon node to append
- * @returns A modified Element containing the spliced text and favicon, or null if no splicing occurred
+ * @param imgNodeToAppend - The favicon node to append
+ * @returns A modified Element containing the spliced text and favicon, or just the favicon if no text was spliced
  */
-export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element | null {
+export function maybeSpliceText(node: Element, imgNodeToAppend: FaviconNode): Element {
   const lastChild = node.children[node.children.length - 1]
-
-  // // Zoom into nested <code> or <em> etc elements
-  // if (lastChild && lastChild.type === "element" && tagsToZoomInto.includes(lastChild.tagName)) {
-  //   lastChild = lastChild.children[lastChild.children.length - 1]
-  // }
 
   // If last child is not a text node or has no value, there's nothing to splice
   if (lastChild?.type !== "text" || !lastChild.value) {
-    return toAppend
+    logger.debug("Appending favicon directly to node")
+    return imgNodeToAppend
   }
 
   const lastChildText = lastChild as Text
@@ -344,8 +337,9 @@ export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element |
   const lastChar = textContent.at(-1)
   if (lastChar && charsToSpace.includes(lastChar)) {
     // Adjust the style of the appended element
-    toAppend.properties = toAppend.properties || {}
-    toAppend.properties.style = "margin-left: 0.05rem;"
+    logger.debug("Adding margin-left to appended element")
+    imgNodeToAppend.properties = imgNodeToAppend.properties || {}
+    imgNodeToAppend.properties.style = "margin-left: 0.05rem;"
   }
 
   const charsToRead = Math.min(maxCharsToRead, textContent.length)
@@ -358,17 +352,17 @@ export function maybeSpliceText(node: Element, toAppend: FaviconNode): Element |
     properties: {
       style: "white-space: nowrap;",
     },
-    children: [{ type: "text", value: lastChars } as Text, toAppend],
+    children: [{ type: "text", value: lastChars } as Text, imgNodeToAppend],
   }
-  toAppend = span as FaviconNode
+  const spanWithFavicon = span as FaviconNode
 
   // Replace entire text with span if all text was moved
   if (lastChars === textContent) {
     node.children.pop()
-    logger.debug(`Replacing last ${charsToRead} chars with span`)
+    logger.debug(`Replacing all ${charsToRead} chars with span`)
   }
 
-  return toAppend
+  return spanWithFavicon
 }
 
 /**
