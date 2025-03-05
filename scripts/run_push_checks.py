@@ -78,6 +78,7 @@ def clear_state() -> None:
     """
     Clear the saved state.
     """
+    print("Clearing state")
     if STATE_FILE_PATH.exists():
         STATE_FILE_PATH.unlink()
 
