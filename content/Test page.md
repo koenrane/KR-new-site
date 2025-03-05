@@ -229,7 +229,7 @@ Figure: A `<figcaption>` element created from the Markdown cue of "Figure:".
    </table>
 
 |    Feature | Light Mode | Dark Mode  |
-| ---------: |  --------- | :--------- |
+| ---------: |  :-------: | :--------- |
 | Text color | Dark gray  | Light gray |
 
 Table: A `<figcaption>` element created from the Markdown cue of "Table:".
@@ -238,7 +238,7 @@ Table: A `<figcaption>` element created from the Markdown cue of "Table:".
 | :-------: | :---: | :--------------: | :--------: |
 |   +0.6%   | -1.0% | -0.7%            | +10.5%     |
 
-Table: Ensure that word wrapping works properly on table header elements. Previously, the "NaturalQuestions" wrapped the "s."
+Table: Ensure that word wrapping works properly on table header elements to prevent overflow.
 
 # Media
 

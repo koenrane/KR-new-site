@@ -150,7 +150,7 @@ HaluEval shows models (knowledge, question, candidate answer) tuples. The model 
 ![](https://assets.turntrout.com/static/images/posts/dialogue_length.avif)
 
 |                                 | QA                     | Dialogue                | Summarization           |
-| ------------------------------: | ---------------------- | ----------------------- | ----------------------- |
+| ------------------------------: | :--------------------: | :---------------------: | :---------------------: |
 |                         GPT-3.5 | 62.6%                  | 72.4%                   | 58.5%                   |
 | Optimal length-based classifier | 93.3%<br>(`len > 27`?) | 82.6%<br>(`len > 284`?) | 67.4%<br>(`len > 100`?) |
 

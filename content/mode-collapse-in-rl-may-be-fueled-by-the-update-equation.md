@@ -75,7 +75,7 @@ The policy update rule is: If the advantage $A^\pi(s,a)=n$, then action $a$ b
 Episode-by-episode:
 
 | $t$ | Action taken | Advantage          | $\pi_t(\text{wedding})$ | $v_t^\pi(\text{``We had a ''})$ |
-| --- | ------------ | ------------------ | ----------------------- | ------------------------------- |
+| --: | :----------: | :----------------: | :---------------------: | :-----------------------------: |
 | 1   | wedding      | (1 - 0) - 0 = 1    | .73                     | 1                               |
 | 2   | party        | (.5 - 0) - 1 = -.5 | .82                     | .5                              |
 | 3   | party        | (.5 - 0) -.5 = 0   | .82                     | .5                              |
@@ -111,7 +111,7 @@ ACTDE allows the system to account for its decision to go off-policy by selectin
 Re-analyzing the situation:
 
 | $t$ | Action  | Action-conditioned TD error | $\pi_t(\text{wedding})$ | $q_{t}^\pi(\text{``We had a''},a)$ |
-| --- | ------- | --------------------------- | ----------------------- | ---------------------------------- |
+| --: | :-----: | :-------------------------: | :---------------------: | :--------------------------------: |
 | 1   | wedding | (1 - 0) - 0 = 1             | .73                     | wedding: 1, party: 0               |
 | 2   | party   | (.5 - 0) - 0 = .5           | .63                     | wedding: 1, party: .5              |
 | 3   | party   | (.5 - 0) - .5 = 0           | .63                     | wedding: 1, party: .5              |
@@ -136,7 +136,7 @@ In this toy experiment, the model plays prisoner's dilemmas against its past sel
 We are not training via self play against a copy. Instead the model at time $t$ plays against its action at time $t-1$. Playing with its past self for a sequence of `ccddc` has 4 games: `cc`, `cd`, `dd`, `dc`, with rewards of 0.5 (for `cc`), 2 (for `cd`), -0.74 (for `dd`), and -1.76 (for `dc`).[^4]
 
 | Reward matrix   | Cooperate $(t - 1)$ | Defect $(t-1)$ |
-| --------------- | ------------------- | -------------- |
+| --------------: | :----------------: | :------------: |
 | Cooperate $(t)$ | 0.5                 | -1.76          |
 | Defect $(t)$    | 2                   | -0.74          |
 
