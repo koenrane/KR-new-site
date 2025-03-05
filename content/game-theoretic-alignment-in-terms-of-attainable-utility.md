@@ -102,25 +102,23 @@ To give intuition on what such alignment metrics might look like, we present a f
 We'll be using the following games as examples:
 
 |                                 | $\color{blue}{\text{Player 1: Heads}}$                     | $\color{blue}{\text{Player 1: Tails}}$                     |
-| ------------------------------: | ---------------------------------------------------------- | ---------------------------------------------------------- |
+| ------------------------------: | :--------------------------------------------------------: | :--------------------------------------------------------: |
 | $\color{red}{\text{P2: Heads}}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ |
 | $\color{red}{\text{P2: Tails}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{+1}$ | $\color{red}{+1} \hspace{5pt} \backslash \color{blue}{-1}$ |
 
 Table: [Matching Pennies](https://en.wikipedia.org/wiki/Matching_pennies).
 
 |                                   | $\color{blue}{\text{Player 1: Cooperate}}$                 | $\color{blue}{\text{Player 1: Defect}}$                    |
-| --------------------------------: | ---------------------------------------------------------- | ---------------------------------------------------------- |
-|   $\color{red}{\text{P2: Coop.}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
-| $\color{red}{\text{P2: Defect.}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
+| --------------------------------: | :--------------------------------------------------------: | :--------------------------------------------------------: |
+|   $\color{red}{\text{P2: Cooperate}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
+| $\color{red}{\text{P2: Defect}}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ | $\color{red}{-1} \hspace{5pt} \backslash \color{blue}{-1}$ |
 
 Table: [Prisoners' Dilemma](https://en.wikipedia.org/wiki/Prisoner%27s_dilemma).
-
-We'll consider the following alignment metrics:
 
 ### Metric: Total utility
 
 $$
-M := \sum_i u_i = u_1 + u_2
+M := \sum_i u_i = u_1 + u_2.
 $$
 
 Considering the metric on our example games yields the following:

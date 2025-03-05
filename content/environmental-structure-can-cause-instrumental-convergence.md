@@ -147,7 +147,7 @@ The orbit of $R$ is $\{R, \phi\cdot R\}$. It's optimal for the former to stay at
 In this three-state MDP, let $R_C$ assign 1 reward to $C$ and 0 to all other states, and let $\phi:= (A\; B\; C)$ rotate through the states ($A$ goes to $B$, $B$ goes to $C$, $C$ goes to $A$). Then the orbit of $R_C$ is:
 
 |   | $C$ | $A$ | $B$ |
-| --- | --- | --- | --- |
+| --: | :-: | :-: | :-: |
 | $R_C$ | $1$ | $0$ | $0$ |
 | $\phi \cdot R_C$ | $0$ | $1$ | $0$ |
 | $\phi^2 \cdot R_C$ | $0$ | $0$ | $1$ |

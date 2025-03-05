@@ -158,10 +158,10 @@ To compare activation addition and finetuning, we measure their generalization e
 In tabular form:[^6]
 
 |                    | Subtracted vector | No act. addition | Added vector      |
-| -----------------: | ----------------- | ---------------- | ----------------- |
-| Positive Finetuned | 6% (-2)           | 12.5% (+4.5)     | **32.5% (+24.5)** |
-|      Not Finetuned | **1% (-7)**       | 8% (+0)          | 22% (+14%)        |
-| Negative Finetuned | 2% (-6)           | 2% (-6)          | 10% (+2%)         |
+| -----------------: | :---------------: | :--------------: | :---------------: |
+| Positive finetuned | 6% (-2)           | 12.5% (+4.5)     | **32.5% (+24.5)** |
+|      Not finetuned | **1% (-7)**       | 8% (+0)          | 22% (+14%)        |
+| Negative finetuned | 2% (-6)           | 2% (-6)          | 10% (+2%)         |
 
 - Low sycophancy is achieved both by negative finetuning and subtracting the sycophancy vector. The rate is too low to examine how well the interventions stack with each other.
 - If we wanted to increase sycophancy, however, then our technique has _strong_ performance. **A single sycophancy vector boosts the sycophancy rate by 14%, while positive finetuning only boosts it by 4.5%. However, finetuning adds _10.5%_ when adding the sycophancy vector!** This means that the effect is **superadditive**.

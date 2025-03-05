@@ -192,14 +192,14 @@ Here's what we've seen so far:
 - Auxiliary goals:
   - Randomly selected
 
-|  | Options         | Damage | Correct-<br/>ion | Offset | Interference |
-| --:                | ------ | ------ | ---------- | ------ | ------------ |
-| AUP                | ✅      | ✅          | ✅      | ✅            | ✅   |
-| Vanilla            | ❌      | ❌          | ❌      | ✅            | ✅   |
-| Model-free AUP     | ✅      | ✅          | ❌      | ✅            | ✅   |
-| Starting state AUP | ✅      | ✅          | ❌      | ✅            | ❌   |
-| Inaction AUP       | ✅      | ✅          | ✅      | ❌            | ✅   |
-| Decrease-only AUP  | ✅      | ✅          | ❌      | ✅            | ✅   |
+|                    | Options | Damage | Correction | Offset | Interference |
+| -----------------: | :-----: | :----: | :--------------: | :----: | :----------: |
+|                AUP | ✅       | ✅      | ✅                | ✅      | ✅            |
+|            Vanilla | ❌       | ❌      | ❌                | ✅      | ✅            |
+|     Model-free AUP | ✅       | ✅      | ❌                | ✅      | ✅            |
+| Starting state AUP | ✅       | ✅      | ❌                | ✅      | ❌            |
+|       Inaction AUP | ✅       | ✅      | ✅                | ❌      | ✅            |
+|  Decrease-only AUP | ✅       | ✅      | ❌                | ✅      | ✅            |
 
 Figure: Ablation results. ✅ for achieving the best outcome, ❌ otherwise.
 

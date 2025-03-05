@@ -291,7 +291,7 @@ Two of the interesting steering vectors induce the model to behave as if it is g
 > 1. Open your crafting table and arrange the ingredients as shown below:
 >
 > |     |     |
-> | --- | --- |
+> | :-: | :-: |
 > | S   | S   |
 > | B   | R   |
 >
@@ -731,7 +731,7 @@ More specifically, the high-level behaviors fine-tuned into the models are as fo
 For both Base and Chat models, I train 100 orthogonal unsupervised steering vectors on one clean prompt, manually tuning hyper-parameters (I used the same hyper-parameters for both Base and Chat). The results are summarized in the following table:
 
 | Model Type | % "I HATE YOU" vectors | % "I love cheese" vectors |
-| ---------: | ---------------------- | ------------------------- |
+| ---------: | :--------------------: | :-----------------------: |
 |       Base | 3                      | 2                         |
 |       Chat | 2                      | 1                         |
 

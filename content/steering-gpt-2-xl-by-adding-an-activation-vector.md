@@ -53,7 +53,7 @@ date_updated: 2025-03-01 17:42:48.379662
 
 
 | Prompt given to the model[^1]                                              |
-| -------------------------------------------------------------------------- |
+| :------------------------------------------------------------------------: |
 | I hate you because                                                         |
 | **GPT-2**                                                                  |
 | I hate you because you are the most disgusting thing I have ever seen.     |
@@ -129,7 +129,7 @@ Suppose we want to steer GPT-2-XL to output more loving completions. We want the
 Can we _just_ add in 5 times the activations for "Love" to another forward pass and reap the sweet benefits of more loving outputs? Not quite. We found that it works better to _pair_ two activation additions. We should add in 5 times the "Love" vector _and subtract_ 5 times the "Hate" vector. Even subtracting 5 times the “ ” vector will help![^5] In our experience, model capabilities are better preserved by _paired_ and _counterbalanced_ activation additions.
 
 | **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
-| --- | --- | --- | --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
 | 6 | +5 | `<endoftext>` | `Love` |  [^6] |   |   |
 | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
@@ -178,7 +178,7 @@ We bold the prompt in the completions. The normal model's completions go on the 
 We now display the token alignments. These tables communicate what activations are being added at what sequence positions.
 
 | **Layer** | Coeff. | Pos. 0 | 1 | 2 | 3 | 4 |
-| --- | --- | --- | --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
 | 6 | +5 | `<endoftext>` | `Love` |   |   |   |
 | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |
@@ -334,26 +334,26 @@ The steering vector is usually shorter than the tokenized prompt. This means we 
 ![](https://assets.turntrout.com/static/images/posts/czwtzodmb7jqvxq8ayf7.avif)
 <br/>Figure: Adding the steering vector in the _back_ position.
 
-We add a wedding steering vector at the front, middle, and back positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
+We add a wedding steering vector at the front, middle, and end positions. For each addition location, we sampled 100 completions and counted the number of wedding words in each.[^22]
 
 **Prompt:** "I went up to my friend and said"
 
 **Steering vector**: “ wedding” − “ ” before attention layer 6 with coefficient +1
 
-|                                      | Front | Middle | Back |
-| ------------------------------------ | ----- | ------ | ---- |
+|                                      | Front | Middle | End |
+| -----------------------------------: | :---: | :----: | :--: |
 | Average number <br/>of wedding words | 0.70  | 0.81   | 0.87 |
 
-The front and middle additions led to coherent outputs, but the back addition didn't. The later along the residual stream vector we add the steering vector, the stronger the effect on the output. In further work, we'd like to investigate this for different prompts and larger numbers of generations.
+The front and middle additions led to coherent outputs, but the end addition didn't. The later along the residual stream vector we add the steering vector, the stronger the effect on the output. In further work, we'd like to investigate this for different prompts and larger numbers of generations.
 
 #### Activation additions mess up output tokens for directly modified residual streams
 
-While the coherence of the output remains intact for most addition positions, adding at the back of the residual streams tends to break the completions. Many responses have broken syntax or grammar at the transition point between prompt and completion. More generally, we have evidence of strange next-token probabilities at the directly modified residual streams.
+While the coherence of the output remains intact for most addition positions, adding at the end of the residual streams tends to break the completions. Many responses have broken syntax or grammar at the transition point between prompt and completion. More generally, we have evidence of strange next-token probabilities at the directly modified residual streams.
 
 Reconsider the “ wedding” vector.
 
 | **Layer** | Coeff. | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |  `and` |  `said` |
 | 6 | +4 |   |   |   |   |   |   | `<endoftext>` |  `wedding` |
 | 6 | \-4 |   |   |   |   |   |   | `<endoftext>` |   |
@@ -363,14 +363,14 @@ Table:  Residual stream alignment for prompt and activation additions.
 At sequence position 8 ( `said`), here are the top five most probable next tokens, according to the normal and modified versions of GPT-2:
 
 | **Normal** | Modified       |
-| --- | --- |
+| -: | :- |
 | `'`        | `party`        |
 | `'`        | `ceremony`     |
 | `"`        | `dress`        |
 | `:`        | `with`         |
 | `I`        | `photographer` |
 
-Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "back" condition above).
+Four of the top five most probable tokens are wedding-related. However, none of them are sensical (e.g. "I went up to my friend and said party" is strange). This is why the completions are incoherent when we add the steering vector to the last residual streams (the "end" condition above).
 
 [In the comments, the user `Measure` notes](https://www.lesswrong.com/posts/5spBue2z2tw4JuDCx/steering-gpt-2-xl-by-adding-an-activation-vector?commentId=KJEhAFbLNzZMucHNL#comments):
 
@@ -571,7 +571,7 @@ _Summary of the quantitative results:_
 Consider a simple steering goal: _make the model talk about weddings whenever possible_. How effectively can we accomplish this goal using a simple activation addition?
 
 | **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: |
 | 16 | +1 | `<endoftext>` |  `weddings` |
 | 16 | \-1 | `<endoftext>` |   |
 
@@ -646,7 +646,7 @@ Here's what we did:
 3. We record perplexity for each sentence.[^33]
 
 | **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: |
 | (varies) | +1 | `<endoftext>` |  `weddings` |
 | (varies) | \-1 | `<endoftext>` |   |
 
@@ -698,7 +698,7 @@ To test this belief, we repeat the above perplexity experiment, but with one twe
 For example, if the original sentence is "Title: Recent Trends", we compare perplexity ratios for the following conditions:
 
 | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` |   | `Title` | `:` |  `Recent` |  `Trends` |
 | 16 | +1 | `<endoftext>` |  `weddings` |   |   |   |   |
 | 16 | \-1 | `<endoftext>` |   |   |   |   |   |
@@ -706,7 +706,7 @@ For example, if the original sentence is "Title: Recent Trends", we compare perp
 Table:  Activation addition.
 
 | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | 0 (Prompt) | +1 | `<endoftext>` |  `weddings` | `Title` | `:` |  `Recent` |  `Trends` |
 
 Table:  Prompting.
@@ -714,7 +714,7 @@ Table:  Prompting.
 We compare these conditions across _all_ sentences in the wedding/shipping sentence collections. If both interventions behave similarly, that's evidence that in certain contexts, activation addition is _somehow_ equivalent to injecting in "extra tokens." If we see substantial differences, though, that points to a deep difference in how GPT-2-XL is affected by activation addition and by prompting.
 
 |                                    | Activation addition       | Prompting                 |
-| ---------------------------------- | ------------------------- | ------------------------- |
+| :-: | :-: | :-: |
 | Wedding-related perplexity ratio   | ${\color{green} {0.875}}$ | ${\color{green} {0.890}}$ |
 | Wedding-unrelated perplexity ratio | $0.994$                   | ${\color{red} {1.132}}$   |
 
@@ -741,7 +741,7 @@ What we did:
 #### Layer sweep
 
 | **Layer** | Coeff | Pos. 0 | 1 |
-| --- | --- | --- | --- |
+| :-: | :-: | :-: | :-: |
 | (varies) | (varies) | `<endoftext>` |  `worst` |
 | (varies) | (varies) | `<endoftext>` |   |
 
@@ -1106,7 +1106,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     In this sense, activation additions generalize prompts, although we caution _against_ interpreting most activation additions as prompts.
 
 [^8]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |
     | 6 | +15 | `<endoftext>` | `Int` | `ent` |  `to` |  `praise` |
     | 6 | \-15 | `<endoftext>` | `Int` | `ent` |  `to` |  `hurt` |
@@ -1114,7 +1114,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  2\. Intent to praise.
 
 [^9]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Bar` | `ack` |  `Obama` |  `was` |  `born` |  `in` |
     | 23 | +1 | `<endoftext>` | `Bush` |  `did` |  `9` | `/` | `11` |  `because` |
     | 23 | \-1 | `<endoftext>` |   |   |   |   |   |   |
@@ -1122,7 +1122,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  3\. Conspiracy.
 
 [^10]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Some` |  `people` |  `think` |  `that` |
     | 10 | +3 | `<endoftext>` | `Want` |  `to` |  `die` |   |
     | 10 | \-3 | `<endoftext>` | `Want` |  `to` |  `stay` |  `alive` |
@@ -1130,7 +1130,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  4\. Want to die.
 
 [^11]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `I` |  `think` |  `you` | `'re` |
     | 20 | +10 | `<endoftext>` | `Ang` | `er` |   |   |
     | 20 | \-10 | `<endoftext>` | `Cal` | `m` |   |   |
@@ -1140,7 +1140,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 [^12]: Several slight variations on this Eiffel Tower prompt didn't work nearly as well, for unclear reasons.
 
 [^13]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `To` |  `see` |  `the` |  `e` | `IFF` | `el` |  `tower` | `,` |
     | 24 | +10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `Rome` |
     | 24 | \-10 | `The` |  `E` | `IFF` | `el` |  `Tower` |  `is` |  `in` |  `France` |
@@ -1148,7 +1148,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  6\. The Eiffel Tower is in Rome.
 
 [^14]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |   +1 | `<endoftext>` | `Thanks` |  `for` |  `asking` |  `about` |  `that` |
     | 15 | +4 | `<endoftext>` | `Dr` | `agons` |  `live` |  `in` |  `Berkeley` |
     | 15 | \-4 | `<endoftext>` | `People` |  `live` |  `in` |  `Berkeley` |   |
@@ -1156,7 +1156,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  7\. Dragons in Berkeley.
 
 [^15]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `The` |  `rock` |  `hurt` | `led` |  `toward` |  `the` |  `child` |
     | 15 | +4 | `I` |  `NEVER` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |
     | 15 | \-4 | `I` |  `talk` |  `about` |  `people` |  `getting` |  `hurt` |   |
@@ -1164,7 +1164,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  8\. Avoid people getting hurt.
 
 [^16]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) |  +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
     | 20 | +4 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-4 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
@@ -1172,7 +1172,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  9\. Talking about weddings.
 
 [^17]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |  `you` |
     | 6 | +3 | `Int` | `ent` |  `to` |  `convert` |  `you` |  `to` |  `Christianity` |
     | 6 | \-3 | `Int` | `ent` |  `to` |  `hurt` |  `you` |   |   |
@@ -1180,14 +1180,14 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  10\. Christian evangelist.
 
 [^18]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 |
-    | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `hate` |  `you` |  `because` |
     | 6 | +10 | `<endoftext>` | `Love` |   |   |   |
 
     Table:  11\. '+ Love' single-addition.
 
 [^19]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `Yesterday` | `,` |  `my` |  `dog` |  `died` | `.` |
     | 20 | +2000 | `<endoftext>` | `Ang` | `er` |   |   |   |   |
     | 20 | \-2000 | `<endoftext>` | `Cal` | `m` |   |   |   |   |
@@ -1195,7 +1195,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  12a. Sometimes, large coefficients are OK.
 
 [^20]: | **Layer** | Coeff | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `I` |  `went` |  `up` |  `to` |  `my` |  `friend` |
     | 20 | +100 | `I` |  `talk` |  `about` |  `weddings` |  `constantly` |   |
     | 20 | \-100 | `I` |  `do` |  `not` |  `talk` |  `about` |  `weddings` |
@@ -1203,7 +1203,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  12b. Sometimes, large coefficients are not OK.
 
 [^21]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `want` |  `to` |  `kill` |  `you` |  `because` |
     | 6 | +5 | `<endoftext>` | `Je` |  `m` | `'` | `app` | `elle` |   |
     | 6 | \-5 | `<endoftext>` | `My` |  `name` |  `is` |   |   |   |
@@ -1213,7 +1213,7 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
 [^22]: We use word-count metrics several times. We explored alternatives, including querying `text-davinci-003` to rate the degree to which each completion is about weddings. These ratings were generated opaquely and often seemed bad, although a relatively unbiased estimator overall. We decided to just count the number of words.
 
 [^23]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 |
-    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `I` |  `recently` |  `went` |  `to` |  `this` |
     | 6 | +5 | `<endoftext>` | `Love` |   |   |   |   |
     | 6 | \-5 | `<endoftext>` | `H` | `ate` |   |   |   |
@@ -1223,10 +1223,10 @@ Subtracting the cheese vector essentially [makes the agent behave as if the chee
     Table:  15\. Add several steering vectors simultaneously?
 
 [^24]: | **Layer** | Coeff | Pos. 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
-    | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+    | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
     | 0 (Prompt) | +1 | `<endoftext>` | `In` |  `New` |  `York` |  `City` | `'s` |  `parks` | `,` |
     | 10 | +7 | `<endoftext>` | `Whenever` |  `I` |  `say` |  `the` |  `word` |  `goose` |  `I` |
-    | 10 | \-7 | `<endoftext>` | `I` |  `can` |  `say` |  `goose` |   |   |   |
+    | 10 | \-7 | `<endoftext>` | `I` |  `can` |  say` |  `goose` |   |   |   |
 
     Table:  16\. Program in 'conditional behaviors'?
 
